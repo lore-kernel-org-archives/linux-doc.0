@@ -1,109 +1,306 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD15E7D922
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 20:13:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A0647D913
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 20:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbfFYUNu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 16:13:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42690 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726907AbfFYUNu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Jun 2019 16:13:50 -0400
-Received: from sasha-vm.mshome.net (unknown [167.220.24.221])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 067F4208E3;
-        Tue, 25 Jun 2019 20:13:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561493629;
-        bh=+A8kslJHW27NDdIFi7+iCBJaMHuSt9MpoOrdUYPdCYE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wMCLl0PFhJPyATqhiS/MBnteSDZoFOtFe/8PptE6znBX92m3v8uZXSrNAxTvMYnKH
-         bdR+H4HmyIcDHrwqFYISVEt6I6k3JXcKWI9ORFLtCmCvVzEsTMjkwgRA9ULXgn+aFh
-         AP7om9XgDfvXBC7XblRLKcAGUgZkn35wj2eUyD7Q=
-From:   Sasha Levin <sashal@kernel.org>
-To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
-Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
-        rdunlap@infradead.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v7 2/2] fTPM: add documentation for ftpm driver
-Date:   Tue, 25 Jun 2019 16:13:41 -0400
-Message-Id: <20190625201341.15865-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190625201341.15865-1-sashal@kernel.org>
-References: <20190625201341.15865-1-sashal@kernel.org>
+        id S1728064AbfFYU2q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 16:28:46 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42213 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbfFYU2h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 16:28:37 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q10so10064001pff.9
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2019 13:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qq39ykktkvFBpmzRtbgM4tstWpOedFNE8kr26lh/InM=;
+        b=ni94OwioZx/gzf2szVloCDZTFFpJCo2YKSFZ2X9qr6bxYnBeEpnnagfszyXnnz51L8
+         DkJXaethFUsoHnz8KOQVG2ZSAlP6R4YiehiVV+cY7fw97Xus3XNQzLPLdgQULmgYaWnL
+         GEAS55DRith5+cQIVd4nDD9PnOpK5SEC0mcAjXyMYNE83XKQ2Jfbx9GzYoD6pnR9q88y
+         VjAnVY+gy9KsY/4+Tbda/+4DRlDyvSks4s9chgBxuZrKHnC3t/s2Oqm9eCfJpWO+nPcJ
+         ixgXgEVA9P9D5QKdeUq3VIirHZ16lxLB0iDdlrfqM9fruDTYYR+l+8zODcodp3flRnlv
+         dArA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qq39ykktkvFBpmzRtbgM4tstWpOedFNE8kr26lh/InM=;
+        b=bTVQtL22E4qBHGTb0+EXMpRjuemnLcgkuR1WYU7sks6uqbn5pt+CfcQX7s8bTLH83+
+         bu9VTEbE7UqQAmcv6OVEfVnFWkao6YJ80+FSaTlmY5ZFj2Enn9kxDsoK1SLubhDlqPn1
+         PY8c+NU10UDYM3dq/R7OdKmr8uKOJE3DJtMrRCr7gC3L1HDN/PVH53W+oWtpps6ACF61
+         f5Go3NIYH3MmPpwT0Cd6jBe0C4jLv7897q7TVBP5UXbV31TIKI9ZJUry11Og6JeFDWm7
+         tPf8Dh6xwdGJHUL4yxDlpOgQXgYp7WO8ceHNpXtG4aaLWhVNkREmltcC/+5x+a5UnFaW
+         /xJw==
+X-Gm-Message-State: APjAAAUVmd+hYFUUcH/QXKHmYWFFlhqTex80X4zZPGxPci92uwAF8HkU
+        MakiZDpb7wx3Kb07fy/voLIqzDuBFMzmmqu2paPUYw==
+X-Google-Smtp-Source: APXvYqzvk20XXdVFtm6zl0X1nrjaH0TttItfcdP9iwaQ+JKQIeNhKF1pa7VSVvlXNPpMAUzP/tv1oR2JBEXuSnWnLw4=
+X-Received: by 2002:a17:90b:f0e:: with SMTP id br14mr754020pjb.117.1561494516332;
+ Tue, 25 Jun 2019 13:28:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <20190617082613.109131-2-brendanhiggins@google.com> <20190620001526.93426218BE@mail.kernel.org>
+In-Reply-To: <20190620001526.93426218BE@mail.kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 25 Jun 2019 13:28:25 -0700
+Message-ID: <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com>
+Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds basic documentation to describe the new fTPM driver.
+On Wed, Jun 19, 2019 at 5:15 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Brendan Higgins (2019-06-17 01:25:56)
+> > diff --git a/kunit/test.c b/kunit/test.c
+> > new file mode 100644
+> > index 0000000000000..d05d254f1521f
+> > --- /dev/null
+> > +++ b/kunit/test.c
+> > @@ -0,0 +1,210 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Base unit test (KUnit) API.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +
+> > +#include <linux/sched/debug.h>
+> > +#include <kunit/test.h>
+> > +
+> > +static bool kunit_get_success(struct kunit *test)
+> > +{
+> > +       unsigned long flags;
+> > +       bool success;
+> > +
+> > +       spin_lock_irqsave(&test->lock, flags);
+> > +       success = test->success;
+> > +       spin_unlock_irqrestore(&test->lock, flags);
+>
+> I still don't understand the locking scheme in this code. Is the
+> intention to make getter and setter APIs that are "safe" by adding in a
+> spinlock that is held around getting and setting various members in the
+> kunit structure?
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/security/tpm/index.rst        |  1 +
- Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+Yes, your understanding is correct. It is possible for a user to write
+a test such that certain elements may be updated in different threads;
+this would most likely happen in the case where someone wants to make
+an assertion or an expectation in a thread created by a piece of code
+under test. Although this should generally be avoided, it is possible,
+and there are occasionally good reasons to do so, so it is
+functionality that we should support.
 
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index af77a7bbb070..15783668644f 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -4,4 +4,5 @@ Trusted Platform Module documentation
- 
- .. toctree::
- 
-+   tpm_ftpm_tee
-    tpm_vtpm_proxy
-diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
-new file mode 100644
-index 000000000000..48de0dcec0f6
---- /dev/null
-+++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
-@@ -0,0 +1,31 @@
-+=============================================
-+Firmware TPM Driver
-+=============================================
-+
-+| Authors:
-+| Thirupathaiah Annapureddy <thiruan@microsoft.com>
-+| Sasha Levin <sashal@kernel.org>
-+
-+This document describes the firmware Trusted Platform Module (fTPM)
-+device driver.
-+
-+Introduction
-+============
-+
-+This driver is a shim for firmware implemented in ARM's TrustZone
-+environment. The driver allows programs to interact with the TPM in the same
-+way they would interact with a hardware TPM.
-+
-+Design
-+======
-+
-+The driver acts as a thin layer that passes commands to and from a TPM
-+implemented in firmware. The driver itself doesn't contain much logic and is
-+used more like a dumb pipe between firmware and kernel/userspace.
-+
-+The firmware itself is based on the following paper:
-+https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
-+
-+When the driver is loaded it will expose ``/dev/tpmX`` character devices to
-+userspace which will enable userspace to communicate with the firmware TPM
-+through this device.
--- 
-2.20.1
+Do you think I should add a comment to this effect?
 
+> In what situation is there more than one thread reading or writing the
+> kunit struct? Isn't it only a single process that is going to be
+
+As I said above, it is possible that the code under test may spawn a
+new thread that may make an expectation or an assertion. It is not a
+super common use case, but it is possible.
+
+> operating on this structure? And why do we need to disable irqs? Are we
+> expecting to be modifying the unit tests from irq contexts?
+
+There are instances where someone may want to test a driver which has
+an interrupt handler in it. I actually have (not the greatest) example
+here. Now in these cases, I expect someone to use a mock irqchip or
+some other fake mechanism to trigger the interrupt handler and not
+actual hardware; technically speaking in this case, it is not going to
+be accessed from a "real" irq context; however, the code under test
+should think that it is in an irq context; given that, I figured it is
+best to just treat it as a real irq context. Does that make sense?
+
+> > +
+> > +       return success;
+> > +}
+> > +
+> > +static void kunit_set_success(struct kunit *test, bool success)
+> > +{
+> > +       unsigned long flags;
+> > +
+> > +       spin_lock_irqsave(&test->lock, flags);
+> > +       test->success = success;
+> > +       spin_unlock_irqrestore(&test->lock, flags);
+> > +}
+> > +
+> > +static int kunit_vprintk_emit(int level, const char *fmt, va_list args)
+> > +{
+> > +       return vprintk_emit(0, level, NULL, 0, fmt, args);
+> > +}
+> > +
+> > +static int kunit_printk_emit(int level, const char *fmt, ...)
+> > +{
+> > +       va_list args;
+> > +       int ret;
+> > +
+> > +       va_start(args, fmt);
+> > +       ret = kunit_vprintk_emit(level, fmt, args);
+> > +       va_end(args);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static void kunit_vprintk(const struct kunit *test,
+> > +                         const char *level,
+> > +                         struct va_format *vaf)
+> > +{
+> > +       kunit_printk_emit(level[1] - '0', "\t# %s: %pV", test->name, vaf);
+> > +}
+> > +
+> > +static bool kunit_has_printed_tap_version;
+>
+> Can you please move this into function local scope in the function
+> below?
+
+Sure, that makes sense.
+
+> > +
+> > +static void kunit_print_tap_version(void)
+> > +{
+> > +       if (!kunit_has_printed_tap_version) {
+> > +               kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
+> > +               kunit_has_printed_tap_version = true;
+> > +       }
+> > +}
+> > +
+> [...]
+> > +
+> > +static bool kunit_module_has_succeeded(struct kunit_module *module)
+> > +{
+> > +       const struct kunit_case *test_case;
+> > +       bool success = true;
+> > +
+> > +       for (test_case = module->test_cases; test_case->run_case; test_case++)
+> > +               if (!test_case->success) {
+> > +                       success = false;
+> > +                       break;
+>
+> Why not 'return false'?
+
+Also a good point. Will fix.
+
+> > +               }
+> > +
+> > +       return success;
+>
+> And 'return true'?
+
+Will fix.
+
+> > +}
+> > +
+> > +static size_t kunit_module_counter = 1;
+> > +
+> > +static void kunit_print_subtest_end(struct kunit_module *module)
+> > +{
+> > +       kunit_print_ok_not_ok(false,
+> > +                             kunit_module_has_succeeded(module),
+> > +                             kunit_module_counter++,
+> > +                             module->name);
+> > +}
+> > +
+> > +static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
+> > +                                           size_t test_number)
+> > +{
+> > +       kunit_print_ok_not_ok(true,
+> > +                             test_case->success,
+> > +                             test_number,
+> > +                             test_case->name);
+> > +}
+> > +
+> > +void kunit_init_test(struct kunit *test, const char *name)
+> > +{
+> > +       spin_lock_init(&test->lock);
+> > +       test->name = name;
+> > +       test->success = true;
+> > +}
+> > +
+> > +/*
+> > + * Performs all logic to run a test case.
+> > + */
+> > +static void kunit_run_case(struct kunit_module *module,
+> > +                          struct kunit_case *test_case)
+> > +{
+> > +       struct kunit test;
+> > +       int ret = 0;
+> > +
+> > +       kunit_init_test(&test, test_case->name);
+> > +
+> > +       if (module->init) {
+> > +               ret = module->init(&test);
+> > +               if (ret) {
+> > +                       kunit_err(&test, "failed to initialize: %d\n", ret);
+> > +                       kunit_set_success(&test, false);
+> > +                       return;
+> > +               }
+> > +       }
+> > +
+> > +       if (!ret)
+> > +               test_case->run_case(&test);
+>
+> Do we need this if condition? ret can only be set to non-zero above but
+> then we'll exit the function early so it seems unnecessary. Given that,
+> ret should probably be moved into the module->init path.
+
+Whoops. Sorry, another instance of how it evolved over time and I
+forgot why I did the check. Will fix.
+
+> > +
+> > +       if (module->exit)
+> > +               module->exit(&test);
+> > +
+> > +       test_case->success = kunit_get_success(&test);
+> > +}
+> > +
+
+Thanks!
