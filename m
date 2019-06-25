@@ -1,110 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 702E97D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 17:47:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 557B07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 19:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730722AbfFYRrq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 13:47:46 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:40816 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729493AbfFYRrp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 13:47:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1561484862; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EVTVbMsCSjQzsSGM7XCSUEIELSlkRRQLrdI9FXq1fYg=;
-        b=I5VaVXau0WYEvLY0+ThTCn8lOoVV25LOpS4WXggxtDRrOTlkMd1je79pyQQADeqrXUuEDs
-        4KVxkYs0sLV0LEQgVmb0LvE0ep2awhNb5yLGjDccUym35LLBRhSoRhcZyUcP3CQ9v1i+B9
-        fero1NZR8XqCyr37PzfLE+FpxGb8NKE=
-Date:   Tue, 25 Jun 2019 19:47:32 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v13 04/13] mfd: Add Ingenic TCU driver
-To:     Paul Burton <paul.burton@mips.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
-Message-Id: <1561484852.10069.0@crapouillou.net>
-In-Reply-To: <20190625173026.dbvx44iwywnijjql@pburton-laptop>
-References: <20190624225759.18299-1-paul@crapouillou.net>
-        <20190624225759.18299-5-paul@crapouillou.net>
-        <20190625173026.dbvx44iwywnijjql@pburton-laptop>
+        id S1726447AbfFYTwN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 15:52:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54752 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726274AbfFYTwN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Jun 2019 15:52:13 -0400
+Received: from sasha-vm.mshome.net (unknown [167.220.24.221])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3089F2063F;
+        Tue, 25 Jun 2019 19:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561492332;
+        bh=cvokQUiYje0g+5BxyM/ENlhJA6cq6C9FFJ1lZj9NgpY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pDkvQ3BmON+Hw7bFUBMMkyDyxwHg7Zrnwspjr80kRGcOVzZMiEgTBeXxPfH8hXZnk
+         07D1xgxS63FSrLnoa26TOADF2KldoBCbESsdSQT22HjoSYd2kCUMGffkYhDSwasn8i
+         pRTLNHahcrUU+hXn0E3hOCPHpiGMY0ZhyYPDz690=
+From:   Sasha Levin <sashal@kernel.org>
+To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v6 0/2] fTPM: firmware TPM running in TEE
+Date:   Tue, 25 Jun 2019 15:52:07 -0400
+Message-Id: <20190625195209.13663-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Changes in v6:
 
+ - Address comments from Ilias Apalodimas
 
-Le mar. 25 juin 2019 =E0 19:30, Paul Burton <paul.burton@mips.com> a=20
-=E9crit :
-> Hi Paul,
->=20
-> On Tue, Jun 25, 2019 at 12:57:50AM +0200, Paul Cercueil wrote:
->>  +static const struct of_device_id ingenic_tcu_of_match[] =3D {
->>  +	{ .compatible =3D "ingenic,jz4740-tcu", .data =3D &jz4740_soc_info, }=
-,
->>  +	{ .compatible =3D "ingenic,jz4725b-tcu", .data =3D &jz4725b_soc_info,=
-=20
->> },
->>  +	{ .compatible =3D "ingenic,jz4770-tcu", .data =3D &jz4740_soc_info, }=
-,
->>  +	{ }
->>  +};
->=20
-> Nit: why not order these numerically? ie. 25b, 40, 70.
+Sasha Levin (2):
+  fTPM: firmware TPM running in TEE
+  fTPM: add documentation for ftpm driver
 
-They are in chronological order - the jz4725b is newer than the jz4740.
+ Documentation/security/tpm/index.rst        |   1 +
+ Documentation/security/tpm/tpm_ftpm_tee.rst |  31 ++
+ drivers/char/tpm/Kconfig                    |   5 +
+ drivers/char/tpm/Makefile                   |   1 +
+ drivers/char/tpm/tpm_ftpm_tee.c             | 356 ++++++++++++++++++++
+ drivers/char/tpm/tpm_ftpm_tee.h             |  40 +++
+ 6 files changed, 434 insertions(+)
+ create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
 
->>  +static struct regmap * __init ingenic_tcu_create_regmap(struct=20
->> device_node *np)
->>  +{
->>  +	struct resource res;
->>  +	void __iomem *base;
->>  +	struct regmap *map;
->>  +
->>  +	if (!of_match_node(ingenic_tcu_of_match, np))
->>  +		return ERR_PTR(-EINVAL);
->>  +
->>  +	base =3D of_io_request_and_map(np, 0, "TCU");
->>  +	if (IS_ERR(base))
->>  +		return ERR_PTR(PTR_ERR(base));
->=20
-> This is equivalent to:
->=20
->     return ERR_CAST(base);
-
-Alright - I'll fix it in a following patch if this V13 gets merged,
-or in the V14 patchset.
-
-> Apart from those:
->=20
->     Reviewed-by: Paul Burton <paul.burton@mips.com>
->=20
-> Thanks,
->     Paul
-
-=
+-- 
+2.20.1
 
