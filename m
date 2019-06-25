@@ -1,118 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 204237D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 05:35:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BA017D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 06:44:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfFYFfi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 01:35:38 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39134 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727251AbfFYFfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 01:35:38 -0400
-Received: by mail-io1-f68.google.com with SMTP id r185so306062iod.6
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 22:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nbrV1LsrICHBg5I0Sd+oJcDypLhzrXpy+1fRP2fNOhI=;
-        b=cgpPmvVk3uM/MaCFV1GvYmZEjPReeMzO4Ellr8cKhj41skI86jvU2a03AIOaxu590z
-         GFiGS6xU1QKhvboUa2PJkux8kmuP8/fSxKoLp5uAzNDosTieUTTCECJ/bGoSLmvuIAqy
-         LYxEqYArgIy9Vm6LX4VtSrrWzgnPvJPgLDfg+j5vXWahgAesHeyK/4LqaeCGY4S7EEeT
-         wKTWPhqm9AjG8gDzOI49i+wOcPxYiZUq0eWXsKgjH+yHe7zfB2FWqc5wHbTPxOZ7fnTp
-         XDM9PVb7hznsTqS58KpkbML2Uo8oI2T63XvDYeOsZkehCfco9m3kKZ2fIis6fRklv8c5
-         20RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nbrV1LsrICHBg5I0Sd+oJcDypLhzrXpy+1fRP2fNOhI=;
-        b=MKKC30myyJHxn5Y4jbXNc72TkNjkXmimzc9UKSwkc1+HBq/KcQSojBSt4oOeCYinHw
-         ATanOJQscyYfko6mtO8CEr9HhJ4QOq9Z8LTJwUx3UpfyMlen7J1HgBZRojO7SxXLkJbQ
-         xRDiZhtgAQTxZ+0JxLTsxDKGqwSm7ei35ECoAuauQoVRroCU0Qu3iD/qPBxLJs3G1vsb
-         bHfHHSdGTE2WxirSNAWTMvUbIh3s+qE/EpXACp8oRHjHYrP7C87zNbuWqTrgHRLnbZyy
-         1L6jncalwLFS63KWkAnNIf84q+KLazcPAe13vqSti/VwbilJS5GDVTrSaX7G03Ib7S3N
-         vMqA==
-X-Gm-Message-State: APjAAAWzarIpunz6QXzX5yOf4E8sy/9qOXy1C1Yt3QjbxlD8bY/A7h4T
-        eznsSsHa/G18u911+zWnOAHppfj69IXdbAoiTXERxA==
-X-Google-Smtp-Source: APXvYqzNqMAyCpk/ZwuO3aIhT4X0bydlQ/vc7MFU0fmy14dTRE34R2zRrbrp6la05wGNP7I3lJzitxysiBb+SujwIFg=
-X-Received: by 2002:a5e:c241:: with SMTP id w1mr42931241iop.58.1561440937129;
- Mon, 24 Jun 2019 22:35:37 -0700 (PDT)
+        id S1727217AbfFYGon (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 02:44:43 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40726 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726551AbfFYGon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 02:44:43 -0400
+Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hffBr-0006Jg-Fq; Tue, 25 Jun 2019 08:44:27 +0200
+Date:   Tue, 25 Jun 2019 08:44:26 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Paul Cercueil <paul@crapouillou.net>
+cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
+Subject: Re: [PATCH v13 02/13] doc: Add doc for the Ingenic TCU hardware
+In-Reply-To: <20190624225759.18299-3-paul@crapouillou.net>
+Message-ID: <alpine.DEB.2.21.1906250840150.32342@nanos.tec.linutronix.de>
+References: <20190624225759.18299-1-paul@crapouillou.net> <20190624225759.18299-3-paul@crapouillou.net>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-References: <20190612094503.120f699a@lwn.net> <CACT4Y+avfTeZTmhti=7nEadthZZpTnOCTdEuG2S7PovmAMkhZQ@mail.gmail.com>
- <20190614082542.3f8674eb@lwn.net>
-In-Reply-To: <20190614082542.3f8674eb@lwn.net>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 25 Jun 2019 07:35:24 +0200
-Message-ID: <CACT4Y+ZrErX2DgG4GPXpuWVSqm4bHnFOvDWyHaX-AGhNT3CRXw@mail.gmail.com>
-Subject: Re: [PATCH v3] Add a document on rebasing and merging
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Rientjes <rientjes@google.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 4:25 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Fri, 14 Jun 2019 11:59:03 +0200
-> Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> > I will appreciate if you elaborate a bit on this "scale of the
-> > project". I wondered about reasons for having the current hierarchy of
-> > trees and complex merging for a while, but wasn't able to find any
-> > rationale. What exactly scale do you mean? I know a number of projects
-> > that are comparable to Linux kernel, with the largest being 2 orders
-> > of magnitude larger than kernel both in terms of code size and rate of
-> > change, that use single tree and linear history.
->
-> I'm not sure what projects you're talking about, so it's hard to compare.
->
-> During the 5.2 merge window, Linus did 209 pulls, bringing in just over
-> 12,000 changesets, from on the order of 1600 developers.  Even if, at the
-> beginning of the window, each of those pulls was set up to be a
-> fast-forward, they would no longer be positioned that way once the first
-> pull was done.
->
-> Are you really saying that subsystem maintainers should be continuously
-> rebasing their trees to avoid merges at the top level?  Do you see how
-> much work that would take, how badly it would obscure the development
-> history, and how many bugs it would introduce?  Or perhaps I misunderstood
-> what you're arguing for?
+Paul,
 
+On Tue, 25 Jun 2019, Paul Cercueil wrote:
 
-I mean projects like Chromium which seems to be comparable to kernel
-in code size/rate of change. LLVM, Android are several times smaller,
-but on the other hand has hundreds times less trees (1).  And in
-particular large monorepos in companies like Google, Facebook,
-Microsoft. E.g. the Google codebase sees the v5.2 number of changesets
-in few hours. Although, it's not apples-to-apples with the kernel but
-shows that scale per-se is not a requirement for multiple
-trees/non-linear history.
-So for the kernel it must a combination of scale + something else (in
-the process, ownership model, ...). I am trying to understand what is
-that something else, how inherent it is and what would degrade if
-kernel switches to single tree/linear history. It would obviously
-require some adjustments to other parts of the process as well, e.g.
-you asked what maintainers do with their trees but if there is a
-single tree, they don't have a tree at all. In most other scalable
-processes that I am aware of, as much work as possible is pushed down
-to individual contributors and they do any required rebasing. The
-closest analog of maintainers only do review and approval. The idea is
-to remove bottlenecks and distribute process as much as possible to
-increase scalability. I heard about "maintainer scalability" in the
-context of the kernel process multiple times.
+> Add a documentation file about the Timer/Counter Unit (TCU) present in
+
+s/Add a /Add /
+
+> the Ingenic JZ47xx SoCs.
+> 
+> diff --git a/Documentation/mips/ingenic-tcu.txt b/Documentation/mips/ingenic-tcu.txt
+> new file mode 100644
+> index 000000000000..1a753805779c
+> --- /dev/null
+> +++ b/Documentation/mips/ingenic-tcu.txt
+
+There is a massive effort to convert the whole Documentation tree to rst
+format. Please do not introduce new txt files.
+
+Also documentation wants a SPDX license identifier.
+
+> +Implementation
+> +--------------
+> +
+> +The functionalities of the TCU hardware are spread across multiple drivers:
+> +- boilerplate:      drivers/mfd/ingenic-tcu.c
+> +- clocks:           drivers/clk/ingenic/tcu.c
+> +- interrupts:       drivers/irqchip/irq-ingenic-tcu.c
+> +- timers:           drivers/clocksource/ingenic-timer.c
+> +- PWM:              drivers/pwm/pwm-jz4740.c
+> +- watchdog:         drivers/watchdog/jz4740_wdt.c
+> +- OST:              drivers/clocksource/ingenic-ost.c
+
+Hrm. These file names are going to be stale over time, but I have no better
+idea either.
+
+Thanks,
+
+	tglx
