@@ -1,122 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAA887D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 23:03:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D62DF7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 23:13:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbfFYXDu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 19:03:50 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:33866 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfFYXDt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 19:03:49 -0400
-Received: by mail-pl1-f196.google.com with SMTP id i2so264298plt.1;
-        Tue, 25 Jun 2019 16:03:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=K5ErWoFi/JRH3gFgmKoboUdo26AiFjxGcMAHhZYf05o=;
-        b=G3+PFVxz/Ueu9IpY307Sscrf8TByxdIljL5dy6ohg3ye5EyQUzKMZHr6KWd0KMGfs+
-         Qe5kmTvH6CwF8ocTmAQ1VhNDDqX10TOOMnLgTQPM/ArJlpmjHFBzZmiEcqg1wgDyvMp3
-         IG9JAcIcFkC6epjYXSy/3qtNdwbs5/1Xs+dJ3M7t/rzgO5qwk7my4jZAlQ9b2tA9WSeE
-         Gfy8ha+bUCQ89d0ha+suoYU3FmC1hAVwzMQR10F1Vpzk9K6LO2Ujx2q2pzV9a1ce9z6R
-         hy7oLNUMIAZcxo42/S/8TDGLTNkOn/CZ7SvUgfLW1j3HO+MUnuB5PP0NqSy3mwQltZOb
-         M7/A==
-X-Gm-Message-State: APjAAAWtfKGR6p+32lpYOjoZHqzhoLbhxJa2nEgbTHFN3wRYw9RH7N6H
-        ZAOmeYpK+y5YFa2zSRgr7gE=
-X-Google-Smtp-Source: APXvYqz0M1IYGUwmvhT0NQpAoWP4ae2xshnXaqUSrqM3bOHQ06wFfedsHIaIBAncXtAoSDKV5lQq7Q==
-X-Received: by 2002:a17:902:467:: with SMTP id 94mr1238634ple.131.1561503828687;
-        Tue, 25 Jun 2019 16:03:48 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id 10sm9969046pfb.30.2019.06.25.16.03.47
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 25 Jun 2019 16:03:47 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id BAAA5401EB; Tue, 25 Jun 2019 23:03:46 +0000 (UTC)
-Date:   Tue, 25 Jun 2019 23:03:46 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Subject: Re: [PATCH v5 06/18] kbuild: enable building KUnit
-Message-ID: <20190625230346.GR19023@42.do-not-panic.com>
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-7-brendanhiggins@google.com>
- <20190625221318.GO19023@42.do-not-panic.com>
- <CAFd5g448rYqr3PHg0cfoddr70nktkWXcRfJoZHmuPJjTW53YYg@mail.gmail.com>
+        id S1726373AbfFYXNm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 19:13:42 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:36102 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbfFYXNm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 19:13:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=bNOnF9RPhjENVHpzmRNMIxdtfQ6guu6sKYduKcd0Tc8=; b=V8VlTO0pZvD95eJUQjucRK+Rbt
+        gO6Y2d2E1MYhOhgMoiK3mYh9wHSdrc7Y4RDWpU/WgZkXW/HbILKz+9VWOpeI9mPPdnknTiW1HEKmV
+        4k2j/uzhDJ5RvVDLUMKJ/GWftlXZ9kVhW9SIARyQtBryfonYWlwrQEc+/ZyNatSQoYKsk1LJlFY8c
+        zzEQVzP1oauTdWdXBJAefgElIT0JIzbQZ9zS4iUz30xXrqHmwtOKKzcgDbTgf4tSTRmtk2Z/KS58W
+        mEdk/ljHdt/Sh9+G4tZ7hzAqyp1+wAIvnG1y9Wvm+N4pNWeEb7VWyNLOoIDy7mEmxqeGMgTEoli91
+        0XodM4TQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hfud4-0001Kq-Oz; Tue, 25 Jun 2019 23:13:35 +0000
+Subject: Re: [PATCH v7 2/2] fTPM: add documentation for ftpm driver
+To:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de,
+        jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        ilias.apalodimas@linaro.org, sumit.garg@linaro.org
+References: <20190625201341.15865-1-sashal@kernel.org>
+ <20190625201341.15865-3-sashal@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fa526626-9eae-98ba-5127-6a4105781a41@infradead.org>
+Date:   Tue, 25 Jun 2019 16:13:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFd5g448rYqr3PHg0cfoddr70nktkWXcRfJoZHmuPJjTW53YYg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190625201341.15865-3-sashal@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 03:41:29PM -0700, Brendan Higgins wrote:
-> On Tue, Jun 25, 2019 at 3:13 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Mon, Jun 17, 2019 at 01:26:01AM -0700, Brendan Higgins wrote:
-> > > diff --git a/Kconfig b/Kconfig
-> > > index 48a80beab6853..10428501edb78 100644
-> > > --- a/Kconfig
-> > > +++ b/Kconfig
-> > > @@ -30,3 +30,5 @@ source "crypto/Kconfig"
-> > >  source "lib/Kconfig"
-> > >
-> > >  source "lib/Kconfig.debug"
-> > > +
-> > > +source "kunit/Kconfig"
-> >
-> > This patch would break compilation as kunit/Kconfig is not introduced. This
-> > would would also break bisectability on this commit. This change should
-> > either be folded in to the next patch, or just be a separate patch after
-> > the next one.
+On 6/25/19 1:13 PM, Sasha Levin wrote:
+> This patch adds basic documentation to describe the new fTPM driver.
 > 
-> Maybe my brain isn't working right now, but I am pretty darn sure that
-> I introduce kunit/Kconfig in the very first patch of this series.
-> Quoting from the change summary from the first commit:
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Indeed, my mistake, thanks!
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-  Luis
+Thanks.
+
+> ---
+>  Documentation/security/tpm/index.rst        |  1 +
+>  Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+> 
+> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+> index af77a7bbb070..15783668644f 100644
+> --- a/Documentation/security/tpm/index.rst
+> +++ b/Documentation/security/tpm/index.rst
+> @@ -4,4 +4,5 @@ Trusted Platform Module documentation
+>  
+>  .. toctree::
+>  
+> +   tpm_ftpm_tee
+>     tpm_vtpm_proxy
+> diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
+> new file mode 100644
+> index 000000000000..48de0dcec0f6
+> --- /dev/null
+> +++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
+> @@ -0,0 +1,31 @@
+> +=============================================
+> +Firmware TPM Driver
+> +=============================================
+> +
+> +| Authors:
+> +| Thirupathaiah Annapureddy <thiruan@microsoft.com>
+> +| Sasha Levin <sashal@kernel.org>
+> +
+> +This document describes the firmware Trusted Platform Module (fTPM)
+> +device driver.
+> +
+> +Introduction
+> +============
+> +
+> +This driver is a shim for firmware implemented in ARM's TrustZone
+> +environment. The driver allows programs to interact with the TPM in the same
+> +way they would interact with a hardware TPM.
+> +
+> +Design
+> +======
+> +
+> +The driver acts as a thin layer that passes commands to and from a TPM
+> +implemented in firmware. The driver itself doesn't contain much logic and is
+> +used more like a dumb pipe between firmware and kernel/userspace.
+> +
+> +The firmware itself is based on the following paper:
+> +https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
+> +
+> +When the driver is loaded it will expose ``/dev/tpmX`` character devices to
+> +userspace which will enable userspace to communicate with the firmware TPM
+> +through this device.
+> 
+
+
+-- 
+~Randy
