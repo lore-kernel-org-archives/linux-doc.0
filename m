@@ -1,123 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D62DF7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 23:13:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCBF67D913
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 23:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfFYXNm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 19:13:42 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:36102 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfFYXNm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 19:13:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=bNOnF9RPhjENVHpzmRNMIxdtfQ6guu6sKYduKcd0Tc8=; b=V8VlTO0pZvD95eJUQjucRK+Rbt
-        gO6Y2d2E1MYhOhgMoiK3mYh9wHSdrc7Y4RDWpU/WgZkXW/HbILKz+9VWOpeI9mPPdnknTiW1HEKmV
-        4k2j/uzhDJ5RvVDLUMKJ/GWftlXZ9kVhW9SIARyQtBryfonYWlwrQEc+/ZyNatSQoYKsk1LJlFY8c
-        zzEQVzP1oauTdWdXBJAefgElIT0JIzbQZ9zS4iUz30xXrqHmwtOKKzcgDbTgf4tSTRmtk2Z/KS58W
-        mEdk/ljHdt/Sh9+G4tZ7hzAqyp1+wAIvnG1y9Wvm+N4pNWeEb7VWyNLOoIDy7mEmxqeGMgTEoli91
-        0XodM4TQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hfud4-0001Kq-Oz; Tue, 25 Jun 2019 23:13:35 +0000
-Subject: Re: [PATCH v7 2/2] fTPM: add documentation for ftpm driver
-To:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de,
-        jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
-Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        ilias.apalodimas@linaro.org, sumit.garg@linaro.org
-References: <20190625201341.15865-1-sashal@kernel.org>
- <20190625201341.15865-3-sashal@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <fa526626-9eae-98ba-5127-6a4105781a41@infradead.org>
-Date:   Tue, 25 Jun 2019 16:13:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726223AbfFYXWx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 19:22:53 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36523 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfFYXWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 19:22:53 -0400
+Received: by mail-pf1-f193.google.com with SMTP id r7so216699pfl.3;
+        Tue, 25 Jun 2019 16:22:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fn8uhj8tc3U3pScoaEkKu7HBQ+Qs1BqmjB6lHJFC6hE=;
+        b=m21X8L4JfBVK3LOmkUWD8c1wzYFdY22z0TGAnQm0WEj1YIm9AjsQWzFiVB77mdEcDm
+         x2TfoPYwJBs2jmqjd23rOOPzWiaa8MVb81eEfZ8nYYp+mez9jTOYq6pwyzZuT07MWqyt
+         XPZi4ClBC9BwsCKDX08p9vb9VJur4ns8sflUNixn0BT1ETSMDL8oumXOqEtIw0K25cjM
+         EGNQbkttpPr/qJilrP5+QQM3xeVNAsfM9x4S1WkmSQUhYtxEs3/3IaNNX8lR5m8LmrQr
+         eAQ4LF32+vlkWqIT7vmQKeeCAnfkYcjSLyI+lf39+LcVAr9xHimmV3S91DwqWPp9gExe
+         930g==
+X-Gm-Message-State: APjAAAVkiHkTqMJPXpPtjYhrY5FI85VRjpNWiNkgbGKERD7cuGKkjRIp
+        CnHEFuEYfhkI8HCrHfddt40=
+X-Google-Smtp-Source: APXvYqw6Otr6YJTjtY/OOBjSfZ7I1hNT7sLUZRcJRcDWNwR1ZNzZuSus00kEpYiN835NFFYZuHxFdA==
+X-Received: by 2002:a63:8f09:: with SMTP id n9mr40832306pgd.249.1561504971968;
+        Tue, 25 Jun 2019 16:22:51 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id 5sm15215827pfh.109.2019.06.25.16.22.50
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 25 Jun 2019 16:22:50 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id D058A401EB; Tue, 25 Jun 2019 23:22:49 +0000 (UTC)
+Date:   Tue, 25 Jun 2019 23:22:49 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, peterz@infradead.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, tytso@mit.edu,
+        yamada.masahiro@socionext.com, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
+        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
+        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
+        rdunlap@infradead.org, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v5 07/18] kunit: test: add initial tests
+Message-ID: <20190625232249.GS19023@42.do-not-panic.com>
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <20190617082613.109131-8-brendanhiggins@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20190625201341.15865-3-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190617082613.109131-8-brendanhiggins@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/25/19 1:13 PM, Sasha Levin wrote:
-> This patch adds basic documentation to describe the new fTPM driver.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/security/tpm/index.rst        |  1 +
->  Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
-> 
-> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-> index af77a7bbb070..15783668644f 100644
-> --- a/Documentation/security/tpm/index.rst
-> +++ b/Documentation/security/tpm/index.rst
-> @@ -4,4 +4,5 @@ Trusted Platform Module documentation
->  
->  .. toctree::
->  
-> +   tpm_ftpm_tee
->     tpm_vtpm_proxy
-> diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
+On Mon, Jun 17, 2019 at 01:26:02AM -0700, Brendan Higgins wrote:
+> diff --git a/kunit/example-test.c b/kunit/example-test.c
 > new file mode 100644
-> index 000000000000..48de0dcec0f6
+> index 0000000000000..f44b8ece488bb
 > --- /dev/null
-> +++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
-> @@ -0,0 +1,31 @@
-> +=============================================
-> +Firmware TPM Driver
-> +=============================================
-> +
-> +| Authors:
-> +| Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> +| Sasha Levin <sashal@kernel.org>
-> +
-> +This document describes the firmware Trusted Platform Module (fTPM)
-> +device driver.
-> +
-> +Introduction
-> +============
-> +
-> +This driver is a shim for firmware implemented in ARM's TrustZone
-> +environment. The driver allows programs to interact with the TPM in the same
-> +way they would interact with a hardware TPM.
-> +
-> +Design
-> +======
-> +
-> +The driver acts as a thin layer that passes commands to and from a TPM
-> +implemented in firmware. The driver itself doesn't contain much logic and is
-> +used more like a dumb pipe between firmware and kernel/userspace.
-> +
-> +The firmware itself is based on the following paper:
-> +https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
-> +
-> +When the driver is loaded it will expose ``/dev/tpmX`` character devices to
-> +userspace which will enable userspace to communicate with the firmware TPM
-> +through this device.
-> 
+> +++ b/kunit/example-test.c
 
+<-- snip -->
 
--- 
-~Randy
+> +/*
+> + * This defines a suite or grouping of tests.
+> + *
+> + * Test cases are defined as belonging to the suite by adding them to
+> + * `kunit_cases`.
+> + *
+> + * Often it is desirable to run some function which will set up things which
+> + * will be used by every test; this is accomplished with an `init` function
+> + * which runs before each test case is invoked. Similarly, an `exit` function
+> + * may be specified which runs after every test case and can be used to for
+> + * cleanup. For clarity, running tests in a test module would behave as follows:
+> + *
+
+To be clear this is not the kernel module init, but rather the kunit
+module init. I think using kmodule would make this clearer to a reader.
+
+> + * module.init(test);
+> + * module.test_case[0](test);
+> + * module.exit(test);
+> + * module.init(test);
+> + * module.test_case[1](test);
+> + * module.exit(test);
+> + * ...;
+> + */
+
+  Luis
