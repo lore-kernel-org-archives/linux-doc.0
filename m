@@ -1,306 +1,235 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A0647D913
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 20:28:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 917687D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 21:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728064AbfFYU2q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 16:28:46 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42213 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727033AbfFYU2h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 16:28:37 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so10064001pff.9
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2019 13:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qq39ykktkvFBpmzRtbgM4tstWpOedFNE8kr26lh/InM=;
-        b=ni94OwioZx/gzf2szVloCDZTFFpJCo2YKSFZ2X9qr6bxYnBeEpnnagfszyXnnz51L8
-         DkJXaethFUsoHnz8KOQVG2ZSAlP6R4YiehiVV+cY7fw97Xus3XNQzLPLdgQULmgYaWnL
-         GEAS55DRith5+cQIVd4nDD9PnOpK5SEC0mcAjXyMYNE83XKQ2Jfbx9GzYoD6pnR9q88y
-         VjAnVY+gy9KsY/4+Tbda/+4DRlDyvSks4s9chgBxuZrKHnC3t/s2Oqm9eCfJpWO+nPcJ
-         ixgXgEVA9P9D5QKdeUq3VIirHZ16lxLB0iDdlrfqM9fruDTYYR+l+8zODcodp3flRnlv
-         dArA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qq39ykktkvFBpmzRtbgM4tstWpOedFNE8kr26lh/InM=;
-        b=bTVQtL22E4qBHGTb0+EXMpRjuemnLcgkuR1WYU7sks6uqbn5pt+CfcQX7s8bTLH83+
-         bu9VTEbE7UqQAmcv6OVEfVnFWkao6YJ80+FSaTlmY5ZFj2Enn9kxDsoK1SLubhDlqPn1
-         PY8c+NU10UDYM3dq/R7OdKmr8uKOJE3DJtMrRCr7gC3L1HDN/PVH53W+oWtpps6ACF61
-         f5Go3NIYH3MmPpwT0Cd6jBe0C4jLv7897q7TVBP5UXbV31TIKI9ZJUry11Og6JeFDWm7
-         tPf8Dh6xwdGJHUL4yxDlpOgQXgYp7WO8ceHNpXtG4aaLWhVNkREmltcC/+5x+a5UnFaW
-         /xJw==
-X-Gm-Message-State: APjAAAUVmd+hYFUUcH/QXKHmYWFFlhqTex80X4zZPGxPci92uwAF8HkU
-        MakiZDpb7wx3Kb07fy/voLIqzDuBFMzmmqu2paPUYw==
-X-Google-Smtp-Source: APXvYqzvk20XXdVFtm6zl0X1nrjaH0TttItfcdP9iwaQ+JKQIeNhKF1pa7VSVvlXNPpMAUzP/tv1oR2JBEXuSnWnLw4=
-X-Received: by 2002:a17:90b:f0e:: with SMTP id br14mr754020pjb.117.1561494516332;
- Tue, 25 Jun 2019 13:28:36 -0700 (PDT)
+        id S1725914AbfFYVhB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 17:37:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34688 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726014AbfFYVhB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Jun 2019 17:37:01 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E0D4B30A;
+        Tue, 25 Jun 2019 21:36:59 +0000 (UTC)
+Date:   Tue, 25 Jun 2019 15:36:58 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     skhan@linuxfoundation.org, martin.petersen@oracle.com,
+        axboe@kernel.dk, avri.altman@wdc.com, beanhuo@micron.com,
+        evgreen@chromium.org, henrik@austad.us, jpittman@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-scsi@vger.kernel.org
+Subject: Re: [PATCH] scsi: convert to rst for documenation
+Message-ID: <20190625153658.53ad0e18@lwn.net>
+In-Reply-To: <20190622151947.29115-1-tranmanphong@gmail.com>
+References: <20190622151947.29115-1-tranmanphong@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-2-brendanhiggins@google.com> <20190620001526.93426218BE@mail.kernel.org>
-In-Reply-To: <20190620001526.93426218BE@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 25 Jun 2019 13:28:25 -0700
-Message-ID: <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com>
-Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 5:15 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-06-17 01:25:56)
-> > diff --git a/kunit/test.c b/kunit/test.c
-> > new file mode 100644
-> > index 0000000000000..d05d254f1521f
-> > --- /dev/null
-> > +++ b/kunit/test.c
-> > @@ -0,0 +1,210 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Base unit test (KUnit) API.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +
-> > +#include <linux/sched/debug.h>
-> > +#include <kunit/test.h>
-> > +
-> > +static bool kunit_get_success(struct kunit *test)
-> > +{
-> > +       unsigned long flags;
-> > +       bool success;
-> > +
-> > +       spin_lock_irqsave(&test->lock, flags);
-> > +       success = test->success;
-> > +       spin_unlock_irqrestore(&test->lock, flags);
->
-> I still don't understand the locking scheme in this code. Is the
-> intention to make getter and setter APIs that are "safe" by adding in a
-> spinlock that is held around getting and setting various members in the
-> kunit structure?
+On Sat, 22 Jun 2019 22:19:47 +0700
+Phong Tran <tranmanphong@gmail.com> wrote:
 
-Yes, your understanding is correct. It is possible for a user to write
-a test such that certain elements may be updated in different threads;
-this would most likely happen in the case where someone wants to make
-an assertion or an expectation in a thread created by a piece of code
-under test. Although this should generally be avoided, it is possible,
-and there are occasionally good reasons to do so, so it is
-functionality that we should support.
+> - Update to the link in documenation
+> - Remove trailing white space
+> - Adaptation the sphinx doc syntax
+> 
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 
-Do you think I should add a comment to this effect?
+Thanks for working to improve the documentation!  That said, I think this
+patch needs a fair amount of work before we are ready to accept it.  I'll
+only get partway in, but it should be enough to start with.
 
-> In what situation is there more than one thread reading or writing the
-> kunit struct? Isn't it only a single process that is going to be
+The first overall thing I would like to point out (and hopefully the SCSI
+folks won't fight me too much on this) is that Documentation/scsi is the
+wrong place for much of this stuff.  We are doing our best to organize the
+documentation with the audience in mind.  So, for example, documents that
+are of interest to system administrators should go into
+Documentation/admin-guide.  Information for driver developers should go in
+Documentation/driver-api.  And so on.
 
-As I said above, it is possible that the code under test may spawn a
-new thread that may make an expectation or an assertion. It is not a
-super common use case, but it is possible.
+[...]
 
-> operating on this structure? And why do we need to disable irqs? Are we
-> expecting to be modifying the unit tests from irq contexts?
+> diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
+> new file mode 100644
+> index 000000000000..170f58c94cac
+> --- /dev/null
+> +++ b/Documentation/scsi/link_power_management_policy.rst
+> @@ -0,0 +1,22 @@
+> +SCSI Power Management Policy
+> +============================
+> +
+> +This parameter allows the user to set the link (interface) power management.
+> +There are 3 possible options:
 
-There are instances where someone may want to test a driver which has
-an interrupt handler in it. I actually have (not the greatest) example
-here. Now in these cases, I expect someone to use a mock irqchip or
-some other fake mechanism to trigger the interrupt handler and not
-actual hardware; technically speaking in this case, it is not going to
-be accessed from a "real" irq context; however, the code under test
-should think that it is in an irq context; given that, I figured it is
-best to just treat it as a real irq context. Does that make sense?
+This isn't your fault, but...*which* parameter allows this?  The document
+describes the values, but not where they can be set.  That makes it less
+than fully useful.
 
-> > +
-> > +       return success;
-> > +}
-> > +
-> > +static void kunit_set_success(struct kunit *test, bool success)
-> > +{
-> > +       unsigned long flags;
-> > +
-> > +       spin_lock_irqsave(&test->lock, flags);
-> > +       test->success = success;
-> > +       spin_unlock_irqrestore(&test->lock, flags);
-> > +}
-> > +
-> > +static int kunit_vprintk_emit(int level, const char *fmt, va_list args)
-> > +{
-> > +       return vprintk_emit(0, level, NULL, 0, fmt, args);
-> > +}
-> > +
-> > +static int kunit_printk_emit(int level, const char *fmt, ...)
-> > +{
-> > +       va_list args;
-> > +       int ret;
-> > +
-> > +       va_start(args, fmt);
-> > +       ret = kunit_vprintk_emit(level, fmt, args);
-> > +       va_end(args);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static void kunit_vprintk(const struct kunit *test,
-> > +                         const char *level,
-> > +                         struct va_format *vaf)
-> > +{
-> > +       kunit_printk_emit(level[1] - '0', "\t# %s: %pV", test->name, vaf);
-> > +}
-> > +
-> > +static bool kunit_has_printed_tap_version;
->
-> Can you please move this into function local scope in the function
-> below?
+> ++-------------------+------------------------------------------------------+
+> +| Value             | Effect                                               |
+> ++===================+======================================================+
+> +| min_power         | Tell the controller to try to make the link use the  |
+> +|                   | least possible power when possible. This may         |
+> +|                   | sacrifice some performance due to increased latency  |
+> +|                   | when coming out of lower power states.               |
+> ++-------------------+------------------------------------------------------+
+> +| max_performance   | Generally, this means no power management. Tell      |
+> +|                   | the controller to have performance be a priority     |
+> +|                   | over power management.                               |
+> ++-------------------+------------------------------------------------------+
+> +| medium_power      | Tell the controller to enter a lower power state     |
+> +|                   | when possible, but do not enter the lowest power     |
+> +|                   | state, thus improving latency over min_power setting.|
+> ++-------------------+------------------------------------------------------+
 
-Sure, that makes sense.
+[...]
 
-> > +
-> > +static void kunit_print_tap_version(void)
-> > +{
-> > +       if (!kunit_has_printed_tap_version) {
-> > +               kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
-> > +               kunit_has_printed_tap_version = true;
-> > +       }
-> > +}
-> > +
-> [...]
-> > +
-> > +static bool kunit_module_has_succeeded(struct kunit_module *module)
-> > +{
-> > +       const struct kunit_case *test_case;
-> > +       bool success = true;
-> > +
-> > +       for (test_case = module->test_cases; test_case->run_case; test_case++)
-> > +               if (!test_case->success) {
-> > +                       success = false;
-> > +                       break;
->
-> Why not 'return false'?
+> diff --git a/Documentation/scsi/scsi-changer.txt b/Documentation/scsi/scsi-changer.rst
+> similarity index 71%
+> rename from Documentation/scsi/scsi-changer.txt
+> rename to Documentation/scsi/scsi-changer.rst
+> index ade046ea7c17..a4923873c77b 100644
+> --- a/Documentation/scsi/scsi-changer.txt
+> +++ b/Documentation/scsi/scsi-changer.rst
+> @@ -1,4 +1,3 @@
+> -
+>  README for the SCSI media changer driver
+>  ========================================
+>  
+> @@ -10,7 +9,7 @@ common small CD-ROM changers, neither one-lun-per-slot SCSI changers
+>  nor IDE drives.
+>  
+>  Userland tools available from here:
+> -	http://linux.bytesex.org/misc/changer.html
+> +    http://linux.bytesex.org/misc/changer.html
+>  
+>  
+>  General Information
+> @@ -28,15 +27,17 @@ The SCSI changer model is complex, compared to - for example - IDE-CD
+>  changers. But it allows to handle nearly all possible cases. It knows
+>  4 different types of changer elements:
+>  
+> +::
 
-Also a good point. Will fix.
+Two notes:
 
-> > +               }
-> > +
-> > +       return success;
->
-> And 'return true'?
+ - You can put the double colon on the line above ("...elements::") and
+   don't need to make a separate line for it.
 
-Will fix.
+ - But, more to the point, please avoid the temptation to use a literal
+   block for something that doesn't actually require that treatment. This
+   should be reworked as an RST definition list.
 
-> > +}
-> > +
-> > +static size_t kunit_module_counter = 1;
-> > +
-> > +static void kunit_print_subtest_end(struct kunit_module *module)
-> > +{
-> > +       kunit_print_ok_not_ok(false,
-> > +                             kunit_module_has_succeeded(module),
-> > +                             kunit_module_counter++,
-> > +                             module->name);
-> > +}
-> > +
-> > +static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
-> > +                                           size_t test_number)
-> > +{
-> > +       kunit_print_ok_not_ok(true,
-> > +                             test_case->success,
-> > +                             test_number,
-> > +                             test_case->name);
-> > +}
-> > +
-> > +void kunit_init_test(struct kunit *test, const char *name)
-> > +{
-> > +       spin_lock_init(&test->lock);
-> > +       test->name = name;
-> > +       test->success = true;
-> > +}
-> > +
-> > +/*
-> > + * Performs all logic to run a test case.
-> > + */
-> > +static void kunit_run_case(struct kunit_module *module,
-> > +                          struct kunit_case *test_case)
-> > +{
-> > +       struct kunit test;
-> > +       int ret = 0;
-> > +
-> > +       kunit_init_test(&test, test_case->name);
-> > +
-> > +       if (module->init) {
-> > +               ret = module->init(&test);
-> > +               if (ret) {
-> > +                       kunit_err(&test, "failed to initialize: %d\n", ret);
-> > +                       kunit_set_success(&test, false);
-> > +                       return;
-> > +               }
-> > +       }
-> > +
-> > +       if (!ret)
-> > +               test_case->run_case(&test);
->
-> Do we need this if condition? ret can only be set to non-zero above but
-> then we'll exit the function early so it seems unnecessary. Given that,
-> ret should probably be moved into the module->init path.
+>    media transport - this one shuffles around the media, i.e. the
+>                      transport arm.  Also known as "picker".
+>    storage         - a slot which can hold a media.
+>    import/export   - the same as above, but is accessible from outside,
+>                      i.e. there the operator (you !) can use this to
+>                      fill in and remove media from the changer.
+> -		    Sometimes named "mailslot".
+> +            Sometimes named "mailslot".
+>    data transfer   - this is the device which reads/writes, i.e. the
+> -		    CD-ROM / Tape / whatever drive.
+> +            CD-ROM / Tape / whatever drive.
 
-Whoops. Sorry, another instance of how it evolved over time and I
-forgot why I did the check. Will fix.
+[...]
 
-> > +
-> > +       if (module->exit)
-> > +               module->exit(&test);
-> > +
-> > +       test_case->success = kunit_get_success(&test);
-> > +}
-> > +
+> diff --git a/Documentation/scsi/scsi-generic.txt b/Documentation/scsi/scsi-generic.rst
+> similarity index 70%
+> rename from Documentation/scsi/scsi-generic.txt
+> rename to Documentation/scsi/scsi-generic.rst
+> index 51be20a6a14d..8356810160f0 100644
+> --- a/Documentation/scsi/scsi-generic.txt
+> +++ b/Documentation/scsi/scsi-generic.rst
+> @@ -1,8 +1,10 @@
+> -            Notes on Linux SCSI Generic (sg) driver
+> -            ---------------------------------------
+> -                                                        20020126
+> +=======================================
+> +Notes on Linux SCSI Generic (sg) driver
+> +=======================================
+> +20020126
+> +
+>  Introduction
+> -============
+> +------------
+>  The SCSI Generic driver (sg) is one of the four "high level" SCSI device
+>  drivers along with sd, st and sr (disk, tape and CDROM respectively). Sg
+>  is more generalized (but lower level) than its siblings and tends to be
+> @@ -16,20 +18,20 @@ and examples.
+>  
+>  
+>  Major versions of the sg driver
+> -===============================
+> +-------------------------------
+>  There are three major versions of sg found in the linux kernel (lk):
+> -      - sg version 1 (original) from 1992 to early 1999 (lk 2.2.5) . 
+> -	It is based in the sg_header interface structure.
+> +      - sg version 1 (original) from 1992 to early 1999 (lk 2.2.5) .
+> +        It is based in the sg_header interface structure.
+>        - sg version 2 from lk 2.2.6 in the 2.2 series. It is based on
+> -	an extended version of the sg_header interface structure.
+> +        an extended version of the sg_header interface structure.
+>        - sg version 3 found in the lk 2.4 series (and the lk 2.5 series).
+> -	It adds the sg_io_hdr interface structure.
+> +        It adds the sg_io_hdr interface structure.
 
-Thanks!
+Perhaps we don't *really* need to preserve information about what versions
+were around in the 1990's?
+
+>  Sg driver documentation
+> -=======================
+> +-----------------------
+>  The most recent documentation of the sg driver is kept at the Linux
+> -Documentation Project's (LDP) site: 
+> +Documentation Project's (LDP) site:
+>  http://www.tldp.org/HOWTO/SCSI-Generic-HOWTO
+
+That document claims to have been last updated in 2002.  Is there really
+nothing more recent than that?
+
+>  This describes the sg version 3 driver found in the lk 2.4 series.
+
+...and it's unclear to me that users of the 5.x kernel are much concerned
+with what was found in 2.4.
+
+That is the problem with this document in general.  I suspect that about
+the only useful information left in it is the location of the sg3_utils
+source.  I honestly don't think that it helps the documentation that much
+to carry forward ancient information to the RST format.
+
+Of course, doing this right by deleting obsolete information and updating
+the documents to reflect current reality is a *lot* more work.  Probably
+far more than you were thinking of signing up for.  If you were willing to
+work on this, there may be somebody from the SCSI community who would be in
+a position to help you with it.
+
+Unfortunately, the SCSI community probably did not see this patch because
+you didn't copy the linux-scsi list.  I'll fix that now, but they will not
+have seen your original patch.  You should be sure to include them on
+future postings.
+
+I would like to make a suggestion, in addition to all of the above: rather
+than trying to do a mass conversion in a single 4000-line patch, start with
+a single file and post a patch doing just that one, being sure to include
+the linux-scsi list.  That will give everybody something more workable to
+start with.
+
+Thanks,
+
+jon
