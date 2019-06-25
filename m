@@ -1,182 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC1AC7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 03:14:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 204237D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 05:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfFYDOd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 23:14:33 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:19072 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726372AbfFYDOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 23:14:33 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 7C6E9EDA485226346D06;
-        Tue, 25 Jun 2019 11:14:30 +0800 (CST)
-Received: from [127.0.0.1] (10.184.225.177) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Tue, 25 Jun 2019
- 11:14:21 +0800
-To:     <tglx@linutronix.de>, <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Eric Dumazet <edumazet@google.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        <manfred@colorfullife.com>, <jwilk@jwilk.net>,
-        <dvyukov@google.com>, <feng.tang@intel.com>,
-        <sunilmut@microsoft.com>, <quentin.perret@arm.com>,
-        <linux@leemhuis.info>, <alex.popov@linux.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
-        "Zhoukang (A)" <zhoukang7@huawei.com>,
-        Mingfangsen <mingfangsen@huawei.com>, <tedheadster@gmail.com>
-From:   Zhiqiang Liu <liuzhiqiang26@huawei.com>
-Subject: [PATCH next v2] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl,
- max_softirq_time_msecs
-Message-ID: <53770380-053e-70b6-f75e-a0e00bf35c30@huawei.com>
-Date:   Tue, 25 Jun 2019 11:13:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+        id S1727362AbfFYFfi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 01:35:38 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:39134 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727251AbfFYFfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 01:35:38 -0400
+Received: by mail-io1-f68.google.com with SMTP id r185so306062iod.6
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 22:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nbrV1LsrICHBg5I0Sd+oJcDypLhzrXpy+1fRP2fNOhI=;
+        b=cgpPmvVk3uM/MaCFV1GvYmZEjPReeMzO4Ellr8cKhj41skI86jvU2a03AIOaxu590z
+         GFiGS6xU1QKhvboUa2PJkux8kmuP8/fSxKoLp5uAzNDosTieUTTCECJ/bGoSLmvuIAqy
+         LYxEqYArgIy9Vm6LX4VtSrrWzgnPvJPgLDfg+j5vXWahgAesHeyK/4LqaeCGY4S7EEeT
+         wKTWPhqm9AjG8gDzOI49i+wOcPxYiZUq0eWXsKgjH+yHe7zfB2FWqc5wHbTPxOZ7fnTp
+         XDM9PVb7hznsTqS58KpkbML2Uo8oI2T63XvDYeOsZkehCfco9m3kKZ2fIis6fRklv8c5
+         20RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nbrV1LsrICHBg5I0Sd+oJcDypLhzrXpy+1fRP2fNOhI=;
+        b=MKKC30myyJHxn5Y4jbXNc72TkNjkXmimzc9UKSwkc1+HBq/KcQSojBSt4oOeCYinHw
+         ATanOJQscyYfko6mtO8CEr9HhJ4QOq9Z8LTJwUx3UpfyMlen7J1HgBZRojO7SxXLkJbQ
+         xRDiZhtgAQTxZ+0JxLTsxDKGqwSm7ei35ECoAuauQoVRroCU0Qu3iD/qPBxLJs3G1vsb
+         bHfHHSdGTE2WxirSNAWTMvUbIh3s+qE/EpXACp8oRHjHYrP7C87zNbuWqTrgHRLnbZyy
+         1L6jncalwLFS63KWkAnNIf84q+KLazcPAe13vqSti/VwbilJS5GDVTrSaX7G03Ib7S3N
+         vMqA==
+X-Gm-Message-State: APjAAAWzarIpunz6QXzX5yOf4E8sy/9qOXy1C1Yt3QjbxlD8bY/A7h4T
+        eznsSsHa/G18u911+zWnOAHppfj69IXdbAoiTXERxA==
+X-Google-Smtp-Source: APXvYqzNqMAyCpk/ZwuO3aIhT4X0bydlQ/vc7MFU0fmy14dTRE34R2zRrbrp6la05wGNP7I3lJzitxysiBb+SujwIFg=
+X-Received: by 2002:a5e:c241:: with SMTP id w1mr42931241iop.58.1561440937129;
+ Mon, 24 Jun 2019 22:35:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="gb18030"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.225.177]
-X-CFilter-Loop: Reflected
+References: <20190612094503.120f699a@lwn.net> <CACT4Y+avfTeZTmhti=7nEadthZZpTnOCTdEuG2S7PovmAMkhZQ@mail.gmail.com>
+ <20190614082542.3f8674eb@lwn.net>
+In-Reply-To: <20190614082542.3f8674eb@lwn.net>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 25 Jun 2019 07:35:24 +0200
+Message-ID: <CACT4Y+ZrErX2DgG4GPXpuWVSqm4bHnFOvDWyHaX-AGhNT3CRXw@mail.gmail.com>
+Subject: Re: [PATCH v3] Add a document on rebasing and merging
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        David Rientjes <rientjes@google.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Zhiqiang liu <liuzhiqiang26@huawei.com>
-
-In __do_softirq func, MAX_SOFTIRQ_TIME was set to 2ms via experimentation by
-commit c10d73671 ("softirq: reduce latencies") in 2013, which was designed
-to reduce latencies for various network workloads. The key reason is that the
-maximum number of microseconds in one NAPI polling cycle in net_rx_action func
-was set to 2 jiffies, so different HZ settting will lead to different latencies.
-
-However, commit 7acf8a1e8 ("Replace 2 jiffies with sysctl netdev_budget_usecs
-to enable softirq tuning") adopts netdev_budget_usecs to tun maximum number of
-microseconds in one NAPI polling cycle. So the latencies of net_rx_action can be
-controlled by sysadmins to copy with hardware changes over time.
-
-Correspondingly, the MAX_SOFTIRQ_TIME should be able to be tunned by sysadmins,
-who knows best about hardware performance, for excepted tradeoff between latence
-and fairness. Here, we add sysctl variable max_softirq_time_msecs to replace
-MAX_SOFTIRQ_TIME with 2ms default value.
-
-Note: max_softirq_time_msecs will be coverted to jiffies, and any budget
-value will be rounded up to the next jiffies, which relates to CONFIG_HZ.
-The time accuracy of jiffies will result in a certain difference
-between the setting jiffies of max_softirq_time_msecs and the actual
-value, which is in one jiffies range.
-
-Signed-off-by: Zhiqiang liu <liuzhiqiang26@huawei.com>
----
- Documentation/sysctl/kernel.txt | 17 +++++++++++++++++
- kernel/softirq.c                |  8 +++++---
- kernel/sysctl.c                 |  9 +++++++++
- 3 files changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
-index f0c86fbb3b48..23b36393f150 100644
---- a/Documentation/sysctl/kernel.txt
-+++ b/Documentation/sysctl/kernel.txt
-@@ -44,6 +44,7 @@ show up in /proc/sys/kernel:
- - kexec_load_disabled
- - kptr_restrict
- - l2cr                        [ PPC only ]
-+- max_softirq_time_msecs
- - modprobe                    ==> Documentation/debugging-modules.txt
- - modules_disabled
- - msg_next_id		      [ sysv ipc ]
-@@ -445,6 +446,22 @@ This flag controls the L2 cache of G3 processor boards. If
-
- ==============================================================
-
-+max_softirq_time_msecs:
-+
-+Maximum number of milliseconds to break the loop of restarting softirq
-+processing for at most MAX_SOFTIRQ_RESTART times in __do_softirq().
-+max_softirq_time_msecs will be coverted to jiffies, and any budget
-+value will be rounded up to the next jiffies, which relates to CONFIG_HZ.
-+The time accuracy of jiffies will result in a certain difference
-+between the setting jiffies of max_softirq_time_msecs and the actual
-+value, which is in one jiffies range.
-+
-+max_softirq_time_msecs is a non-negative integer value, and setting
-+negative value is meaningless and will return error.
-+Default: 2
-+
-+==============================================================
-+
- modules_disabled:
-
- A toggle value indicating if modules are allowed to be loaded
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index a6b81c6b6bff..1e456db70093 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -199,7 +199,8 @@ EXPORT_SYMBOL(__local_bh_enable_ip);
-
- /*
-  * We restart softirq processing for at most MAX_SOFTIRQ_RESTART times,
-- * but break the loop if need_resched() is set or after 2 ms.
-+ * but break the loop if need_resched() is set or after
-+ * max_softirq_time_msecs msecs.
-  * The MAX_SOFTIRQ_TIME provides a nice upper bound in most cases, but in
-  * certain cases, such as stop_machine(), jiffies may cease to
-  * increment and so we need the MAX_SOFTIRQ_RESTART limit as
-@@ -210,7 +211,7 @@ EXPORT_SYMBOL(__local_bh_enable_ip);
-  * we want to handle softirqs as soon as possible, but they
-  * should not be able to lock up the box.
-  */
--#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
-+unsigned int __read_mostly max_softirq_time_msecs = 2;
- #define MAX_SOFTIRQ_RESTART 10
-
- #ifdef CONFIG_TRACE_IRQFLAGS
-@@ -248,7 +249,8 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
-
- asmlinkage __visible void __softirq_entry __do_softirq(void)
- {
--	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
-+	unsigned long end = jiffies +
-+		msecs_to_jiffies(max_softirq_time_msecs);
- 	unsigned long old_flags = current->flags;
- 	int max_restart = MAX_SOFTIRQ_RESTART;
- 	struct softirq_action *h;
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 1beca96fb625..96ff292ce7f6 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -118,6 +118,7 @@ extern unsigned int sysctl_nr_open_min, sysctl_nr_open_max;
- #ifndef CONFIG_MMU
- extern int sysctl_nr_trim_pages;
- #endif
-+extern unsigned int max_softirq_time_msecs;
-
- /* Constants used for minimum and  maximum */
- #ifdef CONFIG_LOCKUP_DETECTOR
-@@ -1276,6 +1277,14 @@ static struct ctl_table kern_table[] = {
- 		.extra2		= &one,
- 	},
- #endif
-+	{
-+		.procname	= "max_softirq_time_msecs",
-+		.data		= &max_softirq_time_msecs,
-+		.maxlen		= sizeof(unsigned int),
-+		.mode		= 0644,
-+		.proc_handler   = proc_dointvec_minmax,
-+		.extra1		= &zero,
-+	},
- 	{ }
- };
-
--- 
-2.19.1
+On Fri, Jun 14, 2019 at 4:25 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Fri, 14 Jun 2019 11:59:03 +0200
+> Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> > I will appreciate if you elaborate a bit on this "scale of the
+> > project". I wondered about reasons for having the current hierarchy of
+> > trees and complex merging for a while, but wasn't able to find any
+> > rationale. What exactly scale do you mean? I know a number of projects
+> > that are comparable to Linux kernel, with the largest being 2 orders
+> > of magnitude larger than kernel both in terms of code size and rate of
+> > change, that use single tree and linear history.
+>
+> I'm not sure what projects you're talking about, so it's hard to compare.
+>
+> During the 5.2 merge window, Linus did 209 pulls, bringing in just over
+> 12,000 changesets, from on the order of 1600 developers.  Even if, at the
+> beginning of the window, each of those pulls was set up to be a
+> fast-forward, they would no longer be positioned that way once the first
+> pull was done.
+>
+> Are you really saying that subsystem maintainers should be continuously
+> rebasing their trees to avoid merges at the top level?  Do you see how
+> much work that would take, how badly it would obscure the development
+> history, and how many bugs it would introduce?  Or perhaps I misunderstood
+> what you're arguing for?
 
 
+I mean projects like Chromium which seems to be comparable to kernel
+in code size/rate of change. LLVM, Android are several times smaller,
+but on the other hand has hundreds times less trees (1).  And in
+particular large monorepos in companies like Google, Facebook,
+Microsoft. E.g. the Google codebase sees the v5.2 number of changesets
+in few hours. Although, it's not apples-to-apples with the kernel but
+shows that scale per-se is not a requirement for multiple
+trees/non-linear history.
+So for the kernel it must a combination of scale + something else (in
+the process, ownership model, ...). I am trying to understand what is
+that something else, how inherent it is and what would degrade if
+kernel switches to single tree/linear history. It would obviously
+require some adjustments to other parts of the process as well, e.g.
+you asked what maintainers do with their trees but if there is a
+single tree, they don't have a tree at all. In most other scalable
+processes that I am aware of, as much work as possible is pushed down
+to individual contributors and they do any required rebasing. The
+closest analog of maintainers only do review and approval. The idea is
+to remove bottlenecks and distribute process as much as possible to
+increase scalability. I heard about "maintainer scalability" in the
+context of the kernel process multiple times.
