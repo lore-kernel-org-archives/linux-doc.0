@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 019937D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 16:09:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11A3C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 16:14:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbfFZQJr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 12:09:47 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57706 "EHLO
+        id S1726359AbfFZQOS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 12:14:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57896 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726227AbfFZQJr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 12:09:47 -0400
+        with ESMTP id S1726227AbfFZQOS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 12:14:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=gCTAps/lYoSk9lPt+qf517YJddtp5CleOCu5z7O8PhY=; b=Nf/H1sdFoSNlSGwY2S6sd4HVQ
-        nmeKZ3Z/tecPr3cXWRdyRA8+fl0gJKFC33IUlNN1M0Udy2sZann0YYMW4Piy+St/Tx1zLsS58sc6M
-        F7L78si7kGv5NeOBGl0cV4Jah94hDY/MlnfgI6s42ZnuAVu3UhmYWpEwepAP3NKlF2noMIlDD/Lu6
-        9g21Ncqgi6b+fSmQOacDqSEYJ7z0DANeQ44bl6essqwqCrrlRfEWdk39koNTa5K/Wu7AQA1AsYtpv
-        wDupzG57mzknnSHdqVVa1WC0E72OtZMYIUZ4PGhH+/3QNdPdTfn6pcqtKiy83iSwUWTJ53p5hdLGC
-        Hsl9WcoQQ==;
+         bh=xgArw+nVtTXG7oezfdfD4Z1XiVxNfU8kA8v4SVH+Er8=; b=H8pU6ksMjxPS9r4Rpfv5NA8Hz
+        +YS3Oa+ujur3g18XgsDxJQe7f0Mom3EwR5DPIW1GpwAsW1jzd2koULTevDvSOhS7aq+XgZ8HxwiEd
+        TBJx1lvgP3P1uks1zEwTL8j7Hk4nAcViKpVzEblKnZXK/C+HKQtdfxbKWHZsRXvpw3hQ3QguTYSzj
+        JBRdRCxyzdLJaecnl2YkSxGuJsNkXk4L6tW9lObvi87S5GEGoXU+4/ezOe6GXvTzXJGIAHftGd4GY
+        TIQerjgzoce7Z+9ZJOXftSSONKMRf1AWdCShlccCI1jecYU5SL21L+gMj2G/RJa69lKnhkG2NiOtd
+        dd95/mUQg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgAUU-0002Um-Vg; Wed, 26 Jun 2019 16:09:46 +0000
+        id 1hgAYq-0004wb-Ov; Wed, 26 Jun 2019 16:14:16 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgAUR-00083F-FM; Wed, 26 Jun 2019 13:09:43 -0300
+        id 1hgAYo-0008AF-RE; Wed, 26 Jun 2019 13:14:14 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] docs: gpu: add msm-crash-dump.rst to the index.rst file
-Date:   Wed, 26 Jun 2019 13:09:42 -0300
-Message-Id: <f6cc8cf99067d44b0a43c2b7cfbee273e8cc974b.1561565379.git.mchehab+samsung@kernel.org>
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: fix a reference for a renamed file: fb/modedb.rst
+Date:   Wed, 26 Jun 2019 13:14:13 -0300
+Message-Id: <699d7618720e2808f9aa094a13ab2f3545c3c25c.1561565652.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,25 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file is currently orphaned.
+Due to two patches being applied about the same time, the
+reference for modedb.rst file got wrong:
 
+	Documentation/fb/modedb.txt is now Documentation/fb/modedb.rst.
+
+Fixes: 1bf4e09227c3 ("drm/modes: Allow to specify rotation and reflection on the commandline")
+Fixes: ab42b818954c ("docs: fb: convert docs to ReST and rename to *.rst")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/gpu/drivers.rst | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_modes.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 4bfb7068e9f7..6c88c57b90cf 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -20,6 +20,7 @@ GPU Driver Documentation
-    xen-front
-    afbc
-    komeda-kms
-+   msm-crash-dump
- 
- .. only::  subproject and html
- 
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index 57e6408288c8..4645af681ef8 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -1680,7 +1680,7 @@ static int drm_mode_parse_cmdline_options(char *str, size_t len,
+  *
+  * Additionals options can be provided following the mode, using a comma to
+  * separate each option. Valid options can be found in
+- * Documentation/fb/modedb.txt.
++ * Documentation/fb/modedb.rst.
+  *
+  * The intermediate drm_cmdline_mode structure is required to store additional
+  * options from the command line modline like the force-enable/disable flag.
 -- 
 2.21.0
 
