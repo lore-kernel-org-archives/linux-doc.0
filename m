@@ -1,220 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2EE67D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 22:16:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA2317D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 22:38:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfFZWQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 18:16:50 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44548 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfFZWQu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 18:16:50 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n2so17150pgp.11
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 15:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GeRJM7RinPoMIQ6Cxu4JfD/FJhf/Q7830l4heE4Z/70=;
-        b=S6f2tU7Miw4rgiEW47807L33bYsjxaGq9kSV5FlqDefi2WxZ9lTn6WNXPehPhg/T1u
-         QlukqMtHkRexD1aKOxiS1bTcFztoPMq6vRmfl07xvAlF8qkmKEYcRYv6yewHpyrNh/C2
-         b54UNQQh2z4Ml5QHakDNUwkkVSa3wpee9qOwZX656U2rr12uOzmYMsnmgvSxd7nO2lJu
-         uPRgbm1UzaYtxmtry6zEXpmUHhjd6DhSWjC+3Gn8V/HQxryzbZ7pGyLo06Eq0gUDpp5U
-         DjOJXTOOdEhiALmttRxHwycmxPuBaL40MgKhCWjDKs1lUcvOyyLeVeXFZ4cT8o8pd53u
-         IzAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GeRJM7RinPoMIQ6Cxu4JfD/FJhf/Q7830l4heE4Z/70=;
-        b=FCQHPPU84zqaV6+dPZEaFC+IO2nhqTTCiUuvwovrEHXjF6itaB/ULStPIj8gQW/G25
-         yTEPNvJw60awq5Y/oFj6Tpcul2/6Ya2RSbxuhOWCAFiB/IUzTqwHmkTxIQAp6josb3CZ
-         4UM9EaSrPlA6POWEUP58bHSqz3obAuuMvASQrxw3lQlCoQzvaeM/7IponrD6D6zVW0u9
-         EH9qhKFEkWFyNFVVF51gP1dT+5JP5uJAv5N9wUH68pf5c9HQzA6JhARthtbWi2U/6da+
-         3UPwGJr6KIO3UhtmQW371rOoeaghoS17llRBEwarC+MmyZvGac2Lkbr8wPmBspBiCEIG
-         TsKA==
-X-Gm-Message-State: APjAAAVbMCyKZo1o9CGhmr9LbAup9B7Xwek3o5Pefa6hlUd2vXfMCMx8
-        MTI0q/DGHhKoAGaYmQdvTkNFRPANzI0izcxp8j9T8Q==
-X-Google-Smtp-Source: APXvYqzsQMLB7isztv92bzu5YXVWaHFQchBB4ZbMDdOvCDM8VotktY7nYV0uIl6GRCqZMb6GciobJW+UAft7ArjB2vg=
-X-Received: by 2002:a17:90b:f0e:: with SMTP id br14mr1630712pjb.117.1561587408779;
- Wed, 26 Jun 2019 15:16:48 -0700 (PDT)
+        id S1726379AbfFZWi4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 18:38:56 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10648 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726289AbfFZWi4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jun 2019 18:38:56 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2019 15:38:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,421,1557212400"; 
+   d="scan'208";a="313574950"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.251.133.109])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2019 15:38:54 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     dvhart@infradead.org, andy@infradead.org,
+        andriy.shevchenko@intel.com, corbet@lwn.net
+Cc:     rjw@rjwysocki.net, alan@linux.intel.com, lenb@kernel.org,
+        prarit@redhat.com, darcari@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 00/10] Intel(R) Speed Select Technology
+Date:   Wed, 26 Jun 2019 15:38:41 -0700
+Message-Id: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-2-brendanhiggins@google.com> <20190625223312.GP19023@42.do-not-panic.com>
- <CAFd5g46TLAONgXiZkFM98BPd-sariMTwhmYG9hSJ+M9=r-ixeg@mail.gmail.com> <20190626033643.GX19023@42.do-not-panic.com>
-In-Reply-To: <20190626033643.GX19023@42.do-not-panic.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 26 Jun 2019 15:16:36 -0700
-Message-ID: <CAFd5g45PTtPumkpp1i41kkixZaR55pbqaF2DsuKNmh5UyAVwOg@mail.gmail.com>
-Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 8:36 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Tue, Jun 25, 2019 at 05:07:32PM -0700, Brendan Higgins wrote:
-> > On Tue, Jun 25, 2019 at 3:33 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > >
-> > > On Mon, Jun 17, 2019 at 01:25:56AM -0700, Brendan Higgins wrote:
-> > > > +/**
-> > > > + * module_test() - used to register a &struct kunit_module with KUnit.
-> > > > + * @module: a statically allocated &struct kunit_module.
-> > > > + *
-> > > > + * Registers @module with the test framework. See &struct kunit_module for more
-> > > > + * information.
-> > > > + */
-> > > > +#define module_test(module) \
-> > > > +             static int module_kunit_init##module(void) \
-> > > > +             { \
-> > > > +                     return kunit_run_tests(&module); \
-> > > > +             } \
-> > > > +             late_initcall(module_kunit_init##module)
-> > >
-> > > Becuase late_initcall() is used, if these modules are built-in, this
-> > > would preclude the ability to test things prior to this part of the
-> > > kernel under UML or whatever architecture runs the tests. So, this
-> > > limits the scope of testing. Small detail but the scope whould be
-> > > documented.
-> >
-> > You aren't the first person to complain about this (and I am not sure
-> > it is the first time you have complained about it). Anyway, I have
-> > some follow on patches that will improve the late_initcall thing, and
-> > people seemed okay with discussing the follow on patches as part of a
-> > subsequent patchset after this gets merged.
-> >
-> > I will nevertheless document the restriction until then.
->
-> To be clear, I am not complaining about it. I just find it simply
-> critical to document its limitations, so folks don't try to invest
-> time and energy on kunit right away for an early init test, if it
-> cannot support it.
->
-> If support for that requires some work, it may be worth mentioning
-> as well.
+Intel® Speed Select Technology (Intel® SST) — A powerful new collection of
+features giving more granular control over CPU performance for optimized total
+cost of ownership and performance. With Intel® SST, one server can be configured 
+for power and performance for variety of diverse workload requirements. In the 
+Linux submission code. we are using ISST to specify Intel® SST to avoid confusion 
+with existing use of SST for "Smart Sound Technology".
 
-Makes sense. And in anycase, it is something I do want to do, just not
-right now. I will put a TODO here in the next revision.
+Refer to these links for overview of the technology released with some Intel® Xeon®
+Scalable processor (5218N, 6230N, and 6252N):
+https://www.intel.com/content/www/us/en/architecture-and-technology/speed-select-technology-article.html
+https://builders.intel.com/docs/networkbuilders/intel-speed-select-technology-base-frequency-enhancing-performance.pdf
 
-> > > > +static void kunit_print_tap_version(void)
-> > > > +{
-> > > > +     if (!kunit_has_printed_tap_version) {
-> > > > +             kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
-> > >
-> > > What is this TAP thing? Why should we care what version it is on?
-> > > Why are we printing this?
-> >
-> > It's part of the TAP specification[1]. Greg and Frank asked me to make
-> > the intermediate format conform to TAP. Seems like something else I
-> > should probable document...
->
-> Yes thanks!
->
-> > > > +             kunit_has_printed_tap_version = true;
-> > > > +     }
-> > > > +}
-> > > > +
-> > > > +static size_t kunit_test_cases_len(struct kunit_case *test_cases)
-> > > > +{
-> > > > +     struct kunit_case *test_case;
-> > > > +     size_t len = 0;
-> > > > +
-> > > > +     for (test_case = test_cases; test_case->run_case; test_case++)
-> > >
-> > > If we make the last test case NULL, we'd just check for test_case here,
-> > > and save ourselves an extra few bytes per test module. Any reason why
-> > > the last test case cannot be NULL?
-> >
-> > Is there anyway to make that work with a statically defined array?
->
-> No you're right.
->
-> > Basically, I want to be able to do something like:
-> >
-> > static struct kunit_case example_test_cases[] = {
-> >         KUNIT_CASE(example_simple_test),
-> >         KUNIT_CASE(example_mock_test),
-> >         {}
-> > };
-> >
-> > FYI,
-> > #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
->
-> >
-> > In order to do what you are proposing, I think I need an array of
-> > pointers to test cases, which is not ideal.
->
-> Yeah, you're right. The only other alternative is to have a:
->
-> struct kunit_module {
->        const char name[256];
->        int (*init)(struct kunit *test);
->        void (*exit)(struct kunit *test);
->        struct kunit_case *test_cases;
-> +       unsigned int num_cases;
-> };
->
-> And then something like:
->
-> #define KUNIT_MODULE(name, init, exit, cases) { \
->         .name = name, \
->         .init = init, \
->         .exit = exit, \
->         .test_cases = cases,
->         num_cases = ARRAY_SIZE(cases), \
-> }
->
-> Let's evaluate which is better: one extra test case per all test cases, or
-> an extra unsigned int for each kunit module.
+The next generation of Intel® Xeon® processors are adding more features to the
+Intel® Speed Select Technology and allow dynamic configuration of these features
+from OS-software level instead from BIOS. This submission is adding new features
+and dynamic configuration capabilities .
 
-I am in favor of the current method since init and exit are optional
-arguments. I could see myself (actually I am planning on) adding more
-optional things to the kunit_module, so having optional arguments will
-make my life a lot easier since I won't have to go through big
-refactorings around the kernel to support new features that tie in
-here.
+
+Intel SST Features:
+
+Intel® SST—Performance Profile (PP or perf-profile):
+This feature allows one server to be configured for different workload requirements
+instead of deploying different servers based on the workload requirement reducing total
+cost of ownership. With a single server deployed, the same server can be reconfigured
+dynamically to one of the supported profiles to suit the specific workload requirements.
+This feature introduces a mechanism that allows multiple optimized performance profiles 
+per system via static and/or dynamic adjustment of TDP level and other performance
+parameters.
+
+Intel® SST—Core power (CP or core-power):
+An Interface that allows user to define per core priority. This defines a mechanism
+to distribute power among cores when there is a power constrained scenario. This defines
+a class of service configuration. Each CPU core can be tied to a class of service and hence
+an associated priority.
+
+Intel® SST—Base Frequency (BF or base-freq):
+The Intel® SST-BF feature lets user control and direct base frequency. If some critical
+workload threads demand constant high guaranteed performance, then this feature can be
+used to execute the thread at higher base frequency on specific set of CPUs.
+
+Intel® SST—Turbo frequency (TF or turbo-freq):
+Enables the ability to set different all core turbo ratio limits to cores based on the priority.
+Using this features some cores can be configured to get higher turbo frequency by designating
+them as high priority at the cost of lower or no turbo frequency on the low priority cores.
+
+Implementation
+
+The Intel® SST features are implemented in the firmware executing in the the power
+management unit (we are calling PUNIT here for short). The mechanism to control these
+features are specific to firmware implementation for Intel® Xeon® CPUs and are not architectural
+features. The interface mechanism and semantics of the messages can change in future Xeon 
+CPUs. Hence there is minimal kernel implementation by offering direct communication
+to PUNIT via set of IOCTLs. The actual messages which can be sent to PUNIT are specified
+in the following document link:
+
+https://github.com/intel/CommsPowerManagement/blob/master/intel_sst_os_interface/mailbox.md
+
+The idea here is that user space software like cloud orchestration software based on their workload
+requirement configure the system. There is a full featured "Intel Speed Select" utility
+submitted to kernel power tools, which can be used to validate and exercise the features.
+
+Types of PUNIT interfaces
+There are two types of interfaces. One using Mail box communications, which is facilitated
+by a PCI device or in some Xeon® CPUs using MSRs; and other using an MMIO interface, which is
+used primarily for core prioritization. For hiding details a single character device is created
+to handle IOCTLs. The following block diagram shows the implementation overview.
+
+
+User		User Space tool(intel-speed-select)/Cloud Orchestration software
+					   IOCTLs	
+---------------------------------------character device------------------------------
+kernel				Common driver handling IOCTLs
+			Mail Box drivers(PCI & MSR)	PCI MMIO driver 
+--------------------------------------------------------------------------
+Hardware				    PUNIT
+
+
+
+Srinivas Pandruvada (10):
+  platform/x86: ISST: Update ioctl-number.txt for Intel Speed Select
+    interface
+  platform/x86: ISST: Add common API to register and handle ioctls
+  platform/x86: ISST: Store per CPU information
+  platform/x86: ISST: Add IOCTL to Translate Linux logical CPU to PUNIT
+    CPU number
+  platform/x86: ISST: Add Intel Speed Select mmio interface
+  platform/x86: ISST: Add Intel Speed Select mailbox interface via PCI
+  platform/x86: ISST: Add Intel Speed Select mailbox interface via MSRs
+  platform/x86: ISST: Add Intel Speed Select PUNIT MSR interface
+  platform/x86: ISST: Restore state on resume
+  tools/power/x86: A tool to validate Intel Speed Select commands
+
+ Documentation/ioctl/ioctl-number.txt          |    1 +
+ drivers/platform/x86/Kconfig                  |    2 +
+ drivers/platform/x86/Makefile                 |    1 +
+ .../x86/intel_speed_select_if/Kconfig         |   17 +
+ .../x86/intel_speed_select_if/Makefile        |   10 +
+ .../intel_speed_select_if/isst_if_common.c    |  672 +++++++
+ .../intel_speed_select_if/isst_if_common.h    |   69 +
+ .../intel_speed_select_if/isst_if_mbox_msr.c  |  216 +++
+ .../intel_speed_select_if/isst_if_mbox_pci.c  |  214 +++
+ .../x86/intel_speed_select_if/isst_if_mmio.c  |  180 ++
+ include/uapi/linux/isst_if.h                  |  172 ++
+ tools/power/x86/intel_speed_select/Makefile   |   31 +
+ tools/power/x86/intel_speed_select/isst.h     |  231 +++
+ .../x86/intel_speed_select/isst_config.c      | 1607 +++++++++++++++++
+ .../power/x86/intel_speed_select/isst_core.c  |  721 ++++++++
+ .../x86/intel_speed_select/isst_display.c     |  479 +++++
+ 16 files changed, 4623 insertions(+)
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/Kconfig
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/Makefile
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_common.c
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_common.h
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mbox_msr.c
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
+ create mode 100644 include/uapi/linux/isst_if.h
+ create mode 100644 tools/power/x86/intel_speed_select/Makefile
+ create mode 100644 tools/power/x86/intel_speed_select/isst.h
+ create mode 100644 tools/power/x86/intel_speed_select/isst_config.c
+ create mode 100644 tools/power/x86/intel_speed_select/isst_core.c
+ create mode 100644 tools/power/x86/intel_speed_select/isst_display.c
+
+-- 
+2.17.2
+
