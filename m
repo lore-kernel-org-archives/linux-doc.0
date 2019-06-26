@@ -5,46 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02FB37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 13:36:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F1407D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 13:47:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbfFZNgP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 09:36:15 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57788 "EHLO
+        id S1726462AbfFZNrv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 09:47:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43986 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726484AbfFZNgP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 09:36:15 -0400
+        with ESMTP id S1727282AbfFZNrv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 09:47:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=vjIOKCboXHW6Mjixp79Kk6C1xDXu7gjmz0O9Axsf0MM=; b=PCLh0txTepWivhui/lf1a6LRk
-        MlxUkWxltrq9e7vJoBgvuGfdGXgFAF9ignUrfYEus8Xw4F+HunNQ5VqYGauPI6K29f5lV/EmRsA3k
-        ColDokfjeEWY2auwVjpTjA/OaIn9OtiSKHeR4SQP+o3EDy2LFjTFooznQcN8A6ZFO+8RSE6xTXZ08
-        XvUG+3cu8sBe6e6Fujv+svM7KbZtXVVGXFvphYvBJA/rj+kHkJFsiwlwHTs3XzUFd0Co5ola8Tcny
-        h/Ijce5kZ1THb96rBj2dslJIa+spsaN3WVgXnGTfj1XxF6G4VmNcs62MEYOBCb7fWQ8T+P5VXQk+8
-        G7GxOP0EA==;
+         bh=CbAWFSZ5Sx47r3jjoWE+iXA54ydy8tFF/w7EEoqE7Kk=; b=gZN1bUpnk4MY2wG2gakx09dJq
+        Rn1ZtzTSuRicwhRW0Wr1DP2PaTb3VZo1WRc7pNg9cqHZ2i4NpFqzaGB6MSssAoZuCyiNtuN3YvuTg
+        t9PpPY9KrLhNPFLLlYdAToQ43b09S5ac7tnHIP/gERhrhE6ayTjrMgFFK6QdmNhS70UuOWi+Ls0me
+        YpeemGPnCXfBrkTNVZa0/tJXxWr3eLD3nn7CrBGMTopMKIu+h6+I9KcTsQsMW0Ml+/80lyH3xAXSX
+        h+z6747pXIi1lC36D7lYTImT2evS89phjRAlspb9ADO4z0ne/COa74PcQpzyNYqppBRZJMLTN93ip
+        E8B73jISQ==;
 Received: from 177.205.71.220.dynamic.adsl.gvt.net.br ([177.205.71.220] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hg85u-0004t1-0v; Wed, 26 Jun 2019 13:36:14 +0000
+        id 1hg8H7-0002oG-SD; Wed, 26 Jun 2019 13:47:49 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hg85s-0003Ss-0I; Wed, 26 Jun 2019 10:36:12 -0300
+        id 1hg8H5-0003fm-SX; Wed, 26 Jun 2019 10:47:47 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] docs: gpu: add msm-crash-dump.rst to the index.rst file
-Date:   Wed, 26 Jun 2019 10:36:11 -0300
-Message-Id: <e22a340cf94240094cfb38f8c62f6916ea99394a.1561556169.git.mchehab+samsung@kernel.org>
+        Emese Revfy <re.emese@gmail.com>
+Subject: [PATCH] docs: move gcc_plugins.txt to core-api and rename to .rst
+Date:   Wed, 26 Jun 2019 10:47:46 -0300
+Message-Id: <4937ff4f93282ed57c9859de4300b4d835880ebb.1561556794.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,25 +50,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file is currently orphaned.
+
+
+The gcc_plugins.txt file is already a ReST file. Move it
+to the core-api book while renaming it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/gpu/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} | 0
+ Documentation/core-api/index.rst                            | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} (100%)
 
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index 1fcf8e851e15..55f3f4294686 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -12,6 +12,7 @@ Linux GPU Driver Developer's Guide
-    drm-uapi
-    drm-client
-    drivers
-+   msm-crash-dump
-    vga-switcheroo
-    vgaarbiter
-    todo
+diff --git a/Documentation/gcc-plugins.txt b/Documentation/core-api/gcc-plugins.rst
+similarity index 100%
+rename from Documentation/gcc-plugins.txt
+rename to Documentation/core-api/gcc-plugins.rst
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 2466a4c51031..d1e5b95bf86d 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -35,7 +35,7 @@ Core utilities
+    boot-time-mm
+    memory-hotplug
+    protection-keys
+-
++   gcc-plugins
+ 
+ Interfaces for kernel debugging
+ ===============================
 -- 
 2.21.0
+
 
