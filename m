@@ -5,120 +5,123 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2126A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 00:13:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 382EF7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 00:23:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726068AbfFZANb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 20:13:31 -0400
-Received: from smtprelay0067.hostedemail.com ([216.40.44.67]:41771 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725782AbfFZANb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 20:13:31 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 43DC71822495E;
-        Wed, 26 Jun 2019 00:13:29 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: event25_10e35e383f0f
-X-Filterd-Recvd-Size: 3739
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf01.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 26 Jun 2019 00:13:27 +0000 (UTC)
-Message-ID: <983486e9b2daaa34f84f99a890fcedfeae22b24f.camel@perches.com>
-Subject: Re: [PATCH v2 2/2] crypto: doc - Fix formatting of new crypto
- engine content
-From:   Joe Perches <joe@perches.com>
-To:     "Hook, Gary" <Gary.Hook@amd.com>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-Date:   Tue, 25 Jun 2019 17:13:25 -0700
-In-Reply-To: <156150622886.22527.934327975584441429.stgit@taos>
-References: <156150616764.22527.16524544899486041609.stgit@taos>
-         <156150622886.22527.934327975584441429.stgit@taos>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        id S1726077AbfFZAXL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 20:23:11 -0400
+Received: from mx.ewheeler.net ([66.155.3.69]:47178 "EHLO mx.ewheeler.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725782AbfFZAXL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Jun 2019 20:23:11 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mx.ewheeler.net (Postfix) with ESMTP id 439D3A0692;
+        Wed, 26 Jun 2019 00:23:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at ewheeler.net
+Received: from mx.ewheeler.net ([127.0.0.1])
+        by localhost (mx.ewheeler.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id XUUrvMZH-9KD; Wed, 26 Jun 2019 00:23:09 +0000 (UTC)
+Received: from mx.ewheeler.net (mx.ewheeler.net [66.155.3.69])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx.ewheeler.net (Postfix) with ESMTPSA id 769DFA067D;
+        Wed, 26 Jun 2019 00:23:09 +0000 (UTC)
+Date:   Wed, 26 Jun 2019 00:23:09 +0000 (UTC)
+From:   Eric Wheeler <bcache@lists.ewheeler.net>
+X-X-Sender: lists@mx.ewheeler.net
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>
+cc:     Coly Li <colyli@suse.de>, linux-block@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        "open list\\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list\\:BCACHE \\(BLOCK LAYER CACHE\\)" 
+        <linux-bcache@vger.kernel.org>
+Subject: Re: [PATCH] bcache: make stripe_size configurable and persistent
+ for hardware raid5/6
+In-Reply-To: <yq17e9ao9c3.fsf@oracle.com>
+Message-ID: <alpine.LRH.2.11.1906260005570.1114@mx.ewheeler.net>
+References: <d3f7fd44-9287-c7fa-ee95-c3b8a4d56c93@suse.de>        <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>        <200638b0-7cba-38b4-20c4-b325f3cfe862@suse.de>        <alpine.LRH.2.11.1906241800350.1114@mx.ewheeler.net>
+ <yq17e9ao9c3.fsf@oracle.com>
+User-Agent: Alpine 2.11 (LRH 23 2013-08-11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-06-25 at 23:43 +0000, Hook, Gary wrote:
-> Tidy up the formatting/grammar in crypto_engine.rst. Use bulleted lists
-> where appropriate.
+On Mon, 24 Jun 2019, Martin K. Petersen wrote:
+> > Perhaps they do not set stripe_width using io_opt? I did a grep to see
+> > if any of them did, but I didn't see them. How is stripe_width
+> > indicated by RAID controllers?
+> 
+> The values are reported in the Block Limits VPD page for each SCSI block
+> device and are thus set by the SCSI disk driver. IOW, the RAID
+> controller device drivers have nothing to do with this.
+> 
+> For RAID controllers specifically, the controller firmware will fill out
+> the VPD fields for each virtual SCSI disk when you configure a RAID
+> set. For pretty much everything else, the Block Limits come straight
+> from the device itself.
+> 
+> Also note that these values aren't specific to RAID controllers at
+> all. Most new SCSI devices, including disk drives and SSDs, will fill
+> out the Block Limits VPD page one way or the other. Even some USB
+> storage devices are providing this page.
 
-Hi again Gary.
+Thanks, that makes sense.  Interesting about USB.
 
-> diff --git a/Documentation/crypto/crypto_engine.rst b/Documentation/crypto/crypto_engine.rst
-[]
-> +Before transferring any request, you have to fill the context enginectx by
-> +providing functions for the following:
-> +
-> +* ``prepare_crypt_hardware``: Called once before any prepare functions are
-> +  called.
-> +
-> +* ``unprepare_crypt_hardware``: Called once after all unprepare functions have
-> +  been called.
-> +
-> +* ``prepare_cipher_request``/``prepare_hash_request``: Called before each
-> +  corresponding request is performed. If some processing or other preparatory
-> +  work is required, do it here.
-> +
-> +* ``unprepare_cipher_request``/``unprepare_hash_request``: Called after each
-> +  request is handled. Clean up / undo what was done in the prepare function.
-> +
-> +* ``cipher_one_request``/``hash_one_request``: Handle the current request by
-> +  performing the operation.
+> > If they do set io_opt, then at least my Areca 1883 does not set io_opt
+> > as of 4.19.x. I also have a LSI MegaRAID 3108 which does not report
+> > io_opt as of 4.1.x, but that is an older kernel so maybe support has
+> > been added since then.
+> 
+> I have several MegaRAIDs that all report it. But it depends on the
+> controller firmware.
+> 
+> > Is it visible through sysfs or debugfs so I can check my hardware
+> > support without hacking debugging the kernel?
+> 
+> To print the block device topology:
+> 
+>   # lsblk -t
+> 
+> or look up io_opt in sysfs:
+> 
+>   # grep . /sys/block/sdX/queue/optimal_io_size
+> 
+> You can also query a SCSI device's Block Limits directly:
+> 
+>   # sg_vpd -p bl /dev/sdX
 
-I again suggest not using ``<func>`` but instead use <func>()
-and remove unnecessary blank lines.
+Perfect, thank you for that.  I've tried the following controllers that I 
+have access to.  One worked (hspa/HP Gen8 Smart Array Controller), but the 
+others I tried are not providing VPDs:
 
-i.e.:
+* LSI 2108 (Supermicro)
+* LSI 3108 (Dell)
+* Areca 1882
+* Areca 1883
+* Fibrechannel 8gbe connected to a Storwize 3700
 
-* prepare_crypt_hardware(): Called once before any prepare functions are
-  called.
-* unprepare_crypt_hardware():  Called once after all unprepare functions
-  have been called.
-* prepare_cipher_request()/prepare_hash_request(): Called before each
-  corresponding request is performed. If some processing or other preparatory
-  work is required, do it here.
-* unprepare_cipher_request()/unprepare_hash_request(): Called after each
-  request is handled. Clean up / undo what was done in the prepare function.
-* cipher_one_request()/hash_one_request(): Handle the current request by
-  performing the operation.
+~]# sg_vpd -p bl /dev/sdb
+VPD page=0xb0
+fetching VPD page failed
 
-[]
-> +When your driver receives a crypto_request, you must to transfer it to
-> +the crypto engine via one of:
-> +
-> +* crypto_transfer_ablkcipher_request_to_engine()
+> If you want to tinker, you can simulate a SCSI disk with your choice of
+> io_opt:
+> 
+>   # modprobe scsi_debug opt_blks=N
+> 
+> where N is the number of logical blocks to report as being the optimal
+> I/O size.
 
-And removing the unnecessary blank lines below
+Neat, thanks for the hint!
 
-> +
-> +* crypto_transfer_aead_request_to_engine()
-> +
-> +* crypto_transfer_akcipher_request_to_engine()
-> +
-> +* crypto_transfer_hash_request_to_engine()
-> +
-> +* crypto_transfer_skcipher_request_to_engine()
-> +
-> +At the end of the request process, a call to one of the following functions is needed:
-> +
-> +* crypto_finalize_ablkcipher_request()
-> +
-> +* crypto_finalize_aead_request()
-> +
-> +* crypto_finalize_akcipher_request()
-> +
-> +* crypto_finalize_hash_request()
-> +
-> +* crypto_finalize_skcipher_request()
+-Eric
 
-
+> 
+> -- 
+> Martin K. Petersen	Oracle Linux Engineering
+> 
