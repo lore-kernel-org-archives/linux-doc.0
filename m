@@ -1,723 +1,299 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF3037D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 12:25:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA6C17D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 13:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbfFZMZf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 08:25:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:59930 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726104AbfFZMZf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Jun 2019 08:25:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCF85360;
-        Wed, 26 Jun 2019 05:25:33 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B14663F718;
-        Wed, 26 Jun 2019 05:25:31 -0700 (PDT)
-Date:   Wed, 26 Jun 2019 13:25:24 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Gerald BAEZA <gerald.baeza@st.com>
-Cc:     Will Deacon <Will.Deacon@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "olof@lixom.net" <olof@lixom.net>,
-        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 3/5] perf: stm32: ddrperfm driver creation
-Message-ID: <20190626122524.GA20635@lakrids.cambridge.arm.com>
-References: <1558366019-24214-1-git-send-email-gerald.baeza@st.com>
- <1558366019-24214-4-git-send-email-gerald.baeza@st.com>
- <20190626122228.GB20313@lakrids.cambridge.arm.com>
+        id S1727422AbfFZNS4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 09:18:56 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46850 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726628AbfFZNS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 09:18:56 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n4so2668533wrw.13
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 06:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=oABEezfN1nTsjGlHAHlBaTiMmQz4aDhMSWiIeYwjCbc=;
+        b=BDIZmNOapw0wdnKowhcOVanLGYEGq8PTEJMCMEAi5Gmar5Q38mp+SuSWavLqPxHywy
+         8DjOMgEcMNmJvYylzQIUqfY4ha2dJx7Ev26rvPoEUOaiZNdQvNOnjo3tPjcYd4E7gDQ1
+         EB4e4f9LPZmMjeUtItGOQkI3h91OQPmAGV9v11aozKdHUDLTlDI1lkMS1W/9SXm1zbGa
+         NU7pNwWbw9oJ356oHDNn5sofavNR7JNLfjx67l4zDyhIBvE1Q3IJ+ybOwMl3OXASi9s8
+         9fBT+RBMD2WUvIG7gK6kpKE5AM/Fk56Bu3K0qZ/SrFStlDCHxNVvg2TTEZHxsqc6aKyR
+         Fr1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=oABEezfN1nTsjGlHAHlBaTiMmQz4aDhMSWiIeYwjCbc=;
+        b=Rf5O1hWbJ2K+++CC4QbAcHXver8V0NKhWTJ0rGHP+eHCXOnkQMADIqWSRA725OOiwC
+         +1+751L3yT19G1/0Z7r57JTl3WlZ6mfOc6fTU3M6QGibOquVfgz4m5w9Mk68peBiVL4Q
+         IdPS5QztBLBZJowxDVNaj/V5fkm5O7WShTpuS0J/WDCgGXNtBwh9oHc0oV3K8Y4WEIVJ
+         NRSN36bg6MPrTf/T9eHtG6Qm4/YdUJJac9NeZQeYhEhRlleR4gFIlzGPEbCRmzT+8LJP
+         P6qeFzluxUXscu8izoPD40PmrdbijLVad9QyDizsHltkC7PKk3rVlrbeSBv9oHcC6swA
+         dWAw==
+X-Gm-Message-State: APjAAAU3NMa7mC/uJERwnUwaNtc9ThnTWBgyXdpi7PPH8z6SsoHFDVE0
+        yZZOhdXWeYzAck++BJ4FoRkWrw==
+X-Google-Smtp-Source: APXvYqxeT+oP2oju/Ny+91153pq74b2segQ2icEC+8amXSZq3egEC6TwFkM8vrRk+uofNHXcuWkhBQ==
+X-Received: by 2002:a5d:61cd:: with SMTP id q13mr3741341wrv.114.1561555133168;
+        Wed, 26 Jun 2019 06:18:53 -0700 (PDT)
+Received: from dell ([2.27.35.164])
+        by smtp.gmail.com with ESMTPSA id z5sm15058643wrh.16.2019.06.26.06.18.51
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 26 Jun 2019 06:18:52 -0700 (PDT)
+Date:   Wed, 26 Jun 2019 14:18:50 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Mathieu Malaterre <malat@debian.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Subject: Re: [PATCH v12 04/13] mfd: Add Ingenic TCU driver
+Message-ID: <20190626131850.GW21119@dell>
+References: <20190521145141.9813-1-paul@crapouillou.net>
+ <20190521145141.9813-5-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190626122228.GB20313@lakrids.cambridge.arm.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190521145141.9813-5-paul@crapouillou.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, 21 May 2019, Paul Cercueil wrote:
 
-Sorry for the (quite horrific) mangling my mailserver has inflicted via
-my reply. Obviously, the confidentiality disclaimer is bogus, too.
+> This driver will provide a regmap that can be retrieved very early in
+> the boot process through the API function ingenic_tcu_get_regmap().
+> 
+> Additionally, it will call devm_of_platform_populate() so that all the
+> children devices will be probed.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+> 
+> Notes:
+>     v12: New patch
+> 
+>  drivers/mfd/Kconfig             |   8 +++
+>  drivers/mfd/Makefile            |   1 +
+>  drivers/mfd/ingenic-tcu.c       | 113 ++++++++++++++++++++++++++++++++
+>  include/linux/mfd/ingenic-tcu.h |   8 +++
+>  4 files changed, 130 insertions(+)
+>  create mode 100644 drivers/mfd/ingenic-tcu.c
+> 
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 294d9567cc71..a13544474e05 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -494,6 +494,14 @@ config HTC_I2CPLD
+>  	  This device provides input and output GPIOs through an I2C
+>  	  interface to one or more sub-chips.
+>  
+> +config INGENIC_TCU
+> +	bool "Ingenic Timer/Counter Unit (TCU) support"
+> +	depends on MIPS || COMPILE_TEST
+> +	select REGMAP_MMIO
+> +	help
+> +	  Say yes here to support the Timer/Counter Unit (TCU) IP present
+> +	  in the JZ47xx SoCs from Ingenic.
+> +
+>  config MFD_INTEL_QUARK_I2C_GPIO
+>  	tristate "Intel Quark MFD I2C GPIO"
+>  	depends on PCI
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index 52b1a90ff515..fb89e131ae98 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -180,6 +180,7 @@ obj-$(CONFIG_AB8500_CORE)	+= ab8500-core.o ab8500-sysctrl.o
+>  obj-$(CONFIG_MFD_TIMBERDALE)    += timberdale.o
+>  obj-$(CONFIG_PMIC_ADP5520)	+= adp5520.o
+>  obj-$(CONFIG_MFD_KEMPLD)	+= kempld-core.o
+> +obj-$(CONFIG_INGENIC_TCU)	+= ingenic-tcu.o
+>  obj-$(CONFIG_MFD_INTEL_QUARK_I2C_GPIO)	+= intel_quark_i2c_gpio.o
+>  obj-$(CONFIG_LPC_SCH)		+= lpc_sch.o
+>  obj-$(CONFIG_LPC_ICH)		+= lpc_ich.o
+> diff --git a/drivers/mfd/ingenic-tcu.c b/drivers/mfd/ingenic-tcu.c
+> new file mode 100644
+> index 000000000000..6c1d5e4310c1
+> --- /dev/null
+> +++ b/drivers/mfd/ingenic-tcu.c
+> @@ -0,0 +1,113 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * JZ47xx SoCs TCU MFD driver
 
-I'll make sure I use the right SMTP server in future.
+Nit: Another line here please.
 
-Mark.
+> + * Copyright (C) 2019 Paul Cercueil <paul@crapouillou.net>
+> + */
+> +
+> +#include <linux/mfd/ingenic-tcu.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +struct ingenic_soc_info {
+> +	unsigned int num_channels;
+> +};
+> +
+> +static struct regmap *tcu_regmap __initdata;
+> +
+> +static const struct regmap_config ingenic_tcu_regmap_config = {
+> +	.reg_bits = 32,
+> +	.val_bits = 32,
+> +	.reg_stride = 4,
+> +	.max_register = TCU_REG_OST_CNTHBUF,
+> +};
+> +
+> +static const struct ingenic_soc_info jz4740_soc_info = {
+> +	.num_channels = 8,
+> +};
+> +
+> +static const struct ingenic_soc_info jz4725b_soc_info = {
+> +	.num_channels = 6,
+> +};
+> +
+> +static const struct of_device_id ingenic_tcu_of_match[] = {
+> +	{ .compatible = "ingenic,jz4740-tcu", .data = &jz4740_soc_info, },
+> +	{ .compatible = "ingenic,jz4725b-tcu", .data = &jz4725b_soc_info, },
+> +	{ .compatible = "ingenic,jz4770-tcu", .data = &jz4740_soc_info, },
+> +	{ }
+> +};
+> +
+> +static struct regmap * __init ingenic_tcu_create_regmap(struct device_node *np)
+> +{
+> +	struct resource res;
+> +	void __iomem *base;
+> +	struct regmap *map;
+> +
+> +	if (!of_match_node(ingenic_tcu_of_match, np))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	base = of_io_request_and_map(np, 0, "TCU");
+> +	if (IS_ERR(base))
+> +		return ERR_PTR(PTR_ERR(base));
+> +
+> +	map = regmap_init_mmio(NULL, base, &ingenic_tcu_regmap_config);
+> +	if (IS_ERR(map))
+> +		goto err_iounmap;
+> +
+> +	return map;
+> +
+> +err_iounmap:
+> +	iounmap(base);
+> +	of_address_to_resource(np, 0, &res);
+> +	release_mem_region(res.start, resource_size(&res));
+> +
+> +	return map;
+> +}
 
-On Wed, Jun 26, 2019 at 12:22:31PM +0000, Mark Rutland wrote:
-> On Mon, May 20, 2019 at 03:27:17PM +0000, Gerald BAEZA wrote:
-> > The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
-> >
-> > This perf drivers supports the read, write, activate, idle and total
-> > time counters, described in the reference manual RM0436.
-> 
-> Is this document publicly accessible anywhere?
-> 
-> If so, could you please provide a link?
-> 
-> > A 'bandwidth' attribute is added in the 'ddrperfm' event_source in order
-> > to directly get the read and write bandwidths (in MB/s), from the last
-> > read, write and total time counters reading.
-> > This attribute is aside the 'events' attributes group because it is not
-> > a counter, as seen by perf tool.
-> 
-> This should be removed. This is unusually stateful, and this can be
-> calculated in userspace by using the events. I'm also not keen on
-> creating a precedent for weird sysfs bits for PMUs.
-> 
-> > Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
-> > ---
-> >  drivers/perf/Kconfig         |   6 +
-> >  drivers/perf/Makefile        |   1 +
-> >  drivers/perf/stm32_ddr_pmu.c | 512 +++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 519 insertions(+)
-> >  create mode 100644 drivers/perf/stm32_ddr_pmu.c
-> >
-> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> > index a94e586..9add8a7 100644
-> > --- a/drivers/perf/Kconfig
-> > +++ b/drivers/perf/Kconfig
-> > @@ -105,6 +105,12 @@ config THUNDERX2_PMU
-> >     The SoC has PMU support in its L3 cache controller (L3C) and
-> >     in the DDR4 Memory Controller (DMC).
-> >
-> > +config STM32_DDR_PMU
-> > +       tristate "STM32 DDR PMU"
-> > +       depends on MACH_STM32MP157
-> > +       help
-> > +         Support for STM32 DDR performance monitor (DDRPERFM).
-> > +
-> >  config XGENE_PMU
-> >          depends on ARCH_XGENE
-> >          bool "APM X-Gene SoC PMU"
-> > diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
-> > index 3048994..fa64719 100644
-> > --- a/drivers/perf/Makefile
-> > +++ b/drivers/perf/Makefile
-> > @@ -8,6 +8,7 @@ obj-$(CONFIG_ARM_SMMU_V3_PMU) += arm_smmuv3_pmu.o
-> >  obj-$(CONFIG_HISI_PMU) += hisilicon/
-> >  obj-$(CONFIG_QCOM_L2_PMU)+= qcom_l2_pmu.o
-> >  obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
-> > +obj-$(CONFIG_STM32_DDR_PMU) += stm32_ddr_pmu.o
-> >  obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
-> >  obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
-> >  obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
-> > diff --git a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c
-> > new file mode 100644
-> > index 0000000..ae4a813
-> > --- /dev/null
-> > +++ b/drivers/perf/stm32_ddr_pmu.c
-> > @@ -0,0 +1,512 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * This file is the STM32 DDR performance monitor (DDRPERFM) driver
-> > + *
-> > + * Copyright (C) 2019, STMicroelectronics - All Rights Reserved
-> > + * Author: Gerald Baeza <gerald.baeza@st.com>
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/hrtimer.h>
-> > +#include <linux/io.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/perf_event.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/types.h>
-> > +
-> > +#define POLL_MS4000/* The counter roll over after ~8s @533MHz */
-> 
-> I take it this is because there's no IRQ? If so, please expand the
-> comment to call that out, e.g.
-> 
-> /*
->  * The PMU has no overflow IRQ, so we must poll to avoid losing events.
->  * The fastest counter can overflow in ~8s @533MHz, so we poll in 4s
->  * intervals to ensure we don't miss a rollover.
->  */
-> #define POLL_MS4000
-> 
-> Which clock specifically is operating at 533MHz, and is this something
-> that may vary? Is it possible that this may go higher in future?
-> 
-> > +#define WORD_LENGTH4/* Bytes */
-> > +#define BURST_LENGTH8/* Words */
-> > +
-> > +#define DDRPERFM_CTL0x000
-> > +#define DDRPERFM_CFG0x004
-> > +#define DDRPERFM_STATUS 0x008
-> > +#define DDRPERFM_CCR0x00C
-> > +#define DDRPERFM_IER0x010
-> > +#define DDRPERFM_ISR0x014
-> > +#define DDRPERFM_ICR0x018
-> > +#define DDRPERFM_TCNT0x020
-> > +#define DDRPERFM_CNT(X)(0x030 + 8 * (X))
-> > +#define DDRPERFM_HWCFG0x3F0
-> > +#define DDRPERFM_VER0x3F4
-> > +#define DDRPERFM_ID0x3F8
-> > +#define DDRPERFM_SID0x3FC
-> > +
-> > +#define CTL_START0x00000001
-> > +#define CTL_STOP0x00000002
-> > +#define CCR_CLEAR_ALL0x8000000F
-> > +#define SID_MAGIC_ID0xA3C5DD01
-> > +
-> > +#define STRING "Read = %llu, Write = %llu, Read & Write = %llu (MB/s)\n"
-> 
-> If you need this, please expand it in-place. As-is, this is needless
-> obfuscation.
-> 
-> > +
-> > +enum {
-> > +READ_CNT,
-> > +WRITE_CNT,
-> > +ACTIVATE_CNT,
-> > +IDLE_CNT,
-> > +TIME_CNT,
-> > +PMU_NR_COUNTERS
-> > +};
-> 
-> I take it these are fixed-purpose counters in the hardware?
-> 
-> > +
-> > +struct stm32_ddr_pmu {
-> > +struct pmu pmu;
-> > +void __iomem *membase;
-> > +struct clk *clk;
-> > +struct clk *clk_ddr;
-> > +unsigned long clk_ddr_rate;
-> > +struct hrtimer hrtimer;
-> > +ktime_t poll_period;
-> > +spinlock_t lock; /* for shared registers access */
-> 
-> All accesses to a PMU instance should be serialized on the same CPU,
-> so you shouldn't need a lock (though you will need to disable IRQs to
-> serialize with the interrupt handler).
-> 
-> The perf subsystem cannot sanely access the PMU across multiple CPUs.
-> 
-> > +struct perf_event *events[PMU_NR_COUNTERS];
-> > +u64 events_cnt[PMU_NR_COUNTERS];
-> > +};
-> > +
-> > +static inline struct stm32_ddr_pmu *pmu_to_stm32_ddr_pmu(struct pmu *p)
-> > +{
-> > +return container_of(p, struct stm32_ddr_pmu, pmu);
-> > +}
-> > +
-> > +static inline struct stm32_ddr_pmu *hrtimer_to_stm32_ddr_pmu(struct hrtimer *h)
-> > +{
-> > +return container_of(h, struct stm32_ddr_pmu, hrtimer);
-> > +}
-> > +
-> > +static u64 stm32_ddr_pmu_compute_bw(struct stm32_ddr_pmu *stm32_ddr_pmu,
-> > +    int counter)
-> > +{
-> > +u64 bw = stm32_ddr_pmu->events_cnt[counter], tmp;
-> > +u64 div = stm32_ddr_pmu->events_cnt[TIME_CNT];
-> > +u32 prediv = 1, premul = 1;
-> > +
-> > +if (bw && div) {
-> > +/* Maximize the dividend into 64 bits */
-> > +while ((bw < 0x8000000000000000ULL) &&
-> > +       (premul < 0x40000000UL)) {
-> > +bw = bw << 1;
-> > +premul *= 2;
-> > +}
-> > +/* Minimize the dividor to fit in 32 bits */
-> > +while ((div > 0xffffffffUL) && (prediv < 0x40000000UL)) {
-> > +div = div >> 1;
-> > +prediv *= 2;
-> > +}
-> > +/* Divide counter per time and multiply per DDR settings */
-> > +do_div(bw, div);
-> > +tmp = bw * BURST_LENGTH * WORD_LENGTH;
-> > +tmp *= stm32_ddr_pmu->clk_ddr_rate;
-> > +if (tmp < bw)
-> > +goto error;
-> > +bw = tmp;
-> > +/* Cancel the prediv and premul factors */
-> > +while (prediv > 1) {
-> > +bw = bw >> 1;
-> > +prediv /= 2;
-> > +}
-> > +while (premul > 1) {
-> > +bw = bw >> 1;
-> > +premul /= 2;
-> > +}
-> > +/* Convert MHz to Hz and B to MB, to finally get MB/s */
-> > +tmp = bw * 1000000;
-> > +if (tmp < bw)
-> > +goto error;
-> > +bw = tmp;
-> > +premul = 1024 * 1024;
-> > +while (premul > 1) {
-> > +bw = bw >> 1;
-> > +premul /= 2;
-> > +}
-> > +}
-> > +return bw;
-> > +
-> > +error:
-> > +pr_warn("stm32-ddr-pmu: overflow detected\n");
-> > +return 0;
-> > +}
-> 
-> IIUC this is for the stateful sysfs stuff, which should be removed.
-> 
-> > +
-> > +static void stm32_ddr_pmu_event_configure(struct perf_event *event)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long lock_flags, config_base = event->hw.config_base;
-> > +u32 val;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +if (config_base < TIME_CNT) {
-> > +val = readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_CFG);
-> > +val |= (1 << config_base);
-> > +writel_relaxed(val, stm32_ddr_pmu->membase + DDRPERFM_CFG);
-> > +}
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, lock_flags);
-> > +}
-> 
-> You don't need the lock here. This is called from your pmu::{start,add}
-> callbacks, and the perf core already ensures those are serialized (via
-> the context lock), and called with IRQs disabled.
-> 
-> > +
-> > +static void stm32_ddr_pmu_event_read(struct perf_event *event)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long flags, config_base = event->hw.config_base;
-> > +struct hw_perf_event *hw = &event->hw;
-> > +u64 prev_count, new_count, mask;
-> > +u32 val, offset, bit;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, flags);
-> > +
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +if (config_base == TIME_CNT) {
-> > +offset = DDRPERFM_TCNT;
-> > +bit = 1 << 31;
-> > +} else {
-> > +offset = DDRPERFM_CNT(config_base);
-> > +bit = 1 << config_base;
-> > +}
-> > +val = readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_STATUS);
-> > +if (val & bit)
-> > +pr_warn("stm32_ddr_pmu hardware overflow\n");
-> > +val = readl_relaxed(stm32_ddr_pmu->membase + offset);
-> > +writel_relaxed(bit, stm32_ddr_pmu->membase + DDRPERFM_CCR);
-> > +writel_relaxed(CTL_START, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +do {
-> > +prev_count = local64_read(&hw->prev_count);
-> > +new_count = prev_count + val;
-> > +} while (local64_xchg(&hw->prev_count, new_count) != prev_count);
-> > +
-> > +mask = GENMASK_ULL(31, 0);
-> > +local64_add(val & mask, &event->count);
-> > +
-> > +if (new_count < prev_count)
-> > +pr_warn("STM32 DDR PMU counter saturated\n");
-> 
-> Do the counter saturate, or do they roll-over?
-> 
-> I think that the message is misleading here, but I just want to check.
-> 
-> > +
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, flags);
-> > +}
-> > +
-> > +static void stm32_ddr_pmu_event_start(struct perf_event *event, int flags)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +struct hw_perf_event *hw = &event->hw;
-> > +unsigned long lock_flags;
-> > +
-> > +if (WARN_ON_ONCE(!(hw->state & PERF_HES_STOPPED)))
-> > +return;
-> > +
-> > +if (flags & PERF_EF_RELOAD)
-> > +WARN_ON_ONCE(!(hw->state & PERF_HES_UPTODATE));
-> > +
-> > +stm32_ddr_pmu_event_configure(event);
-> > +
-> > +/* Clear all counters to synchronize them, then start */
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CCR_CLEAR_ALL, stm32_ddr_pmu->membase + DDRPERFM_CCR);
-> > +writel_relaxed(CTL_START, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, lock_flags);
-> 
-> By 'clear' do you mean set the counters to zero?
-> 
-> Or is there a control bit that determine whether they count?
-> 
-> If we're updating the counter, we could update prev_count at the same
-> instant.
-> 
-> > +
-> > +hw->state = 0;
-> > +}
-> > +
-> > +static void stm32_ddr_pmu_event_stop(struct perf_event *event, int flags)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long lock_flags, config_base = event->hw.config_base;
-> > +struct hw_perf_event *hw = &event->hw;
-> > +u32 val, bit;
-> > +
-> > +if (WARN_ON_ONCE(hw->state & PERF_HES_STOPPED))
-> > +return;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +if (config_base == TIME_CNT)
-> > +bit = 1 << 31;
-> > +else
-> > +bit = 1 << config_base;
-> > +writel_relaxed(bit, stm32_ddr_pmu->membase + DDRPERFM_CCR);
-> > +if (config_base < TIME_CNT) {
-> > +val = readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_CFG);
-> > +val &= ~bit;
-> > +writel_relaxed(val, stm32_ddr_pmu->membase + DDRPERFM_CFG);
-> > +}
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, lock_flags);
-> > +
-> > +hw->state |= PERF_HES_STOPPED;
-> > +
-> > +if (flags & PERF_EF_UPDATE) {
-> > +stm32_ddr_pmu_event_read(event);
-> > +hw->state |= PERF_HES_UPTODATE;
-> > +}
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_event_add(struct perf_event *event, int flags)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long config_base = event->hw.config_base;
-> > +struct hw_perf_event *hw = &event->hw;
-> > +
-> > +stm32_ddr_pmu->events_cnt[config_base] = 0;
-> > +stm32_ddr_pmu->events[config_base] = event;
-> > +
-> > +clk_enable(stm32_ddr_pmu->clk);
-> > +hrtimer_start(&stm32_ddr_pmu->hrtimer, stm32_ddr_pmu->poll_period,
-> > +      HRTIMER_MODE_REL);
-> > +
-> > +stm32_ddr_pmu_event_configure(event);
-> > +
-> > +hw->state = PERF_HES_STOPPED | PERF_HES_UPTODATE;
-> > +
-> > +if (flags & PERF_EF_START)
-> > +stm32_ddr_pmu_event_start(event, 0);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static void stm32_ddr_pmu_event_del(struct perf_event *event, int flags)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long config_base = event->hw.config_base;
-> > +bool stop = true;
-> > +int i;
-> > +
-> > +stm32_ddr_pmu_event_stop(event, PERF_EF_UPDATE);
-> > +
-> > +stm32_ddr_pmu->events_cnt[config_base] += local64_read(&event->count);
-> > +stm32_ddr_pmu->events[config_base] = NULL;
-> > +
-> > +for (i = 0; i < PMU_NR_COUNTERS; i++)
-> > +if (stm32_ddr_pmu->events[i])
-> > +stop = false;
-> > +if (stop)
-> > +hrtimer_cancel(&stm32_ddr_pmu->hrtimer);
-> > +
-> > +clk_disable(stm32_ddr_pmu->clk);
-> 
-> This doesn't look right. If I add two events A and B, then delete event
-> A, surely we want the clock on for event B?
-> 
-> Does the clock only affect whether the counters count, or does it also
-> affect whether the register file is usable?
-> 
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_event_init(struct perf_event *event)
-> > +{
-> > +struct hw_perf_event *hw = &event->hw;
-> > +
-> > +if (is_sampling_event(event))
-> > +return -EINVAL;
-> > +
-> > +if (event->attach_state & PERF_ATTACH_TASK)
-> > +return -EINVAL;
-> > +
-> > +if (event->attr.exclude_user   ||
-> > +    event->attr.exclude_kernel ||
-> > +    event->attr.exclude_hv     ||
-> > +    event->attr.exclude_idle   ||
-> > +    event->attr.exclude_host   ||
-> > +    event->attr.exclude_guest)
-> > +return -EINVAL;
-> > +
-> > +if (event->cpu < 0)
-> > +return -EINVAL;
-> 
-> For a system PMU like this, you must ensure that all events are assigned
-> to the same CPU.
-> 
-> You'll need to designate some arbitrary CPU to mange the PMU, expose
-> that under sysfs, and upon hotplug events you must choose a new CPU and
-> migrate existing events.
-> 
-> For a simple example, see arch/arm/mm/cache-l2x0-pmu.c.
-> 
-> > +
-> > +hw->config_base = event->attr.config;
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static enum hrtimer_restart stm32_ddr_pmu_poll(struct hrtimer *hrtimer)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = hrtimer_to_stm32_ddr_pmu(hrtimer);
-> > +int i;
-> > +
-> > +for (i = 0; i < PMU_NR_COUNTERS; i++)
-> > +if (stm32_ddr_pmu->events[i])
-> > +stm32_ddr_pmu_event_read(stm32_ddr_pmu->events[i]);
-> > +
-> > +hrtimer_forward_now(hrtimer, stm32_ddr_pmu->poll_period);
-> > +
-> > +return HRTIMER_RESTART;
-> > +}
-> > +
-> > +static ssize_t stm32_ddr_pmu_sysfs_show(struct device *dev,
-> > +struct device_attribute *attr,
-> > +char *buf)
-> > +{
-> > +struct dev_ext_attribute *eattr;
-> > +
-> > +eattr = container_of(attr, struct dev_ext_attribute, attr);
-> > +
-> > +return sprintf(buf, "config=0x%lx\n", (unsigned long)eattr->var);
-> > +}
-> > +
-> > +static ssize_t bandwidth_show(struct device *dev,
-> > +      struct device_attribute *attr,
-> > +      char *buf)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = dev_get_drvdata(dev);
-> > +u64 r_bw, w_bw;
-> > +int ret;
-> > +
-> > +if (stm32_ddr_pmu->events_cnt[TIME_CNT]) {
-> > +r_bw = stm32_ddr_pmu_compute_bw(stm32_ddr_pmu, READ_CNT);
-> > +w_bw = stm32_ddr_pmu_compute_bw(stm32_ddr_pmu, WRITE_CNT);
-> > +
-> > +ret = snprintf(buf, PAGE_SIZE, STRING,
-> > +       r_bw, w_bw, (r_bw + w_bw));
-> > +} else {
-> > +ret = snprintf(buf, PAGE_SIZE, "No data available\n");
-> > +}
-> > +
-> > +return ret;
-> > +}
-> 
-> As commented above, this should not be exposed under sysfs. It doesn't
-> follow the usual ABI rules, it's weirdly stateful, and it's redundant.
-> 
-> > +
-> > +#define STM32_DDR_PMU_ATTR(_name, _func, _config)\
-> > +(&((struct dev_ext_attribute[]) {\
-> > +{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
-> > +})[0].attr.attr)
-> > +
-> > +#define STM32_DDR_PMU_EVENT_ATTR(_name, _config)\
-> > +STM32_DDR_PMU_ATTR(_name, stm32_ddr_pmu_sysfs_show,\
-> > +   (unsigned long)_config)
-> > +
-> > +static struct attribute *stm32_ddr_pmu_event_attrs[] = {
-> > +STM32_DDR_PMU_EVENT_ATTR(read_cnt, READ_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(write_cnt, WRITE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(activate_cnt, ACTIVATE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(idle_cnt, IDLE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(time_cnt, TIME_CNT),
-> > +NULL
-> > +};
-> > +
-> > +static DEVICE_ATTR_RO(bandwidth);
-> > +static struct attribute *stm32_ddr_pmu_bandwidth_attrs[] = {
-> > +&dev_attr_bandwidth.attr,
-> > +NULL,
-> > +};
-> > +
-> > +static struct attribute_group stm32_ddr_pmu_event_attrs_group = {
-> > +.name = "events",
-> > +.attrs = stm32_ddr_pmu_event_attrs,
-> > +};
-> > +
-> > +static struct attribute_group stm32_ddr_pmu_bandwidth_attrs_group = {
-> > +.attrs = stm32_ddr_pmu_bandwidth_attrs,
-> > +};
-> > +
-> > +static const struct attribute_group *stm32_ddr_pmu_attr_groups[] = {
-> > +&stm32_ddr_pmu_event_attrs_group,
-> > +&stm32_ddr_pmu_bandwidth_attrs_group,
-> > +NULL,
-> > +};
-> > +
-> > +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu;
-> > +struct reset_control *rst;
-> > +struct resource *res;
-> > +int i, ret;
-> > +u32 val;
-> > +
-> > +stm32_ddr_pmu = devm_kzalloc(&pdev->dev, sizeof(struct stm32_ddr_pmu),
-> > +     GFP_KERNEL);
-> > +if (!stm32_ddr_pmu)
-> > +return -ENOMEM;
-> > +platform_set_drvdata(pdev, stm32_ddr_pmu);
-> > +
-> > +res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +stm32_ddr_pmu->membase = devm_ioremap_resource(&pdev->dev, res);
-> > +if (IS_ERR(stm32_ddr_pmu->membase)) {
-> > +pr_warn("Unable to get STM32 DDR PMU membase\n");
-> > +return PTR_ERR(stm32_ddr_pmu->membase);
-> > +}
-> > +
-> > +stm32_ddr_pmu->clk = devm_clk_get(&pdev->dev, "bus");
-> > +if (IS_ERR(stm32_ddr_pmu->clk)) {
-> > +pr_warn("Unable to get STM32 DDR PMU clock\n");
-> > +return PTR_ERR(stm32_ddr_pmu->clk);
-> > +}
-> > +
-> > +ret = clk_prepare_enable(stm32_ddr_pmu->clk);
-> > +if (ret) {
-> > +pr_warn("Unable to prepare STM32 DDR PMU clock\n");
-> > +return ret;
-> > +}
-> > +
-> > +stm32_ddr_pmu->clk_ddr = devm_clk_get(&pdev->dev, "ddr");
-> > +if (IS_ERR(stm32_ddr_pmu->clk_ddr)) {
-> > +pr_warn("Unable to get STM32 DDR clock\n");
-> > +return PTR_ERR(stm32_ddr_pmu->clk_ddr);
-> > +}
-> > +stm32_ddr_pmu->clk_ddr_rate = clk_get_rate(stm32_ddr_pmu->clk_ddr);
-> > +stm32_ddr_pmu->clk_ddr_rate /= 1000000;
-> > +
-> > +stm32_ddr_pmu->poll_period = ms_to_ktime(POLL_MS);
-> > +hrtimer_init(&stm32_ddr_pmu->hrtimer, CLOCK_MONOTONIC,
-> > +     HRTIMER_MODE_REL);
-> > +stm32_ddr_pmu->hrtimer.function = stm32_ddr_pmu_poll;
-> > +spin_lock_init(&stm32_ddr_pmu->lock);
-> > +
-> > +for (i = 0; i < PMU_NR_COUNTERS; i++) {
-> > +stm32_ddr_pmu->events[i] = NULL;
-> > +stm32_ddr_pmu->events_cnt[i] = 0;
-> > +}
-> > +
-> > +val = readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_SID);
-> > +if (val != SID_MAGIC_ID)
-> > +return -EINVAL;
-> > +
-> > +stm32_ddr_pmu->pmu = (struct pmu) {
-> > +.task_ctx_nr = perf_invalid_context,
-> > +.start = stm32_ddr_pmu_event_start,
-> > +.stop = stm32_ddr_pmu_event_stop,
-> > +.add = stm32_ddr_pmu_event_add,
-> > +.del = stm32_ddr_pmu_event_del,
-> > +.event_init = stm32_ddr_pmu_event_init,
-> > +.attr_groups = stm32_ddr_pmu_attr_groups,
-> > +};
-> > +ret = perf_pmu_register(&stm32_ddr_pmu->pmu, "ddrperfm", -1);
-> 
-> Please give this a better name. The usual convention is to use "_pmu" as
-> the suffix, so we should use that rather than "perfm".
-> 
-> To be unambiguous, something like "stm32_ddr_pmu" would be good.
-> 
-> Thanks,
-> Mark.
-> 
-> > +if (ret) {
-> > +pr_warn("Unable to register STM32 DDR PMU\n");
-> > +return ret;
-> > +}
-> > +
-> > +rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +if (!IS_ERR(rst)) {
-> > +reset_control_assert(rst);
-> > +udelay(2);
-> > +reset_control_deassert(rst);
-> > +}
-> > +
-> > +pr_info("stm32-ddr-pmu: probed (ID=0x%08x VER=0x%08x), DDR@%luMHz\n",
-> > +readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_ID),
-> > +readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_VER),
-> > +stm32_ddr_pmu->clk_ddr_rate);
-> > +
-> > +clk_disable(stm32_ddr_pmu->clk);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_device_remove(struct platform_device *pdev)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu = platform_get_drvdata(pdev);
-> > +
-> > +perf_pmu_unregister(&stm32_ddr_pmu->pmu);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
-> > +{ .compatible = "st,stm32-ddr-pmu" },
-> > +{ },
-> > +};
-> > +
-> > +static struct platform_driver stm32_ddr_pmu_driver = {
-> > +.driver = {
-> > +.name= "stm32-ddr-pmu",
-> > +.of_match_table = of_match_ptr(stm32_ddr_pmu_of_match),
-> > +},
-> > +.probe = stm32_ddr_pmu_device_probe,
-> > +.remove = stm32_ddr_pmu_device_remove,
-> > +};
-> > +
-> > +module_platform_driver(stm32_ddr_pmu_driver);
-> > +
-> > +MODULE_DESCRIPTION("Perf driver for STM32 DDR performance monitor");
-> > +MODULE_AUTHOR("Gerald Baeza <gerald.baeza@st.com>");
-> > +MODULE_LICENSE("GPL v2");
-> > --
-> > 2.7.4
-> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
+Why does this need to be set-up earlier than probe()?
+
+> +static int __init ingenic_tcu_probe(struct platform_device *pdev)
+> +{
+> +	struct regmap *map = ingenic_tcu_get_regmap(pdev->dev.of_node);
+> +
+> +	platform_set_drvdata(pdev, map);
+> +
+> +	regmap_attach_dev(&pdev->dev, map, &ingenic_tcu_regmap_config);
+> +
+> +	return devm_of_platform_populate(&pdev->dev);
+> +}
+> +
+> +static struct platform_driver ingenic_tcu_driver = {
+> +	.driver = {
+> +		.name = "ingenic-tcu",
+> +		.of_match_table = ingenic_tcu_of_match,
+> +	},
+> +};
+> +
+> +static int __init ingenic_tcu_platform_init(void)
+> +{
+> +	return platform_driver_probe(&ingenic_tcu_driver,
+> +				     ingenic_tcu_probe);
+
+What?  Why?
+
+> +}
+> +subsys_initcall(ingenic_tcu_platform_init);
+> +
+> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node *np)
+> +{
+> +	if (!tcu_regmap)
+> +		tcu_regmap = ingenic_tcu_create_regmap(np);
+> +
+> +	return tcu_regmap;
+> +}
+
+This makes me pretty uncomfortable.
+
+What calls it?
+
+> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int channel)
+> +{
+> +	const struct ingenic_soc_info *soc = device_get_match_data(dev->parent);
+> +
+> +	/* Enable all TCU channels for PWM use by default except channels 0/1 */
+> +	u32 pwm_channels_mask = GENMASK(soc->num_channels - 1, 2);
+> +
+> +	device_property_read_u32(dev->parent, "ingenic,pwm-channels-mask",
+> +				 &pwm_channels_mask);
+> +
+> +	return !!(pwm_channels_mask & BIT(channel));
+> +}
+> +EXPORT_SYMBOL_GPL(ingenic_tcu_pwm_can_use_chn);
+> diff --git a/include/linux/mfd/ingenic-tcu.h b/include/linux/mfd/ingenic-tcu.h
+> index 2083fa20821d..21df23916cd2 100644
+> --- a/include/linux/mfd/ingenic-tcu.h
+> +++ b/include/linux/mfd/ingenic-tcu.h
+> @@ -6,6 +6,11 @@
+>  #define __LINUX_MFD_INGENIC_TCU_H_
+>  
+>  #include <linux/bitops.h>
+> +#include <linux/init.h>
+> +
+> +struct device;
+> +struct device_node;
+> +struct regmap;
+>  
+>  #define TCU_REG_WDT_TDR		0x00
+>  #define TCU_REG_WDT_TCER	0x04
+> @@ -53,4 +58,7 @@
+>  #define TCU_REG_TCNTc(c)	(TCU_REG_TCNT0 + ((c) * TCU_CHANNEL_STRIDE))
+>  #define TCU_REG_TCSRc(c)	(TCU_REG_TCSR0 + ((c) * TCU_CHANNEL_STRIDE))
+>  
+> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node *np);
+> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int channel);
+> +
+>  #endif /* __LINUX_MFD_INGENIC_TCU_H_ */
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
