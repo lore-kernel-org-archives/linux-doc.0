@@ -1,151 +1,272 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E5967D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 16:50:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E50037D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 16:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfFZQuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 12:50:03 -0400
-Received: from mail-eopbgr690074.outbound.protection.outlook.com ([40.107.69.74]:23673
-        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726042AbfFZQuD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Jun 2019 12:50:03 -0400
+        id S1726131AbfFZQyI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 12:54:08 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39690 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726042AbfFZQyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 12:54:08 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z23so2813998wma.4;
+        Wed, 26 Jun 2019 09:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2tCXA+jEMR2H9VHzddf9QfcTObsTuzcW8MXsgApyN6g=;
- b=BRIvy8MyHeVjJpLvUvxyOJwkGJMEUBZcfOTo5MKfcdS2j5ESiBqdpKCAYPXvI84GXoPdqVATyOl5hM4/DEV6CCURgxT8EZ1S2BfOOr+/eryaSWmA97iPlOL4jlR8kqsFEJ+xsEmWCmSs/e/KrtTtAF6z7u2GlkNeO8D2afN2ef8=
-Received: from DM5PR12MB1449.namprd12.prod.outlook.com (10.172.40.14) by
- DM5PR12MB1404.namprd12.prod.outlook.com (10.168.238.143) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Wed, 26 Jun 2019 16:50:00 +0000
-Received: from DM5PR12MB1449.namprd12.prod.outlook.com
- ([fe80::180c:ff0c:37e6:a482]) by DM5PR12MB1449.namprd12.prod.outlook.com
- ([fe80::180c:ff0c:37e6:a482%10]) with mapi id 15.20.2008.018; Wed, 26 Jun
- 2019 16:50:00 +0000
-From:   Gary R Hook <ghook@amd.com>
-To:     Joe Perches <joe@perches.com>, "Hook, Gary" <Gary.Hook@amd.com>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-Subject: Re: [PATCH v2 2/2] crypto: doc - Fix formatting of new crypto engine
- content
-Thread-Topic: [PATCH v2 2/2] crypto: doc - Fix formatting of new crypto engine
- content
-Thread-Index: AQHVK6/XqR/ma8kUnUmph7llIf8q06atEJGAgAEWbIA=
-Date:   Wed, 26 Jun 2019 16:50:00 +0000
-Message-ID: <7dfb91b0-c8fa-ccac-0e5f-93dd96393981@amd.com>
-References: <156150616764.22527.16524544899486041609.stgit@taos>
- <156150622886.22527.934327975584441429.stgit@taos>
- <983486e9b2daaa34f84f99a890fcedfeae22b24f.camel@perches.com>
-In-Reply-To: <983486e9b2daaa34f84f99a890fcedfeae22b24f.camel@perches.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR01CA0056.prod.exchangelabs.com (2603:10b6:a03:94::33)
- To DM5PR12MB1449.namprd12.prod.outlook.com (2603:10b6:4:10::14)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Gary.Hook@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [47.220.187.91]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ceab9c0d-7035-4898-6994-08d6fa5653e9
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1404;
-x-ms-traffictypediagnostic: DM5PR12MB1404:
-x-microsoft-antispam-prvs: <DM5PR12MB1404D3238ED2686698D5F9D9FDE20@DM5PR12MB1404.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 00808B16F3
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(366004)(376002)(346002)(396003)(136003)(189003)(199004)(2616005)(7736002)(31696002)(305945005)(6512007)(2501003)(14454004)(26005)(2906002)(8936002)(2201001)(68736007)(6436002)(486006)(446003)(66066001)(316002)(229853002)(6486002)(478600001)(186003)(476003)(11346002)(110136005)(5660300002)(72206003)(73956011)(66946007)(36756003)(102836004)(8676002)(64756008)(66446008)(14444005)(66476007)(386003)(81156014)(6246003)(81166006)(6116002)(6506007)(66556008)(3846002)(71190400001)(71200400001)(256004)(53546011)(25786009)(99286004)(76176011)(53936002)(31686004)(52116002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1404;H:DM5PR12MB1449.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LCPVQXLHxdpA06AwnflvrPXgecSLtUJGy3exiqXHelw/5awxlpA2HhabC+/yCcYPU6X8FRp7j01Op4bPvoVBHaAvmIRHPPazB9UdSbFm2vH1NDXjMQ6UbHrUo3YaeOv6TwMvn0PWY0VgiRC5lpLVj0ZqQ9zfbJGgBmGlFwpQ1AXZMWrVkO8/UroR2pup1abKqHyAXdqLf1fclMzpN/oNS484I1mlhWLN/9W+KndLOmIQhjeJd16SEKDAAB+sYey+b4dNuO7Rs2BNJisO/BEL9ppzUhyjGPXUQFqWr3FhpKAD9lKZzo1Ptwfkw2vjk7pX+uCMzdWsISN9a788UdMCwmGb9XkeYlz6iqE3Imeu3GyXrFzdLbznOVkYso49Hl6THLi4p7WGGMb6ZtlcyXBXpmr66oh2m7cMnyCo1OJ9A9c=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C8FA00A1BD7CA44CAD5E832D494ACF67@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NVIRAAtuHMary0ENvTqI42u8ePAFlB34oJ5LNbAJXwY=;
+        b=Uj4+Dutxp0oOp7DvRBLLMEqpFj3YvImXcHklj3JeAM4F7Iugd4viDS8GgbnZG4rdU1
+         Z2kUpdOU5Y9gMyN3IONNSnPOdnEeZ2twWuNYHox8nh7qJTzSytkGqksczh+lIApguqUq
+         ly1j0b9JlBO9ZmYWxg/QcWObciSQYo24zi1WxX05PnFqrbXliQ038fDpO0u7o2fmj0V3
+         v84aFNrcfx+CY2I+GQSdTokimf4fGXe0hMIxY5HaK8XlLx1yaJX9hV34a1B1CSpoaf1X
+         qLPqAlktBAckzbc6DBBT0Tfr+00jztXdL0WQ1xHXRC5cHbdxjwU2AsZxoVLSNUkt48gY
+         QqJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NVIRAAtuHMary0ENvTqI42u8ePAFlB34oJ5LNbAJXwY=;
+        b=DQIUFUHD3wxzUx3Qo4WA4stAFvvcx/mHavbAa6cG/8FWAIED6ca5+m2oW0Urgst5zh
+         kN2keLmHFk5k6IoldC87LaXbJL0Aw6QZEFA5r82cWqw5mHA+XSQDwoLUQ+dt3g0EuCpc
+         P6oriT99ymLl+o1X+/nYkWWzeZZ6xEVh3qx9W03vev2K5cljBplkikbqfVCXgaZ/pF/U
+         3cd3QUR37UGMMmdxhYKNHBmumZoBjH1tO7mlFMimAeoMKBPx8ggbvZLdYLdOS6Ali/GC
+         oc8Wi9/JZuSsNZsIRCYbIsOA7VoEqtJfdetTNlwThaVugntl0meWtMMjnVX2yQT4s1Ul
+         CPyg==
+X-Gm-Message-State: APjAAAVNwuLA6qUcE7Hn5NsxgnYXYlz7lhVlldV4ZEA3xn0rrNw+M6mI
+        gQBHh61osBtKUISmoX/1TCjyMB/+D8gNKryxbjjxTvyBKcY=
+X-Google-Smtp-Source: APXvYqztcH8hEvDR4mIsPPK8JdTZnA3daM9rwL/To1XkCxrFtrVoNcBKy7jzBWuI4DGM+YGpovX2wa0tycPOixX0yiA=
+X-Received: by 2002:a05:600c:2205:: with SMTP id z5mr3574669wml.175.1561568044565;
+ Wed, 26 Jun 2019 09:54:04 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ceab9c0d-7035-4898-6994-08d6fa5653e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2019 16:50:00.4143
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ghook@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1404
+References: <20190622151947.29115-1-tranmanphong@gmail.com> <20190625153658.53ad0e18@lwn.net>
+In-Reply-To: <20190625153658.53ad0e18@lwn.net>
+From:   Phong Tran <tranmanphong@gmail.com>
+Date:   Wed, 26 Jun 2019 23:53:53 +0700
+Message-ID: <CAD3AR6H8DSTXZkTEmrhhbDzWZ48OA6=HNuYx2oEzddROjntzxA@mail.gmail.com>
+Subject: Re: [PATCH] scsi: convert to rst for documenation
+To:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, martin.petersen@oracle.com,
+        axboe@kernel.dk, avri.altman@wdc.com, beanhuo@micron.com,
+        evgreen@chromium.org, Henrik Austad <henrik@austad.us>,
+        jpittman@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gNi8yNS8xOSA3OjEzIFBNLCBKb2UgUGVyY2hlcyB3cm90ZToNCj4gT24gVHVlLCAyMDE5LTA2
-LTI1IGF0IDIzOjQzICswMDAwLCBIb29rLCBHYXJ5IHdyb3RlOg0KPj4gVGlkeSB1cCB0aGUgZm9y
-bWF0dGluZy9ncmFtbWFyIGluIGNyeXB0b19lbmdpbmUucnN0LiBVc2UgYnVsbGV0ZWQgbGlzdHMN
-Cj4+IHdoZXJlIGFwcHJvcHJpYXRlLg0KPiANCj4gSGkgYWdhaW4gR2FyeS4NCg0KSG93ZHkhDQoN
-Cj4gDQo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9jcnlwdG8vY3J5cHRvX2VuZ2luZS5y
-c3QgYi9Eb2N1bWVudGF0aW9uL2NyeXB0by9jcnlwdG9fZW5naW5lLnJzdA0KPiBbXQ0KPj4gK0Jl
-Zm9yZSB0cmFuc2ZlcnJpbmcgYW55IHJlcXVlc3QsIHlvdSBoYXZlIHRvIGZpbGwgdGhlIGNvbnRl
-eHQgZW5naW5lY3R4IGJ5DQo+PiArcHJvdmlkaW5nIGZ1bmN0aW9ucyBmb3IgdGhlIGZvbGxvd2lu
-ZzoNCj4+ICsNCj4+ICsqIGBgcHJlcGFyZV9jcnlwdF9oYXJkd2FyZWBgOiBDYWxsZWQgb25jZSBi
-ZWZvcmUgYW55IHByZXBhcmUgZnVuY3Rpb25zIGFyZQ0KPj4gKyAgY2FsbGVkLg0KPj4gKw0KPj4g
-KyogYGB1bnByZXBhcmVfY3J5cHRfaGFyZHdhcmVgYDogQ2FsbGVkIG9uY2UgYWZ0ZXIgYWxsIHVu
-cHJlcGFyZSBmdW5jdGlvbnMgaGF2ZQ0KPj4gKyAgYmVlbiBjYWxsZWQuDQo+PiArDQo+PiArKiBg
-YHByZXBhcmVfY2lwaGVyX3JlcXVlc3RgYC9gYHByZXBhcmVfaGFzaF9yZXF1ZXN0YGA6IENhbGxl
-ZCBiZWZvcmUgZWFjaA0KPj4gKyAgY29ycmVzcG9uZGluZyByZXF1ZXN0IGlzIHBlcmZvcm1lZC4g
-SWYgc29tZSBwcm9jZXNzaW5nIG9yIG90aGVyIHByZXBhcmF0b3J5DQo+PiArICB3b3JrIGlzIHJl
-cXVpcmVkLCBkbyBpdCBoZXJlLg0KPj4gKw0KPj4gKyogYGB1bnByZXBhcmVfY2lwaGVyX3JlcXVl
-c3RgYC9gYHVucHJlcGFyZV9oYXNoX3JlcXVlc3RgYDogQ2FsbGVkIGFmdGVyIGVhY2gNCj4+ICsg
-IHJlcXVlc3QgaXMgaGFuZGxlZC4gQ2xlYW4gdXAgLyB1bmRvIHdoYXQgd2FzIGRvbmUgaW4gdGhl
-IHByZXBhcmUgZnVuY3Rpb24uDQo+PiArDQo+PiArKiBgYGNpcGhlcl9vbmVfcmVxdWVzdGBgL2Bg
-aGFzaF9vbmVfcmVxdWVzdGBgOiBIYW5kbGUgdGhlIGN1cnJlbnQgcmVxdWVzdCBieQ0KPj4gKyAg
-cGVyZm9ybWluZyB0aGUgb3BlcmF0aW9uLg0KPiANCj4gSSBhZ2FpbiBzdWdnZXN0IG5vdCB1c2lu
-ZyBgYDxmdW5jPmBgIGJ1dCBpbnN0ZWFkIHVzZSA8ZnVuYz4oKQ0KPiBhbmQgcmVtb3ZlIHVubmVj
-ZXNzYXJ5IGJsYW5rIGxpbmVzLg0KDQp3aXRoIGFsbCBkdWUgcmVzcGVjdCwgdGhvc2UgYXJlbid0
-IGZ1bmN0aW9ucywgdGhleSdyZSBmdW5jdGlvbiBwb2ludGVycyANCihhcyBzdHJ1Y3R1cmUgbWVt
-YmVycykuIFRoZXJlZm9yZSwgaWYgYW55dGhpbmcsIHRoZXkgc2hvdWxkIGJlIG5vdGF0ZWQgDQph
-cyAoKmZ1bmMpKCkuIEJ1dCBJIHRyaWVkIHRoYXQgKHdpdGggdGhlIG5ldyBwYXRjaGVzKSwgYW5k
-IHRoZXkgd2VyZW4ndCANCmRldGVjdGVkIGFuZCBlbWJvbGRlbmVkICh0aGF0J3Mgbm90IGEgd29y
-ZCwgSSBrbm93KSBpbiB0aGUgaHRtbC4NCg0KU28gSSBsZWZ0IHRoZW0gYXMtaXMuDQoNCkkgZG9u
-J3QgcHJldGVuZCB0byBiZSBhIGd1cnUgb24gdGhpcyBtYXJrdXAsIGJ1dCBpZiB0aGVyZSdzIGEg
-d2F5IHRvIA0KbWFrZSBzeW1ib2wgbmFtZXMgZml4ZWQtd2lkdGggYW5kIGJvbGQsIEknbGwgZ2xh
-ZGx5IGRvIGl0LiBCdXQgSSANCmRpc2FncmVlIG9uIHR1cm5pbmcgdGhlc2UgaW50byBmdW5jdGlv
-bnMsIGJlY2F1c2UgdGhhdCdzIG5vdCB3aGF0IHRoZXkgYXJlLg0KDQoNCj4gaS5lLjoNCj4gDQo+
-ICogcHJlcGFyZV9jcnlwdF9oYXJkd2FyZSgpOiBDYWxsZWQgb25jZSBiZWZvcmUgYW55IHByZXBh
-cmUgZnVuY3Rpb25zIGFyZQ0KPiAgICBjYWxsZWQuDQo+ICogdW5wcmVwYXJlX2NyeXB0X2hhcmR3
-YXJlKCk6ICBDYWxsZWQgb25jZSBhZnRlciBhbGwgdW5wcmVwYXJlIGZ1bmN0aW9ucw0KPiAgICBo
-YXZlIGJlZW4gY2FsbGVkLg0KPiAqIHByZXBhcmVfY2lwaGVyX3JlcXVlc3QoKS9wcmVwYXJlX2hh
-c2hfcmVxdWVzdCgpOiBDYWxsZWQgYmVmb3JlIGVhY2gNCj4gICAgY29ycmVzcG9uZGluZyByZXF1
-ZXN0IGlzIHBlcmZvcm1lZC4gSWYgc29tZSBwcm9jZXNzaW5nIG9yIG90aGVyIHByZXBhcmF0b3J5
-DQo+ICAgIHdvcmsgaXMgcmVxdWlyZWQsIGRvIGl0IGhlcmUuDQo+ICogdW5wcmVwYXJlX2NpcGhl
-cl9yZXF1ZXN0KCkvdW5wcmVwYXJlX2hhc2hfcmVxdWVzdCgpOiBDYWxsZWQgYWZ0ZXIgZWFjaA0K
-PiAgICByZXF1ZXN0IGlzIGhhbmRsZWQuIENsZWFuIHVwIC8gdW5kbyB3aGF0IHdhcyBkb25lIGlu
-IHRoZSBwcmVwYXJlIGZ1bmN0aW9uLg0KPiAqIGNpcGhlcl9vbmVfcmVxdWVzdCgpL2hhc2hfb25l
-X3JlcXVlc3QoKTogSGFuZGxlIHRoZSBjdXJyZW50IHJlcXVlc3QgYnkNCj4gICAgcGVyZm9ybWlu
-ZyB0aGUgb3BlcmF0aW9uLg0KPiANCj4gW10NCj4+ICtXaGVuIHlvdXIgZHJpdmVyIHJlY2VpdmVz
-IGEgY3J5cHRvX3JlcXVlc3QsIHlvdSBtdXN0IHRvIHRyYW5zZmVyIGl0IHRvDQo+PiArdGhlIGNy
-eXB0byBlbmdpbmUgdmlhIG9uZSBvZjoNCj4+ICsNCj4+ICsqIGNyeXB0b190cmFuc2Zlcl9hYmxr
-Y2lwaGVyX3JlcXVlc3RfdG9fZW5naW5lKCkNCj4gDQo+IEFuZCByZW1vdmluZyB0aGUgdW5uZWNl
-c3NhcnkgYmxhbmsgbGluZXMgYmVsb3cNCj4gDQo+PiArDQo+PiArKiBjcnlwdG9fdHJhbnNmZXJf
-YWVhZF9yZXF1ZXN0X3RvX2VuZ2luZSgpDQo+PiArDQo+PiArKiBjcnlwdG9fdHJhbnNmZXJfYWtj
-aXBoZXJfcmVxdWVzdF90b19lbmdpbmUoKQ0KPj4gKw0KPj4gKyogY3J5cHRvX3RyYW5zZmVyX2hh
-c2hfcmVxdWVzdF90b19lbmdpbmUoKQ0KPj4gKw0KPj4gKyogY3J5cHRvX3RyYW5zZmVyX3NrY2lw
-aGVyX3JlcXVlc3RfdG9fZW5naW5lKCkNCj4+ICsNCj4+ICtBdCB0aGUgZW5kIG9mIHRoZSByZXF1
-ZXN0IHByb2Nlc3MsIGEgY2FsbCB0byBvbmUgb2YgdGhlIGZvbGxvd2luZyBmdW5jdGlvbnMgaXMg
-bmVlZGVkOg0KPj4gKw0KPj4gKyogY3J5cHRvX2ZpbmFsaXplX2FibGtjaXBoZXJfcmVxdWVzdCgp
-DQo+PiArDQo+PiArKiBjcnlwdG9fZmluYWxpemVfYWVhZF9yZXF1ZXN0KCkNCj4+ICsNCj4+ICsq
-IGNyeXB0b19maW5hbGl6ZV9ha2NpcGhlcl9yZXF1ZXN0KCkNCj4+ICsNCj4+ICsqIGNyeXB0b19m
-aW5hbGl6ZV9oYXNoX3JlcXVlc3QoKQ0KPj4gKw0KPj4gKyogY3J5cHRvX2ZpbmFsaXplX3NrY2lw
-aGVyX3JlcXVlc3QoKQ0KPiANCj4gDQoNClRoZSBsaW5lcyBiZXR3ZWVuIHRoZSBidWxsZXRlZCBp
-dGVtcyB3aWxsIGdvLCB5ZXMuIE5vdCB0aGUgb25lcyBhcm91bmQgDQp0aGUgbGVhZGluZyB0ZXh0
-IG9mIGVhY2ggbGlzdCAod2hpY2ggYXJlIG5lY2Vzc2FyeSB0byBkZWxpbmVhdGUgdGhlIGxpc3Rz
-KS4NCg==
+On Wed, Jun 26, 2019 at 4:37 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Sat, 22 Jun 2019 22:19:47 +0700
+> Phong Tran <tranmanphong@gmail.com> wrote:
+>
+> > - Update to the link in documenation
+> > - Remove trailing white space
+> > - Adaptation the sphinx doc syntax
+> >
+> > Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+>
+> Thanks for working to improve the documentation!  That said, I think this
+> patch needs a fair amount of work before we are ready to accept it.  I'll
+> only get partway in, but it should be enough to start with.
+>
+> The first overall thing I would like to point out (and hopefully the SCSI
+> folks won't fight me too much on this) is that Documentation/scsi is the
+> wrong place for much of this stuff.  We are doing our best to organize the
+> documentation with the audience in mind.  So, for example, documents that
+> are of interest to system administrators should go into
+> Documentation/admin-guide.  Information for driver developers should go in
+> Documentation/driver-api.  And so on.
+>
+in my understanding,
+link_power_management_policy.txt and scsi-parameters.txt should be in
+Documentation/admin-guide correct?
+scsi_mid_low_api.txt should be moved to Documentation/driver-api?
+
+> [...]
+>
+> > diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
+> > new file mode 100644
+> > index 000000000000..170f58c94cac
+> > --- /dev/null
+> > +++ b/Documentation/scsi/link_power_management_policy.rst
+> > @@ -0,0 +1,22 @@
+> > +SCSI Power Management Policy
+> > +============================
+> > +
+> > +This parameter allows the user to set the link (interface) power management.
+> > +There are 3 possible options:
+>
+> This isn't your fault, but...*which* parameter allows this?  The document
+> describes the values, but not where they can be set.  That makes it less
+> than fully useful.
+>
+> > ++-------------------+------------------------------------------------------+
+> > +| Value             | Effect                                               |
+> > ++===================+======================================================+
+> > +| min_power         | Tell the controller to try to make the link use the  |
+> > +|                   | least possible power when possible. This may         |
+> > +|                   | sacrifice some performance due to increased latency  |
+> > +|                   | when coming out of lower power states.               |
+> > ++-------------------+------------------------------------------------------+
+> > +| max_performance   | Generally, this means no power management. Tell      |
+> > +|                   | the controller to have performance be a priority     |
+> > +|                   | over power management.                               |
+> > ++-------------------+------------------------------------------------------+
+> > +| medium_power      | Tell the controller to enter a lower power state     |
+> > +|                   | when possible, but do not enter the lowest power     |
+> > +|                   | state, thus improving latency over min_power setting.|
+> > ++-------------------+------------------------------------------------------+
+>
+> [...]
+>
+> > diff --git a/Documentation/scsi/scsi-changer.txt b/Documentation/scsi/scsi-changer.rst
+> > similarity index 71%
+> > rename from Documentation/scsi/scsi-changer.txt
+> > rename to Documentation/scsi/scsi-changer.rst
+> > index ade046ea7c17..a4923873c77b 100644
+> > --- a/Documentation/scsi/scsi-changer.txt
+> > +++ b/Documentation/scsi/scsi-changer.rst
+> > @@ -1,4 +1,3 @@
+> > -
+> >  README for the SCSI media changer driver
+> >  ========================================
+> >
+> > @@ -10,7 +9,7 @@ common small CD-ROM changers, neither one-lun-per-slot SCSI changers
+> >  nor IDE drives.
+> >
+> >  Userland tools available from here:
+> > -     http://linux.bytesex.org/misc/changer.html
+> > +    http://linux.bytesex.org/misc/changer.html
+> >
+> >
+> >  General Information
+> > @@ -28,15 +27,17 @@ The SCSI changer model is complex, compared to - for example - IDE-CD
+> >  changers. But it allows to handle nearly all possible cases. It knows
+> >  4 different types of changer elements:
+> >
+> > +::
+>
+> Two notes:
+>
+>  - You can put the double colon on the line above ("...elements::") and
+>    don't need to make a separate line for it.
+>
+>  - But, more to the point, please avoid the temptation to use a literal
+>    block for something that doesn't actually require that treatment. This
+>    should be reworked as an RST definition list.
+>
+> >    media transport - this one shuffles around the media, i.e. the
+> >                      transport arm.  Also known as "picker".
+> >    storage         - a slot which can hold a media.
+> >    import/export   - the same as above, but is accessible from outside,
+> >                      i.e. there the operator (you !) can use this to
+> >                      fill in and remove media from the changer.
+> > -                 Sometimes named "mailslot".
+> > +            Sometimes named "mailslot".
+> >    data transfer   - this is the device which reads/writes, i.e. the
+> > -                 CD-ROM / Tape / whatever drive.
+> > +            CD-ROM / Tape / whatever drive.
+>
+> [...]
+>
+> > diff --git a/Documentation/scsi/scsi-generic.txt b/Documentation/scsi/scsi-generic.rst
+> > similarity index 70%
+> > rename from Documentation/scsi/scsi-generic.txt
+> > rename to Documentation/scsi/scsi-generic.rst
+> > index 51be20a6a14d..8356810160f0 100644
+> > --- a/Documentation/scsi/scsi-generic.txt
+> > +++ b/Documentation/scsi/scsi-generic.rst
+> > @@ -1,8 +1,10 @@
+> > -            Notes on Linux SCSI Generic (sg) driver
+> > -            ---------------------------------------
+> > -                                                        20020126
+> > +=======================================
+> > +Notes on Linux SCSI Generic (sg) driver
+> > +=======================================
+> > +20020126
+> > +
+> >  Introduction
+> > -============
+> > +------------
+> >  The SCSI Generic driver (sg) is one of the four "high level" SCSI device
+> >  drivers along with sd, st and sr (disk, tape and CDROM respectively). Sg
+> >  is more generalized (but lower level) than its siblings and tends to be
+> > @@ -16,20 +18,20 @@ and examples.
+> >
+> >
+> >  Major versions of the sg driver
+> > -===============================
+> > +-------------------------------
+> >  There are three major versions of sg found in the linux kernel (lk):
+> > -      - sg version 1 (original) from 1992 to early 1999 (lk 2.2.5) .
+> > -     It is based in the sg_header interface structure.
+> > +      - sg version 1 (original) from 1992 to early 1999 (lk 2.2.5) .
+> > +        It is based in the sg_header interface structure.
+> >        - sg version 2 from lk 2.2.6 in the 2.2 series. It is based on
+> > -     an extended version of the sg_header interface structure.
+> > +        an extended version of the sg_header interface structure.
+> >        - sg version 3 found in the lk 2.4 series (and the lk 2.5 series).
+> > -     It adds the sg_io_hdr interface structure.
+> > +        It adds the sg_io_hdr interface structure.
+>
+> Perhaps we don't *really* need to preserve information about what versions
+> were around in the 1990's?
+>
+> >  Sg driver documentation
+> > -=======================
+> > +-----------------------
+> >  The most recent documentation of the sg driver is kept at the Linux
+> > -Documentation Project's (LDP) site:
+> > +Documentation Project's (LDP) site:
+> >  http://www.tldp.org/HOWTO/SCSI-Generic-HOWTO
+>
+> That document claims to have been last updated in 2002.  Is there really
+> nothing more recent than that?
+>
+> >  This describes the sg version 3 driver found in the lk 2.4 series.
+>
+> ...and it's unclear to me that users of the 5.x kernel are much concerned
+> with what was found in 2.4.
+>
+> That is the problem with this document in general.  I suspect that about
+> the only useful information left in it is the location of the sg3_utils
+> source.  I honestly don't think that it helps the documentation that much
+> to carry forward ancient information to the RST format.
+>
+> Of course, doing this right by deleting obsolete information and updating
+> the documents to reflect current reality is a *lot* more work.  Probably
+> far more than you were thinking of signing up for.  If you were willing to
+> work on this, there may be somebody from the SCSI community who would be in
+> a position to help you with it.
+>
+yes! I would greatly appreciate
+
+> Unfortunately, the SCSI community probably did not see this patch because
+> you didn't copy the linux-scsi list.  I'll fix that now, but they will not
+> have seen your original patch.  You should be sure to include them on
+> future postings.
+>
+Note in next post.
+
+> I would like to make a suggestion, in addition to all of the above: rather
+> than trying to do a mass conversion in a single 4000-line patch, start with
+> a single file and post a patch doing just that one, being sure to include
+
+yes will send a new patch for each file.
+
+> the linux-scsi list.  That will give everybody something more workable to
+> start with.
+>
+> Thanks,
+>
+> jon
