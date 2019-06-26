@@ -5,109 +5,81 @@ X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C8217D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 14:28:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A6EB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 14:32:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728094AbfFZO2V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 10:28:21 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:44012 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728092AbfFZO2U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 10:28:20 -0400
-Received: by mail-ed1-f65.google.com with SMTP id e3so3621579edr.10
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 07:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RDzxId5d0cWk+Og3KjWmTmUc93/gQfEJUMFySwZomG0=;
-        b=QEOzXwN4cDsvAl3fnj/WI0Yyq8XoY5VQ/1ZZo0YTXcPQaz7t7hzaRKCaRnRHIHiPGt
-         zp3wPqP1RRIVvxImSiDl6NhJBgMjgo496X0ZA+o/q+gwPvwhoP6USmJAkOZsWfB7DEqS
-         y2jLjM7JyZMFztMCPpCoUhWNkkAoVfNtxTL34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=RDzxId5d0cWk+Og3KjWmTmUc93/gQfEJUMFySwZomG0=;
-        b=nLp66Nu7TBVio9SrgMDXv5414i7+lNt0jypBIVF8YYGOauH58NYRl/mT9QHAsp5K1y
-         v+iud7sBzG7vvgnNsPQpwzGFYAz8dM2jSHnXsfDq1ErxjjcgLdcPe3eEhmRvtpdKfWYL
-         msumKI+etDlj5WLtxQSL4/A1ozNiIgpO+wV7UN95fIBey8ZGsnHncy+gtAtmEQnLuDXG
-         nRQpSXIdx+54OYH84npPQHhfWrrJblpXg2ryFmRm/G5FKo94hM9eStpoqqCsydC+EfC9
-         fG6+b1vMOWkHD2SMVewlHJl4DjND1n+JWLO+Vgc9thXs2ALF8tv8oCkeuqbucknoDUqg
-         yp4w==
-X-Gm-Message-State: APjAAAXSS1tt6ZZL4jiUqEx96nuM5rAnpcPLw+1Z90T0KctEGeCC4yE+
-        2ZvM8kfxcV19inetr8+cHnTdoA==
-X-Google-Smtp-Source: APXvYqyHvtMQ1Lf+heBq8BjwPrx2FB7C/LXB6Iy0Y7C76qtBhDrUXHnqzdv+4phmpNRAYv0YzOY5Cw==
-X-Received: by 2002:aa7:c619:: with SMTP id h25mr5603958edq.295.1561559298723;
-        Wed, 26 Jun 2019 07:28:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id a8sm5564492edt.56.2019.06.26.07.28.17
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 26 Jun 2019 07:28:17 -0700 (PDT)
-Date:   Wed, 26 Jun 2019 16:28:15 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] docs: gpu: add msm-crash-dump.rst to the index.rst file
-Message-ID: <20190626142815.GM12905@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-References: <e22a340cf94240094cfb38f8c62f6916ea99394a.1561556169.git.mchehab+samsung@kernel.org>
+        id S1727992AbfFZOcA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 10:32:00 -0400
+Received: from mail.kapsi.fi ([91.232.154.25]:37557 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727323AbfFZOcA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jun 2019 10:32:00 -0400
+X-Greylist: delayed 1205 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 10:31:59 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID:
+        Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=keTA49kcFTmiW+xDiXyC1TWyuwYvwy0XCF0h+Kehxjk=; b=BM4EX49b7qlwytNWNpmgO9+Y8M
+        1GD3OyaUVCs1KegazXc1JsEeeRq8VErYh3GpA+lPa2UNikAlX5HSzmyHgcMqXB9R7QlDAeuMYf6Vf
+        LYRCo3j3hPdiScV9T4RNBdNgKSSThOGV5U+VnFU9RNFKtOcA9Ds+R5VE8WGujYvxfB62ZKXa5tUvO
+        nJAXaN+x65x8Kl6t870yr7I5H2Mdc5HzyIQnhkkSMtE4NIwIqBe4fdoUyUASVgcXzXbAP9TGMVtgw
+        yLV+EZhzkDfcOndj+O+LYQkqfNS1Zh5l/ElaZLeijv3vK5C+c6lZqpHBU0tmlhecKm2/uBoiBQ8Hq
+        icSvWITg==;
+Received: from [2001:999:82:7295:8199:173e:7dbf:6fc5] (helo=jsakkine-mobl1)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <jarkko.sakkinen@iki.fi>)
+        id 1hg8eO-0006dp-Ug; Wed, 26 Jun 2019 17:11:53 +0300
+Message-ID: <c9c1e7f83a55bc5fb621e2e4e1dab90c5b3aac01.camel@iki.fi>
+Subject: On Nitrokey Pro's ECC support
+From:   Jarkko Sakkinen <jarkko.sakkinen@iki.fi>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed, 26 Jun 2019 17:11:46 +0300
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-5zfw+oGv//ZvawvgHwv9"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e22a340cf94240094cfb38f8c62f6916ea99394a.1561556169.git.mchehab+samsung@kernel.org>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:999:82:7295:8199:173e:7dbf:6fc5
+X-SA-Exim-Mail-From: jarkko.sakkinen@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 10:36:11AM -0300, Mauro Carvalho Chehab wrote:
-> This file is currently orphaned.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/gpu/index.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-> index 1fcf8e851e15..55f3f4294686 100644
-> --- a/Documentation/gpu/index.rst
-> +++ b/Documentation/gpu/index.rst
-> @@ -12,6 +12,7 @@ Linux GPU Driver Developer's Guide
->     drm-uapi
->     drm-client
->     drivers
-> +   msm-crash-dump
 
-Should be added to drivers.rst I think, since it's driver-specific
-documentation.
--Daniel
+--=-5zfw+oGv//ZvawvgHwv9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->     vga-switcheroo
->     vgaarbiter
->     todo
-> -- 
-> 2.21.0
-> 
+Hi
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I was getting myself a smartcard stick and looked for options from [1].
+The documentation says that Nitrokey Pro does not support ECC while it
+actually does [2]. I was already canceling my order when Jan Suhr, the
+CEO of that company, kindly pointed out to me this.
+
+[1] https://www.kernel.org/doc/html/latest/process/maintainer-pgp-guide.htm=
+l
+[2] https://shop.nitrokey.com/shop/product/nitrokey-pro-2-3
+
+/Jarkko
+
+--=-5zfw+oGv//ZvawvgHwv9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRE6pSOnaBC00OEHEIaerohdGur0gUCXRN9IgAKCRAaerohdGur
+0kmSAQDB06lSbBGO3TqrgxTFhdezWcVxXl9lJ9kdDIu4kR1b8wEA3IQKv9+KGXoN
+HrGHyxmcchSzm03XAKFzO+r17q5+aAw=
+=+ngF
+-----END PGP SIGNATURE-----
+
+--=-5zfw+oGv//ZvawvgHwv9--
+
