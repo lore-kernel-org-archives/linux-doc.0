@@ -1,83 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4ADAC7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 19:48:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C77F67D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 19:59:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbfFZTsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 15:48:35 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:46575 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726227AbfFZTse (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Jun 2019 15:48:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=urbmOvjVKXQZVTiwQboR9i8OCllVlqPVema0/C5H3iw=; b=vW9WPk4zAG/EQFBSdhSK5HaDDC
-        UVlp/qtRXZiaRUCOYoZPtczYYArpGFpbPbrsEHgaqEGIL7IOVGl1mIfshv1ho1jD2Q7Q9zZ1Y9CnR
-        PS9dee2woHZioRpYMv+bz1TvbGbDv17eHt8lwRgRBZLbxBvzWyE1ZiDV8UdjUbbCXvreX3cZXVHqW
-        nNAOrpAFGciz9eMBEFPb3Yy5cbeZV6Pbz8w9NgUL/2NImxpoAVh5EiuzKOotEvSkepByzRKVZWduL
-        mniz+0yPUVpQSSHqm/b7d1Z6jkJUhac6zPsmQCTGjZwaT2uZRMNdKFeqblbs8wtJFOPXCZxkDDLg5
-        Px935zdg==;
-Received: from web1.kapsi.fi ([2001:67c:1be8::146] helo=roundcube.kapsi.fi)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <jarkko.sakkinen@iki.fi>)
-        id 1hgDuB-0007at-Nr; Wed, 26 Jun 2019 22:48:31 +0300
+        id S1726320AbfFZT7v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 15:59:51 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36583 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726239AbfFZT7v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 15:59:51 -0400
+Received: by mail-pl1-f195.google.com with SMTP id k8so2018436plt.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 12:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oJrm4UyKgvoevmBE4eZPkQ/+kkY70KZGEQ0Q2cnjCFc=;
+        b=fsE7LC3omCGhexX9SxhYLu3osDjmI5IO1mcikyIyBAs6zALQQUP8jP37oWiKt5Z0UL
+         9QFM5YXuvbppFfsfhQIrW7neyfgexnYYBO0IzrrU3APhRiyqKvLrFxLflkCmPoj0EApW
+         yIMuMW8aARU2MWuFHH2/6QwZOvcCaxhWQlJgc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oJrm4UyKgvoevmBE4eZPkQ/+kkY70KZGEQ0Q2cnjCFc=;
+        b=B6jBcimc/cU9w1alaLvW78DNSjR9h6hA2GCP2iWHXTImZFxGhrNqwoPX8a+krJ1oIk
+         AUt/gd0VbmRGMDpgWqvWIpWtjLqJ5c/HYXVRDlIC6tHIg0DHoqSKyMjGh6Yu65KUYMbR
+         X67zhAzl/5kYF9BMZ5PD1YmHX4XjUyL1bswPBfv9Nw4u84VEqjzx00sq1/VdFLG6ORm8
+         m+9SaCvKx2rdWd2BUD3mkdOPZqBcpINPJwRU460TVmg+mk2BMR/1BkXIFDWC1WqdwjV9
+         qhumzuLa/vy3NHaHEw2qoaElLKq8O6eGpqKDpfMWhaut79AYMRoV0pftFNg1ABphMrYE
+         6X6w==
+X-Gm-Message-State: APjAAAWIABdlJwcw9mYBMKlsH/EEPKVwxM7E/D3RgaXLBV4Ryn/MRcZw
+        wBrljiCdFS4+DzBuqCsX7JJ+cQ==
+X-Google-Smtp-Source: APXvYqzFMKnWTXmF+17dsuclaAZ/vYLU8FRyvzEYjwf+Z7iMzF+jmOZhMCafJuUIe4LUhngbX9tXtg==
+X-Received: by 2002:a17:902:788e:: with SMTP id q14mr7551852pll.234.1561579190689;
+        Wed, 26 Jun 2019 12:59:50 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 22sm37148pfu.179.2019.06.26.12.59.49
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 26 Jun 2019 12:59:49 -0700 (PDT)
+Date:   Wed, 26 Jun 2019 12:59:48 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Emese Revfy <re.emese@gmail.com>
+Subject: Re: [PATCH] docs: move gcc_plugins.txt to core-api and rename to .rst
+Message-ID: <201906261259.34343CC@keescook>
+References: <4937ff4f93282ed57c9859de4300b4d835880ebb.1561556794.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 26 Jun 2019 22:48:31 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@iki.fi>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: On Nitrokey Pro's ECC support
-In-Reply-To: <20190626092817.3e5343e6@lwn.net>
-References: <c9c1e7f83a55bc5fb621e2e4e1dab90c5b3aac01.camel@iki.fi>
- <20190626082541.2cd5897c@lwn.net> <20190626152138.GA28688@chatter.i7.local>
- <20190626092817.3e5343e6@lwn.net>
-Message-ID: <66860f89606c3e5bb4472aadab2fe470@iki.fi>
-X-Sender: jarkko.sakkinen@iki.fi
-User-Agent: Roundcube Webmail/1.3.3
-X-SA-Exim-Connect-IP: 2001:67c:1be8::146
-X-SA-Exim-Mail-From: jarkko.sakkinen@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4937ff4f93282ed57c9859de4300b4d835880ebb.1561556794.git.mchehab+samsung@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-06-26 18:28, Jonathan Corbet wrote:
-> On Wed, 26 Jun 2019 11:21:38 -0400
-> Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
+On Wed, Jun 26, 2019 at 10:47:46AM -0300, Mauro Carvalho Chehab wrote:
 > 
->> >Maybe Konstantin (copied) might be willing to supply an update to the
->> >document to reflect this?
->> 
->> Hello:
->> 
->> I just sent a patch with updates that reflect ECC capabilities in 
->> newer
->> devices.
 > 
-> Hey, man, that took you just under an hour to get done.  We can't all 
-> just
-> wait around while you twiddle your thumbs... :)
+> The gcc_plugins.txt file is already a ReST file. Move it
+> to the core-api book while renaming it.
 > 
-> Seriously, though, thanks for doing this,
-> 
-> jon
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-+1 :-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-/Jarkko
+-Kees
+
+> ---
+>  Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} | 0
+>  Documentation/core-api/index.rst                            | 2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} (100%)
+> 
+> diff --git a/Documentation/gcc-plugins.txt b/Documentation/core-api/gcc-plugins.rst
+> similarity index 100%
+> rename from Documentation/gcc-plugins.txt
+> rename to Documentation/core-api/gcc-plugins.rst
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index 2466a4c51031..d1e5b95bf86d 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -35,7 +35,7 @@ Core utilities
+>     boot-time-mm
+>     memory-hotplug
+>     protection-keys
+> -
+> +   gcc-plugins
+>  
+>  Interfaces for kernel debugging
+>  ===============================
+> -- 
+> 2.21.0
+> 
+> 
+
+-- 
+Kees Cook
