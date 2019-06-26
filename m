@@ -1,106 +1,207 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 938357D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 02:51:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58ADF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 03:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbfFZCvA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 22:51:00 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60304 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726304AbfFZCvA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 22:51:00 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5Q2mgg6039188;
-        Wed, 26 Jun 2019 02:50:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2018-07-02;
- bh=AE6RYTrK+I5OPTA10wmaU4DvOP5vouFz+RVrW+se/Os=;
- b=qVcqxgkYGttKeLcU9M9zujInXCZy2LMCU7udnux5OWq5s9HdiDj1ak97oDRLynjGO3XO
- yNX4N7NHWJuYOk0dy4bPTEnOcuaY3eaHP/lbwHb07sRrsTapopiQUGVAU2i5binx5hOr
- TG9TDwmvSPz7lurX1N+P8sPrmCmeiMTSihSdq8tsL+f3uA6PdWg9behmEAFf4KXYRRPZ
- Knc0vRcHykFisuHMMQWDIvztT7AVNxt+/S9FqvM+47p3kYf+xaYqtKVIp1BuUjCY4GFw
- D5sbMIKPWxv85lEL+fvMXA05ReK90Ttnq4fjLWCDWPZgQ/362eINESPXIAsnCDfv9w+5 1A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2t9c9pqkr0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 26 Jun 2019 02:50:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5Q2omOB054233;
-        Wed, 26 Jun 2019 02:50:53 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 2t9p6uh82r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 26 Jun 2019 02:50:53 +0000
-Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5Q2ooFK031644;
-        Wed, 26 Jun 2019 02:50:50 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 25 Jun 2019 19:50:50 -0700
-To:     Eric Wheeler <bcache@lists.ewheeler.net>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Coly Li <colyli@suse.de>, linux-block@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kent Overstreet <kent.overstreet@gmail.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list\:BCACHE \(BLOCK LAYER CACHE\)" 
-        <linux-bcache@vger.kernel.org>
-Subject: Re: [PATCH] bcache: make stripe_size configurable and persistent for hardware raid5/6
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <d3f7fd44-9287-c7fa-ee95-c3b8a4d56c93@suse.de>
-        <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
-        <200638b0-7cba-38b4-20c4-b325f3cfe862@suse.de>
-        <alpine.LRH.2.11.1906241800350.1114@mx.ewheeler.net>
-        <yq17e9ao9c3.fsf@oracle.com>
-        <alpine.LRH.2.11.1906260005570.1114@mx.ewheeler.net>
-Date:   Tue, 25 Jun 2019 22:50:47 -0400
-In-Reply-To: <alpine.LRH.2.11.1906260005570.1114@mx.ewheeler.net> (Eric
-        Wheeler's message of "Wed, 26 Jun 2019 00:23:09 +0000 (UTC)")
-Message-ID: <yq1ef3hm54o.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+        id S1726619AbfFZDgr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 23:36:47 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38599 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726077AbfFZDgr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 23:36:47 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y15so536120pfn.5;
+        Tue, 25 Jun 2019 20:36:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OjCrPT4hCWb7xnrRZjLNhlZP4Wd3/W1zcGw/ncRINUY=;
+        b=S7ITFUreRjMV5UrWi8LcqMAzzx1XGe7/m3mi+wW0lXI16hCfrXw7DqN9JL5ZelDHlr
+         zN/FWqTKKPlHrT803iWZGj+i+Ba9nf9YL+ZwDwKwhe6xwOoD88C8VskXkYQcUQ6I9vnE
+         2iq1b9ZhfzLONaPwRke0JzCXGQCDvIXUNU4ZiqPebdFSPY3zj2JkZZKQEBVUFqV1sb9q
+         dgoXWCY2vS8Mko5HBUx6GIVQpUvZyG/M+0LH2HRnPRSbvEM/8kjX8zvcCM72QPbAi/Fi
+         PesCilo08sCHALxzCBnxHJgPwV2nMyBGLdnDvPnZqtrFb8wUjFvlre1F7K67vF30uUkF
+         TtCw==
+X-Gm-Message-State: APjAAAWw+htNhxx0UqP3f6c7CsFLs221yW001IVZobiTK152za1w8wqQ
+        n89qXOvzB/7ANG6EzBO2Xbk=
+X-Google-Smtp-Source: APXvYqzdBmpyE53WQRasxEh7JB6Bcl0/Rzj4Dgw3h206UsHqJ5Xslk8HuWxgkcEgUlDNN6u05UT4Bg==
+X-Received: by 2002:a17:90a:2190:: with SMTP id q16mr1703219pjc.23.1561520205640;
+        Tue, 25 Jun 2019 20:36:45 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id d187sm17418788pfa.38.2019.06.25.20.36.44
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 25 Jun 2019 20:36:44 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id BA50240336; Wed, 26 Jun 2019 03:36:43 +0000 (UTC)
+Date:   Wed, 26 Jun 2019 03:36:43 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
+Message-ID: <20190626033643.GX19023@42.do-not-panic.com>
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <20190617082613.109131-2-brendanhiggins@google.com>
+ <20190625223312.GP19023@42.do-not-panic.com>
+ <CAFd5g46TLAONgXiZkFM98BPd-sariMTwhmYG9hSJ+M9=r-ixeg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=886
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906260031
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=939 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906260031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g46TLAONgXiZkFM98BPd-sariMTwhmYG9hSJ+M9=r-ixeg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jun 25, 2019 at 05:07:32PM -0700, Brendan Higgins wrote:
+> On Tue, Jun 25, 2019 at 3:33 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >
+> > On Mon, Jun 17, 2019 at 01:25:56AM -0700, Brendan Higgins wrote:
+> > > +/**
+> > > + * module_test() - used to register a &struct kunit_module with KUnit.
+> > > + * @module: a statically allocated &struct kunit_module.
+> > > + *
+> > > + * Registers @module with the test framework. See &struct kunit_module for more
+> > > + * information.
+> > > + */
+> > > +#define module_test(module) \
+> > > +             static int module_kunit_init##module(void) \
+> > > +             { \
+> > > +                     return kunit_run_tests(&module); \
+> > > +             } \
+> > > +             late_initcall(module_kunit_init##module)
+> >
+> > Becuase late_initcall() is used, if these modules are built-in, this
+> > would preclude the ability to test things prior to this part of the
+> > kernel under UML or whatever architecture runs the tests. So, this
+> > limits the scope of testing. Small detail but the scope whould be
+> > documented.
+> 
+> You aren't the first person to complain about this (and I am not sure
+> it is the first time you have complained about it). Anyway, I have
+> some follow on patches that will improve the late_initcall thing, and
+> people seemed okay with discussing the follow on patches as part of a
+> subsequent patchset after this gets merged.
+> 
+> I will nevertheless document the restriction until then.
 
-Eric,
+To be clear, I am not complaining about it. I just find it simply
+critical to document its limitations, so folks don't try to invest
+time and energy on kunit right away for an early init test, if it
+cannot support it.
 
-> * LSI 2108 (Supermicro)
-> * LSI 3108 (Dell)
-> * Areca 1882
-> * Areca 1883
-> * Fibrechannel 8gbe connected to a Storwize 3700
+If support for that requires some work, it may be worth mentioning
+as well.
 
-I have a 3108 that provides the BL VPD. Surprised the 1883 doesn't.
+> > > +static void kunit_print_tap_version(void)
+> > > +{
+> > > +     if (!kunit_has_printed_tap_version) {
+> > > +             kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
+> >
+> > What is this TAP thing? Why should we care what version it is on?
+> > Why are we printing this?
+> 
+> It's part of the TAP specification[1]. Greg and Frank asked me to make
+> the intermediate format conform to TAP. Seems like something else I
+> should probable document...
 
-As a rule of thumb, you need 12 Gbps SAS or 16 Gbps FC devices for the
-VPD page to be present. The protocol feature is not tied to the
-transport signaling speed in any way. But general support for the BL VPD
-page roughly coincided with vendors introducing 12 Gbps SAS and 16 Gbps
-FC products to the market.
+Yes thanks!
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+> > > +             kunit_has_printed_tap_version = true;
+> > > +     }
+> > > +}
+> > > +
+> > > +static size_t kunit_test_cases_len(struct kunit_case *test_cases)
+> > > +{
+> > > +     struct kunit_case *test_case;
+> > > +     size_t len = 0;
+> > > +
+> > > +     for (test_case = test_cases; test_case->run_case; test_case++)
+> >
+> > If we make the last test case NULL, we'd just check for test_case here,
+> > and save ourselves an extra few bytes per test module. Any reason why
+> > the last test case cannot be NULL?
+> 
+> Is there anyway to make that work with a statically defined array?
+
+No you're right.
+
+> Basically, I want to be able to do something like:
+> 
+> static struct kunit_case example_test_cases[] = {
+>         KUNIT_CASE(example_simple_test),
+>         KUNIT_CASE(example_mock_test),
+>         {}
+> };
+> 
+> FYI,
+> #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
+
+> 
+> In order to do what you are proposing, I think I need an array of
+> pointers to test cases, which is not ideal.
+
+Yeah, you're right. The only other alternative is to have a:
+
+struct kunit_module {
+       const char name[256];
+       int (*init)(struct kunit *test);
+       void (*exit)(struct kunit *test);
+       struct kunit_case *test_cases;
++       unsigned int num_cases;
+};
+
+And then something like:
+
+#define KUNIT_MODULE(name, init, exit, cases) { \
+	.name = name, \
+	.init = init, \
+	.exit = exit, \
+	.test_cases = cases,
+	num_cases = ARRAY_SIZE(cases), \
+}
+
+Let's evaluate which is better: one extra test case per all test cases, or
+an extra unsigned int for each kunit module.
+
+  Luis
