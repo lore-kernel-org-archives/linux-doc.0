@@ -1,299 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA6C17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 13:18:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 373167D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 13:35:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727422AbfFZNS4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 09:18:56 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46850 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbfFZNS4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 09:18:56 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so2668533wrw.13
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 06:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=oABEezfN1nTsjGlHAHlBaTiMmQz4aDhMSWiIeYwjCbc=;
-        b=BDIZmNOapw0wdnKowhcOVanLGYEGq8PTEJMCMEAi5Gmar5Q38mp+SuSWavLqPxHywy
-         8DjOMgEcMNmJvYylzQIUqfY4ha2dJx7Ev26rvPoEUOaiZNdQvNOnjo3tPjcYd4E7gDQ1
-         EB4e4f9LPZmMjeUtItGOQkI3h91OQPmAGV9v11aozKdHUDLTlDI1lkMS1W/9SXm1zbGa
-         NU7pNwWbw9oJ356oHDNn5sofavNR7JNLfjx67l4zDyhIBvE1Q3IJ+ybOwMl3OXASi9s8
-         9fBT+RBMD2WUvIG7gK6kpKE5AM/Fk56Bu3K0qZ/SrFStlDCHxNVvg2TTEZHxsqc6aKyR
-         Fr1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=oABEezfN1nTsjGlHAHlBaTiMmQz4aDhMSWiIeYwjCbc=;
-        b=Rf5O1hWbJ2K+++CC4QbAcHXver8V0NKhWTJ0rGHP+eHCXOnkQMADIqWSRA725OOiwC
-         +1+751L3yT19G1/0Z7r57JTl3WlZ6mfOc6fTU3M6QGibOquVfgz4m5w9Mk68peBiVL4Q
-         IdPS5QztBLBZJowxDVNaj/V5fkm5O7WShTpuS0J/WDCgGXNtBwh9oHc0oV3K8Y4WEIVJ
-         NRSN36bg6MPrTf/T9eHtG6Qm4/YdUJJac9NeZQeYhEhRlleR4gFIlzGPEbCRmzT+8LJP
-         P6qeFzluxUXscu8izoPD40PmrdbijLVad9QyDizsHltkC7PKk3rVlrbeSBv9oHcC6swA
-         dWAw==
-X-Gm-Message-State: APjAAAU3NMa7mC/uJERwnUwaNtc9ThnTWBgyXdpi7PPH8z6SsoHFDVE0
-        yZZOhdXWeYzAck++BJ4FoRkWrw==
-X-Google-Smtp-Source: APXvYqxeT+oP2oju/Ny+91153pq74b2segQ2icEC+8amXSZq3egEC6TwFkM8vrRk+uofNHXcuWkhBQ==
-X-Received: by 2002:a5d:61cd:: with SMTP id q13mr3741341wrv.114.1561555133168;
-        Wed, 26 Jun 2019 06:18:53 -0700 (PDT)
-Received: from dell ([2.27.35.164])
-        by smtp.gmail.com with ESMTPSA id z5sm15058643wrh.16.2019.06.26.06.18.51
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Jun 2019 06:18:52 -0700 (PDT)
-Date:   Wed, 26 Jun 2019 14:18:50 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me
-Subject: Re: [PATCH v12 04/13] mfd: Add Ingenic TCU driver
-Message-ID: <20190626131850.GW21119@dell>
-References: <20190521145141.9813-1-paul@crapouillou.net>
- <20190521145141.9813-5-paul@crapouillou.net>
+        id S1727218AbfFZNfR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 09:35:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53646 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726484AbfFZNfR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 09:35:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=PDR0OUH+l8W0FfPhG2cU875eCqJsbiz49DJrT3EzeCU=; b=V9gh8c4t3lX2HIkwVst972Iau
+        zCEUoYDJaoZ5CX9KtXrABCuI00mqavwLcNiE5RxFA8+Gl7xUu+/Xthw/ZdjSE4TUSdJgQaCQXjTN/
+        FQ3sIFmjDGVM3y58fESFFkvJt3muS7uXDCDbms1yoqpj4JSFxCgpQQUW9OV9Rtn9oYvOufD+/YnSn
+        I6uSFAgIEXqFT9K4tzncR05AlKlv5b+4wFtjgwpgcQD0EhlwiP1ewsjzeMU8T1Fh1hkOWFbRiUGee
+        Fdfa4neKgWKW1z1f5BUBFiMmgX1QEng7nLqQ+9CP7ebB8/W3f1MSddS2N2Ldo81EgmLt577OQswtr
+        l5csJc6Vw==;
+Received: from 177.205.71.220.dynamic.adsl.gvt.net.br ([177.205.71.220] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hg84w-0003uf-SL; Wed, 26 Jun 2019 13:35:14 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hg84t-0003Pb-Vz; Wed, 26 Jun 2019 10:35:12 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        NeilBrown <neilb@suse.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Brauner <christian@brauner.io>,
+        linux-ext4@vger.kernel.org
+Subject: [PATCH] docs: filesystems: Remove uneeded .rst extension on toctables
+Date:   Wed, 26 Jun 2019 10:35:11 -0300
+Message-Id: <d2e4dfee7708a3ef6130d3ffcc579429de6a05c9.1561556105.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190521145141.9813-5-paul@crapouillou.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 May 2019, Paul Cercueil wrote:
+There's no need to use a .rst on Sphinx toc tables. As most of
+the Documentation don't use, remove the remaing occurrences.
 
-> This driver will provide a regmap that can be retrieved very early in
-> the boot process through the API function ingenic_tcu_get_regmap().
-> 
-> Additionally, it will call devm_of_platform_populate() so that all the
-> children devices will be probed.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> 
-> Notes:
->     v12: New patch
-> 
->  drivers/mfd/Kconfig             |   8 +++
->  drivers/mfd/Makefile            |   1 +
->  drivers/mfd/ingenic-tcu.c       | 113 ++++++++++++++++++++++++++++++++
->  include/linux/mfd/ingenic-tcu.h |   8 +++
->  4 files changed, 130 insertions(+)
->  create mode 100644 drivers/mfd/ingenic-tcu.c
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index 294d9567cc71..a13544474e05 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -494,6 +494,14 @@ config HTC_I2CPLD
->  	  This device provides input and output GPIOs through an I2C
->  	  interface to one or more sub-chips.
->  
-> +config INGENIC_TCU
-> +	bool "Ingenic Timer/Counter Unit (TCU) support"
-> +	depends on MIPS || COMPILE_TEST
-> +	select REGMAP_MMIO
-> +	help
-> +	  Say yes here to support the Timer/Counter Unit (TCU) IP present
-> +	  in the JZ47xx SoCs from Ingenic.
-> +
->  config MFD_INTEL_QUARK_I2C_GPIO
->  	tristate "Intel Quark MFD I2C GPIO"
->  	depends on PCI
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 52b1a90ff515..fb89e131ae98 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -180,6 +180,7 @@ obj-$(CONFIG_AB8500_CORE)	+= ab8500-core.o ab8500-sysctrl.o
->  obj-$(CONFIG_MFD_TIMBERDALE)    += timberdale.o
->  obj-$(CONFIG_PMIC_ADP5520)	+= adp5520.o
->  obj-$(CONFIG_MFD_KEMPLD)	+= kempld-core.o
-> +obj-$(CONFIG_INGENIC_TCU)	+= ingenic-tcu.o
->  obj-$(CONFIG_MFD_INTEL_QUARK_I2C_GPIO)	+= intel_quark_i2c_gpio.o
->  obj-$(CONFIG_LPC_SCH)		+= lpc_sch.o
->  obj-$(CONFIG_LPC_ICH)		+= lpc_ich.o
-> diff --git a/drivers/mfd/ingenic-tcu.c b/drivers/mfd/ingenic-tcu.c
-> new file mode 100644
-> index 000000000000..6c1d5e4310c1
-> --- /dev/null
-> +++ b/drivers/mfd/ingenic-tcu.c
-> @@ -0,0 +1,113 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * JZ47xx SoCs TCU MFD driver
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/filesystems/ext4/index.rst | 8 ++++----
+ Documentation/filesystems/index.rst      | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Nit: Another line here please.
-
-> + * Copyright (C) 2019 Paul Cercueil <paul@crapouillou.net>
-> + */
-> +
-> +#include <linux/mfd/ingenic-tcu.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +struct ingenic_soc_info {
-> +	unsigned int num_channels;
-> +};
-> +
-> +static struct regmap *tcu_regmap __initdata;
-> +
-> +static const struct regmap_config ingenic_tcu_regmap_config = {
-> +	.reg_bits = 32,
-> +	.val_bits = 32,
-> +	.reg_stride = 4,
-> +	.max_register = TCU_REG_OST_CNTHBUF,
-> +};
-> +
-> +static const struct ingenic_soc_info jz4740_soc_info = {
-> +	.num_channels = 8,
-> +};
-> +
-> +static const struct ingenic_soc_info jz4725b_soc_info = {
-> +	.num_channels = 6,
-> +};
-> +
-> +static const struct of_device_id ingenic_tcu_of_match[] = {
-> +	{ .compatible = "ingenic,jz4740-tcu", .data = &jz4740_soc_info, },
-> +	{ .compatible = "ingenic,jz4725b-tcu", .data = &jz4725b_soc_info, },
-> +	{ .compatible = "ingenic,jz4770-tcu", .data = &jz4740_soc_info, },
-> +	{ }
-> +};
-> +
-> +static struct regmap * __init ingenic_tcu_create_regmap(struct device_node *np)
-> +{
-> +	struct resource res;
-> +	void __iomem *base;
-> +	struct regmap *map;
-> +
-> +	if (!of_match_node(ingenic_tcu_of_match, np))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	base = of_io_request_and_map(np, 0, "TCU");
-> +	if (IS_ERR(base))
-> +		return ERR_PTR(PTR_ERR(base));
-> +
-> +	map = regmap_init_mmio(NULL, base, &ingenic_tcu_regmap_config);
-> +	if (IS_ERR(map))
-> +		goto err_iounmap;
-> +
-> +	return map;
-> +
-> +err_iounmap:
-> +	iounmap(base);
-> +	of_address_to_resource(np, 0, &res);
-> +	release_mem_region(res.start, resource_size(&res));
-> +
-> +	return map;
-> +}
-
-Why does this need to be set-up earlier than probe()?
-
-> +static int __init ingenic_tcu_probe(struct platform_device *pdev)
-> +{
-> +	struct regmap *map = ingenic_tcu_get_regmap(pdev->dev.of_node);
-> +
-> +	platform_set_drvdata(pdev, map);
-> +
-> +	regmap_attach_dev(&pdev->dev, map, &ingenic_tcu_regmap_config);
-> +
-> +	return devm_of_platform_populate(&pdev->dev);
-> +}
-> +
-> +static struct platform_driver ingenic_tcu_driver = {
-> +	.driver = {
-> +		.name = "ingenic-tcu",
-> +		.of_match_table = ingenic_tcu_of_match,
-> +	},
-> +};
-> +
-> +static int __init ingenic_tcu_platform_init(void)
-> +{
-> +	return platform_driver_probe(&ingenic_tcu_driver,
-> +				     ingenic_tcu_probe);
-
-What?  Why?
-
-> +}
-> +subsys_initcall(ingenic_tcu_platform_init);
-> +
-> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node *np)
-> +{
-> +	if (!tcu_regmap)
-> +		tcu_regmap = ingenic_tcu_create_regmap(np);
-> +
-> +	return tcu_regmap;
-> +}
-
-This makes me pretty uncomfortable.
-
-What calls it?
-
-> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int channel)
-> +{
-> +	const struct ingenic_soc_info *soc = device_get_match_data(dev->parent);
-> +
-> +	/* Enable all TCU channels for PWM use by default except channels 0/1 */
-> +	u32 pwm_channels_mask = GENMASK(soc->num_channels - 1, 2);
-> +
-> +	device_property_read_u32(dev->parent, "ingenic,pwm-channels-mask",
-> +				 &pwm_channels_mask);
-> +
-> +	return !!(pwm_channels_mask & BIT(channel));
-> +}
-> +EXPORT_SYMBOL_GPL(ingenic_tcu_pwm_can_use_chn);
-> diff --git a/include/linux/mfd/ingenic-tcu.h b/include/linux/mfd/ingenic-tcu.h
-> index 2083fa20821d..21df23916cd2 100644
-> --- a/include/linux/mfd/ingenic-tcu.h
-> +++ b/include/linux/mfd/ingenic-tcu.h
-> @@ -6,6 +6,11 @@
->  #define __LINUX_MFD_INGENIC_TCU_H_
->  
->  #include <linux/bitops.h>
-> +#include <linux/init.h>
-> +
-> +struct device;
-> +struct device_node;
-> +struct regmap;
->  
->  #define TCU_REG_WDT_TDR		0x00
->  #define TCU_REG_WDT_TCER	0x04
-> @@ -53,4 +58,7 @@
->  #define TCU_REG_TCNTc(c)	(TCU_REG_TCNT0 + ((c) * TCU_CHANNEL_STRIDE))
->  #define TCU_REG_TCSRc(c)	(TCU_REG_TCSR0 + ((c) * TCU_CHANNEL_STRIDE))
->  
-> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node *np);
-> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int channel);
-> +
->  #endif /* __LINUX_MFD_INGENIC_TCU_H_ */
-
+diff --git a/Documentation/filesystems/ext4/index.rst b/Documentation/filesystems/ext4/index.rst
+index 3be3e54d480d..705d813d558f 100644
+--- a/Documentation/filesystems/ext4/index.rst
++++ b/Documentation/filesystems/ext4/index.rst
+@@ -8,7 +8,7 @@ ext4 Data Structures and Algorithms
+    :maxdepth: 6
+    :numbered:
+ 
+-   about.rst
+-   overview.rst
+-   globals.rst
+-   dynamic.rst
++   about
++   overview
++   globals
++   dynamic
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 35644840a690..1651173f1118 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -17,7 +17,7 @@ algorithms work.
+    :maxdepth: 2
+ 
+    vfs
+-   path-lookup.rst
++   path-lookup
+    api-summary
+    splice
+ 
+@@ -41,4 +41,4 @@ Documentation for individual filesystem types can be found here.
+ .. toctree::
+    :maxdepth: 2
+ 
+-   binderfs.rst
++   binderfs
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.21.0
+
