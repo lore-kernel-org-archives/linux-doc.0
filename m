@@ -5,63 +5,59 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01C5B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 17:53:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2AA07D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 17:54:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbfFZRxH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 13:53:07 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41052 "EHLO ms.lwn.net"
+        id S1726357AbfFZRyN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 13:54:13 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41070 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726289AbfFZRxH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Jun 2019 13:53:07 -0400
+        id S1726271AbfFZRyN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jun 2019 13:54:13 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A9A3A4BF;
-        Wed, 26 Jun 2019 17:53:06 +0000 (UTC)
-Date:   Wed, 26 Jun 2019 11:53:05 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id C0F7E4BF;
+        Wed, 26 Jun 2019 17:54:12 +0000 (UTC)
+Date:   Wed, 26 Jun 2019 11:54:11 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Subject: Re: [PATCH] docs: zh_CN: submitting-drivers.rst: Remove a
- duplicated Documentation/
-Message-ID: <20190626115305.2802e1e7@lwn.net>
-In-Reply-To: <47f81418930438d1deab8da1307bcd89ba9afd91.1561225663.git.mchehab+samsung@kernel.org>
-References: <47f81418930438d1deab8da1307bcd89ba9afd91.1561225663.git.mchehab+samsung@kernel.org>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] scripts/sphinx-pre-install: fix out-of-tree build
+Message-ID: <20190626115411.1b348dfd@lwn.net>
+In-Reply-To: <1561353907-19911-1-git-send-email-rppt@linux.ibm.com>
+References: <1561353907-19911-1-git-send-email-rppt@linux.ibm.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 22 Jun 2019 14:47:46 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Mon, 24 Jun 2019 08:25:07 +0300
+Mike Rapoport <rppt@linux.ibm.com> wrote:
 
-> Somehow, this file ended with Documentation/ twice.
+> Build of htmldocs fails for out-of-tree builds:
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/translations/zh_CN/process/submitting-drivers.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> $ make V=1 O=~/build/kernel/ htmldocs
+> make -C /home/rppt/build/kernel -f /home/rppt/git/linux-docs/Makefile htmldocs
+> make[1]: Entering directory '/home/rppt/build/kernel'
+> make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=scripts/basic
+> rm -f .tmp_quiet_recordmcount
+> make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=Documentation htmldocs
+> Can't open Documentation/conf.py at /home/rppt/git/linux-docs/scripts/sphinx-pre-install line 230.
+> /home/rppt/git/linux-docs/Documentation/Makefile:80: recipe for target 'htmldocs' failed
+> make[2]: *** [htmldocs] Error 2
 > 
-> diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-> index 72c6cd935821..72f4f45c98de 100644
-> --- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
-> +++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-> @@ -22,7 +22,7 @@
->  兴趣的是显卡驱动程序，你也许应该访问 XFree86 项目(http://www.xfree86.org/)
->  和／或 X.org 项目 (http://x.org)。
->  
-> -另请参阅 Documentation/Documentation/translations/zh_CN/process/submitting-patches.rst 文档。
-> +另请参阅 Documentation/translations/zh_CN/process/submitting-patches.rst 文档。
-
-There is such a thing as too much Documentation! :)
+> The scripts/sphinx-pre-install is trying to open files in the current
+> directory which is $KBUILD_OUTPUT rather than in $srctree.
+> 
+> Fix it.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
 Applied, thanks.
 
