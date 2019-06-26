@@ -1,116 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BFB6A7D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 08:03:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A15937D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 11:38:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbfFZIDI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 04:03:08 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33175 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726042AbfFZIDI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 04:03:08 -0400
-Received: by mail-pg1-f193.google.com with SMTP id m4so845203pgk.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 01:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nwcdyZlVJNYhzqAX8drYdwwlincSCC0RlYdtVUa7uAU=;
-        b=IkHW2/q5zYf/AiFOwOUn62sZGCukGK93pV5qaXaFIqAD6rVurvvvVguZ0CQNqSK004
-         PUW6XYRD1tpIvu/H8uK2xdNaMWkc3s+ZreXHoEsItZgP1H729MJ8nowT1aehVpl1AnJq
-         rAPmVbRpyeOR+0aKXV1iywesPypOO3F4fwUcKnHNHDKkSlnXU9KrB33bQAymKu7tZx6G
-         yt/Ix8apmwB+zPUY0f7g7GrCvvhKCA2B8FFf68JI9BW8d/snEU6oOmLqSE4EOwMnXWLP
-         uFddQ1SWm8yfpnKxzglfseoQZZbmazxOSGTrgVrxfJIOk1+YhP4zhoDMctTsB330F1Sn
-         /4dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nwcdyZlVJNYhzqAX8drYdwwlincSCC0RlYdtVUa7uAU=;
-        b=YpwEydhuOH3OCgGrOFQxJKDU1Ydz9hr5DQmQh08686lyUrLLwjKpcpqdx482NH6yvJ
-         tMWBByXOqHQT3W7vFUQB9HPHl0W8tmgIamTN6LhzSKr+SQzHo9hM+NBfS1dTdpUZEZuW
-         grB3RPr1od35apIZoYc2fRvzqweQ09YPP+yE89PB9pZsHCK2YmooEzh9vA3S1FXN7gez
-         6vpzf2m9UfukZt5QwUPiGUg9C393EwHbNshp8PZi8MMBc6YiEdhQAe2fFPy1UDlq9t2r
-         OwF30Egpli6/WAiuMARCf5YypzGKtWMR+LrtUpB0LxJmrnNkNI+iw6AfECRnz8LthVps
-         FEcA==
-X-Gm-Message-State: APjAAAU04rjwPYHRQGgqtGJc4TZU0nfLdXLobBObMd64oyhXfOV+u7gu
-        aBVt/ZVGOZ3X19m1NnKnS++AwXJ+7i3mwotwPejlXQ==
-X-Google-Smtp-Source: APXvYqzSvFzyXqC4mv+sYfABQnmt0YNMhvFTkgdzLZZeovItyFY3wThgA7+iWx0YSEf5WS6vtdXjsfVxGyJkZN8WaD8=
-X-Received: by 2002:a17:90a:9382:: with SMTP id q2mr3140021pjo.131.1561536186861;
- Wed, 26 Jun 2019 01:03:06 -0700 (PDT)
+        id S1726104AbfFZLiX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 07:38:23 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:33036 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726077AbfFZLiX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jun 2019 07:38:23 -0400
+Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id 9E9C615522E748CA3604;
+        Wed, 26 Jun 2019 12:38:21 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 26 Jun
+ 2019 12:38:12 +0100
+Subject: Re: [PATCH v4 00/14] ima: introduce IMA Digest Lists extension
+To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
+        <mjg59@google.com>, Rob Landley <rob@landley.net>
+CC:     <linux-integrity@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <silviu.vlasceanu@huawei.com>
+References: <20190614175513.27097-1-roberto.sassu@huawei.com>
+ <9029dd14-1077-ec89-ddc2-e677e16ad314@huawei.com>
+ <88d368e6-5b3c-0206-23a0-dc3e0aa385f0@huawei.com>
+ <1561484133.4066.16.camel@linux.ibm.com>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <19b082d1-b36e-bcbf-b25a-6d0969c9b638@huawei.com>
+Date:   Wed, 26 Jun 2019 13:38:21 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-14-brendanhiggins@google.com> <20190626000150.GT19023@42.do-not-panic.com>
-In-Reply-To: <20190626000150.GT19023@42.do-not-panic.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 26 Jun 2019 01:02:55 -0700
-Message-ID: <CAFd5g44kkepB2hZcpYL-NB5ZHYE5tP7W-0yducGCX7Khd9gd9w@mail.gmail.com>
-Subject: Re: [PATCH v5 13/18] kunit: tool: add Python wrappers for running
- KUnit tests
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        Felix Guo <felixguoxiuping@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1561484133.4066.16.camel@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 5:01 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Mon, Jun 17, 2019 at 01:26:08AM -0700, Brendan Higgins wrote:
-> >  create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-all_passed.log
-> >  create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-crash.log
-> >  create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-failure.log
-> >  create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-no_tests_run.log
-> >  create mode 100644 tools/testing/kunit/test_data/test_output_isolated_correctly.log
-> >  create mode 100644 tools/testing/kunit/test_data/test_read_from_file.kconfig
->
-> Why are these being added upstream? The commit log does not explain
-> this.
+On 6/25/2019 7:35 PM, Mimi Zohar wrote:
+> [Cc'ing Rob Landley]
+> 
+> On Tue, 2019-06-25 at 14:57 +0200, Roberto Sassu wrote:
+>> Mimi, do you have any thoughts on this version?
+> 
+> I need to look closer, but when I first looked these changes seemed to
+> be really invasive.  Let's first work on getting the CPIO xattr
 
-Oh sorry, those are for testing purposes. I thought that was clear
-from being in the test_data directory. I will reference it in the
-commit log in the next revision.
+If you can provide early comments, that would be great. I'll have a look
+at the problems and when the xattr support for the ram disk is
+upstreamed I will be ready to send a new version.
+
+Thanks
+
+Roberto
+
+-- 
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
