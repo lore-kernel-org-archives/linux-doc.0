@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6643E7D981
+	by archive.lwn.net (Postfix) with ESMTP id 939157D9ED
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 22:39:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbfFZWjZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 18:39:25 -0400
-Received: from mga11.intel.com ([192.55.52.93]:10653 "EHLO mga11.intel.com"
+        id S1726612AbfFZWjF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 18:39:05 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10652 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726640AbfFZWjH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Jun 2019 18:39:07 -0400
+        id S1726591AbfFZWjF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jun 2019 18:39:05 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2019 15:39:06 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2019 15:39:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.63,421,1557212400"; 
-   d="scan'208";a="313575020"
+   d="scan'208";a="313575003"
 Received: from spandruv-mobl.amr.corp.intel.com ([10.251.133.109])
-  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2019 15:39:05 -0700
+  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2019 15:39:02 -0700
 From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 To:     dvhart@infradead.org, andy@infradead.org,
         andriy.shevchenko@intel.com, corbet@lwn.net
@@ -30,9 +30,9 @@ Cc:     rjw@rjwysocki.net, alan@linux.intel.com, lenb@kernel.org,
         prarit@redhat.com, darcari@redhat.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 09/10] platform/x86: ISST: Restore state on resume
-Date:   Wed, 26 Jun 2019 15:38:50 -0700
-Message-Id: <20190626223851.19138-10-srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 06/10] platform/x86: ISST: Add Intel Speed Select mailbox interface via PCI
+Date:   Wed, 26 Jun 2019 15:38:47 -0700
+Message-Id: <20190626223851.19138-7-srinivas.pandruvada@linux.intel.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
 References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
@@ -41,414 +41,411 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commands which causes PUNIT writes, store them and restore them on system
-resume. The driver stores all such requests in a hash table and stores the
-the latest mailbox request parameters. On resume these commands mail box
-commands are executed again. There are only 5 such mail box commands which
-will trigger such processing so a very low overhead in store and execute
-on resume. Also there is no order requirement for mail box commands for
-these write/set commands. There is one MSR request for changing turbo
-ratio limits, this also stored and get restored on resume and cpu online.
+Add an IOCTL to send mailbox commands to PUNIT using PUNIT PCI device.
+A limited set of mailbox commands can be sent to PUNIT.
+
+This MMIO interface is used by the intel-speed-select tool under
+tools/x86/power to enumerate and control Intel Speed Select features.
+The MBOX commands ids and semantics of the message can be checked from
+the source code of the tool.
 
 Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 ---
- .../intel_speed_select_if/isst_if_common.c    | 154 ++++++++++++++++++
+ .../x86/intel_speed_select_if/Makefile        |   1 +
+ .../intel_speed_select_if/isst_if_common.c    |  85 ++++++++
  .../intel_speed_select_if/isst_if_common.h    |   3 +
- .../intel_speed_select_if/isst_if_mbox_msr.c  |  38 ++++-
- .../intel_speed_select_if/isst_if_mbox_pci.c  |  15 ++
- .../x86/intel_speed_select_if/isst_if_mmio.c  |  49 ++++++
- 5 files changed, 258 insertions(+), 1 deletion(-)
+ .../intel_speed_select_if/isst_if_mbox_pci.c  | 199 ++++++++++++++++++
+ include/uapi/linux/isst_if.h                  |  38 ++++
+ 5 files changed, 326 insertions(+)
+ create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
 
+diff --git a/drivers/platform/x86/intel_speed_select_if/Makefile b/drivers/platform/x86/intel_speed_select_if/Makefile
+index 7e94919208d3..8dec8c858649 100644
+--- a/drivers/platform/x86/intel_speed_select_if/Makefile
++++ b/drivers/platform/x86/intel_speed_select_if/Makefile
+@@ -6,3 +6,4 @@
+ 
+ obj-$(CONFIG_INTEL_SPEED_SELECT_INTERFACE) += isst_if_common.o
+ obj-$(CONFIG_INTEL_SPEED_SELECT_INTERFACE) += isst_if_mmio.o
++obj-$(CONFIG_INTEL_SPEED_SELECT_INTERFACE) += isst_if_mbox_pci.o
 diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-index de2fb5292f1c..68d75391db57 100644
+index 3f96a3925bc6..391fc3f12161 100644
 --- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
 +++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-@@ -10,6 +10,7 @@
- #include <linux/cpufeature.h>
- #include <linux/cpuhotplug.h>
- #include <linux/fs.h>
-+#include <linux/hashtable.h>
- #include <linux/miscdevice.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-@@ -58,6 +59,151 @@ static const struct isst_cmd_set_req_type isst_cmd_set_reqs[] = {
- 	{0x7F, 0x08, 0x00},
- };
+@@ -25,6 +25,86 @@
  
-+struct isst_cmd {
-+	struct hlist_node hnode;
-+	u64 data;
-+	u32 cmd;
-+	int cpu;
-+	int mbox_cmd_type;
-+	u32 param;
+ static struct isst_if_cmd_cb punit_callbacks[ISST_IF_DEV_MAX];
+ 
++struct isst_valid_cmd_ranges {
++	u16 cmd;
++	u16 sub_cmd_beg;
++	u16 sub_cmd_end;
 +};
 +
-+static DECLARE_HASHTABLE(isst_hash, 8);
-+static DEFINE_MUTEX(isst_hash_lock);
++struct isst_cmd_set_req_type {
++	u16 cmd;
++	u16 sub_cmd;
++	u16 param;
++};
 +
-+static int isst_store_new_cmd(int cmd, u32 cpu, int mbox_cmd_type, u32 param,
-+			      u32 data)
-+{
-+	struct isst_cmd *sst_cmd;
++static const struct isst_valid_cmd_ranges isst_valid_cmds[] = {
++	{0xD0, 0x00, 0x03},
++	{0x7F, 0x00, 0x0B},
++	{0x7F, 0x10, 0x12},
++	{0x7F, 0x20, 0x23},
++};
 +
-+	sst_cmd = kmalloc(sizeof(*sst_cmd), GFP_KERNEL);
-+	if (!sst_cmd)
-+		return -ENOMEM;
-+
-+	sst_cmd->cpu = cpu;
-+	sst_cmd->cmd = cmd;
-+	sst_cmd->mbox_cmd_type = mbox_cmd_type;
-+	sst_cmd->param = param;
-+	sst_cmd->data = data;
-+
-+	hash_add(isst_hash, &sst_cmd->hnode, sst_cmd->cmd);
-+
-+	return 0;
-+}
-+
-+static void isst_delete_hash(void)
-+{
-+	struct isst_cmd *sst_cmd;
-+	struct hlist_node *tmp;
-+	int i;
-+
-+	hash_for_each_safe(isst_hash, i, tmp, sst_cmd, hnode) {
-+		hash_del(&sst_cmd->hnode);
-+		kfree(sst_cmd);
-+	}
-+}
++static const struct isst_cmd_set_req_type isst_cmd_set_reqs[] = {
++	{0xD0, 0x00, 0x08},
++	{0xD0, 0x01, 0x08},
++	{0xD0, 0x02, 0x08},
++	{0xD0, 0x03, 0x08},
++	{0x7F, 0x02, 0x00},
++	{0x7F, 0x08, 0x00},
++};
 +
 +/**
-+ * isst_store_cmd() - Store command to a hash table
-+ * @cmd: Mailbox command.
-+ * @sub_cmd: Mailbox sub-command or MSR id.
-+ * @mbox_cmd_type: Mailbox or MSR command.
-+ * @param: Mailbox parameter.
-+ * @data: Mailbox request data or MSR data.
++ * isst_if_mbox_cmd_invalid() - Check invalid mailbox commands
++ * @cmd: Pointer to the command structure to verify.
 + *
-+ * Stores the command to a hash table if there is no such command already
-+ * stored. If already stored update the latest parameter and data for the
-+ * command.
++ * Invalid command to PUNIT to may result in instability of the platform.
++ * This function has a whitelist of commands, which are allowed.
 + *
-+ * Return: Return result of store to hash table, 0 for success, others for
-+ * failure.
++ * Return: Return true if the command is invalid, else false.
 + */
-+int isst_store_cmd(int cmd, int sub_cmd, u32 cpu, int mbox_cmd_type,
-+		   u32 param, u64 data)
++bool isst_if_mbox_cmd_invalid(struct isst_if_mbox_cmd *cmd)
 +{
-+	struct isst_cmd *sst_cmd;
-+	int full_cmd, ret;
++	int i;
 +
-+	full_cmd = (cmd & GENMASK_ULL(15, 0)) << 16;
-+	full_cmd |= (sub_cmd & GENMASK_ULL(15, 0));
-+	mutex_lock(&isst_hash_lock);
-+	hash_for_each_possible(isst_hash, sst_cmd, hnode, full_cmd) {
-+		if (sst_cmd->cmd == full_cmd && sst_cmd->cpu == cpu &&
-+		    sst_cmd->mbox_cmd_type == mbox_cmd_type) {
-+			sst_cmd->param = param;
-+			sst_cmd->data = data;
-+			mutex_unlock(&isst_hash_lock);
-+			return 0;
++	if (cmd->logical_cpu >= nr_cpu_ids)
++		return true;
++
++	for (i = 0; i < ARRAY_SIZE(isst_valid_cmds); ++i) {
++		if (cmd->command == isst_valid_cmds[i].cmd &&
++		    (cmd->sub_command >= isst_valid_cmds[i].sub_cmd_beg &&
++		     cmd->sub_command <= isst_valid_cmds[i].sub_cmd_end)) {
++			return false;
 +		}
 +	}
 +
-+	ret = isst_store_new_cmd(full_cmd, cpu, mbox_cmd_type, param, data);
-+	mutex_unlock(&isst_hash_lock);
-+
-+	return ret;
++	return true;
 +}
-+EXPORT_SYMBOL_GPL(isst_store_cmd);
-+
-+static void isst_mbox_resume_command(struct isst_if_cmd_cb *cb,
-+				     struct isst_cmd *sst_cmd)
-+{
-+	struct isst_if_mbox_cmd mbox_cmd;
-+	int wr_only;
-+
-+	mbox_cmd.command = (sst_cmd->cmd & GENMASK_ULL(31, 16)) >> 16;
-+	mbox_cmd.sub_command = sst_cmd->cmd & GENMASK_ULL(15, 0);
-+	mbox_cmd.parameter = sst_cmd->param;
-+	mbox_cmd.req_data = sst_cmd->data;
-+	mbox_cmd.logical_cpu = sst_cmd->cpu;
-+	(cb->cmd_callback)((u8 *)&mbox_cmd, &wr_only, 1);
-+}
++EXPORT_SYMBOL_GPL(isst_if_mbox_cmd_invalid);
 +
 +/**
-+ * isst_resume_common() - Process Resume request
++ * isst_if_mbox_cmd_set_req() - Check mailbox command is a set request
++ * @cmd: Pointer to the command structure to verify.
 + *
-+ * On resume replay all mailbox commands and MSRs.
++ * Check if the given mail box level is set request and not a get request.
 + *
-+ * Return: None.
++ * Return: Return true if the command is set_req, else false.
 + */
-+void isst_resume_common(void)
++bool isst_if_mbox_cmd_set_req(struct isst_if_mbox_cmd *cmd)
 +{
-+	struct isst_cmd *sst_cmd;
 +	int i;
 +
-+	hash_for_each(isst_hash, i, sst_cmd, hnode) {
-+		struct isst_if_cmd_cb *cb;
-+
-+		if (sst_cmd->mbox_cmd_type) {
-+			cb = &punit_callbacks[ISST_IF_DEV_MBOX];
-+			if (cb->registered)
-+				isst_mbox_resume_command(cb, sst_cmd);
-+		} else {
-+			wrmsrl_safe_on_cpu(sst_cmd->cpu, sst_cmd->cmd,
-+					   sst_cmd->data);
++	for (i = 0; i < ARRAY_SIZE(isst_cmd_set_reqs); ++i) {
++		if (cmd->command == isst_cmd_set_reqs[i].cmd &&
++		    cmd->sub_command == isst_cmd_set_reqs[i].sub_cmd &&
++		    cmd->parameter == isst_cmd_set_reqs[i].param) {
++			return true;
 +		}
 +	}
++
++	return false;
 +}
-+EXPORT_SYMBOL_GPL(isst_resume_common);
++EXPORT_SYMBOL_GPL(isst_if_mbox_cmd_set_req);
 +
-+static void isst_restore_msr_local(int cpu)
-+{
-+	struct isst_cmd *sst_cmd;
-+	int i;
-+
-+	mutex_lock(&isst_hash_lock);
-+	for (i = 0; i < ARRAY_SIZE(punit_msr_white_list); ++i) {
-+		if (!punit_msr_white_list[i])
-+			break;
-+
-+		hash_for_each_possible(isst_hash, sst_cmd, hnode,
-+				       punit_msr_white_list[i]) {
-+			if (!sst_cmd->mbox_cmd_type && sst_cmd->cpu == cpu)
-+				wrmsrl_safe(sst_cmd->cmd, sst_cmd->data);
-+		}
-+	}
-+	mutex_unlock(&isst_hash_lock);
-+}
-+
- /**
-  * isst_if_mbox_cmd_invalid() - Check invalid mailbox commands
-  * @cmd: Pointer to the command structure to verify.
-@@ -185,6 +331,8 @@ static int isst_if_cpu_online(unsigned int cpu)
+ static int isst_if_get_platform_info(void __user *argp)
+ {
+ 	struct isst_if_platform_info info;
+@@ -224,6 +304,11 @@ static long isst_if_def_ioctl(struct file *file, unsigned int cmd,
+ 		if (cb->registered)
+ 			ret = isst_if_exec_multi_cmd(argp, cb);
+ 		break;
++	case ISST_IF_MBOX_COMMAND:
++		cb = &punit_callbacks[ISST_IF_DEV_MBOX];
++		if (cb->registered)
++			ret = isst_if_exec_multi_cmd(argp, cb);
++		break;
+ 	default:
+ 		break;
  	}
- 	isst_cpu_info[cpu].punit_cpu_id = data;
- 
-+	isst_restore_msr_local(cpu);
-+
- 	return 0;
- }
- 
-@@ -267,6 +415,10 @@ static long isst_if_msr_cmd_req(u8 *cmd_ptr, int *write_only, int resume)
- 					 msr_cmd->msr,
- 					 msr_cmd->data);
- 		*write_only = 1;
-+		if (!ret && !resume)
-+			ret = isst_store_cmd(0, msr_cmd->msr,
-+					     msr_cmd->logical_cpu,
-+					     0, 0, msr_cmd->data);
- 	} else {
- 		u64 data;
- 
-@@ -507,6 +659,8 @@ void isst_if_cdev_unregister(int device_type)
- 	mutex_lock(&punit_misc_dev_lock);
- 	misc_usage_count--;
- 	punit_callbacks[device_type].registered = 0;
-+	if (device_type == ISST_IF_DEV_MBOX)
-+		isst_delete_hash();
- 	if (!misc_usage_count && !misc_device_ret) {
- 		misc_deregister(&isst_if_char_driver);
- 		isst_if_cpu_info_exit();
 diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-index 7c0f71221da7..1409a5bb5582 100644
+index cdc7d019748a..7c0f71221da7 100644
 --- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
 +++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-@@ -63,4 +63,7 @@ void isst_if_cdev_unregister(int type);
+@@ -11,6 +11,7 @@
+ #define __ISST_IF_COMMON_H
+ 
+ #define INTEL_RAPL_PRIO_DEVID_0	0x3451
++#define INTEL_CFG_MBOX_DEVID_0	0x3459
+ 
+ /*
+  * Validate maximum commands in a single request.
+@@ -60,4 +61,6 @@ struct isst_if_cmd_cb {
+ int isst_if_cdev_register(int type, struct isst_if_cmd_cb *cb);
+ void isst_if_cdev_unregister(int type);
  struct pci_dev *isst_if_get_pci_dev(int cpu, int bus, int dev, int fn);
- bool isst_if_mbox_cmd_set_req(struct isst_if_mbox_cmd *mbox_cmd);
- bool isst_if_mbox_cmd_invalid(struct isst_if_mbox_cmd *cmd);
-+int isst_store_cmd(int cmd, int sub_command, u32 cpu, int mbox_cmd,
-+		   u32 param, u64 data);
-+void isst_resume_common(void);
++bool isst_if_mbox_cmd_set_req(struct isst_if_mbox_cmd *mbox_cmd);
++bool isst_if_mbox_cmd_invalid(struct isst_if_mbox_cmd *cmd);
  #endif
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_msr.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_msr.c
-index a949ec436c73..afd0b23be5ba 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_msr.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_msr.c
-@@ -12,6 +12,7 @@
- #include <linux/pci.h>
- #include <linux/sched/signal.h>
- #include <linux/slab.h>
-+#include <linux/suspend.h>
- #include <linux/topology.h>
- #include <linux/uaccess.h>
- #include <uapi/linux/isst_if.h>
-@@ -128,11 +129,37 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
- 	if (ret)
- 		return ret;
- 
-+	if (!action.err && !resume && isst_if_mbox_cmd_set_req(action.mbox_cmd))
-+		action.err = isst_store_cmd(action.mbox_cmd->command,
-+					    action.mbox_cmd->sub_command,
-+					    action.mbox_cmd->logical_cpu, 1,
-+					    action.mbox_cmd->parameter,
-+					    action.mbox_cmd->req_data);
- 	*write_only = 0;
- 
- 	return action.err;
- }
- 
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+new file mode 100644
+index 000000000000..f03e79afd3f1
+--- /dev/null
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+@@ -0,0 +1,199 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Intel Speed Select Interface: Mbox via PCI Interface
++ * Copyright (c) 2019, Intel Corporation.
++ * All rights reserved.
++ *
++ * Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++ */
 +
-+static int isst_pm_notify(struct notifier_block *nb,
-+			       unsigned long mode, void *_unused)
-+{
-+	switch (mode) {
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+	case PM_POST_SUSPEND:
-+		isst_resume_common();
-+		break;
-+	default:
-+		break;
-+	}
-+	return 0;
-+}
++#include <linux/cpufeature.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/sched/signal.h>
++#include <linux/uaccess.h>
++#include <uapi/linux/isst_if.h>
 +
-+static struct notifier_block isst_pm_nb = {
-+	.notifier_call = isst_pm_notify,
++#include "isst_if_common.h"
++
++#define PUNIT_MAILBOX_DATA		0xA0
++#define PUNIT_MAILBOX_INTERFACE		0xA4
++#define PUNIT_MAILBOX_BUSY_BIT		31
++
++/*
++ * Commands has variable amount of processing time. Most of the commands will
++ * be done in 0-3 tries, but some takes up to 50.
++ * The real processing time was observed as 25us for the most of the commands
++ * at 2GHz. It is possible to optimize this count taking samples on customer
++ * systems.
++ */
++#define OS_MAILBOX_RETRY_COUNT		50
++
++struct isst_if_device {
++	struct mutex mutex;
 +};
 +
- #define ICPU(model)     { X86_VENDOR_INTEL, 6, model, X86_FEATURE_ANY, }
- 
- static const struct x86_cpu_id isst_if_cpu_ids[] = {
-@@ -166,12 +193,21 @@ static int __init isst_if_mbox_init(void)
- 	cb.offset = offsetof(struct isst_if_mbox_cmds, mbox_cmd);
- 	cb.cmd_callback = isst_if_mbox_proc_cmd;
- 	cb.owner = THIS_MODULE;
--	return isst_if_cdev_register(ISST_IF_DEV_MBOX, &cb);
-+	ret = isst_if_cdev_register(ISST_IF_DEV_MBOX, &cb);
++static int isst_if_mbox_cmd(struct pci_dev *pdev,
++			    struct isst_if_mbox_cmd *mbox_cmd)
++{
++	u32 retries, data;
++	int ret;
++
++	/* Poll for rb bit == 0 */
++	retries = OS_MAILBOX_RETRY_COUNT;
++	do {
++		ret = pci_read_config_dword(pdev, PUNIT_MAILBOX_INTERFACE,
++					    &data);
++		if (ret)
++			return ret;
++
++		if (data & BIT_ULL(PUNIT_MAILBOX_BUSY_BIT)) {
++			ret = -EBUSY;
++			continue;
++		}
++		ret = 0;
++		break;
++	} while (--retries);
++
 +	if (ret)
 +		return ret;
 +
-+	ret = register_pm_notifier(&isst_pm_nb);
++	/* Write DATA register */
++	ret = pci_write_config_dword(pdev, PUNIT_MAILBOX_DATA,
++				     mbox_cmd->req_data);
 +	if (ret)
-+		isst_if_cdev_unregister(ISST_IF_DEV_MBOX);
++		return ret;
++
++	/* Write command register */
++	data = BIT_ULL(PUNIT_MAILBOX_BUSY_BIT) |
++		      (mbox_cmd->parameter & GENMASK_ULL(13, 0)) << 16 |
++		      (mbox_cmd->sub_command << 8) |
++		      mbox_cmd->command;
++
++	ret = pci_write_config_dword(pdev, PUNIT_MAILBOX_INTERFACE, data);
++	if (ret)
++		return ret;
++
++	/* Poll for rb bit == 0 */
++	retries = OS_MAILBOX_RETRY_COUNT;
++	do {
++		ret = pci_read_config_dword(pdev, PUNIT_MAILBOX_INTERFACE,
++					    &data);
++		if (ret)
++			return ret;
++
++		if (data & BIT_ULL(PUNIT_MAILBOX_BUSY_BIT)) {
++			ret = -EBUSY;
++			continue;
++		}
++
++		if (data & 0xff)
++			return -ENXIO;
++
++		ret = pci_read_config_dword(pdev, PUNIT_MAILBOX_DATA, &data);
++		if (ret)
++			return ret;
++
++		mbox_cmd->resp_data = data;
++		ret = 0;
++		break;
++	} while (--retries);
 +
 +	return ret;
- }
- module_init(isst_if_mbox_init)
- 
- static void __exit isst_if_mbox_exit(void)
- {
-+	unregister_pm_notifier(&isst_pm_nb);
- 	isst_if_cdev_unregister(ISST_IF_DEV_MBOX);
- }
- module_exit(isst_if_mbox_exit)
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-index f03e79afd3f1..100a76cc27a5 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-@@ -131,6 +131,12 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
- 	 */
- 	mutex_lock(&punit_dev->mutex);
- 	ret = isst_if_mbox_cmd(pdev, mbox_cmd);
-+	if (!ret && !resume && isst_if_mbox_cmd_set_req(mbox_cmd))
-+		ret = isst_store_cmd(mbox_cmd->command,
-+				     mbox_cmd->sub_command,
-+				     mbox_cmd->logical_cpu, 1,
-+				     mbox_cmd->parameter,
-+				     mbox_cmd->req_data);
- 	mutex_unlock(&punit_dev->mutex);
- 	if (ret)
- 		return ret;
-@@ -186,11 +192,20 @@ static void isst_if_mbox_remove(struct pci_dev *pdev)
- 	mutex_destroy(&punit_dev->mutex);
- }
- 
-+static int __maybe_unused isst_if_resume(struct device *device)
-+{
-+	isst_resume_common();
-+	return 0;
 +}
 +
-+static SIMPLE_DEV_PM_OPS(isst_if_pm_ops, NULL, isst_if_resume);
-+
- static struct pci_driver isst_if_pci_driver = {
- 	.name			= "isst_if_mbox_pci",
- 	.id_table		= isst_if_mbox_ids,
- 	.probe			= isst_if_mbox_probe,
- 	.remove			= isst_if_mbox_remove,
-+	.driver.pm		= &isst_if_pm_ops,
- };
- 
- module_pci_driver(isst_if_pci_driver);
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-index 1c25a1235b9e..f7266a115a08 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-@@ -15,8 +15,20 @@
- 
- #include "isst_if_common.h"
- 
-+struct isst_mmio_range {
-+	int beg;
-+	int end;
-+};
-+
-+struct isst_mmio_range mmio_range[] = {
-+	{0x04, 0x14},
-+	{0x20, 0xD0},
-+};
-+
- struct isst_if_device {
- 	void __iomem *punit_mmio;
-+	u32 range_0[5];
-+	u32 range_1[45];
- 	struct mutex mutex;
- };
- 
-@@ -118,11 +130,48 @@ static void isst_if_remove(struct pci_dev *pdev)
- 	mutex_destroy(&punit_dev->mutex);
- }
- 
-+static int __maybe_unused isst_if_suspend(struct device *device)
++static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
 +{
-+	struct pci_dev *pdev = to_pci_dev(device);
++	struct isst_if_mbox_cmd *mbox_cmd;
 +	struct isst_if_device *punit_dev;
-+	int i;
++	struct pci_dev *pdev;
++	int ret;
++
++	mbox_cmd = (struct isst_if_mbox_cmd *)cmd_ptr;
++
++	if (isst_if_mbox_cmd_invalid(mbox_cmd))
++		return -EINVAL;
++
++	if (isst_if_mbox_cmd_set_req(mbox_cmd) && !capable(CAP_SYS_ADMIN))
++		return -EPERM;
++
++	pdev = isst_if_get_pci_dev(mbox_cmd->logical_cpu, 1, 30, 1);
++	if (!pdev)
++		return -EINVAL;
 +
 +	punit_dev = pci_get_drvdata(pdev);
-+	for (i = 0; i < ARRAY_SIZE(punit_dev->range_0); ++i)
-+		punit_dev->range_0[i] = readl(punit_dev->punit_mmio +
-+						mmio_range[0].beg + 4 * i);
-+	for (i = 0; i < ARRAY_SIZE(punit_dev->range_1); ++i)
-+		punit_dev->range_1[i] = readl(punit_dev->punit_mmio +
-+						mmio_range[1].beg + 4 * i);
++	if (!punit_dev)
++		return -EINVAL;
++
++	/*
++	 * Basically we are allowing one complete mailbox transaction on
++	 * a mapped PCI device at a time.
++	 */
++	mutex_lock(&punit_dev->mutex);
++	ret = isst_if_mbox_cmd(pdev, mbox_cmd);
++	mutex_unlock(&punit_dev->mutex);
++	if (ret)
++		return ret;
++
++	*write_only = 0;
 +
 +	return 0;
 +}
 +
-+static int __maybe_unused isst_if_resume(struct device *device)
++static const struct pci_device_id isst_if_mbox_ids[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
++	{ 0 },
++};
++MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
++
++static int isst_if_mbox_probe(struct pci_dev *pdev,
++			      const struct pci_device_id *ent)
 +{
-+	struct pci_dev *pdev = to_pci_dev(device);
 +	struct isst_if_device *punit_dev;
-+	int i;
++	struct isst_if_cmd_cb cb;
++	int ret;
++
++	punit_dev = devm_kzalloc(&pdev->dev, sizeof(*punit_dev), GFP_KERNEL);
++	if (!punit_dev)
++		return -ENOMEM;
++
++	ret = pcim_enable_device(pdev);
++	if (ret)
++		return ret;
++
++	mutex_init(&punit_dev->mutex);
++	pci_set_drvdata(pdev, punit_dev);
++
++	memset(&cb, 0, sizeof(cb));
++	cb.cmd_size = sizeof(struct isst_if_mbox_cmd);
++	cb.offset = offsetof(struct isst_if_mbox_cmds, mbox_cmd);
++	cb.cmd_callback = isst_if_mbox_proc_cmd;
++	cb.owner = THIS_MODULE;
++	ret = isst_if_cdev_register(ISST_IF_DEV_MBOX, &cb);
++
++	if (ret)
++		mutex_destroy(&punit_dev->mutex);
++
++	return ret;
++}
++
++static void isst_if_mbox_remove(struct pci_dev *pdev)
++{
++	struct isst_if_device *punit_dev;
 +
 +	punit_dev = pci_get_drvdata(pdev);
-+	for (i = 0; i < ARRAY_SIZE(punit_dev->range_0); ++i)
-+		writel(punit_dev->range_0[i], punit_dev->punit_mmio +
-+						mmio_range[0].beg + 4 * i);
-+	for (i = 0; i < ARRAY_SIZE(punit_dev->range_1); ++i)
-+		writel(punit_dev->range_1[i], punit_dev->punit_mmio +
-+						mmio_range[1].beg + 4 * i);
-+
-+	return 0;
++	isst_if_cdev_unregister(ISST_IF_DEV_MBOX);
++	mutex_destroy(&punit_dev->mutex);
 +}
 +
-+static SIMPLE_DEV_PM_OPS(isst_if_pm_ops, isst_if_suspend, isst_if_resume);
++static struct pci_driver isst_if_pci_driver = {
++	.name			= "isst_if_mbox_pci",
++	.id_table		= isst_if_mbox_ids,
++	.probe			= isst_if_mbox_probe,
++	.remove			= isst_if_mbox_remove,
++};
 +
- static struct pci_driver isst_if_pci_driver = {
- 	.name			= "isst_if_pci",
- 	.id_table		= isst_if_ids,
- 	.probe			= isst_if_probe,
- 	.remove			= isst_if_remove,
-+	.driver.pm		= &isst_if_pm_ops,
++module_pci_driver(isst_if_pci_driver);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Intel speed select interface pci mailbox driver");
+diff --git a/include/uapi/linux/isst_if.h b/include/uapi/linux/isst_if.h
+index fe2492ade078..e4b1c2ec3279 100644
+--- a/include/uapi/linux/isst_if.h
++++ b/include/uapi/linux/isst_if.h
+@@ -95,8 +95,46 @@ struct isst_if_io_regs {
+ 	struct isst_if_io_reg io_reg[1];
  };
  
- module_pci_driver(isst_if_pci_driver);
++/**
++ * struct isst_if_mbox_cmd - Structure to define mail box command
++ * @logical_cpu:	Logical CPU number to get target PCI device
++ * @parameter:		Mailbox parameter value
++ * @req_data:		Request data for the mailbox
++ * @resp_data:		Response data for mailbox command response
++ * @command:		Mailbox command value
++ * @sub_command:	Mailbox sub command value
++ * @reserved:		Unused, set to 0
++ *
++ * Structure to specify mailbox command to be sent to PUNIT.
++ */
++struct isst_if_mbox_cmd {
++	__u32 logical_cpu;
++	__u32 parameter;
++	__u32 req_data;
++	__u32 resp_data;
++	__u16 command;
++	__u16 sub_command;
++	__u32 reserved;
++};
++
++/**
++ * struct isst_if_mbox_cmds - structure for mailbox commands
++ * @cmd_count:	Number of mailbox commands in mbox_cmd[]
++ * @mbox_cmd[]:	Holds one or more mbox commands
++ *
++ * This structure used with ioctl ISST_IF_MBOX_COMMAND to send
++ * one or more mailbox commands to PUNIT. Here IOCTL return value
++ * indicates number of commands sent or error number if no commands have
++ * been sent.
++ */
++struct isst_if_mbox_cmds {
++	__u32 cmd_count;
++	struct isst_if_mbox_cmd mbox_cmd[1];
++};
++
+ #define ISST_IF_MAGIC			0xFE
+ #define ISST_IF_GET_PLATFORM_INFO	_IOR(ISST_IF_MAGIC, 0, struct isst_if_platform_info *)
+ #define ISST_IF_GET_PHY_ID		_IOWR(ISST_IF_MAGIC, 1, struct isst_if_cpu_map *)
+ #define ISST_IF_IO_CMD		_IOW(ISST_IF_MAGIC, 2, struct isst_if_io_regs *)
++#define ISST_IF_MBOX_COMMAND	_IOWR(ISST_IF_MAGIC, 3, struct isst_if_mbox_cmds *)
+ #endif
 -- 
 2.17.2
 
