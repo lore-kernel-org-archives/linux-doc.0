@@ -1,108 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C77F67D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 19:59:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7E627D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Jun 2019 20:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbfFZT7v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Jun 2019 15:59:51 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:36583 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfFZT7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 15:59:51 -0400
-Received: by mail-pl1-f195.google.com with SMTP id k8so2018436plt.3
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 12:59:50 -0700 (PDT)
+        id S1726399AbfFZUHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Jun 2019 16:07:07 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45805 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726227AbfFZUHH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jun 2019 16:07:07 -0400
+Received: by mail-oi1-f195.google.com with SMTP id m206so67445oib.12;
+        Wed, 26 Jun 2019 13:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oJrm4UyKgvoevmBE4eZPkQ/+kkY70KZGEQ0Q2cnjCFc=;
-        b=fsE7LC3omCGhexX9SxhYLu3osDjmI5IO1mcikyIyBAs6zALQQUP8jP37oWiKt5Z0UL
-         9QFM5YXuvbppFfsfhQIrW7neyfgexnYYBO0IzrrU3APhRiyqKvLrFxLflkCmPoj0EApW
-         yIMuMW8aARU2MWuFHH2/6QwZOvcCaxhWQlJgc=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=L1KY2VS0YX2JdGgipHxdRkqGaqq8aqJuC6oZGy9IsNU=;
+        b=Cc4/pgZ5zXQyZ7Y4l84WddUaV+snmGbt/sElj+sYiPgG0MlniKIiOJ/BiWsBY9IAE6
+         t67iADTbByUhEvyhg75qMmvuJcjf0MHBTB83AIRknvSCe0YeCc7SpKH55KWvHAGQB7eT
+         Up2eJpRPvB9cA7v78hD/r4Sk9evxzhyIYl6v383Soo+WSRGIk0jE05qYIfmQK6eZSoUi
+         U5As8g2AU5+S2t/yukiQjg20ri0x7Cr88RwwAsUJyEgw4qTRkpcV7halXDf0w7Ed5pky
+         gEFtOD8gawn4u9sZGfsMrwSreKtS6b78C1cSV4gdmpjlr1biRNbWAI2nboriTPU1WdZn
+         7xNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oJrm4UyKgvoevmBE4eZPkQ/+kkY70KZGEQ0Q2cnjCFc=;
-        b=B6jBcimc/cU9w1alaLvW78DNSjR9h6hA2GCP2iWHXTImZFxGhrNqwoPX8a+krJ1oIk
-         AUt/gd0VbmRGMDpgWqvWIpWtjLqJ5c/HYXVRDlIC6tHIg0DHoqSKyMjGh6Yu65KUYMbR
-         X67zhAzl/5kYF9BMZ5PD1YmHX4XjUyL1bswPBfv9Nw4u84VEqjzx00sq1/VdFLG6ORm8
-         m+9SaCvKx2rdWd2BUD3mkdOPZqBcpINPJwRU460TVmg+mk2BMR/1BkXIFDWC1WqdwjV9
-         qhumzuLa/vy3NHaHEw2qoaElLKq8O6eGpqKDpfMWhaut79AYMRoV0pftFNg1ABphMrYE
-         6X6w==
-X-Gm-Message-State: APjAAAWIABdlJwcw9mYBMKlsH/EEPKVwxM7E/D3RgaXLBV4Ryn/MRcZw
-        wBrljiCdFS4+DzBuqCsX7JJ+cQ==
-X-Google-Smtp-Source: APXvYqzFMKnWTXmF+17dsuclaAZ/vYLU8FRyvzEYjwf+Z7iMzF+jmOZhMCafJuUIe4LUhngbX9tXtg==
-X-Received: by 2002:a17:902:788e:: with SMTP id q14mr7551852pll.234.1561579190689;
-        Wed, 26 Jun 2019 12:59:50 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 22sm37148pfu.179.2019.06.26.12.59.49
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Jun 2019 12:59:49 -0700 (PDT)
-Date:   Wed, 26 Jun 2019 12:59:48 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Emese Revfy <re.emese@gmail.com>
-Subject: Re: [PATCH] docs: move gcc_plugins.txt to core-api and rename to .rst
-Message-ID: <201906261259.34343CC@keescook>
-References: <4937ff4f93282ed57c9859de4300b4d835880ebb.1561556794.git.mchehab+samsung@kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=L1KY2VS0YX2JdGgipHxdRkqGaqq8aqJuC6oZGy9IsNU=;
+        b=Elz0TZI8MrGs3c98G+/4Ts0EC63a5ZOtgq1uxjR7D5cuWMUdSGaSh+yYVda6QXsAhn
+         ZJEPfNFwCsCFwbQ9CQB4/PGL9zz6B8TAGh4HeOescLnrFp7ofmrauzWOf7RDmUukx3cw
+         P8IBE+aVOSzWi9PMm4oaEOyWoItUv7lJlcPqFOLa1xwOPjxJkPRDYQpXs82mXd13I4KJ
+         ZIEO8Nr7J4vmuDS2X0nvyX0GNWfPd/NyHLBA6xESW2OonOd9xi4CLFz69dEAtk+A/wqw
+         5xGkWAFNMRrFuVGHMNPXK0S7w/fLSgkI4mkE/JmfacHLTP48OPx+IS6CRV71RKncH+tK
+         14ZA==
+X-Gm-Message-State: APjAAAU52fOUpJe3MUQ7T4yZVWB49IMj64FX2J9psqTo7F66XfId0uJA
+        hmG+9Onzr0ioeWUv7uqxHlEzgXciJUA=
+X-Google-Smtp-Source: APXvYqxiJHN5jv7ob8Hcjl0X7AMBj8zqubPkfsJTuvTPmurBTwxlzu0zwYGCya+V8yHITmk8+Dzv7g==
+X-Received: by 2002:aca:cf51:: with SMTP id f78mr130419oig.10.1561579626623;
+        Wed, 26 Jun 2019 13:07:06 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::48])
+        by smtp.googlemail.com with ESMTPSA id l15sm6952771otr.38.2019.06.26.13.07.05
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 26 Jun 2019 13:07:06 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net
+Subject: [Linux-kernel-mentees][PATCH v5 0/5] Documentation: RCU: Convert to reST
+Date:   Wed, 26 Jun 2019 15:07:00 -0500
+Message-Id: <20190626200705.24501-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190626191249.21135-1-c0d1n61at3@gmail.com>
+References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4937ff4f93282ed57c9859de4300b4d835880ebb.1561556794.git.mchehab+samsung@kernel.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 10:47:46AM -0300, Mauro Carvalho Chehab wrote:
-> 
-> 
-> The gcc_plugins.txt file is already a ReST file. Move it
-> to the core-api book while renaming it.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+This patch series is the initial conversion of the RCU documentation
+section.  This includes reST markup and renaming txt files to rst.  For files
+converted, internal links have been created.  Checkpatch was used to leverage codespell
+for any spelling errors.  Each patch in the series has been compiled and reviewed
+for warnings and errors.  Patches can be bisected.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+The changes make in v5 include:
+  - add reviewed-by tags
 
--Kees
+The changes made in v4 include:
+  - Change links in rcu.rst to the path in documentation section
+  - Maintain the original name of the txt files
 
-> ---
->  Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} | 0
->  Documentation/core-api/index.rst                            | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} (100%)
-> 
-> diff --git a/Documentation/gcc-plugins.txt b/Documentation/core-api/gcc-plugins.rst
-> similarity index 100%
-> rename from Documentation/gcc-plugins.txt
-> rename to Documentation/core-api/gcc-plugins.rst
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index 2466a4c51031..d1e5b95bf86d 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -35,7 +35,7 @@ Core utilities
->     boot-time-mm
->     memory-hotplug
->     protection-keys
-> -
-> +   gcc-plugins
->  
->  Interfaces for kernel debugging
->  ===============================
-> -- 
-> 2.21.0
-> 
-> 
+The changes made in v3 include:
+  - correcting markup to maintain even more of the original text
+  - correcting markup for line breaks
+  - combining all file renaming into one patch
+  - add reviewed-by tags
+  - add required public list to CC
+
+The changes made in v2 include:
+  - correcting markup to maintain as much of the original text as possible
+  - correcting markup to reduce reader context switching
+  - breakout file renaming into individual patches in the series
+
+>8---------------------------------------------------------------------------8<
+
+Jiunn Chang (5):
+  Documentation: RCU: Convert RCU basic concepts to reST
+  Documentation: RCU: Convert RCU linked list to reST
+  Documentation: RCU: Convert RCU UP systems to reST
+  Documentation: RCU: Rename txt files to rst
+  Documentation: RCU: Add TOC tree hooks
+
+ Documentation/RCU/{UP.txt => UP.rst}          | 37 +++++---
+ Documentation/RCU/index.rst                   | 19 ++++
+ .../RCU/{listRCU.txt => listRCU.rst}          | 38 ++++----
+ Documentation/RCU/rcu.rst                     | 92 +++++++++++++++++++
+ Documentation/RCU/rcu.txt                     | 89 ------------------
+ 5 files changed, 156 insertions(+), 119 deletions(-)
+ rename Documentation/RCU/{UP.txt => UP.rst} (84%)
+ create mode 100644 Documentation/RCU/index.rst
+ rename Documentation/RCU/{listRCU.txt => listRCU.rst} (92%)
+ create mode 100644 Documentation/RCU/rcu.rst
+ delete mode 100644 Documentation/RCU/rcu.txt
 
 -- 
-Kees Cook
+2.22.0
+
