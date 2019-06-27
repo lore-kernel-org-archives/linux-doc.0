@@ -1,116 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9A8F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 22:01:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 561917D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 22:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726463AbfF0WBi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 18:01:38 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:45164 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726524AbfF0WBi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 18:01:38 -0400
-Received: by mail-io1-f68.google.com with SMTP id e3so8133502ioc.12
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 15:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Wdf1nBH0PL7WyynZAhKLoekJmYEyf1wAOf9OL+xS3ps=;
-        b=EZHy57R286JnmS4RonvV6TgNEpBo7e4UR6VUQq5Li7wTrWYpHwlkn/4WQUkF2lQ6Id
-         Rv3dpR5L2/bLYYSOZX6qLqoRJ06fSz1sXieusMNnGTlqu43X9nUNHFZCEqWM7ABauNp4
-         G56OIJb6sANOtjquvzu+W7fjjNna3Qti3oceA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Wdf1nBH0PL7WyynZAhKLoekJmYEyf1wAOf9OL+xS3ps=;
-        b=UtLRaxsUXXu6t1Mo3Do1IvMNaodLcbnhry+P1p7b6lJCxkdNDtz3j98TxSd2ernMMT
-         l8p2Lisgg6jZaPKEWK4r98ZgImA9FUHuj1LXYnPU7RfbtMKgHs6zZTor+WlmDR88PvGb
-         4l7XhJXN4mFUIpOuklWkrW5Y+R1LvpLbV9b3gVDySzRV+jQ4gkPGD0C7Z2ptkaSe1ZV9
-         yLTGhxx/b5eDGTrQmKrR3A9JBSrpX/P8QYS2kgCpC2v4xyhTvG/deSkjsX4UBOt2xXyo
-         KWYGK40oz4evixbCxRimPOBRUfW7T32Sa7E2IZmRgQPrujNAzdrTKNgJ7YZSryBcq39h
-         +GaA==
-X-Gm-Message-State: APjAAAWBYhLLQEF4BbeTHkRekfsYbefYbaAtSNUeOi8gbT6TsSOt+rCR
-        YR7YITC3ZZu8ZSiwH9pKZhvW7g==
-X-Google-Smtp-Source: APXvYqwIakKTlYV+0olJ7RCZ68AsDHHJsD4oFuVMJEN85upKVc7g8czSyY8b7jU772BU5N/q4HZWgw==
-X-Received: by 2002:a6b:7606:: with SMTP id g6mr7245403iom.288.1561672897612;
-        Thu, 27 Jun 2019 15:01:37 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id p25sm319707iol.48.2019.06.27.15.01.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 15:01:36 -0700 (PDT)
-Subject: Re: [Linux-kernel-mentees][PATCH] doc: RCU callback locks need only
- _bh, not necessarily _irq
-To:     Jiunn Chang <c0d1n61at3@gmail.com>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "skh >> Shuah Khan" <skhan@linuxfoundation.org>
-References: <20190627210147.19510-1-c0d1n61at3@gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <bc2ce605-56ab-33aa-c94d-d7774e6ce8cd@linuxfoundation.org>
-Date:   Thu, 27 Jun 2019 16:01:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726596AbfF0WJF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 18:09:05 -0400
+Received: from smtprelay0191.hostedemail.com ([216.40.44.191]:36952 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726557AbfF0WJE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 18:09:04 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 2A88D837F24D;
+        Thu, 27 Jun 2019 22:09:03 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: alley15_31b2a6b628109
+X-Filterd-Recvd-Size: 2706
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf07.hostedemail.com (Postfix) with ESMTPA;
+        Thu, 27 Jun 2019 22:09:01 +0000 (UTC)
+Message-ID: <3740b16e5d0a3144e2d48af7cf56ae8020c3f9af.camel@perches.com>
+Subject: Re: [tip:timers/core] hrtimer: Use a bullet for the returns bullet
+ list
+From:   Joe Perches <joe@perches.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org, tglx@linutronix.de,
+        mingo@kernel.org, mchehab@infradead.org, hpa@zytor.com,
+        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
+        linux-tip-commits@vger.kernel.org
+Cc:     docutils-develop@lists.sourceforge.net
+Date:   Thu, 27 Jun 2019 15:08:59 -0700
+In-Reply-To: <tip-516337048fa40496ae5ca9863c367ec991a44d9a@git.kernel.org>
+References: <74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org>
+         <tip-516337048fa40496ae5ca9863c367ec991a44d9a@git.kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-In-Reply-To: <20190627210147.19510-1-c0d1n61at3@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/27/19 3:01 PM, Jiunn Chang wrote:
-> The UP.rst file calls for locks acquired within RCU callback functions
-> to use _irq variants (spin_lock_irqsave() or similar), which does work,
-> but can be overkill.  This commit therefore instead calls for _bh variants
-> (spin_lock_bh() or similar), while noting that _irq does work.
+On Thu, 2019-06-27 at 14:46 -0700, tip-bot for Mauro Carvalho Chehab
+wrote:
+> Commit-ID:  516337048fa40496ae5ca9863c367ec991a44d9a
+> Gitweb:     https://git.kernel.org/tip/516337048fa40496ae5ca9863c367ec991a44d9a
+> Author:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> AuthorDate: Mon, 24 Jun 2019 07:33:26 -0300
+> Committer:  Thomas Gleixner <tglx@linutronix.de>
+> CommitDate: Thu, 27 Jun 2019 23:30:04 +0200
 > 
-> Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-
-Should this by Suggested-by?
-
-> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
-> ---
->   Documentation/RCU/UP.rst | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
+> hrtimer: Use a bullet for the returns bullet list
 > 
-> diff --git a/Documentation/RCU/UP.rst b/Documentation/RCU/UP.rst
-> index 67715a47ae89..e26dda27430c 100644
-> --- a/Documentation/RCU/UP.rst
-> +++ b/Documentation/RCU/UP.rst
-> @@ -113,12 +113,13 @@ Answer to Quick Quiz #1:
->   Answer to Quick Quiz #2:
->   	What locking restriction must RCU callbacks respect?
->   
-> -	Any lock that is acquired within an RCU callback must be
-> -	acquired elsewhere using an _irq variant of the spinlock
-> -	primitive.  For example, if "mylock" is acquired by an
-> -	RCU callback, then a process-context acquisition of this
-> -	lock must use something like spin_lock_irqsave() to
-> -	acquire the lock.
-> +	Any lock that is acquired within an RCU callback must be acquired
-> +	elsewhere using an _bh variant of the spinlock primitive.
-> +	For example, if "mylock" is acquired by an RCU callback, then
-> +	a process-context acquisition of this lock must use something
-> +	like spin_lock_bh() to acquire the lock.  Please note that
-> +	it is also OK to use _irq variants of spinlocks, for example,
-> +	spin_lock_irqsave().
->   
->   	If the process-context code were to simply use spin_lock(),
->   	then, since RCU callbacks can be invoked from softirq context,
+> That gets rid of this warning:
 > 
+>    ./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-thanks,
--- Shuah
+Doesn't this form occur multiple dozens of times in
+kernel sources?
+
+For instance:
+
+$ git grep -B3 -A5 -P "^ \* Returns:?$" | \
+  grep -P -A8 '\-\s+\*\s*@\w+:'
+
+I think the warning is odd at best and docutils might
+be updated or the warning ignored or suppressed.
+
+> and displays nicely both at the source code and at the produced
+> documentation.
+
+> diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+[]
+> @@ -1114,9 +1114,10 @@ EXPORT_SYMBOL_GPL(hrtimer_start_range_ns);
+>   * @timer:	hrtimer to stop
+>   *
+>   * Returns:
+> - *  0 when the timer was not active
+> - *  1 when the timer was active
+> - * -1 when the timer is currently executing the callback function and
+> + *
+> + *  *  0 when the timer was not active
+> + *  *  1 when the timer was active
+> + *  * -1 when the timer is currently executing the callback function and
+>   *    cannot be stopped
+>   */
+>  int hrtimer_try_to_cancel(struct hrtimer *timer)
+
