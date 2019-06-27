@@ -1,69 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DEB67D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 16:32:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 444567D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 16:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbfF0Qct (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 12:32:49 -0400
-Received: from mga14.intel.com ([192.55.52.115]:21015 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726315AbfF0Qct (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jun 2019 12:32:49 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 09:32:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,424,1557212400"; 
-   d="scan'208";a="170472750"
-Received: from unknown (HELO jsakkine-mobl1) ([10.252.36.47])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Jun 2019 09:32:44 -0700
-Message-ID: <0893dc429d4c3f3b52d423f9e61c08a5012a7519.camel@linux.intel.com>
-Subject: Re: [PATCH v7 1/2] fTPM: firmware TPM running in TEE
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de, jgg@ziepe.ca,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        sumit.garg@linaro.org, rdunlap@infradead.org
-Date:   Thu, 27 Jun 2019 19:32:45 +0300
-In-Reply-To: <20190627133004.GA3757@apalos>
-References: <20190625201341.15865-1-sashal@kernel.org>
-         <20190625201341.15865-2-sashal@kernel.org>
-         <673dd30d03e8ed9825bb46ef21b2efef015f6f2a.camel@linux.intel.com>
-         <20190626235653.GL7898@sasha-vm>
-         <b688e845ccbe011c54b10043fbc3c0de8f0befc2.camel@linux.intel.com>
-         <20190627133004.GA3757@apalos>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726441AbfF0QkU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 12:40:20 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:24497 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbfF0QkU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 12:40:20 -0400
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x5RGdDPx001384;
+        Fri, 28 Jun 2019 01:39:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x5RGdDPx001384
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1561653557;
+        bh=MYrNi+Xd6YMTfmz3pQOfdZHAzwLaAH2VFWzvGIIyMfM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FawWg3mvas6tq+8fjdCOIzO2/Fo1SUHXQcsbhnsscqariUpD7EpRIWplQ3l95tm3O
+         PSPrpIVGwMznVpo+S7XkC6DW9FbiCaHQxY+HiKIJYixlSULY3xlJzYn0ArtDgX91DX
+         rLJPylko8ap8cIo62wn34SLEsucmLFtVCfLZRjz4zU+mqYFSwY+ozAsjnHdvw3AgF2
+         Rzsp6IM9WKAV2MuGaIfqm4xG2YD14qLvXIc9pXG42nZ11H33u7gHOgbUxNI9nPxotR
+         xLiZhJMCrdmI23Pv9xz7zjhLeO+dd+Qje4JZuUmxVFlwLF1irl9Fd277b3RGlDgapz
+         tk6BWkAe61Bew==
+X-Nifty-SrcIP: [126.125.154.139]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Jani Nikula <jani.nikula@intel.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v3 3/4] kbuild: support header-test-pattern-y
+Date:   Fri, 28 Jun 2019 01:39:01 +0900
+Message-Id: <20190627163903.28398-4-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190627163903.28398-1-yamada.masahiro@socionext.com>
+References: <20190627163903.28398-1-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-06-27 at 16:30 +0300, Ilias Apalodimas wrote:
-> is really useful. I don't have hardware to test this at the moment, but once i
-> get it, i'll give it a spin.
+In my view, most of headers can be self-contained. So, it would be
+tedious to add every header to header-test-y explicitly. We usually
+end up with "all headers with some exceptions".
 
-Thank you for responding, really appreciate it.
+There are two types in exceptions:
 
-Please note, however, that I already did my v5.3 PR so there is a lot of
-time to give it a spin. In all cases, we will find a way to put this to
-my v5.4 PR. I don't see any reason why not.
+[1] headers that are never compiled as standalone units
 
-As soon as the cosmetic stuff is fixed that I remarked in v7 I'm ready
-to take this to my tree and after that soonish make it available on
-linux-next.
+  For examples, include/linux/compiler-gcc.h is not intended for
+  direct inclusion. We should always exclude such ones.
 
-/Jarkko
+[2] headers that are conditionally compiled as standalone units
+
+  Some headers can be compiled only for particular architectures.
+  For example, include/linux/arm-cci.h can be compiled only for
+  arm/arm64 because it requires <asm/arm-cci.h> to exist.
+  Clang can compile include/soc/nps/mtm.h only for arc because
+  it contains an arch-specific register in inline assembler.
+
+So, you can write Makefile like this:
+
+  header-test-                += linux/compiler-gcc.h
+  header-test-$(CONFIG_ARM)   += linux/arm-cci.h
+  header-test-$(CONFIG_ARM64) += linux/arm-cci.h
+  header-test-$(CONFIG_ARC)   += soc/nps/mtm.h
+
+The new syntax header-test-pattern-y will be useful to specify
+"the rest".
+
+The typical usage is like this:
+
+  header-test-pattern-y += */*.h
+
+This will add all the headers in sub-directories to the test coverage,
+excluding $(header-test-). In this regards, header-test-pattern-y
+behaves like a weaker variant of header-test-y.
+
+Caveat:
+The patterns in header-test-pattern-y are prefixed with $(srctree)/$(src)/
+but not $(objtree)/$(obj)/. Stale generated headers are often left over
+when you traverse the git history without cleaning. Wildcard patterns for
+$(objtree) may match to stale headers, which could fail to compile.
+One pitfall is $(srctree)/$(src)/ and $(objtree)/$(obj)/ point to the
+same directory for in-tree building. So, header-test-pattern-y should
+be used with care since it can potentially match to stale headers.
+
+Caveat2:
+You could use wildcard for header-test-. For example,
+
+  header-test- += asm-generic/%
+
+... will exclude headers in asm-generic directory. Unfortunately, the
+wildcard character is '%' instead of '*' here because this is evaluated
+by $(filter-out ...) whereas header-test-pattern-y is evaluated by
+$(wildcard ...). This is a kludge, but seems useful in some places...
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Tested-by: Jani Nikula <jani.nikula@intel.com>
+---
+
+Changes in v3: None
+Changes in v2:
+  - New patch
+
+ Documentation/kbuild/makefiles.txt | 10 ++++++++++
+ scripts/Makefile.lib               | 11 +++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 5080fec34609..b817e6cefb77 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -1025,6 +1025,16 @@ When kbuild executes, the following steps are followed (roughly):
+ 	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
+ 	this builds them as part of extra-y.
+ 
++    header-test-pattern-y
++
++	This works as a weaker version of header-test-y, and accepts wildcard
++	patterns. The typical usage is:
++
++		  header-test-pattern-y += *.h
++
++	This specifies all the files that matches to '*.h' in the current
++	directory, but the files in 'header-test-' are excluded.
++
+ --- 6.7 Commands useful for building a boot image
+ 
+ 	Kbuild provides a few macros that are useful when building a
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 55ae1ec65342..281864fcf0fe 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -67,6 +67,17 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+ endif
+ 
+ # Test self-contained headers
++
++# Wildcard searches in $(srctree)/$(src)/, but not in $(objtree)/$(obj)/.
++# Stale generated headers are often left over, so pattern matching should
++# be avoided. Please notice $(srctree)/$(src)/ and $(objtree)/$(obj) point
++# to the same location for in-tree building. So, header-test-pattern-y should
++# be used with care.
++header-test-y	+= $(filter-out $(header-test-), \
++		$(patsubst $(srctree)/$(src)/%, %, \
++		$(wildcard $(addprefix $(srctree)/$(src)/, \
++		$(header-test-pattern-y)))))
++
+ extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
+ 
+ # Add subdir path
+-- 
+2.17.1
 
