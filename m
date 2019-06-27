@@ -1,173 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFABF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 10:52:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87BB67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 11:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbfF0Kwa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 06:52:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52364 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbfF0Kwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 06:52:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=d7UsfJNZRzKm4RLEJ8xCGaJL1/w5M/N9EXa+/Ti2rqw=; b=NmjLGbk5nMb640HCjyvgUfVbV
-        iCw2ISM+wEBIUOcaBh4xELH548wfUKuJgcn9VArHpht9uAdqUebDxRYVOS8rwf0ypjtOYh8KaFVLJ
-        HFte2q1YdoOj94TqAdZp+skJybh7DMZcCg44dvlGh1NBo7X2T2TbYDr918M520yKSoi+V8tOwtzYO
-        YJCe9iiV1/IPcUJmxG5+mS+1Hrj+AANavnIWkfB/gfXJ2I4MzDb6ZsCVpgdUZOGY9MG78mrrNRP/Q
-        OWIfg+hluhABXHmmQCEErDnZaQMbp0g2X8N4H8kADNRpzMTYQXVrA82BJ5DSBX0a3k7HpBuHQ5X/i
-        nGrU56wKg==;
-Received: from [186.213.242.156] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgS0y-0006mN-V2; Thu, 27 Jun 2019 10:52:29 +0000
-Date:   Thu, 27 Jun 2019 07:52:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
- book
-Message-ID: <20190627075225.34f8457f@coco.lan>
-In-Reply-To: <87blyjqrz7.fsf@intel.com>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
-        <87o930uvur.fsf@intel.com>
-        <20190614140603.GB7234@kroah.com>
-        <20190614122755.1c7b4898@coco.lan>
-        <874l4ov16m.fsf@intel.com>
-        <20190617105154.3874fd89@coco.lan>
-        <87h88nth3v.fsf@intel.com>
-        <20190619133739.44f92409@coco.lan>
-        <20190621112700.6922d80d@coco.lan>
-        <87blyjqrz7.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726429AbfF0LWn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 07:22:43 -0400
+Received: from mga05.intel.com ([192.55.52.43]:55508 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726308AbfF0LWn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jun 2019 07:22:43 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 04:22:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,423,1557212400"; 
+   d="scan'208";a="183427733"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 04:22:38 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH v2 2/4] kbuild: do not create wrappers for header-test-y
+In-Reply-To: <20190627014617.600-3-yamada.masahiro@socionext.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190627014617.600-1-yamada.masahiro@socionext.com> <20190627014617.600-3-yamada.masahiro@socionext.com>
+Date:   Thu, 27 Jun 2019 14:25:25 +0300
+Message-ID: <875zorqnh6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 27 Jun 2019 12:48:12 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+On Thu, 27 Jun 2019, Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> header-test-y does not work with headers in sub-directories.
+>
+> For example, you can write a Makefile, like this:
+>
+> include/linux/Kbuild:
+>
+>   header-test-y += mtd/nand.h
+>
+> This entry creates a wrapper include/linux/mtd/nand.hdrtest.c with
+> the following content:
+>
+>   #include "mtd/nand.h"
+>
+> To make this work, we need to add $(srctree)/include/linux to the
+> header search path. It would be tedious to add ccflags-y.
+>
+> We could change the *.hdrtest.c rule to wrap:
+>
+>   #include "nand.h"
+>
+> This works for in-tree build since #include "..." searches in the
+> relative path from the header with this directive. For O=... build,
+> we need to add $(srctree)/include/linux/mtd to the header search path,
+> which will be even more tedious.
+>
+> After all, I thought it would be handier to compile headers directly
+> without creating wrappers.
+>
+> I added a new build rule to compile %.h into %.h.s
+>
+> I chose %.h.s instead of %.h.o because it was a little bit faster.
+> Also, for GCC, an empty assembly is smaller than an empty object.
+>
+> I wrote the build rule:
+>
+>   $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
+>
+> instead of:
+>
+>   $(CC) $(c_flags) -S -o $@ -x c $<
+>
+> Both work fine with GCC, but the latter is not good for Clang.
+>
+> This comes down to the difference in the -Wunused-function policy.
+> GCC does not warn about unused 'static inline' functions at all.
+> Clang does not warn about the ones in included headers, but does
+> about the ones in the source. So, we should handle headers as
+> headers, not as source files.
+>
+> In fact, this has been hidden since commit abb2ea7dfd82 ("compiler,
+> clang: suppress warning for unused static inline functions"), but we
+> should not rely on that.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+>
+> Changes in v2:
+>   - New patch
+>
+>  .gitignore                         |  1 -
+>  Documentation/dontdiff             |  1 -
+>  Documentation/kbuild/makefiles.txt |  3 +--
+>  Makefile                           |  1 -
+>  scripts/Makefile.build             | 10 +++++-----
+>  scripts/Makefile.lib               |  2 +-
+>  6 files changed, 7 insertions(+), 11 deletions(-)
+>
+> diff --git a/.gitignore b/.gitignore
+> index 4bb60f0fa23b..7587ef56b92d 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -22,7 +22,6 @@
+>  *.elf
+>  *.gcno
+>  *.gz
+> -*.hdrtest.c
+>  *.i
+>  *.ko
+>  *.lex.c
+> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+> index 554dfe4883d2..5eba889ea84d 100644
+> --- a/Documentation/dontdiff
+> +++ b/Documentation/dontdiff
+> @@ -19,7 +19,6 @@
+>  *.grep
+>  *.grp
+>  *.gz
+> -*.hdrtest.c
+>  *.html
+>  *.i
+>  *.jpeg
+> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+> index ca4b24ec0399..5080fec34609 100644
+> --- a/Documentation/kbuild/makefiles.txt
+> +++ b/Documentation/kbuild/makefiles.txt
+> @@ -1023,8 +1023,7 @@ When kbuild executes, the following steps are followed (roughly):
+>  	header-test-y specifies headers (*.h) in the current directory that
+>  	should be compile tested to ensure they are self-contained,
+>  	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
+> -	this autogenerates dummy sources to include the headers, and builds them
+> -	as part of extra-y.
+> +	this builds them as part of extra-y.
+>  
+>  --- 6.7 Commands useful for building a boot image
+>  
+> diff --git a/Makefile b/Makefile
+> index f23516980796..7f293b0431fe 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1648,7 +1648,6 @@ clean: $(clean-dirs)
+>  		-o -name '*.dwo' -o -name '*.lst' \
+>  		-o -name '*.su'  \
+>  		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+> -		-o -name '*.hdrtest.c' \
+>  		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
+>  		-o -name '*.asn1.[ch]' \
+>  		-o -name '*.symtypes' -o -name 'modules.order' \
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index ee0319560513..776842b7e6a3 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -294,14 +294,14 @@ quiet_cmd_cc_lst_c = MKLST   $@
+>  $(obj)/%.lst: $(src)/%.c FORCE
+>  	$(call if_changed_dep,cc_lst_c)
+>  
+> -# Dummy C sources for header test (header-test-y target)
+> +# header test (header-test-y target)
+>  # ---------------------------------------------------------------------------
+>  
+> -quiet_cmd_header_test = HDRTEST $@
+> -      cmd_header_test = echo "\#include \"$*.h\"" > $@
+> +quiet_cmd_cc_s_h = CC      $@
+> +      cmd_cc_s_h = $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
 
-> On Fri, 21 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> w=
-rote:
-> > Em Wed, 19 Jun 2019 13:37:39 -0300
-> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> > =20
-> >> Em Tue, 18 Jun 2019 11:47:32 +0300
-> >> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> >>  =20
-> >> > On Mon, 17 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.o=
-rg> wrote:   =20
-> >> > > Yeah, I guess it should be possible to do that. How a python script
-> >> > > can identify if it was called by Sphinx, or if it was called direc=
-tly?     =20
-> >> >=20
-> >> > if __name__ =3D=3D '__main__':
-> >> > 	# run on the command-line, not imported   =20
-> >>=20
-> >> Ok, when I have some spare time, I may try to convert one script
-> >> to python and see how it behaves.  =20
-> >
-> > Did a quick test here...=20
-> >
-> > Probably I'm doing something wrong (as I'm a rookie with Python), but,
-> > in order to be able to use the same script as command line and as an Sp=
-hinx
-> > extension, everything that it is currently there should be "escaped"
-> > by an:
-> >
-> > 	if __name__ !=3D '__main__':
-> >
-> > As event the class definition:
-> >
-> >     class KernelCmd(Directive):
-> >
-> > depends on:
-> >
-> > 	from docutils.parsers.rst import directives, Directive
-> >
-> > With is only required when one needs to parse ReST - e. g. only
-> > when the script runs as a Sphinx extension.
-> >
-> > If this is right, as we want a script that can run by command line
-> > to parse and search inside ABI files, at the end of the day, it will
-> > be a lot easier to maintain if the parser script is different from the
-> > Sphinx extension.  =20
->=20
-> Split it into two files, one has the nuts and bolts of parsing and has
-> the "if __name__ =3D=3D '__main__':" bit to run on the command line, and =
-the
-> other interfaces with Sphinx and imports the parser.
+I think I'd prefer HDRTEST or something more informative than just CC in
+the quiet cmd to distinguish this from the usual build lines. Especially
+now that the file name is also just .h.s.
 
-It seems we have an agreement here: the best is indeed to have two
-files, one with the Documentation/ABI parser, and another one with the=20
-Sphinx extension...
+Other than that, good job getting rid of the intermediate file. I
+couldn't figure it out when I did the original.
 
->=20
-> > If so, as the Sphinx extension script will need to call a parsing script
-> > anyway, it doesn't matter the language of the script with will be
-> > doing the ABI file parsing. =20
->=20
-> Calling the parser using an API will be easier to use, maintain and
-> extend than using pipes, with all the interleaved sideband information
-> to adjust line numbers and whatnot.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Tested-by: Jani Nikula <jani.nikula@intel.com>
 
-... and here is where we have two different views.
+>  
+> -$(obj)/%.hdrtest.c:
+> -	$(call cmd,header_test)
+> +$(obj)/%.h.s: $(src)/%.h FORCE
+> +	$(call if_changed_dep,cc_s_h)
+>  
+>  # Compile assembler sources (.S)
+>  # ---------------------------------------------------------------------------
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 3e630fcaffd1..55ae1ec65342 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -67,7 +67,7 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+>  endif
+>  
+>  # Test self-contained headers
+> -extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.hdrtest.o,$(header-test-y))
+> +extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
+>  
+>  # Add subdir path
 
-=46rom debug PoV, the Documentation/ABI parser script should be able to
-print the results by a command line call. This is also a feature
-that it is useful for the users: to be able to seek for a symbol
-and output its ABI description. So, the "stdout" output will be
-there anyway.
-
-The only extra data for the extension side is the file name where
-the information came and the line number.
-
-=46rom maintainership PoV, adding the sideband API for file+line is
-one line at the parser script (a print) and two lines at the Sphinx
-extension (a regex expression and a match line). That's simple to
-maintain.
-
-It is also simple to verify both sides independently, as what
-you see when running the parser script is what you get at the
-extension.
-
-If we add a new ABI between the parser script and the extension
-script, this would require to also maintain the ABI, and would
-make harder to identify problems on ABI problems.
-
--
-
-Another advantage of having those independent is that the
-language of the parsing script can be different. Not being
-python is a big advantage for me, as perl is a lot more
-intuitive and easier to write parser scripts for my eyes.
-
-I can write a perl parsing script in a matter of minutes.
-It takes me a lot more time to do the same with python, and then
-ensure that it will work with two similar but different languages
-(python2 and python3) [1].
-
-[1] btw, with that regards, I still don't know how to teach a
-    python script that it should "prefer" to run with python3 but would
-    fall back to python2. Adding this shebang:
-	# /usr/bin/env python
-    just do the opposite - at least on Fedora
-
-
-Thanks,
-Mauro
+-- 
+Jani Nikula, Intel Open Source Graphics Center
