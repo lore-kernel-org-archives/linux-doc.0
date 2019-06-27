@@ -1,65 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C308B7D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 13:59:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3649A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 14:34:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbfF0N7u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 09:59:50 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:8946 "EHLO smtp5-g21.free.fr"
+        id S1726431AbfF0Oep (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 10:34:45 -0400
+Received: from ms.lwn.net ([45.79.88.28]:56090 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726443AbfF0N7u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jun 2019 09:59:50 -0400
-Received: from heffalump.sk2.org (unknown [88.186.243.14])
-        by smtp5-g21.free.fr (Postfix) with ESMTPS id 3A85E5FFA1;
-        Thu, 27 Jun 2019 15:59:48 +0200 (CEST)
-Received: from steve by heffalump.sk2.org with local (Exim 4.89)
-        (envelope-from <steve@sk2.org>)
-        id 1hgUwF-0000yt-9u; Thu, 27 Jun 2019 15:59:47 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] docs: format kernel-parameters -- as code
-Date:   Thu, 27 Jun 2019 15:59:38 +0200
-Message-Id: <20190627135938.3722-1-steve@sk2.org>
-X-Mailer: git-send-email 2.11.0
+        id S1726422AbfF0Oep (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jun 2019 10:34:45 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AC227537;
+        Thu, 27 Jun 2019 14:34:44 +0000 (UTC)
+Date:   Thu, 27 Jun 2019 08:34:43 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jiunn Chang <c0d1n61at3@gmail.com>
+Cc:     skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org
+Subject: Re: [Linux-kernel-mentees][PATCH v5 1/5] Documentation: RCU:
+ Convert RCU basic concepts to reST
+Message-ID: <20190627083443.4f4918a7@lwn.net>
+In-Reply-To: <20190626200705.24501-2-c0d1n61at3@gmail.com>
+References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
+        <20190626200705.24501-2-c0d1n61at3@gmail.com>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current ReStructuredText formatting results in "--", used to
-indicate the end of the kernel command-line parameters, appearing as
-an en-dash instead of two hyphens; this patch formats them as code,
-"``--``", as done elsewhere in the documentation.
+On Wed, 26 Jun 2019 15:07:01 -0500
+Jiunn Chang <c0d1n61at3@gmail.com> wrote:
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/admin-guide/kernel-parameters.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> RCU basic concepts reST markup.
+> 
+> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 0124980dca2d..b8d479b76648 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -9,11 +9,11 @@ and sorted into English Dictionary order (defined as ignoring all
- punctuation and sorting digits before letters in a case insensitive
- manner), and with descriptions where known.
- 
--The kernel parses parameters from the kernel command line up to "--";
-+The kernel parses parameters from the kernel command line up to "``--``";
- if it doesn't recognize a parameter and it doesn't contain a '.', the
- parameter gets passed to init: parameters with '=' go into init's
- environment, others are passed as command line arguments to init.
--Everything after "--" is passed as an argument to init.
-+Everything after "``--``" is passed as an argument to init.
- 
- Module parameters can be specified in two ways: via the kernel command
- line with a module name prefix, or via modprobe, e.g.::
--- 
-2.11.0
+So this is a little detail but ... your signoff should be the last thing
+in the set of tags on the patch.
 
+This isn't worth making you do yet another revision, so I went ahead and
+applied the patches and fixed the tag ordering on the way in.  I'll also
+append a patch adding the new RCU stuff into the core-api manual so people
+can actually get to it.
+
+Thanks,
+
+jon
