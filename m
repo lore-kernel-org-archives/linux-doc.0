@@ -5,206 +5,103 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAA077D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 16:40:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4609F7D913
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 16:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbfF0QkZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 12:40:25 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:24574 "EHLO
+        id S1726668AbfF0QmO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 12:42:14 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:26335 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbfF0QkY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 12:40:24 -0400
+        with ESMTP id S1726470AbfF0QmN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 12:42:13 -0400
 Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x5RGdDPw001384;
-        Fri, 28 Jun 2019 01:39:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x5RGdDPw001384
+        by conuserg-11.nifty.com with ESMTP id x5RGdDPu001384;
+        Fri, 28 Jun 2019 01:39:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x5RGdDPu001384
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561653556;
-        bh=4f9Bdg3oO7GPeYMOcFqmb0qOWx4/5YC1fL5oEolllJs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JBtHMrOERZXsZ87gj3q5jdcJiisc87Ii1WX9foKDExtNI8ydOePwKsGuQ8eR7P6qg
-         +urMpwnuAougAk/P4bVjABn0KbmkyXlnRboswh9rS4rSOeP7mvJJCGvt9pFSR3wFpC
-         vCw3dtQfg+W+aRM1mELl5HiCOwvrrl14xU/2LMODDYS3JfQZpBCnVHpKL9ymiZv/lM
-         rLUCwlGQboMF0MKKuY9anoSSs8Zr6q9ukd8RLwmPrMWjQhlOaG2A2+VHihL8X9Czfd
-         q6xyOm13nHASPnMY/39ykpLPZY612wPCP4VxK12Ep2z7RXCrqKYS1oNW3SjMGPZoDq
-         lVZzTpb37u7kA==
+        s=dec2015msa; t=1561653555;
+        bh=gmui0wDo25dBFORH/YJIka6km4EHEw6EORwEfx2o9yQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LHdsJdpohHEYXa83KNz44gcdbSGWwuH8/i52iXtlPRu1GaI0q1AIx+uhiZPjHD+z5
+         DuAejfYBz1ERCd2/UEO+AX31hXfRB+q54megCy3CibiEP6HvQxVWjnWOs45HCaF/1v
+         svegg5xjoWH1Nyji+k19J2kFhp8cBCa3WLF4tFizjrni8vK+F5L1uhpXRV3iLegiR5
+         10g+kzx64nxuVStvUP5W0JRs+1HhG7fKuerU2btKzoJvU2KSNdGHewmxZAQ7sXFeN6
+         9Ka0JHlHITKQRFO42QeQ+Z1F0cFcDwb6auRWANJTCWTkPeJI9xac1Jcl7bd/3v1Z3B
+         JmLIbr58SXI/Q==
 X-Nifty-SrcIP: [126.125.154.139]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Jani Nikula <jani.nikula@intel.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH v3 2/4] kbuild: do not create wrappers for header-test-y
-Date:   Fri, 28 Jun 2019 01:39:00 +0900
-Message-Id: <20190627163903.28398-3-yamada.masahiro@socionext.com>
+        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        linux-riscv@lists.infradead.org,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Colin Cross <ccross@android.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH v3 0/4] Compile-test UAPI and kernel headers
+Date:   Fri, 28 Jun 2019 01:38:58 +0900
+Message-Id: <20190627163903.28398-1-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190627163903.28398-1-yamada.masahiro@socionext.com>
-References: <20190627163903.28398-1-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-header-test-y does not work with headers in sub-directories.
+1/4: Compile-test exported headers (reworked in v2)
 
-For example, you may want to write a Makefile, like this:
+2/4: fix a flaw I noticed when I was working on this series.
+     Avoid generating intermediate wrappers.
 
-include/linux/Kbuild:
+3/4: maybe useful for 4/4 and in some other places.
+     Add header-test-pattern-y syntax.
 
-  header-test-y += mtd/nand.h
+4/4: Compile-test kernel-space headers in include/.
+     v2: compile as many headers as possible.
+     v3: exclude more headers causing build errors
 
-This entry will create a wrapper include/linux/mtd/nand.hdrtest.c
-with the following content:
 
-  #include "mtd/nand.h"
+Masahiro Yamada (4):
+  kbuild: compile-test UAPI headers to ensure they are self-contained
+  kbuild: do not create wrappers for header-test-y
+  kbuild: support header-test-pattern-y
+  kbuild: compile-test kernel headers to ensure they are self-contained
 
-To make this work, we need to add $(srctree)/include/linux to the
-header search path. It would be tedious to add ccflags-y.
+ .gitignore                         |    1 -
+ Documentation/dontdiff             |    1 -
+ Documentation/kbuild/makefiles.txt |   13 +-
+ Makefile                           |    4 +-
+ include/Kbuild                     | 1250 ++++++++++++++++++++++++++++
+ init/Kconfig                       |   22 +
+ scripts/Makefile.build             |   10 +-
+ scripts/Makefile.lib               |   13 +-
+ scripts/cc-system-headers.sh       |    8 +
+ usr/.gitignore                     |    1 -
+ usr/Makefile                       |    2 +
+ usr/include/.gitignore             |    3 +
+ usr/include/Makefile               |  134 +++
+ 13 files changed, 1449 insertions(+), 13 deletions(-)
+ create mode 100644 include/Kbuild
+ create mode 100755 scripts/cc-system-headers.sh
+ create mode 100644 usr/include/.gitignore
+ create mode 100644 usr/include/Makefile
 
-Instead, we could change the *.hdrtest.c rule to wrap:
-
-  #include "nand.h"
-
-This works for in-tree build since #include "..." searches in the
-relative path from the header with this directive. For O=... build,
-we need to add $(srctree)/include/linux/mtd to the header search path,
-which will be even more tedious.
-
-After all, I thought it would be handier to compile headers directly
-without creating wrappers.
-
-I added a new build rule to compile %.h into %.h.s
-
-The target is %.h.s instead of %.h.o because it is slightly faster.
-Also, as for GCC, an empty assembly is smaller than an empty object.
-
-I wrote the build rule:
-
-  $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
-
-instead of:
-
-  $(CC) $(c_flags) -S -o $@ -x c $<
-
-Both work fine with GCC, but the latter is bad for Clang.
-
-This comes down to the difference in the -Wunused-function policy.
-GCC does not warn about unused 'static inline' functions at all.
-Clang does not warn about the ones in included headers, but does
-about the ones in the source. So, we should handle headers as
-headers, not as source files.
-
-In fact, this has been hidden since commit abb2ea7dfd82 ("compiler,
-clang: suppress warning for unused static inline functions"), but we
-should not rely on that.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Tested-by: Jani Nikula <jani.nikula@intel.com>
----
-
-Changes in v3: None
-Changes in v2:
-  - New patch
-
- .gitignore                         |  1 -
- Documentation/dontdiff             |  1 -
- Documentation/kbuild/makefiles.txt |  3 +--
- Makefile                           |  1 -
- scripts/Makefile.build             | 10 +++++-----
- scripts/Makefile.lib               |  2 +-
- 6 files changed, 7 insertions(+), 11 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 4bb60f0fa23b..7587ef56b92d 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -22,7 +22,6 @@
- *.elf
- *.gcno
- *.gz
--*.hdrtest.c
- *.i
- *.ko
- *.lex.c
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 554dfe4883d2..5eba889ea84d 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -19,7 +19,6 @@
- *.grep
- *.grp
- *.gz
--*.hdrtest.c
- *.html
- *.i
- *.jpeg
-diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-index ca4b24ec0399..5080fec34609 100644
---- a/Documentation/kbuild/makefiles.txt
-+++ b/Documentation/kbuild/makefiles.txt
-@@ -1023,8 +1023,7 @@ When kbuild executes, the following steps are followed (roughly):
- 	header-test-y specifies headers (*.h) in the current directory that
- 	should be compile tested to ensure they are self-contained,
- 	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
--	this autogenerates dummy sources to include the headers, and builds them
--	as part of extra-y.
-+	this builds them as part of extra-y.
- 
- --- 6.7 Commands useful for building a boot image
- 
-diff --git a/Makefile b/Makefile
-index f23516980796..7f293b0431fe 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1648,7 +1648,6 @@ clean: $(clean-dirs)
- 		-o -name '*.dwo' -o -name '*.lst' \
- 		-o -name '*.su'  \
- 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
--		-o -name '*.hdrtest.c' \
- 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
- 		-o -name '*.asn1.[ch]' \
- 		-o -name '*.symtypes' -o -name 'modules.order' \
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index ee0319560513..776842b7e6a3 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -294,14 +294,14 @@ quiet_cmd_cc_lst_c = MKLST   $@
- $(obj)/%.lst: $(src)/%.c FORCE
- 	$(call if_changed_dep,cc_lst_c)
- 
--# Dummy C sources for header test (header-test-y target)
-+# header test (header-test-y target)
- # ---------------------------------------------------------------------------
- 
--quiet_cmd_header_test = HDRTEST $@
--      cmd_header_test = echo "\#include \"$*.h\"" > $@
-+quiet_cmd_cc_s_h = CC      $@
-+      cmd_cc_s_h = $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
- 
--$(obj)/%.hdrtest.c:
--	$(call cmd,header_test)
-+$(obj)/%.h.s: $(src)/%.h FORCE
-+	$(call if_changed_dep,cc_s_h)
- 
- # Compile assembler sources (.S)
- # ---------------------------------------------------------------------------
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3e630fcaffd1..55ae1ec65342 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -67,7 +67,7 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
- endif
- 
- # Test self-contained headers
--extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.hdrtest.o,$(header-test-y))
-+extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
- 
- # Add subdir path
- 
 -- 
 2.17.1
 
