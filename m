@@ -1,286 +1,421 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB4677D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 09:45:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E58857D91A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 09:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbfF0Jp3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 05:45:29 -0400
-Received: from mga14.intel.com ([192.55.52.115]:60636 "EHLO mga14.intel.com"
+        id S1726431AbfF0J5h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 05:57:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726498AbfF0Jp3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jun 2019 05:45:29 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 02:45:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,423,1557212400"; 
-   d="scan'208";a="183407627"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 02:45:26 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide book
-In-Reply-To: <20190621112700.6922d80d@coco.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1560477540.git.mchehab+samsung@kernel.org> <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org> <87o930uvur.fsf@intel.com> <20190614140603.GB7234@kroah.com> <20190614122755.1c7b4898@coco.lan> <874l4ov16m.fsf@intel.com> <20190617105154.3874fd89@coco.lan> <87h88nth3v.fsf@intel.com> <20190619133739.44f92409@coco.lan> <20190621112700.6922d80d@coco.lan>
-Date:   Thu, 27 Jun 2019 12:48:12 +0300
-Message-ID: <87blyjqrz7.fsf@intel.com>
+        id S1726292AbfF0J5h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jun 2019 05:57:37 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8DCD72082F;
+        Thu, 27 Jun 2019 09:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561629455;
+        bh=eymMH7rhqPovbEEcyDUkxmiLeDNPOUlwlSPI+kUeMSk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iKw/cvhwFeCnk0FJmt6JSjpNaDz6UuCDoVYhgfgZlQwhZSRSUGIrr8bQjSJ6da6zy
+         HUr7ao27x1tJhm7Nece6QDkmTX80BN3RbunJcSHnn7g8xUueeYgtUpCTEFkwK/I0Uk
+         UjjzqXq+dDPNkKRvp7MerD93dkjExDudFK2m696o=
+Date:   Thu, 27 Jun 2019 10:57:30 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jnair@caviumnetworks.com" <jnair@caviumnetworks.com>,
+        "Robert.Richter@cavium.com" <Robert.Richter@cavium.com>,
+        "Jan.Glauber@cavium.com" <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: Re: [PATCH 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+Message-ID: <20190627095730.nf5kkataptfobzue@willie-the-truck>
+References: <1560534144-13896-1-git-send-email-gkulkarni@marvell.com>
+ <1560534144-13896-3-git-send-email-gkulkarni@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1560534144-13896-3-git-send-email-gkulkarni@marvell.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> Em Wed, 19 Jun 2019 13:37:39 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
->
->> Em Tue, 18 Jun 2019 11:47:32 +0300
->> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
->> 
->> > On Mon, 17 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:  
->> > > Yeah, I guess it should be possible to do that. How a python script
->> > > can identify if it was called by Sphinx, or if it was called directly?    
->> > 
->> > if __name__ == '__main__':
->> > 	# run on the command-line, not imported  
->> 
->> Ok, when I have some spare time, I may try to convert one script
->> to python and see how it behaves. 
->
-> Did a quick test here... 
->
-> Probably I'm doing something wrong (as I'm a rookie with Python), but,
-> in order to be able to use the same script as command line and as an Sphinx
-> extension, everything that it is currently there should be "escaped"
-> by an:
->
-> 	if __name__ != '__main__':
->
-> As event the class definition:
->
->     class KernelCmd(Directive):
->
-> depends on:
->
-> 	from docutils.parsers.rst import directives, Directive
->
-> With is only required when one needs to parse ReST - e. g. only
-> when the script runs as a Sphinx extension.
->
-> If this is right, as we want a script that can run by command line
-> to parse and search inside ABI files, at the end of the day, it will
-> be a lot easier to maintain if the parser script is different from the
-> Sphinx extension. 
+Hi Ganapat,
 
-Split it into two files, one has the nuts and bolts of parsing and has
-the "if __name__ == '__main__':" bit to run on the command line, and the
-other interfaces with Sphinx and imports the parser.
+On Fri, Jun 14, 2019 at 05:42:46PM +0000, Ganapatrao Kulkarni wrote:
+> CCPI2 is a low-latency high-bandwidth serial interface for connecting
+> ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
+> 
+> Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
+> ---
+>  drivers/perf/thunderx2_pmu.c | 179 ++++++++++++++++++++++++++++++-----
+>  1 file changed, 157 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+> index 43d76c85da56..3791ac9b897d 100644
+> --- a/drivers/perf/thunderx2_pmu.c
+> +++ b/drivers/perf/thunderx2_pmu.c
+> @@ -16,7 +16,9 @@
+>   * they need to be sampled before overflow(i.e, at every 2 seconds).
+>   */
+>  
+> -#define TX2_PMU_MAX_COUNTERS		4
+> +#define TX2_PMU_DMC_L3C_MAX_COUNTERS	4
 
-> If so, as the Sphinx extension script will need to call a parsing script
-> anyway, it doesn't matter the language of the script with will be
-> doing the ABI file parsing.
+I find it odd that you rename this...
 
-Calling the parser using an API will be easier to use, maintain and
-extend than using pipes, with all the interleaved sideband information
-to adjust line numbers and whatnot.
-
-BR,
-Jani.
+> +#define TX2_PMU_CCPI2_MAX_COUNTERS	8
+> +
+>  #define TX2_PMU_DMC_CHANNELS		8
+>  #define TX2_PMU_L3_TILES		16
+>  
+> @@ -28,11 +30,22 @@
+>    */
+>  #define DMC_EVENT_CFG(idx, val)		((val) << (((idx) * 8) + 1))
+>  
+> +#define GET_EVENTID_CCPI2(ev)		((ev->hw.config) & 0x1ff)
+> +/* bits[3:0] to select counters, starts from 8, bit[3] set always. */
+> +#define GET_COUNTERID_CCPI2(ev)		((ev->hw.idx) & 0x7)
+> +#define CCPI2_COUNTER_OFFSET		8
 
 
+... but leave GET_EVENTID alone, even though it only applies to DMC/L3C
+events. Saying that, if you have the event you can figure out its type,
+so could you avoid the need for additional macros entirely and just use
+the correct masks based on the corresponding PMU type? That might also
+avoid some of the conditional control flow you're introducing elsewhere.
 
->
-> See the enclosing file. I didn't add anything from the ABI parsing
-> script yet. It was just changed in order to not generate an error
-> when trying to run it from command line.
->
->
-> Thanks,
-> Mauro
-> #!/usr/bin/env python3
-> # coding=utf-8
-> # SPDX-License-Identifier: GPL-2.0
-> #
-> u"""
->     kernel-abi
->     ~~~~~~~~~~
->
->     Implementation of the ``kernel-abi`` reST-directive.
->
->     :copyright:  Copyright (C) 2016  Markus Heiser
->     :copyright:  Copyright (C) 2016-2019  Mauro Carvalho Chehab
->     :maintained-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
->     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
->
->     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
->     scripts/get_abi.pl script to parse the Kernel ABI files.
->
->     Overview of directive's argument and options.
->
->     .. code-block:: rst
->
->         .. kernel-abi:: <ABI directory location>
->             :debug:
->
->     The argument ``<ABI directory location>`` is required. It contains the
->     location of the ABI files to be parsed.
->
->     ``debug``
->       Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
->       what reST is generated.
->
-> """
->
-> import codecs
-> import os
-> import subprocess
-> import sys
->
-> from os import path
->
-> if __name__ != '__main__':
->     from docutils import nodes, statemachine
->     from docutils.statemachine import ViewList
->     from docutils.parsers.rst import directives, Directive
->     from docutils.utils.error_reporting import ErrorString
->
->     #
->     # AutodocReporter is only good up to Sphinx 1.7
->     #
->     import sphinx
->
->     Use_SSI = sphinx.__version__[:3] >= '1.7'
->     if Use_SSI:
->         from sphinx.util.docutils import switch_source_input
->     else:
->         from sphinx.ext.autodoc import AutodocReporter
->
-> __version__  = '1.0'
->
-> if __name__ != '__main__':
->     def setup(app):
->
->         app.add_directive("kernel-abi", KernelCmd)
->         return dict(
->             version = __version__
->             , parallel_read_safe = True
->             , parallel_write_safe = True
->         )
->
->     class KernelCmd(Directive):
->
->         u"""KernelABI (``kernel-abi``) directive"""
->
->         required_arguments = 1
->         optional_arguments = 2
->         has_content = False
->         final_argument_whitespace = True
->
->         option_spec = {
->             "debug"     : directives.flag,
->             "rst"       : directives.unchanged
->         }
->
->         def warn(self, message, **replace):
->             replace["fname"]   = self.state.document.current_source
->             replace["line_no"] = replace.get("line_no", self.lineno)
->             message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
->             self.state.document.settings.env.app.warn(message, prefix="")
->
->         def run(self):
->
->             doc = self.state.document
->             if not doc.settings.file_insertion_enabled:
->                 raise self.warning("docutils: file insertion disabled")
->
->             env = doc.settings.env
->             cwd = path.dirname(doc.current_source)
->             fname = self.arguments[0]
->
->             cmd = "get_abi.pl rest --dir "
->             cmd += fname
->
->             if 'rst' in self.options:
->                 cmd += " --rst-source"
->
->             srctree = path.abspath(os.environ["srctree"])
->
->             # extend PATH with $(srctree)/scripts
->             path_env = os.pathsep.join([
->                 srctree + os.sep + "scripts",
->                 os.environ["PATH"]
->             ])
->             shell_env = os.environ.copy()
->             shell_env["PATH"]    = path_env
->             shell_env["srctree"] = srctree
->
->             lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
->             nodeList = self.nestedParse(lines, self.arguments[0])
->             return nodeList
->
->         def runCmd(self, cmd, **kwargs):
->             u"""Run command ``cmd`` and return it's stdout as unicode."""
->
->             try:
->                 proc = subprocess.Popen(
->                     cmd
->                     , stdout = subprocess.PIPE
->                     , stderr = subprocess.PIPE
->                     , **kwargs
->                 )
->                 out, err = proc.communicate()
->
->                 out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
->
->                 if proc.returncode != 0:
->                     raise self.severe(
->                         u"command '%s' failed with return code %d"
->                         % (cmd, proc.returncode)
->                     )
->             except OSError as exc:
->                 raise self.severe(u"problems with '%s' directive: %s."
->                                 % (self.name, ErrorString(exc)))
->             return out
->
->         def nestedParse(self, lines, fname):
->             content = ViewList()
->             node    = nodes.section()
->
->             if "debug" in self.options:
->                 code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
->                 for l in lines.split("\n"):
->                     code_block += "\n    " + l
->                 lines = code_block + "\n\n"
->
->             for c, l in enumerate(lines.split("\n")):
->                 content.append(l, fname, c)
->
->             buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
->
->             if Use_SSI:
->                 with switch_source_input(self.state, content):
->                     self.state.nested_parse(content, 0, node, match_titles=1)
->             else:
->                 self.state.memo.title_styles  = []
->                 self.state.memo.section_level = 0
->                 self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
->                 try:
->                     self.state.nested_parse(content, 0, node, match_titles=1)
->                 finally:
->                     self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
->
->             return node.children
+>  #define L3C_COUNTER_CTL			0xA8
+>  #define L3C_COUNTER_DATA		0xAC
+>  #define DMC_COUNTER_CTL			0x234
+>  #define DMC_COUNTER_DATA		0x240
+>  
+> +#define CCPI2_PERF_CTL			0x108
+> +#define CCPI2_COUNTER_CTL		0x10C
+> +#define CCPI2_COUNTER_SEL		0x12c
+> +#define CCPI2_COUNTER_DATA_L		0x130
+> +#define CCPI2_COUNTER_DATA_H		0x134
+> +
+>  /* L3C event IDs */
+>  #define L3_EVENT_READ_REQ		0xD
+>  #define L3_EVENT_WRITEBACK_REQ		0xE
+> @@ -51,9 +64,16 @@
+>  #define DMC_EVENT_READ_TXNS		0xF
+>  #define DMC_EVENT_MAX			0x10
+>  
+> +#define CCPI2_EVENT_REQ_PKT_SENT	0x3D
+> +#define CCPI2_EVENT_SNOOP_PKT_SENT	0x65
+> +#define CCPI2_EVENT_DATA_PKT_SENT	0x105
+> +#define CCPI2_EVENT_GIC_PKT_SENT	0x12D
+> +#define CCPI2_EVENT_MAX			0x200
+> +
+>  enum tx2_uncore_type {
+>  	PMU_TYPE_L3C,
+>  	PMU_TYPE_DMC,
+> +	PMU_TYPE_CCPI2,
+>  	PMU_TYPE_INVALID,
+>  };
+>  
+> @@ -73,8 +93,8 @@ struct tx2_uncore_pmu {
+>  	u32 max_events;
+>  	u64 hrtimer_interval;
+>  	void __iomem *base;
+> -	DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
+> -	struct perf_event *events[TX2_PMU_MAX_COUNTERS];
+> +	DECLARE_BITMAP(active_counters, TX2_PMU_CCPI2_MAX_COUNTERS);
+> +	struct perf_event *events[TX2_PMU_DMC_L3C_MAX_COUNTERS];
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Hmm, that looks very odd. Why are they now different sizes?
+
+>  	struct device *dev;
+>  	struct hrtimer hrtimer;
+>  	const struct attribute_group **attr_groups;
+> @@ -92,7 +112,21 @@ static inline struct tx2_uncore_pmu *pmu_to_tx2_pmu(struct pmu *pmu)
+>  	return container_of(pmu, struct tx2_uncore_pmu, pmu);
+>  }
+>  
+> -PMU_FORMAT_ATTR(event,	"config:0-4");
+> +#define TX2_PMU_FORMAT_ATTR(_var, _name, _format)			\
+> +static ssize_t								\
+> +__tx2_pmu_##_var##_show(struct device *dev,				\
+> +			       struct device_attribute *attr,		\
+> +			       char *page)				\
+> +{									\
+> +	BUILD_BUG_ON(sizeof(_format) >= PAGE_SIZE);			\
+> +	return sprintf(page, _format "\n");				\
+> +}									\
+> +									\
+> +static struct device_attribute format_attr_##_var =			\
+> +	__ATTR(_name, 0444, __tx2_pmu_##_var##_show, NULL)
+> +
+> +TX2_PMU_FORMAT_ATTR(event, event, "config:0-4");
+> +TX2_PMU_FORMAT_ATTR(event_ccpi2, event, "config:0-9");
+
+This doesn't look right. Can perf deal with overlapping fields? It seems
+wrong that we'd allow the user to specify both, for example.
+
+>  
+>  static struct attribute *l3c_pmu_format_attrs[] = {
+>  	&format_attr_event.attr,
+> @@ -104,6 +138,11 @@ static struct attribute *dmc_pmu_format_attrs[] = {
+>  	NULL,
+>  };
+>  
+> +static struct attribute *ccpi2_pmu_format_attrs[] = {
+> +	&format_attr_event_ccpi2.attr,
+> +	NULL,
+> +};
+> +
+>  static const struct attribute_group l3c_pmu_format_attr_group = {
+>  	.name = "format",
+>  	.attrs = l3c_pmu_format_attrs,
+> @@ -114,6 +153,11 @@ static const struct attribute_group dmc_pmu_format_attr_group = {
+>  	.attrs = dmc_pmu_format_attrs,
+>  };
+>  
+> +static const struct attribute_group ccpi2_pmu_format_attr_group = {
+> +	.name = "format",
+> +	.attrs = ccpi2_pmu_format_attrs,
+> +};
+> +
+>  /*
+>   * sysfs event attributes
+>   */
+> @@ -164,6 +208,19 @@ static struct attribute *dmc_pmu_events_attrs[] = {
+>  	NULL,
+>  };
+>  
+> +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
+> +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
+> +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
+> +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+> +
+> +static struct attribute *ccpi2_pmu_events_attrs[] = {
+> +	&tx2_pmu_event_attr_req_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_snoop_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_data_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_gic_pktsent.attr.attr,
+> +	NULL,
+> +};
+> +
+>  static const struct attribute_group l3c_pmu_events_attr_group = {
+>  	.name = "events",
+>  	.attrs = l3c_pmu_events_attrs,
+> @@ -174,6 +231,11 @@ static const struct attribute_group dmc_pmu_events_attr_group = {
+>  	.attrs = dmc_pmu_events_attrs,
+>  };
+>  
+> +static const struct attribute_group ccpi2_pmu_events_attr_group = {
+> +	.name = "events",
+> +	.attrs = ccpi2_pmu_events_attrs,
+> +};
+> +
+>  /*
+>   * sysfs cpumask attributes
+>   */
+> @@ -213,6 +275,13 @@ static const struct attribute_group *dmc_pmu_attr_groups[] = {
+>  	NULL
+>  };
+>  
+> +static const struct attribute_group *ccpi2_pmu_attr_groups[] = {
+> +	&ccpi2_pmu_format_attr_group,
+> +	&pmu_cpumask_attr_group,
+> +	&ccpi2_pmu_events_attr_group,
+> +	NULL
+> +};
+> +
+>  static inline u32 reg_readl(unsigned long addr)
+>  {
+>  	return readl((void __iomem *)addr);
+> @@ -265,6 +334,17 @@ static void init_cntr_base_dmc(struct perf_event *event,
+>  		+ DMC_COUNTER_DATA + (0xc * GET_COUNTERID(event));
+>  }
+>  
+> +static void init_cntr_base_ccpi2(struct perf_event *event,
+> +		struct tx2_uncore_pmu *tx2_pmu)
+> +{
+> +
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	hwc->config_base = (unsigned long)tx2_pmu->base
+> +		+ CCPI2_COUNTER_CTL + (4 * GET_COUNTERID_CCPI2(event));
+> +	hwc->event_base =  (unsigned long)tx2_pmu->base;
+> +}
+> +
+>  static void uncore_start_event_l3c(struct perf_event *event, int flags)
+>  {
+>  	u32 val;
+> @@ -312,6 +392,29 @@ static void uncore_stop_event_dmc(struct perf_event *event)
+>  	reg_writel(val, hwc->config_base);
+>  }
+>  
+> +static void uncore_start_event_ccpi2(struct perf_event *event, int flags)
+> +{
+> +	u32 val;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	/* Bit [09:00] to set event id, set level and type to 1 */
+> +	val = reg_readl(hwc->config_base);
+> +	reg_writel((val & ~0xFFF) | (3 << 10) |
+> +			GET_EVENTID_CCPI2(event), hwc->config_base);
+> +	/* reset[4], enable[0] and start[1] counters */
+> +	reg_writel(0x13, hwc->event_base + CCPI2_PERF_CTL);
+> +	local64_set(&event->hw.prev_count, 0ULL);
+> +}
+> +
+> +static void uncore_stop_event_ccpi2(struct perf_event *event)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	/* disable and stop counter */
+> +	reg_writel(0, hwc->event_base + CCPI2_PERF_CTL);
+
+How come you need to clear the event register here? You don't do that for
+the DMC/L3C paths.
+
+> +	reg_writel(0, hwc->config_base);
+
+When starting event you're careful to update this using a read-modify-write
+sequence. Why is it safe to zero the whole thing when stopping?
+
+> +}
+> +
+>  static void tx2_uncore_event_update(struct perf_event *event)
+>  {
+>  	s64 prev, delta, new = 0;
+> @@ -323,12 +426,20 @@ static void tx2_uncore_event_update(struct perf_event *event)
+>  	tx2_pmu = pmu_to_tx2_pmu(event->pmu);
+>  	type = tx2_pmu->type;
+>  	prorate_factor = tx2_pmu->prorate_factor;
+> -
+> -	new = reg_readl(hwc->event_base);
+> -	prev = local64_xchg(&hwc->prev_count, new);
+> -
+> -	/* handles rollover of 32 bit counter */
+> -	delta = (u32)(((1UL << 32) - prev) + new);
+> +	if (type == PMU_TYPE_CCPI2) {
+> +		reg_writel(CCPI2_COUNTER_OFFSET + GET_COUNTERID_CCPI2(event),
+> +					hwc->event_base + CCPI2_COUNTER_SEL);
+> +		new = reg_readl(hwc->event_base + CCPI2_COUNTER_DATA_L);
+> +		new |= (u64)reg_readl(hwc->event_base +
+> +				CCPI2_COUNTER_DATA_H) << 32;
+
+Can you not access the event register using a 64-bit read?
+
+> +		prev = local64_xchg(&hwc->prev_count, new);
+> +		delta = new - prev;
+> +	} else {
+> +		new = reg_readl(hwc->event_base);
+> +		prev = local64_xchg(&hwc->prev_count, new);
+> +		/* handles rollover of 32 bit counter */
+> +		delta = (u32)(((1UL << 32) - prev) + new);
+> +	}
+>  
+>  	/* DMC event data_transfers granularity is 16 Bytes, convert it to 64 */
+>  	if (type == PMU_TYPE_DMC &&
+> @@ -351,6 +462,7 @@ static enum tx2_uncore_type get_tx2_pmu_type(struct acpi_device *adev)
+>  	} devices[] = {
+>  		{"CAV901D", PMU_TYPE_L3C},
+>  		{"CAV901F", PMU_TYPE_DMC},
+> +		{"CAV901E", PMU_TYPE_CCPI2},
+>  		{"", PMU_TYPE_INVALID}
+>  	};
+>  
+> @@ -380,7 +492,8 @@ static bool tx2_uncore_validate_event(struct pmu *pmu,
+>   * Make sure the group of events can be scheduled at once
+>   * on the PMU.
+>   */
+> -static bool tx2_uncore_validate_event_group(struct perf_event *event)
+> +static bool tx2_uncore_validate_event_group(struct perf_event *event,
+> +		int max_counters)
+>  {
+>  	struct perf_event *sibling, *leader = event->group_leader;
+>  	int counters = 0;
+> @@ -403,7 +516,7 @@ static bool tx2_uncore_validate_event_group(struct perf_event *event)
+>  	 * If the group requires more counters than the HW has,
+>  	 * it cannot ever be scheduled.
+>  	 */
+> -	return counters <= TX2_PMU_MAX_COUNTERS;
+> +	return counters <= max_counters;
+>  }
+>  
+>  
+> @@ -439,7 +552,7 @@ static int tx2_uncore_event_init(struct perf_event *event)
+>  	hwc->config = event->attr.config;
+>  
+>  	/* Validate the group */
+> -	if (!tx2_uncore_validate_event_group(event))
+> +	if (!tx2_uncore_validate_event_group(event, tx2_pmu->max_counters))
+>  		return -EINVAL;
+>  
+>  	return 0;
+> @@ -457,7 +570,8 @@ static void tx2_uncore_event_start(struct perf_event *event, int flags)
+>  	perf_event_update_userpage(event);
+>  
+>  	/* Start timer for first event */
+> -	if (bitmap_weight(tx2_pmu->active_counters,
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2 &&
+> +			bitmap_weight(tx2_pmu->active_counters,
+>  				tx2_pmu->max_counters) == 1) {
+>  		hrtimer_start(&tx2_pmu->hrtimer,
+>  			ns_to_ktime(tx2_pmu->hrtimer_interval),
+> @@ -495,7 +609,8 @@ static int tx2_uncore_event_add(struct perf_event *event, int flags)
+>  	if (hwc->idx < 0)
+>  		return -EAGAIN;
+>  
+> -	tx2_pmu->events[hwc->idx] = event;
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2)
+> +		tx2_pmu->events[hwc->idx] = event;
+>  	/* set counter control and data registers base address */
+>  	tx2_pmu->init_cntr_base(event, tx2_pmu);
+>  
+> @@ -514,10 +629,14 @@ static void tx2_uncore_event_del(struct perf_event *event, int flags)
+>  	tx2_uncore_event_stop(event, PERF_EF_UPDATE);
+>  
+>  	/* clear the assigned counter */
+> -	free_counter(tx2_pmu, GET_COUNTERID(event));
+> +	if (tx2_pmu->type == PMU_TYPE_CCPI2)
+> +		free_counter(tx2_pmu, GET_COUNTERID_CCPI2(event));
+> +	else
+> +		free_counter(tx2_pmu, GET_COUNTERID(event));
+>  
+>  	perf_event_update_userpage(event);
+> -	tx2_pmu->events[hwc->idx] = NULL;
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2)
+> +		tx2_pmu->events[hwc->idx] = NULL;
+>  	hwc->idx = -1;
+>  }
+>  
+> @@ -580,8 +699,12 @@ static int tx2_uncore_pmu_add_dev(struct tx2_uncore_pmu *tx2_pmu)
+>  			cpu_online_mask);
+>  
+>  	tx2_pmu->cpu = cpu;
+> -	hrtimer_init(&tx2_pmu->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> -	tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> +	/* CCPI2 counters are 64 bit counters. */
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2) {
+> +		hrtimer_init(&tx2_pmu->hrtimer,
+> +				CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> +		tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> +	}
+
+So I take it the CCPI2 also doesn't have an IRQ, and therefore you can't
+hook up sampling events?
+
+Will
