@@ -1,447 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E599B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 19:49:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 056407D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 20:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbfF0Ttl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 15:49:41 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37084 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbfF0Ttk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 15:49:40 -0400
-Received: by mail-oi1-f193.google.com with SMTP id t76so2501110oih.4
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 12:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=indeed.com; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=vFpnemFUhaDgMBVSz/Rz1L7iW71XFzPQPzl29Qzyp/c=;
-        b=brJcaOVPDn+S54Dh8ckfkHxswZAyn3gT2fITVN3pNmPw70xD+yxFMZykLf6kJdEkZC
-         PC+ovstqx87BHcpEF2n4/q8G2vqK9QtoLoMS7NCZ6MdLplMbA6HhMc9T1WKIAW/5egBi
-         y+5gVLK0/s29F5RaOaXqW/nmFCpZFWo3DlLw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=vFpnemFUhaDgMBVSz/Rz1L7iW71XFzPQPzl29Qzyp/c=;
-        b=RXoh4fDXYQVa6+NTrCN+ItZD/JWBsDedlzwhmVzxbtGJVP8/N89h3Rgj6+/+2EsNEc
-         1RdJ+uT70XkAoDaQiiphyzm1VjQjr4J9Z1VAMCWahhUlkpfid3Sa08GcS42elAHLRr4h
-         LuvcdbWXmUWhrxJd63Y1KIeu1NYzoALjhg2EsxM0jVQtABkkc1biP8IePuur5fLOFhdM
-         GqjtMTW4tf11sXpZn4ZaGNk4knYYjLhKfVG7GCmyl8hkjpF7lPSk23zNWl9IAqaAYLbm
-         XtX1G4mXlsKg+32Cgbn7u4QrfUJbhFkxcmqZ/fgFLV8GkVlmR5FiD/ibQgD5MZTbiG6w
-         J3ig==
-X-Gm-Message-State: APjAAAVb7jm8CcTTNwoseJEdc5DpiY2xX/ab8xGL7fur7ihtg5gWdFIi
-        4NW8kMsWQ5raKxYSmm608z43Aw==
-X-Google-Smtp-Source: APXvYqyiP9SOLabSOaCtETGpX1m+EeBS+19uJwm+GgllfX9byUJ8Rm1ma/OwRrWyOKx3+4f9ysRpsA==
-X-Received: by 2002:aca:1e1a:: with SMTP id m26mr3218932oic.19.1561664979231;
-        Thu, 27 Jun 2019 12:49:39 -0700 (PDT)
-Received: from cando.ausoff.indeed.net ([97.105.47.162])
-        by smtp.gmail.com with ESMTPSA id d200sm1148032oih.26.2019.06.27.12.49.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 12:49:38 -0700 (PDT)
-From:   Dave Chiluk <chiluk+linux@indeed.com>
-To:     Ben Segall <bsegall@google.com>, Pqhil Auld <pauld@redhat.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
-        Kyle Anderson <kwa@yelp.com>,
-        Gabriel Munos <gmunoz@netflix.com>,
-        John Hammond <jhammond@indeed.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
-Date:   Thu, 27 Jun 2019 14:49:30 -0500
-Message-Id: <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
- <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+        id S1726506AbfF0U6R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 16:58:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50648 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726426AbfF0U6R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jun 2019 16:58:17 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C10C930C0DCA;
+        Thu, 27 Jun 2019 20:57:57 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-85.bos.redhat.com [10.18.17.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3DD4B10013D9;
+        Thu, 27 Jun 2019 20:57:51 +0000 (UTC)
+Subject: Re: [PATCH 2/2] mm, slab: Extend vm/drop_caches to shrink kmem slabs
+To:     Roman Gushchin <guro@fb.com>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+References: <20190624174219.25513-1-longman@redhat.com>
+ <20190624174219.25513-3-longman@redhat.com>
+ <20190626201900.GC24698@tower.DHCP.thefacebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <063752b2-4f1a-d198-36e7-3e642d4fcf19@redhat.com>
+Date:   Thu, 27 Jun 2019 16:57:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190626201900.GC24698@tower.DHCP.thefacebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Thu, 27 Jun 2019 20:58:17 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It has been observed, that highly-threaded, non-cpu-bound applications
-running under cpu.cfs_quota_us constraints can hit a high percentage of
-periods throttled while simultaneously not consuming the allocated
-amount of quota. This use case is typical of user-interactive non-cpu
-bound applications, such as those running in kubernetes or mesos when
-run on multiple cpu cores.
+On 6/26/19 4:19 PM, Roman Gushchin wrote:
+>>  
+>> +#ifdef CONFIG_MEMCG_KMEM
+>> +static void kmem_cache_shrink_memcg(struct mem_cgroup *memcg,
+>> +				    void __maybe_unused *arg)
+>> +{
+>> +	struct kmem_cache *s;
+>> +
+>> +	if (memcg == root_mem_cgroup)
+>> +		return;
+>> +	mutex_lock(&slab_mutex);
+>> +	list_for_each_entry(s, &memcg->kmem_caches,
+>> +			    memcg_params.kmem_caches_node) {
+>> +		kmem_cache_shrink(s);
+>> +	}
+>> +	mutex_unlock(&slab_mutex);
+>> +	cond_resched();
+>> +}
+> A couple of questions:
+> 1) how about skipping already offlined kmem_caches? They are already shrunk,
+>    so you probably won't get much out of them. Or isn't it true?
 
-This has been root caused to threads being allocated per cpu bandwidth
-slices, and then not fully using that slice within the period. At which
-point the slice and quota expires. This expiration of unused slice
-results in applications not being able to utilize the quota for which
-they are allocated.
+I have been thinking about that. This patch is based on the linux tree
+and so don't have an easy to find out if the kmem caches have been
+shrinked. Rebasing this on top of linux-next, I can use the
+SLAB_DEACTIVATED flag as a marker for skipping the shrink.
 
-The expiration of per-cpu slices was recently fixed by
-'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
-condition")'. Prior to that it appears that this has been broken since
-at least 'commit 51f2176d74ac ("sched/fair: Fix unlocked reads of some
-cfs_b->quota/period")' which was introduced in v3.16-rc1 in 2014. That
-added the following conditional which resulted in slices never being
-expired.
+With all the latest patches, I am still seeing 121 out of a total of 726
+memcg kmem caches (1/6) that are deactivated caches after system bootup
+one of the test systems. My system is still using cgroup v1 and so the
+number may be different in a v2 setup. The next step is probably to
+figure out why those deactivated caches are still there.
 
-if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
-	/* extend local deadline, drift is bounded above by 2 ticks */
-	cfs_rq->runtime_expires += TICK_NSEC;
+> 2) what's your long-term vision here? do you think that we need to shrink
+>    kmem_caches periodically, depending on memory pressure? how a user
+>    will use this new sysctl?
+Shrinking the kmem caches under extreme memory pressure can be one way
+to free up extra pages, but the effect will probably be temporary.
+> What's the problem you're trying to solve in general?
 
-Because this was broken for nearly 5 years, and has recently been fixed
-and is now being noticed by many users running kubernetes
-(https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
-that the mechanisms around expiring runtime should be removed
-altogether.
+At least for the slub allocator, shrinking the caches allow the number
+of active objects reported in slabinfo to be more accurate. In addition,
+this allow to know the real slab memory consumption. I have been working
+on a BZ about continuous memory leaks with a container based workloads.
+The ability to shrink caches allow us to get a more accurate memory
+consumption picture. Another alternative is to turn on slub_debug which
+will then disables all the per-cpu slabs.
 
-This allows quota already allocated to per-cpu run-queues to live longer
-than the period boundary. This allows threads on runqueues that do not
-use much CPU to continue to use their remaining slice over a longer
-period of time than cpu.cfs_period_us. However, this helps prevents the
-above condition of hitting throttling while also not fully utilizing
-your cpu quota.
+Anyway, I think this can be useful to others that is why I posted the patch.
 
-This theoretically allows a machine to use slightly more than its
-allotted quota in some periods. This overflow would be bounded by the
-remaining quota left on each per-cpu runqueueu. This is typically no
-more than min_cfs_rq_runtime=1ms per cpu. For CPU bound tasks this will
-change nothing, as they should theoretically fully utilize all of their
-quota in each period. For user-interactive tasks as described above this
-provides a much better user/application experience as their cpu
-utilization will more closely match the amount they requested when they
-hit throttling. This means that cpu limits no longer strictly apply per
-period for non-cpu bound applications, but that they are still accurate
-over longer timeframes.
-
-This greatly improves performance of high-thread-count, non-cpu bound
-applications with low cfs_quota_us allocation on high-core-count
-machines. In the case of an artificial testcase (10ms/100ms of quota on
-80 CPU machine), this commit resulted in almost 30x performance
-improvement, while still maintaining correct cpu quota restrictions.
-That testcase is available at https://github.com/indeedeng/fibtest.
-
-Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
-Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
----
- Documentation/scheduler/sched-bwc.txt | 73 ++++++++++++++++++++++++++++-------
- kernel/sched/fair.c                   | 71 +++-------------------------------
- kernel/sched/sched.h                  |  4 --
- 3 files changed, 65 insertions(+), 83 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.txt
-index f6b1873..4c19c94 100644
---- a/Documentation/scheduler/sched-bwc.txt
-+++ b/Documentation/scheduler/sched-bwc.txt
-@@ -8,15 +8,16 @@ CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
- specification of the maximum CPU bandwidth available to a group or hierarchy.
- 
- The bandwidth allowed for a group is specified using a quota and period. Within
--each given "period" (microseconds), a group is allowed to consume only up to
--"quota" microseconds of CPU time.  When the CPU bandwidth consumption of a
--group exceeds this limit (for that period), the tasks belonging to its
--hierarchy will be throttled and are not allowed to run again until the next
--period.
--
--A group's unused runtime is globally tracked, being refreshed with quota units
--above at each period boundary.  As threads consume this bandwidth it is
--transferred to cpu-local "silos" on a demand basis.  The amount transferred
-+each given "period" (microseconds), a task group is allocated up to "quota"
-+microseconds of CPU time. That quota is assigned to per cpu run queues in
-+slices as threads in the cgroup become runnable. Once all quota has been
-+assigned any additional requests for quota will result in those threads being
-+throttled. Throttled threads will not be able to run again until the next
-+period when the quota is replenished.
-+
-+A group's unassigned quota is globally tracked, being refreshed back to
-+cfs_quota units at each period boundary. As threads consume this bandwidth it
-+is transferred to cpu-local "silos" on a demand basis. The amount transferred
- within each of these updates is tunable and described as the "slice".
- 
- Management
-@@ -33,12 +34,12 @@ The default values are:
- 
- A value of -1 for cpu.cfs_quota_us indicates that the group does not have any
- bandwidth restriction in place, such a group is described as an unconstrained
--bandwidth group.  This represents the traditional work-conserving behavior for
-+bandwidth group. This represents the traditional work-conserving behavior for
- CFS.
- 
- Writing any (valid) positive value(s) will enact the specified bandwidth limit.
--The minimum quota allowed for the quota or period is 1ms.  There is also an
--upper bound on the period length of 1s.  Additional restrictions exist when
-+The minimum quota allowed for the quota or period is 1ms. There is also an
-+upper bound on the period length of 1s. Additional restrictions exist when
- bandwidth limits are used in a hierarchical fashion, these are explained in
- more detail below.
- 
-@@ -51,8 +52,8 @@ unthrottled if it is in a constrained state.
- System wide settings
- --------------------
- For efficiency run-time is transferred between the global pool and CPU local
--"silos" in a batch fashion.  This greatly reduces global accounting pressure
--on large systems.  The amount transferred each time such an update is required
-+"silos" in a batch fashion. This greatly reduces global accounting pressure
-+on large systems. The amount transferred each time such an update is required
- is described as the "slice".
- 
- This is tunable via procfs:
-@@ -90,6 +91,50 @@ There are two ways in which a group may become throttled:
- In case b) above, even though the child may have runtime remaining it will not
- be allowed to until the parent's runtime is refreshed.
- 
-+Real-world behavior
-+-------------------
-+Once a slice is assigned to a cpu it does not expire, but all except 1ms of it
-+may be returned to the global pool if all threads on that cpu become
-+unrunnable. This is configured at compile time by the min_cfs_rq_runtime
-+variable.
-+
-+The fact that cpu-local slices do not expire results in some interesting corner
-+cases that should be understood.
-+
-+For cgroup cpu constrained applications that are cpu limited this is a
-+relatively moot point because they will naturally consume the entirety of their
-+quota as well as the entirety of each cpu-local slice in each period. As a
-+result it is expected that nr_periods roughly equal nr_throttled, and that
-+cpuacct.usage will increase roughly equal to cfs_quota_us in each period.
-+
-+However in a worst-case scenario, highly-threaded, interactive/non-cpu bound
-+applications this non-expiration nuance allows applications to briefly burst
-+past their quota limits by the amount of unused slice on each cpu that the task
-+group is running on (typically at most 1ms per cpu). This slight burst
-+only applies if quota had been assigned to a cpu and then not fully used or
-+returned in previous periods. This burst amount will not be transferred
-+between cores. As a result, this mechanism still strictly limits the task
-+group to quota average usage, albeit over a longer time window than period.
-+This also limits the burst ability to no more than 1ms per cpu. This provides
-+better more predictable user experience for highly threaded applications with
-+small quota limits on high core count machines. It also eliminates the
-+propensity to throttle these applications while simultanously using less than
-+quota amounts of cpu. Another way to say this, is that by allowing the unused
-+portion of a slice to remain valid across periods we have decreased the
-+possibility of wasting quota on cpu-local silos that don't need a full slice's
-+amount of cpu time.
-+
-+The interaction between cpu-bound and non-cpu-bound-interactive applications
-+should also be considered, especially when single core usage hits 100%. If you
-+gave each of these applications half of a cpu-core and they both got scheduled
-+on the same CPU it is theoretically possible that the non-cpu bound application
-+will use up to 1ms additional quota in some periods, thereby preventing the
-+cpu-bound application from fully using its quota by that same amount. In these
-+instances it will be up to the CFS algorithm (see sched-design-CFS.txt) to
-+decide which application is chosen to run, as they will both be runnable and
-+have remaining quota. This runtime discrepancy will be made up in the following
-+periods when the interactive application idles.
-+
- Examples
- --------
- 1. Limit a group to 1 CPU worth of runtime.
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index f35930f..a675c69 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4295,8 +4295,6 @@ void __refill_cfs_bandwidth_runtime(struct cfs_bandwidth *cfs_b)
- 
- 	now = sched_clock_cpu(smp_processor_id());
- 	cfs_b->runtime = cfs_b->quota;
--	cfs_b->runtime_expires = now + ktime_to_ns(cfs_b->period);
--	cfs_b->expires_seq++;
- }
- 
- static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
-@@ -4318,8 +4316,7 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
- {
- 	struct task_group *tg = cfs_rq->tg;
- 	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(tg);
--	u64 amount = 0, min_amount, expires;
--	int expires_seq;
-+	u64 amount = 0, min_amount;
- 
- 	/* note: this is a positive sum as runtime_remaining <= 0 */
- 	min_amount = sched_cfs_bandwidth_slice() - cfs_rq->runtime_remaining;
-@@ -4336,61 +4333,17 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
- 			cfs_b->idle = 0;
- 		}
- 	}
--	expires_seq = cfs_b->expires_seq;
--	expires = cfs_b->runtime_expires;
- 	raw_spin_unlock(&cfs_b->lock);
- 
- 	cfs_rq->runtime_remaining += amount;
--	/*
--	 * we may have advanced our local expiration to account for allowed
--	 * spread between our sched_clock and the one on which runtime was
--	 * issued.
--	 */
--	if (cfs_rq->expires_seq != expires_seq) {
--		cfs_rq->expires_seq = expires_seq;
--		cfs_rq->runtime_expires = expires;
--	}
- 
- 	return cfs_rq->runtime_remaining > 0;
- }
- 
--/*
-- * Note: This depends on the synchronization provided by sched_clock and the
-- * fact that rq->clock snapshots this value.
-- */
--static void expire_cfs_rq_runtime(struct cfs_rq *cfs_rq)
--{
--	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
--
--	/* if the deadline is ahead of our clock, nothing to do */
--	if (likely((s64)(rq_clock(rq_of(cfs_rq)) - cfs_rq->runtime_expires) < 0))
--		return;
--
--	if (cfs_rq->runtime_remaining < 0)
--		return;
--
--	/*
--	 * If the local deadline has passed we have to consider the
--	 * possibility that our sched_clock is 'fast' and the global deadline
--	 * has not truly expired.
--	 *
--	 * Fortunately we can check determine whether this the case by checking
--	 * whether the global deadline(cfs_b->expires_seq) has advanced.
--	 */
--	if (cfs_rq->expires_seq == cfs_b->expires_seq) {
--		/* extend local deadline, drift is bounded above by 2 ticks */
--		cfs_rq->runtime_expires += TICK_NSEC;
--	} else {
--		/* global deadline is ahead, expiration has passed */
--		cfs_rq->runtime_remaining = 0;
--	}
--}
--
- static void __account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec)
- {
- 	/* dock delta_exec before expiring quota (as it could span periods) */
- 	cfs_rq->runtime_remaining -= delta_exec;
--	expire_cfs_rq_runtime(cfs_rq);
- 
- 	if (likely(cfs_rq->runtime_remaining > 0))
- 		return;
-@@ -4581,8 +4534,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
- 		resched_curr(rq);
- }
- 
--static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
--		u64 remaining, u64 expires)
-+static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b, u64 remaining)
- {
- 	struct cfs_rq *cfs_rq;
- 	u64 runtime;
-@@ -4604,7 +4556,6 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
- 		remaining -= runtime;
- 
- 		cfs_rq->runtime_remaining += runtime;
--		cfs_rq->runtime_expires = expires;
- 
- 		/* we check whether we're throttled above */
- 		if (cfs_rq->runtime_remaining > 0)
-@@ -4629,7 +4580,7 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
-  */
- static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, unsigned long flags)
- {
--	u64 runtime, runtime_expires;
-+	u64 runtime;
- 	int throttled;
- 
- 	/* no need to continue the timer with no bandwidth constraint */
-@@ -4657,8 +4608,6 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
- 	/* account preceding periods in which throttling occurred */
- 	cfs_b->nr_throttled += overrun;
- 
--	runtime_expires = cfs_b->runtime_expires;
--
- 	/*
- 	 * This check is repeated as we are holding onto the new bandwidth while
- 	 * we unthrottle. This can potentially race with an unthrottled group
-@@ -4671,8 +4620,7 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
- 		cfs_b->distribute_running = 1;
- 		raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
- 		/* we can't nest cfs_b->lock while distributing bandwidth */
--		runtime = distribute_cfs_runtime(cfs_b, runtime,
--						 runtime_expires);
-+		runtime = distribute_cfs_runtime(cfs_b, runtime);
- 		raw_spin_lock_irqsave(&cfs_b->lock, flags);
- 
- 		cfs_b->distribute_running = 0;
-@@ -4749,8 +4697,7 @@ static void __return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
- 		return;
- 
- 	raw_spin_lock(&cfs_b->lock);
--	if (cfs_b->quota != RUNTIME_INF &&
--	    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
-+	if (cfs_b->quota != RUNTIME_INF) {
- 		cfs_b->runtime += slack_runtime;
- 
- 		/* we are under rq->lock, defer unthrottling using a timer */
-@@ -4783,7 +4730,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
- {
- 	u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
- 	unsigned long flags;
--	u64 expires;
- 
- 	/* confirm we're still not at a refresh boundary */
- 	raw_spin_lock_irqsave(&cfs_b->lock, flags);
-@@ -4800,7 +4746,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
- 	if (cfs_b->quota != RUNTIME_INF && cfs_b->runtime > slice)
- 		runtime = cfs_b->runtime;
- 
--	expires = cfs_b->runtime_expires;
- 	if (runtime)
- 		cfs_b->distribute_running = 1;
- 
-@@ -4809,11 +4754,9 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
- 	if (!runtime)
- 		return;
- 
--	runtime = distribute_cfs_runtime(cfs_b, runtime, expires);
-+	runtime = distribute_cfs_runtime(cfs_b, runtime);
- 
- 	raw_spin_lock_irqsave(&cfs_b->lock, flags);
--	if (expires == cfs_b->runtime_expires)
--		lsub_positive(&cfs_b->runtime, runtime);
- 	cfs_b->distribute_running = 0;
- 	raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
- }
-@@ -4969,8 +4912,6 @@ void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
- 
- 	cfs_b->period_active = 1;
- 	overrun = hrtimer_forward_now(&cfs_b->period_timer, cfs_b->period);
--	cfs_b->runtime_expires += (overrun + 1) * ktime_to_ns(cfs_b->period);
--	cfs_b->expires_seq++;
- 	hrtimer_start_expires(&cfs_b->period_timer, HRTIMER_MODE_ABS_PINNED);
- }
- 
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index b52ed1a..0c0ed23 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -341,8 +341,6 @@ struct cfs_bandwidth {
- 	u64			quota;
- 	u64			runtime;
- 	s64			hierarchical_quota;
--	u64			runtime_expires;
--	int			expires_seq;
- 
- 	short			idle;
- 	short			period_active;
-@@ -562,8 +560,6 @@ struct cfs_rq {
- 
- #ifdef CONFIG_CFS_BANDWIDTH
- 	int			runtime_enabled;
--	int			expires_seq;
--	u64			runtime_expires;
- 	s64			runtime_remaining;
- 
- 	u64			throttled_clock;
--- 
-1.8.3.1
+Cheers,
+Longman
 
