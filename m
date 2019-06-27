@@ -1,97 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 99D297D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 19:44:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16B237D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 19:49:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbfF0ToM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 15:44:12 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:36808 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbfF0ToM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 15:44:12 -0400
-Received: by mail-ot1-f66.google.com with SMTP id r6so3532236oti.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 12:44:11 -0700 (PDT)
+        id S1726472AbfF0Ttj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 15:49:39 -0400
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:35321 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbfF0Ttj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 15:49:39 -0400
+Received: by mail-oi1-f180.google.com with SMTP id a127so2503694oii.2
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 12:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Dg1R5Uo32WYkkl3u1ix25+2ks+vFMVLaKn6JsNIbvzk=;
-        b=ADujp90SmUPcFGS9mqRIeJ31riDOHSFmqqsPgEW35NxBXOqkUTJmxkbDTDrxVpuPs+
-         foj05KsSjZSsrJlrZ2kJbJiA7SVzaHc453oD5Mn4aGeGDRtcMimDHYpf7gxb+OPcGXQL
-         NGkOCQRHra+m8ZFYd/zRammMH0zbVKw0tCNSI=
+        d=indeed.com; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=AesOW3EmeuBjZTWgdRCKfU4DW0QAsRu61r3/LGTQTg8=;
+        b=NCZODYSjpvpfxj59czkgru2M6MbuOf355ojoS6qv35oesf0ZPEKewPbzf8Q6hUTwNZ
+         63GC9qzntLhV3BXxzsA1wfMonAydRnckvGu7+Ty6+pC2zHJpo0wDteG4b3WNGiac6WEN
+         get4j9BzPfJbNVLnEdYRJcAD/bpv4qOuVvgK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Dg1R5Uo32WYkkl3u1ix25+2ks+vFMVLaKn6JsNIbvzk=;
-        b=Ez7ccLXQzxHHNCj5ms9a016axoAPFQd1jRvFNVIRO+kDaVOpDFce874jjN7VyPOqlV
-         EZQ5Incc5/AwVaroScyziAPrDs33tTE8vbg4M0lLNzl6fhzP1CyR3bgQWIAAUSqIFX8S
-         LIy0PoTIf3xtvHreuCs3pS6B6jPTCnQcIs2aXGVGmkjmfZeYYMrCa8rHSbOk8xkLsWgN
-         8niFF4xIB3sah25YnqnCW474NjJw9sqRKlQlS13zkUA1rmDxm5r0JPQybixvlMRG9C6Z
-         caG6N/E4jAV3kfWFaQM4dWRSKN9Y9WCoCLJjiVP1YNRAjeoaHB2xKKcDGrFUd3+tVK8E
-         GbEg==
-X-Gm-Message-State: APjAAAWw4oCz4mW1tNd+bfuvQTys5wI8xEdGTPMO1NyhQfouu5eic/32
-        Vva6r5hg6XZ2BqabRm1B5+U9Zg/8BT0mCc4Ch3EDmg==
-X-Google-Smtp-Source: APXvYqy8d5D0lTl2v+MH7FMTmjk/5LP/GDPtK/KvswFJia8XMylNu7kDUlfYn7kVgH+/KXfJHiKJKN36WrVTMaVZggo=
-X-Received: by 2002:a05:6830:4b:: with SMTP id d11mr4771408otp.106.1561664651379;
- Thu, 27 Jun 2019 12:44:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <699d7618720e2808f9aa094a13ab2f3545c3c25c.1561565652.git.mchehab+samsung@kernel.org>
- <20190626212735.GY12905@phenom.ffwll.local> <20190627113122.34b46ee2@lwn.net>
-In-Reply-To: <20190627113122.34b46ee2@lwn.net>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 27 Jun 2019 21:43:59 +0200
-Message-ID: <CAKMK7uGU1X-KvuZGMj3GHNOiqYOuvwq-12o91kBj7JeOf3gjvw@mail.gmail.com>
-Subject: Re: [PATCH] drm: fix a reference for a renamed file: fb/modedb.rst
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=AesOW3EmeuBjZTWgdRCKfU4DW0QAsRu61r3/LGTQTg8=;
+        b=kSIK5Hzvucijifw1a3ZGQQSacQIh0M9194PY1hg/eV8YkyD83fGGKvS9X7FGLZJG2G
+         KMnuDurMLwW519NyYWhTuc9WxwsAFGYw8GzjSfi7eZBvI8EISGda1WCtBV1EJACfUMkB
+         n1AUmSxtNMaPdr24i+gOe05dBEOTNH28+06utBNVrDZ7cJmD4Xv2vru5WA0pjoSkjfNI
+         OehWKLsivs6q2ENddnwD5TRIhwAz1bDnb1XxHCaeP4lkk/cI96cIeLfXQJV6egSh5RSY
+         y5l70BTDWurRzsotXGWhYYMCA3hQA8Q6DHPFlRNKZnwk18S5+DEInPYh1CtzrDbAymOy
+         Qq0w==
+X-Gm-Message-State: APjAAAUvJY0QmIHK6O8U7JlJBnYXHeIHqjwLmF/58mFnNmxXbYXaJ+qC
+        oqgnT/j0qCrp57ne6OiYa/kowA==
+X-Google-Smtp-Source: APXvYqyVAP6KFgB2RBp3IQGLzuIHqYp8k5AhEcsIAc1tToG/shUzilO1cd2B6XGEl8mHP2WOzj0kvQ==
+X-Received: by 2002:aca:cfd0:: with SMTP id f199mr3076083oig.50.1561664978390;
+        Thu, 27 Jun 2019 12:49:38 -0700 (PDT)
+Received: from cando.ausoff.indeed.net ([97.105.47.162])
+        by smtp.gmail.com with ESMTPSA id d200sm1148032oih.26.2019.06.27.12.49.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Jun 2019 12:49:37 -0700 (PDT)
+From:   Dave Chiluk <chiluk+linux@indeed.com>
+To:     Ben Segall <bsegall@google.com>, Pqhil Auld <pauld@redhat.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v5 0/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
+Date:   Thu, 27 Jun 2019 14:49:29 -0500
+Message-Id: <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 7:31 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Wed, 26 Jun 2019 23:27:35 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Wed, Jun 26, 2019 at 01:14:13PM -0300, Mauro Carvalho Chehab wrote:
-> > > Due to two patches being applied about the same time, the
-> > > reference for modedb.rst file got wrong:
-> > >
-> > >     Documentation/fb/modedb.txt is now Documentation/fb/modedb.rst.
-> > >
-> > > Fixes: 1bf4e09227c3 ("drm/modes: Allow to specify rotation and reflection on the commandline")
-> > > Fixes: ab42b818954c ("docs: fb: convert docs to ReST and rename to *.rst")
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> >
-> > What's the merge plan here? doc-next? If so:
-> >
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> It doesn't really apply to docs-next, so that's probably not the best
-> path unless I hold it until after the merge window.  Seems like it needs
-> to go through the DRM tree to me.
+Changelog v5
+- Based on this comment from Ben Segall's comment on v4
+> If the cost of taking this global lock across all cpus without a
+> ratelimit was somehow not a problem, I'd much prefer to just set
+> min_cfs_rq_runtime = 0. (Assuming it is, I definitely prefer the "lie
+> and sorta have 2x period 2x runtime" solution of removing expiration)
+I'm resubmitting my v3 patchset, with the requested changes.
+- Updated Commit log given review comments
+- Update sched-bwc.txt give my new understanding of the slack timer.
 
-fbdev isn't in drm (yet), so I don't think it applies here eithe. I
-guess we need to wait until after -rc1 with this one. Topic
-branch/merge seems a bit overkill here.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Changelog v4
+- Rewrote patchset around the concept of returning all of runtime_remaining
+when cfs_b nears the end of available quota.
+
+Changelog v3
+- Reworked documentation to better describe behavior of slice expiration per
+feedback from Peter Oskolkov
+
+Changelog v2
+- Fixed some checkpatch errors in the commit message.
