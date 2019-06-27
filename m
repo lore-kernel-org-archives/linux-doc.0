@@ -1,90 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 073527D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 21:32:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94EE37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 21:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfF0Vc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 17:32:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55340 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726441AbfF0Vc1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jun 2019 17:32:27 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id CBC2558E5C;
-        Thu, 27 Jun 2019 21:32:06 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-85.bos.redhat.com [10.18.17.85])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 28CB85D9D2;
-        Thu, 27 Jun 2019 21:31:59 +0000 (UTC)
-Subject: Re: [PATCH 2/2] mm, slab: Extend vm/drop_caches to shrink kmem slabs
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-References: <20190624174219.25513-1-longman@redhat.com>
- <20190624174219.25513-3-longman@redhat.com>
- <20190626201900.GC24698@tower.DHCP.thefacebook.com>
- <063752b2-4f1a-d198-36e7-3e642d4fcf19@redhat.com>
- <20190627212419.GA25233@tower.DHCP.thefacebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <73f18141-7e74-9630-06ff-ac8cf9688e6e@redhat.com>
-Date:   Thu, 27 Jun 2019 17:31:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726520AbfF0Vqf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 17:46:35 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:38155 "EHLO
+        terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726441AbfF0Vqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 17:46:35 -0400
+Received: from terminus.zytor.com (localhost [127.0.0.1])
+        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id x5RLk9Zv463188
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Thu, 27 Jun 2019 14:46:09 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 terminus.zytor.com x5RLk9Zv463188
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019061801; t=1561671969;
+        bh=hgK9iD1YVv2yXUV1Tls5bhcWo2VSsYpkJI2AtB3v5YY=;
+        h=Date:From:Cc:Reply-To:In-Reply-To:References:To:Subject:From;
+        b=Y1Lni35aDs6F+unrV3odh79d48bbH/FPKKIYjZtfvTnxKtRHYr2utoAAqbRbVJcgh
+         ols3lkYiWtHMjsfkDy7LEKxo4RlYeUNrOWy0eFMp5qZAzaqsNkq2iVP+NdwWLaHU5S
+         wIco3Or5xZv/Ks90zSZCkIK1Joyac406IuPogxrPnHjhxTi8bbXphbnIzRnPCaKpxA
+         rmL/GVeMeTjmnQ3mHgDOmIzvK6mb0HmfTGV+Omxh63sLay4tW1e/eZYlruF4W61h+z
+         30QUxJulqnV3ToiaROr3gnEk9Q+PkDTXxm2F87YZo9UFGL6w4GmQLCBEWbQOUViLWi
+         9R+y6/hGJdjMw==
+Received: (from tipbot@localhost)
+        by terminus.zytor.com (8.15.2/8.15.2/Submit) id x5RLk7Yw463184;
+        Thu, 27 Jun 2019 14:46:07 -0700
+Date:   Thu, 27 Jun 2019 14:46:07 -0700
+X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
+From:   tip-bot for Mauro Carvalho Chehab <tipbot@zytor.com>
+Message-ID: <tip-516337048fa40496ae5ca9863c367ec991a44d9a@git.kernel.org>
+Cc:     mchehab+samsung@kernel.org, hpa@zytor.com,
+        linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@kernel.org,
+        mchehab@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Reply-To: corbet@lwn.net, linux-doc@vger.kernel.org, tglx@linutronix.de,
+          mingo@kernel.org, mchehab@infradead.org, hpa@zytor.com,
+          linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org
+In-Reply-To: <74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org>
+References: <74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org>
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip:timers/core] hrtimer: Use a bullet for the returns bullet list
+Git-Commit-ID: 516337048fa40496ae5ca9863c367ec991a44d9a
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot.git.kernel.org>
+Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
+ these emails
 MIME-Version: 1.0
-In-Reply-To: <20190627212419.GA25233@tower.DHCP.thefacebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Thu, 27 Jun 2019 21:32:26 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/27/19 5:24 PM, Roman Gushchin wrote:
->>> 2) what's your long-term vision here? do you think that we need to shrink
->>>    kmem_caches periodically, depending on memory pressure? how a user
->>>    will use this new sysctl?
->> Shrinking the kmem caches under extreme memory pressure can be one way
->> to free up extra pages, but the effect will probably be temporary.
->>> What's the problem you're trying to solve in general?
->> At least for the slub allocator, shrinking the caches allow the number
->> of active objects reported in slabinfo to be more accurate. In addition,
->> this allow to know the real slab memory consumption. I have been working
->> on a BZ about continuous memory leaks with a container based workloads.
->> The ability to shrink caches allow us to get a more accurate memory
->> consumption picture. Another alternative is to turn on slub_debug which
->> will then disables all the per-cpu slabs.
-> I see... I agree with Michal here, that extending drop_caches sysctl isn't
-> the best idea. Isn't it possible to achieve the same effect using slub sysfs?
+Commit-ID:  516337048fa40496ae5ca9863c367ec991a44d9a
+Gitweb:     https://git.kernel.org/tip/516337048fa40496ae5ca9863c367ec991a44d9a
+Author:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+AuthorDate: Mon, 24 Jun 2019 07:33:26 -0300
+Committer:  Thomas Gleixner <tglx@linutronix.de>
+CommitDate: Thu, 27 Jun 2019 23:30:04 +0200
 
-Yes, using the slub sysfs interface can be a possible alternative.
+hrtimer: Use a bullet for the returns bullet list
 
-Cheers,
-Longman
+That gets rid of this warning:
 
+   ./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+and displays nicely both at the source code and at the produced
+documentation.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Link: https://lkml.kernel.org/r/74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org
+
+---
+ kernel/time/hrtimer.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+index edb230aba3d1..5ee77f1a8a92 100644
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -1114,9 +1114,10 @@ EXPORT_SYMBOL_GPL(hrtimer_start_range_ns);
+  * @timer:	hrtimer to stop
+  *
+  * Returns:
+- *  0 when the timer was not active
+- *  1 when the timer was active
+- * -1 when the timer is currently executing the callback function and
++ *
++ *  *  0 when the timer was not active
++ *  *  1 when the timer was active
++ *  * -1 when the timer is currently executing the callback function and
+  *    cannot be stopped
+  */
+ int hrtimer_try_to_cancel(struct hrtimer *timer)
