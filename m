@@ -1,117 +1,280 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D2FC7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 06:34:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 24F267D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 06:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfF0GeA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 02:34:00 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39404 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbfF0GeA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 02:34:00 -0400
-Received: by mail-pl1-f196.google.com with SMTP id b7so713101pls.6;
-        Wed, 26 Jun 2019 23:33:59 -0700 (PDT)
+        id S1726054AbfF0G6O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 02:58:14 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35294 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbfF0G6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 02:58:14 -0400
+Received: by mail-wr1-f67.google.com with SMTP id f15so1173615wrp.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2019 23:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=rN7vvaupK7RLBVRK7J1DULNRGUcAxXTHXemdvX83dmE=;
-        b=KUqVeoDVfZFedbtNauWJ6fxkKSIb8iyv27AAH+3ZyL8M8BICcmunMX+OuI2cDNqCYZ
-         dabZmeZEhSeg93q9eOLl6YqZgYj6y9ZxbFYPlpYio0IWl5ev2ufOC8HhDsqU11hipMq6
-         wik4Agp0oNNbcI+mrYecSl6cVTkLN9RpIUczVP25ROGmB8H3VXDer3Tb2tZvU9yQjUog
-         uP2pP3d2IjbL2345Og0H5MGH1m/scGJizRY0ss3zmIMjExtk5G2jlUrrpr69ZKo8qZIN
-         ai+ZL4PS1/YTerBWckk99Gcl+Uhf09+wYnRfXo7itpwjw2dACC1DZiBNcHZqLrEZB6iN
-         Og+g==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=vFy6jEDHceuk/3jGMaqb8AnDamOE2+mcptMv87pigdE=;
+        b=YMHWAg1lUxpHQE9Mf1wmC08lojIisrFBK6+owiCxxraUUaDgVXqwGGctf2EQiGXXvt
+         ASgKY9CLvoyUnIYVXmIAxIgG3bcF433dxlgZ13Dz3xcVzOQYM8qMNpMHbFO63unX7YID
+         IB+kEW28VwK8NvtOaXHyPPGzrDXf288boYWIe+4LKB4usq3MDjkOOtSEjQ7a0e8ejlbd
+         Yia+wMsR0tcR02JqwB8pFNdOMArd654olgRC5zzUUt7K6AHirEimYmwhevAiR2w6iXnJ
+         qlYSg2Ktvk+rEpPpj5j2SMC1OnFa58u8jKiUcZcNB9igfTLKuuYJc3kM2SxslMixZkRL
+         Z4WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=rN7vvaupK7RLBVRK7J1DULNRGUcAxXTHXemdvX83dmE=;
-        b=F1dnFYceRXylisdDkaecgo9/nfNL2f77mB/NPfd08JyMuVumNz/Mp0nXwpcXUa9NU1
-         oqs3tAJx967p6W0OfCtJRv4q7paewCfFlFSw4S+4YEa1edC6InWCKejlRciLpXOrD1pn
-         z4PIKqYBEZ2hiQ3PIxbWwJhzokVxpN7A1WiQvfr2S9zb3py0wRRQluxiYDcX9sWe2int
-         OrOgP1oy4HJB4b7RkhXtN27eFxoXfeyocsC5bTfLg2ZegwhZLGuFaMJ5gfey3Oj8UTIa
-         siDHeh2RXhkyFrKftWmMPtzuPuQ1naEck9QPKSZkidlP36GpdFoBRFuRDOtqDJE6zCAc
-         z4AQ==
-X-Gm-Message-State: APjAAAXV8Y41F6Wdps5NWUs2igiOqaYzGMoxPPXtQ+dEMKspztX9MKSF
-        IXdgsXmXddd/PwfSKnKyrJU=
-X-Google-Smtp-Source: APXvYqzd5daLzUEOgs2G8ejjDfh+6fWCmpv2F9xzIuIC62rqVezHzqZAjMn0rQcaya3WRsEbfT3wHw==
-X-Received: by 2002:a17:902:aa83:: with SMTP id d3mr2662737plr.74.1561617239139;
-        Wed, 26 Jun 2019 23:33:59 -0700 (PDT)
-Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.201.6])
-        by smtp.gmail.com with ESMTPSA id r2sm1505103pfl.67.2019.06.26.23.33.55
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 26 Jun 2019 23:33:58 -0700 (PDT)
-From:   Vandana BN <bnvandana@gmail.com>
-To:     ysato@users.sourceforge.jp, dalias@libc.org, corbet@lwn.net,
-        linux-sh@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Vandana BN <bnvandana@gmail.com>
-Subject: [PATCH] Documentation:sh:convert register-banks.txt to register-banks.rst
-Date:   Thu, 27 Jun 2019 12:03:47 +0530
-Message-Id: <20190627063347.11137-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=vFy6jEDHceuk/3jGMaqb8AnDamOE2+mcptMv87pigdE=;
+        b=TWXlRzgQU0t+DA/lrp0u0Yay+rnTDB4KpIygTDjDp3w5s0Fe+tAXA1cL/yz+RjEt+U
+         Cl9U9dWkc21TbrL0WzQSs6aZDdxQIYhdJUhfc5A3LRfUAw7z2UDW2uJrnKmIw4sF2rkZ
+         gA0vJxAgJktRJvzvfBcCKupndP7o8WJFd/w0uVfoHVz9/vs9DvpLJFjyA428fNKhRAPf
+         3vUt5zBw2EZJ2CTob3jHLNzfLVw7XEBFuqRVNfx+IUhjQjcweajg+v2iRH8rIcsbcSoZ
+         mt73vvkTglI6cFVbbqOp5E6hzbB0AAsVoue+wzKzjgeD8Kvmkm53ydY5E9b79V0gL37T
+         Arbg==
+X-Gm-Message-State: APjAAAVHJpIK//V9Ml21aBsTb71afGc6NFkaTuxZfS/L1IBxBuzu9qwI
+        rL1wrP85I0rDZIL+bj91XTKMKQ==
+X-Google-Smtp-Source: APXvYqyv+gw5AENjLw6j2SwOLBiHY3tyMM8wLQQq5f9meYMIoGmh2gkD+8y5POuKQ8u3jfHvR0Rj5A==
+X-Received: by 2002:a5d:6190:: with SMTP id j16mr1747852wru.49.1561618691175;
+        Wed, 26 Jun 2019 23:58:11 -0700 (PDT)
+Received: from dell ([2.27.35.164])
+        by smtp.gmail.com with ESMTPSA id p4sm1198380wrx.97.2019.06.26.23.58.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 26 Jun 2019 23:58:10 -0700 (PDT)
+Date:   Thu, 27 Jun 2019 07:58:08 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Mathieu Malaterre <malat@debian.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Subject: Re: [PATCH v12 04/13] mfd: Add Ingenic TCU driver
+Message-ID: <20190627065808.GY21119@dell>
+References: <20190521145141.9813-1-paul@crapouillou.net>
+ <20190521145141.9813-5-paul@crapouillou.net>
+ <20190626131850.GW21119@dell>
+ <1561557350.1872.0@crapouillou.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1561557350.1872.0@crapouillou.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch converts register-banks.txt to ReST format, No content
-change.
-Added register-banks.rst to sh/index.rst
+On Wed, 26 Jun 2019, Paul Cercueil wrote:
+> Le mer. 26 juin 2019 à 15:18, Lee Jones <lee.jones@linaro.org> a écrit :
+> > On Tue, 21 May 2019, Paul Cercueil wrote:
+> > 
+> > >  This driver will provide a regmap that can be retrieved very early
+> > > in
+> > >  the boot process through the API function ingenic_tcu_get_regmap().
+> > > 
+> > >  Additionally, it will call devm_of_platform_populate() so that all
+> > > the
+> > >  children devices will be probed.
+> > > 
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >  ---
+> > > 
+> > >  Notes:
+> > >      v12: New patch
+> > > 
+> > >   drivers/mfd/Kconfig             |   8 +++
+> > >   drivers/mfd/Makefile            |   1 +
+> > >   drivers/mfd/ingenic-tcu.c       | 113
+> > > ++++++++++++++++++++++++++++++++
+> > >   include/linux/mfd/ingenic-tcu.h |   8 +++
+> > >   4 files changed, 130 insertions(+)
+> > >   create mode 100644 drivers/mfd/ingenic-tcu.c
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
- Documentation/sh/index.rst                                | 5 +++++
- .../sh/{register-banks.txt => register-banks.rst}         | 8 ++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
- rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
+[...]
 
-diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
-index bc8db7ba894a..59b4e0e17aca 100644
---- a/Documentation/sh/index.rst
-+++ b/Documentation/sh/index.rst
-@@ -57,3 +57,8 @@ Maple
+> > >  +static struct regmap * __init ingenic_tcu_create_regmap(struct
+> > > device_node *np)
+> > >  +{
+> > >  +	struct resource res;
+> > >  +	void __iomem *base;
+> > >  +	struct regmap *map;
+> > >  +
+> > >  +	if (!of_match_node(ingenic_tcu_of_match, np))
+> > >  +		return ERR_PTR(-EINVAL);
 
- .. kernel-doc:: drivers/sh/maple/maple.c
-    :export:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   register-banks
-diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
-similarity index 90%
-rename from Documentation/sh/register-banks.txt
-rename to Documentation/sh/register-banks.rst
-index a6719f2f6594..acccfaf80355 100644
---- a/Documentation/sh/register-banks.txt
-+++ b/Documentation/sh/register-banks.rst
-@@ -1,8 +1,9 @@
--	Notes on register bank usage in the kernel
--	==========================================
-+==========================================
-+Notes on register bank usage in the kernel
-+==========================================
+Drop this check.
 
- Introduction
--------------
-+============
+> > >  +	base = of_io_request_and_map(np, 0, "TCU");
+> > >  +	if (IS_ERR(base))
+> > >  +		return ERR_PTR(PTR_ERR(base));
+> > >  +
+> > >  +	map = regmap_init_mmio(NULL, base, &ingenic_tcu_regmap_config);
+> > >  +	if (IS_ERR(map))
+> > >  +		goto err_iounmap;
 
- The SH-3 and SH-4 CPU families traditionally include a single partial register
- bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
-@@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
- 		- The SR.IMASK interrupt handler makes use of this to set the
- 		  interrupt priority level (used by local_irq_enable())
- 	- r7_bank (current)
--
---
-2.17.1
+Place this inside probe().
 
+> > >  +	return map;
+> > >  +
+> > >  +err_iounmap:
+> > >  +	iounmap(base);
+> > >  +	of_address_to_resource(np, 0, &res);
+> > >  +	release_mem_region(res.start, resource_size(&res));
+> > >  +
+> > >  +	return map;
+> > >  +}
+> > 
+> > Why does this need to be set-up earlier than probe()?
+> 
+> See the explanation below.
+
+I think the answer is, it doesn't.
+
+> > >  +static int __init ingenic_tcu_probe(struct platform_device *pdev)
+> > >  +{
+> > >  +	struct regmap *map = ingenic_tcu_get_regmap(pdev->dev.of_node);
+> > >  +
+> > >  +	platform_set_drvdata(pdev, map);
+> > >  +
+> > >  +	regmap_attach_dev(&pdev->dev, map, &ingenic_tcu_regmap_config);
+> > >  +
+> > >  +	return devm_of_platform_populate(&pdev->dev);
+> > >  +}
+> > >  +
+> > >  +static struct platform_driver ingenic_tcu_driver = {
+> > >  +	.driver = {
+> > >  +		.name = "ingenic-tcu",
+> > >  +		.of_match_table = ingenic_tcu_of_match,
+> > >  +	},
+> > >  +};
+> > >  +
+> > >  +static int __init ingenic_tcu_platform_init(void)
+> > >  +{
+> > >  +	return platform_driver_probe(&ingenic_tcu_driver,
+> > >  +				     ingenic_tcu_probe);
+> > 
+> > What?  Why?
+> 
+> The device driver probed here will populate the children devices,
+> which will be able to retrieve the pointer to the regmap through
+> device_get_regmap(dev->parent).
+
+I've never heard of this call.  Where is it?
+
+> The children devices are normal platform drivers that can be probed
+> the normal way. These are the PWM driver, the watchdog driver, and the
+> OST (OS Timer) clocksource driver, all part of the same hardware block
+> (the Timer/Counter Unit or TCU).
+
+If they are normal devices, then there is no need to roll your own
+regmap-getter implementation like this.
+
+> > >  +}
+> > >  +subsys_initcall(ingenic_tcu_platform_init);
+> > >  +
+> > >  +struct regmap * __init ingenic_tcu_get_regmap(struct device_node
+> > > *np)
+> > >  +{
+> > >  +	if (!tcu_regmap)
+> > >  +		tcu_regmap = ingenic_tcu_create_regmap(np);
+> > >  +
+> > >  +	return tcu_regmap;
+> > >  +}
+> > 
+> > This makes me pretty uncomfortable.
+> > 
+> > What calls it?
+> 
+> The TCU IRQ driver (patch [06/13]), clocks driver (patch [05/13]), and the
+> non-OST clocksource driver (patch [07/13]) all probe very early in the boot
+> process, and share the same devicetree node. They call this function to get
+> a pointer to the regmap.
+
+Horrible!
+
+Instead, you should send it through platform_set_drvdata() and collect
+it in the child drivers with platform_get_drvdata(dev->parent).
+
+> > >  +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int
+> > > channel)
+> > >  +{
+> > >  +	const struct ingenic_soc_info *soc =
+> > > device_get_match_data(dev->parent);
+> > >  +
+> > >  +	/* Enable all TCU channels for PWM use by default except channels
+> > > 0/1 */
+> > >  +	u32 pwm_channels_mask = GENMASK(soc->num_channels - 1, 2);
+> > >  +
+> > >  +	device_property_read_u32(dev->parent, "ingenic,pwm-channels-mask",
+> > >  +				 &pwm_channels_mask);
+
+Doesn't this call overwrite the previous assignment above?
+
+> > >  +	return !!(pwm_channels_mask & BIT(channel));
+> > >  +}
+> > >  +EXPORT_SYMBOL_GPL(ingenic_tcu_pwm_can_use_chn);
+
+Where is this called from?
+
+I think this needs a review by the DT guys.
+
+> > >  diff --git a/include/linux/mfd/ingenic-tcu.h
+> > > b/include/linux/mfd/ingenic-tcu.h
+> > >  index 2083fa20821d..21df23916cd2 100644
+> > >  --- a/include/linux/mfd/ingenic-tcu.h
+> > >  +++ b/include/linux/mfd/ingenic-tcu.h
+> > >  @@ -6,6 +6,11 @@
+> > >   #define __LINUX_MFD_INGENIC_TCU_H_
+> > > 
+> > >   #include <linux/bitops.h>
+> > >  +#include <linux/init.h>
+> > >  +
+> > >  +struct device;
+> > >  +struct device_node;
+> > >  +struct regmap;
+> > > 
+> > >   #define TCU_REG_WDT_TDR		0x00
+> > >   #define TCU_REG_WDT_TCER	0x04
+> > >  @@ -53,4 +58,7 @@
+> > >   #define TCU_REG_TCNTc(c)	(TCU_REG_TCNT0 + ((c) *
+> > > TCU_CHANNEL_STRIDE))
+> > >   #define TCU_REG_TCSRc(c)	(TCU_REG_TCSR0 + ((c) *
+> > > TCU_CHANNEL_STRIDE))
+> > > 
+> > >  +struct regmap * __init ingenic_tcu_get_regmap(struct device_node
+> > > *np);
+> > >  +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int
+> > > channel);
+> > >  +
+> > >   #endif /* __LINUX_MFD_INGENIC_TCU_H_ */
+> > 
+> 
+> 
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
