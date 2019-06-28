@@ -1,141 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6D2D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 04:58:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E89557D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 05:37:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbfF1E6E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 00:58:04 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:17874 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726240AbfF1E6E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 00:58:04 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x5S4vmF1019231;
-        Fri, 28 Jun 2019 13:57:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x5S4vmF1019231
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561697869;
-        bh=SIK/nAM+sI54EJmk0mR1Usgw9j5vfYmGFrOtLjOZzLg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JxblWpm3C3r7r01gYCOajBSW84T6W3cnHh34fYXfzFs98o7YC0XLfQPjyIZJOe7wM
-         PY/Z814YyNy19enS/Ou211c5U7rm691JuQCgggAcE2sGPHLAj9wwCQolzRkbPaDRiu
-         FrTXIynHp8sn8Ga5l38WmMbWouAfZu8DxdTPzh8CSEslepOK3tMS5SQS+4VtUehZ9t
-         NSNHzUy1OY+BQNhszkLRTwslt4vvB1fQRAdLZXk9kVNL+2+OwXetOycQuOQ2VOQRtf
-         XghTnCtXDc6J9Kd7iUMUzD/WmoM3yPHVBRQHQLacTI0FvtiDEE2S7qU0bYPKqALUUD
-         5RDATmr7n88Ew==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id m8so3223822vsj.0;
-        Thu, 27 Jun 2019 21:57:48 -0700 (PDT)
-X-Gm-Message-State: APjAAAVu7n6CngMno4scf2pMdH3Hmq9hLhKhaaiLPuIUzywdwnzZSMaq
-        //TzyUqqq0KFjBboz92i6ufgqEomdtaXqA+s3JY=
-X-Google-Smtp-Source: APXvYqyyvmsd8AAk5R7aaNFgntOJs2TjX0FeQ1b2WdSaf2T0LzzKUcfk9Z8oacISJcBzf5zvmHjL7/Pj9m8miFmaa6o=
-X-Received: by 2002:a67:d46:: with SMTP id 67mr4682467vsn.181.1561697868020;
- Thu, 27 Jun 2019 21:57:48 -0700 (PDT)
+        id S1726898AbfF1Fhq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 01:37:46 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:45892 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfF1Fhq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 01:37:46 -0400
+Received: by mail-ed1-f66.google.com with SMTP id a14so9362894edv.12;
+        Thu, 27 Jun 2019 22:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WBYYhW5Gh0k02Xn+yXF169t1R5n8yBBOosh2AW+cTaQ=;
+        b=GtVR6TaqkFxA+ga9RJofdwkyd9AJCLMAHaq8a+pDwL0nnpoyjcuEaNhquQ4QGScQch
+         EffmqEivEprN5negwbrFtyQ/RX8L09FQFu2e6AjdyKNGuBNNe3QIQiI4FnQWjihEF1uH
+         0KvSElLDh0070EMet06gmn+zUGB9MhnZwQxIgGXczILCZAB6dlWHL37plKlaGrSdv6Ld
+         u/s7Sql/h2O/t0D976AlIHzbRyC370+fmWAeFLniP8HoaoUlIBHo6Q4RUaOYjEQYcpsG
+         kMm0XjvDzoJTMJEOnX0sk8NEWT8U23L1LuMRAhvpVNU4ZWTQRvMA3VPXjHujGLnnwBYT
+         01FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WBYYhW5Gh0k02Xn+yXF169t1R5n8yBBOosh2AW+cTaQ=;
+        b=GfVkcClVuaaobsMRIPJHlO7KsIcqD1dTxRNuFPtYkmijCo3gBxc7g2HGA0LIhWFtzK
+         I20jV2CNJ8JB+mggbyFDpF2aI+YpUlUI+q2OtqaCofG+Gy8HhD7EHH0t6gV2RdxvbMeT
+         EaF4fWeWLZ9uTx6yezLJRQZ4Qxwu8uBs8SR7LCuzBoNLPI60WGVH+k2B4RwOpD4XfBUp
+         5RZlwnrRT2Jih1TdBQij23Q5vdqqo/yVOdb1QvdGpIKpKC14hrYWgnTkciI6iD/0MORE
+         KLqkBERfcmgcVhWydiIUpW2iyGiujssxCt7tPzdLGiNWt9gC/wXQObKc4/EUOtv2ICiP
+         fB9g==
+X-Gm-Message-State: APjAAAUB8IVeomdRBZK70qywYj+j53ZVB3wM4WtN+jA3RXWsmkyfXwvA
+        neJM0NiYVwUhMlYHg/e0EiM=
+X-Google-Smtp-Source: APXvYqyd2XD3+n9+PBJj8C6DbONs1KgdBOen5jkEIw6KvO5MwLTnc011AewDZ5yfHNuOe2CdLHeKHg==
+X-Received: by 2002:a50:86b7:: with SMTP id r52mr9194235eda.100.1561700263495;
+        Thu, 27 Jun 2019 22:37:43 -0700 (PDT)
+Received: from archlinux-epyc ([2a01:4f9:2b:2b15::2])
+        by smtp.gmail.com with ESMTPSA id lw5sm237965ejb.59.2019.06.27.22.37.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 27 Jun 2019 22:37:42 -0700 (PDT)
+Date:   Thu, 27 Jun 2019 22:37:40 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH] kbuild: get rid of misleading $(AS) from documents
+Message-ID: <20190628053740.GA43239@archlinux-epyc>
+References: <20190628020433.19156-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-References: <20190627163903.28398-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190627163903.28398-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 28 Jun 2019 13:57:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARj+A1JDnUmA_ZFC5Shsy7Tg37LtXS27H7ZTgDbp5BO2w@mail.gmail.com>
-Message-ID: <CAK7LNARj+A1JDnUmA_ZFC5Shsy7Tg37LtXS27H7ZTgDbp5BO2w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Compile-test UAPI and kernel headers
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Song Liu <songliubraving@fb.com>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
-        Kees Cook <keescook@chromium.org>, xdp-newbies@vger.kernel.org,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Colin Cross <ccross@android.com>, bpf@vger.kernel.org,
-        Martin KaFai Lau <kafai@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628020433.19156-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 1:41 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> 1/4: Compile-test exported headers (reworked in v2)
->
-> 2/4: fix a flaw I noticed when I was working on this series.
->      Avoid generating intermediate wrappers.
->
-> 3/4: maybe useful for 4/4 and in some other places.
->      Add header-test-pattern-y syntax.
->
-> 4/4: Compile-test kernel-space headers in include/.
->      v2: compile as many headers as possible.
->      v3: exclude more headers causing build errors
+On Fri, Jun 28, 2019 at 11:04:33AM +0900, Masahiro Yamada wrote:
+> The assembler files in the kernel are *.S instead of *.s, so they must
+> be preprocessed. Hence, we always use $(CC) as an assembler driver.
+> 
+> $(AS) is almost unused in Kbuild. As of writing, there is just one user.
+> 
+>   $ git grep '$(AS)' -- :^Documentation
+>   drivers/net/wan/Makefile:  AS68K = $(AS)
+> 
+> The documentation about *_AFLAGS* sounds like the flags were passed
+> to $(AS). This is somewhat misleading since we do not invoke $(AS)
+> directly.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
+I did notice this when I grepped for $(AS) in the tree. Certainly makes
+sense and looks good to me.
 
-I push this series to
- git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- header-test-v3
-for somebody who wants to test it.
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-
-
->
-> Masahiro Yamada (4):
->   kbuild: compile-test UAPI headers to ensure they are self-contained
->   kbuild: do not create wrappers for header-test-y
->   kbuild: support header-test-pattern-y
->   kbuild: compile-test kernel headers to ensure they are self-contained
->
->  .gitignore                         |    1 -
->  Documentation/dontdiff             |    1 -
->  Documentation/kbuild/makefiles.txt |   13 +-
->  Makefile                           |    4 +-
->  include/Kbuild                     | 1250 ++++++++++++++++++++++++++++
->  init/Kconfig                       |   22 +
->  scripts/Makefile.build             |   10 +-
->  scripts/Makefile.lib               |   13 +-
->  scripts/cc-system-headers.sh       |    8 +
->  usr/.gitignore                     |    1 -
->  usr/Makefile                       |    2 +
->  usr/include/.gitignore             |    3 +
->  usr/include/Makefile               |  134 +++
->  13 files changed, 1449 insertions(+), 13 deletions(-)
->  create mode 100644 include/Kbuild
->  create mode 100755 scripts/cc-system-headers.sh
->  create mode 100644 usr/include/.gitignore
->  create mode 100644 usr/include/Makefile
->
-> --
+> ---
+> 
+>  Documentation/kbuild/kbuild.txt    |  5 ++---
+>  Documentation/kbuild/makefiles.txt | 12 ++++++------
+>  2 files changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+> index 9c230ea71963..7a7e2aa2fab5 100644
+> --- a/Documentation/kbuild/kbuild.txt
+> +++ b/Documentation/kbuild/kbuild.txt
+> @@ -31,12 +31,11 @@ Additional options to the assembler (for built-in and modules).
+>  
+>  AFLAGS_MODULE
+>  --------------------------------------------------
+> -Additional module specific options to use for $(AS).
+> +Additional module specific options to use for assembler.
+>  
+>  AFLAGS_KERNEL
+>  --------------------------------------------------
+> -Additional options for $(AS) when used for assembler
+> -code for code that is compiled as built-in.
+> +Additional options when used for assembling code that is compiled as built-in.
+>  
+>  KCFLAGS
+>  --------------------------------------------------
+> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+> index d65ad5746f94..f0b3a30b985d 100644
+> --- a/Documentation/kbuild/makefiles.txt
+> +++ b/Documentation/kbuild/makefiles.txt
+> @@ -306,7 +306,7 @@ more details, with real examples.
+>  	variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
+>  	entire tree.
+>  
+> -	asflags-y specifies options for assembling with $(AS).
+> +	asflags-y specifies options for assembling.
+>  
+>  	Example:
+>  		#arch/sparc/kernel/Makefile
+> @@ -441,7 +441,7 @@ more details, with real examples.
+>  	as-instr checks if the assembler reports a specific instruction
+>  	and then outputs either option1 or option2
+>  	C escapes are supported in the test instruction
+> -	Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
+> +	Note: as-instr-option uses KBUILD_AFLAGS for assembler options
+>  
+>      cc-option
+>  	cc-option is used to check if $(CC) supports a given option, and if
+> @@ -814,7 +814,7 @@ When kbuild executes, the following steps are followed (roughly):
+>  	In this example, the binary $(obj)/image is a binary version of
+>  	vmlinux. The usage of $(call if_changed,xxx) will be described later.
+>  
+> -    KBUILD_AFLAGS		$(AS) assembler flags
+> +    KBUILD_AFLAGS		assembler flags
+>  
+>  	Default value - see top level Makefile
+>  	Append or modify as required per architecture.
+> @@ -853,15 +853,15 @@ When kbuild executes, the following steps are followed (roughly):
+>  	The first example utilises the trick that a config option expands
+>  	to 'y' when selected.
+>  
+> -    KBUILD_AFLAGS_KERNEL	$(AS) options specific for built-in
+> +    KBUILD_AFLAGS_KERNEL	assembler options specific for built-in
+>  
+>  	$(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
+>  	resident kernel code.
+>  
+> -    KBUILD_AFLAGS_MODULE   Options for $(AS) when building modules
+> +    KBUILD_AFLAGS_MODULE   Options for assembler when building modules
+>  
+>  	$(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
+> -	are used for $(AS).
+> +	are used for assembler.
+>  	From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
+>  
+>      KBUILD_CFLAGS_KERNEL	$(CC) options specific for built-in
+> -- 
 > 2.17.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
-
-
---
-Best Regards
-Masahiro Yamada
+> 
