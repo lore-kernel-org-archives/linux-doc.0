@@ -3,43 +3,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 365D07D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:23:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 956A87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727085AbfF1MXK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:23:10 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58788 "EHLO
+        id S1726601AbfF1MUp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:20:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58748 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbfF1MUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:46 -0400
+        with ESMTP id S1726759AbfF1MUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RpqcJp7jxT06N05sMhPXoS32VrL9wunVGQftBjY4F0M=; b=lrCdlOc8WfukKVP/4L2O7TIJGr
-        LPe+vZcn1y0tzgsBf4XEdyORzTEj/q2N3dyEDdtt1bv7JSJZwlBCYr4R8CQNn9EoxoKdsTkCt0UmK
-        4oeqY/OfWaKHdcoCE4/Cs2D4K5zYAxehcSIDQHocMO6rjoaRgxVf+pC6BaFM7MEWD150r1qixcbFs
-        uc8fCzG8OUT20Ptky0OklRMNgxPFpBJoPdRXz3cP6t0DmY5N9IUYoDPoXtjtqu7Axsm6nF7OEjsfq
-        lWLILtSIeQEVdigz3buGMnJaZM6+LZlgDGCQ2CWLZ9+9a+VL0apfQCm8WNqAj4nU5AUvAqHI3ZFJj
-        cavobI7g==;
+        bh=kz7NpCoqFlQivUcHWgI6dJqevP9W6MEo67gi223n7jc=; b=Ih8r+LTZmA+cAU8X/EC+KpPvZs
+        MD+AN7Hujj7nIqr3cGqiwnAlSN3/GRD8AJrEbrZbDcz4dM9a6gMKw0vbSL/4nPDFOXVSPZuJVPYUg
+        l9rJ/t0ceuu4mTavQlqtdSIW2J0B1NSNTRRT8rdXeXc1lhA2ooT0ZTrfMfDc066qncZxUYPnJ22Ia
+        JEuLCveOrkJOHUQAb94Dv7lAuzJjl7eQ4OlReJr7tyiQno7q0DxrG4+aHjlJHBpt/+xl8lcXu2Grt
+        6ROcBVmWFmVIjghN1WZCc7XGACsGDVKLaOMChQ/q7r5bhn3VaGxy0+emhFXbLeunFaNe8PGAfox2M
+        6B3X3XdQ==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprw-00009v-RV; Fri, 28 Jun 2019 12:20:45 +0000
+        id 1hgprv-0000A5-EL; Fri, 28 Jun 2019 12:20:43 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgpru-0005AG-8g; Fri, 28 Jun 2019 09:20:42 -0300
+        id 1hgprt-00058F-H6; Fri, 28 Jun 2019 09:20:41 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 43/43] docs: logo.txt: rename it to COPYING-logo
-Date:   Fri, 28 Jun 2019 09:20:39 -0300
-Message-Id: <bff3bc73e6e731019612eecf67a10693a44b6caa.1561723980.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 18/43] docs: nvmem: convert docs to ReST and rename to *.rst
+Date:   Fri, 28 Jun 2019 09:20:14 -0300
+Message-Id: <601be92c030ca1a73fb84dc2c9e004fcb33dd6b8.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
@@ -50,21 +50,228 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file has nothing to do with the Kernel documentation. It
-contains the copyright permissions for Tux at Documentation/logo.gif.
+In order to be able to add it into a doc book, we need first
+convert it to ReST.
 
-So, rename it accordingly.
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - mark literal blocks;
+  - adjust title markups.
+
+While this is not part of any book, mark it as :orphan:, in order
+to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/{logo.txt => COPYING-logo} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/{logo.txt => COPYING-logo} (100%)
+ Documentation/nvmem/{nvmem.txt => nvmem.rst} | 112 ++++++++++---------
+ 1 file changed, 59 insertions(+), 53 deletions(-)
+ rename Documentation/nvmem/{nvmem.txt => nvmem.rst} (62%)
 
-diff --git a/Documentation/logo.txt b/Documentation/COPYING-logo
-similarity index 100%
-rename from Documentation/logo.txt
-rename to Documentation/COPYING-logo
+diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.rst
+similarity index 62%
+rename from Documentation/nvmem/nvmem.txt
+rename to Documentation/nvmem/nvmem.rst
+index fc2fe4b18655..3866b6e066d5 100644
+--- a/Documentation/nvmem/nvmem.txt
++++ b/Documentation/nvmem/nvmem.rst
+@@ -1,5 +1,10 @@
+-			    NVMEM SUBSYSTEM
+-	  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++:orphan:
++
++===============
++NVMEM Subsystem
++===============
++
++ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+ 
+ This document explains the NVMEM Framework along with the APIs provided,
+ and how to use it.
+@@ -40,54 +45,54 @@ nvmem_device pointer.
+ 
+ nvmem_unregister(nvmem) is used to unregister a previously registered provider.
+ 
+-For example, a simple qfprom case:
++For example, a simple qfprom case::
+ 
+-static struct nvmem_config econfig = {
++  static struct nvmem_config econfig = {
+ 	.name = "qfprom",
+ 	.owner = THIS_MODULE,
+-};
++  };
+ 
+-static int qfprom_probe(struct platform_device *pdev)
+-{
++  static int qfprom_probe(struct platform_device *pdev)
++  {
+ 	...
+ 	econfig.dev = &pdev->dev;
+ 	nvmem = nvmem_register(&econfig);
+ 	...
+-}
++  }
+ 
+ It is mandatory that the NVMEM provider has a regmap associated with its
+ struct device. Failure to do would return error code from nvmem_register().
+ 
+ Users of board files can define and register nvmem cells using the
+-nvmem_cell_table struct:
++nvmem_cell_table struct::
+ 
+-static struct nvmem_cell_info foo_nvmem_cells[] = {
++  static struct nvmem_cell_info foo_nvmem_cells[] = {
+ 	{
+ 		.name		= "macaddr",
+ 		.offset		= 0x7f00,
+ 		.bytes		= ETH_ALEN,
+ 	}
+-};
++  };
+ 
+-static struct nvmem_cell_table foo_nvmem_cell_table = {
++  static struct nvmem_cell_table foo_nvmem_cell_table = {
+ 	.nvmem_name		= "i2c-eeprom",
+ 	.cells			= foo_nvmem_cells,
+ 	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
+-};
++  };
+ 
+-nvmem_add_cell_table(&foo_nvmem_cell_table);
++  nvmem_add_cell_table(&foo_nvmem_cell_table);
+ 
+ Additionally it is possible to create nvmem cell lookup entries and register
+-them with the nvmem framework from machine code as shown in the example below:
++them with the nvmem framework from machine code as shown in the example below::
+ 
+-static struct nvmem_cell_lookup foo_nvmem_lookup = {
++  static struct nvmem_cell_lookup foo_nvmem_lookup = {
+ 	.nvmem_name		= "i2c-eeprom",
+ 	.cell_name		= "macaddr",
+ 	.dev_id			= "foo_mac.0",
+ 	.con_id			= "mac-address",
+-};
++  };
+ 
+-nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
++  nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
+ 
+ NVMEM Consumers
+ +++++++++++++++
+@@ -99,43 +104,43 @@ read from and to NVMEM.
+ =================================
+ 
+ NVMEM cells are the data entries/fields in the NVMEM.
+-The NVMEM framework provides 3 APIs to read/write NVMEM cells.
++The NVMEM framework provides 3 APIs to read/write NVMEM cells::
+ 
+-struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
+-struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
++  struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
++  struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
+ 
+-void nvmem_cell_put(struct nvmem_cell *cell);
+-void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
++  void nvmem_cell_put(struct nvmem_cell *cell);
++  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
+ 
+-void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
+-int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
++  void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
++  int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
+ 
+-*nvmem_cell_get() apis will get a reference to nvmem cell for a given id,
++`*nvmem_cell_get()` apis will get a reference to nvmem cell for a given id,
+ and nvmem_cell_read/write() can then read or write to the cell.
+-Once the usage of the cell is finished the consumer should call *nvmem_cell_put()
+-to free all the allocation memory for the cell.
++Once the usage of the cell is finished the consumer should call
++`*nvmem_cell_put()` to free all the allocation memory for the cell.
+ 
+ 4. Direct NVMEM device based consumer APIs
+ ==========================================
+ 
+ In some instances it is necessary to directly read/write the NVMEM.
+-To facilitate such consumers NVMEM framework provides below apis.
++To facilitate such consumers NVMEM framework provides below apis::
+ 
+-struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
+-struct nvmem_device *devm_nvmem_device_get(struct device *dev,
++  struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
++  struct nvmem_device *devm_nvmem_device_get(struct device *dev,
+ 					   const char *name);
+-void nvmem_device_put(struct nvmem_device *nvmem);
+-int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
++  void nvmem_device_put(struct nvmem_device *nvmem);
++  int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
+ 		      size_t bytes, void *buf);
+-int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
++  int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
+ 		       size_t bytes, void *buf);
+-int nvmem_device_cell_read(struct nvmem_device *nvmem,
++  int nvmem_device_cell_read(struct nvmem_device *nvmem,
+ 			   struct nvmem_cell_info *info, void *buf);
+-int nvmem_device_cell_write(struct nvmem_device *nvmem,
++  int nvmem_device_cell_write(struct nvmem_device *nvmem,
+ 			    struct nvmem_cell_info *info, void *buf);
+ 
+ Before the consumers can read/write NVMEM directly, it should get hold
+-of nvmem_controller from one of the *nvmem_device_get() api.
++of nvmem_controller from one of the `*nvmem_device_get()` api.
+ 
+ The difference between these apis and cell based apis is that these apis always
+ take nvmem_device as parameter.
+@@ -145,12 +150,12 @@ take nvmem_device as parameter.
+ 
+ When a consumer no longer needs the NVMEM, it has to release the reference
+ to the NVMEM it has obtained using the APIs mentioned in the above section.
+-The NVMEM framework provides 2 APIs to release a reference to the NVMEM.
++The NVMEM framework provides 2 APIs to release a reference to the NVMEM::
+ 
+-void nvmem_cell_put(struct nvmem_cell *cell);
+-void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
+-void nvmem_device_put(struct nvmem_device *nvmem);
+-void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
++  void nvmem_cell_put(struct nvmem_cell *cell);
++  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
++  void nvmem_device_put(struct nvmem_device *nvmem);
++  void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
+ 
+ Both these APIs are used to release a reference to the NVMEM and
+ devm_nvmem_cell_put and devm_nvmem_device_put destroys the devres associated
+@@ -162,20 +167,21 @@ Userspace
+ 6. Userspace binary interface
+ ==============================
+ 
+-Userspace can read/write the raw NVMEM file located at
+-/sys/bus/nvmem/devices/*/nvmem
++Userspace can read/write the raw NVMEM file located at::
+ 
+-ex:
++	/sys/bus/nvmem/devices/*/nvmem
+ 
+-hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
++ex::
+ 
+-0000000 0000 0000 0000 0000 0000 0000 0000 0000
+-*
+-00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
+-0000000 0000 0000 0000 0000 0000 0000 0000 0000
+-...
+-*
+-0001000
++  hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
++
++  0000000 0000 0000 0000 0000 0000 0000 0000 0000
++  *
++  00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
++  0000000 0000 0000 0000 0000 0000 0000 0000 0000
++  ...
++  *
++  0001000
+ 
+ 7. DeviceTree Binding
+ =====================
 -- 
 2.21.0
 
