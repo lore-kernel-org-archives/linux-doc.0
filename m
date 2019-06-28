@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FDD67E334
+	by archive.lwn.net (Postfix) with ESMTP id A4ED97E354
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbfF1Mce (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:32:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39212 "EHLO
+        id S1727242AbfF1Mcf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:32:35 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39214 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726935AbfF1Mak (ORCPT
+        with ESMTP id S1726936AbfF1Mak (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:30:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=U+qp50zrWERJm0m8k2at/IVwV9GB1pFaVI5ce0ubCIY=; b=eJJJfTne03dWsyHX8ilZMao9Ts
-        Swzk3DmUMDo/6FmCR0idGbzrNIWHkUmuWJJJx1rNas5pr6G62mAjunP/7/tn48K+toP3MnuXNDe0G
-        GxRwb/+KfFzyjE7vSfQnJuZo0Ma8L8sNXzEisoXXleKKDepf4zF/SXoF60GeXZaSfr/6yiH4B6wu0
-        rcNBxgE5NHRhG9QqwTSanohZ34yt86smaS1ple+9CGfuC228Y+xfloUMrWFT/9kb8717AwkUSX/kY
-        sHhxiF5wk+2eKBFCeEcCO08kgO0t28GkQdtqiQ3ULmm5BYbFoSOBkIlnF0rJPSBzLpbsgPuxrUR3L
-        QOpnpvCw==;
+        bh=W01P5QS3uRV3PL5GrkuJuIMkN8UN/CJyWU+iu5QOvQA=; b=ByUoDHNg+0H8Qs/m1RN9jnjl/g
+        PhZlReBVQCQ3ubxdw/1nfki4i9C5SCMEmdI5EK0zLPc/vtAimnvml3RD5uzaSgL1ieLaEcBU5L9hh
+        WqE3AvSTzrPjsXctTwJgmEkewDkOHrMYoRPGlmnopzJnnnsHviXNLdbtpRRXKJpvQdnhsO8l4K9OR
+        zJCA5B68YSVtoweOX3wcUK7mtgCp50FtvkFedNESwqKroYKhsou4+04rIhVM4LpoXDRfFX1bLDYHP
+        3ujCWwkxnzB11zGX5d8rBGrRibdqgaCwlhGsiwHlbiwfAPHihY/JS6TrVuoWqHLc9mn/h1jU8QtS1
+        /T8MUoXA==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgq1T-00054q-Su; Fri, 28 Jun 2019 12:30:35 +0000
+        id 1hgq1U-00055o-O0; Fri, 28 Jun 2019 12:30:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgq1S-0005R4-0C; Fri, 28 Jun 2019 09:30:34 -0300
+        id 1hgq1S-0005TR-PP; Fri, 28 Jun 2019 09:30:34 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Alexandre Bounine <alex.bou9@gmail.com>
-Subject: [PATCH 02/39] docs: rapidio: add it to the driver API
-Date:   Fri, 28 Jun 2019 09:29:55 -0300
-Message-Id: <2262235851f12c9ce1a61b06af48375950b31203.1561724493.git.mchehab+samsung@kernel.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, Timur Tabi <timur@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org
+Subject: [PATCH 32/39] docs: serial: move it to the driver-api
+Date:   Fri, 28 Jun 2019 09:30:25 -0300
+Message-Id: <98ded3b9747e187413aab3406da2d5e7c89f53cb.1561724493.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
 References: <cover.1561724493.git.mchehab+samsung@kernel.org>
@@ -52,108 +53,183 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is actually a subsystem description, with contains both
-kAPI and uAPI.
-
-While it should ideally be slplit, let's place it at driver-api,
-as most things are related to kAPI and driver-specific info.
+The contents of this directory is mostly driver-api stuff.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/index.rst                   | 1 +
- Documentation/{driver-api => admin-guide}/rapidio.rst | 0
- Documentation/driver-api/index.rst                    | 2 +-
- Documentation/{ => driver-api}/rapidio/index.rst      | 2 --
- Documentation/{ => driver-api}/rapidio/mport_cdev.rst | 0
- Documentation/{ => driver-api}/rapidio/rapidio.rst    | 0
- Documentation/{ => driver-api}/rapidio/rio_cm.rst     | 0
- Documentation/{ => driver-api}/rapidio/sysfs.rst      | 0
- Documentation/{ => driver-api}/rapidio/tsi721.rst     | 0
- drivers/rapidio/Kconfig                               | 2 +-
- 10 files changed, 3 insertions(+), 4 deletions(-)
- rename Documentation/{driver-api => admin-guide}/rapidio.rst (100%)
- rename Documentation/{ => driver-api}/rapidio/index.rst (94%)
- rename Documentation/{ => driver-api}/rapidio/mport_cdev.rst (100%)
- rename Documentation/{ => driver-api}/rapidio/rapidio.rst (100%)
- rename Documentation/{ => driver-api}/rapidio/rio_cm.rst (100%)
- rename Documentation/{ => driver-api}/rapidio/sysfs.rst (100%)
- rename Documentation/{ => driver-api}/rapidio/tsi721.rst (100%)
+ Documentation/driver-api/index.rst                       | 1 +
+ Documentation/{ => driver-api}/serial/cyclades_z.rst     | 0
+ Documentation/{ => driver-api}/serial/driver.rst         | 2 +-
+ Documentation/{ => driver-api}/serial/index.rst          | 2 +-
+ Documentation/{ => driver-api}/serial/moxa-smartio.rst   | 0
+ Documentation/{ => driver-api}/serial/n_gsm.rst          | 0
+ Documentation/{ => driver-api}/serial/rocket.rst         | 0
+ Documentation/{ => driver-api}/serial/serial-iso7816.rst | 0
+ Documentation/{ => driver-api}/serial/serial-rs485.rst   | 0
+ Documentation/{ => driver-api}/serial/tty.rst            | 0
+ MAINTAINERS                                              | 6 +++---
+ drivers/tty/Kconfig                                      | 4 ++--
+ drivers/tty/serial/ucc_uart.c                            | 2 +-
+ include/linux/serial_core.h                              | 2 +-
+ 14 files changed, 10 insertions(+), 9 deletions(-)
+ rename Documentation/{ => driver-api}/serial/cyclades_z.rst (100%)
+ rename Documentation/{ => driver-api}/serial/driver.rst (99%)
+ rename Documentation/{ => driver-api}/serial/index.rst (90%)
+ rename Documentation/{ => driver-api}/serial/moxa-smartio.rst (100%)
+ rename Documentation/{ => driver-api}/serial/n_gsm.rst (100%)
+ rename Documentation/{ => driver-api}/serial/rocket.rst (100%)
+ rename Documentation/{ => driver-api}/serial/serial-iso7816.rst (100%)
+ rename Documentation/{ => driver-api}/serial/serial-rs485.rst (100%)
+ rename Documentation/{ => driver-api}/serial/tty.rst (100%)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 8001917ee012..0066b198cad4 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -61,6 +61,7 @@ configure specific aspects of kernel behavior to your liking.
-    parport
-    md
-    module-signing
-+   rapidio
-    sysrq
-    unicode
-    vga-softcursor
-diff --git a/Documentation/driver-api/rapidio.rst b/Documentation/admin-guide/rapidio.rst
-similarity index 100%
-rename from Documentation/driver-api/rapidio.rst
-rename to Documentation/admin-guide/rapidio.rst
 diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 4e503e360860..93c6c9a98c41 100644
+index f44a3140f95d..d6f532c8d824 100644
 --- a/Documentation/driver-api/index.rst
 +++ b/Documentation/driver-api/index.rst
-@@ -44,7 +44,7 @@ available subsections can be seen below.
-    miscellaneous
-    mei/index
-    w1
--   rapidio
-+   rapidio/index
-    s390-drivers
-    vme
-    80211/index
-diff --git a/Documentation/rapidio/index.rst b/Documentation/driver-api/rapidio/index.rst
-similarity index 94%
-rename from Documentation/rapidio/index.rst
-rename to Documentation/driver-api/rapidio/index.rst
-index ab7b5541b346..4c5e51a05134 100644
---- a/Documentation/rapidio/index.rst
-+++ b/Documentation/driver-api/rapidio/index.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- ===========================
- The Linux RapidIO Subsystem
- ===========================
-diff --git a/Documentation/rapidio/mport_cdev.rst b/Documentation/driver-api/rapidio/mport_cdev.rst
+@@ -88,6 +88,7 @@ available subsections can be seen below.
+    pti_intel_mid
+    pwm
+    rfkill
++   serial/index
+    sgi-ioc4
+    sm501
+    smsc_ece1099
+diff --git a/Documentation/serial/cyclades_z.rst b/Documentation/driver-api/serial/cyclades_z.rst
 similarity index 100%
-rename from Documentation/rapidio/mport_cdev.rst
-rename to Documentation/driver-api/rapidio/mport_cdev.rst
-diff --git a/Documentation/rapidio/rapidio.rst b/Documentation/driver-api/rapidio/rapidio.rst
-similarity index 100%
-rename from Documentation/rapidio/rapidio.rst
-rename to Documentation/driver-api/rapidio/rapidio.rst
-diff --git a/Documentation/rapidio/rio_cm.rst b/Documentation/driver-api/rapidio/rio_cm.rst
-similarity index 100%
-rename from Documentation/rapidio/rio_cm.rst
-rename to Documentation/driver-api/rapidio/rio_cm.rst
-diff --git a/Documentation/rapidio/sysfs.rst b/Documentation/driver-api/rapidio/sysfs.rst
-similarity index 100%
-rename from Documentation/rapidio/sysfs.rst
-rename to Documentation/driver-api/rapidio/sysfs.rst
-diff --git a/Documentation/rapidio/tsi721.rst b/Documentation/driver-api/rapidio/tsi721.rst
-similarity index 100%
-rename from Documentation/rapidio/tsi721.rst
-rename to Documentation/driver-api/rapidio/tsi721.rst
-diff --git a/drivers/rapidio/Kconfig b/drivers/rapidio/Kconfig
-index 467e8fa06904..677d1aff61b7 100644
---- a/drivers/rapidio/Kconfig
-+++ b/drivers/rapidio/Kconfig
-@@ -86,7 +86,7 @@ config RAPIDIO_CHMAN
- 	  This option includes RapidIO channelized messaging driver which
- 	  provides socket-like interface to allow sharing of single RapidIO
- 	  messaging mailbox between multiple user-space applications.
--	  See "Documentation/rapidio/rio_cm.rst" for driver description.
-+	  See "Documentation/driver-api/rapidio/rio_cm.rst" for driver description.
+rename from Documentation/serial/cyclades_z.rst
+rename to Documentation/driver-api/serial/cyclades_z.rst
+diff --git a/Documentation/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
+similarity index 99%
+rename from Documentation/serial/driver.rst
+rename to Documentation/driver-api/serial/driver.rst
+index 4537119bf624..31bd4e16fb1f 100644
+--- a/Documentation/serial/driver.rst
++++ b/Documentation/driver-api/serial/driver.rst
+@@ -311,7 +311,7 @@ hardware.
+ 	This call must not sleep
  
- config RAPIDIO_MPORT_CDEV
- 	tristate "RapidIO /dev mport device driver"
+   set_ldisc(port,termios)
+-	Notifier for discipline change. See Documentation/serial/tty.rst.
++	Notifier for discipline change. See Documentation/driver-api/serial/tty.rst.
+ 
+ 	Locking: caller holds tty_port->mutex
+ 
+diff --git a/Documentation/serial/index.rst b/Documentation/driver-api/serial/index.rst
+similarity index 90%
+rename from Documentation/serial/index.rst
+rename to Documentation/driver-api/serial/index.rst
+index d0ba22ea23bf..33ad10d05b26 100644
+--- a/Documentation/serial/index.rst
++++ b/Documentation/driver-api/serial/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ==========================
+ Support for Serial devices
+diff --git a/Documentation/serial/moxa-smartio.rst b/Documentation/driver-api/serial/moxa-smartio.rst
+similarity index 100%
+rename from Documentation/serial/moxa-smartio.rst
+rename to Documentation/driver-api/serial/moxa-smartio.rst
+diff --git a/Documentation/serial/n_gsm.rst b/Documentation/driver-api/serial/n_gsm.rst
+similarity index 100%
+rename from Documentation/serial/n_gsm.rst
+rename to Documentation/driver-api/serial/n_gsm.rst
+diff --git a/Documentation/serial/rocket.rst b/Documentation/driver-api/serial/rocket.rst
+similarity index 100%
+rename from Documentation/serial/rocket.rst
+rename to Documentation/driver-api/serial/rocket.rst
+diff --git a/Documentation/serial/serial-iso7816.rst b/Documentation/driver-api/serial/serial-iso7816.rst
+similarity index 100%
+rename from Documentation/serial/serial-iso7816.rst
+rename to Documentation/driver-api/serial/serial-iso7816.rst
+diff --git a/Documentation/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
+similarity index 100%
+rename from Documentation/serial/serial-rs485.rst
+rename to Documentation/driver-api/serial/serial-rs485.rst
+diff --git a/Documentation/serial/tty.rst b/Documentation/driver-api/serial/tty.rst
+similarity index 100%
+rename from Documentation/serial/tty.rst
+rename to Documentation/driver-api/serial/tty.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 055db86fdd77..856db8015edd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10723,7 +10723,7 @@ F:	include/uapi/linux/meye.h
+ MOXA SMARTIO/INDUSTIO/INTELLIO SERIAL CARD
+ M:	Jiri Slaby <jirislaby@gmail.com>
+ S:	Maintained
+-F:	Documentation/serial/moxa-smartio.rst
++F:	Documentation/driver-api/serial/moxa-smartio.rst
+ F:	drivers/tty/mxser.*
+ 
+ MR800 AVERMEDIA USB FM RADIO DRIVER
+@@ -13637,7 +13637,7 @@ ROCKETPORT DRIVER
+ P:	Comtrol Corp.
+ W:	http://www.comtrol.com
+ S:	Maintained
+-F:	Documentation/serial/rocket.rst
++F:	Documentation/driver-api/serial/rocket.rst
+ F:	drivers/tty/rocket*
+ 
+ ROCKETPORT EXPRESS/INFINITY DRIVER
+@@ -16170,7 +16170,7 @@ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ M:	Jiri Slaby <jslaby@suse.com>
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
+-F:	Documentation/serial/
++F:	Documentation/driver-api/serial/
+ F:	drivers/tty/
+ F:	drivers/tty/serial/serial_core.c
+ F:	include/linux/serial_core.h
+diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
+index ee51b9514225..c7623f99ac0f 100644
+--- a/drivers/tty/Kconfig
++++ b/drivers/tty/Kconfig
+@@ -175,7 +175,7 @@ config ROCKETPORT
+ 	  This driver supports Comtrol RocketPort and RocketModem PCI boards.   
+           These boards provide 2, 4, 8, 16, or 32 high-speed serial ports or
+           modems.  For information about the RocketPort/RocketModem  boards
+-          and this driver read <file:Documentation/serial/rocket.rst>.
++          and this driver read <file:Documentation/driver-api/serial/rocket.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called rocket.
+@@ -193,7 +193,7 @@ config CYCLADES
+ 	  your Linux box, for instance in order to become a dial-in server.
+ 
+ 	  For information about the Cyclades-Z card, read
+-	  <file:Documentation/serial/cyclades_z.rst>.
++	  <file:Documentation/driver-api/serial/cyclades_z.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called cyclades.
+diff --git a/drivers/tty/serial/ucc_uart.c b/drivers/tty/serial/ucc_uart.c
+index 6e3c66ab0e62..a0555ae2b1ef 100644
+--- a/drivers/tty/serial/ucc_uart.c
++++ b/drivers/tty/serial/ucc_uart.c
+@@ -1081,7 +1081,7 @@ static int qe_uart_verify_port(struct uart_port *port,
+ }
+ /* UART operations
+  *
+- * Details on these functions can be found in Documentation/serial/driver.rst
++ * Details on these functions can be found in Documentation/driver-api/serial/driver.rst
+  */
+ static const struct uart_ops qe_uart_pops = {
+ 	.tx_empty       = qe_uart_tx_empty,
+diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
+index 05b179015d6c..2b78cc734719 100644
+--- a/include/linux/serial_core.h
++++ b/include/linux/serial_core.h
+@@ -32,7 +32,7 @@ struct device;
+ 
+ /*
+  * This structure describes all the operations that can be done on the
+- * physical hardware.  See Documentation/serial/driver.rst for details.
++ * physical hardware.  See Documentation/driver-api/serial/driver.rst for details.
+  */
+ struct uart_ops {
+ 	unsigned int	(*tx_empty)(struct uart_port *);
 -- 
 2.21.0
 
