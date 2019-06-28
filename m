@@ -1,39 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	URIBL_DBL_SPAM autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D34207D926
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 16:40:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE0387D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 17:03:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfF1Qk1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 12:40:27 -0400
-Received: from [112.85.164.125] ([112.85.164.125]:38970 "EHLO
-        localhost.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726707AbfF1Qk1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 12:40:27 -0400
-X-Greylist: delayed 423 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Jun 2019 12:40:26 EDT
-Received: from localhost (localhost [IPv6:::1])
-        by localhost.localdomain (Postfix) with SMTP id 2FA511228CC4;
-        Sat, 29 Jun 2019 00:31:18 +0800 (CST)
-From:   vlas_m@mail.ru
-To:     EsSEO01vlas_m@mail.ru
-Reply-To: demexinruslan+mjzzxNR7@gmail.com
-Subject: =?utf-8?B?0JrQu9C40LXQvdGC0YHQutC40LUg0LHQsNC30YshIEVt?=
-        =?utf-8?B?YWlsOiBwcm9kYXdlekBhcm15c3B5LmNvbSDQo9C30L3Q?=
-        =?utf-8?B?sNC50YLQtSDQv9C+0LTRgNC+0LHQvdC10LUh?=
+        id S1726605AbfF1RDb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 13:03:31 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:40824 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbfF1RDb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 13:03:31 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 386D080617;
+        Fri, 28 Jun 2019 19:03:28 +0200 (CEST)
+Date:   Fri, 28 Jun 2019 19:03:26 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH] kbuild: get rid of misleading $(AS) from documents
+Message-ID: <20190628170326.GB12826@ravnborg.org>
+References: <20190628020433.19156-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8";
-Content-Transfer-Encoding: base64
-Message-Id: <20190628163118.2FA511228CC4@localhost.localdomain>
-Date:   Sat, 29 Jun 2019 00:31:18 +0800 (CST)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628020433.19156-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=m9WLzkJrn2f4Qo16t4EA:9 a=CjuIK1q_8ugA:10
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-0JrQu9C40LXQvdGC0YHQutC40LUg0LHQsNC30YshIEVtYWlsOiBwcm9kYXdlekBhcm15c3B5LmNv
-bSDQo9C30L3QsNC50YLQtSDQv9C+0LTRgNC+0LHQvdC10LUhDQo=
+Hi Masahiro.
+
+On Fri, Jun 28, 2019 at 11:04:33AM +0900, Masahiro Yamada wrote:
+> The assembler files in the kernel are *.S instead of *.s, so they must
+> be preprocessed. Hence, we always use $(CC) as an assembler driver.
+> 
+> $(AS) is almost unused in Kbuild. As of writing, there is just one user.
+> 
+>   $ git grep '$(AS)' -- :^Documentation
+>   drivers/net/wan/Makefile:  AS68K = $(AS)
+> 
+> The documentation about *_AFLAGS* sounds like the flags were passed
+> to $(AS). This is somewhat misleading since we do not invoke $(AS)
+> directly.
+Thanks, another of your many nice cleanups.
+
+>  AFLAGS_KERNEL
+>  --------------------------------------------------
+> -Additional options for $(AS) when used for assembler
+> -code for code that is compiled as built-in.
+> +Additional options when used for assembling code that is compiled as built-in.
+To me reading "assembling code" make me think of something else than the
+assembler.
+It would be nice to spell out that we talk about the assembler
+everywhere. Even though the assembler is invoked via gcc.
+This comments applies to a few places, some where "assembling" was used
+in the old text.
+
+Other than this - looks good!
+
+	Sam
