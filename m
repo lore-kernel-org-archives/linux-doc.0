@@ -3,76 +3,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41C707D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 15:42:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 279A87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 16:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbfF1Pca (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 11:32:30 -0400
-Received: from a9-30.smtp-out.amazonses.com ([54.240.9.30]:45750 "EHLO
-        a9-30.smtp-out.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726686AbfF1Pc3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 11:32:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1561735948;
-        h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type:Feedback-ID;
-        bh=AS0whl/EcrrVIjGmsUBB1P/c2zpIOxnuhHXncVKXZDs=;
-        b=SPfGmsXFLQEBn6h5ufA7w1jky3/Rc5RZWDgWNaiTM/EHlEN3OYChoYEFopmh0TVK
-        CsfQ0V2VNWhAZKX5OVGAkkAuAJkc9V4P1tYZ2E+eFutc3svPaXxXsz0EOpjrjpx2KYK
-        te37a4g49qMNkC2/MEGlyyhGG40MgUxZQUWAqOFo=
-Date:   Fri, 28 Jun 2019 15:32:28 +0000
-From:   Christopher Lameter <cl@linux.com>
-X-X-Sender: cl@nuc-kabylake
-To:     Roman Gushchin <guro@fb.com>
-cc:     Waiman Long <longman@redhat.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-Subject: Re: [PATCH 2/2] mm, slab: Extend vm/drop_caches to shrink kmem
- slabs
-In-Reply-To: <20190627212419.GA25233@tower.DHCP.thefacebook.com>
-Message-ID: <0100016b9eb7685e-0a5ab625-abb4-4e79-ab86-07744b1e4c3a-000000@email.amazonses.com>
-References: <20190624174219.25513-1-longman@redhat.com> <20190624174219.25513-3-longman@redhat.com> <20190626201900.GC24698@tower.DHCP.thefacebook.com> <063752b2-4f1a-d198-36e7-3e642d4fcf19@redhat.com> <20190627212419.GA25233@tower.DHCP.thefacebook.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726862AbfF1Qck (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 12:32:40 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:44316 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726858AbfF1Qck (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 12:32:40 -0400
+Received: by mail-oi1-f194.google.com with SMTP id e189so4662996oib.11
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 09:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DSSGw8NEH11ewDdufk/0bURDdPjPPEZM8INGXLUnbI4=;
+        b=UnRnfO0Nkq0CWLy0+jnDM8ue7U956sKozY+AKoPt5xRTIRRw6jIBvwQFZkI8xtiY7l
+         bn5QpKa/NwVVD/pzCkjRzlhwk7NyOe2D2TKYDVR0YHpUx+sRdCvEqqY44do86XDzWfLx
+         XfWTtUhAU8VqhOwhesKkvAgbJb83oJXyq/rK/aUyL2ErWSKQ6Xxk74bZsh9+wV5pJLj4
+         fRPeMkH08JPr+B4SWknFZnL81j2AE0gCsftdycEsCOqC+3DPt4F3qdoRXs8mXU5CoqC+
+         GTCP4pL7SsstbHnRYi6+AKdXAib6v9FqeSbLi5gJDoFvHqzgvrQYghU6hOGYbYqO5aCE
+         7iEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DSSGw8NEH11ewDdufk/0bURDdPjPPEZM8INGXLUnbI4=;
+        b=o3yJHY4jE/xXbT6xBLX2yTz4oQ7BDcuO7GENGUW4fe6fHobn7jVKAmEHYzRRNlPmeA
+         P3kOw5/1G6JUV0LPtmblbo82SsDpYoLSqNQ7IrWaAcJ5PLomNUfHw1QuFfrYkTiBM9LW
+         fX11IW0hLSYvlBOLdgt4bLi7ycf5RmKBKpifI8ZTp68Gv2snw8ST3U+hlO1zWjQCBZ7t
+         3CBDIYG+F3/xhkmvosRCb3UWTJqELhKE6Plsvf+BH1E1II0MctYXlicwD6+xJP99hg/v
+         eEgIdwa9uvs/ahHtHWW5Q5VSLVSNY+cELmMythu6ZFTi4NfYlFjOB9fdiS9/rycPC7Np
+         8QCQ==
+X-Gm-Message-State: APjAAAX/sE3ascKG8eBwk4ye/pKKcfbGfsOIlepaFTG7KOsPNGDPIl78
+        d+L8dlwF4F/P40aLWLPwwoVVc03HzwJ9mWNisYchmQ==
+X-Google-Smtp-Source: APXvYqxih5y3ClRM05oqB9q9VPsU0VTaOI1Z60yEi/NkQKAhhvUNxdezdMDupWBvEeRdmvEWNaxGW0AWHHTUwFYwhGw=
+X-Received: by 2002:aca:1304:: with SMTP id e4mr2181365oii.149.1561739560073;
+ Fri, 28 Jun 2019 09:32:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-SES-Outgoing: 2019.06.28-54.240.9.30
-Feedback-ID: 1.us-east-1.fQZZZ0Xtj2+TD7V5apTT/NrT6QKuPgzCT/IC7XYgDKI=:AmazonSES
+References: <cover.1561723979.git.mchehab+samsung@kernel.org> <951fdc9197ffd04cf77168d47685e1299f7d9d73.1561723980.git.mchehab+samsung@kernel.org>
+In-Reply-To: <951fdc9197ffd04cf77168d47685e1299f7d9d73.1561723980.git.mchehab+samsung@kernel.org>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Fri, 28 Jun 2019 09:32:29 -0700
+Message-ID: <CAPcyv4jnz+Cz4sXEDHPiX77BV1piBkbh7LHgs-rUf39NAB7_gw@mail.gmail.com>
+Subject: Re: [PATCH 30/43] docs: nvdimm: convert to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Keith Busch <keith.busch@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Jun 2019, Roman Gushchin wrote:
-
-> so that objects belonging to different memory cgroups can share the same page
-> and kmem_caches.
+On Fri, Jun 28, 2019 at 5:21 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 >
-> It's a fairly big change though.
+> Rename the nvdimm documentation files to ReST, add an
+> index for them and adjust in order to produce a nice html
+> output via the Sphinx build system.
+>
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Could this be done at another level? Put a cgoup pointer into the
-corresponding structures and then go back to just a single kmen_cache for
-the system as a whole? You can still account them per cgroup and there
-will be no cleanup problem anymore. You could scan through a slab cache
-to remove the objects of a certain cgroup and then the fragmentation
-problem that cgroups create here will be handled by the slab allocators in
-the traditional way. The duplication of the kmem_cache was not designed
-into the allocators but bolted on later.
-
+Acked-by: Dan Williams <dan.j.williams@intel.com>
