@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66D017D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 06:01:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCFAF7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 06:07:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfF1GBk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 02:01:40 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39764 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726574AbfF1GBj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 02:01:39 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x4so4905250wrt.6;
-        Thu, 27 Jun 2019 23:01:38 -0700 (PDT)
+        id S1726707AbfF1GHE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 02:07:04 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46571 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726553AbfF1GHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 02:07:04 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so4882726wrw.13;
+        Thu, 27 Jun 2019 23:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=AuUMir4cdKZVUvRsNPY5rqLX7yjSzNVBKmDh7MZE8Aw=;
-        b=H1v+QcQE2qtDu3J2jSKMehj/p++gMENcAu082mD3tiqG3g1yXY+IEbr2VQ+QI84q9c
-         pThBfRO6NDWHe3Y0AuE3Q4HMEyFGvjVMAjz5Al24e9w0Wdl8w67nl7I4aAKxAEk/7lIH
-         3q3NHzPAHPjstjhJLLnlzuJkOsFHcTxE+3cvtqNy8DCtEquRC1mtn3xa4SuhHPytfB8t
-         /fMBYny+fN2pJW+gt0eiEhGcg4yynzd7pj1S9Ehlmk/mKSDOXps0/jQ8OqkYafpTUF4F
-         QW3j7LstTBBtGAq0nIoUOzLoTAyYqLC7ehkW5RnzSouhVmtkF+T9W0XEpPZtruhvLw1V
-         bWGA==
+        b=keggkYAhhPb2VqnK46kdGtYH1YIPGbhBI+giOQ9eyyYin3as2alRkXETot2V6U4m0z
+         /WMg9KBXwxISBlLr9X/4Avs8FgMVS0yD6JuAcGV5yRfpgXeaIAw61hpFjAJvcX6gVgWE
+         xr6oesc1E0AYyq6dU1mliftNFnC/g+YDoIgZePY/AsyqvFsnfRA0Yzjt4c7iUaGsMeoU
+         vT2zvRguZ7PdJ6cd1gEgihGmYFyK1lLM2s26/ATAOJOcoyWd4VIwngv5tvgQfM/NqEAI
+         jRisET2BYf9Lzz5Hu913tdEONve5lnTCqBlGDvD/cOA2wdzJxcPIK87ZyblQ2yFSP/rs
+         CPNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=AuUMir4cdKZVUvRsNPY5rqLX7yjSzNVBKmDh7MZE8Aw=;
-        b=LyoBCeV9xyRfNJByCdhA0A+oQN5CzFuFdRgixyj3vTgjqsW8dPBPrD7B2GFeGpKRHz
-         RbxkSTGcGT+c792kqN36wYlvAHTbjzPt+JJbvU6XvXBILUIW4ujul/u/OxnoQDNScGFV
-         35+5jdSN7YVA6WobtqrS2Ikx4W+2d6Qy79lTQIElY2m61mx3huIxZqSMoeQYYasnlM9S
-         wFyMweSMQoVFuYm3VCFUHiL9i2rka754+z7Nn9pqzSTYRlguPLnOTIjyPXSTA6hH1RgA
-         5bJpG9lO1cokTdVoKepp0rLNcAddkrNxRoYl6zZ3Ort0cbkAUkSZtkdZvDueMD/+O0yZ
-         vRRw==
-X-Gm-Message-State: APjAAAUqn3n5P9ZAiDyjc/17LpM+gZ/2pX9ZYkV/dzzVsNa0spUsJZv3
-        UDVxbbe9FYDqkIeKFI4PPXY=
-X-Google-Smtp-Source: APXvYqzinfybbEVtbH0doIFwzBk11J7MqZvbTTR/G2+E0jAKdeONo0mMEorviqYsiZpycttNDKXNHA==
-X-Received: by 2002:a5d:498a:: with SMTP id r10mr6348964wrq.28.1561701697998;
-        Thu, 27 Jun 2019 23:01:37 -0700 (PDT)
+        b=ikQBDzb1zCev4hpkufmFUiHabHsQ185FhsemhkZVJjoF16m4HxrCLpctOI4dm/KdhQ
+         VsXoNWhyfTn1eoOQDrgtqIRI3nZtm8q2hhJ/tYtC/pwgqXhyINQ3KxzvfaDX6YuowOwV
+         2INNuurPHbALCp6QGV3Fh1IVZhXBQKhXIU0uvHKPMmpJ/ljYEhv1yj5HY8TUvKUfj5Yy
+         wiVxCDI4p8Fn7RctzAU2SKVIEQRLRBFczk/CbCU5BEzYsxmwPedRthPygKlYcgBy3Kqs
+         TKLn5ecur2Mjfq9ZCfeDzzahjykFCsZxhj55/HfjmcmX22tG/bM6sgWOeIiijv6+BEQm
+         cAtA==
+X-Gm-Message-State: APjAAAVSTKfcui0KQeCv+G2xUjPeHXgnXveIhnvvSX4hJHvsUTTAAMuV
+        dUYpT0ZAmcHVso/8vK4+27Q=
+X-Google-Smtp-Source: APXvYqwBXpMyMdyhifUzDpY5+dF5LudZPYAoIX+6joiQefSZvLGZjHiX+/1iVan1TJh3esuDztfy7A==
+X-Received: by 2002:a5d:6b90:: with SMTP id n16mr6509916wrx.206.1561702022249;
+        Thu, 27 Jun 2019 23:07:02 -0700 (PDT)
 Received: from localhost.localdomain ([41.220.75.172])
-        by smtp.gmail.com with ESMTPSA id 5sm1094487wmg.42.2019.06.27.23.01.36
+        by smtp.gmail.com with ESMTPSA id 5sm2144551wrc.76.2019.06.27.23.07.00
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 27 Jun 2019 23:01:37 -0700 (PDT)
+        Thu, 27 Jun 2019 23:07:01 -0700 (PDT)
 From:   Sheriff Esseson <sheriffesseson@gmail.com>
 To:     skhan@linuxfoundation.org
 Cc:     linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-doc@vger.kernel.org,
         Sheriff Esseson <sheriffesseson@gmail.com>
-Subject: [PATCH] Doc : doc-guide : Fix a typo
-Date:   Fri, 28 Jun 2019 07:01:11 +0100
-Message-Id: <20190628060111.24851-1-sheriffesseson@gmail.com>
+Subject: [linux-kernel-mentees] [PATCH] Doc : doc-guide : Fix a typo
+Date:   Fri, 28 Jun 2019 07:06:48 +0100
+Message-Id: <20190628060648.25151-1-sheriffesseson@gmail.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
