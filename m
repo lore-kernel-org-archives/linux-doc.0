@@ -1,145 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 78B5A7D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 04:15:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6D2D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 04:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbfF1EPN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 00:15:13 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39174 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbfF1EPN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 00:15:13 -0400
-Received: by mail-io1-f68.google.com with SMTP id r185so9665992iod.6;
-        Thu, 27 Jun 2019 21:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wskEaZMaFBoycfWtxq3fq9AtJfP+IBGorvO/F2Y89ls=;
-        b=ebi/tmZiTmZR58CGWM1DBvxgMSRk6yjKt8Dg4UdLy9wQ/qWCQv0CzwYY6orxTaLtLO
-         Lt3Gy7QpQecCK4e7DR1bSwaOnGKjWfCUw+sqEWQWQwcgaixbPlOVqc4L2ITktT67J0tZ
-         u5Cr3Vu0ZK3WMVVU2WcR96TkZH9aQOE8nUjO2fw26THNBzLo348oZKGBYpldECsT15Ba
-         umWhUOkVv2xfFCOJjzSNsGSscFZaDu3rd4q8O3ExRDsb/tn8Rv4pjFaxlyizTwGhiBbP
-         sWLOlThn478PtvZscYumkdcoRzCVVZLa4j+WNK6N0zhVmaYWDxP6zhrdMoW2r/q7ZExY
-         e9xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wskEaZMaFBoycfWtxq3fq9AtJfP+IBGorvO/F2Y89ls=;
-        b=llnoLprFzbai4nU7V0Ruk/jVuTKu+cnNCLVp9ERkal1qissi0Q/A4TqbXPHUvLdBNp
-         wAvUZf4HgaeWtb5FEUJum2PZoia6RkCfDN+ay3/ceI8ivqaJ43Dtr8TZ/7fBHpqCenip
-         dsEyvZhq+mcX1o263VptDXBqxBGSS82a1dhMUAR+ue34PdhmMJtpS6gnz2i9HwolJ+Sk
-         se4oLqROUg6Y8kJ4YYhIc2biR34CpvRvRQkwCiQUqzZGCMYpCJIBblTgTCAORkXD7dQv
-         3FkzfsjFzdHhnQi9KuwKmPw34kTriSYgEb3wXEpyo3kk9xP1howIgS0F6oqGG4mMVuxo
-         oeQg==
-X-Gm-Message-State: APjAAAU6++QhvGr6mMICAbmdfpCbGX1Iv1drePE7T8DUX+wrjeJhnHgp
-        wuw11DyPaqEhRhe0LDaDrY4GeMxaqNL4Vk2w6Mk=
-X-Google-Smtp-Source: APXvYqx805jmPo8VHAsRlCrZNa/kcCKR4OCGjQGESJe53coWOq1Pl+O2jcTSmmU10SWnzcKLL42iZZHVZ6OE3UD6Fhk=
-X-Received: by 2002:a02:c6a9:: with SMTP id o9mr9167467jan.90.1561695312103;
- Thu, 27 Jun 2019 21:15:12 -0700 (PDT)
+        id S1726549AbfF1E6E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 00:58:04 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:17874 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfF1E6E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 00:58:04 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x5S4vmF1019231;
+        Fri, 28 Jun 2019 13:57:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x5S4vmF1019231
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1561697869;
+        bh=SIK/nAM+sI54EJmk0mR1Usgw9j5vfYmGFrOtLjOZzLg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JxblWpm3C3r7r01gYCOajBSW84T6W3cnHh34fYXfzFs98o7YC0XLfQPjyIZJOe7wM
+         PY/Z814YyNy19enS/Ou211c5U7rm691JuQCgggAcE2sGPHLAj9wwCQolzRkbPaDRiu
+         FrTXIynHp8sn8Ga5l38WmMbWouAfZu8DxdTPzh8CSEslepOK3tMS5SQS+4VtUehZ9t
+         NSNHzUy1OY+BQNhszkLRTwslt4vvB1fQRAdLZXk9kVNL+2+OwXetOycQuOQ2VOQRtf
+         XghTnCtXDc6J9Kd7iUMUzD/WmoM3yPHVBRQHQLacTI0FvtiDEE2S7qU0bYPKqALUUD
+         5RDATmr7n88Ew==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id m8so3223822vsj.0;
+        Thu, 27 Jun 2019 21:57:48 -0700 (PDT)
+X-Gm-Message-State: APjAAAVu7n6CngMno4scf2pMdH3Hmq9hLhKhaaiLPuIUzywdwnzZSMaq
+        //TzyUqqq0KFjBboz92i6ufgqEomdtaXqA+s3JY=
+X-Google-Smtp-Source: APXvYqyyvmsd8AAk5R7aaNFgntOJs2TjX0FeQ1b2WdSaf2T0LzzKUcfk9Z8oacISJcBzf5zvmHjL7/Pj9m8miFmaa6o=
+X-Received: by 2002:a67:d46:: with SMTP id 67mr4682467vsn.181.1561697868020;
+ Thu, 27 Jun 2019 21:57:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560534144-13896-1-git-send-email-gkulkarni@marvell.com>
- <1560534144-13896-2-git-send-email-gkulkarni@marvell.com> <20190627100118.nfveq4oktomqybtx@willie-the-truck>
- <20190627162236.y3wb5sle6yjbwtzm@willie-the-truck>
-In-Reply-To: <20190627162236.y3wb5sle6yjbwtzm@willie-the-truck>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Fri, 28 Jun 2019 09:45:00 +0530
-Message-ID: <CAKTKpr59+D4NV-eN61UsHGHwgaT2ikKcpVqEMt8VaFg-DSZ4kQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation: perf: Update documentation for
- ThunderX2 PMU uncore driver
-To:     Will Deacon <will@kernel.org>
-Cc:     Ganapatrao Kulkarni <gkulkarni@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>, jnair@marvell.com,
-        jglauber@marvell.com, rrichter@marvell.com
+References: <20190627163903.28398-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190627163903.28398-1-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 28 Jun 2019 13:57:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARj+A1JDnUmA_ZFC5Shsy7Tg37LtXS27H7ZTgDbp5BO2w@mail.gmail.com>
+Message-ID: <CAK7LNARj+A1JDnUmA_ZFC5Shsy7Tg37LtXS27H7ZTgDbp5BO2w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Compile-test UAPI and kernel headers
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Song Liu <songliubraving@fb.com>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+        Kees Cook <keescook@chromium.org>, xdp-newbies@vger.kernel.org,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anton Vorontsov <anton@enomsg.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Colin Cross <ccross@android.com>, bpf@vger.kernel.org,
+        Martin KaFai Lau <kafai@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Will,
-
-On Thu, Jun 27, 2019 at 9:52 PM Will Deacon <will@kernel.org> wrote:
+On Fri, Jun 28, 2019 at 1:41 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> On Thu, Jun 27, 2019 at 11:01:18AM +0100, Will Deacon wrote:
-> > On Fri, Jun 14, 2019 at 05:42:45PM +0000, Ganapatrao Kulkarni wrote:
-> > > From: Ganapatrao Kulkarni <ganapatrao.kulkarni@marvell.com>
-> > >
-> > > Add documentation for Cavium Coherent Processor Interconnect (CCPI2) PMU.
-> > >
-> > > Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
-> > > ---
-> > >  Documentation/perf/thunderx2-pmu.txt | 20 +++++++++++---------
-> > >  1 file changed, 11 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
-> > > index dffc57143736..62243230abc3 100644
-> > > --- a/Documentation/perf/thunderx2-pmu.txt
-> > > +++ b/Documentation/perf/thunderx2-pmu.txt
-> > > @@ -2,24 +2,26 @@ Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
-> > >  =============================================================
-> > >
-> > >  The ThunderX2 SoC PMU consists of independent, system-wide, per-socket
-> > > -PMUs such as the Level 3 Cache (L3C) and DDR4 Memory Controller (DMC).
-> > > +PMUs such as the Level 3 Cache (L3C), DDR4 Memory Controller (DMC) and
-> > > +Cavium Coherent Processor Interconnect (CCPI2).
-> > >
-> > >  The DMC has 8 interleaved channels and the L3C has 16 interleaved tiles.
-> > >  Events are counted for the default channel (i.e. channel 0) and prorated
-> > >  to the total number of channels/tiles.
-> > >
-> > > -The DMC and L3C support up to 4 counters. Counters are independently
-> > > -programmable and can be started and stopped individually. Each counter
-> > > -can be set to a different event. Counters are 32-bit and do not support
-> > > -an overflow interrupt; they are read every 2 seconds.
-> > > +The DMC, L3C support up to 4 counters and CCPI2 support up to 8 counters.
-> >
-> > The DMC and L3C support up to 4 counters, while the CCPI2 supports up to 8
-> > counters.
-> >
-> > > +Counters are independently programmable and can be started and stopped
-> > > +individually. Each counter can be set to a different event. DMC and L3C
-> > > +Counters are 32-bit and do not support an overflow interrupt; they are read
-> >
-> > Counters -> counters
-> >
-> > > +every 2 seconds. CCPI2 counters are 64-bit.
-> >
-> > Assuming CCPI2 also doesn't support an overflow interrupt, I'd reword these
-> > two sentences as:
-> >
-> >   None of the counters support an overflow interrupt and therefore sampling
-> >   events are unsupported. The DMC and L3C counters are 32-bit and read every
-> >   2 seconds. The CCPI2 counters are 64-bit and assumed not to overflow in
-> >   normal operation.
+> 1/4: Compile-test exported headers (reworked in v2)
 >
-
-Thanks for the comments, will update in v2.
-Yes, CCPI2 is 64bit counter and there is no overflow issue.
-
-> Mark reminded me that these are system PMUs and therefore sampling is
-> unsupported irrespective of the presence of an overflow interrupt, so you
-> can drop that part from the text.
-
-sure.
+> 2/4: fix a flaw I noticed when I was working on this series.
+>      Avoid generating intermediate wrappers.
 >
-> Sorry for the confusion,
+> 3/4: maybe useful for 4/4 and in some other places.
+>      Add header-test-pattern-y syntax.
 >
-> Will
+> 4/4: Compile-test kernel-space headers in include/.
+>      v2: compile as many headers as possible.
+>      v3: exclude more headers causing build errors
 
-Thanks,
-Ganapat
+
+I push this series to
+ git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ header-test-v3
+for somebody who wants to test it.
+
+
+
+>
+> Masahiro Yamada (4):
+>   kbuild: compile-test UAPI headers to ensure they are self-contained
+>   kbuild: do not create wrappers for header-test-y
+>   kbuild: support header-test-pattern-y
+>   kbuild: compile-test kernel headers to ensure they are self-contained
+>
+>  .gitignore                         |    1 -
+>  Documentation/dontdiff             |    1 -
+>  Documentation/kbuild/makefiles.txt |   13 +-
+>  Makefile                           |    4 +-
+>  include/Kbuild                     | 1250 ++++++++++++++++++++++++++++
+>  init/Kconfig                       |   22 +
+>  scripts/Makefile.build             |   10 +-
+>  scripts/Makefile.lib               |   13 +-
+>  scripts/cc-system-headers.sh       |    8 +
+>  usr/.gitignore                     |    1 -
+>  usr/Makefile                       |    2 +
+>  usr/include/.gitignore             |    3 +
+>  usr/include/Makefile               |  134 +++
+>  13 files changed, 1449 insertions(+), 13 deletions(-)
+>  create mode 100644 include/Kbuild
+>  create mode 100755 scripts/cc-system-headers.sh
+>  create mode 100644 usr/include/.gitignore
+>  create mode 100644 usr/include/Makefile
+>
+> --
+> 2.17.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
+
+
+--
+Best Regards
+Masahiro Yamada
