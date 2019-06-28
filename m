@@ -2,48 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D0277DBEB
+	by archive.lwn.net (Postfix) with ESMTP id E01E57D8AB
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 00:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfF1AvC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 20:51:02 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:47094 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726935AbfF1Aum (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 20:50:42 -0400
-Received: by mail-pg1-f195.google.com with SMTP id v9so1760504pgr.13
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 17:50:42 -0700 (PDT)
+        id S1726691AbfF1AvT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 20:51:19 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:41110 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726866AbfF1Au2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 20:50:28 -0400
+Received: by mail-pf1-f195.google.com with SMTP id m30so2052851pff.8
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 17:50:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I3TN3qTWMnTmMktNJ0UkNH2fFRT1R+0udnM5XHrDiyE=;
-        b=UDvsoa7DQv/lngRycDTOWfDsi4yyN6LUbrWEprwycHnNPp24lGbp1t2gRu/YLdiPJ5
-         QRrqLU9loTKxOjE6aPpp3W+aBNeiW2QeSxkgQ3YnGLpf+uqqCyyUXjEu9KpFBUqExFtD
-         RczQDYyVrG6A6LtKvNRgeb325QWzcOBetkrie89METRPakuXlyYS9V2UIFXmhK7hHAEk
-         hC5Ensrz7pphmRE+Z8gputwKjgcWAsS8nTKhJx3VxxJ0NirZY098GTe/GLUHyt1NsG8g
-         VInbpVpPMaYzPM8JiJqOWGZTSDvj2x2mlnA6H8qHKuuk+blG4WOdzUn7+S/uBH8dS5m0
-         xlnA==
-X-Gm-Message-State: APjAAAVGulqdqgesrVUHHj9YV6G7cKXpU8M7O/k0Uxz9RGOe4J8wPWO2
-        JWVDqGCR9ceqGfY+5g9U+9HiMg==
-X-Google-Smtp-Source: APXvYqyOEfFbpW0L/OM0Dgk6+GinxrLuAgpvXbIFQD0R0Kl31u/l9HTt0s0UZHDa7pNjqDS7YUwM1g==
-X-Received: by 2002:a63:e156:: with SMTP id h22mr6475937pgk.370.1561683041741;
-        Thu, 27 Jun 2019 17:50:41 -0700 (PDT)
+        bh=zinHmMOF0ezX8C5q3Fql37o3uQEnFt8vpcBRTtBr4tY=;
+        b=U8ERe4kdBr1TMGBE01iNbQJmqOoF1YktKcxag4Q+ZLnblYGLJfCPbrSSC6I2G1gPfp
+         thI4aJXe5RpSOtVV4vZxj40pR1KRla6hMHLPhAqm3pDzsfN/+QBT75x5DVuJV/0mbLnJ
+         4GntHh5PzItYFnPhz508enHHl+5jNufHs/e9iEjbuIybjk+k6I+keyf/DuwQbrCa/COU
+         RZPiU6LeZxko2TWEAWj4jcAHUNOs9gmU2tJ1osLutIX/a7sHyI25cVNSJ1gx75NF3Thu
+         yVgn79IoY/M/08T+isT4DZNuLp+/VaV+BEjLdNmEQmAyRF9Dj+h3CDeJvXeAI9gRiQ95
+         fbxg==
+X-Gm-Message-State: APjAAAULdZHTFKXG7EOJlApW0nYssTvGoxeKHraorTd4jYa0c/OY9mLw
+        h5nIjZnqIs/ywcwkv0UjTeweKA==
+X-Google-Smtp-Source: APXvYqwuuaIB0MC1k0ECwh0hD4bxkF13oZnEdehjeG+jOhmu7okUfUV9CodhCpodxWovH9ZcoVxwxA==
+X-Received: by 2002:a63:4404:: with SMTP id r4mr6428810pga.245.1561683027874;
+        Thu, 27 Jun 2019 17:50:27 -0700 (PDT)
 Received: from localhost (c-76-21-109-208.hsd1.ca.comcast.net. [76.21.109.208])
-        by smtp.gmail.com with ESMTPSA id 64sm276454pfe.128.2019.06.27.17.50.40
+        by smtp.gmail.com with ESMTPSA id f14sm280233pfn.53.2019.06.27.17.50.26
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 27 Jun 2019 17:50:40 -0700 (PDT)
+        Thu, 27 Jun 2019 17:50:26 -0700 (PDT)
 From:   Moritz Fischer <mdf@kernel.org>
 To:     linux-fpga@vger.kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-        Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>
-Subject: [PATCH 12/15] fpga: dfl: afu: add error reporting support.
-Date:   Thu, 27 Jun 2019 17:49:48 -0700
-Message-Id: <20190628004951.6202-13-mdf@kernel.org>
+        Wu Hao <hao.wu@intel.com>, Zhang Yi Z <yi.z.zhang@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>
+Subject: [PATCH 06/15] fpga: dfl: fme: add DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
+Date:   Thu, 27 Jun 2019 17:49:42 -0700
+Message-Id: <20190628004951.6202-7-mdf@kernel.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190628004951.6202-1-mdf@kernel.org>
 References: <20190628004951.6202-1-mdf@kernel.org>
@@ -56,342 +57,365 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Wu Hao <hao.wu@intel.com>
 
-Error reporting is one important private feature, it reports error
-detected on port and accelerated function unit (AFU). It introduces
-several sysfs interfaces to allow userspace to check and clear
-errors detected by hardware.
+In order to support virtualization usage via PCIe SRIOV, this patch
+adds two ioctls under FPGA Management Engine (FME) to release and
+assign back the port device. In order to safely turn Port from PF
+into VF and enable PCIe SRIOV, it requires user to invoke this
+PORT_RELEASE ioctl to release port firstly to remove userspace
+interfaces, and then configure the PF/VF access register in FME.
+After disable SRIOV, it requires user to invoke this PORT_ASSIGN
+ioctl to attach the port back to PF.
 
+ Ioctl interfaces:
+ * DFL_FPGA_FME_PORT_RELEASE
+   Release platform device of given port, it deletes port platform
+   device to remove related userspace interfaces on PF, then
+   configures PF/VF access mode to VF.
+
+ * DFL_FPGA_FME_PORT_ASSIGN
+   Assign platform device of given port back to PF, it configures
+   PF/VF access mode to PF, then adds port platform device back to
+   re-enable related userspace interfaces on PF.
+
+Signed-off-by: Zhang Yi Z <yi.z.zhang@intel.com>
 Signed-off-by: Xu Yilun <yilun.xu@intel.com>
 Signed-off-by: Wu Hao <hao.wu@intel.com>
 Acked-by: Alan Tull <atull@kernel.org>
+Acked-by: Moritz Fischer <mdf@kernel.org>
 Signed-off-by: Moritz Fischer <mdf@kernel.org>
 ---
- .../ABI/testing/sysfs-platform-dfl-port       |  39 +++
- drivers/fpga/Makefile                         |   1 +
- drivers/fpga/dfl-afu-error.c                  | 225 ++++++++++++++++++
- drivers/fpga/dfl-afu-main.c                   |   4 +
- drivers/fpga/dfl-afu.h                        |   4 +
- 5 files changed, 273 insertions(+)
- create mode 100644 drivers/fpga/dfl-afu-error.c
+ drivers/fpga/dfl-fme-main.c   |  54 +++++++++++++++++
+ drivers/fpga/dfl.c            | 107 ++++++++++++++++++++++++++++++----
+ drivers/fpga/dfl.h            |  10 ++++
+ include/uapi/linux/fpga-dfl.h |  32 ++++++++++
+ 4 files changed, 191 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-port b/Documentation/ABI/testing/sysfs-platform-dfl-port
-index 04ea7f2971c7..4aeca94856b6 100644
---- a/Documentation/ABI/testing/sysfs-platform-dfl-port
-+++ b/Documentation/ABI/testing/sysfs-platform-dfl-port
-@@ -79,3 +79,42 @@ KernelVersion:	5.3
- Contact:	Wu Hao <hao.wu@intel.com>
- Description:	Read-only. Read this file to get the status of issued command
- 		to userclck_freqcntrcmd.
-+
-+What:		/sys/bus/platform/devices/dfl-port.0/errors/revision
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. Read this file to get the revision of this error
-+		reporting private feature.
-+
-+What:		/sys/bus/platform/devices/dfl-port.0/errors/errors
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. Read this file to get errors detected on port and
-+		Accelerated Function Unit (AFU).
-+
-+What:		/sys/bus/platform/devices/dfl-port.0/errors/first_error
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. Read this file to get the first error detected by
-+		hardware.
-+
-+What:		/sys/bus/platform/devices/dfl-port.0/errors/first_malformed_req
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. Read this file to get the first malformed request
-+		captured by hardware.
-+
-+What:		/sys/bus/platform/devices/dfl-port.0/errors/clear
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Write-only. Write error code to this file to clear errors.
-+		Write fails with -EINVAL if input parsing fails or input error
-+		code doesn't match.
-+		Write fails with -EBUSY or -ETIMEDOUT if error can't be cleared
-+		as hardware is in low power state (-EBUSY) or not responding
-+		(-ETIMEDOUT).
-diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-index 312b9371742f..72558914a29c 100644
---- a/drivers/fpga/Makefile
-+++ b/drivers/fpga/Makefile
-@@ -41,6 +41,7 @@ obj-$(CONFIG_FPGA_DFL_AFU)		+= dfl-afu.o
+diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
+index 076d74f6416d..8b2a33760483 100644
+--- a/drivers/fpga/dfl-fme-main.c
++++ b/drivers/fpga/dfl-fme-main.c
+@@ -16,6 +16,7 @@
  
- dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o
- dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o
-+dfl-afu-objs += dfl-afu-error.o
- 
- # Drivers for FPGAs which implement DFL
- obj-$(CONFIG_FPGA_DFL_PCI)		+= dfl-pci.o
-diff --git a/drivers/fpga/dfl-afu-error.c b/drivers/fpga/dfl-afu-error.c
-new file mode 100644
-index 000000000000..f20dbdf5805d
---- /dev/null
-+++ b/drivers/fpga/dfl-afu-error.c
-@@ -0,0 +1,225 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for FPGA Accelerated Function Unit (AFU) Error Reporting
-+ *
-+ * Copyright 2019 Intel Corporation, Inc.
-+ *
-+ * Authors:
-+ *   Wu Hao <hao.wu@linux.intel.com>
-+ *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
-+ *   Joseph Grecco <joe.grecco@intel.com>
-+ *   Enno Luebbers <enno.luebbers@intel.com>
-+ *   Tim Whisonant <tim.whisonant@intel.com>
-+ *   Ananda Ravuri <ananda.ravuri@intel.com>
-+ *   Mitchel Henry <henry.mitchel@intel.com>
-+ */
-+
+ #include <linux/kernel.h>
+ #include <linux/module.h>
 +#include <linux/uaccess.h>
-+
-+#include "dfl-afu.h"
-+
-+#define PORT_ERROR_MASK		0x8
-+#define PORT_ERROR		0x10
-+#define PORT_FIRST_ERROR	0x18
-+#define PORT_MALFORMED_REQ0	0x20
-+#define PORT_MALFORMED_REQ1	0x28
-+
-+#define ERROR_MASK		GENMASK_ULL(63, 0)
-+
-+/* mask or unmask port errors by the error mask register. */
-+static void __port_err_mask(struct device *dev, bool mask)
+ #include <linux/fpga-dfl.h>
+ 
+ #include "dfl.h"
+@@ -105,9 +106,62 @@ static void fme_hdr_uinit(struct platform_device *pdev,
+ 	sysfs_remove_files(&pdev->dev.kobj, fme_hdr_attrs);
+ }
+ 
++static long fme_hdr_ioctl_release_port(struct dfl_feature_platform_data *pdata,
++				       void __user *arg)
 +{
-+	void __iomem *base;
++	struct dfl_fpga_cdev *cdev = pdata->dfl_cdev;
++	struct dfl_fpga_fme_port_release release;
++	unsigned long minsz;
 +
-+	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
++	minsz = offsetofend(struct dfl_fpga_fme_port_release, port_id);
 +
-+	writeq(mask ? ERROR_MASK : 0, base + PORT_ERROR_MASK);
-+}
++	if (copy_from_user(&release, arg, minsz))
++		return -EFAULT;
 +
-+/* clear port errors. */
-+static int __port_err_clear(struct device *dev, u64 err)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	void __iomem *base_err, *base_hdr;
-+	int ret;
-+	u64 v;
-+
-+	base_err = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
-+	base_hdr = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
-+
-+	/*
-+	 * clear Port Errors
-+	 *
-+	 * - Check for AP6 State
-+	 * - Halt Port by keeping Port in reset
-+	 * - Set PORT Error mask to all 1 to mask errors
-+	 * - Clear all errors
-+	 * - Set Port mask to all 0 to enable errors
-+	 * - All errors start capturing new errors
-+	 * - Enable Port by pulling the port out of reset
-+	 */
-+
-+	/* if device is still in AP6 power state, can not clear any error. */
-+	v = readq(base_hdr + PORT_HDR_STS);
-+	if (FIELD_GET(PORT_STS_PWR_STATE, v) == PORT_STS_PWR_STATE_AP6) {
-+		dev_err(dev, "Could not clear errors, device in AP6 state.\n");
-+		return -EBUSY;
-+	}
-+
-+	/* Halt Port by keeping Port in reset */
-+	ret = __port_disable(pdev);
-+	if (ret)
-+		return ret;
-+
-+	/* Mask all errors */
-+	__port_err_mask(dev, true);
-+
-+	/* Clear errors if err input matches with current port errors.*/
-+	v = readq(base_err + PORT_ERROR);
-+
-+	if (v == err) {
-+		writeq(v, base_err + PORT_ERROR);
-+
-+		v = readq(base_err + PORT_FIRST_ERROR);
-+		writeq(v, base_err + PORT_FIRST_ERROR);
-+	} else {
-+		ret = -EINVAL;
-+	}
-+
-+	/* Clear mask */
-+	__port_err_mask(dev, false);
-+
-+	/* Enable the Port by clear the reset */
-+	__port_enable(pdev);
-+
-+	return ret;
-+}
-+
-+static ssize_t revision_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	void __iomem *base;
-+
-+	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
-+
-+	return sprintf(buf, "%u\n", dfl_feature_revision(base));
-+}
-+static DEVICE_ATTR_RO(revision);
-+
-+static ssize_t errors_show(struct device *dev, struct device_attribute *attr,
-+			   char *buf)
-+{
-+	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
-+	void __iomem *base;
-+	u64 error;
-+
-+	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
-+
-+	mutex_lock(&pdata->lock);
-+	error = readq(base + PORT_ERROR);
-+	mutex_unlock(&pdata->lock);
-+
-+	return sprintf(buf, "0x%llx\n", (unsigned long long)error);
-+}
-+static DEVICE_ATTR_RO(errors);
-+
-+static ssize_t first_error_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
-+	void __iomem *base;
-+	u64 error;
-+
-+	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
-+
-+	mutex_lock(&pdata->lock);
-+	error = readq(base + PORT_FIRST_ERROR);
-+	mutex_unlock(&pdata->lock);
-+
-+	return sprintf(buf, "0x%llx\n", (unsigned long long)error);
-+}
-+static DEVICE_ATTR_RO(first_error);
-+
-+static ssize_t first_malformed_req_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
-+	void __iomem *base;
-+	u64 req0, req1;
-+
-+	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
-+
-+	mutex_lock(&pdata->lock);
-+	req0 = readq(base + PORT_MALFORMED_REQ0);
-+	req1 = readq(base + PORT_MALFORMED_REQ1);
-+	mutex_unlock(&pdata->lock);
-+
-+	return sprintf(buf, "0x%016llx%016llx\n",
-+		       (unsigned long long)req1, (unsigned long long)req0);
-+}
-+static DEVICE_ATTR_RO(first_malformed_req);
-+
-+static ssize_t clear_store(struct device *dev, struct device_attribute *attr,
-+			   const char *buff, size_t count)
-+{
-+	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
-+	u64 value;
-+	int ret;
-+
-+	if (kstrtou64(buff, 0, &value))
++	if (release.argsz < minsz || release.flags)
 +		return -EINVAL;
 +
-+	mutex_lock(&pdata->lock);
-+	ret = __port_err_clear(dev, value);
-+	mutex_unlock(&pdata->lock);
-+
-+	return ret ? ret : count;
++	return dfl_fpga_cdev_config_port(cdev, release.port_id, true);
 +}
-+static DEVICE_ATTR_WO(clear);
 +
-+static struct attribute *port_err_attrs[] = {
-+	&dev_attr_revision.attr,
-+	&dev_attr_errors.attr,
-+	&dev_attr_first_error.attr,
-+	&dev_attr_first_malformed_req.attr,
-+	&dev_attr_clear.attr,
-+	NULL,
-+};
++static long fme_hdr_ioctl_assign_port(struct dfl_feature_platform_data *pdata,
++				      void __user *arg)
++{
++	struct dfl_fpga_cdev *cdev = pdata->dfl_cdev;
++	struct dfl_fpga_fme_port_assign assign;
++	unsigned long minsz;
 +
-+static struct attribute_group port_err_attr_group = {
-+	.attrs = port_err_attrs,
-+	.name = "errors",
-+};
++	minsz = offsetofend(struct dfl_fpga_fme_port_assign, port_id);
 +
-+static int port_err_init(struct platform_device *pdev,
-+			 struct dfl_feature *feature)
++	if (copy_from_user(&assign, arg, minsz))
++		return -EFAULT;
++
++	if (assign.argsz < minsz || assign.flags)
++		return -EINVAL;
++
++	return dfl_fpga_cdev_config_port(cdev, assign.port_id, false);
++}
++
++static long fme_hdr_ioctl(struct platform_device *pdev,
++			  struct dfl_feature *feature,
++			  unsigned int cmd, unsigned long arg)
 +{
 +	struct dfl_feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 +
-+	dev_dbg(&pdev->dev, "PORT ERR Init.\n");
++	switch (cmd) {
++	case DFL_FPGA_FME_PORT_RELEASE:
++		return fme_hdr_ioctl_release_port(pdata, (void __user *)arg);
++	case DFL_FPGA_FME_PORT_ASSIGN:
++		return fme_hdr_ioctl_assign_port(pdata, (void __user *)arg);
++	}
 +
-+	mutex_lock(&pdata->lock);
-+	__port_err_mask(&pdev->dev, false);
-+	mutex_unlock(&pdata->lock);
-+
-+	return sysfs_create_group(&pdev->dev.kobj, &port_err_attr_group);
++	return -ENODEV;
 +}
 +
-+static void port_err_uinit(struct platform_device *pdev,
-+			   struct dfl_feature *feature)
-+{
-+	dev_dbg(&pdev->dev, "PORT ERR UInit.\n");
+ static const struct dfl_feature_ops fme_hdr_ops = {
+ 	.init = fme_hdr_init,
+ 	.uinit = fme_hdr_uinit,
++	.ioctl = fme_hdr_ioctl,
+ };
+ 
+ static struct dfl_feature_driver fme_feature_drvs[] = {
+diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+index 4b66aaa32b5a..308c80868af4 100644
+--- a/drivers/fpga/dfl.c
++++ b/drivers/fpga/dfl.c
+@@ -231,16 +231,20 @@ EXPORT_SYMBOL_GPL(dfl_fpga_port_ops_del);
+  */
+ int dfl_fpga_check_port_id(struct platform_device *pdev, void *pport_id)
+ {
+-	struct dfl_fpga_port_ops *port_ops = dfl_fpga_port_ops_get(pdev);
+-	int port_id;
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
++	struct dfl_fpga_port_ops *port_ops;
 +
-+	sysfs_remove_group(&pdev->dev.kobj, &port_err_attr_group);
-+}
++	if (pdata->id != FEATURE_DEV_ID_UNUSED)
++		return pdata->id == *(int *)pport_id;
+ 
++	port_ops = dfl_fpga_port_ops_get(pdev);
+ 	if (!port_ops || !port_ops->get_id)
+ 		return 0;
+ 
+-	port_id = port_ops->get_id(pdev);
++	pdata->id = port_ops->get_id(pdev);
+ 	dfl_fpga_port_ops_put(port_ops);
+ 
+-	return port_id == *(int *)pport_id;
++	return pdata->id == *(int *)pport_id;
+ }
+ EXPORT_SYMBOL_GPL(dfl_fpga_check_port_id);
+ 
+@@ -474,6 +478,7 @@ static int build_info_commit_dev(struct build_feature_devs_info *binfo)
+ 	pdata->dev = fdev;
+ 	pdata->num = binfo->feature_num;
+ 	pdata->dfl_cdev = binfo->cdev;
++	pdata->id = FEATURE_DEV_ID_UNUSED;
+ 	mutex_init(&pdata->lock);
+ 	lockdep_set_class_and_name(&pdata->lock, &dfl_pdata_keys[type],
+ 				   dfl_pdata_key_strings[type]);
+@@ -973,25 +978,27 @@ void dfl_fpga_feature_devs_remove(struct dfl_fpga_cdev *cdev)
+ {
+ 	struct dfl_feature_platform_data *pdata, *ptmp;
+ 
+-	remove_feature_devs(cdev);
+-
+ 	mutex_lock(&cdev->lock);
+-	if (cdev->fme_dev) {
+-		/* the fme should be unregistered. */
+-		WARN_ON(device_is_registered(cdev->fme_dev));
++	if (cdev->fme_dev)
+ 		put_device(cdev->fme_dev);
+-	}
+ 
+ 	list_for_each_entry_safe(pdata, ptmp, &cdev->port_dev_list, node) {
+ 		struct platform_device *port_dev = pdata->dev;
+ 
+-		/* the port should be unregistered. */
+-		WARN_ON(device_is_registered(&port_dev->dev));
++		/* remove released ports */
++		if (!device_is_registered(&port_dev->dev)) {
++			dfl_id_free(feature_dev_id_type(port_dev),
++				    port_dev->id);
++			platform_device_put(port_dev);
++		}
 +
-+const struct dfl_feature_id port_err_id_table[] = {
-+	{.id = PORT_FEATURE_ID_ERROR,},
-+	{0,}
-+};
-+
-+const struct dfl_feature_ops port_err_ops = {
-+	.init = port_err_init,
-+	.uinit = port_err_uinit,
-+};
-diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
-index c8bc0b5d9c16..bcf6e285a854 100644
---- a/drivers/fpga/dfl-afu-main.c
-+++ b/drivers/fpga/dfl-afu-main.c
-@@ -522,6 +522,10 @@ static struct dfl_feature_driver port_feature_drvs[] = {
- 		.id_table = port_afu_id_table,
- 		.ops = &port_afu_ops,
- 	},
-+	{
-+		.id_table = port_err_id_table,
-+		.ops = &port_err_ops,
-+	},
- 	{
- 		.ops = NULL,
+ 		list_del(&pdata->node);
+ 		put_device(&port_dev->dev);
  	}
-diff --git a/drivers/fpga/dfl-afu.h b/drivers/fpga/dfl-afu.h
-index 35e60c5859a4..c3182a2681a8 100644
---- a/drivers/fpga/dfl-afu.h
-+++ b/drivers/fpga/dfl-afu.h
-@@ -100,4 +100,8 @@ int afu_dma_unmap_region(struct dfl_feature_platform_data *pdata, u64 iova);
- struct dfl_afu_dma_region *
- afu_dma_region_find(struct dfl_feature_platform_data *pdata,
- 		    u64 iova, u64 size);
+ 	mutex_unlock(&cdev->lock);
+ 
++	remove_feature_devs(cdev);
 +
-+extern const struct dfl_feature_ops port_err_ops;
-+extern const struct dfl_feature_id port_err_id_table[];
+ 	fpga_region_unregister(cdev->region);
+ 	devm_kfree(cdev->parent, cdev);
+ }
+@@ -1029,6 +1036,82 @@ __dfl_fpga_cdev_find_port(struct dfl_fpga_cdev *cdev, void *data,
+ }
+ EXPORT_SYMBOL_GPL(__dfl_fpga_cdev_find_port);
+ 
++static int attach_port_dev(struct dfl_fpga_cdev *cdev, u32 port_id)
++{
++	struct platform_device *port_pdev;
++	int ret = -ENODEV;
 +
- #endif /* __DFL_AFU_H */
++	mutex_lock(&cdev->lock);
++	port_pdev = __dfl_fpga_cdev_find_port(cdev, &port_id,
++					      dfl_fpga_check_port_id);
++	if (!port_pdev)
++		goto unlock_exit;
++
++	if (device_is_registered(&port_pdev->dev)) {
++		ret = -EBUSY;
++		goto put_dev_exit;
++	}
++
++	ret = platform_device_add(port_pdev);
++	if (ret)
++		goto put_dev_exit;
++
++	dfl_feature_dev_use_end(dev_get_platdata(&port_pdev->dev));
++	cdev->released_port_num--;
++put_dev_exit:
++	put_device(&port_pdev->dev);
++unlock_exit:
++	mutex_unlock(&cdev->lock);
++	return ret;
++}
++
++static int detach_port_dev(struct dfl_fpga_cdev *cdev, u32 port_id)
++{
++	struct platform_device *port_pdev;
++	int ret = -ENODEV;
++
++	mutex_lock(&cdev->lock);
++	port_pdev = __dfl_fpga_cdev_find_port(cdev, &port_id,
++					      dfl_fpga_check_port_id);
++	if (!port_pdev)
++		goto unlock_exit;
++
++	if (!device_is_registered(&port_pdev->dev)) {
++		ret = -EBUSY;
++		goto put_dev_exit;
++	}
++
++	ret = dfl_feature_dev_use_begin(dev_get_platdata(&port_pdev->dev));
++	if (ret)
++		goto put_dev_exit;
++
++	platform_device_del(port_pdev);
++	cdev->released_port_num++;
++put_dev_exit:
++	put_device(&port_pdev->dev);
++unlock_exit:
++	mutex_unlock(&cdev->lock);
++	return ret;
++}
++
++/**
++ * dfl_fpga_cdev_config_port - configure a port feature dev
++ * @cdev: parent container device.
++ * @port_id: id of the port feature device.
++ * @release: release port or assign port back.
++ *
++ * This function allows user to release port platform device or assign it back.
++ * e.g. to safely turn one port from PF into VF for PCI device SRIOV support,
++ * release port platform device is one necessary step.
++ */
++int dfl_fpga_cdev_config_port(struct dfl_fpga_cdev *cdev,
++			      u32 port_id, bool release)
++{
++	return release ? detach_port_dev(cdev, port_id) :
++			 attach_port_dev(cdev, port_id);
++}
++EXPORT_SYMBOL_GPL(dfl_fpga_cdev_config_port);
++
+ static int __init dfl_fpga_init(void)
+ {
+ 	int ret;
+diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+index 8851c6c893fc..63f39ab08905 100644
+--- a/drivers/fpga/dfl.h
++++ b/drivers/fpga/dfl.h
+@@ -183,6 +183,8 @@ struct dfl_feature {
+ 
+ #define DEV_STATUS_IN_USE	0
+ 
++#define FEATURE_DEV_ID_UNUSED	(-1)
++
+ /**
+  * struct dfl_feature_platform_data - platform data for feature devices
+  *
+@@ -191,6 +193,7 @@ struct dfl_feature {
+  * @cdev: cdev of feature dev.
+  * @dev: ptr to platform device linked with this platform data.
+  * @dfl_cdev: ptr to container device.
++ * @id: id used for this feature device.
+  * @disable_count: count for port disable.
+  * @num: number for sub features.
+  * @dev_status: dev status (e.g. DEV_STATUS_IN_USE).
+@@ -203,6 +206,7 @@ struct dfl_feature_platform_data {
+ 	struct cdev cdev;
+ 	struct platform_device *dev;
+ 	struct dfl_fpga_cdev *dfl_cdev;
++	int id;
+ 	unsigned int disable_count;
+ 	unsigned long dev_status;
+ 	void *private;
+@@ -378,6 +382,7 @@ void dfl_fpga_enum_info_free(struct dfl_fpga_enum_info *info);
+  * @fme_dev: FME feature device under this container device.
+  * @lock: mutex lock to protect the port device list.
+  * @port_dev_list: list of all port feature devices under this container device.
++ * @released_port_num: released port number under this container device.
+  */
+ struct dfl_fpga_cdev {
+ 	struct device *parent;
+@@ -385,6 +390,7 @@ struct dfl_fpga_cdev {
+ 	struct device *fme_dev;
+ 	struct mutex lock;
+ 	struct list_head port_dev_list;
++	int released_port_num;
+ };
+ 
+ struct dfl_fpga_cdev *
+@@ -412,4 +418,8 @@ dfl_fpga_cdev_find_port(struct dfl_fpga_cdev *cdev, void *data,
+ 
+ 	return pdev;
+ }
++
++int dfl_fpga_cdev_config_port(struct dfl_fpga_cdev *cdev,
++			      u32 port_id, bool release);
++
+ #endif /* __FPGA_DFL_H */
+diff --git a/include/uapi/linux/fpga-dfl.h b/include/uapi/linux/fpga-dfl.h
+index 2e324e515c41..e9a00e014114 100644
+--- a/include/uapi/linux/fpga-dfl.h
++++ b/include/uapi/linux/fpga-dfl.h
+@@ -176,4 +176,36 @@ struct dfl_fpga_fme_port_pr {
+ 
+ #define DFL_FPGA_FME_PORT_PR	_IO(DFL_FPGA_MAGIC, DFL_FME_BASE + 0)
+ 
++/**
++ * DFL_FPGA_FME_PORT_RELEASE - _IOW(DFL_FPGA_MAGIC, DFL_FME_BASE + 1,
++ *					struct dfl_fpga_fme_port_release)
++ *
++ * Driver releases the port per Port ID provided by caller.
++ * Return: 0 on success, -errno on failure.
++ */
++struct dfl_fpga_fme_port_release {
++	/* Input */
++	__u32 argsz;		/* Structure length */
++	__u32 flags;		/* Zero for now */
++	__u32 port_id;
++};
++
++#define DFL_FPGA_FME_PORT_RELEASE	_IO(DFL_FPGA_MAGIC, DFL_FME_BASE + 1)
++
++/**
++ * DFL_FPGA_FME_PORT_ASSIGN - _IOW(DFL_FPGA_MAGIC, DFL_FME_BASE + 2,
++ *					struct dfl_fpga_fme_port_assign)
++ *
++ * Driver assigns the port back per Port ID provided by caller.
++ * Return: 0 on success, -errno on failure.
++ */
++struct dfl_fpga_fme_port_assign {
++	/* Input */
++	__u32 argsz;		/* Structure length */
++	__u32 flags;		/* Zero for now */
++	__u32 port_id;
++};
++
++#define DFL_FPGA_FME_PORT_ASSIGN	_IO(DFL_FPGA_MAGIC, DFL_FME_BASE + 2)
++
+ #endif /* _UAPI_LINUX_FPGA_DFL_H */
 -- 
 2.22.0
 
