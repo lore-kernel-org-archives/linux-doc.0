@@ -1,375 +1,178 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D45F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 13:39:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00FB37D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 13:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbfF1NjX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 09:39:23 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56768 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfF1NjW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 09:39:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Hd+4YFDiBJERyhN7PHFcmfikFE7KlUt1avVVgYQ6YVE=; b=h5NtAtFWCjXPJAeBvvp27srXa
-        EIuxp0c4dUINEzOvnIwc/QaboVPbSeLVLS06mhEpJHxAlExcYKswDAgGUxy/NhloX9MMBK/HBGZt+
-        Oz+2VZe8p0roNDDePtEFDwBhFYaFizmf9ERGO6Y1ZArgw4hBh+ixVWf/szAYEFO4w/WQhzowhP8s3
-        x/GJa19+VLErBh3b79Fw2KAy9Eu0UudyQzK0ugsVAmDfWzvgab4s2DsuqM5Ldy1BCBI4sCLCK/rtH
-        vcva1nF3pPkUgx21Dlr/p27r1Pq7mSplHFOctUB/lY+3E+KPcEeWak0yhegSeFQP8/ISSqkZF/7hJ
-        7bkmTul3Q==;
-Received: from [186.213.242.156] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgr5z-0007Xn-Ou; Fri, 28 Jun 2019 13:39:20 +0000
-Date:   Fri, 28 Jun 2019 10:39:15 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Vandana BN <bnvandana@gmail.com>
-Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-sh@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v2] Documentation:sh:convert register-banks.txt  and
- new-machine.txt to rst format.
-Message-ID: <20190628103915.3ce83637@coco.lan>
-In-Reply-To: <20190628132459.5409-1-bnvandana@gmail.com>
-References: <20190627063347.11137-1-bnvandana@gmail.com>
-        <20190628132459.5409-1-bnvandana@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726798AbfF1Nz2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 09:55:28 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41973 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfF1Nz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 09:55:28 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 136so4025513lfa.8
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 06:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=CD0Dro/10uh0YhFuXjsGP3VvYGuc/+fjYwhH1KYhLws=;
+        b=Fgcg9151r7YwZPtCi7cLarJT3ZJd6rOMpdYh0wm/4ZyFNryTbCLRdLqjlHHn3SD/9V
+         VqdCWxPMfqwK81G7bX6yrCulEAYBg84Jr89U1z4cpf8EpmJqMvZx/lTk9ptK3ZkmAfHM
+         Me2uQRsrUZG0+6tDuESUn43ZUu3o6JgHmYvf9eWYAIbZWHVbSI+Ra2zdKUQMVOALIHGW
+         LElG82voYlEwKXKE8b6FCR8E68RMnU+dc+vYenK8R1MLRaNN85WRgLkcLHZuTn9bknJs
+         GHp47CtFBKgl7yHpjVa+wlYnU0XQJnf5U0qNSBNwUgUSPdkjUF8jKjrAh1zPDEk5SpCS
+         y2lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CD0Dro/10uh0YhFuXjsGP3VvYGuc/+fjYwhH1KYhLws=;
+        b=cNqLf1nCrZ1D6KxRMq/GR2p89ZCyTrGDkFNXVkcragrHZC6Rf8Nq31uUVDtb0DWZcn
+         9J6sXD0+20VvyhfnmCqyatj6mX9n9ebiQkgwUoJ47hVoLklgX5T9nn0UxM35Cli/a0fW
+         Jto/TxOr2FAx/wP7XqIbcIQ7k9Fd9Ibtmkw7wO47N39WT93pCRH8I4KLN5VEy0u6Ki56
+         XG5q85NYCRqVZUFD1RASwkRcPItOQ7czRXmEI+8bNMoD9gO/qEhM287/h14wQ4vIFHkf
+         IcQQii1Gw0BV6uFIgpa6wNYdkShuqnAu2+TKTVe/Nq/DLmcyJwkR+JhFsjhljKRJS4RZ
+         kPNQ==
+X-Gm-Message-State: APjAAAWVsWjC4MbF4TmY14PJlKXOF0SqdZRTb5yjjE7rJwwz0oQiF9Qm
+        Kavzjze1OdP/EIOJ+oC794N8fmPx6Dw=
+X-Google-Smtp-Source: APXvYqwoCKqttWz2S48+v+xWM2ZATbNuNG8QYn3pnYCURMxYNKhkuDT0oZ+a05iZB9c8QdCKHI5b8g==
+X-Received: by 2002:ac2:4303:: with SMTP id l3mr5150961lfh.107.1561730125453;
+        Fri, 28 Jun 2019 06:55:25 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+        by smtp.googlemail.com with ESMTPSA id s3sm733680lji.38.2019.06.28.06.55.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 28 Jun 2019 06:55:24 -0700 (PDT)
+Subject: Re: [PATCH 12/39] docs: interconnect.rst: add it to the driver-api
+ guide
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-pm@vger.kernel.org
+References: <cover.1561724493.git.mchehab+samsung@kernel.org>
+ <feb5e217face2ff3f2ccd5c3726192bf1250dd0d.1561724493.git.mchehab+samsung@kernel.org>
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <595111a4-c565-75e9-ab7e-b008274ce75c@linaro.org>
+Date:   Fri, 28 Jun 2019 16:55:22 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <feb5e217face2ff3f2ccd5c3726192bf1250dd0d.1561724493.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 28 Jun 2019 18:54:59 +0530
-Vandana BN <bnvandana@gmail.com> escreveu:
+On 6/28/19 15:30, Mauro Carvalho Chehab wrote:
+> This is intented for Kernel hackers audience.
 
-> This patch converts new-machine.txt and register-banks.txt to ReST format, No content
-> change.
-> Added new-machine.rst and register-banks.rst to sh/index.rst
+s/intented/intended/
+
 > 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Reviewed-by: Georgi Djakov <georgi.djakov@linaro.org>
+
+Thanks!
+Georgi
+
 > ---
->  Documentation/sh/index.rst                    |   6 +
->  .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
->  ...{register-banks.txt => register-banks.rst} |   8 +-
->  3 files changed, 100 insertions(+), 85 deletions(-)
->  rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
->  rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
+>  Documentation/driver-api/index.rst                          | 1 +
+>  Documentation/{interconnect => driver-api}/interconnect.rst | 2 --
+>  MAINTAINERS                                                 | 2 +-
+>  3 files changed, 2 insertions(+), 3 deletions(-)
+>  rename Documentation/{interconnect => driver-api}/interconnect.rst (99%)
 > 
-> diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
-> index bc8db7ba894a..25471d3fc294 100644
-> --- a/Documentation/sh/index.rst
-> +++ b/Documentation/sh/index.rst
-> @@ -57,3 +57,9 @@ Maple
-> 
->  .. kernel-doc:: drivers/sh/maple/maple.c
->     :export:
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   new-machine
-> +   register-banks
-
-Hmm... adding a toctree at the end doesn't seem the best thing to do.
-
-Adding it at the beginning (just after the title) would be a little
-better, but IMHO, moving the kernel-doc markups to another file
-would make it to look better.
-
-The remaining patch looks ok on my eyes.
-
-> diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
-> similarity index 79%
-> rename from Documentation/sh/new-machine.txt
-> rename to Documentation/sh/new-machine.rst
-> index e0961a66130b..b16c33342642 100644
-> --- a/Documentation/sh/new-machine.txt
-> +++ b/Documentation/sh/new-machine.rst
-> @@ -1,8 +1,8 @@
-> +================================
-> +Adding a new board to LinuxSH
-> +================================
-> 
-> -                Adding a new board to LinuxSH
-> -               ================================
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index 2a0b57f12d1a..97bab578ea72 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -35,6 +35,7 @@ available subsections can be seen below.
+>     spi
+>     i2c
+>     i3c/index
+> +   interconnect
+>     hsi
+>     edac
+>     scsi
+> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/driver-api/interconnect.rst
+> similarity index 99%
+> rename from Documentation/interconnect/interconnect.rst
+> rename to Documentation/driver-api/interconnect.rst
+> index 56e331dab70e..c3e004893796 100644
+> --- a/Documentation/interconnect/interconnect.rst
+> +++ b/Documentation/driver-api/interconnect.rst
+> @@ -1,7 +1,5 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> -:orphan:
 > -
-> -               Paul Mundt <lethal@linux-sh.org>
-> +Paul Mundt <lethal@linux-sh.org>
+>  =====================================
+>  GENERIC SYSTEM INTERCONNECT SUBSYSTEM
+>  =====================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 55996c9f2e0a..524e2c4300dc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8273,7 +8273,7 @@ INTERCONNECT API
+>  M:	Georgi Djakov <georgi.djakov@linaro.org>
+>  L:	linux-pm@vger.kernel.org
+>  S:	Maintained
+> -F:	Documentation/interconnect/
+> +F:	Documentation/driver-api/interconnect.rst
+>  F:	Documentation/devicetree/bindings/interconnect/
+>  F:	drivers/interconnect/
+>  F:	include/dt-bindings/interconnect/
 > 
->  This document attempts to outline what steps are necessary to add support
->  for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
-> @@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
->  companion chip type, and CPU type. Looking at a tree view of this directory
->  hierarchy looks like the following:
-> 
-> -Board-specific code:
-> -
-> -.
-> -|-- arch
-> -|   `-- sh
-> -|       `-- boards
-> -|           |-- adx
-> -|           |   `-- board-specific files
-> -|           |-- bigsur
-> -|           |   `-- board-specific files
-> -|           |
-> -|           ... more boards here ...
-> -|
-> -`-- include
-> -    `-- asm-sh
-> -        |-- adx
-> -        |   `-- board-specific headers
-> -        |-- bigsur
-> -        |   `-- board-specific headers
-> -        |
-> -	.. more boards here ...
-> -
-> -Next, for companion chips:
-> -.
-> -`-- arch
-> -    `-- sh
-> -        `-- cchips
-> -            `-- hd6446x
-> -                `-- hd64461
-> -                    `-- cchip-specific files
-> +Board-specific code::
-> +
-> + .
-> + |-- arch
-> + |   `-- sh
-> + |       `-- boards
-> + |           |-- adx
-> + |           |   `-- board-specific files
-> + |           |-- bigsur
-> + |           |   `-- board-specific files
-> + |           |
-> + |           ... more boards here ...
-> + |
-> + `-- include
-> +     `-- asm-sh
-> +         |-- adx
-> +         |   `-- board-specific headers
-> +         |-- bigsur
-> +         |   `-- board-specific headers
-> +         |
-> +       	 .. more boards here ...
-> +
-> +Next, for companion chips::
-> +
-> + .
-> + `-- arch
-> +     `-- sh
-> +         `-- cchips
-> +             `-- hd6446x
-> +                 `-- hd64461
-> +                     `-- cchip-specific files
-> 
->  ... and so on. Headers for the companion chips are treated the same way as
->  board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
->  hd64461-specific headers.
-> 
-> -Finally, CPU family support is also abstracted:
-> -.
-> -|-- arch
-> -|   `-- sh
-> -|       |-- kernel
-> -|       |   `-- cpu
-> -|       |       |-- sh2
-> -|       |       |   `-- SH-2 generic files
-> -|       |       |-- sh3
-> -|       |       |   `-- SH-3 generic files
-> -|       |       `-- sh4
-> -|       |           `-- SH-4 generic files
-> -|       `-- mm
-> -|           `-- This is also broken out per CPU family, so each family can
-> -|               have their own set of cache/tlb functions.
-> -|
-> -`-- include
-> -    `-- asm-sh
-> -        |-- cpu-sh2
-> -        |   `-- SH-2 specific headers
-> -        |-- cpu-sh3
-> -        |   `-- SH-3 specific headers
-> -        `-- cpu-sh4
-> -            `-- SH-4 specific headers
-> +Finally, CPU family support is also abstracted::
-> +
-> + .
-> + |-- arch
-> + |   `-- sh
-> + |       |-- kernel
-> + |       |   `-- cpu
-> + |       |       |-- sh2
-> + |       |       |   `-- SH-2 generic files
-> + |       |       |-- sh3
-> + |       |       |   `-- SH-3 generic files
-> + |       |       `-- sh4
-> + |       |           `-- SH-4 generic files
-> + |       `-- mm
-> + |           `-- This is also broken out per CPU family, so each family can
-> + |               have their own set of cache/tlb functions.
-> + |
-> + `-- include
-> +     `-- asm-sh
-> +         |-- cpu-sh2
-> +         |   `-- SH-2 specific headers
-> +         |-- cpu-sh3
-> +         |   `-- SH-3 specific headers
-> +         `-- cpu-sh4
-> +             `-- SH-4 specific headers
-> 
->  It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
->  need to be dealt with by the CPU family specific code.
-> @@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
->  get_system_type() and platform_setup(). For our imaginary board, this
->  might look something like:
-> 
-> -/*
-> - * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-> - */
-> -#include <linux/init.h>
-> +.. code-block:: c
-> +
-> +    /*
-> +     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-> +     */
-> +    #include <linux/init.h>
-> 
-> -const char *get_system_type(void)
-> -{
-> -	return "FooTech Vaporboard";
-> -}
-> +    const char *get_system_type(void)
-> +    {
-> +        return "FooTech Vaporboard";
-> +    }
-> 
-> -int __init platform_setup(void)
-> -{
-> +    int __init platform_setup(void)
-> +    {
->    	/*
->  	 * If our hardware actually existed, we would do real
->  	 * setup here. Though it's also sane to leave this empty
-> @@ -136,7 +140,8 @@ int __init platform_setup(void)
->  	/* And whatever else ... */
-> 
->  	return 0;
-> -}
-> +    }
-> +
-> 
->  Our new imaginary board will also have to tie into the machvec in order for it
->  to be of any use.
-> @@ -172,16 +177,17 @@ sufficient.
->     vector.
-> 
->     Note that these prototypes are generated automatically by setting
-> -   __IO_PREFIX to something sensible. A typical example would be:
-> +   __IO_PREFIX to something sensible. A typical example would be::
-> 
->  	#define __IO_PREFIX vapor
->     	#include <asm/io_generic.h>
-> 
-> +
->     somewhere in the board-specific header. Any boards being ported that still
->     have a legacy io.h should remove it entirely and switch to the new model.
-> 
->   - Add machine vector definitions to the board's setup.c. At a bare minimum,
-> -   this must be defined as something like:
-> +   this must be defined as something like::
-> 
->  	struct sh_machine_vector mv_vapor __initmv = {
->  		.mv_name = "vapor",
-> @@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
->  require the proper entry here and there in order to get things done.
-> 
->  The first thing to do is to add an entry to arch/sh/Kconfig, under the
-> -"System type" menu:
-> +"System type" menu::
-> 
-> -config SH_VAPOR
-> -	bool "Vapor"
-> -	help
-> + config SH_VAPOR
-> +	 bool "Vapor"
-> +	 help
->  	  select Vapor if configuring for a FooTech Vaporboard.
-> 
->  next, this has to be added into arch/sh/Makefile. All boards require a
-> @@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
->  implicit checks for your board if you need this somewhere throughout the
->  common code, such as:
-> 
-> +::
-> +
->  	/* Make sure we're on the FooTech Vaporboard */
->  	if (!mach_is_vapor())
->  		return -ENODEV;
-> @@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
->  Looking at the 'make help' output, you should now see something like:
-> 
->  Architecture specific targets (sh):
-> -  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
-> -  adx_defconfig           - Build for adx
-> -  cqreek_defconfig        - Build for cqreek
-> -  dreamcast_defconfig     - Build for dreamcast
-> -...
-> -  vapor_defconfig         - Build for vapor
-> +
-> + - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
-> + - adx_defconfig           - Build for adx
-> + - cqreek_defconfig        - Build for cqreek
-> + - dreamcast_defconfig     - Build for dreamcast
-> + - ...
-> + - vapor_defconfig         - Build for vapor
-> 
->  which then allows you to do:
-> 
-> diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
-> similarity index 90%
-> rename from Documentation/sh/register-banks.txt
-> rename to Documentation/sh/register-banks.rst
-> index a6719f2f6594..acccfaf80355 100644
-> --- a/Documentation/sh/register-banks.txt
-> +++ b/Documentation/sh/register-banks.rst
-> @@ -1,8 +1,9 @@
-> -	Notes on register bank usage in the kernel
-> -	==========================================
-> +==========================================
-> +Notes on register bank usage in the kernel
-> +==========================================
-> 
->  Introduction
-> -------------
-> +============
-> 
->  The SH-3 and SH-4 CPU families traditionally include a single partial register
->  bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
-> @@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
->  		- The SR.IMASK interrupt handler makes use of this to set the
->  		  interrupt priority level (used by local_irq_enable())
->  	- r7_bank (current)
-> -
-> --
-> 2.17.1
-> 
-
-
-
-Thanks,
-Mauro
