@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F2397E288
+	by archive.lwn.net (Postfix) with ESMTP id CC0857E28E
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727344AbfF1MbH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726542AbfF1MbH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 28 Jun 2019 08:31:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39872 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:39868 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727190AbfF1Mas (ORCPT
+        with ESMTP id S1727188AbfF1Mas (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:30:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,45 +20,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=nBpd8Fk+s8d+aaTmt6oIoDeIRX/XWEtS+DQSzNWScpE=; b=N0KdyA00b5X6Q9uq0E7P8iEVj0
-        jmtzOc60PXzPDbTpOiHwPGFSerA7yVyIsHiuoV9FKQWBUg3EVKU+nx7FGUkOaW9IqUjqn7qmlqaN3
-        fQ/SLtDQbhu1afpCxlO2B4FGpywbna5rirN+7t/10MOszesghvpHy3FIsb11K20hXFO6nMzMd5VrX
-        HcHOkC/7j7VGDOT4lIyRkw12U2ZKMy1i3Na41PVYyyYNotO9+mknrUKGK71dVEhVjDo00BtNxlpz9
-        RYQpgLrvrP7BY7noSrWtrpRKzCzImQmGTL+phwQ1enhJrgm6YKedXnZsQNedOVzcJPR3JxG225beu
-        HuixlYTA==;
+        bh=HNTqLR7YTpiCGsfcYzZ23NBv7IuWobNYT8gokGCe3wo=; b=jOK9yEioolCXopD1Wq607Z9fR/
+        HdMohOTqYZUqXwti9GCkq6A/d0XRGI45pI0UuIi32KZf8+8qIJi/BsB/AXDe18qx+EYe0Kb3wSpax
+        BC4JBaEQFMDtp2rNHNAnVRNUlknvpaqomnsjSBYvbRksF4hQ8rk5FWq7VHR0xaVHdGiXcLi1mhWOL
+        7W1t49Fu8buHnGzEJsAmMVi6F8H7jPn2lzXVU6ILBj0+0XL7flg8ydZvEIxgxJvmRKTD407ivUgCs
+        DzquqTFZLZPqC91AwCHE5X0N6bEReQ7mAXvdb4/R1QTVyQNWjSXZTkOmieePIKqiGiHsO2c6fu0nx
+        yzEbLWYg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgq1U-00055Y-Jg; Fri, 28 Jun 2019 12:30:37 +0000
+        id 1hgq1U-00055N-Fq; Fri, 28 Jun 2019 12:30:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgq1S-0005Sq-IY; Fri, 28 Jun 2019 09:30:34 -0300
+        id 1hgq1S-0005SM-DP; Fri, 28 Jun 2019 09:30:34 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Harry Wei <harryxiyou@gmail.com>,
         Alex Shi <alex.shi@linux.alibaba.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Kershner <david.kershner@unisys.com>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        sparmaintainer@unisys.com, devel@driverdev.osuosl.org,
-        cocci@systeme.lip6.fr
-Subject: [PATCH 24/39] docs: driver-model: move it to the driver-api book
-Date:   Fri, 28 Jun 2019 09:30:17 -0300
-Message-Id: <920ff36c66233113b1825ab504fe675ed5a5bd7b.1561724493.git.mchehab+samsung@kernel.org>
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org
+Subject: [PATCH 18/39] docs: admin-guide: add kdump documentation into it
+Date:   Fri, 28 Jun 2019 09:30:11 -0300
+Message-Id: <654e7591c044632c06257e0f069a52c0bb993554.1561724493.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
 References: <cover.1561724493.git.mchehab+samsung@kernel.org>
@@ -70,298 +72,229 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The audience for the Kernel driver-model is clearly Kernel hackers.
+The Kdump documentation describes procedures with admins use
+in order to solve issues on their systems.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/{ => driver-api}/driver-model/binding.rst       | 0
- Documentation/{ => driver-api}/driver-model/bus.rst           | 0
- Documentation/{ => driver-api}/driver-model/class.rst         | 0
- .../{ => driver-api}/driver-model/design-patterns.rst         | 0
- Documentation/{ => driver-api}/driver-model/device.rst        | 0
- Documentation/{ => driver-api}/driver-model/devres.rst        | 0
- Documentation/{ => driver-api}/driver-model/driver.rst        | 0
- Documentation/{ => driver-api}/driver-model/index.rst         | 2 --
- Documentation/{ => driver-api}/driver-model/overview.rst      | 0
- Documentation/{ => driver-api}/driver-model/platform.rst      | 0
- Documentation/{ => driver-api}/driver-model/porting.rst       | 2 +-
- Documentation/driver-api/gpio/driver.rst                      | 2 +-
- Documentation/driver-api/index.rst                            | 1 +
- Documentation/eisa.txt                                        | 4 ++--
- Documentation/filesystems/sysfs.txt                           | 2 +-
- Documentation/hwmon/submitting-patches.rst                    | 2 +-
- Documentation/translations/zh_CN/filesystems/sysfs.txt        | 2 +-
- drivers/base/platform.c                                       | 2 +-
- drivers/gpio/gpio-cs5535.c                                    | 2 +-
- drivers/net/ethernet/intel/ice/ice_main.c                     | 2 +-
- drivers/staging/unisys/Documentation/overview.txt             | 4 ++--
- include/linux/device.h                                        | 2 +-
- include/linux/platform_device.h                               | 2 +-
- scripts/coccinelle/free/devm_free.cocci                       | 2 +-
- 24 files changed, 16 insertions(+), 17 deletions(-)
- rename Documentation/{ => driver-api}/driver-model/binding.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/bus.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/class.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/design-patterns.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/device.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/devres.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/driver.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/index.rst (96%)
- rename Documentation/{ => driver-api}/driver-model/overview.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/platform.rst (100%)
- rename Documentation/{ => driver-api}/driver-model/porting.rst (99%)
+ Documentation/admin-guide/bug-hunting.rst            | 4 ++--
+ Documentation/admin-guide/index.rst                  | 1 +
+ Documentation/{ => admin-guide}/kdump/gdbmacros.txt  | 0
+ Documentation/{ => admin-guide}/kdump/index.rst      | 1 -
+ Documentation/{ => admin-guide}/kdump/kdump.rst      | 0
+ Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst | 0
+ Documentation/admin-guide/kernel-parameters.txt      | 6 +++---
+ Documentation/powerpc/firmware-assisted-dump.rst     | 2 +-
+ Documentation/translations/zh_CN/oops-tracing.txt    | 4 ++--
+ Documentation/watchdog/hpwdt.rst                     | 2 +-
+ MAINTAINERS                                          | 2 +-
+ arch/arm/Kconfig                                     | 2 +-
+ arch/arm64/Kconfig                                   | 2 +-
+ arch/sh/Kconfig                                      | 2 +-
+ arch/x86/Kconfig                                     | 4 ++--
+ 15 files changed, 16 insertions(+), 16 deletions(-)
+ rename Documentation/{ => admin-guide}/kdump/gdbmacros.txt (100%)
+ rename Documentation/{ => admin-guide}/kdump/index.rst (97%)
+ rename Documentation/{ => admin-guide}/kdump/kdump.rst (100%)
+ rename Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst (100%)
 
-diff --git a/Documentation/driver-model/binding.rst b/Documentation/driver-api/driver-model/binding.rst
+diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
+index b761aa2a51d2..44b8a4edd348 100644
+--- a/Documentation/admin-guide/bug-hunting.rst
++++ b/Documentation/admin-guide/bug-hunting.rst
+@@ -90,9 +90,9 @@ the disk is not available then you have three options:
+     run a null modem to a second machine and capture the output there
+     using your favourite communication program.  Minicom works well.
+ 
+-(3) Use Kdump (see Documentation/kdump/kdump.rst),
++(3) Use Kdump (see Documentation/admin-guide/kdump/kdump.rst),
+     extract the kernel ring buffer from old memory with using dmesg
+-    gdbmacro in Documentation/kdump/gdbmacros.txt.
++    gdbmacro in Documentation/admin-guide/kdump/gdbmacros.txt.
+ 
+ Finding the bug's location
+ --------------------------
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 9899b78dbe50..65e821a03aca 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -39,6 +39,7 @@ problems and bugs in particular.
+    ramoops
+    dynamic-debug-howto
+    init
++   kdump/index
+    perf/index
+ 
+ This is the beginning of a section with information of interest to
+diff --git a/Documentation/kdump/gdbmacros.txt b/Documentation/admin-guide/kdump/gdbmacros.txt
 similarity index 100%
-rename from Documentation/driver-model/binding.rst
-rename to Documentation/driver-api/driver-model/binding.rst
-diff --git a/Documentation/driver-model/bus.rst b/Documentation/driver-api/driver-model/bus.rst
-similarity index 100%
-rename from Documentation/driver-model/bus.rst
-rename to Documentation/driver-api/driver-model/bus.rst
-diff --git a/Documentation/driver-model/class.rst b/Documentation/driver-api/driver-model/class.rst
-similarity index 100%
-rename from Documentation/driver-model/class.rst
-rename to Documentation/driver-api/driver-model/class.rst
-diff --git a/Documentation/driver-model/design-patterns.rst b/Documentation/driver-api/driver-model/design-patterns.rst
-similarity index 100%
-rename from Documentation/driver-model/design-patterns.rst
-rename to Documentation/driver-api/driver-model/design-patterns.rst
-diff --git a/Documentation/driver-model/device.rst b/Documentation/driver-api/driver-model/device.rst
-similarity index 100%
-rename from Documentation/driver-model/device.rst
-rename to Documentation/driver-api/driver-model/device.rst
-diff --git a/Documentation/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-similarity index 100%
-rename from Documentation/driver-model/devres.rst
-rename to Documentation/driver-api/driver-model/devres.rst
-diff --git a/Documentation/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
-similarity index 100%
-rename from Documentation/driver-model/driver.rst
-rename to Documentation/driver-api/driver-model/driver.rst
-diff --git a/Documentation/driver-model/index.rst b/Documentation/driver-api/driver-model/index.rst
-similarity index 96%
-rename from Documentation/driver-model/index.rst
-rename to Documentation/driver-api/driver-model/index.rst
-index 9f85d579ce56..755016422269 100644
---- a/Documentation/driver-model/index.rst
-+++ b/Documentation/driver-api/driver-model/index.rst
-@@ -1,5 +1,3 @@
+rename from Documentation/kdump/gdbmacros.txt
+rename to Documentation/admin-guide/kdump/gdbmacros.txt
+diff --git a/Documentation/kdump/index.rst b/Documentation/admin-guide/kdump/index.rst
+similarity index 97%
+rename from Documentation/kdump/index.rst
+rename to Documentation/admin-guide/kdump/index.rst
+index 2b17fcf6867a..8e2ebd0383cd 100644
+--- a/Documentation/kdump/index.rst
++++ b/Documentation/admin-guide/kdump/index.rst
+@@ -1,4 +1,3 @@
 -:orphan:
--
- ============
- Driver Model
- ============
-diff --git a/Documentation/driver-model/overview.rst b/Documentation/driver-api/driver-model/overview.rst
+ 
+ ================================================================
+ Documentation for Kdump - The kexec-based Crash Dumping Solution
+diff --git a/Documentation/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
 similarity index 100%
-rename from Documentation/driver-model/overview.rst
-rename to Documentation/driver-api/driver-model/overview.rst
-diff --git a/Documentation/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
+rename from Documentation/kdump/kdump.rst
+rename to Documentation/admin-guide/kdump/kdump.rst
+diff --git a/Documentation/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
 similarity index 100%
-rename from Documentation/driver-model/platform.rst
-rename to Documentation/driver-api/driver-model/platform.rst
-diff --git a/Documentation/driver-model/porting.rst b/Documentation/driver-api/driver-model/porting.rst
-similarity index 99%
-rename from Documentation/driver-model/porting.rst
-rename to Documentation/driver-api/driver-model/porting.rst
-index ae4bf843c1d6..931ea879af3f 100644
---- a/Documentation/driver-model/porting.rst
-+++ b/Documentation/driver-api/driver-model/porting.rst
-@@ -9,7 +9,7 @@ Patrick Mochel
+rename from Documentation/kdump/vmcoreinfo.rst
+rename to Documentation/admin-guide/kdump/vmcoreinfo.rst
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e38b96d061f4..9b535c0e22f3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -708,14 +708,14 @@
+ 			[KNL, x86_64] select a region under 4G first, and
+ 			fall back to reserve region above 4G when '@offset'
+ 			hasn't been specified.
+-			See Documentation/kdump/kdump.rst for further details.
++			See Documentation/admin-guide/kdump/kdump.rst for further details.
  
- Overview
+ 	crashkernel=range1:size1[,range2:size2,...][@offset]
+ 			[KNL] Same as above, but depends on the memory
+ 			in the running system. The syntax of range is
+ 			start-[end] where start and end are both
+ 			a memory unit (amount[KMG]). See also
+-			Documentation/kdump/kdump.rst for an example.
++			Documentation/admin-guide/kdump/kdump.rst for an example.
  
--Please refer to `Documentation/driver-model/*.rst` for definitions of
-+Please refer to `Documentation/driver-api/driver-model/*.rst` for definitions of
- various driver types and concepts.
+ 	crashkernel=size[KMG],high
+ 			[KNL, x86_64] range could be above 4G. Allow kernel
+@@ -1207,7 +1207,7 @@
+ 			Specifies physical address of start of kernel core
+ 			image elf header and optionally the size. Generally
+ 			kexec loader will pass this option to capture kernel.
+-			See Documentation/kdump/kdump.rst for details.
++			See Documentation/admin-guide/kdump/kdump.rst for details.
  
- Most of the work of porting devices drivers to the new model happens
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 349f2dc33029..921c71a3d683 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -399,7 +399,7 @@ symbol:
-   will pass the struct gpio_chip* for the chip to all IRQ callbacks, so the
-   callbacks need to embed the gpio_chip in its state container and obtain a
-   pointer to the container using container_of().
--  (See Documentation/driver-model/design-patterns.rst)
-+  (See Documentation/driver-api/driver-model/design-patterns.rst)
+ 	enable_mtrr_cleanup [X86]
+ 			The kernel tries to adjust MTRR layout from continuous
+diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
+index d7fa7c35dd12..9ca12830a48e 100644
+--- a/Documentation/powerpc/firmware-assisted-dump.rst
++++ b/Documentation/powerpc/firmware-assisted-dump.rst
+@@ -61,7 +61,7 @@ as follows:
+          the default calculated size. Use this option if default
+          boot memory size is not sufficient for second kernel to
+          boot successfully. For syntax of crashkernel= parameter,
+-         refer to Documentation/kdump/kdump.rst. If any offset is
++         refer to Documentation/admin-guide/kdump/kdump.rst. If any offset is
+          provided in crashkernel= parameter, it will be ignored
+          as fadump uses a predefined offset to reserve memory
+          for boot memory dump preservation in case of a crash.
+diff --git a/Documentation/translations/zh_CN/oops-tracing.txt b/Documentation/translations/zh_CN/oops-tracing.txt
+index 368ddd05b304..c5f3bda7abcb 100644
+--- a/Documentation/translations/zh_CN/oops-tracing.txt
++++ b/Documentation/translations/zh_CN/oops-tracing.txt
+@@ -53,8 +53,8 @@ cat /proc/kmsg > file， 然而你必须介入中止传输， kmsg是一个“
+ （2）用串口终端启动（请参看Documentation/admin-guide/serial-console.rst），运行一个null
+ modem到另一台机器并用你喜欢的通讯工具获取输出。Minicom工作地很好。
  
- - gpiochip_irqchip_add_nested(): adds a nested cascaded irqchip to a gpiochip,
-   as discussed above regarding different types of cascaded irqchips. The
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index fea0034afa56..93d187bf4853 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -14,6 +14,7 @@ available subsections can be seen below.
- .. toctree::
-    :maxdepth: 2
+-（3）使用Kdump（请参看Documentation/kdump/kdump.rst），
+-使用在Documentation/kdump/gdbmacros.txt中定义的dmesg gdb宏，从旧的内存中提取内核
++（3）使用Kdump（请参看Documentation/admin-guide/kdump/kdump.rst），
++使用在Documentation/admin-guide/kdump/gdbmacros.txt中定义的dmesg gdb宏，从旧的内存中提取内核
+ 环形缓冲区。
  
-+   driver-model/index
-    basics
-    infrastructure
-    early-userspace/index
-diff --git a/Documentation/eisa.txt b/Documentation/eisa.txt
-index f388545a85a7..c07565ba57da 100644
---- a/Documentation/eisa.txt
-+++ b/Documentation/eisa.txt
-@@ -103,7 +103,7 @@ id_table	an array of NULL terminated EISA id strings,
- 		(driver_data).
+ 完整信息
+diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
+index 94a96371113e..49c647dba8aa 100644
+--- a/Documentation/watchdog/hpwdt.rst
++++ b/Documentation/watchdog/hpwdt.rst
+@@ -59,7 +59,7 @@ Last reviewed: 08/20/2018
+  and loop forever.  This is generally not what a watchdog user wants.
  
- driver		a generic driver, such as described in
--		Documentation/driver-model/driver.rst. Only .name,
-+		Documentation/driver-api/driver-model/driver.rst. Only .name,
- 		.probe and .remove members are mandatory.
- =============== ====================================================
+  For those wishing to learn more please see:
+-	Documentation/kdump/kdump.rst
++	Documentation/admin-guide/kdump/kdump.rst
+ 	Documentation/admin-guide/kernel-parameters.txt (panic=)
+ 	Your Linux Distribution specific documentation.
  
-@@ -152,7 +152,7 @@ state    set of flags indicating the state of the device. Current
- 	 flags are EISA_CONFIG_ENABLED and EISA_CONFIG_FORCED.
- res	 set of four 256 bytes I/O regions allocated to this device
- dma_mask DMA mask set from the parent device.
--dev	 generic device (see Documentation/driver-model/device.rst)
-+dev	 generic device (see Documentation/driver-api/driver-model/device.rst)
- ======== ============================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d35ff73f718a..4c622a19ab7d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8622,7 +8622,7 @@ R:	Vivek Goyal <vgoyal@redhat.com>
+ L:	kexec@lists.infradead.org
+ W:	http://lse.sourceforge.net/kdump/
+ S:	Maintained
+-F:	Documentation/kdump/
++F:	Documentation/admin-guide/kdump/
  
- You can get the 'struct eisa_device' from 'struct device' using the
-diff --git a/Documentation/filesystems/sysfs.txt b/Documentation/filesystems/sysfs.txt
-index 5b5311f9358d..ddf15b1b0d5a 100644
---- a/Documentation/filesystems/sysfs.txt
-+++ b/Documentation/filesystems/sysfs.txt
-@@ -319,7 +319,7 @@ quick way to lookup the sysfs interface for a device from the result of
- a stat(2) operation.
+ KEENE FM RADIO TRANSMITTER DRIVER
+ M:	Hans Verkuil <hverkuil@xs4all.nl>
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 8bf8985ec667..d5bd4350fcbd 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -2025,7 +2025,7 @@ config CRASH_DUMP
+ 	  kdump/kexec. The crash dump kernel must be compiled to a
+ 	  memory address not used by the main kernel
  
- More information can driver-model specific features can be found in
--Documentation/driver-model/. 
-+Documentation/driver-api/driver-model/.
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
+ config AUTO_ZRELADDR
+ 	bool "Auto calculation of the decompressed kernel image address"
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index accb045997c6..e1ea69994e0f 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -997,7 +997,7 @@ config CRASH_DUMP
+ 	  reserved region and then later executed after a crash by
+ 	  kdump/kexec.
  
- TODO: Finish this section.
-diff --git a/Documentation/hwmon/submitting-patches.rst b/Documentation/hwmon/submitting-patches.rst
-index d5b05d3e54ba..452fc28d8e0b 100644
---- a/Documentation/hwmon/submitting-patches.rst
-+++ b/Documentation/hwmon/submitting-patches.rst
-@@ -89,7 +89,7 @@ increase the chances of your change being accepted.
-   console. Excessive logging can seriously affect system performance.
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
- * Use devres functions whenever possible to allocate resources. For rationale
--  and supported functions, please see Documentation/driver-model/devres.rst.
-+  and supported functions, please see Documentation/driver-api/driver-model/devres.rst.
-   If a function is not supported by devres, consider using devm_add_action().
+ config XEN_DOM0
+ 	def_bool y
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 31a7d12db705..c2858ac6a46a 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -626,7 +626,7 @@ config CRASH_DUMP
+ 	  to a memory address not used by the main kernel using
+ 	  PHYSICAL_START.
  
- * If the driver has a detect function, make sure it is silent. Debug messages
-diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-index 452271dda141..ee1f37da5b23 100644
---- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
-+++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-@@ -288,7 +288,7 @@ dev/ 包含两个子目录： char/ 和 block/。在这两个子目录中，有
- 中相应的设备。/sys/dev 提供一个通过一个 stat(2) 操作结果，查找
- 设备 sysfs 接口快捷的方法。
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
--更多有关 driver-model 的特性信息可以在 Documentation/driver-model/
-+更多有关 driver-model 的特性信息可以在 Documentation/driver-api/driver-model/
- 中找到。
+ config KEXEC_JUMP
+ 	bool "kexec jump (EXPERIMENTAL)"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index c9d59ca5e3ac..489fd833b980 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2057,7 +2057,7 @@ config CRASH_DUMP
+ 	  to a memory address not used by the main kernel or BIOS using
+ 	  PHYSICAL_START, or it must be built as a relocatable image
+ 	  (CONFIG_RELOCATABLE=y).
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
+ config KEXEC_JUMP
+ 	bool "kexec jump"
+@@ -2094,7 +2094,7 @@ config PHYSICAL_START
+ 	  the reserved region.  In other words, it can be set based on
+ 	  the "X" value as specified in the "crashkernel=YM@XM"
+ 	  command line boot parameter passed to the panic-ed
+-	  kernel. Please take a look at Documentation/kdump/kdump.rst
++	  kernel. Please take a look at Documentation/admin-guide/kdump/kdump.rst
+ 	  for more details about crash dumps.
  
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 713903290385..506a0175a5a7 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -5,7 +5,7 @@
-  * Copyright (c) 2002-3 Patrick Mochel
-  * Copyright (c) 2002-3 Open Source Development Labs
-  *
-- * Please see Documentation/driver-model/platform.rst for more
-+ * Please see Documentation/driver-api/driver-model/platform.rst for more
-  * information.
-  */
- 
-diff --git a/drivers/gpio/gpio-cs5535.c b/drivers/gpio/gpio-cs5535.c
-index 3611a0571667..53b24e3ae7de 100644
---- a/drivers/gpio/gpio-cs5535.c
-+++ b/drivers/gpio/gpio-cs5535.c
-@@ -41,7 +41,7 @@ MODULE_PARM_DESC(mask, "GPIO channel mask.");
- 
- /*
-  * FIXME: convert this singleton driver to use the state container
-- * design pattern, see Documentation/driver-model/design-patterns.rst
-+ * design pattern, see Documentation/driver-api/driver-model/design-patterns.rst
-  */
- static struct cs5535_gpio_chip {
- 	struct gpio_chip chip;
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index 41c90f2ddb31..63db08d9bafa 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -2286,7 +2286,7 @@ ice_probe(struct pci_dev *pdev, const struct pci_device_id __always_unused *ent)
- 	struct ice_hw *hw;
- 	int err;
- 
--	/* this driver uses devres, see Documentation/driver-model/devres.rst */
-+	/* this driver uses devres, see Documentation/driver-api/driver-model/devres.rst */
- 	err = pcim_enable_device(pdev);
- 	if (err)
- 		return err;
-diff --git a/drivers/staging/unisys/Documentation/overview.txt b/drivers/staging/unisys/Documentation/overview.txt
-index 9ab30af265a5..f8a4144b239c 100644
---- a/drivers/staging/unisys/Documentation/overview.txt
-+++ b/drivers/staging/unisys/Documentation/overview.txt
-@@ -15,7 +15,7 @@ normally be unsharable, specifically:
- * visorinput - keyboard and mouse
- 
- These drivers conform to the standard Linux bus/device model described
--within Documentation/driver-model/, and utilize a driver named visorbus to
-+within Documentation/driver-api/driver-model/, and utilize a driver named visorbus to
- present the virtual busses involved. Drivers in the 'visor*' driver set are
- commonly referred to as "guest drivers" or "client drivers".  All drivers
- except visorbus expose a device of a specific usable class to the Linux guest
-@@ -141,7 +141,7 @@ called automatically by the visorbus driver at appropriate times:
- -----------------------------------
- 
- Because visorbus is a standard Linux bus driver in the model described in
--Documentation/driver-model/, the hierarchy of s-Par virtual devices is
-+Documentation/driver-api/driver-model/, the hierarchy of s-Par virtual devices is
- published in the sysfs tree beneath /bus/visorbus/, e.g.,
- /sys/bus/visorbus/devices/ might look like:
- 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 4f65c424e5fd..93b12aec9bff 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -6,7 +6,7 @@
-  * Copyright (c) 2004-2009 Greg Kroah-Hartman <gregkh@suse.de>
-  * Copyright (c) 2008-2009 Novell Inc.
-  *
-- * See Documentation/driver-model/ for more information.
-+ * See Documentation/driver-api/driver-model/ for more information.
-  */
- 
- #ifndef _DEVICE_H_
-diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-index beb25f277889..9bc36b589827 100644
---- a/include/linux/platform_device.h
-+++ b/include/linux/platform_device.h
-@@ -4,7 +4,7 @@
-  *
-  * Copyright (c) 2001-2003 Patrick Mochel <mochel@osdl.org>
-  *
-- * See Documentation/driver-model/ for more information.
-+ * See Documentation/driver-api/driver-model/ for more information.
-  */
- 
- #ifndef _PLATFORM_DEVICE_H_
-diff --git a/scripts/coccinelle/free/devm_free.cocci b/scripts/coccinelle/free/devm_free.cocci
-index fefd0331a2de..441799b5359b 100644
---- a/scripts/coccinelle/free/devm_free.cocci
-+++ b/scripts/coccinelle/free/devm_free.cocci
-@@ -3,7 +3,7 @@
- /// functions.  Values allocated using the devm_functions are freed when
- /// the device is detached, and thus the use of the standard freeing
- /// function would cause a double free.
--/// See Documentation/driver-model/devres.rst for more information.
-+/// See Documentation/driver-api/driver-model/devres.rst for more information.
- ///
- /// A difficulty of detecting this problem is that the standard freeing
- /// function might be called from a different function than the one
+ 	  Usage of bzImage for capturing the crash dump is recommended as
 -- 
 2.21.0
 
