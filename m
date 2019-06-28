@@ -1,80 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 821437D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 07:31:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF01C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 07:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfF1Hbd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 03:31:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:32908 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726426AbfF1Hbd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Jun 2019 03:31:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D3DF7B167;
-        Fri, 28 Jun 2019 07:31:30 +0000 (UTC)
-Date:   Fri, 28 Jun 2019 09:31:28 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-Subject: Re: [PATCH 2/2] mm, slab: Extend vm/drop_caches to shrink kmem slabs
-Message-ID: <20190628073128.GC2751@dhcp22.suse.cz>
-References: <20190624174219.25513-1-longman@redhat.com>
- <20190624174219.25513-3-longman@redhat.com>
- <20190627151506.GE5303@dhcp22.suse.cz>
- <5cb05d2c-39a7-f138-b0b9-4b03d6008999@redhat.com>
+        id S1726420AbfF1Hnw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 03:43:52 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40424 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726385AbfF1Hnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 03:43:52 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p11so5176659wre.7;
+        Fri, 28 Jun 2019 00:43:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HXfG5Nnu4DCUe0/zJ0AVWy2789Wi/T9UvlwPaiFOk5E=;
+        b=UirvTOjZqnExNLkv8S4B1E8Eg5xFoMapg2iqaXTgb2nyjGYhQ0h4zkpfS4W+8kzjoH
+         EwGbwrpJE3cotezoXtKkfiBA2jxRmjEpa6tLFhCrcReBJIUmJpcOsbvzY1Xwy5I9g2d8
+         y4liYrWvah3fcDtyfmh3fWZlE6FQvJPOJf7RXXkQceL6OAodsDbF5vss0xKo2twOjhfQ
+         cnCPuGoMV/amQ9k3c6P6T8UHZR7DUFmlfuwUuPQKPdXsjeaQ24YKgMO84XGwiInhRgYA
+         ruLTUX2aY1TYvezXgQVwVOG4KCCOohzfeF6wBseen5cWylAwpgVZSVVsRF42H2CVsETs
+         7a1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HXfG5Nnu4DCUe0/zJ0AVWy2789Wi/T9UvlwPaiFOk5E=;
+        b=gn4CvYayz/TOBjTineL+TNBy0hv1F71rjwAJkS7gl0f604F6vBXKYi9tNSSR4PUQWT
+         QfX7SW762gpuffld+O/HWM/teJDmvqs6dDMZgwhFAMgeSChb8JvcYbJjtwnDWnBxAF5J
+         fWz5bVOfW/J2JfECIDjMRQmNb+wQg+X2vYeMUfRL6V8nyhoJn7yOFfXlwoBMTPqtWU2H
+         ceE71NA8w48JNPgmvggdmH0TumGR1pVfb1NyusG4nYqoCPEbmrdgKAMSwZfONLN5wd8k
+         RvUcf4ANKP9IOpRhovc/nAvaeyMcYprz6f9Lo/XMZ5IWp+RWNjlUGIcQNoVRx37f17hd
+         KH2w==
+X-Gm-Message-State: APjAAAVP8UXVjqP93zhESxK3gIUZbhxxi2xBZXRBlxzSx8MJoEvdmMhX
+        tYe8iQk4xymmtgGX7lQUKXc=
+X-Google-Smtp-Source: APXvYqxHEEIfmm7OPcifOsFPNBvXtC1vhzuAx0WHo37sOnOgHXz5WHwXM7OBqM2FIzcKCVgsBVZ0DQ==
+X-Received: by 2002:adf:f951:: with SMTP id q17mr6481855wrr.173.1561707830123;
+        Fri, 28 Jun 2019 00:43:50 -0700 (PDT)
+Received: from localhost ([197.210.35.74])
+        by smtp.gmail.com with ESMTPSA id x16sm1925251wmj.4.2019.06.28.00.43.47
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 28 Jun 2019 00:43:49 -0700 (PDT)
+Date:   Fri, 28 Jun 2019 08:43:44 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [linux-kernel-mentees] [PATCH v2] Doc : doc-guide : Fix a typo
+Message-ID: <20190628074129.GA31006@localhost>
+References: <20190628060648.25151-1-sheriffesseson@gmail.com>
+ <20190628063342.27613-1-sheriffesseson@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5cb05d2c-39a7-f138-b0b9-4b03d6008999@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190628063342.27613-1-sheriffesseson@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 27-06-19 17:16:04, Waiman Long wrote:
-> On 6/27/19 11:15 AM, Michal Hocko wrote:
-> > On Mon 24-06-19 13:42:19, Waiman Long wrote:
-> >> With the slub memory allocator, the numbers of active slab objects
-> >> reported in /proc/slabinfo are not real because they include objects
-> >> that are held by the per-cpu slab structures whether they are actually
-> >> used or not.  The problem gets worse the more CPUs a system have. For
-> >> instance, looking at the reported number of active task_struct objects,
-> >> one will wonder where all the missing tasks gone.
-> >>
-> >> I know it is hard and costly to get a real count of active objects.
-> > What exactly is expensive? Why cannot slabinfo reduce the number of
-> > active objects by per-cpu cached objects?
-> >
-> The number of cachelines that needs to be accessed in order to get an
-> accurate count will be much higher if we need to iterate through all the
-> per-cpu structures. In addition, accessing the per-cpu partial list will
-> be racy.
+On Fri, Jun 28, 2019 at 07:33:42AM +0100, Sheriff Esseson wrote:
+> fix the disjunction by replacing "of" with "or".
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+> ---
+> 
+> changes in v2:
+> - cc-ed Corbet.
+> 
+>  Documentation/doc-guide/kernel-doc.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> index f96059767..192c36af3 100644
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -359,7 +359,7 @@ Domain`_ references.
+>    ``monospaced font``.
+>  
+>    Useful if you need to use special characters that would otherwise have some
+> -  meaning either by kernel-doc script of by reStructuredText.
+> +  meaning either by kernel-doc script or by reStructuredText.
+>  
+>    This is particularly useful if you need to use things like ``%ph`` inside
+>    a function description.
+> -- 
+> 2.22.0
+> 
 
-Why is all that a problem for a root only interface that should be used
-quite rarely (it is not something that you should be reading hundreds
-time per second, right)?
--- 
-Michal Hocko
-SUSE Labs
+make respose inline.
