@@ -1,32 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 718617D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 15:10:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B4F67D922
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 15:11:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbfF1PKX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 11:10:23 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35104 "EHLO ms.lwn.net"
+        id S1726827AbfF1PLE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 11:11:04 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35124 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726616AbfF1PKX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Jun 2019 11:10:23 -0400
+        id S1726616AbfF1PLE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Jun 2019 11:11:04 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A1B4D5A0;
-        Fri, 28 Jun 2019 15:10:22 +0000 (UTC)
-Date:   Fri, 28 Jun 2019 09:10:21 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 121F22B4;
+        Fri, 28 Jun 2019 15:11:03 +0000 (UTC)
+Date:   Fri, 28 Jun 2019 09:11:01 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: format kernel-parameters -- as code
-Message-ID: <20190628091021.457d0301@lwn.net>
-In-Reply-To: <20190627135938.3722-1-steve@sk2.org>
-References: <20190627135938.3722-1-steve@sk2.org>
+To:     Jiunn Chang <c0d1n61at3@gmail.com>
+Cc:     skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees][PATCH] doc: RCU callback locks need only
+ _bh, not necessarily _irq
+Message-ID: <20190628091101.5f4d35e3@lwn.net>
+In-Reply-To: <20190627210147.19510-1-c0d1n61at3@gmail.com>
+References: <20190627210147.19510-1-c0d1n61at3@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,20 +42,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Jun 2019 15:59:38 +0200
-Stephen Kitt <steve@sk2.org> wrote:
+On Thu, 27 Jun 2019 16:01:47 -0500
+Jiunn Chang <c0d1n61at3@gmail.com> wrote:
 
-> The current ReStructuredText formatting results in "--", used to
-> indicate the end of the kernel command-line parameters, appearing as
-> an en-dash instead of two hyphens; this patch formats them as code,
-> "``--``", as done elsewhere in the documentation.
+> The UP.rst file calls for locks acquired within RCU callback functions
+> to use _irq variants (spin_lock_irqsave() or similar), which does work,
+> but can be overkill.  This commit therefore instead calls for _bh variants
+> (spin_lock_bh() or similar), while noting that _irq does work.
 > 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+> ---
+>  Documentation/RCU/UP.rst | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 
-A worthy fix, I've applied it.  This seems like the sort of annoyance that
-will bite us over and over, though.  We might want to find a more
-comprehensive way to turn this behavior off.
-
-Thanks,
+Applied, thanks.
 
 jon
