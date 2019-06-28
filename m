@@ -5,175 +5,307 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05CAF7DCEA
+	by archive.lwn.net (Postfix) with ESMTP id 326957DE57
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbfF1Man (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:30:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39182 "EHLO
+        id S1727125AbfF1Map (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:30:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39564 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727034AbfF1Man (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:30:43 -0400
+        with ESMTP id S1727091AbfF1Map (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:30:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=e7PI9xcipbF07o8l7bOvfTR9teu/JtxbkDUbu2d3wzA=; b=ky2z+0udABzsP4et8Uaot7GiuW
-        2Yotbf4DBoCpouCXHDKG2WipZYhqQD1MhrS/+Cbc4YL+VCbF8KDtldJXibnZHkvpIh3XyFkRUU7Ye
-        HTt8ThFJN1QBmcZKGPVcqoy43iR09f2NNULlBM9I2jUksBA6rMvInjyftg/9Hhr8JhVRhAS48QQnI
-        rYJD9KGmRNCMiyWW/t99iZ2SL7UXGwrU0wcpJzyRDqbBYpvmqfelcF5HHIrjkM8Tb7VM5whwMUT5R
-        p+P9LeMW5MWg1kwJCl20kxZK2BDi+ZJ4FFF859YQl3rPxx5rvK3YUbDtfU8PPeKSBfWPiFtsKf10i
-        hYclQnZw==;
+        bh=elXp1aRzWl/H7rMMwgQt+6149bGjSIsrRSI9clCQq8s=; b=GNsqzjL07ulC+4iwMZEDlhTiew
+        XY32uik+FfWmbVpMOqQi8oM0EYIfR8lET3XaUnbyOE4vPCLp5+YaoO+uAci65sf7m91HCZ0+jOWrx
+        FVOX6qweQzlJ8psZtO1NV8ih3YZvyp7oTQU0Api0OkCmokV6NXI7jsjGINatWdKSKJI2xZE51eLk+
+        O8Fl+LtlO38KS5ZGyzoWm2EKfXgydGz3Ki/ykDat+2arGmtH/BSRjFXvvOgkcV21bE1Diwc9Zly87
+        5u3OQkbP8o5R7KunLFbFwdZidEAy9et7YcDJlfjmUAY3JPWrDX1RCtb26OnJ7n0uyGQgIabBnjKjR
+        mrayjqLg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgq1U-00055a-Lt; Fri, 28 Jun 2019 12:30:36 +0000
+        id 1hgq1V-00055v-0o; Fri, 28 Jun 2019 12:30:37 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgq1S-0005Sz-KA; Fri, 28 Jun 2019 09:30:34 -0300
+        id 1hgq1S-0005To-SY; Fri, 28 Jun 2019 09:30:34 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Justin Sanders <justin@coraid.com>
-Subject: [PATCH 26/39] docs: aoe: add it to the driver-api book
-Date:   Fri, 28 Jun 2019 09:30:19 -0300
-Message-Id: <654ed60bf8a921e162b46c487c6c77cf76419918.1561724493.git.mchehab+samsung@kernel.org>
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        drbd-dev@lists.linbit.com, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 36/39] docs: add SPDX tags to new index files
+Date:   Fri, 28 Jun 2019 09:30:29 -0300
+Message-Id: <d3cd5d1309647bd16b3590419e7a2387eaf24bad.1561724493.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
 References: <cover.1561724493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those files belong to the admin guide, so add them.
+All those new files I added are under GPL v2.0 license.
+
+Add the corresponding SPDX headers to them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/{ => admin-guide}/aoe/aoe.rst         | 4 ++--
- Documentation/{ => admin-guide}/aoe/autoload.sh     | 0
- Documentation/{ => admin-guide}/aoe/examples.rst    | 0
- Documentation/{ => admin-guide}/aoe/index.rst       | 2 --
- Documentation/{ => admin-guide}/aoe/status.sh       | 0
- Documentation/{ => admin-guide}/aoe/todo.rst        | 0
- Documentation/{ => admin-guide}/aoe/udev-install.sh | 0
- Documentation/{ => admin-guide}/aoe/udev.txt        | 2 +-
- Documentation/admin-guide/index.rst                 | 1 +
- MAINTAINERS                                         | 2 +-
- 10 files changed, 5 insertions(+), 6 deletions(-)
- rename Documentation/{ => admin-guide}/aoe/aoe.rst (97%)
- rename Documentation/{ => admin-guide}/aoe/autoload.sh (100%)
- rename Documentation/{ => admin-guide}/aoe/examples.rst (100%)
- rename Documentation/{ => admin-guide}/aoe/index.rst (95%)
- rename Documentation/{ => admin-guide}/aoe/status.sh (100%)
- rename Documentation/{ => admin-guide}/aoe/todo.rst (100%)
- rename Documentation/{ => admin-guide}/aoe/udev-install.sh (100%)
- rename Documentation/{ => admin-guide}/aoe/udev.txt (93%)
+ Documentation/admin-guide/blockdev/drbd/figures.rst | 2 ++
+ Documentation/admin-guide/blockdev/index.rst        | 2 ++
+ Documentation/admin-guide/laptops/index.rst         | 1 +
+ Documentation/admin-guide/namespaces/index.rst      | 2 ++
+ Documentation/admin-guide/perf/index.rst            | 2 ++
+ Documentation/arm/index.rst                         | 2 ++
+ Documentation/arm/nwfpe/index.rst                   | 2 ++
+ Documentation/arm/omap/index.rst                    | 2 ++
+ Documentation/arm/sa1100/index.rst                  | 2 ++
+ Documentation/arm/samsung-s3c24xx/index.rst         | 2 ++
+ Documentation/arm/samsung/index.rst                 | 2 ++
+ Documentation/driver-api/early-userspace/index.rst  | 2 ++
+ Documentation/driver-api/md/index.rst               | 2 ++
+ Documentation/driver-api/memory-devices/index.rst   | 2 ++
+ Documentation/driver-api/mmc/index.rst              | 2 ++
+ Documentation/driver-api/mtd/index.rst              | 2 ++
+ Documentation/driver-api/nfc/index.rst              | 2 ++
+ Documentation/driver-api/nvdimm/index.rst           | 2 ++
+ Documentation/driver-api/phy/index.rst              | 2 ++
+ Documentation/driver-api/rapidio/index.rst          | 2 ++
+ Documentation/driver-api/thermal/index.rst          | 2 ++
+ Documentation/ia64/index.rst                        | 2 ++
+ 22 files changed, 43 insertions(+)
 
-diff --git a/Documentation/aoe/aoe.rst b/Documentation/admin-guide/aoe/aoe.rst
-similarity index 97%
-rename from Documentation/aoe/aoe.rst
-rename to Documentation/admin-guide/aoe/aoe.rst
-index 58747ecec71d..a05e751363a0 100644
---- a/Documentation/aoe/aoe.rst
-+++ b/Documentation/admin-guide/aoe/aoe.rst
-@@ -20,7 +20,7 @@ driver.  The aoetools are on sourceforge.
+diff --git a/Documentation/admin-guide/blockdev/drbd/figures.rst b/Documentation/admin-guide/blockdev/drbd/figures.rst
+index 3e3fd4b8a478..bd9a4901fe46 100644
+--- a/Documentation/admin-guide/blockdev/drbd/figures.rst
++++ b/Documentation/admin-guide/blockdev/drbd/figures.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ .. The here included files are intended to help understand the implementation
  
-   http://aoetools.sourceforge.net/
+ Data flows that Relate some functions, and write packets
+diff --git a/Documentation/admin-guide/blockdev/index.rst b/Documentation/admin-guide/blockdev/index.rst
+index 20a738d9d047..b903cf152091 100644
+--- a/Documentation/admin-guide/blockdev/index.rst
++++ b/Documentation/admin-guide/blockdev/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===========================
+ The Linux RapidIO Subsystem
+ ===========================
+diff --git a/Documentation/admin-guide/laptops/index.rst b/Documentation/admin-guide/laptops/index.rst
+index 6b554e39863b..cd9a1c2695fd 100644
+--- a/Documentation/admin-guide/laptops/index.rst
++++ b/Documentation/admin-guide/laptops/index.rst
+@@ -1,3 +1,4 @@
++.. SPDX-License-Identifier: GPL-2.0
  
--The scripts in this Documentation/aoe directory are intended to
-+The scripts in this Documentation/admin-guide/aoe directory are intended to
- document the use of the driver and are not necessary if you install
- the aoetools.
- 
-@@ -86,7 +86,7 @@ Using sysfs
-   a convenient way.  Users with aoetools should use the aoe-stat
-   command::
- 
--    root@makki root# sh Documentation/aoe/status.sh
-+    root@makki root# sh Documentation/admin-guide/aoe/status.sh
-        e10.0            eth3              up
-        e10.1            eth3              up
-        e10.2            eth3              up
-diff --git a/Documentation/aoe/autoload.sh b/Documentation/admin-guide/aoe/autoload.sh
-similarity index 100%
-rename from Documentation/aoe/autoload.sh
-rename to Documentation/admin-guide/aoe/autoload.sh
-diff --git a/Documentation/aoe/examples.rst b/Documentation/admin-guide/aoe/examples.rst
-similarity index 100%
-rename from Documentation/aoe/examples.rst
-rename to Documentation/admin-guide/aoe/examples.rst
-diff --git a/Documentation/aoe/index.rst b/Documentation/admin-guide/aoe/index.rst
-similarity index 95%
-rename from Documentation/aoe/index.rst
-rename to Documentation/admin-guide/aoe/index.rst
-index 4394b9b7913c..d71c5df15922 100644
---- a/Documentation/aoe/index.rst
-+++ b/Documentation/admin-guide/aoe/index.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- =======================
- ATA over Ethernet (AoE)
- =======================
-diff --git a/Documentation/aoe/status.sh b/Documentation/admin-guide/aoe/status.sh
-similarity index 100%
-rename from Documentation/aoe/status.sh
-rename to Documentation/admin-guide/aoe/status.sh
-diff --git a/Documentation/aoe/todo.rst b/Documentation/admin-guide/aoe/todo.rst
-similarity index 100%
-rename from Documentation/aoe/todo.rst
-rename to Documentation/admin-guide/aoe/todo.rst
-diff --git a/Documentation/aoe/udev-install.sh b/Documentation/admin-guide/aoe/udev-install.sh
-similarity index 100%
-rename from Documentation/aoe/udev-install.sh
-rename to Documentation/admin-guide/aoe/udev-install.sh
-diff --git a/Documentation/aoe/udev.txt b/Documentation/admin-guide/aoe/udev.txt
-similarity index 93%
-rename from Documentation/aoe/udev.txt
-rename to Documentation/admin-guide/aoe/udev.txt
-index 54feda5a0772..5fb756466bc7 100644
---- a/Documentation/aoe/udev.txt
-+++ b/Documentation/admin-guide/aoe/udev.txt
-@@ -11,7 +11,7 @@
- #   udev_rules="/etc/udev/rules.d/"
- #   bash# ls /etc/udev/rules.d/
- #   10-wacom.rules  50-udev.rules
--#   bash# cp /path/to/linux/Documentation/aoe/udev.txt \
-+#   bash# cp /path/to/linux/Documentation/admin-guide/aoe/udev.txt \
- #           /etc/udev/rules.d/60-aoe.rules
- #  
- 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index c073af461cdf..be3b86db8171 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -82,6 +82,7 @@ configure specific aspects of kernel behavior to your liking.
-    namespaces/index
-    perf-security
-    acpi/index
-+   aoe/index
-    device-mapper/index
-    laptops/index
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 664e2a827544..2791b443ab8e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2650,7 +2650,7 @@ ATA OVER ETHERNET (AOE) DRIVER
- M:	"Justin Sanders" <justin@coraid.com>
- W:	http://www.openaoe.org/
- S:	Supported
--F:	Documentation/aoe/
-+F:	Documentation/admin-guide/aoe/
- F:	drivers/block/aoe/
- 
- ATHEROS 71XX/9XXX GPIO DRIVER
+ ==============
+ Laptop Drivers
+diff --git a/Documentation/admin-guide/namespaces/index.rst b/Documentation/admin-guide/namespaces/index.rst
+index 713ec4949fa7..384f2e0f33d2 100644
+--- a/Documentation/admin-guide/namespaces/index.rst
++++ b/Documentation/admin-guide/namespaces/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ==========
+ Namespaces
+ ==========
+diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
+index 9d445451ea18..ee4bfd2a740f 100644
+--- a/Documentation/admin-guide/perf/index.rst
++++ b/Documentation/admin-guide/perf/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===========================
+ Performance monitor support
+ ===========================
+diff --git a/Documentation/arm/index.rst b/Documentation/arm/index.rst
+index 9c2f781f4685..5fc072dd0c5e 100644
+--- a/Documentation/arm/index.rst
++++ b/Documentation/arm/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ================
+ ARM Architecture
+ ================
+diff --git a/Documentation/arm/nwfpe/index.rst b/Documentation/arm/nwfpe/index.rst
+index 21fa8ce192ae..3c4d2f9aa10e 100644
+--- a/Documentation/arm/nwfpe/index.rst
++++ b/Documentation/arm/nwfpe/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===================================
+ NetWinder's floating point emulator
+ ===================================
+diff --git a/Documentation/arm/omap/index.rst b/Documentation/arm/omap/index.rst
+index f1e9c11d9f9b..8b365b212e49 100644
+--- a/Documentation/arm/omap/index.rst
++++ b/Documentation/arm/omap/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ =======
+ TI OMAP
+ =======
+diff --git a/Documentation/arm/sa1100/index.rst b/Documentation/arm/sa1100/index.rst
+index fb2385b3accf..68c2a280a745 100644
+--- a/Documentation/arm/sa1100/index.rst
++++ b/Documentation/arm/sa1100/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ====================
+ Intel StrongARM 1100
+ ====================
+diff --git a/Documentation/arm/samsung-s3c24xx/index.rst b/Documentation/arm/samsung-s3c24xx/index.rst
+index 6c7b241cbf37..5b8a7f9398d8 100644
+--- a/Documentation/arm/samsung-s3c24xx/index.rst
++++ b/Documentation/arm/samsung-s3c24xx/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ﻿==========================
+ Samsung S3C24XX SoC Family
+ ==========================
+diff --git a/Documentation/arm/samsung/index.rst b/Documentation/arm/samsung/index.rst
+index f54d95734362..8142cce3d23e 100644
+--- a/Documentation/arm/samsung/index.rst
++++ b/Documentation/arm/samsung/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===========
+ Samsung SoC
+ ===========
+diff --git a/Documentation/driver-api/early-userspace/index.rst b/Documentation/driver-api/early-userspace/index.rst
+index 6f20c3c560d8..149c1822f06d 100644
+--- a/Documentation/driver-api/early-userspace/index.rst
++++ b/Documentation/driver-api/early-userspace/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===============
+ Early Userspace
+ ===============
+diff --git a/Documentation/driver-api/md/index.rst b/Documentation/driver-api/md/index.rst
+index 205080891a1a..18f54a7d7d6e 100644
+--- a/Documentation/driver-api/md/index.rst
++++ b/Documentation/driver-api/md/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ====
+ RAID
+ ====
+diff --git a/Documentation/driver-api/memory-devices/index.rst b/Documentation/driver-api/memory-devices/index.rst
+index 87549828f6ab..28101458cda5 100644
+--- a/Documentation/driver-api/memory-devices/index.rst
++++ b/Documentation/driver-api/memory-devices/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ =========================
+ Memory Controller drivers
+ =========================
+diff --git a/Documentation/driver-api/mmc/index.rst b/Documentation/driver-api/mmc/index.rst
+index 9aaf64951a8c..7339736ac774 100644
+--- a/Documentation/driver-api/mmc/index.rst
++++ b/Documentation/driver-api/mmc/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ========================
+ MMC/SD/SDIO card support
+ ========================
+diff --git a/Documentation/driver-api/mtd/index.rst b/Documentation/driver-api/mtd/index.rst
+index 2e0e7cc4055e..436ba5a851d7 100644
+--- a/Documentation/driver-api/mtd/index.rst
++++ b/Documentation/driver-api/mtd/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ==============================
+ Memory Technology Device (MTD)
+ ==============================
+diff --git a/Documentation/driver-api/nfc/index.rst b/Documentation/driver-api/nfc/index.rst
+index 3afb2c0c2e3c..b6e9eedbff29 100644
+--- a/Documentation/driver-api/nfc/index.rst
++++ b/Documentation/driver-api/nfc/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ========================
+ Near Field Communication
+ ========================
+diff --git a/Documentation/driver-api/nvdimm/index.rst b/Documentation/driver-api/nvdimm/index.rst
+index 19dc8ee371dc..a4f8f98aeb94 100644
+--- a/Documentation/driver-api/nvdimm/index.rst
++++ b/Documentation/driver-api/nvdimm/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===================================
+ Non-Volatile Memory Device (NVDIMM)
+ ===================================
+diff --git a/Documentation/driver-api/phy/index.rst b/Documentation/driver-api/phy/index.rst
+index fce9ffae2812..69ba1216de72 100644
+--- a/Documentation/driver-api/phy/index.rst
++++ b/Documentation/driver-api/phy/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ =====================
+ Generic PHY Framework
+ =====================
+diff --git a/Documentation/driver-api/rapidio/index.rst b/Documentation/driver-api/rapidio/index.rst
+index 4c5e51a05134..a41b4242d16f 100644
+--- a/Documentation/driver-api/rapidio/index.rst
++++ b/Documentation/driver-api/rapidio/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===========================
+ The Linux RapidIO Subsystem
+ ===========================
+diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
+index 68ceb6886561..5ba61d19c6ae 100644
+--- a/Documentation/driver-api/thermal/index.rst
++++ b/Documentation/driver-api/thermal/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ =======
+ Thermal
+ =======
+diff --git a/Documentation/ia64/index.rst b/Documentation/ia64/index.rst
+index ef99475f672b..0436e1034115 100644
+--- a/Documentation/ia64/index.rst
++++ b/Documentation/ia64/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ==================
+ IA-64 Architecture
+ ==================
 -- 
 2.21.0
 
