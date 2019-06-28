@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0553A7D923
+	by archive.lwn.net (Postfix) with ESMTP id 303777D9ED
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbfF1MXd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:23:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58762 "EHLO
+        id S1726908AbfF1MXi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:23:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58758 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726786AbfF1MUp (ORCPT
+        with ESMTP id S1726780AbfF1MUp (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=cezNa+/SrJlGLyHHIrMODuEUH4YfnTfH3rjk4VDYllU=; b=ByG0lzsJ141F8kpfRUpDMUqi9E
-        kinD+KC1TqyAtzE4G4hfRYW2c8Sq1KY6WbMoQ1RKtXBBroSrtwA5PWTc626G6z1lb2TFZ2TLW2s50
-        ZjaKhKnQ60uBCF/IUxGq+kUF3Au+NsN4ZiUDO5AA5weLCDmkXJziyOaqfadA375cjsFyVM2Ae9Lpl
-        VnlIiMqiT/SBZis0dtvx2jfYafRV2JHXSPXwzoNWacMhFDEB2yQ1G8Hd2b63w0t52aU0iIPeWFL4d
-        84aHoqSowYJTzV1N79+3KV7cMl2z++Qz1bsB44Ji/zeJe+BhztUbX+ZDgTii/4+9MOM6loTNVhi4J
-        sdVMk52Q==;
+        bh=21Zv7eTq00CIh0lzgZDFvEV5UnuZ7mj2qLRpatUknN0=; b=rT8net/IS7WMzrfQutjKIeUTQf
+        wqYKVGQkkWkab4Jg57Zqb5IkHKMrF9hDaQBjl7K91Cmd0hDX3l2DjPgXjke604hO/Zt+XD68rNdxd
+        ByxgFpVkQIDsLj7thAP1B47jHQ96h2HTabp/DYmu5v6jlo3oPE8UqodOUpLba8+cEboZhQcAQGT+T
+        O+MrTl9P6PVKtcwE9gt5bYb0sjKUb8WEvIah1EvYp/3q02vTktz7RBE3KiApDBpCDZIBiHHIS2EkX
+        13v9OR+u9dtEmy+k8mFDdV5OU0C9Qt2V3LLSzN6vxOiyOBhvotqByQNRMQTST6M0ek7nLgORgmigQ
+        JaJazcYg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprw-0000AK-1N; Fri, 28 Jun 2019 12:20:44 +0000
+        id 1hgprv-0000AG-Os; Fri, 28 Jun 2019 12:20:44 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgprt-00059N-UA; Fri, 28 Jun 2019 09:20:41 -0300
+        id 1hgprt-000593-Qf; Fri, 28 Jun 2019 09:20:41 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 32/43] docs: mmc: convert to ReST
-Date:   Fri, 28 Jun 2019 09:20:28 -0300
-Message-Id: <a35ed2e9655b0f8cb09d96c771218b0e2e9ee2a4.1561723980.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 28/43] docs: md: convert to ReST
+Date:   Fri, 28 Jun 2019 09:20:24 -0300
+Message-Id: <b3e67b5f842f8e362109c2b4f056860f4e97a13c.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
@@ -50,7 +50,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the mmc documentation files to ReST, add an
+Rename the md documentation files to ReST, add an
 index for them and adjust in order to produce a nice html
 output via the Sphinx build system.
 
@@ -59,296 +59,532 @@ the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/mmc/index.rst                   | 13 +++++
- .../{mmc-async-req.txt => mmc-async-req.rst}  | 53 +++++++++++--------
- .../{mmc-dev-attrs.txt => mmc-dev-attrs.rst}  | 32 +++++++----
- .../{mmc-dev-parts.txt => mmc-dev-parts.rst}  | 13 ++---
- .../mmc/{mmc-tools.txt => mmc-tools.rst}      |  5 +-
- 5 files changed, 79 insertions(+), 37 deletions(-)
- create mode 100644 Documentation/mmc/index.rst
- rename Documentation/mmc/{mmc-async-req.txt => mmc-async-req.rst} (75%)
- rename Documentation/mmc/{mmc-dev-attrs.txt => mmc-dev-attrs.rst} (73%)
- rename Documentation/mmc/{mmc-dev-parts.txt => mmc-dev-parts.rst} (83%)
- rename Documentation/mmc/{mmc-tools.txt => mmc-tools.rst} (92%)
+ Documentation/md/index.rst                    |  12 ++
+ .../md/{md-cluster.txt => md-cluster.rst}     | 188 ++++++++++++------
+ .../md/{raid5-cache.txt => raid5-cache.rst}   |  28 +--
+ .../md/{raid5-ppl.txt => raid5-ppl.rst}       |   2 +
+ 4 files changed, 153 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/md/index.rst
+ rename Documentation/md/{md-cluster.txt => md-cluster.rst} (68%)
+ rename Documentation/md/{raid5-cache.txt => raid5-cache.rst} (92%)
+ rename Documentation/md/{raid5-ppl.txt => raid5-ppl.rst} (98%)
 
-diff --git a/Documentation/mmc/index.rst b/Documentation/mmc/index.rst
+diff --git a/Documentation/md/index.rst b/Documentation/md/index.rst
 new file mode 100644
-index 000000000000..3305478ddadb
+index 000000000000..c4db34ed327d
 --- /dev/null
-+++ b/Documentation/mmc/index.rst
-@@ -0,0 +1,13 @@
++++ b/Documentation/md/index.rst
+@@ -0,0 +1,12 @@
 +:orphan:
 +
-+========================
-+MMC/SD/SDIO card support
-+========================
++====
++RAID
++====
 +
 +.. toctree::
 +   :maxdepth: 1
 +
-+   mmc-dev-attrs
-+   mmc-dev-parts
-+   mmc-async-req
-+   mmc-tools
-diff --git a/Documentation/mmc/mmc-async-req.txt b/Documentation/mmc/mmc-async-req.rst
-similarity index 75%
-rename from Documentation/mmc/mmc-async-req.txt
-rename to Documentation/mmc/mmc-async-req.rst
-index ae1907b10e4a..0f7197c9c3b5 100644
---- a/Documentation/mmc/mmc-async-req.txt
-+++ b/Documentation/mmc/mmc-async-req.rst
-@@ -1,13 +1,20 @@
-+========================
-+MMC Asynchronous Request
-+========================
++   md-cluster
++   raid5-cache
++   raid5-ppl
+diff --git a/Documentation/md/md-cluster.txt b/Documentation/md/md-cluster.rst
+similarity index 68%
+rename from Documentation/md/md-cluster.txt
+rename to Documentation/md/md-cluster.rst
+index e1055f105cf5..96eb52cec7eb 100644
+--- a/Documentation/md/md-cluster.txt
++++ b/Documentation/md/md-cluster.rst
+@@ -1,19 +1,24 @@
++==========
++MD Cluster
++==========
 +
- Rationale
- =========
+ The cluster MD is a shared-device RAID for a cluster, it supports
+ two levels: raid1 and raid10 (limited support).
  
- How significant is the cache maintenance overhead?
+ 
+ 1. On-disk format
++=================
+ 
+ Separate write-intent-bitmaps are used for each cluster node.
+ The bitmaps record all writes that may have been started on that node,
+-and may not yet have finished. The on-disk layout is:
++and may not yet have finished. The on-disk layout is::
+ 
+-0                    4k                     8k                    12k
+--------------------------------------------------------------------
+-| idle                | md super            | bm super [0] + bits |
+-| bm bits[0, contd]   | bm super[1] + bits  | bm bits[1, contd]   |
+-| bm super[2] + bits  | bm bits [2, contd]  | bm super[3] + bits  |
+-| bm bits [3, contd]  |                     |                     |
++  0                    4k                     8k                    12k
++  -------------------------------------------------------------------
++  | idle                | md super            | bm super [0] + bits |
++  | bm bits[0, contd]   | bm super[1] + bits  | bm bits[1, contd]   |
++  | bm super[2] + bits  | bm bits [2, contd]  | bm super[3] + bits  |
++  | bm bits [3, contd]  |                     |                     |
+ 
+ During "normal" functioning we assume the filesystem ensures that only
+ one node writes to any given block at a time, so a write request will
+@@ -28,10 +33,12 @@ node) is writing.
+ 
+ 
+ 2. DLM Locks for management
++===========================
+ 
+ There are three groups of locks for managing the device:
+ 
+ 2.1 Bitmap lock resource (bm_lockres)
++-------------------------------------
+ 
+  The bm_lockres protects individual node bitmaps. They are named in
+  the form bitmap000 for node 1, bitmap001 for node 2 and so on. When a
+@@ -48,6 +55,7 @@ There are three groups of locks for managing the device:
+  joins the cluster.
+ 
+ 2.2 Message passing locks
++-------------------------
+ 
+  Each node has to communicate with other nodes when starting or ending
+  resync, and for metadata superblock updates.  This communication is
+@@ -55,116 +63,155 @@ There are three groups of locks for managing the device:
+  with the Lock Value Block (LVB) of one of the "message" lock.
+ 
+ 2.3 new-device management
++-------------------------
+ 
+  A single lock: "no-new-dev" is used to co-ordinate the addition of
+  new devices - this must be synchronized across the array.
+  Normally all nodes hold a concurrent-read lock on this device.
+ 
+ 3. Communication
++================
+ 
+  Messages can be broadcast to all nodes, and the sender waits for all
+  other nodes to acknowledge the message before proceeding.  Only one
+  message can be processed at a time.
+ 
+ 3.1 Message Types
++-----------------
+ 
+  There are six types of messages which are passed:
+ 
+- 3.1.1 METADATA_UPDATED: informs other nodes that the metadata has
++3.1.1 METADATA_UPDATED
++^^^^^^^^^^^^^^^^^^^^^^
 +
- It depends. Fast eMMC and multiple cache levels with speculative cache
- pre-fetch makes the cache overhead relatively significant. If the DMA
- preparations for the next request are done in parallel with the current
- transfer, the DMA preparation overhead would not affect the MMC performance.
++   informs other nodes that the metadata has
+    been updated, and the node must re-read the md superblock. This is
+    performed synchronously. It is primarily used to signal device
+    failure.
+ 
+- 3.1.2 RESYNCING: informs other nodes that a resync is initiated or
++3.1.2 RESYNCING
++^^^^^^^^^^^^^^^
++   informs other nodes that a resync is initiated or
+    ended so that each node may suspend or resume the region.  Each
+    RESYNCING message identifies a range of the devices that the
+    sending node is about to resync. This overrides any previous
+    notification from that node: only one ranged can be resynced at a
+    time per-node.
+ 
+- 3.1.3 NEWDISK: informs other nodes that a device is being added to
++3.1.3 NEWDISK
++^^^^^^^^^^^^^
 +
- The intention of non-blocking (asynchronous) MMC requests is to minimize the
- time between when an MMC request ends and another MMC request begins.
++   informs other nodes that a device is being added to
+    the array. Message contains an identifier for that device.  See
+    below for further details.
+ 
+- 3.1.4 REMOVE: A failed or spare device is being removed from the
++3.1.4 REMOVE
++^^^^^^^^^^^^
 +
- Using mmc_wait_for_req(), the MMC controller is idle while dma_map_sg and
- dma_unmap_sg are processing. Using non-blocking MMC requests makes it
- possible to prepare the caches for next job in parallel with an active
-@@ -17,6 +24,7 @@ MMC block driver
- ================
++   A failed or spare device is being removed from the
+    array. The slot-number of the device is included in the message.
  
- The mmc_blk_issue_rw_rq() in the MMC block driver is made non-blocking.
+- 3.1.5 RE_ADD: A failed device is being re-activated - the assumption
++ 3.1.5 RE_ADD:
 +
- The increase in throughput is proportional to the time it takes to
- prepare (major part of preparations are dma_map_sg() and dma_unmap_sg())
- a request and how fast the memory is. The faster the MMC/SD is the
-@@ -35,6 +43,7 @@ MMC core API extension
- ======================
++   A failed device is being re-activated - the assumption
+    is that it has been determined to be working again.
  
- There is one new public function mmc_start_req().
+- 3.1.6 BITMAP_NEEDS_SYNC: if a node is stopped locally but the bitmap
++ 3.1.6 BITMAP_NEEDS_SYNC:
 +
- It starts a new MMC command request for a host. The function isn't
- truly non-blocking. If there is an ongoing async request it waits
- for completion of that request and starts the new one and returns. It
-@@ -47,6 +56,7 @@ MMC host extensions
- There are two optional members in the mmc_host_ops -- pre_req() and
- post_req() -- that the host driver may implement in order to move work
- to before and after the actual mmc_host_ops.request() function is called.
++   If a node is stopped locally but the bitmap
+    isn't clean, then another node is informed to take the ownership of
+    resync.
+ 
+ 3.2 Communication mechanism
++---------------------------
+ 
+  The DLM LVB is used to communicate within nodes of the cluster. There
+  are three resources used for the purpose:
+ 
+-  3.2.1 token: The resource which protects the entire communication
++3.2.1 token
++^^^^^^^^^^^
++   The resource which protects the entire communication
+    system. The node having the token resource is allowed to
+    communicate.
+ 
+-  3.2.2 message: The lock resource which carries the data to
+-   communicate.
++3.2.2 message
++^^^^^^^^^^^^^
++   The lock resource which carries the data to communicate.
+ 
+-  3.2.3 ack: The resource, acquiring which means the message has been
++3.2.3 ack
++^^^^^^^^^
 +
- In the DMA case pre_req() may do dma_map_sg() and prepare the DMA
- descriptor, and post_req() runs the dma_unmap_sg().
++   The resource, acquiring which means the message has been
+    acknowledged by all nodes in the cluster. The BAST of the resource
+    is used to inform the receiving node that a node wants to
+    communicate.
  
-@@ -55,33 +65,34 @@ Optimize for the first request
+ The algorithm is:
  
- The first request in a series of requests can't be prepared in parallel
- with the previous transfer, since there is no previous request.
+- 1. receive status - all nodes have concurrent-reader lock on "ack".
++ 1. receive status - all nodes have concurrent-reader lock on "ack"::
+ 
+-   sender                         receiver                 receiver
+-   "ack":CR                       "ack":CR                 "ack":CR
++	sender                         receiver                 receiver
++	"ack":CR                       "ack":CR                 "ack":CR
+ 
+- 2. sender get EX on "token"
+-    sender get EX on "message"
+-    sender                        receiver                 receiver
+-    "token":EX                    "ack":CR                 "ack":CR
+-    "message":EX
+-    "ack":CR
++ 2. sender get EX on "token",
++    sender get EX on "message"::
 +
- The argument is_first_req in pre_req() indicates that there is no previous
- request. The host driver may optimize for this scenario to minimize
- the performance loss. A way to optimize for this is to split the current
- request in two chunks, prepare the first chunk and start the request,
- and finally prepare the second chunk and start the transfer.
++	sender                        receiver                 receiver
++	"token":EX                    "ack":CR                 "ack":CR
++	"message":EX
++	"ack":CR
  
--Pseudocode to handle is_first_req scenario with minimal prepare overhead:
-+Pseudocode to handle is_first_req scenario with minimal prepare overhead::
+     Sender checks that it still needs to send a message. Messages
+     received or other events that happened while waiting for the
+     "token" may have made this message inappropriate or redundant.
  
--if (is_first_req && req->size > threshold)
--   /* start MMC transfer for the complete transfer size */
--   mmc_start_command(MMC_CMD_TRANSFER_FULL_SIZE);
-+  if (is_first_req && req->size > threshold)
-+     /* start MMC transfer for the complete transfer size */
-+     mmc_start_command(MMC_CMD_TRANSFER_FULL_SIZE);
- 
--   /*
--    * Begin to prepare DMA while cmd is being processed by MMC.
--    * The first chunk of the request should take the same time
--    * to prepare as the "MMC process command time".
--    * If prepare time exceeds MMC cmd time
--    * the transfer is delayed, guesstimate max 4k as first chunk size.
--    */
--    prepare_1st_chunk_for_dma(req);
--    /* flush pending desc to the DMAC (dmaengine.h) */
--    dma_issue_pending(req->dma_desc);
-+     /*
-+      * Begin to prepare DMA while cmd is being processed by MMC.
-+      * The first chunk of the request should take the same time
-+      * to prepare as the "MMC process command time".
-+      * If prepare time exceeds MMC cmd time
-+      * the transfer is delayed, guesstimate max 4k as first chunk size.
-+      */
-+      prepare_1st_chunk_for_dma(req);
-+      /* flush pending desc to the DMAC (dmaengine.h) */
-+      dma_issue_pending(req->dma_desc);
- 
--    prepare_2nd_chunk_for_dma(req);
--    /*
--     * The second issue_pending should be called before MMC runs out
--     * of the first chunk. If the MMC runs out of the first data chunk
--     * before this call, the transfer is delayed.
--     */
--    dma_issue_pending(req->dma_desc);
-+      prepare_2nd_chunk_for_dma(req);
-+      /*
-+       * The second issue_pending should be called before MMC runs out
-+       * of the first chunk. If the MMC runs out of the first data chunk
-+       * before this call, the transfer is delayed.
-+       */
-+      dma_issue_pending(req->dma_desc);
-diff --git a/Documentation/mmc/mmc-dev-attrs.txt b/Documentation/mmc/mmc-dev-attrs.rst
-similarity index 73%
-rename from Documentation/mmc/mmc-dev-attrs.txt
-rename to Documentation/mmc/mmc-dev-attrs.rst
-index 4ad0bb17f343..4f44b1b730d6 100644
---- a/Documentation/mmc/mmc-dev-attrs.txt
-+++ b/Documentation/mmc/mmc-dev-attrs.rst
-@@ -1,3 +1,4 @@
-+==================================
- SD and MMC Block Device Attributes
- ==================================
- 
-@@ -6,23 +7,29 @@ SD or MMC device.
- 
- The following attributes are read/write.
- 
--	force_ro		Enforce read-only access even if write protect switch is off.
-+	========		===============================================
-+	force_ro		Enforce read-only access even if write protect 					switch is off.
-+	========		===============================================
- 
- SD and MMC Device Attributes
- ============================
- 
- All attributes are read-only.
- 
-+	======================	===============================================
- 	cid			Card Identification Register
- 	csd			Card Specific Data Register
- 	scr			SD Card Configuration Register (SD only)
- 	date			Manufacturing Date (from CID Register)
--	fwrev			Firmware/Product Revision (from CID Register) (SD and MMCv1 only)
--	hwrev			Hardware/Product Revision (from CID Register) (SD and MMCv1 only)
-+	fwrev			Firmware/Product Revision (from CID Register)
-+				(SD and MMCv1 only)
-+	hwrev			Hardware/Product Revision (from CID Register)
-+				(SD and MMCv1 only)
- 	manfid			Manufacturer ID (from CID Register)
- 	name			Product Name (from CID Register)
- 	oemid			OEM/Application ID (from CID Register)
--	prv			Product Revision (from CID Register) (SD and MMCv4 only)
-+	prv			Product Revision (from CID Register)
-+				(SD and MMCv4 only)
- 	serial			Product Serial Number (from CID Register)
- 	erase_size		Erase group size
- 	preferred_erase_size	Preferred erase size
-@@ -30,7 +37,10 @@ All attributes are read-only.
- 	rel_sectors		Reliable write sector count
- 	ocr 			Operation Conditions Register
- 	dsr			Driver Stage Register
--	cmdq_en			Command Queue enabled: 1 => enabled, 0 => not enabled
-+	cmdq_en			Command Queue enabled:
+- 3. sender writes LVB.
++ 3. sender writes LVB
 +
-+					1 => enabled, 0 => not enabled
-+	======================	===============================================
- 
- Note on Erase Size and Preferred Erase Size:
- 
-@@ -44,14 +54,15 @@ Note on Erase Size and Preferred Erase Size:
- 	SD/MMC cards can erase an arbitrarily large area up to and
- 	including the whole card.  When erasing a large area it may
- 	be desirable to do it in smaller chunks for three reasons:
--		1. A single erase command will make all other I/O on
+     sender down-convert "message" from EX to CW
 +
-+	     1. A single erase command will make all other I/O on
- 		the card wait.  This is not a problem if the whole card
- 		is being erased, but erasing one partition will make
- 		I/O for another partition on the same card wait for the
- 		duration of the erase - which could be a several
- 		minutes.
--		2. To be able to inform the user of erase progress.
--		3. The erase timeout becomes too large to be very
-+	     2. To be able to inform the user of erase progress.
-+	     3. The erase timeout becomes too large to be very
- 		useful.  Because the erase timeout contains a margin
- 		which is multiplied by the size of the erase area,
- 		the value can end up being several minutes for large
-@@ -72,6 +83,9 @@ Note on Erase Size and Preferred Erase Size:
- 	"preferred_erase_size" is in bytes.
- 
- Note on raw_rpmb_size_mult:
+     sender try to get EX of "ack"
+-    [ wait until all receivers have *processed* the "message" ]
+-
+-                                     [ triggered by bast of "ack" ]
+-                                     receiver get CR on "message"
+-                                     receiver read LVB
+-                                     receiver processes the message
+-                                     [ wait finish ]
+-                                     receiver releases "ack"
+-                                     receiver tries to get PR on "message"
+-
+-   sender                         receiver                  receiver
+-   "token":EX                     "message":CR              "message":CR
+-   "message":CW
+-   "ack":EX
 +
- 	"raw_rpmb_size_mult" is a multiple of 128kB block.
++    ::
 +
- 	RPMB size in byte is calculated by using the following equation:
--	RPMB partition size = 128kB x raw_rpmb_size_mult
++      [ wait until all receivers have *processed* the "message" ]
 +
-+		RPMB partition size = 128kB x raw_rpmb_size_mult
-diff --git a/Documentation/mmc/mmc-dev-parts.txt b/Documentation/mmc/mmc-dev-parts.rst
-similarity index 83%
-rename from Documentation/mmc/mmc-dev-parts.txt
-rename to Documentation/mmc/mmc-dev-parts.rst
-index f08d078d43cf..995922f1f744 100644
---- a/Documentation/mmc/mmc-dev-parts.txt
-+++ b/Documentation/mmc/mmc-dev-parts.rst
-@@ -1,3 +1,4 @@
-+============================
- SD and MMC Device Partitions
- ============================
++                                       [ triggered by bast of "ack" ]
++                                       receiver get CR on "message"
++                                       receiver read LVB
++                                       receiver processes the message
++                                       [ wait finish ]
++                                       receiver releases "ack"
++                                       receiver tries to get PR on "message"
++
++     sender                         receiver                  receiver
++     "token":EX                     "message":CR              "message":CR
++     "message":CW
++     "ack":EX
  
-@@ -18,18 +19,18 @@ platform, write access is disabled by default to reduce the chance of
- accidental bricking.
+  4. triggered by grant of EX on "ack" (indicating all receivers
+     have processed message)
++
+     sender down-converts "ack" from EX to CR
++
+     sender releases "message"
++
+     sender releases "token"
+-                               receiver upconvert to PR on "message"
+-                               receiver get CR of "ack"
+-                               receiver release "message"
  
- To enable write access to /dev/mmcblkXbootY, disable the forced read-only
--access with:
-+access with::
+-   sender                      receiver                   receiver
+-   "ack":CR                    "ack":CR                   "ack":CR
++    ::
++
++                                 receiver upconvert to PR on "message"
++                                 receiver get CR of "ack"
++                                 receiver release "message"
++
++     sender                      receiver                   receiver
++     "ack":CR                    "ack":CR                   "ack":CR
  
--echo 0 > /sys/block/mmcblkXbootY/force_ro
-+	echo 0 > /sys/block/mmcblkXbootY/force_ro
  
--To re-enable read-only access:
-+To re-enable read-only access::
+ 4. Handling Failures
++====================
  
--echo 1 > /sys/block/mmcblkXbootY/force_ro
-+	echo 1 > /sys/block/mmcblkXbootY/force_ro
+ 4.1 Node Failure
++----------------
  
- The boot partitions can also be locked read only until the next power on,
--with:
-+with::
+  When a node fails, the DLM informs the cluster with the slot
+  number. The node starts a cluster recovery thread. The cluster
+@@ -177,11 +224,11 @@ The algorithm is:
+ 	- cleans the bitmap of the failed node
+ 	- releases bitmap<number> lock of the failed node
+ 	- initiates resync of the bitmap on the current node
+-		md_check_recovery is invoked within recover_bitmaps,
+-		then md_check_recovery -> metadata_update_start/finish,
+-		it will lock the communication by lock_comm.
+-		Which means when one node is resyncing it blocks all
+-		other nodes from writing anywhere on the array.
++	  md_check_recovery is invoked within recover_bitmaps,
++	  then md_check_recovery -> metadata_update_start/finish,
++	  it will lock the communication by lock_comm.
++	  Which means when one node is resyncing it blocks all
++	  other nodes from writing anywhere on the array.
  
--echo 1 > /sys/block/mmcblkXbootY/ro_lock_until_next_power_on
-+	echo 1 > /sys/block/mmcblkXbootY/ro_lock_until_next_power_on
+  The resync process is the regular md resync. However, in a clustered
+  environment when a resync is performed, it needs to tell other nodes
+@@ -198,6 +245,7 @@ The algorithm is:
+  particular I/O range should be suspended or not.
  
- This is a feature of the card and not of the kernel. If the card does
- not support boot partition locking, the file will not exist. If the
-diff --git a/Documentation/mmc/mmc-tools.txt b/Documentation/mmc/mmc-tools.rst
+ 4.2 Device Failure
++==================
+ 
+  Device failures are handled and communicated with the metadata update
+  routine.  When a node detects a device failure it does not allow
+@@ -205,38 +253,41 @@ The algorithm is:
+  acknowledged by all other nodes.
+ 
+ 5. Adding a new Device
++----------------------
+ 
+  For adding a new device, it is necessary that all nodes "see" the new
+  device to be added. For this, the following algorithm is used:
+ 
+-    1. Node 1 issues mdadm --manage /dev/mdX --add /dev/sdYY which issues
++   1.  Node 1 issues mdadm --manage /dev/mdX --add /dev/sdYY which issues
+        ioctl(ADD_NEW_DISK with disc.state set to MD_DISK_CLUSTER_ADD)
+-    2. Node 1 sends a NEWDISK message with uuid and slot number
+-    3. Other nodes issue kobject_uevent_env with uuid and slot number
++   2.  Node 1 sends a NEWDISK message with uuid and slot number
++   3.  Other nodes issue kobject_uevent_env with uuid and slot number
+        (Steps 4,5 could be a udev rule)
+-    4. In userspace, the node searches for the disk, perhaps
++   4.  In userspace, the node searches for the disk, perhaps
+        using blkid -t SUB_UUID=""
+-    5. Other nodes issue either of the following depending on whether
++   5.  Other nodes issue either of the following depending on whether
+        the disk was found:
+        ioctl(ADD_NEW_DISK with disc.state set to MD_DISK_CANDIDATE and
+-             disc.number set to slot number)
++       disc.number set to slot number)
+        ioctl(CLUSTERED_DISK_NACK)
+-    6. Other nodes drop lock on "no-new-devs" (CR) if device is found
+-    7. Node 1 attempts EX lock on "no-new-dev"
+-    8. If node 1 gets the lock, it sends METADATA_UPDATED after
++   6.  Other nodes drop lock on "no-new-devs" (CR) if device is found
++   7.  Node 1 attempts EX lock on "no-new-dev"
++   8.  If node 1 gets the lock, it sends METADATA_UPDATED after
+        unmarking the disk as SpareLocal
+-    9. If not (get "no-new-dev" lock), it fails the operation and sends
++   9.  If not (get "no-new-dev" lock), it fails the operation and sends
+        METADATA_UPDATED.
+    10. Other nodes get the information whether a disk is added or not
+        by the following METADATA_UPDATED.
+ 
+-6. Module interface.
++6. Module interface
++===================
+ 
+  There are 17 call-backs which the md core can make to the cluster
+  module.  Understanding these can give a good overview of the whole
+  process.
+ 
+ 6.1 join(nodes) and leave()
++---------------------------
+ 
+  These are called when an array is started with a clustered bitmap,
+  and when the array is stopped.  join() ensures the cluster is
+@@ -244,11 +295,13 @@ The algorithm is:
+  Only the first 'nodes' nodes in the cluster can use the array.
+ 
+ 6.2 slot_number()
++-----------------
+ 
+  Reports the slot number advised by the cluster infrastructure.
+  Range is from 0 to nodes-1.
+ 
+ 6.3 resync_info_update()
++------------------------
+ 
+  This updates the resync range that is stored in the bitmap lock.
+  The starting point is updated as the resync progresses.  The
+@@ -256,6 +309,7 @@ The algorithm is:
+  It does *not* send a RESYNCING message.
+ 
+ 6.4 resync_start(), resync_finish()
++-----------------------------------
+ 
+  These are called when resync/recovery/reshape starts or stops.
+  They update the resyncing range in the bitmap lock and also
+@@ -265,8 +319,8 @@ The algorithm is:
+  resync_finish() also sends a BITMAP_NEEDS_SYNC message which
+  allows some other node to take over.
+ 
+-6.5 metadata_update_start(), metadata_update_finish(),
+-    metadata_update_cancel().
++6.5 metadata_update_start(), metadata_update_finish(), metadata_update_cancel()
++-------------------------------------------------------------------------------
+ 
+  metadata_update_start is used to get exclusive access to
+  the metadata.  If a change is still needed once that access is
+@@ -275,6 +329,7 @@ The algorithm is:
+  can be used to release the lock.
+ 
+ 6.6 area_resyncing()
++--------------------
+ 
+  This combines two elements of functionality.
+ 
+@@ -289,6 +344,7 @@ The algorithm is:
+  a node failure.
+ 
+ 6.7 add_new_disk_start(), add_new_disk_finish(), new_disk_ack()
++---------------------------------------------------------------
+ 
+  These are used to manage the new-disk protocol described above.
+  When a new device is added, add_new_disk_start() is called before
+@@ -300,17 +356,20 @@ The algorithm is:
+  new_disk_ack() is called.
+ 
+ 6.8 remove_disk()
++-----------------
+ 
+  This is called when a spare or failed device is removed from
+  the array.  It causes a REMOVE message to be send to other nodes.
+ 
+ 6.9 gather_bitmaps()
++--------------------
+ 
+  This sends a RE_ADD message to all other nodes and then
+  gathers bitmap information from all bitmaps.  This combined
+  bitmap is then used to recovery the re-added device.
+ 
+ 6.10 lock_all_bitmaps() and unlock_all_bitmaps()
++------------------------------------------------
+ 
+  These are called when change bitmap to none. If a node plans
+  to clear the cluster raid's bitmap, it need to make sure no other
+@@ -319,6 +378,7 @@ The algorithm is:
+  accordingly.
+ 
+ 7. Unsupported features
++=======================
+ 
+ There are somethings which are not supported by cluster MD yet.
+ 
+diff --git a/Documentation/md/raid5-cache.txt b/Documentation/md/raid5-cache.rst
 similarity index 92%
-rename from Documentation/mmc/mmc-tools.txt
-rename to Documentation/mmc/mmc-tools.rst
-index 735509c165d5..54406093768b 100644
---- a/Documentation/mmc/mmc-tools.txt
-+++ b/Documentation/mmc/mmc-tools.rst
-@@ -1,14 +1,17 @@
-+======================
- MMC tools introduction
- ======================
+rename from Documentation/md/raid5-cache.txt
+rename to Documentation/md/raid5-cache.rst
+index 2b210f295786..d7a15f44a7c3 100644
+--- a/Documentation/md/raid5-cache.txt
++++ b/Documentation/md/raid5-cache.rst
+@@ -1,4 +1,6 @@
+-RAID5 cache
++================
++RAID 4/5/6 cache
++================
  
- There is one MMC test tools called mmc-utils, which is maintained by Chris Ball,
- you can find it at the below public git repository:
--http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
-+
-+	http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
+ Raid 4/5/6 could include an extra disk for data cache besides normal RAID
+ disks. The role of RAID disks isn't changed with the cache disk. The cache disk
+@@ -6,19 +8,19 @@ caches data to the RAID disks. The cache can be in write-through (supported
+ since 4.4) or write-back mode (supported since 4.10). mdadm (supported since
+ 3.4) has a new option '--write-journal' to create array with cache. Please
+ refer to mdadm manual for details. By default (RAID array starts), the cache is
+-in write-through mode. A user can switch it to write-back mode by:
++in write-through mode. A user can switch it to write-back mode by::
  
- Functions
- =========
+-echo "write-back" > /sys/block/md0/md/journal_mode
++	echo "write-back" > /sys/block/md0/md/journal_mode
  
- The mmc-utils tools can do the following:
-+
-  - Print and parse extcsd data.
-  - Determine the eMMC writeprotect status.
-  - Set the eMMC writeprotect status.
+-And switch it back to write-through mode by:
++And switch it back to write-through mode by::
+ 
+-echo "write-through" > /sys/block/md0/md/journal_mode
++	echo "write-through" > /sys/block/md0/md/journal_mode
+ 
+ In both modes, all writes to the array will hit cache disk first. This means
+ the cache disk must be fast and sustainable.
+ 
+--------------------------------------
+-write-through mode:
++write-through mode
++==================
+ 
+ This mode mainly fixes the 'write hole' issue. For RAID 4/5/6 array, an unclean
+ shutdown can cause data in some stripes to not be in consistent state, eg, data
+@@ -42,8 +44,8 @@ exposed to 'write hole' again.
+ In write-through mode, the cache disk isn't required to be big. Several
+ hundreds megabytes are enough.
+ 
+---------------------------------------
+-write-back mode:
++write-back mode
++===============
+ 
+ write-back mode fixes the 'write hole' issue too, since all write data is
+ cached on cache disk. But the main goal of 'write-back' cache is to speed up
+@@ -64,16 +66,16 @@ data loss.
+ In write-back mode, MD also caches data in memory. The memory cache includes
+ the same data stored on cache disk, so a power loss doesn't cause data loss.
+ The memory cache size has performance impact for the array. It's recommended
+-the size is big. A user can configure the size by:
++the size is big. A user can configure the size by::
+ 
+-echo "2048" > /sys/block/md0/md/stripe_cache_size
++	echo "2048" > /sys/block/md0/md/stripe_cache_size
+ 
+ Too small cache disk will make the write aggregation less efficient in this
+ mode depending on the workloads. It's recommended to use a cache disk with at
+ least several gigabytes size in write-back mode.
+ 
+---------------------------------------
+-The implementation:
++The implementation
++==================
+ 
+ The write-through and write-back cache use the same disk format. The cache disk
+ is organized as a simple write log. The log consists of 'meta data' and 'data'
+diff --git a/Documentation/md/raid5-ppl.txt b/Documentation/md/raid5-ppl.rst
+similarity index 98%
+rename from Documentation/md/raid5-ppl.txt
+rename to Documentation/md/raid5-ppl.rst
+index bfa092589e00..357e5515bc55 100644
+--- a/Documentation/md/raid5-ppl.txt
++++ b/Documentation/md/raid5-ppl.rst
+@@ -1,4 +1,6 @@
++==================
+ Partial Parity Log
++==================
+ 
+ Partial Parity Log (PPL) is a feature available for RAID5 arrays. The issue
+ addressed by PPL is that after a dirty shutdown, parity of a particular stripe
 -- 
 2.21.0
 
