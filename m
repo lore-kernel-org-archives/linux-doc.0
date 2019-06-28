@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7CDED7D9ED
+	by archive.lwn.net (Postfix) with ESMTP id DBAF87DCEA
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbfF1MXy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:23:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58708 "EHLO
+        id S1727050AbfF1MYG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:24:06 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58696 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbfF1MUo (ORCPT
+        with ESMTP id S1726697AbfF1MUo (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=eones6QuDT9PdWjV+tkuB9RT4tJAbIFaVBOMCYjookk=; b=hOY4zuwVKhEv/QWGI1NFQ7Em7K
-        YzuHUDODwrVEMRO1SFkiRJ88SAoJ/RB3hA+LeW3ChA3auyZVBvbbfq/oNqvSXAuOGeqI3XNpy1h0b
-        0P0Fw1n5AY8Xcm3nOqsJiejzHWljEcFSItfa+K9ZGQ+FBGOqazAzaWJn0W8ZwNcmuozZUNZv/JrEr
-        jAhRHISmHnmxigq58aJE3zzokeVPLfNAO9G/tLjY/RbJH2uixR6JBOyVOhhhxhaPk7F85ChupySZE
-        SAVZ2SGye32yRcG4dRoTr+K1+83alPWKV6HWfFAft77Am6Jg2phfmG6ZIkxhVpFQy1XcaQ23hnv2E
-        zvKw+tzg==;
+        bh=wrhHYkVqalJudClQ5Slfu9mOYqnzTc7imFqa6mcZE60=; b=H4zOhDNpvicaOy52SIH6GeSY5i
+        LlGyryBrVOuqfJz6SMidf2NO77gUGhmiLx/DN9JnOo2Ov9PQPRjmmcRRuVeT6mtYoFGjXD8g30CO0
+        Sd8Omn4CeRrzHYkBVzQNEKxHR7J588gkp/cqG2YbLidj+TdY3eoG0liarJeHWrrJoWxU9TeoLslVR
+        ZvWBAeTHiEFuE1Uwi5Rf0VbMQL+mNZ3f1MRwJEL6SSPaBl9SdrBUM4Vxh320MEk/+t2QVmBzcMUVS
+        Aqgk+z4iu+iMz8bZwQ5GnLf41sPaVtSFMgndpxNYT46QBtBz+eicx1Ivqdgq1nh/1arZqw81ePDQH
+        SNd2Au2Q==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprv-00009z-7Q; Fri, 28 Jun 2019 12:20:43 +0000
+        id 1hgprv-0000A4-Cp; Fri, 28 Jun 2019 12:20:43 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgprt-00057k-BQ; Fri, 28 Jun 2019 09:20:41 -0300
+        id 1hgprt-000589-GH; Fri, 28 Jun 2019 09:20:41 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 12/43] docs: pti_intel_mid.txt: convert it to pti_intel_mid.rst
-Date:   Fri, 28 Jun 2019 09:20:08 -0300
-Message-Id: <ef0dc0015005339a1698a918a37b02663f29efaf.1561723980.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 17/43] docs: bus-devices: ti-gpmc.rst: convert it to ReST
+Date:   Fri, 28 Jun 2019 09:20:13 -0300
+Message-Id: <fbee6bacf08d0f04cb0323ec8231bd2083a1f002.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
@@ -50,239 +50,218 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this small file to ReST format and rename it.
-
-Most of the conversion were related to adjusting whitespaces
-in order for each section to be properly parsed.
+In order to be able to add this file to a book, it needs
+first to be converted to ReST and renamed.
 
 While this is not part of any book, mark it as :orphan:, in order
 to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/pti/pti_intel_mid.rst | 106 ++++++++++++++++++++++++++++
- Documentation/pti/pti_intel_mid.txt |  99 --------------------------
- 2 files changed, 106 insertions(+), 99 deletions(-)
- create mode 100644 Documentation/pti/pti_intel_mid.rst
- delete mode 100644 Documentation/pti/pti_intel_mid.txt
+ .../bus-devices/{ti-gpmc.txt => ti-gpmc.rst}  | 159 ++++++++++++------
+ 1 file changed, 108 insertions(+), 51 deletions(-)
+ rename Documentation/bus-devices/{ti-gpmc.txt => ti-gpmc.rst} (58%)
 
-diff --git a/Documentation/pti/pti_intel_mid.rst b/Documentation/pti/pti_intel_mid.rst
-new file mode 100644
-index 000000000000..ea05725174cb
---- /dev/null
-+++ b/Documentation/pti/pti_intel_mid.rst
-@@ -0,0 +1,106 @@
+diff --git a/Documentation/bus-devices/ti-gpmc.txt b/Documentation/bus-devices/ti-gpmc.rst
+similarity index 58%
+rename from Documentation/bus-devices/ti-gpmc.txt
+rename to Documentation/bus-devices/ti-gpmc.rst
+index cc9ce57e0a26..87c366e418be 100644
+--- a/Documentation/bus-devices/ti-gpmc.txt
++++ b/Documentation/bus-devices/ti-gpmc.rst
+@@ -1,8 +1,12 @@
+-GPMC (General Purpose Memory Controller):
+-=========================================
 +:orphan:
 +
-+=============
-+Intel MID PTI
-+=============
++========================================
++GPMC (General Purpose Memory Controller)
++========================================
+ 
+ GPMC is an unified memory controller dedicated to interfacing external
+ memory devices like
 +
-+The Intel MID PTI project is HW implemented in Intel Atom
-+system-on-a-chip designs based on the Parallel Trace
-+Interface for MIPI P1149.7 cJTAG standard.  The kernel solution
-+for this platform involves the following files::
+  * Asynchronous SRAM like memories and application specific integrated
+    circuit devices.
+  * Asynchronous, synchronous, and page mode burst NOR flash devices
+@@ -48,75 +52,128 @@ most of the datasheets & hardware (to be exact none of those supported
+ in mainline having custom timing routine) and by simulation.
+ 
+ gpmc timing dependency on peripheral timings:
 +
-+	./include/linux/pti.h
-+	./drivers/.../n_tracesink.h
-+	./drivers/.../n_tracerouter.c
-+	./drivers/.../n_tracesink.c
-+	./drivers/.../pti.c
+ [<gpmc_timing>: <peripheral timing1>, <peripheral timing2> ...]
+ 
+ 1. common
+-cs_on: t_ceasu
+-adv_on: t_avdasu, t_ceavd
 +
-+pti.c is the driver that enables various debugging features
-+popular on platforms from certain mobile manufacturers.
-+n_tracerouter.c and n_tracesink.c allow extra system information to
-+be collected and routed to the pti driver, such as trace
-+debugging data from a modem.  Although n_tracerouter
-+and n_tracesink are a part of the complete PTI solution,
-+these two line disciplines can work separately from
-+pti.c and route any data stream from one /dev/tty node
-+to another /dev/tty node via kernel-space.  This provides
-+a stable, reliable connection that will not break unless
-+the user-space application shuts down (plus avoids
-+kernel->user->kernel context switch overheads of routing
-+data).
++cs_on:
++	t_ceasu
++adv_on:
++	t_avdasu, t_ceavd
+ 
+ 2. sync common
+-sync_clk: clk
+-page_burst_access: t_bacc
+-clk_activation: t_ces, t_avds
 +
-+An example debugging usage for this driver system:
++sync_clk:
++	clk
++page_burst_access:
++	t_bacc
++clk_activation:
++	t_ces, t_avds
+ 
+ 3. read async muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu, t_aavdh
+-access: t_iaa, t_oe, t_ce, t_aa
+-rd_cycle: t_rd_cycle, t_cez_r, t_oez
 +
-+  * Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
-+    a console device to further capture debugging messages to PTI.
-+  * Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
-+    This is where n_tracerouter and n_tracesink are used.
-+  * Hook /dev/pti to a user-level debugging application for writing
-+    to PTI HW.
-+  * `Use mipi_` Kernel Driver API in other device drivers for
-+    debugging to PTI by first requesting a PTI write address via
-+    mipi_request_masterchannel(1).
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu, t_aavdh
++access:
++	t_iaa, t_oe, t_ce, t_aa
++rd_cycle:
++	t_rd_cycle, t_cez_r, t_oez
+ 
+ 4. read async non-muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu
+-access: t_iaa, t_oe, t_ce, t_aa
+-rd_cycle: t_rd_cycle, t_cez_r, t_oez
 +
-+Below is example pseudo-code on how a 'privileged' application
-+can hook up n_tracerouter and n_tracesink to any tty on
-+a system.  'Privileged' means the application has enough
-+privileges to successfully manipulate the ldisc drivers
-+but is not just blindly executing as 'root'. Keep in mind
-+the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
-+and n_tracesink line discpline drivers but is a generic
-+operation for a program to use a line discpline driver
-+on a tty port other than the default n_tty::
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu
++access:
++	t_iaa, t_oe, t_ce, t_aa
++rd_cycle:
++	t_rd_cycle, t_cez_r, t_oez
+ 
+ 5. read sync muxed
+-adv_rd_off: t_avdp_r, t_avdh
+-oe_on: t_oeasu, t_ach, cyc_aavdh_oe
+-access: t_iaa, cyc_iaa, cyc_oe
+-rd_cycle: t_cez_r, t_oez, t_ce_rdyz
 +
-+  /////////// To hook up n_tracerouter and n_tracesink /////////
++adv_rd_off:
++	t_avdp_r, t_avdh
++oe_on:
++	t_oeasu, t_ach, cyc_aavdh_oe
++access:
++	t_iaa, cyc_iaa, cyc_oe
++rd_cycle:
++	t_cez_r, t_oez, t_ce_rdyz
+ 
+ 6. read sync non-muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu
+-access: t_iaa, cyc_iaa, cyc_oe
+-rd_cycle: t_cez_r, t_oez, t_ce_rdyz
 +
-+  // Note that n_tracerouter depends on n_tracesink.
-+  #include <errno.h>
-+  #define ONE_TTY "/dev/ttyOne"
-+  #define TWO_TTY "/dev/ttyTwo"
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu
++access:
++	t_iaa, cyc_iaa, cyc_oe
++rd_cycle:
++	t_cez_r, t_oez, t_ce_rdyz
+ 
+ 7. write async muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu, t_aavdh, cyc_aavhd_we
+-we_off: t_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_wr_cycle
 +
-+  // needed global to hand onto ldisc connection
-+  static int g_fd_source = -1;
-+  static int g_fd_sink  = -1;
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu, t_aavdh, cyc_aavhd_we
++we_off:
++	t_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_wr_cycle
+ 
+ 8. write async non-muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu
+-we_off: t_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_wr_cycle
 +
-+  // these two vars used to grab LDISC values from loaded ldisc drivers
-+  // in OS.  Look at /proc/tty/ldiscs to get the right numbers from
-+  // the ldiscs loaded in the system.
-+  int source_ldisc_num, sink_ldisc_num = -1;
-+  int retval;
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu
++we_off:
++	t_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_wr_cycle
+ 
+ 9. write sync muxed
+-adv_wr_off: t_avdp_w, t_avdh
+-we_on, wr_data_mux_bus: t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
+-we_off: t_wpl, cyc_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_ce_rdyz
 +
-+  g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
-+  g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
++adv_wr_off:
++	t_avdp_w, t_avdh
++we_on, wr_data_mux_bus:
++	t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
++we_off:
++	t_wpl, cyc_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_ce_rdyz
+ 
+ 10. write sync non-muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu, t_rdyo
+-we_off: t_wpl, cyc_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_ce_rdyz
+ 
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu, t_rdyo
++we_off:
++	t_wpl, cyc_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_ce_rdyz
+ 
+-Note: Many of gpmc timings are dependent on other gpmc timings (a few
+-gpmc timings purely dependent on other gpmc timings, a reason that
+-some of the gpmc timings are missing above), and it will result in
+-indirect dependency of peripheral timings to gpmc timings other than
+-mentioned above, refer timing routine for more details. To know what
+-these peripheral timings correspond to, please see explanations in
+-struct gpmc_device_timings definition. And for gpmc timings refer
+-IP details (link above).
 +
-+  if (g_fd_source <= 0) || (g_fd_sink <= 0) {
-+     // doubt you'll want to use these exact error lines of code
-+     printf("Error on open(). errno: %d\n",errno);
-+     return errno;
-+  }
-+
-+  retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
-+  if (retval < 0) {
-+     printf("Error on ioctl().  errno: %d\n", errno);
-+     return errno;
-+  }
-+
-+  retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
-+  if (retval < 0) {
-+     printf("Error on ioctl().  errno: %d\n", errno);
-+     return errno;
-+  }
-+
-+  /////////// To disconnect n_tracerouter and n_tracesink ////////
-+
-+  // First make sure data through the ldiscs has stopped.
-+
-+  // Second, disconnect ldiscs.  This provides a
-+  // little cleaner shutdown on tty stack.
-+  sink_ldisc_num = 0;
-+  source_ldisc_num = 0;
-+  ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
-+  ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
-+
-+  // Three, program closes connection, and cleanup:
-+  close(g_fd_uart);
-+  close(g_fd_gadget);
-+  g_fd_uart = g_fd_gadget = NULL;
-diff --git a/Documentation/pti/pti_intel_mid.txt b/Documentation/pti/pti_intel_mid.txt
-deleted file mode 100644
-index e7a5b6d1f7a9..000000000000
---- a/Documentation/pti/pti_intel_mid.txt
-+++ /dev/null
-@@ -1,99 +0,0 @@
--The Intel MID PTI project is HW implemented in Intel Atom
--system-on-a-chip designs based on the Parallel Trace
--Interface for MIPI P1149.7 cJTAG standard.  The kernel solution
--for this platform involves the following files:
--
--./include/linux/pti.h
--./drivers/.../n_tracesink.h
--./drivers/.../n_tracerouter.c
--./drivers/.../n_tracesink.c
--./drivers/.../pti.c
--
--pti.c is the driver that enables various debugging features
--popular on platforms from certain mobile manufacturers.
--n_tracerouter.c and n_tracesink.c allow extra system information to
--be collected and routed to the pti driver, such as trace
--debugging data from a modem.  Although n_tracerouter
--and n_tracesink are a part of the complete PTI solution,
--these two line disciplines can work separately from
--pti.c and route any data stream from one /dev/tty node
--to another /dev/tty node via kernel-space.  This provides
--a stable, reliable connection that will not break unless
--the user-space application shuts down (plus avoids
--kernel->user->kernel context switch overheads of routing
--data).
--
--An example debugging usage for this driver system:
--   *Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
--    a console device to further capture debugging messages to PTI.
--   *Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
--    This is where n_tracerouter and n_tracesink are used.
--   *Hook /dev/pti to a user-level debugging application for writing
--    to PTI HW.
--   *Use mipi_* Kernel Driver API in other device drivers for
--    debugging to PTI by first requesting a PTI write address via
--    mipi_request_masterchannel(1).
--
--Below is example pseudo-code on how a 'privileged' application
--can hook up n_tracerouter and n_tracesink to any tty on
--a system.  'Privileged' means the application has enough
--privileges to successfully manipulate the ldisc drivers
--but is not just blindly executing as 'root'. Keep in mind
--the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
--and n_tracesink line discpline drivers but is a generic
--operation for a program to use a line discpline driver
--on a tty port other than the default n_tty.
--
--/////////// To hook up n_tracerouter and n_tracesink /////////
--
--// Note that n_tracerouter depends on n_tracesink.
--#include <errno.h>
--#define ONE_TTY "/dev/ttyOne"
--#define TWO_TTY "/dev/ttyTwo"
--
--// needed global to hand onto ldisc connection
--static int g_fd_source = -1;
--static int g_fd_sink  = -1;
--
--// these two vars used to grab LDISC values from loaded ldisc drivers
--// in OS.  Look at /proc/tty/ldiscs to get the right numbers from
--// the ldiscs loaded in the system.
--int source_ldisc_num, sink_ldisc_num = -1;
--int retval;
--
--g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
--g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
--
--if (g_fd_source <= 0) || (g_fd_sink <= 0) {
--   // doubt you'll want to use these exact error lines of code
--   printf("Error on open(). errno: %d\n",errno);
--   return errno;
--}
--
--retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
--if (retval < 0) {
--   printf("Error on ioctl().  errno: %d\n", errno);
--   return errno;
--}
--
--retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
--if (retval < 0) {
--   printf("Error on ioctl().  errno: %d\n", errno);
--   return errno;
--}
--
--/////////// To disconnect n_tracerouter and n_tracesink ////////
--
--// First make sure data through the ldiscs has stopped.
--
--// Second, disconnect ldiscs.  This provides a
--// little cleaner shutdown on tty stack.
--sink_ldisc_num = 0;
--source_ldisc_num = 0;
--ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
--ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
--
--// Three, program closes connection, and cleanup:
--close(g_fd_uart);
--close(g_fd_gadget);
--g_fd_uart = g_fd_gadget = NULL;
++Note:
++  Many of gpmc timings are dependent on other gpmc timings (a few
++  gpmc timings purely dependent on other gpmc timings, a reason that
++  some of the gpmc timings are missing above), and it will result in
++  indirect dependency of peripheral timings to gpmc timings other than
++  mentioned above, refer timing routine for more details. To know what
++  these peripheral timings correspond to, please see explanations in
++  struct gpmc_device_timings definition. And for gpmc timings refer
++  IP details (link above).
 -- 
 2.21.0
 
