@@ -1,169 +1,373 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA3EC7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 13:10:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 607CA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 13:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfF1NKx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 09:10:53 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47150 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726587AbfF1NKx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 09:10:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fyFYJQdKoBaArYsx2rT155C55HNBC6YI3MROc7piGyQ=; b=i5aOwXeZ8ZFPUq2TT7VJg32oY
-        xf4PFjpkGYuRayDGic7jTSzxKQTSe0l2zl4luT38nS4Giol4VY6nMIBX8UI0Uuwg77yl5Ep7yjQu5
-        X6WOjRwxo+/dN16+gM02KMkLfLQGksEUbR63lxFiG8+IcDMzwVE3Sa0b2ov5G57hJAQ/0j7PzC6k1
-        1USemBeVIdHO8YBH8db/T1mGCzdQd34wshqFOxb+mhC3Z8KYLyYyIAHZkKmgUYlLrDHl6qCZi3hBp
-        N9pfhUSlqxDyNLBNbdJQNpL+fLTw1PYLEzq65+NvxT0luy3Vs4MW+PKefAQxru18+n02GQZIHJCV8
-        Fl9JH263w==;
-Received: from [186.213.242.156] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgqeR-0006qv-Um; Fri, 28 Jun 2019 13:10:52 +0000
-Date:   Fri, 28 Jun 2019 10:10:47 -0300
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, tglx@linutronix.de,
-        mingo@kernel.org, hpa@zytor.com, linux-kernel@vger.kernel.org,
-        mchehab+samsung@kernel.org, linux-tip-commits@vger.kernel.org,
-        docutils-develop@lists.sourceforge.net
-Subject: Re: [tip:timers/core] hrtimer: Use a bullet for the returns bullet
- list
-Message-ID: <20190628101047.36927826@coco.lan>
-In-Reply-To: <2f1c88882fde00beebb6066e9bd561287f5932c5.camel@perches.com>
-References: <74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org>
-        <tip-516337048fa40496ae5ca9863c367ec991a44d9a@git.kernel.org>
-        <3740b16e5d0a3144e2d48af7cf56ae8020c3f9af.camel@perches.com>
-        <20190627213930.0d28a072@coco.lan>
-        <2f1c88882fde00beebb6066e9bd561287f5932c5.camel@perches.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        id S1726660AbfF1NZU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 09:25:20 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34327 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726686AbfF1NZU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 09:25:20 -0400
+Received: by mail-pl1-f195.google.com with SMTP id i2so3266587plt.1;
+        Fri, 28 Jun 2019 06:25:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=32ErQPXIbrc8JNIUwd6ZeT6JCviUE7r1Zg+q3Fn+0pw=;
+        b=gbYw+9tbXyA+d+t38B7uTwBqE1dR3/xm6u36GO/TZrfzSNV5MkdMLL4+u/zJz8k8b1
+         gDeaoO4WP6ZWnm9wpSpxwuyEfMZd7bDi5wcOx6eSCFdU2gtu9iJDOa/HNd1mamLsYJIG
+         tQ7/AsfEIJlnvOR2zWd5z038mybVkihvgJgZKUpy2YECrt+6fE3+PsreuYmVwiZeiC63
+         ywxARD6lOd4LCZvAEFT4YMlxslaSH/1xwhZD689bhr/FIEGe84jflWU/pqvkTE1Aec3H
+         usUtVEhO8a+MjVDQQzhEpjSvqoeFUBHBRk1ky8G2CEUnYXwhJsSr+qldxiUtsLKvP4TG
+         obbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=32ErQPXIbrc8JNIUwd6ZeT6JCviUE7r1Zg+q3Fn+0pw=;
+        b=OjfX4aXbKIdqPSMaokCHvTs6Kpa2lz8RALU9dsL3GCALoea7i486SMPRV2iUiTmVCj
+         rgxrG9SsmPb5KXWX9jOIqlBmX1nK1Vx0LMH8x2AU6zAZaRrJfZD9E2amL7iD6lvC7uy7
+         ja/H7rJNRaO9i4WavVJpgZRPHQoSKJAzXMEOlZcnLcL+rb0gEaap0FjMC44iR4wd03NJ
+         RaDtK3MTH2VwGALZUdIEJ5QzuZKPGXT5my8MLf2EuEeQEf9vuR9dMlYBnO29JGlR2qy9
+         t8aYo3afHrQgocKrLn93/Son0Yscs5jerpuS1oE+Rho747myRQBdAcDGsEZ6BMVnnPRg
+         CJhQ==
+X-Gm-Message-State: APjAAAUuQorGauhmh8HqCg1u6WuuRQQ+V9baJUIMGsfDQayEudbMDgGq
+        HDjPgesio1y2AVmwsjXGMeM=
+X-Google-Smtp-Source: APXvYqxP3R0x+RIGncA0GElcVIS8Sdr+5ymvIKEp2v9V52Y+ZiiI7pW13eMmX5euQ6+C1sTqg1u3kQ==
+X-Received: by 2002:a17:902:8d92:: with SMTP id v18mr11839312plo.211.1561728318418;
+        Fri, 28 Jun 2019 06:25:18 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.203.131])
+        by smtp.gmail.com with ESMTPSA id y19sm2355134pfe.150.2019.06.28.06.25.13
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 28 Jun 2019 06:25:17 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-sh@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org
+Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v2] Documentation:sh:convert register-banks.txt  and new-machine.txt to rst format.
+Date:   Fri, 28 Jun 2019 18:54:59 +0530
+Message-Id: <20190628132459.5409-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190627063347.11137-1-bnvandana@gmail.com>
+References: <20190627063347.11137-1-bnvandana@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 27 Jun 2019 19:40:24 -0700
-Joe Perches <joe@perches.com> escreveu:
+This patch converts new-machine.txt and register-banks.txt to ReST format, No content
+change.
+Added new-machine.rst and register-banks.rst to sh/index.rst
 
-> On Thu, 2019-06-27 at 21:39 -0300, Mauro Carvalho Chehab wrote:
-> > Em Thu, 27 Jun 2019 15:08:59 -0700
-> > Joe Perches <joe@perches.com> escreveu:  
-> []
-> > > > hrtimer: Use a bullet for the returns bullet list
-> > > > 
-> > > > That gets rid of this warning:
-> > > > 
-> > > >    ./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blank line; unexpected unindent.    
-> > > 
-> > > Doesn't this form occur multiple dozens of times in
-> > > kernel sources?
-> > > 
-> > > For instance:
-> > > 
-> > > $ git grep -B3 -A5 -P "^ \* Returns:?$" | \
-> > >   grep -P -A8 '\-\s+\*\s*@\w+:'  
-> > 
-> > Yes, this is a common pattern, but not all patterns that match the above
-> > regex are broken.
-> >   
-> > > I think the warning is odd at best and docutils might
-> > > be updated or the warning ignored or suppressed.
-> > >   
-> > > > and displays nicely both at the source code and at the produced
-> > > > documentation.    
-> > 
-> > The warnings are painful - and they're the main reason why I wrote this
-> > change: - I wanted to avoid new warnings actually unrelated to my
-> > changes that were sometimes appearing while doing incremental
-> > "make htmldocs" on a big patchset that I've been rebasing almost every
-> > week over the last two months.
-> > 
-> > -
-> > 
-> > Yet, did you try to look how this pattern will appear at the html and pdf
-> > output?  
-> 
-> No I did not.
-> 
-> I just would like to avoid changing perfectly intelligible
-> kernel-doc content into something less directly readable for
-> the sake of external output.
-> 
-> I don't use the externally generated formatted output docs.
-> I read and use the source when necessary.
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ Documentation/sh/index.rst                    |   6 +
+ .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
+ ...{register-banks.txt => register-banks.rst} |   8 +-
+ 3 files changed, 100 insertions(+), 85 deletions(-)
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
 
-Yeah, I do the same too, except when I want to se the hole
-picture or on complex subsystems. You can't really understand
-media subsystems if you don't read it from the docs, as
-the rationale for a lot of things are there.
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..25471d3fc294 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -57,3 +57,9 @@ Maple
 
-Yet, for newcomers that are studying a new subsystem, a
-good documentation helps a lot.
+ .. kernel-doc:: drivers/sh/maple/maple.c
+    :export:
++
++.. toctree::
++   :maxdepth: 2
++
++   new-machine
++   register-banks
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 79%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..b16c33342642 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,8 +1,8 @@
++================================
++Adding a new board to LinuxSH
++================================
 
-> 
-> Automatic creation of bulleted blocks from relatively
-> unformatted content is a hard problem.
-> 
-> I appreciate the work Mauro, I just would like to minimize
-> the necessary changes if possible.
+-                Adding a new board to LinuxSH
+-               ================================
+-
+-               Paul Mundt <lethal@linux-sh.org>
++Paul Mundt <lethal@linux-sh.org>
 
-Yeah, me too.
+ This document attempts to outline what steps are necessary to add support
+ for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
+@@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
 
-> 
-> The grep I did was trivial, I'm sure there are better tools
-> to isolate the kernel-doc bits where the Return: block
-> is emitted.
-> 
-> 
-> >  Something like this:
-> > 
-> > 	sound/soc/codecs/wm8960.c: * Returns:
-> > 	sound/soc/codecs/wm8960.c- *  -1, in case no sysclk frequency available found
-> > 	sound/soc/codecs/wm8960.c- * >=0, in case we could derive bclk and lrclk from sysclk using
-> > 	sound/soc/codecs/wm8960.c- *      (@sysclk_idx, @dac_idx, @bclk_idx) dividers
-> > 
-> > 
-> > Will be displayed as:
-> > 
-> > 	**Returns:**
-> > 	  -1, in case no sysclk frequency available found **>=0, in case we could derive bclk and lrclk from sysclk using** (@sysclk_idx, @dac_idx, @bclk_idx) dividers
-> > (where **foo**) means that "foo" will be printed in bold.>   
-> 
-> That's a yuck from me.
+-Board-specific code:
+-
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
+-
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Board-specific code::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       `-- boards
++ |           |-- adx
++ |           |   `-- board-specific files
++ |           |-- bigsur
++ |           |   `-- board-specific files
++ |           |
++ |           ... more boards here ...
++ |
++ `-- include
++     `-- asm-sh
++         |-- adx
++         |   `-- board-specific headers
++         |-- bigsur
++         |   `-- board-specific headers
++         |
++       	 .. more boards here ...
++
++Next, for companion chips::
++
++ .
++ `-- arch
++     `-- sh
++         `-- cchips
++             `-- hd6446x
++                 `-- hd64461
++                     `-- cchip-specific files
 
-Agreed, but, when writing text docs, doing something like:
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
 
-	parameter
-		parameter description
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       |-- kernel
++ |       |   `-- cpu
++ |       |       |-- sh2
++ |       |       |   `-- SH-2 generic files
++ |       |       |-- sh3
++ |       |       |   `-- SH-3 generic files
++ |       |       `-- sh4
++ |       |           `-- SH-4 generic files
++ |       `-- mm
++ |           `-- This is also broken out per CPU family, so each family can
++ |               have their own set of cache/tlb functions.
++ |
++ `-- include
++     `-- asm-sh
++         |-- cpu-sh2
++         |   `-- SH-2 specific headers
++         |-- cpu-sh3
++         |   `-- SH-3 specific headers
++         `-- cpu-sh4
++             `-- SH-4 specific headers
 
-and getting the first line bolded helps to reduce the need of
-adding explicit bold markups and produce a nice visual.
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+ might look something like:
 
-> 
-> > While it would likely be possible to improve kernel-doc to present better
-> > results, I'm afraid that it would be too complex for simple regex
-> > expressions, and hard to tune, as it would be a hint-based approach,
-> > and doing a natural language processing would be too much effort.  
-> 
-> Yeah, tough problem.  I don't envy it.
-> 
-> cheers and g'luck...
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++.. code-block:: c
++
++    /*
++     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++     */
++    #include <linux/init.h>
 
-Thank you!
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++        return "FooTech Vaporboard";
++    }
 
-Thanks,
-Mauro
+-int __init platform_setup(void)
+-{
++    int __init platform_setup(void)
++    {
+   	/*
+ 	 * If our hardware actually existed, we would do real
+ 	 * setup here. Though it's also sane to leave this empty
+@@ -136,7 +140,8 @@ int __init platform_setup(void)
+ 	/* And whatever else ... */
+
+ 	return 0;
+-}
++    }
++
+
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,16 +177,17 @@ sufficient.
+    vector.
+
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
+
+ 	#define __IO_PREFIX vapor
+    	#include <asm/io_generic.h>
+
++
+    somewhere in the board-specific header. Any boards being ported that still
+    have a legacy io.h should remove it entirely and switch to the new model.
+
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
+
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
+
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
+
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
++ config SH_VAPOR
++	 bool "Vapor"
++	 help
+ 	  select Vapor if configuring for a FooTech Vaporboard.
+
+ next, this has to be added into arch/sh/Makefile. All boards require a
+@@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+ common code, such as:
+
++::
++
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+ 		return -ENODEV;
+@@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
+
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
++
++ - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
++ - adx_defconfig           - Build for adx
++ - cqreek_defconfig        - Build for cqreek
++ - dreamcast_defconfig     - Build for dreamcast
++ - ...
++ - vapor_defconfig         - Build for vapor
+
+ which then allows you to do:
+
+diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+similarity index 90%
+rename from Documentation/sh/register-banks.txt
+rename to Documentation/sh/register-banks.rst
+index a6719f2f6594..acccfaf80355 100644
+--- a/Documentation/sh/register-banks.txt
++++ b/Documentation/sh/register-banks.rst
+@@ -1,8 +1,9 @@
+-	Notes on register bank usage in the kernel
+-	==========================================
++==========================================
++Notes on register bank usage in the kernel
++==========================================
+
+ Introduction
+-------------
++============
+
+ The SH-3 and SH-4 CPU families traditionally include a single partial register
+ bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
+@@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
+ 		- The SR.IMASK interrupt handler makes use of this to set the
+ 		  interrupt priority level (used by local_irq_enable())
+ 	- r7_bank (current)
+-
+--
+2.17.1
+
