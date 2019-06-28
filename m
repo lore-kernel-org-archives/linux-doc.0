@@ -1,155 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B9A627D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Jun 2019 22:43:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D9D87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 00:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726653AbfF0WnB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Jun 2019 18:43:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23790 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726445AbfF0WnB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 18:43:01 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5RMgA3I089488;
-        Thu, 27 Jun 2019 18:42:23 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2td6e30ux4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jun 2019 18:42:23 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x5RMgN29089882;
-        Thu, 27 Jun 2019 18:42:23 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2td6e30uwp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jun 2019 18:42:23 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x5RMdvid032307;
-        Thu, 27 Jun 2019 22:42:22 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
-        by ppma03dal.us.ibm.com with ESMTP id 2t9by7hcg3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jun 2019 22:42:22 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5RMgLUr47579548
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 27 Jun 2019 22:42:21 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 96D3DB2065;
-        Thu, 27 Jun 2019 22:42:21 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 69D4CB2064;
-        Thu, 27 Jun 2019 22:42:21 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.26])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 27 Jun 2019 22:42:21 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id B3F5F16C6AC1; Thu, 27 Jun 2019 15:42:23 -0700 (PDT)
-Date:   Thu, 27 Jun 2019 15:42:23 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Jiunn Chang <c0d1n61at3@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        josh@joshtriplett.org, mathieu.desnoyers@efficios.com,
-        jiangshanlai@gmail.com, joel@joelfernandes.org, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees][PATCH] doc: RCU callback locks need only
- _bh, not necessarily _irq
-Message-ID: <20190627224223.GJ26519@linux.ibm.com>
-Reply-To: paulmck@linux.ibm.com
-References: <20190627210147.19510-1-c0d1n61at3@gmail.com>
- <bc2ce605-56ab-33aa-c94d-d7774e6ce8cd@linuxfoundation.org>
- <20190627221045.GH26519@linux.ibm.com>
- <20190627182938.306ab9d9@gandalf.local.home>
+        id S1726620AbfF1Ajk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Jun 2019 20:39:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52248 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbfF1Ajk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jun 2019 20:39:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=dn34CJYtdeAdfgrMOdzs/RPX0u6ZoHpXvhuSS9M6Llg=; b=Pch69XzlDh4te4bL9dzpMY9Jt
+        0qjUt3DwCUucvEbBp7tio9AniFfq4tMzDDQLKexK+pMMw9i7qrRxGUNsxIAn/MRu9FNHW5PzTp3cA
+        cNveYRTAHrvxyXTpINNMlFEKjGErWBs4rEsd2WG4nGTQxGoM7GaLRsbaCLRB4pSDL8iLLo7AE1wGR
+        d+BvsmwhdhEK5Prtdtjkf+QOMWtzneMO6t3YXR6G/3HCkmaLtLD12ZPp23ecNzJ1bZxTepazks6oJ
+        oWt8nqqUzq8Tmi09Ejy0GX+/bXlvon/tHTtTq9eoBLJD1pNRfGvd+6GZb8/5vTdr64AB+6tqQVo0z
+        s1sERlxWA==;
+Received: from [186.213.242.156] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hgevQ-000587-UE; Fri, 28 Jun 2019 00:39:37 +0000
+Date:   Thu, 27 Jun 2019 21:39:30 -0300
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, tglx@linutronix.de,
+        mingo@kernel.org, hpa@zytor.com, linux-kernel@vger.kernel.org,
+        mchehab+samsung@kernel.org, linux-tip-commits@vger.kernel.org,
+        docutils-develop@lists.sourceforge.net
+Subject: Re: [tip:timers/core] hrtimer: Use a bullet for the returns bullet
+ list
+Message-ID: <20190627213930.0d28a072@coco.lan>
+In-Reply-To: <3740b16e5d0a3144e2d48af7cf56ae8020c3f9af.camel@perches.com>
+References: <74ddad7dac331b4e5ce4a90e15c8a49e3a16d2ac.1561372382.git.mchehab+samsung@kernel.org>
+        <tip-516337048fa40496ae5ca9863c367ec991a44d9a@git.kernel.org>
+        <3740b16e5d0a3144e2d48af7cf56ae8020c3f9af.camel@perches.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190627182938.306ab9d9@gandalf.local.home>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-27_14:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906270262
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 06:29:38PM -0400, Steven Rostedt wrote:
-> On Thu, 27 Jun 2019 15:10:45 -0700
-> "Paul E. McKenney" <paulmck@linux.ibm.com> wrote:
-> 
-> > On Thu, Jun 27, 2019 at 04:01:35PM -0600, Shuah Khan wrote:
-> > > On 6/27/19 3:01 PM, Jiunn Chang wrote:  
-> > > >The UP.rst file calls for locks acquired within RCU callback functions
-> > > >to use _irq variants (spin_lock_irqsave() or similar), which does work,
-> > > >but can be overkill.  This commit therefore instead calls for _bh variants
-> > > >(spin_lock_bh() or similar), while noting that _irq does work.
-> > > >
-> > > >Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>  
-> > > 
-> > > Should this by Suggested-by?  
+Em Thu, 27 Jun 2019 15:08:59 -0700
+Joe Perches <joe@perches.com> escreveu:
+
+> On Thu, 2019-06-27 at 14:46 -0700, tip-bot for Mauro Carvalho Chehab
+> wrote:
+> > Commit-ID:  516337048fa40496ae5ca9863c367ec991a44d9a
+> > Gitweb:     https://git.kernel.org/tip/516337048fa40496ae5ca9863c367ec991a44d9a
+> > Author:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > AuthorDate: Mon, 24 Jun 2019 07:33:26 -0300
+> > Committer:  Thomas Gleixner <tglx@linutronix.de>
+> > CommitDate: Thu, 27 Jun 2019 23:30:04 +0200
 > > 
-> > I wrote it and Jiunn converted my change to .rst, so I believe that
-> > this is correct as is.
+> > hrtimer: Use a bullet for the returns bullet list
+> > 
+> > That gets rid of this warning:
+> > 
+> >    ./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blank line; unexpected unindent.  
 > 
-> Note, you did send Jiunn an explicit Signed-off-by when you wrote it,
-> correct? As Signed-off-by is equivalent to a signature.
+> Doesn't this form occur multiple dozens of times in
+> kernel sources?
+> 
+> For instance:
+> 
+> $ git grep -B3 -A5 -P "^ \* Returns:?$" | \
+>   grep -P -A8 '\-\s+\*\s*@\w+:'
 
-Indeed I did, but I now see that it was via private email.  Here it is
-again for public consumption, and Jiunn's patch is based on this one,
-just translated to .rst.  I once again verified that the Jiunn's version
-is word-for-word identical to mine, so Jiunn's patch should be good.  ;-)
+Yes, this is a common pattern, but not all patterns that match the above
+regex are broken.
 
-							Thanx, Paul
+> 
+> I think the warning is odd at best and docutils might
+> be updated or the warning ignored or suppressed.
+> 
+> > and displays nicely both at the source code and at the produced
+> > documentation.  
 
-------------------------------------------------------------------------
+The warnings are painful - and they're the main reason why I wrote this
+change: - I wanted to avoid new warnings actually unrelated to my
+changes that were sometimes appearing while doing incremental
+"make htmldocs" on a big patchset that I've been rebasing almost every
+week over the last two months.
 
-commit a293734a310b463a0dba68409943a4e6065cd39d
-Author: Paul E. McKenney <paulmck@linux.ibm.com>
-Date:   Wed Jun 26 10:16:19 2019 -0700
+-
 
-    doc: RCU callback locks need only _bh, not necessarily _irq
-    
-    The UP.txt file calls for locks acquired within RCU callback functions
-    to use _irq variants (spin_lock_irqsave() or similar), which does work,
-    but can be overkill.  This commit therefore instead calls for _bh variants
-    (spin_lock_bh() or similar), while noting that _irq does work.
-    
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+Yet, did you try to look how this pattern will appear at the html and pdf
+output? Something like this:
 
-diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/UP.txt
-index 53bde717017b..0edd8c5af0b5 100644
---- a/Documentation/RCU/UP.txt
-+++ b/Documentation/RCU/UP.txt
-@@ -104,12 +104,13 @@ Answer to Quick Quiz #1:
- Answer to Quick Quiz #2:
- 	What locking restriction must RCU callbacks respect?
- 
--	Any lock that is acquired within an RCU callback must be
--	acquired elsewhere using an _irq variant of the spinlock
--	primitive.  For example, if "mylock" is acquired by an
--	RCU callback, then a process-context acquisition of this
--	lock must use something like spin_lock_irqsave() to
--	acquire the lock.
-+	Any lock that is acquired within an RCU callback must be acquired
-+	elsewhere using an _bh variant of the spinlock primitive.
-+	For example, if "mylock" is acquired by an RCU callback, then
-+	a process-context acquisition of this lock must use something
-+	like spin_lock_bh() to acquire the lock.  Please note that
-+	it is also OK to use _irq variants of spinlocks, for example,
-+	spin_lock_irqsave().
- 
- 	If the process-context code were to simply use spin_lock(),
- 	then, since RCU callbacks can be invoked from softirq context,
+	sound/soc/codecs/wm8960.c: * Returns:
+	sound/soc/codecs/wm8960.c- *  -1, in case no sysclk frequency available found
+	sound/soc/codecs/wm8960.c- * >=0, in case we could derive bclk and lrclk from sysclk using
+	sound/soc/codecs/wm8960.c- *      (@sysclk_idx, @dac_idx, @bclk_idx) dividers
+
+
+Will be displayed as:
+
+	**Returns:**
+	  -1, in case no sysclk frequency available found **>=0, in case we could derive bclk and lrclk from sysclk using** (@sysclk_idx, @dac_idx, @bclk_idx) dividers
+
+
+(where **foo**) means that "foo" will be printed in bold.
+
+E. g. it will just merge all returns values into a single line and, if 
+there are alignment differences, it will make the previous line bold
+and produce a warning.
+
+On some places, however, what's there will be properly displayed,
+like this one:
+**
+ * wimax_reset - Reset a WiMAX device
+ *
+ * @wimax_dev: WiMAX device descriptor
+ *
+ * Returns:
+ *
+ * %0 if ok and a warm reset was done (the device still exists in
+ * the system).
+ *
+ * -%ENODEV if a cold/bus reset had to be done (device has
+ * disconnected and reconnected, so current handle is not valid
+ * any more).
+ *
+ * -%EINVAL if the device is not even registered.
+ *
+ * Any other negative error code shall be considered as
+ * non-recoverable.
+ *
+
+As there are blank lines between each value, making each return code a
+different line.
+
+This one:
+
+tools/lib/traceevent/parse-filter.c: * Returns:
+tools/lib/traceevent/parse-filter.c- *  1 if the two filters hold the same content.
+tools/lib/traceevent/parse-filter.c- *  0 if they do not.
+
+will also not mangle too much, as the dots will help for someone to 
+understand, if reading the html/pdf output, like this:
+
+	**Returns:**
+	  1 if the two filters hold the same content. 0 if they do not.
+
+So, it all depends on the context.
+
+-
+
+While it would likely be possible to improve kernel-doc to present better
+results, I'm afraid that it would be too complex for simple regex
+expressions, and hard to tune, as it would be a hint-based approach,
+and doing a natural language processing would be too much effort.
+
+
+> 
+> > diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c  
+> []
+> > @@ -1114,9 +1114,10 @@ EXPORT_SYMBOL_GPL(hrtimer_start_range_ns);
+> >   * @timer:	hrtimer to stop
+> >   *
+> >   * Returns:
+> > - *  0 when the timer was not active
+> > - *  1 when the timer was active
+> > - * -1 when the timer is currently executing the callback function and
+> > + *
+> > + *  *  0 when the timer was not active
+> > + *  *  1 when the timer was active
+> > + *  * -1 when the timer is currently executing the callback function and
+> >   *    cannot be stopped
+> >   */
+> >  int hrtimer_try_to_cancel(struct hrtimer *timer)  
+> 
+
+
+
+Thanks,
+Mauro
