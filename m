@@ -1,35 +1,32 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
+	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADC217D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 15:04:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 718617D919
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 15:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726719AbfF1PEk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 11:04:40 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35076 "EHLO ms.lwn.net"
+        id S1726738AbfF1PKX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 11:10:23 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35104 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726716AbfF1PEk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Jun 2019 11:04:40 -0400
+        id S1726616AbfF1PKX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Jun 2019 11:10:23 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B96BA2B4;
-        Fri, 28 Jun 2019 15:04:39 +0000 (UTC)
-Date:   Fri, 28 Jun 2019 09:04:38 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A1B4D5A0;
+        Fri, 28 Jun 2019 15:10:22 +0000 (UTC)
+Date:   Fri, 28 Jun 2019 09:10:21 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [linux-kernel-mentees] [PATCH v2] Doc : doc-guide : Fix a typo
-Message-ID: <20190628090438.017d70a7@lwn.net>
-In-Reply-To: <20190628062001.26085-1-sheriffesseson@gmail.com>
-References: <20190628060648.25151-1-sheriffesseson@gmail.com>
-        <20190628062001.26085-1-sheriffesseson@gmail.com>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: format kernel-parameters -- as code
+Message-ID: <20190628091021.457d0301@lwn.net>
+In-Reply-To: <20190627135938.3722-1-steve@sk2.org>
+References: <20190627135938.3722-1-steve@sk2.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,34 +36,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 28 Jun 2019 07:20:01 +0100
-Sheriff Esseson <sheriffesseson@gmail.com> wrote:
+On Thu, 27 Jun 2019 15:59:38 +0200
+Stephen Kitt <steve@sk2.org> wrote:
 
-> fix the disjunction by replacing "of" with "or".
+> The current ReStructuredText formatting results in "--", used to
+> indicate the end of the kernel command-line parameters, appearing as
+> an en-dash instead of two hyphens; this patch formats them as code,
+> "``--``", as done elsewhere in the documentation.
 > 
-> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
-> ---
-> 
-> changes in v2:
-> - cc-ed Corbet.
-> 
->  Documentation/doc-guide/kernel-doc.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index f96059767..192c36af3 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -359,7 +359,7 @@ Domain`_ references.
->    ``monospaced font``.
->  
->    Useful if you need to use special characters that would otherwise have some
-> -  meaning either by kernel-doc script of by reStructuredText.
-> +  meaning either by kernel-doc script or by reStructuredText.
->  
->    This is particularly useful if you need to use things like ``%ph`` inside
->    a function description.
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
 
-I have applied this, thanks.
+A worthy fix, I've applied it.  This seems like the sort of annoyance that
+will bite us over and over, though.  We might want to find a more
+comprehensive way to turn this behavior off.
+
+Thanks,
 
 jon
