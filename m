@@ -1,72 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,URIBL_SBL,URIBL_SBL_A autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
+	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4EEED7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 20:47:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B3FEB7D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbfF1Urr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 16:47:47 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:47600 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfF1Urq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 16:47:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=0AFB9+OcrWykWagjvEfuqPWjzrPw4TNE2Nz1Y05oeEo=; b=aOZNcMIF9nooQMIi5wldPRS0Hr
-        90q3G/l8kE8yRYqCCuyYqBxrCrnseH3fTi9jvA0WkrrVXbg+ZLDAbQv6G0vqV0BLkQineCVKJjNF9
-        roFoYHANiypJCzPIJH9TJnBJv2hqquyLciBWVdIpozeMcj2SXtTyUPdXBvBEogpo1ctwE0qp5YpTe
-        j13GzY2qfwRF9zDAA6KLiJbIWHFuTyLRh3VKUy+OxOGCSUVsoqhpe6AunA3richyOZh60eiYWPCHx
-        +29zMqCt1O/jRd00W/jr3PbQ5c+lzZeAmBFGw/Tz3PPwiAfwyhiuCp4DhwN6PQUtobMhsoQFj1u1O
-        RX4ryOYA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgxmb-0003Te-12; Fri, 28 Jun 2019 20:47:45 +0000
-Subject: Re: [PATCH] docs: format kernel-parameters -- as code
-To:     Jonathan Corbet <corbet@lwn.net>, Stephen Kitt <steve@sk2.org>
+        id S1726716AbfF1VGf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 17:06:35 -0400
+Received: from 9.mo7.mail-out.ovh.net ([46.105.60.248]:51512 "EHLO
+        9.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbfF1VGf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:06:35 -0400
+X-Greylist: delayed 903 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Jun 2019 17:06:34 EDT
+Received: from player732.ha.ovh.net (unknown [10.108.35.211])
+        by mo7.mail-out.ovh.net (Postfix) with ESMTP id 0A5F1125859
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 22:51:29 +0200 (CEST)
+Received: from sk2.org (gw.sk2.org [88.186.243.14])
+        (Authenticated sender: steve@sk2.org)
+        by player732.ha.ovh.net (Postfix) with ESMTPSA id 178AF7442F61;
+        Fri, 28 Jun 2019 20:51:24 +0000 (UTC)
+Date:   Fri, 28 Jun 2019 22:51:17 +0200
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190627135938.3722-1-steve@sk2.org>
- <20190628091021.457d0301@lwn.net> <20190628203841.723ccd9c@heffalump.sk2.org>
- <20190628124804.5ce44f04@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <88c37575-2bee-03ff-970e-f4f77635da6e@infradead.org>
-Date:   Fri, 28 Jun 2019 13:47:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
+Subject: Re: [PATCH] docs: format kernel-parameters -- as code
+Message-ID: <20190628225117.636f7f21@heffalump.sk2.org>
 In-Reply-To: <20190628124804.5ce44f04@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190627135938.3722-1-steve@sk2.org>
+        <20190628091021.457d0301@lwn.net>
+        <20190628203841.723ccd9c@heffalump.sk2.org>
+        <20190628124804.5ce44f04@lwn.net>
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/D5CSdnIVtgKhNrZkMj5lYjW"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 9066027525608918405
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvddtgdduheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/28/19 11:48 AM, Jonathan Corbet wrote:
+--Sig_/D5CSdnIVtgKhNrZkMj5lYjW
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 28 Jun 2019 12:48:04 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
 > On Fri, 28 Jun 2019 20:38:41 +0200
 > Stephen Kitt <steve@sk2.org> wrote:
-> 
->> Right, looking further shows a large number of places where -- is handled
->> incorrectly. The following patch disables this “smart” handling wholesale;
->> I’ll follow up (in the next few days) with patches to use real em- and
->> en-dashes where appropriate.
-> 
+>=20
+> > Right, looking further shows a large number of places where -- is handl=
+ed
+> > incorrectly. The following patch disables this =E2=80=9Csmart=E2=80=9D =
+handling wholesale;
+> > I=E2=80=99ll follow up (in the next few days) with patches to use real =
+em- and
+> > en-dashes where appropriate. =20
+>=20
 > Thanks for figuring that out, it seems like the right thing to do.
-> 
+>=20
 > Let's not worry about "real" dashes for now.  Not everybody welcomes
 > non-ascii characters in the docs and, for dashes, it's something I deemed
 > not worth fighting about.
 
-Ack that.  Thanks.
+Indeed, there are more important things to worry about than dashes.
 
--- 
-~Randy
+Regards,
+
+Stephen
+
+--Sig_/D5CSdnIVtgKhNrZkMj5lYjW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl0WfcUACgkQgNMC9Yht
+g5zbiRAAhPM6Lzef7gtaxRb8+GUIukddDQqDhCEEJZdge2BkMohXu7M4fGVUMqU+
+xD6FDBE/iIlt0+YXdYMrIrLol0X8Gqq4htQmZeljYQY8WHEGCqp4aECoX2HMetRB
+kFU18I02I/mGpyQX9i9KuZXGxqKTCHyj9a99war0GfN0P4WkWn/1RGsEgKcVmbMa
+IocSF8wCUsiO1sarLuJSVkaq/N+dZTjS8r7I50+Y7p7Aun4MWgBbacshJo0ZQPKr
+0IQjgLU9aqt7kB9cQucpf2sDLau+cuTEYPTmFXlL48Yg+tF2jL4mRhv2bc5UH43Z
+I3dwem1eDjeY++FdrRMglPBI/sUtcaG7eh9nglxSxLcK/LPJ6wgOoEDVKuFlJvYA
+tTsowjAz41samprmXc7xt/7HjR0jm0cbHTTBB5hDSYJ1YR3ChmoysCQetzsZuviB
+MDjbZmzXUED7dDhnCm8v5jkQWWGLwLzJROSkl3kKF26LZTyymbe65YVkT6TV4qM8
+WnY0FYg7gtgoQeBvl9MNMP/YyGaMRdDhHglNmjx9PxtG3VLY5iiHZF3lSUIshIcf
+jP+SX/ul5HTe0R8JjiD19bjGqxhW5EPFA1ix4CCkGa+oRbIV5cK99htWKmcoz7Pa
+A72T64xP4xM8LQTXMws7rACOJ4oEJ0r1BxtObABqT6BJ/QAFnkI=
+=L5vG
+-----END PGP SIGNATURE-----
+
+--Sig_/D5CSdnIVtgKhNrZkMj5lYjW--
