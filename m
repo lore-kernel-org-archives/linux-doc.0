@@ -5,41 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 956A87D2F0
+	by archive.lwn.net (Postfix) with ESMTP id A3E4F7D8AB
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbfF1MUp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:20:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58748 "EHLO
+        id S1726817AbfF1MXK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:23:10 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58804 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726759AbfF1MUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:45 -0400
+        with ESMTP id S1726812AbfF1MUq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=kz7NpCoqFlQivUcHWgI6dJqevP9W6MEo67gi223n7jc=; b=Ih8r+LTZmA+cAU8X/EC+KpPvZs
-        MD+AN7Hujj7nIqr3cGqiwnAlSN3/GRD8AJrEbrZbDcz4dM9a6gMKw0vbSL/4nPDFOXVSPZuJVPYUg
-        l9rJ/t0ceuu4mTavQlqtdSIW2J0B1NSNTRRT8rdXeXc1lhA2ooT0ZTrfMfDc066qncZxUYPnJ22Ia
-        JEuLCveOrkJOHUQAb94Dv7lAuzJjl7eQ4OlReJr7tyiQno7q0DxrG4+aHjlJHBpt/+xl8lcXu2Grt
-        6ROcBVmWFmVIjghN1WZCc7XGACsGDVKLaOMChQ/q7r5bhn3VaGxy0+emhFXbLeunFaNe8PGAfox2M
-        6B3X3XdQ==;
+        bh=SdOomuIp4CNpjWCv8QB5ilmcLAjLA52d6vzSXeXYivI=; b=XdlsLjSk8t5YVJcErOe20G/Ahs
+        TlYf58o501uZdATIDfPbRq1Z+ns3qrGhVoyP/0fEHlKB6AMmOSg82YIHpCxEHuOUQh1kpmhAmOfwN
+        eZ1GnMZXtQqpvSSz9w+ELAQOrcW0alyJ6nycEFSn0NvzVGzTpZzBcHACCE0evSxOHBsErDlR3mqoB
+        n3hfg9MWwBKXBw4xKQ9oqMYtdC8wg+hvWkPFnCKAk0DSTfzMK4xeBajFA/ONUK0E5E1y8mz2AStf/
+        U7tO087QBk3EBfCN2MbjWmMz8iDc9lCLpSMMjB8ID5iszDrd5s2FDJ7aICghJ49pXRVSq0frPrHZg
+        lFoGt6+g==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprv-0000A5-EL; Fri, 28 Jun 2019 12:20:43 +0000
+        id 1hgprv-00009t-3R; Fri, 28 Jun 2019 12:20:43 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgprt-00058F-H6; Fri, 28 Jun 2019 09:20:41 -0300
+        id 1hgprt-00057G-6M; Fri, 28 Jun 2019 09:20:41 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 18/43] docs: nvmem: convert docs to ReST and rename to *.rst
-Date:   Fri, 28 Jun 2019 09:20:14 -0300
-Message-Id: <601be92c030ca1a73fb84dc2c9e004fcb33dd6b8.1561723980.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Evgeniy Polyakov <zbr@ioremap.net>
+Subject: [PATCH 06/43] docs: connector: convert to ReST and rename to connector.rst
+Date:   Fri, 28 Jun 2019 09:20:02 -0300
+Message-Id: <045b992abfe03c4983ca7a37aeb80a63df771dec.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
@@ -50,228 +51,344 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to add it into a doc book, we need first
-convert it to ReST.
+As it has some function definitions, move them to connector.h.
 
-The conversion is actually:
+The remaining conversion is actually:
   - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
   - mark literal blocks;
   - adjust title markups.
 
-While this is not part of any book, mark it as :orphan:, in order
-to avoid build warnings.
+At its new index.rst, let's add a :orphan: while this is not linked to
+the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/nvmem/{nvmem.txt => nvmem.rst} | 112 ++++++++++---------
- 1 file changed, 59 insertions(+), 53 deletions(-)
- rename Documentation/nvmem/{nvmem.txt => nvmem.rst} (62%)
+ .../{connector.txt => connector.rst}          | 130 ++++++------------
+ drivers/w1/Kconfig                            |   2 +-
+ include/linux/connector.h                     |  63 ++++++++-
+ samples/Kconfig                               |   2 +-
+ 4 files changed, 109 insertions(+), 88 deletions(-)
+ rename Documentation/connector/{connector.txt => connector.rst} (57%)
 
-diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.rst
-similarity index 62%
-rename from Documentation/nvmem/nvmem.txt
-rename to Documentation/nvmem/nvmem.rst
-index fc2fe4b18655..3866b6e066d5 100644
---- a/Documentation/nvmem/nvmem.txt
-+++ b/Documentation/nvmem/nvmem.rst
-@@ -1,5 +1,10 @@
--			    NVMEM SUBSYSTEM
--	  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+diff --git a/Documentation/connector/connector.txt b/Documentation/connector/connector.rst
+similarity index 57%
+rename from Documentation/connector/connector.txt
+rename to Documentation/connector/connector.rst
+index ab7ca897fab7..24e26dc22dbf 100644
+--- a/Documentation/connector/connector.txt
++++ b/Documentation/connector/connector.rst
+@@ -1,6 +1,8 @@
+-/*****************************************/
+-Kernel Connector.
+-/*****************************************/
 +:orphan:
 +
-+===============
-+NVMEM Subsystem
-+===============
-+
-+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
++================
++Kernel Connector
++================
  
- This document explains the NVMEM Framework along with the APIs provided,
- and how to use it.
-@@ -40,54 +45,54 @@ nvmem_device pointer.
+ Kernel connector - new netlink based userspace <-> kernel space easy
+ to use communication module.
+@@ -12,94 +14,55 @@ identifier, the appropriate callback will be called.
  
- nvmem_unregister(nvmem) is used to unregister a previously registered provider.
+ From the userspace point of view it's quite straightforward:
  
--For example, a simple qfprom case:
-+For example, a simple qfprom case::
+-	socket();
+-	bind();
+-	send();
+-	recv();
++	- socket();
++	- bind();
++	- send();
++	- recv();
  
--static struct nvmem_config econfig = {
-+  static struct nvmem_config econfig = {
- 	.name = "qfprom",
- 	.owner = THIS_MODULE,
+ But if kernelspace wants to use the full power of such connections, the
+ driver writer must create special sockets, must know about struct sk_buff
+ handling, etc...  The Connector driver allows any kernelspace agents to use
+ netlink based networking for inter-process communication in a significantly
+-easier way:
++easier way::
+ 
+-int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
+-void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
+-void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
++  int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
++  void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
++  void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
+ 
+-struct cb_id
+-{
++  struct cb_id
++  {
+ 	__u32			idx;
+ 	__u32			val;
 -};
 +  };
  
--static int qfprom_probe(struct platform_device *pdev)
+ idx and val are unique identifiers which must be registered in the
+-connector.h header for in-kernel usage.  void (*callback) (void *) is a
++connector.h header for in-kernel usage.  `void (*callback) (void *)` is a
+ callback function which will be called when a message with above idx.val
+ is received by the connector core.  The argument for that function must
+-be dereferenced to struct cn_msg *.
++be dereferenced to `struct cn_msg *`::
+ 
+-struct cn_msg
 -{
-+  static int qfprom_probe(struct platform_device *pdev)
++  struct cn_msg
 +  {
- 	...
- 	econfig.dev = &pdev->dev;
- 	nvmem = nvmem_register(&econfig);
- 	...
+ 	struct cb_id		id;
+ 
+ 	__u32			seq;
+ 	__u32			ack;
+ 
+-	__u32			len;		/* Length of the following data */
++	__u32			len;	/* Length of the following data */
+ 	__u8			data[0];
+-};
++  };
+ 
+-/*****************************************/
+-Connector interfaces.
+-/*****************************************/
++Connector interfaces
++====================
+ 
+-int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
++ .. kernel-doc:: include/linux/connector.h
+ 
+- Registers new callback with connector core.
++ Note:
++   When registering new callback user, connector core assigns
++   netlink group to the user which is equal to its id.idx.
+ 
+- struct cb_id *id		- unique connector's user identifier.
+-				  It must be registered in connector.h for legal in-kernel users.
+- char *name			- connector's callback symbolic name.
+- void (*callback) (struct cn..)	- connector's callback.
+-				  cn_msg and the sender's credentials
+-
+-
+-void cn_del_callback(struct cb_id *id);
+-
+- Unregisters new callback with connector core.
+-
+- struct cb_id *id		- unique connector's user identifier.
+-
+-
+-int cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __groups, int gfp_mask);
+-int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __groups, int gfp_mask);
+-
+- Sends message to the specified groups.  It can be safely called from
+- softirq context, but may silently fail under strong memory pressure.
+- If there are no listeners for given group -ESRCH can be returned.
+-
+- struct cn_msg *		- message header(with attached data).
+- u16 len			- for *_multi multiple cn_msg messages can be sent
+- u32 port			- destination port.
+- 				  If non-zero the message will be sent to the
+-				  given port, which should be set to the
+-				  original sender.
+- u32 __group			- destination group.
+-				  If port and __group is zero, then appropriate group will
+-				  be searched through all registered connector users,
+-				  and message will be delivered to the group which was
+-				  created for user with the same ID as in msg.
+-				  If __group is not zero, then message will be delivered
+-				  to the specified group.
+- int gfp_mask			- GFP mask.
+-
+- Note: When registering new callback user, connector core assigns
+- netlink group to the user which is equal to its id.idx.
+-
+-/*****************************************/
+-Protocol description.
+-/*****************************************/
++Protocol description
++====================
+ 
+ The current framework offers a transport layer with fixed headers.  The
+ recommended protocol which uses such a header is as following:
+@@ -132,9 +95,8 @@ driver (it also registers itself with id={-1, -1}).
+ As example of this usage can be found in the cn_test.c module which
+ uses the connector to request notification and to send messages.
+ 
+-/*****************************************/
+-Reliability.
+-/*****************************************/
++Reliability
++===========
+ 
+ Netlink itself is not a reliable protocol.  That means that messages can
+ be lost due to memory pressure or process' receiving queue overflowed,
+@@ -142,32 +104,31 @@ so caller is warned that it must be prepared.  That is why the struct
+ cn_msg [main connector's message header] contains u32 seq and u32 ack
+ fields.
+ 
+-/*****************************************/
+-Userspace usage.
+-/*****************************************/
++Userspace usage
++===============
+ 
+ 2.6.14 has a new netlink socket implementation, which by default does not
+ allow people to send data to netlink groups other than 1.
+ So, if you wish to use a netlink socket (for example using connector)
+ with a different group number, the userspace application must subscribe to
+-that group first.  It can be achieved by the following pseudocode:
++that group first.  It can be achieved by the following pseudocode::
+ 
+-s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
++  s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
+ 
+-l_local.nl_family = AF_NETLINK;
+-l_local.nl_groups = 12345;
+-l_local.nl_pid = 0;
++  l_local.nl_family = AF_NETLINK;
++  l_local.nl_groups = 12345;
++  l_local.nl_pid = 0;
+ 
+-if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
++  if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
+ 	perror("bind");
+ 	close(s);
+ 	return -1;
 -}
 +  }
  
- It is mandatory that the NVMEM provider has a regmap associated with its
- struct device. Failure to do would return error code from nvmem_register().
+-{
++  {
+ 	int on = l_local.nl_groups;
+ 	setsockopt(s, 270, 1, &on, sizeof(on));
+-}
++  }
  
- Users of board files can define and register nvmem cells using the
--nvmem_cell_table struct:
-+nvmem_cell_table struct::
+ Where 270 above is SOL_NETLINK, and 1 is a NETLINK_ADD_MEMBERSHIP socket
+ option.  To drop a multicast subscription, one should call the above socket
+@@ -180,16 +141,15 @@ group number 12345, you must increment CN_NETLINK_USERS to that number.
+ Additional 0xf numbers are allocated to be used by non-in-kernel users.
  
--static struct nvmem_cell_info foo_nvmem_cells[] = {
-+  static struct nvmem_cell_info foo_nvmem_cells[] = {
- 	{
- 		.name		= "macaddr",
- 		.offset		= 0x7f00,
- 		.bytes		= ETH_ALEN,
- 	}
--};
-+  };
+ Due to this limitation, group 0xffffffff does not work now, so one can
+-not use add/remove connector's group notifications, but as far as I know, 
++not use add/remove connector's group notifications, but as far as I know,
+ only cn_test.c test module used it.
  
--static struct nvmem_cell_table foo_nvmem_cell_table = {
-+  static struct nvmem_cell_table foo_nvmem_cell_table = {
- 	.nvmem_name		= "i2c-eeprom",
- 	.cells			= foo_nvmem_cells,
- 	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
--};
-+  };
+ Some work in netlink area is still being done, so things can be changed in
+ 2.6.15 timeframe, if it will happen, documentation will be updated for that
+ kernel.
  
--nvmem_add_cell_table(&foo_nvmem_cell_table);
-+  nvmem_add_cell_table(&foo_nvmem_cell_table);
+-/*****************************************/
+ Code samples
+-/*****************************************/
++============
  
- Additionally it is possible to create nvmem cell lookup entries and register
--them with the nvmem framework from machine code as shown in the example below:
-+them with the nvmem framework from machine code as shown in the example below::
+ Sample code for a connector test module and user space can be found
+ in samples/connector/. To build this code, enable CONFIG_CONNECTOR
+diff --git a/drivers/w1/Kconfig b/drivers/w1/Kconfig
+index 03dd57581df7..160053c0baea 100644
+--- a/drivers/w1/Kconfig
++++ b/drivers/w1/Kconfig
+@@ -19,7 +19,7 @@ config W1_CON
+ 	default y
+ 	---help---
+ 	  This allows to communicate with userspace using connector. For more
+-	  information see <file:Documentation/connector/connector.txt>.
++	  information see <file:Documentation/connector/connector.rst>.
+ 	  There are three types of messages between w1 core and userspace:
+ 	  1. Events. They are generated each time new master or slave device found
+ 		either due to automatic or requested search.
+diff --git a/include/linux/connector.h b/include/linux/connector.h
+index 1d72ef76f24f..6b6c7396a584 100644
+--- a/include/linux/connector.h
++++ b/include/linux/connector.h
+@@ -55,10 +55,71 @@ struct cn_dev {
+ 	struct cn_queue_dev *cbdev;
+ };
  
--static struct nvmem_cell_lookup foo_nvmem_lookup = {
-+  static struct nvmem_cell_lookup foo_nvmem_lookup = {
- 	.nvmem_name		= "i2c-eeprom",
- 	.cell_name		= "macaddr",
- 	.dev_id			= "foo_mac.0",
- 	.con_id			= "mac-address",
--};
-+  };
- 
--nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
-+  nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
- 
- NVMEM Consumers
- +++++++++++++++
-@@ -99,43 +104,43 @@ read from and to NVMEM.
- =================================
- 
- NVMEM cells are the data entries/fields in the NVMEM.
--The NVMEM framework provides 3 APIs to read/write NVMEM cells.
-+The NVMEM framework provides 3 APIs to read/write NVMEM cells::
- 
--struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
--struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
-+  struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
-+  struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
- 
--void nvmem_cell_put(struct nvmem_cell *cell);
--void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
-+  void nvmem_cell_put(struct nvmem_cell *cell);
-+  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
- 
--void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
--int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
-+  void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
-+  int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
- 
--*nvmem_cell_get() apis will get a reference to nvmem cell for a given id,
-+`*nvmem_cell_get()` apis will get a reference to nvmem cell for a given id,
- and nvmem_cell_read/write() can then read or write to the cell.
--Once the usage of the cell is finished the consumer should call *nvmem_cell_put()
--to free all the allocation memory for the cell.
-+Once the usage of the cell is finished the consumer should call
-+`*nvmem_cell_put()` to free all the allocation memory for the cell.
- 
- 4. Direct NVMEM device based consumer APIs
- ==========================================
- 
- In some instances it is necessary to directly read/write the NVMEM.
--To facilitate such consumers NVMEM framework provides below apis.
-+To facilitate such consumers NVMEM framework provides below apis::
- 
--struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
--struct nvmem_device *devm_nvmem_device_get(struct device *dev,
-+  struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
-+  struct nvmem_device *devm_nvmem_device_get(struct device *dev,
- 					   const char *name);
--void nvmem_device_put(struct nvmem_device *nvmem);
--int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
-+  void nvmem_device_put(struct nvmem_device *nvmem);
-+  int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
- 		      size_t bytes, void *buf);
--int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
-+  int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
- 		       size_t bytes, void *buf);
--int nvmem_device_cell_read(struct nvmem_device *nvmem,
-+  int nvmem_device_cell_read(struct nvmem_device *nvmem,
- 			   struct nvmem_cell_info *info, void *buf);
--int nvmem_device_cell_write(struct nvmem_device *nvmem,
-+  int nvmem_device_cell_write(struct nvmem_device *nvmem,
- 			    struct nvmem_cell_info *info, void *buf);
- 
- Before the consumers can read/write NVMEM directly, it should get hold
--of nvmem_controller from one of the *nvmem_device_get() api.
-+of nvmem_controller from one of the `*nvmem_device_get()` api.
- 
- The difference between these apis and cell based apis is that these apis always
- take nvmem_device as parameter.
-@@ -145,12 +150,12 @@ take nvmem_device as parameter.
- 
- When a consumer no longer needs the NVMEM, it has to release the reference
- to the NVMEM it has obtained using the APIs mentioned in the above section.
--The NVMEM framework provides 2 APIs to release a reference to the NVMEM.
-+The NVMEM framework provides 2 APIs to release a reference to the NVMEM::
- 
--void nvmem_cell_put(struct nvmem_cell *cell);
--void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
--void nvmem_device_put(struct nvmem_device *nvmem);
--void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
-+  void nvmem_cell_put(struct nvmem_cell *cell);
-+  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
-+  void nvmem_device_put(struct nvmem_device *nvmem);
-+  void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
- 
- Both these APIs are used to release a reference to the NVMEM and
- devm_nvmem_cell_put and devm_nvmem_device_put destroys the devres associated
-@@ -162,20 +167,21 @@ Userspace
- 6. Userspace binary interface
- ==============================
- 
--Userspace can read/write the raw NVMEM file located at
--/sys/bus/nvmem/devices/*/nvmem
-+Userspace can read/write the raw NVMEM file located at::
- 
--ex:
-+	/sys/bus/nvmem/devices/*/nvmem
- 
--hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
-+ex::
- 
--0000000 0000 0000 0000 0000 0000 0000 0000 0000
--*
--00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
--0000000 0000 0000 0000 0000 0000 0000 0000 0000
--...
--*
--0001000
-+  hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
++/**
++ * cn_add_callback() - Registers new callback with connector core.
++ *
++ * @id:		unique connector's user identifier.
++ *		It must be registered in connector.h for legal
++ *		in-kernel users.
++ * @name:	connector's callback symbolic name.
++ * @callback:	connector's callback.
++ * 		parameters are %cn_msg and the sender's credentials
++ */
+ int cn_add_callback(struct cb_id *id, const char *name,
+ 		    void (*callback)(struct cn_msg *, struct netlink_skb_parms *));
+-void cn_del_callback(struct cb_id *);
++/**
++ * cn_del_callback() - Unregisters new callback with connector core.
++ *
++ * @id:		unique connector's user identifier.
++ */
++void cn_del_callback(struct cb_id *id);
 +
-+  0000000 0000 0000 0000 0000 0000 0000 0000 0000
-+  *
-+  00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
-+  0000000 0000 0000 0000 0000 0000 0000 0000 0000
-+  ...
-+  *
-+  0001000
++
++/**
++ * cn_netlink_send_mult - Sends message to the specified groups.
++ *
++ * @msg: 	message header(with attached data).
++ * @len:	Number of @msg to be sent.
++ * @portid:	destination port.
++ *		If non-zero the message will be sent to the given port,
++ *		which should be set to the original sender.
++ * @group:	destination group.
++ * 		If @portid and @group is zero, then appropriate group will
++ *		be searched through all registered connector users, and
++ *		message will be delivered to the group which was created
++ *		for user with the same ID as in @msg.
++ *		If @group is not zero, then message will be delivered
++ *		to the specified group.
++ * @gfp_mask:	GFP mask.
++ *
++ * It can be safely called from softirq context, but may silently
++ * fail under strong memory pressure.
++ *
++ * If there are no listeners for given group %-ESRCH can be returned.
++ */
+ int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
++
++/**
++ * cn_netlink_send_mult - Sends message to the specified groups.
++ *
++ * @msg:	message header(with attached data).
++ * @portid:	destination port.
++ *		If non-zero the message will be sent to the given port,
++ *		which should be set to the original sender.
++ * @group:	destination group.
++ * 		If @portid and @group is zero, then appropriate group will
++ *		be searched through all registered connector users, and
++ *		message will be delivered to the group which was created
++ *		for user with the same ID as in @msg.
++ *		If @group is not zero, then message will be delivered
++ *		to the specified group.
++ * @gfp_mask:	GFP mask.
++ *
++ * It can be safely called from softirq context, but may silently
++ * fail under strong memory pressure.
++ *
++ * If there are no listeners for given group %-ESRCH can be returned.
++ */
+ int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 group, gfp_t gfp_mask);
  
- 7. DeviceTree Binding
- =====================
+ int cn_queue_add_callback(struct cn_queue_dev *dev, const char *name,
+diff --git a/samples/Kconfig b/samples/Kconfig
+index 71b5e833dd9e..155da47dc6a4 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -99,7 +99,7 @@ config SAMPLE_CONNECTOR
+ 	  When enabled, this builds both a sample kernel module for
+ 	  the connector interface and a user space tool to communicate
+ 	  with it.
+-	  See also Documentation/connector/connector.txt
++	  See also Documentation/connector/connector.rst
+ 
+ config SAMPLE_HIDRAW
+ 	bool "hidraw sample"
 -- 
 2.21.0
 
