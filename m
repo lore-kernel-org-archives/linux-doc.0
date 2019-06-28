@@ -1,2383 +1,2411 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.1 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
+	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B77D7D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:20:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CBC27D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbfF1MUt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:20:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58840 "EHLO
+        id S1726838AbfF1MVk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:21:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59070 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726829AbfF1MUs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:48 -0400
+        with ESMTP id S1726887AbfF1MUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=mws5ZUAYJORyhbWS+iozr2URaBZfes1dN4yn3Y1M3+Q=; b=KjgzvTOSg2oL/VOqA4A5y6TIMr
-        cywsz+lveZKqtetbGMcmD3QPmcLPEK6gM1lryPU99xQkBqBtXtXM3lPx6L9T/3KMgvfSTiG1nGZLt
-        GyF5TYuu0lgDpZohmyvARjCzEQ/gu2J2QLN6IhLocuH5XTh6ViVayB7bPnzBH/C2Xge6Sp6eJmNjh
-        0hNsU47S9682fEFGfPLwyXHsei27UX7lM1QKPd3e5UONkNG1fEoDc7IbBa2NxoIrnoIzOApb12ZzQ
-        xFDOjrwBC8aD3Ln9c3eKUZXp4n4lyfPbY+Iabg1em7xHVLsKHghlulv0KvNWZOCmwpyeaSTPykMry
-        zwWaKWmA==;
+        bh=aPaQBEqPwnF2bpsPeZj0oP0mckJdvNc9+vL1ueP0gKg=; b=h8larzKHlW02uf6BMHrCu7Ow+l
+        xFOpcjljtzOZT2t86udonfLKI8K9GAmFCBBrya4IFarIfUgVtQajjX7pRgUUmItpKBNqOfAdgO1VP
+        R4G580FDq+LtugRv2Z2qfTS44D9fvT+leBp8od+//ECnDQILz/1/ObINJ5cPcUfxdi8oyyf9hciZI
+        JjV9V4Lbveltx1p9KRuhNI0KVreUiy+NsLT5xv+9EocwIof/apdrwin7tpAtI3nWSuOGQ6KblsbOb
+        F2upnQ3eZjTbc5AKl9EJYL+/OmMWzcOV9U3f7Pnp9wmjsqwAX6vp7TNbQ062WvFMYg8depl9aAH57
+        KZQNEe9w==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprv-0000AD-Lp; Fri, 28 Jun 2019 12:20:45 +0000
+        id 1hgprv-00009s-46; Fri, 28 Jun 2019 12:20:44 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgprt-00058p-Nc; Fri, 28 Jun 2019 09:20:41 -0300
+        id 1hgprt-00057C-4p; Fri, 28 Jun 2019 09:20:41 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Linas Vepstas <linasvepstas@gmail.com>,
+        Russell Currey <ruscur@russell.cc>,
+        Sam Bobroff <sbobroff@linux.ibm.com>,
+        "Oliver O'Halloran" <oohall@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        "Manoj N. Kumar" <manoj@linux.ibm.com>,
+        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+        Uma Krishnan <ukrishn@linux.ibm.com>,
+        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH 25/43] docs: laptops: convert to ReST
-Date:   Fri, 28 Jun 2019 09:20:21 -0300
-Message-Id: <420bb36a0e85b8c582ec1b857f30009b7abb996d.1561723980.git.mchehab+samsung@kernel.org>
+        Jiri Slaby <jslaby@suse.com>, linux-pci@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-scsi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Andrew Donnellan <andrew.donnellan@au1.ibm.com>
+Subject: [PATCH 05/43] docs: powerpc: convert docs to ReST and rename to *.rst
+Date:   Fri, 28 Jun 2019 09:20:01 -0300
+Message-Id: <d64738e9d2a92c920cf3c2e78b81b75a487feabd.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the laptops documentation files to ReST, add an
-index for them and adjust in order to produce a nice html
-output via the Sphinx build system.
+Convert docs to ReST and add them to the arch-specific
+book.
+
+The conversion here was trivial, as almost every file there
+was already using an elegant format close to ReST standard.
+
+The changes were mostly to mark literal blocks and add a few
+missing section title identifiers.
+
+One note with regards to "--": on Sphinx, this can't be used
+to identify a list, as it will format it badly. This can be
+used, however, to identify a long hyphen - and "---" is an
+even longer one.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Acked-by: Andrew Donnellan <andrew.donnellan@au1.ibm.com> # cxl
 ---
- Documentation/ABI/testing/sysfs-block-device  |   2 +-
- .../ABI/testing/sysfs-platform-asus-laptop    |   2 +-
- .../admin-guide/kernel-parameters.txt         |   2 +-
- .../{asus-laptop.txt => asus-laptop.rst}      |  92 ++--
- ...otection.txt => disk-shock-protection.rst} |  32 +-
- Documentation/laptops/index.rst               |  17 +
- .../{laptop-mode.txt => laptop-mode.rst}      | 509 +++++++++---------
- .../{sony-laptop.txt => sony-laptop.rst}      |  58 +-
- .../laptops/{sonypi.txt => sonypi.rst}        |  28 +-
- .../{thinkpad-acpi.txt => thinkpad-acpi.rst}  | 363 ++++++++-----
- .../{toshiba_haps.txt => toshiba_haps.rst}    |  47 +-
- Documentation/sysctl/vm.txt                   |   4 +-
- MAINTAINERS                                   |   2 +-
- drivers/char/Kconfig                          |   2 +-
- drivers/platform/x86/Kconfig                  |   4 +-
- 15 files changed, 660 insertions(+), 504 deletions(-)
- rename Documentation/laptops/{asus-laptop.txt => asus-laptop.rst} (84%)
- rename Documentation/laptops/{disk-shock-protection.txt => disk-shock-protection.rst} (91%)
- create mode 100644 Documentation/laptops/index.rst
- rename Documentation/laptops/{laptop-mode.txt => laptop-mode.rst} (62%)
- rename Documentation/laptops/{sony-laptop.txt => sony-laptop.rst} (85%)
- rename Documentation/laptops/{sonypi.txt => sonypi.rst} (87%)
- rename Documentation/laptops/{thinkpad-acpi.txt => thinkpad-acpi.rst} (89%)
- rename Documentation/laptops/{toshiba_haps.txt => toshiba_haps.rst} (60%)
+ Documentation/PCI/pci-error-recovery.rst      |  23 ++-
+ .../{bootwrapper.txt => bootwrapper.rst}      |  28 +++-
+ .../{cpu_families.txt => cpu_families.rst}    |  23 +--
+ .../{cpu_features.txt => cpu_features.rst}    |   6 +-
+ Documentation/powerpc/{cxl.txt => cxl.rst}    |  46 ++++--
+ .../powerpc/{cxlflash.txt => cxlflash.rst}    |  10 +-
+ .../{DAWR-POWER9.txt => dawr-power9.rst}      |  15 +-
+ Documentation/powerpc/{dscr.txt => dscr.rst}  |  18 +-
+ ...ecovery.txt => eeh-pci-error-recovery.rst} | 108 ++++++------
+ ...ed-dump.txt => firmware-assisted-dump.rst} | 117 +++++++------
+ Documentation/powerpc/{hvcs.txt => hvcs.rst}  | 108 ++++++------
+ Documentation/powerpc/index.rst               |  34 ++++
+ Documentation/powerpc/isa-versions.rst        |  15 +-
+ .../powerpc/{mpc52xx.txt => mpc52xx.rst}      |  12 +-
+ ...nv.txt => pci_iov_resource_on_powernv.rst} |  15 +-
+ .../powerpc/{pmu-ebb.txt => pmu-ebb.rst}      |   1 +
+ Documentation/powerpc/ptrace.rst              | 156 ++++++++++++++++++
+ Documentation/powerpc/ptrace.txt              | 151 -----------------
+ .../{qe_firmware.txt => qe_firmware.rst}      |  37 +++--
+ .../{syscall64-abi.txt => syscall64-abi.rst}  |  29 ++--
+ ...al_memory.txt => transactional_memory.rst} |  45 ++---
+ MAINTAINERS                                   |   6 +-
+ arch/powerpc/kernel/exceptions-64s.S          |   2 +-
+ drivers/soc/fsl/qe/qe.c                       |   2 +-
+ drivers/tty/hvc/hvcs.c                        |   2 +-
+ include/soc/fsl/qe/qe.h                       |   2 +-
+ 26 files changed, 584 insertions(+), 427 deletions(-)
+ rename Documentation/powerpc/{bootwrapper.txt => bootwrapper.rst} (93%)
+ rename Documentation/powerpc/{cpu_families.txt => cpu_families.rst} (95%)
+ rename Documentation/powerpc/{cpu_features.txt => cpu_features.rst} (97%)
+ rename Documentation/powerpc/{cxl.txt => cxl.rst} (95%)
+ rename Documentation/powerpc/{cxlflash.txt => cxlflash.rst} (98%)
+ rename Documentation/powerpc/{DAWR-POWER9.txt => dawr-power9.rst} (95%)
+ rename Documentation/powerpc/{dscr.txt => dscr.rst} (91%)
+ rename Documentation/powerpc/{eeh-pci-error-recovery.txt => eeh-pci-error-recovery.rst} (82%)
+ rename Documentation/powerpc/{firmware-assisted-dump.txt => firmware-assisted-dump.rst} (80%)
+ rename Documentation/powerpc/{hvcs.txt => hvcs.rst} (91%)
+ create mode 100644 Documentation/powerpc/index.rst
+ rename Documentation/powerpc/{mpc52xx.txt => mpc52xx.rst} (91%)
+ rename Documentation/powerpc/{pci_iov_resource_on_powernv.txt => pci_iov_resource_on_powernv.rst} (97%)
+ rename Documentation/powerpc/{pmu-ebb.txt => pmu-ebb.rst} (99%)
+ create mode 100644 Documentation/powerpc/ptrace.rst
+ delete mode 100644 Documentation/powerpc/ptrace.txt
+ rename Documentation/powerpc/{qe_firmware.txt => qe_firmware.rst} (95%)
+ rename Documentation/powerpc/{syscall64-abi.txt => syscall64-abi.rst} (82%)
+ rename Documentation/powerpc/{transactional_memory.txt => transactional_memory.rst} (93%)
 
-diff --git a/Documentation/ABI/testing/sysfs-block-device b/Documentation/ABI/testing/sysfs-block-device
-index 82ef6eab042d..0d57bbb4fddc 100644
---- a/Documentation/ABI/testing/sysfs-block-device
-+++ b/Documentation/ABI/testing/sysfs-block-device
-@@ -45,7 +45,7 @@ Description:
- 		- Values below -2 are rejected with -EINVAL
+diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+index 83db42092935..acc21ecca322 100644
+--- a/Documentation/PCI/pci-error-recovery.rst
++++ b/Documentation/PCI/pci-error-recovery.rst
+@@ -403,7 +403,7 @@ That is, the recovery API only requires that:
+ .. note::
  
- 		For more information, see
--		Documentation/laptops/disk-shock-protection.txt
-+		Documentation/laptops/disk-shock-protection.rst
+    Implementation details for the powerpc platform are discussed in
+-   the file Documentation/powerpc/eeh-pci-error-recovery.txt
++   the file Documentation/powerpc/eeh-pci-error-recovery.rst
  
- 
- What:		/sys/block/*/device/ncq_prio_enable
-diff --git a/Documentation/ABI/testing/sysfs-platform-asus-laptop b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-index cd9d667c3da2..d67fa4bafa70 100644
---- a/Documentation/ABI/testing/sysfs-platform-asus-laptop
-+++ b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-@@ -31,7 +31,7 @@ Description:
- 		To control the LED display, use the following :
- 		    echo 0x0T000DDD > /sys/devices/platform/asus_laptop/
- 		where T control the 3 letters display, and DDD the 3 digits display.
--		The DDD table can be found in Documentation/laptops/asus-laptop.txt
-+		The DDD table can be found in Documentation/laptops/asus-laptop.rst
- 
- What:		/sys/devices/platform/asus_laptop/bluetooth
- Date:		January 2007
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e5eb04f673ae..92d335837c52 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4373,7 +4373,7 @@
- 			Format: <integer>
- 
- 	sonypi.*=	[HW] Sony Programmable I/O Control Device driver
--			See Documentation/laptops/sonypi.txt
-+			See Documentation/laptops/sonypi.rst
- 
- 	spectre_v2=	[X86] Control mitigation of Spectre variant 2
- 			(indirect branch speculation) vulnerability.
-diff --git a/Documentation/laptops/asus-laptop.txt b/Documentation/laptops/asus-laptop.rst
-similarity index 84%
-rename from Documentation/laptops/asus-laptop.txt
-rename to Documentation/laptops/asus-laptop.rst
-index 5f2858712aa0..95176321a25a 100644
---- a/Documentation/laptops/asus-laptop.txt
-+++ b/Documentation/laptops/asus-laptop.rst
-@@ -1,6 +1,9 @@
-+==================
- Asus Laptop Extras
-+==================
- 
- Version 0.1
+    As of this writing, there is a growing list of device drivers with
+    patches implementing error recovery. Not all of these patches are in
+@@ -422,3 +422,24 @@ That is, the recovery API only requires that:
+    - drivers/net/cxgb3
+    - drivers/net/s2io.c
+    - drivers/net/qlge
 +
- August 6, 2009
- 
- Corentin Chary <corentincj@iksaif.net>
-@@ -10,11 +13,12 @@ http://acpi4asus.sf.net/
-  It may also support some MEDION, JVC or VICTOR laptops (such as MEDION 9675 or
-  VICTOR XP7210 for example). It makes all the extra buttons generate input
-  events (like keyboards).
++>>> As of this writing, there is a growing list of device drivers with
++>>> patches implementing error recovery. Not all of these patches are in
++>>> mainline yet. These may be used as "examples":
++>>>
++>>> drivers/scsi/ipr
++>>> drivers/scsi/sym53c8xx_2
++>>> drivers/scsi/qla2xxx
++>>> drivers/scsi/lpfc
++>>> drivers/next/bnx2.c
++>>> drivers/next/e100.c
++>>> drivers/net/e1000
++>>> drivers/net/e1000e
++>>> drivers/net/ixgb
++>>> drivers/net/ixgbe
++>>> drivers/net/cxgb3
++>>> drivers/net/s2io.c
++>>> drivers/net/qlge
 +
-  On some models adds support for changing the display brightness and output,
-  switching the LCD backlight on and off, and most importantly, allows you to
-  blink those fancy LEDs intended for reporting mail and wireless status.
- 
--This driver supercedes the old asus_acpi driver.
-+This driver supersedes the old asus_acpi driver.
- 
- Requirements
- ------------
-@@ -49,7 +53,7 @@ Usage
-   see some lines like this :
- 
-       Asus Laptop Extras version 0.42
--        L2D model detected.
-+        - L2D model detected.
- 
-   If it is not the output you have on your laptop, send it (and the laptop's
-   DSDT) to me.
-@@ -68,9 +72,12 @@ Usage
- LEDs
- ----
- 
--  You can modify LEDs be echoing values to /sys/class/leds/asus::*/brightness :
-+  You can modify LEDs be echoing values to `/sys/class/leds/asus/*/brightness`::
++The End
++-------
+diff --git a/Documentation/powerpc/bootwrapper.txt b/Documentation/powerpc/bootwrapper.rst
+similarity index 93%
+rename from Documentation/powerpc/bootwrapper.txt
+rename to Documentation/powerpc/bootwrapper.rst
+index d60fced5e1cc..a6292afba573 100644
+--- a/Documentation/powerpc/bootwrapper.txt
++++ b/Documentation/powerpc/bootwrapper.rst
+@@ -1,5 +1,7 @@
++========================
+ The PowerPC boot wrapper
+-------------------------
++========================
 +
-     echo 1 >  /sys/class/leds/asus::mail/brightness
+ Copyright (C) Secret Lab Technologies Ltd.
+ 
+ PowerPC image targets compresses and wraps the kernel image (vmlinux) with
+@@ -21,6 +23,7 @@ it uses the wrapper script (arch/powerpc/boot/wrapper) to generate target
+ image.  The details of the build system is discussed in the next section.
+ Currently, the following image format targets exist:
+ 
++   ==================== ========================================================
+    cuImage.%:		Backwards compatible uImage for older version of
+ 			U-Boot (for versions that don't understand the device
+ 			tree).  This image embeds a device tree blob inside
+@@ -29,31 +32,36 @@ Currently, the following image format targets exist:
+ 			with boot wrapper code that extracts data from the old
+ 			bd_info structure and loads the data into the device
+ 			tree before jumping into the kernel.
+-			  Because of the series of #ifdefs found in the
 +
-   will switch the mail LED on.
++			Because of the series of #ifdefs found in the
+ 			bd_info structure used in the old U-Boot interfaces,
+ 			cuImages are platform specific.  Each specific
+ 			U-Boot platform has a different platform init file
+ 			which populates the embedded device tree with data
+ 			from the platform specific bd_info file.  The platform
+ 			specific cuImage platform init code can be found in
+-			arch/powerpc/boot/cuboot.*.c.  Selection of the correct
++			`arch/powerpc/boot/cuboot.*.c`. Selection of the correct
+ 			cuImage init code for a specific board can be found in
+ 			the wrapper structure.
 +
-   You can also know if they are on/off by reading their content and use
-   kernel triggers like disk-activity or heartbeat.
- 
-@@ -81,7 +88,7 @@ Backlight
-   /sys/class/backlight/asus-laptop/. Brightness Values are between 0 and 15.
- 
- Wireless devices
-----------------
-+----------------
- 
-   You can turn the internal Bluetooth adapter on/off with the bluetooth entry
-   (only on models with Bluetooth). This usually controls the associated LED.
-@@ -93,18 +100,20 @@ Display switching
-   Note: the display switching code is currently considered EXPERIMENTAL.
- 
-   Switching works for the following models:
--    L3800C
--    A2500H
--    L5800C
--    M5200N
--    W1000N (albeit with some glitches)
--    M6700R
--    A6JC
--    F3J
+    dtbImage.%:		Similar to zImage, except device tree blob is embedded
+ 			inside the image instead of provided by firmware.  The
+ 			output image file can be either an elf file or a flat
+ 			binary depending on the platform.
+-			  dtbImages are used on systems which do not have an
 +
-+    - L3800C
-+    - A2500H
-+    - L5800C
-+    - M5200N
-+    - W1000N (albeit with some glitches)
-+    - M6700R
-+    - A6JC
-+    - F3J
- 
-   Switching doesn't work for the following:
--    M3700N
--    L2X00D (locks the laptop under certain conditions)
++			dtbImages are used on systems which do not have an
+ 			interface for passing a device tree directly.
+ 			dtbImages are similar to simpleImages except that
+ 			dtbImages have platform specific code for extracting
+ 			data from the board firmware, but simpleImages do not
+ 			talk to the firmware at all.
+-			  PlayStation 3 support uses dtbImage.  So do Embedded
 +
-+    - M3700N
-+    - L2X00D (locks the laptop under certain conditions)
- 
-   To switch the displays, echo values from 0 to 15 to
-   /sys/devices/platform/asus-laptop/display. The significance of those values
-@@ -113,48 +122,51 @@ Display switching
-   +-------+-----+-----+-----+-----+-----+
-   | Bin   | Val | DVI | TV  | CRT | LCD |
-   +-------+-----+-----+-----+-----+-----+
--  + 0000  +   0 +     +     +     +     +
-+  | 0000  |   0 |     |     |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0001  +   1 +     +     +     +  X  +
-+  | 0001  |   1 |     |     |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 0010  +   2 +     +     +  X  +     +
-+  | 0010  |   2 |     |     |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0011  +   3 +     +     +  X  +  X  +
-+  | 0011  |   3 |     |     |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 0100  +   4 +     +  X  +     +     +
-+  | 0100  |   4 |     |  X  |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0101  +   5 +     +  X  +     + X   +
-+  | 0101  |   5 |     |  X  |     | X   |
-   +-------+-----+-----+-----+-----+-----+
--  + 0110  +   6 +     +  X  +  X  +     +
-+  | 0110  |   6 |     |  X  |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0111  +   7 +     +  X  +  X  +  X  +
-+  | 0111  |   7 |     |  X  |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1000  +   8 +  X  +     +     +     +
-+  | 1000  |   8 |  X  |     |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1001  +   9 +  X  +     +     +  X  +
-+  | 1001  |   9 |  X  |     |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1010  +  10 +  X  +     +  X  +     +
-+  | 1010  |  10 |  X  |     |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1011  +  11 +  X  +     +  X  +  X  +
-+  | 1011  |  11 |  X  |     |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1100  +  12 +  X  +  X  +     +     +
-+  | 1100  |  12 |  X  |  X  |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1101  +  13 +  X  +  X  +     +  X  +
-+  | 1101  |  13 |  X  |  X  |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1110  +  14 +  X  +  X  +  X  +     +
-+  | 1110  |  14 |  X  |  X  |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1111  +  15 +  X  +  X  +  X  +  X  +
-+  | 1111  |  15 |  X  |  X  |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
- 
-   In most cases, the appropriate displays must be plugged in for the above
-   combinations to work. TV-Out may need to be initialized at boot time.
- 
-   Debugging:
++			PlayStation 3 support uses dtbImage.  So do Embedded
+ 			Planet boards using the PlanetCore firmware.  Board
+ 			specific initialization code is typically found in a
+ 			file named arch/powerpc/boot/<platform>.c; but this
+ 			can be overridden by the wrapper script.
 +
-   1) Check whether the Fn+F8 key:
+    simpleImage.%:	Firmware independent compressed image that does not
+ 			depend on any particular firmware interface and embeds
+ 			a device tree blob.  This image is a flat binary that
+@@ -61,14 +69,16 @@ Currently, the following image format targets exist:
+ 			Firmware cannot pass any configuration data to the
+ 			kernel with this image type and it depends entirely on
+ 			the embedded device tree for all information.
+-			  The simpleImage is useful for booting systems with
 +
-      a) does not lock the laptop (try a boot with noapic / nolapic if it does)
-      b) generates events (0x6n, where n is the value corresponding to the
-         configuration above)
-      c) actually works
++			The simpleImage is useful for booting systems with
+ 			an unknown firmware interface or for booting from
+ 			a debugger when no firmware is present (such as on
+ 			the Xilinx Virtex platform).  The only assumption that
+ 			simpleImage makes is that RAM is correctly initialized
+ 			and that the MMU is either off or has RAM mapped to
+ 			base address 0.
+-			  simpleImage also supports inserting special platform
 +
-      Record the disp value at every configuration.
-   2) Echo values from 0 to 15 to /sys/devices/platform/asus-laptop/display.
-      Record its value, note any change. If nothing changes, try a broader range,
-@@ -164,7 +176,7 @@ Display switching
- 
-   Note: on some machines (e.g. L3C), after the module has been loaded, only 0x6n
-   events are generated and no actual switching occurs. In such a case, a line
--  like:
-+  like::
- 
-     echo $((10#$arg-60)) > /sys/devices/platform/asus-laptop/display
- 
-@@ -180,15 +192,16 @@ LED display
-   several items of information.
- 
-   LED display works for the following models:
--    W1000N
--    W1J
- 
--  To control the LED display, use the following :
-+    - W1000N
-+    - W1J
++			simpleImage also supports inserting special platform
+ 			specific initialization code to the start of the bootup
+ 			sequence.  The virtex405 platform uses this feature to
+ 			ensure that the cache is invalidated before caching
+@@ -81,9 +91,11 @@ Currently, the following image format targets exist:
+ 			named (virtex405-<board>.dts).  Search the wrapper
+ 			script for 'virtex405' and see the file
+ 			arch/powerpc/boot/virtex405-head.S for details.
 +
-+  To control the LED display, use the following::
- 
-     echo 0x0T000DDD > /sys/devices/platform/asus-laptop/
- 
-   where T control the 3 letters display, and DDD the 3 digits display,
--  according to the tables below.
-+  according to the tables below::
- 
-          DDD (digits)
-          000 to 999 = display digits
-@@ -208,8 +221,8 @@ LED display
-   For example "echo 0x01000001 >/sys/devices/platform/asus-laptop/ledd"
-   would display "DVD001".
- 
--Driver options:
-----------------
-+Driver options
-+--------------
- 
-  Options can be passed to the asus-laptop driver using the standard
-  module argument syntax (<param>=<value> when passing the option to the
-@@ -219,6 +232,7 @@ Driver options:
- 	     wapf: WAPF defines the behavior of the Fn+Fx wlan key
- 		   The significance of values is yet to be found, but
- 		   most of the time:
+    treeImage.%;		Image format for used with OpenBIOS firmware found
+ 			on some ppc4xx hardware.  This image embeds a device
+ 			tree blob inside the image.
 +
- 		   - 0x0 should do nothing
- 		   - 0x1 should allow to control the device with Fn+Fx key.
- 		   - 0x4 should send an ACPI event (0x88) while pressing the Fn+Fx key
-@@ -237,7 +251,7 @@ Unsupported models
-  - ASUS L7300G
-  - ASUS L8400
- 
--Patches, Errors, Questions:
-+Patches, Errors, Questions
- --------------------------
- 
-  I appreciate any success or failure
-@@ -253,5 +267,5 @@ Patches, Errors, Questions:
-  Any other comments or patches are also more than welcome.
- 
-  acpi4asus-user@lists.sourceforge.net
+    uImage:		Native image format used by U-Boot.  The uImage target
+ 			does not add any boot code.  It just wraps a compressed
+ 			vmlinux in the uImage data structure.  This image
+@@ -91,12 +103,14 @@ Currently, the following image format targets exist:
+ 			a device tree to the kernel at boot.  If using an older
+ 			version of U-Boot, then you need to use a cuImage
+ 			instead.
 +
-  http://sourceforge.net/projects/acpi4asus
--
-diff --git a/Documentation/laptops/disk-shock-protection.txt b/Documentation/laptops/disk-shock-protection.rst
-similarity index 91%
-rename from Documentation/laptops/disk-shock-protection.txt
-rename to Documentation/laptops/disk-shock-protection.rst
-index 0e6ba2663834..e97c5f78d8c3 100644
---- a/Documentation/laptops/disk-shock-protection.txt
-+++ b/Documentation/laptops/disk-shock-protection.rst
-@@ -1,17 +1,18 @@
-+==========================
- Hard disk shock protection
- ==========================
- 
- Author: Elias Oltmanns <eo@nebensachen.de>
-+
- Last modified: 2008-10-03
- 
- 
--0. Contents
-------------
-+.. 0. Contents
- 
--1. Intro
--2. The interface
--3. References
--4. CREDITS
-+   1. Intro
-+   2. The interface
-+   3. References
-+   4. CREDITS
- 
- 
- 1. Intro
-@@ -36,8 +37,8 @@ that).
- ----------------
- 
- For each ATA device, the kernel exports the file
--block/*/device/unload_heads in sysfs (here assumed to be mounted under
--/sys). Access to /sys/block/*/device/unload_heads is denied with
-+`block/*/device/unload_heads` in sysfs (here assumed to be mounted under
-+/sys). Access to `/sys/block/*/device/unload_heads` is denied with
- -EOPNOTSUPP if the device does not support the unload feature.
- Otherwise, writing an integer value to this file will take the heads
- of the respective drive off the platter and block all I/O operations
-@@ -54,18 +55,18 @@ cancel a previously set timeout and resume normal operation
- immediately by specifying a timeout of 0. Values below -2 are rejected
- with -EINVAL (see below for the special meaning of -1 and -2). If the
- timeout specified for a recent head park request has not yet expired,
--reading from /sys/block/*/device/unload_heads will report the number
-+reading from `/sys/block/*/device/unload_heads` will report the number
- of milliseconds remaining until normal operation will be resumed;
- otherwise, reading the unload_heads attribute will return 0.
- 
- For example, do the following in order to park the heads of drive
--/dev/sda and stop all I/O operations for five seconds:
-+/dev/sda and stop all I/O operations for five seconds::
- 
--# echo 5000 > /sys/block/sda/device/unload_heads
-+	# echo 5000 > /sys/block/sda/device/unload_heads
- 
--A simple
-+A simple::
- 
--# cat /sys/block/sda/device/unload_heads
-+	# cat /sys/block/sda/device/unload_heads
- 
- will show you how many milliseconds are left before normal operation
- will be resumed.
-@@ -112,9 +113,9 @@ unload_heads attribute. If you know that your device really does
- support the unload feature (for instance, because the vendor of your
- laptop or the hard drive itself told you so), then you can tell the
- kernel to enable the usage of this feature for that drive by writing
--the special value -1 to the unload_heads attribute:
-+the special value -1 to the unload_heads attribute::
- 
--# echo -1 > /sys/block/sda/device/unload_heads
-+	# echo -1 > /sys/block/sda/device/unload_heads
- 
- will enable the feature for /dev/sda, and giving -2 instead of -1 will
- disable it again.
-@@ -135,6 +136,7 @@ for use. Please feel free to add projects that have been the victims
- of my ignorance.
- 
- - http://www.thinkwiki.org/wiki/HDAPS
-+
-   See this page for information about Linux support of the hard disk
-   active protection system as implemented in IBM/Lenovo Thinkpads.
- 
-diff --git a/Documentation/laptops/index.rst b/Documentation/laptops/index.rst
-new file mode 100644
-index 000000000000..001a30910d09
---- /dev/null
-+++ b/Documentation/laptops/index.rst
-@@ -0,0 +1,17 @@
-+:orphan:
-+
-+==============
-+Laptop Drivers
-+==============
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   asus-laptop
-+   disk-shock-protection
-+   laptop-mode
-+   lg-laptop
-+   sony-laptop
-+   sonypi
-+   thinkpad-acpi
-+   toshiba_haps
-diff --git a/Documentation/laptops/laptop-mode.txt b/Documentation/laptops/laptop-mode.rst
-similarity index 62%
-rename from Documentation/laptops/laptop-mode.txt
-rename to Documentation/laptops/laptop-mode.rst
-index 1c707fc9b141..c984c4262f2e 100644
---- a/Documentation/laptops/laptop-mode.txt
-+++ b/Documentation/laptops/laptop-mode.rst
-@@ -1,8 +1,11 @@
-+===============================================
- How to conserve battery power using laptop-mode
-------------------------------------------------
-+===============================================
- 
- Document Author: Bart Samwel (bart@samwel.tk)
-+
- Date created: January 2, 2004
-+
- Last modified: December 06, 2004
- 
- Introduction
-@@ -12,17 +15,16 @@ Laptop mode is used to minimize the time that the hard disk needs to be spun up,
- to conserve battery power on laptops. It has been reported to cause significant
- power savings.
- 
--Contents
----------
-+.. Contents
- 
--* Introduction
--* Installation
--* Caveats
--* The Details
--* Tips & Tricks
--* Control script
--* ACPI integration
--* Monitoring tool
-+   * Introduction
-+   * Installation
-+   * Caveats
-+   * The Details
-+   * Tips & Tricks
-+   * Control script
-+   * ACPI integration
-+   * Monitoring tool
- 
- 
- Installation
-@@ -33,7 +35,7 @@ or anything. Simply install all the files included in this document, and
- laptop mode will automatically be started when you're on battery. For
- your convenience, a tarball containing an installer can be downloaded at:
- 
--http://www.samwel.tk/laptop_mode/laptop_mode/
-+	http://www.samwel.tk/laptop_mode/laptop_mode/
- 
- To configure laptop mode, you need to edit the configuration file, which is
- located in /etc/default/laptop-mode on Debian-based systems, or in
-@@ -209,7 +211,7 @@ Tips & Tricks
-   this on powerbooks too. I hope that this is a piece of information that
-   might be useful to the Laptop Mode patch or its users."
- 
--* In syslog.conf, you can prefix entries with a dash ``-'' to omit syncing the
-+* In syslog.conf, you can prefix entries with a dash `-` to omit syncing the
-   file after every logging. When you're using laptop-mode and your disk doesn't
-   spin down, this is a likely culprit.
- 
-@@ -233,83 +235,82 @@ configuration file
- It should be installed as /etc/default/laptop-mode on Debian, and as
- /etc/sysconfig/laptop-mode on Red Hat, SUSE, Mandrake, and other work-alikes.
- 
----------------------CONFIG FILE BEGIN-------------------------------------------
--# Maximum time, in seconds, of hard drive spindown time that you are
--# comfortable with. Worst case, it's possible that you could lose this
--# amount of work if your battery fails you while in laptop mode.
--#MAX_AGE=600
-+Config file::
- 
--# Automatically disable laptop mode when the number of minutes of battery
--# that you have left goes below this threshold.
--MINIMUM_BATTERY_MINUTES=10
-+  # Maximum time, in seconds, of hard drive spindown time that you are
-+  # comfortable with. Worst case, it's possible that you could lose this
-+  # amount of work if your battery fails you while in laptop mode.
-+  #MAX_AGE=600
- 
--# Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
--# by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
--# will read a complete MP3 at once, and will then spin down while the MP3/OGG is
--# playing.
--#READAHEAD=4096
-+  # Automatically disable laptop mode when the number of minutes of battery
-+  # that you have left goes below this threshold.
-+  MINIMUM_BATTERY_MINUTES=10
- 
--# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
--#DO_REMOUNTS=1
-+  # Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
-+  # by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
-+  # will read a complete MP3 at once, and will then spin down while the MP3/OGG is
-+  # playing.
-+  #READAHEAD=4096
- 
--# And shall we add the "noatime" option to that as well? (1=yes)
--#DO_REMOUNT_NOATIME=1
-+  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
-+  #DO_REMOUNTS=1
- 
--# Dirty synchronous ratio.  At this percentage of dirty pages the process
--# which
--# calls write() does its own writeback
--#DIRTY_RATIO=40
-+  # And shall we add the "noatime" option to that as well? (1=yes)
-+  #DO_REMOUNT_NOATIME=1
- 
--#
--# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
--# exceeded, the kernel will wake flusher threads which will then reduce the
--# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
--# so once some writeout has commenced, we do a lot of it.
--#
--#DIRTY_BACKGROUND_RATIO=5
-+  # Dirty synchronous ratio.  At this percentage of dirty pages the process
-+  # which
-+  # calls write() does its own writeback
-+  #DIRTY_RATIO=40
- 
--# kernel default dirty buffer age
--#DEF_AGE=30
--#DEF_UPDATE=5
--#DEF_DIRTY_BACKGROUND_RATIO=10
--#DEF_DIRTY_RATIO=40
--#DEF_XFS_AGE_BUFFER=15
--#DEF_XFS_SYNC_INTERVAL=30
--#DEF_XFS_BUFD_INTERVAL=1
-+  #
-+  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
-+  # exceeded, the kernel will wake flusher threads which will then reduce the
-+  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
-+  # so once some writeout has commenced, we do a lot of it.
-+  #
-+  #DIRTY_BACKGROUND_RATIO=5
- 
--# This must be adjusted manually to the value of HZ in the running kernel
--# on 2.4, until the XFS people change their 2.4 external interfaces to work in
--# centisecs. This can be automated, but it's a work in progress that still
--# needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
--# external interfaces, and that is currently always set to 100. So you don't
--# need to change this on 2.6.
--#XFS_HZ=100
-+  # kernel default dirty buffer age
-+  #DEF_AGE=30
-+  #DEF_UPDATE=5
-+  #DEF_DIRTY_BACKGROUND_RATIO=10
-+  #DEF_DIRTY_RATIO=40
-+  #DEF_XFS_AGE_BUFFER=15
-+  #DEF_XFS_SYNC_INTERVAL=30
-+  #DEF_XFS_BUFD_INTERVAL=1
- 
--# Should the maximum CPU frequency be adjusted down while on battery?
--# Requires CPUFreq to be setup.
--# See Documentation/admin-guide/pm/cpufreq.rst for more info
--#DO_CPU=0
-+  # This must be adjusted manually to the value of HZ in the running kernel
-+  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
-+  # centisecs. This can be automated, but it's a work in progress that still
-+  # needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
-+  # external interfaces, and that is currently always set to 100. So you don't
-+  # need to change this on 2.6.
-+  #XFS_HZ=100
- 
--# When on battery what is the maximum CPU speed that the system should
--# use? Legal values are "slowest" for the slowest speed that your
--# CPU is able to operate at, or a value listed in:
--# /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
--# Only applicable if DO_CPU=1.
--#CPU_MAXFREQ=slowest
-+  # Should the maximum CPU frequency be adjusted down while on battery?
-+  # Requires CPUFreq to be setup.
-+  # See Documentation/admin-guide/pm/cpufreq.rst for more info
-+  #DO_CPU=0
- 
--# Idle timeout for your hard drive (man hdparm for valid values, -S option)
--# Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
--#AC_HD=244
--#BATT_HD=4
-+  # When on battery what is the maximum CPU speed that the system should
-+  # use? Legal values are "slowest" for the slowest speed that your
-+  # CPU is able to operate at, or a value listed in:
-+  # /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
-+  # Only applicable if DO_CPU=1.
-+  #CPU_MAXFREQ=slowest
- 
--# The drives for which to adjust the idle timeout. Separate them by a space,
--# e.g. HD="/dev/hda /dev/hdb".
--#HD="/dev/hda"
-+  # Idle timeout for your hard drive (man hdparm for valid values, -S option)
-+  # Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
-+  #AC_HD=244
-+  #BATT_HD=4
- 
--# Set the spindown timeout on a hard drive?
--#DO_HD=1
-+  # The drives for which to adjust the idle timeout. Separate them by a space,
-+  # e.g. HD="/dev/hda /dev/hdb".
-+  #HD="/dev/hda"
- 
----------------------CONFIG FILE END---------------------------------------------
-+  # Set the spindown timeout on a hard drive?
-+  #DO_HD=1
- 
- 
- Control script
-@@ -318,125 +319,126 @@ Control script
- Please note that this control script works for the Linux 2.4 and 2.6 series (thanks
- to Kiko Piris).
- 
----------------------CONTROL SCRIPT BEGIN----------------------------------------
--#!/bin/bash
-+Control script::
- 
--# start or stop laptop_mode, best run by a power management daemon when
--# ac gets connected/disconnected from a laptop
--#
--# install as /sbin/laptop_mode
--#
--# Contributors to this script:   Kiko Piris
--#				 Bart Samwel
--#				 Micha Feigin
--#				 Andrew Morton
--#				 Herve Eychenne
--#				 Dax Kelson
--#
--# Original Linux 2.4 version by: Jens Axboe
-+  #!/bin/bash
- 
--#############################################################################
-+  # start or stop laptop_mode, best run by a power management daemon when
-+  # ac gets connected/disconnected from a laptop
-+  #
-+  # install as /sbin/laptop_mode
-+  #
-+  # Contributors to this script:   Kiko Piris
-+  #				 Bart Samwel
-+  #				 Micha Feigin
-+  #				 Andrew Morton
-+  #				 Herve Eychenne
-+  #				 Dax Kelson
-+  #
-+  # Original Linux 2.4 version by: Jens Axboe
- 
--# Source config
--if [ -f /etc/default/laptop-mode ] ; then
-+  #############################################################################
-+
-+  # Source config
-+  if [ -f /etc/default/laptop-mode ] ; then
- 	# Debian
- 	. /etc/default/laptop-mode
--elif [ -f /etc/sysconfig/laptop-mode ] ; then
-+  elif [ -f /etc/sysconfig/laptop-mode ] ; then
- 	# Others
--        . /etc/sysconfig/laptop-mode
--fi
-+          . /etc/sysconfig/laptop-mode
-+  fi
- 
--# Don't raise an error if the config file is incomplete
--# set defaults instead:
-+  # Don't raise an error if the config file is incomplete
-+  # set defaults instead:
- 
--# Maximum time, in seconds, of hard drive spindown time that you are
--# comfortable with. Worst case, it's possible that you could lose this
--# amount of work if your battery fails you while in laptop mode.
--MAX_AGE=${MAX_AGE:-'600'}
-+  # Maximum time, in seconds, of hard drive spindown time that you are
-+  # comfortable with. Worst case, it's possible that you could lose this
-+  # amount of work if your battery fails you while in laptop mode.
-+  MAX_AGE=${MAX_AGE:-'600'}
- 
--# Read-ahead, in kilobytes
--READAHEAD=${READAHEAD:-'4096'}
-+  # Read-ahead, in kilobytes
-+  READAHEAD=${READAHEAD:-'4096'}
- 
--# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
--DO_REMOUNTS=${DO_REMOUNTS:-'1'}
-+  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
-+  DO_REMOUNTS=${DO_REMOUNTS:-'1'}
- 
--# And shall we add the "noatime" option to that as well? (1=yes)
--DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
-+  # And shall we add the "noatime" option to that as well? (1=yes)
-+  DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
- 
--# Shall we adjust the idle timeout on a hard drive?
--DO_HD=${DO_HD:-'1'}
-+  # Shall we adjust the idle timeout on a hard drive?
-+  DO_HD=${DO_HD:-'1'}
- 
--# Adjust idle timeout on which hard drive?
--HD="${HD:-'/dev/hda'}"
-+  # Adjust idle timeout on which hard drive?
-+  HD="${HD:-'/dev/hda'}"
- 
--# spindown time for HD (hdparm -S values)
--AC_HD=${AC_HD:-'244'}
--BATT_HD=${BATT_HD:-'4'}
-+  # spindown time for HD (hdparm -S values)
-+  AC_HD=${AC_HD:-'244'}
-+  BATT_HD=${BATT_HD:-'4'}
- 
--# Dirty synchronous ratio.  At this percentage of dirty pages the process which
--# calls write() does its own writeback
--DIRTY_RATIO=${DIRTY_RATIO:-'40'}
-+  # Dirty synchronous ratio.  At this percentage of dirty pages the process which
-+  # calls write() does its own writeback
-+  DIRTY_RATIO=${DIRTY_RATIO:-'40'}
- 
--# cpu frequency scaling
--# See Documentation/admin-guide/pm/cpufreq.rst for more info
--DO_CPU=${CPU_MANAGE:-'0'}
--CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
-+  # cpu frequency scaling
-+  # See Documentation/admin-guide/pm/cpufreq.rst for more info
-+  DO_CPU=${CPU_MANAGE:-'0'}
-+  CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
- 
--#
--# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
--# exceeded, the kernel will wake flusher threads which will then reduce the
--# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
--# so once some writeout has commenced, we do a lot of it.
--#
--DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
-+  #
-+  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
-+  # exceeded, the kernel will wake flusher threads which will then reduce the
-+  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
-+  # so once some writeout has commenced, we do a lot of it.
-+  #
-+  DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
- 
--# kernel default dirty buffer age
--DEF_AGE=${DEF_AGE:-'30'}
--DEF_UPDATE=${DEF_UPDATE:-'5'}
--DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
--DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
--DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
--DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
--DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
-+  # kernel default dirty buffer age
-+  DEF_AGE=${DEF_AGE:-'30'}
-+  DEF_UPDATE=${DEF_UPDATE:-'5'}
-+  DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
-+  DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
-+  DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
-+  DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
-+  DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
- 
--# This must be adjusted manually to the value of HZ in the running kernel
--# on 2.4, until the XFS people change their 2.4 external interfaces to work in
--# centisecs. This can be automated, but it's a work in progress that still needs
--# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
--# interfaces, and that is currently always set to 100. So you don't need to
--# change this on 2.6.
--XFS_HZ=${XFS_HZ:-'100'}
-+  # This must be adjusted manually to the value of HZ in the running kernel
-+  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
-+  # centisecs. This can be automated, but it's a work in progress that still needs
-+  # some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
-+  # interfaces, and that is currently always set to 100. So you don't need to
-+  # change this on 2.6.
-+  XFS_HZ=${XFS_HZ:-'100'}
- 
--#############################################################################
-+  #############################################################################
- 
--KLEVEL="$(uname -r |
--             {
-+  KLEVEL="$(uname -r |
-+               {
- 	       IFS='.' read a b c
- 	       echo $a.$b
- 	     }
--)"
--case "$KLEVEL" in
-+  )"
-+  case "$KLEVEL" in
- 	"2.4"|"2.6")
- 		;;
- 	*)
- 		echo "Unhandled kernel version: $KLEVEL ('uname -r' = '$(uname -r)')" >&2
- 		exit 1
- 		;;
--esac
-+  esac
- 
--if [ ! -e /proc/sys/vm/laptop_mode ] ; then
-+  if [ ! -e /proc/sys/vm/laptop_mode ] ; then
- 	echo "Kernel is not patched with laptop_mode patch." >&2
- 	exit 1
--fi
-+  fi
- 
--if [ ! -w /proc/sys/vm/laptop_mode ] ; then
-+  if [ ! -w /proc/sys/vm/laptop_mode ] ; then
- 	echo "You do not have enough privileges to enable laptop_mode." >&2
- 	exit 1
--fi
-+  fi
- 
--# Remove an option (the first parameter) of the form option=<number> from
--# a mount options string (the rest of the parameters).
--parse_mount_opts () {
-+  # Remove an option (the first parameter) of the form option=<number> from
-+  # a mount options string (the rest of the parameters).
-+  parse_mount_opts () {
- 	OPT="$1"
- 	shift
- 	echo ",$*," | sed		\
-@@ -444,11 +446,11 @@ parse_mount_opts () {
- 	 -e 's/,,*/,/g'			\
- 	 -e 's/^,//'			\
- 	 -e 's/,$//'
--}
-+  }
- 
--# Remove an option (the first parameter) without any arguments from
--# a mount option string (the rest of the parameters).
--parse_nonumber_mount_opts () {
-+  # Remove an option (the first parameter) without any arguments from
-+  # a mount option string (the rest of the parameters).
-+  parse_nonumber_mount_opts () {
- 	OPT="$1"
- 	shift
- 	echo ",$*," | sed		\
-@@ -456,20 +458,20 @@ parse_nonumber_mount_opts () {
- 	 -e 's/,,*/,/g'			\
- 	 -e 's/^,//'			\
- 	 -e 's/,$//'
--}
-+  }
- 
--# Find out the state of a yes/no option (e.g. "atime"/"noatime") in
--# fstab for a given filesystem, and use this state to replace the
--# value of the option in another mount options string. The device
--# is the first argument, the option name the second, and the default
--# value the third. The remainder is the mount options string.
--#
--# Example:
--# parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
--#
--# If fstab contains, say, "rw" for this filesystem, then the result
--# will be "defaults,atime".
--parse_yesno_opts_wfstab () {
-+  # Find out the state of a yes/no option (e.g. "atime"/"noatime") in
-+  # fstab for a given filesystem, and use this state to replace the
-+  # value of the option in another mount options string. The device
-+  # is the first argument, the option name the second, and the default
-+  # value the third. The remainder is the mount options string.
-+  #
-+  # Example:
-+  # parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
-+  #
-+  # If fstab contains, say, "rw" for this filesystem, then the result
-+  # will be "defaults,atime".
-+  parse_yesno_opts_wfstab () {
- 	L_DEV="$1"
- 	OPT="$2"
- 	DEF_OPT="$3"
-@@ -491,21 +493,21 @@ parse_yesno_opts_wfstab () {
- 		# option not specified in fstab -- choose the default.
- 		echo "$PARSEDOPTS1,$DEF_OPT"
- 	fi
--}
-+  }
- 
--# Find out the state of a numbered option (e.g. "commit=NNN") in
--# fstab for a given filesystem, and use this state to replace the
--# value of the option in another mount options string. The device
--# is the first argument, and the option name the second. The
--# remainder is the mount options string in which the replacement
--# must be done.
--#
--# Example:
--# parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
--#
--# If fstab contains, say, "commit=3,rw" for this filesystem, then the
--# result will be "rw,commit=3".
--parse_mount_opts_wfstab () {
-+  # Find out the state of a numbered option (e.g. "commit=NNN") in
-+  # fstab for a given filesystem, and use this state to replace the
-+  # value of the option in another mount options string. The device
-+  # is the first argument, and the option name the second. The
-+  # remainder is the mount options string in which the replacement
-+  # must be done.
-+  #
-+  # Example:
-+  # parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
-+  #
-+  # If fstab contains, say, "commit=3,rw" for this filesystem, then the
-+  # result will be "rw,commit=3".
-+  parse_mount_opts_wfstab () {
- 	L_DEV="$1"
- 	OPT="$2"
- 	shift 2
-@@ -523,9 +525,9 @@ parse_mount_opts_wfstab () {
- 		# option not specified in fstab: set it to 0
- 		echo "$PARSEDOPTS1,$OPT=0"
- 	fi
--}
-+  }
- 
--deduce_fstype () {
-+  deduce_fstype () {
- 	MP="$1"
- 	# My root filesystem unfortunately has
- 	# type "unknown" in /etc/mtab. If we encounter
-@@ -538,13 +540,13 @@ deduce_fstype () {
- 			exit 0
- 		fi
- 	done
--}
-+  }
- 
--if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
-+  if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
- 	NOATIME_OPT=",noatime"
--fi
-+  fi
- 
--case "$1" in
-+  case "$1" in
- 	start)
- 		AGE=$((100*$MAX_AGE))
- 		XFS_AGE=$(($XFS_HZ*$MAX_AGE))
-@@ -687,10 +689,9 @@ case "$1" in
- 		exit 1
- 		;;
- 
--esac
-+  esac
- 
--exit 0
----------------------CONTROL SCRIPT END------------------------------------------
-+  exit 0
- 
- 
- ACPI integration
-@@ -701,78 +702,76 @@ kick off the laptop_mode script and run hdparm. The part that
- automatically disables laptop mode when the battery is low was
- written by Jan Topinski.
- 
-------------------/etc/acpi/events/ac_adapter BEGIN------------------------------
--event=ac_adapter
--action=/etc/acpi/actions/ac.sh %e
------------------/etc/acpi/events/ac_adapter END---------------------------------
-+/etc/acpi/events/ac_adapter::
- 
-+	event=ac_adapter
-+	action=/etc/acpi/actions/ac.sh %e
- 
-------------------/etc/acpi/events/battery BEGIN---------------------------------
--event=battery.*
--action=/etc/acpi/actions/battery.sh %e
------------------/etc/acpi/events/battery END------------------------------------
-+/etc/acpi/events/battery::
- 
-+	event=battery.*
-+	action=/etc/acpi/actions/battery.sh %e
- 
------------------/etc/acpi/actions/ac.sh BEGIN-----------------------------------
--#!/bin/bash
-+/etc/acpi/actions/ac.sh::
- 
--# ac on/offline event handler
-+  #!/bin/bash
- 
--status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
-+  # ac on/offline event handler
- 
--case $status in
--        "on-line")
--                /sbin/laptop_mode stop
--                exit 0
--        ;;
--        "off-line")
--                /sbin/laptop_mode start
--                exit 0
--        ;;
--esac
-----------------------------/etc/acpi/actions/ac.sh END--------------------------
-+  status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
- 
-+  case $status in
-+          "on-line")
-+                  /sbin/laptop_mode stop
-+                  exit 0
-+          ;;
-+          "off-line")
-+                  /sbin/laptop_mode start
-+                  exit 0
-+          ;;
-+  esac
- 
-----------------------------/etc/acpi/actions/battery.sh BEGIN-------------------
--#! /bin/bash
- 
--# Automatically disable laptop mode when the battery almost runs out.
-+/etc/acpi/actions/battery.sh::
- 
--BATT_INFO=/proc/acpi/battery/$2/state
-+  #! /bin/bash
- 
--if [[ -f /proc/sys/vm/laptop_mode ]]
--then
--   LM=`cat /proc/sys/vm/laptop_mode`
--   if [[ $LM -gt 0 ]]
--   then
--     if [[ -f $BATT_INFO ]]
-+  # Automatically disable laptop mode when the battery almost runs out.
-+
-+  BATT_INFO=/proc/acpi/battery/$2/state
-+
-+  if [[ -f /proc/sys/vm/laptop_mode ]]
-+  then
-+     LM=`cat /proc/sys/vm/laptop_mode`
-+     if [[ $LM -gt 0 ]]
-      then
--        # Source the config file only now that we know we need
--        if [ -f /etc/default/laptop-mode ] ; then
--                # Debian
--                . /etc/default/laptop-mode
--        elif [ -f /etc/sysconfig/laptop-mode ] ; then
--                # Others
--                . /etc/sysconfig/laptop-mode
--        fi
--        MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
-+       if [[ -f $BATT_INFO ]]
-+       then
-+          # Source the config file only now that we know we need
-+          if [ -f /etc/default/laptop-mode ] ; then
-+                  # Debian
-+                  . /etc/default/laptop-mode
-+          elif [ -f /etc/sysconfig/laptop-mode ] ; then
-+                  # Others
-+                  . /etc/sysconfig/laptop-mode
-+          fi
-+          MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
- 
--        ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
--        if [[ ACTION -eq "discharging" ]]
--        then
--           PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
--           REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
--        fi
--        if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
--        then
--           /sbin/laptop_mode stop
--        fi
--     else
--       logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
-+          ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
-+          if [[ ACTION -eq "discharging" ]]
-+          then
-+             PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
-+             REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
-+          fi
-+          if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
-+          then
-+             /sbin/laptop_mode stop
-+          fi
-+       else
-+         logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
-+       fi
-      fi
--   fi
--fi
-----------------------------/etc/acpi/actions/battery.sh END--------------------
-+  fi
- 
- 
- Monitoring tool
-diff --git a/Documentation/laptops/sony-laptop.txt b/Documentation/laptops/sony-laptop.rst
-similarity index 85%
-rename from Documentation/laptops/sony-laptop.txt
-rename to Documentation/laptops/sony-laptop.rst
-index 978b1e615155..9edcc7f6612f 100644
---- a/Documentation/laptops/sony-laptop.txt
-+++ b/Documentation/laptops/sony-laptop.rst
-@@ -1,7 +1,9 @@
-+=========================================
- Sony Notebook Control Driver (SNC) Readme
-------------------------------------------
--	Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
--	Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
-+=========================================
-+
-+	- Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
-+	- Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
- 
- This mini-driver drives the SNC and SPIC device present in the ACPI BIOS of the
- Sony Vaio laptops. This driver mixes both devices functions under the same
-@@ -10,6 +12,7 @@ obsoleted by sony-laptop now.
- 
- Fn keys (hotkeys):
+    zImage.%:		Image format which does not embed a device tree.
+ 			Used by OpenFirmware and other firmware interfaces
+ 			which are able to supply a device tree.  This image
+ 			expects firmware to provide the device tree at boot.
+ 			Typically, if you have general purpose PowerPC
+ 			hardware then you want this image format.
++   ==================== ========================================================
+ 
+ Image types which embed a device tree blob (simpleImage, dtbImage, treeImage,
+ and cuImage) all generate the device tree blob from a file in the
+diff --git a/Documentation/powerpc/cpu_families.txt b/Documentation/powerpc/cpu_families.rst
+similarity index 95%
+rename from Documentation/powerpc/cpu_families.txt
+rename to Documentation/powerpc/cpu_families.rst
+index fc08e22feb1a..1e063c5440c3 100644
+--- a/Documentation/powerpc/cpu_families.txt
++++ b/Documentation/powerpc/cpu_families.rst
+@@ -1,3 +1,4 @@
++============
+ CPU Families
+ ============
+ 
+@@ -8,8 +9,8 @@ and are supported by arch/powerpc.
+ Book3S (aka sPAPR)
  ------------------
-+
- Some models report hotkeys through the SNC or SPIC devices, such events are
- reported both through the ACPI subsystem as acpi events and through the INPUT
- subsystem. See the logs of /proc/bus/input/devices to find out what those
-@@ -28,11 +31,14 @@ If your laptop model supports it, you will find sysfs files in the
- /sys/class/backlight/sony/
- directory. You will be able to query and set the current screen
- brightness:
-+
-+	======================	=========================================
- 	brightness		get/set screen brightness (an integer
- 				between 0 and 7)
- 	actual_brightness	reading from this file will query the HW
- 				to get real brightness value
- 	max_brightness		the maximum brightness value
-+	======================	=========================================
  
- 
- Platform specific:
-@@ -45,6 +51,8 @@ You then read/write integer values from/to those files by using
- standard UNIX tools.
- 
- The files are:
-+
-+	======================	==========================================
- 	brightness_default	screen brightness which will be set
- 				when the laptop will be rebooted
- 	cdpower			power on/off the internal CD drive
-@@ -53,21 +61,39 @@ The files are:
- 				(only in debug mode)
- 	bluetoothpower		power on/off the internal bluetooth device
- 	fanspeed		get/set the fan speed
-+	======================	==========================================
- 
- Note that some files may be missing if they are not supported
- by your particular laptop model.
- 
--Example usage:
-+Example usage::
-+
- 	# echo "1" > /sys/devices/platform/sony-laptop/brightness_default
--sets the lowest screen brightness for the next and later reboots,
-+
-+sets the lowest screen brightness for the next and later reboots
-+
-+::
-+
- 	# echo "8" > /sys/devices/platform/sony-laptop/brightness_default
--sets the highest screen brightness for the next and later reboots,
-+
-+sets the highest screen brightness for the next and later reboots
-+
-+::
-+
- 	# cat /sys/devices/platform/sony-laptop/brightness_default
--retrieves the value.
-+
-+retrieves the value
-+
-+::
- 
- 	# echo "0" > /sys/devices/platform/sony-laptop/audiopower
--powers off the sound card,
-+
-+powers off the sound card
-+
-+::
-+
- 	# echo "1" > /sys/devices/platform/sony-laptop/audiopower
-+
- powers on the sound card.
- 
- 
-@@ -76,7 +102,8 @@ RFkill control:
- More recent Vaio models expose a consistent set of ACPI methods to
- control radio frequency emitting devices. If you are a lucky owner of
- such a laptop you will find the necessary rfkill devices under
--/sys/class/rfkill. Check those starting with sony-* in
-+/sys/class/rfkill. Check those starting with sony-* in::
-+
- 	# grep . /sys/class/rfkill/*/{state,name}
- 
- 
-@@ -88,26 +115,29 @@ you are not afraid of any side effects doing strange things with
- your ACPI BIOS could have on your laptop), load the driver and
- pass the option 'debug=1'.
- 
--REPEAT: DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.
-+REPEAT:
-+	**DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.**
- 
- In your kernel logs you will find the list of all ACPI methods
- the SNC device has on your laptop.
- 
- * For new models you will see a long list of meaningless method names,
--reading the DSDT table source should reveal that:
-+  reading the DSDT table source should reveal that:
-+
- (1) the SNC device uses an internal capability lookup table
- (2) SN00 is used to find values in the lookup table
- (3) SN06 and SN07 are used to call into the real methods based on
-     offsets you can obtain iterating the table using SN00
- (4) SN02 used to enable events.
-+
- Some values in the capability lookup table are more or less known, see
- the code for all sony_call_snc_handle calls, others are more obscure.
- 
- * For old models you can see the GCDP/GCDP methods used to pwer on/off
--the CD drive, but there are others and they are usually different from
--model to model.
-+  the CD drive, but there are others and they are usually different from
-+  model to model.
- 
--I HAVE NO IDEA WHAT THOSE METHODS DO.
-+**I HAVE NO IDEA WHAT THOSE METHODS DO.**
- 
- The sony-laptop driver creates, for some of those methods (the most
- current ones found on several Vaio models), an entry under
-diff --git a/Documentation/laptops/sonypi.txt b/Documentation/laptops/sonypi.rst
-similarity index 87%
-rename from Documentation/laptops/sonypi.txt
-rename to Documentation/laptops/sonypi.rst
-index 606bdb9ce036..2a1975ed7ee4 100644
---- a/Documentation/laptops/sonypi.txt
-+++ b/Documentation/laptops/sonypi.rst
-@@ -1,11 +1,13 @@
-+==================================================
- Sony Programmable I/O Control Device Driver Readme
----------------------------------------------------
--	Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
--	Copyright (C) 2001-2002 Alcôve <www.alcove.com>
--	Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
--	Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
--	Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
--	Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
-+==================================================
-+
-+	- Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
-+	- Copyright (C) 2001-2002 Alcôve <www.alcove.com>
-+	- Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
-+	- Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
-+	- Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
-+	- Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
- 
- This driver enables access to the Sony Programmable I/O Control Device which
- can be found in many Sony Vaio laptops. Some newer Sony laptops (seems to be
-@@ -14,6 +16,7 @@ sonypi device and are not supported at all by this driver.
- 
- It will give access (through a user space utility) to some events those laptops
- generate, like:
-+
- 	- jogdial events (the small wheel on the side of Vaios)
- 	- capture button events (only on Vaio Picturebook series)
- 	- Fn keys
-@@ -49,6 +52,7 @@ module argument syntax (<param>=<value> when passing the option to the
- module or sonypi.<param>=<value> on the kernel boot line when sonypi is
- statically linked into the kernel). Those options are:
- 
-+	=============== =======================================================
- 	minor: 		minor number of the misc device /dev/sonypi,
- 			default is -1 (automatic allocation, see /proc/misc
- 			or kernel logs)
-@@ -86,6 +90,8 @@ statically linked into the kernel). Those options are:
- 			will be tried. You can use the following bits to
- 			construct your own event mask (from
- 			drivers/char/sonypi.h):
-+
-+				========================	======
- 				SONYPI_JOGGER_MASK 		0x0001
- 				SONYPI_CAPTURE_MASK 		0x0002
- 				SONYPI_FNKEY_MASK 		0x0004
-@@ -100,22 +106,24 @@ statically linked into the kernel). Those options are:
- 				SONYPI_MEMORYSTICK_MASK		0x0800
- 				SONYPI_BATTERY_MASK		0x1000
- 				SONYPI_WIRELESS_MASK		0x2000
-+				========================	======
- 
- 	useinput:	if set (which is the default) two input devices are
- 			created, one which interprets the jogdial events as
- 			mouse events, the other one which acts like a
- 			keyboard reporting the pressing of the special keys.
-+	=============== =======================================================
- 
- Module use:
- -----------
- 
- In order to automatically load the sonypi module on use, you can put those
--lines a configuration file in /etc/modprobe.d/:
-+lines a configuration file in /etc/modprobe.d/::
- 
- 	alias char-major-10-250 sonypi
- 	options sonypi minor=250
- 
--This supposes the use of minor 250 for the sonypi device:
-+This supposes the use of minor 250 for the sonypi device::
- 
- 	# mknod /dev/sonypi c 10 250
- 
-@@ -148,5 +156,5 @@ Bugs:
- 	  http://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
- 
- 	- since all development was done by reverse engineering, there is
--	  _absolutely no guarantee_ that this driver will not crash your
-+	  *absolutely no guarantee* that this driver will not crash your
- 	  laptop. Permanently.
-diff --git a/Documentation/laptops/thinkpad-acpi.txt b/Documentation/laptops/thinkpad-acpi.rst
-similarity index 89%
-rename from Documentation/laptops/thinkpad-acpi.txt
-rename to Documentation/laptops/thinkpad-acpi.rst
-index 75ef063622d2..19d52fc3c5e9 100644
---- a/Documentation/laptops/thinkpad-acpi.txt
-+++ b/Documentation/laptops/thinkpad-acpi.rst
-@@ -1,12 +1,15 @@
--		     ThinkPad ACPI Extras Driver
-+===========================
-+ThinkPad ACPI Extras Driver
-+===========================
- 
--                            Version 0.25
--                        October 16th,  2013
-+Version 0.25
- 
--               Borislav Deianov <borislav@users.sf.net>
--             Henrique de Moraes Holschuh <hmh@hmh.eng.br>
--                      http://ibm-acpi.sf.net/
-+October 16th,  2013
- 
-+- Borislav Deianov <borislav@users.sf.net>
-+- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-+
-+http://ibm-acpi.sf.net/
- 
- This is a Linux driver for the IBM and Lenovo ThinkPad laptops. It
- supports various features of these laptops which are accessible
-@@ -91,7 +94,8 @@ yet ready or stabilized, it is expected that this interface will change,
- and any and all userspace programs must deal with it.
- 
- 
--Notes about the sysfs interface:
-+Notes about the sysfs interface
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- Unlike what was done with the procfs interface, correctness when talking
- to the sysfs interfaces will be enforced, as will correctness in the
-@@ -129,6 +133,7 @@ Driver version
- --------------
- 
- procfs: /proc/acpi/ibm/driver
-+
- sysfs driver attribute: version
- 
- The driver name and version. No commands can be written to this file.
-@@ -141,9 +146,13 @@ sysfs driver attribute: interface_version
- 
- Version of the thinkpad-acpi sysfs interface, as an unsigned long
- (output in hex format: 0xAAAABBCC), where:
--	AAAA - major revision
--	BB - minor revision
--	CC - bugfix revision
-+
-+	AAAA
-+	  - major revision
-+	BB
-+	  - minor revision
-+	CC
-+	  - bugfix revision
- 
- The sysfs interface version changelog for the driver can be found at the
- end of this document.  Changes to the sysfs interface done by the kernel
-@@ -170,6 +179,7 @@ Hot keys
- --------
- 
- procfs: /proc/acpi/ibm/hotkey
-+
- sysfs device attribute: hotkey_*
- 
- In a ThinkPad, the ACPI HKEY handler is responsible for communicating
-@@ -181,7 +191,7 @@ firmware will behave in many situations.
- The driver enables the HKEY ("hot key") event reporting automatically
- when loaded, and disables it when it is removed.
- 
--The driver will report HKEY events in the following format:
-+The driver will report HKEY events in the following format::
- 
- 	ibm/hotkey HKEY 00000080 0000xxxx
- 
-@@ -217,9 +227,10 @@ ThinkPads, it is still possible to support some extra hotkeys by
- polling the "CMOS NVRAM" at least 10 times per second.  The driver
- attempts to enables this functionality automatically when required.
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
--The following commands can be written to the /proc/acpi/ibm/hotkey file:
-+The following commands can be written to the /proc/acpi/ibm/hotkey file::
- 
- 	echo 0xffffffff > /proc/acpi/ibm/hotkey -- enable all hot keys
- 	echo 0 > /proc/acpi/ibm/hotkey -- disable all possible hot keys
-@@ -227,7 +238,7 @@ The following commands can be written to the /proc/acpi/ibm/hotkey file:
- 	echo reset > /proc/acpi/ibm/hotkey -- restore the recommended mask
- 
- The following commands have been deprecated and will cause the kernel
--to log a warning:
-+to log a warning::
- 
- 	echo enable > /proc/acpi/ibm/hotkey -- does nothing
- 	echo disable > /proc/acpi/ibm/hotkey -- returns an error
-@@ -237,7 +248,8 @@ maintain maximum bug-to-bug compatibility, it does not report any masks,
- nor does it allow one to manipulate the hot key mask when the firmware
- does not support masks at all, even if NVRAM polling is in use.
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- 	hotkey_bios_enabled:
- 		DEPRECATED, WILL BE REMOVED SOON.
-@@ -349,7 +361,8 @@ sysfs notes:
- 
- 		This attribute has poll()/select() support.
- 
--input layer notes:
-+input layer notes
-+^^^^^^^^^^^^^^^^^
- 
- A Hot key is mapped to a single input layer EV_KEY event, possibly
- followed by an EV_MSC MSC_SCAN event that shall contain that key's scan
-@@ -362,11 +375,13 @@ remapping KEY_UNKNOWN keys.
- 
- The events are available in an input device, with the following id:
- 
--	Bus:		BUS_HOST
--	vendor:		0x1014 (PCI_VENDOR_ID_IBM)  or
-+	==============  ==============================
-+	Bus		BUS_HOST
-+	vendor		0x1014 (PCI_VENDOR_ID_IBM)  or
- 			0x17aa (PCI_VENDOR_ID_LENOVO)
--	product:	0x5054 ("TP")
--	version:	0x4101
-+	product		0x5054 ("TP")
-+	version		0x4101
-+	==============  ==============================
- 
- The version will have its LSB incremented if the keymap changes in a
- backwards-compatible way.  The MSB shall always be 0x41 for this input
-@@ -380,9 +395,10 @@ backwards-compatible change for this input device.
- 
- Thinkpad-acpi Hot Key event map (version 0x4101):
- 
-+=======	=======	==============	==============================================
- ACPI	Scan
- event	code	Key		Notes
--
-+=======	=======	==============	==============================================
- 0x1001	0x00	FN+F1		-
- 
- 0x1002	0x01	FN+F2		IBM: battery (rare)
-@@ -426,7 +442,9 @@ event	code	Key		Notes
- 				or toggle screen expand
- 
- 0x1009	0x08	FN+F9		-
--	..	..		..
-+
-+...	...	...		...
-+
- 0x100B	0x0A	FN+F11		-
- 
- 0x100C	0x0B	FN+F12		Sleep to disk.  You are always
-@@ -480,8 +498,11 @@ event	code	Key		Notes
- 0x1018	0x17	THINKPAD	ThinkPad/Access IBM/Lenovo key
- 
- 0x1019	0x18	unknown
--..	..	..
-+
-+...	...	...
-+
- 0x1020	0x1F	unknown
-+=======	=======	==============	==============================================
- 
- The ThinkPad firmware does not allow one to differentiate when most hot
- keys are pressed or released (either that, or we don't know how to, yet).
-@@ -499,14 +520,17 @@ generate input device EV_KEY events.
- In addition to the EV_KEY events, thinkpad-acpi may also issue EV_SW
- events for switches:
- 
-+==============	==============================================
- SW_RFKILL_ALL	T60 and later hardware rfkill rocker switch
- SW_TABLET_MODE	Tablet ThinkPads HKEY events 0x5009 and 0x500A
-+==============	==============================================
- 
--Non hotkey ACPI HKEY event map:
---------------------------------
-+Non hotkey ACPI HKEY event map
-+------------------------------
- 
- Events that are never propagated by the driver:
- 
-+======		==================================================
- 0x2304		System is waking up from suspend to undock
- 0x2305		System is waking up from suspend to eject bay
- 0x2404		System is waking up from hibernation to undock
-@@ -519,10 +543,12 @@ Events that are never propagated by the driver:
- 0x6000		KEYBOARD: Numlock key pressed
- 0x6005		KEYBOARD: Fn key pressed (TO BE VERIFIED)
- 0x7000		Radio Switch may have changed state
-+======		==================================================
- 
- 
- Events that are propagated by the driver to userspace:
- 
-+======		=====================================================
- 0x2313		ALARM: System is waking up from suspend because
- 		the battery is nearly empty
- 0x2413		ALARM: System is waking up from hibernation because
-@@ -544,6 +570,7 @@ Events that are propagated by the driver to userspace:
- 0x6040		Nvidia Optimus/AC adapter related (TO BE VERIFIED)
- 0x60C0		X1 Yoga 2016, Tablet mode status changed
- 0x60F0		Thermal Transformation changed (GMTS, Windows)
-+======		=====================================================
- 
- Battery nearly empty alarms are a last resort attempt to get the
- operating system to hibernate or shutdown cleanly (0x2313), or shutdown
-@@ -562,7 +589,8 @@ cycle, or a system shutdown.  Obviously, something is very wrong if this
- happens.
- 
- 
--Brightness hotkey notes:
-+Brightness hotkey notes
-+^^^^^^^^^^^^^^^^^^^^^^^
- 
- Don't mess with the brightness hotkeys in a Thinkpad.  If you want
- notifications for OSD, use the sysfs backlight class event support.
-@@ -579,7 +607,9 @@ Bluetooth
+- - Hash MMU
+- - Mix of 32 & 64 bit
++- Hash MMU
++- Mix of 32 & 64 bit::
+ 
+    +--------------+                 +----------------+
+    |  Old POWER   | --------------> | RS64 (threads) |
+@@ -108,8 +109,8 @@ Book3S (aka sPAPR)
+ IBM BookE
  ---------
  
- procfs: /proc/acpi/ibm/bluetooth
-+
- sysfs device attribute: bluetooth_enable (deprecated)
-+
- sysfs rfkill class: switch "tpacpi_bluetooth_sw"
+- - Software loaded TLB.
+- - All 32 bit
++- Software loaded TLB.
++- All 32 bit::
  
- This feature shows the presence and current state of a ThinkPad
-@@ -588,22 +618,25 @@ Bluetooth device in the internal ThinkPad CDC slot.
- If the ThinkPad supports it, the Bluetooth state is stored in NVRAM,
- so it is kept across reboots and power-off.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--If Bluetooth is installed, the following commands can be used:
-+If Bluetooth is installed, the following commands can be used::
- 
- 	echo enable > /proc/acpi/ibm/bluetooth
- 	echo disable > /proc/acpi/ibm/bluetooth
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- 	If the Bluetooth CDC card is installed, it can be enabled /
- 	disabled through the "bluetooth_enable" thinkpad-acpi device
- 	attribute, and its current status can also be queried.
- 
- 	enable:
--		0: disables Bluetooth / Bluetooth is disabled
--		1: enables Bluetooth / Bluetooth is enabled.
-+
-+		- 0: disables Bluetooth / Bluetooth is disabled
-+		- 1: enables Bluetooth / Bluetooth is enabled.
- 
- 	Note: this interface has been superseded by the	generic rfkill
- 	class.  It has been deprecated, and it will be removed in year
-@@ -617,7 +650,7 @@ Video output control -- /proc/acpi/ibm/video
- --------------------------------------------
- 
- This feature allows control over the devices used for video output -
--LCD, CRT or DVI (if available). The following commands are available:
-+LCD, CRT or DVI (if available). The following commands are available::
- 
- 	echo lcd_enable > /proc/acpi/ibm/video
- 	echo lcd_disable > /proc/acpi/ibm/video
-@@ -630,9 +663,10 @@ LCD, CRT or DVI (if available). The following commands are available:
- 	echo expand_toggle > /proc/acpi/ibm/video
- 	echo video_switch > /proc/acpi/ibm/video
- 
--NOTE: Access to this feature is restricted to processes owning the
--CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
--enough with some versions of X.org to crash it.
-+NOTE:
-+  Access to this feature is restricted to processes owning the
-+  CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
-+  enough with some versions of X.org to crash it.
- 
- Each video output device can be enabled or disabled individually.
- Reading /proc/acpi/ibm/video shows the status of each device.
-@@ -665,18 +699,21 @@ ThinkLight control
- ------------------
- 
- procfs: /proc/acpi/ibm/light
-+
- sysfs attributes: as per LED class, for the "tpacpi::thinklight" LED
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
- The ThinkLight status can be read and set through the procfs interface.  A
- few models which do not make the status available will show the ThinkLight
--status as "unknown". The available commands are:
-+status as "unknown". The available commands are::
- 
- 	echo on  > /proc/acpi/ibm/light
- 	echo off > /proc/acpi/ibm/light
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- The ThinkLight sysfs interface is documented by the LED class
- documentation, in Documentation/leds/leds-class.rst.  The ThinkLight LED name
-@@ -691,6 +728,7 @@ CMOS/UCMS control
- -----------------
- 
- procfs: /proc/acpi/ibm/cmos
-+
- sysfs device attribute: cmos_command
- 
- This feature is mostly used internally by the ACPI firmware to keep the legacy
-@@ -707,16 +745,16 @@ The range of valid cmos command numbers is 0 to 21, but not all have an
- effect and the behavior varies from model to model.  Here is the behavior
- on the X40 (tpb is the ThinkPad Buttons utility):
- 
--	0 - Related to "Volume down" key press
--	1 - Related to "Volume up" key press
--	2 - Related to "Mute on" key press
--	3 - Related to "Access IBM" key press
--	4 - Related to "LCD brightness up" key press
--	5 - Related to "LCD brightness down" key press
--	11 - Related to "toggle screen expansion" key press/function
--	12 - Related to "ThinkLight on"
--	13 - Related to "ThinkLight off"
--	14 - Related to "ThinkLight" key press (toggle ThinkLight)
-+	- 0 - Related to "Volume down" key press
-+	- 1 - Related to "Volume up" key press
-+	- 2 - Related to "Mute on" key press
-+	- 3 - Related to "Access IBM" key press
-+	- 4 - Related to "LCD brightness up" key press
-+	- 5 - Related to "LCD brightness down" key press
-+	- 11 - Related to "toggle screen expansion" key press/function
-+	- 12 - Related to "ThinkLight on"
-+	- 13 - Related to "ThinkLight off"
-+	- 14 - Related to "ThinkLight" key press (toggle ThinkLight)
- 
- The cmos command interface is prone to firmware split-brain problems, as
- in newer ThinkPads it is just a compatibility layer.  Do not use it, it is
-@@ -748,9 +786,10 @@ are aware of the consequences are welcome to enabling it.
- Audio mute and microphone mute LEDs are supported, but currently not
- visible to userspace. They are used by the snd-hda-intel audio driver.
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
--The available commands are:
-+The available commands are::
- 
- 	echo '<LED number> on' >/proc/acpi/ibm/led
- 	echo '<LED number> off' >/proc/acpi/ibm/led
-@@ -760,23 +799,24 @@ The <LED number> range is 0 to 15. The set of LEDs that can be
- controlled varies from model to model. Here is the common ThinkPad
- mapping:
- 
--	0 - power
--	1 - battery (orange)
--	2 - battery (green)
--	3 - UltraBase/dock
--	4 - UltraBay
--	5 - UltraBase battery slot
--	6 - (unknown)
--	7 - standby
--	8 - dock status 1
--	9 - dock status 2
--	10, 11 - (unknown)
--	12 - thinkvantage
--	13, 14, 15 - (unknown)
-+	- 0 - power
-+	- 1 - battery (orange)
-+	- 2 - battery (green)
-+	- 3 - UltraBase/dock
-+	- 4 - UltraBay
-+	- 5 - UltraBase battery slot
-+	- 6 - (unknown)
-+	- 7 - standby
-+	- 8 - dock status 1
-+	- 9 - dock status 2
-+	- 10, 11 - (unknown)
-+	- 12 - thinkvantage
-+	- 13, 14, 15 - (unknown)
- 
- All of the above can be turned on and off and can be made to blink.
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- The ThinkPad LED sysfs interface is described in detail by the LED class
- documentation, in Documentation/leds/leds-class.rst.
-@@ -815,7 +855,7 @@ The BEEP method is used internally by the ACPI firmware to provide
- audible alerts in various situations. This feature allows the same
- sounds to be triggered manually.
- 
--The commands are non-negative integer numbers:
-+The commands are non-negative integer numbers::
- 
- 	echo <number> >/proc/acpi/ibm/beep
- 
-@@ -823,25 +863,26 @@ The valid <number> range is 0 to 17. Not all numbers trigger sounds
- and the sounds vary from model to model. Here is the behavior on the
- X40:
- 
--	0 - stop a sound in progress (but use 17 to stop 16)
--	2 - two beeps, pause, third beep ("low battery")
--	3 - single beep
--	4 - high, followed by low-pitched beep ("unable")
--	5 - single beep
--	6 - very high, followed by high-pitched beep ("AC/DC")
--	7 - high-pitched beep
--	9 - three short beeps
--	10 - very long beep
--	12 - low-pitched beep
--	15 - three high-pitched beeps repeating constantly, stop with 0
--	16 - one medium-pitched beep repeating constantly, stop with 17
--	17 - stop 16
-+	- 0 - stop a sound in progress (but use 17 to stop 16)
-+	- 2 - two beeps, pause, third beep ("low battery")
-+	- 3 - single beep
-+	- 4 - high, followed by low-pitched beep ("unable")
-+	- 5 - single beep
-+	- 6 - very high, followed by high-pitched beep ("AC/DC")
-+	- 7 - high-pitched beep
-+	- 9 - three short beeps
-+	- 10 - very long beep
-+	- 12 - low-pitched beep
-+	- 15 - three high-pitched beeps repeating constantly, stop with 0
-+	- 16 - one medium-pitched beep repeating constantly, stop with 17
-+	- 17 - stop 16
- 
- 
- Temperature sensors
- -------------------
- 
- procfs: /proc/acpi/ibm/thermal
-+
- sysfs device attributes: (hwmon "thinkpad") temp*_input
- 
- Most ThinkPads include six or more separate temperature sensors but only
-@@ -850,10 +891,14 @@ feature shows readings from up to eight different sensors on older
- ThinkPads, and up to sixteen different sensors on newer ThinkPads.
- 
- For example, on the X40, a typical output may be:
--temperatures:   42 42 45 41 36 -128 33 -128
-+
-+temperatures:
-+	42 42 45 41 36 -128 33 -128
- 
- On the T43/p, a typical output may be:
--temperatures:   48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
-+
-+temperatures:
-+	48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
- 
- The mapping of thermal sensors to physical locations varies depending on
- system-board model (and thus, on ThinkPad model).
-@@ -863,46 +908,53 @@ tries to track down these locations for various models.
- 
- Most (newer?) models seem to follow this pattern:
- 
--1:  CPU
--2:  (depends on model)
--3:  (depends on model)
--4:  GPU
--5:  Main battery: main sensor
--6:  Bay battery: main sensor
--7:  Main battery: secondary sensor
--8:  Bay battery: secondary sensor
--9-15: (depends on model)
-+- 1:  CPU
-+- 2:  (depends on model)
-+- 3:  (depends on model)
-+- 4:  GPU
-+- 5:  Main battery: main sensor
-+- 6:  Bay battery: main sensor
-+- 7:  Main battery: secondary sensor
-+- 8:  Bay battery: secondary sensor
-+- 9-15: (depends on model)
- 
- For the R51 (source: Thomas Gruber):
--2:  Mini-PCI
--3:  Internal HDD
-+
-+- 2:  Mini-PCI
-+- 3:  Internal HDD
- 
- For the T43, T43/p (source: Shmidoax/Thinkwiki.org)
- http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
--2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
--3:  PCMCIA slot
--9:  MCH (northbridge) to DRAM Bus
--10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
--    card, under touchpad
--11: Power regulator, underside of system board, below F2 key
-+
-+- 2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
-+- 3:  PCMCIA slot
-+- 9:  MCH (northbridge) to DRAM Bus
-+- 10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
-+      card, under touchpad
-+- 11: Power regulator, underside of system board, below F2 key
- 
- The A31 has a very atypical layout for the thermal sensors
- (source: Milos Popovic, http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
--1:  CPU
--2:  Main Battery: main sensor
--3:  Power Converter
--4:  Bay Battery: main sensor
--5:  MCH (northbridge)
--6:  PCMCIA/ambient
--7:  Main Battery: secondary sensor
--8:  Bay Battery: secondary sensor
- 
-+- 1:  CPU
-+- 2:  Main Battery: main sensor
-+- 3:  Power Converter
-+- 4:  Bay Battery: main sensor
-+- 5:  MCH (northbridge)
-+- 6:  PCMCIA/ambient
-+- 7:  Main Battery: secondary sensor
-+- 8:  Bay Battery: secondary sensor
-+
-+
-+Procfs notes
-+^^^^^^^^^^^^
- 
--Procfs notes:
- 	Readings from sensors that are not available return -128.
- 	No commands can be written to this file.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
-+
- 	Sensors that are not available return the ENXIO error.  This
- 	status may change at runtime, as there are hotplug thermal
- 	sensors, like those inside the batteries and docks.
-@@ -921,6 +973,7 @@ ftp://ftp.suse.com/pub/people/trenn/sources/ec
- 
- Use it to determine the register holding the fan
- speed on some models. To do that, do the following:
-+
- 	- make sure the battery is fully charged
- 	- make sure the fan is running
- 	- use above mentioned tool to read out the EC
-@@ -941,6 +994,7 @@ LCD brightness control
+    +--------------+
+    |     401      |
+@@ -155,8 +156,8 @@ IBM BookE
+ Motorola/Freescale 8xx
  ----------------------
  
- procfs: /proc/acpi/ibm/brightness
+- - Software loaded with hardware assist.
+- - All 32 bit
++- Software loaded with hardware assist.
++- All 32 bit::
+ 
+    +-------------+
+    | MPC8xx Core |
+@@ -166,9 +167,9 @@ Motorola/Freescale 8xx
+ Freescale BookE
+ ---------------
+ 
+- - Software loaded TLB.
+- - e6500 adds HW loaded indirect TLB entries.
+- - Mix of 32 & 64 bit
++- Software loaded TLB.
++- e6500 adds HW loaded indirect TLB entries.
++- Mix of 32 & 64 bit::
+ 
+    +--------------+
+    |     e200     |
+@@ -207,8 +208,8 @@ Freescale BookE
+ IBM A2 core
+ -----------
+ 
+- - Book3E, software loaded TLB + HW loaded indirect TLB entries.
+- - 64 bit
++- Book3E, software loaded TLB + HW loaded indirect TLB entries.
++- 64 bit::
+ 
+    +--------------+     +----------------+
+    |   A2 core    | --> |      WSP       |
+diff --git a/Documentation/powerpc/cpu_features.txt b/Documentation/powerpc/cpu_features.rst
+similarity index 97%
+rename from Documentation/powerpc/cpu_features.txt
+rename to Documentation/powerpc/cpu_features.rst
+index ae09df8722c8..b7bcdd2f41bb 100644
+--- a/Documentation/powerpc/cpu_features.txt
++++ b/Documentation/powerpc/cpu_features.rst
+@@ -1,3 +1,7 @@
++============
++CPU Features
++============
 +
- sysfs backlight device "thinkpad_screen"
+ Hollis Blanchard <hollis@austin.ibm.com>
+ 5 Jun 2002
  
- This feature allows software control of the LCD brightness on ThinkPad
-@@ -985,15 +1039,17 @@ brightness_enable=0 forces it to be disabled.  brightness_enable=1
- forces it to be enabled when available, even if the standard ACPI
- interface is also available.
+@@ -32,7 +36,7 @@ anyways).
+ After detecting the processor type, the kernel patches out sections of code
+ that shouldn't be used by writing nop's over it. Using cpufeatures requires
+ just 2 macros (found in arch/powerpc/include/asm/cputable.h), as seen in head.S
+-transfer_to_handler:
++transfer_to_handler::
  
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--	The available commands are:
-+The available commands are::
- 
- 	echo up   >/proc/acpi/ibm/brightness
- 	echo down >/proc/acpi/ibm/brightness
- 	echo 'level <level>' >/proc/acpi/ibm/brightness
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- The interface is implemented through the backlight sysfs class, which is
- poorly documented at this time.
-@@ -1038,6 +1094,7 @@ Volume control (Console Audio control)
- --------------------------------------
- 
- procfs: /proc/acpi/ibm/volume
-+
- ALSA: "ThinkPad Console Audio Control", default ID: "ThinkPadEC"
- 
- NOTE: by default, the volume control interface operates in read-only
-@@ -1053,7 +1110,8 @@ Software volume control should be done only in the main AC97/HDA
- mixer.
- 
- 
--About the ThinkPad Console Audio control:
-+About the ThinkPad Console Audio control
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- ThinkPads have a built-in amplifier and muting circuit that drives the
- console headphone and speakers.  This circuit is after the main AC97
-@@ -1092,13 +1150,14 @@ normal key presses to the operating system (thinkpad-acpi is not
- involved).
- 
- 
--The ThinkPad-ACPI volume control:
-+The ThinkPad-ACPI volume control
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- The preferred way to interact with the Console Audio control is the
- ALSA interface.
- 
- The legacy procfs interface allows one to read the current state,
--and if volume control is enabled, accepts the following commands:
-+and if volume control is enabled, accepts the following commands::
- 
- 	echo up   >/proc/acpi/ibm/volume
- 	echo down >/proc/acpi/ibm/volume
-@@ -1137,13 +1196,15 @@ Fan control and monitoring: fan speed, fan enable/disable
- ---------------------------------------------------------
- 
- procfs: /proc/acpi/ibm/fan
--sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1,
--			  pwm1_enable, fan2_input
-+
-+sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1, pwm1_enable, fan2_input
-+
- sysfs hwmon driver attributes: fan_watchdog
- 
--NOTE NOTE NOTE: fan control operations are disabled by default for
--safety reasons.  To enable them, the module parameter "fan_control=1"
--must be given to thinkpad-acpi.
-+NOTE NOTE NOTE:
-+   fan control operations are disabled by default for
-+   safety reasons.  To enable them, the module parameter "fan_control=1"
-+   must be given to thinkpad-acpi.
- 
- This feature attempts to show the current fan speed, control mode and
- other fan data that might be available.  The speed is read directly
-@@ -1154,7 +1215,8 @@ value on other models.
- Some Lenovo ThinkPads support a secondary fan.  This fan cannot be
- controlled separately, it shares the main fan control.
- 
--Fan levels:
-+Fan levels
-+^^^^^^^^^^
- 
- Most ThinkPad fans work in "levels" at the firmware interface.  Level 0
- stops the fan.  The higher the level, the higher the fan speed, although
-@@ -1209,9 +1271,10 @@ therefore, not suitable to protect against fan mode changes made through
- means other than the "enable", "disable", and "level" procfs fan
- commands, or the hwmon fan control sysfs interface.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--The fan may be enabled or disabled with the following commands:
-+The fan may be enabled or disabled with the following commands::
- 
- 	echo enable  >/proc/acpi/ibm/fan
- 	echo disable >/proc/acpi/ibm/fan
-@@ -1219,7 +1282,7 @@ The fan may be enabled or disabled with the following commands:
- Placing a fan on level 0 is the same as disabling it.  Enabling a fan
- will try to place it in a safe level if it is too slow or disabled.
- 
--The fan level can be controlled with the command:
-+The fan level can be controlled with the command::
- 
- 	echo 'level <level>' > /proc/acpi/ibm/fan
- 
-@@ -1231,7 +1294,7 @@ compatibility.
- 
- On the X31 and X40 (and ONLY on those models), the fan speed can be
- controlled to a certain degree.  Once the fan is running, it can be
--forced to run faster or slower with the following command:
-+forced to run faster or slower with the following command::
- 
- 	echo 'speed <speed>' > /proc/acpi/ibm/fan
- 
-@@ -1241,13 +1304,14 @@ effect or the fan speed eventually settles somewhere in that range.  The
- fan cannot be stopped or started with this command.  This functionality
- is incomplete, and not available through the sysfs interface.
- 
--To program the safety watchdog, use the "watchdog" command.
-+To program the safety watchdog, use the "watchdog" command::
- 
- 	echo 'watchdog <interval in seconds>' > /proc/acpi/ibm/fan
- 
- If you want to disable the watchdog, use 0 as the interval.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- The sysfs interface follows the hwmon subsystem guidelines for the most
- part, and the exception is the fan safety watchdog.
-@@ -1261,10 +1325,10 @@ to the firmware).
- Features not yet implemented by the driver return ENOSYS.
- 
- hwmon device attribute pwm1_enable:
--	0: PWM offline (fan is set to full-speed mode)
--	1: Manual PWM control (use pwm1 to set fan level)
--	2: Hardware PWM control (EC "auto" mode)
--	3: reserved (Software PWM control, not implemented yet)
-+	- 0: PWM offline (fan is set to full-speed mode)
-+	- 1: Manual PWM control (use pwm1 to set fan level)
-+	- 2: Hardware PWM control (EC "auto" mode)
-+	- 3: reserved (Software PWM control, not implemented yet)
- 
- 	Modes 0 and 2 are not supported by all ThinkPads, and the
- 	driver is not always able to detect this.  If it does know a
-@@ -1304,7 +1368,9 @@ WAN
- ---
- 
- procfs: /proc/acpi/ibm/wan
-+
- sysfs device attribute: wwan_enable (deprecated)
-+
- sysfs rfkill class: switch "tpacpi_wwan_sw"
- 
- This feature shows the presence and current state of the built-in
-@@ -1316,22 +1382,24 @@ so it is kept across reboots and power-off.
- It was tested on a Lenovo ThinkPad X60. It should probably work on other
- ThinkPad models which come with this module installed.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--If the W-WAN card is installed, the following commands can be used:
-+If the W-WAN card is installed, the following commands can be used::
- 
- 	echo enable > /proc/acpi/ibm/wan
- 	echo disable > /proc/acpi/ibm/wan
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- 	If the W-WAN card is installed, it can be enabled /
- 	disabled through the "wwan_enable" thinkpad-acpi device
- 	attribute, and its current status can also be queried.
- 
- 	enable:
--		0: disables WWAN card / WWAN card is disabled
--		1: enables WWAN card / WWAN card is enabled.
-+		- 0: disables WWAN card / WWAN card is disabled
-+		- 1: enables WWAN card / WWAN card is enabled.
- 
- 	Note: this interface has been superseded by the	generic rfkill
- 	class.  It has been deprecated, and it will be removed in year
-@@ -1354,7 +1422,8 @@ sysfs rfkill class: switch "tpacpi_uwb_sw"
- This feature exports an rfkill controller for the UWB device, if one is
- present and enabled in the BIOS.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- 	rfkill controller switch "tpacpi_uwb_sw": refer to
- 	Documentation/rfkill.txt for details.
-@@ -1368,11 +1437,11 @@ This sysfs attribute controls the keyboard "face" that will be shown on the
- Lenovo X1 Carbon 2nd gen (2014)'s adaptive keyboard. The value can be read
- and set.
- 
--1 = Home mode
--2 = Web-browser mode
--3 = Web-conference mode
--4 = Function mode
--5 = Layflat mode
-+- 1 = Home mode
-+- 2 = Web-browser mode
-+- 3 = Web-conference mode
-+- 4 = Function mode
-+- 5 = Layflat mode
- 
- For more details about which buttons will appear depending on the mode, please
- review the laptop's user guide:
-@@ -1382,13 +1451,13 @@ Multiple Commands, Module Parameters
- ------------------------------------
- 
- Multiple commands can be written to the proc files in one shot by
--separating them with commas, for example:
-+separating them with commas, for example::
- 
- 	echo enable,0xffff > /proc/acpi/ibm/hotkey
- 	echo lcd_disable,crt_enable > /proc/acpi/ibm/video
- 
- Commands can also be specified when loading the thinkpad-acpi module,
--for example:
-+for example::
- 
- 	modprobe thinkpad_acpi hotkey=enable,0xffff video=auto_disable
- 
-@@ -1397,14 +1466,16 @@ Enabling debugging output
- -------------------------
- 
- The module takes a debug parameter which can be used to selectively
--enable various classes of debugging output, for example:
-+enable various classes of debugging output, for example::
- 
- 	 modprobe thinkpad_acpi debug=0xffff
- 
- will enable all debugging output classes.  It takes a bitmask, so
- to enable more than one output class, just add their values.
- 
-+	=============		======================================
- 	Debug bitmask		Description
-+	=============		======================================
- 	0x8000			Disclose PID of userspace programs
- 				accessing some functions of the driver
- 	0x0001			Initialization and probing
-@@ -1415,6 +1486,7 @@ to enable more than one output class, just add their values.
- 	0x0010			Fan control
- 	0x0020			Backlight brightness
- 	0x0040			Audio mixer/volume control
-+	=============		======================================
- 
- There is also a kernel build option to enable more debugging
- information, which may be necessary to debug driver problems.
-@@ -1432,8 +1504,10 @@ the module parameter force_load=1.  Regardless of whether this works or
- not, please contact ibm-acpi-devel@lists.sourceforge.net with a report.
- 
- 
--Sysfs interface changelog:
-+Sysfs interface changelog
-+^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-+=========	===============================================================
- 0x000100:	Initial sysfs support, as a single platform driver and
- 		device.
- 0x000200:	Hot key support for 32 hot keys, and radio slider switch
-@@ -1485,3 +1559,4 @@ Sysfs interface changelog:
- 0x030000:	Thermal and fan sysfs attributes were moved to the hwmon
- 		device instead of being attached to the backing platform
- 		device.
-+=========	===============================================================
-diff --git a/Documentation/laptops/toshiba_haps.txt b/Documentation/laptops/toshiba_haps.rst
-similarity index 60%
-rename from Documentation/laptops/toshiba_haps.txt
-rename to Documentation/laptops/toshiba_haps.rst
-index 0c1d88dedbde..11dfc428c080 100644
---- a/Documentation/laptops/toshiba_haps.txt
-+++ b/Documentation/laptops/toshiba_haps.rst
-@@ -1,18 +1,19 @@
--Kernel driver toshiba_haps
+ 	#ifdef CONFIG_ALTIVEC
+ 	BEGIN_FTR_SECTION
+diff --git a/Documentation/powerpc/cxl.txt b/Documentation/powerpc/cxl.rst
+similarity index 95%
+rename from Documentation/powerpc/cxl.txt
+rename to Documentation/powerpc/cxl.rst
+index c5e8d5098ed3..920546d81326 100644
+--- a/Documentation/powerpc/cxl.txt
++++ b/Documentation/powerpc/cxl.rst
+@@ -1,3 +1,4 @@
 +====================================
- Toshiba HDD Active Protection Sensor
+ Coherent Accelerator Interface (CXL)
  ====================================
  
-+Kernel driver: toshiba_haps
+@@ -21,6 +22,8 @@ Introduction
+ Hardware overview
+ =================
+ 
++    ::
 +
- Author: Azael Avalos <coproscefalo@gmail.com>
+          POWER8/9             FPGA
+        +----------+        +---------+
+        |          |        |         |
+@@ -59,14 +62,16 @@ Hardware overview
+     the fault. The context to which this fault is serviced is based on
+     who owns that acceleration function.
  
- 
--0. Contents
-------------
-+.. 0. Contents
- 
--1. Description
--2. Interface
--3. Accelerometer axes
--4. Supported devices
--5. Usage
-+   1. Description
-+   2. Interface
-+   3. Accelerometer axes
-+   4. Supported devices
-+   5. Usage
- 
- 
- 1. Description
-@@ -32,17 +33,20 @@ file to set the desired protection level or sensor sensibility.
- ------------
- 
- This device comes with 3 methods:
--_STA -  Checks existence of the device, returning Zero if the device does not
+-    POWER8 <-----> PSL Version 8 is compliant to the CAIA Version 1.0.
+-    POWER9 <-----> PSL Version 9 is compliant to the CAIA Version 2.0.
++    - POWER8 and PSL Version 8 are compliant to the CAIA Version 1.0.
++    - POWER9 and PSL Version 9 are compliant to the CAIA Version 2.0.
 +
-+====	=====================================================================
-+_STA    Checks existence of the device, returning Zero if the device does not
- 	exists or is not supported.
--PTLV -  Sets the desired protection level.
--RSSS -  Shuts down the HDD protection interface for a few seconds,
-+PTLV    Sets the desired protection level.
-+RSSS    Shuts down the HDD protection interface for a few seconds,
- 	then restores normal operation.
-+====	=====================================================================
- 
- Note:
--The presence of Solid State Drives (SSD) can make this driver to fail loading,
--given the fact that such drives have no movable parts, and thus, not requiring
--any "protection" as well as failing during the evaluation of the _STA method
--found under this device.
-+  The presence of Solid State Drives (SSD) can make this driver to fail loading,
-+  given the fact that such drives have no movable parts, and thus, not requiring
-+  any "protection" as well as failing during the evaluation of the _STA method
-+  found under this device.
- 
- 
- 3. Accelerometer axes
-@@ -66,11 +70,18 @@ conventional HDD and not only SSD, or a combination of both HDD and SSD.
- --------
- 
- The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
--protection_level - The protection_level is readable and writeable, and
+     This PSL Version 9 provides new features such as:
 +
-+================   ============================================================
-+protection_level   The protection_level is readable and writeable, and
- 		   provides a way to let userspace query the current protection
- 		   level, as well as set the desired protection level, the
- 		   available protection levels are:
--		   0 - Disabled | 1 - Low | 2 - Medium | 3 - High
--reset_protection - The reset_protection entry is writeable only, being "1"
+     * Interaction with the nest MMU on the P9 chip.
+     * Native DMA support.
+     * Supports sending ASB_Notify messages for host thread wakeup.
+     * Supports Atomic operations.
+-    * ....
++    * etc.
+ 
+     Cards with a PSL9 won't work on a POWER8 system and cards with a
+     PSL8 won't work on a POWER9 system.
+@@ -147,7 +152,9 @@ User API
+     master devices.
+ 
+     A userspace library libcxl is available here:
 +
-+		   ============   =======   ==========   ========
-+		   0 - Disabled   1 - Low   2 - Medium   3 - High
-+		   ============   =======   ==========   ========
+ 	https://github.com/ibm-capi/libcxl
 +
-+reset_protection   The reset_protection entry is writeable only, being "1"
- 		   the only parameter it accepts, it is used to trigger
- 		   a reset of the protection interface.
-+================   ============================================================
-diff --git a/Documentation/sysctl/vm.txt b/Documentation/sysctl/vm.txt
-index 749322060f10..c5f0d44433a2 100644
---- a/Documentation/sysctl/vm.txt
-+++ b/Documentation/sysctl/vm.txt
-@@ -102,7 +102,7 @@ Changing this takes effect whenever an application requests memory.
- block_dump
+     This provides a C interface to this kernel API.
  
- block_dump enables block I/O debugging when set to a nonzero value. More
--information on block I/O debugging is in Documentation/laptops/laptop-mode.txt.
-+information on block I/O debugging is in Documentation/laptops/laptop-mode.rst.
+ open
+@@ -165,7 +172,8 @@ open
+     When all available contexts are allocated the open call will fail
+     and return -ENOSPC.
  
- ==============================================================
+-    Note: IRQs need to be allocated for each context, which may limit
++    Note:
++	  IRQs need to be allocated for each context, which may limit
+           the number of contexts that can be created, and therefore
+           how many times the device can be opened. The POWER8 CAPP
+           supports 2040 IRQs and 3 are used by the kernel, so 2037 are
+@@ -186,7 +194,9 @@ ioctl
+         updated as userspace allocates and frees memory. This ioctl
+         returns once the AFU context is started.
  
-@@ -286,7 +286,7 @@ shared memory segment using hugetlb page.
- laptop_mode
+-        Takes a pointer to a struct cxl_ioctl_start_work:
++        Takes a pointer to a struct cxl_ioctl_start_work
++
++            ::
  
- laptop_mode is a knob that controls "laptop mode". All the things that are
--controlled by this knob are discussed in Documentation/laptops/laptop-mode.txt.
-+controlled by this knob are discussed in Documentation/laptops/laptop-mode.rst.
+                 struct cxl_ioctl_start_work {
+                         __u64 flags;
+@@ -269,7 +279,7 @@ read
+     The buffer passed to read() must be at least 4K bytes.
  
- ==============================================================
+     The result of the read will be a buffer of one or more events,
+-    each event is of type struct cxl_event, of varying size.
++    each event is of type struct cxl_event, of varying size::
  
+             struct cxl_event {
+                     struct cxl_event_header header;
+@@ -280,7 +290,9 @@ read
+                     };
+             };
+ 
+-    The struct cxl_event_header is defined as:
++    The struct cxl_event_header is defined as
++
++        ::
+ 
+             struct cxl_event_header {
+                     __u16 type;
+@@ -307,7 +319,9 @@ read
+             For future extensions and padding.
+ 
+     If the event type is CXL_EVENT_AFU_INTERRUPT then the event
+-    structure is defined as:
++    structure is defined as
++
++        ::
+ 
+             struct cxl_event_afu_interrupt {
+                     __u16 flags;
+@@ -326,7 +340,9 @@ read
+             For future extensions and padding.
+ 
+     If the event type is CXL_EVENT_DATA_STORAGE then the event
+-    structure is defined as:
++    structure is defined as
++
++        ::
+ 
+             struct cxl_event_data_storage {
+                     __u16 flags;
+@@ -356,7 +372,9 @@ read
+             For future extensions
+ 
+     If the event type is CXL_EVENT_AFU_ERROR then the event structure
+-    is defined as:
++    is defined as
++
++        ::
+ 
+             struct cxl_event_afu_error {
+                     __u16 flags;
+@@ -393,15 +411,15 @@ open
+ ioctl
+ -----
+ 
+-CXL_IOCTL_DOWNLOAD_IMAGE:
+-CXL_IOCTL_VALIDATE_IMAGE:
++CXL_IOCTL_DOWNLOAD_IMAGE / CXL_IOCTL_VALIDATE_IMAGE:
+     Starts and controls flashing a new FPGA image. Partial
+     reconfiguration is not supported (yet), so the image must contain
+     a copy of the PSL and AFU(s). Since an image can be quite large,
+     the caller may have to iterate, splitting the image in smaller
+     chunks.
+ 
+-    Takes a pointer to a struct cxl_adapter_image:
++    Takes a pointer to a struct cxl_adapter_image::
++
+         struct cxl_adapter_image {
+             __u64 flags;
+             __u64 data;
+@@ -442,7 +460,7 @@ Udev rules
+     The following udev rules could be used to create a symlink to the
+     most logical chardev to use in any programming mode (afuX.Yd for
+     dedicated, afuX.Ys for afu directed), since the API is virtually
+-    identical for each:
++    identical for each::
+ 
+ 	SUBSYSTEM=="cxl", ATTRS{mode}=="dedicated_process", SYMLINK="cxl/%b"
+ 	SUBSYSTEM=="cxl", ATTRS{mode}=="afu_directed", \
+diff --git a/Documentation/powerpc/cxlflash.txt b/Documentation/powerpc/cxlflash.rst
+similarity index 98%
+rename from Documentation/powerpc/cxlflash.txt
+rename to Documentation/powerpc/cxlflash.rst
+index a64bdaa0a1cf..cea67931b3b9 100644
+--- a/Documentation/powerpc/cxlflash.txt
++++ b/Documentation/powerpc/cxlflash.rst
+@@ -1,3 +1,7 @@
++================================
++Coherent Accelerator (CXL) Flash
++================================
++
+ Introduction
+ ============
+ 
+@@ -28,7 +32,7 @@ Introduction
+     responsible for the initialization of the adapter, setting up the
+     special path for user space access, and performing error recovery. It
+     communicates directly the Flash Accelerator Functional Unit (AFU)
+-    as described in Documentation/powerpc/cxl.txt.
++    as described in Documentation/powerpc/cxl.rst.
+ 
+     The cxlflash driver supports two, mutually exclusive, modes of
+     operation at the device (LUN) level:
+@@ -58,7 +62,7 @@ Overview
+ 
+     The CXL Flash Adapter Driver establishes a master context with the
+     AFU. It uses memory mapped I/O (MMIO) for this control and setup. The
+-    Adapter Problem Space Memory Map looks like this:
++    Adapter Problem Space Memory Map looks like this::
+ 
+                      +-------------------------------+
+                      |    512 * 64 KB User MMIO      |
+@@ -375,7 +379,7 @@ CXL Flash Driver Host IOCTLs
+     Each host adapter instance that is supported by the cxlflash driver
+     has a special character device associated with it to enable a set of
+     host management function. These character devices are hosted in a
+-    class dedicated for cxlflash and can be accessed via /dev/cxlflash/*.
++    class dedicated for cxlflash and can be accessed via `/dev/cxlflash/*`.
+ 
+     Applications can be written to perform various functions using the
+     host ioctl APIs below.
+diff --git a/Documentation/powerpc/DAWR-POWER9.txt b/Documentation/powerpc/dawr-power9.rst
+similarity index 95%
+rename from Documentation/powerpc/DAWR-POWER9.txt
+rename to Documentation/powerpc/dawr-power9.rst
+index ecdbb076438c..c96ab6befd9c 100644
+--- a/Documentation/powerpc/DAWR-POWER9.txt
++++ b/Documentation/powerpc/dawr-power9.rst
+@@ -1,10 +1,11 @@
++=====================
+ DAWR issues on POWER9
+-============================
++=====================
+ 
+ On POWER9 the Data Address Watchpoint Register (DAWR) can cause a checkstop
+ if it points to cache inhibited (CI) memory. Currently Linux has no way to
+ disinguish CI memory when configuring the DAWR, so (for now) the DAWR is
+-disabled by this commit:
++disabled by this commit::
+ 
+     commit 9654153158d3e0684a1bdb76dbababdb7111d5a0
+     Author: Michael Neuling <mikey@neuling.org>
+@@ -12,7 +13,7 @@ disabled by this commit:
+     powerpc: Disable DAWR in the base POWER9 CPU features
+ 
+ Technical Details:
+-============================
++==================
+ 
+ DAWR has 6 different ways of being set.
+ 1) ptrace
+@@ -37,7 +38,7 @@ DAWR on the migration.
+ For xmon, the 'bd' command will return an error on P9.
+ 
+ Consequences for users
+-============================
++======================
+ 
+ For GDB watchpoints (ie 'watch' command) on POWER9 bare metal , GDB
+ will accept the command. Unfortunately since there is no hardware
+@@ -57,8 +58,8 @@ trapped in GDB. The watchpoint is remembered, so if the guest is
+ migrated back to the POWER8 host, it will start working again.
+ 
+ Force enabling the DAWR
+-=============================
+-Kernels (since ~v5.2) have an option to force enable the DAWR via:
++=======================
++Kernels (since ~v5.2) have an option to force enable the DAWR via::
+ 
+   echo Y > /sys/kernel/debug/powerpc/dawr_enable_dangerous
+ 
+@@ -86,5 +87,7 @@ dawr_enable_dangerous file will fail if the hypervisor doesn't support
+ writing the DAWR.
+ 
+ To double check the DAWR is working, run this kernel selftest:
++
+   tools/testing/selftests/powerpc/ptrace/ptrace-hwbreak.c
++
+ Any errors/failures/skips mean something is wrong.
+diff --git a/Documentation/powerpc/dscr.txt b/Documentation/powerpc/dscr.rst
+similarity index 91%
+rename from Documentation/powerpc/dscr.txt
+rename to Documentation/powerpc/dscr.rst
+index ece300c64f76..2ab99006014c 100644
+--- a/Documentation/powerpc/dscr.txt
++++ b/Documentation/powerpc/dscr.rst
+@@ -1,5 +1,6 @@
+-			DSCR (Data Stream Control Register)
+-		================================================
++===================================
++DSCR (Data Stream Control Register)
++===================================
+ 
+ DSCR register in powerpc allows user to have some control of prefetch of data
+ stream in the processor. Please refer to the ISA documents or related manual
+@@ -10,14 +11,17 @@ user interface.
+ 
+ (A) Data Structures:
+ 
+-	(1) thread_struct:
++	(1) thread_struct::
++
+ 		dscr		/* Thread DSCR value */
+ 		dscr_inherit	/* Thread has changed default DSCR */
+ 
+-	(2) PACA:
++	(2) PACA::
++
+ 		dscr_default	/* per-CPU DSCR default value */
+ 
+-	(3) sysfs.c:
++	(3) sysfs.c::
++
+ 		dscr_default	/* System DSCR default value */
+ 
+ (B) Scheduler Changes:
+@@ -35,8 +39,8 @@ user interface.
+ 
+ (C) SYSFS Interface:
+ 
+-	Global DSCR default:		/sys/devices/system/cpu/dscr_default
+-	CPU specific DSCR default:	/sys/devices/system/cpu/cpuN/dscr
++	- Global DSCR default:		/sys/devices/system/cpu/dscr_default
++	- CPU specific DSCR default:	/sys/devices/system/cpu/cpuN/dscr
+ 
+ 	Changing the global DSCR default in the sysfs will change all the CPU
+ 	specific DSCR defaults immediately in their PACA structures. Again if
+diff --git a/Documentation/powerpc/eeh-pci-error-recovery.txt b/Documentation/powerpc/eeh-pci-error-recovery.rst
+similarity index 82%
+rename from Documentation/powerpc/eeh-pci-error-recovery.txt
+rename to Documentation/powerpc/eeh-pci-error-recovery.rst
+index 678189280bb4..438a87ebc095 100644
+--- a/Documentation/powerpc/eeh-pci-error-recovery.txt
++++ b/Documentation/powerpc/eeh-pci-error-recovery.rst
+@@ -1,10 +1,10 @@
++==========================
++PCI Bus EEH Error Recovery
++==========================
+ 
++Linas Vepstas <linas@austin.ibm.com>
+ 
+-                      PCI Bus EEH Error Recovery
+-                      --------------------------
+-                           Linas Vepstas
+-                       <linas@austin.ibm.com>
+-                          12 January 2005
++12 January 2005
+ 
+ 
+ Overview:
+@@ -143,17 +143,17 @@ seen in /proc/ppc64/eeh (subject to change).  Normally, almost
+ all of these occur during boot, when the PCI bus is scanned, where
+ a large number of 0xff reads are part of the bus scan procedure.
+ 
+-If a frozen slot is detected, code in 
+-arch/powerpc/platforms/pseries/eeh.c will print a stack trace to 
+-syslog (/var/log/messages).  This stack trace has proven to be very 
+-useful to device-driver authors for finding out at what point the EEH 
+-error was detected, as the error itself usually occurs slightly 
++If a frozen slot is detected, code in
++arch/powerpc/platforms/pseries/eeh.c will print a stack trace to
++syslog (/var/log/messages).  This stack trace has proven to be very
++useful to device-driver authors for finding out at what point the EEH
++error was detected, as the error itself usually occurs slightly
+ beforehand.
+ 
+ Next, it uses the Linux kernel notifier chain/work queue mechanism to
+ allow any interested parties to find out about the failure.  Device
+ drivers, or other parts of the kernel, can use
+-eeh_register_notifier(struct notifier_block *) to find out about EEH
++`eeh_register_notifier(struct notifier_block *)` to find out about EEH
+ events.  The event will include a pointer to the pci device, the
+ device node and some state info.  Receivers of the event can "do as
+ they wish"; the default handler will be described further in this
+@@ -162,10 +162,13 @@ section.
+ To assist in the recovery of the device, eeh.c exports the
+ following functions:
+ 
+-rtas_set_slot_reset() -- assert the  PCI #RST line for 1/8th of a second
+-rtas_configure_bridge() -- ask firmware to configure any PCI bridges
++rtas_set_slot_reset()
++   assert the  PCI #RST line for 1/8th of a second
++rtas_configure_bridge()
++   ask firmware to configure any PCI bridges
+    located topologically under the pci slot.
+-eeh_save_bars() and eeh_restore_bars(): save and restore the PCI
++eeh_save_bars() and eeh_restore_bars():
++   save and restore the PCI
+    config-space info for a device and any devices under it.
+ 
+ 
+@@ -191,7 +194,7 @@ events get delivered to user-space scripts.
+ 
+ Following is an example sequence of events that cause a device driver
+ close function to be called during the first phase of an EEH reset.
+-The following sequence is an example of the pcnet32 device driver.
++The following sequence is an example of the pcnet32 device driver::
+ 
+     rpa_php_unconfig_pci_adapter (struct slot *)  // in rpaphp_pci.c
+     {
+@@ -241,53 +244,54 @@ The following sequence is an example of the pcnet32 device driver.
+      }}}}}}
+ 
+ 
+-    in drivers/pci/pci_driver.c,
+-    struct device_driver->remove() is just pci_device_remove()
+-    which calls struct pci_driver->remove() which is pcnet32_remove_one()
+-    which calls unregister_netdev()  (in net/core/dev.c)
+-    which calls dev_close()  (in net/core/dev.c)
+-    which calls dev->stop() which is pcnet32_close()
+-    which then does the appropriate shutdown.
++in drivers/pci/pci_driver.c,
++struct device_driver->remove() is just pci_device_remove()
++which calls struct pci_driver->remove() which is pcnet32_remove_one()
++which calls unregister_netdev()  (in net/core/dev.c)
++which calls dev_close()  (in net/core/dev.c)
++which calls dev->stop() which is pcnet32_close()
++which then does the appropriate shutdown.
+ 
+ ---
++
+ Following is the analogous stack trace for events sent to user-space
+-when the pci device is unconfigured.
++when the pci device is unconfigured::
+ 
+-rpa_php_unconfig_pci_adapter() {             // in rpaphp_pci.c
+-  calls
+-  pci_remove_bus_device (struct pci_dev *) { // in /drivers/pci/remove.c
++  rpa_php_unconfig_pci_adapter() {             // in rpaphp_pci.c
+     calls
+-    pci_destroy_dev (struct pci_dev *) {
++    pci_remove_bus_device (struct pci_dev *) { // in /drivers/pci/remove.c
+       calls
+-      device_unregister (&dev->dev) {        // in /drivers/base/core.c
++      pci_destroy_dev (struct pci_dev *) {
+         calls
+-        device_del(struct device * dev) {    // in /drivers/base/core.c
++        device_unregister (&dev->dev) {        // in /drivers/base/core.c
+           calls
+-          kobject_del() {                    //in /libs/kobject.c
++          device_del(struct device * dev) {    // in /drivers/base/core.c
+             calls
+-            kobject_uevent() {               // in /libs/kobject.c
++            kobject_del() {                    //in /libs/kobject.c
+               calls
+-              kset_uevent() {                // in /lib/kobject.c
++              kobject_uevent() {               // in /libs/kobject.c
+                 calls
+-                kset->uevent_ops->uevent()   // which is really just
+-                a call to
+-                dev_uevent() {               // in /drivers/base/core.c
++                kset_uevent() {                // in /lib/kobject.c
+                   calls
+-                  dev->bus->uevent() which is really just a call to
+-                  pci_uevent () {            // in drivers/pci/hotplug.c
+-                    which prints device name, etc....
++                  kset->uevent_ops->uevent()   // which is really just
++                  a call to
++                  dev_uevent() {               // in /drivers/base/core.c
++                    calls
++                    dev->bus->uevent() which is really just a call to
++                    pci_uevent () {            // in drivers/pci/hotplug.c
++                      which prints device name, etc....
++                   }
+                  }
+-               }
+-               then kobject_uevent() sends a netlink uevent to userspace
+-               --> userspace uevent
+-               (during early boot, nobody listens to netlink events and
+-               kobject_uevent() executes uevent_helper[], which runs the
+-               event process /sbin/hotplug)
++                 then kobject_uevent() sends a netlink uevent to userspace
++                 --> userspace uevent
++                 (during early boot, nobody listens to netlink events and
++                 kobject_uevent() executes uevent_helper[], which runs the
++                 event process /sbin/hotplug)
++             }
+            }
+-         }
+-         kobject_del() then calls sysfs_remove_dir(), which would
+-         trigger any user-space daemon that was watching /sysfs,
+-         and notice the delete event.
++           kobject_del() then calls sysfs_remove_dir(), which would
++           trigger any user-space daemon that was watching /sysfs,
++           and notice the delete event.
+ 
+ 
+ Pro's and Con's of the Current Design
+@@ -299,12 +303,12 @@ individual device drivers, so that the current design throws a wide net.
+ The biggest negative of the design is that it potentially disturbs
+ network daemons and file systems that didn't need to be disturbed.
+ 
+--- A minor complaint is that resetting the network card causes
++-  A minor complaint is that resetting the network card causes
+    user-space back-to-back ifdown/ifup burps that potentially disturb
+    network daemons, that didn't need to even know that the pci
+    card was being rebooted.
+ 
+--- A more serious concern is that the same reset, for SCSI devices,
++-  A more serious concern is that the same reset, for SCSI devices,
+    causes havoc to mounted file systems.  Scripts cannot post-facto
+    unmount a file system without flushing pending buffers, but this
+    is impossible, because I/O has already been stopped.  Thus,
+@@ -322,7 +326,7 @@ network daemons and file systems that didn't need to be disturbed.
+    from the block layer.  It would be very natural to add an EEH
+    reset into this chain of events.
+ 
+--- If a SCSI error occurs for the root device, all is lost unless
++-  If a SCSI error occurs for the root device, all is lost unless
+    the sysadmin had the foresight to run /bin, /sbin, /etc, /var
+    and so on, out of ramdisk/tmpfs.
+ 
+@@ -330,5 +334,3 @@ network daemons and file systems that didn't need to be disturbed.
+ Conclusions
+ -----------
+ There's forward progress ...
+-
+-
+diff --git a/Documentation/powerpc/firmware-assisted-dump.txt b/Documentation/powerpc/firmware-assisted-dump.rst
+similarity index 80%
+rename from Documentation/powerpc/firmware-assisted-dump.txt
+rename to Documentation/powerpc/firmware-assisted-dump.rst
+index 0c41d6d463f3..d7fa7c35dd12 100644
+--- a/Documentation/powerpc/firmware-assisted-dump.txt
++++ b/Documentation/powerpc/firmware-assisted-dump.rst
+@@ -1,7 +1,8 @@
++======================
++Firmware-Assisted Dump
++======================
+ 
+-                   Firmware-Assisted Dump
+-                   ------------------------
+-                       July 2011
++July 2011
+ 
+ The goal of firmware-assisted dump is to enable the dump of
+ a crashed system, and to do so from a fully-reset system, and
+@@ -27,11 +28,11 @@ in production use.
+ Comparing with kdump or other strategies, firmware-assisted
+ dump offers several strong, practical advantages:
+ 
+--- Unlike kdump, the system has been reset, and loaded
++-  Unlike kdump, the system has been reset, and loaded
+    with a fresh copy of the kernel.  In particular,
+    PCI and I/O devices have been reinitialized and are
+    in a clean, consistent state.
+--- Once the dump is copied out, the memory that held the dump
++-  Once the dump is copied out, the memory that held the dump
+    is immediately available to the running kernel. And therefore,
+    unlike kdump, fadump doesn't need a 2nd reboot to get back
+    the system to the production configuration.
+@@ -40,17 +41,18 @@ The above can only be accomplished by coordination with,
+ and assistance from the Power firmware. The procedure is
+ as follows:
+ 
+--- The first kernel registers the sections of memory with the
++-  The first kernel registers the sections of memory with the
+    Power firmware for dump preservation during OS initialization.
+    These registered sections of memory are reserved by the first
+    kernel during early boot.
+ 
+--- When a system crashes, the Power firmware will save
++-  When a system crashes, the Power firmware will save
+    the low memory (boot memory of size larger of 5% of system RAM
+    or 256MB) of RAM to the previous registered region. It will
+    also save system registers, and hardware PTE's.
+ 
+-   NOTE: The term 'boot memory' means size of the low memory chunk
++   NOTE:
++         The term 'boot memory' means size of the low memory chunk
+          that is required for a kernel to boot successfully when
+          booted with restricted memory. By default, the boot memory
+          size will be the larger of 5% of system RAM or 256MB.
+@@ -64,12 +66,12 @@ as follows:
+          as fadump uses a predefined offset to reserve memory
+          for boot memory dump preservation in case of a crash.
+ 
+--- After the low memory (boot memory) area has been saved, the
++-  After the low memory (boot memory) area has been saved, the
+    firmware will reset PCI and other hardware state.  It will
+    *not* clear the RAM. It will then launch the bootloader, as
+    normal.
+ 
+--- The freshly booted kernel will notice that there is a new
++-  The freshly booted kernel will notice that there is a new
+    node (ibm,dump-kernel) in the device tree, indicating that
+    there is crash data available from a previous boot. During
+    the early boot OS will reserve rest of the memory above
+@@ -77,17 +79,18 @@ as follows:
+    size. This will make sure that the second kernel will not
+    touch any of the dump memory area.
+ 
+--- User-space tools will read /proc/vmcore to obtain the contents
++-  User-space tools will read /proc/vmcore to obtain the contents
+    of memory, which holds the previous crashed kernel dump in ELF
+    format. The userspace tools may copy this info to disk, or
+    network, nas, san, iscsi, etc. as desired.
+ 
+--- Once the userspace tool is done saving dump, it will echo
++-  Once the userspace tool is done saving dump, it will echo
+    '1' to /sys/kernel/fadump_release_mem to release the reserved
+    memory back to general use, except the memory required for
+    next firmware-assisted dump registration.
+ 
+-   e.g.
++   e.g.::
++
+      # echo 1 > /sys/kernel/fadump_release_mem
+ 
+ Please note that the firmware-assisted dump feature
+@@ -95,7 +98,7 @@ is only available on Power6 and above systems with recent
+ firmware versions.
+ 
+ Implementation details:
+-----------------------
++-----------------------
+ 
+ During boot, a check is made to see if firmware supports
+ this feature on that particular machine. If it does, then
+@@ -121,7 +124,7 @@ Allocator (CMA) for memory reservation if CMA is configured for kernel.
+ With CMA reservation this memory will be available for applications to
+ use it, while kernel is prevented from using it. With this fadump will
+ still be able to capture all of the kernel memory and most of the user
+-space memory except the user pages that were present in CMA region.
++space memory except the user pages that were present in CMA region::
+ 
+   o Memory Reservation during first kernel
+ 
+@@ -166,7 +169,7 @@ The tools to examine the dump will be same as the ones
+ used for kdump.
+ 
+ How to enable firmware-assisted dump (fadump):
+--------------------------------------
++----------------------------------------------
+ 
+ 1. Set config option CONFIG_FA_DUMP=y and build kernel.
+ 2. Boot into linux kernel with 'fadump=on' kernel cmdline option.
+@@ -177,19 +180,20 @@ How to enable firmware-assisted dump (fadump):
+    to specify size of the memory to reserve for boot memory dump
+    preservation.
+ 
+-NOTE: 1. 'fadump_reserve_mem=' parameter has been deprecated. Instead
+-         use 'crashkernel=' to specify size of the memory to reserve
+-         for boot memory dump preservation.
+-      2. If firmware-assisted dump fails to reserve memory then it
+-         will fallback to existing kdump mechanism if 'crashkernel='
+-         option is set at kernel cmdline.
+-      3. if user wants to capture all of user space memory and ok with
+-         reserved memory not available to production system, then
+-         'fadump=nocma' kernel parameter can be used to fallback to
+-         old behaviour.
++NOTE:
++     1. 'fadump_reserve_mem=' parameter has been deprecated. Instead
++        use 'crashkernel=' to specify size of the memory to reserve
++        for boot memory dump preservation.
++     2. If firmware-assisted dump fails to reserve memory then it
++        will fallback to existing kdump mechanism if 'crashkernel='
++        option is set at kernel cmdline.
++     3. if user wants to capture all of user space memory and ok with
++        reserved memory not available to production system, then
++        'fadump=nocma' kernel parameter can be used to fallback to
++        old behaviour.
+ 
+ Sysfs/debugfs files:
+-------------
++--------------------
+ 
+ Firmware-assisted dump feature uses sysfs file system to hold
+ the control files and debugfs file to display memory reserved region.
+@@ -197,20 +201,20 @@ the control files and debugfs file to display memory reserved region.
+ Here is the list of files under kernel sysfs:
+ 
+  /sys/kernel/fadump_enabled
+-
+     This is used to display the fadump status.
+-    0 = fadump is disabled
+-    1 = fadump is enabled
++
++    - 0 = fadump is disabled
++    - 1 = fadump is enabled
+ 
+     This interface can be used by kdump init scripts to identify if
+     fadump is enabled in the kernel and act accordingly.
+ 
+  /sys/kernel/fadump_registered
+-
+     This is used to display the fadump registration status as well
+     as to control (start/stop) the fadump registration.
+-    0 = fadump is not registered.
+-    1 = fadump is registered and ready to handle system crash.
++
++    - 0 = fadump is not registered.
++    - 1 = fadump is registered and ready to handle system crash.
+ 
+     To register fadump echo 1 > /sys/kernel/fadump_registered and
+     echo 0 > /sys/kernel/fadump_registered for un-register and stop the
+@@ -219,13 +223,12 @@ Here is the list of files under kernel sysfs:
+     easily integrated with kdump service start/stop.
+ 
+  /sys/kernel/fadump_release_mem
+-
+     This file is available only when fadump is active during
+     second kernel. This is used to release the reserved memory
+     region that are held for saving crash dump. To release the
+-    reserved memory echo 1 to it:
++    reserved memory echo 1 to it::
+ 
+-    echo 1  > /sys/kernel/fadump_release_mem
++	echo 1  > /sys/kernel/fadump_release_mem
+ 
+     After echo 1, the content of the /sys/kernel/debug/powerpc/fadump_region
+     file will change to reflect the new memory reservations.
+@@ -238,38 +241,39 @@ Here is the list of files under powerpc debugfs:
+ (Assuming debugfs is mounted on /sys/kernel/debug directory.)
+ 
+  /sys/kernel/debug/powerpc/fadump_region
+-
+     This file shows the reserved memory regions if fadump is
+     enabled otherwise this file is empty. The output format
+-    is:
+-    <region>: [<start>-<end>] <reserved-size> bytes, Dumped: <dump-size>
++    is::
++
++      <region>: [<start>-<end>] <reserved-size> bytes, Dumped: <dump-size>
+ 
+     e.g.
+-    Contents when fadump is registered during first kernel
++    Contents when fadump is registered during first kernel::
+ 
+-    # cat /sys/kernel/debug/powerpc/fadump_region
+-    CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x0
+-    HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x0
+-    DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x0
++      # cat /sys/kernel/debug/powerpc/fadump_region
++      CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x0
++      HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x0
++      DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x0
+ 
+-    Contents when fadump is active during second kernel
++    Contents when fadump is active during second kernel::
+ 
+-    # cat /sys/kernel/debug/powerpc/fadump_region
+-    CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x40020
+-    HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x1000
+-    DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x10000000
+-        : [0x00000010000000-0x0000006ffaffff] 0x5ffb0000 bytes, Dumped: 0x5ffb0000
++      # cat /sys/kernel/debug/powerpc/fadump_region
++      CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x40020
++      HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x1000
++      DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x10000000
++          : [0x00000010000000-0x0000006ffaffff] 0x5ffb0000 bytes, Dumped: 0x5ffb0000
+ 
+-NOTE: Please refer to Documentation/filesystems/debugfs.txt on
++NOTE:
++      Please refer to Documentation/filesystems/debugfs.txt on
+       how to mount the debugfs filesystem.
+ 
+ 
+ TODO:
+ -----
+- o Need to come up with the better approach to find out more
++ - Need to come up with the better approach to find out more
+    accurate boot memory size that is required for a kernel to
+    boot successfully when booted with restricted memory.
+- o The fadump implementation introduces a fadump crash info structure
++ - The fadump implementation introduces a fadump crash info structure
+    in the scratch area before the ELF core header. The idea of introducing
+    this structure is to pass some important crash info data to the second
+    kernel which will help second kernel to populate ELF core header with
+@@ -277,7 +281,9 @@ TODO:
+    design implementation does not address a possibility of introducing
+    additional fields (in future) to this structure without affecting
+    compatibility. Need to come up with the better approach to address this.
++
+    The possible approaches are:
++
+ 	1. Introduce version field for version tracking, bump up the version
+ 	whenever a new field is added to the structure in future. The version
+ 	field can be used to find out what fields are valid for the current
+@@ -285,8 +291,11 @@ TODO:
+ 	2. Reserve the area of predefined size (say PAGE_SIZE) for this
+ 	structure and have unused area as reserved (initialized to zero)
+ 	for future field additions.
++
+    The advantage of approach 1 over 2 is we don't need to reserve extra space.
+----
++
+ Author: Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>
++
+ This document is based on the original documentation written for phyp
++
+ assisted dump by Linas Vepstas and Manish Ahuja.
+diff --git a/Documentation/powerpc/hvcs.txt b/Documentation/powerpc/hvcs.rst
+similarity index 91%
+rename from Documentation/powerpc/hvcs.txt
+rename to Documentation/powerpc/hvcs.rst
+index a730ca5a07f8..6808acde672f 100644
+--- a/Documentation/powerpc/hvcs.txt
++++ b/Documentation/powerpc/hvcs.rst
+@@ -1,19 +1,22 @@
+-===========================================================================
+-				   HVCS
+-	IBM "Hypervisor Virtual Console Server" Installation Guide
+-			  for Linux Kernel 2.6.4+
+-		    Copyright (C) 2004 IBM Corporation
++===============================================================
++HVCS IBM "Hypervisor Virtual Console Server" Installation Guide
++===============================================================
+ 
+-===========================================================================
+-NOTE:Eight space tabs are the optimum editor setting for reading this file.
+-===========================================================================
++for Linux Kernel 2.6.4+
+ 
+-	       Author(s) :  Ryan S. Arnold <rsa@us.ibm.com>
+-		       Date Created: March, 02, 2004
+-		       Last Changed: August, 24, 2004
++Copyright (C) 2004 IBM Corporation
+ 
+----------------------------------------------------------------------------
+-Table of contents:
++.. ===========================================================================
++.. NOTE:Eight space tabs are the optimum editor setting for reading this file.
++.. ===========================================================================
++
++
++Author(s): Ryan S. Arnold <rsa@us.ibm.com>
++
++Date Created: March, 02, 2004
++Last Changed: August, 24, 2004
++
++.. Table of contents:
+ 
+ 	1.  Driver Introduction:
+ 	2.  System Requirements
+@@ -27,8 +30,8 @@ Table of contents:
+ 	8.  Questions & Answers:
+ 	9.  Reporting Bugs:
+ 
+----------------------------------------------------------------------------
+ 1. Driver Introduction:
++=======================
+ 
+ This is the device driver for the IBM Hypervisor Virtual Console Server,
+ "hvcs".  The IBM hvcs provides a tty driver interface to allow Linux user
+@@ -38,8 +41,8 @@ ppc64 system.  Physical hardware consoles per partition are not practical
+ on this hardware so system consoles are accessed by this driver using
+ firmware interfaces to virtual terminal devices.
+ 
+----------------------------------------------------------------------------
+ 2. System Requirements:
++=======================
+ 
+ This device driver was written using 2.6.4 Linux kernel APIs and will only
+ build and run on kernels of this version or later.
+@@ -52,8 +55,8 @@ Sysfs must be mounted on the system so that the user can determine which
+ major and minor numbers are associated with each vty-server.  Directions
+ for sysfs mounting are outside the scope of this document.
+ 
+----------------------------------------------------------------------------
+ 3. Build Options:
++=================
+ 
+ The hvcs driver registers itself as a tty driver.  The tty layer
+ dynamically allocates a block of major and minor numbers in a quantity
+@@ -65,11 +68,11 @@ If the default number of device entries is adequate then this driver can be
+ built into the kernel.  If not, the default can be over-ridden by inserting
+ the driver as a module with insmod parameters.
+ 
+----------------------------------------------------------------------------
+ 3.1 Built-in:
++-------------
+ 
+ The following menuconfig example demonstrates selecting to build this
+-driver into the kernel.
++driver into the kernel::
+ 
+ 	Device Drivers  --->
+ 		Character devices  --->
+@@ -77,11 +80,11 @@ driver into the kernel.
+ 
+ Begin the kernel make process.
+ 
+----------------------------------------------------------------------------
+ 3.2 Module:
++-----------
+ 
+ The following menuconfig example demonstrates selecting to build this
+-driver as a kernel module.
++driver as a kernel module::
+ 
+ 	Device Drivers  --->
+ 		Character devices  --->
+@@ -89,11 +92,11 @@ driver as a kernel module.
+ 
+ The make process will build the following kernel modules:
+ 
+-	hvcs.ko
+-	hvcserver.ko
++	- hvcs.ko
++	- hvcserver.ko
+ 
+ To insert the module with the default allocation execute the following
+-commands in the order they appear:
++commands in the order they appear::
+ 
+ 	insmod hvcserver.ko
+ 	insmod hvcs.ko
+@@ -103,7 +106,7 @@ be inserted first, otherwise the hvcs module will not find some of the
+ symbols it expects.
+ 
+ To override the default use an insmod parameter as follows (requesting 4
+-tty devices as an example):
++tty devices as an example)::
+ 
+ 	insmod hvcs.ko hvcs_parm_num_devs=4
+ 
+@@ -115,31 +118,31 @@ source file before building.
+ NOTE: The length of time it takes to insmod the driver seems to be related
+ to the number of tty interfaces the registering driver requests.
+ 
+-In order to remove the driver module execute the following command:
++In order to remove the driver module execute the following command::
+ 
+ 	rmmod hvcs.ko
+ 
+ The recommended method for installing hvcs as a module is to use depmod to
+ build a current modules.dep file in /lib/modules/`uname -r` and then
+-execute:
++execute::
+ 
+-modprobe hvcs hvcs_parm_num_devs=4
++	modprobe hvcs hvcs_parm_num_devs=4
+ 
+ The modules.dep file indicates that hvcserver.ko needs to be inserted
+ before hvcs.ko and modprobe uses this file to smartly insert the modules in
+ the proper order.
+ 
+ The following modprobe command is used to remove hvcs and hvcserver in the
+-proper order:
++proper order::
+ 
+-modprobe -r hvcs
++	modprobe -r hvcs
+ 
+----------------------------------------------------------------------------
+ 4. Installation:
++================
+ 
+ The tty layer creates sysfs entries which contain the major and minor
+ numbers allocated for the hvcs driver.  The following snippet of "tree"
+-output of the sysfs directory shows where these numbers are presented:
++output of the sysfs directory shows where these numbers are presented::
+ 
+ 	sys/
+ 	|-- *other sysfs base dirs*
+@@ -164,7 +167,7 @@ output of the sysfs directory shows where these numbers are presented:
+ 	|-- *other sysfs base dirs*
+ 
+ For the above examples the following output is a result of cat'ing the
+-"dev" entry in the hvcs directory:
++"dev" entry in the hvcs directory::
+ 
+ 	Pow5:/sys/class/tty/hvcs0/ # cat dev
+ 	254:0
+@@ -184,7 +187,7 @@ systems running hvcs will already have the device entries created or udev
+ will do it automatically.
+ 
+ Given the example output above, to manually create a /dev/hvcs* node entry
+-mknod can be used as follows:
++mknod can be used as follows::
+ 
+ 	mknod /dev/hvcs0 c 254 0
+ 	mknod /dev/hvcs1 c 254 1
+@@ -195,15 +198,15 @@ Using mknod to manually create the device entries makes these device nodes
+ persistent.  Once created they will exist prior to the driver insmod.
+ 
+ Attempting to connect an application to /dev/hvcs* prior to insertion of
+-the hvcs module will result in an error message similar to the following:
++the hvcs module will result in an error message similar to the following::
+ 
+ 	"/dev/hvcs*: No such device".
+ 
+ NOTE: Just because there is a device node present doesn't mean that there
+ is a vty-server device configured for that node.
+ 
+----------------------------------------------------------------------------
+ 5. Connection
++=============
+ 
+ Since this driver controls devices that provide a tty interface a user can
+ interact with the device node entries using any standard tty-interactive
+@@ -249,7 +252,7 @@ vty-server adapter is associated with which /dev/hvcs* node a special sysfs
+ attribute has been added to each vty-server sysfs entry.  This entry is
+ called "index" and showing it reveals an integer that refers to the
+ /dev/hvcs* entry to use to connect to that device.  For instance cating the
+-index attribute of vty-server adapter 30000004 shows the following.
++index attribute of vty-server adapter 30000004 shows the following::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat index
+ 	2
+@@ -262,8 +265,8 @@ system the /dev/hvcs* entry that interacts with a particular vty-server
+ adapter is not guaranteed to remain the same across system reboots.  Look
+ in the Q & A section for more on this issue.
+ 
+----------------------------------------------------------------------------
+ 6. Disconnection
++================
+ 
+ As a security feature to prevent the delivery of stale data to an
+ unintended target the Power5 system firmware disables the fetching of data
+@@ -305,7 +308,7 @@ connection between the vty-server and target vty ONLY if the vterm_state
+ previously read '1'.  The write directive is ignored if the vterm_state
+ read '0' or if any value other than '0' was written to the vterm_state
+ attribute.  The following example will show the method used for verifying
+-the vty-server connection status and disconnecting a vty-server connection.
++the vty-server connection status and disconnecting a vty-server connection::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat vterm_state
+ 	1
+@@ -318,12 +321,12 @@ the vty-server connection status and disconnecting a vty-server connection.
+ All vty-server connections are automatically terminated when the device is
+ hotplug removed and when the module is removed.
+ 
+----------------------------------------------------------------------------
+ 7. Configuration
++================
+ 
+ Each vty-server has a sysfs entry in the /sys/devices/vio directory, which
+ is symlinked in several other sysfs tree directories, notably under the
+-hvcs driver entry, which looks like the following example:
++hvcs driver entry, which looks like the following example::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs # ls
+ 	.  ..  30000003  30000004  rescan
+@@ -344,7 +347,7 @@ completed or was never executed.
+ 
+ Vty-server entries in this directory are a 32 bit partition unique unit
+ address that is created by firmware.  An example vty-server sysfs entry
+-looks like the following:
++looks like the following::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # ls
+ 	.   current_vty   devspec       name          partner_vtys
+@@ -352,21 +355,21 @@ looks like the following:
+ 
+ Each entry is provided, by default with a "name" attribute.  Reading the
+ "name" attribute will reveal the device type as shown in the following
+-example:
++example::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000003 # cat name
+ 	vty-server
+ 
+ Each entry is also provided, by default, with a "devspec" attribute which
+ reveals the full device specification when read, as shown in the following
+-example:
++example::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat devspec
+ 	/vdevice/vty-server@30000004
+ 
+ Each vty-server sysfs dir is provided with two read-only attributes that
+ provide lists of easily parsed partner vty data: "partner_vtys" and
+-"partner_clcs".
++"partner_clcs"::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat partner_vtys
+ 	30000000
+@@ -396,7 +399,7 @@ A vty-server can only be connected to a single vty at a time.  The entry,
+ read.
+ 
+ The current_vty can be changed by writing a valid partner clc to the entry
+-as in the following example:
++as in the following example::
+ 
+ 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # echo U5112.428.10304
+ 	8A-V4-C0 > current_vty
+@@ -408,9 +411,9 @@ currently open connection is freed.
+ Information on the "vterm_state" attribute was covered earlier on the
+ chapter entitled "disconnection".
+ 
+----------------------------------------------------------------------------
+ 8. Questions & Answers:
+-===========================================================================
++=======================
++
+ Q: What are the security concerns involving hvcs?
+ 
+ A: There are three main security concerns:
+@@ -429,6 +432,7 @@ A: There are three main security concerns:
+ 	partition) will experience the previously logged in session.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: How do I multiplex a console that I grab through hvcs so that other
+ people can see it:
+ 
+@@ -440,6 +444,7 @@ term type "screen" to others.  This means that curses based programs may
+ not display properly in screen sessions.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: Why are the colors all messed up?
+ Q: Why are the control characters acting strange or not working?
+ Q: Why is the console output all strange and unintelligible?
+@@ -455,6 +460,7 @@ disconnect from the console.  This will ensure that the next user gets
+ their own TERM type set when they login.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: When I try to CONNECT kermit to an hvcs device I get:
+ "Sorry, can't open connection: /dev/hvcs*"What is happening?
+ 
+@@ -490,6 +496,7 @@ A: There is not a corresponding vty-server device that maps to an existing
+ /dev/hvcs* entry.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: When I try to CONNECT kermit to an hvcs device I get:
+ "Sorry, write access to UUCP lockfile directory denied."
+ 
+@@ -497,6 +504,7 @@ A: The /dev/hvcs* entry you have specified doesn't exist where you said it
+ does?  Maybe you haven't inserted the module (on systems with udev).
+ 
+ ---------------------------------------------------------------------------
++
+ Q: If I already have one Linux partition installed can I use hvcs on said
+ partition to provide the console for the install of a second Linux
+ partition?
+@@ -505,6 +513,7 @@ A: Yes granted that your are connected to the /dev/hvcs* device using
+ kermit or cu or some other program that doesn't provide terminal emulation.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: Can I connect to more than one partition's console at a time using this
+ driver?
+ 
+@@ -512,6 +521,7 @@ A: Yes.  Of course this means that there must be more than one vty-server
+ configured for this partition and each must point to a disconnected vty.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: Does the hvcs driver support dynamic (hotplug) addition of devices?
+ 
+ A: Yes, if you have dlpar and hotplug enabled for your system and it has
+@@ -519,6 +529,7 @@ been built into the kernel the hvcs drivers is configured to dynamically
+ handle additions of new devices and removals of unused devices.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: For some reason /dev/hvcs* doesn't map to the same vty-server adapter
+ after a reboot.  What happened?
+ 
+@@ -533,6 +544,7 @@ on how to determine which vty-server goes with which /dev/hvcs* node.
+ Hint; look at the sysfs "index" attribute for the vty-server.
+ 
+ ---------------------------------------------------------------------------
++
+ Q: Can I use /dev/hvcs* as a conduit to another partition and use a tty
+ device on that partition as the other end of the pipe?
+ 
+@@ -554,7 +566,9 @@ read or write to /dev/hvcs*.  Now you have a tty conduit between two
+ partitions.
+ 
+ ---------------------------------------------------------------------------
++
+ 9. Reporting Bugs:
++==================
+ 
+ The proper channel for reporting bugs is either through the Linux OS
+ distribution company that provided your OS or by posting issues to the
+diff --git a/Documentation/powerpc/index.rst b/Documentation/powerpc/index.rst
+new file mode 100644
+index 000000000000..1ff17268db46
+--- /dev/null
++++ b/Documentation/powerpc/index.rst
+@@ -0,0 +1,34 @@
++:orphan:
++
++=======
++powerpc
++=======
++
++.. toctree::
++    :maxdepth: 1
++
++    bootwrapper
++    cpu_families
++    cpu_features
++    cxl
++    cxlflash
++    dawr-power9
++    dscr
++    eeh-pci-error-recovery
++    firmware-assisted-dump
++    hvcs
++    isa-versions
++    mpc52xx
++    pci_iov_resource_on_powernv
++    pmu-ebb
++    ptrace
++    qe_firmware
++    syscall64-abi
++    transactional_memory
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
+index 66c24140ebf1..a363d8c1603c 100644
+--- a/Documentation/powerpc/isa-versions.rst
++++ b/Documentation/powerpc/isa-versions.rst
+@@ -1,13 +1,12 @@
+-:orphan:
+-
++==========================
+ CPU to ISA Version Mapping
+ ==========================
+ 
+ Mapping of some CPU versions to relevant ISA versions.
+ 
+-========= ====================
++========= ====================================================================
+ CPU       Architecture version
+-========= ====================
++========= ====================================================================
+ Power9    Power ISA v3.0B
+ Power8    Power ISA v2.07
+ Power7    Power ISA v2.06
+@@ -24,7 +23,7 @@ PPC970    - PowerPC User Instruction Set Architecture Book I v2.01
+           - PowerPC Virtual Environment Architecture Book II v2.01
+           - PowerPC Operating Environment Architecture Book III v2.01
+           - Plus Altivec/VMX ~= 2.03
+-========= ====================
++========= ====================================================================
+ 
+ 
+ Key Features
+@@ -60,9 +59,9 @@ Power5     No
+ PPC970     No
+ ========== ====
+ 
+-========== ====================
++========== ====================================
+ CPU        Transactional Memory
+-========== ====================
++========== ====================================
+ Power9     Yes (* see transactional_memory.txt)
+ Power8     Yes
+ Power7     No
+@@ -73,4 +72,4 @@ Power5++   No
+ Power5+    No
+ Power5     No
+ PPC970     No
+-========== ====================
++========== ====================================
+diff --git a/Documentation/powerpc/mpc52xx.txt b/Documentation/powerpc/mpc52xx.rst
+similarity index 91%
+rename from Documentation/powerpc/mpc52xx.txt
+rename to Documentation/powerpc/mpc52xx.rst
+index 0d540a31ea1a..8676ac63e077 100644
+--- a/Documentation/powerpc/mpc52xx.txt
++++ b/Documentation/powerpc/mpc52xx.rst
+@@ -1,11 +1,13 @@
++=============================
+ Linux 2.6.x on MPC52xx family
+------------------------------
++=============================
+ 
+ For the latest info, go to http://www.246tNt.com/mpc52xx/
+ 
+ To compile/use :
+ 
+-  - U-Boot:
++  - U-Boot::
++
+      # <edit Makefile to set ARCH=ppc & CROSS_COMPILE=... ( also EXTRAVERSION
+         if you wish to ).
+      # make lite5200_defconfig
+@@ -16,7 +18,8 @@ To compile/use :
+      => tftpboot 400000 pRamdisk
+      => bootm 200000 400000
+ 
+-  - DBug:
++  - DBug::
++
+      # <edit Makefile to set ARCH=ppc & CROSS_COMPILE=... ( also EXTRAVERSION
+         if you wish to ).
+      # make lite5200_defconfig
+@@ -28,7 +31,8 @@ To compile/use :
+      DBug> dn -i zImage.initrd.lite5200
+ 
+ 
+-Some remarks :
++Some remarks:
++
+  - The port is named mpc52xxx, and config options are PPC_MPC52xx. The MGT5100
+    is not supported, and I'm not sure anyone is interesting in working on it
+    so. I didn't took 5xxx because there's apparently a lot of 5xxx that have
+diff --git a/Documentation/powerpc/pci_iov_resource_on_powernv.txt b/Documentation/powerpc/pci_iov_resource_on_powernv.rst
+similarity index 97%
+rename from Documentation/powerpc/pci_iov_resource_on_powernv.txt
+rename to Documentation/powerpc/pci_iov_resource_on_powernv.rst
+index b55c5cd83f8d..f5a5793e1613 100644
+--- a/Documentation/powerpc/pci_iov_resource_on_powernv.txt
++++ b/Documentation/powerpc/pci_iov_resource_on_powernv.rst
+@@ -1,6 +1,13 @@
++===================================================
++PCI Express I/O Virtualization Resource on Powerenv
++===================================================
++
+ Wei Yang <weiyang@linux.vnet.ibm.com>
++
+ Benjamin Herrenschmidt <benh@au1.ibm.com>
++
+ Bjorn Helgaas <bhelgaas@google.com>
++
+ 26 Aug 2014
+ 
+ This document describes the requirement from hardware for PCI MMIO resource
+@@ -10,6 +17,7 @@ Endpoints and the implementation on P8 (IODA2). The next two sections talks
+ about considerations on enabling SRIOV on IODA2.
+ 
+ 1. Introduction to Partitionable Endpoints
++==========================================
+ 
+ A Partitionable Endpoint (PE) is a way to group the various resources
+ associated with a device or a set of devices to provide isolation between
+@@ -35,6 +43,7 @@ is a completely separate HW entity that replicates the entire logic, so has
+ its own set of PEs, etc.
+ 
+ 2. Implementation of Partitionable Endpoints on P8 (IODA2)
++==========================================================
+ 
+ P8 supports up to 256 Partitionable Endpoints per PHB.
+ 
+@@ -149,6 +158,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
+     sense, but we haven't done it yet.
+ 
+ 3. Considerations for SR-IOV on PowerKVM
++========================================
+ 
+   * SR-IOV Background
+ 
+@@ -224,7 +234,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
+   IODA supports 256 PEs, so segmented windows contain 256 segments, so if
+   total_VFs is less than 256, we have the situation in Figure 1.0, where
+   segments [total_VFs, 255] of the M64 window may map to some MMIO range on
+-  other devices:
++  other devices::
+ 
+      0      1                     total_VFs - 1
+      +------+------+-     -+------+------+
+@@ -243,7 +253,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
+ 		Figure 1.0 Direct map VF(n) BAR space
+ 
+   Our current solution is to allocate 256 segments even if the VF(n) BAR
+-  space doesn't need that much, as shown in Figure 1.1:
++  space doesn't need that much, as shown in Figure 1.1::
+ 
+      0      1                     total_VFs - 1                255
+      +------+------+-     -+------+------+-      -+------+------+
+@@ -269,6 +279,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
+   responds to segments [total_VFs, 255].
+ 
+ 4. Implications for the Generic PCI Code
++========================================
+ 
+ The PCIe SR-IOV spec requires that the base of the VF(n) BAR space be
+ aligned to the size of an individual VF BAR.
+diff --git a/Documentation/powerpc/pmu-ebb.txt b/Documentation/powerpc/pmu-ebb.rst
+similarity index 99%
+rename from Documentation/powerpc/pmu-ebb.txt
+rename to Documentation/powerpc/pmu-ebb.rst
+index 73cd163dbfb8..4f474758eb55 100644
+--- a/Documentation/powerpc/pmu-ebb.txt
++++ b/Documentation/powerpc/pmu-ebb.rst
+@@ -1,3 +1,4 @@
++========================
+ PMU Event Based Branches
+ ========================
+ 
+diff --git a/Documentation/powerpc/ptrace.rst b/Documentation/powerpc/ptrace.rst
+new file mode 100644
+index 000000000000..864d4b6dddd1
+--- /dev/null
++++ b/Documentation/powerpc/ptrace.rst
+@@ -0,0 +1,156 @@
++======
++Ptrace
++======
++
++GDB intends to support the following hardware debug features of BookE
++processors:
++
++4 hardware breakpoints (IAC)
++2 hardware watchpoints (read, write and read-write) (DAC)
++2 value conditions for the hardware watchpoints (DVC)
++
++For that, we need to extend ptrace so that GDB can query and set these
++resources. Since we're extending, we're trying to create an interface
++that's extendable and that covers both BookE and server processors, so
++that GDB doesn't need to special-case each of them. We added the
++following 3 new ptrace requests.
++
++1. PTRACE_PPC_GETHWDEBUGINFO
++============================
++
++Query for GDB to discover the hardware debug features. The main info to
++be returned here is the minimum alignment for the hardware watchpoints.
++BookE processors don't have restrictions here, but server processors have
++an 8-byte alignment restriction for hardware watchpoints. We'd like to avoid
++adding special cases to GDB based on what it sees in AUXV.
++
++Since we're at it, we added other useful info that the kernel can return to
++GDB: this query will return the number of hardware breakpoints, hardware
++watchpoints and whether it supports a range of addresses and a condition.
++The query will fill the following structure provided by the requesting process::
++
++  struct ppc_debug_info {
++       unit32_t version;
++       unit32_t num_instruction_bps;
++       unit32_t num_data_bps;
++       unit32_t num_condition_regs;
++       unit32_t data_bp_alignment;
++       unit32_t sizeof_condition; /* size of the DVC register */
++       uint64_t features; /* bitmask of the individual flags */
++  };
++
++features will have bits indicating whether there is support for::
++
++  #define PPC_DEBUG_FEATURE_INSN_BP_RANGE		0x1
++  #define PPC_DEBUG_FEATURE_INSN_BP_MASK		0x2
++  #define PPC_DEBUG_FEATURE_DATA_BP_RANGE		0x4
++  #define PPC_DEBUG_FEATURE_DATA_BP_MASK		0x8
++  #define PPC_DEBUG_FEATURE_DATA_BP_DAWR		0x10
++
++2. PTRACE_SETHWDEBUG
++
++Sets a hardware breakpoint or watchpoint, according to the provided structure::
++
++  struct ppc_hw_breakpoint {
++        uint32_t version;
++  #define PPC_BREAKPOINT_TRIGGER_EXECUTE  0x1
++  #define PPC_BREAKPOINT_TRIGGER_READ     0x2
++ #define PPC_BREAKPOINT_TRIGGER_WRITE    0x4
++        uint32_t trigger_type;       /* only some combinations allowed */
++  #define PPC_BREAKPOINT_MODE_EXACT               0x0
++  #define PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE     0x1
++  #define PPC_BREAKPOINT_MODE_RANGE_EXCLUSIVE     0x2
++  #define PPC_BREAKPOINT_MODE_MASK                0x3
++        uint32_t addr_mode;          /* address match mode */
++
++  #define PPC_BREAKPOINT_CONDITION_MODE   0x3
++  #define PPC_BREAKPOINT_CONDITION_NONE   0x0
++  #define PPC_BREAKPOINT_CONDITION_AND    0x1
++  #define PPC_BREAKPOINT_CONDITION_EXACT  0x1	/* different name for the same thing as above */
++  #define PPC_BREAKPOINT_CONDITION_OR     0x2
++  #define PPC_BREAKPOINT_CONDITION_AND_OR 0x3
++  #define PPC_BREAKPOINT_CONDITION_BE_ALL 0x00ff0000	/* byte enable bits */
++  #define PPC_BREAKPOINT_CONDITION_BE(n)  (1<<((n)+16))
++        uint32_t condition_mode;     /* break/watchpoint condition flags */
++
++        uint64_t addr;
++        uint64_t addr2;
++        uint64_t condition_value;
++  };
++
++A request specifies one event, not necessarily just one register to be set.
++For instance, if the request is for a watchpoint with a condition, both the
++DAC and DVC registers will be set in the same request.
++
++With this GDB can ask for all kinds of hardware breakpoints and watchpoints
++that the BookE supports. COMEFROM breakpoints available in server processors
++are not contemplated, but that is out of the scope of this work.
++
++ptrace will return an integer (handle) uniquely identifying the breakpoint or
++watchpoint just created. This integer will be used in the PTRACE_DELHWDEBUG
++request to ask for its removal. Return -ENOSPC if the requested breakpoint
++can't be allocated on the registers.
++
++Some examples of using the structure to:
++
++- set a breakpoint in the first breakpoint register::
++
++    p.version         = PPC_DEBUG_CURRENT_VERSION;
++    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
++    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
++    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
++    p.addr            = (uint64_t) address;
++    p.addr2           = 0;
++    p.condition_value = 0;
++
++- set a watchpoint which triggers on reads in the second watchpoint register::
++
++    p.version         = PPC_DEBUG_CURRENT_VERSION;
++    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
++    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
++    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
++    p.addr            = (uint64_t) address;
++    p.addr2           = 0;
++    p.condition_value = 0;
++
++- set a watchpoint which triggers only with a specific value::
++
++    p.version         = PPC_DEBUG_CURRENT_VERSION;
++    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
++    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
++    p.condition_mode  = PPC_BREAKPOINT_CONDITION_AND | PPC_BREAKPOINT_CONDITION_BE_ALL;
++    p.addr            = (uint64_t) address;
++    p.addr2           = 0;
++    p.condition_value = (uint64_t) condition;
++
++- set a ranged hardware breakpoint::
++
++    p.version         = PPC_DEBUG_CURRENT_VERSION;
++    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
++    p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
++    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
++    p.addr            = (uint64_t) begin_range;
++    p.addr2           = (uint64_t) end_range;
++    p.condition_value = 0;
++
++- set a watchpoint in server processors (BookS)::
++
++    p.version         = 1;
++    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_RW;
++    p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
++    or
++    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
++
++    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
++    p.addr            = (uint64_t) begin_range;
++    /* For PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE addr2 needs to be specified, where
++     * addr2 - addr <= 8 Bytes.
++     */
++    p.addr2           = (uint64_t) end_range;
++    p.condition_value = 0;
++
++3. PTRACE_DELHWDEBUG
++
++Takes an integer which identifies an existing breakpoint or watchpoint
++(i.e., the value returned from PTRACE_SETHWDEBUG), and deletes the
++corresponding breakpoint or watchpoint..
+diff --git a/Documentation/powerpc/ptrace.txt b/Documentation/powerpc/ptrace.txt
+deleted file mode 100644
+index 99c5ce88d0fe..000000000000
+--- a/Documentation/powerpc/ptrace.txt
++++ /dev/null
+@@ -1,151 +0,0 @@
+-GDB intends to support the following hardware debug features of BookE
+-processors:
+-
+-4 hardware breakpoints (IAC)
+-2 hardware watchpoints (read, write and read-write) (DAC)
+-2 value conditions for the hardware watchpoints (DVC)
+-
+-For that, we need to extend ptrace so that GDB can query and set these
+-resources. Since we're extending, we're trying to create an interface
+-that's extendable and that covers both BookE and server processors, so
+-that GDB doesn't need to special-case each of them. We added the
+-following 3 new ptrace requests.
+-
+-1. PTRACE_PPC_GETHWDEBUGINFO
+-
+-Query for GDB to discover the hardware debug features. The main info to
+-be returned here is the minimum alignment for the hardware watchpoints.
+-BookE processors don't have restrictions here, but server processors have
+-an 8-byte alignment restriction for hardware watchpoints. We'd like to avoid
+-adding special cases to GDB based on what it sees in AUXV.
+-
+-Since we're at it, we added other useful info that the kernel can return to
+-GDB: this query will return the number of hardware breakpoints, hardware
+-watchpoints and whether it supports a range of addresses and a condition.
+-The query will fill the following structure provided by the requesting process:
+-
+-struct ppc_debug_info {
+-       unit32_t version;
+-       unit32_t num_instruction_bps;
+-       unit32_t num_data_bps;
+-       unit32_t num_condition_regs;
+-       unit32_t data_bp_alignment;
+-       unit32_t sizeof_condition; /* size of the DVC register */
+-       uint64_t features; /* bitmask of the individual flags */
+-};
+-
+-features will have bits indicating whether there is support for:
+-
+-#define PPC_DEBUG_FEATURE_INSN_BP_RANGE		0x1
+-#define PPC_DEBUG_FEATURE_INSN_BP_MASK		0x2
+-#define PPC_DEBUG_FEATURE_DATA_BP_RANGE		0x4
+-#define PPC_DEBUG_FEATURE_DATA_BP_MASK		0x8
+-#define PPC_DEBUG_FEATURE_DATA_BP_DAWR		0x10
+-
+-2. PTRACE_SETHWDEBUG
+-
+-Sets a hardware breakpoint or watchpoint, according to the provided structure:
+-
+-struct ppc_hw_breakpoint {
+-        uint32_t version;
+-#define PPC_BREAKPOINT_TRIGGER_EXECUTE  0x1
+-#define PPC_BREAKPOINT_TRIGGER_READ     0x2
+-#define PPC_BREAKPOINT_TRIGGER_WRITE    0x4
+-        uint32_t trigger_type;       /* only some combinations allowed */
+-#define PPC_BREAKPOINT_MODE_EXACT               0x0
+-#define PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE     0x1
+-#define PPC_BREAKPOINT_MODE_RANGE_EXCLUSIVE     0x2
+-#define PPC_BREAKPOINT_MODE_MASK                0x3
+-        uint32_t addr_mode;          /* address match mode */
+-
+-#define PPC_BREAKPOINT_CONDITION_MODE   0x3
+-#define PPC_BREAKPOINT_CONDITION_NONE   0x0
+-#define PPC_BREAKPOINT_CONDITION_AND    0x1
+-#define PPC_BREAKPOINT_CONDITION_EXACT  0x1	/* different name for the same thing as above */
+-#define PPC_BREAKPOINT_CONDITION_OR     0x2
+-#define PPC_BREAKPOINT_CONDITION_AND_OR 0x3
+-#define PPC_BREAKPOINT_CONDITION_BE_ALL 0x00ff0000	/* byte enable bits */
+-#define PPC_BREAKPOINT_CONDITION_BE(n)  (1<<((n)+16))
+-        uint32_t condition_mode;     /* break/watchpoint condition flags */
+-
+-        uint64_t addr;
+-        uint64_t addr2;
+-        uint64_t condition_value;
+-};
+-
+-A request specifies one event, not necessarily just one register to be set.
+-For instance, if the request is for a watchpoint with a condition, both the
+-DAC and DVC registers will be set in the same request.
+-
+-With this GDB can ask for all kinds of hardware breakpoints and watchpoints
+-that the BookE supports. COMEFROM breakpoints available in server processors
+-are not contemplated, but that is out of the scope of this work.
+-
+-ptrace will return an integer (handle) uniquely identifying the breakpoint or
+-watchpoint just created. This integer will be used in the PTRACE_DELHWDEBUG
+-request to ask for its removal. Return -ENOSPC if the requested breakpoint
+-can't be allocated on the registers.
+-
+-Some examples of using the structure to:
+-
+-- set a breakpoint in the first breakpoint register
+-
+-  p.version         = PPC_DEBUG_CURRENT_VERSION;
+-  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
+-  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
+-  p.addr            = (uint64_t) address;
+-  p.addr2           = 0;
+-  p.condition_value = 0;
+-
+-- set a watchpoint which triggers on reads in the second watchpoint register
+-
+-  p.version         = PPC_DEBUG_CURRENT_VERSION;
+-  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
+-  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
+-  p.addr            = (uint64_t) address;
+-  p.addr2           = 0;
+-  p.condition_value = 0;
+-
+-- set a watchpoint which triggers only with a specific value
+-
+-  p.version         = PPC_DEBUG_CURRENT_VERSION;
+-  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
+-  p.condition_mode  = PPC_BREAKPOINT_CONDITION_AND | PPC_BREAKPOINT_CONDITION_BE_ALL;
+-  p.addr            = (uint64_t) address;
+-  p.addr2           = 0;
+-  p.condition_value = (uint64_t) condition;
+-
+-- set a ranged hardware breakpoint
+-
+-  p.version         = PPC_DEBUG_CURRENT_VERSION;
+-  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
+-  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
+-  p.addr            = (uint64_t) begin_range;
+-  p.addr2           = (uint64_t) end_range;
+-  p.condition_value = 0;
+-
+-- set a watchpoint in server processors (BookS)
+-
+-  p.version         = 1;
+-  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_RW;
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
+-  or
+-  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
+-
+-  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
+-  p.addr            = (uint64_t) begin_range;
+-  /* For PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE addr2 needs to be specified, where
+-   * addr2 - addr <= 8 Bytes.
+-   */
+-  p.addr2           = (uint64_t) end_range;
+-  p.condition_value = 0;
+-
+-3. PTRACE_DELHWDEBUG
+-
+-Takes an integer which identifies an existing breakpoint or watchpoint
+-(i.e., the value returned from PTRACE_SETHWDEBUG), and deletes the
+-corresponding breakpoint or watchpoint..
+diff --git a/Documentation/powerpc/qe_firmware.txt b/Documentation/powerpc/qe_firmware.rst
+similarity index 95%
+rename from Documentation/powerpc/qe_firmware.txt
+rename to Documentation/powerpc/qe_firmware.rst
+index e7ac24aec4ff..42f5103140c9 100644
+--- a/Documentation/powerpc/qe_firmware.txt
++++ b/Documentation/powerpc/qe_firmware.rst
+@@ -1,23 +1,23 @@
+-	   Freescale QUICC Engine Firmware Uploading
+-	   -----------------------------------------
++=========================================
++Freescale QUICC Engine Firmware Uploading
++=========================================
+ 
+ (c) 2007 Timur Tabi <timur at freescale.com>,
+     Freescale Semiconductor
+ 
+-Table of Contents
+-=================
++.. Table of Contents
+ 
+-  I - Software License for Firmware
++   I - Software License for Firmware
+ 
+-  II - Microcode Availability
++   II - Microcode Availability
+ 
+-  III - Description and Terminology
++   III - Description and Terminology
+ 
+-  IV - Microcode Programming Details
++   IV - Microcode Programming Details
+ 
+-  V - Firmware Structure Layout
++   V - Firmware Structure Layout
+ 
+-  VI - Sample Code for Creating Firmware Files
++   VI - Sample Code for Creating Firmware Files
+ 
+ Revision Information
+ ====================
+@@ -39,7 +39,7 @@ http://opensource.freescale.com.  For other firmware files, please contact
+ your Freescale representative or your operating system vendor.
+ 
+ III - Description and Terminology
+-================================
++=================================
+ 
+ In this document, the term 'microcode' refers to the sequence of 32-bit
+ integers that compose the actual QE microcode.
+@@ -89,7 +89,7 @@ being fixed in the RAM package utilizing they should be activated.  This data
+ structure signals the microcode which of these virtual traps is active.
+ 
+ This structure contains 6 words that the application should copy to some
+-specific been defined.  This table describes the structure.
++specific been defined.  This table describes the structure::
+ 
+ 	---------------------------------------------------------------
+ 	| Offset in |                  | Destination Offset | Size of |
+@@ -119,7 +119,7 @@ Extended Modes
+ This is a double word bit array (64 bits) that defines special functionality
+ which has an impact on the software drivers.  Each bit has its own impact
+ and has special instructions for the s/w associated with it.  This structure is
+-described in this table:
++described in this table::
+ 
+ 	-----------------------------------------------------------------------
+ 	| Bit #  |     Name     |   Description                               |
+@@ -220,7 +220,8 @@ The 'model' field is a 16-bit number that matches the actual SOC. The
+ 'major' and 'minor' fields are the major and minor revision numbers,
+ respectively, of the SOC.
+ 
+-For example, to match the 8323, revision 1.0:
++For example, to match the 8323, revision 1.0::
++
+      soc.model = 8323
+      soc.major = 1
+      soc.minor = 0
+@@ -273,10 +274,10 @@ library and available to any driver that calles qe_get_firmware_info().
+ 	'reserved'.
+ 
+ After the last microcode is a 32-bit CRC.  It can be calculated using
+-this algorithm:
++this algorithm::
+ 
+-u32 crc32(const u8 *p, unsigned int len)
+-{
++  u32 crc32(const u8 *p, unsigned int len)
++  {
+ 	unsigned int i;
+ 	u32 crc = 0;
+ 
+@@ -286,7 +287,7 @@ u32 crc32(const u8 *p, unsigned int len)
+ 		   crc = (crc >> 1) ^ ((crc & 1) ? 0xedb88320 : 0);
+ 	}
+ 	return crc;
+-}
++  }
+ 
+ VI - Sample Code for Creating Firmware Files
+ ============================================
+diff --git a/Documentation/powerpc/syscall64-abi.txt b/Documentation/powerpc/syscall64-abi.rst
+similarity index 82%
+rename from Documentation/powerpc/syscall64-abi.txt
+rename to Documentation/powerpc/syscall64-abi.rst
+index fa716a0d88bd..e49f69f941b9 100644
+--- a/Documentation/powerpc/syscall64-abi.txt
++++ b/Documentation/powerpc/syscall64-abi.rst
+@@ -5,12 +5,12 @@ Power Architecture 64-bit Linux system call ABI
+ syscall
+ =======
+ 
+-syscall calling sequence[*] matches the Power Architecture 64-bit ELF ABI
++syscall calling sequence\ [1]_ matches the Power Architecture 64-bit ELF ABI
+ specification C function calling sequence, including register preservation
+ rules, with the following differences.
+ 
+-[*] Some syscalls (typically low-level management functions) may have
+-    different calling sequences (e.g., rt_sigreturn).
++.. [1] Some syscalls (typically low-level management functions) may have
++       different calling sequences (e.g., rt_sigreturn).
+ 
+ Parameters and return value
+ ---------------------------
+@@ -33,12 +33,14 @@ Register preservation rules
+ Register preservation rules match the ELF ABI calling sequence with the
+ following differences:
+ 
+-r0:         Volatile.   (System call number.)
+-r3:         Volatile.   (Parameter 1, and return value.)
+-r4-r8:      Volatile.   (Parameters 2-6.)
+-cr0:        Volatile    (cr0.SO is the return error condition)
+-cr1, cr5-7: Nonvolatile.
+-lr:         Nonvolatile.
++=========== ============= ========================================
++r0          Volatile      (System call number.)
++r3          Volatile      (Parameter 1, and return value.)
++r4-r8       Volatile      (Parameters 2-6.)
++cr0         Volatile      (cr0.SO is the return error condition)
++cr1, cr5-7  Nonvolatile
++lr          Nonvolatile
++=========== ============= ========================================
+ 
+ All floating point and vector data registers as well as control and status
+ registers are nonvolatile.
+@@ -90,9 +92,12 @@ The vsyscall may or may not use the caller's stack frame save areas.
+ 
+ Register preservation rules
+ ---------------------------
+-r0: Volatile.
+-cr1, cr5-7: Volatile.
+-lr: Volatile.
++
++=========== ========
++r0          Volatile
++cr1, cr5-7  Volatile
++lr          Volatile
++=========== ========
+ 
+ Invocation
+ ----------
+diff --git a/Documentation/powerpc/transactional_memory.txt b/Documentation/powerpc/transactional_memory.rst
+similarity index 93%
+rename from Documentation/powerpc/transactional_memory.txt
+rename to Documentation/powerpc/transactional_memory.rst
+index 52c023e14f26..09955103acb4 100644
+--- a/Documentation/powerpc/transactional_memory.txt
++++ b/Documentation/powerpc/transactional_memory.rst
+@@ -1,3 +1,4 @@
++============================
+ Transactional Memory support
+ ============================
+ 
+@@ -17,29 +18,29 @@ instructions are presented to delimit transactions; transactions are
+ guaranteed to either complete atomically or roll back and undo any partial
+ changes.
+ 
+-A simple transaction looks like this:
++A simple transaction looks like this::
+ 
+-begin_move_money:
+-  tbegin
+-  beq   abort_handler
++  begin_move_money:
++    tbegin
++    beq   abort_handler
+ 
+-  ld    r4, SAVINGS_ACCT(r3)
+-  ld    r5, CURRENT_ACCT(r3)
+-  subi  r5, r5, 1
+-  addi  r4, r4, 1
+-  std   r4, SAVINGS_ACCT(r3)
+-  std   r5, CURRENT_ACCT(r3)
++    ld    r4, SAVINGS_ACCT(r3)
++    ld    r5, CURRENT_ACCT(r3)
++    subi  r5, r5, 1
++    addi  r4, r4, 1
++    std   r4, SAVINGS_ACCT(r3)
++    std   r5, CURRENT_ACCT(r3)
+ 
+-  tend
++    tend
+ 
+-  b     continue
++    b     continue
+ 
+-abort_handler:
+-  ... test for odd failures ...
++  abort_handler:
++    ... test for odd failures ...
+ 
+-  /* Retry the transaction if it failed because it conflicted with
+-   * someone else: */
+-  b     begin_move_money
++    /* Retry the transaction if it failed because it conflicted with
++     * someone else: */
++    b     begin_move_money
+ 
+ 
+ The 'tbegin' instruction denotes the start point, and 'tend' the end point.
+@@ -123,7 +124,7 @@ Transaction-aware signal handlers can read the transactional register state
+ from the second ucontext.  This will be necessary for crash handlers to
+ determine, for example, the address of the instruction causing the SIGSEGV.
+ 
+-Example signal handler:
++Example signal handler::
+ 
+     void crash_handler(int sig, siginfo_t *si, void *uc)
+     {
+@@ -133,9 +134,9 @@ Example signal handler:
+       if (ucp_link) {
+         u64 msr = ucp->uc_mcontext.regs->msr;
+         /* May have transactional ucontext! */
+-#ifndef __powerpc64__
++  #ifndef __powerpc64__
+         msr |= ((u64)transactional_ucp->uc_mcontext.regs->msr) << 32;
+-#endif
++  #endif
+         if (MSR_TM_ACTIVE(msr)) {
+            /* Yes, we crashed during a transaction.  Oops. */
+    fprintf(stderr, "Transaction to be restarted at 0x%llx, but "
+@@ -176,6 +177,7 @@ Failure cause codes used by kernel
+ These are defined in <asm/reg.h>, and distinguish different reasons why the
+ kernel aborted a transaction:
+ 
++ ====================== ================================
+  TM_CAUSE_RESCHED       Thread was rescheduled.
+  TM_CAUSE_TLBI          Software TLB invalid.
+  TM_CAUSE_FAC_UNAV      FP/VEC/VSX unavailable trap.
+@@ -184,6 +186,7 @@ kernel aborted a transaction:
+  TM_CAUSE_MISC          Currently unused.
+  TM_CAUSE_ALIGNMENT     Alignment fault.
+  TM_CAUSE_EMULATE       Emulation that touched memory.
++ ====================== ================================
+ 
+ These can be checked by the user program's abort handler as TEXASR[0:7].  If
+ bit 7 is set, it indicates that the error is consider persistent.  For example
+@@ -203,7 +206,7 @@ POWER9
+ ======
+ 
+ TM on POWER9 has issues with storing the complete register state. This
+-is described in this commit:
++is described in this commit::
+ 
+     commit 4bb3c7a0208fc13ca70598efd109901a7cd45ae7
+     Author: Paul Mackerras <paulus@ozlabs.org>
 diff --git a/MAINTAINERS b/MAINTAINERS
-index cc8a52d2ce83..8aa3d0bd5b80 100644
+index 9458cdaa5b4b..bad1bbb668bc 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14830,7 +14830,7 @@ M:	Mattia Dongili <malattia@linux.it>
- L:	platform-driver-x86@vger.kernel.org
- W:	http://www.linux.it/~malattia/wiki/index.php/Sony_drivers
- S:	Maintained
--F:	Documentation/laptops/sony-laptop.txt
-+F:	Documentation/laptops/sony-laptop.rst
- F:	drivers/char/sonypi.c
- F:	drivers/platform/x86/sony-laptop.c
- F:	include/linux/sony-laptop.h
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index 466ebd84ad17..bb734066075f 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -382,7 +382,7 @@ config SONYPI
- 	  Device which can be found in many (all ?) Sony Vaio laptops.
+@@ -4416,7 +4416,7 @@ F:	arch/powerpc/platforms/powernv/pci-cxl.c
+ F:	drivers/misc/cxl/
+ F:	include/misc/cxl*
+ F:	include/uapi/misc/cxl.h
+-F:	Documentation/powerpc/cxl.txt
++F:	Documentation/powerpc/cxl.rst
+ F:	Documentation/ABI/testing/sysfs-class-cxl
  
- 	  If you have one of those laptops, read
--	  <file:Documentation/laptops/sonypi.txt>, and say Y or M here.
-+	  <file:Documentation/laptops/sonypi.rst>, and say Y or M here.
+ CXLFLASH (IBM Coherent Accelerator Processor Interface CAPI Flash) SCSI DRIVER
+@@ -4427,7 +4427,7 @@ L:	linux-scsi@vger.kernel.org
+ S:	Supported
+ F:	drivers/scsi/cxlflash/
+ F:	include/uapi/scsi/cxlflash_ioctl.h
+-F:	Documentation/powerpc/cxlflash.txt
++F:	Documentation/powerpc/cxlflash.rst
  
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sonypi.
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index c318501773bc..1f616844fb87 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -448,7 +448,7 @@ config SONY_LAPTOP
- 	  screen brightness control, Fn keys and allows powering on/off some
- 	  devices.
+ CYBERPRO FB DRIVER
+ M:	Russell King <linux@armlinux.org.uk>
+@@ -12276,7 +12276,7 @@ F:	Documentation/PCI/pci-error-recovery.rst
+ F:	drivers/pci/pcie/aer.c
+ F:	drivers/pci/pcie/dpc.c
+ F:	drivers/pci/pcie/err.c
+-F:	Documentation/powerpc/eeh-pci-error-recovery.txt
++F:	Documentation/powerpc/eeh-pci-error-recovery.rst
+ F:	arch/powerpc/kernel/eeh*.c
+ F:	arch/powerpc/platforms/*/eeh*.c
+ F:	arch/powerpc/include/*/eeh*.h
+diff --git a/arch/powerpc/kernel/exceptions-64s.S b/arch/powerpc/kernel/exceptions-64s.S
+index 4d4fd2ad5b7d..d6f48fc845ca 100644
+--- a/arch/powerpc/kernel/exceptions-64s.S
++++ b/arch/powerpc/kernel/exceptions-64s.S
+@@ -910,7 +910,7 @@ EXC_COMMON(trap_0b_common, 0xb00, unknown_exception)
+  *
+  * Call convention:
+  *
+- * syscall register convention is in Documentation/powerpc/syscall64-abi.txt
++ * syscall register convention is in Documentation/powerpc/syscall64-abi.rst
+  *
+  * For hypercalls, the register convention is as follows:
+  * r0 volatile
+diff --git a/drivers/soc/fsl/qe/qe.c b/drivers/soc/fsl/qe/qe.c
+index ba38c4bb2a88..417df7e19281 100644
+--- a/drivers/soc/fsl/qe/qe.c
++++ b/drivers/soc/fsl/qe/qe.c
+@@ -430,7 +430,7 @@ static void qe_upload_microcode(const void *base,
+ /*
+  * Upload a microcode to the I-RAM at a specific address.
+  *
+- * See Documentation/powerpc/qe_firmware.txt for information on QE microcode
++ * See Documentation/powerpc/qe_firmware.rst for information on QE microcode
+  * uploading.
+  *
+  * Currently, only version 1 is supported, so the 'version' field must be
+diff --git a/drivers/tty/hvc/hvcs.c b/drivers/tty/hvc/hvcs.c
+index cb4db1b3ca3c..5fb214e67d73 100644
+--- a/drivers/tty/hvc/hvcs.c
++++ b/drivers/tty/hvc/hvcs.c
+@@ -47,7 +47,7 @@
+  * using the 2.6 Linux kernel kref construct.
+  *
+  * For direction on installation and usage of this driver please reference
+- * Documentation/powerpc/hvcs.txt.
++ * Documentation/powerpc/hvcs.rst.
+  */
  
--	  Read <file:Documentation/laptops/sony-laptop.txt> for more information.
-+	  Read <file:Documentation/laptops/sony-laptop.rst> for more information.
+ #include <linux/device.h>
+diff --git a/include/soc/fsl/qe/qe.h b/include/soc/fsl/qe/qe.h
+index 3f9d6b6a5691..c1036d16ed03 100644
+--- a/include/soc/fsl/qe/qe.h
++++ b/include/soc/fsl/qe/qe.h
+@@ -259,7 +259,7 @@ static inline int qe_alive_during_sleep(void)
  
- config SONYPI_COMPAT
- 	bool "Sonypi compatibility"
-@@ -500,7 +500,7 @@ config THINKPAD_ACPI
- 	  support for Fn-Fx key combinations, Bluetooth control, video
- 	  output switching, ThinkLight control, UltraBay eject and more.
- 	  For more information about this driver see
--	  <file:Documentation/laptops/thinkpad-acpi.txt> and
-+	  <file:Documentation/laptops/thinkpad-acpi.rst> and
- 	  <http://ibm-acpi.sf.net/> .
- 
- 	  This driver was formerly known as ibm-acpi.
+ /* Structure that defines QE firmware binary files.
+  *
+- * See Documentation/powerpc/qe_firmware.txt for a description of these
++ * See Documentation/powerpc/qe_firmware.rst for a description of these
+  * fields.
+  */
+ struct qe_firmware {
 -- 
 2.21.0
 
