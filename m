@@ -1,118 +1,173 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 869CF7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 05:50:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7479C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 05:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbfF1Fua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 01:50:30 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:38088 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726553AbfF1Fua (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 01:50:30 -0400
-Received: by mail-lj1-f195.google.com with SMTP id r9so4727490ljg.5
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2019 22:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cbFBRaRExGspP5FBHqiodiH1th1SFCHyj3/EvKVMOx0=;
-        b=VKNi1swUOq5lK8dq5fqpEDERV76IAnNdVZ5XZGkHh0446kzeu1AUrTBtfcWnqjwz7s
-         CFLCv+VQfnCjIW21Uxjhk9kIItpOCpOBVaNjc4RN6PTb/zpOPrs2Jj7LcyAqecc21QRV
-         2zT0yeebkvwCzjWi2Tq7+2u7CBR3i7VsePNdHChsH3C/xrJfBA9rwWPDAi8E7lXECpz8
-         Q1nuzUYvZIvaVHYYNFAHG986q7tr+zKqYG229xXRcT4HSClajfzb3LUyrKnMstHdN24Y
-         IWVk/TCCmQCNkoJVw/Yul28cipc8m3F/AL+0q4ind6UeYydAvf+v66mhP8+vCEXX70QX
-         +NNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cbFBRaRExGspP5FBHqiodiH1th1SFCHyj3/EvKVMOx0=;
-        b=cCV8uF8A5b7KKNtr0jm2xxiteO7KujjO1MKSR1zIDw+edhru5bux7fD24hkQtEEUsA
-         hJlgbyIR13rQ+69Bd/pozVbdgNn3sWv5XN83NVsPG2X2G0MyBt3skiJVXBzRIAQxSR1Q
-         h0D28lz7Yp/UAGDGMaVtjcXYiY7/xAMTyVObfcLFIuaXV5z231+BZwORgsaPiuCmVQJt
-         N7D4gdmucHIHVyg9MFnKvUubbm4SsKe0EpbjKuNb/uo0+milFcAHtKzuRmecSbJ+qwaY
-         RWQ1eF353Zrw2RBjioK+HVf2dBg8fZX0dLwp448jxMEd3EcC1E49bUSsIi0Qjko1A32S
-         +yvw==
-X-Gm-Message-State: APjAAAU1l+4QBmNvTF7uCRWLVswQcwXDiS7RkUsxj2ReEbKvVcfdipnX
-        8NpaysBmAPXkkA//7NpQNeMGz5+MdqYefCr2CbTtng==
-X-Google-Smtp-Source: APXvYqyEmJlYN3SMPXRrWfgX1NnF/P7C1CPVt4Z22T7CZtmDkBsqof9nh+eUEiF4lozTqMf3BR8KLe04tRokqvKZ1VQ=
-X-Received: by 2002:a2e:4b12:: with SMTP id y18mr4842583lja.238.1561701027991;
- Thu, 27 Jun 2019 22:50:27 -0700 (PDT)
+        id S1726240AbfF1F5A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 01:57:00 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:55457 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726574AbfF1F47 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 01:56:59 -0400
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x5S5upff021162;
+        Fri, 28 Jun 2019 14:56:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x5S5upff021162
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1561701412;
+        bh=HDd0Y/W4I7YBLvusFXFYTc0ARgjQwYghy/YqyHxcvog=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BroIC4TAaYJkZen5YPvPjEMTlqThXJ7kInKF40fn0WZ4HrFgZmOYrgBAKzB7M58hV
+         Cjrkkt+wECkEjAJLYFOH7jDqh/OD94Zq11DEe5Vsyzz5Ner8yO2GeT+Hg9p3OC3t+V
+         n4nFgFMgFmy8G1kWiBcIukiCEmoJ12JRql/MzkEt+/w6+scR8OalTimgeW9f/uaQcw
+         X01GJhPtMR/SAu06XpS6hi3qiUGkuNl3IBSk4FSFYlq07uu6v4SmxLIZrUPWJ4k4mt
+         l8l6PG6v8jOXahJzihhrU5nLKmyxeWSvUkbeKMdMCzsO9X1dD24mpwwGrYNAtZjMfn
+         xF5POVhbcPgJg==
+X-Nifty-SrcIP: [209.85.217.50]
+Received: by mail-vs1-f50.google.com with SMTP id k9so3277844vso.5;
+        Thu, 27 Jun 2019 22:56:51 -0700 (PDT)
+X-Gm-Message-State: APjAAAWMe0T2KhwboVaqpJYx2TekL68NAPLfn4z0ZJWLaUlqYUh8LJ9D
+        9bJxOWdhWnds+B+Mutdhy+D5woba7loahxdC7Bk=
+X-Google-Smtp-Source: APXvYqxptar0gO6vvgGTF1Kv1qpPUQqPJ04ZTUnl7CWPxKrhb5QhG3jUHPnDgYGABLMfecqNcgzfq74uIItQtHif5Vo=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr5249636vsq.179.1561701410958;
+ Thu, 27 Jun 2019 22:56:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190625201341.15865-1-sashal@kernel.org> <20190625201341.15865-2-sashal@kernel.org>
- <673dd30d03e8ed9825bb46ef21b2efef015f6f2a.camel@linux.intel.com>
- <20190626235653.GL7898@sasha-vm> <b688e845ccbe011c54b10043fbc3c0de8f0befc2.camel@linux.intel.com>
-In-Reply-To: <b688e845ccbe011c54b10043fbc3c0de8f0befc2.camel@linux.intel.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Fri, 28 Jun 2019 11:20:16 +0530
-Message-ID: <CAFA6WYM=YFec7rx6QSWtaZYeY8LrcjQ3bbMMtF0r6jbBaHX+Bw@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] fTPM: firmware TPM running in TEE
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>
-Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
+References: <20190628020433.19156-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190628020433.19156-1-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 28 Jun 2019 14:56:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASnMwUNgHh38aGkuc8KdBG3TW02qZf1Kw_OYcTPYjWYOQ@mail.gmail.com>
+Message-ID: <CAK7LNASnMwUNgHh38aGkuc8KdBG3TW02qZf1Kw_OYcTPYjWYOQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: get rid of misleading $(AS) from documents
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
-        Thirupathaiah Annapureddy <thiruan@microsoft.com>,
-        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
-        tee-dev@lists.linaro.org,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        rdunlap@infradead.org
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarkko and Sasha,
+On Fri, Jun 28, 2019 at 11:06 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> The assembler files in the kernel are *.S instead of *.s, so they must
+> be preprocessed. Hence, we always use $(CC) as an assembler driver.
+>
+> $(AS) is almost unused in Kbuild. As of writing, there is just one user.
+>
+>   $ git grep '$(AS)' -- :^Documentation
+>   drivers/net/wan/Makefile:  AS68K = $(AS)
 
-On Thu, 27 Jun 2019 at 18:47, Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
->
-> On Wed, 2019-06-26 at 19:56 -0400, Sasha Levin wrote:
-> > > You've used so much on this so shouldn't this have that somewhat new
-> > > co-developed-by tag? I'm also wondering can this work at all
-> >
-> > Honestly, I've just been massaging this patch more than "authoring" it.
-> > If you feel strongly about it feel free to add a Co-authored patch with
-> > my name, but in my mind this is just Thiru's work.
->
-> This is just my subjective view but writing code is easier than making
-> it work in the mainline in 99% of cases. If this patch was doing
-> something revolutional, lets say a new outstanding scheduling algorithm,
-> then I would think otherwise. It is not. You without question deserve
-> both credit and also the blame (if this breaks everything) :-)
->
-> > > process-wise if the original author of the patch is also the only tester
-> > > of the patch?
-> >
-> > There's not much we can do about this... Linaro folks have tested this
-> > without the fTPM firmware, so at the very least it won't explode for
-> > everyone. If for some reason non-microsoft folks see issues then we can
-> > submit patches on top to fix this, we're not just throwing this at you
-> > and running away.
->
-> So why any of those Linaro folks can't do it? I can add after tested-by
-> tag parentheses something explaining that context of testing. It is
-> reasonable given the circumstances.
 
-Simply because the hardware I have (Developerbox) doesn't provide
-enough flash space (as per current memory map) for this fTPM driver to
-be loaded as early TA along with OP-TEE binary. So I can't get any
-further point than sanity probe failure check for which I think a
-tested-by won't be appropriate.
+In Makefile, a variable is also referenced in a curly brace form like ${AS}.
+In shell scripts, it can be referenced in the form of $AR.
 
--Sumit
+I grepped more patterns.
 
+$ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' --
+:^Documentation
+drivers/net/wan/Makefile:  AS68K = $(AS)
+
+I found only user still.
+
+
+
+> The documentation about *_AFLAGS* sounds like the flags were passed
+> to $(AS). This is somewhat misleading since we do not invoke $(AS)
+> directly.
 >
-> I can also give an explanation in my next PR along the lines what you
-> are saying. This would definitely work for me.
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
 >
-> /Jarkko
+>  Documentation/kbuild/kbuild.txt    |  5 ++---
+>  Documentation/kbuild/makefiles.txt | 12 ++++++------
+>  2 files changed, 8 insertions(+), 9 deletions(-)
 >
+> diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+> index 9c230ea71963..7a7e2aa2fab5 100644
+> --- a/Documentation/kbuild/kbuild.txt
+> +++ b/Documentation/kbuild/kbuild.txt
+> @@ -31,12 +31,11 @@ Additional options to the assembler (for built-in and modules).
+>
+>  AFLAGS_MODULE
+>  --------------------------------------------------
+> -Additional module specific options to use for $(AS).
+> +Additional module specific options to use for assembler.
+>
+>  AFLAGS_KERNEL
+>  --------------------------------------------------
+> -Additional options for $(AS) when used for assembler
+> -code for code that is compiled as built-in.
+> +Additional options when used for assembling code that is compiled as built-in.
+>
+>  KCFLAGS
+>  --------------------------------------------------
+> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+> index d65ad5746f94..f0b3a30b985d 100644
+> --- a/Documentation/kbuild/makefiles.txt
+> +++ b/Documentation/kbuild/makefiles.txt
+> @@ -306,7 +306,7 @@ more details, with real examples.
+>         variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
+>         entire tree.
+>
+> -       asflags-y specifies options for assembling with $(AS).
+> +       asflags-y specifies options for assembling.
+>
+>         Example:
+>                 #arch/sparc/kernel/Makefile
+> @@ -441,7 +441,7 @@ more details, with real examples.
+>         as-instr checks if the assembler reports a specific instruction
+>         and then outputs either option1 or option2
+>         C escapes are supported in the test instruction
+> -       Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
+> +       Note: as-instr-option uses KBUILD_AFLAGS for assembler options
+>
+>      cc-option
+>         cc-option is used to check if $(CC) supports a given option, and if
+> @@ -814,7 +814,7 @@ When kbuild executes, the following steps are followed (roughly):
+>         In this example, the binary $(obj)/image is a binary version of
+>         vmlinux. The usage of $(call if_changed,xxx) will be described later.
+>
+> -    KBUILD_AFLAGS              $(AS) assembler flags
+> +    KBUILD_AFLAGS              assembler flags
+>
+>         Default value - see top level Makefile
+>         Append or modify as required per architecture.
+> @@ -853,15 +853,15 @@ When kbuild executes, the following steps are followed (roughly):
+>         The first example utilises the trick that a config option expands
+>         to 'y' when selected.
+>
+> -    KBUILD_AFLAGS_KERNEL       $(AS) options specific for built-in
+> +    KBUILD_AFLAGS_KERNEL       assembler options specific for built-in
+>
+>         $(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
+>         resident kernel code.
+>
+> -    KBUILD_AFLAGS_MODULE   Options for $(AS) when building modules
+> +    KBUILD_AFLAGS_MODULE   Options for assembler when building modules
+>
+>         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
+> -       are used for $(AS).
+> +       are used for assembler.
+>         From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
+>
+>      KBUILD_CFLAGS_KERNEL       $(CC) options specific for built-in
+> --
+> 2.17.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
