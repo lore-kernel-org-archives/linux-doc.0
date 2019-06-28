@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3ED147D923
+	by archive.lwn.net (Postfix) with ESMTP id 299FA7D922
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:35:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbfF1Maj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726923AbfF1Maj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 28 Jun 2019 08:30:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39124 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:39130 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbfF1Mai (ORCPT
+        with ESMTP id S1726887AbfF1Mai (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uAxc64m0YT9J0kbGiEkc+YaJw8vJxgW+inXWfdPD3Qw=; b=LY3wMBFBIqG8+KElqz7riZgz86
-        pV5wBJUFxDt6hvK/wynT8kI8cmkKIBiYw6tqGOUuaw4pQg+sGR+LbFgodNRijDZA1U7exZU1DVyL/
-        3LxuMVGvYRGwjQcsNLczibXMoZuBMNXgtxV8925kezoqtIQndXqKSBPaQ/DIeNta+1bqpVN+7dzwi
-        XP3LAgPLkTutL9dUXqhuaKcALvgU0kh5M+JykR0L8VNu2hNe7l0LpPstnbaTgWoygnmjz65N1RyT7
-        +0id112akVCASW71orwA+weM1V6mYQ+XpwyNHwjHUaUZ20nclGTwQ2aCAtAVtj/mplbphW2x1Vgck
-        t5Lbecvg==;
+        bh=U92CTD6tuDy7j9b5xakGk2DqteV5CM69tWu7ZN/5THI=; b=X+SWOhGHuzja47Cp1iC4SSXUZz
+        rClep8gUlq8pmON+93xpROdl8GUw0/uwgmRKnViYIZniZEU1/iYF5WsLy7WkUydtDqiTee31r8ZUw
+        jXHEYjPfYDHD4cMIfvthheKeA4LoYUQNrt6lffvx7n4bkFTuvgtaXT8BfF/NQT7VCmcyd9TQyqQii
+        n4Rjwg6bxcwRkezXN7PLCLD9AqWAU4g7Cixh41AUOhoXmVL1Dq4ZHoeZS/RyEUAS7QUYZkvQ3+vKA
+        2bMRswQs0pdNztFiA8NgYl5Bh40zXXwuA7Q32m4mjvcz9tmZNnK0wfnzmVvFD+NJ2xB2Nt/mQAXcx
+        XLYsqQcg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgq1U-00055t-O1; Fri, 28 Jun 2019 12:30:36 +0000
+        id 1hgq1U-00055D-AE; Fri, 28 Jun 2019 12:30:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgq1S-0005Td-Qy; Fri, 28 Jun 2019 09:30:34 -0300
+        id 1hgq1S-0005S6-Ag; Fri, 28 Jun 2019 09:30:34 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 34/39] docs: add a memory-devices subdir to driver-api
-Date:   Fri, 28 Jun 2019 09:30:27 -0300
-Message-Id: <93469c726df18907ce08fe60642690f67e367b57.1561724493.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 15/39] docs: early-userspace: move to driver-api guide
+Date:   Fri, 28 Jun 2019 09:30:08 -0300
+Message-Id: <e5889b2b00604491c6dc32c2f2a1d5afb9200ed8.1561724493.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
 References: <cover.1561724493.git.mchehab+samsung@kernel.org>
@@ -50,81 +50,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two docs describing memory device drivers.
-
-Add both to this new chapter of the driver-api.
+Those documents describe a kAPI. So, add to the driver-api
+book.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-api/index.rst               |  1 +
- .../driver-api/memory-devices/index.rst          | 16 ++++++++++++++++
- .../{ => driver-api}/memory-devices/ti-emif.rst  |  2 +-
- .../memory-devices}/ti-gpmc.rst                  |  2 +-
- 4 files changed, 19 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/driver-api/memory-devices/index.rst
- rename Documentation/{ => driver-api}/memory-devices/ti-emif.rst (98%)
- rename Documentation/{bus-devices => driver-api/memory-devices}/ti-gpmc.rst (99%)
+ .../{ => driver-api}/early-userspace/buffer-format.rst        | 0
+ .../early-userspace/early_userspace_support.rst               | 0
+ Documentation/{ => driver-api}/early-userspace/index.rst      | 2 --
+ Documentation/driver-api/index.rst                            | 1 +
+ Documentation/filesystems/nfs/nfsroot.txt                     | 2 +-
+ Documentation/filesystems/ramfs-rootfs-initramfs.txt          | 4 ++--
+ usr/Kconfig                                                   | 2 +-
+ 7 files changed, 5 insertions(+), 6 deletions(-)
+ rename Documentation/{ => driver-api}/early-userspace/buffer-format.rst (100%)
+ rename Documentation/{ => driver-api}/early-userspace/early_userspace_support.rst (100%)
+ rename Documentation/{ => driver-api}/early-userspace/index.rst (95%)
 
+diff --git a/Documentation/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
+similarity index 100%
+rename from Documentation/early-userspace/buffer-format.rst
+rename to Documentation/driver-api/early-userspace/buffer-format.rst
+diff --git a/Documentation/early-userspace/early_userspace_support.rst b/Documentation/driver-api/early-userspace/early_userspace_support.rst
+similarity index 100%
+rename from Documentation/early-userspace/early_userspace_support.rst
+rename to Documentation/driver-api/early-userspace/early_userspace_support.rst
+diff --git a/Documentation/early-userspace/index.rst b/Documentation/driver-api/early-userspace/index.rst
+similarity index 95%
+rename from Documentation/early-userspace/index.rst
+rename to Documentation/driver-api/early-userspace/index.rst
+index 2b8eb6132058..6f20c3c560d8 100644
+--- a/Documentation/early-userspace/index.rst
++++ b/Documentation/driver-api/early-userspace/index.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============
+ Early Userspace
+ ===============
 diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 12d68c3ab792..e33849b948c7 100644
+index 97bab578ea72..d41d1c561f01 100644
 --- a/Documentation/driver-api/index.rst
 +++ b/Documentation/driver-api/index.rst
-@@ -79,6 +79,7 @@ available subsections can be seen below.
-    isapnp
-    generic-counter
-    lightnvm-pblk
-+   memory-devices/index
-    men-chameleon-bus
-    ntb
-    nvmem
-diff --git a/Documentation/driver-api/memory-devices/index.rst b/Documentation/driver-api/memory-devices/index.rst
-new file mode 100644
-index 000000000000..87549828f6ab
---- /dev/null
-+++ b/Documentation/driver-api/memory-devices/index.rst
-@@ -0,0 +1,16 @@
-+=========================
-+Memory Controller drivers
-+=========================
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    ti-emif
-+    ti-gpmc
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/memory-devices/ti-emif.rst b/Documentation/driver-api/memory-devices/ti-emif.rst
-similarity index 98%
-rename from Documentation/memory-devices/ti-emif.rst
-rename to Documentation/driver-api/memory-devices/ti-emif.rst
-index c9242294e63c..dea2ad9bcd7e 100644
---- a/Documentation/memory-devices/ti-emif.rst
-+++ b/Documentation/driver-api/memory-devices/ti-emif.rst
-@@ -1,4 +1,4 @@
--:orphan:
-+.. SPDX-License-Identifier: GPL-2.0
+@@ -16,6 +16,7 @@ available subsections can be seen below.
  
- ===============================
- TI EMIF SDRAM Controller Driver
-diff --git a/Documentation/bus-devices/ti-gpmc.rst b/Documentation/driver-api/memory-devices/ti-gpmc.rst
-similarity index 99%
-rename from Documentation/bus-devices/ti-gpmc.rst
-rename to Documentation/driver-api/memory-devices/ti-gpmc.rst
-index 87c366e418be..33efcb81f080 100644
---- a/Documentation/bus-devices/ti-gpmc.rst
-+++ b/Documentation/driver-api/memory-devices/ti-gpmc.rst
-@@ -1,4 +1,4 @@
--:orphan:
-+.. SPDX-License-Identifier: GPL-2.0
+    basics
+    infrastructure
++   early-userspace/index
+    pm/index
+    clk
+    device-io
+diff --git a/Documentation/filesystems/nfs/nfsroot.txt b/Documentation/filesystems/nfs/nfsroot.txt
+index 4862d3d77e27..ae4332464560 100644
+--- a/Documentation/filesystems/nfs/nfsroot.txt
++++ b/Documentation/filesystems/nfs/nfsroot.txt
+@@ -239,7 +239,7 @@ rdinit=<executable file>
+   A description of the process of mounting the root file system can be
+   found in:
  
- ========================================
- GPMC (General Purpose Memory Controller)
+-    Documentation/early-userspace/early_userspace_support.rst
++    Documentation/driver-api/early-userspace/early_userspace_support.rst
+ 
+ 
+ 
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+index fa985909dbca..97d42ccaa92d 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+@@ -105,7 +105,7 @@ All this differs from the old initrd in several ways:
+   - The old initrd file was a gzipped filesystem image (in some file format,
+     such as ext2, that needed a driver built into the kernel), while the new
+     initramfs archive is a gzipped cpio archive (like tar only simpler,
+-    see cpio(1) and Documentation/early-userspace/buffer-format.rst).  The
++    see cpio(1) and Documentation/driver-api/early-userspace/buffer-format.rst).  The
+     kernel's cpio extraction code is not only extremely small, it's also
+     __init text and data that can be discarded during the boot process.
+ 
+@@ -159,7 +159,7 @@ One advantage of the configuration file is that root access is not required to
+ set permissions or create device nodes in the new archive.  (Note that those
+ two example "file" entries expect to find files named "init.sh" and "busybox" in
+ a directory called "initramfs", under the linux-2.6.* directory.  See
+-Documentation/early-userspace/early_userspace_support.rst for more details.)
++Documentation/driver-api/early-userspace/early_userspace_support.rst for more details.)
+ 
+ The kernel does not depend on external cpio tools.  If you specify a
+ directory instead of a configuration file, the kernel's build infrastructure
+diff --git a/usr/Kconfig b/usr/Kconfig
+index 86e37e297278..a6b68503d177 100644
+--- a/usr/Kconfig
++++ b/usr/Kconfig
+@@ -18,7 +18,7 @@ config INITRAMFS_SOURCE
+ 	  When multiple directories and files are specified then the
+ 	  initramfs image will be the aggregate of all of them.
+ 
+-	  See <file:Documentation/early-userspace/early_userspace_support.rst> for more details.
++	  See <file:Documentation/driver-api/early-userspace/early_userspace_support.rst> for more details.
+ 
+ 	  If you are not sure, leave it blank.
+ 
 -- 
 2.21.0
 
