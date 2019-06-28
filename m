@@ -1,200 +1,434 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0DEB67D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:38:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F28C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:45:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbfF1Vhf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 17:37:35 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34405 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfF1Vhe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:37:34 -0400
-Received: by mail-pl1-f194.google.com with SMTP id i2so3949722plt.1;
-        Fri, 28 Jun 2019 14:37:34 -0700 (PDT)
+        id S1726687AbfF1Vn1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 17:43:27 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40067 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726536AbfF1Vn1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:43:27 -0400
+Received: by mail-wm1-f65.google.com with SMTP id v19so10215442wmj.5;
+        Fri, 28 Jun 2019 14:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=PgWqbUUSPFhfSTlsappYypYtvumuWRqWEhfMi13DQlY=;
+        b=LzGYIwqy8l7jhg0LhHdxhjrILZhPh6Ne5ZlyfntN66lCWO8zvvdVJWSxD/xEpWyrC0
+         0SFoh7yyTYx+Kq9lwegVp/E4zgRU6ANL5m8IR0lHrTExSB7g0oQOM0HA1eEs+S//jImB
+         iK8eJJwwMTvMfDRaVYBjFuWyFkhr9cLSNynWK6cWQzSSqLhC9qYAuhAKCc/U0Rb7HeTo
+         eeXrbrQKqM5fT1MMx1iS5x+8kjfyxX6L17/+fHpbFl0z50FLPXdImnYxPBiSIymKYghS
+         vaVrwn0QNstUAsnUSBZjJ5KNSGe/bAqfmuOZ4EDh7J6NbJ0iFJ/KeefqmkHgHh0ouCHO
+         jxxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=JgAuNdeYgPOaJAXJWPitQxb9O77ltQQoo3H5OkHlS/c=;
-        b=W86MRcxAJItkgXU1P+HfAJjX07YuDT/2EuPIvaTR3j2MhsGyMwaS0H6CirI+ZihPXQ
-         Rw9m/FSLLqbr+3BxsQGXD6Rh7uiIwQkRap2tvV38M2seKlycVAjBrkaFs8xOCgAEhlgR
-         RCz+w/+EfsTWjav2xZjZxTnxQ3KkBmrrcuKIPtkelRFLMXMxMZbCfrdlEr8yn5H+E6MD
-         Q9FOz04k+RVYoJynZSKDtaLKoM5LnrgnJGjYpLJCWrWC621eJ6eUF+bbD5n9JFzIEo3M
-         l2PiACCLzfWOqBf+h8w73uxLJY+ujnvZ8J38SB/ZTLhl3mnwPb0JsTdaYgpeeDNC+P1Y
-         bJNw==
-X-Gm-Message-State: APjAAAUwSq/44dHOh8Z1frsVpK2h4PhfHOOSADoAEsklNkpd7UQb6Fym
-        XlCfdqTeLzZx0nORh6MPm5E=
-X-Google-Smtp-Source: APXvYqy5ELfDL2fyyn/y9lJ8x6ZZyU+/eE48fR92CyznGhgcBuNDCxdNuVcUesc0a2YsMUSVisIbkg==
-X-Received: by 2002:a17:902:a60d:: with SMTP id u13mr6000172plq.144.1561757853454;
-        Fri, 28 Jun 2019 14:37:33 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id b15sm3215119pfi.141.2019.06.28.14.37.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=PgWqbUUSPFhfSTlsappYypYtvumuWRqWEhfMi13DQlY=;
+        b=WKr4xQQbIXXaA36PFufGnCJPdN1TQ1XpSEYIu3HxlH2OmU3kLkZrXHbM/S+Bhu3tec
+         fDoktIkGUEemJJuYpdnGAzuqYRTlAteLcBBOxxoosfsfcNZoL0937GhiOdvvDDBFXhpd
+         9Z/M8yjPkDUHx0spaJGn2blh5JYwU+tQzTcC0Hp9RPZJCs2yTa8r4aXBV+ty/zNnUD4b
+         TeMckXw+JaHDm3C+FKqsLVKRkiJM6wSdM0MxMfaJCfWBaB5hRHAzIdNUI9DaAx+uVKA7
+         kYWewG7XyMpDgIa3TSliEOlVlIWmli/vk6IsViFFZWcYFcFBrRIeeXKDqgDUTKXVCWyz
+         eCdQ==
+X-Gm-Message-State: APjAAAWw0WOJos/joqX8XakBuNzE0knKmX0DUN90FY1/Lm4l2b+d+xz/
+        pqO6WMPO2B3EbpdJzBAeWJU=
+X-Google-Smtp-Source: APXvYqxJJL0p1J8S7YdSZsjEZcsFbw+ABeC2nKZOzo3MYQdhl+BvzsI8ZnhXElkMuaA/iR6KnDYwjg==
+X-Received: by 2002:a1c:1bc9:: with SMTP id b192mr8401603wmb.152.1561758203164;
+        Fri, 28 Jun 2019 14:43:23 -0700 (PDT)
+Received: from localhost ([41.220.75.172])
+        by smtp.gmail.com with ESMTPSA id x11sm2551205wmg.23.2019.06.28.14.43.21
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 28 Jun 2019 14:37:32 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 8049D402AC; Fri, 28 Jun 2019 21:37:31 +0000 (UTC)
-Date:   Fri, 28 Jun 2019 21:37:31 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>
-Cc:     Iurii Zaikin <yzaikin@google.com>, linux-api@vger.kernel.org,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Subject: Re: [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Message-ID: <20190628213731.GJ19023@42.do-not-panic.com>
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-18-brendanhiggins@google.com>
- <20190626021744.GU19023@42.do-not-panic.com>
- <CAAXuY3p+kVhjQ4LYtzormqVcH2vKu1abc_K9Z0XY=JX=bp8NcQ@mail.gmail.com>
- <20190627061021.GE19023@42.do-not-panic.com>
- <CAFd5g45VJ9yfuESUc=E0ydJyN+mk1b1kyHSCYvO2x9KPC7+3GQ@mail.gmail.com>
+        Fri, 28 Jun 2019 14:43:22 -0700 (PDT)
+Date:   Fri, 28 Jun 2019 22:43:02 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Doc : fs : convert xfs.txt to ReST
+Message-ID: <20190628214302.GA12096@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFd5g45VJ9yfuESUc=E0ydJyN+mk1b1kyHSCYvO2x9KPC7+3GQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 01:01:54AM -0700, Brendan Higgins wrote:
-> On Wed, Jun 26, 2019 at 11:10 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Wed, Jun 26, 2019 at 09:07:43PM -0700, Iurii Zaikin wrote:
-> > > On Tue, Jun 25, 2019 at 7:17 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > > > > +static void sysctl_test_dointvec_table_maxlen_unset(struct kunit *test)
-> > > > > +{
-> > > > > +     struct ctl_table table = {
-> > > > > +             .procname = "foo",
-> > > > > +             .data           = &test_data.int_0001,
-> > > > > +             .maxlen         = 0,
-> > > > > +             .mode           = 0644,
-> > > > > +             .proc_handler   = proc_dointvec,
-> > > > > +             .extra1         = &i_zero,
-> > > > > +             .extra2         = &i_one_hundred,
-> > > > > +     };
-> > > > > +     void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > > +     size_t len;
-> > > > > +     loff_t pos;
-> > > > > +
-> > > > > +     len = 1234;
-> > > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-> > > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
-> > > > > +     len = 1234;
-> > > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
-> > > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
-> > > > > +}
-> > > >
-> > > > In a way this is also testing for general kernel API changes. This is and the
-> > > > last one were good examples. So this is not just testing functionality
-> > > > here. There is no wrong or write answer if 0 or -EINVAL was returned
-> > > > other than the fact that we have been doing this for years.
-> > > >
-> > > > Its a perhaps small but important difference for some of these tests.  I
-> > > > *do* think its worth clarifying through documentation which ones are
-> > > > testing for API consistency Vs proper correctness.
-> > >
-> > > You make a good point that the test codifies the existing behavior of
-> > > the function in lieu of formal documentation.  However, the test cases
-> > > were derived from examining the source code of the function under test
-> > > and attempting to cover all branches. The assertions were added only
-> > > for the values that appeared to be set deliberately in the
-> > > implementation. And it makes sense to me to test that the code does
-> > > exactly what the implementation author intended.
-> >
-> > I'm not arguing against adding them. I'm suggesting that it is different
-> > to test for API than for correctness of intended functionality, and
-> > it would be wise to make it clear which test cases are for API and which
-> > for correctness.
-> 
-> I see later on that some of the API stuff you are talking about is
-> public APIs from the standpoint of user (outside of LInux) visible.
+	Convert xfs.txt to ReST, markup and rename accordingly. Update
+	Documentation/index.rst.
+	
+	While at it, make "value" in "option=value" form xfs options definable by
+	the user, by embedding in angle "<>" brackets, rather than something
+	predifined elsewhere. This is inline with the conventions in manuals.
+	
+	Also, make defaults of boolean options prefixed with "(*)". This is
+	so that options can be compressed to "[no]option" and on a single line, which renders
+	consistently and nicely in htmldocs.
+	lastly, enforce a "one option, one definition" policy to keep things
+	consistent and simple.
 
-Right, UAPI.
+Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+---
+ Documentation/filesystems/index.rst           |   1 +
+ .../filesystems/{xfs.txt => xfs.rst}          | 190 ++++++++++--------
+ 2 files changed, 103 insertions(+), 88 deletions(-)
+ rename Documentation/filesystems/{xfs.txt => xfs.rst} (74%)
 
-> To
-> be clear, is that what you mean by public APIs throughout, or would
-> you distinguish between correctness tests, internal API tests, and
-> external API tests?
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 1131c34d7..be91fe616 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
+    :maxdepth: 2
+ 
+    binderfs.rst
++   xfs.rst
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.rst
+similarity index 74%
+rename from Documentation/filesystems/xfs.txt
+rename to Documentation/filesystems/xfs.rst
+index a5cbb5e0e..5e29e1583 100644
+--- a/Documentation/filesystems/xfs.txt
++++ b/Documentation/filesystems/xfs.rst
+@@ -1,4 +1,4 @@
+-
++======================
+ The SGI XFS Filesystem
+ ======================
+ 
+@@ -18,10 +18,10 @@ Mount Options
+ =============
+ 
+ When mounting an XFS filesystem, the following options are accepted.
+-For boolean mount options, the names with the (*) suffix is the
++For boolean mount options, the names with the "(*)" prefix is the
+ default behaviour.
+ 
+-  allocsize=size
++   allocsize=<size>
+ 	Sets the buffered I/O end-of-file preallocation size when
+ 	doing delayed allocation writeout (default size is 64KiB).
+ 	Valid values for this option are page size (typically 4KiB)
+@@ -34,181 +34,195 @@ default behaviour.
+ 	to the file. Specifying a fixed allocsize value turns off
+ 	the dynamic behaviour.
+ 
+-  attr2
+-  noattr2
++   [no]attr2
+ 	The options enable/disable an "opportunistic" improvement to
+ 	be made in the way inline extended attributes are stored
+ 	on-disk.  When the new form is used for the first time when
+-	attr2 is selected (either when setting or removing extended
++	``attr2`` is selected (either when setting or removing extended
+ 	attributes) the on-disk superblock feature bit field will be
+ 	updated to reflect this format being in use.
+ 
+ 	The default behaviour is determined by the on-disk feature
+-	bit indicating that attr2 behaviour is active. If either
+-	mount option it set, then that becomes the new default used
+-	by the filesystem.
+-
+-	CRC enabled filesystems always use the attr2 format, and so
+-	will reject the noattr2 mount option if it is set.
++	bit indicating that ``attr2`` behaviour is active. If either
++	mount options is set, then that becomes the new default used
++	by the filesystem. However on CRC enabled filesystems, the
++        ``attr2`` format is always used , and so
++	will reject the ``noattr2`` mount option if it is set.
+ 
+-  discard
+-  nodiscard (*)
++   (*)[no]discard
+ 	Enable/disable the issuing of commands to let the block
+ 	device reclaim space freed by the filesystem.  This is
+ 	useful for SSD devices, thinly provisioned LUNs and virtual
+ 	machine images, but may have a performance impact.
+ 
+-	Note: It is currently recommended that you use the fstrim
+-	application to discard unused blocks rather than the discard
++	Note: It is currently recommended that you use the ``fstrim``
++	application to discard unused blocks rather than the ``discard``
+ 	mount option because the performance impact of this option
+ 	is quite severe.
+ 
+-  grpid/bsdgroups
+-  nogrpid/sysvgroups (*)
++   grpid/bsdgroups
++   nogrpid/(*)sysvgroups
+ 	These options define what group ID a newly created file
+-	gets.  When grpid is set, it takes the group ID of the
++	gets.  When ``grpid`` is set, it takes the group ID of the
+ 	directory in which it is created; otherwise it takes the
+-	fsgid of the current process, unless the directory has the
+-	setgid bit set, in which case it takes the gid from the
+-	parent directory, and also gets the setgid bit set if it is
++	``fsgid`` of the current process, unless the directory has the
++	``setgid`` bit set, in which case it takes the ``gid`` from the
++	parent directory, and also gets the ``setgid`` bit set if it is
+ 	a directory itself.
+ 
+-  filestreams
++   filestreams
+ 	Make the data allocator use the filestreams allocation mode
+ 	across the entire filesystem rather than just on directories
+ 	configured to use it.
+ 
+-  ikeep
+-  noikeep (*)
+-	When ikeep is specified, XFS does not delete empty inode
+-	clusters and keeps them around on disk.  When noikeep is
++   (*)[no]ikeep
++	When ``ikeep`` is specified, XFS does not delete empty inode
++	clusters and keeps them around on disk.  When ``noikeep`` is
+ 	specified, empty inode clusters are returned to the free
+ 	space pool.
+ 
+-  inode32
+-  inode64 (*)
+-	When inode32 is specified, it indicates that XFS limits
++   inode32 | (*)inode64
++	When ``inode32`` is specified, it indicates that XFS limits
+ 	inode creation to locations which will not result in inode
+ 	numbers with more than 32 bits of significance.
+ 
+-	When inode64 is specified, it indicates that XFS is allowed
++	When ``inode64`` is specified, it indicates that XFS is allowed
+ 	to create inodes at any location in the filesystem,
+ 	including those which will result in inode numbers occupying
+-	more than 32 bits of significance. 
++	more than 32 bits of significance.
+ 
+-	inode32 is provided for backwards compatibility with older
++	``inode32`` is provided for backwards compatibility with older
+ 	systems and applications, since 64 bits inode numbers might
+ 	cause problems for some applications that cannot handle
+ 	large inode numbers.  If applications are in use which do
+-	not handle inode numbers bigger than 32 bits, the inode32
++	not handle inode numbers bigger than 32 bits, the ``inode32``
+ 	option should be specified.
+ 
+ 
+-  largeio
+-  nolargeio (*)
+-	If "nolargeio" is specified, the optimal I/O reported in
+-	st_blksize by stat(2) will be as small as possible to allow
++   (*)[no]largeio
++	If ``nolargeio`` is specified, the optimal I/O reported in
++	st_blksize by **stat(2)** will be as small as possible to allow
+ 	user applications to avoid inefficient read/modify/write
+ 	I/O.  This is typically the page size of the machine, as
+ 	this is the granularity of the page cache.
+ 
+-	If "largeio" specified, a filesystem that was created with a
+-	"swidth" specified will return the "swidth" value (in bytes)
+-	in st_blksize. If the filesystem does not have a "swidth"
+-	specified but does specify an "allocsize" then "allocsize"
++	If ``largeio`` specified, a filesystem that was created with a
++	``swidth`` specified will return the ``swidth`` value (in bytes)
++	in st_blksize. If the filesystem does not have a ``swidth``
++	specified but does specify an ``allocsize`` then ``allocsize``
+ 	(in bytes) will be returned instead. Otherwise the behaviour
+-	is the same as if "nolargeio" was specified.
++	is the same as if ``nolargeio`` was specified.
+ 
+-  logbufs=value
+-	Set the number of in-memory log buffers.  Valid numbers
++   logbufs=<value>
++	Set the number of in-memory log buffers to ``value``.  Valid numbers
+ 	range from 2-8 inclusive.
+ 
+ 	The default value is 8 buffers.
+ 
+ 	If the memory cost of 8 log buffers is too high on small
+ 	systems, then it may be reduced at some cost to performance
+-	on metadata intensive workloads. The logbsize option below
++	on metadata intensive workloads. The ``logbsize`` option below
+ 	controls the size of each buffer and so is also relevant to
+ 	this case.
+ 
+-  logbsize=value
+-	Set the size of each in-memory log buffer.  The size may be
+-	specified in bytes, or in kilobytes with a "k" suffix.
++   logbsize=<value>
++	Set the size of each in-memory log buffer to ``value``.  The size
++        may be specified in bytes, or in kilobytes with a "k" suffix.
+ 	Valid sizes for version 1 and version 2 logs are 16384 (16k)
+ 	and 32768 (32k).  Valid sizes for version 2 logs also
+ 	include 65536 (64k), 131072 (128k) and 262144 (256k). The
+-	logbsize must be an integer multiple of the log
+-	stripe unit configured at mkfs time.
++	``logbsize`` must be an integer multiple of the
++        "log stripe unit" configured at mkfs time.
+ 
+ 	The default value for for version 1 logs is 32768, while the
+-	default value for version 2 logs is MAX(32768, log_sunit).
++	default value for version 2 logs is ``MAX(32768, log_sunit)``.
+ 
+-  logdev=device and rtdev=device
+-	Use an external log (metadata journal) and/or real-time device.
+-	An XFS filesystem has up to three parts: a data section, a log
+-	section, and a real-time section.  The real-time section is
+-	optional, and the log section can be separate from the data
+-	section or contained within it.
++   logdev=<device>
++	Use ``device`` as an external log.
++	In an XFS filesystem, the log section can be separate from
++        the data section or contained within it.
+ 
+-  noalign
++   rtdev=<device>
++        An XFS filesystem has up to three parts: a data section, a log
++	section, and a real-time section.  The real-time section is optional.
++        If enabled, ``rtdev`` sets ``device`` to be used as an
++        external real-time section, similar to ``logdev`` above.
++
++   noalign
+ 	Data allocations will not be aligned at stripe unit
+ 	boundaries. This is only relevant to filesystems created
+ 	with non-zero data alignment parameters (sunit, swidth) by
+ 	mkfs.
+ 
+-  norecovery
++   norecovery
+ 	The filesystem will be mounted without running log recovery.
+ 	If the filesystem was not cleanly unmounted, it is likely to
+-	be inconsistent when mounted in "norecovery" mode.
++	be inconsistent when mounted in ``norecovery`` mode.
+ 	Some files or directories may not be accessible because of this.
+-	Filesystems mounted "norecovery" must be mounted read-only or
++	Filesystems mounted ``norecovery`` must be mounted read-only or
+ 	the mount will fail.
+ 
+-  nouuid
++   nouuid
+ 	Don't check for double mounted file systems using the file
+ 	system uuid.  This is useful to mount LVM snapshot volumes,
+-	and often used in combination with "norecovery" for mounting
++	and often used in combination with ``norecovery`` for mounting
+ 	read-only snapshots.
+ 
+-  noquota
++   noquota
+ 	Forcibly turns off all quota accounting and enforcement
+ 	within the filesystem.
+ 
+-  uquota/usrquota/uqnoenforce/quota
++   uquota/usrquota/uqnoenforce/quota
+ 	User disk quota accounting enabled, and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+-  gquota/grpquota/gqnoenforce
++   gquota/grpquota/gqnoenforce
+ 	Group disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+-  pquota/prjquota/pqnoenforce
++   pquota/prjquota/pqnoenforce
+ 	Project disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+-  sunit=value and swidth=value
+-	Used to specify the stripe unit and width for a RAID device
+-	or a stripe volume.  "value" must be specified in 512-byte
+-	block units. These options are only relevant to filesystems
++   sunit=<value>
++	Used to specify the stripe unit for a RAID device
++	or (in conjunction with ``swidth`` below) a stripe volume.  ``value`` must be specified in 512-byte
++	block units. This option is only relevant to filesystems
+ 	that were created with non-zero data alignment parameters.
+ 
+-	The sunit and swidth parameters specified must be compatible
++	The ``sunit`` parameter specified must be compatible
+ 	with the existing filesystem alignment characteristics.  In
+-	general, that means the only valid changes to sunit are
+-	increasing it by a power-of-2 multiple. Valid swidth values
+-	are any integer multiple of a valid sunit value.
++	general, that means the only valid changes to ``sunit`` are
++	increasing it by a power-of-2 multiple.
+ 
+-	Typically the only time these mount options are necessary if
+-	after an underlying RAID device has had it's geometry
++	Typically, this mount option is necessary only
++	after an underlying RAID device has had its geometry
+ 	modified, such as adding a new disk to a RAID5 lun and
+ 	reshaping it.
+ 
+-  swalloc
++   swidth=<value>
++        Used to specify the stripe width for a RAID device
++	or (in conjunction with ``sunit`` above) a stripe volume.  ``value`` must be specified in 512-byte
++	block units. This option, like ``sunit`` above, is only
++        relevant to filesystems that were created with non-zero data alignment parameters.
++
++	The ``swidth`` parameter specified must be compatible
++	with the existing filesystem alignment characteristics.  In
++	general, that means the only valid swidth values
++	are any integer multiple of a valid ``sunit`` value.
++
++	Typically, this mount option is necessary only
++	after an underlying RAID device has had its geometry
++	modified, such as adding a new disk to a RAID5 lun and
++	reshaping it.
++
++
++   swalloc
+ 	Data allocations will be rounded up to stripe width boundaries
+ 	when the current end of file is being extended and the file
+ 	size is larger than the stripe width size.
+ 
+-  wsync
++   wsync
+ 	When specified, all filesystem namespace operations are
+ 	executed synchronously. This ensures that when the namespace
+ 	operation (create, unlink, etc) completes, the change to the
+@@ -302,27 +316,27 @@ The following sysctls are available for the XFS filesystem:
+ 
+   fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "sync" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodump" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "noatime" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nosymlinks" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodefrag" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
+-- 
+2.22.0
 
-I would definitely recommend distingishing between all of these.
-Kernel API (or just call it API), UAPI, and correctness.
-
-> > This will come up later for other kunit tests and it would be great
-> > to set precendent so that other kunit tests can follow similar
-> > practices to ensure its clear what is API realted Vs correctness of
-> > intended functionality.
-> >
-> > In fact, I'm not yet sure if its possible to test public kernel API to
-> > userspace with kunit, but if it is possible... well, that could make
-> > linux-api folks happy as they could enable us to codify interpreation of
-> > what is expected into kunit test cases, and we'd ensure that the
-> > codified interpretation is not only documented in man pages but also
-> > through formal kunit test cases.
-> >
-> > A regression in linux-api then could be formalized through a proper
-> > kunit tests case. And if an API evolves, it would force developers to
-> > update the respective kunit which codifies that contract.
-> 
-> Yep, I think that is long term hope. Some of the file system interface
-> stuff that requires a filesystem to be mounted somewhere might get a
-> little weird/difficult, but I suspect we should be able to do it
-> eventually. I mean it's all just C code right? Should mostly boil down
-> to someone figuring out how to do it the first time.
-
-There used to be hacks in the kernel the call syscalls in a few places.
-This was cleaned up and addressed via Dominik Brodowski's series last
-year in March:
-
-http://lkml.kernel.org/r/20180325162527.GA17492@light.dominikbrodowski.net
-
-An example commit: d300b610812f3 ("kernel: use kernel_wait4() instead of
-sys_wait4()").
-
-So it would seem the work is done, and you'd just have to use the
-respective exposed kernel_syscallname() calls, or add some if you
-want to test a specific syscall in kernel space.
-
-  Luis
