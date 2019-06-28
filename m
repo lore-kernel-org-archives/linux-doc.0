@@ -1,500 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_BLACK
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 730327D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 17:06:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF4907D923
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 17:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbfF1RGj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 13:06:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51484 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726295AbfF1RGi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 13:06:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fUK4H6HC3YKt4+5baa8+M2ly/vAgc8i2Uw73tLHds3I=; b=RP76p8MDUTyaJA+O7eqZacEeB
-        zj5jR5uae1RleohIO+iZuBp3hypP9RQBE/1YHj5wo7xgcKYfx1Me1IIKVrGIlRvNKkDhhYdfJ2z44
-        bcMwbdqXMpim+rhfiUoc+M5Ha4FJVVES71TNRWLzg8b79S8Au9FD9coWZ4YkAv25h4iwISUjghFpn
-        hpqHUmVAY/gTx/99yqD7gNSCXpm0XFi7MJMx7+XoTnlL8ekxkFXtZHyRULbhGTCLyoXsv3p0fX4DA
-        EEF1ldP3veOAilFb/Cuk8m/Tqfti3Km9EOz0PxnTyavGWRcYZX7Ng1axPdKA3nwUsZh0CTMUmC9uv
-        ljxWvpRNQ==;
-Received: from [187.113.3.250] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hguKW-0000Pu-Bf; Fri, 28 Jun 2019 17:06:32 +0000
-Date:   Fri, 28 Jun 2019 14:06:27 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Vandana BN <bnvandana@gmail.com>
-Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-sh@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] Documentation:sh:convert register-banks.txt  and
- new-machine.txt to rst format.
-Message-ID: <20190628140627.31f584ad@coco.lan>
-In-Reply-To: <20190628150345.8490-1-bnvandana@gmail.com>
-References: <20190627063347.11137-1-bnvandana@gmail.com>
-        <20190628150345.8490-1-bnvandana@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726520AbfF1RQ1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 13:16:27 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46554 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbfF1RQ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 13:16:27 -0400
+Received: by mail-qt1-f195.google.com with SMTP id h21so7068575qtn.13;
+        Fri, 28 Jun 2019 10:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X/aiZ9J+dd4UJLcrpdr3hoLcNRw4Si2ePjPQfQ4q8YM=;
+        b=ahnblyStPij2rtGufd7uEL9kTluJbQDHGS1iKvW73t2ebo3vRNn8FTuQKgazM07J6O
+         +wXSCQjEJyVN+Z3gV5TMXtCb4Y0BIUZC4KxjAK9eozvCWn7wRcEL7pPsnDG3O9sFCOtj
+         7mtNmpZC6VCXYGNzMz40aPZe0km5xgpLwl3cJ2tu5+2EK3h7m9alVYStSrdTVHqHMtp8
+         JjPRmJwPCsm/WT2+xKeeXM+QzweX3GmM5GeVUw98UEEx+NBdcny3Wqp02cGUnsp03S2w
+         3znGOn57MuwAlyVtWFo05byzrDA0uYw0CMUTrbFQ7ORqxyJYHci8YsBH/OSm/emVhCjd
+         KvHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X/aiZ9J+dd4UJLcrpdr3hoLcNRw4Si2ePjPQfQ4q8YM=;
+        b=A67boiHsH77haAJxP85NCS/+oeF3zPs6EK8GlFkwMxDYtI1xLLaXPaL0HwfcM5c/ec
+         mrFIOf0GEiTirdNQTvkykMBoMRIJ77HkcDTaaqO2lmFAOxwi75sTft0lVSgJrE5InXAE
+         vXIEIZRqX6CQG1K2guSgeApaCBllgy8hT7yb9krXV1fH8XvluLtTGUizwu/TRi5gwNir
+         C7Fk59MIifYf7QUZ4YAIPA8vo5ngaKwqDyt1Re/lkfoIpwn/lMLmDm/3bOeNaAWW4VER
+         EsTV3jYhil70N67MXSQvL5xHejhZ1vr5M0Hh5Y5lZiyogdQY5UhoxQvR04WEoAOzz4hX
+         O6oA==
+X-Gm-Message-State: APjAAAUa6ifSla2KplYVzm3HdNYHBAGaU2RWLK08ttpCXV7tsrj8aTd1
+        GsEOOm7bqpNffRj3m6lpQjVxJzE6z1tbuMgaFbg=
+X-Google-Smtp-Source: APXvYqzeD7ol/qvSpnvEU83iiMeuVww8kn8c1trrLyIBjpx7kD3KA1jNvtOoaae97XqoObXYba1r6IpVH1Cd2BuViC4=
+X-Received: by 2002:aed:36c5:: with SMTP id f63mr9236038qtb.239.1561742186465;
+ Fri, 28 Jun 2019 10:16:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190624174219.25513-1-longman@redhat.com> <20190624174219.25513-3-longman@redhat.com>
+ <20190626201900.GC24698@tower.DHCP.thefacebook.com> <063752b2-4f1a-d198-36e7-3e642d4fcf19@redhat.com>
+ <20190627212419.GA25233@tower.DHCP.thefacebook.com> <0100016b9eb7685e-0a5ab625-abb4-4e79-ab86-07744b1e4c3a-000000@email.amazonses.com>
+In-Reply-To: <0100016b9eb7685e-0a5ab625-abb4-4e79-ab86-07744b1e4c3a-000000@email.amazonses.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Fri, 28 Jun 2019 10:16:13 -0700
+Message-ID: <CAHbLzkr+EJWgAQ9VhAdeTtMx+11=AX=mVVEvC-0UihROf2J+PA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mm, slab: Extend vm/drop_caches to shrink kmem slabs
+To:     Christopher Lameter <cl@linux.com>
+Cc:     Roman Gushchin <guro@fb.com>, Waiman Long <longman@redhat.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 28 Jun 2019 20:33:45 +0530
-Vandana BN <bnvandana@gmail.com> escreveu:
+On Fri, Jun 28, 2019 at 8:32 AM Christopher Lameter <cl@linux.com> wrote:
+>
+> On Thu, 27 Jun 2019, Roman Gushchin wrote:
+>
+> > so that objects belonging to different memory cgroups can share the same page
+> > and kmem_caches.
+> >
+> > It's a fairly big change though.
+>
+> Could this be done at another level? Put a cgoup pointer into the
+> corresponding structures and then go back to just a single kmen_cache for
+> the system as a whole? You can still account them per cgroup and there
+> will be no cleanup problem anymore. You could scan through a slab cache
+> to remove the objects of a certain cgroup and then the fragmentation
+> problem that cgroups create here will be handled by the slab allocators in
+> the traditional way. The duplication of the kmem_cache was not designed
+> into the allocators but bolted on later.
 
-> This patch converts new-machine.txt and register-banks.txt
-> to ReST format, No content change.
-> Added interfaces.rst to contain kernel-doc markups from index.rst
-> Added interfaces.rst,new-machine.rst and register-banks.rst to sh/index.rst
-> 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
-> ---
->  Documentation/sh/index.rst                    |  63 +------
->  Documentation/sh/interface.rst                |  59 ++++++
->  .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
->  ...{register-banks.txt => register-banks.rst} |   8 +-
->  4 files changed, 161 insertions(+), 140 deletions(-)
->  create mode 100644 Documentation/sh/interface.rst
->  rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
->  rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
-> 
-> diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
-> index bc8db7ba894a..e9e4720cce0c 100644
-> --- a/Documentation/sh/index.rst
-> +++ b/Documentation/sh/index.rst
-> @@ -1,59 +1,12 @@
-> -=======================
-> -SuperH Interfaces Guide
-> -=======================
-> +====================
-> +SuperH Documentation
-> +====================
+I'm afraid this may bring in another problem for memcg page reclaim.
+When shrinking the slabs, the shrinker may end up scanning a very long
+list to find out the slabs for a specific memcg. Particularly for the
+count operation, it may have to scan the list from the beginning all
+the way down to the end. It may take unbounded time.
 
-Please add a SPDX tag before the title. As this is actually a new
-file, it makes easier if you add it directly.
+When I worked on THP deferred split shrinker problem, I used to do
+like this, but it turns out it may take milliseconds to count the
+objects on the list, but it may just need reclaim a few of them.
 
-With that:
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-> 
->  :Author: Paul Mundt
-> 
-> -Memory Management
-> -=================
-> +.. toctree::
-> +   :maxdepth: 2
-> 
-> -SH-4
-> -----
-> -
-> -Store Queue API
-> -~~~~~~~~~~~~~~~
-> -
-> -.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
-> -   :export:
-> -
-> -SH-5
-> -----
-> -
-> -TLB Interfaces
-> -~~~~~~~~~~~~~~
-> -
-> -.. kernel-doc:: arch/sh/mm/tlb-sh5.c
-> -   :internal:
-> -
-> -.. kernel-doc:: arch/sh/include/asm/tlb_64.h
-> -   :internal:
-> -
-> -Machine Specific Interfaces
-> -===========================
-> -
-> -mach-dreamcast
-> ---------------
-> -
-> -.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
-> -   :internal:
-> -
-> -mach-x3proto
-> -------------
-> -
-> -.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
-> -   :export:
-> -
-> -Busses
-> -======
-> -
-> -SuperHyway
-> -----------
-> -
-> -.. kernel-doc:: drivers/sh/superhyway/superhyway.c
-> -   :export:
-> -
-> -Maple
-> ------
-> -
-> -.. kernel-doc:: drivers/sh/maple/maple.c
-> -   :export:
-> +   interface
-> +   new-machine
-> +   register-banks
-> diff --git a/Documentation/sh/interface.rst b/Documentation/sh/interface.rst
-> new file mode 100644
-> index 000000000000..bc8db7ba894a
-> --- /dev/null
-> +++ b/Documentation/sh/interface.rst
-> @@ -0,0 +1,59 @@
-> +=======================
-> +SuperH Interfaces Guide
-> +=======================
-> +
-> +:Author: Paul Mundt
-> +
-> +Memory Management
-> +=================
-> +
-> +SH-4
-> +----
-> +
-> +Store Queue API
-> +~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
-> +   :export:
-> +
-> +SH-5
-> +----
-> +
-> +TLB Interfaces
-> +~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: arch/sh/mm/tlb-sh5.c
-> +   :internal:
-> +
-> +.. kernel-doc:: arch/sh/include/asm/tlb_64.h
-> +   :internal:
-> +
-> +Machine Specific Interfaces
-> +===========================
-> +
-> +mach-dreamcast
-> +--------------
-> +
-> +.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
-> +   :internal:
-> +
-> +mach-x3proto
-> +------------
-> +
-> +.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
-> +   :export:
-> +
-> +Busses
-> +======
-> +
-> +SuperHyway
-> +----------
-> +
-> +.. kernel-doc:: drivers/sh/superhyway/superhyway.c
-> +   :export:
-> +
-> +Maple
-> +-----
-> +
-> +.. kernel-doc:: drivers/sh/maple/maple.c
-> +   :export:
-> diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
-> similarity index 79%
-> rename from Documentation/sh/new-machine.txt
-> rename to Documentation/sh/new-machine.rst
-> index e0961a66130b..b16c33342642 100644
-> --- a/Documentation/sh/new-machine.txt
-> +++ b/Documentation/sh/new-machine.rst
-> @@ -1,8 +1,8 @@
-> +================================
-> +Adding a new board to LinuxSH
-> +================================
-> 
-> -                Adding a new board to LinuxSH
-> -               ================================
-> -
-> -               Paul Mundt <lethal@linux-sh.org>
-> +Paul Mundt <lethal@linux-sh.org>
-> 
->  This document attempts to outline what steps are necessary to add support
->  for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
-> @@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
->  companion chip type, and CPU type. Looking at a tree view of this directory
->  hierarchy looks like the following:
-> 
-> -Board-specific code:
-> -
-> -.
-> -|-- arch
-> -|   `-- sh
-> -|       `-- boards
-> -|           |-- adx
-> -|           |   `-- board-specific files
-> -|           |-- bigsur
-> -|           |   `-- board-specific files
-> -|           |
-> -|           ... more boards here ...
-> -|
-> -`-- include
-> -    `-- asm-sh
-> -        |-- adx
-> -        |   `-- board-specific headers
-> -        |-- bigsur
-> -        |   `-- board-specific headers
-> -        |
-> -	.. more boards here ...
-> -
-> -Next, for companion chips:
-> -.
-> -`-- arch
-> -    `-- sh
-> -        `-- cchips
-> -            `-- hd6446x
-> -                `-- hd64461
-> -                    `-- cchip-specific files
-> +Board-specific code::
-> +
-> + .
-> + |-- arch
-> + |   `-- sh
-> + |       `-- boards
-> + |           |-- adx
-> + |           |   `-- board-specific files
-> + |           |-- bigsur
-> + |           |   `-- board-specific files
-> + |           |
-> + |           ... more boards here ...
-> + |
-> + `-- include
-> +     `-- asm-sh
-> +         |-- adx
-> +         |   `-- board-specific headers
-> +         |-- bigsur
-> +         |   `-- board-specific headers
-> +         |
-> +       	 .. more boards here ...
-> +
-> +Next, for companion chips::
-> +
-> + .
-> + `-- arch
-> +     `-- sh
-> +         `-- cchips
-> +             `-- hd6446x
-> +                 `-- hd64461
-> +                     `-- cchip-specific files
-> 
->  ... and so on. Headers for the companion chips are treated the same way as
->  board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
->  hd64461-specific headers.
-> 
-> -Finally, CPU family support is also abstracted:
-> -.
-> -|-- arch
-> -|   `-- sh
-> -|       |-- kernel
-> -|       |   `-- cpu
-> -|       |       |-- sh2
-> -|       |       |   `-- SH-2 generic files
-> -|       |       |-- sh3
-> -|       |       |   `-- SH-3 generic files
-> -|       |       `-- sh4
-> -|       |           `-- SH-4 generic files
-> -|       `-- mm
-> -|           `-- This is also broken out per CPU family, so each family can
-> -|               have their own set of cache/tlb functions.
-> -|
-> -`-- include
-> -    `-- asm-sh
-> -        |-- cpu-sh2
-> -        |   `-- SH-2 specific headers
-> -        |-- cpu-sh3
-> -        |   `-- SH-3 specific headers
-> -        `-- cpu-sh4
-> -            `-- SH-4 specific headers
-> +Finally, CPU family support is also abstracted::
-> +
-> + .
-> + |-- arch
-> + |   `-- sh
-> + |       |-- kernel
-> + |       |   `-- cpu
-> + |       |       |-- sh2
-> + |       |       |   `-- SH-2 generic files
-> + |       |       |-- sh3
-> + |       |       |   `-- SH-3 generic files
-> + |       |       `-- sh4
-> + |       |           `-- SH-4 generic files
-> + |       `-- mm
-> + |           `-- This is also broken out per CPU family, so each family can
-> + |               have their own set of cache/tlb functions.
-> + |
-> + `-- include
-> +     `-- asm-sh
-> +         |-- cpu-sh2
-> +         |   `-- SH-2 specific headers
-> +         |-- cpu-sh3
-> +         |   `-- SH-3 specific headers
-> +         `-- cpu-sh4
-> +             `-- SH-4 specific headers
-> 
->  It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
->  need to be dealt with by the CPU family specific code.
-> @@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
->  get_system_type() and platform_setup(). For our imaginary board, this
->  might look something like:
-> 
-> -/*
-> - * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-> - */
-> -#include <linux/init.h>
-> +.. code-block:: c
-> +
-> +    /*
-> +     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-> +     */
-> +    #include <linux/init.h>
-> 
-> -const char *get_system_type(void)
-> -{
-> -	return "FooTech Vaporboard";
-> -}
-> +    const char *get_system_type(void)
-> +    {
-> +        return "FooTech Vaporboard";
-> +    }
-> 
-> -int __init platform_setup(void)
-> -{
-> +    int __init platform_setup(void)
-> +    {
->    	/*
->  	 * If our hardware actually existed, we would do real
->  	 * setup here. Though it's also sane to leave this empty
-> @@ -136,7 +140,8 @@ int __init platform_setup(void)
->  	/* And whatever else ... */
-> 
->  	return 0;
-> -}
-> +    }
-> +
-> 
->  Our new imaginary board will also have to tie into the machvec in order for it
->  to be of any use.
-> @@ -172,16 +177,17 @@ sufficient.
->     vector.
-> 
->     Note that these prototypes are generated automatically by setting
-> -   __IO_PREFIX to something sensible. A typical example would be:
-> +   __IO_PREFIX to something sensible. A typical example would be::
-> 
->  	#define __IO_PREFIX vapor
->     	#include <asm/io_generic.h>
-> 
-> +
->     somewhere in the board-specific header. Any boards being ported that still
->     have a legacy io.h should remove it entirely and switch to the new model.
-> 
->   - Add machine vector definitions to the board's setup.c. At a bare minimum,
-> -   this must be defined as something like:
-> +   this must be defined as something like::
-> 
->  	struct sh_machine_vector mv_vapor __initmv = {
->  		.mv_name = "vapor",
-> @@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
->  require the proper entry here and there in order to get things done.
-> 
->  The first thing to do is to add an entry to arch/sh/Kconfig, under the
-> -"System type" menu:
-> +"System type" menu::
-> 
-> -config SH_VAPOR
-> -	bool "Vapor"
-> -	help
-> + config SH_VAPOR
-> +	 bool "Vapor"
-> +	 help
->  	  select Vapor if configuring for a FooTech Vaporboard.
-> 
->  next, this has to be added into arch/sh/Makefile. All boards require a
-> @@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
->  implicit checks for your board if you need this somewhere throughout the
->  common code, such as:
-> 
-> +::
-> +
->  	/* Make sure we're on the FooTech Vaporboard */
->  	if (!mach_is_vapor())
->  		return -ENODEV;
-> @@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
->  Looking at the 'make help' output, you should now see something like:
-> 
->  Architecture specific targets (sh):
-> -  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
-> -  adx_defconfig           - Build for adx
-> -  cqreek_defconfig        - Build for cqreek
-> -  dreamcast_defconfig     - Build for dreamcast
-> -...
-> -  vapor_defconfig         - Build for vapor
-> +
-> + - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
-> + - adx_defconfig           - Build for adx
-> + - cqreek_defconfig        - Build for cqreek
-> + - dreamcast_defconfig     - Build for dreamcast
-> + - ...
-> + - vapor_defconfig         - Build for vapor
-> 
->  which then allows you to do:
-> 
-> diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
-> similarity index 90%
-> rename from Documentation/sh/register-banks.txt
-> rename to Documentation/sh/register-banks.rst
-> index a6719f2f6594..acccfaf80355 100644
-> --- a/Documentation/sh/register-banks.txt
-> +++ b/Documentation/sh/register-banks.rst
-> @@ -1,8 +1,9 @@
-> -	Notes on register bank usage in the kernel
-> -	==========================================
-> +==========================================
-> +Notes on register bank usage in the kernel
-> +==========================================
-> 
->  Introduction
-> -------------
-> +============
-> 
->  The SH-3 and SH-4 CPU families traditionally include a single partial register
->  bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
-> @@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
->  		- The SR.IMASK interrupt handler makes use of this to set the
->  		  interrupt priority level (used by local_irq_enable())
->  	- r7_bank (current)
-> -
-> --
-> 2.17.1
-> 
-
-
-
-Thanks,
-Mauro
+>
