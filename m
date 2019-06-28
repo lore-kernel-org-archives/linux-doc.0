@@ -3,96 +3,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+	URIBL_SBL_A autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B3FEB7D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:06:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17D8C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbfF1VGf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 17:06:35 -0400
-Received: from 9.mo7.mail-out.ovh.net ([46.105.60.248]:51512 "EHLO
-        9.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfF1VGf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:06:35 -0400
-X-Greylist: delayed 903 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Jun 2019 17:06:34 EDT
-Received: from player732.ha.ovh.net (unknown [10.108.35.211])
-        by mo7.mail-out.ovh.net (Postfix) with ESMTP id 0A5F1125859
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 22:51:29 +0200 (CEST)
+        id S1726673AbfF1VG4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 17:06:56 -0400
+Received: from 10.mo68.mail-out.ovh.net ([46.105.79.203]:36047 "EHLO
+        10.mo68.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbfF1VG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:06:56 -0400
+X-Greylist: delayed 7800 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Jun 2019 17:06:55 EDT
+Received: from player772.ha.ovh.net (unknown [10.108.35.27])
+        by mo68.mail-out.ovh.net (Postfix) with ESMTP id 80E84135040
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 20:38:46 +0200 (CEST)
 Received: from sk2.org (gw.sk2.org [88.186.243.14])
         (Authenticated sender: steve@sk2.org)
-        by player732.ha.ovh.net (Postfix) with ESMTPSA id 178AF7442F61;
-        Fri, 28 Jun 2019 20:51:24 +0000 (UTC)
-Date:   Fri, 28 Jun 2019 22:51:17 +0200
+        by player772.ha.ovh.net (Postfix) with ESMTPSA id D8A3A759C830;
+        Fri, 28 Jun 2019 18:38:42 +0000 (UTC)
+Date:   Fri, 28 Jun 2019 20:38:41 +0200
 From:   Stephen Kitt <steve@sk2.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs: format kernel-parameters -- as code
-Message-ID: <20190628225117.636f7f21@heffalump.sk2.org>
-In-Reply-To: <20190628124804.5ce44f04@lwn.net>
+Message-ID: <20190628203841.723ccd9c@heffalump.sk2.org>
+In-Reply-To: <20190628091021.457d0301@lwn.net>
 References: <20190627135938.3722-1-steve@sk2.org>
         <20190628091021.457d0301@lwn.net>
-        <20190628203841.723ccd9c@heffalump.sk2.org>
-        <20190628124804.5ce44f04@lwn.net>
 X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/D5CSdnIVtgKhNrZkMj5lYjW"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 9066027525608918405
+ boundary="Sig_/+Q2ZDCvK8guFHmIkhT+Ru1w"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 6824642289615850885
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvddtgdduheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvddtgdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/D5CSdnIVtgKhNrZkMj5lYjW
+--Sig_/+Q2ZDCvK8guFHmIkhT+Ru1w
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 28 Jun 2019 12:48:04 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
-> On Fri, 28 Jun 2019 20:38:41 +0200
-> Stephen Kitt <steve@sk2.org> wrote:
+On Fri, 28 Jun 2019 09:10:21 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Thu, 27 Jun 2019 15:59:38 +0200
+> > The current ReStructuredText formatting results in "--", used to
+> > indicate the end of the kernel command-line parameters, appearing as
+> > an en-dash instead of two hyphens; this patch formats them as code,
+> > "``--``", as done elsewhere in the documentation.
+> >=20
+> > Signed-off-by: Stephen Kitt <steve@sk2.org> =20
 >=20
-> > Right, looking further shows a large number of places where -- is handl=
-ed
-> > incorrectly. The following patch disables this =E2=80=9Csmart=E2=80=9D =
-handling wholesale;
-> > I=E2=80=99ll follow up (in the next few days) with patches to use real =
-em- and
-> > en-dashes where appropriate. =20
->=20
-> Thanks for figuring that out, it seems like the right thing to do.
->=20
-> Let's not worry about "real" dashes for now.  Not everybody welcomes
-> non-ascii characters in the docs and, for dashes, it's something I deemed
-> not worth fighting about.
+> A worthy fix, I've applied it.  This seems like the sort of annoyance that
+> will bite us over and over, though.  We might want to find a more
+> comprehensive way to turn this behavior off.
 
-Indeed, there are more important things to worry about than dashes.
+Right, looking further shows a large number of places where -- is handled
+incorrectly. The following patch disables this =E2=80=9Csmart=E2=80=9D hand=
+ling wholesale;
+I=E2=80=99ll follow up (in the next few days) with patches to use real em- =
+and
+en-dashes where appropriate.
 
 Regards,
 
 Stephen
 
---Sig_/D5CSdnIVtgKhNrZkMj5lYjW
+=46rom 3b10d01decfec38a124be75739b398a3dcd9d5ce Mon Sep 17 00:00:00 2001
+From: Stephen Kitt <steve@sk2.org>
+Date: Fri, 28 Jun 2019 20:34:31 +0200
+Subject: [PATCH] Disable Sphinx SmartyPants in HTML output
+
+The handling of dashes in particular results in confusing
+documentation in a number of instances, since "--" becomes an
+en-dash. This disables SmartyPants wholesale, losing smart quotes
+along with smart dashes.
+
+With Sphinx 1.6 we could fine-tune the conversion, using the new
+smartquotes and smartquotes_action settings.
+
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/conf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 7ace3f8852bd..966dbdfafcd1 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -200,7 +200,7 @@ html_context =3D {
+=20
+ # If true, SmartyPants will be used to convert quotes and dashes to
+ # typographically correct entities.
+-#html_use_smartypants =3D True
++html_use_smartypants =3D False
+=20
+ # Custom sidebar templates, maps document names to template names.
+ #html_sidebars =3D {}
+--=20
+2.11.0
+
+
+--Sig_/+Q2ZDCvK8guFHmIkhT+Ru1w
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl0WfcUACgkQgNMC9Yht
-g5zbiRAAhPM6Lzef7gtaxRb8+GUIukddDQqDhCEEJZdge2BkMohXu7M4fGVUMqU+
-xD6FDBE/iIlt0+YXdYMrIrLol0X8Gqq4htQmZeljYQY8WHEGCqp4aECoX2HMetRB
-kFU18I02I/mGpyQX9i9KuZXGxqKTCHyj9a99war0GfN0P4WkWn/1RGsEgKcVmbMa
-IocSF8wCUsiO1sarLuJSVkaq/N+dZTjS8r7I50+Y7p7Aun4MWgBbacshJo0ZQPKr
-0IQjgLU9aqt7kB9cQucpf2sDLau+cuTEYPTmFXlL48Yg+tF2jL4mRhv2bc5UH43Z
-I3dwem1eDjeY++FdrRMglPBI/sUtcaG7eh9nglxSxLcK/LPJ6wgOoEDVKuFlJvYA
-tTsowjAz41samprmXc7xt/7HjR0jm0cbHTTBB5hDSYJ1YR3ChmoysCQetzsZuviB
-MDjbZmzXUED7dDhnCm8v5jkQWWGLwLzJROSkl3kKF26LZTyymbe65YVkT6TV4qM8
-WnY0FYg7gtgoQeBvl9MNMP/YyGaMRdDhHglNmjx9PxtG3VLY5iiHZF3lSUIshIcf
-jP+SX/ul5HTe0R8JjiD19bjGqxhW5EPFA1ix4CCkGa+oRbIV5cK99htWKmcoz7Pa
-A72T64xP4xM8LQTXMws7rACOJ4oEJ0r1BxtObABqT6BJ/QAFnkI=
-=L5vG
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl0WXrEACgkQgNMC9Yht
+g5zEiA//UWxO0D8Gj4guz7JvI59f1scnIIvc/bjVR5KM2wr1nDuL32FbRP4KjU0n
+x5vWte2gM2GR5txA7SQAcuOmWd9+lLH25iKJVFug+0l0EcS8rtclH4B8YaPLU07H
+D4dDsaN1sl4+w6aUlU7vEmD2ly+Xu3NlARutOhaIhHIyOpUVASkt2G+Rfb0bpNQs
+YntKIwWPrnAUFYaFd5PXY3okqlLc4RNVT1TrKubS9pqgFMT6jPBMEYcbhbogH3ok
+zta4ZdUHJfIMA7mPzVXHD0haoXFitn7CuvPqP7buOrjbke6Kw7YiR7ciidUZkxdp
+1xqGzqzcF45K2j1lIyOOAr2e1Lmp8r2mNuZWZ+cJGT/zdR0tn9+VNGo0ZDUw8CGu
+yNF3ho/tGaZ58cOmtfhLjoI2Ln0wOhObh9fiDy6TXKfjyBsDikc6JOcg9flwPhcU
+c+GGxoNGj+Cw41drldqgM0I6Dm8Ir7osUbdz0/Pv5JjRu3aWWcrH684noM1NX28p
+yazGhrtVDAHSEjePneKtya2NPjFyc8x1oAEFO62lRSuvtgILGIEionrKeRmaqfP6
+KnRUa1BEUqRzV1fXnV5HTgDfq94Z6pqMdtmWZ4lAkq0xd2MvsAXiNKUTXNnUh1cI
+7Cv2Z9PoehoZZRfgL9weSorwV1cFvZSCXpqHNxTeSmgqsaQWDn0=
+=BYN7
 -----END PGP SIGNATURE-----
 
---Sig_/D5CSdnIVtgKhNrZkMj5lYjW--
+--Sig_/+Q2ZDCvK8guFHmIkhT+Ru1w--
