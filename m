@@ -1,2335 +1,3896 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DD127D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:22:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D9EE07D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 12:22:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbfF1MWl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 08:22:41 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58794 "EHLO
+        id S1727135AbfF1MWy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 08:22:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58842 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfF1MUr (ORCPT
+        with ESMTP id S1726830AbfF1MUr (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 08:20:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TYXavV4uV+2PkrssmO4e1C10Nnd6/hTtqn1eNk3HPB8=; b=mlHgSiuVphsmfRAXxiwX8/MGSj
-        6tjWIomFNDK182dr2srjO5iQe6jGrl1qqs87VH+R9cp9DfEsQHYPohQwc6Q3lAvH4HU1HiK30x3XM
-        gwdtotIr41lwf1wC4ljl6mfpUMA/RGpVLEUqRs5TSdXPRKLMD/ZJL3RqRR54hVZ7OeDfoNUM/vZ2v
-        vC4sNrnm/qvR1g5G9iFnQ/gHOTTQNzWWrSpDwSa8PGU45YZ0lylwNgZUo6sxyd+t6hj+nBWUSBqE8
-        q+lbMxm1Plffz72mkpocKaPjWr4fT3V0LO/kCJO0+2b9RFeRa58cIkk29ob4Na5clEBFXY302lzP6
-        L8HHQV9g==;
+        bh=W5eR2I0ZpL7RLVtZ2JCV0NEE6mjZnd9bWDRGihUAG1w=; b=O9VLhdXMRZDXBKdL177FJDGDQE
+        n3hWbF33106jzv0dna/sZZ5BqJlMU0EaZ7ZyKPtleUhy6YPmzWvZLt7DDytQiBsjS0mYYjfp2DW7W
+        njsKILQ9GYVEEB7c1gyIwlicf/or/aImGaGU3IzeO0LzSvNtwG4UbNSMwZ5H6ui9TEfUdw1TOTfTH
+        hfWVsGWfqkDjJCt1VS3LcbxT+P9uwDJe8mZeP5fTVgWa3kFCf063QVWALik+eSAeq/gT5JXC6NDES
+        hzQcxlNX/a1I1Qd5TZfd5iK9akpb5Ek5v6M4sYuVGyGPzbL+r6hfDaNU0+9NYMBCxtItAPY6lQTja
+        2jCxqMBA==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgprv-00009q-0R; Fri, 28 Jun 2019 12:20:44 +0000
+        id 1hgprw-0000AM-2V; Fri, 28 Jun 2019 12:20:46 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgprt-000572-2G; Fri, 28 Jun 2019 09:20:41 -0300
+        id 1hgpru-00059Y-03; Fri, 28 Jun 2019 09:20:42 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 03/43] docs: hid: convert to ReST
-Date:   Fri, 28 Jun 2019 09:19:59 -0300
-Message-Id: <3ab0197cc24088ef25b627f14571936f62287452.1561723980.git.mchehab+samsung@kernel.org>
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH 34/43] docs: ioctl: convert to ReST
+Date:   Fri, 28 Jun 2019 09:20:30 -0300
+Message-Id: <05ff3ad912b20c073acd13ccf4b17fd28e9db3df.1561723980.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the HID documentation files to ReST, add an
+Rename the iio documentation files to ReST, add an
 index for them and adjust in order to produce a nice html
 output via the Sphinx build system.
 
-While here, fix the sysfs example from hid-sensor.txt, that
-has a lot of "?" instead of the proper UTF-8 characters that
-are produced by the tree command.
+The cdrom.txt and hdio.txt have their own particular syntax.
+In order to speedup the conversion, I used a small ancillary
+perl script:
+
+	my $d;
+	$d .= $_ while(<>);
+	$d =~ s/(\nCDROM\S+)\s+(\w[^\n]*)/$1\n\t$2\n/g;
+	$d =~ s/(\nHDIO\S+)\s+(\w[^\n]*)/$1\n\t$2\n/g;
+	$d =~ s/(\n\s*usage:)[\s\n]*(\w[^\n]*)/$1:\n\n\t  $2\n/g;
+	$d =~ s/(\n\s*)(E\w+[\s\n]*\w[^\n]*)/$1- $2/g;
+	$d =~ s/(\n\s*)(inputs|outputs|notes):\s*(\w[^\n]*)/$1$2:\n\t\t$3\n/g;
+	print $d;
+
+It basically add blank lines on a few interesting places. The
+script is not perfect: still several things require manual work,
+but it saved quite some time doing some obvious stuff.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- .../hid/{hid-alps.txt => hid-alps.rst}        |  85 ++-
- .../hid/{hid-sensor.txt => hid-sensor.rst}    | 192 +++----
- .../{hid-transport.txt => hid-transport.rst}  |  82 ++-
- Documentation/hid/{hiddev.txt => hiddev.rst}  | 154 ++++--
- Documentation/hid/{hidraw.txt => hidraw.rst}  |  53 +-
- Documentation/hid/index.rst                   |  18 +
- Documentation/hid/intel-ish-hid.rst           | 485 ++++++++++++++++++
- Documentation/hid/intel-ish-hid.txt           | 454 ----------------
- Documentation/hid/{uhid.txt => uhid.rst}      |  46 +-
- Documentation/input/input.rst                 |   2 +-
- MAINTAINERS                                   |   2 +-
- 11 files changed, 897 insertions(+), 676 deletions(-)
- rename Documentation/hid/{hid-alps.txt => hid-alps.rst} (64%)
- rename Documentation/hid/{hid-sensor.txt => hid-sensor.rst} (61%)
- rename Documentation/hid/{hid-transport.txt => hid-transport.rst} (93%)
- rename Documentation/hid/{hiddev.txt => hiddev.rst} (77%)
- rename Documentation/hid/{hidraw.txt => hidraw.rst} (89%)
- create mode 100644 Documentation/hid/index.rst
- create mode 100644 Documentation/hid/intel-ish-hid.rst
- delete mode 100644 Documentation/hid/intel-ish-hid.txt
- rename Documentation/hid/{uhid.txt => uhid.rst} (94%)
+ ...g-up-ioctls.txt => botching-up-ioctls.rst} |    1 +
+ Documentation/ioctl/cdrom.rst                 | 1233 +++++++++++++++++
+ Documentation/ioctl/cdrom.txt                 |  967 -------------
+ Documentation/ioctl/{hdio.txt => hdio.rst}    |  835 +++++++----
+ Documentation/ioctl/index.rst                 |   16 +
+ ...{ioctl-decoding.txt => ioctl-decoding.rst} |   13 +-
+ drivers/gpu/drm/drm_ioctl.c                   |    2 +-
+ 7 files changed, 1814 insertions(+), 1253 deletions(-)
+ rename Documentation/ioctl/{botching-up-ioctls.txt => botching-up-ioctls.rst} (99%)
+ create mode 100644 Documentation/ioctl/cdrom.rst
+ delete mode 100644 Documentation/ioctl/cdrom.txt
+ rename Documentation/ioctl/{hdio.txt => hdio.rst} (54%)
+ create mode 100644 Documentation/ioctl/index.rst
+ rename Documentation/ioctl/{ioctl-decoding.txt => ioctl-decoding.rst} (54%)
 
-diff --git a/Documentation/hid/hid-alps.txt b/Documentation/hid/hid-alps.rst
-similarity index 64%
-rename from Documentation/hid/hid-alps.txt
-rename to Documentation/hid/hid-alps.rst
-index 6b02a2447c77..e2f4c4c11e3f 100644
---- a/Documentation/hid/hid-alps.txt
-+++ b/Documentation/hid/hid-alps.rst
-@@ -1,19 +1,26 @@
-+==========================
- ALPS HID Touchpad Protocol
------------------------
-+==========================
+diff --git a/Documentation/ioctl/botching-up-ioctls.txt b/Documentation/ioctl/botching-up-ioctls.rst
+similarity index 99%
+rename from Documentation/ioctl/botching-up-ioctls.txt
+rename to Documentation/ioctl/botching-up-ioctls.rst
+index 883fb034bd04..ac697fef3545 100644
+--- a/Documentation/ioctl/botching-up-ioctls.txt
++++ b/Documentation/ioctl/botching-up-ioctls.rst
+@@ -1,3 +1,4 @@
++=================================
+ (How to avoid) Botching up ioctls
+ =================================
  
- Introduction
- ------------
- Currently ALPS HID driver supports U1 Touchpad device.
- 
--U1 devuce basic information.
-+U1 device basic information.
+diff --git a/Documentation/ioctl/cdrom.rst b/Documentation/ioctl/cdrom.rst
+new file mode 100644
+index 000000000000..3b4c0506de46
+--- /dev/null
++++ b/Documentation/ioctl/cdrom.rst
+@@ -0,0 +1,1233 @@
++============================
++Summary of CDROM ioctl calls
++============================
 +
-+==========	======
- Vender ID	0x044E
- Product ID	0x120B
- Version ID	0x0121
-+==========	======
- 
- 
- HID Descriptor
--------------
-+--------------
++- Edward A. Falk <efalk@google.com>
 +
-+=======	====================	=====	=======================================
- Byte	Field			Value	Notes
-+=======	====================	=====	=======================================
- 0	wHIDDescLength		001E	Length of HID Descriptor : 30 bytes
- 2	bcdVersion		0100	Compliant with Version 1.00
- 4	wReportDescLength	00B2	Report Descriptor is 178 Bytes (0x00B2)
-@@ -28,32 +35,42 @@ Byte	Field			Value	Notes
- 22	wProductID		120B	Product ID 0x120B
- 24	wVersionID		0121	Version 01.21
- 26	RESERVED		0000	RESERVED
-+=======	====================	=====	=======================================
- 
- 
- Report ID
--------------
--ReportID-1	(Input Reports)	(HIDUsage-Mouse) for TP&SP
--ReportID-2	(Input Reports)	(HIDUsage-keyboard) for TP
--ReportID-3	(Input Reports)	(Vendor Usage: Max 10 finger data) for TP
--ReportID-4	(Input Reports)	(Vendor Usage: ON bit data) for GP
--ReportID-5	(Feature Reports)	Feature Reports
--ReportID-6	(Input Reports)	(Vendor Usage: StickPointer data) for SP
--ReportID-7	(Feature Reports)	Flash update (Bootloader)
-+---------
++November, 2004
 +
-+==========	=================  =========================================
-+ReportID-1	(Input Reports)	   (HIDUsage-Mouse) for TP&SP
-+ReportID-2	(Input Reports)	   (HIDUsage-keyboard) for TP
-+ReportID-3	(Input Reports)	   (Vendor Usage: Max 10 finger data) for TP
-+ReportID-4	(Input Reports)	   (Vendor Usage: ON bit data) for GP
-+ReportID-5	(Feature Reports)  Feature Reports
-+ReportID-6	(Input Reports)	   (Vendor Usage: StickPointer data) for SP
-+ReportID-7	(Feature Reports)  Flash update (Bootloader)
-+==========	=================  =========================================
- 
- 
- Data pattern
- ------------
++This document attempts to describe the ioctl(2) calls supported by
++the CDROM layer.  These are by-and-large implemented (as of Linux 2.6)
++in drivers/cdrom/cdrom.c and drivers/block/scsi_ioctl.c
 +
-+=====	==========	=====	=================
- Case1	ReportID_1	TP/SP	Relative/Relative
- Case2	ReportID_3	TP	Absolute
- 	ReportID_6	SP	Absolute
-+=====	==========	=====	=================
- 
- 
- Command Read/Write
- ------------------
- To read/write to RAM, need to send a commands to the device.
++ioctl values are listed in <linux/cdrom.h>.  As of this writing, they
++are as follows:
 +
- The command format is as below.
- 
- DataByte(SET_REPORT)
-+
-+=====	======================
- Byte1	Command Byte
- Byte2	Address - Byte 0 (LSB)
- Byte3	Address - Byte 1
-@@ -61,13 +78,19 @@ Byte4	Address - Byte 2
- Byte5	Address - Byte 3 (MSB)
- Byte6	Value Byte
- Byte7	Checksum
-+=====	======================
- 
- Command Byte is read=0xD1/write=0xD2 .
-+
- Address is read/write RAM address.
-+
- Value Byte is writing data when you send the write commands.
-+
- When you read RAM, there is no meaning.
- 
- DataByte(GET_REPORT)
-+
-+=====	======================
- Byte1	Response Byte
- Byte2	Address - Byte 0 (LSB)
- Byte3	Address - Byte 1
-@@ -75,6 +98,7 @@ Byte4	Address - Byte 2
- Byte5	Address - Byte 3 (MSB)
- Byte6	Value Byte
- Byte7	Checksum
-+=====	======================
- 
- Read value is stored in Value Byte.
- 
-@@ -82,7 +106,11 @@ Read value is stored in Value Byte.
- Packet Format
- Touchpad data byte
- ------------------
--	b7	b6	b5	b4	b3	b2	b1	b0
++	======================	===============================================
++	CDROMPAUSE		Pause Audio Operation
++	CDROMRESUME		Resume paused Audio Operation
++	CDROMPLAYMSF		Play Audio MSF (struct cdrom_msf)
++	CDROMPLAYTRKIND		Play Audio Track/index (struct cdrom_ti)
++	CDROMREADTOCHDR		Read TOC header (struct cdrom_tochdr)
++	CDROMREADTOCENTRY	Read TOC entry (struct cdrom_tocentry)
++	CDROMSTOP		Stop the cdrom drive
++	CDROMSTART		Start the cdrom drive
++	CDROMEJECT		Ejects the cdrom media
++	CDROMVOLCTRL		Control output volume (struct cdrom_volctrl)
++	CDROMSUBCHNL		Read subchannel data (struct cdrom_subchnl)
++	CDROMREADMODE2		Read CDROM mode 2 data (2336 Bytes)
++				(struct cdrom_read)
++	CDROMREADMODE1		Read CDROM mode 1 data (2048 Bytes)
++				(struct cdrom_read)
++	CDROMREADAUDIO		(struct cdrom_read_audio)
++	CDROMEJECT_SW		enable(1)/disable(0) auto-ejecting
++	CDROMMULTISESSION	Obtain the start-of-last-session
++				address of multi session disks
++				(struct cdrom_multisession)
++	CDROM_GET_MCN		Obtain the "Universal Product Code"
++				if available (struct cdrom_mcn)
++	CDROM_GET_UPC		Deprecated, use CDROM_GET_MCN instead.
++	CDROMRESET		hard-reset the drive
++	CDROMVOLREAD		Get the drive's volume setting
++				(struct cdrom_volctrl)
++	CDROMREADRAW		read data in raw mode (2352 Bytes)
++				(struct cdrom_read)
++	CDROMREADCOOKED		read data in cooked mode
++	CDROMSEEK		seek msf address
++	CDROMPLAYBLK		scsi-cd only, (struct cdrom_blk)
++	CDROMREADALL		read all 2646 bytes
++	CDROMGETSPINDOWN	return 4-bit spindown value
++	CDROMSETSPINDOWN	set 4-bit spindown value
++	CDROMCLOSETRAY		pendant of CDROMEJECT
++	CDROM_SET_OPTIONS	Set behavior options
++	CDROM_CLEAR_OPTIONS	Clear behavior options
++	CDROM_SELECT_SPEED	Set the CD-ROM speed
++	CDROM_SELECT_DISC	Select disc (for juke-boxes)
++	CDROM_MEDIA_CHANGED	Check is media changed
++	CDROM_DRIVE_STATUS	Get tray position, etc.
++	CDROM_DISC_STATUS	Get disc type, etc.
++	CDROM_CHANGER_NSLOTS	Get number of slots
++	CDROM_LOCKDOOR		lock or unlock door
++	CDROM_DEBUG		Turn debug messages on/off
++	CDROM_GET_CAPABILITY	get capabilities
++	CDROMAUDIOBUFSIZ	set the audio buffer size
++	DVD_READ_STRUCT		Read structure
++	DVD_WRITE_STRUCT	Write structure
++	DVD_AUTH		Authentication
++	CDROM_SEND_PACKET	send a packet to the drive
++	CDROM_NEXT_WRITABLE	get next writable block
++	CDROM_LAST_WRITTEN	get last block written on disc
++	======================	===============================================
 +
 +
-+======= ======= ======= ======= ======= ======= ======= ======= =====
-+-	b7	b6	b5	b4	b3	b2	b1	b0
-+======= ======= ======= ======= ======= ======= ======= ======= =====
- 1	0	0	SW6	SW5	SW4	SW3	SW2	SW1
- 2	0	0	0	Fcv	Fn3	Fn2	Fn1	Fn0
- 3	Xa0_7	Xa0_6	Xa0_5	Xa0_4	Xa0_3	Xa0_2	Xa0_1	Xa0_0
-@@ -114,17 +142,25 @@ Touchpad data byte
- 25	Ya4_7	Ya4_6	Ya4_5	Ya4_4	Ya4_3	Ya4_2	Ya4_1	Ya4_0
- 26	Ya4_15	Ya4_14	Ya4_13	Ya4_12	Ya4_11	Ya4_10	Ya4_9	Ya4_8
- 27	LFB4	Zs4_6	Zs4_5	Zs4_4	Zs4_3	Zs4_2	Zs4_1	Zs4_0
-+======= ======= ======= ======= ======= ======= ======= ======= =====
- 
- 
--SW1-SW6:	SW ON/OFF status
--Xan_15-0(16bit):X Absolute data of the "n"th finger
--Yan_15-0(16bit):Y Absolute data of the "n"th finger
--Zsn_6-0(7bit):	Operation area of the "n"th finger
-+SW1-SW6:
-+	SW ON/OFF status
-+Xan_15-0(16bit):
-+	X Absolute data of the "n"th finger
-+Yan_15-0(16bit):
-+	Y Absolute data of the "n"th finger
-+Zsn_6-0(7bit):
-+	Operation area of the "n"th finger
- 
- 
- StickPointer data byte
--------------------
--	b7	b6	b5	b4	b3	b2	b1	b0
-+----------------------
++The information that follows was determined from reading kernel source
++code.  It is likely that some corrections will be made over time.
 +
-+======= ======= ======= ======= ======= ======= ======= ======= =====
-+-	b7	b6	b5	b4	b3	b2	b1	b0
-+======= ======= ======= ======= ======= ======= ======= ======= =====
- Byte1	1	1	1	0	1	SW3	SW2	SW1
- Byte2	X7	X6	X5	X4	X3	X2	X1	X0
- Byte3	X15	X14	X13	X12	X11	X10	X9	X8
-@@ -132,8 +168,13 @@ Byte4	Y7	Y6	Y5	Y4	Y3	Y2	Y1	Y0
- Byte5	Y15	Y14	Y13	Y12	Y11	Y10	Y9	Y8
- Byte6	Z7	Z6	Z5	Z4	Z3	Z2	Z1	Z0
- Byte7	T&P	Z14	Z13	Z12	Z11	Z10	Z9	Z8
-+======= ======= ======= ======= ======= ======= ======= ======= =====
- 
--SW1-SW3:	SW ON/OFF status
--Xn_15-0(16bit):X Absolute data
--Yn_15-0(16bit):Y Absolute data
--Zn_14-0(15bit):Z
-+SW1-SW3:
-+	SW ON/OFF status
-+Xn_15-0(16bit):
-+	X Absolute data
-+Yn_15-0(16bit):
-+	Y Absolute data
-+Zn_14-0(15bit):
-+	Z
-diff --git a/Documentation/hid/hid-sensor.txt b/Documentation/hid/hid-sensor.rst
-similarity index 61%
-rename from Documentation/hid/hid-sensor.txt
-rename to Documentation/hid/hid-sensor.rst
-index b287752a31cd..758972e34971 100644
---- a/Documentation/hid/hid-sensor.txt
-+++ b/Documentation/hid/hid-sensor.rst
-@@ -1,6 +1,6 @@
++------------------------------------------------------------------------------
++
++General:
++
++	Unless otherwise specified, all ioctl calls return 0 on success
++	and -1 with errno set to an appropriate value on error.  (Some
++	ioctls return non-negative data values.)
++
++	Unless otherwise specified, all ioctl calls return -1 and set
++	errno to EFAULT on a failed attempt to copy data to or from user
++	address space.
++
++	Individual drivers may return error codes not listed here.
++
++	Unless otherwise specified, all data structures and constants
++	are defined in <linux/cdrom.h>
++
++------------------------------------------------------------------------------
++
++
++CDROMPAUSE
++	Pause Audio Operation
++
++
++	usage::
++
++	  ioctl(fd, CDROMPAUSE, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++CDROMRESUME
++	Resume paused Audio Operation
++
++
++	usage::
++
++	  ioctl(fd, CDROMRESUME, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++CDROMPLAYMSF
++	Play Audio MSF
++
++	(struct cdrom_msf)
++
++
++	usage::
++
++	  struct cdrom_msf msf;
++
++	  ioctl(fd, CDROMPLAYMSF, &msf);
++
++	inputs:
++		cdrom_msf structure, describing a segment of music to play
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++		- MSF stands for minutes-seconds-frames
++		- LBA stands for logical block address
++		- Segment is described as start and end times, where each time
++		  is described as minutes:seconds:frames.
++		  A frame is 1/75 of a second.
++
++
++CDROMPLAYTRKIND
++	Play Audio Track/index
++
++	(struct cdrom_ti)
++
++
++	usage::
++
++	  struct cdrom_ti ti;
++
++	  ioctl(fd, CDROMPLAYTRKIND, &ti);
++
++	inputs:
++		cdrom_ti structure, describing a segment of music to play
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++		- Segment is described as start and end times, where each time
++		  is described as a track and an index.
++
++
++
++CDROMREADTOCHDR
++	Read TOC header
++
++	(struct cdrom_tochdr)
++
++
++	usage::
++
++	  cdrom_tochdr header;
++
++	  ioctl(fd, CDROMREADTOCHDR, &header);
++
++	inputs:
++		cdrom_tochdr structure
++
++
++	outputs:
++		cdrom_tochdr structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMREADTOCENTRY
++	Read TOC entry
++
++	(struct cdrom_tocentry)
++
++
++	usage::
++
++	  struct cdrom_tocentry entry;
++
++	  ioctl(fd, CDROMREADTOCENTRY, &entry);
++
++	inputs:
++		cdrom_tocentry structure
++
++
++	outputs:
++		cdrom_tocentry structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++	  - EINVAL	entry.cdte_format not CDROM_MSF or CDROM_LBA
++	  - EINVAL	requested track out of bounds
++	  - EIO		I/O error reading TOC
++
++	notes:
++		- TOC stands for Table Of Contents
++		- MSF stands for minutes-seconds-frames
++		- LBA stands for logical block address
++
++
++
++CDROMSTOP
++	Stop the cdrom drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMSTOP, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++	  - Exact interpretation of this ioctl depends on the device,
++	    but most seem to spin the drive down.
++
++
++CDROMSTART
++	Start the cdrom drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMSTART, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++	  - Exact interpretation of this ioctl depends on the device,
++	    but most seem to spin the drive up and/or close the tray.
++	    Other devices ignore the ioctl completely.
++
++
++CDROMEJECT
++	- Ejects the cdrom media
++
++
++	usage::
++
++	  ioctl(fd, CDROMEJECT, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - ENOSYS	cd drive not capable of ejecting
++	  - EBUSY	other processes are accessing drive, or door is locked
++
++	notes:
++		- See CDROM_LOCKDOOR, below.
++
++
++
++
++CDROMCLOSETRAY
++	pendant of CDROMEJECT
++
++
++	usage::
++
++	  ioctl(fd, CDROMCLOSETRAY, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - ENOSYS	cd drive not capable of closing the tray
++	  - EBUSY	other processes are accessing drive, or door is locked
++
++	notes:
++		- See CDROM_LOCKDOOR, below.
++
++
++
++
++CDROMVOLCTRL
++	Control output volume (struct cdrom_volctrl)
++
++
++	usage::
++
++	  struct cdrom_volctrl volume;
++
++	  ioctl(fd, CDROMVOLCTRL, &volume);
++
++	inputs:
++		cdrom_volctrl structure containing volumes for up to 4
++		channels.
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMVOLREAD
++	Get the drive's volume setting
++
++	(struct cdrom_volctrl)
++
++
++	usage::
++
++	  struct cdrom_volctrl volume;
++
++	  ioctl(fd, CDROMVOLREAD, &volume);
++
++	inputs:
++		none
++
++
++	outputs:
++		The current volume settings.
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMSUBCHNL
++	Read subchannel data
++
++	(struct cdrom_subchnl)
++
++
++	usage::
++
++	  struct cdrom_subchnl q;
++
++	  ioctl(fd, CDROMSUBCHNL, &q);
++
++	inputs:
++		cdrom_subchnl structure
++
++
++	outputs:
++		cdrom_subchnl structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++
++	notes:
++		- Format is converted to CDROM_MSF or CDROM_LBA
++		  as per user request on return
++
++
++
++CDROMREADRAW
++	read data in raw mode (2352 Bytes)
++
++	(struct cdrom_read)
++
++	usage::
++
++	  union {
++
++	    struct cdrom_msf msf;		/* input */
++	    char buffer[CD_FRAMESIZE_RAW];	/* return */
++	  } arg;
++	  ioctl(fd, CDROMREADRAW, &arg);
++
++	inputs:
++		cdrom_msf structure indicating an address to read.
++
++		Only the start values are significant.
++
++	outputs:
++		Data written to address provided by user.
++
++
++	error return:
++	  - EINVAL	address less than 0, or msf less than 0:2:0
++	  - ENOMEM	out of memory
++
++	notes:
++		- As of 2.6.8.1, comments in <linux/cdrom.h> indicate that this
++		  ioctl accepts a cdrom_read structure, but actual source code
++		  reads a cdrom_msf structure and writes a buffer of data to
++		  the same address.
++
++		- MSF values are converted to LBA values via this formula::
++
++		    lba = (((m * CD_SECS) + s) * CD_FRAMES + f) - CD_MSF_OFFSET;
++
++
++
++
++CDROMREADMODE1
++	Read CDROM mode 1 data (2048 Bytes)
++
++	(struct cdrom_read)
++
++	notes:
++		Identical to CDROMREADRAW except that block size is
++		CD_FRAMESIZE (2048) bytes
++
++
++
++CDROMREADMODE2
++	Read CDROM mode 2 data (2336 Bytes)
++
++	(struct cdrom_read)
++
++	notes:
++		Identical to CDROMREADRAW except that block size is
++		CD_FRAMESIZE_RAW0 (2336) bytes
++
++
++
++CDROMREADAUDIO
++	(struct cdrom_read_audio)
++
++	usage::
++
++	  struct cdrom_read_audio ra;
++
++	  ioctl(fd, CDROMREADAUDIO, &ra);
++
++	inputs:
++		cdrom_read_audio structure containing read start
++		point and length
++
++	outputs:
++		audio data, returned to buffer indicated by ra
++
++
++	error return:
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++	  - EINVAL	nframes not in range [1 75]
++	  - ENXIO	drive has no queue (probably means invalid fd)
++	  - ENOMEM	out of memory
++
++
++CDROMEJECT_SW
++	enable(1)/disable(0) auto-ejecting
++
++
++	usage::
++
++	  int val;
++
++	  ioctl(fd, CDROMEJECT_SW, val);
++
++	inputs:
++		Flag specifying auto-eject flag.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	Drive is not capable of ejecting.
++	  - EBUSY	Door is locked
++
++
++
++
++CDROMMULTISESSION
++	Obtain the start-of-last-session address of multi session disks
++
++	(struct cdrom_multisession)
++
++	usage::
++
++	  struct cdrom_multisession ms_info;
++
++	  ioctl(fd, CDROMMULTISESSION, &ms_info);
++
++	inputs:
++		cdrom_multisession structure containing desired
++
++	  format.
++
++	outputs:
++		cdrom_multisession structure is filled with last_session
++		information.
++
++	error return:
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++
++
++CDROM_GET_MCN
++	Obtain the "Universal Product Code"
++	if available
++
++	(struct cdrom_mcn)
++
++
++	usage::
++
++	  struct cdrom_mcn mcn;
++
++	  ioctl(fd, CDROM_GET_MCN, &mcn);
++
++	inputs:
++		none
++
++
++	outputs:
++		Universal Product Code
++
++
++	error return:
++	  - ENOSYS	Drive is not capable of reading MCN data.
++
++	notes:
++		- Source code comments state::
++
++		    The following function is implemented, although very few
++		    audio discs give Universal Product Code information, which
++		    should just be the Medium Catalog Number on the box.  Note,
++		    that the way the code is written on the CD is /not/ uniform
++		    across all discs!
++
++
++
++
++CDROM_GET_UPC
++	CDROM_GET_MCN  (deprecated)
++
++
++	Not implemented, as of 2.6.8.1
++
++
++
++CDROMRESET
++	hard-reset the drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMRESET, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - ENOSYS	Drive is not capable of resetting.
++
++
++
++
++CDROMREADCOOKED
++	read data in cooked mode
++
++
++	usage::
++
++	  u8 buffer[CD_FRAMESIZE]
++
++	  ioctl(fd, CDROMREADCOOKED, buffer);
++
++	inputs:
++		none
++
++
++	outputs:
++		2048 bytes of data, "cooked" mode.
++
++
++	notes:
++		Not implemented on all drives.
++
++
++
++
++
++CDROMREADALL
++	read all 2646 bytes
++
++
++	Same as CDROMREADCOOKED, but reads 2646 bytes.
++
++
++
++CDROMSEEK
++	seek msf address
++
++
++	usage::
++
++	  struct cdrom_msf msf;
++
++	  ioctl(fd, CDROMSEEK, &msf);
++
++	inputs:
++		MSF address to seek to.
++
++
++	outputs:
++		none
++
++
++
++
++CDROMPLAYBLK
++	scsi-cd only
++
++	(struct cdrom_blk)
++
++
++	usage::
++
++	  struct cdrom_blk blk;
++
++	  ioctl(fd, CDROMPLAYBLK, &blk);
++
++	inputs:
++		Region to play
++
++
++	outputs:
++		none
++
++
++
++
++CDROMGETSPINDOWN
++	usage::
++
++	  char spindown;
++
++	  ioctl(fd, CDROMGETSPINDOWN, &spindown);
++
++	inputs:
++		none
++
++
++	outputs:
++		The value of the current 4-bit spindown value.
++
++
++
++
++
++CDROMSETSPINDOWN
++	usage::
++
++	  char spindown
++
++	  ioctl(fd, CDROMSETSPINDOWN, &spindown);
++
++	inputs:
++		4-bit value used to control spindown (TODO: more detail here)
++
++
++	outputs:
++		none
++
++
++
++
++
++
++CDROM_SET_OPTIONS
++	Set behavior options
++
++
++	usage::
++
++	  int options;
++
++	  ioctl(fd, CDROM_SET_OPTIONS, options);
++
++	inputs:
++		New values for drive options.  The logical 'or' of:
++
++	    ==============      ==================================
++	    CDO_AUTO_CLOSE	close tray on first open(2)
++	    CDO_AUTO_EJECT	open tray on last release
++	    CDO_USE_FFLAGS	use O_NONBLOCK information on open
++	    CDO_LOCK		lock tray on open files
++	    CDO_CHECK_TYPE	check type on open for data
++	    ==============      ==================================
++
++	outputs:
++		Returns the resulting options settings in the
++		ioctl return value.  Returns -1 on error.
++
++	error return:
++	  - ENOSYS	selected option(s) not supported by drive.
++
++
++
++
++CDROM_CLEAR_OPTIONS
++	Clear behavior options
++
++
++	Same as CDROM_SET_OPTIONS, except that selected options are
++	turned off.
++
++
++
++CDROM_SELECT_SPEED
++	Set the CD-ROM speed
++
++
++	usage::
++
++	  int speed;
++
++	  ioctl(fd, CDROM_SELECT_SPEED, speed);
++
++	inputs:
++		New drive speed.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	speed selection not supported by drive.
++
++
++
++CDROM_SELECT_DISC
++	Select disc (for juke-boxes)
++
++
++	usage::
++
++	  int disk;
++
++	  ioctl(fd, CDROM_SELECT_DISC, disk);
++
++	inputs:
++		Disk to load into drive.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - EINVAL	Disk number beyond capacity of drive
++
++
++
++CDROM_MEDIA_CHANGED
++	Check is media changed
++
++
++	usage::
++
++	  int slot;
++
++	  ioctl(fd, CDROM_MEDIA_CHANGED, slot);
++
++	inputs:
++		Slot number to be tested, always zero except for jukeboxes.
++
++		May also be special values CDSL_NONE or CDSL_CURRENT
++
++	outputs:
++		Ioctl return value is 0 or 1 depending on whether the media
++
++	  has been changed, or -1 on error.
++
++	error returns:
++	  - ENOSYS	Drive can't detect media change
++	  - EINVAL	Slot number beyond capacity of drive
++	  - ENOMEM	Out of memory
++
++
++
++CDROM_DRIVE_STATUS
++	Get tray position, etc.
++
++
++	usage::
++
++	  int slot;
++
++	  ioctl(fd, CDROM_DRIVE_STATUS, slot);
++
++	inputs:
++		Slot number to be tested, always zero except for jukeboxes.
++
++		May also be special values CDSL_NONE or CDSL_CURRENT
++
++	outputs:
++		Ioctl return value will be one of the following values
++
++	  from <linux/cdrom.h>:
++
++	    =================== ==========================
++	    CDS_NO_INFO		Information not available.
++	    CDS_NO_DISC
++	    CDS_TRAY_OPEN
++	    CDS_DRIVE_NOT_READY
++	    CDS_DISC_OK
++	    -1			error
++	    =================== ==========================
++
++	error returns:
++	  - ENOSYS	Drive can't detect drive status
++	  - EINVAL	Slot number beyond capacity of drive
++	  - ENOMEM	Out of memory
++
++
++
++
++CDROM_DISC_STATUS
++	Get disc type, etc.
++
++
++	usage::
++
++	  ioctl(fd, CDROM_DISC_STATUS, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		Ioctl return value will be one of the following values
++
++	  from <linux/cdrom.h>:
++
++	    - CDS_NO_INFO
++	    - CDS_AUDIO
++	    - CDS_MIXED
++	    - CDS_XA_2_2
++	    - CDS_XA_2_1
++	    - CDS_DATA_1
++
++	error returns:
++		none at present
++
++	notes:
++	    - Source code comments state::
++
++
++		Ok, this is where problems start.  The current interface for
++		the CDROM_DISC_STATUS ioctl is flawed.  It makes the false
++		assumption that CDs are all CDS_DATA_1 or all CDS_AUDIO, etc.
++		Unfortunately, while this is often the case, it is also
++		very common for CDs to have some tracks with data, and some
++		tracks with audio.	Just because I feel like it, I declare
++		the following to be the best way to cope.  If the CD has
++		ANY data tracks on it, it will be returned as a data CD.
++		If it has any XA tracks, I will return it as that.	Now I
++		could simplify this interface by combining these returns with
++		the above, but this more clearly demonstrates the problem
++		with the current interface.  Too bad this wasn't designed
++		to use bitmasks...	       -Erik
++
++		Well, now we have the option CDS_MIXED: a mixed-type CD.
++		User level programmers might feel the ioctl is not very
++		useful.
++				---david
++
++
++
++
++CDROM_CHANGER_NSLOTS
++	Get number of slots
++
++
++	usage::
++
++	  ioctl(fd, CDROM_CHANGER_NSLOTS, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		The ioctl return value will be the number of slots in a
++		CD changer.  Typically 1 for non-multi-disk devices.
++
++	error returns:
++		none
++
++
++
++CDROM_LOCKDOOR
++	lock or unlock door
++
++
++	usage::
++
++	  int lock;
++
++	  ioctl(fd, CDROM_LOCKDOOR, lock);
++
++	inputs:
++		Door lock flag, 1=lock, 0=unlock
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - EDRIVE_CANT_DO_THIS
++
++				Door lock function not supported.
++	  - EBUSY
++
++				Attempt to unlock when multiple users
++				have the drive open and not CAP_SYS_ADMIN
++
++	notes:
++		As of 2.6.8.1, the lock flag is a global lock, meaning that
++		all CD drives will be locked or unlocked together.  This is
++		probably a bug.
++
++		The EDRIVE_CANT_DO_THIS value is defined in <linux/cdrom.h>
++		and is currently (2.6.8.1) the same as EOPNOTSUPP
++
++
++
++CDROM_DEBUG
++	Turn debug messages on/off
++
++
++	usage::
++
++	  int debug;
++
++	  ioctl(fd, CDROM_DEBUG, debug);
++
++	inputs:
++		Cdrom debug flag, 0=disable, 1=enable
++
++
++	outputs:
++		The ioctl return value will be the new debug flag.
++
++
++	error return:
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++
++
++
++CDROM_GET_CAPABILITY
++	get capabilities
++
++
++	usage::
++
++	  ioctl(fd, CDROM_GET_CAPABILITY, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		The ioctl return value is the current device capability
++		flags.  See CDC_CLOSE_TRAY, CDC_OPEN_TRAY, etc.
++
++
++
++CDROMAUDIOBUFSIZ
++	set the audio buffer size
++
++
++	usage::
++
++	  int arg;
++
++	  ioctl(fd, CDROMAUDIOBUFSIZ, val);
++
++	inputs:
++		New audio buffer size
++
++
++	outputs:
++		The ioctl return value is the new audio buffer size, or -1
++		on error.
++
++	error return:
++	  - ENOSYS	Not supported by this driver.
++
++	notes:
++		Not supported by all drivers.
++
++
++
++
++DVD_READ_STRUCT			Read structure
++
++	usage::
++
++	  dvd_struct s;
++
++	  ioctl(fd, DVD_READ_STRUCT, &s);
++
++	inputs:
++		dvd_struct structure, containing:
++
++	    =================== ==========================================
++	    type		specifies the information desired, one of
++				DVD_STRUCT_PHYSICAL, DVD_STRUCT_COPYRIGHT,
++				DVD_STRUCT_DISCKEY, DVD_STRUCT_BCA,
++				DVD_STRUCT_MANUFACT
++	    physical.layer_num	desired layer, indexed from 0
++	    copyright.layer_num	desired layer, indexed from 0
++	    disckey.agid
++	    =================== ==========================================
++
++	outputs:
++		dvd_struct structure, containing:
++
++	    =================== ================================
++	    physical		for type == DVD_STRUCT_PHYSICAL
++	    copyright		for type == DVD_STRUCT_COPYRIGHT
++	    disckey.value	for type == DVD_STRUCT_DISCKEY
++	    bca.{len,value}	for type == DVD_STRUCT_BCA
++	    manufact.{len,valu}	for type == DVD_STRUCT_MANUFACT
++	    =================== ================================
++
++	error returns:
++	  - EINVAL	physical.layer_num exceeds number of layers
++	  - EIO		Received invalid response from drive
++
++
++
++DVD_WRITE_STRUCT		Write structure
++
++	Not implemented, as of 2.6.8.1
++
++
++
++DVD_AUTH			Authentication
++
++	usage::
++
++	  dvd_authinfo ai;
++
++	  ioctl(fd, DVD_AUTH, &ai);
++
++	inputs:
++		dvd_authinfo structure.  See <linux/cdrom.h>
++
++
++	outputs:
++		dvd_authinfo structure.
++
++
++	error return:
++	  - ENOTTY	ai.type not recognized.
++
++
++
++CDROM_SEND_PACKET
++	send a packet to the drive
++
++
++	usage::
++
++	  struct cdrom_generic_command cgc;
++
++	  ioctl(fd, CDROM_SEND_PACKET, &cgc);
++
++	inputs:
++		cdrom_generic_command structure containing the packet to send.
++
++
++	outputs:
++		none
++
++	  cdrom_generic_command structure containing results.
++
++	error return:
++	  - EIO
++
++			command failed.
++	  - EPERM
++
++			Operation not permitted, either because a
++			write command was attempted on a drive which
++			is opened read-only, or because the command
++			requires CAP_SYS_RAWIO
++	  - EINVAL
++
++			cgc.data_direction not set
++
++
++
++CDROM_NEXT_WRITABLE
++	get next writable block
++
++
++	usage::
++
++	  long next;
++
++	  ioctl(fd, CDROM_NEXT_WRITABLE, &next);
++
++	inputs:
++		none
++
++
++	outputs:
++		The next writable block.
++
++
++	notes:
++		If the device does not support this ioctl directly, the
++
++	  ioctl will return CDROM_LAST_WRITTEN + 7.
++
++
++
++CDROM_LAST_WRITTEN
++	get last block written on disc
++
++
++	usage::
++
++	  long last;
++
++	  ioctl(fd, CDROM_LAST_WRITTEN, &last);
++
++	inputs:
++		none
++
++
++	outputs:
++		The last block written on disc
++
++
++	notes:
++		If the device does not support this ioctl directly, the
++		result is derived from the disc's table of contents.  If the
++		table of contents can't be read, this ioctl returns an
++		error.
+diff --git a/Documentation/ioctl/cdrom.txt b/Documentation/ioctl/cdrom.txt
+deleted file mode 100644
+index a4d62a9d6771..000000000000
+--- a/Documentation/ioctl/cdrom.txt
++++ /dev/null
+@@ -1,967 +0,0 @@
+-		Summary of CDROM ioctl calls.
+-		============================
 -
-+=====================
- HID Sensors Framework
--======================
-+=====================
- HID sensor framework provides necessary interfaces to implement sensor drivers,
- which are connected to a sensor hub. The sensor hub is a HID device and it provides
- a report descriptor conforming to HID 1.12 sensor usage tables.
-@@ -15,22 +15,22 @@ the drivers themselves."
- This specification describes many usage IDs, which describe the type of sensor
- and also the individual data fields. Each sensor can have variable number of
- data fields. The length and order is specified in the report descriptor. For
--example a part of report descriptor can look like:
-+example a part of report descriptor can look like::
- 
--   INPUT(1)[INPUT]
-- ..
--    Field(2)
--      Physical(0020.0073)
--      Usage(1)
--        0020.045f
--      Logical Minimum(-32767)
--      Logical Maximum(32767)
--      Report Size(8)
--      Report Count(1)
--      Report Offset(16)
--      Flags(Variable Absolute)
--..
--..
-+     INPUT(1)[INPUT]
-+   ..
-+      Field(2)
-+        Physical(0020.0073)
-+        Usage(1)
-+          0020.045f
-+        Logical Minimum(-32767)
-+        Logical Maximum(32767)
-+        Report Size(8)
-+        Report Count(1)
-+        Report Offset(16)
-+        Flags(Variable Absolute)
-+  ..
-+  ..
- 
- The report is indicating "sensor page (0x20)" contains an accelerometer-3D (0x73).
- This accelerometer-3D has some fields. Here for example field 2 is motion intensity
-@@ -40,13 +40,14 @@ data will use this format.
- 
- 
- Implementation
--=================
-+==============
- 
- This specification defines many different types of sensors with different sets of
- data fields. It is difficult to have a common input event to user space applications,
- for different sensors. For example an accelerometer can send X,Y and Z data, whereas
- an ambient light sensor can send illumination data.
- So the implementation has two parts:
-+
- - Core hid driver
- - Individual sensor processing part (sensor drivers)
- 
-@@ -55,8 +56,11 @@ Core driver
- The core driver registers (hid-sensor-hub) registers as a HID driver. It parses
- report descriptors and identifies all the sensors present. It adds an MFD device
- with name HID-SENSOR-xxxx (where xxxx is usage id from the specification).
--For example
-+
-+For example:
-+
- HID-SENSOR-200073 is registered for an Accelerometer 3D driver.
-+
- So if any driver with this name is inserted, then the probe routine for that
- function will be called. So an accelerometer processing driver can register
- with this name and will be probed if there is an accelerometer-3D detected.
-@@ -66,7 +70,8 @@ drivers to register and get events for that usage id. Also it provides parsing
- functions, which get and set each input/feature/output report.
- 
- Individual sensor processing part (sensor drivers)
-------------
-+--------------------------------------------------
-+
- The processing driver will use an interface provided by the core driver to parse
- the report and get the indexes of the fields and also can get events. This driver
- can use IIO interface to use the standard ABI defined for a type of sensor.
-@@ -75,31 +80,34 @@ can use IIO interface to use the standard ABI defined for a type of sensor.
- Core driver Interface
- =====================
- 
--Callback structure:
--Each processing driver can use this structure to set some callbacks.
-+Callback structure::
-+
-+  Each processing driver can use this structure to set some callbacks.
- 	int (*suspend)(..): Callback when HID suspend is received
- 	int (*resume)(..): Callback when HID resume is received
- 	int (*capture_sample)(..): Capture a sample for one of its data fields
- 	int (*send_event)(..): One complete event is received which can have
-                                multiple data fields.
- 
--Registration functions:
--int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
-+Registration functions::
-+
-+  int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
- 			u32 usage_id,
- 			struct hid_sensor_hub_callbacks *usage_callback):
- 
- Registers callbacks for an usage id. The callback functions are not allowed
--to sleep.
-+to sleep::
- 
- 
--int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
-+  int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
- 			u32 usage_id):
- 
- Removes callbacks for an usage id.
- 
- 
--Parsing function:
--int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
-+Parsing function::
-+
-+  int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
- 			u8 type,
- 			u32 usage_id, u32 attr_usage_id,
- 			struct hid_sensor_hub_attribute_info *info);
-@@ -110,26 +118,27 @@ so that fields can be set or get individually.
- These indexes avoid searching every time and getting field index to get or set.
- 
- 
--Set Feature report
--int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
-+Set Feature report::
-+
-+  int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
- 			u32 field_index, s32 value);
- 
- This interface is used to set a value for a field in feature report. For example
- if there is a field report_interval, which is parsed by a call to
--sensor_hub_input_get_attribute_info before, then it can directly set that individual
--field.
-+sensor_hub_input_get_attribute_info before, then it can directly set that
-+individual field::
- 
- 
--int sensor_hub_get_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
-+  int sensor_hub_get_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
- 			u32 field_index, s32 *value);
- 
- This interface is used to get a value for a field in input report. For example
- if there is a field report_interval, which is parsed by a call to
--sensor_hub_input_get_attribute_info before, then it can directly get that individual
--field value.
-+sensor_hub_input_get_attribute_info before, then it can directly get that
-+individual field value::
- 
- 
--int sensor_hub_input_attr_get_raw_value(struct hid_sensor_hub_device *hsdev,
-+  int sensor_hub_input_attr_get_raw_value(struct hid_sensor_hub_device *hsdev,
- 			u32 usage_id,
- 			u32 attr_usage_id, u32 report_id);
- 
-@@ -143,6 +152,8 @@ registered callback function to process the sample.
- ----------
- 
- HID Custom and generic Sensors
-+------------------------------
-+
- 
- HID Sensor specification defines two special sensor usage types. Since they
- don't represent a standard sensor, it is not possible to define using Linux IIO
-@@ -158,66 +169,73 @@ keyboard attached/detached or lid open/close.
- To allow application to utilize these sensors, here they are exported uses sysfs
- attribute groups, attributes and misc device interface.
- 
--An example of this representation on sysfs:
--/sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
--.
--????????? enable_sensor
--????????? feature-0-200316
--??????? ????????? feature-0-200316-maximum
--??????? ????????? feature-0-200316-minimum
--??????? ????????? feature-0-200316-name
--??????? ????????? feature-0-200316-size
--??????? ????????? feature-0-200316-unit-expo
--??????? ????????? feature-0-200316-units
--??????? ????????? feature-0-200316-value
--????????? feature-1-200201
--??????? ????????? feature-1-200201-maximum
--??????? ????????? feature-1-200201-minimum
--??????? ????????? feature-1-200201-name
--??????? ????????? feature-1-200201-size
--??????? ????????? feature-1-200201-unit-expo
--??????? ????????? feature-1-200201-units
--??????? ????????? feature-1-200201-value
--????????? input-0-200201
--??????? ????????? input-0-200201-maximum
--??????? ????????? input-0-200201-minimum
--??????? ????????? input-0-200201-name
--??????? ????????? input-0-200201-size
--??????? ????????? input-0-200201-unit-expo
--??????? ????????? input-0-200201-units
--??????? ????????? input-0-200201-value
--????????? input-1-200202
--??????? ????????? input-1-200202-maximum
--??????? ????????? input-1-200202-minimum
--??????? ????????? input-1-200202-name
--??????? ????????? input-1-200202-size
--??????? ????????? input-1-200202-unit-expo
--??????? ????????? input-1-200202-units
--??????? ????????? input-1-200202-value
-+An example of this representation on sysfs::
-+
-+  /sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
-+  .
-+  │   ├──  enable_sensor
-+  │   │   ├── feature-0-200316
-+  │   │   │   ├── feature-0-200316-maximum
-+  │   │   │   ├── feature-0-200316-minimum
-+  │   │   │   ├── feature-0-200316-name
-+  │   │   │   ├── feature-0-200316-size
-+  │   │   │   ├── feature-0-200316-unit-expo
-+  │   │   │   ├── feature-0-200316-units
-+  │   │   │   ├── feature-0-200316-value
-+  │   │   ├── feature-1-200201
-+  │   │   │   ├── feature-1-200201-maximum
-+  │   │   │   ├── feature-1-200201-minimum
-+  │   │   │   ├── feature-1-200201-name
-+  │   │   │   ├── feature-1-200201-size
-+  │   │   │   ├── feature-1-200201-unit-expo
-+  │   │   │   ├── feature-1-200201-units
-+  │   │   │   ├── feature-1-200201-value
-+  │   │   ├── input-0-200201
-+  │   │   │   ├── input-0-200201-maximum
-+  │   │   │   ├── input-0-200201-minimum
-+  │   │   │   ├── input-0-200201-name
-+  │   │   │   ├── input-0-200201-size
-+  │   │   │   ├── input-0-200201-unit-expo
-+  │   │   │   ├── input-0-200201-units
-+  │   │   │   ├── input-0-200201-value
-+  │   │   ├── input-1-200202
-+  │   │   │   ├── input-1-200202-maximum
-+  │   │   │   ├── input-1-200202-minimum
-+  │   │   │   ├── input-1-200202-name
-+  │   │   │   ├── input-1-200202-size
-+  │   │   │   ├── input-1-200202-unit-expo
-+  │   │   │   ├── input-1-200202-units
-+  │   │   │   ├── input-1-200202-value
- 
- Here there is a custom sensors with four fields, two feature and two inputs.
- Each field is represented by a set of attributes. All fields except the "value"
- are read only. The value field is a RW field.
--Example
--/sys/bus/platform/devices/HID-SENSOR-2000e1.6.auto/feature-0-200316$ grep -r . *
--feature-0-200316-maximum:6
--feature-0-200316-minimum:0
--feature-0-200316-name:property-reporting-state
--feature-0-200316-size:1
--feature-0-200316-unit-expo:0
--feature-0-200316-units:25
--feature-0-200316-value:1
-+
-+Example::
-+
-+  /sys/bus/platform/devices/HID-SENSOR-2000e1.6.auto/feature-0-200316$ grep -r . *
-+  feature-0-200316-maximum:6
-+  feature-0-200316-minimum:0
-+  feature-0-200316-name:property-reporting-state
-+  feature-0-200316-size:1
-+  feature-0-200316-unit-expo:0
-+  feature-0-200316-units:25
-+  feature-0-200316-value:1
- 
- How to enable such sensor?
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
- By default sensor can be power gated. To enable sysfs attribute "enable" can be
--used.
--$ echo 1 > enable_sensor
-+used::
-+
-+	$ echo 1 > enable_sensor
- 
- Once enabled and powered on, sensor can report value using HID reports.
--These reports are pushed using misc device interface in a FIFO order.
--/dev$ tree | grep HID-SENSOR-2000e1.6.auto
--??????? ????????? 10:53 -> ../HID-SENSOR-2000e1.6.auto
--????????? HID-SENSOR-2000e1.6.auto
-+These reports are pushed using misc device interface in a FIFO order::
-+
-+	/dev$ tree | grep HID-SENSOR-2000e1.6.auto
-+	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
-+	│   ├──  HID-SENSOR-2000e1.6.auto
- 
- Each reports can be of variable length preceded by a header. This header
- consist of a 32 bit usage id, 64 bit time stamp and 32 bit length field of raw
-diff --git a/Documentation/hid/hid-transport.txt b/Documentation/hid/hid-transport.rst
-similarity index 93%
-rename from Documentation/hid/hid-transport.txt
-rename to Documentation/hid/hid-transport.rst
-index 4f41d67f1b4b..0fe526f36db6 100644
---- a/Documentation/hid/hid-transport.txt
-+++ b/Documentation/hid/hid-transport.rst
-@@ -1,5 +1,6 @@
--                          HID I/O Transport Drivers
--                         ===========================
-+=========================
-+HID I/O Transport Drivers
-+=========================
- 
- The HID subsystem is independent of the underlying transport driver. Initially,
- only USB was supported, but other specifications adopted the HID design and
-@@ -16,6 +17,8 @@ transport and device setup/management. HID core is responsible of
- report-parsing, report interpretation and the user-space API. Device specifics
- and quirks are handled by all layers depending on the quirk.
- 
-+::
-+
-  +-----------+  +-----------+            +-----------+  +-----------+
-  | Device #1 |  | Device #i |            | Device #j |  | Device #k |
-  +-----------+  +-----------+            +-----------+  +-----------+
-@@ -42,8 +45,9 @@ and quirks are handled by all layers depending on the quirk.
-  +----------------+  +-----------+  +------------------+  +------------------+
- 
- Example Drivers:
--  I/O: USB, I2C, Bluetooth-l2cap
--  Transport: USB-HID, I2C-HID, BT-HIDP
-+
-+  - I/O: USB, I2C, Bluetooth-l2cap
-+  - Transport: USB-HID, I2C-HID, BT-HIDP
- 
- Everything below "HID Core" is simplified in this graph as it is only of
- interest to HID device drivers. Transport drivers do not need to know the
-@@ -183,7 +187,7 @@ Other ctrl-channel requests are supported by USB-HID but are not available
- -------------------
- 
- Transport drivers normally use the following procedure to register a new device
--with HID core:
-+with HID core::
- 
- 	struct hid_device *hid;
- 	int ret;
-@@ -215,7 +219,7 @@ Once hid_add_device() is entered, HID core might use the callbacks provided in
- "custom_ll_driver". Note that fields like "country" can be ignored by underlying
- transport-drivers if not supported.
- 
--To unregister a device, use:
-+To unregister a device, use::
- 
- 	hid_destroy_device(hid);
- 
-@@ -226,73 +230,110 @@ driver callbacks.
- -----------------------------
- 
- The available HID callbacks are:
-- - int (*start) (struct hid_device *hdev)
-+
-+   ::
-+
-+      int (*start) (struct hid_device *hdev)
-+
-    Called from HID device drivers once they want to use the device. Transport
-    drivers can choose to setup their device in this callback. However, normally
-    devices are already set up before transport drivers register them to HID core
-    so this is mostly only used by USB-HID.
- 
-- - void (*stop) (struct hid_device *hdev)
-+   ::
-+
-+      void (*stop) (struct hid_device *hdev)
-+
-    Called from HID device drivers once they are done with a device. Transport
-    drivers can free any buffers and deinitialize the device. But note that
-    ->start() might be called again if another HID device driver is loaded on the
-    device.
-+
-    Transport drivers are free to ignore it and deinitialize devices after they
-    destroyed them via hid_destroy_device().
- 
-- - int (*open) (struct hid_device *hdev)
-+   ::
-+
-+      int (*open) (struct hid_device *hdev)
-+
-    Called from HID device drivers once they are interested in data reports.
-    Usually, while user-space didn't open any input API/etc., device drivers are
-    not interested in device data and transport drivers can put devices asleep.
-    However, once ->open() is called, transport drivers must be ready for I/O.
-    ->open() calls are nested for each client that opens the HID device.
- 
-- - void (*close) (struct hid_device *hdev)
-+   ::
-+
-+      void (*close) (struct hid_device *hdev)
-+
-    Called from HID device drivers after ->open() was called but they are no
-    longer interested in device reports. (Usually if user-space closed any input
-    devices of the driver).
-+
-    Transport drivers can put devices asleep and terminate any I/O of all
-    ->open() calls have been followed by a ->close() call. However, ->start() may
-    be called again if the device driver is interested in input reports again.
- 
-- - int (*parse) (struct hid_device *hdev)
-+   ::
-+
-+      int (*parse) (struct hid_device *hdev)
-+
-    Called once during device setup after ->start() has been called. Transport
-    drivers must read the HID report-descriptor from the device and tell HID core
-    about it via hid_parse_report().
- 
-- - int (*power) (struct hid_device *hdev, int level)
-+   ::
-+
-+      int (*power) (struct hid_device *hdev, int level)
-+
-    Called by HID core to give PM hints to transport drivers. Usually this is
-    analogical to the ->open() and ->close() hints and redundant.
- 
-- - void (*request) (struct hid_device *hdev, struct hid_report *report,
--                    int reqtype)
-+   ::
-+
-+      void (*request) (struct hid_device *hdev, struct hid_report *report,
-+		       int reqtype)
-+
-    Send an HID request on the ctrl channel. "report" contains the report that
-    should be sent and "reqtype" the request type. Request-type can be
-    HID_REQ_SET_REPORT or HID_REQ_GET_REPORT.
-+
-    This callback is optional. If not provided, HID core will assemble a raw
-    report following the HID specs and send it via the ->raw_request() callback.
-    The transport driver is free to implement this asynchronously.
- 
-- - int (*wait) (struct hid_device *hdev)
-+   ::
-+
-+      int (*wait) (struct hid_device *hdev)
-+
-    Used by HID core before calling ->request() again. A transport driver can use
-    it to wait for any pending requests to complete if only one request is
-    allowed at a time.
- 
-- - int (*raw_request) (struct hid_device *hdev, unsigned char reportnum,
--                       __u8 *buf, size_t count, unsigned char rtype,
--                       int reqtype)
-+   ::
-+
-+      int (*raw_request) (struct hid_device *hdev, unsigned char reportnum,
-+                          __u8 *buf, size_t count, unsigned char rtype,
-+                          int reqtype)
-+
-    Same as ->request() but provides the report as raw buffer. This request shall
-    be synchronous. A transport driver must not use ->wait() to complete such
-    requests. This request is mandatory and hid core will reject the device if
-    it is missing.
- 
-- - int (*output_report) (struct hid_device *hdev, __u8 *buf, size_t len)
-+   ::
-+
-+      int (*output_report) (struct hid_device *hdev, __u8 *buf, size_t len)
-+
-    Send raw output report via intr channel. Used by some HID device drivers
-    which require high throughput for outgoing requests on the intr channel. This
-    must not cause SET_REPORT calls! This must be implemented as asynchronous
-    output report on the intr channel!
- 
-- - int (*idle) (struct hid_device *hdev, int report, int idle, int reqtype)
-+   ::
-+
-+      int (*idle) (struct hid_device *hdev, int report, int idle, int reqtype)
-+
-    Perform SET/GET_IDLE request. Only used by USB-HID, do not implement!
- 
- 2.3) Data Path
-@@ -314,4 +355,5 @@ transport driver and not passed to hid_input_report().
- Acknowledgements to SET_REPORT requests are not of interest to HID core.
- 
- ----------------------------------------------------
-+
- Written 2013, David Herrmann <dh.herrmann@gmail.com>
-diff --git a/Documentation/hid/hiddev.txt b/Documentation/hid/hiddev.rst
-similarity index 77%
-rename from Documentation/hid/hiddev.txt
-rename to Documentation/hid/hiddev.rst
-index 638448707aa2..209e6ba4e019 100644
---- a/Documentation/hid/hiddev.txt
-+++ b/Documentation/hid/hiddev.rst
-@@ -1,6 +1,9 @@
-+================================================
- Care and feeding of your Human Interface Devices
-+================================================
- 
--INTRODUCTION
-+Introduction
-+============
- 
- In addition to the normal input type HID devices, USB also uses the
- human interface device protocols for things that are not really human
-@@ -16,38 +19,40 @@ normalised event interface - see Documentation/input/input.rst
- * the hiddev interface, which provides fairly raw HID events
- 
- The data flow for a HID event produced by a device is something like
--the following :
-+the following::
- 
-  usb.c ---> hid-core.c  ----> hid-input.c ----> [keyboard/mouse/joystick/event]
-                          |
-                          |
--                          --> hiddev.c ----> POWER / MONITOR CONTROL 
-+                          --> hiddev.c ----> POWER / MONITOR CONTROL
- 
- In addition, other subsystems (apart from USB) can potentially feed
- events into the input subsystem, but these have no effect on the hid
- device interface.
- 
--USING THE HID DEVICE INTERFACE
-+Using the HID Device Interface
+-		Edward A. Falk <efalk@google.com>
+-
+-		November, 2004
+-
+-This document attempts to describe the ioctl(2) calls supported by
+-the CDROM layer.  These are by-and-large implemented (as of Linux 2.6)
+-in drivers/cdrom/cdrom.c and drivers/block/scsi_ioctl.c
+-
+-ioctl values are listed in <linux/cdrom.h>.  As of this writing, they
+-are as follows:
+-
+-	CDROMPAUSE		Pause Audio Operation
+-	CDROMRESUME		Resume paused Audio Operation
+-	CDROMPLAYMSF		Play Audio MSF (struct cdrom_msf)
+-	CDROMPLAYTRKIND		Play Audio Track/index (struct cdrom_ti)
+-	CDROMREADTOCHDR		Read TOC header (struct cdrom_tochdr)
+-	CDROMREADTOCENTRY	Read TOC entry (struct cdrom_tocentry)
+-	CDROMSTOP		Stop the cdrom drive
+-	CDROMSTART		Start the cdrom drive
+-	CDROMEJECT		Ejects the cdrom media
+-	CDROMVOLCTRL		Control output volume (struct cdrom_volctrl)
+-	CDROMSUBCHNL		Read subchannel data (struct cdrom_subchnl)
+-	CDROMREADMODE2		Read CDROM mode 2 data (2336 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADMODE1		Read CDROM mode 1 data (2048 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADAUDIO		(struct cdrom_read_audio)
+-	CDROMEJECT_SW		enable(1)/disable(0) auto-ejecting
+-	CDROMMULTISESSION	Obtain the start-of-last-session
+-				  address of multi session disks
+-				  (struct cdrom_multisession)
+-	CDROM_GET_MCN		Obtain the "Universal Product Code"
+-				   if available (struct cdrom_mcn)
+-	CDROM_GET_UPC		Deprecated, use CDROM_GET_MCN instead.
+-	CDROMRESET		hard-reset the drive
+-	CDROMVOLREAD		Get the drive's volume setting
+-					  (struct cdrom_volctrl)
+-	CDROMREADRAW		read data in raw mode (2352 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADCOOKED		read data in cooked mode
+-	CDROMSEEK		seek msf address
+-	CDROMPLAYBLK		scsi-cd only, (struct cdrom_blk)
+-	CDROMREADALL		read all 2646 bytes
+-	CDROMGETSPINDOWN	return 4-bit spindown value
+-	CDROMSETSPINDOWN	set 4-bit spindown value
+-	CDROMCLOSETRAY		pendant of CDROMEJECT
+-	CDROM_SET_OPTIONS	Set behavior options
+-	CDROM_CLEAR_OPTIONS	Clear behavior options
+-	CDROM_SELECT_SPEED	Set the CD-ROM speed
+-	CDROM_SELECT_DISC	Select disc (for juke-boxes)
+-	CDROM_MEDIA_CHANGED	Check is media changed
+-	CDROM_DRIVE_STATUS	Get tray position, etc.
+-	CDROM_DISC_STATUS	Get disc type, etc.
+-	CDROM_CHANGER_NSLOTS	Get number of slots
+-	CDROM_LOCKDOOR		lock or unlock door
+-	CDROM_DEBUG		Turn debug messages on/off
+-	CDROM_GET_CAPABILITY	get capabilities
+-	CDROMAUDIOBUFSIZ	set the audio buffer size
+-	DVD_READ_STRUCT		Read structure
+-	DVD_WRITE_STRUCT	Write structure
+-	DVD_AUTH		Authentication
+-	CDROM_SEND_PACKET	send a packet to the drive
+-	CDROM_NEXT_WRITABLE	get next writable block
+-	CDROM_LAST_WRITTEN	get last block written on disc
+-
+-
+-The information that follows was determined from reading kernel source
+-code.  It is likely that some corrections will be made over time.
+-
+-
+-
+-
+-
+-
+-
+-General:
+-
+-	Unless otherwise specified, all ioctl calls return 0 on success
+-	and -1 with errno set to an appropriate value on error.  (Some
+-	ioctls return non-negative data values.)
+-
+-	Unless otherwise specified, all ioctl calls return -1 and set
+-	errno to EFAULT on a failed attempt to copy data to or from user
+-	address space.
+-
+-	Individual drivers may return error codes not listed here.
+-
+-	Unless otherwise specified, all data structures and constants
+-	are defined in <linux/cdrom.h>
+-
+-
+-
+-
+-CDROMPAUSE			Pause Audio Operation
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMPAUSE, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-CDROMRESUME			Resume paused Audio Operation
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMRESUME, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-CDROMPLAYMSF			Play Audio MSF (struct cdrom_msf)
+-
+-	usage:
+-
+-	  struct cdrom_msf msf;
+-	  ioctl(fd, CDROMPLAYMSF, &msf);
+-
+-	inputs:
+-	  cdrom_msf structure, describing a segment of music to play
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  MSF stands for minutes-seconds-frames
+-	  LBA stands for logical block address
+-
+-	  Segment is described as start and end times, where each time
+-	  is described as minutes:seconds:frames.  A frame is 1/75 of
+-	  a second.
+-
+-
+-CDROMPLAYTRKIND			Play Audio Track/index (struct cdrom_ti)
+-
+-	usage:
+-
+-	  struct cdrom_ti ti;
+-	  ioctl(fd, CDROMPLAYTRKIND, &ti);
+-
+-	inputs:
+-	  cdrom_ti structure, describing a segment of music to play
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Segment is described as start and end times, where each time
+-	  is described as a track and an index.
+-
+-
+-
+-CDROMREADTOCHDR			Read TOC header (struct cdrom_tochdr)
+-
+-	usage:
+-
+-	  cdrom_tochdr header;
+-	  ioctl(fd, CDROMREADTOCHDR, &header);
+-
+-	inputs:
+-	  cdrom_tochdr structure
+-
+-	outputs:
+-	  cdrom_tochdr structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMREADTOCENTRY		Read TOC entry (struct cdrom_tocentry)
+-
+-	usage:
+-
+-	  struct cdrom_tocentry entry;
+-	  ioctl(fd, CDROMREADTOCENTRY, &entry);
+-
+-	inputs:
+-	  cdrom_tocentry structure
+-
+-	outputs:
+-	  cdrom_tocentry structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-	  EINVAL	entry.cdte_format not CDROM_MSF or CDROM_LBA
+-	  EINVAL	requested track out of bounds
+-	  EIO		I/O error reading TOC
+-
+-	notes:
+-	  TOC stands for Table Of Contents
+-	  MSF stands for minutes-seconds-frames
+-	  LBA stands for logical block address
+-
+-
+-
+-CDROMSTOP			Stop the cdrom drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMSTOP, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Exact interpretation of this ioctl depends on the device,
+-	  but most seem to spin the drive down.
+-
+-
+-CDROMSTART			Start the cdrom drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMSTART, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Exact interpretation of this ioctl depends on the device,
+-	  but most seem to spin the drive up and/or close the tray.
+-	  Other devices ignore the ioctl completely.
+-
+-
+-CDROMEJECT			Ejects the cdrom media
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMEJECT, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error returns:
+-	  ENOSYS	cd drive not capable of ejecting
+-	  EBUSY		other processes are accessing drive, or door is locked
+-
+-	notes:
+-	  See CDROM_LOCKDOOR, below.
+-
+-
+-
+-CDROMCLOSETRAY			pendant of CDROMEJECT
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMCLOSETRAY, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error returns:
+-	  ENOSYS	cd drive not capable of closing the tray
+-	  EBUSY		other processes are accessing drive, or door is locked
+-
+-	notes:
+-	  See CDROM_LOCKDOOR, below.
+-
+-
+-
+-CDROMVOLCTRL			Control output volume (struct cdrom_volctrl)
+-
+-	usage:
+-
+-	  struct cdrom_volctrl volume;
+-	  ioctl(fd, CDROMVOLCTRL, &volume);
+-
+-	inputs:
+-	  cdrom_volctrl structure containing volumes for up to 4
+-	  channels.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMVOLREAD			Get the drive's volume setting
+-					  (struct cdrom_volctrl)
+-
+-	usage:
+-
+-	  struct cdrom_volctrl volume;
+-	  ioctl(fd, CDROMVOLREAD, &volume);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The current volume settings.
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMSUBCHNL			Read subchannel data (struct cdrom_subchnl)
+-
+-	usage:
+-
+-	  struct cdrom_subchnl q;
+-	  ioctl(fd, CDROMSUBCHNL, &q);
+-
+-	inputs:
+-	  cdrom_subchnl structure
+-
+-	outputs:
+-	  cdrom_subchnl structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-
+-	notes:
+-	  Format is converted to CDROM_MSF or CDROM_LBA
+-	  as per user request on return
+-
+-
+-
+-CDROMREADRAW			read data in raw mode (2352 Bytes)
+-					   (struct cdrom_read)
+-
+-	usage:
+-
+-	  union {
+-	    struct cdrom_msf msf;		/* input */
+-	    char buffer[CD_FRAMESIZE_RAW];	/* return */
+-	  } arg;
+-	  ioctl(fd, CDROMREADRAW, &arg);
+-
+-	inputs:
+-	  cdrom_msf structure indicating an address to read.
+-	  Only the start values are significant.
+-
+-	outputs:
+-	  Data written to address provided by user.
+-
+-	error return:
+-	  EINVAL	address less than 0, or msf less than 0:2:0
+-	  ENOMEM	out of memory
+-
+-	notes:
+-	  As of 2.6.8.1, comments in <linux/cdrom.h> indicate that this
+-	  ioctl accepts a cdrom_read structure, but actual source code
+-	  reads a cdrom_msf structure and writes a buffer of data to
+-	  the same address.
+-
+-	  MSF values are converted to LBA values via this formula:
+-
+-	    lba = (((m * CD_SECS) + s) * CD_FRAMES + f) - CD_MSF_OFFSET;
+-
+-
+-
+-
+-CDROMREADMODE1			Read CDROM mode 1 data (2048 Bytes)
+-					   (struct cdrom_read)
+-
+-	notes:
+-	  Identical to CDROMREADRAW except that block size is
+-	  CD_FRAMESIZE (2048) bytes
+-
+-
+-
+-CDROMREADMODE2			Read CDROM mode 2 data (2336 Bytes)
+-					   (struct cdrom_read)
+-
+-	notes:
+-	  Identical to CDROMREADRAW except that block size is
+-	  CD_FRAMESIZE_RAW0 (2336) bytes
+-
+-
+-
+-CDROMREADAUDIO			(struct cdrom_read_audio)
+-
+-	usage:
+-
+-	  struct cdrom_read_audio ra;
+-	  ioctl(fd, CDROMREADAUDIO, &ra);
+-
+-	inputs:
+-	  cdrom_read_audio structure containing read start
+-	  point and length
+-
+-	outputs:
+-	  audio data, returned to buffer indicated by ra
+-
+-	error return:
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-	  EINVAL	nframes not in range [1 75]
+-	  ENXIO		drive has no queue (probably means invalid fd)
+-	  ENOMEM	out of memory
+-
+-
+-CDROMEJECT_SW			enable(1)/disable(0) auto-ejecting
+-
+-	usage:
+-
+-	  int val;
+-	  ioctl(fd, CDROMEJECT_SW, val);
+-
+-	inputs:
+-	  Flag specifying auto-eject flag.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	Drive is not capable of ejecting.
+-	  EBUSY		Door is locked
+-
+-
+-
+-
+-CDROMMULTISESSION		Obtain the start-of-last-session
+-				  address of multi session disks
+-				  (struct cdrom_multisession)
+-	usage:
+-
+-	  struct cdrom_multisession ms_info;
+-	  ioctl(fd, CDROMMULTISESSION, &ms_info);
+-
+-	inputs:
+-	  cdrom_multisession structure containing desired
+-	  format.
+-
+-	outputs:
+-	  cdrom_multisession structure is filled with last_session
+-	  information.
+-
+-	error return:
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-
+-
+-CDROM_GET_MCN			Obtain the "Universal Product Code"
+-				   if available (struct cdrom_mcn)
+-
+-	usage:
+-
+-	  struct cdrom_mcn mcn;
+-	  ioctl(fd, CDROM_GET_MCN, &mcn);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  Universal Product Code
+-
+-	error return:
+-	  ENOSYS	Drive is not capable of reading MCN data.
+-
+-	notes:
+-	  Source code comments state:
+-
+-	    The following function is implemented, although very few
+-	    audio discs give Universal Product Code information, which
+-	    should just be the Medium Catalog Number on the box.  Note,
+-	    that the way the code is written on the CD is /not/ uniform
+-	    across all discs!
+-
+-
+-
+-
+-CDROM_GET_UPC			CDROM_GET_MCN  (deprecated)
+-
+-	Not implemented, as of 2.6.8.1
+-
+-
+-
+-CDROMRESET			hard-reset the drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMRESET, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  ENOSYS	Drive is not capable of resetting.
+-
+-
+-
+-
+-CDROMREADCOOKED			read data in cooked mode
+-
+-	usage:
+-
+-	  u8 buffer[CD_FRAMESIZE]
+-	  ioctl(fd, CDROMREADCOOKED, buffer);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  2048 bytes of data, "cooked" mode.
+-
+-	notes:
+-	  Not implemented on all drives.
+-
+-
+-
+-
+-CDROMREADALL			read all 2646 bytes
+-
+-	Same as CDROMREADCOOKED, but reads 2646 bytes.
+-
+-
+-
+-CDROMSEEK			seek msf address
+-
+-	usage:
+-
+-	  struct cdrom_msf msf;
+-	  ioctl(fd, CDROMSEEK, &msf);
+-
+-	inputs:
+-	  MSF address to seek to.
+-
+-	outputs:	none
+-
+-
+-
+-CDROMPLAYBLK			scsi-cd only, (struct cdrom_blk)
+-
+-	usage:
+-
+-	  struct cdrom_blk blk;
+-	  ioctl(fd, CDROMPLAYBLK, &blk);
+-
+-	inputs:
+-	  Region to play
+-
+-	outputs:	none
+-
+-
+-
+-CDROMGETSPINDOWN
+-
+-	usage:
+-
+-	  char spindown;
+-	  ioctl(fd, CDROMGETSPINDOWN, &spindown);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The value of the current 4-bit spindown value.
+-
+-
+-
+-
+-CDROMSETSPINDOWN
+-
+-	usage:
+-
+-	  char spindown
+-	  ioctl(fd, CDROMSETSPINDOWN, &spindown);
+-
+-	inputs:
+-	  4-bit value used to control spindown (TODO: more detail here)
+-
+-	outputs:	none
+-
+-
+-
+-
+-
+-CDROM_SET_OPTIONS		Set behavior options
+-
+-	usage:
+-
+-	  int options;
+-	  ioctl(fd, CDROM_SET_OPTIONS, options);
+-
+-	inputs:
+-	  New values for drive options.  The logical 'or' of:
+-	    CDO_AUTO_CLOSE	close tray on first open(2)
+-	    CDO_AUTO_EJECT	open tray on last release
+-	    CDO_USE_FFLAGS	use O_NONBLOCK information on open
+-	    CDO_LOCK		lock tray on open files
+-	    CDO_CHECK_TYPE	check type on open for data
+-
+-	outputs:
+-	  Returns the resulting options settings in the
+-	  ioctl return value.  Returns -1 on error.
+-
+-	error return:
+-	  ENOSYS	selected option(s) not supported by drive.
+-
+-
+-
+-
+-CDROM_CLEAR_OPTIONS		Clear behavior options
+-
+-	Same as CDROM_SET_OPTIONS, except that selected options are
+-	turned off.
+-
+-
+-
+-CDROM_SELECT_SPEED		Set the CD-ROM speed
+-
+-	usage:
+-
+-	  int speed;
+-	  ioctl(fd, CDROM_SELECT_SPEED, speed);
+-
+-	inputs:
+-	  New drive speed.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	speed selection not supported by drive.
+-
+-
+-
+-CDROM_SELECT_DISC		Select disc (for juke-boxes)
+-
+-	usage:
+-
+-	  int disk;
+-	  ioctl(fd, CDROM_SELECT_DISC, disk);
+-
+-	inputs:
+-	  Disk to load into drive.
+-
+-	outputs:	none
+-
+-	error return:
+-	  EINVAL	Disk number beyond capacity of drive
+-
+-
+-
+-CDROM_MEDIA_CHANGED		Check is media changed
+-
+-	usage:
+-
+-	  int slot;
+-	  ioctl(fd, CDROM_MEDIA_CHANGED, slot);
+-
+-	inputs:
+-	  Slot number to be tested, always zero except for jukeboxes.
+-	  May also be special values CDSL_NONE or CDSL_CURRENT
+-
+-	outputs:
+-	  Ioctl return value is 0 or 1 depending on whether the media
+-	  has been changed, or -1 on error.
+-
+-	error returns:
+-	  ENOSYS	Drive can't detect media change
+-	  EINVAL	Slot number beyond capacity of drive
+-	  ENOMEM	Out of memory
+-
+-
+-
+-CDROM_DRIVE_STATUS		Get tray position, etc.
+-
+-	usage:
+-
+-	  int slot;
+-	  ioctl(fd, CDROM_DRIVE_STATUS, slot);
+-
+-	inputs:
+-	  Slot number to be tested, always zero except for jukeboxes.
+-	  May also be special values CDSL_NONE or CDSL_CURRENT
+-
+-	outputs:
+-	  Ioctl return value will be one of the following values
+-	  from <linux/cdrom.h>:
+-
+-	    CDS_NO_INFO		Information not available.
+-	    CDS_NO_DISC
+-	    CDS_TRAY_OPEN
+-	    CDS_DRIVE_NOT_READY
+-	    CDS_DISC_OK
+-	    -1			error
+-
+-	error returns:
+-	  ENOSYS	Drive can't detect drive status
+-	  EINVAL	Slot number beyond capacity of drive
+-	  ENOMEM	Out of memory
+-
+-
+-
+-
+-CDROM_DISC_STATUS		Get disc type, etc.
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_DISC_STATUS, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  Ioctl return value will be one of the following values
+-	  from <linux/cdrom.h>:
+-	    CDS_NO_INFO
+-	    CDS_AUDIO
+-	    CDS_MIXED
+-	    CDS_XA_2_2
+-	    CDS_XA_2_1
+-	    CDS_DATA_1
+-
+-	error returns:	none at present
+-
+-	notes:
+-	  Source code comments state:
+-
+-	    Ok, this is where problems start.  The current interface for
+-	    the CDROM_DISC_STATUS ioctl is flawed.  It makes the false
+-	    assumption that CDs are all CDS_DATA_1 or all CDS_AUDIO, etc.
+-	    Unfortunately, while this is often the case, it is also
+-	    very common for CDs to have some tracks with data, and some
+-	    tracks with audio.	Just because I feel like it, I declare
+-	    the following to be the best way to cope.  If the CD has
+-	    ANY data tracks on it, it will be returned as a data CD.
+-	    If it has any XA tracks, I will return it as that.	Now I
+-	    could simplify this interface by combining these returns with
+-	    the above, but this more clearly demonstrates the problem
+-	    with the current interface.  Too bad this wasn't designed
+-	    to use bitmasks...	       -Erik
+-
+-	    Well, now we have the option CDS_MIXED: a mixed-type CD.
+-	    User level programmers might feel the ioctl is not very
+-	    useful.
+-			---david
+-
+-
+-
+-
+-CDROM_CHANGER_NSLOTS		Get number of slots
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_CHANGER_NSLOTS, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The ioctl return value will be the number of slots in a
+-	  CD changer.  Typically 1 for non-multi-disk devices.
+-
+-	error returns:	none
+-
+-
+-
+-CDROM_LOCKDOOR			lock or unlock door
+-
+-	usage:
+-
+-	  int lock;
+-	  ioctl(fd, CDROM_LOCKDOOR, lock);
+-
+-	inputs:
+-	  Door lock flag, 1=lock, 0=unlock
+-
+-	outputs:	none
+-
+-	error returns:
+-	  EDRIVE_CANT_DO_THIS	Door lock function not supported.
+-	  EBUSY			Attempt to unlock when multiple users
+-	  			have the drive open and not CAP_SYS_ADMIN
+-
+-	notes:
+-	  As of 2.6.8.1, the lock flag is a global lock, meaning that
+-	  all CD drives will be locked or unlocked together.  This is
+-	  probably a bug.
+-
+-	  The EDRIVE_CANT_DO_THIS value is defined in <linux/cdrom.h>
+-	  and is currently (2.6.8.1) the same as EOPNOTSUPP
+-
+-
+-
+-CDROM_DEBUG			Turn debug messages on/off
+-
+-	usage:
+-
+-	  int debug;
+-	  ioctl(fd, CDROM_DEBUG, debug);
+-
+-	inputs:
+-	  Cdrom debug flag, 0=disable, 1=enable
+-
+-	outputs:
+-	  The ioctl return value will be the new debug flag.
+-
+-	error return:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-
+-
+-
+-CDROM_GET_CAPABILITY		get capabilities
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_GET_CAPABILITY, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The ioctl return value is the current device capability
+-	  flags.  See CDC_CLOSE_TRAY, CDC_OPEN_TRAY, etc.
+-
+-
+-
+-CDROMAUDIOBUFSIZ		set the audio buffer size
+-
+-	usage:
+-
+-	  int arg;
+-	  ioctl(fd, CDROMAUDIOBUFSIZ, val);
+-
+-	inputs:
+-	  New audio buffer size
+-
+-	outputs:
+-	  The ioctl return value is the new audio buffer size, or -1
+-	  on error.
+-
+-	error return:
+-	  ENOSYS	Not supported by this driver.
+-
+-	notes:
+-	  Not supported by all drivers.
+-
+-
+-
+-DVD_READ_STRUCT			Read structure
+-
+-	usage:
+-
+-	  dvd_struct s;
+-	  ioctl(fd, DVD_READ_STRUCT, &s);
+-
+-	inputs:
+-	  dvd_struct structure, containing:
+-	    type		specifies the information desired, one of
+-	    			DVD_STRUCT_PHYSICAL, DVD_STRUCT_COPYRIGHT,
+-				DVD_STRUCT_DISCKEY, DVD_STRUCT_BCA,
+-				DVD_STRUCT_MANUFACT
+-	    physical.layer_num	desired layer, indexed from 0
+-	    copyright.layer_num	desired layer, indexed from 0
+-	    disckey.agid
+-
+-	outputs:
+-	  dvd_struct structure, containing:
+-	    physical		for type == DVD_STRUCT_PHYSICAL
+-	    copyright		for type == DVD_STRUCT_COPYRIGHT
+-	    disckey.value	for type == DVD_STRUCT_DISCKEY
+-	    bca.{len,value}	for type == DVD_STRUCT_BCA
+-	    manufact.{len,valu}	for type == DVD_STRUCT_MANUFACT
+-
+-	error returns:
+-	  EINVAL	physical.layer_num exceeds number of layers
+-	  EIO		Received invalid response from drive
+-
+-
+-
+-DVD_WRITE_STRUCT		Write structure
+-
+-	Not implemented, as of 2.6.8.1
+-
+-
+-
+-DVD_AUTH			Authentication
+-
+-	usage:
+-
+-	  dvd_authinfo ai;
+-	  ioctl(fd, DVD_AUTH, &ai);
+-
+-	inputs:
+-	  dvd_authinfo structure.  See <linux/cdrom.h>
+-
+-	outputs:
+-	  dvd_authinfo structure.
+-
+-	error return:
+-	  ENOTTY	ai.type not recognized.
+-
+-
+-
+-CDROM_SEND_PACKET		send a packet to the drive
+-
+-	usage:
+-
+-	  struct cdrom_generic_command cgc;
+-	  ioctl(fd, CDROM_SEND_PACKET, &cgc);
+-
+-	inputs:
+-	  cdrom_generic_command structure containing the packet to send.
+-
+-	outputs:	none
+-	  cdrom_generic_command structure containing results.
+-
+-	error return:
+-	  EIO		command failed.
+-	  EPERM		Operation not permitted, either because a
+-			write command was attempted on a drive which
+-			is opened read-only, or because the command
+-			requires CAP_SYS_RAWIO
+-	  EINVAL	cgc.data_direction not set
+-
+-
+-
+-CDROM_NEXT_WRITABLE		get next writable block
+-
+-	usage:
+-
+-	  long next;
+-	  ioctl(fd, CDROM_NEXT_WRITABLE, &next);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The next writable block.
+-
+-	notes:
+-	  If the device does not support this ioctl directly, the
+-	  ioctl will return CDROM_LAST_WRITTEN + 7.
+-
+-
+-
+-CDROM_LAST_WRITTEN		get last block written on disc
+-
+-	usage:
+-
+-	  long last;
+-	  ioctl(fd, CDROM_LAST_WRITTEN, &last);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The last block written on disc
+-
+-	notes:
+-	  If the device does not support this ioctl directly, the
+-	  result is derived from the disc's table of contents.  If the
+-	  table of contents can't be read, this ioctl returns an
+-	  error.
+diff --git a/Documentation/ioctl/hdio.txt b/Documentation/ioctl/hdio.rst
+similarity index 54%
+rename from Documentation/ioctl/hdio.txt
+rename to Documentation/ioctl/hdio.rst
+index 18eb98c44ffe..e822e3dff176 100644
+--- a/Documentation/ioctl/hdio.txt
++++ b/Documentation/ioctl/hdio.rst
+@@ -1,9 +1,10 @@
+-		Summary of HDIO_ ioctl calls.
+-		============================
++==============================
++Summary of `HDIO_` ioctl calls
 +==============================
  
- The hiddev interface is a char interface using the normal USB major,
- with the minor numbers starting at 96 and finishing at 111. Therefore,
--you need the following commands:
--mknod /dev/usb/hiddev0 c 180 96
--mknod /dev/usb/hiddev1 c 180 97
--mknod /dev/usb/hiddev2 c 180 98
--mknod /dev/usb/hiddev3 c 180 99
--mknod /dev/usb/hiddev4 c 180 100
--mknod /dev/usb/hiddev5 c 180 101
--mknod /dev/usb/hiddev6 c 180 102
--mknod /dev/usb/hiddev7 c 180 103
--mknod /dev/usb/hiddev8 c 180 104
--mknod /dev/usb/hiddev9 c 180 105
--mknod /dev/usb/hiddev10 c 180 106
--mknod /dev/usb/hiddev11 c 180 107
--mknod /dev/usb/hiddev12 c 180 108
--mknod /dev/usb/hiddev13 c 180 109
--mknod /dev/usb/hiddev14 c 180 110
--mknod /dev/usb/hiddev15 c 180 111
-+you need the following commands::
+-		Edward A. Falk <efalk@google.com>
++- Edward A. Falk <efalk@google.com>
+ 
+-		November, 2004
++November, 2004
+ 
+ This document attempts to describe the ioctl(2) calls supported by
+ the HD/IDE layer.  These are by-and-large implemented (as of Linux 2.6)
+@@ -14,6 +15,7 @@ are as follows:
+ 
+     ioctls that pass argument pointers to user space:
+ 
++	=======================	=======================================
+ 	HDIO_GETGEO		get device geometry
+ 	HDIO_GET_UNMASKINTR	get current unmask setting
+ 	HDIO_GET_MULTCOUNT	get current IDE blockmode setting
+@@ -36,9 +38,11 @@ are as follows:
+ 	HDIO_DRIVE_TASK		execute task and special drive command
+ 	HDIO_DRIVE_CMD		execute a special drive command
+ 	HDIO_DRIVE_CMD_AEB	HDIO_DRIVE_TASK
++	=======================	=======================================
+ 
+     ioctls that pass non-pointer values:
+ 
++	=======================	=======================================
+ 	HDIO_SET_MULTCOUNT	change IDE blockmode
+ 	HDIO_SET_UNMASKINTR	permit other irqs during I/O
+ 	HDIO_SET_KEEPSETTINGS	keep ioctl settings on reset
+@@ -57,16 +61,13 @@ are as follows:
+ 
+ 	HDIO_SET_IDE_SCSI	Set scsi emulation mode on/off
+ 	HDIO_SET_SCSI_IDE	not implemented yet
++	=======================	=======================================
+ 
+ 
+ The information that follows was determined from reading kernel source
+ code.  It is likely that some corrections will be made over time.
+ 
+-
+-
+-
+-
+-
++------------------------------------------------------------------------------
+ 
+ General:
+ 
+@@ -80,459 +81,610 @@ General:
+ 	Unless otherwise specified, all data structures and constants
+ 	are defined in <linux/hdreg.h>
+ 
++------------------------------------------------------------------------------
+ 
++HDIO_GETGEO
++	get device geometry
+ 
+-HDIO_GETGEO			get device geometry
+ 
+-	usage:
++	usage::
+ 
+ 	  struct hd_geometry geom;
 +
-+	mknod /dev/usb/hiddev0 c 180 96
-+	mknod /dev/usb/hiddev1 c 180 97
-+	mknod /dev/usb/hiddev2 c 180 98
-+	mknod /dev/usb/hiddev3 c 180 99
-+	mknod /dev/usb/hiddev4 c 180 100
-+	mknod /dev/usb/hiddev5 c 180 101
-+	mknod /dev/usb/hiddev6 c 180 102
-+	mknod /dev/usb/hiddev7 c 180 103
-+	mknod /dev/usb/hiddev8 c 180 104
-+	mknod /dev/usb/hiddev9 c 180 105
-+	mknod /dev/usb/hiddev10 c 180 106
-+	mknod /dev/usb/hiddev11 c 180 107
-+	mknod /dev/usb/hiddev12 c 180 108
-+	mknod /dev/usb/hiddev13 c 180 109
-+	mknod /dev/usb/hiddev14 c 180 110
-+	mknod /dev/usb/hiddev15 c 180 111
- 
- So you point your hiddev compliant user-space program at the correct
- interface for your device, and it all just works.
-@@ -56,7 +61,9 @@ Assuming that you have a hiddev compliant user-space program, of
- course. If you need to write one, read on.
+ 	  ioctl(fd, HDIO_GETGEO, &geom);
  
  
--THE HIDDEV API
-+The HIDDEV API
-+==============
+-	inputs:		none
++	inputs:
++		none
 +
- This description should be read in conjunction with the HID
- specification, freely available from http://www.usb.org, and
- conveniently linked of http://www.linux-usb.org.
-@@ -69,12 +76,14 @@ each of which can have one or more "usages".  In the hid-core,
- each one of these usages has a single signed 32 bit value.
- 
- read():
-+-------
 +
- This is the event interface.  When the HID device's state changes,
- it performs an interrupt transfer containing a report which contains
- the changed value.  The hid-core.c module parses the report, and
- returns to hiddev.c the individual usages that have changed within
- the report.  In its basic mode, the hiddev will make these individual
--usage changes available to the reader using a struct hiddev_event:
-+usage changes available to the reader using a struct hiddev_event::
  
-        struct hiddev_event {
-            unsigned hid;
-@@ -90,13 +99,19 @@ behavior of the read() function can be modified using the HIDIOCSFLAG
- ioctl() described below.
+ 	outputs:
++		hd_geometry structure containing:
+ 
+-	  hd_geometry structure containing:
+ 
++	    =========	==================================
+ 	    heads	number of heads
+ 	    sectors	number of sectors/track
+ 	    cylinders	number of cylinders, mod 65536
+ 	    start	starting sector of this partition.
++	    =========	==================================
  
  
--ioctl(): 
--This is the control interface. There are a number of controls: 
-+ioctl():
-+--------
- 
--HIDIOCGVERSION - int (read)
--Gets the version code out of the hiddev driver.
-+This is the control interface. There are a number of controls:
+ 	error returns:
+-	  EINVAL	if the device is not a disk drive or floppy drive,
+-	  		or if the user passes a null pointer
++	  - EINVAL
 +
-+HIDIOCGVERSION
-+  - int (read)
++			if the device is not a disk drive or floppy drive,
++			or if the user passes a null pointer
+ 
+ 
+ 	notes:
++		Not particularly useful with modern disk drives, whose geometry
++		is a polite fiction anyway.  Modern drives are addressed
++		purely by sector number nowadays (lba addressing), and the
++		drive geometry is an abstraction which is actually subject
++		to change.  Currently (as of Nov 2004), the geometry values
++		are the "bios" values -- presumably the values the drive had
++		when Linux first booted.
+ 
+-	  Not particularly useful with modern disk drives, whose geometry
+-	  is a polite fiction anyway.  Modern drives are addressed
+-	  purely by sector number nowadays (lba addressing), and the
+-	  drive geometry is an abstraction which is actually subject
+-	  to change.  Currently (as of Nov 2004), the geometry values
+-	  are the "bios" values -- presumably the values the drive had
+-	  when Linux first booted.
++		In addition, the cylinders field of the hd_geometry is an
++		unsigned short, meaning that on most architectures, this
++		ioctl will not return a meaningful value on drives with more
++		than 65535 tracks.
+ 
+-	  In addition, the cylinders field of the hd_geometry is an
+-	  unsigned short, meaning that on most architectures, this
+-	  ioctl will not return a meaningful value on drives with more
+-	  than 65535 tracks.
++		The start field is unsigned long, meaning that it will not
++		contain a meaningful value for disks over 219 Gb in size.
+ 
+-	  The start field is unsigned long, meaning that it will not
+-	  contain a meaningful value for disks over 219 Gb in size.
+ 
+ 
+ 
++HDIO_GET_UNMASKINTR
++	get current unmask setting
+ 
+-HDIO_GET_UNMASKINTR		get current unmask setting
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
 +
-+ Gets the version code out of the hiddev driver.
+ 	  ioctl(fd, HDIO_GET_UNMASKINTR, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
 +
-+HIDIOCAPPLICATION
-+  - (none)
- 
--HIDIOCAPPLICATION - (none)
- This ioctl call returns the HID application usage associated with the
- hid device. The third argument to ioctl() specifies which application
- index to get. This is useful when the device has more than one
-@@ -104,25 +119,33 @@ application collection. If the index is invalid (greater or equal to
- the number of application collections this device has) the ioctl
- returns -1. You can find out beforehand how many application
- collections the device has from the num_applications field from the
--hiddev_devinfo structure. 
-+hiddev_devinfo structure.
 +
-+HIDIOCGCOLLECTIONINFO
-+  - struct hiddev_collection_info (read/write)
  
--HIDIOCGCOLLECTIONINFO - struct hiddev_collection_info (read/write)
- This returns a superset of the information above, providing not only
- application collections, but all the collections the device has.  It
- also returns the level the collection lives in the hierarchy.
--The user passes in a hiddev_collection_info struct with the index 
--field set to the index that should be returned.  The ioctl fills in 
--the other fields.  If the index is larger than the last collection 
-+The user passes in a hiddev_collection_info struct with the index
-+field set to the index that should be returned.  The ioctl fills in
-+the other fields.  If the index is larger than the last collection
- index, the ioctl returns -1 and sets errno to -EINVAL.
+ 	outputs:
+-	  The value of the drive's current unmask setting
++		The value of the drive's current unmask setting
  
--HIDIOCGDEVINFO - struct hiddev_devinfo (read)
-+HIDIOCGDEVINFO
-+  - struct hiddev_devinfo (read)
+ 
+ 
+-HDIO_SET_UNMASKINTR		permit other irqs during I/O
+ 
+-	usage:
 +
- Gets a hiddev_devinfo structure which describes the device.
- 
--HIDIOCGSTRING - struct hiddev_string_descriptor (read/write)
-+HIDIOCGSTRING
-+  - struct hiddev_string_descriptor (read/write)
++HDIO_SET_UNMASKINTR
++	permit other irqs during I/O
 +
- Gets a string descriptor from the device. The caller must fill in the
- "index" field to indicate which descriptor should be returned.
- 
--HIDIOCINITREPORT - (none)
-+HIDIOCINITREPORT
-+  - (none)
 +
- Instructs the kernel to retrieve all input and feature report values
- from the device. At this point, all the usage structures will contain
- current values for the device, and will maintain it as the device
-@@ -130,21 +153,29 @@ changes.  Note that the use of this ioctl is unnecessary in general,
- since later kernels automatically initialize the reports from the
- device at attach time.
++	usage::
  
--HIDIOCGNAME - string (variable length)
-+HIDIOCGNAME
-+  - string (variable length)
+ 	  unsigned long val;
 +
- Gets the device name
+ 	  ioctl(fd, HDIO_SET_UNMASKINTR, val);
  
--HIDIOCGREPORT - struct hiddev_report_info (write)
-+HIDIOCGREPORT
-+  - struct hiddev_report_info (write)
+ 	inputs:
+-	  New value for unmask flag
++		New value for unmask flag
 +
- Instructs the kernel to get a feature or input report from the device,
- in order to selectively update the usage structures (in contrast to
- INITREPORT).
- 
--HIDIOCSREPORT - struct hiddev_report_info (write)
-+HIDIOCSREPORT
-+  - struct hiddev_report_info (write)
 +
- Instructs the kernel to send a report to the device. This report can
- be filled in by the user through HIDIOCSUSAGE calls (below) to fill in
- individual usage values in the report before sending the report in full
--to the device. 
-+to the device.
 +
-+HIDIOCGREPORTINFO
-+  - struct hiddev_report_info (read/write)
- 
--HIDIOCGREPORTINFO - struct hiddev_report_info (read/write)
- Fills in a hiddev_report_info structure for the user. The report is
- looked up by type (input, output or feature) and id, so these fields
- must be filled in by the user. The ID can be absolute -- the actual
-@@ -154,52 +185,67 @@ report_id) for the next report after report_id. Without a-priori
- information about report ids, the right way to use this ioctl is to
- use the relative IDs above to enumerate the valid IDs. The ioctl
- returns non-zero when there is no more next ID. The real report ID is
--filled into the returned hiddev_report_info structure. 
-+filled into the returned hiddev_report_info structure.
++	outputs:
++		none
 +
-+HIDIOCGFIELDINFO
-+  - struct hiddev_field_info (read/write)
  
--HIDIOCGFIELDINFO - struct hiddev_field_info (read/write)
- Returns the field information associated with a report in a
- hiddev_field_info structure. The user must fill in report_id and
- report_type in this structure, as above. The field_index should also
- be filled in, which should be a number from 0 and maxfield-1, as
--returned from a previous HIDIOCGREPORTINFO call. 
-+returned from a previous HIDIOCGREPORTINFO call.
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ 
+-HDIO_GET_MULTCOUNT		get current IDE blockmode setting
++HDIO_GET_MULTCOUNT
++	get current IDE blockmode setting
+ 
+-	usage:
 +
-+HIDIOCGUCODE
-+  - struct hiddev_usage_ref (read/write)
++	usage::
  
--HIDIOCGUCODE - struct hiddev_usage_ref (read/write)
- Returns the usage_code in a hiddev_usage_ref structure, given that
- given its report type, report id, field index, and index within the
- field have already been filled into the structure.
- 
--HIDIOCGUSAGE - struct hiddev_usage_ref (read/write)
-+HIDIOCGUSAGE
-+  - struct hiddev_usage_ref (read/write)
+ 	  long val;
 +
- Returns the value of a usage in a hiddev_usage_ref structure. The
- usage to be retrieved can be specified as above, or the user can
- choose to fill in the report_type field and specify the report_id as
- HID_REPORT_ID_UNKNOWN. In this case, the hiddev_usage_ref will be
- filled in with the report and field information associated with this
--usage if it is found. 
-+usage if it is found.
+ 	  ioctl(fd, HDIO_GET_MULTCOUNT, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
 +
-+HIDIOCSUSAGE
-+  - struct hiddev_usage_ref (write)
- 
--HIDIOCSUSAGE - struct hiddev_usage_ref (write)
- Sets the value of a usage in an output report.  The user fills in
- the hiddev_usage_ref structure as above, but additionally fills in
- the value field.
- 
--HIDIOGCOLLECTIONINDEX - struct hiddev_usage_ref (write)
-+HIDIOGCOLLECTIONINDEX
-+  - struct hiddev_usage_ref (write)
 +
- Returns the collection index associated with this usage.  This
- indicates where in the collection hierarchy this usage sits.
  
--HIDIOCGFLAG - int (read)
--HIDIOCSFLAG - int (write)
-+HIDIOCGFLAG
-+  - int (read)
-+HIDIOCSFLAG
-+  - int (write)
+ 	outputs:
+-	  The value of the current IDE block mode setting.  This
+-	  controls how many sectors the drive will transfer per
+-	  interrupt.
++		The value of the current IDE block mode setting.  This
++		controls how many sectors the drive will transfer per
++		interrupt.
+ 
+ 
+ 
+-HDIO_SET_MULTCOUNT		change IDE blockmode
++HDIO_SET_MULTCOUNT
++	change IDE blockmode
+ 
+-	usage:
 +
- These operations respectively inspect and replace the mode flags
- that influence the read() call above.  The flags are as follows:
++	usage::
  
--    HIDDEV_FLAG_UREF - read() calls will now return 
-+    HIDDEV_FLAG_UREF
-+      - read() calls will now return
-         struct hiddev_usage_ref instead of struct hiddev_event.
-         This is a larger structure, but in situations where the
-         device has more than one usage in its reports with the
-         same usage code, this mode serves to resolve such
-         ambiguity.
- 
--    HIDDEV_FLAG_REPORT - This flag can only be used in conjunction
-+    HIDDEV_FLAG_REPORT
-+      - This flag can only be used in conjunction
-         with HIDDEV_FLAG_UREF.  With this flag set, when the device
-         sends a report, a struct hiddev_usage_ref will be returned
--        to read() filled in with the report_type and report_id, but 
-+        to read() filled in with the report_type and report_id, but
-         with field_index set to FIELD_INDEX_NONE.  This serves as
-         additional notification when the device has sent a report.
-diff --git a/Documentation/hid/hidraw.txt b/Documentation/hid/hidraw.rst
-similarity index 89%
-rename from Documentation/hid/hidraw.txt
-rename to Documentation/hid/hidraw.rst
-index c8436e354f44..4a4a0ba1f362 100644
---- a/Documentation/hid/hidraw.txt
-+++ b/Documentation/hid/hidraw.rst
-@@ -1,5 +1,6 @@
--      HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices
--     ==================================================================
-+================================================================
-+HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices
-+================================================================
- 
- The hidraw driver provides a raw interface to USB and Bluetooth Human
- Interface Devices (HIDs).  It differs from hiddev in that reports sent and
-@@ -31,6 +32,7 @@ directly under /dev (eg: /dev/hidraw0).  As this location is distribution-
- and udev rule-dependent, applications should use libudev to locate hidraw
- devices attached to the system.  There is a tutorial on libudev with a
- working example at:
+ 	  int val;
 +
- 	http://www.signal11.us/oss/udev/
+ 	  ioctl(fd, HDIO_SET_MULTCOUNT, val);
  
- The HIDRAW API
-@@ -51,7 +53,7 @@ byte.  For devices which do not use numbered reports, the report data
- will begin at the first byte.
- 
- write()
----------
-+-------
- The write() function will write a report to the device. For USB devices, if
- the device has an INTERRUPT OUT endpoint, the report will be sent on that
- endpoint. If it does not, the report will be sent over the control endpoint,
-@@ -62,38 +64,52 @@ number.  If the device does not use numbered reports, the first byte should
- be set to 0. The report data itself should begin at the second byte.
- 
- ioctl()
----------
-+-------
- Hidraw supports the following ioctls:
- 
--HIDIOCGRDESCSIZE: Get Report Descriptor Size
-+HIDIOCGRDESCSIZE:
-+	Get Report Descriptor Size
+ 	inputs:
+-	  New value for IDE block mode setting.  This controls how many
+-	  sectors the drive will transfer per interrupt.
++		New value for IDE block mode setting.  This controls how many
++		sectors the drive will transfer per interrupt.
 +
- This ioctl will get the size of the device's report descriptor.
++	outputs:
++		none
++
  
--HIDIOCGRDESC: Get Report Descriptor
-+HIDIOCGRDESC:
-+	Get Report Descriptor
-+
- This ioctl returns the device's report descriptor using a
- hidraw_report_descriptor struct.  Make sure to set the size field of the
- hidraw_report_descriptor struct to the size returned from HIDIOCGRDESCSIZE.
+-	outputs:	none
  
--HIDIOCGRAWINFO: Get Raw Info
-+HIDIOCGRAWINFO:
-+	Get Raw Info
-+
- This ioctl will return a hidraw_devinfo struct containing the bus type, the
- vendor ID (VID), and product ID (PID) of the device. The bus type can be one
--of:
--	BUS_USB
--	BUS_HIL
--	BUS_BLUETOOTH
--	BUS_VIRTUAL
-+of::
-+
-+	- BUS_USB
-+	- BUS_HIL
-+	- BUS_BLUETOOTH
-+	- BUS_VIRTUAL
-+
- which are defined in uapi/linux/input.h.
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range supported by disk.
+-	  EBUSY		Controller busy or blockmode already set.
+-	  EIO		Drive did not accept new block mode.
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range supported by disk.
++	  - EBUSY	Controller busy or blockmode already set.
++	  - EIO		Drive did not accept new block mode.
  
--HIDIOCGRAWNAME(len): Get Raw Name
-+HIDIOCGRAWNAME(len):
-+	Get Raw Name
-+
- This ioctl returns a string containing the vendor and product strings of
- the device.  The returned string is Unicode, UTF-8 encoded.
+ 	notes:
+-
+-	  Source code comments read:
++	  Source code comments read::
  
--HIDIOCGRAWPHYS(len): Get Physical Address
-+HIDIOCGRAWPHYS(len):
-+	Get Physical Address
-+
- This ioctl returns a string representing the physical address of the device.
- For USB devices, the string contains the physical path to the device (the
- USB controller, hubs, ports, etc).  For Bluetooth devices, the string
- contains the hardware (MAC) address of the device.
+ 	    This is tightly woven into the driver->do_special cannot
+ 	    touch.  DON'T do it again until a total personality rewrite
+ 	    is committed.
  
--HIDIOCSFEATURE(len): Send a Feature Report
-+HIDIOCSFEATURE(len):
-+	Send a Feature Report
-+
- This ioctl will send a feature report to the device.  Per the HID
- specification, feature reports are always sent using the control endpoint.
- Set the first byte of the supplied buffer to the report number.  For devices
-@@ -101,7 +117,9 @@ which do not use numbered reports, set the first byte to 0. The report data
- begins in the second byte. Make sure to set len accordingly, to one more
- than the length of the report (to account for the report number).
+ 	  If blockmode has already been set, this ioctl will fail with
+-	  EBUSY
++	  -EBUSY
  
--HIDIOCGFEATURE(len): Get a Feature Report
-+HIDIOCGFEATURE(len):
-+	Get a Feature Report
-+
- This ioctl will request a feature report from the device using the control
- endpoint.  The first byte of the supplied buffer should be set to the report
- number of the requested report.  For devices which do not use numbered
-@@ -109,11 +127,12 @@ reports, set the first byte to 0.  The report will be returned starting at
- the first byte of the buffer (ie: the report number is not returned).
  
- Example
-----------
-+-------
- In samples/, find hid-example.c, which shows examples of read(), write(),
- and all the ioctls for hidraw.  The code may be used by anyone for any
- purpose, and can serve as a starting point for developing applications using
- hidraw.
  
- Document by:
+-HDIO_GET_QDMA			get use-qdma flag
++HDIO_GET_QDMA
++	get use-qdma flag
 +
- 	Alan Ott <alan@signal11.us>, Signal 11 Software
-diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_XFER			set transfer rate via proc
++HDIO_SET_XFER
++	set transfer rate via proc
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_OBSOLETE_IDENTITY		OBSOLETE, DO NOT USE
++HDIO_OBSOLETE_IDENTITY
++	OBSOLETE, DO NOT USE
++
+ 
+ 	Same as HDIO_GET_IDENTITY (see below), except that it only
+ 	returns the first 142 bytes of drive identity information.
+ 
+ 
+ 
+-HDIO_GET_IDENTITY		get IDE identification info
++HDIO_GET_IDENTITY
++	get IDE identification info
+ 
+-	usage:
++
++	usage::
+ 
+ 	  unsigned char identity[512];
++
+ 	  ioctl(fd, HDIO_GET_IDENTITY, identity);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-
+-	  ATA drive identity information.  For full description, see
+-	  the IDENTIFY DEVICE and IDENTIFY PACKET DEVICE commands in
+-	  the ATA specification.
++		ATA drive identity information.  For full description, see
++		the IDENTIFY DEVICE and IDENTIFY PACKET DEVICE commands in
++		the ATA specification.
+ 
+ 	error returns:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  ENOMSG	IDENTIFY DEVICE information not available
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - ENOMSG	IDENTIFY DEVICE information not available
+ 
+ 	notes:
++		Returns information that was obtained when the drive was
++		probed.  Some of this information is subject to change, and
++		this ioctl does not re-probe the drive to update the
++		information.
+ 
+-	  Returns information that was obtained when the drive was
+-	  probed.  Some of this information is subject to change, and
+-	  this ioctl does not re-probe the drive to update the
+-	  information.
++		This information is also available from /proc/ide/hdX/identify
+ 
+-	  This information is also available from /proc/ide/hdX/identify
+ 
+ 
++HDIO_GET_KEEPSETTINGS
++	get keep-settings-on-reset flag
+ 
+-HDIO_GET_KEEPSETTINGS		get keep-settings-on-reset flag
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_KEEPSETTINGS, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current "keep settings" flag
++		The value of the current "keep settings" flag
++
++
+ 
+ 	notes:
++		When set, indicates that kernel should restore settings
++		after a drive reset.
+ 
+-	  When set, indicates that kernel should restore settings
+-	  after a drive reset.
+ 
+ 
++HDIO_SET_KEEPSETTINGS
++	keep ioctl settings on reset
+ 
+-HDIO_SET_KEEPSETTINGS		keep ioctl settings on reset
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_KEEPSETTINGS, val);
+ 
+ 	inputs:
+-	  New value for keep_settings flag
++		New value for keep_settings flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY		Controller busy
+ 
+ 
+ 
+-HDIO_GET_32BIT			get current io_32bit setting
++HDIO_GET_32BIT
++	get current io_32bit setting
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_32BIT, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current io_32bit setting
++		The value of the current io_32bit setting
++
++
+ 
+ 	notes:
++		0=16-bit, 1=32-bit, 2,3 = 32bit+sync
+ 
+-	  0=16-bit, 1=32-bit, 2,3 = 32bit+sync
+ 
+ 
+ 
+-HDIO_GET_NOWERR			get ignore-write-error flag
+ 
+-	usage:
++HDIO_GET_NOWERR
++	get ignore-write-error flag
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_NOWERR, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current ignore-write-error flag
++		The value of the current ignore-write-error flag
+ 
+ 
+ 
+-HDIO_GET_DMA			get use-dma flag
+ 
+-	usage:
++
++HDIO_GET_DMA
++	get use-dma flag
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_DMA, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current use-dma flag
++		The value of the current use-dma flag
+ 
+ 
+ 
+-HDIO_GET_NICE			get nice flags
+ 
+-	usage:
++
++HDIO_GET_NICE
++	get nice flags
++
++
++	usage::
+ 
+ 	  long nice;
++
+ 	  ioctl(fd, HDIO_GET_NICE, &nice);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
++		The drive's "nice" values.
++
+ 
+-	  The drive's "nice" values.
+ 
+ 	notes:
++		Per-drive flags which determine when the system will give more
++		bandwidth to other devices sharing the same IDE bus.
+ 
+-	  Per-drive flags which determine when the system will give more
+-	  bandwidth to other devices sharing the same IDE bus.
+-	  See <linux/hdreg.h>, near symbol IDE_NICE_DSC_OVERLAP.
++		See <linux/hdreg.h>, near symbol IDE_NICE_DSC_OVERLAP.
+ 
+ 
+ 
+ 
+-HDIO_SET_NICE			set nice flags
++HDIO_SET_NICE
++	set nice flags
+ 
+-	usage:
++
++	usage::
+ 
+ 	  unsigned long nice;
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SET_NICE, nice);
+ 
+ 	inputs:
+-	  bitmask of nice flags.
++		bitmask of nice flags.
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EPERM		Flags other than DSC_OVERLAP and NICE_1 set.
+-	  EPERM		DSC_OVERLAP specified but not supported by drive
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EPERM	Flags other than DSC_OVERLAP and NICE_1 set.
++	  - EPERM	DSC_OVERLAP specified but not supported by drive
+ 
+ 	notes:
++		This ioctl sets the DSC_OVERLAP and NICE_1 flags from values
++		provided by the user.
+ 
+-	  This ioctl sets the DSC_OVERLAP and NICE_1 flags from values
+-	  provided by the user.
++		Nice flags are listed in <linux/hdreg.h>, starting with
++		IDE_NICE_DSC_OVERLAP.  These values represent shifts.
+ 
+-	  Nice flags are listed in <linux/hdreg.h>, starting with
+-	  IDE_NICE_DSC_OVERLAP.  These values represent shifts.
+ 
+ 
+ 
+ 
++HDIO_GET_WCACHE
++	get write cache mode on|off
+ 
+-HDIO_GET_WCACHE			get write cache mode on|off
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_WCACHE, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current write cache mode
++		The value of the current write cache mode
+ 
+ 
+ 
+-HDIO_GET_ACOUSTIC		get acoustic value
+ 
+-	usage:
++
++HDIO_GET_ACOUSTIC
++	get acoustic value
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_ACOUSTIC, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current acoustic settings
++		The value of the current acoustic settings
++
++
+ 
+ 	notes:
++		See HDIO_SET_ACOUSTIC
++
+ 
+-	  See HDIO_SET_ACOUSTIC
+ 
+ 
+ 
+ HDIO_GET_ADDRESS
++	usage::
+ 
+-	usage:
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_ADDRESS, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current addressing mode:
+-	    0 = 28-bit
+-	    1 = 48-bit
+-	    2 = 48-bit doing 28-bit
+-	    3 = 64-bit
++		The value of the current addressing mode:
+ 
++	    =  ===================
++	    0  28-bit
++	    1  48-bit
++	    2  48-bit doing 28-bit
++	    3  64-bit
++	    =  ===================
+ 
+ 
+-HDIO_GET_BUSSTATE		get the bus state of the hwif
+ 
+-	usage:
++HDIO_GET_BUSSTATE
++	get the bus state of the hwif
++
++
++	usage::
+ 
+ 	  long state;
++
+ 	  ioctl(fd, HDIO_SCAN_HWIF, &state);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  Current power state of the IDE bus.  One of BUSSTATE_OFF,
+-	  BUSSTATE_ON, or BUSSTATE_TRISTATE
++		Current power state of the IDE bus.  One of BUSSTATE_OFF,
++		BUSSTATE_ON, or BUSSTATE_TRISTATE
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 
+ 
+ 
+ 
+-HDIO_SET_BUSSTATE		set the bus state of the hwif
++HDIO_SET_BUSSTATE
++	set the bus state of the hwif
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int state;
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SCAN_HWIF, state);
+ 
+ 	inputs:
+-	  Desired IDE power state.  One of BUSSTATE_OFF, BUSSTATE_ON,
+-	  or BUSSTATE_TRISTATE
++		Desired IDE power state.  One of BUSSTATE_OFF, BUSSTATE_ON,
++		or BUSSTATE_TRISTATE
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  EOPNOTSUPP	Hardware interface does not support bus power control
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EOPNOTSUPP	Hardware interface does not support bus power control
+ 
+ 
+ 
+ 
+-HDIO_TRISTATE_HWIF		execute a channel tristate
++HDIO_TRISTATE_HWIF
++	execute a channel tristate
++
+ 
+ 	Not implemented, as of 2.6.8.1.  See HDIO_SET_BUSSTATE
+ 
+ 
+ 
+-HDIO_DRIVE_RESET		execute a device reset
++HDIO_DRIVE_RESET
++	execute a device reset
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int args[3]
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_RESET, args);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  ENXIO		No such device:	phy dead or ctl_addr == 0
+-	  EIO		I/O error:	reset timed out or hardware error
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - ENXIO	No such device:	phy dead or ctl_addr == 0
++	  - EIO		I/O error:	reset timed out or hardware error
+ 
+ 	notes:
+ 
+-	  Execute a reset on the device as soon as the current IO
+-	  operation has completed.
++	  - Execute a reset on the device as soon as the current IO
++	    operation has completed.
+ 
+-	  Executes an ATAPI soft reset if applicable, otherwise
+-	  executes an ATA soft reset on the controller.
++	  - Executes an ATAPI soft reset if applicable, otherwise
++	    executes an ATA soft reset on the controller.
+ 
+ 
+ 
+-HDIO_DRIVE_TASKFILE		execute raw taskfile
++HDIO_DRIVE_TASKFILE
++	execute raw taskfile
+ 
+-	Note:  If you don't have a copy of the ANSI ATA specification
+-	handy, you should probably ignore this ioctl.
+ 
+-	Execute an ATA disk command directly by writing the "taskfile"
+-	registers of the drive.  Requires ADMIN and RAWIO access
+-	privileges.
++	Note:
++		If you don't have a copy of the ANSI ATA specification
++		handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	- Execute an ATA disk command directly by writing the "taskfile"
++	  registers of the drive.  Requires ADMIN and RAWIO access
++	  privileges.
++
++	usage::
+ 
+ 	  struct {
++
+ 	    ide_task_request_t req_task;
+ 	    u8 outbuf[OUTPUT_SIZE];
+ 	    u8 inbuf[INPUT_SIZE];
+@@ -548,6 +700,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 
+ 	  (See below for details on memory area passed to ioctl.)
+ 
++	  ============	===================================================
+ 	  io_ports[8]	values to be written to taskfile registers
+ 	  hob_ports[8]	high-order bytes, for extended commands.
+ 	  out_flags	flags indicating which registers are valid
+@@ -557,24 +710,29 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	  out_size	size of output buffer
+ 	  outbuf	buffer of data to be transmitted to disk
+ 	  inbuf		buffer of data to be received from disk (see [1])
++	  ============	===================================================
+ 
+ 	outputs:
+ 
++	  ===========	====================================================
+ 	  io_ports[]	values returned in the taskfile registers
+ 	  hob_ports[]	high-order bytes, for extended commands.
+ 	  out_flags	flags indicating which registers are valid (see [2])
+ 	  in_flags	flags indicating which registers should be returned
+ 	  outbuf	buffer of data to be transmitted to disk (see [1])
+ 	  inbuf		buffer of data to be received from disk
++	  ===========	====================================================
+ 
+ 	error returns:
+-	  EACCES	CAP_SYS_ADMIN or CAP_SYS_RAWIO privilege not set.
+-	  ENOMSG	Device is not a disk drive.
+-	  ENOMEM	Unable to allocate memory for task
+-	  EFAULT	req_cmd == TASKFILE_IN_OUT (not implemented as of 2.6.8)
+-	  EPERM		req_cmd == TASKFILE_MULTI_OUT and drive
+-	  		multi-count not yet set.
+-	  EIO		Drive failed the command.
++	  - EACCES	CAP_SYS_ADMIN or CAP_SYS_RAWIO privilege not set.
++	  - ENOMSG	Device is not a disk drive.
++	  - ENOMEM	Unable to allocate memory for task
++	  - EFAULT	req_cmd == TASKFILE_IN_OUT (not implemented as of 2.6.8)
++	  - EPERM
++
++			req_cmd == TASKFILE_MULTI_OUT and drive
++			multi-count not yet set.
++	  - EIO		Drive failed the command.
+ 
+ 	notes:
+ 
+@@ -615,22 +773,25 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	  Command is passed to the disk drive via the ide_task_request_t
+ 	  structure, which contains these fields:
+ 
++	    ============	===============================================
+ 	    io_ports[8]		values for the taskfile registers
+ 	    hob_ports[8]	high-order bytes, for extended commands
+ 	    out_flags		flags indicating which entries in the
+-	    			io_ports[] and hob_ports[] arrays
++				io_ports[] and hob_ports[] arrays
+ 				contain valid values.  Type ide_reg_valid_t.
+ 	    in_flags		flags indicating which entries in the
+-	    			io_ports[] and hob_ports[] arrays
++				io_ports[] and hob_ports[] arrays
+ 				are expected to contain valid values
+ 				on return.
+ 	    data_phase		See below
+ 	    req_cmd		Command type, see below
+ 	    out_size		output (user->drive) buffer size, bytes
+ 	    in_size		input (drive->user) buffer size, bytes
++	    ============	===============================================
+ 
+ 	  When out_flags is zero, the following registers are loaded.
+ 
++	    ============	===============================================
+ 	    HOB_FEATURE		If the drive supports LBA48
+ 	    HOB_NSECTOR		If the drive supports LBA48
+ 	    HOB_SECTOR		If the drive supports LBA48
+@@ -644,9 +805,11 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    SELECT		First, masked with 0xE0 if LBA48, 0xEF
+ 				otherwise; then, or'ed with the default
+ 				value of SELECT.
++	    ============	===============================================
+ 
+ 	  If any bit in out_flags is set, the following registers are loaded.
+ 
++	    ============	===============================================
+ 	    HOB_DATA		If out_flags.b.data is set.  HOB_DATA will
+ 				travel on DD8-DD15 on little endian machines
+ 				and on DD0-DD7 on big endian machines.
+@@ -664,6 +827,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    HCYL		If out_flags.b.hcyl is set
+ 	    SELECT		Or'ed with the default value of SELECT and
+ 				loaded regardless of out_flags.b.select.
++	    ============	===============================================
+ 
+ 	  Taskfile registers are read back from the drive into
+ 	  {io|hob}_ports[] after the command completes iff one of the
+@@ -674,6 +838,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    2. One or more than one bits are set in out_flags.
+ 	    3. The requested data_phase is TASKFILE_NO_DATA.
+ 
++	    ============	===============================================
+ 	    HOB_DATA		If in_flags.b.data is set.  It will contain
+ 				DD8-DD15 on little endian machines and
+ 				DD0-DD7 on big endian machines.
+@@ -689,10 +854,12 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    SECTOR
+ 	    LCYL
+ 	    HCYL
++	    ============	===============================================
+ 
+ 	  The data_phase field describes the data transfer to be
+ 	  performed.  Value is one of:
+ 
++	    ===================        ========================================
+ 	    TASKFILE_IN
+ 	    TASKFILE_MULTI_IN
+ 	    TASKFILE_OUT
+@@ -708,15 +875,18 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    TASKFILE_P_OUT		unimplemented
+ 	    TASKFILE_P_OUT_DMA		unimplemented
+ 	    TASKFILE_P_OUT_DMAQ		unimplemented
++	    ===================        ========================================
+ 
+ 	  The req_cmd field classifies the command type.  It may be
+ 	  one of:
+ 
++	    ========================    =======================================
+ 	    IDE_DRIVE_TASK_NO_DATA
+ 	    IDE_DRIVE_TASK_SET_XFER	unimplemented
+ 	    IDE_DRIVE_TASK_IN
+ 	    IDE_DRIVE_TASK_OUT		unimplemented
+ 	    IDE_DRIVE_TASK_RAW_WRITE
++	    ========================    =======================================
+ 
+ 	  [6] Do not access {in|out}_flags->all except for resetting
+ 	  all the bits.  Always access individual bit fields.  ->all
+@@ -726,45 +896,57 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 
+ 
+ 
+-HDIO_DRIVE_CMD			execute a special drive command
++HDIO_DRIVE_CMD
++	execute a special drive command
++
+ 
+ 	Note:  If you don't have a copy of the ANSI ATA specification
+ 	handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	usage::
+ 
+ 	  u8 args[4+XFER_SIZE];
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_CMD, args);
+ 
+ 	inputs:
++	    Commands other than WIN_SMART:
+ 
+-	  Commands other than WIN_SMART
++	    =======     =======
+ 	    args[0]	COMMAND
+ 	    args[1]	NSECTOR
+ 	    args[2]	FEATURE
+ 	    args[3]	NSECTOR
++	    =======     =======
+ 
+-	  WIN_SMART
++	    WIN_SMART:
++
++	    =======     =======
+ 	    args[0]	COMMAND
+ 	    args[1]	SECTOR
+ 	    args[2]	FEATURE
+ 	    args[3]	NSECTOR
++	    =======     =======
+ 
+ 	outputs:
++		args[] buffer is filled with register values followed by any
++
+ 
+-	  args[] buffer is filled with register values followed by any
+ 	  data returned by the disk.
++
++	    ========	====================================================
+ 	    args[0]	status
+ 	    args[1]	error
+ 	    args[2]	NSECTOR
+ 	    args[3]	undefined
+ 	    args[4+]	NSECTOR * 512 bytes of data returned by the command.
++	    ========	====================================================
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  ENOMEM	Unable to allocate memory for task
+-	  EIO		Drive reports error
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - ENOMEM	Unable to allocate memory for task
++	  - EIO		Drive reports error
+ 
+ 	notes:
+ 
+@@ -789,20 +971,24 @@ HDIO_DRIVE_CMD			execute a special drive command
+ 
+ 
+ 
+-HDIO_DRIVE_TASK			execute task and special drive command
++HDIO_DRIVE_TASK
++	execute task and special drive command
++
+ 
+ 	Note:  If you don't have a copy of the ANSI ATA specification
+ 	handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	usage::
+ 
+ 	  u8 args[7];
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_TASK, args);
+ 
+ 	inputs:
++	    Taskfile register values:
+ 
+-	  Taskfile register values:
++	    =======	=======
+ 	    args[0]	COMMAND
+ 	    args[1]	FEATURE
+ 	    args[2]	NSECTOR
+@@ -810,10 +996,13 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 	    args[4]	LCYL
+ 	    args[5]	HCYL
+ 	    args[6]	SELECT
++	    =======	=======
+ 
+ 	outputs:
++	    Taskfile register values:
+ 
+-	  Taskfile register values:
++
++	    =======	=======
+ 	    args[0]	status
+ 	    args[1]	error
+ 	    args[2]	NSECTOR
+@@ -821,12 +1010,13 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 	    args[4]	LCYL
+ 	    args[5]	HCYL
+ 	    args[6]	SELECT
++	    =======	=======
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  ENOMEM	Unable to allocate memory for task
+-	  ENOMSG	Device is not a disk drive.
+-	  EIO		Drive failed the command.
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - ENOMEM	Unable to allocate memory for task
++	  - ENOMSG	Device is not a disk drive.
++	  - EIO		Drive failed the command.
+ 
+ 	notes:
+ 
+@@ -836,236 +1026,317 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 
+ 
+ 
+-HDIO_DRIVE_CMD_AEB		HDIO_DRIVE_TASK
++HDIO_DRIVE_CMD_AEB
++	HDIO_DRIVE_TASK
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_32BIT			change io_32bit flags
++HDIO_SET_32BIT
++	change io_32bit flags
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_32BIT, val);
+ 
+ 	inputs:
+-	  New value for io_32bit flag
++		New value for io_32bit flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 3]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 3]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ 
+-HDIO_SET_NOWERR			change ignore-write-error flag
++HDIO_SET_NOWERR
++	change ignore-write-error flag
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_NOWERR, val);
+ 
+ 	inputs:
+-	  New value for ignore-write-error flag.  Used for ignoring
++		New value for ignore-write-error flag.  Used for ignoring
++
++
+ 	  WRERR_STAT
+ 
+-	outputs:	none
++	outputs:
++		none
++
++
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY		Controller busy
+ 
+ 
+ 
+-HDIO_SET_DMA			change use-dma flag
++HDIO_SET_DMA
++	change use-dma flag
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_DMA, val);
+ 
+ 	inputs:
+-	  New value for use-dma flag
++		New value for use-dma flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_PIO_MODE		reconfig interface to new speed
++HDIO_SET_PIO_MODE
++	reconfig interface to new speed
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_PIO_MODE, val);
+ 
+ 	inputs:
+-	  New interface speed.
++		New interface speed.
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 255]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 255]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SCAN_HWIF			register and (re)scan interface
++HDIO_SCAN_HWIF
++	register and (re)scan interface
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int args[3]
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SCAN_HWIF, args);
+ 
+ 	inputs:
++
++	  =======	=========================
+ 	  args[0]	io address to probe
++
++
+ 	  args[1]	control address to probe
+ 	  args[2]	irq number
++	  =======	=========================
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  EIO		Probe failed.
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EIO		Probe failed.
+ 
+ 	notes:
++		This ioctl initializes the addresses and irq for a disk
++		controller, probes for drives, and creates /proc/ide
++		interfaces as appropriate.
+ 
+-	  This ioctl initializes the addresses and irq for a disk
+-	  controller, probes for drives, and creates /proc/ide
+-	  interfaces as appropriate.
+ 
+ 
++HDIO_UNREGISTER_HWIF
++	unregister interface
+ 
+-HDIO_UNREGISTER_HWIF		unregister interface
+ 
+-	usage:
++	usage::
+ 
+ 	  int index;
++
+ 	  ioctl(fd, HDIO_UNREGISTER_HWIF, index);
+ 
+ 	inputs:
+-	  index		index of hardware interface to unregister
++		index		index of hardware interface to unregister
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
+ 
+ 	notes:
++		This ioctl removes a hardware interface from the kernel.
+ 
+-	  This ioctl removes a hardware interface from the kernel.
++		Currently (2.6.8) this ioctl silently fails if any drive on
++		the interface is busy.
+ 
+-	  Currently (2.6.8) this ioctl silently fails if any drive on
+-	  the interface is busy.
+ 
+ 
++HDIO_SET_WCACHE
++	change write cache enable-disable
+ 
+-HDIO_SET_WCACHE			change write cache enable-disable
+ 
+-	usage:
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_WCACHE, val);
+ 
+ 	inputs:
+-	  New value for write cache enable
++		New value for write cache enable
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_ACOUSTIC		change acoustic behavior
++HDIO_SET_ACOUSTIC
++	change acoustic behavior
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_ACOUSTIC, val);
+ 
+ 	inputs:
+-	  New value for drive acoustic settings
++		New value for drive acoustic settings
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 254]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 254]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_QDMA			change use-qdma flag
++HDIO_SET_QDMA
++	change use-qdma flag
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_ADDRESS		change lba addressing modes
++HDIO_SET_ADDRESS
++	change lba addressing modes
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_ADDRESS, val);
+ 
+ 	inputs:
+-	  New value for addressing mode
+-	    0 = 28-bit
+-	    1 = 48-bit
+-	    2 = 48-bit doing 28-bit
++		New value for addressing mode
++
++	    =   ===================
++	    0   28-bit
++	    1   48-bit
++	    2   48-bit doing 28-bit
++	    =   ===================
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 2]
+-	  EBUSY		Controller busy
+-	  EIO		Drive does not support lba48 mode.
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 2]
++	  - EBUSY		Controller busy
++	  - EIO		Drive does not support lba48 mode.
+ 
+ 
+ HDIO_SET_IDE_SCSI
++	usage::
+ 
+-	usage:
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_IDE_SCSI, val);
+ 
+ 	inputs:
+-	  New value for scsi emulation mode (?)
++		New value for scsi emulation mode (?)
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ HDIO_SET_SCSI_IDE
+-
+ 	Not implemented, as of 2.6.8.1
+-
+-
+diff --git a/Documentation/ioctl/index.rst b/Documentation/ioctl/index.rst
 new file mode 100644
-index 000000000000..af4324902622
+index 000000000000..1a6f437566e3
 --- /dev/null
-+++ b/Documentation/hid/index.rst
-@@ -0,0 +1,18 @@
++++ b/Documentation/ioctl/index.rst
+@@ -0,0 +1,16 @@
 +:orphan:
 +
-+=============================
-+Human Interface Devices (HID)
-+=============================
++======
++IOCTLs
++======
 +
 +.. toctree::
 +   :maxdepth: 1
 +
-+   hiddev
-+   hidraw
-+   hid-sensor
-+   hid-transport
++   ioctl-number
 +
-+   uhid
++   botching-up-ioctls
++   ioctl-decoding
 +
-+   hid-alps
-+   intel-ish-hid
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-new file mode 100644
-index 000000000000..cccbf4be17d7
---- /dev/null
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -0,0 +1,485 @@
-+=================================
-+Intel Integrated Sensor Hub (ISH)
-+=================================
++   cdrom
++   hdio
+diff --git a/Documentation/ioctl/ioctl-decoding.txt b/Documentation/ioctl/ioctl-decoding.rst
+similarity index 54%
+rename from Documentation/ioctl/ioctl-decoding.txt
+rename to Documentation/ioctl/ioctl-decoding.rst
+index e35efb0cec2e..380d6bb3e3ea 100644
+--- a/Documentation/ioctl/ioctl-decoding.txt
++++ b/Documentation/ioctl/ioctl-decoding.rst
+@@ -1,10 +1,16 @@
++==============================
++Decoding an IOCTL Magic Number
++==============================
 +
-+A sensor hub enables the ability to offload sensor polling and algorithm
-+processing to a dedicated low power co-processor. This allows the core
-+processor to go into low power modes more often, resulting in the increased
-+battery life.
-+
-+There are many vendors providing external sensor hubs confirming to HID
-+Sensor usage tables, and used in several tablets, 2 in 1 convertible laptops
-+and embedded products. Linux had this support since Linux 3.9.
-+
-+Intel® introduced integrated sensor hubs as a part of the SoC starting from
-+Cherry Trail and now supported on multiple generations of CPU packages. There
-+are many commercial devices already shipped with Integrated Sensor Hubs (ISH).
-+These ISH also comply to HID sensor specification, but the  difference is the
-+transport protocol used for communication. The current external sensor hubs
-+mainly use HID over i2C or USB. But ISH doesn't use either i2c or USB.
-+
-+1. Overview
-+===========
-+
-+Using a analogy with a usbhid implementation, the ISH follows a similar model
-+for a very high speed communication::
-+
-+	-----------------		----------------------
-+	|    USB HID	|	-->	|    ISH HID	     |
-+	-----------------		----------------------
-+	-----------------		----------------------
-+	|  USB protocol	|	-->	|    ISH Transport   |
-+	-----------------		----------------------
-+	-----------------		----------------------
-+	|  EHCI/XHCI	|	-->	|    ISH IPC	     |
-+	-----------------		----------------------
-+	      PCI				 PCI
-+	-----------------		----------------------
-+        |Host controller|	-->	|    ISH processor   |
-+	-----------------		----------------------
-+	     USB Link
-+	-----------------		----------------------
-+	| USB End points|	-->	|    ISH Clients     |
-+	-----------------		----------------------
-+
-+Like USB protocol provides a method for device enumeration, link management
-+and user data encapsulation, the ISH also provides similar services. But it is
-+very light weight tailored to manage and communicate with ISH client
-+applications implemented in the firmware.
-+
-+The ISH allows multiple sensor management applications executing in the
-+firmware. Like USB endpoints the messaging can be to/from a client. As part of
-+enumeration process, these clients are identified. These clients can be simple
-+HID sensor applications, sensor calibration application or senor firmware
-+update application.
-+
-+The implementation model is similar, like USB bus, ISH transport is also
-+implemented as a bus. Each client application executing in the ISH processor
-+is registered as a device on this bus. The driver, which binds each device
-+(ISH HID driver) identifies the device type and registers with the hid core.
-+
-+2. ISH Implementation: Block Diagram
-+====================================
-+
-+::
-+
-+	 ---------------------------
-+	|  User Space Applications  |
-+	 ---------------------------
-+
-+  ----------------IIO ABI----------------
-+	 --------------------------
-+	|  IIO Sensor Drivers	  |
-+	 --------------------------
-+	 --------------------------
-+	|	 IIO core	  |
-+	 --------------------------
-+	 --------------------------
-+	|   HID Sensor Hub MFD	  |
-+	 --------------------------
-+	 --------------------------
-+	|       HID Core	  |
-+	 --------------------------
-+	 --------------------------
-+	|   HID over ISH Client   |
-+	 --------------------------
-+	 --------------------------
-+	|   ISH Transport (ISHTP) |
-+	 --------------------------
-+	 --------------------------
-+	|      IPC Drivers	  |
-+	 --------------------------
-+  OS
-+  ---------------- PCI -----------------
-+  Hardware + Firmware
-+	 ----------------------------
-+	| ISH Hardware/Firmware(FW) |
-+	 ----------------------------
-+
-+3. High level processing in above blocks
-+========================================
-+
-+3.1 Hardware Interface
-+----------------------
-+
-+The ISH is exposed as "Non-VGA unclassified PCI device" to the host. The PCI
-+product and vendor IDs are changed from different generations of processors. So
-+the source code which enumerate drivers needs to update from generation to
-+generation.
-+
-+3.2 Inter Processor Communication (IPC) driver
-+----------------------------------------------
-+
-+Location: drivers/hid/intel-ish-hid/ipc
-+
-+The IPC message used memory mapped I/O. The registers are defined in
-+hw-ish-regs.h.
-+
-+3.2.1 IPC/FW message types
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+There are two types of messages, one for management of link and other messages
-+are to and from transport layers.
-+
-+TX and RX of Transport messages
-+...............................
-+
-+A set of memory mapped register offers support of multi byte messages TX and
-+RX (E.g.IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
-+internal queues to sequence messages and send them in order to the FW.
-+Optionally the caller can register handler to get notification of completion.
-+A door bell mechanism is used in messaging to trigger processing in host and
-+client firmware side. When ISH interrupt handler is called, the ISH2HOST
-+doorbell register is used by host drivers to determine that the interrupt
-+is for ISH.
-+
-+Each side has 32 32-bit message registers and a 32-bit doorbell. Doorbell
-+register has the following format:
-+Bits 0..6: fragment length (7 bits are used)
-+Bits 10..13: encapsulated protocol
-+Bits 16..19: management command (for IPC management protocol)
-+Bit 31: doorbell trigger (signal H/W interrupt to the other side)
-+Other bits are reserved, should be 0.
-+
-+3.2.2 Transport layer interface
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+To abstract HW level IPC communication, a set of callbacks are registered.
-+The transport layer uses them to send and receive messages.
-+Refer to  struct ishtp_hw_ops for callbacks.
-+
-+3.3 ISH Transport layer
-+-----------------------
-+
-+Location: drivers/hid/intel-ish-hid/ishtp/
-+
-+3.3.1 A Generic Transport Layer
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The transport layer is a bi-directional protocol, which defines:
-+- Set of commands to start, stop, connect, disconnect and flow control
-+(ishtp/hbm.h) for details
-+- A flow control mechanism to avoid buffer overflows
-+
-+This protocol resembles bus messages described in the following document:
-+http://www.intel.com/content/dam/www/public/us/en/documents/technical-\
-+specifications/dcmi-hi-1-0-spec.pdf "Chapter 7: Bus Message Layer"
-+
-+3.3.2 Connection and Flow Control Mechanism
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Each FW client and a protocol is identified by an UUID. In order to communicate
-+to a FW client, a connection must be established using connect request and
-+response bus messages. If successful, a pair (host_client_id and fw_client_id)
-+will identify the connection.
-+
-+Once connection is established, peers send each other flow control bus messages
-+independently. Every peer may send a message only if it has received a
-+flow-control credit before. Once it sent a message, it may not send another one
-+before receiving the next flow control credit.
-+Either side can send disconnect request bus message to end communication. Also
-+the link will be dropped if major FW reset occurs.
-+
-+3.3.3 Peer to Peer data transfer
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Peer to Peer data transfer can happen with or without using DMA. Depending on
-+the sensor bandwidth requirement DMA can be enabled by using module parameter
-+ishtp_use_dma under intel_ishtp.
-+
-+Each side (host and FW) manages its DMA transfer memory independently. When an
-+ISHTP client from either host or FW side wants to send something, it decides
-+whether to send over IPC or over DMA; for each transfer the decision is
-+independent. The sending side sends DMA_XFER message when the message is in
-+the respective host buffer (TX when host client sends, RX when FW client
-+sends). The recipient of DMA message responds with DMA_XFER_ACK, indicating
-+the sender that the memory region for that message may be reused.
-+
-+DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus message
-+(that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
-+Additionally to DMA address communication, this sequence checks capabilities:
-+if thw host doesn't support DMA, then it won't send DMA allocation, so FW can't
-+send DMA; if FW doesn't support DMA then it won't respond with
-+DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
-+Here ISH acts as busmaster DMA controller. Hence when host sends DMA_XFER,
-+it's request to do host->ISH DMA transfer; when FW sends DMA_XFER, it means
-+that it already did DMA and the message resides at host. Thus, DMA_XFER
-+and DMA_XFER_ACK act as ownership indicators.
-+
-+At initial state all outgoing memory belongs to the sender (TX to host, RX to
-+FW), DMA_XFER transfers ownership on the region that contains ISHTP message to
-+the receiving side, DMA_XFER_ACK returns ownership to the sender. A sender
-+needs not wait for previous DMA_XFER to be ack'ed, and may send another message
-+as long as remaining continuous memory in its ownership is enough.
-+In principle, multiple DMA_XFER and DMA_XFER_ACK messages may be sent at once
-+(up to IPC MTU), thus allowing for interrupt throttling.
-+Currently, ISH FW decides to send over DMA if ISHTP message is more than 3 IPC
-+fragments and via IPC otherwise.
-+
-+3.3.4 Ring Buffers
-+^^^^^^^^^^^^^^^^^^
-+
-+When a client initiate a connection, a ring or RX and TX buffers are allocated.
-+The size of ring can be specified by the client. HID client set 16 and 32 for
-+TX and RX buffers respectively. On send request from client, the data to be
-+sent is copied to one of the send ring buffer and scheduled to be sent using
-+bus message protocol. These buffers are required because the FW may have not
-+have processed the last message and may not have enough flow control credits
-+to send. Same thing holds true on receive side and flow control is required.
-+
-+3.3.5 Host Enumeration
-+^^^^^^^^^^^^^^^^^^^^^^
-+
-+The host enumeration bus command allow discovery of clients present in the FW.
-+There can be multiple sensor clients and clients for calibration function.
-+
-+To ease in implantation and allow independent driver handle each client
-+this transport layer takes advantage of Linux Bus driver model. Each
-+client is registered as device on the the transport bus (ishtp bus).
-+
-+Enumeration sequence of messages:
-+
-+- Host sends HOST_START_REQ_CMD, indicating that host ISHTP layer is up.
-+- FW responds with HOST_START_RES_CMD
-+- Host sends HOST_ENUM_REQ_CMD (enumerate FW clients)
-+- FW responds with HOST_ENUM_RES_CMD that includes bitmap of available FW
-+  client IDs
-+- For each FW ID found in that bitmap host sends
-+  HOST_CLIENT_PROPERTIES_REQ_CMD
-+- FW responds with HOST_CLIENT_PROPERTIES_RES_CMD. Properties include UUID,
-+  max ISHTP message size, etc.
-+- Once host received properties for that last discovered client, it considers
-+  ISHTP device fully functional (and allocates DMA buffers)
-+
-+3.4 HID over ISH Client
-+-----------------------
-+
-+Location: drivers/hid/intel-ish-hid
-+
-+The ISHTP client driver is responsible for:
-+
-+- enumerate HID devices under FW ISH client
-+- Get Report descriptor
-+- Register with HID core as a LL driver
-+- Process Get/Set feature request
-+- Get input reports
-+
-+3.5 HID Sensor Hub MFD and IIO sensor drivers
-+---------------------------------------------
-+
-+The functionality in these drivers is the same as an external sensor hub.
-+Refer to
-+Documentation/hid/hid-sensor.rst for HID sensor
-+Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space
-+
-+3.6 End to End HID transport Sequence Diagram
-+---------------------------------------------
-+
-+::
-+
-+  HID-ISH-CLN                    ISHTP                    IPC                             HW
-+          |                        |                       |                               |
-+          |                        |                       |-----WAKE UP------------------>|
-+          |                        |                       |                               |
-+          |                        |                       |-----HOST READY--------------->|
-+          |                        |                       |                               |
-+          |                        |                       |<----MNG_RESET_NOTIFY_ACK----- |
-+          |                        |                       |                               |
-+          |                        |<----ISHTP_START------ |                               |
-+          |                        |                       |                               |
-+          |                        |<-----------------HOST_START_RES_CMD-------------------|
-+          |                        |                       |                               |
-+          |                        |------------------QUERY_SUBSCRIBER-------------------->|
-+          |                        |                       |                               |
-+          |                        |------------------HOST_ENUM_REQ_CMD------------------->|
-+          |                        |                       |                               |
-+          |                        |<-----------------HOST_ENUM_RES_CMD--------------------|
-+          |                        |                       |                               |
-+          |                        |------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
-+          |                        |                       |                               |
-+          |                        |<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
-+          |       Create new device on in ishtp bus        |                               |
-+          |                        |                       |                               |
-+          |                        |------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
-+          |                        |                       |                               |
-+          |                        |<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
-+          |       Create new device on in ishtp bus        |                               |
-+          |                        |                       |                               |
-+          |                        |--Repeat HOST_CLIENT_PROPERTIES_REQ_CMD-till last one--|
-+          |                        |                       |                               |
-+       probed()
-+          |----ishtp_cl_connect--->|----------------- CLIENT_CONNECT_REQ_CMD-------------->|
-+          |                        |                       |                               |
-+          |                        |<----------------CLIENT_CONNECT_RES_CMD----------------|
-+          |                        |                       |                               |
-+          |register event callback |                       |                               |
-+          |                        |                       |                               |
-+          |ishtp_cl_send(
-+          HOSTIF_DM_ENUM_DEVICES)  |----------fill ishtp_msg_hdr struct write to HW-----  >|
-+          |                        |                       |                               |
-+          |                        |                       |<-----IRQ(IPC_PROTOCOL_ISHTP---|
-+          |                        |                       |                               |
-+          |<--ENUM_DEVICE RSP------|                       |                               |
-+          |                        |                       |                               |
-+  for each enumerated device
-+          |ishtp_cl_send(
-+          HOSTIF_GET_HID_DESCRIPTOR|----------fill ishtp_msg_hdr struct write to HW-----  >|
-+          |                        |                       |                               |
-+          ...Response
-+          |                        |                       |                               |
-+  for each enumerated device
-+          |ishtp_cl_send(
-+       HOSTIF_GET_REPORT_DESCRIPTOR|--------------fill ishtp_msg_hdr struct write to HW-- >|
-+          |                        |                       |                               |
-+          |                        |                       |                               |
-+   hid_allocate_device
-+          |                        |                       |                               |
-+   hid_add_device                  |                       |                               |
-+          |                        |                       |                               |
-+
-+
-+3.7 ISH Debugging
-+-----------------
-+
-+To debug ISH, event tracing mechanism is used. To enable debug logs
-+echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
-+cat sys/kernel/debug/tracing/trace
-+
-+3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
-+-----------------------------------------------------
-+
-+::
-+
-+  root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
-+  /sys/bus/iio/devices/
-+  ├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
-+  │   ├── buffer
-+  │   │   ├── enable
-+  │   │   ├── length
-+  │   │   └── watermark
-+  ...
-+  │   ├── in_accel_hysteresis
-+  │   ├── in_accel_offset
-+  │   ├── in_accel_sampling_frequency
-+  │   ├── in_accel_scale
-+  │   ├── in_accel_x_raw
-+  │   ├── in_accel_y_raw
-+  │   ├── in_accel_z_raw
-+  │   ├── name
-+  │   ├── scan_elements
-+  │   │   ├── in_accel_x_en
-+  │   │   ├── in_accel_x_index
-+  │   │   ├── in_accel_x_type
-+  │   │   ├── in_accel_y_en
-+  │   │   ├── in_accel_y_index
-+  │   │   ├── in_accel_y_type
-+  │   │   ├── in_accel_z_en
-+  │   │   ├── in_accel_z_index
-+  │   │   └── in_accel_z_type
-+  ...
-+  │   │   ├── devices
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_intensity_both_raw
-+  │   │   │   │   ├── in_intensity_hysteresis
-+  │   │   │   │   ├── in_intensity_offset
-+  │   │   │   │   ├── in_intensity_sampling_frequency
-+  │   │   │   │   ├── in_intensity_scale
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_intensity_both_en
-+  │   │   │   │   │   ├── in_intensity_both_index
-+  │   │   │   │   │   └── in_intensity_both_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-+  ...
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_magn_hysteresis
-+  │   │   │   │   ├── in_magn_offset
-+  │   │   │   │   ├── in_magn_sampling_frequency
-+  │   │   │   │   ├── in_magn_scale
-+  │   │   │   │   ├── in_magn_x_raw
-+  │   │   │   │   ├── in_magn_y_raw
-+  │   │   │   │   ├── in_magn_z_raw
-+  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
-+  │   │   │   │   ├── in_rot_hysteresis
-+  │   │   │   │   ├── in_rot_offset
-+  │   │   │   │   ├── in_rot_sampling_frequency
-+  │   │   │   │   ├── in_rot_scale
-+  │   │   │   │   ├── name
-+  ...
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_magn_x_en
-+  │   │   │   │   │   ├── in_magn_x_index
-+  │   │   │   │   │   ├── in_magn_x_type
-+  │   │   │   │   │   ├── in_magn_y_en
-+  │   │   │   │   │   ├── in_magn_y_index
-+  │   │   │   │   │   ├── in_magn_y_type
-+  │   │   │   │   │   ├── in_magn_z_en
-+  │   │   │   │   │   ├── in_magn_z_index
-+  │   │   │   │   │   ├── in_magn_z_type
-+  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
-+  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
-+  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-+  ...
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_anglvel_hysteresis
-+  │   │   │   │   ├── in_anglvel_offset
-+  │   │   │   │   ├── in_anglvel_sampling_frequency
-+  │   │   │   │   ├── in_anglvel_scale
-+  │   │   │   │   ├── in_anglvel_x_raw
-+  │   │   │   │   ├── in_anglvel_y_raw
-+  │   │   │   │   ├── in_anglvel_z_raw
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_anglvel_x_en
-+  │   │   │   │   │   ├── in_anglvel_x_index
-+  │   │   │   │   │   ├── in_anglvel_x_type
-+  │   │   │   │   │   ├── in_anglvel_y_en
-+  │   │   │   │   │   ├── in_anglvel_y_index
-+  │   │   │   │   │   ├── in_anglvel_y_type
-+  │   │   │   │   │   ├── in_anglvel_z_en
-+  │   │   │   │   │   ├── in_anglvel_z_index
-+  │   │   │   │   │   └── in_anglvel_z_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-+  ...
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_anglvel_hysteresis
-+  │   │   │   │   ├── in_anglvel_offset
-+  │   │   │   │   ├── in_anglvel_sampling_frequency
-+  │   │   │   │   ├── in_anglvel_scale
-+  │   │   │   │   ├── in_anglvel_x_raw
-+  │   │   │   │   ├── in_anglvel_y_raw
-+  │   │   │   │   ├── in_anglvel_z_raw
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_anglvel_x_en
-+  │   │   │   │   │   ├── in_anglvel_x_index
-+  │   │   │   │   │   ├── in_anglvel_x_type
-+  │   │   │   │   │   ├── in_anglvel_y_en
-+  │   │   │   │   │   ├── in_anglvel_y_index
-+  │   │   │   │   │   ├── in_anglvel_y_type
-+  │   │   │   │   │   ├── in_anglvel_z_en
-+  │   │   │   │   │   ├── in_anglvel_z_index
-+  │   │   │   │   │   └── in_anglvel_z_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-+  ...
-diff --git a/Documentation/hid/intel-ish-hid.txt b/Documentation/hid/intel-ish-hid.txt
-deleted file mode 100644
-index d48b21c71ddd..000000000000
---- a/Documentation/hid/intel-ish-hid.txt
-+++ /dev/null
-@@ -1,454 +0,0 @@
--Intel Integrated Sensor Hub (ISH)
--===============================
--
--A sensor hub enables the ability to offload sensor polling and algorithm
--processing to a dedicated low power co-processor. This allows the core
--processor to go into low power modes more often, resulting in the increased
--battery life.
--
--There are many vendors providing external sensor hubs confirming to HID
--Sensor usage tables, and used in several tablets, 2 in 1 convertible laptops
--and embedded products. Linux had this support since Linux 3.9.
--
--Intel® introduced integrated sensor hubs as a part of the SoC starting from
--Cherry Trail and now supported on multiple generations of CPU packages. There
--are many commercial devices already shipped with Integrated Sensor Hubs (ISH).
--These ISH also comply to HID sensor specification, but the  difference is the
--transport protocol used for communication. The current external sensor hubs
--mainly use HID over i2C or USB. But ISH doesn't use either i2c or USB.
--
--1. Overview
--
--Using a analogy with a usbhid implementation, the ISH follows a similar model
--for a very high speed communication:
--
--	-----------------		----------------------
--	|    USB HID	|	-->	|    ISH HID	     |
--	-----------------		----------------------
--	-----------------		----------------------
--	|  USB protocol	|	-->	|    ISH Transport   |
--	-----------------		----------------------
--	-----------------		----------------------
--	|  EHCI/XHCI	|	-->	|    ISH IPC	     |
--	-----------------		----------------------
--	      PCI				 PCI
--	-----------------		----------------------
--        |Host controller|	-->	|    ISH processor   |
--	-----------------		----------------------
--	     USB Link
--	-----------------		----------------------
--	| USB End points|	-->	|    ISH Clients     |
--	-----------------		----------------------
--
--Like USB protocol provides a method for device enumeration, link management
--and user data encapsulation, the ISH also provides similar services. But it is
--very light weight tailored to manage and communicate with ISH client
--applications implemented in the firmware.
--
--The ISH allows multiple sensor management applications executing in the
--firmware. Like USB endpoints the messaging can be to/from a client. As part of
--enumeration process, these clients are identified. These clients can be simple
--HID sensor applications, sensor calibration application or senor firmware
--update application.
--
--The implementation model is similar, like USB bus, ISH transport is also
--implemented as a bus. Each client application executing in the ISH processor
--is registered as a device on this bus. The driver, which binds each device
--(ISH HID driver) identifies the device type and registers with the hid core.
--
--2. ISH Implementation: Block Diagram
--
--	 ---------------------------
--	|  User Space Applications  |
--	 ---------------------------
--
------------------IIO ABI----------------
--	 --------------------------
--	|  IIO Sensor Drivers	  |
--	 --------------------------
--	 --------------------------
--	|	 IIO core	  |
--	 --------------------------
--	 --------------------------
--	|   HID Sensor Hub MFD	  |
--	 --------------------------
--	 --------------------------
--	|       HID Core	  |
--	 --------------------------
--	 --------------------------
--	|   HID over ISH Client   |
--	 --------------------------
--	 --------------------------
--	|   ISH Transport (ISHTP) |
--	 --------------------------
--	 --------------------------
--	|      IPC Drivers	  |
--	 --------------------------
--OS
------------------   PCI -----------------
--Hardware + Firmware
--	 ----------------------------
--	| ISH Hardware/Firmware(FW) |
--	 ----------------------------
--
--3. High level processing in above blocks
--
--3.1 Hardware Interface
--
--The ISH is exposed as "Non-VGA unclassified PCI device" to the host. The PCI
--product and vendor IDs are changed from different generations of processors. So
--the source code which enumerate drivers needs to update from generation to
--generation.
--
--3.2 Inter Processor Communication (IPC) driver
--Location: drivers/hid/intel-ish-hid/ipc
--
--The IPC message used memory mapped I/O. The registers are defined in
--hw-ish-regs.h.
--
--3.2.1 IPC/FW message types
--
--There are two types of messages, one for management of link and other messages
--are to and from transport layers.
--
--TX and RX of Transport messages
--
--A set of memory mapped register offers support of multi byte messages TX and
--RX (E.g.IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
--internal queues to sequence messages and send them in order to the FW.
--Optionally the caller can register handler to get notification of completion.
--A door bell mechanism is used in messaging to trigger processing in host and
--client firmware side. When ISH interrupt handler is called, the ISH2HOST
--doorbell register is used by host drivers to determine that the interrupt
--is for ISH.
--
--Each side has 32 32-bit message registers and a 32-bit doorbell. Doorbell
--register has the following format:
--Bits 0..6: fragment length (7 bits are used)
--Bits 10..13: encapsulated protocol
--Bits 16..19: management command (for IPC management protocol)
--Bit 31: doorbell trigger (signal H/W interrupt to the other side)
--Other bits are reserved, should be 0.
--
--3.2.2 Transport layer interface
--
--To abstract HW level IPC communication, a set of callbacks are registered.
--The transport layer uses them to send and receive messages.
--Refer to  struct ishtp_hw_ops for callbacks.
--
--3.3 ISH Transport layer
--Location: drivers/hid/intel-ish-hid/ishtp/
--
--3.3.1 A Generic Transport Layer
--
--The transport layer is a bi-directional protocol, which defines:
--- Set of commands to start, stop, connect, disconnect and flow control
--(ishtp/hbm.h) for details
--- A flow control mechanism to avoid buffer overflows
--
--This protocol resembles bus messages described in the following document:
--http://www.intel.com/content/dam/www/public/us/en/documents/technical-\
--specifications/dcmi-hi-1-0-spec.pdf "Chapter 7: Bus Message Layer"
--
--3.3.2 Connection and Flow Control Mechanism
--
--Each FW client and a protocol is identified by an UUID. In order to communicate
--to a FW client, a connection must be established using connect request and
--response bus messages. If successful, a pair (host_client_id and fw_client_id)
--will identify the connection.
--
--Once connection is established, peers send each other flow control bus messages
--independently. Every peer may send a message only if it has received a
--flow-control credit before. Once it sent a message, it may not send another one
--before receiving the next flow control credit.
--Either side can send disconnect request bus message to end communication. Also
--the link will be dropped if major FW reset occurs.
--
--3.3.3 Peer to Peer data transfer
--
--Peer to Peer data transfer can happen with or without using DMA. Depending on
--the sensor bandwidth requirement DMA can be enabled by using module parameter
--ishtp_use_dma under intel_ishtp.
--
--Each side (host and FW) manages its DMA transfer memory independently. When an
--ISHTP client from either host or FW side wants to send something, it decides
--whether to send over IPC or over DMA; for each transfer the decision is
--independent. The sending side sends DMA_XFER message when the message is in
--the respective host buffer (TX when host client sends, RX when FW client
--sends). The recipient of DMA message responds with DMA_XFER_ACK, indicating
--the sender that the memory region for that message may be reused.
--
--DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus message
--(that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
--Additionally to DMA address communication, this sequence checks capabilities:
--if thw host doesn't support DMA, then it won't send DMA allocation, so FW can't
--send DMA; if FW doesn't support DMA then it won't respond with
--DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
--Here ISH acts as busmaster DMA controller. Hence when host sends DMA_XFER,
--it's request to do host->ISH DMA transfer; when FW sends DMA_XFER, it means
--that it already did DMA and the message resides at host. Thus, DMA_XFER
--and DMA_XFER_ACK act as ownership indicators.
--
--At initial state all outgoing memory belongs to the sender (TX to host, RX to
--FW), DMA_XFER transfers ownership on the region that contains ISHTP message to
--the receiving side, DMA_XFER_ACK returns ownership to the sender. A sender
--needs not wait for previous DMA_XFER to be ack'ed, and may send another message
--as long as remaining continuous memory in its ownership is enough.
--In principle, multiple DMA_XFER and DMA_XFER_ACK messages may be sent at once
--(up to IPC MTU), thus allowing for interrupt throttling.
--Currently, ISH FW decides to send over DMA if ISHTP message is more than 3 IPC
--fragments and via IPC otherwise.
--
--3.3.4 Ring Buffers
--
--When a client initiate a connection, a ring or RX and TX buffers are allocated.
--The size of ring can be specified by the client. HID client set 16 and 32 for
--TX and RX buffers respectively. On send request from client, the data to be
--sent is copied to one of the send ring buffer and scheduled to be sent using
--bus message protocol. These buffers are required because the FW may have not
--have processed the last message and may not have enough flow control credits
--to send. Same thing holds true on receive side and flow control is required.
--
--3.3.5 Host Enumeration
--
--The host enumeration bus command allow discovery of clients present in the FW.
--There can be multiple sensor clients and clients for calibration function.
--
--To ease in implantation and allow independent driver handle each client
--this transport layer takes advantage of Linux Bus driver model. Each
--client is registered as device on the the transport bus (ishtp bus).
--
--Enumeration sequence of messages:
--- Host sends HOST_START_REQ_CMD, indicating that host ISHTP layer is up.
--- FW responds with HOST_START_RES_CMD
--- Host sends HOST_ENUM_REQ_CMD (enumerate FW clients)
--- FW responds with HOST_ENUM_RES_CMD that includes bitmap of available FW
--client IDs
--- For each FW ID found in that bitmap host sends
--HOST_CLIENT_PROPERTIES_REQ_CMD
--- FW responds with HOST_CLIENT_PROPERTIES_RES_CMD. Properties include UUID,
--max ISHTP message size, etc.
--- Once host received properties for that last discovered client, it considers
--ISHTP device fully functional (and allocates DMA buffers)
--
--3.4 HID over ISH Client
--Location: drivers/hid/intel-ish-hid
--
--The ISHTP client driver is responsible for:
--- enumerate HID devices under FW ISH client
--- Get Report descriptor
--- Register with HID core as a LL driver
--- Process Get/Set feature request
--- Get input reports
--
--3.5 HID Sensor Hub MFD and IIO sensor drivers
--
--The functionality in these drivers is the same as an external sensor hub.
--Refer to
--Documentation/hid/hid-sensor.txt for HID sensor
--Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space
--
--3.6 End to End HID transport Sequence Diagram
--
--HID-ISH-CLN			ISHTP			IPC				HW
--	|			|			|				|
--	|			|			|-----WAKE UP------------------>|
--	|			|			|				|
--	|			|			|-----HOST READY--------------->|
--	|			|			|				|
--	|			|			|<----MNG_RESET_NOTIFY_ACK----- |
--	|			|			|				|
--	|			|<----ISHTP_START------ |				|
--	|			|			|				|
--	|			|<-----------------HOST_START_RES_CMD-------------------|
--	|			|			|				|
--	|			|------------------QUERY_SUBSCRIBER-------------------->|
--	|			|			|				|
--	|			|------------------HOST_ENUM_REQ_CMD------------------->|
--	|			|			|				|
--	|			|<-----------------HOST_ENUM_RES_CMD--------------------|
--	|			|			|				|
--	|			|------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
--	|			|			|				|
--	|			|<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
--	|	Create new device on in ishtp bus	|				|
--	|			|			|				|
--	|			|------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
--	|			|			|				|
--	|			|<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
--	|	Create new device on in ishtp bus	|				|
--	|			|			|				|
--	|			|--Repeat HOST_CLIENT_PROPERTIES_REQ_CMD-till last one--|
--	|			|			|				|
--     probed()
--	|----ishtp_cl_connect-->|----------------- CLIENT_CONNECT_REQ_CMD-------------->|
--	|			|			|				|
--	|			|<----------------CLIENT_CONNECT_RES_CMD----------------|
--	|			|			|				|
--	|register event callback|			|				|
--	|			|			|				|
--	|ishtp_cl_send(
--	HOSTIF_DM_ENUM_DEVICES) |----------fill ishtp_msg_hdr struct write to HW-----  >|
--	|			|			|				|
--	|			|			|<-----IRQ(IPC_PROTOCOL_ISHTP---|
--	|			|			|				|
--	|<--ENUM_DEVICE RSP-----|			|				|
--	|			|			|				|
--for each enumerated device
--	|ishtp_cl_send(
--	HOSTIF_GET_HID_DESCRIPTOR |----------fill ishtp_msg_hdr struct write to HW---  >|
--	|			|			|				|
--	...Response
--	|			|			|				|
--for each enumerated device
--	|ishtp_cl_send(
--	HOSTIF_GET_REPORT_DESCRIPTOR |----------fill ishtp_msg_hdr struct write to HW- >|
--	|			|			|				|
--	|			|			|				|
-- hid_allocate_device
--	|			|			|				|
-- hid_add_device			|			|				|
--	|			|			|				|
--
--
--3.7 ISH Debugging
--
--To debug ISH, event tracing mechanism is used. To enable debug logs
--echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
--cat sys/kernel/debug/tracing/trace
--
--3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
--
--root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
--/sys/bus/iio/devices/
--├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
--│   ├── buffer
--│   │   ├── enable
--│   │   ├── length
--│   │   └── watermark
--...
--│   ├── in_accel_hysteresis
--│   ├── in_accel_offset
--│   ├── in_accel_sampling_frequency
--│   ├── in_accel_scale
--│   ├── in_accel_x_raw
--│   ├── in_accel_y_raw
--│   ├── in_accel_z_raw
--│   ├── name
--│   ├── scan_elements
--│   │   ├── in_accel_x_en
--│   │   ├── in_accel_x_index
--│   │   ├── in_accel_x_type
--│   │   ├── in_accel_y_en
--│   │   ├── in_accel_y_index
--│   │   ├── in_accel_y_type
--│   │   ├── in_accel_z_en
--│   │   ├── in_accel_z_index
--│   │   └── in_accel_z_type
--...
--│   │   ├── devices
--│   │   │   │   ├── buffer
--│   │   │   │   │   ├── enable
--│   │   │   │   │   ├── length
--│   │   │   │   │   └── watermark
--│   │   │   │   ├── dev
--│   │   │   │   ├── in_intensity_both_raw
--│   │   │   │   ├── in_intensity_hysteresis
--│   │   │   │   ├── in_intensity_offset
--│   │   │   │   ├── in_intensity_sampling_frequency
--│   │   │   │   ├── in_intensity_scale
--│   │   │   │   ├── name
--│   │   │   │   ├── scan_elements
--│   │   │   │   │   ├── in_intensity_both_en
--│   │   │   │   │   ├── in_intensity_both_index
--│   │   │   │   │   └── in_intensity_both_type
--│   │   │   │   ├── trigger
--│   │   │   │   │   └── current_trigger
--...
--│   │   │   │   ├── buffer
--│   │   │   │   │   ├── enable
--│   │   │   │   │   ├── length
--│   │   │   │   │   └── watermark
--│   │   │   │   ├── dev
--│   │   │   │   ├── in_magn_hysteresis
--│   │   │   │   ├── in_magn_offset
--│   │   │   │   ├── in_magn_sampling_frequency
--│   │   │   │   ├── in_magn_scale
--│   │   │   │   ├── in_magn_x_raw
--│   │   │   │   ├── in_magn_y_raw
--│   │   │   │   ├── in_magn_z_raw
--│   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
--│   │   │   │   ├── in_rot_hysteresis
--│   │   │   │   ├── in_rot_offset
--│   │   │   │   ├── in_rot_sampling_frequency
--│   │   │   │   ├── in_rot_scale
--│   │   │   │   ├── name
--...
--│   │   │   │   ├── scan_elements
--│   │   │   │   │   ├── in_magn_x_en
--│   │   │   │   │   ├── in_magn_x_index
--│   │   │   │   │   ├── in_magn_x_type
--│   │   │   │   │   ├── in_magn_y_en
--│   │   │   │   │   ├── in_magn_y_index
--│   │   │   │   │   ├── in_magn_y_type
--│   │   │   │   │   ├── in_magn_z_en
--│   │   │   │   │   ├── in_magn_z_index
--│   │   │   │   │   ├── in_magn_z_type
--│   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
--│   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
--│   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
--│   │   │   │   ├── trigger
--│   │   │   │   │   └── current_trigger
--...
--│   │   │   │   ├── buffer
--│   │   │   │   │   ├── enable
--│   │   │   │   │   ├── length
--│   │   │   │   │   └── watermark
--│   │   │   │   ├── dev
--│   │   │   │   ├── in_anglvel_hysteresis
--│   │   │   │   ├── in_anglvel_offset
--│   │   │   │   ├── in_anglvel_sampling_frequency
--│   │   │   │   ├── in_anglvel_scale
--│   │   │   │   ├── in_anglvel_x_raw
--│   │   │   │   ├── in_anglvel_y_raw
--│   │   │   │   ├── in_anglvel_z_raw
--│   │   │   │   ├── name
--│   │   │   │   ├── scan_elements
--│   │   │   │   │   ├── in_anglvel_x_en
--│   │   │   │   │   ├── in_anglvel_x_index
--│   │   │   │   │   ├── in_anglvel_x_type
--│   │   │   │   │   ├── in_anglvel_y_en
--│   │   │   │   │   ├── in_anglvel_y_index
--│   │   │   │   │   ├── in_anglvel_y_type
--│   │   │   │   │   ├── in_anglvel_z_en
--│   │   │   │   │   ├── in_anglvel_z_index
--│   │   │   │   │   └── in_anglvel_z_type
--│   │   │   │   ├── trigger
--│   │   │   │   │   └── current_trigger
--...
--│   │   │   │   ├── buffer
--│   │   │   │   │   ├── enable
--│   │   │   │   │   ├── length
--│   │   │   │   │   └── watermark
--│   │   │   │   ├── dev
--│   │   │   │   ├── in_anglvel_hysteresis
--│   │   │   │   ├── in_anglvel_offset
--│   │   │   │   ├── in_anglvel_sampling_frequency
--│   │   │   │   ├── in_anglvel_scale
--│   │   │   │   ├── in_anglvel_x_raw
--│   │   │   │   ├── in_anglvel_y_raw
--│   │   │   │   ├── in_anglvel_z_raw
--│   │   │   │   ├── name
--│   │   │   │   ├── scan_elements
--│   │   │   │   │   ├── in_anglvel_x_en
--│   │   │   │   │   ├── in_anglvel_x_index
--│   │   │   │   │   ├── in_anglvel_x_type
--│   │   │   │   │   ├── in_anglvel_y_en
--│   │   │   │   │   ├── in_anglvel_y_index
--│   │   │   │   │   ├── in_anglvel_y_type
--│   │   │   │   │   ├── in_anglvel_z_en
--│   │   │   │   │   ├── in_anglvel_z_index
--│   │   │   │   │   └── in_anglvel_z_type
--│   │   │   │   ├── trigger
--│   │   │   │   │   └── current_trigger
--...
-diff --git a/Documentation/hid/uhid.txt b/Documentation/hid/uhid.rst
-similarity index 94%
-rename from Documentation/hid/uhid.txt
-rename to Documentation/hid/uhid.rst
-index 958fff945304..b18cb96c885f 100644
---- a/Documentation/hid/uhid.txt
-+++ b/Documentation/hid/uhid.rst
-@@ -1,5 +1,6 @@
--      UHID - User-space I/O driver support for HID subsystem
--     ========================================================
-+======================================================
-+UHID - User-space I/O driver support for HID subsystem
-+======================================================
+ To decode a hex IOCTL code:
  
- UHID allows user-space to implement HID transport drivers. Please see
- hid-transport.txt for an introduction into HID transport drivers. This document
-@@ -22,9 +23,9 @@ If a new device is detected by your HID I/O Driver and you want to register this
- device with the HID subsystem, then you need to open /dev/uhid once for each
- device you want to register. All further communication is done by read()'ing or
- write()'ing "struct uhid_event" objects. Non-blocking operations are supported
--by setting O_NONBLOCK.
-+by setting O_NONBLOCK::
+ Most architectures use this generic format, but check
+ include/ARCH/ioctl.h for specifics, e.g. powerpc
+ uses 3 bits to encode read/write and 13 bits for size.
  
--struct uhid_event {
-+  struct uhid_event {
-         __u32 type;
-         union {
-                 struct uhid_create2_req create2;
-@@ -32,7 +33,7 @@ struct uhid_event {
-                 struct uhid_input2_req input2;
-                 ...
-         } u;
--};
-+  };
+- bits    meaning
++ ====== ==================================
++ bits   meaning
++ ====== ==================================
+  31-30	00 - no parameters: uses _IO macro
+ 	10 - read: _IOR
+ 	01 - write: _IOW
+@@ -16,9 +22,10 @@ uses 3 bits to encode read/write and 13 bits for size.
+ 	unique to each driver
  
- The "type" field contains the ID of the event. Depending on the ID different
- payloads are sent. You must not split a single event across multiple read()'s or
-@@ -86,31 +87,31 @@ the request was handled successfully. O_NONBLOCK does not affect write() as
- writes are always handled immediately in a non-blocking fashion. Future requests
- might make use of O_NONBLOCK, though.
+  7-0	function #
++ ====== ==================================
  
--  UHID_CREATE2:
-+UHID_CREATE2:
-   This creates the internal HID device. No I/O is possible until you send this
-   event to the kernel. The payload is of type struct uhid_create2_req and
-   contains information about your device. You can start I/O now.
  
--  UHID_DESTROY:
-+UHID_DESTROY:
-   This destroys the internal HID device. No further I/O will be accepted. There
-   may still be pending messages that you can receive with read() but no further
-   UHID_INPUT events can be sent to the kernel.
-   You can create a new device by sending UHID_CREATE2 again. There is no need to
-   reopen the character device.
+ So for example 0x82187201 is a read with arg length of 0x218,
+-character 'r' function 1. Grepping the source reveals this is:
++character 'r' function 1. Grepping the source reveals this is::
  
--  UHID_INPUT2:
-+UHID_INPUT2:
-   You must send UHID_CREATE2 before sending input to the kernel! This event
-   contains a data-payload. This is the raw data that you read from your device
-   on the interrupt channel. The kernel will parse the HID reports.
- 
--  UHID_GET_REPORT_REPLY:
-+UHID_GET_REPORT_REPLY:
-   If you receive a UHID_GET_REPORT request you must answer with this request.
-   You  must copy the "id" field from the request into the answer. Set the "err"
-   field to 0 if no error occurred or to EIO if an I/O error occurred.
-   If "err" is 0 then you should fill the buffer of the answer with the results
-   of the GET_REPORT request and set "size" correspondingly.
- 
--  UHID_SET_REPORT_REPLY:
-+UHID_SET_REPORT_REPLY:
-   This is the SET_REPORT equivalent of UHID_GET_REPORT_REPLY. Unlike GET_REPORT,
-   SET_REPORT never returns a data buffer, therefore, it's sufficient to set the
-   "id" and "err" fields correctly.
-@@ -120,16 +121,18 @@ read()
- read() will return a queued output report. No reaction is required to any of
- them but you should handle them according to your needs.
- 
--  UHID_START:
-+UHID_START:
-   This is sent when the HID device is started. Consider this as an answer to
-   UHID_CREATE2. This is always the first event that is sent. Note that this
-   event might not be available immediately after write(UHID_CREATE2) returns.
-   Device drivers might required delayed setups.
-   This event contains a payload of type uhid_start_req. The "dev_flags" field
-   describes special behaviors of a device. The following flags are defined:
--      UHID_DEV_NUMBERED_FEATURE_REPORTS:
--      UHID_DEV_NUMBERED_OUTPUT_REPORTS:
--      UHID_DEV_NUMBERED_INPUT_REPORTS:
-+
-+      - UHID_DEV_NUMBERED_FEATURE_REPORTS
-+      - UHID_DEV_NUMBERED_OUTPUT_REPORTS
-+      - UHID_DEV_NUMBERED_INPUT_REPORTS
-+
-           Each of these flags defines whether a given report-type uses numbered
-           reports. If numbered reports are used for a type, all messages from
-           the kernel already have the report-number as prefix. Otherwise, no
-@@ -137,33 +140,35 @@ them but you should handle them according to your needs.
-           For messages sent by user-space to the kernel, you must adjust the
-           prefixes according to these flags.
- 
--  UHID_STOP:
-+UHID_STOP:
-   This is sent when the HID device is stopped. Consider this as an answer to
-   UHID_DESTROY.
-+
-   If you didn't destroy your device via UHID_DESTROY, but the kernel sends an
-   UHID_STOP event, this should usually be ignored. It means that the kernel
-   reloaded/changed the device driver loaded on your HID device (or some other
-   maintenance actions happened).
-+
-   You can usually ignored any UHID_STOP events safely.
- 
--  UHID_OPEN:
-+UHID_OPEN:
-   This is sent when the HID device is opened. That is, the data that the HID
-   device provides is read by some other process. You may ignore this event but
-   it is useful for power-management. As long as you haven't received this event
-   there is actually no other process that reads your data so there is no need to
-   send UHID_INPUT2 events to the kernel.
- 
--  UHID_CLOSE:
-+UHID_CLOSE:
-   This is sent when there are no more processes which read the HID data. It is
-   the counterpart of UHID_OPEN and you may as well ignore this event.
- 
--  UHID_OUTPUT:
-+UHID_OUTPUT:
-   This is sent if the HID device driver wants to send raw data to the I/O
-   device on the interrupt channel. You should read the payload and forward it to
-   the device. The payload is of type "struct uhid_output_req".
-   This may be received even though you haven't received UHID_OPEN, yet.
- 
--  UHID_GET_REPORT:
-+UHID_GET_REPORT:
-   This event is sent if the kernel driver wants to perform a GET_REPORT request
-   on the control channeld as described in the HID specs. The report-type and
-   report-number are available in the payload.
-@@ -177,11 +182,12 @@ them but you should handle them according to your needs.
-   timed out, the kernel will ignore the response silently. The "id" field is
-   never re-used, so conflicts cannot happen.
- 
--  UHID_SET_REPORT:
-+UHID_SET_REPORT:
-   This is the SET_REPORT equivalent of UHID_GET_REPORT. On receipt, you shall
-   send a SET_REPORT request to your hid device. Once it replies, you must tell
-   the kernel about it via UHID_SET_REPORT_REPLY.
-   The same restrictions as for UHID_GET_REPORT apply.
- 
- ----------------------------------------------------
-+
- Written 2012, David Herrmann <dh.herrmann@gmail.com>
-diff --git a/Documentation/input/input.rst b/Documentation/input/input.rst
-index 47f86a4bf16c..0eb61e67a7b7 100644
---- a/Documentation/input/input.rst
-+++ b/Documentation/input/input.rst
-@@ -188,7 +188,7 @@ LCDs and many other purposes.
- 
- The monitor and speaker controls should be easy to add to the hid/input
- interface, but for the UPSs and LCDs it doesn't make much sense. For this,
--the hiddev interface was designed. See Documentation/hid/hiddev.txt
-+the hiddev interface was designed. See Documentation/hid/hiddev.rst
- for more information about it.
- 
- The usage of the usbhid module is very simple, it takes no parameters,
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3e3b9738f2e6..9458cdaa5b4b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16461,7 +16461,7 @@ M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
- L:	linux-usb@vger.kernel.org
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
- S:	Maintained
--F:	Documentation/hid/hiddev.txt
-+F:	Documentation/hid/hiddev.rst
- F:	drivers/hid/usbhid/
- 
- USB INTEL XHCI ROLE MUX DRIVER
+-#define VFAT_IOCTL_READDIR_BOTH         _IOR('r', 1, struct dirent [2])
++	#define VFAT_IOCTL_READDIR_BOTH         _IOR('r', 1, struct dirent [2])
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 9441a36a2469..bd810454d239 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -736,7 +736,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+  *     };
+  *
+  * Please make sure that you follow all the best practices from
+- * ``Documentation/ioctl/botching-up-ioctls.txt``. Note that drm_ioctl()
++ * ``Documentation/ioctl/botching-up-ioctls.rst``. Note that drm_ioctl()
+  * automatically zero-extends structures, hence make sure you can add more stuff
+  * at the end, i.e. don't put a variable sized array there.
+  *
 -- 
 2.21.0
 
