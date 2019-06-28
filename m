@@ -6,58 +6,60 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BCFAF7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 06:07:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A53627D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 06:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726707AbfF1GHE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 02:07:04 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46571 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726553AbfF1GHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 02:07:04 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n4so4882726wrw.13;
-        Thu, 27 Jun 2019 23:07:02 -0700 (PDT)
+        id S1726616AbfF1GUT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 02:20:19 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:50418 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726553AbfF1GUT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 02:20:19 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c66so7847835wmf.0;
+        Thu, 27 Jun 2019 23:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AuUMir4cdKZVUvRsNPY5rqLX7yjSzNVBKmDh7MZE8Aw=;
-        b=keggkYAhhPb2VqnK46kdGtYH1YIPGbhBI+giOQ9eyyYin3as2alRkXETot2V6U4m0z
-         /WMg9KBXwxISBlLr9X/4Avs8FgMVS0yD6JuAcGV5yRfpgXeaIAw61hpFjAJvcX6gVgWE
-         xr6oesc1E0AYyq6dU1mliftNFnC/g+YDoIgZePY/AsyqvFsnfRA0Yzjt4c7iUaGsMeoU
-         vT2zvRguZ7PdJ6cd1gEgihGmYFyK1lLM2s26/ATAOJOcoyWd4VIwngv5tvgQfM/NqEAI
-         jRisET2BYf9Lzz5Hu913tdEONve5lnTCqBlGDvD/cOA2wdzJxcPIK87ZyblQ2yFSP/rs
-         CPNg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vndYnR6xSudskHsKtFXR3NkfD1HHznEE91yHBNI6oSI=;
+        b=fH6D2zDDmoxCD4ujb17jwE7KgMB6Dv77jbnKV0bk3ddIGyhmpQu9aoffjm9LDKQo28
+         L/rKlAv8Hmd2ZCds9+vJK4SVFvp3Wkf67CyPb4i9ALwJ5Np9KaS/JnmF18oVkA3mloPt
+         v+CGshR4rW3VHKg9WQFoNqaCsxyLvyHif6cbJPY7rJciSadSpGTWYxsSlxn//D6spu+L
+         wprXzXEgH4dQTnJ7QPZ45wYWu2vZBnboScZzJCLVPYtsh9K2T4aTyX3/32l6ylZNFLA6
+         HFk/EiAJdOBYOfDct+gFM4Inwx+bBF/o5YYhItYJn9WOYA+gutxdoUyU33rsadKNh0th
+         2iuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AuUMir4cdKZVUvRsNPY5rqLX7yjSzNVBKmDh7MZE8Aw=;
-        b=ikQBDzb1zCev4hpkufmFUiHabHsQ185FhsemhkZVJjoF16m4HxrCLpctOI4dm/KdhQ
-         VsXoNWhyfTn1eoOQDrgtqIRI3nZtm8q2hhJ/tYtC/pwgqXhyINQ3KxzvfaDX6YuowOwV
-         2INNuurPHbALCp6QGV3Fh1IVZhXBQKhXIU0uvHKPMmpJ/ljYEhv1yj5HY8TUvKUfj5Yy
-         wiVxCDI4p8Fn7RctzAU2SKVIEQRLRBFczk/CbCU5BEzYsxmwPedRthPygKlYcgBy3Kqs
-         TKLn5ecur2Mjfq9ZCfeDzzahjykFCsZxhj55/HfjmcmX22tG/bM6sgWOeIiijv6+BEQm
-         cAtA==
-X-Gm-Message-State: APjAAAVSTKfcui0KQeCv+G2xUjPeHXgnXveIhnvvSX4hJHvsUTTAAMuV
-        dUYpT0ZAmcHVso/8vK4+27Q=
-X-Google-Smtp-Source: APXvYqwBXpMyMdyhifUzDpY5+dF5LudZPYAoIX+6joiQefSZvLGZjHiX+/1iVan1TJh3esuDztfy7A==
-X-Received: by 2002:a5d:6b90:: with SMTP id n16mr6509916wrx.206.1561702022249;
-        Thu, 27 Jun 2019 23:07:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vndYnR6xSudskHsKtFXR3NkfD1HHznEE91yHBNI6oSI=;
+        b=SXWjF+Z4X+NYxJPyIl8n59d8MCYkKj8hG8Wt1f0cZY7IwUPgO7HeMCITctgpuK/hn6
+         Se+wWxTyvZEgwtyS+rGcTktoU/+CgJdda9pnu82deZExeBSz+DF/j+Oe3r1aWCKtXxbx
+         VTWod4HlGLP2ry5cbq4vtgEgfn0C1cv7V/z/56BmjYMDGdZDm6ORVUEQGNmaUjGzaRnA
+         HTs48bgvRykkG8HMRy6LXf1zwq7oHtbnkBjRtrR8rvirj5RYAf4akLWoTjBbUQCiIAK/
+         k1D/NPdSsGlr5OHmR9dXQRkiBuSfurI9ReK8YWf274OrE4A0g0r5oxfCwJ37J18RRbUR
+         5rpw==
+X-Gm-Message-State: APjAAAVU96EO/8adELYnxOIskZGOYWvT4aCysX18gFK1fmXFOgJ0zqCK
+        rqa64cAjtzMD62ubPLLyMG3/EgIwepk=
+X-Google-Smtp-Source: APXvYqySVPatnGa5TPofKT5fcIprLSQtjjZkKTn2zp4I1qcQ/IuSirpgWIkj02+Q4KI8rx8n0otYpA==
+X-Received: by 2002:a1c:67c3:: with SMTP id b186mr5510226wmc.34.1561702817418;
+        Thu, 27 Jun 2019 23:20:17 -0700 (PDT)
 Received: from localhost.localdomain ([41.220.75.172])
-        by smtp.gmail.com with ESMTPSA id 5sm2144551wrc.76.2019.06.27.23.07.00
+        by smtp.gmail.com with ESMTPSA id v18sm1130995wrs.80.2019.06.27.23.20.15
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 27 Jun 2019 23:07:01 -0700 (PDT)
+        Thu, 27 Jun 2019 23:20:16 -0700 (PDT)
 From:   Sheriff Esseson <sheriffesseson@gmail.com>
 To:     skhan@linuxfoundation.org
 Cc:     linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
         Sheriff Esseson <sheriffesseson@gmail.com>
-Subject: [linux-kernel-mentees] [PATCH] Doc : doc-guide : Fix a typo
-Date:   Fri, 28 Jun 2019 07:06:48 +0100
-Message-Id: <20190628060648.25151-1-sheriffesseson@gmail.com>
+Subject: [linux-kernel-mentees] [PATCH v2] Doc : doc-guide : Fix a typo
+Date:   Fri, 28 Jun 2019 07:20:01 +0100
+Message-Id: <20190628062001.26085-1-sheriffesseson@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190628060648.25151-1-sheriffesseson@gmail.com>
+References: <20190628060648.25151-1-sheriffesseson@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -69,6 +71,10 @@ fix the disjunction by replacing "of" with "or".
 
 Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
 ---
+
+changes in v2:
+- cc-ed Corbet.
+
  Documentation/doc-guide/kernel-doc.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
