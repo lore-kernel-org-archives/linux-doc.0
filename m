@@ -3,50 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D6FD7D926
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:23:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A63307D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 21:23:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbfF1VXo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 17:23:44 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50776 "EHLO
+        id S1726643AbfF1VXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 17:23:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50758 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbfF1VXY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:23:24 -0400
+        with ESMTP id S1725783AbfF1VXW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 17:23:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zqctRROUdvt6T9Ch5lO+6tWv2IaafLTrqdrauzV10TM=; b=jpWNTu7+SZmxng8HGL4YL+KPmW
-        hotqIWlh2WS7L6A09QUduK8xSpKGDFoOV87Cq4k3zKMNjJJBTFfGzt1nVrzB5lKpY7r0llj9PLiLo
-        omcPH05yFPRDBelZgHDe26FzNVtLhtYR6rFYuWfnCh6UUGX9O6wpM/hMJvcmtvuRH2aVZHboB4AY+
-        HG34vfrsiHwDRWZ8cQdiKK3B18P3wrmZdP3/t9+mWD9FKuLZsZw/3798l2abyQiZaAkjn8tulkG5e
-        +5WTJbiYTLM3frTa58XijAb/qOprJb69wJpeNZZA3fNkai5kGpT9pRg2v5Mj7opLgUySrkK2YBWU8
-        K5C/pgsQ==;
+        bh=WHzqYSIng/mfw8XPhdz07pQx2JM3W2cTZe6vV3CEVAE=; b=Bpj+0HbWoChh0YinPPocaTNDfS
+        MFY/9Ocpi06Qrta5Brnub8SEY9Q81o4hUVe5flxqoaFaXPbxwpLqiZj2ALsVQ6/Jvl5KJtrL7TugM
+        V/ARg0wABldjQLN8izKU1pYSN56QBSQU/m7FLj73isavFPuuMoppZXU6J5qBl7wSBW7JQBnLJabs8
+        9GGcDXa8t8MfdUFDsKgWP9eEUvsyLaIAUYRF3PuoEr0i/dfFEa+9sMgQ5HiLiBj2xVNC9Eh4pWEon
+        7BtdifUXyeNquzxJgYiU7wkWer2glvKOb1cW+m1zn7no0P59FtoZxeKVbTTDbQHx+y1jc/hteMItT
+        TkxyenUw==;
 Received: from [187.113.3.250] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgyL2-0001VE-Kq; Fri, 28 Jun 2019 21:23:21 +0000
+        id 1hgyL2-0001VF-Js; Fri, 28 Jun 2019 21:23:21 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgyKz-0002dq-UE; Fri, 28 Jun 2019 18:23:17 -0300
+        id 1hgyL0-0002dy-05; Fri, 28 Jun 2019 18:23:18 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Eric Piel <eric.piel@tremplin-utc.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/5] docs: misc-devices: convert files without extension to ReST
-Date:   Fri, 28 Jun 2019 18:23:13 -0300
-Message-Id: <b7dc829809673bd8cffe0e7bbe9c9308681c6fe2.1561756511.git.mchehab+samsung@kernel.org>
+        Evgeniy Polyakov <zbr@ioremap.net>
+Subject: [PATCH 4/5] docs: w1: convert to ReST and add to the kAPI group of docs
+Date:   Fri, 28 Jun 2019 18:23:15 -0300
+Message-Id: <e7de84fce8f6ea6e0a18df7b6bf50ca507a0408e.1561756511.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561756511.git.mchehab+samsung@kernel.org>
 References: <cover.1561756511.git.mchehab+samsung@kernel.org>
@@ -57,465 +51,1021 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those files are also text files. Convert them to ReST and add
-to the misc-files index.rst.
+The 1wire documentation was written with w1 developers in
+mind, so, it makes sense to add it together with the driver-api
+set.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../misc-devices/{eeprom => eeprom.rst}       | 43 +++++++++------
- .../{ics932s401 => ics932s401.rst}            |  7 ++-
- Documentation/misc-devices/index.rst          |  5 ++
- .../misc-devices/{isl29003 => isl29003.rst}   | 15 +++++-
- .../misc-devices/{lis3lv02d => lis3lv02d.rst} | 20 ++++---
- .../misc-devices/{max6875 => max6875.rst}     | 52 ++++++++++++++-----
- MAINTAINERS                                   |  4 +-
- drivers/misc/isl29003.c                       |  2 +-
- drivers/platform/x86/Kconfig                  |  2 +-
- 9 files changed, 108 insertions(+), 42 deletions(-)
- rename Documentation/misc-devices/{eeprom => eeprom.rst} (76%)
- rename Documentation/misc-devices/{ics932s401 => ics932s401.rst} (94%)
- rename Documentation/misc-devices/{isl29003 => isl29003.rst} (77%)
- rename Documentation/misc-devices/{lis3lv02d => lis3lv02d.rst} (90%)
- rename Documentation/misc-devices/{max6875 => max6875.rst} (83%)
+ Documentation/ABI/stable/sysfs-bus-w1         |  2 +-
+ .../ABI/stable/sysfs-driver-w1_ds28e04        |  4 +-
+ .../ABI/stable/sysfs-driver-w1_ds28ea00       |  2 +-
+ Documentation/index.rst                       |  1 +
+ Documentation/w1/index.rst                    | 22 +++++
+ .../w1/masters/{ds2482 => ds2482.rst}         | 17 +++-
+ .../w1/masters/{ds2490 => ds2490.rst}         |  6 +-
+ Documentation/w1/masters/index.rst            | 14 +++
+ Documentation/w1/masters/mxc-w1               | 12 ---
+ Documentation/w1/masters/mxc-w1.rst           | 17 ++++
+ .../w1/masters/{omap-hdq => omap-hdq.rst}     | 12 +--
+ .../w1/masters/{w1-gpio => w1-gpio.rst}       | 21 +++--
+ Documentation/w1/slaves/index.rst             | 16 ++++
+ .../w1/slaves/{w1_ds2406 => w1_ds2406.rst}    |  2 +
+ .../w1/slaves/{w1_ds2413 => w1_ds2413.rst}    |  9 ++
+ Documentation/w1/slaves/w1_ds2423             | 47 ----------
+ Documentation/w1/slaves/w1_ds2423.rst         | 54 ++++++++++++
+ .../w1/slaves/{w1_ds2438 => w1_ds2438.rst}    | 10 ++-
+ .../w1/slaves/{w1_ds28e04 => w1_ds28e04.rst}  |  5 ++
+ .../w1/slaves/{w1_ds28e17 => w1_ds28e17.rst}  | 15 ++--
+ .../w1/slaves/{w1_therm => w1_therm.rst}      | 11 ++-
+ .../w1/{w1.generic => w1-generic.rst}         | 88 +++++++++++--------
+ .../w1/{w1.netlink => w1-netlink.rst}         | 83 +++++++++--------
+ 23 files changed, 306 insertions(+), 164 deletions(-)
+ create mode 100644 Documentation/w1/index.rst
+ rename Documentation/w1/masters/{ds2482 => ds2482.rst} (71%)
+ rename Documentation/w1/masters/{ds2490 => ds2490.rst} (98%)
+ create mode 100644 Documentation/w1/masters/index.rst
+ delete mode 100644 Documentation/w1/masters/mxc-w1
+ create mode 100644 Documentation/w1/masters/mxc-w1.rst
+ rename Documentation/w1/masters/{omap-hdq => omap-hdq.rst} (90%)
+ rename Documentation/w1/masters/{w1-gpio => w1-gpio.rst} (75%)
+ create mode 100644 Documentation/w1/slaves/index.rst
+ rename Documentation/w1/slaves/{w1_ds2406 => w1_ds2406.rst} (97%)
+ rename Documentation/w1/slaves/{w1_ds2413 => w1_ds2413.rst} (81%)
+ delete mode 100644 Documentation/w1/slaves/w1_ds2423
+ create mode 100644 Documentation/w1/slaves/w1_ds2423.rst
+ rename Documentation/w1/slaves/{w1_ds2438 => w1_ds2438.rst} (93%)
+ rename Documentation/w1/slaves/{w1_ds28e04 => w1_ds28e04.rst} (93%)
+ rename Documentation/w1/slaves/{w1_ds28e17 => w1_ds28e17.rst} (88%)
+ rename Documentation/w1/slaves/{w1_therm => w1_therm.rst} (95%)
+ rename Documentation/w1/{w1.generic => w1-generic.rst} (59%)
+ rename Documentation/w1/{w1.netlink => w1-netlink.rst} (79%)
 
-diff --git a/Documentation/misc-devices/eeprom b/Documentation/misc-devices/eeprom.rst
-similarity index 76%
-rename from Documentation/misc-devices/eeprom
-rename to Documentation/misc-devices/eeprom.rst
-index ba692011f221..008249675ccc 100644
---- a/Documentation/misc-devices/eeprom
-+++ b/Documentation/misc-devices/eeprom.rst
-@@ -1,11 +1,17 @@
+diff --git a/Documentation/ABI/stable/sysfs-bus-w1 b/Documentation/ABI/stable/sysfs-bus-w1
+index 140d85b4ae92..992dfb183ed0 100644
+--- a/Documentation/ABI/stable/sysfs-bus-w1
++++ b/Documentation/ABI/stable/sysfs-bus-w1
+@@ -6,6 +6,6 @@ Description:	Bus scanning interval, microseconds component.
+ 		control systems are attached/generate presence for as short as
+ 		100 ms - hence the tens-to-hundreds milliseconds scan intervals
+ 		are required.
+-		see Documentation/w1/w1.generic for detailed information.
++		see Documentation/w1/w1-generic.rst for detailed information.
+ Users:		any user space application which wants to know bus scanning
+ 		interval
+diff --git a/Documentation/ABI/stable/sysfs-driver-w1_ds28e04 b/Documentation/ABI/stable/sysfs-driver-w1_ds28e04
+index 26579ee868c9..3e1c1fa8d54d 100644
+--- a/Documentation/ABI/stable/sysfs-driver-w1_ds28e04
++++ b/Documentation/ABI/stable/sysfs-driver-w1_ds28e04
+@@ -2,7 +2,7 @@ What:		/sys/bus/w1/devices/.../pio
+ Date:		May 2012
+ Contact:	Markus Franke <franm@hrz.tu-chemnitz.de>
+ Description:	read/write the contents of the two PIO's of the DS28E04-100
+-		see Documentation/w1/slaves/w1_ds28e04 for detailed information
++		see Documentation/w1/slaves/w1_ds28e04.rst for detailed information
+ Users:		any user space application which wants to communicate with DS28E04-100
+ 
+ 
+@@ -11,5 +11,5 @@ What:		/sys/bus/w1/devices/.../eeprom
+ Date:		May 2012
+ Contact:	Markus Franke <franm@hrz.tu-chemnitz.de>
+ Description:	read/write the contents of the EEPROM memory of the DS28E04-100
+-		see Documentation/w1/slaves/w1_ds28e04 for detailed information
++		see Documentation/w1/slaves/w1_ds28e04.rst for detailed information
+ Users:		any user space application which wants to communicate with DS28E04-100
+diff --git a/Documentation/ABI/stable/sysfs-driver-w1_ds28ea00 b/Documentation/ABI/stable/sysfs-driver-w1_ds28ea00
+index e928def14f28..534e63731a49 100644
+--- a/Documentation/ABI/stable/sysfs-driver-w1_ds28ea00
++++ b/Documentation/ABI/stable/sysfs-driver-w1_ds28ea00
+@@ -2,5 +2,5 @@ What:		/sys/bus/w1/devices/.../w1_seq
+ Date:		Apr 2015
+ Contact:	Matt Campbell <mattrcampbell@gmail.com>
+ Description:	Support for the DS28EA00 chain sequence function
+-		see Documentation/w1/slaves/w1_therm for detailed information
++		see Documentation/w1/slaves/w1_therm.rst for detailed information
+ Users:		any user space application which wants to communicate with DS28EA00
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index ded1081e8d5f..38ece18f5d1e 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -115,6 +115,7 @@ needed).
+    power/index
+    target/index
+    timers/index
++   w1/index
+    watchdog/index
+    input/index
+    hwmon/index
+diff --git a/Documentation/w1/index.rst b/Documentation/w1/index.rst
+new file mode 100644
+index 000000000000..4ca0698357c4
+--- /dev/null
++++ b/Documentation/w1/index.rst
+@@ -0,0 +1,22 @@
++. SPDX-License-Identifier: GPL-2.0
++
++================
++1-Wire Subsystem
++================
++
++.. toctree::
++   :maxdepth: 1
++
++
++   w1-generic.rst
++   w1-netlink.rst
++   masters/index
++   slaves/index
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
++
+diff --git a/Documentation/w1/masters/ds2482 b/Documentation/w1/masters/ds2482.rst
+similarity index 71%
+rename from Documentation/w1/masters/ds2482
+rename to Documentation/w1/masters/ds2482.rst
+index 56f8edace6ac..7f1558d39310 100644
+--- a/Documentation/w1/masters/ds2482
++++ b/Documentation/w1/masters/ds2482.rst
+@@ -1,13 +1,19 @@
 +====================
- Kernel driver eeprom
+ Kernel driver ds2482
  ====================
  
  Supported chips:
 +
-   * Any EEPROM chip in the designated address range
+   * Maxim DS2482-100, Maxim DS2482-800
 +
-     Prefix: 'eeprom'
+     Prefix: 'ds2482'
 +
-     Addresses scanned: I2C 0x50 - 0x57
+     Addresses scanned: None
 +
-     Datasheets: Publicly available from:
+     Datasheets:
+-        http://datasheets.maxim-ic.com/en/ds/DS2482-100.pdf
+-        http://datasheets.maxim-ic.com/en/ds/DS2482-800.pdf
 +
-                 Atmel (www.atmel.com),
-                 Catalyst (www.catsemi.com),
-                 Fairchild (www.fairchildsemi.com),
-@@ -16,7 +22,9 @@ Supported chips:
-                 Xicor (www.xicor.com),
-                 and others.
- 
--        Chip     Size (bits)    Address
-+        ========= ============= ============================================
-+        Chip      Size (bits)   Address
-+        ========= ============= ============================================
-         24C01     1K            0x50 (shadows at 0x51 - 0x57)
-         24C01A    1K            0x50 - 0x57 (Typical device on DIMMs)
-         24C02     2K            0x50 - 0x57
-@@ -24,7 +32,7 @@ Supported chips:
-                                 (additional data at 0x51, 0x53, 0x55, 0x57)
-         24C08     8K            0x50, 0x54 (additional data at 0x51, 0x52,
-                                 0x53, 0x55, 0x56, 0x57)
--        24C16    16K            0x50 (additional data at 0x51 - 0x57)
-+        24C16     16K           0x50 (additional data at 0x51 - 0x57)
-         Sony      2K            0x57
- 
-         Atmel     34C02B  2K    0x50 - 0x57, SW write protect at 0x30-37
-@@ -33,14 +41,15 @@ Supported chips:
-         Fairchild 34W02   2K    0x50 - 0x57, SW write protect at 0x30-37
-         Microchip 24AA52  2K    0x50 - 0x57, SW write protect at 0x30-37
-         ST        M34C02  2K    0x50 - 0x57, SW write protect at 0x30-37
-+        ========= ============= ============================================
- 
- 
- Authors:
--        Frodo Looijaard <frodol@dds.nl>,
--        Philip Edelbrock <phil@netroedge.com>,
--        Jean Delvare <jdelvare@suse.de>,
--        Greg Kroah-Hartman <greg@kroah.com>,
--        IBM Corp.
-+        - Frodo Looijaard <frodol@dds.nl>,
-+        - Philip Edelbrock <phil@netroedge.com>,
-+        - Jean Delvare <jdelvare@suse.de>,
-+        - Greg Kroah-Hartman <greg@kroah.com>,
-+        - IBM Corp.
- 
- Description
- -----------
-@@ -74,23 +83,25 @@ this address will write protect the memory array permanently, and the
- device will no longer respond at the 0x30-37 address. The eeprom driver
- does not support this register.
- 
--Lacking functionality:
-+Lacking functionality
-+---------------------
- 
- * Full support for larger devices (24C04, 24C08, 24C16). These are not
--typically found on a PC. These devices will appear as separate devices at
--multiple addresses.
-+  typically found on a PC. These devices will appear as separate devices at
-+  multiple addresses.
- 
- * Support for really large devices (24C32, 24C64, 24C128, 24C256, 24C512).
--These devices require two-byte address fields and are not supported.
-+  These devices require two-byte address fields and are not supported.
- 
- * Enable Writing. Again, no technical reason why not, but making it easy
--to change the contents of the EEPROMs (on DIMMs anyway) also makes it easy
--to disable the DIMMs (potentially preventing the computer from booting)
--until the values are restored somehow.
-+  to change the contents of the EEPROMs (on DIMMs anyway) also makes it easy
-+  to disable the DIMMs (potentially preventing the computer from booting)
-+  until the values are restored somehow.
- 
--Use:
-+Use
-+---
- 
- After inserting the module (and any other required SMBus/i2c modules), you
--should have some EEPROM directories in /sys/bus/i2c/devices/* of names such
-+should have some EEPROM directories in ``/sys/bus/i2c/devices/*`` of names such
- as "0-0050". Inside each of these is a series of files, the eeprom file
- contains the binary data from EEPROM.
-diff --git a/Documentation/misc-devices/ics932s401 b/Documentation/misc-devices/ics932s401.rst
-similarity index 94%
-rename from Documentation/misc-devices/ics932s401
-rename to Documentation/misc-devices/ics932s401.rst
-index bdac67ff6e3f..613ee54a9c21 100644
---- a/Documentation/misc-devices/ics932s401
-+++ b/Documentation/misc-devices/ics932s401.rst
-@@ -1,10 +1,15 @@
-+========================
- Kernel driver ics932s401
--======================
-+========================
- 
- Supported chips:
-+
-   * IDT ICS932S401
-+
-     Prefix: 'ics932s401'
-+
-     Addresses scanned: I2C 0x69
-+
-     Datasheet: Publicly available at the IDT website
- 
- Author: Darrick J. Wong
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index dfd1f45a3127..a57f92dfe49a 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -14,4 +14,9 @@ fit into other categories.
- .. toctree::
-    :maxdepth: 2
- 
-+   eeprom
-    ibmvmc
-+   ics932s401
-+   isl29003
-+   lis3lv02d
-+   max6875
-diff --git a/Documentation/misc-devices/isl29003 b/Documentation/misc-devices/isl29003.rst
-similarity index 77%
-rename from Documentation/misc-devices/isl29003
-rename to Documentation/misc-devices/isl29003.rst
-index 80b952fd32ff..0cc38aed6c00 100644
---- a/Documentation/misc-devices/isl29003
-+++ b/Documentation/misc-devices/isl29003.rst
-@@ -1,10 +1,15 @@
-+======================
- Kernel driver isl29003
--=====================
-+======================
- 
- Supported chips:
-+
- * Intersil ISL29003
-+
- Prefix: 'isl29003'
-+
- Addresses scanned: none
-+
- Datasheet:
- http://www.intersil.com/data/fn/fn7464.pdf
- 
-@@ -37,25 +42,33 @@ Sysfs entries
- -------------
- 
- range:
-+        == ===========================
- 	0: 0 lux to 1000 lux (default)
- 	1: 0 lux to 4000 lux
- 	2: 0 lux to 16,000 lux
- 	3: 0 lux to 64,000 lux
-+        == ===========================
- 
- resolution:
-+        == =====================
- 	0: 2^16 cycles (default)
- 	1: 2^12 cycles
- 	2: 2^8 cycles
- 	3: 2^4 cycles
-+        == =====================
- 
- mode:
-+        == =================================================
- 	0: diode1's current (unsigned 16bit) (default)
- 	1: diode1's current (unsigned 16bit)
- 	2: difference between diodes (l1 - l2, signed 15bit)
-+        == =================================================
- 
- power_state:
-+        == =================================================
- 	0: device is disabled (default)
- 	1: device is enabled
-+        == =================================================
- 
- lux (read only):
- 	returns the value from the last sensor reading
-diff --git a/Documentation/misc-devices/lis3lv02d b/Documentation/misc-devices/lis3lv02d.rst
-similarity index 90%
-rename from Documentation/misc-devices/lis3lv02d
-rename to Documentation/misc-devices/lis3lv02d.rst
-index f89960a0ff95..959bd2b822cf 100644
---- a/Documentation/misc-devices/lis3lv02d
-+++ b/Documentation/misc-devices/lis3lv02d.rst
-@@ -1,3 +1,4 @@
-+=======================
- Kernel driver lis3lv02d
- =======================
- 
-@@ -8,8 +9,8 @@ Supported chips:
-     LIS331DLH (16 bits)
- 
- Authors:
--        Yan Burman <burman.yan@gmail.com>
--	Eric Piel <eric.piel@tremplin-utc.net>
-+        - Yan Burman <burman.yan@gmail.com>
-+	- Eric Piel <eric.piel@tremplin-utc.net>
- 
- 
- Description
-@@ -25,11 +26,15 @@ neverball). The accelerometer data is readable via
- to mg values (1/1000th of earth gravity).
- 
- Sysfs attributes under /sys/devices/platform/lis3lv02d/:
--position - 3D position that the accelerometer reports. Format: "(x,y,z)"
--rate - read reports the sampling rate of the accelerometer device in HZ.
-+
-+position
-+      - 3D position that the accelerometer reports. Format: "(x,y,z)"
-+rate
-+      - read reports the sampling rate of the accelerometer device in HZ.
- 	write changes sampling rate of the accelerometer device.
- 	Only values which are supported by HW are accepted.
--selftest - performs selftest for the chip as specified by chip manufacturer.
-+selftest
-+      - performs selftest for the chip as specified by chip manufacturer.
- 
- This driver also provides an absolute input class device, allowing
- the laptop to act as a pinball machine-esque joystick. Joystick device can be
-@@ -69,11 +74,12 @@ Axes orientation
- For better compatibility between the various laptops. The values reported by
- the accelerometer are converted into a "standard" organisation of the axes
- (aka "can play neverball out of the box"):
-+
-  * When the laptop is horizontal the position reported is about 0 for X and Y
--	and a positive value for Z
-+   and a positive value for Z
-  * If the left side is elevated, X increases (becomes positive)
-  * If the front side (where the touchpad is) is elevated, Y decreases
--	(becomes negative)
-+   (becomes negative)
-  * If the laptop is put upside-down, Z becomes negative
- 
- If your laptop model is not recognized (cf "dmesg"), you can send an
-diff --git a/Documentation/misc-devices/max6875 b/Documentation/misc-devices/max6875.rst
-similarity index 83%
-rename from Documentation/misc-devices/max6875
-rename to Documentation/misc-devices/max6875.rst
-index 2f2bd0b17b5d..ad419ac22a5b 100644
---- a/Documentation/misc-devices/max6875
-+++ b/Documentation/misc-devices/max6875.rst
-@@ -1,12 +1,16 @@
-+=====================
- Kernel driver max6875
- =====================
- 
- Supported chips:
-+
-   * Maxim MAX6874, MAX6875
-+
-     Prefix: 'max6875'
-+
-     Addresses scanned: None (see below)
--    Datasheet:
--        http://pdfserv.maxim-ic.com/en/ds/MAX6874-MAX6875.pdf
-+
-+    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6874-MAX6875.pdf
++        - http://datasheets.maxim-ic.com/en/ds/DS2482-100.pdf
++        - http://datasheets.maxim-ic.com/en/ds/DS2482-800.pdf
  
  Author: Ben Gardner <bgardner@wabtec.com>
  
-@@ -24,9 +28,13 @@ registers.
- 
- The Maxim MAX6874 is a similar, mostly compatible device, with more inputs
- and outputs:
--             vin     gpi    vout
-+
-+===========  ===     ===    ====
-+-            vin     gpi    vout
-+===========  ===     ===    ====
- MAX6874        6       4       8
- MAX6875        4       3       5
-+===========  ===     ===    ====
- 
- See the datasheet for more information.
- 
-@@ -41,13 +49,16 @@ General Remarks
+@@ -23,9 +29,12 @@ General Remarks
  ---------------
  
- Valid addresses for the MAX6875 are 0x50 and 0x52.
+ Valid addresses are 0x18, 0x19, 0x1a, and 0x1b.
 +
- Valid addresses for the MAX6874 are 0x50, 0x52, 0x54 and 0x56.
+ However, the device cannot be detected without writing to the i2c bus, so no
+ detection is done. You should instantiate the device explicitly.
+ 
+-$ modprobe ds2482
+-$ echo ds2482 0x18 > /sys/bus/i2c/devices/i2c-0/new_device
++::
 +
- The driver does not probe any address, so you explicitly instantiate the
- devices.
++  $ modprobe ds2482
++  $ echo ds2482 0x18 > /sys/bus/i2c/devices/i2c-0/new_device
  
--Example:
--$ modprobe max6875
--$ echo max6875 0x50 > /sys/bus/i2c/devices/i2c-0/new_device
-+Example::
+diff --git a/Documentation/w1/masters/ds2490 b/Documentation/w1/masters/ds2490.rst
+similarity index 98%
+rename from Documentation/w1/masters/ds2490
+rename to Documentation/w1/masters/ds2490.rst
+index 3e091151dd80..7e5b50f9c0f5 100644
+--- a/Documentation/w1/masters/ds2490
++++ b/Documentation/w1/masters/ds2490.rst
+@@ -1,7 +1,9 @@
++====================
+ Kernel driver ds2490
+ ====================
+ 
+ Supported chips:
 +
-+  $ modprobe max6875
-+  $ echo max6875 0x50 > /sys/bus/i2c/devices/i2c-0/new_device
+   * Maxim DS2490 based
  
- The MAX6874/MAX6875 ignores address bit 0, so this driver attaches to multiple
- addresses.  For example, for address 0x50, it also reserves 0x51.
-@@ -58,52 +69,67 @@ Programming the chip using i2c-dev
- ----------------------------------
+ Author: Evgeniy Polyakov <johnpol@2ka.mipt.ru>
+@@ -18,6 +20,7 @@ which has 0x81 family ID integrated chip and DS2490
+ low-level operational chip.
  
- Use the i2c-dev interface to access and program the chips.
+ Notes and limitations.
 +
- Reads and writes are performed differently depending on the address range.
- 
- The configuration registers are at addresses 0x00 - 0x45.
+ - The weak pullup current is a minimum of 0.9mA and maximum of 6.0mA.
+ - The 5V strong pullup is supported with a minimum of 5.9mA and a
+   maximum of 30.4 mA.  (From DS2490.pdf)
+@@ -65,4 +68,5 @@ Notes and limitations.
+   reattaching would clear the problem.  usbmon output in the guest and
+   host did not explain the problem.  My guess is a bug in either qemu
+   or the host OS and more likely the host OS.
+--- 03-06-2008 David Fries <David@Fries.net>
 +
- Use i2c_smbus_write_byte_data() to write a register and
- i2c_smbus_read_byte_data() to read a register.
++03-06-2008 David Fries <David@Fries.net>
+diff --git a/Documentation/w1/masters/index.rst b/Documentation/w1/masters/index.rst
+new file mode 100644
+index 000000000000..4442a98850ad
+--- /dev/null
++++ b/Documentation/w1/masters/index.rst
+@@ -0,0 +1,14 @@
++. SPDX-License-Identifier: GPL-2.0
 +
- The command is the register number.
- 
- Examples:
--To write a 1 to register 0x45:
++=====================
++1-wire Master Drivers
++=====================
 +
-+To write a 1 to register 0x45::
++.. toctree::
++   :maxdepth: 1
 +
-   i2c_smbus_write_byte_data(fd, 0x45, 1);
- 
--To read register 0x45:
-+To read register 0x45::
++   ds2482
++   ds2490
++   mxc-w1
++   omap-hdq
++   w1-gpio
+diff --git a/Documentation/w1/masters/mxc-w1 b/Documentation/w1/masters/mxc-w1
+deleted file mode 100644
+index 38be1ad65532..000000000000
+--- a/Documentation/w1/masters/mxc-w1
++++ /dev/null
+@@ -1,12 +0,0 @@
+-Kernel driver mxc_w1
+-====================
+-
+-Supported chips:
+-  * Freescale MX27, MX31 and probably other i.MX SoCs
+-    Datasheets:
+-        http://www.freescale.com/files/32bit/doc/data_sheet/MCIMX31.pdf?fpsp=1
+-	http://cache.freescale.com/files/dsp/doc/archive/MCIMX27.pdf?fsrch=1&WT_TYPE=
+-	Data%20Sheets&WT_VENDOR=FREESCALE&WT_FILE_FORMAT=pdf&WT_ASSET=Documentation
+-
+-Author: Originally based on Freescale code, prepared for mainline by
+-	Sascha Hauer <s.hauer@pengutronix.de>
+diff --git a/Documentation/w1/masters/mxc-w1.rst b/Documentation/w1/masters/mxc-w1.rst
+new file mode 100644
+index 000000000000..334f9893103f
+--- /dev/null
++++ b/Documentation/w1/masters/mxc-w1.rst
+@@ -0,0 +1,17 @@
++====================
++Kernel driver mxc_w1
++====================
 +
-   value = i2c_smbus_read_byte_data(fd, 0x45);
- 
- 
- The configuration EEPROM is at addresses 0x8000 - 0x8045.
++Supported chips:
 +
- The user EEPROM is at addresses 0x8100 - 0x82ff.
- 
- Use i2c_smbus_write_word_data() to write a byte to EEPROM.
- 
- The command is the upper byte of the address: 0x80, 0x81, or 0x82.
--The data word is the lower part of the address or'd with data << 8.
-+The data word is the lower part of the address or'd with data << 8::
++  * Freescale MX27, MX31 and probably other i.MX SoCs
 +
-   cmd = address >> 8;
-   val = (address & 0xff) | (data << 8);
- 
- Example:
--To write 0x5a to address 0x8003:
++    Datasheets:
 +
-+To write 0x5a to address 0x8003::
++        - http://www.freescale.com/files/32bit/doc/data_sheet/MCIMX31.pdf?fpsp=1
++	- http://cache.freescale.com/files/dsp/doc/archive/MCIMX27.pdf?fsrch=1&WT_TYPE=Data%20Sheets&WT_VENDOR=FREESCALE&WT_FILE_FORMAT=pdf&WT_ASSET=Documentation
 +
-   i2c_smbus_write_word_data(fd, 0x80, 0x5a03);
- 
- 
- Reading data from the EEPROM is a little more complicated.
++Author:
 +
- Use i2c_smbus_write_byte_data() to set the read address and then
- i2c_smbus_read_byte() or i2c_smbus_read_i2c_block_data() to read the data.
++	Originally based on Freescale code, prepared for mainline by
++	Sascha Hauer <s.hauer@pengutronix.de>
+diff --git a/Documentation/w1/masters/omap-hdq b/Documentation/w1/masters/omap-hdq.rst
+similarity index 90%
+rename from Documentation/w1/masters/omap-hdq
+rename to Documentation/w1/masters/omap-hdq.rst
+index 234522709a5f..345298a59e50 100644
+--- a/Documentation/w1/masters/omap-hdq
++++ b/Documentation/w1/masters/omap-hdq.rst
+@@ -1,9 +1,10 @@
+-Kernel driver for omap HDQ/1-wire module.
++========================================
++Kernel driver for omap HDQ/1-wire module
+ ========================================
  
- Example:
--To read data starting at offset 0x8100, first set the address:
+ Supported chips:
+ ================
+-	HDQ/1-wire controller on the TI OMAP 2430/3430 platforms.
++HDQ/1-wire controller on the TI OMAP 2430/3430 platforms.
+ 
+ A useful link about HDQ basics:
+ ===============================
+@@ -40,9 +41,10 @@ driver(drivers/w1/slaves/w1_bq27000.c) sets the ID to 1.
+ Please note to load both the modules with a different ID if required, but note
+ that the ID used should be same for both master and slave driver loading.
+ 
+-e.g:
+-insmod omap_hdq.ko W1_ID=2
+-inamod w1_bq27000.ko F_ID=2
++e.g::
 +
-+To read data starting at offset 0x8100, first set the address::
++  insmod omap_hdq.ko W1_ID=2
++  inamod w1_bq27000.ko F_ID=2
+ 
+ The driver also supports 1-wire mode. In this mode, there is no need to
+ pass slave ID as parameter. The driver will auto-detect slaves connected
+diff --git a/Documentation/w1/masters/w1-gpio b/Documentation/w1/masters/w1-gpio.rst
+similarity index 75%
+rename from Documentation/w1/masters/w1-gpio
+rename to Documentation/w1/masters/w1-gpio.rst
+index 623961d9e83f..18fdb7366372 100644
+--- a/Documentation/w1/masters/w1-gpio
++++ b/Documentation/w1/masters/w1-gpio.rst
+@@ -1,3 +1,4 @@
++=====================
+ Kernel driver w1-gpio
+ =====================
+ 
+@@ -16,28 +17,30 @@ Documentation/devicetree/bindings/w1/w1-gpio.txt
+ Example (mach-at91)
+ -------------------
+ 
+-#include <linux/gpio/machine.h>
+-#include <linux/w1-gpio.h>
++::
+ 
+-static struct gpiod_lookup_table foo_w1_gpiod_table = {
++  #include <linux/gpio/machine.h>
++  #include <linux/w1-gpio.h>
 +
-   i2c_smbus_write_byte_data(fd, 0x81, 0x00);
++  static struct gpiod_lookup_table foo_w1_gpiod_table = {
+ 	.dev_id = "w1-gpio",
+ 	.table = {
+ 		GPIO_LOOKUP_IDX("at91-gpio", AT91_PIN_PB20, NULL, 0,
+ 			GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN),
+ 	},
+-};
++  };
  
--And then read the data
-+And then read the data::
+-static struct w1_gpio_platform_data foo_w1_gpio_pdata = {
++  static struct w1_gpio_platform_data foo_w1_gpio_pdata = {
+ 	.ext_pullup_enable_pin	= -EINVAL,
+-};
++  };
+ 
+-static struct platform_device foo_w1_device = {
++  static struct platform_device foo_w1_device = {
+ 	.name			= "w1-gpio",
+ 	.id			= -1,
+ 	.dev.platform_data	= &foo_w1_gpio_pdata,
+-};
++  };
+ 
+-...
++  ...
+ 	at91_set_GPIO_periph(foo_w1_gpio_pdata.pin, 1);
+ 	at91_set_multi_drive(foo_w1_gpio_pdata.pin, 1);
+ 	gpiod_add_lookup_table(&foo_w1_gpiod_table);
+diff --git a/Documentation/w1/slaves/index.rst b/Documentation/w1/slaves/index.rst
+new file mode 100644
+index 000000000000..d0697b202f09
+--- /dev/null
++++ b/Documentation/w1/slaves/index.rst
+@@ -0,0 +1,16 @@
++. SPDX-License-Identifier: GPL-2.0
 +
-   value = i2c_smbus_read_byte(fd);
- 
--  or
-+or::
- 
-   count = i2c_smbus_read_i2c_block_data(fd, 0x84, 16, buffer);
- 
- The block read should read 16 bytes.
++====================
++1-wire Slave Drivers
++====================
 +
- 0x84 is the block read command.
++.. toctree::
++   :maxdepth: 1
++
++   w1_ds2406
++   w1_ds2413
++   w1_ds2423
++   w1_ds2438
++   w1_ds28e04
++   w1_ds28e17
++   w1_therm
+diff --git a/Documentation/w1/slaves/w1_ds2406 b/Documentation/w1/slaves/w1_ds2406.rst
+similarity index 97%
+rename from Documentation/w1/slaves/w1_ds2406
+rename to Documentation/w1/slaves/w1_ds2406.rst
+index 8137fe6f6c3d..ec82f2614721 100644
+--- a/Documentation/w1/slaves/w1_ds2406
++++ b/Documentation/w1/slaves/w1_ds2406.rst
+@@ -1,7 +1,9 @@
++=======================
+ w1_ds2406 kernel driver
+ =======================
  
- See the datasheet for more details.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a49698b3becd..5d4da1035a03 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8956,7 +8956,7 @@ F:	include/linux/leds.h
- LEGACY EEPROM DRIVER
- M:	Jean Delvare <jdelvare@suse.com>
- S:	Maintained
--F:	Documentation/misc-devices/eeprom
-+F:	Documentation/misc-devices/eeprom.rst
- F:	drivers/misc/eeprom/eeprom.c
+ Supported chips:
++
+   * Maxim DS2406 (and other family 0x12) addressable switches
  
- LEGO MINDSTORMS EV3
-@@ -9242,7 +9242,7 @@ F:	Documentation/memory-barriers.txt
- LIS3LV02D ACCELEROMETER DRIVER
- M:	Eric Piel <eric.piel@tremplin-utc.net>
- S:	Maintained
--F:	Documentation/misc-devices/lis3lv02d
-+F:	Documentation/misc-devices/lis3lv02d.rst
- F:	drivers/misc/lis3lv02d/
- F:	drivers/platform/x86/hp_accel.c
+ Author: Scott Alfter <scott@alfter.us>
+diff --git a/Documentation/w1/slaves/w1_ds2413 b/Documentation/w1/slaves/w1_ds2413.rst
+similarity index 81%
+rename from Documentation/w1/slaves/w1_ds2413
+rename to Documentation/w1/slaves/w1_ds2413.rst
+index 936263a8ccb4..c15bb5b919b7 100644
+--- a/Documentation/w1/slaves/w1_ds2413
++++ b/Documentation/w1/slaves/w1_ds2413.rst
+@@ -1,11 +1,16 @@
++=======================
+ Kernel driver w1_ds2413
+ =======================
  
-diff --git a/drivers/misc/isl29003.c b/drivers/misc/isl29003.c
-index 5d0d0c3bad85..c12406f610d5 100644
---- a/drivers/misc/isl29003.c
-+++ b/drivers/misc/isl29003.c
-@@ -3,7 +3,7 @@
-  *  isl29003.c - Linux kernel module for
-  * 	Intersil ISL29003 ambient light sensor
-  *
-- *  See file:Documentation/misc-devices/isl29003
-+ *  See file:Documentation/misc-devices/isl29003.rst
-  *
-  *  Copyright (c) 2009 Daniel Mack <daniel@caiaq.de>
-  *
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index e09aa0087024..7fdfe107fe33 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -341,7 +341,7 @@ config HP_ACCEL
+ Supported chips:
++
+   * Maxim DS2413 1-Wire Dual Channel Addressable Switch
  
- 	  Support for a led indicating disk protection will be provided as
- 	  hp::hddprotect. For more information on the feature, refer to
--	  Documentation/misc-devices/lis3lv02d.
-+	  Documentation/misc-devices/lis3lv02d.rst.
+ supported family codes:
++
++        ================        ====
+         W1_FAMILY_DS2413        0x3A
++        ================        ====
  
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called hp_accel.
+ Author: Mariusz Bialonczyk <manio@skyboo.net>
+ 
+@@ -20,11 +25,13 @@ Reading state
+ The "state" file provides one-byte value which is in the same format as for
+ the chip PIO_ACCESS_READ command (refer the datasheet for details):
+ 
++======== =============================================================
+ Bit 0:   PIOA Pin State
+ Bit 1:   PIOA Output Latch State
+ Bit 2:   PIOB Pin State
+ Bit 3:   PIOB Output Latch State
+ Bit 4-7: Complement of Bit 3 to Bit 0 (verified by the kernel module)
++======== =============================================================
+ 
+ This file is readonly.
+ 
+@@ -34,9 +41,11 @@ You can set the PIO pins using the "output" file.
+ It is writable, you can write one-byte value to this sysfs file.
+ Similarly the byte format is the same as for the PIO_ACCESS_WRITE command:
+ 
++======== ======================================
+ Bit 0:   PIOA
+ Bit 1:   PIOB
+ Bit 2-7: No matter (driver will set it to "1"s)
++======== ======================================
+ 
+ 
+ The chip has some kind of basic protection against transmission errors.
+diff --git a/Documentation/w1/slaves/w1_ds2423 b/Documentation/w1/slaves/w1_ds2423
+deleted file mode 100644
+index 3f98b505a0ee..000000000000
+--- a/Documentation/w1/slaves/w1_ds2423
++++ /dev/null
+@@ -1,47 +0,0 @@
+-Kernel driver w1_ds2423
+-=======================
+-
+-Supported chips:
+-  * Maxim DS2423 based counter devices.
+-
+-supported family codes:
+-	W1_THERM_DS2423	0x1D
+-
+-Author: Mika Laitio <lamikr@pilppa.org>
+-
+-Description
+------------
+-
+-Support is provided through the sysfs w1_slave file. Each opening and
+-read sequence of w1_slave file initiates the read of counters and ram
+-available in DS2423 pages 12 - 15.
+-
+-Result of each page is provided as an ASCII output where each counter
+-value and associated ram buffer is outpputed to own line.
+-
+-Each lines will contain the values of 42 bytes read from the counter and
+-memory page along the crc=YES or NO for indicating whether the read operation
+-was successful and CRC matched.
+-If the operation was successful, there is also in the end of each line
+-a counter value expressed as an integer after c=
+-
+-Meaning of 42 bytes represented is following:
+- - 1 byte from ram page
+- - 4 bytes for the counter value
+- - 4 zero bytes
+- - 2 bytes for crc16 which was calculated from the data read since the previous crc bytes
+- - 31 remaining bytes from the ram page
+- - crc=YES/NO indicating whether read was ok and crc matched
+- - c=<int> current counter value
+-
+-example from the successful read:
+-00 02 00 00 00 00 00 00 00 6d 38 00 ff ff 00 00 fe ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
+-00 02 00 00 00 00 00 00 00 e0 1f 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
+-00 29 c6 5d 18 00 00 00 00 04 37 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=408798761
+-00 05 00 00 00 00 00 00 00 8d 39 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff crc=YES c=5
+-
+-example from the read with crc errors:
+-00 02 00 00 00 00 00 00 00 6d 38 00 ff ff 00 00 fe ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
+-00 02 00 00 22 00 00 00 00 e0 1f 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=NO
+-00 e1 61 5d 19 00 00 00 00 df 0b 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=NO
+-00 05 00 00 20 00 00 00 00 8d 39 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff crc=NO
+diff --git a/Documentation/w1/slaves/w1_ds2423.rst b/Documentation/w1/slaves/w1_ds2423.rst
+new file mode 100644
+index 000000000000..755d659ad997
+--- /dev/null
++++ b/Documentation/w1/slaves/w1_ds2423.rst
+@@ -0,0 +1,54 @@
++Kernel driver w1_ds2423
++=======================
++
++Supported chips:
++
++  * Maxim DS2423 based counter devices.
++
++supported family codes:
++
++        ===============	====
++	W1_THERM_DS2423	0x1D
++        ===============	====
++
++Author: Mika Laitio <lamikr@pilppa.org>
++
++Description
++-----------
++
++Support is provided through the sysfs w1_slave file. Each opening and
++read sequence of w1_slave file initiates the read of counters and ram
++available in DS2423 pages 12 - 15.
++
++Result of each page is provided as an ASCII output where each counter
++value and associated ram buffer is outpputed to own line.
++
++Each lines will contain the values of 42 bytes read from the counter and
++memory page along the crc=YES or NO for indicating whether the read operation
++was successful and CRC matched.
++If the operation was successful, there is also in the end of each line
++a counter value expressed as an integer after c=
++
++Meaning of 42 bytes represented is following:
++
++ - 1 byte from ram page
++ - 4 bytes for the counter value
++ - 4 zero bytes
++ - 2 bytes for crc16 which was calculated from the data read since the previous crc bytes
++ - 31 remaining bytes from the ram page
++ - crc=YES/NO indicating whether read was ok and crc matched
++ - c=<int> current counter value
++
++example from the successful read::
++
++  00 02 00 00 00 00 00 00 00 6d 38 00 ff ff 00 00 fe ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
++  00 02 00 00 00 00 00 00 00 e0 1f 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
++  00 29 c6 5d 18 00 00 00 00 04 37 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=408798761
++  00 05 00 00 00 00 00 00 00 8d 39 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff crc=YES c=5
++
++example from the read with crc errors::
++
++  00 02 00 00 00 00 00 00 00 6d 38 00 ff ff 00 00 fe ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=YES c=2
++  00 02 00 00 22 00 00 00 00 e0 1f 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=NO
++  00 e1 61 5d 19 00 00 00 00 df 0b 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff 00 00 ff ff crc=NO
++  00 05 00 00 20 00 00 00 00 8d 39 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff crc=NO
+diff --git a/Documentation/w1/slaves/w1_ds2438 b/Documentation/w1/slaves/w1_ds2438.rst
+similarity index 93%
+rename from Documentation/w1/slaves/w1_ds2438
+rename to Documentation/w1/slaves/w1_ds2438.rst
+index e64f65a09387..a29309a3f8e5 100644
+--- a/Documentation/w1/slaves/w1_ds2438
++++ b/Documentation/w1/slaves/w1_ds2438.rst
+@@ -2,10 +2,13 @@ Kernel driver w1_ds2438
+ =======================
+ 
+ Supported chips:
++
+   * Maxim DS2438 Smart Battery Monitor
+ 
+ supported family codes:
++        ================        ====
+         W1_FAMILY_DS2438        0x26
++        ================        ====
+ 
+ Author: Mariusz Bialonczyk <manio@skyboo.net>
+ 
+@@ -56,8 +59,11 @@ Opening and reading this file initiates the CONVERT_V (voltage conversion)
+ command of the chip.
+ 
+ Depending on a sysfs filename a different input for the A/D will be selected:
+-vad: general purpose A/D input (VAD)
+-vdd: battery input (VDD)
++
++vad:
++    general purpose A/D input (VAD)
++vdd:
++    battery input (VDD)
+ 
+ After the voltage conversion the value is returned as decimal ASCII.
+ Note: To get a volts the value has to be divided by 100.
+diff --git a/Documentation/w1/slaves/w1_ds28e04 b/Documentation/w1/slaves/w1_ds28e04.rst
+similarity index 93%
+rename from Documentation/w1/slaves/w1_ds28e04
+rename to Documentation/w1/slaves/w1_ds28e04.rst
+index 7819b65cfa48..b12b118890d3 100644
+--- a/Documentation/w1/slaves/w1_ds28e04
++++ b/Documentation/w1/slaves/w1_ds28e04.rst
+@@ -1,11 +1,16 @@
++========================
+ Kernel driver w1_ds28e04
+ ========================
+ 
+ Supported chips:
++
+   * Maxim DS28E04-100 4096-Bit Addressable 1-Wire EEPROM with PIO
+ 
+ supported family codes:
++
++        =================	====
+ 	W1_FAMILY_DS28E04	0x1C
++        =================	====
+ 
+ Author: Markus Franke, <franke.m@sebakmt.com> <franm@hrz.tu-chemnitz.de>
+ 
+diff --git a/Documentation/w1/slaves/w1_ds28e17 b/Documentation/w1/slaves/w1_ds28e17.rst
+similarity index 88%
+rename from Documentation/w1/slaves/w1_ds28e17
+rename to Documentation/w1/slaves/w1_ds28e17.rst
+index 7fcfad5b4a37..36fd0517ea30 100644
+--- a/Documentation/w1/slaves/w1_ds28e17
++++ b/Documentation/w1/slaves/w1_ds28e17.rst
+@@ -1,11 +1,16 @@
++========================
+ Kernel driver w1_ds28e17
+ ========================
+ 
+ Supported chips:
++
+   * Maxim DS28E17 1-Wire-to-I2C Master Bridge
+ 
+ supported family codes:
++
++        =================  ====
+ 	W1_FAMILY_DS28E17  0x19
++        =================  ====
+ 
+ Author: Jan Kandziora <jjj@gmx.de>
+ 
+@@ -20,11 +25,11 @@ a DS28E17 can be accessed by the kernel or userspace tools as if they were
+ connected to a "native" I2C bus master.
+ 
+ 
+-An udev rule like the following
+--------------------------------------------------------------------------------
+-SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{name}=="w1-19-*", \
+-        SYMLINK+="i2c-$attr{name}"
+--------------------------------------------------------------------------------
++An udev rule like the following::
++
++  SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{name}=="w1-19-*", \
++          SYMLINK+="i2c-$attr{name}"
++
+ may be used to create stable /dev/i2c- entries based on the unique id of the
+ DS28E17 chip.
+ 
+diff --git a/Documentation/w1/slaves/w1_therm b/Documentation/w1/slaves/w1_therm.rst
+similarity index 95%
+rename from Documentation/w1/slaves/w1_therm
+rename to Documentation/w1/slaves/w1_therm.rst
+index d1f93af36f38..90531c340a07 100644
+--- a/Documentation/w1/slaves/w1_therm
++++ b/Documentation/w1/slaves/w1_therm.rst
+@@ -1,7 +1,9 @@
++======================
+ Kernel driver w1_therm
+-====================
++======================
+ 
+ Supported chips:
++
+   * Maxim ds18*20 based temperature sensors.
+   * Maxim ds1825 based temperature sensors.
+ 
+@@ -13,12 +15,16 @@ Description
+ 
+ w1_therm provides basic temperature conversion for ds18*20 devices, and the
+ ds28ea00 device.
+-supported family codes:
++
++Supported family codes:
++
++====================	====
+ W1_THERM_DS18S20	0x10
+ W1_THERM_DS1822		0x22
+ W1_THERM_DS18B20	0x28
+ W1_THERM_DS1825		0x3B
+ W1_THERM_DS28EA00	0x42
++====================	====
+ 
+ Support is provided through the sysfs w1_slave file.  Each open and
+ read sequence will initiate a temperature conversion then provide two
+@@ -51,6 +57,7 @@ If so, it will activate the master's strong pullup.
+ In case the detection of parasite devices using this command fails
+ (seems to be the case with some DS18S20) the strong pullup can
+ be force-enabled.
++
+ If the strong pullup is enabled, the master's strong pullup will be
+ driven when the conversion is taking place, provided the master driver
+ does support the strong pullup (or it falls back to a pullup
+diff --git a/Documentation/w1/w1.generic b/Documentation/w1/w1-generic.rst
+similarity index 59%
+rename from Documentation/w1/w1.generic
+rename to Documentation/w1/w1-generic.rst
+index c51b1ab012d0..da4e8b4e9b01 100644
+--- a/Documentation/w1/w1.generic
++++ b/Documentation/w1/w1-generic.rst
+@@ -1,5 +1,7 @@
+-The 1-wire (w1) subsystem
+-------------------------------------------------------------------
++=========================================
++Introduction to the 1-wire (w1) subsystem
++=========================================
++
+ The 1-wire bus is a simple master-slave bus that communicates via a single
+ signal wire (plus ground, so two wires).
+ 
+@@ -12,14 +14,16 @@ communication with slaves.
+ All w1 slave devices must be connected to a w1 bus master device.
+ 
+ Example w1 master devices:
+-    DS9490 usb device
+-    W1-over-GPIO
+-    DS2482 (i2c to w1 bridge)
+-    Emulated devices, such as a RS232 converter, parallel port adapter, etc
++
++    - DS9490 usb device
++    - W1-over-GPIO
++    - DS2482 (i2c to w1 bridge)
++    - Emulated devices, such as a RS232 converter, parallel port adapter, etc
+ 
+ 
+ What does the w1 subsystem do?
+-------------------------------------------------------------------
++------------------------------
++
+ When a w1 master driver registers with the w1 subsystem, the following occurs:
+ 
+  - sysfs entries for that w1 master are created
+@@ -43,24 +47,28 @@ be read, since no device was selected.
+ 
+ 
+ W1 device families
+-------------------------------------------------------------------
++------------------
++
+ Slave devices are handled by a driver written for a family of w1 devices.
+ 
+ A family driver populates a struct w1_family_ops (see w1_family.h) and
+ registers with the w1 subsystem.
+ 
+ Current family drivers:
+-w1_therm - (ds18?20 thermal sensor family driver)
++
++w1_therm
++  - (ds18?20 thermal sensor family driver)
+     provides temperature reading function which is bound to ->rbin() method
+     of the above w1_family_ops structure.
+ 
+-w1_smem - driver for simple 64bit memory cell provides ID reading method.
++w1_smem
++  - driver for simple 64bit memory cell provides ID reading method.
+ 
+ You can call above methods by reading appropriate sysfs files.
+ 
+ 
+ What does a w1 master driver need to implement?
+-------------------------------------------------------------------
++-----------------------------------------------
+ 
+ The driver for w1 bus master must provide at minimum two functions.
+ 
+@@ -75,25 +83,26 @@ See struct w1_bus_master definition in w1.h for details.
+ 
+ 
+ w1 master sysfs interface
+-------------------------------------------------------------------
+-<xx-xxxxxxxxxxxx>  - A directory for a found device. The format is family-serial
+-bus                - (standard) symlink to the w1 bus
+-driver             - (standard) symlink to the w1 driver
+-w1_master_add      - (rw) manually register a slave device
+-w1_master_attempts - (ro) the number of times a search was attempted
+-w1_master_max_slave_count
+-                   - (rw) maximum number of slaves to search for at a time
+-w1_master_name     - (ro) the name of the device (w1_bus_masterX)
+-w1_master_pullup   - (rw) 5V strong pullup 0 enabled, 1 disabled
+-w1_master_remove   - (rw) manually remove a slave device
+-w1_master_search   - (rw) the number of searches left to do,
+-		     -1=continual (default)
+-w1_master_slave_count
+-                   - (ro) the number of slaves found
+-w1_master_slaves   - (ro) the names of the slaves, one per line
+-w1_master_timeout  - (ro) the delay in seconds between searches
+-w1_master_timeout_us
+-                   - (ro) the delay in microseconds beetwen searches
++-------------------------
++
++========================= =====================================================
++<xx-xxxxxxxxxxxx>         A directory for a found device. The format is
++                          family-serial
++bus                       (standard) symlink to the w1 bus
++driver                    (standard) symlink to the w1 driver
++w1_master_add             (rw) manually register a slave device
++w1_master_attempts        (ro) the number of times a search was attempted
++w1_master_max_slave_count (rw) maximum number of slaves to search for at a time
++w1_master_name            (ro) the name of the device (w1_bus_masterX)
++w1_master_pullup          (rw) 5V strong pullup 0 enabled, 1 disabled
++w1_master_remove          (rw) manually remove a slave device
++w1_master_search          (rw) the number of searches left to do,
++                          -1=continual (default)
++w1_master_slave_count     (ro) the number of slaves found
++w1_master_slaves          (ro) the names of the slaves, one per line
++w1_master_timeout         (ro) the delay in seconds between searches
++w1_master_timeout_us      (ro) the delay in microseconds beetwen searches
++========================= =====================================================
+ 
+ If you have a w1 bus that never changes (you don't add or remove devices),
+ you can set the module parameter search_count to a small positive number
+@@ -111,11 +120,14 @@ decrements w1_master_search by 1 (down to 0) and increments
+ w1_master_attempts by 1.
+ 
+ w1 slave sysfs interface
+-------------------------------------------------------------------
+-bus                - (standard) symlink to the w1 bus
+-driver             - (standard) symlink to the w1 driver
+-name               - the device name, usually the same as the directory name
+-w1_slave           - (optional) a binary file whose meaning depends on the
+-                     family driver
+-rw		   - (optional) created for slave devices which do not have
+-		     appropriate family driver. Allows to read/write binary data.
++------------------------
++
++=================== ============================================================
++bus                 (standard) symlink to the w1 bus
++driver              (standard) symlink to the w1 driver
++name                the device name, usually the same as the directory name
++w1_slave            (optional) a binary file whose meaning depends on the
++                    family driver
++rw		    (optional) created for slave devices which do not have
++		    appropriate family driver. Allows to read/write binary data.
++=================== ============================================================
+diff --git a/Documentation/w1/w1.netlink b/Documentation/w1/w1-netlink.rst
+similarity index 79%
+rename from Documentation/w1/w1.netlink
+rename to Documentation/w1/w1-netlink.rst
+index 94ad4c420828..138a53c2f950 100644
+--- a/Documentation/w1/w1.netlink
++++ b/Documentation/w1/w1-netlink.rst
+@@ -1,22 +1,26 @@
+-Userspace communication protocol over connector [1].
++===============================================
++Userspace communication protocol over connector
++===============================================
+ 
+-
+-Message types.
++Message types
+ =============
+ 
+ There are three types of messages between w1 core and userspace:
++
+ 1. Events. They are generated each time a new master or slave device
+-	is found either due to automatic or requested search.
++   is found either due to automatic or requested search.
+ 2. Userspace commands.
+ 3. Replies to userspace commands.
+ 
+ 
+-Protocol.
++Protocol
+ ========
+ 
+-[struct cn_msg] - connector header.
++::
++
++  [struct cn_msg] - connector header.
+ 	Its length field is equal to size of the attached data
+-[struct w1_netlink_msg] - w1 netlink header.
++  [struct w1_netlink_msg] - w1 netlink header.
+ 	__u8 type 	- message type.
+ 			W1_LIST_MASTERS
+ 				list current bus masters
+@@ -40,7 +44,7 @@ Protocol.
+ 		} mst;
+ 	} id;
+ 
+-[struct w1_netlink_cmd] - command for given master or slave device.
++  [struct w1_netlink_cmd] - command for given master or slave device.
+ 	__u8 cmd	- command opcode.
+ 			W1_CMD_READ 	- read command
+ 			W1_CMD_WRITE	- write command
+@@ -71,18 +75,18 @@ when it is added to w1 core.
+ Currently replies to userspace commands are only generated for read
+ command request. One reply is generated exactly for one w1_netlink_cmd
+ read request. Replies are not combined when sent - i.e. typical reply
+-messages looks like the following:
++messages looks like the following::
+ 
+-[cn_msg][w1_netlink_msg][w1_netlink_cmd]
+-cn_msg.len = sizeof(struct w1_netlink_msg) +
++  [cn_msg][w1_netlink_msg][w1_netlink_cmd]
++  cn_msg.len = sizeof(struct w1_netlink_msg) +
+ 	     sizeof(struct w1_netlink_cmd) +
+ 	     cmd->len;
+-w1_netlink_msg.len = sizeof(struct w1_netlink_cmd) + cmd->len;
+-w1_netlink_cmd.len = cmd->len;
++  w1_netlink_msg.len = sizeof(struct w1_netlink_cmd) + cmd->len;
++  w1_netlink_cmd.len = cmd->len;
+ 
+ Replies to W1_LIST_MASTERS should send a message back to the userspace
+ which will contain list of all registered master ids in the following
+-format:
++format::
+ 
+ 	cn_msg (CN_W1_IDX.CN_W1_VAL as id, len is equal to sizeof(struct
+ 	w1_netlink_msg) plus number of masters multiplied by 4)
+@@ -90,39 +94,47 @@ format:
+ 		number of masters multiplied by 4 (u32 size))
+ 	id0 ... idN
+ 
+-	Each message is at most 4k in size, so if number of master devices
+-	exceeds this, it will be split into several messages.
++Each message is at most 4k in size, so if number of master devices
++exceeds this, it will be split into several messages.
+ 
+ W1 search and alarm search commands.
+-request:
+-[cn_msg]
+-  [w1_netlink_msg type = W1_MASTER_CMD
++
++request::
++
++  [cn_msg]
++    [w1_netlink_msg type = W1_MASTER_CMD
+   	id is equal to the bus master id to use for searching]
+-  [w1_netlink_cmd cmd = W1_CMD_SEARCH or W1_CMD_ALARM_SEARCH]
++    [w1_netlink_cmd cmd = W1_CMD_SEARCH or W1_CMD_ALARM_SEARCH]
++
++reply::
+ 
+-reply:
+   [cn_msg, ack = 1 and increasing, 0 means the last message,
+   	seq is equal to the request seq]
+   [w1_netlink_msg type = W1_MASTER_CMD]
+   [w1_netlink_cmd cmd = W1_CMD_SEARCH or W1_CMD_ALARM_SEARCH
+ 	len is equal to number of IDs multiplied by 8]
+   [64bit-id0 ... 64bit-idN]
++
+ Length in each header corresponds to the size of the data behind it, so
+ w1_netlink_cmd->len = N * 8; where N is number of IDs in this message.
+-	Can be zero.
+-w1_netlink_msg->len = sizeof(struct w1_netlink_cmd) + N * 8;
+-cn_msg->len = sizeof(struct w1_netlink_msg) +
++Can be zero.
++
++::
++
++  w1_netlink_msg->len = sizeof(struct w1_netlink_cmd) + N * 8;
++  cn_msg->len = sizeof(struct w1_netlink_msg) +
+ 	      sizeof(struct w1_netlink_cmd) +
+ 	      N*8;
+ 
+-W1 reset command.
+-[cn_msg]
+-  [w1_netlink_msg type = W1_MASTER_CMD
++W1 reset command::
++
++  [cn_msg]
++    [w1_netlink_msg type = W1_MASTER_CMD
+   	id is equal to the bus master id to use for searching]
+-  [w1_netlink_cmd cmd = W1_CMD_RESET]
++    [w1_netlink_cmd cmd = W1_CMD_RESET]
+ 
+ 
+-Command status replies.
++Command status replies
+ ======================
+ 
+ Each command (either root, master or slave with or without w1_netlink_cmd
+@@ -150,7 +162,7 @@ All w1_netlink_cmd command structures are handled in every w1_netlink_msg,
+ even if there were errors, only length mismatch interrupts message processing.
+ 
+ 
+-Operation steps in w1 core when new command is received.
++Operation steps in w1 core when new command is received
+ =======================================================
+ 
+ When new message (w1_netlink_msg) is received w1 core detects if it is
+@@ -167,7 +179,7 @@ When all commands (w1_netlink_cmd) are processed master device is unlocked
+ and next w1_netlink_msg header processing started.
+ 
+ 
+-Connector [1] specific documentation.
++Connector [1] specific documentation
+ ====================================
+ 
+ Each connector message includes two u32 fields as "address".
+@@ -180,10 +192,11 @@ Sequence number for reply is the same as was in request, and
+ acknowledge number is set to seq+1.
+ 
+ 
+-Additional documantion, source code examples.
+-============================================
++Additional documentation, source code examples
++==============================================
+ 
+ 1. Documentation/driver-api/connector.rst
+ 2. http://www.ioremap.net/archive/w1
+-This archive includes userspace application w1d.c which uses
+-read/write/search commands for all master/slave devices found on the bus.
++
++   This archive includes userspace application w1d.c which uses
++   read/write/search commands for all master/slave devices found on the bus.
 -- 
 2.21.0
 
