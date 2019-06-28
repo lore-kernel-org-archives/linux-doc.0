@@ -1,135 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 175B87DE57
+	by archive.lwn.net (Postfix) with ESMTP id DCD617DE7C
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Jun 2019 14:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbfF1OrD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 10:47:03 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45103 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbfF1OrC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 10:47:02 -0400
-Received: by mail-pg1-f194.google.com with SMTP id z19so2682117pgl.12
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2019 07:47:02 -0700 (PDT)
+        id S1726664AbfF1OuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Jun 2019 10:50:01 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:45490 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfF1OuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 10:50:00 -0400
+Received: by mail-pl1-f195.google.com with SMTP id bi6so3366366plb.12;
+        Fri, 28 Jun 2019 07:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MwGMwQa0G/r0N9HiU2KjRnzuNoH3qkDbvB9SbT9xcMI=;
-        b=DFuhj31WvjS1maruyeOPRyArwIYhnuJfd6DwmEtFlpKJd8/W2horJSRpa3GXxE4K/w
-         QXphemyhIjyJ/5IEjpP2vLJVB3yYL0sgNKoSj5IwMxH/OpepgVMz89lcukvaQ+dDeWh1
-         vukZX12Lfx+Zog2RXhI3BXyQhWY355bSMt3gc=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Yox1Etvd/O+wwizvg1jrjE81RtPEp0HNcZ5IkOo3Ak=;
+        b=YaNMjaTPCrB+bDLeQKq/X2mMqux5lvGVZPIzqMFreBdBTmpuScV01jzfHx3U6QaE7M
+         2aUSFp84Nv1IZIedckhwYFiFKlgNp5UOJvODsN2M/t5Pdydmvnwd+migHm1obnidoR2u
+         JblGFygQzhf8sE8WvrrJCsf4d7BXR6kssAnihJicnTu6RL/oUw9i4CL5aYjBulp2OZOg
+         VD9+SpNpvumFvIDkvnYhocFuL4+DgCnFxZgZ0wiC0lG8Dziyw8mwaB7RuQqCgR5ausm0
+         SD1H6tDbI2fZqYxqfPFnTX12Qq+C0nwghmlY326QyIWl4K1ik6YFIdRSVF0REueiz3/f
+         6rrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MwGMwQa0G/r0N9HiU2KjRnzuNoH3qkDbvB9SbT9xcMI=;
-        b=Lm+ozD8YkSqzWAfXCtxpZqr6v099Fv8FSOQjZZus8kI1gKyqUPCjTGC1Si1KScDfwf
-         JvNjyRW6i3GAFAUH2LEoqh71MdiicsUYIbQeYhqsYPDtj+fTxv+FXpEIBnuoVQcMZjJ1
-         /o3a2a7+oG6yhMQ1guCvslkwT+5ya57Dgk65+P5+lz+XBXuIK5a5XLvcbrcIGO7RDPxi
-         FfnNKqCtXQEFkHFZO7WqJi409aP0YaImlUgTQq/J+w40y69fKB2qndjq1W4+iBpfHBpn
-         iVHImnQk8GeVA93zz6XMNCnQWj4fNfQncB+knYJJ2j7EoTfc80L2AQGh0RKOvteiwQVI
-         8jvg==
-X-Gm-Message-State: APjAAAVDrR8C8a2pzxD980ba4Zwd97tgo1ZZY9gXyGkmQmxLPny4tTC/
-        c2W4g04Mf/NviFnzAtEt4KJ93A==
-X-Google-Smtp-Source: APXvYqx/YtJNkaWkOhhcnCWh/GzwPzF2GLiMrEce/L5zDSI8K77ctT1sePVpDioXIYmJKYtrfK1d9A==
-X-Received: by 2002:a63:e317:: with SMTP id f23mr9511704pgh.39.1561733222145;
-        Fri, 28 Jun 2019 07:47:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u20sm2610199pfm.145.2019.06.28.07.47.01
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 28 Jun 2019 07:47:01 -0700 (PDT)
-Date:   Fri, 28 Jun 2019 07:47:00 -0700
-From:   Kees Cook <keescook@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Yox1Etvd/O+wwizvg1jrjE81RtPEp0HNcZ5IkOo3Ak=;
+        b=sipIiEN2lN6BMLoLorUNArFGhBysL6bMpjdA/lSpQ2mphJ0JCAEwxUJRqWayLqwYtf
+         F+sv+5LZk5ULKgW0kS2kYbBYnpCQlMqnwc12GtwmugZOe4nzsOIGvxTtH73B2qYNPPAs
+         V7A6C2JygACqwWi057YuBhQBgVok8akuEd0DYoGO32eGXqGFpWx3haFAeBMOfZpn+Eh7
+         RPkiun0OZjoiJxDJL4dv0TYaz0Kgzar7Vz5yibdLJG3JK3RgjcLTHb4S5EbY+1u1zyUw
+         DDRJNhBTwfDurEk1seile61fBCQ1w4FgWrBZr6N0/KCcYSeQa+1/nVvWZQsEJL3qDQeQ
+         qyjw==
+X-Gm-Message-State: APjAAAXuPnGeaYRaJfObhYZYnI9zKPzPn1+8HGmT7+PnXrmowqjNU4wl
+        ZzSzPXNvvOBzZa6S6FYppz3tQBuANqENy1nc2R0tosE1RW0=
+X-Google-Smtp-Source: APXvYqz2CJc5HkKnMGYkO9OkYVTfzYJVA8oK2MsisH/DY8ZSO3O1PjNfe5djKMOja8J3xJgvIWxCVEpVxT59Iu992iU=
+X-Received: by 2002:a17:902:694a:: with SMTP id k10mr11968167plt.255.1561733399956;
+ Fri, 28 Jun 2019 07:49:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1561723736.git.mchehab+samsung@kernel.org> <9472251c3ff159b832b4e82d77836c44f89b49b0.1561723736.git.mchehab+samsung@kernel.org>
+In-Reply-To: <9472251c3ff159b832b4e82d77836c44f89b49b0.1561723736.git.mchehab+samsung@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 28 Jun 2019 17:49:48 +0300
+Message-ID: <CAHp75VfkWkVvvufTje1G+w=7gjsr7D2On-NsOsOoTEBNLVLJzQ@mail.gmail.com>
+Subject: Re: [PATCH 9/9] platform: x86: get rid of a non-existent document
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Emese Revfy <re.emese@gmail.com>
-Subject: Re: [PATCH 42/43] docs: move gcc_plugins.txt to core-api and rename
- to .rst
-Message-ID: <201906280746.883AF572C9@keescook>
-References: <cover.1561723979.git.mchehab+samsung@kernel.org>
- <bfcbd5a6cbbbdb10122b30176c3bb907bf1731fc.1561723980.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bfcbd5a6cbbbdb10122b30176c3bb907bf1731fc.1561723980.git.mchehab+samsung@kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 09:20:38AM -0300, Mauro Carvalho Chehab wrote:
-> The gcc_plugins.txt file is already a ReST file. Move it
-> to the core-api book while renaming it.
-> 
+On Fri, Jun 28, 2019 at 3:12 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Changeset 163ede97a9a2 ("Documentation: platform: Delete x86-laptop-drivers.txt")
+> removed the x86-laptop-drivers.txt file, but forgot to update its
+> Kconfig.
+
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+>
+> Fixes: 163ede97a9a2 ("Documentation: platform: Delete x86-laptop-drivers.txt")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
 > ---
->  Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} | 0
->  Documentation/core-api/index.rst                            | 2 +-
->  MAINTAINERS                                                 | 2 +-
->  scripts/gcc-plugins/Kconfig                                 | 2 +-
->  4 files changed, 3 insertions(+), 3 deletions(-)
->  rename Documentation/{gcc-plugins.txt => core-api/gcc-plugins.rst} (100%)
-> 
-> diff --git a/Documentation/gcc-plugins.txt b/Documentation/core-api/gcc-plugins.rst
-> similarity index 100%
-> rename from Documentation/gcc-plugins.txt
-> rename to Documentation/core-api/gcc-plugins.rst
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index 2466a4c51031..d1e5b95bf86d 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -35,7 +35,7 @@ Core utilities
->     boot-time-mm
->     memory-hotplug
->     protection-keys
+>  drivers/platform/x86/Kconfig | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index bd15b47abcb4..c318501773bc 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -433,9 +433,6 @@ config COMPAL_LAPTOP
+>           It adds support for rfkill, Bluetooth, WLAN, LCD brightness, hwmon
+>           and battery charging level control.
+>
+> -         For a (possibly incomplete) list of supported laptops, please refer
+> -         to: Documentation/platform/x86-laptop-drivers.txt
 > -
-> +   gcc-plugins
->  
->  Interfaces for kernel debugging
->  ===============================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2cf8abf6d48e..7ba6d174f49f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6609,7 +6609,7 @@ S:	Maintained
->  F:	scripts/gcc-plugins/
->  F:	scripts/gcc-plugin.sh
->  F:	scripts/Makefile.gcc-plugins
-> -F:	Documentation/gcc-plugins.txt
-> +F:	Documentation/core-api/gcc-plugins.rst
->  
->  GASKET DRIVER FRAMEWORK
->  M:	Rob Springer <rspringer@google.com>
-> diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> index e9c677a53c74..d33de0b9f4f5 100644
-> --- a/scripts/gcc-plugins/Kconfig
-> +++ b/scripts/gcc-plugins/Kconfig
-> @@ -23,7 +23,7 @@ config GCC_PLUGINS
->  	  GCC plugins are loadable modules that provide extra features to the
->  	  compiler. They are useful for runtime instrumentation and static analysis.
->  
-> -	  See Documentation/gcc-plugins.txt for details.
-> +	  See Documentation/core-api/gcc-plugins.rst for details.
->  
->  menu "GCC plugins"
->  	depends on GCC_PLUGINS
-> -- 
+>  config SONY_LAPTOP
+>         tristate "Sony Laptop Extras"
+>         depends on ACPI
+> --
 > 2.21.0
-> 
+>
+
 
 -- 
-Kees Cook
+With Best Regards,
+Andy Shevchenko
