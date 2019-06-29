@@ -1,256 +1,502 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLACK autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7991F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 14:29:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBC887D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 14:33:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfF2O35 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Jun 2019 10:29:57 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33096 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbfF2O34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jun 2019 10:29:56 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c14so4865056plo.0;
-        Sat, 29 Jun 2019 07:29:56 -0700 (PDT)
+        id S1726801AbfF2OdE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Jun 2019 10:33:04 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:46101 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726785AbfF2OdE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jun 2019 10:33:04 -0400
+Received: by mail-pl1-f194.google.com with SMTP id e5so4828707pls.13;
+        Sat, 29 Jun 2019 07:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IzEQFdLkePu8S+e70/CK1YpMHu8Z2SM5sgKtoalqcfg=;
-        b=aFuj1jqXXQJCz3Hl02arAoLjlgbIKdNTNoDFc4BFx1tkZljTyURdf0CVi7p7EOYujO
-         O4+v6wBK+aY0IPtlxAkeQ8NZLmQTWGXhBC5qeBFpa/UmHEmnCx5XwFtW0fNrT+X/6leu
-         CS0f78c5ZkkJwKIZgdR6xqJXawmNxBX5Rz3KPbQiS3Cpwn7h6P0sUNLk4kfvBY7f6obU
-         ASuIVnJ3O6AcScGHHjoOAMNHdf++iBjV5tb9k25wsqojPTMZXP71qdlMbK49lljPxqzT
-         BtXjHwqSnAoE1Q42/FIw5dDBX49/Rw3rOko1K4jJRgv0rg5x9HM7c4Qgq8y+hMgkFss2
-         uOAA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=BzjhKvy8lioiO+gmgV23ItuRCsGGvwYqVDAbgL1Swto=;
+        b=Duh+yHn6oGGxn84l0Dj+xNtP5XaAtlq+wkGIMIOr04SMKcY44A1xO01qyeJdithrud
+         XLFmF1WxIuZKLEVxAx2tG/egVEexdCYUHUPcCVrNs6Sn8bW+Ysv7fybF7zK0EgOp91mu
+         pYifpBI+doV28ChM9h4K+fN/ZAl4fnKjxhJz7sjWiYy91AEXILiISDZ0tlfc3OoUwS4I
+         X0cv/BbGpHyb8KS6rV+HUeGCwsGrobiKkmV6e14GQ/akwhSrUvsjgMquOB//LRwakiE9
+         XyJl4g/yDEZEZNeFnNU+IB9QP81nwBwdomSrUTVHEYbv0MFm89WH2dNGnIu/FYL7e+3E
+         XMXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IzEQFdLkePu8S+e70/CK1YpMHu8Z2SM5sgKtoalqcfg=;
-        b=ptAN9WS/AtOyvVJDQPt3BeLLr20NmeKZN6E3GLTkcbztmKWgNATW8tMa1X96M8yc05
-         OWoCYbrTQ+oVixVNE507IFaqdfSJV9VSvG3+CGPSdQ8qat3+68Mcgbg06qnV4CaE+qnb
-         qTRFWTCR4PtWawtK557NWRtLEXUTYMYqwTd98hUHhHXgqXXnRzX1exzjHWdkMG38AmBE
-         h35Jb1mz/fZEW8tPC0sNoe9K2QKQ5TCG3tQW639uBZnu+zJLk3tbQBiVH8FlDa9JiCPW
-         HRfKWUUnql3QvKUs1jnmNGdy3anDldjBCqIh8bK3rRZYGNKftaFaXoMza2YVvBZSu49w
-         mEPw==
-X-Gm-Message-State: APjAAAWzHDaepJTSDeiJSTEKShS5jSmVn6RFJ3MNwiOnVsjaI4oNGq03
-        RIXH8Zx0ykGa6jrPOlM2xsI//pRsbkti+Hmwibqe5HbEwZk=
-X-Google-Smtp-Source: APXvYqxWlaOhpJLHCFVvMiZFAgHSUrXnlwY0Glnic0EmtQ/yIsNdDuAkoahbBQx1lT5MN2/8Hre10UcxIX88goxrTfA=
-X-Received: by 2002:a17:902:ab90:: with SMTP id f16mr17658579plr.262.1561818595593;
- Sat, 29 Jun 2019 07:29:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 17:29:44 +0300
-Message-ID: <CAHp75VfHfpti=yC6RWvz_PPwWXVe+LSSQ0+2rXkXJApPXN+HGg@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Intel(R) Speed Select Technology
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=BzjhKvy8lioiO+gmgV23ItuRCsGGvwYqVDAbgL1Swto=;
+        b=bxXScpm2FgRVVij/dlwNZX+buR5PChRmsv824UvDrHQL1Ns7+3SsYaxzclFMbSQSJx
+         PnnsE9FFtflREHW50FTGO2LTDQC+5b6d6nsvyMh/CRjVSxnmbxkwYONi1tO47w6LHpb+
+         6163+JnHqguPjD3lSrTvPIPhE02+TloKcpnKeRRRuT2pClor1ME0SRrWr+9P5jNiWInm
+         A2PGA7KRy58O2bDAEBfoRZffwejYhJOWsyHcbt8p5K7pFjIb6VAED/5Cb5Oy3H/4Ry4D
+         qWnGmXQ3Vvm4oxYKSnOpmU22G8oL0sp9gIR0tkHJrq7bjpDuoBD5Dw6jyKbhh1Cgb/lE
+         UOtA==
+X-Gm-Message-State: APjAAAU+NStUM3zGDpuVOZrYpdihwsmWbrC9tqz8AOMZ0usjeXJy9fmL
+        SIw1aW6uZvD/LzvrMhS/O48=
+X-Google-Smtp-Source: APXvYqxnDe2//jbU5HuhIXx1EsGrcoIfTgkvIY2qKlzoLKX1EDfm0BlzKwld/mUcUY7nL9TE2MpRRw==
+X-Received: by 2002:a17:902:59c8:: with SMTP id d8mr18493266plj.55.1561818783091;
+        Sat, 29 Jun 2019 07:33:03 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.203.223])
+        by smtp.gmail.com with ESMTPSA id s65sm4522259pgb.71.2019.06.29.07.32.57
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 29 Jun 2019 07:33:01 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-sh@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org
+Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v4] Documentation:sh:convert register-banks.txt  and new-machine.txt to rst format.
+Date:   Sat, 29 Jun 2019 20:02:45 +0530
+Message-Id: <20190629143245.3580-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190627063347.11137-1-bnvandana@gmail.com>
+References: <20190627063347.11137-1-bnvandana@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Intel=C2=AE Speed Select Technology (Intel=C2=AE SST) =E2=80=94 A powerfu=
-l new collection of
-> features giving more granular control over CPU performance for optimized =
-total
-> cost of ownership and performance. With Intel=C2=AE SST, one server can b=
-e configured
-> for power and performance for variety of diverse workload requirements. I=
-n the
-> Linux submission code. we are using ISST to specify Intel=C2=AE SST to av=
-oid confusion
-> with existing use of SST for "Smart Sound Technology".
->
-> Refer to these links for overview of the technology released with some In=
-tel=C2=AE Xeon=C2=AE
-> Scalable processor (5218N, 6230N, and 6252N):
-> https://www.intel.com/content/www/us/en/architecture-and-technology/speed=
--select-technology-article.html
-> https://builders.intel.com/docs/networkbuilders/intel-speed-select-techno=
-logy-base-frequency-enhancing-performance.pdf
->
-> The next generation of Intel=C2=AE Xeon=C2=AE processors are adding more =
-features to the
-> Intel=C2=AE Speed Select Technology and allow dynamic configuration of th=
-ese features
-> from OS-software level instead from BIOS. This submission is adding new f=
-eatures
-> and dynamic configuration capabilities .
->
->
-> Intel SST Features:
->
-> Intel=C2=AE SST=E2=80=94Performance Profile (PP or perf-profile):
-> This feature allows one server to be configured for different workload re=
-quirements
-> instead of deploying different servers based on the workload requirement =
-reducing total
-> cost of ownership. With a single server deployed, the same server can be =
-reconfigured
-> dynamically to one of the supported profiles to suit the specific workloa=
-d requirements.
-> This feature introduces a mechanism that allows multiple optimized perfor=
-mance profiles
-> per system via static and/or dynamic adjustment of TDP level and other pe=
-rformance
-> parameters.
->
-> Intel=C2=AE SST=E2=80=94Core power (CP or core-power):
-> An Interface that allows user to define per core priority. This defines a=
- mechanism
-> to distribute power among cores when there is a power constrained scenari=
-o. This defines
-> a class of service configuration. Each CPU core can be tied to a class of=
- service and hence
-> an associated priority.
->
-> Intel=C2=AE SST=E2=80=94Base Frequency (BF or base-freq):
-> The Intel=C2=AE SST-BF feature lets user control and direct base frequenc=
-y. If some critical
-> workload threads demand constant high guaranteed performance, then this f=
-eature can be
-> used to execute the thread at higher base frequency on specific set of CP=
-Us.
->
-> Intel=C2=AE SST=E2=80=94Turbo frequency (TF or turbo-freq):
-> Enables the ability to set different all core turbo ratio limits to cores=
- based on the priority.
-> Using this features some cores can be configured to get higher turbo freq=
-uency by designating
-> them as high priority at the cost of lower or no turbo frequency on the l=
-ow priority cores.
->
-> Implementation
->
-> The Intel=C2=AE SST features are implemented in the firmware executing in=
- the the power
-> management unit (we are calling PUNIT here for short). The mechanism to c=
-ontrol these
-> features are specific to firmware implementation for Intel=C2=AE Xeon=C2=
-=AE CPUs and are not architectural
-> features. The interface mechanism and semantics of the messages can chang=
-e in future Xeon
-> CPUs. Hence there is minimal kernel implementation by offering direct com=
-munication
-> to PUNIT via set of IOCTLs. The actual messages which can be sent to PUNI=
-T are specified
-> in the following document link:
->
-> https://github.com/intel/CommsPowerManagement/blob/master/intel_sst_os_in=
-terface/mailbox.md
->
-> The idea here is that user space software like cloud orchestration softwa=
-re based on their workload
-> requirement configure the system. There is a full featured "Intel Speed S=
-elect" utility
-> submitted to kernel power tools, which can be used to validate and exerci=
-se the features.
->
-> Types of PUNIT interfaces
-> There are two types of interfaces. One using Mail box communications, whi=
-ch is facilitated
-> by a PCI device or in some Xeon=C2=AE CPUs using MSRs; and other using an=
- MMIO interface, which is
-> used primarily for core prioritization. For hiding details a single chara=
-cter device is created
-> to handle IOCTLs. The following block diagram shows the implementation ov=
-erview.
->
->
-> User            User Space tool(intel-speed-select)/Cloud Orchestration s=
-oftware
->                                            IOCTLs
-> ---------------------------------------character device------------------=
-------------
-> kernel                          Common driver handling IOCTLs
->                         Mail Box drivers(PCI & MSR)     PCI MMIO driver
-> -------------------------------------------------------------------------=
+This patch converts new-machine.txt and register-banks.txt
+to ReST format, No content change.
+Added interfaces.rst to contain kernel-doc markups from index.rst
+Added interfaces.rst,new-machine.rst and register-banks.rst to sh/index.rst
+Added SPDX tag in index.rst
+
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ Documentation/sh/index.rst                    |  65 +------
+ Documentation/sh/interface.rst                |  59 ++++++
+ .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
+ ...{register-banks.txt => register-banks.rst} |   8 +-
+ 4 files changed, 163 insertions(+), 140 deletions(-)
+ create mode 100644 Documentation/sh/interface.rst
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
+
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..fec3c405b6b9 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -1,59 +1,14 @@
+-=======================
+-SuperH Interfaces Guide
+-=======================
++.. SPDX-License-Identifier: GPL-2.0
+
+-:Author: Paul Mundt
 -
-> Hardware                                    PUNIT
->
->
->
+-Memory Management
+-=================
+-
+-SH-4
+-----
+-
+-Store Queue API
+-~~~~~~~~~~~~~~~
+-
+-.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
+-   :export:
+-
+-SH-5
+-----
+-
+-TLB Interfaces
+-~~~~~~~~~~~~~~
+-
+-.. kernel-doc:: arch/sh/mm/tlb-sh5.c
+-   :internal:
+-
+-.. kernel-doc:: arch/sh/include/asm/tlb_64.h
+-   :internal:
++====================
++SuperH Documentation
++====================
 
-Pushed to my review and testing queue, thanks!
+-Machine Specific Interfaces
+-===========================
+-
+-mach-dreamcast
+---------------
+-
+-.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
+-   :internal:
+-
+-mach-x3proto
+-------------
+-
+-.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
+-   :export:
+-
+-Busses
+-======
+-
+-SuperHyway
+-----------
+-
+-.. kernel-doc:: drivers/sh/superhyway/superhyway.c
+-   :export:
++:Author: Paul Mundt
 
-> Srinivas Pandruvada (10):
->   platform/x86: ISST: Update ioctl-number.txt for Intel Speed Select
->     interface
->   platform/x86: ISST: Add common API to register and handle ioctls
->   platform/x86: ISST: Store per CPU information
->   platform/x86: ISST: Add IOCTL to Translate Linux logical CPU to PUNIT
->     CPU number
->   platform/x86: ISST: Add Intel Speed Select mmio interface
->   platform/x86: ISST: Add Intel Speed Select mailbox interface via PCI
->   platform/x86: ISST: Add Intel Speed Select mailbox interface via MSRs
->   platform/x86: ISST: Add Intel Speed Select PUNIT MSR interface
->   platform/x86: ISST: Restore state on resume
->   tools/power/x86: A tool to validate Intel Speed Select commands
->
->  Documentation/ioctl/ioctl-number.txt          |    1 +
->  drivers/platform/x86/Kconfig                  |    2 +
->  drivers/platform/x86/Makefile                 |    1 +
->  .../x86/intel_speed_select_if/Kconfig         |   17 +
->  .../x86/intel_speed_select_if/Makefile        |   10 +
->  .../intel_speed_select_if/isst_if_common.c    |  672 +++++++
->  .../intel_speed_select_if/isst_if_common.h    |   69 +
->  .../intel_speed_select_if/isst_if_mbox_msr.c  |  216 +++
->  .../intel_speed_select_if/isst_if_mbox_pci.c  |  214 +++
->  .../x86/intel_speed_select_if/isst_if_mmio.c  |  180 ++
->  include/uapi/linux/isst_if.h                  |  172 ++
->  tools/power/x86/intel_speed_select/Makefile   |   31 +
->  tools/power/x86/intel_speed_select/isst.h     |  231 +++
->  .../x86/intel_speed_select/isst_config.c      | 1607 +++++++++++++++++
->  .../power/x86/intel_speed_select/isst_core.c  |  721 ++++++++
->  .../x86/intel_speed_select/isst_display.c     |  479 +++++
->  16 files changed, 4623 insertions(+)
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/Kconfig
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/Makefile
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_co=
-mmon.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_co=
-mmon.h
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mb=
-ox_msr.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mb=
-ox_pci.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mm=
-io.c
->  create mode 100644 include/uapi/linux/isst_if.h
->  create mode 100644 tools/power/x86/intel_speed_select/Makefile
->  create mode 100644 tools/power/x86/intel_speed_select/isst.h
->  create mode 100644 tools/power/x86/intel_speed_select/isst_config.c
->  create mode 100644 tools/power/x86/intel_speed_select/isst_core.c
->  create mode 100644 tools/power/x86/intel_speed_select/isst_display.c
->
-> --
-> 2.17.2
->
+-Maple
+------
++.. toctree::
++   :maxdepth: 2
 
+-.. kernel-doc:: drivers/sh/maple/maple.c
+-   :export:
++   interface
++   new-machine
++   register-banks
+diff --git a/Documentation/sh/interface.rst b/Documentation/sh/interface.rst
+new file mode 100644
+index 000000000000..bc8db7ba894a
+--- /dev/null
++++ b/Documentation/sh/interface.rst
+@@ -0,0 +1,59 @@
++=======================
++SuperH Interfaces Guide
++=======================
++
++:Author: Paul Mundt
++
++Memory Management
++=================
++
++SH-4
++----
++
++Store Queue API
++~~~~~~~~~~~~~~~
++
++.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
++   :export:
++
++SH-5
++----
++
++TLB Interfaces
++~~~~~~~~~~~~~~
++
++.. kernel-doc:: arch/sh/mm/tlb-sh5.c
++   :internal:
++
++.. kernel-doc:: arch/sh/include/asm/tlb_64.h
++   :internal:
++
++Machine Specific Interfaces
++===========================
++
++mach-dreamcast
++--------------
++
++.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
++   :internal:
++
++mach-x3proto
++------------
++
++.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
++   :export:
++
++Busses
++======
++
++SuperHyway
++----------
++
++.. kernel-doc:: drivers/sh/superhyway/superhyway.c
++   :export:
++
++Maple
++-----
++
++.. kernel-doc:: drivers/sh/maple/maple.c
++   :export:
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 79%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..b16c33342642 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,8 +1,8 @@
++================================
++Adding a new board to LinuxSH
++================================
 
---=20
-With Best Regards,
-Andy Shevchenko
+-                Adding a new board to LinuxSH
+-               ================================
+-
+-               Paul Mundt <lethal@linux-sh.org>
++Paul Mundt <lethal@linux-sh.org>
+
+ This document attempts to outline what steps are necessary to add support
+ for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
+@@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
+
+-Board-specific code:
+-
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
+-
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Board-specific code::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       `-- boards
++ |           |-- adx
++ |           |   `-- board-specific files
++ |           |-- bigsur
++ |           |   `-- board-specific files
++ |           |
++ |           ... more boards here ...
++ |
++ `-- include
++     `-- asm-sh
++         |-- adx
++         |   `-- board-specific headers
++         |-- bigsur
++         |   `-- board-specific headers
++         |
++       	 .. more boards here ...
++
++Next, for companion chips::
++
++ .
++ `-- arch
++     `-- sh
++         `-- cchips
++             `-- hd6446x
++                 `-- hd64461
++                     `-- cchip-specific files
+
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
+
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       |-- kernel
++ |       |   `-- cpu
++ |       |       |-- sh2
++ |       |       |   `-- SH-2 generic files
++ |       |       |-- sh3
++ |       |       |   `-- SH-3 generic files
++ |       |       `-- sh4
++ |       |           `-- SH-4 generic files
++ |       `-- mm
++ |           `-- This is also broken out per CPU family, so each family can
++ |               have their own set of cache/tlb functions.
++ |
++ `-- include
++     `-- asm-sh
++         |-- cpu-sh2
++         |   `-- SH-2 specific headers
++         |-- cpu-sh3
++         |   `-- SH-3 specific headers
++         `-- cpu-sh4
++             `-- SH-4 specific headers
+
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+ might look something like:
+
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++.. code-block:: c
++
++    /*
++     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++     */
++    #include <linux/init.h>
+
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++        return "FooTech Vaporboard";
++    }
+
+-int __init platform_setup(void)
+-{
++    int __init platform_setup(void)
++    {
+   	/*
+ 	 * If our hardware actually existed, we would do real
+ 	 * setup here. Though it's also sane to leave this empty
+@@ -136,7 +140,8 @@ int __init platform_setup(void)
+ 	/* And whatever else ... */
+
+ 	return 0;
+-}
++    }
++
+
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,16 +177,17 @@ sufficient.
+    vector.
+
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
+
+ 	#define __IO_PREFIX vapor
+    	#include <asm/io_generic.h>
+
++
+    somewhere in the board-specific header. Any boards being ported that still
+    have a legacy io.h should remove it entirely and switch to the new model.
+
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
+
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
+
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
+
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
++ config SH_VAPOR
++	 bool "Vapor"
++	 help
+ 	  select Vapor if configuring for a FooTech Vaporboard.
+
+ next, this has to be added into arch/sh/Makefile. All boards require a
+@@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+ common code, such as:
+
++::
++
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+ 		return -ENODEV;
+@@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
+
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
++
++ - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
++ - adx_defconfig           - Build for adx
++ - cqreek_defconfig        - Build for cqreek
++ - dreamcast_defconfig     - Build for dreamcast
++ - ...
++ - vapor_defconfig         - Build for vapor
+
+ which then allows you to do:
+
+diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+similarity index 90%
+rename from Documentation/sh/register-banks.txt
+rename to Documentation/sh/register-banks.rst
+index a6719f2f6594..acccfaf80355 100644
+--- a/Documentation/sh/register-banks.txt
++++ b/Documentation/sh/register-banks.rst
+@@ -1,8 +1,9 @@
+-	Notes on register bank usage in the kernel
+-	==========================================
++==========================================
++Notes on register bank usage in the kernel
++==========================================
+
+ Introduction
+-------------
++============
+
+ The SH-3 and SH-4 CPU families traditionally include a single partial register
+ bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
+@@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
+ 		- The SR.IMASK interrupt handler makes use of this to set the
+ 		  interrupt priority level (used by local_irq_enable())
+ 	- r7_bank (current)
+-
+--
+2.17.1
+
