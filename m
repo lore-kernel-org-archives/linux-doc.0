@@ -1,89 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE25D7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 22:17:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AB347D91A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 23:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbfF2WRC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Jun 2019 18:17:02 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19062 "EHLO mga03.intel.com"
+        id S1726963AbfF2Xnc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Jun 2019 19:43:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56712 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726923AbfF2WRC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 29 Jun 2019 18:17:02 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Jun 2019 15:17:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,433,1557212400"; 
-   d="scan'208";a="168093690"
-Received: from spandruv-mobl3.jf.intel.com ([10.254.24.202])
-  by orsmga006.jf.intel.com with ESMTP; 29 Jun 2019 15:17:00 -0700
-Message-ID: <41765249d4384d48437eba9c8640ecf167e629d2.camel@linux.intel.com>
-Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
- Select commands
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        id S1726960AbfF2Xnc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 29 Jun 2019 19:43:32 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B18B32183F
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jun 2019 23:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561851811;
+        bh=6Ls1mmfTCbzFx4Rzb3UhYmFEV6me19aFFOMlTGuTuMY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fKAjCc+JM24ptph7FQwwWDjNeU0M7u1DLMDnFvO5RD2JO4y5N6c03CLXkbCz0PUBw
+         8rc0VpCNeD7ziYfz2RtjYgq+uwSJVs3Zsoa/luWgVigokxMHuZiFxRcQhJuq+VEwsY
+         aCZFtR37i+6FQbF9MgjOdGmDd3+cLNyeUVYypWDM=
+Received: by mail-wr1-f41.google.com with SMTP id c2so9892771wrm.8
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jun 2019 16:43:30 -0700 (PDT)
+X-Gm-Message-State: APjAAAUbOzcaNyX0UyAK26itZUnXt3U18TgQglQPYFG9H7LmbgjO2kmJ
+        oMtZvtVhvsjND22Axh96Mz3PEGAAA3hXF0JbIO2paQ==
+X-Google-Smtp-Source: APXvYqy1lccm+W/+pWlsgMcG6L5G1lNH4IFhUO6vjgvEXUaNIhYR7BWWHlgDd5MOsBd1OpDkbJ+gIKmRECPoUjBLpFU=
+X-Received: by 2002:adf:dd0f:: with SMTP id a15mr10561378wrm.265.1561851809106;
+ Sat, 29 Jun 2019 16:43:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190628194158.2431-1-yu-cheng.yu@intel.com> <20190628194158.2431-2-yu-cheng.yu@intel.com>
+In-Reply-To: <20190628194158.2431-2-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sat, 29 Jun 2019 16:43:18 -0700
+X-Gmail-Original-Message-ID: <CALCETrVvbbCWMPo7v5eYgTocaxRQPHerJ=CRjWscGxgb6QjOFA@mail.gmail.com>
+Message-ID: <CALCETrVvbbCWMPo7v5eYgTocaxRQPHerJ=CRjWscGxgb6QjOFA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] Introduce arch_prctl(ARCH_X86_CET_MARK_LEGACY_CODE)
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Date:   Sat, 29 Jun 2019 15:17:00 -0700
-In-Reply-To: <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
-References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-         <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
-         <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com>
-         <1c4238f7d18d316df82d3ba1618fecdcf014f98a.camel@linux.intel.com>
-         <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2019-06-29 at 19:03 +0300, Andy Shevchenko wrote:
-> On Sat, Jun 29, 2019 at 5:53 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > On Sat, 2019-06-29 at 17:31 +0300, Andy Shevchenko wrote:
-> > > On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
-> > > <srinivas.pandruvada@linux.intel.com> wrote:
-> > > I need an Ack from tools/power maintainer(s) for this.
-> > > Also see below.
-> > 
-> > MAINTAINER file doesn't call for any special name in this folder.
-> 
-> And this tells me perhaps this driver needs a MAINTAINER record?
-I will submit a MAINTAINER file update. I was waiting for reviews.
+> On Jun 28, 2019, at 12:41 PM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> The CET legacy code bitmap covers the whole user-mode address space and i=
+s
+> located at the top of the user-mode address space.  It is allocated only
+> when the first time arch_prctl(ARCH_X86_MARK_LEGACY_CODE) is called from
+> an application.
+>
+> Introduce:
+>
+> arch_prctl(ARCH_X86_MARK_LEGACY_CODE, unsigned long *buf)
+>    Mark an address range as IBT legacy code.
 
-Thanks,
-Srinivas
+How about defining a struct for this?
 
-> 
-> > $./scripts/get_maintainer.pl 0010-tools-power-x86-A-tool-to-
-> > validate-
-> > Intel-Speed-Selec.patch
-> > Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > (commit_signer:1/1=100%,authored:1/1=100%,added_lines:31/31=100%,ad
-> > ded_
-> > lines:231/231=100%,added_lines:1607/1607=100%,added_lines:721/721=1
-> > 00%,
-> > added_lines:479/479=100%)
-> > linux-kernel@vger.kernel.org (open list)
-> > 
-> > Len and Rafael can you ACK this tool patch?
-> 
-> 
+The change log should discuss where the bitmap goes and how it=E2=80=99s al=
+located.
 
+> +static int alloc_bitmap(void)
+> +{
+> +    unsigned long addr;
+> +    u64 msr_ia32_u_cet;
+> +
+> +    addr =3D do_mmap_locked(NULL, IBT_BITMAP_ADDR, IBT_BITMAP_SIZE,
+> +                  PROT_READ | PROT_WRITE,
+> +                  MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED_NOREPLACE,
+> +                  VM_IBT | VM_NORESERVE, NULL);
+> +
+> +    if (IS_ERR((void *)addr))
+> +        return addr;
+> +
+> +    current->thread.cet.ibt_bitmap_addr =3D addr;
+
+addr is a constant. Why are you storing it?  If it ends up not being
+constant, you should wire up mremap like the vDSO does.
+
+
+> +static int set_user_bits(unsigned long __user *buf, unsigned long buf_si=
+ze,
+> +             unsigned long start_bit, unsigned long end_bit, unsigned lo=
+ng set)
+> +{
+> +    unsigned long start_ul, end_ul, total_ul;
+> +    int i, j, r;
+> +
+> +    if (round_up(end_bit, BITS_PER_BYTE) / BITS_PER_BYTE > buf_size)
+> +        end_bit =3D buf_size * BITS_PER_BYTE - 1;
+> +
+> +    start_ul =3D start_bit / BITS_PER_LONG;
+> +    end_ul =3D end_bit / BITS_PER_LONG;
+> +    total_ul =3D (end_ul - start_ul + 1);
+> +
+> +    i =3D start_bit % BITS_PER_LONG;
+> +    j =3D end_bit % BITS_PER_LONG;
+> +
+> +    r =3D 0;
+> +    put_user_try {
+
+put_user_try is obsolete.  Just use get_user(), etc.
+
+Also, I must be missing something fundamental, because this series
+claims that user code can't write directly to the bitmap.  This means
+that this entire function shouldn't work at all.
