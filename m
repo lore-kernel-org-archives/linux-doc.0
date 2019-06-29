@@ -1,89 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 77B7E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 01:41:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D6B87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 10:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbfF2Blj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Jun 2019 21:41:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42214 "EHLO
+        id S1726966AbfF2Kgw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Jun 2019 06:36:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:32870 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbfF2Blj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jun 2019 21:41:39 -0400
+        with ESMTP id S1726839AbfF2Kgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jun 2019 06:36:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=uZry5nOKE0RdjtGQW20tgZ++YaVaPCtY5Y/rs8C+Lf8=; b=LmDgU/vGTOxmGauugqKzplBDm
-        SuPGk5nuRE3SwxoDOaPxYPkT502BNZpExJierNW+ab6Q7BGpu9nFIMRYxa1b6kyBTP8KU4lMXgqhW
-        Ng1DxhFQLS/9Sk4kohiKko1F+XzMXkG1trOakC3/1JA8V1xgU1a87BzxADK+mle6vas3nKn5g4Tcf
-        +sLmMHyHKpCgMkbNFwk0H0iWpGvcL89KvBO/3uUKcWMDJUkuqeH37eT6mIRojU8o6JFqCUzXnzcrW
-        YWxfD2mD0MYEQLDKxs3HEarP5pBGNuHvA7sxijBVbOWhUR1lxbxJgN+SP7DblEhhLRNVVpQHEuYaa
-        OtkpCtFtg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hh2My-0005GU-C6; Sat, 29 Jun 2019 01:41:36 +0000
-Date:   Fri, 28 Jun 2019 18:41:36 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     skhan@linuxfoundation.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v1] Doc : fs : convert xfs.txt to ReST
-Message-ID: <20190629014136.GF4286@bombadil.infradead.org>
-References: <20190628214302.GA12096@localhost>
- <20190629010733.GA31770@localhost>
+         bh=0ZTqox4zKZHSfjynSHuFlYTUSFoi9akGLNFU/TMkLz8=; b=RQlxVlV+vnKr+HuhHrN/9tY/e
+        LN2f40ZNR3ZcpjZqJosL+P4ZU6Cjb2XOJS+kmPEIYk6v8Bqht+w+OY4ticHvGN0iEPOalUYhCxg7y
+        NjZS2XKOdl/ooLSoW8OpjAkI+M3KyQWH87SZtL9l+5sO7gikQXoNtXgYubcJ4EWQ0inUfXVOu0NVj
+        JSK0qvaCkfhtfYMBLLzxEphxuK7oNoXrdJMsjKH1/K8Qqb3hukK7ivA6mNoANbMK6neuonbgcKioq
+        3fJDY5S2+rUh2EC/55AmIJQz0Dp6kaPFe7D877eHgcP6OUm22xhSZ9KCjTe2NbN3AI17IUFAjeB/d
+        s3yaUFznA==;
+Received: from [187.113.3.250] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hhAiv-0002ct-C2; Sat, 29 Jun 2019 10:36:49 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hhAit-0006kO-8P; Sat, 29 Jun 2019 07:36:47 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Asmaa Mnebhi <Asmaa@mellanox.com>,
+        Corey Minyard <cminyard@mvista.com>, vadimp@mellanox.com
+Subject: [PATCH] docs: ipmb: place it at driver-api and convert to ReST
+Date:   Sat, 29 Jun 2019 07:36:46 -0300
+Message-Id: <d23c36ca65fe6ad56af1723bf70f7a7f4154c410.1561804596.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190629010733.GA31770@localhost>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 02:25:08AM +0100, Sheriff Esseson wrote:
-> On Fri, Jun 28, 2019 at 10:43:24PM +0100, Sheriff Esseson wrote:
-> > 	Convert xfs.txt to ReST, markup and rename accordingly. Update
-> > 	Documentation/index.rst.
+No new doc should be added at the main Documentation/ directory.
 
-Don't quote the entire previous patch when submitting a new one.
+Instead, new docs should be added as ReST files, within the
+Kernel documentation body.
 
-> Rid Documentation/filesystems/index.rst of ".rst" in toc-tree references.
-> 
-> CC xfs-list.
-> 
-> Correct email indentation.
+Fixes: 51bd6f291583 ("Add support for IPMB driver")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/driver-api/index.rst            |  1 +
+ .../{IPMB.txt => driver-api/ipmb.rst}         | 62 ++++++++++---------
+ 2 files changed, 33 insertions(+), 30 deletions(-)
+ rename Documentation/{IPMB.txt => driver-api/ipmb.rst} (71%)
 
-This text should be below the --- line, and it should be marked as "v2:"
-
-And you didn't update the MAINTAINERS file.
-
-> +For boolean mount options, the names with the "(*)" prefix is the
-> +default behaviour. For example, take an behaviour enabled by default to be a one (1) or,
-
-This line is too long.  Doesn't checkpatch.pl complain?
-
-> +   rtdev=<device>
-> +        An XFS filesystem has up to three parts: a data section, a log
-> +	section, and a real-time section.  The real-time section is optional.
-> +        If enabled, ``rtdev`` sets ``device`` to be used as an
-> +        external real-time section, similar to ``logdev`` above.
-
-Darrick mentioned the indentation was weird here, and you haven't fixed that.
-
-> +   sunit=<value>
-> +	Used to specify the stripe unit for a RAID device
-> +	or (in conjunction with ``swidth`` below) a stripe volume.  ``value`` must be specified in 512-byte
-> +	block units. This option is only relevant to filesystems
-
-line length
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index e33849b948c7..e49c34bf16c0 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -75,6 +75,7 @@ available subsections can be seen below.
+    dell_rbu
+    edid
+    eisa
++   ipmb
+    isa
+    isapnp
+    generic-counter
+diff --git a/Documentation/IPMB.txt b/Documentation/driver-api/ipmb.rst
+similarity index 71%
+rename from Documentation/IPMB.txt
+rename to Documentation/driver-api/ipmb.rst
+index cd20c9764705..3ec3baed84c4 100644
+--- a/Documentation/IPMB.txt
++++ b/Documentation/driver-api/ipmb.rst
+@@ -32,11 +32,11 @@ This driver works with the I2C driver and a userspace
+ program such as OpenIPMI:
+ 
+ 1) It is an I2C slave backend driver. So, it defines a callback
+-function to set the Satellite MC as an I2C slave.
+-This callback function handles the received IPMI requests.
++   function to set the Satellite MC as an I2C slave.
++   This callback function handles the received IPMI requests.
+ 
+ 2) It defines the read and write functions to enable a user
+-space program (such as OpenIPMI) to communicate with the kernel.
++   space program (such as OpenIPMI) to communicate with the kernel.
+ 
+ 
+ Load the IPMB driver
+@@ -48,34 +48,35 @@ CONFIG_IPMB_DEVICE_INTERFACE=y
+ 
+ 1) If you want the driver to be loaded at boot time:
+ 
+-a) Add this entry to your ACPI table, under the appropriate SMBus:
++a) Add this entry to your ACPI table, under the appropriate SMBus::
+ 
+-Device (SMB0) // Example SMBus host controller
+-{
+-  Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
+-  Name (_UID, 0) // Unique ID of particular host controller
+-  :
+-  :
+-    Device (IPMB)
+-    {
+-      Name (_HID, "IPMB0001") // IPMB device interface
+-      Name (_UID, 0) // Unique device identifier
+-    }
+-}
++     Device (SMB0) // Example SMBus host controller
++     {
++     Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
++     Name (_UID, 0) // Unique ID of particular host controller
++     :
++     :
++       Device (IPMB)
++       {
++         Name (_HID, "IPMB0001") // IPMB device interface
++         Name (_UID, 0) // Unique device identifier
++       }
++     }
+ 
+-b) Example for device tree:
++b) Example for device tree::
+ 
+-&i2c2 {
+-         status = "okay";
++     &i2c2 {
++            status = "okay";
+ 
+-         ipmb@10 {
+-                 compatible = "ipmb-dev";
+-                 reg = <0x10>;
+-         };
+-};
++            ipmb@10 {
++                    compatible = "ipmb-dev";
++                    reg = <0x10>;
++            };
++     };
+ 
+-2) Manually from Linux:
+-modprobe ipmb-dev-int
++2) Manually from Linux::
++
++     modprobe ipmb-dev-int
+ 
+ 
+ Instantiate the device
+@@ -86,15 +87,16 @@ described in 'Documentation/i2c/instantiating-devices.rst'.
+ If you have multiple BMCs, each connected to your Satellite MC via
+ a different I2C bus, you can instantiate a device for each of
+ those BMCs.
++
+ The name of the instantiated device contains the I2C bus number
+-associated with it as follows:
++associated with it as follows::
+ 
+-BMC1 ------ IPMB/I2C bus 1 ---------|   /dev/ipmb-1
++  BMC1 ------ IPMB/I2C bus 1 ---------|   /dev/ipmb-1
+ 				Satellite MC
+-BMC1 ------ IPMB/I2C bus 2 ---------|   /dev/ipmb-2
++  BMC1 ------ IPMB/I2C bus 2 ---------|   /dev/ipmb-2
+ 
+ For instance, you can instantiate the ipmb-dev-int device from
+-user space at the 7 bit address 0x10 on bus 2:
++user space at the 7 bit address 0x10 on bus 2::
+ 
+   # echo ipmb-dev 0x1010 > /sys/bus/i2c/devices/i2c-2/new_device
+ 
+-- 
+2.21.0
 
