@@ -6,1069 +6,985 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4FFD7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 20:59:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A828E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Jun 2019 21:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726966AbfF2U7t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Jun 2019 16:59:49 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34588 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726909AbfF2U7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jun 2019 16:59:49 -0400
-Received: by mail-wm1-f66.google.com with SMTP id w9so11655284wmd.1;
-        Sat, 29 Jun 2019 13:59:43 -0700 (PDT)
+        id S1726925AbfF2VcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Jun 2019 17:32:12 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44936 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726923AbfF2VcM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jun 2019 17:32:12 -0400
+Received: by mail-pf1-f193.google.com with SMTP id t16so4641280pfe.11;
+        Sat, 29 Jun 2019 14:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tmGcjHfJLSeHJn3varHL4xRaJFg7bwP038sW5xr+kVI=;
-        b=TOApplbI08NGUXeuTsZTVoKtXRxkNBdbuLDgHvbu+AY4aP/X+1xyjxw6TTRdt2R/pM
-         bJMi7qjgKj68jbpNupKVCCiVYGw8ZykJadXcmNkeDkaHBcP/cqFcOQs4prjmvcsn3BOF
-         0rUsOFj3Hu2/qP6FPQkGnPF3xw4F/l2Tp1/IbN8eyPgDOP3TTWDNGahLWfSEOmHdlD5+
-         AAD4bU10+AFIGiQrundlc0qwgQMfcZ7cnp+1pw3V3jBNO3HmArw6RuAj78Bi2ulKh/wz
-         mrxbp29lHOgDMKNw0h4UEgTHHI42VDRGhU+0IlrdzrQ17INpGHO1HtQnHz1HuigcvpNj
-         pkZA==
+        h=from:to:subject:date:message-id;
+        bh=zMJ2yvt2OB31ruVsgd66/uuTuuvNcR9hgzqGfeFrhOU=;
+        b=ow5DQGexk9iu3qfw1GOb+uWOrqw0B246r7r9BjTxBTPEv+fB0zJorTMtBc4V0puR8m
+         /54GD0dPbGYSdYbffd79Q893Fbw5/AGXfBaJ/6L8ftlEo+HK/OSwSabRU74qI+cpZ6oB
+         dWlLH1sIwm5umC6n/tSUZ0NuAgA6W/PHjnlPYOHRDcBhkxLljaWfzGFhIglnEQHqPl22
+         iElYne1KDoZQ2rmbOtnOb6UT3USL/Vh53UkzZnXHgCQzdlna+dUCLsj32Q21SWKd889u
+         CP1OourBk1w5UkwgRA/VDFTY97Nre6g9zp0HqF9NDs2zVMLkCgaOy6nFH7MTzvLgNa5H
+         tM3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tmGcjHfJLSeHJn3varHL4xRaJFg7bwP038sW5xr+kVI=;
-        b=c5BBibTrXoJC27sxlcLKqyCKDKP7fddIUqxAN5/m/QKx2sKmHbuwxu68Bug5IP1Hwr
-         gaXsR5PjVEPoCY6N6G/LvkKLfMwww6OxS5Qi7reX9FAbyU6y5QlIHGlBRPVIkgHXiTBl
-         m18kxYgsQZ/jSsUTGYDANjzsI56UXmdtviuo5+UuDWtfD2VArAaINK/Bvv1CI24rB1Xx
-         o/6flA/34D/4ScMeEjRYeZx1R5J/O8OPfBx7HbYbka//ZrlxOXw9d1ZJQaBQn1dqLg8P
-         X3rul8sjYdgDna8jme3KpVzYATfDCt7u1bJ6iBYltKUwvuMmq5nyY789EuUJ8RGVq14n
-         kfPg==
-X-Gm-Message-State: APjAAAWRPN6KYEGL9t3aNub/BJH/SNOgVYUwSDkTy00KXKkC4wvVJe1Z
-        z3RvoYf52bV7wBL4aVAZ6co=
-X-Google-Smtp-Source: APXvYqyklthsdM8eHmNwYDbKqlRNBWbaH6SqGSRM531yYO4LWXGAYyzjMbjv92RDdMO2yHTS+QSTcQ==
-X-Received: by 2002:a1c:a7ca:: with SMTP id q193mr12455891wme.150.1561841982041;
-        Sat, 29 Jun 2019 13:59:42 -0700 (PDT)
-Received: from localhost ([197.210.35.75])
-        by smtp.gmail.com with ESMTPSA id x8sm15699279wre.73.2019.06.29.13.59.31
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 29 Jun 2019 13:59:41 -0700 (PDT)
-Date:   Sat, 29 Jun 2019 21:59:24 +0100
-From:   Sheriff Esseson <sheriffesseson@gmail.com>
-To:     skhan@linuxfoundation.org
-Cc:     linux-xfs@vger.kernel.org, darrick.wong@oracle.com, corbet@lwn.net,
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=zMJ2yvt2OB31ruVsgd66/uuTuuvNcR9hgzqGfeFrhOU=;
+        b=L1qLPHs+gQ91kqZoO+4bbH5FmbsBfC5F2Qzf63Clly88HO+Rn3VAPWuEPK4FndJnez
+         Ks6yafmex2zmJh3MUMl7DcBFX8dIgCd4Q7wpUfLM42g75RggWe0niILWARbKwouvdADm
+         nZ4acCooyHz6z4D+EXyVLZvyZPjmjgbweskMv49/cLhtSyfGS/hNA3RwjWrj/okyMgMX
+         xfZhTGg+Uw19atL3rCwqmmmEEkLrCMkdXTMnzcHokSnayHX0GyCCj8vnIfQfG/KAxvTI
+         xCZex2+2+1EGS6h49J7j0zskwOIkypoRWZn9Q161Ja4XgfpYiNdOkMOdw3pqmWi/ZIaA
+         QwSg==
+X-Gm-Message-State: APjAAAVcF+Ecdw4EV0+DCBw5fNNlpwHVZUIYLK+/lINDMEtmCxV/DO6B
+        lXJI5MByltAVFbJ8qchIN9U=
+X-Google-Smtp-Source: APXvYqxgHk9mkyG9dEw7PwdNzpfobnLz5fYcAHzA0igNTDncBdPrNoyAjTpPQr06t1CDpR6HnuFroA==
+X-Received: by 2002:a17:90a:2567:: with SMTP id j94mr21625895pje.121.1561843930143;
+        Sat, 29 Jun 2019 14:32:10 -0700 (PDT)
+Received: from localhost.localdomain ([49.33.226.157])
+        by smtp.gmail.com with ESMTPSA id v10sm6101388pfe.163.2019.06.29.14.32.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 29 Jun 2019 14:32:09 -0700 (PDT)
+From:   Shreeya Patel <shreeya.patel23498@gmail.com>
+To:     skhan@linuxfoundation.org, corbet@lwn.net, tomas.winkler@intel.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [linux-kernel-mentees] [PATCH v1] Doc : fs : convert xfs.txt to
- ReST
-Message-ID: <20190629205759.GA25960@localhost>
-References: <20190628214302.GA12096@localhost>
- <20190629010733.GA31770@localhost>
- <20190629145433.GA10491@localhost>
- <20190629150155.GB10491@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190629150155.GB10491@localhost>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Subject: [PATCH] Documentation: misc-devices: mei: Convert mei txt files to reST
+Date:   Sun, 30 Jun 2019 03:02:03 +0530
+Message-Id: <20190629213203.5887-1-shreeya.patel23498@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20190629205924.Jsm42dO15ybyg1SynjSgch1fUMqT3ERGNGJlkVpgJQs@z>
 
-Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+Convert the MEI misc device's documentation files from .txt to
+reStructuredText format. Make a minor change of correcting the
+wrong macro name MEI_CONNECT_CLIENT_IOCTL to IOCTL_MEI_CONNECT_CLIENT.
+Add an index file in mei as there are two sections for it in the
+documentation.
+
+Signed-off-by: Shreeya Patel <shreeya.patel23498@gmail.com>
 ---
+I am not sure if I have placed the Documentation in the right place
+so I would like to get some suggestions from the MAINTAINERS on this
+part.
 
-In v3:
-Update MAINTAINERS. Fix Indentation/long line issues. Insert Sphinx tag.
+ Documentation/misc-devices/index.rst          |   1 +
+ Documentation/misc-devices/mei/index.rst      |  15 +
+ .../misc-devices/mei/mei-client-bus.rst       | 151 +++++++++
+ .../misc-devices/mei/mei-client-bus.txt       | 141 ---------
+ Documentation/misc-devices/mei/mei.rst        | 289 ++++++++++++++++++
+ Documentation/misc-devices/mei/mei.txt        | 266 ----------------
+ 6 files changed, 456 insertions(+), 407 deletions(-)
+ create mode 100644 Documentation/misc-devices/mei/index.rst
+ create mode 100644 Documentation/misc-devices/mei/mei-client-bus.rst
+ delete mode 100644 Documentation/misc-devices/mei/mei-client-bus.txt
+ create mode 100644 Documentation/misc-devices/mei/mei.rst
+ delete mode 100644 Documentation/misc-devices/mei/mei.txt
 
- Documentation/filesystems/index.rst |   5 +-
- Documentation/filesystems/xfs.rst   | 468 +++++++++++++++++++++++++++
- Documentation/filesystems/xfs.txt   | 470 ----------------------------
- MAINTAINERS                         |   2 +-
- 4 files changed, 472 insertions(+), 473 deletions(-)
- create mode 100644 Documentation/filesystems/xfs.rst
- delete mode 100644 Documentation/filesystems/xfs.txt
-
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1131c34d7..a4cf5fca4 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -16,7 +16,7 @@ algorithms work.
- .. toctree::
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index dfd1f45a3127..e788a12b2b19 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -15,3 +15,4 @@ fit into other categories.
     :maxdepth: 2
  
--   path-lookup.rst
-+   path-lookup
-    api-summary
-    splice
- 
-@@ -40,4 +40,5 @@ Documentation for individual filesystem types can be found here.
- .. toctree::
-    :maxdepth: 2
- 
--   binderfs.rst
-+   binderfs
-+   xfs
-diff --git a/Documentation/filesystems/xfs.rst b/Documentation/filesystems/xfs.rst
+    ibmvmc
++   mei/index
+diff --git a/Documentation/misc-devices/mei/index.rst b/Documentation/misc-devices/mei/index.rst
 new file mode 100644
-index 000000000..d36ef042c
+index 000000000000..3018098ad075
 --- /dev/null
-+++ b/Documentation/filesystems/xfs.rst
-@@ -0,0 +1,468 @@
++++ b/Documentation/misc-devices/mei/index.rst
+@@ -0,0 +1,15 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+======================
-+The SGI XFS Filesystem
-+======================
 +
-+XFS is a high performance journaling filesystem which originated
-+on the SGI IRIX platform.  It is completely multi-threaded, can
-+support large files and large filesystems, extended attributes,
-+variable block sizes, is extent based, and makes extensive use of
-+Btrees (directories, extents, free space) to aid both performance
-+and scalability.
++=================================================================
++Intel(R) Management Engine Interface Kernel Driver (Intel(R) MEI)
++=================================================================
 +
-+Refer to the documentation at https://xfs.wiki.kernel.org/
-+for further details.  This implementation is on-disk compatible
-+with the IRIX version of XFS.
++.. class:: toc-title
 +
++           Table of contents
 +
-+Mount Options
-+=============
++.. toctree::
++   :maxdepth: 2
 +
-+When mounting an XFS filesystem, the following options are accepted.  For
-+boolean mount options, the names with the "(*)" prefix is the default behaviour.
-+For example, take a behaviour enabled by default to be a one (1) or, a zero (0)
-+otherwise, ``(*)[no]default`` would be 0 while ``[no](*)default`` , a 1.
++   mei
++   mei-client-bus
+diff --git a/Documentation/misc-devices/mei/mei-client-bus.rst b/Documentation/misc-devices/mei/mei-client-bus.rst
+new file mode 100644
+index 000000000000..82d455afae78
+--- /dev/null
++++ b/Documentation/misc-devices/mei/mei-client-bus.rst
+@@ -0,0 +1,151 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+   allocsize=<size>
-+        Sets the buffered I/O end-of-file preallocation size when doing delayed
-+        allocation writeout (default size is 64KiB).  Valid values for this
-+        option are page size (typically 4KiB) through to 1GiB, inclusive, in
-+        power-of-2 increments.
++==============================================
++Intel(R) Management Engine (ME) Client bus API
++==============================================
 +
-+        The default behaviour is for dynamic end-of-file preallocation size,
-+        which uses a set of heuristics to optimise the preallocation size based
-+        on the current allocation patterns within the file and the access
-+        patterns to the file. Specifying a fixed allocsize value turns off the
-+        dynamic behaviour.
 +
-+   [no]attr2
-+        The options enable/disable an "opportunistic" improvement to be made in
-+        the way inline extended attributes are stored on-disk.  When the new
-+        form is used for the first time when ``attr2`` is selected (either when
-+        setting or removing extended attributes) the on-disk superblock feature
-+        bit field will be updated to reflect this format being in use.
++Rationale
++=========
 +
-+        The default behaviour is determined by the on-disk feature bit
-+        indicating that ``attr2`` behaviour is active. If either mount option is
-+        set, then that becomes the new default used by the filesystem. However
-+        on CRC enabled filesystems, the ``attr2`` format is always used , and so
-+        will reject the ``noattr2`` mount option if it is set.
++MEI misc character device is useful for dedicated applications to send and receive
++data to the many FW appliance found in Intel's ME from the user space.
++However for some of the ME functionalities it make sense to leverage existing software
++stack and expose them through existing kernel subsystems.
 +
-+   (*)[no]discard
-+        Enable/disable the issuing of commands to let the block device reclaim
-+        space freed by the filesystem.  This is useful for SSD devices, thinly
-+        provisioned LUNs and virtual machine images, but may have a performance
-+        impact.
++In order to plug seamlessly into the kernel device driver model we add kernel virtual
++bus abstraction on top of the MEI driver. This allows implementing linux kernel drivers
++for the various MEI features as a stand alone entities found in their respective subsystem.
++Existing device drivers can even potentially be re-used by adding an MEI CL bus layer to
++the existing code.
 +
-+        Note: It is currently recommended that you use the ``fstrim``
-+        application to discard unused blocks rather than the ``discard`` mount
-+        option because the performance impact of this option is quite severe.
 +
-+   grpid/bsdgroups
-+   nogrpid/(*)sysvgroups
-+        These options define what group ID a newly created file gets.  When
-+        ``grpid`` is set, it takes the group ID of the directory in which it is
-+        created; otherwise it takes the ``fsgid`` of the current process, unless
-+        the directory has the ``setgid`` bit set, in which case it takes the
-+        ``gid`` from the parent directory, and also gets the ``setgid`` bit set
-+        if it is a directory itself.
-+
-+   filestreams
-+        Make the data allocator use the filestreams allocation mode across the
-+        entire filesystem rather than just on directories configured to use it.
-+
-+   (*)[no]ikeep
-+        When ``ikeep`` is specified, XFS does not delete empty inode clusters
-+        and keeps them around on disk.  When ``noikeep`` is specified, empty
-+        inode clusters are returned to the free space pool.
-+
-+   inode32 | (*)inode64
-+        When ``inode32`` is specified, it indicates that XFS limits inode
-+        creation to locations which will not result in inode numbers with more
-+        than 32 bits of significance.
-+
-+        When ``inode64`` is specified, it indicates that XFS is allowed to
-+        create inodes at any location in the filesystem, including those which
-+        will result in inode numbers occupying more than 32 bits of
-+        significance.
-+
-+        ``inode32`` is provided for backwards compatibility with older systems
-+        and applications, since 64 bits inode numbers might cause problems for
-+        some applications that cannot handle large inode numbers.  If
-+        applications are in use which do not handle inode numbers bigger than 32
-+        bits, the ``inode32`` option should be specified.
-+
-+
-+   (*)[no]largeio
-+        If ``nolargeio`` is specified, the optimal I/O reported in st_blksize by
-+        **stat(2)** will be as small as possible to allow user applications to
-+        avoid inefficient read/modify/write I/O.  This is typically the page
-+        size of the machine, as this is the granularity of the page cache.
-+
-+        If ``largeio`` is specified, a filesystem that was created with a
-+        ``swidth`` specified will return the ``swidth`` value (in bytes) in
-+        st_blksize. If the filesystem does not have a ``swidth`` specified but
-+        does specify an ``allocsize`` then ``allocsize`` (in bytes) will be
-+        returned instead. Otherwise the behaviour is the same as if
-+        ``nolargeio`` was specified.
-+
-+   logbufs=<value>
-+        Set the number of in-memory log buffers to ``value``.  Valid numbers
-+        range from 2-8 inclusive.
-+
-+        The default value is 8 buffers.
-+
-+        If the memory cost of 8 log buffers is too high on small systems, then
-+        it may be reduced at some cost to performance on metadata intensive
-+        workloads. The ``logbsize`` option below controls the size of each
-+        buffer and so is also relevant to this case.
-+
-+   logbsize=<value>
-+        Set the size of each in-memory log buffer to ``value``.  The size may be
-+        specified in bytes, or in kilobytes with a "k" suffix. Valid sizes for
-+        version 1 and version 2 logs are 16384 (16k) and 32768 (32k).  Valid
-+        sizes for version 2 logs also include 65536 (64k), 131072 (128k) and
-+        262144 (256k). The ``logbsize`` must be an integer multiple of the
-+        "log stripe unit" configured at mkfs time.
-+
-+        The default value for for version 1 logs is 32768, while the default
-+        value for version 2 logs is ``MAX(32768, log_sunit)``.
-+
-+   logdev=<device>
-+        Use ``device`` as an external log (metadata journal).  In an XFS
-+        filesystem, the log device can be separate from the data device or
-+        contained within it.
-+
-+   rtdev=<device>
-+        An XFS filesystem has up to three parts: a data section, a log section,
-+        and a real-time section.  The real-time section is optional.  If
-+        enabled, ``rtdev`` sets ``device`` to be used as an external real-time
-+        section, similar to ``logdev`` above.
-+
-+   noalign
-+        Data allocations will not be aligned at stripe unit boundaries. This is
-+        only relevant to filesystems created with non-zero data alignment
-+        parameters (sunit, swidth) by mkfs.
-+
-+   norecovery
-+        The filesystem will be mounted without running log recovery.  If the
-+        filesystem was not cleanly unmounted, it is likely to be inconsistent
-+        when mounted in ``norecovery`` mode.  Some files or directories may not
-+        be accessible because of this.  Filesystems mounted ``norecovery`` must
-+        be mounted read-only or the mount will fail.
-+
-+   nouuid
-+        Don't check for double mounted file systems using the file system uuid.
-+        This is useful to mount LVM snapshot volumes, and often used in
-+        combination with ``norecovery`` for mounting read-only snapshots.
-+
-+   noquota
-+	Forcibly turns off all quota accounting and enforcement
-+	within the filesystem.
-+
-+   uquota/usrquota/uqnoenforce/quota
-+        User disk quota accounting enabled, and limits (optionally) enforced.
-+        Refer to **xfs_quota(8)** for further details.
-+
-+   gquota/grpquota/gqnoenforce
-+        Group disk quota accounting enabled and limits (optionally) enforced.
-+        Refer to **xfs_quota(8)** for further details.
-+
-+   pquota/prjquota/pqnoenforce
-+        Project disk quota accounting enabled and limits (optionally) enforced.
-+        Refer to **xfs_quota(8)** for further details.
-+
-+   sunit=<value>
-+        Used to specify the stripe unit for a RAID device or (in conjunction
-+        with ``swidth`` below) a stripe volume.  ``value`` must be specified in
-+        512-byte block units. This option is only relevant to filesystems that
-+        were created with non-zero data alignment parameters.
-+
-+        The ``sunit`` parameter specified must be compatible with the existing
-+        filesystem alignment characteristics.  In general, that means the only
-+        valid changes to ``sunit`` are increasing it by a power-of-2 multiple.
-+
-+        Typically, this mount option is necessary only after an underlying RAID
-+        device has had its geometry modified, such as adding a new disk to a
-+        RAID5 lun and reshaping it.
-+
-+   swidth=<value>
-+        Used to specify the stripe width for a RAID device or (in conjunction
-+        with ``sunit`` above) a stripe volume.  ``value`` must be specified in
-+        512-byte block units. This option, like ``sunit`` above, is only
-+        relevant to filesystems that were created with non-zero data alignment
-+        parameters.
-+
-+        The ``swidth`` parameter specified must be compatible with the existing
-+        filesystem alignment characteristics.  In general, that means the only
-+        valid swidth values are any integer multiple of a valid ``sunit`` value.
-+
-+        Typically, this mount option is necessary only after an underlying RAID
-+        device has had its geometry modified, such as adding a new disk to a
-+        RAID5 lun and reshaping it.
-+
-+
-+   swalloc
-+        Data allocations will be rounded up to stripe width boundaries when the
-+        current end of file is being extended and the file size is larger than
-+        the stripe width size.
-+
-+   wsync
-+        When specified, all filesystem namespace operations are executed
-+        synchronously. This ensures that when the namespace operation (create,
-+        unlink, etc) completes, the change to the namespace is on stable
-+        storage. This is useful in HA setups where failover must not result in
-+        clients seeing inconsistent namespace presentation during or after a
-+        failover event.
-+
-+
-+Deprecated Mount Options
-+========================
-+
-+  Name				Removal Schedule
-+  ----				----------------
-+
-+
-+Removed Mount Options
-+=====================
-+
-+  Name				Removed
-+  ----				-------
-+  delaylog/nodelaylog		v4.0
-+  ihashsize			v4.0
-+  irixsgid			v4.0
-+  osyncisdsync/osyncisosync	v4.0
-+  barrier			v4.19
-+  nobarrier			v4.19
-+
-+
-+sysctls
-+=======
-+
-+The following sysctls are available for the XFS filesystem:
-+
-+  fs.xfs.stats_clear		(Min: 0  Default: 0  Max: 1)
-+	Setting this to "1" clears accumulated XFS statistics
-+	in /proc/fs/xfs/stat.  It then immediately resets to "0".
-+
-+  fs.xfs.xfssyncd_centisecs	(Min: 100  Default: 3000  Max: 720000)
-+	The interval at which the filesystem flushes metadata
-+	out to disk and runs internal cache cleanup routines.
-+
-+  fs.xfs.filestream_centisecs	(Min: 1  Default: 3000  Max: 360000)
-+	The interval at which the filesystem ages filestreams cache
-+	references and returns timed-out AGs back to the free stream
-+	pool.
-+
-+  fs.xfs.speculative_prealloc_lifetime
-+		(Units: seconds   Min: 1  Default: 300  Max: 86400)
-+	The interval at which the background scanning for inodes
-+	with unused speculative preallocation runs. The scan
-+	removes unused preallocation from clean inodes and releases
-+	the unused space back to the free pool.
-+
-+  fs.xfs.error_level		(Min: 0  Default: 3  Max: 11)
-+	A volume knob for error reporting when internal errors occur.
-+	This will generate detailed messages & backtraces for filesystem
-+	shutdowns, for example.  Current threshold values are:
-+
-+		XFS_ERRLEVEL_OFF:       0
-+		XFS_ERRLEVEL_LOW:       1
-+		XFS_ERRLEVEL_HIGH:      5
-+
-+  fs.xfs.panic_mask		(Min: 0  Default: 0  Max: 256)
-+	Causes certain error conditions to call BUG(). Value is a bitmask;
-+	OR together the tags which represent errors which should cause panics:
-+
-+		XFS_NO_PTAG                     0
-+		XFS_PTAG_IFLUSH                 0x00000001
-+		XFS_PTAG_LOGRES                 0x00000002
-+		XFS_PTAG_AILDELETE              0x00000004
-+		XFS_PTAG_ERROR_REPORT           0x00000008
-+		XFS_PTAG_SHUTDOWN_CORRUPT       0x00000010
-+		XFS_PTAG_SHUTDOWN_IOERROR       0x00000020
-+		XFS_PTAG_SHUTDOWN_LOGERROR      0x00000040
-+		XFS_PTAG_FSBLOCK_ZERO           0x00000080
-+		XFS_PTAG_VERIFIER_ERROR         0x00000100
-+
-+	This option is intended for debugging only.
-+
-+  fs.xfs.irix_symlink_mode	(Min: 0  Default: 0  Max: 1)
-+	Controls whether symlinks are created with mode 0777 (default)
-+	or whether their mode is affected by the umask (irix mode).
-+
-+  fs.xfs.irix_sgid_inherit	(Min: 0  Default: 0  Max: 1)
-+	Controls files created in SGID directories.
-+	If the group ID of the new file does not match the effective group
-+	ID or one of the supplementary group IDs of the parent dir, the
-+	ISGID bit is cleared if the irix_sgid_inherit compatibility sysctl
-+	is set.
-+
-+  fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
-+	Setting this to "1" will cause the "sync" flag set
-+	by the **xfs_io(8)** chattr command on a directory to be
-+	inherited by files in that directory.
-+
-+  fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
-+	Setting this to "1" will cause the "nodump" flag set
-+	by the **xfs_io(8)** chattr command on a directory to be
-+	inherited by files in that directory.
-+
-+  fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
-+	Setting this to "1" will cause the "noatime" flag set
-+	by the **xfs_io(8)** chattr command on a directory to be
-+	inherited by files in that directory.
-+
-+  fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
-+	Setting this to "1" will cause the "nosymlinks" flag set
-+	by the **xfs_io(8)** chattr command on a directory to be
-+	inherited by files in that directory.
-+
-+  fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
-+	Setting this to "1" will cause the "nodefrag" flag set
-+	by the **xfs_io(8)** chattr command on a directory to be
-+	inherited by files in that directory.
-+
-+  fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
-+	In "inode32" allocation mode, this option determines how many
-+	files the allocator attempts to allocate in the same allocation
-+	group before moving to the next allocation group.  The intent
-+	is to control the rate at which the allocator moves between
-+	allocation groups when allocating extents for new files.
-+
-+Deprecated Sysctls
-+==================
-+
-+None at present.
-+
-+
-+Removed Sysctls
-+===============
-+
-+  Name				Removed
-+  ----				-------
-+  fs.xfs.xfsbufd_centisec	v4.0
-+  fs.xfs.age_buffer_centisecs	v4.0
-+
-+
-+Error handling
++MEI CL bus API
 +==============
 +
-+XFS can act differently according to the type of error found during its
-+operation. The implementation introduces the following concepts to the error
-+handler:
++A driver implementation for an MEI Client is very similar to existing bus
++based device drivers. The driver registers itself as an MEI CL bus driver through
++the :c:type:`mei_cl_driver` structure:
 +
-+ -failure speed:
-+	Defines how fast XFS should propagate an error upwards when a specific
-+	error is found during the filesystem operation. It can propagate
-+	immediately, after a defined number of retries, after a set time period,
-+	or simply retry forever.
++::
 +
-+ -error classes:
-+	Specifies the subsystem the error configuration will apply to, such as
-+	metadata IO or memory allocation. Different subsystems will have
-+	different error handlers for which behaviour can be configured.
++        struct mei_cl_driver {
++	        struct device_driver driver;
++	        const char *name;
 +
-+ -error handlers:
-+	Defines the behavior for a specific error.
++	        const struct mei_cl_device_id *id_table;
 +
-+The filesystem behavior during an error can be set via sysfs files. Each
-+error handler works independently - the first condition met by an error handler
-+for a specific class will cause the error to be propagated rather than reset and
-+retried.
++	        int (*probe)(struct mei_cl_device *dev, const struct mei_cl_id *id);
++	        int (*remove)(struct mei_cl_device *dev);
++        };
 +
-+The action taken by the filesystem when the error is propagated is context
-+dependent - it may cause a shut down in the case of an unrecoverable error,
-+it may be reported back to userspace, or it may even be ignored because
-+there's nothing useful we can with the error or anyone we can report it to (e.g.
-+during unmount).
-+
-+The configuration files are organized into the following hierarchy for each
-+mounted filesystem:
-+
-+  /sys/fs/xfs/<dev>/error/<class>/<error>/
-+
-+Where:
-+  <dev>
-+	The short device name of the mounted filesystem. This is the same device
-+	name that shows up in XFS kernel error messages as "XFS(<dev>): ..."
-+
-+  <class>
-+	The subsystem the error configuration belongs to. As of 4.9, the defined
-+	classes are:
-+
-+		- "metadata": applies metadata buffer write IO
-+
-+  <error>
-+	The individual error handler configurations.
++        struct mei_cl_id {
++	        char name[MEI_NAME_SIZE];
++	        kernel_ulong_t driver_info;
++        };
 +
 +
-+Each filesystem has "global" error configuration options defined in their top
-+level directory:
++The :c:type:`mei_cl_id` structure allows the driver to bind itself against a device name.
 +
-+  /sys/fs/xfs/<dev>/error/
++To actually register a driver on the ME Client bus one must call the :c:func:`mei_cl_add_driver()`
++API. This is typically called at module init time.
 +
-+  fail_at_unmount		(Min:  0  Default:  1  Max: 1)
-+	Defines the filesystem error behavior at unmount time.
++Once registered on the ME Client bus, a driver will typically try to do some I/O on
++this bus and this should be done through the :c:func:`mei_cl_send()` and :c:func:`mei_cl_recv()`
++routines. The latter is synchronous (blocks and sleeps until data shows up).
++In order for drivers to be notified of pending events waiting for them (e.g.
++an Rx event) they can register an event handler through the
++:c:func:`mei_cl_register_event_cb()` routine. Currently only the :c:macro:`MEI_EVENT_RX` event
++will trigger an event handler call and the driver implementation is supposed
++to call :c:func:`mei_recv()` from the event handler in order to fetch the pending
++received buffers.
 +
-+	If set to a value of 1, XFS will override all other error configurations
-+	during unmount and replace them with "immediate fail" characteristics.
-+	i.e. no retries, no retry timeout. This will always allow unmount to
-+	succeed when there are persistent errors present.
 +
-+	If set to 0, the configured retry behaviour will continue until all
-+	retries and/or timeouts have been exhausted. This will delay unmount
-+	completion when there are persistent errors, and it may prevent the
-+	filesystem from ever unmounting fully in the case of "retry forever"
-+	handler configurations.
++Example
++=======
 +
-+	Note: there is no guarantee that fail_at_unmount can be set while an
-+	unmount is in progress. It is possible that the sysfs entries are
-+	removed by the unmounting filesystem before a "retry forever" error
-+	handler configuration causes unmount to hang, and hence the filesystem
-+	must be configured appropriately before unmount begins to prevent
-+	unmount hangs.
++As a theoretical example let's pretend the ME comes with a "contact" NFC IP.
++The driver init and exit routines for this device would look like:
 +
-+Each filesystem has specific error class handlers that define the error
-+propagation behaviour for specific errors. There is also a "default" error
-+handler defined, which defines the behaviour for all errors that don't have
-+specific handlers defined. Where multiple retry constraints are configuredi for
-+a single error, the first retry configuration that expires will cause the error
-+to be propagated. The handler configurations are found in the directory:
++::
 +
-+  /sys/fs/xfs/<dev>/error/<class>/<error>/
++        #define CONTACT_DRIVER_NAME "contact"
 +
-+  max_retries			(Min: -1  Default: Varies  Max: INTMAX)
-+	Defines the allowed number of retries of a specific error before
-+	the filesystem will propagate the error. The retry count for a given
-+	error context (e.g. a specific metadata buffer) is reset every time
-+	there is a successful completion of the operation.
++        static struct mei_cl_device_id contact_mei_cl_tbl[] = {
++	        { CONTACT_DRIVER_NAME, },
++	        /* required last entry */
++	        { }
++        };
++        MODULE_DEVICE_TABLE(mei_cl, contact_mei_cl_tbl);
 +
-+	Setting the value to "-1" will cause XFS to retry forever for this
-+	specific error.
++        static struct mei_cl_driver contact_driver = {
++	        .id_table = contact_mei_tbl,
++	        .name = CONTACT_DRIVER_NAME,
++	        .probe = contact_probe,
++	        .remove = contact_remove,
++        };
 +
-+	Setting the value to "0" will cause XFS to fail immediately when the
-+	specific error is reported.
++        static int contact_init(void)
++        {
++	        int r;
 +
-+	Setting the value to "N" (where 0 < N < Max) will make XFS retry the
-+	operation "N" times before propagating the error.
++	        r = mei_cl_driver_register(&contact_driver);
++	        if (r) {
++		        pr_err(CONTACT_DRIVER_NAME ": driver registration failed\n");
++		        return r;
++	        }
 +
-+  retry_timeout_seconds		(Min:  -1  Default:  Varies  Max: 1 day)
-+	Define the amount of time (in seconds) that the filesystem is
-+	allowed to retry its operations when the specific error is
-+	found.
++	        return 0;
++        }
 +
-+	Setting the value to "-1" will allow XFS to retry forever for this
-+	specific error.
++        static void __exit contact_exit(void)
++        {
++	        mei_cl_driver_unregister(&contact_driver);
++        }
 +
-+	Setting the value to "0" will cause XFS to fail immediately when the
-+	specific error is reported.
++        module_init(contact_init);
++        module_exit(contact_exit);
 +
-+	Setting the value to "N" (where 0 < N < Max) will allow XFS to retry the
-+	operation for up to "N" seconds before propagating the error.
++And the driver's simplified probe routine would look like that:
 +
-+Note: The default behaviour for a specific error handler is dependent on both
-+the class and error context. For example, the default values for
-+"metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
-+to "fail immediately" behaviour. This is done because ENODEV is a fatal,
-+unrecoverable error no matter how many times the metadata IO is retried.
-diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.txt
++::
++
++        int contact_probe(struct mei_cl_device *dev, struct mei_cl_device_id *id)
++        {
++	        struct contact_driver *contact;
++
++	        [...]
++	        mei_cl_enable_device(dev);
++
++	        mei_cl_register_event_cb(dev, contact_event_cb, contact);
++
++	        return 0;
++        }
++
++In the probe routine the driver first enable the MEI device and then registers
++an ME bus event handler which is as close as it can get to registering a
++threaded IRQ handler.
++The handler implementation will typically call some I/O routine depending on
++the pending events:
++
++::
++
++        #define MAX_NFC_PAYLOAD 128
++
++        static void contact_event_cb(struct mei_cl_device *dev, u32 events,
++                                     void *context)
++        {
++	        struct contact_driver *contact = context;
++
++	        if (events & BIT(MEI_EVENT_RX)) {
++		        u8 payload[MAX_NFC_PAYLOAD];
++		        int payload_size;
++
++		        payload_size = mei_recv(dev, payload, MAX_NFC_PAYLOAD);
++		        if (payload_size <= 0)
++			        return;
++
++		        /* Hook to the NFC subsystem */
++		        nfc_hci_recv_frame(contact->hdev, payload, payload_size);
++	        }
++        }
+diff --git a/Documentation/misc-devices/mei/mei-client-bus.txt b/Documentation/misc-devices/mei/mei-client-bus.txt
 deleted file mode 100644
-index a5cbb5e0e..000000000
---- a/Documentation/filesystems/xfs.txt
+index 743be4ec8989..000000000000
+--- a/Documentation/misc-devices/mei/mei-client-bus.txt
 +++ /dev/null
-@@ -1,470 +0,0 @@
+@@ -1,141 +0,0 @@
+-Intel(R) Management Engine (ME) Client bus API
+-==============================================
 -
--The SGI XFS Filesystem
--======================
 -
--XFS is a high performance journaling filesystem which originated
--on the SGI IRIX platform.  It is completely multi-threaded, can
--support large files and large filesystems, extended attributes,
--variable block sizes, is extent based, and makes extensive use of
--Btrees (directories, extents, free space) to aid both performance
--and scalability.
+-Rationale
+-=========
 -
--Refer to the documentation at https://xfs.wiki.kernel.org/
--for further details.  This implementation is on-disk compatible
--with the IRIX version of XFS.
+-MEI misc character device is useful for dedicated applications to send and receive
+-data to the many FW appliance found in Intel's ME from the user space.
+-However for some of the ME functionalities it make sense to leverage existing software
+-stack and expose them through existing kernel subsystems.
 -
+-In order to plug seamlessly into the kernel device driver model we add kernel virtual
+-bus abstraction on top of the MEI driver. This allows implementing linux kernel drivers
+-for the various MEI features as a stand alone entities found in their respective subsystem.
+-Existing device drivers can even potentially be re-used by adding an MEI CL bus layer to
+-the existing code.
 -
--Mount Options
--=============
 -
--When mounting an XFS filesystem, the following options are accepted.
--For boolean mount options, the names with the (*) suffix is the
--default behaviour.
--
--  allocsize=size
--	Sets the buffered I/O end-of-file preallocation size when
--	doing delayed allocation writeout (default size is 64KiB).
--	Valid values for this option are page size (typically 4KiB)
--	through to 1GiB, inclusive, in power-of-2 increments.
--
--	The default behaviour is for dynamic end-of-file
--	preallocation size, which uses a set of heuristics to
--	optimise the preallocation size based on the current
--	allocation patterns within the file and the access patterns
--	to the file. Specifying a fixed allocsize value turns off
--	the dynamic behaviour.
--
--  attr2
--  noattr2
--	The options enable/disable an "opportunistic" improvement to
--	be made in the way inline extended attributes are stored
--	on-disk.  When the new form is used for the first time when
--	attr2 is selected (either when setting or removing extended
--	attributes) the on-disk superblock feature bit field will be
--	updated to reflect this format being in use.
--
--	The default behaviour is determined by the on-disk feature
--	bit indicating that attr2 behaviour is active. If either
--	mount option it set, then that becomes the new default used
--	by the filesystem.
--
--	CRC enabled filesystems always use the attr2 format, and so
--	will reject the noattr2 mount option if it is set.
--
--  discard
--  nodiscard (*)
--	Enable/disable the issuing of commands to let the block
--	device reclaim space freed by the filesystem.  This is
--	useful for SSD devices, thinly provisioned LUNs and virtual
--	machine images, but may have a performance impact.
--
--	Note: It is currently recommended that you use the fstrim
--	application to discard unused blocks rather than the discard
--	mount option because the performance impact of this option
--	is quite severe.
--
--  grpid/bsdgroups
--  nogrpid/sysvgroups (*)
--	These options define what group ID a newly created file
--	gets.  When grpid is set, it takes the group ID of the
--	directory in which it is created; otherwise it takes the
--	fsgid of the current process, unless the directory has the
--	setgid bit set, in which case it takes the gid from the
--	parent directory, and also gets the setgid bit set if it is
--	a directory itself.
--
--  filestreams
--	Make the data allocator use the filestreams allocation mode
--	across the entire filesystem rather than just on directories
--	configured to use it.
--
--  ikeep
--  noikeep (*)
--	When ikeep is specified, XFS does not delete empty inode
--	clusters and keeps them around on disk.  When noikeep is
--	specified, empty inode clusters are returned to the free
--	space pool.
--
--  inode32
--  inode64 (*)
--	When inode32 is specified, it indicates that XFS limits
--	inode creation to locations which will not result in inode
--	numbers with more than 32 bits of significance.
--
--	When inode64 is specified, it indicates that XFS is allowed
--	to create inodes at any location in the filesystem,
--	including those which will result in inode numbers occupying
--	more than 32 bits of significance. 
--
--	inode32 is provided for backwards compatibility with older
--	systems and applications, since 64 bits inode numbers might
--	cause problems for some applications that cannot handle
--	large inode numbers.  If applications are in use which do
--	not handle inode numbers bigger than 32 bits, the inode32
--	option should be specified.
--
--
--  largeio
--  nolargeio (*)
--	If "nolargeio" is specified, the optimal I/O reported in
--	st_blksize by stat(2) will be as small as possible to allow
--	user applications to avoid inefficient read/modify/write
--	I/O.  This is typically the page size of the machine, as
--	this is the granularity of the page cache.
--
--	If "largeio" specified, a filesystem that was created with a
--	"swidth" specified will return the "swidth" value (in bytes)
--	in st_blksize. If the filesystem does not have a "swidth"
--	specified but does specify an "allocsize" then "allocsize"
--	(in bytes) will be returned instead. Otherwise the behaviour
--	is the same as if "nolargeio" was specified.
--
--  logbufs=value
--	Set the number of in-memory log buffers.  Valid numbers
--	range from 2-8 inclusive.
--
--	The default value is 8 buffers.
--
--	If the memory cost of 8 log buffers is too high on small
--	systems, then it may be reduced at some cost to performance
--	on metadata intensive workloads. The logbsize option below
--	controls the size of each buffer and so is also relevant to
--	this case.
--
--  logbsize=value
--	Set the size of each in-memory log buffer.  The size may be
--	specified in bytes, or in kilobytes with a "k" suffix.
--	Valid sizes for version 1 and version 2 logs are 16384 (16k)
--	and 32768 (32k).  Valid sizes for version 2 logs also
--	include 65536 (64k), 131072 (128k) and 262144 (256k). The
--	logbsize must be an integer multiple of the log
--	stripe unit configured at mkfs time.
--
--	The default value for for version 1 logs is 32768, while the
--	default value for version 2 logs is MAX(32768, log_sunit).
--
--  logdev=device and rtdev=device
--	Use an external log (metadata journal) and/or real-time device.
--	An XFS filesystem has up to three parts: a data section, a log
--	section, and a real-time section.  The real-time section is
--	optional, and the log section can be separate from the data
--	section or contained within it.
--
--  noalign
--	Data allocations will not be aligned at stripe unit
--	boundaries. This is only relevant to filesystems created
--	with non-zero data alignment parameters (sunit, swidth) by
--	mkfs.
--
--  norecovery
--	The filesystem will be mounted without running log recovery.
--	If the filesystem was not cleanly unmounted, it is likely to
--	be inconsistent when mounted in "norecovery" mode.
--	Some files or directories may not be accessible because of this.
--	Filesystems mounted "norecovery" must be mounted read-only or
--	the mount will fail.
--
--  nouuid
--	Don't check for double mounted file systems using the file
--	system uuid.  This is useful to mount LVM snapshot volumes,
--	and often used in combination with "norecovery" for mounting
--	read-only snapshots.
--
--  noquota
--	Forcibly turns off all quota accounting and enforcement
--	within the filesystem.
--
--  uquota/usrquota/uqnoenforce/quota
--	User disk quota accounting enabled, and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
--
--  gquota/grpquota/gqnoenforce
--	Group disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
--
--  pquota/prjquota/pqnoenforce
--	Project disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
--
--  sunit=value and swidth=value
--	Used to specify the stripe unit and width for a RAID device
--	or a stripe volume.  "value" must be specified in 512-byte
--	block units. These options are only relevant to filesystems
--	that were created with non-zero data alignment parameters.
--
--	The sunit and swidth parameters specified must be compatible
--	with the existing filesystem alignment characteristics.  In
--	general, that means the only valid changes to sunit are
--	increasing it by a power-of-2 multiple. Valid swidth values
--	are any integer multiple of a valid sunit value.
--
--	Typically the only time these mount options are necessary if
--	after an underlying RAID device has had it's geometry
--	modified, such as adding a new disk to a RAID5 lun and
--	reshaping it.
--
--  swalloc
--	Data allocations will be rounded up to stripe width boundaries
--	when the current end of file is being extended and the file
--	size is larger than the stripe width size.
--
--  wsync
--	When specified, all filesystem namespace operations are
--	executed synchronously. This ensures that when the namespace
--	operation (create, unlink, etc) completes, the change to the
--	namespace is on stable storage. This is useful in HA setups
--	where failover must not result in clients seeing
--	inconsistent namespace presentation during or after a
--	failover event.
--
--
--Deprecated Mount Options
--========================
--
--  Name				Removal Schedule
--  ----				----------------
--
--
--Removed Mount Options
--=====================
--
--  Name				Removed
--  ----				-------
--  delaylog/nodelaylog		v4.0
--  ihashsize			v4.0
--  irixsgid			v4.0
--  osyncisdsync/osyncisosync	v4.0
--  barrier			v4.19
--  nobarrier			v4.19
--
--
--sysctls
--=======
--
--The following sysctls are available for the XFS filesystem:
--
--  fs.xfs.stats_clear		(Min: 0  Default: 0  Max: 1)
--	Setting this to "1" clears accumulated XFS statistics
--	in /proc/fs/xfs/stat.  It then immediately resets to "0".
--
--  fs.xfs.xfssyncd_centisecs	(Min: 100  Default: 3000  Max: 720000)
--	The interval at which the filesystem flushes metadata
--	out to disk and runs internal cache cleanup routines.
--
--  fs.xfs.filestream_centisecs	(Min: 1  Default: 3000  Max: 360000)
--	The interval at which the filesystem ages filestreams cache
--	references and returns timed-out AGs back to the free stream
--	pool.
--
--  fs.xfs.speculative_prealloc_lifetime
--		(Units: seconds   Min: 1  Default: 300  Max: 86400)
--	The interval at which the background scanning for inodes
--	with unused speculative preallocation runs. The scan
--	removes unused preallocation from clean inodes and releases
--	the unused space back to the free pool.
--
--  fs.xfs.error_level		(Min: 0  Default: 3  Max: 11)
--	A volume knob for error reporting when internal errors occur.
--	This will generate detailed messages & backtraces for filesystem
--	shutdowns, for example.  Current threshold values are:
--
--		XFS_ERRLEVEL_OFF:       0
--		XFS_ERRLEVEL_LOW:       1
--		XFS_ERRLEVEL_HIGH:      5
--
--  fs.xfs.panic_mask		(Min: 0  Default: 0  Max: 256)
--	Causes certain error conditions to call BUG(). Value is a bitmask;
--	OR together the tags which represent errors which should cause panics:
--
--		XFS_NO_PTAG                     0
--		XFS_PTAG_IFLUSH                 0x00000001
--		XFS_PTAG_LOGRES                 0x00000002
--		XFS_PTAG_AILDELETE              0x00000004
--		XFS_PTAG_ERROR_REPORT           0x00000008
--		XFS_PTAG_SHUTDOWN_CORRUPT       0x00000010
--		XFS_PTAG_SHUTDOWN_IOERROR       0x00000020
--		XFS_PTAG_SHUTDOWN_LOGERROR      0x00000040
--		XFS_PTAG_FSBLOCK_ZERO           0x00000080
--		XFS_PTAG_VERIFIER_ERROR         0x00000100
--
--	This option is intended for debugging only.
--
--  fs.xfs.irix_symlink_mode	(Min: 0  Default: 0  Max: 1)
--	Controls whether symlinks are created with mode 0777 (default)
--	or whether their mode is affected by the umask (irix mode).
--
--  fs.xfs.irix_sgid_inherit	(Min: 0  Default: 0  Max: 1)
--	Controls files created in SGID directories.
--	If the group ID of the new file does not match the effective group
--	ID or one of the supplementary group IDs of the parent dir, the
--	ISGID bit is cleared if the irix_sgid_inherit compatibility sysctl
--	is set.
--
--  fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
--	Setting this to "1" will cause the "sync" flag set
--	by the xfs_io(8) chattr command on a directory to be
--	inherited by files in that directory.
--
--  fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
--	Setting this to "1" will cause the "nodump" flag set
--	by the xfs_io(8) chattr command on a directory to be
--	inherited by files in that directory.
--
--  fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
--	Setting this to "1" will cause the "noatime" flag set
--	by the xfs_io(8) chattr command on a directory to be
--	inherited by files in that directory.
--
--  fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
--	Setting this to "1" will cause the "nosymlinks" flag set
--	by the xfs_io(8) chattr command on a directory to be
--	inherited by files in that directory.
--
--  fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
--	Setting this to "1" will cause the "nodefrag" flag set
--	by the xfs_io(8) chattr command on a directory to be
--	inherited by files in that directory.
--
--  fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
--	In "inode32" allocation mode, this option determines how many
--	files the allocator attempts to allocate in the same allocation
--	group before moving to the next allocation group.  The intent
--	is to control the rate at which the allocator moves between
--	allocation groups when allocating extents for new files.
--
--Deprecated Sysctls
--==================
--
--None at present.
--
--
--Removed Sysctls
--===============
--
--  Name				Removed
--  ----				-------
--  fs.xfs.xfsbufd_centisec	v4.0
--  fs.xfs.age_buffer_centisecs	v4.0
--
--
--Error handling
+-MEI CL bus API
 -==============
 -
--XFS can act differently according to the type of error found during its
--operation. The implementation introduces the following concepts to the error
--handler:
+-A driver implementation for an MEI Client is very similar to existing bus
+-based device drivers. The driver registers itself as an MEI CL bus driver through
+-the mei_cl_driver structure:
 -
-- -failure speed:
--	Defines how fast XFS should propagate an error upwards when a specific
--	error is found during the filesystem operation. It can propagate
--	immediately, after a defined number of retries, after a set time period,
--	or simply retry forever.
+-struct mei_cl_driver {
+-	struct device_driver driver;
+-	const char *name;
 -
-- -error classes:
--	Specifies the subsystem the error configuration will apply to, such as
--	metadata IO or memory allocation. Different subsystems will have
--	different error handlers for which behaviour can be configured.
+-	const struct mei_cl_device_id *id_table;
 -
-- -error handlers:
--	Defines the behavior for a specific error.
+-	int (*probe)(struct mei_cl_device *dev, const struct mei_cl_id *id);
+-	int (*remove)(struct mei_cl_device *dev);
+-};
 -
--The filesystem behavior during an error can be set via sysfs files. Each
--error handler works independently - the first condition met by an error handler
--for a specific class will cause the error to be propagated rather than reset and
--retried.
+-struct mei_cl_id {
+-	char name[MEI_NAME_SIZE];
+-	kernel_ulong_t driver_info;
+-};
 -
--The action taken by the filesystem when the error is propagated is context
--dependent - it may cause a shut down in the case of an unrecoverable error,
--it may be reported back to userspace, or it may even be ignored because
--there's nothing useful we can with the error or anyone we can report it to (e.g.
--during unmount).
+-The mei_cl_id structure allows the driver to bind itself against a device name.
 -
--The configuration files are organized into the following hierarchy for each
--mounted filesystem:
+-To actually register a driver on the ME Client bus one must call the mei_cl_add_driver()
+-API. This is typically called at module init time.
 -
--  /sys/fs/xfs/<dev>/error/<class>/<error>/
--
--Where:
--  <dev>
--	The short device name of the mounted filesystem. This is the same device
--	name that shows up in XFS kernel error messages as "XFS(<dev>): ..."
--
--  <class>
--	The subsystem the error configuration belongs to. As of 4.9, the defined
--	classes are:
--
--		- "metadata": applies metadata buffer write IO
--
--  <error>
--	The individual error handler configurations.
+-Once registered on the ME Client bus, a driver will typically try to do some I/O on
+-this bus and this should be done through the mei_cl_send() and mei_cl_recv()
+-routines. The latter is synchronous (blocks and sleeps until data shows up).
+-In order for drivers to be notified of pending events waiting for them (e.g.
+-an Rx event) they can register an event handler through the
+-mei_cl_register_event_cb() routine. Currently only the MEI_EVENT_RX event
+-will trigger an event handler call and the driver implementation is supposed
+-to call mei_recv() from the event handler in order to fetch the pending
+-received buffers.
 -
 -
--Each filesystem has "global" error configuration options defined in their top
--level directory:
+-Example
+-=======
 -
--  /sys/fs/xfs/<dev>/error/
+-As a theoretical example let's pretend the ME comes with a "contact" NFC IP.
+-The driver init and exit routines for this device would look like:
 -
--  fail_at_unmount		(Min:  0  Default:  1  Max: 1)
--	Defines the filesystem error behavior at unmount time.
+-#define CONTACT_DRIVER_NAME "contact"
 -
--	If set to a value of 1, XFS will override all other error configurations
--	during unmount and replace them with "immediate fail" characteristics.
--	i.e. no retries, no retry timeout. This will always allow unmount to
--	succeed when there are persistent errors present.
+-static struct mei_cl_device_id contact_mei_cl_tbl[] = {
+-	{ CONTACT_DRIVER_NAME, },
 -
--	If set to 0, the configured retry behaviour will continue until all
--	retries and/or timeouts have been exhausted. This will delay unmount
--	completion when there are persistent errors, and it may prevent the
--	filesystem from ever unmounting fully in the case of "retry forever"
--	handler configurations.
+-	/* required last entry */
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(mei_cl, contact_mei_cl_tbl);
 -
--	Note: there is no guarantee that fail_at_unmount can be set while an
--	unmount is in progress. It is possible that the sysfs entries are
--	removed by the unmounting filesystem before a "retry forever" error
--	handler configuration causes unmount to hang, and hence the filesystem
--	must be configured appropriately before unmount begins to prevent
--	unmount hangs.
+-static struct mei_cl_driver contact_driver = {
+-	.id_table = contact_mei_tbl,
+-	.name = CONTACT_DRIVER_NAME,
 -
--Each filesystem has specific error class handlers that define the error
--propagation behaviour for specific errors. There is also a "default" error
--handler defined, which defines the behaviour for all errors that don't have
--specific handlers defined. Where multiple retry constraints are configuredi for
--a single error, the first retry configuration that expires will cause the error
--to be propagated. The handler configurations are found in the directory:
+-	.probe = contact_probe,
+-	.remove = contact_remove,
+-};
 -
--  /sys/fs/xfs/<dev>/error/<class>/<error>/
+-static int contact_init(void)
+-{
+-	int r;
 -
--  max_retries			(Min: -1  Default: Varies  Max: INTMAX)
--	Defines the allowed number of retries of a specific error before
--	the filesystem will propagate the error. The retry count for a given
--	error context (e.g. a specific metadata buffer) is reset every time
--	there is a successful completion of the operation.
+-	r = mei_cl_driver_register(&contact_driver);
+-	if (r) {
+-		pr_err(CONTACT_DRIVER_NAME ": driver registration failed\n");
+-		return r;
+-	}
 -
--	Setting the value to "-1" will cause XFS to retry forever for this
--	specific error.
+-	return 0;
+-}
 -
--	Setting the value to "0" will cause XFS to fail immediately when the
--	specific error is reported.
+-static void __exit contact_exit(void)
+-{
+-	mei_cl_driver_unregister(&contact_driver);
+-}
 -
--	Setting the value to "N" (where 0 < N < Max) will make XFS retry the
--	operation "N" times before propagating the error.
+-module_init(contact_init);
+-module_exit(contact_exit);
 -
--  retry_timeout_seconds		(Min:  -1  Default:  Varies  Max: 1 day)
--	Define the amount of time (in seconds) that the filesystem is
--	allowed to retry its operations when the specific error is
--	found.
+-And the driver's simplified probe routine would look like that:
 -
--	Setting the value to "-1" will allow XFS to retry forever for this
--	specific error.
+-int contact_probe(struct mei_cl_device *dev, struct mei_cl_device_id *id)
+-{
+-	struct contact_driver *contact;
 -
--	Setting the value to "0" will cause XFS to fail immediately when the
--	specific error is reported.
+-	[...]
+-	mei_cl_enable_device(dev);
 -
--	Setting the value to "N" (where 0 < N < Max) will allow XFS to retry the
--	operation for up to "N" seconds before propagating the error.
+-	mei_cl_register_event_cb(dev, contact_event_cb, contact);
 -
--Note: The default behaviour for a specific error handler is dependent on both
--the class and error context. For example, the default values for
--"metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
--to "fail immediately" behaviour. This is done because ENODEV is a fatal,
--unrecoverable error no matter how many times the metadata IO is retried.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d0ed73599..66e972e9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17364,7 +17364,7 @@ L:	linux-xfs@vger.kernel.org
- W:	http://xfs.org/
- T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
- S:	Supported
--F:	Documentation/filesystems/xfs.txt
-+F:	Documentation/filesystems/xfs.rst
- F:	fs/xfs/
- 
- XILINX AXI ETHERNET DRIVER
+-	return 0;
+-}
+-
+-In the probe routine the driver first enable the MEI device and then registers
+-an ME bus event handler which is as close as it can get to registering a
+-threaded IRQ handler.
+-The handler implementation will typically call some I/O routine depending on
+-the pending events:
+-
+-#define MAX_NFC_PAYLOAD 128
+-
+-static void contact_event_cb(struct mei_cl_device *dev, u32 events,
+-			     void *context)
+-{
+-	struct contact_driver *contact = context;
+-
+-	if (events & BIT(MEI_EVENT_RX)) {
+-		u8 payload[MAX_NFC_PAYLOAD];
+-		int payload_size;
+-
+-		payload_size = mei_recv(dev, payload, MAX_NFC_PAYLOAD);
+-		if (payload_size <= 0)
+-			return;
+-
+-		/* Hook to the NFC subsystem */
+-		nfc_hci_recv_frame(contact->hdev, payload, payload_size);
+-	}
+-}
+diff --git a/Documentation/misc-devices/mei/mei.rst b/Documentation/misc-devices/mei/mei.rst
+new file mode 100644
+index 000000000000..e91ac2570b4d
+--- /dev/null
++++ b/Documentation/misc-devices/mei/mei.rst
+@@ -0,0 +1,289 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================================
++Intel(R) Management Engine Interface
++====================================
++
++Introduction
++============
++
++The Intel Management Engine (Intel ME) is an isolated and protected computing
++resource (Co-processor) residing inside certain Intel chipsets. The Intel ME
++provides support for computer/IT management features. The feature set
++depends on the Intel chipset SKU.
++
++The Intel Management Engine Interface (Intel MEI, previously known as HECI)
++is the interface between the Host and Intel ME. This interface is exposed
++to the host as a PCI device. The Intel MEI Driver is in charge of the
++communication channel between a host application and the Intel ME feature.
++
++Each Intel ME feature (Intel ME Client) is addressed by a GUID/UUID and
++each client has its own protocol. The protocol is message-based with a
++header and payload up to 512 bytes.
++
++Prominent usage of the Intel ME Interface is to communicate with Intel(R)
++Active Management Technology (Intel AMT) implemented in firmware running on
++the Intel ME.
++
++Intel AMT provides the ability to manage a host remotely out-of-band (OOB)
++even when the operating system running on the host processor has crashed or
++is in a sleep state.
++
++Some examples of Intel AMT usage are:
++        * Monitoring hardware state and platform components
++        * Remote power off/on (useful for green computing or overnight IT
++          maintenance)
++        * OS updates
++        * Storage of useful platform information such as software assets
++        * Built-in hardware KVM
++        * Selective network isolation of Ethernet and IP protocol flows based
++          on policies set by a remote management console
++        * IDE device redirection from remote management console
++
++Intel AMT (OOB) communication is based on SOAP (deprecated
++starting with Release 6.0) over HTTP/S or WS-Management protocol over
++HTTP/S that are received from a remote management console application.
++
++For more information about Intel AMT:
++`<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
++
++
++Intel MEI Driver
++================
++
++The driver exposes a misc device called :file:`/dev/mei`.
++
++An application maintains communication with an Intel ME feature while
++:file:`/dev/mei` is open. The binding to a specific feature is performed by calling
++:c:macro:`IOCTL_MEI_CONNECT_CLIENT`, which passes the desired UUID.
++The number of instances of an Intel ME feature that can be opened
++at the same time depends on the Intel ME feature, but most of the
++features allow only a single instance.
++
++The Intel AMT Host Interface (Intel AMTHI) feature supports multiple
++simultaneous user connected applications. The Intel MEI driver
++handles this internally by maintaining request queues for the applications.
++
++The driver is transparent to data that are passed between firmware feature
++and host application.
++
++Because some of the Intel ME features can change the system
++configuration, the driver by default allows only a privileged
++user to access it.
++
++A code snippet for an application communicating with Intel AMTHI client:
++
++::
++
++        struct mei_connect_client_data data;
++        fd = open(MEI_DEVICE);
++
++        data.d.in_client_uuid = AMTHI_UUID;
++
++        ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &data);
++
++        printf("Ver=%d, MaxLen=%ld\n",
++               data.d.in_client_uuid.protocol_version,
++               data.d.in_client_uuid.max_msg_length);
++
++        [...]
++
++        write(fd, amthi_req_data, amthi_req_data_len);
++
++        [...]
++
++        read(fd, &amthi_res_data, amthi_res_data_len);
++
++        [...]
++
++        close(fd);
++
++
++IOCTL
++=====
++
++The Intel MEI Driver supports the following IOCTL commands:
++
++
++:c:macro:`IOCTL_MEI_CONNECT_CLIENT`
++-------------------------------------
++Connect to firmware Feature (client)
++
++**Usage:**
++
++::
++
++        struct mei_connect_client_data clientData;
++        ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &clientData);
++
++**Inputs:**
++        :c:type:`mei_connect_client_data` - structure contain the following
++        input field.
++
++        :c:data:`in_client_uuid` - UUID of the FW Feature that needs to connect to.
++
++**Outputs:**
++        :c:data:`out_client_properties` - Client Properties: MTU and Protocol Version.
++
++**Error returns:**
++        | :c:macro:`EINVAL` -  Wrong IOCTL Number.
++        | :c:macro:`ENODEV` -  Device or Connection is not initialized or ready. (e.g. Wrong UUID).
++        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
++        | :c:macro:`EFAULT` -  Fatal Error (e.g. Unable to access user input data).
++        | :c:macro:`EBUSY` -  Connection Already Open.
++
++**Notes:**
++        :c:data:`max_msg_length` (MTU) in client properties describes the maximum
++        data that can be sent or received. (e.g. if MTU=2K, can send
++        requests up to bytes 2k and received responses up to 2k bytes).
++
++
++:c:macro:`IOCTL_MEI_NOTIFY_SET`
++-------------------------------
++Enable or disable event notifications
++
++**Usage:**
++
++::
++
++        uint32_t enable;
++        ioctl(fd, IOCTL_MEI_NOTIFY_SET, &enable);
++
++**Inputs:**
++        | :c:data:`uint32_t enable = 1;`
++        | or
++        | :c:data:`uint32_t enable[disable] = 0;`
++
++**Error returns:**
++        | :c:macro:`EINVAL` - Wrong IOCTL Number.
++        | :c:macro:`ENODEV` - Device  is not initialized or the client not connected.
++        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
++        | :c:macro:`EFAULT` - Fatal Error (e.g. Unable to access user input data).
++        | :c:macro:`EOPNOTSUPP` - if the device doesn't support the feature.
++
++**Notes:**
++        The client must be connected in order to enable notification events.
++
++
++:c:macro:`IOCTL_MEI_NOTIFY_GET`
++-------------------------------
++Retrieve event
++
++**Usage:**
++
++::
++
++        uint32_t event;
++        ioctl(fd, IOCTL_MEI_NOTIFY_GET, &event);
++
++**Outputs:**
++        | 1 - if an event is pending.
++        | 0 - if there is no even pending.
++
++**Error returns:**
++        | :c:macro:`EINVAL` - Wrong IOCTL Number.
++        | :c:macro:`ENODEV` - Device is not initialized or the client not connected.
++        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
++        | :c:macro:`EFAULT` - Fatal Error (e.g. Unable to access user input data).
++        | :c:macro:`EOPNOTSUPP` - if the device doesn't support the feature.
++
++**Notes:**
++        The client must be connected and event notification has to be enabled
++        in order to receive an event.
++
++
++Intel ME Applications
++=====================
++
++1) Intel Local Management Service (Intel LMS)
++
++        Applications running locally on the platform communicate with Intel AMT Release
++        2.0 and later releases in the same way that network applications do via SOAP
++        over HTTP (deprecated starting with Release 6.0) or with WS-Management over
++        SOAP over HTTP. This means that some Intel AMT features can be accessed from a
++        local application using the same network interface as a remote application
++        communicating with Intel AMT over the network.
++
++        When a local application sends a message addressed to the local Intel AMT host
++        name, the Intel LMS, which listens for traffic directed to the host name,
++        intercepts the message and routes it to the Intel MEI.
++        For more information:
++        `<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
++        Under "About Intel AMT" => "Local Access"
++
++        For downloading Intel LMS:
++        `<http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/>`_
++
++        The Intel LMS opens a connection using the Intel MEI driver to the Intel LMS
++        firmware feature using a defined UUID and then communicates with the feature
++        using a protocol called Intel AMT Port Forwarding Protocol (Intel APF protocol).
++        The protocol is used to maintain multiple sessions with Intel AMT from a
++        single application.
++
++        See the protocol specification in the `Intel AMT Software Development Kit (SDK)
++        <http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
++        Under "SDK Resources" => "Intel(R) vPro(TM) Gateway (MPS)"
++        => "Information for Intel(R) vPro(TM) Gateway Developers"
++        => "Description of the Intel AMT Port Forwarding (APF) Protocol"
++
++2) Intel AMT Remote configuration using a Local Agent
++
++        A Local Agent enables IT personnel to configure Intel AMT out-of-the-box
++        without requiring installing additional data to enable setup. The remote
++        configuration process may involve an ISV-developed remote configuration
++        agent that runs on the host.
++        For more information:
++        `<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
++        Under "Setup and Configuration of Intel AMT" =>
++        "SDK Tools Supporting Setup and Configuration" =>
++        "Using the Local Agent Sample"
++
++        An open source Intel AMT configuration utility,	implementing a local agent
++        that accesses the Intel MEI driver, can be found here:
++        `<http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/>`
++
++
++Intel AMT OS Health Watchdog
++============================
++
++The Intel AMT Watchdog is an OS Health (Hang/Crash) watchdog.
++Whenever the OS hangs or crashes, Intel AMT will send an event
++to any subscriber to this event. This mechanism means that
++IT knows when a platform crashes even when there is a hard failure on the host.
++
++The Intel AMT Watchdog is composed of two parts:
++        1) Firmware feature - receives the heartbeats
++           and sends an event when the heartbeats stop.
++        2) Intel MEI iAMT watchdog driver - connects to the watchdog feature,
++           configures the watchdog and sends the heartbeats.
++
++The Intel iAMT watchdog MEI driver uses the kernel watchdog API to configure
++the Intel AMT Watchdog and to send heartbeats to it. The default timeout of the
++watchdog is 120 seconds.
++
++If the Intel AMT is not enabled in the firmware then the watchdog client won't enumerate
++on the me client bus and watchdog devices won't be exposed.
++
++
++Supported Chipsets
++==================
++
++| 7 Series Chipset Family
++| 6 Series Chipset Family
++| 5 Series Chipset Family
++| 4 Series Chipset Family
++| Mobile 4 Series Chipset Family
++| ICH9
++| 82946GZ/GL
++| 82G35 Express
++| 82Q963/Q965
++| 82P965/G965
++| Mobile PM965/GM965
++| Mobile GME965/GLE960
++| 82Q35 Express
++| 82G33/G31/P35/P31 Express
++| 82Q33 Express
++| 82X38/X48 Express
++
++---
++linux-mei@linux.intel.com
+diff --git a/Documentation/misc-devices/mei/mei.txt b/Documentation/misc-devices/mei/mei.txt
+deleted file mode 100644
+index 2b80a0cd621f..000000000000
+--- a/Documentation/misc-devices/mei/mei.txt
++++ /dev/null
+@@ -1,266 +0,0 @@
+-Intel(R) Management Engine Interface (Intel(R) MEI)
+-===================================================
+-
+-Introduction
+-============
+-
+-The Intel Management Engine (Intel ME) is an isolated and protected computing
+-resource (Co-processor) residing inside certain Intel chipsets. The Intel ME
+-provides support for computer/IT management features. The feature set
+-depends on the Intel chipset SKU.
+-
+-The Intel Management Engine Interface (Intel MEI, previously known as HECI)
+-is the interface between the Host and Intel ME. This interface is exposed
+-to the host as a PCI device. The Intel MEI Driver is in charge of the
+-communication channel between a host application and the Intel ME feature.
+-
+-Each Intel ME feature (Intel ME Client) is addressed by a GUID/UUID and
+-each client has its own protocol. The protocol is message-based with a
+-header and payload up to 512 bytes.
+-
+-Prominent usage of the Intel ME Interface is to communicate with Intel(R)
+-Active Management Technology (Intel AMT) implemented in firmware running on
+-the Intel ME.
+-
+-Intel AMT provides the ability to manage a host remotely out-of-band (OOB)
+-even when the operating system running on the host processor has crashed or
+-is in a sleep state.
+-
+-Some examples of Intel AMT usage are:
+-   - Monitoring hardware state and platform components
+-   - Remote power off/on (useful for green computing or overnight IT
+-     maintenance)
+-   - OS updates
+-   - Storage of useful platform information such as software assets
+-   - Built-in hardware KVM
+-   - Selective network isolation of Ethernet and IP protocol flows based
+-     on policies set by a remote management console
+-   - IDE device redirection from remote management console
+-
+-Intel AMT (OOB) communication is based on SOAP (deprecated
+-starting with Release 6.0) over HTTP/S or WS-Management protocol over
+-HTTP/S that are received from a remote management console application.
+-
+-For more information about Intel AMT:
+-http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
+-
+-
+-Intel MEI Driver
+-================
+-
+-The driver exposes a misc device called /dev/mei.
+-
+-An application maintains communication with an Intel ME feature while
+-/dev/mei is open. The binding to a specific feature is performed by calling
+-MEI_CONNECT_CLIENT_IOCTL, which passes the desired UUID.
+-The number of instances of an Intel ME feature that can be opened
+-at the same time depends on the Intel ME feature, but most of the
+-features allow only a single instance.
+-
+-The Intel AMT Host Interface (Intel AMTHI) feature supports multiple
+-simultaneous user connected applications. The Intel MEI driver
+-handles this internally by maintaining request queues for the applications.
+-
+-The driver is transparent to data that are passed between firmware feature
+-and host application.
+-
+-Because some of the Intel ME features can change the system
+-configuration, the driver by default allows only a privileged
+-user to access it.
+-
+-A code snippet for an application communicating with Intel AMTHI client:
+-
+-	struct mei_connect_client_data data;
+-	fd = open(MEI_DEVICE);
+-
+-	data.d.in_client_uuid = AMTHI_UUID;
+-
+-	ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &data);
+-
+-	printf("Ver=%d, MaxLen=%ld\n",
+-			data.d.in_client_uuid.protocol_version,
+-			data.d.in_client_uuid.max_msg_length);
+-
+-	[...]
+-
+-	write(fd, amthi_req_data, amthi_req_data_len);
+-
+-	[...]
+-
+-	read(fd, &amthi_res_data, amthi_res_data_len);
+-
+-	[...]
+-	close(fd);
+-
+-
+-IOCTL
+-=====
+-
+-The Intel MEI Driver supports the following IOCTL commands:
+-	IOCTL_MEI_CONNECT_CLIENT	Connect to firmware Feature (client).
+-
+-	usage:
+-		struct mei_connect_client_data clientData;
+-		ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &clientData);
+-
+-	inputs:
+-		mei_connect_client_data struct contain the following
+-		input field:
+-
+-		in_client_uuid -	UUID of the FW Feature that needs
+-					to connect to.
+-	outputs:
+-		out_client_properties - Client Properties: MTU and Protocol Version.
+-
+-	error returns:
+-		EINVAL	Wrong IOCTL Number
+-		ENODEV	Device or Connection is not initialized or ready.
+-			(e.g. Wrong UUID)
+-		ENOMEM	Unable to allocate memory to client internal data.
+-		EFAULT	Fatal Error (e.g. Unable to access user input data)
+-		EBUSY	Connection Already Open
+-
+-	Notes:
+-        max_msg_length (MTU) in client properties describes the maximum
+-        data that can be sent or received. (e.g. if MTU=2K, can send
+-        requests up to bytes 2k and received responses up to 2k bytes).
+-
+-	IOCTL_MEI_NOTIFY_SET: enable or disable event notifications
+-
+-	Usage:
+-		uint32_t enable;
+-		ioctl(fd, IOCTL_MEI_NOTIFY_SET, &enable);
+-
+-	Inputs:
+-		uint32_t enable = 1;
+-		or
+-		uint32_t enable[disable] = 0;
+-
+-	Error returns:
+-		EINVAL	Wrong IOCTL Number
+-		ENODEV	Device  is not initialized or the client not connected
+-		ENOMEM	Unable to allocate memory to client internal data.
+-		EFAULT	Fatal Error (e.g. Unable to access user input data)
+-		EOPNOTSUPP if the device doesn't support the feature
+-
+-	Notes:
+-	The client must be connected in order to enable notification events
+-
+-
+-	IOCTL_MEI_NOTIFY_GET : retrieve event
+-
+-	Usage:
+-		uint32_t event;
+-		ioctl(fd, IOCTL_MEI_NOTIFY_GET, &event);
+-
+-	Outputs:
+-		1 - if an event is pending
+-		0 - if there is no even pending
+-
+-	Error returns:
+-		EINVAL	Wrong IOCTL Number
+-		ENODEV	Device is not initialized or the client not connected
+-		ENOMEM	Unable to allocate memory to client internal data.
+-		EFAULT	Fatal Error (e.g. Unable to access user input data)
+-		EOPNOTSUPP if the device doesn't support the feature
+-
+-	Notes:
+-	The client must be connected and event notification has to be enabled
+-	in order to receive an event
+-
+-
+-Intel ME Applications
+-=====================
+-
+-	1) Intel Local Management Service (Intel LMS)
+-
+-	   Applications running locally on the platform communicate with Intel AMT Release
+-	   2.0 and later releases in the same way that network applications do via SOAP
+-	   over HTTP (deprecated starting with Release 6.0) or with WS-Management over
+-	   SOAP over HTTP. This means that some Intel AMT features can be accessed from a
+-	   local application using the same network interface as a remote application
+-	   communicating with Intel AMT over the network.
+-
+-	   When a local application sends a message addressed to the local Intel AMT host
+-	   name, the Intel LMS, which listens for traffic directed to the host name,
+-	   intercepts the message and routes it to the Intel MEI.
+-	   For more information:
+-	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
+-	   Under "About Intel AMT" => "Local Access"
+-
+-	   For downloading Intel LMS:
+-	   http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/
+-
+-	   The Intel LMS opens a connection using the Intel MEI driver to the Intel LMS
+-	   firmware feature using a defined UUID and then communicates with the feature
+-	   using a protocol called Intel AMT Port Forwarding Protocol (Intel APF protocol).
+-	   The protocol is used to maintain multiple sessions with Intel AMT from a
+-	   single application.
+-
+-	   See the protocol specification in the Intel AMT Software Development Kit (SDK)
+-	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
+-	   Under "SDK Resources" => "Intel(R) vPro(TM) Gateway (MPS)"
+-	   => "Information for Intel(R) vPro(TM) Gateway Developers"
+-	   => "Description of the Intel AMT Port Forwarding (APF) Protocol"
+-
+-	2) Intel AMT Remote configuration using a Local Agent
+-
+-	   A Local Agent enables IT personnel to configure Intel AMT out-of-the-box
+-	   without requiring installing additional data to enable setup. The remote
+-	   configuration process may involve an ISV-developed remote configuration
+-	   agent that runs on the host.
+-	   For more information:
+-	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
+-	   Under "Setup and Configuration of Intel AMT" =>
+-	   "SDK Tools Supporting Setup and Configuration" =>
+-	   "Using the Local Agent Sample"
+-
+-	   An open source Intel AMT configuration utility,	implementing a local agent
+-	   that accesses the Intel MEI driver, can be found here:
+-	   http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/
+-
+-
+-Intel AMT OS Health Watchdog
+-============================
+-
+-The Intel AMT Watchdog is an OS Health (Hang/Crash) watchdog.
+-Whenever the OS hangs or crashes, Intel AMT will send an event
+-to any subscriber to this event. This mechanism means that
+-IT knows when a platform crashes even when there is a hard failure on the host.
+-
+-The Intel AMT Watchdog is composed of two parts:
+-	1) Firmware feature - receives the heartbeats
+-	   and sends an event when the heartbeats stop.
+-	2) Intel MEI iAMT watchdog driver - connects to the watchdog feature,
+-	   configures the watchdog and sends the heartbeats.
+-
+-The Intel iAMT watchdog MEI driver uses the kernel watchdog API to configure
+-the Intel AMT Watchdog and to send heartbeats to it. The default timeout of the
+-watchdog is 120 seconds.
+-
+-If the Intel AMT is not enabled in the firmware then the watchdog client won't enumerate
+-on the me client bus and watchdog devices won't be exposed.
+-
+-
+-Supported Chipsets
+-==================
+-
+-7 Series Chipset Family
+-6 Series Chipset Family
+-5 Series Chipset Family
+-4 Series Chipset Family
+-Mobile 4 Series Chipset Family
+-ICH9
+-82946GZ/GL
+-82G35 Express
+-82Q963/Q965
+-82P965/G965
+-Mobile PM965/GM965
+-Mobile GME965/GLE960
+-82Q35 Express
+-82G33/G31/P35/P31 Express
+-82Q33 Express
+-82X38/X48 Express
+-
+----
+-linux-mei@linux.intel.com
 -- 
-2.22.0
+2.17.1
 
