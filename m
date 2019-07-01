@@ -1,119 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D35477D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 01:02:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AE4F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 01:22:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfGABCZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 30 Jun 2019 21:02:25 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:64182 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726040AbfGABCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jun 2019 21:02:25 -0400
-Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x610x4fr000634;
-        Mon, 1 Jul 2019 09:59:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x610x4fr000634
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561942746;
-        bh=k6lypsY8EtklIWOXM9lo9DSpQkaOGO3EP2tLY2qrygs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RV7ivx/luT13tyKFQqp2bzeMpPuELrJCg9fzB9Izj3h9p/ZMwQ1dZT6LLW+TGOiia
-         y7GXNUCQeMJvbLyYJp4c6896ESTp4uj92EuSL6k9rlafDuvM+I5/D/zuLKRV7aX5Mr
-         hKleV/abWphBI55RVHfAyHVvem0AZalk/lBgfViVIVL2e3dI9lRxL0wq3+JfFGanC5
-         mv6ZNUnGJUBGxfJbiLw9xV/uRqek9ZvLivUrGDZ0JN/YI/Bxjikn/ddnD2lc99zBwI
-         nic+be8jWSUlygiFUgs6kWl8faUFT40BXRNmZSzifX/qacxH8tCcUgk4os320VPQke
-         eIRoc/XiFB7og==
-X-Nifty-SrcIP: [126.125.154.139]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
-        John Fastabend <john.fastabend@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        linux-riscv@lists.infradead.org,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Colin Cross <ccross@android.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 0/7] Compile-test UAPI and kernel headers
-Date:   Mon,  1 Jul 2019 09:58:38 +0900
-Message-Id: <20190701005845.12475-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727132AbfGABWO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Jun 2019 21:22:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27040 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726402AbfGABWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jun 2019 21:22:14 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x611LiPg003867
+        for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2019 21:22:13 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2texjwq0f7-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2019 21:22:13 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ajd@linux.ibm.com>;
+        Mon, 1 Jul 2019 02:22:11 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 1 Jul 2019 02:22:08 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x611M7fK56492262
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 1 Jul 2019 01:22:07 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C580B4203F;
+        Mon,  1 Jul 2019 01:22:07 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7190D42049;
+        Mon,  1 Jul 2019 01:22:07 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  1 Jul 2019 01:22:07 +0000 (GMT)
+Received: from [10.61.2.125] (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 2FDB1A0194;
+        Mon,  1 Jul 2019 11:22:06 +1000 (AEST)
+Subject: Re: [PATCH 22/39] docs: ocxl.rst: add it to the uAPI book
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        linuxppc-dev@lists.ozlabs.org
+References: <cover.1561724493.git.mchehab+samsung@kernel.org>
+ <ee63ec4412f2f8c87da877f67f693f2cd85c1a37.1561724493.git.mchehab+samsung@kernel.org>
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+Date:   Mon, 1 Jul 2019 11:21:58 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <ee63ec4412f2f8c87da877f67f693f2cd85c1a37.1561724493.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-AU
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19070101-0028-0000-0000-0000037F25DE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070101-0029-0000-0000-0000243F590A
+Message-Id: <7ac03678-3395-cdcf-6401-7856da4287c7@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-30_13:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907010016
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 28/6/19 10:30 pm, Mauro Carvalho Chehab wrote:
+> The content of this file is user-faced.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-1/7: add CONFIG_CC_CAN_LINK to use it in 2/7
+Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
 
-2/7: Compile-test exported headers
-
-3/7: Do not generate intermediate wrappers.
-     This will avoid header search path issue.
-
-4/7: maybe useful for 7/7 and in some other places.
-     Add header-test-pattern-y syntax.
-
-5/7: Minor cleanup of gen_kheaders.sh
-
-6/7: Exclude all files without ".h" extension
-     from the kheaders_data.tar.xz
-     This will be needed by 7/7 because we need to
-     exclude "*.h.s" from the archive
-
-7/7: Compile-test kernel-space headers in include/.
-
-
-Masahiro Yamada (7):
-  init/Kconfig: add CONFIG_CC_CAN_LINK
-  kbuild: compile-test exported headers to ensure they are
-    self-contained
-  kbuild: do not create wrappers for header-test-y
-  kbuild: support header-test-pattern-y
-  kheaders: remove meaningless -R option of 'ls'
-  kheaders: include only headers into kheaders_data.tar.xz
-  kbuild: compile-test kernel headers to ensure they are self-contained
-
- .gitignore                         |    1 -
- Documentation/dontdiff             |    1 -
- Documentation/kbuild/makefiles.txt |   13 +-
- Makefile                           |    4 +-
- include/Kbuild                     | 1253 ++++++++++++++++++++++++++++
- init/Kconfig                       |   24 +
- kernel/gen_kheaders.sh             |   51 +-
- net/bpfilter/Kconfig               |    2 +-
- scripts/Makefile.build             |   10 +-
- scripts/Makefile.lib               |   13 +-
- usr/.gitignore                     |    1 -
- usr/Makefile                       |    2 +
- usr/include/.gitignore             |    3 +
- usr/include/Makefile               |  131 +++
- 14 files changed, 1462 insertions(+), 47 deletions(-)
- create mode 100644 include/Kbuild
- create mode 100644 usr/include/.gitignore
- create mode 100644 usr/include/Makefile
+> ---
+>   Documentation/{ => userspace-api}/accelerators/ocxl.rst | 2 --
+>   Documentation/userspace-api/index.rst                   | 1 +
+>   MAINTAINERS                                             | 2 +-
+>   3 files changed, 2 insertions(+), 3 deletions(-)
+>   rename Documentation/{ => userspace-api}/accelerators/ocxl.rst (99%)
+> 
+> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/userspace-api/accelerators/ocxl.rst
+> similarity index 99%
+> rename from Documentation/accelerators/ocxl.rst
+> rename to Documentation/userspace-api/accelerators/ocxl.rst
+> index b1cea19a90f5..14cefc020e2d 100644
+> --- a/Documentation/accelerators/ocxl.rst
+> +++ b/Documentation/userspace-api/accelerators/ocxl.rst
+> @@ -1,5 +1,3 @@
+> -:orphan:
+> -
+>   ========================================================
+>   OpenCAPI (Open Coherent Accelerator Processor Interface)
+>   ========================================================
+> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+> index a3233da7fa88..ad494da40009 100644
+> --- a/Documentation/userspace-api/index.rst
+> +++ b/Documentation/userspace-api/index.rst
+> @@ -20,6 +20,7 @@ place where this information is gathered.
+>      seccomp_filter
+>      unshare
+>      spec_ctrl
+> +   accelerators/ocxl
+>   
+>   .. only::  subproject and html
+>   
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 29d1498ad39d..f723371dccd0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11483,7 +11483,7 @@ F:	arch/powerpc/include/asm/pnv-ocxl.h
+>   F:	drivers/misc/ocxl/
+>   F:	include/misc/ocxl*
+>   F:	include/uapi/misc/ocxl.h
+> -F:	Documentation/accelerators/ocxl.rst
+> +F:	Documentation/userspace-api/accelerators/ocxl.rst
+>   
+>   OMAP AUDIO SUPPORT
+>   M:	Peter Ujfalusi <peter.ujfalusi@ti.com>
+> 
 
 -- 
-2.17.1
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
 
