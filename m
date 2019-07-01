@@ -3,65 +3,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA33A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 14:10:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 448717D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 14:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729409AbfGAOKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Jul 2019 10:10:11 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:47742 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729407AbfGAOKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 10:10:11 -0400
-Received: from ramsan ([84.194.98.4])
-        by andre.telenet-ops.be with bizsmtp
-        id XSA92000M05gfCL01SA9c6; Mon, 01 Jul 2019 16:10:09 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hhx0T-00082W-AE; Mon, 01 Jul 2019 16:10:09 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hhx0T-0006Q1-84; Mon, 01 Jul 2019 16:10:09 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] Documentation: gpio: Fix reference to gpiod_get_array()
-Date:   Mon,  1 Jul 2019 16:10:05 +0200
-Message-Id: <20190701141005.24631-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        id S1729691AbfGAOkV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Jul 2019 10:40:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11158 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727064AbfGAOkV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 10:40:21 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x61Ee616139677
+        for <linux-doc@vger.kernel.org>; Mon, 1 Jul 2019 10:40:20 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tfhst1e7w-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2019 10:40:18 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Mon, 1 Jul 2019 15:39:13 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 1 Jul 2019 15:39:08 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x61Ed71s22806580
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 1 Jul 2019 14:39:07 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3AE3A11C058;
+        Mon,  1 Jul 2019 14:39:07 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3E9E411C050;
+        Mon,  1 Jul 2019 14:39:05 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.81.204])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  1 Jul 2019 14:39:05 +0000 (GMT)
+Subject: Re: [PATCH v12 00/11] Appended signatures support for IMA appraisal
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        linux-integrity@vger.kernel.org
+Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
+Date:   Mon, 01 Jul 2019 10:38:54 -0400
+In-Reply-To: <20190628021934.4260-1-bauerman@linux.ibm.com>
+References: <20190628021934.4260-1-bauerman@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19070114-0012-0000-0000-0000032E3548
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070114-0013-0000-0000-000021677F70
+Message-Id: <1561991934.4067.17.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-01_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907010180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The function is called gpiod_get_array(), not gpiod_array_get().
+On Thu, 2019-06-27 at 23:19 -0300, Thiago Jung Bauermann wrote:
+> Hello,
+> 
+> This version is essentially identical to the last one.
+> 
+> It is only a rebase on top of today's linux-integrity/next-queued-testing,
+> prompted by conflicts with Prakhar Srivastava's patches to measure the
+> kernel command line. It also drops two patches that are already present in
+> that branch.
 
-Fixes: 77588c14ac868cae ("gpiolib: Pass array info to get/set array functions")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/driver-api/gpio/consumer.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, Thiago.  These patches are now in next-queued-testing waiting
+for some additional reviews/acks.
 
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index 23d68c321c5c7c7d..9559aa3cbcef25a2 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -364,7 +364,7 @@ accessed sequentially.
- The functions take three arguments:
- 	* array_size	- the number of array elements
- 	* desc_array	- an array of GPIO descriptors
--	* array_info	- optional information obtained from gpiod_array_get()
-+	* array_info	- optional information obtained from gpiod_get_array()
- 	* value_bitmap	- a bitmap to store the GPIOs' values (get) or
- 			  a bitmap of values to assign to the GPIOs (set)
- 
--- 
-2.17.1
+Mimi
 
