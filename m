@@ -1,121 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 066097D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 11:33:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA33A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 14:10:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727619AbfGALdQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Jul 2019 07:33:16 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40562 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727469AbfGALdM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 07:33:12 -0400
-Received: by mail-pl1-f194.google.com with SMTP id a93so7229073pla.7;
-        Mon, 01 Jul 2019 04:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oN7DVtuYqL0FXJ3oIM6FfobBi2SgwN99M5srNRJ7EfE=;
-        b=hAAuoTuDi51XGTQ+LAJB40q7NYUR+gX4DJgBVaWDVUDv503g/ZpNgKHG9lD33tl+kx
-         gvyEPwxFwd8u+0SOJ4Sa5Ec+Pl32KTr6zR9Vr3OnLoOZQzao/+XJdDJXhlOQQDQFHH3A
-         4R7D5J5E6Og7AImsmjjEVC3Ne0PC7Eru336gr1lZyjD/xcO69UfJSI+kqutpafq+qoQK
-         c+gkxOkTUzKpaVPe1egtUFjTwI6WvsczqBX19tjyLjbm9rKdBe36u2vJdk63qrsunSPh
-         2viJhP0hPE7WggtKnIrpBIrpu97Ok5UpzThMsuoi/r5eAmwAZiI0rLgYSBtY00BnMaq2
-         535g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oN7DVtuYqL0FXJ3oIM6FfobBi2SgwN99M5srNRJ7EfE=;
-        b=Ul9ahYqQtLmWRnt6qx0k/61/hbEMvThJ4o/rE+leU4xZWjBLNnqb62u4N1t9JOdm+0
-         SSHRqMv9dx2RXX31RMjnQXjvZ/oKWMW0Te+RSss8Os8dRi+9144EJNKYcOZUVd4ykvT3
-         BEw7+UIUJ8EaFT0Aggp8BYJkupWSYhy+7UzvED1ItvKpN097SPduUelhpNrsGuzJDqQx
-         0/DP+betYDM1Oeourj5MOUGaAJeDlNaJgRnRibhd+H9uu75GWafw9E95+n5lg4YXD9jw
-         EuldAT+Q9Jgd5B4i2w8m5vjs51CqyC2dSpNxDk7eOfW5hT/v/phqVSbQrVffSQwP27dX
-         2Y4Q==
-X-Gm-Message-State: APjAAAV7G1Cuacy5Zmhd12fsXtDPZnWbSjZfUcRL7Rr4NkAOHU3zU5pb
-        h5UmE6MAD1pZ7cx7hlJ0lDE0C/jvEBcfnUdrfh4=
-X-Google-Smtp-Source: APXvYqzx6J3QenK6zg5ze+te61eBe4jG1PuVIuGx4L0AuHtuVR7ojU2OYfznxEnfZVz+9hiJglDjfg51FDnrGcrmC8U=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr29121105plp.18.1561980791748;
- Mon, 01 Jul 2019 04:33:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190630171408.8673-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20190630171408.8673-1-srinivas.pandruvada@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 1 Jul 2019 14:32:59 +0300
-Message-ID: <CAHp75Vf-p3O10_Ns_NY4JoWBS1S34z-NW0jVJdCdqszdGVmoQw@mail.gmail.com>
-Subject: Re: [UPDATE][PATCH 10/10] tools/power/x86: A tool to validate Intel
- Speed Select commands
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1729409AbfGAOKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Jul 2019 10:10:11 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:47742 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729407AbfGAOKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 10:10:11 -0400
+Received: from ramsan ([84.194.98.4])
+        by andre.telenet-ops.be with bizsmtp
+        id XSA92000M05gfCL01SA9c6; Mon, 01 Jul 2019 16:10:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hhx0T-00082W-AE; Mon, 01 Jul 2019 16:10:09 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hhx0T-0006Q1-84; Mon, 01 Jul 2019 16:10:09 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] Documentation: gpio: Fix reference to gpiod_get_array()
+Date:   Mon,  1 Jul 2019 16:10:05 +0200
+Message-Id: <20190701141005.24631-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 30, 2019 at 8:14 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> The Intel(R) Speed select technologies contains four features.
->
-> Performance profile:An non architectural mechanism that allows multiple
-> optimized performance profiles per system via static and/or dynamic
-> adjustment of core count, workload, Tjmax, and TDP, etc. aka ISS
-> in the documentation.
->
-> Base Frequency: Enables users to increase guaranteed base frequency on
-> certain cores (high priority cores) in exchange for lower base frequency
-> on remaining cores (low priority cores). aka PBF in the documenation.
->
-> Turbo frequency: Enables the ability to set different turbo ratio limits
-> to cores based on priority. aka FACT in the documentation.
->
-> Core power: An Interface that allows user to define per core/tile
-> priority.
->
-> There is a multi level help for commands and options. This can be used
-> to check required arguments for each feature and commands for the
-> feature.
->
-> To start navigating the features start with
->
-> $sudo intel-speed-select --help
->
-> For help on a specific feature for example
-> $sudo intel-speed-select perf-profile --help
->
-> To get help for a command for a feature for example
-> $sudo intel-speed-select perf-profile get-lock-status --help
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> Updates:
-> - Copied Makefile from tools/gpio and moified the Makefile here
-> - Added entry to tools/build/Makefile
-> - Rename directory to match the executable name
-> - Fix one error message
+The function is called gpiod_get_array(), not gpiod_array_get().
 
-Thanks!
-I pushed to my review and testing queue, while still waiting for some ACKs.
+Fixes: 77588c14ac868cae ("gpiolib: Pass array info to get/set array functions")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/driver-api/gpio/consumer.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It seems I can promote the driver itself now,w/o tools, if you want me to do so.
-
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 23d68c321c5c7c7d..9559aa3cbcef25a2 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -364,7 +364,7 @@ accessed sequentially.
+ The functions take three arguments:
+ 	* array_size	- the number of array elements
+ 	* desc_array	- an array of GPIO descriptors
+-	* array_info	- optional information obtained from gpiod_array_get()
++	* array_info	- optional information obtained from gpiod_get_array()
+ 	* value_bitmap	- a bitmap to store the GPIOs' values (get) or
+ 			  a bitmap of values to assign to the GPIOs (set)
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
