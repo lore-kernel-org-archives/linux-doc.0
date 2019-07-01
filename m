@@ -3,26 +3,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F9897D926
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 15:15:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EE147D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 15:15:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbfGAPPS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Jul 2019 11:15:18 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:57420 "EHLO
+        id S1730169AbfGAPOf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Jul 2019 11:14:35 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:57458 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730178AbfGAPOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 11:14:38 -0400
+        with ESMTP id S1730158AbfGAPOf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 11:14:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1561994076; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1561994072; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:mime-version:
          content-type:content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rdEywlj/f4S0bUnRP5wrhk8n5OerIiRBQAS9i9R+A88=;
-        b=cUmKjZhcxFAV2SDJpIqtkRjGPVuog91rOJwm+mo1zWmwhkgcZMl+0YMhPQ9+PXy0o1jHnO
-        kcJ/eUjtq7T/IPxMOnyUTS7PEPGozBvSD6gqot10Dx/Hmpepy8VZkn//MjtdwoH6OisJzk
-        r3sCZU4616WtOQgqYtpRa/2O+0oeaX8=
+        bh=aLvkOWpaGwYIPSbPYXR/ChKcMO6iOuKXjXEy153vqMk=;
+        b=oumzWBQmm3/SIQdqUDn0Tze/2KiN05qoFS4si4GLeYYC8QO9V9he3/Tyk0XjkvX3XvXCrx
+        oc+AsjGMBPLhvcz9KVhzTMhavTZYdXsd8U2Q9VM2l2GBx9Q/f51WmmCGyAM3imSDWTADIC
+        GRaVJHc05rFZZxRtTy97eRbMkNuIX8U=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Lee Jones <lee.jones@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
         Ralf Baechle <ralf@linux-mips.org>,
@@ -36,10 +37,11 @@ Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
-        Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v14 10/13] MIPS: qi_lb60: Reduce system timer and clocksource to 750 kHz
-Date:   Mon,  1 Jul 2019 17:14:07 +0200
-Message-Id: <20190701151410.23127-11-paul@crapouillou.net>
+        Artur Rojek <contact@artur-rojek.eu>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v14 08/13] clk: jz4740: Add TCU clock
+Date:   Mon,  1 Jul 2019 17:14:05 +0200
+Message-Id: <20190701151410.23127-9-paul@crapouillou.net>
 In-Reply-To: <20190701151410.23127-1-paul@crapouillou.net>
 References: <20190701151410.23127-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -49,46 +51,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default clock (12 MHz) is too fast for the system timer, which fails
-to report time accurately.
+Add the missing TCU clock to the list of clocks supplied by the CGU for
+the JZ4740 SoC.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Tested-by: Mathieu Malaterre <malat@debian.org>
 Tested-by: Artur Rojek <contact@artur-rojek.eu>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
 
 Notes:
     v5: New patch
     
-    v6: Remove ingenic,clocksource-channel property
-    
-    v7-v14: No change
+    v6-v14: No change
 
- arch/mips/boot/dts/ingenic/qi_lb60.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/clk/ingenic/jz4740-cgu.c       | 6 ++++++
+ include/dt-bindings/clock/jz4740-cgu.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-index 76aaf8982554..01b8c917cb33 100644
---- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
-+++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-@@ -2,6 +2,7 @@
- /dts-v1/;
- 
- #include "jz4740.dtsi"
-+#include <dt-bindings/clock/ingenic,tcu.h>
- 
- / {
- 	compatible = "qi,lb60", "ingenic,jz4740";
-@@ -31,3 +32,9 @@
- 		bias-disable;
- 	};
- };
+diff --git a/drivers/clk/ingenic/jz4740-cgu.c b/drivers/clk/ingenic/jz4740-cgu.c
+index c77f4e1506dc..176d911b5839 100644
+--- a/drivers/clk/ingenic/jz4740-cgu.c
++++ b/drivers/clk/ingenic/jz4740-cgu.c
+@@ -203,6 +203,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
+ 		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
+ 		.gate = { CGU_REG_CLKGR, 5 },
+ 	},
 +
-+&tcu {
-+	/* 750 kHz for the system timer and clocksource */
-+	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
-+	assigned-clock-rates = <750000>, <750000>;
-+};
++	[JZ4740_CLK_TCU] = {
++		"tcu", CGU_CLK_GATE,
++		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
++		.gate = { CGU_REG_CLKGR, 1 },
++	},
+ };
+ 
+ static void __init jz4740_cgu_init(struct device_node *np)
+diff --git a/include/dt-bindings/clock/jz4740-cgu.h b/include/dt-bindings/clock/jz4740-cgu.h
+index 6ed83f926ae7..e82d77028581 100644
+--- a/include/dt-bindings/clock/jz4740-cgu.h
++++ b/include/dt-bindings/clock/jz4740-cgu.h
+@@ -34,5 +34,6 @@
+ #define JZ4740_CLK_ADC		19
+ #define JZ4740_CLK_I2C		20
+ #define JZ4740_CLK_AIC		21
++#define JZ4740_CLK_TCU		22
+ 
+ #endif /* __DT_BINDINGS_CLOCK_JZ4740_CGU_H__ */
 -- 
 2.21.0.593.g511ec345e18
 
