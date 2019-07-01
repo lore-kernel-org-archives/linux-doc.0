@@ -5,206 +5,161 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57ED67D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 00:34:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F008F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 01:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbfGAAe2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 30 Jun 2019 20:34:28 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:41524 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726086AbfGAAe1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jun 2019 20:34:27 -0400
-Received: by mail-ot1-f66.google.com with SMTP id o101so11375769ota.8
-        for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2019 17:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=aWbgPH3XonMN6owsynXwhWMSFd28BasNvZgJRxwbjCA=;
-        b=gAWXjF/zZP2nDoNBCKDbxu0ZKE1myZqjwwhAoiK5LFfqnezKC91BUzjmSzeMs7mzF/
-         YDTYDxEmMbdArvcsJ6nBPsLKsTklirJVH48rUdcxwGdcB/pBbv1jcvXt0QG4kJxk8ngt
-         CdqWr8gHs+RDqRf2nnNCJXxALDmKH3A5YgbBU1N1Rj75RAfvmIawet1yvK7eCSRzNhec
-         nFEUPfT9+YjlcL2V9inKKIAdW1C8u2A/JqwvUf0UdkJXpUDkYkMJGF0byeHkHN9UxQdO
-         uNFCJR83FgoIS66NhaAAw3YDj8pXvu9uiZjMPWCwbyHKPTKaYbc8BK+HWqVZoPZjKMkm
-         HVig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aWbgPH3XonMN6owsynXwhWMSFd28BasNvZgJRxwbjCA=;
-        b=CIXFKx0ZbgjYdzh4EQWaRbGC8EmEbf081vMTnBacYzFeql8yIyDDuHGNsFjJAw+E5H
-         KWRxsVKEK2iZM+SOeELgayrgYJfkjINpsOGGQdywBIWfdfRBrfedBsOhBLqKS/avEQ6h
-         NN+7YDvCSNfhFQmzOjNcTF0QWYc/ucPWHJ5t+QA7TFiHuyJkar2T5n8aUpnbxF48AoOE
-         80Pwz2APRaN6JWWk+hxBqJTV2Z0lPU/k9T8GgwDhbbR/QgMcUD+X4knBTvGsHAfrORvC
-         W2cE8nMJNz6tP5fA+n8GnRFCNyOVFLbt9SvN2X2I5ORE0If6yLTEmaZF5q9S6Osf66rQ
-         Ec2w==
-X-Gm-Message-State: APjAAAW0dwAY4blTVpBhvs+uE3FaDcTsChgys0VQG3TNbVv8WTAxi5cp
-        0RTSen++/hKbx9yty31/s9HF6A==
-X-Google-Smtp-Source: APXvYqw/VoWTpq7cSJ49D3dkrN3RFZeu2+nmdSBNztS+jNhP7YBmoZnXr6rwTRVOH/CylnrqB0RjsQ==
-X-Received: by 2002:a9d:7a45:: with SMTP id z5mr18421274otm.197.1561941266143;
-        Sun, 30 Jun 2019 17:34:26 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:9997:a955:13ad:73b])
-        by smtp.gmail.com with ESMTPSA id z20sm737199oic.31.2019.06.30.17.34.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 30 Jun 2019 17:34:25 -0700 (PDT)
-Date:   Sun, 30 Jun 2019 19:34:23 -0500
-From:   Corey Minyard <cminyard@mvista.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Asmaa Mnebhi <Asmaa@mellanox.com>, vadimp@mellanox.com
-Subject: Re: [PATCH] docs: ipmb: place it at driver-api and convert to ReST
-Message-ID: <20190701003423.GA5041@minyard.net>
-Reply-To: cminyard@mvista.com
-References: <d23c36ca65fe6ad56af1723bf70f7a7f4154c410.1561804596.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d23c36ca65fe6ad56af1723bf70f7a7f4154c410.1561804596.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1726912AbfGABAX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Jun 2019 21:00:23 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:60237 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbfGABAW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jun 2019 21:00:22 -0400
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x610x4fv000634;
+        Mon, 1 Jul 2019 09:59:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x610x4fv000634
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1561942750;
+        bh=1HcjEC7wLR2+UWOsM11fHQgnI022Sfeb8n0eROHz6Dw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DLEkV7w0not3hRjNOpSRVgM8jLvb2EBRfxQUh0olJzWpK6eUm9EGNPUlreEq8tRPO
+         e1MoyrbgT7Bn135uJgldXUPf9oHzqClPpEk7y578D5OBYaOhTwzHSrMwU+5HNxm6cP
+         77YaiaHL9X1hYqj7zHyT7XSjC+lQTb4IGS2BpLqcX+irOHFObhpPFzDABaSgkOJYBj
+         S/cVbafWaWaCp5knXhwsgxaeDhjXFKoQfTv9DPMBKxckEVcx+MOPnoApQ5jKyc+x+S
+         5kg2rijkRp5cW8ETcthjRVEUiUH0AoI2rdLr/5f+ZAsc0GFo1fiYav/xVO8hsuE4Vr
+         5F1k6FlUG22/Q==
+X-Nifty-SrcIP: [126.125.154.139]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH 4/7] kbuild: support header-test-pattern-y
+Date:   Mon,  1 Jul 2019 09:58:42 +0900
+Message-Id: <20190701005845.12475-5-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190701005845.12475-1-yamada.masahiro@socionext.com>
+References: <20190701005845.12475-1-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 07:36:46AM -0300, Mauro Carvalho Chehab wrote:
-> No new doc should be added at the main Documentation/ directory.
-> 
-> Instead, new docs should be added as ReST files, within the
-> Kernel documentation body.
+In my view, most of headers can be self-contained. So, it would be
+tedious to add every header to header-test-y explicitly. We usually
+end up with "all headers with some exceptions".
 
-Got it, thanks.
+There are two types in exceptions:
 
--corey
+[1] headers that are never compiled as standalone units
 
-> 
-> Fixes: 51bd6f291583 ("Add support for IPMB driver")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/driver-api/index.rst            |  1 +
->  .../{IPMB.txt => driver-api/ipmb.rst}         | 62 ++++++++++---------
->  2 files changed, 33 insertions(+), 30 deletions(-)
->  rename Documentation/{IPMB.txt => driver-api/ipmb.rst} (71%)
-> 
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index e33849b948c7..e49c34bf16c0 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -75,6 +75,7 @@ available subsections can be seen below.
->     dell_rbu
->     edid
->     eisa
-> +   ipmb
->     isa
->     isapnp
->     generic-counter
-> diff --git a/Documentation/IPMB.txt b/Documentation/driver-api/ipmb.rst
-> similarity index 71%
-> rename from Documentation/IPMB.txt
-> rename to Documentation/driver-api/ipmb.rst
-> index cd20c9764705..3ec3baed84c4 100644
-> --- a/Documentation/IPMB.txt
-> +++ b/Documentation/driver-api/ipmb.rst
-> @@ -32,11 +32,11 @@ This driver works with the I2C driver and a userspace
->  program such as OpenIPMI:
->  
->  1) It is an I2C slave backend driver. So, it defines a callback
-> -function to set the Satellite MC as an I2C slave.
-> -This callback function handles the received IPMI requests.
-> +   function to set the Satellite MC as an I2C slave.
-> +   This callback function handles the received IPMI requests.
->  
->  2) It defines the read and write functions to enable a user
-> -space program (such as OpenIPMI) to communicate with the kernel.
-> +   space program (such as OpenIPMI) to communicate with the kernel.
->  
->  
->  Load the IPMB driver
-> @@ -48,34 +48,35 @@ CONFIG_IPMB_DEVICE_INTERFACE=y
->  
->  1) If you want the driver to be loaded at boot time:
->  
-> -a) Add this entry to your ACPI table, under the appropriate SMBus:
-> +a) Add this entry to your ACPI table, under the appropriate SMBus::
->  
-> -Device (SMB0) // Example SMBus host controller
-> -{
-> -  Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
-> -  Name (_UID, 0) // Unique ID of particular host controller
-> -  :
-> -  :
-> -    Device (IPMB)
-> -    {
-> -      Name (_HID, "IPMB0001") // IPMB device interface
-> -      Name (_UID, 0) // Unique device identifier
-> -    }
-> -}
-> +     Device (SMB0) // Example SMBus host controller
-> +     {
-> +     Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
-> +     Name (_UID, 0) // Unique ID of particular host controller
-> +     :
-> +     :
-> +       Device (IPMB)
-> +       {
-> +         Name (_HID, "IPMB0001") // IPMB device interface
-> +         Name (_UID, 0) // Unique device identifier
-> +       }
-> +     }
->  
-> -b) Example for device tree:
-> +b) Example for device tree::
->  
-> -&i2c2 {
-> -         status = "okay";
-> +     &i2c2 {
-> +            status = "okay";
->  
-> -         ipmb@10 {
-> -                 compatible = "ipmb-dev";
-> -                 reg = <0x10>;
-> -         };
-> -};
-> +            ipmb@10 {
-> +                    compatible = "ipmb-dev";
-> +                    reg = <0x10>;
-> +            };
-> +     };
->  
-> -2) Manually from Linux:
-> -modprobe ipmb-dev-int
-> +2) Manually from Linux::
-> +
-> +     modprobe ipmb-dev-int
->  
->  
->  Instantiate the device
-> @@ -86,15 +87,16 @@ described in 'Documentation/i2c/instantiating-devices.rst'.
->  If you have multiple BMCs, each connected to your Satellite MC via
->  a different I2C bus, you can instantiate a device for each of
->  those BMCs.
-> +
->  The name of the instantiated device contains the I2C bus number
-> -associated with it as follows:
-> +associated with it as follows::
->  
-> -BMC1 ------ IPMB/I2C bus 1 ---------|   /dev/ipmb-1
-> +  BMC1 ------ IPMB/I2C bus 1 ---------|   /dev/ipmb-1
->  				Satellite MC
-> -BMC1 ------ IPMB/I2C bus 2 ---------|   /dev/ipmb-2
-> +  BMC1 ------ IPMB/I2C bus 2 ---------|   /dev/ipmb-2
->  
->  For instance, you can instantiate the ipmb-dev-int device from
-> -user space at the 7 bit address 0x10 on bus 2:
-> +user space at the 7 bit address 0x10 on bus 2::
->  
->    # echo ipmb-dev 0x1010 > /sys/bus/i2c/devices/i2c-2/new_device
->  
-> -- 
-> 2.21.0
-> 
+  For examples, include/linux/compiler-gcc.h is not intended for
+  direct inclusion. We should always exclude such ones.
+
+[2] headers that are conditionally compiled as standalone units
+
+  Some headers can be compiled only for particular architectures.
+  For example, include/linux/arm-cci.h can be compiled only for
+  arm/arm64 because it requires <asm/arm-cci.h> to exist.
+  Clang can compile include/soc/nps/mtm.h only for arc because
+  it contains an arch-specific register in inline assembler.
+
+So, you can write Makefile like this:
+
+  header-test-                += linux/compiler-gcc.h
+  header-test-$(CONFIG_ARM)   += linux/arm-cci.h
+  header-test-$(CONFIG_ARM64) += linux/arm-cci.h
+  header-test-$(CONFIG_ARC)   += soc/nps/mtm.h
+
+The new syntax header-test-pattern-y will be useful to specify
+"the rest".
+
+The typical usage is like this:
+
+  header-test-pattern-y += */*.h
+
+This will add all the headers in sub-directories to the test coverage,
+excluding $(header-test-). In this regards, header-test-pattern-y
+behaves like a weaker variant of header-test-y.
+
+Caveat:
+The patterns in header-test-pattern-y are prefixed with $(srctree)/$(src)/
+but not $(objtree)/$(obj)/. Stale generated headers are often left over
+when you traverse the git history without cleaning. Wildcard patterns for
+$(objtree) may match to stale headers, which could fail to compile.
+One pitfall is $(srctree)/$(src)/ and $(objtree)/$(obj)/ point to the
+same directory for in-tree building. So, header-test-pattern-y should
+be used with care since it can potentially match to stale headers.
+
+Caveat2:
+You could use wildcard for header-test-. For example,
+
+  header-test- += asm-generic/%
+
+... will exclude headers in asm-generic directory. Unfortunately, the
+wildcard character is '%' instead of '*' here because this is evaluated
+by $(filter-out ...) whereas header-test-pattern-y is evaluated by
+$(wildcard ...). This is a kludge, but seems useful in some places...
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Tested-by: Jani Nikula <jani.nikula@intel.com>
+---
+
+Changes in v4: None
+Changes in v3: None
+Changes in v2:
+  - New patch
+
+ Documentation/kbuild/makefiles.txt | 10 ++++++++++
+ scripts/Makefile.lib               | 11 +++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 5080fec34609..b817e6cefb77 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -1025,6 +1025,16 @@ When kbuild executes, the following steps are followed (roughly):
+ 	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
+ 	this builds them as part of extra-y.
+ 
++    header-test-pattern-y
++
++	This works as a weaker version of header-test-y, and accepts wildcard
++	patterns. The typical usage is:
++
++		  header-test-pattern-y += *.h
++
++	This specifies all the files that matches to '*.h' in the current
++	directory, but the files in 'header-test-' are excluded.
++
+ --- 6.7 Commands useful for building a boot image
+ 
+ 	Kbuild provides a few macros that are useful when building a
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 55ae1ec65342..281864fcf0fe 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -67,6 +67,17 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+ endif
+ 
+ # Test self-contained headers
++
++# Wildcard searches in $(srctree)/$(src)/, but not in $(objtree)/$(obj)/.
++# Stale generated headers are often left over, so pattern matching should
++# be avoided. Please notice $(srctree)/$(src)/ and $(objtree)/$(obj) point
++# to the same location for in-tree building. So, header-test-pattern-y should
++# be used with care.
++header-test-y	+= $(filter-out $(header-test-), \
++		$(patsubst $(srctree)/$(src)/%, %, \
++		$(wildcard $(addprefix $(srctree)/$(src)/, \
++		$(header-test-pattern-y)))))
++
+ extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
+ 
+ # Add subdir path
+-- 
+2.17.1
+
