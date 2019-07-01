@@ -1,237 +1,285 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 327567D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 19:58:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 314737D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Jul 2019 20:15:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbfGAT6L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Jul 2019 15:58:11 -0400
-Received: from mga12.intel.com ([192.55.52.136]:28005 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726586AbfGAT6K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Jul 2019 15:58:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jul 2019 12:58:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,440,1557212400"; 
-   d="scan'208";a="361947448"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Jul 2019 12:58:09 -0700
-Message-ID: <ddba04d98c31963784231869088a37fe3ccefd09.camel@intel.com>
-Subject: Re: [RFC PATCH] binfmt_elf: Extract .note.gnu.property from an ELF
- file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        id S1726620AbfGAUPs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Jul 2019 16:15:48 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:33700 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726509AbfGAUPs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jul 2019 16:15:48 -0400
+Received: by mail-pg1-f193.google.com with SMTP id m4so6544984pgk.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2019 13:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=pUF1T8YosBJ3xSBN/42gppxPrNAbk2wJaDAAwR8fY4o=;
+        b=loyuPKYLikazGc5HJLPsKrOh6SiuV2L2ADgtcqoTgA2KJrZ6hkNMReykxDO0Edw116
+         f2TsgRnGSFbOJwg7rCfZuGuBqr+bXFWCg0OhrZTUsY58zhaQpHbLQ2pJTWBOkSggUhEh
+         th/EXNtrbcsvXx7loxWS4sE1HCe4yQieZ4CHw6c+Gis8o2/AKIFykZ5BpzSfBRe5oABH
+         40+tiMfaiaT16ZrAzcGGQSZjrWxZMEYQRp0IP/q4G2NASX65BQqpgU1BTP5ZGPquwTdg
+         1+Ifd81E69xN0pCAwHkBjX2YvyyJfJGLdGYnORLxAGxI52t4+a+xsaEJxAJMtuRpd7YB
+         V7VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=pUF1T8YosBJ3xSBN/42gppxPrNAbk2wJaDAAwR8fY4o=;
+        b=YK8sKPpvyRKaHFuFHfqdfezI5DnoX5SZJsaDvFmRnIEuKUaldS9k+NjhazFXYXRrOT
+         PjjIaewV02Jt82GAum8qGMBjyE2AWjbQjBPs5B3KiYMs4NeoPIIxDdwV2sRtnon3MavO
+         +/2QqnljbOclecjZouZ2Y0mPi4PyuwFm3/Y6E408zqfsRfkQVyqwW6GsDUyVvnRtbHaN
+         WS1X/eQlNPBKHltPo4cfqaR1z6kGvef04VkQmoWJomddY41nKP+Vt4bYLbzbefFf3+dB
+         AlnjrCY+je8R4vogTYVnA2UwBJ3DDFoXDIS534Zu90TrGFiD0TrCxpcAMFCJr/dORdVd
+         Dgbg==
+X-Gm-Message-State: APjAAAWo3agZ6RxL8l1lmOG7kDSmuqpTBKimZyrt8d9HZRBx8N+9Uk2M
+        ku0oqudNe6mKXhgPTz2b7NpVLQ==
+X-Google-Smtp-Source: APXvYqz/f5okR0/1uArrmL95QeBoc/0K9RJuEaqe9lJG32VRI0BmZ5htaBEYKSq6Ovvx9xCTCG2JVw==
+X-Received: by 2002:a63:b46:: with SMTP id a6mr212520pgl.235.1562012146904;
+        Mon, 01 Jul 2019 13:15:46 -0700 (PDT)
+Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
+        by smtp.gmail.com with ESMTPSA id q63sm21742450pfb.81.2019.07.01.13.15.45
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 13:15:45 -0700 (PDT)
+From:   bsegall@google.com
+To:     Dave Chiluk <chiluk+linux@indeed.com>
+Cc:     Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Mon, 01 Jul 2019 12:49:51 -0700
-In-Reply-To: <CAG48ez0rHHfcRgiVZf5FP0YOzxsXigvpg6ci790cmiN6PBwkhQ@mail.gmail.com>
-References: <20190628172203.797-1-yu-cheng.yu@intel.com>
-         <CAG48ez0rHHfcRgiVZf5FP0YOzxsXigvpg6ci790cmiN6PBwkhQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
+Date:   Mon, 01 Jul 2019 13:15:44 -0700
+In-Reply-To: <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com> (Dave
+        Chiluk's message of "Thu, 27 Jun 2019 14:49:30 -0500")
+Message-ID: <xm26lfxhwlxr.fsf@bsegall-linux.svl.corp.google.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-07-01 at 21:49 +0200, Jann Horn wrote:
-> On Fri, Jun 28, 2019 at 7:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> [...]
-> > In the discussion, we decided to look at only an ELF header's
-> > PT_GNU_PROPERTY, which is a shortcut pointing to the file's
-> > .note.gnu.property.
-> > 
-> > The Linux gABI extension draft is here:
-> > 
-> >     https://github.com/hjl-tools/linux-abi/wiki/linux-abi-draft.pdf.
-> > 
-> > A few existing CET-enabled binary files were built without
-> > PT_GNU_PROPERTY; but those files' .note.gnu.property are checked by
-> > ld-linux, not Linux.  The compatibility impact from this change is
-> > therefore managable.
-> > 
-> > An ELF file's .note.gnu.property indicates features the executable file
-> > can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
-> > indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
-> > GNU_PROPERTY_X86_FEATURE_1_SHSTK.
-> > 
-> > With this patch, if an arch needs to setup features from ELF properties,
-> > it needs CONFIG_ARCH_USE_GNU_PROPERTY to be set, and specific
-> > arch_parse_property() and arch_setup_property().
-> 
-> [...]
-> > +typedef bool (test_item_fn)(void *buf, u32 *arg, u32 type);
-> > +typedef void *(next_item_fn)(void *buf, u32 *arg, u32 type);
-> > +
-> > +static bool test_property(void *buf, u32 *max_type, u32 pr_type)
-> > +{
-> > +       struct gnu_property *pr = buf;
-> > +
-> > +       /*
-> > +        * Property types must be in ascending order.
-> > +        * Keep track of the max when testing each.
-> > +        */
-> > +       if (pr->pr_type > *max_type)
-> > +               *max_type = pr->pr_type;
-> > +
-> > +       return (pr->pr_type == pr_type);
-> > +}
-> > +
-> > +static void *next_property(void *buf, u32 *max_type, u32 pr_type)
-> > +{
-> > +       struct gnu_property *pr = buf;
-> > +
-> > +       if ((buf + sizeof(*pr) + pr->pr_datasz < buf) ||
-> 
-> This looks like UB to me, see below.
-> 
-> > +           (pr->pr_type > pr_type) ||
-> > +           (pr->pr_type > *max_type))
-> > +               return NULL;
-> > +       else
-> > +               return (buf + sizeof(*pr) + pr->pr_datasz);
-> > +}
-> > +
-> > +/*
-> > + * Scan 'buf' for a pattern; return true if found.
-> > + * *pos is the distance from the beginning of buf to where
-> > + * the searched item or the next item is located.
-> > + */
-> > +static int scan(u8 *buf, u32 buf_size, int item_size, test_item_fn
-> > test_item,
-> > +               next_item_fn next_item, u32 *arg, u32 type, u32 *pos)
-> > +{
-> > +       int found = 0;
-> > +       u8 *p, *max;
-> > +
-> > +       max = buf + buf_size;
-> > +       if (max < buf)
-> > +               return 0;
-> 
-> How can this ever legitimately happen? If it can't, perhaps you meant
-> to put a WARN_ON_ONCE() or something like that here?
-> Also, computing out-of-bounds pointers is UB (section 6.5.6 of C99:
-> "If both the pointer operand and the result point to elements of the
-> same array object, or one past the last element of the array object,
-> the evaluation shall not produce an overflow; otherwise, the behavior
-> is undefined."), and if the addition makes the pointer wrap, that's
-> certainly out of bounds; so I don't think this condition can trigger
-> without UB.
-> 
-> > +
-> > +       p = buf;
-> > +
-> > +       while ((p + item_size < max) && (p + item_size > buf)) {
-> 
-> Again, as far as I know, this is technically UB. Please rewrite this.
-> For example, you could do something like:
-> 
->     while (max - p >= item_size) {
-> 
-> and then make sure that next_item() never computes OOB pointers.
-> 
-> > +               if (test_item(p, arg, type)) {
-> > +                       found = 1;
-> > +                       break;
-> > +               }
-> > +
-> > +               p = next_item(p, arg, type);
-> > +       }
-> > +
-> > +       *pos = (p + item_size <= buf) ? 0 : (u32)(p - buf);
-> > +       return found;
-> > +}
-> > +
-> > +/*
-> > + * Search an NT_GNU_PROPERTY_TYPE_0 for the property of 'pr_type'.
-> > + */
-> > +static int find_property(u32 pr_type, u32 *property, struct file *file,
-> > +                        loff_t file_offset, unsigned long desc_size)
-> > +{
-> > +       u8 *buf;
-> > +       int buf_size;
-> > +
-> > +       u32 buf_pos;
-> > +       unsigned long read_size;
-> > +       unsigned long done;
-> > +       int found = 0;
-> > +       int ret = 0;
-> > +       u32 last_pr = 0;
-> > +
-> > +       *property = 0;
-> > +       buf_pos = 0;
-> > +
-> > +       buf_size = (desc_size > PAGE_SIZE) ? PAGE_SIZE : desc_size;
-> 
-> open-coded min(desc_size, PAGE_SIZE)
-> 
-> > +       buf = kmalloc(buf_size, GFP_KERNEL);
-> > +       if (!buf)
-> > +               return -ENOMEM;
-> > +
-> > +       for (done = 0; done < desc_size; done += buf_pos) {
-> > +               read_size = desc_size - done;
-> > +               if (read_size > buf_size)
-> > +                       read_size = buf_size;
-> > +
-> > +               ret = kernel_read(file, buf, read_size, &file_offset);
-> > +
-> > +               if (ret != read_size)
-> > +                       return (ret < 0) ? ret : -EIO;
-> 
-> This leaks the memory allocated for `buf`.
-> 
-> > +
-> > +               ret = 0;
-> > +               found = scan(buf, read_size, sizeof(struct gnu_property),
-> > +                            test_property, next_property,
-> > +                            &last_pr, pr_type, &buf_pos);
-> > +
-> > +               if ((!buf_pos) || found)
-> > +                       break;
-> > +
-> > +               file_offset += buf_pos - read_size;
-> > +       }
-> 
-> [...]
-> > +       kfree(buf);
-> > +       return ret;
-> > +}
+Alright, this prototype of "maybe we should just 100% avoid stranding
+runtime for a full period" appears to fix the fibtest synthetic example,
+and seems like a theoretically-reasonable approach.
 
-I will fix these.
+Things that may want improvement or at least thought (but it's a holiday
+week in the US and I wanted any opinions on the basic approach):
 
-Thanks,
-Yu-cheng
+- I don't like cfs_rq->slack_list, since logically it's mutually
+  exclusive with throttled_list, but we have to iterate without
+  locks, so I don't know that we can avoid it.
+
+- I previously was using _rcu for the slack list, like throttled, but
+  there is no list_for_each_entry_rcu_safe, so the list_del_init would
+  be invalid and we'd have to use another flag or opencode the
+  equivalent.
+
+- (Actually, this just made me realize that distribute is sorta wrong if
+  the unthrottled task immediately runs and rethrottles; this would just
+  mean that we effectively restart the loop)
+
+- We unconditionally start the slack timer, even if nothing is
+  throttled. We could instead have throttle start the timer in this case
+  (setting the timeout some definition of "appropriately"), but this
+  bookkeeping would be a big hassle.
+
+- We could try to do better about deciding what cfs_rqs are idle than
+  "nr_running == 0", possibly requiring that to have been true for N<5
+  ms, and restarting the slack timer if we didn't clear everything.
+
+- Taking up-to-every rq->lock is bad and expensive and 5ms may be too
+  short a delay for this. I haven't tried microbenchmarks on the cost of
+  this vs min_cfs_rq_runtime = 0 vs baseline.
+
+- runtime_expires vs expires_seq choice is basically rand(), much like
+  the existing code. (I think the most consistent with existing code
+  would be runtime_expires, since cfs_b lock is held; I think most
+  consistent in general would change most of the existing ones as well
+  to be seq)
+
+
+-- >8 --
+Subject: [PATCH] sched: avoid stranding cfs_bandwidth runtime
+
+We avoid contention on the per-tg cfs_b->lock by keeping 1ms of runtime on a
+cfs_rq even when all tasks in that cfs_rq dequeue. This way tasks doing frequent
+wake/sleep can't hit this cross-cpu lock more than once per ms. This however
+means that up to 1ms of runtime per cpu can be lost if no task does wake up on
+that cpu, which is leading to issues on cgroups with low quota, many available
+cpus, and a combination of threads that run for very little time and ones that
+want to run constantly.
+
+This was previously hidden by runtime expiration being broken, which allowed
+this stranded runtime to be kept indefinitely across period resets. Thus after
+an initial period or two any long-running tasks could use an appropriate portion
+of their group's quota. The issue was that the group could also potentially
+burst for 1ms * cpus more than their quota allowed, and in these situations this
+is a significant increase.
+
+Fix this by having the group's slack timer (which runs at most once per 5ms)
+remove all runtime from empty cfs_rqs, not just redistribute any runtime above
+that 1ms that was returned immediately.
+
+Signed-off-by: Ben Segall <bsegall@google.com>
+---
+ kernel/sched/fair.c  | 66 +++++++++++++++++++++++++++++++++++---------
+ kernel/sched/sched.h |  2 ++
+ 2 files changed, 55 insertions(+), 13 deletions(-)
+
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 300f2c54dea5..80b2198d9b29 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4745,23 +4745,32 @@ static void __return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ 	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
+ 	s64 slack_runtime = cfs_rq->runtime_remaining - min_cfs_rq_runtime;
+ 
+-	if (slack_runtime <= 0)
++	if (cfs_rq->runtime_remaining <= 0)
++		return;
++
++	if (slack_runtime <= 0 && !list_empty(&cfs_rq->slack_list))
+ 		return;
+ 
+ 	raw_spin_lock(&cfs_b->lock);
+ 	if (cfs_b->quota != RUNTIME_INF &&
+-	    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
+-		cfs_b->runtime += slack_runtime;
++	    cfs_rq->expires_seq == cfs_b->expires_seq) {
++		if (slack_runtime > 0)
++			cfs_b->runtime += slack_runtime;
++		if (list_empty(&cfs_rq->slack_list))
++			list_add(&cfs_rq->slack_list, &cfs_b->slack_cfs_rq);
+ 
+-		/* we are under rq->lock, defer unthrottling using a timer */
+-		if (cfs_b->runtime > sched_cfs_bandwidth_slice() &&
+-		    !list_empty(&cfs_b->throttled_cfs_rq))
+-			start_cfs_slack_bandwidth(cfs_b);
++		/*
++		 * After a timeout, gather our remaining runtime so it can't get
++		 * stranded. We need a timer anyways to distribute any of the
++		 * runtime due to locking issues.
++		 */
++		start_cfs_slack_bandwidth(cfs_b);
+ 	}
+ 	raw_spin_unlock(&cfs_b->lock);
+ 
+-	/* even if it's not valid for return we don't want to try again */
+-	cfs_rq->runtime_remaining -= slack_runtime;
++	if (slack_runtime > 0)
++		/* even if it's not valid for return we don't want to try again */
++		cfs_rq->runtime_remaining -= slack_runtime;
+ }
+ 
+ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+@@ -4781,12 +4790,41 @@ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+  */
+ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+ {
+-	u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
++	u64 runtime = 0;
+ 	unsigned long flags;
+ 	u64 expires;
++	struct cfs_rq *cfs_rq, *temp;
++	LIST_HEAD(temp_head);
++
++	local_irq_save(flags);
++
++	raw_spin_lock(&cfs_b->lock);
++	cfs_b->slack_started = false;
++	list_splice_init(&cfs_b->slack_cfs_rq, &temp_head);
++	raw_spin_unlock(&cfs_b->lock);
++
++
++	/* Gather all left over runtime from all rqs */
++	list_for_each_entry_safe(cfs_rq, temp, &temp_head, slack_list) {
++		struct rq *rq = rq_of(cfs_rq);
++		struct rq_flags rf;
++
++		rq_lock(rq, &rf);
++
++		raw_spin_lock(&cfs_b->lock);
++		list_del_init(&cfs_rq->slack_list);
++		if (!cfs_rq->nr_running && cfs_rq->runtime_remaining > 0 &&
++		    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
++			cfs_b->runtime += cfs_rq->runtime_remaining;
++			cfs_rq->runtime_remaining = 0;
++		}
++		raw_spin_unlock(&cfs_b->lock);
++
++		rq_unlock(rq, &rf);
++	}
+ 
+ 	/* confirm we're still not at a refresh boundary */
+-	raw_spin_lock_irqsave(&cfs_b->lock, flags);
++	raw_spin_lock(&cfs_b->lock);
+ 	cfs_b->slack_started = false;
+ 	if (cfs_b->distribute_running) {
+ 		raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
+@@ -4798,7 +4836,7 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+ 		return;
+ 	}
+ 
+-	if (cfs_b->quota != RUNTIME_INF && cfs_b->runtime > slice)
++	if (cfs_b->quota != RUNTIME_INF)
+ 		runtime = cfs_b->runtime;
+ 
+ 	expires = cfs_b->runtime_expires;
+@@ -4946,6 +4984,7 @@ void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
+ 	cfs_b->period = ns_to_ktime(default_cfs_period());
+ 
+ 	INIT_LIST_HEAD(&cfs_b->throttled_cfs_rq);
++	INIT_LIST_HEAD(&cfs_b->slack_cfs_rq);
+ 	hrtimer_init(&cfs_b->period_timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED);
+ 	cfs_b->period_timer.function = sched_cfs_period_timer;
+ 	hrtimer_init(&cfs_b->slack_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+@@ -4958,6 +4997,7 @@ static void init_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ {
+ 	cfs_rq->runtime_enabled = 0;
+ 	INIT_LIST_HEAD(&cfs_rq->throttled_list);
++	INIT_LIST_HEAD(&cfs_rq->slack_list);
+ }
+ 
+ void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index b08dee29ef5e..3b272ee894fb 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -345,6 +345,7 @@ struct cfs_bandwidth {
+ 	struct hrtimer		period_timer;
+ 	struct hrtimer		slack_timer;
+ 	struct list_head	throttled_cfs_rq;
++	struct list_head	slack_cfs_rq;
+ 
+ 	/* Statistics: */
+ 	int			nr_periods;
+@@ -566,6 +567,7 @@ struct cfs_rq {
+ 	int			throttled;
+ 	int			throttle_count;
+ 	struct list_head	throttled_list;
++	struct list_head	slack_list;
+ #endif /* CONFIG_CFS_BANDWIDTH */
+ #endif /* CONFIG_FAIR_GROUP_SCHED */
+ };
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
