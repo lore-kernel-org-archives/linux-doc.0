@@ -1,113 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABB4E7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 00:45:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF9E97D90C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 00:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfGCApx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Jul 2019 20:45:53 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46275 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbfGCApx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jul 2019 20:45:53 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v24so434638ljg.13
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2019 17:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uy9P4Bv7MoU15f1hxa9HUk41ddeWB4vxhHhX7nu5AF8=;
-        b=chfL2Y+vcu0HLio56W5yCpYcO12fzccTTuvBbkGhkNe/aF5ZgcfKOE24xS40HsFMlc
-         Ut8Bz0uCuff4zpfBt474goph+OPSk+NhNQVgLSimuL3/Ah0v11JGh/8rGaKti0yddSiM
-         q/0fOfoab+9/DUCSuDVGXRkPBEodmSnVOEGRZxSGePAp5QYIi/4446bzXKyWwa+Z9QVU
-         JorSbzfYLEjhFTeRYS7/jv30gSLerU7/hW/VDodF7UL5D3eT6ZP0fWQXg/OaUFUv2/fn
-         GcIo0P7LqaWgUcqGlOiipgnrK233+5QeGPJ94GG6q7nHRhDMqNxm2bzPhj2Qys7AxdxL
-         UO4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uy9P4Bv7MoU15f1hxa9HUk41ddeWB4vxhHhX7nu5AF8=;
-        b=Q6KT8CKag5HIWwgWdU/H9YOyoNf+pgCAlFGrfTgSp0vYIcaT8uuki/2g7nhyrDJuYQ
-         Ecq5xS0x16Jry02UpZUSooCOkmdzwGKuaJSJVWD+JCyUAqxJ4KGgfGq7uRsxF+gXj8Tq
-         V2WAsQUOUXKjgzSFtEMVuEpIY4YqRmHZNfIVLpN9ujpw6vyqGQA1axIrQ1lq3zGHYRHd
-         ntEyULZpmj0K5QYM4NRig61qeERuxW1pj6z329auGkK58aoOaTN2h507I03QZzrZjL2g
-         NfxbwigvZDy2CULzdAI8Cci6ynSXdNGC0W+nEWxrOFkN9u9PRBO3WLuq1eAhcRvgkcKd
-         GdtA==
-X-Gm-Message-State: APjAAAVXDtGzzlD/xs2zdb8ElgZJEqe5mHccYmZQbaZOeb+G6zCedXYf
-        1jfo0/TFZvIXOnMyPUCT+j7z7uDTw46AYBFYeT41SQ==
-X-Google-Smtp-Source: APXvYqybYGFXeKm3HudJJDld+RvqFOCnrMTby4Ii2vx9EH9qEyc7WekPspTFOFMLIfLcDmLdtXWyHbCAfNQSt4Z3QxE=
-X-Received: by 2002:a2e:8195:: with SMTP id e21mr167967ljg.62.1562104610089;
- Tue, 02 Jul 2019 14:56:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <20190617221134.9930-3-f.fainelli@gmail.com>
-In-Reply-To: <20190617221134.9930-3-f.fainelli@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 2 Jul 2019 23:56:38 +0200
-Message-ID: <CACRpkdb3P6oQTK9FGUkMj4kax8us3rKH6c36pX=HD1_wMqcoJQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/6] ARM: Disable instrumentation for some code
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S1727128AbfGCAxF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Jul 2019 20:53:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727101AbfGCAxF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jul 2019 20:53:05 -0400
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 662352184C;
+        Tue,  2 Jul 2019 20:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562097799;
+        bh=kyfxYTDfXVVYVh+jLp8SPqoH6e+/on1CISn5rmKjOZ0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Tiln9LxMX1fNAo2/Ddp+J6EQL7IwtJ9uvLaA5tNsAMv7HWx786TfZZ+Zg2iwEa3zy
+         7DBc6NmB8eX7vXDjNIm9YVca7qmERe9+BWTzyahQE+3k8jNzrBotulWcBmvPHIX2uk
+         qZiUwdYXD/LKMhpngm7ibkztyOQiF7ErCvRr6OuA=
+Date:   Tue, 2 Jul 2019 13:03:18 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>, christoffer.dall@arm.com,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>, jinb.park7@gmail.com,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Rob Landley <rob@landley.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thomas Gleixner <tglx@linutronix.de>, thgarnie@google.com,
-        David Howells <dhowells@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        julien.thierry@arm.com, drjones@redhat.com, philip@cog.systems,
-        mhocko@suse.com, kirill.shutemov@linux.intel.com,
-        kasan-dev@googlegroups.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kvmarm@lists.cs.columbia.edu,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
+ caches
+Message-Id: <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
+In-Reply-To: <20190702183730.14461-1-longman@redhat.com>
+References: <20190702183730.14461-1-longman@redhat.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 12:11 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+On Tue,  2 Jul 2019 14:37:30 -0400 Waiman Long <longman@redhat.com> wrote:
 
-> @@ -236,7 +236,8 @@ static int unwind_pop_register(struct unwind_ctrl_block *ctrl,
->                 if (*vsp >= (unsigned long *)ctrl->sp_high)
->                         return -URC_FAILURE;
+> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+> file to shrink the slab by flushing all the per-cpu slabs and free
+> slabs in partial lists. This applies only to the root caches, though.
+> 
+> Extends this capability by shrinking all the child memcg caches and
+> the root cache when a value of '2' is written to the shrink sysfs file.
+
+Why?
+
+Please fully describe the value of the proposed feature to or users. 
+Always.
+
+> 
+> ...
 >
-> -       ctrl->vrs[reg] = *(*vsp)++;
-> +       ctrl->vrs[reg] = READ_ONCE_NOCHECK(*(*vsp));
-> +       (*vsp)++;
+> --- a/Documentation/ABI/testing/sysfs-kernel-slab
+> +++ b/Documentation/ABI/testing/sysfs-kernel-slab
+> @@ -429,10 +429,12 @@ KernelVersion:	2.6.22
+>  Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+>  		Christoph Lameter <cl@linux-foundation.org>
+>  Description:
+> -		The shrink file is written when memory should be reclaimed from
+> -		a cache.  Empty partial slabs are freed and the partial list is
+> -		sorted so the slabs with the fewest available objects are used
+> -		first.
+> +		A value of '1' is written to the shrink file when memory should
+> +		be reclaimed from a cache.  Empty partial slabs are freed and
+> +		the partial list is sorted so the slabs with the fewest
+> +		available objects are used first.  When a value of '2' is
+> +		written, all the corresponding child memory cgroup caches
+> +		should be shrunk as well.  All other values are invalid.
 
-I would probably even put in a comment here so it is clear why we
-do this. Passers-by may not know that READ_ONCE_NOCHECK() is
-even related to KASan.
+One would expect this to be a bitfield, like /proc/sys/vm/drop_caches. 
+So writing 3 does both forms of shrinking.
 
-Other than that,
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Yes, it happens to be the case that 2 is a superset of 1, but what
+about if we add "4"?
 
-Yours,
-Linus Walleij
