@@ -1,113 +1,193 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 728227D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Jul 2019 17:57:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 63C257D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Jul 2019 18:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbfGBR5b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Jul 2019 13:57:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56596 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbfGBR5a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jul 2019 13:57:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=+ahNi2HxAhGkWgnbOtQn1Bz7SyXdYLczH+wsKwNvLNw=; b=Hz9BIU2AICwcJllrZaeL/YFGd
-        LMeLTLdbianYtjq/4Vn43w2iMMliWpV5remUoYvE5ndDrkVvYI3ShZMtHTzbySy4Xc5lcn4Gea3+/
-        uQydZlZAJBE8cu0eKQ6a04TNBJY+GLk5uytNLE7BE+6V4E/ER62JdXeVt7eJ381Sxphp0y8zUAZQx
-        pmNi393HmWOH+Ldx2M3HT2LXxMTn+B18gMLticPzXtuxLvWh/fsgt9HkFeA5ti+4ridfcTSysfEXX
-        jpViWgbv6C0xhPTnp1uzrNGEoLQQVVZqwrJ0cz8ZP2OFWrS/xHN3nZYkDunjNvF/brjBOzVOU3iXB
-        9/lBK8k+w==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hiN21-0006vi-Or; Tue, 02 Jul 2019 17:57:29 +0000
-Date:   Tue, 2 Jul 2019 10:57:29 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Christian Brauner <christian@brauner.io>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] Documentation/filesystems: add binderfs
-Message-ID: <20190702175729.GF1729@bombadil.infradead.org>
-References: <20190111134100.24095-1-christian@brauner.io>
- <20190114172401.018afb9c@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190114172401.018afb9c@lwn.net>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        id S1726529AbfGBSiN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Jul 2019 14:38:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57250 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726150AbfGBSiN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jul 2019 14:38:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id F1A6B81F31;
+        Tue,  2 Jul 2019 18:37:54 +0000 (UTC)
+Received: from llong.com (dhcp-17-160.bos.redhat.com [10.18.17.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 599AA5D968;
+        Tue,  2 Jul 2019 18:37:44 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg caches
+Date:   Tue,  2 Jul 2019 14:37:30 -0400
+Message-Id: <20190702183730.14461-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Tue, 02 Jul 2019 18:38:13 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 05:24:01PM -0700, Jonathan Corbet wrote:
-> On Fri, 11 Jan 2019 14:40:59 +0100
-> Christian Brauner <christian@brauner.io> wrote:
-> > This documents the Android binderfs filesystem used to dynamically add and
-> > remove binder devices that are private to each instance.
-> 
-> You didn't add it to index.rst, so it won't actually become part of the
-> docs build.
+Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+file to shrink the slab by flushing all the per-cpu slabs and free
+slabs in partial lists. This applies only to the root caches, though.
 
-I think you added it in the wrong place.
+Extends this capability by shrinking all the child memcg caches and
+the root cache when a value of '2' is written to the shrink sysfs file.
 
-From 8167b80c950834da09a9204b6236f238197c197b Mon Sep 17 00:00:00 2001
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Date: Tue, 2 Jul 2019 13:54:38 -0400
-Subject: [PATCH] docs: Move binderfs to admin-guide
+On a 4-socket 112-core 224-thread x86-64 system after a parallel kernel
+build, the the amount of memory occupied by slabs before shrinking
+slabs were:
 
-The documentation is more appropriate for the administrator than for
-the internal kernel API section it is currently in.
+ # grep task_struct /proc/slabinfo
+ task_struct         7114   7296   7744    4    8 : tunables    0    0
+ 0 : slabdata   1824   1824      0
+ # grep "^S[lRU]" /proc/meminfo
+ Slab:            1310444 kB
+ SReclaimable:     377604 kB
+ SUnreclaim:       932840 kB
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+After shrinking slabs:
+
+ # grep "^S[lRU]" /proc/meminfo
+ Slab:             695652 kB
+ SReclaimable:     322796 kB
+ SUnreclaim:       372856 kB
+ # grep task_struct /proc/slabinfo
+ task_struct         2262   2572   7744    4    8 : tunables    0    0
+ 0 : slabdata    643    643      0
+
+Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- .../{filesystems => admin-guide}/binderfs.rst          |  0
- Documentation/admin-guide/index.rst                    |  1 +
- Documentation/filesystems/index.rst                    | 10 ----------
- 3 files changed, 1 insertion(+), 10 deletions(-)
- rename Documentation/{filesystems => admin-guide}/binderfs.rst (100%)
+ Documentation/ABI/testing/sysfs-kernel-slab | 10 +++--
+ mm/slab.h                                   |  1 +
+ mm/slab_common.c                            | 43 +++++++++++++++++++++
+ mm/slub.c                                   |  2 +
+ 4 files changed, 52 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/filesystems/binderfs.rst b/Documentation/admin-guide/binderfs.rst
-similarity index 100%
-rename from Documentation/filesystems/binderfs.rst
-rename to Documentation/admin-guide/binderfs.rst
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 8001917ee012..24fbe0568eff 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
-    ras
-    bcache
-    ext4
-+   binderfs
-    pm/index
-    thunderbolt
-    LSM/index
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1131c34d77f6..970c0a3ec377 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -31,13 +31,3 @@ filesystem implementations.
+diff --git a/Documentation/ABI/testing/sysfs-kernel-slab b/Documentation/ABI/testing/sysfs-kernel-slab
+index 29601d93a1c2..2a3d0fc4b4ac 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-slab
++++ b/Documentation/ABI/testing/sysfs-kernel-slab
+@@ -429,10 +429,12 @@ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+ 		Christoph Lameter <cl@linux-foundation.org>
+ Description:
+-		The shrink file is written when memory should be reclaimed from
+-		a cache.  Empty partial slabs are freed and the partial list is
+-		sorted so the slabs with the fewest available objects are used
+-		first.
++		A value of '1' is written to the shrink file when memory should
++		be reclaimed from a cache.  Empty partial slabs are freed and
++		the partial list is sorted so the slabs with the fewest
++		available objects are used first.  When a value of '2' is
++		written, all the corresponding child memory cgroup caches
++		should be shrunk as well.  All other values are invalid.
  
-    journalling
-    fscrypt
--
--Filesystem-specific documentation
--=================================
--
--Documentation for individual filesystem types can be found here.
--
--.. toctree::
--   :maxdepth: 2
--
--   binderfs.rst
+ What:		/sys/kernel/slab/cache/slab_size
+ Date:		May 2007
+diff --git a/mm/slab.h b/mm/slab.h
+index 3b22931bb557..a16b2c7ff4dd 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -174,6 +174,7 @@ int __kmem_cache_shrink(struct kmem_cache *);
+ void __kmemcg_cache_deactivate(struct kmem_cache *s);
+ void __kmemcg_cache_deactivate_after_rcu(struct kmem_cache *s);
+ void slab_kmem_cache_release(struct kmem_cache *);
++int kmem_cache_shrink_all(struct kmem_cache *s);
+ 
+ struct seq_file;
+ struct file;
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 464faaa9fd81..493697ba1da5 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -981,6 +981,49 @@ int kmem_cache_shrink(struct kmem_cache *cachep)
+ }
+ EXPORT_SYMBOL(kmem_cache_shrink);
+ 
++/**
++ * kmem_cache_shrink_all - shrink a cache and all its memcg children
++ * @s: The root cache to shrink.
++ *
++ * Return: 0 if successful, -EINVAL if not a root cache
++ */
++int kmem_cache_shrink_all(struct kmem_cache *s)
++{
++	struct kmem_cache *c;
++
++	if (!IS_ENABLED(CONFIG_MEMCG_KMEM)) {
++		kmem_cache_shrink(s);
++		return 0;
++	}
++	if (!is_root_cache(s))
++		return -EINVAL;
++
++	/*
++	 * The caller should have a reference to the root cache and so
++	 * we don't need to take the slab_mutex. We have to take the
++	 * slab_mutex, however, to iterate the memcg caches.
++	 */
++	get_online_cpus();
++	get_online_mems();
++	kasan_cache_shrink(s);
++	__kmem_cache_shrink(s);
++
++	mutex_lock(&slab_mutex);
++	for_each_memcg_cache(c, s) {
++		/*
++		 * Don't need to shrink deactivated memcg caches.
++		 */
++		if (s->flags & SLAB_DEACTIVATED)
++			continue;
++		kasan_cache_shrink(c);
++		__kmem_cache_shrink(c);
++	}
++	mutex_unlock(&slab_mutex);
++	put_online_mems();
++	put_online_cpus();
++	return 0;
++}
++
+ bool slab_is_available(void)
+ {
+ 	return slab_state >= UP;
+diff --git a/mm/slub.c b/mm/slub.c
+index a384228ff6d3..5d7b0004c51f 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -5298,6 +5298,8 @@ static ssize_t shrink_store(struct kmem_cache *s,
+ {
+ 	if (buf[0] == '1')
+ 		kmem_cache_shrink(s);
++	else if (buf[0] == '2')
++		kmem_cache_shrink_all(s);
+ 	else
+ 		return -EINVAL;
+ 	return length;
 -- 
-2.20.1
+2.18.1
 
