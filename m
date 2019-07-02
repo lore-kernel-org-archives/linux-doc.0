@@ -1,133 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3488D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 01:30:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A3E87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 01:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727182AbfGCBaH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Jul 2019 21:30:07 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41373 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727117AbfGCBaG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jul 2019 21:30:06 -0400
-Received: by mail-lf1-f65.google.com with SMTP id 62so475390lfa.8
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2019 18:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BWuzzOxwUVGbMCvFD/kQRaZgbqg2U0ttqAGoU0tIxDc=;
-        b=WU9xE1VaEDXdGOfDOaQ8eCNlTBcxHe1uPjWOXfL0akhUDkfR9pYxvy2vkEDfni+c8h
-         WMVK/5ptG9BAQJtthbU9xhXp41aX/dRI7O6DGRbzSic+KQYV4r79fr3F33IPwBk4A9/w
-         GB0kyYoceOYaI2Zwrbm6QbIM8AP0naUmdNCuQ2tAPmooOIqjVKYIIcMIkgONM7r947bm
-         Rcb/3dBlykiu3KSgumMs5axcfx87QLCZKcPVy2M8OzJauDqJh5Z1Bo7FTS75GRY0iu0+
-         IdLBkAJI8wJkTgpnoj96Ri0vBe8IfwgD2+EBl9ikgM/r7w39QRdydkoW0ChmAqm5YMzc
-         LsVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BWuzzOxwUVGbMCvFD/kQRaZgbqg2U0ttqAGoU0tIxDc=;
-        b=PH5V0oFdx9nQZ7CBX+SyY58nlU4uKPckB6huS9QyWYXjrYRnlcwbd5X+2A/n/OGaQe
-         s0BoPBEMD0/yKEbgDsHC/xjqeb7XYxTutJskj3ygs2NwT8QDRP1UCpKabmt3EXYNqUkM
-         Ntfx05CBf9gPs98Ues1GKjb9G5dkO2vozT5WjGVvYNTE8hgxMXJNN4/8Yu/TgmUd9bMx
-         YCmqMijOGxd6CJucSbxe016USLawoNSs58RtFv6oyHSUkrCNzDsNZbxgp2RfJs5B6WVI
-         BYy7wnqoygeJ0ilScnTrcA8R6BrxFE3trxJkEpJ7/EEx7xyXTNrOz2/xyQuOuTRNBz5l
-         zm4w==
-X-Gm-Message-State: APjAAAW2p9sCwS3RqJ6/Va9+9H5j+OgkR/cIqfR4iVAW8gLTKH/5da/9
-        bU89gfxbptY8DUt0qGwBSvyt1RBzpdQuUsWO6YVvnf9twfc=
-X-Google-Smtp-Source: APXvYqxPy3MzRImB1p5uGBTXdcSHdB32SVAS4jpsrlLbMd+boV/5IuiNLeQxCDIw30/585vq93owljYh5YviaC4jL+c=
-X-Received: by 2002:a19:dc0d:: with SMTP id t13mr1324771lfg.152.1562101441838;
- Tue, 02 Jul 2019 14:04:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <20190617221134.9930-2-f.fainelli@gmail.com>
-In-Reply-To: <20190617221134.9930-2-f.fainelli@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 2 Jul 2019 23:03:50 +0200
-Message-ID: <CACRpkdZGqiiax2m5L1y3=Enw0Q5cLc-idAQNae34uenf-drHDw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] ARM: Add TTBR operator for kasan_init
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S1727499AbfGCBcS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Jul 2019 21:32:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44392 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727304AbfGCBcR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jul 2019 21:32:17 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 68284309174E;
+        Tue,  2 Jul 2019 20:44:33 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 67346183E0;
+        Tue,  2 Jul 2019 20:44:25 +0000 (UTC)
+Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
+ caches
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>, christoffer.dall@arm.com,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>, jinb.park7@gmail.com,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Rob Landley <rob@landley.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thomas Gleixner <tglx@linutronix.de>, thgarnie@google.com,
-        David Howells <dhowells@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        julien.thierry@arm.com, drjones@redhat.com, philip@cog.systems,
-        mhocko@suse.com, kirill.shutemov@linux.intel.com,
-        kasan-dev@googlegroups.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kvmarm@lists.cs.columbia.edu,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+References: <20190702183730.14461-1-longman@redhat.com>
+ <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <78879b79-1b8f-cdfd-d4fa-610afe5e5d48@redhat.com>
+Date:   Tue, 2 Jul 2019 16:44:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Tue, 02 Jul 2019 20:44:47 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Florian!
-
-thanks for your patch!
-
-On Tue, Jun 18, 2019 at 12:11 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
-
-> From: Abbott Liu <liuwenliang@huawei.com>
+On 7/2/19 4:03 PM, Andrew Morton wrote:
+> On Tue,  2 Jul 2019 14:37:30 -0400 Waiman Long <longman@redhat.com> wrote:
 >
-> The purpose of this patch is to provide set_ttbr0/get_ttbr0 to
-> kasan_init function. The definitions of cp15 registers should be in
-> arch/arm/include/asm/cp15.h rather than arch/arm/include/asm/kvm_hyp.h,
-> so move them.
+>> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+>> file to shrink the slab by flushing all the per-cpu slabs and free
+>> slabs in partial lists. This applies only to the root caches, though.
+>>
+>> Extends this capability by shrinking all the child memcg caches and
+>> the root cache when a value of '2' is written to the shrink sysfs file.
+> Why?
 >
-> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reported-by: Marc Zyngier <marc.zyngier@arm.com>
-> Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> Please fully describe the value of the proposed feature to or users. 
+> Always.
 
-> +#include <linux/stringify.h>
+Sure. Essentially, the sysfs shrink interface is not complete. It allows
+the root cache to be shrunk, but not any of the memcg caches. 
 
-What is this for? I think it can be dropped.
+The same can also be said for others slab sysfs files which show current
+cache status. I don't think sysfs files are created for the memcg
+caches, but I may be wrong. In many cases, information can be available
+elsewhere like the slabinfo file. The shrink operation, however, has no
+other alternative available.
 
-This stuff adding a whole bunch of accessors:
+>> ...
+>>
+>> --- a/Documentation/ABI/testing/sysfs-kernel-slab
+>> +++ b/Documentation/ABI/testing/sysfs-kernel-slab
+>> @@ -429,10 +429,12 @@ KernelVersion:	2.6.22
+>>  Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+>>  		Christoph Lameter <cl@linux-foundation.org>
+>>  Description:
+>> -		The shrink file is written when memory should be reclaimed from
+>> -		a cache.  Empty partial slabs are freed and the partial list is
+>> -		sorted so the slabs with the fewest available objects are used
+>> -		first.
+>> +		A value of '1' is written to the shrink file when memory should
+>> +		be reclaimed from a cache.  Empty partial slabs are freed and
+>> +		the partial list is sorted so the slabs with the fewest
+>> +		available objects are used first.  When a value of '2' is
+>> +		written, all the corresponding child memory cgroup caches
+>> +		should be shrunk as well.  All other values are invalid.
+> One would expect this to be a bitfield, like /proc/sys/vm/drop_caches. 
+> So writing 3 does both forms of shrinking.
+>
+> Yes, it happens to be the case that 2 is a superset of 1, but what
+> about if we add "4"?
+>
+Yes, I can make it into a bit fields of 2 bits, just like
+/proc/sys/vm/drop_caches.
 
-> +static inline void set_par(u64 val)
-> +{
-> +       if (IS_ENABLED(CONFIG_ARM_LPAE))
-> +               write_sysreg(val, PAR_64);
-> +       else
-> +               write_sysreg(val, PAR_32);
-> +}
+Cheers,
+Longman
 
-Can we put that in a separate patch since it is not
-adding any users, so this is a pure refactoring patch for
-the current code?
-
-Yours,
-Linus Walleij
