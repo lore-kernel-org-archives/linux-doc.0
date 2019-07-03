@@ -3,126 +3,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 259E17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 08:12:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 161497D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 08:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727197AbfGCIMk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 04:12:40 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:37910 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727019AbfGCIMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 04:12:40 -0400
-Received: by mail-qk1-f195.google.com with SMTP id a27so1490786qkk.5
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 01:12:40 -0700 (PDT)
+        id S1726670AbfGCIow (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 04:44:52 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35697 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbfGCIow (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 04:44:52 -0400
+Received: by mail-lf1-f66.google.com with SMTP id p197so1179087lfa.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 01:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VjBFB/I0hlVew0sJZr7FphhS/ICkUfwzYUwEfGp+X9c=;
-        b=rs/P10EOeN8DyI/Wg/AZ1DlAhfVcgzzCalE9Vh9lVZ9iYbq7Jsh26+b068r1jTkYCu
-         9UM4aBR/8k/ZdDSMTmqUSSzooi/EJE6wcazITngYUVSrL+E7enwrQrSeCoMUKk1ixN+W
-         K9ve+Y/ZUGvYAEM4zp4tm3cwzm6BqzE9dqolkYjEUuNR0cEYY5iU5KBU9LCNeY5BWzMZ
-         hMF6PMR4U0+umNvC2E2/l6dDz92QxUN92vu6HnRT/AwAXCUmnCqs8lJnCxTrIhMdt4j0
-         BfcqgN8ddIaqNA27/dpccsu2frGQrqjCw2fA977jir5UmHgjgr3hksh7O+zUG+nh7bOb
-         FB6A==
+        bh=3liKSolgNOTE0GO6IdqkLmeCAukfMd1RtJ82seDneCg=;
+        b=TmUaRfQcHU6KZT/cQUt6QOxeQIOmubJNjMDOl7pLw+/8d0f81LQdh16APBrRJD1ll8
+         3KrYOintkQSt0/NllvbDH3Rgv1zD9W4R3xpsuAmYrRvdHqEIyys0WFSEGAeGt1XPt9Xq
+         O10SRFgV4U3cyP+1an1xbtinGQAcwi8x0rF+HQGukVdUw7vXh4lgY3tTB6Nb1FJJu7Dp
+         RWi9aI+fTsmz+Ix/vo5gxCWIlpvoWPfBYIHRIhQcggpQxKJQL23xSe/OQ3RccWFEzOWP
+         R67JQTELtNjHwZiE4RRJpC1ZMay7TqxCankYT6ZwbfotxHeA4ii+oOG5IiCejkyBbzr4
+         Ki6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VjBFB/I0hlVew0sJZr7FphhS/ICkUfwzYUwEfGp+X9c=;
-        b=P2FmdjHIaay0L6VNn9QvgcFrEzad9eFPLX+ZvrvCilIpcUVM8S9yApep/YHpuIHaMU
-         Kwbou1cn3mQWdflLvq+iLQetCitR1hsFexZN11fICsPYopO3TkIKmTgfOYm2qvmfUAG/
-         OpNTrgAQaERwQJ1Lf3A+3A+EG1PYoFjxaKQwJn30/6Sv9Op1p/Ct+2agALgfzVWhh4xB
-         ujfMs/ixRwTRp+DL+N86WkojX9+o/I2hlJwrPgCWRLQm/UU35BqDvHBWrFW2sbBb0pbA
-         BwoZT/dvV3dq9vjZJ7yKBXENJwHzSd8DI9PAkNexQrHPVqJcu005ou7FBUqO2YP2b/qF
-         Nvxw==
-X-Gm-Message-State: APjAAAWasyqN57lnQKRXmj4zOQI0RzYArGuhC+Z4WCVg7g2Drxcnu1LS
-        1ESs3xhN0WQ2i2r7K51Eq9wS/jaJRkJztNg6cshIbw==
-X-Google-Smtp-Source: APXvYqzr8OCEiyef/ZkNtjl0SMgfPQYC1bswQpc5cBXmeylB8iVLKdFWMazq+fnPQ8raPNXy/tyZlYwpeBtzgp463F8=
-X-Received: by 2002:a67:fd91:: with SMTP id k17mr18291390vsq.121.1562141559483;
- Wed, 03 Jul 2019 01:12:39 -0700 (PDT)
+        bh=3liKSolgNOTE0GO6IdqkLmeCAukfMd1RtJ82seDneCg=;
+        b=jVL4UJUvNVXVW6iTqcpt1mpPRnTDFT5TRb4iv0ulZIdb6xRZ1y6/V2XiAijKSnT2H+
+         8F9GejSElHZRwzcYNIxXwIATqzZK1Nodk2fsDQ95/1kA1DWy8eCYIuMTC6qvwntTUlYZ
+         BGH27ASqnl4oJm/ypltTvdUGAbdz2CBcd8WF9Kc0/JbueVgKYJJ9nP0c7VZoq1OLXWw7
+         zKnFywORJmAUHg/7CPW+kInuEh3Xu1aHLs5yGNAUVpG4iy1iqSZB302VDw9Vqs4B/Rp3
+         5KUADq+C9N6t869hoEeauefUn9EArk0QkHz7Zk+9cIMF3RgO38PDI8Eb3xUI8Hg69vrr
+         PavA==
+X-Gm-Message-State: APjAAAWchppqC03aSjZNtkw4Kve5vuovgWhebO0j/cXSPkGXClUlpQ2x
+        94EWSo1sMRWvgZgvts3W0awRzSghA5QBrhSaGSZosg==
+X-Google-Smtp-Source: APXvYqxWRQ/VeThlBgH3MQ4LJT9QQxmtwYkQ5a+vzEcAovmaaXojX+Uogeaf6aYaQIvSxuRtNJKs/sN3ZEYWfOppjeA=
+X-Received: by 2002:a19:6a01:: with SMTP id u1mr2537391lfu.141.1562143489851;
+ Wed, 03 Jul 2019 01:44:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190625201341.15865-1-sashal@kernel.org> <20190625201341.15865-2-sashal@kernel.org>
- <673dd30d03e8ed9825bb46ef21b2efef015f6f2a.camel@linux.intel.com>
- <20190626235653.GL7898@sasha-vm> <b688e845ccbe011c54b10043fbc3c0de8f0befc2.camel@linux.intel.com>
- <20190627133004.GA3757@apalos> <0893dc429d4c3f3b52d423f9e61c08a5012a7519.camel@linux.intel.com>
- <20190702142109.GA32069@apalos> <CY4PR21MB0279B99FB0097309ADE83809BCF80@CY4PR21MB0279.namprd21.prod.outlook.com>
- <20190703065813.GA12724@apalos>
-In-Reply-To: <20190703065813.GA12724@apalos>
-From:   Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date:   Wed, 3 Jul 2019 11:12:28 +0300
-Message-ID: <CAC_iWjK2F13QxjuvqzqNLx00SiGz_FQ5X=MQxJyDev57bo3=LQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] fTPM: firmware TPM running in TEE
-To:     Thirupathaiah Annapureddy <thiruan@microsoft.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "peterhuewe@gmx.de" <peterhuewe@gmx.de>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "corbet@lwn.net" <corbet@lwn.net>,
+References: <cover.1561724493.git.mchehab+samsung@kernel.org> <1ecff14ec37c0c434f003d93c4b86b1cd3dac834.1561724493.git.mchehab+samsung@kernel.org>
+In-Reply-To: <1ecff14ec37c0c434f003d93c4b86b1cd3dac834.1561724493.git.mchehab+samsung@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 3 Jul 2019 10:44:38 +0200
+Message-ID: <CACRpkdbBA612W0x6Y-dwe3E4dhH2ospmn+m2YJ8Sh_Um6XGYhA@mail.gmail.com>
+Subject: Re: [PATCH 39/39] docs: gpio: add sysfs interface to the admin-guide
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
-        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
-        "tee-dev@lists.linaro.org" <tee-dev@lists.linaro.org>,
-        "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        Joakim Bech <joakim.bech@linaro.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thirupathaiah,
+On Fri, Jun 28, 2019 at 2:30 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 
-(+Joakim)
-
-On Wed, 3 Jul 2019 at 09:58, Ilias Apalodimas
-<ilias.apalodimas@linaro.org> wrote:
+> While this is stated as obsoleted, the sysfs interface described
+> there is still valid, and belongs to the admin-guide.
 >
-> Hi Thirupathaiah,
-> >
-> > First of all, Thanks a lot for trying to test the driver.
-> >
-> np
->
-> [...]
-> > > I managed to do some quick testing in QEMU.
-> > > Everything works fine when i build this as a module (using IBM's TPM 2.0
-> > > TSS)
-> > >
-> > > - As module
-> > > # insmod /lib/modules/5.2.0-rc1/kernel/drivers/char/tpm/tpm_ftpm_tee.ko
-> > > # getrandom -by 8
-> > > randomBytes length 8
-> > > 23 b9 3d c3 90 13 d9 6b
-> > >
-> > > - Built-in
-> > > # dmesg | grep optee
-> > > ftpm-tee firmware:optee: ftpm_tee_probe:tee_client_open_session failed,
-> > > err=ffff0008
-> > This (0xffff0008) translates to TEE_ERROR_ITEM_NOT_FOUND.
-> >
-> > Where is fTPM TA located in the your test setup?
-> > Is it stitched into TEE binary as an EARLY_TA or
-> > Is it expected to be loaded during run-time with the help of user mode OP-TEE supplicant?
-> >
-> > My guess is that you are trying to load fTPM TA through user mode OP-TEE supplicant.
-> > Can you confirm?
-> I tried both
->
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Ok apparently there was a failure with my built-in binary which i
-didn't notice. I did a full rebuilt and checked the elf this time :)
+This doesn't apply to my tree because of dependencies in the
+index so I guess it's best if you merge it:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Built as an earlyTA my error now is:
-ftpm-tee firmware:optee: ftpm_tee_probe:tee_client_open_session
-failed, err=ffff3024 (translates to TEE_ERROR_TARGET_DEAD)
-Since you tested it on real hardware i guess you tried both
-module/built-in. Which TEE version are you using?
-
-Thanks
-/Ilias
+Yours,
+Linus Walleij
