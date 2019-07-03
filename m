@@ -1,153 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B87FC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 10:03:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D14B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 10:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbfGCKD2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 06:03:28 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:44018 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726308AbfGCKD2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 06:03:28 -0400
-Received: by mail-lf1-f68.google.com with SMTP id j29so1322481lfk.10
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 03:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BieYfjEM2Jzy6tm0eGzkxdcdk7kSkZqMecgJYNDMGV0=;
-        b=cG8ia6T7OSJ5BOL1ofr6Yg66FOfMfhI610OF3HU8QW3RUP4A/X2jPWhVUeZ85PwBj4
-         ZmquHHnWL0GNgchXP1S9U2K6BVJ9pcnkaEIkUbxdIBOt5NNYriWSWPKi3WbhecXYVOH2
-         ZmHRdorb89XdclWQ9Hrt2uS9CQHedIkTcZCEMckCv3M/Qyaa0NcXx8NSCGd7QbaO+6bW
-         cRIpePtoyGfOYjpzzHM/U5mL+SyMWVmlOKf0UNDKW/ESVJRocMh+CRFqXG+nL3kQoMDv
-         sefMYakUGTLZvoKRHziRK4GbgLIs2NMWTNu7U8JM+Bieg2yBD5fIFYNGI8GqGP2rJOfU
-         bOxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BieYfjEM2Jzy6tm0eGzkxdcdk7kSkZqMecgJYNDMGV0=;
-        b=IBi+JaScYuHfB3wh9m6zBtZNjOaO6tjLSZNW6PTr1jX5poF/+zJcbMaAXKc8I9rj3H
-         nJbqOAL/p8jO3qzCouq+lX++WXP7zasdxx+1du2nzoSVhxHuMpjdKCL0VN3VZS8cvTt5
-         1DUeOjhiyTVtECnM8o2pucliIMMYrsRehbwffSSwabU0WPVwYLs2kRPzXHyXYsJDLKQu
-         bUHRWSro9g1RHLO4Z9ayHC/+V1oYB9JumsWSduDfpkXrWHOQcN7PxzRpc8otOkfxnKDO
-         LDSH52cWjXyvfyg9zlR6vuXOmE3GJs8yF4asv8NwrHRDzO/k2RXVL55jPzQEWlye2Vca
-         R7KA==
-X-Gm-Message-State: APjAAAUPUWEkJG7zJ/RGvuMvjpxW2NdIBre/tCdufglOrGh0V32tfPJB
-        eqNDjBeQNnE6lOtqb9/pw9StxQSUvEnPFJURSSnngg==
-X-Google-Smtp-Source: APXvYqzd5df7P2Ve5Dj0iF8FUI6E47apo8EuyFqbBlrStQnDxozwztwb/DIvjR31to5jsxl+7VSGjbnNr/cq9+NxdNA=
-X-Received: by 2002:a05:6512:15a:: with SMTP id m26mr17277395lfo.71.1562148206208;
- Wed, 03 Jul 2019 03:03:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190625201341.15865-1-sashal@kernel.org> <20190625201341.15865-2-sashal@kernel.org>
- <673dd30d03e8ed9825bb46ef21b2efef015f6f2a.camel@linux.intel.com>
- <20190626235653.GL7898@sasha-vm> <b688e845ccbe011c54b10043fbc3c0de8f0befc2.camel@linux.intel.com>
- <20190627133004.GA3757@apalos> <0893dc429d4c3f3b52d423f9e61c08a5012a7519.camel@linux.intel.com>
- <20190702142109.GA32069@apalos> <CY4PR21MB0279B99FB0097309ADE83809BCF80@CY4PR21MB0279.namprd21.prod.outlook.com>
- <20190703065813.GA12724@apalos> <CAC_iWjK2F13QxjuvqzqNLx00SiGz_FQ5X=MQxJyDev57bo3=LQ@mail.gmail.com>
-In-Reply-To: <CAC_iWjK2F13QxjuvqzqNLx00SiGz_FQ5X=MQxJyDev57bo3=LQ@mail.gmail.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 3 Jul 2019 15:33:14 +0530
-Message-ID: <CAFA6WYMvd1BVGppYM230Bd1XjO11uU4WQf-F+ZtmtpasP4AjxQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] fTPM: firmware TPM running in TEE
-To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Thirupathaiah Annapureddy <thiruan@microsoft.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "peterhuewe@gmx.de" <peterhuewe@gmx.de>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
-        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
-        "tee-dev@lists.linaro.org" <tee-dev@lists.linaro.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        Joakim Bech <joakim.bech@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727079AbfGCKUR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 06:20:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51888 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726765AbfGCKUQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 06:20:16 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x63AJI7j107438
+        for <linux-doc@vger.kernel.org>; Wed, 3 Jul 2019 06:20:15 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tgsj0ap7h-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 06:20:13 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <maier@linux.ibm.com>;
+        Wed, 3 Jul 2019 11:20:11 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 3 Jul 2019 11:20:08 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x63AK7qr34800090
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 3 Jul 2019 10:20:07 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 007124C044;
+        Wed,  3 Jul 2019 10:20:07 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B087C4C04A;
+        Wed,  3 Jul 2019 10:20:06 +0000 (GMT)
+Received: from oc4120165700.ibm.com (unknown [9.152.97.10])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  3 Jul 2019 10:20:06 +0000 (GMT)
+From:   Steffen Maier <maier@linux.ibm.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-s390@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] docs: s390: restore content and update s390dbf.rst
+Date:   Wed,  3 Jul 2019 12:19:46 +0200
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+x-cbid: 19070310-0028-0000-0000-0000037FF27A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070310-0029-0000-0000-000024403038
+Message-Id: <1562149189-1417-1-git-send-email-maier@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-03_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=811 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907030125
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Jul 2019 at 13:42, Ilias Apalodimas
-<ilias.apalodimas@linaro.org> wrote:
->
-> Hi Thirupathaiah,
->
-> (+Joakim)
->
-> On Wed, 3 Jul 2019 at 09:58, Ilias Apalodimas
-> <ilias.apalodimas@linaro.org> wrote:
-> >
-> > Hi Thirupathaiah,
-> > >
-> > > First of all, Thanks a lot for trying to test the driver.
-> > >
-> > np
-> >
-> > [...]
-> > > > I managed to do some quick testing in QEMU.
-> > > > Everything works fine when i build this as a module (using IBM's TPM 2.0
-> > > > TSS)
-> > > >
-> > > > - As module
-> > > > # insmod /lib/modules/5.2.0-rc1/kernel/drivers/char/tpm/tpm_ftpm_tee.ko
-> > > > # getrandom -by 8
-> > > > randomBytes length 8
-> > > > 23 b9 3d c3 90 13 d9 6b
-> > > >
-> > > > - Built-in
-> > > > # dmesg | grep optee
-> > > > ftpm-tee firmware:optee: ftpm_tee_probe:tee_client_open_session failed,
-> > > > err=ffff0008
-> > > This (0xffff0008) translates to TEE_ERROR_ITEM_NOT_FOUND.
-> > >
-> > > Where is fTPM TA located in the your test setup?
-> > > Is it stitched into TEE binary as an EARLY_TA or
-> > > Is it expected to be loaded during run-time with the help of user mode OP-TEE supplicant?
-> > >
-> > > My guess is that you are trying to load fTPM TA through user mode OP-TEE supplicant.
-> > > Can you confirm?
-> > I tried both
-> >
->
-> Ok apparently there was a failure with my built-in binary which i
-> didn't notice. I did a full rebuilt and checked the elf this time :)
->
-> Built as an earlyTA my error now is:
-> ftpm-tee firmware:optee: ftpm_tee_probe:tee_client_open_session
-> failed, err=ffff3024 (translates to TEE_ERROR_TARGET_DEAD)
-> Since you tested it on real hardware i guess you tried both
-> module/built-in. Which TEE version are you using?
->
+This is based on top of the 3 s390 patches Heiko already queued on our
+s390 features branch.
+[("Re: [PATCH v3 00/33] Convert files to ReST - part 1")
+ https://www.spinics.net/lists/linux-doc/msg66137.html
+ https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git/log/Documentation/s390?h=features]
 
-> > > U-boot and Linux driver stacks work seamlessly without dependency on supplicant.
+If I was not mistaken, some documentation was accidentally lost
+and patch 1 restores it.
 
-Is this true?
+After having looked closer, I came up with patches 2 and 3.
+Rendered successfully on a current Fedora 30 and it looks good:
+$ make SPHINXDIRS="s390" htmldocs
 
-It looks like this fTPM driver can't work as a built-in driver. The
-reason seems to be secure storage access required by OP-TEE fTPM TA
-that is provided via OP-TEE supplicant that's not available during
-kernel boot.
+Steffen Maier (3):
+  docs: s390: restore important non-kdoc parts of s390dbf.rst
+  docs: s390: unify and update s390dbf kdocs at debug.c
+  docs: s390: s390dbf: typos and formatting, update crash command
 
-Snippet from ms-tpm-20-ref/Samples/ARM32-FirmwareTPM/optee_ta/fTPM/fTPM.c +145:
+ Documentation/s390/s390dbf.rst | 390 +++++++++++++++++++++++++++++++++++++++--
+ arch/s390/include/asm/debug.h  | 112 ++----------
+ arch/s390/kernel/debug.c       | 105 +++++++++--
+ 3 files changed, 473 insertions(+), 134 deletions(-)
 
-    // If we fail to open fTPM storage we cannot continue.
-    if (_plat__NVEnable(NULL) == 0) {
-        TEE_Panic(TEE_ERROR_BAD_STATE);
-    }
+-- 
+1.8.3.1
 
-So it seems like this module will work as a loadable module only after
-OP-TEE supplicant is up.
-
--Sumit
-
-> Thanks
-> /Ilias
