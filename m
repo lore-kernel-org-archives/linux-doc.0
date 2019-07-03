@@ -5,111 +5,89 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFABB7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 16:11:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C7797D90C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 16:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbfGCQLV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 12:11:21 -0400
-Received: from mga02.intel.com ([134.134.136.20]:48176 "EHLO mga02.intel.com"
+        id S1726876AbfGCQNv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 12:13:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56204 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726574AbfGCQLV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Jul 2019 12:11:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2019 09:11:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,446,1557212400"; 
-   d="scan'208";a="172182766"
-Received: from jsakkine-mobl1.tm.intel.com (HELO localhost) ([10.237.50.189])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Jul 2019 09:11:17 -0700
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tweek@google.com, matthewgarrett@google.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] tpm: Document UEFI event log quirks
-Date:   Wed,  3 Jul 2019 19:11:05 +0300
-Message-Id: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726574AbfGCQNu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Jul 2019 12:13:50 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id BBE813083394;
+        Wed,  3 Jul 2019 16:13:24 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 95F121725D;
+        Wed,  3 Jul 2019 16:13:15 +0000 (UTC)
+Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
+ caches
+To:     Christopher Lameter <cl@linux.com>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+References: <20190702183730.14461-1-longman@redhat.com>
+ <20190703065628.GK978@dhcp22.suse.cz>
+ <9ade5859-b937-c1ac-9881-2289d734441d@redhat.com>
+ <0100016bb89a0a6e-99d54043-4934-420f-9de0-1f71a8f943a3-000000@email.amazonses.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <1afc4772-27e5-b7f1-a15e-e912e15737e6@redhat.com>
+Date:   Wed, 3 Jul 2019 12:13:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <0100016bb89a0a6e-99d54043-4934-420f-9de0-1f71a8f943a3-000000@email.amazonses.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 03 Jul 2019 16:13:50 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some weird quirks when it comes to UEFI event log. Provide a
-brief introduction to TPM event log mechanism and describe the quirks
-and how they can be sorted out.
+On 7/3/19 12:10 PM, Christopher Lameter wrote:
+> On Wed, 3 Jul 2019, Waiman Long wrote:
+>
+>> On 7/3/19 2:56 AM, Michal Hocko wrote:
+>>> On Tue 02-07-19 14:37:30, Waiman Long wrote:
+>>>> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+>>>> file to shrink the slab by flushing all the per-cpu slabs and free
+>>>> slabs in partial lists. This applies only to the root caches, though.
+>>>>
+>>>> Extends this capability by shrinking all the child memcg caches and
+>>>> the root cache when a value of '2' is written to the shrink sysfs file.
+>>> Why do we need a new value for this functionality? I would tend to think
+>>> that skipping memcg caches is a bug/incomplete implementation. Or is it
+>>> a deliberate decision to cover root caches only?
+>> It is just that I don't want to change the existing behavior of the
+>> current code. It will definitely take longer to shrink both the root
+>> cache and the memcg caches. If we all agree that the only sensible
+>> operation is to shrink root cache and the memcg caches together. I am
+>> fine just adding memcg shrink without changing the sysfs interface
+>> definition and be done with it.
+> I think its best and consistent behavior to shrink all memcg caches
+> with the root cache. This looks like an oversight and thus a bugfix.
+>
+Yes, that is what I am now planning to do for the next version of the patch.
 
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
- Documentation/security/tpm/tpm-eventlog.rst | 53 +++++++++++++++++++++
- 1 file changed, 53 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm-eventlog.rst
-
-diff --git a/Documentation/security/tpm/tpm-eventlog.rst b/Documentation/security/tpm/tpm-eventlog.rst
-new file mode 100644
-index 000000000000..2ca8042bdb17
---- /dev/null
-+++ b/Documentation/security/tpm/tpm-eventlog.rst
-@@ -0,0 +1,53 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============
-+TPM Event Log
-+=============
-+
-+| Authors:
-+| Stefan Berger <stefanb@linux.vnet.ibm.com>
-+
-+This document briefly describes what TPM log is and how it is handed
-+over from the preboot firmware to the operating system.
-+
-+Introduction
-+============
-+
-+The preboot firmware maintains an event log that gets new entries every
-+time something gets hashed by it to any of the PCR registers. The events
-+are segregated by their type and contain the value of the hashed PCR
-+register. Typically, the preboot firmware will hash the components to
-+who execution is to be handed over or actions relevant to the boot
-+process.
-+
-+The main application for this is remote attestation and the reason why
-+it is useful is nicely put in the very first section of [1]:
-+
-+"Attestation is used to provide information about the platform’s state
-+to a challenger. However, PCR contents are difficult to interpret;
-+therefore, attestation is typically more useful when the PCR contents
-+are accompanied by a measurement log. While not trusted on their own,
-+the measurement log contains a richer set of information than do the PCR
-+contents. The PCR contents are used to provide the validation of the
-+measurement log."
-+
-+UEFI event log
-+==============
-+
-+UEFI provided event log has a few somewhat weird quirks.
-+
-+Before calling ExitBootServices() Linux EFI stub copies the event log to
-+a custom configuration table defined by the stub itself. Unfortanely,
-+the events generated by ExitBootServices() do end up to the table.
-+
-+The firmware provides so called final events configuration table to sort
-+out this issue. Events gets mirrored to this table after the first time
-+EFI_TCG2_PROTOCOL.GetEventLog() gets called.
-+
-+This introduces another problem: nothing guarantees that it is not
-+called before the stub gets to run. Thus, it needs to copy the final
-+events table preboot size to the custom configuration table so that
-+kernel offset it later on.
-+
-+[1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-+[2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
--- 
-2.20.1
+Cheers,
+Longman
 
