@@ -1,129 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 579A37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 17:08:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8846E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 17:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfGCRIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 13:08:40 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:33640 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726430AbfGCRIj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 13:08:39 -0400
-Received: from [10.91.6.157] (unknown [131.107.159.157])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 7C54E20BCFB8;
-        Wed,  3 Jul 2019 10:08:38 -0700 (PDT)
-Subject: Re: [PATCH] tpm: Document UEFI event log quirks
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tweek@google.com, matthewgarrett@google.com,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
-From:   Jordan Hand <jorhand@linux.microsoft.com>
-Message-ID: <dacf145d-49e0-16e5-5963-415bab1884e1@linux.microsoft.com>
-Date:   Wed, 3 Jul 2019 10:08:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726581AbfGCR4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 13:56:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53136 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726430AbfGCR4F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Jul 2019 13:56:05 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 984D62184C;
+        Wed,  3 Jul 2019 17:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562176564;
+        bh=L3h7wwKgvwILQUaF8E4p9qXMhfRYyp+VoJCbvfQ0d1I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EamyrQd6SFdTCUkrd3JVNgORmJpot8kSicTmfnpNtpOFgou59PJYhclDTX4yMTVqb
+         Ei9nKrIVWVRliYzhfwVexZKisw9hktv8CpdGtuQNCjOKe6PHFxEu0UDaRHO2egUJLM
+         Qkeg35NPByPrcSazHY1rb7beXr4SY+zY5qWMwZJQ=
+Date:   Wed, 3 Jul 2019 19:56:01 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Moritz Fischer <mdf@kernel.org>
+Cc:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Wu Hao <hao.wu@intel.com>,
+        Ananda Ravuri <ananda.ravuri@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>
+Subject: Re: [PATCH 04/15] fpga: dfl: fme: support 512bit data width PR
+Message-ID: <20190703175601.GA14034@kroah.com>
+References: <20190628004951.6202-1-mdf@kernel.org>
+ <20190628004951.6202-5-mdf@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628004951.6202-5-mdf@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/3/19 9:11 AM, Jarkko Sakkinen wrote:
-> There are some weird quirks when it comes to UEFI event log. Provide a
-> brief introduction to TPM event log mechanism and describe the quirks
-> and how they can be sorted out.
+On Thu, Jun 27, 2019 at 05:49:40PM -0700, Moritz Fischer wrote:
+> From: Wu Hao <hao.wu@intel.com>
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> In early partial reconfiguration private feature, it only
+> supports 32bit data width when writing data to hardware for
+> PR. 512bit data width PR support is an important optimization
+> for some specific solutions (e.g. XEON with FPGA integrated),
+> it allows driver to use AVX512 instruction to improve the
+> performance of partial reconfiguration. e.g. programming one
+> 100MB bitstream image via this 512bit data width PR hardware
+> only takes ~300ms, but 32bit revision requires ~3s per test
+> result.
+> 
+> Please note now this optimization is only done on revision 2
+> of this PR private feature which is only used in integrated
+> solution that AVX512 is always supported. This revision 2
+> hardware doesn't support 32bit PR.
+> 
+> Signed-off-by: Ananda Ravuri <ananda.ravuri@intel.com>
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+> Acked-by: Alan Tull <atull@kernel.org>
+> Signed-off-by: Moritz Fischer <mdf@kernel.org>
 > ---
->   Documentation/security/tpm/tpm-eventlog.rst | 53 +++++++++++++++++++++
->   1 file changed, 53 insertions(+)
->   create mode 100644 Documentation/security/tpm/tpm-eventlog.rst
+>  drivers/fpga/dfl-fme-main.c |   3 +
+>  drivers/fpga/dfl-fme-mgr.c  | 113 +++++++++++++++++++++++++++++++-----
+>  drivers/fpga/dfl-fme-pr.c   |  43 +++++++++-----
+>  drivers/fpga/dfl-fme.h      |   2 +
+>  drivers/fpga/dfl.h          |   5 ++
+>  5 files changed, 135 insertions(+), 31 deletions(-)
 > 
-> diff --git a/Documentation/security/tpm/tpm-eventlog.rst b/Documentation/security/tpm/tpm-eventlog.rst
-> new file mode 100644
-> index 000000000000..2ca8042bdb17
-> --- /dev/null
-> +++ b/Documentation/security/tpm/tpm-eventlog.rst
-> @@ -0,0 +1,53 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
+> index 086ad2420ade..076d74f6416d 100644
+> --- a/drivers/fpga/dfl-fme-main.c
+> +++ b/drivers/fpga/dfl-fme-main.c
+> @@ -21,6 +21,8 @@
+>  #include "dfl.h"
+>  #include "dfl-fme.h"
+>  
+> +#define DRV_VERSION	"0.8"
 > +
-> +=============
-> +TPM Event Log
-> +=============
-> +
-> +| Authors:
-> +| Stefan Berger <stefanb@linux.vnet.ibm.com>
-> +
-> +This document briefly describes what TPM log is and how it is handed
-> +over from the preboot firmware to the operating system.
-> +
-> +Introduction
-> +============
-> +
-> +The preboot firmware maintains an event log that gets new entries every
-> +time something gets hashed by it to any of the PCR registers. The events
-> +are segregated by their type and contain the value of the hashed PCR
-> +register. Typically, the preboot firmware will hash the components to
-> +who execution is to be handed over or actions relevant to the boot
-> +process.
-> +
-> +The main application for this is remote attestation and the reason why
-> +it is useful is nicely put in the very first section of [1]:
-> +
-> +"Attestation is used to provide information about the platform’s state
-> +to a challenger. However, PCR contents are difficult to interpret;
-> +therefore, attestation is typically more useful when the PCR contents
-> +are accompanied by a measurement log. While not trusted on their own,
-> +the measurement log contains a richer set of information than do the PCR
-> +contents. The PCR contents are used to provide the validation of the
-> +measurement log."
-> +
-> +UEFI event log
-> +==============
-> +
-> +UEFI provided event log has a few somewhat weird quirks.
-> +
-> +Before calling ExitBootServices() Linux EFI stub copies the event log to
-> +a custom configuration table defined by the stub itself. Unfortanely,
-> +the events generated by ExitBootServices() do end up to the table.
+>  static ssize_t ports_num_show(struct device *dev,
+>  			      struct device_attribute *attr, char *buf)
+>  {
+> @@ -277,3 +279,4 @@ MODULE_DESCRIPTION("FPGA Management Engine driver");
+>  MODULE_AUTHOR("Intel Corporation");
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_ALIAS("platform:dfl-fme");
+> +MODULE_VERSION(DRV_VERSION);
 
-                                               do not
+No, we ripped out these useless "driver version" things all over the
+place, please do not add them back in again.  They mean nothing and
+confuse people to no end.
 
-> +
-> +The firmware provides so called final events configuration table to sort
-> +out this issue. Events gets mirrored to this table after the first time
-> +EFI_TCG2_PROTOCOL.GetEventLog() gets called.
-> +
-> +This introduces another problem: nothing guarantees that it is not
-> +called before the stub gets to run. Thus, it needs to copy the final
-> +events table preboot size to the custom configuration table so that
-> +kernel offset it later on.
+I'll not take this patch, sorry.
 
-This doesn't really explain what the size will be used for. Matthew's 
-patch description for "tpm: Don't duplicate events from the final event 
-log in the TCG2 log" outlines this well. You could maybe word it 
-differently but I think the information is necessary:
-
-"We can avoid this problem by looking at the size of the Final Event Log 
-just before we call ExitBootServices() and exporting this to the main 
-kernel. The kernel can then skip over all events that occured before
-ExitBootServices() and only append events that were not also logged to 
-the main log."
-
-> +
-> +[1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-> +[2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
-> 
-Thanks,
-Jordan
+greg k-h
