@@ -1,116 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0B4F7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 12:34:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7ABE87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 13:12:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbfGCMey (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 08:34:54 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39456 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725847AbfGCMey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 08:34:54 -0400
-Received: by mail-pf1-f194.google.com with SMTP id j2so1217048pfe.6;
-        Wed, 03 Jul 2019 05:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/Zh20eDctD0uOEV0CBXCsFL9AJVrhJiOwnTyIfCiyLk=;
-        b=juR3nwN5y1Vfy8DPE02baVsCeSRViaMYHk+S4uDbhHuLH5MAq5ZIwCPPeWzuAoQWEr
-         q/T9d0d07vyhW0jpijo9gtha4BBIcpYi2CU89ryqxHp1sGIfC6/SjN0HjNyX26sArnx0
-         cBoQjhsQ/YfDu7kwOE3ROdTtmEeg5b5Dw7L3BSudvhU4oj8WoN4RJvFaVq5NhM+2kdj8
-         3UwWTG0RE5budldOxweKdMFtMLv171pdKA1M7atbl3RICeKlLGcyRh8tMSxZcIlvZ2pi
-         p06bjlxztC/ipuw+oN2f+CDqWl6eCxfowaT/e4ZKBvtp+c4zPmB7r/EFzDCEczeitNdB
-         ffMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Zh20eDctD0uOEV0CBXCsFL9AJVrhJiOwnTyIfCiyLk=;
-        b=KZrH5DsxJZxuRcL1SiGGTegunqU+xtFxiJNRA0YXxQ68lrwUh3CRXF+S7ilH2KYtjg
-         NBn3GJv6zQ0bDJDx5x6zqj3waex+slV2esiHF0wMdObO4RZokqEbgmWShPOKjtUcSUDK
-         xm0H3EuYVDa29StDP/iESg3Rcbs72mjmDZpnzaACyrE8vvSeQBYMxAJnoVUwB5gYdDYm
-         VDUs79wRYVy1d//WwTwhqNR0N5DlyuBAGF87JDuex06xorRwrp+WDCWBhPrDDxnEFLzT
-         94swsFZh2WicgApAtYEH6OYfXA5vhtYG6OaMvvmHUwjisuCvWSvmPNLoF/oRQQStZIx2
-         +jMg==
-X-Gm-Message-State: APjAAAW+e3moqodm/Vq75F72YnRbXeqsI+l3zuNeJRaGNZAdgmlTWpuv
-        9vm/m7I9MoYMbArfw2TisZ3E54trp9cU38AEowE=
-X-Google-Smtp-Source: APXvYqwhvsbepyecIWiKw8WItcH0EeKOA5NuVUrLIcR1ZqNEDhprorOf1qBquvFPxObqAxPod+IQn9sVj80Nhjpd0KU=
-X-Received: by 2002:a63:c0e:: with SMTP id b14mr36789780pgl.4.1562157293314;
- Wed, 03 Jul 2019 05:34:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com> <1893254.mYh7M8VbD2@kreacher>
-In-Reply-To: <1893254.mYh7M8VbD2@kreacher>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 3 Jul 2019 15:34:41 +0300
-Message-ID: <CAHp75VcALNWX-WsfvBt9Q4aE_6AzF=6WV9PUpdnszugi4z+nzw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        id S1726876AbfGCNMl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 09:12:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33376 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725933AbfGCNMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Jul 2019 09:12:40 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 92AF1308FEC6;
+        Wed,  3 Jul 2019 13:12:19 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7702C1001B04;
+        Wed,  3 Jul 2019 13:12:13 +0000 (UTC)
+Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
+ caches
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        Prarit Bhargava <prarit@redhat.com>,
-        David Arcari <darcari@redhat.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+References: <20190702183730.14461-1-longman@redhat.com>
+ <20190703065628.GK978@dhcp22.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <9ade5859-b937-c1ac-9881-2289d734441d@redhat.com>
+Date:   Wed, 3 Jul 2019 09:12:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190703065628.GK978@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Wed, 03 Jul 2019 13:12:40 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 3, 2019 at 2:59 PM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> On Wednesday, July 3, 2019 3:53:31 AM CEST Srinivas Pandruvada wrote:
-> > Added myself as the maintainer.
-> >
-> > Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
+On 7/3/19 2:56 AM, Michal Hocko wrote:
+> On Tue 02-07-19 14:37:30, Waiman Long wrote:
+>> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+>> file to shrink the slab by flushing all the per-cpu slabs and free
+>> slabs in partial lists. This applies only to the root caches, though.
+>>
+>> Extends this capability by shrinking all the child memcg caches and
+>> the root cache when a value of '2' is written to the shrink sysfs file.
+> Why do we need a new value for this functionality? I would tend to think
+> that skipping memcg caches is a bug/incomplete implementation. Or is it
+> a deliberate decision to cover root caches only?
 
-Pushed along with the driver, thanks!
+It is just that I don't want to change the existing behavior of the
+current code. It will definitely take longer to shrink both the root
+cache and the memcg caches. If we all agree that the only sensible
+operation is to shrink root cache and the memcg caches together. I am
+fine just adding memcg shrink without changing the sysfs interface
+definition and be done with it.
 
-> > ---
-> >  MAINTAINERS | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5cfbea4ce575..b6ed7958372d 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8101,6 +8101,14 @@ S:     Supported
-> >  F:   drivers/infiniband/hw/i40iw/
-> >  F:   include/uapi/rdma/i40iw-abi.h
-> >
-> > +INTEL SPEED SELECT TECHNOLOGY
-> > +M:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > +L:   platform-driver-x86@vger.kernel.org
-> > +S:   Maintained
-> > +F:   drivers/platform/x86/intel_speed_select_if/
-> > +F:   tools/power/x86/intel-speed-select/
-> > +F:   include/uapi/linux/isst_if.h
-> > +
-> >  INTEL TELEMETRY DRIVER
-> >  M:   Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-> >  M:   "David E. Box" <david.e.box@linux.intel.com>
-> >
->
->
->
->
+Cheers,
+Longman
 
-
--- 
-With Best Regards,
-Andy Shevchenko
