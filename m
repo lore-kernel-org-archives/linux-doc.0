@@ -1,85 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7ABE87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 13:12:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7E4997D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 14:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbfGCNMl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 09:12:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33376 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725933AbfGCNMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Jul 2019 09:12:40 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 92AF1308FEC6;
-        Wed,  3 Jul 2019 13:12:19 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7702C1001B04;
-        Wed,  3 Jul 2019 13:12:13 +0000 (UTC)
-Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
- caches
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-References: <20190702183730.14461-1-longman@redhat.com>
- <20190703065628.GK978@dhcp22.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <9ade5859-b937-c1ac-9881-2289d734441d@redhat.com>
-Date:   Wed, 3 Jul 2019 09:12:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726652AbfGCOGd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 10:06:33 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37849 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbfGCOGc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 10:06:32 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w13so2229939eds.4;
+        Wed, 03 Jul 2019 07:06:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EQE2AB00UJwl1CmyF0ZvFrESw4yDTpobY4maUeEVR7w=;
+        b=G3CAvAjocAfAQRir7gq72jKW5PylYRhrB3+8Dd07VotfcJPQyDQik8mca+Upw7lYC0
+         +XkPdR/yzfUzjPN3VI6lCT15Yc58aZxbCBPu3zbyw2frp9OVWYe1j9jrNumxYfI79lQD
+         f/JUbNmKajm3iDr4JQkZ1GTE36CCWwRLYCyBzSNzaOW7UD3cvsGsrcHGz+lnWLiXV6+v
+         VlrJ1az3zbqlZsWDohsU8iRbFbXNAW2XuW8j+IyRatTINC9l4x4+RvYnB5aEfUfQlkQg
+         K29tw8LThw4DC7+qrfeFpS0Nb+AUZgiDCW3i/Ay4Q7HEnb1n59R672IccH4fKF7PsNmb
+         O04g==
+X-Gm-Message-State: APjAAAVhRdZ//67ezOhYt7yCvRsOlWj+heXKaaKMy4Kdg2gE89NJ04vf
+        /Ve2VWbJns97jByHd2dcrzOlj2VzVqhCCYg9lhXU2o/W
+X-Google-Smtp-Source: APXvYqz/rXKE6GzLTqkAWS9E8zUyxS+aktUOHYbeJBTlYcE7ngS8LHrt6vsxluFJYFhNK8lzRxgFWhtB0bTCbItT1Xk=
+X-Received: by 2002:a50:9871:: with SMTP id h46mr42642796edb.69.1562162790944;
+ Wed, 03 Jul 2019 07:06:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190703065628.GK978@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Wed, 03 Jul 2019 13:12:40 +0000 (UTC)
+References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
+ <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
+ <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com>
+ <CAJvTdK=S1vPGg9HZjUxJN2aXSfSXBDyYYLawONA0PP_yKvf19A@mail.gmail.com> <CAHp75VfY+u4L85VncaLYFcoFwa0OzTo__ZKZGboRXmyQ50mCOA@mail.gmail.com>
+In-Reply-To: <CAHp75VfY+u4L85VncaLYFcoFwa0OzTo__ZKZGboRXmyQ50mCOA@mail.gmail.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Wed, 3 Jul 2019 10:06:19 -0400
+Message-ID: <CAJvTdKkZjzD_TgyZ_VGZHTQr-07va91faSWB_SSRCRyp-qAejg@mail.gmail.com>
+Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
+ Select commands
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Alan Cox <alan@linux.intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
+        David Arcari <darcari@redhat.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/3/19 2:56 AM, Michal Hocko wrote:
-> On Tue 02-07-19 14:37:30, Waiman Long wrote:
->> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
->> file to shrink the slab by flushing all the per-cpu slabs and free
->> slabs in partial lists. This applies only to the root caches, though.
->>
->> Extends this capability by shrinking all the child memcg caches and
->> the root cache when a value of '2' is written to the shrink sysfs file.
-> Why do we need a new value for this functionality? I would tend to think
-> that skipping memcg caches is a bug/incomplete implementation. Or is it
-> a deliberate decision to cover root caches only?
+> I hope this is applicable for v2.
 
-It is just that I don't want to change the existing behavior of the
-current code. It will definitely take longer to shrink both the root
-cache and the memcg caches. If we all agree that the only sensible
-operation is to shrink root cache and the memcg caches together. I am
-fine just adding memcg shrink without changing the sysfs interface
-definition and be done with it.
+Yes, Srinivas is doing the right thing.
 
-Cheers,
-Longman
+thanks,
+-Len
 
+
+> > Acked-by: Len Brown <len.brown@intel.com>
