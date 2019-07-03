@@ -3,114 +3,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A3E87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 01:32:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95A467D913
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 01:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727499AbfGCBcS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Jul 2019 21:32:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44392 "EHLO mx1.redhat.com"
+        id S1726963AbfGCBxp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Jul 2019 21:53:45 -0400
+Received: from mga18.intel.com ([134.134.136.126]:34402 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727304AbfGCBcR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Jul 2019 21:32:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 68284309174E;
-        Tue,  2 Jul 2019 20:44:33 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 67346183E0;
-        Tue,  2 Jul 2019 20:44:25 +0000 (UTC)
-Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
- caches
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-References: <20190702183730.14461-1-longman@redhat.com>
- <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <78879b79-1b8f-cdfd-d4fa-610afe5e5d48@redhat.com>
-Date:   Tue, 2 Jul 2019 16:44:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Tue, 02 Jul 2019 20:44:47 +0000 (UTC)
+        id S1726635AbfGCBxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jul 2019 21:53:45 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jul 2019 18:53:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; 
+   d="scan'208";a="247472324"
+Received: from unknown (HELO spandruv-mobl.amr.corp.intel.com) ([10.252.204.28])
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2019 18:53:43 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     dvhart@infradead.org, andy@infradead.org,
+        andriy.shevchenko@intel.com, corbet@lwn.net
+Cc:     rjw@rjwysocki.net, alan@linux.intel.com, lenb@kernel.org,
+        prarit@redhat.com, darcari@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
+Date:   Tue,  2 Jul 2019 18:53:31 -0700
+Message-Id: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/2/19 4:03 PM, Andrew Morton wrote:
-> On Tue,  2 Jul 2019 14:37:30 -0400 Waiman Long <longman@redhat.com> wrote:
->
->> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
->> file to shrink the slab by flushing all the per-cpu slabs and free
->> slabs in partial lists. This applies only to the root caches, though.
->>
->> Extends this capability by shrinking all the child memcg caches and
->> the root cache when a value of '2' is written to the shrink sysfs file.
-> Why?
->
-> Please fully describe the value of the proposed feature to or users. 
-> Always.
+Added myself as the maintainer.
 
-Sure. Essentially, the sysfs shrink interface is not complete. It allows
-the root cache to be shrunk, but not any of the memcg caches. 
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The same can also be said for others slab sysfs files which show current
-cache status. I don't think sysfs files are created for the memcg
-caches, but I may be wrong. In many cases, information can be available
-elsewhere like the slabinfo file. The shrink operation, however, has no
-other alternative available.
-
->> ...
->>
->> --- a/Documentation/ABI/testing/sysfs-kernel-slab
->> +++ b/Documentation/ABI/testing/sysfs-kernel-slab
->> @@ -429,10 +429,12 @@ KernelVersion:	2.6.22
->>  Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
->>  		Christoph Lameter <cl@linux-foundation.org>
->>  Description:
->> -		The shrink file is written when memory should be reclaimed from
->> -		a cache.  Empty partial slabs are freed and the partial list is
->> -		sorted so the slabs with the fewest available objects are used
->> -		first.
->> +		A value of '1' is written to the shrink file when memory should
->> +		be reclaimed from a cache.  Empty partial slabs are freed and
->> +		the partial list is sorted so the slabs with the fewest
->> +		available objects are used first.  When a value of '2' is
->> +		written, all the corresponding child memory cgroup caches
->> +		should be shrunk as well.  All other values are invalid.
-> One would expect this to be a bitfield, like /proc/sys/vm/drop_caches. 
-> So writing 3 does both forms of shrinking.
->
-> Yes, it happens to be the case that 2 is a superset of 1, but what
-> about if we add "4"?
->
-Yes, I can make it into a bit fields of 2 bits, just like
-/proc/sys/vm/drop_caches.
-
-Cheers,
-Longman
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5cfbea4ce575..b6ed7958372d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8101,6 +8101,14 @@ S:	Supported
+ F:	drivers/infiniband/hw/i40iw/
+ F:	include/uapi/rdma/i40iw-abi.h
+ 
++INTEL SPEED SELECT TECHNOLOGY
++M:	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/intel_speed_select_if/
++F:	tools/power/x86/intel-speed-select/
++F:	include/uapi/linux/isst_if.h
++
+ INTEL TELEMETRY DRIVER
+ M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+ M:	"David E. Box" <david.e.box@linux.intel.com>
+-- 
+2.17.2
 
