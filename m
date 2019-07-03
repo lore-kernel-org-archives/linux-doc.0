@@ -2,190 +2,583 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46E2A7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 02:45:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7F4647D90C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 06:14:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbfGCCpw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Jul 2019 22:45:52 -0400
-Received: from esa20.fujitsucc.c3s2.iphmx.com ([216.71.158.65]:33702 "EHLO
-        esa20.fujitsucc.c3s2.iphmx.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726430AbfGCCpw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jul 2019 22:45:52 -0400
-X-IronPort-AV: E=McAfee;i="6000,8403,9306"; a="4806661"
-X-IronPort-AV: E=Sophos;i="5.63,445,1557154800"; 
-   d="scan'208";a="4806661"
-Received: from mail-ty1jpn01lp2050.outbound.protection.outlook.com (HELO JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.50])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2019 11:45:46 +0900
+        id S1726201AbfGCGO7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 02:14:59 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40181 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725927AbfGCGO6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 02:14:58 -0400
+Received: by mail-pl1-f194.google.com with SMTP id a93so621941pla.7;
+        Tue, 02 Jul 2019 23:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector1-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zKZcpOoFqfOdgRPnmJeccFquOud/T2brELsNWogYUig=;
- b=b1zWJ6Lnojg8Jzvh60hsQneJ6+l+ZoMpkDhM7ia7Dwn2XCD93rz3p//tr0JBSj7zWZlJ5v15xi+gC5HnFiWy9SN1zxGjzVZNdbAcaiplA7f40Ada9RSKb4LbKLK1us33C3eY77dfEobfP4FGwcemydvx8qJgxz2Jmnk10BY+UlQ=
-Received: from OSAPR01MB4993.jpnprd01.prod.outlook.com (20.179.178.151) by
- OSAPR01MB1970.jpnprd01.prod.outlook.com (52.134.235.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.17; Wed, 3 Jul 2019 02:45:43 +0000
-Received: from OSAPR01MB4993.jpnprd01.prod.outlook.com
- ([fe80::59f0:837d:b06f:9dbd]) by OSAPR01MB4993.jpnprd01.prod.outlook.com
- ([fe80::59f0:837d:b06f:9dbd%5]) with mapi id 15.20.2032.019; Wed, 3 Jul 2019
- 02:45:43 +0000
-From:   "qi.fuli@fujitsu.com" <qi.fuli@fujitsu.com>
-To:     Will Deacon <will@kernel.org>,
-        "qi.fuli@fujitsu.com" <qi.fuli@fujitsu.com>
-CC:     Will Deacon <will.deacon@arm.com>,
-        "indou.takao@fujitsu.com" <indou.takao@fujitsu.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
- instruction within the same inner shareable domain
-Thread-Topic: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
- instruction within the same inner shareable domain
-Thread-Index: AQHVJRmVihUXsBTsv0iIDHwIrvWdbKagEvcAgAqT5QCABLTDgIAI7WYA
-Date:   Wed, 3 Jul 2019 02:45:43 +0000
-Message-ID: <5999ed84-72d0-9d42-bf7d-b8d56eaa4d4a@jp.fujitsu.com>
-References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
- <20190617170328.GJ30800@fuggles.cambridge.arm.com>
- <e8fe8faa-72ef-8185-1a9d-dc1bbe0ae15d@jp.fujitsu.com>
- <20190627102724.vif6zh6zfqktpmjx@willie-the-truck>
-In-Reply-To: <20190627102724.vif6zh6zfqktpmjx@willie-the-truck>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=qi.fuli@fujitsu.com; 
-x-originating-ip: [114.160.9.178]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d4ab4ca5-e4fb-43d5-284d-08d6ff608b17
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:OSAPR01MB1970;
-x-ms-traffictypediagnostic: OSAPR01MB1970:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <OSAPR01MB19701E6EB1C353066FA2274AF7FB0@OSAPR01MB1970.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00872B689F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(136003)(346002)(376002)(396003)(39860400002)(189003)(199004)(2906002)(6436002)(8936002)(68736007)(4326008)(31696002)(8676002)(31686004)(186003)(7736002)(476003)(966005)(81166006)(86362001)(6486002)(66446008)(305945005)(53936002)(71190400001)(64756008)(66556008)(66476007)(71200400001)(478600001)(81156014)(73956011)(66946007)(486006)(99286004)(76116006)(256004)(316002)(76176011)(14444005)(66066001)(6506007)(53546011)(6512007)(3846002)(102836004)(25786009)(54906003)(446003)(110136005)(26005)(11346002)(5660300002)(14454004)(6246003)(229853002)(85182001)(6116002)(6306002)(777600001);DIR:OUT;SFP:1101;SCL:1;SRVR:OSAPR01MB1970;H:OSAPR01MB4993.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: MJ85Zbk0ejfeqNRHSsVBjer52CAFTxFHXmDYsonueIj4A1hmJ8brdkBDOSeUBILRwERGZIKdFYP4kEsglYIXAG5wygvWb0VqAiUjuOQqICDgu8s0AA0tx7IJ32d/PkFVQ3nTQp90SHeCCtrgnrSbfndG+lla4dx/6+QSybWhEtC/Fo8il6jOZ4JWvo71TLuJzdcIz3MXsjj85ONvKVymYCTUZIulLd+2NRZ6Kyk5fejs/1sBCCsRkoh598J5ywxPpDXHlkd/ScGLXY7eRqM7tShT6EdNrNulGCEBdeFQ3/piQRm9s99ZZYR/Ih8mQIwHDZnN5ExW73pUk/ZWtPC6cSBJajhz3B4h5syjx7AUJXOUpfEBrHalirGl5AorfIQAVZKv1gwTdcFgp5gdxjk4pQZ6+HH0EaPsoAq1T8bAFKg=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9AFE113769931F44996C217BB96D8C55@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YegYfSqnvpGkvLeFqRLYsWX8iHdVd9QeovybaIitjeo=;
+        b=McaWmSoqlYlxeE5J36kXhWceTSBqvcPCGUWpP2CYZqYjx2vcb0ExINXF6pPsMVwlcg
+         ANT8HlbPyFiCubrS+uqnSkFc7L64ZJaOgEXq/U4CjPMgMnZOUKO4+oklfwojZ2OiyclX
+         YfCYWLk2MaUK7OHG4iFau0XxJ4XdnkPK9086rml6EdCVDDPEuUKJB2sHCWh7h5LfH387
+         aIHEZmPh9jZp8l0n3y9RKpltmIMu1VLN2qQ74W9iRxj/N+vp2nTvfDHSEJkbKNgObz++
+         65dLTKnszGkvzdncNQRaovTG77sTDCXejSZ+vFdaDsuk1+9cKh+NWueoqEZEG04JSI7q
+         Yq0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YegYfSqnvpGkvLeFqRLYsWX8iHdVd9QeovybaIitjeo=;
+        b=fyE5hQxfHJwyc2VTIEiY0nRaPideuGI2HPGCCuLzK9dLMcD4cF3bZ3PdUJIIqvhtfP
+         foVJEMoUNybnsttalZimRanKTVtMBTHdPdGoJ5wVijpxMnkCdSPHGwUQi44k1eT0ol7D
+         TQioC7fQxoRp/Ik1rt9Sa6ez3s6xFD4IB3EeEnihU9002zZEkVJOkS1l8jMWRoh0IRm4
+         Oh4NSlG6mq02UHoVopdtyN171AVen9FRA2ps278cK/rDuq9hKEzJ/wqla0SwE3NuXWMT
+         QWrzdvow40LmUF5x/FbGFXCs1SaWBGR7tFD5rpnSS/aBl5yqacetddn3f8iMX7771kHt
+         RzmQ==
+X-Gm-Message-State: APjAAAWBVyzwyuQySHCY9ZBMBjHbnhg1X1Rl5SiR+lZ4IEE2lwIeefWj
+        e8zPlJCVyT+0TGhuG76PK20=
+X-Google-Smtp-Source: APXvYqxbcW6uXdKZAS1kftQFCsPfEjulUZjPYHqSGhlvutJsJoxKKUpKPfJylNGPa35JkIZ1/G61ZA==
+X-Received: by 2002:a17:902:7b84:: with SMTP id w4mr39114368pll.22.1562134497614;
+        Tue, 02 Jul 2019 23:14:57 -0700 (PDT)
+Received: from localhost.localdomain ([157.45.25.158])
+        by smtp.gmail.com with ESMTPSA id b24sm977865pfd.98.2019.07.02.23.14.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jul 2019 23:14:56 -0700 (PDT)
+From:   Sushma Unnibhavi <sushmaunnibhavi425@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     Sushma Unnibhavi <sushmaunnibhavi425@gmail.com>, corbet@lwn.net,
+        mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] docs: aha152x.txt convert it to ReST
+Date:   Wed,  3 Jul 2019 11:44:46 +0530
+Message-Id: <20190703061446.12582-1-sushmaunnibhavi425@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4ab4ca5-e4fb-43d5-284d-08d6ff608b17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2019 02:45:43.4668
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qi.fuli@jp.fujitsu.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1970
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgV2lsbCwNCg0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzLg0KDQpPbiA2LzI3LzE5IDc6Mjcg
-UE0sIFdpbGwgRGVhY29uIHdyb3RlOg0KPiBPbiBNb24sIEp1biAyNCwgMjAxOSBhdCAxMDozNDow
-MkFNICswMDAwLCBxaS5mdWxpQGZ1aml0c3UuY29tIHdyb3RlOg0KPj4gT24gNi8xOC8xOSAyOjAz
-IEFNLCBXaWxsIERlYWNvbiB3cm90ZToNCj4+PiBPbiBNb24sIEp1biAxNywgMjAxOSBhdCAxMToz
-Mjo1M1BNICswOTAwLCBUYWthbyBJbmRvaCB3cm90ZToNCj4+Pj4gRnJvbTogVGFrYW8gSW5kb2gg
-PGluZG91LnRha2FvQGZ1aml0c3UuY29tPg0KPj4+Pg0KPj4+PiBJIGZvdW5kIGEgcGVyZm9ybWFu
-Y2UgaXNzdWUgcmVsYXRlZCBvbiB0aGUgaW1wbGVtZW50YXRpb24gb2YgTGludXgncyBUTEINCj4+
-Pj4gZmx1c2ggZm9yIGFybTY0Lg0KPj4+Pg0KPj4+PiBXaGVuIEkgcnVuIGEgc2luZ2xlLXRocmVh
-ZGVkIHRlc3QgcHJvZ3JhbSBvbiBtb2RlcmF0ZSBlbnZpcm9ubWVudCwgaXQNCj4+Pj4gdXN1YWxs
-eSB0YWtlcyAzOW1zIHRvIGZpbmlzaCBpdHMgd29yay4gSG93ZXZlciwgd2hlbiBJIHB1dCBhIHNt
-YWxsDQo+Pj4+IGFwcHJpY2F0aW9uLCB3aGljaCBqdXN0IGNhbGxzIG1wcm90ZXN0KCkgY29udGlu
-dW91c2x5LCBvbiBvbmUgb2Ygc2libGluZw0KPj4+PiBjb3JlcyBhbmQgcnVuIGl0IHNpbXVsdGFu
-ZW91c2x5LCB0aGUgdGVzdCBwcm9ncmFtIHNsb3dzIGRvd24gc2lnbmlmaWNhbnRseS4NCj4+Pj4g
-SXQgYmVjb21lcyA0OW1zKDEyNSUpIG9uIFRodW5kZXJYMi4gSSBhbHNvIGRldGVjdGVkIHRoZSBz
-YW1lIHByb2JsZW0gb24NCj4+Pj4gVGh1bmRlclgxIGFuZCBGdWppdHN1IEE2NEZYLg0KPj4+IFRo
-aXMgaXMgYSBwcm9ibGVtIGZvciBhbnkgYXBwbGljYXRpb25zIHRoYXQgc2hhcmUgaGFyZHdhcmUg
-cmVzb3VyY2VzIHdpdGgNCj4+PiBlYWNoIG90aGVyLCBzbyBJIGRvbid0IHRoaW5rIGl0J3Mgc29t
-ZXRoaW5nIHdlIHNob3VsZCBiZSB0b28gY29uY2VybmVkIGFib3V0DQo+Pj4gYWRkcmVzc2luZyB1
-bmxlc3MgdGhlcmUgaXMgYSBwcmFjdGljYWwgRG9TIHNjZW5hcmlvLCB3aGljaCB0aGVyZSBkb2Vz
-bid0DQo+Pj4gYXBwZWFyIHRvIGJlIGluIHRoaXMgY2FzZS4gSXQgbWF5IGJlIHRoYXQgdGhlIHJl
-YWwgYW5zd2VyIGlzICJkb24ndCBjYWxsDQo+Pj4gbXByb3RlY3QoKSBpbiBhIGxvb3AiLg0KPj4g
-SSB0aGluayB0aGVyZSBoYXMgYmVlbiBhIG1pc3VuZGVyc3RhbmRpbmcsIHBsZWFzZSBsZXQgbWUg
-ZXhwbGFpbi4NCj4+IFRoaXMgYXBwbGljYXRpb24gaXMganVzdCBhbiBleGFtcGxlIHVzaW5nIGZv
-ciByZXByb2R1Y2luZyB0aGUNCj4+IHBlcmZvcm1hbmNlIGlzc3VlIHdlIGZvdW5kLg0KPj4gT3Vy
-IG9yaWdpbmFsIHB1cnBvc2UgaXMgcmVkdWNpbmcgT1Mgaml0dGVyIGJ5IHRoaXMgc2VyaWVzLg0K
-Pj4gVGhlIE9TIGppdHRlciBvbiBtYXNzaXZlbHkgcGFyYWxsZWwgcHJvY2Vzc2luZyBzeXN0ZW1z
-IGhhdmUgYmVlbiBrbm93bg0KPj4gYW5kIHN0dWRpZWQgZm9yIG1hbnkgeWVhcnMuDQo+PiBUaGUg
-Mi41JSBPUyBqaXR0ZXIgY2FuIHJlc3VsdCBpbiBvdmVyIGEgZmFjdG9yIG9mIDIwIHNsb3dkb3du
-IGZvciB0aGUNCj4+IHNhbWUgYXBwbGljYXRpb24gWzFdLg0KPiBJIHRoaW5rIGl0J3Mgd29ydGgg
-cG9pbnRpbmcgb3V0IHRoYXQgdGhlIHN5c3RlbSBpbiBxdWVzdGlvbiB3YXMgbmVpdGhlcg0KPiBB
-Uk0tYmFzZWQgbm9yIHJ1bm5pbmcgTGludXgsIHNvIEknZCBiZSBjYXV0aW91cyBpbiBhcHBseWlu
-ZyB0aGUgY29uY2x1c2lvbnMNCj4gb2YgdGhhdCBwYXBlciBkaXJlY3RseSB0byBvdXIgVExCIGlu
-dmFsaWRhdGlvbiBjb2RlLiBGdXJ0aGVybW9yZSwgdGhlIG5vaXNlDQo+IGJlaW5nIGdlbmVyYXRl
-ZCBpbiB0aGVpciBleHBlcmltZW50cyB1c2VzIGEgdGltZXIgaW50ZXJydXB0LCB3aGljaCBoYXMg
-YQ0KPiAvdmFzdGx5LyBkaWZmZXJlbnQgcHJvZmlsZSB0byBhIERWTSBtZXNzYWdlIGluIHRlcm1z
-IG9mIGJvdGggc3lzdGVtIGltcGFjdA0KPiBhbmQgZnJlcXVlbmN5Lg0KTXkgb3JpZ2luYWwgcHVy
-cG9zZSB3YXMgdG8gZXhwbGFpbiB0aGF0IHRoZSBPUyBqaXR0ZXIgaXMgYSB2aXRhbCBpc3N1ZSBm
-b3INCmxhcmdlLXNjYWxlIEhQQyBlbnZpcm9ubWVudCBieSByZWZlcmVuY2luZyB0aGlzIHBhcGVy
-Lg0KUGxlYXNlIGFsbG93IG1lIHRvIGludHJvZHVjZSB0aGUgaXNzdWUgdGhhdCBoYWQgb2NjdXJy
-ZWQgdG8gb3VyIEhQQyANCmVudmlyb25tZW50Lg0KV2UgdXNlZCBGV1EgWzFdIHRvIGRvIGFuIGV4
-cGVyaW1lbnQgb24gMSBub2RlIG9mIG91ciBIUEMgZW52aXJvbm1lbnQsDQp3ZSBleHBlY3RlZCBp
-dCB3b3VsZCBiZSB0ZW5zIG9mIG1pY3Jvc2Vjb25kcyBvZiBtYXhpbXVtIE9TIGppdHRlciwgYnV0
-IA0KaXQgd2FzDQpodW5kcmVkcyBvZiBtaWNyb3NlY29uZHMsIHdoaWNoIGRpZG4ndCBtZWV0IG91
-ciByZXF1aXJlbWVudC4gV2UgdHJpZWQgdG8gDQpmaW5kDQpvdXQgdGhlIGNhdXNlIGJ5IHVzaW5n
-IGZ0cmFjZSwgYnV0IHdlIGNhbm5vdCBmaW5kIGFueSBwcm9jZXNzZXMgd2hpY2ggd291bGQNCmNh
-dXNlIG5vaXNlIGFuZCBvbmx5IGtuZXcgdGhlIGV4dGVuc2lvbiBvZiBwcm9jZXNzaW5nIHRpbWUu
-IFRoZW4gd2UgDQpjb25maXJtZWQNCnRoZSBDUFUgaW5zdHJ1Y3Rpb24gY291bnQgdGhyb3VnaCBD
-UFUgUE1VLCB3ZSBhbHNvIGRpZG4ndCBmaW5kIGFueSBjaGFuZ2VzLg0KSG93ZXZlciwgd2UgZm91
-bmQgdGhhdCB3aXRoIHRoZSBpbmNyZWFzZSBvZiB0aGF0IHRoZSBUTEIgZmxhc2ggd2FzIGNhbGxl
-ZCwNCnRoZSBub2lzZSB3YXMgYWxzbyBpbmNyZWFzaW5nLiBIZXJlIHdlIHVuZGVyc3Rvb2QgdGhh
-dCB0aGUgY2F1c2Ugb2YgdGhpcyANCmlzc3VlDQppcyB0aGUgaW1wbGVtZW50YXRpb24gb2YgTGlu
-dXgncyBUTEIgZmx1c2ggZm9yIGFybTY0LCBlc3BlY2lhbGx5IHVzZSBvZiANClRMQkktaXMNCmlu
-c3RydWN0aW9uIHdoaWNoIGlzIGEgYnJvYWRjYXN0IHRvIGFsbCBwcm9jZXNzb3IgY29yZSBvbiB0
-aGUgc3lzdGVtLiANClRoZXJlZm9yZSwNCndlIG1hZGUgdGhpcyBwYXRjaCBzZXQgdG8gZml4IHRo
-aXMgaXNzdWUuIEFmdGVyIHRlc3RpbmcgZm9yIHNldmVyYWwgDQp0aW1lcywgdGhlDQpub2lzZSB3
-YXMgcmVkdWNlZCBhbmQgb3VyIG9yaWdpbmFsIGdvYWwgd2FzIGFjaGlldmVkLCBzbyB3ZSBkbyB0
-aGluayANCnRoaXMgcGF0Y2gNCm1ha2VzIHNlbnNlLg0KDQpBcyBJIG1lbnRpb25lZCwgdGhlIE9T
-IGppdHRlciBpcyBhIHZpdGFsIGlzc3VlIGZvciBsYXJnZS1zY2FsZSBIUEMgDQplbnZpcm9ubWVu
-dC4NCldlIHRyaWVkIGEgbG90IG9mIHRoaW5ncyB0byByZWR1Y2UgdGhlIE9TIGppdHRlci4gT25l
-IG9mIHRoZW0gaXMgdGFzayANCnNlcGFyYXRpb24NCmJldHdlZW4gdGhlIENQVXMgd2hpY2ggYXJl
-IHVzZWQgZm9yIGNvbXB1dGluZyBhbmQgdGhlIENQVXMgd2hpY2ggYXJlIA0KdXNlZCBmb3INCm1h
-aW50ZW5hbmNlLiBBbGwgb2YgdGhlIGRhZW1vbiBwcm9jZXNzZXMgYW5kIEkvTyBpbnRlcnJ1cHRz
-IGFyZSBib3VuZGVuIA0KdG8gdGhlDQptYWludGVuYW5jZSBDUFVzLiBGdXJ0aGVyIG1vcmUsIHdl
-IHVzZWQgbm9oel9mdWxsIHRvIGF2b2lkIHRoZSBub2lzZSANCmNhdXNlZCBieQ0KY29tcHV0aW5n
-IENQVSBpbnRlcnJ1cHRpb24sIGJ1dCBhbGwgb2YgdGhlIENQVXMgd2VyZSBhZmZlY3RlZCBieSBU
-TEJJLWlzDQppbnN0cnVjdGlvbiwgdGhlIHRhc2sgc2VwYXJhdGlvbiBvZiBDUFVzIGRpZG4ndCB3
-b3JrLiBUaGVyZWZvcmUsIHdlIA0Kd291bGQgbGlrZQ0KdG8gaW1wbGVtZW50IHRoYXQgVExCIGZs
-dXNoIGlzIGRvbmUgb24gbWluaW1hbCBDUFVzIHRvIHJlZHVjaW5nIHRoZSBPUyANCmppdHRlcg0K
-YnkgdXNpbmcgdGhpcyBwYXRjaCBzZXQuDQoNClsxXSBodHRwczovL2FzYy5sbG5sLmdvdi9zZXF1
-b2lhL2JlbmNobWFya3MvRlRRX3N1bW1hcnlfdjEuMS5wZGYNCg0KVGhhbmtzLA0KUUkgRnVsaQ0K
-DQo+PiBUaG91Z2ggaXQgbWF5IGJlIGFuIGV4dHJlbWUgZXhhbXBsZSwgcmVkdWNpbmcgdGhlIE9T
-IGppdHRlciBoYXMgYmVlbiBhbg0KPj4gaXNzdWUgaW4gSFBDIGVudmlyb25tZW50Lg0KPj4NCj4+
-IFsxXSBGZXJyZWlyYSwgS3VydCBCLiwgUGF0cmljayBCcmlkZ2VzLCBhbmQgUm9uIEJyaWdodHdl
-bGwuDQo+PiAiQ2hhcmFjdGVyaXppbmcgYXBwbGljYXRpb24gc2Vuc2l0aXZpdHkgdG8gT1MgaW50
-ZXJmZXJlbmNlIHVzaW5nDQo+PiBrZXJuZWwtbGV2ZWwgbm9pc2UgaW5qZWN0aW9uLiIgUHJvY2Vl
-ZGluZ3Mgb2YgdGhlIDIwMDggQUNNL0lFRUUNCj4+IGNvbmZlcmVuY2Ugb24gU3VwZXJjb21wdXRp
-bmcuIElFRUUgUHJlc3MsIDIwMDguDQo+Pg0KPj4+PiBJIHN1cHBvc2UgdGhlIHJvb3QgY2F1c2Ug
-b2YgdGhpcyBpc3N1ZSBpcyB0aGUgaW1wbGVtZW50YXRpb24gb2YgTGludXgncyBUTEINCj4+Pj4g
-Zmx1c2ggZm9yIGFybTY0LCBlc3BlY2lhbGx5IHVzZSBvZiBUTEJJLWlzIGluc3RydWN0aW9uIHdo
-aWNoIGlzIGEgYnJvYWRjYXN0DQo+Pj4+IHRvIGFsbCBwcm9jZXNzb3IgY29yZSBvbiB0aGUgc3lz
-dGVtLiBJbiBjYXNlIG9mIHRoZSBhYm92ZSBzaXR1YXRpb24sDQo+Pj4+IFRMQkktaXMgaXMgY2Fs
-bGVkIGJ5IG1wcm90ZWN0KCkuDQo+Pj4gT24gdGhlIGZsaXAgc2lkZSwgTGludXggaXMgcHJvdmlk
-aW5nIHRoZSBoYXJkd2FyZSB3aXRoIGVub3VnaCBpbmZvcm1hdGlvbg0KPj4+IG5vdCB0byBicm9h
-ZGNhc3QgdG8gY29yZXMgZm9yIHdoaWNoIHRoZSByZW1vdGUgVExCcyBkb24ndCBoYXZlIGVudHJp
-ZXMNCj4+PiBhbGxvY2F0ZWQgZm9yIHRoZSBBU0lEIGJlaW5nIGludmFsaWRhdGVkLiBJIHdvdWxk
-IHNheSB0aGF0IHRoZSByb290IGNhdXNlDQo+Pj4gb2YgdGhlIGlzc3VlIGlzIHRoYXQgdGhpcyBm
-aWx0ZXJpbmcgaXMgbm90IHRha2luZyBwbGFjZS4NCj4+IERvIHlvdSBtZWFuIHRoYXQgdGhlIGZp
-bHRlciBzaG91bGQgYmUgaW1wbGVtZW50ZWQgaW4gaGFyZHdhcmU/DQo+IFllcy4gSWYgeW91J3Jl
-IGJ1aWxkaW5nIGEgbGFyZ2Ugc3lzdGVtIGFuZCB5b3UgY2FyZSBhYm91dCAiaml0dGVyIiwgdGhl
-bg0KPiB5b3UgZWl0aGVyIG5lZWQgdG8gcGFydGl0aW9uIGl0IGluIHN1Y2ggYSB3YXkgdGhhdCBz
-b3VyY2VzIG9mIG5vaXNlIGFyZQ0KPiBjb250YWluZWQsIG9yIHlvdSBuZWVkIHRvIGludHJvZHVj
-ZSBmaWx0ZXJzIHRvIGxpbWl0IHRoZWlyIHNjb3BlLiBSZXdyaXRpbmcNCj4gdGhlIGxvdy1sZXZl
-bCBtZW1vcnktbWFuYWdlbWVudCBwYXJ0cyBvZiB0aGUgb3BlcmF0aW5nIHN5c3RlbSBpcyBhIHJl
-ZA0KPiBoZXJyaW5nIGFuZCBpbXBvc2VzIGEgbmVlZGxlc3MgYnVyZGVuIG9uIGV2ZXJ5Ym9keSBl
-bHNlIHdpdGhvdXQgc29sdmluZw0KPiB0aGUgcmVhbCBwcm9ibGVtLCB3aGljaCBpcyB0aGF0IGNv
-bnRlbmRlZCB1c2Ugb2Ygc2hhcmVkIHJlc291cmNlcyBkb2Vzbid0DQo+IHNjYWxlLg0KPg0KPiBX
-aWxs
+This patch converts aha152x.rst
+to ReST format, No content change.
+Added aha152x.rst to sh/index.rst
+Added SPDX tag in index.rst
+
+Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425@gmail.com>
+---
+ Documentation/driver-api/index.rst  |   1 +
+ Documentation/scsi/aha152x.rst      | 203 ++++++++++++++++++++++++++++
+ Documentation/scsi/aha152x.txt      | 183 -------------------------
+ Documentation/scsi/source/conf.py   |  52 +++++++
+ Documentation/scsi/source/index.rst |  22 +++
+ 5 files changed, 278 insertions(+), 183 deletions(-)
+ create mode 100644 Documentation/scsi/aha152x.rst
+ delete mode 100644 Documentation/scsi/aha152x.txt
+ create mode 100644 Documentation/scsi/source/conf.py
+ create mode 100644 Documentation/scsi/source/index.rst
+
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index d26308af6036..e26809c95c79 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -32,6 +32,7 @@ available subsections can be seen below.
+    usb/index
+    firewire
+    pci/index
++   scsi/index
+    spi
+    i2c
+    i3c/index
+diff --git a/Documentation/scsi/aha152x.rst b/Documentation/scsi/aha152x.rst
+new file mode 100644
+index 000000000000..3c4d558b9daf
+--- /dev/null
++++ b/Documentation/scsi/aha152x.rst
+@@ -0,0 +1,203 @@
++
++=====================================================
++Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
++=====================================================
++
++Copyright 1993-1999 Jürgen Fischer <fischer@norbit.de>
++TC1550 patches by Luuk van Dijk (ldz@xs4all.nl)
++
++
++In Revision 2 the driver was modified a lot (especially the
++bottom-half handler complete()).
++
++The driver is much cleaner now, has support for the  new
++error handling code in 2.3, produced less cpu load (much
++less polling loops), has slightly higher throughput  (at
++least on my ancient test box; a i486/33Mhz/20MB).
++
++
++========================
++Configuration Arguments
++========================
+++-----------+------------------------------------------+---------------------------+
++|IOPORT|    |   base io address                        |     (0x340/0x140)         |
+++-----------+------------------------------------------+---------------------------+
++|IRQ        |      interrupt level                     |     (9-12; default 11)|   |
+++-----------+------------------------------------------+---------------------------+
++|SCSI_ID    |   scsi id of controller                  |   (0-7; default 7)        |
+++-----------+------------------------------------------+---------------------------+
++|RECONNECT  |  allow targets to disconnect from the bus|  (0/1; default 1 [on])    |
+++-----------+------------------------------------------+---------------------------+
++|PARITY     |   enable parity checking                 |   (0/1; default 1 [on])   |
+++-----------+------------------------------------------+---------------------------+
++|SYNCHRONOUS|   enable synchronous transfers           |   (0/1; default 1 [on])   |
+++-----------+------------------------------------------+---------------------------+
++|DELAY:     |   bus reset delay                        |  (default 100)            |
+++-----------+------------------------------------------+---------------------------+
++|EXT_TRANS: |  enable extended translation (see NOTES) |  (0/1: default 0 [off])   |
+++-----------+------------------------------------------+---------------------------+
++
++========================================================================
++Compile Time Configuration (go into AHA152X in drivers/scsi/Makefile)
++========================================================================
++
++-DAUTOCONF
++ use configuration the controller reports (AHA-152x only)
++
++-DSKIP_BIOSTEST
++ Don't test for BIOS signature (AHA-1510 or disabled BIOS)
++
++-DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
++ override for the first controller 
++
++-DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
++ override for the second controller
++
++-DAHA152X_DEBUG
++ enable debugging output
++
++-DAHA152X_STAT
++ enable some statistics
++
++
++==========================
++Lilo Command Line Options
++==========================
++
++aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
++
++The normal configuration can be overridden by specifying a command
++line.When you do this, the  BIOS  test  is skipped. Entered values
++have to be valid (known).  Don't use values that  aren't supported
++under normal operation.  If  you think that you need other values:
++contact me. For two controllers  use  the aha152x statement twice.
++
++
++=================================
++Symbols For Module Configuration
++=================================
++---------------------------
++Choose From 2 Alternatives
++---------------------------
++1. specify everything (old)
++
++   aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
++   configuration override for first controller
++
++
++   aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
++   configuration override for second controller
++
++2. specify only what you need to (irq or io is required; new)
++
++   io=IOPORT0[,IOPORT1]
++   IOPORT for first and second controller
++
++   irq=IRQ0[,IRQ1]
++   IRQ for first and second controller
++
++   scsiid=SCSIID0[,SCSIID1]
++   SCSIID for first and second controller
++
++   reconnect=RECONNECT0[,RECONNECT1]
++   allow targets to disconnect for first and second controller
++
++   parity=PAR0[PAR1]
++   use parity for first and second controller
++
++   sync=SYNCHRONOUS0[,SYNCHRONOUS1]
++   enable synchronous transfers for first and second controller
++
++   delay=DELAY0[,DELAY1]
++   reset DELAY for first and second controller
++
++   exttrans=EXTTRANS0[,EXTTRANS1]
++   enable extended translation for first and second controller
++
++
++If you use both alternatives the first will be taken.
++
++
++====================
++NOTES ON EXT_TRANS:
++====================
++
++SCSI uses block numbers to address blocks/sectors on a device.
++The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
++scheme instead.  DOS expects a BIOS or driver that understands
++this C/H/S addressing.
++
++The number of cylinders/heads/sectors is called geometry and is
++required as base for requests in  C/H/S  addressing.  SCSI only
++knows about the total capacity  of  disks  in blocks (sectors).
++
++Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
++geometry just  to  be  able  to  support  that addressing scheme. The
++geometry returned by the SCSI BIOS is  a  pure  calculation  and  has
++nothing to do with the  real/physical  geometry  of  the  disk (which
++is usually irrelevant anyway).
++
++Basically this has no impact at all on Linux, because it also  uses block
++instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
++in the partition table and therefore every operating  system  has to know
++the right geometry to be able to interpret it.
++
++Moreover there are certain limitations to the  C/H/S  addressing scheme,
++namely the address space is limited to up to 255 heads, up to 63 sectors
++and a maximum of 1023 cylinders.
++
++The AHA-1522 BIOS calculates the geometry by fixing the number of heads
++to 64, the number of sectors to  32  and  by  calculating the number of
++cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
++This is considered to be the default translation.
++
++With respect to the limit of 1023 cylinders using C/H/S you can only
++address the first GB of your disk in the partition table.  Therefore
++BIOSes of some  newer controllers based on the AIC-6260/6360 support
++extended  translation.  This means that the BIOS uses 255 for heads,
++63 for  sectors  and then divides the capacity of the disk by 255*63
++(about 8 MB), as soon it sees a disk greater than 1 GB. That results
++in a maximum of about 8 GB addressable  diskspace  in the  partition
++table (but there are already bigger disks out there today).
++
++To make it even more complicated the translation mode might/might
++not be configurable in certain BIOS setups.
++
++This driver does some more or less failsafe guessing to get the
++geometry right in most cases:
++
++- for disks<1GB:
++  -use default translation (C/32/64)
++
++- for disks>1GB:
++  - take current geometry from the partition table (using scsicam_bios_param
++    and accept only `valid` geometries, ie. either (C/32/64) or (C/63/255)).
++    This can be extended translation even if it's not enabled in the driver.
++
++  - if that fails, take extended translation if  enabled  by override,
++    kernel or module parameter, otherwise take default translation and
++    ask the user for verification.  This might on  not yet partitioned
++    disks.
++
++
++==================
++REFERENCES USED:
++==================
++ "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
++
++ "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
++
++ "Writing a SCSI device driver for Linux", Rik Faith (faith@cs.unc.edu)
++
++ "Kernel Hacker's Guide", Michael K. Johnson (johnsonm@sunsite.unc.edu)
++
++ "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
++
++ Michael K. Johnson (johnsonm@sunsite.unc.edu)
++
++ Drew Eckhardt (drew@cs.colorado.edu)
++
++ Eric Youngdale (eric@andante.org)
++
++ special thanks to Eric Youngdale for the free(!) supplying the
++ documentation on the chip.
+diff --git a/Documentation/scsi/aha152x.txt b/Documentation/scsi/aha152x.txt
+deleted file mode 100644
+index 94848734ac66..000000000000
+--- a/Documentation/scsi/aha152x.txt
++++ /dev/null
+@@ -1,183 +0,0 @@
+-$Id: README.aha152x,v 1.2 1999/12/25 15:32:30 fischer Exp fischer $
+-Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
+-
+-Copyright 1993-1999 Jürgen Fischer <fischer@norbit.de>
+-TC1550 patches by Luuk van Dijk (ldz@xs4all.nl)
+-
+-
+-In Revision 2 the driver was modified a lot (especially the
+-bottom-half handler complete()).
+-
+-The driver is much cleaner now, has support for the new
+-error handling code in 2.3, produced less cpu load (much
+-less polling loops), has slightly higher throughput (at
+-least on my ancient test box; a i486/33Mhz/20MB).
+-
+-
+-CONFIGURATION ARGUMENTS:
+-
+-IOPORT        base io address                           (0x340/0x140)
+-IRQ           interrupt level                           (9-12; default 11)
+-SCSI_ID       scsi id of controller                     (0-7; default 7)
+-RECONNECT     allow targets to disconnect from the bus  (0/1; default 1 [on])
+-PARITY        enable parity checking                    (0/1; default 1 [on])
+-SYNCHRONOUS   enable synchronous transfers              (0/1; default 1 [on])
+-DELAY:        bus reset delay                           (default 100)
+-EXT_TRANS:    enable extended translation               (0/1: default 0 [off])
+-              (see NOTES)
+-
+-COMPILE TIME CONFIGURATION (go into AHA152X in drivers/scsi/Makefile):
+-
+--DAUTOCONF
+- use configuration the controller reports (AHA-152x only)
+-
+--DSKIP_BIOSTEST
+- Don't test for BIOS signature (AHA-1510 or disabled BIOS)
+-
+--DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
+- override for the first controller 
+-
+--DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
+- override for the second controller
+-
+--DAHA152X_DEBUG
+- enable debugging output
+-
+--DAHA152X_STAT
+- enable some statistics
+-
+-
+-LILO COMMAND LINE OPTIONS:
+-
+-aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
+-
+- The normal configuration can be overridden by specifying a command line.
+- When you do this, the BIOS test is skipped. Entered values have to be
+- valid (known).  Don't use values that aren't supported under normal
+- operation.  If you think that you need other values: contact me.
+- For two controllers use the aha152x statement twice.
+-
+-
+-SYMBOLS FOR MODULE CONFIGURATION:
+-
+-Choose from 2 alternatives:
+-
+-1. specify everything (old)
+-
+-aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
+-  configuration override for first controller
+-
+-
+-aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
+-  configuration override for second controller
+-
+-2. specify only what you need to (irq or io is required; new)
+-
+-io=IOPORT0[,IOPORT1]
+-  IOPORT for first and second controller
+-
+-irq=IRQ0[,IRQ1]
+-  IRQ for first and second controller
+-
+-scsiid=SCSIID0[,SCSIID1]
+-  SCSIID for first and second controller
+-
+-reconnect=RECONNECT0[,RECONNECT1]
+-  allow targets to disconnect for first and second controller
+-
+-parity=PAR0[PAR1]
+-  use parity for first and second controller
+-
+-sync=SYNCHRONOUS0[,SYNCHRONOUS1]
+-  enable synchronous transfers for first and second controller
+-
+-delay=DELAY0[,DELAY1]
+-  reset DELAY for first and second controller
+-
+-exttrans=EXTTRANS0[,EXTTRANS1]
+-  enable extended translation for first and second controller
+-
+-
+-If you use both alternatives the first will be taken.
+-
+-
+-NOTES ON EXT_TRANS: 
+-
+-SCSI uses block numbers to address blocks/sectors on a device.
+-The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
+-scheme instead.  DOS expects a BIOS or driver that understands this
+-C/H/S addressing.
+-
+-The number of cylinders/heads/sectors is called geometry and is required
+-as base for requests in C/H/S addressing.  SCSI only knows about the
+-total capacity of disks in blocks (sectors).
+-
+-Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
+-geometry just to be able to support that addressing scheme.  The geometry
+-returned by the SCSI BIOS is a pure calculation and has nothing to
+-do with the real/physical geometry of the disk (which is usually
+-irrelevant anyway).
+-
+-Basically this has no impact at all on Linux, because it also uses block
+-instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
+-in the partition table and therefore every operating system has to know
+-the right geometry to be able to interpret it.
+-
+-Moreover there are certain limitations to the C/H/S addressing scheme,
+-namely the address space is limited to up to 255 heads, up to 63 sectors
+-and a maximum of 1023 cylinders.
+-
+-The AHA-1522 BIOS calculates the geometry by fixing the number of heads
+-to 64, the number of sectors to 32 and by calculating the number of
+-cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
+-This is considered to be the default translation.
+-
+-With respect to the limit of 1023 cylinders using C/H/S you can only
+-address the first GB of your disk in the partition table.  Therefore
+-BIOSes of some newer controllers based on the AIC-6260/6360 support
+-extended translation.  This means that the BIOS uses 255 for heads,
+-63 for sectors and then divides the capacity of the disk by 255*63
+-(about 8 MB), as soon it sees a disk greater than 1 GB.  That results
+-in a maximum of about 8 GB addressable diskspace in the partition table
+-(but there are already bigger disks out there today).
+-
+-To make it even more complicated the translation mode might/might
+-not be configurable in certain BIOS setups.
+-
+-This driver does some more or less failsafe guessing to get the
+-geometry right in most cases:
+-
+-- for disks<1GB: use default translation (C/32/64)
+-
+-- for disks>1GB:
+-  - take current geometry from the partition table
+-    (using scsicam_bios_param and accept only `valid' geometries,
+-    ie. either (C/32/64) or (C/63/255)).  This can be extended translation
+-    even if it's not enabled in the driver.
+-
+-  - if that fails, take extended translation if enabled by override,
+-    kernel or module parameter, otherwise take default translation and
+-    ask the user for verification.  This might on not yet partitioned
+-    disks.
+-
+-
+-REFERENCES USED:
+-
+- "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
+-
+- "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
+-
+- "Writing a SCSI device driver for Linux", Rik Faith (faith@cs.unc.edu)
+-
+- "Kernel Hacker's Guide", Michael K. Johnson (johnsonm@sunsite.unc.edu)
+-
+- "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
+-
+- Michael K. Johnson (johnsonm@sunsite.unc.edu)
+-
+- Drew Eckhardt (drew@cs.colorado.edu)
+-
+- Eric Youngdale (eric@andante.org) 
+-
+- special thanks to Eric Youngdale for the free(!) supplying the
+- documentation on the chip.
+diff --git a/Documentation/scsi/source/conf.py b/Documentation/scsi/source/conf.py
+new file mode 100644
+index 000000000000..8f60483b49fb
+--- /dev/null
++++ b/Documentation/scsi/source/conf.py
+@@ -0,0 +1,52 @@
++# Configuration file for the Sphinx documentation builder.
++#
++# This file only contains a selection of the most common options. For a full
++# list see the documentation:
++# http://www.sphinx-doc.org/en/master/config
++
++# -- Path setup --------------------------------------------------------------
++
++# If extensions (or modules to document with autodoc) are in another directory,
++# add these directories to sys.path here. If the directory is relative to the
++# documentation root, use os.path.abspath to make it absolute, like shown here.
++#
++# import os
++# import sys
++# sys.path.insert(0, os.path.abspath('.'))
++
++
++# -- Project information -----------------------------------------------------
++
++project = 'doc'
++copyright = '2019, sushma'
++author = 'sushma'
++
++
++# -- General configuration ---------------------------------------------------
++
++# Add any Sphinx extension module names here, as strings. They can be
++# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
++# ones.
++extensions = [
++]
++
++# Add any paths that contain templates here, relative to this directory.
++templates_path = ['_templates']
++
++# List of patterns, relative to source directory, that match files and
++# directories to ignore when looking for source files.
++# This pattern also affects html_static_path and html_extra_path.
++exclude_patterns = []
++
++
++# -- Options for HTML output -------------------------------------------------
++
++# The theme to use for HTML and HTML Help pages.  See the documentation for
++# a list of builtin themes.
++#
++html_theme = 'alabaster'
++
++# Add any paths that contain custom static files (such as style sheets) here,
++# relative to this directory. They are copied after the builtin static files,
++# so a file named "default.css" will overwrite the builtin "default.css".
++html_static_path = ['_static']
+diff --git a/Documentation/scsi/source/index.rst b/Documentation/scsi/source/index.rst
+new file mode 100644
+index 000000000000..003259e30a59
+--- /dev/null
++++ b/Documentation/scsi/source/index.rst
+@@ -0,0 +1,22 @@
++.. doc documentation master file, created by
++   sphinx-quickstart on Mon Jul  1 11:21:20 2019.
++   You can adapt this file completely to your liking, but it should at least
++   contain the root `toctree` directive.
++.SPDX-License-Identifier: GPL-2.0
++
++===============================
++SCSI Subsystem
++===============================
++
++.. toctree::
++   :maxdepth: 2
++   :caption: Contents:
++
++aha152x
++
++Indices and tables
++==================
++
++* :ref:`genindex`
++* :ref:`modindex`
++* :ref:`search`
+-- 
+2.17.1
+
