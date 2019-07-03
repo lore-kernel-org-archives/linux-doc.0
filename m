@@ -1,131 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FA847D90C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 16:16:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FF417D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Jul 2019 16:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725933AbfGCQQW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 12:16:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57451 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725847AbfGCQQW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Jul 2019 12:16:22 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A38FE307D853;
-        Wed,  3 Jul 2019 16:16:16 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-160.bos.redhat.com [10.18.17.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1165519698;
-        Wed,  3 Jul 2019 16:16:09 +0000 (UTC)
-Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
- caches
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-References: <20190702183730.14461-1-longman@redhat.com>
- <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
- <78879b79-1b8f-cdfd-d4fa-610afe5e5d48@redhat.com>
- <20190702143340.715f771192721f60de1699d7@linux-foundation.org>
- <c29ff725-95ba-db4d-944f-d33f5f766cd3@redhat.com>
- <20190703155314.GT978@dhcp22.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <ca6147ca-25be-cba6-a7b9-fcac6d21345d@redhat.com>
-Date:   Wed, 3 Jul 2019 12:16:09 -0400
+        id S1726686AbfGCQp0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 12:45:26 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:38366 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbfGCQp0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 12:45:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=rpaCNZdtbwhwVN7hY9VZeOvZhvhLdEBGPEjtKH2aYAg=; b=WkQhINbqKZP35fqFn/9DS0Nppd
+        tunzEg+4cywUqCx84mnosjqNuckYUAyC4VvwXd62Hix7AUhsaISWcNo+KnnkWVPf1sqPRhomcZQfD
+        vRAmcDgQe4qzc2gkRlJ7eu6TJn1/vcSIzjXi18m54vNKwDVRN/bkjiZHb4rnC2YZ1uQ1npPnJzFIU
+        baOM6/bbZbRJZmfmDf2Vl4Lz1BQMtKobo6+sWtWvvRjyW57KBXY3vwf9B7pRITeXOQSCjvpkZInxi
+        3mG4Rq+AuPj6FxL8Wug3efYLk8K/Z5onN8Pp4NQrEMv52yMQzbta7qenJ6KGLDVHDIZTH9YSUlYXI
+        RYTeRzYQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hiiNl-0008Kj-Fx; Wed, 03 Jul 2019 16:45:21 +0000
+Subject: Re: [PATCH] tpm: Document UEFI event log quirks
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     tweek@google.com, matthewgarrett@google.com,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6acf78df-b168-14d3-fea4-9a9d2945e77f@infradead.org>
+Date:   Wed, 3 Jul 2019 09:45:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190703155314.GT978@dhcp22.suse.cz>
+In-Reply-To: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Wed, 03 Jul 2019 16:16:21 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/3/19 11:53 AM, Michal Hocko wrote:
-> On Wed 03-07-19 11:21:16, Waiman Long wrote:
->> On 7/2/19 5:33 PM, Andrew Morton wrote:
->>> On Tue, 2 Jul 2019 16:44:24 -0400 Waiman Long <longman@redhat.com> wrote:
->>>
->>>> On 7/2/19 4:03 PM, Andrew Morton wrote:
->>>>> On Tue,  2 Jul 2019 14:37:30 -0400 Waiman Long <longman@redhat.com> wrote:
->>>>>
->>>>>> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
->>>>>> file to shrink the slab by flushing all the per-cpu slabs and free
->>>>>> slabs in partial lists. This applies only to the root caches, though.
->>>>>>
->>>>>> Extends this capability by shrinking all the child memcg caches and
->>>>>> the root cache when a value of '2' is written to the shrink sysfs file.
->>>>> Why?
->>>>>
->>>>> Please fully describe the value of the proposed feature to or users. 
->>>>> Always.
->>>> Sure. Essentially, the sysfs shrink interface is not complete. It allows
->>>> the root cache to be shrunk, but not any of the memcg caches. 
->>> But that doesn't describe anything of value.  Who wants to use this,
->>> and why?  How will it be used?  What are the use-cases?
->>>
->> For me, the primary motivation of posting this patch is to have a way to
->> make the number of active objects reported in /proc/slabinfo more
->> accurately reflect the number of objects that are actually being used by
->> the kernel.
-> I believe we have been through that. If the number is inexact due to
-> caching then lets fix slabinfo rather than trick around it and teach
-> people to do a magic write to some file that will "solve" a problem.
-> This is exactly what drop_caches turned out to be in fact. People just
-> got used to drop caches because they were told so by $random web page.
-> So really, think about the underlying problem and try to fix it.
->
-> It is true that you could argue that this patch is actually fixing the
-> existing interface because it doesn't really do what it is documented to
-> do and on those grounds I would agree with the change.
+On 7/3/19 9:11 AM, Jarkko Sakkinen wrote:
+> There are some weird quirks when it comes to UEFI event log. Provide a
+> brief introduction to TPM event log mechanism and describe the quirks
+> and how they can be sorted out.
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> ---
+>  Documentation/security/tpm/tpm-eventlog.rst | 53 +++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>  create mode 100644 Documentation/security/tpm/tpm-eventlog.rst
+> 
+> diff --git a/Documentation/security/tpm/tpm-eventlog.rst b/Documentation/security/tpm/tpm-eventlog.rst
+> new file mode 100644
+> index 000000000000..2ca8042bdb17
+> --- /dev/null
+> +++ b/Documentation/security/tpm/tpm-eventlog.rst
+> @@ -0,0 +1,53 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=============
+> +TPM Event Log
+> +=============
+> +
+> +| Authors:
+> +| Stefan Berger <stefanb@linux.vnet.ibm.com>
+> +
+> +This document briefly describes what TPM log is and how it is handed
+> +over from the preboot firmware to the operating system.
+> +
+> +Introduction
+> +============
+> +
+> +The preboot firmware maintains an event log that gets new entries every
+> +time something gets hashed by it to any of the PCR registers. The events
+> +are segregated by their type and contain the value of the hashed PCR
+> +register. Typically, the preboot firmware will hash the components to
+> +who execution is to be handed over or actions relevant to the boot
+> +process.
+> +
+> +The main application for this is remote attestation and the reason why
+> +it is useful is nicely put in the very first section of [1]:
+> +
+> +"Attestation is used to provide information about the platform’s state
+> +to a challenger. However, PCR contents are difficult to interpret;
+> +therefore, attestation is typically more useful when the PCR contents
+> +are accompanied by a measurement log. While not trusted on their own,
+> +the measurement log contains a richer set of information than do the PCR
+> +contents. The PCR contents are used to provide the validation of the
+> +measurement log."
+> +
+> +UEFI event log
+> +==============
+> +
+> +UEFI provided event log has a few somewhat weird quirks.
+> +
+> +Before calling ExitBootServices() Linux EFI stub copies the event log to
+> +a custom configuration table defined by the stub itself. Unfortanely,
 
-I do think that we should correct the shrink file to do what it is
-designed to do to include the memcg caches as well.
+                                                            Unfortunately,
+
+> +the events generated by ExitBootServices() do end up to the table.
+> +
+> +The firmware provides so called final events configuration table to sort
+> +out this issue. Events gets mirrored to this table after the first time
+> +EFI_TCG2_PROTOCOL.GetEventLog() gets called.
+> +
+> +This introduces another problem: nothing guarantees that it is not
+> +called before the stub gets to run. Thus, it needs to copy the final
+> +events table preboot size to the custom configuration table so that
+> +kernel offset it later on.
+
+?  kernel can offset it later on.
+
+> +
+> +[1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
+> +[2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
+> 
 
 
->  But do not teach
-> people that they have to write to some file to get proper numbers.
-> Because that is just a bad idea and it will kick back the same way
-> drop_caches.
-
-The /proc/slabinfo file is a well-known file that is probably used
-relatively extensively. Making it to scan through all the per-cpu
-structures will probably cause performance issues as the slab_mutex has
-to be taken during the whole duration of the scan. That could have
-undesirable side effect.
-
-Instead, I am thinking about extending the slab/objects sysfs file to
-also show the number of objects hold up by the per-cpu structures and
-thus we can get an accurate count by subtracting it from the reported
-active objects. That will have a more limited performance impact as it
-is just one kmem cache instead of all the kmem caches in the system.
-Also the sysfs files are not as commonly used as slabinfo. That will be
-another patch in the near future.
-
-Cheers,
-Longman
-
+-- 
+~Randy
