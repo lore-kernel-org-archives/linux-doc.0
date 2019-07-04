@@ -1,143 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B28427D90C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 05:39:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7ACC17D90C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 05:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725920AbfGDFjb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Jul 2019 01:39:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46356 "EHLO mail.kernel.org"
+        id S1725917AbfGDFzv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Jul 2019 01:55:51 -0400
+Received: from mga05.intel.com ([192.55.52.43]:17596 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725879AbfGDFjb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Jul 2019 01:39:31 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64BBC21882;
-        Thu,  4 Jul 2019 05:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562218769;
-        bh=l5a03sjl2l+bpYmsMzEJCgF/WiLVKn30HEWoyaM68Gs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Kx9GCrWZpCqJURDrv6MyxKtWv5zXwNx82aigBZrINlKbl1iT5/ewAvzGSwqbKK7Mv
-         ZUzqlEGkgebmK8z1OHhyP8xRXyAjrpGC1wKAGgb0i6jWW/mqh32Cc9vbA2Ct1iijXd
-         KguDsOmTHYOBrUsg3XicHtiPyWLKsCq4M4oSlv2E=
-Date:   Thu, 4 Jul 2019 07:39:27 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Wu Hao <hao.wu@intel.com>
-Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhang Yi Z <yi.z.zhang@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>
-Subject: Re: [PATCH 06/15] fpga: dfl: fme: add
- DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
-Message-ID: <20190704053927.GB347@kroah.com>
-References: <20190628004951.6202-1-mdf@kernel.org>
- <20190628004951.6202-7-mdf@kernel.org>
- <20190703180753.GA24723@kroah.com>
- <20190703233058.GA15825@hao-dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190703233058.GA15825@hao-dev>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        id S1725879AbfGDFzv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jul 2019 01:55:51 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2019 22:55:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,449,1557212400"; 
+   d="scan'208";a="164547665"
+Received: from pedapalapati-ip.iind.intel.com ([10.106.124.123])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2019 22:55:48 -0700
+From:   Nitin Gote <nitin.r.gote@intel.com>
+To:     akpm@linux-foundation.org
+Cc:     corbet@lwn.net, apw@canonical.com, joe@perches.com,
+        keescook@chromium.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        Nitin Gote <nitin.r.gote@intel.com>
+Subject: [PATCH] checkpatch: Added warnings in favor of strscpy().
+Date:   Thu,  4 Jul 2019 11:24:43 +0530
+Message-Id: <1562219683-15474-1-git-send-email-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 04, 2019 at 07:30:58AM +0800, Wu Hao wrote:
-> On Wed, Jul 03, 2019 at 08:07:53PM +0200, Greg KH wrote:
-> > On Thu, Jun 27, 2019 at 05:49:42PM -0700, Moritz Fischer wrote:
-> > > From: Wu Hao <hao.wu@intel.com>
-> > > 
-> > > In order to support virtualization usage via PCIe SRIOV, this patch
-> > > adds two ioctls under FPGA Management Engine (FME) to release and
-> > > assign back the port device. In order to safely turn Port from PF
-> > > into VF and enable PCIe SRIOV, it requires user to invoke this
-> > > PORT_RELEASE ioctl to release port firstly to remove userspace
-> > > interfaces, and then configure the PF/VF access register in FME.
-> > > After disable SRIOV, it requires user to invoke this PORT_ASSIGN
-> > > ioctl to attach the port back to PF.
-> > > 
-> > >  Ioctl interfaces:
-> > >  * DFL_FPGA_FME_PORT_RELEASE
-> > >    Release platform device of given port, it deletes port platform
-> > >    device to remove related userspace interfaces on PF, then
-> > >    configures PF/VF access mode to VF.
-> > > 
-> > >  * DFL_FPGA_FME_PORT_ASSIGN
-> > >    Assign platform device of given port back to PF, it configures
-> > >    PF/VF access mode to PF, then adds port platform device back to
-> > >    re-enable related userspace interfaces on PF.
-> > 
-> > Why are you not using the "generic" bind/unbind facility that userspace
-> > already has for this with binding drivers to devices?  Why a special
-> > ioctl?
-> 
-> Hi Greg,
-> 
-> Actually we think it should be safer that making the device invisble than
-> just unbinding its driver. Looks like user can try to rebind it at any
-> time and we don't have any method to stop them.
+Added warnings in checkpatch.pl script to :
 
-Why do you want to "stop" the user from doing something?  They asked to
-do it, why prevent it?  If they ask to do something foolish, well, they
-get to keep the pieces :)
+1. Deprecate strcpy() in favor of strscpy().
+2. Deprecate strlcpy() in favor of strscpy().
+3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
 
-> > > --- a/include/uapi/linux/fpga-dfl.h
-> > > +++ b/include/uapi/linux/fpga-dfl.h
-> > > @@ -176,4 +176,36 @@ struct dfl_fpga_fme_port_pr {
-> > >  
-> > >  #define DFL_FPGA_FME_PORT_PR	_IO(DFL_FPGA_MAGIC, DFL_FME_BASE + 0)
-> > >  
-> > > +/**
-> > > + * DFL_FPGA_FME_PORT_RELEASE - _IOW(DFL_FPGA_MAGIC, DFL_FME_BASE + 1,
-> > > + *					struct dfl_fpga_fme_port_release)
-> > > + *
-> > > + * Driver releases the port per Port ID provided by caller.
-> > > + * Return: 0 on success, -errno on failure.
-> > > + */
-> > > +struct dfl_fpga_fme_port_release {
-> > > +	/* Input */
-> > > +	__u32 argsz;		/* Structure length */
-> > > +	__u32 flags;		/* Zero for now */
-> > > +	__u32 port_id;
-> > > +};
-> > 
-> > meta-comment, why do all of your structures for ioctls have argsz?  You
-> > "know" the size of the structure already, it's part of the ioctl
-> > definition.  You shouldn't need to also set it again, right?  Otherwise
-> > ALL Linux ioctls would need something crazy like this.
-> 
-> Actually we followed the same method as vfio.
+Updated strncpy() section in Documentation/process/deprecated.rst
+to cover strscpy_pad() case.
 
-vfio is a protocol on "the wire", right?  Not an ioctl.
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+---
+ This patch is already reviewed by mailing list
+ kernel-hardening@lists.openwall.com. Refer below link
+ <https://www.openwall.com/lists/kernel-hardening/2019/07/03/4>
+Acked-by: Kees Cook <keescook@chromium.org>
 
-> The major purpose should be extendibility, as we really need this to
-> be sth long term maintainable.
+ Documentation/process/deprecated.rst | 6 +++---
+ scripts/checkpatch.pl                | 5 +++++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-You can't change ioctl structure sizes at any time.
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64..f564de3 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
+ and other misbehavior due to the missing termination. It also NUL-pads the
+ destination buffer if the source contents are shorter than the destination
+ buffer size, which may be a needless performance penalty for callers using
+-only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+-(Users of :c:func:`strscpy` still needing NUL-padding will need an
+-explicit :c:func:`memset` added.)
++only NUL-terminated strings. In this case, the safe replacement is
++:c:func:`strscpy`. If, however, the destination buffer still needs
++NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
+ 
+ If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
+ still be used, but destinations should be marked with the `__nonstring
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 342c7c7..3d80967 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -595,6 +595,11 @@ our %deprecated_apis = (
+ 	"rcu_barrier_sched"			=> "rcu_barrier",
+ 	"get_state_synchronize_sched"		=> "get_state_synchronize_rcu",
+ 	"cond_synchronize_sched"		=> "cond_synchronize_rcu",
++	"strcpy"				=> "strscpy",
++	"strlcpy"				=> "strscpy",
++	"strncpy"				=> "strscpy, strscpy_pad or for
++	non-NUL-terminated strings, strncpy() can still be used, but
++	destinations should be marked with the __nonstring",
+ );
+ 
+ #Create a search pattern for all these strings to speed up a loop below
+-- 
+2.7.4
 
-> It really helps, if we add some new members for extentions/enhancement
-> under the same ioctl.
-
-You don't do that.
-
-> I don't think everybody needs this, but my consideration here is if
-> newer generations of hardware/specs come with some extentions, I still
-> hope we can resue these IOCTLs as much as we could, instead of
-> creating more new ones.
-
-You create new ones, like everyone else does, as you can not change old
-code.  By trying to "version" structures like this, it's just going to
-be a nightmare.
-
-thanks,
-
-greg k-h
