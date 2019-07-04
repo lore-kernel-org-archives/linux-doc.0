@@ -3,110 +3,185 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2ED027D90C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 06:46:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E30317D90C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 06:48:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725945AbfGDGpb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Jul 2019 02:45:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23286 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726698AbfGDGp0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jul 2019 02:45:26 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x646gXuS059047
-        for <linux-doc@vger.kernel.org>; Thu, 4 Jul 2019 02:45:26 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tha40vjs3-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2019 02:45:25 -0400
-Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <bauerman@linux.ibm.com>;
-        Thu, 4 Jul 2019 07:45:24 +0100
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 4 Jul 2019 07:45:19 +0100
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x646jIW138338826
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Jul 2019 06:45:18 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B3404AC06B;
-        Thu,  4 Jul 2019 06:45:17 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4321AAC05B;
-        Thu,  4 Jul 2019 06:45:11 +0000 (GMT)
-Received: from morokweng.localdomain (unknown [9.85.146.222])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
-        Thu,  4 Jul 2019 06:45:10 +0000 (GMT)
-References: <20190628021934.4260-1-bauerman@linux.ibm.com> <1561991934.4067.17.camel@linux.ibm.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From:   Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To:     Mimi Zohar <zohar@linux.ibm.com>
-Cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI\, Takahiro" <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v12 00/11] Appended signatures support for IMA appraisal
-In-reply-to: <1561991934.4067.17.camel@linux.ibm.com>
-Date:   Thu, 04 Jul 2019 03:45:07 -0300
+        id S1727300AbfGDGrw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Jul 2019 02:47:52 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20588 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725879AbfGDGrw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jul 2019 02:47:52 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2019 23:47:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,449,1557212400"; 
+   d="scan'208";a="339525582"
+Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
+  by orsmga005.jf.intel.com with ESMTP; 03 Jul 2019 23:47:49 -0700
+Date:   Thu, 4 Jul 2019 14:31:06 +0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhang Yi Z <yi.z.zhang@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>
+Subject: Re: [PATCH 06/15] fpga: dfl: fme: add
+ DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
+Message-ID: <20190704063106.GA24777@hao-dev>
+References: <20190628004951.6202-1-mdf@kernel.org>
+ <20190628004951.6202-7-mdf@kernel.org>
+ <20190703180753.GA24723@kroah.com>
+ <20190703233058.GA15825@hao-dev>
+ <20190704053927.GB347@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-x-cbid: 19070406-0064-0000-0000-000003F7088F
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011376; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01227188; UDB=6.00646128; IPR=6.01008425;
- MB=3.00027580; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-04 06:45:23
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070406-0065-0000-0000-00003E225467
-Message-Id: <87k1cyl2mk.fsf@morokweng.localdomain>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-04_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907040087
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190704053927.GB347@kroah.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 04, 2019 at 07:39:27AM +0200, Greg KH wrote:
+> On Thu, Jul 04, 2019 at 07:30:58AM +0800, Wu Hao wrote:
+> > On Wed, Jul 03, 2019 at 08:07:53PM +0200, Greg KH wrote:
+> > > On Thu, Jun 27, 2019 at 05:49:42PM -0700, Moritz Fischer wrote:
+> > > > From: Wu Hao <hao.wu@intel.com>
+> > > > 
+> > > > In order to support virtualization usage via PCIe SRIOV, this patch
+> > > > adds two ioctls under FPGA Management Engine (FME) to release and
+> > > > assign back the port device. In order to safely turn Port from PF
+> > > > into VF and enable PCIe SRIOV, it requires user to invoke this
+> > > > PORT_RELEASE ioctl to release port firstly to remove userspace
+> > > > interfaces, and then configure the PF/VF access register in FME.
+> > > > After disable SRIOV, it requires user to invoke this PORT_ASSIGN
+> > > > ioctl to attach the port back to PF.
+> > > > 
+> > > >  Ioctl interfaces:
+> > > >  * DFL_FPGA_FME_PORT_RELEASE
+> > > >    Release platform device of given port, it deletes port platform
+> > > >    device to remove related userspace interfaces on PF, then
+> > > >    configures PF/VF access mode to VF.
+> > > > 
+> > > >  * DFL_FPGA_FME_PORT_ASSIGN
+> > > >    Assign platform device of given port back to PF, it configures
+> > > >    PF/VF access mode to PF, then adds port platform device back to
+> > > >    re-enable related userspace interfaces on PF.
+> > > 
+> > > Why are you not using the "generic" bind/unbind facility that userspace
+> > > already has for this with binding drivers to devices?  Why a special
+> > > ioctl?
+> > 
+> > Hi Greg,
+> > 
+> > Actually we think it should be safer that making the device invisble than
+> > just unbinding its driver. Looks like user can try to rebind it at any
+> > time and we don't have any method to stop them.
+> 
+> Why do you want to "stop" the user from doing something?  They asked to
+> do it, why prevent it?  If they ask to do something foolish, well, they
+> get to keep the pieces :)
 
-Mimi Zohar <zohar@linux.ibm.com> writes:
+Actually this is for SRIOV support, as we are moving FPGA accelerator from
+PF to VF, so we don't want users to see the FPGA accelerator from PF any
+more. We can't allow user to touch same FPGA accelerator from both PF and
+VF side (it leads to hardware erros).
 
-> On Thu, 2019-06-27 at 23:19 -0300, Thiago Jung Bauermann wrote:
->> Hello,
->> 
->> This version is essentially identical to the last one.
->> 
->> It is only a rebase on top of today's linux-integrity/next-queued-testing,
->> prompted by conflicts with Prakhar Srivastava's patches to measure the
->> kernel command line. It also drops two patches that are already present in
->> that branch.
->
-> Thanks, Thiago.  These patches are now in next-queued-testing waiting
-> for some additional reviews/acks.
+> 
+> > > > --- a/include/uapi/linux/fpga-dfl.h
+> > > > +++ b/include/uapi/linux/fpga-dfl.h
+> > > > @@ -176,4 +176,36 @@ struct dfl_fpga_fme_port_pr {
+> > > >  
+> > > >  #define DFL_FPGA_FME_PORT_PR	_IO(DFL_FPGA_MAGIC, DFL_FME_BASE + 0)
+> > > >  
+> > > > +/**
+> > > > + * DFL_FPGA_FME_PORT_RELEASE - _IOW(DFL_FPGA_MAGIC, DFL_FME_BASE + 1,
+> > > > + *					struct dfl_fpga_fme_port_release)
+> > > > + *
+> > > > + * Driver releases the port per Port ID provided by caller.
+> > > > + * Return: 0 on success, -errno on failure.
+> > > > + */
+> > > > +struct dfl_fpga_fme_port_release {
+> > > > +	/* Input */
+> > > > +	__u32 argsz;		/* Structure length */
+> > > > +	__u32 flags;		/* Zero for now */
+> > > > +	__u32 port_id;
+> > > > +};
+> > > 
+> > > meta-comment, why do all of your structures for ioctls have argsz?  You
+> > > "know" the size of the structure already, it's part of the ioctl
+> > > definition.  You shouldn't need to also set it again, right?  Otherwise
+> > > ALL Linux ioctls would need something crazy like this.
+> > 
+> > Actually we followed the same method as vfio.
+> 
+> vfio is a protocol on "the wire", right?  Not an ioctl.
+> 
+> > The major purpose should be extendibility, as we really need this to
+> > be sth long term maintainable.
+> 
+> You can't change ioctl structure sizes at any time.
+> 
+> > It really helps, if we add some new members for extentions/enhancement
+> > under the same ioctl.
+> 
+> You don't do that.
+> 
+> > I don't think everybody needs this, but my consideration here is if
+> > newer generations of hardware/specs come with some extentions, I still
+> > hope we can resue these IOCTLs as much as we could, instead of
+> > creating more new ones.
+> 
+> You create new ones, like everyone else does, as you can not change old
+> code.  By trying to "version" structures like this, it's just going to
+> be a nightmare.
 
-Thank you very much, Mimi! Now I think I'm only missing acks for the
-PKCS#7 changes in patches 2 and 3, and an ack for the s390 changes in
-patch 1.
+Actually i learned this from vfio code here, it's not trying to "version"
+structures, let me copy the comments from vfio header file. It should be
+more clear than above short description from me.
 
--- 
-Thiago Jung Bauermann
-IBM Linux Technology Center
+ "include/uapi/linux/vfio.h"
 
+ /*
+  * The IOCTL interface is designed for extensibility by embedding the
+  * structure length (argsz) and flags into structures passed between
+  * kernel and userspace.  We therefore use the _IO() macro for these
+  * defines to avoid implicitly embedding a size into the ioctl request.
+  * As structure fields are added, argsz will increase to match and flag
+  * bits will be defined to indicate additional fields with valid data.
+  * It's *always* the caller's responsibility to indicate the size of
+  * the structure passed by setting argsz appropriately.
+  */
+
+ For example.
+
+ struct vfio_device_info {
+        __u32   argsz;
+        __u32   flags;
+ #define VFIO_DEVICE_FLAGS_RESET (1 << 0)        /* Device supports reset */
+ #define VFIO_DEVICE_FLAGS_PCI   (1 << 1)        /* vfio-pci device */
+ #define VFIO_DEVICE_FLAGS_PLATFORM (1 << 2)     /* vfio-platform device */
+ #define VFIO_DEVICE_FLAGS_AMBA  (1 << 3)        /* vfio-amba device */
+ #define VFIO_DEVICE_FLAGS_CCW   (1 << 4)        /* vfio-ccw device */
+ #define VFIO_DEVICE_FLAGS_AP    (1 << 5)        /* vfio-ap device */
+        __u32   num_regions;    /* Max region index + 1 */
+        __u32   num_irqs;       /* Max IRQ index + 1 */
+
+Hope things could be more clear now. :)
+
+Thanks
+Hao
+
+};
+
+> 
+> thanks,
+> 
+> greg k-h
