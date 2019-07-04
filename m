@@ -1,78 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D936D7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 07:33:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B43AA7D90C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 07:37:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbfGDHde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Jul 2019 03:33:34 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45785 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbfGDHde (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jul 2019 03:33:34 -0400
-Received: by mail-lj1-f196.google.com with SMTP id m23so5104062lje.12
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2019 00:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5nZlyonaYBcIHFs68w4W+bmgmZLAi4DVNEFkxYXC9bg=;
-        b=ly2ZB1RacvoXgtBZuxppsAKpbjRSfhQ8AdBwb59ZI7CcTPAY1b3+VAeo9SDLy3CvhX
-         NErHZ15uZn6Ui9j+6+th4cMMXPdKCoDyxmdwWuuy5tfhlvQqFRHhSdtzBGediN13vhQg
-         ltkRmZPytPiNO1j6j96DMn2FyHsaAg57+T7wMNLrUzRhGGk+MnbAtjEi5HuvEI/lFLdR
-         pbrUYpGK0O8kY6JjOxnLdhffIFMFuFnUYi0npgFV5QL5gdABcvOnBBKyK9tW8UKnUTr9
-         NchwHX5TsqNKMwWVk9WGT3/5wDsYuqYktsAKmDS1iOpCpm/BQN4/Woo2HrGv6JUS5dgk
-         LcBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5nZlyonaYBcIHFs68w4W+bmgmZLAi4DVNEFkxYXC9bg=;
-        b=uKgY8cjTpSQq2RazbOKAXEe4WJ+U5xaS20zklIm2zcxbZcMJv2M/3t6fRCijNXUTzU
-         dZmSvTFAkOHeX68V2WN3qbdntsS/dNoe29YYUJRrAXkxOAFb5xAc7EoSI8rPPjtJF9Hw
-         xMGJmEPrgi+tu9TcI7uoLgYWoPOaRDCB97C4wrC69tkM9hceGrp9N/7QO2lZpK/wvUSO
-         BZxWz9gbQZaNYNEm0MbOrCJPWigriu+lBv1DWSw/w/ztUbbwnyZoaxwponjaZeXMqJmv
-         qLm9lOxNuMfa4lZsZAwzh2h6XA0Cpp8kpWHvI3j7xQ5p0bM+jUt7o5EF8D15u1CFNEUr
-         v8zw==
-X-Gm-Message-State: APjAAAWKi/wzJZIJhNPJFcs9PoDj3PWBD4gKKHc+8HyhozzLSyjklKGp
-        2t+f63OnV4B1vypD9H7ji8QNAfBf49/r5IEHO+K8Jg==
-X-Google-Smtp-Source: APXvYqx26V0oB3KzDPNa332FvmrdU9YRFQjWa+Pf4/6aOydVvuHTShaMCf9kZhWzOw++n54b2Y94ETsphqlWJxoLR4E=
-X-Received: by 2002:a2e:9048:: with SMTP id n8mr2092620ljg.37.1562225612626;
- Thu, 04 Jul 2019 00:33:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190701141005.24631-1-geert+renesas@glider.be>
-In-Reply-To: <20190701141005.24631-1-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 4 Jul 2019 09:33:21 +0200
-Message-ID: <CACRpkdavvUR3G89_5DpXvgfpJ7LsxWiLyjFS0hSXVwAgaRFM-Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: Fix reference to gpiod_get_array()
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        id S1727044AbfGDHhf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Jul 2019 03:37:35 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46180 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725945AbfGDHhf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jul 2019 03:37:35 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 5CBB9AD7F;
+        Thu,  4 Jul 2019 07:37:32 +0000 (UTC)
+Date:   Thu, 4 Jul 2019 09:37:30 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Subject: Re: [PATCH] mm, slab: Extend slab/shrink to shrink all the memcg
+ caches
+Message-ID: <20190704073730.GA5620@dhcp22.suse.cz>
+References: <20190702183730.14461-1-longman@redhat.com>
+ <20190702130318.39d187dc27dbdd9267788165@linux-foundation.org>
+ <78879b79-1b8f-cdfd-d4fa-610afe5e5d48@redhat.com>
+ <20190702143340.715f771192721f60de1699d7@linux-foundation.org>
+ <c29ff725-95ba-db4d-944f-d33f5f766cd3@redhat.com>
+ <20190703155314.GT978@dhcp22.suse.cz>
+ <ca6147ca-25be-cba6-a7b9-fcac6d21345d@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca6147ca-25be-cba6-a7b9-fcac6d21345d@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 1, 2019 at 4:10 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On Wed 03-07-19 12:16:09, Waiman Long wrote:
+> On 7/3/19 11:53 AM, Michal Hocko wrote:
+> > On Wed 03-07-19 11:21:16, Waiman Long wrote:
+> >> On 7/2/19 5:33 PM, Andrew Morton wrote:
+> >>> On Tue, 2 Jul 2019 16:44:24 -0400 Waiman Long <longman@redhat.com> wrote:
+> >>>
+> >>>> On 7/2/19 4:03 PM, Andrew Morton wrote:
+> >>>>> On Tue,  2 Jul 2019 14:37:30 -0400 Waiman Long <longman@redhat.com> wrote:
+> >>>>>
+> >>>>>> Currently, a value of '1" is written to /sys/kernel/slab/<slab>/shrink
+> >>>>>> file to shrink the slab by flushing all the per-cpu slabs and free
+> >>>>>> slabs in partial lists. This applies only to the root caches, though.
+> >>>>>>
+> >>>>>> Extends this capability by shrinking all the child memcg caches and
+> >>>>>> the root cache when a value of '2' is written to the shrink sysfs file.
+> >>>>> Why?
+> >>>>>
+> >>>>> Please fully describe the value of the proposed feature to or users. 
+> >>>>> Always.
+> >>>> Sure. Essentially, the sysfs shrink interface is not complete. It allows
+> >>>> the root cache to be shrunk, but not any of the memcg caches. 
+> >>> But that doesn't describe anything of value.  Who wants to use this,
+> >>> and why?  How will it be used?  What are the use-cases?
+> >>>
+> >> For me, the primary motivation of posting this patch is to have a way to
+> >> make the number of active objects reported in /proc/slabinfo more
+> >> accurately reflect the number of objects that are actually being used by
+> >> the kernel.
+> > I believe we have been through that. If the number is inexact due to
+> > caching then lets fix slabinfo rather than trick around it and teach
+> > people to do a magic write to some file that will "solve" a problem.
+> > This is exactly what drop_caches turned out to be in fact. People just
+> > got used to drop caches because they were told so by $random web page.
+> > So really, think about the underlying problem and try to fix it.
+> >
+> > It is true that you could argue that this patch is actually fixing the
+> > existing interface because it doesn't really do what it is documented to
+> > do and on those grounds I would agree with the change.
+> 
+> I do think that we should correct the shrink file to do what it is
+> designed to do to include the memcg caches as well.
+> 
+> 
+> >  But do not teach
+> > people that they have to write to some file to get proper numbers.
+> > Because that is just a bad idea and it will kick back the same way
+> > drop_caches.
+> 
+> The /proc/slabinfo file is a well-known file that is probably used
+> relatively extensively. Making it to scan through all the per-cpu
+> structures will probably cause performance issues as the slab_mutex has
+> to be taken during the whole duration of the scan. That could have
+> undesirable side effect.
 
-> The function is called gpiod_get_array(), not gpiod_array_get().
->
-> Fixes: 77588c14ac868cae ("gpiolib: Pass array info to get/set array functions")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Please be more specific with some numbers ideally. Also if collecting
+data is too expensive, why cannot we simply account cached objects count
+in pcp manner?
 
-Patch applied.
+> Instead, I am thinking about extending the slab/objects sysfs file to
+> also show the number of objects hold up by the per-cpu structures and
+> thus we can get an accurate count by subtracting it from the reported
+> active objects. That will have a more limited performance impact as it
+> is just one kmem cache instead of all the kmem caches in the system.
+> Also the sysfs files are not as commonly used as slabinfo. That will be
+> another patch in the near future.
 
-Yours,
-Linus Walleij
+Both are root only and once it is widespread that slabinfo doesn't
+provide precise data you can expect tools will try to fix that by adding
+another file(s) and we are back to square one, no? In other words
+slabinfo
+
+-- 
+Michal Hocko
+SUSE Labs
