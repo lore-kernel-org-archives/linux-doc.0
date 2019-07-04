@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2398E7D912
+	by archive.lwn.net (Postfix) with ESMTP id CB2977DBD4
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 00:38:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbfGDAiO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 20:38:14 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:45927 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727433AbfGDAiN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 20:38:13 -0400
-Received: by mail-pl1-f201.google.com with SMTP id y9so2265554plp.12
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 17:38:12 -0700 (PDT)
+        id S1727408AbfGDAif (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 20:38:35 -0400
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:43409 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727383AbfGDAie (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 20:38:34 -0400
+Received: by mail-pf1-f202.google.com with SMTP id 6so2512027pfz.10
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 17:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=Fb/CZ+Kk060SdN/y7lfCe8WEta+n71tTYM2wbCGeWoE=;
-        b=keBa4C+nUGSCKBpaKwzuHomGprn6K3hd+KvflhZTaXZXBtv0RkbUYKoJoyVmgBBPle
-         Ro4HGQhFvH5BMRNmwDOXCjX852bE/raXGF0vrVaSNdQOltRLQie8iyXskloZrgHFNUEd
-         nsUNNXw0JaYIW7SdC6TfyE778YL6nVPqJwQNVegD+41skOjSRPtx7Ez54PZUUkYBziLP
-         jbKUq7xNPNJlHYUmYGnI6ckYR7tPB588OthfJXozeZgsEVUNaKrtX4/mgFkr/n/GoGpE
-         r2ThgE2k0ijsNp7cMmqj6mSYBje+jUEcw8/uDx0N6LRYkeDdJI+mlOs1b8KoQXvyMEnD
-         58Ow==
+        bh=JaclVjWWg1jR5XC8IB5tgYYWiqh+NZ/mVD/zRwjH/mc=;
+        b=c1GtRLX8E4JlmpkJlOGwh1CkwdqR82trfruz3C/5c+9N4wPpyean1VohxhEeLdNHr3
+         7q8ez958MWLIoUWnTKUgMCTxr9C/6roypzJtrmBQVDO7okP1z5JuDpB1V617Uz55IgsL
+         aK6f4Ve6uoW66mAIDB2CmIt8MutPCP+Uffzpw081dX4VfdYBQYGkMmxMsEui+qAgGIZ5
+         O9nCftFd/x95+VU5W2vZ9UglxOaZGBZT3tq6O+zvblpWNWv0k5Pu1gT7G3poa13nQoxH
+         nxDny29o8dtnpFWLRkZ3KmWRIp+s+p4Y8QMZPmaA29YdM7uJu2eTXRUobjD/hUZYvkfr
+         ntcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=Fb/CZ+Kk060SdN/y7lfCe8WEta+n71tTYM2wbCGeWoE=;
-        b=mDT2GWjFxPj+xO4kULnWzEI2AA7Hx7b9z4/oy5v0iDzgqylEVaQXz9R0628Oannc8f
-         Ym92vgWW9cNOltiTdqePD5Lsx3FHUUBwglSiBjWGC9ETAtnipMNS8v1DubNUMvwNzXxP
-         +6N0uIpqz/PXUiCY1PjzJaxNTemCXGKWc0TrSjLLdz5qZg2XkwdfW6NzqUEyl4x+QsR7
-         YK4QJ36c+SfFU++XNcy+MOZs9smgrmEGQVI1NImk4+2inE+gtN09xpWv5a9ZVKPXH8fK
-         oR07hDmP8rvQqIyC0fwQaKYkeZcmL+Kd5KWU+VF4jiZMQzw/588PoSenSGGFRcVuLT0C
-         y+XQ==
-X-Gm-Message-State: APjAAAWmH50QLYdZXY1TBOx3KeCPdaUPWcB2f8vQI0fyvxb8vD/oXgnN
-        +BDg8equxgI2RZOpcBIqPQWVBLN0h9z4cdIGYWJ11Q==
-X-Google-Smtp-Source: APXvYqzTr2/bX3EXeWf67d3P7/nZb8cHsvRYpr2SuwqXkafzaOjxGaOeX1uwtEB5aLbbwo0CGMleoj8ujg1QwFLfFCROBQ==
-X-Received: by 2002:a63:7c0e:: with SMTP id x14mr39534581pgc.65.1562200692086;
- Wed, 03 Jul 2019 17:38:12 -0700 (PDT)
-Date:   Wed,  3 Jul 2019 17:36:07 -0700
+        bh=JaclVjWWg1jR5XC8IB5tgYYWiqh+NZ/mVD/zRwjH/mc=;
+        b=pLKfx1TxEt62/Pq5W9pbhN6zNAamM8IxX54qqfvo/SFlUi9VE6mJ+vL2MskG22sXZx
+         s5guNdg4tntLyMkVKeZn8V9/K8rxOcmcQ2qMGeyfEWxbtO77bEstwDwYmdfrI49DUzK0
+         ng3FC6d9OHH7V2ymUs8PHpXSVucQLtnUulyjAt6Yc1Yjxg8aQgaNcbX4kFUaP5FI/oFe
+         lIpQj7xqeMpOgjPN/F08FU22uHHnjljRchYFzl2U3/D4YZC09usRavZVw9dmH7j5sZIM
+         /D7sNcOyHMPASe5qE1tpktIAcnC92Jm0MeW+yx/7s3r6vx33SinsXmfU/+DqVFCG+rbN
+         EteQ==
+X-Gm-Message-State: APjAAAWUyBndbNUVO+DljGMrbR/bGaj3ejEqqSstEKdKNAqCQbwZxHRn
+        m4MEJrs/dYjJsjefuIZr3+LO2GJPj9tPAYSI3+Tasg==
+X-Google-Smtp-Source: APXvYqxFHeUyEmRc+E266L7AWtRcZYH52FrZdtGZW7LHXmFozQV8TqTzDOPN+gorhXKXxWotVyX8UjhiTb1vVxMxPauz0g==
+X-Received: by 2002:a63:fc52:: with SMTP id r18mr39777830pgk.378.1562200713145;
+ Wed, 03 Jul 2019 17:38:33 -0700 (PDT)
+Date:   Wed,  3 Jul 2019 17:36:11 -0700
 In-Reply-To: <20190704003615.204860-1-brendanhiggins@google.com>
-Message-Id: <20190704003615.204860-11-brendanhiggins@google.com>
+Message-Id: <20190704003615.204860-15-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190704003615.204860-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v6 10/18] kunit: test: add tests for kunit test abort
+Subject: [PATCH v6 14/18] kunit: defconfig: add defconfigs for building KUnit tests
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -76,139 +76,129 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add KUnit tests for the KUnit test abort mechanism (see preceding
-commit). Add tests both for general try catch mechanism as well as
-non-architecture specific mechanism.
+Add defconfig for UML and a fragment that can be used to configure other
+architectures for building KUnit tests. Add option to kunit_tool to use
+a defconfig to create the kunitconfig.
 
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- kunit/Makefile    |   3 +-
- kunit/test-test.c | 101 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+), 1 deletion(-)
- create mode 100644 kunit/test-test.c
+ arch/um/configs/kunit_defconfig              |  8 ++++++++
+ tools/testing/kunit/configs/all_tests.config |  8 ++++++++
+ tools/testing/kunit/kunit.py                 | 18 ++++++++++++++++--
+ tools/testing/kunit/kunit_kernel.py          |  3 ++-
+ 4 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 arch/um/configs/kunit_defconfig
+ create mode 100644 tools/testing/kunit/configs/all_tests.config
 
-diff --git a/kunit/Makefile b/kunit/Makefile
-index 1f7680cfa11ad..533355867abd2 100644
---- a/kunit/Makefile
-+++ b/kunit/Makefile
-@@ -3,6 +3,7 @@ obj-$(CONFIG_KUNIT) +=			test.o \
- 					kunit-stream.o \
- 					try-catch.o
- 
--obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
-+obj-$(CONFIG_KUNIT_TEST) +=		test-test.o \
-+					string-stream-test.o
- 
- obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	example-test.o
-diff --git a/kunit/test-test.c b/kunit/test-test.c
+diff --git a/arch/um/configs/kunit_defconfig b/arch/um/configs/kunit_defconfig
 new file mode 100644
-index 0000000000000..88f4cdf03db2a
+index 0000000000000..bfe49689038f1
 --- /dev/null
-+++ b/kunit/test-test.c
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test for core test infrastructure.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ * Author: Brendan Higgins <brendanhiggins@google.com>
-+ */
-+#include <kunit/test.h>
++++ b/arch/um/configs/kunit_defconfig
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
+diff --git a/tools/testing/kunit/configs/all_tests.config b/tools/testing/kunit/configs/all_tests.config
+new file mode 100644
+index 0000000000000..bfe49689038f1
+--- /dev/null
++++ b/tools/testing/kunit/configs/all_tests.config
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index da11bd62a4b82..3e51dc4febfdc 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -11,6 +11,7 @@ import argparse
+ import sys
+ import os
+ import time
++import shutil
+ 
+ from collections import namedtuple
+ from enum import Enum, auto
+@@ -21,7 +22,7 @@ import kunit_parser
+ 
+ KunitResult = namedtuple('KunitResult', ['status','result'])
+ 
+-KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs', 'build_dir'])
++KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs', 'build_dir', 'defconfig'])
+ 
+ class KunitStatus(Enum):
+ 	SUCCESS = auto()
+@@ -29,8 +30,16 @@ class KunitStatus(Enum):
+ 	BUILD_FAILURE = auto()
+ 	TEST_FAILURE = auto()
+ 
++def create_default_kunitconfig():
++	if not os.path.exists(kunit_kernel.KUNITCONFIG_PATH):
++		shutil.copyfile('arch/um/configs/kunit_defconfig',
++				kunit_kernel.KUNITCONFIG_PATH)
 +
-+struct kunit_try_catch_test_context {
-+	struct kunit_try_catch *try_catch;
-+	bool function_called;
-+};
+ def run_tests(linux: kunit_kernel.LinuxSourceTree,
+ 	      request: KunitRequest) -> KunitResult:
++	if request.defconfig:
++		create_default_kunitconfig()
 +
-+void kunit_test_successful_try(void *data)
-+{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
+ 	config_start = time.time()
+ 	success = linux.build_reconfig(request.build_dir)
+ 	config_end = time.time()
+@@ -99,13 +108,18 @@ def main(argv, linux):
+ 				'directory.',
+ 				type=str, default=None, metavar='build_dir')
+ 
++	run_parser.add_argument('--defconfig',
++				help='Uses a default kunitconfig.',
++				action='store_true')
 +
-+	ctx->function_called = true;
-+}
-+
-+void kunit_test_no_catch(void *data)
-+{
-+	struct kunit *test = data;
-+
-+	KUNIT_FAIL(test, "Catch should not be called\n");
-+}
-+
-+static void kunit_test_try_catch_successful_try_no_catch(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch,
-+			     test,
-+			     kunit_test_successful_try,
-+			     kunit_test_no_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+void kunit_test_unsuccessful_try(void *data)
-+{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_throw(try_catch);
-+	KUNIT_FAIL(test, "This line should never be reached\n");
-+}
-+
-+void kunit_test_catch(void *data)
-+{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+
-+	ctx->function_called = true;
-+}
-+
-+static void kunit_test_try_catch_unsuccessful_try_does_catch(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch,
-+			     test,
-+			     kunit_test_unsuccessful_try,
-+			     kunit_test_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+static int kunit_try_catch_test_init(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	test->priv = ctx;
-+
-+	ctx->try_catch = kunit_kmalloc(test,
-+				       sizeof(*ctx->try_catch),
-+				       GFP_KERNEL);
-+
-+	return 0;
-+}
-+
-+static struct kunit_case kunit_try_catch_test_cases[] = {
-+	KUNIT_CASE(kunit_test_try_catch_successful_try_no_catch),
-+	KUNIT_CASE(kunit_test_try_catch_unsuccessful_try_does_catch),
-+	{}
-+};
-+
-+static struct kunit_suite kunit_try_catch_test_suite = {
-+	.name = "kunit-try-catch-test",
-+	.init = kunit_try_catch_test_init,
-+	.test_cases = kunit_try_catch_test_cases,
-+};
-+kunit_test_suite(kunit_try_catch_test_suite);
+ 	cli_args = parser.parse_args(argv)
+ 
+ 	if cli_args.subcommand == 'run':
+ 		request = KunitRequest(cli_args.raw_output,
+ 				       cli_args.timeout,
+ 				       cli_args.jobs,
+-				       cli_args.build_dir)
++				       cli_args.build_dir,
++				       cli_args.defconfig)
+ 		result = run_tests(linux, request)
+ 		if result.status != KunitStatus.SUCCESS:
+ 			sys.exit(1)
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index 07c0abf2f47df..bf38768353313 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -14,6 +14,7 @@ import os
+ import kunit_config
+ 
+ KCONFIG_PATH = '.config'
++KUNITCONFIG_PATH = 'kunitconfig'
+ 
+ class ConfigError(Exception):
+ 	"""Represents an error trying to configure the Linux kernel."""
+@@ -81,7 +82,7 @@ class LinuxSourceTree(object):
+ 
+ 	def __init__(self):
+ 		self._kconfig = kunit_config.Kconfig()
+-		self._kconfig.read_from_file('kunitconfig')
++		self._kconfig.read_from_file(KUNITCONFIG_PATH)
+ 		self._ops = LinuxSourceTreeOperations()
+ 
+ 	def clean(self):
 -- 
 2.22.0.410.gd8fdbe21b5-goog
 
