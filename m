@@ -1,116 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 894577DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 00:39:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AE627D90C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 05:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727172AbfGDAjM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 20:39:12 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:43795 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727206AbfGDAhr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 20:37:47 -0400
-Received: by mail-pl1-f201.google.com with SMTP id t2so2267066plo.10
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 17:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=XlrqH678HDR84yo41rM73BaaQaGuXs9XZZneq4FOZeY=;
-        b=ffmju7yr7gRfaJbHZ/EKKmVncl8VlWULQaThQY06zll3+6WpQG6lpGZ4OPQmMivptS
-         8hDYradWvLpP2Ynet+Ye7uV0kLczbf6RFD8mFVTANX2yg7wM9YbXidQ/FQZgq07MWegb
-         OGw9om8WRHzmMMnObSBGoIx3ybtRj+V2h+ffEXd5lxF3Nc0UTcEdl8L3/UVHObrq7Hpr
-         pb1JvhsO78qMQnHwg/Ed80IloOa6WYSoqzkmmaIisIDaOlJlxgcTtQcFCed7VfZAR09f
-         b9pzfPkA2sw/PBcf5XMV0Aycvwei2GOmUX9h6Qyralx5M52IFq4n3EvX8Bsm6682vUXZ
-         cuVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=XlrqH678HDR84yo41rM73BaaQaGuXs9XZZneq4FOZeY=;
-        b=ZSZicZoe0GZJthmelb3GnZKxliOa7aRtyXXrMl8Zx0uZ6cRiQL5h2g1OH2ekNYi9Nz
-         c514WiaGjXtKnKrG814Yqg93uv3UoeX4Vq7nCwgrgpX9HNNREkS1rk339RxF7i/otvbQ
-         stAgzWiji79+sVmfsTr0vSg7bLObl80nBS2jd1qgnkdz1LQ9Fo7/3A5Ah5oG4QKb0g8c
-         saq5ozwZrCz7T4JJo4QCWAFsB8zuEktHTqOan0vkWOU3RRxAluNt/UIjMtiunitWfvBb
-         cWNVJHq6l+cO3AAmBNvJROJbz+AIhRydSRvdrLaubQcrg7s3CBWCxNZ9dhJxPRhLf/03
-         CZeQ==
-X-Gm-Message-State: APjAAAUZnpINtCWcIrHoCsrho76+QVApOo3RDbgi8eJnCkXT2yNsZ/0+
-        FARxAaSYuZd8P/DaA0NQF2w6zCuDyFRPjgGuKAiEGw==
-X-Google-Smtp-Source: APXvYqzEyrStQtoN+0MmqxKcoxkpwGwMdPWPCVJ2v+rt7FevA703DgZaVQugKeZ2rVGA0cnHCH+IEhNvyiDaQ8b6b05Cdg==
-X-Received: by 2002:a63:1b07:: with SMTP id b7mr39423299pgb.133.1562200665901;
- Wed, 03 Jul 2019 17:37:45 -0700 (PDT)
-Date:   Wed,  3 Jul 2019 17:36:03 -0700
-In-Reply-To: <20190704003615.204860-1-brendanhiggins@google.com>
-Message-Id: <20190704003615.204860-7-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190704003615.204860-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v6 06/18] kbuild: enable building KUnit
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727115AbfGDFhX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Jul 2019 01:37:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44938 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725874AbfGDFhX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jul 2019 01:37:23 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C196221882;
+        Thu,  4 Jul 2019 05:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562218642;
+        bh=68YBiqzzC9CxoG3EOXFEd7zfUoObV13BramhGxgq4EA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KMCLjHRhbTr+XLlY5Wmx9Lfvnuxxo2fOYj1MUcm2r+lbfZEBYUGoc8D7hV2gjFCjR
+         Upxzl0lEyjc+ubA3jy+1ooLnD8/nKhGZFByYMCPots1lDAtH1OV1VGMskMg5M/jM/r
+         41POixgfrC3Qmjej+NNYh4ArLvHGTNNfXjjzTyFc=
+Date:   Thu, 4 Jul 2019 07:37:19 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>
+Subject: Re: [PATCH 05/15] Documentation: fpga: dfl: add descriptions for
+ virtualization and new interfaces.
+Message-ID: <20190704053719.GA347@kroah.com>
+References: <20190628004951.6202-1-mdf@kernel.org>
+ <20190628004951.6202-6-mdf@kernel.org>
+ <20190703175926.GA14649@kroah.com>
+ <20190703233822.GB15825@hao-dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190703233822.GB15825@hao-dev>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KUnit is a new unit testing framework for the kernel and when used is
-built into the kernel as a part of it. Add KUnit to the root Kconfig and
-Makefile to allow it to be actually built.
+On Thu, Jul 04, 2019 at 07:38:22AM +0800, Wu Hao wrote:
+> On Wed, Jul 03, 2019 at 07:59:26PM +0200, Greg KH wrote:
+> > On Thu, Jun 27, 2019 at 05:49:41PM -0700, Moritz Fischer wrote:
+> > > From: Wu Hao <hao.wu@intel.com>
+> > > 
+> > > This patch adds virtualization support description for DFL based
+> > > FPGA devices (based on PCIe SRIOV), and introductions to new
+> > > interfaces added by new dfl private feature drivers.
+> > > 
+> > > [mdf@kernel.org: Fixed up to make it work with new reStructuredText docs]
+> > > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> > > Signed-off-by: Wu Hao <hao.wu@intel.com>
+> > > Acked-by: Alan Tull <atull@kernel.org>
+> > > Signed-off-by: Moritz Fischer <mdf@kernel.org>
+> > > ---
+> > >  Documentation/fpga/dfl.rst | 100 +++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 100 insertions(+)
+> > 
+> > This doesn't apply to my tree, where is this file created?
+> 
+> Hi Greg,
+> 
+> >From the cover-letter, Moritz mentioned, dfl.txt has been converted to .rst
+> in linux-next. I think this patch is created on top of that by Moritz.
+> 
+> "Note: I've seen that Mauro touched Documentation/fpga/dfl.rst in linux-next
+> commit c220a1fae6c5d ("docs: fpga: convert docs to ReST and rename to *.rst")"
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
----
- Kconfig  | 2 ++
- Makefile | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/Kconfig b/Kconfig
-index 48a80beab6853..10428501edb78 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -30,3 +30,5 @@ source "crypto/Kconfig"
- source "lib/Kconfig"
- 
- source "lib/Kconfig.debug"
-+
-+source "kunit/Kconfig"
-diff --git a/Makefile b/Makefile
-index fabc127d127f9..44e0d730dd5b6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -991,7 +991,7 @@ endif
- PHONY += prepare0
- 
- ifeq ($(KBUILD_EXTMOD),)
--core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
-+core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ kunit/
- 
- vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
- 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
--- 
-2.22.0.410.gd8fdbe21b5-goog
-
+Ok, but I can't take this patch just because the file is converted in
+someone else's tree :(
