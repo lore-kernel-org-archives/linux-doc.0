@@ -1,113 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50B707D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 00:00:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CB7577D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Jul 2019 00:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727428AbfGDAAq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Jul 2019 20:00:46 -0400
-Received: from mga05.intel.com ([192.55.52.43]:17869 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727100AbfGDAAq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Jul 2019 20:00:46 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2019 17:00:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,449,1557212400"; 
-   d="scan'208";a="363198396"
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Jul 2019 17:00:44 -0700
-Date:   Thu, 4 Jul 2019 07:44:02 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ananda Ravuri <ananda.ravuri@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>, Alan Tull <atull@kernel.org>
-Subject: Re: [PATCH 04/15] fpga: dfl: fme: support 512bit data width PR
-Message-ID: <20190703234402.GC15825@hao-dev>
-References: <20190628004951.6202-1-mdf@kernel.org>
- <20190628004951.6202-5-mdf@kernel.org>
- <20190703175601.GA14034@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190703175601.GA14034@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        id S1727477AbfGDAhD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Jul 2019 20:37:03 -0400
+Received: from mail-vk1-f202.google.com ([209.85.221.202]:42978 "EHLO
+        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727462AbfGDAhD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jul 2019 20:37:03 -0400
+Received: by mail-vk1-f202.google.com with SMTP id y198so450750vky.9
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2019 17:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+        b=P/9Q0U57X0Mjr2pSdVR3fq5Q9Stk+yaqd+YUm9sq0ou6AVsZSt/1N/33ozuhbgY2vA
+         l95M1OTPG7AMpCdkXNxZwoF74wXCpWnPckCjmlCUOfpVWb6OUe1dqoKeBMLQ2rRoWAC+
+         fNHaGobDGBWH78hBlHjYyz8R5pV2r1lKhN6q853RMfM6pw8GA8VVYjvcvo3uf8gDuuir
+         ENB2mZWRXg62IrhKkC86LfkNF4vHPkE6nmhUv9Xome467fLx+E9J0pgZrqEdzyy++0mz
+         884zs7eBSkOyiHbrPJJuzc+Z2DaP9Fz7PcxSltbsQgqsrKy/bR2ai8bDNYsLrfqN7e+f
+         Qiwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+        b=LmIFQDOpT53XhBpdkEgzRk/+DO3WtaiLttvV66jHh7tbNwrUpFfimluoNECrK+gaLR
+         RkZyxClbsljrSv73+klEfKQvC9sZooaOtcCi38/DfmE3y5VVGz3m4Jr+s91RYrqhTtxN
+         WBtNSIrfb3gQRUWC4Hb2IQGbuOUgk8vI6JrQF3bUMvjQUdP/rfK33AIAYDTtQ6Qo15nj
+         HdIwXoaMj4ZG0EYbIe0+96r9lCj71pV90IPmPYAAr/uo3gKSDphOCLOQNpOSp48gqiG9
+         qVfSKxOYqf3EyE/30w80uo26Yik52+tgzCEq/9wkm8VMZ0c4InpeoGfwSMmuSe36NGfn
+         3HBw==
+X-Gm-Message-State: APjAAAVtKYiXq5xG4DkuN30gJEvweWdbqwPlDbMvGm8OpkI95mhrRUwg
+        aA341rUNoecEmzUKGALGnh5bn3kG6PoMG42hPkBPTA==
+X-Google-Smtp-Source: APXvYqxifi+9P2uuB2xECPxDjII80enpIo8mSlNTAxiC8KmAvRxtyVWjtDGXaCnqTdPCo5Xn7dOc4Z0daGhonP28ve9Qzg==
+X-Received: by 2002:a1f:5945:: with SMTP id n66mr6468396vkb.58.1562200621022;
+ Wed, 03 Jul 2019 17:37:01 -0700 (PDT)
+Date:   Wed,  3 Jul 2019 17:35:57 -0700
+Message-Id: <20190704003615.204860-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v6 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 03, 2019 at 07:56:01PM +0200, Greg KH wrote:
-> On Thu, Jun 27, 2019 at 05:49:40PM -0700, Moritz Fischer wrote:
-> > From: Wu Hao <hao.wu@intel.com>
-> > 
-> > In early partial reconfiguration private feature, it only
-> > supports 32bit data width when writing data to hardware for
-> > PR. 512bit data width PR support is an important optimization
-> > for some specific solutions (e.g. XEON with FPGA integrated),
-> > it allows driver to use AVX512 instruction to improve the
-> > performance of partial reconfiguration. e.g. programming one
-> > 100MB bitstream image via this 512bit data width PR hardware
-> > only takes ~300ms, but 32bit revision requires ~3s per test
-> > result.
-> > 
-> > Please note now this optimization is only done on revision 2
-> > of this PR private feature which is only used in integrated
-> > solution that AVX512 is always supported. This revision 2
-> > hardware doesn't support 32bit PR.
-> > 
-> > Signed-off-by: Ananda Ravuri <ananda.ravuri@intel.com>
-> > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-> > Signed-off-by: Wu Hao <hao.wu@intel.com>
-> > Acked-by: Alan Tull <atull@kernel.org>
-> > Signed-off-by: Moritz Fischer <mdf@kernel.org>
-> > ---
-> >  drivers/fpga/dfl-fme-main.c |   3 +
-> >  drivers/fpga/dfl-fme-mgr.c  | 113 +++++++++++++++++++++++++++++++-----
-> >  drivers/fpga/dfl-fme-pr.c   |  43 +++++++++-----
-> >  drivers/fpga/dfl-fme.h      |   2 +
-> >  drivers/fpga/dfl.h          |   5 ++
-> >  5 files changed, 135 insertions(+), 31 deletions(-)
-> > 
-> > diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
-> > index 086ad2420ade..076d74f6416d 100644
-> > --- a/drivers/fpga/dfl-fme-main.c
-> > +++ b/drivers/fpga/dfl-fme-main.c
-> > @@ -21,6 +21,8 @@
-> >  #include "dfl.h"
-> >  #include "dfl-fme.h"
-> >  
-> > +#define DRV_VERSION	"0.8"
-> > +
-> >  static ssize_t ports_num_show(struct device *dev,
-> >  			      struct device_attribute *attr, char *buf)
-> >  {
-> > @@ -277,3 +279,4 @@ MODULE_DESCRIPTION("FPGA Management Engine driver");
-> >  MODULE_AUTHOR("Intel Corporation");
-> >  MODULE_LICENSE("GPL v2");
-> >  MODULE_ALIAS("platform:dfl-fme");
-> > +MODULE_VERSION(DRV_VERSION);
-> 
-> No, we ripped out these useless "driver version" things all over the
-> place, please do not add them back in again.  They mean nothing and
-> confuse people to no end.
-> 
-> I'll not take this patch, sorry.
+## TL;DR
 
-Let me remove them from these patches, and generate a new version quickly.
+This is a pretty straightforward follow-up to Stephen and Luis' comments
+on PATCH v5: There is nothing that really changes any functionality or
+usage with the minor exception that I renamed `struct kunit_module` to
+`struct kunit_suite`. Nevertheless, a good deal of clean ups and fixes.
+See "Changes Since Last Version" section below.
 
-Thanks for the review and comments.
+As for our current status, right now we got Reviewed-bys on all patches
+except:
 
-Hao
+- [PATCH v6 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
 
-> 
-> greg k-h
+However, it would probably be good to get reviews/acks from the
+subsystem maintainers on:
+
+- [PATCH v6 06/18] kbuild: enable building KUnit
+- [PATCH v6 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
+- [PATCH v6 15/18] Documentation: kunit: add documentation for KUnit
+- [PATCH v6 17/18] kernel/sysctl-test: Add null pointer test for
+  sysctl.c:proc_dointvec()
+
+Other than that, I think we should be good to go.
+
+## Background
+
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2-rc7/v6 branch.
+
+## Changes Since Last Version
+
+Aside from renaming `struct kunit_module` to `struct kunit_suite`, there
+isn't really anything in here that changes any functionality:
+
+- Rebased on v5.2-rc7
+- Got rid of spinlocks.
+  - Now update success field using WRITE_ONCE. - Suggested by Stephen
+  - Other instances replaced by mutex. - Suggested by Stephen and Luis
+- Renamed `struct kunit_module` to `struct kunit_suite`. - Inspired by
+  Luis.
+- Fixed a broken example of how to use kunit_tool. - Pointed out by Ted
+- Added descriptions to unit tests. - Suggested by Luis
+- Labeled unit tests which tested the API. - Suggested by Luis
+- Made a number of minor cleanups. - Suggested by Luis and Stephen.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2-rc7/v6
+
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
