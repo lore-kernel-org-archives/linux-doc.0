@@ -1,83 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50DBA7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 14:30:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7BFB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 18:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725813AbfGEOaz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 10:30:55 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:35714 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725763AbfGEOay (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 10:30:54 -0400
-Received: from [109.168.11.45] (port=37718 helo=pc-ceresoli.dev.aim)
-        by hostingweb31.netsons.net with esmtpa (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1hjPEh-0008XB-NR; Fri, 05 Jul 2019 16:30:51 +0200
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-To:     linux-gpio@vger.kernel.org
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/pinctrl: fix compile errors in example code
-Date:   Fri,  5 Jul 2019 16:30:43 +0200
-Message-Id: <20190705143043.1929-1-luca@lucaceresoli.net>
-X-Mailer: git-send-email 2.22.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+        id S1727439AbfGESzl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 14:55:41 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:42129 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727341AbfGESzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 14:55:41 -0400
+Received: by mail-pl1-f194.google.com with SMTP id ay6so4965344plb.9;
+        Fri, 05 Jul 2019 11:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=SEw+f+WvSmW4ZE4Ix9oVBZdz8BUyqrL3rZLhlP8kF3w=;
+        b=Hwq3MtMgrXzlCba1rAUyQnQPYMyf9O41lrJvgv0jf/QiHGgc7QVvrGQgMYq6V2ETEU
+         eWa+2HdTM1R/TPYWU6esr2gkb4eBXAVNTBau36JnnfZ1kbg9n5koLiH/Up4Gk0mr9EGP
+         7x6jtG0m2kqJDjHo0Eo2CCxd8I4foehy8Nrp8eqQDLeugbKVDhP63nj0EwM7EyC/kFpI
+         kZ2HkMmyZmP0Paqz/NzG5GQVXAzzTazVFnDLbseqzDBOG9HpyZG1WwqUILiWgeV99BdD
+         t/5fFA+d8UOYxlCuoh32QeYJiUUlIUR5+uysabpmQtyTpsy/MhjonO3FQeiYqeP40jy6
+         O3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SEw+f+WvSmW4ZE4Ix9oVBZdz8BUyqrL3rZLhlP8kF3w=;
+        b=HVlR49qwS3QS9PQuAYl2dAdEeub+Y5eNIjfSHjn52reH381sXGUi6XP4BJJcZMHbGT
+         sXZfcj9KZsDhx9G73bmHyCoPxn12OeOHnbHUi3oHDa5R4X/bc/U9nTcXdvYjzuzTepf4
+         QhmA/YvQiYvB64iiTyfkr6MAzR1oGQlrI9G+/p3egwmlNsB75EFgk1luf3nWMp4ubAyv
+         cg9oUirxefNy1fIoeO1dZOc3hdO9+Y7DTCzO/vASNlsjNSCXGKFRDpFTBSdyY4NBVtFF
+         RPcAirz6tUOWHOJyE86iep6/RRh21uOeehUB2N7RSai4nC1OVMKSE13PttdYAu4VNneP
+         nQxw==
+X-Gm-Message-State: APjAAAVKNcIrGnnZ/ubm7TjTp3rtihoNGt6qRtAZUpL8Ch+HzhCA3k/l
+        R5pLYOiC9AJdMwgoAEJ//uc=
+X-Google-Smtp-Source: APXvYqzG0MQIdevaUAq4AnUl9vDE9sY2FiUD//CskItSu3ZLMv6JHfS/Un4WlwTwGx1YysOT3Su+GQ==
+X-Received: by 2002:a17:902:b28b:: with SMTP id u11mr7042427plr.11.1562352940444;
+        Fri, 05 Jul 2019 11:55:40 -0700 (PDT)
+Received: from debian.net.fpt ([2405:4800:58f7:1cb1:98e0:87d3:2c8b:b6ed])
+        by smtp.gmail.com with ESMTPSA id j24sm13447599pgg.86.2019.07.05.11.55.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Jul 2019 11:55:39 -0700 (PDT)
+From:   Phong Tran <tranmanphong@gmail.com>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org,
+        skhan@linuxfoundation.org, mchehab@kernel.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Phong Tran <tranmanphong@gmail.com>
+Subject: [PATCH] Documentation: usb: convert usb-help to rst
+Date:   Sat,  6 Jul 2019 01:55:19 +0700
+Message-Id: <20190705185519.31033-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The code in the example does not build for a few trivial errors: type
-mismatch in callback, missing semicolon. Fix them to help newcomers using
-the example as a starting point.
+Add new index.rst and change usb-help.txt format
+to rst.
 
-Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 ---
- Documentation/driver-api/pinctl.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/index.rst                          |  1 +
+ Documentation/usb/index.rst                      | 22 ++++++++++++++++++++++
+ Documentation/usb/{usb-help.txt => usb-help.rst} |  1 -
+ 3 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/usb/index.rst
+ rename Documentation/usb/{usb-help.txt => usb-help.rst} (97%)
 
-diff --git a/Documentation/driver-api/pinctl.rst b/Documentation/driver-api/pinctl.rst
-index 2bb1bc484278..3d2deaf48841 100644
---- a/Documentation/driver-api/pinctl.rst
-+++ b/Documentation/driver-api/pinctl.rst
-@@ -638,8 +638,8 @@ group of pins would work something like this::
- 	}
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index a7566ef62411..4e7498f39063 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -102,6 +102,7 @@ needed).
+    vm/index
+    bpf/index
+    misc-devices/index
++   usb/index
  
- 	static int foo_get_group_pins(struct pinctrl_dev *pctldev, unsigned selector,
--				unsigned ** const pins,
--				unsigned * const num_pins)
-+				const unsigned ** pins,
-+				unsigned * num_pins)
- 	{
- 		*pins = (unsigned *) foo_groups[selector].pins;
- 		*num_pins = foo_groups[selector].num_pins;
-@@ -705,7 +705,7 @@ group of pins would work something like this::
- 	{
- 		u8 regbit = (1 << selector + group);
- 
--		writeb((readb(MUX)|regbit), MUX)
-+		writeb((readb(MUX)|regbit), MUX);
- 		return 0;
- 	}
+ Architecture-specific documentation
+ -----------------------------------
+diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
+new file mode 100644
+index 000000000000..5688ceaf0826
+--- /dev/null
++++ b/Documentation/usb/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Linux USB Subsystem Documentation
++===================================
++
++.. only:: html
++
++   .. class:: toc-title
++
++        Table of Contents
++
++.. toctree::
++   :maxdepth: 2
++
++   usb-help
++
++.. only:: html and subproject
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/usb/usb-help.txt b/Documentation/usb/usb-help.rst
+similarity index 97%
+rename from Documentation/usb/usb-help.txt
+rename to Documentation/usb/usb-help.rst
+index dc23ecd4d802..03abc4e501ae 100644
+--- a/Documentation/usb/usb-help.txt
++++ b/Documentation/usb/usb-help.rst
+@@ -1,4 +1,3 @@
+-==============
+ USB references
+ ==============
  
 -- 
-2.22.0
+2.11.0
 
