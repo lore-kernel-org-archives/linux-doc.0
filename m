@@ -1,89 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30FF67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 19:03:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87DE47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 19:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbfGETDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 15:03:01 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35049 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbfGETDB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 15:03:01 -0400
-Received: by mail-pg1-f196.google.com with SMTP id s27so4680361pgl.2
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jul 2019 12:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rajagiritech-edu-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HgF4Rnpb4hESMxcWU/Va0fg6VtYy9OWldEpeHvAq+44=;
-        b=aTqspW27RUz5y0/8r+A3dLV6CLyEVAHErrvepQ6P3rYaqMuU3kpCt9BAno0xzgAffj
-         7PNtB8y38k4yqhx21nHrIp85GPQC/0V2GSRtgn4PftrQd5BWHOEqm0qvnJVdFd/hpbbH
-         HjWOvzQQ7mJ6zBN7Z3kSgCB+gA+/kagS1x+bjQsy0Md+UvsjZmj0B88lc4HZu72Tzt5y
-         TvhW+jPjOKsUb+TpEuY/3tzxCKc1CtNsXSa6yu3y1fNzta5NdUUr70JMc/TN5aDPMpqz
-         9fd/AkEY0x/3As7sH7Sph8MvWN5rNGybq1ri7YPYVAbwR9lK1hSGpoZ/6IFD2qqHb9Gd
-         7eDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HgF4Rnpb4hESMxcWU/Va0fg6VtYy9OWldEpeHvAq+44=;
-        b=hxFnjYCulRHwVkv4Tl4GKztDo5KDkFnABaGYY09cAElFYl683X0R9JeB5cata8jYZ8
-         bnbdiVq5XnnDCLqcb1LEoY4reN2gFKu9ATppwiiUJymWC+zlShSgiC0N0FV6g7ly7gy3
-         Le8gEpRA96OMI/DGw+i3cDfvk+9X7NKKpR2V9xhWToING2AyyWkiSyRfMQas1l6gf44W
-         pPhUwgqYstbyaZs38lxddBg5/G5SrTg4QuPrAdL6ypTjMIwxiD45Cbo0YXTdvCoXhimc
-         +sD+2zFTY9y2amQdqu/PvZ91p97DeQIERySmDhlmuj4CVewoKkXDb7MoFljv4tpuXP5Z
-         ojmQ==
-X-Gm-Message-State: APjAAAXvlOb/Drf06cr5Wb7Fg+3yC7/pFpgP8E5JI1MRnrubIrYvrxjc
-        0mc/w5aTk8P3Ml32yELkEo7x6w==
-X-Google-Smtp-Source: APXvYqxc4byaNPJ+Ted7/VEOfpKzL31z/JBXPmc2kuVYxpBcSE5PFzLheQd3GQUF2/paiao/FQJZAQ==
-X-Received: by 2002:a65:42c6:: with SMTP id l6mr7463567pgp.442.1562353380848;
-        Fri, 05 Jul 2019 12:03:00 -0700 (PDT)
-Received: from localhost.localdomain ([122.164.127.106])
-        by smtp.gmail.com with ESMTPSA id h26sm18165857pfq.64.2019.07.05.12.02.58
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 05 Jul 2019 12:03:00 -0700 (PDT)
-From:   Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
-To:     oberpar@linux.ibm.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
-Subject: [PATCH] Documentation: dev-tools: Fixed an outdated directory path in gcov.rst
-Date:   Sat,  6 Jul 2019 00:32:39 +0530
-Message-Id: <20190705190239.8173-1-jeffrin@rajagiritech.edu.in>
-X-Mailer: git-send-email 2.20.1
+        id S1726039AbfGETEO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 15:04:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35848 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725778AbfGETEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 15:04:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=aqxHOYdtlBcr42nxe8TaU35611wJBdvw3AquNf/xCyo=; b=HZ/Udi2zZimfKGgXmuHLPRHLk
+        6T4+IMcvrGP4TqwCMcFYISUs2epX0YiGWP2dIOyP30yC7Y0YwtI8u3Ev7o5bZC0R4FjhzjJU5r/SH
+        zdci4VmeOZ3HDvrmJwpOnlMiy2VUCTxifvpf55Q6s2F2xyPwxNgwayMxd0c/SAlvyjVZ9SRxxpnP5
+        b7UuwghJT88faewH7HrBeHgxQX/Uqyz+/7jjxqCKHFYA8SLgR+ugQWOQegfO0v68Ey0m5zPQaEebH
+        QV576hmLIkSRiWpFx2/KJdvEddquNc6WSeIH+RHKwk62OOvBJbfv1ttGjtGneYlRjcQium8EaMaDq
+        OARoDRKGA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hjTVE-0007fc-DW; Fri, 05 Jul 2019 19:04:12 +0000
+Date:   Fri, 5 Jul 2019 12:04:12 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Sheriff Esseson <sheriffesseson@gmail.com>
+Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
+        linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] Doc : fs : move xfs.txt to
+ admin-guide
+Message-ID: <20190705190412.GB32320@bombadil.infradead.org>
+References: <20190705131446.GA10045@localhost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190705131446.GA10045@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixed an outdated directory path inside gcov related documentation
-which is part of an example that shows the way in which the gcov
-command should be used in that context
+On Fri, Jul 05, 2019 at 02:14:46PM +0100, Sheriff Esseson wrote:
+> As suggested by Matthew Wilcox, xfs.txt is primarily a guide on available
+> options when setting up an XFS. This makes it appropriate to be placed under
+> the admin-guide tree.
+> 
+> Thus, move xfs.txt to admin-guide and fix broken references.
 
-Signed-off-by: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
----
- Documentation/dev-tools/gcov.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index 46aae52a41d0..e3d262d8c7de 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -8,7 +8,7 @@ To get coverage data for a specific file, change to the kernel build
- directory and use gcov with the ``-o`` option as follows (requires root)::
- 
-     # cd /tmp/linux-out
--    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
-+    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel/locking spinlock.c
- 
- This will create source code files annotated with execution counts
- in the current directory. In addition, graphical gcov front-ends such
--- 
-2.20.1
+What happened to the conversion to xfs.rst?
 
