@@ -1,176 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 40E317D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 13:00:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 73C377D90C
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 13:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728932AbfGENAP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 09:00:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9932 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728661AbfGENAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 09:00:14 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x65CvKJt016530
-        for <linux-doc@vger.kernel.org>; Fri, 5 Jul 2019 09:00:13 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2tj5bhca1q-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jul 2019 09:00:12 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <prudo@linux.ibm.com>;
-        Fri, 5 Jul 2019 14:00:10 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 5 Jul 2019 14:00:03 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x65D025O43581636
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 5 Jul 2019 13:00:02 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 29A68A4040;
-        Fri,  5 Jul 2019 13:00:02 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 99C9DA404D;
-        Fri,  5 Jul 2019 13:00:01 +0000 (GMT)
-Received: from laptop-ibm (unknown [9.152.212.201])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  5 Jul 2019 13:00:01 +0000 (GMT)
-Date:   Fri, 5 Jul 2019 15:00:00 +0200
-From:   Philipp Rudo <prudo@linux.ibm.com>
-To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Cc:     Jessica Yu <jeyu@kernel.org>, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        id S1728047AbfGENO6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 09:14:58 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54004 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727609AbfGENO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 09:14:57 -0400
+Received: by mail-wm1-f68.google.com with SMTP id x15so8831816wmj.3;
+        Fri, 05 Jul 2019 06:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=uKHlyYqeBe/wr2Z6y/4QEC6iNmM7p3qNFfwocSVjlzw=;
+        b=TI2oXeHxE6ls97h79boFzA2LWTSYa38A/hKErXCD0RLcVlfTSwZUXZpqLpZcApd2va
+         9wQWnJEZOvkVY2u7M3dDSohts9W7HNNTdJfAbADUeTdPcxZNAI826D49rHcsQY2j1Jz3
+         BN9rz/diTDaogPeH6qSE68liL+Hpttkraz7WjJOdVRtvD8KkL+cbQ/H4I67BTznrUMIa
+         vHJdg6ht7ZtC0+aRbe9MOkpk1rvWzuMO9BwuP3etul8ldPyGakaI63NnHng3OhMHwo2Z
+         2L64Ekv8+A8eHTjNRa7WIV8wJEt6XQ8iKu+Yq0cS3aPB7XvsYNssHYbbpPCN1pZqdRal
+         BRwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=uKHlyYqeBe/wr2Z6y/4QEC6iNmM7p3qNFfwocSVjlzw=;
+        b=itLXyXvNDqIHnkTsGFROQcE5/unMwmoWGd+ALpm+YeeRoaOmkjocF0XjjXgLcjFzMC
+         HjjrKdEmPnF2b3fAxqkD8FA0k1JZN2qHbPhouNv3sIduLt3jiOSzmWkBknWBM/WkedSA
+         NeGTrYV67K48+RVmygYne7Uy6ELcjhyx3U6JOP+xLcoLqqlmIVQkaZ2iqrj6FAmz+M1N
+         mXITYFyUVDfxfWnTi+LzKIcmb121YnfsNC7Y1ANPVihE2y/rsX7ix8Yq3VL4FQP4fdDw
+         finPKu51sMQ2UipMwQuHtdFEn8P8TZhLZcYEMpGkO63xfG6g2xkOFccVrKWInOx4rSvs
+         +CMQ==
+X-Gm-Message-State: APjAAAX4fhhChGkoMWCvt0BvF/rCuXThfp6+TFeKeGAI3Rv+dgypp9gP
+        hyejb1kDiOhteRtuwlRB85w=
+X-Google-Smtp-Source: APXvYqz6Wsj+WSkcyjldVf7IO4jtX/1Mh29toF52fpe+NyS5xVO1cls2rUCVEZ49MgE+mZ0HkKrxzw==
+X-Received: by 2002:a1c:9a53:: with SMTP id c80mr3372835wme.173.1562332495330;
+        Fri, 05 Jul 2019 06:14:55 -0700 (PDT)
+Received: from localhost ([41.220.75.172])
+        by smtp.gmail.com with ESMTPSA id l13sm3335034wrt.16.2019.07.05.06.14.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 05 Jul 2019 06:14:53 -0700 (PDT)
+Date:   Fri, 5 Jul 2019 14:14:46 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     darrick.wong@oracle.com, linux-xfs@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        "James Morris" <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        "David Howells" <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI\, Takahiro" <takahiro.akashi@linaro.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        linux-s390@vger.kernel.org
-Subject: Re: [PATCH v12 01/11] MODSIGN: Export module signature definitions
-In-Reply-To: <874l41ocf5.fsf@morokweng.localdomain>
-References: <20190628021934.4260-1-bauerman@linux.ibm.com>
-        <20190628021934.4260-2-bauerman@linux.ibm.com>
-        <20190701144752.GC25484@linux-8ccs>
-        <87lfxel2q6.fsf@morokweng.localdomain>
-        <20190704125427.31146026@laptop-ibm>
-        <874l41ocf5.fsf@morokweng.localdomain>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] Doc : fs : move xfs.txt to admin-guide
+Message-ID: <20190705131446.GA10045@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19070513-0028-0000-0000-000003812FA9
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070513-0029-0000-0000-0000244131CF
-Message-Id: <20190705150000.372345b0@laptop-ibm>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-05_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907050156
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thiago,
+As suggested by Matthew Wilcox, xfs.txt is primarily a guide on available
+options when setting up an XFS. This makes it appropriate to be placed under
+the admin-guide tree.
 
-On Thu, 04 Jul 2019 15:57:34 -0300
-Thiago Jung Bauermann <bauerman@linux.ibm.com> wrote:
+Thus, move xfs.txt to admin-guide and fix broken references.
 
-> Hello Philipp,
-> 
-> Philipp Rudo <prudo@linux.ibm.com> writes:
-> 
-> > Hi Thiago,
-> >
-> >
-> > On Thu, 04 Jul 2019 03:42:57 -0300
-> > Thiago Jung Bauermann <bauerman@linux.ibm.com> wrote:
-> >  
-> >> Jessica Yu <jeyu@kernel.org> writes:
-> >>   
-> >> > +++ Thiago Jung Bauermann [27/06/19 23:19 -0300]:    
-> >> >>IMA will use the module_signature format for append signatures, so export
-> >> >>the relevant definitions and factor out the code which verifies that the
-> >> >>appended signature trailer is valid.
-> >> >>
-> >> >>Also, create a CONFIG_MODULE_SIG_FORMAT option so that IMA can select it
-> >> >>and be able to use mod_check_sig() without having to depend on either
-> >> >>CONFIG_MODULE_SIG or CONFIG_MODULES.
-> >> >>
-> >> >>Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-> >> >>Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-> >> >>Cc: Jessica Yu <jeyu@kernel.org>
-> >> >>---
-> >> >> include/linux/module.h           |  3 --
-> >> >> include/linux/module_signature.h | 44 +++++++++++++++++++++++++
-> >> >> init/Kconfig                     |  6 +++-
-> >> >> kernel/Makefile                  |  1 +
-> >> >> kernel/module.c                  |  1 +
-> >> >> kernel/module_signature.c        | 46 ++++++++++++++++++++++++++
-> >> >> kernel/module_signing.c          | 56 +++++---------------------------
-> >> >> scripts/Makefile                 |  2 +-
-> >> >> 8 files changed, 106 insertions(+), 53 deletions(-)
-> >> >>
-> >> >>diff --git a/include/linux/module.h b/include/linux/module.h
-> >> >>index 188998d3dca9..aa56f531cf1e 100644
-> >> >>--- a/include/linux/module.h
-> >> >>+++ b/include/linux/module.h
-> >> >>@@ -25,9 +25,6 @@
-> >> >> #include <linux/percpu.h>
-> >> >> #include <asm/module.h>
-> >> >>
-> >> >>-/* In stripped ARM and x86-64 modules, ~ is surprisingly rare. */
-> >> >>-#define MODULE_SIG_STRING "~Module signature appended~\n"
-> >> >>-    
-> >> >
-> >> > Hi Thiago, apologies for the delay.    
-> >> 
-> >> Hello Jessica, thanks for reviewing the patch!
-> >>   
-> >> > It looks like arch/s390/kernel/machine_kexec_file.c also relies on
-> >> > MODULE_SIG_STRING being defined, so module_signature.h will need to be
-> >> > included there too, otherwise we'll run into a compilation error.    
-> >> 
-> >> Indeed. Thanks for spotting that. The patch below fixes it. It's
-> >> identical to the previous version except for the changes in 
-> >> arch/s390/kernel/machine_kexec_file.c and their description in the
-> >> commit message. I'm also copying some s390 people in this email.  
-> >
-> > to me the s390 part looks good but for one minor nit.  
-> 
-> Thanks for the prompt review!
-> 
-> > In arch/s390/Kconfig KEXEC_VERIFY_SIG currently depends on
-> > SYSTEM_DATA_VERIFICATION. I'd prefer when you update this to the new
-> > MODULE_SIG_FORMAT. It shouldn't make any difference right now, as we don't
-> > use mod_check_sig in our code path. But it could cause problems in the future,
-> > when more code might be shared.  
-> 
-> Makes sense. Here is the updated patch with the Kconfig change.
-> 
+Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+---
 
-The patch looks good now.
+The reference to xfs.txt from dax.txt in itself is not looking good. Maybe, we
+need something more inspirational.
 
-Thanks a lot
-PHilipp
+ Documentation/{filesystems => admin-guide}/xfs.txt | 0
+ Documentation/filesystems/dax.txt                  | 2 +-
+ MAINTAINERS                                        | 2 +-
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/{filesystems => admin-guide}/xfs.txt (100%)
+
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.txt
+similarity index 100%
+rename from Documentation/filesystems/xfs.txt
+rename to Documentation/admin-guide/xfs.txt
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+index 6d2c0d340..b2b19738b 100644
+--- a/Documentation/filesystems/dax.txt
++++ b/Documentation/filesystems/dax.txt
+@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
+ These filesystems may be used for inspiration:
+ - ext2: see Documentation/filesystems/ext2.txt
+ - ext4: see Documentation/filesystems/ext4/
+-- xfs:  see Documentation/filesystems/xfs.txt
++- xfs:  see Documentation/admin-guide/xfs.txt
+
+
+ Handling Media Errors
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 01a52fc96..fc309b0a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17374,7 +17374,7 @@ L:	linux-xfs@vger.kernel.org
+ W:	http://xfs.org/
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+ S:	Supported
+-F:	Documentation/filesystems/xfs.txt
++F:	Documentation/admin-guide/xfs.txt
+ F:	fs/xfs/
+
+ XILINX AXI ETHERNET DRIVER
+--
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+2.22.0
 
