@@ -2,129 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C7BFB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 18:55:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30FF67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 19:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbfGESzl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 14:55:41 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:42129 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727341AbfGESzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 14:55:41 -0400
-Received: by mail-pl1-f194.google.com with SMTP id ay6so4965344plb.9;
-        Fri, 05 Jul 2019 11:55:40 -0700 (PDT)
+        id S1726039AbfGETDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 15:03:01 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35049 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725813AbfGETDB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 15:03:01 -0400
+Received: by mail-pg1-f196.google.com with SMTP id s27so4680361pgl.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jul 2019 12:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=SEw+f+WvSmW4ZE4Ix9oVBZdz8BUyqrL3rZLhlP8kF3w=;
-        b=Hwq3MtMgrXzlCba1rAUyQnQPYMyf9O41lrJvgv0jf/QiHGgc7QVvrGQgMYq6V2ETEU
-         eWa+2HdTM1R/TPYWU6esr2gkb4eBXAVNTBau36JnnfZ1kbg9n5koLiH/Up4Gk0mr9EGP
-         7x6jtG0m2kqJDjHo0Eo2CCxd8I4foehy8Nrp8eqQDLeugbKVDhP63nj0EwM7EyC/kFpI
-         kZ2HkMmyZmP0Paqz/NzG5GQVXAzzTazVFnDLbseqzDBOG9HpyZG1WwqUILiWgeV99BdD
-         t/5fFA+d8UOYxlCuoh32QeYJiUUlIUR5+uysabpmQtyTpsy/MhjonO3FQeiYqeP40jy6
-         O3rA==
+        d=rajagiritech-edu-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HgF4Rnpb4hESMxcWU/Va0fg6VtYy9OWldEpeHvAq+44=;
+        b=aTqspW27RUz5y0/8r+A3dLV6CLyEVAHErrvepQ6P3rYaqMuU3kpCt9BAno0xzgAffj
+         7PNtB8y38k4yqhx21nHrIp85GPQC/0V2GSRtgn4PftrQd5BWHOEqm0qvnJVdFd/hpbbH
+         HjWOvzQQ7mJ6zBN7Z3kSgCB+gA+/kagS1x+bjQsy0Md+UvsjZmj0B88lc4HZu72Tzt5y
+         TvhW+jPjOKsUb+TpEuY/3tzxCKc1CtNsXSa6yu3y1fNzta5NdUUr70JMc/TN5aDPMpqz
+         9fd/AkEY0x/3As7sH7Sph8MvWN5rNGybq1ri7YPYVAbwR9lK1hSGpoZ/6IFD2qqHb9Gd
+         7eDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SEw+f+WvSmW4ZE4Ix9oVBZdz8BUyqrL3rZLhlP8kF3w=;
-        b=HVlR49qwS3QS9PQuAYl2dAdEeub+Y5eNIjfSHjn52reH381sXGUi6XP4BJJcZMHbGT
-         sXZfcj9KZsDhx9G73bmHyCoPxn12OeOHnbHUi3oHDa5R4X/bc/U9nTcXdvYjzuzTepf4
-         QhmA/YvQiYvB64iiTyfkr6MAzR1oGQlrI9G+/p3egwmlNsB75EFgk1luf3nWMp4ubAyv
-         cg9oUirxefNy1fIoeO1dZOc3hdO9+Y7DTCzO/vASNlsjNSCXGKFRDpFTBSdyY4NBVtFF
-         RPcAirz6tUOWHOJyE86iep6/RRh21uOeehUB2N7RSai4nC1OVMKSE13PttdYAu4VNneP
-         nQxw==
-X-Gm-Message-State: APjAAAVKNcIrGnnZ/ubm7TjTp3rtihoNGt6qRtAZUpL8Ch+HzhCA3k/l
-        R5pLYOiC9AJdMwgoAEJ//uc=
-X-Google-Smtp-Source: APXvYqzG0MQIdevaUAq4AnUl9vDE9sY2FiUD//CskItSu3ZLMv6JHfS/Un4WlwTwGx1YysOT3Su+GQ==
-X-Received: by 2002:a17:902:b28b:: with SMTP id u11mr7042427plr.11.1562352940444;
-        Fri, 05 Jul 2019 11:55:40 -0700 (PDT)
-Received: from debian.net.fpt ([2405:4800:58f7:1cb1:98e0:87d3:2c8b:b6ed])
-        by smtp.gmail.com with ESMTPSA id j24sm13447599pgg.86.2019.07.05.11.55.37
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Jul 2019 11:55:39 -0700 (PDT)
-From:   Phong Tran <tranmanphong@gmail.com>
-To:     corbet@lwn.net, gregkh@linuxfoundation.org,
-        skhan@linuxfoundation.org, mchehab@kernel.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Phong Tran <tranmanphong@gmail.com>
-Subject: [PATCH] Documentation: usb: convert usb-help to rst
-Date:   Sat,  6 Jul 2019 01:55:19 +0700
-Message-Id: <20190705185519.31033-1-tranmanphong@gmail.com>
-X-Mailer: git-send-email 2.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HgF4Rnpb4hESMxcWU/Va0fg6VtYy9OWldEpeHvAq+44=;
+        b=hxFnjYCulRHwVkv4Tl4GKztDo5KDkFnABaGYY09cAElFYl683X0R9JeB5cata8jYZ8
+         bnbdiVq5XnnDCLqcb1LEoY4reN2gFKu9ATppwiiUJymWC+zlShSgiC0N0FV6g7ly7gy3
+         Le8gEpRA96OMI/DGw+i3cDfvk+9X7NKKpR2V9xhWToING2AyyWkiSyRfMQas1l6gf44W
+         pPhUwgqYstbyaZs38lxddBg5/G5SrTg4QuPrAdL6ypTjMIwxiD45Cbo0YXTdvCoXhimc
+         +sD+2zFTY9y2amQdqu/PvZ91p97DeQIERySmDhlmuj4CVewoKkXDb7MoFljv4tpuXP5Z
+         ojmQ==
+X-Gm-Message-State: APjAAAXvlOb/Drf06cr5Wb7Fg+3yC7/pFpgP8E5JI1MRnrubIrYvrxjc
+        0mc/w5aTk8P3Ml32yELkEo7x6w==
+X-Google-Smtp-Source: APXvYqxc4byaNPJ+Ted7/VEOfpKzL31z/JBXPmc2kuVYxpBcSE5PFzLheQd3GQUF2/paiao/FQJZAQ==
+X-Received: by 2002:a65:42c6:: with SMTP id l6mr7463567pgp.442.1562353380848;
+        Fri, 05 Jul 2019 12:03:00 -0700 (PDT)
+Received: from localhost.localdomain ([122.164.127.106])
+        by smtp.gmail.com with ESMTPSA id h26sm18165857pfq.64.2019.07.05.12.02.58
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 05 Jul 2019 12:03:00 -0700 (PDT)
+From:   Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
+To:     oberpar@linux.ibm.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
+Subject: [PATCH] Documentation: dev-tools: Fixed an outdated directory path in gcov.rst
+Date:   Sat,  6 Jul 2019 00:32:39 +0530
+Message-Id: <20190705190239.8173-1-jeffrin@rajagiritech.edu.in>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add new index.rst and change usb-help.txt format
-to rst.
+Fixed an outdated directory path inside gcov related documentation
+which is part of an example that shows the way in which the gcov
+command should be used in that context
 
-Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+Signed-off-by: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
 ---
- Documentation/index.rst                          |  1 +
- Documentation/usb/index.rst                      | 22 ++++++++++++++++++++++
- Documentation/usb/{usb-help.txt => usb-help.rst} |  1 -
- 3 files changed, 23 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/usb/index.rst
- rename Documentation/usb/{usb-help.txt => usb-help.rst} (97%)
+ Documentation/dev-tools/gcov.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index a7566ef62411..4e7498f39063 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -102,6 +102,7 @@ needed).
-    vm/index
-    bpf/index
-    misc-devices/index
-+   usb/index
+diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
+index 46aae52a41d0..e3d262d8c7de 100644
+--- a/Documentation/dev-tools/gcov.rst
++++ b/Documentation/dev-tools/gcov.rst
+@@ -8,7 +8,7 @@ To get coverage data for a specific file, change to the kernel build
+ directory and use gcov with the ``-o`` option as follows (requires root)::
  
- Architecture-specific documentation
- -----------------------------------
-diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-new file mode 100644
-index 000000000000..5688ceaf0826
---- /dev/null
-+++ b/Documentation/usb/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Linux USB Subsystem Documentation
-+===================================
-+
-+.. only:: html
-+
-+   .. class:: toc-title
-+
-+        Table of Contents
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   usb-help
-+
-+.. only:: html and subproject
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/usb/usb-help.txt b/Documentation/usb/usb-help.rst
-similarity index 97%
-rename from Documentation/usb/usb-help.txt
-rename to Documentation/usb/usb-help.rst
-index dc23ecd4d802..03abc4e501ae 100644
---- a/Documentation/usb/usb-help.txt
-+++ b/Documentation/usb/usb-help.rst
-@@ -1,4 +1,3 @@
--==============
- USB references
- ==============
+     # cd /tmp/linux-out
+-    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
++    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel/locking spinlock.c
  
+ This will create source code files annotated with execution counts
+ in the current directory. In addition, graphical gcov front-ends such
 -- 
-2.11.0
+2.20.1
 
