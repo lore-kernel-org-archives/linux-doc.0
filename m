@@ -1,95 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2AF67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 05:59:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C0487D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 06:54:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725863AbfGEF7T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 01:59:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55298 "EHLO mx1.redhat.com"
+        id S1725827AbfGEGyF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 02:54:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725813AbfGEF7T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Jul 2019 01:59:19 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725894AbfGEGyE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Jul 2019 02:54:04 -0400
+Received: from localhost (unknown [122.167.76.109])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BE7D813A98;
-        Fri,  5 Jul 2019 05:59:17 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-83.pek2.redhat.com [10.72.12.83])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 073FB60BF1;
-        Fri,  5 Jul 2019 05:59:07 +0000 (UTC)
-Date:   Fri, 5 Jul 2019 13:59:04 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jerry Hoemann <jerry.hoemann@hpe.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org
-Subject: Re: [PATCH 18/39] docs: admin-guide: add kdump documentation into it
-Message-ID: <20190705055904.GB2790@localhost.localdomain>
-References: <cover.1561724493.git.mchehab+samsung@kernel.org>
- <654e7591c044632c06257e0f069a52c0bb993554.1561724493.git.mchehab+samsung@kernel.org>
- <6911b74c-848f-0060-3db5-b5d7e8061cb5@linux.alibaba.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 63C6521670;
+        Fri,  5 Jul 2019 06:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562309644;
+        bh=Fce+yFrH+ncRIcW3SbZSyfI2isJKSJpFCEfGw+fsAns=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K8c+qYBNsFFPcz9REq2quIkmX3kPj6OHSH/jfCGKo9my8XPK8lBQ01xgTMQd3AuGj
+         AE/O8iZ93XsE6fxBa8p5BK2vj2DXx/xA8XQmFZQglRIia2PbMutZMALSORBbeOUaxX
+         EMd/D5f1LDhvLUTyNhip7Vqn/7dE193cazyhR260=
+Date:   Fri, 5 Jul 2019 12:20:47 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     "Hook, Gary" <Gary.Hook@amd.com>
+Cc:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: dmaengine: clean up description of
+ dmatest usage
+Message-ID: <20190705065047.GY2911@vkoul-mobl>
+References: <156140130017.28986.2649022716558702933.stgit@taos>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6911b74c-848f-0060-3db5-b5d7e8061cb5@linux.alibaba.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Fri, 05 Jul 2019 05:59:18 +0000 (UTC)
+In-Reply-To: <156140130017.28986.2649022716558702933.stgit@taos>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/05/19 at 11:43am, Alex Shi wrote:
-> 
-> 
-> 在 2019/6/28 下午8:30, Mauro Carvalho Chehab 写道:
-> > The Kdump documentation describes procedures with admins use
-> > in order to solve issues on their systems.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/admin-guide/bug-hunting.rst            | 4 ++--
-> >  Documentation/admin-guide/index.rst                  | 1 +
-> >  Documentation/{ => admin-guide}/kdump/gdbmacros.txt  | 0
-> >  Documentation/{ => admin-guide}/kdump/index.rst      | 1 -
-> >  Documentation/{ => admin-guide}/kdump/kdump.rst      | 0
-> >  Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst | 0
-> 
-> I am not sure if it's convenience for people to have more levels in docs.
-> 
-> But I guess, move archs into a Documentation/arch/ dir should be fine. like Documentation/arch/{x86,arm,arm64,ia64,m68k,s390,powerpc,...}
+On 24-06-19, 18:35, Hook, Gary wrote:
+> Fix the formatting of the multi-channel test usage example. Call out
+> the note about parameter ordering and add detail on the settings of
+> parameters for the new version of dmatest.
 
-Alex, moving kdump to admin-guide sounds reasonable to me.  I also agree
-with you for those arch dependent files can be moved to
-Documentation/arch/, maybe you are talking about some other patches in
-the series for the arch/? 
+Applied, thanks
 
-Thanks
-dave
+-- 
+~Vinod
