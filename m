@@ -1,90 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 894B87D90C
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 20:46:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A56847D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 20:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbfGEUp7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 16:45:59 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33856 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726411AbfGEUp7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 16:45:59 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b13so159904pfo.1;
-        Fri, 05 Jul 2019 13:45:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=x4GIgI5QbQFYYHeADDS48yN0XwXbMzJsu3FTa+FaXcs=;
-        b=EEgnxdKVae5dLG3AvMagDH2whhQVFatQ1XfuuTEMJqXFdaO81LmDCsFAcpbXRXazur
-         7Nz9FFgtVruBbgzIgpctdysszanug/y2zd/g5vOxp3UN+b6QKLuEAYYr2U3JiMbYE+DV
-         TYlt2ztyXic2xsBnJVD83P/XZQo2NetHL8/uhaDiBNHPtYiESiTw+b6I3FZrDDVO/4Gi
-         s4miR5mx4pbg+DGbK4q1+Hu4TSPEsjdGWRNuEhBK0rES5AnCWosP+Rr1i/ZJ7X9el03m
-         Cib0JPx+zM0ZuGItBypJtpnoG8yFnSPKYyW5LRbSWzKq89pTwdaJ2IomEBW100+5C+x/
-         m2bg==
-X-Gm-Message-State: APjAAAVyVdJhG2B2iMb3yH27o0FgAHWKKO7VK9eklZHNNXdqVokPkBOc
-        HNMWDyL99aBK7LL88X7Biyw=
-X-Google-Smtp-Source: APXvYqzeFsCVF2ZvnbfqZHx8vhkEXe3aUADAaqpXImPQcsaBURcoZTbfCuqJiBja1aAbbmI4GIuc+A==
-X-Received: by 2002:a63:e018:: with SMTP id e24mr7383945pgh.361.1562359558392;
-        Fri, 05 Jul 2019 13:45:58 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id s66sm13955192pgs.39.2019.07.05.13.45.56
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 05 Jul 2019 13:45:57 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 9151F40190; Fri,  5 Jul 2019 20:45:56 +0000 (UTC)
-Date:   Fri, 5 Jul 2019 20:45:56 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, peterz@infradead.org,
-        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, tytso@mit.edu,
-        yamada.masahiro@socionext.com, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
-        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
-        julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        rdunlap@infradead.org, richard@nod.at, rientjes@google.com,
-        rostedt@goodmis.org, wfg@linux.intel.com,
-        Iurii Zaikin <yzaikin@google.com>
-Subject: Re: [PATCH v6 17/18] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Message-ID: <20190705204556.GD19023@42.do-not-panic.com>
-References: <20190704003615.204860-1-brendanhiggins@google.com>
- <20190704003615.204860-18-brendanhiggins@google.com>
+        id S1728070AbfGEUr5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 16:47:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45016 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727983AbfGEUr5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Jul 2019 16:47:57 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A3BE216E3;
+        Fri,  5 Jul 2019 20:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562359676;
+        bh=K7he3rQq49BWkAT4cEC8Z1CZZtq44KtExCY3OnjReBc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=yXP9LZw3GDXY4+pZb14RV1l6/SKpaLXq2EFuqpgQm5ZH5NcimfHu3P8TiXzqQvtjQ
+         kbo+ipZjmWWULJBZVCA9dOWV0IkAfJqzXjxi4vB0TKbR+wSoz7n/O9zF/ylRYTQjQ2
+         XYIsEC0f8eJDfp1aN7KgMDZDEW6mCrZy7Cz2kacw=
+From:   Sasha Levin <sashal@kernel.org>
+To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
+        rdunlap@infradead.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
+Date:   Fri,  5 Jul 2019 16:47:44 -0400
+Message-Id: <20190705204746.27543-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190704003615.204860-18-brendanhiggins@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 03, 2019 at 05:36:14PM -0700, Brendan Higgins wrote:
-> From: Iurii Zaikin <yzaikin@google.com>
-> 
-> KUnit tests for initialized data behavior of proc_dointvec that is
-> explicitly checked in the code. Includes basic parsing tests including
-> int min/max overflow.
-> 
-> Signed-off-by: Iurii Zaikin <yzaikin@google.com>
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Changes from v7:
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+ - Address Jarkko's comments.
 
-  Luis
+Sasha Levin (2):
+  fTPM: firmware TPM running in TEE
+  fTPM: add documentation for ftpm driver
+
+ Documentation/security/tpm/index.rst        |   1 +
+ Documentation/security/tpm/tpm_ftpm_tee.rst |  27 ++
+ drivers/char/tpm/Kconfig                    |   5 +
+ drivers/char/tpm/Makefile                   |   1 +
+ drivers/char/tpm/tpm_ftpm_tee.c             | 350 ++++++++++++++++++++
+ drivers/char/tpm/tpm_ftpm_tee.h             |  40 +++
+ 6 files changed, 424 insertions(+)
+ create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
+
+-- 
+2.20.1
+
