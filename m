@@ -1,88 +1,360 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CEA27D90C
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 20:48:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C9107D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Jul 2019 21:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbfGEUsN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 16:48:13 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33691 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728000AbfGEUsN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 16:48:13 -0400
-Received: by mail-pf1-f195.google.com with SMTP id x15so4783636pfq.0;
-        Fri, 05 Jul 2019 13:48:12 -0700 (PDT)
+        id S1727295AbfGEVEk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Jul 2019 17:04:40 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43071 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbfGEVEj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 17:04:39 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f25so4770239pgv.10;
+        Fri, 05 Jul 2019 14:04:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=sbAlqJjNCGJl424Ou6oGUeB5IJHxp78XDTHPHiUjj1Y=;
+        b=u5/0oRoCYAS/qKKIpQasbSnOCL4tBFKCjhre5Mu3E8OrxdKeDg+8ZtlJ3xlxjWUTT7
+         ufmammpxRnEVutnj5RdBnB3GZpVhbpiNtLUo2WUfDqF92xiRbz3c+UpqPs3Rn9AEJJEy
+         m+S7jtdqecKe3GlhTvLVtFrgMnwTCBxC/B/IfKqAE6kFdLqpR87SFTPRZpQwBchaBLnU
+         3I41jNCrxkm4T3zRj2RUGSnk+GoUQkqxjqCaqmj8/mBrIrI28ZzrCfu/gMU1QmQ749IQ
+         lKmPJOU0NrO3U0fIar3VIDG7URQ3iNnvtFNLZD1Z/j637p0LhupDktemQD6QUmtgUuDF
+         y/Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AcnoVRibB2N6fZ+Yp6hO160ET8GdPKrkYOq4kfDG3/o=;
-        b=U+A52T7uN8wFdktHUnLIZDXucd2tGsN+Yc1acydhtUhVA6g71/vXY/zPVbtz/wofy6
-         +ewZk9kdrIen3fy6pacm+NXGg2uHjV6z1/Lpnc0GcZh+GwF/SMbT/6aP35WXTuFrq8Ei
-         z6ND45p35bhuF4Rxhgt8Hiju2HSTHvzM5JdPcL30yPK/LZCjk4tu+61hk3aktBFBhiD0
-         qMx1nibJWaDtPMH7ZlvdJkhJnGkLxRjgHw1ZAQ+JC/js3djI3Itp+zCfbgv9gR5ntp0P
-         hWUT4tc05R44rTuyqFSfupf4MET8jzDwHPVRsbTBPNN1pVWfGdvj7XJASs84XG0UVx2W
-         PmaA==
-X-Gm-Message-State: APjAAAV2yao8D8E3u+kh2jmLTgrklxXu7dAmUETPhKApTXU0B05iM6Pq
-        eGP9pQU9sEZD3UeHXjcnZSY=
-X-Google-Smtp-Source: APXvYqzYFkN68Owkq9koxWESGSYcLlSN0sO/MqwSKxCi7MUUXmOztl1dSndkrgfsbD0HEg9i6sStdg==
-X-Received: by 2002:a63:6986:: with SMTP id e128mr7831367pgc.220.1562359692276;
-        Fri, 05 Jul 2019 13:48:12 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id p7sm13219309pfp.131.2019.07.05.13.48.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 05 Jul 2019 13:48:11 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 568B940190; Fri,  5 Jul 2019 20:48:10 +0000 (UTC)
-Date:   Fri, 5 Jul 2019 20:48:10 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, peterz@infradead.org,
-        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, tytso@mit.edu,
-        yamada.masahiro@socionext.com, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
-        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
-        julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        rdunlap@infradead.org, richard@nod.at, rientjes@google.com,
-        rostedt@goodmis.org, wfg@linux.intel.com
-Subject: Re: [PATCH v6 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-Message-ID: <20190705204810.GE19023@42.do-not-panic.com>
-References: <20190704003615.204860-1-brendanhiggins@google.com>
- <20190704003615.204860-19-brendanhiggins@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190704003615.204860-19-brendanhiggins@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=sbAlqJjNCGJl424Ou6oGUeB5IJHxp78XDTHPHiUjj1Y=;
+        b=D3NafB+P7u6NN/otoS4PCnc6Spi1vMpdqFEOfEDCWnpLBJhPsrx++hJkUeZcxok2Wm
+         bQvswSN8O3WPTStlMlZ3IdWA98LfrYBvF1yLGrv0SHAwtLr5nxvKCpwQAqLrkrizhMdi
+         OF5HEu53/zuHgIg+o5bxZtmUzMjjiHIt0GnZYgHhoePzV42ZzwIheri2HWU+HWPu2mwE
+         RXjIBn/WxaVCyv8HK58guj/S3vyeMUu5aUpjZDcLVaWgOZdQGCiWso+xZ2uIhDHCU5bd
+         uPpbceu0D6KtnqEoNLMTdgDurZgAFEc8pu60p9/5oi9XbcIHwnC2LJGB7XxK+BkayLkL
+         /6xw==
+X-Gm-Message-State: APjAAAULBhzSD1yHt/sWKAION3LomNlCNSy8ZlMI8IEsu662gwEkq40U
+        50QbHx/Zykf/uh59SGZqZxk=
+X-Google-Smtp-Source: APXvYqyJ13QswRiuXHluWAKOlzF64CGlrERs+baaYUxU1E0IHj41mSwePPzSSIGCnV8c3ulUbbTkCA==
+X-Received: by 2002:a17:90a:3401:: with SMTP id o1mr7817671pjb.7.1562360678153;
+        Fri, 05 Jul 2019 14:04:38 -0700 (PDT)
+Received: from localhost.localdomain ([157.32.212.148])
+        by smtp.gmail.com with ESMTPSA id n19sm10774461pfa.11.2019.07.05.14.04.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Jul 2019 14:04:37 -0700 (PDT)
+From:   Shreeya Patel <shreeya.patel23498@gmail.com>
+To:     skhan@linuxfoundation.org, rjw@rjwysocki.net,
+        viresh.kumar@linaro.org, corbet@lwn.net, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] Documentation: cpu-freq: Convert core.txt file to ReST format
+Date:   Sat,  6 Jul 2019 02:34:28 +0530
+Message-Id: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 03, 2019 at 05:36:15PM -0700, Brendan Higgins wrote:
-> Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
-> 
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+Convert core file to ReST format, in order to allow it to
+be parsed by Sphinx. Make a minor change of correcting the wrong
+function name cpufreq_put_cpu to cpufreq_cpu_put.
+Also create an index.rst file in cpu-freq and add it's entry
+in the main Documentation/index.rst file.
 
-Come to think of it, I'd welcome Iurii to be added as a maintainer,
-with the hope Iurii would be up to review only the kunit changes. Of
-course if Iurii would be up to also help review future proc changes,
-even better. 3 pair of eyeballs is better than 2 pairs.
+Signed-off-by: Shreeya Patel <shreeya.patel23498@gmail.com>
+---
+ Documentation/cpu-freq/core.rst  | 114 +++++++++++++++++++++++++++++
+ Documentation/cpu-freq/core.txt  | 120 -------------------------------
+ Documentation/cpu-freq/index.rst |  14 ++++
+ Documentation/index.rst          |   1 +
+ 4 files changed, 129 insertions(+), 120 deletions(-)
+ create mode 100644 Documentation/cpu-freq/core.rst
+ delete mode 100644 Documentation/cpu-freq/core.txt
+ create mode 100644 Documentation/cpu-freq/index.rst
 
-  Luis
+diff --git a/Documentation/cpu-freq/core.rst b/Documentation/cpu-freq/core.rst
+new file mode 100644
+index 000000000000..b4cf48633797
+--- /dev/null
++++ b/Documentation/cpu-freq/core.rst
+@@ -0,0 +1,114 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++CPUFreq Core
++============
++
++Authors:
++
++- Dominik Brodowski <linux@brodo.de>,
++- David Kimdon <dwhedon@debian.org>,
++- Rafael J. Wysocki <rafael.j.wysocki@intel.com>,
++- Viresh Kumar <viresh.kumar@linaro.org>
++
++
++Clock scaling allows you to change the clock speed of the CPUs on the
++fly. This is a nice method to save battery power, because the lower
++the clock speed, the less power the CPU consumes.
++
++
++1. General Information
++----------------------
++
++The CPUFreq core code is located in :file:`drivers/cpufreq/cpufreq.c`. This
++cpufreq code offers a standardized interface for the CPUFreq
++architecture drivers (those pieces of code that do actual
++frequency transitions), as well as to "notifiers". These are device
++drivers or other part of the kernel that need to be informed of
++policy changes (ex. thermal modules like ACPI) or of all
++frequency changes (ex. timing code) or even need to force certain
++speed limits (like LCD drivers on ARM architecture). Additionally, the
++kernel "constant" :c:data:`loops_per_jiffy` is updated on frequency changes
++here.
++
++Reference counting of the cpufreq policies is done by :c:func:`cpufreq_cpu_put`
++and :c:func:`cpufreq_cpu_put`, which make sure that the cpufreq driver is
++correctly registered with the core, and will not be unloaded until
++:c:func:`cpufreq_cpu_put` is called. That also ensures that the respective cpufreq
++policy doesn't get freed while being used.
++
++2. CPUFreq notifiers
++--------------------
++
++CPUFreq notifiers conform to the standard kernel notifier interface.
++See :file:`linux/include/linux/notifier.h` for details on notifiers.
++
++There are two different CPUFreq notifiers - policy notifiers and
++transition notifiers.
++
++
++2.1 CPUFreq policy notifiers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++These are notified when a new policy is intended to be set. Each
++CPUFreq policy notifier is called twice for a policy transition:
++
++        1) During :c:macro:`CPUFREQ_ADJUST` all CPUFreq notifiers may change
++           the limit if they see a need for this - may it be thermal considerations
++           or hardware limitations.
++
++        2) And during :c:macro:`CPUFREQ_NOTIFY` all notifiers are informed of the
++           new policy - if two hardware drivers failed to agree on a new policy
++           before this stage, the incompatible hardware shall be shut down, and the user
++           informed of this.
++
++The phase is specified in the second argument to the notifier.
++
++The third argument, a :c:data:`void *pointer`, points to a :c:type:`struct cpufreq_policy`
++consisting of several values, including min, max (the lower and upper
++frequencies (in kHz) of the new policy).
++
++
++2.2 CPUFreq transition notifiers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++These are notified twice for each online CPU in the policy, when the
++CPUfreq driver switches the CPU core frequency and this change has no
++any external implications.
++
++The second argument specifies the phase - :c:macro:`CPUFREQ_PRECHANGE` or
++:c:macro:`CPUFREQ_POSTCHANGE`.
++
++The third argument is a :c:type:`struct cpufreq_freqs` with the following
++values:
++
++| cpu   - number of the affected CPU
++| old   - old frequency
++| new   - new frequency
++| flags - flags of the cpufreq driver
++
++
++3. CPUFreq Table Generation with Operating Performance Point (OPP)
++------------------------------------------------------------------
++For details about OPP, see :file:`Documentation/power/opp.txt`
++
++:c:func:`dev_pm_opp_init_cpufreq_table` - This function provides a ready
++to use conversion routine to translate the OPP layer's internal information
++about the available frequencies into a format readily providable to cpufreq.
++
++WARNING: Do not use this function in interrupt context.
++
++	Example::
++
++	 soc_pm_init()
++	 {
++		/* Do things */
++		r = dev_pm_opp_init_cpufreq_table(dev, &freq_table);
++		if (!r)
++			policy->freq_table = freq_table;
++		/* Do other things */
++	 }
++
++NOTE: This function is available only if CONFIG_CPU_FREQ is enabled in
++addition to CONFIG_PM_OPP.
++
++:c:func:`dev_pm_opp_free_cpufreq_table` - Free up the table allocated by :c:func:`dev_pm_opp_init_cpufreq_table`
+diff --git a/Documentation/cpu-freq/core.txt b/Documentation/cpu-freq/core.txt
+deleted file mode 100644
+index 073f128af5a7..000000000000
+--- a/Documentation/cpu-freq/core.txt
++++ /dev/null
+@@ -1,120 +0,0 @@
+-     CPU frequency and voltage scaling code in the Linux(TM) kernel
+-
+-
+-		         L i n u x    C P U F r e q
+-
+-			  C P U F r e q    C o r e
+-
+-
+-		    Dominik Brodowski  <linux@brodo.de>
+-		     David Kimdon <dwhedon@debian.org>
+-		Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+-		   Viresh Kumar <viresh.kumar@linaro.org>
+-
+-
+-
+-   Clock scaling allows you to change the clock speed of the CPUs on the
+-    fly. This is a nice method to save battery power, because the lower
+-            the clock speed, the less power the CPU consumes.
+-
+-
+-Contents:
+----------
+-1.  CPUFreq core and interfaces
+-2.  CPUFreq notifiers
+-3.  CPUFreq Table Generation with Operating Performance Point (OPP)
+-
+-1. General Information
+-=======================
+-
+-The CPUFreq core code is located in drivers/cpufreq/cpufreq.c. This
+-cpufreq code offers a standardized interface for the CPUFreq
+-architecture drivers (those pieces of code that do actual
+-frequency transitions), as well as to "notifiers". These are device
+-drivers or other part of the kernel that need to be informed of
+-policy changes (ex. thermal modules like ACPI) or of all
+-frequency changes (ex. timing code) or even need to force certain
+-speed limits (like LCD drivers on ARM architecture). Additionally, the
+-kernel "constant" loops_per_jiffy is updated on frequency changes
+-here.
+-
+-Reference counting of the cpufreq policies is done by cpufreq_cpu_get
+-and cpufreq_cpu_put, which make sure that the cpufreq driver is
+-correctly registered with the core, and will not be unloaded until
+-cpufreq_put_cpu is called. That also ensures that the respective cpufreq
+-policy doesn't get freed while being used.
+-
+-2. CPUFreq notifiers
+-====================
+-
+-CPUFreq notifiers conform to the standard kernel notifier interface.
+-See linux/include/linux/notifier.h for details on notifiers.
+-
+-There are two different CPUFreq notifiers - policy notifiers and
+-transition notifiers.
+-
+-
+-2.1 CPUFreq policy notifiers
+-----------------------------
+-
+-These are notified when a new policy is intended to be set. Each
+-CPUFreq policy notifier is called twice for a policy transition:
+-
+-1.) During CPUFREQ_ADJUST all CPUFreq notifiers may change the limit if
+-    they see a need for this - may it be thermal considerations or
+-    hardware limitations.
+-
+-2.) And during CPUFREQ_NOTIFY all notifiers are informed of the new policy
+-   - if two hardware drivers failed to agree on a new policy before this
+-   stage, the incompatible hardware shall be shut down, and the user
+-   informed of this.
+-
+-The phase is specified in the second argument to the notifier.
+-
+-The third argument, a void *pointer, points to a struct cpufreq_policy
+-consisting of several values, including min, max (the lower and upper
+-frequencies (in kHz) of the new policy).
+-
+-
+-2.2 CPUFreq transition notifiers
+---------------------------------
+-
+-These are notified twice for each online CPU in the policy, when the
+-CPUfreq driver switches the CPU core frequency and this change has no
+-any external implications.
+-
+-The second argument specifies the phase - CPUFREQ_PRECHANGE or
+-CPUFREQ_POSTCHANGE.
+-
+-The third argument is a struct cpufreq_freqs with the following
+-values:
+-cpu	- number of the affected CPU
+-old	- old frequency
+-new	- new frequency
+-flags	- flags of the cpufreq driver
+-
+-3. CPUFreq Table Generation with Operating Performance Point (OPP)
+-==================================================================
+-For details about OPP, see Documentation/power/opp.txt
+-
+-dev_pm_opp_init_cpufreq_table -
+-	This function provides a ready to use conversion routine to translate
+-	the OPP layer's internal information about the available frequencies
+-	into a format readily providable to cpufreq.
+-
+-	WARNING: Do not use this function in interrupt context.
+-
+-	Example:
+-	 soc_pm_init()
+-	 {
+-		/* Do things */
+-		r = dev_pm_opp_init_cpufreq_table(dev, &freq_table);
+-		if (!r)
+-			policy->freq_table = freq_table;
+-		/* Do other things */
+-	 }
+-
+-	NOTE: This function is available only if CONFIG_CPU_FREQ is enabled in
+-	addition to CONFIG_PM_OPP.
+-
+-dev_pm_opp_free_cpufreq_table - Free up the table allocated by dev_pm_opp_init_cpufreq_table
+diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+new file mode 100644
+index 000000000000..fd81d4f501cc
+--- /dev/null
++++ b/Documentation/cpu-freq/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============================================
++CPU Frequency and Voltage Scaling Documentation
++===============================================
++
++.. class:: toc-title
++
++           Table of contents
++
++.. toctree::
++   :maxdepth: 2
++
++   core.rst
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index a7566ef62411..934206bc1daf 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -102,6 +102,7 @@ needed).
+    vm/index
+    bpf/index
+    misc-devices/index
++   cpu-freq/index
+ 
+ Architecture-specific documentation
+ -----------------------------------
+-- 
+2.17.1
+
