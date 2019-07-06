@@ -3,141 +3,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE7B77D90C
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 10:42:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D81A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 11:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbfGFKlg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 06:41:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40710 "EHLO
+        id S1726038AbfGFLCg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 07:02:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42672 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbfGFKlg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 06:41:36 -0400
+        with ESMTP id S1726001AbfGFLCf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 07:02:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=x8xrypbhTWD1eWxAgLr7OjCl2dz8XFdFHYVEQD+l2xE=; b=YBvr4PY1Da2Hx3f7iSWvlPukP
-        XbOYF2nAlGklvMISBtplGqU/b14y4fzaIQRcBUXwTlVjP/RP6dOV0RlTBXmTwT1CfKGKGciWFl5du
-        b4b3cBo3O8z3yXD1nvSYMMDOWbwgHWouDGhSADzwfwA9Qm6uyZcweCcmo96c/ckGZLYGeOVuZ64ly
-        5gBICvY5YcW2NxdEDWyS4FfRL3zcOwXSGLhCk0jo8H+GSEGe1eqbOnl4pWZhaMUhRTjSuHCW4FwKQ
-        NKb9Oa3HttarFKO3DQFaIC1yifRDMHCZS5a/koauXe+hzqed8li7bGQynmTKFugnD7KIuBPk+ZQTw
-        u+zCYCLqA==;
+         bh=8bLQc4+RPGotEzco/YjdaD/+helrJCqU8PeAI1M0qSQ=; b=ZPP5RO11GzD09S5etzsYF1wXu
+        /fKzci7MtBLdaysUHf5o5RClkPbEs6X2shUpRPUREakJM8OL/smrTQGfLlVHpWHxZDEcHkX999Ai3
+        CYNOjPthN/zWYU2K7y16WSh6SyGOOsgUKV3ELg3bICDCVoaYl9A6e5VKRybKX4YBwR2UC95pdkRme
+        p5aMawg+IspThiUHeA3XDtlb7/DX3SyjKy1WkXuC2AdJXI3daYj/aMIa15VAo192R+nWjSRWF79iv
+        oXnBDB3RU7i7P9FKffe9FdFPch8l0XCptogdlC+Ad0NOSv35P4xyoMg9MYT0M+TW5+Mu8NTEVlnbx
+        DmLwUy9Hw==;
 Received: from 177.205.70.5.dynamic.adsl.gvt.net.br ([177.205.70.5] helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hji8K-0007Fa-2X; Sat, 06 Jul 2019 10:41:32 +0000
-Date:   Sat, 6 Jul 2019 07:41:26 -0300
+        id 1hjiSg-00067V-KD; Sat, 06 Jul 2019 11:02:35 +0000
+Date:   Sat, 6 Jul 2019 08:02:30 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-leds@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 24/43] docs: leds: convert to ReST
-Message-ID: <20190706074047.58c23fe9@coco.lan>
-In-Reply-To: <0b2a2452-20ca-1651-e03b-a15a8502b028@gmail.com>
+        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 01/43] docs: infiniband: convert docs to ReST and rename
+ to *.rst
+Message-ID: <20190706080230.6e34bda2@coco.lan>
+In-Reply-To: <20190703180641.GA26394@ziepe.ca>
 References: <cover.1561723979.git.mchehab+samsung@kernel.org>
-        <2fecbe9a9cefda64771b43c5fc67495d897dd722.1561723980.git.mchehab+samsung@kernel.org>
-        <0b2a2452-20ca-1651-e03b-a15a8502b028@gmail.com>
+        <4d843d0361e245861f7051e2c736a18dfaae7601.1561723980.git.mchehab+samsung@kernel.org>
+        <20190703180641.GA26394@ziepe.ca>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 28 Jun 2019 21:01:40 +0200
-Jacek Anaszewski <jacek.anaszewski@gmail.com> escreveu:
+Em Wed, 3 Jul 2019 15:06:41 -0300
+Jason Gunthorpe <jgg@ziepe.ca> escreveu:
 
-> Hi Mauro,
->=20
-> On 6/28/19 2:20 PM, Mauro Carvalho Chehab wrote:
-> > Rename the leds documentation files to ReST, add an
-> > index for them and adjust in order to produce a nice html
-> > output via the Sphinx build system.
-> >=20
+> On Fri, Jun 28, 2019 at 09:19:57AM -0300, Mauro Carvalho Chehab wrote:
+> > The InfiniBand docs are plain text with no markups.
+> > So, all we needed to do were to add the title markups and
+> > some markup sequences in order to properly parse tables,
+> > lists and literal blocks.
+> > 
 > > At its new index.rst, let's add a :orphan: while this is not linked to
 > > the main index.rst file, in order to avoid build warnings.
-> >=20
+> > 
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Acked-by: Pavel Machek <pavel@ucw.cz>
 > > ---
-> >  Documentation/laptops/thinkpad-acpi.txt       |   4 +-
-> >  Documentation/leds/index.rst                  |  25 ++
-> >  .../leds/{leds-blinkm.txt =3D> leds-blinkm.rst} |  64 ++---
-> >  ...s-class-flash.txt =3D> leds-class-flash.rst} |  49 ++--
-> >  .../leds/{leds-class.txt =3D> leds-class.rst}   |  15 +-
-> >  .../leds/{leds-lm3556.txt =3D> leds-lm3556.rst} | 100 ++++++--
-> >  .../leds/{leds-lp3944.txt =3D> leds-lp3944.rst} |  23 +-
-> >  Documentation/leds/leds-lp5521.rst            | 115 +++++++++
-> >  Documentation/leds/leds-lp5521.txt            | 101 --------
-> >  Documentation/leds/leds-lp5523.rst            | 147 ++++++++++++
-> >  Documentation/leds/leds-lp5523.txt            | 130 ----------
-> >  Documentation/leds/leds-lp5562.rst            | 137 +++++++++++
-> >  Documentation/leds/leds-lp5562.txt            | 120 ----------
-> >  Documentation/leds/leds-lp55xx.rst            | 224 ++++++++++++++++++
-> >  Documentation/leds/leds-lp55xx.txt            | 194 ---------------
-> >  Documentation/leds/leds-mlxcpld.rst           | 118 +++++++++
-> >  Documentation/leds/leds-mlxcpld.txt           | 110 ---------
-> >  ...edtrig-oneshot.txt =3D> ledtrig-oneshot.rst} |  11 +-
-> >  ...ig-transient.txt =3D> ledtrig-transient.rst} |  63 +++--
-> >  ...edtrig-usbport.txt =3D> ledtrig-usbport.rst} |  11 +-
-> >  Documentation/leds/{uleds.txt =3D> uleds.rst}   |   5 +-
-> >  MAINTAINERS                                   |   2 +-
-> >  drivers/leds/trigger/Kconfig                  |   2 +-
-> >  drivers/leds/trigger/ledtrig-transient.c      |   2 +-
-> >  net/netfilter/Kconfig                         |   2 +-
-> >  25 files changed, 996 insertions(+), 778 deletions(-)
-> >  create mode 100644 Documentation/leds/index.rst
-> >  rename Documentation/leds/{leds-blinkm.txt =3D> leds-blinkm.rst} (57%)
-> >  rename Documentation/leds/{leds-class-flash.txt =3D> leds-class-flash.=
-rst} (74%)
-> >  rename Documentation/leds/{leds-class.txt =3D> leds-class.rst} (92%)
-> >  rename Documentation/leds/{leds-lm3556.txt =3D> leds-lm3556.rst} (70%)
-> >  rename Documentation/leds/{leds-lp3944.txt =3D> leds-lp3944.rst} (78%)
-> >  create mode 100644 Documentation/leds/leds-lp5521.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5521.txt
-> >  create mode 100644 Documentation/leds/leds-lp5523.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5523.txt
-> >  create mode 100644 Documentation/leds/leds-lp5562.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5562.txt
-> >  create mode 100644 Documentation/leds/leds-lp55xx.rst
-> >  delete mode 100644 Documentation/leds/leds-lp55xx.txt
-> >  create mode 100644 Documentation/leds/leds-mlxcpld.rst
-> >  delete mode 100644 Documentation/leds/leds-mlxcpld.txt
-> >  rename Documentation/leds/{ledtrig-oneshot.txt =3D> ledtrig-oneshot.rs=
-t} (90%)
-> >  rename Documentation/leds/{ledtrig-transient.txt =3D> ledtrig-transien=
-t.rst} (81%)
-> >  rename Documentation/leds/{ledtrig-usbport.txt =3D> ledtrig-usbport.rs=
-t} (86%)
-> >  rename Documentation/leds/{uleds.txt =3D> uleds.rst} (95%) =20
->=20
-> Patches 4/9 and 24/43 applied to the for-next branch of linux-leds.git.
+> >  .../{core_locking.txt => core_locking.rst}    |  64 ++++++-----
+> >  Documentation/infiniband/index.rst            |  23 ++++
+> >  .../infiniband/{ipoib.txt => ipoib.rst}       |  24 ++--
+> >  .../infiniband/{opa_vnic.txt => opa_vnic.rst} | 108 +++++++++---------
+> >  .../infiniband/{sysfs.txt => sysfs.rst}       |   4 +-
+> >  .../{tag_matching.txt => tag_matching.rst}    |   5 +
+> >  .../infiniband/{user_mad.txt => user_mad.rst} |  33 ++++--
+> >  .../{user_verbs.txt => user_verbs.rst}        |  12 +-
+> >  drivers/infiniband/core/user_mad.c            |   2 +-
+> >  drivers/infiniband/ulp/ipoib/Kconfig          |   2 +-
+> >  10 files changed, 174 insertions(+), 103 deletions(-)
+> >  rename Documentation/infiniband/{core_locking.txt => core_locking.rst} (78%)
+> >  create mode 100644 Documentation/infiniband/index.rst
+> >  rename Documentation/infiniband/{ipoib.txt => ipoib.rst} (90%)
+> >  rename Documentation/infiniband/{opa_vnic.txt => opa_vnic.rst} (63%)
+> >  rename Documentation/infiniband/{sysfs.txt => sysfs.rst} (69%)
+> >  rename Documentation/infiniband/{tag_matching.txt => tag_matching.rst} (98%)
+> >  rename Documentation/infiniband/{user_mad.txt => user_mad.rst} (90%)
+> >  rename Documentation/infiniband/{user_verbs.txt => user_verbs.rst} (93%)  
+> 
+> I'm not sure anymore if I sent a note or not, but this patch was
+> already applied to the rdma.git:
+> 
+> commit 97162a1ee8a1735fc7a7159fe08de966d88354ce
+> Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Date:   Sat Jun 8 23:27:03 2019 -0300
+> 
+>     docs: infiniband: convert docs to ReST and rename to *.rst
+>     
+>     The InfiniBand docs are plain text with no markups.  So, all we needed to
+>     do were to add the title markups and some markup sequences in order to
+>     properly parse tables, lists and literal blocks.
+>     
+>     At its new index.rst, let's add a :orphan: while this is not linked to the
+>     main index.rst file, in order to avoid build warnings.
+>     
+>     Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>     Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 
-Thanks!
+Ah, ok, thanks!
 
-I'll keep this one on my tree:
+Not sure why but this one still applies on the top of -next.
+Probably just the usual merge noise that happens close to
+a new merge window.
 
-	[PATCH 10/39] docs: leds: add it to the driver-api book
-
-=46rom the other series. If everything goes well, either Jon or I should
-be sending upstream by the end of the merge window, after rebasing it,
-together with a bunch of other patches touching the driver-api index.rst.
-
-That should hopefully avoid merge conflicts.
-
-Regards,
+Thanks,
 Mauro
