@@ -2,279 +2,229 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6273E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 21:39:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6845D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 23:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbfGFVi4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 17:38:56 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43509 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbfGFViz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 17:38:55 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 16so12303308ljv.10
-        for <linux-doc@vger.kernel.org>; Sat, 06 Jul 2019 14:38:53 -0700 (PDT)
+        id S1726468AbfGFXWn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 19:22:43 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:42127 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726469AbfGFXWn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 19:22:43 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t132so5810496pgb.9;
+        Sat, 06 Jul 2019 16:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=eng.ucsd.edu; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cjzJT+Ug2ljIH+eSeawQbtkAq5PwdGtNp/nTgDIdoFk=;
-        b=V9Srk96lJmI+I1DCntkuM0AyIq6ydmZa6ScG2spce+9ttK+z+1D2dTgtpJneKqad4I
-         1nm+O2GigCPMFDUSH8SIoQGioEnFRp/zcGYh4LhMc1Gk+7+JHELYRDCNQDJr3T9lH60t
-         MftEk/rwA+slBTfPUjj/GdK83sD+mvFMftQQA=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=RTOGUsYK/1YwgJdb8s4i6p4JdybmFRu4cjbcwuO4ysU=;
+        b=actA2lL5SxzvOGPac8eYvqD7Zhxq9pGgQPpNitg5D/MC4U6ZjHbshh1ICgAnK3+PhQ
+         NyVFXRcjrT51LHY7T6e9Fw32yHLlnni3eu09kpry0wc0zyu+oWdJEJyfEzUab62N2GsL
+         UB9nz2rlvn6H60/Rtvy+e64sTVbgwNwtXAlp49rSokjiImXprGWZPkTA+9V8x6NS032C
+         Jfc8O7tO7Hli390P6ofVNkvjTHyUowSjowjEN/TWhZV4QsFvj1jZ83H4hoVqIpseMqCP
+         Rn3Qj2CAAIYI5iGUCaNBHnkZOpJIDsggJSqoJTu8WHkvMGGKIgGEomIBmyR9xByjGQbF
+         sYAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cjzJT+Ug2ljIH+eSeawQbtkAq5PwdGtNp/nTgDIdoFk=;
-        b=OYTUFOr0T3gEkDTK9py+c974rUZshwHuEa7swDMoIlEmQFmW8e4cWGmXSx7azCxKYJ
-         Uw5Mr/TfKC1x0Wqy79djoPK/P/OrWd0hjqmeBKhRKxyP8sV54dhwS8A1FKPi1S0QVET6
-         KjWZGy91Ow0vc4svtTDdkZbzyUVycy3nWB6PKklTRjE7QwSR4c+fKWymQqQ0Cho0bpmw
-         /K35yuVfuIxjxMjpnurWbHL2ya/uogBOhB8m9WIoMr5OTZFsPeeLDui6SzzcbG1eyJs+
-         Abu6EIfzlKvZcf3NjKZkDoc1dddbLgEBJrqT9I5Emlcc8wnDIkwP+nJw9R+J3NT8VbEk
-         7i+w==
-X-Gm-Message-State: APjAAAVXOSgmCLoYbbKcxV+GUMIrfCrAwS3MBsXjjkmQzMQXGX4sNddl
-        /pJEDMONBslbYy3CYa2o1tyeeQ==
-X-Google-Smtp-Source: APXvYqw3xRdjUvkdGLRSIcoY1bNsDkHY0zejAiAFzDMTkZ32HpoDR4zyyPJfjAlDbxXYX8e/J5l7jA==
-X-Received: by 2002:a2e:9ec9:: with SMTP id h9mr5659575ljk.90.1562449132999;
-        Sat, 06 Jul 2019 14:38:52 -0700 (PDT)
-Received: from luke-XPS-13.home (77-255-206-190.adsl.inetia.pl. [77.255.206.190])
-        by smtp.gmail.com with ESMTPSA id j3sm1322449lfp.34.2019.07.06.14.38.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 06 Jul 2019 14:38:52 -0700 (PDT)
-From:   Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-X-Google-Original-From: Luke Nowakowski-Krijger <lnowakow@neg.ucsd.edu>
-To:     linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>,
-        pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] Documentation: kvm: Convert cpuid.txt to .rst
-Date:   Sat,  6 Jul 2019 14:38:14 -0700
-Message-Id: <e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
-References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=RTOGUsYK/1YwgJdb8s4i6p4JdybmFRu4cjbcwuO4ysU=;
+        b=S3Q4MBFrSgjmZCsc6GtHbxXZ0aNy7R62uDPfKtsUMZQnsYE8f7XcT6/uiAXH7ZjE53
+         1+DujFcnvROE+7kH2iyjdL8/fMq97U7/1dHBuYzjBUuv3g4sJON0U56LOBmnoGSAx6RA
+         IZYxxxfW9meIJEDwrBRwCSYCYqiNCZCEPbzmI46ckDTudojGd2AJ3gXKJvCQw7vjVdV/
+         Gc1UGVHVtodcrTtAwFHRiKAPYhfgZ7bQX49AhgPM6uI8pyL6sRHI3YQ4w11kUSwy9sFF
+         7fR9/2/H+CPMPIrc8qTjB6I980jcN7teqEFfoALm1xAOLjMNqz1e724duw+khDSAi9rQ
+         fNoA==
+X-Gm-Message-State: APjAAAXk0pH86JH+rtlSERiX98w3zqihnBbb7IEHmAICnQni43TATyLJ
+        4yo2NCby3lW5CG9cdlPNyrE=
+X-Google-Smtp-Source: APXvYqwtZcCuv0nuK4tHMFVURpG/icf6qlS2NWpt7vCSnvHNqx9mpA3BzRQ+AiXIsevA2tIQvPmgCQ==
+X-Received: by 2002:a17:90a:1904:: with SMTP id 4mr14414916pjg.116.1562455362586;
+        Sat, 06 Jul 2019 16:22:42 -0700 (PDT)
+Received: from t-1000 (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
+        by smtp.gmail.com with ESMTPSA id v14sm5282828pfm.164.2019.07.06.16.22.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 06 Jul 2019 16:22:41 -0700 (PDT)
+Date:   Sat, 6 Jul 2019 16:22:39 -0700
+From:   Shobhit Kukreti <shobhitkukreti@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     shobhitkukreti@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems: Convert
+ jfs.txt to reStructedText format.
+Message-ID: <20190706232236.GA24717@t-1000>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+This converts the plain text documentation of jfs.txt to reStructuredText format.
+Added to documentation build process and verified with make htmldocs
 
-Convert cpuid.txt to .rst format to be parsable by sphinx. 
-
-Change format and spacing to make function definitions and return values
-much more clear. Also added a table that is parsable by sphinx and makes
-the information much more clean. 
-
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
 ---
- Documentation/virtual/kvm/cpuid.rst | 99 +++++++++++++++++++++++++++++
- Documentation/virtual/kvm/cpuid.txt | 83 ------------------------
- 2 files changed, 99 insertions(+), 83 deletions(-)
- create mode 100644 Documentation/virtual/kvm/cpuid.rst
- delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+ Documentation/filesystems/index.rst |  1 +
+ Documentation/filesystems/jfs.rst   | 74 +++++++++++++++++++++++++++++++++++++
+ Documentation/filesystems/jfs.txt   | 52 --------------------------
+ 3 files changed, 75 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/filesystems/jfs.rst
+ delete mode 100644 Documentation/filesystems/jfs.txt
 
-diff --git a/Documentation/virtual/kvm/cpuid.rst b/Documentation/virtual/kvm/cpuid.rst
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 1131c34..d700330 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
+    :maxdepth: 2
+ 
+    binderfs.rst
++   jfs
+diff --git a/Documentation/filesystems/jfs.rst b/Documentation/filesystems/jfs.rst
 new file mode 100644
-index 000000000000..1a03336a500e
+index 0000000..bfb6110
 --- /dev/null
-+++ b/Documentation/virtual/kvm/cpuid.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/filesystems/jfs.rst
+@@ -0,0 +1,74 @@
++===========================================
++IBM's Journaled File System (JFS) for Linux
++===========================================
 +
-+==============
-+KVM CPUID bits
-+==============
++JFS Homepage:  http://jfs.sourceforge.net/
 +
-+:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
++Following Mount Options are Supported
 +
-+A guest running on a kvm host, can check some of its features using
-+cpuid. This is not always guaranteed to work, since userspace can
-+mask-out some, or even all KVM-related cpuid features before launching
-+a guest.
++(*) == default
++ .. tabularcolumns:: |p{1.3cm}|p{1.3cm}|p{8.0cm}|
 +
-+KVM cpuid functions are:
++.. cssclass:: longtable
 +
-+function: **KVM_CPUID_SIGNATURE (0x40000000)**
++.. flat-table::   
++  :header-rows:  0
++  :stub-columns: 0
++  
++  * - iocharset
++    - =name
++    - Character set to use for converting from Unicode to ASCII. The default is to do no conversion. Use iocharset=utf8 for UTF-8 translations. 
++      This requires CONFIG_NLS_UTF8 to be set in the kernel .config file. iocharset=none specifies the default behavior explicitly.
 +
-+returns::
-+ 
-+   eax = 0x40000001
-+   ebx = 0x4b4d564b
-+   ecx = 0x564b4d56
-+   edx = 0x4d
++  * - resize
++    - =value
++    - Resize the volume to <value> blocks. JFS only supports growing a volume, not shrinking it. This option is only valid during a remount, 
++      when the volume is mounted read-write. The resize keyword with no value will grow the volume to the full size of the partition.
++	
++  * - nointegrity
++    -            
++    - Do not write to the journal. The primary use of this option is to allow for higher performance when restoring a volume from backup media. 
++      The integrity of the volume is not guaranteed if the system abnormally abends.
 +
-+Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
-+The value in eax corresponds to the maximum cpuid function present in this leaf,
-+and will be updated if more functions are added in the future.
-+Note also that old hosts set eax value to 0x0. This should
-+be interpreted as if the value was 0x40000001.
-+This function queries the presence of KVM cpuid leafs.
++  * - integrity
++    - (*)  
++    - Commit metadata changes to the journal. Use this option to remount a volume where the nointegrity option was previously specified in order 
++      to restore normal behavior.
 +
-+function: **define KVM_CPUID_FEATURES (0x40000001)**
++  * - errors
++    - =continue		
++    - Keep going on a filesystem error.
 +
-+returns::
++  * - errors
++    - =remount-ro(*)
++    - Remount the filesystem read-only on an error.
++	
++  * - errors
++    - =panic
++    - Panic and halt the machine if an error occurs.
 +
-+          ebx, ecx
-+          eax = an OR'ed group of (1 << flag)
++  * - uid 
++    - =value
++    - Override on-disk uid with specified value
 +
-+where ``flag`` is defined as below:
++  * - gid 
++    - =value
++    - Override on-disk gid with specified value
 +
-++--------------------------------+------------+---------------------------------+
-+| flag                           | value      | meaning                         |
-++================================+============+=================================+
-+| KVM_FEATURE_CLOCKSOURCE        | 0          | kvmclock available at msrs      |
-+|                                |            | 0x11 and 0x12                   |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_NOP_IO_DELAY       | 1          | not necessary to perform delays |
-+|                                |            | on PIO operations               |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_MMU_OP             | 2          | deprecated                      |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_CLOCKSOURCE2       | 3          | kvmclock available at msrs      |
-+|                                |            | 0x4b564d00 and 0x4b564d01       |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_ASYNC_PF           | 4          | async pf can be enabled by      |
-+|                                |            | writing to msr 0x4b564d02       |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_STEAL_TIME         | 5          | steal time can be enabled by    |
-+|                                |            | writing to msr 0x4b564d03       |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_PV_EOI             | 6          | paravirtualized end of interrupt|
-+|                                |            | handler can be enabled by       |
-+|                                |            | writing to msr 0x4b564d04.      |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_PV_UNHAULT         | 7          | guest checks this feature bit   |
-+|                                |            | before enabling paravirtualized |
-+|                                |            | spinlock support                |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_PV_TLB_FLUSH       | 9          | guest checks this feature bit   |
-+|                                |            | before enabling paravirtualized |
-+|                                |            | tlb flush                       |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_ASYNC_PF_VMEXIT    | 10         | paravirtualized async PF VM EXIT|
-+|                                |            | can be enabled by setting bit 2 |
-+|                                |            | when writing to msr 0x4b564d02  |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_PV_SEND_IPI        | 11         | guest checks this feature bit   |
-+|                                |            | before enabling paravirtualized |
-+|                                |            | sebd IPIs                       |
-++--------------------------------+------------+---------------------------------+
-+| KVM_FEATURE_CLOCSOURCE_STABLE  | 24         | host will warn if no guest-side |
-+| _BIT                           |            | per-cpu warps are expeced in    |
-+|                                |            | kvmclock                        |
-++--------------------------------+------------+---------------------------------+
++  * - umask
++    - =value
++    - Override on-disk umask with specified octal value. For directories, the execute bit will be set if the corresponding read bit is set.
 +
-+::
++  * - discard 
++    - =minlen
++    - :rspan:`1` :cspan:`1` This enables/disables the use of discard/TRIM commands.The discard/TRIM commands are sent to the underlying block device when blocks 
++      are freed. This is useful for SSD devices and sparse/thinly-provisioned LUNs. The FITRIM ioctl command is also available together with the nodiscard option.
++      The value of minlen specifies the minimum blockcount, when a TRIM command to the block device is considered useful. When no value is given to the 
++      discard option, it defaults to 64 blocks, which means 256KiB in JFS. The minlen value of discard overrides the minlen value given on an FITRIM ioctl()
++   
++  * - nodiscard(*)
++    -
++      
 +
-+      edx = an OR'ed group of (1 << flag)
-+
-+Where ``flag`` here is defined as below:
-+
-++--------------------------------+------------+---------------------------------+
-+| flag                           | value      | meaning                         |
-++================================+============+=================================+
-+| KVM_HINTS_REALTIME             | 0          | guest checks this feature bit to|
-+|                                |            | determine that vCPUs are never  |
-+|                                |            | preempted for an unlimited time |
-+|                                |            | allowing optimizations          |
-++--------------------------------+------------+---------------------------------+
-diff --git a/Documentation/virtual/kvm/cpuid.txt b/Documentation/virtual/kvm/cpuid.txt
++The JFS mailing list can be subscribed to by using the link labeled
++"Mail list Subscribe" at our web page http://jfs.sourceforge.net/
+diff --git a/Documentation/filesystems/jfs.txt b/Documentation/filesystems/jfs.txt
 deleted file mode 100644
-index 97ca1940a0dc..000000000000
---- a/Documentation/virtual/kvm/cpuid.txt
+index 41fd757..0000000
+--- a/Documentation/filesystems/jfs.txt
 +++ /dev/null
-@@ -1,83 +0,0 @@
--KVM CPUID bits
--Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
--=====================================================
+@@ -1,52 +0,0 @@
+-IBM's Journaled File System (JFS) for Linux
 -
--A guest running on a kvm host, can check some of its features using
--cpuid. This is not always guaranteed to work, since userspace can
--mask-out some, or even all KVM-related cpuid features before launching
--a guest.
+-JFS Homepage:  http://jfs.sourceforge.net/
 -
--KVM cpuid functions are:
+-The following mount options are supported:
+-(*) == default
 -
--function: KVM_CPUID_SIGNATURE (0x40000000)
--returns : eax = 0x40000001,
--          ebx = 0x4b4d564b,
--          ecx = 0x564b4d56,
--          edx = 0x4d.
--Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
--The value in eax corresponds to the maximum cpuid function present in this leaf,
--and will be updated if more functions are added in the future.
--Note also that old hosts set eax value to 0x0. This should
--be interpreted as if the value was 0x40000001.
--This function queries the presence of KVM cpuid leafs.
+-iocharset=name	Character set to use for converting from Unicode to
+-		ASCII.  The default is to do no conversion.  Use
+-		iocharset=utf8 for UTF-8 translations.  This requires
+-		CONFIG_NLS_UTF8 to be set in the kernel .config file.
+-		iocharset=none specifies the default behavior explicitly.
 -
+-resize=value	Resize the volume to <value> blocks.  JFS only supports
+-		growing a volume, not shrinking it.  This option is only
+-		valid during a remount, when the volume is mounted
+-		read-write.  The resize keyword with no value will grow
+-		the volume to the full size of the partition.
 -
--function: define KVM_CPUID_FEATURES (0x40000001)
--returns : ebx, ecx
--          eax = an OR'ed group of (1 << flag), where each flags is:
+-nointegrity	Do not write to the journal.  The primary use of this option
+-		is to allow for higher performance when restoring a volume
+-		from backup media.  The integrity of the volume is not
+-		guaranteed if the system abnormally abends.
 -
+-integrity(*)	Commit metadata changes to the journal.  Use this option to
+-		remount a volume where the nointegrity option was
+-		previously specified in order to restore normal behavior.
 -
--flag                               || value || meaning
--=============================================================================
--KVM_FEATURE_CLOCKSOURCE            ||     0 || kvmclock available at msrs
--                                   ||       || 0x11 and 0x12.
--------------------------------------------------------------------------------
--KVM_FEATURE_NOP_IO_DELAY           ||     1 || not necessary to perform delays
--                                   ||       || on PIO operations.
--------------------------------------------------------------------------------
--KVM_FEATURE_MMU_OP                 ||     2 || deprecated.
--------------------------------------------------------------------------------
--KVM_FEATURE_CLOCKSOURCE2           ||     3 || kvmclock available at msrs
--                                   ||       || 0x4b564d00 and 0x4b564d01
--------------------------------------------------------------------------------
--KVM_FEATURE_ASYNC_PF               ||     4 || async pf can be enabled by
--                                   ||       || writing to msr 0x4b564d02
--------------------------------------------------------------------------------
--KVM_FEATURE_STEAL_TIME             ||     5 || steal time can be enabled by
--                                   ||       || writing to msr 0x4b564d03.
--------------------------------------------------------------------------------
--KVM_FEATURE_PV_EOI                 ||     6 || paravirtualized end of interrupt
--                                   ||       || handler can be enabled by writing
--                                   ||       || to msr 0x4b564d04.
--------------------------------------------------------------------------------
--KVM_FEATURE_PV_UNHALT              ||     7 || guest checks this feature bit
--                                   ||       || before enabling paravirtualized
--                                   ||       || spinlock support.
--------------------------------------------------------------------------------
--KVM_FEATURE_PV_TLB_FLUSH           ||     9 || guest checks this feature bit
--                                   ||       || before enabling paravirtualized
--                                   ||       || tlb flush.
--------------------------------------------------------------------------------
--KVM_FEATURE_ASYNC_PF_VMEXIT        ||    10 || paravirtualized async PF VM exit
--                                   ||       || can be enabled by setting bit 2
--                                   ||       || when writing to msr 0x4b564d02
--------------------------------------------------------------------------------
--KVM_FEATURE_PV_SEND_IPI            ||    11 || guest checks this feature bit
--                                   ||       || before using paravirtualized
--                                   ||       || send IPIs.
--------------------------------------------------------------------------------
--KVM_FEATURE_CLOCKSOURCE_STABLE_BIT ||    24 || host will warn if no guest-side
--                                   ||       || per-cpu warps are expected in
--                                   ||       || kvmclock.
--------------------------------------------------------------------------------
+-errors=continue		Keep going on a filesystem error.
+-errors=remount-ro(*)	Remount the filesystem read-only on an error.
+-errors=panic		Panic and halt the machine if an error occurs.
 -
--          edx = an OR'ed group of (1 << flag), where each flags is:
+-uid=value	Override on-disk uid with specified value
+-gid=value	Override on-disk gid with specified value
+-umask=value	Override on-disk umask with specified octal value.  For
+-		directories, the execute bit will be set if the corresponding
+-		read bit is set.
 -
+-discard=minlen	This enables/disables the use of discard/TRIM commands.
+-discard		The discard/TRIM commands are sent to the underlying
+-nodiscard(*)	block device when blocks are freed. This is useful for SSD
+-		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
+-		command is also available together with the nodiscard option.
+-		The value of minlen specifies the minimum blockcount, when
+-		a TRIM command to the block device is considered useful.
+-		When no value is given to the discard option, it defaults to
+-		64 blocks, which means 256KiB in JFS.
+-		The minlen value of discard overrides the minlen value given
+-		on an FITRIM ioctl().
 -
--flag                               || value || meaning
--==================================================================================
--KVM_HINTS_REALTIME                 ||     0 || guest checks this feature bit to
--                                   ||       || determine that vCPUs are never
--                                   ||       || preempted for an unlimited time,
--                                   ||       || allowing optimizations
------------------------------------------------------------------------------------
+-The JFS mailing list can be subscribed to by using the link labeled
+-"Mail list Subscribe" at our web page http://jfs.sourceforge.net/
 -- 
-2.20.1
+2.7.4
 
