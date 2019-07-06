@@ -1,139 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 785AF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 11:46:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 316C77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 16:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbfGFLq4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 07:46:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43480 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbfGFLqz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 07:46:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=j6y676QYR/iHJJ649Hu4pguKBc+26wcukAE46ESMMlo=; b=dOTYigO14yG8pQxnEPFBC19DX
-        /Ww8mAJLwcfe1SJqp/NylfCiIiI9REBU4NBiWe4dYMw9xdQP6lV0y+pUltL/gztWxW7BxkiF1kRXE
-        w6XA7g9pa5LjIsiEu0S8st2kB2gzhI15q6uEUzs4XQgoqkyabISla1WvfKEt7LUVcsysRFNZryzy2
-        Vt4rLjvEjd+OfhIGQpJR1++ZVceLUOM/+IRXvzm2znfchAZwwCauZYISTmjywQAOsgIR2YmU3+vzt
-        0KvSoXLLqm4bOXutzWmOhE1jpX4jFMrPYVTRcXNwmtfs/ro27ahj9vrDH17GltUK57PchaGmotAd6
-        Zh3YctvFg==;
-Received: from 177.205.70.5.dynamic.adsl.gvt.net.br ([177.205.70.5] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hjj9S-0002M7-Qh; Sat, 06 Jul 2019 11:46:47 +0000
-Date:   Sat, 6 Jul 2019 08:46:38 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Dave Young <dyoung@redhat.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jerry Hoemann <jerry.hoemann@hpe.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org
-Subject: Re: [PATCH 18/39] docs: admin-guide: add kdump documentation into
- it
-Message-ID: <20190706084638.7dc875f2@coco.lan>
-In-Reply-To: <20190705055904.GB2790@localhost.localdomain>
-References: <cover.1561724493.git.mchehab+samsung@kernel.org>
-        <654e7591c044632c06257e0f069a52c0bb993554.1561724493.git.mchehab+samsung@kernel.org>
-        <6911b74c-848f-0060-3db5-b5d7e8061cb5@linux.alibaba.com>
-        <20190705055904.GB2790@localhost.localdomain>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        id S1726712AbfGFQ0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 12:26:15 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:38596 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726522AbfGFQ0P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 12:26:15 -0400
+Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x66GPBsN009054;
+        Sun, 7 Jul 2019 01:25:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x66GPBsN009054
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562430312;
+        bh=X6cih5B3K2ei50R7X1Bl4X3Q5BgxxbeaDmtWdcAgytM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GB2BXtfeXIx3aQHmtoCkIutsS3zwmBEq76NmgPcHEhZBjOWNsBx2L+MziWBruk7NH
+         12ywrIxdo1fWios7cK8sjwd0UcIavrJqfw1HRhuPnGtGL0Dk3Xc+Fwq88Nw20C4AJM
+         T3yK6L3q45/MHsST+jLPn92s+jTCCyJQxU1XpzrFDoLZa811vkAnYnWzKqAKTnOnfG
+         /VRtJUTpCa3x1YjZkjS9nAwXs8gc46wXmCoeN+0fi9AlIn76WhUv1LKddhuZnq0HDE
+         RZ4Jm9tyYElZ4EbvVaz/x7dcXHWVe8EFyLzM22SKj4ty55VOIsRLAX6e6IbG591SEs
+         zqqouvEgQRy/w==
+X-Nifty-SrcIP: [126.26.94.249]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v2] kbuild: get rid of misleading $(AS) from documents
+Date:   Sun,  7 Jul 2019 01:25:08 +0900
+Message-Id: <20190706162508.8529-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 5 Jul 2019 13:59:04 +0800
-Dave Young <dyoung@redhat.com> escreveu:
+The assembler files in the kernel are *.S instead of *.s, so they must
+be preprocessed. Since 'as' of GNU binutils is not able to preprocess,
+we always use $(CC) as an assembler driver.
 
-> On 07/05/19 at 11:43am, Alex Shi wrote:
-> >=20
-> >=20
-> > =E5=9C=A8 2019/6/28 =E4=B8=8B=E5=8D=888:30, Mauro Carvalho Chehab =E5=
-=86=99=E9=81=93: =20
-> > > The Kdump documentation describes procedures with admins use
-> > > in order to solve issues on their systems.
-> > >=20
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > ---
-> > >  Documentation/admin-guide/bug-hunting.rst            | 4 ++--
-> > >  Documentation/admin-guide/index.rst                  | 1 +
-> > >  Documentation/{ =3D> admin-guide}/kdump/gdbmacros.txt  | 0
-> > >  Documentation/{ =3D> admin-guide}/kdump/index.rst      | 1 -
-> > >  Documentation/{ =3D> admin-guide}/kdump/kdump.rst      | 0
-> > >  Documentation/{ =3D> admin-guide}/kdump/vmcoreinfo.rst | 0 =20
-> >=20
-> > I am not sure if it's convenience for people to have more levels in doc=
-s.
-> >=20
-> > But I guess, move archs into a Documentation/arch/ dir should be fine. =
-like Documentation/arch/{x86,arm,arm64,ia64,m68k,s390,powerpc,...} =20
->=20
-> Alex, moving kdump to admin-guide sounds reasonable to me.  I also agree
-> with you for those arch dependent files can be moved to
-> Documentation/arch/, maybe you are talking about some other patches in
-> the series for the arch/?=20
+$(AS) is almost unused in Kbuild. As of writing, there is just one place
+that directly invokes $(AS).
 
-Alex,
+  $ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' -- :^Documentation
+  drivers/net/wan/Makefile:  AS68K = $(AS)
 
-It makes sense for me to have a Documentation/arch directory, and place
-the arch-specific docs over there.
+The documentation about *_AFLAGS* sounds like the flags were passed
+to $(AS). This is somewhat misleading.
 
-There's actually a technical advantage on doing that: Sphinx is dumb
-with regards to PDF/LaTeX output: it requires all top documents to be
-listed at Documentation/conf.py, under this var:
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+---
 
-	latex_documents =3D [
-		...
-	]
+Changes in v2:
+  - Rephrase without using "assembling"
 
-As it creates one runtime Makefile at Documentation/output per listed
-document there. So, the more we group such documents, the less merge
-conflicts we'll have at Documentation/conf.py.
+ Documentation/kbuild/kbuild.txt    |  5 ++---
+ Documentation/kbuild/makefiles.txt | 12 ++++++------
+ 2 files changed, 8 insertions(+), 9 deletions(-)
 
-Btw, there's a [TECH TOPIC] proposal for KS/2019 meant to discuss=20
-Documentation.
+diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+index 9c230ea71963..2c6188abb213 100644
+--- a/Documentation/kbuild/kbuild.txt
++++ b/Documentation/kbuild/kbuild.txt
+@@ -31,12 +31,11 @@ Additional options to the assembler (for built-in and modules).
+ 
+ AFLAGS_MODULE
+ --------------------------------------------------
+-Additional module specific options to use for $(AS).
++Additional assembler options for modules.
+ 
+ AFLAGS_KERNEL
+ --------------------------------------------------
+-Additional options for $(AS) when used for assembler
+-code for code that is compiled as built-in.
++Additional assembler options for built-in.
+ 
+ KCFLAGS
+ --------------------------------------------------
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index d65ad5746f94..895bbbf38a0c 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -306,7 +306,7 @@ more details, with real examples.
+ 	variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
+ 	entire tree.
+ 
+-	asflags-y specifies options for assembling with $(AS).
++	asflags-y specifies assembler options.
+ 
+ 	Example:
+ 		#arch/sparc/kernel/Makefile
+@@ -441,7 +441,7 @@ more details, with real examples.
+ 	as-instr checks if the assembler reports a specific instruction
+ 	and then outputs either option1 or option2
+ 	C escapes are supported in the test instruction
+-	Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
++	Note: as-instr-option uses KBUILD_AFLAGS for assembler options
+ 
+     cc-option
+ 	cc-option is used to check if $(CC) supports a given option, and if
+@@ -814,7 +814,7 @@ When kbuild executes, the following steps are followed (roughly):
+ 	In this example, the binary $(obj)/image is a binary version of
+ 	vmlinux. The usage of $(call if_changed,xxx) will be described later.
+ 
+-    KBUILD_AFLAGS		$(AS) assembler flags
++    KBUILD_AFLAGS		assembler flags
+ 
+ 	Default value - see top level Makefile
+ 	Append or modify as required per architecture.
+@@ -853,15 +853,15 @@ When kbuild executes, the following steps are followed (roughly):
+ 	The first example utilises the trick that a config option expands
+ 	to 'y' when selected.
+ 
+-    KBUILD_AFLAGS_KERNEL	$(AS) options specific for built-in
++    KBUILD_AFLAGS_KERNEL	Assembler options specific for built-in
+ 
+ 	$(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
+ 	resident kernel code.
+ 
+-    KBUILD_AFLAGS_MODULE   Options for $(AS) when building modules
++    KBUILD_AFLAGS_MODULE   Assembler options specific for modules
+ 
+ 	$(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
+-	are used for $(AS).
++	are used for assembler.
+ 	From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
+ 
+     KBUILD_CFLAGS_KERNEL	$(CC) options specific for built-in
+-- 
+2.17.1
 
-I suspect we could discuss the pros/cons of doing such change there.
-
-My personal view is that we should keep the Documentation/ root dir as
-clean as possible as a long term goal.
-
-On the other hand, it makes the path bigger and harder to rename.
-
-On a side note, last time we discussed documentation at KS I remember
-I proposed to shortcut "Documentation/" to just "docs/". The consensus
-on that time were to keep the big name. I still think that a shorter
-one could help people to remind where documentation will be located.
-
-Thanks,
-Mauro
