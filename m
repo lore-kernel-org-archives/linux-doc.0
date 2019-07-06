@@ -1,103 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4D7EC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 16:28:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4448B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 19:56:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfGFQ2r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 12:28:47 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43842 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfGFQ2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 12:28:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ghL77CchQXZL/1OYqkjXukfJ+VErUY5D2o/FDaCKbfY=; b=UjLH+DhWCO9f+D1rCXCq6GLrd
-        jWUsUOA68M8jrRdMuVNaqbcH2PnpNFmOYC53qO3XFxJK5C0h7knV3Cm2ZK9mwuIE4bidJZ4zvvttv
-        KShBF7wfmr/o+5CV/knJki0YDBX9ahYnld3Ze/HUGjDEbjsU/uKWnk4KiIM0VjaYA+h+GvITywWCk
-        vzzb+wM0oHO9WaK6NhKsYYPLOEZtCHvSJpGZrNZbZ5Xf7WeKV8HS4PrEQpQHhD3kysLhPjHN65Se6
-        HsQSQMxgTHiqva+mtckU6vKqEiE2NhyQ4H5DFxylUSI6d2Z1Ys3L4cebegC16l1w33U3yZ9N0/LRQ
-        TTKRdHRSg==;
-Received: from [179.95.10.178] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hjnYM-00077F-P3; Sat, 06 Jul 2019 16:28:46 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hjnYJ-0005Ue-J0; Sat, 06 Jul 2019 13:28:43 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs: automarkup.py: ignore exceptions when seeking for xrefs
-Date:   Sat,  6 Jul 2019 13:28:42 -0300
-Message-Id: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726843AbfGFT4Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 15:56:16 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36583 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbfGFT4P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 15:56:15 -0400
+Received: by mail-pf1-f193.google.com with SMTP id r7so5692558pfl.3;
+        Sat, 06 Jul 2019 12:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rdIXRuC7NtBV4U1/w6LEafkVG7RzW7TEmbreVlueNKA=;
+        b=Cqvb9HBEcixv91n56a2YxAnRpUeggG7y5cXiyagiVu7Vs9OM71q1RhrTZ4Jk4DBqLC
+         oR10n5MBlJbouu5999P3lWVOZG/WzqqmFtlqhJ7q4gvoGDUP2d09sJGsREXFpNUzssRV
+         jIaRwKRoHGEdOUOcXFoLkvwkvmRy4eTw40Ivuo5x5mkJyg7uKxURLwRakU12vMEuTMrP
+         GiD2zv8+3zC0UC8LohxaoYBVDp3BodkhtoZKSbbUDQcEq7z71AS5bKcHVqBw7YEJTUFQ
+         BbwwBi7SwN7pp5U24GtPzRVlitkOhHqf0fTYKNq6xKa7wtnyzZzRsHB8Xd+3zbZlZVi5
+         osPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rdIXRuC7NtBV4U1/w6LEafkVG7RzW7TEmbreVlueNKA=;
+        b=KQfnerXf8qdHY84t4fqx2PGdmIZZawfCKmZZnP4gZAuRBTFZmE+EAjgk0xiIh19kzl
+         Duo7nRVaG/q4/FtYU5Gi9Z3oyfw8zHKyaaO8GP5jJL6obQrxsQ4t15WG5BoMRV3Aolok
+         we3HhMwZYqmYeLGPEal+Eu5IQEoOUgJFLPgLbTJcwUmJ2xFIxIXwHxBv+Oc29NB6fGhW
+         Qrr2Qx0uyK3NESPBrhlR5GVcvQQn+DJu3omg/f2r0Hif8S5Asy3MepbFLxOY5nFunWQR
+         xIA+SeeL3EkdmY5lABX0wNpQw2NAET4lqYPzkpQUA9rA2Pfrw32hMwLsf7GBg2JxJsJM
+         EaoA==
+X-Gm-Message-State: APjAAAUzQYuV+lyXkDwoGAawbJUEELfcrBJgMNJIt1I1QNESSrcuHa1V
+        IvlTM8kG04H2ay3qXbE4kBk=
+X-Google-Smtp-Source: APXvYqxL2fcdJMRm7Zr4rY9qTpSt3wgEXavqeaaNwMzlyQE7DqTdBwn62soMZFefr4wMjd/ZDjwUmw==
+X-Received: by 2002:a17:90a:cb97:: with SMTP id a23mr13025330pju.67.1562442974920;
+        Sat, 06 Jul 2019 12:56:14 -0700 (PDT)
+Received: from Shreeya-Patel ([49.34.71.227])
+        by smtp.googlemail.com with ESMTPSA id y11sm18657887pfb.119.2019.07.06.12.56.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 06 Jul 2019 12:56:14 -0700 (PDT)
+Message-ID: <dcbc0088f31f26f80ab05e51787099df9b70262f.camel@gmail.com>
+Subject: Re: [PATCH] Documentation: cpu-freq: Convert core.txt file to ReST
+ format
+From:   Shreeya Patel <shreeya.patel23498@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     skhan@linuxfoundation.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Date:   Sun, 07 Jul 2019 01:26:07 +0530
+In-Reply-To: <CAJZ5v0hovK+BY0kozGvkyCgR5CFHpZUu71BZRjUUdCYV8fM5Hg@mail.gmail.com>
+References: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
+         <CAJZ5v0hovK+BY0kozGvkyCgR5CFHpZUu71BZRjUUdCYV8fM5Hg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When using the automarkup extension with:
-	make pdfdocs
+On Sat, 2019-07-06 at 09:58 +0200, Rafael J. Wysocki wrote:
+> On Fri, Jul 5, 2019 at 11:04 PM Shreeya Patel
+> <shreeya.patel23498@gmail.com> wrote:
+> > 
+> > Convert core file to ReST format, in order to allow it to
+> > be parsed by Sphinx. Make a minor change of correcting the wrong
+> > function name cpufreq_put_cpu to cpufreq_cpu_put.
+> > Also create an index.rst file in cpu-freq and add it's entry
+> > in the main Documentation/index.rst file.
+> > 
+> > Signed-off-by: Shreeya Patel <shreeya.patel23498@gmail.com>
+> 
+> I've said "no" no three previous attempts and this one is not
+> different.
+> 
+Sorry, I was not knowing about it.
 
-without passing an specific book, the code will raise an exception:
+> I don't want to have anything .rst in Documentation/cpu-freq/.
+> 
+> There is a *new* admin-guide doc for cpufreq already and what is
+> missing is a *new* driver-api one.
+> 
+Yes I saw that but it didn't include all the details given in
+Documentation/cpu-freq hence I thought of sending this initial patch.
 
-	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 86, in auto_markup
-	    node.parent.replace(node, markup_funcs(name, app, node))
-	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 59, in markup_funcs
-	    'function', target, pxref, lit_text)
-	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/domains/c.py", line 308, in resolve_xref
-	    contnode, target)
-	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/util/nodes.py", line 450, in make_refnode
-	    '#' + targetid)
-	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 159, in get_relative_uri
-	    return self.get_target_uri(to, typ)
-	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 152, in get_target_uri
-	    raise NoUri
-	sphinx.environment.NoUri
+Thanks
 
-This happens because not all references will belong to a single
-PDF/LaTeX document.
-
-Better to just ignore those than breaking Sphinx build.
-
-Fixes: d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/sphinx/automarkup.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index b300cf129869..dba14374f269 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -55,8 +55,13 @@ def markup_funcs(docname, app, node):
-                                           reftype = 'function',
-                                           reftarget = target, modname = None,
-                                           classname = None)
--            xref = cdom.resolve_xref(app.env, docname, app.builder,
--                                     'function', target, pxref, lit_text)
-+
-+            # When building pdf documents, this may raise a NoUri exception
-+            try:
-+                xref = cdom.resolve_xref(app.env, docname, app.builder,
-+                                         'function', target, pxref, lit_text)
-+            except:
-+                xref = None
-         #
-         # Toss the xref into the list if we got it; otherwise just put
-         # the function text.
--- 
-2.21.0
+> Thanks!
 
