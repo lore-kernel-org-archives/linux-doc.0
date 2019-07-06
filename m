@@ -1,142 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 933D77D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 03:08:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A40007D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 07:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725887AbfGFDIG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Jul 2019 23:08:06 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:48657 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbfGFDIG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jul 2019 23:08:06 -0400
-Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x6637E3O030660;
-        Sat, 6 Jul 2019 12:07:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6637E3O030660
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562382437;
-        bh=BXranRnGobQsHmPdkgRbmYAS0JjPT04S0nMG/+Roa7I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WubaS67xUsMj78YonzUEFRxs7Ogw/ltP28Bl+bOOgceIgHJ0CqbRy5zTGeiHsoxS9
-         i1a+a3A54Ph5hW/bvFf7EZRKnFArJQMwvz5CNmDFVzcQy0kyofx3l1LNkNBxDxJnk0
-         F9sU/q5ZKQDkwHhcfVBOJuhpdSkwYk0p8nRN5e57K/b1UyKSIiF5CXo6Ie3FZqc682
-         cl75+fzxeRFpTJNAx+k/w+/Is4tRXsA9RjvjUOKKP1Zl7MQfWo8JjCp6WtLjtZuUFx
-         g1LrVFUjK97hgxZbVFmEBFlcqYV0dPPk0he3+No2OC9SD/jOCKyWXLYVMFmNr8b5MR
-         IJX3mqdMV9MVQ==
-X-Nifty-SrcIP: [126.26.94.249]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1725945AbfGFH6y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 03:58:54 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38346 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbfGFH6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 03:58:54 -0400
+Received: by mail-ot1-f68.google.com with SMTP id d17so11213785oth.5;
+        Sat, 06 Jul 2019 00:58:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6COQkh4U3VVQoN9CAk4HX81w+sKnxIMS3dtGDN2ojSg=;
+        b=HAm/hdwGGTZVcxch7AvFGw/12QWng1eb8dg7DWpzgXzbCgLHdNXi0FDTD1HTQK8Pmx
+         3crSy4c7sIDakBtQ9J77KOyb+JToPTJoTTm4SZi0Bp7Tw5dHN3AgOPFOrrJOo0FDxKmq
+         bBmatNDbZUBUHE7kwel43de3PbNY2w40CfdG6tTNp7UVKw4NyMoh6CjmUjvdu8oXQKJO
+         m7Evjj3Wk/4I0RxHJevPpkErvqAmFusVlzcp940IzUficF8hkF9aZ7RcJ7egJFZZE+iz
+         anxsFTXZwenTgzvO6nFfTWlJ59b0pqnCbCq+WS5bDzuWUfcKZrFomojJlnGCF244iF+Z
+         lOLg==
+X-Gm-Message-State: APjAAAWBoh5fCIfJBl04ou55wUEn11PTST4cZn5l8Z8bmNdOBkIwwczJ
+        4vuPAgzLaiAxXjNgOkyMlbqP5mBZiLhTPVuY+nc=
+X-Google-Smtp-Source: APXvYqxs3fkYFf33MB5x0z6dgHzIdnZjiX1d3PHTwjm1UPH9bFhoAYVt7Ku/aN9dAKvbh4TU03F/cBhIR4URNsMsFXw=
+X-Received: by 2002:a9d:6a4b:: with SMTP id h11mr3991551otn.266.1562399933246;
+ Sat, 06 Jul 2019 00:58:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
+In-Reply-To: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sat, 6 Jul 2019 09:58:40 +0200
+Message-ID: <CAJZ5v0hovK+BY0kozGvkyCgR5CFHpZUu71BZRjUUdCYV8fM5Hg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: cpu-freq: Convert core.txt file to ReST format
+To:     Shreeya Patel <shreeya.patel23498@gmail.com>
+Cc:     skhan@linuxfoundation.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 3/3] kbuild: add a flag to force absolute path for srctree
-Date:   Sat,  6 Jul 2019 12:07:13 +0900
-Message-Id: <20190706030713.6221-3-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190706030713.6221-1-yamada.masahiro@socionext.com>
-References: <20190706030713.6221-1-yamada.masahiro@socionext.com>
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In old days, Kbuild always used an absolute path for $(srctree).
+On Fri, Jul 5, 2019 at 11:04 PM Shreeya Patel
+<shreeya.patel23498@gmail.com> wrote:
+>
+> Convert core file to ReST format, in order to allow it to
+> be parsed by Sphinx. Make a minor change of correcting the wrong
+> function name cpufreq_put_cpu to cpufreq_cpu_put.
+> Also create an index.rst file in cpu-freq and add it's entry
+> in the main Documentation/index.rst file.
+>
+> Signed-off-by: Shreeya Patel <shreeya.patel23498@gmail.com>
 
-Since commit 890676c65d69 ("kbuild: Use relative path when building in
-the source tree"), $(srctree) is '.' when not using O=.
+I've said "no" no three previous attempts and this one is not different.
 
-Yet, using absolute paths is useful in some cases even without O=, for
-instance, to create a cscope file with absolute path tags.
+I don't want to have anything .rst in Documentation/cpu-freq/.
 
-O=. was used as an idiom to force Kbuild to use absolute paths even
-when you are building in the source tree.
+There is a *new* admin-guide doc for cpufreq already and what is
+missing is a *new* driver-api one.
 
-Since commit 25b146c5b8ce ("kbuild: allow Kbuild to start from any
-directory"), Kbuild is too clever to be tricked. Even if you pass O=.
-Kbuild notices you are building in the source tree, then use '.' for
-$(srctree).
-
-So, "make O=. cscope" is no help to create absolute path tags.
-
-We cannot force one or the other according to commit e93bc1a0cab3
-("Revert "kbuild: specify absolute paths for cscope""). Both of
-relative path and absolute path have pros and cons.
-
-This commit adds a new flag KBUILD_ABS_SRCTREE to allow users to
-choose the absolute path for $(srctree).
-
-"make KBUILD_ABS_SRCTREE=1 cscope" will work as a replacement of
-"make O=. cscope".
-
-I added Fixes since that commit broke some users' workflow.
-
-Fixes: 25b146c5b8ce ("kbuild: allow Kbuild to start from any directory")
-Reported-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- Documentation/kbuild/kbuild.txt | 9 +++++++++
- Makefile                        | 4 ++++
- scripts/tags.sh                 | 3 +--
- 3 files changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
-index 7a7e2aa2fab5..3ef42f87f275 100644
---- a/Documentation/kbuild/kbuild.txt
-+++ b/Documentation/kbuild/kbuild.txt
-@@ -182,6 +182,15 @@ The output directory is often set using "O=..." on the commandline.
- 
- The value can be overridden in which case the default value is ignored.
- 
-+KBUILD_ABS_SRCTREE
-+--------------------------------------------------
-+Kbuild uses a relative path to point to the tree when possible. For instance,
-+when building in the source tree, the source tree path is '.'
-+
-+Setting this flag requests Kbuild to use absolute path to the source tree.
-+There are some useful cases to do so, like when generating tag files with
-+absolute path entries etc.
-+
- KBUILD_SIGN_PIN
- --------------------------------------------------
- This variable allows a passphrase or PIN to be passed to the sign-file
-diff --git a/Makefile b/Makefile
-index 534a5dc796b1..6dc453f86f00 100644
---- a/Makefile
-+++ b/Makefile
-@@ -244,6 +244,10 @@ else
- 	building_out_of_srctree := 1
- endif
- 
-+ifneq ($(KBUILD_ABS_SRCTREE),)
-+srctree := $(abs_srctree)
-+endif
-+
- objtree		:= .
- VPATH		:= $(srctree)
- 
-diff --git a/scripts/tags.sh b/scripts/tags.sh
-index 7fea4044749b..4e18ae5282a6 100755
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -17,8 +17,7 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
- # tags and cscope files should also ignore MODVERSION *.mod.c files
- ignore="$ignore ( -name *.mod.c ) -prune -o"
- 
--# Do not use full path if we do not use O=.. builds
--# Use make O=. {tags|cscope}
-+# Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
- # to force full paths for a non-O= build
- if [ "${srctree}" = "." -o -z "${srctree}" ]; then
- 	tree=
--- 
-2.17.1
-
+Thanks!
