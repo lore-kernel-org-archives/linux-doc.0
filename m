@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6845D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Jul 2019 23:22:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85EDC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Jul 2019 01:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726468AbfGFXWn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 19:22:43 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:42127 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726469AbfGFXWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 19:22:43 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t132so5810496pgb.9;
-        Sat, 06 Jul 2019 16:22:43 -0700 (PDT)
+        id S1726974AbfGGBjy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Jul 2019 21:39:54 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33525 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726927AbfGGBjx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 21:39:53 -0400
+Received: by mail-pf1-f196.google.com with SMTP id g2so1096125pfq.0;
+        Sat, 06 Jul 2019 18:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=RTOGUsYK/1YwgJdb8s4i6p4JdybmFRu4cjbcwuO4ysU=;
-        b=actA2lL5SxzvOGPac8eYvqD7Zhxq9pGgQPpNitg5D/MC4U6ZjHbshh1ICgAnK3+PhQ
-         NyVFXRcjrT51LHY7T6e9Fw32yHLlnni3eu09kpry0wc0zyu+oWdJEJyfEzUab62N2GsL
-         UB9nz2rlvn6H60/Rtvy+e64sTVbgwNwtXAlp49rSokjiImXprGWZPkTA+9V8x6NS032C
-         Jfc8O7tO7Hli390P6ofVNkvjTHyUowSjowjEN/TWhZV4QsFvj1jZ83H4hoVqIpseMqCP
-         Rn3Qj2CAAIYI5iGUCaNBHnkZOpJIDsggJSqoJTu8WHkvMGGKIgGEomIBmyR9xByjGQbF
-         sYAQ==
+        bh=RAReVEOZmlivAeYvp7txSpBTLyvirIUwwGJli98Rrx0=;
+        b=n2JgFU2aAq3X2tvy6uw/KC2BIMGm/8irRzy4dan+oJPPCGJ7JuHekluzEZJluazsWQ
+         Dl9WE92bSWDxzA3dcnCM238p6ZW0HyJLYKmM36mUdJKh2eWWU0fQg1RvzrA/wfm19lr5
+         LsK7IFMUJANbnpE38SA9fRlM0o5WAiugwTG6joGoE4bw17KOJB5zREbzqnm+22yNLAXB
+         c6RiBq4NKbBrhYP6lonBz36bxxd5AdssNg17IJT2kzXcQ+puleL8o9K3XpfihethJfi7
+         Rl8I5tcEyBNQjxHeNcPpOTJ9dy/8puLM7iMxcp3W39cKoDmmWKuCexF8kbWcMHDrpE3t
+         4KkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=RTOGUsYK/1YwgJdb8s4i6p4JdybmFRu4cjbcwuO4ysU=;
-        b=S3Q4MBFrSgjmZCsc6GtHbxXZ0aNy7R62uDPfKtsUMZQnsYE8f7XcT6/uiAXH7ZjE53
-         1+DujFcnvROE+7kH2iyjdL8/fMq97U7/1dHBuYzjBUuv3g4sJON0U56LOBmnoGSAx6RA
-         IZYxxxfW9meIJEDwrBRwCSYCYqiNCZCEPbzmI46ckDTudojGd2AJ3gXKJvCQw7vjVdV/
-         Gc1UGVHVtodcrTtAwFHRiKAPYhfgZ7bQX49AhgPM6uI8pyL6sRHI3YQ4w11kUSwy9sFF
-         7fR9/2/H+CPMPIrc8qTjB6I980jcN7teqEFfoALm1xAOLjMNqz1e724duw+khDSAi9rQ
-         fNoA==
-X-Gm-Message-State: APjAAAXk0pH86JH+rtlSERiX98w3zqihnBbb7IEHmAICnQni43TATyLJ
-        4yo2NCby3lW5CG9cdlPNyrE=
-X-Google-Smtp-Source: APXvYqwtZcCuv0nuK4tHMFVURpG/icf6qlS2NWpt7vCSnvHNqx9mpA3BzRQ+AiXIsevA2tIQvPmgCQ==
-X-Received: by 2002:a17:90a:1904:: with SMTP id 4mr14414916pjg.116.1562455362586;
-        Sat, 06 Jul 2019 16:22:42 -0700 (PDT)
+        bh=RAReVEOZmlivAeYvp7txSpBTLyvirIUwwGJli98Rrx0=;
+        b=NVzC0+wzRPf49go6KfLT1594gHX1XA8upGpGakIUApg3fmmpgun4jWllfYrcPnz4GF
+         GO3opz6pJ4fvnhEsYvYF9S6l8001tvdvajJHdEC1Xatm5xVYj33fzgYkwCHI98pAOEqL
+         IebATX7mQI5RhAg9VMT2bZmGPt6CwfbwLJp5Q0ibMmdjBI7JWQunr3N7b4SFBH/W7LOm
+         m5kgqb0CTTaJI4t9bI5G6c3eex9V6gs4D5jPvQs8nZz3LEa1yxQe4o+G3l2Z2cbaAYGr
+         hQ9auiVGtuQlCWay8+/NDKGUmsAmjd5cgrsXGcMyXrYzEIA1ZRr2sq362xVXBOQyIu/3
+         1Www==
+X-Gm-Message-State: APjAAAVXWWDzqtJAeVTEhMN7+8nrRYF+/LLdxDgklP5o7rq6RcEzWX/8
+        iB3lBW82qDzsQn06Dh3rTz4=
+X-Google-Smtp-Source: APXvYqwnz0yH7ZUrlCoDE5ejIsOIBtUON6v3scy19wq+Hr2seQiZ/3GBRaRBPjnkBrDZuM+N/gM1EQ==
+X-Received: by 2002:a17:90a:8c18:: with SMTP id a24mr14189130pjo.111.1562463592643;
+        Sat, 06 Jul 2019 18:39:52 -0700 (PDT)
 Received: from t-1000 (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
-        by smtp.gmail.com with ESMTPSA id v14sm5282828pfm.164.2019.07.06.16.22.41
+        by smtp.gmail.com with ESMTPSA id r27sm22320962pgn.25.2019.07.06.18.39.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 06 Jul 2019 16:22:41 -0700 (PDT)
-Date:   Sat, 6 Jul 2019 16:22:39 -0700
+        Sat, 06 Jul 2019 18:39:52 -0700 (PDT)
+Date:   Sat, 6 Jul 2019 18:39:50 -0700
 From:   Shobhit Kukreti <shobhitkukreti@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     shobhitkukreti@gmail.com
 Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems: Convert
- jfs.txt to reStructedText format.
-Message-ID: <20190706232236.GA24717@t-1000>
+ ufs.txt to reStructuredText format
+Message-ID: <20190707013947.GA10663@t-1000>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -66,165 +66,164 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts the plain text documentation of jfs.txt to reStructuredText format.
+This converts the plain text documentation of ufs.txt to reStructuredText format.
 Added to documentation build process and verified with make htmldocs
 
 Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
 ---
  Documentation/filesystems/index.rst |  1 +
- Documentation/filesystems/jfs.rst   | 74 +++++++++++++++++++++++++++++++++++++
- Documentation/filesystems/jfs.txt   | 52 --------------------------
- 3 files changed, 75 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/filesystems/jfs.rst
- delete mode 100644 Documentation/filesystems/jfs.txt
+ Documentation/filesystems/ufs.rst   | 65 +++++++++++++++++++++++++++++++++++++
+ Documentation/filesystems/ufs.txt   | 60 ----------------------------------
+ 3 files changed, 66 insertions(+), 60 deletions(-)
+ create mode 100644 Documentation/filesystems/ufs.rst
+ delete mode 100644 Documentation/filesystems/ufs.txt
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1131c34..d700330 100644
+index d700330..2b4f870 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
-    :maxdepth: 2
+@@ -42,3 +42,4 @@ Documentation for individual filesystem types can be found here.
  
     binderfs.rst
-+   jfs
-diff --git a/Documentation/filesystems/jfs.rst b/Documentation/filesystems/jfs.rst
+    jfs
++   ufs
+diff --git a/Documentation/filesystems/ufs.rst b/Documentation/filesystems/ufs.rst
 new file mode 100644
-index 0000000..bfb6110
+index 0000000..d6aeef0
 --- /dev/null
-+++ b/Documentation/filesystems/jfs.rst
-@@ -0,0 +1,74 @@
-+===========================================
-+IBM's Journaled File System (JFS) for Linux
-+===========================================
++++ b/Documentation/filesystems/ufs.rst
+@@ -0,0 +1,65 @@
++=========
++USING UFS
++=========
 +
-+JFS Homepage:  http://jfs.sourceforge.net/
++mount -t ufs -o ufstype=type_of_ufs device dir
 +
-+Following Mount Options are Supported
++UFS OPTIONS
++===========
 +
-+(*) == default
-+ .. tabularcolumns:: |p{1.3cm}|p{1.3cm}|p{8.0cm}|
++.. tabularcolumns:: |p{0.5cm}|p{0.5cm}|p{8.0cm}|
 +
 +.. cssclass:: longtable
 +
 +.. flat-table::   
-+  :header-rows:  0
-+  :stub-columns: 0
-+  
-+  * - iocharset
-+    - =name
-+    - Character set to use for converting from Unicode to ASCII. The default is to do no conversion. Use iocharset=utf8 for UTF-8 translations. 
-+      This requires CONFIG_NLS_UTF8 to be set in the kernel .config file. iocharset=none specifies the default behavior explicitly.
++   :header-rows:  0
++   :stub-columns: 0
 +
-+  * - resize
-+    - =value
-+    - Resize the volume to <value> blocks. JFS only supports growing a volume, not shrinking it. This option is only valid during a remount, 
-+      when the volume is mounted read-write. The resize keyword with no value will grow the volume to the full size of the partition.
-+	
-+  * - nointegrity
-+    -            
-+    - Do not write to the journal. The primary use of this option is to allow for higher performance when restoring a volume from backup media. 
-+      The integrity of the volume is not guaranteed if the system abnormally abends.
++   * - :rspan:`10` ufstype
++     - =type_of_ufs
++     - UFS is a file system widely used in different operating systems. The problem are differences among implementations. Features of some implementations 
++       are undocumented, so its hard to recognize type of ufs automatically. That's why user must specify type of ufs manually by mount option ufstype.
++       Possible values are below.
 +
-+  * - integrity
-+    - (*)  
-+    - Commit metadata changes to the journal. Use this option to remount a volume where the nointegrity option was previously specified in order 
-+      to restore normal behavior.
-+
-+  * - errors
-+    - =continue		
-+    - Keep going on a filesystem error.
-+
-+  * - errors
-+    - =remount-ro(*)
-+    - Remount the filesystem read-only on an error.
-+	
-+  * - errors
-+    - =panic
-+    - Panic and halt the machine if an error occurs.
-+
-+  * - uid 
-+    - =value
-+    - Override on-disk uid with specified value
-+
-+  * - gid 
-+    - =value
-+    - Override on-disk gid with specified value
-+
-+  * - umask
-+    - =value
-+    - Override on-disk umask with specified octal value. For directories, the execute bit will be set if the corresponding read bit is set.
-+
-+  * - discard 
-+    - =minlen
-+    - :rspan:`1` :cspan:`1` This enables/disables the use of discard/TRIM commands.The discard/TRIM commands are sent to the underlying block device when blocks 
-+      are freed. This is useful for SSD devices and sparse/thinly-provisioned LUNs. The FITRIM ioctl command is also available together with the nodiscard option.
-+      The value of minlen specifies the minimum blockcount, when a TRIM command to the block device is considered useful. When no value is given to the 
-+      discard option, it defaults to 64 blocks, which means 256KiB in JFS. The minlen value of discard overrides the minlen value given on an FITRIM ioctl()
++   * - old 
++     - old format of ufs default value, supported as read-only
 +   
-+  * - nodiscard(*)
-+    -
-+      
++   * - 44bsd	
++     - used in FreeBSD, NetBSD, OpenBSD supported as read-write
++   
++   * - ufs2
++     - used in FreeBSD 5.x supported as read-write
 +
-+The JFS mailing list can be subscribed to by using the link labeled
-+"Mail list Subscribe" at our web page http://jfs.sourceforge.net/
-diff --git a/Documentation/filesystems/jfs.txt b/Documentation/filesystems/jfs.txt
++   * - 5xbsd	
++     - synonym for ufs2
++
++   * - sun
++     - used in SunOS (Solaris) supported as read-write
++
++   * - sunx86	
++     - used in SunOS for Intel (Solarisx86) supported as read-write
++
++   * - hp	
++     - used in HP-UX 	supported as read-only
++
++   * - nextstep
++     - used in NextStep supported as read-only
++
++   * - nextstep-cd
++     - used for NextStep CDROMs (block_size == 2048) supported as read-only
++
++   * - openstep
++     - used in OpenStep supported as read-only
++
++
++POSSIBLE PROBLEMS
++-----------------
++
++See next section, if you have any.
++
++
++BUG REPORTS
++-----------
++
++Any ufs bug report you can send to daniel.pirkl@email.cz or
++to dushistov@mail.ru (do not send partition tables bug reports).
+diff --git a/Documentation/filesystems/ufs.txt b/Documentation/filesystems/ufs.txt
 deleted file mode 100644
-index 41fd757..0000000
---- a/Documentation/filesystems/jfs.txt
+index 7a602ad..0000000
+--- a/Documentation/filesystems/ufs.txt
 +++ /dev/null
-@@ -1,52 +0,0 @@
--IBM's Journaled File System (JFS) for Linux
+@@ -1,60 +0,0 @@
+-USING UFS
+-=========
 -
--JFS Homepage:  http://jfs.sourceforge.net/
+-mount -t ufs -o ufstype=type_of_ufs device dir
 -
--The following mount options are supported:
--(*) == default
 -
--iocharset=name	Character set to use for converting from Unicode to
--		ASCII.  The default is to do no conversion.  Use
--		iocharset=utf8 for UTF-8 translations.  This requires
--		CONFIG_NLS_UTF8 to be set in the kernel .config file.
--		iocharset=none specifies the default behavior explicitly.
+-UFS OPTIONS
+-===========
 -
--resize=value	Resize the volume to <value> blocks.  JFS only supports
--		growing a volume, not shrinking it.  This option is only
--		valid during a remount, when the volume is mounted
--		read-write.  The resize keyword with no value will grow
--		the volume to the full size of the partition.
+-ufstype=type_of_ufs
+-	UFS is a file system widely used in different operating systems.
+-	The problem are differences among implementations. Features of
+-	some implementations are undocumented, so its hard to recognize
+-	type of ufs automatically. That's why user must specify type of 
+-	ufs manually by mount option ufstype. Possible values are:
 -
--nointegrity	Do not write to the journal.  The primary use of this option
--		is to allow for higher performance when restoring a volume
--		from backup media.  The integrity of the volume is not
--		guaranteed if the system abnormally abends.
+-	old	old format of ufs
+-		default value, supported as read-only
 -
--integrity(*)	Commit metadata changes to the journal.  Use this option to
--		remount a volume where the nointegrity option was
--		previously specified in order to restore normal behavior.
+-	44bsd	used in FreeBSD, NetBSD, OpenBSD
+-		supported as read-write
 -
--errors=continue		Keep going on a filesystem error.
--errors=remount-ro(*)	Remount the filesystem read-only on an error.
--errors=panic		Panic and halt the machine if an error occurs.
+-	ufs2    used in FreeBSD 5.x
+-		supported as read-write
 -
--uid=value	Override on-disk uid with specified value
--gid=value	Override on-disk gid with specified value
--umask=value	Override on-disk umask with specified octal value.  For
--		directories, the execute bit will be set if the corresponding
--		read bit is set.
+-	5xbsd	synonym for ufs2
 -
--discard=minlen	This enables/disables the use of discard/TRIM commands.
--discard		The discard/TRIM commands are sent to the underlying
--nodiscard(*)	block device when blocks are freed. This is useful for SSD
--		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
--		command is also available together with the nodiscard option.
--		The value of minlen specifies the minimum blockcount, when
--		a TRIM command to the block device is considered useful.
--		When no value is given to the discard option, it defaults to
--		64 blocks, which means 256KiB in JFS.
--		The minlen value of discard overrides the minlen value given
--		on an FITRIM ioctl().
+-	sun	used in SunOS (Solaris)
+-		supported as read-write
 -
--The JFS mailing list can be subscribed to by using the link labeled
--"Mail list Subscribe" at our web page http://jfs.sourceforge.net/
+-	sunx86	used in SunOS for Intel (Solarisx86)
+-		supported as read-write
+-
+-	hp	used in HP-UX
+-		supported as read-only
+-
+-	nextstep
+-		used in NextStep
+-		supported as read-only
+-
+-	nextstep-cd
+-		used for NextStep CDROMs (block_size == 2048)
+-		supported as read-only
+-
+-	openstep
+-		used in OpenStep
+-		supported as read-only
+-
+-
+-POSSIBLE PROBLEMS
+-=================
+-
+-See next section, if you have any.
+-
+-
+-BUG REPORTS
+-===========
+-
+-Any ufs bug report you can send to daniel.pirkl@email.cz or
+-to dushistov@mail.ru (do not send partition tables bug reports).
 -- 
 2.7.4
 
