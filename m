@@ -1,229 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85EDC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Jul 2019 01:39:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B8207D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Jul 2019 19:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbfGGBjy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Jul 2019 21:39:54 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33525 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726927AbfGGBjx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Jul 2019 21:39:53 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g2so1096125pfq.0;
-        Sat, 06 Jul 2019 18:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=RAReVEOZmlivAeYvp7txSpBTLyvirIUwwGJli98Rrx0=;
-        b=n2JgFU2aAq3X2tvy6uw/KC2BIMGm/8irRzy4dan+oJPPCGJ7JuHekluzEZJluazsWQ
-         Dl9WE92bSWDxzA3dcnCM238p6ZW0HyJLYKmM36mUdJKh2eWWU0fQg1RvzrA/wfm19lr5
-         LsK7IFMUJANbnpE38SA9fRlM0o5WAiugwTG6joGoE4bw17KOJB5zREbzqnm+22yNLAXB
-         c6RiBq4NKbBrhYP6lonBz36bxxd5AdssNg17IJT2kzXcQ+puleL8o9K3XpfihethJfi7
-         Rl8I5tcEyBNQjxHeNcPpOTJ9dy/8puLM7iMxcp3W39cKoDmmWKuCexF8kbWcMHDrpE3t
-         4KkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=RAReVEOZmlivAeYvp7txSpBTLyvirIUwwGJli98Rrx0=;
-        b=NVzC0+wzRPf49go6KfLT1594gHX1XA8upGpGakIUApg3fmmpgun4jWllfYrcPnz4GF
-         GO3opz6pJ4fvnhEsYvYF9S6l8001tvdvajJHdEC1Xatm5xVYj33fzgYkwCHI98pAOEqL
-         IebATX7mQI5RhAg9VMT2bZmGPt6CwfbwLJp5Q0ibMmdjBI7JWQunr3N7b4SFBH/W7LOm
-         m5kgqb0CTTaJI4t9bI5G6c3eex9V6gs4D5jPvQs8nZz3LEa1yxQe4o+G3l2Z2cbaAYGr
-         hQ9auiVGtuQlCWay8+/NDKGUmsAmjd5cgrsXGcMyXrYzEIA1ZRr2sq362xVXBOQyIu/3
-         1Www==
-X-Gm-Message-State: APjAAAVXWWDzqtJAeVTEhMN7+8nrRYF+/LLdxDgklP5o7rq6RcEzWX/8
-        iB3lBW82qDzsQn06Dh3rTz4=
-X-Google-Smtp-Source: APXvYqwnz0yH7ZUrlCoDE5ejIsOIBtUON6v3scy19wq+Hr2seQiZ/3GBRaRBPjnkBrDZuM+N/gM1EQ==
-X-Received: by 2002:a17:90a:8c18:: with SMTP id a24mr14189130pjo.111.1562463592643;
-        Sat, 06 Jul 2019 18:39:52 -0700 (PDT)
-Received: from t-1000 (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
-        by smtp.gmail.com with ESMTPSA id r27sm22320962pgn.25.2019.07.06.18.39.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 06 Jul 2019 18:39:52 -0700 (PDT)
-Date:   Sat, 6 Jul 2019 18:39:50 -0700
-From:   Shobhit Kukreti <shobhitkukreti@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     shobhitkukreti@gmail.com
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems: Convert
- ufs.txt to reStructuredText format
-Message-ID: <20190707013947.GA10663@t-1000>
+        id S1727414AbfGGTde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Jul 2019 15:33:34 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57728 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726105AbfGGTde (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Jul 2019 15:33:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=jU5cEjUtcVYO3EaFU5lWyybUeSozoad8uL7Kr7BLfLM=; b=gb9drmike6oRAXpcP1cYg9E/h
+        L/qk0ptX30TDgNFuHLR4AGhKrfBn3QTrfMYf7J8/R6SfcsgC8EBDhVRkAYVokbnjdPYqW+Am4Bsiw
+        mbEwPjYMf8iqI37MI5DgNjkfhtG55g6EeWM2IWE24ntmKDiDxBhbLf6EjUVJO2VNNtq7v76E9ekBX
+        so5Bz++sxMLYMAzj28hL5zn6FC6xwAqTak5e7uNp0vfS/ofPIooa884l7zevYmDTBlhUgBProdfSU
+        a+qbyHJRObWin6sU9Omyyj6IL1TMp51Suyr0r2CpLAN77BskyyQQSfj5O0QoG+lB6MAVyWZb/RkrG
+        I3AGMBoug==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkCuh-0003co-Vv; Sun, 07 Jul 2019 19:33:32 +0000
+Subject: Re: [PATCH] tpm: Document UEFI event log quirks
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     tweek@google.com, matthewgarrett@google.com,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
+ <6acf78df-b168-14d3-fea4-9a9d2945e77f@infradead.org>
+ <a8ee93721a674434e22d31fd1d10bf9472c1c739.camel@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ec274596-6bc8-07a0-d09b-1d191646c5cd@infradead.org>
+Date:   Sun, 7 Jul 2019 12:33:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <a8ee93721a674434e22d31fd1d10bf9472c1c739.camel@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts the plain text documentation of ufs.txt to reStructuredText format.
-Added to documentation build process and verified with make htmldocs
+On 7/5/19 3:15 AM, Jarkko Sakkinen wrote:
+> On Wed, 2019-07-03 at 09:45 -0700, Randy Dunlap wrote:
+>>> +This introduces another problem: nothing guarantees that it is not
+>>> +called before the stub gets to run. Thus, it needs to copy the final
+>>> +events table preboot size to the custom configuration table so that
+>>> +kernel offset it later on.
 
-Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
----
- Documentation/filesystems/index.rst |  1 +
- Documentation/filesystems/ufs.rst   | 65 +++++++++++++++++++++++++++++++++++++
- Documentation/filesystems/ufs.txt   | 60 ----------------------------------
- 3 files changed, 66 insertions(+), 60 deletions(-)
- create mode 100644 Documentation/filesystems/ufs.rst
- delete mode 100644 Documentation/filesystems/ufs.txt
+     (so that)
+     the kernel can use that final table preboot size as an events table
+     offset later on.
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index d700330..2b4f870 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -42,3 +42,4 @@ Documentation for individual filesystem types can be found here.
- 
-    binderfs.rst
-    jfs
-+   ufs
-diff --git a/Documentation/filesystems/ufs.rst b/Documentation/filesystems/ufs.rst
-new file mode 100644
-index 0000000..d6aeef0
---- /dev/null
-+++ b/Documentation/filesystems/ufs.rst
-@@ -0,0 +1,65 @@
-+=========
-+USING UFS
-+=========
-+
-+mount -t ufs -o ufstype=type_of_ufs device dir
-+
-+UFS OPTIONS
-+===========
-+
-+.. tabularcolumns:: |p{0.5cm}|p{0.5cm}|p{8.0cm}|
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::   
-+   :header-rows:  0
-+   :stub-columns: 0
-+
-+   * - :rspan:`10` ufstype
-+     - =type_of_ufs
-+     - UFS is a file system widely used in different operating systems. The problem are differences among implementations. Features of some implementations 
-+       are undocumented, so its hard to recognize type of ufs automatically. That's why user must specify type of ufs manually by mount option ufstype.
-+       Possible values are below.
-+
-+   * - old 
-+     - old format of ufs default value, supported as read-only
-+   
-+   * - 44bsd	
-+     - used in FreeBSD, NetBSD, OpenBSD supported as read-write
-+   
-+   * - ufs2
-+     - used in FreeBSD 5.x supported as read-write
-+
-+   * - 5xbsd	
-+     - synonym for ufs2
-+
-+   * - sun
-+     - used in SunOS (Solaris) supported as read-write
-+
-+   * - sunx86	
-+     - used in SunOS for Intel (Solarisx86) supported as read-write
-+
-+   * - hp	
-+     - used in HP-UX 	supported as read-only
-+
-+   * - nextstep
-+     - used in NextStep supported as read-only
-+
-+   * - nextstep-cd
-+     - used for NextStep CDROMs (block_size == 2048) supported as read-only
-+
-+   * - openstep
-+     - used in OpenStep supported as read-only
-+
-+
-+POSSIBLE PROBLEMS
-+-----------------
-+
-+See next section, if you have any.
-+
-+
-+BUG REPORTS
-+-----------
-+
-+Any ufs bug report you can send to daniel.pirkl@email.cz or
-+to dushistov@mail.ru (do not send partition tables bug reports).
-diff --git a/Documentation/filesystems/ufs.txt b/Documentation/filesystems/ufs.txt
-deleted file mode 100644
-index 7a602ad..0000000
---- a/Documentation/filesystems/ufs.txt
-+++ /dev/null
-@@ -1,60 +0,0 @@
--USING UFS
--=========
--
--mount -t ufs -o ufstype=type_of_ufs device dir
--
--
--UFS OPTIONS
--===========
--
--ufstype=type_of_ufs
--	UFS is a file system widely used in different operating systems.
--	The problem are differences among implementations. Features of
--	some implementations are undocumented, so its hard to recognize
--	type of ufs automatically. That's why user must specify type of 
--	ufs manually by mount option ufstype. Possible values are:
--
--	old	old format of ufs
--		default value, supported as read-only
--
--	44bsd	used in FreeBSD, NetBSD, OpenBSD
--		supported as read-write
--
--	ufs2    used in FreeBSD 5.x
--		supported as read-write
--
--	5xbsd	synonym for ufs2
--
--	sun	used in SunOS (Solaris)
--		supported as read-write
--
--	sunx86	used in SunOS for Intel (Solarisx86)
--		supported as read-write
--
--	hp	used in HP-UX
--		supported as read-only
--
--	nextstep
--		used in NextStep
--		supported as read-only
--
--	nextstep-cd
--		used for NextStep CDROMs (block_size == 2048)
--		supported as read-only
--
--	openstep
--		used in OpenStep
--		supported as read-only
--
--
--POSSIBLE PROBLEMS
--=================
--
--See next section, if you have any.
--
--
--BUG REPORTS
--===========
--
--Any ufs bug report you can send to daniel.pirkl@email.cz or
--to dushistov@mail.ru (do not send partition tables bug reports).
+>>
+>> ?  kernel can offset it later on.
+> 
+> EFI stub calculates the total size of the events in the final events
+> table at the time.
+> 
+> Later on, TPM driver uses this offset to copy only the events that
+> were actually generated after ExitBootServices():
+> 
+> /*
+>  * Copy any of the final events log that didn't also end up in the
+>  * main log. Events can be logged in both if events are generated
+>  * between GetEventLog() and ExitBootServices().
+>  */
+> memcpy((void *)log->bios_event_log + log_size,
+>        final_tbl->events + log_tbl->final_events_preboot_size,
+>        efi_tpm_final_log_size);
+> 
+> What would be a better way to describe this?
+
+Yeah, I think I see what it's doing, how it's using that.
+See above.
+
+OK?
+
 -- 
-2.7.4
-
+~Randy
