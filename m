@@ -5,31 +5,30 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DE027D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 20:00:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90F1C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 20:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731856AbfGHUAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 16:00:25 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53258 "EHLO ms.lwn.net"
+        id S2404828AbfGHUCZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 16:02:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53272 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729108AbfGHUAZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jul 2019 16:00:25 -0400
+        id S2404790AbfGHUCZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 16:02:25 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 02B172EF;
-        Mon,  8 Jul 2019 20:00:23 +0000 (UTC)
-Date:   Mon, 8 Jul 2019 14:00:22 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id CAAA32EF;
+        Mon,  8 Jul 2019 20:02:24 +0000 (UTC)
+Date:   Mon, 8 Jul 2019 14:02:23 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        pbonzini@redhat.com, rkrcmar@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Documentation: kvm: Convert cpuid.txt to .rst
-Message-ID: <20190708140022.5fa9d01f@lwn.net>
-In-Reply-To: <e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
-References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
-        <e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH v2] kbuild: get rid of misleading $(AS) from documents
+Message-ID: <20190708140223.39d15d56@lwn.net>
+In-Reply-To: <20190706162508.8529-1-yamada.masahiro@socionext.com>
+References: <20190706162508.8529-1-yamada.masahiro@socionext.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,94 +38,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat,  6 Jul 2019 14:38:14 -0700
-Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu> wrote:
+On Sun,  7 Jul 2019 01:25:08 +0900
+Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
 
-> From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+> The assembler files in the kernel are *.S instead of *.s, so they must
+> be preprocessed. Since 'as' of GNU binutils is not able to preprocess,
+> we always use $(CC) as an assembler driver.
 > 
-> Convert cpuid.txt to .rst format to be parsable by sphinx. 
+> $(AS) is almost unused in Kbuild. As of writing, there is just one place
+> that directly invokes $(AS).
 > 
-> Change format and spacing to make function definitions and return values
-> much more clear. Also added a table that is parsable by sphinx and makes
-> the information much more clean. 
+>   $ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' -- :^Documentation
+>   drivers/net/wan/Makefile:  AS68K = $(AS)
 > 
-> Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-> ---
->  Documentation/virtual/kvm/cpuid.rst | 99 +++++++++++++++++++++++++++++
->  Documentation/virtual/kvm/cpuid.txt | 83 ------------------------
->  2 files changed, 99 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/virtual/kvm/cpuid.rst
->  delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+> The documentation about *_AFLAGS* sounds like the flags were passed
+> to $(AS). This is somewhat misleading.
 > 
-> diff --git a/Documentation/virtual/kvm/cpuid.rst b/Documentation/virtual/kvm/cpuid.rst
-> new file mode 100644
-> index 000000000000..1a03336a500e
-> --- /dev/null
-> +++ b/Documentation/virtual/kvm/cpuid.rst
-> @@ -0,0 +1,99 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-Do you know that this is the appropriate license for this file?  If so, you
-should say how you know that.  I appreciate that you thought to add the
-SPDX line, but we have to be sure that it actually matches the intent of
-the creator of this file.
-
-> +==============
-> +KVM CPUID bits
-> +==============
-> +
-> +:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
-
-I rather suspect that email address doesn't work these days.
-
-> +A guest running on a kvm host, can check some of its features using
-> +cpuid. This is not always guaranteed to work, since userspace can
-> +mask-out some, or even all KVM-related cpuid features before launching
-> +a guest.
-> +
-> +KVM cpuid functions are:
-> +
-> +function: **KVM_CPUID_SIGNATURE (0x40000000)**
-
-I wouldn't add the **markup** here, it doesn't really help.
-
-> +
-> +returns::
-> + 
-> +   eax = 0x40000001
-> +   ebx = 0x4b4d564b
-> +   ecx = 0x564b4d56
-> +   edx = 0x4d
-> +
-> +Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
-> +The value in eax corresponds to the maximum cpuid function present in this leaf,
-> +and will be updated if more functions are added in the future.
-> +Note also that old hosts set eax value to 0x0. This should
-> +be interpreted as if the value was 0x40000001.
-> +This function queries the presence of KVM cpuid leafs.
-> +
-> +function: **define KVM_CPUID_FEATURES (0x40000001)**
-> +
-> +returns::
-> +
-> +          ebx, ecx
-> +          eax = an OR'ed group of (1 << flag)
-> +
-> +where ``flag`` is defined as below:
-> +
-> ++--------------------------------+------------+---------------------------------+
-> +| flag                           | value      | meaning                         |
-> ++================================+============+=================================+
-> +| KVM_FEATURE_CLOCKSOURCE        | 0          | kvmclock available at msrs      |
-> +|                                |            | 0x11 and 0x12                   |
-
-You might consider using the
-
-    ======= ===== ======
-    simpler table format
-    ======= ===== ======
-
-here, it might be a bit easier to read and maintain.
+Would you like me to send this up through the docs tree?
 
 Thanks,
 
