@@ -7,210 +7,112 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 524417D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 22:56:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 635B97D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 23:16:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728420AbfGHW4f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 18:56:35 -0400
-Received: from mail-qt1-f202.google.com ([209.85.160.202]:34488 "EHLO
-        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728252AbfGHW4f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 18:56:35 -0400
-Received: by mail-qt1-f202.google.com with SMTP id p34so17786560qtp.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 15:56:35 -0700 (PDT)
+        id S1727078AbfGHXQC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 19:16:02 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44422 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727015AbfGHXQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 19:16:02 -0400
+Received: by mail-pl1-f194.google.com with SMTP id t14so5948163plr.11
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 16:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=XvWJ9Wo8dlDTDdNMofIJHczNPs27/UWoPes3SLfO5XU=;
-        b=WclkCq5NSEjgs6nde0M1rMmrM65BjUj2nOtAptw+49lxPVnTilWsk30clsG33/DaNQ
-         cVKQtE3HmsVxEW0zRVDGc4Qw+NrMaNVJ5/Y5OtE1Ys/+tzz8WwOftxceMNH8H0yBlNne
-         MualKveXJ29JQkSo4suCUaq9gmcZ24iNJ77cAMyC+34DOjcsMtpP7NU2lKkx/ztLHmFz
-         uU8OoOtQK1byDXLzJS9SFuFSov1sl7//RnsDTP0EW+I0kKI/5aUWBCawmJvjw/tQGpgm
-         i0VNNv9dYeu3r2qgsBUht8Bqwr2tWRss678RUy/mD47OoMizRcTzwokIWT4ycCv//yup
-         IzaA==
+        bh=oGZm1g5vtwwYit0yoo3SBX6Ei/KDlijim8AwfezWq5Q=;
+        b=lFUSTt8nxcpQ1geusJZ3lspP7XQwyYNu3KMayNoosCV6UA30ZuMzOWUPZfCjTUzeKM
+         iYW2yITMtWXzol7/+legnfgPOBGwjXoEFw7yce+7btcdg0htf2Hg4YfxND5u9apalxJL
+         B3QYi+HDYUWlIIkNVozIYrBRfW/Zk/Qz4dosV0rI2mUxb16C62VVRSPlRILHQVx/6UE4
+         RshFiQlSNd9CkGW5eoiTTfauBDsWytWT+kOLzVSwNCWkeJDN/HkdAIqfFvOi2TKYEg+r
+         l8O7ss1ZZdrzfcN3z+0quxvvwbfum43KpVYwwtrEJTbglIXZty13qrEB3TCpWKeCVLSU
+         fZ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=XvWJ9Wo8dlDTDdNMofIJHczNPs27/UWoPes3SLfO5XU=;
-        b=I1SRCFRZWKih1rVvygf4hWgyjAmhi/9em+Xpsj0Il0Wo04YANPmjCqncf9kbEoyFdc
-         ZEctaD7WhKRhes1cB7kmgDA6HQCVUttGvotE+izKChFqtqWMc0JaYu5lbJinWpxb82Ct
-         SE44Pef11fvj64wVZRpoj/i1rhJU9EBK6JX65qYF4xaR6O6Vq7bkleWZ51D62Cbo5jFV
-         HwS8aM81nq5Jo7PbcUnLn/imYxbQPZlc3lBDp2bp5QBen6BjZiFrx48UzTbdujgtQRxu
-         L3hv2GF5XZfCLFC2DB4Q/4xqnuarYoPwNgVLjie8klTUqouTUB7V+6VII33hu4dFrBLq
-         AIkA==
-X-Gm-Message-State: APjAAAUZCejHX5PngHFL1opbaH6/xL8QQ5xX6cEt4fQwXJjgfzEFhR8n
-        Vvdqlryk6yAn6JLZVdfRiS77Bqvytr87KkM=
-X-Google-Smtp-Source: APXvYqz1MM+h/XGVDaDwHBQY/KGtEfMQBAFIOn1giKJq1+6cKbx1GmCSmWPye2hV9fTTgYSYshDB8uV50jvTHe4=
-X-Received: by 2002:a0c:df12:: with SMTP id g18mr15652833qvl.34.1562626594509;
- Mon, 08 Jul 2019 15:56:34 -0700 (PDT)
-Date:   Mon,  8 Jul 2019 15:56:18 -0700
-In-Reply-To: <20190708225624.119973-1-saravanak@google.com>
-Message-Id: <20190708225624.119973-3-saravanak@google.com>
-Mime-Version: 1.0
-References: <20190708225624.119973-1-saravanak@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v4 2/8] of/platform: Add functional dependency link from DT bindings
-From:   Saravana Kannan <saravanak@google.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        David Collins <collinsd@codeaurora.org>,
-        kernel-team@android.com, linux-doc@vger.kernel.org
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oGZm1g5vtwwYit0yoo3SBX6Ei/KDlijim8AwfezWq5Q=;
+        b=AXTIaWEgxPHQ1an3D7VeiAWPvAb5TiuhbMcl+drZ5XBmNnnHBWiOMmVgWDDz2Z8itg
+         JrPAU60RS/ZUCmPgbvszi+LeUaEXr3FxsE/Zi0VDJ8JrWrXxxcJu2zdYUmWlcVtIJJhn
+         vciaMFkSpN2KgatUUR/MhzQo9oFJ/kxOXYvRdUeYYMk8mdf+HNGvXlK4lnGJi+F4zx5D
+         F2lD4fW48t35WiOhhRsNZnhcFvmVerWij5F+kzx6AAKHEjsbSXcum59zyNRV+QStgf6t
+         tPZMyW1BBoT3UgrN4skXTTA/00JqfuqStrTumQ3B35DScIKRDtHI/aUOMbhtLf9M2qIC
+         B08A==
+X-Gm-Message-State: APjAAAXaAs2bB4KMX/QqcachTWsR5fJj5cBq+N+FirGj5/aYjWP/YX3N
+        YTBb+EjkwKrwFbxuZgQX5Yte05OqOHhmpE3I2gWa9g==
+X-Google-Smtp-Source: APXvYqxLj9lV04W3pazbpY/qgg7ti1gSJwsPPAdwKpyGKBI70/LFOjfevFPZPMucLfnGO+AW10E2yFZhfTdlozEZOjY=
+X-Received: by 2002:a17:902:29e6:: with SMTP id h93mr26754760plb.297.1562627761245;
+ Mon, 08 Jul 2019 16:16:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190704003615.204860-1-brendanhiggins@google.com>
+ <20190704003615.204860-19-brendanhiggins@google.com> <20190705204810.GE19023@42.do-not-panic.com>
+In-Reply-To: <20190705204810.GE19023@42.do-not-panic.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 8 Jul 2019 16:15:49 -0700
+Message-ID: <CAFd5g44j7ECQorYLnDQadAaj+yBki98kFjmjejn+3W4eHtqGDA@mail.gmail.com>
+Subject: Re: [PATCH v6 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
+ SYSCTL section
+To:     Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add device-links after the devices are created (but before they are
-probed) by looking at common DT bindings like clocks and
-interconnects.
+CC'ing Iurii Zaikin
 
-Automatically adding device-links for functional dependencies at the
-framework level provides the following benefits:
+On Fri, Jul 5, 2019 at 1:48 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Wed, Jul 03, 2019 at 05:36:15PM -0700, Brendan Higgins wrote:
+> > Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+>
+> Come to think of it, I'd welcome Iurii to be added as a maintainer,
+> with the hope Iurii would be up to review only the kunit changes. Of
+> course if Iurii would be up to also help review future proc changes,
+> even better. 3 pair of eyeballs is better than 2 pairs.
 
-- Optimizes device probe order and avoids the useless work of
-  attempting probes of devices that will not probe successfully
-  (because their suppliers aren't present or haven't probed yet).
-
-  For example, in a commonly available mobile SoC, registering just
-  one consumer device's driver at an initcall level earlier than the
-  supplier device's driver causes 11 failed probe attempts before the
-  consumer device probes successfully. This was with a kernel with all
-  the drivers statically compiled in. This problem gets a lot worse if
-  all the drivers are loaded as modules without direct symbol
-  dependencies.
-
-- Supplier devices like clock providers, interconnect providers, etc
-  need to keep the resources they provide active and at a particular
-  state(s) during boot up even if their current set of consumers don't
-  request the resource to be active. This is because the rest of the
-  consumers might not have probed yet and turning off the resource
-  before all the consumers have probed could lead to a hang or
-  undesired user experience.
-
-  Some frameworks (Eg: regulator) handle this today by turning off
-  "unused" resources at late_initcall_sync and hoping all the devices
-  have probed by then. This is not a valid assumption for systems with
-  loadable modules. Other frameworks (Eg: clock) just don't handle
-  this due to the lack of a clear signal for when they can turn off
-  resources. This leads to downstream hacks to handle cases like this
-  that can easily be solved in the upstream kernel.
-
-  By linking devices before they are probed, we give suppliers a clear
-  count of the number of dependent consumers. Once all of the
-  consumers are active, the suppliers can turn off the unused
-  resources without making assumptions about the number of consumers.
-
-By default we just add device-links to track "driver presence" (probe
-succeeded) of the supplier device. If any other functionality provided
-by device-links are needed, it is left to the consumer/supplier
-devices to change the link when they probe.
-
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- .../admin-guide/kernel-parameters.txt         |  5 ++
- drivers/of/platform.c                         | 57 +++++++++++++++++++
- 2 files changed, 62 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 138f6664b2e2..109b4310844f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3141,6 +3141,11 @@
- 			This can be set from sysctl after boot.
- 			See Documentation/sysctl/vm.txt for details.
- 
-+	of_devlink	[KNL] Make device links from common DT bindings. Useful
-+			for optimizing probe order and making sure resources
-+			aren't turned off before the consumer devices have
-+			probed.
-+
- 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
- 			See Documentation/debugging-via-ohci1394.txt for more
- 			info.
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index 04ad312fd85b..0930f9f89571 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -509,6 +509,62 @@ int of_platform_default_populate(struct device_node *root,
- }
- EXPORT_SYMBOL_GPL(of_platform_default_populate);
- 
-+static int of_link_binding(struct device *dev,
-+			   const char *binding, const char *cell)
-+{
-+	struct of_phandle_args sup_args;
-+	struct platform_device *sup_dev;
-+	unsigned int i = 0, links = 0;
-+	u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-+
-+	while (!of_parse_phandle_with_args(dev->of_node, binding, cell, i,
-+					   &sup_args)) {
-+		i++;
-+		sup_dev = of_find_device_by_node(sup_args.np);
-+		of_node_put(sup_args.np);
-+		if (!sup_dev)
-+			continue;
-+		if (device_link_add(dev, &sup_dev->dev, dl_flags))
-+			links++;
-+		put_device(&sup_dev->dev);
-+	}
-+	if (links < i)
-+		return -ENODEV;
-+	return 0;
-+}
-+
-+static bool of_devlink;
-+core_param(of_devlink, of_devlink, bool, 0);
-+
-+/*
-+ * List of bindings and their cell names (use NULL if no cell names) from which
-+ * device links need to be created.
-+ */
-+static const char * const link_bindings[] = {
-+	"clocks", "#clock-cells",
-+	"interconnects", "#interconnect-cells",
-+};
-+
-+static int of_link_to_suppliers(struct device *dev)
-+{
-+	unsigned int i = 0;
-+	bool done = true;
-+
-+	if (!of_devlink)
-+		return 0;
-+	if (unlikely(!dev->of_node))
-+		return 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(link_bindings) / 2; i++)
-+		if (of_link_binding(dev, link_bindings[i * 2],
-+					link_bindings[i * 2 + 1]))
-+			done = false;
-+
-+	if (!done)
-+		return -ENODEV;
-+	return 0;
-+}
-+
- #ifndef CONFIG_PPC
- static const struct of_device_id reserved_mem_matches[] = {
- 	{ .compatible = "qcom,rmtfs-mem" },
-@@ -524,6 +580,7 @@ static int __init of_platform_default_populate_init(void)
- 	if (!of_have_populated_dt())
- 		return -ENODEV;
- 
-+	platform_bus_type.add_links = of_link_to_suppliers;
- 	/*
- 	 * Handle certain compatibles explicitly, since we don't want to create
- 	 * platform_devices for every node in /reserved-memory with a
--- 
-2.22.0.410.gd8fdbe21b5-goog
-
+What do you think, Iurii?
