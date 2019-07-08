@@ -5,31 +5,31 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 62CD57D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 19:47:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D7B47D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 19:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727899AbfGHTr6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 15:47:58 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53154 "EHLO ms.lwn.net"
+        id S1731473AbfGHTyG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 15:54:06 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53198 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727163AbfGHTr5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jul 2019 15:47:57 -0400
+        id S1727163AbfGHTyG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 15:54:06 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3A87A2B8;
-        Mon,  8 Jul 2019 19:47:57 +0000 (UTC)
-Date:   Mon, 8 Jul 2019 13:47:56 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id EDECC2B8;
+        Mon,  8 Jul 2019 19:54:05 +0000 (UTC)
+Date:   Mon, 8 Jul 2019 13:54:04 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Shobhit Kukreti <shobhitkukreti@gmail.com>
-Cc:     skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
+To:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        pbonzini@redhat.com, rkrcmar@redhat.com, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: filesystems:
- Convert jfs.txt to reStructedText format.
-Message-ID: <20190708134756.1025c940@lwn.net>
-In-Reply-To: <20190706232236.GA24717@t-1000>
-References: <20190706232236.GA24717@t-1000>
+Subject: Re: [PATCH 1/3] Documentation: virtual: Add toctree hooks
+Message-ID: <20190708135404.3eeed68f@lwn.net>
+In-Reply-To: <ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
+References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+        <ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,67 +39,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 6 Jul 2019 16:22:39 -0700
-Shobhit Kukreti <shobhitkukreti@gmail.com> wrote:
+On Sat,  6 Jul 2019 14:38:13 -0700
+Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu> wrote:
 
-> This converts the plain text documentation of jfs.txt to reStructuredText format.
-> Added to documentation build process and verified with make htmldocs
+> From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 > 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
-
-Thanks for working to make the kernel documentation better.  That said, I
-do have a request...
-
-
+> Added toctree hooks for indexing. Hooks added only for newly added files
+> or already existing files. 
+> 
+> The hook for the top of the tree will be added in a later patch series
+> when a few more substantial changes have been added. 
+> 
+> Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 > ---
->  Documentation/filesystems/index.rst |  1 +
->  Documentation/filesystems/jfs.rst   | 74 +++++++++++++++++++++++++++++++++++++
->  Documentation/filesystems/jfs.txt   | 52 --------------------------
->  3 files changed, 75 insertions(+), 52 deletions(-)
->  create mode 100644 Documentation/filesystems/jfs.rst
->  delete mode 100644 Documentation/filesystems/jfs.txt
+>  Documentation/virtual/index.rst     | 18 ++++++++++++++++++
+>  Documentation/virtual/kvm/index.rst | 12 ++++++++++++
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 Documentation/virtual/index.rst
+>  create mode 100644 Documentation/virtual/kvm/index.rst
 > 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 1131c34..d700330 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
->     :maxdepth: 2
->  
->     binderfs.rst
-> +   jfs
-> diff --git a/Documentation/filesystems/jfs.rst b/Documentation/filesystems/jfs.rst
+> diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
 > new file mode 100644
-> index 0000000..bfb6110
+> index 000000000000..19c9fa2266f4
 > --- /dev/null
-> +++ b/Documentation/filesystems/jfs.rst
-> @@ -0,0 +1,74 @@
-> +===========================================
-> +IBM's Journaled File System (JFS) for Linux
-> +===========================================
+> +++ b/Documentation/virtual/index.rst
+> @@ -0,0 +1,18 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +JFS Homepage:  http://jfs.sourceforge.net/
+> +===========================
+> +Linux Virtual Documentation
+> +===========================
 > +
-> +Following Mount Options are Supported
+> +.. toctree::
+> +   :maxdepth: 2
 > +
-> +(*) == default
-> + .. tabularcolumns:: |p{1.3cm}|p{1.3cm}|p{8.0cm}|
+> +   kvm/index
+> +   paravirt_ops
 > +
-> +.. cssclass:: longtable
+> +.. only:: html and subproject
 > +
-> +.. flat-table::   
-> +  :header-rows:  0
-> +  :stub-columns: 0
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
+> diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
+> new file mode 100644
+> index 000000000000..ada224a511fe
+> --- /dev/null
+> +++ b/Documentation/virtual/kvm/index.rst
+> @@ -0,0 +1,12 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===
+> +KVM
+> +===
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   amd-memory-encryption
+> +   cpuid
+> +   vcpu-requests
 
-Please don't use flat-table unless you really need to.  It makes the
-documents harder to read in plain-text form, which is something we want to
-avoid whenever possible.  A simple definition list seems more appropriate
-for this information.
+At this point in the patch series, the above-mentioned RST files don't
+exist.  So if somebody tries to build the docs here, the build will fail.
+I suspect that it's pretty rare for people to use bisection with docs
+builds, but it's still proper practice to ensure that things work at every
+step in your series.  So the above entries should be added in the patches
+that convert the files.
 
-(I should really update the documentation to discourage use of flat-table).
-
-Note that the merge window is open, so expect me to be even slower than
-usual to respond to things for the next couple of weeks.
+Also, vcpu-requests.txt is never touched in this patch series, which
+suggests that you didn't build the docs even at the end of it.
 
 Thanks,
 
