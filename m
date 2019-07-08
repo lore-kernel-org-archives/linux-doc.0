@@ -1,74 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5DDCC7D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 20:43:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F3B77D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 21:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730007AbfGHUn2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 16:43:28 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46208 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730042AbfGHUn2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 16:43:28 -0400
-Received: by mail-io1-f65.google.com with SMTP id i10so38290477iol.13
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 13:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6hgBi1CzgRieBvJ+aGYw7Q8JYjv3kGmR4nvAC4dZxio=;
-        b=DLSRwzig+cXtChPB3ZqUkWnkWR6/88GKXExTkjXpiVPHlrZWxBvX4Y2bcl6cVOWkR6
-         2Rlh80L4VpZOyBE4CMDm74C84c1FLm9+jtPe+A4fdmuSh2NoUaIbDx2pWEtWR2jLzoK7
-         zC8Ky4mfREFLJW/aLQNbwgraw81fB5+XPbvQ44btPhTmYDSSrYmLxwA3VlL1+2HPmal0
-         ryWCKsJ7t+HnJgh9vnxUhhYuvv5EodWh72KOjjLqvYUHxIBYtf7wnvuDzayVi+i6a3Ck
-         SgOnHzPUVSGKkGCBZVqwiOxkr8CBSK/5OMu29u6xDmsV2AbAIqbebZdVGYN/F6cwdCxv
-         ++tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6hgBi1CzgRieBvJ+aGYw7Q8JYjv3kGmR4nvAC4dZxio=;
-        b=Jr5Ajx69HjA5Hwi5BFiYdcVI3d7Cqofxb2Y57WVEAUacF2IqDsInUYGzJBSe+WP04R
-         GC7bAACBYxxYlH8wCUrxcGaFuhzVv2Osjc/hVMxX+sqJYl1fQX3UDZGRl34UBEznJOrF
-         v+ROQC1vvPyxuFUgm1oikvSOAmbjAUZP05lbiqQTYOcYJh7Tj5lssqWDIKuTDpvvGnDj
-         1zuPCpqQC7gpDPejFR95SPP1OmKl9xVs6sqKz0ccvo9O7VOhzG0aPjVH8FWb2rSvfFrp
-         +Iogxjh40td0WnNptAPsuAb8B+C7/prq/7201pxkJspwvw/547VkixBE8U+XlF4kpMxi
-         ORwQ==
-X-Gm-Message-State: APjAAAVu+XmFOyeHARjeuCVGiaroaVfy82M7bYVKCuMkmH2TPc23Wbyx
-        vki6+YMy1nin3AiOu6MYEAX6/P41qAhszgUoAR3Okw==
-X-Google-Smtp-Source: APXvYqzJPBGThXTsaTfeVdJUhwZLM8g29fkqE+KfbXXMs9//hzlMN33Q/mPkFcTsp+q+jSUd0ro7OUtrxql5KQbYPlY=
-X-Received: by 2002:a05:6638:303:: with SMTP id w3mr12477331jap.103.1562618606256;
- Mon, 08 Jul 2019 13:43:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
-In-Reply-To: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
-From:   Matthew Garrett <mjg59@google.com>
-Date:   Mon, 8 Jul 2019 13:43:14 -0700
-Message-ID: <CACdnJuu0gFySbcMY7Fpps-j8KP+rCifznOeo18P47UBQAygPVQ@mail.gmail.com>
-Subject: Re: [PATCH] tpm: Document UEFI event log quirks
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>,
+        id S1728720AbfGHVLh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 17:11:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40974 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727011AbfGHVLh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 17:11:37 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 28D923082A9C;
+        Mon,  8 Jul 2019 21:11:37 +0000 (UTC)
+Received: from laptop.jcline.org (ovpn-120-32.rdu2.redhat.com [10.10.120.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EC6B15D9E5;
+        Mon,  8 Jul 2019 21:11:36 +0000 (UTC)
+Received: from laptop.jcline.org.com (localhost [IPv6:::1])
+        by laptop.jcline.org (Postfix) with ESMTP id 1BD637045B1C;
+        Mon,  8 Jul 2019 17:11:36 -0400 (EDT)
+From:   Jeremy Cline <jcline@redhat.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jeremy Cline <jcline@redhat.com>
+Subject: [PATCH] Documentation: gpio: fix function links in the HTML docs
+Date:   Mon,  8 Jul 2019 17:11:23 -0400
+Message-Id: <20190708211123.16495-1-jcline@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 08 Jul 2019 21:11:37 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 3, 2019 at 9:11 AM Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
-> +Before calling ExitBootServices() Linux EFI stub copies the event log to
-> +a custom configuration table defined by the stub itself. Unfortanely,
-> +the events generated by ExitBootServices() do end up to the table.
+The shorthand [_data] and [devm_] cause the HTML documentation to not
+link to the function documentation properly. This expands the references
+to the complete function names with the exception of
+devm_gpiochip_remove() which was dropped by commit 48207d7595d2 ("gpio:
+drop devm_gpiochip_remove()").
 
-"Unfortunately, the events generated by ExitBootServices() occur after
-this and don't end up in the table"?
+Signed-off-by: Jeremy Cline <jcline@redhat.com>
+---
+ Documentation/driver-api/gpio/driver.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index 1ce7fcd0f989..d4197ea3dafb 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -69,9 +69,9 @@ driver code:
+ 
+ The code implementing a gpio_chip should support multiple instances of the
+ controller, preferably using the driver model. That code will configure each
+-gpio_chip and issue ``gpiochip_add[_data]()`` or ``devm_gpiochip_add_data()``.
+-Removing a GPIO controller should be rare; use ``[devm_]gpiochip_remove()``
+-when it is unavoidable.
++gpio_chip and issue gpiochip_add(), gpiochip_add_data(), or
++devm_gpiochip_add_data().  Removing a GPIO controller should be rare; use
++gpiochip_remove() when it is unavoidable.
+ 
+ Often a gpio_chip is part of an instance-specific structure with states not
+ exposed by the GPIO interfaces, such as addressing, power management, and more.
+@@ -418,11 +418,11 @@ symbol:
+ 
+ If there is a need to exclude certain GPIO lines from the IRQ domain handled by
+ these helpers, we can set .irq.need_valid_mask of the gpiochip before
+-[devm_]gpiochip_add_data() is called. This allocates an .irq.valid_mask with as
+-many bits set as there are GPIO lines in the chip, each bit representing line
+-0..n-1. Drivers can exclude GPIO lines by clearing bits from this mask. The mask
+-must be filled in before gpiochip_irqchip_add() or gpiochip_irqchip_add_nested()
+-is called.
++devm_gpiochip_add_data() or gpiochip_add_data() is called. This allocates an
++.irq.valid_mask with as many bits set as there are GPIO lines in the chip, each
++bit representing line 0..n-1. Drivers can exclude GPIO lines by clearing bits
++from this mask. The mask must be filled in before gpiochip_irqchip_add() or
++gpiochip_irqchip_add_nested() is called.
+ 
+ To use the helpers please keep the following in mind:
+ 
+-- 
+2.21.0
+
