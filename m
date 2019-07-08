@@ -1,88 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCE687D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 15:01:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E584C7E61A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 15:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730340AbfGHPB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 11:01:28 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53371 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727377AbfGHPB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 11:01:28 -0400
-Received: by mail-wm1-f66.google.com with SMTP id x15so16168061wmj.3;
-        Mon, 08 Jul 2019 08:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cmLrO6SgdZZXRi2BL7k7ekrcbaxMPtoX1gv5vh7hK1o=;
-        b=th85+zagNvITYtMuCH1LWJQdl2IZTom7FW0ZixRGwkaOj8abqMmav1hy97sjS9QTQ8
-         6LkofalcXyx1O0kMCTwWu7ttv6ZLtLdnWNsQIKXp7ac4BR2/EDRxEpCKVFnNzv7x0KSk
-         uxkONO4Zq9mgDvyTcoIsuWcPjKXncKYLV7RmXJwuvNFm7lBHyLbyGzOTk3IzxRj+EkZw
-         PTDV7jnzTA/6KyR0ismpoc6Sy0ooleQMOdAqM4WqZ3b2CN3P4pRXGKlJ07iSmXjrXdGQ
-         JCgDYcWRVzmYS+VJl2CAAAL64qWlI63WGLA43YkfMqzkEdbpn+z1jzLssGbqHtuiCP/Q
-         MOyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cmLrO6SgdZZXRi2BL7k7ekrcbaxMPtoX1gv5vh7hK1o=;
-        b=ho/eBGzkvZHob1XAuZo/LY/LM6SD/w8Rdu723tgoYc2PK5Ig8f/RlvXybO6FG+38bL
-         4PiVryqTYb8pzWzCm/JOdzSFqHctXVmpbbYIff/GApq0n5W/+EMRpJjevuhSz28K6fs9
-         gVHzBhe1TODVGO4gQkVna/Dfi9p6FXl8Rn37ZkRjue/MJjV/wO4Iw+Fq01ppIZ3J0xE/
-         A26DLlX3c7NzaHxfcGgQUIdrVimrY5wktFbsbtcEn5TdW9KrYlc9QWZKxSTpRwLtDd4f
-         uHXFR9w9U6LE6Sfv7Uh07vXoLzegzyFLlsoi83JejBXWhl7i9A7/pstb/xCD3fNTqi/n
-         pcpw==
-X-Gm-Message-State: APjAAAV8QypK/0mJRosnDfRSkUSbdmriY+DXLrFFdQEvfy+4VuBSvDyw
-        2MvHitZricZdwpgO1EzuQU7iGjo1I/DNac0yqnXAvQ==
-X-Google-Smtp-Source: APXvYqwOIgYRrvOZ5+Exg2Q/kUvprdasOY1nACej7FCJQHAuiquh9HSp7nkENMPYcuDwuropQdGcJPToQ0yhcmEK2hY=
-X-Received: by 2002:a05:600c:2243:: with SMTP id a3mr16788036wmm.83.1562598084910;
- Mon, 08 Jul 2019 08:01:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190705185519.31033-1-tranmanphong@gmail.com> <20190708075255.0f337b28@lwn.net>
-In-Reply-To: <20190708075255.0f337b28@lwn.net>
-From:   Phong Tran <tranmanphong@gmail.com>
-Date:   Mon, 8 Jul 2019 22:01:13 +0700
-Message-ID: <CAD3AR6EN7n5KXnJqW0UdgB_eQjuTedB6KdC8sJ_h+MJNKB6ZmA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: usb: convert usb-help to rst
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S2388223AbfGHPXj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 11:23:39 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51864 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731266AbfGHPXi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 11:23:38 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 47D992B8;
+        Mon,  8 Jul 2019 15:23:37 +0000 (UTC)
+Date:   Mon, 8 Jul 2019 09:23:36 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] docs: automarkup.py: ignore exceptions when seeking for
+ xrefs
+Message-ID: <20190708092336.01ade0ab@lwn.net>
+In-Reply-To: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
+References: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 8, 2019 at 8:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Sat,  6 Jul 2019 01:55:19 +0700
-> Phong Tran <tranmanphong@gmail.com> wrote:
->
-> > Add new index.rst and change usb-help.txt format
-> > to rst.
-> >
-> > Signed-off-by: Phong Tran <tranmanphong@gmail.com>
->
-> Thank you for working to make the kernel's documentation better.  That
-> said, I really don't think there is value in keeping this document.  It
-> hasn't been updated in any useful way in decades, contains broken links,
-> and the links that still work are full of obsolete information.  Honestly,
-> a better patch would, IMO, just delete this file.
->
-@Jonathan Corbet  it's fine to me.
+On Sat,  6 Jul 2019 13:28:42 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Need ack from you @Greg Kroah-Hartman
-if yes, I will send the cleanup patch.
+> When using the automarkup extension with:
+> 	make pdfdocs
+> 
+> without passing an specific book, the code will raise an exception:
+> 
+> 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 86, in auto_markup
+> 	    node.parent.replace(node, markup_funcs(name, app, node))
+> 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 59, in markup_funcs
+> 	    'function', target, pxref, lit_text)
+> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/domains/c.py", line 308, in resolve_xref
+> 	    contnode, target)
+> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/util/nodes.py", line 450, in make_refnode
+> 	    '#' + targetid)
+> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 159, in get_relative_uri
+> 	    return self.get_target_uri(to, typ)
+> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 152, in get_target_uri
+> 	    raise NoUri
+> 	sphinx.environment.NoUri
+> 
+> This happens because not all references will belong to a single
+> PDF/LaTeX document.
 
-Regards,
-Phong.
+Interesting.  I'd like to understand better why the HTML builder doesn't do
+this...it seems like a bug in the latex builder somehow.
+
+> Better to just ignore those than breaking Sphinx build.
+> 
+> Fixes: d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/sphinx/automarkup.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+> index b300cf129869..dba14374f269 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -55,8 +55,13 @@ def markup_funcs(docname, app, node):
+>                                            reftype = 'function',
+>                                            reftarget = target, modname = None,
+>                                            classname = None)
+> -            xref = cdom.resolve_xref(app.env, docname, app.builder,
+> -                                     'function', target, pxref, lit_text)
+> +
+> +            # When building pdf documents, this may raise a NoUri exception
+> +            try:
+> +                xref = cdom.resolve_xref(app.env, docname, app.builder,
+> +                                         'function', target, pxref, lit_text)
+> +            except:
+> +                xref = None
+
+So this absolutely needs to be "except sphinx.environment.NoUri".  I have
+seen catch-all "except" clauses paper over or otherwise hide too many
+problems over the years; I really try to avoid ever using them.
+
+I want to look at this problem and understand it a bit better; then I'll
+probably end up applying this patch with the above tweak.
+
+Thanks,
+
+jon
