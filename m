@@ -5,30 +5,32 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90F1C7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 20:02:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9356A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 20:09:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404828AbfGHUCZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 16:02:25 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53272 "EHLO ms.lwn.net"
+        id S2404100AbfGHUJ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 16:09:57 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53304 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404790AbfGHUCZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jul 2019 16:02:25 -0400
+        id S1727663AbfGHUJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 16:09:56 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CAAA32EF;
-        Mon,  8 Jul 2019 20:02:24 +0000 (UTC)
-Date:   Mon, 8 Jul 2019 14:02:23 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8CC8C2B8;
+        Mon,  8 Jul 2019 20:09:55 +0000 (UTC)
+Date:   Mon, 8 Jul 2019 14:09:54 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH v2] kbuild: get rid of misleading $(AS) from documents
-Message-ID: <20190708140223.39d15d56@lwn.net>
-In-Reply-To: <20190706162508.8529-1-yamada.masahiro@socionext.com>
-References: <20190706162508.8529-1-yamada.masahiro@socionext.com>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
+        skhan@linuxfoundation.org, mchehab@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Documentation: coresight: covert txt to rst
+Message-ID: <20190708140954.35a38021@lwn.net>
+In-Reply-To: <20190705204512.15444-1-tranmanphong@gmail.com>
+References: <20190705204512.15444-1-tranmanphong@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,26 +40,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun,  7 Jul 2019 01:25:08 +0900
-Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+On Sat,  6 Jul 2019 03:45:12 +0700
+Phong Tran <tranmanphong@gmail.com> wrote:
 
-> The assembler files in the kernel are *.S instead of *.s, so they must
-> be preprocessed. Since 'as' of GNU binutils is not able to preprocess,
-> we always use $(CC) as an assembler driver.
+> change the format file and adpate the text style
 > 
-> $(AS) is almost unused in Kbuild. As of writing, there is just one place
-> that directly invokes $(AS).
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+> ---
+>  .../trace/{coresight.txt => coresight.rst}         | 296 ++++++++++++---------
+>  Documentation/trace/index.rst                      |   1 +
+>  2 files changed, 167 insertions(+), 130 deletions(-)
+>  rename Documentation/trace/{coresight.txt => coresight.rst} (59%)
 > 
->   $ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' -- :^Documentation
->   drivers/net/wan/Makefile:  AS68K = $(AS)
-> 
-> The documentation about *_AFLAGS* sounds like the flags were passed
-> to $(AS). This is somewhat misleading.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
+> similarity index 59%
+> rename from Documentation/trace/coresight.txt
+> rename to Documentation/trace/coresight.rst
+> index efbc832146e7..bea24e70cfba 100644
+> --- a/Documentation/trace/coresight.txt
+> +++ b/Documentation/trace/coresight.rst
+> @@ -1,5 +1,6 @@
+> -		Coresight - HW Assisted Tracing on ARM
+> -		======================================
+> +======================================
+> +Coresight - HW Assisted Tracing on ARM
+> +======================================
+>  
+>     Author:   Mathieu Poirier <mathieu.poirier@linaro.org>
+>     Date:     September 11th, 2014
+> @@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
+>  creating an interface to the outside world where data can be transferred to a
+>  host without fear of filling up the onboard coresight memory buffer.
+>  
+> -At typical coresight system would look like this:
+> +At typical coresight system would look like this::
+>  
+>    *****************************************************************
+>   **************************** AMBA AXI  ****************************===||
+> @@ -95,6 +96,7 @@ Acronyms and Classification
+>  
+>  Acronyms:
+>  
+> +======== =============================================================
+>  PTM:     Program Trace Macrocell
+>  ETM:     Embedded Trace Macrocell
+>  STM:     System trace Macrocell
+> @@ -104,6 +106,7 @@ TPIU:    Trace Port Interface Unit
+>  TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
+>  TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
+>  CTI:     Cross Trigger Interface
+> +======== =============================================================
 
-Would you like me to send this up through the docs tree?
+A minor nit, but since you're making a table out of this, you don't need
+the colons in the first column.
+
+>  Classification:
+>  
+> @@ -118,7 +121,7 @@ Misc:
+>  
+>  
+>  Device Tree Bindings
+> -----------------------
+> +--------------------
+>  
+>  See Documentation/devicetree/bindings/arm/coresight.txt for details.
+>  
+> @@ -133,57 +136,63 @@ The coresight framework provides a central point to represent, configure and
+>  manage coresight devices on a platform.  Any coresight compliant device can
+>  register with the framework for as long as they use the right APIs:
+>  
+> -struct coresight_device *coresight_register(struct coresight_desc *desc);
+> -void coresight_unregister(struct coresight_device *csdev);
+> +.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
+> +.. c:function:: void coresight_unregister(struct coresight_device *csdev);
+>  
+> -The registering function is taking a "struct coresight_device *csdev" and
+> +The registering function is taking a :code:`struct coresight_device *csdev` and
+
+As a general rule, we would rather see less markup in the text files than
+you are applying here.  Just present the prototypes in a literal block
+here.  (Even better would be a nice kerneldoc comment in the source that
+could be pulled in, but that's more work).  I wouldn't use :code: anywhere,
+really. 
+
+As well as addressing Mathieu's comments, could you pass through and cut
+the markup down to the bare minimum?
 
 Thanks,
 
