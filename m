@@ -1,174 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EC347E466
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 16:29:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB9EB7D90C
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 16:31:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730168AbfGHQ27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 12:28:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44408 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728834AbfGHQ27 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 12:28:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QqUJReTurIBV3kcOzctiiT9WS5fiRjHeQEh1zDlTBHA=; b=IhhHHt3D1sjrMXz8D7Z4fP4+D
-        zHbSwD+uXt02lyJVCrocniNMoZPBP/GEArKSh9GV0JaEXXiAOz/uZ78ePuP+oK6jTxpSISWtoWdBC
-        KNF0pf0J0NlPij0lO1ejUtMl6ZbGA9vtYlaJ/x0e3Gxm0c/4/mMK4aB2PHBNV3YiOUCfYfP1whwmF
-        rZBozXXn5f2wASONLC/v6KDH26vyZuKE4ijD/UMcCpop0f2iMiMrpmPo2E3A82UXmmeGOEwdrSj7y
-        rC4kY7xyiqjutNWXmycyPPSVZoohR7ldDWESAFI499XtaOkhkjriYfzC9PCSjKAkYSM+Ga9BVBaUp
-        /Gw/Mm4kQ==;
-Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkWVe-00068h-AO; Mon, 08 Jul 2019 16:28:58 +0000
-Date:   Mon, 8 Jul 2019 13:28:53 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: automarkup.py: ignore exceptions when seeking for
- xrefs
-Message-ID: <20190708132853.2fba9f62@coco.lan>
-In-Reply-To: <20190708092336.01ade0ab@lwn.net>
-References: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
-        <20190708092336.01ade0ab@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729335AbfGHQbq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 12:31:46 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44276 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730227AbfGHQbq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 12:31:46 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r15so11363831lfm.11
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 09:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3muSErcKEFndhXfaKY3ATCVtuVvwHasHWrKAnKptt3A=;
+        b=jy8Ff5Nekqo/UDsSM6LPdZ1/vxXRxHPPtCQNmrMM9JBSzKLh/D5A49NUn+QH8yxpsN
+         ZcneME9bQ5PEkkfjrJ5FFDXn51FOriVckEKMGfCX2C3b3tapU4Zog43RMlaoakymFFVr
+         8v2hEmD0TJZAZo2mtG7DNytqbW2S69YhcO4m+up5YxpC1iCRYbyIQ5rNjx0uOSmoxkvX
+         JAn9KqrTnU2fCfxIxP3Js5Muakzs0ucaDQ+dNOqm7KGl0mMoAvZd8PteWG2J87NJ6y5T
+         ApLhbzQONg2+flpPM4Evj/KZ0VrvDrl48NOSfNPbN7psuTAsrlP8nOA5fMCMQtkl1YMH
+         J2pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3muSErcKEFndhXfaKY3ATCVtuVvwHasHWrKAnKptt3A=;
+        b=Sd3/DgtTQow++/htmuUDxyPD7jCZ4YhB2s7HBgfcP6eO9SAZtNBS5NioNGJpvIYYUc
+         dx35X3S2ukykUt4ZPpGwv4FB4pHEabpbsiLWdGsm7ruh4g1bPOKklko76dUKhXaSkvta
+         h3B0iLjeHaDUz9luwzIfuq5nqBqyrHmK8P2WUeWB8lf2OppiP1R/H06Wi5z0y8J8V8+j
+         xLVcKSFkLJnDd3EK05tHtQ4nBxUo/+mc2fvZudcEtCa85OBAWB+7YPNqIQGsHGXTo3mx
+         6epKscZMOSeSJVd8z8EvILmAiS/URW1V8SUtTDSs+CvWah0Kw/R7ye9nUpjSPK/0t775
+         OCcw==
+X-Gm-Message-State: APjAAAX4RGH5eWnf3oSohUmv58vDUn1xU9Z2tqdy6FAgHD2GBy/xdB5r
+        tJvHbqCkygsHptCmJM7l9ew9Jg==
+X-Google-Smtp-Source: APXvYqxUVvYjuVf39gxQ380dX6pWA86hhvJUjir+HrNiY0cZ5linR0Mbx8/ENcW/g4VOsocx8t9j7Q==
+X-Received: by 2002:a19:5f46:: with SMTP id a6mr9474420lfj.142.1562603504069;
+        Mon, 08 Jul 2019 09:31:44 -0700 (PDT)
+Received: from jax (h-84-105.A175.priv.bahnhof.se. [79.136.84.105])
+        by smtp.gmail.com with ESMTPSA id y5sm3724894ljj.5.2019.07.08.09.31.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 08 Jul 2019 09:31:43 -0700 (PDT)
+Date:   Mon, 8 Jul 2019 18:31:41 +0200
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
+        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        tee-dev@lists.linaro.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org
+Subject: Re: [RFC 0/7] Introduce TEE based Trusted Keys support
+Message-ID: <20190708163140.GB28253@jax>
+References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
+ <CAFA6WYPn3HB6BRocKmKTR+ZPE=Fav5w1TUdRgmLp-NkYobp3rw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYPn3HB6BRocKmKTR+ZPE=Fav5w1TUdRgmLp-NkYobp3rw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 8 Jul 2019 09:23:36 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Hi Sumit,
 
-> On Sat,  6 Jul 2019 13:28:42 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Mon, Jul 08, 2019 at 06:11:39PM +0530, Sumit Garg wrote:
+> Hi Jens,
 > 
-> > When using the automarkup extension with:
-> > 	make pdfdocs
-> > 
-> > without passing an specific book, the code will raise an exception:
-> > 
-> > 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 86, in auto_markup
-> > 	    node.parent.replace(node, markup_funcs(name, app, node))
-> > 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 59, in markup_funcs
-> > 	    'function', target, pxref, lit_text)
-> > 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/domains/c.py", line 308, in resolve_xref
-> > 	    contnode, target)
-> > 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/util/nodes.py", line 450, in make_refnode
-> > 	    '#' + targetid)
-> > 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 159, in get_relative_uri
-> > 	    return self.get_target_uri(to, typ)
-> > 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 152, in get_target_uri
-> > 	    raise NoUri
-> > 	sphinx.environment.NoUri
-> > 
-> > This happens because not all references will belong to a single
-> > PDF/LaTeX document.  
+> On Thu, 13 Jun 2019 at 16:01, Sumit Garg <sumit.garg@linaro.org> wrote:
+> >
+> > Add support for TEE based trusted keys where TEE provides the functionality
+> > to seal and unseal trusted keys using hardware unique key. Also, this is
+> > an alternative in case platform doesn't possess a TPM device.
+> >
+> > This series also adds some TEE features like:
+> >
+> > Patch #1, #2 enables support for registered kernel shared memory with TEE.
+> >
 > 
-> Interesting.  I'd like to understand better why the HTML builder doesn't do
-> this...it seems like a bug in the latex builder somehow.
+> Would you like to pick up Patch #1, #2 separately? I think both these
+> patches add independent functionality and also got reviewed-by tags
+> too.
 
-It took me a while to identify what part of the extension was causing the
-build breakage with make pdfdocs, but this occurs upstream too, if you
-try to build all documents.
+I think it makes more sense to keep them together in the same patch
+series or could end up with dependencies between trees.
 
-The funny thing is that, if you try to build a single book, e. g.:
-
-	make SPHINXDIRS=foo pdfdocs
-
-this won't happen.
-
-I didn't spend too much time trying to identify the exact breakage reason.
-All I did were to add some prints inside latex/*.py while debugging it, in
-order to get a rough idea about what was happening.
-
-On several places, the code with calls "raise NoUri" is called, but the
-caller silently ignores it (that happens, for example, when it parses
-:ref:`genindex`).
-
-What I suspect is that, when you do an html build - or when you build just
-a single book with SPHINXDIRS=foo, all dependencies are either:
-
-	- unsolved; or
-	- solved within the same document/html URL
-
-In other words, solved references will have a relative position within
-a single documentation body. So, there won't be any need for a document
-to refer to a symbol on some other document.
-
-With PDF, a symbol defined under, let's say, "core-api" defines a
-core_foo() function, and this function is referenced inside the "driver-api"
-book. The automarkup.py will convert a driver-api core_foo() to:
-:ref:`core_foo()`, instead of :doc:`core-api`, but core_foo label
-doesn't exist within the "driver-api" book context.
-
-As we're not using intersphinx extension, Sphinx doesn't have any
-URL to convert the cross-reference in a way that, if one clicks at the
-reference, it will open the referenced document at the proper page. 
-
-So, it bails out.
-
-That's said, I didn't try to use intersphinx in order to check if
-LaTeX references to other documents would actually work.
-
-> 
-> > Better to just ignore those than breaking Sphinx build.
-> > 
-> > Fixes: d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/sphinx/automarkup.py | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-> > index b300cf129869..dba14374f269 100644
-> > --- a/Documentation/sphinx/automarkup.py
-> > +++ b/Documentation/sphinx/automarkup.py
-> > @@ -55,8 +55,13 @@ def markup_funcs(docname, app, node):
-> >                                            reftype = 'function',
-> >                                            reftarget = target, modname = None,
-> >                                            classname = None)
-> > -            xref = cdom.resolve_xref(app.env, docname, app.builder,
-> > -                                     'function', target, pxref, lit_text)
-> > +
-> > +            # When building pdf documents, this may raise a NoUri exception
-> > +            try:
-> > +                xref = cdom.resolve_xref(app.env, docname, app.builder,
-> > +                                         'function', target, pxref, lit_text)
-> > +            except:
-> > +                xref = None  
-> 
-> So this absolutely needs to be "except sphinx.environment.NoUri".  I have
-> seen catch-all "except" clauses paper over or otherwise hide too many
-> problems over the years; I really try to avoid ever using them.
-
-Makes sense to me. Feel free to change it when you apply it.
-
-> 
-> I want to look at this problem and understand it a bit better; then I'll
-> probably end up applying this patch with the above tweak.
-
-Btw, I got some other issues when changed Sphinx to include all books to the
-pdf output on my documentation development tree:
-
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_next_v2&id=cd72aaefc8b07ce7909be914e46dfb02bad5d86b
-
-They're related to having nested tables, with got fixed by this patch:
-
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_next_v2&id=fd0b22e391431f766e9be6f161fab9646c0dd9ca
+If you don't think dependencies will be an issue then I don't mind
+picking them up, in that case they'd likely sit in an arm-soc branch
+until next merge window. However, I think that #3 (support for private
+kernel login method) should be included too and that one isn't ready
+yet.
 
 Thanks,
-Mauro
+Jens
+
+> 
+> 
+> -Sumit
+> 
+> > Patch #3 enables support for private kernel login method required for
+> > cases like trusted keys where we don't wan't user-space to directly access
+> > TEE service to retrieve trusted key contents.
+> >
+> > Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
+> >
+> > This patch-set has been tested with OP-TEE based pseudo TA which can be
+> > found here [1].
+> >
+> > Looking forward to your valuable feedback/suggestions.
+> >
+> > [1] https://github.com/OP-TEE/optee_os/pull/3082
+> >
+> > Sumit Garg (7):
+> >   tee: optee: allow kernel pages to register as shm
+> >   tee: enable support to register kernel memory
+> >   tee: add private login method for kernel clients
+> >   KEYS: trusted: Introduce TEE based Trusted Keys
+> >   KEYS: encrypted: Allow TEE based trusted master keys
+> >   doc: keys: Document usage of TEE based Trusted Keys
+> >   MAINTAINERS: Add entry for TEE based Trusted Keys
+> >
+> >  Documentation/security/keys/tee-trusted.rst      |  93 +++++
+> >  MAINTAINERS                                      |   9 +
+> >  drivers/tee/optee/call.c                         |   7 +
+> >  drivers/tee/tee_core.c                           |   6 +
+> >  drivers/tee/tee_shm.c                            |  16 +-
+> >  include/keys/tee_trusted.h                       |  84 ++++
+> >  include/keys/trusted-type.h                      |   1 +
+> >  include/linux/tee_drv.h                          |   1 +
+> >  include/uapi/linux/tee.h                         |   2 +
+> >  security/keys/Kconfig                            |   3 +
+> >  security/keys/Makefile                           |   3 +
+> >  security/keys/encrypted-keys/masterkey_trusted.c |  10 +-
+> >  security/keys/tee_trusted.c                      | 506 +++++++++++++++++++++++
+> >  13 files changed, 737 insertions(+), 4 deletions(-)
+> >  create mode 100644 Documentation/security/keys/tee-trusted.rst
+> >  create mode 100644 include/keys/tee_trusted.h
+> >  create mode 100644 security/keys/tee_trusted.c
+> >
+> > --
+> > 2.7.4
+> >
