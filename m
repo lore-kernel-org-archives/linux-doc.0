@@ -1,100 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F5607D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 14:15:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCE687D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 15:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbfGHOO7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 10:14:59 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:39489 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728596AbfGHOO7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 10:14:59 -0400
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hkUPi-0001Ht-7E; Mon, 08 Jul 2019 16:14:42 +0200
-Date:   Mon, 8 Jul 2019 16:14:41 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Zhiqiang Liu <liuzhiqiang26@huawei.com>
-cc:     corbet@lwn.net, mcgrof@kernel.org,
-        Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org,
-        manfred@colorfullife.com, jwilk@jwilk.net, dvyukov@google.com,
-        feng.tang@intel.com, sunilmut@microsoft.com,
-        quentin.perret@arm.com, linux@leemhuis.info, alex.popov@linux.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
-        "Zhoukang (A)" <zhoukang7@huawei.com>,
-        Mingfangsen <mingfangsen@huawei.com>, tedheadster@gmail.com,
-        Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH next] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl
- max_softirq_time_usecs
-In-Reply-To: <c1b7a345-fa22-e52a-4db8-1f1288e7ad15@huawei.com>
-Message-ID: <alpine.DEB.2.21.1907081558400.4709@nanos.tec.linutronix.de>
-References: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com> <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de> <0099726a-ead3-bdbe-4c66-c8adc9a4f11b@huawei.com> <alpine.DEB.2.21.1906241141370.32342@nanos.tec.linutronix.de>
- <c1b7a345-fa22-e52a-4db8-1f1288e7ad15@huawei.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1730340AbfGHPB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 11:01:28 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53371 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727377AbfGHPB2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 11:01:28 -0400
+Received: by mail-wm1-f66.google.com with SMTP id x15so16168061wmj.3;
+        Mon, 08 Jul 2019 08:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cmLrO6SgdZZXRi2BL7k7ekrcbaxMPtoX1gv5vh7hK1o=;
+        b=th85+zagNvITYtMuCH1LWJQdl2IZTom7FW0ZixRGwkaOj8abqMmav1hy97sjS9QTQ8
+         6LkofalcXyx1O0kMCTwWu7ttv6ZLtLdnWNsQIKXp7ac4BR2/EDRxEpCKVFnNzv7x0KSk
+         uxkONO4Zq9mgDvyTcoIsuWcPjKXncKYLV7RmXJwuvNFm7lBHyLbyGzOTk3IzxRj+EkZw
+         PTDV7jnzTA/6KyR0ismpoc6Sy0ooleQMOdAqM4WqZ3b2CN3P4pRXGKlJ07iSmXjrXdGQ
+         JCgDYcWRVzmYS+VJl2CAAAL64qWlI63WGLA43YkfMqzkEdbpn+z1jzLssGbqHtuiCP/Q
+         MOyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cmLrO6SgdZZXRi2BL7k7ekrcbaxMPtoX1gv5vh7hK1o=;
+        b=ho/eBGzkvZHob1XAuZo/LY/LM6SD/w8Rdu723tgoYc2PK5Ig8f/RlvXybO6FG+38bL
+         4PiVryqTYb8pzWzCm/JOdzSFqHctXVmpbbYIff/GApq0n5W/+EMRpJjevuhSz28K6fs9
+         gVHzBhe1TODVGO4gQkVna/Dfi9p6FXl8Rn37ZkRjue/MJjV/wO4Iw+Fq01ppIZ3J0xE/
+         A26DLlX3c7NzaHxfcGgQUIdrVimrY5wktFbsbtcEn5TdW9KrYlc9QWZKxSTpRwLtDd4f
+         uHXFR9w9U6LE6Sfv7Uh07vXoLzegzyFLlsoi83JejBXWhl7i9A7/pstb/xCD3fNTqi/n
+         pcpw==
+X-Gm-Message-State: APjAAAV8QypK/0mJRosnDfRSkUSbdmriY+DXLrFFdQEvfy+4VuBSvDyw
+        2MvHitZricZdwpgO1EzuQU7iGjo1I/DNac0yqnXAvQ==
+X-Google-Smtp-Source: APXvYqwOIgYRrvOZ5+Exg2Q/kUvprdasOY1nACej7FCJQHAuiquh9HSp7nkENMPYcuDwuropQdGcJPToQ0yhcmEK2hY=
+X-Received: by 2002:a05:600c:2243:: with SMTP id a3mr16788036wmm.83.1562598084910;
+ Mon, 08 Jul 2019 08:01:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20190705185519.31033-1-tranmanphong@gmail.com> <20190708075255.0f337b28@lwn.net>
+In-Reply-To: <20190708075255.0f337b28@lwn.net>
+From:   Phong Tran <tranmanphong@gmail.com>
+Date:   Mon, 8 Jul 2019 22:01:13 +0700
+Message-ID: <CAD3AR6EN7n5KXnJqW0UdgB_eQjuTedB6KdC8sJ_h+MJNKB6ZmA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: usb: convert usb-help to rst
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Zhiqiang,
-
-On Tue, 25 Jun 2019, Zhiqiang Liu wrote:
-
-> I have a doubt about _msecs_to_jiffies funcs, especially when input m is
-> equal to 0.
+On Mon, Jul 8, 2019 at 8:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> For different HZ setttings, different _msecs_to_jiffies funcs will be
-> chosen for msecs_to_jiffies func. However, the performance of different
-> _msecs_to_jiffies is inconsistent with input m is equal to 0.
+> On Sat,  6 Jul 2019 01:55:19 +0700
+> Phong Tran <tranmanphong@gmail.com> wrote:
 >
-> If HZ satisfies the condition: HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC %
-> HZ), the return value of _msecs_to_jiffies func with m=0 is different
-> with different HZ setting.
+> > Add new index.rst and change usb-help.txt format
+> > to rst.
+> >
+> > Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+>
+> Thank you for working to make the kernel's documentation better.  That
+> said, I really don't think there is value in keeping this document.  It
+> hasn't been updated in any useful way in decades, contains broken links,
+> and the links that still work are full of obsolete information.  Honestly,
+> a better patch would, IMO, just delete this file.
+>
+@Jonathan Corbet  it's fine to me.
 
-> ------------------------------------
-> | HZ |	MSEC_PER_SEC / HZ | return |
-> ------------------------------------
-> |1000|		1	  |   0	   |
-> |500 |		2	  |   1	   |
-> |200 |		5	  |   1	   |
-> |100 |		10	  |   1	   |
-> ------------------------------------
-> 
-> Why only the return value of HZ=1000 is equal to 0 with m=0 ?
+Need ack from you @Greg Kroah-Hartman
+if yes, I will send the cleanup patch.
 
-I don't know how you tested that, but obviously all four HZ values use
-this variant:
-
->     #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
->     static inline unsigned long _msecs_to_jiffies(const unsigned int m)
->     {
->             return (m + (MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ);
->     }
-
-and for all four HZ values the result is 0. Why?
-
-For m = 0 the calculation reduces to:
-
-      ((MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ)
-
-i.e.
-
-	(x - 1) / x	where x = [1, 2, 5, 10]
-
-which is guaranteed to be 0 for integer math. If not, you have a compiler
-problem.
-
-Thanks,
-
-	tglx
+Regards,
+Phong.
