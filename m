@@ -6,151 +6,548 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB9EB7D90C
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 16:31:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 681A57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 16:44:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729335AbfGHQbq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 12:31:46 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:44276 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730227AbfGHQbq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 12:31:46 -0400
-Received: by mail-lf1-f68.google.com with SMTP id r15so11363831lfm.11
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 09:31:44 -0700 (PDT)
+        id S2389984AbfGHQoK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 12:44:10 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34616 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730872AbfGHQoJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 12:44:09 -0400
+Received: by mail-io1-f65.google.com with SMTP id k8so36826342iot.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 09:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3muSErcKEFndhXfaKY3ATCVtuVvwHasHWrKAnKptt3A=;
-        b=jy8Ff5Nekqo/UDsSM6LPdZ1/vxXRxHPPtCQNmrMM9JBSzKLh/D5A49NUn+QH8yxpsN
-         ZcneME9bQ5PEkkfjrJ5FFDXn51FOriVckEKMGfCX2C3b3tapU4Zog43RMlaoakymFFVr
-         8v2hEmD0TJZAZo2mtG7DNytqbW2S69YhcO4m+up5YxpC1iCRYbyIQ5rNjx0uOSmoxkvX
-         JAn9KqrTnU2fCfxIxP3Js5Muakzs0ucaDQ+dNOqm7KGl0mMoAvZd8PteWG2J87NJ6y5T
-         ApLhbzQONg2+flpPM4Evj/KZ0VrvDrl48NOSfNPbN7psuTAsrlP8nOA5fMCMQtkl1YMH
-         J2pg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kDPLda0ivm9arT2x6QHrAfqDVAbxojAyd/YYcBxXDpE=;
+        b=jRRfjg/QZx3gKH/NwrSHmkOsS+2aLsPrHrPZ9t3iJJM8A2c/oWZIW9OZfXETAFWpqu
+         nNDNudd+T91xZA0sFeIml34SAEYqRqaZdnU4vO7C0VogGypxA4KB96/gT+eZLgjacQ13
+         Sgpz9fKrGro0er8qnRBlQ5YmwxRn+SEE0IYoCT6FtXQRNZ7EYhTUyoMJBUPkej9XuXvG
+         fgglpZ+OLIHYoiTwH1cV+fNMKMUAxp9u1o2FDWmxB4+vkc+0VZJiPfcx/XBjRu6Ppd86
+         KPpWtUPeNibsWbdOv5csM4BvL+ORi9pIiq4Butavd7FdIQoFwe1HuEKCAYzgNOY9HhrV
+         18+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3muSErcKEFndhXfaKY3ATCVtuVvwHasHWrKAnKptt3A=;
-        b=Sd3/DgtTQow++/htmuUDxyPD7jCZ4YhB2s7HBgfcP6eO9SAZtNBS5NioNGJpvIYYUc
-         dx35X3S2ukykUt4ZPpGwv4FB4pHEabpbsiLWdGsm7ruh4g1bPOKklko76dUKhXaSkvta
-         h3B0iLjeHaDUz9luwzIfuq5nqBqyrHmK8P2WUeWB8lf2OppiP1R/H06Wi5z0y8J8V8+j
-         xLVcKSFkLJnDd3EK05tHtQ4nBxUo/+mc2fvZudcEtCa85OBAWB+7YPNqIQGsHGXTo3mx
-         6epKscZMOSeSJVd8z8EvILmAiS/URW1V8SUtTDSs+CvWah0Kw/R7ye9nUpjSPK/0t775
-         OCcw==
-X-Gm-Message-State: APjAAAX4RGH5eWnf3oSohUmv58vDUn1xU9Z2tqdy6FAgHD2GBy/xdB5r
-        tJvHbqCkygsHptCmJM7l9ew9Jg==
-X-Google-Smtp-Source: APXvYqxUVvYjuVf39gxQ380dX6pWA86hhvJUjir+HrNiY0cZ5linR0Mbx8/ENcW/g4VOsocx8t9j7Q==
-X-Received: by 2002:a19:5f46:: with SMTP id a6mr9474420lfj.142.1562603504069;
-        Mon, 08 Jul 2019 09:31:44 -0700 (PDT)
-Received: from jax (h-84-105.A175.priv.bahnhof.se. [79.136.84.105])
-        by smtp.gmail.com with ESMTPSA id y5sm3724894ljj.5.2019.07.08.09.31.42
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 08 Jul 2019 09:31:43 -0700 (PDT)
-Date:   Mon, 8 Jul 2019 18:31:41 +0200
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
-        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tee-dev@lists.linaro.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org
-Subject: Re: [RFC 0/7] Introduce TEE based Trusted Keys support
-Message-ID: <20190708163140.GB28253@jax>
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
- <CAFA6WYPn3HB6BRocKmKTR+ZPE=Fav5w1TUdRgmLp-NkYobp3rw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kDPLda0ivm9arT2x6QHrAfqDVAbxojAyd/YYcBxXDpE=;
+        b=M2OMinUbpYzxY0FgdLRbTgSRl3aeC/4fwl8ntBVZqpo8uR+AvuX8YyILtExZRZL0D9
+         M1CxxypnyBTN/wxCPuzV2zArfECFliMWIR8hr7c+PNkMQC9oijkixAKnbZlrt5sVSqex
+         PSsK1nSyldXAb6sjYmMV4BdZV9AJWGVHa9e18NahqdPXwO6dhP5SH3c1kcPQZ/YXOdlT
+         DRO/Ty/RPgO2gNlM3ffMx5g712PlPwsfWCOXptGG+sBzBmQL2gFB52MykUlt/oncUm+J
+         scYrSQkJG6n3RKCrAh+LbkrxsU2pIJbOW1eaiUoG7fLvjsf7dMXE1Zf6Dr7+7RWGuiVr
+         VgCQ==
+X-Gm-Message-State: APjAAAX4TbiJNgK33rcUKLlPAkAONK95npIq3Qk9K7Xmj+DkLdJZ2t0G
+        iwri7ZR+v6InouD6kKoCh+EkIrALL62SSw2UYRr6+A==
+X-Google-Smtp-Source: APXvYqznktJ1YU2+JOhhSt4vqEXmVJhsKKZ44A4sGOjDtoY/awZa/+32aRG6KNSM4qgMPyxLIvh+3t+3yBoDZCNJOVo=
+X-Received: by 2002:a5d:9dc7:: with SMTP id 7mr20464035ioo.237.1562604248128;
+ Mon, 08 Jul 2019 09:44:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYPn3HB6BRocKmKTR+ZPE=Fav5w1TUdRgmLp-NkYobp3rw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20190705204512.15444-1-tranmanphong@gmail.com>
+In-Reply-To: <20190705204512.15444-1-tranmanphong@gmail.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Mon, 8 Jul 2019 10:43:56 -0600
+Message-ID: <CANLsYkzTk9a0ToPwMOv5cC8OUA1EvxitbB_rauXhkS4WFz7CWA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: coresight: covert txt to rst
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     Jon Corbet <corbet@lwn.net>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        skhan@linuxfoundation.org, mchehab@kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sumit,
+Hi Tran,
 
-On Mon, Jul 08, 2019 at 06:11:39PM +0530, Sumit Garg wrote:
-> Hi Jens,
-> 
-> On Thu, 13 Jun 2019 at 16:01, Sumit Garg <sumit.garg@linaro.org> wrote:
-> >
-> > Add support for TEE based trusted keys where TEE provides the functionality
-> > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > an alternative in case platform doesn't possess a TPM device.
-> >
-> > This series also adds some TEE features like:
-> >
-> > Patch #1, #2 enables support for registered kernel shared memory with TEE.
-> >
-> 
-> Would you like to pick up Patch #1, #2 separately? I think both these
-> patches add independent functionality and also got reviewed-by tags
-> too.
+Thank you for doing this - it adds much needed consistency to this
+file.  A few of comments below....
 
-I think it makes more sense to keep them together in the same patch
-series or could end up with dependencies between trees.
+On Fri, 5 Jul 2019 at 14:45, Phong Tran <tranmanphong@gmail.com> wrote:
+>
+> change the format file and adpate the text style
 
-If you don't think dependencies will be an issue then I don't mind
-picking them up, in that case they'd likely sit in an arm-soc branch
-until next merge window. However, I think that #3 (support for private
-kernel login method) should be included too and that one isn't ready
-yet.
+This changtelog is a little short and mentions what you are doing
+rather than why.
+
+>
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+> ---
+>  .../trace/{coresight.txt => coresight.rst}         | 296 ++++++++++++---------
+>  Documentation/trace/index.rst                      |   1 +
+>  2 files changed, 167 insertions(+), 130 deletions(-)
+>  rename Documentation/trace/{coresight.txt => coresight.rst} (59%)
+
+File "coresight.txt" is referenced in the MAINTAINERS file and should
+probably be changed there as well.
+
+Did you look at coresight-cpu-debug.txt?  In my opinion both files
+should be changed in the same patchset.
 
 Thanks,
-Jens
+Mathieu
 
-> 
-> 
-> -Sumit
-> 
-> > Patch #3 enables support for private kernel login method required for
-> > cases like trusted keys where we don't wan't user-space to directly access
-> > TEE service to retrieve trusted key contents.
-> >
-> > Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
-> >
-> > This patch-set has been tested with OP-TEE based pseudo TA which can be
-> > found here [1].
-> >
-> > Looking forward to your valuable feedback/suggestions.
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/3082
-> >
-> > Sumit Garg (7):
-> >   tee: optee: allow kernel pages to register as shm
-> >   tee: enable support to register kernel memory
-> >   tee: add private login method for kernel clients
-> >   KEYS: trusted: Introduce TEE based Trusted Keys
-> >   KEYS: encrypted: Allow TEE based trusted master keys
-> >   doc: keys: Document usage of TEE based Trusted Keys
-> >   MAINTAINERS: Add entry for TEE based Trusted Keys
-> >
-> >  Documentation/security/keys/tee-trusted.rst      |  93 +++++
-> >  MAINTAINERS                                      |   9 +
-> >  drivers/tee/optee/call.c                         |   7 +
-> >  drivers/tee/tee_core.c                           |   6 +
-> >  drivers/tee/tee_shm.c                            |  16 +-
-> >  include/keys/tee_trusted.h                       |  84 ++++
-> >  include/keys/trusted-type.h                      |   1 +
-> >  include/linux/tee_drv.h                          |   1 +
-> >  include/uapi/linux/tee.h                         |   2 +
-> >  security/keys/Kconfig                            |   3 +
-> >  security/keys/Makefile                           |   3 +
-> >  security/keys/encrypted-keys/masterkey_trusted.c |  10 +-
-> >  security/keys/tee_trusted.c                      | 506 +++++++++++++++++++++++
-> >  13 files changed, 737 insertions(+), 4 deletions(-)
-> >  create mode 100644 Documentation/security/keys/tee-trusted.rst
-> >  create mode 100644 include/keys/tee_trusted.h
-> >  create mode 100644 security/keys/tee_trusted.c
-> >
-> > --
-> > 2.7.4
-> >
+>
+> diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
+> similarity index 59%
+> rename from Documentation/trace/coresight.txt
+> rename to Documentation/trace/coresight.rst
+> index efbc832146e7..bea24e70cfba 100644
+> --- a/Documentation/trace/coresight.txt
+> +++ b/Documentation/trace/coresight.rst
+> @@ -1,5 +1,6 @@
+> -               Coresight - HW Assisted Tracing on ARM
+> -               ======================================
+> +======================================
+> +Coresight - HW Assisted Tracing on ARM
+> +======================================
+>
+>     Author:   Mathieu Poirier <mathieu.poirier@linaro.org>
+>     Date:     September 11th, 2014
+> @@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
+>  creating an interface to the outside world where data can be transferred to a
+>  host without fear of filling up the onboard coresight memory buffer.
+>
+> -At typical coresight system would look like this:
+> +At typical coresight system would look like this::
+>
+>    *****************************************************************
+>   **************************** AMBA AXI  ****************************===||
+> @@ -95,6 +96,7 @@ Acronyms and Classification
+>
+>  Acronyms:
+>
+> +======== =============================================================
+>  PTM:     Program Trace Macrocell
+>  ETM:     Embedded Trace Macrocell
+>  STM:     System trace Macrocell
+> @@ -104,6 +106,7 @@ TPIU:    Trace Port Interface Unit
+>  TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
+>  TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
+>  CTI:     Cross Trigger Interface
+> +======== =============================================================
+>
+>  Classification:
+>
+> @@ -118,7 +121,7 @@ Misc:
+>
+>
+>  Device Tree Bindings
+> -----------------------
+> +--------------------
+>
+>  See Documentation/devicetree/bindings/arm/coresight.txt for details.
+>
+> @@ -133,57 +136,63 @@ The coresight framework provides a central point to represent, configure and
+>  manage coresight devices on a platform.  Any coresight compliant device can
+>  register with the framework for as long as they use the right APIs:
+>
+> -struct coresight_device *coresight_register(struct coresight_desc *desc);
+> -void coresight_unregister(struct coresight_device *csdev);
+> +.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
+> +.. c:function:: void coresight_unregister(struct coresight_device *csdev);
+>
+> -The registering function is taking a "struct coresight_device *csdev" and
+> +The registering function is taking a :code:`struct coresight_device *csdev` and
+>  register the device with the core framework.  The unregister function takes
+> -a reference to a "struct coresight_device", obtained at registration time.
+> +a reference to a :code:`struct coresight_device`, obtained at registration time.
+>
+>  If everything goes well during the registration process the new devices will
+>  show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
+>
+> -root:~# ls /sys/bus/coresight/devices/
+> -replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> -20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> -root:~#
+> +.. code:: console
+>
+> -The functions take a "struct coresight_device", which looks like this:
+> +    root:~# ls /sys/bus/coresight/devices/
+> +    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> +    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> +    root:~#
+>
+> -struct coresight_desc {
+> -        enum coresight_dev_type type;
+> -        struct coresight_dev_subtype subtype;
+> -        const struct coresight_ops *ops;
+> -        struct coresight_platform_data *pdata;
+> -        struct device *dev;
+> -        const struct attribute_group **groups;
+> -};
+> +The functions take a :code:`struct coresight_device`, which looks like this:
+> +
+> +.. code:: c
+> +
+> +    struct coresight_desc {
+> +            enum coresight_dev_type type;
+> +            struct coresight_dev_subtype subtype;
+> +            const struct coresight_ops *ops;
+> +            struct coresight_platform_data *pdata;
+> +            struct device *dev;
+> +            const struct attribute_group **groups;
+> +    };
+>
+>
+>  The "coresight_dev_type" identifies what the device is, i.e, source link or
+>  sink while the "coresight_dev_subtype" will characterise that type further.
+>
+> -The "struct coresight_ops" is mandatory and will tell the framework how to
+> +The :code:`struct coresight_ops` is mandatory and will tell the framework how to
+>  perform base operations related to the components, each component having
+> -a different set of requirement.  For that "struct coresight_ops_sink",
+> -"struct coresight_ops_link" and "struct coresight_ops_source" have been
+> +a different set of requirement.  For that :code:`struct coresight_ops_sink,
+> +struct coresight_ops_link` and :code:`struct coresight_ops_source` have been
+>  provided.
+>
+> -The next field, "struct coresight_platform_data *pdata" is acquired by calling
+> -"of_get_coresight_platform_data()", as part of the driver's _probe routine and
+> -"struct device *dev" gets the device reference embedded in the "amba_device":
+> +The next field, :code:`struct coresight_platform_data *pdata` is acquired by calling
+> +:code:`of_get_coresight_platform_data()`, as part of the driver's _probe routine and
+> +:code:`struct device *dev` gets the device reference embedded in the :code:`amba_device`:
+>
+> -static int etm_probe(struct amba_device *adev, const struct amba_id *id)
+> -{
+> - ...
+> - ...
+> - drvdata->dev = &adev->dev;
+> - ...
+> -}
+> +.. code:: c
+> +
+> +    static int etm_probe(struct amba_device *adev, const struct amba_id *id)
+> +    {
+> +     ...
+> +     ...
+> +     drvdata->dev = &adev->dev;
+> +     ...
+> +    }
+>
+>  Specific class of device (source, link, or sink) have generic operations
+> -that can be performed on them (see "struct coresight_ops").  The
+> -"**groups" is a list of sysfs entries pertaining to operations
+> +that can be performed on them (see :code:`struct coresight_ops`).  The
+> +:code:`**groups` is a list of sysfs entries pertaining to operations
+>  specific to that component only.  "Implementation defined" customisations are
+>  expected to be accessed and controlled using those entries.
+>
+> @@ -204,49 +213,56 @@ There is no limit on the amount of sinks (nor sources) that can be enabled at
+>  any given moment.  As a generic operation, all device pertaining to the sink
+>  class will have an "active" entry in sysfs:
+>
+> -root:/sys/bus/coresight/devices# ls
+> -replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> -20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> -root:/sys/bus/coresight/devices# ls 20010000.etb
+> -enable_sink  status  trigger_cntr
+> -root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+> -root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
+> -1
+> -root:/sys/bus/coresight/devices#
+> +.. code:: console
+> +
+> +    root:/sys/bus/coresight/devices# ls
+> +    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> +    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> +    root:/sys/bus/coresight/devices# ls 20010000.etb
+> +    enable_sink  status  trigger_cntr
+> +    root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+> +    root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
+> +    1
+> +    root:/sys/bus/coresight/devices#
+>
+>  At boot time the current etm3x driver will configure the first address
+>  comparator with "_stext" and "_etext", essentially tracing any instruction
+>  that falls within that range.  As such "enabling" a source will immediately
+>  trigger a trace capture:
+>
+> -root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+> -root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
+> -1
+> -root:/sys/bus/coresight/devices# cat 20010000.etb/status
+> -Depth:          0x2000
+> -Status:         0x1
+> -RAM read ptr:   0x0
+> -RAM wrt ptr:    0x19d3   <----- The write pointer is moving
+> -Trigger cnt:    0x0
+> -Control:        0x1
+> -Flush status:   0x0
+> -Flush ctrl:     0x2001
+> -root:/sys/bus/coresight/devices#
+> +.. code:: console
+> +
+> +    root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+> +    root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
+> +    1
+> +    root:/sys/bus/coresight/devices# cat 20010000.etb/status
+> +    Depth:          0x2000
+> +    Status:         0x1
+> +    RAM read ptr:   0x0
+> +    RAM wrt ptr:    0x19d3   <----- The write pointer is moving
+> +    Trigger cnt:    0x0
+> +    Control:        0x1
+> +    Flush status:   0x0
+> +    Flush ctrl:     0x2001
+> +    root:/sys/bus/coresight/devices#
+>
+>  Trace collection is stopped the same way:
+>
+> -root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
+> -root:/sys/bus/coresight/devices#
+> +.. code:: console
+> +
+> +    root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
+> +    root:/sys/bus/coresight/devices#
+>
+>  The content of the ETB buffer can be harvested directly from /dev:
+>
+> -root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
+> -of=~/cstrace.bin
+> +.. code:: console
+>
+> -64+0 records in
+> -64+0 records out
+> -32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
+> -root:/sys/bus/coresight/devices#
+> +    root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
+> +    of=~/cstrace.bin
+> +    64+0 records in
+> +    64+0 records out
+> +    32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
+> +    root:/sys/bus/coresight/devices#
+>
+>  The file cstrace.bin can be decompressed using "ptm2human", DS-5 or Trace32.
+>
+> @@ -254,55 +270,57 @@ Following is a DS-5 output of an experimental loop that increments a variable up
+>  to a certain value.  The example is simple and yet provides a glimpse of the
+>  wealth of possibilities that coresight provides.
+>
+> -Info                                    Tracing enabled
+> -Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
+> -Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
+> -Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
+> -Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Timestamp                                       Timestamp: 17106715833
+> -Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> -Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> -Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> -Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> -Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> -Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
+> -Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
+> -Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
+> -Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
+> -Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
+> -Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
+> -Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
+> -Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
+> -Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
+> -Info                                    Tracing enabled
+> -Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
+> -Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
+> -Timestamp                                       Timestamp: 17107041535
+> +.. code:: c
+> +
+> +    Info                                    Tracing enabled
+> +    Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
+> +    Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
+> +    Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
+> +    Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Timestamp                                       Timestamp: 17106715833
+> +    Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+> +    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+> +    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+> +    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+> +    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+> +    Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
+> +    Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
+> +    Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
+> +    Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
+> +    Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
+> +    Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
+> +    Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
+> +    Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
+> +    Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
+> +    Info                                    Tracing enabled
+> +    Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
+> +    Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
+> +    Timestamp                                       Timestamp: 17107041535
+>
+>  2) Using perf framework:
+>
+> @@ -312,6 +330,8 @@ controlling when tracing gets enabled based on when the process of interest is
+>  scheduled.  When configured in a system, Coresight PMUs will be listed when
+>  queried by the perf command line tool:
+>
+> +.. code:: console
+> +
+>         linaro@linaro-nano:~$ ./perf list pmu
+>
+>                 List of pre-defined events (to be used in -e):
+> @@ -329,6 +349,8 @@ Coresight system will typically have more than one sink, the name of the sink to
+>  work with needs to be specified as an event option.  Names for sink to choose
+>  from are listed in sysFS under ($SYSFS)/bus/coresight/devices:
+>
+> +.. code:: console
+> +
+>         root@linaro-nano:~# ls /sys/bus/coresight/devices/
+>                 20010000.etf   20040000.funnel  20100000.stm  22040000.etm
+>                 22140000.etm  230c0000.funnel  23240000.etm 20030000.tpiu
+> @@ -343,7 +365,7 @@ to use for the trace session.
+>
+>  More information on the above and other example on how to use Coresight with
+>  the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
+> -repository [3].
+> +repository [#third]_.
+>
+>  2.1) AutoFDO analysis using the perf tools:
+>
+> @@ -352,6 +374,8 @@ perf can be used to record and analyze trace of programs.
+>  Execution can be recorded using 'perf record' with the cs_etm event,
+>  specifying the name of the sink to record to, e.g:
+>
+> +.. code:: console
+> +
+>      perf record -e cs_etm/@20070000.etr/u --per-thread
+>
+>  The 'perf report' and 'perf script' commands can be used to analyze execution,
+> @@ -370,12 +394,16 @@ Generating coverage files for Feedback Directed Optimization: AutoFDO
+>  'perf inject' accepts the --itrace option in which case tracing data is
+>  removed and replaced with the synthesized events. e.g.
+>
+> +.. code:: console
+> +
+>         perf inject --itrace --strip -i perf.data -o perf.data.new
+>
+>  Below is an example of using ARM ETM for autoFDO.  It requires autofdo
+>  (https://github.com/google/autofdo) and gcc version 5.  The bubble
+>  sort example is from the AutoFDO tutorial (https://gcc.gnu.org/wiki/AutoFDO/Tutorial).
+>
+> +.. code:: console
+> +
+>         $ gcc-5 -O3 sort.c -o sort
+>         $ taskset -c 2 ./sort
+>         Bubble sorting array of 30000 elements
+> @@ -403,28 +431,36 @@ difference is that clients are driving the trace capture rather
+>  than the program flow through the code.
+>
+>  As with any other CoreSight component, specifics about the STM tracer can be
+> -found in sysfs with more information on each entry being found in [1]:
+> +found in sysfs with more information on each entry being found in [#first]_:
+>
+> -root@genericarmv8:~# ls /sys/bus/coresight/devices/20100000.stm
+> -enable_source   hwevent_select  port_enable     subsystem       uevent
+> -hwevent_enable  mgmt            port_select     traceid
+> -root@genericarmv8:~#
+> +.. code:: console
+> +
+> +    root@genericarmv8:~# ls /sys/bus/coresight/devices/20100000.stm
+> +    enable_source   hwevent_select  port_enable     subsystem       uevent
+> +    hwevent_enable  mgmt            port_select     traceid
+> +    root@genericarmv8:~#
+>
+>  Like any other source a sink needs to be identified and the STM enabled before
+>  being used:
+>
+> -root@genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20010000.etf/enable_sink
+> -root@genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20100000.stm/enable_source
+> +.. code:: console
+> +
+> +    root@genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20010000.etf/enable_sink
+> +    root@genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20100000.stm/enable_source
+>
+>  From there user space applications can request and use channels using the devfs
+>  interface provided for that purpose by the generic STM API:
+>
+> -root@genericarmv8:~# ls -l /dev/20100000.stm
+> -crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/20100000.stm
+> -root@genericarmv8:~#
+> +.. code:: console
+> +
+> +    root@genericarmv8:~# ls -l /dev/20100000.stm
+> +    crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/20100000.stm
+> +    root@genericarmv8:~#
+> +
+> +Details on how to use the generic STM API can be found here [#second]_.
+> +
+> +.. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+>
+> -Details on how to use the generic STM API can be found here [2].
+> +.. [#second] Documentation/trace/stm.rst
+>
+> -[1]. Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+> -[2]. Documentation/trace/stm.rst
+> -[3]. https://github.com/Linaro/perf-opencsd
+> +.. [#third] https://github.com/Linaro/perf-opencsd
+> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+> index 6b4107cf4b98..3330c5456bcb 100644
+> --- a/Documentation/trace/index.rst
+> +++ b/Documentation/trace/index.rst
+> @@ -23,3 +23,4 @@ Linux Tracing Technologies
+>     intel_th
+>     stm
+>     sys-t
+> +   coresight
+> --
+> 2.11.0
+>
