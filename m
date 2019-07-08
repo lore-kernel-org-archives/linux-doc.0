@@ -5,101 +5,85 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E584C7E61A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 15:54:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C58647F38D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Jul 2019 15:54:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388223AbfGHPXj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 11:23:39 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51864 "EHLO ms.lwn.net"
+        id S2388644AbfGHPZj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 11:25:39 -0400
+Received: from mga07.intel.com ([134.134.136.100]:18169 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731266AbfGHPXi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jul 2019 11:23:38 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 47D992B8;
-        Mon,  8 Jul 2019 15:23:37 +0000 (UTC)
-Date:   Mon, 8 Jul 2019 09:23:36 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: automarkup.py: ignore exceptions when seeking for
- xrefs
-Message-ID: <20190708092336.01ade0ab@lwn.net>
-In-Reply-To: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
-References: <d9b1c85769ba659dba6c7c8b459e385be28ca478.1562430514.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+        id S2388641AbfGHPZj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 11:25:39 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jul 2019 08:25:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,466,1557212400"; 
+   d="scan'208";a="363835132"
+Received: from jsakkine-mobl1.tm.intel.com ([10.237.50.189])
+  by fmsmga005.fm.intel.com with ESMTP; 08 Jul 2019 08:25:35 -0700
+Message-ID: <846cacae8cede764a2e84f628f539d94582fdbe0.camel@linux.intel.com>
+Subject: Re: [PATCH] tpm: Document UEFI event log quirks
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     tweek@google.com, matthewgarrett@google.com,
+        Jonathan Corbet <corbet@lwn.net>
+Date:   Mon, 08 Jul 2019 18:25:38 +0300
+In-Reply-To: <ec274596-6bc8-07a0-d09b-1d191646c5cd@infradead.org>
+References: <20190703161109.22935-1-jarkko.sakkinen@linux.intel.com>
+         <6acf78df-b168-14d3-fea4-9a9d2945e77f@infradead.org>
+         <a8ee93721a674434e22d31fd1d10bf9472c1c739.camel@linux.intel.com>
+         <ec274596-6bc8-07a0-d09b-1d191646c5cd@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat,  6 Jul 2019 13:28:42 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-
-> When using the automarkup extension with:
-> 	make pdfdocs
+On Sun, 2019-07-07 at 12:33 -0700, Randy Dunlap wrote:
+> On 7/5/19 3:15 AM, Jarkko Sakkinen wrote:
+> > On Wed, 2019-07-03 at 09:45 -0700, Randy Dunlap wrote:
+> > > > +This introduces another problem: nothing guarantees that it is not
+> > > > +called before the stub gets to run. Thus, it needs to copy the final
+> > > > +events table preboot size to the custom configuration table so that
+> > > > +kernel offset it later on.
 > 
-> without passing an specific book, the code will raise an exception:
+>      (so that)
+>      the kernel can use that final table preboot size as an events table
+>      offset later on.
 > 
-> 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 86, in auto_markup
-> 	    node.parent.replace(node, markup_funcs(name, app, node))
-> 	  File "/devel/v4l/docs/Documentation/sphinx/automarkup.py", line 59, in markup_funcs
-> 	    'function', target, pxref, lit_text)
-> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/domains/c.py", line 308, in resolve_xref
-> 	    contnode, target)
-> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/util/nodes.py", line 450, in make_refnode
-> 	    '#' + targetid)
-> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 159, in get_relative_uri
-> 	    return self.get_target_uri(to, typ)
-> 	  File "/devel/v4l/docs/sphinx_2.0/lib/python3.7/site-packages/sphinx/builders/latex/__init__.py", line 152, in get_target_uri
-> 	    raise NoUri
-> 	sphinx.environment.NoUri
+> > > ?  kernel can offset it later on.
+> > 
+> > EFI stub calculates the total size of the events in the final events
+> > table at the time.
+> > 
+> > Later on, TPM driver uses this offset to copy only the events that
+> > were actually generated after ExitBootServices():
+> > 
+> > /*
+> >  * Copy any of the final events log that didn't also end up in the
+> >  * main log. Events can be logged in both if events are generated
+> >  * between GetEventLog() and ExitBootServices().
+> >  */
+> > memcpy((void *)log->bios_event_log + log_size,
+> >        final_tbl->events + log_tbl->final_events_preboot_size,
+> >        efi_tpm_final_log_size);
+> > 
+> > What would be a better way to describe this?
 > 
-> This happens because not all references will belong to a single
-> PDF/LaTeX document.
-
-Interesting.  I'd like to understand better why the HTML builder doesn't do
-this...it seems like a bug in the latex builder somehow.
-
-> Better to just ignore those than breaking Sphinx build.
+> Yeah, I think I see what it's doing, how it's using that.
+> See above.
 > 
-> Fixes: d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/sphinx/automarkup.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-> index b300cf129869..dba14374f269 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -55,8 +55,13 @@ def markup_funcs(docname, app, node):
->                                            reftype = 'function',
->                                            reftarget = target, modname = None,
->                                            classname = None)
-> -            xref = cdom.resolve_xref(app.env, docname, app.builder,
-> -                                     'function', target, pxref, lit_text)
-> +
-> +            # When building pdf documents, this may raise a NoUri exception
-> +            try:
-> +                xref = cdom.resolve_xref(app.env, docname, app.builder,
-> +                                         'function', target, pxref, lit_text)
-> +            except:
-> +                xref = None
+> OK?
 
-So this absolutely needs to be "except sphinx.environment.NoUri".  I have
-seen catch-all "except" clauses paper over or otherwise hide too many
-problems over the years; I really try to avoid ever using them.
+Your propsal looks legit, thank you. I'll send an update that
+tries to address yours and Jordan's feedback.
 
-I want to look at this problem and understand it a bit better; then I'll
-probably end up applying this patch with the above tweak.
+/Jarkko 
 
-Thanks,
-
-jon
