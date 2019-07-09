@@ -1,138 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66B587D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:21:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CBADF7DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbfGISUS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 14:20:18 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:38029 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbfGISUR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:20:17 -0400
-Received: by mail-qk1-f193.google.com with SMTP id a27so16752891qkk.5
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 11:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=07lbMtNvRAMyX/POjVIPF1YJUTpi61TvrSJ6roJeVPs=;
-        b=nsdWBt1+R1ve8tCsDIWPrNy0y/NCDmw+8vDsI/xQ0qqlV/ZxUzX4XqCrlGrImpvaxv
-         bpKrt+60Fa3kB29M/KXQjapzKaDStgaZ7nQXw/WldmvXgddhp8rPPpJae/df0oZGQy4h
-         gVHsFN7crraEJnzfrq/y9JWg5aTPEv1/kkAx1s6m3jHG5VIGRQWfIODhRs8AkBKyXXso
-         fX4ZYxnGYoaxXW254flFRzCTVyUMDsXyUQPsr7UTYZJ683KQ/nPgb2LwR0NlJgTrhleL
-         OVQ+4zEfOSArBal5dVyMakYw9h0xf4hFLt0LnHZ7Wi9shjUez3sbBFm0jzjbMZlB9NNl
-         0NCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=07lbMtNvRAMyX/POjVIPF1YJUTpi61TvrSJ6roJeVPs=;
-        b=JliPg1iaJOHDlMJRrxRG671yc/I5LK5PsafjvW3ZZgmatlMMm6Os9bDf+SKHDP6De/
-         wHx7T1wPJEcxW9O+BITga3wpYaqyLjea0tMmOPt1htcGBglpMQwvamu73y/SlcwSVYnp
-         S89oBRVmo3la+X7GlTu6J2jBggNPD2HLxeRsMTCj7nGQXXwedMBhnNvsl7oc8UGacXiR
-         N4XD+0w8I8VV2l+XYttXKTjnbEKjSLlb2lSBzbmKqSn37qfVMX9WnUg1m8IN3IsWE4TV
-         CYa7QiXktoY0To2MAvAAoGKdakUTlbP/MM7TJwgIpghxc4mTaKyOe2zpMZaIyFtdwr9K
-         nnpQ==
-X-Gm-Message-State: APjAAAWnZey/b3km1YkUZFWwGoKQZzyDylpcJ3RdR4Pr0PnhkymIaZ3l
-        IpFkSS28AfzwqxANiUe4zRWVfA==
-X-Google-Smtp-Source: APXvYqwZyzZlJCfnfaRBNAPrTgjGG/pRCaQYSyhIHt8cn7HXaH8O6U0lFii9rAJ8o1Oxephvp24BSQ==
-X-Received: by 2002:a37:bf07:: with SMTP id p7mr19214845qkf.315.1562696416701;
-        Tue, 09 Jul 2019 11:20:16 -0700 (PDT)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id k123sm9113056qkf.13.2019.07.09.11.20.15
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 09 Jul 2019 11:20:15 -0700 (PDT)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, jmorris@namei.org, sashal@kernel.org,
-        ebiederm@xmission.com, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [v2 0/5] arm64: allow to reserve memory for normal kexec kernel
-Date:   Tue,  9 Jul 2019 14:20:09 -0400
-Message-Id: <20190709182014.16052-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.22.0
+        id S1729347AbfGISd3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 14:33:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56730 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728080AbfGISd3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:33:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=jU46nPFGpBcyqb30Zk67VYs5JcFdJlitkqyISRTJIR8=; b=kdCctTTm6GLl0LS6Mel91M04G0
+        84DtC9k8ZUuY0g1ksPmbytcriGvhJ2Rz6RIdrLKw/8rHoWhSeaAulZRO69gdzs/P6rNpbfyNsIS7S
+        bIkl3VFAkD7PE6XzT5rRQa9KDkAsHvQcjssgDoWLZOqb46bRbWn8zY0bqPwRO5J5Gv5deH9T7GT5m
+        sET9YJk2X3poSpY5PZRzIZdidKc7vV9Sg8jkHXYzl9Efrr0ZoqSTHkxueW/NPvjVluPJcolbuj2YR
+        mUtSicLvsax2rtE6EeFxMmL6qvgdcneV8mqgcoXc/i37mivuRllDPngcapNauEmi5zFll5vglKOAz
+        tP/A+lyA==;
+Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkuvf-0007As-BB; Tue, 09 Jul 2019 18:33:27 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hkuvd-0005Pp-5K; Tue, 09 Jul 2019 15:33:25 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 2/5] docs: arm: fix a breakage with pdf output
+Date:   Tue,  9 Jul 2019 15:33:20 -0300
+Message-Id: <7150e6eadf29dca6ad7c8c7e4ee2781b99119265.1562696797.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1562696797.git.mchehab+samsung@kernel.org>
+References: <cover.1562696797.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changelog
-v1 - v2
-	- No changes to patches, addressed suggestion from James Morse
-	  to add "arm64" tag to cover letter.
-	- Improved cover letter information based on discussion.
+Add an extra blank line, as otherwise XeLaTex will complain with:
 
-Currently, it is only allowed to reserve memory for crash kernel, because
-it is a requirement in order to be able to boot into crash kernel without
-touching memory of crashed kernel is to have memory reserved.
+	! LaTeX Error: Too deeply nested.
 
-The second benefit for having memory reserved for kexec kernel is
-that it does not require a relocation after segments are loaded into
-memory.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/arm/spear/overview.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-If kexec functionality is used for a fast system update, with a minimal
-downtime, the relocation of kernel + initramfs might take a significant
-portion of reboot.
-
-In fact, on the machine that we are using, that has ARM64 processor
-it takes 0.35s to relocate during kexec, thus taking 52% of kernel reboot
-time:
-
-kernel shutdown	0.03s
-relocation	0.35s
-kernel startup	0.29s
-
-Image: 13M and initramfs is 24M. If initramfs increases, the relocation
-time increases proportionally.
-
-While, it is possible to add 'kexeckernel=' parameters support to other
-architectures by modifying reserve_crashkernel(), in this series this is
-done for arm64 only.
-
-The reason it is so slow on arm64 to relocate kernel is because the code
-that does relocation does this with MMU disabled, and thus D-Cache and
-I-Cache must also be disabled.
-
-Alternative solution is more complicated: Setup a temporary page table
-for relocation_routine and also for code from cpu_soft_restart. Perform
-relocation with MMU enabled, do cpu_soft_restart where MMU and caching
-are disabled, jump to purgatory. A similar approach was suggested for
-purgatory and was rejected due to making purgatory too complicated.
-On, the other hand hibernate does something similar already, but there
-MMU never needs to be disabled, and also by the time machine_kexec()
-is called, allocator is not available, as we can't fail to do reboot,
-so page table must be pre-allocated during kernel load time.
-
-Note: the above time is relocation time only. Purgatory usually also
-computes checksum, but that is skipped, because --no-check is used when
-kernel image is loaded via kexec.
-
-Pavel Tatashin (5):
-  kexec: quiet down kexec reboot
-  kexec: add resource for normal kexec region
-  kexec: export common crashkernel/kexeckernel parser
-  kexec: use reserved memory for normal kexec reboot
-  arm64, kexec: reserve kexeckernel region
-
- .../admin-guide/kernel-parameters.txt         |  7 ++
- arch/arm64/kernel/setup.c                     |  5 ++
- arch/arm64/mm/init.c                          | 83 ++++++++++++-------
- include/linux/crash_core.h                    |  6 ++
- include/linux/ioport.h                        |  1 +
- include/linux/kexec.h                         |  6 +-
- kernel/crash_core.c                           | 27 +++---
- kernel/kexec_core.c                           | 50 +++++++----
- 8 files changed, 127 insertions(+), 58 deletions(-)
-
+diff --git a/Documentation/arm/spear/overview.rst b/Documentation/arm/spear/overview.rst
+index 8a1a87aca427..1a77f6b213b6 100644
+--- a/Documentation/arm/spear/overview.rst
++++ b/Documentation/arm/spear/overview.rst
+@@ -15,6 +15,7 @@ Introduction
+   Hierarchy in SPEAr is as follows:
+ 
+   SPEAr (Platform)
++
+ 	- SPEAr3XX (3XX SOC series, based on ARM9)
+ 		- SPEAr300 (SOC)
+ 			- SPEAr300 Evaluation Board
 -- 
-2.22.0
+2.21.0
 
