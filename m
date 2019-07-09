@@ -1,146 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E01767D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 01:10:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE1B97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 01:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726124AbfGIBK5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Jul 2019 21:10:57 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:30792 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfGIBK5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jul 2019 21:10:57 -0400
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x691AnSt017037;
-        Tue, 9 Jul 2019 10:10:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x691AnSt017037
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562634650;
-        bh=IOwQGTfU4ebKDBmJHalk2uzWGfPFmTPrl0A5OrM7+Os=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fVLfhr49DCkywMnybofx5e0NO7NRm9Jm7umee48aGhPLxR3UbyrflToAtImlixuqV
-         xHkcdTUbovKPb46Fq+fGhXf2K/fuDSBRu6elB1JopUV21pi38/wu5EjCnf0kIt8ImG
-         NxvWfHiIflRDmc7fx1ZWZDvydZ6CXmfZsOWR2V1S2vXeIk6OFcv4u5bt5dvH8YMF0e
-         jgf/jdZ40VrWG2To8vAR2ot2F9lp6LpmQ+qLZDUfu8y/Ut2uGsF6G98aaqGu33e87R
-         A1mOFAyOMQezSPq+h2voqFxNAGmU5dRdpsQAwuWLaHY7qP/yM+BxpcChpENTNrUxMD
-         CkxjKJAZ5BWCQ==
-X-Nifty-SrcIP: [209.85.222.42]
-Received: by mail-ua1-f42.google.com with SMTP id o2so5734368uae.10;
-        Mon, 08 Jul 2019 18:10:49 -0700 (PDT)
-X-Gm-Message-State: APjAAAWWzeHTx51qYhaTWLGjhD4NrUsqX0Ly8xH1nAPKUtUX0JRXUR7B
-        UQXuiew7RbnbV00z3Kd+gMBSaS+pmR40Lsm315A=
-X-Google-Smtp-Source: APXvYqzTtVnJ5vHaoTQu6SmM6VKV08euJlrWHu9PZx1ejUCWdpfuBh1WApgD7WIrNyGfSQGFNP8uS015OlZvOkfHSLw=
-X-Received: by 2002:ab0:5ea6:: with SMTP id y38mr2853334uag.40.1562634648634;
- Mon, 08 Jul 2019 18:10:48 -0700 (PDT)
+        id S1725939AbfGIB0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Jul 2019 21:26:15 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2187 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725886AbfGIB0P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jul 2019 21:26:15 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 48593A0AEE318C646116;
+        Tue,  9 Jul 2019 09:26:11 +0800 (CST)
+Received: from [127.0.0.1] (10.184.225.177) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 9 Jul 2019
+ 09:26:00 +0800
+Subject: Re: [PATCH next] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl
+ max_softirq_time_usecs
+To:     Thomas Gleixner <tglx@linutronix.de>
+CC:     <corbet@lwn.net>, <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>, <akpm@linux-foundation.org>,
+        <manfred@colorfullife.com>, <jwilk@jwilk.net>,
+        <dvyukov@google.com>, <feng.tang@intel.com>,
+        <sunilmut@microsoft.com>, <quentin.perret@arm.com>,
+        <linux@leemhuis.info>, <alex.popov@linux.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>,
+        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
+        "Zhoukang (A)" <zhoukang7@huawei.com>,
+        Mingfangsen <mingfangsen@huawei.com>, <tedheadster@gmail.com>,
+        Eric Dumazet <edumazet@google.com>
+References: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com>
+ <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de>
+ <0099726a-ead3-bdbe-4c66-c8adc9a4f11b@huawei.com>
+ <alpine.DEB.2.21.1906241141370.32342@nanos.tec.linutronix.de>
+ <c1b7a345-fa22-e52a-4db8-1f1288e7ad15@huawei.com>
+ <alpine.DEB.2.21.1907081558400.4709@nanos.tec.linutronix.de>
+From:   Zhiqiang Liu <liuzhiqiang26@huawei.com>
+Message-ID: <cbd68d63-ac48-7b36-d317-7bb2b480e6f7@huawei.com>
+Date:   Tue, 9 Jul 2019 09:25:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-References: <20190701005845.12475-1-yamada.masahiro@socionext.com> <20190701005845.12475-4-yamada.masahiro@socionext.com>
-In-Reply-To: <20190701005845.12475-4-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 9 Jul 2019 10:10:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARjYtGGe2Jk9H6VPU5_G_X6xbMU=KS3oPgFrAbGyMNePQ@mail.gmail.com>
-Message-ID: <CAK7LNARjYtGGe2Jk9H6VPU5_G_X6xbMU=KS3oPgFrAbGyMNePQ@mail.gmail.com>
-Subject: Re: [PATCH 3/7] kbuild: do not create wrappers for header-test-y
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <alpine.DEB.2.21.1907081558400.4709@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset="gb18030"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.184.225.177]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 1, 2019 at 10:00 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> header-test-y does not work with headers in sub-directories.
->
-> For example, you may want to write a Makefile, like this:
->
-> include/linux/Kbuild:
->
->   header-test-y += mtd/nand.h
->
-> This entry will create a wrapper include/linux/mtd/nand.hdrtest.c
-> with the following content:
->
->   #include "mtd/nand.h"
->
-> To make this work, we need to add $(srctree)/include/linux to the
-> header search path. It would be tedious to add ccflags-y.
->
-> Instead, we could change the *.hdrtest.c rule to wrap:
->
->   #include "nand.h"
->
-> This works for in-tree build since #include "..." searches in the
-> relative path from the header with this directive. For O=... build,
-> we need to add $(srctree)/include/linux/mtd to the header search path,
-> which will be even more tedious.
->
-> After all, I thought it would be handier to compile headers directly
-> without creating wrappers.
->
-> I added a new build rule to compile %.h into %.h.s
->
-> The target is %.h.s instead of %.h.o because it is slightly faster.
-> Also, as for GCC, an empty assembly is smaller than an empty object.
->
-> I wrote the build rule:
->
->   $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
->
-> instead of:
->
->   $(CC) $(c_flags) -S -o $@ -x c $<
->
-> Both work fine with GCC, but the latter is bad for Clang.
->
-> This comes down to the difference in the -Wunused-function policy.
-> GCC does not warn about unused 'static inline' functions at all.
-> Clang does not warn about the ones in included headers, but does
-> about the ones in the source. So, we should handle headers as
-> headers, not as source files.
->
-> In fact, this has been hidden since commit abb2ea7dfd82 ("compiler,
-> clang: suppress warning for unused static inline functions"), but we
-> should not rely on that.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Tested-by: Jani Nikula <jani.nikula@intel.com>
-> ---
-
-To exclude *.h.s from kernel-devel rpm,
-I will squash the following change:
-
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 009147d4718e..2d29df4a0a53 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -31,7 +31,7 @@ PROVIDES="$PROVIDES kernel-$KERNELRELEASE"
- __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
- EXCLUDES="$RCS_TAR_IGNORE --exclude=.tmp_versions --exclude=*vmlinux* \
- --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
----exclude=.config.old --exclude=.missing-syscalls.d"
-+--exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
-
- # We can label the here-doc lines for conditional output to the spec file
- #
 
 
+On 2019/7/8 22:14, Thomas Gleixner wrote:
+> Zhiqiang,
+> 
+>> If HZ satisfies the condition: HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC %
+>> HZ), the return value of _msecs_to_jiffies func with m=0 is different
+>> with different HZ setting.
+> 
+>> ------------------------------------
+>> | HZ |	MSEC_PER_SEC / HZ | return |
+>> ------------------------------------
+>> |1000|		1	  |   0	   |
+>> |500 |		2	  |   1	   |
+>> |200 |		5	  |   1	   |
+>> |100 |		10	  |   1	   |
+>> ------------------------------------
+>>
+>> Why only the return value of HZ=1000 is equal to 0 with m=0 ?
+> 
+> I don't know how you tested that, but obviously all four HZ values use
+> this variant:
+> 
+>>     #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
+>>     static inline unsigned long _msecs_to_jiffies(const unsigned int m)
+>>     {
+>>             return (m + (MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ);
+>>     }
+> 
+> and for all four HZ values the result is 0. Why?
+> 
+> For m = 0 the calculation reduces to:
+> 
+>       ((MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ)
+> 
+> i.e.
+> 
+> 	(x - 1) / x	where x = [1, 2, 5, 10]
+> 
+> which is guaranteed to be 0 for integer math. If not, you have a compiler
+> problem.
+> 
+> Thanks,
+> 
+> 	tglx
+Thanks for your reply. Actually, I have made a low-level mistake.
+I am really sorry for that.
+Thanks again.
 
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
