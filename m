@@ -1,130 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4C097D90C
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 05:42:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1DE17D90C
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 05:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbfGIFmN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 01:42:13 -0400
-Received: from mga02.intel.com ([134.134.136.20]:5715 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725818AbfGIFmN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 01:42:13 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jul 2019 22:42:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; 
-   d="scan'208";a="249045835"
-Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
-  by orsmga001.jf.intel.com with ESMTP; 08 Jul 2019 22:42:09 -0700
-From:   NitinGote <nitin.r.gote@intel.com>
-To:     akpm@linux-foundation.org, joe@perches.com
-Cc:     corbet@lwn.net, apw@canonical.com, keescook@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-hardening@lists.openwall.com,
-        Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v2] Added warnings in checkpatch.pl script to :
-Date:   Tue,  9 Jul 2019 11:10:55 +0530
-Message-Id: <20190709054055.21984-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725951AbfGIF4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 01:56:32 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37952 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbfGIF4c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 01:56:32 -0400
+Received: by mail-lj1-f193.google.com with SMTP id r9so18287434ljg.5
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 22:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xli8Y1cqqEneErVoUF+bY1KzJjP8ZHOc6NmhgPLACKg=;
+        b=IMCCarKQ7otAoqPUCeGQC3vcXQb2Cyy+ZfbRDDkUApkZBYQD9XaWe8JxyQ2r2kqeNo
+         iBJVq3IEy825J1ZWOrKaOxMAamH2f2vMKMoBJB3v9Pag6syG+IgeeABenXGICPBQqVRo
+         TCM9fQapLUxDmgd5l/nMkqcnYtQpA18ueFn8Kf+B65KClSm2X8JmaYkufFfGd9PJ7M06
+         UnU5YQ6+xIMYq94vzkNzahudlTAkRFSRs7ooYuxhMyRpb6sFcPbMki9x9dlQKXVZvSxF
+         OVDpetNx+Pr7CE/MltAUCeQcSuQw5PFb9k+56T+tdJXrd2q4ayYgA2XbDfZQj6MaXQC5
+         3KDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xli8Y1cqqEneErVoUF+bY1KzJjP8ZHOc6NmhgPLACKg=;
+        b=Ttr4jabqHAsh1LrlHajm7+oXLFtyeng20XgHZ2XLPLGJQWlpRpQEnC8hNoahX6uMPG
+         a8jwcjw0eu4EcPjpCnxXWcKQDuFmY7kprYHG/+NW6JUPqf4MjvqGQPS8Myp6p8D1fiiz
+         2RH8aTvjEMGiPREnc5ERQ77aM945VXaABTSnDjVapMY7ulryRNRQ2QWsvejJEWHZJvH2
+         8Q4n4HLb/7zQM5UVmztn2JwMitLjRXQFwlw4XmVpeGmECNurSlb3r8Ln5KGWd/4ut8kb
+         FD3kR/sordKgRRrsq6Cddzk+DI/RnO4x70E8zCmhkslqi/PKDP6m9JS0G61RNBbThn+w
+         P1oQ==
+X-Gm-Message-State: APjAAAX6EdfAof3P09zygszPxP1/NP1eycUe3XQfw4BctUwqCLtdXzH0
+        2Q/J0Sm128nFNox0cXw57LWjDBhWV72aV0BwdhmaOA==
+X-Google-Smtp-Source: APXvYqwlQhdGUCfefYlKEiVuartStp85eZgRlkFqVnuEEm3QLzZHJNUv9XM9V5LdaYLUAVFbqvkatSjh6AFt6SHR4es=
+X-Received: by 2002:a2e:9b57:: with SMTP id o23mr7858753ljj.67.1562651790245;
+ Mon, 08 Jul 2019 22:56:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
+ <1560421833-27414-4-git-send-email-sumit.garg@linaro.org> <20190708153908.GA28253@jax>
+In-Reply-To: <20190708153908.GA28253@jax>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Tue, 9 Jul 2019 11:26:19 +0530
+Message-ID: <CAFA6WYNzs=RErreWaa5BmF-P03Vf9nzQjvY_JpMckw87k9z12w@mail.gmail.com>
+Subject: Re: [RFC 3/7] tee: add private login method for kernel clients
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, corbet@lwn.net,
+        dhowells@redhat.com, jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
+        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        tee-dev@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Nitin Gote <nitin.r.gote@intel.com>
+Thanks Jens for your comments.
 
-1. Deprecate strcpy() in favor of strscpy().
-2. Deprecate strlcpy() in favor of strscpy().
-3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+On Mon, 8 Jul 2019 at 21:09, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Hi Sumit,
+>
+> On Thu, Jun 13, 2019 at 04:00:29PM +0530, Sumit Garg wrote:
+> > There are use-cases where user-space shouldn't be allowed to communicate
+> > directly with a TEE device which is dedicated to provide a specific
+> > service for a kernel client. So add a private login method for kernel
+> > clients and disallow user-space to open-session using this login method.
+> >
+> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > ---
+> >  drivers/tee/tee_core.c   | 6 ++++++
+> >  include/uapi/linux/tee.h | 2 ++
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> > index 0f16d9f..4581bd1 100644
+> > --- a/drivers/tee/tee_core.c
+> > +++ b/drivers/tee/tee_core.c
+> > @@ -334,6 +334,12 @@ static int tee_ioctl_open_session(struct tee_context *ctx,
+> >                       goto out;
+> >       }
+> >
+> > +     if (arg.clnt_login == TEE_IOCTL_LOGIN_REE_KERNEL) {
+> TEE_IOCTL_LOGIN_REE_KERNEL is defined as 0x80000000 which is in the
+> range specified and implementation defined by the GP spec. I wonder if
+> we shouldn't filter the entire implementation defined range instead of
+> just this value.
 
-Updated strncpy() section in Documentation/process/deprecated.rst
-to cover strscpy_pad() case.
+Agree. Will rather check for entire implementation defined range:
+0x80000000 - 0xFFFFFFFF.
 
-Acked-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
- Change log:
- v1->v2
- - For string related apis, created different %deprecated_string_api
-   and these will get emitted at CHECK Level using command line option
-   -f/--file to avoid bad patched from novice script users.
+>
+> > +             pr_err("login method not allowed for user-space client\n");
+> pr_debug(), if it's needed at all.
+>
 
- This patch is already reviewed by mailing list
- kernel-hardening@lists.openwall.com. Refer below link
- <https://www.openwall.com/lists/kernel-hardening/2019/07/03/4>
-Acked-by: Kees Cook <keescook@chromium.org>
+Ok will use pr_debug() instead.
 
- Documentation/process/deprecated.rst |  6 +++---
- scripts/checkpatch.pl                | 25 +++++++++++++++++++++++++
- 2 files changed, 28 insertions(+), 3 deletions(-)
+> > +             rc = -EPERM;
+> > +             goto out;
+> > +     }
+> > +
+> >       rc = ctx->teedev->desc->ops->open_session(ctx, &arg, params);
+> >       if (rc)
+> >               goto out;
+> > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> > index 4b9eb06..f33c69c 100644
+> > --- a/include/uapi/linux/tee.h
+> > +++ b/include/uapi/linux/tee.h
+> > @@ -172,6 +172,8 @@ struct tee_ioctl_buf_data {
+> >  #define TEE_IOCTL_LOGIN_APPLICATION          4
+> >  #define TEE_IOCTL_LOGIN_USER_APPLICATION     5
+> >  #define TEE_IOCTL_LOGIN_GROUP_APPLICATION    6
+> > +/* Private login method for REE kernel clients */
+> It's worth noting that this is filtered by the TEE framework, compared
+> to everything else which is treated opaquely.
+>
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..f564de3caf76 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
- and other misbehavior due to the missing termination. It also NUL-pads the
- destination buffer if the source contents are shorter than the destination
- buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
--(Users of :c:func:`strscpy` still needing NUL-padding will need an
--explicit :c:func:`memset` added.)
-+only NUL-terminated strings. In this case, the safe replacement is
-+:c:func:`strscpy`. If, however, the destination buffer still needs
-+NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
+IIUC, you are referring to login filter in optee_os. Change to prevent
+filter for this login method is part of this PR [1].
 
- If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
- still be used, but destinations should be marked with the `__nonstring
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bb28b178d929..10bd72e99dc8 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -605,6 +605,21 @@ foreach my $entry (keys %deprecated_apis) {
- }
- $deprecated_apis_search = "(?:${deprecated_apis_search})";
+[1] https://github.com/OP-TEE/optee_os/pull/3082
 
-+our %deprecated_string_apis = (
-+        "strcpy"                                => "strscpy",
-+        "strlcpy"                               => "strscpy",
-+        "strncpy"                               => "strscpy, strscpy_pad or for non-NUL-terminated strings,
-+         strncpy() can still be used, but destinations should be marked with the __nonstring",
-+);
-+
-+#Create a search pattern for all these strings apis to speed up a loop below
-+our $deprecated_string_apis_search = "";
-+foreach my $entry (keys %deprecated_string_apis) {
-+        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
-+        $deprecated_string_apis_search .= $entry;
-+}
-+$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
-+
- our $mode_perms_world_writable = qr{
- 	S_IWUGO		|
- 	S_IWOTH		|
-@@ -6446,6 +6461,16 @@ sub process {
- 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
- 		}
+-Sumit
 
-+# check for string deprecated apis
-+                if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
-+                        my $deprecated_string_api = $1;
-+                        my $new_api = $deprecated_string_apis{$deprecated_string_api};
-+			$check = 1;
-+                        CHK("DEPRECATED_API",
-+                             "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
-+			$check = 0;
-+                }
-+
- # check for various structs that are normally const (ops, kgdb, device_tree)
- # and avoid what seem like struct definitions 'struct foo {'
- 		if ($line !~ /\bconst\b/ &&
---
-2.17.1
-
+> > +#define TEE_IOCTL_LOGIN_REE_KERNEL           0x80000000
+> >
+> >  /**
+> >   * struct tee_ioctl_param - parameter
+> > --
+> > 2.7.4
+> >
+>
+> Thanks,
+> Jens
