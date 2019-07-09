@@ -5,126 +5,81 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7FC87D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 15:49:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 51B037D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 15:58:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726229AbfGIPtN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 11:49:13 -0400
-Received: from mga02.intel.com ([134.134.136.20]:50139 "EHLO mga02.intel.com"
+        id S1726309AbfGIP6J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 11:58:09 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58992 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726133AbfGIPtN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 11:49:13 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jul 2019 08:49:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,470,1557212400"; 
-   d="scan'208";a="176532235"
-Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
-  by orsmga002.jf.intel.com with ESMTP; 09 Jul 2019 08:49:09 -0700
-From:   NitinGote <nitin.r.gote@intel.com>
-To:     corbet@lwn.net
+        id S1726211AbfGIP6J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 11:58:09 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D47A0737;
+        Tue,  9 Jul 2019 15:58:08 +0000 (UTC)
+Date:   Tue, 9 Jul 2019 09:58:07 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     NitinGote <nitin.r.gote@intel.com>
 Cc:     joe@perches.com, akpm@linux-foundation.org, apw@canonical.com,
         keescook@chromium.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v4] Added warnings in checkpatch.pl script to :
-Date:   Tue,  9 Jul 2019 21:18:06 +0530
-Message-Id: <20190709154806.26363-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.17.1
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] Added warnings in checkpatch.pl script to :
+Message-ID: <20190709095807.72adb380@lwn.net>
+In-Reply-To: <20190709154806.26363-1-nitin.r.gote@intel.com>
+References: <20190709154806.26363-1-nitin.r.gote@intel.com>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Nitin Gote <nitin.r.gote@intel.com>
+On Tue,  9 Jul 2019 21:18:06 +0530
+NitinGote <nitin.r.gote@intel.com> wrote:
 
-1. Deprecate strcpy() in favor of strscpy().
-2. Deprecate strlcpy() in favor of strscpy().
-3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> From: Nitin Gote <nitin.r.gote@intel.com>
+> 
+> 1. Deprecate strcpy() in favor of strscpy().
+> 2. Deprecate strlcpy() in favor of strscpy().
+> 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> 
+> Updated strncpy() section in Documentation/process/deprecated.rst
+> to cover strscpy_pad() case.
+> 
+> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+> ---
+>  Change log:
+>  v1->v2
+>  - For string related apis, created different %deprecated_string_api
+>    and these will get emitted at CHECK Level using command line option
+>    -f/--file to avoid bad patched from novice script users.
+> 
+>  v2->v3
+>  - Avoided use of $check in implementation.
+>  - Incorporated trivial comments.
+> 
+>  v3->v4
+>  - Incorporated comment by removing "c:func:"
 
-Updated strncpy() section in Documentation/process/deprecated.rst
-to cover strscpy_pad() case.
+But you ignored the comment asking for a proper subject line on the
+patch.  
 
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
- Change log:
- v1->v2
- - For string related apis, created different %deprecated_string_api
-   and these will get emitted at CHECK Level using command line option
-   -f/--file to avoid bad patched from novice script users.
+Also,
 
- v2->v3
- - Avoided use of $check in implementation.
- - Incorporated trivial comments.
+> -only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+> -(Users of :c:func:`strscpy` still needing NUL-padding will need an
+> -explicit :c:func:`memset` added.)
+> +only NUL-terminated strings. In this case, the safe replacement is
+> +`strscpy()`. If, however, the destination buffer still needs NUL-padding,
+> +the safe replacement is `strscpy_pad()`.
 
- v3->v4
- - Incorporated comment by removing "c:func:"
+Please make those just strscpy(), not `strscpy()`.  As I said, the right
+thing will happen.
 
- Documentation/process/deprecated.rst |  6 +++---
- scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..0fb37ebe3ad9 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
- and other misbehavior due to the missing termination. It also NUL-pads the
- destination buffer if the source contents are shorter than the destination
- buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
--(Users of :c:func:`strscpy` still needing NUL-padding will need an
--explicit :c:func:`memset` added.)
-+only NUL-terminated strings. In this case, the safe replacement is
-+`strscpy()`. If, however, the destination buffer still needs NUL-padding,
-+the safe replacement is `strscpy_pad()`.
-
- If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
- still be used, but destinations should be marked with the `__nonstring
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bb28b178d929..e6fbf4cf4be4 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
- }
- $deprecated_apis_search = "(?:${deprecated_apis_search})";
-
-+our %deprecated_string_apis = (
-+        "strcpy"				=> "strscpy",
-+        "strlcpy"				=> "strscpy",
-+        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with the __nonstring",
-+);
-+
-+#Create a search pattern for all these strings apis to speed up a loop below
-+our $deprecated_string_apis_search = "";
-+foreach my $entry (keys %deprecated_string_apis) {
-+        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
-+        $deprecated_string_apis_search .= $entry;
-+}
-+$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
-+
- our $mode_perms_world_writable = qr{
- 	S_IWUGO		|
- 	S_IWOTH		|
-@@ -6446,6 +6460,16 @@ sub process {
- 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
- 		}
-
-+# check for string deprecated apis
-+		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
-+			my $deprecated_string_api = $1;
-+			my $new_api = $deprecated_string_apis{$deprecated_string_api};
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("DEPRECATED_API",
-+				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
-+		}
-+
- # check for various structs that are normally const (ops, kgdb, device_tree)
- # and avoid what seem like struct definitions 'struct foo {'
- 		if ($line !~ /\bconst\b/ &&
---
-2.17.1
-
+jon
