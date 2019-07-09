@@ -1,123 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC5C37D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 11:59:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA35F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 12:12:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbfGIL72 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 07:59:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:42226 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726002AbfGIL71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 07:59:27 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 026F02B;
-        Tue,  9 Jul 2019 04:59:26 -0700 (PDT)
-Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7296C3F59C;
-        Tue,  9 Jul 2019 04:59:23 -0700 (PDT)
-Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     Bhupesh Sharma <bhsharma@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1726060AbfGIMM7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 08:12:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36792 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbfGIMM7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 08:12:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EPh8wiwYFbrQiRAGa1lms7iYJ89lqNUFUiznPwwaf0w=; b=CBChqLXVtMVigRCYZ0Ra9IigY
+        nC4p3VJdhX6cirj5J6z0CM0/syCi6mBW1iS2TubibvyvrgV20knbKJA8NDmw1wjeTI572jZolH9KP
+        45V+dT9P69fTqXNYPafIsI9oLtkqVw/ribBVGDVomM8xUihwofhFvDD9IvMqulXuW90X5GLfDQEWQ
+        //uSDbzvYBjmWygTKzQXpdLDlHufJFWPY8SJGbeWw99NtnHyGYx1OKdHwyqmobSnszT1PD/ZwHfdr
+        vW2bog+ars4IuLr/BdQBJA2WICNGy6r2AnLoft5nsiLtETYNXAmbfcEiaXR6ReAxoj49jC4AfJpfZ
+        pYILXnH3Q==;
+Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkozP-00025I-DO; Tue, 09 Jul 2019 12:12:55 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hkozL-0004ni-Ik; Tue, 09 Jul 2019 09:12:51 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
- <CACi5LpNGWhTnXyM8gB0Tn=682+08s-ppfDpX2SawfxMvue1GTQ@mail.gmail.com>
- <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
-From:   James Morse <james.morse@arm.com>
-Message-ID: <2d60f302-5161-638a-76cd-d7d79e5631fe@arm.com>
-Date:   Tue, 9 Jul 2019 12:59:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: [PATCH] docs: don't use nested tables
+Date:   Tue,  9 Jul 2019 09:12:50 -0300
+Message-Id: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
+Nested tables aren't supported for pdf output on Sphinx 1.7.9:
 
-On 09/07/2019 11:55, Pavel Tatashin wrote:
-> On Tue, Jul 9, 2019 at 6:36 AM Bhupesh Sharma <bhsharma@redhat.com> wrote:
->> On Tue, Jul 9, 2019 at 2:46 AM Pavel Tatashin <pasha.tatashin@soleen.com> wrote:
->>> Currently, it is only allowed to reserve memory for crash kernel, because
->>> it is a requirement in order to be able to boot into crash kernel without
->>> touching memory of crashed kernel is to have memory reserved.
->>>
->>> The second benefit for having memory reserved for kexec kernel is
->>> that it does not require a relocation after segments are loaded into
->>> memory.
->>>
->>> If kexec functionality is used for a fast system update, with a minimal
->>> downtime, the relocation of kernel + initramfs might take a significant
->>> portion of reboot.
->>>
->>> In fact, on the machine that we are using, that has ARM64 processor
->>> it takes 0.35s to relocate during kexec, thus taking 52% of kernel reboot
->>> time:
->>>
->>> kernel shutdown 0.03s
->>> relocation      0.35s
->>> kernel startup  0.29s
->>>
->>> Image: 13M and initramfs is 24M. If initramfs increases, the relocation
->>> time increases proportionally.
->>>
->>> While, it is possible to add 'kexeckernel=' parameters support to other
->>> architectures by modifying reserve_crashkernel(), in this series this is
->>> done for arm64 only.
+	admin-guide/laptops/sonypi:: nested tables are not yet implemented.
+	admin-guide/laptops/toshiba_haps:: nested tables are not yet implemented.
+	driver-api/nvdimm/btt:: nested tables are not yet implemented.
+	s390/debugging390:: nested tables are not yet implemented.
 
->>
->> This seems like an issue with time spent while doing sha256
->> verification while in purgatory.
->>
->> Can you please try the following two patches which enable D-cache in
->> purgatory before SHA verification and disable it before switching to
->> kernel:
->>
->> http://lists.infradead.org/pipermail/kexec/2017-May/018839.html
->> http://lists.infradead.org/pipermail/kexec/2017-May/018840.html
-> 
-> Hi Bhupesh,
-> 
-> The verification was taking 2.31s. This is why it is disabled via
-> kexec's '-i' flag. Therefore 0.35s is only the relocation part where
-> time is spent, and with my patches the time is completely gone.
-> Actually, I am glad you showed these patches to me because I might
-> pull them and enable verification for our needs.
-> 
->>
->> Note that these were not accepted upstream but are included in several
->> distros in some form or the other :)
-> 
-> Enabling MMU and D-Cache for relocation  would essentially require the
-> same changes in kernel. Could you please share exactly why these were
-> not accepted upstream into kexec-tools?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
+ .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
+ Documentation/driver-api/nvdimm/btt.rst       |  2 +-
+ Documentation/s390/debugging390.rst           |  2 +-
+ 4 files changed, 18 insertions(+), 20 deletions(-)
 
-Because '--no-checks' is a much simpler alternative.
+diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
+index 2a1975ed7ee4..c6eaaf48f7c1 100644
+--- a/Documentation/admin-guide/laptops/sonypi.rst
++++ b/Documentation/admin-guide/laptops/sonypi.rst
+@@ -53,7 +53,7 @@ module or sonypi.<param>=<value> on the kernel boot line when sonypi is
+ statically linked into the kernel). Those options are:
+ 
+ 	=============== =======================================================
+-	minor: 		minor number of the misc device /dev/sonypi,
++	minor:		minor number of the misc device /dev/sonypi,
+ 			default is -1 (automatic allocation, see /proc/misc
+ 			or kernel logs)
+ 
+@@ -89,24 +89,22 @@ statically linked into the kernel). Those options are:
+ 			set to 0xffffffff, meaning that all possible events
+ 			will be tried. You can use the following bits to
+ 			construct your own event mask (from
+-			drivers/char/sonypi.h):
++			drivers/char/sonypi.h)::
+ 
+-				========================	======
+-				SONYPI_JOGGER_MASK 		0x0001
+-				SONYPI_CAPTURE_MASK 		0x0002
+-				SONYPI_FNKEY_MASK 		0x0004
+-				SONYPI_BLUETOOTH_MASK 		0x0008
+-				SONYPI_PKEY_MASK 		0x0010
+-				SONYPI_BACK_MASK 		0x0020
+-				SONYPI_HELP_MASK 		0x0040
+-				SONYPI_LID_MASK 		0x0080
+-				SONYPI_ZOOM_MASK 		0x0100
+-				SONYPI_THUMBPHRASE_MASK 	0x0200
++				SONYPI_JOGGER_MASK		0x0001
++				SONYPI_CAPTURE_MASK		0x0002
++				SONYPI_FNKEY_MASK		0x0004
++				SONYPI_BLUETOOTH_MASK		0x0008
++				SONYPI_PKEY_MASK		0x0010
++				SONYPI_BACK_MASK		0x0020
++				SONYPI_HELP_MASK		0x0040
++				SONYPI_LID_MASK			0x0080
++				SONYPI_ZOOM_MASK		0x0100
++				SONYPI_THUMBPHRASE_MASK		0x0200
+ 				SONYPI_MEYE_MASK		0x0400
+ 				SONYPI_MEMORYSTICK_MASK		0x0800
+ 				SONYPI_BATTERY_MASK		0x1000
+ 				SONYPI_WIRELESS_MASK		0x2000
+-				========================	======
+ 
+ 	useinput:	if set (which is the default) two input devices are
+ 			created, one which interprets the jogdial events as
+diff --git a/Documentation/admin-guide/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
+index 11dfc428c080..d28b6c3f2849 100644
+--- a/Documentation/admin-guide/laptops/toshiba_haps.rst
++++ b/Documentation/admin-guide/laptops/toshiba_haps.rst
+@@ -75,11 +75,11 @@ The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
+ protection_level   The protection_level is readable and writeable, and
+ 		   provides a way to let userspace query the current protection
+ 		   level, as well as set the desired protection level, the
+-		   available protection levels are:
++		   available protection levels are::
+ 
+-		   ============   =======   ==========   ========
+-		   0 - Disabled   1 - Low   2 - Medium   3 - High
+-		   ============   =======   ==========   ========
++		     ============   =======   ==========   ========
++		     0 - Disabled   1 - Low   2 - Medium   3 - High
++		     ============   =======   ==========   ========
+ 
+ reset_protection   The reset_protection entry is writeable only, being "1"
+ 		   the only parameter it accepts, it is used to trigger
+diff --git a/Documentation/driver-api/nvdimm/btt.rst b/Documentation/driver-api/nvdimm/btt.rst
+index 2d8269f834bd..107395c042ae 100644
+--- a/Documentation/driver-api/nvdimm/btt.rst
++++ b/Documentation/driver-api/nvdimm/btt.rst
+@@ -83,7 +83,7 @@ flags, and the remaining form the internal block number.
+ ======== =============================================================
+ Bit      Description
+ ======== =============================================================
+-31 - 30	 Error and Zero flags - Used in the following way:
++31 - 30	 Error and Zero flags - Used in the following way::
+ 
+ 	   == ==  ====================================================
+ 	   31 30  Description
+diff --git a/Documentation/s390/debugging390.rst b/Documentation/s390/debugging390.rst
+index d49305fd5e1a..73ad0b06c666 100644
+--- a/Documentation/s390/debugging390.rst
++++ b/Documentation/s390/debugging390.rst
+@@ -170,7 +170,7 @@ currently running at.
+ |        +----------------+-------------------------------------------------+
+ |        |    32          | Basic Addressing Mode                           |
+ |        |                |                                                 |
+-|        |                | Used to set addressing mode                     |
++|        |                | Used to set addressing mode::                   |
+ |        |                |                                                 |
+ |        |                |    +---------+----------+----------+            |
+ |        |                |    | PSW 31  | PSW 32   |          |            |
+-- 
+2.21.0
 
-More of the discussion:
-https://lore.kernel.org/linux-arm-kernel/5599813d-f83c-d154-287a-c131c48292ca@arm.com/
-
-While you can make purgatory a fully-fledged operating system, it doesn't really need to
-do anything on arm64. Errata-workarounds alone are a reason not do start down this path.
-
-
-Thanks,
-
-James
