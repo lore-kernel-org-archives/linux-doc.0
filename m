@@ -3,125 +3,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB98C7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 12:25:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 403B67D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 12:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbfGIMZi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 08:25:38 -0400
-Received: from mga14.intel.com ([192.55.52.115]:1737 "EHLO mga14.intel.com"
+        id S1726149AbfGIMsr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 08:48:47 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58182 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726721AbfGIMZi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 08:25:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jul 2019 05:25:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,470,1557212400"; 
-   d="scan'208";a="249133728"
-Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
-  by orsmga001.jf.intel.com with ESMTP; 09 Jul 2019 05:25:33 -0700
-From:   NitinGote <nitin.r.gote@intel.com>
-To:     joe@perches.com, akpm@linux-foundation.org
-Cc:     corbet@lwn.net, apw@canonical.com, keescook@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-hardening@lists.openwall.com,
-        Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v3] Added warnings in checkpatch.pl script to :
-Date:   Tue,  9 Jul 2019 17:54:17 +0530
-Message-Id: <20190709122417.25778-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726025AbfGIMsq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 08:48:46 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2FDB1737;
+        Tue,  9 Jul 2019 12:48:46 +0000 (UTC)
+Date:   Tue, 9 Jul 2019 06:48:45 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc:     Marcus Folkesson <marcus.folkesson@gmail.com>,
+        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: driver-api: generic-counter: fix file path to
+ ABI doc
+Message-ID: <20190709064845.6be66cd2@lwn.net>
+In-Reply-To: <20190709110613.GA4476@icarus>
+References: <20190709075436.7294-1-marcus.folkesson@gmail.com>
+        <20190709110613.GA4476@icarus>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Nitin Gote <nitin.r.gote@intel.com>
+On Tue, 9 Jul 2019 20:06:33 +0900
+William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
 
-1. Deprecate strcpy() in favor of strscpy().
-2. Deprecate strlcpy() in favor of strscpy().
-3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> Fixes: 09e7d4ed8991 ("docs: Add Generic Counter interface documentation")
+> Signed-off-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+> 
+> Jonathan, would you be able to pick this up in your tree?
 
-Updated strncpy() section in Documentation/process/deprecated.rst
-to cover strscpy_pad() case.
+I can apply it, yes.  But why are you supplying an SOB for it?
 
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
- Change log:
- v1->v2
- - For string related apis, created different %deprecated_string_api
-   and these will get emitted at CHECK Level using command line option
-   -f/--file to avoid bad patched from novice script users.
+Thanks,
 
- v2->v3
- - Avoided use of $check in implementation.
- - Incorporated trivial comments.
-
- Documentation/process/deprecated.rst |  6 +++---
- scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..f564de3caf76 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
- and other misbehavior due to the missing termination. It also NUL-pads the
- destination buffer if the source contents are shorter than the destination
- buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
--(Users of :c:func:`strscpy` still needing NUL-padding will need an
--explicit :c:func:`memset` added.)
-+only NUL-terminated strings. In this case, the safe replacement is
-+:c:func:`strscpy`. If, however, the destination buffer still needs
-+NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
-
- If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
- still be used, but destinations should be marked with the `__nonstring
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bb28b178d929..e6fbf4cf4be4 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
- }
- $deprecated_apis_search = "(?:${deprecated_apis_search})";
-
-+our %deprecated_string_apis = (
-+        "strcpy"				=> "strscpy",
-+        "strlcpy"				=> "strscpy",
-+        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with the __nonstring",
-+);
-+
-+#Create a search pattern for all these strings apis to speed up a loop below
-+our $deprecated_string_apis_search = "";
-+foreach my $entry (keys %deprecated_string_apis) {
-+        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
-+        $deprecated_string_apis_search .= $entry;
-+}
-+$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
-+
- our $mode_perms_world_writable = qr{
- 	S_IWUGO		|
- 	S_IWOTH		|
-@@ -6446,6 +6460,16 @@ sub process {
- 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
- 		}
-
-+# check for string deprecated apis
-+		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
-+			my $deprecated_string_api = $1;
-+			my $new_api = $deprecated_string_apis{$deprecated_string_api};
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("DEPRECATED_API",
-+				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
-+		}
-+
- # check for various structs that are normally const (ops, kgdb, device_tree)
- # and avoid what seem like struct definitions 'struct foo {'
- 		if ($line !~ /\bconst\b/ &&
---
-2.17.1
-
+jon
