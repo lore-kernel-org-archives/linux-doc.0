@@ -1,93 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6DEF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 13:40:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7E5C57D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 14:05:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbfGINkw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 09:40:52 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58352 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726345AbfGINkw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 09:40:52 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A67C2737;
-        Tue,  9 Jul 2019 13:40:51 +0000 (UTC)
-Date:   Tue, 9 Jul 2019 07:40:50 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     NitinGote <nitin.r.gote@intel.com>
-Cc:     joe@perches.com, akpm@linux-foundation.org, apw@canonical.com,
-        keescook@chromium.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Added warnings in checkpatch.pl script to :
-Message-ID: <20190709074050.289aab82@lwn.net>
-In-Reply-To: <20190709122417.25778-1-nitin.r.gote@intel.com>
-References: <20190709122417.25778-1-nitin.r.gote@intel.com>
-Organization: LWN.net
+        id S1726046AbfGIOFn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 10:05:43 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58562 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbfGIOFm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 10:05:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=A0ccmHFKAAaiA1+Y+eCDLJWvS9OEhV/u6H9iE/GlQqM=; b=CYpemY3niCxoBnErA3IHfJvT6
+        a5647ukYl45yoqDLPlByZdvDPFKMvbBLr9jDOEL3gQ0zZ/q1C3FtwQTTp6ie72pOB9cbTVD81bxPT
+        tC5sT7HDHzSGAzo6sIabv7CnIvY4q4bN4DzPhKXFhmEdLis92ozBxtUKlBXnc0mWNaqw/6h9FdaA7
+        /I6Wm3R23hUvu31aLxlr6cZ1EcamTNIKXTykUCWPrKG59DaRuck+zNxeTvPNhoOkgL8cJwT9iIUAo
+        LP1s7078kJ9G3ORPUnIrNV7rW8qKwh6Mkkli0Db8jJ9H04yFdLo+WqKM+mSNOH7RN0tNF6KTM/GXA
+        Af+1dIN3g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkqkW-0004ec-Jv; Tue, 09 Jul 2019 14:05:40 +0000
+Date:   Tue, 9 Jul 2019 07:05:40 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sheriff Esseson <sheriffesseson@gmail.com>
+Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
+        linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [linux-kernel-mentees] [PATCH v6] Doc : fs : convert xfs.txt to
+ ReST
+Message-ID: <20190709140540.GA13183@infradead.org>
+References: <20190709124859.GA21503@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190709124859.GA21503@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  9 Jul 2019 17:54:17 +0530
-NitinGote <nitin.r.gote@intel.com> wrote:
+On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
+> Convert xfs.txt to ReST, rename and fix broken references, consequently.
 
-> From: Nitin Gote <nitin.r.gote@intel.com>
-
-The patch needs a proper subject line.
-
-> 1. Deprecate strcpy() in favor of strscpy().
-> 2. Deprecate strlcpy() in favor of strscpy().
-> 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
-> 
-> Updated strncpy() section in Documentation/process/deprecated.rst
-> to cover strscpy_pad() case.
-> 
-> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
-> ---
->  Change log:
->  v1->v2
->  - For string related apis, created different %deprecated_string_api
->    and these will get emitted at CHECK Level using command line option
->    -f/--file to avoid bad patched from novice script users.
-> 
->  v2->v3
->  - Avoided use of $check in implementation.
->  - Incorporated trivial comments.
-> 
->  Documentation/process/deprecated.rst |  6 +++---
->  scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
->  2 files changed, 27 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 49e0f64a3427..f564de3caf76 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
->  and other misbehavior due to the missing termination. It also NUL-pads the
->  destination buffer if the source contents are shorter than the destination
->  buffer size, which may be a needless performance penalty for callers using
-> -only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
-> -(Users of :c:func:`strscpy` still needing NUL-padding will need an
-> -explicit :c:func:`memset` added.)
-> +only NUL-terminated strings. In this case, the safe replacement is
-> +:c:func:`strscpy`. If, however, the destination buffer still needs
-> +NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
-
-Please don't use :c:func: in anything new; just write that as strscpy()
-(or whatever) and The Right Thing will happen.
-
-(Maybe we need a checkpatch rule for that :)
-
-Thanks,
-
-jon
+The subject line still uses completely b0rked naming conventions.
