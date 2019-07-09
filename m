@@ -1,91 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADC627D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 17:37:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4C0B7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 17:45:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbfGIRhy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 13:37:54 -0400
-Received: from pb-smtp1.pobox.com ([64.147.108.70]:60058 "EHLO
-        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726133AbfGIRhy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 13:37:54 -0400
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id C754C161342;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=ZPzL96906deSPszntNDHK2QFX3M=; b=gufTxB
-        zNSe+0divwYcBXwLhl9W3sFW7BjvHwmRzFddQ05k36d7tv2a25UjIIOxanJXoOtD
-        ynWmKEeObbiHF4Wvmzj5VKMD2JqVBTuU5B/1bWCi1zttldwtRQOxwxGPf3VwFHae
-        ZTVdmAa/irDQ+ccsim1Jzz0QckHhqwsrggLFU=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id BE41C161341;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=JUWCum9pcbTPQLn3Li5UWdFaYelziHmHH3PL7HgMqUA=; b=xks7+qKO5WD+kKbJjFOF8VQyA5IpsnEK4OFwGE8D3PZDdxs5jke6gTQYNTNVpTuw+9lZxor+rnj4Og4V3l/KkAFJFxOEdbqgqYP59TtxNtwcnTTVeAbnmcjK6S4EqKV6l5owBWQteKjscyC6KqLyM/GwiQFONIgs423mD66FaEE=
-Received: from yoda.home (unknown [70.82.130.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 43457161340;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 5E86E2DA0192;
-        Tue,  9 Jul 2019 13:37:50 -0400 (EDT)
-Date:   Tue, 9 Jul 2019 13:37:50 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 08/11] kbuild: create *.mod with full directory path and
- remove MODVERDIR
-In-Reply-To: <20190709042416.27554-9-yamada.masahiro@socionext.com>
-Message-ID: <nycvar.YSQ.7.76.1907091332150.4190@knanqh.ubzr>
-References: <20190709042416.27554-1-yamada.masahiro@socionext.com> <20190709042416.27554-9-yamada.masahiro@socionext.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        id S1726530AbfGIRpd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 13:45:33 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:34496 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbfGIRpc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 13:45:32 -0400
+Received: by mail-pl1-f194.google.com with SMTP id i2so10478163plt.1;
+        Tue, 09 Jul 2019 10:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8FuOqUVUpQrBR59LmIrjEFPzqVKP8OL1hHgCATx9jRI=;
+        b=pp61QyJzRLHPykvMD7CM0HWxYQ5+4QT4EWebdjIJs9a+/t7dvLmwa5hQxw6hxoPm0z
+         HDDnxwPfrUw6dqJpnjaIe1vH8CJFnMWietpaIf+Yfp1abvDXUmYlpiBzLjeYl1rxYDiZ
+         wsu/XJl9+L1KcGGGA3PkRbdUmdIfH7xlU/JFmtSr19UC7PJdJ3OTtrYmQ1UnXTRI3zUZ
+         /9h2RbyJkCa072l63RF7YjkPuWkEFSDDSaXsHN9lmdwn6AlabqH1ibdfoOZawGSVRbCE
+         XPtsAqSa0pTsViBqCNfLuYWMshGbN6PfhgYyvS5q6uydnU7QYevKDa6iodv2NVhvrYMo
+         ULzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8FuOqUVUpQrBR59LmIrjEFPzqVKP8OL1hHgCATx9jRI=;
+        b=PkkRrrOO4Okhwp3UkQUllYTHsSFTdG20C/UmrbwEBIeHlr6GNyOaEUK5hSq+leIAvb
+         P5Tp/ivHe4oaS7uAiQ5nQnsyDrkXdUgTPUAGu7YWnbbmIZcPRBp4RFny2vilc4z1/Ldy
+         pKsdOwwnWUjQSWNzhGDNF0WRu0AlHUjOS8PN+puKJXL0yJ7XjMIY3mXyPKxVgKGnDqvx
+         w6ADPiVZkTUZzcvQ94qg/GXOhZPNQamPyjU9GBgQCGxklVnXyRP8p1zR59vg80JgKX2V
+         NsgQMA3hthCRsRo2CU6uGDx7zkBpyFmLL2hgTn7I29ILJpF+hyfHjbpoa6/SOZV42+FL
+         /YJQ==
+X-Gm-Message-State: APjAAAV2i1pQqcuJXimTvk2xTWJctIx5RBWAaBuJmpEUuMIlM00NvROP
+        SpBiMEZlAEEW7gVKZ7Z8vxc7a3i5j2aGqmlXInE=
+X-Google-Smtp-Source: APXvYqxEPTfgHb26Zho3QRrfYxCRzu5kADgBKOwD1IQ5GSGcQ6/zdUsDGGueMRw5EhZu5kqXQiVwk1bjyW9VB6T1SGE=
+X-Received: by 2002:a17:902:694a:: with SMTP id k10mr33364326plt.255.1562694331915;
+ Tue, 09 Jul 2019 10:45:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 466A70CC-A270-11E9-96DF-46F8B7964D18-78420484!pb-smtp1.pobox.com
+References: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
+In-Reply-To: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 9 Jul 2019 20:45:20 +0300
+Message-ID: <CAHp75VdHhOuJAOHbJCbp486DYHtRAN-k-MQPt9EGHuGOUasrdQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: don't use nested tables
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-s390@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 9 Jul 2019, Masahiro Yamada wrote:
+On Tue, Jul 9, 2019 at 3:12 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Nested tables aren't supported for pdf output on Sphinx 1.7.9:
+>
 
-> --- a/scripts/adjust_autoksyms.sh
-> +++ b/scripts/adjust_autoksyms.sh
-> @@ -47,13 +47,10 @@ cat > "$new_ksyms_file" << EOT
->   */
->  
->  EOT
-> -[ "$(ls -A "$MODVERDIR")" ] &&
-> -for mod in "$MODVERDIR"/*.mod; do
-> -	sed -n -e '3{s/ /\n/g;/^$/!p;}' "$mod"
-> -done | sort -u |
-> -while read sym; do
-> -	echo "#define __KSYM_${sym} 1"
-> -done >> "$new_ksyms_file"
-> +sed 's/ko$/mod/' modules.order |
-> +xargs -r -n1 sed -n -e '3{s/ /\n/g;/^$/!p;}' |
-> +sort -u |
-> +sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
+>         admin-guide/laptops/sonypi:: nested tables are not yet implemented.
+>         admin-guide/laptops/toshiba_haps:: nested tables are not yet implemented.
 
-Did you consider the case when CONFIG_MODULES=y but no modules are 
-selected? Also -r to xargs is a GNU extension and there were some 
-efforts to remove theur use in the past (no idea if this is still a 
-concern).
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Other than that, looks good to me.
+>         driver-api/nvdimm/btt:: nested tables are not yet implemented.
+>         s390/debugging390:: nested tables are not yet implemented.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
+>  .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
+>  Documentation/driver-api/nvdimm/btt.rst       |  2 +-
+>  Documentation/s390/debugging390.rst           |  2 +-
+>  4 files changed, 18 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
+> index 2a1975ed7ee4..c6eaaf48f7c1 100644
+> --- a/Documentation/admin-guide/laptops/sonypi.rst
+> +++ b/Documentation/admin-guide/laptops/sonypi.rst
+> @@ -53,7 +53,7 @@ module or sonypi.<param>=<value> on the kernel boot line when sonypi is
+>  statically linked into the kernel). Those options are:
+>
+>         =============== =======================================================
+> -       minor:          minor number of the misc device /dev/sonypi,
+> +       minor:          minor number of the misc device /dev/sonypi,
+>                         default is -1 (automatic allocation, see /proc/misc
+>                         or kernel logs)
+>
+> @@ -89,24 +89,22 @@ statically linked into the kernel). Those options are:
+>                         set to 0xffffffff, meaning that all possible events
+>                         will be tried. You can use the following bits to
+>                         construct your own event mask (from
+> -                       drivers/char/sonypi.h):
+> +                       drivers/char/sonypi.h)::
+>
+> -                               ========================        ======
+> -                               SONYPI_JOGGER_MASK              0x0001
+> -                               SONYPI_CAPTURE_MASK             0x0002
+> -                               SONYPI_FNKEY_MASK               0x0004
+> -                               SONYPI_BLUETOOTH_MASK           0x0008
+> -                               SONYPI_PKEY_MASK                0x0010
+> -                               SONYPI_BACK_MASK                0x0020
+> -                               SONYPI_HELP_MASK                0x0040
+> -                               SONYPI_LID_MASK                 0x0080
+> -                               SONYPI_ZOOM_MASK                0x0100
+> -                               SONYPI_THUMBPHRASE_MASK         0x0200
+> +                               SONYPI_JOGGER_MASK              0x0001
+> +                               SONYPI_CAPTURE_MASK             0x0002
+> +                               SONYPI_FNKEY_MASK               0x0004
+> +                               SONYPI_BLUETOOTH_MASK           0x0008
+> +                               SONYPI_PKEY_MASK                0x0010
+> +                               SONYPI_BACK_MASK                0x0020
+> +                               SONYPI_HELP_MASK                0x0040
+> +                               SONYPI_LID_MASK                 0x0080
+> +                               SONYPI_ZOOM_MASK                0x0100
+> +                               SONYPI_THUMBPHRASE_MASK         0x0200
+>                                 SONYPI_MEYE_MASK                0x0400
+>                                 SONYPI_MEMORYSTICK_MASK         0x0800
+>                                 SONYPI_BATTERY_MASK             0x1000
+>                                 SONYPI_WIRELESS_MASK            0x2000
+> -                               ========================        ======
+>
+>         useinput:       if set (which is the default) two input devices are
+>                         created, one which interprets the jogdial events as
+> diff --git a/Documentation/admin-guide/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
+> index 11dfc428c080..d28b6c3f2849 100644
+> --- a/Documentation/admin-guide/laptops/toshiba_haps.rst
+> +++ b/Documentation/admin-guide/laptops/toshiba_haps.rst
+> @@ -75,11 +75,11 @@ The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
+>  protection_level   The protection_level is readable and writeable, and
+>                    provides a way to let userspace query the current protection
+>                    level, as well as set the desired protection level, the
+> -                  available protection levels are:
+> +                  available protection levels are::
+>
+> -                  ============   =======   ==========   ========
+> -                  0 - Disabled   1 - Low   2 - Medium   3 - High
+> -                  ============   =======   ==========   ========
+> +                    ============   =======   ==========   ========
+> +                    0 - Disabled   1 - Low   2 - Medium   3 - High
+> +                    ============   =======   ==========   ========
+>
+>  reset_protection   The reset_protection entry is writeable only, being "1"
+>                    the only parameter it accepts, it is used to trigger
+> diff --git a/Documentation/driver-api/nvdimm/btt.rst b/Documentation/driver-api/nvdimm/btt.rst
+> index 2d8269f834bd..107395c042ae 100644
+> --- a/Documentation/driver-api/nvdimm/btt.rst
+> +++ b/Documentation/driver-api/nvdimm/btt.rst
+> @@ -83,7 +83,7 @@ flags, and the remaining form the internal block number.
+>  ======== =============================================================
+>  Bit      Description
+>  ======== =============================================================
+> -31 - 30         Error and Zero flags - Used in the following way:
+> +31 - 30         Error and Zero flags - Used in the following way::
+>
+>            == ==  ====================================================
+>            31 30  Description
+> diff --git a/Documentation/s390/debugging390.rst b/Documentation/s390/debugging390.rst
+> index d49305fd5e1a..73ad0b06c666 100644
+> --- a/Documentation/s390/debugging390.rst
+> +++ b/Documentation/s390/debugging390.rst
+> @@ -170,7 +170,7 @@ currently running at.
+>  |        +----------------+-------------------------------------------------+
+>  |        |    32          | Basic Addressing Mode                           |
+>  |        |                |                                                 |
+> -|        |                | Used to set addressing mode                     |
+> +|        |                | Used to set addressing mode::                   |
+>  |        |                |                                                 |
+>  |        |                |    +---------+----------+----------+            |
+>  |        |                |    | PSW 31  | PSW 32   |          |            |
+> --
+> 2.21.0
+>
 
-Acked-by: Nicolas Pitre <nico@fluxnic.net>
 
-
-Nicolas
+-- 
+With Best Regards,
+Andy Shevchenko
