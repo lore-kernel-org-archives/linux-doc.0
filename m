@@ -1,93 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2082D7D926
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 04:26:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4C097D90C
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 05:42:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbfGIEZx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 00:25:53 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:42461 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727454AbfGIEZw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 00:25:52 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x694OqVj009969;
-        Tue, 9 Jul 2019 13:24:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x694OqVj009969
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562646294;
-        bh=4ZrbChqp9XlDbu2jnXmxXGqVpaJBsEdyTZt35TheD7k=;
-        h=From:To:Cc:Subject:Date:From;
-        b=h/yr3UD8r29twM9ZfD0rvCb5/Opp9qq5QZkleLNk2AI81UAh2X00lSLE5z86mpfLN
-         pdrjTHpIGoKjDA9TFenfXZ0+xzGmVBl/DCMSPi36hrtgq/Pvt4m4ffHERWOQR8DTB4
-         mPHDsDQGLsB81EZRttpzi5oBObO8MXyqY76LW+SuMM5Xh9J5pj7abreOl/bZ1rtzoP
-         f8CokcSxN6a8mc5iJ3/jX0/vLcViH2nWnbbO4V6TsWlfy2xWjWwpMBG0c4aqnfqRrP
-         lbnhIw7tQZAdcJAC4K6tXzG7hkUK02jGToWNTo7ZOYLRbwQNAzTLc+mtaj8kOQGRB+
-         K7taoDasQ497Q==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nicolas Pitre <nico@fluxnic.net>, Sam Ravnborg <sam@ravnborg.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>
-Subject: [PATCH 00/11] kbuild: create *.mod with directory path and remove MODVERDIR
-Date:   Tue,  9 Jul 2019 13:24:04 +0900
-Message-Id: <20190709042416.27554-1-yamada.masahiro@socionext.com>
+        id S1725985AbfGIFmN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 01:42:13 -0400
+Received: from mga02.intel.com ([134.134.136.20]:5715 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725818AbfGIFmN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 01:42:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jul 2019 22:42:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; 
+   d="scan'208";a="249045835"
+Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
+  by orsmga001.jf.intel.com with ESMTP; 08 Jul 2019 22:42:09 -0700
+From:   NitinGote <nitin.r.gote@intel.com>
+To:     akpm@linux-foundation.org, joe@perches.com
+Cc:     corbet@lwn.net, apw@canonical.com, keescook@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-hardening@lists.openwall.com,
+        Nitin Gote <nitin.r.gote@intel.com>
+Subject: [PATCH v2] Added warnings in checkpatch.pl script to :
+Date:   Tue,  9 Jul 2019 11:10:55 +0530
+Message-Id: <20190709054055.21984-1-nitin.r.gote@intel.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Nitin Gote <nitin.r.gote@intel.com>
 
-This series kills the long standing MODVERDIR.
+1. Deprecate strcpy() in favor of strscpy().
+2. Deprecate strlcpy() in favor of strscpy().
+3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
 
-Since MODVERDIR has a flat structure, it cannot avoid a race
-condition when somebody introduces a module name conflict.
+Updated strncpy() section in Documentation/process/deprecated.rst
+to cover strscpy_pad() case.
 
-Kbuild now reads modules.order to get the list of all modules.
+Acked-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+---
+ Change log:
+ v1->v2
+ - For string related apis, created different %deprecated_string_api
+   and these will get emitted at CHECK Level using command line option
+   -f/--file to avoid bad patched from novice script users.
 
-The post-processing/installation stages will be more robust
-and simpler.
+ This patch is already reviewed by mailing list
+ kernel-hardening@lists.openwall.com. Refer below link
+ <https://www.openwall.com/lists/kernel-hardening/2019/07/03/4>
+Acked-by: Kees Cook <keescook@chromium.org>
 
+ Documentation/process/deprecated.rst |  6 +++---
+ scripts/checkpatch.pl                | 25 +++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..f564de3caf76 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
+ and other misbehavior due to the missing termination. It also NUL-pads the
+ destination buffer if the source contents are shorter than the destination
+ buffer size, which may be a needless performance penalty for callers using
+-only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+-(Users of :c:func:`strscpy` still needing NUL-padding will need an
+-explicit :c:func:`memset` added.)
++only NUL-terminated strings. In this case, the safe replacement is
++:c:func:`strscpy`. If, however, the destination buffer still needs
++NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
 
-Masahiro Yamada (11):
-  kbuild: do not create empty modules.order in the prepare stage
-  kbuild: get rid of kernel/ prefix from in-tree modules.{order,builtin}
-  kbuild: remove duplication from modules.order in sub-directories
-  scsi: remove pointless $(MODVERDIR)/$(obj)/53c700.ver
-  kbuild: modinst: read modules.order instead of $(MODVERDIR)/*.mod
-  kbuild: modsign: read modules.order instead of $(MODVERDIR)/*.mod
-  kbuild: modpost: read modules.order instead of $(MODVERDIR)/*.mod
-  kbuild: create *.mod with full directory path and remove MODVERDIR
-  kbuild: remove the first line of *.mod files
-  kbuild: remove 'prepare1' target
-  kbuild: split out *.mod out of {single,multi}-used-m rules
+ If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
+ still be used, but destinations should be marked with the `__nonstring
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bb28b178d929..10bd72e99dc8 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -605,6 +605,21 @@ foreach my $entry (keys %deprecated_apis) {
+ }
+ $deprecated_apis_search = "(?:${deprecated_apis_search})";
 
- .gitignore                  |  1 +
- Documentation/dontdiff      |  1 +
- Makefile                    | 33 +++++++++------------------------
- drivers/scsi/Makefile       |  2 +-
- scripts/Makefile.build      | 33 ++++++++++++++++-----------------
- scripts/Makefile.modbuiltin |  2 +-
- scripts/Makefile.modinst    |  5 +----
- scripts/Makefile.modpost    | 17 +++++++++--------
- scripts/Makefile.modsign    |  3 +--
- scripts/adjust_autoksyms.sh | 11 ++++-------
- scripts/mod/sumversion.c    | 23 ++++-------------------
- scripts/modules-check.sh    |  2 +-
- scripts/package/mkspec      |  2 +-
- 13 files changed, 50 insertions(+), 85 deletions(-)
++our %deprecated_string_apis = (
++        "strcpy"                                => "strscpy",
++        "strlcpy"                               => "strscpy",
++        "strncpy"                               => "strscpy, strscpy_pad or for non-NUL-terminated strings,
++         strncpy() can still be used, but destinations should be marked with the __nonstring",
++);
++
++#Create a search pattern for all these strings apis to speed up a loop below
++our $deprecated_string_apis_search = "";
++foreach my $entry (keys %deprecated_string_apis) {
++        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
++        $deprecated_string_apis_search .= $entry;
++}
++$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
++
+ our $mode_perms_world_writable = qr{
+ 	S_IWUGO		|
+ 	S_IWOTH		|
+@@ -6446,6 +6461,16 @@ sub process {
+ 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
+ 		}
 
--- 
++# check for string deprecated apis
++                if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
++                        my $deprecated_string_api = $1;
++                        my $new_api = $deprecated_string_apis{$deprecated_string_api};
++			$check = 1;
++                        CHK("DEPRECATED_API",
++                             "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
++			$check = 0;
++                }
++
+ # check for various structs that are normally const (ops, kgdb, device_tree)
+ # and avoid what seem like struct definitions 'struct foo {'
+ 		if ($line !~ /\bconst\b/ &&
+--
 2.17.1
 
