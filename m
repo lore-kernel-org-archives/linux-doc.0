@@ -1,184 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 838687D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 09:36:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AEFAA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 10:18:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbfGIJgr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 05:36:47 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:39632 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbfGIJgq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 05:36:46 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v18so18863655ljh.6
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 02:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qhjUpDgndm8ekwrFAo69LPTowsaMFYgyulNhotUCOnQ=;
-        b=OOW1rTUUsLyy9ppEo+DT+6XteDLqnEDFlCsR94YDxnEMUr9T1flAgWjdSMoG80Jh4A
-         CeDatbdtkUvZP8J/ANKKuQJBUfyget/hPUlbe4atTLqrdK79ttfcMHiT8CrmvUttDtdk
-         GpXGKg3wNvTLmsjcQs05ZryztiPJ57IZdO5mCNwWKdbLdIODAgblw8Q6/i+HKtDakar/
-         8p0S+zvb+g3k2vQR3QCYPaOS4/97yPYSFWxFlHk/gjlIMJBAQFoDhQKJB1jRmGQlVAxI
-         4kvYbSqUoYdcYS01MfQzun0poaxq9H7YT5meFAYHzG+IkgLsxhvnt16o7mCqeKrMbNF0
-         VoGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qhjUpDgndm8ekwrFAo69LPTowsaMFYgyulNhotUCOnQ=;
-        b=srveLJJm500PIDK+GXOjUICiBhltEpkWpIYuJy+megBfx1Fq/ziw04Mbu/GUHB0PEE
-         rzvvKKdFA+igudgQ5PKZNKEe5bD3H0SxS8eqOs0CVgpQlIl1OM0zwQVFf27cxK/tceIB
-         PKvFksaqpgxBXJ28qMrh02CLciXBfSCwXI2D/udyXiI1Xb/H0zqSWHo6gD8rO4fqeqLV
-         ZOZOyJXHuj7T3VYz/pRXGmh9jvi8GK1TqLp0CaOyY4dpazifmthS5HT3V0dsmAkNOhsC
-         Sxm/iiiv1/1tk2A/IEBet5bXs/yeEZo9tjJnXU8ObbNnb47L5yAOnpeGXyuEs0fnZ7gL
-         1/BQ==
-X-Gm-Message-State: APjAAAU02pRjU1OlDMpAnriVQx8vmCai/MqJcunVW3ZCLscSMTLw08kA
-        nftNmVLei/1SujxhL21yay0tCaZvv3YqJ7Z5QTR9SQ==
-X-Google-Smtp-Source: APXvYqzd5qaTN0SLD7LsokiKmNmPlx93wTsdxRg5AVYVegFwrPyNtxwMLB1gdj1gZmV3nncmBwjXXO2zzcRn3B7xdVQ=
-X-Received: by 2002:a2e:970a:: with SMTP id r10mr12574045lji.115.1562665004281;
- Tue, 09 Jul 2019 02:36:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
- <1560421833-27414-4-git-send-email-sumit.garg@linaro.org> <20190708153908.GA28253@jax>
- <CAFA6WYNzs=RErreWaa5BmF-P03Vf9nzQjvY_JpMckw87k9z12w@mail.gmail.com> <20190709070354.GA5791@jax>
-In-Reply-To: <20190709070354.GA5791@jax>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 9 Jul 2019 15:06:33 +0530
-Message-ID: <CAFA6WYPHVXbsOjzGVT1WWziMRKmWns=3YkD6_j+C1OJxTUbDmw@mail.gmail.com>
-Subject: Re: [RFC 3/7] tee: add private login method for kernel clients
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, corbet@lwn.net,
-        dhowells@redhat.com, jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
-        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
+        id S1726018AbfGIKSG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 06:18:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:40874 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725989AbfGIKSG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 06:18:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F96B2B;
+        Tue,  9 Jul 2019 03:18:05 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB2AC3F738;
+        Tue,  9 Jul 2019 03:18:02 -0700 (PDT)
+Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        James Morris <jmorris@namei.org>,
+        Sasha Levin <sashal@kernel.org>, kexec@lists.infradead.org,
+        LKML <linux-kernel@vger.kernel.org>, corbet@lwn.net,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
         linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tee-dev@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
+ <87sgrgjd6i.fsf@xmission.com>
+ <CA+CK2bAOPkN=qEdE38R0FRnrzRK0EqLid7eUVnTj1acmaFHY_w@mail.gmail.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <9a61d38a-66cb-132c-de07-ee65d5a238c0@arm.com>
+Date:   Tue, 9 Jul 2019 11:18:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <CA+CK2bAOPkN=qEdE38R0FRnrzRK0EqLid7eUVnTj1acmaFHY_w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 9 Jul 2019 at 12:33, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> On Tue, Jul 09, 2019 at 11:26:19AM +0530, Sumit Garg wrote:
-> > Thanks Jens for your comments.
-> >
-> > On Mon, 8 Jul 2019 at 21:09, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > >
-> > > Hi Sumit,
-> > >
-> > > On Thu, Jun 13, 2019 at 04:00:29PM +0530, Sumit Garg wrote:
-> > > > There are use-cases where user-space shouldn't be allowed to communicate
-> > > > directly with a TEE device which is dedicated to provide a specific
-> > > > service for a kernel client. So add a private login method for kernel
-> > > > clients and disallow user-space to open-session using this login method.
-> > > >
-> > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > > > ---
-> > > >  drivers/tee/tee_core.c   | 6 ++++++
-> > > >  include/uapi/linux/tee.h | 2 ++
-> > > >  2 files changed, 8 insertions(+)
-> > > >
-> > > > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > > > index 0f16d9f..4581bd1 100644
-> > > > --- a/drivers/tee/tee_core.c
-> > > > +++ b/drivers/tee/tee_core.c
-> > > > @@ -334,6 +334,12 @@ static int tee_ioctl_open_session(struct tee_context *ctx,
-> > > >                       goto out;
-> > > >       }
-> > > >
-> > > > +     if (arg.clnt_login == TEE_IOCTL_LOGIN_REE_KERNEL) {
-> > > TEE_IOCTL_LOGIN_REE_KERNEL is defined as 0x80000000 which is in the
-> > > range specified and implementation defined by the GP spec. I wonder if
-> > > we shouldn't filter the entire implementation defined range instead of
-> > > just this value.
-> >
-> > Agree. Will rather check for entire implementation defined range:
-> > 0x80000000 - 0xFFFFFFFF.
-> >
+Hi Pavel, Eric,
 
-I had a second thought on this. It would be more restrictive for
-user-space TEE client library which may need to use implementation
-defined login method. So either we could define specific ranges for
-kernel and user-space or we can start with single login method
-reserved for kernel.
+(Subject-Nit: 'arm64:' is needed to match the style for arm64's arch code. Without it the
+maintainer is likely to skip the patches as being for core code.)
 
-> > >
-> > > > +             pr_err("login method not allowed for user-space client\n");
-> > > pr_debug(), if it's needed at all.
-> > >
-> >
-> > Ok will use pr_debug() instead.
-> >
-> > > > +             rc = -EPERM;
-> > > > +             goto out;
-> > > > +     }
-> > > > +
-> > > >       rc = ctx->teedev->desc->ops->open_session(ctx, &arg, params);
-> > > >       if (rc)
-> > > >               goto out;
-> > > > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > > > index 4b9eb06..f33c69c 100644
-> > > > --- a/include/uapi/linux/tee.h
-> > > > +++ b/include/uapi/linux/tee.h
-> > > > @@ -172,6 +172,8 @@ struct tee_ioctl_buf_data {
-> > > >  #define TEE_IOCTL_LOGIN_APPLICATION          4
-> > > >  #define TEE_IOCTL_LOGIN_USER_APPLICATION     5
-> > > >  #define TEE_IOCTL_LOGIN_GROUP_APPLICATION    6
-> > > > +/* Private login method for REE kernel clients */
-> > > It's worth noting that this is filtered by the TEE framework, compared
-> > > to everything else which is treated opaquely.
-> > >
-> >
-> > IIUC, you are referring to login filter in optee_os. Change to prevent
-> > filter for this login method is part of this PR [1].
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/3082
->
-> No, I was referring to the changes in tee_ioctl_open_session() above.
-> It's relevant for user space to know since it will be prevented from
-> using that range of login identifiers.
+On 09/07/2019 01:09, Pavel Tatashin wrote:
+>> Something is very very wrong there.
+>>
+>> Last I measured memory bandwidth seriously I could touch a Gigabyte per
+>> second easily, and that was nearly 20 years ago.  Did you manage to
+>> disable caching or have some particularly slow code that does the
+>> reolocations.
+>>
+>> There is a serious cost to reserving memory in that it is simply not
+>> available at other times.  For kexec on panic there is no other reliable
+>> way to get memory that won't be DMA'd to.
 
-Ok, so you mean to extend the comment here for user-space to know that
-this login method/range is filtered by the TEE framework. Will do
-that.
+> Indeed, but sometimes fast reboot is more important than the cost of
+> reserving 32M-64M of memory.
 
-> This will restrict the user space
-> API, but I think the risk of breakage is minimal as OP-TEE is the only
-> in-tree driver registering in the TEE framework. I'm not aware of any
-> out-of-tree drivers registering.
+>> We have options in this case and I would strongly encourage you to track
+>> down why that copy in relocation is so very slow.  I suspect a 4KiB page
+>> size is large enough that it can swamp pointer following costs.
+>>
+>> My back of the napkin math says even 20 years ago your copying costs
+>> should be only 0.037s.  The only machine I have ever tested on where
+>> the copy costs were noticable was my old 386.
 
-I am not sure if I follow you here. How do you expect this change to
-break out-of-tree TEE driver registration?
+>> Maybe I am out to lunch here but a claim that your memory only runs
+>> at 100MiB/s (the speed of my spinning rust hard drive) is rather
+>> incredible.
 
--Sumit
+> I agree,  my measurement on this machine was 2,857MB/s. Perhaps when
+> MMU is disabled ARM64 also has caching disabled? The function that
+> loops through array of pages and relocates them to final destination
+> is this:
 
->
-> Thanks,
-> Jens
->
-> >
-> > -Sumit
-> >
-> > > > +#define TEE_IOCTL_LOGIN_REE_KERNEL           0x80000000
-> > > >
-> > > >  /**
-> > > >   * struct tee_ioctl_param - parameter
-> > > > --
-> > > > 2.7.4
-> > > >
-> > >
-> > > Thanks,
-> > > Jens
+> A comment before calling it:
+> 
+> 205   /*
+> 206   * cpu_soft_restart will shutdown the MMU, disable data caches, then
+> 207   * transfer control to the reboot_code_buffer which contains a copy of
+> 208   * the arm64_relocate_new_kernel routine.  arm64_relocate_new_kernel
+> 209   * uses physical addressing to relocate the new image to its final
+> 210   * position and transfers control to the image entry point when the
+> 211   * relocation is complete.
+> 212   * In kexec case, kimage->start points to purgatory assuming that
+> 213   * kernel entry and dtb address are embedded in purgatory by
+> 214   * userspace (kexec-tools).
+> 215   * In kexec_file case, the kernel starts directly without purgatory.
+> 216   */
+
+> So, as I understand at least data caches are disabled, and MMU is
+> disabled, perhaps this is why this function is so incredibly slow?
+
+Yup, spot on.
+
+Kexec typically wants to place the new kernel over the top of the old one, so its
+guaranteed to overwrite the live swapper_pg_dir.
+There is also nothing to prevent the other parts of the page-tables being overwritten as
+we relocate the kernel. The way the the kexec series chose to make this safe was the
+simplest: turn the MMU off. We need to enter purgatory with the MMU off anyway.
+
+(Its worth checking your kexec-tools purgatory isn't spending a decade generating a SHA256
+of the kernel while the MMU is off. This is pointless as we don't suspect the previous
+kernel of corrupting memory, and we can't debug/report the problem if we detect a
+different SHA256. Newer kexec-tools have some commandline option to turn this thing off.)
+
+
+> Perhaps, there is a better way to fix this problem by keeping caches
+> enabled while still relocating? Any suggestions from Aarch64
+> developers?
+
+Turning the MMU off is the simplest. The alternative is a lot more complicated:
+
+(To get the benefit of the caches, we need the MMU enabled to tell the hardware what the
+cache-ability attributes of each page of memory are.)
+
+We'd need to copy the page tables to build a new set out of memory we know won't get
+overwritten. Switching to this 'safe set' is tricky, as it also maps the code we're
+executing. To do that we'd need to use TTBR0 to hold another 'safe mapping' of the code
+we're running, while we change our view of the linear-map.
+
+Hibernate does exactly this, so its possible to re-use some of that logic. From memory, I
+think the reason that didn't get done is kexec doesn't provide an allocator, and needs the
+MMU off at some point anyway.
+
+
+Thanks,
+
+James
