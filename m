@@ -1,168 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA35F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 12:12:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB98C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 12:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbfGIMM7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 08:12:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36792 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfGIMM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 08:12:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EPh8wiwYFbrQiRAGa1lms7iYJ89lqNUFUiznPwwaf0w=; b=CBChqLXVtMVigRCYZ0Ra9IigY
-        nC4p3VJdhX6cirj5J6z0CM0/syCi6mBW1iS2TubibvyvrgV20knbKJA8NDmw1wjeTI572jZolH9KP
-        45V+dT9P69fTqXNYPafIsI9oLtkqVw/ribBVGDVomM8xUihwofhFvDD9IvMqulXuW90X5GLfDQEWQ
-        //uSDbzvYBjmWygTKzQXpdLDlHufJFWPY8SJGbeWw99NtnHyGYx1OKdHwyqmobSnszT1PD/ZwHfdr
-        vW2bog+ars4IuLr/BdQBJA2WICNGy6r2AnLoft5nsiLtETYNXAmbfcEiaXR6ReAxoj49jC4AfJpfZ
-        pYILXnH3Q==;
-Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkozP-00025I-DO; Tue, 09 Jul 2019 12:12:55 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hkozL-0004ni-Ik; Tue, 09 Jul 2019 09:12:51 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: [PATCH] docs: don't use nested tables
-Date:   Tue,  9 Jul 2019 09:12:50 -0300
-Message-Id: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        id S1726780AbfGIMZi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 08:25:38 -0400
+Received: from mga14.intel.com ([192.55.52.115]:1737 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726721AbfGIMZi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 08:25:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jul 2019 05:25:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,470,1557212400"; 
+   d="scan'208";a="249133728"
+Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
+  by orsmga001.jf.intel.com with ESMTP; 09 Jul 2019 05:25:33 -0700
+From:   NitinGote <nitin.r.gote@intel.com>
+To:     joe@perches.com, akpm@linux-foundation.org
+Cc:     corbet@lwn.net, apw@canonical.com, keescook@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-hardening@lists.openwall.com,
+        Nitin Gote <nitin.r.gote@intel.com>
+Subject: [PATCH v3] Added warnings in checkpatch.pl script to :
+Date:   Tue,  9 Jul 2019 17:54:17 +0530
+Message-Id: <20190709122417.25778-1-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Nested tables aren't supported for pdf output on Sphinx 1.7.9:
+From: Nitin Gote <nitin.r.gote@intel.com>
 
-	admin-guide/laptops/sonypi:: nested tables are not yet implemented.
-	admin-guide/laptops/toshiba_haps:: nested tables are not yet implemented.
-	driver-api/nvdimm/btt:: nested tables are not yet implemented.
-	s390/debugging390:: nested tables are not yet implemented.
+1. Deprecate strcpy() in favor of strscpy().
+2. Deprecate strlcpy() in favor of strscpy().
+3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Updated strncpy() section in Documentation/process/deprecated.rst
+to cover strscpy_pad() case.
+
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
 ---
- Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
- .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
- Documentation/driver-api/nvdimm/btt.rst       |  2 +-
- Documentation/s390/debugging390.rst           |  2 +-
- 4 files changed, 18 insertions(+), 20 deletions(-)
+ Change log:
+ v1->v2
+ - For string related apis, created different %deprecated_string_api
+   and these will get emitted at CHECK Level using command line option
+   -f/--file to avoid bad patched from novice script users.
 
-diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
-index 2a1975ed7ee4..c6eaaf48f7c1 100644
---- a/Documentation/admin-guide/laptops/sonypi.rst
-+++ b/Documentation/admin-guide/laptops/sonypi.rst
-@@ -53,7 +53,7 @@ module or sonypi.<param>=<value> on the kernel boot line when sonypi is
- statically linked into the kernel). Those options are:
- 
- 	=============== =======================================================
--	minor: 		minor number of the misc device /dev/sonypi,
-+	minor:		minor number of the misc device /dev/sonypi,
- 			default is -1 (automatic allocation, see /proc/misc
- 			or kernel logs)
- 
-@@ -89,24 +89,22 @@ statically linked into the kernel). Those options are:
- 			set to 0xffffffff, meaning that all possible events
- 			will be tried. You can use the following bits to
- 			construct your own event mask (from
--			drivers/char/sonypi.h):
-+			drivers/char/sonypi.h)::
- 
--				========================	======
--				SONYPI_JOGGER_MASK 		0x0001
--				SONYPI_CAPTURE_MASK 		0x0002
--				SONYPI_FNKEY_MASK 		0x0004
--				SONYPI_BLUETOOTH_MASK 		0x0008
--				SONYPI_PKEY_MASK 		0x0010
--				SONYPI_BACK_MASK 		0x0020
--				SONYPI_HELP_MASK 		0x0040
--				SONYPI_LID_MASK 		0x0080
--				SONYPI_ZOOM_MASK 		0x0100
--				SONYPI_THUMBPHRASE_MASK 	0x0200
-+				SONYPI_JOGGER_MASK		0x0001
-+				SONYPI_CAPTURE_MASK		0x0002
-+				SONYPI_FNKEY_MASK		0x0004
-+				SONYPI_BLUETOOTH_MASK		0x0008
-+				SONYPI_PKEY_MASK		0x0010
-+				SONYPI_BACK_MASK		0x0020
-+				SONYPI_HELP_MASK		0x0040
-+				SONYPI_LID_MASK			0x0080
-+				SONYPI_ZOOM_MASK		0x0100
-+				SONYPI_THUMBPHRASE_MASK		0x0200
- 				SONYPI_MEYE_MASK		0x0400
- 				SONYPI_MEMORYSTICK_MASK		0x0800
- 				SONYPI_BATTERY_MASK		0x1000
- 				SONYPI_WIRELESS_MASK		0x2000
--				========================	======
- 
- 	useinput:	if set (which is the default) two input devices are
- 			created, one which interprets the jogdial events as
-diff --git a/Documentation/admin-guide/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
-index 11dfc428c080..d28b6c3f2849 100644
---- a/Documentation/admin-guide/laptops/toshiba_haps.rst
-+++ b/Documentation/admin-guide/laptops/toshiba_haps.rst
-@@ -75,11 +75,11 @@ The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
- protection_level   The protection_level is readable and writeable, and
- 		   provides a way to let userspace query the current protection
- 		   level, as well as set the desired protection level, the
--		   available protection levels are:
-+		   available protection levels are::
- 
--		   ============   =======   ==========   ========
--		   0 - Disabled   1 - Low   2 - Medium   3 - High
--		   ============   =======   ==========   ========
-+		     ============   =======   ==========   ========
-+		     0 - Disabled   1 - Low   2 - Medium   3 - High
-+		     ============   =======   ==========   ========
- 
- reset_protection   The reset_protection entry is writeable only, being "1"
- 		   the only parameter it accepts, it is used to trigger
-diff --git a/Documentation/driver-api/nvdimm/btt.rst b/Documentation/driver-api/nvdimm/btt.rst
-index 2d8269f834bd..107395c042ae 100644
---- a/Documentation/driver-api/nvdimm/btt.rst
-+++ b/Documentation/driver-api/nvdimm/btt.rst
-@@ -83,7 +83,7 @@ flags, and the remaining form the internal block number.
- ======== =============================================================
- Bit      Description
- ======== =============================================================
--31 - 30	 Error and Zero flags - Used in the following way:
-+31 - 30	 Error and Zero flags - Used in the following way::
- 
- 	   == ==  ====================================================
- 	   31 30  Description
-diff --git a/Documentation/s390/debugging390.rst b/Documentation/s390/debugging390.rst
-index d49305fd5e1a..73ad0b06c666 100644
---- a/Documentation/s390/debugging390.rst
-+++ b/Documentation/s390/debugging390.rst
-@@ -170,7 +170,7 @@ currently running at.
- |        +----------------+-------------------------------------------------+
- |        |    32          | Basic Addressing Mode                           |
- |        |                |                                                 |
--|        |                | Used to set addressing mode                     |
-+|        |                | Used to set addressing mode::                   |
- |        |                |                                                 |
- |        |                |    +---------+----------+----------+            |
- |        |                |    | PSW 31  | PSW 32   |          |            |
--- 
-2.21.0
+ v2->v3
+ - Avoided use of $check in implementation.
+ - Incorporated trivial comments.
+
+ Documentation/process/deprecated.rst |  6 +++---
+ scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..f564de3caf76 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
+ and other misbehavior due to the missing termination. It also NUL-pads the
+ destination buffer if the source contents are shorter than the destination
+ buffer size, which may be a needless performance penalty for callers using
+-only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+-(Users of :c:func:`strscpy` still needing NUL-padding will need an
+-explicit :c:func:`memset` added.)
++only NUL-terminated strings. In this case, the safe replacement is
++:c:func:`strscpy`. If, however, the destination buffer still needs
++NUL-padding, the safe replacement is :c:func:`strscpy_pad`.
+
+ If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
+ still be used, but destinations should be marked with the `__nonstring
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bb28b178d929..e6fbf4cf4be4 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
+ }
+ $deprecated_apis_search = "(?:${deprecated_apis_search})";
+
++our %deprecated_string_apis = (
++        "strcpy"				=> "strscpy",
++        "strlcpy"				=> "strscpy",
++        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with the __nonstring",
++);
++
++#Create a search pattern for all these strings apis to speed up a loop below
++our $deprecated_string_apis_search = "";
++foreach my $entry (keys %deprecated_string_apis) {
++        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
++        $deprecated_string_apis_search .= $entry;
++}
++$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
++
+ our $mode_perms_world_writable = qr{
+ 	S_IWUGO		|
+ 	S_IWOTH		|
+@@ -6446,6 +6460,16 @@ sub process {
+ 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
+ 		}
+
++# check for string deprecated apis
++		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
++			my $deprecated_string_api = $1;
++			my $new_api = $deprecated_string_apis{$deprecated_string_api};
++			my $msg_level = \&WARN;
++			$msg_level = \&CHK if ($file);
++			&{$msg_level}("DEPRECATED_API",
++				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
++		}
++
+ # check for various structs that are normally const (ops, kgdb, device_tree)
+ # and avoid what seem like struct definitions 'struct foo {'
+ 		if ($line !~ /\bconst\b/ &&
+--
+2.17.1
 
