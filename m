@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBADF7DBD4
+	by archive.lwn.net (Postfix) with ESMTP id EA52E7DBEB
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729347AbfGISd3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 14:33:29 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56730 "EHLO
+        id S1727027AbfGISdb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 14:33:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56706 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728080AbfGISd3 (ORCPT
+        with ESMTP id S1727028AbfGISd3 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:33:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,24 +20,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jU46nPFGpBcyqb30Zk67VYs5JcFdJlitkqyISRTJIR8=; b=kdCctTTm6GLl0LS6Mel91M04G0
-        84DtC9k8ZUuY0g1ksPmbytcriGvhJ2Rz6RIdrLKw/8rHoWhSeaAulZRO69gdzs/P6rNpbfyNsIS7S
-        bIkl3VFAkD7PE6XzT5rRQa9KDkAsHvQcjssgDoWLZOqb46bRbWn8zY0bqPwRO5J5Gv5deH9T7GT5m
-        sET9YJk2X3poSpY5PZRzIZdidKc7vV9Sg8jkHXYzl9Efrr0ZoqSTHkxueW/NPvjVluPJcolbuj2YR
-        mUtSicLvsax2rtE6EeFxMmL6qvgdcneV8mqgcoXc/i37mivuRllDPngcapNauEmi5zFll5vglKOAz
-        tP/A+lyA==;
+        bh=lzQ/Qjq/0woNC8ClcMRNgoEEfKANaxJmJlDwa4T4CLc=; b=NNZ9GSnw0hdHQEGJT9P/SwJAgp
+        u98wRrDmFVTSn1yrcdIUphxXQFKE9oxw3BhKyeSEjnVAq+dmMfvxpDaRO2XG8y/1KIy+WJGRxDlLs
+        PknPGci3TcEIt5QLTDIl7WqrGyd6sdo+XfbXyIaaKqP2WPXpD7DOd1MXd1onXvh6QFEwgtYdtNpx+
+        DiqQa01J2K0J0lc6yn/hojGkMfypjlGPBe15ppXWwQoQT320trXN8SC9yJv9zFB7A4eJ5DnB0q92s
+        TFFxaASZWMGIOWZgHPYd6GdqGnDFU6GlmvOpKa8QIm/5EZYqZ41PSX8tr7xqOTdwGR2McsizzgTl3
+        gZcxOZtg==;
 Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkuvf-0007As-BB; Tue, 09 Jul 2019 18:33:27 +0000
+        id 1hkuvf-0007At-Bj; Tue, 09 Jul 2019 18:33:27 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hkuvd-0005Pp-5K; Tue, 09 Jul 2019 15:33:25 -0300
+        id 1hkuvd-0005Q1-7i; Tue, 09 Jul 2019 15:33:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 2/5] docs: arm: fix a breakage with pdf output
-Date:   Tue,  9 Jul 2019 15:33:20 -0300
-Message-Id: <7150e6eadf29dca6ad7c8c7e4ee2781b99119265.1562696797.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 5/5] docs: conf.py: add CJK package needed by translations
+Date:   Tue,  9 Jul 2019 15:33:23 -0300
+Message-Id: <545902a588b76f18cba035700fc0835067e9a1f8.1562696797.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1562696797.git.mchehab+samsung@kernel.org>
 References: <cover.1562696797.git.mchehab+samsung@kernel.org>
@@ -49,27 +49,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an extra blank line, as otherwise XeLaTex will complain with:
-
-	! LaTeX Error: Too deeply nested.
+In order to be able to output Asian symbols with XeLaTeX, we
+need the xeCJK package, and a default font for CJK symbols.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/arm/spear/overview.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/conf.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/arm/spear/overview.rst b/Documentation/arm/spear/overview.rst
-index 8a1a87aca427..1a77f6b213b6 100644
---- a/Documentation/arm/spear/overview.rst
-+++ b/Documentation/arm/spear/overview.rst
-@@ -15,6 +15,7 @@ Introduction
-   Hierarchy in SPEAr is as follows:
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 191bd380c523..e0e1f087d351 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -277,6 +277,10 @@ latex_elements = {
+         \\setromanfont{DejaVu Serif}
+         \\setmonofont{DejaVu Sans Mono}
  
-   SPEAr (Platform)
++	% This is needed for translations
++        \\usepackage{xeCJK}
++        \\setCJKmainfont{Noto Sans CJK SC}
 +
- 	- SPEAr3XX (3XX SOC series, based on ARM9)
- 		- SPEAr300 (SOC)
- 			- SPEAr300 Evaluation Board
+      '''
+ }
+ 
 -- 
 2.21.0
 
