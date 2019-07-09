@@ -1,133 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3B647D92A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 20:08:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6EC847D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 22:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729619AbfGIUIV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 16:08:21 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:36061 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729563AbfGIUIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 16:08:20 -0400
-Received: by mail-lf1-f66.google.com with SMTP id q26so14270677lfc.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 13:08:19 -0700 (PDT)
+        id S1726951AbfGIWmp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 18:42:45 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:38709 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726444AbfGIWmo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 18:42:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id z75so175406pgz.5;
+        Tue, 09 Jul 2019 15:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=eng.ucsd.edu; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nPhFlUg160YIM5+wm6v8cRWOklVUq1HxImS3+DfzTd0=;
-        b=PUJkz0FBCQCSz7JsKk1v6RISYYb4uLBoN78kFvm+Iw2/PL2u3QbrMWBzJ5WcH35ASg
-         PtcuiBqmuUQWk1966XcAi4amWzqXC9cE4jqn58nlqZtkcOKraYiVlCt4RZM3A2nCe3Of
-         cypMt4nQ84B7R7rFT2pbAToU1gO9HIOXBtetk=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EnQW9i20df0zx3M6tQh/RXiMIwRQmZ5+hWLyjYA/FdM=;
+        b=DD0AQXo7JMl/6LPkpiSOoXmJvtk0qrVJHBq8NWlJXgANSN9l8CYGHoEAX+Cg88pCHo
+         TjMtn/CAJnppHWLIVz6IGlqKuRg9mx2vSLtavvneT2TSfEmj31fdZW1RV/CGU9cg9feM
+         LFd8+qBvS2j4Q+F4zPaw9pKQ+w2UqTz6Gi9eSWRLAOsCs8/F/nHXqk/RhMtZIImDO9kn
+         qoroYl8z7mi57bbK3gsqZQC5gXEFa7fs6PBen9hSbEgYL9D4FLsV9sKg2tuF6f8LmUNa
+         U4XZXl4CbpMCgLpIjrWMldNTqZk4e9T6M1phfKBqPUCln+P90FeXwVX5AuosNREIy2vd
+         X4rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nPhFlUg160YIM5+wm6v8cRWOklVUq1HxImS3+DfzTd0=;
-        b=lBgM6bKa4Iyea9KpClA7KOmjq1EFhZoB+n9suWWjOH5HfIo6AP0t3vZiBq5CWSegxV
-         8C5dOIK2/IIde18A8NEzWi0deovD6HMD4HysEHxlQRbyg7KmWfiE4JsLF3cetQ1M+jii
-         klSGgwlkH0tpQVXT+WreKwhBZdOoRhgnU7gduvG4DO8ZpBNWdS6IB6RW+Oe9ZLlm4E/v
-         vqZKXJYaEmfAQprzAvDRvVpxkAU3EVNCSfvYGdMMuH5lEzTrdDX2/rVTgY7DyCX/7/Ux
-         +BN5RHjuV5pIWmI1M+idf8cvgtjVVLqa3mJT1SnWHtXqgkiBVktWLVjcTjdRqjdj/Es9
-         9x7Q==
-X-Gm-Message-State: APjAAAW4gAScZmb+678tWWM+fZ4FBSKoO22uGq+w2QTsW4QcKOGkUUX9
-        kPHyyhzEyhGAyLNlxL+HOUi56Q==
-X-Google-Smtp-Source: APXvYqzNSk+qmgC/RcZPrqM4OfhOxlepPwzhf81+ba0k0BKPTZvqF+t+RraLwhsiS85v4y43wTqFMg==
-X-Received: by 2002:ac2:5336:: with SMTP id f22mr12185607lfh.180.1562702898776;
-        Tue, 09 Jul 2019 13:08:18 -0700 (PDT)
-Received: from luke-XPS-13.home (159-205-76-204.adsl.inetia.pl. [159.205.76.204])
-        by smtp.gmail.com with ESMTPSA id f1sm4489ljk.86.2019.07.09.13.08.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EnQW9i20df0zx3M6tQh/RXiMIwRQmZ5+hWLyjYA/FdM=;
+        b=b5MPLNHnwkGz/Sid3/C/1hkWopzvjCrHA8gBA7qhH7vaafdoHCRa60MoCMq2K2c47v
+         TqXjBUmKZ+eHM0wXfRG05BRrTNZjMDJraAc32U3EHsU3K1bmLdEzHK/we0mSl267yhJE
+         AXcyiWaaMuZ68CyDJI/5ctaAxKWKOCGIA64+vopmdE1L7Ubk5amDaOneCj1dS6niI+UY
+         1wc6vnftLc076T7jAjyEwyaV/k/52u7I80o3IZRU2F58RkdWVOX36c4oYP1zBP0QsWVK
+         iVtCvFED9yNC1TSUpC9+7t0La0khiodSPPsGUMNkSVLmi+RX0iO5/B66CO6uhsNwzYIy
+         W7gA==
+X-Gm-Message-State: APjAAAWGNOA7mDGM+iPDq/31reR7dH70vFdjskVkUKzIDnw6vtljRKRP
+        oRipjosmyHpQYwL1F0iIa/g=
+X-Google-Smtp-Source: APXvYqzWIHWAc0izqtDS4qxFCC/slE9GIKp9Zy4uf+1dCpoSZl/0jGEsHCMr1DHfkCHmu5CfiqPWOw==
+X-Received: by 2002:a17:90a:20a2:: with SMTP id f31mr2745143pjg.90.1562712163888;
+        Tue, 09 Jul 2019 15:42:43 -0700 (PDT)
+Received: from localhost ([2607:f140:6000:1f:f5fc:878f:592:306])
+        by smtp.gmail.com with ESMTPSA id t9sm141136pji.18.2019.07.09.15.42.42
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 09 Jul 2019 13:08:18 -0700 (PDT)
-From:   Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-X-Google-Original-From: Luke Nowakowski-Krijger <lnowakow@neg.ucsd.edu>
-To:     linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>,
-        pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] Documentation: virtual: Add toctree hooks
-Date:   Tue,  9 Jul 2019 13:07:21 -0700
-Message-Id: <20190709200721.16991-4-lnowakow@neg.ucsd.edu>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
-References: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
+        Tue, 09 Jul 2019 15:42:43 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 15:42:41 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Yury Norov <ynorov@caviumnetworks.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190709224241.GA28503@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+Hi all,
 
-Added toctree hooks for indexing. Hooks added only for newly added
-files.
+On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+> This series enables AARCH64 with ILP32 mode.
+> 
+> As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> option that is enabled for existing 32-bit architectures but disabled
+> for new arches (so 64-bit off_t userspace type is used by new userspace).
+> Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+> 
+> Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
+> CPUSpec.
+> 
+> This series on github: 
+> https://github.com/norov/linux/tree/ilp32-4.16
+> Linaro toolchain:
+> http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1/aarch64-linux-gnu_ilp32/
+> Debian repo:
+> http://people.linaro.org/~wookey/ilp32/
+> OpenSUSE repo:
+> https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
+> 
+> Changes:
+> v3: https://lkml.org/lkml/2014/9/3/704
+> v4: https://lkml.org/lkml/2015/4/13/691
+> v5: https://lkml.org/lkml/2015/9/29/911
+> v6: https://lkml.org/lkml/2016/5/23/661
+> v7: https://lkml.org/lkml/2017/1/9/213
+> v8: https://lkml.org/lkml/2017/6/19/624
+> v9: - rebased on top of v4.16;
+>     - signal subsystem reworked to avoid code duplication, as requested
+>       by Dave Martin (patches 18 and 20);
+>     - new files introduced in series use SPDX notation for license;
+>     - linux-api and linux-arch CCed as the series changes kernel ABI;
+>     - checkpatch and other minor fixes.
+>     - Zhou Chengming's reported-by for patch 2 and signed-off-by for
+>       patch 21 removed because his email became invalid. Zhou, please
+>       share your new email.
 
-The hook for the top of the tree will be added in a later patch series
-when a few more substantial changes have been added.
+This is a 5.2-based version of series.
+https://github.com/norov/linux/tree/ilp32-5.2
 
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
----
- Changes since v2:
- - Removed vcpu-request from hooks that was added in v1
- Changes since v1:
- + Added index.rst file in virtual directory
- + Added index.rst file in virtual/kvm directory
- 
- Documentation/virtual/index.rst     | 18 ++++++++++++++++++
- Documentation/virtual/kvm/index.rst | 11 +++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 Documentation/virtual/index.rst
- create mode 100644 Documentation/virtual/kvm/index.rst
-
-diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
-new file mode 100644
-index 000000000000..19c9fa2266f4
---- /dev/null
-+++ b/Documentation/virtual/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Linux Virtual Documentation
-+===========================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   kvm/index
-+   paravirt_ops
-+
-+.. only:: html and subproject
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
-new file mode 100644
-index 000000000000..0b206a06f5be
---- /dev/null
-+++ b/Documentation/virtual/kvm/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===
-+KVM
-+===
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   amd-memory-encryption
-+   cpuid
--- 
-2.20.1
-
+Thanks,
+Yury
