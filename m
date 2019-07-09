@@ -1,158 +1,161 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4F477D90C
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 05:58:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 04C127D90C
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 06:32:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbfGIF6y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 01:58:54 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44598 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726823AbfGIF6y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 01:58:54 -0400
-Received: by mail-lf1-f67.google.com with SMTP id r15so12514722lfm.11
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 22:58:52 -0700 (PDT)
+        id S1726032AbfGIGcm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 02:32:42 -0400
+Received: from mail-yb1-f202.google.com ([209.85.219.202]:45688 "EHLO
+        mail-yb1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbfGIGcm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 02:32:42 -0400
+Received: by mail-yb1-f202.google.com with SMTP id s18so6332246ybl.12
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 23:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qkH82jEVCc2YvBDQT3QhNyCJ4U0glGemvghHKQeB0QY=;
-        b=cNb/XsZZMssiXnqsdsYslGZZnpEl+wF7SO6km6xBmQ9FrCo6pXwKlIBoQQ23cHkgkE
-         Vya6eho3ITk4fQeXF0IjryWNuzDi3ruR7OAFGUujEhs5E3AAYxWCaqi3aMTUGCNb5h90
-         aDZ3DLdJ9IDzhrnmiohsrcPr8jiwlDuJldbIDdqPqQ0YkJP4KDnGVHBpds4JDKxWHX+u
-         CMXbxUILRJaIoz49mwulwBwgXABcUp18u/YllLuEwq225M/hoMOD0EPXivSpyWx31Flj
-         vQEk6t3rpgumzW/o7x3htGjjIXSId18CYEQGh38yMMzTYO4nGeDRGNN3uiVxy7e+Wuw0
-         TlHw==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ccEO1tkkeH8HT1/mhIGVUKFl/9lAslI495fANVrqi9k=;
+        b=e2JKyD27N2epGYfKgaRHgJrtns9MYtHULutiWECP0zFRJv3jgMPgvU/mgzt7m2CruN
+         qyDh4tO7vEMXIwz5uC90ZiqlsOp6jxtaX8TLEstg/mB6t2n5nc3E1nANny//4ZuViIuT
+         Q3ccwNzcmvwEgQPy45ljMduIsRcMZ+yyArZsE7tNVMmyeTDybeKjOVOQs49sE+w8xRgU
+         l6IbFINnO1SRMJvZ1e6x0/QcQs5GYjWItk2Tf6QcJnNv92P+Yml808NgCvyRAieR+7tt
+         vVHGQ59GH0W9PqLAZQXcyb1ZKKpl+uFrILyK+81ZrKs3HHFsWjaaDhu+6fgoH9G5s9wC
+         jETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qkH82jEVCc2YvBDQT3QhNyCJ4U0glGemvghHKQeB0QY=;
-        b=b4V+N+s0YCxXBhEug9Tw2VYbaA9Q91iLhYspQLbF3TFwjU2RmAGCCqSaI6wZ5o7wYV
-         8sWOb7eWiJyEaEIWUiBxjvyg7puEgnR8QoyrMDXCii+eVAym4+LuRFS9mhUH4yTpI5X0
-         WY7P7o7baglyWNevYiwAtcxH091NP20msFvMpM0bSg3x7YCsg++FuuxVqT3CeUpBKq9x
-         P3AF73eLSH5bAJHjVEfq3h5mdcFxPMQnO5ENFxRWxTf+Tr2k0T175Gf5m3Rls4HPc7W7
-         3Yiibu5QPoosIzePf8obINJYDCR7t1S34//I/EtCKJFnGwbMgvyxjZRhqo4LerA6zYI/
-         os+w==
-X-Gm-Message-State: APjAAAWlL1Oda9WkM9EVnm9yGFYHzaZ5GqvWH43LcCLRoy2SIHgQ0E/1
-        FWNv0f00xj1s3q4VOkLcOHdawsaeRNz/8Gr/eecyoQ==
-X-Google-Smtp-Source: APXvYqx39kKCkmeiwsnYwL4Q6V2zqXobDhEMh1U3Qo1MZfJGNYbLOD7APTlz9j9E0uKTM/cQCPkVL3vExCIu1uSwzS4=
-X-Received: by 2002:ac2:44c5:: with SMTP id d5mr10800149lfm.134.1562651931884;
- Mon, 08 Jul 2019 22:58:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
- <CAFA6WYPn3HB6BRocKmKTR+ZPE=Fav5w1TUdRgmLp-NkYobp3rw@mail.gmail.com> <20190708163140.GB28253@jax>
-In-Reply-To: <20190708163140.GB28253@jax>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 9 Jul 2019 11:28:40 +0530
-Message-ID: <CAFA6WYO0QmCVup6kEhodrf2+WS8p_iaLsb-CLPMaMbnPjapa2Q@mail.gmail.com>
-Subject: Re: [RFC 0/7] Introduce TEE based Trusted Keys support
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
-        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tee-dev@lists.linaro.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ccEO1tkkeH8HT1/mhIGVUKFl/9lAslI495fANVrqi9k=;
+        b=kmXy44r1wuWgbTIoGXGQhzEaet3CiugBYJq1JXqT5oZQit3awWMywTMJUI9GdYcIye
+         AULxzAuinhHZcW8BOREmC0kGFlbi4O1P1VlW7masV8tEsVgqoXZH35dt5beL/ICEsAjG
+         rRTXaIpFVppLaa+i1lTjZPhbdcmTPyNs8pC8LfxvF7KE49svRy2KB4feYTuo4bIvs3/u
+         SPyFWQUxn1Ax6Gv13IR4nCweCjaB9pZ4Uifz2/X3Q3lWeecZlUlSrvJfO7p346vAhlsV
+         fFSct8iug0XDDZ7Pu68n7v7q+FoHQisf/9/XL//7OOY1TXEqT4KkZqo/AGSfKKgZBMjt
+         Zy2w==
+X-Gm-Message-State: APjAAAX1nqZhZ1gIoCOd+2wBOrMig63glatn5UucE1RlRz6zNwt/58lZ
+        R9580hem6BUzHkrwC6dxER5aBm6K2LtUXpFbkxiLEA==
+X-Google-Smtp-Source: APXvYqxTCUgwXCc9biuo/mRL1pSgsNPvKrcZOBY5oaano9+5jCyWavrpS1UTvqWVKgVXm3lya3N2nYit0+zc7OI5xI8uZg==
+X-Received: by 2002:a81:710a:: with SMTP id m10mr13083743ywc.277.1562653960705;
+ Mon, 08 Jul 2019 23:32:40 -0700 (PDT)
+Date:   Mon,  8 Jul 2019 23:30:05 -0700
+Message-Id: <20190709063023.251446-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v7 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Iurii Zaikin <yzaikin@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Jul 2019 at 22:01, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Hi Sumit,
->
-> On Mon, Jul 08, 2019 at 06:11:39PM +0530, Sumit Garg wrote:
-> > Hi Jens,
-> >
-> > On Thu, 13 Jun 2019 at 16:01, Sumit Garg <sumit.garg@linaro.org> wrote:
-> > >
-> > > Add support for TEE based trusted keys where TEE provides the functionality
-> > > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > > an alternative in case platform doesn't possess a TPM device.
-> > >
-> > > This series also adds some TEE features like:
-> > >
-> > > Patch #1, #2 enables support for registered kernel shared memory with TEE.
-> > >
-> >
-> > Would you like to pick up Patch #1, #2 separately? I think both these
-> > patches add independent functionality and also got reviewed-by tags
-> > too.
->
-> I think it makes more sense to keep them together in the same patch
-> series or could end up with dependencies between trees.
->
+## TL;DR
 
-I understand your point. Let me keep this patch-set together to avoid
-any dependencies.
+This is a pretty straightforward follow-up to Luis' comments on PATCH
+v6: There is nothing that changes any functionality or usage.
 
--Sumit
+As for our current status, we only need reviews/acks on the following
+patches:
 
-> If you don't think dependencies will be an issue then I don't mind
-> picking them up, in that case they'd likely sit in an arm-soc branch
-> until next merge window. However, I think that #3 (support for private
-> kernel login method) should be included too and that one isn't ready
-> yet.
->
-> Thanks,
-> Jens
->
-> >
-> >
-> > -Sumit
-> >
-> > > Patch #3 enables support for private kernel login method required for
-> > > cases like trusted keys where we don't wan't user-space to directly access
-> > > TEE service to retrieve trusted key contents.
-> > >
-> > > Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
-> > >
-> > > This patch-set has been tested with OP-TEE based pseudo TA which can be
-> > > found here [1].
-> > >
-> > > Looking forward to your valuable feedback/suggestions.
-> > >
-> > > [1] https://github.com/OP-TEE/optee_os/pull/3082
-> > >
-> > > Sumit Garg (7):
-> > >   tee: optee: allow kernel pages to register as shm
-> > >   tee: enable support to register kernel memory
-> > >   tee: add private login method for kernel clients
-> > >   KEYS: trusted: Introduce TEE based Trusted Keys
-> > >   KEYS: encrypted: Allow TEE based trusted master keys
-> > >   doc: keys: Document usage of TEE based Trusted Keys
-> > >   MAINTAINERS: Add entry for TEE based Trusted Keys
-> > >
-> > >  Documentation/security/keys/tee-trusted.rst      |  93 +++++
-> > >  MAINTAINERS                                      |   9 +
-> > >  drivers/tee/optee/call.c                         |   7 +
-> > >  drivers/tee/tee_core.c                           |   6 +
-> > >  drivers/tee/tee_shm.c                            |  16 +-
-> > >  include/keys/tee_trusted.h                       |  84 ++++
-> > >  include/keys/trusted-type.h                      |   1 +
-> > >  include/linux/tee_drv.h                          |   1 +
-> > >  include/uapi/linux/tee.h                         |   2 +
-> > >  security/keys/Kconfig                            |   3 +
-> > >  security/keys/Makefile                           |   3 +
-> > >  security/keys/encrypted-keys/masterkey_trusted.c |  10 +-
-> > >  security/keys/tee_trusted.c                      | 506 +++++++++++++++++++++++
-> > >  13 files changed, 737 insertions(+), 4 deletions(-)
-> > >  create mode 100644 Documentation/security/keys/tee-trusted.rst
-> > >  create mode 100644 include/keys/tee_trusted.h
-> > >  create mode 100644 security/keys/tee_trusted.c
-> > >
-> > > --
-> > > 2.7.4
-> > >
+- [PATCH v7 06/18] kbuild: enable building KUnit
+  - Need a review or ack from Masahiro Yamada or Michal Marek
+- [PATCH v7 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
+  - Need a review or ack from Josh Poimboeuf or Peter Zijlstra
+
+Other than that, I think we should be good to go.
+
+## Background
+
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2/v7 branch.
+
+## Changes Since Last Version
+
+Aside from renaming `struct kunit_module` to `struct kunit_suite`, there
+isn't really anything in here that changes any functionality:
+
+- Rebased on v5.2
+- Added Iurii as a maintainer for PROC SYSCTL, as suggested by Luis.
+- Removed some references to spinlock that I failed to remove in the
+  previous version, as pointed out by Luis.
+- Cleaned up some comments, as suggested by Luis.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2/v7
+
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
