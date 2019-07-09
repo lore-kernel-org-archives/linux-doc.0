@@ -1,107 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 546A97DE57
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:34:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 588947D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbfGISde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 14:33:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57042 "EHLO
+        id S1727233AbfGISqA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 14:46:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47714 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729351AbfGISde (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:33:34 -0400
+        with ESMTP id S1726592AbfGISp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:45:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SZVKZKK6tPshpfq3Um1NOr/jf9FqB8MH+0dgJiqT38I=; b=NBzCxU6OvoAy19IonSrHrN7y6
-        RYI6Z1d2Ou4N33q2iWJp6YR6ajo5yNAKmZ2o48cq7IDGvDx6TMxzU5UfiDSUK+Bse0RDrmsZjGTnv
-        dKsKYE1/WTIFaeP2ap0YFLEWTv6gsWacHyCbhjD/SMhOelDBmt5FURTeMyW6rvGy3InzSmIIKAKlO
-        4sP81fyZYfYjLipyDT8Y41jxZpxXwDDb0hck768b2yVMsVOrOz4G1QMDY31E97LkfGzbK2hpsUM2o
-        Gf429dGzeG8mfD094XT39bw1TA466hXk6BSyb1t2xGJxqGVHe829ZEHXenH34nvhX5Le7Z17+j0GY
-        OpUqGLzDg==;
-Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkuvf-0007Az-Bl; Tue, 09 Jul 2019 18:33:27 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hkuvd-0005Ph-2k; Tue, 09 Jul 2019 15:33:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Hannes Reinecke <hare@suse.com>, linux-kbuild@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
-        linux-doc@vger.kernel.org, Omar Sandoval <osandov@fb.com>
-Subject: [PATCH 0/5] PDF output fixes
-Date:   Tue,  9 Jul 2019 15:33:18 -0300
-Message-Id: <cover.1562696797.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+         bh=t9OheTk/YXmum441O9ftZpFS9er/+zh95pKwld4fGAw=; b=ZcfRHgdS5dZvpbhFJB5Y0+kTo
+        WoQP5pNcBks0NdLdZJBi5ZIvoFX3KLMPFPjbKmoSDcP1t7FO0vcsi5wf/gwHzD7p82IbDDPxr7kuG
+        YJcR0YmuBQF+RaFvPj2L5lS1N9FVSinAFg7VP+kbBifFL9Cdf1205aIQJd/3U4ZW59StzWS6JKWDp
+        XrfCGCf/KOuuhbVCQ6fj4mbl8zKfDMGgi/tVE/c7TIYWuNkOLamj3vglYxwp1ZjFIHi59KAtW/rOz
+        LE/prG1uIYmYS0wZ0yls2oZVJpUfjmYkeECSPltgEWlLBrSE62BTyCqNObVz6/bG2++eqs6odRD/w
+        czShoCIyA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkv7n-00071T-72; Tue, 09 Jul 2019 18:45:59 +0000
+Date:   Tue, 9 Jul 2019 11:45:59 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Sheriff Esseson <sheriffesseson@gmail.com>
+Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
+        linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [linux-kernel-mentees] [PATCH v6] Doc : fs : convert xfs.txt to
+ ReST
+Message-ID: <20190709184559.GL32320@bombadil.infradead.org>
+References: <20190709124859.GA21503@localhost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190709124859.GA21503@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to build all PDF books, besides the two patches I
-already sent:
+On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
+> Convert xfs.txt to ReST, rename and fix broken references, consequently.
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+> ---
+> 
+> Changes in v6:
+> 	- undo text reflow from v5.
+> 	- fix a typo.
+> 	- change indication of defaults , as suggested by Darrick J. Wong, to
+> 	  keep the read simple.
+> 	- change delimiter of boolean option from a newline to an "or" (clue
+> 	  from something like "<option> and <another option>" in the text)
+> 	  because the former does not render well in html.
+> 
+>  Documentation/filesystems/dax.txt             |   2 +-
+>  Documentation/filesystems/index.rst           |   1 +
+>  .../filesystems/{xfs.txt => xfs.rst}          | 123 +++++++++---------
+>  MAINTAINERS                                   |   2 +-
+>  4 files changed, 61 insertions(+), 67 deletions(-)
+>  rename Documentation/filesystems/{xfs.txt => xfs.rst} (81%)
 
-    docs: pdf: add all Documentation/*/index.rst to PDF output
-    docs: automarkup.py: ignore exceptions when seeking for xrefs
+Documentation/{filesystem/xfs.txt => admin-guide/xfs.rst}.
 
-A few others are needed:
+> -	If "largeio" specified, a filesystem that was created with a
+> -	"swidth" specified will return the "swidth" value (in bytes)
+> -	in st_blksize. If the filesystem does not have a "swidth"
+> -	specified but does specify an "allocsize" then "allocsize"
+> +	If ``largeio`` specified, a filesystem that was created with a
 
-- patch 1 removes nested tables for a few files I converted, as 
-  Sphinx LaTeX builder doesn't support it;
-- Patches 2 to 4 addresses some minor issues on some books,
-  usually requiring some blank lines, extra whitespaces or some
-  tag replacement;
-- Patch 5 is required in order to be able to build the translations
-  PDF book, as it adds Asian fonts support to XeLaTeX.
+surely 'If ``largeio`` is specified' here?
 
-This patch series is at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=extra_fixes_v1
-
-And it is on the top of the ReST conversions that IMO should be
-sent at the end of this merge window.
-
-Mauro Carvalho Chehab (5):
-  docs: don't use nested tables
-  docs: arm: fix a breakage with pdf output
-  docs: block: fix pdf output
-  docs: kbuild: fix build with pdf and fix some minor issues
-  docs: conf.py: add CJK package needed by translations
-
- Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
- .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
- Documentation/arm/spear/overview.rst          |  1 +
- Documentation/block/biodoc.rst                |  9 ++++---
- Documentation/conf.py                         |  4 +++
- Documentation/driver-api/nvdimm/btt.rst       |  2 +-
- Documentation/kbuild/issues.rst               | 20 ++++++++------
- Documentation/kbuild/kbuild.rst               |  3 ++-
- Documentation/kbuild/kconfig-language.rst     | 12 +++++++++
- Documentation/kbuild/kconfig.rst              |  8 ++++--
- Documentation/kbuild/makefiles.rst            |  1 +
- Documentation/s390/debugging390.rst           |  2 +-
- 12 files changed, 61 insertions(+), 35 deletions(-)
-
--- 
-2.21.0
-
-
+> +	``swidth`` specified will return the ``swidth`` value (in bytes)
+> +	in ``st_blksize``. If the filesystem does not have a ``swidth``
+> +	specified but does specify an ``allocsize`` then ``allocsize``
+>  	(in bytes) will be returned instead. Otherwise the behaviour
