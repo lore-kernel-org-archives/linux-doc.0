@@ -1,113 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E35E47E29F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 06:36:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87B227D90C
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 07:04:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfGIGfk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 02:35:40 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:37952 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727118AbfGIGfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 02:35:38 -0400
-Received: by mail-vk1-f202.google.com with SMTP id u202so7493761vku.5
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2019 23:35:38 -0700 (PDT)
+        id S1726309AbfGIHEA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 03:04:00 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46025 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbfGIHEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 03:04:00 -0400
+Received: by mail-lf1-f68.google.com with SMTP id u10so12611470lfm.12
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 00:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=LDQmGV1sXKMjUeOhPKTnD5bP1+GpH11oHwNBh3L4XLs=;
-        b=mtI4pp7LQ+cFZTh7ol2m1CVrFBewx1Tr/aWCfVl2aenkSg1IeUTYlk6HdJcDVl9V3V
-         qVnZm5/t/x2Gb6ReZi2m8DZTmZwO2iCuHQhftas4io72KmTBubu7P5AHRRuPzTtzbHUk
-         vDhVlpDpGXMhYDhnt//uJxs2dzo45RkBUi1IjbK6/9WPuyRnq7YWsBQp/82+MaG5On/B
-         bp2850T8S0Sa0vYFLBGRkb7fOdx7Rw8cRDFhVg0SOdCTFhey727SPz2DbRtsbn4Alddl
-         22XhrfmGEwv1NUR9lNPXJPkGMxadaTLFT1pkHIKy2X+DGjvjaEp4IaeI0b46n7FB7Z0j
-         kXrA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8chQ+xCDfWyHiMLd66byg5KO/gfXH9gGO2RNNVTCalM=;
+        b=FqERsOeKsbYL1hDU92erKcsqSB1n/vAR7oF6mwlHmjMymElPV/dSjJn/XSlHSfZEwl
+         FiJa2Qy+MbE0ZcRhYzxULeOxF+5amdUoNaUDvzBiG1ygbeOoXtJt4r+y4dSA6n3rKTtX
+         ahxZEns92uGy9H/iigIR/zg4sIsdA3LKqGbPUloh86uxiIRheCYx1r9BDkztOgbK6+j1
+         drSe44wrIRt1WYt5yoAQLhVI2ZpPP58F+Mf5uIrl/Ie3prj3FyR9nsR4qHG+KzjLnak1
+         Ts4jHuNI5+q0idxZC1kHvKIXskrUQe/brL4cELfjcUGeJU9GsDJ47tE9mooBwA32FKaG
+         0b7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=LDQmGV1sXKMjUeOhPKTnD5bP1+GpH11oHwNBh3L4XLs=;
-        b=uMtYHTpkStWc1NIgHs+pPTJp2T43JuOej7whIC2F1mNNx0NPPcmEBVw0C6g6dGPZCj
-         FUG9AXLKXYmYdEn2yzlT7ChJelqtWqUxGypQse8zbSOXpWre4eLLirA2kfWb8MegJvHm
-         nL2pKn9k2WGUPwR3adtHYHdVbP41Ze7lGxA+fRTQYXtzXJ4cJvml/CIURvyJj8mRx9zs
-         bypwghAAu0olCBe6gzAd5aF+/v3puXC2+XMTUA6uiAPCe99rDExSsknJY8diKB/4wXxJ
-         r4wwyUlZ0HRXNOSB9WND845dJrpnz5iR5amQFLsTtJYRx00jM+4SPdaFORA7d+nW6fWV
-         mEdQ==
-X-Gm-Message-State: APjAAAWeC/KDc0BplAoqksaeCbGtNOik57dWSmnYzSJTznIfktB9Jp1e
-        0Jhx6/rjtp3G2SUBMqNeh8SakUWHupQVsZ+gYnAxjA==
-X-Google-Smtp-Source: APXvYqyW1g9KdJQPX3pyGwybskRq1kFabR+QXx1JMZJMEoqi+vbrQt4/L8S6b2Fnm4tYbGfikHj5lP0KQVa29yIOSMpklA==
-X-Received: by 2002:a1f:6045:: with SMTP id u66mr3906864vkb.54.1562654137349;
- Mon, 08 Jul 2019 23:35:37 -0700 (PDT)
-Date:   Mon,  8 Jul 2019 23:30:23 -0700
-In-Reply-To: <20190709063023.251446-1-brendanhiggins@google.com>
-Message-Id: <20190709063023.251446-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190709063023.251446-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v7 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
-        Iurii Zaikin <yzaikin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8chQ+xCDfWyHiMLd66byg5KO/gfXH9gGO2RNNVTCalM=;
+        b=AYA+8DecXcwrKauspcJr5NCLX0/ZXnX9OxW1MtVdk8izbeEnkwOxi9bsNuIPh2R8xC
+         whCHHQq/6Sszz4S9jWo7i3ARs412wJWqurrxnBZgCJzQB90YHb0rCJE69cqe/B/L8Mmi
+         rVbXyUkR0cDaHyeq425oDnrG3MAvaFjy1oJQ4MFNt13bj6fllBuzJ331t2s02732F/P3
+         eRDG5ptu8CQRtjYnKCqTvwz7QxhD0kdNj+f3AL39aMiBQqa9xeegru+hMVLOkbiMnaL2
+         tLjhWqmHHPF6yLNvPhleGJyOs/6VfCqevL+bj7Vlxq1cH14AyOylpe0LAYfz/rHJKcy5
+         ocbg==
+X-Gm-Message-State: APjAAAUBsAVpaOVI6VWMilXqWF5HymLFcbbNKMXUJXF4hkyvCKp6jiAg
+        yHGN5j934zIUNeSmOSXRR65meQ==
+X-Google-Smtp-Source: APXvYqzgNmzW9LCOXb+v0waZuOzOFRSv6192P+bRM1wg2dgVLC7ByJM1yDax+2RlKtrpd1p4VkFDMA==
+X-Received: by 2002:ac2:5609:: with SMTP id v9mr10278057lfd.27.1562655838100;
+        Tue, 09 Jul 2019 00:03:58 -0700 (PDT)
+Received: from jax (h-84-105.A175.priv.bahnhof.se. [79.136.84.105])
+        by smtp.gmail.com with ESMTPSA id t23sm4092662ljd.98.2019.07.09.00.03.56
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 09 Jul 2019 00:03:57 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 09:03:55 +0200
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, corbet@lwn.net,
+        dhowells@redhat.com, jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
+        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        tee-dev@lists.linaro.org
+Subject: Re: [RFC 3/7] tee: add private login method for kernel clients
+Message-ID: <20190709070354.GA5791@jax>
+References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
+ <1560421833-27414-4-git-send-email-sumit.garg@linaro.org>
+ <20190708153908.GA28253@jax>
+ <CAFA6WYNzs=RErreWaa5BmF-P03Vf9nzQjvY_JpMckw87k9z12w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYNzs=RErreWaa5BmF-P03Vf9nzQjvY_JpMckw87k9z12w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section,
-and add Iurii as a maintainer.
+On Tue, Jul 09, 2019 at 11:26:19AM +0530, Sumit Garg wrote:
+> Thanks Jens for your comments.
+> 
+> On Mon, 8 Jul 2019 at 21:09, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> >
+> > Hi Sumit,
+> >
+> > On Thu, Jun 13, 2019 at 04:00:29PM +0530, Sumit Garg wrote:
+> > > There are use-cases where user-space shouldn't be allowed to communicate
+> > > directly with a TEE device which is dedicated to provide a specific
+> > > service for a kernel client. So add a private login method for kernel
+> > > clients and disallow user-space to open-session using this login method.
+> > >
+> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > > ---
+> > >  drivers/tee/tee_core.c   | 6 ++++++
+> > >  include/uapi/linux/tee.h | 2 ++
+> > >  2 files changed, 8 insertions(+)
+> > >
+> > > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> > > index 0f16d9f..4581bd1 100644
+> > > --- a/drivers/tee/tee_core.c
+> > > +++ b/drivers/tee/tee_core.c
+> > > @@ -334,6 +334,12 @@ static int tee_ioctl_open_session(struct tee_context *ctx,
+> > >                       goto out;
+> > >       }
+> > >
+> > > +     if (arg.clnt_login == TEE_IOCTL_LOGIN_REE_KERNEL) {
+> > TEE_IOCTL_LOGIN_REE_KERNEL is defined as 0x80000000 which is in the
+> > range specified and implementation defined by the GP spec. I wonder if
+> > we shouldn't filter the entire implementation defined range instead of
+> > just this value.
+> 
+> Agree. Will rather check for entire implementation defined range:
+> 0x80000000 - 0xFFFFFFFF.
+> 
+> >
+> > > +             pr_err("login method not allowed for user-space client\n");
+> > pr_debug(), if it's needed at all.
+> >
+> 
+> Ok will use pr_debug() instead.
+> 
+> > > +             rc = -EPERM;
+> > > +             goto out;
+> > > +     }
+> > > +
+> > >       rc = ctx->teedev->desc->ops->open_session(ctx, &arg, params);
+> > >       if (rc)
+> > >               goto out;
+> > > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> > > index 4b9eb06..f33c69c 100644
+> > > --- a/include/uapi/linux/tee.h
+> > > +++ b/include/uapi/linux/tee.h
+> > > @@ -172,6 +172,8 @@ struct tee_ioctl_buf_data {
+> > >  #define TEE_IOCTL_LOGIN_APPLICATION          4
+> > >  #define TEE_IOCTL_LOGIN_USER_APPLICATION     5
+> > >  #define TEE_IOCTL_LOGIN_GROUP_APPLICATION    6
+> > > +/* Private login method for REE kernel clients */
+> > It's worth noting that this is filtered by the TEE framework, compared
+> > to everything else which is treated opaquely.
+> >
+> 
+> IIUC, you are referring to login filter in optee_os. Change to prevent
+> filter for this login method is part of this PR [1].
+> 
+> [1] https://github.com/OP-TEE/optee_os/pull/3082
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Cc: Iurii Zaikin <yzaikin@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+No, I was referring to the changes in tee_ioctl_open_session() above.
+It's relevant for user space to know since it will be prevented from
+using that range of login identifiers. This will restrict the user space
+API, but I think the risk of breakage is minimal as OP-TEE is the only
+in-tree driver registering in the TEE framework. I'm not aware of any
+out-of-tree drivers registering.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 48d04d180a988..f8204c75114da 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12721,12 +12721,14 @@ F:	Documentation/filesystems/proc.txt
- PROC SYSCTL
- M:	Luis Chamberlain <mcgrof@kernel.org>
- M:	Kees Cook <keescook@chromium.org>
-+M:	Iurii Zaikin <yzaikin@google.com>
- L:	linux-kernel@vger.kernel.org
- L:	linux-fsdevel@vger.kernel.org
- S:	Maintained
- F:	fs/proc/proc_sysctl.c
- F:	include/linux/sysctl.h
- F:	kernel/sysctl.c
-+F:	kernel/sysctl-test.c
- F:	tools/testing/selftests/sysctl/
- 
- PS3 NETWORK SUPPORT
--- 
-2.22.0.410.gd8fdbe21b5-goog
+Thanks,
+Jens
 
+> 
+> -Sumit
+> 
+> > > +#define TEE_IOCTL_LOGIN_REE_KERNEL           0x80000000
+> > >
+> > >  /**
+> > >   * struct tee_ioctl_param - parameter
+> > > --
+> > > 2.7.4
+> > >
+> >
+> > Thanks,
+> > Jens
