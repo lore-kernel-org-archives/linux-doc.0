@@ -1,192 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4C0B7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 17:45:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D16967D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbfGIRpd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 13:45:33 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34496 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbfGIRpc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 13:45:32 -0400
-Received: by mail-pl1-f194.google.com with SMTP id i2so10478163plt.1;
-        Tue, 09 Jul 2019 10:45:32 -0700 (PDT)
+        id S1726780AbfGISBs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 14:01:48 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46721 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbfGISBs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:01:48 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i8so9813685pgm.13
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 11:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8FuOqUVUpQrBR59LmIrjEFPzqVKP8OL1hHgCATx9jRI=;
-        b=pp61QyJzRLHPykvMD7CM0HWxYQ5+4QT4EWebdjIJs9a+/t7dvLmwa5hQxw6hxoPm0z
-         HDDnxwPfrUw6dqJpnjaIe1vH8CJFnMWietpaIf+Yfp1abvDXUmYlpiBzLjeYl1rxYDiZ
-         wsu/XJl9+L1KcGGGA3PkRbdUmdIfH7xlU/JFmtSr19UC7PJdJ3OTtrYmQ1UnXTRI3zUZ
-         /9h2RbyJkCa072l63RF7YjkPuWkEFSDDSaXsHN9lmdwn6AlabqH1ibdfoOZawGSVRbCE
-         XPtsAqSa0pTsViBqCNfLuYWMshGbN6PfhgYyvS5q6uydnU7QYevKDa6iodv2NVhvrYMo
-         ULzw==
+        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
+        b=u9enlrUFhNo6CpHlrQV/HgMnM2prP/1x9AkLcEyZIZZ95VhPysZXNdVgTxFeHrQSyj
+         D854QOHx1OOVg+bK1q0GL9M26yGnhrklGjHFU0YlePfBqyn8fol1vLU/0tJs5NO+XWNV
+         6Qg4G47Yz8EAu+oXnFu1Mzex0KXUQSkc3dP89G7ycpwdK6vtjyVs4n/CA1F66BOgluWi
+         cGrmqcEgZcaKnQ36vda5DA3xHSSM91ST4LQMohLGersiVfBM4MAAfBua5GuHtjmb28bv
+         cNHp7EXFv/Be9TyDKlfByNT+SveMU7rOne9AoLQN+azT38ic+R4kxi1lUa+FZPUqI2ob
+         eorw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8FuOqUVUpQrBR59LmIrjEFPzqVKP8OL1hHgCATx9jRI=;
-        b=PkkRrrOO4Okhwp3UkQUllYTHsSFTdG20C/UmrbwEBIeHlr6GNyOaEUK5hSq+leIAvb
-         P5Tp/ivHe4oaS7uAiQ5nQnsyDrkXdUgTPUAGu7YWnbbmIZcPRBp4RFny2vilc4z1/Ldy
-         pKsdOwwnWUjQSWNzhGDNF0WRu0AlHUjOS8PN+puKJXL0yJ7XjMIY3mXyPKxVgKGnDqvx
-         w6ADPiVZkTUZzcvQ94qg/GXOhZPNQamPyjU9GBgQCGxklVnXyRP8p1zR59vg80JgKX2V
-         NsgQMA3hthCRsRo2CU6uGDx7zkBpyFmLL2hgTn7I29ILJpF+hyfHjbpoa6/SOZV42+FL
-         /YJQ==
-X-Gm-Message-State: APjAAAV2i1pQqcuJXimTvk2xTWJctIx5RBWAaBuJmpEUuMIlM00NvROP
-        SpBiMEZlAEEW7gVKZ7Z8vxc7a3i5j2aGqmlXInE=
-X-Google-Smtp-Source: APXvYqxEPTfgHb26Zho3QRrfYxCRzu5kADgBKOwD1IQ5GSGcQ6/zdUsDGGueMRw5EhZu5kqXQiVwk1bjyW9VB6T1SGE=
-X-Received: by 2002:a17:902:694a:: with SMTP id k10mr33364326plt.255.1562694331915;
- Tue, 09 Jul 2019 10:45:31 -0700 (PDT)
+        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
+        b=fQgMdZ+hJjK5ArqJ9urWEPcCTS923vtYgEMcYqcvq0fmjUZeh8AfVyEAC/1CJ+CrtD
+         gvuAhij6vuWbWEUjLibbB0HZxQ8+k1K+LYIJi58ps7jUKwKL01l5YjwzDoikCB+xdDen
+         HmQQ/CzLPxEl6hWZUuRh6L3upFO0fH9iPlT7Cw9VE1Xp02N0lBr58fId5IWdWtm1wkiS
+         vSssJP5bqONuVAuTiiACf2b21e4CbePSIgNwGQ0GWGKn+p9lTRiwBQfqhzpt4HdSm+eD
+         yjx/C2OrOIc7G78ga6+h8Z3186EvISqrGCwZiBPr0mAc5Div25OrReJB/RMyvCapR9sy
+         Wokg==
+X-Gm-Message-State: APjAAAU31NMDh/VXnVlwmOUHynzRIZipYl7NYGSF11jmETwl0aHl5KtE
+        jHKY7v/Vk0QZPpukq3zCR0VuE9p/bjo/imon7/PtJg==
+X-Google-Smtp-Source: APXvYqw4HCjsVl+Amh2Teet2qtkXvGz99b/JiD+OyiCx/6U5M9oVU+FrejKuChE3TPRj4OZE1ZrjIBxXffNmybu5Pvg=
+X-Received: by 2002:a63:205f:: with SMTP id r31mr32165059pgm.159.1562695307162;
+ Tue, 09 Jul 2019 11:01:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
-In-Reply-To: <925686792c61b584f05dd9f13f078cd82d5b6a54.1562674354.git.mchehab+samsung@kernel.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 9 Jul 2019 20:45:20 +0300
-Message-ID: <CAHp75VdHhOuJAOHbJCbp486DYHtRAN-k-MQPt9EGHuGOUasrdQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: don't use nested tables
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-s390@vger.kernel.org
+References: <20190709063023.251446-1-brendanhiggins@google.com>
+ <20190709063023.251446-17-brendanhiggins@google.com> <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
+In-Reply-To: <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 9 Jul 2019 11:01:35 -0700
+Message-ID: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
+Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
+ testing framework
+To:     shuah <shuah@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 3:12 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
+On Tue, Jul 9, 2019 at 7:53 AM shuah <shuah@kernel.org> wrote:
 >
-> Nested tables aren't supported for pdf output on Sphinx 1.7.9:
+> On 7/9/19 12:30 AM, Brendan Higgins wrote:
+> > Add myself as maintainer of KUnit, the Linux kernel's unit testing
+> > framework.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > ---
+> >   MAINTAINERS | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 677ef41cb012c..48d04d180a988 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -8599,6 +8599,17 @@ S:     Maintained
+> >   F:  tools/testing/selftests/
+> >   F:  Documentation/dev-tools/kselftest*
+> >
+> > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
+> > +M:   Brendan Higgins <brendanhiggins@google.com>
+> > +L:   linux-kselftest@vger.kernel.org
+> > +L:   kunit-dev@googlegroups.com
+> > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
+> > +S:   Maintained
+> > +F:   Documentation/dev-tools/kunit/
+> > +F:   include/kunit/
+> > +F:   kunit/
+> > +F:   tools/testing/kunit/
+> > +
+> >   KERNEL USERMODE HELPER
+> >   M:  Luis Chamberlain <mcgrof@kernel.org>
+> >   L:  linux-kernel@vger.kernel.org
+> >
 >
+> Thanks Brendan.
+>
+> I am good with this. I can take KUnit patches through kselftest
+> with your Ack.
 
->         admin-guide/laptops/sonypi:: nested tables are not yet implemented.
->         admin-guide/laptops/toshiba_haps:: nested tables are not yet implemented.
+My acknowledgement? Sure! I thought we already agreed to that.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Also, do we need an ack from Masahiro or Michal for the Kbuild patch
+[PATCH v7 06/18]? And an ack from Josh or Peter for the objtool patch
+[PATCH v7 08/18]?
 
->         driver-api/nvdimm/btt:: nested tables are not yet implemented.
->         s390/debugging390:: nested tables are not yet implemented.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
->  .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
->  Documentation/driver-api/nvdimm/btt.rst       |  2 +-
->  Documentation/s390/debugging390.rst           |  2 +-
->  4 files changed, 18 insertions(+), 20 deletions(-)
->
-> diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
-> index 2a1975ed7ee4..c6eaaf48f7c1 100644
-> --- a/Documentation/admin-guide/laptops/sonypi.rst
-> +++ b/Documentation/admin-guide/laptops/sonypi.rst
-> @@ -53,7 +53,7 @@ module or sonypi.<param>=<value> on the kernel boot line when sonypi is
->  statically linked into the kernel). Those options are:
->
->         =============== =======================================================
-> -       minor:          minor number of the misc device /dev/sonypi,
-> +       minor:          minor number of the misc device /dev/sonypi,
->                         default is -1 (automatic allocation, see /proc/misc
->                         or kernel logs)
->
-> @@ -89,24 +89,22 @@ statically linked into the kernel). Those options are:
->                         set to 0xffffffff, meaning that all possible events
->                         will be tried. You can use the following bits to
->                         construct your own event mask (from
-> -                       drivers/char/sonypi.h):
-> +                       drivers/char/sonypi.h)::
->
-> -                               ========================        ======
-> -                               SONYPI_JOGGER_MASK              0x0001
-> -                               SONYPI_CAPTURE_MASK             0x0002
-> -                               SONYPI_FNKEY_MASK               0x0004
-> -                               SONYPI_BLUETOOTH_MASK           0x0008
-> -                               SONYPI_PKEY_MASK                0x0010
-> -                               SONYPI_BACK_MASK                0x0020
-> -                               SONYPI_HELP_MASK                0x0040
-> -                               SONYPI_LID_MASK                 0x0080
-> -                               SONYPI_ZOOM_MASK                0x0100
-> -                               SONYPI_THUMBPHRASE_MASK         0x0200
-> +                               SONYPI_JOGGER_MASK              0x0001
-> +                               SONYPI_CAPTURE_MASK             0x0002
-> +                               SONYPI_FNKEY_MASK               0x0004
-> +                               SONYPI_BLUETOOTH_MASK           0x0008
-> +                               SONYPI_PKEY_MASK                0x0010
-> +                               SONYPI_BACK_MASK                0x0020
-> +                               SONYPI_HELP_MASK                0x0040
-> +                               SONYPI_LID_MASK                 0x0080
-> +                               SONYPI_ZOOM_MASK                0x0100
-> +                               SONYPI_THUMBPHRASE_MASK         0x0200
->                                 SONYPI_MEYE_MASK                0x0400
->                                 SONYPI_MEMORYSTICK_MASK         0x0800
->                                 SONYPI_BATTERY_MASK             0x1000
->                                 SONYPI_WIRELESS_MASK            0x2000
-> -                               ========================        ======
->
->         useinput:       if set (which is the default) two input devices are
->                         created, one which interprets the jogdial events as
-> diff --git a/Documentation/admin-guide/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
-> index 11dfc428c080..d28b6c3f2849 100644
-> --- a/Documentation/admin-guide/laptops/toshiba_haps.rst
-> +++ b/Documentation/admin-guide/laptops/toshiba_haps.rst
-> @@ -75,11 +75,11 @@ The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
->  protection_level   The protection_level is readable and writeable, and
->                    provides a way to let userspace query the current protection
->                    level, as well as set the desired protection level, the
-> -                  available protection levels are:
-> +                  available protection levels are::
->
-> -                  ============   =======   ==========   ========
-> -                  0 - Disabled   1 - Low   2 - Medium   3 - High
-> -                  ============   =======   ==========   ========
-> +                    ============   =======   ==========   ========
-> +                    0 - Disabled   1 - Low   2 - Medium   3 - High
-> +                    ============   =======   ==========   ========
->
->  reset_protection   The reset_protection entry is writeable only, being "1"
->                    the only parameter it accepts, it is used to trigger
-> diff --git a/Documentation/driver-api/nvdimm/btt.rst b/Documentation/driver-api/nvdimm/btt.rst
-> index 2d8269f834bd..107395c042ae 100644
-> --- a/Documentation/driver-api/nvdimm/btt.rst
-> +++ b/Documentation/driver-api/nvdimm/btt.rst
-> @@ -83,7 +83,7 @@ flags, and the remaining form the internal block number.
->  ======== =============================================================
->  Bit      Description
->  ======== =============================================================
-> -31 - 30         Error and Zero flags - Used in the following way:
-> +31 - 30         Error and Zero flags - Used in the following way::
->
->            == ==  ====================================================
->            31 30  Description
-> diff --git a/Documentation/s390/debugging390.rst b/Documentation/s390/debugging390.rst
-> index d49305fd5e1a..73ad0b06c666 100644
-> --- a/Documentation/s390/debugging390.rst
-> +++ b/Documentation/s390/debugging390.rst
-> @@ -170,7 +170,7 @@ currently running at.
->  |        +----------------+-------------------------------------------------+
->  |        |    32          | Basic Addressing Mode                           |
->  |        |                |                                                 |
-> -|        |                | Used to set addressing mode                     |
-> +|        |                | Used to set addressing mode::                   |
->  |        |                |                                                 |
->  |        |                |    +---------+----------+----------+            |
->  |        |                |    | PSW 31  | PSW 32   |          |            |
-> --
-> 2.21.0
->
+Greg and Logan gave me a Reviewed-by for the Kbuild patch, so maybe
+that's fine, but I don't have any reviews or acks for the objtool
+patch.
 
-
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks!
