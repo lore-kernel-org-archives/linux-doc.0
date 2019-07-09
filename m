@@ -1,95 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 540087D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 10:25:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9AD8D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 10:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfGIKZF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 06:25:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57844 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbfGIKZF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 06:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SFTO/dK8SIeELbyjmWLxRQjDXjnyydcKlq+hFQch7Xk=; b=kaTYe12YjtXiZyDx7eArbT8N7
-        tp56ndNM22Z2sEqW/o4XYuU6REDbGGlDQI5mCtzdOxLjv6DvzQ/CIihog3RU2TnN4SrBGWw9MlMlZ
-        9abWY6HKcIcoVSxcrvJlZCFIer9cOy8LCJNoJ+X4rW9PPbafjDudIr+ItpYbHhjrUz0Cwl1oyjzKB
-        d3We1Q5OD1sKsaMU2I2ydIWQGKIMHV/X7Uf7Suhs1wPxnY8TKvMMIdg5TMQMX7i0Hh3pNCubP6/8q
-        aNZc0XZL2HJp3NuOF015JQOppeJWT2w44lwvGjOw7CvgkSFTxMqEuKGZePyekzkxWFgB83rGxr8Dk
-        2T6JX4geg==;
-Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hknJ3-0005Wy-CQ; Tue, 09 Jul 2019 10:25:05 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hknJ1-0001Ts-5f; Tue, 09 Jul 2019 07:25:03 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs: pdf: add all Documentation/*/index.rst to PDF output
-Date:   Tue,  9 Jul 2019 07:25:02 -0300
-Message-Id: <534357e57c539b421a745536dcf95cef78252b1e.1562667900.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1726060AbfGIKgW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 06:36:22 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41674 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbfGIKgT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 06:36:19 -0400
+Received: by mail-lj1-f193.google.com with SMTP id d24so9947789ljg.8
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2019 03:36:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2WJ4m/DGadKDJn7LI59T/jmaK1sNDv+NLzWApQUyooQ=;
+        b=ncaPw3//bcS2J+S9Sh4X1oKQwyATWRVJaJ6ZFH5oQ4h1FgqXkZbFq1Ginzo96xqAch
+         1TU8bDvt2wD1sxninmLMgrT3/bTReOmgSWs29f9buQh1yp3vitNB4wX36QDoYdPJs9/B
+         TVtW3+j//vKrcVZRI+b58LCmTA5y9fxK7J6a0jJJaiwB1cnp533crcuvfdGp8YOW/XCR
+         gaQQJXdqBn/PuwUT6+lZvSwcr/rW97fQDKSAIbAgByYBCtjt7ktQMma2pG/7Fv/cQOvp
+         2ks2zsqUFO9LloB9wjFY5u+Q33AqJvJ0QerUMAZlYgO+zZGW4AXkkRWdJOq7HPdj5nWA
+         G94g==
+X-Gm-Message-State: APjAAAWUP43XeOolivGsZVo0/bCWie7l19YIH99lRoV2YqogZ9RKGE/C
+        SOCuMF8Ks6PdsSf9SuBNlfpXDkkHt9W0b8RFT3SoDg==
+X-Google-Smtp-Source: APXvYqxPHBLg8W3ob44pbfsQreCW94qFhPE+cEwluc5uu4+OgXOPXOW4idA52S+Cl1VzOEXfq3Z9ZQKY+KVJgWw/EsE=
+X-Received: by 2002:a2e:8945:: with SMTP id b5mr13056704ljk.93.1562668577294;
+ Tue, 09 Jul 2019 03:36:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
+In-Reply-To: <20190708211528.12392-1-pasha.tatashin@soleen.com>
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+Date:   Tue, 9 Jul 2019 16:06:05 +0530
+Message-ID: <CACi5LpNGWhTnXyM8gB0Tn=682+08s-ppfDpX2SawfxMvue1GTQ@mail.gmail.com>
+Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     James Morris <jmorris@namei.org>, sashal@kernel.org,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, all index files should be manually added to the
-latex_documents array at conf.py.
+Hi Pavel,
 
-While this allows fine-tuning some LaTeX specific things, like
-the name of the output file and the name of the document, it
-is not uncommon to forget adding new documents there.
+On Tue, Jul 9, 2019 at 2:46 AM Pavel Tatashin <pasha.tatashin@soleen.com> wrote:
+>
+> Currently, it is only allowed to reserve memory for crash kernel, because
+> it is a requirement in order to be able to boot into crash kernel without
+> touching memory of crashed kernel is to have memory reserved.
+>
+> The second benefit for having memory reserved for kexec kernel is
+> that it does not require a relocation after segments are loaded into
+> memory.
+>
+> If kexec functionality is used for a fast system update, with a minimal
+> downtime, the relocation of kernel + initramfs might take a significant
+> portion of reboot.
+>
+> In fact, on the machine that we are using, that has ARM64 processor
+> it takes 0.35s to relocate during kexec, thus taking 52% of kernel reboot
+> time:
+>
+> kernel shutdown 0.03s
+> relocation      0.35s
+> kernel startup  0.29s
+>
+> Image: 13M and initramfs is 24M. If initramfs increases, the relocation
+> time increases proportionally.
+>
+> While, it is possible to add 'kexeckernel=' parameters support to other
+> architectures by modifying reserve_crashkernel(), in this series this is
+> done for arm64 only.
+>
+> Pavel Tatashin (5):
+>   kexec: quiet down kexec reboot
+>   kexec: add resource for normal kexec region
+>   kexec: export common crashkernel/kexeckernel parser
+>   kexec: use reserved memory for normal kexec reboot
+>   arm64, kexec: reserve kexeckernel region
+>
+>  .../admin-guide/kernel-parameters.txt         |  7 ++
+>  arch/arm64/kernel/setup.c                     |  5 ++
+>  arch/arm64/mm/init.c                          | 83 ++++++++++++-------
+>  include/linux/crash_core.h                    |  6 ++
+>  include/linux/ioport.h                        |  1 +
+>  include/linux/kexec.h                         |  6 +-
+>  kernel/crash_core.c                           | 27 +++---
+>  kernel/kexec_core.c                           | 50 +++++++----
+>  8 files changed, 127 insertions(+), 58 deletions(-)
+>
+> --
+> 2.22.0
 
-So, add a logic that will seek for all Documentation/*/index.rst.
-If the index is not yet at latex_documents, it includes using
-a reasonable default.
+This seems like an issue with time spent while doing sha256
+verification while in purgatory.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/conf.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Can you please try the following two patches which enable D-cache in
+purgatory before SHA verification and disable it before switching to
+kernel:
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index a502baecbb85..191bd380c523 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -410,6 +410,21 @@ latex_documents = [
-      'The kernel development community', 'manual'),
- ]
- 
-+# Add all other index files from Documentation/ subdirectories
-+for fn in os.listdir('.'):
-+    doc = os.path.join(fn, "index")
-+    if os.path.exists(doc + ".rst"):
-+        has = False
-+        for l in latex_documents:
-+            if l[0] == doc:
-+                has = True
-+                break
-+        if not has:
-+            latex_documents.append((doc, fn + '.tex',
-+                                    'Linux %s Documentation' % fn.capitalize(),
-+                                    'The kernel development community',
-+                                    'manual'))
-+
- # The name of an image file (relative to this directory) to place at the top of
- # the title page.
- #latex_logo = None
--- 
-2.21.0
+http://lists.infradead.org/pipermail/kexec/2017-May/018839.html
+http://lists.infradead.org/pipermail/kexec/2017-May/018840.html
 
+Note that these were not accepted upstream but are included in several
+distros in some form or the other :)
+
+Thanks,
+Bhupesh
