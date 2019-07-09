@@ -1,140 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AEFAA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 10:18:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 540087D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 10:25:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbfGIKSG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 06:18:06 -0400
-Received: from foss.arm.com ([217.140.110.172]:40874 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725989AbfGIKSG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jul 2019 06:18:06 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F96B2B;
-        Tue,  9 Jul 2019 03:18:05 -0700 (PDT)
-Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB2AC3F738;
-        Tue,  9 Jul 2019 03:18:02 -0700 (PDT)
-Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morris <jmorris@namei.org>,
-        Sasha Levin <sashal@kernel.org>, kexec@lists.infradead.org,
-        LKML <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
- <87sgrgjd6i.fsf@xmission.com>
- <CA+CK2bAOPkN=qEdE38R0FRnrzRK0EqLid7eUVnTj1acmaFHY_w@mail.gmail.com>
-From:   James Morse <james.morse@arm.com>
-Message-ID: <9a61d38a-66cb-132c-de07-ee65d5a238c0@arm.com>
-Date:   Tue, 9 Jul 2019 11:18:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726047AbfGIKZF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 06:25:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57844 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfGIKZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 06:25:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SFTO/dK8SIeELbyjmWLxRQjDXjnyydcKlq+hFQch7Xk=; b=kaTYe12YjtXiZyDx7eArbT8N7
+        tp56ndNM22Z2sEqW/o4XYuU6REDbGGlDQI5mCtzdOxLjv6DvzQ/CIihog3RU2TnN4SrBGWw9MlMlZ
+        9abWY6HKcIcoVSxcrvJlZCFIer9cOy8LCJNoJ+X4rW9PPbafjDudIr+ItpYbHhjrUz0Cwl1oyjzKB
+        d3We1Q5OD1sKsaMU2I2ydIWQGKIMHV/X7Uf7Suhs1wPxnY8TKvMMIdg5TMQMX7i0Hh3pNCubP6/8q
+        aNZc0XZL2HJp3NuOF015JQOppeJWT2w44lwvGjOw7CvgkSFTxMqEuKGZePyekzkxWFgB83rGxr8Dk
+        2T6JX4geg==;
+Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hknJ3-0005Wy-CQ; Tue, 09 Jul 2019 10:25:05 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hknJ1-0001Ts-5f; Tue, 09 Jul 2019 07:25:03 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs: pdf: add all Documentation/*/index.rst to PDF output
+Date:   Tue,  9 Jul 2019 07:25:02 -0300
+Message-Id: <534357e57c539b421a745536dcf95cef78252b1e.1562667900.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CA+CK2bAOPkN=qEdE38R0FRnrzRK0EqLid7eUVnTj1acmaFHY_w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel, Eric,
+Currently, all index files should be manually added to the
+latex_documents array at conf.py.
 
-(Subject-Nit: 'arm64:' is needed to match the style for arm64's arch code. Without it the
-maintainer is likely to skip the patches as being for core code.)
+While this allows fine-tuning some LaTeX specific things, like
+the name of the output file and the name of the document, it
+is not uncommon to forget adding new documents there.
 
-On 09/07/2019 01:09, Pavel Tatashin wrote:
->> Something is very very wrong there.
->>
->> Last I measured memory bandwidth seriously I could touch a Gigabyte per
->> second easily, and that was nearly 20 years ago.  Did you manage to
->> disable caching or have some particularly slow code that does the
->> reolocations.
->>
->> There is a serious cost to reserving memory in that it is simply not
->> available at other times.  For kexec on panic there is no other reliable
->> way to get memory that won't be DMA'd to.
+So, add a logic that will seek for all Documentation/*/index.rst.
+If the index is not yet at latex_documents, it includes using
+a reasonable default.
 
-> Indeed, but sometimes fast reboot is more important than the cost of
-> reserving 32M-64M of memory.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/conf.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
->> We have options in this case and I would strongly encourage you to track
->> down why that copy in relocation is so very slow.  I suspect a 4KiB page
->> size is large enough that it can swamp pointer following costs.
->>
->> My back of the napkin math says even 20 years ago your copying costs
->> should be only 0.037s.  The only machine I have ever tested on where
->> the copy costs were noticable was my old 386.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index a502baecbb85..191bd380c523 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -410,6 +410,21 @@ latex_documents = [
+      'The kernel development community', 'manual'),
+ ]
+ 
++# Add all other index files from Documentation/ subdirectories
++for fn in os.listdir('.'):
++    doc = os.path.join(fn, "index")
++    if os.path.exists(doc + ".rst"):
++        has = False
++        for l in latex_documents:
++            if l[0] == doc:
++                has = True
++                break
++        if not has:
++            latex_documents.append((doc, fn + '.tex',
++                                    'Linux %s Documentation' % fn.capitalize(),
++                                    'The kernel development community',
++                                    'manual'))
++
+ # The name of an image file (relative to this directory) to place at the top of
+ # the title page.
+ #latex_logo = None
+-- 
+2.21.0
 
->> Maybe I am out to lunch here but a claim that your memory only runs
->> at 100MiB/s (the speed of my spinning rust hard drive) is rather
->> incredible.
-
-> I agree,  my measurement on this machine was 2,857MB/s. Perhaps when
-> MMU is disabled ARM64 also has caching disabled? The function that
-> loops through array of pages and relocates them to final destination
-> is this:
-
-> A comment before calling it:
-> 
-> 205   /*
-> 206   * cpu_soft_restart will shutdown the MMU, disable data caches, then
-> 207   * transfer control to the reboot_code_buffer which contains a copy of
-> 208   * the arm64_relocate_new_kernel routine.  arm64_relocate_new_kernel
-> 209   * uses physical addressing to relocate the new image to its final
-> 210   * position and transfers control to the image entry point when the
-> 211   * relocation is complete.
-> 212   * In kexec case, kimage->start points to purgatory assuming that
-> 213   * kernel entry and dtb address are embedded in purgatory by
-> 214   * userspace (kexec-tools).
-> 215   * In kexec_file case, the kernel starts directly without purgatory.
-> 216   */
-
-> So, as I understand at least data caches are disabled, and MMU is
-> disabled, perhaps this is why this function is so incredibly slow?
-
-Yup, spot on.
-
-Kexec typically wants to place the new kernel over the top of the old one, so its
-guaranteed to overwrite the live swapper_pg_dir.
-There is also nothing to prevent the other parts of the page-tables being overwritten as
-we relocate the kernel. The way the the kexec series chose to make this safe was the
-simplest: turn the MMU off. We need to enter purgatory with the MMU off anyway.
-
-(Its worth checking your kexec-tools purgatory isn't spending a decade generating a SHA256
-of the kernel while the MMU is off. This is pointless as we don't suspect the previous
-kernel of corrupting memory, and we can't debug/report the problem if we detect a
-different SHA256. Newer kexec-tools have some commandline option to turn this thing off.)
-
-
-> Perhaps, there is a better way to fix this problem by keeping caches
-> enabled while still relocating? Any suggestions from Aarch64
-> developers?
-
-Turning the MMU off is the simplest. The alternative is a lot more complicated:
-
-(To get the benefit of the caches, we need the MMU enabled to tell the hardware what the
-cache-ability attributes of each page of memory are.)
-
-We'd need to copy the page tables to build a new set out of memory we know won't get
-overwritten. Switching to this 'safe set' is tricky, as it also maps the code we're
-executing. To do that we'd need to use TTBR0 to hold another 'safe mapping' of the code
-we're running, while we change our view of the linear-map.
-
-Hibernate does exactly this, so its possible to re-use some of that logic. From memory, I
-think the reason that didn't get done is kexec doesn't provide an allocator, and needs the
-MMU off at some point anyway.
-
-
-Thanks,
-
-James
