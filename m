@@ -1,111 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD7897D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 11:06:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC5C37D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 11:59:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbfGILG4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 07:06:56 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44187 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfGILG4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 07:06:56 -0400
-Received: by mail-pl1-f193.google.com with SMTP id t14so6824673plr.11;
-        Tue, 09 Jul 2019 04:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vcLUjHeh6h5uRgV4arFKMehsSH4BFabQLIxDxss6ZJ4=;
-        b=JXnOkwxRPW4lN1TVBlKXh44workAk1kDfFsZVyOw4Ludga29DE6wVIqyrLIv0TPH3X
-         1nzgKZH9iKxy3yb6Uv/aPNBKKKFJfZeAGaUnJXZzeoh/sF42TUOsG/9Bpx8Y4NpmzPkQ
-         j20JPYWc6AdJaxkZrJeLlhaHkUydzAqftb2mZc2gWKd77vUIYAmR41cWXQ6NTbQ5oHp/
-         aUJRaO7n9n0Ohj7XZ+JjPqn4y2vXCeIsbgRv7Yuk3haWTL0yO+ovPrZXw6Gy5LCYTm2a
-         oBElS/O2IeRzyKAQRseN/ZXxCdU3H+HW8RBXNgAMnxjJ7eNJ8UySdaZLUmdAGp/0ux7U
-         UDmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vcLUjHeh6h5uRgV4arFKMehsSH4BFabQLIxDxss6ZJ4=;
-        b=ebdO9A76Mcff343cIqzNatK5EF4BWjuPx/6aAZt3Y2vOWkYiES3itLpbp5wqbBMu6d
-         ag/GpbqxxPhy9bXL5o/XQqgjifyPlJcLjMc7ECJGFKiBxaZuj1yUy4MDRdUk4DhWJaiV
-         LpOJy33XuiaUE0VUpw+ZkCjxzobA6u4875pal2rx2MLRnolgx3H7qhSb+pFbPMJolnSf
-         OkkNAwA2LyWu+uD0b6q0KEkOlJvP5fzpb5sI0h5bqH7PZp1gAbNeT03e+2kzxng5jK3d
-         kMiTUJkOLUQtfKMzF6KeqIAQXAA9fMDhv6ezSLgOYDzDHBgMhEeSQ0UDpW7o/WEqhfG6
-         rnmA==
-X-Gm-Message-State: APjAAAUKgPn/81c9HlKSpLyyl2UKBoHGUMufiLNAnZXLMSCYYI4UqjaP
-        kACqkzjSdTo58wLvc3QCPlQ=
-X-Google-Smtp-Source: APXvYqy2N4F/E6s4YB0OPMYZJTxr/jPSl8pt2vXg8mDcllsDoKMSeWYdu5jq4uQU8BdRrUrAF+ev1g==
-X-Received: by 2002:a17:902:8b82:: with SMTP id ay2mr29213267plb.164.1562670415368;
-        Tue, 09 Jul 2019 04:06:55 -0700 (PDT)
-Received: from icarus ([2001:268:c145:6825:1c79:bf4:8232:d614])
-        by smtp.gmail.com with ESMTPSA id h1sm29334483pfo.152.2019.07.09.04.06.52
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 09 Jul 2019 04:06:54 -0700 (PDT)
-Date:   Tue, 9 Jul 2019 20:06:33 +0900
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: driver-api: generic-counter: fix file path to
- ABI doc
-Message-ID: <20190709110613.GA4476@icarus>
-References: <20190709075436.7294-1-marcus.folkesson@gmail.com>
+        id S1726642AbfGIL72 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 07:59:28 -0400
+Received: from foss.arm.com ([217.140.110.172]:42226 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726002AbfGIL71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 07:59:27 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 026F02B;
+        Tue,  9 Jul 2019 04:59:26 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7296C3F59C;
+        Tue,  9 Jul 2019 04:59:23 -0700 (PDT)
+Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     Bhupesh Sharma <bhsharma@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
+ <CACi5LpNGWhTnXyM8gB0Tn=682+08s-ppfDpX2SawfxMvue1GTQ@mail.gmail.com>
+ <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <2d60f302-5161-638a-76cd-d7d79e5631fe@arm.com>
+Date:   Tue, 9 Jul 2019 12:59:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190709075436.7294-1-marcus.folkesson@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 09, 2019 at 09:54:36AM +0200, Marcus Folkesson wrote:
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
-> v2: Correct the other place as well..
-> 
->  Documentation/driver-api/generic-counter.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-> index 0c161b1a3be6..8382f01a53e3 100644
-> --- a/Documentation/driver-api/generic-counter.rst
-> +++ b/Documentation/driver-api/generic-counter.rst
-> @@ -233,7 +233,7 @@ Userspace Interface
->  Several sysfs attributes are generated by the Generic Counter interface,
->  and reside under the /sys/bus/counter/devices/counterX directory, where
->  counterX refers to the respective counter device. Please see
-> -Documentation/ABI/testing/sys-bus-counter-generic-sysfs for detailed
-> +Documentation/ABI/testing/sysfs-bus-counter for detailed
->  information on each Generic Counter interface sysfs attribute.
->  
->  Through these sysfs attributes, programs and scripts may interact with
-> @@ -325,7 +325,7 @@ sysfs attributes, where Y is the unique ID of the respective Count:
->  
->  For a more detailed breakdown of the available Generic Counter interface
->  sysfs attributes, please refer to the
-> -Documentation/ABI/testing/sys-bus-counter file.
-> +Documentation/ABI/testing/sysfs-bus-counter file.
->  
->  The Signals and Counts associated with the Counter device are registered
->  to the system as well by the counter_register function. The
-> -- 
-> 2.22.0
+Hi Pavel,
 
-Fixes: 09e7d4ed8991 ("docs: Add Generic Counter interface documentation")
-Signed-off-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+On 09/07/2019 11:55, Pavel Tatashin wrote:
+> On Tue, Jul 9, 2019 at 6:36 AM Bhupesh Sharma <bhsharma@redhat.com> wrote:
+>> On Tue, Jul 9, 2019 at 2:46 AM Pavel Tatashin <pasha.tatashin@soleen.com> wrote:
+>>> Currently, it is only allowed to reserve memory for crash kernel, because
+>>> it is a requirement in order to be able to boot into crash kernel without
+>>> touching memory of crashed kernel is to have memory reserved.
+>>>
+>>> The second benefit for having memory reserved for kexec kernel is
+>>> that it does not require a relocation after segments are loaded into
+>>> memory.
+>>>
+>>> If kexec functionality is used for a fast system update, with a minimal
+>>> downtime, the relocation of kernel + initramfs might take a significant
+>>> portion of reboot.
+>>>
+>>> In fact, on the machine that we are using, that has ARM64 processor
+>>> it takes 0.35s to relocate during kexec, thus taking 52% of kernel reboot
+>>> time:
+>>>
+>>> kernel shutdown 0.03s
+>>> relocation      0.35s
+>>> kernel startup  0.29s
+>>>
+>>> Image: 13M and initramfs is 24M. If initramfs increases, the relocation
+>>> time increases proportionally.
+>>>
+>>> While, it is possible to add 'kexeckernel=' parameters support to other
+>>> architectures by modifying reserve_crashkernel(), in this series this is
+>>> done for arm64 only.
 
-Jonathan, would you be able to pick this up in your tree?
+>>
+>> This seems like an issue with time spent while doing sha256
+>> verification while in purgatory.
+>>
+>> Can you please try the following two patches which enable D-cache in
+>> purgatory before SHA verification and disable it before switching to
+>> kernel:
+>>
+>> http://lists.infradead.org/pipermail/kexec/2017-May/018839.html
+>> http://lists.infradead.org/pipermail/kexec/2017-May/018840.html
+> 
+> Hi Bhupesh,
+> 
+> The verification was taking 2.31s. This is why it is disabled via
+> kexec's '-i' flag. Therefore 0.35s is only the relocation part where
+> time is spent, and with my patches the time is completely gone.
+> Actually, I am glad you showed these patches to me because I might
+> pull them and enable verification for our needs.
+> 
+>>
+>> Note that these were not accepted upstream but are included in several
+>> distros in some form or the other :)
+> 
+> Enabling MMU and D-Cache for relocation  would essentially require the
+> same changes in kernel. Could you please share exactly why these were
+> not accepted upstream into kexec-tools?
+
+Because '--no-checks' is a much simpler alternative.
+
+More of the discussion:
+https://lore.kernel.org/linux-arm-kernel/5599813d-f83c-d154-287a-c131c48292ca@arm.com/
+
+While you can make purgatory a fully-fledged operating system, it doesn't really need to
+do anything on arm64. Errata-workarounds alone are a reason not do start down this path.
+
 
 Thanks,
 
-William Breathitt Gray
+James
