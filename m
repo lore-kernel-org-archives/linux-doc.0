@@ -1,87 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 588947D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 18:46:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD3277D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Jul 2019 19:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727233AbfGISqA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 14:46:00 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47714 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726592AbfGISp7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 14:45:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=t9OheTk/YXmum441O9ftZpFS9er/+zh95pKwld4fGAw=; b=ZcfRHgdS5dZvpbhFJB5Y0+kTo
-        WoQP5pNcBks0NdLdZJBi5ZIvoFX3KLMPFPjbKmoSDcP1t7FO0vcsi5wf/gwHzD7p82IbDDPxr7kuG
-        YJcR0YmuBQF+RaFvPj2L5lS1N9FVSinAFg7VP+kbBifFL9Cdf1205aIQJd/3U4ZW59StzWS6JKWDp
-        XrfCGCf/KOuuhbVCQ6fj4mbl8zKfDMGgi/tVE/c7TIYWuNkOLamj3vglYxwp1ZjFIHi59KAtW/rOz
-        LE/prG1uIYmYS0wZ0yls2oZVJpUfjmYkeECSPltgEWlLBrSE62BTyCqNObVz6/bG2++eqs6odRD/w
-        czShoCIyA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkv7n-00071T-72; Tue, 09 Jul 2019 18:45:59 +0000
-Date:   Tue, 9 Jul 2019 11:45:59 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
-        linux-xfs@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [linux-kernel-mentees] [PATCH v6] Doc : fs : convert xfs.txt to
- ReST
-Message-ID: <20190709184559.GL32320@bombadil.infradead.org>
-References: <20190709124859.GA21503@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190709124859.GA21503@localhost>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        id S1729606AbfGITzO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Jul 2019 15:55:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34542 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729603AbfGITzN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jul 2019 15:55:13 -0400
+Subject: Re: [GIT PULL] Documentation for 5.3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562702112;
+        bh=eB1qLdjo2ulElhEDKgNjSlyb+oQtb5f3Q7Ts+kBDFjc=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=b9vEmawMjU2sffWucrwLLnyLtUJi0heYB5BU4GmOp/BE45T2HPGbdYchY1mB7RBpU
+         wouacexNdJDNCoZBbZ+SeaAj+qKmQDMnbEDjwwpo12xgegOqnFBQCj52qLIQvqqnU6
+         CMmHZXRpf+GvLwcsDCKBza/6wEO4yiZdZH9gQ6tA=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190709090611.66911ed5@lwn.net>
+References: <20190709090611.66911ed5@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190709090611.66911ed5@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.3
+X-PR-Tracked-Commit-Id: 454f96f2b738374da4b0a703b1e2e7aed82c4486
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e9a83bd2322035ed9d7dcf35753d3f984d76c6a5
+Message-Id: <156270211223.21525.14304806713686758098.pr-tracker-bot@kernel.org>
+Date:   Tue, 09 Jul 2019 19:55:12 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
-> Convert xfs.txt to ReST, rename and fix broken references, consequently.
-> 
-> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
-> ---
-> 
-> Changes in v6:
-> 	- undo text reflow from v5.
-> 	- fix a typo.
-> 	- change indication of defaults , as suggested by Darrick J. Wong, to
-> 	  keep the read simple.
-> 	- change delimiter of boolean option from a newline to an "or" (clue
-> 	  from something like "<option> and <another option>" in the text)
-> 	  because the former does not render well in html.
-> 
->  Documentation/filesystems/dax.txt             |   2 +-
->  Documentation/filesystems/index.rst           |   1 +
->  .../filesystems/{xfs.txt => xfs.rst}          | 123 +++++++++---------
->  MAINTAINERS                                   |   2 +-
->  4 files changed, 61 insertions(+), 67 deletions(-)
->  rename Documentation/filesystems/{xfs.txt => xfs.rst} (81%)
+The pull request you sent on Tue, 9 Jul 2019 09:06:11 -0600:
 
-Documentation/{filesystem/xfs.txt => admin-guide/xfs.rst}.
+> git://git.lwn.net/linux.git tags/docs-5.3
 
-> -	If "largeio" specified, a filesystem that was created with a
-> -	"swidth" specified will return the "swidth" value (in bytes)
-> -	in st_blksize. If the filesystem does not have a "swidth"
-> -	specified but does specify an "allocsize" then "allocsize"
-> +	If ``largeio`` specified, a filesystem that was created with a
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e9a83bd2322035ed9d7dcf35753d3f984d76c6a5
 
-surely 'If ``largeio`` is specified' here?
+Thank you!
 
-> +	``swidth`` specified will return the ``swidth`` value (in bytes)
-> +	in ``st_blksize``. If the filesystem does not have a ``swidth``
-> +	specified but does specify an ``allocsize`` then ``allocsize``
->  	(in bytes) will be returned instead. Otherwise the behaviour
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
