@@ -1,216 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7C3D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 03:45:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C39D97D922
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 04:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbfGJDpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Jul 2019 23:45:00 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34229 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbfGJDpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jul 2019 23:45:00 -0400
-Received: by mail-pl1-f194.google.com with SMTP id i2so492266plt.1;
-        Tue, 09 Jul 2019 20:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=WD/fo/n7/D6683C31qtV50svSB0NMLB2BP0a6l6ucK0=;
-        b=KqdRCY7oxdEUGZpL32XoMBrdBzXqlBCLGBYYsRMDGof5ivoIwj6lDDynGcfHuKLaFi
-         U2nfRHDjbkuK+4JdkDOzizbkrtz03G57Lc7Gw2xpYPNxPAdw34WcQteRtIJL7J5bbRfu
-         9dZIjWbNjp3RDDzSLuAzElT+hKk7iV2lzQ1j1OmYyc0uXATGuN1e2nfes6c7hA1Gw6nu
-         sOepJFhlc4vt/E5T+ur/aU5oJxj2ybpWVK6IijNXp5hTEArpygvW7qe+FqZG1lztO3Vm
-         jaPJmBxIQcm+t8IJ1V5RvKX1etuKfIcJh7uH1LsmTR15ij3lqJz8mHiOATYRKE1Uuqhw
-         c5ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=WD/fo/n7/D6683C31qtV50svSB0NMLB2BP0a6l6ucK0=;
-        b=Fn9ClcuhY4aTLiM5Pvl+9gqtuWSfiJj1hi6BvYc8oao6RBVwgFU8AY8j+H+1bSyHRE
-         LcapqEoNKGxP1WwRcLzpW25d3n4h7n5/sNMaHRXVDjCJD9KHLgEQ088AH9sOt8XCKGpS
-         BJuEfouYWMfEkpBKeLiCaWm/CQN2wI1QtK6xBnX+MJWfu4XbfxxE8P4IS14GTt735Lmk
-         uhrlk3f4wP5dL4kzxrax5lLZMIdD1Bb0uqwCKCesiVCSZHF2kkLTbshy/QjL78M4qOOU
-         FricxCPsrjDqrfAfSWHK4eoTcTfdgdvlDJehET6a6aKmx4boPA71k325SWtgIXsGYj+f
-         LwQA==
-X-Gm-Message-State: APjAAAXZk7al7Ya3R9FaDqoQyOXTm2KSSAv8bgRrD93u6fwVIJRor73b
-        BHLyZbJFTSBmMErlu3R2wsUa9lsbK9M=
-X-Google-Smtp-Source: APXvYqzixhYKzVnlTCpnOtm6iSR+wLXr/ihBjtg3FHALp8sDsQmi7Bx9Q8l7B1zS7X7Tm3z5LcfHdg==
-X-Received: by 2002:a17:902:c509:: with SMTP id o9mr36800677plx.222.1562730298861;
-        Tue, 09 Jul 2019 20:44:58 -0700 (PDT)
-Received: from localhost.localdomain (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
-        by smtp.gmail.com with ESMTPSA id l124sm513500pgl.54.2019.07.09.20.44.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 09 Jul 2019 20:44:58 -0700 (PDT)
-From:   Shobhit Kukreti <shobhitkukreti@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shobhit Kukreti <shobhitkukreti@gmail.com>
-Subject: [PATCH v2] Documentation: filesystems: Convert ufs.txt to reStructuredText format
-Date:   Tue,  9 Jul 2019 20:42:42 -0700
-Message-Id: <1562730162-2116-1-git-send-email-shobhitkukreti@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20190707013947.GA10663@t-1000>
-References: <20190707013947.GA10663@t-1000>
+        id S1726043AbfGJEAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Jul 2019 00:00:25 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:63681 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbfGJEAZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 00:00:25 -0400
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x6A407t3006697;
+        Wed, 10 Jul 2019 13:00:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x6A407t3006697
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562731208;
+        bh=KknRHaSkhBMpTs1BmzD59wJGTvSH88jZgscNwiE3MlQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Zcv8Y/m8P8X292YdVCGzvjt8eh3zKthkL/tKU8hgl0+kZFK/TCidt2YnUJeXwRY2C
+         53gnnvfR1V5a/tZ3oft3dU87Wv/na0I6Cs7CUbLYQQ/tTgfsks7h1YrnLQlPvFedYE
+         CUXVrkPfqD5VgYstJJ7CydXBopsxsIxYrwFsxgwx6d60uk5NaU0HmmUFrWcRa0Ma+X
+         JP4vrMHlCl+oWvWoNYTtWzS8BRJaI99Vvewq8PDOryzMVp2NXYrBOU+OgPSCXtaQVR
+         iBpoKf4mR5G2BIwMVbOsyg7IXjsTJdhgiZepcEUeuFghjpTnMBJ19Lf/0+rRb7AENC
+         me1vWrlscZvww==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id m8so625105vsj.0;
+        Tue, 09 Jul 2019 21:00:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAUOzUg7dewpDpaEaEwdms+J+YjUAAAn+8Q5wRx/H0vBF2T/33CF
+        O4/8l42f2KO7ypeZySrTpPfE7/o10ZbDtcOBLrA=
+X-Google-Smtp-Source: APXvYqzEJesQV2n3K1HZLU8Wx1IHWCC1QIw58D6BP7vlVU/X0PRT9+zSoni+Ubl8ut/dwkZUzYEjYnFrduUZ0sj9y38=
+X-Received: by 2002:a67:f495:: with SMTP id o21mr16708917vsn.54.1562731207027;
+ Tue, 09 Jul 2019 21:00:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190709063023.251446-1-brendanhiggins@google.com> <20190709063023.251446-7-brendanhiggins@google.com>
+In-Reply-To: <20190709063023.251446-7-brendanhiggins@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 10 Jul 2019 12:59:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATx30AhZ51xozde=nO06-8UzuC0M9nfZXrqkyfmEFdu5w@mail.gmail.com>
+Message-ID: <CAK7LNATx30AhZ51xozde=nO06-8UzuC0M9nfZXrqkyfmEFdu5w@mail.gmail.com>
+Subject: Re: [PATCH v7 06/18] kbuild: enable building KUnit
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Cc: Shuah Khan" <shuah@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Tim Bird <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts the plain text documentation of ufs.txt to reStructuredText format.
-Added to documentation build process and verified with make htmldocs
+On Tue, Jul 9, 2019 at 3:34 PM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> KUnit is a new unit testing framework for the kernel and when used is
+> built into the kernel as a part of it. Add KUnit to the root Kconfig and
+> Makefile to allow it to be actually built.
+>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
+>  Kconfig  | 2 ++
+>  Makefile | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Kconfig b/Kconfig
+> index 48a80beab6853..10428501edb78 100644
+> --- a/Kconfig
+> +++ b/Kconfig
+> @@ -30,3 +30,5 @@ source "crypto/Kconfig"
+>  source "lib/Kconfig"
+>
+>  source "lib/Kconfig.debug"
+> +
+> +source "kunit/Kconfig"
+> diff --git a/Makefile b/Makefile
+> index 3e4868a6498b2..60cf4f0813e0d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -991,7 +991,7 @@ endif
+>  PHONY += prepare0
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+> -core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> +core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ kunit/
+>
+>  vmlinux-dirs   := $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+>                      $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+> --
+> 2.22.0.410.gd8fdbe21b5-goog
 
-Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
----
-Changes in v2:
-	1. Removed flat-table
-	2. Moved ufs.rst to admin-guide
-	
- Documentation/admin-guide/index.rst |  1 +
- Documentation/admin-guide/ufs.rst   | 48 +++++++++++++++++++++++++++++
- Documentation/filesystems/ufs.txt   | 60 -------------------------------------
- 3 files changed, 49 insertions(+), 60 deletions(-)
- create mode 100644 Documentation/admin-guide/ufs.rst
- delete mode 100644 Documentation/filesystems/ufs.txt
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 2871b79..9bfb076 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -71,6 +71,7 @@ configure specific aspects of kernel behavior to your liking.
-    bcache
-    ext4
-    jfs
-+   ufs
-    pm/index
-    thunderbolt
-    LSM/index
-diff --git a/Documentation/admin-guide/ufs.rst b/Documentation/admin-guide/ufs.rst
-new file mode 100644
-index 0000000..20b9c56
---- /dev/null
-+++ b/Documentation/admin-guide/ufs.rst
-@@ -0,0 +1,48 @@
-+=========
-+USING UFS
-+=========
-+
-+mount -t ufs -o ufstype=type_of_ufs device dir
-+
-+UFS OPTIONS
-+===========
-+
-+ufstype=type_of_ufs
-+	UFS is a file system widely used in different operating systems.
-+	The problem are differences among implementations. Features of
-+	some implementations are undocumented, so its hard to recognize
-+	type of ufs automatically. That's why user must specify type of 
-+	ufs manually by mount option ufstype. Possible values are:
-+
-+	**old**	        old format of ufs default value, supported as read-only
-+
-+	**44bsd**       used in FreeBSD, NetBSD, OpenBSD supported as read-write
-+
-+	**ufs2**        used in FreeBSD 5.x supported as read-write
-+
-+	**5xbsd**       synonym for ufs2
-+
-+	**sun**         used in SunOS (Solaris)	supported as read-write
-+
-+	**sunx86**      used in SunOS for Intel (Solarisx86) supported as read-write
-+
-+	**hp**  used in HP-UX supported as read-only
-+
-+	**nextstep**    used in NextStep supported as read-only
-+
-+	**nextstep-cd** 	used for NextStep CDROMs (block_size == 2048) supported as read-only
-+
-+	**openstep**    used in OpenStep supported as read-only
-+
-+
-+POSSIBLE PROBLEMS
-+-----------------
-+
-+See next section, if you have any.
-+
-+
-+BUG REPORTS
-+-----------
-+
-+Any ufs bug report you can send to daniel.pirkl@email.cz or
-+to dushistov@mail.ru (do not send partition tables bug reports).
-diff --git a/Documentation/filesystems/ufs.txt b/Documentation/filesystems/ufs.txt
-deleted file mode 100644
-index 7a602ad..0000000
---- a/Documentation/filesystems/ufs.txt
-+++ /dev/null
-@@ -1,60 +0,0 @@
--USING UFS
--=========
--
--mount -t ufs -o ufstype=type_of_ufs device dir
--
--
--UFS OPTIONS
--===========
--
--ufstype=type_of_ufs
--	UFS is a file system widely used in different operating systems.
--	The problem are differences among implementations. Features of
--	some implementations are undocumented, so its hard to recognize
--	type of ufs automatically. That's why user must specify type of 
--	ufs manually by mount option ufstype. Possible values are:
--
--	old	old format of ufs
--		default value, supported as read-only
--
--	44bsd	used in FreeBSD, NetBSD, OpenBSD
--		supported as read-write
--
--	ufs2    used in FreeBSD 5.x
--		supported as read-write
--
--	5xbsd	synonym for ufs2
--
--	sun	used in SunOS (Solaris)
--		supported as read-write
--
--	sunx86	used in SunOS for Intel (Solarisx86)
--		supported as read-write
--
--	hp	used in HP-UX
--		supported as read-only
--
--	nextstep
--		used in NextStep
--		supported as read-only
--
--	nextstep-cd
--		used for NextStep CDROMs (block_size == 2048)
--		supported as read-only
--
--	openstep
--		used in OpenStep
--		supported as read-only
--
--
--POSSIBLE PROBLEMS
--=================
--
--See next section, if you have any.
--
--
--BUG REPORTS
--===========
--
--Any ufs bug report you can send to daniel.pirkl@email.cz or
--to dushistov@mail.ru (do not send partition tables bug reports).
--- 
-2.7.4
+This is so trivial, and do not need to get ack from me.
 
+Just a nit.
+
+
+When CONFIG_KUNIT is disable, is there any point in descending into kunit/ ?
+
+core-$(CONFIG_KUNIT) += kunit/
+
+... might be useful to skip kunit/ entirely.
+
+If you look at the top-level Makefile, some entries are doing this:
+
+
+init-y          := init/
+drivers-y       := drivers/ sound/
+drivers-$(CONFIG_SAMPLES) += samples/
+drivers-$(CONFIG_KERNEL_HEADER_TEST) += include/
+net-y           := net/
+libs-y          := lib/
+core-y          := usr/
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
