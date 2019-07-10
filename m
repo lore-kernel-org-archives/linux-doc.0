@@ -1,107 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0ECC77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 15:57:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 078617D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 15:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727603AbfGJP5C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Jul 2019 11:57:02 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:37932 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727515AbfGJP5C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 11:57:02 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r12so2671424edo.5
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2019 08:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CZgPHxQSyDYYtNmHA3/wZ3DRhIFFkShs7w2jP3T5tpc=;
-        b=LEi6/PjejGkEIcti1eTkHdTyR2J5jxYV6psjYv6r+R4rq9PfMgiJvyz3sGPckQrQjf
-         lbugIKfybDu0Y7zKpFpaEvuHTT2l8vGEYy0HOBao0Cd4zR061ANMYJt6m/w7HHj6E1tb
-         ocYgs+QcC8JNjAUstT+ETcrq/OJtYTOLtc1b+S24v+b0gwp3Hyivo1pqM/mbRS6+5jdh
-         WnlzF7qZHETDtcyr28wnUTIMG2EIZHypwQqXV3z2p5ZjOi9Gv2nhDxwzoWBiIcs2kcrW
-         xTtxPMaM5lL20VjS6uVfPnp7Rlbf/WgAjHAi1S0bhstA9g1OCdvgp9kI3SWayKUOO6zT
-         WtmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CZgPHxQSyDYYtNmHA3/wZ3DRhIFFkShs7w2jP3T5tpc=;
-        b=mnIOLXR5PGZg/aZuswfW/FpwUCwSDBMzPjLzFe//5T2g1LB/4L3PzQa5Pf2ujwhFwL
-         Dfp8qgNhYesBP/5ckzjoTVETGZhhD7JsHMBPeR5ZSjheUIUT0DaCPTkq2jsBeF04FvFK
-         jlKnvwJ2iIDqlrCWEM4xS0DKYBOkrHKABGsafnbqenUTtP5JOsTKPLSIYZAS8CPYVWuY
-         Gx+e2UCPm+SR+juRQWyI3MhUaxXVRHaltWOWMF5zI4MJDw8PRPFC0WqxpDl56F/qmVnQ
-         xeYfZJXITCp3rY0hbYiRhvnw6B06QS/tyukc7j8iowID+miMMqstZy/+ZvaEo2LUZI/A
-         HS5A==
-X-Gm-Message-State: APjAAAVrcA5PPz1B1LD8t6syposW4oAVKRRnWkWlsftgtzcCo5xH9A+l
-        cnvLD8nofXa1jVgIFBSu8s05eG2HjrPYMQKtin6TXJuj
-X-Google-Smtp-Source: APXvYqw7x9BGSNLqWpKAPyh4/6mWWF6JBu/hcFz0l/xjgqeQSiFxs1kaM3mPVPaebQipBv1gm8i9kkO9aBNr+FGCS6c=
-X-Received: by 2002:a50:a4ef:: with SMTP id x44mr32799017edb.304.1562774220761;
- Wed, 10 Jul 2019 08:57:00 -0700 (PDT)
+        id S1728214AbfGJP5m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Jul 2019 11:57:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50396 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbfGJP5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 11:57:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=hSaOXHptf/6kKej0VV02Bg9HRz9WMNoWaX2qBfjn7nA=; b=UNutNSOpJ90u9aN3M+sCGcLhb
+        KT0uwy0W/gaRMA9h2xyZmJXFcaayg+Q3dOnMK1gPqgVlWwrhj1F9Q+fKFn8GB7Ort7qAQH6OOFxr9
+        1TvM0yo0mG8nPymiJEMZNZgeTEwdAiE7vQOolmaOjYcx0uDeFExy4A1gtqMlOhvZmkgmpLdYAckLH
+        bAi/q9KldP5Mq1kmVtGQF4gkTcD6EsabD7fWMNdZBNt61AUxAc1sfNrwqMHVJiL7DDX/9oCxdMUBs
+        b1mehmLpHVtB+Lx8BtqyUBIfSjIbG7ZDGgIbUBJ51BDz9CuZSbORuXOXC9xTevgsezXQE601+yh25
+        i7FGn5YMg==;
+Received: from 177.41.133.216.dynamic.adsl.gvt.net.br ([177.41.133.216] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hlEyM-0000Ff-OK; Wed, 10 Jul 2019 15:57:35 +0000
+Date:   Wed, 10 Jul 2019 12:57:30 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Shobhit Kukreti <shobhitkukreti@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        willy@infradead.org
+Subject: Re: [PATCH v3] Documentation: filesystems: Convert jfs.txt to
+Message-ID: <20190710125730.0d0cb685@coco.lan>
+In-Reply-To: <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
+References: <20190710093323.7e5d6790@coco.lan>
+        <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
- <CACi5LpNGWhTnXyM8gB0Tn=682+08s-ppfDpX2SawfxMvue1GTQ@mail.gmail.com>
- <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
- <2d60f302-5161-638a-76cd-d7d79e5631fe@arm.com> <CA+CK2bA40wQvX=KieE5Qg2Ny5ZyiDAAjAb9W7Phu2Ou_9r6bOA@mail.gmail.com>
- <f9bea5bd-370a-47b5-8ad1-a30bd43d6cca@arm.com>
-In-Reply-To: <f9bea5bd-370a-47b5-8ad1-a30bd43d6cca@arm.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 10 Jul 2019 11:56:50 -0400
-Message-ID: <CA+CK2bBWis8TgyOmDhVgLYrOU95Za-UhSGSB3ufsjiNDt-Zd_w@mail.gmail.com>
-Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
-To:     James Morse <james.morse@arm.com>
-Cc:     Bhupesh Sharma <bhsharma@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 10, 2019 at 11:19 AM James Morse <james.morse@arm.com> wrote:
->
-> Hi Pasha,
->
-> On 09/07/2019 14:07, Pavel Tatashin wrote:
-> >>> Enabling MMU and D-Cache for relocation  would essentially require the
-> >>> same changes in kernel. Could you please share exactly why these were
-> >>> not accepted upstream into kexec-tools?
-> >>
-> >> Because '--no-checks' is a much simpler alternative.
-> >>
-> >> More of the discussion:
-> >> https://lore.kernel.org/linux-arm-kernel/5599813d-f83c-d154-287a-c131c48292ca@arm.com/
-> >>
-> >> While you can make purgatory a fully-fledged operating system, it doesn't really need to
-> >> do anything on arm64. Errata-workarounds alone are a reason not do start down this path.
-> >
-> > Thank you James. I will summaries the information gathered from the
-> > yesterday's/today's discussion and add it to the cover letter together
-> > with ARM64 tag. I think, the patch series makes sense for ARM64 only,
-> > unless there are other platforms that disable caching/MMU during
-> > relocation.
->
-> I'd prefer not to reserve additional memory for regular kexec just to avoid the relocation.
-> If the kernel's relocation work is so painful we can investigate doing it while the MMU is
-> enabled. If you can compare regular-kexec with kexec_file_load() you eliminate the
-> purgatory part of the work.
+Em Wed, 10 Jul 2019 08:29:01 -0700
+Shobhit Kukreti <shobhitkukreti@gmail.com> escreveu:
 
-Relocation time is exactly the same for regular-kexec and
-kexec_file_load(). So, the relocation is indeed painful for our case.
-I am working on adding MMU enabled kernel relocation.
+> This converts the plain text documentation of jfs.txt to reStructuredText
+> format. Added to documentation build process and verified with 
+> make htmldocs
+> 
+> Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
 
-Pasha
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+> ---
+> Changes in v3:
+>         1. Reverted to minimally changed jfs.rst
+>         2. Used -M1 in git format-patch to show files as renamed
+> 
+> Changes in v2:
+>         1. Removed flat-table.
+>         2. Moved jfs.rst from filesystem to admin-guide
+> 
+>  Documentation/admin-guide/index.rst                |  1 +
+>  .../{filesystems/jfs.txt => admin-guide/jfs.rst}   | 44 ++++++++++++++--------
+>  2 files changed, 30 insertions(+), 15 deletions(-)
+>  rename Documentation/{filesystems/jfs.txt => admin-guide/jfs.rst} (51%)
+> 
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 8001917..2871b79 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
+>     ras
+>     bcache
+>     ext4
+> +   jfs
+>     pm/index
+>     thunderbolt
+>     LSM/index
+> diff --git a/Documentation/filesystems/jfs.txt b/Documentation/admin-guide/jfs.rst
+> similarity index 51%
+> rename from Documentation/filesystems/jfs.txt
+> rename to Documentation/admin-guide/jfs.rst
+> index 41fd757..9e12d93 100644
+> --- a/Documentation/filesystems/jfs.txt
+> +++ b/Documentation/admin-guide/jfs.rst
+> @@ -1,45 +1,59 @@
+> +===========================================
+>  IBM's Journaled File System (JFS) for Linux
+> +===========================================
+>  
+>  JFS Homepage:  http://jfs.sourceforge.net/
+>  
+>  The following mount options are supported:
+> +
+>  (*) == default
+>  
+> -iocharset=name	Character set to use for converting from Unicode to
+> +iocharset=name
+> +                Character set to use for converting from Unicode to
+>  		ASCII.  The default is to do no conversion.  Use
+>  		iocharset=utf8 for UTF-8 translations.  This requires
+>  		CONFIG_NLS_UTF8 to be set in the kernel .config file.
+>  		iocharset=none specifies the default behavior explicitly.
+>  
+> -resize=value	Resize the volume to <value> blocks.  JFS only supports
+> +resize=value
+> +                Resize the volume to <value> blocks.  JFS only supports
+>  		growing a volume, not shrinking it.  This option is only
+>  		valid during a remount, when the volume is mounted
+>  		read-write.  The resize keyword with no value will grow
+>  		the volume to the full size of the partition.
+>  
+> -nointegrity	Do not write to the journal.  The primary use of this option
+> +nointegrity
+> +                Do not write to the journal.  The primary use of this option
+>  		is to allow for higher performance when restoring a volume
+>  		from backup media.  The integrity of the volume is not
+>  		guaranteed if the system abnormally abends.
+>  
+> -integrity(*)	Commit metadata changes to the journal.  Use this option to
+> +integrity(*)
+> +                Commit metadata changes to the journal.  Use this option to
+>  		remount a volume where the nointegrity option was
+>  		previously specified in order to restore normal behavior.
+>  
+> -errors=continue		Keep going on a filesystem error.
+> -errors=remount-ro(*)	Remount the filesystem read-only on an error.
+> -errors=panic		Panic and halt the machine if an error occurs.
+> +errors=continue
+> +                        Keep going on a filesystem error.
+> +errors=remount-ro(*)
+> +                        Remount the filesystem read-only on an error.
+> +errors=panic
+> +                        Panic and halt the machine if an error occurs.
+>  
+> -uid=value	Override on-disk uid with specified value
+> -gid=value	Override on-disk gid with specified value
+> -umask=value	Override on-disk umask with specified octal value.  For
+> -		directories, the execute bit will be set if the corresponding
+> +uid=value
+> +                Override on-disk uid with specified value
+> +gid=value
+> +                Override on-disk gid with specified value
+> +umask=value
+> +                Override on-disk umask with specified octal value. For
+> +                directories, the execute bit will be set if the corresponding
+>  		read bit is set.
+>  
+> -discard=minlen	This enables/disables the use of discard/TRIM commands.
+> -discard		The discard/TRIM commands are sent to the underlying
+> -nodiscard(*)	block device when blocks are freed. This is useful for SSD
+> -		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
+> +discard=minlen, discard/nodiscard(*)
+> +                This enables/disables the use of discard/TRIM commands.
+> +		The discard/TRIM commands are sent to the underlying
+> +                block device when blocks are freed. This is useful for SSD
+> +                devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
+>  		command is also available together with the nodiscard option.
+>  		The value of minlen specifies the minimum blockcount, when
+>  		a TRIM command to the block device is considered useful.
+
+
+
+Thanks,
+Mauro
