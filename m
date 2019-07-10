@@ -1,176 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 078617D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 15:57:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D482D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 15:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbfGJP5m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Jul 2019 11:57:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50396 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725832AbfGJP5l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 11:57:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=hSaOXHptf/6kKej0VV02Bg9HRz9WMNoWaX2qBfjn7nA=; b=UNutNSOpJ90u9aN3M+sCGcLhb
-        KT0uwy0W/gaRMA9h2xyZmJXFcaayg+Q3dOnMK1gPqgVlWwrhj1F9Q+fKFn8GB7Ort7qAQH6OOFxr9
-        1TvM0yo0mG8nPymiJEMZNZgeTEwdAiE7vQOolmaOjYcx0uDeFExy4A1gtqMlOhvZmkgmpLdYAckLH
-        bAi/q9KldP5Mq1kmVtGQF4gkTcD6EsabD7fWMNdZBNt61AUxAc1sfNrwqMHVJiL7DDX/9oCxdMUBs
-        b1mehmLpHVtB+Lx8BtqyUBIfSjIbG7ZDGgIbUBJ51BDz9CuZSbORuXOXC9xTevgsezXQE601+yh25
-        i7FGn5YMg==;
-Received: from 177.41.133.216.dynamic.adsl.gvt.net.br ([177.41.133.216] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hlEyM-0000Ff-OK; Wed, 10 Jul 2019 15:57:35 +0000
-Date:   Wed, 10 Jul 2019 12:57:30 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Shobhit Kukreti <shobhitkukreti@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        willy@infradead.org
-Subject: Re: [PATCH v3] Documentation: filesystems: Convert jfs.txt to
-Message-ID: <20190710125730.0d0cb685@coco.lan>
-In-Reply-To: <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
-References: <20190710093323.7e5d6790@coco.lan>
-        <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727612AbfGJP6R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Jul 2019 11:58:17 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:39775 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727454AbfGJP6R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 11:58:17 -0400
+Received: by mail-ed1-f67.google.com with SMTP id m10so2679225edv.6
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2019 08:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a2hs0dyIQnh/sqo6KZ61rFm4L2r82B8qQvgfu80yNSo=;
+        b=gUROxfvOCyof5ttodsBwlj38d9Umt2I6xGHrwlqIsUPaybPlSEyo4PeNiLuLBswZBu
+         P2LmcnGTqODgeD4cMmrLHxkm4Iq/LqAXgBIhK2Dx55nA07tPc3wGPSLpk1/msnl6E/Zm
+         GYl49EaZAKHk8zVTYx91QARCB83H+wvpSxA90NlBeMIVCcAo15xoY54JpX7JHcIMTKoc
+         UsuJnGacdA2AzPTi8L4x6/cRVu1dtBW5/FSXWhxzF2GVvq1x5chEg9DO2wO+GpoyJpz8
+         bOu2Oyb4yZhXQsckMoHRzjJsZAv4Q7Jzrfqjb3xwTCrnMTLbJAEvxOBLVwkwPMyH9GOb
+         zn+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a2hs0dyIQnh/sqo6KZ61rFm4L2r82B8qQvgfu80yNSo=;
+        b=Zs6WfX7MgPEHRbDIM5WRLVY9ehCuwyE5VaBM0D7yIgZSMaqIyJKQ6Xs3mPQM961M/8
+         PKDLGXBoy1KxXYXeJk1e1zy76zg+TrG8AN86x6SQ6kRgCi3Zo3n42QoRH6YgM4kLGDDv
+         OqA7oQfVWxS2QlfsckSKxcjHI0xHZTwCRfJHQNN+hrDTUqQgZkpnvf5qVciHWgVvI4gc
+         GAdrJcosnU4kOCIt/erQLOAkfMDNDdg5KGo5M6AN8PjTXysZnvOnI34XfaakDO3/LNr5
+         L83cEdY86g1D/gH7oG7Xu2kIemBISF/DIpxNMybOqt330Okil+G5nod/u0r+WSCo2iPp
+         wjVw==
+X-Gm-Message-State: APjAAAUlsawhJWF2j8/62l65W7hYR0DRcvpvjsvBa9Mkr/vE8UBHUKUS
+        GB20uSo3+ICJGkxWNY+e+Xed1pyiF31IpIEzhOrjBg==
+X-Google-Smtp-Source: APXvYqzjnwEQ5TMXiUq18EB46BY4ST+24XYmOoYFpr+h9ihRCO3FuxJVvZCtqNTGY1LYXAg4KvZi2LZiyzoe+Acj8C8=
+X-Received: by 2002:a17:906:d1d0:: with SMTP id bs16mr26806724ejb.286.1562774294818;
+ Wed, 10 Jul 2019 08:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190709182014.16052-1-pasha.tatashin@soleen.com> <0a141018-c09e-56e4-6a73-45b951e8490f@gmail.com>
+In-Reply-To: <0a141018-c09e-56e4-6a73-45b951e8490f@gmail.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 10 Jul 2019 11:58:04 -0400
+Message-ID: <CA+CK2bBJydDGSGtQ49RDLR-WdiH=8G4WfDe5PEe8DE1rfEFONQ@mail.gmail.com>
+Subject: Re: [v2 0/5] arm64: allow to reserve memory for normal kexec kernel
+To:     Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 10 Jul 2019 08:29:01 -0700
-Shobhit Kukreti <shobhitkukreti@gmail.com> escreveu:
+On Wed, Jul 10, 2019 at 11:28 AM Matthias Brugger
+<matthias.bgg@gmail.com> wrote:
+>
+>
+>
+> On 09/07/2019 20:20, Pavel Tatashin wrote:
+> > Changelog
+> > v1 - v2
+> >       - No changes to patches, addressed suggestion from James Morse
+> >         to add "arm64" tag to cover letter.
+> >       - Improved cover letter information based on discussion.
+> >
+> > Currently, it is only allowed to reserve memory for crash kernel, because
+> > it is a requirement in order to be able to boot into crash kernel without
+> > touching memory of crashed kernel is to have memory reserved.
+> >
+> > The second benefit for having memory reserved for kexec kernel is
+> > that it does not require a relocation after segments are loaded into
+> > memory.
+> >
+> > If kexec functionality is used for a fast system update, with a minimal
+> > downtime, the relocation of kernel + initramfs might take a significant
+> > portion of reboot.
+> >
+> > In fact, on the machine that we are using, that has ARM64 processor
+> > it takes 0.35s to relocate during kexec, thus taking 52% of kernel reboot
+> > time:
+> >
+> > kernel shutdown       0.03s
+> > relocation    0.35s
+> > kernel startup        0.29s
+> >
+> > Image: 13M and initramfs is 24M. If initramfs increases, the relocation
+> > time increases proportionally.
+> >
+> > While, it is possible to add 'kexeckernel=' parameters support to other
+> > architectures by modifying reserve_crashkernel(), in this series this is
+> > done for arm64 only.
+> >
+>
+> I wonder if we couldn't use the crashkernel reserved memory area for that and
+> just add logic to kexec-tools to pass to the kernel a flag (a new magic reboot
+> number?) to use the crashkernel memory for that?
+> The kernel would then unload the crash/capture system in the reserved memory
+> area and reuse the latter for kexec.
+> This would also enable the feature for all architectures.
 
-> This converts the plain text documentation of jfs.txt to reStructuredText
-> format. Added to documentation build process and verified with 
-> make htmldocs
-> 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
+I decided to take another route: enable MMU during kernel relocation
+on ARM64. This will eliminate the problem that I am experiencing with
+slow relocation.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Pasha
 
-> ---
-> Changes in v3:
->         1. Reverted to minimally changed jfs.rst
->         2. Used -M1 in git format-patch to show files as renamed
-> 
-> Changes in v2:
->         1. Removed flat-table.
->         2. Moved jfs.rst from filesystem to admin-guide
-> 
->  Documentation/admin-guide/index.rst                |  1 +
->  .../{filesystems/jfs.txt => admin-guide/jfs.rst}   | 44 ++++++++++++++--------
->  2 files changed, 30 insertions(+), 15 deletions(-)
->  rename Documentation/{filesystems/jfs.txt => admin-guide/jfs.rst} (51%)
-> 
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index 8001917..2871b79 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
->     ras
->     bcache
->     ext4
-> +   jfs
->     pm/index
->     thunderbolt
->     LSM/index
-> diff --git a/Documentation/filesystems/jfs.txt b/Documentation/admin-guide/jfs.rst
-> similarity index 51%
-> rename from Documentation/filesystems/jfs.txt
-> rename to Documentation/admin-guide/jfs.rst
-> index 41fd757..9e12d93 100644
-> --- a/Documentation/filesystems/jfs.txt
-> +++ b/Documentation/admin-guide/jfs.rst
-> @@ -1,45 +1,59 @@
-> +===========================================
->  IBM's Journaled File System (JFS) for Linux
-> +===========================================
->  
->  JFS Homepage:  http://jfs.sourceforge.net/
->  
->  The following mount options are supported:
-> +
->  (*) == default
->  
-> -iocharset=name	Character set to use for converting from Unicode to
-> +iocharset=name
-> +                Character set to use for converting from Unicode to
->  		ASCII.  The default is to do no conversion.  Use
->  		iocharset=utf8 for UTF-8 translations.  This requires
->  		CONFIG_NLS_UTF8 to be set in the kernel .config file.
->  		iocharset=none specifies the default behavior explicitly.
->  
-> -resize=value	Resize the volume to <value> blocks.  JFS only supports
-> +resize=value
-> +                Resize the volume to <value> blocks.  JFS only supports
->  		growing a volume, not shrinking it.  This option is only
->  		valid during a remount, when the volume is mounted
->  		read-write.  The resize keyword with no value will grow
->  		the volume to the full size of the partition.
->  
-> -nointegrity	Do not write to the journal.  The primary use of this option
-> +nointegrity
-> +                Do not write to the journal.  The primary use of this option
->  		is to allow for higher performance when restoring a volume
->  		from backup media.  The integrity of the volume is not
->  		guaranteed if the system abnormally abends.
->  
-> -integrity(*)	Commit metadata changes to the journal.  Use this option to
-> +integrity(*)
-> +                Commit metadata changes to the journal.  Use this option to
->  		remount a volume where the nointegrity option was
->  		previously specified in order to restore normal behavior.
->  
-> -errors=continue		Keep going on a filesystem error.
-> -errors=remount-ro(*)	Remount the filesystem read-only on an error.
-> -errors=panic		Panic and halt the machine if an error occurs.
-> +errors=continue
-> +                        Keep going on a filesystem error.
-> +errors=remount-ro(*)
-> +                        Remount the filesystem read-only on an error.
-> +errors=panic
-> +                        Panic and halt the machine if an error occurs.
->  
-> -uid=value	Override on-disk uid with specified value
-> -gid=value	Override on-disk gid with specified value
-> -umask=value	Override on-disk umask with specified octal value.  For
-> -		directories, the execute bit will be set if the corresponding
-> +uid=value
-> +                Override on-disk uid with specified value
-> +gid=value
-> +                Override on-disk gid with specified value
-> +umask=value
-> +                Override on-disk umask with specified octal value. For
-> +                directories, the execute bit will be set if the corresponding
->  		read bit is set.
->  
-> -discard=minlen	This enables/disables the use of discard/TRIM commands.
-> -discard		The discard/TRIM commands are sent to the underlying
-> -nodiscard(*)	block device when blocks are freed. This is useful for SSD
-> -		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
-> +discard=minlen, discard/nodiscard(*)
-> +                This enables/disables the use of discard/TRIM commands.
-> +		The discard/TRIM commands are sent to the underlying
-> +                block device when blocks are freed. This is useful for SSD
-> +                devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
->  		command is also available together with the nodiscard option.
->  		The value of minlen specifies the minimum blockcount, when
->  		a TRIM command to the block device is considered useful.
-
-
-
-Thanks,
-Mauro
+>
+> Regards,
+> Matthias
+>
+> > The reason it is so slow on arm64 to relocate kernel is because the code
+> > that does relocation does this with MMU disabled, and thus D-Cache and
+> > I-Cache must also be disabled.
+> >
+> > Alternative solution is more complicated: Setup a temporary page table
+> > for relocation_routine and also for code from cpu_soft_restart. Perform
+> > relocation with MMU enabled, do cpu_soft_restart where MMU and caching
+> > are disabled, jump to purgatory. A similar approach was suggested for
+> > purgatory and was rejected due to making purgatory too complicated.
+> > On, the other hand hibernate does something similar already, but there
+> > MMU never needs to be disabled, and also by the time machine_kexec()
+> > is called, allocator is not available, as we can't fail to do reboot,
+> > so page table must be pre-allocated during kernel load time.
+> >
+> > Note: the above time is relocation time only. Purgatory usually also
+> > computes checksum, but that is skipped, because --no-check is used when
+> > kernel image is loaded via kexec.
+> >
+> > Pavel Tatashin (5):
+> >   kexec: quiet down kexec reboot
+> >   kexec: add resource for normal kexec region
+> >   kexec: export common crashkernel/kexeckernel parser
+> >   kexec: use reserved memory for normal kexec reboot
+> >   arm64, kexec: reserve kexeckernel region
+> >
+> >  .../admin-guide/kernel-parameters.txt         |  7 ++
+> >  arch/arm64/kernel/setup.c                     |  5 ++
+> >  arch/arm64/mm/init.c                          | 83 ++++++++++++-------
+> >  include/linux/crash_core.h                    |  6 ++
+> >  include/linux/ioport.h                        |  1 +
+> >  include/linux/kexec.h                         |  6 +-
+> >  kernel/crash_core.c                           | 27 +++---
+> >  kernel/kexec_core.c                           | 50 +++++++----
+> >  8 files changed, 127 insertions(+), 58 deletions(-)
+> >
