@@ -1,54 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 40D017D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 16:26:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD0DD7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 16:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbfGKQ0U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 12:26:20 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:33542 "EHLO ns.iliad.fr"
+        id S1728517AbfGKQgp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 12:36:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39568 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728473AbfGKQ0T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jul 2019 12:26:19 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id 3DD41208E6;
-        Thu, 11 Jul 2019 18:26:18 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id 1F77820666;
-        Thu, 11 Jul 2019 18:26:18 +0200 (CEST)
-Subject: Re: [Patch V4] Documentation: coresight: covert txt to rst
-To:     Phong Tran <tranmanphong@gmail.com>, corbet@lwn.net,
-        leo.yan@linaro.org, mathieu.poirier@linaro.org, mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        suzuki.poulose@arm.com
-References: <20190705204512.15444-1-tranmanphong@gmail.com>
- <20190710150133.13992-1-tranmanphong@gmail.com>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Message-ID: <808533ea-69d2-4df9-e6e2-442ec29dd8a9@free.fr>
-Date:   Thu, 11 Jul 2019 18:26:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726213AbfGKQgp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jul 2019 12:36:45 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1EBA620863;
+        Thu, 11 Jul 2019 16:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562863004;
+        bh=SRPiMyIccRI4B0O/NdGPz8Oetbs1P8gxCt0qlY6hKxE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eg+GSZ7e1xYuoLRBS2980GM1FfYNwoASK5NjfQgLbXXQwJ0/Rxxb64NXfbTcHossB
+         T7EGMuNIHLkt+CY7CDYdN4BJKtt+wyc7bextGuy6SoUNH/XIfVZASoETKO/A1ezbS0
+         5jF8mdLEYPmztGqJqzrR0ZkpFYvxuM3sVahTu33w=
+From:   Sasha Levin <sashal@kernel.org>
+To:     corbet@lwn.net, solar@openwall.com
+Cc:     will@kernel.org, keescook@chromium.org, peterz@infradead.org,
+        gregkh@linuxfoundation.org, tyhicks@canonical.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] Documentation/security-bugs: provide more information about linux-distros
+Date:   Thu, 11 Jul 2019 12:36:37 -0400
+Message-Id: <20190711163637.30327-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190710150133.13992-1-tranmanphong@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jul 11 18:26:18 2019 +0200 (CEST)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/07/2019 17:01, Phong Tran wrote:
-> Subject: [Patch V4] Documentation: coresight: covert txt to rst
+Provide more information about how to interact with the linux-distros
+mailing list for disclosing security bugs.
 
-Typo in patch subject.
+First, clarify that the reporter must read and accept the linux-distros
+policies prior to sending a report.
 
-s/covert/convert
+Second, clarify that the reported must provide a tentative public
+disclosure date and time in his first contact with linux-distros.
+
+Suggested-by: Solar Designer <solar@openwall.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/security-bugs.rst | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+index dcd6c93c7aac..c62faced9256 100644
+--- a/Documentation/admin-guide/security-bugs.rst
++++ b/Documentation/admin-guide/security-bugs.rst
+@@ -61,14 +61,19 @@ Coordination
+ 
+ Fixes for sensitive bugs, such as those that might lead to privilege
+ escalations, may need to be coordinated with the private
+-<linux-distros@vs.openwall.org> mailing list so that distribution vendors
+-are well prepared to issue a fixed kernel upon public disclosure of the
+-upstream fix. Distros will need some time to test the proposed patch and
+-will generally request at least a few days of embargo, and vendor update
+-publication prefers to happen Tuesday through Thursday. When appropriate,
+-the security team can assist with this coordination, or the reporter can
+-include linux-distros from the start. In this case, remember to prefix
+-the email Subject line with "[vs]" as described in the linux-distros wiki:
++<linux-distros@vs.openwall.org> mailing list so that distribution vendors are
++well prepared to issue a fixed kernel upon public disclosure of the upstream
++fix. As a reporter, you must read and accept the list's policy as outlined in
++the linux-distros wiki:
++<https://oss-security.openwall.org/wiki/mailing-lists/distros#list-policy-and-instructions-for-reporters>.
++When you report a bug, you must also provide a tentative disclosure date and
++time in your very first message to the list. Distros will need some time to
++test the proposed patch so please allow at least a few days of embargo, and
++vendor update publication prefers to happen Tuesday through Thursday. When
++appropriate, the security team can assist with this coordination, or the
++reporter can include linux-distros from the start. In this case, remember to
++prefix the email Subject line with "[vs]" as described in the linux-distros
++wiki:
+ <http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+ 
+ CVE assignment
+-- 
+2.20.1
+
