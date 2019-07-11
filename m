@@ -1,106 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A48177D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 08:12:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C136F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 09:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728090AbfGKIMJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 04:12:09 -0400
-Received: from foss.arm.com ([217.140.110.172]:43146 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727974AbfGKIMJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jul 2019 04:12:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D5992B;
-        Thu, 11 Jul 2019 01:12:08 -0700 (PDT)
-Received: from [10.1.25.146] (e111740.arm.com [10.1.25.146])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A25713F59C;
-        Thu, 11 Jul 2019 01:12:06 -0700 (PDT)
-Subject: Re: [v1 0/5] allow to reserve memory for normal kexec kernel
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
-        James Morse <james.morse@arm.com>
-Cc:     Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Bhupesh Sharma <bhsharma@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Eric Biederman <ebiederm@xmission.com>, will@kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20190708211528.12392-1-pasha.tatashin@soleen.com>
- <CACi5LpNGWhTnXyM8gB0Tn=682+08s-ppfDpX2SawfxMvue1GTQ@mail.gmail.com>
- <CA+CK2bBrwBHhD-PFO_gVnDYoFi0Su6t456WNdtBWpOe4qM+oww@mail.gmail.com>
- <2d60f302-5161-638a-76cd-d7d79e5631fe@arm.com>
- <CA+CK2bA40wQvX=KieE5Qg2Ny5ZyiDAAjAb9W7Phu2Ou_9r6bOA@mail.gmail.com>
- <f9bea5bd-370a-47b5-8ad1-a30bd43d6cca@arm.com>
- <CA+CK2bBWis8TgyOmDhVgLYrOU95Za-UhSGSB3ufsjiNDt-Zd_w@mail.gmail.com>
-From:   Vladimir Murzin <vladimir.murzin@arm.com>
-Message-ID: <93f99d54-9fe4-a191-4877-080ad78322bb@arm.com>
-Date:   Thu, 11 Jul 2019 09:12:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728304AbfGKJvU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 05:51:20 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:54278 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727960AbfGKJvT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 05:51:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=FJ+go1rWo5bup7lu7g/QrNgXQ3Vwzmjj/rkN/hAyR6E=; b=yIDvRQUUo6BD24ceByuSwi6A2
+        Rww/Ym6ehYSo7ILp67PD0kmgu5Up17yvsyzeRmT9bEzCeOsfMkkDnSea8zZQUckUSrk1879m8lser
+        uumLJudSXDSwA/2el/6kuoo28u0z7SpYZ0RaqG1E8wVOHeK+M9CTBgekZalc6hEHDRTeko/8soLPl
+        Mrqzp6+7xwvG++u9/5uChEwbPki+iVEWFwnOiyb8okckM1Od0DOpbBObJHVhBBb3amC+PQ2vFpMC/
+        JduHZ1uIG+mK7vQnZBBrUp2eyh+ohf0UMsRPPjGiXDWSTwyUpOACXX4y/wc4g3Y/AVjjT4QbAEpit
+        b1TE/EmJw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hlVjF-0002rq-8I; Thu, 11 Jul 2019 09:51:05 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5443C20B2B4C4; Thu, 11 Jul 2019 11:51:02 +0200 (CEST)
+Date:   Thu, 11 Jul 2019 11:51:02 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     bsegall@google.com
+Cc:     Dave Chiluk <chiluk+linux@indeed.com>,
+        Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high
+ throttling by removing expiration of cpu-local slices
+Message-ID: <20190711095102.GX3402@hirez.programming.kicks-ass.net>
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+ <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+ <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
+ <xm26lfxhwlxr.fsf@bsegall-linux.svl.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+CK2bBWis8TgyOmDhVgLYrOU95Za-UhSGSB3ufsjiNDt-Zd_w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xm26lfxhwlxr.fsf@bsegall-linux.svl.corp.google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On 7/10/19 4:56 PM, Pavel Tatashin wrote:
-> On Wed, Jul 10, 2019 at 11:19 AM James Morse <james.morse@arm.com> wrote:
->>
->> Hi Pasha,
->>
->> On 09/07/2019 14:07, Pavel Tatashin wrote:
->>>>> Enabling MMU and D-Cache for relocation  would essentially require the
->>>>> same changes in kernel. Could you please share exactly why these were
->>>>> not accepted upstream into kexec-tools?
->>>>
->>>> Because '--no-checks' is a much simpler alternative.
->>>>
->>>> More of the discussion:
->>>> https://lore.kernel.org/linux-arm-kernel/5599813d-f83c-d154-287a-c131c48292ca@arm.com/
->>>>
->>>> While you can make purgatory a fully-fledged operating system, it doesn't really need to
->>>> do anything on arm64. Errata-workarounds alone are a reason not do start down this path.
->>>
->>> Thank you James. I will summaries the information gathered from the
->>> yesterday's/today's discussion and add it to the cover letter together
->>> with ARM64 tag. I think, the patch series makes sense for ARM64 only,
->>> unless there are other platforms that disable caching/MMU during
->>> relocation.
->>
->> I'd prefer not to reserve additional memory for regular kexec just to avoid the relocation.
->> If the kernel's relocation work is so painful we can investigate doing it while the MMU is
->> enabled. If you can compare regular-kexec with kexec_file_load() you eliminate the
->> purgatory part of the work.
-> 
-> Relocation time is exactly the same for regular-kexec and
-> kexec_file_load(). So, the relocation is indeed painful for our case.
-> I am working on adding MMU enabled kernel relocation.
+FWIW, good to see progress, still waiting for you guys to agree :-)
 
-Out of curiosity, does enabling only I-cache make a difference? IIRC, it doesn't
-require setting MMU, in contrast to D-cache.
+On Mon, Jul 01, 2019 at 01:15:44PM -0700, bsegall@google.com wrote:
 
-Cheers
-Vladimir
+> - Taking up-to-every rq->lock is bad and expensive and 5ms may be too
+>   short a delay for this. I haven't tried microbenchmarks on the cost of
+>   this vs min_cfs_rq_runtime = 0 vs baseline.
 
-> 
-> Pasha
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+Yes, that's tricky, SGI/HPE have definite ideas about that.
 
+> @@ -4781,12 +4790,41 @@ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+>   */
+>  static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+>  {
+> -	u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
+> +	u64 runtime = 0;
+>  	unsigned long flags;
+>  	u64 expires;
+> +	struct cfs_rq *cfs_rq, *temp;
+> +	LIST_HEAD(temp_head);
+> +
+> +	local_irq_save(flags);
+> +
+> +	raw_spin_lock(&cfs_b->lock);
+> +	cfs_b->slack_started = false;
+> +	list_splice_init(&cfs_b->slack_cfs_rq, &temp_head);
+> +	raw_spin_unlock(&cfs_b->lock);
+> +
+> +
+> +	/* Gather all left over runtime from all rqs */
+> +	list_for_each_entry_safe(cfs_rq, temp, &temp_head, slack_list) {
+> +		struct rq *rq = rq_of(cfs_rq);
+> +		struct rq_flags rf;
+> +
+> +		rq_lock(rq, &rf);
+> +
+> +		raw_spin_lock(&cfs_b->lock);
+> +		list_del_init(&cfs_rq->slack_list);
+> +		if (!cfs_rq->nr_running && cfs_rq->runtime_remaining > 0 &&
+> +		    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
+> +			cfs_b->runtime += cfs_rq->runtime_remaining;
+> +			cfs_rq->runtime_remaining = 0;
+> +		}
+> +		raw_spin_unlock(&cfs_b->lock);
+> +
+> +		rq_unlock(rq, &rf);
+> +	}
+
+But worse still, you take possibly every rq->lock without ever
+re-enabling IRQs.
+
+>  
+>  	/* confirm we're still not at a refresh boundary */
+> -	raw_spin_lock_irqsave(&cfs_b->lock, flags);
+> +	raw_spin_lock(&cfs_b->lock);
+>  	cfs_b->slack_started = false;
+>  	if (cfs_b->distribute_running) {
+>  		raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
