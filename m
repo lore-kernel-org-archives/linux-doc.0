@@ -1,53 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AB037D91B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Jul 2019 22:04:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3D487D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 03:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727831AbfGJWE1 convert rfc822-to-8bit (ORCPT
+        id S1727838AbfGKDrB convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Jul 2019 18:04:27 -0400
-Received: from 50-244-196-250-static.hfc.comcastbusiness.net ([50.244.196.250]:56929
-        "EHLO hometime.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726245AbfGJWE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jul 2019 18:04:26 -0400
-X-Greylist: delayed 18198 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jul 2019 18:04:22 EDT
-Received: from [100.120.45.199] ([195.181.172.132]) by hometime.com with Microsoft SMTPSVC(6.0.3790.4675);
-         Wed, 10 Jul 2019 00:08:11 -0500
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
+        Wed, 10 Jul 2019 23:47:01 -0400
+Received: from mga14.intel.com ([192.55.52.115]:16529 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727462AbfGKDrB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Jul 2019 23:47:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2019 20:47:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,476,1557212400"; 
+   d="scan'208";a="177043503"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2019 20:46:58 -0700
+Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 10 Jul 2019 20:46:57 -0700
+Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
+ FMSMSX151.amr.corp.intel.com (10.18.125.4) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 10 Jul 2019 20:46:57 -0700
+Received: from bgsmsx101.gar.corp.intel.com ([169.254.1.46]) by
+ BGSMSX106.gar.corp.intel.com ([169.254.1.194]) with mapi id 14.03.0439.000;
+ Thu, 11 Jul 2019 09:16:54 +0530
+From:   "Gote, Nitin R" <nitin.r.gote@intel.com>
+To:     'Joe Perches' <joe@perches.com>, "corbet@lwn.net" <corbet@lwn.net>
+CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "apw@canonical.com" <apw@canonical.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>
+Subject: RE: [PATCH v4] Added warnings in checkpatch.pl script to :
+Thread-Topic: [PATCH v4] Added warnings in checkpatch.pl script to :
+Thread-Index: AQHVNm3hVzOhL9haf0KMxjtR64B8zqbCGIgAgAFiYNA=
+Date:   Thu, 11 Jul 2019 03:46:53 +0000
+Message-ID: <12356C813DFF6F479B608F81178A5615878BFA@BGSMSX101.gar.corp.intel.com>
+References: <20190709154806.26363-1-nitin.r.gote@intel.com>
+ <040b50f00501ae131256bb13a5362731ebdd6bfe.camel@perches.com>
+In-Reply-To: <040b50f00501ae131256bb13a5362731ebdd6bfe.camel@perches.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGE2YzA0YmEtOGQ4MC00MTJkLTg5NTgtZDAwYTljOTVlYjYwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTlVmU3pPaTFySlpBV0ZVOEhBekFpcGYzQjJTS2JiZXAweWozOVBFeURlXC9TS3B1RVVtWHlnS21mUXBOQTduQTYifQ==
+x-originating-ip: [10.223.10.10]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Greetings!
-To:     Recipients <fuqingzheng@asia.com>
-From:   fuqingzheng@asia.com
-Date:   Wed, 10 Jul 2019 07:07:37 +0200
-Reply-To: zhengfuqing@yandex.com
-X-Antivirus: Avast (VPS 190709-4, 09-07-2019), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <SBSSeKg1bzuDwP6SAH200008fea@hometime.com>
-X-OriginalArrivalTime: 10 Jul 2019 05:08:11.0766 (UTC) FILETIME=[78AE5160:01D536DD]
+MIME-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Good day,
 
-  I have a mutual business proposal, which refers to the transfer of a large amount of money to an account abroad, with your help as a foreign partner as a beneficiary of the funds. Everything about this transaction will be legal without any bridge of financial authority both in my country and yours. If you are interested and I will give you more information about the project as soon as I receive your positive response.
+> -----Original Message-----
+> From: Joe Perches [mailto:joe@perches.com]
+> Sent: Tuesday, July 9, 2019 9:40 PM
+> To: Gote, Nitin R <nitin.r.gote@intel.com>; corbet@lwn.net
+> Cc: akpm@linux-foundation.org; apw@canonical.com;
+> keescook@chromium.org; linux-doc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; kernel-hardening@lists.openwall.com
+> Subject: Re: [PATCH v4] Added warnings in checkpatch.pl script to :
+> 
+> On Tue, 2019-07-09 at 21:18 +0530, NitinGote wrote:
+> > From: Nitin Gote <nitin.r.gote@intel.com>
+> >
+> > 1. Deprecate strcpy() in favor of strscpy().
+> > 2. Deprecate strlcpy() in favor of strscpy().
+> > 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> >
+> > Updated strncpy() section in Documentation/process/deprecated.rst
+> > to cover strscpy_pad() case.
+> 
+> Please slow down your patch submission rate for this instance and respond
+> appropriately to the comments you've been given.
 
-Best regards,
+Sure, I will explore this things more. And sorry, I missed to incorporate one comment. 
+I will take care of such things.
 
-Executive Director.
+> 
+> This stuff is not critical bug fixing.
+> 
+Noted.
+
+> The subject could be something like:
+> 
+> Subject: [PATCH v#] Documentation/checkpatch: Prefer strscpy over
+> strcpy/strlcpy
+> 
+
+How about this  :
+Subject: [PATCH v#] Doc/checkpatch: Prefer strscpy/strscpy_pad over strcpy/strlcpy/strncpy
+
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> []
+> > @@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {  }
+> > $deprecated_apis_search = "(?:${deprecated_apis_search})";
+> >
+> > +our %deprecated_string_apis = (
+> > +        "strcpy"				=> "strscpy",
+> > +        "strlcpy"				=> "strscpy",
+> > +        "strncpy"				=> "strscpy, strscpy_pad or
+> for non-NUL-terminated strings, strncpy() can still be used, but destinations
+> should be marked with the __nonstring",
+> 
+> 'the' is not necessary.
+
+Noted.
+
+> 
+> There could likely also be a strscat created for strcat, strlcat and strncat.
+>
+
+I have not found reference for strscat in kernel.
+Could you please give any reference for strscat ?
  
-ICBC. China
+> btw:
+> 
+> There were several defects in the kernel for misuses of strlcpy.
+> 
+> Did you or anyone else have an opinion on stracpy to avoid duplicating the
+> first argument in a sizeof()?
+> 
+> 	strlcpy(foo, bar, sizeof(foo))
+> to
+> 	stracpy(foo, bar)
+> 
+> where foo must be char array compatible ?
+> 
+> https://lore.kernel.org/lkml/d1524130f91d7cfd61bc736623409693d2895f57.
+> camel@perches.com/
+> 
+>
 
----
-Dit e-mailbericht is gecontroleerd op virussen met Avast antivirussoftware.
-https://www.avast.com/antivirus
+As I understood, your trying to give new interface like stracpy(), to avoid duplication of first 
+argument in a sizeof(), we can also make it more robust for users by adding check or warn in 
+checkpatch.pl to prefer stracpy().
 
+Did you or anyone has opinion on this ?
+
+
+Thanks,
+Nitin Gote
