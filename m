@@ -1,110 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C01C37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 17:09:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B58ED7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Jul 2019 17:46:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728226AbfGKRJ1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 13:09:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55742 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726213AbfGKRJ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jul 2019 13:09:27 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E54520863;
-        Thu, 11 Jul 2019 17:09:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562864966;
-        bh=hacCWj1nMMyLFGTAF+XZOvIT0bIvgpWONClBF6ACyVo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Xiihh0nXD0WhIAy8NSq0ykSBUL/C3SuntjDkXOvbs/awtazE5/LGGyD21rfA2btCA
-         /1PcGeSGQCFEgsGgvZG+Cwhga32HV1LH+H3ZSgsIuTeHdzEicI/+nlepsOhi+uIMvU
-         rIsbIY5/dC2Sxo0YGKcqcoh/TwC8q6bRgwBcJ7IQ=
-Date:   Thu, 11 Jul 2019 18:09:21 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        solar@openwall.com, keescook@chromium.org, peterz@infradead.org,
-        tyhicks@canonical.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/security-bugs: provide more information
- about linux-distros
-Message-ID: <20190711170921.ywi43n262s3ckxpi@willie-the-truck>
-References: <20190711163637.30327-1-sashal@kernel.org>
- <20190711170732.GB7544@kroah.com>
+        id S1728682AbfGKRqV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 13:46:21 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34191 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728372AbfGKRqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 13:46:21 -0400
+Received: by mail-pf1-f195.google.com with SMTP id b13so3104437pfo.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2019 10:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=p6qEv8fgTgyqvoOypH+wlalxdPH8SzcdGhJs/o+CWGY=;
+        b=KqgMVRLIbqcIGHDrID8LNbN5FhzJf6sWR5x8kG4hVZMGkWfXDf4dYYgqqc9r74+D+Q
+         wuINI9UEqv8qDAKzJm7CB83/eFNwxqxmhTHeLQRHGOESUpu0vBwWu1oxtA4oCCPSOsSe
+         r3X9iDMN0fhiQ0e+5Kzvg0Y5s1qlC2rBHCD/GPNlEWMvgnuaaSpfgpu/rVdBbyzwvEud
+         kXhE2cDpi24HZpVLDoJFTL5cQbavH/wqeOH18eTMBQFMOhOXXCSDf5tMRrXiX9gepxCr
+         TMVcBc9/J0pn9iK4Cx/Zb+IxnoRu7OGZSSUPMBZ/1QmXnWGAL1wphIaCkt+Giijcu9nw
+         YI7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=p6qEv8fgTgyqvoOypH+wlalxdPH8SzcdGhJs/o+CWGY=;
+        b=QWOJlfPzjv+p5KeRBWBPWIWvVE4IC4avkClM0voPdHOZqiXvpE/lThDrwsqyQJFobu
+         jH7CvzYNmJtzEOv2n9LN9sB0MDphNBdVZH4KGGoegRqe5H4UC3mvG1zwCZ8J6PmY/GSa
+         FEM5mZN7uVLH1N5fPboP1R4zSTsWN/1cRyzgf/tFg3rmRkxKVONZaBRq9I7MRp8oPIEY
+         JKYTtCtmAMpyMFDyi4kTj2NdbPAyt160hs5AqP2R149qIbzPNRHrnZiv3uHkns844jr+
+         zPaWUBikQtVS2poMaQx0JLrrNWXOXC1DvLyx6sXhySlCUT3IS4ut4A2mNEjTjeZUuFa0
+         uMNQ==
+X-Gm-Message-State: APjAAAXZ2StmkiEHr9scd4M9umcOKPgVxj+QdFMDcAXN6982+LRjMDoS
+        W98zKMpa4Y2EEs4Zq1j/p4UNTA==
+X-Google-Smtp-Source: APXvYqw1QkrRAzsxd2h5YvqzpXFKBpulU11tj9hJY93uhZyX+IEDc6Hma+dKamdBB6NDC4DWsXYMZQ==
+X-Received: by 2002:a63:1046:: with SMTP id 6mr5833405pgq.111.1562867180047;
+        Thu, 11 Jul 2019 10:46:20 -0700 (PDT)
+Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
+        by smtp.gmail.com with ESMTPSA id 14sm10447986pfj.36.2019.07.11.10.46.18
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 11 Jul 2019 10:46:19 -0700 (PDT)
+From:   bsegall@google.com
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Dave Chiluk <chiluk+linux@indeed.com>,
+        Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
+        <xm26lfxhwlxr.fsf@bsegall-linux.svl.corp.google.com>
+        <20190711095102.GX3402@hirez.programming.kicks-ass.net>
+Date:   Thu, 11 Jul 2019 10:46:18 -0700
+In-Reply-To: <20190711095102.GX3402@hirez.programming.kicks-ass.net> (Peter
+        Zijlstra's message of "Thu, 11 Jul 2019 11:51:02 +0200")
+Message-ID: <xm26v9w8jwgl.fsf@bsegall-linux.svl.corp.google.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190711170732.GB7544@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 07:07:32PM +0200, Greg KH wrote:
-> On Thu, Jul 11, 2019 at 12:36:37PM -0400, Sasha Levin wrote:
-> > Provide more information about how to interact with the linux-distros
-> > mailing list for disclosing security bugs.
-> > 
-> > First, clarify that the reporter must read and accept the linux-distros
-> > policies prior to sending a report.
-> > 
-> > Second, clarify that the reported must provide a tentative public
-> > disclosure date and time in his first contact with linux-distros.
-> > 
-> > Suggested-by: Solar Designer <solar@openwall.com>
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  Documentation/admin-guide/security-bugs.rst | 21 +++++++++++++--------
-> >  1 file changed, 13 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
-> > index dcd6c93c7aac..c62faced9256 100644
-> > --- a/Documentation/admin-guide/security-bugs.rst
-> > +++ b/Documentation/admin-guide/security-bugs.rst
-> > @@ -61,14 +61,19 @@ Coordination
-> >  
-> >  Fixes for sensitive bugs, such as those that might lead to privilege
-> >  escalations, may need to be coordinated with the private
-> > -<linux-distros@vs.openwall.org> mailing list so that distribution vendors
-> > -are well prepared to issue a fixed kernel upon public disclosure of the
-> > -upstream fix. Distros will need some time to test the proposed patch and
-> > -will generally request at least a few days of embargo, and vendor update
-> > -publication prefers to happen Tuesday through Thursday. When appropriate,
-> > -the security team can assist with this coordination, or the reporter can
-> > -include linux-distros from the start. In this case, remember to prefix
-> > -the email Subject line with "[vs]" as described in the linux-distros wiki:
-> > +<linux-distros@vs.openwall.org> mailing list so that distribution vendors are
-> > +well prepared to issue a fixed kernel upon public disclosure of the upstream
-> > +fix. As a reporter, you must read and accept the list's policy as outlined in
-> > +the linux-distros wiki:
-> > +<https://oss-security.openwall.org/wiki/mailing-lists/distros#list-policy-and-instructions-for-reporters>.
-> > +When you report a bug, you must also provide a tentative disclosure date and
-> > +time in your very first message to the list. Distros will need some time to
-> > +test the proposed patch so please allow at least a few days of embargo, and
-> > +vendor update publication prefers to happen Tuesday through Thursday. When
-> > +appropriate, the security team can assist with this coordination, or the
-> > +reporter can include linux-distros from the start. In this case, remember to
-> > +prefix the email Subject line with "[vs]" as described in the linux-distros
-> > +wiki:
-> >  <http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
-> 
-> Do we really need to describe all of the information on how to use the
-> distro list here?  That's why we included the link, as it has all of
-> this well spelled out and described.  If anything, I would say we should
-> say less in this document about what linux-distros do, as that is
-> independent of the Linux security team.
+Peter Zijlstra <peterz@infradead.org> writes:
 
-Agreed, and it also means that any changes linux-distros make to their
-policy won't be reflecting in the numerous kernel trees out there, so a
-link is much better imo.
+> FWIW, good to see progress, still waiting for you guys to agree :-)
+>
+> On Mon, Jul 01, 2019 at 01:15:44PM -0700, bsegall@google.com wrote:
+>
+>> - Taking up-to-every rq->lock is bad and expensive and 5ms may be too
+>>   short a delay for this. I haven't tried microbenchmarks on the cost of
+>>   this vs min_cfs_rq_runtime = 0 vs baseline.
+>
+> Yes, that's tricky, SGI/HPE have definite ideas about that.
+>
+>> @@ -4781,12 +4790,41 @@ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+>>   */
+>>  static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+>>  {
+>> -	u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
+>> +	u64 runtime = 0;
+>>  	unsigned long flags;
+>>  	u64 expires;
+>> +	struct cfs_rq *cfs_rq, *temp;
+>> +	LIST_HEAD(temp_head);
+>> +
+>> +	local_irq_save(flags);
+>> +
+>> +	raw_spin_lock(&cfs_b->lock);
+>> +	cfs_b->slack_started = false;
+>> +	list_splice_init(&cfs_b->slack_cfs_rq, &temp_head);
+>> +	raw_spin_unlock(&cfs_b->lock);
+>> +
+>> +
+>> +	/* Gather all left over runtime from all rqs */
+>> +	list_for_each_entry_safe(cfs_rq, temp, &temp_head, slack_list) {
+>> +		struct rq *rq = rq_of(cfs_rq);
+>> +		struct rq_flags rf;
+>> +
+>> +		rq_lock(rq, &rf);
+>> +
+>> +		raw_spin_lock(&cfs_b->lock);
+>> +		list_del_init(&cfs_rq->slack_list);
+>> +		if (!cfs_rq->nr_running && cfs_rq->runtime_remaining > 0 &&
+>> +		    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
+>> +			cfs_b->runtime += cfs_rq->runtime_remaining;
+>> +			cfs_rq->runtime_remaining = 0;
+>> +		}
+>> +		raw_spin_unlock(&cfs_b->lock);
+>> +
+>> +		rq_unlock(rq, &rf);
+>> +	}
+>
+> But worse still, you take possibly every rq->lock without ever
+> re-enabling IRQs.
+>
 
-Will
+Yeah, I'm not sure why I did that, it isn't correctness.
