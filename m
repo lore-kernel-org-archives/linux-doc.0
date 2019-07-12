@@ -6,19 +6,19 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E75607D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 02:22:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E06EC7D917
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 02:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729487AbfGLCV4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 22:21:56 -0400
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:58746 "EHLO
+        id S1728975AbfGLCWH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 22:22:07 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:45861 "EHLO
         out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729068AbfGLCUj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 22:20:39 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01422;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0TWfK5h._1562898034;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfK5h._1562898034)
+        by vger.kernel.org with ESMTP id S1728931AbfGLCUi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 22:20:38 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0TWfK5gO_1562898032;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfK5gO_1562898032)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 12 Jul 2019 10:20:34 +0800
+          Fri, 12 Jul 2019 10:20:33 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -31,10 +31,10 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-s390@vger.kernel.org,
         kvm@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org
-Subject: [PATCH 10/12] Documentation/sparc: repointer docs to Documentation/arch/
-Date:   Fri, 12 Jul 2019 10:20:16 +0800
-Message-Id: <20190712022018.27989-10-alex.shi@linux.alibaba.com>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 07/12] Documentation/parisc: repointer docs to Documentation/arch/
+Date:   Fri, 12 Jul 2019 10:20:13 +0800
+Message-Id: <20190712022018.27989-7-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
 References: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
@@ -45,31 +45,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since we move Documentation/sparc docs to Documentation/arch/sparc
+Since we move Documentation/parisc docs to Documentation/arch/parisc
 dir, redirect the doc pointer to them.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc: linux-kernel@vger.kernel.org
 ---
- drivers/sbus/char/oradax.c | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/sbus/char/oradax.c b/drivers/sbus/char/oradax.c
-index 8af216287a84..c7db146a1dd5 100644
---- a/drivers/sbus/char/oradax.c
-+++ b/drivers/sbus/char/oradax.c
-@@ -18,7 +18,7 @@
-  * the recommended way for applications to use the coprocessor, and
-  * the driver interface is not intended for general use.
-  *
-- * See Documentation/sparc/oradax/oracle-dax.rst for more details.
-+ * See Documentation/arch/sparc/oradax/oracle-dax.rst for more details.
-  */
- 
- #include <linux/uaccess.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 03a8c687f87f..e1aad1b8224c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12000,7 +12000,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jejb/parisc-2.6.git
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git
+ S:	Maintained
+ F:	arch/parisc/
+-F:	Documentation/parisc/
++F:	Documentation/arch/parisc/
+ F:	drivers/parisc/
+ F:	drivers/char/agp/parisc-agp.c
+ F:	drivers/input/serio/gscps2.c
 -- 
 2.19.1.856.g8858448bb
 
