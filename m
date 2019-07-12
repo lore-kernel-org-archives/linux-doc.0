@@ -1,23 +1,24 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-3.3 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+	SUSPICIOUS_RECIPS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAE2F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 02:20:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7A117D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 02:20:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729071AbfGLCUh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 22:20:37 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:60437 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728737AbfGLCUh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 22:20:37 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0TWfJjL-_1562898031;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfJjL-_1562898031)
+        id S1729301AbfGLCUp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 22:20:45 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:48113 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729062AbfGLCUj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 22:20:39 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TWfK5gm_1562898033;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfK5gm_1562898033)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 12 Jul 2019 10:20:31 +0800
+          Fri, 12 Jul 2019 10:20:34 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -29,13 +30,10 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-s390@vger.kernel.org,
-        kvm@vger.kernel.org, linux-sh@vger.kernel.org,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>
-Subject: [PATCH 03/12] Documentation/ia64: repointer docs to Documentation/arch/ia64
-Date:   Fri, 12 Jul 2019 10:20:09 +0800
-Message-Id: <20190712022018.27989-3-alex.shi@linux.alibaba.com>
+        kvm@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: [PATCH 09/12] Dcumentation/sh: repointer docs to Documentation/arch/
+Date:   Fri, 12 Jul 2019 10:20:15 +0800
+Message-Id: <20190712022018.27989-9-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
 References: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
@@ -46,88 +44,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since we move 'ia64' docs to Documentation/arch/ia64 dir,
-redirect the doc pointer to them.
+Since we move Documentation/sh docs to Documentation/arch/sh
+dir, redirect the doc pointer to them.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-ia64@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
 ---
- MAINTAINERS             | 2 +-
- arch/ia64/kernel/efi.c  | 2 +-
- arch/ia64/kernel/fsys.S | 2 +-
- arch/ia64/mm/ioremap.c  | 2 +-
- arch/ia64/pci/pci.c     | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/conf.py | 2 +-
+ MAINTAINERS           | 2 +-
+ arch/sh/Kconfig.cpu   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 3b2397bcb565..8bbe421c1d97 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -402,7 +402,7 @@ latex_documents = [
+      'The kernel development community', 'manual'),
+     ('security/index', 'security.tex', 'The kernel security subsystem manual',
+      'The kernel development community', 'manual'),
+-    ('sh/index', 'sh.tex', 'SuperH architecture implementation manual',
++    ('arch/sh/index', 'sh.tex', 'SuperH architecture implementation manual',
+      'The kernel development community', 'manual'),
+     ('sound/index', 'sound.tex', 'Linux Sound Subsystem Documentation',
+      'The kernel development community', 'manual'),
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c21d5464c86f..583c35cba7bc 100644
+index 7a245d3f02fd..84448d5838b7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14286,7 +14286,7 @@ SGI SN-IA64 (Altix) SERIAL CONSOLE DRIVER
- M:	Pat Gefre <pfg@sgi.com>
- L:	linux-ia64@vger.kernel.org
- S:	Supported
--F:	Documentation/ia64/serial.txt
-+F:	Documentation/arch/ia64/serial.txt
- F:	drivers/tty/serial/ioc?_serial.c
- F:	include/linux/ioc?.h
+@@ -15169,7 +15169,7 @@ M:	Rich Felker <dalias@libc.org>
+ L:	linux-sh@vger.kernel.org
+ Q:	http://patchwork.kernel.org/project/linux-sh/list/
+ S:	Maintained
+-F:	Documentation/sh/
++F:	Documentation/arch/sh/
+ F:	arch/sh/
+ F:	drivers/sh/
  
-diff --git a/arch/ia64/kernel/efi.c b/arch/ia64/kernel/efi.c
-index 8f106638913c..02cdc38d15e8 100644
---- a/arch/ia64/kernel/efi.c
-+++ b/arch/ia64/kernel/efi.c
-@@ -852,7 +852,7 @@ valid_phys_addr_range (phys_addr_t phys_addr, unsigned long size)
- 	 * /dev/mem reads and writes use copy_to_user(), which implicitly
- 	 * uses a granule-sized kernel identity mapping.  It's really
- 	 * only safe to do this for regions in kern_memmap.  For more
--	 * details, see Documentation/ia64/aliasing.txt.
-+	 * details, see Documentation/arch/ia64/aliasing.txt.
- 	 */
- 	attr = kern_mem_attribute(phys_addr, size);
- 	if (attr & EFI_MEMORY_WB || attr & EFI_MEMORY_UC)
-diff --git a/arch/ia64/kernel/fsys.S b/arch/ia64/kernel/fsys.S
-index d80c99a5f55d..b493ca74890a 100644
---- a/arch/ia64/kernel/fsys.S
-+++ b/arch/ia64/kernel/fsys.S
-@@ -28,7 +28,7 @@
- #include <asm/native/inst.h>
+diff --git a/arch/sh/Kconfig.cpu b/arch/sh/Kconfig.cpu
+index 4a4edc7e03d4..fdc8b565241b 100644
+--- a/arch/sh/Kconfig.cpu
++++ b/arch/sh/Kconfig.cpu
+@@ -94,7 +94,7 @@ config CPU_HAS_SR_RB
+ 	  that are lacking this bit must have another method in place for
+ 	  accomplishing what is taken care of by the banked registers.
  
- /*
-- * See Documentation/ia64/fsys.txt for details on fsyscalls.
-+ * See Documentation/arch/ia64/fsys.txt for details on fsyscalls.
-  *
-  * On entry to an fsyscall handler:
-  *   r10	= 0 (i.e., defaults to "successful syscall return")
-diff --git a/arch/ia64/mm/ioremap.c b/arch/ia64/mm/ioremap.c
-index 5e3e7b1fdac5..989cc4df9087 100644
---- a/arch/ia64/mm/ioremap.c
-+++ b/arch/ia64/mm/ioremap.c
-@@ -42,7 +42,7 @@ ioremap (unsigned long phys_addr, unsigned long size)
- 	/*
- 	 * For things in kern_memmap, we must use the same attribute
- 	 * as the rest of the kernel.  For more details, see
--	 * Documentation/ia64/aliasing.txt.
-+	 * Documentation/arch/ia64/aliasing.txt.
- 	 */
- 	attr = kern_mem_attribute(phys_addr, size);
- 	if (attr & EFI_MEMORY_WB)
-diff --git a/arch/ia64/pci/pci.c b/arch/ia64/pci/pci.c
-index e308196c2229..6ba87b70e30c 100644
---- a/arch/ia64/pci/pci.c
-+++ b/arch/ia64/pci/pci.c
-@@ -450,7 +450,7 @@ pci_mmap_legacy_page_range(struct pci_bus *bus, struct vm_area_struct *vma,
- 		return -ENOSYS;
+-	  See <file:Documentation/sh/register-banks.txt> for further
++	  See <file:Documentation/arch/sh/register-banks.txt> for further
+ 	  information on SR.RB and register banking in the kernel in general.
  
- 	/*
--	 * Avoid attribute aliasing.  See Documentation/ia64/aliasing.txt
-+	 * Avoid attribute aliasing.  See Documentation/arch/ia64/aliasing.txt
- 	 * for more details.
- 	 */
- 	if (!valid_mmap_phys_addr_range(vma->vm_pgoff, size))
+ config CPU_HAS_PTEAEX
 -- 
 2.19.1.856.g8858448bb
 
