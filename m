@@ -1,239 +1,216 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E28577D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 23:34:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0BBA7D913
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 23:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728461AbfGLXdy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 19:33:54 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56926 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727708AbfGLXdx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 19:33:53 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6CNVOI1122769;
-        Fri, 12 Jul 2019 19:32:10 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tpyhv03fs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Jul 2019 19:32:09 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6CNVQbt122880;
-        Fri, 12 Jul 2019 19:32:09 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tpyhv03f1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Jul 2019 19:32:09 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6CNTuof009911;
-        Fri, 12 Jul 2019 23:32:07 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
-        by ppma01dal.us.ibm.com with ESMTP id 2tjk97y3mk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Jul 2019 23:32:07 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6CNW6a351839248
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Jul 2019 23:32:06 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BC6ECB2064;
-        Fri, 12 Jul 2019 23:32:06 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 65EA2B2066;
-        Fri, 12 Jul 2019 23:32:06 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.195.235])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 12 Jul 2019 23:32:06 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id CAE8816C3FC8; Fri, 12 Jul 2019 16:32:06 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 16:32:06 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
-        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        id S1727708AbfGLXw5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 19:52:57 -0400
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:46526 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728550AbfGLXw4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 19:52:56 -0400
+Received: by mail-pf1-f201.google.com with SMTP id g21so6449551pfb.13
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 16:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=eaQJVzKVYitsX+nBcXNXCgca4tYNoR3mi+s/+unfQdQ=;
+        b=jn0odGG/oFt0js4DkYxZzkmmn6cZzljmylWA0Mx4zBCxeTFHUyc0WyKdJjFGAQ5q+G
+         vr7sEMJJnVEK0J0cRgr+HDfLDKIGLg/C4Ve5+RY76PBISpPI/PEUE94cwuWBNwDCg4bf
+         7dqQq6QfLYzuoFW1POXgFCuqwLBUiCkcLgf4fCZD0fOwhJx86tHh6Fjegunp+aIgERgF
+         v869pQE2pDVdGwMXCqrXw0+BKE3KT3numFnjyH9wtQzzPHP8/5KQ8pnD4FatNjPRkqIq
+         1/JqhH9Qs0ms0eeLTMxfhaoJUuKUZFhimZ7I5g6SjvrjLMB1vT7LSE0TwLLmITxQzXrm
+         GwDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=eaQJVzKVYitsX+nBcXNXCgca4tYNoR3mi+s/+unfQdQ=;
+        b=qhuDtG2LYwgpBNmhZsFpZp7vQZFfG1qIoJRuXlkhcVfe/Y4SpyM3tZztLZ9RxrYmXH
+         wHZi2jKSsNsNjd2dCavHGufueBTb94SdecphNbxuPwoTBnNZZWVil6Pa9KWFuQUlOE4Z
+         qfq/n2f5Ety1IO0mdhwzI2U0WOID9aKAcsDObKjGHV+qTCkpKTC4Nr68iCveeHnxoovn
+         zCQCh4O3YkM0+48xUaOTOY7znCwet1FlA0BT6z46rh3xBM8dMlNm+oOHk5cFQoe65Mnk
+         td6rTJD2Sfa1KOAK08l6130AGTIctdizo2WJBsiPJxlL85gOrCd61JlTVzjJgmB5Foey
+         kyIA==
+X-Gm-Message-State: APjAAAW9bmczgzupdVhtmmw66en7/oTzY67AUwMyb3FjOflvblLkwGWz
+        iRUVXduPF29reDPe8BdWR8aCP/Fp/80G62Q=
+X-Google-Smtp-Source: APXvYqzcXhm6MzlfeEhmVbdJbUNlik4cYgtPgDKR9xS8FKJtjyANKiCJSi1hR/+Yc/CQmA+WYZUOX2t9DTqHx3Q=
+X-Received: by 2002:a63:1e0b:: with SMTP id e11mr13111041pge.402.1562975575788;
+ Fri, 12 Jul 2019 16:52:55 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 16:52:35 -0700
+In-Reply-To: <20190712235245.202558-1-saravanak@google.com>
+Message-Id: <20190712235245.202558-3-saravanak@google.com>
+Mime-Version: 1.0
+References: <20190712235245.202558-1-saravanak@google.com>
+X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
+Subject: [PATCH v5 02/11] of/platform: Add functional dependency link from DT bindings
+From:   Saravana Kannan <saravanak@google.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
-        kernel-hardening@lists.openwall.com, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        neilb@suse.com, netdev@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Tejun Heo <tj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
-Message-ID: <20190712233206.GZ26519@linux.ibm.com>
-Reply-To: paulmck@linux.ibm.com
-References: <20190712170024.111093-1-joel@joelfernandes.org>
- <20190712170024.111093-4-joel@joelfernandes.org>
- <20190712213559.GA175138@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190712213559.GA175138@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-12_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907120242
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        David Collins <collinsd@codeaurora.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 05:35:59PM -0400, Joel Fernandes wrote:
-> On Fri, Jul 12, 2019 at 01:00:18PM -0400, Joel Fernandes (Google) wrote:
-> > The rcu/sync code was doing its own check whether we are in a reader
-> > section. With RCU consolidating flavors and the generic helper added in
-> > this series, this is no longer need. We can just use the generic helper
-> > and it results in a nice cleanup.
-> > 
-> > Cc: Oleg Nesterov <oleg@redhat.com>
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> 
-> Hi Oleg,
-> Slightly unrelated to the patch,
-> I tried hard to understand this comment below in percpu_down_read() but no dice.
-> 
-> I do understand how rcu sync and percpu rwsem works, however the comment
-> below didn't make much sense to me. For one, there's no readers_fast anymore
-> so I did not follow what readers_fast means. Could the comment be updated to
-> reflect latest changes?
-> Also could you help understand how is a writer not able to change
-> sem->state and count the per-cpu read counters at the same time as the
-> comment tries to say?
-> 
-> 	/*
-> 	 * We are in an RCU-sched read-side critical section, so the writer
-> 	 * cannot both change sem->state from readers_fast and start checking
-> 	 * counters while we are here. So if we see !sem->state, we know that
-> 	 * the writer won't be checking until we're past the preempt_enable()
-> 	 * and that once the synchronize_rcu() is done, the writer will see
-> 	 * anything we did within this RCU-sched read-size critical section.
-> 	 */
-> 
-> Also,
-> I guess we could get rid of all of the gp_ops struct stuff now that since all
-> the callbacks are the same now. I will post that as a follow-up patch to this
-> series.
+Add device-links after the devices are created (but before they are
+probed) by looking at common DT bindings like clocks and
+interconnects.
 
-Hello, Joel,
+Automatically adding device-links for functional dependencies at the
+framework level provides the following benefits:
 
-Oleg has a set of patches updating this code that just hit mainline
-this week.  These patches get rid of the code that previously handled
-RCU's multiple flavors.  Or are you looking at current mainline and
-me just missing your point?
+- Optimizes device probe order and avoids the useless work of
+  attempting probes of devices that will not probe successfully
+  (because their suppliers aren't present or haven't probed yet).
 
-							Thanx, Paul
+  For example, in a commonly available mobile SoC, registering just
+  one consumer device's driver at an initcall level earlier than the
+  supplier device's driver causes 11 failed probe attempts before the
+  consumer device probes successfully. This was with a kernel with all
+  the drivers statically compiled in. This problem gets a lot worse if
+  all the drivers are loaded as modules without direct symbol
+  dependencies.
 
-> thanks!
-> 
->  - Joel
-> 
-> 
-> > ---
-> > Please note: Only build and boot tested this particular patch so far.
-> > 
-> >  include/linux/rcu_sync.h |  5 ++---
-> >  kernel/rcu/sync.c        | 22 ----------------------
-> >  2 files changed, 2 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
-> > index 6fc53a1345b3..c954f1efc919 100644
-> > --- a/include/linux/rcu_sync.h
-> > +++ b/include/linux/rcu_sync.h
-> > @@ -39,9 +39,8 @@ extern void rcu_sync_lockdep_assert(struct rcu_sync *);
-> >   */
-> >  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
-> >  {
-> > -#ifdef CONFIG_PROVE_RCU
-> > -	rcu_sync_lockdep_assert(rsp);
-> > -#endif
-> > +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
-> > +			 "suspicious rcu_sync_is_idle() usage");
-> >  	return !rsp->gp_state; /* GP_IDLE */
-> >  }
-> >  
-> > diff --git a/kernel/rcu/sync.c b/kernel/rcu/sync.c
-> > index a8304d90573f..535e02601f56 100644
-> > --- a/kernel/rcu/sync.c
-> > +++ b/kernel/rcu/sync.c
-> > @@ -10,37 +10,25 @@
-> >  #include <linux/rcu_sync.h>
-> >  #include <linux/sched.h>
-> >  
-> > -#ifdef CONFIG_PROVE_RCU
-> > -#define __INIT_HELD(func)	.held = func,
-> > -#else
-> > -#define __INIT_HELD(func)
-> > -#endif
-> > -
-> >  static const struct {
-> >  	void (*sync)(void);
-> >  	void (*call)(struct rcu_head *, void (*)(struct rcu_head *));
-> >  	void (*wait)(void);
-> > -#ifdef CONFIG_PROVE_RCU
-> > -	int  (*held)(void);
-> > -#endif
-> >  } gp_ops[] = {
-> >  	[RCU_SYNC] = {
-> >  		.sync = synchronize_rcu,
-> >  		.call = call_rcu,
-> >  		.wait = rcu_barrier,
-> > -		__INIT_HELD(rcu_read_lock_held)
-> >  	},
-> >  	[RCU_SCHED_SYNC] = {
-> >  		.sync = synchronize_rcu,
-> >  		.call = call_rcu,
-> >  		.wait = rcu_barrier,
-> > -		__INIT_HELD(rcu_read_lock_sched_held)
-> >  	},
-> >  	[RCU_BH_SYNC] = {
-> >  		.sync = synchronize_rcu,
-> >  		.call = call_rcu,
-> >  		.wait = rcu_barrier,
-> > -		__INIT_HELD(rcu_read_lock_bh_held)
-> >  	},
-> >  };
-> >  
-> > @@ -49,16 +37,6 @@ enum { CB_IDLE = 0, CB_PENDING, CB_REPLAY };
-> >  
-> >  #define	rss_lock	gp_wait.lock
-> >  
-> > -#ifdef CONFIG_PROVE_RCU
-> > -void rcu_sync_lockdep_assert(struct rcu_sync *rsp)
-> > -{
-> > -	RCU_LOCKDEP_WARN(!gp_ops[rsp->gp_type].held(),
-> > -			 "suspicious rcu_sync_is_idle() usage");
-> > -}
-> > -
-> > -EXPORT_SYMBOL_GPL(rcu_sync_lockdep_assert);
-> > -#endif
-> > -
-> >  /**
-> >   * rcu_sync_init() - Initialize an rcu_sync structure
-> >   * @rsp: Pointer to rcu_sync structure to be initialized
-> > -- 
-> > 2.22.0.510.g264f2c817a-goog
-> > 
-> 
+- Supplier devices like clock providers, interconnect providers, etc
+  need to keep the resources they provide active and at a particular
+  state(s) during boot up even if their current set of consumers don't
+  request the resource to be active. This is because the rest of the
+  consumers might not have probed yet and turning off the resource
+  before all the consumers have probed could lead to a hang or
+  undesired user experience.
+
+  Some frameworks (Eg: regulator) handle this today by turning off
+  "unused" resources at late_initcall_sync and hoping all the devices
+  have probed by then. This is not a valid assumption for systems with
+  loadable modules. Other frameworks (Eg: clock) just don't handle
+  this due to the lack of a clear signal for when they can turn off
+  resources. This leads to downstream hacks to handle cases like this
+  that can easily be solved in the upstream kernel.
+
+  By linking devices before they are probed, we give suppliers a clear
+  count of the number of dependent consumers. Once all of the
+  consumers are active, the suppliers can turn off the unused
+  resources without making assumptions about the number of consumers.
+
+By default we just add device-links to track "driver presence" (probe
+succeeded) of the supplier device. If any other functionality provided
+by device-links are needed, it is left to the consumer/supplier
+devices to change the link when they probe.
+
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  5 ++
+ drivers/of/platform.c                         | 57 +++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 138f6664b2e2..109b4310844f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3141,6 +3141,11 @@
+ 			This can be set from sysctl after boot.
+ 			See Documentation/sysctl/vm.txt for details.
+ 
++	of_devlink	[KNL] Make device links from common DT bindings. Useful
++			for optimizing probe order and making sure resources
++			aren't turned off before the consumer devices have
++			probed.
++
+ 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
+ 			See Documentation/debugging-via-ohci1394.txt for more
+ 			info.
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index 04ad312fd85b..0930f9f89571 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -509,6 +509,62 @@ int of_platform_default_populate(struct device_node *root,
+ }
+ EXPORT_SYMBOL_GPL(of_platform_default_populate);
+ 
++static int of_link_binding(struct device *dev,
++			   const char *binding, const char *cell)
++{
++	struct of_phandle_args sup_args;
++	struct platform_device *sup_dev;
++	unsigned int i = 0, links = 0;
++	u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
++
++	while (!of_parse_phandle_with_args(dev->of_node, binding, cell, i,
++					   &sup_args)) {
++		i++;
++		sup_dev = of_find_device_by_node(sup_args.np);
++		of_node_put(sup_args.np);
++		if (!sup_dev)
++			continue;
++		if (device_link_add(dev, &sup_dev->dev, dl_flags))
++			links++;
++		put_device(&sup_dev->dev);
++	}
++	if (links < i)
++		return -ENODEV;
++	return 0;
++}
++
++static bool of_devlink;
++core_param(of_devlink, of_devlink, bool, 0);
++
++/*
++ * List of bindings and their cell names (use NULL if no cell names) from which
++ * device links need to be created.
++ */
++static const char * const link_bindings[] = {
++	"clocks", "#clock-cells",
++	"interconnects", "#interconnect-cells",
++};
++
++static int of_link_to_suppliers(struct device *dev)
++{
++	unsigned int i = 0;
++	bool done = true;
++
++	if (!of_devlink)
++		return 0;
++	if (unlikely(!dev->of_node))
++		return 0;
++
++	for (i = 0; i < ARRAY_SIZE(link_bindings) / 2; i++)
++		if (of_link_binding(dev, link_bindings[i * 2],
++					link_bindings[i * 2 + 1]))
++			done = false;
++
++	if (!done)
++		return -ENODEV;
++	return 0;
++}
++
+ #ifndef CONFIG_PPC
+ static const struct of_device_id reserved_mem_matches[] = {
+ 	{ .compatible = "qcom,rmtfs-mem" },
+@@ -524,6 +580,7 @@ static int __init of_platform_default_populate_init(void)
+ 	if (!of_have_populated_dt())
+ 		return -ENODEV;
+ 
++	platform_bus_type.add_links = of_link_to_suppliers;
+ 	/*
+ 	 * Handle certain compatibles explicitly, since we don't want to create
+ 	 * platform_devices for every node in /reserved-memory with a
+-- 
+2.22.0.510.g264f2c817a-goog
+
