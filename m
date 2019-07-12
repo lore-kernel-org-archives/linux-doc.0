@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC1927D913
+	by archive.lwn.net (Postfix) with ESMTP id BD5DA7D982
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 08:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726560AbfGLIR7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 04:17:59 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:56524 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfGLIR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 04:17:57 -0400
-Received: by mail-vk1-f202.google.com with SMTP id a4so3607984vki.23
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 01:17:56 -0700 (PDT)
+        id S1726618AbfGLITf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 04:19:35 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:53619 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbfGLISD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 04:18:03 -0400
+Received: by mail-pg1-f201.google.com with SMTP id c31so4372641pgb.20
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 01:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=ic3smNwcHiaf2+e332OcS9f4hkMErHF1/7OHIGEcmHI=;
-        b=luSinLNk/jzuvl+4m9xFS1K6Re4gqbYv0FZlLGh/qrV/lEGjOZBanhk6Dp9Tc9bauI
-         wQhjlFfX82158c490durF9jO8BX+t5DE1xcb7IYA5dLbpjYzkDWu0WPp3UHZVGlHJ6/X
-         1a9eJ/3JE3eyYxFkftZd6YIxo+RuGbfslxQi5IgYYN0OmJzWtbJwD3uPwrH27jUJX+3E
-         9ztWtuqhLupqzlbliEO3rX4ZBwQgrZ/102Y9gVbtI60+TQNKY7t1sA3WZouqLc/GFDbt
-         RmcPO9dHp+S6Iza4kVjRgQro87GfuL3++cwHVypOWXx5FEuML0Z5RZiga45kyzgprk1Z
-         nndQ==
+        bh=pTGx5akQJDhaSZySqpQ1nhnlCVlScw5xa33k0FhGOt8=;
+        b=hfDwaE4OQ/u8gvU+8Uxo0bbf3mr69ItfwPUeERV07Jw4GxeRE97wEAQPmnUCzFxoWa
+         JjrZIlmQWwIM/s023ZQdGA7ol07r4+jwwCOJrST2pn7acjFFCSotpUcN0ALi2g0Bx6qW
+         oXv4Sx8NUnLbEvSax1kqXmXbhhfuEPlCm/0zwZdl5Z/luYOYUC5AUBTNulXreU+VN0JM
+         rGorENJQBN/481ZXR9fh5LGxvKes6DouSHMX5PObLfuOMxM5BWy8Z0JFg9/ectmNg//P
+         8bglRtCKbTo91Ak6oDaTzvNXBDH+YymdybO99mdH8tcmOo9unpbGDA724K9wvZ8teUoK
+         HKjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=ic3smNwcHiaf2+e332OcS9f4hkMErHF1/7OHIGEcmHI=;
-        b=O8JgnTorLRPBNQYWJloMXTAOUSX21Jhy3n/9e0eekXTI+OSJoVYFeI9ly03uGx+oHx
-         aekGy2o1eaYQ7oOnTQL9wHWiBHf95pzrn/TYqE6Rp4G/uF0UTU0KO9TKreGQWiBiVTmL
-         CunIlIorXyB5edWg7bfZeBjgx85fe6pAQXYtsnPei+FP7S0PuXKUzkpV96C/6Ngr6OHf
-         WYb9JHTQnGDWuuqcqXkChvJtg1sgxfzqwAT71WKtQQVXzozewbVH2rbzNQ0KMlZb61B1
-         j+2LJHKCCDiA6Pj2lz6IYa1lYHmxtX3c/MO0qGS8ckghrFkYlhxd9r3g1G2uAk9eErzE
-         aflA==
-X-Gm-Message-State: APjAAAVUZvoF0Ah9XR10V0Odeh2EPlbHoWGF6S4igqe0vv3LzM8RnOS9
-        VQoUzB2ZXJAiBgZUJaGLW7OD1UoNJ/IOARI/BkH0Vw==
-X-Google-Smtp-Source: APXvYqy1YSjZ6iWYzUv4xF/wjcKi5W70CkWZzCASOygsVyHg8zpD3OUESrAJ9l4TURGD5j8Lo1+8+o0Hcjq1m+fRgZ0ABA==
-X-Received: by 2002:a1f:cb84:: with SMTP id b126mr5514252vkg.43.1562919475827;
- Fri, 12 Jul 2019 01:17:55 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 01:17:28 -0700
+        bh=pTGx5akQJDhaSZySqpQ1nhnlCVlScw5xa33k0FhGOt8=;
+        b=O/619KdDnB2d45NPa74W6wuS/tr7YsBl2c3dKNyJtEDQYgTBVc0Cobhdc10f75hGgP
+         mv2z0wIRSwmBtbtCgNfheT4rO5Iufn5rK201vdYEc3BQDc1h9Tda/TFBYZj3265JR4lP
+         oM+3262SueNJMLDSE28YyPLLMYafT0HtQiRfjOx6J+Rj3QQe0r+nRr0NN0kofjzSFmFw
+         1+Uj9jci0IRAxa3RJBXIIosF7+vOafyFNEKGFvZwKojw7JV14A2Ak+JTmlkRynkZ6Gnb
+         JOo+96aKq+S+K/tST3ZqE9g3z3w1AEPwuwFdWLRdCrfRP4SfkXe4TlWua1gR87A2GIjl
+         9edQ==
+X-Gm-Message-State: APjAAAWnJa+Zq8A4IPWjL30etxMgqzjjYEYftcFB9AlHIGvZV4afXCSG
+        zCfDwis5Hws6B6MBciMg4nk8BsYy1vhnxC5x2lfbpg==
+X-Google-Smtp-Source: APXvYqzqrljOzv6fR5IEaidJ2VLYytEbYt0UG82qnolQrQt1DQGNXPl6s+wR2OgxBN9X6ihLj/nmVf+qe0I8ZTJ3XaPhRg==
+X-Received: by 2002:a63:f4e:: with SMTP id 14mr9370298pgp.58.1562919480983;
+ Fri, 12 Jul 2019 01:18:00 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 01:17:30 -0700
 In-Reply-To: <20190712081744.87097-1-brendanhiggins@google.com>
-Message-Id: <20190712081744.87097-3-brendanhiggins@google.com>
+Message-Id: <20190712081744.87097-5-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190712081744.87097-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v9 02/18] kunit: test: add test resource management API
+Subject: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -76,281 +76,286 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Create a common API for test managed resources like memory and test
-objects. A lot of times a test will want to set up infrastructure to be
-used in test cases; this could be anything from just wanting to allocate
-some memory to setting up a driver stack; this defines facilities for
-creating "test resources" which are managed by the test infrastructure
-and are automatically cleaned up at the conclusion of the test.
+A lot of the expectation and assertion infrastructure prints out fairly
+complicated test failure messages, so add a C++ style log library for
+for logging test results.
 
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- include/kunit/test.h | 116 +++++++++++++++++++++++++++++++++++++++++++
- kunit/test.c         |  94 +++++++++++++++++++++++++++++++++++
- 2 files changed, 210 insertions(+)
+ include/kunit/kunit-stream.h |  81 +++++++++++++++++++++++
+ include/kunit/test.h         |   3 +
+ kunit/Makefile               |   3 +-
+ kunit/kunit-stream.c         | 123 +++++++++++++++++++++++++++++++++++
+ kunit/test.c                 |   6 ++
+ 5 files changed, 215 insertions(+), 1 deletion(-)
+ create mode 100644 include/kunit/kunit-stream.h
+ create mode 100644 kunit/kunit-stream.c
 
+diff --git a/include/kunit/kunit-stream.h b/include/kunit/kunit-stream.h
+new file mode 100644
+index 0000000000000..a7b53eabf6be4
+--- /dev/null
++++ b/include/kunit/kunit-stream.h
+@@ -0,0 +1,81 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * C++ stream style string formatter and printer used in KUnit for outputting
++ * KUnit messages.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#ifndef _KUNIT_KUNIT_STREAM_H
++#define _KUNIT_KUNIT_STREAM_H
++
++#include <linux/types.h>
++#include <kunit/string-stream.h>
++
++struct kunit;
++
++/**
++ * struct kunit_stream - a std::stream style string builder.
++ *
++ * A std::stream style string builder. Allows messages to be built up and
++ * printed all at once.
++ */
++struct kunit_stream {
++	/* private: internal use only. */
++	struct kunit *test;
++	const char *level;
++	struct string_stream *internal_stream;
++};
++
++/**
++ * alloc_kunit_stream() - constructs a new &struct kunit_stream.
++ * @test: The test context object.
++ * @level: The log level at which to print out the message.
++ *
++ * Constructs a new test managed &struct kunit_stream.
++ */
++struct kunit_stream *alloc_kunit_stream(struct kunit *test, const char *level);
++
++/**
++ * kunit_stream_add(): adds the formatted input to the internal buffer.
++ * @kstream: the stream being operated on.
++ * @fmt: printf style format string to append to stream.
++ *
++ * Appends the formatted string, @fmt, to the internal buffer.
++ */
++void __printf(2, 3) kunit_stream_add(struct kunit_stream *kstream,
++				     const char *fmt, ...);
++
++/**
++ * kunit_stream_append(): appends the contents of @other to @kstream.
++ * @kstream: the stream to which @other is appended.
++ * @other: the stream whose contents are appended to @kstream.
++ *
++ * Appends the contents of @other to @kstream.
++ */
++void kunit_stream_append(struct kunit_stream *kstream,
++			 struct kunit_stream *other);
++
++/**
++ * kunit_stream_commit(): prints out the internal buffer to the user.
++ * @kstream: the stream being operated on.
++ *
++ * Outputs the contents of the internal buffer as a kunit_printk formatted
++ * output. KUNIT_STREAM ONLY OUTPUTS ITS BUFFER TO THE USER IF COMMIT IS
++ * CALLED!!! The reason for this is that it allows us to construct a message
++ * before we know whether we want to print it out; this can be extremely handy
++ * if there is information you might need for a failure message that is easiest
++ * to collect in the steps leading up to the actual check.
++ */
++void kunit_stream_commit(struct kunit_stream *kstream);
++
++/**
++ * kunit_stream_clear(): clears the internal buffer.
++ * @kstream: the stream being operated on.
++ *
++ * Clears the contents of the internal buffer.
++ */
++void kunit_stream_clear(struct kunit_stream *kstream);
++
++#endif /* _KUNIT_KUNIT_STREAM_H */
 diff --git a/include/kunit/test.h b/include/kunit/test.h
-index e0b34acb9ee4e..bdf41d31c343c 100644
+index bdf41d31c343c..bc7dbdcf8abab 100644
 --- a/include/kunit/test.h
 +++ b/include/kunit/test.h
-@@ -10,6 +10,70 @@
- #define _KUNIT_TEST_H
+@@ -11,6 +11,7 @@
  
  #include <linux/types.h>
-+#include <linux/slab.h>
-+
-+struct kunit_resource;
-+
-+typedef int (*kunit_resource_init_t)(struct kunit_resource *, void *);
-+typedef void (*kunit_resource_free_t)(struct kunit_resource *);
-+
-+/**
-+ * struct kunit_resource - represents a *test managed resource*
-+ * @allocation: for the user to store arbitrary data.
-+ * @free: a user supplied function to free the resource. Populated by
-+ * kunit_alloc_resource().
-+ *
-+ * Represents a *test managed resource*, a resource which will automatically be
-+ * cleaned up at the end of a test case.
-+ *
-+ * Example:
-+ *
-+ * .. code-block:: c
-+ *
-+ *	struct kunit_kmalloc_params {
-+ *		size_t size;
-+ *		gfp_t gfp;
-+ *	};
-+ *
-+ *	static int kunit_kmalloc_init(struct kunit_resource *res, void *context)
-+ *	{
-+ *		struct kunit_kmalloc_params *params = context;
-+ *		res->allocation = kmalloc(params->size, params->gfp);
-+ *
-+ *		if (!res->allocation)
-+ *			return -ENOMEM;
-+ *
-+ *		return 0;
-+ *	}
-+ *
-+ *	static void kunit_kmalloc_free(struct kunit_resource *res)
-+ *	{
-+ *		kfree(res->allocation);
-+ *	}
-+ *
-+ *	void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp)
-+ *	{
-+ *		struct kunit_kmalloc_params params;
-+ *		struct kunit_resource *res;
-+ *
-+ *		params.size = size;
-+ *		params.gfp = gfp;
-+ *
-+ *		res = kunit_alloc_resource(test, kunit_kmalloc_init,
-+ *			kunit_kmalloc_free, &params);
-+ *		if (res)
-+ *			return res->allocation;
-+ *
-+ *		return NULL;
-+ *	}
-+ */
-+struct kunit_resource {
-+	void *allocation;
-+	kunit_resource_free_t free;
-+
-+	/* private: internal use only. */
-+	struct list_head node;
-+};
+ #include <linux/slab.h>
++#include <kunit/kunit-stream.h>
  
- struct kunit;
+ struct kunit_resource;
  
-@@ -109,6 +173,13 @@ struct kunit {
- 	 * have terminated.
- 	 */
- 	bool success; /* Read only after test_case finishes! */
-+	struct mutex lock; /* Gaurds all mutable test state. */
-+	/*
-+	 * Because resources is a list that may be updated multiple times (with
-+	 * new resources) from any thread associated with a test case, we must
-+	 * protect it with some type of lock.
-+	 */
-+	struct list_head resources; /* Protected by lock. */
- };
+@@ -184,6 +185,8 @@ struct kunit {
  
  void kunit_init_test(struct kunit *test, const char *name);
-@@ -141,6 +212,51 @@ int kunit_run_tests(struct kunit_suite *suite);
- 		}							       \
- 		late_initcall(kunit_suite_init##suite)
  
-+/**
-+ * kunit_alloc_resource() - Allocates a *test managed resource*.
-+ * @test: The test context object.
-+ * @init: a user supplied function to initialize the resource.
-+ * @free: a user supplied function to free the resource.
-+ * @context: for the user to pass in arbitrary data to the init function.
-+ *
-+ * Allocates a *test managed resource*, a resource which will automatically be
-+ * cleaned up at the end of a test case. See &struct kunit_resource for an
-+ * example.
-+ */
-+struct kunit_resource *kunit_alloc_resource(struct kunit *test,
-+					    kunit_resource_init_t init,
-+					    kunit_resource_free_t free,
-+					    void *context);
++void kunit_fail(struct kunit *test, struct kunit_stream *stream);
 +
-+void kunit_free_resource(struct kunit *test, struct kunit_resource *res);
-+
-+/**
-+ * kunit_kmalloc() - Like kmalloc() except the allocation is *test managed*.
-+ * @test: The test context object.
-+ * @size: The size in bytes of the desired memory.
-+ * @gfp: flags passed to underlying kmalloc().
+ int kunit_run_tests(struct kunit_suite *suite);
+ 
+ /**
+diff --git a/kunit/Makefile b/kunit/Makefile
+index 275b565a0e81f..6ddc622ee6b1c 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_KUNIT) +=			test.o \
+-					string-stream.o
++					string-stream.o \
++					kunit-stream.o
+diff --git a/kunit/kunit-stream.c b/kunit/kunit-stream.c
+new file mode 100644
+index 0000000000000..8bea1f22eafb5
+--- /dev/null
++++ b/kunit/kunit-stream.c
+@@ -0,0 +1,123 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * C++ stream style string formatter and printer used in KUnit for outputting
++ * KUnit messages.
 + *
-+ * Just like `kmalloc(...)`, except the allocation is managed by the test case
-+ * and is automatically cleaned up after the test case concludes. See &struct
-+ * kunit_resource for more information.
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
-+void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp);
 +
-+/**
-+ * kunit_kzalloc() - Just like kunit_kmalloc(), but zeroes the allocation.
-+ * @test: The test context object.
-+ * @size: The size in bytes of the desired memory.
-+ * @gfp: flags passed to underlying kmalloc().
-+ *
-+ * See kzalloc() and kunit_kmalloc() for more information.
-+ */
-+static inline void *kunit_kzalloc(struct kunit *test, size_t size, gfp_t gfp)
++#include <kunit/test.h>
++#include <kunit/kunit-stream.h>
++#include <kunit/string-stream.h>
++
++void kunit_stream_add(struct kunit_stream *kstream, const char *fmt, ...)
 +{
-+	return kunit_kmalloc(test, size, gfp | __GFP_ZERO);
++	va_list args;
++	struct string_stream *stream = kstream->internal_stream;
++
++	va_start(args, fmt);
++
++	if (string_stream_vadd(stream, fmt, args) < 0)
++		kunit_err(kstream->test,
++			  "Failed to allocate fragment: %s\n",
++			  fmt);
++
++	va_end(args);
 +}
 +
-+void kunit_cleanup(struct kunit *test);
-+
- void __printf(3, 4) kunit_printk(const char *level,
- 				 const struct kunit *test,
- 				 const char *fmt, ...);
-diff --git a/kunit/test.c b/kunit/test.c
-index 571e4c65deb5c..f165c9d8e10b0 100644
---- a/kunit/test.c
-+++ b/kunit/test.c
-@@ -122,6 +122,8 @@ static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
- 
- void kunit_init_test(struct kunit *test, const char *name)
- {
-+	mutex_init(&test->lock);
-+	INIT_LIST_HEAD(&test->resources);
- 	test->name = name;
- 	test->success = true;
- }
-@@ -151,6 +153,8 @@ static void kunit_run_case(struct kunit_suite *suite,
- 	if (suite->exit)
- 		suite->exit(&test);
- 
-+	kunit_cleanup(&test);
-+
- 	test_case->success = test.success;
- }
- 
-@@ -171,6 +175,96 @@ int kunit_run_tests(struct kunit_suite *suite)
- 	return 0;
- }
- 
-+struct kunit_resource *kunit_alloc_resource(struct kunit *test,
-+					    kunit_resource_init_t init,
-+					    kunit_resource_free_t free,
-+					    void *context)
++void kunit_stream_append(struct kunit_stream *kstream,
++				struct kunit_stream *other)
 +{
-+	struct kunit_resource *res;
-+	int ret;
++	struct string_stream *other_stream = other->internal_stream;
++	const char *other_content;
 +
-+	res = kzalloc(sizeof(*res), GFP_KERNEL);
-+	if (!res)
-+		return NULL;
++	other_content = string_stream_get_string(other_stream);
 +
-+	ret = init(res, context);
-+	if (ret)
-+		return NULL;
++	if (!other_content) {
++		kunit_err(kstream->test,
++			  "Failed to get string from second argument for appending\n");
++		return;
++	}
 +
-+	res->free = free;
-+	mutex_lock(&test->lock);
-+	list_add_tail(&res->node, &test->resources);
-+	mutex_unlock(&test->lock);
-+
-+	return res;
++	kunit_stream_add(kstream, other_content);
 +}
 +
-+void kunit_free_resource(struct kunit *test, struct kunit_resource *res)
++void kunit_stream_clear(struct kunit_stream *kstream)
 +{
-+	res->free(res);
-+	list_del(&res->node);
-+	kfree(res);
++	string_stream_clear(kstream->internal_stream);
 +}
 +
-+struct kunit_kmalloc_params {
-+	size_t size;
-+	gfp_t gfp;
-+};
-+
-+static int kunit_kmalloc_init(struct kunit_resource *res, void *context)
++void kunit_stream_commit(struct kunit_stream *kstream)
 +{
-+	struct kunit_kmalloc_params *params = context;
++	struct string_stream *stream = kstream->internal_stream;
++	struct string_stream_fragment *fragment;
++	struct kunit *test = kstream->test;
++	char *buf;
 +
-+	res->allocation = kmalloc(params->size, params->gfp);
-+	if (!res->allocation)
++	buf = string_stream_get_string(stream);
++	if (!buf) {
++		kunit_err(test,
++			  "Could not allocate buffer, dumping stream:\n");
++		list_for_each_entry(fragment, &stream->fragments, node) {
++			kunit_err(test, fragment->fragment);
++		}
++		kunit_err(test, "\n");
++		goto cleanup;
++	}
++
++	kunit_printk(kstream->level, test, buf);
++	kfree(buf);
++
++cleanup:
++	kunit_stream_clear(kstream);
++}
++
++static int kunit_stream_init(struct kunit_resource *res, void *context)
++{
++	struct kunit *test = context;
++	struct kunit_stream *stream;
++
++	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
++	if (!stream)
++		return -ENOMEM;
++
++	res->allocation = stream;
++	stream->test = test;
++	stream->internal_stream = alloc_string_stream(test);
++
++	if (!stream->internal_stream)
 +		return -ENOMEM;
 +
 +	return 0;
 +}
 +
-+static void kunit_kmalloc_free(struct kunit_resource *res)
++static void kunit_stream_free(struct kunit_resource *res)
 +{
-+	kfree(res->allocation);
++	struct kunit_stream *stream = res->allocation;
++
++	if (!string_stream_is_empty(stream->internal_stream)) {
++		kunit_err(stream->test,
++			  "End of test case reached with uncommitted stream entries\n");
++		kunit_stream_commit(stream);
++	}
 +}
 +
-+void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp)
++struct kunit_stream *alloc_kunit_stream(struct kunit *test, const char *level)
 +{
-+	struct kunit_kmalloc_params params;
++	struct kunit_stream *kstream;
 +	struct kunit_resource *res;
 +
-+	params.size = size;
-+	params.gfp = gfp;
-+
 +	res = kunit_alloc_resource(test,
-+				   kunit_kmalloc_init,
-+				   kunit_kmalloc_free,
-+				   &params);
++				   kunit_stream_init,
++				   kunit_stream_free,
++				   test);
 +
-+	if (res)
-+		return res->allocation;
++	if (!res)
++		return NULL;
 +
-+	return NULL;
++	kstream = res->allocation;
++	kstream->level = level;
++
++	return kstream;
 +}
-+
-+void kunit_cleanup(struct kunit *test)
+diff --git a/kunit/test.c b/kunit/test.c
+index f165c9d8e10b0..29edf34a89a37 100644
+--- a/kunit/test.c
++++ b/kunit/test.c
+@@ -120,6 +120,12 @@ static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
+ 			      test_case->name);
+ }
+ 
++void kunit_fail(struct kunit *test, struct kunit_stream *stream)
 +{
-+	struct kunit_resource *resource, *resource_safe;
-+
-+	mutex_lock(&test->lock);
-+	/*
-+	 * test->resources is a stack - each allocation must be freed in the
-+	 * reverse order from which it was added since one resource may depend
-+	 * on another for its entire lifetime.
-+	 */
-+	list_for_each_entry_safe_reverse(resource,
-+					 resource_safe,
-+					 &test->resources,
-+					 node) {
-+		kunit_free_resource(test, resource);
-+	}
-+	mutex_unlock(&test->lock);
++	kunit_set_failure(test);
++	kunit_stream_commit(stream);
 +}
 +
- void kunit_printk(const char *level,
- 		  const struct kunit *test,
- 		  const char *fmt, ...)
+ void kunit_init_test(struct kunit *test, const char *name)
+ {
+ 	mutex_init(&test->lock);
 -- 
 2.22.0.410.gd8fdbe21b5-goog
 
