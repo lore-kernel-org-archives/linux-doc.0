@@ -1,62 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=MAILING_LIST_MULTI,
+	PLING_QUERY,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AD087D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 03:38:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 249377D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 06:36:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729524AbfGLDiF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 23:38:05 -0400
-Received: from mga03.intel.com ([134.134.136.65]:16893 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729467AbfGLDiF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jul 2019 23:38:05 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2019 20:38:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,481,1557212400"; 
-   d="scan'208";a="186517666"
-Received: from gonegri-mobl.ger.corp.intel.com (HELO localhost) ([10.252.48.192])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2019 20:37:59 -0700
-Date:   Fri, 12 Jul 2019 06:37:58 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de, jgg@ziepe.ca,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        sumit.garg@linaro.org, rdunlap@infradead.org
-Subject: Re: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
-Message-ID: <20190712033758.vnwrmdxvz2kplt65@linux.intel.com>
-References: <20190705204746.27543-1-sashal@kernel.org>
- <20190711200858.xydm3wujikufxjcw@linux.intel.com>
- <20190711201059.GA18260@apalos>
+        id S1725791AbfGLGgC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 02:36:02 -0400
+Received: from [134.209.195.180] ([134.209.195.180]:51590 "EHLO
+        TEST.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725562AbfGLGgC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 02:36:02 -0400
+X-Greylist: delayed 7604 seconds by postgrey-1.27 at vger.kernel.org; Fri, 12 Jul 2019 02:36:02 EDT
+Received: from localhost (TEST [127.0.0.1])
+        by TEST.localdomain (Postfix) with SMTP id EDB7920412F
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 04:09:46 +0000 (UTC)
+From:   linux-doc@vger.kernel.org
+Reply-To: prodawez@armyspy.com
+To:     Fyayldlinux-doc@vger.kernel.org
+Subject: =?utf-8?B?0JfQtNGA0LDQstGB0YLQstGD0LnRgtC1ISDQktCw0YEg?=
+        =?utf-8?B?0LjQvdGC0LXRgNC10YHRg9GO0YIg0LrQu9C40LXQvdGC?=
+        =?utf-8?B?0YHQutC40LUg0LHQsNC30Ysg0LTQsNC90L3Ri9GFPw==?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190711201059.GA18260@apalos>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8";
+Content-Transfer-Encoding: base64
+Message-Id: <20190712040946.EDB7920412F@TEST.localdomain>
+Date:   Fri, 12 Jul 2019 04:09:46 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 11:10:59PM +0300, Ilias Apalodimas wrote:
-> Will report back any issues when we start using it on real hardware
-> rather than QEMU
-> 
-> Thanks
-> /Ilias
-
-That would awesome. PR is far away so there is time to add more
-tested-by's. Thanks.
-
-/Jarkko
+0JfQtNGA0LDQstGB0YLQstGD0LnRgtC1ISDQktCw0YEg0LjQvdGC0LXRgNC10YHRg9GO0YIg0LrQ
+u9C40LXQvdGC0YHQutC40LUg0LHQsNC30Ysg0LTQsNC90L3Ri9GFPw0K
