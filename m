@@ -1,825 +1,425 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FAKE_REPLY_C,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2914A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 10:03:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E8617D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 11:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbfGLKDo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 06:03:44 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:61250 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726002AbfGLKDo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 06:03:44 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6C9vH6n007846;
-        Fri, 12 Jul 2019 12:00:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=q8rDtYl/WQBRbqwLC1oW2sjUs/38iMrtuJ44W/XbyUQ=;
- b=Gim4usYKQ8TC0yRiywcInSdces4nj/WkbDdELmWLdFn5RTwK9VlutUG5GEXZdykbNEi2
- nOmlkT2NlA0vaKTytAz4k9z3SzS9REfAPbLF5vxzJtvd3aRLAMloePo27bbym01Eb+iB
- O/5/mu4eF6u+IlW0ZcfUowydCUHG8M+TN5MTOAZTqhjvvh56Utm5QHPWtqkuavcE3DcD
- tmuuYiWNDBTD/w2W6lzA+12Kf7J6qDodgZ/9onUkE5EBBd5s39NsvzAscPHhTS5zXvuS
- UZSWzOKEXQ+dmK7GwPxy7u7rlwCtI6LINuWbnPqqZPVenKRCyyl5zj0uFEN5aRVR2ZFq Vw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2tmh51qgup-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Fri, 12 Jul 2019 12:00:48 +0200
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7D05C59;
-        Fri, 12 Jul 2019 10:00:46 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3A0142842;
-        Fri, 12 Jul 2019 10:00:46 +0000 (GMT)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 12 Jul
- 2019 12:00:45 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1347.000; Fri, 12 Jul 2019 12:00:45 +0200
-From:   Gerald BAEZA <gerald.baeza@st.com>
-To:     Mark Rutland <Mark.Rutland@arm.com>
-CC:     Will Deacon <Will.Deacon@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "olof@lixom.net" <olof@lixom.net>,
-        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v2 3/5] perf: stm32: ddrperfm driver creation
-Thread-Topic: [PATCH v2 3/5] perf: stm32: ddrperfm driver creation
-Thread-Index: AQHVDyCCI5Cs89crU0SFN7k5vdHanKat896AgABRYIA=
-Date:   Fri, 12 Jul 2019 10:00:45 +0000
-Message-ID: <d9109967681846b09abac2e340cd21f8@SFHDAG5NODE1.st.com>
-References: <1558366019-24214-1-git-send-email-gerald.baeza@st.com>
- <1558366019-24214-4-git-send-email-gerald.baeza@st.com>
- <20190626122228.GB20313@lakrids.cambridge.arm.com>
-In-Reply-To: <20190626122228.GB20313@lakrids.cambridge.arm.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.51]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S1726155AbfGLLva (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 07:51:30 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37466 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726254AbfGLLva (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 07:51:30 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n9so9689712wrr.4;
+        Fri, 12 Jul 2019 04:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=I6zRdMhxaTKNzS6HIZEdUhCn31RG7EuigZxNpj3wua4=;
+        b=RMLFUqdSfEpUzgaSSpyWNyTgeZqPNxMfBILsJHb0+dxWFus95wKDfrXXLWV76PdxXo
+         BB/cwf+rNvy0+ZRUmL4EGksd+84W/3szxyt4/002GUEwZ148oWgvqEkl1kBmPljTSpp9
+         u+BeOqUnMJTgxdW5gUU61qAEGa4OalqQ3wHS06nTD11+/HVrRM2nXIRQNNs6QaXJz9+4
+         bW603pfHbPu9UgJ9qujRjnx1f2tZWm7o8hkl4iY3qZxJkstFkVd5yaemPBAwo2P8eoSo
+         Ynqtj5HjqBOjU1dDoGrP432Mmq20gvHXBv4zqFCeAT332rwY6LwCEZ1fJ4w1WRCBp1u0
+         3eDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=I6zRdMhxaTKNzS6HIZEdUhCn31RG7EuigZxNpj3wua4=;
+        b=nK1G3GKWdtS/3oCGSJIjW0GGRVOVGOsWt2zgRVZ6JwjvbifirVNEtb/qPqwtnnD4qU
+         C9IO39YBMNRMTOmzcTkfL3Hsuvu7WSvtoExwPo0YLPd5iZG5Thk2siqqwheF6d3OA2T4
+         kFzVXoGCI6u6oVejGdxtk/Jqu3c+enCOJK+w+vdmRwj14yIwk5xMNC6qqbWrAOfoDU67
+         d9bFjGumwDRd8J2khHTeV4Y9BpFWhBBqVeYJERxmLk7167i3K8k085AVaEP0ipNEYIw3
+         eY5FbFs0KHvKrItgmzV/5X4tgAZDFeQaK1ZppxUsV2U8O1O8fhQqp7UbDFZyErmjJOn+
+         1Tag==
+X-Gm-Message-State: APjAAAUrHWJsBtEgL3KNgqMd3pGkSGNyaDntycp4IJzyEy3rPvx4bKvv
+        oRPaDMY+7z63r/xCErDqbgY=
+X-Google-Smtp-Source: APXvYqy8AD6tqXlbxn4a9B+FiNWiNqUCksAn8ZP4RuNJSh26zI7cgFE6faZIa1UgGmepUyShRJXswA==
+X-Received: by 2002:adf:de8e:: with SMTP id w14mr11387483wrl.79.1562932286015;
+        Fri, 12 Jul 2019 04:51:26 -0700 (PDT)
+Received: from localhost ([197.211.57.129])
+        by smtp.gmail.com with ESMTPSA id j189sm8992632wmb.48.2019.07.12.04.51.23
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 12 Jul 2019 04:51:25 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 12:51:18 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     darrick.wong@oracle.com, linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        sheriffesseson@gmail.com
+Subject: Re: [PATCH v7] Documentation: filesystem: Convert xfs.txt to ReST
+Message-ID: <20190712115118.GA24483@localhost>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-12_03:,,
- signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark
+Convert xfs.txt to ReST and fix broken references. 
 
-Thanks a lot for your review !
+Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+---
 
-I started to rework the driver, based on your feedback but I have some ques=
-tions for you: they are in line below... (where I also answer to your quest=
-ions)
+Changes in v7:
+	- move xfs.rst to admin (Suggested by Matthew Wilcox).
+	- Update admin index.
+	- fix another typo (Caught by Matthew Wilcox).
 
-Best regards
+ Documentation/admin-guide/index.rst           |   1 +
+ .../xfs.txt => admin-guide/xfs.rst}           | 123 +++++++++---------
+ Documentation/filesystems/dax.txt             |   2 +-
+ MAINTAINERS                                   |   2 +-
+ 4 files changed, 61 insertions(+), 67 deletions(-)
+ rename Documentation/{filesystems/xfs.txt => admin-guide/xfs.rst} (82%)
 
-G=E9rald
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 24fbe0568eff..0615ea3a744c 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
+    ras
+    bcache
+    ext4
++   xfs
+    binderfs
+    pm/index
+    thunderbolt
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.rst
+similarity index 82%
+rename from Documentation/filesystems/xfs.txt
+rename to Documentation/admin-guide/xfs.rst
+index a5cbb5e0e3db..9836ac3428f9 100644
+--- a/Documentation/filesystems/xfs.txt
++++ b/Documentation/admin-guide/xfs.rst
+@@ -1,4 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
+ 
++======================
+ The SGI XFS Filesystem
+ ======================
+ 
+@@ -18,8 +20,6 @@ Mount Options
+ =============
+ 
+ When mounting an XFS filesystem, the following options are accepted.
+-For boolean mount options, the names with the (*) suffix is the
+-default behaviour.
+ 
+   allocsize=size
+ 	Sets the buffered I/O end-of-file preallocation size when
+@@ -31,46 +31,43 @@ default behaviour.
+ 	preallocation size, which uses a set of heuristics to
+ 	optimise the preallocation size based on the current
+ 	allocation patterns within the file and the access patterns
+-	to the file. Specifying a fixed allocsize value turns off
++	to the file. Specifying a fixed ``allocsize`` value turns off
+ 	the dynamic behaviour.
+ 
+-  attr2
+-  noattr2
++  attr2 or noattr2
+ 	The options enable/disable an "opportunistic" improvement to
+ 	be made in the way inline extended attributes are stored
+ 	on-disk.  When the new form is used for the first time when
+-	attr2 is selected (either when setting or removing extended
++	``attr2`` is selected (either when setting or removing extended
+ 	attributes) the on-disk superblock feature bit field will be
+ 	updated to reflect this format being in use.
+ 
+ 	The default behaviour is determined by the on-disk feature
+-	bit indicating that attr2 behaviour is active. If either
+-	mount option it set, then that becomes the new default used
++	bit indicating that ``attr2`` behaviour is active. If either
++	mount option is set, then that becomes the new default used
+ 	by the filesystem.
+ 
+-	CRC enabled filesystems always use the attr2 format, and so
+-	will reject the noattr2 mount option if it is set.
++	CRC enabled filesystems always use the ``attr2`` format, and so
++	will reject the ``noattr2`` mount option if it is set.
+ 
+-  discard
+-  nodiscard (*)
++  discard or nodiscard (default)
+ 	Enable/disable the issuing of commands to let the block
+ 	device reclaim space freed by the filesystem.  This is
+ 	useful for SSD devices, thinly provisioned LUNs and virtual
+ 	machine images, but may have a performance impact.
+ 
+-	Note: It is currently recommended that you use the fstrim
+-	application to discard unused blocks rather than the discard
++	Note: It is currently recommended that you use the ``fstrim``
++	application to ``discard`` unused blocks rather than the ``discard``
+ 	mount option because the performance impact of this option
+ 	is quite severe.
+ 
+-  grpid/bsdgroups
+-  nogrpid/sysvgroups (*)
++  grpid/bsdgroups or nogrpid/sysvgroups (default)
+ 	These options define what group ID a newly created file
+-	gets.  When grpid is set, it takes the group ID of the
++	gets.  When ``grpid`` is set, it takes the group ID of the
+ 	directory in which it is created; otherwise it takes the
+-	fsgid of the current process, unless the directory has the
+-	setgid bit set, in which case it takes the gid from the
+-	parent directory, and also gets the setgid bit set if it is
++	``fsgid`` of the current process, unless the directory has the
++	``setgid`` bit set, in which case it takes the ``gid`` from the
++	parent directory, and also gets the ``setgid`` bit set if it is
+ 	a directory itself.
+ 
+   filestreams
+@@ -78,46 +75,42 @@ default behaviour.
+ 	across the entire filesystem rather than just on directories
+ 	configured to use it.
+ 
+-  ikeep
+-  noikeep (*)
+-	When ikeep is specified, XFS does not delete empty inode
+-	clusters and keeps them around on disk.  When noikeep is
++  ikeep or noikeep (default)
++	When ``ikeep`` is specified, XFS does not delete empty inode
++	clusters and keeps them around on disk.  When ``noikeep`` is
+ 	specified, empty inode clusters are returned to the free
+ 	space pool.
+ 
+-  inode32
+-  inode64 (*)
+-	When inode32 is specified, it indicates that XFS limits
++  inode32 or inode64 (default)
++	When ``inode32`` is specified, it indicates that XFS limits
+ 	inode creation to locations which will not result in inode
+ 	numbers with more than 32 bits of significance.
+ 
+-	When inode64 is specified, it indicates that XFS is allowed
++	When ``inode64`` is specified, it indicates that XFS is allowed
+ 	to create inodes at any location in the filesystem,
+ 	including those which will result in inode numbers occupying
+-	more than 32 bits of significance. 
++	more than 32 bits of significance.
+ 
+-	inode32 is provided for backwards compatibility with older
++	``inode32`` is provided for backwards compatibility with older
+ 	systems and applications, since 64 bits inode numbers might
+ 	cause problems for some applications that cannot handle
+ 	large inode numbers.  If applications are in use which do
+-	not handle inode numbers bigger than 32 bits, the inode32
++	not handle inode numbers bigger than 32 bits, the ``inode32``
+ 	option should be specified.
+ 
+-
+-  largeio
+-  nolargeio (*)
+-	If "nolargeio" is specified, the optimal I/O reported in
+-	st_blksize by stat(2) will be as small as possible to allow
++  largeio or nolargeio (default)
++	If ``nolargeio`` is specified, the optimal I/O reported in
++	``st_blksize`` by **stat(2)** will be as small as possible to allow
+ 	user applications to avoid inefficient read/modify/write
+ 	I/O.  This is typically the page size of the machine, as
+ 	this is the granularity of the page cache.
+ 
+-	If "largeio" specified, a filesystem that was created with a
+-	"swidth" specified will return the "swidth" value (in bytes)
+-	in st_blksize. If the filesystem does not have a "swidth"
+-	specified but does specify an "allocsize" then "allocsize"
++	If ``largeio`` is specified, a filesystem that was created with a
++	``swidth`` specified will return the ``swidth`` value (in bytes)
++	in ``st_blksize``. If the filesystem does not have a ``swidth``
++	specified but does specify an ``allocsize`` then ``allocsize``
+ 	(in bytes) will be returned instead. Otherwise the behaviour
+-	is the same as if "nolargeio" was specified.
++	is the same as if ``nolargeio`` was specified.
+ 
+   logbufs=value
+ 	Set the number of in-memory log buffers.  Valid numbers
+@@ -127,7 +120,7 @@ default behaviour.
+ 
+ 	If the memory cost of 8 log buffers is too high on small
+ 	systems, then it may be reduced at some cost to performance
+-	on metadata intensive workloads. The logbsize option below
++	on metadata intensive workloads. The ``logbsize`` option below
+ 	controls the size of each buffer and so is also relevant to
+ 	this case.
+ 
+@@ -138,7 +131,7 @@ default behaviour.
+ 	and 32768 (32k).  Valid sizes for version 2 logs also
+ 	include 65536 (64k), 131072 (128k) and 262144 (256k). The
+ 	logbsize must be an integer multiple of the log
+-	stripe unit configured at mkfs time.
++	stripe unit configured at **mkfs(8)** time.
+ 
+ 	The default value for for version 1 logs is 32768, while the
+ 	default value for version 2 logs is MAX(32768, log_sunit).
+@@ -153,21 +146,21 @@ default behaviour.
+   noalign
+ 	Data allocations will not be aligned at stripe unit
+ 	boundaries. This is only relevant to filesystems created
+-	with non-zero data alignment parameters (sunit, swidth) by
+-	mkfs.
++	with non-zero data alignment parameters (``sunit``, ``swidth``) by
++	**mkfs(8)**.
+ 
+   norecovery
+ 	The filesystem will be mounted without running log recovery.
+ 	If the filesystem was not cleanly unmounted, it is likely to
+-	be inconsistent when mounted in "norecovery" mode.
++	be inconsistent when mounted in ``norecovery`` mode.
+ 	Some files or directories may not be accessible because of this.
+-	Filesystems mounted "norecovery" must be mounted read-only or
++	Filesystems mounted ``norecovery`` must be mounted read-only or
+ 	the mount will fail.
+ 
+   nouuid
+ 	Don't check for double mounted file systems using the file
+-	system uuid.  This is useful to mount LVM snapshot volumes,
+-	and often used in combination with "norecovery" for mounting
++	system ``uuid``.  This is useful to mount LVM snapshot volumes,
++	and often used in combination with ``norecovery`` for mounting
+ 	read-only snapshots.
+ 
+   noquota
+@@ -176,15 +169,15 @@ default behaviour.
+ 
+   uquota/usrquota/uqnoenforce/quota
+ 	User disk quota accounting enabled, and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   gquota/grpquota/gqnoenforce
+ 	Group disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   pquota/prjquota/pqnoenforce
+ 	Project disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   sunit=value and swidth=value
+ 	Used to specify the stripe unit and width for a RAID device
+@@ -192,11 +185,11 @@ default behaviour.
+ 	block units. These options are only relevant to filesystems
+ 	that were created with non-zero data alignment parameters.
+ 
+-	The sunit and swidth parameters specified must be compatible
++	The ``sunit`` and ``swidth`` parameters specified must be compatible
+ 	with the existing filesystem alignment characteristics.  In
+-	general, that means the only valid changes to sunit are
+-	increasing it by a power-of-2 multiple. Valid swidth values
+-	are any integer multiple of a valid sunit value.
++	general, that means the only valid changes to ``sunit`` are
++	increasing it by a power-of-2 multiple. Valid ``swidth`` values
++	are any integer multiple of a valid ``sunit`` value.
+ 
+ 	Typically the only time these mount options are necessary if
+ 	after an underlying RAID device has had it's geometry
+@@ -302,27 +295,27 @@ The following sysctls are available for the XFS filesystem:
+ 
+   fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "sync" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodump" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "noatime" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nosymlinks" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodefrag" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
+@@ -368,7 +361,7 @@ handler:
+  -error handlers:
+ 	Defines the behavior for a specific error.
+ 
+-The filesystem behavior during an error can be set via sysfs files. Each
++The filesystem behavior during an error can be set via ``sysfs`` files. Each
+ error handler works independently - the first condition met by an error handler
+ for a specific class will cause the error to be propagated rather than reset and
+ retried.
+@@ -419,7 +412,7 @@ level directory:
+ 	handler configurations.
+ 
+ 	Note: there is no guarantee that fail_at_unmount can be set while an
+-	unmount is in progress. It is possible that the sysfs entries are
++	unmount is in progress. It is possible that the ``sysfs`` entries are
+ 	removed by the unmounting filesystem before a "retry forever" error
+ 	handler configuration causes unmount to hang, and hence the filesystem
+ 	must be configured appropriately before unmount begins to prevent
+@@ -428,7 +421,7 @@ level directory:
+ Each filesystem has specific error class handlers that define the error
+ propagation behaviour for specific errors. There is also a "default" error
+ handler defined, which defines the behaviour for all errors that don't have
+-specific handlers defined. Where multiple retry constraints are configuredi for
++specific handlers defined. Where multiple retry constraints are configured for
+ a single error, the first retry configuration that expires will cause the error
+ to be propagated. The handler configurations are found in the directory:
+ 
+@@ -463,7 +456,7 @@ to be propagated. The handler configurations are found in the directory:
+ 	Setting the value to "N" (where 0 < N < Max) will allow XFS to retry the
+ 	operation for up to "N" seconds before propagating the error.
+ 
+-Note: The default behaviour for a specific error handler is dependent on both
++**Note:** The default behaviour for a specific error handler is dependent on both
+ the class and error context. For example, the default values for
+ "metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
+ to "fail immediately" behaviour. This is done because ENODEV is a fatal,
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+index 6d2c0d340dea..679729442fd2 100644
+--- a/Documentation/filesystems/dax.txt
++++ b/Documentation/filesystems/dax.txt
+@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
+ These filesystems may be used for inspiration:
+ - ext2: see Documentation/filesystems/ext2.txt
+ - ext4: see Documentation/filesystems/ext4/
+-- xfs:  see Documentation/filesystems/xfs.txt
++- xfs:  see Documentation/admin-guide/xfs.rst
+ 
+ 
+ Handling Media Errors
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 43ca94856944..3b6e0b6d8cbd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17453,7 +17453,7 @@ L:	linux-xfs@vger.kernel.org
+ W:	http://xfs.org/
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+ S:	Supported
+-F:	Documentation/filesystems/xfs.txt
++F:	Documentation/admin-guide/xfs.rst
+ F:	fs/xfs/
+ 
+ XILINX AXI ETHERNET DRIVER
+-- 
+2.22.0
 
-
-> -----Original Message-----
-> From: Mark Rutland <Mark.Rutland@arm.com>
-> Sent: mercredi 26 juin 2019 14:23
-> To: Gerald BAEZA <gerald.baeza@st.com>
-> Cc: Will Deacon <Will.Deacon@arm.com>; robh+dt@kernel.org;
-> mcoquelin.stm32@gmail.com; Alexandre TORGUE
-> <alexandre.torgue@st.com>; corbet@lwn.net; linux@armlinux.org.uk;
-> olof@lixom.net; horms+renesas@verge.net.au; arnd@arndb.de; linux-arm-
-> kernel@lists.infradead.org; devicetree@vger.kernel.org; linux-stm32@st-
-> md-mailman.stormreply.com; linux-kernel@vger.kernel.org; linux-
-> doc@vger.kernel.org
-> Subject: Re: [PATCH v2 3/5] perf: stm32: ddrperfm driver creation
->=20
-> On Mon, May 20, 2019 at 03:27:17PM +0000, Gerald BAEZA wrote:
-> > The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1
-> SOC.
-> >
-> > This perf drivers supports the read, write, activate, idle and total
-> > time counters, described in the reference manual RM0436.
->=20
-> Is this document publicly accessible anywhere?
-
-Yes
-
-> If so, could you please provide a link?
-
-https://www.st.com/resource/en/reference_manual/DM00327659.pdf=20
-
-> > A 'bandwidth' attribute is added in the 'ddrperfm' event_source in
-> > order to directly get the read and write bandwidths (in MB/s), from
-> > the last read, write and total time counters reading.
-> > This attribute is aside the 'events' attributes group because it is
-> > not a counter, as seen by perf tool.
->=20
-> This should be removed. This is unusually stateful, and this can be calcu=
-lated
-> in userspace by using the events. I'm also not keen on creating a precede=
-nt
-> for weird sysfs bits for PMUs.
-
-Ok, I will remove it in the v3.
-This will also have impact on the bindings and dts since the DDR frequency=
-=20
-will disappear from the clocks.
-
-Just to be sure : should I do the bandwidth computing on userspace (via=20
-a script, for instance) or are you suggesting to do this in perf tool ?=20
-
-> > Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
-> > ---
-> >  drivers/perf/Kconfig         |   6 +
-> >  drivers/perf/Makefile        |   1 +
-> >  drivers/perf/stm32_ddr_pmu.c | 512
-> > +++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 519 insertions(+)
-> >  create mode 100644 drivers/perf/stm32_ddr_pmu.c
-> >
-> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig index
-> > a94e586..9add8a7 100644
-> > --- a/drivers/perf/Kconfig
-> > +++ b/drivers/perf/Kconfig
-> > @@ -105,6 +105,12 @@ config THUNDERX2_PMU
-> >     The SoC has PMU support in its L3 cache controller (L3C) and
-> >     in the DDR4 Memory Controller (DMC).
-> >
-> > +config STM32_DDR_PMU
-> > +       tristate "STM32 DDR PMU"
-> > +       depends on MACH_STM32MP157
-> > +       help
-> > +         Support for STM32 DDR performance monitor (DDRPERFM).
-> > +
-> >  config XGENE_PMU
-> >          depends on ARCH_XGENE
-> >          bool "APM X-Gene SoC PMU"
-> > diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile index
-> > 3048994..fa64719 100644
-> > --- a/drivers/perf/Makefile
-> > +++ b/drivers/perf/Makefile
-> > @@ -8,6 +8,7 @@ obj-$(CONFIG_ARM_SMMU_V3_PMU) +=3D arm_smmuv3_pmu.o
-> >  obj-$(CONFIG_HISI_PMU) +=3D hisilicon/
-> >  obj-$(CONFIG_QCOM_L2_PMU)+=3D qcom_l2_pmu.o
-> >  obj-$(CONFIG_QCOM_L3_PMU) +=3D qcom_l3_pmu.o
-> > +obj-$(CONFIG_STM32_DDR_PMU) +=3D stm32_ddr_pmu.o
-> >  obj-$(CONFIG_THUNDERX2_PMU) +=3D thunderx2_pmu.o
-> >  obj-$(CONFIG_XGENE_PMU) +=3D xgene_pmu.o
-> >  obj-$(CONFIG_ARM_SPE_PMU) +=3D arm_spe_pmu.o diff --git
-> > a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c new file
-> > mode 100644 index 0000000..ae4a813
-> > --- /dev/null
-> > +++ b/drivers/perf/stm32_ddr_pmu.c
-> > @@ -0,0 +1,512 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * This file is the STM32 DDR performance monitor (DDRPERFM) driver
-> > + *
-> > + * Copyright (C) 2019, STMicroelectronics - All Rights Reserved
-> > + * Author: Gerald Baeza <gerald.baeza@st.com>  */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/hrtimer.h>
-> > +#include <linux/io.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/perf_event.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/types.h>
-> > +
-> > +#define POLL_MS4000/* The counter roll over after ~8s @533MHz */
->=20
-> I take it this is because there's no IRQ? If so, please expand the commen=
-t to
-> call that out, e.g.
->
-> /*
->  * The PMU has no overflow IRQ, so we must poll to avoid losing events.
->  * The fastest counter can overflow in ~8s @533MHz, so we poll in 4s
->  * intervals to ensure we don't miss a rollover.
->  */
-> #define POLL_MS4000
-
-The IP is able to freeze all counters and generate an interrupt when there =
-is
-a counter overflow. But, relying on this means that I lose all the events t=
-hat
-occur between the freeze and the interrupt handler execution, corresponding
-to the interrupt latency. I can avoid such events losing in polling, so tha=
-t is
-why I preferred to use a polling mechanism.
-=20
-> Which clock specifically is operating at 533MHz, and is this something th=
-at
-> may vary? Is it possible that this may go higher in future?
-
-533 MHz is the DDR frequency and this is the maximum for STM32MP15.
-
-> > +#define WORD_LENGTH4/* Bytes */
-> > +#define BURST_LENGTH8/* Words */
-> > +
-> > +#define DDRPERFM_CTL0x000
-> > +#define DDRPERFM_CFG0x004
-> > +#define DDRPERFM_STATUS 0x008
-> > +#define DDRPERFM_CCR0x00C
-> > +#define DDRPERFM_IER0x010
-> > +#define DDRPERFM_ISR0x014
-> > +#define DDRPERFM_ICR0x018
-> > +#define DDRPERFM_TCNT0x020
-> > +#define DDRPERFM_CNT(X)(0x030 + 8 * (X))=20
-> > +#define DDRPERFM_HWCFG0x3F0
-> > +#define DDRPERFM_VER0x3F4=20
-> > +#define DDRPERFM_ID0x3F8
-> > +#define DDRPERFM_SID0x3FC
-> > +
-> > +#define CTL_START0x00000001
-> > +#define CTL_STOP0x00000002
-> > +#define CCR_CLEAR_ALL0x8000000F
-> > +#define SID_MAGIC_ID0xA3C5DD01
-> > +
-> > +#define STRING "Read =3D %llu, Write =3D %llu, Read & Write =3D %llu (=
-MB/s)\n"
->=20
-> If you need this, please expand it in-place. As-is, this is needless obfu=
-scation.
-=20
-This will be removed in v3, so no problem.
-
-> > +
-> > +enum {
-> > +READ_CNT,
-> > +WRITE_CNT,
-> > +ACTIVATE_CNT,
-> > +IDLE_CNT,
-> > +TIME_CNT,
-> > +PMU_NR_COUNTERS
-> > +};
->=20
-> I take it these are fixed-purpose counters in the hardware?
-
-Yes
-
-> > +
-> > +struct stm32_ddr_pmu {
-> > +struct pmu pmu;
-> > +void __iomem *membase;
-> > +struct clk *clk;
-> > +struct clk *clk_ddr;
-> > +unsigned long clk_ddr_rate;
-> > +struct hrtimer hrtimer;
-> > +ktime_t poll_period;
-> > +spinlock_t lock; /* for shared registers access */
->=20
-> All accesses to a PMU instance should be serialized on the same CPU, so y=
-ou
-> shouldn't need a lock (though you will need to disable IRQs to serialize =
-with
-> the interrupt handler).
->=20
-> The perf subsystem cannot sanely access the PMU across multiple CPUs.
-
-Ok, so I will only control the IP from one core and remove the lock in v3.
-
-> > +struct perf_event *events[PMU_NR_COUNTERS];
-> > +u64 events_cnt[PMU_NR_COUNTERS];
-> > +};
-> > +
-> > +static inline struct stm32_ddr_pmu *pmu_to_stm32_ddr_pmu(struct
-> pmu
-> > +*p) { return container_of(p, struct stm32_ddr_pmu, pmu); }
-> > +
-> > +static inline struct stm32_ddr_pmu *hrtimer_to_stm32_ddr_pmu(struct
-> > +hrtimer *h) { return container_of(h, struct stm32_ddr_pmu, hrtimer);
-> > +}
-> > +
-> > +static u64 stm32_ddr_pmu_compute_bw(struct stm32_ddr_pmu
-> *stm32_ddr_pmu,
-> > +    int counter)
-> > +{
-> > +u64 bw =3D stm32_ddr_pmu->events_cnt[counter], tmp;
-> > +u64 div =3D stm32_ddr_pmu->events_cnt[TIME_CNT];
-> > +u32 prediv =3D 1, premul =3D 1;
-> > +
-> > +if (bw && div) {
-> > +/* Maximize the dividend into 64 bits */ while ((bw <
-> > +0x8000000000000000ULL) &&
-> > +       (premul < 0x40000000UL)) {
-> > +bw =3D bw << 1;
-> > +premul *=3D 2;
-> > +}
-> > +/* Minimize the dividor to fit in 32 bits */ while ((div >
-> > +0xffffffffUL) && (prediv < 0x40000000UL)) { div =3D div >> 1; prediv *=
-=3D
-> > +2; }
-> > +/* Divide counter per time and multiply per DDR settings */
-> > +do_div(bw, div); tmp =3D bw * BURST_LENGTH * WORD_LENGTH; tmp *=3D
-> > +stm32_ddr_pmu->clk_ddr_rate; if (tmp < bw) goto error; bw =3D tmp;
-> > +/* Cancel the prediv and premul factors */ while (prediv > 1) { bw =3D
-> > +bw >> 1; prediv /=3D 2; } while (premul > 1) { bw =3D bw >> 1; premul =
-/=3D
-> > +2; }
-> > +/* Convert MHz to Hz and B to MB, to finally get MB/s */ tmp =3D bw *
-> > +1000000; if (tmp < bw) goto error; bw =3D tmp; premul =3D 1024 * 1024;
-> > +while (premul > 1) { bw =3D bw >> 1; premul /=3D 2; } } return bw;
-> > +
-> > +error:
-> > +pr_warn("stm32-ddr-pmu: overflow detected\n"); return 0; }
->=20
-> IIUC this is for the stateful sysfs stuff, which should be removed.
->=20
-
-Yes, you are right : to be removed in v3.
-
-> > +
-> > +static void stm32_ddr_pmu_event_configure(struct perf_event *event) {
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu); unsigned long lock_flags,
-> > +config_base =3D event->hw.config_base;
-> > +u32 val;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +if (config_base < TIME_CNT) {
-> > +val =3D readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_CFG); val |=3D=
- (1
-> > +<< config_base); writel_relaxed(val, stm32_ddr_pmu->membase +
-> > +DDRPERFM_CFG); } spin_unlock_irqrestore(&stm32_ddr_pmu->lock,
-> > +lock_flags); }
->=20
-> You don't need the lock here. This is called from your pmu::{start,add}
-> callbacks, and the perf core already ensures those are serialized (via th=
-e
-> context lock), and called with IRQs disabled.
->=20
-
-Ok
-
-> > +
-> > +static void stm32_ddr_pmu_event_read(struct perf_event *event) {
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu); unsigned long flags, config_base =3D
-> > +event->hw.config_base; struct hw_perf_event *hw =3D &event->hw;
-> > +u64 prev_count, new_count, mask;
-> > +u32 val, offset, bit;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, flags);
-> > +
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +if (config_base =3D=3D TIME_CNT) {
-> > +offset =3D DDRPERFM_TCNT;
-> > +bit =3D 1 << 31;
-> > +} else {
-> > +offset =3D DDRPERFM_CNT(config_base);
-> > +bit =3D 1 << config_base;
-> > +}
-> > +val =3D readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_STATUS);
-> > +if (val & bit) pr_warn("stm32_ddr_pmu hardware overflow\n"); val =3D
-> > +readl_relaxed(stm32_ddr_pmu->membase + offset); writel_relaxed(bit,
-> > +stm32_ddr_pmu->membase + DDRPERFM_CCR);
-> > + writel_relaxed(CTL_START, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +
-> > +do {
-> > +prev_count =3D local64_read(&hw->prev_count); new_count =3D prev_count
-> > +val; } while (local64_xchg(&hw->prev_count, new_count) !=3D
-> > +prev_count);
-> > +
-> > +mask =3D GENMASK_ULL(31, 0);
-> > +local64_add(val & mask, &event->count);
-> > +
-> > +if (new_count < prev_count)
-> > +pr_warn("STM32 DDR PMU counter saturated\n");
->=20
-> Do the counter saturate, or do they roll-over?
->=20
-> I think that the message is misleading here, but I just want to check.
-
-This check is on the software counter, that may roll-over after a very long=
- capture time.
-I took the "counter saturated" warning from "cache-l2x0-pmu.c" but I can ch=
-ange to
-something more explicit.
-
-The hardware counters, in DDRPERFM IP, are frozen in case of overflow (this=
- is when
-the interrupt mentioned above can be generated).
-If this occurs, a "stm32_ddr_pmu hardware overflow" warning is generated.
-
-Is this clearer ? Should I change anything ?
-
-> > +
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, flags); }
-> > +
-> > +static void stm32_ddr_pmu_event_start(struct perf_event *event, int
-> > +flags) { struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu);
-> > +struct hw_perf_event *hw =3D &event->hw; unsigned long lock_flags;
-> > +
-> > +if (WARN_ON_ONCE(!(hw->state & PERF_HES_STOPPED))) return;
-> > +
-> > +if (flags & PERF_EF_RELOAD)
-> > +WARN_ON_ONCE(!(hw->state & PERF_HES_UPTODATE));
-> > +
-> > +stm32_ddr_pmu_event_configure(event);
-> > +
-> > +/* Clear all counters to synchronize them, then start */
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CCR_CLEAR_ALL, stm32_ddr_pmu->membase + DDRPERFM_CCR);
-> > +writel_relaxed(CTL_START, stm32_ddr_pmu->membase + DDRPERFM_CTL);
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, lock_flags);
->=20
-> By 'clear' do you mean set the counters to zero?
->=20
-> Or is there a control bit that determine whether they count?
-
-There is one "enable" bit per counter (except the total counter that is ena=
-bled by default).
-"Clear" means that the counters are set to zero and the counting will only =
-be started with=20
-the "Start" for all enabled counters.
-
-> If we're updating the counter, we could update prev_count at the same
-> instant.
-
-This synchronization is just for the start because the events are enabled &=
- started one
-per one by perf tool. Since each counter has to be compared to the "time" c=
-ount that is
-the overall reference for all, I want to ensure that "time" and all the ena=
-bled counters=20
-finally start at the same time. Thus, this synchro.
-
-Do you mean that, to be consistent, I should set prev_count to zero here al=
-so ?
-
->=20
-> > +
-> > +hw->state =3D 0;
-> > +}
-> > +
-> > +static void stm32_ddr_pmu_event_stop(struct perf_event *event, int
-> > +flags) { struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long lock_flags, config_base =3D event->hw.config_base; struc=
-t
-> > +hw_perf_event *hw =3D &event->hw;
-> > +u32 val, bit;
-> > +
-> > +if (WARN_ON_ONCE(hw->state & PERF_HES_STOPPED)) return;
-> > +
-> > +spin_lock_irqsave(&stm32_ddr_pmu->lock, lock_flags);
-> > +writel_relaxed(CTL_STOP, stm32_ddr_pmu->membase +
-> DDRPERFM_CTL); if
-> > +(config_base =3D=3D TIME_CNT) bit =3D 1 << 31; else bit =3D 1 << confi=
-g_base;
-> > +writel_relaxed(bit, stm32_ddr_pmu->membase + DDRPERFM_CCR); if
-> > +(config_base < TIME_CNT) { val =3D readl_relaxed(stm32_ddr_pmu-
-> >membase
-> > ++ DDRPERFM_CFG); val &=3D ~bit; writel_relaxed(val,
-> > +stm32_ddr_pmu->membase + DDRPERFM_CFG); }
-> > +spin_unlock_irqrestore(&stm32_ddr_pmu->lock, lock_flags);
-> > +
-> > +hw->state |=3D PERF_HES_STOPPED;
-> > +
-> > +if (flags & PERF_EF_UPDATE) {
-> > +stm32_ddr_pmu_event_read(event);
-> > +hw->state |=3D PERF_HES_UPTODATE;
-> > +}
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_event_add(struct perf_event *event, int
-> > +flags) { struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long config_base =3D event->hw.config_base; struct
-> > +hw_perf_event *hw =3D &event->hw;
-> > +
-> > +stm32_ddr_pmu->events_cnt[config_base] =3D 0;
-> > +stm32_ddr_pmu->events[config_base] =3D event;
-> > +
-> > +clk_enable(stm32_ddr_pmu->clk);
-> > +hrtimer_start(&stm32_ddr_pmu->hrtimer, stm32_ddr_pmu-poll_period,
-> > +      HRTIMER_MODE_REL);
-> > +
-> > +stm32_ddr_pmu_event_configure(event);
-> > +
-> > +hw->state =3D PERF_HES_STOPPED | PERF_HES_UPTODATE;
-> > +
-> > +if (flags & PERF_EF_START)
-> > +stm32_ddr_pmu_event_start(event, 0);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static void stm32_ddr_pmu_event_del(struct perf_event *event, int
-> > +flags) { struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +pmu_to_stm32_ddr_pmu(event->pmu);
-> > +unsigned long config_base =3D event->hw.config_base; bool stop =3D tru=
-e;
-> > +int i;
-> > +
-> > +stm32_ddr_pmu_event_stop(event, PERF_EF_UPDATE);
-> > +
-> > +stm32_ddr_pmu->events_cnt[config_base] +=3D
-> > +local64_read(&event->count); stm32_ddr_pmu->events[config_base] =3D
-> > +NULL;
-> > +
-> > +for (i =3D 0; i < PMU_NR_COUNTERS; i++) if (stm32_ddr_pmu->events[i])
-> > +stop =3D false; if (stop) hrtimer_cancel(&stm32_ddr_pmu->hrtimer);
-> > +
-> > +clk_disable(stm32_ddr_pmu->clk);
->=20
-> This doesn't look right. If I add two events A and B, then delete event A=
-,
-> surely we want the clock on for event B?
->=20
-
-clk_enable() is called for each event enable and clk_disable() is called fo=
-r=20
-each event disable. So with your example we have:
-+A -> clk_enable()
-+B -> clk_enable()
--B -> clk_disable()
-And the clock remains enabled until A is also deleted.
-
-> Does the clock only affect whether the counters count, or does it also af=
-fect
-> whether the register file is usable?
-
-Both
-
->=20
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_event_init(struct perf_event *event) {
-> > +struct hw_perf_event *hw =3D &event->hw;
-> > +
-> > +if (is_sampling_event(event))
-> > +return -EINVAL;
-> > +
-> > +if (event->attach_state & PERF_ATTACH_TASK) return -EINVAL;
-> > +
-> > +if (event->attr.exclude_user   ||
-> > +    event->attr.exclude_kernel ||
-> > +    event->attr.exclude_hv     ||
-> > +    event->attr.exclude_idle   ||
-> > +    event->attr.exclude_host   ||
-> > +    event->attr.exclude_guest)
-> > +return -EINVAL;
-> > +
-> > +if (event->cpu < 0)
-> > +return -EINVAL;
->=20
-> For a system PMU like this, you must ensure that all events are assigned =
-to
-> the same CPU.
->=20
-> You'll need to designate some arbitrary CPU to mange the PMU, expose that
-> under sysfs, and upon hotplug events you must choose a new CPU and
-> migrate existing events.
->=20
-> For a simple example, see arch/arm/mm/cache-l2x0-pmu.c.
-
-Among CPU#0 and CPU#1, the CPU#0 is the only one that can be running alone
-(in other words, we disable CPU#1 before low power transition and CPU#0 wil=
-l
-finally enter low power).
-So I think I can avoid to manage any migration by systematically launching =
-the PMU
-on CPU#0.=20
-
-Is this fine for you or do you anyway prefer a generic approach that I coul=
-d find=20
-in arch/arm/mm/cache-l2x0-pmu.c ?
-
-> > +
-> > +hw->config_base =3D event->attr.config;
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static enum hrtimer_restart stm32_ddr_pmu_poll(struct hrtimer
-> > +*hrtimer) { struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> > +hrtimer_to_stm32_ddr_pmu(hrtimer);
-> > +int i;
-> > +
-> > +for (i =3D 0; i < PMU_NR_COUNTERS; i++) if (stm32_ddr_pmu->events[i])
-> > +stm32_ddr_pmu_event_read(stm32_ddr_pmu->events[i]);
-> > +
-> > +hrtimer_forward_now(hrtimer, stm32_ddr_pmu->poll_period);
-> > +
-> > +return HRTIMER_RESTART;
-> > +}
-> > +
-> > +static ssize_t stm32_ddr_pmu_sysfs_show(struct device *dev, struct
-> > +device_attribute *attr, char *buf) { struct dev_ext_attribute *eattr;
-> > +
-> > +eattr =3D container_of(attr, struct dev_ext_attribute, attr);
-> > +
-> > +return sprintf(buf, "config=3D0x%lx\n", (unsigned long)eattr->var); }
-> > +
-> > +static ssize_t bandwidth_show(struct device *dev,
-> > +      struct device_attribute *attr,
-> > +      char *buf)
-> > +{
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu =3D dev_get_drvdata(dev);
-> > +u64 r_bw, w_bw;
-> > +int ret;
-> > +
-> > +if (stm32_ddr_pmu->events_cnt[TIME_CNT]) { r_bw =3D
-> > +stm32_ddr_pmu_compute_bw(stm32_ddr_pmu, READ_CNT); w_bw =3D
-> > +stm32_ddr_pmu_compute_bw(stm32_ddr_pmu, WRITE_CNT);
-> > +
-> > +ret =3D snprintf(buf, PAGE_SIZE, STRING,
-> > +       r_bw, w_bw, (r_bw + w_bw));
-> > +} else {
-> > +ret =3D snprintf(buf, PAGE_SIZE, "No data available\n"); }
-> > +
-> > +return ret;
-> > +}
->=20
-> As commented above, this should not be exposed under sysfs. It doesn't
-> follow the usual ABI rules, it's weirdly stateful, and it's redundant.
->=20
-
-Ok
-
-> > +
-> > +#define STM32_DDR_PMU_ATTR(_name, _func, _config)\ (&((struct
-> > +dev_ext_attribute[]) {\
-> > +{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
-> > +})[0].attr.attr)
-> > +
-> > +#define STM32_DDR_PMU_EVENT_ATTR(_name, _config)\
-> > +STM32_DDR_PMU_ATTR(_name, stm32_ddr_pmu_sysfs_show,\
-> > +   (unsigned long)_config)
-> > +
-> > +static struct attribute *stm32_ddr_pmu_event_attrs[] =3D {
-> > +STM32_DDR_PMU_EVENT_ATTR(read_cnt, READ_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(write_cnt, WRITE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(activate_cnt, ACTIVATE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(idle_cnt, IDLE_CNT),
-> > +STM32_DDR_PMU_EVENT_ATTR(time_cnt, TIME_CNT), NULL };
-> > +
-> > +static DEVICE_ATTR_RO(bandwidth);
-> > +static struct attribute *stm32_ddr_pmu_bandwidth_attrs[] =3D {
-> > +&dev_attr_bandwidth.attr, NULL, };
-> > +
-> > +static struct attribute_group stm32_ddr_pmu_event_attrs_group =3D {
-> > +.name =3D "events", .attrs =3D stm32_ddr_pmu_event_attrs, };
-> > +
-> > +static struct attribute_group stm32_ddr_pmu_bandwidth_attrs_group =3D =
-{
-> > +.attrs =3D stm32_ddr_pmu_bandwidth_attrs, };
-> > +
-> > +static const struct attribute_group *stm32_ddr_pmu_attr_groups[] =3D {
-> > +&stm32_ddr_pmu_event_attrs_group,
-> > +&stm32_ddr_pmu_bandwidth_attrs_group,
-> > +NULL,
-> > +};
-> > +
-> > +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev) {
-> > +struct stm32_ddr_pmu *stm32_ddr_pmu; struct reset_control *rst;
-> > +struct resource *res; int i, ret;
-> > +u32 val;
-> > +
-> > +stm32_ddr_pmu =3D devm_kzalloc(&pdev->dev, sizeof(struct
-> stm32_ddr_pmu),
-> > +     GFP_KERNEL);
-> > +if (!stm32_ddr_pmu)
-> > +return -ENOMEM;
-> > +platform_set_drvdata(pdev, stm32_ddr_pmu);
-> > +
-> > +res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +stm32_ddr_pmu->membase =3D devm_ioremap_resource(&pdev->dev,
-> res); if
-> > +(IS_ERR(stm32_ddr_pmu->membase)) { pr_warn("Unable to get STM32
-> DDR
-> > +PMU membase\n"); return PTR_ERR(stm32_ddr_pmu->membase); }
-> > +
-> > +stm32_ddr_pmu->clk =3D devm_clk_get(&pdev->dev, "bus"); if
-> > +(IS_ERR(stm32_ddr_pmu->clk)) { pr_warn("Unable to get STM32 DDR
-> PMU
-> > +clock\n"); return PTR_ERR(stm32_ddr_pmu->clk); }
-> > +
-> > +ret =3D clk_prepare_enable(stm32_ddr_pmu->clk);
-> > +if (ret) {
-> > +pr_warn("Unable to prepare STM32 DDR PMU clock\n"); return ret; }
-> > +
-> > +stm32_ddr_pmu->clk_ddr =3D devm_clk_get(&pdev->dev, "ddr"); if
-> > +(IS_ERR(stm32_ddr_pmu->clk_ddr)) { pr_warn("Unable to get STM32
-> DDR
-> > +clock\n"); return PTR_ERR(stm32_ddr_pmu->clk_ddr); }
-> > +stm32_ddr_pmu->clk_ddr_rate =3D clk_get_rate(stm32_ddr_pmu-
-> >clk_ddr);
-> > +stm32_ddr_pmu->clk_ddr_rate /=3D 1000000;
-> > +
-> > +stm32_ddr_pmu->poll_period =3D ms_to_ktime(POLL_MS);
-> > +hrtimer_init(&stm32_ddr_pmu->hrtimer, CLOCK_MONOTONIC,
-> > +     HRTIMER_MODE_REL);
-> > +stm32_ddr_pmu->hrtimer.function =3D stm32_ddr_pmu_poll;
-> > +spin_lock_init(&stm32_ddr_pmu->lock);
-> > +
-> > +for (i =3D 0; i < PMU_NR_COUNTERS; i++) { stm32_ddr_pmu->events[i] =3D
-> > +NULL; stm32_ddr_pmu->events_cnt[i] =3D 0; }
-> > +
-> > +val =3D readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_SID); if
-> (val
-> > +!=3D SID_MAGIC_ID) return -EINVAL;
-> > +
-> > +stm32_ddr_pmu->pmu =3D (struct pmu) {
-> > +.task_ctx_nr =3D perf_invalid_context,
-> > +.start =3D stm32_ddr_pmu_event_start,
-> > +.stop =3D stm32_ddr_pmu_event_stop,
-> > +.add =3D stm32_ddr_pmu_event_add,
-> > +.del =3D stm32_ddr_pmu_event_del,
-> > +.event_init =3D stm32_ddr_pmu_event_init, .attr_groups =3D
-> > +stm32_ddr_pmu_attr_groups, }; ret =3D
-> > +perf_pmu_register(&stm32_ddr_pmu->pmu, "ddrperfm", -1);
->=20
-> Please give this a better name. The usual convention is to use "_pmu" as =
-the
-> suffix, so we should use that rather than "perfm".
->=20
-> To be unambiguous, something like "stm32_ddr_pmu" would be good.
-
-Ok, understood
-
->=20
-> Thanks,
-> Mark.
->=20
-> > +if (ret) {
-> > +pr_warn("Unable to register STM32 DDR PMU\n"); return ret; }
-> > +
-> > +rst =3D devm_reset_control_get_exclusive(&pdev->dev, NULL); if
-> > +(!IS_ERR(rst)) { reset_control_assert(rst); udelay(2);
-> > +reset_control_deassert(rst); }
-> > +
-> > +pr_info("stm32-ddr-pmu: probed (ID=3D0x%08x VER=3D0x%08x),
-> DDR@%luMHz\n",
-> > +readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_ID),
-> > +readl_relaxed(stm32_ddr_pmu->membase + DDRPERFM_VER),
-> > +stm32_ddr_pmu->clk_ddr_rate);
-> > +
-> > +clk_disable(stm32_ddr_pmu->clk);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static int stm32_ddr_pmu_device_remove(struct platform_device *pdev)
-> > +{ struct stm32_ddr_pmu *stm32_ddr_pmu =3D
-> platform_get_drvdata(pdev);
-> > +
-> > +perf_pmu_unregister(&stm32_ddr_pmu->pmu);
-> > +
-> > +return 0;
-> > +}
-> > +
-> > +static const struct of_device_id stm32_ddr_pmu_of_match[] =3D { {
-> > +.compatible =3D "st,stm32-ddr-pmu" }, { }, };
-> > +
-> > +static struct platform_driver stm32_ddr_pmu_driver =3D { .driver =3D {
-> > +.name=3D "stm32-ddr-pmu", .of_match_table =3D
-> > +of_match_ptr(stm32_ddr_pmu_of_match),
-> > +},
-> > +.probe =3D stm32_ddr_pmu_device_probe,
-> > +.remove =3D stm32_ddr_pmu_device_remove, };
-> > +
-> > +module_platform_driver(stm32_ddr_pmu_driver);
-> > +
-> > +MODULE_DESCRIPTION("Perf driver for STM32 DDR performance
-> monitor");
-> > +MODULE_AUTHOR("Gerald Baeza <gerald.baeza@st.com>");
-> > +MODULE_LICENSE("GPL v2");
-> > --
-> > 2.7.4
-> IMPORTANT NOTICE: The contents of this email and any attachments are
-> confidential and may also be privileged. If you are not the intended reci=
-pient,
-> please notify the sender immediately and do not disclose the contents to =
-any
-> other person, use it for any purpose, or store or copy the information in=
- any
-> medium. Thank you.
