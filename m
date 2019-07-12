@@ -2,72 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E06EC7D917
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 02:22:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AD087D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 03:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728975AbfGLCWH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Jul 2019 22:22:07 -0400
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:45861 "EHLO
-        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728931AbfGLCUi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jul 2019 22:20:38 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0TWfK5gO_1562898032;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TWfK5gO_1562898032)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 12 Jul 2019 10:20:33 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-s390@vger.kernel.org,
-        kvm@vger.kernel.org, linux-sh@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH 07/12] Documentation/parisc: repointer docs to Documentation/arch/
-Date:   Fri, 12 Jul 2019 10:20:13 +0800
-Message-Id: <20190712022018.27989-7-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
-In-Reply-To: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
-References: <20190712022018.27989-1-alex.shi@linux.alibaba.com>
+        id S1729524AbfGLDiF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Jul 2019 23:38:05 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16893 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729467AbfGLDiF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jul 2019 23:38:05 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2019 20:38:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,481,1557212400"; 
+   d="scan'208";a="186517666"
+Received: from gonegri-mobl.ger.corp.intel.com (HELO localhost) ([10.252.48.192])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2019 20:37:59 -0700
+Date:   Fri, 12 Jul 2019 06:37:58 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de, jgg@ziepe.ca,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        sumit.garg@linaro.org, rdunlap@infradead.org
+Subject: Re: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190712033758.vnwrmdxvz2kplt65@linux.intel.com>
+References: <20190705204746.27543-1-sashal@kernel.org>
+ <20190711200858.xydm3wujikufxjcw@linux.intel.com>
+ <20190711201059.GA18260@apalos>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190711201059.GA18260@apalos>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since we move Documentation/parisc docs to Documentation/arch/parisc
-dir, redirect the doc pointer to them.
+On Thu, Jul 11, 2019 at 11:10:59PM +0300, Ilias Apalodimas wrote:
+> Will report back any issues when we start using it on real hardware
+> rather than QEMU
+> 
+> Thanks
+> /Ilias
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: linux-kernel@vger.kernel.org
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That would awesome. PR is far away so there is time to add more
+tested-by's. Thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 03a8c687f87f..e1aad1b8224c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12000,7 +12000,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jejb/parisc-2.6.git
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git
- S:	Maintained
- F:	arch/parisc/
--F:	Documentation/parisc/
-+F:	Documentation/arch/parisc/
- F:	drivers/parisc/
- F:	drivers/char/agp/parisc-agp.c
- F:	drivers/input/serio/gscps2.c
--- 
-2.19.1.856.g8858448bb
-
+/Jarkko
