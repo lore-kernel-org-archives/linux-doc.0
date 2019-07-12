@@ -1,108 +1,283 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AE107D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 22:10:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 26F427D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 22:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727783AbfGLWKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 18:10:01 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36163 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727421AbfGLWKA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 18:10:00 -0400
-Received: by mail-pf1-f195.google.com with SMTP id r7so4888548pfl.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 15:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:references:date:in-reply-to:message-id
-         :user-agent:mime-version;
-        bh=zuU348vMM9aXraE4ccy+eAHv0CShi7BKwdNOAqDmvDI=;
-        b=NFurjCS4ooi0Fvo+RA6fYOmAV3aI9uoCXtAdcbExWzcIftI8DfV9JB8MhRl69Nkd12
-         WJlgvG6DaRBT85EjBYvmNsJOMUBjLpOwKA8/MF6ehv7mq7G2SQDEX+RScKErCld4Oh9n
-         lx5EEDhrlZvfID2u1YwWjPNskhw8Msgc1X2OpGnLqrmXlt123SbRgZQKprlIhWhxHowA
-         TFO95zYgyxnLNE1dsmf/IhAx9WFRQHstemWHiXAeZf3/oQbfFufly73Y48mzb1yXanjg
-         PtQD6sHac7/JTOtjepbHEuZ7hG6AzXCbirlxWuFgsUgBTQe5LnVv2jdiqCqZ0ALh3FsT
-         nm3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
-         :message-id:user-agent:mime-version;
-        bh=zuU348vMM9aXraE4ccy+eAHv0CShi7BKwdNOAqDmvDI=;
-        b=M3Yfgwnl5wUPBQG3WESE9vjCjPm//KH0InpoClQHyqLXljF6Z7xFBdbrq6/VKi97lO
-         lb8EsnggIX5NXQZhg+tyCYTNy03km+jHREO8cGJJ1+yIDnpjxB2c+KkL23Hx6fej9cVB
-         SrMCCivBIxaxlHWOczAlRNiPqQtb7y7Ek7vbH2ppzMNXpBFjcOhzWrlRUMuYWg9oLxJ+
-         6fNsrl7ruYnUElJtmNDxcaaK/sZPUA8zlE3OMTIL97ahY5lyA/WAOffZmO40ta8YcjMl
-         0n66Ab2VcJOGrQyTs64hZ4vpL/B88i1yw2DBFkOFaD4XkocuYh2LWkMWv6bB3gCaTXZg
-         fZeQ==
-X-Gm-Message-State: APjAAAV9kLVNLj/irTsjcr29WQSECUu1MeWyLeYdw3JznNpIpiQuc8l6
-        dbLO7TO3iGuXbqqCC3Jb6C1LGA==
-X-Google-Smtp-Source: APXvYqwtSX+yfy8odN8PRwvf2FSTIt4YJkTQBI3CdsfQxFtcWWA+E8aK56vQe+awruZFmyJt1JcKhg==
-X-Received: by 2002:a63:231c:: with SMTP id j28mr13362263pgj.430.1562969399631;
-        Fri, 12 Jul 2019 15:09:59 -0700 (PDT)
-Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
-        by smtp.gmail.com with ESMTPSA id f7sm9398759pfd.43.2019.07.12.15.09.58
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 15:09:58 -0700 (PDT)
-From:   bsegall@google.com
-To:     Dave Chiluk <chiluk+linux@indeed.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Kyle Anderson <kwa@yelp.com>,
-        Gabriel Munos <gmunoz@netflix.com>,
-        John Hammond <jhammond@indeed.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
-        <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
-        <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
-        <xm26lfxhwlxr.fsf@bsegall-linux.svl.corp.google.com>
-        <20190711095102.GX3402@hirez.programming.kicks-ass.net>
-        <xm26v9w8jwgl.fsf@bsegall-linux.svl.corp.google.com>
-        <CAC=E7cV4sO50NpYOZ06n_BkZTcBqf1KQp83prc+oave3ircBrw@mail.gmail.com>
-Date:   Fri, 12 Jul 2019 15:09:57 -0700
-In-Reply-To: <CAC=E7cV4sO50NpYOZ06n_BkZTcBqf1KQp83prc+oave3ircBrw@mail.gmail.com>
-        (Dave Chiluk's message of "Thu, 11 Jul 2019 18:48:24 -0500")
-Message-ID: <xm26muhikiq2.fsf@bsegall-linux.svl.corp.google.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S1727791AbfGLW1Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 18:27:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51968 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727245AbfGLW1Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 18:27:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=VM9qpAs/ICtRYE/ZKsbasB/7+epYpXQ7+ZIhOINoByw=; b=DDBNzD6VGixx85DQB7GNNTwUG
+        TgheVxDJciYE2Cw6b0dnj+nuPh8uJ+yOD0d92QK6C3Vlc68vY7sfziXp/iHi0Fw3NhuCeB8xVLO5E
+        0c5OJlqZiR+snFsxI80l1yDkTv0awzdROQNDrLtvKu7PLxawZ2E1pbSuUnM6gueAXOIGLeBjP7R1p
+        Vrbdgvx9ImdNLiC4AGZ56unjhBZ+uthWlUj5OSgC4gZlWR4IfCOtqxITmLFMlgowLt1saZu9bkb/H
+        eyLbLI1yCaIfG1/VWUtMeVzik4TD+JRYVxpk0gj0d2ba56Z4dvkMKx+iO8KEDIYKYR3m+3hPfJlRc
+        pd6C7TlPA==;
+Received: from [186.213.242.57] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hm40U-0004ss-Gc; Fri, 12 Jul 2019 22:27:10 +0000
+Date:   Fri, 12 Jul 2019 19:27:05 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Hannes Reinecke <hare@suse.com>, linux-kbuild@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-doc@vger.kernel.org, Omar Sandoval <osandov@fb.com>
+Subject: Re: [PATCH 0/5] PDF output fixes
+Message-ID: <20190712192705.71b97717@coco.lan>
+In-Reply-To: <20190712141921.7f8a1d02@lwn.net>
+References: <cover.1562696797.git.mchehab+samsung@kernel.org>
+        <20190712141921.7f8a1d02@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dave Chiluk <chiluk+linux@indeed.com> writes:
+Em Fri, 12 Jul 2019 14:19:21 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> So I spent some more time testing this new patch as is *(interrupts disabled).  I know I probably should have fixed the patch, but it's hard to get time on big test hardware sometimes, and I was already well along my way with testing.
->
-> In regards to the quota usage overage I was seeing earlier: I have a theory as to what might be happening here, and I'm pretty sure it's related to the IRQs being disabled during the rq->lock walk.  I think that the main fast thread was able to use an excess amount
-> of quota because the timer interrupt meant to stop it wasn't being handled timely due to the interrupts being disabled.  On my 8 core machine this resulted in a what looked like simply improved usage of the quota, but when I ran the test on an 80 core machine I
-> saw a massive overage of cpu usage when running fibtest.  Specifically when running fibtest for 5 seconds with 50ms quota/100ms period expecting ~2500ms of quota usage; I got 3731 ms of cpu usage which was an unexpected overage of 1231ms. Is that a
-> reasonable theory?
+> On Tue,  9 Jul 2019 15:33:18 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+> > In order to be able to build all PDF books, besides the two patches I
+> > already sent:
+> > 
+> >     docs: pdf: add all Documentation/*/index.rst to PDF output
+> >     docs: automarkup.py: ignore exceptions when seeking for xrefs
+> > 
+> > A few others are needed:
+> > 
+> > - patch 1 removes nested tables for a few files I converted, as 
+> >   Sphinx LaTeX builder doesn't support it;
+> > - Patches 2 to 4 addresses some minor issues on some books,
+> >   usually requiring some blank lines, extra whitespaces or some
+> >   tag replacement;
+> > - Patch 5 is required in order to be able to build the translations
+> >   PDF book, as it adds Asian fonts support to XeLaTeX.  
+> 
+> So, modulo my one comment on the last patch the series seems OK, though I
+> don't like having to work around limitations in PDF generation this way.
 
-I think I've figured out what's going on here (and a related issue
-that gave me some inconsistency when trying to debug it): other "slow"
-threads can wake up while the slack timer is in distribute and
-double-spend some runtime. Since we lsub_positive rather than allow
-cfs_b->runtime to be negative this double-spending is permanent, and can
-go on indefinitely.
+Yeah, I feel the pain. I didn't like writing those patches either.
 
-In addition, if things fall out in a slightly different way, all the
-"slow" threads can wind up getting on cpu and claiming slices of runtime
-before the "fast" thread, and then it just has to wait another slack
-period to hope that the ordering winds up better that time. This just
-depends on things like IPI latency and maybe what order things happened
-to happen at the start of the period.
+> Can't you just make rst2pdf work instead? :)
 
-Ugh. Maybe we /do/ just give up and say that most people don't seem to
-be using cfs_b in a way that expiration of the leftover 1ms matters.
+Well, we can try. Last time we tried, there were lots of things missing
+for it to work. 
+
+Based on:
+
+	https://pypi.org/project/rst2pdf/
+
+The project got stuck back on Dec, 2012, up to the beginning of this
+year. Maybe the issues we had in the past got fixed.
+
+Also, right now, rst2pdf only supports Python 2.7.
+
+I would wait for it to support Python 3.x before doing the actual
+migration.
+
+-
+
+I don't remember the exact details, but when rst2pdf were
+used with some documents, it didn't produce a valid PDF file, but perhaps
+someone fixed it.
+
+Assuming that rst2pdf works now, there are still several LaTeX specific
+hacks on some files:
+
+	$ git grep -l latex|grep rst|wc -l
+	     28  
+
+I guess almost all of them are related to the lack of proper support
+at ReST markup language that would allow adjusting the output to fit
+within the page limits. 
+
+On media, we need two types of additional features:
+
+1) Sphinx pdf builder uses two different LaTeX ways of producing a table.
+(tabular x tabularx x longtable - don't remember anymore the exact
+two dialects it uses).
+
+One of the dialect allows a table to be on multiple pages; the other
+one doesn't. The builder decides the dialect if a table has more than 30
+columns, but there's a way to force longtable (by changing the css style).
+
+Not sure if rst2pdf honors the same css style.
+
+2) Table scaling / font resize. The Sphinx PDF builder doesn't scale
+the fonts inside a table, nor the ReST dialect allows changing the font
+size. So, we had to use raw LaTeX dialects for it to work.
+
+Anyway, I'm enclosing an experimental patch that would enable rst2pdf.
+It is not at production level.
+
+It also shows some crashes like this one:
+
+[ERROR] pdfbuilder.py:133 format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+Traceback (most recent call last):
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 130, in write
+    docwriter.write(doctree, destination)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/docutils/writers/__init__.py", line 80, in write
+    self.translate()
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 633, in translate
+    compressed=self.compressed)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/createpdf.py", line 664, in createPdf
+    pdfdoc.multiBuild(elements)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/platypus/doctemplate.py", line 1154, in multiBuild
+    self.canv.save()
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfgen/canvas.py", line 1242, in save
+    self._doc.SaveToFile(self._filename, self)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 215, in SaveToFile
+    data = self.GetPDFData(canvas)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 241, in GetPDFData
+    return self.format()
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 423, in format
+    IOf = IO.format(self)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 871, in format
+    fcontent = format(self.content, document, toplevel=1)   # yes this is at top level
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+    f = element.format(document)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1608, in format
+    return D.format(document)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 679, in format
+    L = [(format(PDFName(k),document)+b" "+format(dict[k],document)) for k in keys]
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+    f = element.format(document)
+  File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1773, in format
+    if f is None: raise ValueError("format not resolved, probably missing URL scheme or undefined destination target for '%s'" % self.name)
+ValueError: format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+FAILED
+
+
+> 
+> I guess it makes sense for these to go with the big band-aid-removal patch
+> set.
+
+OK, I'll send it together with the big patchset.
+
+> 
+> Thanks,
+> 
+> jon
+> 
+> P.S. it seems that rst2pdf is actually being developed again:
+> https://akrabat.com/rst2pdf-back-from-the-dead/ .  I wonder how far
+> they'll get with it.
+
+Thanks,
+Mauro
+
+[PATCH RFC] docs: experimental: build PDF with rst2pdf
+
+Change the logic to use rst2pdf instead of LaTeX.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508b..cc913f96a66d 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -95,9 +95,10 @@ pdfdocs:
+ 
+ else # HAVE_PDFLATEX
+ 
+-pdfdocs: latexdocs
++pdfdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
++	mkdir -p $(BUILDDIR)/pdf
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
+ 
+ endif # HAVE_PDFLATEX
+ 
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa0a42b47e62..4db8a62d7c6a 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -35,13 +35,14 @@ needs_sphinx = '1.3'
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
+-              'kfigure', 'sphinx.ext.ifconfig', 'automarkup']
++              'kfigure', 'sphinx.ext.ifconfig', 'automarkup', 'rst2pdf.pdfbuilder']
+ 
+-# The name of the math extension changed on Sphinx 1.4
+-if (major == 1 and minor > 3) or (major > 1):
+-    extensions.append("sphinx.ext.imgmath")
+-else:
+-    extensions.append("sphinx.ext.pngmath")
++# FIXME: when rst2pdf.pdfbuilder is added, the code below causes an error
++## The name of the math extension changed on Sphinx 1.4
++#if (major == 1 and minor > 3) or (major > 1):
++#    extensions.append("sphinx.ext.imgmath")
++#else:
++#    extensions.append("sphinx.ext.pngmath")
+ 
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+@@ -564,12 +565,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of http://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace("tex", "pdf")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
+ 
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/media/Makefile b/Documentation/media/Makefile
+index d75d70f191bc..3050136ed489 100644
+--- a/Documentation/media/Makefile
++++ b/Documentation/media/Makefile
+@@ -53,12 +53,13 @@ $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exception
+ 
+ # Media build rules
+ 
+-.PHONY: all html epub xml latex
++.PHONY: all html epub xml latex pdf
+ 
+ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
+ 
+
