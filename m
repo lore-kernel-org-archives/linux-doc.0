@@ -1,154 +1,161 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C7327D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 08:19:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9000E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 08:26:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbfGLIRw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 04:17:52 -0400
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:53618 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726106AbfGLIRv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 04:17:51 -0400
-Received: by mail-pg1-f202.google.com with SMTP id c31so4372393pgb.20
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 01:17:51 -0700 (PDT)
+        id S1726155AbfGLI0f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 04:26:35 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55555 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfGLI0e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 04:26:34 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so8035748wmj.5;
+        Fri, 12 Jul 2019 01:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=UvKno1DQ1En2T0BAydqL8aKwWtOHxHpLOB0ZXuFETLs=;
-        b=JtlStr7snNzmz5ulMB5eP37s7rbgIx50z+AVGP2t2WlEdfRbEZO8W2XTT3bE3WZnLv
-         keBpChTguji20fGG9MZtiJLfIGuGAQMR0xBWsqfAPNv7xBwu2S4omSfLGIwdCobd9HG0
-         xEIx+MC/l52zarabPfgQ095HslgbhlLi4Z2VOa7yRbXGn1OMnhIjlbG9wufHRgT48Rw8
-         N31KLcKdJR3xIPKj8X7rcKFfr9bJzXFefGvAJSqFErU5ciZBVgJrNxh12tyuyphu+Fd0
-         ntbZjblO4lofJT/rrUQvPdmmolFfkVV45QPFi2V3CSuuX8nBjrc2V4ynCPPNIkIg5MTd
-         4B0w==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwx+cMEft2PFGPMJbRtKXHY4DXSVCtrKSWASe73jxoo=;
+        b=nVJUzQ++TuIzNhHp2sLYUw+zqkM3/biyEDtZX9BKVXF0l4Ffui6czFlx1A9+iplc6v
+         bJqPgT+HN8a8iQd45BcMBOc/w4x6fI3jFtJU08ju5klNtT5/fx6RzYVJcKObOQROt2CY
+         4rXV8WotMfMRl/lpDVaE25rUZpMAd7e84foZioSpJa31el9luJi8wa2eIFq3/sythWVo
+         GJS49jhEQ0HNUgEFijbsJlHIi5HEzj0ujXlP6NZqo3YFaAA7n0n0fcYRjePAo7keVdcz
+         ER9gOS00DhYXHSPxx2xK1GLlULt8lj2FZiW8pjaimykyLb5KY5UM/jtEet0V8wsO1+TH
+         7/bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=UvKno1DQ1En2T0BAydqL8aKwWtOHxHpLOB0ZXuFETLs=;
-        b=L1yf2jKOYt9V45VYvgTeyN8wv6iEmXAzbllKnK7xJR4DQ1hi04ol8rMwlvWBCCfNVH
-         dNGCsGPoXQs/4uhfZ8B8+Hpr65vt2S2uBZQEpI2KhS0+cZaJIp6j/BYJ7P0kM/X+Fqwd
-         UXRtOj/P6f1LdS4WdUicabejsWdNxBztK6CF8A3j/G6eI/XyumIdhOuKyD22vs12cQ9u
-         tD3LlXoFbWxPC9f69Sni4FgB9ASbP8WJt02atPQSs+1+xbtOSn1MooSfiV99UjRNqhrA
-         pJlaOACZpZvPXSaMmffv7VIJCkV7lY/QX7qzrpPhZd+wONc6+6ikB8+78P7MLhAgwB8c
-         kDgQ==
-X-Gm-Message-State: APjAAAUYIW2VJwKYdnVIeE8Am2r9WX55t3g4KAoICCkLVOseyCp7UvGl
-        DIRCgeiwKUq3k/6PjgG9VJh+PHci9n47Bs89C5d+Qg==
-X-Google-Smtp-Source: APXvYqwxVjSSyLsmH5X5K9D5aFhrhgELvG+6tDMdeYJeUGZ3SfBpCQBrCaJmP5g1KYNhq+xNRut9+ZtuWUgQ3Ro3jfxY+Q==
-X-Received: by 2002:a65:5348:: with SMTP id w8mr9232476pgr.176.1562919470178;
- Fri, 12 Jul 2019 01:17:50 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 01:17:26 -0700
-Message-Id: <20190712081744.87097-1-brendanhiggins@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v9 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Iurii Zaikin <yzaikin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwx+cMEft2PFGPMJbRtKXHY4DXSVCtrKSWASe73jxoo=;
+        b=aOv8IH2DpVe+FVJ9ekHSUPBxq/4o7rSrWyBYlEWjqbVaYh9C+hDf9MdaOsJZZ8OlHh
+         mTfzg96OFCN1pcsdlOhifSFcuJr7F2vwwDx7u+TG205kLWOQOosyp6hRNFwBBwlE1seo
+         l1pXdeqDSlUkctLcsEGV8mBlD0WVORenZbuQKxr7b+QX8wQrBzzUiE/DDQcqGdrKPWUp
+         LNqiD0OgGZcnbhXisKJZJPuUiN+xMVmQd1rlJWi+YYZUxJnS1GO95SXCXSbisUAHuEud
+         a3CJyR4/TxM1dnIH/wZywpGntVJ9qFYR2S1nXOurRdz/cj5HSY6HP0OMVldKk99M8Qx2
+         n9lA==
+X-Gm-Message-State: APjAAAW/M/WDvbowxSf3w21ENmv6MpKvfn3GmipxcpZ5F9wlBsaxjGO/
+        OgeMYN8dbWIrIWS+JxwYfrIRGxc7
+X-Google-Smtp-Source: APXvYqxNNdMGqOcPkE4ucROjcMN7gUWGanh74tXauE+2XgwZlZ1GZECA30YxeDpH3LaO+lBgrvVrJA==
+X-Received: by 2002:a7b:c748:: with SMTP id w8mr8078395wmk.36.1562919991584;
+        Fri, 12 Jul 2019 01:26:31 -0700 (PDT)
+Received: from alan-laptop.carrier.duckdns.org (host-89-243-246-11.as13285.net. [89.243.246.11])
+        by smtp.gmail.com with ESMTPSA id o11sm7305548wmh.37.2019.07.12.01.26.29
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 12 Jul 2019 01:26:30 -0700 (PDT)
+From:   Alan Jenkins <alan.christopher.jenkins@gmail.com>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Doug Smythies <dsmythies@telus.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Alan Jenkins <alan.christopher.jenkins@gmail.com>
+Subject: [PATCH] Documentation: proc.txt: emphasize that iowait cannot be relied on
+Date:   Fri, 12 Jul 2019 09:22:09 +0100
+Message-Id: <20190712082209.16073-1-alan.christopher.jenkins@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-## TL;DR
+CPU "iowait" time in /proc/stat does not work on my laptop.
 
-This new patch set only contains a very minor change to address a sparse
-warning in the PROC SYSCTL KUnit test. Otherwise this patchset is
-identical to the previous.
+I saw the documentation mention several problems with "iowait".  However
+each problem appeared to be qualified.  It gave me the impression I could
+probably account for each problem.  My impression was wrong.
 
-As I mentioned in the previous patchset, all patches now have acks and
-reviews.
+There are a couple of writeups explaining the specific problem I had.[1][2]
 
-## Background
+[1] "[RFC PATCH 0/8] rework iowait accounting", 2014-06-26:
+    https://lore.kernel.org/lkml/53ABE28F.6010402@jp.fujitsu.com/
 
-This patch set proposes KUnit, a lightweight unit testing and mocking
-framework for the Linux kernel.
+[2] A recent writeup by myself:
+    https://unix.stackexchange.com/questions/517757/my-basic-assumption-about-system-iowait-does-not-hold/527836#527836
 
-Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-it does not require installing the kernel on a test machine or in a VM
-(however, KUnit still allows you to run tests on test machines or in VMs
-if you want[1]) and does not require tests to be written in userspace
-running on a host kernel. Additionally, KUnit is fast: From invocation
-to completion KUnit can run several dozen tests in about a second.
-Currently, the entire KUnit test suite for KUnit runs in under a second
-from the initial invocation (build time excluded).
+This might just be me.  Partly, my small knowledge about the scheduler
+allowed for false assumptions.  But I think we can emphasize more strongly
+how broken iowait is on SMP.  Overall, I aim to make it sound much scarier
+to analyze iowait.  I add some precise details, and also some
+anxiety-inducing vagueness :-).
 
-KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-Googletest/Googlemock for C++. KUnit provides facilities for defining
-unit test cases, grouping related test cases into test suites, providing
-common infrastructure for running tests, mocking, spying, and much more.
+[Detailed reasons for the specific points I included:]
 
-### What's so special about unit testing?
+1. Let us say that "iowait _can_ be massively under-accounted".  It is
+likely to remain true in future.  At least since v4.16, the
+under-accounting problem seems very exposed on non-virtual, multi-CPU
+systems.  In theory the wheel might turn again; this exposure might be
+reduced in future.  But even on v4.15, I can reproduce the problem using
+CPU affinity.
 
-A unit test is supposed to test a single unit of code in isolation,
-hence the name. There should be no dependencies outside the control of
-the test; this means no external dependencies, which makes tests orders
-of magnitudes faster. Likewise, since there are no external dependencies,
-there are no hoops to jump through to run the tests. Additionally, this
-makes unit tests deterministic: a failing unit test always indicates a
-problem. Finally, because unit tests necessarily have finer granularity,
-they are able to test all code paths easily solving the classic problem
-of difficulty in exercising error handling code.
+2. Point to NO_HZ_IDLE, as a good hint towards i) the nature of the problem
+and ii) and how widespread it is.  To give a more comprehensive picture,
+also point to NO_HZ_FULL and VIRT_CPU_ACCOUNTING_NATIVE.
 
-### Is KUnit trying to replace other testing frameworks for the kernel?
+Setting down my exact scenario would require a lot of specifics.  That
+would be going beyond the point.  We could link to one of the writeups as
+well, but I don't think we need to.
 
-No. Most existing tests for the Linux kernel are end-to-end tests, which
-have their place. A well tested system has lots of unit tests, a
-reasonable number of integration tests, and some end-to-end tests. KUnit
-is just trying to address the unit test space which is currently not
-being addressed.
+3. My own "use case" did not expose the problem when I ran it on a virtual
+machine.  Even using my CPU affinity method.[2]  I haven't tracked down
+why.  This is a significant qualification to point 1.  Explicitly
+acknowledge this.  It's a pain, but it makes the main point easier to
+verify, and hence more credible.
 
-### More information on KUnit
+(I suspect this is common at least to small test VMs.  It appears true
+for both a Fedora 30 VM (5.1.x) and a Debian 9 VM (4.9.x).  I also tried
+some different storage options, virtio-blk v.s. virtio-scsi v.s. isilogic.)
 
-There is a bunch of documentation near the end of this patch set that
-describes how to use KUnit and best practices for writing unit tests.
-For convenience I am hosting the compiled docs here[2].
+[:end of details]
 
-Additionally for convenience, I have applied these patches to a
-branch[3]. The repo may be cloned with:
-git clone https://kunit.googlesource.com/linux
-This patchset is on the kunit/rfc/v5.2/v9 branch.
+Signed-off-by: Alan Jenkins <alan.christopher.jenkins@gmail.com>
+---
+ Documentation/filesystems/proc.txt | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-## Changes Since Last Version
-
-Like I said in the TL;DR, there is only one minor change since the
-previous revision. That change only affects patch 17/18; it addresses a
-sparse warning in the PROC SYSCTL unit test.
-
-Thanks to Masahiro for applying previous patches to a branch in his
-kbuild tree and running sparse and other static analysis tools against
-my patches.
-
-[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
-[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
-[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2/v9
-
+diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+index 66cad5c86171..f1da71cd276e 100644
+--- a/Documentation/filesystems/proc.txt
++++ b/Documentation/filesystems/proc.txt
+@@ -1348,16 +1348,23 @@ second).  The meanings of the columns are as follows, from left to right:
+ - nice: niced processes executing in user mode
+ - system: processes executing in kernel mode
+ - idle: twiddling thumbs
+-- iowait: In a word, iowait stands for waiting for I/O to complete. But there
+-  are several problems:
+-  1. Cpu will not wait for I/O to complete, iowait is the time that a task is
+-     waiting for I/O to complete. When cpu goes into idle state for
+-     outstanding task io, another task will be scheduled on this CPU.
+-  2. In a multi-core CPU, the task waiting for I/O to complete is not running
+-     on any CPU, so the iowait of each CPU is difficult to calculate.
+-  3. The value of iowait field in /proc/stat will decrease in certain
++- iowait: In a word, iowait stands for waiting for I/O to complete.  This
++  number is not reliable.  The problems include:
++  1. A CPU does not wait for I/O to complete; iowait is the time that a task
++     is waiting for I/O to complete.  When a CPU goes into idle state for
++     outstanding task I/O, another task will be scheduled on this CPU.
++  2. iowait was extended to support systems with multiple CPUs. But the
++     extended version is misleading.  Consider a two-CPU system, where you see
++     50% iowait.  This could represent two tasks that could use 100% of both
++     CPUs, if they were not waiting for I/O.
++  3. iowait can be massively under-accounted on modern kernels.  The iowait
++     code does not account for the behaviour of NO_HZ_IDLE, NO_HZ_FULL, or
++     VIRT_CPU_ACCOUNTING_NATIVE on multi-CPU systems.  The amount of
++     under-accounting varies depending on the exact system configuration and
++     kernel version.  The effects might be less obvious when running in a
++     virtual machine.
++  4. The value of iowait field in /proc/stat will decrease in certain
+      conditions.
+-  So, the iowait is not reliable by reading from /proc/stat.
+ - irq: servicing interrupts
+ - softirq: servicing softirqs
+ - steal: involuntary wait
 -- 
-2.22.0.410.gd8fdbe21b5-goog
+2.21.0
 
