@@ -1,161 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9000E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 08:26:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC77B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 09:49:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbfGLI0f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 04:26:35 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55555 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbfGLI0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 04:26:34 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so8035748wmj.5;
-        Fri, 12 Jul 2019 01:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bwx+cMEft2PFGPMJbRtKXHY4DXSVCtrKSWASe73jxoo=;
-        b=nVJUzQ++TuIzNhHp2sLYUw+zqkM3/biyEDtZX9BKVXF0l4Ffui6czFlx1A9+iplc6v
-         bJqPgT+HN8a8iQd45BcMBOc/w4x6fI3jFtJU08ju5klNtT5/fx6RzYVJcKObOQROt2CY
-         4rXV8WotMfMRl/lpDVaE25rUZpMAd7e84foZioSpJa31el9luJi8wa2eIFq3/sythWVo
-         GJS49jhEQ0HNUgEFijbsJlHIi5HEzj0ujXlP6NZqo3YFaAA7n0n0fcYRjePAo7keVdcz
-         ER9gOS00DhYXHSPxx2xK1GLlULt8lj2FZiW8pjaimykyLb5KY5UM/jtEet0V8wsO1+TH
-         7/bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bwx+cMEft2PFGPMJbRtKXHY4DXSVCtrKSWASe73jxoo=;
-        b=aOv8IH2DpVe+FVJ9ekHSUPBxq/4o7rSrWyBYlEWjqbVaYh9C+hDf9MdaOsJZZ8OlHh
-         mTfzg96OFCN1pcsdlOhifSFcuJr7F2vwwDx7u+TG205kLWOQOosyp6hRNFwBBwlE1seo
-         l1pXdeqDSlUkctLcsEGV8mBlD0WVORenZbuQKxr7b+QX8wQrBzzUiE/DDQcqGdrKPWUp
-         LNqiD0OgGZcnbhXisKJZJPuUiN+xMVmQd1rlJWi+YYZUxJnS1GO95SXCXSbisUAHuEud
-         a3CJyR4/TxM1dnIH/wZywpGntVJ9qFYR2S1nXOurRdz/cj5HSY6HP0OMVldKk99M8Qx2
-         n9lA==
-X-Gm-Message-State: APjAAAW/M/WDvbowxSf3w21ENmv6MpKvfn3GmipxcpZ5F9wlBsaxjGO/
-        OgeMYN8dbWIrIWS+JxwYfrIRGxc7
-X-Google-Smtp-Source: APXvYqxNNdMGqOcPkE4ucROjcMN7gUWGanh74tXauE+2XgwZlZ1GZECA30YxeDpH3LaO+lBgrvVrJA==
-X-Received: by 2002:a7b:c748:: with SMTP id w8mr8078395wmk.36.1562919991584;
-        Fri, 12 Jul 2019 01:26:31 -0700 (PDT)
-Received: from alan-laptop.carrier.duckdns.org (host-89-243-246-11.as13285.net. [89.243.246.11])
-        by smtp.gmail.com with ESMTPSA id o11sm7305548wmh.37.2019.07.12.01.26.29
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 01:26:30 -0700 (PDT)
-From:   Alan Jenkins <alan.christopher.jenkins@gmail.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Doug Smythies <dsmythies@telus.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Alan Jenkins <alan.christopher.jenkins@gmail.com>
-Subject: [PATCH] Documentation: proc.txt: emphasize that iowait cannot be relied on
-Date:   Fri, 12 Jul 2019 09:22:09 +0100
-Message-Id: <20190712082209.16073-1-alan.christopher.jenkins@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        id S1726512AbfGLJtQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 05:49:16 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:23808 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725989AbfGLJtQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Jul 2019 05:49:16 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id DA134819;
+        Fri, 12 Jul 2019 11:49:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1562924951; x=1564739352;
+         bh=wQTMNC5ixS/PdxerKd4Z76if3VG9NLuox49067DW6BQ=; b=beEJhabKSNHv
+        vc09nnt51AYvmVWIu2kZg3WQLCidYE/uXIu26xxBTsrWU2xSeNs1nap1dEk8LwLu
+        6P8rUTdpVpJ5qebo1mJkPo0zy6R46U9SDCzCq0v4mFyB+88BwFO0mjfo3a/lShho
+        +FcJr2OYgsh3KMvTVTCG2aglK+dS98WgmY6H4T11owVk1q/sUhbEHf48VwMBOp+l
+        fVC9UuPPEHtOKw6JhuyhRMoNvDoTT5i7JGlgTIbdUemtgJMMupEY77F2t6PjT4qn
+        waiYM5fgPfuRO58qHGE1wTGfL4VQhN015cWZCCxL6iK0iM5zVuWW0XlUXFn0xhZD
+        ejjyKGwlIInfnmge3vr+fdwVVens3SPeJpEailczUeCoku6FSqVQCcsvxxVCPUbc
+        zZlecdwLypkNafeuYQkfNtDyOyidyRJjRydwrlxk8BqEDKsEsNE5x0N1eg0p9ZgF
+        kj1QGh6njJqLOMZblbTn+gfwv+uWRrwK7YGtUabZaRJhvCpZ+SZt+a9YVYSt/mKD
+        MqYCbJmXP3+DtD4TEjVcsv4b4yAaNjYW8hV17kYsDBiBJs5bZzHv96dfGuNVgfoo
+        FBdhXswZbsUTmSDcSd6CqWRAlYYBubr4rV/J42z3EBQT6kNaNDJVOXGP2E3ELnD8
+        iw68Lb4K/Tc9rS/mH1GZeZgQ4ORTKgU=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1uDIyw3L3EiP; Fri, 12 Jul 2019 11:49:11 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id D230340C;
+        Fri, 12 Jul 2019 11:49:11 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 86205418;
+        Fri, 12 Jul 2019 11:49:11 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc:it_IT: translations in process/
+Date:   Fri, 12 Jul 2019 11:48:22 +0200
+Message-Id: <20190712094822.4526-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CPU "iowait" time in /proc/stat does not work on my laptop.
+This patch add translations for:
 
-I saw the documentation mention several problems with "iowait".  However
-each problem appeared to be qualified.  It gave me the impression I could
-probably account for each problem.  My impression was wrong.
+- programming-languages
+- kernel-docs (It is better to not translate this since English is
+a requirement to get something useful out of it)
 
-There are a couple of writeups explaining the specific problem I had.[1][2]
-
-[1] "[RFC PATCH 0/8] rework iowait accounting", 2014-06-26:
-    https://lore.kernel.org/lkml/53ABE28F.6010402@jp.fujitsu.com/
-
-[2] A recent writeup by myself:
-    https://unix.stackexchange.com/questions/517757/my-basic-assumption-about-system-iowait-does-not-hold/527836#527836
-
-This might just be me.  Partly, my small knowledge about the scheduler
-allowed for false assumptions.  But I think we can emphasize more strongly
-how broken iowait is on SMP.  Overall, I aim to make it sound much scarier
-to analyze iowait.  I add some precise details, and also some
-anxiety-inducing vagueness :-).
-
-[Detailed reasons for the specific points I included:]
-
-1. Let us say that "iowait _can_ be massively under-accounted".  It is
-likely to remain true in future.  At least since v4.16, the
-under-accounting problem seems very exposed on non-virtual, multi-CPU
-systems.  In theory the wheel might turn again; this exposure might be
-reduced in future.  But even on v4.15, I can reproduce the problem using
-CPU affinity.
-
-2. Point to NO_HZ_IDLE, as a good hint towards i) the nature of the problem
-and ii) and how widespread it is.  To give a more comprehensive picture,
-also point to NO_HZ_FULL and VIRT_CPU_ACCOUNTING_NATIVE.
-
-Setting down my exact scenario would require a lot of specifics.  That
-would be going beyond the point.  We could link to one of the writeups as
-well, but I don't think we need to.
-
-3. My own "use case" did not expose the problem when I ran it on a virtual
-machine.  Even using my CPU affinity method.[2]  I haven't tracked down
-why.  This is a significant qualification to point 1.  Explicitly
-acknowledge this.  It's a pain, but it makes the main point easier to
-verify, and hence more credible.
-
-(I suspect this is common at least to small test VMs.  It appears true
-for both a Fedora 30 VM (5.1.x) and a Debian 9 VM (4.9.x).  I also tried
-some different storage options, virtio-blk v.s. virtio-scsi v.s. isilogic.)
-
-[:end of details]
-
-Signed-off-by: Alan Jenkins <alan.christopher.jenkins@gmail.com>
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/filesystems/proc.txt | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ .../translations/it_IT/process/index.rst      |  1 +
+ .../it_IT/process/kernel-docs.rst             | 11 ++--
+ .../it_IT/process/programming-language.rst    | 51 +++++++++++++++++++
+ 3 files changed, 60 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/translations/it_IT/process/programming-language.rst
 
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 66cad5c86171..f1da71cd276e 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -1348,16 +1348,23 @@ second).  The meanings of the columns are as follows, from left to right:
- - nice: niced processes executing in user mode
- - system: processes executing in kernel mode
- - idle: twiddling thumbs
--- iowait: In a word, iowait stands for waiting for I/O to complete. But there
--  are several problems:
--  1. Cpu will not wait for I/O to complete, iowait is the time that a task is
--     waiting for I/O to complete. When cpu goes into idle state for
--     outstanding task io, another task will be scheduled on this CPU.
--  2. In a multi-core CPU, the task waiting for I/O to complete is not running
--     on any CPU, so the iowait of each CPU is difficult to calculate.
--  3. The value of iowait field in /proc/stat will decrease in certain
-+- iowait: In a word, iowait stands for waiting for I/O to complete.  This
-+  number is not reliable.  The problems include:
-+  1. A CPU does not wait for I/O to complete; iowait is the time that a task
-+     is waiting for I/O to complete.  When a CPU goes into idle state for
-+     outstanding task I/O, another task will be scheduled on this CPU.
-+  2. iowait was extended to support systems with multiple CPUs. But the
-+     extended version is misleading.  Consider a two-CPU system, where you see
-+     50% iowait.  This could represent two tasks that could use 100% of both
-+     CPUs, if they were not waiting for I/O.
-+  3. iowait can be massively under-accounted on modern kernels.  The iowait
-+     code does not account for the behaviour of NO_HZ_IDLE, NO_HZ_FULL, or
-+     VIRT_CPU_ACCOUNTING_NATIVE on multi-CPU systems.  The amount of
-+     under-accounting varies depending on the exact system configuration and
-+     kernel version.  The effects might be less obvious when running in a
-+     virtual machine.
-+  4. The value of iowait field in /proc/stat will decrease in certain
-      conditions.
--  So, the iowait is not reliable by reading from /proc/stat.
- - irq: servicing interrupts
- - softirq: servicing softirqs
- - steal: involuntary wait
+diff --git a/Documentation/translations/it_IT/process/index.rst b/Documentation/translations/it_IT/process/index.rst
+index 2eda85d5cd1e..012de0f3154a 100644
+--- a/Documentation/translations/it_IT/process/index.rst
++++ b/Documentation/translations/it_IT/process/index.rst
+@@ -27,6 +27,7 @@ Di seguito le guide che ogni sviluppatore dovrebbe leggere.
+    code-of-conduct
+    development-process
+    submitting-patches
++   programming-language
+    coding-style
+    maintainer-pgp-guide
+    email-clients
+diff --git a/Documentation/translations/it_IT/process/kernel-docs.rst b/Documentation/translations/it_IT/process/kernel-docs.rst
+index 7bd70d661737..38e0a955121a 100644
+--- a/Documentation/translations/it_IT/process/kernel-docs.rst
++++ b/Documentation/translations/it_IT/process/kernel-docs.rst
+@@ -1,6 +1,7 @@
+ .. include:: ../disclaimer-ita.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
++:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
+ 
+ 
+ .. _it_kernel_docs:
+@@ -8,6 +9,10 @@
+ Indice di documenti per le persone interessate a capire e/o scrivere per il kernel Linux
+ ========================================================================================
+ 
+-.. warning::
+-
+-    TODO ancora da tradurre
++.. note::
++   Questo documento contiene riferimenti a documenti in lingua inglese; inoltre
++   utilizza dai campi *ReStructuredText* di supporto alla ricerca e che per
++   questo motivo è meglio non tradurre al fine di garantirne un corretto
++   utilizzo.
++   Per questi motivi il documento non verrà tradotto. Per favore fate
++   riferimento al documento originale in lingua inglese.
+diff --git a/Documentation/translations/it_IT/process/programming-language.rst b/Documentation/translations/it_IT/process/programming-language.rst
+new file mode 100644
+index 000000000000..f4b006395849
+--- /dev/null
++++ b/Documentation/translations/it_IT/process/programming-language.rst
+@@ -0,0 +1,51 @@
++.. include:: ../disclaimer-ita.rst
++
++:Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
++:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
++
++.. _it_programming_language:
++
++Linguaggio di programmazione
++============================
++
++Il kernel è scritto nel linguaggio di programmazione C [c-language]_.
++Più precisamente, il kernel viene compilato con ``gcc`` [gcc]_ usando
++l'opzione ``-std=gnu89`` [gcc-c-dialect-options]_: il dialetto GNU
++dello standard ISO C90 (con l'aggiunta di alcune funzionalità da C99)
++
++Questo dialetto contiene diverse estensioni al linguaggio [gnu-extensions]_,
++e molte di queste vengono usate sistematicamente dal kernel.
++
++Il kernel offre un certo livello di supporto per la compilazione con ``clang``
++[clang]_ e ``icc`` [icc]_ su diverse architetture, tuttavia in questo momento
++il supporto non è completo e richiede delle patch aggiuntive.
++
++Attributi
++---------
++
++Una delle estensioni più comuni e usate nel kernel sono gli attributi
++[gcc-attribute-syntax]_. Gli attributi permettono di aggiungere una semantica,
++definita dell'implementazione, alle entità del linguaggio (come le variabili,
++le funzioni o i tipi) senza dover fare importanti modifiche sintattiche al
++linguaggio stesso (come l'aggiunta di nuove parole chiave) [n2049]_.
++
++In alcuni casi, gli attributi sono opzionali (ovvero un compilatore che non
++dovesse supportarli dovrebbe produrre comunque codice corretto, anche se
++più lento o che non esegue controlli aggiuntivi durante la compilazione).
++
++Il kernel definisce alcune pseudo parole chiave (per esempio ``__pure``)
++in alternativa alla sintassi GNU per gli attributi (per esempio
++``__attribute__((__pure__))``) allo scopo di mostrare quali funzionalità si
++possono usare e/o per accorciare il codice.
++
++Per maggiori informazioni consultate il file d'intestazione
++``include/linux/compiler_attributes.h``.
++
++.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [clang] https://clang.llvm.org
++.. [icc] https://software.intel.com/en-us/c-compilers
++.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
 -- 
 2.21.0
 
