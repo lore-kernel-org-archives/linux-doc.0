@@ -1,155 +1,238 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A06D77D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 14:55:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42C417D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 15:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfGLOzS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 10:55:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41842 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726984AbfGLOzS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 10:55:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jyTpDF2cJguc7T2D7cN+higCLbj4x3NEYIIGAv7Vb1k=; b=d5q+mx+54zYN9fEzyPrr6e6Vn
-        P+OWHB81xK0z3+qq7SCsblGLnd3AIuBWLZO+8ZK/C8M7+LXeBC4T/0yyPKLV3LgbYMZD8LP42dMaR
-        2IIM9M5Zqu+Xu0JxZE+MzZIeriI/CapP7cTjO3VdiTwIN94g44p8vVr9UhhFoOr4jZEuZcaBkvFl4
-        18GFjroBpeu30gq9eVebugXvsVX+v7tn30COaNknA7ZlDAN8et9NsDu6ORa85NEDw4yG0fyHaHUq+
-        mVtrXsEfzksrItP+jJcDlg+J5+GKIJhEsoH+ZoUqPRrYhqsg2Lez4SgIkNoFqDkcQpCSPaoVO4vjK
-        r2N1yvaWA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hlwxA-0008UU-2R; Fri, 12 Jul 2019 14:55:16 +0000
-Subject: Re: [PATCH v3] tpm: Document UEFI event log quirks
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tweek@google.com, matthewgarrett@google.com,
-        jorhand@linux.microsoft.com, Jonathan Corbet <corbet@lwn.net>,
-        Sasha Levin <sashal@kernel.org>
-References: <20190712124912.23630-1-jarkko.sakkinen@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6c974f53-6dca-33fd-5aca-056ab8b274ed@infradead.org>
-Date:   Fri, 12 Jul 2019 07:55:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727015AbfGLPCN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 11:02:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26224 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726977AbfGLPCM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 11:02:12 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6CEwjbO014486;
+        Fri, 12 Jul 2019 11:01:13 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tpu50c27p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 12 Jul 2019 11:01:12 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6CExP1e017416;
+        Fri, 12 Jul 2019 11:01:11 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tpu50c25u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 12 Jul 2019 11:01:11 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6CF0MVc015958;
+        Fri, 12 Jul 2019 15:01:09 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
+        by ppma01wdc.us.ibm.com with ESMTP id 2tjk974cr9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 12 Jul 2019 15:01:09 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6CF18cj31457644
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 12 Jul 2019 15:01:09 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D6E10B2066;
+        Fri, 12 Jul 2019 15:01:07 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A730DB2086;
+        Fri, 12 Jul 2019 15:01:07 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.195.235])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 12 Jul 2019 15:01:07 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 8599316C3FC8; Fri, 12 Jul 2019 08:01:07 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 08:01:07 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kvm-ppc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>, byungchul.park@lge.com,
+        kernel-team@android.com
+Subject: Re: [PATCH] treewide: Rename  rcu_dereference_raw_notrace to _check
+Message-ID: <20190712150107.GT26519@linux.ibm.com>
+Reply-To: paulmck@linux.ibm.com
+References: <20190711204541.28940-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <20190712124912.23630-1-jarkko.sakkinen@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190711204541.28940-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-12_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907120162
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/12/19 5:49 AM, Jarkko Sakkinen wrote:
-> There are some weird quirks when it comes to UEFI event log. Provide a
-> brief introduction to TPM event log mechanism and describe the quirks
-> and how they can be sorted out.
+On Thu, Jul 11, 2019 at 04:45:41PM -0400, Joel Fernandes (Google) wrote:
+> The rcu_dereference_raw_notrace() API name is confusing.
+> It is equivalent to rcu_dereference_raw() except that it also does
+> sparse pointer checking.
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
-> v3: Add a section and use bullet list for references. Remove (invalid)
->     author info.
-> v2: Fixed one type, adjusted the last paragraph and added the file
-
-is that         typo  or type?
-
-(one more below)
-
->     to index.rst
->  Documentation/security/tpm/index.rst         |  1 +
->  Documentation/security/tpm/tpm_event_log.rst | 55 ++++++++++++++++++++
->  2 files changed, 56 insertions(+)
->  create mode 100644 Documentation/security/tpm/tpm_event_log.rst
+> There are only a few users of rcu_dereference_raw_notrace(). This
+> patches renames all of them to be rcu_dereference_raw_check with the
+> "check" indicating sparse checking.
 > 
-> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-> index 15783668644f..9e0815cb1e7f 100644
-> --- a/Documentation/security/tpm/index.rst
-> +++ b/Documentation/security/tpm/index.rst
-> @@ -4,5 +4,6 @@ Trusted Platform Module documentation
->  
->  .. toctree::
->  
-> +   tpm_event_log
->     tpm_ftpm_tee
->     tpm_vtpm_proxy
-> diff --git a/Documentation/security/tpm/tpm_event_log.rst b/Documentation/security/tpm/tpm_event_log.rst
-> new file mode 100644
-> index 000000000000..068eeb659bb9
-> --- /dev/null
-> +++ b/Documentation/security/tpm/tpm_event_log.rst
-> @@ -0,0 +1,55 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +TPM Event Log
-> +=============
-> +
-> +This document briefly describes what TPM log is and how it is handed
-> +over from the preboot firmware to the operating system.
-> +
-> +Introduction
-> +============
-> +
-> +The preboot firmware maintains an event log that gets new entries every
-> +time something gets hashed by it to any of the PCR registers. The events
-> +are segregated by their type and contain the value of the hashed PCR
-> +register. Typically, the preboot firmware will hash the components to
-> +who execution is to be handed over or actions relevant to the boot
-> +process.
-> +
-> +The main application for this is remote attestation and the reason why
-> +it is useful is nicely put in the very first section of [1]:
-> +
-> +"Attestation is used to provide information about the platform’s state
-> +to a challenger. However, PCR contents are difficult to interpret;
-> +therefore, attestation is typically more useful when the PCR contents
-> +are accompanied by a measurement log. While not trusted on their own,
-> +the measurement log contains a richer set of information than do the PCR
-> +contents. The PCR contents are used to provide the validation of the
-> +measurement log."
-> +
-> +UEFI event log
-> +==============
-> +
-> +UEFI provided event log has a few somewhat weird quirks.
-> +
-> +Before calling ExitBootServices() Linux EFI stub copies the event log to
-> +a custom configuration table defined by the stub itself. Unfortanely,
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-[again:]                                                    Unfortunately,
+I queued this, but reworked the commit log and fixed a couple of
+irritating checkpatch issues that were in the original code.
+Does this work for you?
 
-> +the events generated by ExitBootServices() don't end up in the table.
-> +
-> +The firmware provides so called final events configuration table to sort
-> +out this issue. Events gets mirrored to this table after the first time
-> +EFI_TCG2_PROTOCOL.GetEventLog() gets called.
-> +
-> +This introduces another problem: nothing guarantees that it is not called
-> +before the Linux EFI stub gets to run. Thus, it needs to calculate and save the
-> +final events table size while the stub is still running to the custom
-> +configuration table so that the TPM driver can later on skip these events when
-> +concatenating two halves of the event log from the custom configuration table
-> +and the final events table.
-> +
-> +References
-> +==========
-> +
-> +- [1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-> +- [2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
-> 
+							Thanx, Paul
 
+------------------------------------------------------------------------
 
--- 
-~Randy
+commit bd5c0fea6016c90cf7a9eb0435cd0c373dfdac2f
+Author: Joel Fernandes (Google) <joel@joelfernandes.org>
+Date:   Thu Jul 11 16:45:41 2019 -0400
+
+    treewide: Rename rcu_dereference_raw_notrace() to _check()
+    
+    The rcu_dereference_raw_notrace() API name is confusing.  It is equivalent
+    to rcu_dereference_raw() except that it also does sparse pointer checking.
+    
+    There are only a few users of rcu_dereference_raw_notrace(). This patches
+    renames all of them to be rcu_dereference_raw_check() with the "_check()"
+    indicating sparse checking.
+    
+    Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+    [ paulmck: Fix checkpatch warnings about parentheses. ]
+    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.html b/Documentation/RCU/Design/Requirements/Requirements.html
+index f04c467e55c5..467251f7fef6 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.html
++++ b/Documentation/RCU/Design/Requirements/Requirements.html
+@@ -2514,7 +2514,7 @@ disabled across the entire RCU read-side critical section.
+ <p>
+ It is possible to use tracing on RCU code, but tracing itself
+ uses RCU.
+-For this reason, <tt>rcu_dereference_raw_notrace()</tt>
++For this reason, <tt>rcu_dereference_raw_check()</tt>
+ is provided for use by tracing, which avoids the destructive
+ recursion that could otherwise ensue.
+ This API is also used by virtualization in some architectures,
+diff --git a/arch/powerpc/include/asm/kvm_book3s_64.h b/arch/powerpc/include/asm/kvm_book3s_64.h
+index 21b1ed5df888..53388a311967 100644
+--- a/arch/powerpc/include/asm/kvm_book3s_64.h
++++ b/arch/powerpc/include/asm/kvm_book3s_64.h
+@@ -546,7 +546,7 @@ static inline void note_hpte_modification(struct kvm *kvm,
+  */
+ static inline struct kvm_memslots *kvm_memslots_raw(struct kvm *kvm)
+ {
+-	return rcu_dereference_raw_notrace(kvm->memslots[0]);
++	return rcu_dereference_raw_check(kvm->memslots[0]);
+ }
+ 
+ extern void kvmppc_mmu_debugfs_init(struct kvm *kvm);
+diff --git a/include/linux/rculist.h b/include/linux/rculist.h
+index e91ec9ddcd30..932296144131 100644
+--- a/include/linux/rculist.h
++++ b/include/linux/rculist.h
+@@ -622,7 +622,7 @@ static inline void hlist_add_behind_rcu(struct hlist_node *n,
+  * as long as the traversal is guarded by rcu_read_lock().
+  */
+ #define hlist_for_each_entry_rcu(pos, head, member)			\
+-	for (pos = hlist_entry_safe (rcu_dereference_raw(hlist_first_rcu(head)),\
++	for (pos = hlist_entry_safe(rcu_dereference_raw(hlist_first_rcu(head)),\
+ 			typeof(*(pos)), member);			\
+ 		pos;							\
+ 		pos = hlist_entry_safe(rcu_dereference_raw(hlist_next_rcu(\
+@@ -642,10 +642,10 @@ static inline void hlist_add_behind_rcu(struct hlist_node *n,
+  * not do any RCU debugging or tracing.
+  */
+ #define hlist_for_each_entry_rcu_notrace(pos, head, member)			\
+-	for (pos = hlist_entry_safe (rcu_dereference_raw_notrace(hlist_first_rcu(head)),\
++	for (pos = hlist_entry_safe(rcu_dereference_raw_check(hlist_first_rcu(head)),\
+ 			typeof(*(pos)), member);			\
+ 		pos;							\
+-		pos = hlist_entry_safe(rcu_dereference_raw_notrace(hlist_next_rcu(\
++		pos = hlist_entry_safe(rcu_dereference_raw_check(hlist_next_rcu(\
+ 			&(pos)->member)), typeof(*(pos)), member))
+ 
+ /**
+diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+index 0c9b92799abc..e5161e377ad4 100644
+--- a/include/linux/rcupdate.h
++++ b/include/linux/rcupdate.h
+@@ -478,7 +478,7 @@ do {									      \
+  * The no-tracing version of rcu_dereference_raw() must not call
+  * rcu_read_lock_held().
+  */
+-#define rcu_dereference_raw_notrace(p) __rcu_dereference_check((p), 1, __rcu)
++#define rcu_dereference_raw_check(p) __rcu_dereference_check((p), 1, __rcu)
+ 
+ /**
+  * rcu_dereference_protected() - fetch RCU pointer when updates prevented
+diff --git a/kernel/trace/ftrace_internal.h b/kernel/trace/ftrace_internal.h
+index 0515a2096f90..0456e0a3dab1 100644
+--- a/kernel/trace/ftrace_internal.h
++++ b/kernel/trace/ftrace_internal.h
+@@ -6,22 +6,22 @@
+ 
+ /*
+  * Traverse the ftrace_global_list, invoking all entries.  The reason that we
+- * can use rcu_dereference_raw_notrace() is that elements removed from this list
++ * can use rcu_dereference_raw_check() is that elements removed from this list
+  * are simply leaked, so there is no need to interact with a grace-period
+- * mechanism.  The rcu_dereference_raw_notrace() calls are needed to handle
++ * mechanism.  The rcu_dereference_raw_check() calls are needed to handle
+  * concurrent insertions into the ftrace_global_list.
+  *
+  * Silly Alpha and silly pointer-speculation compiler optimizations!
+  */
+ #define do_for_each_ftrace_op(op, list)			\
+-	op = rcu_dereference_raw_notrace(list);			\
++	op = rcu_dereference_raw_check(list);			\
+ 	do
+ 
+ /*
+  * Optimized for just a single item in the list (as that is the normal case).
+  */
+ #define while_for_each_ftrace_op(op)				\
+-	while (likely(op = rcu_dereference_raw_notrace((op)->next)) &&	\
++	while (likely(op = rcu_dereference_raw_check((op)->next)) &&	\
+ 	       unlikely((op) != &ftrace_list_end))
+ 
+ extern struct ftrace_ops __rcu *ftrace_ops_list;
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 2c92b3d9ea30..1d69110d9e5b 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -2642,10 +2642,10 @@ static void ftrace_exports(struct ring_buffer_event *event)
+ 
+ 	preempt_disable_notrace();
+ 
+-	export = rcu_dereference_raw_notrace(ftrace_exports_list);
++	export = rcu_dereference_raw_check(ftrace_exports_list);
+ 	while (export) {
+ 		trace_process_export(export, event);
+-		export = rcu_dereference_raw_notrace(export->next);
++		export = rcu_dereference_raw_check(export->next);
+ 	}
+ 
+ 	preempt_enable_notrace();
