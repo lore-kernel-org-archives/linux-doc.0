@@ -1,136 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A79A97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 15:45:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 723857D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Jul 2019 15:57:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727278AbfGLPp0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 11:45:26 -0400
-Received: from mga05.intel.com ([192.55.52.43]:16716 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726867AbfGLPp0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Jul 2019 11:45:26 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2019 08:45:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,483,1557212400"; 
-   d="scan'208";a="318031854"
-Received: from yanbeibe-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.32.118])
-  by orsmga004.jf.intel.com with ESMTP; 12 Jul 2019 08:45:20 -0700
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tweek@google.com, matthewgarrett@google.com,
-        jorhand@linux.microsoft.com, rdunlap@infradead.org,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v4] tpm: Document UEFI event log quirks
-Date:   Fri, 12 Jul 2019 18:44:32 +0300
-Message-Id: <20190712154439.10642-1-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726984AbfGLP5N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 11:57:13 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:43325 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726907AbfGLP5M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Jul 2019 11:57:12 -0400
+Received: from [IPv6:2601:646:8600:3281:4501:6781:c7ce:2878] ([IPv6:2601:646:8600:3281:4501:6781:c7ce:2878])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x6CFupr53480184
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Fri, 12 Jul 2019 08:56:54 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x6CFupr53480184
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019061801; t=1562947015;
+        bh=0Ve+yG3uaVMCO27iKj29VEVpxeHgGM2Sv8NdJ11gjDE=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=XzmdUZ1QaJrOXoC1U8mVajBB03oao8GSugWbzSWg7SvA+iBte2MpUZG7+G9UDpPIV
+         jNNRyJdekkavhwyvRAE4El72IsDVuhDhUf1KUpyLLQbzXF2UvzWBX4vUK0xblRWHVU
+         2UIIzOuh55TcKL/c7f/50vYz/7PwPlAd0tBuMNdVDFK00k4VUUGxn00BfpHdzDlwVD
+         pEUdMyo6AK+Y/tZPr00Hw4FBCD+u8y3iNOCjHxFTCqW4TGLws7Cj9NJ4yq0PPPBkbD
+         aZgA2nXtx1qCLzkid5OwCaPI6nxWx3arQhdSSki8LT+FqPhMqlSly170G7z6Hxr+6g
+         8XOkPuLOo4Aiw==
+Date:   Fri, 12 Jul 2019 08:56:44 -0700
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190704163612.14311-3-daniel.kiper@oracle.com>
+References: <20190704163612.14311-1-daniel.kiper@oracle.com> <20190704163612.14311-3-daniel.kiper@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/3] x86/boot: Introduce the setup_indirect
+To:     Daniel Kiper <daniel.kiper@oracle.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+CC:     bp@alien8.de, corbet@lwn.net, dpsmith@apertussolutions.com,
+        eric.snowberg@oracle.com, kanth.ghatraju@oracle.com,
+        konrad.wilk@oracle.com, mingo@redhat.com,
+        ross.philipson@oracle.com, tglx@linutronix.de
+From:   hpa@zytor.com
+Message-ID: <143DFBDE-E604-48E0-8072-6DB68E3E83C1@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some weird quirks when it comes to UEFI event log. Provide a
-brief introduction to TPM event log mechanism and describe the quirks
-and how they can be sorted out.
+On July 4, 2019 9:36:11 AM PDT, Daniel Kiper <daniel=2Ekiper@oracle=2Ecom> =
+wrote:
+>The setup_data is a bit awkward to use for extremely large data
+>objects,
+>both because the setup_data header has to be adjacent to the data
+>object
+>and because it has a 32-bit length field=2E However, it is important that
+>intermediate stages of the boot process have a way to identify which
+>chunks of memory are occupied by kernel data=2E
+>
+>Thus we introduce a uniform way to specify such indirect data as
+>setup_indirect struct and SETUP_INDIRECT type=2E
+>
+>This patch does not bump setup_header version in arch/x86/boot/header=2ES
+>because it will be followed by additional changes coming into the
+>Linux/x86 boot protocol=2E
+>
+>Suggested-by: H=2E Peter Anvin <hpa@zytor=2Ecom>
+>Signed-off-by: Daniel Kiper <daniel=2Ekiper@oracle=2Ecom>
+>Reviewed-by: Eric Snowberg <eric=2Esnowberg@oracle=2Ecom>
+>Reviewed-by: Ross Philipson <ross=2Ephilipson@oracle=2Ecom>
+>---
+>v2 - suggestions/fixes:
+>   - add setup_indirect usage example
+>     (suggested by Eric Snowberg and Ross Philipson)=2E
+>---
+>Documentation/x86/boot=2Erst            | 38
+>++++++++++++++++++++++++++++++++++-
+> arch/x86/include/uapi/asm/bootparam=2Eh | 11 +++++++++-
+> 2 files changed, 47 insertions(+), 2 deletions(-)
+>
+>diff --git a/Documentation/x86/boot=2Erst b/Documentation/x86/boot=2Erst
+>index a934a56f0516=2E=2E23d3726d54fc 100644
+>--- a/Documentation/x86/boot=2Erst
+>+++ b/Documentation/x86/boot=2Erst
+>@@ -73,7 +73,7 @@ Protocol 2=2E14:	BURNT BY INCORRECT COMMIT
+>ae7e1238e68f2a472a125673ab506d49158c188
+> 		(x86/boot: Add ACPI RSDP address to setup_header)
+> 		DO NOT USE!!! ASSUME SAME AS 2=2E13=2E
+>=20
+>-Protocol 2=2E15:	(Kernel 5=2E3) Added the kernel_info=2E
+>+Protocol 2=2E15:	(Kernel 5=2E3) Added the kernel_info and setup_indirect=
+=2E
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> =2E=2E note::
+>@@ -827,6 +827,42 @@ Protocol:	2=2E09+
+>   sure to consider the case where the linked list already contains
+>   entries=2E
+>=20
+>+  The setup_data is a bit awkward to use for extremely large data
+>objects,
+>+  both because the setup_data header has to be adjacent to the data
+>object
+>+  and because it has a 32-bit length field=2E However, it is important
+>that
+>+  intermediate stages of the boot process have a way to identify which
+>+  chunks of memory are occupied by kernel data=2E
+>+
+>+  Thus setup_indirect struct and SETUP_INDIRECT type were introduced
+>in
+>+  protocol 2=2E15=2E
+>+ =20
+>+  struct setup_indirect {
+>+    __u32 type;
+>+    __u32 reserved;  /* Reserved, must be set to zero=2E */
+>+    __u64 len;
+>+    __u64 addr;
+>+  };
+>+
+>+  The type member is itself simply a SETUP_* type=2E However, it cannot
+>be
+>+  SETUP_INDIRECT since making the setup_indirect a tree structure
+>could
+>+  require a lot of stack space in something that needs to parse it and
+>+  stack space can be limited in boot contexts=2E
+>+
+>+  Let's give an example how to point to SETUP_E820_EXT data using
+>setup_indirect=2E
+>+  In this case setup_data and setup_indirect will look like this:
+>+
+>+  struct setup_data {
+>+    __u64 next =3D 0 or <addr_of_next_setup_data_struct>;
+>+    __u32 type =3D SETUP_INDIRECT;
+>+    __u32 len =3D sizeof(setup_data);
+>+    __u8 data[sizeof(setup_indirect)] =3D struct setup_indirect {
+>+      __u32 type =3D SETUP_E820_EXT;
+>+      __u32 reserved =3D 0;
+>+      __u64 len =3D <len_of_SETUP_E820_EXT_data>;
+>+      __u64 addr =3D <addr_of_SETUP_E820_EXT_data>;
+>+    }
+>+  }
+>+
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> Field name:	pref_address
+> Type:		read (reloc)
+>diff --git a/arch/x86/include/uapi/asm/bootparam=2Eh
+>b/arch/x86/include/uapi/asm/bootparam=2Eh
+>index b05318112452=2E=2Eaaaa17fa6ad6 100644
+>--- a/arch/x86/include/uapi/asm/bootparam=2Eh
+>+++ b/arch/x86/include/uapi/asm/bootparam=2Eh
+>@@ -2,7 +2,7 @@
+> #ifndef _ASM_X86_BOOTPARAM_H
+> #define _ASM_X86_BOOTPARAM_H
+>=20
+>-/* setup_data types */
+>+/* setup_data/setup_indirect types */
+> #define SETUP_NONE			0
+> #define SETUP_E820_EXT			1
+> #define SETUP_DTB			2
+>@@ -10,6 +10,7 @@
+> #define SETUP_EFI			4
+> #define SETUP_APPLE_PROPERTIES		5
+> #define SETUP_JAILHOUSE			6
+>+#define SETUP_INDIRECT			7
+>=20
+> /* ram_size flags */
+> #define RAMDISK_IMAGE_START_MASK	0x07FF
+>@@ -47,6 +48,14 @@ struct setup_data {
+> 	__u8 data[0];
+> };
+>=20
+>+/* extensible setup indirect data node */
+>+struct setup_indirect {
+>+	__u32 type;
+>+	__u32 reserved;  /* Reserved, must be set to zero=2E */
+>+	__u64 len;
+>+	__u64 addr;
+>+};
+>+
+> struct setup_header {
+> 	__u8	setup_sects;
+> 	__u16	root_flags;
 
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
-v4: - Unfortanely -> Unfortunately
-v3: - Add a section for refs and use a bullet list to enumerate them.
-    - Remove an invalid author info.
-v2: - Fix one typo.
-    - Refine the last paragraph to better explain how the two halves
-      of the event log are concatenated.
- Documentation/security/tpm/index.rst         |  1 +
- Documentation/security/tpm/tpm_event_log.rst | 55 ++++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm_event_log.rst
+This needs actual implementation; we can't advertise it until the kernel k=
+nows how to consume the data! It probably should be moved to after the 3/3 =
+patch=2E
 
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index af77a7bbb070..db566350bcd5 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -4,4 +4,5 @@ Trusted Platform Module documentation
- 
- .. toctree::
- 
-+   tpm_event_log
-    tpm_vtpm_proxy
-diff --git a/Documentation/security/tpm/tpm_event_log.rst b/Documentation/security/tpm/tpm_event_log.rst
-new file mode 100644
-index 000000000000..f00f7a1d5e92
---- /dev/null
-+++ b/Documentation/security/tpm/tpm_event_log.rst
-@@ -0,0 +1,55 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============
-+TPM Event Log
-+=============
-+
-+This document briefly describes what TPM log is and how it is handed
-+over from the preboot firmware to the operating system.
-+
-+Introduction
-+============
-+
-+The preboot firmware maintains an event log that gets new entries every
-+time something gets hashed by it to any of the PCR registers. The events
-+are segregated by their type and contain the value of the hashed PCR
-+register. Typically, the preboot firmware will hash the components to
-+who execution is to be handed over or actions relevant to the boot
-+process.
-+
-+The main application for this is remote attestation and the reason why
-+it is useful is nicely put in the very first section of [1]:
-+
-+"Attestation is used to provide information about the platform’s state
-+to a challenger. However, PCR contents are difficult to interpret;
-+therefore, attestation is typically more useful when the PCR contents
-+are accompanied by a measurement log. While not trusted on their own,
-+the measurement log contains a richer set of information than do the PCR
-+contents. The PCR contents are used to provide the validation of the
-+measurement log."
-+
-+UEFI event log
-+==============
-+
-+UEFI provided event log has a few somewhat weird quirks.
-+
-+Before calling ExitBootServices() Linux EFI stub copies the event log to
-+a custom configuration table defined by the stub itself. Unfortunately,
-+the events generated by ExitBootServices() don't end up in the table.
-+
-+The firmware provides so called final events configuration table to sort
-+out this issue. Events gets mirrored to this table after the first time
-+EFI_TCG2_PROTOCOL.GetEventLog() gets called.
-+
-+This introduces another problem: nothing guarantees that it is not called
-+before the Linux EFI stub gets to run. Thus, it needs to calculate and save the
-+final events table size while the stub is still running to the custom
-+configuration table so that the TPM driver can later on skip these events when
-+concatenating two halves of the event log from the custom configuration table
-+and the final events table.
-+
-+References
-+==========
-+
-+- [1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-+- [2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
--- 
-2.20.1
+Implementing this has two parts:
 
+1=2E The kernel needs to be augmented so it can find current objects via i=
+ndirection=2E
+
+2=2E And this is the main reason for this in the first place: the early co=
+de needs to walk the list and map out the memory areas which are occupied s=
+o it doesn't clobber anything; this allows this code to be generic as oppos=
+ed to having to know what is a pointer and what size it might point to=2E
+
+(The decompressor didn't need this until kaslr entered the picture, but no=
+w it does, sadly=2E)
+
+Optional/future enhancements that might be nice:
+
+3=2E Add some kind of description (e=2Eg=2E foo=3Du64 ; bar=3Dstr ; baz=3D=
+blob) to make it possible to write a bootloader that can load these kinds o=
+f objects without specific enabling=2E
+
+4=2E Add support for mapping initramfs fragments  this way=2E
+
+5=2E Add support for passingload-on-boot kernel modules=2E
+
+6=2E =2E=2E=2E ?
+
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
