@@ -1,369 +1,211 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AB227D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 12:10:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF1DA7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 13:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727638AbfGMMKu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 13 Jul 2019 08:10:50 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37657 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727504AbfGMMKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Jul 2019 08:10:50 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b3so6066004plr.4;
-        Sat, 13 Jul 2019 05:10:49 -0700 (PDT)
+        id S1727704AbfGMNax (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 13 Jul 2019 09:30:53 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40929 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727696AbfGMNax (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Jul 2019 09:30:53 -0400
+Received: by mail-pf1-f194.google.com with SMTP id p184so5504637pfp.7
+        for <linux-doc@vger.kernel.org>; Sat, 13 Jul 2019 06:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uMsMB9alWJXn21cyiS2KbYfXMY5ISHzxyZ3o/iN70ko=;
-        b=HOZpjuqFsmudWdWtSGDqPraT309548UOECdgNfidt3JfUfMGyZ9/OtEYjlAx3R41Mv
-         eIZqqFVCwdVoX+C3siHhUFeJhQyQUc/AlnI/eatPiUL4h2ZAwh7c55uyHt4DcCNPJs5T
-         Fd9Zn4BPobbCEOV3HrQmF5yj4aFdulSShSwo2cEm5EB8VHnCgt6E7wt++8hwBB5QhMO9
-         SPcfiQJnZCK8jYRt+Sy2u5iJ7ZkCIi0opBv3RV7PqJS4o1sQMZ2PjvgPQFIKopiFmRvI
-         bbXz86yHWSsJ3IcjjTgZlth+dHEH0d2s9LSCKCeaXpcrRHF4q+AUGYFhzx6A4icyl5U/
-         dknA==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8Efni7GzakeBOsv72KKL/k3VXvcmb6CAQIn29trk+Ms=;
+        b=vi4Pm0Vp88ZDcBEmNwgK3ndXTrJqUqLLpFVAsRazuQbe6ItioWXAxH8x2ZNcDzhCJQ
+         pEUZaylwGZeoiyJm9xMYvAgjqjY4VrGjZY6uMPOzgi+wI0vRlfF6k5ZYvoB3BUkZjDoT
+         Kc4HA9nGtVNNW/KARl3nDBwGz83fybXtLdz+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uMsMB9alWJXn21cyiS2KbYfXMY5ISHzxyZ3o/iN70ko=;
-        b=Jyo29/0fb0GDYUQV+bR0VJxhCnIoRnfmXdxPh0jWZs4D8IkZZIbQSSp66vk0F7wdn2
-         YWQm07STi72hpNt2vYNsGvphFCfbjFF+UC1Acl/lWCiMtS/8BtFnelgOrPmJY/fNJGvE
-         Ew/5DK1mg7AD8qHixtTxeG8HUO1XzAaAcWuvlzKOK3+WowILoi49x84qwCv0hP9sOg2E
-         iv7SqKrD33Tq9zJgOa3Vh7+6zfurnPGkU/0oikJ2cEcsU7eLZzrjlJ76Vp+AyF0eO5Au
-         uvQyo9dduRaA7cSmiZyYMieP4YpWDrGHumNCCqLZ8hStlgP0UHs+9n+gFwrHy8P65RlL
-         4Lfg==
-X-Gm-Message-State: APjAAAWAPMGncemi7FqSdOsL0Rr3YkJEoyokjex8MfPoWIz6R4g9Q6el
-        fHFydWCJHuXZTRbjN+mVgA0=
-X-Google-Smtp-Source: APXvYqxb95m6jlsNrNbGNEwgTILxd0GBnRRN4epn7fe10bsKDuv+6q4EgQHKrnF4StSU/ISZkBAenQ==
-X-Received: by 2002:a17:902:6a85:: with SMTP id n5mr16278963plk.73.1563019849440;
-        Sat, 13 Jul 2019 05:10:49 -0700 (PDT)
-Received: from localhost.localdomain ([149.28.153.17])
-        by smtp.gmail.com with ESMTPSA id h129sm10998372pfb.110.2019.07.13.05.10.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8Efni7GzakeBOsv72KKL/k3VXvcmb6CAQIn29trk+Ms=;
+        b=E1c07tA9VUNZeKs6G0obTAWQ+iJmS3foK+iiaT/4eaEU4WJXiAIDAji5uSStoa4vsK
+         wx/gg86/NUGZcCetyLKYw7At7uCxWtheiynmMZ0rUJDbM6sAwFjrq26CySsredct2Hv6
+         pzRIvwk+taIElaW2QIUtA+HGAMv0CfG2+f9x3C0yVHquXpua5oUgkuE/HRXguV+XaUEg
+         BFqmIA//hAHcRqfzDm9ZhiiYx/gAbGA0r3VJrGutGowg6PjLyWuCHx/OsEZiDDcoAEM7
+         sWvxx6/6/kKharI7cWA9XHMvwZNolpo01kXTElkLxtvO1IWJaOiAW2zM3OFCleCiqUZC
+         r20w==
+X-Gm-Message-State: APjAAAXWZJDqhhol+K+LUvornIrpvejyNykP+Q2Qc2DCYH0QkFT0QQjQ
+        9f+c4VNHi9BuTIplTmbeNJs=
+X-Google-Smtp-Source: APXvYqxHqqPqIhZ4yAdKHwlf4joWWp7xZcECA5a6L7ZeujtpEnTWlNmypQkxkaimiE7EaAdPcs4Tnw==
+X-Received: by 2002:a17:90a:1b4a:: with SMTP id q68mr18260364pjq.61.1563024652349;
+        Sat, 13 Jul 2019 06:30:52 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id o14sm10021697pjp.19.2019.07.13.06.30.50
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 13 Jul 2019 05:10:48 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     rostedt@goodmis.org
-Cc:     mingo@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
-        catalin.marinas@arm.com, will@kernel.org, tglx@linutronix.de,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH] tracing/fgraph: support recording function return values
-Date:   Sat, 13 Jul 2019 20:10:26 +0800
-Message-Id: <20190713121026.11030-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Sat, 13 Jul 2019 06:30:51 -0700 (PDT)
+Date:   Sat, 13 Jul 2019 09:30:49 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
+Message-ID: <20190713133049.GA133650@google.com>
+References: <20190712170024.111093-1-joel@joelfernandes.org>
+ <20190712170024.111093-4-joel@joelfernandes.org>
+ <20190712213559.GA175138@google.com>
+ <20190712233206.GZ26519@linux.ibm.com>
+ <20190713030150.GA246587@google.com>
+ <20190713031008.GA248225@google.com>
+ <20190713082114.GA26519@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190713082114.GA26519@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a new trace option 'funcgraph-retval' and is disabled by
-default. When this option is enabled, fgraph tracer will show the return
-value of each function. This is useful to find/analyze a original error
-source in a call graph.
+On Sat, Jul 13, 2019 at 01:21:14AM -0700, Paul E. McKenney wrote:
+> On Fri, Jul 12, 2019 at 11:10:08PM -0400, Joel Fernandes wrote:
+> > On Fri, Jul 12, 2019 at 11:01:50PM -0400, Joel Fernandes wrote:
+> > > On Fri, Jul 12, 2019 at 04:32:06PM -0700, Paul E. McKenney wrote:
+> > > > On Fri, Jul 12, 2019 at 05:35:59PM -0400, Joel Fernandes wrote:
+> > > > > On Fri, Jul 12, 2019 at 01:00:18PM -0400, Joel Fernandes (Google) wrote:
+> > > > > > The rcu/sync code was doing its own check whether we are in a reader
+> > > > > > section. With RCU consolidating flavors and the generic helper added in
+> > > > > > this series, this is no longer need. We can just use the generic helper
+> > > > > > and it results in a nice cleanup.
+> > > > > > 
+> > > > > > Cc: Oleg Nesterov <oleg@redhat.com>
+> > > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > > 
+> > > > > Hi Oleg,
+> > > > > Slightly unrelated to the patch,
+> > > > > I tried hard to understand this comment below in percpu_down_read() but no dice.
+> > > > > 
+> > > > > I do understand how rcu sync and percpu rwsem works, however the comment
+> > > > > below didn't make much sense to me. For one, there's no readers_fast anymore
+> > > > > so I did not follow what readers_fast means. Could the comment be updated to
+> > > > > reflect latest changes?
+> > > > > Also could you help understand how is a writer not able to change
+> > > > > sem->state and count the per-cpu read counters at the same time as the
+> > > > > comment tries to say?
+> > > > > 
+> > > > > 	/*
+> > > > > 	 * We are in an RCU-sched read-side critical section, so the writer
+> > > > > 	 * cannot both change sem->state from readers_fast and start checking
+> > > > > 	 * counters while we are here. So if we see !sem->state, we know that
+> > > > > 	 * the writer won't be checking until we're past the preempt_enable()
+> > > > > 	 * and that once the synchronize_rcu() is done, the writer will see
+> > > > > 	 * anything we did within this RCU-sched read-size critical section.
+> > > > > 	 */
+> > > > > 
+> > > > > Also,
+> > > > > I guess we could get rid of all of the gp_ops struct stuff now that since all
+> > > > > the callbacks are the same now. I will post that as a follow-up patch to this
+> > > > > series.
+> > > > 
+> > > > Hello, Joel,
+> > > > 
+> > > > Oleg has a set of patches updating this code that just hit mainline
+> > > > this week.  These patches get rid of the code that previously handled
+> > > > RCU's multiple flavors.  Or are you looking at current mainline and
+> > > > me just missing your point?
+> > > > 
+> > > 
+> > > Hi Paul,
+> > > You are right on point. I have a bad habit of not rebasing my trees. In this
+> > > case the feature branch of mine in concern was based on v5.1. Needless to
+> > > say, I need to rebase my tree.
+> > > 
+> > > Yes, this sync clean up patch does conflict when I rebase, but other patches
+> > > rebase just fine.
+> > > 
+> > > The 2 options I see are:
+> > > 1. Let us drop this patch for now and I resend it later.
+> > > 2. I resend all patches based on Linus's master branch.
+> > 
+> > Below is the updated patch based on Linus master branch:
+> > 
+> > ---8<-----------------------
+> > 
+> > >From 5f40c9a07fcf3d6dafc2189599d0ba9443097d0f Mon Sep 17 00:00:00 2001
+> > From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+> > Date: Fri, 12 Jul 2019 12:13:27 -0400
+> > Subject: [PATCH v2.1 3/9] rcu/sync: Remove custom check for reader-section
+> > 
+> > The rcu/sync code was doing its own check whether we are in a reader
+> > section. With RCU consolidating flavors and the generic helper added in
+> > this series, this is no longer need. We can just use the generic helper
+> > and it results in a nice cleanup.
+> > 
+> > Cc: Oleg Nesterov <oleg@redhat.com>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > ---
+> >  include/linux/rcu_sync.h | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
+> > index 9b83865d24f9..0027d4c8087c 100644
+> > --- a/include/linux/rcu_sync.h
+> > +++ b/include/linux/rcu_sync.h
+> > @@ -31,9 +31,7 @@ struct rcu_sync {
+> >   */
+> >  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
+> >  {
+> > -	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
+> > -			 !rcu_read_lock_bh_held() &&
+> > -			 !rcu_read_lock_sched_held(),
+> > +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
+> 
+> I believe that replacing rcu_read_lock_sched_held() with preemptible()
+> in a CONFIG_PREEMPT=n kernel will give you false-positive splats here.
+> If you have not already done so, could you please give it a try?
 
-One limitation is that the kernel doesn't know the prototype of functions.
-So fgraph assumes all functions have a retvalue of type int. You must ignore
-the value of *void* function. And if the retvalue looks like an error code
-then both hexadecimal and decimal number are displayed.
+Hi Paul,
+I don't think it will cause splats for !CONFIG_PREEMPT.
 
-In this patch, only x86 and ARM platforms are supported.
+Currently, rcu_read_lock_any_held() introduced in this patch returns true if
+!preemptible(). This means that:
 
-Here is example showing the error is caused by vmx_create_vcpu() and the
-error code is -5 (-EIO).
+The following expression above:
+RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),...)
 
-Here is an example:
-with echo 1 > /sys/kernel/debug/tracing/options/funcgraph-retval
+Becomes:
+RCU_LOCKDEP_WARN(preemptible(), ...)
 
- 3)               |  kvm_vm_ioctl() {
- 3)               |    mutex_lock() {
- 3)               |      _cond_resched() {
- 3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
- 3)   0.704 us    |      } /* ret=0x0 */
- 3)   1.226 us    |    } /* ret=0x0 */
- 3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
- 3)               |    kvm_arch_vcpu_create() {
- 3)               |      vmx_create_vcpu() {
- 3) + 17.969 us   |        kmem_cache_alloc(); /* ret=0xffff88813a980040 */
- 3) + 15.948 us   |        kmem_cache_alloc(); /* ret=0xffff88813aa99200 */
- 3)   0.653 us    |        allocate_vpid.part.88(); /* ret=0x1 */
- 3)   6.964 us    |        kvm_vcpu_init(); /* ret=0xfffffffb */
- 3)   0.323 us    |        free_vpid.part.89(); /* ret=0x1 */
- 3)   9.985 us    |        kmem_cache_free(); /* ret=0x80000000 */
- 3)   9.491 us    |        kmem_cache_free(); /* ret=0x80000000 */
- 3) + 69.858 us   |      } /* ret=0xfffffffffffffffb/-5 */
- 3) + 70.631 us   |    } /* ret=0xfffffffffffffffb/-5 */
- 3)               |    mutex_lock() {
- 3)               |      _cond_resched() {
- 3)   0.199 us    |        rcu_all_qs(); /* ret=0x80000000 */
- 3)   0.594 us    |      } /* ret=0x0 */
- 3)   1.067 us    |    } /* ret=0x0 */
- 3)   0.337 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
- 3) + 92.730 us   |  } /* ret=0xfffffffffffffffb/-5 */
+For, CONFIG_PREEMPT=n kernels, this means:
+RCU_LOCKDEP_WARN(0, ...)
 
-Checking above fgraph output, we can easily know the original error is
-raised from function vmx_create_vcpu().
+Which would mean no splats. Or, did I miss the point?
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
----
- Documentation/trace/ftrace.rst       |  5 ++++
- arch/arm/kernel/entry-ftrace.S       |  1 +
- arch/arm64/kernel/entry-ftrace.S     |  1 +
- arch/x86/kernel/ftrace_32.S          |  1 +
- arch/x86/kernel/ftrace_64.S          |  1 +
- include/linux/ftrace.h               |  1 +
- kernel/trace/Kconfig                 |  4 +++
- kernel/trace/fgraph.c                | 17 +++++++++++-
- kernel/trace/trace.h                 |  1 +
- kernel/trace/trace_entries.h         |  1 +
- kernel/trace/trace_functions_graph.c | 39 ++++++++++++++++++++++++----
- 11 files changed, 66 insertions(+), 6 deletions(-)
+thanks,
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index f60079259669..50dfb0378213 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -1264,6 +1264,11 @@ Options for function_graph tracer:
- 	only a closing curly bracket "}" is displayed for
- 	the return of a function.
- 
-+  funcgraph-retval - At the end of each function (the return) the
-+    return value the function  (though the function may not
-+    really have it) is displayed in hex and negative number
-+    if it looks like a error code.
-+
-   sleep-time
- 	When running function graph tracer, to include
- 	the time a task schedules out in its function.
-diff --git a/arch/arm/kernel/entry-ftrace.S b/arch/arm/kernel/entry-ftrace.S
-index a74289ebc803..94e8209f1a6b 100644
---- a/arch/arm/kernel/entry-ftrace.S
-+++ b/arch/arm/kernel/entry-ftrace.S
-@@ -259,6 +259,7 @@ ENDPROC(ftrace_graph_regs_caller)
- 	.globl return_to_handler
- return_to_handler:
- 	stmdb	sp!, {r0-r3}
-+	mov	r1, r0			@ return value
- 	mov	r0, fp			@ frame pointer
- 	bl	ftrace_return_to_handler
- 	mov	lr, r0			@ r0 has real ret addr
-diff --git a/arch/arm64/kernel/entry-ftrace.S b/arch/arm64/kernel/entry-ftrace.S
-index 33d003d80121..b7ce416969d0 100644
---- a/arch/arm64/kernel/entry-ftrace.S
-+++ b/arch/arm64/kernel/entry-ftrace.S
-@@ -199,6 +199,7 @@ ENTRY(return_to_handler)
- 	stp x4, x5, [sp, #32]
- 	stp x6, x7, [sp, #48]
- 
-+	mov	x1, x0			// return value
- 	mov	x0, x29			//     parent's fp
- 	bl	ftrace_return_to_handler// addr = ftrace_return_to_hander(fp);
- 	mov	x30, x0			// restore the original return address
-diff --git a/arch/x86/kernel/ftrace_32.S b/arch/x86/kernel/ftrace_32.S
-index 073aab525d80..539e80577a83 100644
---- a/arch/x86/kernel/ftrace_32.S
-+++ b/arch/x86/kernel/ftrace_32.S
-@@ -185,6 +185,7 @@ END(ftrace_graph_caller)
- return_to_handler:
- 	pushl	%eax
- 	pushl	%edx
-+	movl	%eax, %edx
- 	movl	$0, %eax
- 	call	ftrace_return_to_handler
- 	movl	%eax, %ecx
-diff --git a/arch/x86/kernel/ftrace_64.S b/arch/x86/kernel/ftrace_64.S
-index 809d54397dba..3b31a1959025 100644
---- a/arch/x86/kernel/ftrace_64.S
-+++ b/arch/x86/kernel/ftrace_64.S
-@@ -304,6 +304,7 @@ ENTRY(return_to_handler)
- 	movq %rax, (%rsp)
- 	movq %rdx, 8(%rsp)
- 	movq %rbp, %rdi
-+	movq %rax, %rsi
- 
- 	call ftrace_return_to_handler
- 
-diff --git a/include/linux/ftrace.h b/include/linux/ftrace.h
-index 25e2995d4a4c..83881bc47b50 100644
---- a/include/linux/ftrace.h
-+++ b/include/linux/ftrace.h
-@@ -734,6 +734,7 @@ struct ftrace_graph_ret {
- 	unsigned long overrun;
- 	unsigned long long calltime;
- 	unsigned long long rettime;
-+	unsigned long retval;
- 	int depth;
- } __packed;
- 
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index 564e5fdb025f..7d189ea461e8 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -25,6 +25,9 @@ config HAVE_FUNCTION_GRAPH_TRACER
- 	help
- 	  See Documentation/trace/ftrace-design.rst
- 
-+config HAVE_FTRACE_RETVAL
-+	bool
-+
- config HAVE_DYNAMIC_FTRACE
- 	bool
- 	help
-@@ -161,6 +164,7 @@ config FUNCTION_GRAPH_TRACER
- 	depends on HAVE_FUNCTION_GRAPH_TRACER
- 	depends on FUNCTION_TRACER
- 	depends on !X86_32 || !CC_OPTIMIZE_FOR_SIZE
-+	select HAVE_FTRACE_RETVAL if (X86 || ARM)
- 	default y
- 	help
- 	  Enable the kernel to trace a function at both its return
-diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
-index 8dfd5021b933..df27fe3a35f9 100644
---- a/kernel/trace/fgraph.c
-+++ b/kernel/trace/fgraph.c
-@@ -206,13 +206,15 @@ static struct notifier_block ftrace_suspend_notifier = {
-  * Send the trace to the ring-buffer.
-  * @return the original return address.
-  */
--unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
-+static unsigned long _ftrace_return_to_handler(unsigned long frame_pointer,
-+					       unsigned long retval)
- {
- 	struct ftrace_graph_ret trace;
- 	unsigned long ret;
- 
- 	ftrace_pop_return_trace(&trace, &ret, frame_pointer);
- 	trace.rettime = trace_clock_local();
-+	trace.retval = retval;
- 	ftrace_graph_return(&trace);
- 	/*
- 	 * The ftrace_graph_return() may still access the current
-@@ -232,6 +234,19 @@ unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
- 	return ret;
- }
- 
-+#if defined(CONFIG_HAVE_FTRACE_RETVAL)
-+unsigned long ftrace_return_to_handler(unsigned long frame_pointer,
-+				       unsigned long retval)
-+{
-+	return _ftrace_return_to_handler(frame_pointer, retval);
-+}
-+#else
-+unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
-+{
-+	return _ftrace_return_to_handler(frame_pointer, 0);
-+}
-+#endif
-+
- /**
-  * ftrace_graph_get_ret_stack - return the entry of the shadow stack
-  * @task: The task to read the shadow stack from
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index 005f08629b8b..483eecf0e9c3 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -905,6 +905,7 @@ static __always_inline bool ftrace_hash_empty(struct ftrace_hash *hash)
- #define TRACE_GRAPH_PRINT_TAIL          0x100
- #define TRACE_GRAPH_SLEEP_TIME          0x200
- #define TRACE_GRAPH_GRAPH_TIME          0x400
-+#define TRACE_GRAPH_PRINT_RETVAL	0x800
- #define TRACE_GRAPH_PRINT_FILL_SHIFT	28
- #define TRACE_GRAPH_PRINT_FILL_MASK	(0x3 << TRACE_GRAPH_PRINT_FILL_SHIFT)
- 
-diff --git a/kernel/trace/trace_entries.h b/kernel/trace/trace_entries.h
-index fc8e97328e54..4b5312cfed66 100644
---- a/kernel/trace/trace_entries.h
-+++ b/kernel/trace/trace_entries.h
-@@ -99,6 +99,7 @@ FTRACE_ENTRY_PACKED(funcgraph_exit, ftrace_graph_ret_entry,
- 		__field_desc(	unsigned long,	ret,		func	)
- 		__field_desc(	unsigned long long, ret,	calltime)
- 		__field_desc(	unsigned long long, ret,	rettime	)
-+		__field_desc(	unsigned long,	ret,		retval	)
- 		__field_desc(	unsigned long,	ret,		overrun	)
- 		__field_desc(	int,		ret,		depth	)
- 	),
-diff --git a/kernel/trace/trace_functions_graph.c b/kernel/trace/trace_functions_graph.c
-index 69ebf3c2f1b5..399382cf175b 100644
---- a/kernel/trace/trace_functions_graph.c
-+++ b/kernel/trace/trace_functions_graph.c
-@@ -66,6 +66,11 @@ static struct tracer_opt trace_opts[] = {
- 	{ TRACER_OPT(graph-time, TRACE_GRAPH_GRAPH_TIME) },
- #endif
- 
-+#ifdef CONFIG_HAVE_FTRACE_RETVAL
-+	/* Display return value of function */
-+	{ TRACER_OPT(funcgraph-retval, TRACE_GRAPH_PRINT_RETVAL) },
-+#endif
-+
- 	{ } /* Empty entry */
- };
- 
-@@ -624,6 +629,18 @@ print_graph_duration(struct trace_array *tr, unsigned long long duration,
- 	trace_seq_puts(s, "|  ");
- }
- 
-+static void print_graph_retval(struct trace_seq *s, unsigned long val, bool comment)
-+{
-+	if (comment)
-+		trace_seq_printf(s, " /* ");
-+	if (IS_ERR_VALUE(val))
-+		trace_seq_printf(s, "ret=0x%lx/%ld", val, val);
-+	else
-+		trace_seq_printf(s, "ret=0x%lx", val);
-+	if (comment)
-+		trace_seq_printf(s, " */");
-+}
-+
- /* Case of a leaf function on its call entry */
- static enum print_line_t
- print_graph_entry_leaf(struct trace_iterator *iter,
-@@ -668,7 +685,10 @@ print_graph_entry_leaf(struct trace_iterator *iter,
- 	for (i = 0; i < call->depth * TRACE_GRAPH_INDENT; i++)
- 		trace_seq_putc(s, ' ');
- 
--	trace_seq_printf(s, "%ps();\n", (void *)call->func);
-+	trace_seq_printf(s, "%ps();", (void *)call->func);
-+	if (flags & TRACE_GRAPH_PRINT_RETVAL)
-+		print_graph_retval(s, graph_ret->retval, true);
-+	trace_seq_puts(s, "\n");
- 
- 	print_graph_irq(iter, graph_ret->func, TRACE_GRAPH_RET,
- 			cpu, iter->ent->pid, flags);
-@@ -953,10 +973,19 @@ print_graph_return(struct ftrace_graph_ret *trace, struct trace_seq *s,
- 	 * belongs to, write out the function name. Always do
- 	 * that if the funcgraph-tail option is enabled.
- 	 */
--	if (func_match && !(flags & TRACE_GRAPH_PRINT_TAIL))
--		trace_seq_puts(s, "}\n");
--	else
--		trace_seq_printf(s, "} /* %ps */\n", (void *)trace->func);
-+	if (func_match && !(flags & TRACE_GRAPH_PRINT_TAIL)) {
-+		trace_seq_puts(s, "}");
-+		if (flags & TRACE_GRAPH_PRINT_RETVAL)
-+			print_graph_retval(s, trace->retval, true);
-+		trace_seq_puts(s, "\n");
-+	} else {
-+		trace_seq_printf(s, "} /* %ps", (void *)trace->func);
-+		if (flags & TRACE_GRAPH_PRINT_RETVAL) {
-+			trace_seq_puts(s, ", ");
-+			print_graph_retval(s, trace->retval, false);
-+		}
-+		trace_seq_puts(s, " */\n");
-+	}
- 
- 	/* Overrun */
- 	if (flags & TRACE_GRAPH_PRINT_OVERRUN)
--- 
-2.20.1
+ - Joel
 
