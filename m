@@ -1,187 +1,327 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFF2F7D913
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 03:10:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72AE97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 03:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727503AbfGMDKM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 23:10:12 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44390 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727522AbfGMDKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 23:10:12 -0400
-Received: by mail-pl1-f193.google.com with SMTP id t14so5650149plr.11
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2019 20:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Yj0KzWPPj2wTNOobGgks3QqTli1sq+vFUwn/IZyvMdc=;
-        b=lOqMuQRexi/hVxa/4p77SbaQvlMGoDh5aaBC9i1MTtOwCN7njvsbB5lQDbBmriZ1WA
-         FWWHLnYwSi1u/Badms6e151ITEB+l7THYTAcQrSxD3Gt/lUVga9IZ5YlpJa+tNPnpYnH
-         zxZrbWgIwEXHbV94dqGpKtSAH3ynqx9mn/E50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Yj0KzWPPj2wTNOobGgks3QqTli1sq+vFUwn/IZyvMdc=;
-        b=Et6HEWN54TdpwH0cfELs0Gclzsa4aEB6icM9qE0qLxNaIBjJv/S3yJs6/BU/z5rkPO
-         jUSdsPCIgw1RcbsZH7l1VO0EduSlDvwqmYCtzKs2DKI7ZIhwZLfMDCvNPQDB8ifCeozq
-         M41QrGwKyf2gmlfaN+9fD2G3PL1LTHOpCTtjUNVu0QeYGlUQrxBSvw2mUh/eF1ur0Bva
-         tr9SsvcQfTJplsjtVj9mTCDynmGByl2OwRHhvGELOl62BxWnS1OulyEScSAEq+F4/3Y0
-         omZnaS09ztAj2jhK5dWNbtflF9e2aTiGCNx8kI7RjXMZcrLL06Qhcs4+/CVsJzm+sM9O
-         ZSgQ==
-X-Gm-Message-State: APjAAAXmf+VnxHx3VdB1PNrPy4EkxZxK8Y0yCuNsNes3F8/BaeLfDKeG
-        /slutjEwWtTOK+Zp44dkPaU=
-X-Google-Smtp-Source: APXvYqzYmXDx79APPhOf6U2U81XcESDp7O9GeiDZBYQYdv6r3PCBBKB8Rg1+OBGlaGf1FYhUnpz+lQ==
-X-Received: by 2002:a17:902:704a:: with SMTP id h10mr15163948plt.337.1562987410632;
-        Fri, 12 Jul 2019 20:10:10 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id m31sm10466015pjb.6.2019.07.12.20.10.09
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 20:10:09 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 23:10:08 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
-        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
-        kernel-hardening@lists.openwall.com, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        neilb@suse.com, netdev@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Tejun Heo <tj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
-Message-ID: <20190713031008.GA248225@google.com>
-References: <20190712170024.111093-1-joel@joelfernandes.org>
- <20190712170024.111093-4-joel@joelfernandes.org>
- <20190712213559.GA175138@google.com>
- <20190712233206.GZ26519@linux.ibm.com>
- <20190713030150.GA246587@google.com>
+        id S1727588AbfGMDlp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Jul 2019 23:41:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45302 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727466AbfGMDlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 23:41:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wxkeRJfE2/hEEVu6X3mDVb6YMRNpiAfth1fv/A6zUCs=; b=jOC8kysK2wEM7eJbLkG9HNvWf
+        Baxo7CSk9wtm6NgTOst9HVa0TE48xFJQACXCBi4AzcVhVuwV0/jv8FvXKSunx9uTuUg2LM7RPkpQ3
+        anv2MKNDFRNl01ggJtGaClSlLgq7ZXLZVJlzjsCGUf7UiX7bNSCDaxDdewPFbY5RNyIs0kh7BE68X
+        nUWQjsYqNpImO/De83V+3IeF6i8JxTXnxhSa8QD0q+45sKsZuxZiwi+NQtafuKmRlW10fHKxuiShU
+        JL6V62xjEgrU49vwqyZ8muxiwIYI5vALyvcwtrtNUMQoLmDRDEevJeJEdKvSksMjhp+JJ5GmGlcBH
+        FR6MKhucA==;
+Received: from 201.86.163.160.dynamic.adsl.gvt.net.br ([201.86.163.160] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hm8ui-0007gK-2f; Sat, 13 Jul 2019 03:41:32 +0000
+Date:   Sat, 13 Jul 2019 00:41:25 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Hannes Reinecke <hare@suse.com>, linux-kbuild@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-doc@vger.kernel.org, Omar Sandoval <osandov@fb.com>
+Subject: Re: [PATCH 0/5] PDF output fixes
+Message-ID: <20190713004125.6009b661@coco.lan>
+In-Reply-To: <20190712192705.71b97717@coco.lan>
+References: <cover.1562696797.git.mchehab+samsung@kernel.org>
+        <20190712141921.7f8a1d02@lwn.net>
+        <20190712192705.71b97717@coco.lan>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190713030150.GA246587@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 11:01:50PM -0400, Joel Fernandes wrote:
-> On Fri, Jul 12, 2019 at 04:32:06PM -0700, Paul E. McKenney wrote:
-> > On Fri, Jul 12, 2019 at 05:35:59PM -0400, Joel Fernandes wrote:
-> > > On Fri, Jul 12, 2019 at 01:00:18PM -0400, Joel Fernandes (Google) wrote:
-> > > > The rcu/sync code was doing its own check whether we are in a reader
-> > > > section. With RCU consolidating flavors and the generic helper added in
-> > > > this series, this is no longer need. We can just use the generic helper
-> > > > and it results in a nice cleanup.
-> > > > 
-> > > > Cc: Oleg Nesterov <oleg@redhat.com>
-> > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > 
-> > > Hi Oleg,
-> > > Slightly unrelated to the patch,
-> > > I tried hard to understand this comment below in percpu_down_read() but no dice.
-> > > 
-> > > I do understand how rcu sync and percpu rwsem works, however the comment
-> > > below didn't make much sense to me. For one, there's no readers_fast anymore
-> > > so I did not follow what readers_fast means. Could the comment be updated to
-> > > reflect latest changes?
-> > > Also could you help understand how is a writer not able to change
-> > > sem->state and count the per-cpu read counters at the same time as the
-> > > comment tries to say?
-> > > 
-> > > 	/*
-> > > 	 * We are in an RCU-sched read-side critical section, so the writer
-> > > 	 * cannot both change sem->state from readers_fast and start checking
-> > > 	 * counters while we are here. So if we see !sem->state, we know that
-> > > 	 * the writer won't be checking until we're past the preempt_enable()
-> > > 	 * and that once the synchronize_rcu() is done, the writer will see
-> > > 	 * anything we did within this RCU-sched read-size critical section.
-> > > 	 */
-> > > 
-> > > Also,
-> > > I guess we could get rid of all of the gp_ops struct stuff now that since all
-> > > the callbacks are the same now. I will post that as a follow-up patch to this
-> > > series.
-> > 
-> > Hello, Joel,
-> > 
-> > Oleg has a set of patches updating this code that just hit mainline
-> > this week.  These patches get rid of the code that previously handled
-> > RCU's multiple flavors.  Or are you looking at current mainline and
-> > me just missing your point?
-> > 
+Em Fri, 12 Jul 2019 19:27:05 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+
+> Em Fri, 12 Jul 2019 14:19:21 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 > 
-> Hi Paul,
-> You are right on point. I have a bad habit of not rebasing my trees. In this
-> case the feature branch of mine in concern was based on v5.1. Needless to
-> say, I need to rebase my tree.
+> > On Tue,  9 Jul 2019 15:33:18 -0300
+> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> >   
+> > > In order to be able to build all PDF books, besides the two patches I
+> > > already sent:
+> > > 
+> > >     docs: pdf: add all Documentation/*/index.rst to PDF output
+> > >     docs: automarkup.py: ignore exceptions when seeking for xrefs
+> > > 
+> > > A few others are needed:
+> > > 
+> > > - patch 1 removes nested tables for a few files I converted, as 
+> > >   Sphinx LaTeX builder doesn't support it;
+> > > - Patches 2 to 4 addresses some minor issues on some books,
+> > >   usually requiring some blank lines, extra whitespaces or some
+> > >   tag replacement;
+> > > - Patch 5 is required in order to be able to build the translations
+> > >   PDF book, as it adds Asian fonts support to XeLaTeX.    
+> > 
+> > So, modulo my one comment on the last patch the series seems OK, though I
+> > don't like having to work around limitations in PDF generation this way.  
 > 
-> Yes, this sync clean up patch does conflict when I rebase, but other patches
-> rebase just fine.
+> Yeah, I feel the pain. I didn't like writing those patches either.
 > 
-> The 2 options I see are:
-> 1. Let us drop this patch for now and I resend it later.
-> 2. I resend all patches based on Linus's master branch.
+> > Can't you just make rst2pdf work instead? :)  
+> 
+> Well, we can try. Last time we tried, there were lots of things missing
+> for it to work. 
+> 
+> Based on:
+> 
+> 	https://pypi.org/project/rst2pdf/
+> 
+> The project got stuck back on Dec, 2012, up to the beginning of this
+> year. Maybe the issues we had in the past got fixed.
+> 
+> Also, right now, rst2pdf only supports Python 2.7.
+> 
+> I would wait for it to support Python 3.x before doing the actual
+> migration.
+> 
+> -
+> 
+> I don't remember the exact details, but when rst2pdf were
+> used with some documents, it didn't produce a valid PDF file, but perhaps
+> someone fixed it.
+> 
+> Assuming that rst2pdf works now, there are still several LaTeX specific
+> hacks on some files:
+> 
+> 	$ git grep -l latex|grep rst|wc -l
+> 	     28  
+> 
+> I guess almost all of them are related to the lack of proper support
+> at ReST markup language that would allow adjusting the output to fit
+> within the page limits. 
+> 
+> On media, we need two types of additional features:
+> 
+> 1) Sphinx pdf builder uses two different LaTeX ways of producing a table.
+> (tabular x tabularx x longtable - don't remember anymore the exact
+> two dialects it uses).
+> 
+> One of the dialect allows a table to be on multiple pages; the other
+> one doesn't. The builder decides the dialect if a table has more than 30
+> columns, but there's a way to force longtable (by changing the css style).
+> 
+> Not sure if rst2pdf honors the same css style.
+> 
+> 2) Table scaling / font resize. The Sphinx PDF builder doesn't scale
+> the fonts inside a table, nor the ReST dialect allows changing the font
+> size. So, we had to use raw LaTeX dialects for it to work.
+> 
+> Anyway, I'm enclosing an experimental patch that would enable rst2pdf.
+> It is not at production level.
+> 
+> It also shows some crashes like this one:
+> 
+> [ERROR] pdfbuilder.py:133 format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+> Traceback (most recent call last):
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 130, in write
+>     docwriter.write(doctree, destination)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/docutils/writers/__init__.py", line 80, in write
+>     self.translate()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 633, in translate
+>     compressed=self.compressed)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/createpdf.py", line 664, in createPdf
+>     pdfdoc.multiBuild(elements)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/platypus/doctemplate.py", line 1154, in multiBuild
+>     self.canv.save()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfgen/canvas.py", line 1242, in save
+>     self._doc.SaveToFile(self._filename, self)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 215, in SaveToFile
+>     data = self.GetPDFData(canvas)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 241, in GetPDFData
+>     return self.format()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 423, in format
+>     IOf = IO.format(self)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 871, in format
+>     fcontent = format(self.content, document, toplevel=1)   # yes this is at top level
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+>     f = element.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1608, in format
+>     return D.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 679, in format
+>     L = [(format(PDFName(k),document)+b" "+format(dict[k],document)) for k in keys]
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+>     f = element.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1773, in format
+>     if f is None: raise ValueError("format not resolved, probably missing URL scheme or undefined destination target for '%s'" % self.name)
+> ValueError: format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+> FAILED
+> 
+> 
+> > 
+> > I guess it makes sense for these to go with the big band-aid-removal patch
+> > set.  
+> 
+> OK, I'll send it together with the big patchset.
+> 
+> > 
+> > Thanks,
+> > 
+> > jon
+> > 
+> > P.S. it seems that rst2pdf is actually being developed again:
+> > https://akrabat.com/rst2pdf-back-from-the-dead/ .  I wonder how far
+> > they'll get with it.  
+> 
+> Thanks,
+> Mauro
+> 
+> [PATCH RFC] docs: experimental: build PDF with rst2pdf
 
-Below is the updated patch based on Linus master branch:
+There are a few issues with the quick hack to use rst2pdf. The
+enclosed one works better.
 
----8<-----------------------
+Yet, from the existing 70 books (on my experimental tree), rst2pdf breaks 
+with 14 ones.
 
-From 5f40c9a07fcf3d6dafc2189599d0ba9443097d0f Mon Sep 17 00:00:00 2001
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Date: Fri, 12 Jul 2019 12:13:27 -0400
-Subject: [PATCH v2.1 3/9] rcu/sync: Remove custom check for reader-section
+It seems that the problem is related to broken cross-references. The html
+builder handles it nicely, but rst2pdf seems to crash when it can't solve
+all references. That sounds somewhat similar to the bug we solved with the
+automarkup extension.
 
-The rcu/sync code was doing its own check whether we are in a reader
-section. With RCU consolidating flavors and the generic helper added in
-this series, this is no longer need. We can just use the generic helper
-and it results in a nice cleanup.
 
-Cc: Oleg Nesterov <oleg@redhat.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- include/linux/rcu_sync.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thanks,
+Mauro
 
-diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
-index 9b83865d24f9..0027d4c8087c 100644
---- a/include/linux/rcu_sync.h
-+++ b/include/linux/rcu_sync.h
-@@ -31,9 +31,7 @@ struct rcu_sync {
-  */
- static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
- {
--	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
--			 !rcu_read_lock_bh_held() &&
--			 !rcu_read_lock_sched_held(),
-+	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
- 			 "suspicious rcu_sync_is_idle() usage");
- 	return !READ_ONCE(rsp->gp_state); /* GP_IDLE */
- }
--- 
-2.22.0.510.g264f2c817a-goog
+
+
+[PATCH] docs: experimental: build PDF with rst2pdf
+
+Change the logic to use rst2pdf instead of LaTeX.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508b..a298bbcf6fa7 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -89,18 +89,22 @@ latexdocs:
+ 
+ ifeq ($(HAVE_PDFLATEX),0)
+ 
+-pdfdocs:
++oldpdfdocs:
+ 	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+ 	@echo "  SKIP    Sphinx $@ target."
+ 
+ else # HAVE_PDFLATEX
+ 
+-pdfdocs: latexdocs
++oldpdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
+ 
+ endif # HAVE_PDFLATEX
+ 
++pdfdocs:
++	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
++
+ epubdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+@@ -126,6 +130,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  oldpdfdocs      - PDF'
++	@echo  '  pdfdocs         - PDF, using experimental rst2pdf support'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+ 	@echo  '  linkcheckdocs   - check for broken external links (will connect to external hosts)'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa0a42b47e62..f53ea57aebe3 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -43,6 +43,8 @@ if (major == 1 and minor > 3) or (major > 1):
+ else:
+     extensions.append("sphinx.ext.pngmath")
+ 
++extensions.append("rst2pdf.pdfbuilder")
++
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+ 
+@@ -564,12 +566,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of http://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace(".tex", "")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
+ 
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/media/Makefile b/Documentation/media/Makefile
+index d75d70f191bc..3050136ed489 100644
+--- a/Documentation/media/Makefile
++++ b/Documentation/media/Makefile
+@@ -53,12 +53,13 @@ $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exception
+ 
+ # Media build rules
+ 
+-.PHONY: all html epub xml latex
++.PHONY: all html epub xml latex pdf
+ 
+ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
+ 
+diff --git a/Makefile b/Makefile
+index 5bbaf5ee6f5b..99ae519fccf9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1562,7 +1562,7 @@ $(help-board-dirs): help-%:
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+ DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+-	       linkcheckdocs dochelp refcheckdocs
++	       linkcheckdocs dochelp refcheckdocs oldpdfdocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS): scripts_basic FORCE
+ 	$(Q)$(MAKE) $(build)=Documentation $@
 
