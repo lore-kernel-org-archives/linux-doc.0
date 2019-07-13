@@ -1,170 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6588E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 03:43:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7FEFE7D91B
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Jul 2019 08:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727550AbfGMDnF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Jul 2019 23:43:05 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:55707 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727466AbfGMDnF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jul 2019 23:43:05 -0400
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x6D3glSi020261;
-        Sat, 13 Jul 2019 12:42:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6D3glSi020261
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562989367;
-        bh=57jXn/kli5cGXMKS10omqKGu33q3IQPitAGnq/f/wAk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S3Yk/6271A1r9mPbgrfSCi8D/oJIYfKqbiW7rY+gJ/cBVwXIggZOUgV481psWnEMK
-         4VmTiMr5UFp5PvgpPuWYg1UNWV1P0sZl+PDpmS2O9/2fFPqsdy7RE9cxjBjGCGTuVT
-         s0aODElamWOlXatjXIe5TNRtvGmCxxRaHgW0kbVxnaEmokFw3cfmI7KI5KeLs/nEoQ
-         w6oluOSzfC7VRxL9JBE4ebYI8faG8PbCKU4YiuGGpLNd0h+UoZQluklGeA/xWGUgdJ
-         qiH9kJnGQsx2Z68RHgLv3A7uyArwgbCAbFM7eHZP/nZfS26xjXvmxaccEBO3TEtXff
-         nkkjyyIuU+iSQ==
-X-Nifty-SrcIP: [209.85.221.169]
-Received: by mail-vk1-f169.google.com with SMTP id 130so2483257vkn.9;
-        Fri, 12 Jul 2019 20:42:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAWMbMDsTHGIcymR0/bSYQ86vOy33UOLIt4X9PZkFv1wreo3Vnee
-        MFjUbIVm5B12SfgGVGBs9BmNMxQ/61nV3ve8MOM=
-X-Google-Smtp-Source: APXvYqyg/6KeYQzaEoOOt9CzsL8EPmgeV88YwIhhEwlw31RKFn3sQIjIXzEsEhjpNkzFcU2a+DMNwxjPIeIEuF+n2q4=
-X-Received: by 2002:a1f:4107:: with SMTP id o7mr7211911vka.34.1562989366294;
- Fri, 12 Jul 2019 20:42:46 -0700 (PDT)
+        id S1727617AbfGMIXp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 13 Jul 2019 04:23:45 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32096 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726334AbfGMIXp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Jul 2019 04:23:45 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6D8GuqC140611;
+        Sat, 13 Jul 2019 04:21:16 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tqbcpghfy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 13 Jul 2019 04:21:16 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6D8Imex011412;
+        Sat, 13 Jul 2019 04:21:15 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tqbcpghfn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 13 Jul 2019 04:21:15 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+        by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6D8JSWE020328;
+        Sat, 13 Jul 2019 08:21:14 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+        by ppma03dal.us.ibm.com with ESMTP id 2tq6x6hea4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 13 Jul 2019 08:21:14 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6D8LDlZ41746710
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 13 Jul 2019 08:21:13 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6DA5DB205F;
+        Sat, 13 Jul 2019 08:21:13 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 11EA3B2064;
+        Sat, 13 Jul 2019 08:21:13 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.195.235])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat, 13 Jul 2019 08:21:13 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 1013216C6BA7; Sat, 13 Jul 2019 01:21:14 -0700 (PDT)
+Date:   Sat, 13 Jul 2019 01:21:14 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
+Message-ID: <20190713082114.GA26519@linux.ibm.com>
+Reply-To: paulmck@linux.ibm.com
+References: <20190712170024.111093-1-joel@joelfernandes.org>
+ <20190712170024.111093-4-joel@joelfernandes.org>
+ <20190712213559.GA175138@google.com>
+ <20190712233206.GZ26519@linux.ibm.com>
+ <20190713030150.GA246587@google.com>
+ <20190713031008.GA248225@google.com>
 MIME-Version: 1.0
-References: <20190713024558.27214-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190713024558.27214-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 13 Jul 2019 12:42:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATY4B2OG2GpTePNquNFqdesM8e+2stX4WVGQcCVcVgM0w@mail.gmail.com>
-Message-ID: <CAK7LNATY4B2OG2GpTePNquNFqdesM8e+2stX4WVGQcCVcVgM0w@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: get rid of misleading $(AS) from documents
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190713031008.GA248225@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-13_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907130098
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 13, 2019 at 11:46 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> The assembler files in the kernel are *.S instead of *.s, so they must
-> be preprocessed. Since 'as' of GNU binutils is not able to preprocess,
-> we always use $(CC) as an assembler driver.
->
-> $(AS) is almost unused in Kbuild. As of v5.2, there is just one place
-> that directly invokes $(AS).
->
->   $ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' -- :^Documentation
->   drivers/net/wan/Makefile:  AS68K = $(AS)
->
-> The documentation about *_AFLAGS* sounds like the flags were passed
-> to $(AS). This is somewhat misleading.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+On Fri, Jul 12, 2019 at 11:10:08PM -0400, Joel Fernandes wrote:
+> On Fri, Jul 12, 2019 at 11:01:50PM -0400, Joel Fernandes wrote:
+> > On Fri, Jul 12, 2019 at 04:32:06PM -0700, Paul E. McKenney wrote:
+> > > On Fri, Jul 12, 2019 at 05:35:59PM -0400, Joel Fernandes wrote:
+> > > > On Fri, Jul 12, 2019 at 01:00:18PM -0400, Joel Fernandes (Google) wrote:
+> > > > > The rcu/sync code was doing its own check whether we are in a reader
+> > > > > section. With RCU consolidating flavors and the generic helper added in
+> > > > > this series, this is no longer need. We can just use the generic helper
+> > > > > and it results in a nice cleanup.
+> > > > > 
+> > > > > Cc: Oleg Nesterov <oleg@redhat.com>
+> > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > 
+> > > > Hi Oleg,
+> > > > Slightly unrelated to the patch,
+> > > > I tried hard to understand this comment below in percpu_down_read() but no dice.
+> > > > 
+> > > > I do understand how rcu sync and percpu rwsem works, however the comment
+> > > > below didn't make much sense to me. For one, there's no readers_fast anymore
+> > > > so I did not follow what readers_fast means. Could the comment be updated to
+> > > > reflect latest changes?
+> > > > Also could you help understand how is a writer not able to change
+> > > > sem->state and count the per-cpu read counters at the same time as the
+> > > > comment tries to say?
+> > > > 
+> > > > 	/*
+> > > > 	 * We are in an RCU-sched read-side critical section, so the writer
+> > > > 	 * cannot both change sem->state from readers_fast and start checking
+> > > > 	 * counters while we are here. So if we see !sem->state, we know that
+> > > > 	 * the writer won't be checking until we're past the preempt_enable()
+> > > > 	 * and that once the synchronize_rcu() is done, the writer will see
+> > > > 	 * anything we did within this RCU-sched read-size critical section.
+> > > > 	 */
+> > > > 
+> > > > Also,
+> > > > I guess we could get rid of all of the gp_ops struct stuff now that since all
+> > > > the callbacks are the same now. I will post that as a follow-up patch to this
+> > > > series.
+> > > 
+> > > Hello, Joel,
+> > > 
+> > > Oleg has a set of patches updating this code that just hit mainline
+> > > this week.  These patches get rid of the code that previously handled
+> > > RCU's multiple flavors.  Or are you looking at current mainline and
+> > > me just missing your point?
+> > > 
+> > 
+> > Hi Paul,
+> > You are right on point. I have a bad habit of not rebasing my trees. In this
+> > case the feature branch of mine in concern was based on v5.1. Needless to
+> > say, I need to rebase my tree.
+> > 
+> > Yes, this sync clean up patch does conflict when I rebase, but other patches
+> > rebase just fine.
+> > 
+> > The 2 options I see are:
+> > 1. Let us drop this patch for now and I resend it later.
+> > 2. I resend all patches based on Linus's master branch.
+> 
+> Below is the updated patch based on Linus master branch:
+> 
+> ---8<-----------------------
+> 
+> >From 5f40c9a07fcf3d6dafc2189599d0ba9443097d0f Mon Sep 17 00:00:00 2001
+> From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+> Date: Fri, 12 Jul 2019 12:13:27 -0400
+> Subject: [PATCH v2.1 3/9] rcu/sync: Remove custom check for reader-section
+> 
+> The rcu/sync code was doing its own check whether we are in a reader
+> section. With RCU consolidating flavors and the generic helper added in
+> this series, this is no longer need. We can just use the generic helper
+> and it results in a nice cleanup.
+> 
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > ---
+>  include/linux/rcu_sync.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
+> index 9b83865d24f9..0027d4c8087c 100644
+> --- a/include/linux/rcu_sync.h
+> +++ b/include/linux/rcu_sync.h
+> @@ -31,9 +31,7 @@ struct rcu_sync {
+>   */
+>  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
+>  {
+> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
+> -			 !rcu_read_lock_bh_held() &&
+> -			 !rcu_read_lock_sched_held(),
+> +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
 
-Applied to linux-kbuild.
+I believe that replacing rcu_read_lock_sched_held() with preemptible()
+in a CONFIG_PREEMPT=n kernel will give you false-positive splats here.
+If you have not already done so, could you please give it a try?
 
+							Thanx, Paul
 
-
-> Changes in v3:
->   - Rebase
->
-> Changes in v2:
->   - Rephrase without using "assembling"
->
->  Documentation/kbuild/kbuild.rst    |  5 ++---
->  Documentation/kbuild/makefiles.rst | 12 ++++++------
->  2 files changed, 8 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index b25548963d70..727520b3d7b1 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -38,12 +38,11 @@ Additional options to the assembler (for built-in and modules).
->
->  AFLAGS_MODULE
->  -------------
-> -Additional module specific options to use for $(AS).
-> +Additional assembler options for modules.
->
->  AFLAGS_KERNEL
->  -------------
-> -Additional options for $(AS) when used for assembler
-> -code for code that is compiled as built-in.
-> +Additional assembler options for built-in.
->
->  KCFLAGS
->  -------
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 093f2d79ab95..67e47589d9d2 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -328,7 +328,7 @@ more details, with real examples.
->         variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
->         entire tree.
->
-> -       asflags-y specifies options for assembling with $(AS).
-> +       asflags-y specifies assembler options.
->
->         Example::
->
-> @@ -489,7 +489,7 @@ more details, with real examples.
->         as-instr checks if the assembler reports a specific instruction
->         and then outputs either option1 or option2
->         C escapes are supported in the test instruction
-> -       Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
-> +       Note: as-instr-option uses KBUILD_AFLAGS for assembler options
->
->      cc-option
->         cc-option is used to check if $(CC) supports a given option, and if
-> @@ -905,7 +905,7 @@ When kbuild executes, the following steps are followed (roughly):
->         vmlinux. The usage of $(call if_changed,xxx) will be described later.
->
->      KBUILD_AFLAGS
-> -       $(AS) assembler flags
-> +       Assembler flags
->
->         Default value - see top level Makefile
->         Append or modify as required per architecture.
-> @@ -948,16 +948,16 @@ When kbuild executes, the following steps are followed (roughly):
->         to 'y' when selected.
->
->      KBUILD_AFLAGS_KERNEL
-> -       $(AS) options specific for built-in
-> +       Assembler options specific for built-in
->
->         $(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
->         resident kernel code.
->
->      KBUILD_AFLAGS_MODULE
-> -       Options for $(AS) when building modules
-> +       Assembler options specific for modules
->
->         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
-> -       are used for $(AS).
-> +       are used for assembler.
->
->         From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
->
-> --
-> 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+>  			 "suspicious rcu_sync_is_idle() usage");
+>  	return !READ_ONCE(rsp->gp_state); /* GP_IDLE */
+>  }
+> -- 
+> 2.22.0.510.g264f2c817a-goog
+> 
