@@ -3,46 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7BAF47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 15:10:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7FF47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 15:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728380AbfGNPKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Jul 2019 11:10:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45536 "EHLO
+        id S1728694AbfGNPKY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Jul 2019 11:10:24 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45578 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728476AbfGNPKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 11:10:19 -0400
+        with ESMTP id S1728440AbfGNPKY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 11:10:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=BHbEVXmpRXCdh5Jrvlt6ed3il/gE3QsZ5hyzVd7gNN0=; b=V5dTy3ecDVyVve2LdA9CapeQBX
-        Qtg8igUfrNsWqh8fqMte//tGz12fkhLz3mflQziMLaOvt0hJSggUATibBzfBvcvBJOL99l35TG43C
-        Rr8XsZ/5fUJnLw8rz01SnkU8uTFU+IH9eO/abqrwirasMX1HTyF81vMJTxow4h1e/StlKtkQKwwGt
-        AGTCnbE5QxruJAVSz7VMiwSNfmK/6/u+OXzuwcSFWwbql5QQ1cejmltJXN+gHRV0SMTROq1Jc2S+B
-        bk6VlqsLct6eXw++bVkzAJCQyKv5CZKSu4tFdKj6npxVdM2tOCj5LaBQ6HwIEqiIuVita+OHbTq1n
-        6H8NtBqA==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=kfltrTJrE3zX7/0aquoXG3ZtLDR7tIyzP8CHDmkORWM=; b=K/3ZWln8pQ5/S/82QEvh320MR
+        GxKvRhj461S8yl1Idc2bdc8An7e4c8StSBzkldlTd0Jg0UewJ2RRGg5JjSPC6p8D4/rfG424xXb4U
+        fvHK7PmBG+fj2NSqxj4by5+/XjAK+t/iamqHYHAxknHlnxl5eQIazfo7z3/I2C37imCjIXBE18Xn5
+        KzQumgLiSPamzlQ9ozcJhla9x0d2DKP8qzihqZzFU3+nlfjgUkK66opfrmZTJHMDmZ1PKWhT5n+CC
+        xmEu0Im/DDzQ40V7LRXAUKmFbrpHZORGGnVVQrHoKaAAOKjukrUWAnW9HISaCoF/jsasJMem48pjA
+        MeE48xLZA==;
 Received: from 201.86.163.160.dynamic.adsl.gvt.net.br ([201.86.163.160] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmg8o-0004fA-EX; Sun, 14 Jul 2019 15:10:18 +0000
+        id 1hmg8o-0004f9-E5; Sun, 14 Jul 2019 15:10:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hmg8k-0007T4-Vu; Sun, 14 Jul 2019 12:10:14 -0300
+        id 1hmg8k-0007Sw-U6; Sun, 14 Jul 2019 12:10:14 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/8] scripts/sphinx-pre-install: fix script for RHEL/CentOS
-Date:   Sun, 14 Jul 2019 12:10:07 -0300
-Message-Id: <947eaf63519e19c98dbafc43cf4176d07f56ba6d.1563115732.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        netdev@vger.kernel.org, Sean Paul <sean@poorly.run>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Rich Felker <dalias@libc.org>, Takashi Iwai <tiwai@suse.com>,
+        Daniel Vetter <daniel@ffwll.ch>, x86@kernel.org,
+        alsa-devel@alsa-project.org,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        linux-sh@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        linux-crypto@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        dri-devel@lists.freedesktop.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-input@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 0/8] docs: some improvements when producing PDF files
+Date:   Sun, 14 Jul 2019 12:10:05 -0300
+Message-Id: <cover.1563115732.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1563115732.git.mchehab+samsung@kernel.org>
-References: <cover.1563115732.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -50,29 +65,136 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a missing parenthesis at the script, with causes it to
-fail to detect non-Fedora releases (e. g. RHEL/CentOS).
+Hi Jon,
 
-Tested with Centos 7.6.1810.
+This series addresses your concerns related to CJK fonts that are
+needed for translations.pdf.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/sphinx-pre-install | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It touches only the documentation build system, not the docs
+themselves.
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index f230e65329a2..101ddd00bf02 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -371,7 +371,7 @@ sub give_redhat_hints()
- 	#
- 	# Checks valid for RHEL/CentOS version 7.x.
- 	#
--	if (! $system_release =~ /Fedora/) {
-+	if (!($system_release =~ /Fedora/)) {
- 		$map{"virtualenv"} = "python-virtualenv";
- 	}
- 
+It ended to be bigger than I originally foreseen, as I found several issues
+when running "make pdfdocs" for the distros that are recognized by
+the  scripts/sphinx-pre-install script.
+
+It also took a lot of time, as I tested it with several VMs (each
+one updated to latest packages):
+
+- Fedora 30, CentOS 7, Mageia 7, ArchLinux, Ubuntu 18.04, Gentoo, 
+  OpenSuse Tumbleweed.
+
+Patch 1 addresses an issue that could be related to the fact that I
+don't use openSUSE. Basically, I was unable to find the right package
+for texlive to use CJK fonts on openSUSE. [1]. So, the first patch on this
+series adds a workaround: if the needed CJK font is not found on a
+system, conf.py won't use xeCjk extension. That sounds a good
+thing to have, as other distros may not package it, or maybe the
+one building the doc is not that interested on translations.pdf file;
+
+[1] I actually found some, but they are not recognized with the
+    font name conf.py is expecting ("Noto Sans CJK SC"). Perhaps
+    SUSE uses a different name for those fonts?
+
+Patch 2 fixes the logic with recognizes CentOS/RHEL;
+
+Patch 3 is another workaround: CentOS 7 (and similar distros) don't
+package all texlive packages we need. So, it just ignores PDF when
+recommending packages on such distros, and point to a URL with
+explains how to install TexLive outside distro-specific package
+management (for the brave enough people);
+
+Patch 4 fixes latexmk dependency on a few distros;
+
+Patch 5 suppreses a Gentoo specific instruction if the user already
+followed in the past;
+
+Patch 6 is the one that actually does what you requested.
+
+Patch 7 solves an issue when SPHINXDIRS is used with make pdfdocs:
+right now, using it will produce a lot of warnings and won't do anything,
+if a dir-specific conf.py file is not found. With the patch, latex_documents
+are now properly updated when SPHINXDIRS is used.
+
+Patch 8 is a cleanup: with patch 7 applied, we don't need to have anymore
+any conf.py file due to pdfdocs. 
+
+With regard to the load_config.py extension, It keeps accepting custom
+configuration. That's helpful if someone wants, for example, to have
+something like:
+
+	Documentation/media/conf_nitpick.py
+
+with would enable extra nitpick options if one wants that.
+
+-
+
+Jon,
+
+Please let me know if you prefer if I submit those together with the big
+pile of doc files I have, or if you prefer adding (some of?) them on your
+tree after the merge window.
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (8):
+  docs: conf.py: only use CJK if the font is available
+  scripts/sphinx-pre-install: fix script for RHEL/CentOS
+  scripts/sphinx-pre-install: don't use LaTeX with CentOS 7
+  scripts/sphinx-pre-install: fix latexmk dependencies
+  scripts/sphinx-pre-install: cleanup Gentoo checks
+  scripts/sphinx-pre-install: seek for Noto CJK fonts for pdf output
+  docs: load_config.py: avoid needing a conf.py just due to LaTeX docs
+  docs: remove extra conf.py files
+
+ Documentation/admin-guide/conf.py      |  10 ---
+ Documentation/conf.py                  |  13 ++-
+ Documentation/core-api/conf.py         |  10 ---
+ Documentation/crypto/conf.py           |  10 ---
+ Documentation/dev-tools/conf.py        |  10 ---
+ Documentation/doc-guide/conf.py        |  10 ---
+ Documentation/driver-api/80211/conf.py |  10 ---
+ Documentation/driver-api/conf.py       |  10 ---
+ Documentation/driver-api/pm/conf.py    |  10 ---
+ Documentation/filesystems/conf.py      |  10 ---
+ Documentation/gpu/conf.py              |  10 ---
+ Documentation/input/conf.py            |  10 ---
+ Documentation/kernel-hacking/conf.py   |  10 ---
+ Documentation/maintainer/conf.py       |  10 ---
+ Documentation/media/conf.py            |  12 ---
+ Documentation/networking/conf.py       |  10 ---
+ Documentation/process/conf.py          |  10 ---
+ Documentation/sh/conf.py               |  10 ---
+ Documentation/sound/conf.py            |  10 ---
+ Documentation/sphinx/load_config.py    |  25 +++++-
+ Documentation/userspace-api/conf.py    |  10 ---
+ Documentation/vm/conf.py               |  10 ---
+ Documentation/x86/conf.py              |  10 ---
+ scripts/sphinx-pre-install             | 118 ++++++++++++++++++++-----
+ 24 files changed, 131 insertions(+), 237 deletions(-)
+ delete mode 100644 Documentation/admin-guide/conf.py
+ delete mode 100644 Documentation/core-api/conf.py
+ delete mode 100644 Documentation/crypto/conf.py
+ delete mode 100644 Documentation/dev-tools/conf.py
+ delete mode 100644 Documentation/doc-guide/conf.py
+ delete mode 100644 Documentation/driver-api/80211/conf.py
+ delete mode 100644 Documentation/driver-api/conf.py
+ delete mode 100644 Documentation/driver-api/pm/conf.py
+ delete mode 100644 Documentation/filesystems/conf.py
+ delete mode 100644 Documentation/gpu/conf.py
+ delete mode 100644 Documentation/input/conf.py
+ delete mode 100644 Documentation/kernel-hacking/conf.py
+ delete mode 100644 Documentation/maintainer/conf.py
+ delete mode 100644 Documentation/media/conf.py
+ delete mode 100644 Documentation/networking/conf.py
+ delete mode 100644 Documentation/process/conf.py
+ delete mode 100644 Documentation/sh/conf.py
+ delete mode 100644 Documentation/sound/conf.py
+ delete mode 100644 Documentation/userspace-api/conf.py
+ delete mode 100644 Documentation/vm/conf.py
+ delete mode 100644 Documentation/x86/conf.py
+
 -- 
 2.21.0
+
 
