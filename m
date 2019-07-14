@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 616217D90F
+	by archive.lwn.net (Postfix) with ESMTP id 7D14F7D92A
 	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 15:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728607AbfGNPKT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Jul 2019 11:10:19 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45528 "EHLO
+        id S1728637AbfGNPKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Jul 2019 11:10:20 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45542 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726783AbfGNPKT (ORCPT
+        with ESMTP id S1728477AbfGNPKT (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 11:10:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WaTHXnanHUyA+63XriQfQq8umJVikepy1D3atlAnVJY=; b=rADDdUC8TE1XXDn1kAFniDjW1z
-        zQteU5ILYgbHdgJIUobdskOYjEJb3miRoZYzr+9mZBGWTy4SAlQ7/D55io1F9FIvRsBUGs5pTZ1JA
-        Y3ElNCrDpymkZy/qdsDkfWEpWcy1bmvXFvEdq41MwcVP8NuH7AH6zYf4YQtBIjye7xAc2KYlo9AC1
-        5+H6CU6l2T8ESb26fE3OrFyJQu9YBH3rUdkFfeS32JEPy2zpuNOcjb/lz4kgvOXLniEXQZKDAM/fw
-        l7uwHGHW88mdsSFRhj9ziUEzK2KO0r6KMLfJdOHVlqlfaXYsaiY0N1OOpER5TFafsCnnksCvnxrSK
-        nv+9t0wA==;
+        bh=jFyzo3As5CrICxDhs7tl/BXq0/acefqHr/iuBUuENY8=; b=gMO/ftlGwyFgSdBRkJINYx7xxv
+        GDpoWZQUSpNsCJRlVo1WL4IvlNkUn13Twk3FwFjCx0yl3d+bx4ARpk9Nfuxp8PFKS7Hi2Ag+V2vWX
+        v5VV2d9JzhfOJEP1uGtwe+4XHGwjBMmtsdF3H+LIVNvLyITuSDBPpui3u+2TcxYShIMmHfICQZ9QI
+        dUawkU/p1DiuoEZYP0QNiUYxCFa8BzxtXx6T1aCLF/L9PvBUKodNwzQvECrngZPVqq/McXtc5+K1g
+        zZk7iRsP27ioB6lj0LOCAJZaPU34dwglPkHWEGR777LgyzkbSSPfU1X5KeqQjDhZQM5K8S+5kA/ML
+        EmkyDbjA==;
 Received: from 201.86.163.160.dynamic.adsl.gvt.net.br ([201.86.163.160] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmg8o-0004f7-Df; Sun, 14 Jul 2019 15:10:18 +0000
+        id 1hmg8o-0004f5-EI; Sun, 14 Jul 2019 15:10:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hmg8l-0007TO-3s; Sun, 14 Jul 2019 12:10:15 -0300
+        id 1hmg8l-0007TG-26; Sun, 14 Jul 2019 12:10:15 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 7/8] docs: load_config.py: avoid needing a conf.py just due to LaTeX docs
-Date:   Sun, 14 Jul 2019 12:10:12 -0300
-Message-Id: <8076229480bdec3e86489d43b10a5afcfd88a75e.1563115732.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 5/8] scripts/sphinx-pre-install: cleanup Gentoo checks
+Date:   Sun, 14 Jul 2019 12:10:10 -0300
+Message-Id: <853ba32a59561b1ec11bd12c9607d7fe4bf84922.1563115732.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563115732.git.mchehab+samsung@kernel.org>
 References: <cover.1563115732.git.mchehab+samsung@kernel.org>
@@ -50,61 +50,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, for every directory that we need to have LaTeX output,
-a conf.py file is required.
-
-That causes an extra overhead and it is actually a hack, as
-the latex_documents line there are usually a copy of the ones
-that are there already at the main conf.py.
-
-So, instead, re-use the global latex_documents var, just
-adjusting the path to be relative ones.
+On Gentoo, the portage changes for ImageMagick to work are
+always suggested, even if already applied. While the two
+extra commands should be harmless, add a check to avoid
+reporting it without need.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/load_config.py | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ scripts/sphinx-pre-install | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index 301a21aa4f63..75f527ff4c95 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -21,6 +21,29 @@ def loadConfig(namespace):
-         and os.path.normpath(namespace["__file__"]) != os.path.normpath(config_file) ):
-         config_file = os.path.abspath(config_file)
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 8dc13fe95ffe..0a5c83aa5f44 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -533,8 +533,19 @@ sub give_gentoo_hints()
+ 	return if (!$need && !$optional);
  
-+        # Let's avoid one conf.py file just due to latex_documents
-+        start = config_file.find('Documentation/')
-+	if start >= 0:
-+	    start = config_file.find('/', start + 1)
+ 	printf("You should run:\n\n");
+-	printf("\tsudo su -c 'echo \"media-gfx/imagemagick svg png\" > /etc/portage/package.use/imagemagick'\n");
+-	printf("\tsudo su -c 'echo \"media-gfx/graphviz cairo pdf\" > /etc/portage/package.use/graphviz'\n");
 +
-+        end = config_file.rfind('/')
-+        if start >= 0 and end > 0:
-+            dir = config_file[start + 1:end]
++	my $imagemagick = "media-gfx/imagemagick svg png";
++	my $cairo = "media-gfx/graphviz cairo pdf";
++	my $portage_imagemagick = "/etc/portage/package.use/imagemagick";
++	my $portage_cairo = "/etc/portage/package.use/graphviz";
 +
-+            print("source directory: %s" % dir)
-+            new_latex_docs = []
-+            latex_documents = namespace['latex_documents']
++	if (qx(cat $portage_imagemagick) ne "$imagemagick\n") {
++		printf("\tsudo su -c 'echo \"$imagemagick\" > $portage_imagemagick'\n")
++	}
++	if (qx(cat $portage_cairo) ne  "$cairo\n") {
++		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
++	}
 +
-+            for l in latex_documents:
-+                if l[0].find(dir) == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_latex_docs.append((fn, l[1], l[2], l[3], l[4]))
-+                    break
-+
-+            namespace['latex_documents'] = new_latex_docs
-+
-+        # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-             config = namespace.copy()
-@@ -28,5 +51,3 @@ def loadConfig(namespace):
-             execfile_(config_file, config)
-             del config['__file__']
-             namespace.update(config)
--        else:
--            sys.stderr.write("WARNING: additional sphinx-config not found: %s\n" % config_file)
+ 	printf("\tsudo emerge --ask $install\n");
+ 
+ }
 -- 
 2.21.0
 
