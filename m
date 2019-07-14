@@ -1,101 +1,177 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D34577D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 18:12:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 173A47D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 18:38:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728473AbfGNSMn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Jul 2019 14:12:43 -0400
-Received: from mother.openwall.net ([195.42.179.200]:33775 "HELO
-        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728164AbfGNSMn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 14:12:43 -0400
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Sun, 14 Jul 2019 14:12:42 EDT
-Received: (qmail 28208 invoked from network); 14 Jul 2019 18:06:01 -0000
-Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
-  by localhost with SMTP; 14 Jul 2019 18:06:01 -0000
-Received: by pvt.openwall.com (Postfix, from userid 503)
-        id 5AED8AB5B3; Sun, 14 Jul 2019 20:05:55 +0200 (CEST)
-Date:   Sun, 14 Jul 2019 20:05:55 +0200
-From:   Solar Designer <solar@openwall.com>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Will Deacon <will@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
-        keescook@chromium.org, peterz@infradead.org, tyhicks@canonical.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/security-bugs: provide more information about linux-distros
-Message-ID: <20190714180555.GA8536@openwall.com>
-References: <20190711163637.30327-1-sashal@kernel.org> <20190711170732.GB7544@kroah.com> <20190711170921.ywi43n262s3ckxpi@willie-the-truck> <20190711203500.GB10104@sasha-vm>
-Mime-Version: 1.0
+        id S1728710AbfGNSiY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Jul 2019 14:38:24 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40670 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728297AbfGNSiY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 14:38:24 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w10so6654336pgj.7
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jul 2019 11:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sox1qbAuMnPUwD0CgD0KdMKVv1SxdSpzlx78UgprX+8=;
+        b=uvIXjc6RpIBKGJKLMswZL0zKOIbGCOqwZVMZfzv8f0e56iW5Xw+d175Iewh7O0m4QG
+         PTQTK9CSolsfpH5eZHkNSyajv9VLH/1qzdWEVarVoP4ce8ZjKCT1LdIuWT1W9Ypl4naJ
+         p98jtynPImVVZsE4/RPF3Jp7vxXCaWrM0dr5E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sox1qbAuMnPUwD0CgD0KdMKVv1SxdSpzlx78UgprX+8=;
+        b=YLBa7Nw4uJWmhUQ1Pmz2f49Pbb1UmofitR5j7XbWmdGanR3dvc5iZEpVc1tBL+NW1D
+         TPlljqFnOGufz+YIZt6fSK+v+vQSVNscpMpLtQxdJ7fEJnx1eHbH12kDPil2AQfQnNo+
+         83xphegrCum6LpY47QRARFc/dywnnUgRfDomkh1p8p7i2baP4jHmSFzjEVKDP3yge+LX
+         sDCuh45C4vcIHWbd+X6XfzSfPgperlgQnmCdPn43tjN/QuYgHiY30OppFG+MY3SpYZFP
+         WvHiCc+IyHk3qfR+w9C00n/Ih2shnRu4CKjxT+BpEE8qAgRp0I76XnUQW+lxnneLn4b4
+         Oh7Q==
+X-Gm-Message-State: APjAAAXYteiEXs7Wq7yM1mC9h56u8buioX6YHfRSK258ALk3goZGXj2K
+        ORTcvPivONU43JNbW3JhbxY=
+X-Google-Smtp-Source: APXvYqzbkYP46GwBSD0mDA1ULApcyNEVrg5o30ItZY+eSVKxrnZ68GFxhMKl90asFkD9mHvD6qzZOw==
+X-Received: by 2002:a65:4507:: with SMTP id n7mr21968240pgq.86.1563129503349;
+        Sun, 14 Jul 2019 11:38:23 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id g2sm22630976pfq.88.2019.07.14.11.38.21
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 14 Jul 2019 11:38:22 -0700 (PDT)
+Date:   Sun, 14 Jul 2019 14:38:20 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
+Message-ID: <20190714183820.GD34501@google.com>
+References: <20190713030150.GA246587@google.com>
+ <20190713031008.GA248225@google.com>
+ <20190713082114.GA26519@linux.ibm.com>
+ <20190713133049.GA133650@google.com>
+ <20190713144108.GD26519@linux.ibm.com>
+ <20190713153606.GD133650@google.com>
+ <20190713155010.GF26519@linux.ibm.com>
+ <20190713161316.GA39321@google.com>
+ <20190713212812.GH26519@linux.ibm.com>
+ <20190714181053.GB34501@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190711203500.GB10104@sasha-vm>
-User-Agent: Mutt/1.4.2.3i
+In-Reply-To: <20190714181053.GB34501@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 04:35:00PM -0400, Sasha Levin wrote:
-> On Thu, Jul 11, 2019 at 06:09:21PM +0100, Will Deacon wrote:
-> >On Thu, Jul 11, 2019 at 07:07:32PM +0200, Greg KH wrote:
-> >>On Thu, Jul 11, 2019 at 12:36:37PM -0400, Sasha Levin wrote:
-> >>> Provide more information about how to interact with the linux-distros
-> >>> mailing list for disclosing security bugs.
-> >>>
-> >>> First, clarify that the reporter must read and accept the linux-distros
-> >>> policies prior to sending a report.
-> >>>
-> >>> Second, clarify that the reported must provide a tentative public
-> >>> disclosure date and time in his first contact with linux-distros.
-> >>>
-> >>> Suggested-by: Solar Designer <solar@openwall.com>
-> >>> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> >>> ---
-> >>>  Documentation/admin-guide/security-bugs.rst | 21 +++++++++++++--------
-> >>>  1 file changed, 13 insertions(+), 8 deletions(-)
-
-Thanks.  Sasha's proposed changes do address the two issues I pointed
-out, so are an improvement.  However:
-
-> >>Do we really need to describe all of the information on how to use the
-> >>distro list here?  That's why we included the link, as it has all of
-> >>this well spelled out and described.  If anything, I would say we should
-> >>say less in this document about what linux-distros do, as that is
-> >>independent of the Linux security team.
-> >
-> >Agreed, and it also means that any changes linux-distros make to their
-> >policy won't be reflecting in the numerous kernel trees out there, so a
-> >link is much better imo.
-
-I also agree with this.
-
-> I agree that the 2nd part about embargo timelines is redundant, but I
-> only addressed it because the document was already addressing embargos.
+On Sun, Jul 14, 2019 at 02:10:53PM -0400, Joel Fernandes wrote:
+> On Sat, Jul 13, 2019 at 02:28:12PM -0700, Paul E. McKenney wrote:
+[snip]
+> > > > > > > > > 
+> > > > > > > > > Cc: Oleg Nesterov <oleg@redhat.com>
+> > > > > > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > > > > > > ---
+> > > > > > > > >  include/linux/rcu_sync.h | 4 +---
+> > > > > > > > >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
+> > > > > > > > > index 9b83865d24f9..0027d4c8087c 100644
+> > > > > > > > > --- a/include/linux/rcu_sync.h
+> > > > > > > > > +++ b/include/linux/rcu_sync.h
+> > > > > > > > > @@ -31,9 +31,7 @@ struct rcu_sync {
+> > > > > > > > >   */
+> > > > > > > > >  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
+> > > > > > > > >  {
+> > > > > > > > > -	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
+> > > > > > > > > -			 !rcu_read_lock_bh_held() &&
+> > > > > > > > > -			 !rcu_read_lock_sched_held(),
+> > > > > > > > > +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
+> > > > > > > > 
+> > > > > > > > I believe that replacing rcu_read_lock_sched_held() with preemptible()
+> > > > > > > > in a CONFIG_PREEMPT=n kernel will give you false-positive splats here.
+> > > > > > > > If you have not already done so, could you please give it a try?
+> > > > > > > 
+> > > > > > > Hi Paul,
+> > > > > > > I don't think it will cause splats for !CONFIG_PREEMPT.
+> > > > > > > 
+> > > > > > > Currently, rcu_read_lock_any_held() introduced in this patch returns true if
+> > > > > > > !preemptible(). This means that:
+> > > > > > > 
+> > > > > > > The following expression above:
+> > > > > > > RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),...)
+> > > > > > > 
+> > > > > > > Becomes:
+> > > > > > > RCU_LOCKDEP_WARN(preemptible(), ...)
+> > > > > > > 
+> > > > > > > For, CONFIG_PREEMPT=n kernels, this means:
+> > > > > > > RCU_LOCKDEP_WARN(0, ...)
+> > > > > > > 
+> > > > > > > Which would mean no splats. Or, did I miss the point?
+> > > > > > 
+> > > > > > I suggest trying it out on a CONFIG_PREEMPT=n kernel.
+> > > > > 
+> > > > > Sure, will do, sorry did not try it out yet because was busy with weekend
+> > > > > chores but will do soon, thanks!
+> > > > 
+> > > > I am not faulting you for taking the weekend off, actually.  ;-)
+> > > 
+> > > ;-) 
+> > > 
+> > > I tried doing RCU_LOCKDEP_WARN(preemptible(), ...) in this code path and I
+> > > don't get any splats. I also disassembled the code and it seems to me
+> > > RCU_LOCKDEP_WARN() becomes a NOOP which also the above reasoning confirms.
+> > 
+> > OK, very good.  Could you do the same thing for the RCU_LOCKDEP_WARN()
+> > in synchronize_rcu()?  Why or why not?
+> > 
 > 
-> I only now realized that the link we had there was just going to the
-> main wiki page by mistake: the tag it was trying to point to was removed
-> from the wiki page. We should probably update that too.
+> Hi Paul,
 > 
-> With regards to the explicit instruction to agree with policies, I think
-> we do need it there. Right now this section reads as "for embargoes work
-> with linux-distros@vs.openwall.org, and btw they have a wiki which you
-> may or may not need to read".
+> Yes synchronize_rcu() can also make use of this technique since it is
+> strictly illegal to call synchronize_rcu() within a reader section.
+> 
+> I will add this to the set of my patches as well and send them all out next
+> week, along with the rcu-sync and bh clean ups we discussed.
 
-Yes, we should update the link, but maybe we should also drop the
-posting e-mail address, which will ensure someone will have to check out
-the link before they're able to post.  This should allow us to drop the
-summary of linux-distros policy and posting instructions, although maybe
-they're beneficial to keep if we're confident we'd be maintaining this
-summary to reflect possible changes on the linked page.
+After sending this email, it occurs to me it wont work in synchronize_rcu()
+for !CONFIG_PREEMPT kernels. This is because in a !CONFIG_PREEMPT kernel,
+executing in kernel mode itself looks like being in an RCU reader. So we
+should leave that as is. However it will work fine for rcu_sync_is_idle (for
+CONFIG_PREEMPT=n kernels) as I mentioned earlier.
 
-> We probably do need to stress here that linux-distros has different
-> policies than security@kernel.org.
+Were trying to throw me a Quick-Quiz ? ;-) In that case, hope I passed!
 
-OK.
+thanks,
 
-Alexander
+ - Joel
+
