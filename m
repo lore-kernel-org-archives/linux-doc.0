@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0317D7D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 7BAF47D90F
 	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 15:10:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728536AbfGNPKT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Jul 2019 11:10:19 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45532 "EHLO
+        id S1728380AbfGNPKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Jul 2019 11:10:20 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45536 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728380AbfGNPKT (ORCPT
+        with ESMTP id S1728476AbfGNPKT (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 11:10:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=x2yqbL/GCB4qt/1ZOmXmAZs70DddLHNZ+/ZNEpgEx/U=; b=FsVGN6Oby94ZVdAmwEOW5NJHmX
-        wSGT9S/Ngc7Cu26u0qYTBp1ItI9feJztRlK1e3TZV6gcx0XryoQzJXiHqWwuYyoIyIZuGDXoRrtu4
-        Er6XuU1NZrP3WO+Q3PX1stuAdPN6MmeIT/lMBGSeKJ+94kaluEdm0bFhOzLTD2BlA07qWxUNNREwP
-        YcU4k1w3JvdoqKeAahJCnGSdzg6yd8P4+7275BDLPzu3r5ncDnhAgDbLMiL2tPq1ohnnBKhY5TzYT
-        rKz+zcJQ+Dk94CznKtQZZ8gzJjy+5K+6aoVmUUNMWcGFe5SvNqO/g9XMLdcuy/E28wEcodICO5p3a
-        j+bIWJPg==;
+        bh=BHbEVXmpRXCdh5Jrvlt6ed3il/gE3QsZ5hyzVd7gNN0=; b=V5dTy3ecDVyVve2LdA9CapeQBX
+        Qtg8igUfrNsWqh8fqMte//tGz12fkhLz3mflQziMLaOvt0hJSggUATibBzfBvcvBJOL99l35TG43C
+        Rr8XsZ/5fUJnLw8rz01SnkU8uTFU+IH9eO/abqrwirasMX1HTyF81vMJTxow4h1e/StlKtkQKwwGt
+        AGTCnbE5QxruJAVSz7VMiwSNfmK/6/u+OXzuwcSFWwbql5QQ1cejmltJXN+gHRV0SMTROq1Jc2S+B
+        bk6VlqsLct6eXw++bVkzAJCQyKv5CZKSu4tFdKj6npxVdM2tOCj5LaBQ6HwIEqiIuVita+OHbTq1n
+        6H8NtBqA==;
 Received: from 201.86.163.160.dynamic.adsl.gvt.net.br ([201.86.163.160] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmg8o-0004f4-ED; Sun, 14 Jul 2019 15:10:18 +0000
+        id 1hmg8o-0004fA-EX; Sun, 14 Jul 2019 15:10:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hmg8l-0007TC-1A; Sun, 14 Jul 2019 12:10:15 -0300
+        id 1hmg8k-0007T4-Vu; Sun, 14 Jul 2019 12:10:14 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 4/8] scripts/sphinx-pre-install: fix latexmk dependencies
-Date:   Sun, 14 Jul 2019 12:10:09 -0300
-Message-Id: <8cdc11a350ea524574ef472d082b6339410c27ea.1563115732.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 2/8] scripts/sphinx-pre-install: fix script for RHEL/CentOS
+Date:   Sun, 14 Jul 2019 12:10:07 -0300
+Message-Id: <947eaf63519e19c98dbafc43cf4176d07f56ba6d.1563115732.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563115732.git.mchehab+samsung@kernel.org>
 References: <cover.1563115732.git.mchehab+samsung@kernel.org>
@@ -50,38 +50,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The name of the package with carries latexmk is different
-on two distros:
+There's a missing parenthesis at the script, with causes it to
+fail to detect non-Fedora releases (e. g. RHEL/CentOS).
 
-- On OpenSUSE, latexmk is packaged as "texlive-latexmk-bin"
-- On Mageia, latexmk is packaged at "texlive-collection-basic"
+Tested with Centos 7.6.1810.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/sphinx-pre-install | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/sphinx-pre-install | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 33efadd6c0b6..8dc13fe95ffe 100755
+index f230e65329a2..101ddd00bf02 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
-@@ -454,6 +454,8 @@ sub give_opensuse_hints()
- 		"texlive-zapfding",
- 	);
- 
-+	$map{"latexmk"} = "texlive-latexmk-bin";
-+
- 	check_rpm_missing(\@suse_tex_pkgs, 2) if ($pdf);
- 	check_missing_tex(2) if ($pdf);
- 	check_missing(\%map);
-@@ -479,6 +481,8 @@ sub give_mageia_hints()
- 		"texlive-fontsextra",
- 	);
- 
-+	$map{"latexmk"} = "texlive-collection-basic";
-+
- 	check_rpm_missing(\@tex_pkgs, 2) if ($pdf);
- 	check_missing(\%map);
+@@ -371,7 +371,7 @@ sub give_redhat_hints()
+ 	#
+ 	# Checks valid for RHEL/CentOS version 7.x.
+ 	#
+-	if (! $system_release =~ /Fedora/) {
++	if (!($system_release =~ /Fedora/)) {
+ 		$map{"virtualenv"} = "python-virtualenv";
+ 	}
  
 -- 
 2.21.0
