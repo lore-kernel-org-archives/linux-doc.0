@@ -2,108 +2,451 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	DKIM_VALID_AU,FAKE_REPLY_C,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85F537D922
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 05:34:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A51167D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Jul 2019 12:59:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728218AbfGNFe2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Jul 2019 01:34:28 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:47040 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728211AbfGNFe2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 01:34:28 -0400
-Received: by mail-qt1-f194.google.com with SMTP id h21so12380472qtn.13;
-        Sat, 13 Jul 2019 22:34:27 -0700 (PDT)
+        id S1728328AbfGNM7A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Jul 2019 08:59:00 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46300 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728316AbfGNM7A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jul 2019 08:59:00 -0400
+Received: by mail-wr1-f67.google.com with SMTP id z1so14255836wru.13;
+        Sun, 14 Jul 2019 05:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3NuZBQYq6h4qssOwOc1GYw/bYwn0rg1ObW5YhftgdKo=;
-        b=Rc6j38WHmlwoJ6+nn1UzHs0z5kKcHeRTnkdMI1haEQYRiv68Jaxdt46vXIi+zBbbcr
-         SYAEWbGQQl4dHOdLj24edmB3gGykzrP1FMdZ9299TSoAufgb0mPy8x6aeCA2FO2IF8br
-         VLoJRc4GDq9T3sngTJ78jRNc7oMihS80+wnoHOJaNgg6Kdga/8GjEXgVBOstmnClq2OW
-         kcvi4xJiHhqb54UyagO2/g2/gx5wmNEZboIE31uf2ZQ5FXhXbOSyqba0PW5CXZvzSP/+
-         YJCbOvBE7R0ZBkC6MkThlyTYq7p+h1RLL7HPaf2WSSmWqitkGhxcSF6PtIRC/qyGr03r
-         i7Cw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=6sdYGedIRUVQVE3wRYCsjYoZgI0CWb7YK/4EmIjw5n0=;
+        b=O6MTh72CydHm8Tp/F0gLwOmRCAVrM+ZuPWQjZJitMFIjakZcsjyzKcpN/g72xiiQEg
+         /C08Mibq5VO/VypIpY8z4wr8bvmDbeB5y+e2+x2JZzqShSAh+Pdsd4JQ8rtEJU2caN2n
+         1XofIYR6hlt3heNXq3fMH97u6QmdfDSIaAOCwX0XiVtfisq37BSxaEOVGUdWcDphHR9h
+         Kr/EQPqbpjw3qaSRk73ItkZQm30imprcz+qGZs4bg7J/hwTIM2FHLitQBnXzHuwsYF5e
+         H1zMNAVwAi5XJEEOBWRQQoXicuJ3lbyM4NEqWGW1jKNVvIH8sF/6u2c9S8Vu/d2WaQAI
+         9oQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3NuZBQYq6h4qssOwOc1GYw/bYwn0rg1ObW5YhftgdKo=;
-        b=clzJOehgLlNbJgxhmLIhQzIkN0zBYulLs1no/28W7R4GBYPeHI3ZdWlSiNvWLCtA9R
-         8SgI/AZ3k3hkgEXOmnGpmkOTkr2+mQbxPbUwPIN/FC4bh0ebYZtOXvzbiC6KzcS9RIfd
-         V/HqwiikeS9QCNvpi4t2ke5mOMOcHiMBVjxezf3bfjHnwje4dHh3YUHrXSxs2Z/obKFc
-         HNX4WOHKDEa6LkQZzzQC+Njkb7Jx/osO3jlQBahev3ZM9Z54NA4KvjwvZtoBrwib3tMx
-         hHwRY1j938FbOfxYBzVLCy8AWt9H6oAkw9HI3HReruCDgby2AFC28FlXbEqYOSO4nsWz
-         3H9w==
-X-Gm-Message-State: APjAAAU277LcOxufdM4WkDgQEs1++/sqLgd/E9VHyYOJqycQCdauSO7G
-        H0FCRsFDl0b5gIv6raBpEx/UqYn7eKE=
-X-Google-Smtp-Source: APXvYqzbKUt2+dUfTolXSJIoItXsrnwI/cMSGQLlpamlQPHK1Ih2v6SivMNd42MzAWpnIntXozHS3g==
-X-Received: by 2002:ac8:180e:: with SMTP id q14mr12664651qtj.327.1563082466762;
-        Sat, 13 Jul 2019 22:34:26 -0700 (PDT)
-Received: from localhost.localdomain ([191.35.237.35])
-        by smtp.gmail.com with ESMTPSA id f133sm6308808qke.62.2019.07.13.22.34.24
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=6sdYGedIRUVQVE3wRYCsjYoZgI0CWb7YK/4EmIjw5n0=;
+        b=A1erP/v3Z6j5HyrKAWP7g8FOW0XgnYT3XRjhM/xIfDWXLPcSaIpnCi22liRcGXBjsf
+         dXc9jUy3s8MQpA/YSN40K83+94Vav+ZlMkcLJyLiEpkYLjDwi9HY5gRih/rynRbosEap
+         xLHTnWuX9ju1MHXdm3I+uxRgoAnq/i6cFLHP9SJsJR9tdybOcjhZ4s5uZ92nfC/F+ceS
+         n5J1Mv9t+j5SPT10swfwwHqrm/AWenoSdLC8iamAVrnuxJmvBIr43A/zFV1QyPvMpdVG
+         Zgw97XxbiwfDsXjaU/QjNRccwRiWqDP5x6IIqbvITLUNTCNxywMb99um7QrWjrf6thhv
+         tURw==
+X-Gm-Message-State: APjAAAVuEDX5h/YFfKWI5nhBIO10emz08sa9MhH062V9WoJNt+j+AAKK
+        CKqhaJZDb7//LomG8DPnlHYSOr7Z
+X-Google-Smtp-Source: APXvYqy0SnoxLbmLhI+l+W+Fi+pSk5jahgG9GS5wq66P8x4bVzQuUOskyiixsUW7girzH04IITll6g==
+X-Received: by 2002:a5d:5647:: with SMTP id j7mr22929598wrw.191.1563109135481;
+        Sun, 14 Jul 2019 05:58:55 -0700 (PDT)
+Received: from localhost ([41.220.75.172])
+        by smtp.gmail.com with ESMTPSA id o185sm13238127wmo.45.2019.07.14.05.58.52
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 13 Jul 2019 22:34:26 -0700 (PDT)
-From:   Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 4/4] Documentation:kernel-per-CPU-kthreads.txt: Remove reference to elevator=
-Date:   Sun, 14 Jul 2019 02:34:53 -0300
-Message-Id: <20190714053453.1655-5-marcos.souza.org@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190714053453.1655-1-marcos.souza.org@gmail.com>
-References: <20190714053453.1655-1-marcos.souza.org@gmail.com>
+        Sun, 14 Jul 2019 05:58:54 -0700 (PDT)
+Date:   Sun, 14 Jul 2019 13:58:31 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     darrick.wong@oracle.com, linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        sheriffesseson@gmail.com
+Subject: Re: [PATCH v8] Documentation: filesystem: Convert xfs.txt to ReST
+Message-ID: <20190714125831.GA19200@localhost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This argument was not being considered since blk-mq was set by default,
-so removed this documentation to avoid confusion.
+Move xfs.txt to admin-guide, convert xfs.txt to ReST and broken references
 
-Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
 ---
- Documentation/kernel-per-CPU-kthreads.txt | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/kernel-per-CPU-kthreads.txt b/Documentation/kernel-per-CPU-kthreads.txt
-index 5623b9916411..c68c6c8c26a4 100644
---- a/Documentation/kernel-per-CPU-kthreads.txt
-+++ b/Documentation/kernel-per-CPU-kthreads.txt
-@@ -274,9 +274,7 @@ To reduce its OS jitter, do any of the following:
- 		(based on an earlier one from Gilad Ben-Yossef) that
- 		reduces or even eliminates vmstat overhead for some
- 		workloads at https://lkml.org/lkml/2013/9/4/379.
--	e.	Boot with "elevator=noop" to avoid workqueue use by
--		the block layer.
--	f.	If running on high-end powerpc servers, build with
-+	e.	If running on high-end powerpc servers, build with
- 		CONFIG_PPC_RTAS_DAEMON=n.  This prevents the RTAS
- 		daemon from running on each CPU every second or so.
- 		(This will require editing Kconfig files and will defeat
-@@ -284,12 +282,12 @@ To reduce its OS jitter, do any of the following:
- 		due to the rtas_event_scan() function.
- 		WARNING:  Please check your CPU specifications to
- 		make sure that this is safe on your particular system.
--	g.	If running on Cell Processor, build your kernel with
-+	f.	If running on Cell Processor, build your kernel with
- 		CBE_CPUFREQ_SPU_GOVERNOR=n to avoid OS jitter from
- 		spu_gov_work().
- 		WARNING:  Please check your CPU specifications to
- 		make sure that this is safe on your particular system.
--	h.	If running on PowerMAC, build your kernel with
-+	g.	If running on PowerMAC, build your kernel with
- 		CONFIG_PMAC_RACKMETER=n to disable the CPU-meter,
- 		avoiding OS jitter from rackmeter_do_timer().
+changes in v8:
+	- fix table of Deprecated and Removed options.
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../xfs.txt => admin-guide/xfs.rst}           | 132 +++++++++---------
+ Documentation/filesystems/dax.txt             |   2 +-
+ MAINTAINERS                                   |   2 +-
+ 4 files changed, 67 insertions(+), 70 deletions(-)
+ rename Documentation/{filesystems/xfs.txt => admin-guide/xfs.rst} (80%)
+
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 24fbe0568eff..0615ea3a744c 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
+    ras
+    bcache
+    ext4
++   xfs
+    binderfs
+    pm/index
+    thunderbolt
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.rst
+similarity index 80%
+rename from Documentation/filesystems/xfs.txt
+rename to Documentation/admin-guide/xfs.rst
+index a5cbb5e0e3db..e76665a8f2f2 100644
+--- a/Documentation/filesystems/xfs.txt
++++ b/Documentation/admin-guide/xfs.rst
+@@ -1,4 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
  
++======================
+ The SGI XFS Filesystem
+ ======================
+ 
+@@ -18,8 +20,6 @@ Mount Options
+ =============
+ 
+ When mounting an XFS filesystem, the following options are accepted.
+-For boolean mount options, the names with the (*) suffix is the
+-default behaviour.
+ 
+   allocsize=size
+ 	Sets the buffered I/O end-of-file preallocation size when
+@@ -31,46 +31,43 @@ default behaviour.
+ 	preallocation size, which uses a set of heuristics to
+ 	optimise the preallocation size based on the current
+ 	allocation patterns within the file and the access patterns
+-	to the file. Specifying a fixed allocsize value turns off
++	to the file. Specifying a fixed ``allocsize`` value turns off
+ 	the dynamic behaviour.
+ 
+-  attr2
+-  noattr2
++  attr2 or noattr2
+ 	The options enable/disable an "opportunistic" improvement to
+ 	be made in the way inline extended attributes are stored
+ 	on-disk.  When the new form is used for the first time when
+-	attr2 is selected (either when setting or removing extended
++	``attr2`` is selected (either when setting or removing extended
+ 	attributes) the on-disk superblock feature bit field will be
+ 	updated to reflect this format being in use.
+ 
+ 	The default behaviour is determined by the on-disk feature
+-	bit indicating that attr2 behaviour is active. If either
+-	mount option it set, then that becomes the new default used
++	bit indicating that ``attr2`` behaviour is active. If either
++	mount option is set, then that becomes the new default used
+ 	by the filesystem.
+ 
+-	CRC enabled filesystems always use the attr2 format, and so
+-	will reject the noattr2 mount option if it is set.
++	CRC enabled filesystems always use the ``attr2`` format, and so
++	will reject the ``noattr2`` mount option if it is set.
+ 
+-  discard
+-  nodiscard (*)
++  discard or nodiscard (default)
+ 	Enable/disable the issuing of commands to let the block
+ 	device reclaim space freed by the filesystem.  This is
+ 	useful for SSD devices, thinly provisioned LUNs and virtual
+ 	machine images, but may have a performance impact.
+ 
+-	Note: It is currently recommended that you use the fstrim
+-	application to discard unused blocks rather than the discard
++	Note: It is currently recommended that you use the ``fstrim``
++	application to ``discard`` unused blocks rather than the ``discard``
+ 	mount option because the performance impact of this option
+ 	is quite severe.
+ 
+-  grpid/bsdgroups
+-  nogrpid/sysvgroups (*)
++  grpid/bsdgroups or nogrpid/sysvgroups (default)
+ 	These options define what group ID a newly created file
+-	gets.  When grpid is set, it takes the group ID of the
++	gets.  When ``grpid`` is set, it takes the group ID of the
+ 	directory in which it is created; otherwise it takes the
+-	fsgid of the current process, unless the directory has the
+-	setgid bit set, in which case it takes the gid from the
+-	parent directory, and also gets the setgid bit set if it is
++	``fsgid`` of the current process, unless the directory has the
++	``setgid`` bit set, in which case it takes the ``gid`` from the
++	parent directory, and also gets the ``setgid`` bit set if it is
+ 	a directory itself.
+ 
+   filestreams
+@@ -78,46 +75,42 @@ default behaviour.
+ 	across the entire filesystem rather than just on directories
+ 	configured to use it.
+ 
+-  ikeep
+-  noikeep (*)
+-	When ikeep is specified, XFS does not delete empty inode
+-	clusters and keeps them around on disk.  When noikeep is
++  ikeep or noikeep (default)
++	When ``ikeep`` is specified, XFS does not delete empty inode
++	clusters and keeps them around on disk.  When ``noikeep`` is
+ 	specified, empty inode clusters are returned to the free
+ 	space pool.
+ 
+-  inode32
+-  inode64 (*)
+-	When inode32 is specified, it indicates that XFS limits
++  inode32 or inode64 (default)
++	When ``inode32`` is specified, it indicates that XFS limits
+ 	inode creation to locations which will not result in inode
+ 	numbers with more than 32 bits of significance.
+ 
+-	When inode64 is specified, it indicates that XFS is allowed
++	When ``inode64`` is specified, it indicates that XFS is allowed
+ 	to create inodes at any location in the filesystem,
+ 	including those which will result in inode numbers occupying
+-	more than 32 bits of significance. 
++	more than 32 bits of significance.
+ 
+-	inode32 is provided for backwards compatibility with older
++	``inode32`` is provided for backwards compatibility with older
+ 	systems and applications, since 64 bits inode numbers might
+ 	cause problems for some applications that cannot handle
+ 	large inode numbers.  If applications are in use which do
+-	not handle inode numbers bigger than 32 bits, the inode32
++	not handle inode numbers bigger than 32 bits, the ``inode32``
+ 	option should be specified.
+ 
+-
+-  largeio
+-  nolargeio (*)
+-	If "nolargeio" is specified, the optimal I/O reported in
+-	st_blksize by stat(2) will be as small as possible to allow
++  largeio or nolargeio (default)
++	If ``nolargeio`` is specified, the optimal I/O reported in
++	``st_blksize`` by **stat(2)** will be as small as possible to allow
+ 	user applications to avoid inefficient read/modify/write
+ 	I/O.  This is typically the page size of the machine, as
+ 	this is the granularity of the page cache.
+ 
+-	If "largeio" specified, a filesystem that was created with a
+-	"swidth" specified will return the "swidth" value (in bytes)
+-	in st_blksize. If the filesystem does not have a "swidth"
+-	specified but does specify an "allocsize" then "allocsize"
++	If ``largeio`` is specified, a filesystem that was created with a
++	``swidth`` specified will return the ``swidth`` value (in bytes)
++	in ``st_blksize``. If the filesystem does not have a ``swidth``
++	specified but does specify an ``allocsize`` then ``allocsize``
+ 	(in bytes) will be returned instead. Otherwise the behaviour
+-	is the same as if "nolargeio" was specified.
++	is the same as if ``nolargeio`` was specified.
+ 
+   logbufs=value
+ 	Set the number of in-memory log buffers.  Valid numbers
+@@ -127,7 +120,7 @@ default behaviour.
+ 
+ 	If the memory cost of 8 log buffers is too high on small
+ 	systems, then it may be reduced at some cost to performance
+-	on metadata intensive workloads. The logbsize option below
++	on metadata intensive workloads. The ``logbsize`` option below
+ 	controls the size of each buffer and so is also relevant to
+ 	this case.
+ 
+@@ -138,7 +131,7 @@ default behaviour.
+ 	and 32768 (32k).  Valid sizes for version 2 logs also
+ 	include 65536 (64k), 131072 (128k) and 262144 (256k). The
+ 	logbsize must be an integer multiple of the log
+-	stripe unit configured at mkfs time.
++	stripe unit configured at **mkfs(8)** time.
+ 
+ 	The default value for for version 1 logs is 32768, while the
+ 	default value for version 2 logs is MAX(32768, log_sunit).
+@@ -153,21 +146,21 @@ default behaviour.
+   noalign
+ 	Data allocations will not be aligned at stripe unit
+ 	boundaries. This is only relevant to filesystems created
+-	with non-zero data alignment parameters (sunit, swidth) by
+-	mkfs.
++	with non-zero data alignment parameters (``sunit``, ``swidth``) by
++	**mkfs(8)**.
+ 
+   norecovery
+ 	The filesystem will be mounted without running log recovery.
+ 	If the filesystem was not cleanly unmounted, it is likely to
+-	be inconsistent when mounted in "norecovery" mode.
++	be inconsistent when mounted in ``norecovery`` mode.
+ 	Some files or directories may not be accessible because of this.
+-	Filesystems mounted "norecovery" must be mounted read-only or
++	Filesystems mounted ``norecovery`` must be mounted read-only or
+ 	the mount will fail.
+ 
+   nouuid
+ 	Don't check for double mounted file systems using the file
+-	system uuid.  This is useful to mount LVM snapshot volumes,
+-	and often used in combination with "norecovery" for mounting
++	system ``uuid``.  This is useful to mount LVM snapshot volumes,
++	and often used in combination with ``norecovery`` for mounting
+ 	read-only snapshots.
+ 
+   noquota
+@@ -176,15 +169,15 @@ default behaviour.
+ 
+   uquota/usrquota/uqnoenforce/quota
+ 	User disk quota accounting enabled, and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   gquota/grpquota/gqnoenforce
+ 	Group disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   pquota/prjquota/pqnoenforce
+ 	Project disk quota accounting enabled and limits (optionally)
+-	enforced.  Refer to xfs_quota(8) for further details.
++	enforced.  Refer to **xfs_quota(8)** for further details.
+ 
+   sunit=value and swidth=value
+ 	Used to specify the stripe unit and width for a RAID device
+@@ -192,11 +185,11 @@ default behaviour.
+ 	block units. These options are only relevant to filesystems
+ 	that were created with non-zero data alignment parameters.
+ 
+-	The sunit and swidth parameters specified must be compatible
++	The ``sunit`` and ``swidth`` parameters specified must be compatible
+ 	with the existing filesystem alignment characteristics.  In
+-	general, that means the only valid changes to sunit are
+-	increasing it by a power-of-2 multiple. Valid swidth values
+-	are any integer multiple of a valid sunit value.
++	general, that means the only valid changes to ``sunit`` are
++	increasing it by a power-of-2 multiple. Valid ``swidth`` values
++	are any integer multiple of a valid ``sunit`` value.
+ 
+ 	Typically the only time these mount options are necessary if
+ 	after an underlying RAID device has had it's geometry
+@@ -221,22 +214,25 @@ default behaviour.
+ Deprecated Mount Options
+ ========================
+ 
++===========================     ================
+   Name				Removal Schedule
+-  ----				----------------
++===========================     ================
++===========================     ================
+ 
+ 
+ Removed Mount Options
+ =====================
+ 
++===========================     =======
+   Name				Removed
+-  ----				-------
++===========================	=======
+   delaylog/nodelaylog		v4.0
+   ihashsize			v4.0
+   irixsgid			v4.0
+   osyncisdsync/osyncisosync	v4.0
+   barrier			v4.19
+   nobarrier			v4.19
+-
++===========================     =======
+ 
+ sysctls
+ =======
+@@ -302,27 +298,27 @@ The following sysctls are available for the XFS filesystem:
+ 
+   fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "sync" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodump" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "noatime" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nosymlinks" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
+ 	Setting this to "1" will cause the "nodefrag" flag set
+-	by the xfs_io(8) chattr command on a directory to be
++	by the **xfs_io(8)** chattr command on a directory to be
+ 	inherited by files in that directory.
+ 
+   fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
+@@ -368,7 +364,7 @@ handler:
+  -error handlers:
+ 	Defines the behavior for a specific error.
+ 
+-The filesystem behavior during an error can be set via sysfs files. Each
++The filesystem behavior during an error can be set via ``sysfs`` files. Each
+ error handler works independently - the first condition met by an error handler
+ for a specific class will cause the error to be propagated rather than reset and
+ retried.
+@@ -419,7 +415,7 @@ level directory:
+ 	handler configurations.
+ 
+ 	Note: there is no guarantee that fail_at_unmount can be set while an
+-	unmount is in progress. It is possible that the sysfs entries are
++	unmount is in progress. It is possible that the ``sysfs`` entries are
+ 	removed by the unmounting filesystem before a "retry forever" error
+ 	handler configuration causes unmount to hang, and hence the filesystem
+ 	must be configured appropriately before unmount begins to prevent
+@@ -428,7 +424,7 @@ level directory:
+ Each filesystem has specific error class handlers that define the error
+ propagation behaviour for specific errors. There is also a "default" error
+ handler defined, which defines the behaviour for all errors that don't have
+-specific handlers defined. Where multiple retry constraints are configuredi for
++specific handlers defined. Where multiple retry constraints are configured for
+ a single error, the first retry configuration that expires will cause the error
+ to be propagated. The handler configurations are found in the directory:
+ 
+@@ -463,7 +459,7 @@ to be propagated. The handler configurations are found in the directory:
+ 	Setting the value to "N" (where 0 < N < Max) will allow XFS to retry the
+ 	operation for up to "N" seconds before propagating the error.
+ 
+-Note: The default behaviour for a specific error handler is dependent on both
++**Note:** The default behaviour for a specific error handler is dependent on both
+ the class and error context. For example, the default values for
+ "metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
+ to "fail immediately" behaviour. This is done because ENODEV is a fatal,
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+index 6d2c0d340dea..679729442fd2 100644
+--- a/Documentation/filesystems/dax.txt
++++ b/Documentation/filesystems/dax.txt
+@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
+ These filesystems may be used for inspiration:
+ - ext2: see Documentation/filesystems/ext2.txt
+ - ext4: see Documentation/filesystems/ext4/
+-- xfs:  see Documentation/filesystems/xfs.txt
++- xfs:  see Documentation/admin-guide/xfs.rst
+ 
+ 
+ Handling Media Errors
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 43ca94856944..3b6e0b6d8cbd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17453,7 +17453,7 @@ L:	linux-xfs@vger.kernel.org
+ W:	http://xfs.org/
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+ S:	Supported
+-F:	Documentation/filesystems/xfs.txt
++F:	Documentation/admin-guide/xfs.rst
+ F:	fs/xfs/
+ 
+ XILINX AXI ETHERNET DRIVER
 -- 
 2.22.0
 
