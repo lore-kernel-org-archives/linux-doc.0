@@ -6,45 +6,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 420D07D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:45:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03C1E7DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404000AbfGOOhU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 10:37:20 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:39988 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404400AbfGOOhT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 10:37:19 -0400
-Received: by mail-pg1-f196.google.com with SMTP id w10so7809563pgj.7
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 07:37:18 -0700 (PDT)
+        id S2404447AbfGOOoa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 10:44:30 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35044 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404699AbfGOOhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 10:37:31 -0400
+Received: by mail-pl1-f193.google.com with SMTP id w24so8402632plp.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 07:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=peLCyvMnb6GAqXrVywa8AT70STEJ77uX6TkkVXJzQ/M=;
-        b=QjihkdzO56EyWdL1UBrowr4J0diPIpjeawlNo5eUXRlutEI+PMdDLg/2ovhGCm9dB1
-         am3dJfpAJ98Tx9IokTbTDJI/QLnhNHnLoi+VI/95oP5fp/RwwQCZGPG9aCEKUlUpO/1N
-         atHPVJ+wXVzYcfg26NNOs6IX7iznL6Gp2AAwA=
+        bh=/gvD5L3W4khYlR/j02/LMhetLZkkRNPQ8EPkwaYb/Yo=;
+        b=WUpb9JKsXzIHcxew1wAVQiWwZ+kaf0Ww3b9i/phqeK6eGSyIkMrGlEABg1JgP/N6a7
+         XI3TNv1vdpFEoUyT+MAAdsh6eiTQV1SZjNnbyXSh4bYq6H3Gz7K8UhzDuVF/rfbp1RTm
+         xNeitgRKD2kv4LjyEJgK6S9GJGZvS2JWmOhuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=peLCyvMnb6GAqXrVywa8AT70STEJ77uX6TkkVXJzQ/M=;
-        b=bxeECKiQTDbX42tUE3cduQrPztvZQW8vfM3sb1uIcvxL+576ksKD1CWWH7zdE4lGod
-         smXTcdzKcH8p15vVoH1gCqMt+5gXEXeOCktS7YL3az9L5ixd1I5zpmHoFFbydRhoQ1V2
-         fdHCiENIZz2M5IV+ZSYyXSvCN+v2L0hLCWJwX1WNsRpRIbrvnXb2dsIXd52ZCXCndLGL
-         fhL1BRc9eh/pQOIWw1edrNN3XPvcUy9oAgN0ecqJMLqsiGcGDLWo7r6RLnHQDatNDsaV
-         BASVkxjeSmqsCnPoXQhWYPqWRZyjJAxBbTNAFyL47nuKkeqHW65+Ms57vOesCvZ9ZmMW
-         0n9A==
-X-Gm-Message-State: APjAAAVhyH4gHYFS+tcrH+IClCaBahCNxLSeubC6mqXR9CRUzMH1JgqA
-        4D9qhUb9RBdbnpZmifR0F7Y=
-X-Google-Smtp-Source: APXvYqzmK9tD8rYXtIru39NtpVyI6dVamC0JOl/Vm3L4KkimM24dL0CBqeO9C1zAEuPYG8wK9FgMFA==
-X-Received: by 2002:a65:6281:: with SMTP id f1mr25763664pgv.400.1563201437978;
-        Mon, 15 Jul 2019 07:37:17 -0700 (PDT)
+        bh=/gvD5L3W4khYlR/j02/LMhetLZkkRNPQ8EPkwaYb/Yo=;
+        b=b6B4Ge8EB8Ggcy/RhBLGQeOP5X1RcPgervvAfYb/ghMrlox0nSSzwNrTZt4p4OITql
+         Q9lKcgcI76gD+T2gNMzoz/a2aYmJWmlQs+FwKrpPvR0ll8ypmZIcUbu9I8ukbB6NtvIW
+         uoOTBzSUogxY8FmyFns0EFySnboqn+JODsTIY4CF9On+KP7eBETfbqleDhVsbnVAchK2
+         AUrUlJ+qQXtq8tCq4S3VacjZ277WXFItJBUon8pAr5mWdOUNrXKeraSkJkCHMQOit5vh
+         yT1LZ3ZvijglLYUTO4Zww0bV60o4UNtUVlc5y9GcSHc2YGq1oI/BrZP8U2JU4OPTOnx/
+         +y/g==
+X-Gm-Message-State: APjAAAWHaXPeBJgbdX4oW8Tt6JyDWhb+sKvZbX4hOg6TwbUCBUGQDaOK
+        nsWYXvImD74p29adwWE+R+o=
+X-Google-Smtp-Source: APXvYqySJr0Y1QIzNUIj9NJwd+Rw22u3LGJjXHmBidac39lx3Xu00PxoUZgolCbZ3bk0iovIh+UXIw==
+X-Received: by 2002:a17:902:1003:: with SMTP id b3mr29244590pla.172.1563201450419;
+        Mon, 15 Jul 2019 07:37:30 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id s66sm18381852pfs.8.2019.07.15.07.37.14
+        by smtp.gmail.com with ESMTPSA id s66sm18381852pfs.8.2019.07.15.07.37.26
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 15 Jul 2019 07:37:17 -0700 (PDT)
+        Mon, 15 Jul 2019 07:37:29 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -73,9 +73,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Tejun Heo <tj@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
-Subject: [PATCH 1/9] rcu/update: Remove useless check for debug_locks (v1)
-Date:   Mon, 15 Jul 2019 10:36:57 -0400
-Message-Id: <20190715143705.117908-2-joel@joelfernandes.org>
+Subject: [PATCH 4/9] ipv4: add lockdep condition to fix for_each_entry (v1)
+Date:   Mon, 15 Jul 2019 10:37:00 -0400
+Message-Id: <20190715143705.117908-5-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
 In-Reply-To: <20190715143705.117908-1-joel@joelfernandes.org>
 References: <20190715143705.117908-1-joel@joelfernandes.org>
@@ -86,38 +86,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In rcu_read_lock_sched_held(), debug_locks can never be true at the
-point we check it because we already check debug_locks in
-debug_lockdep_rcu_enabled() in the beginning. Remove the check.
+Using the previous support added, use it for adding lockdep conditions
+to list usage here.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- kernel/rcu/update.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ net/ipv4/fib_frontend.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-index 61df2bf08563..9dd5aeef6e70 100644
---- a/kernel/rcu/update.c
-+++ b/kernel/rcu/update.c
-@@ -93,17 +93,13 @@ module_param(rcu_normal_after_boot, int, 0);
-  */
- int rcu_read_lock_sched_held(void)
- {
--	int lockdep_opinion = 0;
--
- 	if (!debug_lockdep_rcu_enabled())
- 		return 1;
- 	if (!rcu_is_watching())
- 		return 0;
- 	if (!rcu_lockdep_current_cpu_online())
- 		return 0;
--	if (debug_locks)
--		lockdep_opinion = lock_is_held(&rcu_sched_lock_map);
--	return lockdep_opinion || !preemptible();
-+	return lock_is_held(&rcu_sched_lock_map) || !preemptible();
- }
- EXPORT_SYMBOL(rcu_read_lock_sched_held);
- #endif
+diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
+index 317339cd7f03..26b0fb24e2c2 100644
+--- a/net/ipv4/fib_frontend.c
++++ b/net/ipv4/fib_frontend.c
+@@ -124,7 +124,8 @@ struct fib_table *fib_get_table(struct net *net, u32 id)
+ 	h = id & (FIB_TABLE_HASHSZ - 1);
+ 
+ 	head = &net->ipv4.fib_table_hash[h];
+-	hlist_for_each_entry_rcu(tb, head, tb_hlist) {
++	hlist_for_each_entry_rcu(tb, head, tb_hlist,
++				 lockdep_rtnl_is_held()) {
+ 		if (tb->tb_id == id)
+ 			return tb;
+ 	}
 -- 
 2.22.0.510.g264f2c817a-goog
 
