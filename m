@@ -1,110 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B6287D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 08:01:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64D187D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 08:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbfGOIBZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 04:01:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35002 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfGOIBY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 04:01:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=cr2TH0iYJZYePVXQlayUtWSyHforlPXZ1/Qdq3ZeKpk=; b=svc9M6QN7+u3C+N6eOPZC4IB2
-        aq4dQ5WyLBMh3FW6SPTS6cXA0DGGm0v+nVfBD36mCJ5ikL8c8zu+x7ebEggxTTlPDw+WJpXmFfD65
-        yQzBSRpTKD+ZidpNa4zFhrJCZMVXQtci38d1rb+IYhQ2u7UkT6k5tNZ3zwLUT2AVZqAjSeiw2c/sm
-        rfs+st2BDAVopdVErU5iCuVSG5+cCH/1YcSFl9DZYLRGFVL9bNbfDAr35w4x8k823ThOpUgZtRSX+
-        nVpjbmQW+HiM1IX2g7PpoRM8Pzae/oKFDPmHYdeHNTE/Z+nOJvmZUBqFTzjMxidxX0f3MSJ6iRF9A
-        6qREJvBmA==;
-Received: from [189.27.46.152] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmvvI-0008Ju-4t; Mon, 15 Jul 2019 08:01:24 +0000
-Date:   Mon, 15 Jul 2019 05:01:20 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 7/8] docs: load_config.py: avoid needing a conf.py just
- due to LaTeX docs
-Message-ID: <20190715050120.6eeef30b@coco.lan>
-In-Reply-To: <8076229480bdec3e86489d43b10a5afcfd88a75e.1563115732.git.mchehab+samsung@kernel.org>
-References: <cover.1563115732.git.mchehab+samsung@kernel.org>
-        <8076229480bdec3e86489d43b10a5afcfd88a75e.1563115732.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728933AbfGOI3h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 04:29:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54724 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726996AbfGOI3g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jul 2019 04:29:36 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 94BD3214C6;
+        Mon, 15 Jul 2019 08:29:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563179375;
+        bh=ayBD0Y5sJDpKf1w1/YXOS05x9dQwEx5X2dm1cMdrgQQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qFsCo5FmFQ/XW4yNKLK+yYFUVFJ6yeqU2p5lkUuyAzYVD4ZHdej4O8rwdcWywwP99
+         8H2G9rLMnYjZ05Wr6oXyOlvOrbSmTaXdMverFo5ceeb8J/arfaBzcQ+EqgQttO5esB
+         so4ncBpx/M/Wh1wVM0k00MQjs0oA8obOWWm1OJqA=
+Date:   Mon, 15 Jul 2019 09:29:30 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     rostedt@goodmis.org, mingo@redhat.com, corbet@lwn.net,
+        linux@armlinux.org.uk, catalin.marinas@arm.com, tglx@linutronix.de,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] tracing/fgraph: support recording function return values
+Message-ID: <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
+References: <20190713121026.11030-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190713121026.11030-1-changbin.du@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, for every directory that we need to have LaTeX output,
-a conf.py file is required.
+On Sat, Jul 13, 2019 at 08:10:26PM +0800, Changbin Du wrote:
+> This patch adds a new trace option 'funcgraph-retval' and is disabled by
+> default. When this option is enabled, fgraph tracer will show the return
+> value of each function. This is useful to find/analyze a original error
+> source in a call graph.
+> 
+> One limitation is that the kernel doesn't know the prototype of functions.
+> So fgraph assumes all functions have a retvalue of type int. You must ignore
+> the value of *void* function. And if the retvalue looks like an error code
+> then both hexadecimal and decimal number are displayed.
 
-That causes an extra overhead and it is actually a hack, as
-the latex_documents line there are usually a copy of the ones
-that are there already at the main conf.py.
+This seems like quite a significant drawback and I think it could be pretty
+confusing if you have to filter out bogus return values from the trace.
 
-So, instead, re-use the global latex_documents var, just
-adjusting the path to be relative ones.
+For example, in your snippet:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>  3)               |  kvm_vm_ioctl() {
+>  3)               |    mutex_lock() {
+>  3)               |      _cond_resched() {
+>  3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
+>  3)   0.704 us    |      } /* ret=0x0 */
+>  3)   1.226 us    |    } /* ret=0x0 */
+>  3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
 
----
+mutex_unlock() is wrongly listed as returning something.
 
-v2: make SPHINXDIRS="foo" htmldocs now works without needing a per-subdir
-    conf.py.
+How much of this could be achieved from userspace by placing kretprobes on
+non-void functions instead?
 
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index 301a21aa4f63..e4a04f367b41 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -21,6 +21,29 @@ def loadConfig(namespace):
-         and os.path.normpath(namespace["__file__"]) != os.path.normpath(config_file) ):
-         config_file = os.path.abspath(config_file)
- 
-+        # Let's avoid one conf.py file just due to latex_documents
-+        start = config_file.find('Documentation/')
-+	if start >= 0:
-+	    start = config_file.find('/', start + 1)
-+
-+        end = config_file.rfind('/')
-+        if start >= 0 and end > 0:
-+            dir = config_file[start + 1:end]
-+
-+            print("source directory: %s" % dir)
-+            new_latex_docs = []
-+            latex_documents = namespace['latex_documents']
-+
-+            for l in latex_documents:
-+                if l[0].find(dir) == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_latex_docs.append((fn, l[1], l[2], l[3], l[4]))
-+                    break
-+
-+            namespace['latex_documents'] = new_latex_docs
-+
-+        # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-             config = namespace.copy()
-@@ -29,4 +52,6 @@ def loadConfig(namespace):
-             del config['__file__']
-             namespace.update(config)
-         else:
--            sys.stderr.write("WARNING: additional sphinx-config not found: %s\n" % config_file)
-+            config = namespace.copy()
-+            config['tags'].add("subproject")
-+            namespace.update(config)
+Will
