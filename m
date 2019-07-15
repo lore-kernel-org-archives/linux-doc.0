@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D2F97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:09:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 380A07D982
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388439AbfGOOJo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 10:09:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33496 "EHLO mail.kernel.org"
+        id S2390644AbfGOOWk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 10:22:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51702 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388142AbfGOOJj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:09:39 -0400
+        id S2390619AbfGOOWi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:22:38 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 65D61206B8;
-        Mon, 15 Jul 2019 14:09:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8C97B21842;
+        Mon, 15 Jul 2019 14:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199779;
-        bh=VhYJrHBQbvV0RkIhfelei557Bfvt9imaOYcQUrzBJ8E=;
+        s=default; t=1563200557;
+        bh=C4C7ZWtiH5b36KR2Ei6KkuthZpWGvvl1dmWtAfSRCc4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pze+m5BmWApqszCvPWgTszDNqUQQmQb8II2G60GwewsGUgVFEFfcBlbG2wTKWqweE
-         iDDW5YyE6G4JRrqjjNWqspbegaia9/TqvrnLfvhAsqEp8/UJ5hNy050MU0ijMdPa1x
-         OI/uPnpOG6N2RtvEuZSoiFfuNUIbpuuM4RoJi9pQ=
+        b=nriQOpwAMxIHmtbXet7wvKpHu2wy8ZFDHSfWfaYVDgxBNEx6242+8w9eLJJM8bkWG
+         5/7dUw5rBsX55TMFw/GpcQEGzQC2/NmyCl7aS2i1L18oAx2KS+dFVscyr+zIfEU0KX
+         YfrHDEe4ROV4F5e47VOaOoZnrJQ7lWHtcGqyX5NA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -35,12 +35,12 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 103/219] x86/atomic: Fix smp_mb__{before,after}_atomic()
-Date:   Mon, 15 Jul 2019 10:01:44 -0400
-Message-Id: <20190715140341.6443-103-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 077/158] x86/atomic: Fix smp_mb__{before,after}_atomic()
+Date:   Mon, 15 Jul 2019 10:16:48 -0400
+Message-Id: <20190715141809.8445-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
-References: <20190715140341.6443-1-sashal@kernel.org>
+In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
+References: <20190715141809.8445-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -114,7 +114,7 @@ index 913396ac5824..ed0d814df7e0 100644
  
    atomic_fetch_add();
 diff --git a/arch/x86/include/asm/atomic.h b/arch/x86/include/asm/atomic.h
-index ea3d95275b43..115127c7ad28 100644
+index ce84388e540c..d266a4066289 100644
 --- a/arch/x86/include/asm/atomic.h
 +++ b/arch/x86/include/asm/atomic.h
 @@ -54,7 +54,7 @@ static __always_inline void arch_atomic_add(int i, atomic_t *v)
@@ -154,7 +154,7 @@ index ea3d95275b43..115127c7ad28 100644
  #define arch_atomic_dec arch_atomic_dec
  
 diff --git a/arch/x86/include/asm/atomic64_64.h b/arch/x86/include/asm/atomic64_64.h
-index dadc20adba21..5e86c0d68ac1 100644
+index 5f851d92eecd..55ca027f8c1c 100644
 --- a/arch/x86/include/asm/atomic64_64.h
 +++ b/arch/x86/include/asm/atomic64_64.h
 @@ -45,7 +45,7 @@ static __always_inline void arch_atomic64_add(long i, atomic64_t *v)
