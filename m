@@ -1,89 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C1227D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 10:12:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AD0B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 11:03:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729452AbfGOKMy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 06:12:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46292 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729428AbfGOKMx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 06:12:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=kAcyOVm59qdRJtG2/iEIXHURMzlURvoUqEQmVMxznZ4=; b=Ap2JCWPd1ucMlufGhT5Kn+WD8
-        NGEchrdhHoT0rv3FQgahdfCU5u+mlZdnhiecpT2DXUVgHD026Zt0fFL/7HJxeMDq3DgEAF2IqU6Vi
-        M9eIcXeZZ44lBx+CP+WLs38XqzebI837RgLv8b/xUUAh4y1HjtSNJJBK9EgJ0YGdIpyGcYrFkLkeU
-        Nl8QbpfpLa9VtGMi38NFbTCv+lAN6gQOELjRljRtwokUIkJdA1WscK529Gx3PrSykBkdvdR4id8Pw
-        XmQ2z03V43Y0y8LrZEB4bKS3qXinAUKsvQg2/F/NUt0qN/VTAeoU74QfKQo50doaXXrDat7w8iYz3
-        FlWaJQA+A==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmxyD-0006Hm-PE; Mon, 15 Jul 2019 10:12:33 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B542520B29100; Mon, 15 Jul 2019 12:12:31 +0200 (CEST)
-Date:   Mon, 15 Jul 2019 12:12:31 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>, rostedt@goodmis.org,
-        mingo@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
-        catalin.marinas@arm.com, tglx@linutronix.de, bp@alien8.de,
-        hpa@zytor.com, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] tracing/fgraph: support recording function return values
-Message-ID: <20190715101231.GB3419@hirez.programming.kicks-ass.net>
-References: <20190713121026.11030-1-changbin.du@gmail.com>
- <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
+        id S1729755AbfGOLDm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 07:03:42 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:32915 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729836AbfGOLDh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 07:03:37 -0400
+Received: by mail-pg1-f195.google.com with SMTP id m4so7551619pgk.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 04:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
+        b=QRb1GBodFoBhFvJPBdxPE4VAqCl+I+T1SKUDc8YhKIcP8qXLNKmtBmeLwjLs/FO9lZ
+         75gCGAxY+YSs9c6HnUneWVQ5Kuc7cIu7HA1ZwTW36nCFWmVeEdZxTARPq/JJ6pFyLQCC
+         i5F57UJ0HSPfhhGiuIoSnyQ2CEuZZYzSvF/92SwjNSSKKvpKVbRgR8KxSyIf95yOdirX
+         vUpU9SAkZRrnMLlykrQni0TuHswl2ZAFQk4VFvbGPWK0ElKuMbgEj9smyMqgESRQW96Z
+         0AILN2JphlyIDpV3m3PpFXakYu3MGnxotH6bOcGMyGpkv5udFQwKTslRRPJv+1YEgJFw
+         GLhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
+        b=Gv2uvQ+KlVq0h37maqxN+MyOeh/rBQIuf8xAlnWE2RytVJmf+IezrrlU+/KVETiiv5
+         zM2VskWxdKW0+8tPoV+bX89XU+BAOWNSmCtSDim0gSiLY2Y9gqX2dt2hbAqrkXZK1bQz
+         0rWr33D3uI4SW8SfdSwD055uFfDm3Ka/MNnNoQZjyVQHjyQ3Hd+Kvdbgs4Hr+OVl/bVM
+         COuFZpFXhjQh8yKKCdxMeGFkck7o3fGU/j8Imaw0OBsDjj+Ykr93zx0IBv3+8o6UyyZ+
+         0In+dziYBWe9ytkfBovnKjgeiTsy5h3HrLvCI/rl+8EGUNHSz4ZXe5o7s89hmOYqTbhx
+         ZsKg==
+X-Gm-Message-State: APjAAAUSaMiDqcvZiIY/EsEKXFyZUM67c8GGBpgOHDRLu6WTTgmig0+0
+        xPmIOg5UWs6Vvj3KgRSKICM7QqznaXNgCemJKnk=
+X-Google-Smtp-Source: APXvYqzZtOEA+O4p1z4qZpCetbNMVF7GlYWpoUrGzFqj2Xbxoz/rNpVURYzRILo4We5FvCDz7WNaWyJleYBMiLbsRiY=
+X-Received: by 2002:a17:90a:9903:: with SMTP id b3mr28453816pjp.80.1563188616818;
+ Mon, 15 Jul 2019 04:03:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a17:90a:b78d:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:03:36
+ -0700 (PDT)
+From:   Donald Douglas <ddouglasng@gmail.com>
+Date:   Mon, 15 Jul 2019 04:03:36 -0700
+Message-ID: <CALVR28EtFZG5M72gg5535c6GQgjUkrOmnToQem=_bwo5pu8tgQ@mail.gmail.com>
+Subject: Kindly Respond
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 15, 2019 at 09:29:30AM +0100, Will Deacon wrote:
-> On Sat, Jul 13, 2019 at 08:10:26PM +0800, Changbin Du wrote:
-> > This patch adds a new trace option 'funcgraph-retval' and is disabled by
-> > default. When this option is enabled, fgraph tracer will show the return
-> > value of each function. This is useful to find/analyze a original error
-> > source in a call graph.
-> > 
-> > One limitation is that the kernel doesn't know the prototype of functions.
-> > So fgraph assumes all functions have a retvalue of type int. You must ignore
-> > the value of *void* function. And if the retvalue looks like an error code
-> > then both hexadecimal and decimal number are displayed.
-> 
-> This seems like quite a significant drawback and I think it could be pretty
-> confusing if you have to filter out bogus return values from the trace.
-> 
-> For example, in your snippet:
-> 
-> >  3)               |  kvm_vm_ioctl() {
-> >  3)               |    mutex_lock() {
-> >  3)               |      _cond_resched() {
-> >  3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
-> >  3)   0.704 us    |      } /* ret=0x0 */
-> >  3)   1.226 us    |    } /* ret=0x0 */
-> >  3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
-> 
-> mutex_unlock() is wrongly listed as returning something.
-> 
-> How much of this could be achieved from userspace by placing kretprobes on
-> non-void functions instead?
+Hello,
+I am Barr Fredrick Mbogo a business consultant i have a lucrative
+business to discuss with you from the Eastern part of Africa Uganda to
+be precise aimed at agreed percentage upon your acceptance of my hand
+in business and friendship. Kindly respond to me if you are interested
+to partner with me for an update. Very important.
 
-Alternatively, we can have recordmcount (or objtool) mark all functions
-with a return value when the build has DEBUG_INFO on. The dwarves know
-the function signature.
-
+Yours Sincerely,
+Donald Douglas,
+For,
+Barr Frederick Mbogo
+Legal Consultant.
+Reply to: barrfredmbogo@consultant.com
