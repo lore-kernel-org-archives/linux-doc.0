@@ -1,191 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57E907D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 21:26:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB4837D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 21:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731403AbfGOVZ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 17:25:58 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40516 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730076AbfGOVZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 17:25:58 -0400
-Received: by mail-pf1-f193.google.com with SMTP id p184so8012781pfp.7
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 14:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=L1iVnKb9KyH2VdRaa+1X1AxuS2MqitxfIlVlkn/kOv8=;
-        b=OKadg9adfR8FnEoQT6HdGl96SBZxASHai1a3d6JJ7kS2KeuZ1gp/Sww0dZ4FNnRfmX
-         dsWE9zqYktoShjIU+eYZsCRcFIJfFws6QoK2qlbR+qOq4rr/hOZP2M3LcnN2q482/I73
-         uk9eNSjzCb/KkfhP4BJ2nmSyKV5xwGPcSeH7IrIsnT+SSVepNWQYB1x9JIyW2ECp5yWy
-         v4jcSyoBZJSrmeWQFBgJn1mNjyDuuQcjVCEz7vy2pTS+5CwXEpnaX+c+7wd+NdqiTuWs
-         jLfiDc8e4oMqUtNtGi1qAx20ReiWP9Qgxngtq/5EbA2D41xPwKDuHWOLS0EUq/G9lFRU
-         uKpQ==
+        id S1732070AbfGOVop (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 17:44:45 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41953 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731858AbfGOVop (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 17:44:45 -0400
+Received: by mail-ot1-f68.google.com with SMTP id o101so18695714ota.8;
+        Mon, 15 Jul 2019 14:44:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=L1iVnKb9KyH2VdRaa+1X1AxuS2MqitxfIlVlkn/kOv8=;
-        b=uLcxtzrGvFV2uATBwn48jLH3iPLXpbJbL+DeytvWS1bWSq2ZqsOqWtLF20ezdguAoy
-         j4ERqD04f5Q6E7H/qjk7N/FnIDXOVeZkzhP7ulkEdEGPedRuOtmHepd1NDYU8ZhSDV/K
-         8qB4/YhpzwFZLR2xMXbtzRO2uuwT6NLxt9N5v6abIAqbIsr+/wsNpjwX99SENvuVdqGm
-         4q46obMdgvPOvCwKtL7NIa5KZQeggv9hKW5U7H7OXgLcquWS7yS4U0p3JZYLwDxbDmou
-         pVks8azTYJC3Wu6mOP3HrpSSlx8ExMrLXmLcXBYEtKm+E7ZhjAZzVnJJPbbve6qDZVqj
-         B5EA==
-X-Gm-Message-State: APjAAAWpJk0jWTARNtLsyjxMVtxXJUaoGFR0PLvEhf9CWrelZ4lR4Vpz
-        vYnedRgPf6tAtyFpxUBLJOqYVucu2eaRbcpIPCSwRg==
-X-Google-Smtp-Source: APXvYqxYpwH7M9Tn69WNYt23pvYEmwOFSLt2yT+zRsvwVW6B093wD7DIpVEsyGIo3whwBHoCVELofo1GZGIk7QmjTys=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr29138784pgm.159.1563225956600;
- Mon, 15 Jul 2019 14:25:56 -0700 (PDT)
+        bh=hO2lc5/RCrOfroO8+pzsn6ZrqRVw3tFQDoLgNfzmBUQ=;
+        b=QxXDGZ3v64gyAMTDqUN0aDnOZUEUriuNBjPSYo18FhopZ8P0hjPzAG+ZIKn7zH4gUi
+         QQfKwc35vqrWxz9Pdos45CbPkxluZAY+xJxiCUnS/c8V3irYv3sVlFOGVsI03FOmIaXv
+         1EW+EKfby2IgVifnLuY8yMlV3B9g9zSRWk+MkjD42FojhmDrPbL1Gj05OvCQfmBMrtVC
+         H2sgMK8MwEiq61UuGNkJPV+VQ+plnLtUXI5O8yARGzjtU/JH3OxAdhS+CBaJnz7jEarF
+         rKc52Lygct/0tLMNo/N1pP0Qx0Vim/zzGg889XPO1TWBw/bRbhAqCy7vbi3fogYK9Wkn
+         2OSA==
+X-Gm-Message-State: APjAAAUsAOkRYO87kbLMCwaOxid9BCDbmnB2OvJG6nh20Bt2jxK632To
+        Re3Z9R3uMSLoWgU/fV0rp3nL8QXeSGq3NMcP2Ik=
+X-Google-Smtp-Source: APXvYqxeBU+lL3PSYmxhb7JppIVz9aT6KKyGzUIDEJ8gGEzipFV4PQx8sL/9KU3ERl8XEJvsrjqZy4/vHGyUSxfUvR0=
+X-Received: by 2002:a05:6830:1516:: with SMTP id k22mr18941426otp.189.1563227084317;
+ Mon, 15 Jul 2019 14:44:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-2-brendanhiggins@google.com> <20190715201054.C69AA2086C@mail.kernel.org>
-In-Reply-To: <20190715201054.C69AA2086C@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 15 Jul 2019 14:25:45 -0700
-Message-ID: <CAFd5g44kWHYceo85qxL98JKH2FYBwVLFuLzqNR+APpMC1aKWUQ@mail.gmail.com>
-Subject: Re: [PATCH v9 01/18] kunit: test: add KUnit test runner core
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
+References: <20190715143705.117908-1-joel@joelfernandes.org> <20190715143705.117908-9-joel@joelfernandes.org>
+In-Reply-To: <20190715143705.117908-9-joel@joelfernandes.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 15 Jul 2019 23:44:31 +0200
+Message-ID: <CAJZ5v0jdx1dgBZLyH_Loj1XVuLCV+HMHjk8r_n8xG7qmoH_z3A@mail.gmail.com>
+Subject: Re: [PATCH 8/9] acpi: Use built-in RCU list checking for
+ acpi_ioremaps list (v1)
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        NeilBrown <neilb@suse.com>, netdev <netdev@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 15, 2019 at 1:10 PM Stephen Boyd <sboyd@kernel.org> wrote:
+On Mon, Jul 15, 2019 at 4:43 PM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
 >
-> Quoting Brendan Higgins (2019-07-12 01:17:27)
-> > Add core facilities for defining unit tests; this provides a common way
-> > to define test cases, functions that execute code which is under test
-> > and determine whether the code under test behaves as expected; this also
-> > provides a way to group together related test cases in test suites (here
-> > we call them test_modules).
-> >
-> > Just define test cases and how to execute them for now; setting
-> > expectations on code will be defined later.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> list_for_each_entry_rcu has built-in RCU and lock checking. Make use of
+> it for acpi_ioremaps list traversal.
 >
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
->
-> Minor nits below.
->
-> > diff --git a/kunit/test.c b/kunit/test.c
-> > new file mode 100644
-> > index 0000000000000..571e4c65deb5c
-> > --- /dev/null
-> > +++ b/kunit/test.c
-> > @@ -0,0 +1,189 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Base unit test (KUnit) API.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +
-> > +#include <linux/kernel.h>
-> > +#include <kunit/test.h>
-> > +
-> > +static void kunit_set_failure(struct kunit *test)
-> > +{
-> > +       WRITE_ONCE(test->success, false);
-> > +}
-> > +
-> [...]
-> > +
-> > +void kunit_init_test(struct kunit *test, const char *name)
-> > +{
-> > +       test->name = name;
-> > +       test->success = true;
-> > +}
-> > +
-> > +/*
-> > + * Performs all logic to run a test case.
-> > + */
-> > +static void kunit_run_case(struct kunit_suite *suite,
-> > +                          struct kunit_case *test_case)
-> > +{
-> > +       struct kunit test;
-> > +       int ret = 0;
-> > +
-> > +       kunit_init_test(&test, test_case->name);
-> > +
-> > +       if (suite->init) {
-> > +               ret = suite->init(&test);
->
-> Can you push the ret definition into this if scope? That way we can
-> avoid default initialize to 0 for it.
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Sure! I would actually prefer that from a cosmetic standpoint. I just
-thought that mixing declarations and code was against the style guide.
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-> > +               if (ret) {
-> > +                       kunit_err(&test, "failed to initialize: %d\n", ret);
-> > +                       kunit_set_failure(&test);
+> ---
+>  drivers/acpi/osl.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> Do we need to 'test_case->success = test.success' here too? Or is the
-> test failure extracted somewhere else?
-
-Er, yes. That's kind of embarrassing. Good catch.
-
-> > +                       return;
-> > +               }
-> > +       }
-> > +
-> > +       test_case->run_case(&test);
-> > +
-> > +       if (suite->exit)
-> > +               suite->exit(&test);
-> > +
-> > +       test_case->success = test.success;
-
-Thanks!
+> diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
+> index 9c0edf2fc0dd..2f9d0d20b836 100644
+> --- a/drivers/acpi/osl.c
+> +++ b/drivers/acpi/osl.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/mm.h>
+>  #include <linux/highmem.h>
+> +#include <linux/lockdep.h>
+>  #include <linux/pci.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/kmod.h>
+> @@ -80,6 +81,7 @@ struct acpi_ioremap {
+>
+>  static LIST_HEAD(acpi_ioremaps);
+>  static DEFINE_MUTEX(acpi_ioremap_lock);
+> +#define acpi_ioremap_lock_held() lock_is_held(&acpi_ioremap_lock.dep_map)
+>
+>  static void __init acpi_request_region (struct acpi_generic_address *gas,
+>         unsigned int length, char *desc)
+> @@ -206,7 +208,7 @@ acpi_map_lookup(acpi_physical_address phys, acpi_size size)
+>  {
+>         struct acpi_ioremap *map;
+>
+> -       list_for_each_entry_rcu(map, &acpi_ioremaps, list)
+> +       list_for_each_entry_rcu(map, &acpi_ioremaps, list, acpi_ioremap_lock_held())
+>                 if (map->phys <= phys &&
+>                     phys + size <= map->phys + map->size)
+>                         return map;
+> @@ -249,7 +251,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size size)
+>  {
+>         struct acpi_ioremap *map;
+>
+> -       list_for_each_entry_rcu(map, &acpi_ioremaps, list)
+> +       list_for_each_entry_rcu(map, &acpi_ioremaps, list, acpi_ioremap_lock_held())
+>                 if (map->virt <= virt &&
+>                     virt + size <= map->virt + map->size)
+>                         return map;
+> --
+> 2.22.0.510.g264f2c817a-goog
+>
