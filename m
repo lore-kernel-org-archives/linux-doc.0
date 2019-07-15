@@ -1,197 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A45537D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 09:12:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C1227D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 10:12:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729427AbfGOJMN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 05:12:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:32922 "EHLO
+        id S1729452AbfGOKMy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 06:12:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46292 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729257AbfGOJMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 05:12:13 -0400
+        with ESMTP id S1729428AbfGOKMx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 06:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G74tw8/WRevpQR45VkSXUw895ku/QpK/SEIzWOOpE7M=; b=GIS8ohvL4nhs8885qyPsS4p/H
-        C/eZqHfFt6ngpx+bTOTkjUp4sw1so4Dk6MilrU5r9T1MB9hKY3BvPeSiNoyAfISpZJykRgMJKE8bP
-        tBcMBorFQvtMmtdN8JCujcCAus/rZoLknbrGsxNnF6kAaomADv5cEhV4y5vdofLDEILdmOJm+Kspw
-        Odam9/SbL1M+FHigZGZDcs9GlF9c7bcQUA3AXXLuMoLJw97xN35yxet/a4SkIa+U5+Nctc0gPKugY
-        V4I9DaKZfA3uv6F0LmBAc/hY3ojc8fubKl4Da7W3swYIUc2IFy80uUi+nXlwCyJFVqV750ACWI361
-        OYNjOzwJg==;
-Received: from [189.27.46.152] (helo=bombadil.infradead.org)
+         bh=kAcyOVm59qdRJtG2/iEIXHURMzlURvoUqEQmVMxznZ4=; b=Ap2JCWPd1ucMlufGhT5Kn+WD8
+        NGEchrdhHoT0rv3FQgahdfCU5u+mlZdnhiecpT2DXUVgHD026Zt0fFL/7HJxeMDq3DgEAF2IqU6Vi
+        M9eIcXeZZ44lBx+CP+WLs38XqzebI837RgLv8b/xUUAh4y1HjtSNJJBK9EgJ0YGdIpyGcYrFkLkeU
+        Nl8QbpfpLa9VtGMi38NFbTCv+lAN6gQOELjRljRtwokUIkJdA1WscK529Gx3PrSykBkdvdR4id8Pw
+        XmQ2z03V43Y0y8LrZEB4bKS3qXinAUKsvQg2/F/NUt0qN/VTAeoU74QfKQo50doaXXrDat7w8iYz3
+        FlWaJQA+A==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmx1n-0005vg-N8; Mon, 15 Jul 2019 09:12:11 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hmx1l-0001dt-Jf; Mon, 15 Jul 2019 06:12:09 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        esc.storagedev@microsemi.com, linux-scsi@vger.kernel.org
-Subject: [PATCH] docs: fix broken doc links due to renames
-Date:   Mon, 15 Jul 2019 06:12:08 -0300
-Message-Id: <93185ad3a67685429c84fceb94d20fb500c0aedb.1563181814.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id 1hmxyD-0006Hm-PE; Mon, 15 Jul 2019 10:12:33 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B542520B29100; Mon, 15 Jul 2019 12:12:31 +0200 (CEST)
+Date:   Mon, 15 Jul 2019 12:12:31 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Will Deacon <will@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>, rostedt@goodmis.org,
+        mingo@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
+        catalin.marinas@arm.com, tglx@linutronix.de, bp@alien8.de,
+        hpa@zytor.com, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] tracing/fgraph: support recording function return values
+Message-ID: <20190715101231.GB3419@hirez.programming.kicks-ass.net>
+References: <20190713121026.11030-1-changbin.du@gmail.com>
+ <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some files got renamed but the patch was incomplete, as it forgot
-to update the documentation reference accordingly.
+On Mon, Jul 15, 2019 at 09:29:30AM +0100, Will Deacon wrote:
+> On Sat, Jul 13, 2019 at 08:10:26PM +0800, Changbin Du wrote:
+> > This patch adds a new trace option 'funcgraph-retval' and is disabled by
+> > default. When this option is enabled, fgraph tracer will show the return
+> > value of each function. This is useful to find/analyze a original error
+> > source in a call graph.
+> > 
+> > One limitation is that the kernel doesn't know the prototype of functions.
+> > So fgraph assumes all functions have a retvalue of type int. You must ignore
+> > the value of *void* function. And if the retvalue looks like an error code
+> > then both hexadecimal and decimal number are displayed.
+> 
+> This seems like quite a significant drawback and I think it could be pretty
+> confusing if you have to filter out bogus return values from the trace.
+> 
+> For example, in your snippet:
+> 
+> >  3)               |  kvm_vm_ioctl() {
+> >  3)               |    mutex_lock() {
+> >  3)               |      _cond_resched() {
+> >  3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
+> >  3)   0.704 us    |      } /* ret=0x0 */
+> >  3)   1.226 us    |    } /* ret=0x0 */
+> >  3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
+> 
+> mutex_unlock() is wrongly listed as returning something.
+> 
+> How much of this could be achieved from userspace by placing kretprobes on
+> non-void functions instead?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
-
-This patch is against current linus/master branch.
-
- Documentation/RCU/rculist_nulls.txt                   | 2 +-
- Documentation/devicetree/bindings/arm/idle-states.txt | 2 +-
- Documentation/locking/spinlocks.txt                   | 4 ++--
- Documentation/memory-barriers.txt                     | 2 +-
- Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
- MAINTAINERS                                           | 6 +++---
- drivers/scsi/hpsa.c                                   | 4 ++--
- 7 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/RCU/rculist_nulls.txt b/Documentation/RCU/rculist_nulls.txt
-index 8151f0195f76..23f115dc87cf 100644
---- a/Documentation/RCU/rculist_nulls.txt
-+++ b/Documentation/RCU/rculist_nulls.txt
-@@ -1,7 +1,7 @@
- Using hlist_nulls to protect read-mostly linked lists and
- objects using SLAB_TYPESAFE_BY_RCU allocations.
- 
--Please read the basics in Documentation/RCU/listRCU.txt
-+Please read the basics in Documentation/RCU/listRCU.rst
- 
- Using special makers (called 'nulls') is a convenient way
- to solve following problem :
-diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Documentation/devicetree/bindings/arm/idle-states.txt
-index 326f29b270ad..2d325bed37e5 100644
---- a/Documentation/devicetree/bindings/arm/idle-states.txt
-+++ b/Documentation/devicetree/bindings/arm/idle-states.txt
-@@ -703,4 +703,4 @@ cpus {
-     https://www.devicetree.org/specifications/
- 
- [6] ARM Linux Kernel documentation - Booting AArch64 Linux
--    Documentation/arm64/booting.txt
-+    Documentation/arm64/booting.rst
-diff --git a/Documentation/locking/spinlocks.txt b/Documentation/locking/spinlocks.txt
-index ff35e40bdf5b..430b641ae072 100644
---- a/Documentation/locking/spinlocks.txt
-+++ b/Documentation/locking/spinlocks.txt
-@@ -74,7 +74,7 @@ itself.  The read lock allows many concurrent readers.  Anything that
- _changes_ the list will have to get the write lock.
- 
-    NOTE! RCU is better for list traversal, but requires careful
--   attention to design detail (see Documentation/RCU/listRCU.txt).
-+   attention to design detail (see Documentation/RCU/listRCU.rst).
- 
- Also, you cannot "upgrade" a read-lock to a write-lock, so if you at _any_
- time need to do any changes (even if you don't do it every time), you have
-@@ -82,7 +82,7 @@ to get the write-lock at the very beginning.
- 
-    NOTE! We are working hard to remove reader-writer spinlocks in most
-    cases, so please don't add a new one without consensus.  (Instead, see
--   Documentation/RCU/rcu.txt for complete information.)
-+   Documentation/RCU/rcu.rst for complete information.)
- 
- ----
- 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 045bb8148fe9..1adbb8a371c7 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -548,7 +548,7 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
- 
- 	[*] For information on bus mastering DMA and coherency please read:
- 
--	    Documentation/PCI/pci.rst
-+	    Documentation/driver-api/pci/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
- 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index a33c2a536542..2774624ee843 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -569,7 +569,7 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
- 
- 	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
- 
--	    Documentation/PCI/pci.rst
-+	    Documentation/driver-api/pci/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f5533d1bda2e..51ad84a3f4e3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -899,7 +899,7 @@ L:	linux-iio@vger.kernel.org
- W:	http://ez.analog.com/community/linux-device-drivers
- S:	Supported
- F:	drivers/iio/adc/ad7124.c
--F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.txt
-+F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
- 
- ANALOG DEVICES INC AD7606 DRIVER
- M:	Stefan Popa <stefan.popa@analog.com>
-@@ -6828,7 +6828,7 @@ R:	Sagi Shahar <sagis@google.com>
- R:	Jon Olson <jonolson@google.com>
- L:	netdev@vger.kernel.org
- S:	Supported
--F:	Documentation/networking/device_drivers/google/gve.txt
-+F:	Documentation/networking/device_drivers/google/gve.rst
- F:	drivers/net/ethernet/google
- 
- GPD POCKET FAN DRIVER
-@@ -12077,7 +12077,7 @@ M:	Juergen Gross <jgross@suse.com>
- M:	Alok Kataria <akataria@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- S:	Supported
--F:	Documentation/virtual/paravirt_ops.txt
-+F:	Documentation/virtual/paravirt_ops.rst
- F:	arch/*/kernel/paravirt*
- F:	arch/*/include/asm/paravirt*.h
- F:	include/linux/hypervisor.h
-diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
-index 43a6b5350775..eaf6177ac9ee 100644
---- a/drivers/scsi/hpsa.c
-+++ b/drivers/scsi/hpsa.c
-@@ -7798,7 +7798,7 @@ static void hpsa_free_pci_init(struct ctlr_info *h)
- 	hpsa_disable_interrupt_mode(h);		/* pci_init 2 */
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.rst
-+	 * Documentation/driver-api/pci/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);		/* pci_init 1 */
- 	pci_release_regions(h->pdev);		/* pci_init 2 */
-@@ -7881,7 +7881,7 @@ static int hpsa_pci_init(struct ctlr_info *h)
- clean1:
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.rst
-+	 * Documentation/driver-api/pci/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);
- 	pci_release_regions(h->pdev);
--- 
-2.21.0
-
+Alternatively, we can have recordmcount (or objtool) mark all functions
+with a return value when the build has DEBUG_INFO on. The dwarves know
+the function signature.
 
