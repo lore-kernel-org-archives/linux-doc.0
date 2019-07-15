@@ -1,293 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 525157D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:47:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 69E567D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391458AbfGOOhY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 10:37:24 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:42302 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404485AbfGOOhX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 10:37:23 -0400
-Received: by mail-pl1-f195.google.com with SMTP id ay6so8391349plb.9
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 07:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CJEwPPrtJyDTV3piEkDE+ONyRMH9m2RDRbmoV5ZEGS8=;
-        b=IozIr9z+GIb5mPdKiPaf5UHiYIz+Oat0gqj58xKeNgOqIcav4VXtm41dS18QhgHWuP
-         08bOfzHsvFlkA1+slmz0mYgCQced6RM3EOenJJaGW8k4oiXykx/eoqvUaynExjS780ga
-         gIRPex9R8tFcEqFj6fn/uCxhibShb2XLfLQao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CJEwPPrtJyDTV3piEkDE+ONyRMH9m2RDRbmoV5ZEGS8=;
-        b=e0wVQTOojsSUuVHN774owG0Y5kfFbBBXQlxUKyPdTSlYe1VfcTNEjTAGJyMyfecO9s
-         PjVyohkcFUrjFdZlAIhhtsZdqnYL9IVFB4mg3MAhEr6gtRWdSkVxN1NoU2pJW6H8dsBX
-         zEbHbhRh83Ozlw4oUT7KZDtnfQEW2eLE7BD16v2ShE7qUwrP7Ksn0KHn2NFB8Tq0Z4dB
-         xHgGm+6F8f2tM8Qoc7F2xEPm4X5FG759YVILoi3aUwZXvO6FkkKVOkuMvgl593g3tyxB
-         zRo/ZOkbA/vd1Fjp9y2FFEEKwa52VABP+ksSTlSGpe0SAovwctf+VQSIosbm7mWaGlTk
-         whwQ==
-X-Gm-Message-State: APjAAAVCFPed17DAE3BKjtKsm3Vh62+cLpfN9jiiDZ/nnWsFPIByT3rA
-        ONmDtPxsEMkefMPMkWyXqOY=
-X-Google-Smtp-Source: APXvYqzrTtDshfHRTIApwfR2uw8rmwlBdmV5rfV/lQ/WFFtfVs/RxHxaLHWVf+yG1vS25zf50JO+qA==
-X-Received: by 2002:a17:902:290b:: with SMTP id g11mr28300017plb.26.1563201442188;
-        Mon, 15 Jul 2019 07:37:22 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id s66sm18381852pfs.8.2019.07.15.07.37.18
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 15 Jul 2019 07:37:21 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
-        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
-        kernel-hardening@lists.openwall.com, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        neilb@suse.com, netdev@vger.kernel.org,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Tejun Heo <tj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
-Subject: [PATCH 2/9] rcu: Add support for consolidated-RCU reader checking (v3)
-Date:   Mon, 15 Jul 2019 10:36:58 -0400
-Message-Id: <20190715143705.117908-3-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-In-Reply-To: <20190715143705.117908-1-joel@joelfernandes.org>
-References: <20190715143705.117908-1-joel@joelfernandes.org>
+        id S2390630AbfGOOWh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 10:22:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51168 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390595AbfGOOW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:22:29 -0400
+Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96452206B8;
+        Mon, 15 Jul 2019 14:22:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563200548;
+        bh=xlxfzyPhI5vqM5ivAdtriyedX7X75KfABksDlvQ9qKI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mNalcKWUc6U0C+M5aq0D5HGwCw3ZWlTNcefoVd84xo7975LweXVIyOyA3anzKkMyx
+         zMC2QhQ4sAeI6BXbhxW3AZ0n85eZNGBS0pibp3fBgNCMgEToVL/Nso5XJeOh1GWWC6
+         21YxAwFysM4jOnz2cVzI+Vwj/laaXRCs4HbXE3BM=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Qian Cai <cai@lca.pw>, Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 075/158] sched/fair: Fix "runnable_avg_yN_inv" not used warnings
+Date:   Mon, 15 Jul 2019 10:16:46 -0400
+Message-Id: <20190715141809.8445-75-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
+References: <20190715141809.8445-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds support for checking RCU reader sections in list
-traversal macros. Optionally, if the list macro is called under SRCU or
-other lock/mutex protection, then appropriate lockdep expressions can be
-passed to make the checks pass.
+From: Qian Cai <cai@lca.pw>
 
-Existing list_for_each_entry_rcu() invocations don't need to pass the
-optional fourth argument (cond) unless they are under some non-RCU
-protection and needs to make lockdep check pass.
+[ Upstream commit 509466b7d480bc5d22e90b9fbe6122ae0e2fbe39 ]
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+runnable_avg_yN_inv[] is only used in kernel/sched/pelt.c but was
+included in several other places because they need other macros all
+came from kernel/sched/sched-pelt.h which was generated by
+Documentation/scheduler/sched-pelt. As the result, it causes compilation
+a lot of warnings,
+
+  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
+  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
+  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
+  ...
+
+Silence it by appending the __maybe_unused attribute for it, so all
+generated variables and macros can still be kept in the same file.
+
+Signed-off-by: Qian Cai <cai@lca.pw>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Link: https://lkml.kernel.org/r/1559596304-31581-1-git-send-email-cai@lca.pw
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/linux/rculist.h  | 28 ++++++++++++++++++++-----
- include/linux/rcupdate.h |  7 +++++++
- kernel/rcu/Kconfig.debug | 11 ++++++++++
- kernel/rcu/update.c      | 44 ++++++++++++++++++++++++----------------
- 4 files changed, 67 insertions(+), 23 deletions(-)
+ Documentation/scheduler/sched-pelt.c | 3 ++-
+ kernel/sched/sched-pelt.h            | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-index e91ec9ddcd30..1048160625bb 100644
---- a/include/linux/rculist.h
-+++ b/include/linux/rculist.h
-@@ -40,6 +40,20 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
-  */
- #define list_next_rcu(list)	(*((struct list_head __rcu **)(&(list)->next)))
+diff --git a/Documentation/scheduler/sched-pelt.c b/Documentation/scheduler/sched-pelt.c
+index e4219139386a..7238b355919c 100644
+--- a/Documentation/scheduler/sched-pelt.c
++++ b/Documentation/scheduler/sched-pelt.c
+@@ -20,7 +20,8 @@ void calc_runnable_avg_yN_inv(void)
+ 	int i;
+ 	unsigned int x;
  
-+/*
-+ * Check during list traversal that we are within an RCU reader
-+ */
-+
-+#ifdef CONFIG_PROVE_RCU_LIST
-+#define __list_check_rcu(dummy, cond, ...)				\
-+	({								\
-+	RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),		\
-+			 "RCU-list traversed in non-reader section!");	\
-+	 })
-+#else
-+#define __list_check_rcu(dummy, cond, ...) ({})
-+#endif
-+
- /*
-  * Insert a new entry between two known consecutive entries.
-  *
-@@ -343,14 +357,16 @@ static inline void list_splice_tail_init_rcu(struct list_head *list,
-  * @pos:	the type * to use as a loop cursor.
-  * @head:	the head for your list.
-  * @member:	the name of the list_head within the struct.
-+ * @cond:	optional lockdep expression if called from non-RCU protection.
-  *
-  * This list-traversal primitive may safely run concurrently with
-  * the _rcu list-mutation primitives such as list_add_rcu()
-  * as long as the traversal is guarded by rcu_read_lock().
-  */
--#define list_for_each_entry_rcu(pos, head, member) \
--	for (pos = list_entry_rcu((head)->next, typeof(*pos), member); \
--		&pos->member != (head); \
-+#define list_for_each_entry_rcu(pos, head, member, cond...)		\
-+	for (__list_check_rcu(dummy, ## cond, 0),			\
-+	     pos = list_entry_rcu((head)->next, typeof(*pos), member);	\
-+		&pos->member != (head);					\
- 		pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+-	printf("static const u32 runnable_avg_yN_inv[] = {");
++	/* To silence -Wunused-but-set-variable warnings. */
++	printf("static const u32 runnable_avg_yN_inv[] __maybe_unused = {");
+ 	for (i = 0; i < HALFLIFE; i++) {
+ 		x = ((1UL<<32)-1)*pow(y, i);
  
- /**
-@@ -616,13 +632,15 @@ static inline void hlist_add_behind_rcu(struct hlist_node *n,
-  * @pos:	the type * to use as a loop cursor.
-  * @head:	the head for your list.
-  * @member:	the name of the hlist_node within the struct.
-+ * @cond:	optional lockdep expression if called from non-RCU protection.
-  *
-  * This list-traversal primitive may safely run concurrently with
-  * the _rcu list-mutation primitives such as hlist_add_head_rcu()
-  * as long as the traversal is guarded by rcu_read_lock().
-  */
--#define hlist_for_each_entry_rcu(pos, head, member)			\
--	for (pos = hlist_entry_safe (rcu_dereference_raw(hlist_first_rcu(head)),\
-+#define hlist_for_each_entry_rcu(pos, head, member, cond...)		\
-+	for (__list_check_rcu(dummy, ## cond, 0),			\
-+	     pos = hlist_entry_safe (rcu_dereference_raw(hlist_first_rcu(head)),\
- 			typeof(*(pos)), member);			\
- 		pos;							\
- 		pos = hlist_entry_safe(rcu_dereference_raw(hlist_next_rcu(\
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index 8f7167478c1d..f3c29efdf19a 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -221,6 +221,7 @@ int debug_lockdep_rcu_enabled(void);
- int rcu_read_lock_held(void);
- int rcu_read_lock_bh_held(void);
- int rcu_read_lock_sched_held(void);
-+int rcu_read_lock_any_held(void);
+diff --git a/kernel/sched/sched-pelt.h b/kernel/sched/sched-pelt.h
+index a26473674fb7..c529706bed11 100644
+--- a/kernel/sched/sched-pelt.h
++++ b/kernel/sched/sched-pelt.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Generated by Documentation/scheduler/sched-pelt; do not modify. */
  
- #else /* #ifdef CONFIG_DEBUG_LOCK_ALLOC */
- 
-@@ -241,6 +242,12 @@ static inline int rcu_read_lock_sched_held(void)
- {
- 	return !preemptible();
- }
-+
-+static inline int rcu_read_lock_any_held(void)
-+{
-+	return !preemptible();
-+}
-+
- #endif /* #else #ifdef CONFIG_DEBUG_LOCK_ALLOC */
- 
- #ifdef CONFIG_PROVE_RCU
-diff --git a/kernel/rcu/Kconfig.debug b/kernel/rcu/Kconfig.debug
-index 5ec3ea4028e2..7fbd21dbfcd0 100644
---- a/kernel/rcu/Kconfig.debug
-+++ b/kernel/rcu/Kconfig.debug
-@@ -8,6 +8,17 @@ menu "RCU Debugging"
- config PROVE_RCU
- 	def_bool PROVE_LOCKING
- 
-+config PROVE_RCU_LIST
-+	bool "RCU list lockdep debugging"
-+	depends on PROVE_RCU
-+	default n
-+	help
-+	  Enable RCU lockdep checking for list usages. By default it is
-+	  turned off since there are several list RCU users that still
-+	  need to be converted to pass a lockdep expression. To prevent
-+	  false-positive splats, we keep it default disabled but once all
-+	  users are converted, we can remove this config option.
-+
- config TORTURE_TEST
- 	tristate
- 	default n
-diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-index 9dd5aeef6e70..b7a4e3b5fa98 100644
---- a/kernel/rcu/update.c
-+++ b/kernel/rcu/update.c
-@@ -91,14 +91,18 @@ module_param(rcu_normal_after_boot, int, 0);
-  * Similarly, we avoid claiming an SRCU read lock held if the current
-  * CPU is offline.
-  */
-+#define rcu_read_lock_held_common()		\
-+	if (!debug_lockdep_rcu_enabled())	\
-+		return 1;			\
-+	if (!rcu_is_watching())			\
-+		return 0;			\
-+	if (!rcu_lockdep_current_cpu_online())	\
-+		return 0;
-+
- int rcu_read_lock_sched_held(void)
- {
--	if (!debug_lockdep_rcu_enabled())
--		return 1;
--	if (!rcu_is_watching())
--		return 0;
--	if (!rcu_lockdep_current_cpu_online())
--		return 0;
-+	rcu_read_lock_held_common();
-+
- 	return lock_is_held(&rcu_sched_lock_map) || !preemptible();
- }
- EXPORT_SYMBOL(rcu_read_lock_sched_held);
-@@ -257,12 +261,8 @@ NOKPROBE_SYMBOL(debug_lockdep_rcu_enabled);
-  */
- int rcu_read_lock_held(void)
- {
--	if (!debug_lockdep_rcu_enabled())
--		return 1;
--	if (!rcu_is_watching())
--		return 0;
--	if (!rcu_lockdep_current_cpu_online())
--		return 0;
-+	rcu_read_lock_held_common();
-+
- 	return lock_is_held(&rcu_lock_map);
- }
- EXPORT_SYMBOL_GPL(rcu_read_lock_held);
-@@ -284,16 +284,24 @@ EXPORT_SYMBOL_GPL(rcu_read_lock_held);
-  */
- int rcu_read_lock_bh_held(void)
- {
--	if (!debug_lockdep_rcu_enabled())
--		return 1;
--	if (!rcu_is_watching())
--		return 0;
--	if (!rcu_lockdep_current_cpu_online())
--		return 0;
-+	rcu_read_lock_held_common();
-+
- 	return in_softirq() || irqs_disabled();
- }
- EXPORT_SYMBOL_GPL(rcu_read_lock_bh_held);
- 
-+int rcu_read_lock_any_held(void)
-+{
-+	rcu_read_lock_held_common();
-+
-+	if (lock_is_held(&rcu_lock_map) ||
-+	    lock_is_held(&rcu_bh_lock_map) ||
-+	    lock_is_held(&rcu_sched_lock_map))
-+		return 1;
-+	return !preemptible();
-+}
-+EXPORT_SYMBOL_GPL(rcu_read_lock_any_held);
-+
- #endif /* #ifdef CONFIG_DEBUG_LOCK_ALLOC */
- 
- /**
+-static const u32 runnable_avg_yN_inv[] = {
++static const u32 runnable_avg_yN_inv[] __maybe_unused = {
+ 	0xffffffff, 0xfa83b2da, 0xf5257d14, 0xefe4b99a, 0xeac0c6e6, 0xe5b906e6,
+ 	0xe0ccdeeb, 0xdbfbb796, 0xd744fcc9, 0xd2a81d91, 0xce248c14, 0xc9b9bd85,
+ 	0xc5672a10, 0xc12c4cc9, 0xbd08a39e, 0xb8fbaf46, 0xb504f333, 0xb123f581,
 -- 
-2.22.0.510.g264f2c817a-goog
+2.20.1
 
