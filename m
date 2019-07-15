@@ -3,62 +3,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F9AC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 07:57:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6B6287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 08:01:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbfGOH5W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 03:57:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34870 "EHLO
+        id S1729144AbfGOIBZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 04:01:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35002 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfGOH5V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 03:57:21 -0400
+        with ESMTP id S1726170AbfGOIBY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 04:01:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eJlbjim1fxU57ZaVX/VVgKi/dG9GtJerPxx9UJo7Fww=; b=JcDzLwBGAR3DIQ5PzjliPmdfB
-        wt3f3sg2z3AO/OuERhsRmMQS2qwxDHfr81HUZ8bO4iiwRmK3RrOm2h4/5DNGgtFEZDvuz7A8dJNNm
-        8SC+KQ1Nwm9BOBk47L69bPbiRtcflOhdeLDtFR53AOVtvZ10BSu6RTR+jOSoexCb+TOn62JzVO7/Z
-        O55lv0FaRBBJ2LYyXSZdelp0ocAQap0NW6KHdOxn0lTVtf8TDPBJOZV7LLeVVU8RcXQa7O955vRo5
-        mleM8mlHWSbuEWzj/LK75trdO7CY3hdfI2sN1X09S7ln7kgJuHQUi7kWjs9YHKWyAOp1nM2lXWTrS
-        FqvVaEtvQ==;
+         bh=cr2TH0iYJZYePVXQlayUtWSyHforlPXZ1/Qdq3ZeKpk=; b=svc9M6QN7+u3C+N6eOPZC4IB2
+        aq4dQ5WyLBMh3FW6SPTS6cXA0DGGm0v+nVfBD36mCJ5ikL8c8zu+x7ebEggxTTlPDw+WJpXmFfD65
+        yQzBSRpTKD+ZidpNa4zFhrJCZMVXQtci38d1rb+IYhQ2u7UkT6k5tNZ3zwLUT2AVZqAjSeiw2c/sm
+        rfs+st2BDAVopdVErU5iCuVSG5+cCH/1YcSFl9DZYLRGFVL9bNbfDAr35w4x8k823ThOpUgZtRSX+
+        nVpjbmQW+HiM1IX2g7PpoRM8Pzae/oKFDPmHYdeHNTE/Z+nOJvmZUBqFTzjMxidxX0f3MSJ6iRF9A
+        6qREJvBmA==;
 Received: from [189.27.46.152] (helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hmvrD-0003qC-8d; Mon, 15 Jul 2019 07:57:11 +0000
-Date:   Mon, 15 Jul 2019 04:57:02 -0300
+        id 1hmvvI-0008Ju-4t; Mon, 15 Jul 2019 08:01:24 +0000
+Date:   Mon, 15 Jul 2019 05:01:20 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-sh@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 8/8] docs: remove extra conf.py files
-Message-ID: <20190715045702.1e2b569b@coco.lan>
-In-Reply-To: <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 7/8] docs: load_config.py: avoid needing a conf.py just
+ due to LaTeX docs
+Message-ID: <20190715050120.6eeef30b@coco.lan>
+In-Reply-To: <8076229480bdec3e86489d43b10a5afcfd88a75e.1563115732.git.mchehab+samsung@kernel.org>
 References: <cover.1563115732.git.mchehab+samsung@kernel.org>
-        <12a160afc9e70156f671010bd4ccff9311acdc5e.1563115732.git.mchehab+samsung@kernel.org>
-        <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
+        <8076229480bdec3e86489d43b10a5afcfd88a75e.1563115732.git.mchehab+samsung@kernel.org>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -68,41 +49,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 15 Jul 2019 08:16:54 +0200
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
+Right now, for every directory that we need to have LaTeX output,
+a conf.py file is required.
 
-> Hi Mauro,
-> 
-> sorry, I havn't tested your patch, but one question ...
-> 
-> Am 14.07.19 um 17:10 schrieb Mauro Carvalho Chehab:
-> > Now that the latex_documents are handled automatically, we can
-> > remove those extra conf.py files.  
-> 
-> We need these conf.py also for compiling books' into HTML.  For this
-> the tags.add("subproject") is needed.  Should we realy drop this feature?
-> 
-> -- Markus --
+That causes an extra overhead and it is actually a hack, as
+the latex_documents line there are usually a copy of the ones
+that are there already at the main conf.py.
 
-You're right: adding "subproject" tags is needed for html. Folding this
-to patch 7/8 makes both htmldocs and pdfdocs to work with SPHINXDIRS
-without the need of a per-subdir conf.py.
+So, instead, re-use the global latex_documents var, just
+adjusting the path to be relative ones.
 
-Regards,
-Mauro
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+---
+
+v2: make SPHINXDIRS="foo" htmldocs now works without needing a per-subdir
+    conf.py.
 
 diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index 75f527ff4c95..e4a04f367b41 100644
+index 301a21aa4f63..e4a04f367b41 100644
 --- a/Documentation/sphinx/load_config.py
 +++ b/Documentation/sphinx/load_config.py
-@@ -51,3 +51,7 @@ def loadConfig(namespace):
-             execfile_(config_file, config)
+@@ -21,6 +21,29 @@ def loadConfig(namespace):
+         and os.path.normpath(namespace["__file__"]) != os.path.normpath(config_file) ):
+         config_file = os.path.abspath(config_file)
+ 
++        # Let's avoid one conf.py file just due to latex_documents
++        start = config_file.find('Documentation/')
++	if start >= 0:
++	    start = config_file.find('/', start + 1)
++
++        end = config_file.rfind('/')
++        if start >= 0 and end > 0:
++            dir = config_file[start + 1:end]
++
++            print("source directory: %s" % dir)
++            new_latex_docs = []
++            latex_documents = namespace['latex_documents']
++
++            for l in latex_documents:
++                if l[0].find(dir) == 0:
++                    has = True
++                    fn = l[0][len(dir) + 1:]
++                    new_latex_docs.append((fn, l[1], l[2], l[3], l[4]))
++                    break
++
++            namespace['latex_documents'] = new_latex_docs
++
++        # If there is an extra conf.py file, load it
+         if os.path.isfile(config_file):
+             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+             config = namespace.copy()
+@@ -29,4 +52,6 @@ def loadConfig(namespace):
              del config['__file__']
              namespace.update(config)
-+        else:
+         else:
+-            sys.stderr.write("WARNING: additional sphinx-config not found: %s\n" % config_file)
 +            config = namespace.copy()
 +            config['tags'].add("subproject")
 +            namespace.update(config)
-
-Thanks,
-Mauro
