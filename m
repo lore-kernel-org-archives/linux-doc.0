@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69E567D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 14:56:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28C167D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 15:03:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390630AbfGOOWh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 10:22:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51168 "EHLO mail.kernel.org"
+        id S2388690AbfGOOJZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 10:09:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390595AbfGOOW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:22:29 -0400
+        id S2388278AbfGOOJY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:09:24 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 96452206B8;
-        Mon, 15 Jul 2019 14:22:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6C730212F5;
+        Mon, 15 Jul 2019 14:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563200548;
+        s=default; t=1563199763;
         bh=xlxfzyPhI5vqM5ivAdtriyedX7X75KfABksDlvQ9qKI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mNalcKWUc6U0C+M5aq0D5HGwCw3ZWlTNcefoVd84xo7975LweXVIyOyA3anzKkMyx
-         zMC2QhQ4sAeI6BXbhxW3AZ0n85eZNGBS0pibp3fBgNCMgEToVL/Nso5XJeOh1GWWC6
-         21YxAwFysM4jOnz2cVzI+Vwj/laaXRCs4HbXE3BM=
+        b=m3sTML043+bNCtkehg1UI7uLPX0CW2qs1tL6bALPgywxEBIGUuUkxA4ud9us1Hp0e
+         fzy1YrdHG7ZvYSIy35Xzdsdi/3GhN6i3goQSFe/Epm6EoawYeEj5x131KBIpGFfhsg
+         ZYkafHcCyIkLwoLUi08LE7fxGdhFl6FhxLHbrecs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Qian Cai <cai@lca.pw>, Peter Zijlstra <peterz@infradead.org>,
@@ -34,12 +34,12 @@ Cc:     Qian Cai <cai@lca.pw>, Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 075/158] sched/fair: Fix "runnable_avg_yN_inv" not used warnings
-Date:   Mon, 15 Jul 2019 10:16:46 -0400
-Message-Id: <20190715141809.8445-75-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.1 099/219] sched/fair: Fix "runnable_avg_yN_inv" not used warnings
+Date:   Mon, 15 Jul 2019 10:01:40 -0400
+Message-Id: <20190715140341.6443-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
-References: <20190715141809.8445-1-sashal@kernel.org>
+In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
+References: <20190715140341.6443-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
