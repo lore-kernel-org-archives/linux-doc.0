@@ -1,112 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28C167D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 15:03:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EAC07D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 15:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388690AbfGOOJZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 10:09:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32780 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388278AbfGOOJY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:09:24 -0400
-Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C730212F5;
-        Mon, 15 Jul 2019 14:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199763;
-        bh=xlxfzyPhI5vqM5ivAdtriyedX7X75KfABksDlvQ9qKI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m3sTML043+bNCtkehg1UI7uLPX0CW2qs1tL6bALPgywxEBIGUuUkxA4ud9us1Hp0e
-         fzy1YrdHG7ZvYSIy35Xzdsdi/3GhN6i3goQSFe/Epm6EoawYeEj5x131KBIpGFfhsg
-         ZYkafHcCyIkLwoLUi08LE7fxGdhFl6FhxLHbrecs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Qian Cai <cai@lca.pw>, Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 099/219] sched/fair: Fix "runnable_avg_yN_inv" not used warnings
-Date:   Mon, 15 Jul 2019 10:01:40 -0400
-Message-Id: <20190715140341.6443-99-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
-References: <20190715140341.6443-1-sashal@kernel.org>
+        id S1730569AbfGOPht (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 11:37:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52474 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730459AbfGOPhs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 11:37:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Dpwp+TH7k6zAs/WPihUO+dAwt8Pi/Ve3wjju0qlNq9k=; b=Ola51y71pLvr9ZMpxS3ApRdVa
+        rhIDIgPCKv2vMwqFNrfBF1G+nZeHEyLAHp+I9rB/yjKpHCGx5s7ScP6VgzG4SmSQVQxlfXrMT56l3
+        /JIAb9ckBjpxKwfP6agh2lPsM0n/FUYa/tdl8D0hfjkTPVjHcQZGmkYOPvmRjkpC8oNK+6uHTIKh8
+        L0QFq0AuZSXvO7WQVSZ/zYVw1GwQ29ReZWV64kSYJp+LgczTKTWMO+vh+otMzKrFV1/z6+ibHtt9s
+        eEJTLUY2nwgPp49NtvmsAbkWCjq2Lpgo0TBUndLWq/dEwf8TqST7IUQrV+qTxO6cWCph96YVbnXY+
+        MBpXtyeLw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hn32x-0007pb-In; Mon, 15 Jul 2019 15:37:47 +0000
+Date:   Mon, 15 Jul 2019 08:37:47 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Sheriff Esseson <sheriffesseson@gmail.com>
+Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
+        linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v8] Documentation: filesystem: Convert xfs.txt to ReST
+Message-ID: <20190715153747.GB32320@bombadil.infradead.org>
+References: <20190714125831.GA19200@localhost>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190714125831.GA19200@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Qian Cai <cai@lca.pw>
+On Sun, Jul 14, 2019 at 01:58:31PM +0100, Sheriff Esseson wrote:
+> Move xfs.txt to admin-guide, convert xfs.txt to ReST and broken references
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
 
-[ Upstream commit 509466b7d480bc5d22e90b9fbe6122ae0e2fbe39 ]
-
-runnable_avg_yN_inv[] is only used in kernel/sched/pelt.c but was
-included in several other places because they need other macros all
-came from kernel/sched/sched-pelt.h which was generated by
-Documentation/scheduler/sched-pelt. As the result, it causes compilation
-a lot of warnings,
-
-  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
-  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
-  kernel/sched/sched-pelt.h:4:18: warning: 'runnable_avg_yN_inv' defined but not used [-Wunused-const-variable=]
-  ...
-
-Silence it by appending the __maybe_unused attribute for it, so all
-generated variables and macros can still be kept in the same file.
-
-Signed-off-by: Qian Cai <cai@lca.pw>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Link: https://lkml.kernel.org/r/1559596304-31581-1-git-send-email-cai@lca.pw
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/scheduler/sched-pelt.c | 3 ++-
- kernel/sched/sched-pelt.h            | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-pelt.c b/Documentation/scheduler/sched-pelt.c
-index e4219139386a..7238b355919c 100644
---- a/Documentation/scheduler/sched-pelt.c
-+++ b/Documentation/scheduler/sched-pelt.c
-@@ -20,7 +20,8 @@ void calc_runnable_avg_yN_inv(void)
- 	int i;
- 	unsigned int x;
- 
--	printf("static const u32 runnable_avg_yN_inv[] = {");
-+	/* To silence -Wunused-but-set-variable warnings. */
-+	printf("static const u32 runnable_avg_yN_inv[] __maybe_unused = {");
- 	for (i = 0; i < HALFLIFE; i++) {
- 		x = ((1UL<<32)-1)*pow(y, i);
- 
-diff --git a/kernel/sched/sched-pelt.h b/kernel/sched/sched-pelt.h
-index a26473674fb7..c529706bed11 100644
---- a/kernel/sched/sched-pelt.h
-+++ b/kernel/sched/sched-pelt.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /* Generated by Documentation/scheduler/sched-pelt; do not modify. */
- 
--static const u32 runnable_avg_yN_inv[] = {
-+static const u32 runnable_avg_yN_inv[] __maybe_unused = {
- 	0xffffffff, 0xfa83b2da, 0xf5257d14, 0xefe4b99a, 0xeac0c6e6, 0xe5b906e6,
- 	0xe0ccdeeb, 0xdbfbb796, 0xd744fcc9, 0xd2a81d91, 0xce248c14, 0xc9b9bd85,
- 	0xc5672a10, 0xc12c4cc9, 0xbd08a39e, 0xb8fbaf46, 0xb504f333, 0xb123f581,
--- 
-2.20.1
-
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
