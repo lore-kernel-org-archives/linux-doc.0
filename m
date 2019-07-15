@@ -1,262 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C86D87D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 22:15:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CBD57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 22:27:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731900AbfGOWP4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 18:15:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35840 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727862AbfGOWP4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jul 2019 18:15:56 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8417320665;
-        Mon, 15 Jul 2019 22:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563228954;
-        bh=i+e+XmewuTOKZMYujCCinWE6HQCvbqktbBhowFdAdPg=;
-        h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
-        b=nit3wmf2HR893QM2K8DruIfSbcU7b/R5ef7zr8W96bJJyHcozB5YCZpfps75qxqEO
-         oicHCnXQygK86xyEFQeyuPLu1I0HibYMiVLkrgmRaDPIEiL9kInXH2fdL5MKbiGjz1
-         8gYmu0T+bLrbzSn3Rx2ZadHnq+yjFPagC4HFhmqk=
-Content-Type: text/plain; charset="utf-8"
+        id S1730940AbfGOW1k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Jul 2019 18:27:40 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35993 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730641AbfGOW1k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 18:27:40 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n4so18786219wrs.3;
+        Mon, 15 Jul 2019 15:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ECYx0jsV+D2Iazgclzflkc4muWvvwa0oB+OeJMfrxNw=;
+        b=pwppsN3L9kuzdYqL/Hk8FrQ6wEyBCQEY+N90+P8znBQtI/XrQPru0xamWj8oEFR4c7
+         4XjR14JFihsSVCnURiLAoOtyF4JeU6zoIL172W9E60jNFpTWmLcE+z/x1YT60oDxLplJ
+         9hlPa0aRDsewD3T2DSVaoLNw7mkebLxC8sfJjOa56K+rGxdWT4kFD7azdAX33EoqdUc0
+         tgmyuE6HzSL3TbPy3Mu1UlWr6VfCaWqoq+9uCT6aVyzyb6ppk8ah+Y1iwTWInO+rcswl
+         9mcaGjVu/zL6bP0NpEQxlo/fum1IBvAtOX/YouIo6t3TVVz3C7bJ+ryooZhLysvRoAu/
+         agWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ECYx0jsV+D2Iazgclzflkc4muWvvwa0oB+OeJMfrxNw=;
+        b=DrGss6Tro6oGH/PZsxTZlKamTaLMspW0fzh2GyBs0Z5dVOnq65gJzrdzWAsH9a2JBB
+         aeHpK73bSA7KKWqYE4UB6wm2MiQjsObz9UBP0G6xvKcYgs6ct0dP1z0tDQ4zAHsolFdu
+         xlcKv9EznPL5jxCKKa0vaHlwosSViivxUX8Jf6Ys5zVvatBumd+ovO/GOLQ8/STa5rei
+         /wPtGcR0WrhSUaIw0/kffgbqHrnJqOO2pPgwZtFtbmFte3SnmrT/C/9bwJTmY3MsJHHU
+         w6AJ7OpdiMbGbvPq6Y0Tg5Vqmp8nBRZyzLl4ERvMQL/sZTN+iqg9GDot1jMv54GzicFK
+         wqBw==
+X-Gm-Message-State: APjAAAXzPcMJUvja0Z4jfkGxeythJtLjKgHdMuTzniHouxt+ZP+BwBfB
+        /a4M3Atxq8eV2Yp0AKXHG1WBP01Y
+X-Google-Smtp-Source: APXvYqwPZe9+pCh6pNbklAuTnU6e9FptAFF+GkM+NMQDd/uPpAFrwKjY712W6Rc6UWuXAyNPMPy4/w==
+X-Received: by 2002:a5d:438e:: with SMTP id i14mr27907304wrq.122.1563229657629;
+        Mon, 15 Jul 2019 15:27:37 -0700 (PDT)
+Received: from sheriff-Aspire-5735 ([129.205.112.210])
+        by smtp.gmail.com with ESMTPSA id z7sm15309691wrh.67.2019.07.15.15.27.34
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 15 Jul 2019 15:27:37 -0700 (PDT)
+Date:   Mon, 15 Jul 2019 23:27:31 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     skhan@linuxfoundation.org, darrick.wong@oracle.com,
+        linux-xfs@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v8] Documentation: filesystem: Convert xfs.txt to ReST
+Message-ID: <20190715222727.GA27635@sheriff-Aspire-5735>
+References: <20190714125831.GA19200@localhost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190712081744.87097-5-brendanhiggins@google.com>
-References: <20190712081744.87097-1-brendanhiggins@google.com> <20190712081744.87097-5-brendanhiggins@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-User-Agent: alot/0.8.1
-Date:   Mon, 15 Jul 2019 15:15:53 -0700
-Message-Id: <20190715221554.8417320665@mail.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190714125831.GA19200@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-07-12 01:17:30)
-> diff --git a/include/kunit/kunit-stream.h b/include/kunit/kunit-stream.h
-> new file mode 100644
-> index 0000000000000..a7b53eabf6be4
-> --- /dev/null
-> +++ b/include/kunit/kunit-stream.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * C++ stream style string formatter and printer used in KUnit for outpu=
-tting
-> + * KUnit messages.
-> + *
-> + * Copyright (C) 2019, Google LLC.
-> + * Author: Brendan Higgins <brendanhiggins@google.com>
-> + */
-> +
-> +#ifndef _KUNIT_KUNIT_STREAM_H
-> +#define _KUNIT_KUNIT_STREAM_H
-> +
-> +#include <linux/types.h>
-> +#include <kunit/string-stream.h>
-> +
-> +struct kunit;
-> +
-> +/**
-> + * struct kunit_stream - a std::stream style string builder.
-> + *
-> + * A std::stream style string builder. Allows messages to be built up and
-> + * printed all at once.
-> + */
-> +struct kunit_stream {
-> +       /* private: internal use only. */
-> +       struct kunit *test;
-> +       const char *level;
+On Sun, Jul 14, 2019 at 01:58:31PM +0100, Sheriff Esseson wrote:
+> Move xfs.txt to admin-guide, convert xfs.txt to ReST and broken references
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
 
-Is the level changed? See my comment below, but I wonder if this whole
-struct can go away and the wrappers can just operate on 'struct
-string_stream' instead.
+>Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-> +       struct string_stream *internal_stream;
-> +};
-> diff --git a/kunit/kunit-stream.c b/kunit/kunit-stream.c
-> new file mode 100644
-> index 0000000000000..8bea1f22eafb5
-> --- /dev/null
-> +++ b/kunit/kunit-stream.c
-> @@ -0,0 +1,123 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * C++ stream style string formatter and printer used in KUnit for outpu=
-tting
-> + * KUnit messages.
-> + *
-> + * Copyright (C) 2019, Google LLC.
-> + * Author: Brendan Higgins <brendanhiggins@google.com>
-> + */
-> +
-> +#include <kunit/test.h>
-> +#include <kunit/kunit-stream.h>
-> +#include <kunit/string-stream.h>
-> +
-> +void kunit_stream_add(struct kunit_stream *kstream, const char *fmt, ...)
-> +{
-> +       va_list args;
-> +       struct string_stream *stream =3D kstream->internal_stream;
-> +
-> +       va_start(args, fmt);
-> +
-> +       if (string_stream_vadd(stream, fmt, args) < 0)
-> +               kunit_err(kstream->test,
-> +                         "Failed to allocate fragment: %s\n",
-> +                         fmt);
-> +
-> +       va_end(args);
-> +}
-> +
-> +void kunit_stream_append(struct kunit_stream *kstream,
-> +                               struct kunit_stream *other)
-> +{
-> +       struct string_stream *other_stream =3D other->internal_stream;
-> +       const char *other_content;
-> +
-> +       other_content =3D string_stream_get_string(other_stream);
-> +
-> +       if (!other_content) {
-> +               kunit_err(kstream->test,
-> +                         "Failed to get string from second argument for =
-appending\n");
-> +               return;
-> +       }
-> +
-> +       kunit_stream_add(kstream, other_content);
-> +}
-
-Why can't this function be implemented in the string_stream API? Seems
-valid to want to append one stream to another and that isn't
-kunit_stream specific.
-
-> +
-> +void kunit_stream_clear(struct kunit_stream *kstream)
-> +{
-> +       string_stream_clear(kstream->internal_stream);
-> +}
-> +
-> +void kunit_stream_commit(struct kunit_stream *kstream)
-> +{
-> +       struct string_stream *stream =3D kstream->internal_stream;
-> +       struct string_stream_fragment *fragment;
-> +       struct kunit *test =3D kstream->test;
-> +       char *buf;
-> +
-> +       buf =3D string_stream_get_string(stream);
-> +       if (!buf) {
-> +               kunit_err(test,
-> +                         "Could not allocate buffer, dumping stream:\n");
-> +               list_for_each_entry(fragment, &stream->fragments, node) {
-> +                       kunit_err(test, fragment->fragment);
-> +               }
-> +               kunit_err(test, "\n");
-> +               goto cleanup;
-> +       }
-> +
-> +       kunit_printk(kstream->level, test, buf);
-> +       kfree(buf);
-> +
-> +cleanup:
-
-Drop the goto and use an 'else' please.
-
-> +       kunit_stream_clear(kstream);
-> +}
-> +
-> +static int kunit_stream_init(struct kunit_resource *res, void *context)
-> +{
-> +       struct kunit *test =3D context;
-> +       struct kunit_stream *stream;
-> +
-> +       stream =3D kzalloc(sizeof(*stream), GFP_KERNEL);
-> +       if (!stream)
-> +               return -ENOMEM;
-> +
-> +       res->allocation =3D stream;
-> +       stream->test =3D test;
-> +       stream->internal_stream =3D alloc_string_stream(test);
-> +
-> +       if (!stream->internal_stream)
-> +               return -ENOMEM;
-> +
-> +       return 0;
-> +}
-> +
-> +static void kunit_stream_free(struct kunit_resource *res)
-> +{
-> +       struct kunit_stream *stream =3D res->allocation;
-> +
-> +       if (!string_stream_is_empty(stream->internal_stream)) {
-> +               kunit_err(stream->test,
-> +                         "End of test case reached with uncommitted stre=
-am entries\n");
-> +               kunit_stream_commit(stream);
-> +       }
-> +}
-> +
-
-Nitpick: Drop this extra newline.
-
-> diff --git a/kunit/test.c b/kunit/test.c
-> index f165c9d8e10b0..29edf34a89a37 100644
-> --- a/kunit/test.c
-> +++ b/kunit/test.c
-> @@ -120,6 +120,12 @@ static void kunit_print_test_case_ok_not_ok(struct k=
-unit_case *test_case,
->                               test_case->name);
->  }
-> =20
-> +void kunit_fail(struct kunit *test, struct kunit_stream *stream)
-
-Why doesn't 'struct kunit' have a 'struct kunit_stream' inside of it? It
-seems that the two are highly related, to the point that it might just
-make sense to have
-
-	struct kunit {
-		struct kunit_stream stream;
-		...
-	};
-
-> +{
-> +       kunit_set_failure(test);
-> +       kunit_stream_commit(stream);
-
-And then this function can just take a test and the stream can be
-associated with the test directly. Use container_of() to get to the test
-when the only pointer in hand is for the stream too.
-
-> +}
-> +
->  void kunit_init_test(struct kunit *test, const char *name)
->  {
->         mutex_init(&test->lock);
+Sorry, I missed something. Will fix in v9.
