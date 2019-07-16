@@ -1,92 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 039417D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 14:20:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EB307D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 14:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbfGPOU0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 10:20:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59202 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727849AbfGPOU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 10:20:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=I2Ko8faRg+vaZDBH8bLxhIlf1q9Nq5Ly4jgTbtIqtH8=; b=AmcKwH8L36gtAVtXSl/xDUGnR
-        qZCDJ8uxjI4/col/5CmoaAovlizbhod7ZWtKaDLKMK3cbD01tUZQe7W9b2Sjx/5MatSnu+7NtriRT
-        UyRX3G8paQOwwCDv94sMvC7niO201uuqWsbkN4lpcCiKRCy7CCpkwQXjpcBWd/2B2B5nS/P4AJPpp
-        xqUzhGN2MvZnKl8o5C3E7h0Ht+HSLm1MEFUk3tMqLBV9WMmUXSvQuYLqyIMGyTmxWP6SLNprhaDDL
-        Ejh2fLGM3tH4GS/p/ovfDcQUyDaSDeY69q2WoHoG7MIz9r7i4d0NuOFl791+WxpdSj6NRlZQchgKU
-        3Iv1zBAFQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hnOJL-0004b6-Bh; Tue, 16 Jul 2019 14:20:07 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BF744202167B8; Tue, 16 Jul 2019 16:20:05 +0200 (CEST)
-Date:   Tue, 16 Jul 2019 16:20:05 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Will Deacon <will@kernel.org>, rostedt@goodmis.org,
-        mingo@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
-        catalin.marinas@arm.com, tglx@linutronix.de, bp@alien8.de,
-        hpa@zytor.com, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] tracing/fgraph: support recording function return values
-Message-ID: <20190716142005.GE3402@hirez.programming.kicks-ass.net>
-References: <20190713121026.11030-1-changbin.du@gmail.com>
- <20190715082930.uyxn2kklgw4yri5l@willie-the-truck>
- <20190715101231.GB3419@hirez.programming.kicks-ass.net>
- <20190716140817.za4rad3hx76efqgp@mail.google.com>
+        id S1728470AbfGPOt0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 10:49:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:8074 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728390AbfGPOt0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Jul 2019 10:49:26 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 947A4335C9;
+        Tue, 16 Jul 2019 14:49:26 +0000 (UTC)
+Received: from laptop.jcline.org (ovpn-125-22.rdu2.redhat.com [10.10.125.22])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 72F0A1001DC2;
+        Tue, 16 Jul 2019 14:49:26 +0000 (UTC)
+Received: from laptop.jcline.org.com (localhost [IPv6:::1])
+        by laptop.jcline.org (Postfix) with ESMTP id 96759704C8E5;
+        Tue, 16 Jul 2019 10:49:25 -0400 (EDT)
+From:   Jeremy Cline <jcline@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jeremy Cline <jcline@redhat.com>
+Subject: [PATCH] docs/vm: transhuge: fix typo in madvise reference
+Date:   Tue, 16 Jul 2019 10:49:08 -0400
+Message-Id: <20190716144908.25843-1-jcline@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190716140817.za4rad3hx76efqgp@mail.google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Tue, 16 Jul 2019 14:49:26 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 10:08:18PM +0800, Changbin Du wrote:
-> On Mon, Jul 15, 2019 at 12:12:31PM +0200, Peter Zijlstra wrote:
+Fix an off-by-one typo in the transparent huge pages admin
+documentation.
 
-> > Alternatively, we can have recordmcount (or objtool) mark all functions
-> > with a return value when the build has DEBUG_INFO on. The dwarves know
-> > the function signature.
-> >
-> We can extend the recordmcount tool to search 'subprogram' tag in the DIE tree.
-> In below example, the 'DW_AT_type' is the type of function pidfd_create().
-> 
-> $ readelf -w kernel/pid.o
->  [...]
->  <1><1b914>: Abbrev Number: 232 (DW_TAG_subprogram)
->     <1b916>   DW_AT_name        : (indirect string, offset: 0x415e): pidfd_create
->     <1b91a>   DW_AT_decl_file   : 1
->     <1b91b>   DW_AT_decl_line   : 471
->     <1b91d>   DW_AT_decl_column : 12
->     <1b91e>   DW_AT_prototyped  : 1
->     <1b91e>   DW_AT_type        : <0xcc>
->     <1b922>   DW_AT_low_pc      : 0x450
->     <1b92a>   DW_AT_high_pc     : 0x50
->     <1b932>   DW_AT_frame_base  : 1 byte block: 9c 	(DW_OP_call_frame_cfa)
->     <1b934>   DW_AT_GNU_all_call_sites: 1
->     <1b934>   DW_AT_sibling     : <0x1b9d9>
->  [...]
-> 
-> To that end, we need to introduce libdw library for recordmcount. I will have a
-> try this week.
+Signed-off-by: Jeremy Cline <jcline@redhat.com>
+---
+ Documentation/admin-guide/mm/transhuge.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Right; but only when this config option is set.
+diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+index 7ab93a8404b9..bd5714547cee 100644
+--- a/Documentation/admin-guide/mm/transhuge.rst
++++ b/Documentation/admin-guide/mm/transhuge.rst
+@@ -53,7 +53,7 @@ disabled, there is ``khugepaged`` daemon that scans memory and
+ collapses sequences of basic pages into huge pages.
+ 
+ The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
+-interface and using madivse(2) and prctl(2) system calls.
++interface and using madvise(2) and prctl(2) system calls.
+ 
+ Transparent Hugepage Support maximizes the usefulness of free memory
+ if compared to the reservation approach of hugetlbfs by allowing all
+-- 
+2.21.0
 
-> And probably, we can also record the parameters?
-
-The 'fun' part is where to store all this information in the kernel and
-how fast you can find it while tracing.
