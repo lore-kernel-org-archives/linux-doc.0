@@ -3,61 +3,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA9B87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 16:56:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4FEF7D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 16:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728619AbfGPQ4o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 12:56:44 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46299 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbfGPQ4o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 12:56:44 -0400
-Received: by mail-qk1-f194.google.com with SMTP id r4so15092721qkm.13
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 09:56:43 -0700 (PDT)
+        id S2388258AbfGPQ46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 12:56:58 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:41293 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388196AbfGPQ4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 12:56:49 -0400
+Received: by mail-qt1-f194.google.com with SMTP id d17so20255492qtj.8
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 09:56:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6Lzzb/85EG5OgOgZivNuRXqXu1x2wo0l3U6fbMwd+XY=;
-        b=lh1neXWXugGNV0dD3EYhMNUpg7DZEDvz1t0tPOAnKx+unFKLPJPHDaTqfhAhJrO1ZH
-         mNDj0YIw9TasLeLCzxrWbrrpvlNFANnKcnhW+RYEYFz1veXLvn464WK7Uldc+ROkhHU6
-         gdElKf2YCz/I9fx4lW976vyQZemYOJOs0W/FJt9XWP/+Uk3iHkG2NaYBcvmDvF9L/Gcb
-         lylbDHe/GsntFtMCjRbO98XFP4ShcUE2rJZKzH53KEv7x85o17zAKq89GXy3kTt5A9Lb
-         K4rqNY0m41+yBjl4R+5BymQAPQSDBNeOFvlftEQZd4uTQfNuhWaPVVfcdvQzOPmWX6Lg
-         POrA==
+        bh=OHreDCpotkEUucxoE5EiEKrcc9yzecv+duVH9vOORKc=;
+        b=GGIQw/kgAUl/eG3d2NKYO7rrigP3xCd6L3ITkDfbZyMEUnoEj0yVHLsV2LlbgRYbC+
+         wxGDoUKvbsOD49xDxxVjVMA/cVW24Ta7j9hj3+wxoFsCV7bE/6zX1BcHliTfmRJa2HL6
+         t1GMulrmuUdkYdtWJR3tWcDBbewttH11SYty1lYTYPi9/xqOKf63ADEYQ5vRWxW8OT6H
+         VHjxbQVnM+5FFok1c8bap5vm+E40C8t2yYrwiy22m4L+k24TpV5SxJbfpoBHfRpCqzb2
+         H6dm0a1hIjm8g/mZThetxdugoRf8Pcyv6ZduRuCZRIwQmu9srFbLpacSM3DPtY1OABO9
+         4vlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6Lzzb/85EG5OgOgZivNuRXqXu1x2wo0l3U6fbMwd+XY=;
-        b=aSbVxD0KusvVKJWe5yc7gYqYXO9tHqGv60AYpiCESryAsks0DH3M3TuZLWShH42awx
-         r0PUpb0Ze5SloltlvlsYWibUClZbbcQH1q4XsskWj/pzFfKHQ6FUdbzGtvBok/0OMni4
-         YJoTSVLzLmOl7jwsrF9hp/KQzlwmd7QqyBjnRdXR8K3kJlEgD7dcq5+mcVyo2yjQMHM1
-         zcWavF27OHJJuYUYTm9MA0rflj0yjTLCHyi+GnpHV5XNPVYlmWLkqr9TsKnLHJ9YIykB
-         Aygp6zKErT1hqgIBfxwG4Jsg+UAvmD+b8QAmJMvIJpuRc6bcBkV+nwGFUFbowSaKFAI3
-         v9wg==
-X-Gm-Message-State: APjAAAW9g83P2P7rP0pAAn1vZ123nvLyqXJJu/vAl0WwnHHkCxpp+4pX
-        DTuRxXfdbuAr7XHnaEXh0Fc=
-X-Google-Smtp-Source: APXvYqz9+3MPpBLc2mmfXv0e2ASGs2pqg3VhykHLyEYnWb9ZZDcdSJoSxY9+HqM4r5uxzR7M4+5VFA==
-X-Received: by 2002:a37:c20a:: with SMTP id i10mr20823361qkm.76.1563296202999;
-        Tue, 16 Jul 2019 09:56:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OHreDCpotkEUucxoE5EiEKrcc9yzecv+duVH9vOORKc=;
+        b=IHh4kjB3t9mnLDB8XbziqJQJ7rLiNYvv5AnRSOUcksIrPKupapeTULBMoRvDAYMheR
+         CYMynUTgSoxgJN0UghYMUV4ZfREM+kdsxLFgHph2gkqm4sofei8QGErQVMv1ZYipvVSE
+         8Xi2wfUmvA4RORiJfip9eOc/AlaunoT/uIZutsr2PvrkUeO9oDTVV0VaICg0dH1CVaY6
+         YPBUpEor7hPexr9yVCP8tIavCvK2mo8shtFHBGPrR2FaQZaIDWio37brTOFrzZMQ/IR5
+         Xdi91aPz9TKHrbm4LRW0rjjdsmtH25xvUiQMipEg4EkplKq1JTCuM/Vd6UrNagtt8Uc9
+         a67Q==
+X-Gm-Message-State: APjAAAWeLNmgNTnr1A33pr5SjcTATFvdk9euhgCumtkCh1yOcYnWo+VV
+        mKlh8uFuqBbrgf2xp7XXK9M=
+X-Google-Smtp-Source: APXvYqwxJ0A/FHhU5OVW66jrPFnnHKm79duNOHFiKTe25GUCXmo7/DTY10UCE+L1XIgV2bRdwMnQ6w==
+X-Received: by 2002:ac8:41d1:: with SMTP id o17mr23857397qtm.17.1563296207876;
+        Tue, 16 Jul 2019 09:56:47 -0700 (PDT)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id f20sm8519538qkh.15.2019.07.16.09.56.41
+        by smtp.gmail.com with ESMTPSA id f20sm8519538qkh.15.2019.07.16.09.56.46
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 09:56:42 -0700 (PDT)
+        Tue, 16 Jul 2019 09:56:47 -0700 (PDT)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, jmorris@namei.org, sashal@kernel.org,
         ebiederm@xmission.com, kexec@lists.infradead.org,
         linux-kernel@vger.kernel.org, corbet@lwn.net,
         catalin.marinas@arm.com, will@kernel.org,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
-Date:   Tue, 16 Jul 2019 12:56:37 -0400
-Message-Id: <20190716165641.6990-1-pasha.tatashin@soleen.com>
+Subject: [RFC v1 4/4] arm64: Keep MMU on while kernel is being relocated
+Date:   Tue, 16 Jul 2019 12:56:41 -0400
+Message-Id: <20190716165641.6990-5-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190716165641.6990-1-pasha.tatashin@soleen.com>
+References: <20190716165641.6990-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -65,40 +67,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added identity mapped page table, and keep MMU enabled while
-kernel is being relocated from sparse pages to the final
-destination during kexec.
+It is inefficient to do kernel relocation with MMU disabled. This is
+because if MMU is disabled,  dcache must also be disabled.
 
-More description about the problem I am trying to solve here, can be
-found here:
-https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com/
+Now, that we have identity page table we can disable MMU after relocation
+is completed.
 
-This patch series works in terms, that I can kexec-reboot both in QEMU
-and on a physical machine. However, I do not see performance improvement
-during relocation. The performance is just as slow as before with disabled
-caches.
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+---
+ arch/arm64/kernel/cpu-reset.S       |  8 -------
+ arch/arm64/kernel/relocate_kernel.S | 36 ++++++++++++++++++-----------
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
-Am I missing something? Perhaps, there is some flag that I should also
-enable in page table? Please provide me with any suggestions.
-
-Pavel Tatashin (4):
-  arm64, mm: identity mapped page table
-  arm64, kexec: interface preparation for mmu enabled kexec
-  arm64, kexec: add kexec's own identity page table
-  arm64: Keep MMU on while kernel is being relocated
-
- arch/arm64/include/asm/ident_map.h  |  26 ++++++
- arch/arm64/include/asm/kexec.h      |   5 +-
- arch/arm64/kernel/cpu-reset.S       |   8 --
- arch/arm64/kernel/cpu-reset.h       |   7 +-
- arch/arm64/kernel/machine_kexec.c   | 128 +++++++++++++++++++++-------
- arch/arm64/kernel/relocate_kernel.S |  36 +++++---
- arch/arm64/mm/Makefile              |   1 +
- arch/arm64/mm/ident_map.c           |  99 +++++++++++++++++++++
- 8 files changed, 255 insertions(+), 55 deletions(-)
- create mode 100644 arch/arm64/include/asm/ident_map.h
- create mode 100644 arch/arm64/mm/ident_map.c
-
+diff --git a/arch/arm64/kernel/cpu-reset.S b/arch/arm64/kernel/cpu-reset.S
+index 6ea337d464c4..d5cfc17b8e1f 100644
+--- a/arch/arm64/kernel/cpu-reset.S
++++ b/arch/arm64/kernel/cpu-reset.S
+@@ -30,14 +30,6 @@
+  * flat identity mapping.
+  */
+ ENTRY(__cpu_soft_restart)
+-	/* Clear sctlr_el1 flags. */
+-	mrs	x12, sctlr_el1
+-	ldr	x13, =SCTLR_ELx_FLAGS
+-	bic	x12, x12, x13
+-	pre_disable_mmu_workaround
+-	msr	sctlr_el1, x12
+-	isb
+-
+ 	cbz	x0, 1f				// el2_switch?
+ 	mov	x0, #HVC_SOFT_RESTART
+ 	hvc	#0				// no return
+diff --git a/arch/arm64/kernel/relocate_kernel.S b/arch/arm64/kernel/relocate_kernel.S
+index c1d7db71a726..e2724fedd082 100644
+--- a/arch/arm64/kernel/relocate_kernel.S
++++ b/arch/arm64/kernel/relocate_kernel.S
+@@ -36,18 +36,6 @@ ENTRY(arm64_relocate_new_kernel)
+ 	mov	x14, xzr			/* x14 = entry ptr */
+ 	mov	x13, xzr			/* x13 = copy dest */
+ 
+-	/* Clear the sctlr_el2 flags. */
+-	mrs	x0, CurrentEL
+-	cmp	x0, #CurrentEL_EL2
+-	b.ne	1f
+-	mrs	x0, sctlr_el2
+-	ldr	x1, =SCTLR_ELx_FLAGS
+-	bic	x0, x0, x1
+-	pre_disable_mmu_workaround
+-	msr	sctlr_el2, x0
+-	isb
+-1:
+-
+ 	/* Check if the new image needs relocation. */
+ 	tbnz	x16, IND_DONE_BIT, .Ldone
+ 
+@@ -63,10 +51,10 @@ ENTRY(arm64_relocate_new_kernel)
+ 	add     x20, x0, #PAGE_SIZE
+ 	sub     x1, x15, #1
+ 	bic     x0, x0, x1
+-2:	dc      ivac, x0
++1:	dc      ivac, x0
+ 	add     x0, x0, x15
+ 	cmp     x0, x20
+-	b.lo    2b
++	b.lo    1b
+ 	dsb     sy
+ 
+ 	mov x20, x13
+@@ -104,6 +92,26 @@ ENTRY(arm64_relocate_new_kernel)
+ 	dsb	nsh
+ 	isb
+ 
++	/* Clear sctlr_el1 flags. */
++	mrs	x12, sctlr_el1
++	ldr	x13, =SCTLR_ELx_FLAGS
++	bic	x12, x12, x13
++	pre_disable_mmu_workaround
++	msr	sctlr_el1, x12
++	isb
++
++	/* Clear the sctlr_el2 flags. */
++	mrs	x0, CurrentEL
++	cmp	x0, #CurrentEL_EL2
++	b.ne	2f
++	mrs	x0, sctlr_el2
++	ldr	x1, =SCTLR_ELx_FLAGS
++	bic	x0, x0, x1
++	pre_disable_mmu_workaround
++	msr	sctlr_el2, x0
++	isb
++2:
++
+ 	/* Start new image. */
+ 	mov	x0, x18
+ 	mov	x1, xzr
 -- 
 2.22.0
 
