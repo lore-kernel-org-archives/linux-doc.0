@@ -1,133 +1,262 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93B267D91B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 15:34:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 103517D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 16:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387860AbfGPPeC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 11:34:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37558 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725926AbfGPPeB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Jul 2019 11:34:01 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5CB182054F;
-        Tue, 16 Jul 2019 15:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563291240;
-        bh=V4ev/UU39RHvFkNjkPsY3SOAdIqI9PBECtJV0Q6gb5E=;
-        h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
-        b=OI5X53OX1byrP6tlrUCjRpeJ1oQOTnBd5OqI0zkPlySCP8J7YdSPWzyzurB0yXcW5
-         tojB8NLHwRsWz19d2LLzm7R0Y/GV+eoAx6B2iENKbOicQFlEaTQrErT0xo7BH5fqoh
-         gpLKApR/IyGssgFicaQIy6L8qsIKeBP/gh0ZNKpo=
-Content-Type: text/plain; charset="utf-8"
+        id S1728121AbfGPQSM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 12:18:12 -0400
+Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:22900 "EHLO
+        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727796AbfGPQSM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 12:18:12 -0400
+Received: from pps.filterd (m0134425.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6GGG1oB009413;
+        Tue, 16 Jul 2019 16:18:10 GMT
+Received: from g9t5009.houston.hpe.com (g9t5009.houston.hpe.com [15.241.48.73])
+        by mx0b-002e3701.pphosted.com with ESMTP id 2tsehj9tap-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 Jul 2019 16:18:10 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
+        by g9t5009.houston.hpe.com (Postfix) with ESMTP id 8BC625C;
+        Tue, 16 Jul 2019 16:18:09 +0000 (UTC)
+Received: from anatevka.americas.hpqcorp.net (anatevka.americas.hpqcorp.net [10.34.81.61])
+        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 03B7847;
+        Tue, 16 Jul 2019 16:18:08 +0000 (UTC)
+Date:   Tue, 16 Jul 2019 10:18:08 -0600
+From:   Jerry Hoemann <jerry.hoemann@hpe.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 03/14] docs: fix broken doc references due to renames
+Message-ID: <20190716161808.GA13404@anatevka.americas.hpqcorp.net>
+Reply-To: Jerry.Hoemann@hpe.com
+References: <cover.1563277838.git.mchehab+samsung@kernel.org>
+ <aa415583bf6b812b0249093a601aa31412f3a1cf.1563277838.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aa415583bf6b812b0249093a601aa31412f3a1cf.1563277838.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAFd5g47y4vDB2P=EsGN8305LGeQPCTveNs-Jd5-=6K-XKY==CA@mail.gmail.com>
-References: <20190712081744.87097-1-brendanhiggins@google.com> <20190712081744.87097-4-brendanhiggins@google.com> <20190715204356.4E3F92145D@mail.kernel.org> <CAFd5g47481sRaez=yEJN4_ghiXZbxayk1Y04tAZpuzPLsmnhKg@mail.gmail.com> <20190715220407.0030420665@mail.kernel.org> <CAFd5g44bE0F=wq_fOAnxFTtoOyx1dUshhDAkKWr5hX9ipJ4Sxw@mail.gmail.com> <CAFd5g47y4vDB2P=EsGN8305LGeQPCTveNs-Jd5-=6K-XKY==CA@mail.gmail.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Subject: Re: [PATCH v9 03/18] kunit: test: add string_stream a std::stream like string builder
-User-Agent: alot/0.8.1
-Date:   Tue, 16 Jul 2019 08:33:59 -0700
-Message-Id: <20190716153400.5CB182054F@mail.kernel.org>
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907160200
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-07-15 15:43:20)
-> On Mon, Jul 15, 2019 at 3:11 PM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > On Mon, Jul 15, 2019 at 3:04 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > > Quoting Brendan Higgins (2019-07-15 14:11:50)
-> > > > On Mon, Jul 15, 2019 at 1:43 PM Stephen Boyd <sboyd@kernel.org> wro=
-te:
-> > > > >
-> > > > > I also wonder if it would be better to just have a big slop buffe=
-r of a
-> > > > > 4K page or something so that we almost never have to allocate any=
-thing
-> > > > > with a string_stream and we can just rely on a reader consuming d=
-ata
-> > > > > while writers are writing. That might work out better, but I don'=
-t quite
-> > > > > understand the use case for the string stream.
-> > > >
-> > > > That makes sense, but might that also waste memory since we will
-> > > > almost never need that much memory?
-> > >
-> > > Why do we care? These are unit tests.
-> >
-> > Agreed.
-> >
-> > > Having allocations in here makes
-> > > things more complicated, whereas it would be simpler to have a pointer
-> > > and a spinlock operating on a chunk of memory that gets flushed out
-> > > periodically.
-> >
-> > I am not so sure. I have to have the logic to allocate memory in some
-> > case no matter what (what if I need more memory that my preallocated
-> > chuck?). I think it is simpler to always request an allocation than to
-> > only sometimes request an allocation.
->=20
-> Another even simpler alternative might be to just allocate memory
-> using kunit_kmalloc as we need it and just let the kunit_resource code
-> handle cleaning it all up when the test case finishes.
+On Tue, Jul 16, 2019 at 09:10:42AM -0300, Mauro Carvalho Chehab wrote:
+> Some files got renamed but probably due to some merge conflicts,
+> a few references still point to the old locations.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/RCU/rculist_nulls.txt                   | 2 +-
+>  Documentation/devicetree/bindings/arm/idle-states.txt | 2 +-
+>  Documentation/locking/spinlocks.rst                   | 4 ++--
+>  Documentation/memory-barriers.txt                     | 2 +-
+>  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
+>  Documentation/watchdog/hpwdt.rst                      | 2 +-
 
-Sure, sounds like a nice way to avoid duplicating similar logic to
-maintain a list of things to free later.
+For: Documentation/watchdog/hpwdt.rst
 
->=20
-> What do you think?
+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
 
-If you go the allocation route then you'll need to have the flags to
-know what context you're in to allocate appropriately. Does that mean
-all the string operations will now take GFP flags?
 
+>  MAINTAINERS                                           | 8 ++++----
+>  drivers/gpu/drm/drm_modes.c                           | 2 +-
+>  drivers/i2c/busses/i2c-nvidia-gpu.c                   | 2 +-
+>  drivers/scsi/hpsa.c                                   | 4 ++--
+>  10 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/RCU/rculist_nulls.txt b/Documentation/RCU/rculist_nulls.txt
+> index 8151f0195f76..23f115dc87cf 100644
+> --- a/Documentation/RCU/rculist_nulls.txt
+> +++ b/Documentation/RCU/rculist_nulls.txt
+> @@ -1,7 +1,7 @@
+>  Using hlist_nulls to protect read-mostly linked lists and
+>  objects using SLAB_TYPESAFE_BY_RCU allocations.
+>  
+> -Please read the basics in Documentation/RCU/listRCU.txt
+> +Please read the basics in Documentation/RCU/listRCU.rst
+>  
+>  Using special makers (called 'nulls') is a convenient way
+>  to solve following problem :
+> diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Documentation/devicetree/bindings/arm/idle-states.txt
+> index 326f29b270ad..2d325bed37e5 100644
+> --- a/Documentation/devicetree/bindings/arm/idle-states.txt
+> +++ b/Documentation/devicetree/bindings/arm/idle-states.txt
+> @@ -703,4 +703,4 @@ cpus {
+>      https://www.devicetree.org/specifications/ 
+>  
+>  [6] ARM Linux Kernel documentation - Booting AArch64 Linux
+> -    Documentation/arm64/booting.txt
+> +    Documentation/arm64/booting.rst
+> diff --git a/Documentation/locking/spinlocks.rst b/Documentation/locking/spinlocks.rst
+> index 098107fb7d86..e93ec6645238 100644
+> --- a/Documentation/locking/spinlocks.rst
+> +++ b/Documentation/locking/spinlocks.rst
+> @@ -82,7 +82,7 @@ itself.  The read lock allows many concurrent readers.  Anything that
+>  **changes** the list will have to get the write lock.
+>  
+>     NOTE! RCU is better for list traversal, but requires careful
+> -   attention to design detail (see Documentation/RCU/listRCU.txt).
+> +   attention to design detail (see Documentation/RCU/listRCU.rst).
+>  
+>  Also, you cannot "upgrade" a read-lock to a write-lock, so if you at _any_
+>  time need to do any changes (even if you don't do it every time), you have
+> @@ -90,7 +90,7 @@ to get the write-lock at the very beginning.
+>  
+>     NOTE! We are working hard to remove reader-writer spinlocks in most
+>     cases, so please don't add a new one without consensus.  (Instead, see
+> -   Documentation/RCU/rcu.txt for complete information.)
+> +   Documentation/RCU/rcu.rst for complete information.)
+>  
+>  ----
+>  
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 045bb8148fe9..1adbb8a371c7 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -548,7 +548,7 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
+>  
+>  	[*] For information on bus mastering DMA and coherency please read:
+>  
+> -	    Documentation/PCI/pci.rst
+> +	    Documentation/driver-api/pci/pci.rst
+>  	    Documentation/DMA-API-HOWTO.txt
+>  	    Documentation/DMA-API.txt
+>  
+> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> index a33c2a536542..2774624ee843 100644
+> --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> @@ -569,7 +569,7 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
+>  
+>  	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
+>  
+> -	    Documentation/PCI/pci.rst
+> +	    Documentation/driver-api/pci/pci.rst
+>  	    Documentation/DMA-API-HOWTO.txt
+>  	    Documentation/DMA-API.txt
+>  
+> diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
+> index 94a96371113e..49c647dba8aa 100644
+> --- a/Documentation/watchdog/hpwdt.rst
+> +++ b/Documentation/watchdog/hpwdt.rst
+> @@ -59,7 +59,7 @@ Last reviewed: 08/20/2018
+>   and loop forever.  This is generally not what a watchdog user wants.
+>  
+>   For those wishing to learn more please see:
+> -	Documentation/kdump/kdump.rst
+> +	Documentation/admin-guide/kdump/kdump.rst
+>  	Documentation/admin-guide/kernel-parameters.txt (panic=)
+>  	Your Linux Distribution specific documentation.
+>  
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b3a5c72f3298..b0acc138e9e9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -899,7 +899,7 @@ L:	linux-iio@vger.kernel.org
+>  W:	http://ez.analog.com/community/linux-device-drivers 
+>  S:	Supported
+>  F:	drivers/iio/adc/ad7124.c
+> -F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.txt
+> +F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+>  
+>  ANALOG DEVICES INC AD7606 DRIVER
+>  M:	Stefan Popa <stefan.popa@analog.com>
+> @@ -4189,7 +4189,7 @@ M:	Jens Axboe <axboe@kernel.dk>
+>  L:	cgroups@vger.kernel.org
+>  L:	linux-block@vger.kernel.org
+>  T:	git git://git.kernel.dk/linux-block
+> -F:	Documentation/cgroup-v1/blkio-controller.rst
+> +F:	Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+>  F:	block/blk-cgroup.c
+>  F:	include/linux/blk-cgroup.h
+>  F:	block/blk-throttle.c
+> @@ -6848,7 +6848,7 @@ R:	Sagi Shahar <sagis@google.com>
+>  R:	Jon Olson <jonolson@google.com>
+>  L:	netdev@vger.kernel.org
+>  S:	Supported
+> -F:	Documentation/networking/device_drivers/google/gve.txt
+> +F:	Documentation/networking/device_drivers/google/gve.rst
+>  F:	drivers/net/ethernet/google
+>  
+>  GPD POCKET FAN DRIVER
+> @@ -12096,7 +12096,7 @@ M:	Juergen Gross <jgross@suse.com>
+>  M:	Alok Kataria <akataria@vmware.com>
+>  L:	virtualization@lists.linux-foundation.org
+>  S:	Supported
+> -F:	Documentation/virtual/paravirt_ops.txt
+> +F:	Documentation/virtual/paravirt_ops.rst
+>  F:	arch/*/kernel/paravirt*
+>  F:	arch/*/include/asm/paravirt*.h
+>  F:	include/linux/hypervisor.h
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 57e6408288c8..4645af681ef8 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1680,7 +1680,7 @@ static int drm_mode_parse_cmdline_options(char *str, size_t len,
+>   *
+>   * Additionals options can be provided following the mode, using a comma to
+>   * separate each option. Valid options can be found in
+> - * Documentation/fb/modedb.txt.
+> + * Documentation/fb/modedb.rst.
+>   *
+>   * The intermediate drm_cmdline_mode structure is required to store additional
+>   * options from the command line modline like the force-enable/disable flag.
+> diff --git a/drivers/i2c/busses/i2c-nvidia-gpu.c b/drivers/i2c/busses/i2c-nvidia-gpu.c
+> index cfc76b5de726..5a1235fd86bb 100644
+> --- a/drivers/i2c/busses/i2c-nvidia-gpu.c
+> +++ b/drivers/i2c/busses/i2c-nvidia-gpu.c
+> @@ -364,7 +364,7 @@ static void gpu_i2c_remove(struct pci_dev *pdev)
+>  /*
+>   * We need gpu_i2c_suspend() even if it is stub, for runtime pm to work
+>   * correctly. Without it, lspci shows runtime pm status as "D0" for the card.
+> - * Documentation/power/pci.txt also insists for driver to provide this.
+> + * Documentation/power/pci.rst also insists for driver to provide this.
+>   */
+>  static __maybe_unused int gpu_i2c_suspend(struct device *dev)
+>  {
+> diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
+> index 43a6b5350775..eaf6177ac9ee 100644
+> --- a/drivers/scsi/hpsa.c
+> +++ b/drivers/scsi/hpsa.c
+> @@ -7798,7 +7798,7 @@ static void hpsa_free_pci_init(struct ctlr_info *h)
+>  	hpsa_disable_interrupt_mode(h);		/* pci_init 2 */
+>  	/*
+>  	 * call pci_disable_device before pci_release_regions per
+> -	 * Documentation/PCI/pci.rst
+> +	 * Documentation/driver-api/pci/pci.rst
+>  	 */
+>  	pci_disable_device(h->pdev);		/* pci_init 1 */
+>  	pci_release_regions(h->pdev);		/* pci_init 2 */
+> @@ -7881,7 +7881,7 @@ static int hpsa_pci_init(struct ctlr_info *h)
+>  clean1:
+>  	/*
+>  	 * call pci_disable_device before pci_release_regions per
+> -	 * Documentation/PCI/pci.rst
+> +	 * Documentation/driver-api/pci/pci.rst
+>  	 */
+>  	pci_disable_device(h->pdev);
+>  	pci_release_regions(h->pdev);
+> -- 
+> 2.21.0
+
+-- 
+
+-----------------------------------------------------------------------------
+Jerry Hoemann                  Software Engineer   Hewlett Packard Enterprise
+-----------------------------------------------------------------------------
