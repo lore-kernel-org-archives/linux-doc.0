@@ -1,157 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E9497D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:56:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B858F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:15:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388511AbfGPS4H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 14:56:07 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36831 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388481AbfGPS4H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:56:07 -0400
-Received: by mail-pg1-f195.google.com with SMTP id l21so9887673pgm.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 11:56:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZybekRt/woJPUqImfzbAl3ncwjUgoXdjZVOXaEHk8I8=;
-        b=j9eLSBzu7vGeOp+9v4PjjMY8Y60gIHirQjt/95JgwPIeMch+f2SZ4m2BcsmqzLNPnA
-         y6mKbUvfRgB58Dd24aP06L/LHkjitHNk2jtHnbwOvIcJMeUwKyAY7Zj3rZzVz85nZG+R
-         H6nYqq0HtuMcKgj4ph8KvSOJ57XFS8xQJyN4O9EfZBueGH2zgw2CSiJKxHwffHaRiCZU
-         F2ZM5rxXlitmIEXm2ndwKKQaLdsI3EeFpaR3+KwtG2rjkMO/QifOGpG1dhcUu5Cz8T3g
-         tXwTsXzmF1fc22PaEHeit7cbJ2ZXrz0nkagsUOfmTF+46/GQqdl6HnMMZCq90oDQiUGy
-         RAXQ==
+        id S1728137AbfGPTPD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 15:15:03 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45828 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728495AbfGPTPA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 15:15:00 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m23so21037840lje.12
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 12:14:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ZybekRt/woJPUqImfzbAl3ncwjUgoXdjZVOXaEHk8I8=;
-        b=lTi7o0wyGYo4EYOhFr57oGuR+aEJXzfAbP8VhxPXhXN8AxdtvellCBLrSWnyKbymA/
-         5xwTis8GDIAd4njhfQl1e+Xyrluc23O72XgNYfaS1k2fDwZGel75zzCJchkOMgma1xzf
-         eymgv1wH6WHfp+r4WI1I3dnI5pYmR+HnjL5dgL3brOvv/Y7tp0nUWtr5IpHK1UBnxoEU
-         Gv+0g0vUGOrV0+lk6/n0D8JRqgA0MGbnIsidAIAlK85xXSKhgCtxVWBDKGLt3el/aSCK
-         7lfGCGuTQAMbrrHlciC1y4GMrmBfLiE46etFRTYdTnIzy2n+MejsjRvlVdTeTcKt2g9G
-         N4hA==
-X-Gm-Message-State: APjAAAWBTsk+Kt1JQ1mAhqwns0Wat1bLgD8U+2OlrivdXTaod4mBpndo
-        Lwdq+6EXeN+1Q20vXgBMW5qSw0qyZhQ/LbnIgI1Z+g==
-X-Google-Smtp-Source: APXvYqwkl9ifterOK2ove6KXh9jZEcTxm4XlxkMBt5KD+9P3zl/wFtgkQs2T9gGivENnFOevPZS3P3oa9+3ivqemHYQ=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr35946123pgm.159.1563303365863;
- Tue, 16 Jul 2019 11:56:05 -0700 (PDT)
+        bh=nSiJ7P7aree/QouHzJYNVvw8TbrZalu/D2PKc2JLvyE=;
+        b=SvJV2vtoslhTgKjQdenfKG8aH6AyeWL/mPlfUszPnaHbqWcCzI+vWxQjFQcZfy19m8
+         mGs9KZvWclTo/vMWXTQbdacB4bE19FgwyiWS87sNXJd8SgTIf4m0ZRdKiTLQ4FH0xsw5
+         wRC2RmfjhIWsEkVw/shjQiEGv1BWI+9sYAc6WSJmrjvHqCtmh7B3dbElfTO3zLXjMQEX
+         v/7djQsU4E0IAd6rWNvhsU/FUXRqWcSHKo4/aN3RZdZt4z14rhxtmpf8jNyM73JPxcuz
+         AfQ0lo2KOk9DWMdJinBhtinfCb3T+S9bDZwJ64/yG5sXzW53Qo7kEsRkpfGNV67XrtdG
+         1NHw==
+X-Gm-Message-State: APjAAAWgSxr88/Yt9mdkOkqj8JmtknHZUD4UZAFiYmquXpmB1hbVUj0L
+        rNWMcYzeFNhJMDeUBygg9kkP/P68Pghd8YW3F0g/Bw==
+X-Google-Smtp-Source: APXvYqxEROc6iOj5lyf6ClNcARL3AIGUQmNApDc2V696Z1bJ00PUcJWPOlBHwgZIHSUwXD3dvtcpApTXvXdaE56AT2w=
+X-Received: by 2002:a2e:9dca:: with SMTP id x10mr18269442ljj.17.1563304497831;
+ Tue, 16 Jul 2019 12:14:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-4-brendanhiggins@google.com> <20190715204356.4E3F92145D@mail.kernel.org>
- <CAFd5g47481sRaez=yEJN4_ghiXZbxayk1Y04tAZpuzPLsmnhKg@mail.gmail.com>
- <20190715220407.0030420665@mail.kernel.org> <CAFd5g44bE0F=wq_fOAnxFTtoOyx1dUshhDAkKWr5hX9ipJ4Sxw@mail.gmail.com>
- <CAFd5g47y4vDB2P=EsGN8305LGeQPCTveNs-Jd5-=6K-XKY==CA@mail.gmail.com> <20190716153400.5CB182054F@mail.kernel.org>
-In-Reply-To: <20190716153400.5CB182054F@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 16 Jul 2019 11:55:54 -0700
-Message-ID: <CAFd5g47Nawp7V8=hetgBQWzWqmEyAz1GtWWwMrb9k=CCR33inQ@mail.gmail.com>
-Subject: Re: [PATCH v9 03/18] kunit: test: add string_stream a std::stream
- like string builder
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
+References: <20190716165641.6990-1-pasha.tatashin@soleen.com>
+In-Reply-To: <20190716165641.6990-1-pasha.tatashin@soleen.com>
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+Date:   Wed, 17 Jul 2019 00:44:45 +0530
+Message-ID: <CACi5LpOO+sF3o+5u4jHXzba+Ki8fZ5auekKLayxSwNOL6Lp=-w@mail.gmail.com>
+Subject: Re: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     James Morris <jmorris@namei.org>, sashal@kernel.org,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 8:34 AM Stephen Boyd <sboyd@kernel.org> wrote:
+Hi Pavel,
+
+On Tue, Jul 16, 2019 at 10:26 PM Pavel Tatashin
+<pasha.tatashin@soleen.com> wrote:
 >
-> Quoting Brendan Higgins (2019-07-15 15:43:20)
-> > On Mon, Jul 15, 2019 at 3:11 PM Brendan Higgins
-> > <brendanhiggins@google.com> wrote:
-> > >
-> > > On Mon, Jul 15, 2019 at 3:04 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > >
-> > > > Quoting Brendan Higgins (2019-07-15 14:11:50)
-> > > > > On Mon, Jul 15, 2019 at 1:43 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > > >
-> > > > > > I also wonder if it would be better to just have a big slop buffer of a
-> > > > > > 4K page or something so that we almost never have to allocate anything
-> > > > > > with a string_stream and we can just rely on a reader consuming data
-> > > > > > while writers are writing. That might work out better, but I don't quite
-> > > > > > understand the use case for the string stream.
-> > > > >
-> > > > > That makes sense, but might that also waste memory since we will
-> > > > > almost never need that much memory?
-> > > >
-> > > > Why do we care? These are unit tests.
-> > >
-> > > Agreed.
-> > >
-> > > > Having allocations in here makes
-> > > > things more complicated, whereas it would be simpler to have a pointer
-> > > > and a spinlock operating on a chunk of memory that gets flushed out
-> > > > periodically.
-> > >
-> > > I am not so sure. I have to have the logic to allocate memory in some
-> > > case no matter what (what if I need more memory that my preallocated
-> > > chuck?). I think it is simpler to always request an allocation than to
-> > > only sometimes request an allocation.
-> >
-> > Another even simpler alternative might be to just allocate memory
-> > using kunit_kmalloc as we need it and just let the kunit_resource code
-> > handle cleaning it all up when the test case finishes.
+> Added identity mapped page table, and keep MMU enabled while
+> kernel is being relocated from sparse pages to the final
+> destination during kexec.
 >
-> Sure, sounds like a nice way to avoid duplicating similar logic to
-> maintain a list of things to free later.
-
-I think I will go that route for now.
-
-> >
-> > What do you think?
+> More description about the problem I am trying to solve here, can be
+> found here:
+> https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com/
 >
-> If you go the allocation route then you'll need to have the flags to
-> know what context you're in to allocate appropriately. Does that mean
-> all the string operations will now take GFP flags?
+> This patch series works in terms, that I can kexec-reboot both in QEMU
+> and on a physical machine. However, I do not see performance improvement
+> during relocation. The performance is just as slow as before with disabled
+> caches.
 
-We could set the GFP flags in the constructor, store them in a field,
-and then just reuse them.
+Thanks for the patchset, but if the changes still don't positively
+impact the kexec-reboot timings, I am not sure we if gain by adding
+these to the kernel.
 
-Thanks!
+Like I mentioned in the previous threads, we have been carrying some
+relevant fixes for the same in Linux distros. I have been trying to
+find time to fix them and send them upstream, but I am caught up with
+some nasty kexec_file_load() issues on arm64 currently.
+
+So, I will find some time to work on them (may be next week) and will
+Cc you when I post them out after some checks on real physical
+hardware.
+
+Thanks,
+Bhupesh
+
+> Am I missing something? Perhaps, there is some flag that I should also
+> enable in page table? Please provide me with any suggestions.
+>
+> Pavel Tatashin (4):
+>   arm64, mm: identity mapped page table
+>   arm64, kexec: interface preparation for mmu enabled kexec
+>   arm64, kexec: add kexec's own identity page table
+>   arm64: Keep MMU on while kernel is being relocated
+>
+>  arch/arm64/include/asm/ident_map.h  |  26 ++++++
+>  arch/arm64/include/asm/kexec.h      |   5 +-
+>  arch/arm64/kernel/cpu-reset.S       |   8 --
+>  arch/arm64/kernel/cpu-reset.h       |   7 +-
+>  arch/arm64/kernel/machine_kexec.c   | 128 +++++++++++++++++++++-------
+>  arch/arm64/kernel/relocate_kernel.S |  36 +++++---
+>  arch/arm64/mm/Makefile              |   1 +
+>  arch/arm64/mm/ident_map.c           |  99 +++++++++++++++++++++
+>  8 files changed, 255 insertions(+), 55 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/ident_map.h
+>  create mode 100644 arch/arm64/mm/ident_map.c
+>
+> --
+> 2.22.0
+>
+>
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
