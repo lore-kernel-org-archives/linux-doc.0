@@ -1,166 +1,277 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC7167D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:58:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 48F6D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 20:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726213AbfGPT6N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 15:58:13 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40614 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728535AbfGPT6J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 15:58:09 -0400
-Received: by mail-pf1-f193.google.com with SMTP id p184so9615282pfp.7
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 12:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:references:date:in-reply-to:message-id
-         :user-agent:mime-version;
-        bh=BvRVByTKtdPiNxfsCeySgYk32g6DkoU4cKl3qk6qMVk=;
-        b=qBKuzkwYCRwHvwJn5liGlcD2L84sglQVE5FXCvo+IQv70Uq/MEojS7Kg5S/EDHID12
-         pJ7AZbdF/xARsL3yN93QFo5UjfnJsh3V8hCv4XIGmJLF9mpMJnrN34EauKn5kvkob1P4
-         OXPW2D85z9yIFaBoe6IOKq6xqwgatDCw0gCTrAsm4MSqzeJdG1nIV2sRkUaoN3satqdy
-         3r7ddOP9ZAN5dBl9ASJh37bJiVKi0bznMDEWnqd1hXIgTImiRkLhpgit9myZg8/ywi43
-         KS1jpEZHC5yg7C07gRiNUoidsY7Vqi29u3K0EWMm4F2bOKlF0JdTlr9j0yaRWchOoPlB
-         c+JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
-         :message-id:user-agent:mime-version;
-        bh=BvRVByTKtdPiNxfsCeySgYk32g6DkoU4cKl3qk6qMVk=;
-        b=RGgL8dGWETAtAPbc+t7px0xjMXY7gXKKlD6YiTa7kDe5N2K3oEkrxKXau4v/rsmPvq
-         3tMBfNiX9ANLVpW2my8QroupNeHOMeZv2Wd1VhHZJxyvTxnLETyTjJeDzDn+lfeTIEIh
-         mws+My9ChpnBE6sWlyBlT/FDJQXm3X7wu0K48g4wnQrohJLLalo+tr4cZe15HYjgKtjl
-         AE8SwPbAm+Duq+weVSyTAecjMwTea4b4PDUjbbCAzCbstyZnQgu5kaWE5AYjWwwv9XxS
-         uPD8rP8BPBfbTikxlmzZaqnhaLcVCR9VBi6vvvbjmoM2hihNMyYt93XDBgIN9urwO/Zc
-         21LA==
-X-Gm-Message-State: APjAAAX/XABMtXpaanI1YzB+NYyMjmI0nk9nzhmYK2HgYE8xaG230osY
-        L0UYu6nvLut9/uexRNnxuJp2yGJYe0YZDQ==
-X-Google-Smtp-Source: APXvYqxv41o91mStMvD1iotQMy2K+EjhMYtCXsBhaiHxrl4BboXIWLtgAnKu4l6h0Otf6vcXgWdTwA==
-X-Received: by 2002:a63:ee04:: with SMTP id e4mr11958711pgi.53.1563307088226;
-        Tue, 16 Jul 2019 12:58:08 -0700 (PDT)
-Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
-        by smtp.gmail.com with ESMTPSA id e124sm32522864pfh.181.2019.07.16.12.58.06
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 12:58:07 -0700 (PDT)
-From:   bsegall@google.com
-To:     Dave Chiluk <chiluk+linux@indeed.com>
-Cc:     Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
-        Kyle Anderson <kwa@yelp.com>,
-        Gabriel Munos <gmunoz@netflix.com>,
-        John Hammond <jhammond@indeed.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
-        <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
-        <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
-Date:   Tue, 16 Jul 2019 12:58:06 -0700
-In-Reply-To: <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com> (Dave
-        Chiluk's message of "Thu, 27 Jun 2019 14:49:30 -0500")
-Message-ID: <xm26ef2pkb01.fsf@bsegall-linux.svl.corp.google.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S1728781AbfGPUqg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 16:46:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42240 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728575AbfGPUqg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Jul 2019 16:46:36 -0400
+Received: from localhost (unknown [104.132.1.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EFE272145D;
+        Tue, 16 Jul 2019 20:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563309995;
+        bh=hf1kHilRo2b86FKLdptr/FM84ElXk/6EL+6g3vp0Hjg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RRTxJiHNC+o/fh1xF0OFHblVJbQAxWfGn2Wd23Cj+bdMMwzaUlxNJ+PDUZaHsDfMG
+         xOU2DsQcoVXmqjc96P5VB1FRo8b5cMJdrxjFh8smu4X7GUdGtANYCuaoAR2/XsCP76
+         6AWgXNkNkpVr9qBRwoON4W+Sol6kLtmV71Q1QUrY=
+Date:   Tue, 16 Jul 2019 13:46:34 -0700
+From:   Jaegeuk Kim <jaegeuk@kernel.org>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Chao Yu <yuchao0@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/2] f2fs: include charset encoding information in the
+ superblock
+Message-ID: <20190716204634.GB99092@jaegeuk-macbookpro.roam.corp.google.com>
+References: <20190711204556.120381-1-drosen@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190711204556.120381-1-drosen@google.com>
+User-Agent: Mutt/1.8.2 (2017-04-18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dave Chiluk <chiluk+linux@indeed.com> writes:
+Hi Daniel,
 
-> It has been observed, that highly-threaded, non-cpu-bound applications
-> running under cpu.cfs_quota_us constraints can hit a high percentage of
-> periods throttled while simultaneously not consuming the allocated
-> amount of quota. This use case is typical of user-interactive non-cpu
-> bound applications, such as those running in kubernetes or mesos when
-> run on multiple cpu cores.
->
-> This has been root caused to threads being allocated per cpu bandwidth
-> slices, and then not fully using that slice within the period. At which
-> point the slice and quota expires. This expiration of unused slice
-> results in applications not being able to utilize the quota for which
-> they are allocated.
->
-> The expiration of per-cpu slices was recently fixed by
-> 'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
-> condition")'. Prior to that it appears that this has been broken since
-> at least 'commit 51f2176d74ac ("sched/fair: Fix unlocked reads of some
-> cfs_b->quota/period")' which was introduced in v3.16-rc1 in 2014. That
-> added the following conditional which resulted in slices never being
-> expired.
->
-> if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
-> 	/* extend local deadline, drift is bounded above by 2 ticks */
-> 	cfs_rq->runtime_expires += TICK_NSEC;
->
-> Because this was broken for nearly 5 years, and has recently been fixed
-> and is now being noticed by many users running kubernetes
-> (https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
-> that the mechanisms around expiring runtime should be removed
-> altogether.
->
-> This allows quota already allocated to per-cpu run-queues to live longer
-> than the period boundary. This allows threads on runqueues that do not
-> use much CPU to continue to use their remaining slice over a longer
-> period of time than cpu.cfs_period_us. However, this helps prevents the
-> above condition of hitting throttling while also not fully utilizing
-> your cpu quota.
->
-> This theoretically allows a machine to use slightly more than its
-> allotted quota in some periods. This overflow would be bounded by the
-> remaining quota left on each per-cpu runqueueu. This is typically no
-> more than min_cfs_rq_runtime=1ms per cpu. For CPU bound tasks this will
-> change nothing, as they should theoretically fully utilize all of their
-> quota in each period. For user-interactive tasks as described above this
-> provides a much better user/application experience as their cpu
-> utilization will more closely match the amount they requested when they
-> hit throttling. This means that cpu limits no longer strictly apply per
-> period for non-cpu bound applications, but that they are still accurate
-> over longer timeframes.
->
-> This greatly improves performance of high-thread-count, non-cpu bound
-> applications with low cfs_quota_us allocation on high-core-count
-> machines. In the case of an artificial testcase (10ms/100ms of quota on
-> 80 CPU machine), this commit resulted in almost 30x performance
-> improvement, while still maintaining correct cpu quota restrictions.
-> That testcase is available at https://github.com/indeedeng/fibtest.
->
-> Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
-> Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
+Could you please rebase you patch set?
+e.g., f2fs_msg() was replaced with f2fs_err|info|...
+
+On 07/11, Daniel Rosenberg wrote:
+> Add charset encoding to f2fs to support casefolding. It is modeled after
+> the same feature introduced in commit c83ad55eaa91 ("ext4: include charset
+> encoding information in the superblock")
+> 
+> Currently this is not compatible with encryption, similar to the current
+> ext4 imlpementation. This will change in the future.
+> 
+> >From the ext4 patch:
+> """
+> The s_encoding field stores a magic number indicating the encoding
+> format and version used globally by file and directory names in the
+> filesystem.  The s_encoding_flags defines policies for using the charset
+> encoding, like how to handle invalid sequences.  The magic number is
+> mapped to the exact charset table, but the mapping is specific to ext4.
+> Since we don't have any commitment to support old encodings, the only
+> encoding I am supporting right now is utf8-12.1.0.
+> 
+> The current implementation prevents the user from enabling encoding and
+> per-directory encryption on the same filesystem at the same time.  The
+> incompatibility between these features lies in how we do efficient
+> directory searches when we cannot be sure the encryption of the user
+> provided fname will match the actual hash stored in the disk without
+> decrypting every directory entry, because of normalization cases.  My
+> quickest solution is to simply block the concurrent use of these
+> features for now, and enable it later, once we have a better solution.
+> """
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 > ---
->  Documentation/scheduler/sched-bwc.txt | 73 ++++++++++++++++++++++++++++-------
->  kernel/sched/fair.c                   | 71 +++-------------------------------
->  kernel/sched/sched.h                  |  4 --
->  3 files changed, 65 insertions(+), 83 deletions(-)
->
-> [...]
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index f35930f..a675c69 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -4809,11 +4754,9 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
->  	if (!runtime)
->  		return;
+>  fs/f2fs/f2fs.h          |  6 +++
+>  fs/f2fs/super.c         | 81 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/f2fs_fs.h |  9 ++++-
+>  3 files changed, 95 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index 06b89a9862ab2..0e101f699eccd 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -150,6 +150,7 @@ struct f2fs_mount_info {
+>  #define F2FS_FEATURE_LOST_FOUND		0x0200
+>  #define F2FS_FEATURE_VERITY		0x0400	/* reserved */
+>  #define F2FS_FEATURE_SB_CHKSUM		0x0800
+> +#define F2FS_FEATURE_CASEFOLD		0x1000
 >  
-> -	runtime = distribute_cfs_runtime(cfs_b, runtime, expires);
-> +	runtime = distribute_cfs_runtime(cfs_b, runtime);
+>  #define __F2FS_HAS_FEATURE(raw_super, mask)				\
+>  	((raw_super->feature & cpu_to_le32(mask)) != 0)
+> @@ -1162,6 +1163,10 @@ struct f2fs_sb_info {
+>  	int valid_super_block;			/* valid super block no */
+>  	unsigned long s_flag;				/* flags for sbi */
+>  	struct mutex writepages;		/* mutex for writepages() */
+> +#ifdef CONFIG_UNICODE
+> +	struct unicode_map *s_encoding;
+> +	__u16 s_encoding_flags;
+> +#endif
 >  
->  	raw_spin_lock_irqsave(&cfs_b->lock, flags);
-> -	if (expires == cfs_b->runtime_expires)
-> -		lsub_positive(&cfs_b->runtime, runtime);
-
-The lsub_positive is still needed, just get rid of the if.
-
-
-Other than that,
-Reviewed-by: Ben Segall <bsegall@google.com>
+>  #ifdef CONFIG_BLK_DEV_ZONED
+>  	unsigned int blocks_per_blkz;		/* F2FS blocks per zone */
+> @@ -3565,6 +3570,7 @@ F2FS_FEATURE_FUNCS(quota_ino, QUOTA_INO);
+>  F2FS_FEATURE_FUNCS(inode_crtime, INODE_CRTIME);
+>  F2FS_FEATURE_FUNCS(lost_found, LOST_FOUND);
+>  F2FS_FEATURE_FUNCS(sb_chksum, SB_CHKSUM);
+> +F2FS_FEATURE_FUNCS(casefold, CASEFOLD);
+>  
+>  #ifdef CONFIG_BLK_DEV_ZONED
+>  static inline bool f2fs_blkz_is_seq(struct f2fs_sb_info *sbi, int devi,
+> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+> index 6b959bbb336a3..a346f5a01370b 100644
+> --- a/fs/f2fs/super.c
+> +++ b/fs/f2fs/super.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/f2fs_fs.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/quota.h>
+> +#include <linux/unicode.h>
+>  
+>  #include "f2fs.h"
+>  #include "node.h"
+> @@ -211,6 +212,36 @@ void f2fs_msg(struct super_block *sb, const char *level, const char *fmt, ...)
+>  	va_end(args);
+>  }
+>  
+> +#ifdef CONFIG_UNICODE
+> +static const struct f2fs_sb_encodings {
+> +	__u16 magic;
+> +	char *name;
+> +	char *version;
+> +} f2fs_sb_encoding_map[] = {
+> +	{F2FS_ENC_UTF8_12_1, "utf8", "12.1.0"},
+> +};
+> +
+> +static int f2fs_sb_read_encoding(const struct f2fs_super_block *sb,
+> +				 const struct f2fs_sb_encodings **encoding,
+> +				 __u16 *flags)
+> +{
+> +	__u16 magic = le16_to_cpu(sb->s_encoding);
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(f2fs_sb_encoding_map); i++)
+> +		if (magic == f2fs_sb_encoding_map[i].magic)
+> +			break;
+> +
+> +	if (i >= ARRAY_SIZE(f2fs_sb_encoding_map))
+> +		return -EINVAL;
+> +
+> +	*encoding = &f2fs_sb_encoding_map[i];
+> +	*flags = le16_to_cpu(sb->s_encoding_flags);
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+>  static inline void limit_reserve_root(struct f2fs_sb_info *sbi)
+>  {
+>  	block_t limit = (sbi->user_block_count << 1) / 1000;
+> @@ -812,6 +843,13 @@ static int parse_options(struct super_block *sb, char *options)
+>  		return -EINVAL;
+>  	}
+>  #endif
+> +#ifndef CONFIG_UNICODE
+> +	if (f2fs_sb_has_casefold(sbi)) {
+> +		f2fs_msg(sb, KERN_ERR,
+> +			"Filesystem with casefold feature cannot be mounted without CONFIG_UNICODE");
+> +		return -EINVAL;
+> +	}
+> +#endif
+>  
+>  	if (F2FS_IO_SIZE_BITS(sbi) && !test_opt(sbi, LFS)) {
+>  		f2fs_msg(sb, KERN_ERR,
+> @@ -1110,6 +1148,9 @@ static void f2fs_put_super(struct super_block *sb)
+>  	destroy_percpu_info(sbi);
+>  	for (i = 0; i < NR_PAGE_TYPE; i++)
+>  		kvfree(sbi->write_io[i]);
+> +#ifdef CONFIG_UNICODE
+> +	utf8_unload(sbi->s_encoding);
+> +#endif
+>  	kvfree(sbi);
+>  }
+>  
+> @@ -3157,6 +3198,42 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
+>  	sb->s_maxbytes = sbi->max_file_blocks <<
+>  				le32_to_cpu(raw_super->log_blocksize);
+>  	sb->s_max_links = F2FS_LINK_MAX;
+> +#ifdef CONFIG_UNICODE
+> +	if (f2fs_sb_has_casefold(sbi) && !sbi->s_encoding) {
+> +		const struct f2fs_sb_encodings *encoding_info;
+> +		struct unicode_map *encoding;
+> +		__u16 encoding_flags;
+> +
+> +		if (f2fs_sb_has_encrypt(sbi)) {
+> +			f2fs_msg(sb, KERN_ERR,
+> +				 "Can't mount with encoding and encryption");
+> +			goto free_options;
+> +		}
+> +
+> +		if (f2fs_sb_read_encoding(raw_super, &encoding_info,
+> +					  &encoding_flags)) {
+> +			f2fs_msg(sb, KERN_ERR,
+> +				 "Encoding requested by superblock is unknown");
+> +			goto free_options;
+> +		}
+> +
+> +		encoding = utf8_load(encoding_info->version);
+> +		if (IS_ERR(encoding)) {
+> +			f2fs_msg(sb, KERN_ERR,
+> +				 "can't mount with superblock charset: %s-%s "
+> +				 "not supported by the kernel. flags: 0x%x.",
+> +				 encoding_info->name, encoding_info->version,
+> +				 encoding_flags);
+> +			goto free_options;
+> +		}
+> +		f2fs_msg(sb, KERN_INFO, "Using encoding defined by superblock: "
+> +			 "%s-%s with flags 0x%hx", encoding_info->name,
+> +			 encoding_info->version?:"\b", encoding_flags);
+> +
+> +		sbi->s_encoding = encoding;
+> +		sbi->s_encoding_flags = encoding_flags;
+> +	}
+> +#endif
+>  
+>  #ifdef CONFIG_QUOTA
+>  	sb->dq_op = &f2fs_quota_operations;
+> @@ -3511,6 +3588,10 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
+>  free_bio_info:
+>  	for (i = 0; i < NR_PAGE_TYPE; i++)
+>  		kvfree(sbi->write_io[i]);
+> +
+> +#ifdef CONFIG_UNICODE
+> +	utf8_unload(sbi->s_encoding);
+> +#endif
+>  free_options:
+>  #ifdef CONFIG_QUOTA
+>  	for (i = 0; i < MAXQUOTAS; i++)
+> diff --git a/include/linux/f2fs_fs.h b/include/linux/f2fs_fs.h
+> index 65559900d4d76..b7c9c7f721339 100644
+> --- a/include/linux/f2fs_fs.h
+> +++ b/include/linux/f2fs_fs.h
+> @@ -36,6 +36,11 @@
+>  
+>  #define F2FS_MAX_QUOTAS		3
+>  
+> +#define F2FS_ENC_UTF8_12_1	1
+> +#define F2FS_ENC_STRICT_MODE_FL	(1 << 0)
+> +#define f2fs_has_strict_mode(sbi) \
+> +	(sbi->s_encoding_flags & F2FS_ENC_STRICT_MODE_FL)
+> +
+>  #define F2FS_IO_SIZE(sbi)	(1 << F2FS_OPTION(sbi).write_io_size_bits) /* Blocks */
+>  #define F2FS_IO_SIZE_KB(sbi)	(1 << (F2FS_OPTION(sbi).write_io_size_bits + 2)) /* KB */
+>  #define F2FS_IO_SIZE_BYTES(sbi)	(1 << (F2FS_OPTION(sbi).write_io_size_bits + 12)) /* B */
+> @@ -109,7 +114,9 @@ struct f2fs_super_block {
+>  	struct f2fs_device devs[MAX_DEVICES];	/* device list */
+>  	__le32 qf_ino[F2FS_MAX_QUOTAS];	/* quota inode numbers */
+>  	__u8 hot_ext_count;		/* # of hot file extension */
+> -	__u8 reserved[310];		/* valid reserved region */
+> +	__le16  s_encoding;		/* Filename charset encoding */
+> +	__le16  s_encoding_flags;	/* Filename charset encoding flags */
+> +	__u8 reserved[306];		/* valid reserved region */
+>  	__le32 crc;			/* checksum of superblock */
+>  } __packed;
+>  
+> -- 
+> 2.22.0.410.gd8fdbe21b5-goog
