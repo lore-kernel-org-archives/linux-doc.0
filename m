@@ -1,62 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 981AD7D913
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:40:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC7167D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728781AbfGPTkX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 15:40:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35990 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388901AbfGPTkU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Jul 2019 15:40:20 -0400
-Subject: Re: [GIT PULL for v5.3-rc1] docs: addition of a large set of files to
- the documentation body
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563306020;
-        bh=LnphcGj+XDdWqFhpZythH4qtCoyKQNlrP3cFlv6jdtk=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=cWzojXD4MbadwjebxlskJocU4iq2EX9URFJ0t/oA4OE2lN1jRq/51VwXtNZxhlQg7
-         DepSA7o/e9IlvlmKiva9ecq54cmJJC2AJQ5WNgHlhNOgGLGzj16c7N2Atqy0AYfDLU
-         hcD9A8rWlgw4tvGavL7RC6D55UOUNDghqYVUw4vQ=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20190716080122.28a17014@coco.lan>
-References: <20190716080122.28a17014@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190716080122.28a17014@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git
- tags/docs/v5.3-1
-X-PR-Tracked-Commit-Id: 168869492e7009b6861b615f1d030c99bc805e83
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c309b6f24222246c18a8b65d3950e6e755440865
-Message-Id: <156330602041.24987.8495566131446582190.pr-tracker-bot@kernel.org>
-Date:   Tue, 16 Jul 2019 19:40:20 +0000
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id S1726213AbfGPT6N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 15:58:13 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40614 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbfGPT6J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 15:58:09 -0400
+Received: by mail-pf1-f193.google.com with SMTP id p184so9615282pfp.7
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 12:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=BvRVByTKtdPiNxfsCeySgYk32g6DkoU4cKl3qk6qMVk=;
+        b=qBKuzkwYCRwHvwJn5liGlcD2L84sglQVE5FXCvo+IQv70Uq/MEojS7Kg5S/EDHID12
+         pJ7AZbdF/xARsL3yN93QFo5UjfnJsh3V8hCv4XIGmJLF9mpMJnrN34EauKn5kvkob1P4
+         OXPW2D85z9yIFaBoe6IOKq6xqwgatDCw0gCTrAsm4MSqzeJdG1nIV2sRkUaoN3satqdy
+         3r7ddOP9ZAN5dBl9ASJh37bJiVKi0bznMDEWnqd1hXIgTImiRkLhpgit9myZg8/ywi43
+         KS1jpEZHC5yg7C07gRiNUoidsY7Vqi29u3K0EWMm4F2bOKlF0JdTlr9j0yaRWchOoPlB
+         c+JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=BvRVByTKtdPiNxfsCeySgYk32g6DkoU4cKl3qk6qMVk=;
+        b=RGgL8dGWETAtAPbc+t7px0xjMXY7gXKKlD6YiTa7kDe5N2K3oEkrxKXau4v/rsmPvq
+         3tMBfNiX9ANLVpW2my8QroupNeHOMeZv2Wd1VhHZJxyvTxnLETyTjJeDzDn+lfeTIEIh
+         mws+My9ChpnBE6sWlyBlT/FDJQXm3X7wu0K48g4wnQrohJLLalo+tr4cZe15HYjgKtjl
+         AE8SwPbAm+Duq+weVSyTAecjMwTea4b4PDUjbbCAzCbstyZnQgu5kaWE5AYjWwwv9XxS
+         uPD8rP8BPBfbTikxlmzZaqnhaLcVCR9VBi6vvvbjmoM2hihNMyYt93XDBgIN9urwO/Zc
+         21LA==
+X-Gm-Message-State: APjAAAX/XABMtXpaanI1YzB+NYyMjmI0nk9nzhmYK2HgYE8xaG230osY
+        L0UYu6nvLut9/uexRNnxuJp2yGJYe0YZDQ==
+X-Google-Smtp-Source: APXvYqxv41o91mStMvD1iotQMy2K+EjhMYtCXsBhaiHxrl4BboXIWLtgAnKu4l6h0Otf6vcXgWdTwA==
+X-Received: by 2002:a63:ee04:: with SMTP id e4mr11958711pgi.53.1563307088226;
+        Tue, 16 Jul 2019 12:58:08 -0700 (PDT)
+Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
+        by smtp.gmail.com with ESMTPSA id e124sm32522864pfh.181.2019.07.16.12.58.06
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 16 Jul 2019 12:58:07 -0700 (PDT)
+From:   bsegall@google.com
+To:     Dave Chiluk <chiluk+linux@indeed.com>
+Cc:     Pqhil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-1-git-send-email-chiluk+linux@indeed.com>
+        <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com>
+Date:   Tue, 16 Jul 2019 12:58:06 -0700
+In-Reply-To: <1561664970-1555-2-git-send-email-chiluk+linux@indeed.com> (Dave
+        Chiluk's message of "Thu, 27 Jun 2019 14:49:30 -0500")
+Message-ID: <xm26ef2pkb01.fsf@bsegall-linux.svl.corp.google.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Tue, 16 Jul 2019 08:01:22 -0300:
+Dave Chiluk <chiluk+linux@indeed.com> writes:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/docs/v5.3-1
+> It has been observed, that highly-threaded, non-cpu-bound applications
+> running under cpu.cfs_quota_us constraints can hit a high percentage of
+> periods throttled while simultaneously not consuming the allocated
+> amount of quota. This use case is typical of user-interactive non-cpu
+> bound applications, such as those running in kubernetes or mesos when
+> run on multiple cpu cores.
+>
+> This has been root caused to threads being allocated per cpu bandwidth
+> slices, and then not fully using that slice within the period. At which
+> point the slice and quota expires. This expiration of unused slice
+> results in applications not being able to utilize the quota for which
+> they are allocated.
+>
+> The expiration of per-cpu slices was recently fixed by
+> 'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
+> condition")'. Prior to that it appears that this has been broken since
+> at least 'commit 51f2176d74ac ("sched/fair: Fix unlocked reads of some
+> cfs_b->quota/period")' which was introduced in v3.16-rc1 in 2014. That
+> added the following conditional which resulted in slices never being
+> expired.
+>
+> if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
+> 	/* extend local deadline, drift is bounded above by 2 ticks */
+> 	cfs_rq->runtime_expires += TICK_NSEC;
+>
+> Because this was broken for nearly 5 years, and has recently been fixed
+> and is now being noticed by many users running kubernetes
+> (https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
+> that the mechanisms around expiring runtime should be removed
+> altogether.
+>
+> This allows quota already allocated to per-cpu run-queues to live longer
+> than the period boundary. This allows threads on runqueues that do not
+> use much CPU to continue to use their remaining slice over a longer
+> period of time than cpu.cfs_period_us. However, this helps prevents the
+> above condition of hitting throttling while also not fully utilizing
+> your cpu quota.
+>
+> This theoretically allows a machine to use slightly more than its
+> allotted quota in some periods. This overflow would be bounded by the
+> remaining quota left on each per-cpu runqueueu. This is typically no
+> more than min_cfs_rq_runtime=1ms per cpu. For CPU bound tasks this will
+> change nothing, as they should theoretically fully utilize all of their
+> quota in each period. For user-interactive tasks as described above this
+> provides a much better user/application experience as their cpu
+> utilization will more closely match the amount they requested when they
+> hit throttling. This means that cpu limits no longer strictly apply per
+> period for non-cpu bound applications, but that they are still accurate
+> over longer timeframes.
+>
+> This greatly improves performance of high-thread-count, non-cpu bound
+> applications with low cfs_quota_us allocation on high-core-count
+> machines. In the case of an artificial testcase (10ms/100ms of quota on
+> 80 CPU machine), this commit resulted in almost 30x performance
+> improvement, while still maintaining correct cpu quota restrictions.
+> That testcase is available at https://github.com/indeedeng/fibtest.
+>
+> Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
+> Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
+> ---
+>  Documentation/scheduler/sched-bwc.txt | 73 ++++++++++++++++++++++++++++-------
+>  kernel/sched/fair.c                   | 71 +++-------------------------------
+>  kernel/sched/sched.h                  |  4 --
+>  3 files changed, 65 insertions(+), 83 deletions(-)
+>
+> [...]
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index f35930f..a675c69 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -4809,11 +4754,9 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+>  	if (!runtime)
+>  		return;
+>  
+> -	runtime = distribute_cfs_runtime(cfs_b, runtime, expires);
+> +	runtime = distribute_cfs_runtime(cfs_b, runtime);
+>  
+>  	raw_spin_lock_irqsave(&cfs_b->lock, flags);
+> -	if (expires == cfs_b->runtime_expires)
+> -		lsub_positive(&cfs_b->runtime, runtime);
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c309b6f24222246c18a8b65d3950e6e755440865
+The lsub_positive is still needed, just get rid of the if.
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Other than that,
+Reviewed-by: Ben Segall <bsegall@google.com>
