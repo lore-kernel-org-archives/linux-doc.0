@@ -1,54 +1,53 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A4B287D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:35:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A25747D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388384AbfGPSfV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 14:35:21 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45301 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388321AbfGPSfV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:35:21 -0400
-Received: by mail-pl1-f193.google.com with SMTP id y8so10537330plr.12
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 11:35:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qAKhev+MhcsyOVuReyPGPlfwr6RAqsm8KLJC/p+tBWo=;
-        b=BtxFNZrJ1lxuLHdz4p0cb5NpRBas4oMeXYrSpaXChm3f5inh99nI5E+MdCjO+0SvFN
-         Ry8bf1i9hikIL8m72cMNN8wnWLsm9KfRlPPMZ5RjfBcQEkIc6IujCMbAsuy+mISYcuee
-         Qr4kYdcFcd5XUHZrH7KXQ8HM3/IMx446SBoQo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qAKhev+MhcsyOVuReyPGPlfwr6RAqsm8KLJC/p+tBWo=;
-        b=BKZ6ghod+FW876deV6GB7mFtUGc4zqbTI8PZqVbipP33O7Ize0hAioWucuQc3/6tpN
-         odNNtNRUruvA9PBTGHFdbVMiUjn6FO7X8vuh6d4aW/akk9sb2hxhLme/DgQ/NkcI8jmr
-         iBvDD77OzA6gpuCp/m5d+RrKVdXSc+d/Rt8znMOEW7L4Hg7RspI4MCb5C98KyVdZtF1R
-         4Iqzfy5fiTnanrKmT5HKYxIS6cq1WFZrSEplmBDBc3H0b5PHMsTKyLVNhKm9rpRXFX1Y
-         D3fQ/oSBg4t8fZ1AVyI2LcLwWbVs0351ecDa36K50v5bNk5l9LH83ps3CAkdxUgaI9PN
-         mnFQ==
-X-Gm-Message-State: APjAAAUbmQNwnTyGXqrSgLBma3Gzs95qwCygz+QfQ6DCjG/XAb3HtC1e
-        /wQt20s1h9swvVrsaCwYDhk=
-X-Google-Smtp-Source: APXvYqyfCs9+aKdxQJQ7pxXZdVPAjoPO3h0r2nncpS7RMorjmeD2xnNucSDVGhLwrY66fVK+0eWNvA==
-X-Received: by 2002:a17:902:b603:: with SMTP id b3mr38238048pls.9.1563302119843;
-        Tue, 16 Jul 2019 11:35:19 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id a15sm16618398pgw.3.2019.07.16.11.35.18
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 11:35:19 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 14:35:17 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org,
+        id S1728575AbfGPSjT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 14:39:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31260 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728619AbfGPSjQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:39:16 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6GIcYFH089551
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:39:14 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2tsj824j4v-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:39:13 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 16 Jul 2019 19:39:13 +0100
+Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 16 Jul 2019 19:39:03 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6GId2Kc37224762
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 16 Jul 2019 18:39:02 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 61D9CB2068;
+        Tue, 16 Jul 2019 18:39:02 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 20A15B205F;
+        Tue, 16 Jul 2019 18:39:02 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.225.134])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 16 Jul 2019 18:39:01 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 1337116C9988; Tue, 16 Jul 2019 11:39:02 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 11:39:02 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
         Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
@@ -65,49 +64,77 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         neilb@suse.com, netdev@vger.kernel.org,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        peterz@infradead.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
         rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
         Tejun Heo <tj@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH v2 2/9] rcu: Add support for consolidated-RCU reader
- checking
-Message-ID: <20190716183517.GA129705@google.com>
-References: <20190712170024.111093-1-joel@joelfernandes.org>
- <20190712170024.111093-3-joel@joelfernandes.org>
- <20190716182237.GA22819@linux.ibm.com>
+Subject: Re: [PATCH 3/9] rcu/sync: Remove custom check for reader-section (v2)
+Reply-To: paulmck@linux.ibm.com
+References: <20190715143705.117908-1-joel@joelfernandes.org>
+ <20190715143705.117908-4-joel@joelfernandes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190716182237.GA22819@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190715143705.117908-4-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19071618-0060-0000-0000-0000035F2659
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011440; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01233107; UDB=6.00649718; IPR=6.01014419;
+ MB=3.00027748; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-16 18:39:11
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071618-0061-0000-0000-00004A2A2193
+Message-Id: <20190716183902.GE14271@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907160228
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 11:22:37AM -0700, Paul E. McKenney wrote:
-> On Fri, Jul 12, 2019 at 01:00:17PM -0400, Joel Fernandes (Google) wrote:
-> > This patch adds support for checking RCU reader sections in list
-> > traversal macros. Optionally, if the list macro is called under SRCU or
-> > other lock/mutex protection, then appropriate lockdep expressions can be
-> > passed to make the checks pass.
-> > 
-> > Existing list_for_each_entry_rcu() invocations don't need to pass the
-> > optional fourth argument (cond) unless they are under some non-RCU
-> > protection and needs to make lockdep check pass.
-> > 
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+On Mon, Jul 15, 2019 at 10:36:59AM -0400, Joel Fernandes (Google) wrote:
+> The rcu/sync code was doing its own check whether we are in a reader
+> section. With RCU consolidating flavors and the generic helper added in
+> this series, this is no longer need. We can just use the generic helper
+> and it results in a nice cleanup.
 > 
-> If you fold in the checks for extra parameters, I will take this
-> one and also 1/9.
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Acked-by: Oleg Nesterov <oleg@redhat.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-I folded the checks in and also threw in the rcu-sync with Oleg's ack:
+This one looks good!
 
-Could you pull into /dev branch?
+							Thanx, Paul
 
-git pull https://github.com/joelagnel/linux-kernel.git list-first-three
-(Based on your dev branch)
+> ---
+>  include/linux/rcu_sync.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
+> index 9b83865d24f9..0027d4c8087c 100644
+> --- a/include/linux/rcu_sync.h
+> +++ b/include/linux/rcu_sync.h
+> @@ -31,9 +31,7 @@ struct rcu_sync {
+>   */
+>  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
+>  {
+> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
+> -			 !rcu_read_lock_bh_held() &&
+> -			 !rcu_read_lock_sched_held(),
+> +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
+>  			 "suspicious rcu_sync_is_idle() usage");
+>  	return !READ_ONCE(rsp->gp_state); /* GP_IDLE */
+>  }
+> -- 
+> 2.22.0.510.g264f2c817a-goog
+> 
 
