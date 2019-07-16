@@ -5,39 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A5AD7D913
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 12:11:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 057267DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 12:11:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732729AbfGPMK7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 08:10:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39048 "EHLO
+        id S1733155AbfGPMLD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 08:11:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39156 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732574AbfGPMK6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 08:10:58 -0400
+        with ESMTP id S1733037AbfGPMLC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 08:11:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5tM2MS1kf1uhWY8D5GobT8hsim8st9pL5ByAyD55Xv4=; b=DJbHJ7/Js/MFeRwn1RYpxNTBiS
-        ltjF8PY00DEJYSGjZxuJjQ3xYCFklafAEx1MD5PbtSWiramVHo1hu3txZ2snNOMY6+Ef8XQAKMqcz
-        2A4uQE+lFzP/JgY35XrpRIK3xPCwPJtrgSMPZE9NPlCSpJlJilg0ntASqyUl6Lr0vIMRw5Iu8mvkB
-        1dOj5VdWt+VLyV7ffpLeCnU9yzG5JopR/XBvXcJ5JelLSAigtyd1IiA1r3Ex5TO03zghF+TLNGdZM
-        Rvd9+5Baro6gbNOTpX/+KjSiVhYswGLnfL2SiRAHfpL/ZXr7c0rvuBFD8477VzPWNwlC97yFu5SJi
-        O1l73vHQ==;
+        bh=79eC0tu5XeYLyVMNzpLTHyI1bupm/FqacAsZ9g1T3Zk=; b=Jc2BykXbBfJUb/SwoPH3QP+esJ
+        dBVKnxZRJw83ucI0vrFtU272RuuSuE1jsYg4N/zssx8uSBwOB0jTnHjdaaumMaTEDW+KY7NtBGucd
+        I0lpga4maMnxKv45F8zzVKRmmG0G2jEGk/zFgJ3flAb2tbNPG7zwP+iYtGW6yRXOOcmaO2FFHDXFV
+        /WdZ0vLHbHM5XljEcMKgKZVVK2xWz+lu5Qoj55gSJnXR7A/DHscT6Y9wFFuWWxF/bYsOicblcrLwO
+        aBijFuls8C3mg/d2joF+jsShVZxabWDSHdN109JFVxrJlkxAA9oGIMfvuYv4oouxmX+JdnSmhEwoH
+        dGDbG9Hg==;
 Received: from [189.27.46.152] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hnMIL-0004ht-7f; Tue, 16 Jul 2019 12:10:57 +0000
+        id 1hnMIL-0004hy-AM; Tue, 16 Jul 2019 12:10:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hnMII-0000Qu-Pr; Tue, 16 Jul 2019 09:10:54 -0300
+        id 1hnMII-0000Qe-ML; Tue, 16 Jul 2019 09:10:54 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 06/14] docs: conf.py: only use CJK if the font is available
-Date:   Tue, 16 Jul 2019 09:10:45 -0300
-Message-Id: <b18a35d87d3fe5737bed91c4c912dda68276b343.1563277838.git.mchehab+samsung@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH 02/14] docs: power: add it to to the main documentation index
+Date:   Tue, 16 Jul 2019 09:10:41 -0300
+Message-Id: <95abe2e389f5bfb9dd03d55de384c2b9b5bb78da.1563277838.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563277838.git.mchehab+samsung@kernel.org>
 References: <cover.1563277838.git.mchehab+samsung@kernel.org>
@@ -49,56 +52,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If we try to build a book with asian characters with XeLaTeX
-and the font is not available, it will produce an error.
+The power docs are orphaned at the documentation body.
 
-So, instead, add a logic at conf.py to detect if the proper
-font is installed.
+While it could likely be moved to be inside some guide, I'm opting to just
+adding it to the main index.rst, removing the :orphan: and adding the SPDX
+header.
 
-This will avoid an error while building the document, although
-the result may not be readable.
+The reason is similar to what it was done for other driver-specific
+subsystems: the docs there contain a mix of Kernelspace, uAPI and
+admin-guide. So, better to keep them on its own directory,
+while the docs there are not properly classified.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/conf.py | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ Documentation/index.rst       | 1 +
+ Documentation/power/index.rst | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index fa0a42b47e62..a8fe845832bc 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -16,6 +16,8 @@ import sys
- import os
- import sphinx
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 3fe6170aa41d..68ae2a4d689d 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -111,6 +111,7 @@ needed).
+    netlabel/index
+    networking/index
+    pcmcia/index
++   power/index
+    target/index
+    timers/index
+    watchdog/index
+diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
+index 20415f21e48a..002e42745263 100644
+--- a/Documentation/power/index.rst
++++ b/Documentation/power/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
  
-+from subprocess import check_output
-+
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
- 
-@@ -276,13 +278,20 @@ latex_elements = {
-         \\setsansfont{DejaVu Sans}
-         \\setromanfont{DejaVu Serif}
-         \\setmonofont{DejaVu Sans Mono}
-+     '''
-+}
- 
-+# At least one book (translations) may have Asian characters
-+# with are only displayed if xeCJK is used
-+
-+cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
-+if cjk_cmd.find("Noto Sans CJK SC") >= 0:
-+    print ("enabling CJK for LaTeX builder")
-+    latex_elements['preamble']  += '''
- 	% This is needed for translations
-         \\usepackage{xeCJK}
-         \\setCJKmainfont{Noto Sans CJK SC}
--
-      '''
--}
- 
- # Fix reference escape troubles with Sphinx 1.4.x
- if major == 1 and minor > 3:
+ ================
+ Power Management
 -- 
 2.21.0
 
