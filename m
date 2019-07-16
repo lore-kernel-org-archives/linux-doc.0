@@ -1,234 +1,295 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67CD07D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:52:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2BA597D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388510AbfGPSwP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 14:52:15 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36613 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728366AbfGPSwO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:52:14 -0400
-Received: by mail-pg1-f195.google.com with SMTP id l21so9883203pgm.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 11:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9Sc1kdmcO2G1QWedlTtE0HWQNxV/ni4EPFOSD4mvak8=;
-        b=ZCyVikwrrrr8sEcxgSZmPCownGxV/MYXa9j9+YIXCmXlRbEQ5VjfXvY6EcfEFY0pDg
-         6dohrkhT2K+GARGPKad8XT+z84UGHhs+1Xe2Gr3yLe4RfxNa6azK8YLYA8FUJ+8Rv6+s
-         uvS7hFRU5185+p2+YN1LU/ofoZnJQq4EfMM/ZPnOobUk19gIGry+csN0JORk+r8tTrbi
-         oUdOxHt9FJy5A/SvDK2g7lqyOVIMdSPer+OI1R5OSvoQyetli09vGD0rchW8OJF1qn6Z
-         Z0XcmPsHMRy9jdficyjdT0pE9Mk6Fp36dHk3laDmzAh/MRn5oNKkT6OgTaYUqdocn093
-         FUgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9Sc1kdmcO2G1QWedlTtE0HWQNxV/ni4EPFOSD4mvak8=;
-        b=AXymiBvVappd6ZlTG8hHmDzqwYl8ZOId4jFMd0FrvgXggjA3TNz1jbthJlTjIuc/g+
-         oeoocLJWN7CNUqIN83b0ZRcgl4S0HHX5KJ/MUodjVwoO1BRqtxzVePv037seduApVl7+
-         Ps1z2eGEBXWDR9pRVF3J0cU/9qXngrHBWR6Wi0WYFmCmlcZZVil6U6FPpXlilAuw3Q+A
-         CdJtuav279TUEOrCr9aKJG3pkYZ1IdJML3HZ6hp0Q3ZO0Z9TYFALWoBvYIJcy/66tiIT
-         Gp1UguSzo8ERhhciTabM1tL3Qj/i57Q9bOldcmYb1MCm/dlfxXofT9Z1sLDX5+IP/3x3
-         6BNw==
-X-Gm-Message-State: APjAAAV+vgg0/goEEzumJ03j4vhjpERS2DBjdWcko6gV+XL0hyHMf8HK
-        eakg735HcT9R7kW+gTKtwhIQd4c86JAFkygGsmT3bA==
-X-Google-Smtp-Source: APXvYqyvfY7UpJRH7AXfo8+3L9F6UTsOiqoCvfNJ3LqUN5j48+NPSYN6SjLKREysI2CCnCLUFfoeygqKsabLc+vk6aw=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr35929294pgm.159.1563303133100;
- Tue, 16 Jul 2019 11:52:13 -0700 (PDT)
+        id S2388107AbfGPSxV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 14:53:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21838 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388277AbfGPSxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:53:17 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6GIpmNW117858
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:53:16 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tsjhm4d0g-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:53:16 -0400
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 16 Jul 2019 19:53:15 +0100
+Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
+        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 16 Jul 2019 19:53:05 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6GIr4HN37159330
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 16 Jul 2019 18:53:04 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4A27FB2067;
+        Tue, 16 Jul 2019 18:53:04 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E778DB2064;
+        Tue, 16 Jul 2019 18:53:03 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.225.134])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 16 Jul 2019 18:53:03 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 011B016C8E9B; Tue, 16 Jul 2019 11:53:03 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 11:53:03 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        peterz@infradead.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 2/9] rcu: Add support for consolidated-RCU reader
+ checking (v3)
+Reply-To: paulmck@linux.ibm.com
+References: <20190715143705.117908-1-joel@joelfernandes.org>
+ <20190715143705.117908-3-joel@joelfernandes.org>
+ <20190716183833.GD14271@linux.ibm.com>
+ <20190716184649.GA130463@google.com>
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-5-brendanhiggins@google.com> <20190715221554.8417320665@mail.kernel.org>
- <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
- <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com> <20190716175021.9CA412173C@mail.kernel.org>
-In-Reply-To: <20190716175021.9CA412173C@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 16 Jul 2019 11:52:01 -0700
-Message-ID: <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190716184649.GA130463@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19071618-0072-0000-0000-00000449B137
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011440; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01233111; UDB=6.00649721; IPR=6.01014423;
+ MB=3.00027748; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-16 18:53:14
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071618-0073-0000-0000-00004CB9FCC3
+Message-Id: <20190716185303.GM14271@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907160231
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 10:50 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-07-16 01:37:34)
-> > On Tue, Jul 16, 2019 at 12:57 AM Brendan Higgins
-> > <brendanhiggins@google.com> wrote:
-> > >
-> > > A `struct kunit_stream` is usually associated with a message that is
-> > > being built up over time like maybe an expectation; it is meant to
-> > > capture the idea that we might want to send some information out to
-> > > the user pertaining to some thing 'X', but we aren't sure that we
-> > > actually want to send it until 'X' is complete, but do to the nature
-> > > of 'X' it is easier to start constructing the message before 'X' is
-> > > complete.
-> > >
-> > > Consider a complicated expectation, there might be multiple conditions
-> > > that satisfy it and multiple conditions which could make it fail. As
-> > > we start exploring the input to the expectation we gain information
-> > > that we might want to share back with the user if the expectation were
-> > > to fail and we might get that information before we are actually sure
-> > > that the expectation does indeed fail.
-> > >
-> > > When we first step into the expectation we immediately know the
-> > > function name, file name, and line number where we are called and
-> > > would want to put that information into any message we would send to
-> > > the user about this expectation. Next, we might want to check a
-> > > property of the input, it may or may not be enough information on its
-> > > own for the expectation to fail, but we want to share the result of
-> > > the property check with the user regardless, BUT only if the
-> > > expectation as a whole fails.
-> > >
-> > > Hence, we can have multiple `struct kunit_stream`s associated with a
-> > > `struct kunit` active at any given time.
->
-> I'm coming back to this now after reading the rest of the patches that
-> deal with assertions and expectations. It looks like the string stream
-> is there to hold a few different pieces of information:
->
->  - Line Number
->  - File Name
->  - Function Name
->
-> The above items could be stored in a structure on the stack that then
-> gets printed and formatted when the expectation or assertion fails. That
-> would make the whole string stream structure and code unnecessary.
+On Tue, Jul 16, 2019 at 02:46:49PM -0400, Joel Fernandes wrote:
+> On Tue, Jul 16, 2019 at 11:38:33AM -0700, Paul E. McKenney wrote:
+> > On Mon, Jul 15, 2019 at 10:36:58AM -0400, Joel Fernandes (Google) wrote:
+> > > This patch adds support for checking RCU reader sections in list
+> > > traversal macros. Optionally, if the list macro is called under SRCU or
+> > > other lock/mutex protection, then appropriate lockdep expressions can be
+> > > passed to make the checks pass.
+> > > 
+> > > Existing list_for_each_entry_rcu() invocations don't need to pass the
+> > > optional fourth argument (cond) unless they are under some non-RCU
+> > > protection and needs to make lockdep check pass.
+> > > 
+> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > 
+> > Now that I am on the correct version, again please fold in the checks
+> > for the extra argument.  The ability to have an optional argument looks
+> > quite helpful, especially when compared to growing the RCU API!
+> 
+> I did fold this and replied with a pull request URL based on /dev branch. But
+> we can hold off on the pull requests until we decide on the below comments:
+> 
+> > A few more things below.
+> > > ---
+> > >  include/linux/rculist.h  | 28 ++++++++++++++++++++-----
+> > >  include/linux/rcupdate.h |  7 +++++++
+> > >  kernel/rcu/Kconfig.debug | 11 ++++++++++
+> > >  kernel/rcu/update.c      | 44 ++++++++++++++++++++++++----------------
+> > >  4 files changed, 67 insertions(+), 23 deletions(-)
+> > > 
+> > > diff --git a/include/linux/rculist.h b/include/linux/rculist.h
+> > > index e91ec9ddcd30..1048160625bb 100644
+> > > --- a/include/linux/rculist.h
+> > > +++ b/include/linux/rculist.h
+> > > @@ -40,6 +40,20 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
+> > >   */
+> > >  #define list_next_rcu(list)	(*((struct list_head __rcu **)(&(list)->next)))
+> > >  
+> > > +/*
+> > > + * Check during list traversal that we are within an RCU reader
+> > > + */
+> > > +
+> > > +#ifdef CONFIG_PROVE_RCU_LIST
+> > 
+> > This new Kconfig option is OK temporarily, but unless there is reason to
+> > fear malfunction that a few weeks of rcutorture, 0day, and -next won't
+> > find, it would be better to just use CONFIG_PROVE_RCU.  The overall goal
+> > is to reduce the number of RCU knobs rather than grow them, must though
+> > history might lead one to believe otherwise.  :-/
+> 
+> If you want, we can try to drop this option and just use PROVE_RCU however I
+> must say there may be several warnings that need to be fixed in a short
+> period of time (even a few weeks may be too short) considering the 1000+
+> uses of RCU lists.
 
-Most of the expectations and assertions in this patchset are fairly
-simple, and what you are describing would probably work. However, I
-have some expectations I plan on adding in later patchsets that make
-much more complicated checks.
+Do many people other than me build with CONFIG_PROVE_RCU?  If so, then
+that would be a good reason for a temporary CONFIG_PROVE_RCU_LIST,
+as in going away in a release or two once the warnings get fixed.
 
-> The only hypothetical case where this can't be done is a complicated
-> assertion or expectation that does more than one check and can't be
-> written as a function that dumps out what went wrong. Is this a real
-> problem? Maybe such an assertion should just open code that logic so we
-> don't have to build up a string for all the other simple cases.
+> But I don't mind dropping it and it may just accelerate the fixing up of all
+> callers.
 
-I have some expectations in follow up patchsets for which I created a
-set of composable matchers for matching structures and function calls
-that by their nature cannot be written as a single function. The
-matcher thing is a bit speculative, I know, but for any kind of
-function call matching, you need to store a record of functions you
-are expecting to have called and then each one needs to have a set of
-expectations defined by the user; I don't think there is a way to do
-that that doesn't involve having multiple separate functions each
-having some information useful to constructing the message.
+I will let you decide based on the above question.  But if you have
+CONFIG_PROVE_RCU_LIST, as noted below, it needs to depend on RCU_EXPERT.
 
-I know the code in question isn't in this patchset; the function
-matching code was in one of the earlier versions of the RFC, but I
-dropped it to make this patchset smaller and more manageable. So I get
-it if you would like me to drop it and add it back in when I try to
-get the function and structure matching stuff in, but I would really
-prefer to keep it as is if you don't care too much.
+							Thanx, Paul
 
-> It seems far simpler to get rid of the string stream API and just have a
-> struct for this.
->
->         struct kunit_fail_msg {
->                 const char *line;
->                 const char *file;
->                 const char *func;
->                 const char *msg;
->         };
->
-> Then you can have the assertion macros create this on the stack (with
-> another macro?).
->
->         #define DEFINE_KUNIT_FAIL_MSG(name, _msg) \
->                 struct kunit_fail_msg name = { \
->                         .line =  __LINE__, \
->                         .file = __FILE__, \
->                         .func = __func__, \
->                         .msg = _msg, \
->                 }
->
-> Note: I don't know if the __LINE__ above will use the macro location, so
-> this probably needs another wrapper to put the right line number there.
+> > > +#define __list_check_rcu(dummy, cond, ...)				\
+> > > +	({								\
+> > > +	RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),		\
+> > > +			 "RCU-list traversed in non-reader section!");	\
+> > > +	 })
+> > > +#else
+> > > +#define __list_check_rcu(dummy, cond, ...) ({})
+> > > +#endif
+> > > +
+> > >  /*
+> > >   * Insert a new entry between two known consecutive entries.
+> > >   *
+> > > @@ -343,14 +357,16 @@ static inline void list_splice_tail_init_rcu(struct list_head *list,
+> > >   * @pos:	the type * to use as a loop cursor.
+> > >   * @head:	the head for your list.
+> > >   * @member:	the name of the list_head within the struct.
+> > > + * @cond:	optional lockdep expression if called from non-RCU protection.
+> > >   *
+> > >   * This list-traversal primitive may safely run concurrently with
+> > >   * the _rcu list-mutation primitives such as list_add_rcu()
+> > >   * as long as the traversal is guarded by rcu_read_lock().
+> > >   */
+> > > -#define list_for_each_entry_rcu(pos, head, member) \
+> > > -	for (pos = list_entry_rcu((head)->next, typeof(*pos), member); \
+> > > -		&pos->member != (head); \
+> > > +#define list_for_each_entry_rcu(pos, head, member, cond...)		\
+> > > +	for (__list_check_rcu(dummy, ## cond, 0),			\
+> > > +	     pos = list_entry_rcu((head)->next, typeof(*pos), member);	\
+> > > +		&pos->member != (head);					\
+> > >  		pos = list_entry_rcu(pos->member.next, typeof(*pos), member))
+> > >  
+> > >  /**
+> > > @@ -616,13 +632,15 @@ static inline void hlist_add_behind_rcu(struct hlist_node *n,
+> > >   * @pos:	the type * to use as a loop cursor.
+> > >   * @head:	the head for your list.
+> > >   * @member:	the name of the hlist_node within the struct.
+> > > + * @cond:	optional lockdep expression if called from non-RCU protection.
+> > >   *
+> > >   * This list-traversal primitive may safely run concurrently with
+> > >   * the _rcu list-mutation primitives such as hlist_add_head_rcu()
+> > >   * as long as the traversal is guarded by rcu_read_lock().
+> > >   */
+> > > -#define hlist_for_each_entry_rcu(pos, head, member)			\
+> > > -	for (pos = hlist_entry_safe (rcu_dereference_raw(hlist_first_rcu(head)),\
+> > > +#define hlist_for_each_entry_rcu(pos, head, member, cond...)		\
+> > > +	for (__list_check_rcu(dummy, ## cond, 0),			\
+> > > +	     pos = hlist_entry_safe (rcu_dereference_raw(hlist_first_rcu(head)),\
+> > >  			typeof(*(pos)), member);			\
+> > >  		pos;							\
+> > >  		pos = hlist_entry_safe(rcu_dereference_raw(hlist_next_rcu(\
+> > > diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+> > > index 8f7167478c1d..f3c29efdf19a 100644
+> > > --- a/include/linux/rcupdate.h
+> > > +++ b/include/linux/rcupdate.h
+> > > @@ -221,6 +221,7 @@ int debug_lockdep_rcu_enabled(void);
+> > >  int rcu_read_lock_held(void);
+> > >  int rcu_read_lock_bh_held(void);
+> > >  int rcu_read_lock_sched_held(void);
+> > > +int rcu_read_lock_any_held(void);
+> > >  
+> > >  #else /* #ifdef CONFIG_DEBUG_LOCK_ALLOC */
+> > >  
+> > > @@ -241,6 +242,12 @@ static inline int rcu_read_lock_sched_held(void)
+> > >  {
+> > >  	return !preemptible();
+> > >  }
+> > > +
+> > > +static inline int rcu_read_lock_any_held(void)
+> > > +{
+> > > +	return !preemptible();
+> > > +}
+> > > +
+> > >  #endif /* #else #ifdef CONFIG_DEBUG_LOCK_ALLOC */
+> > >  
+> > >  #ifdef CONFIG_PROVE_RCU
+> > > diff --git a/kernel/rcu/Kconfig.debug b/kernel/rcu/Kconfig.debug
+> > > index 5ec3ea4028e2..7fbd21dbfcd0 100644
+> > > --- a/kernel/rcu/Kconfig.debug
+> > > +++ b/kernel/rcu/Kconfig.debug
+> > > @@ -8,6 +8,17 @@ menu "RCU Debugging"
+> > >  config PROVE_RCU
+> > >  	def_bool PROVE_LOCKING
+> > >  
+> > > +config PROVE_RCU_LIST
+> > > +	bool "RCU list lockdep debugging"
+> > > +	depends on PROVE_RCU
+> > 
+> > This must also depend on RCU_EXPERT.  
+> 
+> Sure.
+> 
+> > > +	default n
+> > > +	help
+> > > +	  Enable RCU lockdep checking for list usages. By default it is
+> > > +	  turned off since there are several list RCU users that still
+> > > +	  need to be converted to pass a lockdep expression. To prevent
+> > > +	  false-positive splats, we keep it default disabled but once all
+> > > +	  users are converted, we can remove this config option.
+> > > +
+> > >  config TORTURE_TEST
+> > >  	tristate
+> > >  	default n
+> > > diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
+> > > index 9dd5aeef6e70..b7a4e3b5fa98 100644
+> > > --- a/kernel/rcu/update.c
+> > > +++ b/kernel/rcu/update.c
+> > > @@ -91,14 +91,18 @@ module_param(rcu_normal_after_boot, int, 0);
+> > >   * Similarly, we avoid claiming an SRCU read lock held if the current
+> > >   * CPU is offline.
+> > >   */
+> > > +#define rcu_read_lock_held_common()		\
+> > > +	if (!debug_lockdep_rcu_enabled())	\
+> > > +		return 1;			\
+> > > +	if (!rcu_is_watching())			\
+> > > +		return 0;			\
+> > > +	if (!rcu_lockdep_current_cpu_online())	\
+> > > +		return 0;
+> > 
+> > Nice abstraction of common code!
+> 
+> Thanks!
+> 
 
-No, that should work. It picks up where the macro ends up being
-finally evaluated.
-
-> I don't want to derail this whole series on this topic, but it seems
-> like a bunch of code is there to construct this same set of information
-> over and over again into a buffer a little bit at a time and then throw
-> it away when nothing fails just because we may want to support the case
-> where we have some unstructured data to inform the user about.
-
-Yeah, that's fair. I think there are a number of improvements to be
-made with how the expectations are defined other than that, but I was
-hoping I could do that after this patchset is merged. I just figured
-with the kinds of things I would like to do, it would lead to a whole
-new round of discussion.
-
-In either case, I think I would still like to use the `struct
-kunit_stream` as part of the interface to share the failure message
-with the test case runner code in test.c, at least eventually, so that
-I only have to have one way to receive data from expectations, but I
-think I can do that and still do what you suggest by just constructing
-the kunit_stream at the end of expectations where it is feasible.
-
-All in all I agree with what you are saying, but I would rather do it
-as a follow up possibly once we have some more code on the table. I
-could just see this opening up a whole new can of worms where we
-debate about exactly how expectations and assertions work for another
-several months, only to rip it all out shortly there after. I know
-that's how these things go, but that's my preference.
-
-I can do what you suggest if you feel strongly about it, but I would
-prefer to hold off until later. It's your call.
-
-> Why not build in the structured part into the framework (i.e. the struct
-> above) so that it's always there and then add the string building part
-> later when we have to?
-
-See above comments.
