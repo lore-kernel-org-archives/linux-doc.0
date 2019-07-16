@@ -1,46 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B858F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:15:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 602017D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 19:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbfGPTPD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 15:15:03 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45828 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728495AbfGPTPA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 15:15:00 -0400
-Received: by mail-lj1-f195.google.com with SMTP id m23so21037840lje.12
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 12:14:58 -0700 (PDT)
+        id S2388653AbfGPT0c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 15:26:32 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:45495 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbfGPT0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 15:26:32 -0400
+Received: by mail-ed1-f68.google.com with SMTP id x19so15727499eda.12
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 12:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tAMcer/o92OFVt119e6yifT3N3R3a5gfAH/A3YrhyPY=;
+        b=Vs748xKj2hviUzrn4HuUZQJnzrom7YeHQzEBrRW3chVySiB4qVTO8ok+BmdZd/0Hkp
+         ds9XA1cCfWwC0UUGBF6Uec9vZkeWsZumHKY7C7CWILZXjTQYfi83Zxqp386+dGJXg2sk
+         5m5/QXQPcctDZzGAHeVD4jUurF6StkJcJsA7S2MuvDb430nXwLW8oKl0zcWIv1k0X/QH
+         LzPEQ87Qpbify0cfq0eAlzE32H7JJ2SbOspS9aGI/LYBh0ZlwCWHBL53kYyGcoxYeWHR
+         +7odcl9aj6ERiBzV52OHC4hZZ5DMEtL4b3AUe+wrmPJKnLEQGGU/9Wk8KuDfgZOiqP1t
+         uU8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nSiJ7P7aree/QouHzJYNVvw8TbrZalu/D2PKc2JLvyE=;
-        b=SvJV2vtoslhTgKjQdenfKG8aH6AyeWL/mPlfUszPnaHbqWcCzI+vWxQjFQcZfy19m8
-         mGs9KZvWclTo/vMWXTQbdacB4bE19FgwyiWS87sNXJd8SgTIf4m0ZRdKiTLQ4FH0xsw5
-         wRC2RmfjhIWsEkVw/shjQiEGv1BWI+9sYAc6WSJmrjvHqCtmh7B3dbElfTO3zLXjMQEX
-         v/7djQsU4E0IAd6rWNvhsU/FUXRqWcSHKo4/aN3RZdZt4z14rhxtmpf8jNyM73JPxcuz
-         AfQ0lo2KOk9DWMdJinBhtinfCb3T+S9bDZwJ64/yG5sXzW53Qo7kEsRkpfGNV67XrtdG
-         1NHw==
-X-Gm-Message-State: APjAAAWgSxr88/Yt9mdkOkqj8JmtknHZUD4UZAFiYmquXpmB1hbVUj0L
-        rNWMcYzeFNhJMDeUBygg9kkP/P68Pghd8YW3F0g/Bw==
-X-Google-Smtp-Source: APXvYqxEROc6iOj5lyf6ClNcARL3AIGUQmNApDc2V696Z1bJ00PUcJWPOlBHwgZIHSUwXD3dvtcpApTXvXdaE56AT2w=
-X-Received: by 2002:a2e:9dca:: with SMTP id x10mr18269442ljj.17.1563304497831;
- Tue, 16 Jul 2019 12:14:57 -0700 (PDT)
+        bh=tAMcer/o92OFVt119e6yifT3N3R3a5gfAH/A3YrhyPY=;
+        b=Qzjmyc+1imcSU2Oa2Mb9CAScPxscfNHx677Ci4h7wC2m+nWVdL+ap1OTBtGd9n7ihd
+         ELesC/kyHmwziJ3a4HYnABb/800n60L/iSxP740544gOTOuYS1e2dY//qX9RWDs8nojc
+         Bx3nItic1uWXJTuhpFQRjvUcpIynwcpB/BYbm/JDTQAKUoQJ4HgTdPj7anKzg5CJHNrg
+         Hrvre4QCv0nq1js2GTHPETtsN1En3t6uK0FE6b1hcjJE8be6ncVezbslQ/A7JD07O9A2
+         2ve2rETnILiMmH+RYwGxREVefyhYQwh/ofJsco2h0hJRUCtqTCSjPtB3bQ2I1Z1GGxfF
+         sT4w==
+X-Gm-Message-State: APjAAAVc7qH/w6DNfpkug/u57is4MWso/JOeqkUyi/STw4Y39wHxpkrx
+        xvjhTz7Uazg7eCWwGOYwz212mJslDxMUrFKc3lw=
+X-Google-Smtp-Source: APXvYqygM7bjRf5/q1NDCo6IIUu3Bn2fMgeKwA4WxUFuObu4eHPKtzeqoPz3euiFSNDs1KzoNjNAGmGQjtQzrhuFJUM=
+X-Received: by 2002:a50:fb0a:: with SMTP id d10mr5479243edq.124.1563305190476;
+ Tue, 16 Jul 2019 12:26:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190716165641.6990-1-pasha.tatashin@soleen.com>
-In-Reply-To: <20190716165641.6990-1-pasha.tatashin@soleen.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Wed, 17 Jul 2019 00:44:45 +0530
-Message-ID: <CACi5LpOO+sF3o+5u4jHXzba+Ki8fZ5auekKLayxSwNOL6Lp=-w@mail.gmail.com>
+References: <20190716165641.6990-1-pasha.tatashin@soleen.com> <CACi5LpOO+sF3o+5u4jHXzba+Ki8fZ5auekKLayxSwNOL6Lp=-w@mail.gmail.com>
+In-Reply-To: <CACi5LpOO+sF3o+5u4jHXzba+Ki8fZ5auekKLayxSwNOL6Lp=-w@mail.gmail.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Tue, 16 Jul 2019 15:26:19 -0400
+Message-ID: <CA+CK2bCz5oZQZtmFzWCt_yscpeUuQKPCmajL1EQcav++n9=8Dw@mail.gmail.com>
 Subject: Re: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     James Morris <jmorris@namei.org>, sashal@kernel.org,
+To:     Bhupesh Sharma <bhsharma@redhat.com>
+Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
         Eric Biederman <ebiederm@xmission.com>,
         kexec mailing list <kexec@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -54,66 +66,87 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
+On Tue, Jul 16, 2019 at 3:14 PM Bhupesh Sharma <bhsharma@redhat.com> wrote:
+>
+> Hi Pavel,
+>
+> On Tue, Jul 16, 2019 at 10:26 PM Pavel Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > Added identity mapped page table, and keep MMU enabled while
+> > kernel is being relocated from sparse pages to the final
+> > destination during kexec.
+> >
+> > More description about the problem I am trying to solve here, can be
+> > found here:
+> > https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com/
+> >
+> > This patch series works in terms, that I can kexec-reboot both in QEMU
+> > and on a physical machine. However, I do not see performance improvement
+> > during relocation. The performance is just as slow as before with disabled
+> > caches.
+>
+> Thanks for the patchset, but if the changes still don't positively
+> impact the kexec-reboot timings, I am not sure we if gain by adding
+> these to the kernel.
 
-On Tue, Jul 16, 2019 at 10:26 PM Pavel Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> Added identity mapped page table, and keep MMU enabled while
-> kernel is being relocated from sparse pages to the final
-> destination during kexec.
->
-> More description about the problem I am trying to solve here, can be
-> found here:
-> https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com/
->
-> This patch series works in terms, that I can kexec-reboot both in QEMU
-> and on a physical machine. However, I do not see performance improvement
-> during relocation. The performance is just as slow as before with disabled
-> caches.
+Hi Bhupesh,
 
-Thanks for the patchset, but if the changes still don't positively
-impact the kexec-reboot timings, I am not sure we if gain by adding
-these to the kernel.
+I am not asking to add these to the kernel (hence RFC), I am looking
+for help to figure out why the relocation is still slow, once that is
+understood I will submit the patches for integration. My previous
+patch series fixed the relocation problem by pre-reserving space, but
+because the culprit of the problem was narrowed down to disabled
+caches it was decided that a better fix would be to do relocation with
+MMU still enabled, this is why I created this new series.
 
-Like I mentioned in the previous threads, we have been carrying some
-relevant fixes for the same in Linux distros. I have been trying to
-find time to fix them and send them upstream, but I am caught up with
-some nasty kexec_file_load() issues on arm64 currently.
+>
+> Like I mentioned in the previous threads, we have been carrying some
+> relevant fixes for the same in Linux distros. I have been trying to
+> find time to fix them and send them upstream, but I am caught up with
+> some nasty kexec_file_load() issues on arm64 currently.
 
-So, I will find some time to work on them (may be next week) and will
-Cc you when I post them out after some checks on real physical
-hardware.
+As I understood, the fixes were for slow purgatory checksum checking,
+and not for relocation of there kernel. Are you saying redhat is
+carrying some patches that address slow relocation problem as well?
 
-Thanks,
-Bhupesh
+Thank you,
+Pasha
 
-> Am I missing something? Perhaps, there is some flag that I should also
-> enable in page table? Please provide me with any suggestions.
 >
-> Pavel Tatashin (4):
->   arm64, mm: identity mapped page table
->   arm64, kexec: interface preparation for mmu enabled kexec
->   arm64, kexec: add kexec's own identity page table
->   arm64: Keep MMU on while kernel is being relocated
+> So, I will find some time to work on them (may be next week) and will
+> Cc you when I post them out after some checks on real physical
+> hardware.
 >
->  arch/arm64/include/asm/ident_map.h  |  26 ++++++
->  arch/arm64/include/asm/kexec.h      |   5 +-
->  arch/arm64/kernel/cpu-reset.S       |   8 --
->  arch/arm64/kernel/cpu-reset.h       |   7 +-
->  arch/arm64/kernel/machine_kexec.c   | 128 +++++++++++++++++++++-------
->  arch/arm64/kernel/relocate_kernel.S |  36 +++++---
->  arch/arm64/mm/Makefile              |   1 +
->  arch/arm64/mm/ident_map.c           |  99 +++++++++++++++++++++
->  8 files changed, 255 insertions(+), 55 deletions(-)
->  create mode 100644 arch/arm64/include/asm/ident_map.h
->  create mode 100644 arch/arm64/mm/ident_map.c
+> Thanks,
+> Bhupesh
 >
-> --
-> 2.22.0
->
->
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
+> > Am I missing something? Perhaps, there is some flag that I should also
+> > enable in page table? Please provide me with any suggestions.
+> >
+> > Pavel Tatashin (4):
+> >   arm64, mm: identity mapped page table
+> >   arm64, kexec: interface preparation for mmu enabled kexec
+> >   arm64, kexec: add kexec's own identity page table
+> >   arm64: Keep MMU on while kernel is being relocated
+> >
+> >  arch/arm64/include/asm/ident_map.h  |  26 ++++++
+> >  arch/arm64/include/asm/kexec.h      |   5 +-
+> >  arch/arm64/kernel/cpu-reset.S       |   8 --
+> >  arch/arm64/kernel/cpu-reset.h       |   7 +-
+> >  arch/arm64/kernel/machine_kexec.c   | 128 +++++++++++++++++++++-------
+> >  arch/arm64/kernel/relocate_kernel.S |  36 +++++---
+> >  arch/arm64/mm/Makefile              |   1 +
+> >  arch/arm64/mm/ident_map.c           |  99 +++++++++++++++++++++
+> >  8 files changed, 255 insertions(+), 55 deletions(-)
+> >  create mode 100644 arch/arm64/include/asm/ident_map.h
+> >  create mode 100644 arch/arm64/mm/ident_map.c
+> >
+> > --
+> > 2.22.0
+> >
+> >
+> > _______________________________________________
+> > kexec mailing list
+> > kexec@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/kexec
