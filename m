@@ -1,189 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC1E27D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 17:52:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 50A2D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 18:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388340AbfGPRv6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 13:51:58 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38824 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388300AbfGPRv6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 13:51:58 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f5so970914pgu.5
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 10:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nxEnHLXatCKhmQ8tqkHkTC9RIIficSilWz6s4BKeyXQ=;
-        b=IR8gpax66RigZJS8zzOEEHslcoRtMBTJQr+BwYoG5krQI/IrW7RBJJOb1HnDxCU/yV
-         QgfV9zvBkZxiaRdpVQ5UvleUCuWprZ5drSQYCn+Y2SQ0WJBxkU9y96Vg0A/X9/w6puUy
-         wJPZSB5OIH+Fs7UZF2sgnWroJ6gzdmui3EJVbxSAUEw1zlnflSZQkCP2CyGkcZhrQ2Ik
-         nTu4JglIMF5h/vJexddFclKM2bow42WXkycOAGCzBHj4V7nlFfCvnoPh2kZ9tat4r+lR
-         ldeIM3HQ86qC69oeN4VGJIE3aUlKeqjYM8fm2x0XfJ1yNou0BI3BeFip69rcKSz9jBAN
-         0rYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nxEnHLXatCKhmQ8tqkHkTC9RIIficSilWz6s4BKeyXQ=;
-        b=enshZRcCfdhuCSOIw4f/4d8agMyJFxzOAW/7i7lshBPsueslPIJBqsvFIHCMZCK9lQ
-         rhn/qoJSDhLg6qW28T50s3a9rxWlIK08a1LJOvYeHwM9FIoaTy7a2C9IchvZl96fwyxv
-         YN+pvDmUEVDQrZc36Rzz8MqtQUl1UGh6P+wDb/eEKLRDUJdccOQFQ37gXdXN1CEjPXLO
-         88lg/ppzFtdKdeaR1l0oLiBDnsSEcdV4FpS9MM/ust1pQ39SrpiaYA1zsIVytFznXKn8
-         Oc4ZgcNgokhhD6Y6yidES4UHQSzl9fWuCH+lhICRdsmrQ8zjlS8+n3U0VzzcdZVuWQtN
-         T2QQ==
-X-Gm-Message-State: APjAAAXiV8MN0Q0L4AlosxU5XJs/1vPiONsPjEvlh2l3VobrBCW416yC
-        d0fH55U73QIz5X7OzJiQIJwR18K9ciIy8PcfeOpj1w==
-X-Google-Smtp-Source: APXvYqyaJ18vLD4kzF4vse9+yxk+DvjTEGfbRhJU4ABRtN/S/Q3OhUTQ5bxT7G2cnasvpqzT1qZSk1Dd9UfyhosJ/h0=
-X-Received: by 2002:a63:b919:: with SMTP id z25mr35314546pge.201.1563299516676;
- Tue, 16 Jul 2019 10:51:56 -0700 (PDT)
+        id S2388329AbfGPS05 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 14:26:57 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25506 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728121AbfGPS04 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 14:26:56 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6GIM1A8031139
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:26:55 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2tsk4hht3g-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 14:26:55 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 16 Jul 2019 19:26:54 +0100
+Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 16 Jul 2019 19:26:44 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6GIQh3r15860536
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 16 Jul 2019 18:26:43 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BE3B7B2066;
+        Tue, 16 Jul 2019 18:26:42 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 70B34B2068;
+        Tue, 16 Jul 2019 18:26:42 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.225.134])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 16 Jul 2019 18:26:42 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 7609D16C8EBE; Tue, 16 Jul 2019 11:26:42 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 11:26:42 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v2 3/9] rcu/sync: Remove custom check for reader-section
+Reply-To: paulmck@linux.ibm.com
+References: <20190712170024.111093-1-joel@joelfernandes.org>
+ <20190712170024.111093-4-joel@joelfernandes.org>
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-5-brendanhiggins@google.com> <20190715221554.8417320665@mail.kernel.org>
- <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
- <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com> <20190716153002.49E292054F@mail.kernel.org>
-In-Reply-To: <20190716153002.49E292054F@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 16 Jul 2019 10:51:45 -0700
-Message-ID: <CAFd5g44jruCZLunpQuDPnQS995x0F+Gxp99z4BoP_pLt=Hr1BQ@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190712170024.111093-4-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19071618-2213-0000-0000-000003AF9AB3
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011440; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01233103; UDB=6.00649716; IPR=6.01014414;
+ MB=3.00027748; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-16 18:26:52
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071618-2214-0000-0000-00005F427600
+Message-Id: <20190716182642.GB22819@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907160225
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 8:30 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-07-16 01:37:34)
-> > On Tue, Jul 16, 2019 at 12:57 AM Brendan Higgins
-> > <brendanhiggins@google.com> wrote:
-> > >
-> > > On Mon, Jul 15, 2019 at 3:15 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > >
-> > > > Quoting Brendan Higgins (2019-07-12 01:17:30)
-> > > > > diff --git a/include/kunit/kunit-stream.h b/include/kunit/kunit-stream.h
-> > > > > new file mode 100644
-> > > > > index 0000000000000..a7b53eabf6be4
-> > > > > --- /dev/null
-> > > > > +++ b/include/kunit/kunit-stream.h
-> > > > > +/**
-> > > > > + * struct kunit_stream - a std::stream style string builder.
-> > > > > + *
-> > > > > + * A std::stream style string builder. Allows messages to be built up and
-> > > > > + * printed all at once.
-> > > > > + */
-> > > > > +struct kunit_stream {
-> > > > > +       /* private: internal use only. */
-> > > > > +       struct kunit *test;
-> > > > > +       const char *level;
-> > > >
-> > > > Is the level changed? See my comment below, but I wonder if this whole
-> > > > struct can go away and the wrappers can just operate on 'struct
-> > > > string_stream' instead.
-> > >
-> > > I was inclined to agree with you when I first read your comment, but
-> > > then I thought about the case that someone wants to add in a debug
-> > > message (of which I currently have none). I think under most
-> > > circumstances a user of kunit_stream would likely want to pick a
-> > > default verbosity that maybe I should provide, but may still want
-> > > different verbosity levels.
-> > >
-> > > The main reason I want to keep the types separate, string_stream vs.
-> > > kunit_stream, is that they are intended to be used differently.
-> > > string_stream is just a generic string builder. If you are using that,
-> > > you are expecting to see someone building the string at some point and
-> > > then doing something interesting with it. kunit_stream really tells
-> > > you specifically that KUnit is putting together a message to
-> > > communicate something to a user of KUnit. It is really used in a very
-> > > specific way, and I wouldn't want to generalize its usage beyond how
-> > > it is currently used. I think in order to preserve the author's
-> > > intention it adds clarity to keep the types separate regardless of how
-> > > similar they might be in reality.
->
-> You may want to add some of these reasons to the commit text.
+On Fri, Jul 12, 2019 at 01:00:18PM -0400, Joel Fernandes (Google) wrote:
+> The rcu/sync code was doing its own check whether we are in a reader
+> section. With RCU consolidating flavors and the generic helper added in
+> this series, this is no longer need. We can just use the generic helper
+> and it results in a nice cleanup.
+> 
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Will do.
+This needs to be forward-ported to current mainline.  (Or, I believe
+equivalently for this file, to branch "dev" of -rcu.)
 
-> > > > > +
-> > > > > +       if (!string_stream_is_empty(stream->internal_stream)) {
-> > > > > +               kunit_err(stream->test,
-> > > > > +                         "End of test case reached with uncommitted stream entries\n");
-> > > > > +               kunit_stream_commit(stream);
-> > > > > +       }
-> > > > > +}
-> > > > > +
-> > > >
-> > > > Nitpick: Drop this extra newline.
-> > >
-> > > Oops, nice catch.
-> >
-> > Not super important, but I don't want you to think that I am ignoring
-> > you. I think you must have unintentionally deleted the last function
-> > in this file, or maybe you are referring to something that I am just
-> > not seeing, but I don't see the extra newline here.
->
-> No worries. Sorry for the noise.
->
-> > > property of the input, it may or may not be enough information on its
-> > > own for the expectation to fail, but we want to share the result of
-> > > the property check with the user regardless, BUT only if the
-> > > expectation as a whole fails.
-> > >
-> > > Hence, we can have multiple `struct kunit_stream`s associated with a
-> > > `struct kunit` active at any given time.
->
-> Makes sense. I wasn't sure if there were more than one stream associated
-> with a test. Sounds like there are many to one so it can't just be a
-> member of the test. This could be documented somewhere so this question
-> doesn't come up again.
+Especially given that you have Oleg's Ack, I would be happy to
+take the forward-ported version.
 
-Sounds good. Will do.
+							Thanx, Paul
 
-Thanks!
+> ---
+> Please note: Only build and boot tested this particular patch so far.
+> 
+>  include/linux/rcu_sync.h |  5 ++---
+>  kernel/rcu/sync.c        | 22 ----------------------
+>  2 files changed, 2 insertions(+), 25 deletions(-)
+> 
+> diff --git a/include/linux/rcu_sync.h b/include/linux/rcu_sync.h
+> index 6fc53a1345b3..c954f1efc919 100644
+> --- a/include/linux/rcu_sync.h
+> +++ b/include/linux/rcu_sync.h
+> @@ -39,9 +39,8 @@ extern void rcu_sync_lockdep_assert(struct rcu_sync *);
+>   */
+>  static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
+>  {
+> -#ifdef CONFIG_PROVE_RCU
+> -	rcu_sync_lockdep_assert(rsp);
+> -#endif
+> +	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
+> +			 "suspicious rcu_sync_is_idle() usage");
+>  	return !rsp->gp_state; /* GP_IDLE */
+>  }
+>  
+> diff --git a/kernel/rcu/sync.c b/kernel/rcu/sync.c
+> index a8304d90573f..535e02601f56 100644
+> --- a/kernel/rcu/sync.c
+> +++ b/kernel/rcu/sync.c
+> @@ -10,37 +10,25 @@
+>  #include <linux/rcu_sync.h>
+>  #include <linux/sched.h>
+>  
+> -#ifdef CONFIG_PROVE_RCU
+> -#define __INIT_HELD(func)	.held = func,
+> -#else
+> -#define __INIT_HELD(func)
+> -#endif
+> -
+>  static const struct {
+>  	void (*sync)(void);
+>  	void (*call)(struct rcu_head *, void (*)(struct rcu_head *));
+>  	void (*wait)(void);
+> -#ifdef CONFIG_PROVE_RCU
+> -	int  (*held)(void);
+> -#endif
+>  } gp_ops[] = {
+>  	[RCU_SYNC] = {
+>  		.sync = synchronize_rcu,
+>  		.call = call_rcu,
+>  		.wait = rcu_barrier,
+> -		__INIT_HELD(rcu_read_lock_held)
+>  	},
+>  	[RCU_SCHED_SYNC] = {
+>  		.sync = synchronize_rcu,
+>  		.call = call_rcu,
+>  		.wait = rcu_barrier,
+> -		__INIT_HELD(rcu_read_lock_sched_held)
+>  	},
+>  	[RCU_BH_SYNC] = {
+>  		.sync = synchronize_rcu,
+>  		.call = call_rcu,
+>  		.wait = rcu_barrier,
+> -		__INIT_HELD(rcu_read_lock_bh_held)
+>  	},
+>  };
+>  
+> @@ -49,16 +37,6 @@ enum { CB_IDLE = 0, CB_PENDING, CB_REPLAY };
+>  
+>  #define	rss_lock	gp_wait.lock
+>  
+> -#ifdef CONFIG_PROVE_RCU
+> -void rcu_sync_lockdep_assert(struct rcu_sync *rsp)
+> -{
+> -	RCU_LOCKDEP_WARN(!gp_ops[rsp->gp_type].held(),
+> -			 "suspicious rcu_sync_is_idle() usage");
+> -}
+> -
+> -EXPORT_SYMBOL_GPL(rcu_sync_lockdep_assert);
+> -#endif
+> -
+>  /**
+>   * rcu_sync_init() - Initialize an rcu_sync structure
+>   * @rsp: Pointer to rcu_sync structure to be initialized
+> -- 
+> 2.22.0.510.g264f2c817a-goog
+> 
+
