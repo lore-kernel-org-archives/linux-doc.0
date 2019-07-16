@@ -1,138 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05E987D917
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Jul 2019 22:43:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 738637D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 04:03:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731750AbfGOWnf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Jul 2019 18:43:35 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35413 "EHLO
+        id S1726484AbfGPEDH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 00:03:07 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:38900 "EHLO
         mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731044AbfGOWne (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jul 2019 18:43:34 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u14so8107667pfn.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 15:43:34 -0700 (PDT)
+        with ESMTP id S1726295AbfGPEDH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 00:03:07 -0400
+Received: by mail-pf1-f193.google.com with SMTP id y15so8424120pfn.5
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2019 21:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B0dmaddygNqZgaGUDAa6cmxBvESBVDt3nRTuc2Ed70Y=;
-        b=TvefYQ4CXwYECIE1DD5mMNTXSS5HYvyG/pzvPIWc/AcUeE000MlMBoQ+UnA0lQ1n5F
-         J7msY35wgId7ntbvKXqQfoaqQ86v3mXkjix4KiLl4u6U93/fC5IaevmselacDdowCR/G
-         iyLUy9PuUK6XnxYy7VDz4MJceIVqGDB7wOfFH9e4PAIu+KvegnYNT6RGkjvCG2CcAryr
-         zNpIkVs0KHES2MAvXC6bkPoPCjnPfiickXXO58iW726KzLdfp/yLgSvrpmy/5Ix9KBQ0
-         9sghkw+DYAjzdFPtaBU764DprOajqeRr5/CW8du6jhE57m3uscWi90TZpp/kvfYXdZoS
-         /10w==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=emWs4O8hlB2TIuNtkX4TCZFbfAkCg1SZuUU8yDd2sEA=;
+        b=EUayzWAAPKzWkqzvEU0EkCIPVbFaXgTPLnhPDPXNEGqZowkwVyB0fuRja+ukvx2jRx
+         /JsAJvv2ngG4+HyMb/ksTKGTTuCNw6tiK8jigG3DyiGHLTshKdgdlpd3cg/yvXQ34IXh
+         LxYQ1MLKK8X//mQ7Xm/s6D4lgquYO/nzn6BMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B0dmaddygNqZgaGUDAa6cmxBvESBVDt3nRTuc2Ed70Y=;
-        b=g+wDPY7OSfsnwpM6suRgIRWgF+xTHivPy6HO0opn8IbU+WOc/QicHG0wQGjWVT/DSZ
-         JuHwA/aXjPEyBkLivdO0QNpjyPZ//ptY79aIV7pA9Fqw1KhipfKLpx2h7EcAevtN3l9a
-         xcO8BIFDoPc1m3gO7ZH1/ZKW2/9jnrUPbQkNB5/MgTxjbldIJRnWoEy/5oIFxUbawADf
-         6X/Og9ieWmRmHsgtxvyVE+sDMz+j7aV/KYBZ7UFTMQTvrAUbnoISExR14NNzkLF+g5vJ
-         mAjpOZaB6WKdKgumFcbeZA0HLsMPqkCKrES7O+unRDtctqqrGwU1aXgaDKWoTtbXvGDD
-         80qw==
-X-Gm-Message-State: APjAAAVsE5rtJbdOhnrCgOmoPqdTjotKjuWBA7apdVlO1g8i3rj6OMOK
-        FXnjYPAVZmse/fjEyGWqzdvXgGKjq9+GEWZEnSAbFg==
-X-Google-Smtp-Source: APXvYqwafDOiX+PiabduZWro+OOpT5RPBS9Ci2pxCrNN9UWVIxex8mHl/Rh2UWEvSxgoEZAT49mdKVcWgja67R7I7ck=
-X-Received: by 2002:a63:eb51:: with SMTP id b17mr28611693pgk.384.1563230612372;
- Mon, 15 Jul 2019 15:43:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=emWs4O8hlB2TIuNtkX4TCZFbfAkCg1SZuUU8yDd2sEA=;
+        b=HLd7EG80D0WaY+OCoheYngZXtQIMKbuYCVsXD1UoZZxqTpwAp/l/FDnMBwTTx/KxeL
+         TH24PBlVsh5FiTItoqQKgPN0qMqM+cLjqMEN1ckaIRd+BZ/l5HMdvEDpfLDjLgFA/4HW
+         LksFZIv4BaSCqJ0bzy66M1fgdUpAfZUbqwe7VpwUljRqSv8J/IA4/n8U8BENpySyl4ZM
+         Ct+YG5R8dyIAVvtnQ/D6vZLN9V3B/EJ0x36Z9LSqf6qKh8qxeKC/xMccFpIDEGfya6CA
+         UO7hlTLHf7Y7vpKqwnxQP7UWc+3bZQO9t+IIF38cL1kOnyAHNB90NynexcqRivb1tLml
+         RvYw==
+X-Gm-Message-State: APjAAAXJlSrSeVWYdYpAzW0adRwKThpkNXt0vlKH7XSYt31SqWr0qz6x
+        sMhjZDB+fl25OQiPhTUKH+Q=
+X-Google-Smtp-Source: APXvYqxyHJD5IpHHcJaM1ojDiiimToJpqwPzyUOe3rbN2WwHYdOcsvYOosL3yD4qnxS7tzykZLERPg==
+X-Received: by 2002:a17:90a:374a:: with SMTP id u68mr33288835pjb.4.1563249786384;
+        Mon, 15 Jul 2019 21:03:06 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id y133sm21032895pfb.28.2019.07.15.21.03.04
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 15 Jul 2019 21:03:05 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 00:03:03 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>, peterz@infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 7/9] x86/pci: Pass lockdep condition to pcm_mmcfg_list
+ iterator (v1)
+Message-ID: <20190716040303.GA73383@google.com>
+References: <20190715143705.117908-1-joel@joelfernandes.org>
+ <20190715143705.117908-8-joel@joelfernandes.org>
+ <20190715200235.GG46935@google.com>
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-4-brendanhiggins@google.com> <20190715204356.4E3F92145D@mail.kernel.org>
- <CAFd5g47481sRaez=yEJN4_ghiXZbxayk1Y04tAZpuzPLsmnhKg@mail.gmail.com>
- <20190715220407.0030420665@mail.kernel.org> <CAFd5g44bE0F=wq_fOAnxFTtoOyx1dUshhDAkKWr5hX9ipJ4Sxw@mail.gmail.com>
-In-Reply-To: <CAFd5g44bE0F=wq_fOAnxFTtoOyx1dUshhDAkKWr5hX9ipJ4Sxw@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 15 Jul 2019 15:43:20 -0700
-Message-ID: <CAFd5g47y4vDB2P=EsGN8305LGeQPCTveNs-Jd5-=6K-XKY==CA@mail.gmail.com>
-Subject: Re: [PATCH v9 03/18] kunit: test: add string_stream a std::stream
- like string builder
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190715200235.GG46935@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 15, 2019 at 3:11 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> On Mon, Jul 15, 2019 at 3:04 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> >
-> > Quoting Brendan Higgins (2019-07-15 14:11:50)
-> > > On Mon, Jul 15, 2019 at 1:43 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > >
-> > > > I also wonder if it would be better to just have a big slop buffer of a
-> > > > 4K page or something so that we almost never have to allocate anything
-> > > > with a string_stream and we can just rely on a reader consuming data
-> > > > while writers are writing. That might work out better, but I don't quite
-> > > > understand the use case for the string stream.
-> > >
-> > > That makes sense, but might that also waste memory since we will
-> > > almost never need that much memory?
-> >
-> > Why do we care? These are unit tests.
->
-> Agreed.
->
-> > Having allocations in here makes
-> > things more complicated, whereas it would be simpler to have a pointer
-> > and a spinlock operating on a chunk of memory that gets flushed out
-> > periodically.
->
-> I am not so sure. I have to have the logic to allocate memory in some
-> case no matter what (what if I need more memory that my preallocated
-> chuck?). I think it is simpler to always request an allocation than to
-> only sometimes request an allocation.
+On Mon, Jul 15, 2019 at 03:02:35PM -0500, Bjorn Helgaas wrote:
+> On Mon, Jul 15, 2019 at 10:37:03AM -0400, Joel Fernandes (Google) wrote:
+> > The pcm_mmcfg_list is traversed with list_for_each_entry_rcu without a
+> > reader-lock held, because the pci_mmcfg_lock is already held. Make this
+> > known to the list macro so that it fixes new lockdep warnings that
+> > trigger due to lockdep checks added to list_for_each_entry_rcu().
+> > 
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> 
+> Ingo takes care of most patches to this file, but FWIW,
+> 
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Another even simpler alternative might be to just allocate memory
-using kunit_kmalloc as we need it and just let the kunit_resource code
-handle cleaning it all up when the test case finishes.
+Thanks.
 
-What do you think?
+> I would personally prefer if you capitalized the subject to match the
+> "x86/PCI:" convention that's used fairly consistently in
+> arch/x86/pci/.
+> 
+> Also, I didn't apply this to be sure, but it looks like this might
+> make a line or two wider than 80 columns, which I would rewrap if I
+> were applying this.
+
+Updated below is the patch with the nits corrected:
+
+---8<-----------------------
+
+From 73fab09d7e33ca2110c24215f8ed428c12625dbe Mon Sep 17 00:00:00 2001
+From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Date: Sat, 1 Jun 2019 15:05:49 -0400
+Subject: [PATCH] x86/PCI: Pass lockdep condition to pcm_mmcfg_list iterator
+ (v1)
+
+The pcm_mmcfg_list is traversed with list_for_each_entry_rcu without a
+reader-lock held, because the pci_mmcfg_lock is already held. Make this
+known to the list macro so that it fixes new lockdep warnings that
+trigger due to lockdep checks added to list_for_each_entry_rcu().
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ arch/x86/pci/mmconfig-shared.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/pci/mmconfig-shared.c b/arch/x86/pci/mmconfig-shared.c
+index 7389db538c30..9e3250ec5a37 100644
+--- a/arch/x86/pci/mmconfig-shared.c
++++ b/arch/x86/pci/mmconfig-shared.c
+@@ -29,6 +29,7 @@
+ static bool pci_mmcfg_running_state;
+ static bool pci_mmcfg_arch_init_failed;
+ static DEFINE_MUTEX(pci_mmcfg_lock);
++#define pci_mmcfg_lock_held() lock_is_held(&(pci_mmcfg_lock).dep_map)
+ 
+ LIST_HEAD(pci_mmcfg_list);
+ 
+@@ -54,7 +55,8 @@ static void list_add_sorted(struct pci_mmcfg_region *new)
+ 	struct pci_mmcfg_region *cfg;
+ 
+ 	/* keep list sorted by segment and starting bus number */
+-	list_for_each_entry_rcu(cfg, &pci_mmcfg_list, list) {
++	list_for_each_entry_rcu(cfg, &pci_mmcfg_list, list,
++				pci_mmcfg_lock_held()) {
+ 		if (cfg->segment > new->segment ||
+ 		    (cfg->segment == new->segment &&
+ 		     cfg->start_bus >= new->start_bus)) {
+@@ -118,7 +120,8 @@ struct pci_mmcfg_region *pci_mmconfig_lookup(int segment, int bus)
+ {
+ 	struct pci_mmcfg_region *cfg;
+ 
+-	list_for_each_entry_rcu(cfg, &pci_mmcfg_list, list)
++	list_for_each_entry_rcu(cfg, &pci_mmcfg_list, list
++				pci_mmcfg_lock_held())
+ 		if (cfg->segment == segment &&
+ 		    cfg->start_bus <= bus && bus <= cfg->end_bus)
+ 			return cfg;
+-- 
+2.22.0.510.g264f2c817a-goog
+
