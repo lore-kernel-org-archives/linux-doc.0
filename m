@@ -5,78 +5,61 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 309F37D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 12:11:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2A117D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 12:12:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732565AbfGPMLw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 08:11:52 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42268 "EHLO
+        id S1732614AbfGPML5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 08:11:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42318 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728387AbfGPMLw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 08:11:52 -0400
+        with ESMTP id S1728387AbfGPML4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 08:11:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iZYeg9Nbps8f84ceOabjIWQOvWBOi7Zf+58kDSKfKw4=; b=SYnfqTRIRg+lXMoK+qjBAcWjJA
-        ukjt6ndWG1X2HGVA05EOW3eBW5FIo9Cz470o5K/fa+Bet69ocanRP1jSFnJDD0Q+CF5jJ/7Ewa9bz
-        cY5H3AR2T9VL+AoIk2h0uh1a436/Ipe5A9mwZYsb5CklukzZMl11r79DSv0pKbPc7g5p/CXLWVCO1
-        dHYPVggmNYesmyEKxBcLJc0Cojr0KKRtvlRmkH4ACHZ2VPsqXDEb7uvhgil1lJ965UtnBkZn9xYvk
-        aQxImhre7/hmN5ANVcgEiOzt4T4JbwjOPrMk9ALiinZ0MJ+BhU2LJIjdZGtWja7AC1+ZZz/RhmF3O
-        LCdCnauQ==;
+        bh=OuafK/TTQcFkrbP+suIfTDa/h6nPmDJ0gGHTBNIInGY=; b=Ci7+vMU1+HZzE7DcZZlxSkw6y0
+        mszV5/NNKH+DRrjRTdPy+5jTpMHCGNv/6ywSuXrzRQiozk15SKsyrVsSrkOcFgJpzDKqTXs/6X3jq
+        //LZsfMq2LcQMBwPMVpdJh8wipGHPD0qxv06v/sNmlbmLLtgoAlyubAFez61IOp9Vrgze82P6DEYQ
+        Dayy8pUN1O1dcaOiEjM0OpIQjQNtCkO0AeF4UpNmnhPmqHYN5/4Qq2AU42k3RD7QvYpNf/yigLodB
+        9jZxxnX+X3nNc3woVXvpKdXBFdSFLsyF4o1MZKBZFxEdOWV7aZ8xIDYruTVXj1JX/M/QXRXumySUt
+        yUzeQBVA==;
 Received: from [189.27.46.152] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hnMIL-0004i2-BI; Tue, 16 Jul 2019 12:10:57 +0000
+        id 1hnMIL-0004i0-C9; Tue, 16 Jul 2019 12:10:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hnMII-0000Qj-NF; Tue, 16 Jul 2019 09:10:54 -0300
+        id 1hnMII-0000Rl-VY; Tue, 16 Jul 2019 09:10:54 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jerry Hoemann <jerry.hoemann@hpe.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
-        Don Brace <don.brace@microsemi.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org, esc.storagedev@microsemi.com,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH 03/14] docs: fix broken doc references due to renames
-Date:   Tue, 16 Jul 2019 09:10:42 -0300
-Message-Id: <aa415583bf6b812b0249093a601aa31412f3a1cf.1563277838.git.mchehab+samsung@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-sh@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 13/14] docs: remove extra conf.py files
+Date:   Tue, 16 Jul 2019 09:10:52 -0300
+Message-Id: <db935399a4a87f938504aa23edc17b4aaa0738e1.1563277838.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563277838.git.mchehab+samsung@kernel.org>
 References: <cover.1563277838.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
@@ -84,195 +67,393 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some files got renamed but probably due to some merge conflicts,
-a few references still point to the old locations.
+Now that the latex_documents are handled automatically, we can
+remove those extra conf.py files.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/RCU/rculist_nulls.txt                   | 2 +-
- Documentation/devicetree/bindings/arm/idle-states.txt | 2 +-
- Documentation/locking/spinlocks.rst                   | 4 ++--
- Documentation/memory-barriers.txt                     | 2 +-
- Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
- Documentation/watchdog/hpwdt.rst                      | 2 +-
- MAINTAINERS                                           | 8 ++++----
- drivers/gpu/drm/drm_modes.c                           | 2 +-
- drivers/i2c/busses/i2c-nvidia-gpu.c                   | 2 +-
- drivers/scsi/hpsa.c                                   | 4 ++--
- 10 files changed, 15 insertions(+), 15 deletions(-)
+ Documentation/admin-guide/conf.py      | 10 ----------
+ Documentation/core-api/conf.py         | 10 ----------
+ Documentation/crypto/conf.py           | 10 ----------
+ Documentation/dev-tools/conf.py        | 10 ----------
+ Documentation/doc-guide/conf.py        | 10 ----------
+ Documentation/driver-api/80211/conf.py | 10 ----------
+ Documentation/driver-api/conf.py       | 10 ----------
+ Documentation/driver-api/pm/conf.py    | 10 ----------
+ Documentation/filesystems/conf.py      | 10 ----------
+ Documentation/gpu/conf.py              | 10 ----------
+ Documentation/input/conf.py            | 10 ----------
+ Documentation/kernel-hacking/conf.py   | 10 ----------
+ Documentation/maintainer/conf.py       | 10 ----------
+ Documentation/media/conf.py            | 12 ------------
+ Documentation/networking/conf.py       | 10 ----------
+ Documentation/process/conf.py          | 10 ----------
+ Documentation/sh/conf.py               | 10 ----------
+ Documentation/sound/conf.py            | 10 ----------
+ Documentation/userspace-api/conf.py    | 10 ----------
+ Documentation/vm/conf.py               | 10 ----------
+ Documentation/x86/conf.py              | 10 ----------
+ 21 files changed, 212 deletions(-)
+ delete mode 100644 Documentation/admin-guide/conf.py
+ delete mode 100644 Documentation/core-api/conf.py
+ delete mode 100644 Documentation/crypto/conf.py
+ delete mode 100644 Documentation/dev-tools/conf.py
+ delete mode 100644 Documentation/doc-guide/conf.py
+ delete mode 100644 Documentation/driver-api/80211/conf.py
+ delete mode 100644 Documentation/driver-api/conf.py
+ delete mode 100644 Documentation/driver-api/pm/conf.py
+ delete mode 100644 Documentation/filesystems/conf.py
+ delete mode 100644 Documentation/gpu/conf.py
+ delete mode 100644 Documentation/input/conf.py
+ delete mode 100644 Documentation/kernel-hacking/conf.py
+ delete mode 100644 Documentation/maintainer/conf.py
+ delete mode 100644 Documentation/media/conf.py
+ delete mode 100644 Documentation/networking/conf.py
+ delete mode 100644 Documentation/process/conf.py
+ delete mode 100644 Documentation/sh/conf.py
+ delete mode 100644 Documentation/sound/conf.py
+ delete mode 100644 Documentation/userspace-api/conf.py
+ delete mode 100644 Documentation/vm/conf.py
+ delete mode 100644 Documentation/x86/conf.py
 
-diff --git a/Documentation/RCU/rculist_nulls.txt b/Documentation/RCU/rculist_nulls.txt
-index 8151f0195f76..23f115dc87cf 100644
---- a/Documentation/RCU/rculist_nulls.txt
-+++ b/Documentation/RCU/rculist_nulls.txt
-@@ -1,7 +1,7 @@
- Using hlist_nulls to protect read-mostly linked lists and
- objects using SLAB_TYPESAFE_BY_RCU allocations.
- 
--Please read the basics in Documentation/RCU/listRCU.txt
-+Please read the basics in Documentation/RCU/listRCU.rst
- 
- Using special makers (called 'nulls') is a convenient way
- to solve following problem :
-diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Documentation/devicetree/bindings/arm/idle-states.txt
-index 326f29b270ad..2d325bed37e5 100644
---- a/Documentation/devicetree/bindings/arm/idle-states.txt
-+++ b/Documentation/devicetree/bindings/arm/idle-states.txt
-@@ -703,4 +703,4 @@ cpus {
-     https://www.devicetree.org/specifications/
- 
- [6] ARM Linux Kernel documentation - Booting AArch64 Linux
--    Documentation/arm64/booting.txt
-+    Documentation/arm64/booting.rst
-diff --git a/Documentation/locking/spinlocks.rst b/Documentation/locking/spinlocks.rst
-index 098107fb7d86..e93ec6645238 100644
---- a/Documentation/locking/spinlocks.rst
-+++ b/Documentation/locking/spinlocks.rst
-@@ -82,7 +82,7 @@ itself.  The read lock allows many concurrent readers.  Anything that
- **changes** the list will have to get the write lock.
- 
-    NOTE! RCU is better for list traversal, but requires careful
--   attention to design detail (see Documentation/RCU/listRCU.txt).
-+   attention to design detail (see Documentation/RCU/listRCU.rst).
- 
- Also, you cannot "upgrade" a read-lock to a write-lock, so if you at _any_
- time need to do any changes (even if you don't do it every time), you have
-@@ -90,7 +90,7 @@ to get the write-lock at the very beginning.
- 
-    NOTE! We are working hard to remove reader-writer spinlocks in most
-    cases, so please don't add a new one without consensus.  (Instead, see
--   Documentation/RCU/rcu.txt for complete information.)
-+   Documentation/RCU/rcu.rst for complete information.)
- 
- ----
- 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 045bb8148fe9..1adbb8a371c7 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -548,7 +548,7 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
- 
- 	[*] For information on bus mastering DMA and coherency please read:
- 
--	    Documentation/PCI/pci.rst
-+	    Documentation/driver-api/pci/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
- 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index a33c2a536542..2774624ee843 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -569,7 +569,7 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
- 
- 	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
- 
--	    Documentation/PCI/pci.rst
-+	    Documentation/driver-api/pci/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
- 
-diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
-index 94a96371113e..49c647dba8aa 100644
---- a/Documentation/watchdog/hpwdt.rst
-+++ b/Documentation/watchdog/hpwdt.rst
-@@ -59,7 +59,7 @@ Last reviewed: 08/20/2018
-  and loop forever.  This is generally not what a watchdog user wants.
- 
-  For those wishing to learn more please see:
--	Documentation/kdump/kdump.rst
-+	Documentation/admin-guide/kdump/kdump.rst
- 	Documentation/admin-guide/kernel-parameters.txt (panic=)
- 	Your Linux Distribution specific documentation.
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b3a5c72f3298..b0acc138e9e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -899,7 +899,7 @@ L:	linux-iio@vger.kernel.org
- W:	http://ez.analog.com/community/linux-device-drivers
- S:	Supported
- F:	drivers/iio/adc/ad7124.c
--F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.txt
-+F:	Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
- 
- ANALOG DEVICES INC AD7606 DRIVER
- M:	Stefan Popa <stefan.popa@analog.com>
-@@ -4189,7 +4189,7 @@ M:	Jens Axboe <axboe@kernel.dk>
- L:	cgroups@vger.kernel.org
- L:	linux-block@vger.kernel.org
- T:	git git://git.kernel.dk/linux-block
--F:	Documentation/cgroup-v1/blkio-controller.rst
-+F:	Documentation/admin-guide/cgroup-v1/blkio-controller.rst
- F:	block/blk-cgroup.c
- F:	include/linux/blk-cgroup.h
- F:	block/blk-throttle.c
-@@ -6848,7 +6848,7 @@ R:	Sagi Shahar <sagis@google.com>
- R:	Jon Olson <jonolson@google.com>
- L:	netdev@vger.kernel.org
- S:	Supported
--F:	Documentation/networking/device_drivers/google/gve.txt
-+F:	Documentation/networking/device_drivers/google/gve.rst
- F:	drivers/net/ethernet/google
- 
- GPD POCKET FAN DRIVER
-@@ -12096,7 +12096,7 @@ M:	Juergen Gross <jgross@suse.com>
- M:	Alok Kataria <akataria@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- S:	Supported
--F:	Documentation/virtual/paravirt_ops.txt
-+F:	Documentation/virtual/paravirt_ops.rst
- F:	arch/*/kernel/paravirt*
- F:	arch/*/include/asm/paravirt*.h
- F:	include/linux/hypervisor.h
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 57e6408288c8..4645af681ef8 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1680,7 +1680,7 @@ static int drm_mode_parse_cmdline_options(char *str, size_t len,
-  *
-  * Additionals options can be provided following the mode, using a comma to
-  * separate each option. Valid options can be found in
-- * Documentation/fb/modedb.txt.
-+ * Documentation/fb/modedb.rst.
-  *
-  * The intermediate drm_cmdline_mode structure is required to store additional
-  * options from the command line modline like the force-enable/disable flag.
-diff --git a/drivers/i2c/busses/i2c-nvidia-gpu.c b/drivers/i2c/busses/i2c-nvidia-gpu.c
-index cfc76b5de726..5a1235fd86bb 100644
---- a/drivers/i2c/busses/i2c-nvidia-gpu.c
-+++ b/drivers/i2c/busses/i2c-nvidia-gpu.c
-@@ -364,7 +364,7 @@ static void gpu_i2c_remove(struct pci_dev *pdev)
- /*
-  * We need gpu_i2c_suspend() even if it is stub, for runtime pm to work
-  * correctly. Without it, lspci shows runtime pm status as "D0" for the card.
-- * Documentation/power/pci.txt also insists for driver to provide this.
-+ * Documentation/power/pci.rst also insists for driver to provide this.
-  */
- static __maybe_unused int gpu_i2c_suspend(struct device *dev)
- {
-diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
-index 43a6b5350775..eaf6177ac9ee 100644
---- a/drivers/scsi/hpsa.c
-+++ b/drivers/scsi/hpsa.c
-@@ -7798,7 +7798,7 @@ static void hpsa_free_pci_init(struct ctlr_info *h)
- 	hpsa_disable_interrupt_mode(h);		/* pci_init 2 */
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.rst
-+	 * Documentation/driver-api/pci/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);		/* pci_init 1 */
- 	pci_release_regions(h->pdev);		/* pci_init 2 */
-@@ -7881,7 +7881,7 @@ static int hpsa_pci_init(struct ctlr_info *h)
- clean1:
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.rst
-+	 * Documentation/driver-api/pci/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);
- 	pci_release_regions(h->pdev);
+diff --git a/Documentation/admin-guide/conf.py b/Documentation/admin-guide/conf.py
+deleted file mode 100644
+index 86f738953799..000000000000
+--- a/Documentation/admin-guide/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = 'Linux Kernel User Documentation'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'linux-user.tex', 'Linux Kernel User Documentation',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/core-api/conf.py b/Documentation/core-api/conf.py
+deleted file mode 100644
+index db1f7659f3da..000000000000
+--- a/Documentation/core-api/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Core-API Documentation"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'core-api.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/crypto/conf.py b/Documentation/crypto/conf.py
+deleted file mode 100644
+index 4335d251ddf3..000000000000
+--- a/Documentation/crypto/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = 'Linux Kernel Crypto API'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'crypto-api.tex', 'Linux Kernel Crypto API manual',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/dev-tools/conf.py b/Documentation/dev-tools/conf.py
+deleted file mode 100644
+index 7faafa3f7888..000000000000
+--- a/Documentation/dev-tools/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Development tools for the kernel"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'dev-tools.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/doc-guide/conf.py b/Documentation/doc-guide/conf.py
+deleted file mode 100644
+index fd3731182d5a..000000000000
+--- a/Documentation/doc-guide/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = 'Linux Kernel Documentation Guide'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'kernel-doc-guide.tex', 'Linux Kernel Documentation Guide',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/driver-api/80211/conf.py b/Documentation/driver-api/80211/conf.py
+deleted file mode 100644
+index 4424b4b0b9c3..000000000000
+--- a/Documentation/driver-api/80211/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux 802.11 Driver Developer's Guide"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', '80211.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/driver-api/conf.py b/Documentation/driver-api/conf.py
+deleted file mode 100644
+index 202726d20088..000000000000
+--- a/Documentation/driver-api/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "The Linux driver implementer's API guide"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'driver-api.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/driver-api/pm/conf.py b/Documentation/driver-api/pm/conf.py
+deleted file mode 100644
+index a89fac11272f..000000000000
+--- a/Documentation/driver-api/pm/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Device Power Management"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'pm.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/filesystems/conf.py b/Documentation/filesystems/conf.py
+deleted file mode 100644
+index ea44172af5c4..000000000000
+--- a/Documentation/filesystems/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux Filesystems API"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'filesystems.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/gpu/conf.py b/Documentation/gpu/conf.py
+deleted file mode 100644
+index 1757b040fb32..000000000000
+--- a/Documentation/gpu/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux GPU Driver Developer's Guide"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'gpu.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/input/conf.py b/Documentation/input/conf.py
+deleted file mode 100644
+index d2352fdc92ed..000000000000
+--- a/Documentation/input/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "The Linux input driver subsystem"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'linux-input.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/kernel-hacking/conf.py b/Documentation/kernel-hacking/conf.py
+deleted file mode 100644
+index 3d8acf0f33ad..000000000000
+--- a/Documentation/kernel-hacking/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Kernel Hacking Guides"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'kernel-hacking.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/maintainer/conf.py b/Documentation/maintainer/conf.py
+deleted file mode 100644
+index 81e9eb7a7884..000000000000
+--- a/Documentation/maintainer/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = 'Linux Kernel Development Documentation'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'maintainer.tex', 'Linux Kernel Development Documentation',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/media/conf.py b/Documentation/media/conf.py
+deleted file mode 100644
+index 1f194fcd2cae..000000000000
+--- a/Documentation/media/conf.py
++++ /dev/null
+@@ -1,12 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-# SPDX-License-Identifier: GPL-2.0
+-
+-project = 'Linux Media Subsystem Documentation'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'media.tex', 'Linux Media Subsystem Documentation',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/networking/conf.py b/Documentation/networking/conf.py
+deleted file mode 100644
+index 40f69e67a883..000000000000
+--- a/Documentation/networking/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux Networking Documentation"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'networking.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/process/conf.py b/Documentation/process/conf.py
+deleted file mode 100644
+index 1b01a80ad9ce..000000000000
+--- a/Documentation/process/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = 'Linux Kernel Development Documentation'
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'process.tex', 'Linux Kernel Development Documentation',
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/sh/conf.py b/Documentation/sh/conf.py
+deleted file mode 100644
+index 1eb684a13ac8..000000000000
+--- a/Documentation/sh/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "SuperH architecture implementation manual"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'sh.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/sound/conf.py b/Documentation/sound/conf.py
+deleted file mode 100644
+index 3f1fc5e74e7b..000000000000
+--- a/Documentation/sound/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux Sound Subsystem Documentation"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'sound.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/userspace-api/conf.py b/Documentation/userspace-api/conf.py
+deleted file mode 100644
+index 2eaf59f844e5..000000000000
+--- a/Documentation/userspace-api/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "The Linux kernel user-space API guide"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'userspace-api.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/vm/conf.py b/Documentation/vm/conf.py
+deleted file mode 100644
+index 3b0b601af558..000000000000
+--- a/Documentation/vm/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "Linux Memory Management Documentation"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'memory-management.tex', project,
+-     'The kernel development community', 'manual'),
+-]
+diff --git a/Documentation/x86/conf.py b/Documentation/x86/conf.py
+deleted file mode 100644
+index 33c5c3142e20..000000000000
+--- a/Documentation/x86/conf.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-
+-project = "X86 architecture specific documentation"
+-
+-tags.add("subproject")
+-
+-latex_documents = [
+-    ('index', 'x86.tex', project,
+-     'The kernel development community', 'manual'),
+-]
 -- 
 2.21.0
 
