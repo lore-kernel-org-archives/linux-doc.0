@@ -1,130 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0E757D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 17:51:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8E277D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 19:13:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727412AbfGQRvu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 13:51:50 -0400
-Received: from foss.arm.com ([217.140.110.172]:49652 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727280AbfGQRvu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Jul 2019 13:51:50 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 780D528;
-        Wed, 17 Jul 2019 10:51:49 -0700 (PDT)
-Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3D173F71F;
-        Wed, 17 Jul 2019 10:51:44 -0700 (PDT)
-Subject: Re: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-References: <20190716165641.6990-1-pasha.tatashin@soleen.com>
-From:   James Morse <james.morse@arm.com>
-Cc:     jmorris@namei.org, sashal@kernel.org, ebiederm@xmission.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <4c8a3a11-adc2-efa4-f765-6be338546ae4@arm.com>
-Date:   Wed, 17 Jul 2019 18:51:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727147AbfGQTN3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 15:13:29 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:34012 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfGQTN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 15:13:29 -0400
+Received: by mail-ed1-f68.google.com with SMTP id s49so27232018edb.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2019 12:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=af7XSHG9FUQt2yu1S5jYF4Zn8ho5gd7vQCkyA/tLau4=;
+        b=HKNB7eUjLd+nxSmK5kC8wj8kzMts/Dpt6A34z7nveegtxZyhnKNjglMj7rQ0vCl6LG
+         h/4t0uSBVCIua7IFT+yYWm2Fj59/6h40i8YUKwiETrPB6sZ6v8tarBe4z05I3+6KBe/o
+         nVsQcwwepTM0+8r5FULsisZ5p08osnWUZkggEXqUrver/328oW7udcbaG4m29zLP4D64
+         st4mdSY/slk8zOdH5QHV/oOGIFI6JB+jLZjhMhxwOlllr+eD2L1dm5L7pJsHWpHbz5iR
+         kY5YFUJdTFHOUuTE0MvIKbBNaqb0rDaxBWnAC2VW1rRN5sIlI/nski3ZyMC97oNqcCWt
+         vPbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=af7XSHG9FUQt2yu1S5jYF4Zn8ho5gd7vQCkyA/tLau4=;
+        b=XrQGodCwQwZ1wfO/9WtuWD9XzXDaGBzx4DDbPtNF1Y1OywxIAec4SGxATaS37ctp1e
+         9lUFTJftESm5A0DDVnEDjH2P9obW+BJEh9DO36k7Y8IIPDAg2oar+xhc6O/b/oHv5Imv
+         aHOyVb4e661oUXoPf74342TC7sXOM6Zi3K5NSpsQ/DGtxgmILh2sQq3m/YLkN9CR+EDZ
+         cgHSDgCh/SK0tpzNTRnSBSDQc0lg5oLyaOSxnwBKv8KDmr08Oe7XVcpmqJtdtV6hRHbS
+         SyTdR4AAXSF1HisVFgvG9uff6N1oHadohnKspg58Me1FJ5CAn4njgo/Zwt+sGU4bBELd
+         tniQ==
+X-Gm-Message-State: APjAAAVwlPOUy8mGF9bCrEysBz3IYPAUasEA6BvBKVaI/A9fU/iQgB67
+        VelIoSpeRCmSroM9S0R/QyCm0zbMPvnun54XIEg=
+X-Google-Smtp-Source: APXvYqzGlg1pP7IjPvj4DxUTLs7iKsVaWKc3/xY8HdOnhR8EtZWtRowTgwJdp96WZgETcAPcZ/SpRP0xI4l4xnW+0CI=
+X-Received: by 2002:a17:906:684e:: with SMTP id a14mr33040768ejs.156.1563390806721;
+ Wed, 17 Jul 2019 12:13:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190716165641.6990-1-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20190716165641.6990-1-pasha.tatashin@soleen.com> <4c8a3a11-adc2-efa4-f765-6be338546ae4@arm.com>
+In-Reply-To: <4c8a3a11-adc2-efa4-f765-6be338546ae4@arm.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 17 Jul 2019 15:13:15 -0400
+Message-ID: <CA+CK2bBj9UsQZCLsy-S8c_Kd5SRAPvtdS8s9P_Fdg+VifTbT5w@mail.gmail.com>
+Subject: Re: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
+To:     James Morse <james.morse@arm.com>
+Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
+Hi James,
 
-On 16/07/2019 17:56, Pavel Tatashin wrote:
-> Added identity mapped page table, and keep MMU enabled while
-> kernel is being relocated from sparse pages to the final
-> destination during kexec.
+Thank you for taking a look at this work.
 
-The 'tl;dr' version of this: I strongly urge you to start with the hibernate code that
-already covers all these known corner cases. x86 was not a good starting point.
+> After a quick skim:
+>
+> This will map 'nomap' regions of memory with cacheable attributes. This is a non-starter.
+> These regions were described by firmware as having content that was/is written with
+> different attributes. The attributes must match whenever it is mapped, otherwise we have a
+> loss of coherency. Mapping this stuff as cacheable means the CPU can prefetch it into the
+> cache whenever it likes.
 
+> It may be important that we do not ever map some of these regions, even though its
+> described as memory. On AMD-Seattle the bottom page of memory is reserved by firmware for
+> its own use; it is made secure-only, and any access causes an
+> external-abort/machine-check. UEFI describes this as 'Reserved', and we preserve this in
+> the kernel as 'nomap'. The equivalent DT support uses memreserve, possibly with the
+> 'nomap' attribute.
+>
+> Mapping a 'new'/unknown region with cacheable attributes can never be safe, even if we
+> trusted kexec-tool to only write the kernel to memory. The host may be using a bigger page
+> size causing more memory to become cacheable than was intended.
+> Linux's EFI support rounds the UEFI memory map to the largest support page size, (and
+> winges about firmware bugs).
+> If we're allowing kexec to load images in a region not described as IORESOURCE_SYSTEM_RAM,
+> that is a bug we should fix.
 
-After a quick skim:
+We are allowing this. If you consider this to be a bug, I will fix it,
+and this will actually simplify the idmap page table. User will
+receive an error during kexec load if a request is made to load into
+!IORESOURCE_SYSTEM_RAM region.
 
-This will map 'nomap' regions of memory with cacheable attributes. This is a non-starter.
-These regions were described by firmware as having content that was/is written with
-different attributes. The attributes must match whenever it is mapped, otherwise we have a
-loss of coherency. Mapping this stuff as cacheable means the CPU can prefetch it into the
-cache whenever it likes.
-It may be important that we do not ever map some of these regions, even though its
-described as memory. On AMD-Seattle the bottom page of memory is reserved by firmware for
-its own use; it is made secure-only, and any access causes an
-external-abort/machine-check. UEFI describes this as 'Reserved', and we preserve this in
-the kernel as 'nomap'. The equivalent DT support uses memreserve, possibly with the
-'nomap' attribute.
+>
+> The only way to do this properly is to copy the linear mapping. The arch code has lots of
+> complex code to generate it correctly at boot, we do not want to duplicate it.
+> (this is why hibernate copies the linear mapping)
 
-Mapping a 'new'/unknown region with cacheable attributes can never be safe, even if we
-trusted kexec-tool to only write the kernel to memory. The host may be using a bigger page
-size causing more memory to become cacheable than was intended.
-Linux's EFI support rounds the UEFI memory map to the largest support page size, (and
-winges about firmware bugs).
-If we're allowing kexec to load images in a region not described as IORESOURCE_SYSTEM_RAM,
-that is a bug we should fix.
+As I understand, you would like to take a copy of idmap page table,
+and add entries only for segment
+sources and destinations into the new page table?
 
-The only way to do this properly is to copy the linear mapping. The arch code has lots of
-complex code to generate it correctly at boot, we do not want to duplicate it.
-(this is why hibernate copies the linear mapping)
+If so, there is a slight problem: arch hook machine_kexec_prepare() is
+called prior to loading segments from userland. We can solve this by
+adding another hook that is called after kimage_terminate().
 
+> These patches do not remove the running page tables from TTBR1. As you overwrite the live
+> page tables you will corrupt the state of the CPU. The page-table walker may access things
+> that aren't memory, cache memory that shouldn't be cached (see above), and allocate
+> conflicting entries in the TLB.
 
-These patches do not remove the running page tables from TTBR1. As you overwrite the live
-page tables you will corrupt the state of the CPU. The page-table walker may access things
-that aren't memory, cache memory that shouldn't be cached (see above), and allocate
-conflicting entries in the TLB.
+Indeed. However, I was following what is done in create_safe_exec_page():
+https://soleen.com/source/xref/linux/arch/arm64/kernel/hibernate.c?r=af873fce#263
 
-You cannot use the mm page table helpers to build an idmap on arm64. The mm page table
-helpers have a compile-time VA_BITS, and we support systems where there is no memory below
-1<<VA_BITS. (crazy huh!). Picking on AMD-Seattle again: if you boot a 4K 39bit VA kernel,
-the idmap will have more page table levels than the page table helpers can build. This is
-why there are special helpers to load the idmap, and twiddle TCR_EL1.T0SZ.
-You already need to copy the linear-map, so using an idmap is extra work. You want to work
-with linear-map addresses, you probably need to add the field to the appropriate structure.
+ttbr1 is not removed there. Am I missing something, or is not yet
+configured there?
 
-The kexec relocation code still runs at EL2. You can't use a copy of the linear map here
-as there is only one TTBR on v8.0, and you'd need to setup EL2 as its been torn back to
-the hyp-stub. This is the reason hibernate posts EL2 in a holding pen while it rewrites
-all of memory, then calls back to fixup EL2. Keeping the rewrite phase at EL1 means it
-doesn't need independently tweaking/testing. You need to do something similar, either
-calling EL2 to start the new image, or disabling the MMU at EL1 to start the new image there.
+I will set ttbr1 to zero page.
 
-You will need to alter the relocation code to do nothing for kdump, as no relocation is
-required and building page-tables is extra work where the kernel may croak, preventing us
-from reaching kdump.
+> You cannot use the mm page table helpers to build an idmap on arm64. The mm page table
+> helpers have a compile-time VA_BITS, and we support systems where there is no memory below
+> 1<<VA_BITS. (crazy huh!). Picking on AMD-Seattle again: if you boot a 4K 39bit VA kernel,
+> the idmap will have more page table levels than the page table helpers can build. This is
+> why there are special helpers to load the idmap, and twiddle TCR_EL1.T0SZ.
+> You already need to copy the linear-map, so using an idmap is extra work. You want to work
+> with linear-map addresses, you probably need to add the field to the appropriate structure.
 
-Finally, having this independent idmap machinery isn't desirable from a maintenance
-perspective. Please start with the hibernate code that already solves a very similar
-problem, as it already has most of these problems covered.
+OK. Makes sense. I will do the way hibernate setup this table. I was
+indeed following x86, hoping that eventually it would be possible to
+unite: kasan, hibernate, and kexec implementation of this page table.
 
+>
+> The kexec relocation code still runs at EL2. You can't use a copy of the linear map here
+> as there is only one TTBR on v8.0, and you'd need to setup EL2 as its been torn back to
+> the hyp-stub.
 
-> This patch series works in terms, that I can kexec-reboot both in QEMU
+As I understand normally on baremetal kexec runs at EL1 not EL2. On my
+machine is_kernel_in_hyp_mode() == false in cpu_soft_restart.
 
-I wouldn't expect Qemu's emulation of the MMU and caches to be performance accurate.
+This is the reason hibernate posts EL2 in a holding pen while it rewrites
+> all of memory, then calls back to fixup EL2. Keeping the rewrite phase at EL1 means it
+> doesn't need independently tweaking/testing. You need to do something similar, either
+> calling EL2 to start the new image, or disabling the MMU at EL1 to start the new image there.
 
+OK, I will study how hibernate does this. I was thinking that if we
+are running in EL2 we can simply configure TTBR0_EL2 instead of
+TTBR0_EL1. But, I need to understand this better.
 
-> and on a physical machine. However, I do not see performance improvement
-> during relocation. The performance is just as slow as before with disabled
-> caches.
+>
+> You will need to alter the relocation code to do nothing for kdump, as no relocation is
+> required and building page-tables is extra work where the kernel may croak, preventing us
+> from reaching kdump.
 
-> Am I missing something? Perhaps, there is some flag that I should also
-> enable in page table? Please provide me with any suggestions.
+Yes, I was planning to do nothing for kdump, which involves not
+allocating page table. It is not part of the current patchest, as the
+current series is not ready.
 
-Some information about the physical machine you tested this on would help.
-I'm guessing its v8.0, and booted at EL2....
+>
+> Finally, having this independent idmap machinery isn't desirable from a maintenance
+> perspective. Please start with the hibernate code that already solves a very similar
+> problem, as it already has most of these problems covered.
 
+OK.
 
-Thanks,
+> > This patch series works in terms, that I can kexec-reboot both in QEMU
+>
+> I wouldn't expect Qemu's emulation of the MMU and caches to be performance accurate.
 
-James
+I am not measuring performance in QEMU, I use it for
+development/verification only. The performance is measured on real
+hardware only.
+
+>
+> > and on a physical machine. However, I do not see performance improvement
+> > during relocation. The performance is just as slow as before with disabled
+> > caches.
+>
+> > Am I missing something? Perhaps, there is some flag that I should also
+> > enable in page table? Please provide me with any suggestions.
+>
+> Some information about the physical machine you tested this on would help.
+> I'm guessing its v8.0, and booted at EL2....
+
+I am using Broadcom's Stingray SoC. Because  is_kernel_in_hyp_mode()
+returns false, I believe it is EL1. How can I boot it at EL2?
+
+So, I am still confused why I do not see performance improvements
+during relocation on this machine. Any theories?
+
+Thank you,
+Pasha
