@@ -1,161 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF0B37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 00:10:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E83DE7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 01:58:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728848AbfGQAKM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 20:10:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46304 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728597AbfGQAKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 20:10:12 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6H07KiH124292;
-        Tue, 16 Jul 2019 20:08:00 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tsnmnejq4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 Jul 2019 20:07:59 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6H07OI6125043;
-        Tue, 16 Jul 2019 20:07:59 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tsnmnejpc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 Jul 2019 20:07:59 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6H06MZU032508;
-        Wed, 17 Jul 2019 00:07:57 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-        by ppma01wdc.us.ibm.com with ESMTP id 2tq6x63b2y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 17 Jul 2019 00:07:57 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6H07vFM39780686
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 17 Jul 2019 00:07:57 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1A3E4B2065;
-        Wed, 17 Jul 2019 00:07:57 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C0D28B206E;
-        Wed, 17 Jul 2019 00:07:56 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.80.225.134])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 17 Jul 2019 00:07:56 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 30CFA16C8E9B; Tue, 16 Jul 2019 17:07:57 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 17:07:57 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
-        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        id S1725907AbfGQBzy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 21:55:54 -0400
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:45221 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfGQBzx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 21:55:53 -0400
+Received: by mail-pf1-f201.google.com with SMTP id i27so13502454pfk.12
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 18:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=g73VbK9hP8iwHcV/w0DEWc6A8T81W2obxVf/JscQhPY=;
+        b=Vbb6ETWdoL7/dyTwrtnSjUAJji8HmC0dbYlvBQhYL3ZtcFa53MTUkxRV21Vh+xQzRU
+         gtcMrgV6CsUcmCq6PHa2QI2RapBr3kPi3qcDZTk/V+RQINbCgIAGW9XgyyKfzkIP+4A2
+         Cj9ApaRpGtUkElZpxENbPQ4y/LhEkO32Y8s6YtL6EobTN8efWAzcypCT1B1B2UtD/u4i
+         A3n0+WeJDp01P7yO5hdDAfarVytQtTxJ7QrOXdADRb4dC2e7V8+WsZndPYZvAMZpQ4s7
+         2BclIo1VrtBu6iu7lEVSZ2YJI8piqhPI0Z2qIl5B2wcZ4ToCguieuFOeyAl4qvN2wNXh
+         HDVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=g73VbK9hP8iwHcV/w0DEWc6A8T81W2obxVf/JscQhPY=;
+        b=linZiXL+UMYEP3MFXO9m4d4H3RKIY7SyLakFzmbn7Ic/77idbDZ1ESiTjUjzDRJrIe
+         Pc1V9kDg51BRydPaxSOh1H4HNGC+qcARRe6mMWKzH2mVl4VmGPIXBPDnVQ6NWH82zyp4
+         cwL00mXceeFfpER0HyHjday53UL1C9FyVGNJ5Pvm+xOhL9o9pFird3pJ0v8dj/0cbYE8
+         zGnfdfez9nhMHcFU5YdcmqQY34jRhvOhgrVr4RaLIfhkbQAW/4KX6QC30lX7atTznynT
+         TSJFgmYtoxqJsG2UZA3zs8XUKBF49AIgU258MC6zELFmSv20Gpmjc4RwI0VXY5y7ppwc
+         iMVA==
+X-Gm-Message-State: APjAAAVTXuifwb22S8gt/z8R2TA0zPwB6MxbifKvMAaVqEfOsz4uZLfE
+        YRSF8u0H5aRZzYaiqwnRVdTMCka2O/6cgC23gm1N9g==
+X-Google-Smtp-Source: APXvYqzIJkjKQ3S+2BDLj5Fx/7Xa9wrPBuZpZW0wEdv7tjBDXndxr0psGCLPsqNbiarNlPEHuGD5doQNqhtuO1IsifVYng==
+X-Received: by 2002:a63:2606:: with SMTP id m6mr37469748pgm.436.1563328552353;
+ Tue, 16 Jul 2019 18:55:52 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 18:55:25 -0700
+Message-Id: <20190717015543.152251-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
+Subject: [PATCH v11 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
-        kernel-hardening@lists.openwall.com, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        neilb@suse.com, netdev@vger.kernel.org,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        peterz@infradead.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Tejun Heo <tj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH 2/9] rcu: Add support for consolidated-RCU reader
- checking (v3)
-Message-ID: <20190717000757.GQ14271@linux.ibm.com>
-Reply-To: paulmck@linux.ibm.com
-References: <20190715143705.117908-1-joel@joelfernandes.org>
- <20190715143705.117908-3-joel@joelfernandes.org>
- <20190716183833.GD14271@linux.ibm.com>
- <20190716184649.GA130463@google.com>
- <20190716185303.GM14271@linux.ibm.com>
- <20190716220205.GB172157@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190716220205.GB172157@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907160263
+        Iurii Zaikin <yzaikin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 06:02:05PM -0400, Joel Fernandes wrote:
-> On Tue, Jul 16, 2019 at 11:53:03AM -0700, Paul E. McKenney wrote:
-> [snip]
-> > > > A few more things below.
-> > > > > ---
-> > > > >  include/linux/rculist.h  | 28 ++++++++++++++++++++-----
-> > > > >  include/linux/rcupdate.h |  7 +++++++
-> > > > >  kernel/rcu/Kconfig.debug | 11 ++++++++++
-> > > > >  kernel/rcu/update.c      | 44 ++++++++++++++++++++++++----------------
-> > > > >  4 files changed, 67 insertions(+), 23 deletions(-)
-> > > > > 
-> > > > > diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-> > > > > index e91ec9ddcd30..1048160625bb 100644
-> > > > > --- a/include/linux/rculist.h
-> > > > > +++ b/include/linux/rculist.h
-> > > > > @@ -40,6 +40,20 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
-> > > > >   */
-> > > > >  #define list_next_rcu(list)	(*((struct list_head __rcu **)(&(list)->next)))
-> > > > >  
-> > > > > +/*
-> > > > > + * Check during list traversal that we are within an RCU reader
-> > > > > + */
-> > > > > +
-> > > > > +#ifdef CONFIG_PROVE_RCU_LIST
-> > > > 
-> > > > This new Kconfig option is OK temporarily, but unless there is reason to
-> > > > fear malfunction that a few weeks of rcutorture, 0day, and -next won't
-> > > > find, it would be better to just use CONFIG_PROVE_RCU.  The overall goal
-> > > > is to reduce the number of RCU knobs rather than grow them, must though
-> > > > history might lead one to believe otherwise.  :-/
-> > > 
-> > > If you want, we can try to drop this option and just use PROVE_RCU however I
-> > > must say there may be several warnings that need to be fixed in a short
-> > > period of time (even a few weeks may be too short) considering the 1000+
-> > > uses of RCU lists.
-> > Do many people other than me build with CONFIG_PROVE_RCU?  If so, then
-> > that would be a good reason for a temporary CONFIG_PROVE_RCU_LIST,
-> > as in going away in a release or two once the warnings get fixed.
-> 
-> PROVE_RCU is enabled by default with PROVE_LOCKING, so it is used quite
-> heavilty.
-> 
-> > > But I don't mind dropping it and it may just accelerate the fixing up of all
-> > > callers.
-> > 
-> > I will let you decide based on the above question.  But if you have
-> > CONFIG_PROVE_RCU_LIST, as noted below, it needs to depend on RCU_EXPERT.
-> 
-> Ok, will make it depend. But yes for temporary purpose, I will leave it as a
-> config and remove it later.
+## TL;DR
 
-Very good, thank you!  Plus you got another ack.  ;-)
+This patchset addresses comments from Stephen Boyd. No changes affect
+the API, and all changes are specific to patches 02, 03, and 04;
+however, there were some significant changes to how string_stream and
+kunit_stream work under the hood.
 
-							Thanx, Paul
+## Background
+
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2/v11 branch.
+
+## Changes Since Last Version
+
+- Went back to using spinlock in `struct string_stream`. Needed for so
+  that it is compatible with different GFP flags to address comment from
+  Stephen.
+- Added string_stream_append function to string_stream API. - suggested
+  by Stephen.
+- Made all string fragments and other allocations internal to
+  string_stream and kunit_stream managed by the KUnit resource
+  management API.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2/v11
+
+-- 
+2.22.0.510.g264f2c817a-goog
+
