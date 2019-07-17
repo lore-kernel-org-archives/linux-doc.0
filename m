@@ -1,80 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E0B57D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 11:44:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 224027D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 12:28:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730979AbfGQLoo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 07:44:44 -0400
-Received: from smtp2-4.goneo.de ([85.220.129.36]:47826 "EHLO smtp2-4.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726793AbfGQLoo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Jul 2019 07:44:44 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id EEE0223F44D;
-        Wed, 17 Jul 2019 13:44:41 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id R78unk_qr9jZ; Wed, 17 Jul 2019 13:44:40 +0200 (CEST)
-Received: from [10.5.17.100] (unknown [217.244.7.16])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id B3A4923FCD3;
-        Wed, 17 Jul 2019 13:44:40 +0200 (CEST)
-Subject: Re: [PATCH v3 06/20] docs: kernel_abi.py: fix UTF-8 support
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        gregkh@linuxfoundation.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <cover.1563360659.git.mchehab+samsung@kernel.org>
- <4967544f097ebce823133b1dad0ff374ba1a4fbb.1563360659.git.mchehab+samsung@kernel.org>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <fd4ae75a-3cb3-3f26-8891-e503451355b9@darmarit.de>
-Date:   Wed, 17 Jul 2019 13:44:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727050AbfGQM2Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 08:28:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53842 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726343AbfGQM2Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 08:28:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=QVmMfFbyrBUXO4UWpk3NqsWGbMgl5YlRIWt5G2YrmUU=; b=DP02ZsVgbvgFjKw3wFGXbNjOYc
+        sfeWcFedumG12afoIBq8MBk+CiRe93eCJ2C/6a1ryV4s49lx9LI04z47ktGULFzpgBVI/A+ZgxbH4
+        wKtgeHir3V0npT6ea9GWAFPTjUheAXRE26l0WAIZJPhxJZM+JP7HHmKHqKPQyXzm6eBCnj8yXyekL
+        /Pa1492vR0YGvYRsKSIiUFHHpKKGkOq2dFAM+z0P2TXbtULTiC62p7JIsG6xro9pBbKDvWtkKh0EU
+        xqvW6oMFEZxur6sKNMHnKeJWSNYtmJFUEvkjr3ELu8RhTdGePeEIxHjOU5QTHJ9EF5YzlOI3U8nOx
+        bnfo+pHg==;
+Received: from [191.33.154.161] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hnj2m-0006fW-MK; Wed, 17 Jul 2019 12:28:24 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hnj2j-000524-Sh; Wed, 17 Jul 2019 09:28:21 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     gregkh@linuxfoundation.org
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v4 03/15] docs: kernellog.py: add support for info()
+Date:   Wed, 17 Jul 2019 09:28:07 -0300
+Message-Id: <fa957b14d96e0a842e8c452772e3ba0e02e6e67e.1563365880.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1563365880.git.mchehab+samsung@kernel.org>
+References: <cover.1563365880.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <4967544f097ebce823133b1dad0ff374ba1a4fbb.1563360659.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+An extension may want to just inform about something. So, add
+support for it.
 
-just nitpicking ..
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/sphinx/kernellog.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Am 17.07.19 um 13:05 schrieb Mauro Carvalho Chehab:
-> The parser breaks with UTF-8 characters with Sphinx 1.4.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->   Documentation/sphinx/kernel_abi.py | 20 +++++++-------------
->   1 file changed, 7 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> index 32ce90775d96..0f3e51e67e8d 100644
-> --- a/Documentation/sphinx/kernel_abi.py
-> +++ b/Documentation/sphinx/kernel_abi.py
-> @@ -1,4 +1,5 @@
-> -# -*- coding: utf-8; mode: python -*-
-> +# coding=utf-8
+diff --git a/Documentation/sphinx/kernellog.py b/Documentation/sphinx/kernellog.py
+index af924f51a7dc..8ac7d274f542 100644
+--- a/Documentation/sphinx/kernellog.py
++++ b/Documentation/sphinx/kernellog.py
+@@ -25,4 +25,8 @@ def verbose(app, message):
+     else:
+         app.verbose(message)
+ 
+-
++def info(app, message):
++    if UseLogging:
++        logger.info(message)
++    else:
++        app.info(message)
+-- 
+2.21.0
 
-Can we use the more common::
-
-   # -*- coding: utf-8 -*-
-
-notation?  See [1] """using formats recognized by popular editors"""
-
-If I'am not wrong,  I remember we had this 'magic comment' discussion in the past.
-
-Thanks!
-
--- Markus --
-
-[1] https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
