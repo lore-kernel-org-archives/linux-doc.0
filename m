@@ -1,224 +1,161 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6AAB57D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Jul 2019 23:54:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF0B37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 00:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbfGPXyg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Jul 2019 19:54:36 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40813 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfGPXyg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 19:54:36 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w196so17026654oie.7
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2019 16:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=L63UCSLKJ4OMT5NqgGQ8B7uM36pMA1wEj62intmncP0=;
-        b=shjR7DVNL9/TqVYpbphhQN3r77abb9oKtSvfh0HHoJ/pKSm/z7zVTZm0k9OfHSrl6j
-         dFxQ/xsD6Kwl02n6C0ddFcBEM7+i7cPQO7Lwzm6nLOE6i/GLwFvijfmehGqUEFjHvEvh
-         KQn8BHmxp5/w+PGKVwlON87XjUAafOgoyxi2DNsW9srz0tCjRUmNzSnscT8G9YISn0Nx
-         cpYQyFrA/T5AH5jPpm7j88I0mx6woFml5xFbD9VcxfmySpiEejRcblfYSdSliWNSxrfQ
-         TL/4Hmrp7Jdw/DEDsTRce5iqOOWn343nT/0xzEn0Lb+SCH1tI0H3JR0vSCAmQ0BLJ7yL
-         QOtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L63UCSLKJ4OMT5NqgGQ8B7uM36pMA1wEj62intmncP0=;
-        b=UOAEOeibAac1C6KEuI8INs9lDJeWP+U45exa3D06tTl0YyLiw9daEW8c9h30JIu5g/
-         uTYyTHWKF5GO+Vn2i2QoOJ84KWh1X2Ou9S3eB5Savd5Gqr/ccIDBUN364XHZYIbVcmgi
-         dz9hRrskiaHKX2HoQdrdYytz3hWVZE6m2S/R4ir9A1sXhhz98reiVxa9u2+AUL/rftvv
-         3bS4NmPG1Xw7oGzpQ6E9BVQe8Xh43KRaJNb7sli1UdFsAuk3ljqcbT90Jv9EiGwCMXK9
-         BvP8HZYySfYqeukBkObG2Lfkc40wA7UkP86SsT9/6WIiMukb06waKAnXnGpTw05XWoz7
-         /uLg==
-X-Gm-Message-State: APjAAAVX7Cn4m0ybCq2ViYE+d/6+XlSp4wKqHeE0A7gRhuBX9BDjoJW7
-        gW6kjZHYdwjtq1wB6u6gEZG2AtOSvUn4Jli+HB5O3Q==
-X-Google-Smtp-Source: APXvYqyVadR4/niowxrLmenSGn1UzqhGhoAgJTC/7kpKDcwlbQspwuNL2la4zhD9hoopEjvAfsnd5+3pO1VQt6iVbTQ=
-X-Received: by 2002:aca:6104:: with SMTP id v4mr18318119oib.172.1563321274778;
- Tue, 16 Jul 2019 16:54:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190712235245.202558-1-saravanak@google.com> <20190712235245.202558-3-saravanak@google.com>
- <CAL_JsqJEmC5cttFavGH4iMh=3z2K4r4kjG44AFJCpxQZ9hPwQA@mail.gmail.com>
-In-Reply-To: <CAL_JsqJEmC5cttFavGH4iMh=3z2K4r4kjG44AFJCpxQZ9hPwQA@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 16 Jul 2019 16:53:58 -0700
-Message-ID: <CAGETcx-5ykD=9X1Lo2-G+T5uokFncbY2FmiJM8eZrgQ9JaBgxw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/11] of/platform: Add functional dependency link from
- DT bindings
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
+        id S1728848AbfGQAKM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Jul 2019 20:10:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46304 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728597AbfGQAKM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jul 2019 20:10:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6H07KiH124292;
+        Tue, 16 Jul 2019 20:08:00 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tsnmnejq4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 Jul 2019 20:07:59 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6H07OI6125043;
+        Tue, 16 Jul 2019 20:07:59 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tsnmnejpc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 Jul 2019 20:07:59 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6H06MZU032508;
+        Wed, 17 Jul 2019 00:07:57 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
+        by ppma01wdc.us.ibm.com with ESMTP id 2tq6x63b2y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 17 Jul 2019 00:07:57 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6H07vFM39780686
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 17 Jul 2019 00:07:57 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1A3E4B2065;
+        Wed, 17 Jul 2019 00:07:57 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C0D28B206E;
+        Wed, 17 Jul 2019 00:07:56 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.225.134])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 17 Jul 2019 00:07:56 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 30CFA16C8E9B; Tue, 16 Jul 2019 17:07:57 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 17:07:57 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Borislav Petkov <bp@alien8.de>, c0d1n61at3@gmail.com,
+        "David S. Miller" <davem@davemloft.net>, edumazet@google.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Josh Triplett <josh@joshtriplett.org>, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        neilb@suse.com, netdev@vger.kernel.org,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        peterz@infradead.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Tejun Heo <tj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, will@kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 2/9] rcu: Add support for consolidated-RCU reader
+ checking (v3)
+Message-ID: <20190717000757.GQ14271@linux.ibm.com>
+Reply-To: paulmck@linux.ibm.com
+References: <20190715143705.117908-1-joel@joelfernandes.org>
+ <20190715143705.117908-3-joel@joelfernandes.org>
+ <20190716183833.GD14271@linux.ibm.com>
+ <20190716184649.GA130463@google.com>
+ <20190716185303.GM14271@linux.ibm.com>
+ <20190716220205.GB172157@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190716220205.GB172157@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-16_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907160263
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 4:43 PM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Fri, Jul 12, 2019 at 5:52 PM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > Add device-links after the devices are created (but before they are
-> > probed) by looking at common DT bindings like clocks and
-> > interconnects.
-> >
-> > Automatically adding device-links for functional dependencies at the
-> > framework level provides the following benefits:
-> >
-> > - Optimizes device probe order and avoids the useless work of
-> >   attempting probes of devices that will not probe successfully
-> >   (because their suppliers aren't present or haven't probed yet).
-> >
-> >   For example, in a commonly available mobile SoC, registering just
-> >   one consumer device's driver at an initcall level earlier than the
-> >   supplier device's driver causes 11 failed probe attempts before the
-> >   consumer device probes successfully. This was with a kernel with all
-> >   the drivers statically compiled in. This problem gets a lot worse if
-> >   all the drivers are loaded as modules without direct symbol
-> >   dependencies.
-> >
-> > - Supplier devices like clock providers, interconnect providers, etc
-> >   need to keep the resources they provide active and at a particular
-> >   state(s) during boot up even if their current set of consumers don't
-> >   request the resource to be active. This is because the rest of the
-> >   consumers might not have probed yet and turning off the resource
-> >   before all the consumers have probed could lead to a hang or
-> >   undesired user experience.
-> >
-> >   Some frameworks (Eg: regulator) handle this today by turning off
-> >   "unused" resources at late_initcall_sync and hoping all the devices
-> >   have probed by then. This is not a valid assumption for systems with
-> >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> >   this due to the lack of a clear signal for when they can turn off
-> >   resources. This leads to downstream hacks to handle cases like this
-> >   that can easily be solved in the upstream kernel.
-> >
-> >   By linking devices before they are probed, we give suppliers a clear
-> >   count of the number of dependent consumers. Once all of the
-> >   consumers are active, the suppliers can turn off the unused
-> >   resources without making assumptions about the number of consumers.
-> >
-> > By default we just add device-links to track "driver presence" (probe
-> > succeeded) of the supplier device. If any other functionality provided
-> > by device-links are needed, it is left to the consumer/supplier
-> > devices to change the link when they probe.
-> >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > ---
-> >  .../admin-guide/kernel-parameters.txt         |  5 ++
-> >  drivers/of/platform.c                         | 57 +++++++++++++++++++
-> >  2 files changed, 62 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 138f6664b2e2..109b4310844f 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -3141,6 +3141,11 @@
-> >                         This can be set from sysctl after boot.
-> >                         See Documentation/sysctl/vm.txt for details.
-> >
-> > +       of_devlink      [KNL] Make device links from common DT bindings. Useful
-> > +                       for optimizing probe order and making sure resources
-> > +                       aren't turned off before the consumer devices have
-> > +                       probed.
-> > +
-> >         ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
-> >                         See Documentation/debugging-via-ohci1394.txt for more
-> >                         info.
-> > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> > index 04ad312fd85b..0930f9f89571 100644
-> > --- a/drivers/of/platform.c
-> > +++ b/drivers/of/platform.c
-> > @@ -509,6 +509,62 @@ int of_platform_default_populate(struct device_node *root,
-> >  }
-> >  EXPORT_SYMBOL_GPL(of_platform_default_populate);
-> >
-> > +static int of_link_binding(struct device *dev,
-> > +                          const char *binding, const char *cell)
-> > +{
-> > +       struct of_phandle_args sup_args;
-> > +       struct platform_device *sup_dev;
-> > +       unsigned int i = 0, links = 0;
-> > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> > +
-> > +       while (!of_parse_phandle_with_args(dev->of_node, binding, cell, i,
-> > +                                          &sup_args)) {
-> > +               i++;
-> > +               sup_dev = of_find_device_by_node(sup_args.np);
-> > +               of_node_put(sup_args.np);
-> > +               if (!sup_dev)
-> > +                       continue;
-> > +               if (device_link_add(dev, &sup_dev->dev, dl_flags))
-> > +                       links++;
-> > +               put_device(&sup_dev->dev);
-> > +       }
-> > +       if (links < i)
-> > +               return -ENODEV;
-> > +       return 0;
-> > +}
-> > +
-> > +static bool of_devlink;
-> > +core_param(of_devlink, of_devlink, bool, 0);
-> > +
-> > +/*
-> > + * List of bindings and their cell names (use NULL if no cell names) from which
-> > + * device links need to be created.
-> > + */
-> > +static const char * const link_bindings[] = {
-> > +       "clocks", "#clock-cells",
-> > +       "interconnects", "#interconnect-cells",
-> > +};
-> > +
-> > +static int of_link_to_suppliers(struct device *dev)
-> > +{
-> > +       unsigned int i = 0;
-> > +       bool done = true;
-> > +
-> > +       if (!of_devlink)
-> > +               return 0;
-> > +       if (unlikely(!dev->of_node))
-> > +               return 0;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(link_bindings) / 2; i++)
-> > +               if (of_link_binding(dev, link_bindings[i * 2],
-> > +                                       link_bindings[i * 2 + 1]))
-> > +                       done = false;
->
-> Given the pending addition of regulators I think this should be
-> structured a bit differently so that we abstract out the matching and
-> phandle look-up so there's a clean separation of binding specifics.
-> It's kind of messy with 2 patterns to parse already and if we added a
-> 3rd? I would iterate over the properties as you do for regulators in
-> both cases and for each property call a binding specific match
-> function. The common pattern can of course be a common function. Let
-> me know if that makes sense. If not I can try to flesh it out some
-> more.
+On Tue, Jul 16, 2019 at 06:02:05PM -0400, Joel Fernandes wrote:
+> On Tue, Jul 16, 2019 at 11:53:03AM -0700, Paul E. McKenney wrote:
+> [snip]
+> > > > A few more things below.
+> > > > > ---
+> > > > >  include/linux/rculist.h  | 28 ++++++++++++++++++++-----
+> > > > >  include/linux/rcupdate.h |  7 +++++++
+> > > > >  kernel/rcu/Kconfig.debug | 11 ++++++++++
+> > > > >  kernel/rcu/update.c      | 44 ++++++++++++++++++++++++----------------
+> > > > >  4 files changed, 67 insertions(+), 23 deletions(-)
+> > > > > 
+> > > > > diff --git a/include/linux/rculist.h b/include/linux/rculist.h
+> > > > > index e91ec9ddcd30..1048160625bb 100644
+> > > > > --- a/include/linux/rculist.h
+> > > > > +++ b/include/linux/rculist.h
+> > > > > @@ -40,6 +40,20 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
+> > > > >   */
+> > > > >  #define list_next_rcu(list)	(*((struct list_head __rcu **)(&(list)->next)))
+> > > > >  
+> > > > > +/*
+> > > > > + * Check during list traversal that we are within an RCU reader
+> > > > > + */
+> > > > > +
+> > > > > +#ifdef CONFIG_PROVE_RCU_LIST
+> > > > 
+> > > > This new Kconfig option is OK temporarily, but unless there is reason to
+> > > > fear malfunction that a few weeks of rcutorture, 0day, and -next won't
+> > > > find, it would be better to just use CONFIG_PROVE_RCU.  The overall goal
+> > > > is to reduce the number of RCU knobs rather than grow them, must though
+> > > > history might lead one to believe otherwise.  :-/
+> > > 
+> > > If you want, we can try to drop this option and just use PROVE_RCU however I
+> > > must say there may be several warnings that need to be fixed in a short
+> > > period of time (even a few weeks may be too short) considering the 1000+
+> > > uses of RCU lists.
+> > Do many people other than me build with CONFIG_PROVE_RCU?  If so, then
+> > that would be a good reason for a temporary CONFIG_PROVE_RCU_LIST,
+> > as in going away in a release or two once the warnings get fixed.
+> 
+> PROVE_RCU is enabled by default with PROVE_LOCKING, so it is used quite
+> heavilty.
+> 
+> > > But I don't mind dropping it and it may just accelerate the fixing up of all
+> > > callers.
+> > 
+> > I will let you decide based on the above question.  But if you have
+> > CONFIG_PROVE_RCU_LIST, as noted below, it needs to depend on RCU_EXPERT.
+> 
+> Ok, will make it depend. But yes for temporary purpose, I will leave it as a
+> config and remove it later.
 
-I've added regulator support in this series and I've refactored this
-code as I went along. I fully expect to squash some of the refactors
-once the final result of the series is acceptable.
+Very good, thank you!  Plus you got another ack.  ;-)
 
-It's not clear to me if you got to the end of the series and still
-think the final result needs to be refactored. Let me know what you
-think about this towards the end of the series and I can clean it up
-if you still think it needs some clean up.
-
--Saravana
+							Thanx, Paul
