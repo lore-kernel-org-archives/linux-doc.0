@@ -1,89 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B75497D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 11:06:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E0B57D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 11:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbfGQLG1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 07:06:27 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48640 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfGQLG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 07:06:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TeaGt8pI6Vwu62riXQZpDCGAriDc3nIBGdy7UclDHhY=; b=FeMM/bySi/3Y6cSmJk5saNZbaU
-        GG3cdUvXOnJHZWBAHQhc+/KdyjiNXtSqVsQ5SZ/bR4TmoQx/mf3E5U+8HIGgYQjcgADgNI++NKFhp
-        lmOCgTVlKj8ExD94fq5YvqDF4II1KNkFaPFXD+ZvRaUojFcsWwqWyLQeHTFck6iTMhZjr3NjrLBMD
-        /RUlAWOW40MeRx8ve5+evfiMOCGXyAtyS1IHZC+4VJIaHQikG5PgGuJ2M7Uko9DydNypN3sgmIEIc
-        3uadI/5oT+geRYMxp0DHTbIrCbIn4fAQ2z8ljf13lWZCJCuS4xd6c+t+/M9KtPcSixpQVwnAOR4yk
-        TjzuBbUg==;
-Received: from [191.33.154.161] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hnhlP-0005Q3-Mh; Wed, 17 Jul 2019 11:06:23 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hnhlN-0003Ce-PJ; Wed, 17 Jul 2019 08:06:21 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] docs: gpu: add msm-crash-dump.rst to the index.rst file
-Date:   Wed, 17 Jul 2019 08:06:20 -0300
-Message-Id: <4d4868a11449a1a34f38da48f527c051fc00e1a9.1563361575.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <7f18c2e0b5e39e6b7eb55ddeb043b8b260b49f2d.1563361575.git.mchehab+samsung@kernel.org>
-References: <7f18c2e0b5e39e6b7eb55ddeb043b8b260b49f2d.1563361575.git.mchehab+samsung@kernel.org>
+        id S1730979AbfGQLoo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 07:44:44 -0400
+Received: from smtp2-4.goneo.de ([85.220.129.36]:47826 "EHLO smtp2-4.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726793AbfGQLoo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Jul 2019 07:44:44 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp2.goneo.de (Postfix) with ESMTP id EEE0223F44D;
+        Wed, 17 Jul 2019 13:44:41 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp2.goneo.de ([127.0.0.1])
+        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id R78unk_qr9jZ; Wed, 17 Jul 2019 13:44:40 +0200 (CEST)
+Received: from [10.5.17.100] (unknown [217.244.7.16])
+        by smtp2.goneo.de (Postfix) with ESMTPSA id B3A4923FCD3;
+        Wed, 17 Jul 2019 13:44:40 +0200 (CEST)
+Subject: Re: [PATCH v3 06/20] docs: kernel_abi.py: fix UTF-8 support
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        gregkh@linuxfoundation.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <cover.1563360659.git.mchehab+samsung@kernel.org>
+ <4967544f097ebce823133b1dad0ff374ba1a4fbb.1563360659.git.mchehab+samsung@kernel.org>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <fd4ae75a-3cb3-3f26-8891-e503451355b9@darmarit.de>
+Date:   Wed, 17 Jul 2019 13:44:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <4967544f097ebce823133b1dad0ff374ba1a4fbb.1563360659.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file is currently orphaned.
+Hi Mauro,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/gpu/drivers.rst        | 1 +
- Documentation/gpu/msm-crash-dump.rst | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+just nitpicking ..
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 4bfb7068e9f7..6c88c57b90cf 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -20,6 +20,7 @@ GPU Driver Documentation
-    xen-front
-    afbc
-    komeda-kms
-+   msm-crash-dump
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-index 240ef200f76c..757cd257e0d8 100644
---- a/Documentation/gpu/msm-crash-dump.rst
-+++ b/Documentation/gpu/msm-crash-dump.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- =====================
- MSM Crash Dump Format
- =====================
--- 
-2.21.0
+Am 17.07.19 um 13:05 schrieb Mauro Carvalho Chehab:
+> The parser breaks with UTF-8 characters with Sphinx 1.4.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>   Documentation/sphinx/kernel_abi.py | 20 +++++++-------------
+>   1 file changed, 7 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> index 32ce90775d96..0f3e51e67e8d 100644
+> --- a/Documentation/sphinx/kernel_abi.py
+> +++ b/Documentation/sphinx/kernel_abi.py
+> @@ -1,4 +1,5 @@
+> -# -*- coding: utf-8; mode: python -*-
+> +# coding=utf-8
 
+Can we use the more common::
+
+   # -*- coding: utf-8 -*-
+
+notation?  See [1] """using formats recognized by popular editors"""
+
+If I'am not wrong,  I remember we had this 'magic comment' discussion in the past.
+
+Thanks!
+
+-- Markus --
+
+[1] https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
