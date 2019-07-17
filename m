@@ -1,118 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAA187D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 04:31:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BFEB67D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 05:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725890AbfGQEb3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 00:31:29 -0400
-Received: from mga03.intel.com ([134.134.136.65]:20052 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725799AbfGQEb3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Jul 2019 00:31:29 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Jul 2019 21:31:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; 
-   d="scan'208";a="251375368"
-Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
-  by orsmga001.jf.intel.com with ESMTP; 16 Jul 2019 21:31:24 -0700
-From:   NitinGote <nitin.r.gote@intel.com>
-To:     joe@perches.com, corbet@lwn.net
-Cc:     akpm@linux-foundation.org, apw@canonical.com,
-        keescook@chromium.org, linux-doc@vger.kernel.org,
-        kernel-hardening@lists.openwall.com,
-        Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v5] Documentation/checkpatch: Prefer strscpy/strscpy_pad over strcpy/strlcpy/strncpy
-Date:   Wed, 17 Jul 2019 10:00:05 +0530
-Message-Id: <20190717043005.19627-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725873AbfGQFWg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 01:22:36 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:31373 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725856AbfGQFWg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 01:22:36 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x6H5MLIw019393;
+        Wed, 17 Jul 2019 14:22:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6H5MLIw019393
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1563340942;
+        bh=8wyTio6eWyGUXfWyfehEhhkmdilatgeueQHXUAhXgr4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jjkZEjQyqgPxgWTOy06lg4XiFphMdGWD0dkUcdUYRoSjTfEzKCyWDbeA5l31sjtlm
+         zqOouOpTmUUR1fjahmM8X+/YdO8qcyiNNe/EGkudDoubXi/RlIem/UE/RAAkEjKJgh
+         himXcjVNPka+DQQXDdOxZ2i3rvRxdvBbWHupkJ9TKhcVkX/7Yl+V6prx8J69e33QVH
+         S9lLWYrJ+8F5i/cfhRFNjb8TthMvCpEoI8s5kfke/nBaxQwTDWKJ+Bxw4OlQxLrnBs
+         sg97P4FS1Ng2YABVXz8w+/L7e2Y0z2G7Lx2h2kyckTDcFpr+rpm9z+ZdGcr4193J/2
+         NCmvyHeUWB/VQ==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id v129so15558763vsb.11;
+        Tue, 16 Jul 2019 22:22:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAVl3Sjbdfsq2mHM/rp+f7FllZQ7mPBUJBo8jkYZSwNvehRO8lRZ
+        4OPRzgpyVDLwOM5ESjmuVdY/CZUJJErvkmIg1yg=
+X-Google-Smtp-Source: APXvYqwM5DJTshi4lT6RxsMUMhzPLDUhdj8WyuK6eYGDHz2arKntCfRETXQ1UAKIK0Q4h8X3O1m1X0VZa1fFkqSF56c=
+X-Received: by 2002:a67:cd1a:: with SMTP id u26mr22707775vsl.155.1563340941315;
+ Tue, 16 Jul 2019 22:22:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190711054434.1177-1-yamada.masahiro@socionext.com>
+ <20190711054434.1177-9-yamada.masahiro@socionext.com> <20190716214023.GA15159@redhat.com>
+In-Reply-To: <20190716214023.GA15159@redhat.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 17 Jul 2019 14:21:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
+Message-ID: <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/11] kbuild: create *.mod with full directory path
+ and remove MODVERDIR
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Nitin Gote <nitin.r.gote@intel.com>
+Hi Joe
 
-Added check in checkpatch.pl to
-1. Deprecate strcpy() in favor of strscpy().
-2. Deprecate strlcpy() in favor of strscpy().
-3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+On Wed, Jul 17, 2019 at 6:40 AM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+>
+> On Thu, Jul 11, 2019 at 02:44:31PM +0900, Masahiro Yamada wrote:
+> > While descending directories, Kbuild produces objects for modules,
+> > but do not link final *.ko files; it is done in the modpost.
+> >
+> > To keep track of modules, Kbuild creates a *.mod file in $(MODVERDIR)
+> > for every module it is building. Some post-processing steps read the
+> > necessary information from *.mod files. This avoids descending into
+> > directories again. This mechanism was introduced in 2003 or so.
+> >
+> > Later, commit 551559e13af1 ("kbuild: implement modules.order") added
+> > modules.order. So, we can simply read it out to know all the modules
+> > with directory paths. This is easier than parsing the first line of
+> > *.mod files.
+> >
+> > $(MODVERDIR) has a flat directory structure, that is, *.mod files
+> > are named only with base names. This is based on the assumption that
+> > the module name is unique across the tree. This assumption is really
+> > fragile.
+> >
+> > Stephen Rothwell reported a race condition caused by a module name
+> > conflict:
+> >
+> >   https://lkml.org/lkml/2019/5/13/991
+> >
+> > In parallel building, two different threads could write to the same
+> > $(MODVERDIR)/*.mod simultaneously.
+> >
+> > Non-unique module names are the source of all kind of troubles, hence
+> > commit 3a48a91901c5 ("kbuild: check uniqueness of module names")
+> > introduced a new checker script.
+> >
+> > However, it is still fragile in the build system point of view because
+> > this race happens before scripts/modules-check.sh is invoked. If it
+> > happens again, the modpost will emit unclear error messages.
+> >
+> > To fix this issue completely, create *.mod in the same directory as
+> > *.ko so that two threads never attempt to write to the same file.
+> > $(MODVERDIR) is no longer needed.
+> >
+> > Since modules with directory paths are listed in modules.order, Kbuild
+> > is still able to find *.mod files without additional descending.
+> >
+> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Acked-by: Nicolas Pitre <nico@fluxnic.net>
 
-Updated strncpy() section in Documentation/process/deprecated.rst
-to cover strscpy_pad() case.
+> >
+>
+> Hi Masahiro,
+>
+> I'm following this patchset changes as they will affect the klp-convert
+> series [1] that the livepatching folks have been working on...
 
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
- Documentation/process/deprecated.rst |  6 +++---
- scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 3 deletions(-)
+Empty files .tmp_versions/*.livepatch are touched
+to keep track of 'LIVEPATCH_* := y', right?
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..c348ef9d44f5 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
- and other misbehavior due to the missing termination. It also NUL-pads the
- destination buffer if the source contents are shorter than the destination
- buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
--(Users of :c:func:`strscpy` still needing NUL-padding will need an
--explicit :c:func:`memset` added.)
-+only NUL-terminated strings. In this case, the safe replacement is
-+strscpy(). If, however, the destination buffer still needs NUL-padding,
-+the safe replacement is strscpy_pad().
+Perhaps, adding a new field
+to *.mod files might be cleaner.
 
- If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
- still be used, but destinations should be marked with the `__nonstring
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bb28b178d929..1bb12127115d 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
- }
- $deprecated_apis_search = "(?:${deprecated_apis_search})";
 
-+our %deprecated_string_apis = (
-+        "strcpy"				=> "strscpy",
-+        "strlcpy"				=> "strscpy",
-+        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with __nonstring",
-+);
-+
-+#Create a search pattern for all these strings apis to speed up a loop below
-+our $deprecated_string_apis_search = "";
-+foreach my $entry (keys %deprecated_string_apis) {
-+        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
-+        $deprecated_string_apis_search .= $entry;
-+}
-+$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
-+
- our $mode_perms_world_writable = qr{
- 	S_IWUGO		|
- 	S_IWOTH		|
-@@ -6446,6 +6460,16 @@ sub process {
- 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
- 		}
 
-+# check for string deprecated apis
-+		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
-+			my $deprecated_string_api = $1;
-+			my $new_api = $deprecated_string_apis{$deprecated_string_api};
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("DEPRECATED_API",
-+				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
-+		}
-+
- # check for various structs that are normally const (ops, kgdb, device_tree)
- # and avoid what seem like struct definitions 'struct foo {'
- 		if ($line !~ /\bconst\b/ &&
+> Just wondering if these other files should be checked for more MODVERDIR
+> fallout:
+>
+>   % grep -R 'tmp_versions'
+>   tools/power/cpupower/debug/kernel/Makefile:     - rm -rf .tmp_versions* Module.symvers modules.order
+>   scripts/export_report.pl:    while (<.tmp_versions/*.mod>) {
+>   scripts/adjust_autoksyms.sh:# .tmp_versions/*.mod files.
+>
+> export_report.pl is probably the only interesting one on this list.
+
+Good catch. I will fix it.
+
+> Also, can you cc me on subsequent patchset versions?
+
+Yes, will do.
+
+
+
 --
-2.17.1
-
+Best Regards
+Masahiro Yamada
