@@ -1,240 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E0717D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 20:39:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6E2FD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 23:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727434AbfGQUjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 16:39:11 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:42478 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727307AbfGQUjK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 16:39:10 -0400
-Received: by mail-ot1-f67.google.com with SMTP id l15so26519810otn.9
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2019 13:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0K1Cw37rD1IppCvNdmCb2NpomqfVXYIhsQh1IU/oD2M=;
-        b=Jnj4k5BM3xdiZRNmRqlyaKTnna2ulN3efYQBqtjmKrFAOpRKBAV/7EbN4RAPJR64bP
-         1KqZwGzq5BmvEteASkiZGDMDvrNKXVjeFqSV/ncsLvyd5UBGT12hIcxtERkhXz9tv+JK
-         /muM4PIGh9XGPPYSs/mXTGUz33bv6Ez/Sqrz84Q27vbif83tkb4XjLRowRmYiZu8asLW
-         P28qCttABLTlHbPfOMoj1wAeLEBbIpTOk8hfNVtdF2zpsWqOIeR3Siao6oFkPv1XyymJ
-         hyNV5y55WaXoRsbycsAAcDeAlq9/e3YodSjd7CPo2al5kIPYwimksm4VFuTdDQMC+VkG
-         UDGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0K1Cw37rD1IppCvNdmCb2NpomqfVXYIhsQh1IU/oD2M=;
-        b=ZNR7hxqfn3J24qo6qnK3XIV+q4zag1tpduLeGolFtHNOTWlXAveKUOp8NaT2kdVF24
-         EQ04InrXypq3dN/ukTwgr1tLrJrQCPS5KKnXvOrSuuC/IieegDMjCoX5312sqIBnl2g2
-         WYxVawM9uJ2BKrHuTti8Alsl1qkUZ0czQPnX1mooj1Vf2TBofuIZrn6nmF+G1BsZArQS
-         rozvEm46Ym3YNTtnuh4laMIL+KrsXV1VE+fF7FaChHyS3li9wQWnMp5ukz12SyNvcl/w
-         IDBYo/dgyuTb065RFvii37tJiFBomYUFmjDPL6xFHOZtzfM+8CelrmHwB51K7hhvVWKD
-         gcHQ==
-X-Gm-Message-State: APjAAAXgBqp0dtM5WfR1Fy9OwzKVYwN83WNJzaliIIBjGX8UigZnF0gg
-        qMAfMAj9Gc3nE+vt1GdlmpEVUFdJD52ezcIftsx1MQ==
-X-Google-Smtp-Source: APXvYqzFAC0LjXRhmyx9k4jlXBUbQVZEKJtk559kQPLl7p8CQdRDxk3cRJQhRe9stTHVLrBWi0pGfW3EmOjr8T4fM4Y=
-X-Received: by 2002:a9d:6256:: with SMTP id i22mr9218922otk.139.1563395949553;
- Wed, 17 Jul 2019 13:39:09 -0700 (PDT)
+        id S1731227AbfGQXLH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 19:11:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48238 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727468AbfGQXLH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Jul 2019 19:11:07 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8B050208C0;
+        Wed, 17 Jul 2019 23:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563405066;
+        bh=eqjfu4EfQ+2Wfj1wuya+/cWVM8GGec0PJnrVTjC1VOk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1TAPHuM4Q8YW8zNcJToxVk7TV5HRiHU0NTvap+eqbtdDvPDnGVt8vB5oswn7gWty8
+         2RET96Qti3KRKIkaPWNq3beg8vsxK/XkzLX4rEvF0i58ABx85dJTA5QgJlWh8kkM5p
+         wZnq7yTmEKF23QWpeyuz4VO+OBiQ0jtUbag8BKx0=
+From:   Sasha Levin <sashal@kernel.org>
+To:     corbet@lwn.net, solar@openwall.com
+Cc:     will@kernel.org, keescook@chromium.org, peterz@infradead.org,
+        gregkh@linuxfoundation.org, tyhicks@canonical.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2] Documentation/security-bugs: provide more information about linux-distros
+Date:   Wed, 17 Jul 2019 19:11:03 -0400
+Message-Id: <20190717231103.13949-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190712235245.202558-1-saravanak@google.com> <20190712235245.202558-3-saravanak@google.com>
- <CAL_JsqJEmC5cttFavGH4iMh=3z2K4r4kjG44AFJCpxQZ9hPwQA@mail.gmail.com>
- <CAGETcx-5ykD=9X1Lo2-G+T5uokFncbY2FmiJM8eZrgQ9JaBgxw@mail.gmail.com> <CAL_Jsq+Dfm8ng1OVcB+1N2ack05v8+u1VydfxM4Ukefqd9XK2w@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+Dfm8ng1OVcB+1N2ack05v8+u1VydfxM4Ukefqd9XK2w@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 17 Jul 2019 13:38:33 -0700
-Message-ID: <CAGETcx9AuGtWh_nFb4SbkdYRbNmDK07yKF+jDDPScN+Bdp7a9w@mail.gmail.com>
-Subject: Re: [PATCH v5 02/11] of/platform: Add functional dependency link from
- DT bindings
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 17, 2019 at 7:35 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Tue, Jul 16, 2019 at 5:54 PM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > On Tue, Jul 16, 2019 at 4:43 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > >
-> > > On Fri, Jul 12, 2019 at 5:52 PM Saravana Kannan <saravanak@google.com> wrote:
-> > > >
-> > > > Add device-links after the devices are created (but before they are
-> > > > probed) by looking at common DT bindings like clocks and
-> > > > interconnects.
-> > > >
-> > > > Automatically adding device-links for functional dependencies at the
-> > > > framework level provides the following benefits:
-> > > >
-> > > > - Optimizes device probe order and avoids the useless work of
-> > > >   attempting probes of devices that will not probe successfully
-> > > >   (because their suppliers aren't present or haven't probed yet).
-> > > >
-> > > >   For example, in a commonly available mobile SoC, registering just
-> > > >   one consumer device's driver at an initcall level earlier than the
-> > > >   supplier device's driver causes 11 failed probe attempts before the
-> > > >   consumer device probes successfully. This was with a kernel with all
-> > > >   the drivers statically compiled in. This problem gets a lot worse if
-> > > >   all the drivers are loaded as modules without direct symbol
-> > > >   dependencies.
-> > > >
-> > > > - Supplier devices like clock providers, interconnect providers, etc
-> > > >   need to keep the resources they provide active and at a particular
-> > > >   state(s) during boot up even if their current set of consumers don't
-> > > >   request the resource to be active. This is because the rest of the
-> > > >   consumers might not have probed yet and turning off the resource
-> > > >   before all the consumers have probed could lead to a hang or
-> > > >   undesired user experience.
-> > > >
-> > > >   Some frameworks (Eg: regulator) handle this today by turning off
-> > > >   "unused" resources at late_initcall_sync and hoping all the devices
-> > > >   have probed by then. This is not a valid assumption for systems with
-> > > >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> > > >   this due to the lack of a clear signal for when they can turn off
-> > > >   resources. This leads to downstream hacks to handle cases like this
-> > > >   that can easily be solved in the upstream kernel.
-> > > >
-> > > >   By linking devices before they are probed, we give suppliers a clear
-> > > >   count of the number of dependent consumers. Once all of the
-> > > >   consumers are active, the suppliers can turn off the unused
-> > > >   resources without making assumptions about the number of consumers.
-> > > >
-> > > > By default we just add device-links to track "driver presence" (probe
-> > > > succeeded) of the supplier device. If any other functionality provided
-> > > > by device-links are needed, it is left to the consumer/supplier
-> > > > devices to change the link when they probe.
-> > > >
-> > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > > > ---
-> > > >  .../admin-guide/kernel-parameters.txt         |  5 ++
-> > > >  drivers/of/platform.c                         | 57 +++++++++++++++++++
-> > > >  2 files changed, 62 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > > index 138f6664b2e2..109b4310844f 100644
-> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > > @@ -3141,6 +3141,11 @@
-> > > >                         This can be set from sysctl after boot.
-> > > >                         See Documentation/sysctl/vm.txt for details.
-> > > >
-> > > > +       of_devlink      [KNL] Make device links from common DT bindings. Useful
-> > > > +                       for optimizing probe order and making sure resources
-> > > > +                       aren't turned off before the consumer devices have
-> > > > +                       probed.
-> > > > +
-> > > >         ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
-> > > >                         See Documentation/debugging-via-ohci1394.txt for more
-> > > >                         info.
-> > > > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> > > > index 04ad312fd85b..0930f9f89571 100644
-> > > > --- a/drivers/of/platform.c
-> > > > +++ b/drivers/of/platform.c
-> > > > @@ -509,6 +509,62 @@ int of_platform_default_populate(struct device_node *root,
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(of_platform_default_populate);
-> > > >
-> > > > +static int of_link_binding(struct device *dev,
-> > > > +                          const char *binding, const char *cell)
-> > > > +{
-> > > > +       struct of_phandle_args sup_args;
-> > > > +       struct platform_device *sup_dev;
-> > > > +       unsigned int i = 0, links = 0;
-> > > > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> > > > +
-> > > > +       while (!of_parse_phandle_with_args(dev->of_node, binding, cell, i,
-> > > > +                                          &sup_args)) {
-> > > > +               i++;
-> > > > +               sup_dev = of_find_device_by_node(sup_args.np);
-> > > > +               of_node_put(sup_args.np);
-> > > > +               if (!sup_dev)
-> > > > +                       continue;
-> > > > +               if (device_link_add(dev, &sup_dev->dev, dl_flags))
-> > > > +                       links++;
-> > > > +               put_device(&sup_dev->dev);
-> > > > +       }
-> > > > +       if (links < i)
-> > > > +               return -ENODEV;
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static bool of_devlink;
-> > > > +core_param(of_devlink, of_devlink, bool, 0);
-> > > > +
-> > > > +/*
-> > > > + * List of bindings and their cell names (use NULL if no cell names) from which
-> > > > + * device links need to be created.
-> > > > + */
-> > > > +static const char * const link_bindings[] = {
-> > > > +       "clocks", "#clock-cells",
-> > > > +       "interconnects", "#interconnect-cells",
-> > > > +};
-> > > > +
-> > > > +static int of_link_to_suppliers(struct device *dev)
-> > > > +{
-> > > > +       unsigned int i = 0;
-> > > > +       bool done = true;
-> > > > +
-> > > > +       if (!of_devlink)
-> > > > +               return 0;
-> > > > +       if (unlikely(!dev->of_node))
-> > > > +               return 0;
-> > > > +
-> > > > +       for (i = 0; i < ARRAY_SIZE(link_bindings) / 2; i++)
-> > > > +               if (of_link_binding(dev, link_bindings[i * 2],
-> > > > +                                       link_bindings[i * 2 + 1]))
-> > > > +                       done = false;
-> > >
-> > > Given the pending addition of regulators I think this should be
-> > > structured a bit differently so that we abstract out the matching and
-> > > phandle look-up so there's a clean separation of binding specifics.
-> > > It's kind of messy with 2 patterns to parse already and if we added a
-> > > 3rd? I would iterate over the properties as you do for regulators in
-> > > both cases and for each property call a binding specific match
-> > > function. The common pattern can of course be a common function. Let
-> > > me know if that makes sense. If not I can try to flesh it out some
-> > > more.
-> >
-> > I've added regulator support in this series and I've refactored this
-> > code as I went along. I fully expect to squash some of the refactors
-> > once the final result of the series is acceptable.
->
-> It would be easier to review the final result than incremental changes
-> which change the prior patches especially if the latter patches are
-> ultimately required.
->
-> > It's not clear to me if you got to the end of the series and still
-> > think the final result needs to be refactored. Let me know what you
-> > think about this towards the end of the series and I can clean it up
-> > if you still think it needs some clean up.
->
-> I probably should have replied on the regulator addition, but yes,
-> looking at that is what prompted my concerns here.
+Provide more information about how to interact with the linux-distros
+mailing list for disclosing security bugs.
 
-Sounds good. Let me refactor the series and send it out again. Btw, if
-you have other issues you noticed, I'd be happy to fix those too
-before sending out the v6 of the series again.
+Reference the linux-distros list policy and clarify that the reporter
+must read and understand those policies as they differ from
+security@kernel.org's policy.
 
--Saravana
+Suggested-by: Solar Designer <solar@openwall.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+Changes in v2:
+ - Focus more on pointing to the linux-distros wiki and policies.
+ - Remove explicit linux-distros email.
+ - Remove various explanations of linux-distros policies.
+
+ Documentation/admin-guide/security-bugs.rst | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+index dcd6c93c7aac..380d44fd618d 100644
+--- a/Documentation/admin-guide/security-bugs.rst
++++ b/Documentation/admin-guide/security-bugs.rst
+@@ -60,16 +60,15 @@ Coordination
+ ------------
+ 
+ Fixes for sensitive bugs, such as those that might lead to privilege
+-escalations, may need to be coordinated with the private
+-<linux-distros@vs.openwall.org> mailing list so that distribution vendors
+-are well prepared to issue a fixed kernel upon public disclosure of the
+-upstream fix. Distros will need some time to test the proposed patch and
+-will generally request at least a few days of embargo, and vendor update
+-publication prefers to happen Tuesday through Thursday. When appropriate,
+-the security team can assist with this coordination, or the reporter can
+-include linux-distros from the start. In this case, remember to prefix
+-the email Subject line with "[vs]" as described in the linux-distros wiki:
+-<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
++escalations, may need to be coordinated with the private linux-distros mailing
++list so that distribution vendors are well prepared to issue a fixed kernel
++upon public disclosure of the upstream fix. Please read and follow the policies
++of linux-distros as specified in the linux-distros wiki page before reporting:
++<https://oss-security.openwall.org/wiki/mailing-lists/distros>. When
++appropriate, the security team can assist with this coordination, or the
++reporter can include linux-distros from the start. In this case, remember to
++prefix the email Subject line with "[vs]" as described in the linux-distros
++wiki.
+ 
+ CVE assignment
+ --------------
+-- 
+2.20.1
+
