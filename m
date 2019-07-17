@@ -1,198 +1,240 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D8E277D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 19:13:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E0717D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Jul 2019 20:39:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbfGQTN3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Jul 2019 15:13:29 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:34012 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbfGQTN3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 15:13:29 -0400
-Received: by mail-ed1-f68.google.com with SMTP id s49so27232018edb.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2019 12:13:27 -0700 (PDT)
+        id S1727434AbfGQUjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Jul 2019 16:39:11 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42478 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727307AbfGQUjK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jul 2019 16:39:10 -0400
+Received: by mail-ot1-f67.google.com with SMTP id l15so26519810otn.9
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2019 13:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=af7XSHG9FUQt2yu1S5jYF4Zn8ho5gd7vQCkyA/tLau4=;
-        b=HKNB7eUjLd+nxSmK5kC8wj8kzMts/Dpt6A34z7nveegtxZyhnKNjglMj7rQ0vCl6LG
-         h/4t0uSBVCIua7IFT+yYWm2Fj59/6h40i8YUKwiETrPB6sZ6v8tarBe4z05I3+6KBe/o
-         nVsQcwwepTM0+8r5FULsisZ5p08osnWUZkggEXqUrver/328oW7udcbaG4m29zLP4D64
-         st4mdSY/slk8zOdH5QHV/oOGIFI6JB+jLZjhMhxwOlllr+eD2L1dm5L7pJsHWpHbz5iR
-         kY5YFUJdTFHOUuTE0MvIKbBNaqb0rDaxBWnAC2VW1rRN5sIlI/nski3ZyMC97oNqcCWt
-         vPbw==
+        bh=0K1Cw37rD1IppCvNdmCb2NpomqfVXYIhsQh1IU/oD2M=;
+        b=Jnj4k5BM3xdiZRNmRqlyaKTnna2ulN3efYQBqtjmKrFAOpRKBAV/7EbN4RAPJR64bP
+         1KqZwGzq5BmvEteASkiZGDMDvrNKXVjeFqSV/ncsLvyd5UBGT12hIcxtERkhXz9tv+JK
+         /muM4PIGh9XGPPYSs/mXTGUz33bv6Ez/Sqrz84Q27vbif83tkb4XjLRowRmYiZu8asLW
+         P28qCttABLTlHbPfOMoj1wAeLEBbIpTOk8hfNVtdF2zpsWqOIeR3Siao6oFkPv1XyymJ
+         hyNV5y55WaXoRsbycsAAcDeAlq9/e3YodSjd7CPo2al5kIPYwimksm4VFuTdDQMC+VkG
+         UDGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=af7XSHG9FUQt2yu1S5jYF4Zn8ho5gd7vQCkyA/tLau4=;
-        b=XrQGodCwQwZ1wfO/9WtuWD9XzXDaGBzx4DDbPtNF1Y1OywxIAec4SGxATaS37ctp1e
-         9lUFTJftESm5A0DDVnEDjH2P9obW+BJEh9DO36k7Y8IIPDAg2oar+xhc6O/b/oHv5Imv
-         aHOyVb4e661oUXoPf74342TC7sXOM6Zi3K5NSpsQ/DGtxgmILh2sQq3m/YLkN9CR+EDZ
-         cgHSDgCh/SK0tpzNTRnSBSDQc0lg5oLyaOSxnwBKv8KDmr08Oe7XVcpmqJtdtV6hRHbS
-         SyTdR4AAXSF1HisVFgvG9uff6N1oHadohnKspg58Me1FJ5CAn4njgo/Zwt+sGU4bBELd
-         tniQ==
-X-Gm-Message-State: APjAAAVwlPOUy8mGF9bCrEysBz3IYPAUasEA6BvBKVaI/A9fU/iQgB67
-        VelIoSpeRCmSroM9S0R/QyCm0zbMPvnun54XIEg=
-X-Google-Smtp-Source: APXvYqzGlg1pP7IjPvj4DxUTLs7iKsVaWKc3/xY8HdOnhR8EtZWtRowTgwJdp96WZgETcAPcZ/SpRP0xI4l4xnW+0CI=
-X-Received: by 2002:a17:906:684e:: with SMTP id a14mr33040768ejs.156.1563390806721;
- Wed, 17 Jul 2019 12:13:26 -0700 (PDT)
+        bh=0K1Cw37rD1IppCvNdmCb2NpomqfVXYIhsQh1IU/oD2M=;
+        b=ZNR7hxqfn3J24qo6qnK3XIV+q4zag1tpduLeGolFtHNOTWlXAveKUOp8NaT2kdVF24
+         EQ04InrXypq3dN/ukTwgr1tLrJrQCPS5KKnXvOrSuuC/IieegDMjCoX5312sqIBnl2g2
+         WYxVawM9uJ2BKrHuTti8Alsl1qkUZ0czQPnX1mooj1Vf2TBofuIZrn6nmF+G1BsZArQS
+         rozvEm46Ym3YNTtnuh4laMIL+KrsXV1VE+fF7FaChHyS3li9wQWnMp5ukz12SyNvcl/w
+         IDBYo/dgyuTb065RFvii37tJiFBomYUFmjDPL6xFHOZtzfM+8CelrmHwB51K7hhvVWKD
+         gcHQ==
+X-Gm-Message-State: APjAAAXgBqp0dtM5WfR1Fy9OwzKVYwN83WNJzaliIIBjGX8UigZnF0gg
+        qMAfMAj9Gc3nE+vt1GdlmpEVUFdJD52ezcIftsx1MQ==
+X-Google-Smtp-Source: APXvYqzFAC0LjXRhmyx9k4jlXBUbQVZEKJtk559kQPLl7p8CQdRDxk3cRJQhRe9stTHVLrBWi0pGfW3EmOjr8T4fM4Y=
+X-Received: by 2002:a9d:6256:: with SMTP id i22mr9218922otk.139.1563395949553;
+ Wed, 17 Jul 2019 13:39:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190716165641.6990-1-pasha.tatashin@soleen.com> <4c8a3a11-adc2-efa4-f765-6be338546ae4@arm.com>
-In-Reply-To: <4c8a3a11-adc2-efa4-f765-6be338546ae4@arm.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 17 Jul 2019 15:13:15 -0400
-Message-ID: <CA+CK2bBj9UsQZCLsy-S8c_Kd5SRAPvtdS8s9P_Fdg+VifTbT5w@mail.gmail.com>
-Subject: Re: [RFC v1 0/4] arm64: MMU enabled kexec kernel relocation
-To:     James Morse <james.morse@arm.com>
-Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+References: <20190712235245.202558-1-saravanak@google.com> <20190712235245.202558-3-saravanak@google.com>
+ <CAL_JsqJEmC5cttFavGH4iMh=3z2K4r4kjG44AFJCpxQZ9hPwQA@mail.gmail.com>
+ <CAGETcx-5ykD=9X1Lo2-G+T5uokFncbY2FmiJM8eZrgQ9JaBgxw@mail.gmail.com> <CAL_Jsq+Dfm8ng1OVcB+1N2ack05v8+u1VydfxM4Ukefqd9XK2w@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+Dfm8ng1OVcB+1N2ack05v8+u1VydfxM4Ukefqd9XK2w@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 17 Jul 2019 13:38:33 -0700
+Message-ID: <CAGETcx9AuGtWh_nFb4SbkdYRbNmDK07yKF+jDDPScN+Bdp7a9w@mail.gmail.com>
+Subject: Re: [PATCH v5 02/11] of/platform: Add functional dependency link from
+ DT bindings
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-
-Thank you for taking a look at this work.
-
-> After a quick skim:
+On Wed, Jul 17, 2019 at 7:35 AM Rob Herring <robh+dt@kernel.org> wrote:
 >
-> This will map 'nomap' regions of memory with cacheable attributes. This is a non-starter.
-> These regions were described by firmware as having content that was/is written with
-> different attributes. The attributes must match whenever it is mapped, otherwise we have a
-> loss of coherency. Mapping this stuff as cacheable means the CPU can prefetch it into the
-> cache whenever it likes.
-
-> It may be important that we do not ever map some of these regions, even though its
-> described as memory. On AMD-Seattle the bottom page of memory is reserved by firmware for
-> its own use; it is made secure-only, and any access causes an
-> external-abort/machine-check. UEFI describes this as 'Reserved', and we preserve this in
-> the kernel as 'nomap'. The equivalent DT support uses memreserve, possibly with the
-> 'nomap' attribute.
+> On Tue, Jul 16, 2019 at 5:54 PM Saravana Kannan <saravanak@google.com> wrote:
+> >
+> > On Tue, Jul 16, 2019 at 4:43 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > >
+> > > On Fri, Jul 12, 2019 at 5:52 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > >
+> > > > Add device-links after the devices are created (but before they are
+> > > > probed) by looking at common DT bindings like clocks and
+> > > > interconnects.
+> > > >
+> > > > Automatically adding device-links for functional dependencies at the
+> > > > framework level provides the following benefits:
+> > > >
+> > > > - Optimizes device probe order and avoids the useless work of
+> > > >   attempting probes of devices that will not probe successfully
+> > > >   (because their suppliers aren't present or haven't probed yet).
+> > > >
+> > > >   For example, in a commonly available mobile SoC, registering just
+> > > >   one consumer device's driver at an initcall level earlier than the
+> > > >   supplier device's driver causes 11 failed probe attempts before the
+> > > >   consumer device probes successfully. This was with a kernel with all
+> > > >   the drivers statically compiled in. This problem gets a lot worse if
+> > > >   all the drivers are loaded as modules without direct symbol
+> > > >   dependencies.
+> > > >
+> > > > - Supplier devices like clock providers, interconnect providers, etc
+> > > >   need to keep the resources they provide active and at a particular
+> > > >   state(s) during boot up even if their current set of consumers don't
+> > > >   request the resource to be active. This is because the rest of the
+> > > >   consumers might not have probed yet and turning off the resource
+> > > >   before all the consumers have probed could lead to a hang or
+> > > >   undesired user experience.
+> > > >
+> > > >   Some frameworks (Eg: regulator) handle this today by turning off
+> > > >   "unused" resources at late_initcall_sync and hoping all the devices
+> > > >   have probed by then. This is not a valid assumption for systems with
+> > > >   loadable modules. Other frameworks (Eg: clock) just don't handle
+> > > >   this due to the lack of a clear signal for when they can turn off
+> > > >   resources. This leads to downstream hacks to handle cases like this
+> > > >   that can easily be solved in the upstream kernel.
+> > > >
+> > > >   By linking devices before they are probed, we give suppliers a clear
+> > > >   count of the number of dependent consumers. Once all of the
+> > > >   consumers are active, the suppliers can turn off the unused
+> > > >   resources without making assumptions about the number of consumers.
+> > > >
+> > > > By default we just add device-links to track "driver presence" (probe
+> > > > succeeded) of the supplier device. If any other functionality provided
+> > > > by device-links are needed, it is left to the consumer/supplier
+> > > > devices to change the link when they probe.
+> > > >
+> > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > > > ---
+> > > >  .../admin-guide/kernel-parameters.txt         |  5 ++
+> > > >  drivers/of/platform.c                         | 57 +++++++++++++++++++
+> > > >  2 files changed, 62 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > > index 138f6664b2e2..109b4310844f 100644
+> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > > @@ -3141,6 +3141,11 @@
+> > > >                         This can be set from sysctl after boot.
+> > > >                         See Documentation/sysctl/vm.txt for details.
+> > > >
+> > > > +       of_devlink      [KNL] Make device links from common DT bindings. Useful
+> > > > +                       for optimizing probe order and making sure resources
+> > > > +                       aren't turned off before the consumer devices have
+> > > > +                       probed.
+> > > > +
+> > > >         ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
+> > > >                         See Documentation/debugging-via-ohci1394.txt for more
+> > > >                         info.
+> > > > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> > > > index 04ad312fd85b..0930f9f89571 100644
+> > > > --- a/drivers/of/platform.c
+> > > > +++ b/drivers/of/platform.c
+> > > > @@ -509,6 +509,62 @@ int of_platform_default_populate(struct device_node *root,
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(of_platform_default_populate);
+> > > >
+> > > > +static int of_link_binding(struct device *dev,
+> > > > +                          const char *binding, const char *cell)
+> > > > +{
+> > > > +       struct of_phandle_args sup_args;
+> > > > +       struct platform_device *sup_dev;
+> > > > +       unsigned int i = 0, links = 0;
+> > > > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
+> > > > +
+> > > > +       while (!of_parse_phandle_with_args(dev->of_node, binding, cell, i,
+> > > > +                                          &sup_args)) {
+> > > > +               i++;
+> > > > +               sup_dev = of_find_device_by_node(sup_args.np);
+> > > > +               of_node_put(sup_args.np);
+> > > > +               if (!sup_dev)
+> > > > +                       continue;
+> > > > +               if (device_link_add(dev, &sup_dev->dev, dl_flags))
+> > > > +                       links++;
+> > > > +               put_device(&sup_dev->dev);
+> > > > +       }
+> > > > +       if (links < i)
+> > > > +               return -ENODEV;
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > > +static bool of_devlink;
+> > > > +core_param(of_devlink, of_devlink, bool, 0);
+> > > > +
+> > > > +/*
+> > > > + * List of bindings and their cell names (use NULL if no cell names) from which
+> > > > + * device links need to be created.
+> > > > + */
+> > > > +static const char * const link_bindings[] = {
+> > > > +       "clocks", "#clock-cells",
+> > > > +       "interconnects", "#interconnect-cells",
+> > > > +};
+> > > > +
+> > > > +static int of_link_to_suppliers(struct device *dev)
+> > > > +{
+> > > > +       unsigned int i = 0;
+> > > > +       bool done = true;
+> > > > +
+> > > > +       if (!of_devlink)
+> > > > +               return 0;
+> > > > +       if (unlikely(!dev->of_node))
+> > > > +               return 0;
+> > > > +
+> > > > +       for (i = 0; i < ARRAY_SIZE(link_bindings) / 2; i++)
+> > > > +               if (of_link_binding(dev, link_bindings[i * 2],
+> > > > +                                       link_bindings[i * 2 + 1]))
+> > > > +                       done = false;
+> > >
+> > > Given the pending addition of regulators I think this should be
+> > > structured a bit differently so that we abstract out the matching and
+> > > phandle look-up so there's a clean separation of binding specifics.
+> > > It's kind of messy with 2 patterns to parse already and if we added a
+> > > 3rd? I would iterate over the properties as you do for regulators in
+> > > both cases and for each property call a binding specific match
+> > > function. The common pattern can of course be a common function. Let
+> > > me know if that makes sense. If not I can try to flesh it out some
+> > > more.
+> >
+> > I've added regulator support in this series and I've refactored this
+> > code as I went along. I fully expect to squash some of the refactors
+> > once the final result of the series is acceptable.
 >
-> Mapping a 'new'/unknown region with cacheable attributes can never be safe, even if we
-> trusted kexec-tool to only write the kernel to memory. The host may be using a bigger page
-> size causing more memory to become cacheable than was intended.
-> Linux's EFI support rounds the UEFI memory map to the largest support page size, (and
-> winges about firmware bugs).
-> If we're allowing kexec to load images in a region not described as IORESOURCE_SYSTEM_RAM,
-> that is a bug we should fix.
-
-We are allowing this. If you consider this to be a bug, I will fix it,
-and this will actually simplify the idmap page table. User will
-receive an error during kexec load if a request is made to load into
-!IORESOURCE_SYSTEM_RAM region.
-
+> It would be easier to review the final result than incremental changes
+> which change the prior patches especially if the latter patches are
+> ultimately required.
 >
-> The only way to do this properly is to copy the linear mapping. The arch code has lots of
-> complex code to generate it correctly at boot, we do not want to duplicate it.
-> (this is why hibernate copies the linear mapping)
-
-As I understand, you would like to take a copy of idmap page table,
-and add entries only for segment
-sources and destinations into the new page table?
-
-If so, there is a slight problem: arch hook machine_kexec_prepare() is
-called prior to loading segments from userland. We can solve this by
-adding another hook that is called after kimage_terminate().
-
-> These patches do not remove the running page tables from TTBR1. As you overwrite the live
-> page tables you will corrupt the state of the CPU. The page-table walker may access things
-> that aren't memory, cache memory that shouldn't be cached (see above), and allocate
-> conflicting entries in the TLB.
-
-Indeed. However, I was following what is done in create_safe_exec_page():
-https://soleen.com/source/xref/linux/arch/arm64/kernel/hibernate.c?r=af873fce#263
-
-ttbr1 is not removed there. Am I missing something, or is not yet
-configured there?
-
-I will set ttbr1 to zero page.
-
-> You cannot use the mm page table helpers to build an idmap on arm64. The mm page table
-> helpers have a compile-time VA_BITS, and we support systems where there is no memory below
-> 1<<VA_BITS. (crazy huh!). Picking on AMD-Seattle again: if you boot a 4K 39bit VA kernel,
-> the idmap will have more page table levels than the page table helpers can build. This is
-> why there are special helpers to load the idmap, and twiddle TCR_EL1.T0SZ.
-> You already need to copy the linear-map, so using an idmap is extra work. You want to work
-> with linear-map addresses, you probably need to add the field to the appropriate structure.
-
-OK. Makes sense. I will do the way hibernate setup this table. I was
-indeed following x86, hoping that eventually it would be possible to
-unite: kasan, hibernate, and kexec implementation of this page table.
-
+> > It's not clear to me if you got to the end of the series and still
+> > think the final result needs to be refactored. Let me know what you
+> > think about this towards the end of the series and I can clean it up
+> > if you still think it needs some clean up.
 >
-> The kexec relocation code still runs at EL2. You can't use a copy of the linear map here
-> as there is only one TTBR on v8.0, and you'd need to setup EL2 as its been torn back to
-> the hyp-stub.
+> I probably should have replied on the regulator addition, but yes,
+> looking at that is what prompted my concerns here.
 
-As I understand normally on baremetal kexec runs at EL1 not EL2. On my
-machine is_kernel_in_hyp_mode() == false in cpu_soft_restart.
+Sounds good. Let me refactor the series and send it out again. Btw, if
+you have other issues you noticed, I'd be happy to fix those too
+before sending out the v6 of the series again.
 
-This is the reason hibernate posts EL2 in a holding pen while it rewrites
-> all of memory, then calls back to fixup EL2. Keeping the rewrite phase at EL1 means it
-> doesn't need independently tweaking/testing. You need to do something similar, either
-> calling EL2 to start the new image, or disabling the MMU at EL1 to start the new image there.
-
-OK, I will study how hibernate does this. I was thinking that if we
-are running in EL2 we can simply configure TTBR0_EL2 instead of
-TTBR0_EL1. But, I need to understand this better.
-
->
-> You will need to alter the relocation code to do nothing for kdump, as no relocation is
-> required and building page-tables is extra work where the kernel may croak, preventing us
-> from reaching kdump.
-
-Yes, I was planning to do nothing for kdump, which involves not
-allocating page table. It is not part of the current patchest, as the
-current series is not ready.
-
->
-> Finally, having this independent idmap machinery isn't desirable from a maintenance
-> perspective. Please start with the hibernate code that already solves a very similar
-> problem, as it already has most of these problems covered.
-
-OK.
-
-> > This patch series works in terms, that I can kexec-reboot both in QEMU
->
-> I wouldn't expect Qemu's emulation of the MMU and caches to be performance accurate.
-
-I am not measuring performance in QEMU, I use it for
-development/verification only. The performance is measured on real
-hardware only.
-
->
-> > and on a physical machine. However, I do not see performance improvement
-> > during relocation. The performance is just as slow as before with disabled
-> > caches.
->
-> > Am I missing something? Perhaps, there is some flag that I should also
-> > enable in page table? Please provide me with any suggestions.
->
-> Some information about the physical machine you tested this on would help.
-> I'm guessing its v8.0, and booted at EL2....
-
-I am using Broadcom's Stingray SoC. Because  is_kernel_in_hyp_mode()
-returns false, I believe it is EL1. How can I boot it at EL2?
-
-So, I am still confused why I do not see performance improvements
-during relocation on this machine. Any theories?
-
-Thank you,
-Pasha
+-Saravana
