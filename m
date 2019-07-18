@@ -3,104 +3,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B7A527D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 11:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D1EF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 14:14:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727655AbfGRLSG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 07:18:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40304 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726495AbfGRLSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 07:18:04 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6IB2f9f022835
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2019 07:18:02 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2ttnu3n251-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2019 07:18:02 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 18 Jul 2019 12:18:00 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 18 Jul 2019 12:17:58 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6IBHv9559179204
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 18 Jul 2019 11:17:58 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D51E1A4051;
-        Thu, 18 Jul 2019 11:17:57 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 767EEA4059;
-        Thu, 18 Jul 2019 11:17:57 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.168])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 18 Jul 2019 11:17:57 +0000 (GMT)
-Date:   Thu, 18 Jul 2019 14:17:55 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jeremy Cline <jcline@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: transhuge: fix typo in madvise reference
-References: <20190716144908.25843-1-jcline@redhat.com>
-MIME-Version: 1.0
+        id S1727740AbfGROOt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 10:14:49 -0400
+Received: from mother.openwall.net ([195.42.179.200]:32818 "HELO
+        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726715AbfGROOt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 10:14:49 -0400
+Received: (qmail 15703 invoked from network); 18 Jul 2019 14:14:46 -0000
+Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
+  by localhost with SMTP; 18 Jul 2019 14:14:46 -0000
+Received: by pvt.openwall.com (Postfix, from userid 503)
+        id 14373AB5B3; Thu, 18 Jul 2019 16:14:40 +0200 (CEST)
+Date:   Thu, 18 Jul 2019 16:14:40 +0200
+From:   Solar Designer <solar@openwall.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        keescook@chromium.org, peterz@infradead.org,
+        gregkh@linuxfoundation.org, tyhicks@canonical.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information about linux-distros
+Message-ID: <20190718141440.GA22600@openwall.com>
+References: <20190717231103.13949-1-sashal@kernel.org> <20190718094057.e4nclrw6qd2t4vw7@willie-the-truck>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190716144908.25843-1-jcline@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19071811-0016-0000-0000-00000293FDE1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071811-0017-0000-0000-000032F1D99E
-Message-Id: <20190718111755.GF20726@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-18_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907180122
+In-Reply-To: <20190718094057.e4nclrw6qd2t4vw7@willie-the-truck>
+User-Agent: Mutt/1.4.2.3i
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 10:49:08AM -0400, Jeremy Cline wrote:
-> Fix an off-by-one typo in the transparent huge pages admin
-> documentation.
+On Thu, Jul 18, 2019 at 10:40:58AM +0100, Will Deacon wrote:
+> On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
+> > Provide more information about how to interact with the linux-distros
+> > mailing list for disclosing security bugs.
+> > 
+> > Reference the linux-distros list policy and clarify that the reporter
+> > must read and understand those policies as they differ from
+> > security@kernel.org's policy.
+> > 
+> > Suggested-by: Solar Designer <solar@openwall.com>
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > ---
+> > 
+> > Changes in v2:
+> >  - Focus more on pointing to the linux-distros wiki and policies.
+> >  - Remove explicit linux-distros email.
+> >  - Remove various explanations of linux-distros policies.
+> > 
+> >  Documentation/admin-guide/security-bugs.rst | 19 +++++++++----------
+> >  1 file changed, 9 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+> > index dcd6c93c7aac..380d44fd618d 100644
+> > --- a/Documentation/admin-guide/security-bugs.rst
+> > +++ b/Documentation/admin-guide/security-bugs.rst
+> > @@ -60,16 +60,15 @@ Coordination
+> >  ------------
+> >  
+> >  Fixes for sensitive bugs, such as those that might lead to privilege
+> > -escalations, may need to be coordinated with the private
+> > -<linux-distros@vs.openwall.org> mailing list so that distribution vendors
+> > -are well prepared to issue a fixed kernel upon public disclosure of the
+> > -upstream fix. Distros will need some time to test the proposed patch and
+> > -will generally request at least a few days of embargo, and vendor update
+> > -publication prefers to happen Tuesday through Thursday. When appropriate,
+> > -the security team can assist with this coordination, or the reporter can
+> > -include linux-distros from the start. In this case, remember to prefix
+> > -the email Subject line with "[vs]" as described in the linux-distros wiki:
+> > -<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+> > +escalations, may need to be coordinated with the private linux-distros mailing
+> > +list so that distribution vendors are well prepared to issue a fixed kernel
+> > +upon public disclosure of the upstream fix. Please read and follow the policies
+> > +of linux-distros as specified in the linux-distros wiki page before reporting:
 > 
-> Signed-off-by: Jeremy Cline <jcline@redhat.com>
+> can we add a "there" at the end of this sentence, so it can't be misread as
+> implying that you must follow the linux-distros policies before reporting to
+> security@kernel.org ?
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+Sasha's patch above and the addition suggested by Will look good to me.
 
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 7ab93a8404b9..bd5714547cee 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -53,7 +53,7 @@ disabled, there is ``khugepaged`` daemon that scans memory and
->  collapses sequences of basic pages into huge pages.
-> 
->  The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
-> -interface and using madivse(2) and prctl(2) system calls.
-> +interface and using madvise(2) and prctl(2) system calls.
-> 
->  Transparent Hugepage Support maximizes the usefulness of free memory
->  if compared to the reservation approach of hugetlbfs by allowing all
-> -- 
-> 2.21.0
-> 
+Thanks!
 
--- 
-Sincerely yours,
-Mike.
-
+Alexander
