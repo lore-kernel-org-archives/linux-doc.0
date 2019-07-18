@@ -1,110 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61BB67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 07:51:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91B1E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 09:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfGRHvT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 03:51:19 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:43498 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726572AbfGRHvT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 03:51:19 -0400
-Received: by mail-qt1-f193.google.com with SMTP id w17so26183599qto.10;
-        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AMIbdcIyPjXgBsFnQdrxIvDXu584wusUv2Znj2VCflY=;
-        b=rJftV391PX20sTps19CSDJMV3MWFWIWZrnUl8iXIIUhSdgS9mUI2/OEvhOF8GqEDhS
-         VsMAQQimlyV14v63OCsJO1Pln+bVB5TKEmVpPOzwN0iiq/EmjRnEbEddPfE/OUY6UKif
-         YURgoFKXXwhZUEYZQfCRM9lJblx/pUrJ9TmyMEuibKHOEQyCJsrGtUOZBRp1oxKF97tX
-         YzHxYaFvmO28Vh21x9i/T9xhZzcgWgE2PhVJ2JCAP4Ad4TnIgw41L9njMUO4VoBHzC+Z
-         md1McOvl/aPyCltCbSyNYRJ5MKoSgWtM+MuMhnnsMbYjfe0LKTnxzr6pEcNU6RbOLcMX
-         kkqQ==
-X-Gm-Message-State: APjAAAVmSzfxCZT8yAPwyYN3+b+Pr8raSnTxKf0SsZfQ5WpVooBb7mGI
-        DFsTfcpaiVqbc7JBaZF8A/j4oOQJ3fsqdnYsbAg=
-X-Google-Smtp-Source: APXvYqyzjKBdgrNsfXbtaWuBwJsPbX/hOAYTtfb23UeIC61bLsX6rwes0aTlraCVeKg7z22IOXq9fA3u8pg4isBRck0=
-X-Received: by 2002:ac8:5311:: with SMTP id t17mr30079223qtn.304.1563436278053;
- Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+        id S1726608AbfGRJlE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 05:41:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38294 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726383AbfGRJlE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jul 2019 05:41:04 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6142020693;
+        Thu, 18 Jul 2019 09:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563442863;
+        bh=Fb8G4A6qNsFSNyTCqbMQF4OAkTQ4OaRytPgjtUsYaLo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jrd5WeEqzVllZPvqHA2derQJOjaJMgl1cRPtdhd4JTR6VIzWosvQnbtbTRzTo2xsw
+         /Ky87P7Vyg+Kaus0cqXk+xlpT3bMg475D0qpYYr8shY0/MrcHaXLtemI87M7T/MXom
+         fdHOYqWmZMo0haGl/5m8rYTPG3cuaRl6TUxEHQd0=
+Date:   Thu, 18 Jul 2019 10:40:58 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     corbet@lwn.net, solar@openwall.com, keescook@chromium.org,
+        peterz@infradead.org, gregkh@linuxfoundation.org,
+        tyhicks@canonical.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information
+ about linux-distros
+Message-ID: <20190718094057.e4nclrw6qd2t4vw7@willie-the-truck>
+References: <20190717231103.13949-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
- <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
-In-Reply-To: <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 18 Jul 2019 09:51:01 +0200
-Message-ID: <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To:     Florian Fainelli <florian.fainelli@broadcom.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Julien Thierry <julien.thierry@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, drjones@redhat.com,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>, philip@cog.systems,
-        Jinbum Park <jinb.park7@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Rob Landley <rob@landley.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Garnier <thgarnie@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190717231103.13949-1-sashal@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 7:00 PM Florian Fainelli
-<florian.fainelli@broadcom.com> wrote:
-> On 7/2/19 2:06 PM, Linus Walleij wrote:
+On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
+> Provide more information about how to interact with the linux-distros
+> mailing list for disclosing security bugs.
+> 
+> Reference the linux-distros list policy and clarify that the reporter
+> must read and understand those policies as they differ from
+> security@kernel.org's policy.
+> 
+> Suggested-by: Solar Designer <solar@openwall.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> 
+> Changes in v2:
+>  - Focus more on pointing to the linux-distros wiki and policies.
+>  - Remove explicit linux-distros email.
+>  - Remove various explanations of linux-distros policies.
+> 
+>  Documentation/admin-guide/security-bugs.rst | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+> index dcd6c93c7aac..380d44fd618d 100644
+> --- a/Documentation/admin-guide/security-bugs.rst
+> +++ b/Documentation/admin-guide/security-bugs.rst
+> @@ -60,16 +60,15 @@ Coordination
+>  ------------
+>  
+>  Fixes for sensitive bugs, such as those that might lead to privilege
+> -escalations, may need to be coordinated with the private
+> -<linux-distros@vs.openwall.org> mailing list so that distribution vendors
+> -are well prepared to issue a fixed kernel upon public disclosure of the
+> -upstream fix. Distros will need some time to test the proposed patch and
+> -will generally request at least a few days of embargo, and vendor update
+> -publication prefers to happen Tuesday through Thursday. When appropriate,
+> -the security team can assist with this coordination, or the reporter can
+> -include linux-distros from the start. In this case, remember to prefix
+> -the email Subject line with "[vs]" as described in the linux-distros wiki:
+> -<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+> +escalations, may need to be coordinated with the private linux-distros mailing
+> +list so that distribution vendors are well prepared to issue a fixed kernel
+> +upon public disclosure of the upstream fix. Please read and follow the policies
+> +of linux-distros as specified in the linux-distros wiki page before reporting:
 
->
-> Great, thanks a lot for taking a look. FYI, I will be on holiday from
-> July 19th till August 12th, if you think you have more feedback between
-> now and then, I can try to pick it up and submit a v7 with that feedback
-> addressed, or it will happen when I return, or you can pick it up if you
-> refer, all options are possible!
->
-> @Arnd, should we squash your patches in as well?
+can we add a "there" at the end of this sentence, so it can't be misread as
+implying that you must follow the linux-distros policies before reporting to
+security@kernel.org ?
 
-Yes, please do. I don't remember if I sent you all of them already,
-here is the list of patches that I have applied locally on top of your
-series to get a clean randconfig build:
-
-123c3262f872 KASAN: push back KASAN_STACK to clang-10
-d63dd9e2afd9 [HACK] ARM: disable KASAN+XIP_KERNEL
-879eb3c22240 kasan: increase 32-bit stack frame warning limit
-053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
-6c1a78a448c2 ARM: fix kasan link failures
-
-      Arnd
+Will
