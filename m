@@ -1,86 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDC4A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 20:18:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 848B47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 21:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391161AbfGRUSg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 16:18:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57394 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728022AbfGRUSg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jul 2019 16:18:36 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A5DF68E22C;
-        Thu, 18 Jul 2019 20:18:35 +0000 (UTC)
-Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C787B19D7A;
-        Thu, 18 Jul 2019 20:18:34 +0000 (UTC)
-Subject: Re: [PATCH v2 08/11] kbuild: create *.mod with full directory path
- and remove MODVERDIR
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        id S1727972AbfGRVbj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 17:31:39 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35153 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727921AbfGRVbi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 17:31:38 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u14so13207520pfn.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2019 14:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=knozEXRhXWvdO7buD7BicWZWalyyFDnCOXnDxt6wCPU=;
+        b=m5PM/hPG+b9HQoKIZGbV+Ijuf2K7lQCUeVE/31Yx0s2UJXJinuR6TELqMMBQe1zNK+
+         ITaF4LxTfpVYJT/CB5uauiVzBIPXdmJOiNiHEeLPUYTc8daNjxKKpM+5C/igF5zhrMkY
+         /dg5e5/uO7JhNJ/T3J42WAIKkjI6M+DcpIRy3c80cp+0VFInZXxdthcYl6i8hH6m4JNj
+         j2V3FyAxSuy5KM7hfAhUZaFUSwuaKxs+KQ+oKowAuYtAOHsfsxVKNnqPIlHfxaTGTwux
+         Mi40vng0pTS6OLBl6pMVGG/F1rxxCimHBrEo28sK8by3GCDNubTjdjUIh51eN4R4vbhw
+         KMaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=knozEXRhXWvdO7buD7BicWZWalyyFDnCOXnDxt6wCPU=;
+        b=F7Ao4wLplojHfO3utLuSlv9L3GG4kkb30dYWCwPkdnpjmYrbIn07U31mk4+2zevxI5
+         JTi9C1UlM7ZDuEHhgTt8w/46dn3dgWDjPHun+e5wOZEKLapWQgaOl9mulayN9g/4HOXu
+         oqECP+eBGYdrMla8RT/F0mDnPfRLHMbcOhBcFieA8WuLZiQLxySoqHGUKAaklV0EFKmA
+         TMr3dr6g0DIcYTlf3rPI1fcsvIDH2qQCiwyMgrtVxgX3avRmectbjCnxfyVpQHqo1wVe
+         DlY27LifOREdQTDNbW/Y2gg2oFk7jt0FMn1GFyN4RGwkgPP+KcwRxwKR33uO8BikLOcZ
+         kZ7Q==
+X-Gm-Message-State: APjAAAWHpaEEVQOgJYbVixy8/vczfoNBK1oIm2dWAcpA6An+Yu0KNDOI
+        Z9aWvc/oLMjQNrh/zSVbOj7umA==
+X-Google-Smtp-Source: APXvYqwt4Z+EcKNr4IglRcV9oiMsLHIXxnnhpixhnoN9PRcEQhoL633rKS/P9Lo0QuqjfEkYVbLOgw==
+X-Received: by 2002:a63:1305:: with SMTP id i5mr50423942pgl.211.1563485497578;
+        Thu, 18 Jul 2019 14:31:37 -0700 (PDT)
+Received: from drosen.mtv.corp.google.com ([2620:0:1000:1612:726:adc3:41a6:c383])
+        by smtp.gmail.com with ESMTPSA id v3sm26810539pfm.188.2019.07.18.14.31.36
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jul 2019 14:31:36 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] f2fs: Support case-insensitive file name lookups
+To:     Chao Yu <yuchao0@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <20190711054434.1177-1-yamada.masahiro@socionext.com>
- <20190711054434.1177-9-yamada.masahiro@socionext.com>
- <20190716214023.GA15159@redhat.com>
- <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-Message-ID: <f1222c8a-9301-1e76-981d-a36e8687a29f@redhat.com>
-Date:   Thu, 18 Jul 2019 16:18:33 -0400
+        linux-f2fs-devel@lists.sourceforge.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-team@android.com
+References: <20190717031408.114104-1-drosen@google.com>
+ <20190717031408.114104-3-drosen@google.com>
+ <cbaf59d4-0bd3-6980-4750-fbab14941bdb@huawei.com>
+From:   Daniel Rosenberg <drosen@google.com>
+Message-ID: <4ef17922-d1e9-1b83-9e89-d332ea6fb7ae@google.com>
+Date:   Thu, 18 Jul 2019 14:31:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
+In-Reply-To: <cbaf59d4-0bd3-6980-4750-fbab14941bdb@huawei.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Thu, 18 Jul 2019 20:18:36 +0000 (UTC)
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/17/19 1:21 AM, Masahiro Yamada wrote:
->> Hi Masahiro,
->>
->> I'm following this patchset changes as they will affect the klp-convert
->> series [1] that the livepatching folks have been working on...
-> 
-> Empty files .tmp_versions/*.livepatch are touched
-> to keep track of 'LIVEPATCH_* := y', right?
-> 
 
-Pretty much.  From that patchset I think the rework would need to  modify..
+On 7/17/19 3:11 AM, Chao Yu wrote:
+> We need to add one more entry f2fs_fsflags_map[] to map F2FS_CASEFOLD_FL to
+> FS_CASEFOLD_FL correctly and adapt F2FS_GETTABLE_FS_FL/F2FS_SETTABLE_FS_FL as well.
 
-- [PATCH v4 02/10] kbuild: Support for Symbols.list creation: creates a 
-Symbols.list file of kernel and module symbols, but *not* including any 
-from LIVEPATCH_* modules.
+I don't see FS_CASEFOLD_FL. It would make sense for it to exist, but unless it's in some recent patch I don't think that's currently in the kernel. Or are you suggesting adding it in this patch?
 
-- [PATCH v4 05/10] modpost: Integrate klp-convert: if a LIVEPATCH_* 
-module has changed, call a newly introduced klp-convert script on it.
-
-- [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules: find 
-any LIVEPATCH_* mod, add it to a livepatchmods file, then pass that file 
-to modpost
-
-> Perhaps, adding a new field
-> to *.mod files might be cleaner.
-
-I can look into that.  By "field" you mean a new row in the file?
-
-Regards,
-
--- Joe
