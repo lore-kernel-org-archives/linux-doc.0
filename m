@@ -1,87 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E08807D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 07:48:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 61BB67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Jul 2019 07:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727727AbfGRHsG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 03:48:06 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:35622 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726000AbfGRHsG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jul 2019 03:48:06 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id A660D403CF;
-        Thu, 18 Jul 2019 09:48:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1563436084; x=1565250485;
-         bh=83evBhxtODtohedgaV6aM+vHrrS7QcbOE6k/hFx14cU=; b=Y6QLQ2pVQHgY
-        SdcRZFsapqsEREMhAvkgEVL5QLesYnHJkIf6XAgzV+Kr4W+W0chCq1hUkR2fEXcm
-        zxGlgojEFtiqGD983gnrWZRkOYBCi2lELwIDMhQM1Ie+X+Gn0alMN0P3FbDuQkSd
-        RJkBGJ8Z/MV54HOjwB2YO0q4CbieyMffrWO4sJL9xS9GQFuoACNbtpqJCVqroYDL
-        k6PleMAHMUG2QrJYd5SbevflNLPUsfIX03UCdwRaysUtravYn0IqZWXpPJefhYN2
-        ry5fjEDI42+jfGoMfP0EwoXm1cfaYUK/MmiO1cS4K5rAr69qgiQPGqEW8g6ZC+ey
-        1PW/ILVxAsPT+p7AVZrQUvG+JYMOYj59HVNLs4aIjW66wNfuZseOdiue+xp1jGe4
-        dAF3nDP1/FRTxiUtW3xBRS62pGNUGiDolS9g6R1KQJ961k1oZGGibqDthkPD4PZT
-        cTO2wGhr47iw0UKqEmQUK1UpiDSfsChAAgJhox+AVuLv6nWYVkq+6ZFPZ8qS3kdU
-        P/gzrT401qlp/2vUTy4hOvUx4HcWE8qON/bQEl1Z7bS9DMmByfLxtMIJV6X3WsZL
-        RKADSlm8x6dRvaOrj04rs911JuBHcD0D0/vP6CFwfvxocCItMeWtZMtmS400nE7h
-        irC/K3RPwhkCcgPwG0/GrJkzNrGudjg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id KG3Wh1Gztmwy; Thu, 18 Jul 2019 09:48:04 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 394AE403CB;
-        Thu, 18 Jul 2019 09:48:04 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id DC64B312;
-        Thu, 18 Jul 2019 09:48:03 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH 2/2] doc:it_IT: rephrase statement
-Date:   Thu, 18 Jul 2019 09:47:54 +0200
-Message-Id: <20190718074754.29876-1-federico.vaga@vaga.pv.it>
+        id S1726608AbfGRHvT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 03:51:19 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43498 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726572AbfGRHvT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 03:51:19 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w17so26183599qto.10;
+        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AMIbdcIyPjXgBsFnQdrxIvDXu584wusUv2Znj2VCflY=;
+        b=rJftV391PX20sTps19CSDJMV3MWFWIWZrnUl8iXIIUhSdgS9mUI2/OEvhOF8GqEDhS
+         VsMAQQimlyV14v63OCsJO1Pln+bVB5TKEmVpPOzwN0iiq/EmjRnEbEddPfE/OUY6UKif
+         YURgoFKXXwhZUEYZQfCRM9lJblx/pUrJ9TmyMEuibKHOEQyCJsrGtUOZBRp1oxKF97tX
+         YzHxYaFvmO28Vh21x9i/T9xhZzcgWgE2PhVJ2JCAP4Ad4TnIgw41L9njMUO4VoBHzC+Z
+         md1McOvl/aPyCltCbSyNYRJ5MKoSgWtM+MuMhnnsMbYjfe0LKTnxzr6pEcNU6RbOLcMX
+         kkqQ==
+X-Gm-Message-State: APjAAAVmSzfxCZT8yAPwyYN3+b+Pr8raSnTxKf0SsZfQ5WpVooBb7mGI
+        DFsTfcpaiVqbc7JBaZF8A/j4oOQJ3fsqdnYsbAg=
+X-Google-Smtp-Source: APXvYqyzjKBdgrNsfXbtaWuBwJsPbX/hOAYTtfb23UeIC61bLsX6rwes0aTlraCVeKg7z22IOXq9fA3u8pg4isBRck0=
+X-Received: by 2002:ac8:5311:: with SMTP id t17mr30079223qtn.304.1563436278053;
+ Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
+ <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
+In-Reply-To: <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 18 Jul 2019 09:51:01 +0200
+Message-ID: <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] KASan for arm
+To:     Florian Fainelli <florian.fainelli@broadcom.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, drjones@redhat.com,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>, philip@cog.systems,
+        Jinbum Park <jinb.park7@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Rob Landley <rob@landley.net>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Garnier <thgarnie@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The statement sounds more like a literal translation
+On Thu, Jul 11, 2019 at 7:00 PM Florian Fainelli
+<florian.fainelli@broadcom.com> wrote:
+> On 7/2/19 2:06 PM, Linus Walleij wrote:
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/translations/it_IT/doc-guide/sphinx.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> Great, thanks a lot for taking a look. FYI, I will be on holiday from
+> July 19th till August 12th, if you think you have more feedback between
+> now and then, I can try to pick it up and submit a v7 with that feedback
+> addressed, or it will happen when I return, or you can pick it up if you
+> refer, all options are possible!
+>
+> @Arnd, should we squash your patches in as well?
 
-diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-index d9ee4b1f098f..f1ad4504b734 100644
---- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-@@ -242,9 +242,9 @@ del kernel:
- * Per inserire blocchi di testo con caratteri a dimensione fissa (codici di
-   esempio, casi d'uso, eccetera): utilizzate ``::`` quando non è necessario
-   evidenziare la sintassi, specialmente per piccoli frammenti; invece,
--  utilizzate ``.. code-block:: <language>`` per blocchi di più lunghi che
--  potranno beneficiare dell'avere la sintassi evidenziata. Per un breve pezzo
--  di codice da inserire nel testo, usate \`\`.
-+  utilizzate ``.. code-block:: <language>`` per blocchi più lunghi che
-+  beneficeranno della sintassi evidenziata. Per un breve pezzo di codice da
-+  inserire nel testo, usate \`\`.
- 
- 
- Il dominio C
--- 
-2.21.0
+Yes, please do. I don't remember if I sent you all of them already,
+here is the list of patches that I have applied locally on top of your
+series to get a clean randconfig build:
 
+123c3262f872 KASAN: push back KASAN_STACK to clang-10
+d63dd9e2afd9 [HACK] ARM: disable KASAN+XIP_KERNEL
+879eb3c22240 kasan: increase 32-bit stack frame warning limit
+053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
+6c1a78a448c2 ARM: fix kasan link failures
+
+      Arnd
