@@ -1,170 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD96C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 03:41:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2DAB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 08:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbfGSDlQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 23:41:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726055AbfGSDlQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jul 2019 23:41:16 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DAF62173B;
-        Fri, 19 Jul 2019 03:41:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563507674;
-        bh=fGenb1Mo2TQisp4uP/EkQQBPHk9tuT2DgTBPWSW/Zsg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=idvmJqXg+JMJL13zM+eQc6WBWK73ywhbWBURHgDuVkhBIafYZGFfF68P+Rj1mfAeJ
-         NmihOb5H26CPilkCB88yPRVo+3+yfAossIppQ3jPNaxVZy+d0Dt5kTEVIZVyyboSOM
-         ESfa3IiiiRlVO54Ft6UQee6w0FSEM+BbdbRyLw2w=
-Date:   Thu, 18 Jul 2019 23:41:13 -0400
-From:   Sasha Levin <sashal@kernel.org>
+        id S1726339AbfGSIm0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Jul 2019 04:42:26 -0400
+Received: from mother.openwall.net ([195.42.179.200]:54142 "HELO
+        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725794AbfGSIm0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jul 2019 04:42:26 -0400
+Received: (qmail 23955 invoked from network); 19 Jul 2019 08:42:23 -0000
+Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
+  by localhost with SMTP; 19 Jul 2019 08:42:23 -0000
+Received: by pvt.openwall.com (Postfix, from userid 503)
+        id 6D080AB5B3; Fri, 19 Jul 2019 10:42:15 +0200 (CEST)
+Date:   Fri, 19 Jul 2019 10:42:15 +0200
+From:   Solar Designer <solar@openwall.com>
 To:     Kees Cook <keescook@chromium.org>
-Cc:     corbet@lwn.net, solar@openwall.com, will@kernel.org,
+Cc:     Sasha Levin <sashal@kernel.org>, corbet@lwn.net, will@kernel.org,
         peterz@infradead.org, gregkh@linuxfoundation.org,
         tyhicks@canonical.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information
- about linux-distros
-Message-ID: <20190719034113.GD4240@sasha-vm>
-References: <20190717231103.13949-1-sashal@kernel.org>
- <201907181457.D61AC061C@keescook>
- <20190719003919.GC4240@sasha-vm>
- <201907181833.EF0D93C@keescook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information about linux-distros
+Message-ID: <20190719084215.GA24691@openwall.com>
+References: <20190717231103.13949-1-sashal@kernel.org> <201907181457.D61AC061C@keescook> <20190719003919.GC4240@sasha-vm> <201907181833.EF0D93C@keescook>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <201907181833.EF0D93C@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.4.2.3i
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jul 18, 2019 at 06:51:07PM -0700, Kees Cook wrote:
->On Thu, Jul 18, 2019 at 08:39:19PM -0400, Sasha Levin wrote:
->> On Thu, Jul 18, 2019 at 03:00:55PM -0700, Kees Cook wrote:
->> > On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
->> > > Provide more information about how to interact with the linux-distros
->> > > mailing list for disclosing security bugs.
->> > >
->> > > Reference the linux-distros list policy and clarify that the reporter
->> > > must read and understand those policies as they differ from
->> > > security@kernel.org's policy.
->> > >
->> > > Suggested-by: Solar Designer <solar@openwall.com>
->> > > Signed-off-by: Sasha Levin <sashal@kernel.org>
->> >
->> > Sorry, but NACK, see below...
->> >
->> > > ---
->> > >
->> > > Changes in v2:
->> > >  - Focus more on pointing to the linux-distros wiki and policies.
->> >
->> > I think this is already happening in the text. What specifically do you
->> > want described differently?
->>
->> The main issue was that there isn't anything pointing to the
->> linux-distros policies. The current text outlines a few of them ("add
->> [vs]", and "there should be an embargo period"), but it effectively just
->> gives out the linux-distros mailing address and tells the reporter to
->> contact it.
->
->The current text includes the wiki link, but yes, the anchor tag is not
->present at the wiki anymore. I would agree that's due for updating.
->
->I think reinforcing information to avoid past mistakes is appropriate
->here. Reports have regularly missed the "[vs]" detail or suggested
->embargoes that ended on Fridays, etc.
+> On Thu, Jul 18, 2019 at 08:39:19PM -0400, Sasha Levin wrote:
+> > On Thu, Jul 18, 2019 at 03:00:55PM -0700, Kees Cook wrote:
+> > > On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
+> > > > Provide more information about how to interact with the linux-distros
+> > > > mailing list for disclosing security bugs.
+> > > > 
+> > > > Reference the linux-distros list policy and clarify that the reporter
+> > > > must read and understand those policies as they differ from
+> > > > security@kernel.org's policy.
+> > > > 
+> > > > Suggested-by: Solar Designer <solar@openwall.com>
+> > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > 
+> > > Sorry, but NACK, see below...
 
-Right, but this is a sign that the reporter didn't read the wiki.
-Explaining things like this encourages reporters to skip reading the
-wiki and just send their report out.
+I like Sasha's PATCH v2 better, but if Kees insists on NACK'ing it then
+I suggest that we apply Sasha's first revision of the patch instead.
+I think either revision is an improvement on the status quo.
 
->> > >  - Remove explicit linux-distros email.
->> >
->> > I don't like this because we had past trouble with notifications going
->> > to the distros@ list and leaking Linux-only flaws to the BSDs. As there
->> > isn't a separate linux-distros wiki, the clarification of WHICH list is
->> > needed.
->>
->> Why would removing the explicit linux-distros email encourage people to
->> send reports to it?
->
->What? No, I'm saying we should _keep_ linux-distros@... in our text so
->that people don't send to the wrong list.
+> I think reinforcing information to avoid past mistakes is appropriate
+> here.
 
-But doesn't this just encourage mails being sent to linux-distros@
-without the policies being followed? That was Alexander's concern at
-least.
+Maybe, but from my perspective common past issues with Linux kernel bugs
+reported to linux-distros were:
 
->> I also don't understand what you mean by "there isn't a separate
->> linux-distros wiki"? There is one, and I want to point the reporter
->> there.
->
->That URL is a combined page for two lists. The very fact that it's
->not obvious that there are two lists described there is exactly why I
->think we need to keep an explicit mention of which to use. There are
->two mailing lists described at the wiki URL:
->
->	      distros@lists.openwall.com
->	linux-distros@lists.openwall.com
->
->Sending to the distros@ list risks exposing Linux-only flaws to non-Linux
->distros. This has caused leaks in the past, and we do not want people
->guessing at which list they should use.
->
->Also note that nowhere on the openwall wiki is the email address
->actually spelled out; this is another reason to spell it out in our
->documentation: no misunderstanding.
->
->(And historically there WAS a specific linux-distros wiki:
->https://oss-security.openwall.org/wiki/mailing-lists/linux-distros
->but it redirects to the combined one now...)
->
->> > >  - Remove various explanations of linux-distros policies.
->> >
->> > I don't think there's value in removing the Tue-Thu comment, nor
->> > providing context for why distros need time. This has been a regular
->> > thing we've had to explain to researchers that aren't familiar with
->> > update procedures and publication timing.
->>
->> To be fair, the Tue-Thu comment is listed in the section describing how
->> to do coordination with linux-distros, and linux-distros don't have a
->> Tue-Thu policy. If it's a security@kernel.org policy then let's list it
->> elsewhere.
->
->It's a distro preference. Many researchers aren't thinking about the
->larger Linux ecosystem that has to consume fixes. It's not a _policy_,
->but it makes the researchers understand how to construct better embargoes.
+- The reporter having been directed to post from elsewhere (and I
+suspect this documentation file) without being aware of list policy.
 
-If it's an accepted preference then we should just document it in a few
-other places like the linux-distros@ wiki. My concern with this is that
-it's not, and it's actually one of the only things Alexander pointed out
-in this document as surprising.
+- The reporter not mentioning (and sometimes not replying even when
+asked) whether they're also coordinating with security@k.o or whether
+they want someone on linux-distros to help coordinate with security@k.o.
+(Maybe this is something we want to write about here.)
 
---
-Thanks,
-Sasha
+- The Linux kernel bug having been introduced too recently to be of much
+interest to distros.
 
->> If you feel that there is a consensus around Tue-Thu let's just add it
->> to the linux-distros policy wiki, there's no point in listing random
->> policies from that wiki.
->
->I think it'd be a good idea to add that note also to the wiki, but I
->don't want it removed from our text because I have had to repeat that
->information regularly in the past.
->
->-- 
->Kees Cook
+> Reports have regularly missed the "[vs]" detail or suggested
+> embargoes that ended on Fridays, etc.
+
+This happens too.  Regarding missing the "[vs]" detail, technically
+there are also a number of other conditions that also let the message
+through, but those are changing and are deliberately not advertised.
+
+> Sending to the distros@ list risks exposing Linux-only flaws to non-Linux
+> distros.
+
+Right.
+
+> This has caused leaks in the past
+
+Do you mean leaks to *BSD security teams or to the public?  I'm not
+aware of past leaks to the public via the non-Linux distros present on
+the distros@ list.  Are you?
+
+Alexander
