@@ -3,95 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2DAB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 08:42:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AA787D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 13:36:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbfGSIm0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Jul 2019 04:42:26 -0400
-Received: from mother.openwall.net ([195.42.179.200]:54142 "HELO
-        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1725794AbfGSIm0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jul 2019 04:42:26 -0400
-Received: (qmail 23955 invoked from network); 19 Jul 2019 08:42:23 -0000
-Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
-  by localhost with SMTP; 19 Jul 2019 08:42:23 -0000
-Received: by pvt.openwall.com (Postfix, from userid 503)
-        id 6D080AB5B3; Fri, 19 Jul 2019 10:42:15 +0200 (CEST)
-Date:   Fri, 19 Jul 2019 10:42:15 +0200
-From:   Solar Designer <solar@openwall.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Sasha Levin <sashal@kernel.org>, corbet@lwn.net, will@kernel.org,
-        peterz@infradead.org, gregkh@linuxfoundation.org,
-        tyhicks@canonical.com, linux-doc@vger.kernel.org,
+        id S1728079AbfGSNga (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Jul 2019 09:36:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46316 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727888AbfGSNg3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jul 2019 09:36:29 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 86973AD05;
+        Fri, 19 Jul 2019 13:36:28 +0000 (UTC)
+Subject: Re: [PATCH 1/4] block: elevator.c: Remove now unused elevator=
+ argument
+To:     Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information about linux-distros
-Message-ID: <20190719084215.GA24691@openwall.com>
-References: <20190717231103.13949-1-sashal@kernel.org> <201907181457.D61AC061C@keescook> <20190719003919.GC4240@sasha-vm> <201907181833.EF0D93C@keescook>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <201907181833.EF0D93C@keescook>
-User-Agent: Mutt/1.4.2.3i
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>
+References: <20190714053453.1655-1-marcos.souza.org@gmail.com>
+ <20190714053453.1655-2-marcos.souza.org@gmail.com>
+From:   Hannes Reinecke <hare@suse.de>
+Message-ID: <081e9968-0ca5-6c3e-fac7-4eb701c415fa@suse.de>
+Date:   Fri, 19 Jul 2019 15:36:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <20190714053453.1655-2-marcos.souza.org@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 06:51:07PM -0700, Kees Cook wrote:
-> On Thu, Jul 18, 2019 at 08:39:19PM -0400, Sasha Levin wrote:
-> > On Thu, Jul 18, 2019 at 03:00:55PM -0700, Kees Cook wrote:
-> > > On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
-> > > > Provide more information about how to interact with the linux-distros
-> > > > mailing list for disclosing security bugs.
-> > > > 
-> > > > Reference the linux-distros list policy and clarify that the reporter
-> > > > must read and understand those policies as they differ from
-> > > > security@kernel.org's policy.
-> > > > 
-> > > > Suggested-by: Solar Designer <solar@openwall.com>
-> > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > 
-> > > Sorry, but NACK, see below...
+On 7/14/19 7:34 AM, Marcos Paulo de Souza wrote:
+> Since the inclusion of blk-mq, elevator argument was not being
+> considered anymore, and it's utility died long with the legacy IO path,
+> now removed too.
+> 
+> Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+> ---
+>   block/elevator.c | 14 --------------
+>   1 file changed, 14 deletions(-)
+> 
+> diff --git a/block/elevator.c b/block/elevator.c
+> index 2f17d66d0e61..f56d9c7d5cbc 100644
+> --- a/block/elevator.c
+> +++ b/block/elevator.c
+> @@ -135,20 +135,6 @@ static struct elevator_type *elevator_get(struct request_queue *q,
+>   	return e;
+>   }
+>   
+> -static char chosen_elevator[ELV_NAME_MAX];
+> -
+> -static int __init elevator_setup(char *str)
+> -{
+> -	/*
+> -	 * Be backwards-compatible with previous kernels, so users
+> -	 * won't get the wrong elevator.
+> -	 */
+> -	strncpy(chosen_elevator, str, sizeof(chosen_elevator) - 1);
+> -	return 1;
+> -}
+> -
+> -__setup("elevator=", elevator_setup);
+> -
+>   static struct kobj_type elv_ktype;
+>   
+>   struct elevator_queue *elevator_alloc(struct request_queue *q,
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.com>
 
-I like Sasha's PATCH v2 better, but if Kees insists on NACK'ing it then
-I suggest that we apply Sasha's first revision of the patch instead.
-I think either revision is an improvement on the status quo.
+Cheers,
 
-> I think reinforcing information to avoid past mistakes is appropriate
-> here.
-
-Maybe, but from my perspective common past issues with Linux kernel bugs
-reported to linux-distros were:
-
-- The reporter having been directed to post from elsewhere (and I
-suspect this documentation file) without being aware of list policy.
-
-- The reporter not mentioning (and sometimes not replying even when
-asked) whether they're also coordinating with security@k.o or whether
-they want someone on linux-distros to help coordinate with security@k.o.
-(Maybe this is something we want to write about here.)
-
-- The Linux kernel bug having been introduced too recently to be of much
-interest to distros.
-
-> Reports have regularly missed the "[vs]" detail or suggested
-> embargoes that ended on Fridays, etc.
-
-This happens too.  Regarding missing the "[vs]" detail, technically
-there are also a number of other conditions that also let the message
-through, but those are changing and are deliberately not advertised.
-
-> Sending to the distros@ list risks exposing Linux-only flaws to non-Linux
-> distros.
-
-Right.
-
-> This has caused leaks in the past
-
-Do you mean leaks to *BSD security teams or to the public?  I'm not
-aware of past leaks to the public via the non-Linux distros present on
-the distros@ list.  Are you?
-
-Alexander
+Hannes
+-- 
+Dr. Hannes Reinecke            Teamlead Storage & Networking
+hare@suse.de                              +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 Nürnberg
+GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG Nürnberg)
