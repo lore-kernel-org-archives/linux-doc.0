@@ -1,116 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3679E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 02:44:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD96C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 03:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbfGSCoW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 22:44:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44018 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbfGSCoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 22:44:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3LkIbrLGfP6lnU2flTbf1fGpCxww7P2b8XCbsVSdFOM=; b=lEgc7FbHuv0vX9hEMksiBHPr1
-        RfMGAHJLAe0MBz4w8UsxAzGr+CdPQzKToey+VOmYH/lrYyWKG04Gowv5mR5fyNodxMBVt1ZMWb8hO
-        NeiVVUXwCLbBR4D+XLvkyK3ia8UcpNBGbxELo1YPY4V2u6PNqQ1jp9X/kkTmeGxJpFjZewPqM28H8
-        Q7l70CtNLf80ULrNI5lVJnLOtGnFdLaMqlw/oC5nL9NEw0Irw9vRFDqC5rZLsnK+TjZCCO9Nqo4nZ
-        EOJk3d2vH7jlsREPIJki0oFwTwV5WXVgozpyaU4wXdl+y7DNeD5RvvszUr4u16+Wm/0Im/ZIdeQyd
-        +xLp5OcQQ==;
-Received: from [191.33.154.161] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hoIsd-00026B-V3; Fri, 19 Jul 2019 02:44:20 +0000
-Date:   Thu, 18 Jul 2019 23:44:16 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: Using rst2pdf for PDF output - Was: Re: [PATCH 0/5] PDF output
- fixes
-Message-ID: <20190718234416.59c9cf7a@coco.lan>
-In-Reply-To: <04a1a65f-c96c-1f4a-d987-d8b9e605d7c1@darmarit.de>
-References: <cover.1562696797.git.mchehab+samsung@kernel.org>
-        <20190712141921.7f8a1d02@lwn.net>
-        <20190712192705.71b97717@coco.lan>
-        <20190713004125.6009b661@coco.lan>
-        <20190718144655.5aa7deb4@coco.lan>
-        <04a1a65f-c96c-1f4a-d987-d8b9e605d7c1@darmarit.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726072AbfGSDlQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 23:41:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53746 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726055AbfGSDlQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jul 2019 23:41:16 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DAF62173B;
+        Fri, 19 Jul 2019 03:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563507674;
+        bh=fGenb1Mo2TQisp4uP/EkQQBPHk9tuT2DgTBPWSW/Zsg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=idvmJqXg+JMJL13zM+eQc6WBWK73ywhbWBURHgDuVkhBIafYZGFfF68P+Rj1mfAeJ
+         NmihOb5H26CPilkCB88yPRVo+3+yfAossIppQ3jPNaxVZy+d0Dt5kTEVIZVyyboSOM
+         ESfa3IiiiRlVO54Ft6UQee6w0FSEM+BbdbRyLw2w=
+Date:   Thu, 18 Jul 2019 23:41:13 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     corbet@lwn.net, solar@openwall.com, will@kernel.org,
+        peterz@infradead.org, gregkh@linuxfoundation.org,
+        tyhicks@canonical.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information
+ about linux-distros
+Message-ID: <20190719034113.GD4240@sasha-vm>
+References: <20190717231103.13949-1-sashal@kernel.org>
+ <201907181457.D61AC061C@keescook>
+ <20190719003919.GC4240@sasha-vm>
+ <201907181833.EF0D93C@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <201907181833.EF0D93C@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 18 Jul 2019 19:56:57 +0200
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
+On Thu, Jul 18, 2019 at 06:51:07PM -0700, Kees Cook wrote:
+>On Thu, Jul 18, 2019 at 08:39:19PM -0400, Sasha Levin wrote:
+>> On Thu, Jul 18, 2019 at 03:00:55PM -0700, Kees Cook wrote:
+>> > On Wed, Jul 17, 2019 at 07:11:03PM -0400, Sasha Levin wrote:
+>> > > Provide more information about how to interact with the linux-distros
+>> > > mailing list for disclosing security bugs.
+>> > >
+>> > > Reference the linux-distros list policy and clarify that the reporter
+>> > > must read and understand those policies as they differ from
+>> > > security@kernel.org's policy.
+>> > >
+>> > > Suggested-by: Solar Designer <solar@openwall.com>
+>> > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> >
+>> > Sorry, but NACK, see below...
+>> >
+>> > > ---
+>> > >
+>> > > Changes in v2:
+>> > >  - Focus more on pointing to the linux-distros wiki and policies.
+>> >
+>> > I think this is already happening in the text. What specifically do you
+>> > want described differently?
+>>
+>> The main issue was that there isn't anything pointing to the
+>> linux-distros policies. The current text outlines a few of them ("add
+>> [vs]", and "there should be an embargo period"), but it effectively just
+>> gives out the linux-distros mailing address and tells the reporter to
+>> contact it.
+>
+>The current text includes the wiki link, but yes, the anchor tag is not
+>present at the wiki anymore. I would agree that's due for updating.
+>
+>I think reinforcing information to avoid past mistakes is appropriate
+>here. Reports have regularly missed the "[vs]" detail or suggested
+>embargoes that ended on Fridays, etc.
 
-> Am 18.07.19 um 19:46 schrieb Mauro Carvalho Chehab:
-> > Em Sat, 13 Jul 2019 00:41:25 -0300
-> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> > 
-> >> Em Fri, 12 Jul 2019 19:27:05 -0300
-> >> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> >>
-> >>> Em Fri, 12 Jul 2019 14:19:21 -0600
-> >>> Jonathan Corbet <corbet@lwn.net> escreveu:
-> >>>    
-> >>>> Can't you just make rst2pdf work instead? :)
-> >>>
-> >>> Well, we can try.
-> 
-> Thanks a lot for your investigation on this.  I also checked the rst2pdf sources 
-> a while ago, for me it was crap with crap requirements [1] .. my tip: don't 
-> waste to much time on it.
-> 
-> [1] https://github.com/mchehab/rst2pdf/blob/master/requirements.txt#L31
-> 
+Right, but this is a sign that the reporter didn't read the wiki.
+Explaining things like this encourages reporters to skip reading the
+wiki and just send their report out.
 
-Yeah, a simple test shows that this upstream rst2pdf + latest reportlab has
-some issues.
+>> > >  - Remove explicit linux-distros email.
+>> >
+>> > I don't like this because we had past trouble with notifications going
+>> > to the distros@ list and leaking Linux-only flaws to the BSDs. As there
+>> > isn't a separate linux-distros wiki, the clarification of WHICH list is
+>> > needed.
+>>
+>> Why would removing the explicit linux-distros email encourage people to
+>> send reports to it?
+>
+>What? No, I'm saying we should _keep_ linux-distros@... in our text so
+>that people don't send to the wrong list.
 
-Running this:
+But doesn't this just encourage mails being sent to linux-distros@
+without the policies being followed? That was Alexander's concern at
+least.
 
-	$ rst2pdf  Documentation/process/license-rules.rst 
+>> I also don't understand what you mean by "there isn't a separate
+>> linux-distros wiki"? There is one, and I want to point the reporter
+>> there.
+>
+>That URL is a combined page for two lists. The very fact that it's
+>not obvious that there are two lists described there is exactly why I
+>think we need to keep an explicit mention of which to use. There are
+>two mailing lists described at the wiki URL:
+>
+>	      distros@lists.openwall.com
+>	linux-distros@lists.openwall.com
+>
+>Sending to the distros@ list risks exposing Linux-only flaws to non-Linux
+>distros. This has caused leaks in the past, and we do not want people
+>guessing at which list they should use.
+>
+>Also note that nowhere on the openwall wiki is the email address
+>actually spelled out; this is another reason to spell it out in our
+>documentation: no misunderstanding.
+>
+>(And historically there WAS a specific linux-distros wiki:
+>https://oss-security.openwall.org/wiki/mailing-lists/linux-distros
+>but it redirects to the combined one now...)
+>
+>> > >  - Remove various explanations of linux-distros policies.
+>> >
+>> > I don't think there's value in removing the Tue-Thu comment, nor
+>> > providing context for why distros need time. This has been a regular
+>> > thing we've had to explain to researchers that aren't familiar with
+>> > update procedures and publication timing.
+>>
+>> To be fair, the Tue-Thu comment is listed in the section describing how
+>> to do coordination with linux-distros, and linux-distros don't have a
+>> Tue-Thu policy. If it's a security@kernel.org policy then let's list it
+>> elsewhere.
+>
+>It's a distro preference. Many researchers aren't thinking about the
+>larger Linux ecosystem that has to consume fixes. It's not a _policy_,
+>but it makes the researchers understand how to construct better embargoes.
 
-causes an error with reportlab-3.5.23. It has to be downgraded to version
-3.4 in order to avoid this error:
+If it's an accepted preference then we should just document it in a few
+other places like the linux-distros@ wiki. My concern with this is that
+it's not, and it's actually one of the only things Alexander pointed out
+in this document as surprising.
 
-	  File "/devel/v4l/docs_temp/sphinx_2.0.1/lib/python3.7/site-packages/reportlab/platypus/doctemplate.py", line 651, in handle_pageEnd
-    raise LayoutError(ident)
-reportlab.platypus.doctemplate.LayoutError: More than 10 pages generated without content - halting layout.  Likely that a flowable is too large for any frame.
-
-Another solution would be to do this:
-
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 2ef44ada3f11..19a480ebd69a 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -452,7 +452,10 @@ _`MODULE_LICENSE`
- 				  module source is dual licensed under a
- 				  GPL v2 variant and MIT license. Please do
- 				  not use in new code.
-+    ============================= =============================================
-+
- 
-+    ============================= =============================================
-     "Dual MIT/GPL"		  The correct way of expressing that the
- 				  module is dual licensed under a GPL v2
- 				  variant or MIT license choice.
-
-But it sucks needing to break long tables because reportlab's handling
-for big tables is broken.
-
-
+--
 Thanks,
-Mauro
+Sasha
+
+>> If you feel that there is a consensus around Tue-Thu let's just add it
+>> to the linux-distros policy wiki, there's no point in listing random
+>> policies from that wiki.
+>
+>I think it'd be a good idea to add that note also to the wiki, but I
+>don't want it removed from our text because I have had to repeat that
+>information regularly in the past.
+>
+>-- 
+>Kees Cook
