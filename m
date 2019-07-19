@@ -1,613 +1,712 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6C3E7D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 00:03:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B4F97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 00:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbfGSADk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Jul 2019 20:03:40 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:33868 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbfGSADe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 20:03:34 -0400
-Received: by mail-pl1-f201.google.com with SMTP id 71so14815668pld.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2019 17:03:34 -0700 (PDT)
+        id S1726358AbfGSAIm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Jul 2019 20:08:42 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43882 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726022AbfGSAIm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jul 2019 20:08:42 -0400
+Received: by mail-pg1-f195.google.com with SMTP id f25so13603371pgv.10
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2019 17:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=QzjuGo1B9eQzxbHaTO9HvonnatwslfZlPc/Q98kda0Y=;
-        b=gHN++3AoSHkqTzVcWCmWP/iHSZNX3d2IutZJGzVABJuERHVqa64N8Fd/JF+TZGt2Ig
-         OTXVyRP7o6wjTK7SwrM9NAPXj8H0lFGkILmJ8KPTJ9Z9ddOOa14kq6ksrwyakqlmTBCD
-         GkC9BdlDg+yIQYmFLYA+Um/wY955M8M89vjU0hJ5uNYIHfLsZB/i6FVkv5ip33QPUfJf
-         P4qeGJcvaQCYaqziO1EHfIIx9xnuUu5u3kEN72xnRf4uDqRr0NHqkFUmzz0PlMxpGYTk
-         xoe6aze1hhw3h+dkeN/UEZ31TzUTI0mRW0Y2PmIYXy+9HHElRMx8popj1/NqEBkL62BV
-         5JpA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yRmMofzH8EHSj6E3cUHEuNcWCBCVICedNp+mVFhoif4=;
+        b=ZuZqh7QuADeUza5BhAWEENNvaV0g0jd5nez4wU52/esfttZou3UuBOkS+0P5EYezOv
+         mBCDIlx+aW0PO4LCr2vlr9Sq9eotO27QuwkPBoAs0D3UXufcpx8jCTXwdk+t5yDCyZ2o
+         hBXAk3CnxyOvhHixlw611iwjS4vRpGSce5cdO8ltQEZhsFcllcdMKbwnDalmjBPDrr0F
+         nncif+MnpHeS51AwyDcrldJhfUOIvLXnBYiBsqEbpqbnyVoreSCq8I3EkWt2w752mtOS
+         lWuyh+9ifRutogenkD7RgfEviU0zYPe7i2PZsebsm0o8GwEQeuKjYmDDxpExuTOiM9DB
+         XXrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=QzjuGo1B9eQzxbHaTO9HvonnatwslfZlPc/Q98kda0Y=;
-        b=ucWlPlmWsE8xdzvWRqRf7G1ERGq81ihpGEowS49UsHlOf+gxKeFYLawbJdfLnZ4IR+
-         iBbwE7W1GevI9+HNxAzcDAxRQ9OH6nBj4SNqmzkeGlaumwpLu4Hyl5JuJReMw8Rtn2qv
-         PplszsKmJNBMPLVjIpuVDOqk6DH9a3QAlS3bSmUPZOl591IatRsL6vFpECfteNoQQQTN
-         ynhvHS4XwuAE9jAkZXtdHbeT1yM1JKdtvjFzeM2Sa7kFIIn8FmucDTQtnC1xmzAoAwpB
-         MA6IXQxjLGj9lVNzYf+FS7INRAzLwx8WS3dZXOR3y1mFUZKaRx/BkU094w1zAlkoM3cN
-         YSrQ==
-X-Gm-Message-State: APjAAAU4cBGI1dYRT1OTXFhg65Jh1lP4/vI27z3683t0x/mvUtUDEbJF
-        dLHOPuWW0Flsf9OC19cYczBmw+EdjtU=
-X-Google-Smtp-Source: APXvYqxPEn797JxGe/CfNHxWkcNae/GGcn6M+E/wGDYsKAmhhxkZqzJ62IfvlICDETua5tTB2zcPZ6/7tYg=
-X-Received: by 2002:a63:7b18:: with SMTP id w24mr50305541pgc.328.1563494613706;
- Thu, 18 Jul 2019 17:03:33 -0700 (PDT)
-Date:   Thu, 18 Jul 2019 17:03:22 -0700
-In-Reply-To: <20190719000322.106163-1-drosen@google.com>
-Message-Id: <20190719000322.106163-3-drosen@google.com>
-Mime-Version: 1.0
-References: <20190719000322.106163-1-drosen@google.com>
-X-Mailer: git-send-email 2.22.0.657.g960e92d24f-goog
-Subject: [PATCH v3 2/2] f2fs: Support case-insensitive file name lookups
-From:   Daniel Rosenberg <drosen@google.com>
-To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, kernel-team@android.com,
-        Daniel Rosenberg <drosen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yRmMofzH8EHSj6E3cUHEuNcWCBCVICedNp+mVFhoif4=;
+        b=kWQbpuBjKSyEAthAicFW3Z6a58wosplND00lxymmNACnqXsgp+x2OphFGohSeCxxEo
+         NOvlEgXOXXDjExv2dWWwZCRQRygg1pW97bBW6iB+NgoCnVuvuhwi1ZO0IU3Msx+6IGMQ
+         7d+uTuXgIHNzkiheD+lB/IfOgKI1OlnvjuEk7zW17FKbfN0vQmCraLvyLFnGoRSWTNw5
+         fveNVT9/WWb1w9bAyEtp+hmaEpkIhA2u2VbzWe+CFbAXYzmF3A+RsbnFOGsgR5IE+Bw6
+         Y/knzKjerd8chqUrd5eyn/pz2cwm+wBZvs6Ms6IIehRzG+hJLedxrDHobGbki2nR6QoS
+         FBMQ==
+X-Gm-Message-State: APjAAAUKwS89IK4PCVK0bG0Lx2XbdrrdovFvOS0lkGluPxymSHXyPsV/
+        vsW8fWUQGckom8VTOqJ0WPTUhA==
+X-Google-Smtp-Source: APXvYqxAOFjf5oA9A+1bpCmZie3RNqaNqRQFLwviDg050dKmmK4tJI6r2jwnchjqAYjGJmpWO7h6KQ==
+X-Received: by 2002:a17:90a:8d86:: with SMTP id d6mr53924589pjo.94.1563494920174;
+        Thu, 18 Jul 2019 17:08:40 -0700 (PDT)
+Received: from google.com ([2620:15c:2cb:1:e90c:8e54:c2b4:29e7])
+        by smtp.gmail.com with ESMTPSA id m4sm38563517pgs.71.2019.07.18.17.08.38
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 18 Jul 2019 17:08:39 -0700 (PDT)
+Date:   Thu, 18 Jul 2019 17:08:34 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream
+ like logger
+Message-ID: <20190719000834.GA3228@google.com>
+References: <20190712081744.87097-1-brendanhiggins@google.com>
+ <20190712081744.87097-5-brendanhiggins@google.com>
+ <20190715221554.8417320665@mail.kernel.org>
+ <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
+ <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com>
+ <20190716175021.9CA412173C@mail.kernel.org>
+ <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
+ <20190718175024.C3EC421019@mail.kernel.org>
+ <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Modeled after commit b886ee3e778e ("ext4: Support case-insensitive file
-name lookups")
+On Thu, Jul 18, 2019 at 12:22:33PM -0700, Brendan Higgins wrote:
+> On Thu, Jul 18, 2019 at 10:50 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> >
+> > Quoting Brendan Higgins (2019-07-16 11:52:01)
+> > > On Tue, Jul 16, 2019 at 10:50 AM Stephen Boyd <sboyd@kernel.org> wrote:
+[...]
+> > Do you have a link to those earlier patches?
+> 
+> This is the first patchset:
+> 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1788057.html
+> 
+> In particular you can see the code for matching functions here:
+> 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1788073.html
+> 
+> And parameter matching code here:
+> 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1788072.html
+> 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1788086.html
+> 
+> My apologies in advance, but the code at this early stage had not
+> adopted the kunit_* prefix and was still using the test_* and mock_*
+> prefix. (Hence, struct kunit_stream was known as struct test_stream).
+[...]
+> > The crux of my complaint is that the string stream API is too loosely
+> > defined to be usable. It allows tests to build up a string of
+> > unstructured information, but with certain calling constraints so we
+> > have to tread carefully. If there was more structure to the data that's
+> > being recorded then the test case runner could operate on the data
+> > without having to do string/stream operations, allocations, etc. This
+> > would make the assertion logic much more concrete and specific to kunit,
+> > instead of this small kunit wrapper that's been placed on top of string
+> > stream.
+> 
+> Yeah, I can see the point of wanting something that provides more
+> structure than the raw `struct kunit_stream` interface. In fact, it is
+> something I had already started working on, when I had determined it
+> would be a large effort to capture all the variations. I was further
+> put off from the idea when I had been asked to convert the KUnit
+> intermediate format from what I was using to TAP, because, as it is,
+> the current data printed out by KUnit doesn't contain all the data I
+> would like to put in it in a way that best takes advantage of the TAP
+> specification. One problematic area in particular: TAP already
+> provides a way to present a lot of the data I would like to export,
+> but it involves JSON serialization which was an idea that some of the
+> other reviewers understandably weren't too keen on. TAP also wants to
+> report data some time after it is available, which is generally not a
+> good idea for test debug information; you want to make it available as
+> soon as you can or you risk crashing with the data still inside.
+> 
+> Hence, I decided we could probably spend a good long while debating
+> how I present the information. So the idea of having a loose
+> definition seemed attractive to me in its own right since it would
+> likely conform to whatever we ended up deciding in the long run. Also,
+> all the better that it was what I already had and no one seemed to
+> mind too much.
+> 
+> The only constant I expect is that `struct kunit` will likely need to
+> take an abstract object with a `commit` method, or a `format` method
+> or whatever so it could control when data was going to be printed out
+> to the user. We will probably also use a string builder in there
+> somewhere.
+> 
+> > TL;DR: If we can get rid of the string stream API I'd view that as an
+> > improvement because building arbitrary strings in the kernel is complex,
+> > error prone and has calling context concerns.
+> 
+> True. No argument there.
+> 
+> > Is the intention that other code besides unit tests will use this string
+> > stream API to build up strings? Any targets in mind? This would be a
+> > good way to get the API merged upstream given that its 2019 and we
+> > haven't had such an API in the kernel so far.
+> 
+> Someone, (was it you?) asked about code sharing with a string builder
+> thingy that was used for creating structured human readable files, but
+> that seemed like a pretty massive undertaking.
+> 
+> Aside from that, no. I would kind of prefered that nobody used it for
+> anything else because I the issues you described.
+> 
+> Nevertheless, I think the debate over the usefulness of the
+> string_stream and kunit_stream are separate topics. Even if we made
+> kunit_stream more structured, I am pretty sure I would want to use
+> string_stream or some variation for constructing the message.
+> 
+> > An "object oriented" (strong quotes!) approach where kunit_fail_msg is
+> > the innermost struct in some assertion specific structure might work
+> > nicely and allow the test runner to call a generic 'format' function to
+> > print out the message based on the type of assertion/expectation it is.
+> > It probably would mean less code size too because the strings that are
+> > common will be in the common printing function instead of created twice,
+> > in the macros/code and then copied to the heap for the string stream.
+> >
+> >         struct kunit_assert {
+> >                 const char *line;
+> >                 const char *file;
+> >                 const char *func;
+> >                 void (*format)(struct kunit_assert *assert);
+> >         };
+> >
+> >         struct kunit_comparison_assert {
+> >                 enum operator operator;
+> >                 const char *left;
+> >                 const char *right;
+> >                 struct kunit_assert assert;
+> >         };
+> >
+> >         struct kunit_bool_assert {
+> >                 const char *truth;
+> >                 const char *statement;
+> >                 struct kunit_assert assert;
+> >         };
+> >
+> >         void kunit_format_comparison(struct kunit_assert *assert)
+> >         {
+> >                 struct kunit_comparison_assert *comp = container_of(assert, ...)
+> >
+> >                 kunit_printk(...)
+> >         }
 
-"""
-This patch implements the actual support for case-insensitive file name
-lookups in f2fs, based on the feature bit and the encoding stored in the
-superblock.
+I started poking around with your suggestion while we are waiting. A
+couple early observations:
 
-A filesystem that has the casefold feature set is able to configure
-directories with the +F (F2FS_CASEFOLD_FL) attribute, enabling lookups
-to succeed in that directory in a case-insensitive fashion, i.e: match
-a directory entry even if the name used by userspace is not a byte per
-byte match with the disk name, but is an equivalent case-insensitive
-version of the Unicode string.  This operation is called a
-case-insensitive file name lookup.
+1) It is actually easier to do than I previously thought and will probably
+   help with getting more of the planned TAP output stuff working.
 
-The feature is configured as an inode attribute applied to directories
-and inherited by its children.  This attribute can only be enabled on
-empty directories for filesystems that support the encoding feature,
-thus preventing collision of file names that only differ by case.
+   That being said, this is still a pretty substantial undertaking and
+   will likely take *at least* a week to implement and properly review.
+   Assuming everything goes extremely well (no unexpected issues on my
+   end, very responsive reviewers, etc).
 
-* dcache handling:
+2) It *will* eliminate the need for kunit_stream.
 
-For a +F directory, F2Fs only stores the first equivalent name dentry
-used in the dcache. This is done to prevent unintentional duplication of
-dentries in the dcache, while also allowing the VFS code to quickly find
-the right entry in the cache despite which equivalent string was used in
-a previous lookup, without having to resort to ->lookup().
+3) ...but, it *will not* eliminate the need for string_stream.
 
-d_hash() of casefolded directories is implemented as the hash of the
-casefolded string, such that we always have a well-known bucket for all
-the equivalencies of the same string. d_compare() uses the
-utf8_strncasecmp() infrastructure, which handles the comparison of
-equivalent, same case, names as well.
+Based on my early observations, I do think it is worth doing, but I
+don't think it is worth trying to make it in this patchset (unless I
+have already missed the window, or it is going to be open for a while):
+I do think it will make things much cleaner, but I don't think it will
+achieve your desired goal of getting rid of an unstructured
+{kunit|string}_stream style interface; it just adds a layer on top of it
+that makes it harder to misuse.
 
-For now, negative lookups are not inserted in the dcache, since they
-would need to be invalidated anyway, because we can't trust missing file
-dentries.  This is bad for performance but requires some leveraging of
-the vfs layer to fix.  We can live without that for now, and so does
-everyone else.
+I attached a patch of what I have so far at the end of this email so you
+can see what I am talking about. And of course, if you agree with my
+assessment, so we can start working on it as a future patch.
 
-* on-disk data:
+A couple things in regard to the patch I attached:
 
-Despite using a specific version of the name as the internal
-representation within the dcache, the name stored and fetched from the
-disk is a byte-per-byte match with what the user requested, making this
-implementation 'name-preserving'. i.e. no actual information is lost
-when writing to storage.
+1) I wrote it pretty quickly so there are almost definitely mistakes.
+   You should consider it RFC. I did verify it compiles though.
 
-DX is supported by modifying the hashes used in +F directories to make
-them case/encoding-aware.  The new disk hashes are calculated as the
-hash of the full casefolded string, instead of the string directly.
-This allows us to efficiently search for file names in the htree without
-requiring the user to provide an exact name.
+2) Also, I did use kunit_stream in writing it: all occurences should be
+   pretty easy to replace with string_stream; nevertheless, the reason
+   for this is just to make it easier to play with the current APIs. I
+   wanted to have something working before I went through a big tedious
+   refactoring. So sorry if it causes any confusion.
 
-* Dealing with invalid sequences:
+3) I also based the patch on all the KUnit patches I have queued up
+   (includes things like mocking and such) since I want to see how this
+   serialization thing will work with mocks and matchers and things like
+   that.
 
-By default, when a invalid UTF-8 sequence is identified, ext4 will treat
-it as an opaque byte sequence, ignoring the encoding and reverting to
-the old behavior for that unique file.  This means that case-insensitive
-file name lookup will not work only for that file.  An optional bit can
-be set in the superblock telling the filesystem code and userspace tools
-to enforce the encoding.  When that optional bit is set, any attempt to
-create a file name using an invalid UTF-8 sequence will fail and return
-an error to userspace.
+> I started working on something similarish, but by the time I ended up
+> coming up with a parent object whose definition was loose enough to
+> satisfy all the properties required by the child classes it ended up
+> basically being the same as what I have now just with a more complex
+> hierarchy of message manipulation logic.
+> 
+> On the other hand, I didn't have the idea of doing the parent object
+> quite the way you did and that would clean up a lot of the duplicated
+> first line logic.
+> 
+> I would like to give it a try, but I am afraid I am going to get
+> sucked down a really deep rabbit hole.
+> 
+> > Maybe other people have opinions here on if you should do it now or
+> > later. Future coding is not a great argument because it's hard to
+> > predict the future. On the other hand, this patchset is in good shape to
+> 
+> Yeah, that's kind of why I am afraid to go down this road when I have
+> something that works now and I know works with the mocking stuff I
+> want to do.
+> 
+> I would like to try your suggestion, but I want to try to make it work
+> with my mocking patches before I commit to it because otherwise I am
+> just going to have to back it out in a follow up patchset.
+> 
+> > merge and I'd like to use it to write unit tests for code I maintain so
+> > I don't want to see this stall out. Sorry if I'm opening the can of
+> > worms you're talking about.
+> 
+> Don't be sorry. I agree with you that the kunit_stream stuff is not very pretty.
+> 
+> Shuah, have we missed the merge window for 5.3?
+> 
+> I saw you only sent one PR out so far for this release, and there
+> wasn't much in it; I imagine you are going to send at least one more?
+> 
+> I figure, if we still got time to try out your suggestion, Stephen, no
+> harm in trying.
+> 
+> Also if we missed it, then I have another couple months to play around with it.
+> 
+> What do you think?
 
-* Normalization algorithm:
+I attached the patch mentioned above below. Let me know what you think!
 
-The UTF-8 algorithms used to compare strings in f2fs is implemented
-in fs/unicode, and is based on a previous version developed by
-SGI.  It implements the Canonical decomposition (NFD) algorithm
-described by the Unicode specification 12.1, or higher, combined with
-the elimination of ignorable code points (NFDi) and full
-case-folding (CF) as documented in fs/unicode/utf8_norm.c.
+Cheers!
 
-NFD seems to be the best normalization method for F2FS because:
+From 53d475d3d56afcf92b452c6d347dbedfa1a17d34 Mon Sep 17 00:00:00 2001
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Thu, 18 Jul 2019 16:08:52 -0700
+Subject: [PATCH v1] DO NOT MERGE: started playing around with the
+ serialization api
 
-  - It has a lower cost than NFC/NFKC (which requires
-    decomposing to NFD as an intermediary step)
-  - It doesn't eliminate important semantic meaning like
-    compatibility decompositions.
-
-Although:
-
-- This implementation is not completely linguistic accurate, because
-different languages have conflicting rules, which would require the
-specialization of the filesystem to a given locale, which brings all
-sorts of problems for removable media and for users who use more than
-one language.
-"""
-
-Signed-off-by: Daniel Rosenberg <drosen@google.com>
 ---
- fs/f2fs/dir.c    | 126 +++++++++++++++++++++++++++++++++++++++++++----
- fs/f2fs/f2fs.h   |  15 ++++--
- fs/f2fs/file.c   |   9 ++++
- fs/f2fs/hash.c   |  35 ++++++++++++-
- fs/f2fs/inline.c |   4 +-
- fs/f2fs/inode.c  |   4 +-
- fs/f2fs/namei.c  |  21 ++++++++
- fs/f2fs/super.c  |   6 +++
- 8 files changed, 203 insertions(+), 17 deletions(-)
+ include/kunit/assert.h | 130 ++++++++++++++++++++++++++++++
+ include/kunit/mock.h   |   4 +
+ kunit/Makefile         |   3 +-
+ kunit/assert.c         | 179 +++++++++++++++++++++++++++++++++++++++++
+ kunit/mock.c           |   6 +-
+ 5 files changed, 318 insertions(+), 4 deletions(-)
+ create mode 100644 include/kunit/assert.h
+ create mode 100644 kunit/assert.c
 
-diff --git a/fs/f2fs/dir.c b/fs/f2fs/dir.c
-index 85a1528f319f2..2913483473f30 100644
---- a/fs/f2fs/dir.c
-+++ b/fs/f2fs/dir.c
-@@ -8,6 +8,7 @@
- #include <linux/fs.h>
- #include <linux/f2fs_fs.h>
- #include <linux/sched/signal.h>
-+#include <linux/unicode.h>
- #include "f2fs.h"
- #include "node.h"
- #include "acl.h"
-@@ -81,7 +82,8 @@ static unsigned long dir_block_index(unsigned int level,
- 	return bidx;
- }
- 
--static struct f2fs_dir_entry *find_in_block(struct page *dentry_page,
-+static struct f2fs_dir_entry *find_in_block(struct inode *dir,
-+				struct page *dentry_page,
- 				struct fscrypt_name *fname,
- 				f2fs_hash_t namehash,
- 				int *max_slots,
-@@ -93,7 +95,7 @@ static struct f2fs_dir_entry *find_in_block(struct page *dentry_page,
- 
- 	dentry_blk = (struct f2fs_dentry_block *)page_address(dentry_page);
- 
--	make_dentry_ptr_block(NULL, &d, dentry_blk);
-+	make_dentry_ptr_block(dir, &d, dentry_blk);
- 	de = f2fs_find_target_dentry(fname, namehash, max_slots, &d);
- 	if (de)
- 		*res_page = dentry_page;
-@@ -101,6 +103,39 @@ static struct f2fs_dir_entry *find_in_block(struct page *dentry_page,
- 	return de;
- }
- 
-+#ifdef CONFIG_UNICODE
+diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+new file mode 100644
+index 0000000000000..e054fdff4642f
+--- /dev/null
++++ b/include/kunit/assert.h
+@@ -0,0 +1,130 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Test whether a case-insensitive directory entry matches the filename
-+ * being searched for.
++ * Assertion and expectation serialization API.
 + *
-+ * Returns: 0 if the directory entry matches, more than 0 if it
-+ * doesn't match or less than zero on error.
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
-+int f2fs_ci_compare(const struct inode *parent, const struct qstr *name,
-+		    const struct qstr *entry)
-+{
-+	const struct f2fs_sb_info *sbi = F2FS_SB(parent->i_sb);
-+	const struct unicode_map *um = sbi->s_encoding;
-+	int ret;
 +
-+	ret = utf8_strncasecmp(um, name, entry);
-+	if (ret < 0) {
-+		/* Handle invalid character sequence as either an error
-+		 * or as an opaque byte sequence.
-+		 */
-+		if (f2fs_has_strict_mode(sbi))
-+			return -EINVAL;
++#ifndef _KUNIT_ASSERT_H
++#define _KUNIT_ASSERT_H
 +
-+		if (name->len != entry->len)
-+			return 1;
++#include <kunit/test.h>
++#include <kunit/mock.h>
 +
-+		return !!memcmp(name->name, entry->name, name->len);
-+	}
-+
-+	return ret;
-+}
-+#endif
-+
- struct f2fs_dir_entry *f2fs_find_target_dentry(struct fscrypt_name *fname,
- 			f2fs_hash_t namehash, int *max_slots,
- 			struct f2fs_dentry_ptr *d)
-@@ -108,6 +143,9 @@ struct f2fs_dir_entry *f2fs_find_target_dentry(struct fscrypt_name *fname,
- 	struct f2fs_dir_entry *de;
- 	unsigned long bit_pos = 0;
- 	int max_len = 0;
-+#ifdef CONFIG_UNICODE
-+	struct qstr entry;
-+#endif
- 
- 	if (max_slots)
- 		*max_slots = 0;
-@@ -119,16 +157,28 @@ struct f2fs_dir_entry *f2fs_find_target_dentry(struct fscrypt_name *fname,
- 		}
- 
- 		de = &d->dentry[bit_pos];
-+#ifdef CONFIG_UNICODE
-+		entry.name = d->filename[bit_pos];
-+		entry.len = de->name_len;
-+#endif
- 
- 		if (unlikely(!de->name_len)) {
- 			bit_pos++;
- 			continue;
- 		}
-+		if (de->hash_code == namehash) {
-+#ifdef CONFIG_UNICODE
-+			if (F2FS_SB(d->inode->i_sb)->s_encoding &&
-+					IS_CASEFOLDED(d->inode) &&
-+					!f2fs_ci_compare(d->inode,
-+						fname->usr_fname, &entry))
-+				goto found;
- 
--		if (de->hash_code == namehash &&
--		    fscrypt_match_name(fname, d->filename[bit_pos],
--				       le16_to_cpu(de->name_len)))
--			goto found;
-+#endif
-+			if (fscrypt_match_name(fname, d->filename[bit_pos],
-+						le16_to_cpu(de->name_len)))
-+				goto found;
-+		}
- 
- 		if (max_slots && max_len > *max_slots)
- 			*max_slots = max_len;
-@@ -157,7 +207,7 @@ static struct f2fs_dir_entry *find_in_level(struct inode *dir,
- 	struct f2fs_dir_entry *de = NULL;
- 	bool room = false;
- 	int max_slots;
--	f2fs_hash_t namehash = f2fs_dentry_hash(&name, fname);
-+	f2fs_hash_t namehash = f2fs_dentry_hash(dir, &name, fname);
- 
- 	nbucket = dir_buckets(level, F2FS_I(dir)->i_dir_level);
- 	nblock = bucket_blocks(level);
-@@ -179,8 +229,8 @@ static struct f2fs_dir_entry *find_in_level(struct inode *dir,
- 			}
- 		}
- 
--		de = find_in_block(dentry_page, fname, namehash, &max_slots,
--								res_page);
-+		de = find_in_block(dir, dentry_page, fname, namehash,
-+							&max_slots, res_page);
- 		if (de)
- 			break;
- 
-@@ -250,6 +300,14 @@ struct f2fs_dir_entry *f2fs_find_entry(struct inode *dir,
- 	struct fscrypt_name fname;
- 	int err;
- 
-+#ifdef CONFIG_UNICODE
-+	if (f2fs_has_strict_mode(F2FS_I_SB(dir)) && IS_CASEFOLDED(dir) &&
-+			utf8_validate(F2FS_I_SB(dir)->s_encoding, child)) {
-+		*res_page = ERR_PTR(-EINVAL);
-+		return NULL;
-+	}
-+#endif
-+
- 	err = fscrypt_setup_filename(dir, child, 1, &fname);
- 	if (err) {
- 		if (err == -ENOENT)
-@@ -504,7 +562,7 @@ int f2fs_add_regular_entry(struct inode *dir, const struct qstr *new_name,
- 
- 	level = 0;
- 	slots = GET_DENTRY_SLOTS(new_name->len);
--	dentry_hash = f2fs_dentry_hash(new_name, NULL);
-+	dentry_hash = f2fs_dentry_hash(dir, new_name, NULL);
- 
- 	current_depth = F2FS_I(dir)->i_current_depth;
- 	if (F2FS_I(dir)->chash == dentry_hash) {
-@@ -943,3 +1001,51 @@ const struct file_operations f2fs_dir_operations = {
- 	.compat_ioctl   = f2fs_compat_ioctl,
- #endif
- };
-+
-+#ifdef CONFIG_UNICODE
-+static int f2fs_d_compare(const struct dentry *dentry, unsigned int len,
-+			  const char *str, const struct qstr *name)
-+{
-+	struct qstr qstr = {.name = str, .len = len };
-+
-+	if (!IS_CASEFOLDED(dentry->d_parent->d_inode)) {
-+		if (len != name->len)
-+			return -1;
-+		return memcmp(str, name, len);
-+	}
-+
-+	return f2fs_ci_compare(dentry->d_parent->d_inode, name, &qstr);
-+}
-+
-+static int f2fs_d_hash(const struct dentry *dentry, struct qstr *str)
-+{
-+	struct f2fs_sb_info *sbi = F2FS_SB(dentry->d_sb);
-+	const struct unicode_map *um = sbi->s_encoding;
-+	unsigned char *norm;
-+	int len, ret = 0;
-+
-+	if (!IS_CASEFOLDED(dentry->d_inode))
-+		return 0;
-+
-+	norm = f2fs_kmalloc(sbi, PATH_MAX, GFP_ATOMIC);
-+	if (!norm)
-+		return -ENOMEM;
-+
-+	len = utf8_casefold(um, str, norm, PATH_MAX);
-+	if (len < 0) {
-+		if (f2fs_has_strict_mode(sbi))
-+			ret = -EINVAL;
-+		goto out;
-+	}
-+	str->hash = full_name_hash(dentry, norm, len);
-+out:
-+	kvfree(norm);
-+	return ret;
-+}
-+
-+const struct dentry_operations f2fs_dentry_ops = {
-+	.d_hash = f2fs_d_hash,
-+	.d_compare = f2fs_d_compare,
++enum kunit_assert_type {
++	KUNIT_ASSERTION,
++	KUNIT_EXPECTATION,
 +};
-+#endif
 +
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index c6c7904572d0d..31fd2a268ba14 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -2364,10 +2364,12 @@ static inline void f2fs_change_bit(unsigned int nr, char *addr)
- #define F2FS_INDEX_FL			0x00001000 /* hash-indexed directory */
- #define F2FS_DIRSYNC_FL			0x00010000 /* dirsync behaviour (directories only) */
- #define F2FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
-+#define F2FS_CASEFOLD_FL		0x40000000 /* Casefolded file */
- 
- /* Flags that should be inherited by new inodes from their parent. */
- #define F2FS_FL_INHERITED (F2FS_SYNC_FL | F2FS_NODUMP_FL | F2FS_NOATIME_FL | \
--			   F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL)
-+			   F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL | \
-+			   F2FS_CASEFOLD_FL)
- 
- /* Flags that are appropriate for regular files (all but dir-specific ones). */
- #define F2FS_REG_FLMASK		(~(F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL))
-@@ -2930,6 +2932,10 @@ int f2fs_update_extension_list(struct f2fs_sb_info *sbi, const char *name,
- 							bool hot, bool set);
- struct dentry *f2fs_get_parent(struct dentry *child);
- 
-+extern int f2fs_ci_compare(const struct inode *parent,
-+			   const struct qstr *name,
-+			   const struct qstr *entry);
++struct kunit_assert {
++	enum kunit_assert_type type;
++	const char *line;
++	const char *file;
++	struct va_format message;
++	void (*format)(struct kunit_assert *assert,
++		       struct kunit_stream *stream);
++};
 +
- /*
-  * dir.c
-  */
-@@ -2993,8 +2999,8 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi);
- /*
-  * hash.c
-  */
--f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
--				struct fscrypt_name *fname);
-+f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
-+		const struct qstr *name_info, struct fscrypt_name *fname);
- 
- /*
-  * node.c
-@@ -3437,6 +3443,9 @@ static inline void f2fs_destroy_root_stats(void) { }
- #endif
- 
- extern const struct file_operations f2fs_dir_operations;
-+#ifdef CONFIG_UNICODE
-+extern const struct dentry_operations f2fs_dentry_ops;
-+#endif
- extern const struct file_operations f2fs_file_operations;
- extern const struct inode_operations f2fs_file_inode_operations;
- extern const struct address_space_operations f2fs_dblock_aops;
-diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
-index f8d46df8fa9ee..7adef2d8dbc47 100644
---- a/fs/f2fs/file.c
-+++ b/fs/f2fs/file.c
-@@ -1660,7 +1660,16 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
- 		return -EPERM;
- 
- 	oldflags = fi->i_flags;
-+	if ((iflags ^ oldflags) & F2FS_CASEFOLD_FL) {
-+		if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
-+			return -EOPNOTSUPP;
++void kunit_base_assert_format(struct kunit_assert *assert,
++			      struct kunit_stream *stream);
 +
-+		if (!S_ISDIR(inode->i_mode))
-+			return -ENOTDIR;
- 
-+		if (!f2fs_empty_dir(inode))
-+			return -ENOTEMPTY;
-+	}
- 	if ((iflags ^ oldflags) & (F2FS_APPEND_FL | F2FS_IMMUTABLE_FL))
- 		if (!capable(CAP_LINUX_IMMUTABLE))
- 			return -EPERM;
-diff --git a/fs/f2fs/hash.c b/fs/f2fs/hash.c
-index cc82f142f811f..b7bd0ddbbdf01 100644
---- a/fs/f2fs/hash.c
-+++ b/fs/f2fs/hash.c
-@@ -14,6 +14,7 @@
- #include <linux/f2fs_fs.h>
- #include <linux/cryptohash.h>
- #include <linux/pagemap.h>
-+#include <linux/unicode.h>
- 
- #include "f2fs.h"
- 
-@@ -67,7 +68,7 @@ static void str2hashbuf(const unsigned char *msg, size_t len,
- 		*buf++ = pad;
- }
- 
--f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
-+static f2fs_hash_t __f2fs_dentry_hash(const struct qstr *name_info,
- 				struct fscrypt_name *fname)
- {
- 	__u32 hash;
-@@ -103,3 +104,35 @@ f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
- 	f2fs_hash = cpu_to_le32(hash & ~F2FS_HASH_COL_BIT);
- 	return f2fs_hash;
- }
++void kunit_assert_print_msg(struct kunit_assert *assert,
++			    struct kunit_stream *stream);
 +
-+f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
-+		const struct qstr *name_info, struct fscrypt_name *fname)
++struct kunit_unary_assert {
++	struct kunit_assert assert;
++	const char *condition;
++	bool expected_true;
++};
++
++void kunit_unary_assert_format(struct kunit_assert *assert,
++			       struct kunit_stream *stream);
++
++struct kunit_ptr_not_err_assert {
++	struct kunit_assert assert;
++	const char *text;
++	void *value;
++};
++
++void kunit_ptr_not_err_assert_format(struct kunit_assert *assert,
++				     struct kunit_stream *stream);
++
++struct kunit_binary_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	long long left_value;
++	const char *right_text;
++	long long right_value;
++};
++
++void kunit_binary_assert_format(struct kunit_assert *assert,
++				struct kunit_stream *stream);
++
++struct kunit_binary_ptr_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	void *left_value;
++	const char *right_text;
++	void *right_value;
++};
++
++void kunit_binary_ptr_assert_format(struct kunit_assert *assert,
++				    struct kunit_stream *stream);
++
++struct kunit_binary_str_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	const char *left_value;
++	const char *right_text;
++	const char *right_value;
++};
++
++void kunit_binary_str_assert_format(struct kunit_assert *assert,
++				    struct kunit_stream *stream);
++
++struct kunit_mock_assert {
++	struct kunit_assert assert;
++};
++
++struct kunit_mock_no_expectations {
++	struct kunit_mock_assert assert;
++};
++
++struct kunit_mock_declaration {
++	const char *function_name;
++	const char **type_names;
++	const void **params;
++	int len;
++};
++
++void kunit_mock_declaration_format(struct kunit_mock_declaration *declaration,
++				   struct kunit_stream *stream);
++
++struct kunit_matcher_result {
++	struct kunit_assert assert;
++};
++
++struct kunit_mock_failed_match {
++	struct list_head node;
++	const char *expectation_text;
++	struct kunit_matcher_result *matcher_list;
++	size_t matcher_list_len;
++};
++
++void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
++				    struct kunit_stream *stream);
++
++struct kunit_mock_no_match {
++	struct kunit_mock_assert assert;
++	struct kunit_mock_declaration declaration;
++	struct list_head failed_match_list;
++};
++
++void kunit_mock_no_match_format(struct kunit_assert *assert,
++				struct kunit_stream *stream);
++
++#endif /*  _KUNIT_ASSERT_H */
+diff --git a/include/kunit/mock.h b/include/kunit/mock.h
+index 001b96af62f1e..52c9e427c831b 100644
+--- a/include/kunit/mock.h
++++ b/include/kunit/mock.h
+@@ -144,6 +144,10 @@ void mock_register_formatter(struct mock_param_formatter *formatter);
+ 
+ void mock_unregister_formatter(struct mock_param_formatter *formatter);
+ 
++void mock_format_param(struct kunit_stream *stream,
++		       const char *type_name,
++		       const void *param);
++
+ struct mock *mock_get_global_mock(void);
+ 
+ #define MOCK(name) name##_mock
+diff --git a/kunit/Makefile b/kunit/Makefile
+index bbf43fcfb93a9..149d856a30f04 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -3,7 +3,8 @@ obj-$(CONFIG_KUNIT) +=			test.o \
+ 					common-mocks.o \
+ 					string-stream.o \
+ 					kunit-stream.o \
+-					try-catch.o
++					try-catch.o \
++					assert.o
+ 
+ obj-$(CONFIG_KUNIT_TEST) +=		test-test.o \
+ 					test-mock.o \
+diff --git a/kunit/assert.c b/kunit/assert.c
+new file mode 100644
+index 0000000000000..75bb6922a994e
+--- /dev/null
++++ b/kunit/assert.c
+@@ -0,0 +1,179 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Assertion and expectation serialization API.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++#include <kunit/assert.h>
++
++void kunit_base_assert_format(struct kunit_assert *assert,
++			      struct kunit_stream *stream)
 +{
-+#ifdef CONFIG_UNICODE
-+	struct f2fs_sb_info *sbi = F2FS_SB(dir->i_sb);
-+	const struct unicode_map *um = sbi->s_encoding;
-+	int r, dlen;
-+	unsigned char *buff;
-+	struct qstr *folded;
++	const char *expect_or_assert;
 +
-+	if (name_info->len && IS_CASEFOLDED(dir)) {
-+		buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
-+		if (!buff)
-+			return -ENOMEM;
++	if (assert->type == KUNIT_EXPECTATION)
++		expect_or_assert = "EXPECTATION";
++	else
++		expect_or_assert = "ASSERTION";
 +
-+		dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
-+		if (dlen < 0) {
-+			kfree(buff);
-+			goto opaque_seq;
-+		}
-+		folded->name = buff;
-+		folded->len = dlen;
-+		r = __f2fs_dentry_hash(folded, fname);
-+
-+		kvfree(buff);
-+		return r;
-+	}
-+opaque_seq:
-+#endif
-+	return __f2fs_dentry_hash(name_info, fname);
++	kunit_stream_add(stream, "%s FAILED at %s:%s\n",
++			 expect_or_assert, assert->file, assert->line);
 +}
-diff --git a/fs/f2fs/inline.c b/fs/f2fs/inline.c
-index 3613efca8c00c..354f71cf9e6ba 100644
---- a/fs/f2fs/inline.c
-+++ b/fs/f2fs/inline.c
-@@ -320,7 +320,7 @@ struct f2fs_dir_entry *f2fs_find_in_inline_dir(struct inode *dir,
- 		return NULL;
- 	}
- 
--	namehash = f2fs_dentry_hash(&name, fname);
-+	namehash = f2fs_dentry_hash(dir, &name, fname);
- 
- 	inline_dentry = inline_data_addr(dir, ipage);
- 
-@@ -580,7 +580,7 @@ int f2fs_add_inline_entry(struct inode *dir, const struct qstr *new_name,
- 
- 	f2fs_wait_on_page_writeback(ipage, NODE, true, true);
- 
--	name_hash = f2fs_dentry_hash(new_name, NULL);
-+	name_hash = f2fs_dentry_hash(dir, new_name, NULL);
- 	f2fs_update_dentry(ino, mode, &d, new_name, name_hash, bit_pos);
- 
- 	set_page_dirty(ipage);
-diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-index a33d7a849b2df..9a1f0d6616577 100644
---- a/fs/f2fs/inode.c
-+++ b/fs/f2fs/inode.c
-@@ -46,9 +46,11 @@ void f2fs_set_inode_flags(struct inode *inode)
- 		new_fl |= S_DIRSYNC;
- 	if (file_is_encrypt(inode))
- 		new_fl |= S_ENCRYPTED;
-+	if (flags & F2FS_CASEFOLD_FL)
-+		new_fl |= S_CASEFOLD;
- 	inode_set_flags(inode, new_fl,
- 			S_SYNC|S_APPEND|S_IMMUTABLE|S_NOATIME|S_DIRSYNC|
--			S_ENCRYPTED);
-+			S_ENCRYPTED|S_CASEFOLD);
- }
- 
- static void __get_inode_rdev(struct inode *inode, struct f2fs_inode *ri)
-diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-index c5b99042e6f2b..727de2f8620f2 100644
---- a/fs/f2fs/namei.c
-+++ b/fs/f2fs/namei.c
-@@ -489,6 +489,17 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
- 		goto out_iput;
- 	}
- out_splice:
-+#ifdef CONFIG_UNICODE
-+	if (!inode && IS_CASEFOLDED(dir)) {
-+		/* Eventually we want to call d_add_ci(dentry, NULL)
-+		 * for negative dentries in the encoding case as
-+		 * well.  For now, prevent the negative dentry
-+		 * from being cached.
-+		 */
-+		trace_f2fs_lookup_end(dir, dentry, ino, err);
-+		return NULL;
-+	}
-+#endif
- 	new = d_splice_alias(inode, dentry);
- 	err = PTR_ERR_OR_ZERO(new);
- 	trace_f2fs_lookup_end(dir, dentry, ino, err);
-@@ -537,6 +548,16 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
- 		goto fail;
- 	}
- 	f2fs_delete_entry(de, page, dir, inode);
-+#ifdef CONFIG_UNICODE
-+	/* VFS negative dentries are incompatible with Encoding and
-+	 * Case-insensitiveness. Eventually we'll want avoid
-+	 * invalidating the dentries here, alongside with returning the
-+	 * negative dentries at f2fs_lookup(), when it is  better
-+	 * supported by the VFS for the CI case.
-+	 */
-+	if (IS_CASEFOLDED(dir))
-+		d_invalidate(dentry);
-+#endif
- 	f2fs_unlock_op(sbi);
- 
- 	if (IS_DIRSYNC(dir))
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 82f7da93c3ed1..9c522d1abcb6d 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -3115,6 +3115,7 @@ static int f2fs_setup_casefold(struct f2fs_sb_info *sbi)
- 		return -EINVAL;
- 	}
- #endif
-+	return 0;
- }
- 
- static void f2fs_tuning_parameters(struct f2fs_sb_info *sbi)
-@@ -3410,6 +3411,11 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
- 		goto free_node_inode;
- 	}
- 
-+#ifdef CONFIG_UNICODE
-+	if (sbi->s_encoding)
-+		sb->s_d_op = &f2fs_dentry_ops;
-+#endif
 +
- 	sb->s_root = d_make_root(root); /* allocate root dentry */
- 	if (!sb->s_root) {
- 		err = -ENOMEM;
++void kunit_assert_print_msg(struct kunit_assert *assert,
++			    struct kunit_stream *stream)
++{
++	if (assert->message.fmt)
++		kunit_stream_add(stream, "\n%pV", &assert->message);
++}
++
++void kunit_unary_assert_format(struct kunit_assert *assert,
++			       struct kunit_stream *stream)
++{
++	struct kunit_unary_assert *unary_assert = container_of(
++			assert, struct kunit_unary_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	if (unary_assert->expected_true)
++		kunit_stream_add(stream,
++				 "\tExpected %s to be true, but is false\n",
++				 unary_assert->condition);
++	else
++		kunit_stream_add(stream,
++				 "\tExpected %s to be false, but is true\n",
++				 unary_assert->condition);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_ptr_not_err_assert_format(struct kunit_assert *assert,
++				     struct kunit_stream *stream)
++{
++	struct kunit_ptr_not_err_assert *ptr_assert = container_of(
++			assert, struct kunit_ptr_not_err_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	if (!ptr_assert->value) {
++		kunit_stream_add(stream,
++				 "\tExpected %s is not null, but is\n",
++				 ptr_assert->text);
++	} else if (IS_ERR(ptr_assert->value)) {
++		kunit_stream_add(stream,
++				 "\tExpected %s is not error, but is: %ld\n",
++				 ptr_assert->text,
++				 PTR_ERR(ptr_assert->value));
++	}
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_assert_format(struct kunit_assert *assert,
++				struct kunit_stream *stream)
++{
++	struct kunit_binary_assert *binary_assert = container_of(
++			assert, struct kunit_binary_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	kunit_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	kunit_stream_add(stream, "\t\t%s == %lld\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	kunit_stream_add(stream, "\t\t%s == %lld",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_ptr_assert_format(struct kunit_assert *assert,
++				    struct kunit_stream *stream)
++{
++	struct kunit_binary_ptr_assert *binary_assert = container_of(
++			assert, struct kunit_binary_ptr_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	kunit_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	kunit_stream_add(stream, "\t\t%s == %pK\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	kunit_stream_add(stream, "\t\t%s == %pK",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_str_assert_format(struct kunit_assert *assert,
++				    struct kunit_stream *stream)
++{
++	struct kunit_binary_str_assert *binary_assert = container_of(
++			assert, struct kunit_binary_str_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	kunit_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	kunit_stream_add(stream, "\t\t%s == %s\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	kunit_stream_add(stream, "\t\t%s == %s",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_mock_declaration_format(struct kunit_mock_declaration *declaration,
++				   struct kunit_stream *stream)
++{
++	int i;
++
++	kunit_stream_add(stream, "%s(", declaration->function_name);
++	for (i = 0; i < declaration->len; i++) {
++		mock_format_param(stream,
++				  declaration->type_names[i],
++				  declaration->params[i]);
++		if (i < declaration->len - 1)
++			kunit_stream_add(stream, ", ");
++	}
++	kunit_stream_add(stream, ")\n");
++}
++
++void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
++				    struct kunit_stream *stream)
++{
++	struct kunit_matcher_result *result;
++	size_t i;
++
++	kunit_stream_add(stream,
++			 "Tried expectation: %s, but\n",
++			 match->expectation_text);
++	for (i = 0; i < match->matcher_list_len; i++) {
++		result = &match->matcher_list[i];
++		kunit_stream_add(stream, "\t");
++		result->assert.format(&result->assert, stream);
++		kunit_stream_add(stream, "\n");
++	}
++}
++
++void kunit_mock_no_match_format(struct kunit_assert *assert,
++				struct kunit_stream *stream)
++{
++	struct kunit_mock_assert *mock_assert = container_of(
++			assert, struct kunit_mock_assert, assert);
++	struct kunit_mock_no_match *no_match = container_of(
++			mock_assert, struct kunit_mock_no_match, assert);
++	struct kunit_mock_failed_match *expectation;
++
++	kunit_base_assert_format(assert, stream);
++	kunit_mock_declaration_format(&no_match->declaration, stream);
++
++	list_for_each_entry(expectation, &no_match->failed_match_list, node)
++		kunit_mock_failed_match_format(expectation, stream);
++}
+diff --git a/kunit/mock.c b/kunit/mock.c
+index ccb0abe111402..ab441a58a918c 100644
+--- a/kunit/mock.c
++++ b/kunit/mock.c
+@@ -269,9 +269,9 @@ struct mock_param_formatter *mock_find_formatter(const char *type_name)
+ 	return NULL;
+ }
+ 
+-static void mock_format_param(struct kunit_stream *stream,
+-			      const char *type_name,
+-			      const void *param)
++void mock_format_param(struct kunit_stream *stream,
++		       const char *type_name,
++		       const void *param)
+ {
+ 	struct mock_param_formatter *formatter;
+ 
 -- 
 2.22.0.657.g960e92d24f-goog
 
