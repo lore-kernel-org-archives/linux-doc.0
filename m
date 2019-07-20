@@ -1,63 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DCEB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Jul 2019 13:37:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BC9C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Jul 2019 05:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727671AbfGSNhk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Jul 2019 09:37:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47654 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727354AbfGSNhj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jul 2019 09:37:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 95D33AD33;
-        Fri, 19 Jul 2019 13:37:38 +0000 (UTC)
-Subject: Re: [PATCH 4/4] Documentation:kernel-per-CPU-kthreads.txt: Remove
- reference to elevator=
-To:     Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20190714053453.1655-1-marcos.souza.org@gmail.com>
- <20190714053453.1655-5-marcos.souza.org@gmail.com>
-From:   Hannes Reinecke <hare@suse.de>
-Message-ID: <8b3c7096-5414-bf04-e470-a0f5b42f3371@suse.de>
-Date:   Fri, 19 Jul 2019 15:37:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1725794AbfGTFJs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 20 Jul 2019 01:09:48 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:33438 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725765AbfGTFJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Jul 2019 01:09:48 -0400
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x6K59cQV025137;
+        Sat, 20 Jul 2019 14:09:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x6K59cQV025137
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1563599379;
+        bh=Vt8e4ZibGh6YbYrqAYP6YFb33zJbcUfxyLcUA52ZLCE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VHK6YSbea5EyMgOh50x4apyr9R0Er3JKrwgRzqWa9x8GJcw+7fU6ZipmMnx/M93WA
+         9A17JQyJeocJmXgFdkV9sBKbUC8OX8mXSGlQxUG2vnNt9d6AjOzPL8/fyQaluyeSHA
+         MNz5h5IaJbUDCNMwj+m9vPQJB/t0pLmXNB6tPdLhebhPAMldwgsxVhRbRct/ByEjyp
+         rOPMP3Ur5bCQnyE04nHbmepDzbgD2t2RH8tAZ6wyCEqu8UCOUqK4q+EvDE2FoctuCW
+         sDUf/X0WPnQqEpnR/N9eZCDnTZ880M/VWVOfHUiuJdRXtrqRQBHtocd1EpwCIPhR/h
+         tp2GFOE2QBSrA==
+X-Nifty-SrcIP: [209.85.217.47]
+Received: by mail-vs1-f47.google.com with SMTP id a186so21238020vsd.7;
+        Fri, 19 Jul 2019 22:09:38 -0700 (PDT)
+X-Gm-Message-State: APjAAAXnY2K5OySyBmwN8cOA1XacwTaaux+C8nrqkQuwWig2WyenlLra
+        GIdbzLTFQlhCnjpE5w6DkbrCEa82LQ0oFjihuf0=
+X-Google-Smtp-Source: APXvYqzPm1XVv4vlss8TM6aaCj/lOCVAn9tMmbSrOhWcHRkLrATsWbcHjwgGjFzsHaVwHEAYvQGWCzN5Rr5q4y2QMic=
+X-Received: by 2002:a67:f495:: with SMTP id o21mr35269851vsn.54.1563599377517;
+ Fri, 19 Jul 2019 22:09:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190714053453.1655-5-marcos.souza.org@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190711054434.1177-1-yamada.masahiro@socionext.com>
+ <20190711054434.1177-9-yamada.masahiro@socionext.com> <20190716214023.GA15159@redhat.com>
+ <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com> <f1222c8a-9301-1e76-981d-a36e8687a29f@redhat.com>
+In-Reply-To: <f1222c8a-9301-1e76-981d-a36e8687a29f@redhat.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 20 Jul 2019 14:09:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATrS_ENkz3-dT70mXi=L89w0a-x6tSsDT-r7qxNa+kaOQ@mail.gmail.com>
+Message-ID: <CAK7LNATrS_ENkz3-dT70mXi=L89w0a-x6tSsDT-r7qxNa+kaOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 08/11] kbuild: create *.mod with full directory path
+ and remove MODVERDIR
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/14/19 7:34 AM, Marcos Paulo de Souza wrote:
-> This argument was not being considered since blk-mq was set by default,
-> so removed this documentation to avoid confusion.
-> 
-> Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-> ---
->   Documentation/kernel-per-CPU-kthreads.txt | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.com>
+Hi Joe,
 
-Cheers,
+On Fri, Jul 19, 2019 at 5:18 AM Joe Lawrence <joe.lawrence@redhat.com> wrote:
 
-Hannes
+> > Perhaps, adding a new field
+> > to *.mod files might be cleaner.
+>
+> I can look into that.  By "field" you mean a new row in the file?
+
+Yes.
+
+
 -- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare@suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 Nürnberg
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+Best Regards
+Masahiro Yamada
