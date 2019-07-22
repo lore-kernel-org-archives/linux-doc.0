@@ -1,144 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 865657D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 15:52:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BE5E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 17:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730352AbfGVPwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 11:52:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49592 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729377AbfGVPvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 11:51:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=YOtnv5kilBDnIuNIM7uB6lgkqy9fntG3COwWbK/lDVY=; b=isf58cBUJXt3FDFfKcAkQ6p9m
-        6oMXQ91QMCgqUsdO3p0tZdwBEX8RBwuj4L75IeuwpNoswYuHIEfLY0q8pWhL+uPjSw/plQdNSAyI9
-        drug/jrTyLAjlUs+xY4qOHykRUB7LrFLqgxYGpyrf1pRkJwfW1yYMxT75/YhKMK8PNvV+6o6gwf2B
-        MaAKecVGvfhQfmdPY+Lc1zyzACndfPxn04bO9ahzrOPMurJGvVvyMH1odVNsP+Z54eU9h/Lb9ZR8E
-        l9EbRmTOlPm7egB6RwatuUrldOYjNulDPFayokBcPca79W1jMmXsYHCxLzmBUx4u+WRy3SAFxt6RT
-        bEG9CBbig==;
-Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpabB-0001Y5-KH; Mon, 22 Jul 2019 15:51:38 +0000
-Date:   Mon, 22 Jul 2019 12:51:33 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-iio@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH 04/22] docs: spi: convert to ReST and add it to the kABI
- bookset
-Message-ID: <20190722125133.5cda0da3@coco.lan>
-In-Reply-To: <20190722152110.GE4756@sirena.org.uk>
-References: <cover.1563792333.git.mchehab+samsung@kernel.org>
-        <be171b438013f8824425595e3d637f5e7d466249.1563792334.git.mchehab+samsung@kernel.org>
-        <20190722121151.GC4756@sirena.org.uk>
-        <20190722101035.4f61c1bf@coco.lan>
-        <20190722152110.GE4756@sirena.org.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726308AbfGVRac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 13:30:32 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44036 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbfGVRab (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 13:30:31 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i18so17988536pgl.11
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2019 10:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wXvZqJm4NRH55ymNoRmcH6T+rFOJHy1EWdglu59DZzY=;
+        b=LCaK/ME6Pd4ZhYx+ssvjkI9LB4O8oKSTekE0qoXW/GXXeDZdeImiGm1G894m1tuQ5d
+         j4jm59UYARqR7BwdBJeMNi+wW6IACeBrIAZyYnIzB+Bf2TP6zdV6+XmQUQGC2cqW1qfz
+         jp0pdd7QqJVQsL6Ga8AetHkGJfJcF/qfZrMBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wXvZqJm4NRH55ymNoRmcH6T+rFOJHy1EWdglu59DZzY=;
+        b=IBm+zlizX5EGR2sQHRuREJhCXDd0g8U49faLzHsiJwiayDAk0oAqRo1Zota3ZtjY7+
+         CSrKLQCMQRQoJ+m0lUT7+hD7szydb9wchcEMpisjEOeOKD1pSIPXSFNv5K2wEO1wlQqU
+         cUoINypX4tJza0biEb5ACcip+BKVlxs3Sjn9ixVWEl//FTCoI8HgnQpBdJAvHGdaBcl/
+         yTXNq2Lt5RZaqxCChx/aL8u6iR1O1z2Y78TNm2MfKCFRz17PKhaXPqR5lxc5lqMaKHyV
+         VzMJpsPup8xOSQlpESItb0Pfj9PeHBFpNTZB7ibugBNcU2fuG9IG8hzcJhAyZ3bhIytm
+         rK/w==
+X-Gm-Message-State: APjAAAWw7K0OABiylZbJsu9YFaN75hG9EljLZ8q/I7uSoQ81ldqxKFOB
+        lsgWleOrXE0A9JC99VLFiSwAWT+R2tQ=
+X-Google-Smtp-Source: APXvYqwvLDHbYqo3arQbkK9RgZ93pgCYAX5DtW/EanFgFv84dn/XaNI+Z5j0/Jy0lEh1/UjJkqM4/w==
+X-Received: by 2002:a63:e807:: with SMTP id s7mr70363111pgh.194.1563816630836;
+        Mon, 22 Jul 2019 10:30:30 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a3sm42773143pfi.63.2019.07.22.10.30.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 22 Jul 2019 10:30:30 -0700 (PDT)
+Date:   Mon, 22 Jul 2019 10:30:29 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     NitinGote <nitin.r.gote@intel.com>
+Cc:     joe@perches.com, corbet@lwn.net, akpm@linux-foundation.org,
+        apw@canonical.com, linux-doc@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v5] Documentation/checkpatch: Prefer strscpy/strscpy_pad
+ over strcpy/strlcpy/strncpy
+Message-ID: <201907221029.B0CBED4F@keescook>
+References: <20190717043005.19627-1-nitin.r.gote@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190717043005.19627-1-nitin.r.gote@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 22 Jul 2019 16:21:10 +0100
-Mark Brown <broonie@kernel.org> escreveu:
+On Wed, Jul 17, 2019 at 10:00:05AM +0530, NitinGote wrote:
+> From: Nitin Gote <nitin.r.gote@intel.com>
+> 
+> Added check in checkpatch.pl to
+> 1. Deprecate strcpy() in favor of strscpy().
+> 2. Deprecate strlcpy() in favor of strscpy().
+> 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> 
+> Updated strncpy() section in Documentation/process/deprecated.rst
+> to cover strscpy_pad() case.
+> 
+> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
 
-> On Mon, Jul 22, 2019 at 10:10:35AM -0300, Mauro Carvalho Chehab wrote:
-> > Mark Brown <broonie@kernel.org> escreveu:  
-> 
-> > > On Mon, Jul 22, 2019 at 08:07:31AM -0300, Mauro Carvalho Chehab wrote:  
-> > > > While there's one file there with briefily describes the uAPI,
-> > > > the documentation was written just like most subsystems: focused
-> > > > on kernel developers. So, add it together with driver-api books.    
-> 
-> > > Please use subject lines matching the style for the subsystem.  This
-> > > makes it easier for people to identify relevant patches.  
-> 
-> > Sure. Do you prefer this prefixed by:  
-> 
-> > 	spi: docs:  
-> 
-> > Or with something else?  
-> 
-> Anything starting with spi:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Ok.
+Joe, does this address your checkpatch concerns?
 
+-Kees
+
+> ---
+>  Documentation/process/deprecated.rst |  6 +++---
+>  scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
+>  2 files changed, 27 insertions(+), 3 deletions(-)
 > 
-> > > >  Documentation/spi/{spidev => spidev.rst}      |  30 +++--    
-> > > 
-> > > This is clearly a userspace focused document rather than a kernel
-> > > internal one.  
-> > 
-> > True. What I've been doing so far is, for all drivers that I'm converting
-> > with carries more than one documentation type (kABI, uABI and/or 
-> > admin-guide) is to keep the directory as-is, adding them under
-> > this section at Documentation/index.rst:
-
-...
-
-> > Btw, if you look at spidev file, it contains stuff for both
-> > userspace-api:
-> > 
-> > 	"SPI devices have a limited userspace API, supporting basic half-duplex
-> > 	 read() and write() access to SPI slave devices.  Using ioctl() requests,"  
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 49e0f64a3427..c348ef9d44f5 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
+>  and other misbehavior due to the missing termination. It also NUL-pads the
+>  destination buffer if the source contents are shorter than the destination
+>  buffer size, which may be a needless performance penalty for callers using
+> -only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+> -(Users of :c:func:`strscpy` still needing NUL-padding will need an
+> -explicit :c:func:`memset` added.)
+> +only NUL-terminated strings. In this case, the safe replacement is
+> +strscpy(). If, however, the destination buffer still needs NUL-padding,
+> +the safe replacement is strscpy_pad().
 > 
-> > And for admin-guide:  
+>  If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
+>  still be used, but destinations should be marked with the `__nonstring
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index bb28b178d929..1bb12127115d 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
+>  }
+>  $deprecated_apis_search = "(?:${deprecated_apis_search})";
 > 
-> > 	"For a SPI device with chipselect C on bus B, you should see:
-> > 
-> > 	    /dev/spidevB.C ... character special device, major number 153 with
-> > 		a dynamically chosen minor device number. "  
+> +our %deprecated_string_apis = (
+> +        "strcpy"				=> "strscpy",
+> +        "strlcpy"				=> "strscpy",
+> +        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with __nonstring",
+> +);
+> +
+> +#Create a search pattern for all these strings apis to speed up a loop below
+> +our $deprecated_string_apis_search = "";
+> +foreach my $entry (keys %deprecated_string_apis) {
+> +        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
+> +        $deprecated_string_apis_search .= $entry;
+> +}
+> +$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
+> +
+>  our $mode_perms_world_writable = qr{
+>  	S_IWUGO		|
+>  	S_IWOTH		|
+> @@ -6446,6 +6460,16 @@ sub process {
+>  			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
+>  		}
 > 
-> I think that split is higly artificial...
+> +# check for string deprecated apis
+> +		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
+> +			my $deprecated_string_api = $1;
+> +			my $new_api = $deprecated_string_apis{$deprecated_string_api};
+> +			my $msg_level = \&WARN;
+> +			$msg_level = \&CHK if ($file);
+> +			&{$msg_level}("DEPRECATED_API",
+> +				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
+> +		}
+> +
+>  # check for various structs that are normally const (ops, kgdb, device_tree)
+>  # and avoid what seem like struct definitions 'struct foo {'
+>  		if ($line !~ /\bconst\b/ &&
+> --
+> 2.17.1
 > 
-> > So, if we're willing to move it, the best is to do on a separate patch
-> > with would split its contents into two files: admin-guide/spi-devices.rst and 
-> > userspace-api/spi-api.rst.  
-> 
-> ...
-> 
-> > Ideally, we should split what's there at media/uapi into admin-guide
-> > and userspace-api, but this would mean *a lot* of efforts. Not sure
-> > if it is worth the effort.  
-> 
-> Is the admin/API stuff even sensible for things that are more embedded
-> or desktop focused?  
 
-Yes. Btw, the plan is to add everything under Documentation/ABI at the
-admin guide (parsed via some scripts).
-
-> It feels very arbatrary and unhelpful for things
-> like spidev where theuser is going to be writing a program.
-
-I tend to agree with you. Doing such split may actually make things
-worse for app developers, without providing much benefit for sysadmins.
-
-I sent today an e-mail to the KS discussion ML about that, as, IMHO,
-this is something that we should discuss at the Documentation track
-there.
-
-While the idea of having users/sysadmin-faced stuff at admin-guide
-seems to be nice, doing it for driver-specific stuff could be overkill,
-and will mean a lot of extra work.
-
-Thanks,
-Mauro
+-- 
+Kees Cook
