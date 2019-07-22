@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A093A7D913
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 164237DE70
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729850AbfGVLID (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 07:08:03 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35664 "EHLO
+        id S1729868AbfGVLIJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 07:08:09 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35644 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729843AbfGVLIB (ORCPT
+        with ESMTP id S1729842AbfGVLIB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 07:08:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=a+bQj1O+XRjfOgK19pvPFmYDIh6VgLh2sOF6Gxqi2+E=; b=WEV9kenwMJfXXQFoAu1jII0oV3
-        fZluZEm6iCvyJy0DYk2C/hV7zIFleSaux6waquQdpDY6cPahrcX8kcvTV2uIDkm4B+SaQKHo7CIJH
-        chp8vYXExfijeRlEw1y2evaHoR4apGas/I/ftdr4UWZiKNEs95vHvx5XRzo3AM0BEzP4H3FOyxUCX
-        gofbwRhY8SAfX0PQ6FgJjOBszMUNTldqmq2qcUz6g5LhPI418gpruGzYoTchvZ61z0ehjcj07M/jO
-        myzIKk79IdaZ4UHkE4XT5oKDmQk28goKB3BrnekJaC/mftyQiJQ3NllextFfHHytLDfNDoiY5Aj6V
-        kDhnISNQ==;
+        bh=aR7AC9Cq6LkXN2cwUE0qDw5EbAH8P80ZhWXW4rf7/6E=; b=RfLraHyCWzEv4pBYzLgN9hvBmT
+        Ilf1u6/sz9rpDsOygYXZcV/kRW6aje8c86+KFo3R8OMxKnBT3ReS5V2zusgRm2KdJhDsDRryD2Pel
+        vRQWxjA79uBf3KXh9VdtqXUcvmbwOLtc03EmLBzplfcjYtfSfYr8fCD2p2VG5tpP5NZN906Fk3N0B
+        ed9qBV3VVZvVY+gFZs2LWO3m2T4f3sQ7sS86+plHrhBtK0SvfbeRGUZUEcIRGx7Zj9ePtJM6T8sEc
+        snz6+yOiQzYM1fpxD5msdwJWbff0QLwp340TQMzY9ALrSWNYeN0Xk04KBWtBxV5uak3jOjPl+eonC
+        Z4ud8A6A==;
 Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpWAe-00024w-MN; Mon, 22 Jul 2019 11:07:56 +0000
+        id 1hpWAi-00025E-3i; Mon, 22 Jul 2019 11:08:00 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hpWAa-000413-7e; Mon, 22 Jul 2019 08:07:52 -0300
+        id 1hpWAa-00040v-63; Mon, 22 Jul 2019 08:07:52 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
-        linux-parisc@vger.kernel.org
-Subject: [PATCH 09/22] docs: parisc: convert to ReST and add to documentation body
-Date:   Mon, 22 Jul 2019 08:07:36 -0300
-Message-Id: <d93490565271fbf6b2e2bea40ec0c2381c86aac5.1563792334.git.mchehab+samsung@kernel.org>
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 07/22] docs: admin-guide: add auxdisplay files to it after conversion to ReST
+Date:   Mon, 22 Jul 2019 08:07:34 -0300
+Message-Id: <ed8bb8935bb67d294b5e3bee7647dbdd72c5b608.1563792334.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563792333.git.mchehab+samsung@kernel.org>
 References: <cover.1563792333.git.mchehab+samsung@kernel.org>
@@ -52,86 +51,146 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Manually convert the two PA-RISC documents to ReST, adding them
-to the Linux documentation body.
+Those two files describe userspace-faced information. While part of
+it might fit on uAPI, it sounds to me that the admin guide is the
+best place for them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/index.rst                       |  1 +
- .../parisc/{debugging => debugging.rst}       |  7 +++
- Documentation/parisc/index.rst                | 18 ++++++
- .../parisc/{registers => registers.rst}       | 59 +++++++++++++------
- 4 files changed, 68 insertions(+), 17 deletions(-)
- rename Documentation/parisc/{debugging => debugging.rst} (94%)
- create mode 100644 Documentation/parisc/index.rst
- rename Documentation/parisc/{registers => registers.rst} (70%)
+ .../admin-guide/auxdisplay/cfag12864b.rst     |  98 ++++++++++++++++
+ .../admin-guide/auxdisplay/index.rst          |  16 +++
+ .../admin-guide/auxdisplay/ks0108.rst         |  50 +++++++++
+ Documentation/admin-guide/index.rst           |   1 +
+ Documentation/auxdisplay/cfag12864b           | 105 ------------------
+ Documentation/auxdisplay/ks0108               |  55 ---------
+ MAINTAINERS                                   |   2 +-
+ drivers/auxdisplay/Kconfig                    |   2 +-
+ 8 files changed, 167 insertions(+), 162 deletions(-)
+ create mode 100644 Documentation/admin-guide/auxdisplay/cfag12864b.rst
+ create mode 100644 Documentation/admin-guide/auxdisplay/index.rst
+ create mode 100644 Documentation/admin-guide/auxdisplay/ks0108.rst
+ delete mode 100644 Documentation/auxdisplay/cfag12864b
+ delete mode 100644 Documentation/auxdisplay/ks0108
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index ef9543c2516d..9bb08d272bd5 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -149,6 +149,7 @@ implementation.
-    ia64/index
-    m68k/index
-    powerpc/index
-+   parisc/index
-    riscv/index
-    s390/index
-    sh/index
-diff --git a/Documentation/parisc/debugging b/Documentation/parisc/debugging.rst
-similarity index 94%
-rename from Documentation/parisc/debugging
-rename to Documentation/parisc/debugging.rst
-index 7d75223fa18d..de1b60402c5b 100644
---- a/Documentation/parisc/debugging
-+++ b/Documentation/parisc/debugging.rst
-@@ -1,8 +1,13 @@
-+=================
-+PA-RISC Debugging
-+=================
-+
- okay, here are some hints for debugging the lower-level parts of
- linux/parisc.
- 
- 
- 1. Absolute addresses
-+=====================
- 
- A lot of the assembly code currently runs in real mode, which means
- absolute addresses are used instead of virtual addresses as in the
-@@ -12,6 +17,7 @@ currently).
- 
- 
- 2. HPMCs
-+========
- 
- When real-mode code tries to access non-existent memory, you'll get
- an HPMC instead of a kernel oops.  To debug an HPMC, try to find
-@@ -27,6 +33,7 @@ access it.
- 
- 
- 3. Q bit fun
-+============
- 
- Certain, very critical code has to clear the Q bit in the PSW.  What
- happens when the Q bit is cleared is the CPU does not update the
-diff --git a/Documentation/parisc/index.rst b/Documentation/parisc/index.rst
+diff --git a/Documentation/admin-guide/auxdisplay/cfag12864b.rst b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
 new file mode 100644
-index 000000000000..aa3ee0470425
+index 000000000000..18c2865bd322
 --- /dev/null
-+++ b/Documentation/parisc/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
+@@ -0,0 +1,98 @@
++===================================
++cfag12864b LCD Driver Documentation
++===================================
 +
-+====================
-+PA-RISC Architecture
-+====================
++:License:		GPLv2
++:Author & Maintainer:	Miguel Ojeda Sandonis
++:Date:			2006-10-27
++
++
++
++.. INDEX
++
++	1. DRIVER INFORMATION
++	2. DEVICE INFORMATION
++	3. WIRING
++	4. USERSPACE PROGRAMMING
++
++1. Driver Information
++---------------------
++
++This driver supports a cfag12864b LCD.
++
++
++2. Device Information
++---------------------
++
++:Manufacturer:	Crystalfontz
++:Device Name:	Crystalfontz 12864b LCD Series
++:Device Code:	cfag12864b
++:Webpage:	http://www.crystalfontz.com
++:Device Webpage: http://www.crystalfontz.com/products/12864b/
++:Type:		LCD (Liquid Crystal Display)
++:Width:		128
++:Height:	64
++:Colors:	2 (B/N)
++:Controller:	ks0108
++:Controllers:	2
++:Pages:		8 each controller
++:Addresses:	64 each page
++:Data size:	1 byte each address
++:Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
++
++
++3. Wiring
++---------
++
++The cfag12864b LCD Series don't have official wiring.
++
++The common wiring is done to the parallel port as shown::
++
++  Parallel Port                          cfag12864b
++
++    Name Pin#                            Pin# Name
++
++  Strobe ( 1)------------------------------(17) Enable
++  Data 0 ( 2)------------------------------( 4) Data 0
++  Data 1 ( 3)------------------------------( 5) Data 1
++  Data 2 ( 4)------------------------------( 6) Data 2
++  Data 3 ( 5)------------------------------( 7) Data 3
++  Data 4 ( 6)------------------------------( 8) Data 4
++  Data 5 ( 7)------------------------------( 9) Data 5
++  Data 6 ( 8)------------------------------(10) Data 6
++  Data 7 ( 9)------------------------------(11) Data 7
++         (10)                      [+5v]---( 1) Vdd
++         (11)                      [GND]---( 2) Ground
++         (12)                      [+5v]---(14) Reset
++         (13)                      [GND]---(15) Read / Write
++    Line (14)------------------------------(13) Controller Select 1
++         (15)
++    Init (16)------------------------------(12) Controller Select 2
++  Select (17)------------------------------(16) Data / Instruction
++  Ground (18)---[GND]              [+5v]---(19) LED +
++  Ground (19)---[GND]
++  Ground (20)---[GND]              E    A             Values:
++  Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
++  Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
++  Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
++  Ground (24)---[GND]       |  |
++  Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
++
++
++4. Userspace Programming
++------------------------
++
++The cfag12864bfb describes a framebuffer device (/dev/fbX).
++
++It has a size of 1024 bytes = 1 Kbyte.
++Each bit represents one pixel. If the bit is high, the pixel will
++turn on. If the pixel is low, the pixel will turn off.
++
++You can use the framebuffer as a file: fopen, fwrite, fclose...
++Although the LCD won't get updated until the next refresh time arrives.
++
++Also, you can mmap the framebuffer: open & mmap, munmap & close...
++which is the best option for most uses.
++
++Check samples/auxdisplay/cfag12864b-example.c
++for a real working userspace complete program with usage examples.
+diff --git a/Documentation/admin-guide/auxdisplay/index.rst b/Documentation/admin-guide/auxdisplay/index.rst
+new file mode 100644
+index 000000000000..e466f0595248
+--- /dev/null
++++ b/Documentation/admin-guide/auxdisplay/index.rst
+@@ -0,0 +1,16 @@
++=========================
++Auxiliary Display Support
++=========================
 +
 +.. toctree::
-+   :maxdepth: 2
++    :maxdepth: 1
 +
-+   debugging
-+   registers
++    ks0108.rst
++    cfag12864b.rst
 +
 +.. only::  subproject and html
 +
@@ -139,153 +198,272 @@ index 000000000000..aa3ee0470425
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/parisc/registers b/Documentation/parisc/registers.rst
-similarity index 70%
-rename from Documentation/parisc/registers
-rename to Documentation/parisc/registers.rst
-index 10c7d1730f5d..59c8ecf3e856 100644
---- a/Documentation/parisc/registers
-+++ b/Documentation/parisc/registers.rst
-@@ -1,11 +1,16 @@
-+================================
- Register Usage for Linux/PA-RISC
-+================================
- 
- [ an asterisk is used for planned usage which is currently unimplemented ]
- 
--	General Registers as specified by ABI
-+General Registers as specified by ABI
-+=====================================
- 
--	Control Registers
-+Control Registers
-+-----------------
- 
-+===============================	===============================================
- CR 0 (Recovery Counter)		used for ptrace
- CR 1-CR 7(undefined)		unused
- CR 8 (Protection ID)		per-process value*
-@@ -29,26 +34,35 @@ CR28 (TR 4)			not used
- CR29 (TR 5)			not used
- CR30 (TR 6)			current / 0
- CR31 (TR 7)			Temporary register, used in various places
-+===============================	===============================================
- 
--	Space Registers (kernel mode)
-+Space Registers (kernel mode)
-+-----------------------------
- 
-+===============================	===============================================
- SR0				temporary space register
- SR4-SR7 			set to 0
- SR1				temporary space register
- SR2				kernel should not clobber this
- SR3				used for userspace accesses (current process)
-+===============================	===============================================
- 
--	Space Registers (user mode)
-+Space Registers (user mode)
-+---------------------------
- 
-+===============================	===============================================
- SR0				temporary space register
- SR1                             temporary space register
- SR2                             holds space of linux gateway page
- SR3                             holds user address space value while in kernel
- SR4-SR7                         Defines short address space for user/kernel
-+===============================	===============================================
- 
- 
--	Processor Status Word
-+Processor Status Word
-+---------------------
- 
-+===============================	===============================================
- W (64-bit addresses)		0
- E (Little-endian)		0
- S (Secure Interval Timer)	0
-@@ -69,15 +83,19 @@ Q (collect interruption state)	1 (0 in code directly preceding an rfi)
- P (Protection Identifiers)	1*
- D (Data address translation)	1, 0 while executing real-mode code
- I (external interrupt mask)	used by cli()/sti() macros
-+===============================	===============================================
- 
--	"Invisible" Registers
-+"Invisible" Registers
-+---------------------
- 
-+===============================	===============================================
- PSW default W value		0
- PSW default E value		0
- Shadow Registers		used by interruption handler code
- TOC enable bit			1
-+===============================	===============================================
- 
--=========================================================================
-+-------------------------------------------------------------------------
- 
- The PA-RISC architecture defines 7 registers as "shadow registers".
- Those are used in RETURN FROM INTERRUPTION AND RESTORE instruction to reduce
-@@ -85,7 +103,8 @@ the state save and restore time by eliminating the need for general register
- (GR) saves and restores in interruption handlers.
- Shadow registers are the GRs 1, 8, 9, 16, 17, 24, and 25.
- 
--=========================================================================
-+-------------------------------------------------------------------------
+diff --git a/Documentation/admin-guide/auxdisplay/ks0108.rst b/Documentation/admin-guide/auxdisplay/ks0108.rst
+new file mode 100644
+index 000000000000..c0b7faf73136
+--- /dev/null
++++ b/Documentation/admin-guide/auxdisplay/ks0108.rst
+@@ -0,0 +1,50 @@
++==========================================
++ks0108 LCD Controller Driver Documentation
++==========================================
 +
- Register usage notes, originally from John Marvin, with some additional
- notes from Randolph Chung.
- 
-@@ -96,10 +115,12 @@ course, you need to save them if you care about them, before calling
- another procedure. Some of the above registers do have special meanings
- that you should be aware of:
- 
--    r1: The addil instruction is hardwired to place its result in r1,
-+    r1:
-+	The addil instruction is hardwired to place its result in r1,
- 	so if you use that instruction be aware of that.
- 
--    r2: This is the return pointer. In general you don't want to
-+    r2:
-+	This is the return pointer. In general you don't want to
- 	use this, since you need the pointer to get back to your
- 	caller. However, it is grouped with this set of registers
- 	since the caller can't rely on the value being the same
-@@ -107,23 +128,27 @@ that you should be aware of:
- 	and return through that register after trashing r2, and
- 	that should not cause a problem for the calling routine.
- 
--    r19-r22: these are generally regarded as temporary registers.
-+    r19-r22:
-+	these are generally regarded as temporary registers.
- 	Note that in 64 bit they are arg7-arg4.
- 
--    r23-r26: these are arg3-arg0, i.e. you can use them if you
-+    r23-r26:
-+	these are arg3-arg0, i.e. you can use them if you
- 	don't care about the values that were passed in anymore.
- 
--    r28,r29: are ret0 and ret1. They are what you pass return values
-+    r28,r29:
-+	are ret0 and ret1. They are what you pass return values
- 	in. r28 is the primary return. When returning small structures
- 	r29 may also be used to pass data back to the caller.
- 
--    r30: stack pointer
-+    r30:
-+	stack pointer
- 
--    r31: the ble instruction puts the return pointer in here.
-+    r31:
-+	the ble instruction puts the return pointer in here.
- 
- 
--r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
-+    r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
-     general purpose registers. r27 is the data pointer, and is
-     used to make references to global variables easier. r30 is
-     the stack pointer.
++:License:		GPLv2
++:Author & Maintainer:	Miguel Ojeda Sandonis
++:Date:			2006-10-27
++
++
++
++.. INDEX
++
++	1. DRIVER INFORMATION
++	2. DEVICE INFORMATION
++	3. WIRING
++
++
++1. Driver Information
++---------------------
++
++This driver supports the ks0108 LCD controller.
++
++
++2. Device Information
++---------------------
++
++:Manufacturer:	Samsung
++:Device Name:	KS0108 LCD Controller
++:Device Code:	ks0108
++:Webpage:	-
++:Device Webpage: -
++:Type:		LCD Controller (Liquid Crystal Display Controller)
++:Width:		64
++:Height:	64
++:Colors:	2 (B/N)
++:Pages:		8
++:Addresses:	64 each page
++:Data size:	1 byte each address
++:Memory size:	8 * 64 * 1 = 512 bytes
++
++
++3. Wiring
++---------
++
++The driver supports data parallel port wiring.
++
++If you aren't building LCD related hardware, you should check
++your LCD specific wiring information in the same folder.
++
++For example, check Documentation/admin-guide/auxdisplay/cfag12864b.rst
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 457fd1112b65..3f8f7d564552 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -101,6 +101,7 @@ configure specific aspects of kernel behavior to your liking.
+    iostats
+    kernel-per-CPU-kthreads
+    laptops/index
++   auxdisplay/index
+    lcd-panel-cgram
+    ldm
+    lockup-watchdogs
+diff --git a/Documentation/auxdisplay/cfag12864b b/Documentation/auxdisplay/cfag12864b
+deleted file mode 100644
+index 12fd51b8de75..000000000000
+--- a/Documentation/auxdisplay/cfag12864b
++++ /dev/null
+@@ -1,105 +0,0 @@
+-	===================================
+-	cfag12864b LCD Driver Documentation
+-	===================================
 -
+-License:		GPLv2
+-Author & Maintainer:	Miguel Ojeda Sandonis
+-Date:			2006-10-27
+-
+-
+-
+---------
+-0. INDEX
+---------
+-
+-	1. DRIVER INFORMATION
+-	2. DEVICE INFORMATION
+-	3. WIRING
+-	4. USERSPACE PROGRAMMING
+-
+-
+----------------------
+-1. DRIVER INFORMATION
+----------------------
+-
+-This driver supports a cfag12864b LCD.
+-
+-
+----------------------
+-2. DEVICE INFORMATION
+----------------------
+-
+-Manufacturer:	Crystalfontz
+-Device Name:	Crystalfontz 12864b LCD Series
+-Device Code:	cfag12864b
+-Webpage:	http://www.crystalfontz.com
+-Device Webpage:	http://www.crystalfontz.com/products/12864b/
+-Type:		LCD (Liquid Crystal Display)
+-Width:		128
+-Height:		64
+-Colors:		2 (B/N)
+-Controller:	ks0108
+-Controllers:	2
+-Pages:		8 each controller
+-Addresses:	64 each page
+-Data size:	1 byte each address
+-Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
+-
+-
+----------
+-3. WIRING
+----------
+-
+-The cfag12864b LCD Series don't have official wiring.
+-
+-The common wiring is done to the parallel port as shown:
+-
+-Parallel Port                          cfag12864b
+-
+-  Name Pin#                            Pin# Name
+-
+-Strobe ( 1)------------------------------(17) Enable
+-Data 0 ( 2)------------------------------( 4) Data 0
+-Data 1 ( 3)------------------------------( 5) Data 1
+-Data 2 ( 4)------------------------------( 6) Data 2
+-Data 3 ( 5)------------------------------( 7) Data 3
+-Data 4 ( 6)------------------------------( 8) Data 4
+-Data 5 ( 7)------------------------------( 9) Data 5
+-Data 6 ( 8)------------------------------(10) Data 6
+-Data 7 ( 9)------------------------------(11) Data 7
+-       (10)                      [+5v]---( 1) Vdd
+-       (11)                      [GND]---( 2) Ground
+-       (12)                      [+5v]---(14) Reset
+-       (13)                      [GND]---(15) Read / Write
+-  Line (14)------------------------------(13) Controller Select 1
+-       (15)
+-  Init (16)------------------------------(12) Controller Select 2
+-Select (17)------------------------------(16) Data / Instruction
+-Ground (18)---[GND]              [+5v]---(19) LED +
+-Ground (19)---[GND]
+-Ground (20)---[GND]              E    A             Values:
+-Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
+-Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
+-Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
+-Ground (24)---[GND]       |  |
+-Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
+-
+-
+-------------------------
+-4. USERSPACE PROGRAMMING
+-------------------------
+-
+-The cfag12864bfb describes a framebuffer device (/dev/fbX).
+-
+-It has a size of 1024 bytes = 1 Kbyte.
+-Each bit represents one pixel. If the bit is high, the pixel will
+-turn on. If the pixel is low, the pixel will turn off.
+-
+-You can use the framebuffer as a file: fopen, fwrite, fclose...
+-Although the LCD won't get updated until the next refresh time arrives.
+-
+-Also, you can mmap the framebuffer: open & mmap, munmap & close...
+-which is the best option for most uses.
+-
+-Check samples/auxdisplay/cfag12864b-example.c
+-for a real working userspace complete program with usage examples.
+diff --git a/Documentation/auxdisplay/ks0108 b/Documentation/auxdisplay/ks0108
+deleted file mode 100644
+index 8ddda0c8ceef..000000000000
+--- a/Documentation/auxdisplay/ks0108
++++ /dev/null
+@@ -1,55 +0,0 @@
+-	==========================================
+-	ks0108 LCD Controller Driver Documentation
+-	==========================================
+-
+-License:		GPLv2
+-Author & Maintainer:	Miguel Ojeda Sandonis
+-Date:			2006-10-27
+-
+-
+-
+---------
+-0. INDEX
+---------
+-
+-	1. DRIVER INFORMATION
+-	2. DEVICE INFORMATION
+-	3. WIRING
+-
+-
+----------------------
+-1. DRIVER INFORMATION
+----------------------
+-
+-This driver supports the ks0108 LCD controller.
+-
+-
+----------------------
+-2. DEVICE INFORMATION
+----------------------
+-
+-Manufacturer:	Samsung
+-Device Name:	KS0108 LCD Controller
+-Device Code:	ks0108
+-Webpage:	-
+-Device Webpage:	-
+-Type:		LCD Controller (Liquid Crystal Display Controller)
+-Width:		64
+-Height:		64
+-Colors:		2 (B/N)
+-Pages:		8
+-Addresses:	64 each page
+-Data size:	1 byte each address
+-Memory size:	8 * 64 * 1 = 512 bytes
+-
+-
+----------
+-3. WIRING
+----------
+-
+-The driver supports data parallel port wiring.
+-
+-If you aren't building LCD related hardware, you should check
+-your LCD specific wiring information in the same folder.
+-
+-For example, check Documentation/auxdisplay/cfag12864b.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fd2af50e66b5..4cd39259fcdc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8991,7 +8991,7 @@ F:	kernel/kprobes.c
+ KS0108 LCD CONTROLLER DRIVER
+ M:	Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+ S:	Maintained
+-F:	Documentation/auxdisplay/ks0108
++F:	Documentation/admin-guide/auxdisplay/ks0108.rst
+ F:	drivers/auxdisplay/ks0108.c
+ F:	include/linux/ks0108.h
+ 
+diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+index dd61fdd400f0..6b476e663e80 100644
+--- a/drivers/auxdisplay/Kconfig
++++ b/drivers/auxdisplay/Kconfig
+@@ -97,7 +97,7 @@ config CFAG12864B
+ 	  say Y. You also need the ks0108 LCD Controller driver.
+ 
+ 	  For help about how to wire your LCD to the parallel port,
+-	  check Documentation/auxdisplay/cfag12864b
++	  check Documentation/admin-guide/auxdisplay/cfag12864b.rst
+ 
+ 	  Depends on the x86 arch and the framebuffer support.
+ 
 -- 
 2.21.0
 
