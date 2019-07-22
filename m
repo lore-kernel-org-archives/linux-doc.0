@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C77E57DC63
+	by archive.lwn.net (Postfix) with ESMTP id E107D7DCEA
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729861AbfGVLIE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 07:08:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35674 "EHLO
+        id S1729858AbfGVLID (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 07:08:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35678 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729846AbfGVLIC (ORCPT
+        with ESMTP id S1729847AbfGVLIC (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 07:08:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=nnOiiiZ4oRLl2AU8mphnTFAoem96tiQ3SW7JCN71AkA=; b=hYIcK68dJexwDiZj2u23cuCa2/
-        X1V99/upmk8kqo5/J8Yemke73MaSAiYrXJ197+Pwj8E5GgVb37+XkGmjI/w9hr85iqd67uEEgIUp8
-        G4uJjW5yOa84GsbgkdgOX0mE/dSyKA5fFMGiBTFdT32mMfqxYJPnz9v2TK8dab9e4B7SapRTIHtlS
-        Nfrv383WDslYxsYSvxGnyTy3TJZ9IxJCxS0cEb0/6rBoSiYKk/pAZSJPbJ2aToTkfdQhy6jrR7rYG
-        PZYxGpCda8+3AJNfix9qBvXMQloOf/1nSRQd/n64++UwRfW211Q4RoIC/uHf0JJbk1Gbwy/f/DiSC
-        4nzKAdeQ==;
+        bh=yVmEQXIfb3diaCuw9NilkrqXhDl+7j5UDll83rF5cL4=; b=mkPMm++9Y2zO68jJznkqKnS9rC
+        FmJbGhzKfVhi7y9RntImyTg+WDwTl4/T6ttc918YH868PEv8rhwo1mEKpgPhhw3kInkE4J15CC7pj
+        7vV+p9G5m5KV3QPfwtuG8j7TileWHSNUfqjeTRi4mXp83/4akn5gNjf5SfSDZUaIGwsQA+9Xpuiq3
+        R2YBG4rpuvNWag+BqyE/9vP3R9ahHx37w/9u0kj34BXSgmbh5MRacWP+M3GbtxqoImA0WoEHhNrEm
+        wsiNJOOSr38K9yFXFM1ZUe0m1tqj/FaN3RE/pSt+8wvQwlWM70e34Y4/UeIoONyLen4wEtP7jQKBy
+        OIA5lcsA==;
 Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpWAe-00024y-J8; Mon, 22 Jul 2019 11:07:56 +0000
+        id 1hpWAh-000259-FK; Mon, 22 Jul 2019 11:07:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hpWAa-000419-8S; Mon, 22 Jul 2019 08:07:52 -0300
+        id 1hpWAa-000420-H3; Mon, 22 Jul 2019 08:07:52 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>, linux-doc@vger.kernel.org,
-        openrisc@lists.librecores.org
-Subject: [PATCH 10/22] docs: openrisc: convert to ReST and add to documentation body
-Date:   Mon, 22 Jul 2019 08:07:37 -0300
-Message-Id: <353497a08f6c01f2433174acbe35dc5991a51697.1563792334.git.mchehab+samsung@kernel.org>
+        Johannes Berg <johannes@sipsolutions.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-wireless@vger.kernel.org
+Subject: [PATCH 20/22] docs: net: convert two README files to ReST format
+Date:   Mon, 22 Jul 2019 08:07:47 -0300
+Message-Id: <129f4fb2b209af7cc6e64fcb2f0a366021829c16.1563792334.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563792333.git.mchehab+samsung@kernel.org>
 References: <cover.1563792333.git.mchehab+samsung@kernel.org>
@@ -53,186 +53,258 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Manually convert the two openRisc documents to ReST, adding them
-to the Linux documentation body.
+There are two README files there with doesn't have a .txt
+extension nor are at ReST format.
+
+In order to help with the docs conversion to ReST, rename those
+and manually convert them to ReST format.
+
+As there are lot more to be done for networking to be part of
+the documentation body, for now mark those two files with
+:orphan:, in order to supress a build warning.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/index.rst                       |  1 +
- Documentation/openrisc/index.rst              | 18 +++++++++++++
- .../openrisc/{README => openrisc_port.rst}    | 25 +++++++++++++------
- Documentation/openrisc/{TODO => todo.rst}     |  9 ++++---
- 4 files changed, 43 insertions(+), 10 deletions(-)
- create mode 100644 Documentation/openrisc/index.rst
- rename Documentation/openrisc/{README => openrisc_port.rst} (80%)
- rename Documentation/openrisc/{TODO => todo.rst} (78%)
+ .../networking/caif/{README => caif.rst}      | 88 +++++++++++++------
+ .../{README => mac80211_hwsim.rst}            | 28 ++++--
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 81 insertions(+), 37 deletions(-)
+ rename Documentation/networking/caif/{README => caif.rst} (70%)
+ rename Documentation/networking/mac80211_hwsim/{README => mac80211_hwsim.rst} (81%)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9bb08d272bd5..5583b2e64692 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -149,6 +149,7 @@ implementation.
-    ia64/index
-    m68k/index
-    powerpc/index
-+   openrisc/index
-    parisc/index
-    riscv/index
-    s390/index
-diff --git a/Documentation/openrisc/index.rst b/Documentation/openrisc/index.rst
-new file mode 100644
-index 000000000000..748b3eea1707
---- /dev/null
-+++ b/Documentation/openrisc/index.rst
-@@ -0,0 +1,18 @@
+diff --git a/Documentation/networking/caif/README b/Documentation/networking/caif/caif.rst
+similarity index 70%
+rename from Documentation/networking/caif/README
+rename to Documentation/networking/caif/caif.rst
+index 757ccfaa1385..07afc8063d4d 100644
+--- a/Documentation/networking/caif/README
++++ b/Documentation/networking/caif/caif.rst
+@@ -1,18 +1,31 @@
+-Copyright (C) ST-Ericsson AB 2010
+-Author: Sjur Brendeland/ sjur.brandeland@stericsson.com
+-License terms: GNU General Public License (GPL) version 2
+----------------------------------------------------------
++:orphan:
+ 
+-=== Start ===
+-If you have compiled CAIF for modules do:
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
+ 
+-$modprobe crc_ccitt
+-$modprobe caif
+-$modprobe caif_socket
+-$modprobe chnl_net
+ 
++================
++Using Linux CAIF
++================
+ 
+-=== Preparing the setup with a STE modem ===
 +
-+=====================
-+OpenRISC Architecture
-+=====================
++:Copyright: |copy| ST-Ericsson AB 2010
 +
-+.. toctree::
-+   :maxdepth: 2
++:Author: Sjur Brendeland/ sjur.brandeland@stericsson.com
 +
-+   openrisc_port
-+   todo
++Start
++=====
 +
-+.. only::  subproject and html
++If you have compiled CAIF for modules do::
 +
-+   Indices
-+   =======
++    $modprobe crc_ccitt
++    $modprobe caif
++    $modprobe caif_socket
++    $modprobe chnl_net
 +
-+   * :ref:`genindex`
-diff --git a/Documentation/openrisc/README b/Documentation/openrisc/openrisc_port.rst
-similarity index 80%
-rename from Documentation/openrisc/README
-rename to Documentation/openrisc/openrisc_port.rst
-index 777a893d533d..a18747a8d191 100644
---- a/Documentation/openrisc/README
-+++ b/Documentation/openrisc/openrisc_port.rst
-@@ -1,3 +1,4 @@
++
++Preparing the setup with a STE modem
++====================================
+ 
+ If you are working on integration of CAIF you should make sure
+ that the kernel is built with module support.
+@@ -32,24 +45,30 @@ module parameter "ser_use_stx".
+ Normally Frame Checksum is always used on UART, but this is also provided as a
+ module parameter "ser_use_fcs".
+ 
+-$ modprobe caif_serial ser_ttyname=/dev/ttyS0 ser_use_stx=yes
+-$ ifconfig caif_ttyS0 up
++::
+ 
+-PLEASE NOTE: 	There is a limitation in Android shell.
++    $ modprobe caif_serial ser_ttyname=/dev/ttyS0 ser_use_stx=yes
++    $ ifconfig caif_ttyS0 up
++
++PLEASE NOTE:
++		There is a limitation in Android shell.
+ 		It only accepts one argument to insmod/modprobe!
+ 
+-=== Trouble shooting ===
++Trouble shooting
++================
+ 
+ There are debugfs parameters provided for serial communication.
+ /sys/kernel/debug/caif_serial/<tty-name>/
+ 
+ * ser_state:   Prints the bit-mask status where
++
+   - 0x02 means SENDING, this is a transient state.
+   - 0x10 means FLOW_OFF_SENT, i.e. the previous frame has not been sent
+-	and is blocking further send operation. Flow OFF has been propagated
+-	to all CAIF Channels using this TTY.
++    and is blocking further send operation. Flow OFF has been propagated
++    to all CAIF Channels using this TTY.
+ 
+ * tty_status: Prints the bit-mask tty status information
++
+   - 0x01 - tty->warned is on.
+   - 0x02 - tty->low_latency is on.
+   - 0x04 - tty->packed is on.
+@@ -58,13 +77,17 @@ There are debugfs parameters provided for serial communication.
+   - 0x20 - tty->stopped is on.
+ 
+ * last_tx_msg: Binary blob Prints the last transmitted frame.
+-	This can be printed with
++
++  This can be printed with::
++
+ 	$od --format=x1 /sys/kernel/debug/caif_serial/<tty>/last_rx_msg.
+-	The first two tx messages sent look like this. Note: The initial
+-	byte 02 is start of frame extension (STX) used for re-syncing
+-	upon errors.
+ 
+-  - Enumeration:
++  The first two tx messages sent look like this. Note: The initial
++  byte 02 is start of frame extension (STX) used for re-syncing
++  upon errors.
++
++  - Enumeration::
++
+         0000000  02 05 00 00 03 01 d2 02
+                  |  |     |  |  |  |
+                  STX(1)   |  |  |  |
+@@ -73,7 +96,9 @@ There are debugfs parameters provided for serial communication.
+                              Command:Enumeration(1)
+                                 Link-ID(1)
+                                     Checksum(2)
+-  - Channel Setup:
++
++  - Channel Setup::
++
+         0000000  02 07 00 00 00 21 a1 00 48 df
+                  |  |     |  |  |  |  |  |
+                  STX(1)   |  |  |  |  |  |
+@@ -86,13 +111,18 @@ There are debugfs parameters provided for serial communication.
+ 					  Checksum(2)
+ 
+ * last_rx_msg: Prints the last transmitted frame.
+-	The RX messages for LinkSetup look almost identical but they have the
+-	bit 0x20 set in the command bit, and Channel Setup has added one byte
+-	before Checksum containing Channel ID.
+-	NOTE: Several CAIF Messages might be concatenated. The maximum debug
++
++  The RX messages for LinkSetup look almost identical but they have the
++  bit 0x20 set in the command bit, and Channel Setup has added one byte
++  before Checksum containing Channel ID.
++
++  NOTE:
++	Several CAIF Messages might be concatenated. The maximum debug
+ 	buffer size is 128 bytes.
+ 
+-== Error Scenarios:
++Error Scenarios
++===============
++
+ - last_tx_msg contains channel setup message and last_rx_msg is empty ->
+   The host seems to be able to send over the UART, at least the CAIF ldisc get
+   notified that sending is completed.
+@@ -103,7 +133,9 @@ There are debugfs parameters provided for serial communication.
+ 
+ - if /sys/kernel/debug/caif_serial/<tty>/tty_status is non-zero there
+   might be problems transmitting over UART.
++
+   E.g. host and modem wiring is not correct you will typically see
+   tty_status = 0x10 (hw_stopped) and ser_state = 0x10 (FLOW_OFF_SENT).
++
+   You will probably see the enumeration message in last_tx_message
+   and empty last_rx_message.
+diff --git a/Documentation/networking/mac80211_hwsim/README b/Documentation/networking/mac80211_hwsim/mac80211_hwsim.rst
+similarity index 81%
+rename from Documentation/networking/mac80211_hwsim/README
+rename to Documentation/networking/mac80211_hwsim/mac80211_hwsim.rst
+index 3566a725d19c..d2266ce5534e 100644
+--- a/Documentation/networking/mac80211_hwsim/README
++++ b/Documentation/networking/mac80211_hwsim/mac80211_hwsim.rst
+@@ -1,5 +1,13 @@
++:orphan:
++
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++===================================================================
+ mac80211_hwsim - software simulator of 802.11 radio(s) for mac80211
+-Copyright (c) 2008, Jouni Malinen <j@w1.fi>
++===================================================================
++
++:Copyright: |copy| 2008, Jouni Malinen <j@w1.fi>
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 2 as
+@@ -7,6 +15,7 @@ published by the Free Software Foundation.
+ 
+ 
+ Introduction
++============
+ 
+ mac80211_hwsim is a Linux kernel module that can be used to simulate
+ arbitrary number of IEEE 802.11 radios for mac80211. It can be used to
+@@ -43,6 +52,7 @@ regardless of channel.
+ 
+ 
+ Simple example
 +==============
- OpenRISC Linux
- ==============
  
-@@ -6,8 +7,10 @@ target architecture, specifically, is the 32-bit OpenRISC 1000 family (or1k).
- 
- For information about OpenRISC processors and ongoing development:
- 
-+	=======		=============================
- 	website		http://openrisc.io
- 	email		openrisc@lists.librecores.org
-+	=======		=============================
- 
- ---------------------------------------------------------------------
- 
-@@ -24,13 +27,15 @@ Toolchain binaries can be obtained from openrisc.io or our github releases page.
- Instructions for building the different toolchains can be found on openrisc.io
- or Stafford's toolchain build and release scripts.
- 
-+	==========	=================================================
- 	binaries	https://github.com/openrisc/or1k-gcc/releases
- 	toolchains	https://openrisc.io/software
- 	building	https://github.com/stffrdhrn/or1k-toolchain-build
-+	==========	=================================================
- 
- 2) Building
- 
--Build the Linux kernel as usual
-+Build the Linux kernel as usual::
- 
- 	make ARCH=openrisc defconfig
- 	make ARCH=openrisc
-@@ -43,6 +48,8 @@ development board with the OpenRISC SoC.  During the build FPGA RTL is code
- downloaded from the FuseSoC IP cores repository and built using the FPGA vendor
- tools.  Binaries are loaded onto the board with openocd.
+ This example shows how to use mac80211_hwsim to simulate two radios:
+ one to act as an access point and the other as a station that
+@@ -50,17 +60,19 @@ associates with the AP. hostapd and wpa_supplicant are used to take
+ care of WPA2-PSK authentication. In addition, hostapd is also
+ processing access point side of association.
  
 +::
+ 
+-# Build mac80211_hwsim as part of kernel configuration
+ 
+-# Load the module
+-modprobe mac80211_hwsim
++    # Build mac80211_hwsim as part of kernel configuration
+ 
+-# Run hostapd (AP) for wlan0
+-hostapd hostapd.conf
++    # Load the module
++    modprobe mac80211_hwsim
+ 
+-# Run wpa_supplicant (station) for wlan1
+-wpa_supplicant -Dnl80211 -iwlan1 -c wpa_supplicant.conf
++    # Run hostapd (AP) for wlan0
++    hostapd hostapd.conf
 +
- 	git clone https://github.com/olofk/fusesoc
- 	cd fusesoc
- 	sudo pip install -e .
-@@ -65,7 +72,9 @@ platform.  Please follow the OpenRISC instructions on the QEMU website to get
- Linux running on QEMU.  You can build QEMU yourself, but your Linux distribution
- likely provides binary packages to support OpenRISC.
++    # Run wpa_supplicant (station) for wlan1
++    wpa_supplicant -Dnl80211 -iwlan1 -c wpa_supplicant.conf
  
-+	=============	======================================================
- 	qemu openrisc	https://wiki.qemu.org/Documentation/Platforms/OpenRISC
-+	=============	======================================================
  
- ---------------------------------------------------------------------
+ More test cases are available in hostap.git:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 665c3c1e939b..634d229fbfff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9568,7 +9568,7 @@ F:	Documentation/networking/mac80211-injection.txt
+ F:	include/net/mac80211.h
+ F:	net/mac80211/
+ F:	drivers/net/wireless/mac80211_hwsim.[ch]
+-F:	Documentation/networking/mac80211_hwsim/README
++F:	Documentation/networking/mac80211_hwsim/mac80211_hwsim.rst
  
-@@ -75,36 +84,38 @@ Terminology
- In the code, the following particles are used on symbols to limit the scope
- to more or less specific processor implementations:
- 
-+========= =======================================
- openrisc: the OpenRISC class of processors
- or1k:     the OpenRISC 1000 family of processors
- or1200:   the OpenRISC 1200 processor
-+========= =======================================
- 
- ---------------------------------------------------------------------
- 
- History
- ========
- 
--18. 11. 2003	Matjaz Breskvar (phoenix@bsemi.com)
-+18-11-2003	Matjaz Breskvar (phoenix@bsemi.com)
- 	initial port of linux to OpenRISC/or32 architecture.
-         all the core stuff is implemented and seams usable.
- 
--08. 12. 2003	Matjaz Breskvar (phoenix@bsemi.com)
-+08-12-2003	Matjaz Breskvar (phoenix@bsemi.com)
- 	complete change of TLB miss handling.
- 	rewrite of exceptions handling.
- 	fully functional sash-3.6 in default initrd.
- 	a much improved version with changes all around.
- 
--10. 04. 2004	Matjaz Breskvar (phoenix@bsemi.com)
-+10-04-2004	Matjaz Breskvar (phoenix@bsemi.com)
- 	alot of bugfixes all over.
- 	ethernet support, functional http and telnet servers.
- 	running many standard linux apps.
- 
--26. 06. 2004	Matjaz Breskvar (phoenix@bsemi.com)
-+26-06-2004	Matjaz Breskvar (phoenix@bsemi.com)
- 	port to 2.6.x
- 
--30. 11. 2004	Matjaz Breskvar (phoenix@bsemi.com)
-+30-11-2004	Matjaz Breskvar (phoenix@bsemi.com)
- 	lots of bugfixes and enhancments.
- 	added opencores framebuffer driver.
- 
--09. 10. 2010    Jonas Bonn (jonas@southpole.se)
-+09-10-2010    Jonas Bonn (jonas@southpole.se)
- 	major rewrite to bring up to par with upstream Linux 2.6.36
-diff --git a/Documentation/openrisc/TODO b/Documentation/openrisc/todo.rst
-similarity index 78%
-rename from Documentation/openrisc/TODO
-rename to Documentation/openrisc/todo.rst
-index c43d4e1d14eb..420b18b87eda 100644
---- a/Documentation/openrisc/TODO
-+++ b/Documentation/openrisc/todo.rst
-@@ -1,12 +1,15 @@
-+====
-+TODO
-+====
-+
- The OpenRISC Linux port is fully functional and has been tracking upstream
- since 2.6.35.  There are, however, remaining items to be completed within
- the coming months.  Here's a list of known-to-be-less-than-stellar items
- that are due for investigation shortly, i.e. our TODO list:
- 
---- Implement the rest of the DMA API... dma_map_sg, etc.
-+-  Implement the rest of the DMA API... dma_map_sg, etc.
- 
---- Finish the renaming cleanup... there are references to or32 in the code
-+-  Finish the renaming cleanup... there are references to or32 in the code
-    which was an older name for the architecture.  The name we've settled on is
-    or1k and this change is slowly trickling through the stack.  For the time
-    being, or32 is equivalent to or1k.
--
+ MAILBOX API
+ M:	Jassi Brar <jassisinghbrar@gmail.com>
 -- 
 2.21.0
 
