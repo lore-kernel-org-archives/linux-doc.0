@@ -1,77 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A0777D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 18:35:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 563A67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 19:41:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727855AbfGVSfi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 14:35:38 -0400
-Received: from smtprelay0152.hostedemail.com ([216.40.44.152]:56129 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727744AbfGVSfh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 14:35:37 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 37ADE100E806B;
-        Mon, 22 Jul 2019 18:35:36 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: sort55_4dc629887d118
-X-Filterd-Recvd-Size: 2243
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 22 Jul 2019 18:35:34 +0000 (UTC)
-Message-ID: <207e201cb7a36e38f032bcb66e79e2d4b9b63c7b.camel@perches.com>
-Subject: Re: [RFC PATCH] string.h: Add stracpy/stracpy_pad (was: Re: [PATCH]
- checkpatch: Added warnings in favor of strscpy().)
-From:   Joe Perches <joe@perches.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nitin Gote <nitin.r.gote@intel.com>, akpm@linux-foundation.org,
-        corbet@lwn.net, apw@canonical.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Date:   Mon, 22 Jul 2019 11:35:33 -0700
-In-Reply-To: <20190722182703.GE363@bombadil.infradead.org>
-References: <1562219683-15474-1-git-send-email-nitin.r.gote@intel.com>
-         <f6a4c2b601bb59179cb2e3b8f4d836a1c11379a3.camel@perches.com>
-         <d1524130f91d7cfd61bc736623409693d2895f57.camel@perches.com>
-         <201907221031.8B87A9DE@keescook>
-         <b9bb5550b264d4b29b2b20f7ff8b1b40d20def6a.camel@perches.com>
-         <2c959c56c23d0052e5c35ecfa2f6051b17fb2798.camel@perches.com>
-         <20190722182703.GE363@bombadil.infradead.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        id S1732251AbfGVTlx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 15:41:53 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46288 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732243AbfGVTlw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 15:41:52 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v24so38805674ljg.13
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2019 12:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nF7OHds+vns/mcc99s2n6mKaQWRjFvKsBDGrB9uvq6U=;
+        b=bsCceTFe3Z1z9WsuyvXQWNfTqqacS0NWBV1zvvNco4xVdLqJKGY3ZBkgjA5+p+SIYu
+         tSGK7OircK3rel85q3zZMFMOdwPSi9glKCrxFlNN+xOLbeFCpkAytduAMozbECo8OZ8o
+         LQIQ1IndC0LOyvDXtFyYjot+LRFhEfFPDDGwAHvdHR9eyrU7pxcMxyMioDkoDV5/3RZx
+         OGpEVZyYLL/DCHoqcGo5qFdhoOv395LuMBJcsBOTnQIpr9Jfo7mPZdsNnC800EoWBU8n
+         kT2Raw9jOJl3kSgiJb9cBtHD3FEGaN+sjaQ7oOPCs9tS9qmOYCZFqb7wA/P1x/XYE+Wq
+         hbeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nF7OHds+vns/mcc99s2n6mKaQWRjFvKsBDGrB9uvq6U=;
+        b=dU4HSYXckwS3YCnwpgh8apCTihFXvs2rzZDlYnDwahMeAGHQw78WENa9ZcIUb9duC6
+         fwomceSR7y6k2B+xLD0Jaq6EU6kFI6/r7dgtr2seugAioI95DgMS3sU2JMQLZzfb3T2b
+         gwjmbBru+49r3umodLv25OMg+GAFlnzOoNrsHHYmoxuw7Q54+yCotg76CH7kSU+ZGMq5
+         g5hjSklFCJrLv2j3jjKrEVO88alPEs9cX9lAm0+ofN53Ne6UoV7f4WcS3IJvxphSVhuv
+         1vhOScI5vtHvSf14JRT/jUwMeFVaFmV9ZREOcE6dPSy2OdGZMFak3ZqsNa8B7W2KEP41
+         Ks1A==
+X-Gm-Message-State: APjAAAVFZQoaWTGZk9DyS2DEQgNLgqiPq8z+Bkn2/rsUukb7XRJQPX4N
+        jM7LkPApTUdLAo+t5ZS/YwSNWzwjUgafoD8oLgM=
+X-Google-Smtp-Source: APXvYqy8GBm5373I+P2icMBDDVB0iOkpkV8GDdDjOL+DUvibWyfv3e17//915NjeyHUta7ERPSbHRmlOWvNEX1PzjRQ=
+X-Received: by 2002:a2e:9198:: with SMTP id f24mr37946997ljg.221.1563824510633;
+ Mon, 22 Jul 2019 12:41:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <cover.1563792333.git.mchehab+samsung@kernel.org> <ed8bb8935bb67d294b5e3bee7647dbdd72c5b608.1563792334.git.mchehab+samsung@kernel.org>
+In-Reply-To: <ed8bb8935bb67d294b5e3bee7647dbdd72c5b608.1563792334.git.mchehab+samsung@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 22 Jul 2019 21:41:39 +0200
+Message-ID: <CANiq72kXd0=PWBJQymRRC7gUVomMxZ0pJmQAJkH-TLkZndJr5w@mail.gmail.com>
+Subject: Re: [PATCH 07/22] docs: admin-guide: add auxdisplay files to it after
+ conversion to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-07-22 at 11:27 -0700, Matthew Wilcox wrote:
-> On Mon, Jul 22, 2019 at 10:58:15AM -0700, Joe Perches wrote:
-> > On Mon, 2019-07-22 at 10:43 -0700, Joe Perches wrote:
-> > > On Mon, 2019-07-22 at 10:33 -0700, Kees Cook wrote:
-> > > > On Thu, Jul 04, 2019 at 05:15:57PM -0700, Joe Perches wrote:
-> > > > > On Thu, 2019-07-04 at 13:46 -0700, Joe Perches wrote:
-[]
-> > > > > +#define stracpy(to, from)					\
-> > > > > +({								\
-> > > > > +	size_t size = ARRAY_SIZE(to);				\
-> > > > > +	BUILD_BUG_ON(!__same_type(typeof(*to), char));		\
-> > > > > +								\
-> > > > > +	strscpy(to, from, size);				\
-> > > > > +})
-> 
-> Where does the 'a' in 'stracpy' come from?
+On Mon, Jul 22, 2019 at 1:08 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Those two files describe userspace-faced information. While part of
+> it might fit on uAPI, it sounds to me that the admin guide is the
+> best place for them.
 
-No place in particular.
+Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
-I used it because dst has to be an 'a'rray rather
-than a pointer.
+Thanks a lot for all the work on the Docs, Mauro!
 
+On the topic of these files: don't worry too much about these, they
+are old drivers (they used the parallel port, which probably nobody
+has anymore :-) so I should remove them at some point, I guess.
 
+Cheers,
+Miguel
