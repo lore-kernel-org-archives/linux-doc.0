@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D5497D910
+	by archive.lwn.net (Postfix) with ESMTP id C94107D917
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729833AbfGVLH7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 07:07:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35544 "EHLO
+        id S1729831AbfGVLIA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 07:08:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35540 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729831AbfGVLH7 (ORCPT
+        with ESMTP id S1729828AbfGVLH7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 07:07:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=20Rav8z9MZUdxb0Oi1YeUWrTR6rPYhUDdQrqJlLJkXk=; b=nuJ8h/YQ2ZKu/IetzBEmlDsXsN
-        Rw5/BtrTUFa0xyQcykxmZ7s9YEEDZRgCr26I4hz6yTYdKfg9GPvoqhzMoFN5VrnrvGsMsE1UN6Y5c
-        XlMnneXNcYmsTrEQrHE+ze9eyBJ807YOCuy4rr3ySCaC79K+wFbjSeWEN05eO0cZqpnSRxdU9TtRf
-        HheQsuGeIUlkFPjPf679B8o5P0ajSWri/dN20OACA3uKjJioF7lK7Y53lYoKFpJ52yCdpupCUKnFy
-        TLUOZn5LoK8R283D9YgTXxlPaYb6OX1zAhluGQSWjbzjev6G9Meazvx9zggYH30JkJWmeezO3vOtI
-        A2wFRFqQ==;
+        bh=DaUjc3klK2gf9apIP4fNNTEfMQO6klQ0GaFtTg+qH1o=; b=iOJdx+srcustX31xM0xQ7sJGkZ
+        H6td2qXyUsMBVUU3tSvWYydkGi/aoq+8XRiaST14xjjckMQI5MZlNgQEbQ94hHLRWbQYBbo1tO0cn
+        A0LQm9btsP87If6uiWKdxV2gnUzC5wxhX89TSHk9BFzBZdawvkFxhJC3WM/AKrNqgimajRRFF8PCT
+        7MEVjrwUAdxO9eIN4KxdSat3O1oRojyAN5OVL6m2VAHJiCWbSfP2T9zPeTBjfeFU/VA7kno86XmeH
+        7V0l8LNl8/V+ViKhtY3kloIyWI5LWouwBXiwPMliw6OOaldIHs6/6yqGXPnfQwjvgERM0vwqYYOmn
+        a5SjAGQQ==;
 Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpWAe-00024z-Ip; Mon, 22 Jul 2019 11:07:57 +0000
+        id 1hpWAe-000250-Hm; Mon, 22 Jul 2019 11:07:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hpWAa-00041F-9K; Mon, 22 Jul 2019 08:07:52 -0300
+        id 1hpWAa-00041L-AH; Mon, 22 Jul 2019 08:07:52 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH 11/22] docs: isdn: convert to ReST and add to kAPI bookset
-Date:   Mon, 22 Jul 2019 08:07:38 -0300
-Message-Id: <5e5c5c3814f0ed4b421b2b870ac4bb75fd347468.1563792334.git.mchehab+samsung@kernel.org>
+        Steve French <sfrench@samba.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-doc@vger.kernel.org
+Subject: [PATCH 12/22] docs: fs: cifs: convert to ReST and add to admin-guide book
+Date:   Mon, 22 Jul 2019 08:07:39 -0300
+Message-Id: <c3517ca1e2e74bda6ce76888b4356fa882e40cea.1563792334.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563792333.git.mchehab+samsung@kernel.org>
 References: <cover.1563792333.git.mchehab+samsung@kernel.org>
@@ -53,1205 +51,163 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ISDN documentation is a mix of admin guide, uAPI and kAPI.
+The filenames for cifs documentation is not using the same
+convention as almost all Kernel documents is using. So,
+rename them to a more appropriate name. Then, manually convert
+the documentation files for CIFS to ReST.
 
-Ideally, it should be split. Yet, not sure if it would worth
-the troble. Anyway, we have the same kind of mix on several
-drivers specific documentation. So, just like the others, keep
-the directory at the root Documentation/ tree, just adding a
-pointer to it at the kAPI section, as the documentation was
-written with the Kernel developers in mind.
+By doing a manual conversion, we can preserve the original
+author's style, while making it to look more like the other
+Kernel documents.
+
+Most of the conversion here is trivial. The most complex one was
+the README file (which was renamed to usage.rst).
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/index.rst                       |   1 +
- .../isdn/{README.avmb1 => avmb1.rst}          | 231 ++++++++------
- Documentation/isdn/{CREDITS => credits.rst}   |   7 +-
- .../isdn/{README.gigaset => gigaset.rst}      | 290 +++++++++++-------
- .../isdn/{README.hysdn => hysdn.rst}          | 125 ++++----
- Documentation/isdn/index.rst                  |  24 ++
- .../{INTERFACE.CAPI => interface_capi.rst}    | 182 +++++++----
- .../isdn/{README.mISDN => m_isdn.rst}         |   5 +-
- drivers/staging/isdn/hysdn/Kconfig            |   2 +-
- 9 files changed, 536 insertions(+), 331 deletions(-)
- rename Documentation/isdn/{README.avmb1 => avmb1.rst} (50%)
- rename Documentation/isdn/{CREDITS => credits.rst} (96%)
- rename Documentation/isdn/{README.gigaset => gigaset.rst} (74%)
- rename Documentation/isdn/{README.hysdn => hysdn.rst} (80%)
- create mode 100644 Documentation/isdn/index.rst
- rename Documentation/isdn/{INTERFACE.CAPI => interface_capi.rst} (75%)
- rename Documentation/isdn/{README.mISDN => m_isdn.rst} (89%)
+ .../AUTHORS => admin-guide/cifs/authors.rst}  |  64 +-
+ .../CHANGES => admin-guide/cifs/changes.rst}  |   4 +
+ Documentation/admin-guide/cifs/index.rst      |  21 +
+ .../cifs/introduction.rst}                    |   8 +
+ .../cifs/TODO => admin-guide/cifs/todo.rst}   |  87 +--
+ .../README => admin-guide/cifs/usage.rst}     | 560 +++++++++++-------
+ .../cifs/winucase_convert.pl                  |   0
+ Documentation/admin-guide/index.rst           |   1 +
+ MAINTAINERS                                   |   2 +-
+ 9 files changed, 460 insertions(+), 287 deletions(-)
+ rename Documentation/{filesystems/cifs/AUTHORS => admin-guide/cifs/authors.rst} (60%)
+ rename Documentation/{filesystems/cifs/CHANGES => admin-guide/cifs/changes.rst} (91%)
+ create mode 100644 Documentation/admin-guide/cifs/index.rst
+ rename Documentation/{filesystems/cifs/cifs.txt => admin-guide/cifs/introduction.rst} (98%)
+ rename Documentation/{filesystems/cifs/TODO => admin-guide/cifs/todo.rst} (58%)
+ rename Documentation/{filesystems/cifs/README => admin-guide/cifs/usage.rst} (72%)
+ rename Documentation/{filesystems => admin-guide}/cifs/winucase_convert.pl (100%)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 5583b2e64692..c0132ad9c4d9 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -106,6 +106,7 @@ needed).
-    hid/index
-    i2c/index
-    iio/index
-+   isdn/index
-    infiniband/index
-    leds/index
-    media/index
-diff --git a/Documentation/isdn/README.avmb1 b/Documentation/isdn/avmb1.rst
-similarity index 50%
-rename from Documentation/isdn/README.avmb1
-rename to Documentation/isdn/avmb1.rst
-index 9e075484ef1e..de3961e67553 100644
---- a/Documentation/isdn/README.avmb1
-+++ b/Documentation/isdn/avmb1.rst
-@@ -1,4 +1,6 @@
--Driver for active AVM Controller.
-+================================
-+Driver for active AVM Controller
-+================================
+diff --git a/Documentation/filesystems/cifs/AUTHORS b/Documentation/admin-guide/cifs/authors.rst
+similarity index 60%
+rename from Documentation/filesystems/cifs/AUTHORS
+rename to Documentation/admin-guide/cifs/authors.rst
+index 75865da2ce14..b02d6dd6c070 100644
+--- a/Documentation/filesystems/cifs/AUTHORS
++++ b/Documentation/admin-guide/cifs/authors.rst
+@@ -1,5 +1,10 @@
++=======
++Authors
++=======
++
+ Original Author
+-===============
++---------------
++
+ Steve French (sfrench@samba.org)
  
- The driver provides a kernel capi2.0 Interface (kernelcapi) and
- on top of this a User-Level-CAPI2.0-interface (capi)
-@@ -11,25 +13,28 @@ The command avmcapictrl is part of the isdn4k-utils.
- t4-files can be found at ftp://ftp.avm.de/cardware/b1/linux/firmware
+ The author wishes to express his appreciation and thanks to:
+@@ -12,7 +17,7 @@ side of the original CIFS Unix extensions and reviewing and implementing
+ portions of the newer CIFS POSIX extensions into the Samba 3 file server. Thank
+ Dave Boutcher of IBM Rochester (author of the OS/400 smb/cifs filesystem client)
+ for proving years ago that very good smb/cifs clients could be done on Unix-like
+-operating systems.  Volker Lendecke, Andrew Tridgell, Urban Widmark, John 
++operating systems.  Volker Lendecke, Andrew Tridgell, Urban Widmark, John
+ Newbigin and others for their work on the Linux smbfs module.  Thanks to
+ the other members of the Storage Network Industry Association CIFS Technical
+ Workgroup for their work specifying this highly complex protocol and finally
+@@ -20,33 +25,34 @@ thanks to the Samba team for their technical advice and encouragement.
  
- Currently supported cards:
--	B1 ISA (all versions)
--	B1 PCI
--	T1/T1B (HEMA card)
--	M1
--	M2
--	B1 PCMCIA
+ Patch Contributors
+ ------------------
+-Zwane Mwaikambo
+-Andi Kleen
+-Amrut Joshi
+-Shobhit Dayal
+-Sergey Vlasov
+-Richard Hughes
+-Yury Umanets
+-Mark Hamzy (for some of the early cifs IPv6 work)
+-Domen Puncer
+-Jesper Juhl (in particular for lots of whitespace/formatting cleanup)
+-Vince Negri and Dave Stahl (for finding an important caching bug)
+-Adrian Bunk (kcalloc cleanups)
+-Miklos Szeredi 
+-Kazeon team for various fixes especially for 2.4 version.
+-Asser Ferno (Change Notify support)
+-Shaggy (Dave Kleikamp) for innumerable small fs suggestions and some good cleanup
+-Gunter Kukkukk (testing and suggestions for support of old servers)
+-Igor Mammedov (DFS support)
+-Jeff Layton (many, many fixes, as well as great work on the cifs Kerberos code)
+-Scott Lovenberg
+-Pavel Shilovsky (for great work adding SMB2 support, and various SMB3 features)
+-Aurelien Aptel (for DFS SMB3 work and some key bug fixes)
+-Ronnie Sahlberg (for SMB3 xattr work, bug fixes, and lots of great work on compounding)
+-Shirish Pargaonkar (for many ACL patches over the years)
+-Sachin Prabhu (many bug fixes, including for reconnect, copy offload and security)
+-Paulo Alcantara
+-Long Li (some great work on RDMA, SMB Direct)
 +
-+	- B1 ISA (all versions)
-+	- B1 PCI
-+	- T1/T1B (HEMA card)
-+	- M1
-+	- M2
-+	- B1 PCMCIA
++- Zwane Mwaikambo
++- Andi Kleen
++- Amrut Joshi
++- Shobhit Dayal
++- Sergey Vlasov
++- Richard Hughes
++- Yury Umanets
++- Mark Hamzy (for some of the early cifs IPv6 work)
++- Domen Puncer
++- Jesper Juhl (in particular for lots of whitespace/formatting cleanup)
++- Vince Negri and Dave Stahl (for finding an important caching bug)
++- Adrian Bunk (kcalloc cleanups)
++- Miklos Szeredi
++- Kazeon team for various fixes especially for 2.4 version.
++- Asser Ferno (Change Notify support)
++- Shaggy (Dave Kleikamp) for innumerable small fs suggestions and some good cleanup
++- Gunter Kukkukk (testing and suggestions for support of old servers)
++- Igor Mammedov (DFS support)
++- Jeff Layton (many, many fixes, as well as great work on the cifs Kerberos code)
++- Scott Lovenberg
++- Pavel Shilovsky (for great work adding SMB2 support, and various SMB3 features)
++- Aurelien Aptel (for DFS SMB3 work and some key bug fixes)
++- Ronnie Sahlberg (for SMB3 xattr work, bug fixes, and lots of great work on compounding)
++- Shirish Pargaonkar (for many ACL patches over the years)
++- Sachin Prabhu (many bug fixes, including for reconnect, copy offload and security)
++- Paulo Alcantara
++- Long Li (some great work on RDMA, SMB Direct)
  
- Installing
- ----------
  
- You need at least /dev/capi20 to load the firmware.
- 
--mknod /dev/capi20 c 68 0
--mknod /dev/capi20.00 c 68 1
--mknod /dev/capi20.01 c 68 2
--.
--.
--.
--mknod /dev/capi20.19 c 68 20
-+::
-+
-+    mknod /dev/capi20 c 68 0
-+    mknod /dev/capi20.00 c 68 1
-+    mknod /dev/capi20.01 c 68 2
-+    .
-+    .
-+    .
-+    mknod /dev/capi20.19 c 68 20
- 
- Running
- -------
-@@ -38,45 +43,58 @@ To use the card you need the t4-files to download the firmware.
- AVM GmbH provides several t4-files for the different D-channel
- protocols (b1.t4 for Euro-ISDN). Install these file in /lib/isdn.
- 
--if you configure as modules load the modules this way:
--
--insmod /lib/modules/current/misc/capiutil.o
--insmod /lib/modules/current/misc/b1.o
--insmod /lib/modules/current/misc/kernelcapi.o
--insmod /lib/modules/current/misc/capidrv.o
--insmod /lib/modules/current/misc/capi.o
--
--if you have an B1-PCI card load the module b1pci.o
--insmod /lib/modules/current/misc/b1pci.o
--and load the firmware with
--avmcapictrl load /lib/isdn/b1.t4 1
-+if you configure as modules load the modules this way::
-+
-+    insmod /lib/modules/current/misc/capiutil.o
-+    insmod /lib/modules/current/misc/b1.o
-+    insmod /lib/modules/current/misc/kernelcapi.o
-+    insmod /lib/modules/current/misc/capidrv.o
-+    insmod /lib/modules/current/misc/capi.o
-+
-+if you have an B1-PCI card load the module b1pci.o::
-+
-+    insmod /lib/modules/current/misc/b1pci.o
-+
-+and load the firmware with::
-+
-+    avmcapictrl load /lib/isdn/b1.t4 1
- 
- if you have an B1-ISA card load the module b1isa.o
--and add the card by calling
--avmcapictrl add 0x150 15
--and load the firmware by calling
--avmcapictrl load /lib/isdn/b1.t4 1
-+and add the card by calling::
-+
-+    avmcapictrl add 0x150 15
-+
-+and load the firmware by calling::
-+
-+    avmcapictrl load /lib/isdn/b1.t4 1
- 
- if you have an T1-ISA card load the module t1isa.o
--and add the card by calling
--avmcapictrl add 0x450 15 T1 0
--and load the firmware by calling
--avmcapictrl load /lib/isdn/t1.t4 1
-+and add the card by calling::
-+
-+    avmcapictrl add 0x450 15 T1 0
-+
-+and load the firmware by calling::
-+
-+    avmcapictrl load /lib/isdn/t1.t4 1
- 
- if you have an PCMCIA card (B1/M1/M2) load the module b1pcmcia.o
- before you insert the card.
- 
- Leased Lines with B1
- --------------------
-+
- Init card and load firmware.
-+
- For an D64S use "FV: 1" as phone number
-+
- For an D64S2 use "FV: 1" and "FV: 2" for multilink
- or "FV: 1,2" to use CAPI channel bundling.
- 
- /proc-Interface
- -----------------
- 
--/proc/capi:
-+/proc/capi::
-+
-   dr-xr-xr-x   2 root     root            0 Jul  1 14:03 .
-   dr-xr-xr-x  82 root     root            0 Jun 30 19:08 ..
-   -r--r--r--   1 root     root            0 Jul  1 14:03 applications
-@@ -91,84 +109,124 @@ or "FV: 1,2" to use CAPI channel bundling.
- 
- /proc/capi/applications:
-    applid level3cnt datablkcnt datablklen ncci-cnt recvqueuelen
--	level3cnt: capi_register parameter
--	datablkcnt: capi_register parameter
--	ncci-cnt: current number of nccis (connections)
--	recvqueuelen: number of messages on receive queue
--   for example:
--1 -2 16 2048 1 0
--2 2 7 2048 1 0
-+	level3cnt:
-+	    capi_register parameter
-+	datablkcnt:
-+	    capi_register parameter
-+	ncci-cnt:
-+	    current number of nccis (connections)
-+	recvqueuelen:
-+	    number of messages on receive queue
-+
-+   for example::
-+
-+	1 -2 16 2048 1 0
-+	2 2 7 2048 1 0
- 
- /proc/capi/applstats:
-    applid recvctlmsg nrecvdatamsg nsentctlmsg nsentdatamsg
--	recvctlmsg: capi messages received without DATA_B3_IND
--	recvdatamsg: capi DATA_B3_IND received
--	sentctlmsg: capi messages sent without DATA_B3_REQ
--	sentdatamsg: capi DATA_B3_REQ sent
--   for example:
--1 2057 1699 1721 1699
-+	recvctlmsg:
-+	    capi messages received without DATA_B3_IND
-+	recvdatamsg:
-+	    capi DATA_B3_IND received
-+	sentctlmsg:
-+	    capi messages sent without DATA_B3_REQ
-+	sentdatamsg:
-+	    capi DATA_B3_REQ sent
-+
-+   for example::
-+
-+	1 2057 1699 1721 1699
- 
- /proc/capi/capi20: statistics of capi.o (/dev/capi20)
-     minor nopen nrecvdropmsg nrecvctlmsg nrecvdatamsg sentctlmsg sentdatamsg
--	minor: minor device number of capi device
--	nopen: number of calls to devices open
--	nrecvdropmsg: capi messages dropped (messages in recvqueue in close)
--	nrecvctlmsg: capi messages received without DATA_B3_IND
--	nrecvdatamsg: capi DATA_B3_IND received
--	nsentctlmsg: capi messages sent without DATA_B3_REQ
--	nsentdatamsg: capi DATA_B3_REQ sent
-+	minor:
-+	    minor device number of capi device
-+	nopen:
-+	    number of calls to devices open
-+	nrecvdropmsg:
-+	    capi messages dropped (messages in recvqueue in close)
-+	nrecvctlmsg:
-+	    capi messages received without DATA_B3_IND
-+	nrecvdatamsg:
-+	    capi DATA_B3_IND received
-+	nsentctlmsg:
-+	    capi messages sent without DATA_B3_REQ
-+	nsentdatamsg:
-+	    capi DATA_B3_REQ sent
- 
--   for example:
--1 2 18 0 16 2
-+   for example::
-+
-+	1 2 18 0 16 2
- 
- /proc/capi/capidrv: statistics of capidrv.o (capi messages)
-     nrecvctlmsg nrecvdatamsg sentctlmsg sentdatamsg
--	nrecvctlmsg: capi messages received without DATA_B3_IND
--	nrecvdatamsg: capi DATA_B3_IND received
--	nsentctlmsg: capi messages sent without DATA_B3_REQ
--	nsentdatamsg: capi DATA_B3_REQ sent
-+	nrecvctlmsg:
-+	    capi messages received without DATA_B3_IND
-+	nrecvdatamsg:
-+	    capi DATA_B3_IND received
-+	nsentctlmsg:
-+	    capi messages sent without DATA_B3_REQ
-+	nsentdatamsg:
-+	    capi DATA_B3_REQ sent
-+
-    for example:
--2780 2226 2256 2226
-+	2780 2226 2256 2226
- 
- /proc/capi/controller:
-    controller drivername state cardname   controllerinfo
--   for example:
--1 b1pci      running  b1pci-e000       B1 3.07-01 0xe000 19
--2 t1isa      running  t1isa-450        B1 3.07-01 0x450 11 0
--3 b1pcmcia   running  m2-150           B1 3.07-01 0x150 5
-+
-+   for example::
-+
-+	1 b1pci      running  b1pci-e000       B1 3.07-01 0xe000 19
-+	2 t1isa      running  t1isa-450        B1 3.07-01 0x450 11 0
-+	3 b1pcmcia   running  m2-150           B1 3.07-01 0x150 5
- 
- /proc/capi/contrstats:
-     controller nrecvctlmsg nrecvdatamsg sentctlmsg sentdatamsg
--	nrecvctlmsg: capi messages received without DATA_B3_IND
--	nrecvdatamsg: capi DATA_B3_IND received
--	nsentctlmsg: capi messages sent without DATA_B3_REQ
--	nsentdatamsg: capi DATA_B3_REQ sent
--   for example:
--1 2845 2272 2310 2274
--2 2 0 2 0
--3 2 0 2 0
-+	nrecvctlmsg:
-+	    capi messages received without DATA_B3_IND
-+	nrecvdatamsg:
-+	    capi DATA_B3_IND received
-+	nsentctlmsg:
-+	    capi messages sent without DATA_B3_REQ
-+	nsentdatamsg:
-+	    capi DATA_B3_REQ sent
-+
-+   for example::
-+
-+	1 2845 2272 2310 2274
-+	2 2 0 2 0
-+	3 2 0 2 0
- 
- /proc/capi/driver:
-    drivername ncontroller
--   for example:
--b1pci                            1
--t1isa                            1
--b1pcmcia                         1
--b1isa                            0
-+
-+   for example::
-+
-+	b1pci                            1
-+	t1isa                            1
-+	b1pcmcia                         1
-+	b1isa                            0
- 
- /proc/capi/ncci:
-    apllid ncci winsize sendwindow
--   for example:
--1 0x10101 8 0
-+
-+   for example::
-+
-+	1 0x10101 8 0
- 
- /proc/capi/users: kernelmodules that use the kernelcapi.
-    name
--   for example:
--capidrv
--capi20
-+
-+   for example::
-+
-+	capidrv
-+	capi20
- 
- Questions
- ---------
-+
- Check out the FAQ (ftp.isdn4linux.de) or subscribe to the
- linux-avmb1@calle.in-berlin.de mailing list by sending
- a mail to majordomo@calle.in-berlin.de with
-@@ -178,9 +236,10 @@ in the body.
- German documentation and several scripts can be found at
- ftp://ftp.avm.de/cardware/b1/linux/
- 
--Bugs 
-+Bugs
- ----
--If you find any please let me know. 
-+
-+If you find any please let me know.
- 
- Enjoy,
- 
-diff --git a/Documentation/isdn/CREDITS b/Documentation/isdn/credits.rst
-similarity index 96%
-rename from Documentation/isdn/CREDITS
-rename to Documentation/isdn/credits.rst
-index c1679e913fca..319323f2091f 100644
---- a/Documentation/isdn/CREDITS
-+++ b/Documentation/isdn/credits.rst
+ Test case and Bug Report contributors
+diff --git a/Documentation/filesystems/cifs/CHANGES b/Documentation/admin-guide/cifs/changes.rst
+similarity index 91%
+rename from Documentation/filesystems/cifs/CHANGES
+rename to Documentation/admin-guide/cifs/changes.rst
+index 1df7f4910eb2..71f2ecb62299 100644
+--- a/Documentation/filesystems/cifs/CHANGES
++++ b/Documentation/admin-guide/cifs/changes.rst
 @@ -1,3 +1,7 @@
 +=======
-+Credits
++Changes
 +=======
 +
- 
- I want to thank all who contributed to this project and especially to:
- (in alphabetical order)
-@@ -19,7 +23,7 @@ Matthias Hessler (hessler@isdn4linux.de)
-   For creating and maintaining the FAQ.
- 
- Bernhard Hailer (Bernhard.Hailer@lrz.uni-muenchen.de)
--  For creating the FAQ, and the leafsite HOWTO. 
-+  For creating the FAQ, and the leafsite HOWTO.
- 
- Michael 'Ghandi' Herold (michael@abadonna.franken.de)
-   For contribution of the vbox answering machine.
-@@ -67,4 +71,3 @@ Gerhard 'Fido' Schneider (fido@wuff.mayn.de)
- Thomas Uhl (uhl@think.de)
-   For distributing the cards.
-   For pushing me to work ;-)
--
-diff --git a/Documentation/isdn/README.gigaset b/Documentation/isdn/gigaset.rst
-similarity index 74%
-rename from Documentation/isdn/README.gigaset
-rename to Documentation/isdn/gigaset.rst
-index f6184b637182..98b4ec521c51 100644
---- a/Documentation/isdn/README.gigaset
-+++ b/Documentation/isdn/gigaset.rst
-@@ -1,33 +1,36 @@
-+==========================
- GigaSet 307x Device Driver
- ==========================
- 
- 1.   Requirements
--     ------------
-+=================
-+
- 1.1. Hardware
--     --------
-+-------------
-+
-      This driver supports the connection of the Gigaset 307x/417x family of
-      ISDN DECT bases via Gigaset M101 Data, Gigaset M105 Data or direct USB
-      connection. The following devices are reported to be compatible:
- 
-      Bases:
--        Siemens Gigaset 3070/3075 isdn
--        Siemens Gigaset 4170/4175 isdn
--        Siemens Gigaset SX205/255
--        Siemens Gigaset SX353
--        T-Com Sinus 45 [AB] isdn
--        T-Com Sinus 721X[A] [SE]
--        Vox Chicago 390 ISDN (KPN Telecom)
-+       - Siemens Gigaset 3070/3075 isdn
-+       - Siemens Gigaset 4170/4175 isdn
-+       - Siemens Gigaset SX205/255
-+       - Siemens Gigaset SX353
-+       - T-Com Sinus 45 [AB] isdn
-+       - T-Com Sinus 721X[A] [SE]
-+       - Vox Chicago 390 ISDN (KPN Telecom)
- 
-      RS232 data boxes:
--        Siemens Gigaset M101 Data
--        T-Com Sinus 45 Data 1
-+       - Siemens Gigaset M101 Data
-+       - T-Com Sinus 45 Data 1
- 
-      USB data boxes:
--        Siemens Gigaset M105 Data
--        Siemens Gigaset USB Adapter DECT
--        T-Com Sinus 45 Data 2
--        T-Com Sinus 721 data
--        Chicago 390 USB (KPN)
-+       - Siemens Gigaset M105 Data
-+       - Siemens Gigaset USB Adapter DECT
-+       - T-Com Sinus 45 Data 2
-+       - T-Com Sinus 721 data
-+       - Chicago 390 USB (KPN)
- 
-      See also http://www.erbze.info/sinus_gigaset.htm
-        (archived at https://web.archive.org/web/20100717020421/http://www.erbze.info:80/sinus_gigaset.htm ) and
-@@ -37,17 +40,21 @@ GigaSet 307x Device Driver
-      with SX 100 and CX 100 ISDN bases (only in unimodem mode, see section 2.5.)
-      If you have another device that works with our driver, please let us know.
- 
--     Chances of getting an USB device to work are good if the output of
--        lsusb
--     at the command line contains one of the following:
--        ID 0681:0001
--        ID 0681:0002
--        ID 0681:0009
--        ID 0681:0021
--        ID 0681:0022
-+     Chances of getting an USB device to work are good if the output of::
-+
-+	lsusb
-+
-+     at the command line contains one of the following::
-+
-+	ID 0681:0001
-+	ID 0681:0002
-+	ID 0681:0009
-+	ID 0681:0021
-+	ID 0681:0022
- 
- 1.2. Software
--     --------
-+-------------
-+
-      The driver works with the Kernel CAPI subsystem and can be used with any
-      software which is able to use CAPI 2.0 for ISDN connections (voice or data).
- 
-@@ -58,9 +65,11 @@ GigaSet 307x Device Driver
- 
- 
- 2.   How to use the driver
--     ---------------------
-+==========================
-+
- 2.1. Modules
--     -------
-+------------
-+
-      For the devices to work, the proper kernel modules have to be loaded.
-      This normally happens automatically when the system detects the USB
-      device (base, M105) or when the line discipline is attached (M101). It
-@@ -71,13 +80,17 @@ GigaSet 307x Device Driver
-      which uses the regular serial port driver to access the device, and must
-      therefore be attached to the serial device to which the M101 is connected.
-      The ldattach(8) command (included in util-linux-ng release 2.14 or later)
--     can be used for that purpose, for example:
-+     can be used for that purpose, for example::
-+
- 	ldattach GIGASET_M101 /dev/ttyS1
-+
-      This will open the device file, attach the line discipline to it, and
-      then sleep in the background, keeping the device open so that the line
-      discipline remains active. To deactivate it, kill the daemon, for example
--     with
-+     with::
-+
- 	killall ldattach
-+
-      before disconnecting the device. To have this happen automatically at
-      system startup/shutdown on an LSB compatible system, create and activate
-      an appropriate LSB startup script /etc/init.d/gigaset. (The init name
-@@ -86,9 +99,10 @@ GigaSet 307x Device Driver
- 
-      The modules accept the following parameters:
- 
--	Module	 	Parameter  Meaning
-+	=============== ========== ==========================================
-+	Module		Parameter  Meaning
- 
--	gigaset	 	debug	   debug level (see section 3.2.)
-+	gigaset		debug	   debug level (see section 3.2.)
- 
- 			startmode  initial operation mode (see section 2.5.):
- 	bas_gigaset )		   1=CAPI (default), 0=Unimodem
-@@ -96,11 +110,14 @@ GigaSet 307x Device Driver
- 	usb_gigaset )	cidmode    initial Call-ID mode setting (see section
- 				   2.5.): 1=on (default), 0=off
- 
-+	=============== ========== ==========================================
-+
-      Depending on your distribution you may want to create a separate module
-      configuration file like /etc/modprobe.d/gigaset.conf for these.
- 
- 2.2. Device nodes for user space programs
--     ------------------------------------
-+-----------------------------------------
-+
-      The device can be accessed from user space (eg. by the user space tools
-      mentioned in 1.2.) through the device nodes:
- 
-@@ -113,46 +130,56 @@ GigaSet 307x Device Driver
- 
-      You can also set a "default device" for the user space tools to use when
-      no device node is given as parameter, by creating a symlink /dev/ttyG to
--     one of them, eg.:
-+     one of them, eg.::
- 
- 	ln -s /dev/ttyGB0 /dev/ttyG
- 
-      The devices accept the following device specific ioctl calls
-      (defined in gigaset_dev.h):
- 
--     ioctl(int fd, GIGASET_REDIR, int *cmd);
-+     ``ioctl(int fd, GIGASET_REDIR, int *cmd);``
-+
-      If cmd==1, the device is set to be controlled exclusively through the
-      character device node; access from the ISDN subsystem is blocked.
-+
-      If cmd==0, the device is set to be used from the ISDN subsystem and does
-      not communicate through the character device node.
- 
--     ioctl(int fd, GIGASET_CONFIG, int *cmd);
-+     ``ioctl(int fd, GIGASET_CONFIG, int *cmd);``
-+
-      (ser_gigaset and usb_gigaset only)
-+
-      If cmd==1, the device is set to adapter configuration mode where commands
-      are interpreted by the M10x DECT adapter itself instead of being
-      forwarded to the base station. In this mode, the device accepts the
-      commands described in Siemens document "AT-Kommando Alignment M10x Data"
-      for setting the operation mode, associating with a base station and
-      querying parameters like field strengh and signal quality.
-+
-      Note that there is no ioctl command for leaving adapter configuration
-      mode and returning to regular operation. In order to leave adapter
-      configuration mode, write the command ATO to the device.
- 
--     ioctl(int fd, GIGASET_BRKCHARS, unsigned char brkchars[6]);
-+     ``ioctl(int fd, GIGASET_BRKCHARS, unsigned char brkchars[6]);``
-+
-      (usb_gigaset only)
-+
-      Set the break characters on an M105's internal serial adapter to the six
-      bytes stored in brkchars[]. Unused bytes should be set to zero.
- 
-      ioctl(int fd, GIGASET_VERSION, unsigned version[4]);
-      Retrieve version information from the driver. version[0] must be set to
-      one of:
-+
-      - GIGVER_DRIVER: retrieve driver version
-      - GIGVER_COMPAT: retrieve interface compatibility version
-      - GIGVER_FWBASE: retrieve the firmware version of the base
-+
-      Upon return, version[] is filled with the requested version information.
- 
- 2.3. CAPI
--     ----
-+---------
-+
-      The devices will show up as CAPI controllers as soon as the
-      corresponding driver module is loaded, and can then be used with
-      CAPI 2.0 kernel and user space applications. For user space access,
-@@ -165,21 +192,22 @@ GigaSet 307x Device Driver
-      driver.
- 
- 2.5. Unimodem mode
--     -------------
-+------------------
-+
-      In this mode the device works like a modem connected to a serial port
--     (the /dev/ttyGU0, ... mentioned above) which understands the commands
-+     (the /dev/ttyGU0, ... mentioned above) which understands the commands::
- 
--         ATZ                 init, reset
--             => OK or ERROR
--         ATD
--         ATDT                dial
--             => OK, CONNECT,
--                BUSY,
--                NO DIAL TONE,
--                NO CARRIER,
--                NO ANSWER
--         <pause>+++<pause>   change to command mode when connected
--         ATH                 hangup
-+	 ATZ                 init, reset
-+	     => OK or ERROR
-+	 ATD
-+	 ATDT                dial
-+	     => OK, CONNECT,
-+		BUSY,
-+		NO DIAL TONE,
-+		NO CARRIER,
-+		NO ANSWER
-+	 <pause>+++<pause>   change to command mode when connected
-+	 ATH                 hangup
- 
-      You can use some configuration tool of your distribution to configure this
-      "modem" or configure pppd/wvdial manually. There are some example ppp
-@@ -189,40 +217,52 @@ GigaSet 307x Device Driver
-      control lines. This means you must use "Stupid Mode" if you are using
-      wvdial or you should use the nocrtscts option of pppd.
-      You must also assure that the ppp_async module is loaded with the parameter
--     flag_time=0. You can do this e.g. by adding a line like
-+     flag_time=0. You can do this e.g. by adding a line like::
- 
--        options ppp_async flag_time=0
-+	options ppp_async flag_time=0
- 
--     to an appropriate module configuration file, like
--     /etc/modprobe.d/gigaset.conf.
-+     to an appropriate module configuration file, like::
-+
-+	/etc/modprobe.d/gigaset.conf.
- 
-      Unimodem mode is needed for making some devices [e.g. SX100] work which
-      do not support the regular Gigaset command set. If debug output (see
--     section 3.2.) shows something like this when dialing:
--         CMD Received: ERROR
--         Available Params: 0
--         Connection State: 0, Response: -1
--         gigaset_process_response: resp_code -1 in ConState 0 !
--         Timeout occurred
-+     section 3.2.) shows something like this when dialing::
-+
-+	 CMD Received: ERROR
-+	 Available Params: 0
-+	 Connection State: 0, Response: -1
-+	 gigaset_process_response: resp_code -1 in ConState 0 !
-+	 Timeout occurred
-+
-      then switching to unimodem mode may help.
- 
-      If you have installed the command line tool gigacontr, you can enter
--     unimodem mode using
--         gigacontr --mode unimodem
--     You can switch back using
--         gigacontr --mode isdn
-+     unimodem mode using::
-+
-+	 gigacontr --mode unimodem
-+
-+     You can switch back using::
-+
-+	 gigacontr --mode isdn
- 
-      You can also put the driver directly into Unimodem mode when it's loaded,
-      by passing the module parameter startmode=0 to the hardware specific
--     module, e.g.
-+     module, e.g.::
-+
- 	modprobe usb_gigaset startmode=0
--     or by adding a line like
-+
-+     or by adding a line like::
-+
- 	options usb_gigaset startmode=0
--     to an appropriate module configuration file, like
--     /etc/modprobe.d/gigaset.conf
-+
-+     to an appropriate module configuration file, like::
-+
-+	/etc/modprobe.d/gigaset.conf
- 
- 2.6. Call-ID (CID) mode
--     ------------------
-+-----------------------
-+
-      Call-IDs are numbers used to tag commands to, and responses from, the
-      Gigaset base in order to support the simultaneous handling of multiple
-      ISDN calls. Their use can be enabled ("CID mode") or disabled ("Unimodem
-@@ -238,6 +278,7 @@ GigaSet 307x Device Driver
-      During active operation, the driver switches to the necessary mode
-      automatically. However, for the reasons above, the mode chosen when
-      the device is not in use (idle) can be selected by the user.
-+
-      - If you want to receive incoming calls, you can use the default
-        settings (CID mode).
-      - If you have several DECT data devices (M10x) which you want to use
-@@ -247,25 +288,27 @@ GigaSet 307x Device Driver
-      If you want both of these at once, you are out of luck.
- 
-      You can also use the tty class parameter "cidmode" of the device to
--     change its CID mode while the driver is loaded, eg.
--        echo 0 > /sys/class/tty/ttyGU0/cidmode
-+     change its CID mode while the driver is loaded, eg.::
-+
-+	echo 0 > /sys/class/tty/ttyGU0/cidmode
- 
- 2.7. Dialing Numbers
--     ---------------
--     The called party number provided by an application for dialing out must
-+--------------------
-+provided by an application for dialing out must
-      be a public network number according to the local dialing plan, without
-      any dial prefix for getting an outside line.
- 
-      Internal calls can be made by providing an internal extension number
--     prefixed with "**" (two asterisks) as the called party number. So to dial
--     eg. the first registered DECT handset, give "**11" as the called party
--     number. Dialing "***" (three asterisks) calls all extensions
-+     prefixed with ``**`` (two asterisks) as the called party number. So to dial
-+     eg. the first registered DECT handset, give ``**11`` as the called party
-+     number. Dialing ``***`` (three asterisks) calls all extensions
-      simultaneously (global call).
- 
-      Unimodem mode does not support internal calls.
- 
- 2.8. Unregistered Wireless Devices (M101/M105)
--     -----------------------------------------
-+----------------------------------------------
-+
-      The main purpose of the ser_gigaset and usb_gigaset drivers is to allow
-      the M101 and M105 wireless devices to be used as ISDN devices for ISDN
-      connections through a Gigaset base. Therefore they assume that the device
-@@ -279,73 +322,91 @@ GigaSet 307x Device Driver
-      modes. See the gigacontr(8) manpage for details.
- 
- 3.   Troubleshooting
--     ---------------
-+====================
-+
- 3.1. Solutions to frequently reported problems
--     -----------------------------------------
-+----------------------------------------------
-+
-      Problem:
--        You have a slow provider and isdn4linux gives up dialing too early.
-+	You have a slow provider and isdn4linux gives up dialing too early.
-      Solution:
--        Load the isdn module using the dialtimeout option. You can do this e.g.
--        by adding a line like
-+	Load the isdn module using the dialtimeout option. You can do this e.g.
-+	by adding a line like::
- 
--           options isdn dialtimeout=15
-+	   options isdn dialtimeout=15
- 
--        to /etc/modprobe.d/gigaset.conf or a similar file.
-+	to /etc/modprobe.d/gigaset.conf or a similar file.
- 
-      Problem:
--        The isdnlog program emits error messages or just doesn't work.
-+	The isdnlog program emits error messages or just doesn't work.
-      Solution:
--        Isdnlog supports only the HiSax driver. Do not attempt to use it with
-+	Isdnlog supports only the HiSax driver. Do not attempt to use it with
- 	other drivers such as Gigaset.
- 
-      Problem:
--        You have two or more DECT data adapters (M101/M105) and only the
--        first one you turn on works.
-+	You have two or more DECT data adapters (M101/M105) and only the
-+	first one you turn on works.
-      Solution:
--        Select Unimodem mode for all DECT data adapters. (see section 2.5.)
-+	Select Unimodem mode for all DECT data adapters. (see section 2.5.)
- 
-      Problem:
--	Messages like this:
-+	Messages like this::
-+
- 	    usb_gigaset 3-2:1.0: Could not initialize the device.
-+
- 	appear in your syslog.
-      Solution:
- 	Check whether your M10x wireless device is correctly registered to the
- 	Gigaset base. (see section 2.7.)
- 
- 3.2. Telling the driver to provide more information
--     ----------------------------------------------
-+---------------------------------------------------
-      Building the driver with the "Gigaset debugging" kernel configuration
-      option (CONFIG_GIGASET_DEBUG) gives it the ability to produce additional
-      information useful for debugging.
- 
-      You can control the amount of debugging information the driver produces by
--     writing an appropriate value to /sys/module/gigaset/parameters/debug, e.g.
--        echo 0 > /sys/module/gigaset/parameters/debug
-+     writing an appropriate value to /sys/module/gigaset/parameters/debug,
-+     e.g.::
-+
-+	echo 0 > /sys/module/gigaset/parameters/debug
-+
-      switches off debugging output completely,
--        echo 0x302020 > /sys/module/gigaset/parameters/debug
-+
-+     ::
-+
-+	echo 0x302020 > /sys/module/gigaset/parameters/debug
-+
-      enables a reasonable set of debugging output messages. These values are
-      bit patterns where every bit controls a certain type of debugging output.
-      See the constants DEBUG_* in the source file gigaset.h for details.
- 
-      The initial value can be set using the debug parameter when loading the
--     module "gigaset", e.g. by adding a line
--        options gigaset debug=0
-+     module "gigaset", e.g. by adding a line::
-+
-+	options gigaset debug=0
-+
-      to your module configuration file, eg. /etc/modprobe.d/gigaset.conf
- 
-      Generated debugging information can be found
--     - as output of the command
--         dmesg
-+     - as output of the command::
-+
-+	 dmesg
-+
-      - in system log files written by your syslog daemon, usually
-        in /var/log/, e.g. /var/log/messages.
- 
- 3.3. Reporting problems and bugs
--     ---------------------------
-+--------------------------------
-      If you can't solve problems with the driver on your own, feel free to
-      use one of the forums, bug trackers, or mailing lists on
--         https://sourceforge.net/projects/gigaset307x
-+
-+	 https://sourceforge.net/projects/gigaset307x
-+
-      or write an electronic mail to the maintainers.
- 
-      Try to provide as much information as possible, such as
-+
-      - distribution
-      - kernel version (uname -r)
-      - gcc version (gcc --version)
-@@ -362,7 +423,7 @@ GigaSet 307x Device Driver
-      appropriate forums and newsgroups.
- 
- 3.4. Reporting problem solutions
--     ---------------------------
-+--------------------------------
-      If you solved a problem with our drivers, wrote startup scripts for your
-      distribution, ... feel free to contact us (using one of the places
-      mentioned in 3.3.). We'd like to add scripts, hints, documentation
-@@ -370,34 +431,35 @@ GigaSet 307x Device Driver
- 
- 
- 4.   Links, other software
--     ---------------------
-+==========================
-+
-      - Sourceforge project developing this driver and associated tools
--         https://sourceforge.net/projects/gigaset307x
-+	 https://sourceforge.net/projects/gigaset307x
-      - Yahoo! Group on the Siemens Gigaset family of devices
--         https://de.groups.yahoo.com/group/Siemens-Gigaset
-+	 https://de.groups.yahoo.com/group/Siemens-Gigaset
-      - Siemens Gigaset/T-Sinus compatibility table
--         http://www.erbze.info/sinus_gigaset.htm
-+	 http://www.erbze.info/sinus_gigaset.htm
- 	    (archived at https://web.archive.org/web/20100717020421/http://www.erbze.info:80/sinus_gigaset.htm )
- 
- 
- 5.   Credits
--     -------
-+============
-+
-      Thanks to
- 
-      Karsten Keil
--        for his help with isdn4linux
-+	for his help with isdn4linux
-      Deti Fliegl
--        for his base driver code
-+	for his base driver code
-      Dennis Dietrich
--        for his kernel 2.6 patches
-+	for his kernel 2.6 patches
-      Andreas Rummel
--        for his work and logs to get unimodem mode working
-+	for his work and logs to get unimodem mode working
-      Andreas Degert
--        for his logs and patches to get cx 100 working
-+	for his logs and patches to get cx 100 working
-      Dietrich Feist
--        for his generous donation of one M105 and two M101 cordless adapters
-+	for his generous donation of one M105 and two M101 cordless adapters
-      Christoph Schweers
--        for his generous donation of a M34 device
-+	for his generous donation of a M34 device
- 
-      and all the other people who sent logs and other information.
--
-diff --git a/Documentation/isdn/README.hysdn b/Documentation/isdn/hysdn.rst
-similarity index 80%
-rename from Documentation/isdn/README.hysdn
-rename to Documentation/isdn/hysdn.rst
-index eeca11f00ccd..0a168d1cbffc 100644
---- a/Documentation/isdn/README.hysdn
-+++ b/Documentation/isdn/hysdn.rst
-@@ -1,4 +1,7 @@
--$Id: README.hysdn,v 1.3.6.1 2001/02/10 14:41:19 kai Exp $
-+============
-+Hysdn Driver
-+============
-+
- The hysdn driver has been written by
- Werner Cornelius (werner@isdn4linux.de or werner@titro.de)
- for Hypercope GmbH Aachen Germany. Hypercope agreed to publish this driver
-@@ -22,28 +25,28 @@ for Hypercope GmbH Aachen, Germany.
-     along with this program; if not, write to the Free Software
-     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
--Table of contents
--=================
-+.. Table of contents
- 
--1. About the driver
-+    1. About the driver
- 
--2. Loading/Unloading the driver
-+    2. Loading/Unloading the driver
- 
--3. Entries in the /proc filesystem
-+    3. Entries in the /proc filesystem
- 
--4. The /proc/net/hysdn/cardconfX file
-+    4. The /proc/net/hysdn/cardconfX file
- 
--5. The /proc/net/hysdn/cardlogX file
-+    5. The /proc/net/hysdn/cardlogX file
- 
--6. Where to get additional info and help
-+    6. Where to get additional info and help
- 
- 
- 1. About the driver
-+===================
- 
--   The drivers/isdn/hysdn subdir contains a driver for HYPERCOPEs active 
-+   The drivers/isdn/hysdn subdir contains a driver for HYPERCOPEs active
-    PCI isdn cards Champ, Ergo and Metro. To enable support for this cards
-    enable ISDN support in the kernel config and support for HYSDN cards in
--   the active cards submenu. The driver may only be compiled and used if 
-+   the active cards submenu. The driver may only be compiled and used if
-    support for loadable modules and the process filesystem have been enabled.
- 
-    These cards provide two different interfaces to the kernel. Without the
-@@ -52,22 +55,23 @@ Table of contents
-    handlers for various protocols like ppp and others as well as config info
-    and firmware may be fetched from Hypercopes WWW-Site www.hypercope.de.
- 
--   With CAPI 2.0 support enabled, the card can also be used as a CAPI 2.0 
--   compliant devices with either CAPI 2.0 applications 
-+   With CAPI 2.0 support enabled, the card can also be used as a CAPI 2.0
-+   compliant devices with either CAPI 2.0 applications
-    (check isdn4k-utils) or -using the capidrv module- as a regular
--   isdn4linux device. This is done via the same mechanism as with the 
-+   isdn4linux device. This is done via the same mechanism as with the
-    active AVM cards and in fact uses the same module.
--   
-+
- 
- 2. Loading/Unloading the driver
-+===============================
- 
-    The module has no command line parameters and auto detects up to 10 cards
-    in the id-range 0-9.
-    If a loaded driver shall be unloaded all open files in the /proc/net/hysdn
--   subdir need to be closed and all ethernet interfaces allocated by this 
-+   subdir need to be closed and all ethernet interfaces allocated by this
-    driver must be shut down. Otherwise the module counter will avoid a module
-    unload.
--   
-+
-    If you are using the CAPI 2.0-interface, make sure to load/modprobe the
-    kernelcapi-module first.
- 
-@@ -76,52 +80,57 @@ Table of contents
-    any avm-specific modules).
- 
- 3. Entries in the /proc filesystem
-+==================================
- 
--   When the module has been loaded it adds the directory hysdn in the 
--   /proc/net tree. This directory contains exactly 2 file entries for each 
-+   When the module has been loaded it adds the directory hysdn in the
-+   /proc/net tree. This directory contains exactly 2 file entries for each
-    card. One is called cardconfX and the other cardlogX, where X is the
--   card id number from 0 to 9. 
-+   card id number from 0 to 9.
-    The cards are numbered in the order found in the PCI config data.
- 
- 4. The /proc/net/hysdn/cardconfX file
-+=====================================
- 
--   This file may be read to get by everyone to get info about the cards type, 
-+   This file may be read to get by everyone to get info about the cards type,
-    actual state, available features and used resources.
-    The first 3 entries (id, bus and slot) are PCI info fields, the following
-    type field gives the information about the cards type:
- 
--   4 -> Ergo card (server card with 2 b-chans)
--   5 -> Metro card (server card with 4 or 8 b-chans)
--   6 -> Champ card (client card with 2 b-chans)   
-+   - 4 -> Ergo card (server card with 2 b-chans)
-+   - 5 -> Metro card (server card with 4 or 8 b-chans)
-+   - 6 -> Champ card (client card with 2 b-chans)
- 
-    The following 3 fields show the hardware assignments for irq, iobase and the
-    dual ported memory (dp-mem).
-+
-    The fields b-chans and fax-chans announce the available card resources of
-    this types for the user.
-+
-    The state variable indicates the actual drivers state for this card with the
-    following assignments.
- 
--   0 -> card has not been booted since driver load
--   1 -> card booting is actually in progess
--   2 -> card is in an error state due to a previous boot failure
--   3 -> card is booted and active
-+   - 0 -> card has not been booted since driver load
-+   - 1 -> card booting is actually in progess
-+   - 2 -> card is in an error state due to a previous boot failure
-+   - 3 -> card is booted and active
- 
-    And the last field (device) shows the name of the ethernet device assigned
-    to this card. Up to the first successful boot this field only shows a -
-    to tell that no net device has been allocated up to now. Once a net device
-    has been allocated it remains assigned to this card, even if a card is
--   rebooted and an boot error occurs. 
-+   rebooted and an boot error occurs.
- 
--   Writing to the cardconfX file boots the card or transfers config lines to 
--   the cards firmware. The type of data is automatically detected when the 
-+   Writing to the cardconfX file boots the card or transfers config lines to
-+   the cards firmware. The type of data is automatically detected when the
-    first data is written. Only root has write access to this file.
-    The firmware boot files are normally called hyclient.pof for client cards
-    and hyserver.pof for server cards.
-    After successfully writing the boot file, complete config files or single
-    config lines may be copied to this file.
--   If an error occurs the return value given to the writing process has the 
-+   If an error occurs the return value given to the writing process has the
-    following additional codes (decimal):
- 
-+   ==== ============================================
-    1000 Another process is currently bootng the card
-    1001 Invalid firmware header
-    1002 Boards dual-port RAM test failed
-@@ -131,34 +140,39 @@ Table of contents
-    1006 Second boot stage failure
-    1007 Timeout waiting for card ready during boot
-    1008 Operation only allowed in booted state
--   1009 Config line too long 
--   1010 Invalid channel number 
-+   1009 Config line too long
-+   1010 Invalid channel number
-    1011 Timeout sending config data
-+   ==== ============================================
- 
--   Additional info about error reasons may be fetched from the log output. 
-+   Additional info about error reasons may be fetched from the log output.
- 
- 5. The /proc/net/hysdn/cardlogX file
--   	  
--   The cardlogX file entry may be opened multiple for reading by everyone to 
-+====================================
-+
-+   The cardlogX file entry may be opened multiple for reading by everyone to
-    get the cards and drivers log data. Card messages always start with the
--   keyword LOG. All other lines are output from the driver. 
--   The driver log data may be redirected to the syslog by selecting the 
-+   keyword LOG. All other lines are output from the driver.
-+   The driver log data may be redirected to the syslog by selecting the
-    appropriate bitmask. The cards log messages will always be send to this
-    interface but never to the syslog.
- 
-    A root user may write a decimal or hex (with 0x) value t this file to select
--   desired output options. As mentioned above the cards log dat is always 
-+   desired output options. As mentioned above the cards log dat is always
-    written to the cardlog file independent of the following options only used
-    to check and debug the driver itself:
- 
--   For example: 
--   echo "0x34560078" > /proc/net/hysdn/cardlog0
-+   For example::
-+
-+	echo "0x34560078" > /proc/net/hysdn/cardlog0
-+
-    to output the hex log mask 34560078 for card 0.
-- 
--   The written value is regarded as an unsigned 32-Bit value, bit ored for 
-+
-+   The written value is regarded as an unsigned 32-Bit value, bit ored for
-    desired output. The following bits are already assigned:
- 
--   0x80000000   All driver log data is alternatively via syslog 
-+   ==========   ============================================================
-+   0x80000000   All driver log data is alternatively via syslog
-    0x00000001   Log memory allocation errors
-    0x00000010   Firmware load start and close are logged
-    0x00000020   Log firmware record parser
-@@ -171,25 +185,12 @@ Table of contents
-    0x00100000   Log all open and close actions to /proc/net/hysdn/card files
-    0x00200000   Log all actions from /proc file entries
-    0x00010000   Log network interface init and deinit
--   
-+   ==========   ============================================================
-+
- 6. Where to get additional info and help
-+========================================
- 
--   If you have any problems concerning the driver or configuration contact 
-+   If you have any problems concerning the driver or configuration contact
-    the Hypercope support team (support@hypercope.de) and or the authors
-    Werner Cornelius (werner@isdn4linux or cornelius@titro.de) or
-    Ulrich Albrecht (ualbrecht@hypercope.de).
--
--
--
--
--
--
--
--
--
--
--
--
--
--
--
-diff --git a/Documentation/isdn/index.rst b/Documentation/isdn/index.rst
+ See https://wiki.samba.org/index.php/LinuxCIFSKernel for summary
+ information (that may be easier to read than parsing the output of
+ "git log fs/cifs") about fixes/improvements to CIFS/SMB2/SMB3 support (changes
+diff --git a/Documentation/admin-guide/cifs/index.rst b/Documentation/admin-guide/cifs/index.rst
 new file mode 100644
-index 000000000000..407e74b78372
+index 000000000000..fad5268635f5
 --- /dev/null
-+++ b/Documentation/isdn/index.rst
-@@ -0,0 +1,24 @@
++++ b/Documentation/admin-guide/cifs/index.rst
+@@ -0,0 +1,21 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +====
-+ISDN
++CIFS
 +====
 +
 +.. toctree::
 +   :maxdepth: 2
 +
-+   interface_capi
-+
-+   avmb1
-+   gigaset
-+   hysdn
-+   m_isdn
-+
-+   credits
++   introduction
++   usage
++   todo
++   changes
++   authors
 +
 +.. only::  subproject and html
 +
@@ -1259,408 +215,1262 @@ index 000000000000..407e74b78372
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/isdn/INTERFACE.CAPI b/Documentation/isdn/interface_capi.rst
-similarity index 75%
-rename from Documentation/isdn/INTERFACE.CAPI
-rename to Documentation/isdn/interface_capi.rst
-index 021aa9cf139d..01a4b5ade9a4 100644
---- a/Documentation/isdn/INTERFACE.CAPI
-+++ b/Documentation/isdn/interface_capi.rst
-@@ -1,7 +1,9 @@
-+=========================================
- Kernel CAPI Interface to Hardware Drivers
-------------------------------------------
-+=========================================
- 
- 1. Overview
-+===========
- 
- From the CAPI 2.0 specification:
- COMMON-ISDN-API (CAPI) is an application programming interface standard used
-@@ -22,6 +24,7 @@ This standard is freely available from https://www.capi.org.
- 
- 
- 2. Driver and Device Registration
-+=================================
- 
- CAPI drivers optionally register themselves with Kernel CAPI by calling the
- Kernel CAPI function register_capi_driver() with a pointer to a struct
-@@ -50,6 +53,7 @@ callback functions by Kernel CAPI.
- 
- 
- 3. Application Registration and Communication
-+=============================================
- 
- Kernel CAPI forwards registration requests from applications (calls to CAPI
- operation CAPI_REGISTER) to an appropriate hardware driver by calling its
-@@ -71,23 +75,26 @@ messages for that application may be passed to or from the device anymore.
- 
- 
- 4. Data Structures
-+==================
- 
- 4.1 struct capi_driver
-+----------------------
- 
- This structure describes a Kernel CAPI driver itself. It is used in the
- register_capi_driver() and unregister_capi_driver() functions, and contains
- the following non-private fields, all to be set by the driver before calling
- register_capi_driver():
- 
--char name[32]
-+``char name[32]``
- 	the name of the driver, as a zero-terminated ASCII string
--char revision[32]
-+``char revision[32]``
- 	the revision number of the driver, as a zero-terminated ASCII string
--int (*add_card)(struct capi_driver *driver, capicardparams *data)
-+``int (*add_card)(struct capi_driver *driver, capicardparams *data)``
- 	a callback function pointer (may be NULL)
- 
- 
- 4.2 struct capi_ctr
-+-------------------
- 
- This structure describes an ISDN device (controller) handled by a Kernel CAPI
- driver. After registration via the attach_capi_ctr() function it is passed to
-@@ -96,88 +103,109 @@ identify the controller to operate on.
- 
- It contains the following non-private fields:
- 
--- to be set by the driver before calling attach_capi_ctr():
-+to be set by the driver before calling attach_capi_ctr():
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--struct module *owner
-+``struct module *owner``
- 	pointer to the driver module owning the device
- 
--void *driverdata
-+``void *driverdata``
- 	an opaque pointer to driver specific data, not touched by Kernel CAPI
- 
--char name[32]
-+``char name[32]``
- 	the name of the controller, as a zero-terminated ASCII string
- 
--char *driver_name
-+``char *driver_name``
- 	the name of the driver, as a zero-terminated ASCII string
- 
--int (*load_firmware)(struct capi_ctr *ctrlr, capiloaddata *ldata)
-+``int (*load_firmware)(struct capi_ctr *ctrlr, capiloaddata *ldata)``
- 	(optional) pointer to a callback function for sending firmware and
- 	configuration data to the device
-+
- 	The function may return before the operation has completed.
-+
- 	Completion must be signalled by a call to capi_ctr_ready().
-+
- 	Return value: 0 on success, error code on error
- 	Called in process context.
- 
--void (*reset_ctr)(struct capi_ctr *ctrlr)
-+``void (*reset_ctr)(struct capi_ctr *ctrlr)``
- 	(optional) pointer to a callback function for stopping the device,
- 	releasing all registered applications
-+
- 	The function may return before the operation has completed.
-+
- 	Completion must be signalled by a call to capi_ctr_down().
-+
- 	Called in process context.
- 
--void (*register_appl)(struct capi_ctr *ctrlr, u16 applid,
--			capi_register_params *rparam)
--void (*release_appl)(struct capi_ctr *ctrlr, u16 applid)
--	pointers to callback functions for registration and deregistration of
-+``void (*register_appl)(struct capi_ctr *ctrlr, u16 applid, capi_register_params *rparam)``
-+	pointers to callback function for registration of
- 	applications with the device
-+
-+	Calls to these functions are serialized by Kernel CAPI so that only
-+	one call to any of them is active at any time.
-+
-+``void (*release_appl)(struct capi_ctr *ctrlr, u16 applid)``
-+	pointers to callback functions deregistration of
-+	applications with the device
-+
- 	Calls to these functions are serialized by Kernel CAPI so that only
- 	one call to any of them is active at any time.
- 
--u16  (*send_message)(struct capi_ctr *ctrlr, struct sk_buff *skb)
-+``u16  (*send_message)(struct capi_ctr *ctrlr, struct sk_buff *skb)``
- 	pointer to a callback function for sending a CAPI message to the
- 	device
-+
- 	Return value: CAPI error code
-+
- 	If the method returns 0 (CAPI_NOERROR) the driver has taken ownership
- 	of the skb and the caller may no longer access it. If it returns a
- 	non-zero (error) value then ownership of the skb returns to the caller
- 	who may reuse or free it.
-+
- 	The return value should only be used to signal problems with respect
- 	to accepting or queueing the message. Errors occurring during the
- 	actual processing of the message should be signaled with an
- 	appropriate reply message.
-+
- 	May be called in process or interrupt context.
-+
- 	Calls to this function are not serialized by Kernel CAPI, ie. it must
- 	be prepared to be re-entered.
- 
--char *(*procinfo)(struct capi_ctr *ctrlr)
-+``char *(*procinfo)(struct capi_ctr *ctrlr)``
- 	pointer to a callback function returning the entry for the device in
- 	the CAPI controller info table, /proc/capi/controller
- 
--const struct file_operations *proc_fops
-+``const struct file_operations *proc_fops``
- 	pointers to callback functions for the device's proc file
- 	system entry, /proc/capi/controllers/<n>; pointer to the device's
- 	capi_ctr structure is available from struct proc_dir_entry::data
- 	which is available from struct inode.
- 
--Note: Callback functions except send_message() are never called in interrupt
--context.
-+Note:
-+  Callback functions except send_message() are never called in interrupt
-+  context.
- 
--- to be filled in before calling capi_ctr_ready():
-+to be filled in before calling capi_ctr_ready():
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--u8 manu[CAPI_MANUFACTURER_LEN]
-+``u8 manu[CAPI_MANUFACTURER_LEN]``
- 	value to return for CAPI_GET_MANUFACTURER
- 
--capi_version version
-+``capi_version version``
- 	value to return for CAPI_GET_VERSION
- 
--capi_profile profile
-+``capi_profile profile``
- 	value to return for CAPI_GET_PROFILE
- 
--u8 serial[CAPI_SERIAL_LEN]
-+``u8 serial[CAPI_SERIAL_LEN]``
- 	value to return for CAPI_GET_SERIAL
- 
- 
- 4.3 SKBs
-+--------
- 
- CAPI messages are passed between Kernel CAPI and the driver via send_message()
- and capi_ctr_handle_message(), stored in the data portion of a socket buffer
-@@ -192,6 +220,7 @@ instead of 30.
- 
- 
- 4.4 The _cmsg Structure
-+-----------------------
- 
- (declared in <linux/isdn/capiutil.h>)
- 
-@@ -216,6 +245,7 @@ Members are named after the CAPI 2.0 standard names of the parameters they
- represent. See <linux/isdn/capiutil.h> for the exact spelling. Member data
- types are:
- 
-+=========== =================================================================
- u8          for CAPI parameters of type 'byte'
- 
- u16         for CAPI parameters of type 'word'
-@@ -235,6 +265,7 @@ _cmstruct   alternative representation for CAPI parameters of type 'struct'
- 	    CAPI_COMPOSE: The parameter is present.
- 	    Subparameter values are stored individually in the corresponding
- 	    _cmsg structure members.
-+=========== =================================================================
- 
- Functions capi_cmsg2message() and capi_message2cmsg() are provided to convert
- messages between their transport encoding described in the CAPI 2.0 standard
-@@ -244,51 +275,71 @@ sure it is big enough to accommodate the resulting CAPI message.
- 
- 
- 5. Lower Layer Interface Functions
-+==================================
- 
- (declared in <linux/isdn/capilli.h>)
- 
--void register_capi_driver(struct capi_driver *drvr)
--void unregister_capi_driver(struct capi_driver *drvr)
--	register/unregister a driver with Kernel CAPI
--
--int attach_capi_ctr(struct capi_ctr *ctrlr)
--int detach_capi_ctr(struct capi_ctr *ctrlr)
--	register/unregister a device (controller) with Kernel CAPI
--
--void capi_ctr_ready(struct capi_ctr *ctrlr)
--void capi_ctr_down(struct capi_ctr *ctrlr)
--	signal controller ready/not ready
--
--void capi_ctr_suspend_output(struct capi_ctr *ctrlr)
--void capi_ctr_resume_output(struct capi_ctr *ctrlr)
--	signal suspend/resume
--
--void capi_ctr_handle_message(struct capi_ctr * ctrlr, u16 applid,
--				struct sk_buff *skb)
--	pass a received CAPI message to Kernel CAPI
--	for forwarding to the specified application
-+::
-+
-+  void register_capi_driver(struct capi_driver *drvr)
-+  void unregister_capi_driver(struct capi_driver *drvr)
-+
-+register/unregister a driver with Kernel CAPI
-+
-+::
-+
-+  int attach_capi_ctr(struct capi_ctr *ctrlr)
-+  int detach_capi_ctr(struct capi_ctr *ctrlr)
-+
-+register/unregister a device (controller) with Kernel CAPI
-+
-+::
-+
-+  void capi_ctr_ready(struct capi_ctr *ctrlr)
-+  void capi_ctr_down(struct capi_ctr *ctrlr)
-+
-+signal controller ready/not ready
-+
-+::
-+
-+  void capi_ctr_suspend_output(struct capi_ctr *ctrlr)
-+  void capi_ctr_resume_output(struct capi_ctr *ctrlr)
-+
-+signal suspend/resume
-+
-+::
-+
-+  void capi_ctr_handle_message(struct capi_ctr * ctrlr, u16 applid,
-+			       struct sk_buff *skb)
-+
-+pass a received CAPI message to Kernel CAPI
-+for forwarding to the specified application
- 
- 
- 6. Helper Functions and Macros
-+==============================
- 
- Library functions (from <linux/isdn/capilli.h>):
- 
--void capilib_new_ncci(struct list_head *head, u16 applid,
-+::
-+
-+  void capilib_new_ncci(struct list_head *head, u16 applid,
- 			u32 ncci, u32 winsize)
--void capilib_free_ncci(struct list_head *head, u16 applid, u32 ncci)
--void capilib_release_appl(struct list_head *head, u16 applid)
--void capilib_release(struct list_head *head)
--void capilib_data_b3_conf(struct list_head *head, u16 applid,
-+  void capilib_free_ncci(struct list_head *head, u16 applid, u32 ncci)
-+  void capilib_release_appl(struct list_head *head, u16 applid)
-+  void capilib_release(struct list_head *head)
-+  void capilib_data_b3_conf(struct list_head *head, u16 applid,
- 			u32 ncci, u16 msgid)
--u16  capilib_data_b3_req(struct list_head *head, u16 applid,
-+  u16  capilib_data_b3_req(struct list_head *head, u16 applid,
- 			u32 ncci, u16 msgid)
- 
- 
- Macros to extract/set element values from/in a CAPI message header
- (from <linux/isdn/capiutil.h>):
- 
-+======================  =============================   ====================
- Get Macro		Set Macro			Element (Type)
--
-+======================  =============================   ====================
- CAPIMSG_LEN(m)		CAPIMSG_SETLEN(m, len)		Total Length (u16)
- CAPIMSG_APPID(m)	CAPIMSG_SETAPPID(m, applid)	ApplID (u16)
- CAPIMSG_COMMAND(m)	CAPIMSG_SETCOMMAND(m,cmd)	Command (u8)
-@@ -300,31 +351,31 @@ CAPIMSG_MSGID(m)	CAPIMSG_SETMSGID(m, msgid)	Message Number (u16)
- CAPIMSG_CONTROL(m)	CAPIMSG_SETCONTROL(m, contr)	Controller/PLCI/NCCI
- 							(u32)
- CAPIMSG_DATALEN(m)	CAPIMSG_SETDATALEN(m, len)	Data Length (u16)
-+======================  =============================   ====================
- 
- 
- Library functions for working with _cmsg structures
- (from <linux/isdn/capiutil.h>):
- 
--unsigned capi_cmsg2message(_cmsg *cmsg, u8 *msg)
--	Assembles a CAPI 2.0 message from the parameters in *cmsg, storing the
--	result in *msg.
-+``unsigned capi_cmsg2message(_cmsg *cmsg, u8 *msg)``
-+	Assembles a CAPI 2.0 message from the parameters in ``*cmsg``,
-+	storing the result in ``*msg``.
- 
--unsigned capi_message2cmsg(_cmsg *cmsg, u8 *msg)
--	Disassembles the CAPI 2.0 message in *msg, storing the parameters in
--	*cmsg.
-+``unsigned capi_message2cmsg(_cmsg *cmsg, u8 *msg)``
-+	Disassembles the CAPI 2.0 message in ``*msg``, storing the parameters
-+	in ``*cmsg``.
- 
--unsigned capi_cmsg_header(_cmsg *cmsg, u16 ApplId, u8 Command, u8 Subcommand,
--			  u16 Messagenumber, u32 Controller)
--	Fills the header part and address field of the _cmsg structure *cmsg
-+``unsigned capi_cmsg_header(_cmsg *cmsg, u16 ApplId, u8 Command, u8 Subcommand, u16 Messagenumber, u32 Controller)``
-+	Fills the header part and address field of the _cmsg structure ``*cmsg``
- 	with the given values, zeroing the remainder of the structure so only
- 	parameters with non-default values need to be changed before sending
- 	the message.
- 
--void capi_cmsg_answer(_cmsg *cmsg)
--	Sets the low bit of the Subcommand field in *cmsg, thereby converting
--	_REQ to _CONF and _IND to _RESP.
-+``void capi_cmsg_answer(_cmsg *cmsg)``
-+	Sets the low bit of the Subcommand field in ``*cmsg``, thereby
-+	converting ``_REQ`` to ``_CONF`` and ``_IND`` to ``_RESP``.
- 
--char *capi_cmd2str(u8 Command, u8 Subcommand)
-+``char *capi_cmd2str(u8 Command, u8 Subcommand)``
- 	Returns the CAPI 2.0 message name corresponding to the given command
- 	and subcommand values, as a static ASCII string. The return value may
- 	be NULL if the command/subcommand is not one of those defined in the
-@@ -332,6 +383,7 @@ char *capi_cmd2str(u8 Command, u8 Subcommand)
- 
- 
- 7. Debugging
+diff --git a/Documentation/filesystems/cifs/cifs.txt b/Documentation/admin-guide/cifs/introduction.rst
+similarity index 98%
+rename from Documentation/filesystems/cifs/cifs.txt
+rename to Documentation/admin-guide/cifs/introduction.rst
+index 1be3d21c286e..0b98f672d36f 100644
+--- a/Documentation/filesystems/cifs/cifs.txt
++++ b/Documentation/admin-guide/cifs/introduction.rst
+@@ -1,3 +1,7 @@
 +============
- 
- The module kernelcapi has a module parameter showcapimsgs controlling some
- debugging output produced by the module. It can only be set when the module is
-diff --git a/Documentation/isdn/README.mISDN b/Documentation/isdn/m_isdn.rst
-similarity index 89%
-rename from Documentation/isdn/README.mISDN
-rename to Documentation/isdn/m_isdn.rst
-index cd8bf920e77b..9957de349e69 100644
---- a/Documentation/isdn/README.mISDN
-+++ b/Documentation/isdn/m_isdn.rst
-@@ -1,6 +1,9 @@
-+============
-+mISDN Driver
++Introduction
 +============
 +
- mISDN is a new modular ISDN driver, in the long term it should replace
- the old I4L driver architecture for passiv ISDN cards.
- It was designed to allow a broad range of applications and interfaces
- but only have the basic function in kernel, the interface to the user
- space is based on sockets with a own address family AF_ISDN.
--
-diff --git a/drivers/staging/isdn/hysdn/Kconfig b/drivers/staging/isdn/hysdn/Kconfig
-index 1971ef850c9a..4c8a9283b9dd 100644
---- a/drivers/staging/isdn/hysdn/Kconfig
-+++ b/drivers/staging/isdn/hysdn/Kconfig
-@@ -5,7 +5,7 @@ config HYSDN
- 	help
- 	  Say Y here if you have one of Hypercope's active PCI ISDN cards
- 	  Champ, Ergo and Metro. You will then get a module called hysdn.
--	  Please read the file <file:Documentation/isdn/README.hysdn> for more
-+	  Please read the file <file:Documentation/isdn/hysdn.rst> for more
- 	  information.
+   This is the client VFS module for the SMB3 NAS protocol as well
+   as for older dialects such as the Common Internet File System (CIFS)
+   protocol which was the successor to the Server Message Block
+@@ -33,7 +37,9 @@
+   tools (including smbinfo and setcifsacl) that can be obtained from
  
- config HYSDN_CAPI
+       https://git.samba.org/?p=cifs-utils.git
++
+   or
++
+       git://git.samba.org/cifs-utils.git
+ 
+   mount.cifs should be installed in the directory with the other mount helpers.
+@@ -41,5 +47,7 @@
+   For more information on the module see the project wiki page at
+ 
+       https://wiki.samba.org/index.php/LinuxCIFS
++
+   and
++
+       https://wiki.samba.org/index.php/LinuxCIFS_utils
+diff --git a/Documentation/filesystems/cifs/TODO b/Documentation/admin-guide/cifs/todo.rst
+similarity index 58%
+rename from Documentation/filesystems/cifs/TODO
+rename to Documentation/admin-guide/cifs/todo.rst
+index 9267f3fb131f..95f18e8c9b8a 100644
+--- a/Documentation/filesystems/cifs/TODO
++++ b/Documentation/admin-guide/cifs/todo.rst
+@@ -1,3 +1,7 @@
++====
++TODO
++====
++
+ Version 2.14 December 21, 2018
+ 
+ A Partial List of Missing Features
+@@ -8,6 +12,7 @@ for visible, important contributions to this module.  Here
+ is a partial list of the known problems and missing features:
+ 
+ a) SMB3 (and SMB3.1.1) missing optional features:
++
+    - multichannel (started), integration with RDMA
+    - directory leases (improved metadata caching), started (root dir only)
+    - T10 copy offload ie "ODX" (copy chunk, and "Duplicate Extents" ioctl
+@@ -16,45 +21,46 @@ a) SMB3 (and SMB3.1.1) missing optional features:
+ b) improved sparse file support
+ 
+ c) Directory entry caching relies on a 1 second timer, rather than
+-using Directory Leases, currently only the root file handle is cached longer
++   using Directory Leases, currently only the root file handle is cached longer
+ 
+ d) quota support (needs minor kernel change since quota calls
+-to make it to network filesystems or deviceless filesystems)
++   to make it to network filesystems or deviceless filesystems)
+ 
+ e) Additional use cases where we use "compoounding" (e.g. open/query/close
+-and open/setinfo/close) to reduce the number of roundtrips, and also
+-open to reduce redundant opens (using deferred close and reference counts more).
++   and open/setinfo/close) to reduce the number of roundtrips, and also
++   open to reduce redundant opens (using deferred close and reference counts
++   more).
+ 
+ f) Finish inotify support so kde and gnome file list windows
+-will autorefresh (partially complete by Asser). Needs minor kernel
+-vfs change to support removing D_NOTIFY on a file.   
++   will autorefresh (partially complete by Asser). Needs minor kernel
++   vfs change to support removing D_NOTIFY on a file.
+ 
+ g) Add GUI tool to configure /proc/fs/cifs settings and for display of
+-the CIFS statistics (started)
++   the CIFS statistics (started)
+ 
+ h) implement support for security and trusted categories of xattrs
+-(requires minor protocol extension) to enable better support for SELINUX
++   (requires minor protocol extension) to enable better support for SELINUX
+ 
+ i) Add support for tree connect contexts (see MS-SMB2) a new SMB3.1.1 protocol
+    feature (may be especially useful for virtualization).
+ 
+ j) Create UID mapping facility so server UIDs can be mapped on a per
+-mount or a per server basis to client UIDs or nobody if no mapping
+-exists. Also better integration with winbind for resolving SID owners
++   mount or a per server basis to client UIDs or nobody if no mapping
++   exists. Also better integration with winbind for resolving SID owners
+ 
+ k) Add tools to take advantage of more smb3 specific ioctls and features
+-(passthrough ioctl/fsctl for sending various SMB3 fsctls to the server
+-is in progress, and a passthrough query_info call is already implemented
+-in cifs.ko to allow smb3 info levels queries to be sent from userspace)
++   (passthrough ioctl/fsctl for sending various SMB3 fsctls to the server
++   is in progress, and a passthrough query_info call is already implemented
++   in cifs.ko to allow smb3 info levels queries to be sent from userspace)
+ 
+ l) encrypted file support
+ 
+ m) improved stats gathering tools (perhaps integration with nfsometer?)
+-to extend and make easier to use what is currently in /proc/fs/cifs/Stats
++   to extend and make easier to use what is currently in /proc/fs/cifs/Stats
+ 
+-n) allow setting more NTFS/SMB3 file attributes remotely (currently limited to compressed
+-file attribute via chflags) and improve user space tools for managing and
+-viewing them.
++n) allow setting more NTFS/SMB3 file attributes remotely (currently limited to
++   compressed file attribute via chflags) and improve user space tools for
++   managing and viewing them.
+ 
+ o) mount helper GUI (to simplify the various configuration options on mount)
+ 
+@@ -65,55 +71,56 @@ p) Add support for witness protocol (perhaps ioctl to cifs.ko from user space
+    different servers, and the server we are connected to has gone down.
+ 
+ q) Allow mount.cifs to be more verbose in reporting errors with dialect
+-or unsupported feature errors.
++   or unsupported feature errors.
+ 
+ r) updating cifs documentation, and user guide.
+ 
+ s) Addressing bugs found by running a broader set of xfstests in standard
+-file system xfstest suite.
++   file system xfstest suite.
+ 
+ t) split cifs and smb3 support into separate modules so legacy (and less
+-secure) CIFS dialect can be disabled in environments that don't need it
+-and simplify the code.
++   secure) CIFS dialect can be disabled in environments that don't need it
++   and simplify the code.
+ 
+ v) POSIX Extensions for SMB3.1.1 (started, create and mkdir support added
+-so far).
++   so far).
+ 
+ w) Add support for additional strong encryption types, and additional spnego
+-authentication mechanisms (see MS-SMB2)
++   authentication mechanisms (see MS-SMB2)
++
++Known Bugs
++==========
+ 
+-KNOWN BUGS
+-====================================
+ See http://bugzilla.samba.org - search on product "CifsVFS" for
+ current bug list.  Also check http://bugzilla.kernel.org (Product = File System, Component = CIFS)
+ 
+ 1) existing symbolic links (Windows reparse points) are recognized but
+-can not be created remotely. They are implemented for Samba and those that
+-support the CIFS Unix extensions, although earlier versions of Samba
+-overly restrict the pathnames.
++   can not be created remotely. They are implemented for Samba and those that
++   support the CIFS Unix extensions, although earlier versions of Samba
++   overly restrict the pathnames.
+ 2) follow_link and readdir code does not follow dfs junctions
+-but recognizes them
++   but recognizes them
+ 
+ Misc testing to do
+ ==================
+ 1) check out max path names and max path name components against various server
+-types. Try nested symlinks (8 deep). Return max path name in stat -f information
++   types. Try nested symlinks (8 deep). Return max path name in stat -f information
+ 
+ 2) Improve xfstest's cifs/smb3 enablement and adapt xfstests where needed to test
+-cifs/smb3 better
++   cifs/smb3 better
+ 
+-3) Additional performance testing and optimization using iozone and similar - 
+-there are some easy changes that can be done to parallelize sequential writes,
+-and when signing is disabled to request larger read sizes (larger than 
+-negotiated size) and send larger write sizes to modern servers.
++3) Additional performance testing and optimization using iozone and similar -
++   there are some easy changes that can be done to parallelize sequential writes,
++   and when signing is disabled to request larger read sizes (larger than
++   negotiated size) and send larger write sizes to modern servers.
+ 
+ 4) More exhaustively test against less common servers
+ 
+ 5) Continue to extend the smb3 "buildbot" which does automated xfstesting
+-against Windows, Samba and Azure currently - to add additional tests and
+-to allow the buildbot to execute the tests faster. The URL for the
+-buildbot is: http://smb3-test-rhel-75.southcentralus.cloudapp.azure.com
++   against Windows, Samba and Azure currently - to add additional tests and
++   to allow the buildbot to execute the tests faster. The URL for the
++   buildbot is: http://smb3-test-rhel-75.southcentralus.cloudapp.azure.com
+ 
+ 6) Address various coverity warnings (most are not bugs per-se, but
+-the more warnings are addressed, the easier it is to spot real
+-problems that static analyzers will point out in the future).
++   the more warnings are addressed, the easier it is to spot real
++   problems that static analyzers will point out in the future).
+diff --git a/Documentation/filesystems/cifs/README b/Documentation/admin-guide/cifs/usage.rst
+similarity index 72%
+rename from Documentation/filesystems/cifs/README
+rename to Documentation/admin-guide/cifs/usage.rst
+index 4a804619cff2..d3fb67b8a976 100644
+--- a/Documentation/filesystems/cifs/README
++++ b/Documentation/admin-guide/cifs/usage.rst
+@@ -1,53 +1,61 @@
++=====
++Usage
++=====
++
+ This module supports the SMB3 family of advanced network protocols (as well
+ as older dialects, originally called "CIFS" or SMB1).
+ 
+ The CIFS VFS module for Linux supports many advanced network filesystem
+ features such as hierarchical DFS like namespace, hardlinks, locking and more.
+-It was designed to comply with the SNIA CIFS Technical Reference (which 
+-supersedes the 1992 X/Open SMB Standard) as well as to perform best practice 
+-practical interoperability with Windows 2000, Windows XP, Samba and equivalent 
++It was designed to comply with the SNIA CIFS Technical Reference (which
++supersedes the 1992 X/Open SMB Standard) as well as to perform best practice
++practical interoperability with Windows 2000, Windows XP, Samba and equivalent
+ servers.  This code was developed in participation with the Protocol Freedom
+ Information Foundation.  CIFS and now SMB3 has now become a defacto
+ standard for interoperating between Macs and Windows and major NAS appliances.
+ 
+ Please see
+-  MS-SMB2 (for detailed SMB2/SMB3/SMB3.1.1 protocol specification)
+-  http://protocolfreedom.org/ and
+-  http://samba.org/samba/PFIF/
++MS-SMB2 (for detailed SMB2/SMB3/SMB3.1.1 protocol specification)
++http://protocolfreedom.org/ and
++http://samba.org/samba/PFIF/
+ for more details.
+ 
+ 
+ For questions or bug reports please contact:
++
+     smfrench@gmail.com
+ 
+ See the project page at: https://wiki.samba.org/index.php/LinuxCIFS_utils
+ 
+-Build instructions:
++Build instructions
+ ==================
++
+ For Linux:
++
+ 1) Download the kernel (e.g. from http://www.kernel.org)
+-and change directory into the top of the kernel directory tree
+-(e.g. /usr/src/linux-2.5.73)
++   and change directory into the top of the kernel directory tree
++   (e.g. /usr/src/linux-2.5.73)
+ 2) make menuconfig (or make xconfig)
+ 3) select cifs from within the network filesystem choices
+ 4) save and exit
+ 5) make
+ 
+ 
+-Installation instructions:
++Installation instructions
+ =========================
++
+ If you have built the CIFS vfs as module (successfully) simply
+-type "make modules_install" (or if you prefer, manually copy the file to
++type ``make modules_install`` (or if you prefer, manually copy the file to
+ the modules directory e.g. /lib/modules/2.4.10-4GB/kernel/fs/cifs/cifs.ko).
+ 
+ If you have built the CIFS vfs into the kernel itself, follow the instructions
+ for your distribution on how to install a new kernel (usually you
+-would simply type "make install").
++would simply type ``make install``).
+ 
+ If you do not have the utility mount.cifs (in the Samba 4.x source tree and on
+ the CIFS VFS web site) copy it to the same directory in which mount helpers
+ reside (usually /sbin).  Although the helper software is not
+-required, mount.cifs is recommended.  Most distros include a "cifs-utils"
++required, mount.cifs is recommended.  Most distros include a ``cifs-utils``
+ package that includes this utility so it is recommended to install this.
+ 
+ Note that running the Winbind pam/nss module (logon service) on all of your
+@@ -57,13 +65,16 @@ found at cifs-utils.git on git.samba.org
+ 
+ If cifs is built as a module, then the size and number of network buffers
+ and maximum number of simultaneous requests to one server can be configured.
+-Changing these from their defaults is not recommended. By executing modinfo
++Changing these from their defaults is not recommended. By executing modinfo::
++
+ 	modinfo kernel/fs/cifs/cifs.ko
++
+ on kernel/fs/cifs/cifs.ko the list of configuration changes that can be made
+ at module initialization time (by running insmod cifs.ko) can be seen.
+ 
+ Recommendations
+ ===============
++
+ To improve security the SMB2.1 dialect or later (usually will get SMB3) is now
+ the new default. To use old dialects (e.g. to mount Windows XP) use "vers=1.0"
+ on mount (or vers=2.0 for Windows Vista).  Note that the CIFS (vers=1.0) is
+@@ -72,156 +83,168 @@ many advanced security features such as downgrade attack detection
+ and encrypted shares and stronger signing and authentication algorithms.
+ There are additional mount options that may be helpful for SMB3 to get
+ improved POSIX behavior (NB: can use vers=3.0 to force only SMB3, never 2.1):
+-     "mfsymlinks" and "cifsacl" and "idsfromsid"
++
++     ``mfsymlinks`` and ``cifsacl`` and ``idsfromsid``
+ 
+ Allowing User Mounts
+ ====================
++
+ To permit users to mount and unmount over directories they own is possible
+ with the cifs vfs.  A way to enable such mounting is to mark the mount.cifs
+-utility as suid (e.g. "chmod +s /sbin/mount.cifs). To enable users to 
++utility as suid (e.g. ``chmod +s /sbin/mount.cifs``). To enable users to
+ umount shares they mount requires
++
+ 1) mount.cifs version 1.4 or later
+ 2) an entry for the share in /etc/fstab indicating that a user may
+-unmount it e.g.
+-//server/usersharename  /mnt/username cifs user 0 0
++   unmount it e.g.::
+ 
+-Note that when the mount.cifs utility is run suid (allowing user mounts), 
+-in order to reduce risks, the "nosuid" mount flag is passed in on mount to
++     //server/usersharename  /mnt/username cifs user 0 0
++
++Note that when the mount.cifs utility is run suid (allowing user mounts),
++in order to reduce risks, the ``nosuid`` mount flag is passed in on mount to
+ disallow execution of an suid program mounted on the remote target.
+ When mount is executed as root, nosuid is not passed in by default,
+ and execution of suid programs on the remote target would be enabled
+-by default. This can be changed, as with nfs and other filesystems, 
+-by simply specifying "nosuid" among the mount options. For user mounts 
+-though to be able to pass the suid flag to mount requires rebuilding 
++by default. This can be changed, as with nfs and other filesystems,
++by simply specifying ``nosuid`` among the mount options. For user mounts
++though to be able to pass the suid flag to mount requires rebuilding
+ mount.cifs with the following flag: CIFS_ALLOW_USR_SUID
+ 
+ There is a corresponding manual page for cifs mounting in the Samba 3.0 and
+-later source tree in docs/manpages/mount.cifs.8 
++later source tree in docs/manpages/mount.cifs.8
+ 
+ Allowing User Unmounts
+ ======================
++
+ To permit users to ummount directories that they have user mounted (see above),
+-the utility umount.cifs may be used.  It may be invoked directly, or if 
++the utility umount.cifs may be used.  It may be invoked directly, or if
+ umount.cifs is placed in /sbin, umount can invoke the cifs umount helper
+ (at least for most versions of the umount utility) for umount of cifs
+ mounts, unless umount is invoked with -i (which will avoid invoking a umount
+ helper). As with mount.cifs, to enable user unmounts umount.cifs must be marked
+-as suid (e.g. "chmod +s /sbin/umount.cifs") or equivalent (some distributions
++as suid (e.g. ``chmod +s /sbin/umount.cifs``) or equivalent (some distributions
+ allow adding entries to a file to the /etc/permissions file to achieve the
+ equivalent suid effect).  For this utility to succeed the target path
+ must be a cifs mount, and the uid of the current user must match the uid
+ of the user who mounted the resource.
+ 
+-Also note that the customary way of allowing user mounts and unmounts is 
++Also note that the customary way of allowing user mounts and unmounts is
+ (instead of using mount.cifs and unmount.cifs as suid) to add a line
+ to the file /etc/fstab for each //server/share you wish to mount, but
+ this can become unwieldy when potential mount targets include many
+ or  unpredictable UNC names.
+ 
+-Samba Considerations 
++Samba Considerations
+ ====================
++
+ Most current servers support SMB2.1 and SMB3 which are more secure,
+ but there are useful protocol extensions for the older less secure CIFS
+ dialect, so to get the maximum benefit if mounting using the older dialect
+ (CIFS/SMB1), we recommend using a server that supports the SNIA CIFS
+ Unix Extensions standard (e.g. almost any  version of Samba ie version
+ 2.2.5 or later) but the CIFS vfs works fine with a wide variety of CIFS servers.
+-Note that uid, gid and file permissions will display default values if you do 
+-not have a server that supports the Unix extensions for CIFS (such as Samba 
+-2.2.5 or later).  To enable the Unix CIFS Extensions in the Samba server, add 
+-the line: 
++Note that uid, gid and file permissions will display default values if you do
++not have a server that supports the Unix extensions for CIFS (such as Samba
++2.2.5 or later).  To enable the Unix CIFS Extensions in the Samba server, add
++the line::
+ 
+ 	unix extensions = yes
+-	
+-to your smb.conf file on the server.  Note that the following smb.conf settings 
+-are also useful (on the Samba server) when the majority of clients are Unix or 
+-Linux: 
++
++to your smb.conf file on the server.  Note that the following smb.conf settings
++are also useful (on the Samba server) when the majority of clients are Unix or
++Linux::
+ 
+ 	case sensitive = yes
+-	delete readonly = yes 
++	delete readonly = yes
+ 	ea support = yes
+ 
+ Note that server ea support is required for supporting xattrs from the Linux
+-cifs client, and that EA support is present in later versions of Samba (e.g. 
++cifs client, and that EA support is present in later versions of Samba (e.g.
+ 3.0.6 and later (also EA support works in all versions of Windows, at least to
+ shares on NTFS filesystems).  Extended Attribute (xattr) support is an optional
+ feature of most Linux filesystems which may require enabling via
+ make menuconfig. Client support for extended attributes (user xattr) can be
+-disabled on a per-mount basis by specifying "nouser_xattr" on mount.
++disabled on a per-mount basis by specifying ``nouser_xattr`` on mount.
+ 
+ The CIFS client can get and set POSIX ACLs (getfacl, setfacl) to Samba servers
+-version 3.10 and later.  Setting POSIX ACLs requires enabling both XATTR and 
++version 3.10 and later.  Setting POSIX ACLs requires enabling both XATTR and
+ then POSIX support in the CIFS configuration options when building the cifs
+ module.  POSIX ACL support can be disabled on a per mount basic by specifying
+-"noacl" on mount.
+- 
+-Some administrators may want to change Samba's smb.conf "map archive" and 
+-"create mask" parameters from the default.  Unless the create mask is changed
++``noacl`` on mount.
++
++Some administrators may want to change Samba's smb.conf ``map archive`` and
++``create mask`` parameters from the default.  Unless the create mask is changed
+ newly created files can end up with an unnecessarily restrictive default mode,
+ which may not be what you want, although if the CIFS Unix extensions are
+ enabled on the server and client, subsequent setattr calls (e.g. chmod) can
+-fix the mode.  Note that creating special devices (mknod) remotely 
+-may require specifying a mkdev function to Samba if you are not using 
++fix the mode.  Note that creating special devices (mknod) remotely
++may require specifying a mkdev function to Samba if you are not using
+ Samba 3.0.6 or later.  For more information on these see the manual pages
+-("man smb.conf") on the Samba server system.  Note that the cifs vfs,
+-unlike the smbfs vfs, does not read the smb.conf on the client system 
+-(the few optional settings are passed in on mount via -o parameters instead).  
++(``man smb.conf``) on the Samba server system.  Note that the cifs vfs,
++unlike the smbfs vfs, does not read the smb.conf on the client system
++(the few optional settings are passed in on mount via -o parameters instead).
+ Note that Samba 2.2.7 or later includes a fix that allows the CIFS VFS to delete
+-open files (required for strict POSIX compliance).  Windows Servers already 
++open files (required for strict POSIX compliance).  Windows Servers already
+ supported this feature. Samba server does not allow symlinks that refer to files
+ outside of the share, so in Samba versions prior to 3.0.6, most symlinks to
+-files with absolute paths (ie beginning with slash) such as:
++files with absolute paths (ie beginning with slash) such as::
++
+ 	 ln -s /mnt/foo bar
+-would be forbidden. Samba 3.0.6 server or later includes the ability to create 
+-such symlinks safely by converting unsafe symlinks (ie symlinks to server 
++
++would be forbidden. Samba 3.0.6 server or later includes the ability to create
++such symlinks safely by converting unsafe symlinks (ie symlinks to server
+ files that are outside of the share) to a samba specific format on the server
+ that is ignored by local server applications and non-cifs clients and that will
+ not be traversed by the Samba server).  This is opaque to the Linux client
+ application using the cifs vfs. Absolute symlinks will work to Samba 3.0.5 or
+ later, but only for remote clients using the CIFS Unix extensions, and will
+ be invisbile to Windows clients and typically will not affect local
+-applications running on the same server as Samba.  
++applications running on the same server as Samba.
+ 
+-Use instructions:
++Use instructions
+ ================
+-Once the CIFS VFS support is built into the kernel or installed as a module 
++
++Once the CIFS VFS support is built into the kernel or installed as a module
+ (cifs.ko), you can use mount syntax like the following to access Samba or
+-Mac or Windows servers:
++Mac or Windows servers::
+ 
+   mount -t cifs //9.53.216.11/e$ /mnt -o username=myname,password=mypassword
+ 
+ Before -o the option -v may be specified to make the mount.cifs
+-mount helper display the mount steps more verbosely.  
++mount helper display the mount steps more verbosely.
+ After -o the following commonly used cifs vfs specific options
+-are supported:
++are supported::
+ 
+   username=<username>
+   password=<password>
+   domain=<domain name>
+-  
++
+ Other cifs mount options are described below.  Use of TCP names (in addition to
+ ip addresses) is available if the mount helper (mount.cifs) is installed. If
+ you do not trust the server to which are mounted, or if you do not have
+ cifs signing enabled (and the physical network is insecure), consider use
+-of the standard mount options "noexec" and "nosuid" to reduce the risk of 
++of the standard mount options ``noexec`` and ``nosuid`` to reduce the risk of
+ running an altered binary on your local system (downloaded from a hostile server
+ or altered by a hostile router).
+ 
+ Although mounting using format corresponding to the CIFS URL specification is
+ not possible in mount.cifs yet, it is possible to use an alternate format
+ for the server and sharename (which is somewhat similar to NFS style mount
+-syntax) instead of the more widely used UNC format (i.e. \\server\share):
++syntax) instead of the more widely used UNC format (i.e. \\server\share)::
++
+   mount -t cifs tcp_name_of_server:share_name /mnt -o user=myname,pass=mypasswd
+ 
+ When using the mount helper mount.cifs, passwords may be specified via alternate
+-mechanisms, instead of specifying it after -o using the normal "pass=" syntax
++mechanisms, instead of specifying it after -o using the normal ``pass=`` syntax
+ on the command line:
+ 1) By including it in a credential file. Specify credentials=filename as one
+-of the mount options. Credential files contain two lines
+-        username=someuser
+-        password=your_password
++of the mount options. Credential files contain two lines::
++
++	username=someuser
++	password=your_password
++
+ 2) By specifying the password in the PASSWD environment variable (similarly
+-the user name can be taken from the USER environment variable).
++   the user name can be taken from the USER environment variable).
+ 3) By specifying the password in a file by name via PASSWD_FILE
+ 4) By specifying the password in a file by file descriptor via PASSWD_FD
+ 
+@@ -229,39 +252,47 @@ If no password is provided, mount.cifs will prompt for password entry
+ 
+ Restrictions
+ ============
+-Servers must support either "pure-TCP" (port 445 TCP/IP CIFS connections) or RFC 
+-1001/1002 support for "Netbios-Over-TCP/IP." This is not likely to be a 
++
++Servers must support either "pure-TCP" (port 445 TCP/IP CIFS connections) or RFC
++1001/1002 support for "Netbios-Over-TCP/IP." This is not likely to be a
+ problem as most servers support this.
+ 
+ Valid filenames differ between Windows and Linux.  Windows typically restricts
+-filenames which contain certain reserved characters (e.g.the character : 
++filenames which contain certain reserved characters (e.g.the character :
+ which is used to delimit the beginning of a stream name by Windows), while
+ Linux allows a slightly wider set of valid characters in filenames. Windows
+ servers can remap such characters when an explicit mapping is specified in
+-the Server's registry.  Samba starting with version 3.10 will allow such 
++the Server's registry.  Samba starting with version 3.10 will allow such
+ filenames (ie those which contain valid Linux characters, which normally
+ would be forbidden for Windows/CIFS semantics) as long as the server is
+ configured for Unix Extensions (and the client has not disabled
+ /proc/fs/cifs/LinuxExtensionsEnabled). In addition the mount option
+-"mapposix" can be used on CIFS (vers=1.0) to force the mapping of
++``mapposix`` can be used on CIFS (vers=1.0) to force the mapping of
+ illegal Windows/NTFS/SMB characters to a remap range (this mount parm
+-is the default for SMB3). This remap ("mapposix") range is also
++is the default for SMB3). This remap (``mapposix``) range is also
+ compatible with Mac (and "Services for Mac" on some older Windows).
+ 
+ CIFS VFS Mount Options
+ ======================
+ A partial list of the supported mount options follows:
+-  username	The user name to use when trying to establish
++
++  username
++		The user name to use when trying to establish
+ 		the CIFS session.
+-  password	The user password.  If the mount helper is
++  password
++		The user password.  If the mount helper is
+ 		installed, the user will be prompted for password
+ 		if not supplied.
+-  ip		The ip address of the target server
+-  unc		The target server Universal Network Name (export) to 
+-		mount.	
+-  domain	Set the SMB/CIFS workgroup name prepended to the
++  ip
++		The ip address of the target server
++  unc
++		The target server Universal Network Name (export) to
++		mount.
++  domain
++		Set the SMB/CIFS workgroup name prepended to the
+ 		username during CIFS session establishment
+-  forceuid	Set the default uid for inodes to the uid
++  forceuid
++		Set the default uid for inodes to the uid
+ 		passed in on mount. For mounts to servers
+ 		which do support the CIFS Unix extensions, such as a
+ 		properly configured Samba server, the server provides
+@@ -276,32 +307,39 @@ A partial list of the supported mount options follows:
+ 		extensions, the default uid (and gid) returned on lookup
+ 		of existing files will be the uid (gid) of the person
+ 		who executed the mount (root, except when mount.cifs
+-		is configured setuid for user mounts) unless the "uid=" 
++		is configured setuid for user mounts) unless the ``uid=``
+ 		(gid) mount option is specified. Also note that permission
+ 		checks (authorization checks) on accesses to a file occur
+ 		at the server, but there are cases in which an administrator
+ 		may want to restrict at the client as well.  For those
+ 		servers which do not report a uid/gid owner
+ 		(such as Windows), permissions can also be checked at the
+-		client, and a crude form of client side permission checking 
+-		can be enabled by specifying file_mode and dir_mode on 
++		client, and a crude form of client side permission checking
++		can be enabled by specifying file_mode and dir_mode on
+ 		the client.  (default)
+-  forcegid	(similar to above but for the groupid instead of uid) (default)
+-  noforceuid	Fill in file owner information (uid) by requesting it from
++  forcegid
++		(similar to above but for the groupid instead of uid) (default)
++  noforceuid
++		Fill in file owner information (uid) by requesting it from
+ 		the server if possible. With this option, the value given in
+ 		the uid= option (on mount) will only be used if the server
+ 		can not support returning uids on inodes.
+-  noforcegid	(similar to above but for the group owner, gid, instead of uid)
+-  uid		Set the default uid for inodes, and indicate to the
++  noforcegid
++		(similar to above but for the group owner, gid, instead of uid)
++  uid
++		Set the default uid for inodes, and indicate to the
+ 		cifs kernel driver which local user mounted. If the server
+ 		supports the unix extensions the default uid is
+ 		not used to fill in the owner fields of inodes (files)
+-		unless the "forceuid" parameter is specified.
+-  gid		Set the default gid for inodes (similar to above).
+-  file_mode     If CIFS Unix extensions are not supported by the server
++		unless the ``forceuid`` parameter is specified.
++  gid
++		Set the default gid for inodes (similar to above).
++  file_mode
++		If CIFS Unix extensions are not supported by the server
+ 		this overrides the default mode for file inodes.
+-  fsc		Enable local disk caching using FS-Cache (off by default). This
+-  		option could be useful to improve performance on a slow link,
++  fsc
++		Enable local disk caching using FS-Cache (off by default). This
++		option could be useful to improve performance on a slow link,
+ 		heavily loaded server and/or network where reading from the
+ 		disk is faster than reading from the server (over the network).
+ 		This could also impact scalability positively as the
+@@ -310,18 +348,22 @@ A partial list of the supported mount options follows:
+ 		type workloads. So, you need to consider carefully your
+ 		workload/scenario before using this option. Currently, local
+ 		disk caching is functional for CIFS files opened as read-only.
+-  dir_mode      If CIFS Unix extensions are not supported by the server 
++  dir_mode
++		If CIFS Unix extensions are not supported by the server
+ 		this overrides the default mode for directory inodes.
+-  port		attempt to contact the server on this tcp port, before
++  port
++		attempt to contact the server on this tcp port, before
+ 		trying the usual ports (port 445, then 139).
+-  iocharset     Codepage used to convert local path names to and from
++  iocharset
++		Codepage used to convert local path names to and from
+ 		Unicode. Unicode is used by default for network path
+ 		names if the server supports it.  If iocharset is
+ 		not specified then the nls_default specified
+ 		during the local client kernel build will be used.
+ 		If server does not support Unicode, this parameter is
+ 		unused.
+-  rsize		default read size (usually 16K). The client currently
++  rsize
++		default read size (usually 16K). The client currently
+ 		can not use rsize larger than CIFSMaxBufSize. CIFSMaxBufSize
+ 		defaults to 16K and may be changed (from 8K to the maximum
+ 		kmalloc size allowed by your kernel) at module install time
+@@ -333,10 +375,12 @@ A partial list of the supported mount options follows:
+ 		newer servers (e.g. Samba 3.0.26 or later) do. rsize can be
+ 		set from a minimum of 2048 to a maximum of 130048 (127K or
+ 		CIFSMaxBufSize, whichever is smaller)
+-  wsize		default write size (default 57344)
++  wsize
++		default write size (default 57344)
+ 		maximum wsize currently allowed by CIFS is 57344 (fourteen
+ 		4096 byte pages)
+-  actimeo=n	attribute cache timeout in seconds (default 1 second).
++  actimeo=n
++		attribute cache timeout in seconds (default 1 second).
+ 		After this timeout, the cifs client requests fresh attribute
+ 		information from the server. This option allows to tune the
+ 		attribute cache timeout to suit the workload needs. Shorter
+@@ -345,49 +389,67 @@ A partial list of the supported mount options follows:
+ 		of calls to the server at the expense of less stricter cache
+ 		coherency checks (i.e. incorrect attribute cache for a short
+ 		period of time).
+-  rw		mount the network share read-write (note that the
++  rw
++		mount the network share read-write (note that the
+ 		server may still consider the share read-only)
+-  ro		mount network share read-only
+-  version	used to distinguish different versions of the
++  ro
++		mount network share read-only
++  version
++		used to distinguish different versions of the
+ 		mount helper utility (not typically needed)
+-  sep		if first mount option (after the -o), overrides
++  sep
++		if first mount option (after the -o), overrides
+ 		the comma as the separator between the mount
+-		parms. e.g.
++		parms. e.g.::
++
+ 			-o user=myname,password=mypassword,domain=mydom
+-		could be passed instead with period as the separator by
++
++		could be passed instead with period as the separator by::
++
+ 			-o sep=.user=myname.password=mypassword.domain=mydom
++
+ 		this might be useful when comma is contained within username
+ 		or password or domain. This option is less important
+ 		when the cifs mount helper cifs.mount (version 1.1 or later)
+ 		is used.
+-  nosuid        Do not allow remote executables with the suid bit 
++  nosuid
++		Do not allow remote executables with the suid bit
+ 		program to be executed.  This is only meaningful for mounts
+ 		to servers such as Samba which support the CIFS Unix Extensions.
+ 		If you do not trust the servers in your network (your mount
+ 		targets) it is recommended that you specify this option for
+ 		greater security.
+-  exec		Permit execution of binaries on the mount.
+-  noexec	Do not permit execution of binaries on the mount.
+-  dev		Recognize block devices on the remote mount.
+-  nodev		Do not recognize devices on the remote mount.
+-  suid          Allow remote files on this mountpoint with suid enabled to 
++  exec
++		Permit execution of binaries on the mount.
++  noexec
++		Do not permit execution of binaries on the mount.
++  dev
++		Recognize block devices on the remote mount.
++  nodev
++		Do not recognize devices on the remote mount.
++  suid
++		Allow remote files on this mountpoint with suid enabled to
+ 		be executed (default for mounts when executed as root,
+ 		nosuid is default for user mounts).
+-  credentials   Although ignored by the cifs kernel component, it is used by 
++  credentials
++		Although ignored by the cifs kernel component, it is used by
+ 		the mount helper, mount.cifs. When mount.cifs is installed it
+-		opens and reads the credential file specified in order  
++		opens and reads the credential file specified in order
+ 		to obtain the userid and password arguments which are passed to
+ 		the cifs vfs.
+-  guest         Although ignored by the kernel component, the mount.cifs
++  guest
++		Although ignored by the kernel component, the mount.cifs
+ 		mount helper will not prompt the user for a password
+ 		if guest is specified on the mount options.  If no
+ 		password is specified a null password will be used.
+-  perm          Client does permission checks (vfs_permission check of uid
++  perm
++		Client does permission checks (vfs_permission check of uid
+ 		and gid of the file against the mode and desired operation),
+ 		Note that this is in addition to the normal ACL check on the
+-		target machine done by the server software. 
++		target machine done by the server software.
+ 		Client permission checking is enabled by default.
+-  noperm        Client does not do permission checks.  This can expose
++  noperm
++		Client does not do permission checks.  This can expose
+ 		files on this mount to access by other users on the local
+ 		client system. It is typically only needed when the server
+ 		supports the CIFS Unix Extensions but the UIDs/GIDs on the
+@@ -399,7 +461,8 @@ A partial list of the supported mount options follows:
+ 		Note that this does not affect the normal ACL check on the
+ 		target machine done by the server software (of the server
+ 		ACL against the user name provided at mount time).
+-  serverino	Use server's inode numbers instead of generating automatically
++  serverino
++		Use server's inode numbers instead of generating automatically
+ 		incrementing inode numbers on the client.  Although this will
+ 		make it easier to spot hardlinked files (as they will have
+ 		the same inode numbers) and inode numbers may be persistent,
+@@ -412,14 +475,16 @@ A partial list of the supported mount options follows:
+ 		or the CIFS Unix Extensions equivalent and for those
+ 		this mount option will have no effect.  Exporting cifs mounts
+ 		under nfsd requires this mount option on the cifs mount.
+-		This is now the default if server supports the 
++		This is now the default if server supports the
+ 		required network operation.
+-  noserverino   Client generates inode numbers (rather than using the actual one
++  noserverino
++		Client generates inode numbers (rather than using the actual one
+ 		from the server). These inode numbers will vary after
+ 		unmount or reboot which can confuse some applications,
+ 		but not all server filesystems support unique inode
+ 		numbers.
+-  setuids       If the CIFS Unix extensions are negotiated with the server
++  setuids
++		If the CIFS Unix extensions are negotiated with the server
+ 		the client will attempt to set the effective uid and gid of
+ 		the local process on newly created files, directories, and
+ 		devices (create, mkdir, mknod).  If the CIFS Unix Extensions
+@@ -427,9 +492,10 @@ A partial list of the supported mount options follows:
+ 		instead of using the default uid and gid specified on
+ 		the mount, cache the new file's uid and gid locally which means
+ 		that the uid for the file can change when the inode is
+-	        reloaded (or the user remounts the share).
+-  nosetuids     The client will not attempt to set the uid and gid on
+-		on newly created files, directories, and devices (create, 
++		reloaded (or the user remounts the share).
++  nosetuids
++		The client will not attempt to set the uid and gid on
++		on newly created files, directories, and devices (create,
+ 		mkdir, mknod) which will result in the server setting the
+ 		uid and gid to the default (usually the server uid of the
+ 		user who mounted the share).  Letting the server (rather than
+@@ -437,38 +503,49 @@ A partial list of the supported mount options follows:
+ 		Unix Extensions are not negotiated then the uid and gid for
+ 		new files will appear to be the uid (gid) of the mounter or the
+ 		uid (gid) parameter specified on the mount.
+-  netbiosname   When mounting to servers via port 139, specifies the RFC1001
+-		source name to use to represent the client netbios machine 
++  netbiosname
++		When mounting to servers via port 139, specifies the RFC1001
++		source name to use to represent the client netbios machine
+ 		name when doing the RFC1001 netbios session initialize.
+-  direct        Do not do inode data caching on files opened on this mount.
++  direct
++		Do not do inode data caching on files opened on this mount.
+ 		This precludes mmapping files on this mount. In some cases
+ 		with fast networks and little or no caching benefits on the
+ 		client (e.g. when the application is doing large sequential
+-		reads bigger than page size without rereading the same data) 
++		reads bigger than page size without rereading the same data)
+ 		this can provide better performance than the default
+-		behavior which caches reads (readahead) and writes 
+-		(writebehind) through the local Linux client pagecache 
++		behavior which caches reads (readahead) and writes
++		(writebehind) through the local Linux client pagecache
+ 		if oplock (caching token) is granted and held. Note that
+ 		direct allows write operations larger than page size
+ 		to be sent to the server.
+-  strictcache   Use for switching on strict cache mode. In this mode the
++  strictcache
++		Use for switching on strict cache mode. In this mode the
+ 		client read from the cache all the time it has Oplock Level II,
+ 		otherwise - read from the server. All written data are stored
+ 		in the cache, but if the client doesn't have Exclusive Oplock,
+ 		it writes the data to the server.
+-  rwpidforward  Forward pid of a process who opened a file to any read or write
++  rwpidforward
++		Forward pid of a process who opened a file to any read or write
+ 		operation on that file. This prevent applications like WINE
+ 		from failing on read and write if we use mandatory brlock style.
+-  acl   	Allow setfacl and getfacl to manage posix ACLs if server
++  acl
++		Allow setfacl and getfacl to manage posix ACLs if server
+ 		supports them.  (default)
+-  noacl 	Do not allow setfacl and getfacl calls on this mount
+-  user_xattr    Allow getting and setting user xattrs (those attributes whose
+-		name begins with "user." or "os2.") as OS/2 EAs (extended
++  noacl
++		Do not allow setfacl and getfacl calls on this mount
++  user_xattr
++		Allow getting and setting user xattrs (those attributes whose
++		name begins with ``user.`` or ``os2.``) as OS/2 EAs (extended
+ 		attributes) to the server.  This allows support of the
+ 		setfattr and getfattr utilities. (default)
+-  nouser_xattr  Do not allow getfattr/setfattr to get/set/list xattrs 
+-  mapchars      Translate six of the seven reserved characters (not backslash)
++  nouser_xattr
++		Do not allow getfattr/setfattr to get/set/list xattrs
++  mapchars
++		Translate six of the seven reserved characters (not backslash)::
++
+ 			*?<>|:
++
+ 		to the remap range (above 0xF000), which also
+ 		allows the CIFS client to recognize files created with
+ 		such characters by Windows's POSIX emulation. This can
+@@ -477,39 +554,47 @@ A partial list of the supported mount options follows:
+ 		whose names contain any of these seven characters).
+ 		This has no effect if the server does not support
+ 		Unicode on the wire.
+- nomapchars     Do not translate any of these seven characters (default).
+- nocase         Request case insensitive path name matching (case
++  nomapchars
++		Do not translate any of these seven characters (default).
++  nocase
++		Request case insensitive path name matching (case
+ 		sensitive is the default if the server supports it).
+-		(mount option "ignorecase" is identical to "nocase")
+- posixpaths     If CIFS Unix extensions are supported, attempt to
++		(mount option ``ignorecase`` is identical to ``nocase``)
++  posixpaths
++		If CIFS Unix extensions are supported, attempt to
+ 		negotiate posix path name support which allows certain
+ 		characters forbidden in typical CIFS filenames, without
+ 		requiring remapping. (default)
+- noposixpaths   If CIFS Unix extensions are supported, do not request
++  noposixpaths
++		If CIFS Unix extensions are supported, do not request
+ 		posix path name support (this may cause servers to
+ 		reject creatingfile with certain reserved characters).
+- nounix         Disable the CIFS Unix Extensions for this mount (tree
++  nounix
++		Disable the CIFS Unix Extensions for this mount (tree
+ 		connection). This is rarely needed, but it may be useful
+ 		in order to turn off multiple settings all at once (ie
+ 		posix acls, posix locks, posix paths, symlink support
+ 		and retrieving uids/gids/mode from the server) or to
+ 		work around a bug in server which implement the Unix
+ 		Extensions.
+- nobrl          Do not send byte range lock requests to the server.
++  nobrl
++		Do not send byte range lock requests to the server.
+ 		This is necessary for certain applications that break
+ 		with cifs style mandatory byte range locks (and most
+ 		cifs servers do not yet support requesting advisory
+ 		byte range locks).
+- forcemandatorylock Even if the server supports posix (advisory) byte range
++  forcemandatorylock
++		Even if the server supports posix (advisory) byte range
+ 		locking, send only mandatory lock requests.  For some
+ 		(presumably rare) applications, originally coded for
+ 		DOS/Windows, which require Windows style mandatory byte range
+ 		locking, they may be able to take advantage of this option,
+ 		forcing the cifs client to only send mandatory locks
+ 		even if the cifs server would support posix advisory locks.
+-		"forcemand" is accepted as a shorter form of this mount
++		``forcemand`` is accepted as a shorter form of this mount
+ 		option.
+- nostrictsync   If this mount option is set, when an application does an
++  nostrictsync
++		If this mount option is set, when an application does an
+ 		fsync call then the cifs client does not send an SMB Flush
+ 		to the server (to force the server to write all dirty data
+ 		for this file immediately to disk), although cifs still sends
+@@ -522,41 +607,50 @@ A partial list of the supported mount options follows:
+ 		crash.  If this mount option is not set, by default cifs will
+ 		send an SMB flush request (and wait for a response) on every
+ 		fsync call.
+- nodfs          Disable DFS (global name space support) even if the
++  nodfs
++		Disable DFS (global name space support) even if the
+ 		server claims to support it.  This can help work around
+ 		a problem with parsing of DFS paths with Samba server
+ 		versions 3.0.24 and 3.0.25.
+- remount        remount the share (often used to change from ro to rw mounts
+-	        or vice versa)
+- cifsacl        Report mode bits (e.g. on stat) based on the Windows ACL for
+-	        the file. (EXPERIMENTAL)
+- servern        Specify the server 's netbios name (RFC1001 name) to use
+-		when attempting to setup a session to the server. 
++  remount
++		remount the share (often used to change from ro to rw mounts
++		or vice versa)
++  cifsacl
++		Report mode bits (e.g. on stat) based on the Windows ACL for
++		the file. (EXPERIMENTAL)
++  servern
++		Specify the server 's netbios name (RFC1001 name) to use
++		when attempting to setup a session to the server.
+ 		This is needed for mounting to some older servers (such
+ 		as OS/2 or Windows 98 and Windows ME) since they do not
+ 		support a default server name.  A server name can be up
+ 		to 15 characters long and is usually uppercased.
+- sfu            When the CIFS Unix Extensions are not negotiated, attempt to
++  sfu
++		When the CIFS Unix Extensions are not negotiated, attempt to
+ 		create device files and fifos in a format compatible with
+ 		Services for Unix (SFU).  In addition retrieve bits 10-12
+ 		of the mode via the SETFILEBITS extended attribute (as
+ 		SFU does).  In the future the bottom 9 bits of the
+ 		mode also will be emulated using queries of the security
+ 		descriptor (ACL).
+- mfsymlinks     Enable support for Minshall+French symlinks
++  mfsymlinks
++		Enable support for Minshall+French symlinks
+ 		(see http://wiki.samba.org/index.php/UNIX_Extensions#Minshall.2BFrench_symlinks)
+ 		This option is ignored when specified together with the
+ 		'sfu' option. Minshall+French symlinks are used even if
+ 		the server supports the CIFS Unix Extensions.
+- sign           Must use packet signing (helps avoid unwanted data modification
++  sign
++		Must use packet signing (helps avoid unwanted data modification
+ 		by intermediate systems in the route).  Note that signing
+ 		does not work with lanman or plaintext authentication.
+- seal           Must seal (encrypt) all data on this mounted share before
++  seal
++		Must seal (encrypt) all data on this mounted share before
+ 		sending on the network.  Requires support for Unix Extensions.
+ 		Note that this differs from the sign mount option in that it
+ 		causes encryption of data sent over this mounted share but other
+ 		shares mounted to the same server are unaffected.
+- locallease     This option is rarely needed. Fcntl F_SETLEASE is
++  locallease
++		This option is rarely needed. Fcntl F_SETLEASE is
+ 		used by some applications such as Samba and NFSv4 server to
+ 		check to see whether a file is cacheable.  CIFS has no way
+ 		to explicitly request a lease, but can check whether a file
+@@ -569,51 +663,73 @@ A partial list of the supported mount options follows:
+ 		will allow the cifs client to check for leases (only) locally
+ 		for files which are not oplocked instead of denying leases
+ 		in that case. (EXPERIMENTAL)
+- sec            Security mode.  Allowed values are:
+-			none	attempt to connection as a null user (no name)
+-			krb5    Use Kerberos version 5 authentication
+-			krb5i   Use Kerberos authentication and packet signing
+-			ntlm    Use NTLM password hashing (default)
+-			ntlmi   Use NTLM password hashing with signing (if
++  sec
++		Security mode.  Allowed values are:
++
++			none
++				attempt to connection as a null user (no name)
++			krb5
++				Use Kerberos version 5 authentication
++			krb5i
++				Use Kerberos authentication and packet signing
++			ntlm
++				Use NTLM password hashing (default)
++			ntlmi
++				Use NTLM password hashing with signing (if
+ 				/proc/fs/cifs/PacketSigningEnabled on or if
+-				server requires signing also can be the default) 
+-			ntlmv2  Use NTLMv2 password hashing      
+-			ntlmv2i Use NTLMv2 password hashing with packet signing
+-			lanman  (if configured in kernel config) use older
++				server requires signing also can be the default)
++			ntlmv2
++				Use NTLMv2 password hashing
++			ntlmv2i
++				Use NTLMv2 password hashing with packet signing
++			lanman
++				(if configured in kernel config) use older
+ 				lanman hash
+-hard		Retry file operations if server is not responding
+-soft		Limit retries to unresponsive servers (usually only
++  hard
++		Retry file operations if server is not responding
++  soft
++		Limit retries to unresponsive servers (usually only
+ 		one retry) before returning an error.  (default)
+ 
+ The mount.cifs mount helper also accepts a few mount options before -o
+ including:
+ 
++=============== ===============================================================
+ 	-S      take password from stdin (equivalent to setting the environment
+-		variable "PASSWD_FD=0"
++		variable ``PASSWD_FD=0``
+ 	-V      print mount.cifs version
+ 	-?      display simple usage information
++=============== ===============================================================
+ 
+ With most 2.6 kernel versions of modutils, the version of the cifs kernel
+ module can be displayed via modinfo.
+ 
+ Misc /proc/fs/cifs Flags and Debug Info
+ =======================================
++
+ Informational pseudo-files:
++
++======================= =======================================================
+ DebugData		Displays information about active CIFS sessions and
+ 			shares, features enabled as well as the cifs.ko
+ 			version.
+ Stats			Lists summary resource usage information as well as per
+ 			share statistics.
++======================= =======================================================
+ 
+ Configuration pseudo-files:
++
++======================= =======================================================
+ SecurityFlags		Flags which control security negotiation and
+ 			also packet signing. Authentication (may/must)
+ 			flags (e.g. for NTLM and/or NTLMv2) may be combined with
+ 			the signing flags.  Specifying two different password
+-			hashing mechanisms (as "must use") on the other hand 
+-			does not make much sense. Default flags are 
+-				0x07007 
+-			(NTLM, NTLMv2 and packet signing allowed).  The maximum 
++			hashing mechanisms (as "must use") on the other hand
++			does not make much sense. Default flags are::
++
++				0x07007
++
++			(NTLM, NTLMv2 and packet signing allowed).  The maximum
+ 			allowable flags if you want to allow mounts to servers
+ 			using weaker password hashes is 0x37037 (lanman,
+ 			plaintext, ntlm, ntlmv2, signing allowed).  Some
+@@ -626,21 +742,21 @@ SecurityFlags		Flags which control security negotiation and
+ 			laintext passwords using the older lanman dialect
+ 			form of the session setup SMB.  (e.g. for authentication
+ 			using plain text passwords, set the SecurityFlags
+-			to 0x30030):
+- 
+-			may use packet signing 				0x00001
+-			must use packet signing				0x01001
+-			may use NTLM (most common password hash)	0x00002
+-			must use NTLM					0x02002
+-			may use NTLMv2					0x00004
+-			must use NTLMv2					0x04004
+-			may use Kerberos security			0x00008
+-			must use Kerberos				0x08008
+-			may use lanman (weak) password hash  		0x00010
+-			must use lanman password hash			0x10010
+-			may use plaintext passwords    			0x00020
+-			must use plaintext passwords			0x20020
+-			(reserved for future packet encryption)		0x00040
++			to 0x30030)::
++
++			  may use packet signing			0x00001
++			  must use packet signing			0x01001
++			  may use NTLM (most common password hash)	0x00002
++			  must use NTLM					0x02002
++			  may use NTLMv2				0x00004
++			  must use NTLMv2				0x04004
++			  may use Kerberos security			0x00008
++			  must use Kerberos				0x08008
++			  may use lanman (weak) password hash		0x00010
++			  must use lanman password hash			0x10010
++			  may use plaintext passwords			0x00020
++			  must use plaintext passwords			0x20020
++			  (reserved for future packet encryption)	0x00040
+ 
+ cifsFYI			If set to non-zero value, additional debug information
+ 			will be logged to the system error log.  This field
+@@ -650,14 +766,19 @@ cifsFYI			If set to non-zero value, additional debug information
+ 			Some debugging statements are not compiled into the
+ 			cifs kernel unless CONFIG_CIFS_DEBUG2 is enabled in the
+ 			kernel configuration. cifsFYI may be set to one or
+-			nore of the following flags (7 sets them all):
++			nore of the following flags (7 sets them all)::
++
++			  +-----------------------------------------------+------+
++			  | log cifs informational messages		  | 0x01 |
++			  +-----------------------------------------------+------+
++			  | log return codes from cifs entry points	  | 0x02 |
++			  +-----------------------------------------------+------+
++			  | log slow responses				  | 0x04 |
++			  | (ie which take longer than 1 second)	  |      |
++			  |                                               |      |
++			  | CONFIG_CIFS_STATS2 must be enabled in .config |      |
++			  +-----------------------------------------------+------+
+ 
+-			log cifs informational messages			0x01
+-			log return codes from cifs entry points		0x02
+-			log slow responses (ie which take longer than 1 second)
+-			  CONFIG_CIFS_STATS2 must be enabled in .config	0x04
+-				
+-				
+ traceSMB		If set to one, debug information is logged to the
+ 			system error log with the start of smb requests
+ 			and responses (default 0)
+@@ -671,24 +792,25 @@ LinuxExtensionsEnabled	If set to one then the client will attempt to
+ 			as support symbolic links. If you use servers
+ 			such as Samba that support the CIFS Unix
+ 			extensions but do not want to use symbolic link
+-			support and want to map the uid and gid fields 
+-			to values supplied at mount (rather than the 
++			support and want to map the uid and gid fields
++			to values supplied at mount (rather than the
+ 			actual values, then set this to zero. (default 1)
++======================= =======================================================
+ 
+-These experimental features and tracing can be enabled by changing flags in 
+-/proc/fs/cifs (after the cifs module has been installed or built into the 
+-kernel, e.g.  insmod cifs).  To enable a feature set it to 1 e.g.  to enable 
+-tracing to the kernel message log type: 
++These experimental features and tracing can be enabled by changing flags in
++/proc/fs/cifs (after the cifs module has been installed or built into the
++kernel, e.g.  insmod cifs).  To enable a feature set it to 1 e.g.  to enable
++tracing to the kernel message log type::
+ 
+ 	echo 7 > /proc/fs/cifs/cifsFYI
+-	
++
+ cifsFYI functions as a bit mask. Setting it to 1 enables additional kernel
+ logging of various informational messages.  2 enables logging of non-zero
+ SMB return codes while 4 enables logging of requests that take longer
+-than one second to complete (except for byte range lock requests). 
++than one second to complete (except for byte range lock requests).
+ Setting it to 4 requires CONFIG_CIFS_STATS2 to be set in kernel configuration
+ (.config). Setting it to seven enables all three.  Finally, tracing
+-the start of smb requests and responses can be enabled via:
++the start of smb requests and responses can be enabled via::
+ 
+ 	echo 1 > /proc/fs/cifs/traceSMB
+ 
+@@ -700,10 +822,10 @@ server) SMB3 (or cifs) requests grouped by request type (read, write, close etc.
+ Also recorded is the total bytes read and bytes written to the server for
+ that share.  Note that due to client caching effects this can be less than the
+ number of bytes read and written by the application running on the client.
+-Statistics can be reset to zero by "echo 0 > /proc/fs/cifs/Stats" which may be
++Statistics can be reset to zero by ``echo 0 > /proc/fs/cifs/Stats`` which may be
+ useful if comparing performance of two different scenarios.
+-	
+-Also note that "cat /proc/fs/cifs/DebugData" will display information about
++
++Also note that ``cat /proc/fs/cifs/DebugData`` will display information about
+ the active sessions and the shares that are mounted.
+ 
+ Enabling Kerberos (extended security) works but requires version 1.2 or later
+@@ -725,19 +847,23 @@ space to ease network configuration and improve reliability.
+ 
+ To use cifs Kerberos and DFS support, the Linux keyutils package should be
+ installed and something like the following lines should be added to the
+-/etc/request-key.conf file:
++/etc/request-key.conf file::
+ 
+-create cifs.spnego * * /usr/local/sbin/cifs.upcall %k
+-create dns_resolver * * /usr/local/sbin/cifs.upcall %k
++  create cifs.spnego * * /usr/local/sbin/cifs.upcall %k
++  create dns_resolver * * /usr/local/sbin/cifs.upcall %k
+ 
+ CIFS kernel module parameters
+ =============================
+ These module parameters can be specified or modified either during the time of
+-module loading or during the runtime by using the interface
++module loading or during the runtime by using the interface::
++
+ 	/proc/module/cifs/parameters/<param>
+ 
+-i.e. echo "value" > /sys/module/cifs/parameters/<param>
++i.e.::
+ 
+-1. enable_oplocks - Enable or disable oplocks. Oplocks are enabled by default.
+-		    [Y/y/1]. To disable use any of [N/n/0].
++    echo "value" > /sys/module/cifs/parameters/<param>
+ 
++================= ==========================================================
++1. enable_oplocks Enable or disable oplocks. Oplocks are enabled by default.
++		  [Y/y/1]. To disable use any of [N/n/0].
++================= ==========================================================
+diff --git a/Documentation/filesystems/cifs/winucase_convert.pl b/Documentation/admin-guide/cifs/winucase_convert.pl
+similarity index 100%
+rename from Documentation/filesystems/cifs/winucase_convert.pl
+rename to Documentation/admin-guide/cifs/winucase_convert.pl
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 3f8f7d564552..4a9de9806eaf 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -80,6 +80,7 @@ configure specific aspects of kernel behavior to your liking.
+    blockdev/index
+    ext4
+    binderfs
++   cifs/index
+    xfs
+    pm/index
+    thunderbolt
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4cd39259fcdc..c8c09d4062a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4099,7 +4099,7 @@ L:	samba-technical@lists.samba.org (moderated for non-subscribers)
+ W:	http://linux-cifs.samba.org/
+ T:	git git://git.samba.org/sfrench/cifs-2.6.git
+ S:	Supported
+-F:	Documentation/filesystems/cifs/
++F:	Documentation/admin-guide/cifs/
+ F:	fs/cifs/
+ 
+ COMPACTPCI HOTPLUG CORE
 -- 
 2.21.0
 
