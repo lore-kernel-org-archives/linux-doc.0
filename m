@@ -1,431 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F32527D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 22:31:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6A867D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 23:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728734AbfGVWbH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 18:31:07 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39548 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733181AbfGVWbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 18:31:02 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f17so14058231pfn.6
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2019 15:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6t6Z8yaBFYoLHYTxv5eDMWvXoAnvu95Bt2xJR7LIXPM=;
-        b=Pbqc45wUlOY+YQt8+tSNpR+Cy6b3vnFhYwUa9M0evgqUef7NsHugFBm+TCmFklkAQH
-         /1lrgZc1GAgvI4D0R8SZOkah3X6ZV5+9yK4hR1+P74j8LxSFoEWTibbwplmZTPC/CN6J
-         CYgHBM2VUAJ4iwonvfOrv7/nFN03R96MD9MhaJ7IY1fqBOMtGMDM4zDdufDEjOTvMaCY
-         7svj3GjmBdASH8FN7s+NOxJSOa/i5DqzWQUHmgUS274UJhAHDbRAGIXUC22gLI2OvU69
-         zPfYScJFPjUqVHvxdjR/3qAKP+Pi6GaNPjDX3yguwdNPbSjWNDcNmixX7XdD79jAV0Q0
-         oEUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6t6Z8yaBFYoLHYTxv5eDMWvXoAnvu95Bt2xJR7LIXPM=;
-        b=Yus/QOLDMuKjvkLYlh6yowNzuWjIR3ufENJuH9VURYj22uENkrKyiOiheaNqAkks2y
-         9Gn7ahozdwl1R3CDyp1sbEYDkTdA3rTZ/t0z/SaMvBvv9NBSo1Ys9YJdHsN2yOQmdvKr
-         Gbrs+MjykHm5AgkaP/65DLR9cQWv+8zXYWRKJIr4QGjVKUfLBx5ene1fgfnozxSqUpre
-         XbpS46EQ+zKJ4eX9xDm7mi+UnYVi+l7q9HQp6xHni2cyXiJkDGYaX/ypGZC5ep3Qtqgd
-         UUz5/91fuZr37VIlxQSswfRDeaWYIfOXf0Aq7sa6ZyjVcMIUDuiqgjUL1t9kZLqNKKHq
-         N/rw==
-X-Gm-Message-State: APjAAAUcgX7M2Y9ORqefJukSkPPPb7p9s1ILojQDfiyocwM1ihnejQQK
-        6HydSsWqauQYAbhOJxOlwBdzrtG+SWVkVL8ztBzfgQ==
-X-Google-Smtp-Source: APXvYqyO0RsU5hJiKN1UBBMLEqs8dzVSGIuLzMYi1uVToZEbJ6XuzYxALmxwq0bVMsvtqwjv25P0M3jBSrq2d1nPCNQ=
-X-Received: by 2002:aa7:81ca:: with SMTP id c10mr2499024pfn.185.1563834660552;
- Mon, 22 Jul 2019 15:31:00 -0700 (PDT)
+        id S1733150AbfGVXvu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 19:51:50 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37666 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731112AbfGVXvu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 19:51:50 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x6MNikq2011913;
+        Mon, 22 Jul 2019 23:51:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=ovE6K7lxivhCfH9LRjGsrr23JzVy9SPekmo6Fjy51g8=;
+ b=cUgjbkKyVdRpvx2tHG2zrFgR+9AW8gnBau68E1hJds8h8ymnYlgHsks+r/9kWjEdf6jt
+ U3NWEI8fYjqOgCmOkf6kFWNoFjVw4zw9SFq1JUu/Va2fuGdJF5qTrOsUUPzwxX0OJo6Q
+ MuakUM9yQqEDLHhw3MAtBXajfcxRPuUNOcsBQZRA0wM1MC9IX2SeznwmmdDaRQdSy8ke
+ 4l69y3As1t+2EjR54fFT0nnLMvy2THQYOeVckczkSdf8Ek5dFwEsgknrTE1VSt2efOOM
+ JHNivp76NIpmx9cY9AFLOeh9PDwU05B9m/FIHphrz/I1gEZOHmhkcY6jR95ejCobIwsu nA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2tutwpafs4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Jul 2019 23:51:46 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x6MNhEEQ124720;
+        Mon, 22 Jul 2019 23:51:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2tut9mma0b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Jul 2019 23:51:45 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x6MNpi1t011900;
+        Mon, 22 Jul 2019 23:51:44 GMT
+Received: from [192.168.1.14] (/180.165.87.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 22 Jul 2019 16:51:44 -0700
+Subject: Re: [PATCH 1/4] block: elevator.c: Remove now unused elevator=
+ argument
+To:     Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>
+References: <20190714053453.1655-1-marcos.souza.org@gmail.com>
+ <20190714053453.1655-2-marcos.souza.org@gmail.com>
+From:   Bob Liu <bob.liu@oracle.com>
+Message-ID: <e428794d-f02d-d47a-4e2a-12c99028cb7d@oracle.com>
+Date:   Tue, 23 Jul 2019 07:51:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <20190712081744.87097-5-brendanhiggins@google.com> <20190715221554.8417320665@mail.kernel.org>
- <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
- <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com>
- <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
- <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
- <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
-In-Reply-To: <20190722200347.261D3218C9@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 22 Jul 2019 15:30:49 -0700
-Message-ID: <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190714053453.1655-2-marcos.souza.org@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9326 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1907220251
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9326 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1907220251
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-07-18 17:08:34)
-> > On Thu, Jul 18, 2019 at 12:22:33PM -0700, Brendan Higgins wrote:
-> >
-> > I started poking around with your suggestion while we are waiting. A
-> > couple early observations:
-> >
-> > 1) It is actually easier to do than I previously thought and will probably
-> >    help with getting more of the planned TAP output stuff working.
-> >
-> >    That being said, this is still a pretty substantial undertaking and
-> >    will likely take *at least* a week to implement and properly review.
-> >    Assuming everything goes extremely well (no unexpected issues on my
-> >    end, very responsive reviewers, etc).
-> >
-> > 2) It *will* eliminate the need for kunit_stream.
-> >
-> > 3) ...but, it *will not* eliminate the need for string_stream.
-> >
-> > Based on my early observations, I do think it is worth doing, but I
-> > don't think it is worth trying to make it in this patchset (unless I
-> > have already missed the window, or it is going to be open for a while):
->
-> The merge window is over. Typically code needs to be settled a few weeks
-> before it opens (i.e. around -rc4 or -rc5) for most maintainers to pick
-> up patches for the next merge window.
+On 7/14/19 1:34 PM, Marcos Paulo de Souza wrote:
+> Since the inclusion of blk-mq, elevator argument was not being
+> considered anymore, and it's utility died long with the legacy IO path,
+> now removed too.
+> 
+> Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+> ---
+>  block/elevator.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+> 
+> diff --git a/block/elevator.c b/block/elevator.c
+> index 2f17d66d0e61..f56d9c7d5cbc 100644
+> --- a/block/elevator.c
+> +++ b/block/elevator.c
+> @@ -135,20 +135,6 @@ static struct elevator_type *elevator_get(struct request_queue *q,
+>  	return e;
+>  }
+>  
+> -static char chosen_elevator[ELV_NAME_MAX];
+> -
+> -static int __init elevator_setup(char *str)
+> -{
+> -	/*
+> -	 * Be backwards-compatible with previous kernels, so users
+> -	 * won't get the wrong elevator.
+> -	 */
+> -	strncpy(chosen_elevator, str, sizeof(chosen_elevator) - 1);
+> -	return 1;
+> -}
+> -
+> -__setup("elevator=", elevator_setup);
+> -
+>  static struct kobj_type elv_ktype;
+>  
+>  struct elevator_queue *elevator_alloc(struct request_queue *q,
+> 
 
-Yeah, it closed on Sunday, right?
+Reviewed-by: Bob Liu <bob.liu@oracle.com>
 
-I thought we might be able to squeak in since it was *mostly* settled,
-and Shuah sent me an email two weeks ago which I interpreted to mean
-she was still willing to take it.
-
-In any case, it doesn't matter now.
-
-> > I do think it will make things much cleaner, but I don't think it will
-> > achieve your desired goal of getting rid of an unstructured
-> > {kunit|string}_stream style interface; it just adds a layer on top of it
-> > that makes it harder to misuse.
->
-> Ok.
->
-> >
-> > I attached a patch of what I have so far at the end of this email so you
-> > can see what I am talking about. And of course, if you agree with my
-> > assessment, so we can start working on it as a future patch.
-> >
-> > A couple things in regard to the patch I attached:
-> >
-> > 1) I wrote it pretty quickly so there are almost definitely mistakes.
-> >    You should consider it RFC. I did verify it compiles though.
-> >
-> > 2) Also, I did use kunit_stream in writing it: all occurences should be
-> >    pretty easy to replace with string_stream; nevertheless, the reason
-> >    for this is just to make it easier to play with the current APIs. I
-> >    wanted to have something working before I went through a big tedious
-> >    refactoring. So sorry if it causes any confusion.
-> >
-> > 3) I also based the patch on all the KUnit patches I have queued up
-> >    (includes things like mocking and such) since I want to see how this
-> >    serialization thing will work with mocks and matchers and things like
-> >    that.
->
-> Great!
->
-> >
-> > From 53d475d3d56afcf92b452c6d347dbedfa1a17d34 Mon Sep 17 00:00:00 2001
-> > From: Brendan Higgins <brendanhiggins@google.com>
-> > Date: Thu, 18 Jul 2019 16:08:52 -0700
-> > Subject: [PATCH v1] DO NOT MERGE: started playing around with the
-> >  serialization api
-> >
-> > ---
-> >  include/kunit/assert.h | 130 ++++++++++++++++++++++++++++++
-> >  include/kunit/mock.h   |   4 +
-> >  kunit/Makefile         |   3 +-
-> >  kunit/assert.c         | 179 +++++++++++++++++++++++++++++++++++++++++
-> >  kunit/mock.c           |   6 +-
-> >  5 files changed, 318 insertions(+), 4 deletions(-)
-> >  create mode 100644 include/kunit/assert.h
-> >  create mode 100644 kunit/assert.c
-> >
-> > diff --git a/include/kunit/assert.h b/include/kunit/assert.h
-> > new file mode 100644
-> > index 0000000000000..e054fdff4642f
-> > --- /dev/null
-> > +++ b/include/kunit/assert.h
-> > @@ -0,0 +1,130 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Assertion and expectation serialization API.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +
-> > +#ifndef _KUNIT_ASSERT_H
-> > +#define _KUNIT_ASSERT_H
-> > +
-> > +#include <kunit/test.h>
-> > +#include <kunit/mock.h>
-> > +
-> > +enum kunit_assert_type {
-> > +       KUNIT_ASSERTION,
-> > +       KUNIT_EXPECTATION,
-> > +};
-> > +
-> > +struct kunit_assert {
-> > +       enum kunit_assert_type type;
-> > +       const char *line;
-> > +       const char *file;
-> > +       struct va_format message;
-> > +       void (*format)(struct kunit_assert *assert,
-> > +                      struct kunit_stream *stream);
->
-> Would passing in the test help too?
-
-Yeah, it would probably be good to put one in `struct kunit_assert`.
-
-> > +};
-> > +
-> > +void kunit_base_assert_format(struct kunit_assert *assert,
-> > +                             struct kunit_stream *stream);
-> > +
-> > +void kunit_assert_print_msg(struct kunit_assert *assert,
-> > +                           struct kunit_stream *stream);
-> > +
-> > +struct kunit_unary_assert {
-> > +       struct kunit_assert assert;
-> > +       const char *condition;
-> > +       bool expected_true;
-> > +};
-> > +
-> > +void kunit_unary_assert_format(struct kunit_assert *assert,
-> > +                              struct kunit_stream *stream);
-> > +
-> > +struct kunit_ptr_not_err_assert {
-> > +       struct kunit_assert assert;
-> > +       const char *text;
-> > +       void *value;
-> > +};
-> > +
-> > +void kunit_ptr_not_err_assert_format(struct kunit_assert *assert,
-> > +                                    struct kunit_stream *stream);
-> > +
-> > +struct kunit_binary_assert {
-> > +       struct kunit_assert assert;
-> > +       const char *operation;
-> > +       const char *left_text;
-> > +       long long left_value;
-> > +       const char *right_text;
-> > +       long long right_value;
-> > +};
-> > +
-> > +void kunit_binary_assert_format(struct kunit_assert *assert,
-> > +                               struct kunit_stream *stream);
-> > +
-> > +struct kunit_binary_ptr_assert {
-> > +       struct kunit_assert assert;
-> > +       const char *operation;
-> > +       const char *left_text;
-> > +       void *left_value;
-> > +       const char *right_text;
-> > +       void *right_value;
-> > +};
-> > +
-> > +void kunit_binary_ptr_assert_format(struct kunit_assert *assert,
-> > +                                   struct kunit_stream *stream);
-> > +
-> > +struct kunit_binary_str_assert {
-> > +       struct kunit_assert assert;
-> > +       const char *operation;
-> > +       const char *left_text;
-> > +       const char *left_value;
-> > +       const char *right_text;
-> > +       const char *right_value;
-> > +};
-> > +
-> > +void kunit_binary_str_assert_format(struct kunit_assert *assert,
-> > +                                   struct kunit_stream *stream);
-> > +
-> > +struct kunit_mock_assert {
-> > +       struct kunit_assert assert;
-> > +};
-> > +
-> > +struct kunit_mock_no_expectations {
-> > +       struct kunit_mock_assert assert;
-> > +};
->
-> What's the purpose of making a wrapper struct with no other members?
-> Just to make a different struct for some sort of type checking? I guess
-> it's OK but I don't think it will be very useful in practice.
-
-Yeah, just for typing purposes. I don't mind integrating this into the
-current patchset and then deciding if we want it or not.
-
-> > +
-> > +struct kunit_mock_declaration {
-> > +       const char *function_name;
-> > +       const char **type_names;
-> > +       const void **params;
-> > +       int len;
-> > +};
-> > +
-> > +void kunit_mock_declaration_format(struct kunit_mock_declaration *declaration,
-> > +                                  struct kunit_stream *stream);
-> > +
-> > +struct kunit_matcher_result {
-> > +       struct kunit_assert assert;
-> > +};
-> > +
-> > +struct kunit_mock_failed_match {
-> > +       struct list_head node;
-> > +       const char *expectation_text;
-> > +       struct kunit_matcher_result *matcher_list;
->
-> Minor nitpick: this code could use some const sprinkling.
-
-Will do.
-
-> > +       size_t matcher_list_len;
-> > +};
-> > +
-> > +void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
-> > +                                   struct kunit_stream *stream);
-> > +
-> > +struct kunit_mock_no_match {
-> > +       struct kunit_mock_assert assert;
-> > +       struct kunit_mock_declaration declaration;
-> > +       struct list_head failed_match_list;
-> > +};
-> > +
-> > +void kunit_mock_no_match_format(struct kunit_assert *assert,
-> > +                               struct kunit_stream *stream);
-> > +
-> > +#endif /*  _KUNIT_ASSERT_H */
-> > diff --git a/kunit/assert.c b/kunit/assert.c
-> > new file mode 100644
-> > index 0000000000000..75bb6922a994e
-> > --- /dev/null
-> > +++ b/kunit/assert.c
-> > @@ -0,0 +1,179 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Assertion and expectation serialization API.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +#include <kunit/assert.h>
-> > +
-> > +void kunit_base_assert_format(struct kunit_assert *assert,
-> > +                             struct kunit_stream *stream)
-> > +{
-> > +       const char *expect_or_assert;
-> > +
-> > +       if (assert->type == KUNIT_EXPECTATION)
-> > +               expect_or_assert = "EXPECTATION";
-> > +       else
-> > +               expect_or_assert = "ASSERTION";
->
-> Make this is a switch statement so we can have the compiler complain if
-> an enum is missing.
-
-Nice call! I didn't know the compiler warned about that. Will fix.
-
-> > +
-> > +       kunit_stream_add(stream, "%s FAILED at %s:%s\n",
-> > +                        expect_or_assert, assert->file, assert->line);
-> > +}
-> > +
-> > +void kunit_assert_print_msg(struct kunit_assert *assert,
-> > +                           struct kunit_stream *stream)
-> > +{
-> > +       if (assert->message.fmt)
-> > +               kunit_stream_add(stream, "\n%pV", &assert->message);
-> > +}
-> > +
-> [...]
-> > +
-> > +void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
-> > +                                   struct kunit_stream *stream)
-> > +{
-> > +       struct kunit_matcher_result *result;
-> > +       size_t i;
-> > +
-> > +       kunit_stream_add(stream,
-> > +                        "Tried expectation: %s, but\n",
-> > +                        match->expectation_text);
-> > +       for (i = 0; i < match->matcher_list_len; i++) {
-> > +               result = &match->matcher_list[i];
-> > +               kunit_stream_add(stream, "\t");
-> > +               result->assert.format(&result->assert, stream);
-> > +               kunit_stream_add(stream, "\n");
-> > +       }
->
-> What's the calling context of the assertions and expectations? I still
-> don't like the fact that string stream needs to allocate buffers and
-> throw them into a list somewhere because the calling context matters
-> there.
-
-The calling context is the same as before, which is anywhere.
-
-> I'd prefer we just wrote directly to the console/log via printk
-> instead. That way things are simple because we use the existing
-> buffering path of printk, but maybe there's some benefit to the string
-> stream that I don't see? Right now it looks like it builds a string and
-> then dumps it to printk so I'm sort of lost what the benefit is over
-> just writing directly with printk.
-
-It's just buffering it so the whole string gets printed uninterrupted.
-If we were to print out piecemeal to printk, couldn't we have another
-call to printk come in causing it to garble the KUnit message we are
-in the middle of printing?
-
-> Maybe it's this part that you wrote up above?
->
-> > > Nevertheless, I think the debate over the usefulness of the
-> > > string_stream and kunit_stream are separate topics. Even if we made
-> > > kunit_stream more structured, I am pretty sure I would want to use
-> > > string_stream or some variation for constructing the message.
->
-> Why do we need string_stream to construct the message? Can't we just
-> print it as we process it?
-
-See preceding comment.
