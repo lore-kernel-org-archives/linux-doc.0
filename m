@@ -5,41 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 164237DE70
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E318A7DE5B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:08:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729868AbfGVLIJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1729842AbfGVLIJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 22 Jul 2019 07:08:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35644 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:35630 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729842AbfGVLIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 07:08:01 -0400
+        with ESMTP id S1729828AbfGVLIA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 07:08:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=aR7AC9Cq6LkXN2cwUE0qDw5EbAH8P80ZhWXW4rf7/6E=; b=RfLraHyCWzEv4pBYzLgN9hvBmT
-        Ilf1u6/sz9rpDsOygYXZcV/kRW6aje8c86+KFo3R8OMxKnBT3ReS5V2zusgRm2KdJhDsDRryD2Pel
-        vRQWxjA79uBf3KXh9VdtqXUcvmbwOLtc03EmLBzplfcjYtfSfYr8fCD2p2VG5tpP5NZN906Fk3N0B
-        ed9qBV3VVZvVY+gFZs2LWO3m2T4f3sQ7sS86+plHrhBtK0SvfbeRGUZUEcIRGx7Zj9ePtJM6T8sEc
-        snz6+yOiQzYM1fpxD5msdwJWbff0QLwp340TQMzY9ALrSWNYeN0Xk04KBWtBxV5uak3jOjPl+eonC
-        Z4ud8A6A==;
+        bh=EnOsrG4d5VuiZ8ZId8K/05VDXmNI8hz9v1O7aYYsAfg=; b=DMwnjeMjDE1+RSTZLUvD57csmJ
+        o5svIEzpvk6mHlcVU26viTllCyNKDKhHIAn97ipXlYQ7j3doF9AM0B37B2oN5LNaDyzrV7bmk1zOq
+        zlYPUW8QKmipBOcjGDTIjpG4JhnOx7JHGa3hyZOBqgN9Tmy5zAmXBWSDAxO01im9q9KMQfKHBB9LP
+        ZnQw4cLJeEZNE9v0ONG1fe63bdDYwrmi2tsn1CaaJO/U3KdnlSyLYypiZMucp8niNLpxJUoVZXotZ
+        q2Kb0+3ysTu3EmcviGVXDSZkJj0QFdlnb/ATNUb1GxT4q/NQS0CUrWJRXqC/E2+ohZUAxBSXDbS6T
+        Jal7uKsw==;
 Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpWAi-00025E-3i; Mon, 22 Jul 2019 11:08:00 +0000
+        id 1hpWAh-00025C-Ln; Mon, 22 Jul 2019 11:08:00 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hpWAa-00040v-63; Mon, 22 Jul 2019 08:07:52 -0300
+        id 1hpWAa-00040W-0a; Mon, 22 Jul 2019 08:07:52 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 07/22] docs: admin-guide: add auxdisplay files to it after conversion to ReST
-Date:   Mon, 22 Jul 2019 08:07:34 -0300
-Message-Id: <ed8bb8935bb67d294b5e3bee7647dbdd72c5b608.1563792334.git.mchehab+samsung@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH 01/22] docs: convert markdown documents to ReST
+Date:   Mon, 22 Jul 2019 08:07:28 -0300
+Message-Id: <40b78fbbe64108601c274d28b7c515b3cd29d206.1563792334.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1563792333.git.mchehab+samsung@kernel.org>
 References: <cover.1563792333.git.mchehab+samsung@kernel.org>
@@ -51,418 +52,524 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those two files describe userspace-faced information. While part of
-it might fit on uAPI, it sounds to me that the admin guide is the
-best place for them.
+The documentation standard is ReST and not markdown.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- .../admin-guide/auxdisplay/cfag12864b.rst     |  98 ++++++++++++++++
- .../admin-guide/auxdisplay/index.rst          |  16 +++
- .../admin-guide/auxdisplay/ks0108.rst         |  50 +++++++++
- Documentation/admin-guide/index.rst           |   1 +
- Documentation/auxdisplay/cfag12864b           | 105 ------------------
- Documentation/auxdisplay/ks0108               |  55 ---------
- MAINTAINERS                                   |   2 +-
- drivers/auxdisplay/Kconfig                    |   2 +-
- 8 files changed, 167 insertions(+), 162 deletions(-)
- create mode 100644 Documentation/admin-guide/auxdisplay/cfag12864b.rst
- create mode 100644 Documentation/admin-guide/auxdisplay/index.rst
- create mode 100644 Documentation/admin-guide/auxdisplay/ks0108.rst
- delete mode 100644 Documentation/auxdisplay/cfag12864b
- delete mode 100644 Documentation/auxdisplay/ks0108
+ Documentation/devicetree/writing-schema.md    | 130 ---------------
+ Documentation/devicetree/writing-schema.rst   | 153 ++++++++++++++++++
+ ...entication.md => ubifs-authentication.rst} |  70 +++++---
+ 3 files changed, 197 insertions(+), 156 deletions(-)
+ delete mode 100644 Documentation/devicetree/writing-schema.md
+ create mode 100644 Documentation/devicetree/writing-schema.rst
+ rename Documentation/filesystems/{ubifs-authentication.md => ubifs-authentication.rst} (95%)
 
-diff --git a/Documentation/admin-guide/auxdisplay/cfag12864b.rst b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
-new file mode 100644
-index 000000000000..18c2865bd322
---- /dev/null
-+++ b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
-@@ -0,0 +1,98 @@
-+===================================
-+cfag12864b LCD Driver Documentation
-+===================================
-+
-+:License:		GPLv2
-+:Author & Maintainer:	Miguel Ojeda Sandonis
-+:Date:			2006-10-27
-+
-+
-+
-+.. INDEX
-+
-+	1. DRIVER INFORMATION
-+	2. DEVICE INFORMATION
-+	3. WIRING
-+	4. USERSPACE PROGRAMMING
-+
-+1. Driver Information
-+---------------------
-+
-+This driver supports a cfag12864b LCD.
-+
-+
-+2. Device Information
-+---------------------
-+
-+:Manufacturer:	Crystalfontz
-+:Device Name:	Crystalfontz 12864b LCD Series
-+:Device Code:	cfag12864b
-+:Webpage:	http://www.crystalfontz.com
-+:Device Webpage: http://www.crystalfontz.com/products/12864b/
-+:Type:		LCD (Liquid Crystal Display)
-+:Width:		128
-+:Height:	64
-+:Colors:	2 (B/N)
-+:Controller:	ks0108
-+:Controllers:	2
-+:Pages:		8 each controller
-+:Addresses:	64 each page
-+:Data size:	1 byte each address
-+:Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
-+
-+
-+3. Wiring
-+---------
-+
-+The cfag12864b LCD Series don't have official wiring.
-+
-+The common wiring is done to the parallel port as shown::
-+
-+  Parallel Port                          cfag12864b
-+
-+    Name Pin#                            Pin# Name
-+
-+  Strobe ( 1)------------------------------(17) Enable
-+  Data 0 ( 2)------------------------------( 4) Data 0
-+  Data 1 ( 3)------------------------------( 5) Data 1
-+  Data 2 ( 4)------------------------------( 6) Data 2
-+  Data 3 ( 5)------------------------------( 7) Data 3
-+  Data 4 ( 6)------------------------------( 8) Data 4
-+  Data 5 ( 7)------------------------------( 9) Data 5
-+  Data 6 ( 8)------------------------------(10) Data 6
-+  Data 7 ( 9)------------------------------(11) Data 7
-+         (10)                      [+5v]---( 1) Vdd
-+         (11)                      [GND]---( 2) Ground
-+         (12)                      [+5v]---(14) Reset
-+         (13)                      [GND]---(15) Read / Write
-+    Line (14)------------------------------(13) Controller Select 1
-+         (15)
-+    Init (16)------------------------------(12) Controller Select 2
-+  Select (17)------------------------------(16) Data / Instruction
-+  Ground (18)---[GND]              [+5v]---(19) LED +
-+  Ground (19)---[GND]
-+  Ground (20)---[GND]              E    A             Values:
-+  Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
-+  Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
-+  Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
-+  Ground (24)---[GND]       |  |
-+  Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
-+
-+
-+4. Userspace Programming
-+------------------------
-+
-+The cfag12864bfb describes a framebuffer device (/dev/fbX).
-+
-+It has a size of 1024 bytes = 1 Kbyte.
-+Each bit represents one pixel. If the bit is high, the pixel will
-+turn on. If the pixel is low, the pixel will turn off.
-+
-+You can use the framebuffer as a file: fopen, fwrite, fclose...
-+Although the LCD won't get updated until the next refresh time arrives.
-+
-+Also, you can mmap the framebuffer: open & mmap, munmap & close...
-+which is the best option for most uses.
-+
-+Check samples/auxdisplay/cfag12864b-example.c
-+for a real working userspace complete program with usage examples.
-diff --git a/Documentation/admin-guide/auxdisplay/index.rst b/Documentation/admin-guide/auxdisplay/index.rst
-new file mode 100644
-index 000000000000..e466f0595248
---- /dev/null
-+++ b/Documentation/admin-guide/auxdisplay/index.rst
-@@ -0,0 +1,16 @@
-+=========================
-+Auxiliary Display Support
-+=========================
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    ks0108.rst
-+    cfag12864b.rst
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/admin-guide/auxdisplay/ks0108.rst b/Documentation/admin-guide/auxdisplay/ks0108.rst
-new file mode 100644
-index 000000000000..c0b7faf73136
---- /dev/null
-+++ b/Documentation/admin-guide/auxdisplay/ks0108.rst
-@@ -0,0 +1,50 @@
-+==========================================
-+ks0108 LCD Controller Driver Documentation
-+==========================================
-+
-+:License:		GPLv2
-+:Author & Maintainer:	Miguel Ojeda Sandonis
-+:Date:			2006-10-27
-+
-+
-+
-+.. INDEX
-+
-+	1. DRIVER INFORMATION
-+	2. DEVICE INFORMATION
-+	3. WIRING
-+
-+
-+1. Driver Information
-+---------------------
-+
-+This driver supports the ks0108 LCD controller.
-+
-+
-+2. Device Information
-+---------------------
-+
-+:Manufacturer:	Samsung
-+:Device Name:	KS0108 LCD Controller
-+:Device Code:	ks0108
-+:Webpage:	-
-+:Device Webpage: -
-+:Type:		LCD Controller (Liquid Crystal Display Controller)
-+:Width:		64
-+:Height:	64
-+:Colors:	2 (B/N)
-+:Pages:		8
-+:Addresses:	64 each page
-+:Data size:	1 byte each address
-+:Memory size:	8 * 64 * 1 = 512 bytes
-+
-+
-+3. Wiring
-+---------
-+
-+The driver supports data parallel port wiring.
-+
-+If you aren't building LCD related hardware, you should check
-+your LCD specific wiring information in the same folder.
-+
-+For example, check Documentation/admin-guide/auxdisplay/cfag12864b.rst
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 457fd1112b65..3f8f7d564552 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -101,6 +101,7 @@ configure specific aspects of kernel behavior to your liking.
-    iostats
-    kernel-per-CPU-kthreads
-    laptops/index
-+   auxdisplay/index
-    lcd-panel-cgram
-    ldm
-    lockup-watchdogs
-diff --git a/Documentation/auxdisplay/cfag12864b b/Documentation/auxdisplay/cfag12864b
+diff --git a/Documentation/devicetree/writing-schema.md b/Documentation/devicetree/writing-schema.md
 deleted file mode 100644
-index 12fd51b8de75..000000000000
---- a/Documentation/auxdisplay/cfag12864b
+index dc032db36262..000000000000
+--- a/Documentation/devicetree/writing-schema.md
 +++ /dev/null
-@@ -1,105 +0,0 @@
--	===================================
--	cfag12864b LCD Driver Documentation
--	===================================
+@@ -1,130 +0,0 @@
+-# Writing DeviceTree Bindings in json-schema
 -
--License:		GPLv2
--Author & Maintainer:	Miguel Ojeda Sandonis
--Date:			2006-10-27
+-Devicetree bindings are written using json-schema vocabulary. Schema files are
+-written in a JSON compatible subset of YAML. YAML is used instead of JSON as it
+-considered more human readable and has some advantages such as allowing
+-comments (Prefixed with '#').
 -
+-## Schema Contents
 -
+-Each schema doc is a structured json-schema which is defined by a set of
+-top-level properties. Generally, there is one binding defined per file. The
+-top-level json-schema properties used are:
 -
----------
--0. INDEX
----------
+-- __$id__ - A json-schema unique identifier string. The string must be a valid
+-URI typically containing the binding's filename and path. For DT schema, it must
+-begin with "http://devicetree.org/schemas/". The URL is used in constructing
+-references to other files specified in schema "$ref" properties. A $ref values
+-with a leading '/' will have the hostname prepended. A $ref value a relative
+-path or filename only will be prepended with the hostname and path components
+-of the current schema file's '$id' value. A URL is used even for local files,
+-but there may not actually be files present at those locations.
 -
--	1. DRIVER INFORMATION
--	2. DEVICE INFORMATION
--	3. WIRING
--	4. USERSPACE PROGRAMMING
+-- __$schema__ - Indicates the meta-schema the schema file adheres to.
 -
+-- __title__ - A one line description on the contents of the binding schema.
 -
-----------------------
--1. DRIVER INFORMATION
-----------------------
+-- __maintainers__ - A DT specific property. Contains a list of email address(es)
+-for maintainers of this binding.
 -
--This driver supports a cfag12864b LCD.
+-- __description__ - Optional. A multi-line text block containing any detailed
+-information about this binding. It should contain things such as what the block
+-or device does, standards the device conforms to, and links to datasheets for
+-more information.
 -
+-- __select__ - Optional. A json-schema used to match nodes for applying the
+-schema. By default without 'select', nodes are matched against their possible
+-compatible string values or node name. Most bindings should not need select.
 -
-----------------------
--2. DEVICE INFORMATION
-----------------------
+-- __allOf__ - Optional. A list of other schemas to include. This is used to
+-include other schemas the binding conforms to. This may be schemas for a
+-particular class of devices such as I2C or SPI controllers.
 -
--Manufacturer:	Crystalfontz
--Device Name:	Crystalfontz 12864b LCD Series
--Device Code:	cfag12864b
--Webpage:	http://www.crystalfontz.com
--Device Webpage:	http://www.crystalfontz.com/products/12864b/
--Type:		LCD (Liquid Crystal Display)
--Width:		128
--Height:		64
--Colors:		2 (B/N)
--Controller:	ks0108
--Controllers:	2
--Pages:		8 each controller
--Addresses:	64 each page
--Data size:	1 byte each address
--Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
+-- __properties__ - A set of sub-schema defining all the DT properties for the
+-binding. The exact schema syntax depends on whether properties are known,
+-common properties (e.g. 'interrupts') or are binding/vendor specific properties.
 -
+-  A property can also define a child DT node with child properties defined
+-under it.
 -
-----------
--3. WIRING
-----------
+-  For more details on properties sections, see 'Property Schema' section.
 -
--The cfag12864b LCD Series don't have official wiring.
+-- __patternProperties__ - Optional. Similar to 'properties', but names are regex.
 -
--The common wiring is done to the parallel port as shown:
+-- __required__ - A list of DT properties from the 'properties' section that
+-must always be present.
 -
--Parallel Port                          cfag12864b
+-- __examples__ - Optional. A list of one or more DTS hunks implementing the
+-binding. Note: YAML doesn't allow leading tabs, so spaces must be used instead.
 -
--  Name Pin#                            Pin# Name
+-Unless noted otherwise, all properties are required.
 -
--Strobe ( 1)------------------------------(17) Enable
--Data 0 ( 2)------------------------------( 4) Data 0
--Data 1 ( 3)------------------------------( 5) Data 1
--Data 2 ( 4)------------------------------( 6) Data 2
--Data 3 ( 5)------------------------------( 7) Data 3
--Data 4 ( 6)------------------------------( 8) Data 4
--Data 5 ( 7)------------------------------( 9) Data 5
--Data 6 ( 8)------------------------------(10) Data 6
--Data 7 ( 9)------------------------------(11) Data 7
--       (10)                      [+5v]---( 1) Vdd
--       (11)                      [GND]---( 2) Ground
--       (12)                      [+5v]---(14) Reset
--       (13)                      [GND]---(15) Read / Write
--  Line (14)------------------------------(13) Controller Select 1
--       (15)
--  Init (16)------------------------------(12) Controller Select 2
--Select (17)------------------------------(16) Data / Instruction
--Ground (18)---[GND]              [+5v]---(19) LED +
--Ground (19)---[GND]
--Ground (20)---[GND]              E    A             Values:
--Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
--Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
--Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
--Ground (24)---[GND]       |  |
--Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
+-## Property Schema
 -
+-The 'properties' section of the schema contains all the DT properties for a
+-binding. Each property contains a set of constraints using json-schema
+-vocabulary for that property. The properties schemas are what is used for
+-validation of DT files.
 -
--------------------------
--4. USERSPACE PROGRAMMING
--------------------------
+-For common properties, only additional constraints not covered by the common
+-binding schema need to be defined such as how many values are valid or what
+-possible values are valid.
 -
--The cfag12864bfb describes a framebuffer device (/dev/fbX).
+-Vendor specific properties will typically need more detailed schema. With the
+-exception of boolean properties, they should have a reference to a type in
+-schemas/types.yaml. A "description" property is always required.
 -
--It has a size of 1024 bytes = 1 Kbyte.
--Each bit represents one pixel. If the bit is high, the pixel will
--turn on. If the pixel is low, the pixel will turn off.
+-The Devicetree schemas don't exactly match the YAML encoded DT data produced by
+-dtc. They are simplified to make them more compact and avoid a bunch of
+-boilerplate. The tools process the schema files to produce the final schema for
+-validation. There are currently 2 transformations the tools perform.
 -
--You can use the framebuffer as a file: fopen, fwrite, fclose...
--Although the LCD won't get updated until the next refresh time arrives.
+-The default for arrays in json-schema is they are variable sized and allow more
+-entries than explicitly defined. This can be restricted by defining 'minItems',
+-'maxItems', and 'additionalItems'. However, for DeviceTree Schemas, a fixed
+-size is desired in most cases, so these properties are added based on the
+-number of entries in an 'items' list.
 -
--Also, you can mmap the framebuffer: open & mmap, munmap & close...
--which is the best option for most uses.
+-The YAML Devicetree format also makes all string values an array and scalar
+-values a matrix (in order to define groupings) even when only a single value
+-is present. Single entries in schemas are fixed up to match this encoding.
 -
--Check samples/auxdisplay/cfag12864b-example.c
--for a real working userspace complete program with usage examples.
-diff --git a/Documentation/auxdisplay/ks0108 b/Documentation/auxdisplay/ks0108
-deleted file mode 100644
-index 8ddda0c8ceef..000000000000
---- a/Documentation/auxdisplay/ks0108
-+++ /dev/null
-@@ -1,55 +0,0 @@
--	==========================================
--	ks0108 LCD Controller Driver Documentation
--	==========================================
+-## Testing
 -
--License:		GPLv2
--Author & Maintainer:	Miguel Ojeda Sandonis
--Date:			2006-10-27
+-### Dependencies
 -
+-The DT schema project must be installed in order to validate the DT schema
+-binding documents and validate DTS files using the DT schema. The DT schema
+-project can be installed with pip:
 -
+-`pip3 install git+https://github.com/devicetree-org/dt-schema.git@master`
 -
----------
--0. INDEX
----------
+-dtc must also be built with YAML output support enabled. This requires that
+-libyaml and its headers be installed on the host system.
 -
--	1. DRIVER INFORMATION
--	2. DEVICE INFORMATION
--	3. WIRING
+-### Running checks
+-
+-The DT schema binding documents must be validated using the meta-schema (the
+-schema for the schema) to ensure they are both valid json-schema and valid
+-binding schema. All of the DT binding documents can be validated using the
+-`dt_binding_check` target:
+-
+-`make dt_binding_check`
+-
+-In order to perform validation of DT source files, use the `dtbs_check` target:
+-
+-`make dtbs_check`
+-
+-This will first run the `dt_binding_check` which generates the processed schema.
+-
+-It is also possible to run checks with a single schema file by setting the
+-'DT_SCHEMA_FILES' variable to a specific schema file.
+-
+-`make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/trivial-devices.yaml`
 -
 -
-----------------------
--1. DRIVER INFORMATION
-----------------------
+-## json-schema Resources
 -
--This driver supports the ks0108 LCD controller.
+-[JSON-Schema Specifications](http://json-schema.org/)
 -
--
-----------------------
--2. DEVICE INFORMATION
-----------------------
--
--Manufacturer:	Samsung
--Device Name:	KS0108 LCD Controller
--Device Code:	ks0108
--Webpage:	-
--Device Webpage:	-
--Type:		LCD Controller (Liquid Crystal Display Controller)
--Width:		64
--Height:		64
--Colors:		2 (B/N)
--Pages:		8
--Addresses:	64 each page
--Data size:	1 byte each address
--Memory size:	8 * 64 * 1 = 512 bytes
--
--
-----------
--3. WIRING
-----------
--
--The driver supports data parallel port wiring.
--
--If you aren't building LCD related hardware, you should check
--your LCD specific wiring information in the same folder.
--
--For example, check Documentation/auxdisplay/cfag12864b.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fd2af50e66b5..4cd39259fcdc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8991,7 +8991,7 @@ F:	kernel/kprobes.c
- KS0108 LCD CONTROLLER DRIVER
- M:	Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
- S:	Maintained
--F:	Documentation/auxdisplay/ks0108
-+F:	Documentation/admin-guide/auxdisplay/ks0108.rst
- F:	drivers/auxdisplay/ks0108.c
- F:	include/linux/ks0108.h
+-[Using JSON Schema Book](http://usingjsonschema.com/)
+diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
+new file mode 100644
+index 000000000000..8f71d1e2ac52
+--- /dev/null
++++ b/Documentation/devicetree/writing-schema.rst
+@@ -0,0 +1,153 @@
++:orphan:
++
++Writing DeviceTree Bindings in json-schema
++==========================================
++
++Devicetree bindings are written using json-schema vocabulary. Schema files are
++written in a JSON compatible subset of YAML. YAML is used instead of JSON as it
++considered more human readable and has some advantages such as allowing
++comments (Prefixed with '#').
++
++Schema Contents
++---------------
++
++Each schema doc is a structured json-schema which is defined by a set of
++top-level properties. Generally, there is one binding defined per file. The
++top-level json-schema properties used are:
++
++$id
++  A json-schema unique identifier string. The string must be a valid
++  URI typically containing the binding's filename and path. For DT schema, it must
++  begin with "http://devicetree.org/schemas/". The URL is used in constructing
++  references to other files specified in schema "$ref" properties. A $ref values
++  with a leading '/' will have the hostname prepended. A $ref value a relative
++  path or filename only will be prepended with the hostname and path components
++  of the current schema file's '$id' value. A URL is used even for local files,
++  but there may not actually be files present at those locations.
++
++$schema
++  Indicates the meta-schema the schema file adheres to.
++
++title
++  A one line description on the contents of the binding schema.
++
++maintainers
++  A DT specific property. Contains a list of email address(es)
++  for maintainers of this binding.
++
++description
++  Optional. A multi-line text block containing any detailed
++  information about this binding. It should contain things such as what the block
++  or device does, standards the device conforms to, and links to datasheets for
++  more information.
++
++select
++  Optional. A json-schema used to match nodes for applying the
++  schema. By default without 'select', nodes are matched against their possible
++  compatible string values or node name. Most bindings should not need select.
++
++ allOf
++  Optional. A list of other schemas to include. This is used to
++  include other schemas the binding conforms to. This may be schemas for a
++  particular class of devices such as I2C or SPI controllers.
++
++ properties
++  A set of sub-schema defining all the DT properties for the
++  binding. The exact schema syntax depends on whether properties are known,
++  common properties (e.g. 'interrupts') or are binding/vendor specific properties.
++
++A property can also define a child DT node with child properties defined
++under it.
++
++For more details on properties sections, see 'Property Schema' section.
++
++patternProperties
++  Optional. Similar to 'properties', but names are regex.
++
++required
++  A list of DT properties from the 'properties' section that
++  must always be present.
++
++examples
++  Optional. A list of one or more DTS hunks implementing the
++  binding. Note: YAML doesn't allow leading tabs, so spaces must be used instead.
++
++Unless noted otherwise, all properties are required.
++
++Property Schema
++---------------
++
++The 'properties' section of the schema contains all the DT properties for a
++binding. Each property contains a set of constraints using json-schema
++vocabulary for that property. The properties schemas are what is used for
++validation of DT files.
++
++For common properties, only additional constraints not covered by the common
++binding schema need to be defined such as how many values are valid or what
++possible values are valid.
++
++Vendor specific properties will typically need more detailed schema. With the
++exception of boolean properties, they should have a reference to a type in
++schemas/types.yaml. A "description" property is always required.
++
++The Devicetree schemas don't exactly match the YAML encoded DT data produced by
++dtc. They are simplified to make them more compact and avoid a bunch of
++boilerplate. The tools process the schema files to produce the final schema for
++validation. There are currently 2 transformations the tools perform.
++
++The default for arrays in json-schema is they are variable sized and allow more
++entries than explicitly defined. This can be restricted by defining 'minItems',
++'maxItems', and 'additionalItems'. However, for DeviceTree Schemas, a fixed
++size is desired in most cases, so these properties are added based on the
++number of entries in an 'items' list.
++
++The YAML Devicetree format also makes all string values an array and scalar
++values a matrix (in order to define groupings) even when only a single value
++is present. Single entries in schemas are fixed up to match this encoding.
++
++Testing
++-------
++
++Dependencies
++~~~~~~~~~~~~
++
++The DT schema project must be installed in order to validate the DT schema
++binding documents and validate DTS files using the DT schema. The DT schema
++project can be installed with pip::
++
++    pip3 install git+https://github.com/devicetree-org/dt-schema.git@master
++
++dtc must also be built with YAML output support enabled. This requires that
++libyaml and its headers be installed on the host system.
++
++Running checks
++~~~~~~~~~~~~~~
++
++The DT schema binding documents must be validated using the meta-schema (the
++schema for the schema) to ensure they are both valid json-schema and valid
++binding schema. All of the DT binding documents can be validated using the
++``dt_binding_check`` target::
++
++    make dt_binding_check
++
++In order to perform validation of DT source files, use the `dtbs_check` target::
++
++    make dtbs_check
++
++This will first run the `dt_binding_check` which generates the processed schema.
++
++It is also possible to run checks with a single schema file by setting the
++``DT_SCHEMA_FILES`` variable to a specific schema file.
++
++::
++
++    make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/trivial-devices.yaml
++
++
++json-schema Resources
++---------------------
++
++
++`JSON-Schema Specifications <http://json-schema.org/>`_
++
++`Using JSON Schema Book <http://usingjsonschema.com/>`_
+diff --git a/Documentation/filesystems/ubifs-authentication.md b/Documentation/filesystems/ubifs-authentication.rst
+similarity index 95%
+rename from Documentation/filesystems/ubifs-authentication.md
+rename to Documentation/filesystems/ubifs-authentication.rst
+index 23e698167141..6a9584f6ff46 100644
+--- a/Documentation/filesystems/ubifs-authentication.md
++++ b/Documentation/filesystems/ubifs-authentication.rst
+@@ -1,8 +1,11 @@
+-% UBIFS Authentication
+-% sigma star gmbh
+-% 2018
++:orphan:
  
-diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-index dd61fdd400f0..6b476e663e80 100644
---- a/drivers/auxdisplay/Kconfig
-+++ b/drivers/auxdisplay/Kconfig
-@@ -97,7 +97,7 @@ config CFAG12864B
- 	  say Y. You also need the ks0108 LCD Controller driver.
+-# Introduction
++.. UBIFS Authentication
++.. sigma star gmbh
++.. 2018
++
++Introduction
++============
  
- 	  For help about how to wire your LCD to the parallel port,
--	  check Documentation/auxdisplay/cfag12864b
-+	  check Documentation/admin-guide/auxdisplay/cfag12864b.rst
+ UBIFS utilizes the fscrypt framework to provide confidentiality for file
+ contents and file names. This prevents attacks where an attacker is able to
+@@ -33,7 +36,8 @@ existing features like key derivation can be utilized. It should however also
+ be possible to use UBIFS authentication without using encryption.
  
- 	  Depends on the x86 arch and the framebuffer support.
+ 
+-## MTD, UBI & UBIFS
++MTD, UBI & UBIFS
++----------------
+ 
+ On Linux, the MTD (Memory Technology Devices) subsystem provides a uniform
+ interface to access raw flash devices. One of the more prominent subsystems that
+@@ -47,7 +51,7 @@ UBIFS is a filesystem for raw flash which operates on top of UBI. Thus, wear
+ leveling and some flash specifics are left to UBI, while UBIFS focuses on
+ scalability, performance and recoverability.
+ 
+-
++::
+ 
+ 	+------------+ +*******+ +-----------+ +-----+
+ 	|            | * UBIFS * | UBI-BLOCK | | ... |
+@@ -84,7 +88,8 @@ persisted onto the flash directly. More details on UBIFS can also be found in
+ [UBIFS-WP].
+ 
+ 
+-### UBIFS Index & Tree Node Cache
++UBIFS Index & Tree Node Cache
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ Basic on-flash UBIFS entities are called *nodes*. UBIFS knows different types
+ of nodes. Eg. data nodes (`struct ubifs_data_node`) which store chunks of file
+@@ -118,17 +123,18 @@ on-flash filesystem structures like the index. On every commit, the TNC nodes
+ marked as dirty are written to the flash to update the persisted index.
+ 
+ 
+-### Journal
++Journal
++~~~~~~~
+ 
+ To avoid wearing out the flash, the index is only persisted (*commited*) when
+-certain conditions are met (eg. `fsync(2)`). The journal is used to record
++certain conditions are met (eg. ``fsync(2)``). The journal is used to record
+ any changes (in form of inode nodes, data nodes etc.) between commits
+ of the index. During mount, the journal is read from the flash and replayed
+ onto the TNC (which will be created on-demand from the on-flash index).
+ 
+ UBIFS reserves a bunch of LEBs just for the journal called *log area*. The
+ amount of log area LEBs is configured on filesystem creation (using
+-`mkfs.ubifs`) and stored in the superblock node. The log area contains only
++``mkfs.ubifs``) and stored in the superblock node. The log area contains only
+ two types of nodes: *reference nodes* and *commit start nodes*. A commit start
+ node is written whenever an index commit is performed. Reference nodes are
+ written on every journal update. Each reference node points to the position of
+@@ -152,6 +158,7 @@ done for the last referenced LEB of the journal. Only this can become corrupt
+ because of a power cut. If the recovery fails, UBIFS will not mount. An error
+ for every other LEB will directly cause UBIFS to fail the mount operation.
+ 
++::
+ 
+        | ----    LOG AREA     ---- | ----------    MAIN AREA    ------------ |
+ 
+@@ -172,10 +179,11 @@ for every other LEB will directly cause UBIFS to fail the mount operation.
+                           containing their buds
+ 
+ 
+-### LEB Property Tree/Table
++LEB Property Tree/Table
++~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The LEB property tree is used to store per-LEB information. This includes the
+-LEB type and amount of free and *dirty* (old, obsolete content) space [1] on
++LEB type and amount of free and *dirty* (old, obsolete content) space [1]_ on
+ the LEB. The type is important, because UBIFS never mixes index nodes with data
+ nodes on a single LEB and thus each LEB has a specific purpose. This again is
+ useful for free space calculations. See [UBIFS-WP] for more details.
+@@ -185,19 +193,21 @@ index. Due to its smaller size it is always written as one chunk on every
+ commit. Thus, saving the LPT is an atomic operation.
+ 
+ 
+-[1] Since LEBs can only be appended and never overwritten, there is a
+-difference between free space ie. the remaining space left on the LEB to be
+-written to without erasing it and previously written content that is obsolete
+-but can't be overwritten without erasing the full LEB.
++.. [1] Since LEBs can only be appended and never overwritten, there is a
++   difference between free space ie. the remaining space left on the LEB to be
++   written to without erasing it and previously written content that is obsolete
++   but can't be overwritten without erasing the full LEB.
+ 
+ 
+-# UBIFS Authentication
++UBIFS Authentication
++====================
+ 
+ This chapter introduces UBIFS authentication which enables UBIFS to verify
+ the authenticity and integrity of metadata and file contents stored on flash.
+ 
+ 
+-## Threat Model
++Threat Model
++------------
+ 
+ UBIFS authentication enables detection of offline data modification. While it
+ does not prevent it, it enables (trusted) code to check the integrity and
+@@ -224,7 +234,8 @@ Additional measures like secure boot and trusted boot have to be taken to
+ ensure that only trusted code is executed on a device.
+ 
+ 
+-## Authentication
++Authentication
++--------------
+ 
+ To be able to fully trust data read from flash, all UBIFS data structures
+ stored on flash are authenticated. That is:
+@@ -236,7 +247,8 @@ stored on flash are authenticated. That is:
+ - The LPT which stores UBI LEB metadata which UBIFS uses for free space accounting
+ 
+ 
+-### Index Authentication
++Index Authentication
++~~~~~~~~~~~~~~~~~~~~
+ 
+ Through UBIFS' concept of a wandering tree, it already takes care of only
+ updating and persisting changed parts from leaf node up to the root node
+@@ -260,6 +272,7 @@ include a hash. All other types of nodes will remain unchanged. This reduces
+ the storage overhead which is precious for users of UBIFS (ie. embedded
+ devices).
+ 
++::
+ 
+                              +---------------+
+                              |  Master Node  |
+@@ -303,7 +316,8 @@ hashes to index nodes does not change this since each hash will be persisted
+ atomically together with its respective node.
+ 
+ 
+-### Journal Authentication
++Journal Authentication
++~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The journal is authenticated too. Since the journal is continuously written
+ it is necessary to also add authentication information frequently to the
+@@ -316,7 +330,7 @@ of the hash chain. That way a journal can be authenticated up to the last
+ authentication node. The tail of the journal which may not have a authentication
+ node cannot be authenticated and is skipped during journal replay.
+ 
+-We get this picture for journal authentication:
++We get this picture for journal authentication::
+ 
+     ,,,,,,,,
+     ,......,...........................................
+@@ -352,7 +366,8 @@ the superblock struct. The superblock node is stored in LEB 0 and is only
+ modified on feature flag or similar changes, but never on file changes.
+ 
+ 
+-### LPT Authentication
++LPT Authentication
++~~~~~~~~~~~~~~~~~~
+ 
+ The location of the LPT root node on the flash is stored in the UBIFS master
+ node. Since the LPT is written and read atomically on every commit, there is
+@@ -363,7 +378,8 @@ be verified by verifying the authenticity of the master node and comparing the
+ LTP hash stored there with the hash computed from the read on-flash LPT.
+ 
+ 
+-## Key Management
++Key Management
++--------------
+ 
+ For simplicity, UBIFS authentication uses a single key to compute the HMACs
+ of superblock, master, commit start and reference nodes. This key has to be
+@@ -399,7 +415,8 @@ approach is similar to the approach proposed for fscrypt encryption policy v2
+ [FSCRYPT-POLICY2].
+ 
+ 
+-# Future Extensions
++Future Extensions
++=================
+ 
+ In certain cases where a vendor wants to provide an authenticated filesystem
+ image to customers, it should be possible to do so without sharing the secret
+@@ -411,7 +428,8 @@ to the way the IMA/EVM subsystem deals with such situations. The HMAC key
+ will then have to be provided beforehand in the normal way.
+ 
+ 
+-# References
++References
++==========
+ 
+ [CRYPTSETUP2]        http://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
  
 -- 
 2.21.0
