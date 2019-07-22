@@ -1,159 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F3B07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 13:10:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 753A47D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 15:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730230AbfGVNKt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 09:10:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41274 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728343AbfGVNKt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 09:10:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=GLfj3XE94O2rj+M1sDTUTWfglE0+aX441ii2IeKx/CI=; b=nRZwn/4NR9XHQ9sVhmDigrjy7
-        3S3HlKrJQkjiz0voh8ZPb7dQm7aJXztF5PbsOj0DSouxZY2y0qPviHngwp1ZWVrE+dxDw6SoKrY2l
-        pF6HqDdBwRqqDDaHnXCfoXdLSq23wo9bRL8C9N7rA0GirCNhiSUCdOscHoY0mKB4XKMjBJr4C4oRh
-        8InhsLufSJN14DVBLsEuEp593sGGRaSS/RMWrTSz+MbrSvcSPAbpcD8HDOLR5mJ2mkkG7qC1Pw8Lz
-        I6wbdSuhVGHJBJlMFyz2F5TAmgmsWf1ZollbkM6ttMGYn2Ap7eilwDCK0Ku392VFkvbWxZQ77m2Mo
-        4dM8QpNxQ==;
-Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpY5P-0002aj-VB; Mon, 22 Jul 2019 13:10:40 +0000
-Date:   Mon, 22 Jul 2019 10:10:35 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-iio@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH 04/22] docs: spi: convert to ReST and add it to the kABI
- bookset
-Message-ID: <20190722101035.4f61c1bf@coco.lan>
-In-Reply-To: <20190722121151.GC4756@sirena.org.uk>
-References: <cover.1563792333.git.mchehab+samsung@kernel.org>
-        <be171b438013f8824425595e3d637f5e7d466249.1563792334.git.mchehab+samsung@kernel.org>
-        <20190722121151.GC4756@sirena.org.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727251AbfGVPMA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 11:12:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44114 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726571AbfGVPL6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Jul 2019 11:11:58 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 39D3D21911;
+        Mon, 22 Jul 2019 15:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563808317;
+        bh=AsB3zI1/NGDyZMxT58jD8QlMzyTa4nRlRGFHlVX0dRQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=G/bGujWAaxwyjh/ZoDREmRWnWdjmkmMEzXbgh3dMGYDEuzY9SLEJftT8Jo1kRfXX8
+         2BMT0znomn4zwNKXF0h1kFDFcYSvlo0QWT1nZlIXyh5HtQJnBdjbKD7nrlqVCjvJep
+         yihmuGDINF55vtIuRhMl7+3R2xskSrwDBSmJyuTg=
+Received: by mail-qk1-f173.google.com with SMTP id s145so28858180qke.7;
+        Mon, 22 Jul 2019 08:11:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAWhePPJI5Vowx92P5G95ccKyiIDw6zPx1u11Cl23lvNNV3aics/
+        cS5HArZLZGaTZqIZC9vlQM2f6i1wLZL1cKK08A==
+X-Google-Smtp-Source: APXvYqzlkeQGYN/h3FgK13LLtmJiDds4Ql6WIrIGjE9bOBxYWxSrxffd8YBqD08GQ3B1uVaq7Dl6FQ8Qdj9mcU9lXng=
+X-Received: by 2002:a37:a010:: with SMTP id j16mr48177105qke.152.1563808316481;
+ Mon, 22 Jul 2019 08:11:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1563792333.git.mchehab+samsung@kernel.org> <40b78fbbe64108601c274d28b7c515b3cd29d206.1563792334.git.mchehab+samsung@kernel.org>
+In-Reply-To: <40b78fbbe64108601c274d28b7c515b3cd29d206.1563792334.git.mchehab+samsung@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 22 Jul 2019 09:11:44 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJT-moVXuwEndGfJZknHk8p+Vdv+k5hObhT1+x5TZKAPg@mail.gmail.com>
+Message-ID: <CAL_JsqJT-moVXuwEndGfJZknHk8p+Vdv+k5hObhT1+x5TZKAPg@mail.gmail.com>
+Subject: Re: [PATCH 01/22] docs: convert markdown documents to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 22 Jul 2019 13:11:51 +0100
-Mark Brown <broonie@kernel.org> escreveu:
+On Mon, Jul 22, 2019 at 5:08 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> The documentation standard is ReST and not markdown.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/writing-schema.md    | 130 ---------------
+>  Documentation/devicetree/writing-schema.rst   | 153 ++++++++++++++++++
 
-> On Mon, Jul 22, 2019 at 08:07:31AM -0300, Mauro Carvalho Chehab wrote:
-> > While there's one file there with briefily describes the uAPI,
-> > the documentation was written just like most subsystems: focused
-> > on kernel developers. So, add it together with driver-api books.  
-> 
-> Please use subject lines matching the style for the subsystem.  This
-> makes it easier for people to identify relevant patches.
+Thinking about this some more, can you split this to a separate patch
+for me to apply. I may have some changes to this file this cycle.
 
-Sure. Do you prefer this prefixed by:
-
-	spi: docs:
-
-Or with something else?
-
-> >  Documentation/spi/{spidev => spidev.rst}      |  30 +++--  
-> 
-> This is clearly a userspace focused document rather than a kernel
-> internal one.
-
-True. What I've been doing so far is, for all drivers that I'm converting
-with carries more than one documentation type (kABI, uABI and/or 
-admin-guide) is to keep the directory as-is, adding them under
-this section at Documentation/index.rst:
-
-	Kernel API documentation
-	------------------------
-
-That's the case of media, input, hwmon, and so many other subsystems.
-
-Yet, you're right: this implies that there will be some things
-to be done, as the long-term documentation should be like:
-
-	Documentation/admin-guide/{media, input, hwmon, spi, ...}
-	Documentation/userspace-api/{media, input, hwmon, spi, ...}
-	Documentation/driver-api/{media, input, hwmon, spi, ...}
-
-Btw, if you look at spidev file, it contains stuff for both
-userspace-api:
-
-	"SPI devices have a limited userspace API, supporting basic half-duplex
-	 read() and write() access to SPI slave devices.  Using ioctl() requests,"
-
-And for admin-guide:
-
-	"For a SPI device with chipselect C on bus B, you should see:
-
-	    /dev/spidevB.C ... character special device, major number 153 with
-		a dynamically chosen minor device number. "
-
-So, if we're willing to move it, the best is to do on a separate patch
-with would split its contents into two files: admin-guide/spi-devices.rst and 
-userspace-api/spi-api.rst.
-
--
-
-There are a couple of reasons why I opted for this strategy:
-
-1) There are *lots* of docs that contain all 3 types of information
-   on it on a single file.
-
-2) On media, we use SPHINXDIRS to produce the media book from our
-   devel tree:
-	https://linuxtv.org/downloads/v4l-dvb-apis-new/index.html
-
-   When documents are built with either PDF SPHINXDIRS, each subdir
-   will be on a different book and all inter-book cross-references
-   will break.
-   
-   For this to be fixed, we'll likely need to use something like
-   intersphinx extension, but this would probably require a
-   per-subsystem mapping (for example, saying that, for media, the
-   site used to resolve broken cross references is linuxtv.org). 
-   Maintaining it can be painful.
-
-3) So far, I was unable to split even the media docs! Shame on
-   me! The reason is that this is not an easy task.
-
-
-One interesting example is at what we consider to be the media
-uAPI book. It actually contains both sysadmin and uAPI documentation.
-
-For example, at:
-
-	Documentation/media/uapi/v4l/open.rst
-
-You'll see that, while most things there belong to the admin
-guide (device node descriptions, multiple opens, etc), it
-mentions the Kernel userspace API - open(), read(), close() syscalls.
-
-Splitting this file on two separate books won't be that easy.
-
-Ideally, we should split what's there at media/uapi into admin-guide
-and userspace-api, but this would mean *a lot* of efforts. Not sure
-if it is worth the effort.
-
-
-Thanks,
-Mauro
+>  ...entication.md => ubifs-authentication.rst} |  70 +++++---
+>  3 files changed, 197 insertions(+), 156 deletions(-)
+>  delete mode 100644 Documentation/devicetree/writing-schema.md
+>  create mode 100644 Documentation/devicetree/writing-schema.rst
+>  rename Documentation/filesystems/{ubifs-authentication.md => ubifs-authentication.rst} (95%)
