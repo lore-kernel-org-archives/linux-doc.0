@@ -1,116 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75F327D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 17:51:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05B1E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 17:58:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730388AbfGVRvg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 13:51:36 -0400
-Received: from mail-eopbgr740120.outbound.protection.outlook.com ([40.107.74.120]:61692
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727021AbfGVRvf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Jul 2019 13:51:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d/dUErM8F9Y+j5gAxHcmok7j4GlJrRNOJi7au3+qy1Whm6Ph7Jr442LNncywYcHLZ+1UC/LFb9gt83wL8CI2QvGs1cUDzNFn8JEZ3bYzws3mirmWj7m1wrItyoBNQh0bwtHTUrKmK4eHzipnLfVIlJS+o2V0pIbJxw5mnstu4cF6WiU66mTvOo50BGqN0Q4c8UUhx0HQucit5BGLq2lAqIC+FwQLeEF+SXpTwKjh985x98R5SqqI/cdpR1oaNSF4MXy/IWjYbDogYG0dFHgROqgAVcTyuhJndlLTJZ2K479WSb5oEvq3gnHE1lpHLSyt3L6UfPvdjnkTzRl5RIGaJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8RGmnIc/s24FZDH4Dr32rgG612JNj2RwyGx5+pWSqJU=;
- b=AfnnkhNmAAydpIiU71HYqkQhn19EAHrze9CGvuwmV7DPWIwaVuOZb7hsBdYfQcvVbU/M2ftCOqLfvLR4hJC/fAeidhRMoas5coZE1lKf+DOBkQIUFQdiHtx64dTwAHxwfPsn1RQddz5qaG7yaLmjeY2MMLadDUEPYdhvDQB5F0UGLke9QgCtbNzmblMFcdbOPg+IYrSg25usocL2Y3PaK0VhLI0Q4tMEH8ikAAbFV+safB6bZa8C15Ykzx3EYukWHRs0LMzJSFPswiNWRKFjk6m/t9RXHXC4WjdBEA7Y6ruOkjLy1RvjqeUJ9Oa9WvkTCUY/aysrj5FSdYyaPVE18g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=wavecomp.com;dmarc=pass action=none
- header.from=mips.com;dkim=pass header.d=mips.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wavesemi.onmicrosoft.com; s=selector2-wavesemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8RGmnIc/s24FZDH4Dr32rgG612JNj2RwyGx5+pWSqJU=;
- b=uGMIdS1SI3eQhIxpqNB/yzAEdD5iV5Uxdg0qSbAPrAauJfYj54RHUWxXC+iePYzgKQPGI/IHhmXCOvUmEuKbJyGNypHRy1yJDKL9U+Rbjim67ozsz6wS32nTGn/KmrnItdeDYOSfoQSsYNWd994HI1yJsmH5YByR4vlj+P44Zdk=
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.172.60.12) by
- MWHPR2201MB1101.namprd22.prod.outlook.com (10.174.169.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2094.16; Mon, 22 Jul 2019 17:51:32 +0000
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
- ([fe80::49d3:37f8:217:c83]) by MWHPR2201MB1277.namprd22.prod.outlook.com
- ([fe80::49d3:37f8:217:c83%6]) with mapi id 15.20.2094.017; Mon, 22 Jul 2019
- 17:51:32 +0000
-From:   Paul Burton <paul.burton@mips.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
-Subject: Re: [PATCH 17/22] docs: mips: add to the documentation body as ReST
-Thread-Topic: [PATCH 17/22] docs: mips: add to the documentation body as ReST
-Thread-Index: AQHVQH27JrW5XRmOO0qbImVqVPcKF6bW6zSA
-Date:   Mon, 22 Jul 2019 17:51:32 +0000
-Message-ID: <20190722175131.op5tmsp3giuxlnwf@pburton-laptop>
-References: <cover.1563792333.git.mchehab+samsung@kernel.org>
- <d1b00534f167baba66b1f808e1aed3f7c888c468.1563792334.git.mchehab+samsung@kernel.org>
-In-Reply-To: <d1b00534f167baba66b1f808e1aed3f7c888c468.1563792334.git.mchehab+samsung@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR07CA0072.namprd07.prod.outlook.com
- (2603:10b6:a03:60::49) To MWHPR2201MB1277.namprd22.prod.outlook.com
- (2603:10b6:301:18::12)
-user-agent: NeoMutt/20180716
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=pburton@wavecomp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [12.94.197.246]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ada844be-70ec-4862-bd67-08d70ecd3b61
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR2201MB1101;
-x-ms-traffictypediagnostic: MWHPR2201MB1101:
-x-microsoft-antispam-prvs: <MWHPR2201MB110139BE6DDC0DA0AA04F287C1C40@MWHPR2201MB1101.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1284;
-x-forefront-prvs: 01068D0A20
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(7916004)(396003)(346002)(39840400004)(376002)(366004)(136003)(199004)(189003)(99286004)(66066001)(14454004)(6512007)(81156014)(9686003)(81166006)(6436002)(6506007)(53936002)(186003)(54906003)(58126008)(52116002)(386003)(102836004)(76176011)(4326008)(316002)(44832011)(6246003)(8936002)(26005)(486006)(8676002)(476003)(478600001)(68736007)(11346002)(6116002)(3846002)(2906002)(256004)(6486002)(42882007)(305945005)(33716001)(7736002)(446003)(1076003)(66946007)(66476007)(66556008)(66446008)(64756008)(25786009)(71200400001)(71190400001)(4744005)(229853002)(5660300002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR2201MB1101;H:MWHPR2201MB1277.namprd22.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: S+JTGLUYg/ZxMU8r885Jd2sVml5rXdGq8FGQd/lfXCSvd8ofmWW/1wckrbzRaAHrVHgc1qTVj9LIHMWM3zzPYuZE4Sk06nc2NKO6IUI+2AuWNmm6fbJ7/vLtHK+pHDKn3oMWPBoUEdmkszvHjCCS0ko1boTSaE/0ivQrLMUOq1ZvppqXpTpiGXx2aw5I6xGQ3l7PTGlVsZb20yOidzPxguetBmv6EkjopYRg+JDPExYXt0iTaJVmN1fuf87p/jkfHcbfAazHug/dTJCVE57MAuJMSxzq6OyGUfCRPYYlhMRZ69D+XgyelWBniL9Dw9nEvBDOpJpV2Z1yBnZn0xg5ZVFnWmQcouahlt3R0L+jxWHkIkzI7gYhKHO0XtdqvLo81YnSG0PTuwfzNZaok/EzOc93mbVxmF70iAbOoQkYbzI=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <065F9B4CF0E82F418EC64F95D2954BF0@namprd22.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726400AbfGVR6T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 13:58:19 -0400
+Received: from smtprelay0011.hostedemail.com ([216.40.44.11]:56978 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726272AbfGVR6T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 13:58:19 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 57E742C88;
+        Mon, 22 Jul 2019 17:58:18 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: leg66_2b31318223726
+X-Filterd-Recvd-Size: 4181
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf19.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 22 Jul 2019 17:58:16 +0000 (UTC)
+Message-ID: <2c959c56c23d0052e5c35ecfa2f6051b17fb2798.camel@perches.com>
+Subject: Re: [RFC PATCH] string.h: Add stracpy/stracpy_pad (was: Re: [PATCH]
+ checkpatch: Added warnings in favor of strscpy().)
+From:   Joe Perches <joe@perches.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nitin Gote <nitin.r.gote@intel.com>, akpm@linux-foundation.org,
+        corbet@lwn.net, apw@canonical.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date:   Mon, 22 Jul 2019 10:58:15 -0700
+In-Reply-To: <b9bb5550b264d4b29b2b20f7ff8b1b40d20def6a.camel@perches.com>
+References: <1562219683-15474-1-git-send-email-nitin.r.gote@intel.com>
+         <f6a4c2b601bb59179cb2e3b8f4d836a1c11379a3.camel@perches.com>
+         <d1524130f91d7cfd61bc736623409693d2895f57.camel@perches.com>
+         <201907221031.8B87A9DE@keescook>
+         <b9bb5550b264d4b29b2b20f7ff8b1b40d20def6a.camel@perches.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-X-OriginatorOrg: mips.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ada844be-70ec-4862-bd67-08d70ecd3b61
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2019 17:51:32.6342
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pburton@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1101
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Mon, 2019-07-22 at 10:43 -0700, Joe Perches wrote:
+> On Mon, 2019-07-22 at 10:33 -0700, Kees Cook wrote:
+> > On Thu, Jul 04, 2019 at 05:15:57PM -0700, Joe Perches wrote:
+> > > On Thu, 2019-07-04 at 13:46 -0700, Joe Perches wrote:
+> > > > On Thu, 2019-07-04 at 11:24 +0530, Nitin Gote wrote:
+> > > > > Added warnings in checkpatch.pl script to :
+> > > > > 
+> > > > > 1. Deprecate strcpy() in favor of strscpy().
+> > > > > 2. Deprecate strlcpy() in favor of strscpy().
+> > > > > 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> > > > > 
+> > > > > Updated strncpy() section in Documentation/process/deprecated.rst
+> > > > > to cover strscpy_pad() case.
+> > > 
+> > > []
+> > > 
+> > > I sent a patch series for some strscpy/strlcpy misuses.
+> > > 
+> > > How about adding a macro helper to avoid the misuses like:
+> > > ---
+> > >  include/linux/string.h | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > > 
+> > > diff --git a/include/linux/string.h b/include/linux/string.h
+> > > index 4deb11f7976b..ef01bd6f19df 100644
+> > > --- a/include/linux/string.h
+> > > +++ b/include/linux/string.h
+> > > @@ -35,6 +35,22 @@ ssize_t strscpy(char *, const char *, size_t);
+> > >  /* Wraps calls to strscpy()/memset(), no arch specific code required */
+> > >  ssize_t strscpy_pad(char *dest, const char *src, size_t count);
+> > >  
+> > > +#define stracpy(to, from)					\
+> > > +({								\
+> > > +	size_t size = ARRAY_SIZE(to);				\
+> > > +	BUILD_BUG_ON(!__same_type(typeof(*to), char));		\
+> > > +								\
+> > > +	strscpy(to, from, size);				\
+> > > +})
+> > > +
+> > > +#define stracpy_pad(to, from)					\
+> > > +({								\
+> > > +	size_t size = ARRAY_SIZE(to);				\
+> > > +	BUILD_BUG_ON(!__same_type(typeof(*to), char));		\
+> > > +								\
+> > > +	strscpy_pad(to, from, size);				\
+> > > +})
+> > > +
+> > >  #ifndef __HAVE_ARCH_STRCAT
+> > >  extern char * strcat(char *, const char *);
+> > >  #endif
+> > 
+> > This seems like a reasonable addition, yes. I think Coccinelle might
+> > actually be able to find all the existing strscpy(dst, src, sizeof(dst))
+> > cases to jump-start this conversion.
+> 
+> I did that.  It works.  It's a lot of conversions.
+> 
+> $ cat str.cpy.cocci
+> @@
+> expression e1;
+> expression e2;
+> @@
+> 
+> - strscpy(e1, e2, sizeof(e1))
+> + stracpy(e1, e2)
+> 
+> @@
+> expression e1;
+> expression e2;
+> @@
+> 
+> - strlcpy(e1, e2, sizeof(e1))
+> + stracpy(e1, e2)
+> 
+> > Devil's advocate: this adds yet more string handling functions... will
+> > this cause even more confusion?
+> 
+> Documentation is good.
+> Actual in-kernel use and examples better.
 
-On Mon, Jul 22, 2019 at 08:07:44AM -0300, Mauro Carvalho Chehab wrote:
-> Manually convert the AU1xxx_IDE.README file to ReST and add
-> to a MIPS book as part of the main documentation body.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/index.rst                       |  1 +
->  .../{AU1xxx_IDE.README =3D> au1xxx_ide.rst}     | 89 +++++++++++--------
->  Documentation/mips/index.rst                  | 17 ++++
->  3 files changed, 70 insertions(+), 37 deletions(-)
->  rename Documentation/mips/{AU1xxx_IDE.README =3D> au1xxx_ide.rst} (67%)
->  create mode 100644 Documentation/mips/index.rst
+btw: I just ran this again and it produces:
 
-Acked-by: Paul Burton <paul.burton@mips.com>
+$ spatch --in-place -sp-file str.cpy.cocci .
+$ git checkout tools/
+$ git diff --shortstat
+ 958 files changed, 2179 insertions(+), 2655 deletions(-)
 
-Thanks,
-    Paul
+
