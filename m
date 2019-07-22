@@ -1,69 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59E307D912
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 11:38:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D9D4B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 12:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbfGVLiw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 07:38:52 -0400
-Received: from sauhun.de ([88.99.104.3]:39256 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726895AbfGVLiw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Jul 2019 07:38:52 -0400
-Received: from localhost (p54B33E22.dip0.t-ipconnect.de [84.179.62.34])
-        by pokefinder.org (Postfix) with ESMTPSA id 2529E2C28E9;
-        Mon, 22 Jul 2019 13:38:49 +0200 (CEST)
-Date:   Mon, 22 Jul 2019 13:38:46 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
+        id S1730224AbfGVMMD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 08:12:03 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:41062 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728413AbfGVMMD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 08:12:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=S4t16HIUPnCbhziqB2+zkxTZKxU7JFhv2tuj8/RBo4o=; b=SBg3FViA4rjUMwkAkYeYZOmjX
+        ORXJPv5gcs6T3FhnWx44QwXRbXKamdzPTMCjZabb1SmzYWSJTGDt3saQhD8qWuLbbiwh2Cplv0WNG
+        Y+6urRRP6EaXCchNDqpKHBmLFDaKrOeLY4v2RME6+1vhDhJjw5f1B1ancNKSVJcyepFxk=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hpXAV-0007Zy-S6; Mon, 22 Jul 2019 12:11:51 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 2CA022740463; Mon, 22 Jul 2019 13:11:51 +0100 (BST)
+Date:   Mon, 22 Jul 2019 13:11:51 +0100
+From:   Mark Brown <broonie@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jerry Hoemann <jerry.hoemann@hpe.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
-        Don Brace <don.brace@microsemi.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org, esc.storagedev@microsemi.com,
-        linux-scsi@vger.kernel.org
-Subject: Re: [PATCH 03/14] docs: fix broken doc references due to renames
-Message-ID: <20190722113845.GA1115@ninjato>
-References: <cover.1563277838.git.mchehab+samsung@kernel.org>
- <aa415583bf6b812b0249093a601aa31412f3a1cf.1563277838.git.mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-iio@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH 04/22] docs: spi: convert to ReST and add it to the kABI
+ bookset
+Message-ID: <20190722121151.GC4756@sirena.org.uk>
+References: <cover.1563792333.git.mchehab+samsung@kernel.org>
+ <be171b438013f8824425595e3d637f5e7d466249.1563792334.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
+        protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
 Content-Disposition: inline
-In-Reply-To: <aa415583bf6b812b0249093a601aa31412f3a1cf.1563277838.git.mchehab+samsung@kernel.org>
+In-Reply-To: <be171b438013f8824425595e3d637f5e7d466249.1563792334.git.mchehab+samsung@kernel.org>
+X-Cookie: No skis take rocks like rental skis!
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -71,38 +59,36 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---CE+1k2dSO48ffgeK
+--vOmOzSkFvhd7u8Ms
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2019 at 09:10:42AM -0300, Mauro Carvalho Chehab wrote:
-> Some files got renamed but probably due to some merge conflicts,
-> a few references still point to the old locations.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+On Mon, Jul 22, 2019 at 08:07:31AM -0300, Mauro Carvalho Chehab wrote:
+> While there's one file there with briefily describes the uAPI,
+> the documentation was written just like most subsystems: focused
+> on kernel developers. So, add it together with driver-api books.
 
-Acked-by: Wolfram Sang <wsa@the-dreams.de> # I2C part
+Please use subject lines matching the style for the subsystem.  This
+makes it easier for people to identify relevant patches.
 
+>  Documentation/spi/{spidev => spidev.rst}      |  30 +++--
 
---CE+1k2dSO48ffgeK
+This is clearly a userspace focused document rather than a kernel
+internal one.
+
+--vOmOzSkFvhd7u8Ms
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl01oEEACgkQFA3kzBSg
-KbYvLhAAiBCzjlLaOX8TozT9yXWwqRye46Tkkjqei2Gh2ruk6HulzAm4JLL1ghij
-bD5UKIqsqMqs8SThEWtBr7lpGKPY5dTOO7Lvp3Gg6Ykw4DSJHjwRbY9Gz3eKpjm6
-XCeKu+qe7IWU4PyqjfTmT2tYQBjZTg8+e5ycnPtgLxvLZGpqoOwplZvwady9klS0
-6KfODAi0M8Bv05man76ECm1z4PeUjQMjuSgO4lxWDm9QPN6pL1tZ1DN4TWoQpmY8
-gnS6iqRtIVwRqjxnx3BNP6q0iF0oMBIJbufn+udz5FVAvXkWtx6gaJ+HZO02CPnd
-DfLhbW0h0SzzRnLA8rtuTQl/wJwHcfRtlYBNitXwbXIewlBTqlhzhvuW7JZnXJTe
-QXk4bXJuRofQsmWiK/i6bP0ifWyWmH/mLQkZhXEAZXsiiSHYuLC0RGLYTk2OSbRS
-d4kM+3WQfr0F8KTgmhKZv0g6yKqxziFVCBFMkKvpYqOfk3MuRf9JREpFnAmtHaox
-310crjxth9IwT/SMq813fSz5+SueTeiTp7DZyOANc23QCyJTpTTnIsdpzYzna4+i
-t8H5nyy2JKWKP7rvIfn2O4BKHOt14Klmbno/pUak4lxLadz7Av7mC65akEwLWSiI
-0qO7h0/ZSuPlu8OPAyR3I7cvx8/RriyeQJUceA6/KjTSKtWhw/E=
-=7t6S
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl01qAYACgkQJNaLcl1U
+h9C/jAf/aVqimYa1UmKiGKUzAjJ7xHpCgN2Jv8reBvmRUujt0MfS8X11JQpMJ2vJ
+0/i4Tng1d2SSKYBZIEcRezqYBu5yIK2UQ5UKUqPEeqb4jpv5LEST5SGRt/E5O+dr
+4F5c+9eMguLuls6dq/jd9FBggEO9o4NLwolSsQgLJvgzdezT/VmHsXxhInqQMoKA
+TZj698Au2qmpfL6OEuT6GrVI3aMor4EJyWFqMQH3mIYTMzCj52dihXLKdOFvzxJQ
+qMk4sVMckaBbd71/B/XDG1+YKZVECMBx/tErZDUnVEQTIzIMJhZ3HduVscuWXA1z
+KyUgiOx/PpAD5PcF1ldmQYQfT018ig==
+=2J7c
 -----END PGP SIGNATURE-----
 
---CE+1k2dSO48ffgeK--
+--vOmOzSkFvhd7u8Ms--
