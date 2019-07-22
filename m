@@ -5,37 +5,40 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 854487D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 17:41:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 518627D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Jul 2019 17:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730297AbfGVRlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 13:41:03 -0400
-Received: from smtprelay0195.hostedemail.com ([216.40.44.195]:36323 "EHLO
+        id S1728388AbfGVRnz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Jul 2019 13:43:55 -0400
+Received: from smtprelay0231.hostedemail.com ([216.40.44.231]:60993 "EHLO
         smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726236AbfGVRlC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 13:41:02 -0400
+        by vger.kernel.org with ESMTP id S1727510AbfGVRnz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 13:43:55 -0400
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 40BF41802912A;
-        Mon, 22 Jul 2019 17:41:01 +0000 (UTC)
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 25AE1837F24D;
+        Mon, 22 Jul 2019 17:43:54 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: worm76_25cee27498045
-X-Filterd-Recvd-Size: 2116
+X-HE-Tag: cart38_3ee779eddd660
+X-Filterd-Recvd-Size: 3679
 Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
         (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 22 Jul 2019 17:40:59 +0000 (UTC)
-Message-ID: <28404b52d58efa0a3e85ce05ce0b210049ed6050.camel@perches.com>
-Subject: Re: [PATCH v5] Documentation/checkpatch: Prefer strscpy/strscpy_pad
- over strcpy/strlcpy/strncpy
+        by omf14.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 22 Jul 2019 17:43:52 +0000 (UTC)
+Message-ID: <b9bb5550b264d4b29b2b20f7ff8b1b40d20def6a.camel@perches.com>
+Subject: Re: [RFC PATCH] string.h: Add stracpy/stracpy_pad (was: Re: [PATCH]
+ checkpatch: Added warnings in favor of strscpy().)
 From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>,
-        NitinGote <nitin.r.gote@intel.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, apw@canonical.com,
-        linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com
-Date:   Mon, 22 Jul 2019 10:40:58 -0700
-In-Reply-To: <201907221029.B0CBED4F@keescook>
-References: <20190717043005.19627-1-nitin.r.gote@intel.com>
-         <201907221029.B0CBED4F@keescook>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nitin Gote <nitin.r.gote@intel.com>, akpm@linux-foundation.org,
+        corbet@lwn.net, apw@canonical.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date:   Mon, 22 Jul 2019 10:43:50 -0700
+In-Reply-To: <201907221031.8B87A9DE@keescook>
+References: <1562219683-15474-1-git-send-email-nitin.r.gote@intel.com>
+         <f6a4c2b601bb59179cb2e3b8f4d836a1c11379a3.camel@perches.com>
+         <d1524130f91d7cfd61bc736623409693d2895f57.camel@perches.com>
+         <201907221031.8B87A9DE@keescook>
 Content-Type: text/plain; charset="ISO-8859-1"
 User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
@@ -45,37 +48,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-07-22 at 10:30 -0700, Kees Cook wrote:
-> On Wed, Jul 17, 2019 at 10:00:05AM +0530, NitinGote wrote:
-> > From: Nitin Gote <nitin.r.gote@intel.com>
+On Mon, 2019-07-22 at 10:33 -0700, Kees Cook wrote:
+> On Thu, Jul 04, 2019 at 05:15:57PM -0700, Joe Perches wrote:
+> > On Thu, 2019-07-04 at 13:46 -0700, Joe Perches wrote:
+> > > On Thu, 2019-07-04 at 11:24 +0530, Nitin Gote wrote:
+> > > > Added warnings in checkpatch.pl script to :
+> > > > 
+> > > > 1. Deprecate strcpy() in favor of strscpy().
+> > > > 2. Deprecate strlcpy() in favor of strscpy().
+> > > > 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> > > > 
+> > > > Updated strncpy() section in Documentation/process/deprecated.rst
+> > > > to cover strscpy_pad() case.
 > > 
-> > Added check in checkpatch.pl to
-> > 1. Deprecate strcpy() in favor of strscpy().
-> > 2. Deprecate strlcpy() in favor of strscpy().
-> > 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
+> > []
 > > 
-> > Updated strncpy() section in Documentation/process/deprecated.rst
-> > to cover strscpy_pad() case.
+> > I sent a patch series for some strscpy/strlcpy misuses.
 > > 
-> > Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+> > How about adding a macro helper to avoid the misuses like:
+> > ---
+> >  include/linux/string.h | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> > 
+> > diff --git a/include/linux/string.h b/include/linux/string.h
+> > index 4deb11f7976b..ef01bd6f19df 100644
+> > --- a/include/linux/string.h
+> > +++ b/include/linux/string.h
+> > @@ -35,6 +35,22 @@ ssize_t strscpy(char *, const char *, size_t);
+> >  /* Wraps calls to strscpy()/memset(), no arch specific code required */
+> >  ssize_t strscpy_pad(char *dest, const char *src, size_t count);
+> >  
+> > +#define stracpy(to, from)					\
+> > +({								\
+> > +	size_t size = ARRAY_SIZE(to);				\
+> > +	BUILD_BUG_ON(!__same_type(typeof(*to), char));		\
+> > +								\
+> > +	strscpy(to, from, size);				\
+> > +})
+> > +
+> > +#define stracpy_pad(to, from)					\
+> > +({								\
+> > +	size_t size = ARRAY_SIZE(to);				\
+> > +	BUILD_BUG_ON(!__same_type(typeof(*to), char));		\
+> > +								\
+> > +	strscpy_pad(to, from, size);				\
+> > +})
+> > +
+> >  #ifndef __HAVE_ARCH_STRCAT
+> >  extern char * strcat(char *, const char *);
+> >  #endif
 > 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> Joe, does this address your checkpatch concerns?
+> This seems like a reasonable addition, yes. I think Coccinelle might
+> actually be able to find all the existing strscpy(dst, src, sizeof(dst))
+> cases to jump-start this conversion.
 
-Well, kinda.
+I did that.  It works.  It's a lot of conversions.
 
-strscpy_pad isn't used anywhere in the kernel.
+$ cat str.cpy.cocci
+@@
+expression e1;
+expression e2;
+@@
 
-And
+- strscpy(e1, e2, sizeof(e1))
++ stracpy(e1, e2)
 
-+        "strncpy"				=> "strscpy, strscpy_pad or for non-NUL-terminated strings, strncpy() can still be used, but destinations should be marked with __nonstring",
+@@
+expression e1;
+expression e2;
+@@
 
-is a bit verbose.  This could be simply:
+- strlcpy(e1, e2, sizeof(e1))
++ stracpy(e1, e2)
 
-+        "strncpy" => "strscpy - for non-NUL-terminated uses, strncpy() dst should be __nonstring",
+> Devil's advocate: this adds yet more string handling functions... will
+> this cause even more confusion?
 
-And I still prefer adding stracpy as it
-reduces code verbosity and eliminates defects.
+Documentation is good.
+Actual in-kernel use and examples better.
+
 
 
