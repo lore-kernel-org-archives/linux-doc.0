@@ -1,259 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE5AD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 14:43:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB67C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 14:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388237AbfGWOnW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 10:43:22 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38652 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732517AbfGWOnW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 10:43:22 -0400
-Received: by mail-pl1-f196.google.com with SMTP id az7so20685589plb.5
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2019 07:43:21 -0700 (PDT)
+        id S1731328AbfGWOwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 10:52:11 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43708 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729058AbfGWOwL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 10:52:11 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p13so43484972wru.10;
+        Tue, 23 Jul 2019 07:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=CXJioUohNIJ0NhODmyNgtJL+ymWSK/aS70/EguesA7s=;
-        b=Tv4nwW9qgJhM1gi/kpZBvJdAFTNRF7o+uiQbdbJA+CEkh0nwv//1WqBl78VW2pztXN
-         6XH3F1oxedjEAfMghwEzZjJalzPyL21+Q3og8Z7lcMpWDls0IhHhwkgjSmZD2Nu0h0gQ
-         7qNXpRxPi4soMPYIewpFbmfSmFU3zNV61f93I=
+        bh=kYSaq/H0a1K5O6GgVQzeldJnwoS+ik7bLUeJy2mAJ1A=;
+        b=aukX6NjY5vGXcUMBB7dCljUvzTQzh3KCQ2SsVn4v4prgUDICht9MtYvmKH0taCJILB
+         Qx7krhdvRr84zDCfJ0YoBYkHbyFxT9T7R+0390Ib53rvGYIVdAoU4ukd6T54zwDgFhXf
+         kURlWc2HSpFdNz0eW+lDZ5c+PqgGo8CKmHpO5GL4TZGiyTql3rylP4hDxUWcObDdeeao
+         /AG6a+NawBkABpAV71zqHa4SErX4S9AzbJWlObwK+3R4P3vn/p2zMIgDwHzdwi5tR2JY
+         MCX3OIjhTDn5/sMtwm3fmWWZEu6J1nNF2JpNROAUXgRDGtxt789Kmc2H4lZTbCDqIf+E
+         teIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CXJioUohNIJ0NhODmyNgtJL+ymWSK/aS70/EguesA7s=;
-        b=FsV/nccFhlWF7sWcYVdfU7wpiKM4efKhPG3/4GeBncSB+dW0ROWHIovSI9yVYWZkwH
-         HTwbNmCkGnPDRqfCowqpQn9+afByupUY9Kunqc9PHCrfUFJiubejBK4moa4Nh4bwsN7d
-         Xfvyqlyfgp57WXhQk90yUIhCkjF5Q6hzlgj26lNSDSZe4696WXc+U0J15VwqEXvjw7Ac
-         LHGsDZhHsjxDcGiL3I93p6U8DAZRxUb7acnheJeX/n9fMS80ii7urfP8nLGA7YeJ75mw
-         nODRRKYUPjT/bJPLOTlWkHG5AYpYBtDIhNxL7cSNI4rJYJioULFlcTtOIJ21DuM1jcL8
-         tQhA==
-X-Gm-Message-State: APjAAAW6dr9ty5ozznuAocp+id788Yz868QTpxbHxsBNbTZbex3rhzur
-        +O3bL0qnWzrxeX4qLdVPAAo=
-X-Google-Smtp-Source: APXvYqxq0XgaN2rBscmyFhGxyiLm9xRaeQ7cSnaC3QUCLqtyr5vXEKfMewiKHzKVKUeilH0kxvA+mw==
-X-Received: by 2002:a17:902:9a95:: with SMTP id w21mr23521616plp.126.1563893001022;
-        Tue, 23 Jul 2019 07:43:21 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id 2sm74645858pgm.39.2019.07.23.07.43.19
+        bh=kYSaq/H0a1K5O6GgVQzeldJnwoS+ik7bLUeJy2mAJ1A=;
+        b=Ke+/BGvX+a+5W1Cd+PLjbvdoSP8DLclhYo+Zwc1aytp0EaiSbkt2Gp5yXf+CBeFyAs
+         y/RUFv0d/hr44TIFD6clc6wn4rAqUn8m1PGpPSCDAfbRv2AIUumkAlYZM3il8gr2y9qb
+         IqLoWbHuviv9DBXpwiAaAxNTXvM92Ua0iZsu2DFKHeNSMgSYogPQlkax4V0Zdc8URWT3
+         zCWwL0GNoPZ5PPlCtXawUnJlU9a2ecP/QZLPf2UfxtBfYNvKOGZfGssQ4D+b4wKHZ5pV
+         DFWJNtqazxeOTUdhysRpr0vdCcecKsmvdz5NUEz3cLKMy34WrYH7qqL/vLkuRvScFQJr
+         Veow==
+X-Gm-Message-State: APjAAAXHGrgD+vsIIS6Np8cHRrzj2zUu5DbDl0oU1ii9o9j3ZIs2jF9+
+        ilfEXgVWJoLEv4j2BWAg7VvIZuGLYwQ=
+X-Google-Smtp-Source: APXvYqwq0DLfDr/GEx8Ioo9rXYOVzEw+HqTLlypdVOTwN/scxJ1hlwnITW1gc8tynJDxNVNwzem68Q==
+X-Received: by 2002:a5d:4090:: with SMTP id o16mr7929232wrp.292.1563893529374;
+        Tue, 23 Jul 2019 07:52:09 -0700 (PDT)
+Received: from localhost ([197.211.57.129])
+        by smtp.gmail.com with ESMTPSA id c78sm62424451wmd.16.2019.07.23.07.52.06
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 07:43:20 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 10:43:18 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, carmenjackson@google.com,
-        Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@google.com,
-        minchan@kernel.org, namhyung@google.com, sspatil@google.com,
-        surenb@google.com, Thomas Gleixner <tglx@linutronix.de>,
-        timmurray@google.com, tkjos@google.com,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190723144318.GF104199@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190722150639.27641c63b003dd04e187fd96@linux-foundation.org>
+        Tue, 23 Jul 2019 07:52:08 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 15:52:01 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "supporter:XFS FILESYSTEM" <linux-xfs@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Documentation: filesystem: fix "Removed Sysctls" table
+Message-ID: <20190723145201.GA20658@localhost>
+References: <20190723114813.GA14870@localhost>
+ <20190723074218.4532737f@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190722150639.27641c63b003dd04e187fd96@linux-foundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190723074218.4532737f@lwn.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 03:06:39PM -0700, Andrew Morton wrote:
-> On Mon, 22 Jul 2019 17:32:04 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
+> On Tue, 23 Jul 2019 12:48:13 +0100
+> Sheriff Esseson <sheriffesseson@gmail.com> wrote:
 > 
-> > The page_idle tracking feature currently requires looking up the pagemap
-> > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > This is quite cumbersome and can be error-prone too. If between
-> > accessing the per-PID pagemap and the global page_idle bitmap, if
-> > something changes with the page then the information is not accurate.
-> 
-> Well, it's never going to be "accurate" - something could change one
-> nanosecond after userspace has read the data...
-> 
-> Presumably with this approach the data will be "more" accurate.  How
-> big a problem has this inaccuracy proven to be in real-world usage?
-
-Has proven to be quite a thorn. But the security issue is the main problem..
-
-> > More over looking up PFN from pagemap in Android devices is not
-> > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> > the PFN.
-
-..as mentioned here.
-
-I should have emphasized on the security issue more, will do so in the next
-revision.
-
-> > This patch adds support to directly interact with page_idle tracking at
-> > the PID level by introducing a /proc/<pid>/page_idle file. This
-> > eliminates the need for userspace to calculate the mapping of the page.
-> > It follows the exact same semantics as the global
-> > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> > where looking up PFN is not needed and also does not require SYS_ADMIN.
-> > It ended up simplifying userspace code, solving the security issue
-> > mentioned and works quite well. SELinux does not need to be turned off
-> > since no pagemap look up is needed.
+> > the "Removed Sysctls" section is a table - bring it alive with ReST.
 > > 
-> > In Android, we are using this for the heap profiler (heapprofd) which
-> > profiles and pin points code paths which allocates and leaves memory
-> > idle for long periods of time.
-> > 
-> > Documentation material:
-> > The idle page tracking API for virtual address indexing using virtual page
-> > frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
-> > that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
-> > except that it uses virtual instead of physical frame numbers.
-> > 
-> > This idle page tracking API can be simpler to use than physical address
-> > indexing, since the pagemap for a process does not need to be looked up
-> > to mark or read a page's idle bit. It is also more accurate than
-> > physical address indexing since in physical address indexing, address
-> > space changes can occur between reading the pagemap and reading the
-> > bitmap. In virtual address indexing, the process's mmap_sem is held for
-> > the duration of the access.
-> > 
-> > ...
-> >
-> > --- a/mm/page_idle.c
-> > +++ b/mm/page_idle.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/mmu_notifier.h>
-> >  #include <linux/page_ext.h>
-> >  #include <linux/page_idle.h>
-> > +#include <linux/sched/mm.h>
-> >  
-> >  #define BITMAP_CHUNK_SIZE	sizeof(u64)
-> >  #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
-> > @@ -28,15 +29,12 @@
-> >   *
-> >   * This function tries to get a user memory page by pfn as described above.
-> >   */
+> > Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
 > 
-> Above comment needs updating or moving?
+> So this appears to be identical to the patch you sent three days ago; is
+> there a reason why you are sending it again now?
 > 
-> > -static struct page *page_idle_get_page(unsigned long pfn)
-> > +static struct page *page_idle_get_page(struct page *page_in)
-> >  {
-> >  	struct page *page;
-> >  	pg_data_t *pgdat;
-> >  
-> > -	if (!pfn_valid(pfn))
-> > -		return NULL;
-> > -
-> > -	page = pfn_to_page(pfn);
-> > +	page = page_in;
-> >  	if (!page || !PageLRU(page) ||
-> >  	    !get_page_unless_zero(page))
-> >  		return NULL;
-> >
-> > ...
-> >
-> > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
-> > +				unsigned long *start, unsigned long *end)
-> > +{
-> > +	unsigned long max_frame;
-> > +
-> > +	/* If an mm is not given, assume we want physical frames */
-> > +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
-> > +
-> > +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > +		return -EINVAL;
-> > +
-> > +	*start = pos * BITS_PER_BYTE;
-> > +	if (*start >= max_frame)
-> > +		return -ENXIO;
+> Thanks,
 > 
-> Is said to mean "The system tried to use the device represented by a
-> file you specified, and it couldnt find the device.  This can mean that
-> the device file was installed incorrectly, or that the physical device
-> is missing or not correctly attached to the computer."
-> 
-> This doesn't seem appropriate in this usage and is hence possibly
-> misleading.  Someone whose application fails with ENXIO will be
-> scratching their heads.
+> jon
 
-This actually keeps it consistent with the current code. I refactored that
-code a bit and I'm reusing parts of it to keep lines of code less. See
-page_idle_bitmap_write where it returns -ENXIO in current upstream.
-
-However note that I am actually returning 0 if page_idle_bitmap_write()
-returns -ENXIO:
-
-+	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
-+	if (ret == -ENXIO)
-+		return 0;  /* Reads beyond max_pfn do nothing */
-
-The reason I do it this way is, I am using page_idle_get_frames() in the old
-code and the new code, a bit confusing I know! But it is the cleanest way I
-could find to keep this code common.
-
-> > +	*end = *start + count * BITS_PER_BYTE;
-> > +	if (*end > max_frame)
-> > +		*end = max_frame;
-> > +	return 0;
-> > +}
-> > +
-> >
-> > ...
-> >
-> > +static void add_page_idle_list(struct page *page,
-> > +			       unsigned long addr, struct mm_walk *walk)
-> > +{
-> > +	struct page *page_get;
-> > +	struct page_node *pn;
-> > +	int bit;
-> > +	unsigned long frames;
-> > +	struct page_idle_proc_priv *priv = walk->private;
-> > +	u64 *chunk = (u64 *)priv->buffer;
-> > +
-> > +	if (priv->write) {
-> > +		/* Find whether this page was asked to be marked */
-> > +		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
-> > +		bit = frames % BITMAP_CHUNK_BITS;
-> > +		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
-> > +		if (((*chunk >> bit) & 1) == 0)
-> > +			return;
-> > +	}
-> > +
-> > +	page_get = page_idle_get_page(page);
-> > +	if (!page_get)
-> > +		return;
-> > +
-> > +	pn = kmalloc(sizeof(*pn), GFP_ATOMIC);
-> 
-> I'm not liking this GFP_ATOMIC.  If I'm reading the code correctly,
-> userspace can ask for an arbitrarily large number of GFP_ATOMIC
-> allocations by doing a large read.  This can potentially exhaust page
-> reserves which things like networking Rx interrupts need and can make
-> this whole feature less reliable.
-
-Ok, I will look into this more and possibly do the allocation another way.
-spinlocks are held hence I use GFP_ATOMIC..
-
-thanks,
-
- - Joel
-
+Sorry, I was think the patch went unnoticed during the merge window - I could
+not find a response.
