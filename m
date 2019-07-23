@@ -1,332 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0240E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 22:18:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E02567D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 22:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387529AbfGWWS1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 18:18:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36302 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731353AbfGWWS1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jul 2019 18:18:27 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E1FE229EB;
-        Tue, 23 Jul 2019 22:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563920306;
-        bh=1+cODVZM/qmwLfQsqDC6EW0RoevtNVqfwy2Kt5hV9GU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kG9JjvDqjrTJCh5ASl2pMt+lqfbsmo4pvNaXgthdrnMMDpnHiM6Oqo5KBLn1QExkG
-         KOBRj001DR1gC5KlR6EYngtLST6d6UgFKDERL6p/nD5CU4T+xtAugrMrYHgm1W7GKF
-         E48rAqWj66gHhileoxzMZvPY/tdEN1lv6n2FdPIk=
-Received: by mail-qt1-f170.google.com with SMTP id l9so43471788qtu.6;
-        Tue, 23 Jul 2019 15:18:26 -0700 (PDT)
-X-Gm-Message-State: APjAAAWAAPuOet51S8UTq6wVvA6lea7FbgcOp0LSIRWXkyvHJJ6qejbr
-        ubHCo0H5EmKjL4tkdj+IUq+FCIJuXFYltafRkw==
-X-Google-Smtp-Source: APXvYqwL5YJa/hlFZC87ZrY/NPKXE3+tfPRhQtETec8iN6L1IaDP5nYvSDpuyp9Mst1kiA2+E9tibeXu+D+dsvQc9RQ=
-X-Received: by 2002:aed:3f10:: with SMTP id p16mr54735204qtf.110.1563920305267;
- Tue, 23 Jul 2019 15:18:25 -0700 (PDT)
+        id S2392376AbfGWWXp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 18:23:45 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44278 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727821AbfGWWXp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 18:23:45 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i18so20106835pgl.11
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2019 15:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4dVf29ZcpSVwk+wf2XXFiYUsmnLURtHLTcUwHGDctgs=;
+        b=mKfQrgZH4urgsDsGJ7VgdXJjU2+ey7ZEBJRkId+E9EA2DwPgMTfd0w3mx0YpvYbDBk
+         6Hxb19kjJn2P4LmT8RVunb3SWGwQWWhltD9hoYDBYN3DpVaNH6GaaQ4HA2jd3H5zko8v
+         YS4q7hEUaVQPsvfTWmeAQMxIusbVsmM4WuUU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4dVf29ZcpSVwk+wf2XXFiYUsmnLURtHLTcUwHGDctgs=;
+        b=mroQj5rr6exP7ev+hjvncBeJi3nLINOL+xb35IcmoeB00yJ65k1VqcAo4LaDrGDYak
+         SgVbHt4j2pcfI1Q5smiZPAhWF3YtlaJWh8i/RuxdW5ADWltOtpU1o8/x/24uzHjDaeTj
+         9/q92BGC9UwgnFZJqqa9xfQwIgslyaIPzvEToFvwgCsC0OzPbafHClGG1cTQOYrNep8A
+         KMQxtlv6KNB4Qo53LJ4Nk55e2fPx4svIFRJDAiQ3gq9UhKrR+5dMlaZrQ5a4UyUxBPdW
+         k9ULbWpbzezM21eL5m1yaZ5ZhfmBw5Xol5leLECFJTJr2xQKMkAWuGau3D7DqwCBTwJ1
+         4Adg==
+X-Gm-Message-State: APjAAAVa48Y9XKgaN3St+lg757o9b+8hG9fAMErn9pWtmOSpd0Ev1xhf
+        HNpJ90dApu+0pL8PJWIPdWPHng==
+X-Google-Smtp-Source: APXvYqy9WkSt/8srF0QZ3mt1p4nRA9Uc/JH89PMYcwm6549t32se0npxhWekUjS1CiDtbevVGfSTOQ==
+X-Received: by 2002:a17:90a:974b:: with SMTP id i11mr83444934pjw.21.1563920624498;
+        Tue, 23 Jul 2019 15:23:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u16sm42936978pjb.2.2019.07.23.15.23.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 23 Jul 2019 15:23:43 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 15:23:42 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Solar Designer <solar@openwall.com>
+Cc:     Sasha Levin <sashal@kernel.org>, corbet@lwn.net, will@kernel.org,
+        peterz@infradead.org, gregkh@linuxfoundation.org,
+        tyhicks@canonical.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/security-bugs: provide more information
+ about linux-distros
+Message-ID: <201907231520.D659BD32@keescook>
+References: <20190717231103.13949-1-sashal@kernel.org>
+ <201907181457.D61AC061C@keescook>
+ <20190719003919.GC4240@sasha-vm>
+ <201907181833.EF0D93C@keescook>
+ <20190719084215.GA24691@openwall.com>
 MIME-Version: 1.0
-References: <20190720061647.234852-1-saravanak@google.com> <20190720061647.234852-4-saravanak@google.com>
- <CAL_JsqK9GTxxxjhhWwqxOW9XERFziu2O71ETV2RhXb7B1WFY2g@mail.gmail.com> <CAGETcx-hCrUvY5whZBihueqqCxmF3oDjFybjmoo3JUu87iiiEw@mail.gmail.com>
-In-Reply-To: <CAGETcx-hCrUvY5whZBihueqqCxmF3oDjFybjmoo3JUu87iiiEw@mail.gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 23 Jul 2019 16:18:13 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJC-xvj5OJeFRPPNaYJj=-RqmXFJepZ5Q2+z36-7qyPgQ@mail.gmail.com>
-Message-ID: <CAL_JsqJC-xvj5OJeFRPPNaYJj=-RqmXFJepZ5Q2+z36-7qyPgQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/7] of/platform: Add functional dependency link from
- DT bindings
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190719084215.GA24691@openwall.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 2:49 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> On Tue, Jul 23, 2019 at 11:06 AM Rob Herring <robh+dt@kernel.org> wrote:
-> >
-> > On Sat, Jul 20, 2019 at 12:17 AM Saravana Kannan <saravanak@google.com> wrote:
-> > >
-> > > Add device-links after the devices are created (but before they are
-> > > probed) by looking at common DT bindings like clocks and
-> > > interconnects.
-> >
-> > The structure now looks a lot better to me. A few minor things below.
->
-> Thanks.
->
-> > >
-> > > Automatically adding device-links for functional dependencies at the
-> > > framework level provides the following benefits:
-> > >
-> > > - Optimizes device probe order and avoids the useless work of
-> > >   attempting probes of devices that will not probe successfully
-> > >   (because their suppliers aren't present or haven't probed yet).
-> > >
-> > >   For example, in a commonly available mobile SoC, registering just
-> > >   one consumer device's driver at an initcall level earlier than the
-> > >   supplier device's driver causes 11 failed probe attempts before the
-> > >   consumer device probes successfully. This was with a kernel with all
-> > >   the drivers statically compiled in. This problem gets a lot worse if
-> > >   all the drivers are loaded as modules without direct symbol
-> > >   dependencies.
-> > >
-> > > - Supplier devices like clock providers, interconnect providers, etc
-> > >   need to keep the resources they provide active and at a particular
-> > >   state(s) during boot up even if their current set of consumers don't
-> > >   request the resource to be active. This is because the rest of the
-> > >   consumers might not have probed yet and turning off the resource
-> > >   before all the consumers have probed could lead to a hang or
-> > >   undesired user experience.
-> > >
-> > >   Some frameworks (Eg: regulator) handle this today by turning off
-> > >   "unused" resources at late_initcall_sync and hoping all the devices
-> > >   have probed by then. This is not a valid assumption for systems with
-> > >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> > >   this due to the lack of a clear signal for when they can turn off
-> > >   resources. This leads to downstream hacks to handle cases like this
-> > >   that can easily be solved in the upstream kernel.
-> > >
-> > >   By linking devices before they are probed, we give suppliers a clear
-> > >   count of the number of dependent consumers. Once all of the
-> > >   consumers are active, the suppliers can turn off the unused
-> > >   resources without making assumptions about the number of consumers.
-> > >
-> > > By default we just add device-links to track "driver presence" (probe
-> > > succeeded) of the supplier device. If any other functionality provided
-> > > by device-links are needed, it is left to the consumer/supplier
-> > > devices to change the link when they probe.
-> > >
-> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > > ---
-> > >  .../admin-guide/kernel-parameters.txt         |   5 +
-> > >  drivers/of/platform.c                         | 158 ++++++++++++++++++
-> > >  2 files changed, 163 insertions(+)
-> > >
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 138f6664b2e2..109b4310844f 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -3141,6 +3141,11 @@
-> > >                         This can be set from sysctl after boot.
-> > >                         See Documentation/sysctl/vm.txt for details.
-> > >
-> > > +       of_devlink      [KNL] Make device links from common DT bindings. Useful
-> > > +                       for optimizing probe order and making sure resources
-> > > +                       aren't turned off before the consumer devices have
-> > > +                       probed.
-> > > +
-> > >         ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
-> > >                         See Documentation/debugging-via-ohci1394.txt for more
-> > >                         info.
-> > > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> > > index 04ad312fd85b..88a2086e26fa 100644
-> > > --- a/drivers/of/platform.c
-> > > +++ b/drivers/of/platform.c
-> > > @@ -509,6 +509,163 @@ int of_platform_default_populate(struct device_node *root,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(of_platform_default_populate);
-> > >
-> > > +bool of_link_is_valid(struct device_node *con, struct device_node *sup)
-> > > +{
-> > > +       of_node_get(sup);
-> > > +       /*
-> > > +        * Don't allow linking a device node as a consumer of one of its
-> > > +        * descendant nodes. By definition, a child node can't be a functional
-> > > +        * dependency for the parent node.
-> > > +        */
-> > > +       while (sup) {
-> > > +               if (sup == con) {
-> > > +                       of_node_put(sup);
-> > > +                       return false;
-> > > +               }
-> > > +               sup = of_get_next_parent(sup);
-> > > +       }
-> > > +       return true;
-> > > +}
-> > > +
-> > > +static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
-> > > +{
-> > > +       struct platform_device *sup_dev;
-> > > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> > > +       int ret = 0;
-> > > +
-> > > +       /*
-> > > +        * Since we are trying to create device links, we need to find
-> > > +        * the actual device node that owns this supplier phandle.
-> > > +        * Often times it's the same node, but sometimes it can be one
-> > > +        * of the parents. So walk up the parent till you find a
-> > > +        * device.
-> > > +        */
-> > > +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-> > > +               sup_np = of_get_next_parent(sup_np);
-> > > +       if (!sup_np)
-> > > +               return 0;
-> > > +
-> > > +       if (!of_link_is_valid(dev->of_node, sup_np)) {
-> > > +               of_node_put(sup_np);
-> > > +               return 0;
-> > > +       }
-> > > +       sup_dev = of_find_device_by_node(sup_np);
-> > > +       of_node_put(sup_np);
-> > > +       if (!sup_dev)
-> > > +               return -ENODEV;
-> > > +       if (!device_link_add(dev, &sup_dev->dev, dl_flags))
-> > > +               ret = -ENODEV;
-> > > +       put_device(&sup_dev->dev);
-> > > +       return ret;
-> > > +}
-> > > +
-> > > +static struct device_node *parse_prop_cells(struct device_node *np,
-> > > +                                           const char *prop, int i,
-> >
-> > I like 'i' for for loops, but less so for function params. Perhaps
-> > 'index' instead like of_parse_phandle_with_args.
->
-> Sounds good.
->
-> >
-> > > +                                           const char *binding,
-> > > +                                           const char *cell)
-> > > +{
-> > > +       struct of_phandle_args sup_args;
-> > > +
-> > > +       if (!i && strcmp(prop, binding))
-> >
-> > Why the '!i' test?
->
-> To avoid a string comparison for every index. It's kinda wasteful once
-> the first index passes.
+On Fri, Jul 19, 2019 at 10:42:15AM +0200, Solar Designer wrote:
+> - The reporter having been directed to post from elsewhere (and I
+> suspect this documentation file) without being aware of list policy.
 
-That's not very obvious and pretty fragile though this is a static
-function. Perhaps we should split to match() and parse() functions. At
-least put a comment here as to what we're doing.
+Perhaps specify "linux-distros@" without a domain, so it's more clear?
+Or re-split the Wiki into two pages to avoid confusion?
 
->
-> > > +               return NULL;
-> > > +
-> > > +       if (of_parse_phandle_with_args(np, binding, cell, i, &sup_args))
-> > > +               return NULL;
-> > > +
-> > > +       return sup_args.np;
-> > > +}
-> > > +
-> > > +static struct device_node *parse_clocks(struct device_node *np,
-> > > +                                       const char *prop, int i)
-> > > +{
-> > > +       return parse_prop_cells(np, prop, i, "clocks", "#clock-cells");
-> > > +}
-> > > +
-> > > +static struct device_node *parse_interconnects(struct device_node *np,
-> > > +                                              const char *prop, int i)
-> > > +{
-> > > +       return parse_prop_cells(np, prop, i, "interconnects",
-> > > +                               "#interconnect-cells");
-> > > +}
-> > > +
-> > > +static int strcmp_suffix(const char *str, const char *suffix)
-> > > +{
-> > > +       unsigned int len, suffix_len;
-> > > +
-> > > +       len = strlen(str);
-> > > +       suffix_len = strlen(suffix);
-> > > +       if (len <= suffix_len)
-> > > +               return -1;
-> > > +       return strcmp(str + len - suffix_len, suffix);
-> > > +}
-> > > +
-> > > +static struct device_node *parse_regulators(struct device_node *np,
-> > > +                                           const char *prop, int i)
-> > > +{
-> > > +       if (i || strcmp_suffix(prop, "-supply"))
-> > > +               return NULL;
-> > > +
-> > > +       return of_parse_phandle(np, prop, 0);
-> > > +}
-> > > +
-> > > +/**
-> > > + * struct supplier_bindings - Information for parsing supplier DT binding
-> > > + *
-> > > + * @parse_prop:                If the function cannot parse the property, return NULL.
-> > > + *                     Otherwise, return the phandle listed in the property
-> > > + *                     that corresponds to index i.
-> > > + */
-> > > +struct supplier_bindings {
-> > > +       struct device_node *(*parse_prop)(struct device_node *np,
-> > > +                                         const char *name, int i);
-> > > +};
-> > > +
-> > > +struct supplier_bindings bindings[] = {
-> >
-> > static const
->
-> Will do.
->
-> >
-> > > +       { .parse_prop = parse_clocks, },
-> > > +       { .parse_prop = parse_interconnects, },
-> > > +       { .parse_prop = parse_regulators, },
-> > > +       { },
-> > > +};
-> > > +
-> > > +static bool of_link_property(struct device *dev, struct device_node *con_np,
-> > > +                            const char *prop)
-> > > +{
-> > > +       struct device_node *phandle;
-> > > +       struct supplier_bindings *s = bindings;
-> > > +       unsigned int i = 0;
-> > > +       bool done = true;
-> > > +
-> > > +       while (!i && s->parse_prop) {
-> >
-> > Using 'i' is a little odd. Perhaps a 'matched' bool would be easier to read.
->
-> That's how I wrote it first (locally) and then redid it this way
-> because the bool felt very superfluous. I don't think this is that
-> hard to understand.
+> - The reporter not mentioning (and sometimes not replying even when
+> asked) whether they're also coordinating with security@k.o or whether
+> they want someone on linux-distros to help coordinate with security@k.o.
+> (Maybe this is something we want to write about here.)
 
-Alright...
+Yeah, that seems useful to include in both places.
 
-> > > +               while ((phandle = s->parse_prop(con_np, prop, i))) {
-> > > +                       i++;
-> > > +                       if (of_link_to_phandle(dev, phandle))
-> > > +                               done = false;
-> >
-> > Just return here. No point in continuing as 'done' is never set back to true.
->
-> Actually, there is a point for this. Say Device-C depends on suppliers
-> Device-S1 and Device-S2 and they are listed in DT in that order.
->
-> Say, S1 gets populated after late_initcall_sync but S2 is probes way
-> before that. If I don't continue past a "failed linking" to S1 and
-> also link up to S2, then S2 will get a sync_state() callback before C
-> is probed. So I have to go through all possible suppliers and as many
-> as possible.
->
-> Let me add a comment about this somewhere in the code (probably the
-> header that defines the add_links() ops).
+> - The Linux kernel bug having been introduced too recently to be of much
+> interest to distros.
 
-Okay, makes sense.
+Right; that'd be good to add as well. I see a lot of panic on twitter,
+for example, about bugs that only ever existed in -rc releases.
 
-Rob
+> > Sending to the distros@ list risks exposing Linux-only flaws to non-Linux
+> > distros.
+> 
+> Right.
+> 
+> > This has caused leaks in the past
+> 
+> Do you mean leaks to *BSD security teams or to the public?  I'm not
+> aware of past leaks to the public via the non-Linux distros present on
+> the distros@ list.  Are you?
+
+I don't know the origin of the leaks, but it only happened when distros@
+was used instead of linux-distros@. I think this happened with DirtyCOW,
+specifically.
+
+-- 
+Kees Cook
