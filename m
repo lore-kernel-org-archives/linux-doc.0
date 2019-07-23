@@ -1,123 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C117A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 00:38:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 907E87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 04:33:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733304AbfGWAi2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Jul 2019 20:38:28 -0400
-Received: from smtprelay0132.hostedemail.com ([216.40.44.132]:57779 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728573AbfGWAi1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jul 2019 20:38:27 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 13815180A8150;
-        Tue, 23 Jul 2019 00:38:26 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: brake82_2c3d0225c592a
-X-Filterd-Recvd-Size: 3890
-Received: from joe-laptop.perches.com (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf13.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 23 Jul 2019 00:38:23 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Stephen Kitt <steve@sk2.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nitin Gote <nitin.r.gote@intel.com>, jannh@google.com,
-        kernel-hardening@lists.openwall.com,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] kernel-doc: core-api: Include string.h into core-api
-Date:   Mon, 22 Jul 2019 17:38:16 -0700
-Message-Id: <224a6ebf39955f4107c0c376d66155d970e46733.1563841972.git.joe@perches.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <cover.1563841972.git.joe@perches.com>
-References: <cover.1563841972.git.joe@perches.com>
+        id S1732059AbfGWEdO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 00:33:14 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:36947 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732028AbfGWEdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 00:33:14 -0400
+Received: by mail-io1-f65.google.com with SMTP id q22so78991654iog.4;
+        Mon, 22 Jul 2019 21:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qk5U3bA3qzqu+IynLlWRQEOBAZ7N1ou8AjhC6QEx5u0=;
+        b=eAaCUH2GDO3sHWHaMhz8jJtzV7jW+BiUeGImVRvQzC/HkO/ePhOmBL6V+3w7RvWvju
+         1xXhjNCfMO2w1bVdjSwRyvk970tveUNzXQEtvso3ebs79zQaGzj6zYMhMBs3/x8MGWWR
+         qaw7VDW7sDC5eieCOhpn2EBVf6uGWddX8jW+UeD8QOcH4Y0wAUIRqZcQ5SHOW+mupeta
+         m3XxXRjDWwBQV6vnriWza+9xiQt3hTAl05kdNPy9AEoeMwvpmuBqvE8rlxUVcMFS/TLw
+         9p/w0l84R/dJ0/kn1yOfELe4AwF1LEjk9TiJeGg1ZM37psFZmk4aVaodRogWibVwHPWS
+         E8RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qk5U3bA3qzqu+IynLlWRQEOBAZ7N1ou8AjhC6QEx5u0=;
+        b=OyYDzYrjoH9uR4Ab543UJlrRTFPjaTBiGNdB+WWPoRlRPB6l7qrTMoa4bEknPoLKSf
+         2h4U4BmWN2VvkUMz9Bdqor6QXyPPF09bNHQjWh7wKXLVMMRMVKA4tp02I+GHIZCG+8iO
+         xKt2NvNE887yoy8rmHOgfTVY3B3sJOcKdRqJ2UJ6aRtM0K/qBtOvkeOg8KdqI23kBS5B
+         7GpfMRjtCbP20fISpG2CtHFWWo+0lbmQ/tHp7BhfzhMosrS/nAJb50DRmF2ZGfd+2wSq
+         iXWpnNCICDf0GfOYQVcT2+VWoGof99IREW3w2SMsjIVz2eKKteRf/FKYkhN+VtlUvm8U
+         4X5A==
+X-Gm-Message-State: APjAAAVYdtIV9NTfM+1BPBoYCBN+SgUWDOGLuJIzIhk7qwigqNtOi4PN
+        hUJfFGGKbQ01kKZHUjbIgiwNR6iIf6jNdwAjutw=
+X-Google-Smtp-Source: APXvYqypWk0MoPSm5Ekj3ag8N4aYiKFddHyRSOhwJTVjabMMbXz/iRZaSJJJvO9mdCygUH+Vv3eCygCT2npGFTLY+Zg=
+X-Received: by 2002:a5e:8e4a:: with SMTP id r10mr58528805ioo.100.1563856393341;
+ Mon, 22 Jul 2019 21:33:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <1562317967-16329-1-git-send-email-gkulkarni@marvell.com>
+In-Reply-To: <1562317967-16329-1-git-send-email-gkulkarni@marvell.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Tue, 23 Jul 2019 10:03:02 +0530
+Message-ID: <CAKTKpr5H=QCEx_pL272jCQKdaNwQoRAHVyo93YFa62Z2SZJVCw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add CCPI2 PMU support
+To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        "rrichter@marvell.coma" <rrichter@marvell.coma>,
+        Jan Glauber <jglauber@marvell.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-core-api should show all the various string functions including the
-newly added stracpy and stracpy_pad.
+Hi Will,
 
-Miscellanea:
+Any further comments for this patch?
 
-o Update the Returns: value for strscpy
-o fix a defect with %NUL)
+On Fri, Jul 5, 2019 at 2:43 PM Ganapatrao Kulkarni
+<gkulkarni@marvell.com> wrote:
+>
+> Add Cavium Coherent Processor Interconnect (CCPI2) PMU
+> support in ThunderX2 Uncore driver.
+>
+> v2: Updated with review comments [1]
+>
+> [1] https://lkml.org/lkml/2019/6/14/965
+>
+> v1: initial patch
+>
+> Ganapatrao Kulkarni (2):
+>   Documentation: perf: Update documentation for ThunderX2 PMU uncore
+>     driver
+>   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
+>
+>  Documentation/perf/thunderx2-pmu.txt |  20 ++-
+>  drivers/perf/thunderx2_pmu.c         | 248 +++++++++++++++++++++++----
+>  2 files changed, 225 insertions(+), 43 deletions(-)
+>
+> --
+> 2.17.1
+>
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- Documentation/core-api/kernel-api.rst |  3 +++
- include/linux/string.h                |  5 +++--
- lib/string.c                          | 10 ++++++----
- 3 files changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 08af5caf036d..f77de49b1d51 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -42,6 +42,9 @@ String Manipulation
- .. kernel-doc:: lib/string.c
-    :export:
- 
-+.. kernel-doc:: include/linux/string.h
-+   :internal:
-+
- .. kernel-doc:: mm/util.c
-    :functions: kstrdup kstrdup_const kstrndup kmemdup kmemdup_nul memdup_user
-                vmemdup_user strndup_user memdup_user_nul
-diff --git a/include/linux/string.h b/include/linux/string.h
-index f80b0973f0e5..329188fffc11 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -515,8 +515,9 @@ static inline void memcpy_and_pad(void *dest, size_t dest_len,
-  * But this can lead to bugs due to typos, or if prefix is a pointer
-  * and not a constant. Instead use str_has_prefix().
-  *
-- * Returns: 0 if @str does not start with @prefix
--         strlen(@prefix) if @str does start with @prefix
-+ * Returns:
-+ * * strlen(@prefix) if @str starts with @prefix
-+ * * 0 if @str does not start with @prefix
-  */
- static __always_inline size_t str_has_prefix(const char *str, const char *prefix)
- {
-diff --git a/lib/string.c b/lib/string.c
-index 461fb620f85f..53582b6dce2a 100644
---- a/lib/string.c
-+++ b/lib/string.c
-@@ -173,8 +173,9 @@ EXPORT_SYMBOL(strlcpy);
-  * doesn't unnecessarily force the tail of the destination buffer to be
-  * zeroed.  If zeroing is desired please use strscpy_pad().
-  *
-- * Return: The number of characters copied (not including the trailing
-- *         %NUL) or -E2BIG if the destination buffer wasn't big enough.
-+ * Returns:
-+ * * The number of characters copied (not including the trailing %NUL)
-+ * * -E2BIG if count is 0.
-  */
- ssize_t strscpy(char *dest, const char *src, size_t count)
- {
-@@ -253,8 +254,9 @@ EXPORT_SYMBOL(strscpy);
-  * For full explanation of why you may want to consider using the
-  * 'strscpy' functions please see the function docstring for strscpy().
-  *
-- * Return: The number of characters copied (not including the trailing
-- *         %NUL) or -E2BIG if the destination buffer wasn't big enough.
-+ * Returns:
-+ * * The number of characters copied (not including the trailing %NUL)
-+ * * -E2BIG if count is 0.
-  */
- ssize_t strscpy_pad(char *dest, const char *src, size_t count)
- {
--- 
-2.15.0
-
+Thanks,
+Ganapat
