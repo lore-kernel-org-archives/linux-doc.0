@@ -1,99 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 619B87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 11:48:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E2D77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 11:55:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbfGWLsv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 07:48:51 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:35090 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbfGWLsv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 07:48:51 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y4so42863925wrm.2;
-        Tue, 23 Jul 2019 04:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=fJgbCuAECmv3kfB4MA6EgJmQcyRpzLZ4WuJAsybRjN8=;
-        b=IXZxYn9+ieSSYpeUvVY9HWV6aAp4pnGX23WWtA+twgbNwkKd0+xWFFIDsbwwF26qQX
-         zV/RzGFEvQm5/Gh+Owh4JG5WCZE1biu3oviwFD6eEN8jho2ZOR2eG/QN1NwuwL47Js5i
-         7snXOm/JLAphzo9tdC95e1KugwXNkGuoINV1IDTEVFTXCQSZUSOEtVbMvvXUEOEqnUlF
-         GNEGbzitBtfJLKHDtX6Kd4+6LnQ7qPjeUynQ9/GJS1eAzOrRXY6RRaZsZSoV/CYIZl32
-         +WNfe9hUGfa/rTllPuVMaBB6O6jRQsybv9arprjTRhA0+ZnqKg0DTqrTkjr6pNb/0wO2
-         S9sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=fJgbCuAECmv3kfB4MA6EgJmQcyRpzLZ4WuJAsybRjN8=;
-        b=uHI06XAAMyKYLrks7hpAkO1ERaYBGf0t2iiCc7iZGLKgB2FJm69L4rxOyGsN2PP7jy
-         nfm1N+Wc8z+xM16jpWZHZZ1noWeSS5AjeZf8eZWoaAQXdMmc+0sbIjXQtOvisvOqPopR
-         SYiyd6iFDNhuP+92zjaTEPDAHyzvTxBr2aZbJUj3JTsR7bo6w5sKUBudenNj3zPRQDUk
-         Ed6gjxxhau/5Yu4psU/bhT5fltP0olYTmlvMVZSeB7c8U5MnYANG1te2bASq+tX3T4Kg
-         XyheKOLreAkvY9GwWZ53ihw+r7FRvYzkCjJFcsXngyHlQJxan+Cabt6XitVquFNP4Nsn
-         Z23w==
-X-Gm-Message-State: APjAAAVaADg9Hpa99qoQWLsizXIUqMAX3hkfKEJpDnvTQ3gtVqZbbt2U
-        64U5v036UNzm415Ztcfj3fs=
-X-Google-Smtp-Source: APXvYqxGFcsX+jy3UaXiECbiKtL2HyzZ/SRO1lDL026dTTt95dLrxJ5olHBLNWL0nrgT+rNx43T3fw==
-X-Received: by 2002:a5d:6287:: with SMTP id k7mr31068920wru.108.1563882528872;
-        Tue, 23 Jul 2019 04:48:48 -0700 (PDT)
-Received: from localhost ([197.211.57.129])
-        by smtp.gmail.com with ESMTPSA id g11sm42585476wru.24.2019.07.23.04.48.23
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 04:48:47 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 12:48:13 +0100
-From:   Sheriff Esseson <sheriffesseson@gmail.com>
-To:     skhan@linuxfoundation.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        linux-xfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Documentation: filesystem: fix "Removed Sysctls" table
-Message-ID: <20190723114813.GA14870@localhost>
+        id S1730806AbfGWLzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 07:55:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:53516 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730821AbfGWLzU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jul 2019 07:55:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D35F0337;
+        Tue, 23 Jul 2019 04:55:19 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B56943F71A;
+        Tue, 23 Jul 2019 04:55:18 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 12:55:16 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Takao Indoh <indou.takao@jp.fujitsu.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will.deacon@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        QI Fuli <qi.fuli@fujitsu.com>,
+        Takao Indoh <indou.takao@fujitsu.com>
+Subject: Re: [PATCH 1/2] arm64: mm: Restore mm_cpumask (revert commit
+ 38d96287504a ("arm64: mm: kill mm_cpumask usage"))
+Message-ID: <20190723115516.GA16928@arrakis.emea.arm.com>
+References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
+ <20190617143255.10462-2-indou.takao@jp.fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190617143255.10462-2-indou.takao@jp.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-the "Removed Sysctls" section is a table - bring it alive with ReST.
+Hi,
 
-Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
----
- Documentation/admin-guide/xfs.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I know Will is on the case but just expressing some thoughts of my own.
 
-diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-index e76665a8f2f2..fb5b39f73059 100644
---- a/Documentation/admin-guide/xfs.rst
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -337,11 +337,12 @@ None at present.
- Removed Sysctls
- ===============
- 
-+=============================	=======
-   Name				Removed
--  ----				-------
-+=============================	=======
-   fs.xfs.xfsbufd_centisec	v4.0
-   fs.xfs.age_buffer_centisecs	v4.0
--
-+=============================	=======
- 
- Error handling
- ==============
+On Mon, Jun 17, 2019 at 11:32:54PM +0900, Takao Indoh wrote:
+> From: Takao Indoh <indou.takao@fujitsu.com>
+> 
+> mm_cpumask was deleted by the commit 38d96287504a ("arm64: mm: kill
+> mm_cpumask usage") because it was not used at that time. Now this is needed
+> to find appropriate CPUs for TLB flush, so this patch reverts this commit.
+> 
+> Signed-off-by: QI Fuli <qi.fuli@fujitsu.com>
+> Signed-off-by: Takao Indoh <indou.takao@fujitsu.com>
+> ---
+>  arch/arm64/include/asm/mmu_context.h | 7 ++++++-
+>  arch/arm64/kernel/smp.c              | 6 ++++++
+>  arch/arm64/mm/context.c              | 2 ++
+>  3 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/mmu_context.h b/arch/arm64/include/asm/mmu_context.h
+> index 2da3e478fd8f..21ef11590bcb 100644
+> --- a/arch/arm64/include/asm/mmu_context.h
+> +++ b/arch/arm64/include/asm/mmu_context.h
+> @@ -241,8 +241,13 @@ static inline void
+>  switch_mm(struct mm_struct *prev, struct mm_struct *next,
+>  	  struct task_struct *tsk)
+>  {
+> -	if (prev != next)
+> +	unsigned int cpu = smp_processor_id();
+> +
+> +	if (prev != next) {
+>  		__switch_mm(next);
+> +		cpumask_clear_cpu(cpu, mm_cpumask(prev));
+> +		local_flush_tlb_mm(prev);
+> +	}
+
+That's not actually a revert as we've never flushed the TLBs on the
+switch_mm() path. Also, this flush is not sufficient on a CnP capable
+CPU since another thread of the same CPU could have the prev TTBR0_EL1
+value set and loading the TLB back.
+
 -- 
-2.22.0
-
+Catalin
