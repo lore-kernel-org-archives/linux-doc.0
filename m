@@ -1,102 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 907E87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 04:33:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D5F37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 05:09:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732059AbfGWEdO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 00:33:14 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:36947 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732028AbfGWEdO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 00:33:14 -0400
-Received: by mail-io1-f65.google.com with SMTP id q22so78991654iog.4;
-        Mon, 22 Jul 2019 21:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qk5U3bA3qzqu+IynLlWRQEOBAZ7N1ou8AjhC6QEx5u0=;
-        b=eAaCUH2GDO3sHWHaMhz8jJtzV7jW+BiUeGImVRvQzC/HkO/ePhOmBL6V+3w7RvWvju
-         1xXhjNCfMO2w1bVdjSwRyvk970tveUNzXQEtvso3ebs79zQaGzj6zYMhMBs3/x8MGWWR
-         qaw7VDW7sDC5eieCOhpn2EBVf6uGWddX8jW+UeD8QOcH4Y0wAUIRqZcQ5SHOW+mupeta
-         m3XxXRjDWwBQV6vnriWza+9xiQt3hTAl05kdNPy9AEoeMwvpmuBqvE8rlxUVcMFS/TLw
-         9p/w0l84R/dJ0/kn1yOfELe4AwF1LEjk9TiJeGg1ZM37psFZmk4aVaodRogWibVwHPWS
-         E8RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qk5U3bA3qzqu+IynLlWRQEOBAZ7N1ou8AjhC6QEx5u0=;
-        b=OyYDzYrjoH9uR4Ab543UJlrRTFPjaTBiGNdB+WWPoRlRPB6l7qrTMoa4bEknPoLKSf
-         2h4U4BmWN2VvkUMz9Bdqor6QXyPPF09bNHQjWh7wKXLVMMRMVKA4tp02I+GHIZCG+8iO
-         xKt2NvNE887yoy8rmHOgfTVY3B3sJOcKdRqJ2UJ6aRtM0K/qBtOvkeOg8KdqI23kBS5B
-         7GpfMRjtCbP20fISpG2CtHFWWo+0lbmQ/tHp7BhfzhMosrS/nAJb50DRmF2ZGfd+2wSq
-         iXWpnNCICDf0GfOYQVcT2+VWoGof99IREW3w2SMsjIVz2eKKteRf/FKYkhN+VtlUvm8U
-         4X5A==
-X-Gm-Message-State: APjAAAVYdtIV9NTfM+1BPBoYCBN+SgUWDOGLuJIzIhk7qwigqNtOi4PN
-        hUJfFGGKbQ01kKZHUjbIgiwNR6iIf6jNdwAjutw=
-X-Google-Smtp-Source: APXvYqypWk0MoPSm5Ekj3ag8N4aYiKFddHyRSOhwJTVjabMMbXz/iRZaSJJJvO9mdCygUH+Vv3eCygCT2npGFTLY+Zg=
-X-Received: by 2002:a5e:8e4a:: with SMTP id r10mr58528805ioo.100.1563856393341;
- Mon, 22 Jul 2019 21:33:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <1562317967-16329-1-git-send-email-gkulkarni@marvell.com>
-In-Reply-To: <1562317967-16329-1-git-send-email-gkulkarni@marvell.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 23 Jul 2019 10:03:02 +0530
-Message-ID: <CAKTKpr5H=QCEx_pL272jCQKdaNwQoRAHVyo93YFa62Z2SZJVCw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add CCPI2 PMU support
-To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        "rrichter@marvell.coma" <rrichter@marvell.coma>,
-        Jan Glauber <jglauber@marvell.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1732554AbfGWFJ4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 01:09:56 -0400
+Received: from mga05.intel.com ([192.55.52.43]:1853 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731849AbfGWFJz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jul 2019 01:09:55 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jul 2019 22:09:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,297,1559545200"; 
+   d="scan'208";a="196992280"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2019 22:09:54 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v3 00/12] FPGA DFL updates
+Date:   Tue, 23 Jul 2019 12:51:23 +0800
+Message-Id: <1563857495-26692-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Will,
+Hi Greg
 
-Any further comments for this patch?
+This is v3 patchset which adds more features to FPGA DFL. This patchset
+is made on top of patch[1] and 5.3-rc1 tree. Documentation patch for DFL
+is added back to this patchset
 
-On Fri, Jul 5, 2019 at 2:43 PM Ganapatrao Kulkarni
-<gkulkarni@marvell.com> wrote:
->
-> Add Cavium Coherent Processor Interconnect (CCPI2) PMU
-> support in ThunderX2 Uncore driver.
->
-> v2: Updated with review comments [1]
->
-> [1] https://lkml.org/lkml/2019/6/14/965
->
-> v1: initial patch
->
-> Ganapatrao Kulkarni (2):
->   Documentation: perf: Update documentation for ThunderX2 PMU uncore
->     driver
->   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
->
->  Documentation/perf/thunderx2-pmu.txt |  20 ++-
->  drivers/perf/thunderx2_pmu.c         | 248 +++++++++++++++++++++++----
->  2 files changed, 225 insertions(+), 43 deletions(-)
->
-> --
-> 2.17.1
->
+Main changes from v2:
+  - update kernel version/date in sysfs doc (patch #4, #5, #8, #10, #11).
+  - add back Documentation patch (patch #12).
 
-Thanks,
-Ganapat
+Main changes from v1:
+  - remove DRV/MODULE_VERSION modifications. (patch #1, #3, #4, #6)
+  - remove argsz from new ioctls. (patch #2)
+  - replace sysfs_create/remove_* with device_add/remove_* for sysfs entries.
+    (patch #5, #8, #11)
+
+[1] [PATCH] fpga: dfl: use driver core functions, not sysfs ones.
+    https://lkml.org/lkml/2019/7/4/36
+
+Wu Hao (12):
+  fpga: dfl: fme: support 512bit data width PR
+  fpga: dfl: fme: add DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
+  fpga: dfl: pci: enable SRIOV support.
+  fpga: dfl: afu: add AFU state related sysfs interfaces
+  fpga: dfl: afu: add userclock sysfs interfaces.
+  fpga: dfl: add id_table for dfl private feature driver
+  fpga: dfl: afu: export __port_enable/disable function.
+  fpga: dfl: afu: add error reporting support.
+  fpga: dfl: afu: add STP (SignalTap) support
+  fpga: dfl: fme: add capability sysfs interfaces
+  fpga: dfl: fme: add global error reporting support
+  Documentation: fpga: dfl: add descriptions for virtualization and new
+    interfaces.
+
+ Documentation/ABI/testing/sysfs-platform-dfl-fme  |  98 ++++++
+ Documentation/ABI/testing/sysfs-platform-dfl-port | 104 ++++++
+ Documentation/fpga/dfl.rst                        | 105 ++++++
+ drivers/fpga/Makefile                             |   3 +-
+ drivers/fpga/dfl-afu-error.c                      | 225 +++++++++++++
+ drivers/fpga/dfl-afu-main.c                       | 328 +++++++++++++++++-
+ drivers/fpga/dfl-afu.h                            |   7 +
+ drivers/fpga/dfl-fme-error.c                      | 385 ++++++++++++++++++++++
+ drivers/fpga/dfl-fme-main.c                       |  93 +++++-
+ drivers/fpga/dfl-fme-mgr.c                        | 110 ++++++-
+ drivers/fpga/dfl-fme-pr.c                         |  50 ++-
+ drivers/fpga/dfl-fme.h                            |   7 +-
+ drivers/fpga/dfl-pci.c                            |  39 +++
+ drivers/fpga/dfl.c                                | 166 +++++++++-
+ drivers/fpga/dfl.h                                |  54 ++-
+ include/uapi/linux/fpga-dfl.h                     |  19 ++
+ 16 files changed, 1722 insertions(+), 71 deletions(-)
+ create mode 100644 drivers/fpga/dfl-afu-error.c
+ create mode 100644 drivers/fpga/dfl-fme-error.c
+
+-- 
+1.8.3.1
+
