@@ -1,90 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 258827D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 22:50:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0080E7D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 23:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389636AbfGWWug (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 18:50:36 -0400
-Received: from mail105.syd.optusnet.com.au ([211.29.132.249]:47339 "EHLO
-        mail105.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732011AbfGWWug (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 18:50:36 -0400
-X-Greylist: delayed 1662 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Jul 2019 18:50:35 EDT
-Received: from dread.disaster.area (pa49-195-139-63.pa.nsw.optusnet.com.au [49.195.139.63])
-        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id B095A2AD85A;
-        Wed, 24 Jul 2019 08:22:49 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92)
-        (envelope-from <david@fromorbit.com>)
-        id 1hq3AE-0003mj-Ey; Wed, 24 Jul 2019 08:21:42 +1000
-Date:   Wed, 24 Jul 2019 08:21:42 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "supporter:XFS FILESYSTEM" <linux-xfs@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Documentation: filesystem: fix "Removed Sysctls" table
-Message-ID: <20190723222142.GS7689@dread.disaster.area>
-References: <20190723114813.GA14870@localhost>
- <20190723074218.4532737f@lwn.net>
- <20190723145201.GA20658@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723145201.GA20658@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.2 cv=P6RKvmIu c=1 sm=1 tr=0 cx=a_idp_d
-        a=fNT+DnnR6FjB+3sUuX8HHA==:117 a=fNT+DnnR6FjB+3sUuX8HHA==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=0o9FgrsRnhwA:10
-        a=pGLkceISAAAA:8 a=7-415B0cAAAA:8 a=rzqIo9VfzmB4bOlvi8MA:9
-        a=CjuIK1q_8ugA:10 a=igBNqPyMv6gA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+        id S1726333AbfGWXG4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 19:06:56 -0400
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:43479 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbfGWXGz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 19:06:55 -0400
+Received: by mail-pf1-f201.google.com with SMTP id 6so27202057pfz.10
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2019 16:06:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=yhEVR+lyaQktfxSLQ/EB+rshNGy8yD7d36OlQswd69s=;
+        b=MpvWJogDMmHQ2qrE16nKlM51a8S8juN4VRqWI7Y7hxGArHYnoMo171MSqnp0UMAbiY
+         M4ZsiHyFZy+tNob1BA48IiEW2FawnZr/tAXd6fH1yDW/ZoZIPdrX9l6ar2QptSWdyI2V
+         qcDLq3uh/BjJUYlgGyyuZlq7GfmtcSL3jXsz7W1gc6vo0xB1iBOY6ibHPOOl2DnhJ7yT
+         +nlx8f/YSL4dLcVNxGGhh2uN6Ahy+VlBKv3B1YJDLXSuS+zi3htFgNC4QyUi0OaVNKjb
+         jfpP5V44L+Q65wwreiOiNTae0K3lqfR62T9zMCxFQbkDqkY2fQx6b1MBPVChbBDHy51s
+         HkFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=yhEVR+lyaQktfxSLQ/EB+rshNGy8yD7d36OlQswd69s=;
+        b=lOqRRmLokx8DK+JlagsvTy6vbLdm56ij5kZD2O+wlZHicsNFYgBR5InTvgAq6NP4rr
+         LVssYV1NXRhHCgB3z/sA+jFyqbsuSYl1P+FlPzPeSx2KUeIPqfIJqxWvj6ArPLBnYuNA
+         U/BHULgJv+AIQZ3F9wQ0K/BLplHPdVMqWXlKplD8UArjMzUZdw56o3jI2gC9vThQttaT
+         zZFPHyvtvjd3qhHQbwqr5q3JNkeZk6dt9WRDpgja/W1cONwOS7/tAZ3UVg+I941oBDx9
+         0Sk5si0ANoY14eq8nCann6QOt1HA+UkCDpwf8BSyH80acoW5K6hDxGdt98UrNoSFa4+8
+         ocPA==
+X-Gm-Message-State: APjAAAV34qczoBX5UcDhnryZqhL7eMkrZFnCqesCNNhE31rWYz1W/caN
+        e92WSE4LHaxms/NQt4NrkQ+OUK2+fsg=
+X-Google-Smtp-Source: APXvYqxw57uNDKnlnh6qfncy9p6M/AL26AsgzE3ddNVSUXTIoicDTMYvXmTOpYQ5xpgukSD1KAWW9WK21Qs=
+X-Received: by 2002:a63:7a06:: with SMTP id v6mr79320562pgc.115.1563923214813;
+ Tue, 23 Jul 2019 16:06:54 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 16:05:27 -0700
+In-Reply-To: <20190723230529.251659-1-drosen@google.com>
+Message-Id: <20190723230529.251659-2-drosen@google.com>
+Mime-Version: 1.0
+References: <20190723230529.251659-1-drosen@google.com>
+X-Mailer: git-send-email 2.22.0.657.g960e92d24f-goog
+Subject: [PATCH v4 1/3] fs: Reserve flag for casefolding
+From:   Daniel Rosenberg <drosen@google.com>
+To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 03:52:01PM +0100, Sheriff Esseson wrote:
-> On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
-> > On Tue, 23 Jul 2019 12:48:13 +0100
-> > Sheriff Esseson <sheriffesseson@gmail.com> wrote:
-> > 
-> > > the "Removed Sysctls" section is a table - bring it alive with ReST.
-> > > 
-> > > Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
-> > 
-> > So this appears to be identical to the patch you sent three days ago; is
-> > there a reason why you are sending it again now?
-> > 
-> > Thanks,
-> > 
-> > jon
-> 
-> Sorry, I was think the patch went unnoticed during the merge window - I could
-> not find a response.
+In preparation for including the casefold feature within f2fs, elevate
+the EXT4_CASEFOLD_FL flag to FS_CASEFOLD_FL.
 
-The correct thing to do in that case is to reply to the original
-patch and ask if it has been looked at. The usual way of doing this
-is quoting the commit message and replying with a "Ping?" comment
-to bump it back to the top of everyone's mail stacks.
+Signed-off-by: Daniel Rosenberg <drosen@google.com>
+---
+ include/uapi/linux/fs.h       | 1 +
+ tools/include/uapi/linux/fs.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-But, again, 3 days is not a long time, people tend to be extremely
-busy and might take a few days to get to reviewing non-critical
-changes, and people may not even review patches during the merge
-window. I'd suggest waiting a week before pinging a patch you've
-sent if there's been no response....
-
-Cheers,
-
-Dave.
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 59c71fa8c553a..2a616aa3f6862 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -311,6 +311,7 @@ struct fscrypt_key {
+ #define FS_NOCOW_FL			0x00800000 /* Do not cow file */
+ #define FS_INLINE_DATA_FL		0x10000000 /* Reserved for ext4 */
+ #define FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
++#define FS_CASEFOLD_FL			0x40000000 /* Folder is case insensitive */
+ #define FS_RESERVED_FL			0x80000000 /* reserved for ext2 lib */
+ 
+ #define FS_FL_USER_VISIBLE		0x0003DFFF /* User visible flags */
+diff --git a/tools/include/uapi/linux/fs.h b/tools/include/uapi/linux/fs.h
+index 59c71fa8c553a..2a616aa3f6862 100644
+--- a/tools/include/uapi/linux/fs.h
++++ b/tools/include/uapi/linux/fs.h
+@@ -311,6 +311,7 @@ struct fscrypt_key {
+ #define FS_NOCOW_FL			0x00800000 /* Do not cow file */
+ #define FS_INLINE_DATA_FL		0x10000000 /* Reserved for ext4 */
+ #define FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
++#define FS_CASEFOLD_FL			0x40000000 /* Folder is case insensitive */
+ #define FS_RESERVED_FL			0x80000000 /* reserved for ext2 lib */
+ 
+ #define FS_FL_USER_VISIBLE		0x0003DFFF /* User visible flags */
 -- 
-Dave Chinner
-david@fromorbit.com
+2.22.0.657.g960e92d24f-goog
+
