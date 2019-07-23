@@ -1,142 +1,59 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F7D67D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 13:47:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 578807D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 13:51:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbfGWNru (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 09:47:50 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38415 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390357AbfGWNrt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 09:47:49 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y15so19186301pfn.5
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2019 06:47:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Y4bJNUBVZG75Wm6fTCb90iILIxIQdsm+YFE3cN2CDj8=;
-        b=Zmts+InMHsGjlJGme/8wFfX+TuhCwWTW+otdQ5V8txyciEL0cqRu54oilSH2RbNNAF
-         VWdY0Y/WyGvj48CrXvtBZLJzvdZFqixczAL7t2xx2vgMiD6TpktWsVIczAVKZN0pibRE
-         X3xgb5a1uRr0Khp6dguCzf7wxkuf0OkwWPAOo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Y4bJNUBVZG75Wm6fTCb90iILIxIQdsm+YFE3cN2CDj8=;
-        b=EW2+3JjbSfesLpdAA5T5XoRANliUsOSRIcYG92k03udDDiP0Ya6dpNCQ88i9EUnrtd
-         4EX9cKHSYl8WXCxS+TIGMxNB9bBxeBHkLpV56qsUTGnFTYATgOjuR2U8h3pLBTvHM6gg
-         TgCzXtCiHtLbJDY2Spy3V9qLrWZvZRl9wntf7hDQD/nZwx6fACyJFbwRAoO1TK212D2p
-         QFxCNtEBvk54NgkbAx/PKYoGLO7sfVemyXR+g8MrXPCaGxp59z25iEwjopHOVF1ZYNZD
-         v/A69iD5b8942m3C+ffPKGb/fGmlJ6bfV2YYkcSU2zLajALQ7hPZ0+yIqnMXK8xQeLxA
-         vhuA==
-X-Gm-Message-State: APjAAAVrUqKssSpMtJXWmxBp0zGlzUw1Bx2ESDSazcqxyAJ54yf/IgCp
-        UfD2L1Am055iphdw0RbdUHU=
-X-Google-Smtp-Source: APXvYqy1yaJdw72Q0Nn6ojy3Q+rfO8ub0HIQhJmz+v+fs5k97MSDA2l1FqDyB6T38VJefPW//aW01A==
-X-Received: by 2002:a63:20d:: with SMTP id 13mr65441358pgc.253.1563889668469;
-        Tue, 23 Jul 2019 06:47:48 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id v126sm11955926pgb.23.2019.07.23.06.47.47
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 06:47:47 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 09:47:46 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
+        id S2390218AbfGWNvn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 09:51:43 -0400
+Received: from smtprelay0041.hostedemail.com ([216.40.44.41]:59677 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726527AbfGWNvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 09:51:42 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 79AFF485C;
+        Tue, 23 Jul 2019 13:51:41 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: tiger29_82ea9ecb2fe20
+X-Filterd-Recvd-Size: 1297
+Received: from joe-laptop.perches.com (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf12.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 23 Jul 2019 13:51:39 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Stephen Kitt <steve@sk2.org>,
         Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@google.com,
-        minchan@kernel.org, namhyung@google.com, sspatil@google.com,
-        surenb@google.com, Thomas Gleixner <tglx@linutronix.de>,
-        timmurray@google.com, tkjos@google.com,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190723134746.GB104199@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <01568524-ed97-36c9-61f7-e95084658f5b@yandex-team.ru>
- <8b15dac6-f776-ac9a-8377-ae38f5c9007f@yandex-team.ru>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b15dac6-f776-ac9a-8377-ae38f5c9007f@yandex-team.ru>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Nitin Gote <nitin.r.gote@intel.com>, jannh@google.com,
+        kernel-hardening@lists.openwall.com,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH V2 0/2] string: Add stracpy and stracpy_pad
+Date:   Tue, 23 Jul 2019 06:51:35 -0700
+Message-Id: <cover.1563889130.git.joe@perches.com>
+X-Mailer: git-send-email 2.15.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 01:10:05PM +0300, Konstantin Khlebnikov wrote:
-> On 23.07.2019 11:43, Konstantin Khlebnikov wrote:
-> > On 23.07.2019 0:32, Joel Fernandes (Google) wrote:
-> > > The page_idle tracking feature currently requires looking up the pagemap
-> > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > This is quite cumbersome and can be error-prone too. If between
-> > > accessing the per-PID pagemap and the global page_idle bitmap, if
-> > > something changes with the page then the information is not accurate.
-> > > More over looking up PFN from pagemap in Android devices is not
-> > > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> > > the PFN.
-> > > 
-> > > This patch adds support to directly interact with page_idle tracking at
-> > > the PID level by introducing a /proc/<pid>/page_idle file. This
-> > > eliminates the need for userspace to calculate the mapping of the page.
-> > > It follows the exact same semantics as the global
-> > > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> > > where looking up PFN is not needed and also does not require SYS_ADMIN.
-> > > It ended up simplifying userspace code, solving the security issue
-> > > mentioned and works quite well. SELinux does not need to be turned off
-> > > since no pagemap look up is needed.
-> > > 
-> > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > profiles and pin points code paths which allocates and leaves memory
-> > > idle for long periods of time.
-> > > 
-> > > Documentation material:
-> > > The idle page tracking API for virtual address indexing using virtual page
-> > > frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
-> > > that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
-> > > except that it uses virtual instead of physical frame numbers.
-> > > 
-> > > This idle page tracking API can be simpler to use than physical address
-> > > indexing, since the pagemap for a process does not need to be looked up
-> > > to mark or read a page's idle bit. It is also more accurate than
-> > > physical address indexing since in physical address indexing, address
-> > > space changes can occur between reading the pagemap and reading the
-> > > bitmap. In virtual address indexing, the process's mmap_sem is held for
-> > > the duration of the access.
-> > 
-> > Maybe integrate this into existing interface: /proc/pid/clear_refs and
-> > /proc/pid/pagemap ?
-> > 
-> > I.e.  echo X > /proc/pid/clear_refs clears reference bits in ptes and
-> > marks pages idle only for pages mapped in this process.
-> > And idle bit in /proc/pid/pagemap tells that page is still idle in this process.
-> > This is faster - we don't need to walk whole rmap for that.
-> 
-> Moreover, this is so cheap so could be counted and shown in smaps.
-> Unlike to clearing real access bits this does not disrupt memory reclaimer.
-> Killer feature.
+Add more string copy mechanisms to help avoid defects
 
-I replied to your patch:
-https://lore.kernel.org/lkml/20190723134647.GA104199@google.com/T/#med8992e75c32d9c47f95b119d24a43ded36420bc
+Joe Perches (2):
+  string: Add stracpy and stracpy_pad mechanisms
+  kernel-doc: core-api: Include string.h into core-api
+
+ Documentation/core-api/kernel-api.rst |  3 +++
+ include/linux/string.h                | 50 +++++++++++++++++++++++++++++++++--
+ lib/string.c                          | 10 ++++---
+ 3 files changed, 57 insertions(+), 6 deletions(-)
+
+-- 
+2.15.0
 
