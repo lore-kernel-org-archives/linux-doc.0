@@ -3,622 +3,180 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2F7A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 08:43:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF7CF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Jul 2019 09:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728551AbfGWInq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 04:43:46 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:40934 "EHLO
-        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727076AbfGWInq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 04:43:46 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net [IPv6:2a02:6b8:0:1619::119])
-        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 287D02E14A8;
-        Tue, 23 Jul 2019 11:43:40 +0300 (MSK)
-Received: from smtpcorp1o.mail.yandex.net (smtpcorp1o.mail.yandex.net [2a02:6b8:0:1a2d::30])
-        by mxbackcorp2j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id 6g9JfPN1os-hbNm51pw;
-        Tue, 23 Jul 2019 11:43:40 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-        t=1563871420; bh=kJjDfW2jbWun5ntculbfawTZ5djmL30Et1L76no3MsM=;
-        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
-        b=yUNWJ4kKUrADsQhRS7ZBT7v7MO1HGsNkMCN5V9lBj9tdC/Z4gnmyy2jR3NPldiDoO
-         VoUYgzEX3dDipPoib2M9yfMjROOYBeoDy04iG457OISqwgfY2N7Wb9GF4Cf78m4ccw
-         aBaKAjO63/G+Sg2OCoToKpjxhDBrqFL/lsyX3rno=
-Authentication-Results: mxbackcorp2j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:38b3:1cdf:ad1a:1fe1])
-        by smtpcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id CsOBXfodge-hbI8TO1x;
-        Tue, 23 Jul 2019 11:43:37 +0300
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client certificate not present)
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org
-Cc:     vdavydov.dev@gmail.com, Brendan Gregg <bgregg@netflix.com>,
-        kernel-team@android.com, Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, joelaf@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@google.com,
-        minchan@kernel.org, namhyung@google.com, sspatil@google.com,
-        surenb@google.com, Thomas Gleixner <tglx@linutronix.de>,
-        timmurray@google.com, tkjos@google.com,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-References: <20190722213205.140845-1-joel@joelfernandes.org>
-From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Message-ID: <01568524-ed97-36c9-61f7-e95084658f5b@yandex-team.ru>
-Date:   Tue, 23 Jul 2019 11:43:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S2388822AbfGWJQm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 05:16:42 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:9968 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388820AbfGWJQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 05:16:42 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x6N9G56d008776;
+        Tue, 23 Jul 2019 02:16:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pfpt0818;
+ bh=ootOdHAvtqQH4GwYY6kk7ctFqiK4JGyKzRkUe0LXTY4=;
+ b=RTNw3fqNagKMtJ/RGBsV4gtBgz0wF2F+UGwd3eM5lmPmxLa0MIIz429Ro3hn/tuwfDRj
+ ICf8KbWXHDhTjwv+yl+NSn3XSkaVTIrDsSTDPg25qioMTWh7cE1apqLm2cywm2IJF8TY
+ wTLa32z1U4nhwB1ElAQMFMOLVr0L9RxAA1/PLAXdXXWRIv/SKp807aaXJRHYTSu56E0B
+ LX/w97HgAftNWGiuQG1IH6RaEkf66Sts2ZB75xvvbhKD4Q9JHTs8X6e9GwVXfuGodH3z
+ Oy+fanyaIA9dMPz/f6cuO3+YzsPkmD2ges8Mibn0rBu9rm/dXQ+OmbJjhpazIQZobtMw Cw== 
+Received: from sc-exch01.marvell.com ([199.233.58.181])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2tv0ap31k9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 23 Jul 2019 02:16:32 -0700
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Tue, 23 Jul
+ 2019 02:16:30 -0700
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (104.47.49.51) by
+ SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Tue, 23 Jul 2019 02:16:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hsQyMFMvMie164hNO+lUhEWz1GU61v0YIEPfombIEbam1pl4HFy9NA+ZYgoYDWqpiZuN03jXsaJ23CRQl+61qXPSOwUGJqE13l3P+sD5T38ZtP5Jsi/DziCZuZRKFB7jzpC5wyq7v0ANGlNuhpMEAqgl5V4dZLVeFV+W8HF0QU2mU7UnJS77HcXH6YBGfsGSPncHPEU5M2RVWzn7v2v1yQGcKsfOL+8eCUO9fb+tYOXRf71V6rfV2liv78Ztu/LxfokdHHvSKUzY+d5VH+Y91xrrms8bVwDKcOBMtYU8hzxNhBKV+08A88jNMyL+IMUtYAIZRMP10368FN2Jde2FaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ootOdHAvtqQH4GwYY6kk7ctFqiK4JGyKzRkUe0LXTY4=;
+ b=ipjf+PurbEIAmswMLFLE51i9oCdhekq7EslZpzLh/vIJZzCWCQ+9DrKudkyTtGXoqywrl7h+l6mwzv4sOLZboRlbDfjC864OX+JijgetbOepgIr//dv67WvIxc5tV3jxeer7pH8nlrUBSFdGG2qlZ+a6tliA3lmS1sJmjz7LWy90VGWPObEp3OoqkGtMrbEmBg6t0k+LA53oW70ndlrOlj0Nzxo6cTKaVmDfDa+5HWAtea8nruwWPhHwkFEfThl0M1NJbe6Wv+m7J0AqO7wvhJJ9qRp7iS7utP6jBrDPlNIBySOVWuj8DAy3f6CkzK67e+s6OXk/d5bCOfSgeiZ1qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=marvell.com;dmarc=pass action=none
+ header.from=marvell.com;dkim=pass header.d=marvell.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ootOdHAvtqQH4GwYY6kk7ctFqiK4JGyKzRkUe0LXTY4=;
+ b=fP82T/zNQzo/NcOYk0JUu2BmepaatNQTKw0lE85wFtJiwuDRZEyK2V+hPnfig4YLakqr82I8vHfbJclgiy/zKx6YUwEfTM4wbHtv9zKHv5esvckN6Qip+DdYBNBHdKUIJCFJOHi40Lo6gZJeZhHPNhwYz1cKGqV+PSXM3Uf2kIM=
+Received: from MWHPR1801MB2030.namprd18.prod.outlook.com (10.164.205.31) by
+ MWHPR1801MB1824.namprd18.prod.outlook.com (10.164.206.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.14; Tue, 23 Jul 2019 09:16:28 +0000
+Received: from MWHPR1801MB2030.namprd18.prod.outlook.com
+ ([fe80::5a8:540b:6bb7:fa20]) by MWHPR1801MB2030.namprd18.prod.outlook.com
+ ([fe80::5a8:540b:6bb7:fa20%7]) with mapi id 15.20.2094.013; Tue, 23 Jul 2019
+ 09:16:28 +0000
+From:   Ganapatrao Kulkarni <gkulkarni@marvell.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "will@kernel.org" <will@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Jayachandran Chandrasekharan Nair" <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH v3 1/2] Documentation: perf: Update documentation for
+ ThunderX2 PMU uncore driver
+Thread-Topic: [PATCH v3 1/2] Documentation: perf: Update documentation for
+ ThunderX2 PMU uncore driver
+Thread-Index: AQHVQTdOPdNX23W8pEOAf16rOKwoAg==
+Date:   Tue, 23 Jul 2019 09:16:28 +0000
+Message-ID: <1563873380-2003-2-git-send-email-gkulkarni@marvell.com>
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+In-Reply-To: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BYAPR06CA0023.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::36) To MWHPR1801MB2030.namprd18.prod.outlook.com
+ (2603:10b6:301:69::31)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 1.8.3.1
+x-originating-ip: [199.233.59.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7f964b23-1742-4566-2f20-08d70f4e715a
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR1801MB1824;
+x-ms-traffictypediagnostic: MWHPR1801MB1824:
+x-microsoft-antispam-prvs: <MWHPR1801MB182413B7ADA84525FF2D85FEB2C70@MWHPR1801MB1824.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0107098B6C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(199004)(189003)(2616005)(36756003)(6436002)(8676002)(11346002)(446003)(476003)(6486002)(6506007)(5660300002)(68736007)(102836004)(2906002)(7736002)(6116002)(2501003)(66946007)(3846002)(66476007)(66556008)(8936002)(305945005)(64756008)(76176011)(66446008)(186003)(26005)(386003)(52116002)(81166006)(81156014)(50226002)(71200400001)(71190400001)(256004)(2201001)(99286004)(486006)(478600001)(54906003)(110136005)(316002)(14454004)(4720700003)(66066001)(53936002)(86362001)(25786009)(6512007)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR1801MB1824;H:MWHPR1801MB2030.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 2fhMOOwp1YOzsNlueXvwJ1nxTn6HsaqAqtiSx0x+yYnnrgLlJlD62mboNPFYV+Amztl1N5HL5n6UzxIatV4c2UeYXrciVIAUBX9+JGgkpqqTtkyUUh4epJSGCySApknH/NXr3Z3K45gSvfqEjGdHja6oYC9XSm+1GFZDRVUPx5C71mTiROlRAtXHtHafko1A1PLThtrk44n2HZCM7cGvht6nEQKaMjjWStr/dcs6XMD9Tc2+4DNdTCkgfeN2DfyKbKNmO4qluUAiYHRa3ymtDZ4IgwNQB/1v5OsFXyngSdvnmKuvIvCLe8jS705ffrJhvIguNIUkvma7NoHAdvsZL9aBStik9Z+IFie2YPdgH+rwnDJswMS4bvubJJKmUOGZ04SN1GtIil6XGH6w//lwnSzj4NXuWiWXjjr6gRF2Mnw=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20190722213205.140845-1-joel@joelfernandes.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f964b23-1742-4566-2f20-08d70f4e715a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2019 09:16:28.2610
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gkulkarni@marvell.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1801MB1824
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:5.22.84,1.0.8
+ definitions=2019-07-23_05:2019-07-23,2019-07-23 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23.07.2019 0:32, Joel Fernandes (Google) wrote:
-> The page_idle tracking feature currently requires looking up the pagemap
-> for a process followed by interacting with /sys/kernel/mm/page_idle.
-> This is quite cumbersome and can be error-prone too. If between
-> accessing the per-PID pagemap and the global page_idle bitmap, if
-> something changes with the page then the information is not accurate.
-> More over looking up PFN from pagemap in Android devices is not
-> supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> the PFN.
-> 
-> This patch adds support to directly interact with page_idle tracking at
-> the PID level by introducing a /proc/<pid>/page_idle file. This
-> eliminates the need for userspace to calculate the mapping of the page.
-> It follows the exact same semantics as the global
-> /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> where looking up PFN is not needed and also does not require SYS_ADMIN.
-> It ended up simplifying userspace code, solving the security issue
-> mentioned and works quite well. SELinux does not need to be turned off
-> since no pagemap look up is needed.
-> 
-> In Android, we are using this for the heap profiler (heapprofd) which
-> profiles and pin points code paths which allocates and leaves memory
-> idle for long periods of time.
-> 
-> Documentation material:
-> The idle page tracking API for virtual address indexing using virtual page
-> frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
-> that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
-> except that it uses virtual instead of physical frame numbers.
-> 
-> This idle page tracking API can be simpler to use than physical address
-> indexing, since the pagemap for a process does not need to be looked up
-> to mark or read a page's idle bit. It is also more accurate than
-> physical address indexing since in physical address indexing, address
-> space changes can occur between reading the pagemap and reading the
-> bitmap. In virtual address indexing, the process's mmap_sem is held for
-> the duration of the access.
+From: Ganapatrao Kulkarni <ganapatrao.kulkarni@marvell.com>
 
-Maybe integrate this into existing interface: /proc/pid/clear_refs and
-/proc/pid/pagemap ?
+Add documentation for Cavium Coherent Processor Interconnect (CCPI2) PMU.
 
-I.e.  echo X > /proc/pid/clear_refs clears reference bits in ptes and
-marks pages idle only for pages mapped in this process.
-And idle bit in /proc/pid/pagemap tells that page is still idle in this process.
-This is faster - we don't need to walk whole rmap for that.
+Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
+---
+ .../admin-guide/perf/thunderx2-pmu.rst        | 20 ++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-> 
-> Cc: vdavydov.dev@gmail.com
-> Cc: Brendan Gregg <bgregg@netflix.com>
-> Cc: kernel-team@android.com
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> 
-> ---
-> Internal review -> v1:
-> Fixes from Suren.
-> Corrections to change log, docs (Florian, Sandeep)
-> 
->   fs/proc/base.c            |   3 +
->   fs/proc/internal.h        |   1 +
->   fs/proc/task_mmu.c        |  57 +++++++
->   include/linux/page_idle.h |   4 +
->   mm/page_idle.c            | 305 +++++++++++++++++++++++++++++++++-----
->   5 files changed, 330 insertions(+), 40 deletions(-)
-> 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 77eb628ecc7f..a58dd74606e9 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -3021,6 +3021,9 @@ static const struct pid_entry tgid_base_stuff[] = {
->   	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
->   	REG("smaps_rollup", S_IRUGO, proc_pid_smaps_rollup_operations),
->   	REG("pagemap",    S_IRUSR, proc_pagemap_operations),
-> +#ifdef CONFIG_IDLE_PAGE_TRACKING
-> +	REG("page_idle", S_IRUSR|S_IWUSR, proc_page_idle_operations),
-> +#endif
->   #endif
->   #ifdef CONFIG_SECURITY
->   	DIR("attr",       S_IRUGO|S_IXUGO, proc_attr_dir_inode_operations, proc_attr_dir_operations),
-> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-> index cd0c8d5ce9a1..bc9371880c63 100644
-> --- a/fs/proc/internal.h
-> +++ b/fs/proc/internal.h
-> @@ -293,6 +293,7 @@ extern const struct file_operations proc_pid_smaps_operations;
->   extern const struct file_operations proc_pid_smaps_rollup_operations;
->   extern const struct file_operations proc_clear_refs_operations;
->   extern const struct file_operations proc_pagemap_operations;
-> +extern const struct file_operations proc_page_idle_operations;
->   
->   extern unsigned long task_vsize(struct mm_struct *);
->   extern unsigned long task_statm(struct mm_struct *,
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 4d2b860dbc3f..11ccc53da38e 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1642,6 +1642,63 @@ const struct file_operations proc_pagemap_operations = {
->   	.open		= pagemap_open,
->   	.release	= pagemap_release,
->   };
-> +
-> +#ifdef CONFIG_IDLE_PAGE_TRACKING
-> +static ssize_t proc_page_idle_read(struct file *file, char __user *buf,
-> +				   size_t count, loff_t *ppos)
-> +{
-> +	int ret;
-> +	struct task_struct *tsk = get_proc_task(file_inode(file));
-> +
-> +	if (!tsk)
-> +		return -EINVAL;
-> +	ret = page_idle_proc_read(file, buf, count, ppos, tsk);
-> +	put_task_struct(tsk);
-> +	return ret;
-> +}
-> +
-> +static ssize_t proc_page_idle_write(struct file *file, const char __user *buf,
-> +				 size_t count, loff_t *ppos)
-> +{
-> +	int ret;
-> +	struct task_struct *tsk = get_proc_task(file_inode(file));
-> +
-> +	if (!tsk)
-> +		return -EINVAL;
-> +	ret = page_idle_proc_write(file, (char __user *)buf, count, ppos, tsk);
-> +	put_task_struct(tsk);
-> +	return ret;
-> +}
-> +
-> +static int proc_page_idle_open(struct inode *inode, struct file *file)
-> +{
-> +	struct mm_struct *mm;
-> +
-> +	mm = proc_mem_open(inode, PTRACE_MODE_READ);
-> +	if (IS_ERR(mm))
-> +		return PTR_ERR(mm);
-> +	file->private_data = mm;
-> +	return 0;
-> +}
-> +
-> +static int proc_page_idle_release(struct inode *inode, struct file *file)
-> +{
-> +	struct mm_struct *mm = file->private_data;
-> +
-> +	if (mm)
-> +		mmdrop(mm);
-> +	return 0;
-> +}
-> +
-> +const struct file_operations proc_page_idle_operations = {
-> +	.llseek		= mem_lseek, /* borrow this */
-> +	.read		= proc_page_idle_read,
-> +	.write		= proc_page_idle_write,
-> +	.open		= proc_page_idle_open,
-> +	.release	= proc_page_idle_release,
-> +};
-> +#endif /* CONFIG_IDLE_PAGE_TRACKING */
-> +
->   #endif /* CONFIG_PROC_PAGE_MONITOR */
->   
->   #ifdef CONFIG_NUMA
-> diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
-> index 1e894d34bdce..f1bc2640d85e 100644
-> --- a/include/linux/page_idle.h
-> +++ b/include/linux/page_idle.h
-> @@ -106,6 +106,10 @@ static inline void clear_page_idle(struct page *page)
->   }
->   #endif /* CONFIG_64BIT */
->   
-> +ssize_t page_idle_proc_write(struct file *file,
-> +	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
-> +ssize_t page_idle_proc_read(struct file *file,
-> +	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
->   #else /* !CONFIG_IDLE_PAGE_TRACKING */
->   
->   static inline bool page_is_young(struct page *page)
-> diff --git a/mm/page_idle.c b/mm/page_idle.c
-> index 295512465065..874a60c41fef 100644
-> --- a/mm/page_idle.c
-> +++ b/mm/page_idle.c
-> @@ -11,6 +11,7 @@
->   #include <linux/mmu_notifier.h>
->   #include <linux/page_ext.h>
->   #include <linux/page_idle.h>
-> +#include <linux/sched/mm.h>
->   
->   #define BITMAP_CHUNK_SIZE	sizeof(u64)
->   #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
-> @@ -28,15 +29,12 @@
->    *
->    * This function tries to get a user memory page by pfn as described above.
->    */
-> -static struct page *page_idle_get_page(unsigned long pfn)
-> +static struct page *page_idle_get_page(struct page *page_in)
->   {
->   	struct page *page;
->   	pg_data_t *pgdat;
->   
-> -	if (!pfn_valid(pfn))
-> -		return NULL;
-> -
-> -	page = pfn_to_page(pfn);
-> +	page = page_in;
->   	if (!page || !PageLRU(page) ||
->   	    !get_page_unless_zero(page))
->   		return NULL;
-> @@ -51,6 +49,15 @@ static struct page *page_idle_get_page(unsigned long pfn)
->   	return page;
->   }
->   
-> +static struct page *page_idle_get_page_pfn(unsigned long pfn)
-> +{
-> +
-> +	if (!pfn_valid(pfn))
-> +		return NULL;
-> +
-> +	return page_idle_get_page(pfn_to_page(pfn));
-> +}
-> +
->   static bool page_idle_clear_pte_refs_one(struct page *page,
->   					struct vm_area_struct *vma,
->   					unsigned long addr, void *arg)
-> @@ -118,6 +125,47 @@ static void page_idle_clear_pte_refs(struct page *page)
->   		unlock_page(page);
->   }
->   
-> +/* Helper to get the start and end frame given a pos and count */
-> +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
-> +				unsigned long *start, unsigned long *end)
-> +{
-> +	unsigned long max_frame;
-> +
-> +	/* If an mm is not given, assume we want physical frames */
-> +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
-> +
-> +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> +		return -EINVAL;
-> +
-> +	*start = pos * BITS_PER_BYTE;
-> +	if (*start >= max_frame)
-> +		return -ENXIO;
-> +
-> +	*end = *start + count * BITS_PER_BYTE;
-> +	if (*end > max_frame)
-> +		*end = max_frame;
-> +	return 0;
-> +}
-> +
-> +static bool page_really_idle(struct page *page)
-> +{
-> +	if (!page)
-> +		return false;
-> +
-> +	if (page_is_idle(page)) {
-> +		/*
-> +		 * The page might have been referenced via a
-> +		 * pte, in which case it is not idle. Clear
-> +		 * refs and recheck.
-> +		 */
-> +		page_idle_clear_pte_refs(page);
-> +		if (page_is_idle(page))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
->   				     struct bin_attribute *attr, char *buf,
->   				     loff_t pos, size_t count)
-> @@ -125,35 +173,21 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
->   	u64 *out = (u64 *)buf;
->   	struct page *page;
->   	unsigned long pfn, end_pfn;
-> -	int bit;
-> -
-> -	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> -		return -EINVAL;
-> -
-> -	pfn = pos * BITS_PER_BYTE;
-> -	if (pfn >= max_pfn)
-> -		return 0;
-> +	int bit, ret;
->   
-> -	end_pfn = pfn + count * BITS_PER_BYTE;
-> -	if (end_pfn > max_pfn)
-> -		end_pfn = max_pfn;
-> +	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
-> +	if (ret == -ENXIO)
-> +		return 0;  /* Reads beyond max_pfn do nothing */
-> +	else if (ret)
-> +		return ret;
->   
->   	for (; pfn < end_pfn; pfn++) {
->   		bit = pfn % BITMAP_CHUNK_BITS;
->   		if (!bit)
->   			*out = 0ULL;
-> -		page = page_idle_get_page(pfn);
-> -		if (page) {
-> -			if (page_is_idle(page)) {
-> -				/*
-> -				 * The page might have been referenced via a
-> -				 * pte, in which case it is not idle. Clear
-> -				 * refs and recheck.
-> -				 */
-> -				page_idle_clear_pte_refs(page);
-> -				if (page_is_idle(page))
-> -					*out |= 1ULL << bit;
-> -			}
-> +		page = page_idle_get_page_pfn(pfn);
-> +		if (page && page_really_idle(page)) {
-> +			*out |= 1ULL << bit;
->   			put_page(page);
->   		}
->   		if (bit == BITMAP_CHUNK_BITS - 1)
-> @@ -170,23 +204,16 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
->   	const u64 *in = (u64 *)buf;
->   	struct page *page;
->   	unsigned long pfn, end_pfn;
-> -	int bit;
-> +	int bit, ret;
->   
-> -	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> -		return -EINVAL;
-> -
-> -	pfn = pos * BITS_PER_BYTE;
-> -	if (pfn >= max_pfn)
-> -		return -ENXIO;
-> -
-> -	end_pfn = pfn + count * BITS_PER_BYTE;
-> -	if (end_pfn > max_pfn)
-> -		end_pfn = max_pfn;
-> +	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
-> +	if (ret)
-> +		return ret;
->   
->   	for (; pfn < end_pfn; pfn++) {
->   		bit = pfn % BITMAP_CHUNK_BITS;
->   		if ((*in >> bit) & 1) {
-> -			page = page_idle_get_page(pfn);
-> +			page = page_idle_get_page_pfn(pfn);
->   			if (page) {
->   				page_idle_clear_pte_refs(page);
->   				set_page_idle(page);
-> @@ -224,10 +251,208 @@ struct page_ext_operations page_idle_ops = {
->   };
->   #endif
->   
-> +/*  page_idle tracking for /proc/<pid>/page_idle */
-> +
-> +static DEFINE_SPINLOCK(idle_page_list_lock);
-> +struct list_head idle_page_list;
-> +
-> +struct page_node {
-> +	struct page *page;
-> +	unsigned long addr;
-> +	struct list_head list;
-> +};
-> +
-> +struct page_idle_proc_priv {
-> +	unsigned long start_addr;
-> +	char *buffer;
-> +	int write;
-> +};
-> +
-> +static void add_page_idle_list(struct page *page,
-> +			       unsigned long addr, struct mm_walk *walk)
-> +{
-> +	struct page *page_get;
-> +	struct page_node *pn;
-> +	int bit;
-> +	unsigned long frames;
-> +	struct page_idle_proc_priv *priv = walk->private;
-> +	u64 *chunk = (u64 *)priv->buffer;
-> +
-> +	if (priv->write) {
-> +		/* Find whether this page was asked to be marked */
-> +		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
-> +		bit = frames % BITMAP_CHUNK_BITS;
-> +		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
-> +		if (((*chunk >> bit) & 1) == 0)
-> +			return;
-> +	}
-> +
-> +	page_get = page_idle_get_page(page);
-> +	if (!page_get)
-> +		return;
-> +
-> +	pn = kmalloc(sizeof(*pn), GFP_ATOMIC);
-> +	if (!pn)
-> +		return;
-> +
-> +	pn->page = page_get;
-> +	pn->addr = addr;
-> +	list_add(&pn->list, &idle_page_list);
-> +}
-> +
-> +static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
-> +				    unsigned long end,
-> +				    struct mm_walk *walk)
-> +{
-> +	struct vm_area_struct *vma = walk->vma;
-> +	pte_t *pte;
-> +	spinlock_t *ptl;
-> +	struct page *page;
-> +
-> +	ptl = pmd_trans_huge_lock(pmd, vma);
-> +	if (ptl) {
-> +		if (pmd_present(*pmd)) {
-> +			page = follow_trans_huge_pmd(vma, addr, pmd,
-> +						     FOLL_DUMP|FOLL_WRITE);
-> +			if (!IS_ERR_OR_NULL(page))
-> +				add_page_idle_list(page, addr, walk);
-> +		}
-> +		spin_unlock(ptl);
-> +		return 0;
-> +	}
-> +
-> +	if (pmd_trans_unstable(pmd))
-> +		return 0;
-> +
-> +	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +	for (; addr != end; pte++, addr += PAGE_SIZE) {
-> +		if (!pte_present(*pte))
-> +			continue;
-> +
-> +		page = vm_normal_page(vma, addr, *pte);
-> +		if (page)
-> +			add_page_idle_list(page, addr, walk);
-> +	}
-> +
-> +	pte_unmap_unlock(pte - 1, ptl);
-> +	return 0;
-> +}
-> +
-> +ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
-> +			       size_t count, loff_t *pos,
-> +			       struct task_struct *tsk, int write)
-> +{
-> +	int ret;
-> +	char *buffer;
-> +	u64 *out;
-> +	unsigned long start_addr, end_addr, start_frame, end_frame;
-> +	struct mm_struct *mm = file->private_data;
-> +	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
-> +	struct page_node *cur, *next;
-> +	struct page_idle_proc_priv priv;
-> +	bool walk_error = false;
-> +
-> +	if (!mm || !mmget_not_zero(mm))
-> +		return -EINVAL;
-> +
-> +	if (count > PAGE_SIZE)
-> +		count = PAGE_SIZE;
-> +
-> +	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
-> +	if (!buffer) {
-> +		ret = -ENOMEM;
-> +		goto out_mmput;
-> +	}
-> +	out = (u64 *)buffer;
-> +
-> +	if (write && copy_from_user(buffer, ubuff, count)) {
-> +		ret = -EFAULT;
-> +		goto out;
-> +	}
-> +
-> +	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
-> +	if (ret)
-> +		goto out;
-> +
-> +	start_addr = (start_frame << PAGE_SHIFT);
-> +	end_addr = (end_frame << PAGE_SHIFT);
-> +	priv.buffer = buffer;
-> +	priv.start_addr = start_addr;
-> +	priv.write = write;
-> +	walk.private = &priv;
-> +	walk.mm = mm;
-> +
-> +	down_read(&mm->mmap_sem);
-> +
-> +	/*
-> +	 * Protects the idle_page_list which is needed because
-> +	 * walk_page_vma() holds ptlock which deadlocks with
-> +	 * page_idle_clear_pte_refs(). So we have to collect all
-> +	 * pages first, and then call page_idle_clear_pte_refs().
-> +	 */
-> +	spin_lock(&idle_page_list_lock);
-> +	ret = walk_page_range(start_addr, end_addr, &walk);
-> +	if (ret)
-> +		walk_error = true;
-> +
-> +	list_for_each_entry_safe(cur, next, &idle_page_list, list) {
-> +		int bit, index;
-> +		unsigned long off;
-> +		struct page *page = cur->page;
-> +
-> +		if (unlikely(walk_error))
-> +			goto remove_page;
-> +
-> +		if (write) {
-> +			page_idle_clear_pte_refs(page);
-> +			set_page_idle(page);
-> +		} else {
-> +			if (page_really_idle(page)) {
-> +				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
-> +				bit = off % BITMAP_CHUNK_BITS;
-> +				index = off / BITMAP_CHUNK_BITS;
-> +				out[index] |= 1ULL << bit;
-> +			}
-> +		}
-> +remove_page:
-> +		put_page(page);
-> +		list_del(&cur->list);
-> +		kfree(cur);
-> +	}
-> +	spin_unlock(&idle_page_list_lock);
-> +
-> +	if (!write && !walk_error)
-> +		ret = copy_to_user(ubuff, buffer, count);
-> +
-> +	up_read(&mm->mmap_sem);
-> +out:
-> +	kfree(buffer);
-> +out_mmput:
-> +	mmput(mm);
-> +	if (!ret)
-> +		ret = count;
-> +	return ret;
-> +
-> +}
-> +
-> +ssize_t page_idle_proc_read(struct file *file, char __user *ubuff,
-> +			    size_t count, loff_t *pos, struct task_struct *tsk)
-> +{
-> +	return page_idle_proc_generic(file, ubuff, count, pos, tsk, 0);
-> +}
-> +
-> +ssize_t page_idle_proc_write(struct file *file, char __user *ubuff,
-> +			     size_t count, loff_t *pos, struct task_struct *tsk)
-> +{
-> +	return page_idle_proc_generic(file, ubuff, count, pos, tsk, 1);
-> +}
-> +
->   static int __init page_idle_init(void)
->   {
->   	int err;
->   
-> +	INIT_LIST_HEAD(&idle_page_list);
-> +
->   	err = sysfs_create_group(mm_kobj, &page_idle_attr_group);
->   	if (err) {
->   		pr_err("page_idle: register sysfs failed\n");
-> 
+diff --git a/Documentation/admin-guide/perf/thunderx2-pmu.rst b/Documentati=
+on/admin-guide/perf/thunderx2-pmu.rst
+index 08e33675853a..01f158238ae1 100644
+--- a/Documentation/admin-guide/perf/thunderx2-pmu.rst
++++ b/Documentation/admin-guide/perf/thunderx2-pmu.rst
+@@ -3,24 +3,26 @@ Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNC=
+ORE)
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ The ThunderX2 SoC PMU consists of independent, system-wide, per-socket
+-PMUs such as the Level 3 Cache (L3C) and DDR4 Memory Controller (DMC).
++PMUs such as the Level 3 Cache (L3C), DDR4 Memory Controller (DMC) and
++Cavium Coherent Processor Interconnect (CCPI2).
+=20
+ The DMC has 8 interleaved channels and the L3C has 16 interleaved tiles.
+ Events are counted for the default channel (i.e. channel 0) and prorated
+ to the total number of channels/tiles.
+=20
+-The DMC and L3C support up to 4 counters. Counters are independently
+-programmable and can be started and stopped individually. Each counter
+-can be set to a different event. Counters are 32-bit and do not support
+-an overflow interrupt; they are read every 2 seconds.
++The DMC and L3C support up to 4 counters, while the CCPI2 supports up to 8
++counters. Counters are independently programmable to different events and
++can be started and stopped individually. None of the counters support an
++overflow interrupt. DMC and L3C counters are 32-bit and read every 2 secon=
+ds.
++The CCPI2 counters are 64-bit and assumed not to overflow in normal operat=
+ion.
+=20
+ PMU UNCORE (perf) driver:
+=20
+ The thunderx2_pmu driver registers per-socket perf PMUs for the DMC and
+-L3C devices.  Each PMU can be used to count up to 4 events
+-simultaneously. The PMUs provide a description of their available events
+-and configuration options under sysfs, see
+-/sys/devices/uncore_<l3c_S/dmc_S/>; S is the socket id.
++L3C devices.  Each PMU can be used to count up to 4 (DMC/L3C) or up to 8
++(CCPI2) events simultaneously. The PMUs provide a description of their
++available events and configuration options under sysfs, see
++/sys/devices/uncore_<l3c_S/dmc_S/ccpi2_S/>; S is the socket id.
+=20
+ The driver does not support sampling, therefore "perf record" will not
+ work. Per-task perf sessions are also not supported.
+--=20
+2.17.1
+
