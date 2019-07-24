@@ -1,726 +1,478 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 12F4C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 04:29:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A87C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 07:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726300AbfGXE26 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 00:28:58 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37689 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726252AbfGXE25 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 00:28:57 -0400
-Received: by mail-pl1-f193.google.com with SMTP id b3so21469540plr.4;
-        Tue, 23 Jul 2019 21:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PCw6qLzuYauu4LX/KPIpI2pibvALKR0FCe+sSU8YYj8=;
-        b=TD/Qe3lS2tG/9xCflMQMuq3m+JPE2vLQfBIOP9edEgitPw08y1YsNtBN2tSOcIL5Lv
-         6n0v5Z/TQO0ynUZeFydTkXnqba2ky7l9GR2hxF8QnVECW2Q6fyhYlba2BIij9//uJ9uQ
-         H3AtxopCrP4swrZacJvIVkzFg3aoR7sq+Mxny+U1w0swDsPKCjG8cuD8vVesTdi2WFcZ
-         NASbIsPAJatS8U379FJJfllb0ulLNZde2OuE7Xz0RBX/jkzfPGugOCNrfS9TBPo/A50i
-         3xgwxp6nEg7EqYXjzM75Y7b3pSY8zLMxWmMjb16Jvhy/RYgaZGRTuJSi5475CfgN/dmX
-         w35A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PCw6qLzuYauu4LX/KPIpI2pibvALKR0FCe+sSU8YYj8=;
-        b=eVl6Xi2dSmCabhdH7GCzUBWFDnH9Ofp05Gq449PRTrXHRfr7CO4MjzMeCwNUNtDyvn
-         N70nxCpIXUQ2NgXZ8lZcudMKTqsWe1e7OERunxMdcxOTZApWxoNBF1NRLy8JX+MYhg66
-         anpVhEIFr9TWa6WvXH4bzR+wBxrIVDaPKNZx/DO1ebP9mLleESwfCiRKGUpiZRgpqoQ5
-         aIx1qY//31V0+GmzR0oQxmGHXQYSxhv88bhJuV/tB+e/ifFzWYBQPj3B7WThU47rQ6a/
-         yQkOdDRNFmgIh6UYiCOh/B3qzMUyk2m8dY7bOnc4Zy+db7YEP4cNzSKAbAHaGnEw/X8D
-         VYvA==
-X-Gm-Message-State: APjAAAXFtQLk4/cVpDMN3uaFbJzRx1FePgdSGftve9a+43XN7cIPKvZ7
-        GCOPkVEnIPEKiN7S0tzNsxI=
-X-Google-Smtp-Source: APXvYqwlkTdp5KMLHnjnnjdB70JFui+GEyjmtP37vBgZcnHgDRMSRGQ6SBxGX62h4l/Kjg73iYTpuA==
-X-Received: by 2002:a17:902:44f:: with SMTP id 73mr84778782ple.192.1563942535826;
-        Tue, 23 Jul 2019 21:28:55 -0700 (PDT)
-Received: from google.com ([122.38.223.241])
-        by smtp.gmail.com with ESMTPSA id w132sm46447279pfd.78.2019.07.23.21.28.45
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 21:28:54 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 13:28:42 +0900
-From:   Minchan Kim <minchan@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        sspatil@google.com, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, timmurray@google.com,
-        tkjos@google.com, Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190724042842.GA39273@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190723061358.GD128252@google.com>
- <20190723142049.GC104199@google.com>
+        id S1725919AbfGXHY6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Jul 2019 03:24:58 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60220 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbfGXHY5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 03:24:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=fdLAx+Y4WKpdnHUu/75B6jz8KdkvsprWjuaIOF7ViHw=; b=sBeaxrcgjG/yIyfpss4MwihMp
+        75zIEo9MmNsRpwtpucIWTnGVHI0iuTvJOFmRjQiQnaxtAv0p3euKoyylF6/zDYN3ATWZBKRhkwff6
+        WmAa6MFC55T5BbNt7xVF+awlNJ6MWqdXYm/jLzipjXP5LhE8Dm8pz/QgkKatQAPa7GV1vOcGO6SiY
+        QlJ5lWuz6b51SRIGWwyC+qU51GTHZHR3YFm4w+U+xUAv/yopS4rrSU7Hxep8VQG1tGLxrXbDga9xo
+        g7NODIIEFzCYKKGoIxNPHWx/NcfOL4tbkNHTgActx7PZhkKJUEhBWnv7yVT7P7BxwO8VMAGM28fJz
+        jL2hCWUxw==;
+Received: from 089144207240.atnat0016.highway.bob.at ([89.144.207.240] helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hqBdr-0000OI-Ag; Wed, 24 Jul 2019 07:24:51 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     corbet@lwn.net
+Cc:     pbonzini@redhat.com, rkrcmar@redhat.com, jdike@addtoit.com,
+        richard@nod.at, anton.ivanov@cambridgegreys.com,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: move Documentation/virtual to Documentation/virt
+Date:   Wed, 24 Jul 2019 09:24:49 +0200
+Message-Id: <20190724072449.19599-1-hch@lst.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723142049.GC104199@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 10:20:49AM -0400, Joel Fernandes wrote:
-> On Tue, Jul 23, 2019 at 03:13:58PM +0900, Minchan Kim wrote:
-> > Hi Joel,
-> > 
-> > On Mon, Jul 22, 2019 at 05:32:04PM -0400, Joel Fernandes (Google) wrote:
-> > > The page_idle tracking feature currently requires looking up the pagemap
-> > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > This is quite cumbersome and can be error-prone too. If between
-> > 
-> > cumbersome: That's the fair tradeoff between idle page tracking and
-> > clear_refs because idle page tracking could check even though the page
-> > is not mapped.
-> 
-> It is fair tradeoff, but could be made simpler. The userspace code got
-> reduced by a good amount as well.
-> 
-> > error-prone: What's the error?
-> 
-> We see in normal Android usage, that some of the times pages appear not to be
-> idle even when they really are idle. Reproducing this is a bit unpredictable
-> and happens at random occasions. With this new interface, we are seeing this
-> happen much much lesser.
+Renaming docs seems to be en vogue at the moment, so fix on of the
+grossly misnamed directories.  We usually never use "virtual" as
+a shortcut for virtualization in the kernel, but always virt,
+as seen in the virt/ top-level directory.  Fix up the documentation
+to match that.
 
-I don't know how you did test. Maybe that could be contributed by
-swapping out or shared pages touched by other processes or some kernel
-behavior not to keep access bit of their operation.
-Please investigate more what's the root cause. That would be important
-point to justify for the patch motivation.
+Fixes: ed16648eb5b8 ("Move kvm, uml, and lguest subdirectories under a common "virtual" directory, I.E:")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt             | 2 +-
+ Documentation/{virtual => virt}/index.rst                   | 0
+ .../{virtual => virt}/kvm/amd-memory-encryption.rst         | 0
+ Documentation/{virtual => virt}/kvm/api.txt                 | 2 +-
+ Documentation/{virtual => virt}/kvm/arm/hyp-abi.txt         | 0
+ Documentation/{virtual => virt}/kvm/arm/psci.txt            | 0
+ Documentation/{virtual => virt}/kvm/cpuid.rst               | 0
+ Documentation/{virtual => virt}/kvm/devices/README          | 0
+ .../{virtual => virt}/kvm/devices/arm-vgic-its.txt          | 0
+ Documentation/{virtual => virt}/kvm/devices/arm-vgic-v3.txt | 0
+ Documentation/{virtual => virt}/kvm/devices/arm-vgic.txt    | 0
+ Documentation/{virtual => virt}/kvm/devices/mpic.txt        | 0
+ Documentation/{virtual => virt}/kvm/devices/s390_flic.txt   | 0
+ Documentation/{virtual => virt}/kvm/devices/vcpu.txt        | 0
+ Documentation/{virtual => virt}/kvm/devices/vfio.txt        | 0
+ Documentation/{virtual => virt}/kvm/devices/vm.txt          | 0
+ Documentation/{virtual => virt}/kvm/devices/xics.txt        | 0
+ Documentation/{virtual => virt}/kvm/devices/xive.txt        | 0
+ Documentation/{virtual => virt}/kvm/halt-polling.txt        | 0
+ Documentation/{virtual => virt}/kvm/hypercalls.txt          | 4 ++--
+ Documentation/{virtual => virt}/kvm/index.rst               | 0
+ Documentation/{virtual => virt}/kvm/locking.txt             | 0
+ Documentation/{virtual => virt}/kvm/mmu.txt                 | 2 +-
+ Documentation/{virtual => virt}/kvm/msr.txt                 | 0
+ Documentation/{virtual => virt}/kvm/nested-vmx.txt          | 0
+ Documentation/{virtual => virt}/kvm/ppc-pv.txt              | 0
+ Documentation/{virtual => virt}/kvm/review-checklist.txt    | 2 +-
+ Documentation/{virtual => virt}/kvm/s390-diag.txt           | 0
+ Documentation/{virtual => virt}/kvm/timekeeping.txt         | 0
+ Documentation/{virtual => virt}/kvm/vcpu-requests.rst       | 0
+ Documentation/{virtual => virt}/paravirt_ops.rst            | 0
+ Documentation/{virtual => virt}/uml/UserModeLinux-HOWTO.txt | 0
+ MAINTAINERS                                                 | 6 +++---
+ arch/powerpc/include/uapi/asm/kvm_para.h                    | 2 +-
+ arch/x86/kvm/mmu.c                                          | 2 +-
+ include/uapi/linux/kvm.h                                    | 4 ++--
+ tools/include/uapi/linux/kvm.h                              | 4 ++--
+ virt/kvm/arm/arm.c                                          | 2 +-
+ virt/kvm/arm/vgic/vgic-mmio-v3.c                            | 2 +-
+ virt/kvm/arm/vgic/vgic.h                                    | 4 ++--
+ 40 files changed, 19 insertions(+), 19 deletions(-)
+ rename Documentation/{virtual => virt}/index.rst (100%)
+ rename Documentation/{virtual => virt}/kvm/amd-memory-encryption.rst (100%)
+ rename Documentation/{virtual => virt}/kvm/api.txt (99%)
+ rename Documentation/{virtual => virt}/kvm/arm/hyp-abi.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/arm/psci.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/cpuid.rst (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/README (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/arm-vgic-its.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/arm-vgic-v3.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/arm-vgic.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/mpic.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/s390_flic.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/vcpu.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/vfio.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/vm.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/xics.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/devices/xive.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/halt-polling.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/hypercalls.txt (97%)
+ rename Documentation/{virtual => virt}/kvm/index.rst (100%)
+ rename Documentation/{virtual => virt}/kvm/locking.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/mmu.txt (99%)
+ rename Documentation/{virtual => virt}/kvm/msr.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/nested-vmx.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/ppc-pv.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/review-checklist.txt (95%)
+ rename Documentation/{virtual => virt}/kvm/s390-diag.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/timekeeping.txt (100%)
+ rename Documentation/{virtual => virt}/kvm/vcpu-requests.rst (100%)
+ rename Documentation/{virtual => virt}/paravirt_ops.rst (100%)
+ rename Documentation/{virtual => virt}/uml/UserModeLinux-HOWTO.txt (100%)
 
-> 
-> > > accessing the per-PID pagemap and the global page_idle bitmap, if
-> > > something changes with the page then the information is not accurate.
-> > 
-> > What you mean with error is this timing issue?
-> > Why do you need to be accurate? IOW, accurate is always good but what's
-> > the scale of the accuracy?
-> 
-> There is a time window between looking up pagemap and checking if page is
-> idle. Anyway, see below for the primary goals as you asked:
-> 
-> > > More over looking up PFN from pagemap in Android devices is not
-> > > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> > > the PFN.
-> > > 
-> > > This patch adds support to directly interact with page_idle tracking at
-> > > the PID level by introducing a /proc/<pid>/page_idle file. This
-> > > eliminates the need for userspace to calculate the mapping of the page.
-> > > It follows the exact same semantics as the global
-> > > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> > > where looking up PFN is not needed and also does not require SYS_ADMIN.
-> > 
-> > Ah, so the primary goal is to provide convinience interface and it would
-> > help accurary, too. IOW, accuracy is not your main goal?
-> 
-> There are a couple of primary goals: Security, conveience and also solving
-> the accuracy/reliability problem we are seeing. Do keep in mind looking up
-> PFN has security implications. The PFN field in pagemap is zeroed if the user
-> does not have CAP_SYS_ADMIN.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 46b826fcb5ad..7ccd158b3894 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2545,7 +2545,7 @@
+ 			mem_encrypt=on:		Activate SME
+ 			mem_encrypt=off:	Do not activate SME
+ 
+-			Refer to Documentation/virtual/kvm/amd-memory-encryption.rst
++			Refer to Documentation/virt/kvm/amd-memory-encryption.rst
+ 			for details on when memory encryption can be activated.
+ 
+ 	mem_sleep_default=	[SUSPEND] Default system suspend mode:
+diff --git a/Documentation/virtual/index.rst b/Documentation/virt/index.rst
+similarity index 100%
+rename from Documentation/virtual/index.rst
+rename to Documentation/virt/index.rst
+diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virt/kvm/amd-memory-encryption.rst
+similarity index 100%
+rename from Documentation/virtual/kvm/amd-memory-encryption.rst
+rename to Documentation/virt/kvm/amd-memory-encryption.rst
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virt/kvm/api.txt
+similarity index 99%
+rename from Documentation/virtual/kvm/api.txt
+rename to Documentation/virt/kvm/api.txt
+index e54a3f51ddc5..2d067767b617 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virt/kvm/api.txt
+@@ -3781,7 +3781,7 @@ encrypted VMs.
+ 
+ Currently, this ioctl is used for issuing Secure Encrypted Virtualization
+ (SEV) commands on AMD Processors. The SEV commands are defined in
+-Documentation/virtual/kvm/amd-memory-encryption.rst.
++Documentation/virt/kvm/amd-memory-encryption.rst.
+ 
+ 4.111 KVM_MEMORY_ENCRYPT_REG_REGION
+ 
+diff --git a/Documentation/virtual/kvm/arm/hyp-abi.txt b/Documentation/virt/kvm/arm/hyp-abi.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/arm/hyp-abi.txt
+rename to Documentation/virt/kvm/arm/hyp-abi.txt
+diff --git a/Documentation/virtual/kvm/arm/psci.txt b/Documentation/virt/kvm/arm/psci.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/arm/psci.txt
+rename to Documentation/virt/kvm/arm/psci.txt
+diff --git a/Documentation/virtual/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
+similarity index 100%
+rename from Documentation/virtual/kvm/cpuid.rst
+rename to Documentation/virt/kvm/cpuid.rst
+diff --git a/Documentation/virtual/kvm/devices/README b/Documentation/virt/kvm/devices/README
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/README
+rename to Documentation/virt/kvm/devices/README
+diff --git a/Documentation/virtual/kvm/devices/arm-vgic-its.txt b/Documentation/virt/kvm/devices/arm-vgic-its.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/arm-vgic-its.txt
+rename to Documentation/virt/kvm/devices/arm-vgic-its.txt
+diff --git a/Documentation/virtual/kvm/devices/arm-vgic-v3.txt b/Documentation/virt/kvm/devices/arm-vgic-v3.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/arm-vgic-v3.txt
+rename to Documentation/virt/kvm/devices/arm-vgic-v3.txt
+diff --git a/Documentation/virtual/kvm/devices/arm-vgic.txt b/Documentation/virt/kvm/devices/arm-vgic.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/arm-vgic.txt
+rename to Documentation/virt/kvm/devices/arm-vgic.txt
+diff --git a/Documentation/virtual/kvm/devices/mpic.txt b/Documentation/virt/kvm/devices/mpic.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/mpic.txt
+rename to Documentation/virt/kvm/devices/mpic.txt
+diff --git a/Documentation/virtual/kvm/devices/s390_flic.txt b/Documentation/virt/kvm/devices/s390_flic.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/s390_flic.txt
+rename to Documentation/virt/kvm/devices/s390_flic.txt
+diff --git a/Documentation/virtual/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/vcpu.txt
+rename to Documentation/virt/kvm/devices/vcpu.txt
+diff --git a/Documentation/virtual/kvm/devices/vfio.txt b/Documentation/virt/kvm/devices/vfio.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/vfio.txt
+rename to Documentation/virt/kvm/devices/vfio.txt
+diff --git a/Documentation/virtual/kvm/devices/vm.txt b/Documentation/virt/kvm/devices/vm.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/vm.txt
+rename to Documentation/virt/kvm/devices/vm.txt
+diff --git a/Documentation/virtual/kvm/devices/xics.txt b/Documentation/virt/kvm/devices/xics.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/xics.txt
+rename to Documentation/virt/kvm/devices/xics.txt
+diff --git a/Documentation/virtual/kvm/devices/xive.txt b/Documentation/virt/kvm/devices/xive.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/devices/xive.txt
+rename to Documentation/virt/kvm/devices/xive.txt
+diff --git a/Documentation/virtual/kvm/halt-polling.txt b/Documentation/virt/kvm/halt-polling.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/halt-polling.txt
+rename to Documentation/virt/kvm/halt-polling.txt
+diff --git a/Documentation/virtual/kvm/hypercalls.txt b/Documentation/virt/kvm/hypercalls.txt
+similarity index 97%
+rename from Documentation/virtual/kvm/hypercalls.txt
+rename to Documentation/virt/kvm/hypercalls.txt
+index da210651f714..5f6d291bd004 100644
+--- a/Documentation/virtual/kvm/hypercalls.txt
++++ b/Documentation/virt/kvm/hypercalls.txt
+@@ -18,7 +18,7 @@ S390:
+   number in R1.
+ 
+   For further information on the S390 diagnose call as supported by KVM,
+-  refer to Documentation/virtual/kvm/s390-diag.txt.
++  refer to Documentation/virt/kvm/s390-diag.txt.
+ 
+  PowerPC:
+   It uses R3-R10 and hypercall number in R11. R4-R11 are used as output registers.
+@@ -26,7 +26,7 @@ S390:
+ 
+   KVM hypercalls uses 4 byte opcode, that are patched with 'hypercall-instructions'
+   property inside the device tree's /hypervisor node.
+-  For more information refer to Documentation/virtual/kvm/ppc-pv.txt
++  For more information refer to Documentation/virt/kvm/ppc-pv.txt
+ 
+ MIPS:
+   KVM hypercalls use the HYPCALL instruction with code 0 and the hypercall
+diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virt/kvm/index.rst
+similarity index 100%
+rename from Documentation/virtual/kvm/index.rst
+rename to Documentation/virt/kvm/index.rst
+diff --git a/Documentation/virtual/kvm/locking.txt b/Documentation/virt/kvm/locking.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/locking.txt
+rename to Documentation/virt/kvm/locking.txt
+diff --git a/Documentation/virtual/kvm/mmu.txt b/Documentation/virt/kvm/mmu.txt
+similarity index 99%
+rename from Documentation/virtual/kvm/mmu.txt
+rename to Documentation/virt/kvm/mmu.txt
+index 2efe0efc516e..1b9880dfba0a 100644
+--- a/Documentation/virtual/kvm/mmu.txt
++++ b/Documentation/virt/kvm/mmu.txt
+@@ -298,7 +298,7 @@ Handling a page fault is performed as follows:
+      vcpu->arch.mmio_gfn, and call the emulator
+  - If both P bit and R/W bit of error code are set, this could possibly
+    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
+-   the description in Documentation/virtual/kvm/locking.txt.
++   the description in Documentation/virt/kvm/locking.txt.
+  - if needed, walk the guest page tables to determine the guest translation
+    (gva->gpa or ngpa->gpa)
+    - if permissions are insufficient, reflect the fault back to the guest
+diff --git a/Documentation/virtual/kvm/msr.txt b/Documentation/virt/kvm/msr.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/msr.txt
+rename to Documentation/virt/kvm/msr.txt
+diff --git a/Documentation/virtual/kvm/nested-vmx.txt b/Documentation/virt/kvm/nested-vmx.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/nested-vmx.txt
+rename to Documentation/virt/kvm/nested-vmx.txt
+diff --git a/Documentation/virtual/kvm/ppc-pv.txt b/Documentation/virt/kvm/ppc-pv.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/ppc-pv.txt
+rename to Documentation/virt/kvm/ppc-pv.txt
+diff --git a/Documentation/virtual/kvm/review-checklist.txt b/Documentation/virt/kvm/review-checklist.txt
+similarity index 95%
+rename from Documentation/virtual/kvm/review-checklist.txt
+rename to Documentation/virt/kvm/review-checklist.txt
+index a83b27635fdd..499af499e296 100644
+--- a/Documentation/virtual/kvm/review-checklist.txt
++++ b/Documentation/virt/kvm/review-checklist.txt
+@@ -7,7 +7,7 @@ Review checklist for kvm patches
+ 2.  Patches should be against kvm.git master branch.
+ 
+ 3.  If the patch introduces or modifies a new userspace API:
+-    - the API must be documented in Documentation/virtual/kvm/api.txt
++    - the API must be documented in Documentation/virt/kvm/api.txt
+     - the API must be discoverable using KVM_CHECK_EXTENSION
+ 
+ 4.  New state must include support for save/restore.
+diff --git a/Documentation/virtual/kvm/s390-diag.txt b/Documentation/virt/kvm/s390-diag.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/s390-diag.txt
+rename to Documentation/virt/kvm/s390-diag.txt
+diff --git a/Documentation/virtual/kvm/timekeeping.txt b/Documentation/virt/kvm/timekeeping.txt
+similarity index 100%
+rename from Documentation/virtual/kvm/timekeeping.txt
+rename to Documentation/virt/kvm/timekeeping.txt
+diff --git a/Documentation/virtual/kvm/vcpu-requests.rst b/Documentation/virt/kvm/vcpu-requests.rst
+similarity index 100%
+rename from Documentation/virtual/kvm/vcpu-requests.rst
+rename to Documentation/virt/kvm/vcpu-requests.rst
+diff --git a/Documentation/virtual/paravirt_ops.rst b/Documentation/virt/paravirt_ops.rst
+similarity index 100%
+rename from Documentation/virtual/paravirt_ops.rst
+rename to Documentation/virt/paravirt_ops.rst
+diff --git a/Documentation/virtual/uml/UserModeLinux-HOWTO.txt b/Documentation/virt/uml/UserModeLinux-HOWTO.txt
+similarity index 100%
+rename from Documentation/virtual/uml/UserModeLinux-HOWTO.txt
+rename to Documentation/virt/uml/UserModeLinux-HOWTO.txt
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 783569e3c4b4..5e1f9ee8f86f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8808,7 +8808,7 @@ L:	kvm@vger.kernel.org
+ W:	http://www.linux-kvm.org
+ T:	git git://git.kernel.org/pub/scm/virt/kvm/kvm.git
+ S:	Supported
+-F:	Documentation/virtual/kvm/
++F:	Documentation/virt/kvm/
+ F:	include/trace/events/kvm.h
+ F:	include/uapi/asm-generic/kvm*
+ F:	include/uapi/linux/kvm*
+@@ -12137,7 +12137,7 @@ M:	Thomas Hellstrom <thellstrom@vmware.com>
+ M:	"VMware, Inc." <pv-drivers@vmware.com>
+ L:	virtualization@lists.linux-foundation.org
+ S:	Supported
+-F:	Documentation/virtual/paravirt_ops.txt
++F:	Documentation/virt/paravirt_ops.txt
+ F:	arch/*/kernel/paravirt*
+ F:	arch/*/include/asm/paravirt*.h
+ F:	include/linux/hypervisor.h
+@@ -16854,7 +16854,7 @@ W:	http://user-mode-linux.sourceforge.net
+ Q:	https://patchwork.ozlabs.org/project/linux-um/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rw/uml.git
+ S:	Maintained
+-F:	Documentation/virtual/uml/
++F:	Documentation/virt/uml/
+ F:	arch/um/
+ F:	arch/x86/um/
+ F:	fs/hostfs/
+diff --git a/arch/powerpc/include/uapi/asm/kvm_para.h b/arch/powerpc/include/uapi/asm/kvm_para.h
+index 01555c6ae0f5..be48c2215fa2 100644
+--- a/arch/powerpc/include/uapi/asm/kvm_para.h
++++ b/arch/powerpc/include/uapi/asm/kvm_para.h
+@@ -31,7 +31,7 @@
+  * Struct fields are always 32 or 64 bit aligned, depending on them being 32
+  * or 64 bit wide respectively.
+  *
+- * See Documentation/virtual/kvm/ppc-pv.txt
++ * See Documentation/virt/kvm/ppc-pv.txt
+  */
+ struct kvm_vcpu_arch_shared {
+ 	__u64 scratch1;
+diff --git a/arch/x86/kvm/mmu.c b/arch/x86/kvm/mmu.c
+index 8f72526e2f68..24843cf49579 100644
+--- a/arch/x86/kvm/mmu.c
++++ b/arch/x86/kvm/mmu.c
+@@ -3466,7 +3466,7 @@ static bool fast_page_fault(struct kvm_vcpu *vcpu, gva_t gva, int level,
+ 		/*
+ 		 * Currently, fast page fault only works for direct mapping
+ 		 * since the gfn is not stable for indirect shadow page. See
+-		 * Documentation/virtual/kvm/locking.txt to get more detail.
++		 * Documentation/virt/kvm/locking.txt to get more detail.
+ 		 */
+ 		fault_handled = fast_pf_fix_direct_spte(vcpu, sp,
+ 							iterator.sptep, spte,
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index a7c19540ce21..5e3f12d5359e 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -116,7 +116,7 @@ struct kvm_irq_level {
+ 	 * ACPI gsi notion of irq.
+ 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
+ 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
+-	 * For ARM: See Documentation/virtual/kvm/api.txt
++	 * For ARM: See Documentation/virt/kvm/api.txt
+ 	 */
+ 	union {
+ 		__u32 irq;
+@@ -1086,7 +1086,7 @@ struct kvm_xen_hvm_config {
+  *
+  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
+  * the irqfd to operate in resampling mode for level triggered interrupt
+- * emulation.  See Documentation/virtual/kvm/api.txt.
++ * emulation.  See Documentation/virt/kvm/api.txt.
+  */
+ #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
+diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+index c2152f3dd02d..e7c67be7c15f 100644
+--- a/tools/include/uapi/linux/kvm.h
++++ b/tools/include/uapi/linux/kvm.h
+@@ -116,7 +116,7 @@ struct kvm_irq_level {
+ 	 * ACPI gsi notion of irq.
+ 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
+ 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
+-	 * For ARM: See Documentation/virtual/kvm/api.txt
++	 * For ARM: See Documentation/virt/kvm/api.txt
+ 	 */
+ 	union {
+ 		__u32 irq;
+@@ -1085,7 +1085,7 @@ struct kvm_xen_hvm_config {
+  *
+  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
+  * the irqfd to operate in resampling mode for level triggered interrupt
+- * emulation.  See Documentation/virtual/kvm/api.txt.
++ * emulation.  See Documentation/virt/kvm/api.txt.
+  */
+ #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
+diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+index f645c0fbf7ec..acc43242a310 100644
+--- a/virt/kvm/arm/arm.c
++++ b/virt/kvm/arm/arm.c
+@@ -727,7 +727,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu, struct kvm_run *run)
+ 		 * Ensure we set mode to IN_GUEST_MODE after we disable
+ 		 * interrupts and before the final VCPU requests check.
+ 		 * See the comment in kvm_vcpu_exiting_guest_mode() and
+-		 * Documentation/virtual/kvm/vcpu-requests.rst
++		 * Documentation/virt/kvm/vcpu-requests.rst
+ 		 */
+ 		smp_store_mb(vcpu->mode, IN_GUEST_MODE);
+ 
+diff --git a/virt/kvm/arm/vgic/vgic-mmio-v3.c b/virt/kvm/arm/vgic/vgic-mmio-v3.c
+index 936962abc38d..c45e2d7e942f 100644
+--- a/virt/kvm/arm/vgic/vgic-mmio-v3.c
++++ b/virt/kvm/arm/vgic/vgic-mmio-v3.c
+@@ -250,7 +250,7 @@ static unsigned long vgic_v3_uaccess_read_pending(struct kvm_vcpu *vcpu,
+ 	 * pending state of interrupt is latched in pending_latch variable.
+ 	 * Userspace will save and restore pending state and line_level
+ 	 * separately.
+-	 * Refer to Documentation/virtual/kvm/devices/arm-vgic-v3.txt
++	 * Refer to Documentation/virt/kvm/devices/arm-vgic-v3.txt
+ 	 * for handling of ISPENDR and ICPENDR.
+ 	 */
+ 	for (i = 0; i < len * 8; i++) {
+diff --git a/virt/kvm/arm/vgic/vgic.h b/virt/kvm/arm/vgic/vgic.h
+index 57205beaa981..3b7525deec80 100644
+--- a/virt/kvm/arm/vgic/vgic.h
++++ b/virt/kvm/arm/vgic/vgic.h
+@@ -42,7 +42,7 @@
+ 			    VGIC_AFFINITY_LEVEL(val, 3))
+ 
+ /*
+- * As per Documentation/virtual/kvm/devices/arm-vgic-v3.txt,
++ * As per Documentation/virt/kvm/devices/arm-vgic-v3.txt,
+  * below macros are defined for CPUREG encoding.
+  */
+ #define KVM_REG_ARM_VGIC_SYSREG_OP0_MASK   0x000000000000c000
+@@ -63,7 +63,7 @@
+ 				      KVM_REG_ARM_VGIC_SYSREG_OP2_MASK)
+ 
+ /*
+- * As per Documentation/virtual/kvm/devices/arm-vgic-its.txt,
++ * As per Documentation/virt/kvm/devices/arm-vgic-its.txt,
+  * below macros are defined for ITS table entry encoding.
+  */
+ #define KVM_ITS_CTE_VALID_SHIFT		63
+-- 
+2.20.1
 
-Myaybe you don't need PFN. is it?
-
-> 
-> > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > profiles and pin points code paths which allocates and leaves memory
-> > > idle for long periods of time.
-> > 
-> > So the goal is to detect idle pages with idle memory tracking?
-> 
-> Isn't that what idle memory tracking does?
-
-To me, it's rather misleading. Please read motivation section in document.
-The feature would be good to detect workingset pages, not idle pages
-because workingset pages are never freed, swapped out and even we could
-count on newly allocated pages.
-
-Motivation
-==========
-
-The idle page tracking feature allows to track which memory pages are being
-accessed by a workload and which are idle. This information can be useful for
-estimating the workload's working set size, which, in turn, can be taken into
-account when configuring the workload parameters, setting memory cgroup limits,
-or deciding where to place the workload within a compute cluster.
-
-> 
-> > It couldn't work well because such idle pages could finally swap out and
-> > lose every flags of the page descriptor which is working mechanism of
-> > idle page tracking. It should have named "workingset page tracking",
-> > not "idle page tracking".
-> 
-> The heap profiler that uses page-idle tracking is not to measure working set,
-> but to look for pages that are idle for long periods of time.
-
-It's important part. Please include it in the description so that people
-understands what's the usecase. As I said above, if it aims for finding
-idle pages durting the period, current idle page tracking feature is not
-good ironically.
-
-> 
-> Thanks for bringing up the swapping corner case..  Perhaps we can improve
-> the heap profiler to detect this by looking at bits 0-4 in pagemap. While it
-
-Yeb, that could work but it could add overhead again what you want to remove?
-Even, userspace should keep metadata to identify that page was already swapped
-in last period or newly swapped in new period.
-
-> is true that we would lose access information during the window, there is a
-> high likelihood that the page was not accessed which is why it was swapped.
-> Thoughts?
-
-It depends on system memory size, workingset size and your sampling period.
-It would be never corner case for small memory system as they want to use
-memory more efficiently.
-
-> 
-> thanks,
-> 
->  - Joel
-> 
-> 
-> 
-> > > Documentation material:
-> > > The idle page tracking API for virtual address indexing using virtual page
-> > > frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
-> > > that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
-> > > except that it uses virtual instead of physical frame numbers.
-> > > 
-> > > This idle page tracking API can be simpler to use than physical address
-> > > indexing, since the pagemap for a process does not need to be looked up
-> > > to mark or read a page's idle bit. It is also more accurate than
-> > > physical address indexing since in physical address indexing, address
-> > > space changes can occur between reading the pagemap and reading the
-> > > bitmap. In virtual address indexing, the process's mmap_sem is held for
-> > > the duration of the access.
-> > > 
-> > > Cc: vdavydov.dev@gmail.com
-> > > Cc: Brendan Gregg <bgregg@netflix.com>
-> > > Cc: kernel-team@android.com
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > 
-> > > ---
-> > > Internal review -> v1:
-> > > Fixes from Suren.
-> > > Corrections to change log, docs (Florian, Sandeep)
-> > > 
-> > >  fs/proc/base.c            |   3 +
-> > >  fs/proc/internal.h        |   1 +
-> > >  fs/proc/task_mmu.c        |  57 +++++++
-> > >  include/linux/page_idle.h |   4 +
-> > >  mm/page_idle.c            | 305 +++++++++++++++++++++++++++++++++-----
-> > >  5 files changed, 330 insertions(+), 40 deletions(-)
-> > > 
-> > > diff --git a/fs/proc/base.c b/fs/proc/base.c
-> > > index 77eb628ecc7f..a58dd74606e9 100644
-> > > --- a/fs/proc/base.c
-> > > +++ b/fs/proc/base.c
-> > > @@ -3021,6 +3021,9 @@ static const struct pid_entry tgid_base_stuff[] = {
-> > >  	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
-> > >  	REG("smaps_rollup", S_IRUGO, proc_pid_smaps_rollup_operations),
-> > >  	REG("pagemap",    S_IRUSR, proc_pagemap_operations),
-> > > +#ifdef CONFIG_IDLE_PAGE_TRACKING
-> > > +	REG("page_idle", S_IRUSR|S_IWUSR, proc_page_idle_operations),
-> > > +#endif
-> > >  #endif
-> > >  #ifdef CONFIG_SECURITY
-> > >  	DIR("attr",       S_IRUGO|S_IXUGO, proc_attr_dir_inode_operations, proc_attr_dir_operations),
-> > > diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-> > > index cd0c8d5ce9a1..bc9371880c63 100644
-> > > --- a/fs/proc/internal.h
-> > > +++ b/fs/proc/internal.h
-> > > @@ -293,6 +293,7 @@ extern const struct file_operations proc_pid_smaps_operations;
-> > >  extern const struct file_operations proc_pid_smaps_rollup_operations;
-> > >  extern const struct file_operations proc_clear_refs_operations;
-> > >  extern const struct file_operations proc_pagemap_operations;
-> > > +extern const struct file_operations proc_page_idle_operations;
-> > >  
-> > >  extern unsigned long task_vsize(struct mm_struct *);
-> > >  extern unsigned long task_statm(struct mm_struct *,
-> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> > > index 4d2b860dbc3f..11ccc53da38e 100644
-> > > --- a/fs/proc/task_mmu.c
-> > > +++ b/fs/proc/task_mmu.c
-> > > @@ -1642,6 +1642,63 @@ const struct file_operations proc_pagemap_operations = {
-> > >  	.open		= pagemap_open,
-> > >  	.release	= pagemap_release,
-> > >  };
-> > > +
-> > > +#ifdef CONFIG_IDLE_PAGE_TRACKING
-> > > +static ssize_t proc_page_idle_read(struct file *file, char __user *buf,
-> > > +				   size_t count, loff_t *ppos)
-> > > +{
-> > > +	int ret;
-> > > +	struct task_struct *tsk = get_proc_task(file_inode(file));
-> > > +
-> > > +	if (!tsk)
-> > > +		return -EINVAL;
-> > > +	ret = page_idle_proc_read(file, buf, count, ppos, tsk);
-> > > +	put_task_struct(tsk);
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static ssize_t proc_page_idle_write(struct file *file, const char __user *buf,
-> > > +				 size_t count, loff_t *ppos)
-> > > +{
-> > > +	int ret;
-> > > +	struct task_struct *tsk = get_proc_task(file_inode(file));
-> > > +
-> > > +	if (!tsk)
-> > > +		return -EINVAL;
-> > > +	ret = page_idle_proc_write(file, (char __user *)buf, count, ppos, tsk);
-> > > +	put_task_struct(tsk);
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int proc_page_idle_open(struct inode *inode, struct file *file)
-> > > +{
-> > > +	struct mm_struct *mm;
-> > > +
-> > > +	mm = proc_mem_open(inode, PTRACE_MODE_READ);
-> > > +	if (IS_ERR(mm))
-> > > +		return PTR_ERR(mm);
-> > > +	file->private_data = mm;
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int proc_page_idle_release(struct inode *inode, struct file *file)
-> > > +{
-> > > +	struct mm_struct *mm = file->private_data;
-> > > +
-> > > +	if (mm)
-> > > +		mmdrop(mm);
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +const struct file_operations proc_page_idle_operations = {
-> > > +	.llseek		= mem_lseek, /* borrow this */
-> > > +	.read		= proc_page_idle_read,
-> > > +	.write		= proc_page_idle_write,
-> > > +	.open		= proc_page_idle_open,
-> > > +	.release	= proc_page_idle_release,
-> > > +};
-> > > +#endif /* CONFIG_IDLE_PAGE_TRACKING */
-> > > +
-> > >  #endif /* CONFIG_PROC_PAGE_MONITOR */
-> > >  
-> > >  #ifdef CONFIG_NUMA
-> > > diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
-> > > index 1e894d34bdce..f1bc2640d85e 100644
-> > > --- a/include/linux/page_idle.h
-> > > +++ b/include/linux/page_idle.h
-> > > @@ -106,6 +106,10 @@ static inline void clear_page_idle(struct page *page)
-> > >  }
-> > >  #endif /* CONFIG_64BIT */
-> > >  
-> > > +ssize_t page_idle_proc_write(struct file *file,
-> > > +	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
-> > > +ssize_t page_idle_proc_read(struct file *file,
-> > > +	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
-> > >  #else /* !CONFIG_IDLE_PAGE_TRACKING */
-> > >  
-> > >  static inline bool page_is_young(struct page *page)
-> > > diff --git a/mm/page_idle.c b/mm/page_idle.c
-> > > index 295512465065..874a60c41fef 100644
-> > > --- a/mm/page_idle.c
-> > > +++ b/mm/page_idle.c
-> > > @@ -11,6 +11,7 @@
-> > >  #include <linux/mmu_notifier.h>
-> > >  #include <linux/page_ext.h>
-> > >  #include <linux/page_idle.h>
-> > > +#include <linux/sched/mm.h>
-> > >  
-> > >  #define BITMAP_CHUNK_SIZE	sizeof(u64)
-> > >  #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
-> > > @@ -28,15 +29,12 @@
-> > >   *
-> > >   * This function tries to get a user memory page by pfn as described above.
-> > >   */
-> > > -static struct page *page_idle_get_page(unsigned long pfn)
-> > > +static struct page *page_idle_get_page(struct page *page_in)
-> > >  {
-> > >  	struct page *page;
-> > >  	pg_data_t *pgdat;
-> > >  
-> > > -	if (!pfn_valid(pfn))
-> > > -		return NULL;
-> > > -
-> > > -	page = pfn_to_page(pfn);
-> > > +	page = page_in;
-> > >  	if (!page || !PageLRU(page) ||
-> > >  	    !get_page_unless_zero(page))
-> > >  		return NULL;
-> > > @@ -51,6 +49,15 @@ static struct page *page_idle_get_page(unsigned long pfn)
-> > >  	return page;
-> > >  }
-> > >  
-> > > +static struct page *page_idle_get_page_pfn(unsigned long pfn)
-> > > +{
-> > > +
-> > > +	if (!pfn_valid(pfn))
-> > > +		return NULL;
-> > > +
-> > > +	return page_idle_get_page(pfn_to_page(pfn));
-> > > +}
-> > > +
-> > >  static bool page_idle_clear_pte_refs_one(struct page *page,
-> > >  					struct vm_area_struct *vma,
-> > >  					unsigned long addr, void *arg)
-> > > @@ -118,6 +125,47 @@ static void page_idle_clear_pte_refs(struct page *page)
-> > >  		unlock_page(page);
-> > >  }
-> > >  
-> > > +/* Helper to get the start and end frame given a pos and count */
-> > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
-> > > +				unsigned long *start, unsigned long *end)
-> > > +{
-> > > +	unsigned long max_frame;
-> > > +
-> > > +	/* If an mm is not given, assume we want physical frames */
-> > > +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
-> > > +
-> > > +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > > +		return -EINVAL;
-> > > +
-> > > +	*start = pos * BITS_PER_BYTE;
-> > > +	if (*start >= max_frame)
-> > > +		return -ENXIO;
-> > > +
-> > > +	*end = *start + count * BITS_PER_BYTE;
-> > > +	if (*end > max_frame)
-> > > +		*end = max_frame;
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static bool page_really_idle(struct page *page)
-> > > +{
-> > > +	if (!page)
-> > > +		return false;
-> > > +
-> > > +	if (page_is_idle(page)) {
-> > > +		/*
-> > > +		 * The page might have been referenced via a
-> > > +		 * pte, in which case it is not idle. Clear
-> > > +		 * refs and recheck.
-> > > +		 */
-> > > +		page_idle_clear_pte_refs(page);
-> > > +		if (page_is_idle(page))
-> > > +			return true;
-> > > +	}
-> > > +
-> > > +	return false;
-> > > +}
-> > > +
-> > >  static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
-> > >  				     struct bin_attribute *attr, char *buf,
-> > >  				     loff_t pos, size_t count)
-> > > @@ -125,35 +173,21 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
-> > >  	u64 *out = (u64 *)buf;
-> > >  	struct page *page;
-> > >  	unsigned long pfn, end_pfn;
-> > > -	int bit;
-> > > -
-> > > -	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > > -		return -EINVAL;
-> > > -
-> > > -	pfn = pos * BITS_PER_BYTE;
-> > > -	if (pfn >= max_pfn)
-> > > -		return 0;
-> > > +	int bit, ret;
-> > >  
-> > > -	end_pfn = pfn + count * BITS_PER_BYTE;
-> > > -	if (end_pfn > max_pfn)
-> > > -		end_pfn = max_pfn;
-> > > +	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
-> > > +	if (ret == -ENXIO)
-> > > +		return 0;  /* Reads beyond max_pfn do nothing */
-> > > +	else if (ret)
-> > > +		return ret;
-> > >  
-> > >  	for (; pfn < end_pfn; pfn++) {
-> > >  		bit = pfn % BITMAP_CHUNK_BITS;
-> > >  		if (!bit)
-> > >  			*out = 0ULL;
-> > > -		page = page_idle_get_page(pfn);
-> > > -		if (page) {
-> > > -			if (page_is_idle(page)) {
-> > > -				/*
-> > > -				 * The page might have been referenced via a
-> > > -				 * pte, in which case it is not idle. Clear
-> > > -				 * refs and recheck.
-> > > -				 */
-> > > -				page_idle_clear_pte_refs(page);
-> > > -				if (page_is_idle(page))
-> > > -					*out |= 1ULL << bit;
-> > > -			}
-> > > +		page = page_idle_get_page_pfn(pfn);
-> > > +		if (page && page_really_idle(page)) {
-> > > +			*out |= 1ULL << bit;
-> > >  			put_page(page);
-> > >  		}
-> > >  		if (bit == BITMAP_CHUNK_BITS - 1)
-> > > @@ -170,23 +204,16 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
-> > >  	const u64 *in = (u64 *)buf;
-> > >  	struct page *page;
-> > >  	unsigned long pfn, end_pfn;
-> > > -	int bit;
-> > > +	int bit, ret;
-> > >  
-> > > -	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > > -		return -EINVAL;
-> > > -
-> > > -	pfn = pos * BITS_PER_BYTE;
-> > > -	if (pfn >= max_pfn)
-> > > -		return -ENXIO;
-> > > -
-> > > -	end_pfn = pfn + count * BITS_PER_BYTE;
-> > > -	if (end_pfn > max_pfn)
-> > > -		end_pfn = max_pfn;
-> > > +	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
-> > > +	if (ret)
-> > > +		return ret;
-> > >  
-> > >  	for (; pfn < end_pfn; pfn++) {
-> > >  		bit = pfn % BITMAP_CHUNK_BITS;
-> > >  		if ((*in >> bit) & 1) {
-> > > -			page = page_idle_get_page(pfn);
-> > > +			page = page_idle_get_page_pfn(pfn);
-> > >  			if (page) {
-> > >  				page_idle_clear_pte_refs(page);
-> > >  				set_page_idle(page);
-> > > @@ -224,10 +251,208 @@ struct page_ext_operations page_idle_ops = {
-> > >  };
-> > >  #endif
-> > >  
-> > > +/*  page_idle tracking for /proc/<pid>/page_idle */
-> > > +
-> > > +static DEFINE_SPINLOCK(idle_page_list_lock);
-> > > +struct list_head idle_page_list;
-> > > +
-> > > +struct page_node {
-> > > +	struct page *page;
-> > > +	unsigned long addr;
-> > > +	struct list_head list;
-> > > +};
-> > > +
-> > > +struct page_idle_proc_priv {
-> > > +	unsigned long start_addr;
-> > > +	char *buffer;
-> > > +	int write;
-> > > +};
-> > > +
-> > > +static void add_page_idle_list(struct page *page,
-> > > +			       unsigned long addr, struct mm_walk *walk)
-> > > +{
-> > > +	struct page *page_get;
-> > > +	struct page_node *pn;
-> > > +	int bit;
-> > > +	unsigned long frames;
-> > > +	struct page_idle_proc_priv *priv = walk->private;
-> > > +	u64 *chunk = (u64 *)priv->buffer;
-> > > +
-> > > +	if (priv->write) {
-> > > +		/* Find whether this page was asked to be marked */
-> > > +		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
-> > > +		bit = frames % BITMAP_CHUNK_BITS;
-> > > +		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
-> > > +		if (((*chunk >> bit) & 1) == 0)
-> > > +			return;
-> > > +	}
-> > > +
-> > > +	page_get = page_idle_get_page(page);
-> > > +	if (!page_get)
-> > > +		return;
-> > > +
-> > > +	pn = kmalloc(sizeof(*pn), GFP_ATOMIC);
-> > > +	if (!pn)
-> > > +		return;
-> > > +
-> > > +	pn->page = page_get;
-> > > +	pn->addr = addr;
-> > > +	list_add(&pn->list, &idle_page_list);
-> > > +}
-> > > +
-> > > +static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
-> > > +				    unsigned long end,
-> > > +				    struct mm_walk *walk)
-> > > +{
-> > > +	struct vm_area_struct *vma = walk->vma;
-> > > +	pte_t *pte;
-> > > +	spinlock_t *ptl;
-> > > +	struct page *page;
-> > > +
-> > > +	ptl = pmd_trans_huge_lock(pmd, vma);
-> > > +	if (ptl) {
-> > > +		if (pmd_present(*pmd)) {
-> > > +			page = follow_trans_huge_pmd(vma, addr, pmd,
-> > > +						     FOLL_DUMP|FOLL_WRITE);
-> > > +			if (!IS_ERR_OR_NULL(page))
-> > > +				add_page_idle_list(page, addr, walk);
-> > > +		}
-> > > +		spin_unlock(ptl);
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	if (pmd_trans_unstable(pmd))
-> > > +		return 0;
-> > > +
-> > > +	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> > > +	for (; addr != end; pte++, addr += PAGE_SIZE) {
-> > > +		if (!pte_present(*pte))
-> > > +			continue;
-> > > +
-> > > +		page = vm_normal_page(vma, addr, *pte);
-> > > +		if (page)
-> > > +			add_page_idle_list(page, addr, walk);
-> > > +	}
-> > > +
-> > > +	pte_unmap_unlock(pte - 1, ptl);
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
-> > > +			       size_t count, loff_t *pos,
-> > > +			       struct task_struct *tsk, int write)
-> > > +{
-> > > +	int ret;
-> > > +	char *buffer;
-> > > +	u64 *out;
-> > > +	unsigned long start_addr, end_addr, start_frame, end_frame;
-> > > +	struct mm_struct *mm = file->private_data;
-> > > +	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
-> > > +	struct page_node *cur, *next;
-> > > +	struct page_idle_proc_priv priv;
-> > > +	bool walk_error = false;
-> > > +
-> > > +	if (!mm || !mmget_not_zero(mm))
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (count > PAGE_SIZE)
-> > > +		count = PAGE_SIZE;
-> > > +
-> > > +	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
-> > > +	if (!buffer) {
-> > > +		ret = -ENOMEM;
-> > > +		goto out_mmput;
-> > > +	}
-> > > +	out = (u64 *)buffer;
-> > > +
-> > > +	if (write && copy_from_user(buffer, ubuff, count)) {
-> > > +		ret = -EFAULT;
-> > > +		goto out;
-> > > +	}
-> > > +
-> > > +	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
-> > > +	if (ret)
-> > > +		goto out;
-> > > +
-> > > +	start_addr = (start_frame << PAGE_SHIFT);
-> > > +	end_addr = (end_frame << PAGE_SHIFT);
-> > > +	priv.buffer = buffer;
-> > > +	priv.start_addr = start_addr;
-> > > +	priv.write = write;
-> > > +	walk.private = &priv;
-> > > +	walk.mm = mm;
-> > > +
-> > > +	down_read(&mm->mmap_sem);
-> > > +
-> > > +	/*
-> > > +	 * Protects the idle_page_list which is needed because
-> > > +	 * walk_page_vma() holds ptlock which deadlocks with
-> > > +	 * page_idle_clear_pte_refs(). So we have to collect all
-> > > +	 * pages first, and then call page_idle_clear_pte_refs().
-> > > +	 */
-> > > +	spin_lock(&idle_page_list_lock);
-> > > +	ret = walk_page_range(start_addr, end_addr, &walk);
-> > > +	if (ret)
-> > > +		walk_error = true;
-> > > +
-> > > +	list_for_each_entry_safe(cur, next, &idle_page_list, list) {
-> > > +		int bit, index;
-> > > +		unsigned long off;
-> > > +		struct page *page = cur->page;
-> > > +
-> > > +		if (unlikely(walk_error))
-> > > +			goto remove_page;
-> > > +
-> > > +		if (write) {
-> > > +			page_idle_clear_pte_refs(page);
-> > > +			set_page_idle(page);
-> > > +		} else {
-> > > +			if (page_really_idle(page)) {
-> > > +				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
-> > > +				bit = off % BITMAP_CHUNK_BITS;
-> > > +				index = off / BITMAP_CHUNK_BITS;
-> > > +				out[index] |= 1ULL << bit;
-> > > +			}
-> > > +		}
-> > > +remove_page:
-> > > +		put_page(page);
-> > > +		list_del(&cur->list);
-> > > +		kfree(cur);
-> > > +	}
-> > > +	spin_unlock(&idle_page_list_lock);
-> > > +
-> > > +	if (!write && !walk_error)
-> > > +		ret = copy_to_user(ubuff, buffer, count);
-> > > +
-> > > +	up_read(&mm->mmap_sem);
-> > > +out:
-> > > +	kfree(buffer);
-> > > +out_mmput:
-> > > +	mmput(mm);
-> > > +	if (!ret)
-> > > +		ret = count;
-> > > +	return ret;
-> > > +
-> > > +}
-> > > +
-> > > +ssize_t page_idle_proc_read(struct file *file, char __user *ubuff,
-> > > +			    size_t count, loff_t *pos, struct task_struct *tsk)
-> > > +{
-> > > +	return page_idle_proc_generic(file, ubuff, count, pos, tsk, 0);
-> > > +}
-> > > +
-> > > +ssize_t page_idle_proc_write(struct file *file, char __user *ubuff,
-> > > +			     size_t count, loff_t *pos, struct task_struct *tsk)
-> > > +{
-> > > +	return page_idle_proc_generic(file, ubuff, count, pos, tsk, 1);
-> > > +}
-> > > +
-> > >  static int __init page_idle_init(void)
-> > >  {
-> > >  	int err;
-> > >  
-> > > +	INIT_LIST_HEAD(&idle_page_list);
-> > > +
-> > >  	err = sysfs_create_group(mm_kobj, &page_idle_attr_group);
-> > >  	if (err) {
-> > >  		pr_err("page_idle: register sysfs failed\n");
-> > > -- 
-> > > 2.22.0.657.g960e92d24f-goog
