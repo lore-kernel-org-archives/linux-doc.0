@@ -1,297 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38AAA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 17:02:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D1DC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 17:16:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfGXRCx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 13:02:53 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46973 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfGXRCx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 13:02:53 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z1so47744317wru.13
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2019 10:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xa1NsVFGv/xJPIO0X4IJ6zOPEp6fe9IF2hXjxaPByDM=;
-        b=ZnA7QKjx1Nj94L2MD0v8H1r0upuLZ8ncB4dDrGl2s54FmPYqfaJuMqGvPFLXWReTPZ
-         QsIzwrD+Abhwfcs7l/3HNd/Y8f99RjG8P2Xn94oyaMlpB9js/JuYbGZUH9SBCBFJT+JT
-         bibTCCVhewcCAil7qzMnNTa1+8Ia36mf6iQZRHLi5LsgQZWInNnGtkwrlEYkqasVOwRL
-         Obd7qSjNGWGIX9KEXoMblzrQzgH3Sb+853Py8oDgOSxpZ4sinDQKY8wr5IvkYyXs35jm
-         p+hlslRCCBHgQ/cD2cPnfigm2dDnj6l6rRdvxlIl6O4JmWaCToe4JCtIBGh9ZhZfwjjJ
-         7OSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xa1NsVFGv/xJPIO0X4IJ6zOPEp6fe9IF2hXjxaPByDM=;
-        b=cu8vI19XYfGqEuNpsQvGW3E8S5dZNC+VjQv4qN+Zt5OVMD9t1ur235Sw0Jh7dURv61
-         2G0w8ATxKPXCHqtjV6mHhwDWhcvX+ztNnNhrPzEALdfpqHg2ZQzfSBdF3Ha79QaRPFbm
-         Bl5FfRDBXftqua1wrzRpavH5HaTpcL7fAKTjw3iq9/voLGkcaUSg54457l+9KSeaFpFM
-         TOC3u2Q6xNRDo0idzucUMxuWH6pvwRUvD6aI4mnHhaclzTT/NvjK7ASGi2BPbdDF1qBG
-         Vc0/ecvWpC0AdPS2KBaNmOE7NKV/bQcLRmNT+K/W319M1WPDvFfjcmzeJld4GL+lD3MK
-         Fr0A==
-X-Gm-Message-State: APjAAAVew5CJY9bor9tC4hOi0Hwdht0mPtjzXCvm7Y/+FlOwVHulmd/o
-        VtHoHzpQ4/8FS1SAdZYpGViXoUFjlIz9edOuotIrRqLfkD/rdqRracbNpSOlN4am76R+nEJHzLV
-        dgaE011f+xsG7XWgebyRgA6L2BJ3sHpNTy9RiND34AVRUxtPXMjjSyYS220We8VhoX7MOBaLDZB
-        qxqJ/piv8iyJLn7We3scXm22lEIA==
-X-Google-Smtp-Source: APXvYqw6eRkGSuqhH3NK7HbDeM6wI4vyBoZ3jV624hq6Ly6BW+HRAwJR9DzcwAM2arpbBEyuqf5RYg==
-X-Received: by 2002:adf:fe09:: with SMTP id n9mr93333801wrr.41.1563987771295;
-        Wed, 24 Jul 2019 10:02:51 -0700 (PDT)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id j10sm80605867wrd.26.2019.07.24.10.02.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 10:02:50 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
+        id S1726940AbfGXRQa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Jul 2019 13:16:30 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:49052 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726939AbfGXRQa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 13:16:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1563988587; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=UW636SR0a7qD89QcgE1WVfQ4riiw9zkKPDE/geWRRwA=;
+        b=nxW5tHtlL48qn0CJvoOYTB5ipynVqOTPhNS8uAwZzHV3oZNeVHN1GwUruUAe9UCkJzPuS9
+        QN4Z7HEHp1uXSA7BMBADjafwYs1M2L/x+JNUk/lmPeNtfednz3mHuf7ukaQlBtljCq7YXV
+        MGjoC8NuegF6bNEsT9MwPWEJgPYzwpM=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Lee Jones <lee.jones@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vasiliy Khoruzhick <vasilykh@arista.com>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH] hung_task: Allow printing warnings every check interval
-Date:   Wed, 24 Jul 2019 18:02:49 +0100
-Message-Id: <20190724170249.9644-1-dima@arista.com>
-X-Mailer: git-send-email 2.22.0
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me,
+        Mathieu Malaterre <malat@debian.org>
+Subject: [PATCH v15 00/13] TCU patchset v15
+Date:   Wed, 24 Jul 2019 13:16:02 -0400
+Message-Id: <20190724171615.20774-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CLOUD-SEC-AV-Info: arista,google_mail,monitor
-X-CLOUD-SEC-AV-Sent: true
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hung task detector has one timeout and has two associated actions on it:
-- issuing warnings with names and stacks of blocked tasks
-- panic()
+Hi,
 
-We want switches to panic (and reboot) if there's a task
-in uninterruptible sleep for some minutes - at that moment something
-ugly has happened and the box needs a reboot.
-But we also want to detect conditions that are "out of range"
-or approaching the point of failure. Under such conditions we want
-to issue an "early warning" of an impending failure, minutes before
-the switch is going to panic.
+This is the V15 of my Ingenic TCU patchet.
 
-Those "early warnings" serve a purpose while monitoring the network
-infrastructure. Those are also valuable on post-mortem analysis, when
-the logs from userspace applications aren't enough.
-Furthermore, we have a test pool of long-running duts that are
-constantly under close to real-world load for weeks. And such early
-warnings allowed to figure out some bottle necks without much engineer
-work intervention.
+The big change since V14 is that the custom MFD driver
+(ex patch 04/13) was dropped in favor of a small patch to syscon
+and a "simple-mfd" compatible.
 
-There are also not yet upstream patches for other kinds of "early
-warnings" as prints whenever a mutex/semaphore is released after being
-held for long time, but those patches are much more intricate and have
-their runtime cost.
+The patchset was based on mips/mips-next, but all of them minus
+the last one will apply cleanly on v5.3-rc1.
 
-It seems rather easy to add printing tasks and their stacks for
-notification and debugging purposes into hung task detector without
-complicating the code or major cost (prints are with KERN_INFO loglevel
-and so don't go on console, only into dmesg log).
+Changelog:
 
-Since commit a2e514453861 ("kernel/hung_task.c: allow to set checking
-interval separately from timeout") it's possible to set checking
-interval for hung task detector with `hung_task_check_interval_secs`.
+* [02/13]: Remove info about MFD driver
+* [03/13]: Add "simple-mfd" compatible string
+* [04/13]: New patch
+* [05/13]: - Use CLK_OF_DECLARE_DRIVER since we use "simple-mfd"
+           - Use device_node_to_regmap()
+* [06/13]: Use device_node_to_regmap()
+* [07/13]: Use device_node_to_regmap()
+* [09/13]: Add "simple-mfd" compatible string
 
-Provide `hung_task_interval_warnings` sysctl that allows printing
-hung tasks every detection interval. It's not ratelimited, so the root
-should be cautious configuring it.
+Cheers,
+-Paul
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Vasiliy Khoruzhick <vasilykh@arista.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 20 ++++++++-
- include/linux/sched/sysctl.h                |  1 +
- kernel/hung_task.c                          | 50 ++++++++++++++-------
- kernel/sysctl.c                             |  8 ++++
- 4 files changed, 62 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 032c7cd3cede..2e36620ec1e4 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -45,6 +45,7 @@ show up in /proc/sys/kernel:
- - hung_task_timeout_secs
- - hung_task_check_interval_secs
- - hung_task_warnings
-+- hung_task_interval_warnings
- - hyperv_record_panic_msg
- - kexec_load_disabled
- - kptr_restrict
-@@ -383,14 +384,29 @@ Possible values to set are in range {0..LONG_MAX/HZ}.
- hung_task_warnings:
- ===================
- 
--The maximum number of warnings to report. During a check interval
--if a hung task is detected, this value is decreased by 1.
-+The maximum number of warnings to report. If after timeout a hung
-+task is present, this value is decreased by 1 every check interval,
-+producing a warning.
- When this value reaches 0, no more warnings will be reported.
- This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
- 
- -1: report an infinite number of warnings.
- 
- 
-+hung_task_interval_warnings:
-+===================
-+
-+The same as hung_task_warnings, but set the number of interval
-+warnings to be issued about detected hung tasks during check
-+interval. That will produce warnings *before* the timeout happens.
-+If a hung task is detected during check interval, this value is
-+decreased by 1. When this value reaches 0, only timeout warnings
-+will be reported.
-+This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
-+
-+-1: report an infinite number of check interval warnings.
-+
-+
- hyperv_record_panic_msg:
- ========================
- 
-diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
-index d4f6215ee03f..89f55e914673 100644
---- a/include/linux/sched/sysctl.h
-+++ b/include/linux/sched/sysctl.h
-@@ -12,6 +12,7 @@ extern unsigned int  sysctl_hung_task_panic;
- extern unsigned long sysctl_hung_task_timeout_secs;
- extern unsigned long sysctl_hung_task_check_interval_secs;
- extern int sysctl_hung_task_warnings;
-+extern int sysctl_hung_task_interval_warnings;
- extern int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
- 					 void __user *buffer,
- 					 size_t *lenp, loff_t *ppos);
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index 14a625c16cb3..cd971eef8226 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -49,6 +49,7 @@ unsigned long __read_mostly sysctl_hung_task_timeout_secs = CONFIG_DEFAULT_HUNG_
- unsigned long __read_mostly sysctl_hung_task_check_interval_secs;
- 
- int __read_mostly sysctl_hung_task_warnings = 10;
-+int __read_mostly sysctl_hung_task_interval_warnings;
- 
- static int __read_mostly did_panic;
- static bool hung_task_show_lock;
-@@ -85,6 +86,34 @@ static struct notifier_block panic_block = {
- 	.notifier_call = hung_task_panic,
- };
- 
-+static void hung_task_warning(struct task_struct *t, bool timeout)
-+{
-+	const char *loglevel = timeout ? KERN_ERR : KERN_INFO;
-+	const char *path;
-+	int *warnings;
-+
-+	if (timeout) {
-+		warnings = &sysctl_hung_task_warnings;
-+		path = "hung_task_timeout_secs";
-+	} else {
-+		warnings = &sysctl_hung_task_interval_warnings;
-+		path = "hung_task_interval_secs";
-+	}
-+
-+	if (*warnings > 0)
-+		--*warnings;
-+
-+	printk("%sINFO: task %s:%d blocked for more than %ld seconds.\n",
-+	       loglevel, t->comm, t->pid, (jiffies - t->last_switch_time) / HZ);
-+	printk("%s      %s %s %.*s\n",
-+		loglevel, print_tainted(), init_utsname()->release,
-+		(int)strcspn(init_utsname()->version, " "),
-+		init_utsname()->version);
-+	printk("%s\"echo 0 > /proc/sys/kernel/%s\" disables this message.\n",
-+		loglevel, path);
-+	sched_show_task(t);
-+}
-+
- static void check_hung_task(struct task_struct *t, unsigned long timeout)
- {
- 	unsigned long switch_count = t->nvcsw + t->nivcsw;
-@@ -109,6 +138,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
- 		t->last_switch_time = jiffies;
- 		return;
- 	}
-+	if (sysctl_hung_task_interval_warnings)
-+		hung_task_warning(t, false);
-+
- 	if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
- 		return;
- 
-@@ -120,22 +152,10 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
- 		hung_task_call_panic = true;
- 	}
- 
--	/*
--	 * Ok, the task did not get scheduled for more than 2 minutes,
--	 * complain:
--	 */
- 	if (sysctl_hung_task_warnings) {
--		if (sysctl_hung_task_warnings > 0)
--			sysctl_hung_task_warnings--;
--		pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
--		       t->comm, t->pid, (jiffies - t->last_switch_time) / HZ);
--		pr_err("      %s %s %.*s\n",
--			print_tainted(), init_utsname()->release,
--			(int)strcspn(init_utsname()->version, " "),
--			init_utsname()->version);
--		pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
--			" disables this message.\n");
--		sched_show_task(t);
-+		/* Don't print warings twice */
-+		if (!sysctl_hung_task_interval_warnings)
-+			hung_task_warning(t, true);
- 		hung_task_show_lock = true;
- 	}
- 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 078950d9605b..f12888971d66 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1147,6 +1147,14 @@ static struct ctl_table kern_table[] = {
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &neg_one,
- 	},
-+	{
-+		.procname	= "hung_task_interval_warnings",
-+		.data		= &sysctl_hung_task_interval_warnings,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= &neg_one,
-+	},
- #endif
- #ifdef CONFIG_RT_MUTEXES
- 	{
--- 
-2.22.0
 
