@@ -1,92 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D3417D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 10:01:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B17DE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 10:11:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbfGXKBK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 06:01:10 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:49933 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726973AbfGXKBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 06:01:10 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D6A6A8026B; Wed, 24 Jul 2019 12:00:56 +0200 (CEST)
-Date:   Wed, 24 Jul 2019 12:01:07 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: doc: mds: nitpicking and typo fix
-Message-ID: <20190724100107.GA7206@amd>
+        id S1726203AbfGXKLO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Jul 2019 06:11:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54466 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbfGXKLO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Jul 2019 06:11:14 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8B986218B8;
+        Wed, 24 Jul 2019 10:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563963073;
+        bh=ZReY6BfZr785T/XUU+EfBwuJQvluwwTrNg76KPixSQE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QzGjz/xIlcZOYSnxx51ICns8OYaUNPys5YNOgjZpt4dlwJQDqTO1MxwN4fHeioSA2
+         VG5s8L34uh6X7ITH2KhN5PEz83NkW+3tdwJ03HvGeWCY1liS/Id0b/UcKtNUPBFuFI
+         EyzV1j7S5xUedjFHZ0U7agCWeaQKDSLtiuTcK/Ko=
+Date:   Wed, 24 Jul 2019 12:11:09 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v3 09/12] fpga: dfl: afu: add STP (SignalTap) support
+Message-ID: <20190724101109.GE29532@kroah.com>
+References: <1563857495-26692-1-git-send-email-hao.wu@intel.com>
+ <1563857495-26692-10-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <1563857495-26692-10-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 23, 2019 at 12:51:32PM +0800, Wu Hao wrote:
+> STP (SignalTap) is one of the private features under the port for
+> debugging. This patch adds private feature driver support for it
+> to allow userspace applications to mmap related mmio region and
+> provide STP service.
+> 
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+> Acked-by: Moritz Fischer <mdf@kernel.org>
+> Acked-by: Alan Tull <atull@kernel.org>
+> Signed-off-by: Moritz Fischer <mdf@kernel.org>
+> ---
+>  drivers/fpga/dfl-afu-main.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+> index 15dd4cb..395f96e 100644
+> --- a/drivers/fpga/dfl-afu-main.c
+> +++ b/drivers/fpga/dfl-afu-main.c
+> @@ -514,6 +514,36 @@ static void port_afu_uinit(struct platform_device *pdev,
+>  	.uinit = port_afu_uinit,
+>  };
+>  
+> +static int port_stp_init(struct platform_device *pdev,
+> +			 struct dfl_feature *feature)
+> +{
+> +	struct resource *res = &pdev->resource[feature->resource_index];
+> +
+> +	dev_dbg(&pdev->dev, "PORT STP Init.\n");
 
---y0ulUmNC+osPPQO6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ftrace is your friend, no need to do a lot of "look I am here!"
+messages.
+
+> +
+> +	return afu_mmio_region_add(dev_get_platdata(&pdev->dev),
+> +				   DFL_PORT_REGION_INDEX_STP,
+> +				   resource_size(res), res->start,
+> +				   DFL_PORT_REGION_MMAP | DFL_PORT_REGION_READ |
+> +				   DFL_PORT_REGION_WRITE);
+> +}
+> +
+> +static void port_stp_uinit(struct platform_device *pdev,
+> +			   struct dfl_feature *feature)
+> +{
+> +	dev_dbg(&pdev->dev, "PORT STP UInit.\n");
+
+Same here.
+
+Why have this function at all if it does not do anything?
 
 
-Consistently end sentences, fix typo.
+thanks,
 
-Signed-off-by: Pavel Machek <pavel@denx.de>
-
-commit 310cb17613f46db97cebbd9dc11187961e4b1c69
-Author: Pavel <pavel@ucw.cz>
-Date:   Mon May 20 10:46:35 2019 +0200
-
-    doc: typo fix, consistency in mds.
-
-diff --git a/Documentation/x86/mds.rst b/Documentation/x86/mds.rst
-index 5d4330b..9983b50 100644
---- a/Documentation/x86/mds.rst
-+++ b/Documentation/x86/mds.rst
-@@ -54,13 +54,13 @@ needed for exploiting MDS requires:
-  - to control the load to trigger a fault or assist
-=20
-  - to have a disclosure gadget which exposes the speculatively accessed
--   data for consumption through a side channel.
-+   data for consumption through a side channel
-=20
-  - to control the pointer through which the disclosure gadget exposes the
-    data
-=20
- The existence of such a construct in the kernel cannot be excluded with
--100% certainty, but the complexity involved makes it extremly unlikely.
-+100% certainty, but the complexity involved makes it extremely unlikely.
-=20
- There is one exception, which is untrusted BPF. The functionality of
- untrusted BPF is limited, but it needs to be thoroughly investigated
-
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---y0ulUmNC+osPPQO6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl04LGMACgkQMOfwapXb+vKy/ACggc8/sFAL3XP7h6R6psFKzRJG
-99YAnRiMp8OlMfPZS3VgT7gExi+V8kkc
-=+kD3
------END PGP SIGNATURE-----
-
---y0ulUmNC+osPPQO6--
+greg k-h
