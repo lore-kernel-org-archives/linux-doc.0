@@ -1,324 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A2DF37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 00:11:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FDE97D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 03:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727560AbfGXALR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Jul 2019 20:11:17 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:52655 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727555AbfGXALQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jul 2019 20:11:16 -0400
-Received: by mail-vk1-f202.google.com with SMTP id l186so19878657vke.19
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2019 17:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=98OUdn+pluVNmpQHs0/5FBBUDYzwIohCNhKsPgXVGmw=;
-        b=N34QL3EtPk26kjAtA0NHSi6z9ap3u0oUAKGPBafJkZBfyiSM67Pog6vi6pSs5F1VjZ
-         vUdHfFxkgYxKi1u7wQ+vLNBC57nGmYUdXJLDI2RZEqtIUQzdSO/7jTzcfHu0WN3p62xe
-         qkRCPIj18BA5/qG/1GaEz/eL7Hlh0BToVryJ9UcTbzO1dynMCnpWf9JtHUutUiWuebXU
-         qpU5gmo9PmDrmVLiU4Kf6kyj4O1sFzcVCpoDcAc9dByDMglAFzVzXJsXNlCRiQDMomdg
-         TWvX1U2yGAoGC+xV7t5kKHCIqeHtr+nJUNl0a1c/nuGNmuC6nejzX5t5mkQKE/MJ3aTZ
-         sz1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=98OUdn+pluVNmpQHs0/5FBBUDYzwIohCNhKsPgXVGmw=;
-        b=Z3GI0wyR8Bpl4Vs8UVbKnBOKGN5iQm3UMHjXQRAXieK9i+rcVWyQ1j3fABU9IUjSb/
-         saWtWSi5dl5crI9x0xAIY/3HMv4Y6XS+W0j0chBLoso/aFKSPBH78ddAL6EanOfxkWgN
-         R/RcJ6LxdSHxh6DWBpj+8nYNTPrAjN2PukY5occf/fXF54fFp8k0ObDaAOSbqsNuea4i
-         Cvp/dn3jPmcvrwm1k7Ac6nix3yUf5zx6kSIRv57KPHJVR8V+T9nOlj4asdkfN7INTx1M
-         TP/u87krqQgTKTtYPqE99WrwEuE9eZHQ25uHZmgy33mmC4VqLfp5GmrIsHobQq5iBb5r
-         G3hg==
-X-Gm-Message-State: APjAAAWKuHhz0+Mm3aXooqNLKVwsSaqmBT8k4WE3JZBWVnuNPt/pe68V
-        qlUaEVVT4jmHi/xsByCUKnUGGXjB3ltVXQU=
-X-Google-Smtp-Source: APXvYqzqjZnSq0YhGm6eldLeXF03o9zbaCWZcq8S+is3OD6Wx0MhT6EgjHljJFZ/I3hTUcA+Dunr0wyR7eG8kGw=
-X-Received: by 2002:ab0:20cc:: with SMTP id z12mr16983879ual.32.1563927074834;
- Tue, 23 Jul 2019 17:11:14 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 17:10:56 -0700
-In-Reply-To: <20190724001100.133423-1-saravanak@google.com>
-Message-Id: <20190724001100.133423-4-saravanak@google.com>
-Mime-Version: 1.0
-References: <20190724001100.133423-1-saravanak@google.com>
-X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-Subject: [PATCH v7 3/7] of/platform: Add functional dependency link from DT bindings
-From:   Saravana Kannan <saravanak@google.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        David Collins <collinsd@codeaurora.org>,
-        kernel-team@android.com, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1725847AbfGXDRI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Jul 2019 23:17:08 -0400
+Received: from mail-eopbgr40057.outbound.protection.outlook.com ([40.107.4.57]:15942
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725828AbfGXDRI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jul 2019 23:17:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n8qcp6rPfc7/zvm5FT4pwVD+0AtEG4mpGkDmJ7Bp871psDAMZ1o4rsuTedG/2Dnu9WNa1UTbmqBjfNvs5f+xnnAYdgkBvFMJTX0xgHdfQ4+osW0dTfurlbIgxqNm2HTQrgzpPN0860UoqGdLTPFjWEVO/DgOgBwOI7m9oYmc1R2FjAJuDcDBt1b1vP0crK+4E523i3nJyawMfgFHb2HJHH5UKTkAC20reazgRjQ23pVoroz5MPNfmUnIoa/mDdGFseQ68800qs3++cU0ERvF5JTTt/KPg+PUxQ2TTiWgN/GgXWWzKWGzq2uJF2kB42HXGP5jVwdlEswpuosQ+Gaquw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F4s6gOeuodSoyUOPUAU23lLZHe+QbUK8IOOoLOZxYCk=;
+ b=PK4zgwDWETOoyVN6+OySX+PTmUEoKOTjTYMXXEI/NFm5tyHwDcfUvYj2fXvGi1lu/UPCOwasmJ+Hw86QLGI2PzjxpZCgyd7Zm1SkU+LoJ/nA/5ApnRd17N/ka3oFYBqzYTPkB12fFq8gGOvcr0MJnyjtixnIXQN4cDQ3oUvVF47FUyl7stK6X63Q6+bM71QXFXkUYEfqaiItcsp/Ai/RnRih1YYd5azcsjsiZ3gH3KamRoi2XUqdcqYHoj76uwYvm9vLmoLdhkYJ2ayCQy3JSSpw9/CkEdY3sT8HMCh9cqxv+LegfY1EMSFFgGZJP0U/fKNddhSupcymBUm7VTgfDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=nxp.com;dmarc=pass action=none header.from=nxp.com;dkim=pass
+ header.d=nxp.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F4s6gOeuodSoyUOPUAU23lLZHe+QbUK8IOOoLOZxYCk=;
+ b=N/ryaTxl7yn6LUEGEJM+VvHdpKO94DT6NuUf1JN3OBFWxUUona36WunMS7Sc+9kUZsvUiNurEa8s9IwtmtJUAMUUMUYn44rKyvkHQ/1Qu8gO6/G9PXy3R7OqTt90+44E+jlukKfW7VHT2W9joYI32EQIObxN1yDF8xNTlvG9PuM=
+Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com (52.134.72.18) by
+ DB3PR0402MB3769.eurprd04.prod.outlook.com (52.134.71.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2115.10; Wed, 24 Jul 2019 03:17:00 +0000
+Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com
+ ([fe80::7cdf:bddc:212c:f77e]) by DB3PR0402MB3916.eurprd04.prod.outlook.com
+ ([fe80::7cdf:bddc:212c:f77e%4]) with mapi id 15.20.2094.017; Wed, 24 Jul 2019
+ 03:16:59 +0000
+From:   Anson Huang <anson.huang@nxp.com>
+To:     Anson Huang <anson.huang@nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will.deacon@arm.com" <will.deacon@arm.com>,
+        "rui.zhang@intel.com" <rui.zhang@intel.com>,
+        "edubezval@gmail.com" <edubezval@gmail.com>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        Peng Fan <peng.fan@nxp.com>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "jagan@amarulasolutions.com" <jagan@amarulasolutions.com>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        "dinguyen@kernel.org" <dinguyen@kernel.org>,
+        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+CC:     dl-linux-imx <linux-imx@nxp.com>
+Subject: RE: [PATCH V15 1/5] dt-bindings: fsl: scu: add thermal binding
+Thread-Topic: [PATCH V15 1/5] dt-bindings: fsl: scu: add thermal binding
+Thread-Index: AQHVJXvnLQPj9qjL2U2LZTWuyBDONqaqeq9ggC7WvJA=
+Date:   Wed, 24 Jul 2019 03:16:59 +0000
+Message-ID: <DB3PR0402MB39162EB555CD7AE75D58C582F5C60@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+References: <20190618021820.14885-1-Anson.Huang@nxp.com>
+ <DB3PR0402MB39162C5B5AF828B127DD871EF5E00@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+In-Reply-To: <DB3PR0402MB39162C5B5AF828B127DD871EF5E00@DB3PR0402MB3916.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=anson.huang@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 31936f57-d2e2-4326-9e48-08d70fe5643a
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DB3PR0402MB3769;
+x-ms-traffictypediagnostic: DB3PR0402MB3769:
+x-microsoft-antispam-prvs: <DB3PR0402MB37696D24A8E05080CFCC8D18F5C60@DB3PR0402MB3769.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0108A997B2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(376002)(346002)(136003)(39860400002)(366004)(199004)(189003)(9686003)(14454004)(55016002)(53936002)(6436002)(33656002)(7416002)(478600001)(305945005)(7736002)(74316002)(2501003)(256004)(44832011)(446003)(2906002)(11346002)(486006)(476003)(66066001)(3846002)(6116002)(186003)(26005)(6506007)(102836004)(68736007)(81166006)(8676002)(81156014)(76176011)(8936002)(229853002)(316002)(71190400001)(71200400001)(110136005)(99286004)(7696005)(2201001)(6246003)(25786009)(4326008)(66446008)(76116006)(52536014)(66946007)(5660300002)(66476007)(66556008)(86362001)(64756008)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DB3PR0402MB3769;H:DB3PR0402MB3916.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Bj1vxS/qyAckNIUkEfG27smZ76qHrrvIwsf02G4wQrsroiaKC48WWpYmJdQYatEf5WDSXzFN1nxXEE/ag86VSGE+//6P1BkNRP1NxJJN9dMW/fKXByXNbEW7Ty0uyYcX3nhg4OQjCD+1Z2fhN2JVKqgDJQTSTO1yoFq69GwIfq/d5U7Yao4nEeN0eYAREEXDXVOX4ZJQk1naWtDePXOsbgHUQ4MbxlhO1ZLqMiCHeyCdgBd3AmGRoMmvaFRi8ydwVlJRpX0vwmDek5hULQQc6Seeefan+PLMOsgTH/eFEDnI0ikNuR7U0hbMNnxnuQ3CCePai6hmSXhWZRe6j0mjZegEtjOUzGzU7DaHI2iRFt6zEBvOsGvOz+BtbvhfQvqVbCpUD9PoXqe1RiOQGy4nEiRAaZp8YcDw8V7yrWVAhNM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31936f57-d2e2-4326-9e48-08d70fe5643a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2019 03:16:59.9045
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: anson.huang@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3769
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add device-links after the devices are created (but before they are
-probed) by looking at common DT bindings like clocks and
-interconnects.
-
-Automatically adding device-links for functional dependencies at the
-framework level provides the following benefits:
-
-- Optimizes device probe order and avoids the useless work of
-  attempting probes of devices that will not probe successfully
-  (because their suppliers aren't present or haven't probed yet).
-
-  For example, in a commonly available mobile SoC, registering just
-  one consumer device's driver at an initcall level earlier than the
-  supplier device's driver causes 11 failed probe attempts before the
-  consumer device probes successfully. This was with a kernel with all
-  the drivers statically compiled in. This problem gets a lot worse if
-  all the drivers are loaded as modules without direct symbol
-  dependencies.
-
-- Supplier devices like clock providers, interconnect providers, etc
-  need to keep the resources they provide active and at a particular
-  state(s) during boot up even if their current set of consumers don't
-  request the resource to be active. This is because the rest of the
-  consumers might not have probed yet and turning off the resource
-  before all the consumers have probed could lead to a hang or
-  undesired user experience.
-
-  Some frameworks (Eg: regulator) handle this today by turning off
-  "unused" resources at late_initcall_sync and hoping all the devices
-  have probed by then. This is not a valid assumption for systems with
-  loadable modules. Other frameworks (Eg: clock) just don't handle
-  this due to the lack of a clear signal for when they can turn off
-  resources. This leads to downstream hacks to handle cases like this
-  that can easily be solved in the upstream kernel.
-
-  By linking devices before they are probed, we give suppliers a clear
-  count of the number of dependent consumers. Once all of the
-  consumers are active, the suppliers can turn off the unused
-  resources without making assumptions about the number of consumers.
-
-By default we just add device-links to track "driver presence" (probe
-succeeded) of the supplier device. If any other functionality provided
-by device-links are needed, it is left to the consumer/supplier
-devices to change the link when they probe.
-
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- .../admin-guide/kernel-parameters.txt         |   5 +
- drivers/of/platform.c                         | 165 ++++++++++++++++++
- 2 files changed, 170 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 46b826fcb5ad..12937349d79d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3170,6 +3170,11 @@
- 			This can be set from sysctl after boot.
- 			See Documentation/admin-guide/sysctl/vm.rst for details.
- 
-+	of_devlink	[KNL] Make device links from common DT bindings. Useful
-+			for optimizing probe order and making sure resources
-+			aren't turned off before the consumer devices have
-+			probed.
-+
- 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
- 			See Documentation/debugging-via-ohci1394.txt for more
- 			info.
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index 7801e25e6895..4344419a26fc 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -508,6 +508,170 @@ int of_platform_default_populate(struct device_node *root,
- }
- EXPORT_SYMBOL_GPL(of_platform_default_populate);
- 
-+bool of_link_is_valid(struct device_node *con, struct device_node *sup)
-+{
-+	of_node_get(sup);
-+	/*
-+	 * Don't allow linking a device node as a consumer of one of its
-+	 * descendant nodes. By definition, a child node can't be a functional
-+	 * dependency for the parent node.
-+	 */
-+	while (sup) {
-+		if (sup == con) {
-+			of_node_put(sup);
-+			return false;
-+		}
-+		sup = of_get_next_parent(sup);
-+	}
-+	return true;
-+}
-+
-+static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
-+{
-+	struct platform_device *sup_dev;
-+	u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-+	int ret = 0;
-+
-+	/*
-+	 * Since we are trying to create device links, we need to find
-+	 * the actual device node that owns this supplier phandle.
-+	 * Often times it's the same node, but sometimes it can be one
-+	 * of the parents. So walk up the parent till you find a
-+	 * device.
-+	 */
-+	while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-+		sup_np = of_get_next_parent(sup_np);
-+	if (!sup_np)
-+		return 0;
-+
-+	if (!of_link_is_valid(dev->of_node, sup_np)) {
-+		of_node_put(sup_np);
-+		return 0;
-+	}
-+	sup_dev = of_find_device_by_node(sup_np);
-+	of_node_put(sup_np);
-+	if (!sup_dev)
-+		return -ENODEV;
-+	if (!device_link_add(dev, &sup_dev->dev, dl_flags))
-+		ret = -ENODEV;
-+	put_device(&sup_dev->dev);
-+	return ret;
-+}
-+
-+static struct device_node *parse_prop_cells(struct device_node *np,
-+					    const char *prop, int index,
-+					    const char *binding,
-+					    const char *cell)
-+{
-+	struct of_phandle_args sup_args;
-+
-+	/* Don't need to check property name for every index. */
-+	if (!index && strcmp(prop, binding))
-+		return NULL;
-+
-+	if (of_parse_phandle_with_args(np, binding, cell, index, &sup_args))
-+		return NULL;
-+
-+	return sup_args.np;
-+}
-+
-+static struct device_node *parse_clocks(struct device_node *np,
-+					const char *prop, int index)
-+{
-+	return parse_prop_cells(np, prop, index, "clocks", "#clock-cells");
-+}
-+
-+static struct device_node *parse_interconnects(struct device_node *np,
-+					       const char *prop, int index)
-+{
-+	return parse_prop_cells(np, prop, index, "interconnects",
-+				"#interconnect-cells");
-+}
-+
-+static int strcmp_suffix(const char *str, const char *suffix)
-+{
-+	unsigned int len, suffix_len;
-+
-+	len = strlen(str);
-+	suffix_len = strlen(suffix);
-+	if (len <= suffix_len)
-+		return -1;
-+	return strcmp(str + len - suffix_len, suffix);
-+}
-+
-+static struct device_node *parse_regulators(struct device_node *np,
-+					    const char *prop, int index)
-+{
-+	if (index || strcmp_suffix(prop, "-supply"))
-+		return NULL;
-+
-+	return of_parse_phandle(np, prop, 0);
-+}
-+
-+/**
-+ * struct supplier_bindings - Information for parsing supplier DT binding
-+ *
-+ * @parse_prop:		If the function cannot parse the property, return NULL.
-+ *			Otherwise, return the phandle listed in the property
-+ *			that corresponds to the index.
-+ */
-+struct supplier_bindings {
-+	struct device_node *(*parse_prop)(struct device_node *np,
-+					  const char *name, int index);
-+};
-+
-+static const struct supplier_bindings bindings[] = {
-+	{ .parse_prop = parse_clocks, },
-+	{ .parse_prop = parse_interconnects, },
-+	{ .parse_prop = parse_regulators, },
-+	{ },
-+};
-+
-+static bool of_link_property(struct device *dev, struct device_node *con_np,
-+			     const char *prop)
-+{
-+	struct device_node *phandle;
-+	struct supplier_bindings *s = bindings;
-+	unsigned int i = 0;
-+	bool done = true, matched = false;
-+
-+	while (!matched && s->parse_prop) {
-+		while ((phandle = s->parse_prop(con_np, prop, i))) {
-+			matched = true;
-+			i++;
-+			if (of_link_to_phandle(dev, phandle))
-+				/*
-+				 * Don't stop at the first failure. See
-+				 * Documentation for bus_type.add_links for
-+				 * more details.
-+				 */
-+				done = false;
-+		}
-+		s++;
-+	}
-+	return done ? 0 : -ENODEV;
-+}
-+
-+static bool of_devlink;
-+core_param(of_devlink, of_devlink, bool, 0);
-+
-+static int of_link_to_suppliers(struct device *dev)
-+{
-+	struct property *p;
-+	bool done = true;
-+
-+	if (!of_devlink)
-+		return 0;
-+	if (unlikely(!dev->of_node))
-+		return 0;
-+
-+	for_each_property_of_node(dev->of_node, p)
-+		if (of_link_property(dev, dev->of_node, p->name))
-+			done = false;
-+
-+	return done ? 0 : -ENODEV;
-+}
-+
- #ifndef CONFIG_PPC
- static const struct of_device_id reserved_mem_matches[] = {
- 	{ .compatible = "qcom,rmtfs-mem" },
-@@ -523,6 +687,7 @@ static int __init of_platform_default_populate_init(void)
- 	if (!of_have_populated_dt())
- 		return -ENODEV;
- 
-+	platform_bus_type.add_links = of_link_to_suppliers;
- 	/*
- 	 * Handle certain compatibles explicitly, since we don't want to create
- 	 * platform_devices for every node in /reserved-memory with a
--- 
-2.22.0.709.g102302147b-goog
-
+UGluZy4uLg0KDQo+IEhpLCBEYW5pZWwvUnVpL0VkdWFyZG8NCj4gCUNvdWxkIHlvdSBwbGVhc2Ug
+dGFrZSBhIGxvb2sgYXQgdGhpcyBwYXRjaCBzZXJpZXM/DQo+IA0KPiBBbnNvbg0KPiANCj4gPiBG
+cm9tOiBBbnNvbiBIdWFuZyA8QW5zb24uSHVhbmdAbnhwLmNvbT4NCj4gPg0KPiA+IE5YUCBpLk1Y
+OFFYUCBpcyBhbiBBUk12OCBTb0Mgd2l0aCBhIENvcnRleC1NNCBjb3JlIGluc2lkZSBhcyBzeXN0
+ZW0NCj4gPiBjb250cm9sbGVyLCB0aGUgc3lzdGVtIGNvbnRyb2xsZXIgaXMgaW4gY2hhcmdlIG9m
+IHN5c3RlbSBwb3dlciwgY2xvY2sNCj4gPiBhbmQgdGhlcm1hbCBzZW5zb3JzIGV0Yy4gbWFuYWdl
+bWVudCwgTGludXgga2VybmVsIGhhcyB0byBjb21tdW5pY2F0ZQ0KPiA+IHdpdGggc3lzdGVtIGNv
+bnRyb2xsZXIgdmlhIE1VIChtZXNzYWdlIHVuaXQpIElQQyB0byBnZXQgdGVtcGVyYXR1cmUNCj4g
+PiBmcm9tIHRoZXJtYWwgc2Vuc29ycywgdGhpcyBwYXRjaCBhZGRzIGJpbmRpbmcgZG9jIGZvciBp
+Lk1YIHN5c3RlbQ0KPiA+IGNvbnRyb2xsZXIgdGhlcm1hbCBkcml2ZXIuDQo+ID4NCj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBBbnNvbiBIdWFuZyA8QW5zb24uSHVhbmdAbnhwLmNvbT4NCj4gPiBSZXZpZXdl
+ZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4NCj4gPiBSZXZpZXdlZC1ieTogRG9u
+ZyBBaXNoZW5nIDxhaXNoZW5nLmRvbmdAbnhwLmNvbT4NCj4gPiAtLS0NCj4gPiBObyBjaGFuZ2Uu
+DQo+ID4gLS0tDQo+ID4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mcmVlc2NhbGUvZnNs
+LHNjdS50eHQgICAgICAgIHwgMTYNCj4gKysrKysrKysrKysrKysrKw0KPiA+ICAxIGZpbGUgY2hh
+bmdlZCwgMTYgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdA0KPiA+IGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mcmVlc2NhbGUvZnNsLHNjdS50eHQNCj4g
+PiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vZnJlZXNjYWxlL2ZzbCxz
+Y3UudHh0DQo+ID4gaW5kZXggYTU3NWU0Mi4uZmMzODQ0ZSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZyZWVzY2FsZS9mc2wsc2N1LnR4dA0K
+PiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vZnJlZXNjYWxl
+L2ZzbCxzY3UudHh0DQo+ID4gQEAgLTE1NSw2ICsxNTUsMTcgQEAgUmVxdWlyZWQgcHJvcGVydGll
+czoNCj4gPiAgT3B0aW9uYWwgcHJvcGVydGllczoNCj4gPiAgLSB0aW1lb3V0LXNlYzogY29udGFp
+bnMgdGhlIHdhdGNoZG9nIHRpbWVvdXQgaW4gc2Vjb25kcy4NCj4gPg0KPiA+ICtUaGVybWFsIGJp
+bmRpbmdzIGJhc2VkIG9uIFNDVSBNZXNzYWdlIFByb3RvY29sDQo+ID4gKy0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICsNCj4g
+PiArUmVxdWlyZWQgcHJvcGVydGllczoNCj4gPiArLSBjb21wYXRpYmxlOgkJCVNob3VsZCBiZSA6
+DQo+ID4gKwkJCQkgICJmc2wsaW14OHF4cC1zYy10aGVybWFsIg0KPiA+ICsJCQkJZm9sbG93ZWQg
+YnkgImZzbCxpbXgtc2MtdGhlcm1hbCI7DQo+ID4gKw0KPiA+ICstICN0aGVybWFsLXNlbnNvci1j
+ZWxsczoJU2VlDQo+ID4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3RoZXJtYWwv
+dGhlcm1hbC50eHQNCj4gPiArCQkJCWZvciBhIGRlc2NyaXB0aW9uLg0KPiA+ICsNCj4gPiAgRXhh
+bXBsZSAoaW14OHF4cCk6DQo+ID4gIC0tLS0tLS0tLS0tLS0NCj4gPiAgYWxpYXNlcyB7DQo+ID4g
+QEAgLTIyMiw2ICsyMzMsMTEgQEAgZmlybXdhcmUgew0KPiA+ICAJCQljb21wYXRpYmxlID0gImZz
+bCxpbXg4cXhwLXNjLXdkdCIsICJmc2wsaW14LXNjLXdkdCI7DQo+ID4gIAkJCXRpbWVvdXQtc2Vj
+ID0gPDYwPjsNCj4gPiAgCQl9Ow0KPiA+ICsNCj4gPiArCQl0c2VuczogdGhlcm1hbC1zZW5zb3Ig
+ew0KPiA+ICsJCQljb21wYXRpYmxlID0gImZzbCxpbXg4cXhwLXNjLXRoZXJtYWwiLCAiZnNsLGlt
+eC1zYy0NCj4gPiB0aGVybWFsIjsNCj4gPiArCQkJI3RoZXJtYWwtc2Vuc29yLWNlbGxzID0gPDE+
+Ow0KPiA+ICsJCX07DQo+ID4gIAl9Ow0KPiA+ICB9Ow0KPiA+DQo+ID4gLS0NCj4gPiAyLjcuNA0K
+DQo=
