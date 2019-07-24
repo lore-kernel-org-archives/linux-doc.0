@@ -1,177 +1,297 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 237E87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 14:39:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 38AAA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 17:02:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728231AbfGXOjg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 10:39:36 -0400
-Received: from mga18.intel.com ([134.134.136.126]:37257 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725870AbfGXOjg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Jul 2019 10:39:36 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jul 2019 07:39:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,303,1559545200"; 
-   d="scan'208";a="197519558"
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2019 07:39:32 -0700
-Date:   Wed, 24 Jul 2019 22:22:35 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org,
-        Ananda Ravuri <ananda.ravuri@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Subject: Re: [PATCH v3 01/12] fpga: dfl: fme: support 512bit data width PR
-Message-ID: <20190724142235.GE8463@hao-dev>
-References: <1563857495-26692-1-git-send-email-hao.wu@intel.com>
- <1563857495-26692-2-git-send-email-hao.wu@intel.com>
- <20190724093532.GB29532@kroah.com>
+        id S1727193AbfGXRCx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Jul 2019 13:02:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46973 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfGXRCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 13:02:53 -0400
+Received: by mail-wr1-f67.google.com with SMTP id z1so47744317wru.13
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2019 10:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=googlenew;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xa1NsVFGv/xJPIO0X4IJ6zOPEp6fe9IF2hXjxaPByDM=;
+        b=ZnA7QKjx1Nj94L2MD0v8H1r0upuLZ8ncB4dDrGl2s54FmPYqfaJuMqGvPFLXWReTPZ
+         QsIzwrD+Abhwfcs7l/3HNd/Y8f99RjG8P2Xn94oyaMlpB9js/JuYbGZUH9SBCBFJT+JT
+         bibTCCVhewcCAil7qzMnNTa1+8Ia36mf6iQZRHLi5LsgQZWInNnGtkwrlEYkqasVOwRL
+         Obd7qSjNGWGIX9KEXoMblzrQzgH3Sb+853Py8oDgOSxpZ4sinDQKY8wr5IvkYyXs35jm
+         p+hlslRCCBHgQ/cD2cPnfigm2dDnj6l6rRdvxlIl6O4JmWaCToe4JCtIBGh9ZhZfwjjJ
+         7OSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xa1NsVFGv/xJPIO0X4IJ6zOPEp6fe9IF2hXjxaPByDM=;
+        b=cu8vI19XYfGqEuNpsQvGW3E8S5dZNC+VjQv4qN+Zt5OVMD9t1ur235Sw0Jh7dURv61
+         2G0w8ATxKPXCHqtjV6mHhwDWhcvX+ztNnNhrPzEALdfpqHg2ZQzfSBdF3Ha79QaRPFbm
+         Bl5FfRDBXftqua1wrzRpavH5HaTpcL7fAKTjw3iq9/voLGkcaUSg54457l+9KSeaFpFM
+         TOC3u2Q6xNRDo0idzucUMxuWH6pvwRUvD6aI4mnHhaclzTT/NvjK7ASGi2BPbdDF1qBG
+         Vc0/ecvWpC0AdPS2KBaNmOE7NKV/bQcLRmNT+K/W319M1WPDvFfjcmzeJld4GL+lD3MK
+         Fr0A==
+X-Gm-Message-State: APjAAAVew5CJY9bor9tC4hOi0Hwdht0mPtjzXCvm7Y/+FlOwVHulmd/o
+        VtHoHzpQ4/8FS1SAdZYpGViXoUFjlIz9edOuotIrRqLfkD/rdqRracbNpSOlN4am76R+nEJHzLV
+        dgaE011f+xsG7XWgebyRgA6L2BJ3sHpNTy9RiND34AVRUxtPXMjjSyYS220We8VhoX7MOBaLDZB
+        qxqJ/piv8iyJLn7We3scXm22lEIA==
+X-Google-Smtp-Source: APXvYqw6eRkGSuqhH3NK7HbDeM6wI4vyBoZ3jV624hq6Ly6BW+HRAwJR9DzcwAM2arpbBEyuqf5RYg==
+X-Received: by 2002:adf:fe09:: with SMTP id n9mr93333801wrr.41.1563987771295;
+        Wed, 24 Jul 2019 10:02:51 -0700 (PDT)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id j10sm80605867wrd.26.2019.07.24.10.02.50
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 24 Jul 2019 10:02:50 -0700 (PDT)
+From:   Dmitry Safonov <dima@arista.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        Dmitry Safonov <dima@arista.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Vasiliy Khoruzhick <vasilykh@arista.com>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH] hung_task: Allow printing warnings every check interval
+Date:   Wed, 24 Jul 2019 18:02:49 +0100
+Message-Id: <20190724170249.9644-1-dima@arista.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190724093532.GB29532@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
+X-CLOUD-SEC-AV-Info: arista,google_mail,monitor
+X-CLOUD-SEC-AV-Sent: true
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 11:35:32AM +0200, Greg KH wrote:
-> On Tue, Jul 23, 2019 at 12:51:24PM +0800, Wu Hao wrote:
-> > In early partial reconfiguration private feature, it only
-> > supports 32bit data width when writing data to hardware for
-> > PR. 512bit data width PR support is an important optimization
-> > for some specific solutions (e.g. XEON with FPGA integrated),
-> > it allows driver to use AVX512 instruction to improve the
-> > performance of partial reconfiguration. e.g. programming one
-> > 100MB bitstream image via this 512bit data width PR hardware
-> > only takes ~300ms, but 32bit revision requires ~3s per test
-> > result.
-> > 
-> > Please note now this optimization is only done on revision 2
-> > of this PR private feature which is only used in integrated
-> > solution that AVX512 is always supported. This revision 2
-> > hardware doesn't support 32bit PR.
-> > 
-> > Signed-off-by: Ananda Ravuri <ananda.ravuri@intel.com>
-> > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-> > Signed-off-by: Wu Hao <hao.wu@intel.com>
-> > Acked-by: Alan Tull <atull@kernel.org>
-> > Signed-off-by: Moritz Fischer <mdf@kernel.org>
-> > ---
-> > v2: remove DRV/MODULE_VERSION modifications
-> > ---
-> >  drivers/fpga/dfl-fme-mgr.c | 110 ++++++++++++++++++++++++++++++++++++++-------
-> >  drivers/fpga/dfl-fme-pr.c  |  43 +++++++++++-------
-> >  drivers/fpga/dfl-fme.h     |   2 +
-> >  drivers/fpga/dfl.h         |   5 +++
-> >  4 files changed, 129 insertions(+), 31 deletions(-)
-> > 
-> > diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
-> > index b3f7eee..46e17f0 100644
-> > --- a/drivers/fpga/dfl-fme-mgr.c
-> > +++ b/drivers/fpga/dfl-fme-mgr.c
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/io-64-nonatomic-lo-hi.h>
-> >  #include <linux/fpga/fpga-mgr.h>
-> >  
-> > +#include "dfl.h"
-> >  #include "dfl-fme-pr.h"
-> >  
-> >  /* FME Partial Reconfiguration Sub Feature Register Set */
-> > @@ -30,6 +31,7 @@
-> >  #define FME_PR_STS		0x10
-> >  #define FME_PR_DATA		0x18
-> >  #define FME_PR_ERR		0x20
-> > +#define FME_PR_512_DATA		0x40 /* Data Register for 512bit datawidth PR */
-> >  #define FME_PR_INTFC_ID_L	0xA8
-> >  #define FME_PR_INTFC_ID_H	0xB0
-> >  
-> > @@ -67,8 +69,43 @@
-> >  #define PR_WAIT_TIMEOUT   8000000
-> >  #define PR_HOST_STATUS_IDLE	0
-> >  
-> > +#if defined(CONFIG_X86) && defined(CONFIG_AS_AVX512)
-> > +
-> > +#include <linux/cpufeature.h>
-> > +#include <asm/fpu/api.h>
-> > +
-> > +static inline int is_cpu_avx512_enabled(void)
-> > +{
-> > +	return cpu_feature_enabled(X86_FEATURE_AVX512F);
-> > +}
-> 
-> That's a very arch specific function, why would a driver ever care about
-> this?
+Hung task detector has one timeout and has two associated actions on it:
+- issuing warnings with names and stacks of blocked tasks
+- panic()
 
-Yes, this is only applied to a specific FPGA solution, which FPGA
-has been integrated with XEON. Hardware indicates this using register
-to software. As it's cpu integrated solution, so CPU always has this
-AVX512 capability. The only check we do, is make sure this is not
-manually disabled by kernel.
+We want switches to panic (and reboot) if there's a task
+in uninterruptible sleep for some minutes - at that moment something
+ugly has happened and the box needs a reboot.
+But we also want to detect conditions that are "out of range"
+or approaching the point of failure. Under such conditions we want
+to issue an "early warning" of an impending failure, minutes before
+the switch is going to panic.
 
-With this hardware, software could use AVX512 to accelerate the FPGA
-partial reconfiguration as mentioned in the patch commit message.
-It brings performance benifits to people who uses it. This is only one
-optimization (512 vs 32bit data write to hw) for a specific hardware.
+Those "early warnings" serve a purpose while monitoring the network
+infrastructure. Those are also valuable on post-mortem analysis, when
+the logs from userspace applications aren't enough.
+Furthermore, we have a test pool of long-running duts that are
+constantly under close to real-world load for weeks. And such early
+warnings allowed to figure out some bottle necks without much engineer
+work intervention.
 
-For other discrete solutions, e.g. FPGA PCIe Card, this is not used
-at all as driver does check hardware register to avoid any AVX512 code.
+There are also not yet upstream patches for other kinds of "early
+warnings" as prints whenever a mutex/semaphore is released after being
+held for long time, but those patches are much more intricate and have
+their runtime cost.
 
-> 
-> > +
-> > +static inline void copy512(const void *src, void __iomem *dst)
-> > +{
-> > +	kernel_fpu_begin();
-> > +
-> > +	asm volatile("vmovdqu64 (%0), %%zmm0;"
-> > +		     "vmovntdq %%zmm0, (%1);"
-> > +		     :
-> > +		     : "r"(src), "r"(dst)
-> > +		     : "memory");
-> > +
-> > +	kernel_fpu_end();
-> > +}
-> 
-> Shouldn't this be an arch-specific function somewhere?  Burying this in
-> a random driver is not ok.  Please make this generic for all systems.
+It seems rather easy to add printing tasks and their stacks for
+notification and debugging purposes into hung task detector without
+complicating the code or major cost (prints are with KERN_INFO loglevel
+and so don't go on console, only into dmesg log).
 
-If more people need the same avx operation like this in kernel, then maybe
-this can be moved to some arch-specific lib code somewhere as some common
-functions to everybody, but i am not very sure if this is the case. Let me
-think about this more.
+Since commit a2e514453861 ("kernel/hung_task.c: allow to set checking
+interval separately from timeout") it's possible to set checking
+interval for hung task detector with `hung_task_check_interval_secs`.
 
-> 
-> > +#else
-> > +static inline int is_cpu_avx512_enabled(void)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void copy512(const void *src, void __iomem *dst)
-> > +{
-> > +	WARN_ON_ONCE(1);
-> 
-> Are you trying to get reports from syzbot?  :)
+Provide `hung_task_interval_warnings` sysctl that allows printing
+hung tasks every detection interval. It's not ratelimited, so the root
+should be cautious configuring it.
 
-Oh.. no.. I will remove it. :)
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Vasiliy Khoruzhick <vasilykh@arista.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Dmitry Safonov <dima@arista.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 20 ++++++++-
+ include/linux/sched/sysctl.h                |  1 +
+ kernel/hung_task.c                          | 50 ++++++++++++++-------
+ kernel/sysctl.c                             |  8 ++++
+ 4 files changed, 62 insertions(+), 17 deletions(-)
 
-Thank you very much!
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 032c7cd3cede..2e36620ec1e4 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -45,6 +45,7 @@ show up in /proc/sys/kernel:
+ - hung_task_timeout_secs
+ - hung_task_check_interval_secs
+ - hung_task_warnings
++- hung_task_interval_warnings
+ - hyperv_record_panic_msg
+ - kexec_load_disabled
+ - kptr_restrict
+@@ -383,14 +384,29 @@ Possible values to set are in range {0..LONG_MAX/HZ}.
+ hung_task_warnings:
+ ===================
+ 
+-The maximum number of warnings to report. During a check interval
+-if a hung task is detected, this value is decreased by 1.
++The maximum number of warnings to report. If after timeout a hung
++task is present, this value is decreased by 1 every check interval,
++producing a warning.
+ When this value reaches 0, no more warnings will be reported.
+ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
+ 
+ -1: report an infinite number of warnings.
+ 
+ 
++hung_task_interval_warnings:
++===================
++
++The same as hung_task_warnings, but set the number of interval
++warnings to be issued about detected hung tasks during check
++interval. That will produce warnings *before* the timeout happens.
++If a hung task is detected during check interval, this value is
++decreased by 1. When this value reaches 0, only timeout warnings
++will be reported.
++This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
++
++-1: report an infinite number of check interval warnings.
++
++
+ hyperv_record_panic_msg:
+ ========================
+ 
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..89f55e914673 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -12,6 +12,7 @@ extern unsigned int  sysctl_hung_task_panic;
+ extern unsigned long sysctl_hung_task_timeout_secs;
+ extern unsigned long sysctl_hung_task_check_interval_secs;
+ extern int sysctl_hung_task_warnings;
++extern int sysctl_hung_task_interval_warnings;
+ extern int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+ 					 void __user *buffer,
+ 					 size_t *lenp, loff_t *ppos);
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..cd971eef8226 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -49,6 +49,7 @@ unsigned long __read_mostly sysctl_hung_task_timeout_secs = CONFIG_DEFAULT_HUNG_
+ unsigned long __read_mostly sysctl_hung_task_check_interval_secs;
+ 
+ int __read_mostly sysctl_hung_task_warnings = 10;
++int __read_mostly sysctl_hung_task_interval_warnings;
+ 
+ static int __read_mostly did_panic;
+ static bool hung_task_show_lock;
+@@ -85,6 +86,34 @@ static struct notifier_block panic_block = {
+ 	.notifier_call = hung_task_panic,
+ };
+ 
++static void hung_task_warning(struct task_struct *t, bool timeout)
++{
++	const char *loglevel = timeout ? KERN_ERR : KERN_INFO;
++	const char *path;
++	int *warnings;
++
++	if (timeout) {
++		warnings = &sysctl_hung_task_warnings;
++		path = "hung_task_timeout_secs";
++	} else {
++		warnings = &sysctl_hung_task_interval_warnings;
++		path = "hung_task_interval_secs";
++	}
++
++	if (*warnings > 0)
++		--*warnings;
++
++	printk("%sINFO: task %s:%d blocked for more than %ld seconds.\n",
++	       loglevel, t->comm, t->pid, (jiffies - t->last_switch_time) / HZ);
++	printk("%s      %s %s %.*s\n",
++		loglevel, print_tainted(), init_utsname()->release,
++		(int)strcspn(init_utsname()->version, " "),
++		init_utsname()->version);
++	printk("%s\"echo 0 > /proc/sys/kernel/%s\" disables this message.\n",
++		loglevel, path);
++	sched_show_task(t);
++}
++
+ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ {
+ 	unsigned long switch_count = t->nvcsw + t->nivcsw;
+@@ -109,6 +138,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 		t->last_switch_time = jiffies;
+ 		return;
+ 	}
++	if (sysctl_hung_task_interval_warnings)
++		hung_task_warning(t, false);
++
+ 	if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
+ 		return;
+ 
+@@ -120,22 +152,10 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 		hung_task_call_panic = true;
+ 	}
+ 
+-	/*
+-	 * Ok, the task did not get scheduled for more than 2 minutes,
+-	 * complain:
+-	 */
+ 	if (sysctl_hung_task_warnings) {
+-		if (sysctl_hung_task_warnings > 0)
+-			sysctl_hung_task_warnings--;
+-		pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
+-		       t->comm, t->pid, (jiffies - t->last_switch_time) / HZ);
+-		pr_err("      %s %s %.*s\n",
+-			print_tainted(), init_utsname()->release,
+-			(int)strcspn(init_utsname()->version, " "),
+-			init_utsname()->version);
+-		pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
+-			" disables this message.\n");
+-		sched_show_task(t);
++		/* Don't print warings twice */
++		if (!sysctl_hung_task_interval_warnings)
++			hung_task_warning(t, true);
+ 		hung_task_show_lock = true;
+ 	}
+ 
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 078950d9605b..f12888971d66 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1147,6 +1147,14 @@ static struct ctl_table kern_table[] = {
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &neg_one,
+ 	},
++	{
++		.procname	= "hung_task_interval_warnings",
++		.data		= &sysctl_hung_task_interval_warnings,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= &neg_one,
++	},
+ #endif
+ #ifdef CONFIG_RT_MUTEXES
+ 	{
+-- 
+2.22.0
 
-Hao
-
-> 
-> Please fix this all up.
-> 
-> greg k-h
