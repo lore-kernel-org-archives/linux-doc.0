@@ -1,202 +1,177 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CCDC07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 14:10:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 237E87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 14:39:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727284AbfGXOKz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 10:10:55 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33498 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727149AbfGXOKz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 10:10:55 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g2so21031956pfq.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2019 07:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WXhaeMPXQ8MNtkF+Sp+2bS4wghsA38PAkoq4RUXLo/c=;
-        b=m6YvAC5UDmYi4TsfqlA07rTcUbfvc9lidZhL3ozBZPd9FuNWIKormAzLfT9QLJeXSF
-         2DlJ04Pv53eAX5aDIefwhPa4ynnSAA98nz2zD5VGbt4BI8tgCFX+iFwGmIgLSHIE1zb2
-         8tkJvPr+jPd5o5N/vsQKy8hTHoEz1YzrJNWUI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WXhaeMPXQ8MNtkF+Sp+2bS4wghsA38PAkoq4RUXLo/c=;
-        b=rqtpH2a1oXAPUCadtmxljVZyxY7NIMtLx8k6CG9maZ6EubMap7q0IesBRiPKfClxe4
-         NstlUIPPICRMxJV2PCKyKkMQeaqUkEZvcxRnAoApErN0LAyWfBOIVQRb70i0qS3Asxji
-         izckPT4QWuDt43NBtnFMAH3TVWjP18YLhUcpSuz28z4Y7XHXnbVpOu+x26sZR3GlNUGP
-         HJqQje503mXpR0idEpm4N4JfI22WpbJbvT3x9gYIOac/105OAlxHvyD/j8NHJrP38HM6
-         5XLOCFIM6U1S8dQc/KX4oR5AzO7AoH8ySs5iq7V1+kmJROyZM4P0EVX5skwRkjNdEnDy
-         YEqw==
-X-Gm-Message-State: APjAAAVUJGp0JQnSy6C8R1MFh3xHy4AP8/YwJbAz2YyDo8/DxqoWHnPd
-        OIh9fJJ7lU79WTRIBBhd2ww=
-X-Google-Smtp-Source: APXvYqxhiuMEPHH8pRDkDkxK8JM+xQ0EECYE2I6dsIIwwk5MI/hkEsc+JGVOGaSpqK/SVp9B21n2eQ==
-X-Received: by 2002:a63:dd0b:: with SMTP id t11mr41295651pgg.410.1563977454295;
-        Wed, 24 Jul 2019 07:10:54 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id q63sm61399100pfb.81.2019.07.24.07.10.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 07:10:53 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 10:10:52 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        sspatil@google.com, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, timmurray@google.com,
-        tkjos@google.com, Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190724141052.GB9945@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190723061358.GD128252@google.com>
- <20190723142049.GC104199@google.com>
- <20190724042842.GA39273@google.com>
+        id S1728231AbfGXOjg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Jul 2019 10:39:36 -0400
+Received: from mga18.intel.com ([134.134.136.126]:37257 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725870AbfGXOjg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Jul 2019 10:39:36 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jul 2019 07:39:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,303,1559545200"; 
+   d="scan'208";a="197519558"
+Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
+  by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2019 07:39:32 -0700
+Date:   Wed, 24 Jul 2019 22:22:35 +0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Ananda Ravuri <ananda.ravuri@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v3 01/12] fpga: dfl: fme: support 512bit data width PR
+Message-ID: <20190724142235.GE8463@hao-dev>
+References: <1563857495-26692-1-git-send-email-hao.wu@intel.com>
+ <1563857495-26692-2-git-send-email-hao.wu@intel.com>
+ <20190724093532.GB29532@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190724042842.GA39273@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190724093532.GB29532@kroah.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 01:28:42PM +0900, Minchan Kim wrote:
-> On Tue, Jul 23, 2019 at 10:20:49AM -0400, Joel Fernandes wrote:
-> > On Tue, Jul 23, 2019 at 03:13:58PM +0900, Minchan Kim wrote:
-> > > Hi Joel,
-> > > 
-> > > On Mon, Jul 22, 2019 at 05:32:04PM -0400, Joel Fernandes (Google) wrote:
-> > > > The page_idle tracking feature currently requires looking up the pagemap
-> > > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > > This is quite cumbersome and can be error-prone too. If between
-> > > 
-> > > cumbersome: That's the fair tradeoff between idle page tracking and
-> > > clear_refs because idle page tracking could check even though the page
-> > > is not mapped.
+On Wed, Jul 24, 2019 at 11:35:32AM +0200, Greg KH wrote:
+> On Tue, Jul 23, 2019 at 12:51:24PM +0800, Wu Hao wrote:
+> > In early partial reconfiguration private feature, it only
+> > supports 32bit data width when writing data to hardware for
+> > PR. 512bit data width PR support is an important optimization
+> > for some specific solutions (e.g. XEON with FPGA integrated),
+> > it allows driver to use AVX512 instruction to improve the
+> > performance of partial reconfiguration. e.g. programming one
+> > 100MB bitstream image via this 512bit data width PR hardware
+> > only takes ~300ms, but 32bit revision requires ~3s per test
+> > result.
 > > 
-> > It is fair tradeoff, but could be made simpler. The userspace code got
-> > reduced by a good amount as well.
+> > Please note now this optimization is only done on revision 2
+> > of this PR private feature which is only used in integrated
+> > solution that AVX512 is always supported. This revision 2
+> > hardware doesn't support 32bit PR.
 > > 
-> > > error-prone: What's the error?
+> > Signed-off-by: Ananda Ravuri <ananda.ravuri@intel.com>
+> > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> > Signed-off-by: Wu Hao <hao.wu@intel.com>
+> > Acked-by: Alan Tull <atull@kernel.org>
+> > Signed-off-by: Moritz Fischer <mdf@kernel.org>
+> > ---
+> > v2: remove DRV/MODULE_VERSION modifications
+> > ---
+> >  drivers/fpga/dfl-fme-mgr.c | 110 ++++++++++++++++++++++++++++++++++++++-------
+> >  drivers/fpga/dfl-fme-pr.c  |  43 +++++++++++-------
+> >  drivers/fpga/dfl-fme.h     |   2 +
+> >  drivers/fpga/dfl.h         |   5 +++
+> >  4 files changed, 129 insertions(+), 31 deletions(-)
 > > 
-> > We see in normal Android usage, that some of the times pages appear not to be
-> > idle even when they really are idle. Reproducing this is a bit unpredictable
-> > and happens at random occasions. With this new interface, we are seeing this
-> > happen much much lesser.
+> > diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
+> > index b3f7eee..46e17f0 100644
+> > --- a/drivers/fpga/dfl-fme-mgr.c
+> > +++ b/drivers/fpga/dfl-fme-mgr.c
+> > @@ -22,6 +22,7 @@
+> >  #include <linux/io-64-nonatomic-lo-hi.h>
+> >  #include <linux/fpga/fpga-mgr.h>
+> >  
+> > +#include "dfl.h"
+> >  #include "dfl-fme-pr.h"
+> >  
+> >  /* FME Partial Reconfiguration Sub Feature Register Set */
+> > @@ -30,6 +31,7 @@
+> >  #define FME_PR_STS		0x10
+> >  #define FME_PR_DATA		0x18
+> >  #define FME_PR_ERR		0x20
+> > +#define FME_PR_512_DATA		0x40 /* Data Register for 512bit datawidth PR */
+> >  #define FME_PR_INTFC_ID_L	0xA8
+> >  #define FME_PR_INTFC_ID_H	0xB0
+> >  
+> > @@ -67,8 +69,43 @@
+> >  #define PR_WAIT_TIMEOUT   8000000
+> >  #define PR_HOST_STATUS_IDLE	0
+> >  
+> > +#if defined(CONFIG_X86) && defined(CONFIG_AS_AVX512)
+> > +
+> > +#include <linux/cpufeature.h>
+> > +#include <asm/fpu/api.h>
+> > +
+> > +static inline int is_cpu_avx512_enabled(void)
+> > +{
+> > +	return cpu_feature_enabled(X86_FEATURE_AVX512F);
+> > +}
 > 
-> I don't know how you did test. Maybe that could be contributed by
-> swapping out or shared pages touched by other processes or some kernel
-> behavior not to keep access bit of their operation.
+> That's a very arch specific function, why would a driver ever care about
+> this?
 
-It could be something along these lines is my thinking as well. So we know
-its already has issues due to what you mentioned, I am not sure what else
-needs investigation?
+Yes, this is only applied to a specific FPGA solution, which FPGA
+has been integrated with XEON. Hardware indicates this using register
+to software. As it's cpu integrated solution, so CPU always has this
+AVX512 capability. The only check we do, is make sure this is not
+manually disabled by kernel.
 
-> Please investigate more what's the root cause. That would be important
-> point to justify for the patch motivation.
+With this hardware, software could use AVX512 to accelerate the FPGA
+partial reconfiguration as mentioned in the patch commit message.
+It brings performance benifits to people who uses it. This is only one
+optimization (512 vs 32bit data write to hw) for a specific hardware.
 
-The motivation is security. I am dropping the 'accuracy' factor I mentioned
-from the patch description since it created a lot of confusion.
+For other discrete solutions, e.g. FPGA PCIe Card, this is not used
+at all as driver does check hardware register to avoid any AVX512 code.
 
-> > > > More over looking up PFN from pagemap in Android devices is not
-> > > > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> > > > the PFN.
-> > > > 
-> > > > This patch adds support to directly interact with page_idle tracking at
-> > > > the PID level by introducing a /proc/<pid>/page_idle file. This
-> > > > eliminates the need for userspace to calculate the mapping of the page.
-> > > > It follows the exact same semantics as the global
-> > > > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> > > > where looking up PFN is not needed and also does not require SYS_ADMIN.
-> > > 
-> > > Ah, so the primary goal is to provide convinience interface and it would
-> > > help accurary, too. IOW, accuracy is not your main goal?
-> > 
-> > There are a couple of primary goals: Security, conveience and also solving
-> > the accuracy/reliability problem we are seeing. Do keep in mind looking up
-> > PFN has security implications. The PFN field in pagemap is zeroed if the user
-> > does not have CAP_SYS_ADMIN.
 > 
-> Myaybe you don't need PFN. is it?
-
-With the traditional idle tracking, PFN is needed which has the mentioned
-security issues. This patch solves it. And the interface is identical and
-familiar to the existing page_idle bitmap interface.
-
-> > > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > > profiles and pin points code paths which allocates and leaves memory
-> > > > idle for long periods of time.
-> > > 
-> > > So the goal is to detect idle pages with idle memory tracking?
-> > 
-> > Isn't that what idle memory tracking does?
+> > +
+> > +static inline void copy512(const void *src, void __iomem *dst)
+> > +{
+> > +	kernel_fpu_begin();
+> > +
+> > +	asm volatile("vmovdqu64 (%0), %%zmm0;"
+> > +		     "vmovntdq %%zmm0, (%1);"
+> > +		     :
+> > +		     : "r"(src), "r"(dst)
+> > +		     : "memory");
+> > +
+> > +	kernel_fpu_end();
+> > +}
 > 
-> To me, it's rather misleading. Please read motivation section in document.
-> The feature would be good to detect workingset pages, not idle pages
-> because workingset pages are never freed, swapped out and even we could
-> count on newly allocated pages.
+> Shouldn't this be an arch-specific function somewhere?  Burying this in
+> a random driver is not ok.  Please make this generic for all systems.
+
+If more people need the same avx operation like this in kernel, then maybe
+this can be moved to some arch-specific lib code somewhere as some common
+functions to everybody, but i am not very sure if this is the case. Let me
+think about this more.
+
 > 
-> Motivation
-> ==========
+> > +#else
+> > +static inline int is_cpu_avx512_enabled(void)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline void copy512(const void *src, void __iomem *dst)
+> > +{
+> > +	WARN_ON_ONCE(1);
 > 
-> The idle page tracking feature allows to track which memory pages are being
-> accessed by a workload and which are idle. This information can be useful for
-> estimating the workload's working set size, which, in turn, can be taken into
-> account when configuring the workload parameters, setting memory cgroup limits,
-> or deciding where to place the workload within a compute cluster.
+> Are you trying to get reports from syzbot?  :)
 
-As we discussed by chat, we could collect additional metadata to check if
-pages were swapped or freed ever since the time we marked them as idle.
-However this can be incremental improvement.
+Oh.. no.. I will remove it. :)
 
-> > > It couldn't work well because such idle pages could finally swap out and
-> > > lose every flags of the page descriptor which is working mechanism of
-> > > idle page tracking. It should have named "workingset page tracking",
-> > > not "idle page tracking".
-> > 
-> > The heap profiler that uses page-idle tracking is not to measure working set,
-> > but to look for pages that are idle for long periods of time.
+Thank you very much!
+
+Hao
+
 > 
-> It's important part. Please include it in the description so that people
-> understands what's the usecase. As I said above, if it aims for finding
-> idle pages durting the period, current idle page tracking feature is not
-> good ironically.
-
-Ok, I will mention.
-
-> > Thanks for bringing up the swapping corner case..  Perhaps we can improve
-> > the heap profiler to detect this by looking at bits 0-4 in pagemap. While it
+> Please fix this all up.
 > 
-> Yeb, that could work but it could add overhead again what you want to remove?
-> Even, userspace should keep metadata to identify that page was already swapped
-> in last period or newly swapped in new period.
-
-Yep.
-
-thanks,
-
- - Joel
-
+> greg k-h
