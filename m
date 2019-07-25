@@ -1,104 +1,204 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E91AE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 20:03:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E14C57D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 20:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbfGYUDs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 16:03:48 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43016 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfGYUDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 16:03:48 -0400
-Received: by mail-pg1-f194.google.com with SMTP id f25so23548561pgv.10;
-        Thu, 25 Jul 2019 13:03:47 -0700 (PDT)
+        id S1726696AbfGYUVZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 16:21:25 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36805 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726680AbfGYUVZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 16:21:25 -0400
+Received: by mail-pf1-f196.google.com with SMTP id r7so23305274pfl.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 13:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=i7HKiq/WRQz0iWC9yLf6vBbDqvnWRhx/n8XJNQctoPo=;
-        b=Bf9ynE3UDgxm+Zv/OCeEt0hGTZlFH9kWNuDrIjMNRKazUpHigok5aNmkyRntw5dwZo
-         pvUV79f6rYQ6mCBOGFzlOCWHteiTwzF8wshenVMnuq4w58dgiOZIZSMB2G0xy1iC6mnP
-         WFIlvc1QaoQLbi5N6R9ezEXpMKYn+sBte0RsUegRQNms7gXlCn+R781ZcOy9GfjaLmOv
-         r27JY6BJWyUG00cXHWw8+yCY9iWtTdb7F+q5+BmMLG7SMINGlgK9oRKN/TwOhd0WF6mk
-         PJyxuba3I4JDLOpT0b2XBWVOP98Cb8eA9/Q6eIKSe8+RHDO7jSQ2oFevbErk6CMOk26G
-         X5PQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t0Cra5QTZMEsQQCWtg/IrgmE1EkzXk2wzdHi6GNLFH4=;
+        b=icwWCIiUgBV1wHTICVJ8PDBYNM56j1SL56zOuqzadtL/FTJftG29M/5i37umQn5pat
+         98vgN9o4wCCUl6zlUntg1M2/HAqBcuf46VrRvHnBderCK2JzVC1N/QGeaiGfSXK9s4n5
+         D6RwN5DHnLXKOq4Ny6b8fOnc2KVD7SZxUUSdcyUfbAIVnumy+pkl0n1aZfxPSnWyIL72
+         hfdMtqkGubCbZVDRysKpCuE9QGl7AC7BSboaOfM49zJPp3eOwApBz0fXZ3/p4ovL/zBt
+         OQN9pJSLbaG8HsrL0EiinQXd3Ip1iSW8gF7p8zWj9INScAI2FFyHb72jeSzAyZtgcUhN
+         wuPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=i7HKiq/WRQz0iWC9yLf6vBbDqvnWRhx/n8XJNQctoPo=;
-        b=SSjivrCyqu9RsE8gGLVZdhOVOBooXms7cits+6eZIrfKvGFmp12bQTUVRkYu0PUxX5
-         V8PHTcbyluxWevklyY9Rnu/ReyATp0+3CMY5/ehFBSFMuFyPwBRTDgsmVlVbnBu8SGIi
-         GlIweuviyAuHhs2tGXo6plhVCLTo8Qa2pU5f1jIwbqKCxOJVMMZTSlsP2TJ9JUtoHhiz
-         V77/mHasSUCDFZRtJ9q+g+RWg1JPlXMbPe70W8iempLHf62vqQP8/qrl4H6fzlM/R14g
-         dBGf1d0rkJ4NxSug/HWa8WYuMgww/VmF7hxtZJZNo5eZ0zP4h4l5GPP1iOeUrg7PnmXb
-         J8qQ==
-X-Gm-Message-State: APjAAAVD7QAu8cLxw5rM/htVGnf46PUl1l8EiluqbTBnw8e+T4+m3iyI
-        avQlpECBay2Ff/xB7Rc2WnZ58dCFgng=
-X-Google-Smtp-Source: APXvYqxOQb+pjaW/NNI6FKmYDbf4JjFnZFJz2vIPuOgex0YMNmWgGKTQsnWEaV7W3FG2p1b/4JA+zA==
-X-Received: by 2002:a63:f857:: with SMTP id v23mr62941932pgj.228.1564085026955;
-        Thu, 25 Jul 2019 13:03:46 -0700 (PDT)
-Received: from continental ([179.185.209.0])
-        by smtp.gmail.com with ESMTPSA id a3sm50666740pfl.145.2019.07.25.13.03.44
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 25 Jul 2019 13:03:45 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 17:04:34 -0300
-From:   Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/4] Remove elevator kernel parameter
-Message-ID: <20190725200434.GA16459@continental>
-References: <20190714053453.1655-1-marcos.souza.org@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t0Cra5QTZMEsQQCWtg/IrgmE1EkzXk2wzdHi6GNLFH4=;
+        b=mNBPh7+eSbWx+z2HIyG7QeXlkx/YOlJukJiOoc100PI3Esxz8uqjH2Xvs5Fqf3xKVX
+         DiIE2PU4f3A8iXLnMMAdspZi9RQiUwXbtFJniQVEH7XQevRDnwp/vcGEgwqIZZLgtxZm
+         ShVV3hee2R8eNwjVr0ehElA7il2JCWYkPXyCu1YhwSE9yvuqlRtLYMjWTrtO3tsxgQTJ
+         FjGtZlQQ61p7P0gVx5Ht8mwsJsXHIfX4rdUgKNCa9Rt0Cf1F0DkrPUwJF7FQStS+l9Xm
+         mv9726JwPj97JOEDds45nDS3mEBgCNMmwXE7f0/tKeJrSTJ0QZj9kjV+lX7NMy/72DKr
+         +U+Q==
+X-Gm-Message-State: APjAAAVA4MOUc7OvO+q/QiH42iSahg7eUYPwH9EU9RqN/bvLHJj1rGSS
+        N7YSj+QAjYlX7Q4nC83mXPVvbWPOLxkV9jfWf1ZtNg==
+X-Google-Smtp-Source: APXvYqxzvrolA8VKWhh/PCWTspZ6X1ImHyHFsNde4xNXJqWmdb4kpAbmdfPWVY+GfuBUC1O9mftgHi7aVHIiE4jBL10=
+X-Received: by 2002:a63:b919:: with SMTP id z25mr87114130pge.201.1564086083398;
+ Thu, 25 Jul 2019 13:21:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190714053453.1655-1-marcos.souza.org@gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+References: <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
+ <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com>
+ <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
+ <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+ <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
+ <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+ <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+In-Reply-To: <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 25 Jul 2019 13:21:12 -0700
+Message-ID: <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@google.com>,
+        David Rientjes <rientjes@google.com>,
+        kunit-dev@googlegroups.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        wfg@linux.intel.com, Greg KH <gregkh@linuxfoundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jens,
+On Wed, Jul 24, 2019 at 12:31 AM Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Mon 2019-07-22 16:54:10, Stephen Boyd wrote:
+> > Quoting Brendan Higgins (2019-07-22 15:30:49)
+> > > On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> > > >
+> > > >
+> > > > What's the calling context of the assertions and expectations? I still
+> > > > don't like the fact that string stream needs to allocate buffers and
+> > > > throw them into a list somewhere because the calling context matters
+> > > > there.
+> > >
+> > > The calling context is the same as before, which is anywhere.
+> >
+> > Ok. That's concerning then.
+> >
+> > >
+> > > > I'd prefer we just wrote directly to the console/log via printk
+> > > > instead. That way things are simple because we use the existing
+> > > > buffering path of printk, but maybe there's some benefit to the string
+> > > > stream that I don't see? Right now it looks like it builds a string and
+> > > > then dumps it to printk so I'm sort of lost what the benefit is over
+> > > > just writing directly with printk.
+> > >
+> > > It's just buffering it so the whole string gets printed uninterrupted.
+> > > If we were to print out piecemeal to printk, couldn't we have another
+> > > call to printk come in causing it to garble the KUnit message we are
+> > > in the middle of printing?
+> >
+> > Yes, printing piecemeal by calling printk many times could lead to
+> > interleaving of messages if something else comes in such as an interrupt
+> > printing something. Printk has some support to hold "records" but I'm
+> > not sure how that would work here because KERN_CONT talks about only
+> > being used early on in boot code. I haven't looked at printk in detail
+> > though so maybe I'm all wrong and KERN_CONT just works?
+>
+> KERN_CONT does not guarantee that the message will get printed
+> together. The pieces get interleaved with messages printed in
+> parallel.
+>
+> Note that KERN_CONT was originally really meant to be used only during
+> boot. It was later used more widely and ended in the best effort category.
+>
+> There were several attempts to make it more reliable. But it was
+> always either too complicated or error prone or both.
+>
+> You need to use your own buffering if you rely want perfect output.
+> The question is if it is really worth the complexity. Also note that
+> any buffering reduces the chance that the messages will reach
+> the console.
 
-there are two reviewers for this patchset, can you take a look?
+Seems like that settles it then. Thanks!
 
-Thanks,
-Marcos
+> BTW: There is a work in progress on a lockless printk ring buffer.
+> It will make printk() more secure regarding deadlocks. But it might
+> make transparent handling of continuous lines even more tricky.
+>
+> I guess that local buffering, before calling printk(), will be
+> even more important then. Well, it might really force us to create
+> an API for it.
 
-On Sun, Jul 14, 2019 at 02:34:49AM -0300, Marcos Paulo de Souza wrote:
-> After the first patch sent[1], together with some background from Jens[2], this
-> patchset aims to remove completely elevator kernel parameter, since it is not
-> being used since blk-mq was set by default.
-> 
-> Along with elevator code, some documentation was also updated to remove elevator
-> references.
-> 
-> Please review, thanks.
-> 
-> [1]: https://lkml.org/lkml/2019/7/12/1008
-> [2]: https://lkml.org/lkml/2019/7/13/232
-> 
-> Marcos Paulo de Souza (4):
->   block: elevator.c: Remove now unused elevator= argument
->   kernel-parameters.txt: Remove elevator argument
->   Documenation: switching-sched: Remove notes about elevator argument
->   Documentation:kernel-per-CPU-kthreads.txt: Remove reference to
->     elevator=
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  6 ------
->  Documentation/block/switching-sched.txt         |  4 ----
->  Documentation/kernel-per-CPU-kthreads.txt       |  8 +++-----
->  block/elevator.c                                | 14 --------------
->  4 files changed, 3 insertions(+), 29 deletions(-)
-> 
-> -- 
-> 2.22.0
-> 
+Cool! Can you CC me on that discussion?
+
+> > Can printk be called once with whatever is in the struct? Otherwise if
+> > this is about making printk into a structured log then maybe printk
+> > isn't the proper solution anyway. Maybe a dev interface should be used
+> > instead that can handle starting and stopping tests (via ioctl) in
+> > addition to reading test results, records, etc. with read() and a
+> > clearing of the records. Then the seqfile API works naturally. All of
+> > this is a bit premature, but it looks like you're going down the path of
+> > making something akin to ftrace that stores binary formatted
+> > assertion/expectation records in a lockless ring buffer that then
+> > formats those records when the user asks for them.
+>
+> IMHO, ftrace postpones the text formatting primary because it does not
+> not want to slow down the traced code more than necessary. It is yet
+> another layer and there should be some strong reason for it.
+
+Noted. Yeah, I would prefer avoiding printing out the info at a separate time.
+
+> > I can imagine someone wanting to write unit tests that check conditions
+> > from a simulated hardirq context via irq works (a driver mock
+> > framework?), so this doesn't seem far off.
+>
+> Note that stroring the messages into the printk log is basically safe in any
+> context. It uses temporary per-CPU buffers for recursive messages and
+> in NMI. The only problem is panic() when some CPU gets stuck with the
+> lock taken. This will get solved by the lockless ringbuffer. Also
+> the temporary buffers will not be necessary any longer.
+
+Sure, I think Stephen's concern is all the supporting code that is
+involved. Not printk specifically. It just means a lot more of KUnit
+has to be IRQ safe.
+
+> Much bigger problems are with consoles. There are many of them. It
+> means a lot of code and more locks involved, including scheduler
+> locks. Note that console lock is a semaphore.
+
+That shouldn't affect us though, right? As long as we continue to use
+the printk interface?
