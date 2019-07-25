@@ -1,68 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D2BD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 13:46:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 976767D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 13:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390377AbfGYNqD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 09:46:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49760 "EHLO mail.kernel.org"
+        id S1728752AbfGYNvO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 09:51:14 -0400
+Received: from foss.arm.com ([217.140.110.172]:57734 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390232AbfGYNqD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Jul 2019 09:46:03 -0400
-Received: from localhost (unknown [106.200.241.217])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5404922C7B;
-        Thu, 25 Jul 2019 13:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564062363;
-        bh=jeED7CtcQhma9mVbZ3E+h3KI2qfv68gcleUFtKH45OI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Kb/LkOg3viPhg32zGvoKWgihzMOwDt3EygkY5JRqNCLz2ZAFJZDq+CBxRqrJMFsiO
-         C1eDv4ZV0cdeFjlVRU9GUmddb0pCMA908qr8UIfKuRUjY4CBTsyDBGbeO9tGAy5o+x
-         M2UpRKOFE8EAFkSCeJ2MHl/EoEyAnDcHN3yuBOgA=
-Date:   Thu, 25 Jul 2019 19:14:49 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-doc@vger.kernel.org,
-        dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 15/22] docs: index.rst: don't use genindex for pdf output
-Message-ID: <20190725134449.GY12733@vkoul-mobl.Dlink>
-References: <cover.1563792333.git.mchehab+samsung@kernel.org>
- <45d57666e5738a0b85e948b0e94151fe1b1f9274.1563792334.git.mchehab+samsung@kernel.org>
+        id S1726666AbfGYNvN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Jul 2019 09:51:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C83D428;
+        Thu, 25 Jul 2019 06:51:12 -0700 (PDT)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 592483F71F;
+        Thu, 25 Jul 2019 06:51:11 -0700 (PDT)
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     vincenzo.frascino@arm.com,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: [PATCH v6 0/2] arm64 relaxed ABI
+Date:   Thu, 25 Jul 2019 14:50:42 +0100
+Message-Id: <20190725135044.24381-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <cover.1563904656.git.andreyknvl@google.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <45d57666e5738a0b85e948b0e94151fe1b1f9274.1563792334.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22-07-19, 08:07, Mauro Carvalho Chehab wrote:
-> The genindex logic is meant to be used only for html output, as
-> pdf build has its own way to generate indexes.
+On arm64 the TCR_EL1.TBI0 bit has been always enabled on the arm64 kernel,
+hence the userspace (EL0) is allowed to set a non-zero value in the top
+byte but the resulting pointers are not allowed at the user-kernel syscall
+ABI boundary.
 
+This patchset proposes a relaxation of the ABI with which it is possible
+to pass tagged tagged pointers to the syscalls, when these pointers are in
+memory ranges obtained as described in tagged-address-abi.txt contained in
+this patch series.
 
->  Documentation/driver-api/dmaengine/index.rst      | 2 +-
->  Documentation/driver-api/soundwire/index.rst      | 2 +-
+Since it is not desirable to relax the ABI to allow tagged user addresses
+into the kernel indiscriminately, this patchset documents a new sysctl
+interface (/proc/sys/abi/tagged_addr) that is used to prevent the applications
+from enabling the relaxed ABI and a new prctl() interface that can be used to
+enable or disable the relaxed ABI.
 
-For dmaengine and soundwire:
+This patchset should be merged together with [1].
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+[1] https://patchwork.kernel.org/cover/10674351/
+
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will.deacon@arm.com>
+CC: Andrey Konovalov <andreyknvl@google.com>
+Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+Vincenzo Frascino (2):
+  arm64: Define Documentation/arm64/tagged-address-abi.rst
+  arm64: Relax Documentation/arm64/tagged-pointers.rst
+
+ Documentation/arm64/tagged-address-abi.rst | 148 +++++++++++++++++++++
+ Documentation/arm64/tagged-pointers.rst    |  23 +++-
+ 2 files changed, 164 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/arm64/tagged-address-abi.rst
 
 -- 
-~Vinod
+2.22.0
+
