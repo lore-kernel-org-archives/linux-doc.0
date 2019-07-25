@@ -2,199 +2,213 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06C997D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Jul 2019 20:29:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67CB27D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 05:48:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388989AbfGXU2w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Jul 2019 16:28:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33239 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389015AbfGXTeA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jul 2019 15:34:00 -0400
-Received: by mail-pg1-f195.google.com with SMTP id f20so12480121pgj.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2019 12:33:59 -0700 (PDT)
+        id S1728177AbfGYFsi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 01:48:38 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:42659 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726312AbfGYFsi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 01:48:38 -0400
+Received: by mail-yw1-f65.google.com with SMTP id z63so18881623ywz.9;
+        Wed, 24 Jul 2019 22:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=c620Z7QmNN4xuzBoT0I523KlXKmQArPqXiiSBk5DJAo=;
-        b=aJRIeg6pq323ryehRW15NWh/H46jxm2+UlXPt/GAp+gGlXsdiD5tuwNAzwSOlQjvte
-         kAf7yvLfhsa31LbfvzoQxal4db/+ND5t3sCE3KQ0cK1D2FNrEMSsUF10lD+va5+XCjZF
-         82tS1vs8G8RyiJ9FtkZUoim+/k0zp6iCqhTGk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ydVv4zA+/+sIts4hNM+2vqi1osfpHO63Y+XbeZJumzQ=;
+        b=eMmatGNUa8boqLelfvO399Vaw7UDGMefdLOheQGuVFAtZRiS+0hM3D/WhDoEBh7LZF
+         5zqXwfBghsOS06xidCuUA6APv+qHY+sSnZZNDlzZJWYrqf2BiYXctFNS/yxmY711PtFG
+         IWgFWDmnuUgGwasEeMpv9eA7sjmLOJHA2+crDowIEgTLQsHo6Ekx92AUXEm1u5Yr8+mg
+         ihfj4O2KXWlwFHMo0sRA2CW8SrZoUoBYwhGbparm9CvKSMF2iW0vlVQXgK71q3PjawsP
+         WzXjORimQKp2Yw9LTumnIs2xfI9AKyZDG0NKck4F89IqTHwsYryJ4g1kLPlWo3UVAHEL
+         5bZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=c620Z7QmNN4xuzBoT0I523KlXKmQArPqXiiSBk5DJAo=;
-        b=h32XFfdIcZUcBAxlmJsXjJKeIdK2rUHs3YWxpNIeaMue27ghKabnY0lDzRLNNcJ5lN
-         ZmnxP+WSys13lZDbh5aox0bBrx3m8yrmib05XB/3U7p7V6/iBDEf7wl8cJQTtC1LPd+5
-         wZsRn7mtFKmti7/3/X4fMayUnLuvMBRGxWqAjeebqwmfFiOMNqk37xPjK+/3H8Yjk4OO
-         6W5CUxjMLp5C2+krXBfMZRrXdZA5t/r2dF0t8sHsNTQWWFUl3GnpqlKT7XeotxALMkAE
-         0CtTH+el4EV/OFATQnV5UdCbzAvzpzC01NZ0vYgBXKp9SCWP1rRfgVRDP8utKOIuH1B/
-         DOiw==
-X-Gm-Message-State: APjAAAUOji8h/d5xaTRjD6vu6uAp7VTE5wJVx0+z2X/CS3XcK8QWcWN6
-        sLpEkR/KKj1n/Pg8HrpfwZ4=
-X-Google-Smtp-Source: APXvYqxRZo6EdKy/Ij4HPNmhe7JYCvmAq8gwdkPC9eWWevt48AruaweG4iMi6+eWocFY2nBwaDK8/g==
-X-Received: by 2002:a17:90a:2190:: with SMTP id q16mr86312060pjc.23.1563996839453;
-        Wed, 24 Jul 2019 12:33:59 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id i124sm87050514pfe.61.2019.07.24.12.33.58
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 12:33:58 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 15:33:57 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, carmenjackson@google.com,
-        Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@google.com,
-        minchan@kernel.org, namhyung@google.com, sspatil@google.com,
-        surenb@google.com, Thomas Gleixner <tglx@linutronix.de>,
-        timmurray@google.com, tkjos@google.com,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190724193357.GB21829@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190722150639.27641c63b003dd04e187fd96@linux-foundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ydVv4zA+/+sIts4hNM+2vqi1osfpHO63Y+XbeZJumzQ=;
+        b=kWZ0w7Czdt0yKWQsq+n1drCBXjgia9VgR9YEUK0PH4VxLQD83RrqtsbHQyeZv+z9fd
+         cYFxth9WMj9q+WbqQ+jD91gk8b1xc1lIU87/+6v0HfOEO2qLVRX97VmUSrgJifppHiJD
+         EmSps3PYNTd9kph5MPApJifpyON+p3PJo6CbwSG3czcS8irJMNKN54z0b0ScIYellM+B
+         IojP6Kp/s1SQzD9WKreyB1DITXSYJaFZRyfziGknVIJMQxUnH0hZJogA9q55XuNWdaIy
+         Tb3LPQ5OrzJgA0SRk9beUb+S+9M/S/ubIBboySmetqW69lJ2PuZe6LNbPdyfj1TDpc7B
+         +KAA==
+X-Gm-Message-State: APjAAAWVWPLXs2jrZjOOnhqZ158CN5eza3/nXbqz1IBki//JXzeIo82n
+        5oVBDCxd8+oYaXDNxRYZWWunrHyaR4XhaGV3PDU=
+X-Google-Smtp-Source: APXvYqwCWRfdEVOKSFGgonpy6tDpp/BmVqyzmoFoc2iB9nt8WEi3TpUUme9/UMcfFea8WSzFjJ6AXqz2ZkRNyM9GVXc=
+X-Received: by 2002:a81:13d4:: with SMTP id 203mr52608843ywt.181.1564033717094;
+ Wed, 24 Jul 2019 22:48:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190722150639.27641c63b003dd04e187fd96@linux-foundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190724195719.218307-1-salyzyn@android.com> <20190724195719.218307-4-salyzyn@android.com>
+In-Reply-To: <20190724195719.218307-4-salyzyn@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 25 Jul 2019 08:48:26 +0300
+Message-ID: <CAOQ4uxjizC1RhmLe3qmfASk2M-Y+QEiyLL1yJXa4zXAEby7Tig@mail.gmail.com>
+Subject: Re: [PATCH v10 3/5] overlayfs: add __get xattr method
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 03:06:39PM -0700, Andrew Morton wrote:
-[snip] 
-> > +	*end = *start + count * BITS_PER_BYTE;
-> > +	if (*end > max_frame)
-> > +		*end = max_frame;
-> > +	return 0;
-> > +}
-> > +
-> >
-> > ...
-> >
-> > +static void add_page_idle_list(struct page *page,
-> > +			       unsigned long addr, struct mm_walk *walk)
-> > +{
-> > +	struct page *page_get;
-> > +	struct page_node *pn;
-> > +	int bit;
-> > +	unsigned long frames;
-> > +	struct page_idle_proc_priv *priv = walk->private;
-> > +	u64 *chunk = (u64 *)priv->buffer;
-> > +
-> > +	if (priv->write) {
-> > +		/* Find whether this page was asked to be marked */
-> > +		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
-> > +		bit = frames % BITMAP_CHUNK_BITS;
-> > +		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
-> > +		if (((*chunk >> bit) & 1) == 0)
-> > +			return;
-> > +	}
-> > +
-> > +	page_get = page_idle_get_page(page);
-> > +	if (!page_get)
-> > +		return;
-> > +
-> > +	pn = kmalloc(sizeof(*pn), GFP_ATOMIC);
-> 
-> I'm not liking this GFP_ATOMIC.  If I'm reading the code correctly,
-> userspace can ask for an arbitrarily large number of GFP_ATOMIC
-> allocations by doing a large read.  This can potentially exhaust page
-> reserves which things like networking Rx interrupts need and can make
-> this whole feature less reliable.
+On Wed, Jul 24, 2019 at 10:57 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> Because of the overlayfs getxattr recursion, the incoming inode fails
+> to update the selinux sid resulting in avc denials being reported
+> against a target context of u:object_r:unlabeled:s0.
 
-For the revision, I will pre-allocate the page nodes in advance so it does
-not need to do this. Diff on top of this patch is below. Let me know any
-comments, thanks.
+This description is too brief for me to understand the root problem.
+What's wring with the overlayfs getxattr recursion w.r.t the selinux
+security model?
 
-Btw, I also dropped the idle_page_list_lock by putting the idle_page_list
-list_head on the stack instead of heap.
----8<-----------------------
+Please give an example of your unprivileged mounter use case
+to explain.
 
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Subject: [PATCH] mm/page_idle: Avoid need for GFP_ATOMIC
+CC Vivek because I could really never understand all this.
 
-GFP_ATOMIC can harm allocations does by other allocations that are in
-need of reserves and the like. Pre-allocate the nodes list so that
-spinlocked region can just use it.
+>
+> Solution is to add a _get xattr method that calls the __vfs_getxattr
+> handler so that the context can be read in, rather than being denied
+> with an -EACCES when vfs_getxattr handler is called.
+>
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kernel-team@android.com
+> ---
+> v10 - added to patch series
+> ---
+>  fs/overlayfs/inode.c     | 15 +++++++++++++++
+>  fs/overlayfs/overlayfs.h |  2 ++
+>  fs/overlayfs/super.c     | 18 ++++++++++++++++++
+>  3 files changed, 35 insertions(+)
+>
+> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+> index 7663aeb85fa3..d3b53849615c 100644
+> --- a/fs/overlayfs/inode.c
+> +++ b/fs/overlayfs/inode.c
+> @@ -362,6 +362,21 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+>         return err;
+>  }
+>
+> +int __ovl_xattr_get(struct dentry *dentry, struct inode *inode,
+> +                   const char *name, void *value, size_t size)
+> +{
+> +       ssize_t res;
+> +       const struct cred *old_cred;
+> +       struct dentry *realdentry =
+> +               ovl_i_dentry_upper(inode) ?: ovl_dentry_lower(dentry);
+> +
+> +       old_cred = ovl_override_creds(dentry->d_sb);
+> +       res = __vfs_getxattr(realdentry, d_inode(realdentry), name, value,
+> +                            size);
+> +       ovl_revert_creds(old_cred);
+> +       return res;
+> +}
+> +
+>  int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+>                   void *value, size_t size)
+>  {
+> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+> index 6934bcf030f0..73a02a263fbc 100644
+> --- a/fs/overlayfs/overlayfs.h
+> +++ b/fs/overlayfs/overlayfs.h
+> @@ -357,6 +357,8 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+>                   const void *value, size_t size, int flags);
+>  int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+>                   void *value, size_t size);
+> +int __ovl_xattr_get(struct dentry *dentry, struct inode *inode,
+> +                   const char *name, void *value, size_t size);
+>  ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size);
+>  struct posix_acl *ovl_get_acl(struct inode *inode, int type);
+>  int ovl_update_time(struct inode *inode, struct timespec64 *ts, int flags);
+> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> index b368e2e102fa..82e1130de206 100644
+> --- a/fs/overlayfs/super.c
+> +++ b/fs/overlayfs/super.c
+> @@ -859,6 +859,14 @@ ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
+>         return ovl_xattr_get(dentry, inode, handler->name, buffer, size);
+>  }
+>
+> +static int __maybe_unused
+> +__ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
+> +                         struct dentry *dentry, struct inode *inode,
+> +                         const char *name, void *buffer, size_t size)
+> +{
+> +       return __ovl_xattr_get(dentry, inode, handler->name, buffer, size);
+> +}
+> +
+>  static int __maybe_unused
+>  ovl_posix_acl_xattr_set(const struct xattr_handler *handler,
+>                         struct dentry *dentry, struct inode *inode,
+> @@ -939,6 +947,13 @@ static int ovl_other_xattr_get(const struct xattr_handler *handler,
+>         return ovl_xattr_get(dentry, inode, name, buffer, size);
+>  }
+>
+> +static int __ovl_other_xattr_get(const struct xattr_handler *handler,
+> +                                struct dentry *dentry, struct inode *inode,
+> +                                const char *name, void *buffer, size_t size)
+> +{
+> +       return __ovl_xattr_get(dentry, inode, name, buffer, size);
+> +}
+> +
+>  static int ovl_other_xattr_set(const struct xattr_handler *handler,
+>                                struct dentry *dentry, struct inode *inode,
+>                                const char *name, const void *value,
+> @@ -952,6 +967,7 @@ ovl_posix_acl_access_xattr_handler = {
+>         .name = XATTR_NAME_POSIX_ACL_ACCESS,
+>         .flags = ACL_TYPE_ACCESS,
+>         .get = ovl_posix_acl_xattr_get,
+> +       .__get = __ovl_posix_acl_xattr_get,
+>         .set = ovl_posix_acl_xattr_set,
+>  };
+>
+> @@ -960,6 +976,7 @@ ovl_posix_acl_default_xattr_handler = {
+>         .name = XATTR_NAME_POSIX_ACL_DEFAULT,
+>         .flags = ACL_TYPE_DEFAULT,
+>         .get = ovl_posix_acl_xattr_get,
+> +       .__get = __ovl_posix_acl_xattr_get,
+>         .set = ovl_posix_acl_xattr_set,
+>  };
+>
+> @@ -972,6 +989,7 @@ static const struct xattr_handler ovl_own_xattr_handler = {
+>  static const struct xattr_handler ovl_other_xattr_handler = {
+>         .prefix = "", /* catch all */
+>         .get = ovl_other_xattr_get,
+> +       .__get = __ovl_other_xattr_get,
+>         .set = ovl_other_xattr_set,
+>  };
+>
 
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- mm/page_idle.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 874a60c41fef..b9c790721f16 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -266,6 +266,10 @@ struct page_idle_proc_priv {
- 	unsigned long start_addr;
- 	char *buffer;
- 	int write;
-+
-+	/* Pre-allocate and provide nodes to add_page_idle_list() */
-+	struct page_node *page_nodes;
-+	int cur_page_node;
- };
- 
- static void add_page_idle_list(struct page *page,
-@@ -291,10 +295,7 @@ static void add_page_idle_list(struct page *page,
- 	if (!page_get)
- 		return;
- 
--	pn = kmalloc(sizeof(*pn), GFP_ATOMIC);
--	if (!pn)
--		return;
--
-+	pn = &(priv->page_nodes[priv->cur_page_node++]);
- 	pn->page = page_get;
- 	pn->addr = addr;
- 	list_add(&pn->list, &idle_page_list);
-@@ -379,6 +380,15 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
- 	priv.buffer = buffer;
- 	priv.start_addr = start_addr;
- 	priv.write = write;
-+
-+	priv.cur_page_node = 0;
-+	priv.page_nodes = kzalloc(sizeof(struct page_node) * (end_frame - start_frame),
-+				  GFP_KERNEL);
-+	if (!priv.page_nodes) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
- 	walk.private = &priv;
- 	walk.mm = mm;
- 
-@@ -425,6 +435,7 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
- 		ret = copy_to_user(ubuff, buffer, count);
- 
- 	up_read(&mm->mmap_sem);
-+	kfree(priv.page_nodes);
- out:
- 	kfree(buffer);
- out_mmput:
--- 
-2.22.0.657.g960e92d24f-goog
+Not very professional of me to comment on the proposed solution
+without understanding the problem, but my nose says this cannot
+be the right solution and if it is, then you better find a much better
+name for the API then __get() and document it properly.
 
+Thanks,
+Amir.
