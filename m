@@ -4,135 +4,186 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 054D17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 16:22:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 933097D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 18:50:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390343AbfGYQWD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 12:22:03 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33844 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389506AbfGYQWD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 12:22:03 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n9so17069876pgc.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 09:22:03 -0700 (PDT)
+        id S1726320AbfGYSu0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 14:50:26 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:41997 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfGYSu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 14:50:26 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q10so23185692pff.9
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 11:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=u6QQcRyveiHvf3n/ThuMriSU0sNCDtWoFYIj3lHyjPc=;
-        b=CpMliZ0FSoXb2RETeJwlRkpfpP5ANESfneRGLLoUYWt72jPPZjT01/XXtyIWKYQi2I
-         /vPr5aa55CowmdBKdDmZnp+kKidKGuV4Rz1QOlFCt+igK4RjI3L0uxdD+7xIAhdiz/yY
-         FqoY3lkXfPDRHfPYU3kh2DQbLeZN17iu7WFvXdsGVEGP7LV9vFzqes+jUwLT2wKZg6wR
-         d5QDB2K6qcNahCZsuEU1+7rAQN87MIMj+Vvw7dv4CnsMzkrS/FC9xoWPyyYK4RwmOkr+
-         1H75dc+nwx09lB0/w+WwmsXf7kRoeVS00KYk9831vCwtwPt8NyRBH3RpSy9cv826fGJ9
-         kkRA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KgMBXseeuQsdqSuGEWeeA5eJNRzyR59gJRwHUubllLU=;
+        b=h0hnsIDcQvjhJWJRuZyRt3d6rz/AwxMnaTk57/IR7ajs7S+RDYdbkAS/6vyiC7h8SL
+         VhT1INz2v7ULdjkBv6/9w5NC3Zytn3nsGSNp3mXeqX0CdmKi49zJdVGz1bFGx5jiOLpA
+         UD6wrgQBYTANPSwXX0RNScKtMlrpO9DaoU7Ao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=u6QQcRyveiHvf3n/ThuMriSU0sNCDtWoFYIj3lHyjPc=;
-        b=bQKXYUpzuwzjgG/xG3mjXZg8hxthJopEGYBKyl9a13TtSQq/wv0PJxkZ2jGIG1Ql7S
-         CHW7Xko0cMTaXzt82cBcJmCRaGlToHiQ19EDK4oQpLPCOqXyVYt4/8qnt1v7mv9Ybeao
-         gi8dJM6LI/snWZu5N3x6dE9Y6Y3WbAexGsNWQC/y4PeOZwTmby/Dpw5psJOEtJfRo4mm
-         6HBH/AaG2y7HEKBOy3HUZn4oYnUPpbbqXQ24r9TaklozL3He0k9mISfJjR9gvef6YKvi
-         GpBqRSWhsD2IB5q/HLIgGnQ8RvZwQ0cOCSSrf/KyOdI99d/Dp4QGyq3Jqgg39NGpvOZB
-         KWGA==
-X-Gm-Message-State: APjAAAXEF/lkih+Trbxz1jpucoqowICHsjF3XbqxxM059/3J4oOeHDkC
-        AqKWBfskR5TK/LvtcFCrrohR6IDc
-X-Google-Smtp-Source: APXvYqyDYkqZYK92OGiQNqG44X4PD+TGUbMCsizfqySvfVVpij6rSdgZ97tMI46WWzy0xO2+627wDw==
-X-Received: by 2002:a65:4103:: with SMTP id w3mr71316031pgp.1.1564071722348;
-        Thu, 25 Jul 2019 09:22:02 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.googlemail.com with ESMTPSA id z19sm43072163pgv.35.2019.07.25.09.22.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Jul 2019 09:22:01 -0700 (PDT)
-Subject: Re: [PATCH v10 3/5] overlayfs: add __get xattr method
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20190724195719.218307-1-salyzyn@android.com>
- <20190724195719.218307-4-salyzyn@android.com>
- <CAOQ4uxjizC1RhmLe3qmfASk2M-Y+QEiyLL1yJXa4zXAEby7Tig@mail.gmail.com>
- <af254162-10bf-1fc5-2286-8d002a287400@android.com>
- <CAOQ4uxi5S9HTx+wR1U_8vQ-6nyCozykWBZbZwiHhnXBGhXRz8Q@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <35b70147-25ad-4c29-3972-418ebee5e7b8@android.com>
-Date:   Thu, 25 Jul 2019 09:22:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KgMBXseeuQsdqSuGEWeeA5eJNRzyR59gJRwHUubllLU=;
+        b=FO29Y0L9ePvZhkNkvlBxYTevwWx8dM2EQp3oQKWYcqnzCcmPuyqfxX1myWyk4gMFxe
+         MUn323DUZJVbqHnd6pwgwH2r7cluD5Itl6dyXULUBHN6mPOabUSBQShY+W/L8yz86Rx/
+         XD3JzFN7jlGgWM4U9MgVM0lBhbzgvvXmvWcq1x5h5go9YTpK+puCEMJavbQRk78M1b6N
+         ZumOb8x44ebphv2IZsUh576q2gMVVYmlU+robYmhOuUxivXDeFQHdmo6XMnPChSzfWav
+         ZibK8H3drEJmrX7DiGAXBWY+oHrVX2qDfeOFFLPrRVljcIMAhWVWk/NltmqxUgOOjfbx
+         UYdg==
+X-Gm-Message-State: APjAAAXRMQ3FVYiFeUXY65s8Ays/P5Apz87XgPuW4q5J/uaFXUq5KubE
+        Gn1YUCNgiLvVCRsIkLqnu/Xaag==
+X-Google-Smtp-Source: APXvYqzL95DjsC7OQDsa3RI77Al5cGi9B1bsdA6VXlgvY5+0zNMkNB31JjPd7Jg+pb2t7ijCDy8Rdg==
+X-Received: by 2002:a63:9dcb:: with SMTP id i194mr42191627pgd.444.1564080624943;
+        Thu, 25 Jul 2019 11:50:24 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g18sm89058171pgm.9.2019.07.25.11.50.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 25 Jul 2019 11:50:24 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 11:50:23 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     NitinGote <nitin.r.gote@intel.com>
+Cc:     joe@perches.com, corbet@lwn.net, akpm@linux-foundation.org,
+        apw@canonical.com, linux-doc@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v6] Documentation/checkpatch: Prefer stracpy over
+ strcpy/strlcpy/strncpy.
+Message-ID: <201907251149.B7FD8631@keescook>
+References: <20190725112219.6244-1-nitin.r.gote@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOQ4uxi5S9HTx+wR1U_8vQ-6nyCozykWBZbZwiHhnXBGhXRz8Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190725112219.6244-1-nitin.r.gote@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/25/19 8:43 AM, Amir Goldstein wrote:
-> On Thu, Jul 25, 2019 at 6:03 PM Mark Salyzyn <salyzyn@android.com> wrote:
->> On 7/24/19 10:48 PM, Amir Goldstein wrote:
->>> On Wed, Jul 24, 2019 at 10:57 PM Mark Salyzyn <salyzyn@android.com> wrote:
->>>> Because of the overlayfs getxattr recursion, the incoming inode fails
->>>> to update the selinux sid resulting in avc denials being reported
->>>> against a target context of u:object_r:unlabeled:s0.
->>> This description is too brief for me to understand the root problem.
->>> What's wring with the overlayfs getxattr recursion w.r.t the selinux
->>> security model?
->> __vfs_getxattr (the way the security layer acquires the target sid
->> without recursing back to security to check the access permissions)
->> calls get xattr method, which in overlayfs calls vfs_getxattr on the
->> lower layer (which then recurses back to security to check permissions)
->> and reports back -EACCES if there was a denial (which is OK) and _no_
->> sid copied to caller's inode security data, bubbles back to the security
->> layer caller, which reports an invalid avc: message for
->> u:object_r:unlabeled:s0 (the uninitialized sid instead of the sid for
->> the lower filesystem target). The blocked access is 100% valid, it is
->> supposed to be blocked. This does however result in a cosmetic issue
->> that makes it impossible to use audit2allow to construct a rule that
->> would be usable to fix the access problem.
->>
-> Ahhh you are talking about getting the security.selinux.* xattrs?
-> I was under the impression (Vivek please correct me if I wrong)
-> that overlayfs objects cannot have individual security labels and
+On Thu, Jul 25, 2019 at 04:52:19PM +0530, NitinGote wrote:
+> From: Nitin Gote <nitin.r.gote@intel.com>
+> 
+> Added check in checkpatch.pl to deprecate strcpy(), strlcpy() and
+> strncpy() in favor of stracpy().
 
-They can, and we _need_ them for Android's use cases, upper and lower 
-filesystems.
+stracpy() is preferred when the destination is a char array (rather than
+a string pointer), so that likely needs to be clarified.
 
-Some (most?) union filesystems (like Android's sdcardfs) set sepolicy 
-from the mount options, we did not need this adjustment there of course.
+-Kees
 
-> the only way to label overlayfs objects is by mount options on the
-> entire mount? Or is this just for lower layer objects?
->
-> Anyway, the API I would go for is adding a @flags argument to
-> get() which can take XATTR_NOSECURITY akin to
-> FMODE_NONOTIFY, GFP_NOFS, meant to avoid recursions.
+> 
+> Updated Documentation/process/deprecated.rst for stracpy().
+> 
+> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+> ---
+>  Change log:
+>  v5->v6
+>  - Used stracpy() instead of strscpy().
+> 
+>  v4->v5
+>  - Change the subject line as per review comment.
+>  - v5 is Reviewed-by: Kees Cook <keescook@chromium.org>
+> 
+>  v3->v4
+>  - Removed "c:func:" from deprecated.rst as per review comment.
+> 
+>  v2->v3
+>  - Avoided use of $check in implementation.
+>  - Incorporated trivial comments.
+> 
+>  v1->v2
+>  - For string related apis, created different %deprecated_string_api
+>    and these will get emitted at CHECK Level using command line option
+>    -f/--file to avoid bad patched from novice script users.
+> 
+>  Documentation/process/deprecated.rst | 10 +++++-----
+>  scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 49e0f64a3427..709662c71a1a 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -84,7 +84,7 @@ buffer. This could result in linear overflows beyond the
+>  end of the buffer, leading to all kinds of misbehaviors. While
+>  `CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
+>  risk of using this function, there is no good reason to add new uses of
+> -this function. The safe replacement is :c:func:`strscpy`.
+> +this function. The safe replacement is stracpy().
+> 
+>  strncpy() on NUL-terminated strings
+>  -----------------------------------
+> @@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
+>  and other misbehavior due to the missing termination. It also NUL-pads the
+>  destination buffer if the source contents are shorter than the destination
+>  buffer size, which may be a needless performance penalty for callers using
+> -only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+> -(Users of :c:func:`strscpy` still needing NUL-padding will need an
+> -explicit :c:func:`memset` added.)
+> +only NUL-terminated strings. In this case, the safe replacement is
+> +stracpy(). If, however, the destination buffer still needs NUL-padding,
+> +the safe replacement is stracpy_pad().
+> 
+>  If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
+>  still be used, but destinations should be marked with the `__nonstring
+> @@ -107,7 +107,7 @@ strlcpy()
+>  :c:func:`strlcpy` reads the entire source buffer first, possibly exceeding
+>  the given limit of bytes to copy. This is inefficient and can lead to
+>  linear read overflows if a source string is not NUL-terminated. The
+> -safe replacement is :c:func:`strscpy`.
+> +safe replacement is stracpy().
+> 
+>  Variable Length Arrays (VLAs)
+>  -----------------------------
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 342c7c781ba5..dddf5adf1aac 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
+>  }
+>  $deprecated_apis_search = "(?:${deprecated_apis_search})";
+> 
+> +our %deprecated_string_apis = (
+> +	"strcpy"		=> "stracpy",
+> +	"strlcpy"		=> "stracpy",
+> +	"strncpy"		=> "stracpy - for non-NUL-terminated uses, strncpy dest should be __nonstring",
+> +);
+> +
+> +#Create a search pattern for all these strings apis to speed up a loop below
+> +our $deprecated_string_apis_search = "";
+> +foreach my $entry (keys %deprecated_string_apis) {
+> +        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
+> +        $deprecated_string_apis_search .= $entry;
+> +}
+> +$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
+> +
+>  our $mode_perms_world_writable = qr{
+>  	S_IWUGO		|
+>  	S_IWOTH		|
+> @@ -6446,6 +6460,16 @@ sub process {
+>  			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
+>  		}
+> 
+> +# check for string deprecated apis
+> +		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
+> +			my $deprecated_string_api = $1;
+> +			my $new_api = $deprecated_string_apis{$deprecated_string_api};
+> +			my $msg_level = \&WARN;
+> +			$msg_level = \&CHK if ($file);
+> +			&{$msg_level}("DEPRECATED_API",
+> +				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
+> +		}
+> +
+>  # check for various structs that are normally const (ops, kgdb, device_tree)
+>  # and avoid what seem like struct definitions 'struct foo {'
+>  		if ($line !~ /\bconst\b/ &&
+> --
+> 2.17.1
+> 
 
-I do like it better (with the following 7 stages of grief below), best 
-for the future.
-
-The change in this handler's API will affect all filesystem drivers 
-(well, my change affects the ABI, so it is not as-if I saved the world 
-from a module recompile) touching all filesystem sources with an even 
-larger audience of stakeholders. Larger audience of stakeholders, the 
-harder to get the change in ;-/. This is also concerning since I would 
-like this change to go to stable 4.4, 4.9, 4.14 and 4.19 where this 
-regression got introduced. I can either craft specific stable patches or 
-just let it go and deal with them in the android-common distributions 
-rather than seeking stable merged down. ABI/API breaks are a problem for 
-stable anyway ...
-
--- Mark
-
+-- 
+Kees Cook
