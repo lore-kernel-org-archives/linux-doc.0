@@ -1,129 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9E117D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 07:26:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C7EE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 08:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfGYH0T convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 03:26:19 -0400
-Received: from mga17.intel.com ([192.55.52.151]:29687 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725901AbfGYH0T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Jul 2019 03:26:19 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Jul 2019 00:26:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,306,1559545200"; 
-   d="scan'208";a="369045294"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Jul 2019 00:26:18 -0700
-Received: from fmsmsx115.amr.corp.intel.com (10.18.116.19) by
- fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 25 Jul 2019 00:26:18 -0700
-Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
- fmsmsx115.amr.corp.intel.com (10.18.116.19) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 25 Jul 2019 00:26:17 -0700
-Received: from bgsmsx101.gar.corp.intel.com ([169.254.1.176]) by
- BGSMSX106.gar.corp.intel.com ([169.254.1.120]) with mapi id 14.03.0439.000;
- Thu, 25 Jul 2019 12:56:15 +0530
-From:   "Gote, Nitin R" <nitin.r.gote@intel.com>
-To:     Joe Perches <joe@perches.com>, Kees Cook <keescook@chromium.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "apw@canonical.com" <apw@canonical.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>
-Subject: RE: [PATCH v5] Documentation/checkpatch: Prefer strscpy/strscpy_pad
- over strcpy/strlcpy/strncpy
-Thread-Topic: [PATCH v5] Documentation/checkpatch: Prefer
- strscpy/strscpy_pad over strcpy/strlcpy/strncpy
-Thread-Index: AQHVPFiM9cWMTc5Km0imVXiG0lTtQKbWkWuAgAAC7gCAAUjQQIACQMYQ//+ojoCAASyA8A==
-Date:   Thu, 25 Jul 2019 07:26:14 +0000
-Message-ID: <12356C813DFF6F479B608F81178A561587AF87@BGSMSX101.gar.corp.intel.com>
-References: <20190717043005.19627-1-nitin.r.gote@intel.com>
-         <201907221029.B0CBED4F@keescook>
-         <28404b52d58efa0a3e85ce05ce0b210049ed6050.camel@perches.com>
-         <12356C813DFF6F479B608F81178A561587ABA9@BGSMSX101.gar.corp.intel.com>
-         <12356C813DFF6F479B608F81178A561587AE45@BGSMSX101.gar.corp.intel.com>
- <0d69778626901a841108ae024b8a105da679d9af.camel@perches.com>
-In-Reply-To: <0d69778626901a841108ae024b8a105da679d9af.camel@perches.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNjA2MmU2MDMtODE1OS00Y2ZlLTg1OTctYzBlYjYzZTY3ZmZjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiT3lwQWZjNG1Mam05elRjRlwvNkdNaWFXTWRRMDBMZlBVZlpJZlVlK1hYRW1XNkZIUStFMzJTVXkrMUtkeFJ4c0MifQ==
-x-originating-ip: [10.223.10.10]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S2389266AbfGYIQA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 04:16:00 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:34888 "EHLO
+        forwardcorp1o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388497AbfGYIQA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 04:16:00 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::301])
+        by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id CEA9A2E1546;
+        Thu, 25 Jul 2019 11:15:55 +0300 (MSK)
+Received: from smtpcorp1o.mail.yandex.net (smtpcorp1o.mail.yandex.net [2a02:6b8:0:1a2d::30])
+        by mxbackcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTP id BHFOVffvkF-FsBKYq39;
+        Thu, 25 Jul 2019 11:15:55 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1564042555; bh=mqwyPL/Kvi4FlMJZMuuGgTLVmBANLSvlAgU95QJvMKg=;
+        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+        b=yg2Z6Kv3kAo5EaGGy3G9RVrs92O5ikWA9VmdX0QpVDDSlO0VlBwqkO2pAkbukBQnn
+         J5OizK5Zp+57pK6J+mXCnOSs2NZMLzr+oqr3vj3KLBzIx55idigsymckEWqbyt6bei
+         kw1JkUxfveSV9/6Vmj8g1+t1A7++FSfjCZ7y2NpI=
+Authentication-Results: mxbackcorp1o.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:38b3:1cdf:ad1a:1fe1])
+        by smtpcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id QkVcPTjsve-FrIap0Me;
+        Thu, 25 Jul 2019 11:15:54 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
+ using virtual indexing
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        Minchan Kim <minchan@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
+        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
+        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
+        David Howells <dhowells@redhat.com>, fmayer@google.com,
+        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
+        sspatil@google.c
+References: <20190722213205.140845-1-joel@joelfernandes.org>
+ <20190723061358.GD128252@google.com> <20190723142049.GC104199@google.com>
+ <20190724042842.GA39273@google.com> <20190724141052.GB9945@google.com>
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <c116f836-5a72-c6e6-498f-a904497ef557@yandex-team.ru>
+Date:   Thu, 25 Jul 2019 11:15:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190724141052.GB9945@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 24.07.2019 17:10, Joel Fernandes wrote:> On Wed, Jul 24, 2019 at 01:28:42PM +0900, Minchan Kim wrote:
+ >> On Tue, Jul 23, 2019 at 10:20:49AM -0400, Joel Fernandes wrote:
+ >>> On Tue, Jul 23, 2019 at 03:13:58PM +0900, Minchan Kim wrote:
+ >>>> Hi Joel,
+ >>>>
+ >>>> On Mon, Jul 22, 2019 at 05:32:04PM -0400, Joel Fernandes (Google) wrote:
+ >>>>> The page_idle tracking feature currently requires looking up the pagemap
+ >>>>> for a process followed by interacting with /sys/kernel/mm/page_idle.
+ >>>>> This is quite cumbersome and can be error-prone too. If between
+ >>>>
+ >>>> cumbersome: That's the fair tradeoff between idle page tracking and
+ >>>> clear_refs because idle page tracking could check even though the page
+ >>>> is not mapped.
+ >>>
+ >>> It is fair tradeoff, but could be made simpler. The userspace code got
+ >>> reduced by a good amount as well.
+ >>>
+ >>>> error-prone: What's the error?
+ >>>
+ >>> We see in normal Android usage, that some of the times pages appear not to be
+ >>> idle even when they really are idle. Reproducing this is a bit unpredictable
+ >>> and happens at random occasions. With this new interface, we are seeing this
+ >>> happen much much lesser.
+ >>
+ >> I don't know how you did test. Maybe that could be contributed by
+ >> swapping out or shared pages touched by other processes or some kernel
+ >> behavior not to keep access bit of their operation.
+ >
+ > It could be something along these lines is my thinking as well. So we know
+ > its already has issues due to what you mentioned, I am not sure what else
+ > needs investigation?
+ >
+ >> Please investigate more what's the root cause. That would be important
+ >> point to justify for the patch motivation.
+ >
+ > The motivation is security. I am dropping the 'accuracy' factor I mentioned
+ > from the patch description since it created a lot of confusion.
+If you are tracking idle working set for one process you could use degrading
+'accuracy' for good - just don't walk page rmap and play only with access
+bits in one process. Foreign access could be detected with arbitrary delay,
+but this does not important if main goal is heap profiling.
 
-> -----Original Message-----
-> From: Joe Perches [mailto:joe@perches.com]
-> Sent: Wednesday, July 24, 2019 11:59 PM
-> To: Gote, Nitin R <nitin.r.gote@intel.com>; Kees Cook
-> <keescook@chromium.org>
-> Cc: corbet@lwn.net; akpm@linux-foundation.org; apw@canonical.com;
-> linux-doc@vger.kernel.org; kernel-hardening@lists.openwall.com
-> Subject: Re: [PATCH v5] Documentation/checkpatch: Prefer
-> strscpy/strscpy_pad over strcpy/strlcpy/strncpy
-> 
-> On Wed, 2019-07-24 at 18:17 +0000, Gote, Nitin R wrote:
-> > Hi,
-> 
-> Hi again.
-> 
-> []
-> > > > > > 3. Deprecate strncpy() in favor of strscpy() or strscpy_pad().
-> 
-> Please remember there does not exist a single actual use of strscpy_pad in
-> the kernel sources and no apparent real need for it.  I don't find one anyway.
->
+ >
+ >>>>> More over looking up PFN from pagemap in Android devices is not
+ >>>>> supported by unprivileged process and requires SYS_ADMIN and gives 0 for
+ >>>>> the PFN.
+ >>>>>
+ >>>>> This patch adds support to directly interact with page_idle tracking at
+ >>>>> the PID level by introducing a /proc/<pid>/page_idle file. This
+ >>>>> eliminates the need for userspace to calculate the mapping of the page.
+ >>>>> It follows the exact same semantics as the global
+ >>>>> /sys/kernel/mm/page_idle, however it is easier to use for some usecases
+ >>>>> where looking up PFN is not needed and also does not require SYS_ADMIN.
+ >>>>
+ >>>> Ah, so the primary goal is to provide convinience interface and it would
+ >>>> help accurary, too. IOW, accuracy is not your main goal?
+ >>>
+ >>> There are a couple of primary goals: Security, conveience and also solving
+ >>> the accuracy/reliability problem we are seeing. Do keep in mind looking up
+ >>> PFN has security implications. The PFN field in pagemap is zeroed if the user
+ >>> does not have CAP_SYS_ADMIN.
+ >>
+ >> Myaybe you don't need PFN. is it?
+ >
+ > With the traditional idle tracking, PFN is needed which has the mentioned
+ > security issues. This patch solves it. And the interface is identical and
+ > familiar to the existing page_idle bitmap interface.
+ >
+ >>>>> In Android, we are using this for the heap profiler (heapprofd) which
+ >>>>> profiles and pin points code paths which allocates and leaves memory
+ >>>>> idle for long periods of time.
+ >>>>
+ >>>> So the goal is to detect idle pages with idle memory tracking?
+ >>>
+ >>> Isn't that what idle memory tracking does?
+ >>
+ >> To me, it's rather misleading. Please read motivation section in document.
+ >> The feature would be good to detect workingset pages, not idle pages
+ >> because workingset pages are never freed, swapped out and even we could
+ >> count on newly allocated pages.
+ >>
+ >> Motivation
+ >> ==========
+ >>
+ >> The idle page tracking feature allows to track which memory pages are being
+ >> accessed by a workload and which are idle. This information can be useful for
+ >> estimating the workload's working set size, which, in turn, can be taken into
+ >> account when configuring the workload parameters, setting memory cgroup limits,
+ >> or deciding where to place the workload within a compute cluster.
+ >
+ > As we discussed by chat, we could collect additional metadata to check if
+ > pages were swapped or freed ever since the time we marked them as idle.
+ > However this can be incremental improvement.
+ >
+ >>>> It couldn't work well because such idle pages could finally swap out and
+ >>>> lose every flags of the page descriptor which is working mechanism of
+ >>>> idle page tracking. It should have named "workingset page tracking",
+ >>>> not "idle page tracking".
+ >>>
+ >>> The heap profiler that uses page-idle tracking is not to measure working set,
+ >>> but to look for pages that are idle for long periods of time.
+ >>
+ >> It's important part. Please include it in the description so that people
+ >> understands what's the usecase. As I said above, if it aims for finding
+ >> idle pages durting the period, current idle page tracking feature is not
+ >> good ironically.
+ >
+ > Ok, I will mention.
+ >
+ >>> Thanks for bringing up the swapping corner case..  Perhaps we can improve
+ >>> the heap profiler to detect this by looking at bits 0-4 in pagemap. While it
+ >>
+ >> Yeb, that could work but it could add overhead again what you want to remove?
+ >> Even, userspace should keep metadata to identify that page was already swapped
+ >> in last period or newly swapped in new period.
+ >
+ > Yep.
+Between samples page could be read from swap and swapped out back multiple times.
+For tracking this swap ptes could be marked with idle bit too.
+I believe it's not so hard to find free bit for this.
 
-Thanks for clarification. I will remove strscpy_pad() from patch. 
+Refault\swapout will automatically clear this bit in pte even if
+page goes nowhere stays if swap-cache.
 
-> > Could you please give your opinion on below comment.
-> >
-> > > But, if the destination buffer needs extra NUL-padding for remaining
-> > > size of destination, then safe replacement is strscpy_pad().  Right?
-> > > If yes, then what is your opinion on below change :
-> > >
-> > >         "strncpy" => "strscpy, strcpy_pad - for non-NUL-terminated
-> > > uses,
-> > > strncpy() dst should be __nonstring",
-> > >
-> > If you agree on this, then I will include this change in next patch version.
-> 
-> Two things:
-> 
-> The kernel-doc documentation uses dest not dst.
-
-Noted. I will correct this.
-
-> I think stracpy should be preferred over strscpy.
-> 
-
-Agreed. 
-I will use stracpy() instead of strscpy().
-
-Thanks,
-Nitin
-  
 
 
