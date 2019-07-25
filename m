@@ -6,124 +6,117 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 229CD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 14:26:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3578D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 14:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbfGYO0C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 10:26:02 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40012 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727756AbfGYO0A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 10:26:00 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r1so51008878wrl.7
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 07:25:59 -0700 (PDT)
+        id S1727167AbfGYOhN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 10:37:13 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:43747 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728387AbfGYOhJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 10:37:09 -0400
+Received: by mail-pg1-f193.google.com with SMTP id f25so23136035pgv.10
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 07:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
+        d=android.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=a4yNVultYze7PPpy5cvYCGPl+Bxml2Gu2G9EV6OVJFI=;
-        b=aZFlfwYl11ZfalVK9HQXiK6psS8etYrq9MwdgKIeCJ3kUwwzXuJGup6sST8vFdvBKQ
-         rkCcwECT04sJ7YhwAYxBq5jy2/UpsoS5q5OXFn8Ok8EH6a6wWiUESNyzJIs0r2rnNini
-         RX9AZbR1bJNbiqsydTo0QFCdo45Ml3jX2A9h03zVGZ+LxvCTOYzFpq2ls8Ngtu1BX49r
-         nsz/wBb4QJ6Y5MZ2ETI4GCfJuw76lG1feSBfo2lb+mpXmxfmQXsXEm536srR+dvDubLo
-         /w/peoDdqwFNa85L1h2g5AMrXUdpIFtsNgZYkqVRcW+LTelShFbzpDXHPBotrl1euBKw
-         YPpg==
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=eR9Hp6lNdSYA3Q9LS12AuwAXP6EgUTReBDkxImpX5hM=;
+        b=lk2NGtx5FqgD81SxeWV7cc9gi6gUfxxPm8Vw1C2fRjdvKVT415jdlNqzYMMC+aB53l
+         HwC2FGD/kd+ot31j2TND04GQNCilJniBlkulcKaqjUc/gkYJYPjxtUEahs9Tfiia9r/f
+         ifHMuSLRXja1h4Ebug5DXIxxSVErvU4Qc7l2QtRmAakLP2bzsJA0fFxy0FgkLoyGOkZU
+         uz/Tt9gAr/tWmFDWcmjY7BGQa3KSxFWBeRxU60dXJk7/1RTrjIdlZGF4Vgh4XYpHWBgJ
+         6WiE6PpzpvtvLlv6P7wF0jyo34sn9Ir3Le7yN/XJnJ3JO2yIUXc+8OSRzdcOObHAxN/I
+         b94w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=a4yNVultYze7PPpy5cvYCGPl+Bxml2Gu2G9EV6OVJFI=;
-        b=lgontemjkqO8grZeNXwUzCd9Y/eh/QP52R4BxkU3ZIFD2IteMPeqEiQoJ6iAMGTZJY
-         VJOhDD9hUXXvqx/V/XaBvApntzq5A5qODSPGv14DiE8PWAeFdlllptvv8soyzfHQX++w
-         3Lr5jdml6rtceL/bNDtmK4HycybcJ6JrWPajg7bxSNhNoNdU+Bu/d89ZgJWxyaZOROIU
-         CcisqZOmvvWvZ7Tn1UrSqUyRGIr419K688obF1pLBJtANgf0JIJeBDZuEWJHKGSiWIIJ
-         9AARZoK1aLxXNKHYIt+ftmd7DOOFXFP5izlHKUro3VCI8gAeiGt/bPUKNbDAOqM0VIca
-         Cehg==
-X-Gm-Message-State: APjAAAVJ4Az+oC82jT3jLbOD+BiAIjQFIngkIW4P+f8LkjN5S4MN3URL
-        +b/n1TTdmj1rn++U6b462UlVrm6B2gAcLRt4vehr4fw43ArW2lw7HxRVFn/RIFoKl1sbLKqoa1V
-        pL+MfAbqjNFcKbnau82SBzC/OxqysZ4jrjxT2d/cs2AuLtUdDmjTS0mlOchXX+9UFwZwhdlSwDg
-        hIyuSW1Gp89Mv4bH2cb4MxzuskPg==
-X-Google-Smtp-Source: APXvYqxabH00r2hqqNGEp5to49iVTGmcAndrlBJ4BpORlLoVXwrBhNSWz9rDUPc4MdkiwTekqVtyvw==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr95315821wrn.168.1564064758809;
-        Thu, 25 Jul 2019 07:25:58 -0700 (PDT)
-Received: from [10.83.36.153] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id 4sm115262930wro.78.2019.07.25.07.25.57
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Jul 2019 07:25:58 -0700 (PDT)
-Subject: Re: [PATCH] hung_task: Allow printing warnings every check interval
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=eR9Hp6lNdSYA3Q9LS12AuwAXP6EgUTReBDkxImpX5hM=;
+        b=TghmmO6KgKvPOAmPjiv+u2/Bn+nYqNkK9in/306HZ7NFAB7nzEuAm8gmm1aoPhvAjP
+         5zv4/YOGIWJCKy4hUR35y5+q77CsxC3RGvLNR2dGXOQtlD63pFEHXwyvXddSxlJ6yieT
+         aoa0ZFEjFgmlvYJHPKnYtvBllgs76JpjM/mk38tFodVb79o+qXSytFM44NIe/xgMVIhs
+         N8zc8hcrmgQKoRygZ3JVpDoL5atvHCFDyX4vgb5cI9qg031iwbRSJRZ2G201erUPJMtN
+         2K3x96/22+KZezG1NpkpbKNj/QKDT29g2PhM28iOuJpxgqGWD7cuNF+2g9US4JrwXbGF
+         HesQ==
+X-Gm-Message-State: APjAAAWl9nBrAyVMdx7yoaofJt3vYIt0DlDhOBXwSROAFdTitBLSA0QI
+        KrMyCoyaqujnqQZI0E71WIR/Jg25
+X-Google-Smtp-Source: APXvYqyM+b0LIhHKU6UawP/Xg2Yu8CVrpTZWWVwOYd0IcNAxs1f6VsdAVX4Xa08OWBMpPtwJXLywcw==
+X-Received: by 2002:a62:e20b:: with SMTP id a11mr17216612pfi.0.1564065428842;
+        Thu, 25 Jul 2019 07:37:08 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id k3sm35749356pgq.92.2019.07.25.07.37.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Jul 2019 07:37:08 -0700 (PDT)
+Subject: Re: [PATCH v10 4/5] overlayfs: internal getxattr operations without
+ sepolicy checking
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vasiliy Khoruzhick <vasilykh@arista.com>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20190724170249.9644-1-dima@arista.com>
- <2964b430-63d6-e172-84e2-cb269cf43443@i-love.sakura.ne.jp>
-From:   Dmitry Safonov <dima@arista.com>
-Message-ID: <aa151251-d271-1e65-1cae-0d9da9764d56@arista.com>
-Date:   Thu, 25 Jul 2019 15:25:57 +0100
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20190724195719.218307-1-salyzyn@android.com>
+ <20190724195719.218307-5-salyzyn@android.com>
+ <CAOQ4uxhtASSymEOdh4XByXbxWO2_ZivzqjBrgK7jB3fWXLqr_w@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <20df8497-17ea-27db-43c8-fcd73633e7f3@android.com>
+Date:   Thu, 25 Jul 2019 07:37:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <2964b430-63d6-e172-84e2-cb269cf43443@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <CAOQ4uxhtASSymEOdh4XByXbxWO2_ZivzqjBrgK7jB3fWXLqr_w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CLOUD-SEC-AV-Info: arista,google_mail,monitor
-X-CLOUD-SEC-AV-Sent: true
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/25/19 11:38 AM, Tetsuo Handa wrote:
-> On 2019/07/25 2:02, Dmitry Safonov wrote:
->> Hung task detector has one timeout and has two associated actions on it:
->> - issuing warnings with names and stacks of blocked tasks
->> - panic()
+Thanks for the review.
+
+On 7/25/19 4:00 AM, Amir Goldstein wrote:
+> On Wed, Jul 24, 2019 at 10:57 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>> Check impure, opaque, origin & meta xattr with no sepolicy audit
+>> (using __vfs_getxattr) since these operations are internal to
+>> overlayfs operations and do not disclose any data.  This became
+>> an issue for credential override off since sys_admin would have
+>> been required by the caller; whereas would have been inherently
+>> present for the creator since it performed the mount.
 >>
->> We want switches to panic (and reboot) if there's a task
->> in uninterruptible sleep for some minutes - at that moment something
->> ugly has happened and the box needs a reboot.
->> But we also want to detect conditions that are "out of range"
->> or approaching the point of failure. Under such conditions we want
->> to issue an "early warning" of an impending failure, minutes before
->> the switch is going to panic.
-> 
-> Can't we do it by extending sysctl_hung_task_panic to accept values larger
-> than 1, and decrease by one when at least one thread was reported by each
-> check_hung_uninterruptible_tasks() check, and call panic() when
-> sysctl_hung_task_panic reached to 0 (or maybe 1 is simpler) ?
-> 
-> Hmm, might have the same problem regarding how/when to reset the counter.
-> If some userspace process can reset the counter, such process can trigger
-> SysRq-c when some period expired...
+>> This is a change in operations since we do not check in the new
+>> ovl_vfs_getxattr function if the credential override is off or
+>> not.  Reasoning is that the sepolicy check is unnecessary overhead,
+>> especially since the check can be expensive.
+> I don't know that this reasoning suffice to skip the sepolicy checks
+> for overlayfs private xattrs.
+> Can't sepolicy be defined to allow get access to trusted.overlay.*?
 
-Yes, also current distributions already using the counter to print
-warnings number of times and then silently ignore. I.e., on my Arch
-Linux setup:
-hung_task_warnings:10
+Because for override credentials off, _everyone_ would need it (at least 
+on Android, the sole user AFAIK, and only on userdebug builds, not user 
+builds), and if everyone is special, and possibly including the random 
+applications we add from the play store, then no one is ...
 
->> It seems rather easy to add printing tasks and their stacks for
->> notification and debugging purposes into hung task detector without
->> complicating the code or major cost (prints are with KERN_INFO loglevel
->> and so don't go on console, only into dmesg log).
-> 
-> Well, I don't think so. Might be noisy for systems without "quiet" kernel
-> command line option, and we can't pass KERN_DEBUG to e.g. sched_show_task()...
+For the override credentials on, the sepolicy would be required to add 
+to init or other mounters so that callers can actually use overlayfs. 
+Without the sepolicy for init, overlayfs will not function. the xattr 
+are in the backing storage and the details are not exported outside of 
+the driver. This would represent an imbalance since none of the callers 
+would require the sepolicy adjustment for the ;normal' case, but for 
+override credentials off as stated above, _everyone_ would require it.
 
-Yes, that's why it's disabled by default (=0).
-I tend to agree that printing with KERN_DEBUG may be better, but in my
-point of view the patch isn't enough justification for patching
-sched_show_task() and show_stack().
+Not against adding the sepolicy in Android, it is how we roll with only 
+opening up credentials on an as-need basis. We could deny it on user 
+(customer) builds and that closes a door that gains security. However 
+our people are starting to resist userdebug being different from user so 
+it may be a door I can not shut. Again felt like an imbalance for a 
+trusted driver read only operation.
 
-Thanks,
-          Dmitry
+Sincerely -- Mark Salyzyn
+
