@@ -1,87 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 160437D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 10:38:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD4CB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Jul 2019 11:00:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727997AbfGYKiU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 06:38:20 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:51685 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725944AbfGYKiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 06:38:19 -0400
-Received: from fsav106.sakura.ne.jp (fsav106.sakura.ne.jp [27.133.134.233])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x6PAcHRM014383;
-        Thu, 25 Jul 2019 19:38:17 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav106.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav106.sakura.ne.jp);
- Thu, 25 Jul 2019 19:38:17 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav106.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank126012062002.bbtec.net [126.12.62.2])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x6PAcH6I014372
-        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
-        Thu, 25 Jul 2019 19:38:17 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] hung_task: Allow printing warnings every check interval
-To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vasiliy Khoruzhick <vasilykh@arista.com>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20190724170249.9644-1-dima@arista.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <2964b430-63d6-e172-84e2-cb269cf43443@i-love.sakura.ne.jp>
-Date:   Thu, 25 Jul 2019 19:38:13 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2389172AbfGYLA3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Jul 2019 07:00:29 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:36403 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388173AbfGYLA3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 07:00:29 -0400
+Received: by mail-yw1-f66.google.com with SMTP id x67so17769218ywd.3;
+        Thu, 25 Jul 2019 04:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a/9tM/cnY197lNtKIbEGvdjoci5BadrTWQa+L94ekpI=;
+        b=TlXZqAqRzPpf3gfD8V0EvgwNAWlvyzJuGQp0qP4ZcQNUngpwSwvdyCMRR/7R9AHZAW
+         GuOMdzNyGDZMf0PNKbCk7y9QD3lXOCjkZr7ZBB7uDm0BgUiMCBBBr4MJNZ79HcfB7uRR
+         L35CzL1tUcFV3AhEfiKdHSqMddOjEGDIjA6oYlJUoxFhaBszEVXcNnY1+6ul3za+2x57
+         Fw4/Z16Ne3tTR/xwVvioVo+dBJGbQUwLLnbbtQnDKJW3nE8e/fdWobY8TyMHl8mHwfZ/
+         0iniDeqcvqEVhuMQ9FeziB6ZkiOj1k+jcPLpT3Xj5U/CRQtc0a+tjL6VOfSGfW7Slce9
+         17fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a/9tM/cnY197lNtKIbEGvdjoci5BadrTWQa+L94ekpI=;
+        b=nvXblKHCrMjppxmTQchwtsjy8LKtAywid0MU3HOcQaRcmUW6lhEGod4ArhyD3iXpmV
+         Ew8BduBMrxZTb3a2b/p9iiZhjJKTII4mG0Viom0JediX4K+HmHb03bnHYn4lXFKhhGVf
+         RAtIS5gMxeVhrwGIKw8lIcc1y83+0sbP5+drJaiuECxQvNPN/i4+qV7SssVrWoaYXD/+
+         roEhsx9i/udPdhdKCdEmyaG2EkAeo8huiSYd1QF4ehgob0+LghBJ8MU7/E3jDCg0fbjx
+         Vr5pTIANLvYCcJs42dZe6r6ikX52h833sC8K1olwT84pmg4rr/KKXa1jvNcOo4mYq1Rq
+         Pygg==
+X-Gm-Message-State: APjAAAXsspmd7cd185araiRC0hRaz2ROKpOW36whz6kEvElur/OAdyUx
+        hEzlz5N7pBZ6qI6QHQ4kO9Hs8c9QRRUyGQh3PYQ=
+X-Google-Smtp-Source: APXvYqyaI0ALNuRqjV/CcW0cJWZEl55/D3HnYB1O7bWKszwmgtyXizOwoXMN/aHq3bEU7U72mLKk3KOKlEXc/ZyRTMM=
+X-Received: by 2002:a81:13d4:: with SMTP id 203mr53284263ywt.181.1564052428064;
+ Thu, 25 Jul 2019 04:00:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190724170249.9644-1-dima@arista.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190724195719.218307-1-salyzyn@android.com> <20190724195719.218307-5-salyzyn@android.com>
+In-Reply-To: <20190724195719.218307-5-salyzyn@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 25 Jul 2019 14:00:16 +0300
+Message-ID: <CAOQ4uxhtASSymEOdh4XByXbxWO2_ZivzqjBrgK7jB3fWXLqr_w@mail.gmail.com>
+Subject: Re: [PATCH v10 4/5] overlayfs: internal getxattr operations without
+ sepolicy checking
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/07/25 2:02, Dmitry Safonov wrote:
-> Hung task detector has one timeout and has two associated actions on it:
-> - issuing warnings with names and stacks of blocked tasks
-> - panic()
-> 
-> We want switches to panic (and reboot) if there's a task
-> in uninterruptible sleep for some minutes - at that moment something
-> ugly has happened and the box needs a reboot.
-> But we also want to detect conditions that are "out of range"
-> or approaching the point of failure. Under such conditions we want
-> to issue an "early warning" of an impending failure, minutes before
-> the switch is going to panic.
+On Wed, Jul 24, 2019 at 10:57 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> Check impure, opaque, origin & meta xattr with no sepolicy audit
+> (using __vfs_getxattr) since these operations are internal to
+> overlayfs operations and do not disclose any data.  This became
+> an issue for credential override off since sys_admin would have
+> been required by the caller; whereas would have been inherently
+> present for the creator since it performed the mount.
+>
+> This is a change in operations since we do not check in the new
+> ovl_vfs_getxattr function if the credential override is off or
+> not.  Reasoning is that the sepolicy check is unnecessary overhead,
+> especially since the check can be expensive.
 
-Can't we do it by extending sysctl_hung_task_panic to accept values larger
-than 1, and decrease by one when at least one thread was reported by each
-check_hung_uninterruptible_tasks() check, and call panic() when
-sysctl_hung_task_panic reached to 0 (or maybe 1 is simpler) ?
+I don't know that this reasoning suffice to skip the sepolicy checks
+for overlayfs private xattrs.
+Can't sepolicy be defined to allow get access to trusted.overlay.*?
 
-Hmm, might have the same problem regarding how/when to reset the counter.
-If some userspace process can reset the counter, such process can trigger
-SysRq-c when some period expired...
+>
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kernel-team@android.com
+> ---
+> v10 - added to patch series
+> ---
+>  fs/overlayfs/namei.c     | 12 +++++++-----
+>  fs/overlayfs/overlayfs.h |  2 ++
+>  fs/overlayfs/util.c      | 24 +++++++++++++++---------
+>  3 files changed, 24 insertions(+), 14 deletions(-)
+>
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index 9702f0d5309d..fb6c0cd7b65f 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -106,10 +106,11 @@ int ovl_check_fh_len(struct ovl_fh *fh, int fh_len)
+>
+>  static struct ovl_fh *ovl_get_fh(struct dentry *dentry, const char *name)
+>  {
+> -       int res, err;
+> +       ssize_t res;
+> +       int err;
+>         struct ovl_fh *fh = NULL;
+>
+> -       res = vfs_getxattr(dentry, name, NULL, 0);
+> +       res = ovl_vfs_getxattr(dentry, name, NULL, 0);
+>         if (res < 0) {
+>                 if (res == -ENODATA || res == -EOPNOTSUPP)
+>                         return NULL;
+> @@ -123,7 +124,7 @@ static struct ovl_fh *ovl_get_fh(struct dentry *dentry, const char *name)
+>         if (!fh)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       res = vfs_getxattr(dentry, name, fh, res);
+> +       res = ovl_vfs_getxattr(dentry, name, fh, res);
+>         if (res < 0)
+>                 goto fail;
+>
+> @@ -141,10 +142,11 @@ static struct ovl_fh *ovl_get_fh(struct dentry *dentry, const char *name)
+>         return NULL;
+>
+>  fail:
+> -       pr_warn_ratelimited("overlayfs: failed to get origin (%i)\n", res);
+> +       pr_warn_ratelimited("overlayfs: failed to get origin (%zi)\n", res);
+>         goto out;
+>  invalid:
+> -       pr_warn_ratelimited("overlayfs: invalid origin (%*phN)\n", res, fh);
+> +       pr_warn_ratelimited("overlayfs: invalid origin (%*phN)\n",
+> +                           (int)res, fh);
+>         goto out;
+>  }
+>
+> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+> index 73a02a263fbc..82574684a9b6 100644
+> --- a/fs/overlayfs/overlayfs.h
+> +++ b/fs/overlayfs/overlayfs.h
+> @@ -205,6 +205,8 @@ int ovl_want_write(struct dentry *dentry);
+>  void ovl_drop_write(struct dentry *dentry);
+>  struct dentry *ovl_workdir(struct dentry *dentry);
+>  const struct cred *ovl_override_creds(struct super_block *sb);
+> +ssize_t ovl_vfs_getxattr(struct dentry *dentry, const char *name, void *buf,
+> +                        size_t size);
+>  struct super_block *ovl_same_sb(struct super_block *sb);
+>  int ovl_can_decode_fh(struct super_block *sb);
+>  struct dentry *ovl_indexdir(struct super_block *sb);
+> diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+> index f5678a3f8350..672459c3cff7 100644
+> --- a/fs/overlayfs/util.c
+> +++ b/fs/overlayfs/util.c
+> @@ -40,6 +40,12 @@ const struct cred *ovl_override_creds(struct super_block *sb)
+>         return override_creds(ofs->creator_cred);
+>  }
+>
+> +ssize_t ovl_vfs_getxattr(struct dentry *dentry, const char *name, void *buf,
+> +                        size_t size)
+> +{
+> +       return __vfs_getxattr(dentry, d_inode(dentry), name, buf, size);
+> +}
+> +
 
-> It seems rather easy to add printing tasks and their stacks for
-> notification and debugging purposes into hung task detector without
-> complicating the code or major cost (prints are with KERN_INFO loglevel
-> and so don't go on console, only into dmesg log).
+When introducing a new ovl_ => vfs_ wrapper, please follow the
+ovl_do_XXX helpers
+convention in overlayfs.h.
 
-Well, I don't think so. Might be noisy for systems without "quiet" kernel
-command line option, and we can't pass KERN_DEBUG to e.g. sched_show_task()...
+Note that those wrappers do not generally bypass security checks and
+you have not
+convinced me yet that skipping security checks on the overlayfs
+private xattr get
+is the right thing to do.
 
+Thanks,
+Amir.
