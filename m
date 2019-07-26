@@ -5,42 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6BE5B7D90D
+	by archive.lwn.net (Postfix) with ESMTP id CBE847D91A
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfGZMvp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 08:51:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39986 "EHLO
+        id S1726751AbfGZMvq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 08:51:46 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40086 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbfGZMvo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:44 -0400
+        with ESMTP id S1726617AbfGZMvq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zmXAtjNhmIN1BciR4J9skBABlP+cuRuI57shzmR9qVQ=; b=jFeES0HL2zw2RZo00FyW6u8Rjw
-        aUqcdE/FA2O0K54IwSkiCdYCwOmUyPRSUPLNKxczC76yGQPM+/ggpXBKseifCjSdpAKXHfrizZkw8
-        VRt4P9oNWj1Ur/OOXOxgqXXk/2PWDGPYrDPsESeoR1bLfmXpMT6pE8b2nb4mtiJ978UACfsHzD6Uo
-        IDBWcc4S4HCY0FEliArkryP0Rgt9FjlFwF+sIJDbqnxGW+L+zwJqC4VTAZw+smhhGQ+LRaU01r1y3
-        5ucN3cmrlcKzexrwYGwiitLGrzs8u/xpWtEAxhWkYREb00qZrtvpykgtLcjhrupdJI7BhUktMVOwH
-        Ald2CUuQ==;
+        bh=bs3enu59UfvCehHYmSCxQhpe4RGM8ERe0lg1xzZ/LqI=; b=ieTWib0CK1Ju61WCoQmt/bBxc1
+        0dP7UHLysBU8IX91rS8fYyebV2tMB1JMCNRUyOZS8ysAEtMDgSgDAjsjgCXI/6CDey2tcdGnks86K
+        jUsvJGrkcuuuQnwkvLMS2XIuNAPptvI6g7SKmMzGWBcV6vQi0VfCtlpoxlZ8emigUhkx/yt+BU43V
+        zfMhD7B+lBG6x1dQBV/Cdqq/SEkqNdB7+WHb4+aD7FfuHMtfeWUrnFh1sOOUGOBFco8sumvAPqjiD
+        EO2KpXZryw4m6TT3uShqbm7LrKS4sR7fJ46vwz/OTzbIuxz8QnSnJnL/SlMx679dFgg3sBtMFR825
+        5faenEzA==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqzhE-0006AW-FT; Fri, 26 Jul 2019 12:51:40 +0000
+        id 1hqzhE-0006Af-L1; Fri, 26 Jul 2019 12:51:40 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqzhC-0005au-8M; Fri, 26 Jul 2019 09:51:38 -0300
+        id 1hqzhC-0005bc-FN; Fri, 26 Jul 2019 09:51:38 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
-        linux-parisc@vger.kernel.org
-Subject: [PATCH v2 13/26] docs: parisc: convert to ReST and add to documentation body
-Date:   Fri, 26 Jul 2019 09:51:23 -0300
-Message-Id: <bec701fd2748796b33529b42b54557b9667f0883.1564145354.git.mchehab+samsung@kernel.org>
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>, linux-doc@vger.kernel.org,
+        linux-mips@vger.kernel.org
+Subject: [PATCH v2 21/26] docs: mips: add to the documentation body as ReST
+Date:   Fri, 26 Jul 2019 09:51:31 -0300
+Message-Id: <6829abccfc656e736893348cecfedace06eef228.1564145354.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564145354.git.mchehab+samsung@kernel.org>
 References: <cover.1564145354.git.mchehab+samsung@kernel.org>
@@ -52,86 +53,211 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Manually convert the two PA-RISC documents to ReST, adding them
-to the Linux documentation body.
+Manually convert the AU1xxx_IDE.README file to ReST and add
+to a MIPS book as part of the main documentation body.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Paul Burton <paul.burton@mips.com>
 ---
  Documentation/index.rst                       |  1 +
- .../parisc/{debugging => debugging.rst}       |  7 +++
- Documentation/parisc/index.rst                | 18 ++++++
- .../parisc/{registers => registers.rst}       | 59 +++++++++++++------
- 4 files changed, 68 insertions(+), 17 deletions(-)
- rename Documentation/parisc/{debugging => debugging.rst} (94%)
- create mode 100644 Documentation/parisc/index.rst
- rename Documentation/parisc/{registers => registers.rst} (70%)
+ .../{AU1xxx_IDE.README => au1xxx_ide.rst}     | 89 +++++++++++--------
+ Documentation/mips/index.rst                  | 17 ++++
+ 3 files changed, 70 insertions(+), 37 deletions(-)
+ rename Documentation/mips/{AU1xxx_IDE.README => au1xxx_ide.rst} (67%)
+ create mode 100644 Documentation/mips/index.rst
 
 diff --git a/Documentation/index.rst b/Documentation/index.rst
-index d9e607d8a9b9..25e080664050 100644
+index de7be1c31450..1ff03833276a 100644
 --- a/Documentation/index.rst
 +++ b/Documentation/index.rst
-@@ -148,6 +148,7 @@ implementation.
+@@ -149,6 +149,7 @@ implementation.
     ia64/index
     m68k/index
     powerpc/index
-+   parisc/index
++   mips/index
+    openrisc/index
+    parisc/index
     riscv/index
-    s390/index
-    sh/index
-diff --git a/Documentation/parisc/debugging b/Documentation/parisc/debugging.rst
-similarity index 94%
-rename from Documentation/parisc/debugging
-rename to Documentation/parisc/debugging.rst
-index 7d75223fa18d..de1b60402c5b 100644
---- a/Documentation/parisc/debugging
-+++ b/Documentation/parisc/debugging.rst
-@@ -1,8 +1,13 @@
-+=================
-+PA-RISC Debugging
-+=================
+diff --git a/Documentation/mips/AU1xxx_IDE.README b/Documentation/mips/au1xxx_ide.rst
+similarity index 67%
+rename from Documentation/mips/AU1xxx_IDE.README
+rename to Documentation/mips/au1xxx_ide.rst
+index ff675a1b1422..2f9c2cff6738 100644
+--- a/Documentation/mips/AU1xxx_IDE.README
++++ b/Documentation/mips/au1xxx_ide.rst
+@@ -1,7 +1,14 @@
+-README for MIPS AU1XXX IDE driver - Released 2005-07-15
++.. include:: <isonum.txt>
 +
- okay, here are some hints for debugging the lower-level parts of
- linux/parisc.
++======================
++MIPS AU1XXX IDE driver
++======================
++
++Released 2005-07-15
++
++About
++=====
+ 
+-ABOUT
+------
+ This file describes the 'drivers/ide/au1xxx-ide.c', related files and the
+ services they provide.
+ 
+@@ -10,17 +17,17 @@ the white or black list, go to the 'ADD NEW HARD DISC TO WHITE OR BLACK LIST'
+ section.
  
  
- 1. Absolute addresses
-+=====================
+-LICENSE
+--------
++License
++=======
  
- A lot of the assembly code currently runs in real mode, which means
- absolute addresses are used instead of virtual addresses as in the
-@@ -12,6 +17,7 @@ currently).
+-Copyright (c) 2003-2005 AMD, Personal Connectivity Solutions
++:Copyright: |copy| 2003-2005 AMD, Personal Connectivity Solutions
+ 
+ This program is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation; either version 2 of the License, or (at your option) any later
+ version.
+ 
+-THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
++THIS SOFTWARE IS PROVIDED ``AS IS`` AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR
+ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+@@ -35,31 +42,35 @@ You should have received a copy of the GNU General Public License along with
+ this program; if not, write to the Free Software Foundation, Inc.,
+ 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
+-Note: for more information, please refer "AMD Alchemy Au1200/Au1550 IDE
++Note:
++      for more information, please refer "AMD Alchemy Au1200/Au1550 IDE
+       Interface and Linux Device Driver" Application Note.
  
  
- 2. HPMCs
-+========
+-FILES, CONFIGS AND COMPATIBILITY
+---------------------------------
++Files, Configs and Compatibility
++================================
  
- When real-mode code tries to access non-existent memory, you'll get
- an HPMC instead of a kernel oops.  To debug an HPMC, try to find
-@@ -27,6 +33,7 @@ access it.
+ Two files are introduced:
+ 
+   a) 'arch/mips/include/asm/mach-au1x00/au1xxx_ide.h'
+      contains : struct _auide_hwif
+-                 timing parameters for PIO mode 0/1/2/3/4
+-                 timing parameters for MWDMA 0/1/2
++
++                - timing parameters for PIO mode 0/1/2/3/4
++                - timing parameters for MWDMA 0/1/2
+ 
+   b) 'drivers/ide/mips/au1xxx-ide.c'
+      contains the functionality of the AU1XXX IDE driver
+ 
+ Following extra configs variables are introduced:
+ 
+-  CONFIG_BLK_DEV_IDE_AU1XXX_PIO_DBDMA    - enable the PIO+DBDMA mode
+-  CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA  - enable the MWDMA mode
++  CONFIG_BLK_DEV_IDE_AU1XXX_PIO_DBDMA
++	- enable the PIO+DBDMA mode
++  CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA
++	- enable the MWDMA mode
  
  
- 3. Q bit fun
-+============
+-SUPPORTED IDE MODES
+--------------------
++Supported IDE Modes
++===================
  
- Certain, very critical code has to clear the Q bit in the PSW.  What
- happens when the Q bit is cleared is the CPU does not update the
-diff --git a/Documentation/parisc/index.rst b/Documentation/parisc/index.rst
+ The AU1XXX IDE driver supported all PIO modes - PIO mode 0/1/2/3/4 - and all
+ MWDMA modes - MWDMA 0/1/2 -. There is no support for SWDMA and UDMA mode.
+@@ -69,20 +80,21 @@ To change the PIO mode use the program hdparm with option -p, e.g.
+ -X, e.g. 'hdparm -X32 [device]' for MWDMA mode 0.
+ 
+ 
+-PERFORMANCE CONFIGURATIONS
+---------------------------
++Performance Configurations
++==========================
+ 
+-If the used system doesn't need USB support enable the following kernel configs:
++If the used system doesn't need USB support enable the following kernel
++configs::
+ 
+-CONFIG_IDE=y
+-CONFIG_BLK_DEV_IDE=y
+-CONFIG_IDE_GENERIC=y
+-CONFIG_BLK_DEV_IDEPCI=y
+-CONFIG_BLK_DEV_GENERIC=y
+-CONFIG_BLK_DEV_IDEDMA_PCI=y
+-CONFIG_BLK_DEV_IDE_AU1XXX=y
+-CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
+-CONFIG_BLK_DEV_IDEDMA=y
++    CONFIG_IDE=y
++    CONFIG_BLK_DEV_IDE=y
++    CONFIG_IDE_GENERIC=y
++    CONFIG_BLK_DEV_IDEPCI=y
++    CONFIG_BLK_DEV_GENERIC=y
++    CONFIG_BLK_DEV_IDEDMA_PCI=y
++    CONFIG_BLK_DEV_IDE_AU1XXX=y
++    CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
++    CONFIG_BLK_DEV_IDEDMA=y
+ 
+ Also define 'IDE_AU1XXX_BURSTMODE' in 'drivers/ide/mips/au1xxx-ide.c' to enable
+ the burst support on DBDMA controller.
+@@ -90,20 +102,22 @@ the burst support on DBDMA controller.
+ If the used system need the USB support enable the following kernel configs for
+ high IDE to USB throughput.
+ 
+-CONFIG_IDE_GENERIC=y
+-CONFIG_BLK_DEV_IDEPCI=y
+-CONFIG_BLK_DEV_GENERIC=y
+-CONFIG_BLK_DEV_IDEDMA_PCI=y
+-CONFIG_BLK_DEV_IDE_AU1XXX=y
+-CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
+-CONFIG_BLK_DEV_IDEDMA=y
++::
++
++    CONFIG_IDE_GENERIC=y
++    CONFIG_BLK_DEV_IDEPCI=y
++    CONFIG_BLK_DEV_GENERIC=y
++    CONFIG_BLK_DEV_IDEDMA_PCI=y
++    CONFIG_BLK_DEV_IDE_AU1XXX=y
++    CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
++    CONFIG_BLK_DEV_IDEDMA=y
+ 
+ Also undefine 'IDE_AU1XXX_BURSTMODE' in 'drivers/ide/mips/au1xxx-ide.c' to
+ disable the burst support on DBDMA controller.
+ 
+ 
+-ACKNOWLEDGMENTS
+----------------
++Acknowledgments
++===============
+ 
+ These drivers wouldn't have been done without the base of kernel 2.4.x AU1XXX
+ IDE driver from AMD.
+@@ -112,4 +126,5 @@ Additional input also from:
+ Matthias Lenk <matthias.lenk@amd.com>
+ 
+ Happy hacking!
++
+ Enrico Walther <enrico.walther@amd.com>
+diff --git a/Documentation/mips/index.rst b/Documentation/mips/index.rst
 new file mode 100644
-index 000000000000..aa3ee0470425
+index 000000000000..fd9023c8a89f
 --- /dev/null
-+++ b/Documentation/parisc/index.rst
-@@ -0,0 +1,18 @@
++++ b/Documentation/mips/index.rst
+@@ -0,0 +1,17 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+====================
-+PA-RISC Architecture
-+====================
++=================
++MIPS architecture
++=================
 +
 +.. toctree::
 +   :maxdepth: 2
 +
-+   debugging
-+   registers
++   au1xxx_ide
 +
 +.. only::  subproject and html
 +
@@ -139,153 +265,6 @@ index 000000000000..aa3ee0470425
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/parisc/registers b/Documentation/parisc/registers.rst
-similarity index 70%
-rename from Documentation/parisc/registers
-rename to Documentation/parisc/registers.rst
-index 10c7d1730f5d..59c8ecf3e856 100644
---- a/Documentation/parisc/registers
-+++ b/Documentation/parisc/registers.rst
-@@ -1,11 +1,16 @@
-+================================
- Register Usage for Linux/PA-RISC
-+================================
- 
- [ an asterisk is used for planned usage which is currently unimplemented ]
- 
--	General Registers as specified by ABI
-+General Registers as specified by ABI
-+=====================================
- 
--	Control Registers
-+Control Registers
-+-----------------
- 
-+===============================	===============================================
- CR 0 (Recovery Counter)		used for ptrace
- CR 1-CR 7(undefined)		unused
- CR 8 (Protection ID)		per-process value*
-@@ -29,26 +34,35 @@ CR28 (TR 4)			not used
- CR29 (TR 5)			not used
- CR30 (TR 6)			current / 0
- CR31 (TR 7)			Temporary register, used in various places
-+===============================	===============================================
- 
--	Space Registers (kernel mode)
-+Space Registers (kernel mode)
-+-----------------------------
- 
-+===============================	===============================================
- SR0				temporary space register
- SR4-SR7 			set to 0
- SR1				temporary space register
- SR2				kernel should not clobber this
- SR3				used for userspace accesses (current process)
-+===============================	===============================================
- 
--	Space Registers (user mode)
-+Space Registers (user mode)
-+---------------------------
- 
-+===============================	===============================================
- SR0				temporary space register
- SR1                             temporary space register
- SR2                             holds space of linux gateway page
- SR3                             holds user address space value while in kernel
- SR4-SR7                         Defines short address space for user/kernel
-+===============================	===============================================
- 
- 
--	Processor Status Word
-+Processor Status Word
-+---------------------
- 
-+===============================	===============================================
- W (64-bit addresses)		0
- E (Little-endian)		0
- S (Secure Interval Timer)	0
-@@ -69,15 +83,19 @@ Q (collect interruption state)	1 (0 in code directly preceding an rfi)
- P (Protection Identifiers)	1*
- D (Data address translation)	1, 0 while executing real-mode code
- I (external interrupt mask)	used by cli()/sti() macros
-+===============================	===============================================
- 
--	"Invisible" Registers
-+"Invisible" Registers
-+---------------------
- 
-+===============================	===============================================
- PSW default W value		0
- PSW default E value		0
- Shadow Registers		used by interruption handler code
- TOC enable bit			1
-+===============================	===============================================
- 
--=========================================================================
-+-------------------------------------------------------------------------
- 
- The PA-RISC architecture defines 7 registers as "shadow registers".
- Those are used in RETURN FROM INTERRUPTION AND RESTORE instruction to reduce
-@@ -85,7 +103,8 @@ the state save and restore time by eliminating the need for general register
- (GR) saves and restores in interruption handlers.
- Shadow registers are the GRs 1, 8, 9, 16, 17, 24, and 25.
- 
--=========================================================================
-+-------------------------------------------------------------------------
-+
- Register usage notes, originally from John Marvin, with some additional
- notes from Randolph Chung.
- 
-@@ -96,10 +115,12 @@ course, you need to save them if you care about them, before calling
- another procedure. Some of the above registers do have special meanings
- that you should be aware of:
- 
--    r1: The addil instruction is hardwired to place its result in r1,
-+    r1:
-+	The addil instruction is hardwired to place its result in r1,
- 	so if you use that instruction be aware of that.
- 
--    r2: This is the return pointer. In general you don't want to
-+    r2:
-+	This is the return pointer. In general you don't want to
- 	use this, since you need the pointer to get back to your
- 	caller. However, it is grouped with this set of registers
- 	since the caller can't rely on the value being the same
-@@ -107,23 +128,27 @@ that you should be aware of:
- 	and return through that register after trashing r2, and
- 	that should not cause a problem for the calling routine.
- 
--    r19-r22: these are generally regarded as temporary registers.
-+    r19-r22:
-+	these are generally regarded as temporary registers.
- 	Note that in 64 bit they are arg7-arg4.
- 
--    r23-r26: these are arg3-arg0, i.e. you can use them if you
-+    r23-r26:
-+	these are arg3-arg0, i.e. you can use them if you
- 	don't care about the values that were passed in anymore.
- 
--    r28,r29: are ret0 and ret1. They are what you pass return values
-+    r28,r29:
-+	are ret0 and ret1. They are what you pass return values
- 	in. r28 is the primary return. When returning small structures
- 	r29 may also be used to pass data back to the caller.
- 
--    r30: stack pointer
-+    r30:
-+	stack pointer
- 
--    r31: the ble instruction puts the return pointer in here.
-+    r31:
-+	the ble instruction puts the return pointer in here.
- 
- 
--r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
-+    r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
-     general purpose registers. r27 is the data pointer, and is
-     used to make references to global variables easier. r30 is
-     the stack pointer.
--
 -- 
 2.21.0
 
