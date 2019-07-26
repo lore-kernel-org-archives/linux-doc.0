@@ -5,41 +5,40 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0BE2A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 556B67D92A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbfGZMvo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 08:51:44 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39970 "EHLO
+        id S1726102AbfGZMvm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 08:51:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39902 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726581AbfGZMvo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:44 -0400
+        with ESMTP id S1726473AbfGZMvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6RObl5sVApEcZ3WbImH7o4pMAu3+zm1j4PRjpIIPbAw=; b=URT5+SAd7m7ZlTM9D32Ny48rby
-        nh8oCDywM3L6LZC5R0wjTdrIbldFosUfcR3ffdoo/jry3EvmRXIadb8gQt7Ybed0yq3pyVrG01gTG
-        3ak8DTj0OuWoLd4ZFiM4d8LY/SYcnT676nY/hhl1j3wm+XpPC7DHuho81H9bLw0V6DaNbE/A8T4DW
-        cKpHpJwcHxn09gfh4QtonO55o/rxBH6/21pzJ19lYeG5VlQ2HXS0+hFmRHVk6t8mmhBBqjXU80xXz
-        SONOYxbMpPQUyZZG2GOe0F08GqoT2ysFn8UO+QBABfWJIJv+heegzkOzOV+ThaPGMLGNQVwccrjb8
-        OSKb68Cg==;
+        bh=tDoszg6bPovolEoXeoVOmAYx8gMo7pfWD3sVgBM2eG0=; b=l22GS2FbgofP9VK36ooXQYUcEb
+        ZfRoVo/wLyMNl7NTFuMMPZvhDxFXzIDaXlH2p3/SpTwnErz5UPP9Karxq+bOchs0BFLmXbGNafL0l
+        wCIgNG9uShvLrtO6feYycr4zOQ2npExHw4hCyTTH5mF9vlV2Mz68wMQb7sBqyvbwpLeWKxcAx3WhB
+        3Lb9kzkg+rpSwHVIzHE3XXg6PFDZ17CpPpbjT/YHXJkHAEI555Ja5Hsjc+6oL/p06K2/CeBCpARzt
+        Lzj0/GD66Ng1ZRz3VXw35yORsXEzrXFywjBzQbq//AAfehVSfByp0WQ0DAjIgjhImOyLX6itYsk2k
+        T75Fzwsg==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqzhE-0006Ao-Rd; Fri, 26 Jul 2019 12:51:41 +0000
+        id 1hqzhE-0006Ak-Na; Fri, 26 Jul 2019 12:51:41 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqzhC-0005ai-5v; Fri, 26 Jul 2019 09:51:38 -0300
+        id 1hqzhC-0005aK-0M; Fri, 26 Jul 2019 09:51:38 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vladimir Oltean <olteanv@gmail.com>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v2 10/26] docs: packing: move it to core-api book and adjust markups
-Date:   Fri, 26 Jul 2019 09:51:20 -0300
-Message-Id: <aa478113b6c01e87beeb4cbf72b2b9a5e5ae31b4.1564145354.git.mchehab+samsung@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 04/26] docs: ubifs-authentication.md: convert to ReST
+Date:   Fri, 26 Jul 2019 09:51:14 -0300
+Message-Id: <6eea21e992a1655626601ec7d6500f745f0e091f.1564145354.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564145354.git.mchehab+samsung@kernel.org>
 References: <cover.1564145354.git.mchehab+samsung@kernel.org>
@@ -51,195 +50,226 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The packing.txt file was misplaced, as docs should be part of
-a documentation book, and not at the root dir.
+The documentation standard is ReST and not markdown.
 
-So, move it to the core-api directory and add to its index.
-
-Also, ensure that the file will be properly parsed and the bitmap
-ascii artwork will use a monotonic font.
-
-Fixes: 554aae35007e ("lib: Add support for generic packing operations")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
-Tested-by: Vladimir Oltean <olteanv@gmail.com>
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- Documentation/core-api/index.rst              |  1 +
- .../{packing.txt => core-api/packing.rst}     | 81 +++++++++++--------
- MAINTAINERS                                   |  2 +-
- 3 files changed, 51 insertions(+), 33 deletions(-)
- rename Documentation/{packing.txt => core-api/packing.rst} (61%)
+ ...entication.md => ubifs-authentication.rst} | 70 ++++++++++++-------
+ 1 file changed, 44 insertions(+), 26 deletions(-)
+ rename Documentation/filesystems/{ubifs-authentication.md => ubifs-authentication.rst} (95%)
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index da0ed972d224..dfd8fad1e1ec 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -25,6 +25,7 @@ Core utilities
-    librs
-    genalloc
-    errseq
-+   packing
-    printk-formats
-    circular-buffers
-    generic-radix-tree
-diff --git a/Documentation/packing.txt b/Documentation/core-api/packing.rst
-similarity index 61%
-rename from Documentation/packing.txt
-rename to Documentation/core-api/packing.rst
-index f830c98645f1..d8c341fe383e 100644
---- a/Documentation/packing.txt
-+++ b/Documentation/core-api/packing.rst
-@@ -30,6 +30,7 @@ The solution
- ------------
+diff --git a/Documentation/filesystems/ubifs-authentication.md b/Documentation/filesystems/ubifs-authentication.rst
+similarity index 95%
+rename from Documentation/filesystems/ubifs-authentication.md
+rename to Documentation/filesystems/ubifs-authentication.rst
+index 23e698167141..6a9584f6ff46 100644
+--- a/Documentation/filesystems/ubifs-authentication.md
++++ b/Documentation/filesystems/ubifs-authentication.rst
+@@ -1,8 +1,11 @@
+-% UBIFS Authentication
+-% sigma star gmbh
+-% 2018
++:orphan:
  
- This API deals with 2 basic operations:
+-# Introduction
++.. UBIFS Authentication
++.. sigma star gmbh
++.. 2018
 +
-   - Packing a CPU-usable number into a memory buffer (with hardware
-     constraints/quirks)
-   - Unpacking a memory buffer (which has hardware constraints/quirks)
-@@ -49,10 +50,12 @@ What the examples show is where the logical bytes and bits sit.
++Introduction
++============
  
- 1. Normally (no quirks), we would do it like this:
+ UBIFS utilizes the fscrypt framework to provide confidentiality for file
+ contents and file names. This prevents attacks where an attacker is able to
+@@ -33,7 +36,8 @@ existing features like key derivation can be utilized. It should however also
+ be possible to use UBIFS authentication without using encryption.
  
--63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
--7                       6                       5                        4
--31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
--3                       2                       1                        0
+ 
+-## MTD, UBI & UBIFS
++MTD, UBI & UBIFS
++----------------
+ 
+ On Linux, the MTD (Memory Technology Devices) subsystem provides a uniform
+ interface to access raw flash devices. One of the more prominent subsystems that
+@@ -47,7 +51,7 @@ UBIFS is a filesystem for raw flash which operates on top of UBI. Thus, wear
+ leveling and some flash specifics are left to UBI, while UBIFS focuses on
+ scalability, performance and recoverability.
+ 
+-
 +::
-+
-+  63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
-+  7                       6                       5                        4
-+  31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
-+  3                       2                       1                        0
  
- That is, the MSByte (7) of the CPU-usable u64 sits at memory offset 0, and the
- LSByte (0) of the u64 sits at memory offset 7.
-@@ -63,10 +66,12 @@ comments as "logical" notation.
+ 	+------------+ +*******+ +-----------+ +-----+
+ 	|            | * UBIFS * | UBI-BLOCK | | ... |
+@@ -84,7 +88,8 @@ persisted onto the flash directly. More details on UBIFS can also be found in
+ [UBIFS-WP].
  
- 2. If QUIRK_MSB_ON_THE_RIGHT is set, we do it like this:
  
--56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
--7                       6                        5                       4
--24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
--3                       2                        1                       0
+-### UBIFS Index & Tree Node Cache
++UBIFS Index & Tree Node Cache
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ Basic on-flash UBIFS entities are called *nodes*. UBIFS knows different types
+ of nodes. Eg. data nodes (`struct ubifs_data_node`) which store chunks of file
+@@ -118,17 +123,18 @@ on-flash filesystem structures like the index. On every commit, the TNC nodes
+ marked as dirty are written to the flash to update the persisted index.
+ 
+ 
+-### Journal
++Journal
++~~~~~~~
+ 
+ To avoid wearing out the flash, the index is only persisted (*commited*) when
+-certain conditions are met (eg. `fsync(2)`). The journal is used to record
++certain conditions are met (eg. ``fsync(2)``). The journal is used to record
+ any changes (in form of inode nodes, data nodes etc.) between commits
+ of the index. During mount, the journal is read from the flash and replayed
+ onto the TNC (which will be created on-demand from the on-flash index).
+ 
+ UBIFS reserves a bunch of LEBs just for the journal called *log area*. The
+ amount of log area LEBs is configured on filesystem creation (using
+-`mkfs.ubifs`) and stored in the superblock node. The log area contains only
++``mkfs.ubifs``) and stored in the superblock node. The log area contains only
+ two types of nodes: *reference nodes* and *commit start nodes*. A commit start
+ node is written whenever an index commit is performed. Reference nodes are
+ written on every journal update. Each reference node points to the position of
+@@ -152,6 +158,7 @@ done for the last referenced LEB of the journal. Only this can become corrupt
+ because of a power cut. If the recovery fails, UBIFS will not mount. An error
+ for every other LEB will directly cause UBIFS to fail the mount operation.
+ 
 +::
-+
-+  56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
-+  7                       6                        5                       4
-+  24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
-+  3                       2                        1                       0
  
- That is, QUIRK_MSB_ON_THE_RIGHT does not affect byte positioning, but
- inverts bit offsets inside a byte.
-@@ -74,10 +79,12 @@ inverts bit offsets inside a byte.
+        | ----    LOG AREA     ---- | ----------    MAIN AREA    ------------ |
  
- 3. If QUIRK_LITTLE_ENDIAN is set, we do it like this:
+@@ -172,10 +179,11 @@ for every other LEB will directly cause UBIFS to fail the mount operation.
+                           containing their buds
  
--39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
--4                       5                       6                       7
--7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
--0                       1                       2                       3
+ 
+-### LEB Property Tree/Table
++LEB Property Tree/Table
++~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The LEB property tree is used to store per-LEB information. This includes the
+-LEB type and amount of free and *dirty* (old, obsolete content) space [1] on
++LEB type and amount of free and *dirty* (old, obsolete content) space [1]_ on
+ the LEB. The type is important, because UBIFS never mixes index nodes with data
+ nodes on a single LEB and thus each LEB has a specific purpose. This again is
+ useful for free space calculations. See [UBIFS-WP] for more details.
+@@ -185,19 +193,21 @@ index. Due to its smaller size it is always written as one chunk on every
+ commit. Thus, saving the LPT is an atomic operation.
+ 
+ 
+-[1] Since LEBs can only be appended and never overwritten, there is a
+-difference between free space ie. the remaining space left on the LEB to be
+-written to without erasing it and previously written content that is obsolete
+-but can't be overwritten without erasing the full LEB.
++.. [1] Since LEBs can only be appended and never overwritten, there is a
++   difference between free space ie. the remaining space left on the LEB to be
++   written to without erasing it and previously written content that is obsolete
++   but can't be overwritten without erasing the full LEB.
+ 
+ 
+-# UBIFS Authentication
++UBIFS Authentication
++====================
+ 
+ This chapter introduces UBIFS authentication which enables UBIFS to verify
+ the authenticity and integrity of metadata and file contents stored on flash.
+ 
+ 
+-## Threat Model
++Threat Model
++------------
+ 
+ UBIFS authentication enables detection of offline data modification. While it
+ does not prevent it, it enables (trusted) code to check the integrity and
+@@ -224,7 +234,8 @@ Additional measures like secure boot and trusted boot have to be taken to
+ ensure that only trusted code is executed on a device.
+ 
+ 
+-## Authentication
++Authentication
++--------------
+ 
+ To be able to fully trust data read from flash, all UBIFS data structures
+ stored on flash are authenticated. That is:
+@@ -236,7 +247,8 @@ stored on flash are authenticated. That is:
+ - The LPT which stores UBI LEB metadata which UBIFS uses for free space accounting
+ 
+ 
+-### Index Authentication
++Index Authentication
++~~~~~~~~~~~~~~~~~~~~
+ 
+ Through UBIFS' concept of a wandering tree, it already takes care of only
+ updating and persisting changed parts from leaf node up to the root node
+@@ -260,6 +272,7 @@ include a hash. All other types of nodes will remain unchanged. This reduces
+ the storage overhead which is precious for users of UBIFS (ie. embedded
+ devices).
+ 
 +::
-+
-+  39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
-+  4                       5                       6                       7
-+  7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
-+  0                       1                       2                       3
  
- Therefore, QUIRK_LITTLE_ENDIAN means that inside the memory region, every
- byte from each 4-byte word is placed at its mirrored position compared to
-@@ -86,18 +93,22 @@ the boundary of that word.
- 4. If QUIRK_MSB_ON_THE_RIGHT and QUIRK_LITTLE_ENDIAN are both set, we do it
-    like this:
- 
--32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
--4                       5                       6                       7
--0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
--0                       1                       2                       3
-+::
-+
-+  32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-+  4                       5                       6                       7
-+  0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-+  0                       1                       2                       3
+                              +---------------+
+                              |  Master Node  |
+@@ -303,7 +316,8 @@ hashes to index nodes does not change this since each hash will be persisted
+ atomically together with its respective node.
  
  
- 5. If just QUIRK_LSW32_IS_FIRST is set, we do it like this:
+-### Journal Authentication
++Journal Authentication
++~~~~~~~~~~~~~~~~~~~~~~
  
--31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
--3                       2                       1                        0
--63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
--7                       6                       5                        4
-+::
-+
-+  31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
-+  3                       2                       1                        0
-+  63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
-+  7                       6                       5                        4
+ The journal is authenticated too. Since the journal is continuously written
+ it is necessary to also add authentication information frequently to the
+@@ -316,7 +330,7 @@ of the hash chain. That way a journal can be authenticated up to the last
+ authentication node. The tail of the journal which may not have a authentication
+ node cannot be authenticated and is skipped during journal replay.
  
- In this case the 8 byte memory region is interpreted as follows: first
- 4 bytes correspond to the least significant 4-byte word, next 4 bytes to
-@@ -107,28 +118,34 @@ the more significant 4-byte word.
- 6. If QUIRK_LSW32_IS_FIRST and QUIRK_MSB_ON_THE_RIGHT are set, we do it like
-    this:
+-We get this picture for journal authentication:
++We get this picture for journal authentication::
  
--24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
--3                       2                        1                       0
--56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
--7                       6                        5                       4
-+::
-+
-+  24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
-+  3                       2                        1                       0
-+  56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
-+  7                       6                        5                       4
+     ,,,,,,,,
+     ,......,...........................................
+@@ -352,7 +366,8 @@ the superblock struct. The superblock node is stored in LEB 0 and is only
+ modified on feature flag or similar changes, but never on file changes.
  
  
- 7. If QUIRK_LSW32_IS_FIRST and QUIRK_LITTLE_ENDIAN are set, it looks like
-    this:
+-### LPT Authentication
++LPT Authentication
++~~~~~~~~~~~~~~~~~~
  
--7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
--0                       1                       2                       3
--39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
--4                       5                       6                       7
-+::
-+
-+  7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
-+  0                       1                       2                       3
-+  39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
-+  4                       5                       6                       7
+ The location of the LPT root node on the flash is stored in the UBIFS master
+ node. Since the LPT is written and read atomically on every commit, there is
+@@ -363,7 +378,8 @@ be verified by verifying the authenticity of the master node and comparing the
+ LTP hash stored there with the hash computed from the read on-flash LPT.
  
  
- 8. If QUIRK_LSW32_IS_FIRST, QUIRK_LITTLE_ENDIAN and QUIRK_MSB_ON_THE_RIGHT
-    are set, it looks like this:
+-## Key Management
++Key Management
++--------------
  
--0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
--0                       1                       2                       3
--32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
--4                       5                       6                       7
-+::
-+
-+  0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-+  0                       1                       2                       3
-+  32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-+  4                       5                       6                       7
+ For simplicity, UBIFS authentication uses a single key to compute the HMACs
+ of superblock, master, commit start and reference nodes. This key has to be
+@@ -399,7 +415,8 @@ approach is similar to the approach proposed for fscrypt encryption policy v2
+ [FSCRYPT-POLICY2].
  
  
- We always think of our offsets as if there were no quirk, and we translate
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8fcb0c65ab91..e5593c66f904 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12089,7 +12089,7 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	lib/packing.c
- F:	include/linux/packing.h
--F:	Documentation/packing.txt
-+F:	Documentation/core-api/packing.rst
+-# Future Extensions
++Future Extensions
++=================
  
- PADATA PARALLEL EXECUTION MECHANISM
- M:	Steffen Klassert <steffen.klassert@secunet.com>
+ In certain cases where a vendor wants to provide an authenticated filesystem
+ image to customers, it should be possible to do so without sharing the secret
+@@ -411,7 +428,8 @@ to the way the IMA/EVM subsystem deals with such situations. The HMAC key
+ will then have to be provided beforehand in the normal way.
+ 
+ 
+-# References
++References
++==========
+ 
+ [CRYPTSETUP2]        http://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
+ 
 -- 
 2.21.0
 
