@@ -2,188 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDE097D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 00:06:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6234E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 05:04:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727041AbfGZAG6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Jul 2019 20:06:58 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34672 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726910AbfGZAG6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jul 2019 20:06:58 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n9so17602959pgc.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2019 17:06:57 -0700 (PDT)
+        id S1725842AbfGZFEQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 01:04:16 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:46711 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfGZFEP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 01:04:15 -0400
+Received: by mail-yw1-f67.google.com with SMTP id z197so19967917ywd.13;
+        Thu, 25 Jul 2019 22:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LX3WgT6XIyZ+DazVbDL+JemkgQ8O0fcebqlsSSEdmGM=;
-        b=QsvMTHeLg8602rHTa5Q9ZHCQQM9SabYqubgXZOIYbiLd17mnqreKieXa1uwtQ54iam
-         GK3VgRhF3/tKHNucJ5sfjCd/qYyDQvoJVlk94JB4k21B1AIuxwzgWVWZgsL3FyNKjiBD
-         ulsn5EXL/bfFAQ3/1QUigwK0s18crxSGp+SuU=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9BNINAL8vtmfq8NfDjx0Dmq+IVT05q0DWb+PWa71nh0=;
+        b=SmOwl8V1wROFfAkIgrlEn+O0Ui9pNhekwRgt9i4amYp4tIMqUHpxlzwwEM6JDRU1iw
+         epQtQK9aIaxC2/Q+hmzNUDklqXMfJQiDi5/BkCns8afIB9OPV6CPOlVkdajgn4s75HkU
+         +hejw6Ez8Y7wdz83DcOrBgXJIC5kFM+7A7sZaVIFWMb1kE7GCVeYLw5Hhy+RyIa1OnEf
+         orSbxdhtNil7LrN+dJmUCANece+6Clk7JYriE7zLCJf720EPHMvvwXnUMGSFIHwJu9sG
+         v8rB9Vl6RJ8EHFvzJiQE0HqrYvj7JdvekuQZnaZzk9RRA0b6GjqzeVdJUcpHh+CyNrXn
+         TFfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LX3WgT6XIyZ+DazVbDL+JemkgQ8O0fcebqlsSSEdmGM=;
-        b=n/EBq9RFhq8y53p740/MuehnRI8vBuoxhhgHg6Ysu7Th3IeSp7jvpjpNfBF4Sjlg+T
-         ulkZbClqWRlug1B2v+AdaJ9vmp7ljoiMh96nfpb1iINoRKt1zLnVL4yVJYzTXTvJRBky
-         XoNZBC31MeAhzlu/8Vumf2ThSU5tP+W3/e+23VJr80JdIFh6iSRf8o7Q9mG+mH87xc0E
-         Kne5qes3ftjITE2f5Jqu/Kk3pf6jI59fQ2a3hvp/bVMaikWnU0UYc8/2TYq83YL1nbVz
-         V04D3YoTYL9xQQU6GGrcubKS0fvrW3DTugIdG6AxQxWHi2h5SQeMoZ4fhQv6JMWaE2xt
-         /TjA==
-X-Gm-Message-State: APjAAAUppL/mdMGjxBM/rI3R1HXrzk1irG/45v1ZfoNM83YWTsN2941/
-        cRFTKFjsZr8r4LZzqWAO4Sk=
-X-Google-Smtp-Source: APXvYqynq4GHcctnGxdvrjEr2VgQvO3199IKeDONR22HjODvLIe8AO5rXpZgJfVmZIRQ9psLB00K5A==
-X-Received: by 2002:aa7:8106:: with SMTP id b6mr19230834pfi.5.1564099617036;
-        Thu, 25 Jul 2019 17:06:57 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id a3sm50932747pfl.145.2019.07.25.17.06.55
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 25 Jul 2019 17:06:56 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 20:06:54 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Cc:     Minchan Kim <minchan@kernel.org>, linux-kernel@vger.kernel.org,
-        vdavydov.dev@gmail.com, Brendan Gregg <bgregg@netflix.com>,
-        kernel-team@android.com, Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        sspatil@google.c
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190726000654.GB66718@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190723061358.GD128252@google.com>
- <20190723142049.GC104199@google.com>
- <20190724042842.GA39273@google.com>
- <20190724141052.GB9945@google.com>
- <c116f836-5a72-c6e6-498f-a904497ef557@yandex-team.ru>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9BNINAL8vtmfq8NfDjx0Dmq+IVT05q0DWb+PWa71nh0=;
+        b=Eg7M/BrKPWuf6UL38xcvfw/c6xq8kXI8riPQTBq7J5aDnEvHBctPmZKo7f2Zgs8jT1
+         xFqIjZfeukyrN/Hir8KRTNTO6jrkMblv8tG2KU8Yh90eSkFuqF8UDGfysfCl1RPLnh3b
+         W9Bdbm9o7pjgwKy78p/kmDAFmFsvOvt93QbK3Uenvc9PFRgnHDk+gsSew8p1Zalnn+X/
+         /FBExG2J5J9UhJy7EN/OQrrzwZgRpgQ8fPzfJuJ0RgshQZdNekd42O3Otk+4gmr1I7f4
+         pVzcN72dw7NPZymCKgYtNx5mYEYPs6T34s7ZmMeIvPzzu+A46CCiivPnbKGizxMhAWLI
+         z1Mg==
+X-Gm-Message-State: APjAAAUMTWlmxiANeaP2JyCHJOBpbbuI7F/J5caGkOd4+WXCDQoq4TA9
+        YVPb2zyilX66Qct8GB44oT0ZSL1/ZRmjalnWQVo=
+X-Google-Smtp-Source: APXvYqycEuetYlg8eMDjrLKNUCeBJY1btcEg9V/v3DFIathxqeL4dQ/DUoEzHgjsOnkTepzD/cD2+FI+JKkB5VlFnjI=
+X-Received: by 2002:a81:50d5:: with SMTP id e204mr54057700ywb.379.1564117454607;
+ Thu, 25 Jul 2019 22:04:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c116f836-5a72-c6e6-498f-a904497ef557@yandex-team.ru>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190724195719.218307-1-salyzyn@android.com> <20190724195719.218307-4-salyzyn@android.com>
+ <CAOQ4uxjizC1RhmLe3qmfASk2M-Y+QEiyLL1yJXa4zXAEby7Tig@mail.gmail.com>
+ <af254162-10bf-1fc5-2286-8d002a287400@android.com> <CAOQ4uxi5S9HTx+wR1U_8vQ-6nyCozykWBZbZwiHhnXBGhXRz8Q@mail.gmail.com>
+ <35b70147-25ad-4c29-3972-418ebee5e7b8@android.com>
+In-Reply-To: <35b70147-25ad-4c29-3972-418ebee5e7b8@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 26 Jul 2019 08:04:03 +0300
+Message-ID: <CAOQ4uxg8k=4D5_VEBy61PwBo+2pCCakUPw3uCar2oQpi3yaLmA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/5] overlayfs: add __get xattr method
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 11:15:53AM +0300, Konstantin Khlebnikov wrote:
-[snip]
-> >>> Thanks for bringing up the swapping corner case..  Perhaps we can improve
-> >>> the heap profiler to detect this by looking at bits 0-4 in pagemap. While it
+On Thu, Jul 25, 2019 at 7:22 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> On 7/25/19 8:43 AM, Amir Goldstein wrote:
+> > On Thu, Jul 25, 2019 at 6:03 PM Mark Salyzyn <salyzyn@android.com> wrote:
+> >> On 7/24/19 10:48 PM, Amir Goldstein wrote:
+> >>> On Wed, Jul 24, 2019 at 10:57 PM Mark Salyzyn <salyzyn@android.com> wrote:
+> >>>> Because of the overlayfs getxattr recursion, the incoming inode fails
+> >>>> to update the selinux sid resulting in avc denials being reported
+> >>>> against a target context of u:object_r:unlabeled:s0.
+> >>> This description is too brief for me to understand the root problem.
+> >>> What's wring with the overlayfs getxattr recursion w.r.t the selinux
+> >>> security model?
+> >> __vfs_getxattr (the way the security layer acquires the target sid
+> >> without recursing back to security to check the access permissions)
+> >> calls get xattr method, which in overlayfs calls vfs_getxattr on the
+> >> lower layer (which then recurses back to security to check permissions)
+> >> and reports back -EACCES if there was a denial (which is OK) and _no_
+> >> sid copied to caller's inode security data, bubbles back to the security
+> >> layer caller, which reports an invalid avc: message for
+> >> u:object_r:unlabeled:s0 (the uninitialized sid instead of the sid for
+> >> the lower filesystem target). The blocked access is 100% valid, it is
+> >> supposed to be blocked. This does however result in a cosmetic issue
+> >> that makes it impossible to use audit2allow to construct a rule that
+> >> would be usable to fix the access problem.
 > >>
-> >> Yeb, that could work but it could add overhead again what you want to remove?
-> >> Even, userspace should keep metadata to identify that page was already swapped
-> >> in last period or newly swapped in new period.
+> > Ahhh you are talking about getting the security.selinux.* xattrs?
+> > I was under the impression (Vivek please correct me if I wrong)
+> > that overlayfs objects cannot have individual security labels and
+>
+> They can, and we _need_ them for Android's use cases, upper and lower
+> filesystems.
+>
+> Some (most?) union filesystems (like Android's sdcardfs) set sepolicy
+> from the mount options, we did not need this adjustment there of course.
+>
+> > the only way to label overlayfs objects is by mount options on the
+> > entire mount? Or is this just for lower layer objects?
 > >
-> > Yep.
-> Between samples page could be read from swap and swapped out back multiple times.
-> For tracking this swap ptes could be marked with idle bit too.
-> I believe it's not so hard to find free bit for this.
-> 
-> Refault\swapout will automatically clear this bit in pte even if
-> page goes nowhere stays if swap-cache.
+> > Anyway, the API I would go for is adding a @flags argument to
+> > get() which can take XATTR_NOSECURITY akin to
+> > FMODE_NONOTIFY, GFP_NOFS, meant to avoid recursions.
+>
+> I do like it better (with the following 7 stages of grief below), best
+> for the future.
+>
+> The change in this handler's API will affect all filesystem drivers
+> (well, my change affects the ABI, so it is not as-if I saved the world
+> from a module recompile) touching all filesystem sources with an even
+> larger audience of stakeholders. Larger audience of stakeholders, the
+> harder to get the change in ;-/. This is also concerning since I would
+> like this change to go to stable 4.4, 4.9, 4.14 and 4.19 where this
+> regression got introduced. I can either craft specific stable patches or
+> just let it go and deal with them in the android-common distributions
+> rather than seeking stable merged down. ABI/API breaks are a problem for
+> stable anyway ...
+>
 
-Could you clarify more about your idea? Do you mean swapout will clear the new
-idle swap-pte bit if the page was accessed just before the swapout?
+Use the memalloc_nofs_save/restore design pattern will avoid all that
+grief.
+As a matter of fact, this issue could and should be handled inside security
+subsystem without bothering any other subsystem.
+LSM have per task context right? That context could carry the recursion
+flags to know that the getxattr call is made by the security subsystem itself.
+The problem is not limited to union filesystems.
+In general its a stacking issue. ecryptfs is also a stacking fs, out-of-tree
+shiftfs as well. But it doesn't end there.
+A filesystem on top of a loop device inside another filesystem could
+also maybe result in security hook recursion (not sure if in practice).
 
-Instead, I thought of using is_swap_pte() to detect if the PTE belong to a
-page that was swapped. And if so, then assume the page was idle. Sure we
-would miss data that the page was accessed before the swap out in the
-sampling window, however if the page was swapped out, then it is likely idle
-anyway.
-
-My current patch was just reporting swapped out pages as non-idle (idle bit
-not set) which is wrong as Minchan pointed. So I added below patch on top of
-this patch (still testing..) :
-
-thanks,
-
- - Joel
----8<-----------------------
-
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 3667ed9cc904..46c2dd18cca8 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -271,10 +271,14 @@ struct page_idle_proc_priv {
- 	struct list_head *idle_page_list;
- };
- 
-+/*
-+ * Add a page to the idle page list.
-+ * page can also be NULL if pte was not present or swapped.
-+ */
- static void add_page_idle_list(struct page *page,
- 			       unsigned long addr, struct mm_walk *walk)
- {
--	struct page *page_get;
-+	struct page *page_get = NULL;
- 	struct page_node *pn;
- 	int bit;
- 	unsigned long frames;
-@@ -290,9 +294,11 @@ static void add_page_idle_list(struct page *page,
- 			return;
- 	}
- 
--	page_get = page_idle_get_page(page);
--	if (!page_get)
--		return;
-+	if (page) {
-+		page_get = page_idle_get_page(page);
-+		if (!page_get)
-+			return;
-+	}
- 
- 	pn = &(priv->page_nodes[priv->cur_page_node++]);
- 	pn->page = page_get;
-@@ -326,6 +332,15 @@ static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
- 
- 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
- 	for (; addr != end; pte++, addr += PAGE_SIZE) {
-+		/*
-+		 * We add swapped pages to the idle_page_list so that we can
-+		 * reported to userspace that they are idle.
-+		 */
-+		if (is_swap_pte(*pte)) {
-+			add_page_idle_list(NULL, addr, walk);
-+			continue;
-+		}
-+
- 		if (!pte_present(*pte))
- 			continue;
- 
-@@ -413,10 +428,12 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
- 			goto remove_page;
- 
- 		if (write) {
--			page_idle_clear_pte_refs(page);
--			set_page_idle(page);
-+			if (page) {
-+				page_idle_clear_pte_refs(page);
-+				set_page_idle(page);
-+			}
- 		} else {
--			if (page_really_idle(page)) {
-+			if (!page || page_really_idle(page)) {
- 				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
- 				bit = off % BITMAP_CHUNK_BITS;
- 				index = off / BITMAP_CHUNK_BITS;
--- 
-2.22.0.709.g102302147b-goog
-
+Thanks,
+Amir.
