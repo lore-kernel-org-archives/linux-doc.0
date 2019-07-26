@@ -1,170 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 285AD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 21:02:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1C8F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726869AbfGZVCA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 17:02:00 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49244 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726416AbfGZVCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 17:02:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9RGZnoVUUhhYLZmtBoqppl1lanCMuAL11YxezwOxYZU=; b=jSYVtRLgD0dieSbh31vFsgqw3t
-        2kxXaUgV09NCYDwEpfUDxmxbM1iWJss/l966f5X0It5cWRXkmanEtr1WzpulWPsai8h31AkQeAYMI
-        IFgne6vCuMJsE0usFQ2rJM+wfJdHAiHPJmVF4EKaKAFjprC161qd7g7Tip3g9hVRe1Igi2ICNfiZB
-        qH0e5sCMDJfnYqMUff9CEc88UyKXhaz0/CpZulNaScphzewog42CRj7iXVMPbbnSIKxYAqk7y9m2P
-        XjPLGCDbUZtxAEN52OGjQuNswv5P9hVesxvNktkeNd2LCXzej+3SemxWCkv842LyNkT0ONKRm0l8X
-        kTuTXZlQ==;
-Received: from [179.95.31.157] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hr7Lj-0006ID-PJ; Fri, 26 Jul 2019 21:01:59 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hr7Lh-0005HC-06; Fri, 26 Jul 2019 18:01:57 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Atish Patra <atish.patra@wdc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Karsten Merker <merker@debian.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH] docs: riscv: convert boot-image-header.txt to ReST
-Date:   Fri, 26 Jul 2019 18:01:55 -0300
-Message-Id: <1eaeb3fbb74de55af0b3f6d93ab40776dcbbb5c8.1564174903.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
-References: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
+        id S1726767AbfGZWKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 18:10:36 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46708 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfGZWKf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:10:35 -0400
+Received: by mail-wr1-f65.google.com with SMTP id z1so55806433wru.13
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 15:10:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3uH6wRDL6m6XJhTTMaf9vseYu7YZD/ywsLcXQB/jjqU=;
+        b=gRwFBhXFYJfA75M/HEdp8ls9oB9Iqr3v3cbcAdX0YN2re7cxgXOiyNGqdV7y940UPQ
+         xEAGEx83Sx0AScNU61MufPYcTqHXboUs77qQIZbyFLS+Z1KWXzwacdV2TBBpkabIXPIS
+         3t25KPcq+uPMwdErdl7zvAb2+50heWp13Zz87W54VqJ6b2+tjIZYL9Eny8Zn4mq59bWs
+         VSnpDw/un6SKkrcWSSQYt420RvJq+X7LgBHo2uzl7siD3ZzOHUpaLgNLz7dgKDUOR50r
+         P0rxejLO/ww+4as8POGBXSkLKzdxYgr2S+zj7oOa/8JdyEDX/qjxwZNZ2GKjutnZm5zh
+         VasQ==
+X-Gm-Message-State: APjAAAUAe/FB06Umb0UAbqT7HaBRsI+Hh/FS4Xxxvk6Xs7bo78X7zT7n
+        U+CscFPuLzD+tPhsHJmnuA3TJg==
+X-Google-Smtp-Source: APXvYqzcff0a62xyZ1uFR2gsycPFMbRcnCLACAl1fTNDob/Jl6sm3/hEJ5mjpbBEtl+zmxqlsSDf9A==
+X-Received: by 2002:a5d:568e:: with SMTP id f14mr22603718wrv.167.1564179033572;
+        Fri, 26 Jul 2019 15:10:33 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9036:7130:d6ec:a346? ([2001:b07:6468:f312:9036:7130:d6ec:a346])
+        by smtp.gmail.com with ESMTPSA id k9sm37976888wmi.33.2019.07.26.15.10.32
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Jul 2019 15:10:33 -0700 (PDT)
+Subject: Re: [PATCH] Documentation: move Documentation/virtual to
+ Documentation/virt
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Christoph Hellwig <hch@lst.de>, rkrcmar@redhat.com,
+        jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20190724072449.19599-1-hch@lst.de>
+ <b9baabbb-9e9b-47cf-f5a8-ea42ba1ddc25@redhat.com>
+ <20190724120005.31a990af@lwn.net>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <be4ba4a7-a21b-8c56-4517-8886a754ff55@redhat.com>
+Date:   Sat, 27 Jul 2019 00:10:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190724120005.31a990af@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this small file to ReST format by:
-   - Using a proper markup for the document title;
-   - marking a code block as such;
-   - use tags for Author and date;
-   - use tables for bit map fields.
+On 24/07/19 20:00, Jonathan Corbet wrote:
+>  - kvm/api.txt pretty clearly belongs in the userspace-api book, rather
+>    than tossed in with:
+> 
+>  - kvm/review-checklist.txt, which belongs in the subsystem guide, if only
+>    we'd gotten around to creating it yet, or
+> 
+>  - kvm/mmu.txt, which is information for kernel developers, or
+> 
+>  - uml/UserModeLinux-HOWTO.txt, which belongs in the admin guide.
+> 
+> I suspect that organization is going to be one of the main issues to talk
+> about in Lisbon.  Meanwhile, I hope that this rename won't preclude
+> organizational work in the future.
 
-While here, fix a broken reference for a document with is
-planned but is not here yet.
+Absolutely not, this rename was just about a badly-named directory.  I
+totally agree with the above reorganization.  Does the userspace API
+cover only syscall or perhaps sysfs interfaces?   There are more API
+files (amd-memory-encryption.txt, cpuid.txt, halt-polling.txt msr.txt,
+ppc-pv.txt, s390-diag.txt) but, with the exception of
+amd-memory-encryption.txt and halt-polling.txt, they cover the
+emulated-hardware interfaces that KVM provides to virtual machines.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- ...image-header.txt => boot-image-header.rst} | 39 ++++++++++++-------
- Documentation/riscv/index.rst                 |  1 +
- 2 files changed, 26 insertions(+), 14 deletions(-)
- rename Documentation/riscv/{boot-image-header.txt => boot-image-header.rst} (72%)
-
-diff --git a/Documentation/riscv/boot-image-header.txt b/Documentation/riscv/boot-image-header.rst
-similarity index 72%
-rename from Documentation/riscv/boot-image-header.txt
-rename to Documentation/riscv/boot-image-header.rst
-index 1b73fea23b39..43e9bd0731d5 100644
---- a/Documentation/riscv/boot-image-header.txt
-+++ b/Documentation/riscv/boot-image-header.rst
-@@ -1,22 +1,25 @@
--				Boot image header in RISC-V Linux
--			=============================================
-+=================================
-+Boot image header in RISC-V Linux
-+=================================
- 
--Author: Atish Patra <atish.patra@wdc.com>
--Date  : 20 May 2019
-+:Author: Atish Patra <atish.patra@wdc.com>
-+:Date:   20 May 2019
- 
- This document only describes the boot image header details for RISC-V Linux.
--The complete booting guide will be available at Documentation/riscv/booting.txt.
- 
--The following 64-byte header is present in decompressed Linux kernel image.
-+TODO:
-+  Write a complete booting guide.
-+
-+The following 64-byte header is present in decompressed Linux kernel image::
- 
- 	u32 code0;		  /* Executable code */
--	u32 code1; 		  /* Executable code */
-+	u32 code1;		  /* Executable code */
- 	u64 text_offset;	  /* Image load offset, little endian */
- 	u64 image_size;		  /* Effective Image size, little endian */
- 	u64 flags;		  /* kernel flags, little endian */
- 	u32 version;		  /* Version of this header */
--	u32 res1  = 0;		  /* Reserved */
--	u64 res2  = 0;    	  /* Reserved */
-+	u32 res1 = 0;		  /* Reserved */
-+	u64 res2 = 0;		  /* Reserved */
- 	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
- 	u32 res3;		  /* Reserved for additional RISC-V specific header */
- 	u32 res4;		  /* Reserved for PE COFF offset */
-@@ -25,16 +28,21 @@ This header format is compliant with PE/COFF header and largely inspired from
- ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
- header in future.
- 
--Notes:
-+Notes
-+=====
-+
- - This header can also be reused to support EFI stub for RISC-V in future. EFI
-   specification needs PE/COFF image header in the beginning of the kernel image
-   in order to load it as an EFI application. In order to support EFI stub,
-   code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
-   point to the rest of the PE/COFF header.
- 
--- version field indicate header version number.
--	Bits 0:15  - Minor version
--	Bits 16:31 - Major version
-+- version field indicate header version number
-+
-+	==========  =============
-+	Bits 0:15   Minor version
-+	Bits 16:31  Major version
-+	==========  =============
- 
-   This preserves compatibility across newer and older version of the header.
-   The current version is defined as 0.1.
-@@ -44,7 +52,10 @@ Notes:
-   extension for RISC-V in future. For current version, it is set to be zero.
- 
- - In current header, the flag field has only one field.
--	Bit 0: Kernel endianness. 1 if BE, 0 if LE.
-+
-+	=====  ====================================
-+	Bit 0  Kernel endianness. 1 if BE, 0 if LE.
-+	=====  ====================================
- 
- - Image size is mandatory for boot loader to load kernel image. Booting will
-   fail otherwise.
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index e3ca0922a8c2..215fd3c1f2d5 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -5,6 +5,7 @@ RISC-V architecture
- .. toctree::
-     :maxdepth: 1
- 
-+    boot-image-header
-     pmu
- 
- .. only::  subproject and html
--- 
-2.21.0
-
+Paolo
