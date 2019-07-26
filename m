@@ -2,157 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71BD87D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 15:23:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 067277D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 16:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbfGZPXd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 11:23:33 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40235 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfGZPXd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 11:23:33 -0400
-Received: by mail-pl1-f194.google.com with SMTP id a93so24841876pla.7
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 08:23:32 -0700 (PDT)
+        id S1728816AbfGZQ1t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 12:27:49 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:36143 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727554AbfGZQ1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 12:27:49 -0400
+Received: by mail-qt1-f193.google.com with SMTP id z4so53210519qtc.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 09:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dWQZR/3W1JJGAqPUD7hTWyfWfaLoNTQhqklPLc/rCo0=;
-        b=NSm723gHApWanD6yeW4J2Hod3LusoD9q5rDYeMMOfmnvzy1V6IW8Ik70kYPIywWp+5
-         ePTv11kUJPhco3rtrxGscl1Xvn/9LGCfMjCA63hEQGhn0+RLeCWphNUjv25+mG/EUvI5
-         IipB8N+66gykX0zBQeBiqZbzJqprH2vYSF24M=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=+flrQWy2KGFI4SxCaeB54nPAr/NqfEOeifyj08nzCzk=;
+        b=eWcpH7e1rxiO1zNcJrSgc0LDNIpJJD4vA7AV92db7hvo6LORnzmYF55ACc2j2kfTTY
+         8kx7bgIc3lSch4Rlim9ZD7E/IZDrnCgUKYctFYOqDFP5z58H8j43HJq5+yT0CYCiohZd
+         4JPjmG+u5raoIJWfTJHioVoSayMv4XMvK7bxUGukvC9n2R5rHSS+lAuIN586a5lrYY6r
+         AFur9CJl9RxeMYpFUNQdn8tQnDfTn9eDgBs1Xd83hRJd8OGU70fHY/FFR7G/JGfZkPfH
+         t529zT5TCo6iV7dVHkfCkUR84Mm2Os17weeJPLv96wELjDLnbHEFZIMKfdBeaNvyH4L6
+         jduQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dWQZR/3W1JJGAqPUD7hTWyfWfaLoNTQhqklPLc/rCo0=;
-        b=cWfTk2hkhkM0va7w3nn+jD45sDKoluzcC5x3s4sjYnoCiH5dZ1n3GIj+MJeQVNtOBw
-         u7N04SO3BuGsKl0FoUkcB4Tb1UpttfvBDPlBS6/BHIuUBIw4MPe06so4gmdPyW2RWT4D
-         qUqwE+MGfxnhRmHGgIRkbkgF7Xl+0B0oZ9AX1EKrZP+MbGTwN0cqcNfO/UT1LN5+cD7r
-         1ZBQt0zzkWrjaIS4PDjnqsW/NUXqA/grpom7nX9VegmArSw7Vt6Nh07XxhiKiWpyyKnD
-         YXjsUJ+IdTsJpR07X+93uMnqoJoKJzAron6HTxGxD+HOZGpq0/pJatAEw3xGm6QR7CLl
-         zD0Q==
-X-Gm-Message-State: APjAAAWnCE5BRCN9cSE19xNFBRO3WKEHQvK20H7nn0rVhVarjUJn0Jf8
-        UDsdhovLz3VvRGrmlDm/d88=
-X-Google-Smtp-Source: APXvYqxDFJfffeebJNKJPBtRQh+QrCwtMX6C8cQ3ucTqzwQ23dCczXPmGvaj1O0CVDvfDxhY8WADAQ==
-X-Received: by 2002:a17:902:be03:: with SMTP id r3mr97943466pls.156.1564154612178;
-        Fri, 26 Jul 2019 08:23:32 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id w132sm55268640pfd.78.2019.07.26.08.23.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+flrQWy2KGFI4SxCaeB54nPAr/NqfEOeifyj08nzCzk=;
+        b=HKW+ZPX9tRN+xmLecaBdH+rq6mKxc5S392ymC54Iqmvpj0HjXrZhjo/5jqyWlESPsD
+         Ko/Ov/0Ayah4ZbviNdqrpAiWtKeISlluYXfBw1WcVGNQfZ87YL2PGVmrkppdVlEZIIqS
+         Y2X+LS9LrX8NmMNyQERbV2FLtVfKjuYhXL3xg+76a/z3qdsClyPhuP9bhGY1eJyi01IK
+         IjmcEV8cVBPwRU+dq1ON4TstTHbv3YY691o96NcUCiAZgOBCYpe8h/Qf8E6310L4Eded
+         4i0GBOZ+MIdF5kZ8UsS/14q+3cZDIFoXOGnZ3dc5b0i9VZdTpjroJhRaUU7tETTgbmxU
+         oYDA==
+X-Gm-Message-State: APjAAAW6cNGvfYlAOZnMTO97jP/3xQg5rTABjz/1Cx6IqcEHXoCSoyUe
+        OqF6IkRkyPpcMPYdwc41RY4=
+X-Google-Smtp-Source: APXvYqxxSq3yFpUsIVtVmbPCTNrVFeqA6RgXjw6FgxWJUaB/MTX+FVyDZBHEpo9wDmAsoeE/9z6tRQ==
+X-Received: by 2002:a0c:afeb:: with SMTP id t40mr67376764qvc.28.1564158468381;
+        Fri, 26 Jul 2019 09:27:48 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:22a:18a2:7b63:4439:1287])
+        by smtp.gmail.com with ESMTPSA id 6sm25805086qkp.82.2019.07.26.09.27.46
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 08:23:31 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, joaodias@google.com, joelaf@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
-        namhyung@google.com, Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: [PATCH v3 2/2] doc: Update documentation for page_idle virtual address indexing
-Date:   Fri, 26 Jul 2019 11:23:19 -0400
-Message-Id: <20190726152319.134152-2-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-In-Reply-To: <20190726152319.134152-1-joel@joelfernandes.org>
-References: <20190726152319.134152-1-joel@joelfernandes.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 26 Jul 2019 09:27:47 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     corbet@lwn.net
+Cc:     mchehab+samsung@kernel.org, linux-doc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] docs: admin-guide: Adjust title underline length
+Date:   Fri, 26 Jul 2019 13:27:54 -0300
+Message-Id: <20190726162754.5341-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch updates the documentation with the new page_idle tracking
-feature which uses virtual address indexing.
+The following warning is seen when building 'make htmldocs':
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Documentation/admin-guide/sysctl/kernel.rst:397: WARNING: Title underline too short.
+
+Fix it by adjusting the title underline length appropriately.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
- 1 file changed, 36 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-index df9394fb39c2..1eeac78c94a7 100644
---- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-+++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-@@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 2e36620ec1e4..8af424dd0364 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
  
- User API
- ========
-+There are 2 ways to access the idle page tracking API. One uses physical
-+address indexing, another uses a simpler virtual address indexing scheme.
  
--The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
--Currently, it consists of the only read-write file,
--``/sys/kernel/mm/page_idle/bitmap``.
-+Physical address indexing
-+-------------------------
-+The idle page tracking API for physical address indexing using page frame
-+numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-+consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
+ hung_task_interval_warnings:
+-===================
++============================
  
- The file implements a bitmap where each bit corresponds to a memory page. The
- bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-@@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
- information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
- ``/proc/kpagecgroup``.
- 
-+Virtual address indexing
-+------------------------
-+The idle page tracking API for virtual address indexing using virtual page
-+frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
-+that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
-+except that it uses virtual instead of physical frame numbers.
-+
-+This idle page tracking API does not need deal with PFN so it does not require
-+prior lookups of ``pagemap`` in order to find if page is idle or not. This is
-+an advantage on some systems where looking up PFN is considered a security
-+issue.  Also in some cases, this interface could be slightly more reliable to
-+use than physical address indexing, since in physical address indexing, address
-+space changes can occur between reading the ``pagemap`` and reading the
-+``bitmap``, while in virtual address indexing, the process's ``mmap_sem`` is
-+held for the duration of the access.
-+
-+To estimate the amount of pages that are not used by a workload one should:
-+
-+ 1. Mark all the workload's pages as idle by setting corresponding bits in
-+    ``/proc/<pid>/page_idle``.
-+
-+ 2. Wait until the workload accesses its working set.
-+
-+ 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
-+
- .. _impl_details:
- 
- Implementation Details
-@@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
- exceeding the dirty memory limit, it is not marked referenced.
- 
- The idle memory tracking feature adds a new page flag, the Idle flag. This flag
--is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
--:ref:`User API <user_api>`
--section), and cleared automatically whenever a page is referenced as defined
--above.
-+is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
-+addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
-+addressing (see the :ref:`User API <user_api>` section), and cleared
-+automatically whenever a page is referenced as defined above.
- 
- When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
- mapped to, otherwise we will not be able to detect accesses to the page coming
+ The same as hung_task_warnings, but set the number of interval
+ warnings to be issued about detected hung tasks during check
 -- 
-2.22.0.709.g102302147b-goog
+2.17.1
 
