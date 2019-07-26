@@ -1,215 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BCAEB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 14:47:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21E287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 14:52:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727448AbfGZOrn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 10:47:43 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49411 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbfGZOrn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 10:47:43 -0400
-Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hr1VR-0004rv-A8; Fri, 26 Jul 2019 16:47:37 +0200
-Date:   Fri, 26 Jul 2019 16:47:35 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, security@kernel.org,
-        linux-doc@vger.kernel.org, Jiri Kosina <jkosina@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
- issues
-In-Reply-To: <20190725151302.16a3e0e3@lwn.net>
-Message-ID: <alpine.DEB.2.21.1907261522050.1791@nanos.tec.linutronix.de>
-References: <20190725130113.GA12932@kroah.com> <20190725151302.16a3e0e3@lwn.net>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1727590AbfGZOwl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 10:52:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33834 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727172AbfGZOwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 10:52:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=5hwDR4tPEL7vTgTgaQSKrhug2Vgpq2uEOobdVVVTPIo=; b=JZv16xyW1hc6t5gsX/fUqj2Jz
+        LyKwgUpPzesrfNl5p93wcBs+vkR5ursAN14i3s+3p02C4rWGOy4w3DZGDFcBovWcWdgQrHZbFskXp
+        GrbrlNzGbb+dLf0FyFxX4Dr9wv5CHC60FAvKy9i5e/2LbVeVbckrN3YvuVP+pyR5Dri+BGUzqTkGl
+        J1C5IGiC9tpJXC0pVXyKqQRViIu+3XpdjCmbHft1H8MS4knlOuD8rGnfMypQeqg/B6irXqKi2FyN7
+        61aolci5+9V85XKDKw9OD2DaPhGrSfer8NOPmSMdYkfqr9ezFjXan6sibUUXcLLgqNwjpT969G0ob
+        J9wrZqeIg==;
+Received: from [179.95.31.157] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hr1aL-0008Og-5t; Fri, 26 Jul 2019 14:52:41 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hr1aI-0004OR-HA; Fri, 26 Jul 2019 11:52:38 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] MAINTAINERS: add entries for some documentation scripts
+Date:   Fri, 26 Jul 2019 11:52:34 -0300
+Message-Id: <b21677443a602c5dc263537fa48f0e78da75187a.1564152752.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 Jul 2019, Jonathan Corbet wrote:
-> > Note, this document has gone through numerous reviews by a number of
-> > kernel developers, developers at some of the Linux distros, as well as
-> > all of the lawyers from almost all open source-related companies.  It's
-> > been sitting on my local drive with no comments for a few months now,
-> > and it's about time to get this out and merged properly.
-> > 
-> > If anyone has any final comments, please let me know.
-> 
-> I do think it could benefit from a pass for basic language issues; I can do
-> that if such an effort would be welcome.
+There are some documentation scripts I wrote with doesn't
+have any maintainer at maintainer's file.
 
-Definitely!
+Add them to the DOCUMENTATION entry, in order to have
+Jon and linux-doc ML c/c on those patches, plus a new
+entry to ensure that I'll be c/c when people send patches
+to those.
 
-> > +
-> > +The list is encrypted and email to the list can be sent by either PGP or
-> > +S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
-> > +certificate. The list's PGP key and S/MIME certificate are available from
-> > +https://www.kernel.org/....
-> 
-> Somebody needs to fill in some dots there...:)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ MAINTAINERS | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Yes. I need to sort that out with Konstantin before the thing gets merged,
-but we wanted to give it a wider audience in general.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4de2f288d1ec..a09355672212 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4947,7 +4947,9 @@ M:	Jonathan Corbet <corbet@lwn.net>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/
++F:	scripts/documentation-file-ref-check
+ F:	scripts/kernel-doc
++F:	scripts/sphinx-pre-install
+ X:	Documentation/ABI/
+ X:	Documentation/firmware-guide/acpi/
+ X:	Documentation/devicetree/
+@@ -4963,6 +4965,14 @@ L:	linux-doc@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/translations/it_IT
  
-> > +The hardware security team identifies the developers (domain experts) which
-> > +form the initial response team for a particular issue. The initial response
-> 
-> s/which form/who will form/
-> 
-> > +team can bring in further developers (domain experts) to address the issue
-> > +in the best technical way.
-> 
-> Does the reporter get any say in who can be in this group?  That should
-> probably be made explicit either way.
++DOCUMENTATION SCRIPTS
++M:	Mauro Carvalho Chehab <mchehab@kernel.org>
++L:	linux-doc@vger.kernel.org
++S:	Maintained
++F:	scripts/documentation-file-ref-check
++F:	scripts/sphinx-pre-install
++F:	Documentation/sphinx/parse-headers.pl
++
+ DONGWOON DW9714 LENS VOICE COIL DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+-- 
+2.21.0
 
-See below.
-
-> > +The hardware security team will provide the disclosing party a list of
-> > +developers (domain experts) who should be informed initially about the
-> > +issue after confirming with the developers  that they will adhere to this
-> > +Memorandum of Understanding and the documented process. These developers
-> > +form the initial response team and will be responsible for handling the
-> > +issue after initial contact. The hardware security team is supporting the
-> > +response team, but is not necessarily involved in the mitigation
-> > +development process.
-> 
-> Again, "should be informed" is conditional, suggesting that the reporter
-> might have some sort of veto power.  But the actual policy is not clear.
-
-Yes and no. That's a tricky field. We surely need some agreement with the
-reporter/owner, but of course we want as much freedom here as we can
-get. The past issues were always a pain when we had the need to get a
-particular expert into the group.
-
-> > +While individual developers might be covered by a non-disclosure agreement
-> > +via their employer, they cannot enter individual non-disclosure agreements
-> > +in their role as Linux kernel developers. They will, however, adhere to
-> > +this documented process and the Memorandum of Understanding.
-> 
-> They will *agree to* adhere ...  We expect that actual adherence will be
-> the case but there is no way (even if an NDA were involved) to guarantee
-> that.
-
-Correct.
- 
-> > +Disclosure
-> > +""""""""""
-> > +
-> > +The disclosing party provides detailed information to the initial response
-> > +team via the specific encrypted mailing-list.
-> > +
-> > +From our experience the technical documentation of these issues is usually
-> > +a sufficient starting point and further technical clarification is best
-> > +done via email.
-> > +
-> > +Mitigation development
-> > +""""""""""""""""""""""
-> > +
-> > +The initial response team sets up an encrypted mailing-list or repurposes
-> > +an existing one if appropriate. The disclosing party should provide a list
-> > +of contacts for all other parties who have already been, or should be
-> > +informed about the issue. The response team contacts these parties so they
-> > +can name experts who should be subscribed to the mailing-list.
-> > +
-> > +Using a mailing-list is close to the normal Linux development process and
-> > +has been successfully used in developing mitigations for various hardware
-> > +security issues in the past.
-> > +
-> > +The mailing-list operates in the same way as normal Linux development.
-> > +Patches are posted, discussed and reviewed and if agreed on applied to a
-> > +non-public git repository which is only accessible to the participating
-> > +developers via a secure connection. The repository contains the main
-> > +development branch against the mainline kernel and backport branches for
-> > +stable kernel versions as necessary.
-> 
-> Do we want to envision a KPTI-like situation where the mitigation can be
-> developed publicly?  Or perhaps just handle any such case if and when it
-> ever arises?
-
-Yes, we handle that when it happens which is hopefully never.
-
-> > +Process ambassadors
-> > +-------------------
-> > +
-> > +For assistance with this process we have established ambassadors in various
-> > +organizations, who can answer questions about or provide guidance on the
-> > +reporting process and further handling. Ambassadors are not involved in the
-> > +disclosure of a particular issue, unless requested by a response team or by
-> > +an involved disclosed party. The current ambassadors list:
-> > +
-> > +  ============== ========================================================
-> > +  ARM
-> > +  AMD
-> > +  IBM
-> > +  Intel
-> > +  Qualcomm
-> > +
-> > +  Microsoft
-> > +  VMware
-> > +  XEN
-> > +
-> > +  Canonical
-> > +  Debian
-> > +  Oracle
-> > +  Redhat
-> > +  Suse           Jiri Kosina <jkosina@suse.com>
-> > +
-> > +  Amazon
-> > +  Google
-> > +  ============== ========================================================
-> 
-> Having companies without names seems a little weird.  Unless perhaps you
-> have people teed up to add their names in follow-on patches?
-
-We already talked to companies and the names should come forth before this
-is finished.
- 
-> > +Encrypted mailing-lists
-> > +-----------------------
-> > +
-> > +We use encrypted mailing-lists for communication. The operating principle
-> > +of these lists is that email sent to the list is encrypted either with the
-> > +list's PGP key or with the list's S/MIME certificate. The mailing-list
-> > +software decrypts the email and re-encrypts it individually for each
-> > +subscriber with the subscriber's PGP key or S/MIME certificate. Details
-> > +about the mailing-list software and the setup which is used to ensure the
-> > +security of the lists and protection of the data can be found here:
-> > +https://www.kernel.org/....
-> 
-> That URL is also in need of completion.
-> 
-> The topic of encrypted mailing lists is visited several times in this
-> document; I wonder if that could be coalesced somehow?
-
-Suggestions welcome.
-
-> > +Each subscriber needs to send a subscription request to the response team
-> > +by email. The email must be signed with the subscriber's PGP key or S/MIME
-> > +certificate. If a PGP key is used, it must be available from a public key
-> > +server and is ideally connected to the Linux kernel's PGP web of trust. See
-> > +also: https://www.kernel.org/signature.html.
-> 
-> The "public key server" thing isn't working quite as well as it was; does
-> this requirement need to be revisited?
-
-I think so. That was written way before that mess happened.
- 
-Thanks,
-
-	tglx
