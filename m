@@ -2,87 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 067277D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 16:27:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D6C57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 17:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728816AbfGZQ1t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 12:27:49 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:36143 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727554AbfGZQ1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 12:27:49 -0400
-Received: by mail-qt1-f193.google.com with SMTP id z4so53210519qtc.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 09:27:48 -0700 (PDT)
+        id S1726279AbfGZRza (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 13:55:30 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35594 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727516AbfGZRza (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 13:55:30 -0400
+Received: by mail-pf1-f195.google.com with SMTP id u14so24882600pfn.2
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 10:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=+flrQWy2KGFI4SxCaeB54nPAr/NqfEOeifyj08nzCzk=;
-        b=eWcpH7e1rxiO1zNcJrSgc0LDNIpJJD4vA7AV92db7hvo6LORnzmYF55ACc2j2kfTTY
-         8kx7bgIc3lSch4Rlim9ZD7E/IZDrnCgUKYctFYOqDFP5z58H8j43HJq5+yT0CYCiohZd
-         4JPjmG+u5raoIJWfTJHioVoSayMv4XMvK7bxUGukvC9n2R5rHSS+lAuIN586a5lrYY6r
-         AFur9CJl9RxeMYpFUNQdn8tQnDfTn9eDgBs1Xd83hRJd8OGU70fHY/FFR7G/JGfZkPfH
-         t529zT5TCo6iV7dVHkfCkUR84Mm2Os17weeJPLv96wELjDLnbHEFZIMKfdBeaNvyH4L6
-         jduQ==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3fIEQ/rN6TuynElYAq5+lHqap74wdnXdLlsttyXNjH4=;
+        b=QA8YC1na5sGMKcBdn4bysIlb2yL9sVlYEPximyWG2Mbn0jj+5chPnPXvVfFnlGeu1F
+         H/icn9uOPIRD8RsEeUQYaenrQhycela8rSIE9f4jLrCNokfA2TNwzcHvqLKmg2Yb9gKf
+         uS3yJ1mqbOe+mLzcZyXStwZPqoBj1sEjd69h4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=+flrQWy2KGFI4SxCaeB54nPAr/NqfEOeifyj08nzCzk=;
-        b=HKW+ZPX9tRN+xmLecaBdH+rq6mKxc5S392ymC54Iqmvpj0HjXrZhjo/5jqyWlESPsD
-         Ko/Ov/0Ayah4ZbviNdqrpAiWtKeISlluYXfBw1WcVGNQfZ87YL2PGVmrkppdVlEZIIqS
-         Y2X+LS9LrX8NmMNyQERbV2FLtVfKjuYhXL3xg+76a/z3qdsClyPhuP9bhGY1eJyi01IK
-         IjmcEV8cVBPwRU+dq1ON4TstTHbv3YY691o96NcUCiAZgOBCYpe8h/Qf8E6310L4Eded
-         4i0GBOZ+MIdF5kZ8UsS/14q+3cZDIFoXOGnZ3dc5b0i9VZdTpjroJhRaUU7tETTgbmxU
-         oYDA==
-X-Gm-Message-State: APjAAAW6cNGvfYlAOZnMTO97jP/3xQg5rTABjz/1Cx6IqcEHXoCSoyUe
-        OqF6IkRkyPpcMPYdwc41RY4=
-X-Google-Smtp-Source: APXvYqxxSq3yFpUsIVtVmbPCTNrVFeqA6RgXjw6FgxWJUaB/MTX+FVyDZBHEpo9wDmAsoeE/9z6tRQ==
-X-Received: by 2002:a0c:afeb:: with SMTP id t40mr67376764qvc.28.1564158468381;
-        Fri, 26 Jul 2019 09:27:48 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:22a:18a2:7b63:4439:1287])
-        by smtp.gmail.com with ESMTPSA id 6sm25805086qkp.82.2019.07.26.09.27.46
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3fIEQ/rN6TuynElYAq5+lHqap74wdnXdLlsttyXNjH4=;
+        b=S6HL3DDhiq6nmXY9HLHy0tBm8GkRo/9rSFuJFa2TtL/MyPiig3cYJN6tX42HjJgqaw
+         N5VFSV+VelalctsAfQOAaGJyXgEKyXwuxMmBNeuv8AseaVzbaUlV+qzf8Nj2tsBcb/qb
+         cuTWrtRk82OdCR7LYO+xBvMRaeXDaqwqBtgbWKULdFyBBqQs9MB42TwsYhtbltT9PVB4
+         bgoKurNYEddFQ1QDwlYEjsSNLEwNi5cscRIpLSP0qQwQQWGgi4mdtgsx2X9nYZcB8UhN
+         T0xvlsi7uos/i3r09I07yYvn9TjBbaU9K731kPJbhLG39DUoCmaEEaSIG6dX77NrJYC5
+         bXAA==
+X-Gm-Message-State: APjAAAX/SHREWprSLJd8sZ/JVhFHnAFrTMkNy1/nXSNNZ3X5R5JYBMQL
+        sw4cebIwYKZgN0H9XZXJZMs=
+X-Google-Smtp-Source: APXvYqxxu6QceJ+8y8qbWMgZcdskuT5YWE9rp2petvNwlDt0G92QRX4JPz26bnDmlBn8OePHLp6Odg==
+X-Received: by 2002:a62:2582:: with SMTP id l124mr23333722pfl.43.1564163729394;
+        Fri, 26 Jul 2019 10:55:29 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id a25sm27783889pfo.60.2019.07.26.10.55.28
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 09:27:47 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     corbet@lwn.net
-Cc:     mchehab+samsung@kernel.org, linux-doc@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] docs: admin-guide: Adjust title underline length
-Date:   Fri, 26 Jul 2019 13:27:54 -0300
-Message-Id: <20190726162754.5341-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 26 Jul 2019 10:55:28 -0700 (PDT)
+Date:   Fri, 26 Jul 2019 13:55:27 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 25/26] docs: rcu: convert some articles from html to
+ ReST
+Message-ID: <20190726175527.GD146401@google.com>
+References: <cover.1564145354.git.mchehab+samsung@kernel.org>
+ <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
+ <20190726162002.GA146401@google.com>
+ <20190726140028.38abb5fa@coco.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190726140028.38abb5fa@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following warning is seen when building 'make htmldocs':
+On Fri, Jul 26, 2019 at 02:00:28PM -0300, Mauro Carvalho Chehab wrote:
+> Hi Joel,
+> 
+> Em Fri, 26 Jul 2019 12:20:02 -0400
+> Joel Fernandes <joel@joelfernandes.org> escreveu:
+> 
+> > On Fri, Jul 26, 2019 at 09:51:35AM -0300, Mauro Carvalho Chehab wrote:
+> > > There are 4 RCU articles that are written on html format.
+> > > 
+> > > The way they are, they can't be part of the Linux Kernel
+> > > documentation body nor share the styles and pdf output.
+> > > 
+> > > So, convert them to ReST format.
+> > > 
+> > > This way, make htmldocs and make pdfdocs will produce a
+> > > documentation output that will be like the original ones, but
+> > > will be part of the Linux Kernel documentation body.
+> > > 
+> > > Part of the conversion was done with the help of pandoc, but
+> > > the result had some broken things that had to be manually
+> > > fixed.  
+> > 
+> > This looks Ok to me, but I also nervous something could have been done
+> > incorrectly during the conversion.
+> > 
+> > Could you list what were the "some broken things" that you had to manually
+> > fix to make reviewing easier?
+> 
+> There are a couple of things.
+> 
+> At least the pandoc's version I used here has a bug: its conversion 
+> from html to ReST on those files only start after a <body> tag - or 
+> when the first quiz table starts. I only discovered that adding a
+> <body> at the beginning of the file solve this book at the last
+> conversions.
+> 
+> So, for most html->ReST conversions, I manually converted the first
+> part of the document, basically stripping html paragraph tags and
+> by replacing highlights by the ReST syntax.
+> 
+> Also, all the quiz tables seem to assume some javascript macro or
+> css style that would be hiding the answer part until the mouse moves
+> to it. Such macro/css was not there at the kernel tree. So, the quiz
+> answers have the same color as the background, making them invisible.
+> Even if we had such macro/css, this is not portable for pdf/LaTeX output
+> (and I'm not sure if this would work with ePub).
+> 
+> So, I ended by manually doing the table conversion.
+> 
+> Finally, I double-checked if the conversions ended ok, addressing any
+> issues that might have heppened.
+> 
+> So, after both automatic conversion and manual fixes, I opened both the 
+> html files produced by Sphinx and the original ones and compared them
+> line per line (except for the indexes, as Sphinx produces them 
+> automatically), in order to see if all information from the original 
+> files will be there on a format close to what we have on other ReST
+> files, fixing any pending issues if any.
 
-Documentation/admin-guide/sysctl/kernel.rst:397: WARNING: Title underline too short.
+Thanks, I am in the process of going through these docs today and will let
+you know anything I find. It would be nice to include the above challenges in
+the changelog as well.
 
-Fix it by adjusting the title underline length appropriately.
+Some reason 'make htmldocs' needed me to install a whole bunch of
+dependencies this time around.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+By the way, that tools/memory-model/Documentation/explanation.txt is a useful
+little document. Well not really little with over 1000 lines ;-). But it
+would certainly benefit from ReST's / htmldocs ability to jump to labels and
+search, etc since it is so long..
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 2e36620ec1e4..8af424dd0364 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
- 
- 
- hung_task_interval_warnings:
--===================
-+============================
- 
- The same as hung_task_warnings, but set the number of interval
- warnings to be issued about detected hung tasks during check
--- 
-2.17.1
+thanks,
+
+ - Joel
+
+
+
+
+
 
