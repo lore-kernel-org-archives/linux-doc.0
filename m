@@ -1,61 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1C8F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:10:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28B607D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbfGZWKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 18:10:36 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46708 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726195AbfGZWKf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:10:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z1so55806433wru.13
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 15:10:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3uH6wRDL6m6XJhTTMaf9vseYu7YZD/ywsLcXQB/jjqU=;
-        b=gRwFBhXFYJfA75M/HEdp8ls9oB9Iqr3v3cbcAdX0YN2re7cxgXOiyNGqdV7y940UPQ
-         xEAGEx83Sx0AScNU61MufPYcTqHXboUs77qQIZbyFLS+Z1KWXzwacdV2TBBpkabIXPIS
-         3t25KPcq+uPMwdErdl7zvAb2+50heWp13Zz87W54VqJ6b2+tjIZYL9Eny8Zn4mq59bWs
-         VSnpDw/un6SKkrcWSSQYt420RvJq+X7LgBHo2uzl7siD3ZzOHUpaLgNLz7dgKDUOR50r
-         P0rxejLO/ww+4as8POGBXSkLKzdxYgr2S+zj7oOa/8JdyEDX/qjxwZNZ2GKjutnZm5zh
-         VasQ==
-X-Gm-Message-State: APjAAAUAe/FB06Umb0UAbqT7HaBRsI+Hh/FS4Xxxvk6Xs7bo78X7zT7n
-        U+CscFPuLzD+tPhsHJmnuA3TJg==
-X-Google-Smtp-Source: APXvYqzcff0a62xyZ1uFR2gsycPFMbRcnCLACAl1fTNDob/Jl6sm3/hEJ5mjpbBEtl+zmxqlsSDf9A==
-X-Received: by 2002:a5d:568e:: with SMTP id f14mr22603718wrv.167.1564179033572;
-        Fri, 26 Jul 2019 15:10:33 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9036:7130:d6ec:a346? ([2001:b07:6468:f312:9036:7130:d6ec:a346])
-        by smtp.gmail.com with ESMTPSA id k9sm37976888wmi.33.2019.07.26.15.10.32
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 15:10:33 -0700 (PDT)
-Subject: Re: [PATCH] Documentation: move Documentation/virtual to
- Documentation/virt
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Christoph Hellwig <hch@lst.de>, rkrcmar@redhat.com,
-        jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20190724072449.19599-1-hch@lst.de>
- <b9baabbb-9e9b-47cf-f5a8-ea42ba1ddc25@redhat.com>
- <20190724120005.31a990af@lwn.net>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <be4ba4a7-a21b-8c56-4517-8886a754ff55@redhat.com>
-Date:   Sat, 27 Jul 2019 00:10:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726761AbfGZWQm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 18:16:42 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52545 "EHLO
+        esa3.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbfGZWQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:16:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1564179401; x=1595715401;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=IauWsVnQycBlvgwPCS2OKZLCRZCdcsAGAQB72OLCEAc=;
+  b=BCzb9eXHA6Kt2FlbKJmT8BxUyxljwpFcMv1Pa8scE51/HD/xQz9BmuvE
+   lobv0V9nGd6ssbIeBdbub9nQdyJTFcbUwaafStDD/sAhSOBzLKpV/d+1B
+   pzLKuNctqcqH6gkAkjRPWYHxVsTzuueXrCmJd0RoX0ySCP/u5dvZIkyyJ
+   ZDtRGNlfiHI/oLCx1JVdzOFKCYSMNnGkxcrF4eniIoW3iGKyzjO29L756
+   OUpPvfAEMvJgKi5Sbxbyo+cEyWVyQvIH3Y07jFuaK0mucwE5rs6dGr560
+   lEg/I29RZ6+0ti37pOlU/5sdvAOnTXevUryaA7yVreDMD86neHynCIFhi
+   A==;
+IronPort-SDR: 0MfrN9x1IVDn4ROJX3Bjlv29nWXxJCRVx7UkZ3RxMbowQjxLoqs/Ns0CAJhGL7C9HgBO3VILK2
+ sR0ItxXXzu75i+SEYIBaKOedR2rPdcKdIiUyK3D2MqDuxmtrl9FIuBlkzN9zbFqksOllbTi7Os
+ EnYvGDi6FsbG20JBvZeVIeeImld38mLmwTT0bQMin3AOtW7OEvgA7vr22Dla5Au3ZdoCQNGX8B
+ toG3oFvPjUDJ1QigjBRLqiLB6eNOaZNxx7QwMkAhVl1TrKlNyUDE+UCj2umsRu09w9tABxqwhK
+ kA4=
+X-IronPort-AV: E=Sophos;i="5.64,312,1559491200"; 
+   d="scan'208";a="118942854"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 27 Jul 2019 06:16:41 +0800
+IronPort-SDR: 0YLlMvdrAOEcS3r0MZdl0my8c3YoWs09kQy8J3ajn6pgxoGZ9c/UpWBxB7bPiHiTSbA1deNScF
+ o3epm3GrDx4d4LyttBWPwgkTKatSWIavepcoyai/CpxuPPMedjXZd4Yrju03HTEOjaWiO1AYo/
+ 9Ors4eg2bXPMdJiLsx9e5WnWYYV5k4tGwY2o1W7cyIuiws9LJ2oXkMzBuw5ZqJvfWBE8stfZkd
+ kFAdD2CfT6h/JSNPp5VlJ736l/Iw7s0O7xxy2d/54UfSN+ExmWlwOtI+yhsXWwiUJB2r3qyjBG
+ MmixGKZ0dKAxT8lnUTivv41+
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP; 26 Jul 2019 15:14:49 -0700
+IronPort-SDR: mvVjxZAXMfQh1VfDTBfz4dPD/565Ax5AYIKjxTjIiqVmLRWGe2+W0MVwBgEulxK1mOj/W7J+U3
+ u6KgOFNFaIujD2lWePFSBXc4u3Az7sJW+pKKF+ocvkZ5zcKxw2p19LdoM7+ZVnlb/47Ym85LYS
+ wtBrOkRg+wACGyYOR27dj9mEyXz2WDrAbStQi9UdlyRvHCmSmulLEVVWng1ydkk5XBrFN2fCXR
+ Dbq3l/Tcr5HcAX+rwwDAQhGMC9GF52HArT0lK5L60SCLKoq/bnhfMmYrssBs2/xwqwb/hV8q8H
+ 9Z4=
+Received: from unknown (HELO [10.225.104.231]) ([10.225.104.231])
+  by uls-op-cesaip01.wdc.com with ESMTP; 26 Jul 2019 15:16:41 -0700
+Subject: Re: [PATCH 0/7] Fix broken references to files under Documentation/*
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>
+References: <cover.1564140865.git.mchehab+samsung@kernel.org>
+ <04794d40-0b39-0223-c91e-03b46cb6e2db@wdc.com>
+ <20190726171352.5eaa4d83@coco.lan>
+ <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
+ <20190726180109.56d1db35@coco.lan>
+From:   Atish Patra <atish.patra@wdc.com>
+Message-ID: <0d25d488-781e-a89e-62d2-21349a976d83@wdc.com>
+Date:   Fri, 26 Jul 2019 15:16:37 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190724120005.31a990af@lwn.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190726180109.56d1db35@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -63,27 +76,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/07/19 20:00, Jonathan Corbet wrote:
->  - kvm/api.txt pretty clearly belongs in the userspace-api book, rather
->    than tossed in with:
+On 7/26/19 2:01 PM, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Jul 2019 13:18:30 -0700
+> Atish Patra <atish.patra@wdc.com> escreveu:
 > 
->  - kvm/review-checklist.txt, which belongs in the subsystem guide, if only
->    we'd gotten around to creating it yet, or
+>> On 7/26/19 1:14 PM, Mauro Carvalho Chehab wrote:
+>>> Em Fri, 26 Jul 2019 12:55:36 -0700
+>>> Atish Patra <atish.patra@wdc.com> escreveu:
+>>>    
+>>>> On 7/26/19 4:47 AM, Mauro Carvalho Chehab wrote:
+>>>>> Solves most of the pending broken references upstream, except for two of
+>>>>> them:
+>>>>>
+>>>>> 	$ ./scripts/documentation-file-ref-check
+>>>>> 	Documentation/riscv/boot-image-header.txt: Documentation/riscv/booting.txt
+>>>>> 	MAINTAINERS: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+>>>>>
+>>>>> As written at boot-image-header.txt, it is waiting for the addition of
+>>>>> a future file:
+>>>>>
+>>>>> 	"The complete booting guide will be available at
+>>>>> 	  Documentation/riscv/booting.txt."
+>>>>>       
+>>>>
+>>>> Yeah. We don't have complete booting guide defined in RISC-V land.
+>>>> Documentation/riscv/booting.txt will be available once we have that.
+>>>>
+>>>> In the mean time, do we need to convert boot-image-header.txt to
+>>>> boot-image-header.rst and fix the reference to
+>>>> Documentation/riscv/booting.rst as well ?
+>>>
+>>> Well, in the mean time, every time someone builds the Kernel with
+>>> COMPILE_TEST enabled, a warning will be produced.
+>>>
+>>> So, my suggestion would be to write it on a different way, like:
+>>>
+>>> 	"A complete booting guide is being written and should be
+>>> 	 available on future versions."
+>>>
+>>> Or:
+>>> 	TODO:
+>>> 	   Write a complete booting guide.
+>>>
+>>> And update this once the guide is finished. This should be enough
+>>> to prevent the warning.
+>>>    
+>>
+>> Sounds good to me.
+>>
+>>> With regards to converting it to ReST, that's recommended. I suspect
+>>> we could be able to finish the entire doc conversion in a couple
+>>> Kernel versions.
+>>>    
+>> Sure.
+>>
+>>> Also, it should be really trivial to convert this one to ReST.
+>>>    
+>>
+>> Yes. Let me know if you prefer to update it along with your series or I
+>> will send the patch.
 > 
->  - kvm/mmu.txt, which is information for kernel developers, or
+> I suspect it would be quicker if I write it. I'm sending it in a
+> few.
 > 
->  - uml/UserModeLinux-HOWTO.txt, which belongs in the admin guide.
-> 
-> I suspect that organization is going to be one of the main issues to talk
-> about in Lisbon.  Meanwhile, I hope that this rename won't preclude
-> organizational work in the future.
+Thanks!!
 
-Absolutely not, this rename was just about a badly-named directory.  I
-totally agree with the above reorganization.  Does the userspace API
-cover only syscall or perhaps sysfs interfaces?   There are more API
-files (amd-memory-encryption.txt, cpuid.txt, halt-polling.txt msr.txt,
-ppc-pv.txt, s390-diag.txt) but, with the exception of
-amd-memory-encryption.txt and halt-polling.txt, they cover the
-emulated-hardware interfaces that KVM provides to virtual machines.
+> Thanks,
+> Mauro
+> 
 
-Paolo
+
+-- 
+Regards,
+Atish
