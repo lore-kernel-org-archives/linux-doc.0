@@ -1,140 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 565277D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 20:18:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87CBD7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 20:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbfGZUSe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 16:18:34 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:32707 "EHLO
-        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726589AbfGZUSd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 16:18:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1564172314; x=1595708314;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=AngrC8jvuImhLFWkJW1/1VV7s6vc+iNx2vnmGpjsvD0=;
-  b=STZQWw4rtMcdld27+dpjE5glYfajwm1VeT2COWjIIgGL0sEDfR1BerEV
-   U4BiyH6oyLCWElYQko51ThnC8xguU5MGYHbnRaxWcoWyy7LOUfHFHNVGP
-   V8ItG0BYI3BR/2l0mssFrGV3WnwbZvqZMvWMauUe8nIX9hI87Zu6TXT0q
-   3U+812zZq+ioaN96WCGG0Lf7+5Zi4R3BUV4z1298oWSJiD5nTzwaSBsBG
-   ytWqB058UnK67OWCPzUdsutSeS6iEpIyU8pr+VVQs5Zos6SeYJppSbd5O
-   g7F7ZV/8Nx8VCsS56j2qq7WwJOfpdjaPT0mufn71OVTJTY8UmQbsUuzj0
-   Q==;
-IronPort-SDR: WXFEIb9o1QYJwm1BJhSJA+NoH4waEnwVgNCkTqXvAqwHFjVs1IAo7ymikYrp7dxZB+7s03QlBF
- I6TDCpAym1AuZyEEcJ7+NUIXtg/SYKfiJDCXUEJgFO21TCDsn2R02xCdYeT/M32G3Sb7xz7pq0
- AvNPBGBPZdR1x8pIoYK1vEgTjRfo23h7JbIBxdBP6o0QKRWibkuZ+6KavUOtq4FeH1/oIYYghL
- 2PK9fL5TwJkCgRVMwa0EZVyUyJGQ09iH5uKz5jurXbNiBCWsfV8YJHDlaegR3mQLtu1TTjW2po
- Quo=
-X-IronPort-AV: E=Sophos;i="5.64,312,1559491200"; 
-   d="scan'208";a="115276021"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 27 Jul 2019 04:18:33 +0800
-IronPort-SDR: fvJ7mH/YqLg1iQqRi7xbrxXl5ItmhYgiiaUfW6basIp+7R6CN6DqzCDAosFd908u35xpbMmzMf
- 5sY+x8QAk+nOTNlBwn6NJGdg4DhEmuE5XRfaf5U3L9m5JMicrXh2Jj+qgHT0EmgauiWGvd0G9n
- 9e9imtQOKq/l5h7WK0C9EjDNrGfBwq4qcy4n/GT6IPzEOANLut1qlqs8YikhISQuxW+c/fzV3i
- lnbxQKdoSAYWwoAFFH6o07ph1c4mNRxd0OkVvFzqyiJtse57ns976SPQhoxIieFJc8/WkrrzdE
- 5ZXGUswmRNFFgwObf01Tg6vr
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP; 26 Jul 2019 13:16:42 -0700
-IronPort-SDR: 8NkVZ9+WldyDrtOMJztKxi/Kh1+rvBTTfOmH5xE6uB24ORokOVOnLAEcG/xJ/N6p5gdx2r+KaO
- zVkk3ycg1Usy7gq7fbwxOE3frcBs6HF91c3liv/u0hb+apT2ph4o6d+rmlwZ+IFn7/WZPeVfkP
- EW6+xrcLWOVKpgQpcARVLNRxGJCcD8FvLfapzYqJsYplk8iykMzcsiI3qmAnEujqL0Zj0azldW
- dY0Q5CN5OCbu9TAfnpb+qaFWz+CHDQ8m9CKsIwHiwbqkmnGGeniw97ychWjZjlASUq2nInYUcP
- T6I=
-Received: from unknown (HELO [10.225.104.231]) ([10.225.104.231])
-  by uls-op-cesaip01.wdc.com with ESMTP; 26 Jul 2019 13:18:33 -0700
-Subject: Re: [PATCH 0/7] Fix broken references to files under Documentation/*
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>
-References: <cover.1564140865.git.mchehab+samsung@kernel.org>
- <04794d40-0b39-0223-c91e-03b46cb6e2db@wdc.com>
- <20190726171352.5eaa4d83@coco.lan>
-From:   Atish Patra <atish.patra@wdc.com>
-Message-ID: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
-Date:   Fri, 26 Jul 2019 13:18:30 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.8.0
+        id S1727530AbfGZU0v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 16:26:51 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:38985 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727819AbfGZU0u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 16:26:50 -0400
+Received: by mail-pg1-f195.google.com with SMTP id u17so25279424pgi.6
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 13:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IE5eJowpyCcGnZE2pKcSc9umsrWgUqBG7zCK+NjEKK4=;
+        b=OSSRdZkSZXg6M+b9FWF3a1q+TiPSBp244enRgIGdVZjUu/SD8K8PRf3KqpHJ6cYWhk
+         n3RevHiDEbDWb3xewyJUfr/5dEQwWqMIwnEbk87NSvS9caP8hIT7G5fh4UfLVUxKM38z
+         JNXY9crOfbFD7ctsGRXt2fiHSx0KEPhd66l6Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IE5eJowpyCcGnZE2pKcSc9umsrWgUqBG7zCK+NjEKK4=;
+        b=kHuF1wOGLfk48YqkNCSAgZGAZjoWA54uVGFzxBOSaY0oG2XoavPVW0wohMH/DtUsS9
+         Qk9q0tJbsSZ63GtPYSbQJhs9lJxt6R4FVjcHXoO+ApvC0FByD25xev59XuPzl+yXBqcN
+         Rf5t63lDK6nbY75wM17hZTLgE9ACLyGanaJ2t20bjhyq21PJVEFGi9UMXm1Jyj37OxNm
+         6AEMyg0QLJnSQUXjb1Ka9cPwdNSitB3CfEPepTntbRDb2CrEcGFOtpO1c4M6KFBb3Fro
+         H2EfdITJuJsrLLrpniVMLcXSWhH/u8+3VH+Qe03K8GRQhBaGJVwIS1FDeUxKqSfVG40r
+         6vqw==
+X-Gm-Message-State: APjAAAWkVH03NQ81wHmHzuu8dsbsVIMJ7HSLfZNrnwoDuvyX36njkz0/
+        VeYusjr9DYRbmr32Vl5A7Qg=
+X-Google-Smtp-Source: APXvYqwxNJxyl8AMaL5MbjN3DCH0CGh1VKzKZSR7IsnpnOEC6DeGs6F8TvHMF+yBHu4tkJDhVOJeUA==
+X-Received: by 2002:a17:90a:4f0e:: with SMTP id p14mr96514100pjh.40.1564172810042;
+        Fri, 26 Jul 2019 13:26:50 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id f19sm77269906pfk.180.2019.07.26.13.26.48
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 26 Jul 2019 13:26:49 -0700 (PDT)
+Date:   Fri, 26 Jul 2019 16:26:47 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     sspatil@google.com
+Cc:     linux-kernel@vger.kernel.org, adobriyan@gmail.com,
+        akpm@linux-foundation.org, bgregg@netflix.com, chansen3@cisco.com,
+        dancol@google.com, fmayer@google.com, joaodias@google.com,
+        corbet@lwn.net, keescook@chromium.org, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        rppt@linux.ibm.com, minchan@kernel.org, namhyung@google.com,
+        guro@fb.com, sfr@canb.auug.org.au, surenb@google.com,
+        tkjos@google.com, vdavydov.dev@gmail.com, vbabka@suse.cz,
+        wvw@google.com, sspatil+mutt@google.com
+Subject: Re: [PATCH v3 2/2] doc: Update documentation for page_idle virtual
+ address indexing
+Message-ID: <20190726202647.GA213712@google.com>
+References: <20190726152319.134152-1-joel@joelfernandes.org>
+ <20190726152319.134152-2-joel@joelfernandes.org>
+ <20190726201710.GA144547@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20190726171352.5eaa4d83@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190726201710.GA144547@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/26/19 1:14 PM, Mauro Carvalho Chehab wrote:
-> Em Fri, 26 Jul 2019 12:55:36 -0700
-> Atish Patra <atish.patra@wdc.com> escreveu:
+On Fri, Jul 26, 2019 at 01:17:10PM -0700, sspatil@google.com wrote:
+> Thanks Joel, just a couple of nits for the doc inline below. Other than that,
 > 
->> On 7/26/19 4:47 AM, Mauro Carvalho Chehab wrote:
->>> Solves most of the pending broken references upstream, except for two of
->>> them:
->>>
->>> 	$ ./scripts/documentation-file-ref-check
->>> 	Documentation/riscv/boot-image-header.txt: Documentation/riscv/booting.txt
->>> 	MAINTAINERS: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
->>>
->>> As written at boot-image-header.txt, it is waiting for the addition of
->>> a future file:
->>>
->>> 	"The complete booting guide will be available at
->>> 	  Documentation/riscv/booting.txt."
->>>    
->>
->> Yeah. We don't have complete booting guide defined in RISC-V land.
->> Documentation/riscv/booting.txt will be available once we have that.
->>
->> In the mean time, do we need to convert boot-image-header.txt to
->> boot-image-header.rst and fix the reference to
->> Documentation/riscv/booting.rst as well ?
-> 
-> Well, in the mean time, every time someone builds the Kernel with
-> COMPILE_TEST enabled, a warning will be produced.
-> 
-> So, my suggestion would be to write it on a different way, like:
-> 
-> 	"A complete booting guide is being written and should be
-> 	 available on future versions."
-> 
-> Or:
-> 	TODO:
-> 	   Write a complete booting guide.
-> 
-> And update this once the guide is finished. This should be enough
-> to prevent the warning.
-> 
+> Reviewed-by: Sandeep Patil <sspatil@google.com>
 
-Sounds good to me.
+Thanks!
 
-> With regards to converting it to ReST, that's recommended. I suspect
-> we could be able to finish the entire doc conversion in a couple
-> Kernel versions.
+> I'll plan on making changes to Android to use this instead of the pagemap +
+> page_idle. I think it will also be considerably faster.
+
+Cool, glad to know.
+
+> On Fri, Jul 26, 2019 at 11:23:19AM -0400, Joel Fernandes (Google) wrote:
+> > This patch updates the documentation with the new page_idle tracking
+> > feature which uses virtual address indexing.
+> > 
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > ---
+> >  .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
+> >  1 file changed, 36 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
+> > index df9394fb39c2..1eeac78c94a7 100644
+> > --- a/Documentation/admin-guide/mm/idle_page_tracking.rst
+> > +++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
+> > @@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
+> >  
+> >  User API
+> >  ========
+> > +There are 2 ways to access the idle page tracking API. One uses physical
+> > +address indexing, another uses a simpler virtual address indexing scheme.
+> >  
+> > -The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
+> > -Currently, it consists of the only read-write file,
+> > -``/sys/kernel/mm/page_idle/bitmap``.
+> > +Physical address indexing
+> > +-------------------------
+> > +The idle page tracking API for physical address indexing using page frame
+> > +numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
+> > +consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
+> >  
+> >  The file implements a bitmap where each bit corresponds to a memory page. The
+> >  bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
+> > @@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
+> >  information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
+> >  ``/proc/kpagecgroup``.
+> >  
+> > +Virtual address indexing
+> > +------------------------
+> > +The idle page tracking API for virtual address indexing using virtual page
+> > +frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
+> > +that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
+> > +except that it uses virtual instead of physical frame numbers.
+> > +
+> > +This idle page tracking API does not need deal with PFN so it does not require
 > 
-Sure.
-
-> Also, it should be really trivial to convert this one to ReST.
+> s/need//
 > 
-
-Yes. Let me know if you prefer to update it along with your series or I 
-will send the patch.
-
-> Thanks,
-> Mauro
+> > +prior lookups of ``pagemap`` in order to find if page is idle or not. This is
 > 
+> s/in order to find if page is idle or not//
 
+Fixed both, thank you! Will send out update soon.
 
--- 
-Regards,
-Atish
+thanks,
+
+ - Joel
+
