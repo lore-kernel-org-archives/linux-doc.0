@@ -5,46 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8923E7D917
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 11:47:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 686497D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 11:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbfGZLrd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 07:47:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47390 "EHLO
+        id S1726429AbfGZLrc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 07:47:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47368 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726180AbfGZLrc (ORCPT
+        with ESMTP id S1726211AbfGZLrc (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 07:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m8kf/sPEYGMDUeP6JoO5tSRSz84bxy3DCh0yf5UUIs0=; b=iGohlSDAV5B4QjohSRDUM74DRr
-        8BnV+fmqXiZHJSrIpfrZSm0RL9ohLH/3yVOcscMSeHvBnGvA0vJusylj5PsVjmp6PgJ/ZYeV7m9hH
-        u9JVydoXGtFgGjqyzHlJlQ83Tm0NyJMgZblIIPL1GKlWkxXgLTj/fQ++1kJReUOSflozna3+Kmkre
-        cNguW2QYAk3/eTPlsU0OSUEHAlC90HjESdB7WGTqiXGlogBGHSsf0FRCV5GJFE4l9wwIix2WMWTKI
-        SZJNl2tbJmv3InbL4nlEb1eoiyO2KxzbnVPVo/toAhktp3enuLl2k9j1gIFN9A7C4gQ9bmYoyg4wv
-        flBAcVuw==;
+        bh=at/mIgBlu2gnTfF2dL+k+2q+ilBgl53195q9VZEG/NY=; b=aTznBVt5l/zfIREXZI+3vkR6El
+        il/QAyM+OEMrEnf7f9Mc7mrawmQ1RvF51ZOdr/mxWfNXAlrsNZMFaHvevwpUNAiNO5nVF/HAVikFe
+        WUFJx1EbJg6wUv7Qzw35mEhx2klY8JfSgUFgtVgGXa5zCY61Ewe8l3SMIco4K97kpq7vE5Qe/+n1H
+        wg57GLc0VDaM9vrl8AOC0sfyxzbSP9snPuEr0CrpLtrUXd2inMz7K/JTVDhF7vVMTlgeIrU91g6H9
+        23DPHKKA4XgPzkH/19U6liImcmLtufvNvBhMtkiNi/6DXE4WBrneOH3OAevbDVK31IDe7nd4INwz1
+        V/4l9JJw==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqyh9-0003Bc-7R; Fri, 26 Jul 2019 11:47:31 +0000
+        id 1hqyh9-0003BX-0s; Fri, 26 Jul 2019 11:47:31 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqyh7-0000uE-49; Fri, 26 Jul 2019 08:47:29 -0300
+        id 1hqyh7-0000tu-0F; Fri, 26 Jul 2019 08:47:29 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 6/7] docs: zh_CN: howto.rst: fix a broken reference
-Date:   Fri, 26 Jul 2019 08:47:26 -0300
-Message-Id: <cd296a4802f46a223522b31aebb16d0059c7d88a.1564140865.git.mchehab+samsung@kernel.org>
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 2/7] docs: generic-counter.rst: fix broken references for ABI file
+Date:   Fri, 26 Jul 2019 08:47:22 -0300
+Message-Id: <f55e1ef71a3a7194dacd3f0cecc0aa67aaffbd15.1564140865.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564140865.git.mchehab+samsung@kernel.org>
 References: <cover.1564140865.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
@@ -52,35 +51,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a broken reference there pointing to the long gone
-DocBook dir.
+There are two references to the generic counter ABI, with was added
+on a separate patch. Both point to a non-existing file.
 
-While I don't read chinese, Google translator translates it
-to:
-	"The generated documentation will be placed in
-	 the Documentation/DocBook/ directory."
+Fix them.
 
-Well, we know that the output will be Documentation/output
-dir. So, let's fix this one.
-
+Fixes: ea2b23b89579 ("counter: Documentation: Add Generic Counter sysfs documentation")
+Fixes: 09e7d4ed8991 ("docs: Add Generic Counter interface documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/translations/zh_CN/process/howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/driver-api/generic-counter.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index 5b671178b17b..c4ff8356b88d 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -147,7 +147,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
-     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
+diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
+index 0c161b1a3be6..8382f01a53e3 100644
+--- a/Documentation/driver-api/generic-counter.rst
++++ b/Documentation/driver-api/generic-counter.rst
+@@ -233,7 +233,7 @@ Userspace Interface
+ Several sysfs attributes are generated by the Generic Counter interface,
+ and reside under the /sys/bus/counter/devices/counterX directory, where
+ counterX refers to the respective counter device. Please see
+-Documentation/ABI/testing/sys-bus-counter-generic-sysfs for detailed
++Documentation/ABI/testing/sysfs-bus-counter for detailed
+ information on each Generic Counter interface sysfs attribute.
  
- 内核还拥有大量从代码自动生成的文档。它包含内核内部API的全面介绍以及如何
--妥善处理加锁的规则。生成的文档会放在 Documentation/DocBook/目录下。在内
-+妥善处理加锁的规则。生成的文档会放在 Documentation/output/目录下。在内
- 核源码的主目录中使用以下不同命令将会分别生成PDF、Postscript、HTML和手册
- 页等不同格式的文档::
+ Through these sysfs attributes, programs and scripts may interact with
+@@ -325,7 +325,7 @@ sysfs attributes, where Y is the unique ID of the respective Count:
  
+ For a more detailed breakdown of the available Generic Counter interface
+ sysfs attributes, please refer to the
+-Documentation/ABI/testing/sys-bus-counter file.
++Documentation/ABI/testing/sysfs-bus-counter file.
+ 
+ The Signals and Counts associated with the Counter device are registered
+ to the system as well by the counter_register function. The
 -- 
 2.21.0
 
