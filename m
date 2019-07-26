@@ -5,40 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 556B67D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BE5B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbfGZMvm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 08:51:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39902 "EHLO
+        id S1726693AbfGZMvp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 08:51:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39986 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbfGZMvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:42 -0400
+        with ESMTP id S1726617AbfGZMvo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=tDoszg6bPovolEoXeoVOmAYx8gMo7pfWD3sVgBM2eG0=; b=l22GS2FbgofP9VK36ooXQYUcEb
-        ZfRoVo/wLyMNl7NTFuMMPZvhDxFXzIDaXlH2p3/SpTwnErz5UPP9Karxq+bOchs0BFLmXbGNafL0l
-        wCIgNG9uShvLrtO6feYycr4zOQ2npExHw4hCyTTH5mF9vlV2Mz68wMQb7sBqyvbwpLeWKxcAx3WhB
-        3Lb9kzkg+rpSwHVIzHE3XXg6PFDZ17CpPpbjT/YHXJkHAEI555Ja5Hsjc+6oL/p06K2/CeBCpARzt
-        Lzj0/GD66Ng1ZRz3VXw35yORsXEzrXFywjBzQbq//AAfehVSfByp0WQ0DAjIgjhImOyLX6itYsk2k
-        T75Fzwsg==;
+        bh=zmXAtjNhmIN1BciR4J9skBABlP+cuRuI57shzmR9qVQ=; b=jFeES0HL2zw2RZo00FyW6u8Rjw
+        aUqcdE/FA2O0K54IwSkiCdYCwOmUyPRSUPLNKxczC76yGQPM+/ggpXBKseifCjSdpAKXHfrizZkw8
+        VRt4P9oNWj1Ur/OOXOxgqXXk/2PWDGPYrDPsESeoR1bLfmXpMT6pE8b2nb4mtiJ978UACfsHzD6Uo
+        IDBWcc4S4HCY0FEliArkryP0Rgt9FjlFwF+sIJDbqnxGW+L+zwJqC4VTAZw+smhhGQ+LRaU01r1y3
+        5ucN3cmrlcKzexrwYGwiitLGrzs8u/xpWtEAxhWkYREb00qZrtvpykgtLcjhrupdJI7BhUktMVOwH
+        Ald2CUuQ==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqzhE-0006Ak-Na; Fri, 26 Jul 2019 12:51:41 +0000
+        id 1hqzhE-0006AW-FT; Fri, 26 Jul 2019 12:51:40 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqzhC-0005aK-0M; Fri, 26 Jul 2019 09:51:38 -0300
+        id 1hqzhC-0005au-8M; Fri, 26 Jul 2019 09:51:38 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 04/26] docs: ubifs-authentication.md: convert to ReST
-Date:   Fri, 26 Jul 2019 09:51:14 -0300
-Message-Id: <6eea21e992a1655626601ec7d6500f745f0e091f.1564145354.git.mchehab+samsung@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+        linux-parisc@vger.kernel.org
+Subject: [PATCH v2 13/26] docs: parisc: convert to ReST and add to documentation body
+Date:   Fri, 26 Jul 2019 09:51:23 -0300
+Message-Id: <bec701fd2748796b33529b42b54557b9667f0883.1564145354.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564145354.git.mchehab+samsung@kernel.org>
 References: <cover.1564145354.git.mchehab+samsung@kernel.org>
@@ -50,226 +52,240 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation standard is ReST and not markdown.
+Manually convert the two PA-RISC documents to ReST, adding them
+to the Linux documentation body.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
- ...entication.md => ubifs-authentication.rst} | 70 ++++++++++++-------
- 1 file changed, 44 insertions(+), 26 deletions(-)
- rename Documentation/filesystems/{ubifs-authentication.md => ubifs-authentication.rst} (95%)
+ Documentation/index.rst                       |  1 +
+ .../parisc/{debugging => debugging.rst}       |  7 +++
+ Documentation/parisc/index.rst                | 18 ++++++
+ .../parisc/{registers => registers.rst}       | 59 +++++++++++++------
+ 4 files changed, 68 insertions(+), 17 deletions(-)
+ rename Documentation/parisc/{debugging => debugging.rst} (94%)
+ create mode 100644 Documentation/parisc/index.rst
+ rename Documentation/parisc/{registers => registers.rst} (70%)
 
-diff --git a/Documentation/filesystems/ubifs-authentication.md b/Documentation/filesystems/ubifs-authentication.rst
-similarity index 95%
-rename from Documentation/filesystems/ubifs-authentication.md
-rename to Documentation/filesystems/ubifs-authentication.rst
-index 23e698167141..6a9584f6ff46 100644
---- a/Documentation/filesystems/ubifs-authentication.md
-+++ b/Documentation/filesystems/ubifs-authentication.rst
-@@ -1,8 +1,11 @@
--% UBIFS Authentication
--% sigma star gmbh
--% 2018
-+:orphan:
- 
--# Introduction
-+.. UBIFS Authentication
-+.. sigma star gmbh
-+.. 2018
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index d9e607d8a9b9..25e080664050 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -148,6 +148,7 @@ implementation.
+    ia64/index
+    m68k/index
+    powerpc/index
++   parisc/index
+    riscv/index
+    s390/index
+    sh/index
+diff --git a/Documentation/parisc/debugging b/Documentation/parisc/debugging.rst
+similarity index 94%
+rename from Documentation/parisc/debugging
+rename to Documentation/parisc/debugging.rst
+index 7d75223fa18d..de1b60402c5b 100644
+--- a/Documentation/parisc/debugging
++++ b/Documentation/parisc/debugging.rst
+@@ -1,8 +1,13 @@
++=================
++PA-RISC Debugging
++=================
 +
-+Introduction
+ okay, here are some hints for debugging the lower-level parts of
+ linux/parisc.
+ 
+ 
+ 1. Absolute addresses
++=====================
+ 
+ A lot of the assembly code currently runs in real mode, which means
+ absolute addresses are used instead of virtual addresses as in the
+@@ -12,6 +17,7 @@ currently).
+ 
+ 
+ 2. HPMCs
++========
+ 
+ When real-mode code tries to access non-existent memory, you'll get
+ an HPMC instead of a kernel oops.  To debug an HPMC, try to find
+@@ -27,6 +33,7 @@ access it.
+ 
+ 
+ 3. Q bit fun
 +============
  
- UBIFS utilizes the fscrypt framework to provide confidentiality for file
- contents and file names. This prevents attacks where an attacker is able to
-@@ -33,7 +36,8 @@ existing features like key derivation can be utilized. It should however also
- be possible to use UBIFS authentication without using encryption.
- 
- 
--## MTD, UBI & UBIFS
-+MTD, UBI & UBIFS
-+----------------
- 
- On Linux, the MTD (Memory Technology Devices) subsystem provides a uniform
- interface to access raw flash devices. One of the more prominent subsystems that
-@@ -47,7 +51,7 @@ UBIFS is a filesystem for raw flash which operates on top of UBI. Thus, wear
- leveling and some flash specifics are left to UBI, while UBIFS focuses on
- scalability, performance and recoverability.
- 
--
-+::
- 
- 	+------------+ +*******+ +-----------+ +-----+
- 	|            | * UBIFS * | UBI-BLOCK | | ... |
-@@ -84,7 +88,8 @@ persisted onto the flash directly. More details on UBIFS can also be found in
- [UBIFS-WP].
- 
- 
--### UBIFS Index & Tree Node Cache
-+UBIFS Index & Tree Node Cache
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- Basic on-flash UBIFS entities are called *nodes*. UBIFS knows different types
- of nodes. Eg. data nodes (`struct ubifs_data_node`) which store chunks of file
-@@ -118,17 +123,18 @@ on-flash filesystem structures like the index. On every commit, the TNC nodes
- marked as dirty are written to the flash to update the persisted index.
- 
- 
--### Journal
-+Journal
-+~~~~~~~
- 
- To avoid wearing out the flash, the index is only persisted (*commited*) when
--certain conditions are met (eg. `fsync(2)`). The journal is used to record
-+certain conditions are met (eg. ``fsync(2)``). The journal is used to record
- any changes (in form of inode nodes, data nodes etc.) between commits
- of the index. During mount, the journal is read from the flash and replayed
- onto the TNC (which will be created on-demand from the on-flash index).
- 
- UBIFS reserves a bunch of LEBs just for the journal called *log area*. The
- amount of log area LEBs is configured on filesystem creation (using
--`mkfs.ubifs`) and stored in the superblock node. The log area contains only
-+``mkfs.ubifs``) and stored in the superblock node. The log area contains only
- two types of nodes: *reference nodes* and *commit start nodes*. A commit start
- node is written whenever an index commit is performed. Reference nodes are
- written on every journal update. Each reference node points to the position of
-@@ -152,6 +158,7 @@ done for the last referenced LEB of the journal. Only this can become corrupt
- because of a power cut. If the recovery fails, UBIFS will not mount. An error
- for every other LEB will directly cause UBIFS to fail the mount operation.
- 
-+::
- 
-        | ----    LOG AREA     ---- | ----------    MAIN AREA    ------------ |
- 
-@@ -172,10 +179,11 @@ for every other LEB will directly cause UBIFS to fail the mount operation.
-                           containing their buds
- 
- 
--### LEB Property Tree/Table
-+LEB Property Tree/Table
-+~~~~~~~~~~~~~~~~~~~~~~~
- 
- The LEB property tree is used to store per-LEB information. This includes the
--LEB type and amount of free and *dirty* (old, obsolete content) space [1] on
-+LEB type and amount of free and *dirty* (old, obsolete content) space [1]_ on
- the LEB. The type is important, because UBIFS never mixes index nodes with data
- nodes on a single LEB and thus each LEB has a specific purpose. This again is
- useful for free space calculations. See [UBIFS-WP] for more details.
-@@ -185,19 +193,21 @@ index. Due to its smaller size it is always written as one chunk on every
- commit. Thus, saving the LPT is an atomic operation.
- 
- 
--[1] Since LEBs can only be appended and never overwritten, there is a
--difference between free space ie. the remaining space left on the LEB to be
--written to without erasing it and previously written content that is obsolete
--but can't be overwritten without erasing the full LEB.
-+.. [1] Since LEBs can only be appended and never overwritten, there is a
-+   difference between free space ie. the remaining space left on the LEB to be
-+   written to without erasing it and previously written content that is obsolete
-+   but can't be overwritten without erasing the full LEB.
- 
- 
--# UBIFS Authentication
-+UBIFS Authentication
+ Certain, very critical code has to clear the Q bit in the PSW.  What
+ happens when the Q bit is cleared is the CPU does not update the
+diff --git a/Documentation/parisc/index.rst b/Documentation/parisc/index.rst
+new file mode 100644
+index 000000000000..aa3ee0470425
+--- /dev/null
++++ b/Documentation/parisc/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: GPL-2.0
++
 +====================
++PA-RISC Architecture
++====================
++
++.. toctree::
++   :maxdepth: 2
++
++   debugging
++   registers
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/parisc/registers b/Documentation/parisc/registers.rst
+similarity index 70%
+rename from Documentation/parisc/registers
+rename to Documentation/parisc/registers.rst
+index 10c7d1730f5d..59c8ecf3e856 100644
+--- a/Documentation/parisc/registers
++++ b/Documentation/parisc/registers.rst
+@@ -1,11 +1,16 @@
++================================
+ Register Usage for Linux/PA-RISC
++================================
  
- This chapter introduces UBIFS authentication which enables UBIFS to verify
- the authenticity and integrity of metadata and file contents stored on flash.
+ [ an asterisk is used for planned usage which is currently unimplemented ]
  
+-	General Registers as specified by ABI
++General Registers as specified by ABI
++=====================================
  
--## Threat Model
-+Threat Model
-+------------
+-	Control Registers
++Control Registers
++-----------------
  
- UBIFS authentication enables detection of offline data modification. While it
- does not prevent it, it enables (trusted) code to check the integrity and
-@@ -224,7 +234,8 @@ Additional measures like secure boot and trusted boot have to be taken to
- ensure that only trusted code is executed on a device.
++===============================	===============================================
+ CR 0 (Recovery Counter)		used for ptrace
+ CR 1-CR 7(undefined)		unused
+ CR 8 (Protection ID)		per-process value*
+@@ -29,26 +34,35 @@ CR28 (TR 4)			not used
+ CR29 (TR 5)			not used
+ CR30 (TR 6)			current / 0
+ CR31 (TR 7)			Temporary register, used in various places
++===============================	===============================================
  
+-	Space Registers (kernel mode)
++Space Registers (kernel mode)
++-----------------------------
  
--## Authentication
-+Authentication
-+--------------
++===============================	===============================================
+ SR0				temporary space register
+ SR4-SR7 			set to 0
+ SR1				temporary space register
+ SR2				kernel should not clobber this
+ SR3				used for userspace accesses (current process)
++===============================	===============================================
  
- To be able to fully trust data read from flash, all UBIFS data structures
- stored on flash are authenticated. That is:
-@@ -236,7 +247,8 @@ stored on flash are authenticated. That is:
- - The LPT which stores UBI LEB metadata which UBIFS uses for free space accounting
+-	Space Registers (user mode)
++Space Registers (user mode)
++---------------------------
  
- 
--### Index Authentication
-+Index Authentication
-+~~~~~~~~~~~~~~~~~~~~
- 
- Through UBIFS' concept of a wandering tree, it already takes care of only
- updating and persisting changed parts from leaf node up to the root node
-@@ -260,6 +272,7 @@ include a hash. All other types of nodes will remain unchanged. This reduces
- the storage overhead which is precious for users of UBIFS (ie. embedded
- devices).
- 
-+::
- 
-                              +---------------+
-                              |  Master Node  |
-@@ -303,7 +316,8 @@ hashes to index nodes does not change this since each hash will be persisted
- atomically together with its respective node.
- 
- 
--### Journal Authentication
-+Journal Authentication
-+~~~~~~~~~~~~~~~~~~~~~~
- 
- The journal is authenticated too. Since the journal is continuously written
- it is necessary to also add authentication information frequently to the
-@@ -316,7 +330,7 @@ of the hash chain. That way a journal can be authenticated up to the last
- authentication node. The tail of the journal which may not have a authentication
- node cannot be authenticated and is skipped during journal replay.
- 
--We get this picture for journal authentication:
-+We get this picture for journal authentication::
- 
-     ,,,,,,,,
-     ,......,...........................................
-@@ -352,7 +366,8 @@ the superblock struct. The superblock node is stored in LEB 0 and is only
- modified on feature flag or similar changes, but never on file changes.
- 
- 
--### LPT Authentication
-+LPT Authentication
-+~~~~~~~~~~~~~~~~~~
- 
- The location of the LPT root node on the flash is stored in the UBIFS master
- node. Since the LPT is written and read atomically on every commit, there is
-@@ -363,7 +378,8 @@ be verified by verifying the authenticity of the master node and comparing the
- LTP hash stored there with the hash computed from the read on-flash LPT.
- 
- 
--## Key Management
-+Key Management
-+--------------
- 
- For simplicity, UBIFS authentication uses a single key to compute the HMACs
- of superblock, master, commit start and reference nodes. This key has to be
-@@ -399,7 +415,8 @@ approach is similar to the approach proposed for fscrypt encryption policy v2
- [FSCRYPT-POLICY2].
++===============================	===============================================
+ SR0				temporary space register
+ SR1                             temporary space register
+ SR2                             holds space of linux gateway page
+ SR3                             holds user address space value while in kernel
+ SR4-SR7                         Defines short address space for user/kernel
++===============================	===============================================
  
  
--# Future Extensions
-+Future Extensions
-+=================
+-	Processor Status Word
++Processor Status Word
++---------------------
  
- In certain cases where a vendor wants to provide an authenticated filesystem
- image to customers, it should be possible to do so without sharing the secret
-@@ -411,7 +428,8 @@ to the way the IMA/EVM subsystem deals with such situations. The HMAC key
- will then have to be provided beforehand in the normal way.
++===============================	===============================================
+ W (64-bit addresses)		0
+ E (Little-endian)		0
+ S (Secure Interval Timer)	0
+@@ -69,15 +83,19 @@ Q (collect interruption state)	1 (0 in code directly preceding an rfi)
+ P (Protection Identifiers)	1*
+ D (Data address translation)	1, 0 while executing real-mode code
+ I (external interrupt mask)	used by cli()/sti() macros
++===============================	===============================================
+ 
+-	"Invisible" Registers
++"Invisible" Registers
++---------------------
+ 
++===============================	===============================================
+ PSW default W value		0
+ PSW default E value		0
+ Shadow Registers		used by interruption handler code
+ TOC enable bit			1
++===============================	===============================================
+ 
+-=========================================================================
++-------------------------------------------------------------------------
+ 
+ The PA-RISC architecture defines 7 registers as "shadow registers".
+ Those are used in RETURN FROM INTERRUPTION AND RESTORE instruction to reduce
+@@ -85,7 +103,8 @@ the state save and restore time by eliminating the need for general register
+ (GR) saves and restores in interruption handlers.
+ Shadow registers are the GRs 1, 8, 9, 16, 17, 24, and 25.
+ 
+-=========================================================================
++-------------------------------------------------------------------------
++
+ Register usage notes, originally from John Marvin, with some additional
+ notes from Randolph Chung.
+ 
+@@ -96,10 +115,12 @@ course, you need to save them if you care about them, before calling
+ another procedure. Some of the above registers do have special meanings
+ that you should be aware of:
+ 
+-    r1: The addil instruction is hardwired to place its result in r1,
++    r1:
++	The addil instruction is hardwired to place its result in r1,
+ 	so if you use that instruction be aware of that.
+ 
+-    r2: This is the return pointer. In general you don't want to
++    r2:
++	This is the return pointer. In general you don't want to
+ 	use this, since you need the pointer to get back to your
+ 	caller. However, it is grouped with this set of registers
+ 	since the caller can't rely on the value being the same
+@@ -107,23 +128,27 @@ that you should be aware of:
+ 	and return through that register after trashing r2, and
+ 	that should not cause a problem for the calling routine.
+ 
+-    r19-r22: these are generally regarded as temporary registers.
++    r19-r22:
++	these are generally regarded as temporary registers.
+ 	Note that in 64 bit they are arg7-arg4.
+ 
+-    r23-r26: these are arg3-arg0, i.e. you can use them if you
++    r23-r26:
++	these are arg3-arg0, i.e. you can use them if you
+ 	don't care about the values that were passed in anymore.
+ 
+-    r28,r29: are ret0 and ret1. They are what you pass return values
++    r28,r29:
++	are ret0 and ret1. They are what you pass return values
+ 	in. r28 is the primary return. When returning small structures
+ 	r29 may also be used to pass data back to the caller.
+ 
+-    r30: stack pointer
++    r30:
++	stack pointer
+ 
+-    r31: the ble instruction puts the return pointer in here.
++    r31:
++	the ble instruction puts the return pointer in here.
  
  
--# References
-+References
-+==========
- 
- [CRYPTSETUP2]        http://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
- 
+-r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
++    r3-r18,r27,r30 need to be saved and restored. r3-r18 are just
+     general purpose registers. r27 is the data pointer, and is
+     used to make references to global variables easier. r30 is
+     the stack pointer.
+-
 -- 
 2.21.0
 
