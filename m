@@ -5,12 +5,12 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C1F57D917
+	by archive.lwn.net (Postfix) with ESMTP id EEFDF7D92A
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 11:31:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbfGZLba (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726124AbfGZLba (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 26 Jul 2019 07:31:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39258 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:39306 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S1726023AbfGZLba (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 07:31:30 -0400
@@ -20,24 +20,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HE5rlFE4PKQ7V4VD7BgtDqwq8R+nTl6rYk0yQ/3c7NY=; b=eiHSt8yRDFKmGagm2cpotWatif
-        tftFd1eg7qgOTp1iaxyrQ+NiZSLQkOv9w0mOvviFgvZYfHgA/u3gfwcijVG7fMkIQZQJi6xZA3BTh
-        0j8zLj1K4z/cH2FfV+gMCNdhLIh9QSjDf2+fgqfdQwQOaFr5FOmojrwz73dbBM3rvDT5BsZbYuT6E
-        RrvdYny7I6Bf7ipUEN4KT3mY1NjA5MN1+EQXLk/bF5wDBq3jhf3VsP+tIy9nl5pj1VRPrtaUEhitr
-        Tk+NyrrJqU8iL/1UXP6a+xPZ10EDcNC6tB/ujX9dOgEjaCVWoR4GgtajNMkt8h/o7L3LbTnt2SGsf
-        R0j1T4DQ==;
+        bh=5tM2MS1kf1uhWY8D5GobT8hsim8st9pL5ByAyD55Xv4=; b=I0vLv5r3/moDdwucSNPQFd0Kwh
+        rIGMfW9mC9RkkTDOnDSPdk1tFlxPOiqLk6HI0jS8QvEYvUAYzVC5A/SdLQn+Dv1bWTJ9t51UQzu2c
+        b/X3PLkCHldK/4bdxdCmqYae+aefq+maikpDrgWg0EzN57ZdocYkzMwxVVyQTGH0d+gwoQM2d4i94
+        AD+Ud2Me/leKbjB5ijf4g9XFIFd6Qi7EI2OUIA9YFKhoxpoyVy9JqdOPoym/0JcaUqNRVbi3TKtZe
+        vv83VALKPpygCbB1qaWaaf/YODdmIOSa2hjtDX1JZxO1+1TQyFe2SWHcigt900dTB/wT7PJ3sTirm
+        1QVqJmIQ==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqyRb-0005vJ-Tj; Fri, 26 Jul 2019 11:31:27 +0000
+        id 1hqyRc-0005vr-Nn; Fri, 26 Jul 2019 11:31:29 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqyRZ-0008Ej-MR; Fri, 26 Jul 2019 08:31:25 -0300
+        id 1hqyRZ-0008EC-EW; Fri, 26 Jul 2019 08:31:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 09/10] docs: load_config.py: avoid needing a conf.py just due to LaTeX docs
-Date:   Fri, 26 Jul 2019 08:31:23 -0300
-Message-Id: <2fcd675c55afd3da2756f4f10bdfccabf601411f.1564139914.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v2 03/10] docs: conf.py: only use CJK if the font is available
+Date:   Fri, 26 Jul 2019 08:31:17 -0300
+Message-Id: <5a9e47f3094a6188a3e9279bd48e2a6a19ab9f5b.1564139914.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564139914.git.mchehab+samsung@kernel.org>
 References: <cover.1564139914.git.mchehab+samsung@kernel.org>
@@ -49,63 +49,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, for every directory that we need to have LaTeX output,
-a conf.py file is required.
+If we try to build a book with asian characters with XeLaTeX
+and the font is not available, it will produce an error.
 
-That causes an extra overhead and it is actually a hack, as
-the latex_documents line there are usually a copy of the ones
-that are there already at the main conf.py.
+So, instead, add a logic at conf.py to detect if the proper
+font is installed.
 
-So, instead, re-use the global latex_documents var, just
-adjusting the path to be relative ones.
+This will avoid an error while building the document, although
+the result may not be readable.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/load_config.py | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ Documentation/conf.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index 301a21aa4f63..eeb394b39e2c 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -21,6 +21,29 @@ def loadConfig(namespace):
-         and os.path.normpath(namespace["__file__"]) != os.path.normpath(config_file) ):
-         config_file = os.path.abspath(config_file)
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa0a42b47e62..a8fe845832bc 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -16,6 +16,8 @@ import sys
+ import os
+ import sphinx
  
-+        # Let's avoid one conf.py file just due to latex_documents
-+        start = config_file.find('Documentation/')
-+        if start >= 0:
-+            start = config_file.find('/', start + 1)
++from subprocess import check_output
 +
-+        end = config_file.rfind('/')
-+        if start >= 0 and end > 0:
-+            dir = config_file[start + 1:end]
+ # Get Sphinx version
+ major, minor, patch = sphinx.version_info[:3]
+ 
+@@ -276,13 +278,20 @@ latex_elements = {
+         \\setsansfont{DejaVu Sans}
+         \\setromanfont{DejaVu Serif}
+         \\setmonofont{DejaVu Sans Mono}
++     '''
++}
+ 
++# At least one book (translations) may have Asian characters
++# with are only displayed if xeCJK is used
 +
-+            print("source directory: %s" % dir)
-+            new_latex_docs = []
-+            latex_documents = namespace['latex_documents']
-+
-+            for l in latex_documents:
-+                if l[0].find(dir + '/') == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_latex_docs.append((fn, l[1], l[2], l[3], l[4]))
-+                    break
-+
-+            namespace['latex_documents'] = new_latex_docs
-+
-+        # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-             config = namespace.copy()
-@@ -29,4 +52,6 @@ def loadConfig(namespace):
-             del config['__file__']
-             namespace.update(config)
-         else:
--            sys.stderr.write("WARNING: additional sphinx-config not found: %s\n" % config_file)
-+            config = namespace.copy()
-+            config['tags'].add("subproject")
-+            namespace.update(config)
++cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
++if cjk_cmd.find("Noto Sans CJK SC") >= 0:
++    print ("enabling CJK for LaTeX builder")
++    latex_elements['preamble']  += '''
+ 	% This is needed for translations
+         \\usepackage{xeCJK}
+         \\setCJKmainfont{Noto Sans CJK SC}
+-
+      '''
+-}
+ 
+ # Fix reference escape troubles with Sphinx 1.4.x
+ if major == 1 and minor > 3:
 -- 
 2.21.0
 
