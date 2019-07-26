@@ -1,89 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEC7D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 19:29:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9D397D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 19:57:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbfGZT3T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 15:29:19 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33888 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbfGZT3T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 15:29:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m8kf/sPEYGMDUeP6JoO5tSRSz84bxy3DCh0yf5UUIs0=; b=CelJnS/c4Xzu7s5d91k3foSXuG
-        UQh6mku33sviwqWU2K6acBiqmR5Y0FhNi5DwcAO9T/KorPIFMd9PLDz/UECUpFx90TS7oZFOFnWxR
-        liK7HAzFQq63s3NX6rfwaobmqbN/47fZ6UYLXuX2AFPkn1rLNIRYy0micCfJxfgCSdyCmYSg7BluF
-        uDsgdBP1l0oWDTVKXLzt7pA6WxX6jmJy1ASd070RTjlFmVhk8LXNp8IDgWB9gcaP56Lb30GuNk+95
-        0kTIl3Qvi6Cmk9cT8OSpfE2meXGVNyl3KTr/Fwcfo4BtVwqlcKpktAeUvw9D4R27gTCDvJp4T7CG/
-        ggcLft/A==;
-Received: from [179.95.31.157] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hr5u1-00046s-TI; Fri, 26 Jul 2019 19:29:17 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hr5tz-0004yq-MW; Fri, 26 Jul 2019 16:29:15 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 5/5] docs: zh_CN: howto.rst: fix a broken reference
-Date:   Fri, 26 Jul 2019 16:29:14 -0300
-Message-Id: <36ee207d43dd40be23639a3b00de4216a8465624.1564169297.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <5c44856436bbaeb4f2d4b750365b82de973ad054.1564169297.git.mchehab+samsung@kernel.org>
-References: <5c44856436bbaeb4f2d4b750365b82de973ad054.1564169297.git.mchehab+samsung@kernel.org>
+        id S1727830AbfGZT5n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 15:57:43 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30863 "EHLO
+        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726298AbfGZT5n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 15:57:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1564171063; x=1595707063;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=QBDHM2QuOIDcoSjew6sW8UylfxuzHuoReuIX707TDg4=;
+  b=H6VEWoLTz7IJdlu/D91fqRCTvtH4g3CBgnaeKDEf399UVAMgLSC+B06Y
+   kwKIZ+tvz7k468d8MteMH7CL6PuCS3WOg+v7Kyj00EpKbyd/lgO9o5CTb
+   ShLDSsGyoIGgISmxHgD6IgLxqtswTDAsKDXahoQe9EV/blDhuxnfYvYc4
+   vLceZHobexIMp5VMqYsVs3HX5Dbjs1Dm8fpSAJrj+YJiB63YYri4EFt1M
+   n1eRdzeDVpJJVvr+nzFdhler7NIB8XnoyaqMX7agxhYAQhGPOKFZR0O5Q
+   ZR3EE4/Nr4ebQ7d8lP2G5YaBQFcqojLfrgnMQZi1+ZGo5eDDo2GYSlIQw
+   Q==;
+IronPort-SDR: nNcO6OLZZiTMbascjVoRZnsMtZZsTBbzCiMJW4cDyKfAR0f9FMcinyNMCIUS2B+zMrs06m25Y+
+ vCyX7htZUrSH3CaHH+oe7HN8ezrlHXYXwgpUEAVzWaYhgnuJ4mUbTxxRvrtOpnSXXvbVCubdaK
+ JaF16lSJjsKJIYdP+TKAmQpsxwKhi3idy1oQgBO8seK8Gd26Y03BocDT0sGfyHGughGSE3a18h
+ E3fmBUwghGk2bICdydXZnRntsBeYCWk6GKH0RCUTvPCrmpjg7GOiV4hlJE4dWjBPHew4YTsmJW
+ n6k=
+X-IronPort-AV: E=Sophos;i="5.64,312,1559491200"; 
+   d="scan'208";a="115275100"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 27 Jul 2019 03:55:39 +0800
+IronPort-SDR: 8LPrpYh19xnDsQE0izFTFdBQs5tc9wI7e1QXBWiJNSpQETnZ+YjP6eICQ/tmboqHFYmaRgla99
+ 5r4+04++4geaCKkV/XeD6RT/BUJINKbOs6jLxkFatPCnqrT9c39PgbIwVdO9V/YswxfmpuO6CC
+ lgmXe0x7O2ZRJ1v/x+GXUydYabQZiKIX1RlEX2E//uZlNtG8nG+qAwpuAuaPkzngblDLsIG/W6
+ VJzEziSiOBXbV5y4lTzm28gED1zZrJndxwLlo97iizVoDg3Nv2KXJKLTAFhJyf0cSbA2BvTOwg
+ gv6ADyObGkyr05ml7CzTZ2kD
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP; 26 Jul 2019 12:53:48 -0700
+IronPort-SDR: jt1iwJjO+UmUWfIifTmRgCjwAeMfW0RoIJnBpBx69FB4ukWCIxoG/e+596RpstmduUnDR0BgLW
+ +m/UD6Kt+1Jo3HsPmuqIi3FJC3neC9MFO+PLwzwJxW4doLmTjF/MRAQheWndDqfPi9QPZfGEWC
+ ZWAwI8MFyNTebGrMhf3AslZ5udniXOtAabGgqQTXEKW4Q3JPnBiNVKUCM1svnDAmi9sn1fj8j+
+ ay4OJIRcmX/AV8QCUbuS1v5U1DQp5CkaUujBw5BiH6wAq3I9MrW3pYVApCmaOdt9BkCqX2VUWR
+ Tbc=
+Received: from unknown (HELO [10.225.104.231]) ([10.225.104.231])
+  by uls-op-cesaip01.wdc.com with ESMTP; 26 Jul 2019 12:55:39 -0700
+Subject: Re: [PATCH 0/7] Fix broken references to files under Documentation/*
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>
+References: <cover.1564140865.git.mchehab+samsung@kernel.org>
+From:   Atish Patra <atish.patra@wdc.com>
+Message-ID: <04794d40-0b39-0223-c91e-03b46cb6e2db@wdc.com>
+Date:   Fri, 26 Jul 2019 12:55:36 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1564140865.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a broken reference there pointing to the long gone
-DocBook dir.
+On 7/26/19 4:47 AM, Mauro Carvalho Chehab wrote:
+> Solves most of the pending broken references upstream, except for two of
+> them:
+> 
+> 	$ ./scripts/documentation-file-ref-check
+> 	Documentation/riscv/boot-image-header.txt: Documentation/riscv/booting.txt
+> 	MAINTAINERS: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+> 
+> As written at boot-image-header.txt, it is waiting for the addition of
+> a future file:
+> 
+> 	"The complete booting guide will be available at
+> 	  Documentation/riscv/booting.txt."
+> 
 
-While I don't read chinese, Google translator translates it
-to:
-	"The generated documentation will be placed in
-	 the Documentation/DocBook/ directory."
+Yeah. We don't have complete booting guide defined in RISC-V land.
+Documentation/riscv/booting.txt will be available once we have that.
 
-Well, we know that the output will be Documentation/output
-dir. So, let's fix this one.
+In the mean time, do we need to convert boot-image-header.txt to 
+boot-image-header.rst and fix the reference to 
+Documentation/riscv/booting.rst as well ?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/translations/zh_CN/process/howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The second is due to this patch, pending to be merged:
+> 	https://lore.kernel.org/patchwork/patch/994210/
+> 
+> I'm not a DT expert, but I can't see any issue with this patch, except
+> for a missing acked-by a DT maintainer, and a possible conversion to
+> yaml. IMO, the best fix for this would be to merge the DT patch.
+> 
+> Patch 1 was already submitted before, together with the v1 of
+> my PDF fix series.
+> 
+> Mauro Carvalho Chehab (7):
+>    docs: fix broken doc references due to renames
+>    docs: generic-counter.rst: fix broken references for ABI file
+>    MAINTAINERS: fix reference to net phy ABI file
+>    MAINTAINERS: fix a renamed DT reference
+>    docs: cgroup-v1/blkio-controller.rst: remove a CFQ left over
+>    docs: zh_CN: howto.rst: fix a broken reference
+>    docs: dt: fix a sound binding broken reference
+> 
+>   Documentation/RCU/rculist_nulls.txt                |  2 +-
+>   .../admin-guide/cgroup-v1/blkio-controller.rst     |  6 ------
+>   .../devicetree/bindings/arm/idle-states.txt        |  2 +-
+>   .../devicetree/bindings/sound/sun8i-a33-codec.txt  |  2 +-
+>   Documentation/driver-api/generic-counter.rst       |  4 ++--
+>   Documentation/locking/spinlocks.rst                |  4 ++--
+>   Documentation/memory-barriers.txt                  |  2 +-
+>   .../translations/ko_KR/memory-barriers.txt         |  2 +-
+>   Documentation/translations/zh_CN/process/howto.rst |  2 +-
+>   Documentation/watchdog/hpwdt.rst                   |  2 +-
+>   MAINTAINERS                                        | 14 +++++++-------
+>   drivers/gpu/drm/drm_modes.c                        |  2 +-
+>   drivers/i2c/busses/i2c-nvidia-gpu.c                |  2 +-
+>   drivers/scsi/hpsa.c                                |  4 ++--
+>   14 files changed, 22 insertions(+), 28 deletions(-)
+> 
 
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index 5b671178b17b..c4ff8356b88d 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -147,7 +147,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
-     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
- 
- 内核还拥有大量从代码自动生成的文档。它包含内核内部API的全面介绍以及如何
--妥善处理加锁的规则。生成的文档会放在 Documentation/DocBook/目录下。在内
-+妥善处理加锁的规则。生成的文档会放在 Documentation/output/目录下。在内
- 核源码的主目录中使用以下不同命令将会分别生成PDF、Postscript、HTML和手册
- 页等不同格式的文档::
- 
+
 -- 
-2.21.0
-
+Regards,
+Atish
