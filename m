@@ -1,241 +1,215 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DATE_IN_PAST_03_06,
-	DKIM_INVALID,DKIM_SIGNED,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A3387D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 14:44:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCAEB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 14:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728154AbfGZOoa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 10:44:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58842 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728150AbfGZOo3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 10:44:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Resent-To:Resent-Message-ID:Subject:
-        Resent-From:Resent-Date:Sender:Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Sender:Resent-Cc:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=i7MBSJrUNlhCKGjlZAmu2GT/MGdBqxk/UuCTvQRDuxQ=; b=d45fuEvDVA7/CzFYbit7i9teGg
-        26yKEJ1ynIZEF62cbZ+wwpTLnPxHMC740VOGxP2W5EuNUQydE1mf7ADf8wSl1QDaJV/V2d3ufNQMH
-        tgMxYmiAWEP5KVYBrUMXB1eWiFXt/QqO7d/9Z5evNVg1MjU/zhi5HXSZTR9U61nHO33ETtr+l8w2b
-        R8kHwyX91ykm7Fs66xMSr1JZgvAXHU2SlTuhI/V9cv3TEZ1uARoLNaFu0YQE4BrnuSSRJWz8TRg51
-        hVRDc7oHMS57AiZwGSkdCz1B38q2xbvtpGciI3KkgL9DksphvbduSH+Kzy1AG+HC0SF/gbJrWn8f0
-        bGmuaC2w==;
-Received: from [179.95.31.157] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hr1SP-00056y-1o; Fri, 26 Jul 2019 14:44:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=i7MBSJrUNlhCKGjlZAmu2GT/MGdBqxk/UuCTvQRDuxQ=; b=FFNdAnoafBzSeha7Uz0RE7+FoQ
- W3tYbLobYlKaa8WNlMnlxy3sa3JExmjvVjGIxAYPFy0RhoXPVarQOycVQ6AOpw7nhQBPjl93Ky9rb
- 6/250webKTtdx3WCPpqPlLYdVdI6LLcxQ6/dlHRPwq9de0JQnev0hr7RznOo8I1+Xc1l2usTNLl3s
- loA/fSFKqK5uZZWlIDlDXyt2jCLN+cuH1PVwzFGXrc57DN+as/OISZUAcAg9nRa+QiMiARGLJAApb
- /27jxx7mFOV00lxPnYRjZNzOKf+XKKmXb2csbxnclo0+13NAQbil2U2d2DYg5sBo8oxZ0LNw6nlSm
- 6vdhGFZQ==;
-Authentication-Results: mail.kernel.org;
- dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KLAqBJmn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C67822C7E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mchehab@bombadil.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=i7MBSJrUNlhCKGjlZAmu2GT/MGdBqxk/UuCTvQRDuxQ=; b=KLAqBJmnBxHephxZxodOWH0czB
- Wf8SgR6s1uwd508tDUhBanxGV4g29H5dl7wGCuYb6WVuMYJD9HFNnYU+GzsAYD8vmUSjG0ODNvtab
- ZhaeKxfyDcHrZ7C+XtEkQbrn6ll+5Abr0VXuRQbXnR2GLMel/qumsur4IMjarwCxsfUwuFM2izvVT
- 9X8DoZqIkCOSSSSOZmfbM1MGHPm5T85nBCRE4yv8mDksJwHytoH73uu15Ra31d8sx4/mzTJXtidDb
- FXMqTsJv4+A636XQECl2PqcyzySoTYeblA+x/RgBu0GZy30KFBjv4ziwvYy8FVwLblnbVrGdiACre
- VbGEDPqQ==;
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org> (by way of
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>)
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Date:   Fri, 26 Jul 2019 08:31:19 -0300
-Message-Id: <5dd07ed5bd7da2f5709ac785e807c8ed3b0b232c.1564139914.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1564139914.git.mchehab+samsung@kernel.org>
-References: <cover.1564139914.git.mchehab+samsung@kernel.org>
+        id S1727448AbfGZOrn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 10:47:43 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49411 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbfGZOrn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 10:47:43 -0400
+Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hr1VR-0004rv-A8; Fri, 26 Jul 2019 16:47:37 +0200
+Date:   Fri, 26 Jul 2019 16:47:35 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, security@kernel.org,
+        linux-doc@vger.kernel.org, Jiri Kosina <jkosina@suse.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
+ issues
+In-Reply-To: <20190725151302.16a3e0e3@lwn.net>
+Message-ID: <alpine.DEB.2.21.1907261522050.1791@nanos.tec.linutronix.de>
+References: <20190725130113.GA12932@kroah.com> <20190725151302.16a3e0e3@lwn.net>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190726_123146_748785_E9AC6A62 
-X-CRM114-Status: GOOD (  14.88  )
-Subject: [PATCH v2 05/10] scripts/sphinx-pre-install: don't use LaTeX with
- CentOS 7
-Apparently-To: <mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-To:     unlisted-recipients:; (no To-header on input)
 
-There aren't enough texlive packages for LaTeX-based builds
-to work on CentOS/RHEL <= 7.
+On Thu, 25 Jul 2019, Jonathan Corbet wrote:
+> > Note, this document has gone through numerous reviews by a number of
+> > kernel developers, developers at some of the Linux distros, as well as
+> > all of the lawyers from almost all open source-related companies.  It's
+> > been sitting on my local drive with no comments for a few months now,
+> > and it's about time to get this out and merged properly.
+> > 
+> > If anyone has any final comments, please let me know.
+> 
+> I do think it could benefit from a pass for basic language issues; I can do
+> that if such an effort would be welcome.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/sphinx-pre-install | 68 ++++++++++++++++++++++++++++----------
- 1 file changed, 50 insertions(+), 18 deletions(-)
+Definitely!
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 101ddd00bf02..33efadd6c0b6 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -83,6 +83,17 @@ sub check_missing(%)
- 	foreach my $prog (sort keys %missing) {
- 		my $is_optional = $missing{$prog};
- 
-+		# At least on some LTS distros like CentOS 7, texlive doesn't
-+		# provide all packages we need. When such distros are
-+		# detected, we have to disable PDF output.
-+		#
-+		# So, we need to ignore the packages that distros would
-+		# need for LaTeX to work
-+		if ($is_optional == 2 && !$pdf) {
-+			$optional--;
-+			next;
-+		}
-+
- 		if ($is_optional) {
- 			print "Warning: better to also install \"$prog\".\n";
- 		} else {
-@@ -333,10 +344,10 @@ sub give_debian_hints()
- 
- 	if ($pdf) {
- 		check_missing_file("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
--				   "fonts-dejavu", 1);
-+				   "fonts-dejavu", 2);
- 	}
- 
--	check_program("dvipng", 1) if ($pdf);
-+	check_program("dvipng", 2) if ($pdf);
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
-@@ -371,22 +382,40 @@ sub give_redhat_hints()
- 	#
- 	# Checks valid for RHEL/CentOS version 7.x.
- 	#
-+	my $old = 0;
-+	my $rel;
-+	$rel = $1 if ($system_release =~ /release\s+(\d+)/);
-+
- 	if (!($system_release =~ /Fedora/)) {
- 		$map{"virtualenv"} = "python-virtualenv";
--	}
- 
--	my $release;
-+		if ($rel && $rel < 8) {
-+			$old = 1;
-+			$pdf = 0;
- 
--	$release = $1 if ($system_release =~ /Fedora\s+release\s+(\d+)/);
-+			printf("Note: texlive packages on RHEL/CENTOS <= 7 are incomplete. Can't support PDF output\n");
-+			printf("If you want to build PDF, please read:\n");
-+			printf("\thttps://www.systutorials.com/241660/how-to-install-tex-live-on-centos-7-linux/\n");
-+		}
-+	} else {
-+		if ($rel && $rel < 26) {
-+			$old = 1;
-+		}
-+	}
-+	if (!$rel) {
-+		printf("Couldn't identify release number\n");
-+		$old = 1;
-+		$pdf = 0;
-+	}
- 
--	check_rpm_missing(\@fedora26_opt_pkgs, 1) if ($pdf && $release >= 26);
--	check_rpm_missing(\@fedora_tex_pkgs, 1) if ($pdf);
--	check_missing_tex(1) if ($pdf);
-+	check_rpm_missing(\@fedora26_opt_pkgs, 2) if ($pdf && !$old);
-+	check_rpm_missing(\@fedora_tex_pkgs, 2) if ($pdf);
-+	check_missing_tex(2) if ($pdf);
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
- 
--	if ($release >= 18) {
-+	if (!$old) {
- 		# dnf, for Fedora 18+
- 		printf("You should run:\n\n\tsudo dnf install -y $install\n");
- 	} else {
-@@ -425,8 +454,8 @@ sub give_opensuse_hints()
- 		"texlive-zapfding",
- 	);
- 
--	check_rpm_missing(\@suse_tex_pkgs, 1) if ($pdf);
--	check_missing_tex(1) if ($pdf);
-+	check_rpm_missing(\@suse_tex_pkgs, 2) if ($pdf);
-+	check_missing_tex(2) if ($pdf);
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
-@@ -450,7 +479,7 @@ sub give_mageia_hints()
- 		"texlive-fontsextra",
- 	);
- 
--	check_rpm_missing(\@tex_pkgs, 1) if ($pdf);
-+	check_rpm_missing(\@tex_pkgs, 2) if ($pdf);
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
-@@ -473,7 +502,8 @@ sub give_arch_linux_hints()
- 		"texlive-latexextra",
- 		"ttf-dejavu",
- 	);
--	check_pacman_missing(\@archlinux_tex_pkgs, 1) if ($pdf);
-+	check_pacman_missing(\@archlinux_tex_pkgs, 2) if ($pdf);
-+
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
-@@ -492,7 +522,7 @@ sub give_gentoo_hints()
- 	);
- 
- 	check_missing_file("/usr/share/fonts/dejavu/DejaVuSans.ttf",
--			   "media-fonts/dejavu", 1) if ($pdf);
-+			   "media-fonts/dejavu", 2) if ($pdf);
- 
- 	check_missing(\%map);
- 
-@@ -560,7 +590,7 @@ sub check_distros()
- 	my %map = (
- 		"sphinx-build" => "sphinx"
- 	);
--	check_missing_tex(1) if ($pdf);
-+	check_missing_tex(2) if ($pdf);
- 	check_missing(\%map);
- 	print "I don't know distro $system_release.\n";
- 	print "So, I can't provide you a hint with the install procedure.\n";
-@@ -589,11 +619,13 @@ sub check_needs()
- 	check_program("make", 0);
- 	check_program("gcc", 0);
- 	check_python_module("sphinx_rtd_theme", 1) if (!$virtualenv);
--	check_program("xelatex", 1) if ($pdf);
- 	check_program("dot", 1);
- 	check_program("convert", 1);
--	check_program("rsvg-convert", 1) if ($pdf);
--	check_program("latexmk", 1) if ($pdf);
-+
-+	# Extra PDF files - should use 2 for is_optional
-+	check_program("xelatex", 2) if ($pdf);
-+	check_program("rsvg-convert", 2) if ($pdf);
-+	check_program("latexmk", 2) if ($pdf);
- 
- 	check_distros();
- 
--- 
-2.21.0
+> > +
+> > +The list is encrypted and email to the list can be sent by either PGP or
+> > +S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
+> > +certificate. The list's PGP key and S/MIME certificate are available from
+> > +https://www.kernel.org/....
+> 
+> Somebody needs to fill in some dots there...:)
 
+Yes. I need to sort that out with Konstantin before the thing gets merged,
+but we wanted to give it a wider audience in general.
+ 
+> > +The hardware security team identifies the developers (domain experts) which
+> > +form the initial response team for a particular issue. The initial response
+> 
+> s/which form/who will form/
+> 
+> > +team can bring in further developers (domain experts) to address the issue
+> > +in the best technical way.
+> 
+> Does the reporter get any say in who can be in this group?  That should
+> probably be made explicit either way.
+
+See below.
+
+> > +The hardware security team will provide the disclosing party a list of
+> > +developers (domain experts) who should be informed initially about the
+> > +issue after confirming with the developers  that they will adhere to this
+> > +Memorandum of Understanding and the documented process. These developers
+> > +form the initial response team and will be responsible for handling the
+> > +issue after initial contact. The hardware security team is supporting the
+> > +response team, but is not necessarily involved in the mitigation
+> > +development process.
+> 
+> Again, "should be informed" is conditional, suggesting that the reporter
+> might have some sort of veto power.  But the actual policy is not clear.
+
+Yes and no. That's a tricky field. We surely need some agreement with the
+reporter/owner, but of course we want as much freedom here as we can
+get. The past issues were always a pain when we had the need to get a
+particular expert into the group.
+
+> > +While individual developers might be covered by a non-disclosure agreement
+> > +via their employer, they cannot enter individual non-disclosure agreements
+> > +in their role as Linux kernel developers. They will, however, adhere to
+> > +this documented process and the Memorandum of Understanding.
+> 
+> They will *agree to* adhere ...  We expect that actual adherence will be
+> the case but there is no way (even if an NDA were involved) to guarantee
+> that.
+
+Correct.
+ 
+> > +Disclosure
+> > +""""""""""
+> > +
+> > +The disclosing party provides detailed information to the initial response
+> > +team via the specific encrypted mailing-list.
+> > +
+> > +From our experience the technical documentation of these issues is usually
+> > +a sufficient starting point and further technical clarification is best
+> > +done via email.
+> > +
+> > +Mitigation development
+> > +""""""""""""""""""""""
+> > +
+> > +The initial response team sets up an encrypted mailing-list or repurposes
+> > +an existing one if appropriate. The disclosing party should provide a list
+> > +of contacts for all other parties who have already been, or should be
+> > +informed about the issue. The response team contacts these parties so they
+> > +can name experts who should be subscribed to the mailing-list.
+> > +
+> > +Using a mailing-list is close to the normal Linux development process and
+> > +has been successfully used in developing mitigations for various hardware
+> > +security issues in the past.
+> > +
+> > +The mailing-list operates in the same way as normal Linux development.
+> > +Patches are posted, discussed and reviewed and if agreed on applied to a
+> > +non-public git repository which is only accessible to the participating
+> > +developers via a secure connection. The repository contains the main
+> > +development branch against the mainline kernel and backport branches for
+> > +stable kernel versions as necessary.
+> 
+> Do we want to envision a KPTI-like situation where the mitigation can be
+> developed publicly?  Or perhaps just handle any such case if and when it
+> ever arises?
+
+Yes, we handle that when it happens which is hopefully never.
+
+> > +Process ambassadors
+> > +-------------------
+> > +
+> > +For assistance with this process we have established ambassadors in various
+> > +organizations, who can answer questions about or provide guidance on the
+> > +reporting process and further handling. Ambassadors are not involved in the
+> > +disclosure of a particular issue, unless requested by a response team or by
+> > +an involved disclosed party. The current ambassadors list:
+> > +
+> > +  ============== ========================================================
+> > +  ARM
+> > +  AMD
+> > +  IBM
+> > +  Intel
+> > +  Qualcomm
+> > +
+> > +  Microsoft
+> > +  VMware
+> > +  XEN
+> > +
+> > +  Canonical
+> > +  Debian
+> > +  Oracle
+> > +  Redhat
+> > +  Suse           Jiri Kosina <jkosina@suse.com>
+> > +
+> > +  Amazon
+> > +  Google
+> > +  ============== ========================================================
+> 
+> Having companies without names seems a little weird.  Unless perhaps you
+> have people teed up to add their names in follow-on patches?
+
+We already talked to companies and the names should come forth before this
+is finished.
+ 
+> > +Encrypted mailing-lists
+> > +-----------------------
+> > +
+> > +We use encrypted mailing-lists for communication. The operating principle
+> > +of these lists is that email sent to the list is encrypted either with the
+> > +list's PGP key or with the list's S/MIME certificate. The mailing-list
+> > +software decrypts the email and re-encrypts it individually for each
+> > +subscriber with the subscriber's PGP key or S/MIME certificate. Details
+> > +about the mailing-list software and the setup which is used to ensure the
+> > +security of the lists and protection of the data can be found here:
+> > +https://www.kernel.org/....
+> 
+> That URL is also in need of completion.
+> 
+> The topic of encrypted mailing lists is visited several times in this
+> document; I wonder if that could be coalesced somehow?
+
+Suggestions welcome.
+
+> > +Each subscriber needs to send a subscription request to the response team
+> > +by email. The email must be signed with the subscriber's PGP key or S/MIME
+> > +certificate. If a PGP key is used, it must be available from a public key
+> > +server and is ideally connected to the Linux kernel's PGP web of trust. See
+> > +also: https://www.kernel.org/signature.html.
+> 
+> The "public key server" thing isn't working quite as well as it was; does
+> this requirement need to be revisited?
+
+I think so. That was written way before that mess happened.
+ 
+Thanks,
+
+	tglx
