@@ -1,134 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0376B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 13:29:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E5A9A7D982
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 13:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbfGZN3G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 09:29:06 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:65530 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfGZN3G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 09:29:06 -0400
-Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x6QDT4mp001561;
-        Fri, 26 Jul 2019 22:29:04 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav109.sakura.ne.jp);
- Fri, 26 Jul 2019 22:29:04 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav109.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank126012062002.bbtec.net [126.12.62.2])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x6QDSv49001515
-        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
-        Fri, 26 Jul 2019 22:29:03 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] hung_task: Allow printing warnings every check interval
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vasiliy Khoruzhick <vasilykh@arista.com>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20190724170249.9644-1-dima@arista.com>
- <2964b430-63d6-e172-84e2-cb269cf43443@i-love.sakura.ne.jp>
- <aa151251-d271-1e65-1cae-0d9da9764d56@arista.com>
- <9a919c32-4e0e-ca1b-887f-c329543913d3@i-love.sakura.ne.jp>
-Message-ID: <41fd7652-df1f-26f6-aba0-b87ebae07db6@i-love.sakura.ne.jp>
-Date:   Fri, 26 Jul 2019 22:28:53 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728495AbfGZN4a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 09:56:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387777AbfGZNlu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Jul 2019 09:41:50 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2672A22CF5;
+        Fri, 26 Jul 2019 13:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564148509;
+        bh=zX30Y7I8lGQSE39mcBLgCQnD1zhzLqgkvgnTgW8bI/U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=k7/MYg0MGLbki0g3EqS6d5XoAuDjmxLmZ5gir1IHBeua4yDd4S/goV17so5PiFt8n
+         +FJh7ZVsJa/LcxUvub/nflNlyhoyELQboQqE6meOYLtPh7zlfMdNwoyEKTbOxO4dvN
+         n1+yN7Rq6NuEbvgyeiChNQerVHe6alV6d3tfnU8g=
+Received: by mail-qk1-f172.google.com with SMTP id v22so39029500qkj.8;
+        Fri, 26 Jul 2019 06:41:49 -0700 (PDT)
+X-Gm-Message-State: APjAAAW6M4OTnD6ssHM6XypNkKeXuIX16MHEhAhKgQNS9mb8d+YFTD4h
+        wk3szdOcuFgO0FJ3KMpWPvDVUqaPGOoQOF9q9Q==
+X-Google-Smtp-Source: APXvYqxjuwBX7ksE7JbZB0mI6ceV0xcxiT8SPZ6Gi56d7P4U1vzH0bY2zZ15ZhXiikKw8Sd4XxO8RlHxVifobutyBU8=
+X-Received: by 2002:a37:a010:: with SMTP id j16mr64220208qke.152.1564148507205;
+ Fri, 26 Jul 2019 06:41:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9a919c32-4e0e-ca1b-887f-c329543913d3@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1564140865.git.mchehab+samsung@kernel.org> <430ed96cb234805d1deb216e8c8559da22cc6bac.1564140865.git.mchehab+samsung@kernel.org>
+In-Reply-To: <430ed96cb234805d1deb216e8c8559da22cc6bac.1564140865.git.mchehab+samsung@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 26 Jul 2019 07:41:35 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK_rfHehrKW_NS89BOV0=dYoao0H=zOzG=D-724vKduKw@mail.gmail.com>
+Message-ID: <CAL_JsqK_rfHehrKW_NS89BOV0=dYoao0H=zOzG=D-724vKduKw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] docs: fix broken doc references due to renames
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
+        Don Brace <don.brace@microsemi.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        rcu@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        esc.storagedev@microsemi.com, SCSI <linux-scsi@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/07/26 20:29, Tetsuo Handa wrote:
-> On 2019/07/25 23:25, Dmitry Safonov wrote:
->> Yes, also current distributions already using the counter to print
->> warnings number of times and then silently ignore. I.e., on my Arch
->> Linux setup:
->> hung_task_warnings:10
-> 
-> You can propose changing the default value of hung_task_warnings to -1.
-> 
-> Current patch might be inconvenient because printk() from hung_task_warning(t, false)
-> fails to go to consoles when that "t" was blocked for more than "timeout" seconds, for
-> 
-> 	if (sysctl_hung_task_panic) {
-> 		console_verbose();
-> 		hung_task_show_lock = true;
-> 		hung_task_call_panic = true;
-> 	}
-> 
-> path which is intended to force printk() to go to consoles is ignored by
-> 
-> 	/* Don't print warings twice */
-> 	if (!sysctl_hung_task_interval_warnings)
-> 		hung_task_warning(t, true);
-> 
-> when panic() should be called. (The vmcore would contain the printk() output which
-> was not sent to consoles if kdump is configured. But vmcore is not always available.)
-> 
->> Yes, that's why it's disabled by default (=0).
->> I tend to agree that printing with KERN_DEBUG may be better, but in my
->> point of view the patch isn't enough justification for patching
->> sched_show_task() and show_stack().
-> 
-> You can propose sched_show_task_log_lvl() and show_stack_log_lvl() like show_trace_log_lvl().
-> 
-> I think that sysctl_hung_task_interval_warnings should not be decremented automatically.
-> I guess that that variable should become a boolean which controls whether to report threads
-> (with KERN_DEBUG level) which was blocked for more than sysctl_hung_task_check_interval_secs
-> seconds (or a tristate which also controls whether the report should be sent to consoles
-> (because KERN_DEBUG level likely prevents sending to consoles)), and
-> hung_task_warning(t, false) should be called like
-> 
-> 	if (time_is_after_jiffies(t->last_switch_time + timeout * HZ)) {
-> 		if (sysctl_hung_task_interval_warnings)
-> 			hung_task_warning(t, false);
-> 		return;
-> 	}
-> 
-> rather than
-> 
-> 	if (sysctl_hung_task_interval_warnings)
-> 		hung_task_warning(t, false);
-> 	if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
-> 		return;
-> 
-> .
-> 
+On Fri, Jul 26, 2019 at 5:47 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Some files got renamed but probably due to some merge conflicts,
+> a few references still point to the old locations.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Wolfram Sang <wsa@the-dreams.de> # I2C part
+> Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com> # hpwdt.rst
+> ---
+>  Documentation/RCU/rculist_nulls.txt                   |  2 +-
+>  Documentation/devicetree/bindings/arm/idle-states.txt |  2 +-
+>  Documentation/locking/spinlocks.rst                   |  4 ++--
+>  Documentation/memory-barriers.txt                     |  2 +-
+>  Documentation/translations/ko_KR/memory-barriers.txt  |  2 +-
+>  Documentation/watchdog/hpwdt.rst                      |  2 +-
+>  MAINTAINERS                                           | 10 +++++-----
+>  drivers/gpu/drm/drm_modes.c                           |  2 +-
+>  drivers/i2c/busses/i2c-nvidia-gpu.c                   |  2 +-
+>  drivers/scsi/hpsa.c                                   |  4 ++--
+>  10 files changed, 16 insertions(+), 16 deletions(-)
 
-
-Well, another direction is to disassociate sysctl_hung_task_panic from
-sysctl_hung_task_timeout_secs. Since nobody would want to call panic() when
-a thread was blocked for only one second, allow sysctl_hung_task_panic to
-specify larger than 1, and interpret it as sysctl_hung_task_timeout_secs for
-calling panic(). Roughly speaking:
-
--	if (sysctl_hung_task_panic) {
-+	unsigned long panic_timeout = READ_ONCE(sysctl_hung_task_panic)
-+	if (panic_timeout == 1 || (panic_timeout > 1 &&
-+	     (jiffies - t->last_switch_time) / HZ >= panic_timeout)) {
- 		console_verbose();
- 		hung_task_show_lock = true;
- 		hung_task_call_panic = true;
- 	}
-
-If use of different loglevel is not a requirement for you, this would be the simplest.
+Acked-by: Rob Herring <robh@kernel.org>
