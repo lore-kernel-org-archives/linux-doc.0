@@ -1,73 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D8B27D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 20:51:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B6BC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 21:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfGZUvV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 16:51:21 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52210 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726184AbfGZUvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Jul 2019 16:51:21 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 664C3867;
-        Fri, 26 Jul 2019 20:51:20 +0000 (UTC)
-Date:   Fri, 26 Jul 2019 14:51:19 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        linux-xfs@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: filesystem: fix "Removed Sysctls" table
-Message-ID: <20190726145119.5ef751e8@lwn.net>
-In-Reply-To: <20190723114813.GA14870@localhost>
-References: <20190723114813.GA14870@localhost>
-Organization: LWN.net
+        id S1726869AbfGZVBP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 17:01:15 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49206 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726416AbfGZVBO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 17:01:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=aNoL2vQ7lvohfRAa2Mq89OMQ1NUC1ac/81Wd7wPLWjk=; b=elyNl1IaSwQ1L/rwEV/SzDqoW
+        71SAjz/QVlzTH+LYWo4ZcF+lQ4FH63ESYwzRguY/i1omXuBRkMED2LDdVEC24I2linQ7KWiXR5yDG
+        K+4SforvylszlcN/3WBZk3t3JjSYxXt1VhtPE9jrQJfL1+6hqMJz2S5QxvZGXtHUhYGUNIE8QL86s
+        c9767oPdohCa/qOGF09OjNfrloAULnvhjVuWMmzrr26aSfYQaGgEwR5w8ApJ4kDIa27+XhlaLCct5
+        hO56R5+SDvuHHw6pQuhNoO9MwT3qwGozmR2w80MHz/NiWfEcx+xIouDj5CGRIAk7uQwEgLXMyk1XF
+        dztEgrj4g==;
+Received: from [179.95.31.157] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hr7Kz-000662-K2; Fri, 26 Jul 2019 21:01:13 +0000
+Date:   Fri, 26 Jul 2019 18:01:09 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?B?xYF1a2Fzeg==?= Stelmach <l.stelmach@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 0/7] Fix broken references to files under
+ Documentation/*
+Message-ID: <20190726180109.56d1db35@coco.lan>
+In-Reply-To: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
+References: <cover.1564140865.git.mchehab+samsung@kernel.org>
+        <04794d40-0b39-0223-c91e-03b46cb6e2db@wdc.com>
+        <20190726171352.5eaa4d83@coco.lan>
+        <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 Jul 2019 12:48:13 +0100
-Sheriff Esseson <sheriffesseson@gmail.com> wrote:
+Em Fri, 26 Jul 2019 13:18:30 -0700
+Atish Patra <atish.patra@wdc.com> escreveu:
 
-> the "Removed Sysctls" section is a table - bring it alive with ReST.
+> On 7/26/19 1:14 PM, Mauro Carvalho Chehab wrote:
+> > Em Fri, 26 Jul 2019 12:55:36 -0700
+> > Atish Patra <atish.patra@wdc.com> escreveu:
+> >   
+> >> On 7/26/19 4:47 AM, Mauro Carvalho Chehab wrote:  
+> >>> Solves most of the pending broken references upstream, except for two of
+> >>> them:
+> >>>
+> >>> 	$ ./scripts/documentation-file-ref-check
+> >>> 	Documentation/riscv/boot-image-header.txt: Documentation/riscv/booting.txt
+> >>> 	MAINTAINERS: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+> >>>
+> >>> As written at boot-image-header.txt, it is waiting for the addition of
+> >>> a future file:
+> >>>
+> >>> 	"The complete booting guide will be available at
+> >>> 	  Documentation/riscv/booting.txt."
+> >>>      
+> >>
+> >> Yeah. We don't have complete booting guide defined in RISC-V land.
+> >> Documentation/riscv/booting.txt will be available once we have that.
+> >>
+> >> In the mean time, do we need to convert boot-image-header.txt to
+> >> boot-image-header.rst and fix the reference to
+> >> Documentation/riscv/booting.rst as well ?  
+> > 
+> > Well, in the mean time, every time someone builds the Kernel with
+> > COMPILE_TEST enabled, a warning will be produced.
+> > 
+> > So, my suggestion would be to write it on a different way, like:
+> > 
+> > 	"A complete booting guide is being written and should be
+> > 	 available on future versions."
+> > 
+> > Or:
+> > 	TODO:
+> > 	   Write a complete booting guide.
+> > 
+> > And update this once the guide is finished. This should be enough
+> > to prevent the warning.
+> >   
 > 
-> Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
-> ---
->  Documentation/admin-guide/xfs.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> Sounds good to me.
 > 
-> diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-> index e76665a8f2f2..fb5b39f73059 100644
-> --- a/Documentation/admin-guide/xfs.rst
-> +++ b/Documentation/admin-guide/xfs.rst
-> @@ -337,11 +337,12 @@ None at present.
->  Removed Sysctls
->  ===============
->  
-> +=============================	=======
->    Name				Removed
-> -  ----				-------
-> +=============================	=======
->    fs.xfs.xfsbufd_centisec	v4.0
->    fs.xfs.age_buffer_centisecs	v4.0
-> -
-> +=============================	=======
+> > With regards to converting it to ReST, that's recommended. I suspect
+> > we could be able to finish the entire doc conversion in a couple
+> > Kernel versions.
+> >   
+> Sure.
+> 
+> > Also, it should be really trivial to convert this one to ReST.
+> >   
+> 
+> Yes. Let me know if you prefer to update it along with your series or I 
+> will send the patch.
 
-I've applied this, thanks.
+I suspect it would be quicker if I write it. I'm sending it in a
+few.
 
-jon
+Thanks,
+Mauro
