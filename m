@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE8497DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:52:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B712F7DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726000AbfGZMwM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 08:52:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39952 "EHLO
+        id S1726640AbfGZMwO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 08:52:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39926 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbfGZMvn (ORCPT
+        with ESMTP id S1726491AbfGZMvn (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=omZBJi3Q/l3dAwMxiEE2SC2KyKefrVpDyaujpk7p1c8=; b=j3VFEd6boxrcl8IU+/HNmKlaXP
-        JuJDQnsJbpH685K8c3+n1X+WuYgC//jZyx59Xo2EWAIgtWKCQj71PylwEggncMpDA5scZ6gFTJVoD
-        Xt9hvRg2XQ6hQccmHW2LdvNuDdPLqwXEpC3gdHFfs8CgYHx0kK02qkspmF37VgUYmiCOx98DRnJ7a
-        1M3ROfBb3JM51OhmkcyA4Ztap2UUgX6N3/AIlZzDPUrId+dotyhy+6x42IuU60V4y0DWyQABRaOIX
-        NYERm9CkZ3t4rMxcL71RYIMNF/dakArJb3KjsffBtcvaSskSgDUzLc01jPOtnBcy/X3is/+2+5Baf
-        b98Rr7SQ==;
+        bh=NSTlHbBkrVaYMh53wTQSKmFTPFXMTLQcz9VNpfg53nw=; b=uIdnmqHRxdW6gBaHW+mUF+3ExF
+        IAQARPEEwH11S4gK4N1w8Yk+1m8Vgt31rhQLqM1VZUZIK7uMUHb/h5sfeYoH5Ojki2kLcPGFlMFOm
+        FP3IlqMD/vOJW1RmoFZUYOH5TC3elMpzmdbDNGXJHI/T7bnsaDYJ3rkgKDPeB9GkLUvlC/6GcC4GZ
+        y5r6u9efskaCsoFMK2LfNTe4rpT7xo0SVocodc4/T8WiLqlNmwBk/+KS72AHxTNq/9jiL1k3Q2g6l
+        /E99yqKyLwZNVJL9nsuKDU/Xkzo1yPB2Q/Phm70PXs+FDGXcBpgN7eNiWgm6td00dvw9Kkwrx5pGD
+        2Jfo5q6A==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqzhE-0006Ae-I7; Fri, 26 Jul 2019 12:51:41 +0000
+        id 1hqzhE-0006AZ-Iq; Fri, 26 Jul 2019 12:51:40 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqzhC-0005bW-Ea; Fri, 26 Jul 2019 09:51:38 -0300
+        id 1hqzhC-0005am-6k; Fri, 26 Jul 2019 09:51:38 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
-        linux-wimax@intel.com, linux-doc@vger.kernel.org
-Subject: [PATCH v2 20/26] docs: wimax: convert to ReST and add to admin-guide
-Date:   Fri, 26 Jul 2019 09:51:30 -0300
-Message-Id: <567b3f9f88886491503576b5f742ee1ae7e46c12.1564145354.git.mchehab+samsung@kernel.org>
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 11/26] docs: admin-guide: add auxdisplay files to it after conversion to ReST
+Date:   Fri, 26 Jul 2019 09:51:21 -0300
+Message-Id: <b50f14519f3a4d572232af80d60d94f58bb9132d.1564145354.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564145354.git.mchehab+samsung@kernel.org>
 References: <cover.1564145354.git.mchehab+samsung@kernel.org>
@@ -51,368 +51,193 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Manually convert wimax documentation to ReST and add theit
-to the Kernel doc body, inside the admin-guide.
+Those two files describe userspace-faced information. While part of
+it might fit on uAPI, it sounds to me that the admin guide is the
+best place for them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 ---
+ .../auxdisplay/cfag12864b.rst}                | 115 ++++++++----------
+ .../admin-guide/auxdisplay/index.rst          |  16 +++
+ .../auxdisplay/ks0108.rst}                    |  53 ++++----
  Documentation/admin-guide/index.rst           |   1 +
- .../wimax/i2400m.rst}                         | 145 ++++++++++--------
- Documentation/admin-guide/wimax/index.rst     |  19 +++
- .../wimax/wimax.rst}                          |  36 +++--
- MAINTAINERS                                   |   4 +-
- 5 files changed, 128 insertions(+), 77 deletions(-)
- rename Documentation/{wimax/README.i2400m => admin-guide/wimax/i2400m.rst} (69%)
- create mode 100644 Documentation/admin-guide/wimax/index.rst
- rename Documentation/{wimax/README.wimax => admin-guide/wimax/wimax.rst} (74%)
+ MAINTAINERS                                   |   2 +-
+ drivers/auxdisplay/Kconfig                    |   2 +-
+ 6 files changed, 97 insertions(+), 92 deletions(-)
+ rename Documentation/{auxdisplay/cfag12864b => admin-guide/auxdisplay/cfag12864b.rst} (26%)
+ create mode 100644 Documentation/admin-guide/auxdisplay/index.rst
+ rename Documentation/{auxdisplay/ks0108 => admin-guide/auxdisplay/ks0108.rst} (32%)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 6e6c23b6193a..083b7cc80ee4 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -107,6 +107,7 @@ configure specific aspects of kernel behavior to your liking.
-    pnp
-    rtc
-    svga
-+   wimax/index
-    video-output
- 
- .. only::  subproject and html
-diff --git a/Documentation/wimax/README.i2400m b/Documentation/admin-guide/wimax/i2400m.rst
-similarity index 69%
-rename from Documentation/wimax/README.i2400m
-rename to Documentation/admin-guide/wimax/i2400m.rst
-index 7dffd8919cb0..194388c0c351 100644
---- a/Documentation/wimax/README.i2400m
-+++ b/Documentation/admin-guide/wimax/i2400m.rst
-@@ -1,18 +1,23 @@
-+.. include:: <isonum.txt>
- 
--   Driver for the Intel Wireless Wimax Connection 2400m
-+====================================================
-+Driver for the Intel Wireless Wimax Connection 2400m
-+====================================================
- 
--   (C) 2008 Intel Corporation < linux-wimax@intel.com >
-+:Copyright: |copy| 2008 Intel Corporation < linux-wimax@intel.com >
- 
-    This provides a driver for the Intel Wireless WiMAX Connection 2400m
-    and a basic Linux kernel WiMAX stack.
- 
- 1. Requirements
-+===============
- 
-      * Linux installation with Linux kernel 2.6.22 or newer (if building
-        from a separate tree)
-      * Intel i2400m Echo Peak or Baxter Peak; this includes the Intel
-        Wireless WiMAX/WiFi Link 5x50 series.
-      * build tools:
-+
-           + Linux kernel development package for the target kernel; to
-             build against your currently running kernel, you need to have
-             the kernel development package corresponding to the running
-@@ -22,8 +27,10 @@
-           + GNU C Compiler, make
- 
- 2. Compilation and installation
-+===============================
- 
- 2.1. Compilation of the drivers included in the kernel
-+------------------------------------------------------
- 
-    Configure the kernel; to enable the WiMAX drivers select Drivers >
-    Networking Drivers > WiMAX device support. Enable all of them as
-@@ -36,37 +43,39 @@
-    Compile and install your kernel as usual.
- 
- 2.2. Compilation of the drivers distributed as an standalone module
-+-------------------------------------------------------------------
- 
--   To compile
-+   To compile::
- 
--$ cd source/directory
--$ make
-+	$ cd source/directory
-+	$ make
- 
-    Once built you can load and unload using the provided load.sh script;
-    load.sh will load the modules, load.sh u will unload them.
- 
-    To install in the default kernel directories (and enable auto loading
--   when the device is plugged):
-+   when the device is plugged)::
- 
--$ make install
--$ depmod -a
-+	$ make install
-+	$ depmod -a
- 
-    If your kernel development files are located in a non standard
-    directory or if you want to build for a kernel that is not the
--   currently running one, set KDIR to the right location:
-+   currently running one, set KDIR to the right location::
- 
--$ make KDIR=/path/to/kernel/dev/tree
-+	$ make KDIR=/path/to/kernel/dev/tree
- 
-    For more information, please contact linux-wimax@intel.com.
- 
- 3. Installing the firmware
-+--------------------------
- 
-    The firmware can be obtained from http://linuxwimax.org or might have
-    been supplied with your hardware.
- 
--   It has to be installed in the target system:
--     *
--$ cp FIRMWAREFILE.sbcf /lib/firmware/i2400m-fw-BUSTYPE-1.3.sbcf
-+   It has to be installed in the target system::
-+
-+	$ cp FIRMWAREFILE.sbcf /lib/firmware/i2400m-fw-BUSTYPE-1.3.sbcf
- 
-      * NOTE: if your firmware came in an .rpm or .deb file, just install
-        it as normal, with the rpm (rpm -i FIRMWARE.rpm) or dpkg
-@@ -76,6 +85,7 @@ $ cp FIRMWAREFILE.sbcf /lib/firmware/i2400m-fw-BUSTYPE-1.3.sbcf
-        with other types.
- 
- 4. Design
-+=========
- 
-    This package contains two major parts: a WiMAX kernel stack and a
-    driver for the Intel i2400m.
-@@ -102,16 +112,17 @@ $ cp FIRMWAREFILE.sbcf /lib/firmware/i2400m-fw-BUSTYPE-1.3.sbcf
-    API calls should be replaced with the target OS's.
- 
- 5. Usage
-+========
- 
-    To load the driver, follow the instructions in the install section;
-    once the driver is loaded, plug in the device (unless it is permanently
-    plugged in). The driver will enumerate the device, upload the firmware
-    and output messages in the kernel log (dmesg, /var/log/messages or
--   /var/log/kern.log) such as:
-+   /var/log/kern.log) such as::
- 
--...
--i2400m_usb 5-4:1.0: firmware interface version 8.0.0
--i2400m_usb 5-4:1.0: WiMAX interface wmx0 (00:1d:e1:01:94:2c) ready
-+	...
-+	i2400m_usb 5-4:1.0: firmware interface version 8.0.0
-+	i2400m_usb 5-4:1.0: WiMAX interface wmx0 (00:1d:e1:01:94:2c) ready
- 
-    At this point the device is ready to work.
- 
-@@ -120,38 +131,42 @@ i2400m_usb 5-4:1.0: WiMAX interface wmx0 (00:1d:e1:01:94:2c) ready
-    on how to scan, connect and disconnect.
- 
- 5.1. Module parameters
-+----------------------
- 
-    Module parameters can be set at kernel or module load time or by
--   echoing values:
-+   echoing values::
- 
--$ echo VALUE > /sys/module/MODULENAME/parameters/PARAMETERNAME
-+	$ echo VALUE > /sys/module/MODULENAME/parameters/PARAMETERNAME
- 
-    To make changes permanent, for example, for the i2400m module, you can
--   also create a file named /etc/modprobe.d/i2400m containing:
-+   also create a file named /etc/modprobe.d/i2400m containing::
- 
--options i2400m idle_mode_disabled=1
-+	options i2400m idle_mode_disabled=1
- 
--   To find which parameters are supported by a module, run:
-+   To find which parameters are supported by a module, run::
- 
--$ modinfo path/to/module.ko
-+	$ modinfo path/to/module.ko
- 
-    During kernel bootup (if the driver is linked in the kernel), specify
--   the following to the kernel command line:
-+   the following to the kernel command line::
- 
--i2400m.PARAMETER=VALUE
-+	i2400m.PARAMETER=VALUE
- 
- 5.1.1. i2400m: idle_mode_disabled
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    The i2400m module supports a parameter to disable idle mode. This
-    parameter, once set, will take effect only when the device is
-    reinitialized by the driver (eg: following a reset or a reconnect).
- 
- 5.2. Debug operations: debugfs entries
-+--------------------------------------
- 
-    The driver will register debugfs entries that allow the user to tweak
-    debug settings. There are three main container directories where
-    entries are placed, which correspond to the three blocks a i2400m WiMAX
-    driver has:
-+
-      * /sys/kernel/debug/wimax:DEVNAME/ for the generic WiMAX stack
-        controls
-      * /sys/kernel/debug/wimax:DEVNAME/i2400m for the i2400m generic
-@@ -163,52 +178,55 @@ i2400m.PARAMETER=VALUE
-    /sys/kernel/debug, those paths will change.
- 
- 5.2.1. Increasing debug output
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    The files named *dl_* indicate knobs for controlling the debug output
--   of different submodules:
--     *
--# find /sys/kernel/debug/wimax\:wmx0 -name \*dl_\*
--/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_tx
--/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_rx
--/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_notif
--/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_fw
--/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_usb
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_tx
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_rx
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_rfkill
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_netdev
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_fw
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_debugfs
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_driver
--/sys/kernel/debug/wimax:wmx0/i2400m/dl_control
--/sys/kernel/debug/wimax:wmx0/wimax_dl_stack
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_rfkill
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_reset
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_msg
--/sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
--/sys/kernel/debug/wimax:wmx0/wimax_dl_debugfs
-+   of different submodules::
-+
-+	# find /sys/kernel/debug/wimax\:wmx0 -name \*dl_\*
-+	/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_tx
-+	/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_rx
-+	/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_notif
-+	/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_fw
-+	/sys/kernel/debug/wimax:wmx0/i2400m-usb/dl_usb
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_tx
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_rx
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_rfkill
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_netdev
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_fw
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_debugfs
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_driver
-+	/sys/kernel/debug/wimax:wmx0/i2400m/dl_control
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_stack
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_rfkill
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_reset
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_msg
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_debugfs
- 
-    By reading the file you can obtain the current value of said debug
-    level; by writing to it, you can set it.
- 
-    To increase the debug level of, for example, the i2400m's generic TX
--   engine, just write:
-+   engine, just write::
- 
--$ echo 3 > /sys/kernel/debug/wimax:wmx0/i2400m/dl_tx
-+	$ echo 3 > /sys/kernel/debug/wimax:wmx0/i2400m/dl_tx
- 
-    Increasing numbers yield increasing debug information; for details of
-    what is printed and the available levels, check the source. The code
-    uses 0 for disabled and increasing values until 8.
- 
- 5.2.2. RX and TX statistics
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    The i2400m/rx_stats and i2400m/tx_stats provide statistics about the
--   data reception/delivery from the device:
-+   data reception/delivery from the device::
- 
--$ cat /sys/kernel/debug/wimax:wmx0/i2400m/rx_stats
--45 1 3 34 3104 48 480
-+	$ cat /sys/kernel/debug/wimax:wmx0/i2400m/rx_stats
-+	45 1 3 34 3104 48 480
-+
-+   The numbers reported are:
- 
--   The numbers reported are
-      * packets/RX-buffer: total, min, max
-      * RX-buffers: total RX buffers received, accumulated RX buffer size
-        in bytes, min size received, max size received
-@@ -216,9 +234,9 @@ $ cat /sys/kernel/debug/wimax:wmx0/i2400m/rx_stats
-    Thus, to find the average buffer size received, divide accumulated
-    RX-buffer / total RX-buffers.
- 
--   To clear the statistics back to 0, write anything to the rx_stats file:
-+   To clear the statistics back to 0, write anything to the rx_stats file::
- 
--$ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m_rx_stats
-+	$ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m_rx_stats
- 
-    Likewise for TX.
- 
-@@ -227,14 +245,16 @@ $ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m_rx_stats
-    to the host. See drivers/net/wimax/i2400m/tx.c.
- 
- 5.2.3. Tracing messages received from user space
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    To echo messages received from user space into the trace pipe that the
-    i2400m driver creates, set the debug file i2400m/trace_msg_from_user to
--   1:
--     *
--$ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m/trace_msg_from_user
-+   1::
-+
-+	$ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m/trace_msg_from_user
- 
- 5.2.4. Performing a device reset
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    By writing a 0, a 1 or a 2 to the file
-    /sys/kernel/debug/wimax:wmx0/reset, the driver performs a warm (without
-@@ -242,18 +262,21 @@ $ echo 1 > /sys/kernel/debug/wimax:wmx0/i2400m/trace_msg_from_user
-    (bus specific) reset on the device.
- 
- 5.2.5. Asking the device to enter power saving mode
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-    By writing any value to the /sys/kernel/debug/wimax:wmx0 file, the
-    device will attempt to enter power saving mode.
- 
- 6. Troubleshooting
-+==================
- 
--6.1. Driver complains about 'i2400m-fw-usb-1.2.sbcf: request failed'
-+6.1. Driver complains about ``i2400m-fw-usb-1.2.sbcf: request failed``
-+----------------------------------------------------------------------
- 
-    If upon connecting the device, the following is output in the kernel
--   log:
-+   log::
- 
--i2400m_usb 5-4:1.0: fw i2400m-fw-usb-1.3.sbcf: request failed: -2
-+	i2400m_usb 5-4:1.0: fw i2400m-fw-usb-1.3.sbcf: request failed: -2
- 
-    This means that the driver cannot locate the firmware file named
-    /lib/firmware/i2400m-fw-usb-1.2.sbcf. Check that the file is present in
-diff --git a/Documentation/admin-guide/wimax/index.rst b/Documentation/admin-guide/wimax/index.rst
+diff --git a/Documentation/auxdisplay/cfag12864b b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
+similarity index 26%
+rename from Documentation/auxdisplay/cfag12864b
+rename to Documentation/admin-guide/auxdisplay/cfag12864b.rst
+index 12fd51b8de75..18c2865bd322 100644
+--- a/Documentation/auxdisplay/cfag12864b
++++ b/Documentation/admin-guide/auxdisplay/cfag12864b.rst
+@@ -1,92 +1,85 @@
+-	===================================
+-	cfag12864b LCD Driver Documentation
+-	===================================
++===================================
++cfag12864b LCD Driver Documentation
++===================================
+ 
+-License:		GPLv2
+-Author & Maintainer:	Miguel Ojeda Sandonis
+-Date:			2006-10-27
++:License:		GPLv2
++:Author & Maintainer:	Miguel Ojeda Sandonis
++:Date:			2006-10-27
+ 
+ 
+ 
+---------
+-0. INDEX
+---------
++.. INDEX
+ 
+ 	1. DRIVER INFORMATION
+ 	2. DEVICE INFORMATION
+ 	3. WIRING
+ 	4. USERSPACE PROGRAMMING
+ 
+-
+----------------------
+-1. DRIVER INFORMATION
++1. Driver Information
+ ---------------------
+ 
+ This driver supports a cfag12864b LCD.
+ 
+ 
+----------------------
+-2. DEVICE INFORMATION
++2. Device Information
+ ---------------------
+ 
+-Manufacturer:	Crystalfontz
+-Device Name:	Crystalfontz 12864b LCD Series
+-Device Code:	cfag12864b
+-Webpage:	http://www.crystalfontz.com
+-Device Webpage:	http://www.crystalfontz.com/products/12864b/
+-Type:		LCD (Liquid Crystal Display)
+-Width:		128
+-Height:		64
+-Colors:		2 (B/N)
+-Controller:	ks0108
+-Controllers:	2
+-Pages:		8 each controller
+-Addresses:	64 each page
+-Data size:	1 byte each address
+-Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
++:Manufacturer:	Crystalfontz
++:Device Name:	Crystalfontz 12864b LCD Series
++:Device Code:	cfag12864b
++:Webpage:	http://www.crystalfontz.com
++:Device Webpage: http://www.crystalfontz.com/products/12864b/
++:Type:		LCD (Liquid Crystal Display)
++:Width:		128
++:Height:	64
++:Colors:	2 (B/N)
++:Controller:	ks0108
++:Controllers:	2
++:Pages:		8 each controller
++:Addresses:	64 each page
++:Data size:	1 byte each address
++:Memory size:	2 * 8 * 64 * 1 = 1024 bytes = 1 Kbyte
+ 
+ 
+----------
+-3. WIRING
++3. Wiring
+ ---------
+ 
+ The cfag12864b LCD Series don't have official wiring.
+ 
+-The common wiring is done to the parallel port as shown:
++The common wiring is done to the parallel port as shown::
+ 
+-Parallel Port                          cfag12864b
++  Parallel Port                          cfag12864b
+ 
+-  Name Pin#                            Pin# Name
++    Name Pin#                            Pin# Name
+ 
+-Strobe ( 1)------------------------------(17) Enable
+-Data 0 ( 2)------------------------------( 4) Data 0
+-Data 1 ( 3)------------------------------( 5) Data 1
+-Data 2 ( 4)------------------------------( 6) Data 2
+-Data 3 ( 5)------------------------------( 7) Data 3
+-Data 4 ( 6)------------------------------( 8) Data 4
+-Data 5 ( 7)------------------------------( 9) Data 5
+-Data 6 ( 8)------------------------------(10) Data 6
+-Data 7 ( 9)------------------------------(11) Data 7
+-       (10)                      [+5v]---( 1) Vdd
+-       (11)                      [GND]---( 2) Ground
+-       (12)                      [+5v]---(14) Reset
+-       (13)                      [GND]---(15) Read / Write
+-  Line (14)------------------------------(13) Controller Select 1
+-       (15)
+-  Init (16)------------------------------(12) Controller Select 2
+-Select (17)------------------------------(16) Data / Instruction
+-Ground (18)---[GND]              [+5v]---(19) LED +
+-Ground (19)---[GND]
+-Ground (20)---[GND]              E    A             Values:
+-Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
+-Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
+-Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
+-Ground (24)---[GND]       |  |
+-Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
++  Strobe ( 1)------------------------------(17) Enable
++  Data 0 ( 2)------------------------------( 4) Data 0
++  Data 1 ( 3)------------------------------( 5) Data 1
++  Data 2 ( 4)------------------------------( 6) Data 2
++  Data 3 ( 5)------------------------------( 7) Data 3
++  Data 4 ( 6)------------------------------( 8) Data 4
++  Data 5 ( 7)------------------------------( 9) Data 5
++  Data 6 ( 8)------------------------------(10) Data 6
++  Data 7 ( 9)------------------------------(11) Data 7
++         (10)                      [+5v]---( 1) Vdd
++         (11)                      [GND]---( 2) Ground
++         (12)                      [+5v]---(14) Reset
++         (13)                      [GND]---(15) Read / Write
++    Line (14)------------------------------(13) Controller Select 1
++         (15)
++    Init (16)------------------------------(12) Controller Select 2
++  Select (17)------------------------------(16) Data / Instruction
++  Ground (18)---[GND]              [+5v]---(19) LED +
++  Ground (19)---[GND]
++  Ground (20)---[GND]              E    A             Values:
++  Ground (21)---[GND]       [GND]---[P1]---(18) Vee    - R = Resistor = 22 ohm
++  Ground (22)---[GND]                |                 - P1 = Preset = 10 Kohm
++  Ground (23)---[GND]       ----   S ------( 3) V0     - P2 = Preset = 1 Kohm
++  Ground (24)---[GND]       |  |
++  Ground (25)---[GND] [GND]---[P2]---[R]---(20) LED -
+ 
+ 
+-------------------------
+-4. USERSPACE PROGRAMMING
++4. Userspace Programming
+ ------------------------
+ 
+ The cfag12864bfb describes a framebuffer device (/dev/fbX).
+diff --git a/Documentation/admin-guide/auxdisplay/index.rst b/Documentation/admin-guide/auxdisplay/index.rst
 new file mode 100644
-index 000000000000..fdf7c1f99ff5
+index 000000000000..e466f0595248
 --- /dev/null
-+++ b/Documentation/admin-guide/wimax/index.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+WiMAX subsystem
-+===============
++++ b/Documentation/admin-guide/auxdisplay/index.rst
+@@ -0,0 +1,16 @@
++=========================
++Auxiliary Display Support
++=========================
 +
 +.. toctree::
-+   :maxdepth: 2
++    :maxdepth: 1
 +
-+   wimax
-+
-+   i2400m
++    ks0108.rst
++    cfag12864b.rst
 +
 +.. only::  subproject and html
 +
@@ -420,113 +245,131 @@ index 000000000000..fdf7c1f99ff5
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/wimax/README.wimax b/Documentation/admin-guide/wimax/wimax.rst
-similarity index 74%
-rename from Documentation/wimax/README.wimax
-rename to Documentation/admin-guide/wimax/wimax.rst
-index b78c4378084e..817ee8ba2732 100644
---- a/Documentation/wimax/README.wimax
-+++ b/Documentation/admin-guide/wimax/wimax.rst
-@@ -1,12 +1,16 @@
-+.. include:: <isonum.txt>
+diff --git a/Documentation/auxdisplay/ks0108 b/Documentation/admin-guide/auxdisplay/ks0108.rst
+similarity index 32%
+rename from Documentation/auxdisplay/ks0108
+rename to Documentation/admin-guide/auxdisplay/ks0108.rst
+index 8ddda0c8ceef..c0b7faf73136 100644
+--- a/Documentation/auxdisplay/ks0108
++++ b/Documentation/admin-guide/auxdisplay/ks0108.rst
+@@ -1,50 +1,45 @@
+-	==========================================
+-	ks0108 LCD Controller Driver Documentation
+-	==========================================
++==========================================
++ks0108 LCD Controller Driver Documentation
++==========================================
  
--   Linux kernel WiMAX stack
-+========================
-+Linux kernel WiMAX stack
-+========================
+-License:		GPLv2
+-Author & Maintainer:	Miguel Ojeda Sandonis
+-Date:			2006-10-27
++:License:		GPLv2
++:Author & Maintainer:	Miguel Ojeda Sandonis
++:Date:			2006-10-27
  
--   (C) 2008 Intel Corporation < linux-wimax@intel.com >
-+:Copyright: |copy| 2008 Intel Corporation < linux-wimax@intel.com >
  
-    This provides a basic Linux kernel WiMAX stack to provide a common
-    control API for WiMAX devices, usable from kernel and user space.
  
- 1. Design
-+=========
+---------
+-0. INDEX
+---------
++.. INDEX
  
-    The WiMAX stack is designed to provide for common WiMAX control
-    services to current and future WiMAX devices from any vendor.
-@@ -31,6 +35,7 @@
-    include/linux/wimax.h.
+ 	1. DRIVER INFORMATION
+ 	2. DEVICE INFORMATION
+ 	3. WIRING
  
- 2. Usage
-+========
  
-    For usage in a driver (registration, API, etc) please refer to the
-    instructions in the header file include/linux/wimax.h.
-@@ -40,6 +45,7 @@
-    control.
+----------------------
+-1. DRIVER INFORMATION
++1. Driver Information
+ ---------------------
  
- 2.1. Obtaining debug information: debugfs entries
-+-------------------------------------------------
+ This driver supports the ks0108 LCD controller.
  
-    The WiMAX stack is compiled, by default, with debug messages that can
-    be used to diagnose issues. By default, said messages are disabled.
-@@ -52,20 +58,22 @@
-    create more subentries below it.
  
- 2.1.1. Increasing debug output
-+------------------------------
+----------------------
+-2. DEVICE INFORMATION
++2. Device Information
+ ---------------------
  
-    The files named *dl_* indicate knobs for controlling the debug output
--   of different submodules of the WiMAX stack:
--     *
--# find /sys/kernel/debug/wimax\:wmx0 -name \*dl_\*
--/sys/kernel/debug/wimax:wmx0/wimax_dl_stack
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_rfkill
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_reset
--/sys/kernel/debug/wimax:wmx0/wimax_dl_op_msg
--/sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
--/sys/kernel/debug/wimax:wmx0/wimax_dl_debugfs
--/sys/kernel/debug/wimax:wmx0/.... # other driver specific files
-+   of different submodules of the WiMAX stack::
+-Manufacturer:	Samsung
+-Device Name:	KS0108 LCD Controller
+-Device Code:	ks0108
+-Webpage:	-
+-Device Webpage:	-
+-Type:		LCD Controller (Liquid Crystal Display Controller)
+-Width:		64
+-Height:		64
+-Colors:		2 (B/N)
+-Pages:		8
+-Addresses:	64 each page
+-Data size:	1 byte each address
+-Memory size:	8 * 64 * 1 = 512 bytes
++:Manufacturer:	Samsung
++:Device Name:	KS0108 LCD Controller
++:Device Code:	ks0108
++:Webpage:	-
++:Device Webpage: -
++:Type:		LCD Controller (Liquid Crystal Display Controller)
++:Width:		64
++:Height:	64
++:Colors:	2 (B/N)
++:Pages:		8
++:Addresses:	64 each page
++:Data size:	1 byte each address
++:Memory size:	8 * 64 * 1 = 512 bytes
  
--       NOTE: Of course, if debugfs is mounted in a directory other than
-+	# find /sys/kernel/debug/wimax\:wmx0 -name \*dl_\*
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_stack
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_rfkill
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_reset
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_op_msg
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
-+	/sys/kernel/debug/wimax:wmx0/wimax_dl_debugfs
-+	/sys/kernel/debug/wimax:wmx0/.... # other driver specific files
-+
-+   NOTE:
-+       Of course, if debugfs is mounted in a directory other than
-        /sys/kernel/debug, those paths will change.
  
-    By reading the file you can obtain the current value of said debug
-@@ -74,7 +82,7 @@
-    To increase the debug level of, for example, the id-table submodule,
-    just write:
+----------
+-3. WIRING
++3. Wiring
+ ---------
  
--$ echo 3 > /sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
-+	$ echo 3 > /sys/kernel/debug/wimax:wmx0/wimax_dl_id_table
+ The driver supports data parallel port wiring.
+@@ -52,4 +47,4 @@ The driver supports data parallel port wiring.
+ If you aren't building LCD related hardware, you should check
+ your LCD specific wiring information in the same folder.
  
-    Increasing numbers yield increasing debug information; for details of
-    what is printed and the available levels, check the source. The code
+-For example, check Documentation/auxdisplay/cfag12864b.
++For example, check Documentation/admin-guide/auxdisplay/cfag12864b.rst
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 33feab2f4084..99d84f5f80db 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -98,6 +98,7 @@ configure specific aspects of kernel behavior to your liking.
+    iostats
+    kernel-per-CPU-kthreads
+    laptops/index
++   auxdisplay/index
+    lcd-panel-cgram
+    ldm
+    lockup-watchdogs
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b6b9d8c67987..c7656edee696 100644
+index e5593c66f904..2055887f07ef 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8346,7 +8346,7 @@ M:	linux-wimax@intel.com
- L:	wimax@linuxwimax.org (subscribers-only)
- S:	Supported
- W:	http://linuxwimax.org
--F:	Documentation/wimax/README.i2400m
-+F:	Documentation/admin-guide/wimax/i2400m.rst
- F:	drivers/net/wimax/i2400m/
- F:	include/uapi/linux/wimax/i2400m.h
+@@ -8991,7 +8991,7 @@ F:	kernel/kprobes.c
+ KS0108 LCD CONTROLLER DRIVER
+ M:	Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+ S:	Maintained
+-F:	Documentation/auxdisplay/ks0108
++F:	Documentation/admin-guide/auxdisplay/ks0108.rst
+ F:	drivers/auxdisplay/ks0108.c
+ F:	include/linux/ks0108.h
  
-@@ -17349,7 +17349,7 @@ M:	linux-wimax@intel.com
- L:	wimax@linuxwimax.org (subscribers-only)
- S:	Supported
- W:	http://linuxwimax.org
--F:	Documentation/wimax/README.wimax
-+F:	Documentation/admin-guide/wimax/wimax.rst
- F:	include/linux/wimax/debug.h
- F:	include/net/wimax.h
- F:	include/uapi/linux/wimax.h
+diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+index dd61fdd400f0..6b476e663e80 100644
+--- a/drivers/auxdisplay/Kconfig
++++ b/drivers/auxdisplay/Kconfig
+@@ -97,7 +97,7 @@ config CFAG12864B
+ 	  say Y. You also need the ks0108 LCD Controller driver.
+ 
+ 	  For help about how to wire your LCD to the parallel port,
+-	  check Documentation/auxdisplay/cfag12864b
++	  check Documentation/admin-guide/auxdisplay/cfag12864b.rst
+ 
+ 	  Depends on the x86 arch and the framebuffer support.
+ 
 -- 
 2.21.0
 
