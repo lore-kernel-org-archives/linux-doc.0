@@ -1,144 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87CBD7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 20:27:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A52F57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 20:30:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbfGZU0v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 16:26:51 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:38985 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727819AbfGZU0u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 16:26:50 -0400
-Received: by mail-pg1-f195.google.com with SMTP id u17so25279424pgi.6
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 13:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IE5eJowpyCcGnZE2pKcSc9umsrWgUqBG7zCK+NjEKK4=;
-        b=OSSRdZkSZXg6M+b9FWF3a1q+TiPSBp244enRgIGdVZjUu/SD8K8PRf3KqpHJ6cYWhk
-         n3RevHiDEbDWb3xewyJUfr/5dEQwWqMIwnEbk87NSvS9caP8hIT7G5fh4UfLVUxKM38z
-         JNXY9crOfbFD7ctsGRXt2fiHSx0KEPhd66l6Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IE5eJowpyCcGnZE2pKcSc9umsrWgUqBG7zCK+NjEKK4=;
-        b=kHuF1wOGLfk48YqkNCSAgZGAZjoWA54uVGFzxBOSaY0oG2XoavPVW0wohMH/DtUsS9
-         Qk9q0tJbsSZ63GtPYSbQJhs9lJxt6R4FVjcHXoO+ApvC0FByD25xev59XuPzl+yXBqcN
-         Rf5t63lDK6nbY75wM17hZTLgE9ACLyGanaJ2t20bjhyq21PJVEFGi9UMXm1Jyj37OxNm
-         6AEMyg0QLJnSQUXjb1Ka9cPwdNSitB3CfEPepTntbRDb2CrEcGFOtpO1c4M6KFBb3Fro
-         H2EfdITJuJsrLLrpniVMLcXSWhH/u8+3VH+Qe03K8GRQhBaGJVwIS1FDeUxKqSfVG40r
-         6vqw==
-X-Gm-Message-State: APjAAAWkVH03NQ81wHmHzuu8dsbsVIMJ7HSLfZNrnwoDuvyX36njkz0/
-        VeYusjr9DYRbmr32Vl5A7Qg=
-X-Google-Smtp-Source: APXvYqwxNJxyl8AMaL5MbjN3DCH0CGh1VKzKZSR7IsnpnOEC6DeGs6F8TvHMF+yBHu4tkJDhVOJeUA==
-X-Received: by 2002:a17:90a:4f0e:: with SMTP id p14mr96514100pjh.40.1564172810042;
-        Fri, 26 Jul 2019 13:26:50 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id f19sm77269906pfk.180.2019.07.26.13.26.48
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 13:26:49 -0700 (PDT)
-Date:   Fri, 26 Jul 2019 16:26:47 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     sspatil@google.com
-Cc:     linux-kernel@vger.kernel.org, adobriyan@gmail.com,
-        akpm@linux-foundation.org, bgregg@netflix.com, chansen3@cisco.com,
-        dancol@google.com, fmayer@google.com, joaodias@google.com,
-        corbet@lwn.net, keescook@chromium.org, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        rppt@linux.ibm.com, minchan@kernel.org, namhyung@google.com,
-        guro@fb.com, sfr@canb.auug.org.au, surenb@google.com,
-        tkjos@google.com, vdavydov.dev@gmail.com, vbabka@suse.cz,
-        wvw@google.com, sspatil+mutt@google.com
-Subject: Re: [PATCH v3 2/2] doc: Update documentation for page_idle virtual
- address indexing
-Message-ID: <20190726202647.GA213712@google.com>
-References: <20190726152319.134152-1-joel@joelfernandes.org>
- <20190726152319.134152-2-joel@joelfernandes.org>
- <20190726201710.GA144547@google.com>
+        id S1726973AbfGZUaI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 16:30:08 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52056 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726970AbfGZUaI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Jul 2019 16:30:08 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 830104BF;
+        Fri, 26 Jul 2019 20:30:07 +0000 (UTC)
+Date:   Fri, 26 Jul 2019 14:30:06 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: add entries for some documentation scripts
+Message-ID: <20190726143006.16449a76@lwn.net>
+In-Reply-To: <b21677443a602c5dc263537fa48f0e78da75187a.1564152752.git.mchehab+samsung@kernel.org>
+References: <b21677443a602c5dc263537fa48f0e78da75187a.1564152752.git.mchehab+samsung@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190726201710.GA144547@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 01:17:10PM -0700, sspatil@google.com wrote:
-> Thanks Joel, just a couple of nits for the doc inline below. Other than that,
+On Fri, 26 Jul 2019 11:52:34 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+
+> There are some documentation scripts I wrote with doesn't
+> have any maintainer at maintainer's file.
 > 
-> Reviewed-by: Sandeep Patil <sspatil@google.com>
-
-Thanks!
-
-> I'll plan on making changes to Android to use this instead of the pagemap +
-> page_idle. I think it will also be considerably faster.
-
-Cool, glad to know.
-
-> On Fri, Jul 26, 2019 at 11:23:19AM -0400, Joel Fernandes (Google) wrote:
-> > This patch updates the documentation with the new page_idle tracking
-> > feature which uses virtual address indexing.
-> > 
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > ---
-> >  .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
-> >  1 file changed, 36 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-> > index df9394fb39c2..1eeac78c94a7 100644
-> > --- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-> > +++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-> > @@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
-> >  
-> >  User API
-> >  ========
-> > +There are 2 ways to access the idle page tracking API. One uses physical
-> > +address indexing, another uses a simpler virtual address indexing scheme.
-> >  
-> > -The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
-> > -Currently, it consists of the only read-write file,
-> > -``/sys/kernel/mm/page_idle/bitmap``.
-> > +Physical address indexing
-> > +-------------------------
-> > +The idle page tracking API for physical address indexing using page frame
-> > +numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-> > +consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
-> >  
-> >  The file implements a bitmap where each bit corresponds to a memory page. The
-> >  bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-> > @@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
-> >  information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
-> >  ``/proc/kpagecgroup``.
-> >  
-> > +Virtual address indexing
-> > +------------------------
-> > +The idle page tracking API for virtual address indexing using virtual page
-> > +frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
-> > +that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
-> > +except that it uses virtual instead of physical frame numbers.
-> > +
-> > +This idle page tracking API does not need deal with PFN so it does not require
+> Add them to the DOCUMENTATION entry, in order to have
+> Jon and linux-doc ML c/c on those patches, plus a new
+> entry to ensure that I'll be c/c when people send patches
+> to those.
 > 
-> s/need//
-> 
-> > +prior lookups of ``pagemap`` in order to find if page is idle or not. This is
-> 
-> s/in order to find if page is idle or not//
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Fixed both, thank you! Will send out update soon.
+Applied, thanks.
 
-thanks,
-
- - Joel
-
+jon
