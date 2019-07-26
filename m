@@ -1,168 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 629AA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 18:02:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74A227D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 18:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729044AbfGZSCF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 14:02:05 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34847 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbfGZSCE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 14:02:04 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w24so25034236plp.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 11:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=14H5paQYitVS4/WKEkQEhitnAZvza/nR/XH2Tu80JBM=;
-        b=ATl2MF1PvrU6lqcczyISZ5li9yUR8jig8dOSRgnjQeXeiDCIVHf64anGGJiNWgbJRZ
-         8D0mrbgpCzlusjkYRt+BFu3Sjf507OvqqyxGlU54NakUjQCByhzDfCAJ8KbksbolpjiE
-         6l81eTSLCHx3OmpsLBpNnYlhDb2+PuQ5S0q70=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=14H5paQYitVS4/WKEkQEhitnAZvza/nR/XH2Tu80JBM=;
-        b=omsW/Yy5FPe20jhbnygENQSiSvlUkQUjRoBjLA0ILOTdekia8IocdiVTkUi9oIyIWz
-         WIsSgHhBSeEl33GkczIYsX718uKImgJjMzS3AyLUDUMskrIC+B+8dsQ3NYsAjV1GTVaI
-         wdMQkJ4f43Hku8FHVqT/v3Wwgq1YRHZMMp6Zca/hMrQ+Rur77RCrerbiSQEEJJWjzx82
-         9tnfHuvzbyqxrXWmMHFYzh1DID4yYwY1kAYFBwAHfQePqmjI6Dkk47KGdFCx2QE/okz0
-         fsW9nt3GKXEwprPwPZ+QqiReKvhBgv8S+YQdDfGn80tvgSS49+6SejniWN6oEojplR/H
-         y+5w==
-X-Gm-Message-State: APjAAAUSg/aNFM7xi4DAexfP3p2/m7WSBrinYfk3zSG4seMosCWX2jwl
-        nT08an/XEmU7J3s+PwYWVPQ=
-X-Google-Smtp-Source: APXvYqw97ZsPDtoTN2djhrefEf5+wLhvEdfdhidAUMzWJN9QkJDPwJHLI27GDbQ70fWEquCP6vW8Kw==
-X-Received: by 2002:a17:902:2f:: with SMTP id 44mr99206440pla.5.1564164123861;
-        Fri, 26 Jul 2019 11:02:03 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id d17sm63317928pgl.66.2019.07.26.11.02.02
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 11:02:03 -0700 (PDT)
-Date:   Fri, 26 Jul 2019 14:02:01 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 25/26] docs: rcu: convert some articles from html to
- ReST
-Message-ID: <20190726180201.GE146401@google.com>
-References: <cover.1564145354.git.mchehab+samsung@kernel.org>
- <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
+        id S1726982AbfGZSOl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 14:14:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33302 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726781AbfGZSOk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 14:14:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=u+lpT/JDYChvPfnGwY3zyoUNga/MspVT2AZ3BOnHYeQ=; b=J3AuEJhibZaQ59WWz9Dvs5SAk
+        tOZGBHDTys1MvF7IVIK5qPubajsPiDKhUytHxHBBscw9SNUy6DQy/582GKYNvQsg78TR8QXcdScud
+        /bhuddvQ/zZMqs6JwKgaSG8ATDmFg1jnRA4tGWiX+rQPQmgfrYE5toK+TNIlFrIlkqRJsGM8yHD9l
+        ormVs4nN6UzJyvmrohztWz0cHfxy/Fy66kMDw0EgZUQ01XyKe8ytvfUtnvs6SDb1TaU4X+YbIikdA
+        Qtr+thdejB5X7lSa+R9yq9E0Pxscj0Xqi+kjopmF1FpKPBZDYTFwiazYN4pproqO084VLip1k/Uwy
+        LyFo72VLA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hr4jj-0002xL-0n; Fri, 26 Jul 2019 18:14:35 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id DA44520227073; Fri, 26 Jul 2019 20:14:32 +0200 (CEST)
+Date:   Fri, 26 Jul 2019 20:14:32 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Phil Auld <pauld@redhat.com>
+Cc:     Dave Chiluk <chiluk+linux@indeed.com>,
+        Ben Segall <bsegall@google.com>, Peter Oskolkov <posk@posk.io>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] sched/fair: Fix low cpu usage with high
+ throttling by removing expiration of cpu-local slices
+Message-ID: <20190726181432.GR31381@hirez.programming.kicks-ass.net>
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+ <1563900266-19734-1-git-send-email-chiluk+linux@indeed.com>
+ <1563900266-19734-2-git-send-email-chiluk+linux@indeed.com>
+ <20190723171307.GC2947@lorien.usersys.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
+In-Reply-To: <20190723171307.GC2947@lorien.usersys.redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 09:51:35AM -0300, Mauro Carvalho Chehab wrote:
-[snip]
-> +| until the assignment to ``gp``, by which time both fields are fully   |
-> +| initialized. So reordering the assignments to ``p->a`` and ``p->b``   |
-> +| cannot possibly cause any problems.                                   |
-> ++-----------------------------------------------------------------------+
-> +
-> +It is tempting to assume that the reader need not do anything special to
-> +control its accesses to the RCU-protected data, as shown in
-> +``do_something_gp_buggy()`` below:
-> +
-> +   ::
-> +
-> +       1 bool do_something_gp_buggy(void)
-> +       2 {
-> +       3   rcu_read_lock();
-> +       4   p = gp;  /* OPTIMIZATIONS GALORE!!! */
-> +       5   if (p) {
-> +       6     do_something(p->a, p->b);
-> +       7     rcu_read_unlock();
-> +       8     return true;
-> +       9   }
-> +      10   rcu_read_unlock();
-> +      11   return false;
-> +      12 }
-> +
-> +However, this temptation must be resisted because there are a
-> +surprisingly large number of ways that the compiler (to say nothing of
-> +`DEC Alpha CPUs <https://h71000.www7.hp.com/wizard/wiz_2637.html>`__)
-> +can trip this code up. For but one example, if the compiler were short
-> +of registers, it might choose to refetch from ``gp`` rather than keeping
-> +a separate copy in ``p`` as follows:
-> +
-> +   ::
-> +
-> +       1 bool do_something_gp_buggy_optimized(void)
-> +       2 {
-> +       3   rcu_read_lock();
-> +       4   if (gp) { /* OPTIMIZATIONS GALORE!!! */
-> +       5     do_something(gp->a, gp->b);
-> +       6     rcu_read_unlock();
-> +       7     return true;
-> +       8   }
-> +       9   rcu_read_unlock();
-> +      10   return false;
-> +      11 }
-> +
-> +If this function ran concurrently with a series of updates that replaced
-> +the current structure with a new one, the fetches of ``gp->a`` and
-> +``gp->b`` might well come from two different structures, which could
-> +cause serious confusion. To prevent this (and much else besides),
-> +``do_something_gp()`` uses ``rcu_dereference()`` to fetch from ``gp``:
-> +
-> +   ::
-> +
-> +       1 bool do_something_gp(void)
-> +       2 {
-> +       3   rcu_read_lock();
-> +       4   p = rcu_dereference(gp);
-> +       5   if (p) {
-> +       6     do_something(p->a, p->b);
-> +       7     rcu_read_unlock();
-> +       8     return true;
-> +       9   }
-> +      10   rcu_read_unlock();
-> +      11   return false;
-> +      12 }
-> +
-> +The ``rcu_dereference()`` uses volatile casts and (for DEC Alpha) memory
-> +barriers in the Linux kernel. Should a `high-quality implementation of
-> +C11 ``memory_order_consume``
-> +[PDF] <http://www.rdrop.com/users/paulmck/RCU/consume.2015.07.13a.pdf>`__
-> +ever appear, then ``rcu_dereference()`` could be implemented as a
-> +``memory_order_consume`` load. Regardless of the exact implementation, a
-> +pointer fetched by ``rcu_dereference()`` may not be used outside of the
-> +outermost RCU read-side critical section containing that
-> +``rcu_dereference()``, unless protection of the corresponding data
-> +element has been passed from RCU to some other synchronization
-> +mechanism, most commonly locking or `reference
-> +counting <https://www.kernel.org/doc/Documentation/RCU/rcuref.txt>`__.
+On Tue, Jul 23, 2019 at 01:13:09PM -0400, Phil Auld wrote:
+> Hi Dave,
+> 
+> On Tue, Jul 23, 2019 at 11:44:26AM -0500 Dave Chiluk wrote:
+> > It has been observed, that highly-threaded, non-cpu-bound applications
+> > running under cpu.cfs_quota_us constraints can hit a high percentage of
+> > periods throttled while simultaneously not consuming the allocated
+> > amount of quota. This use case is typical of user-interactive non-cpu
+> > bound applications, such as those running in kubernetes or mesos when
+> > run on multiple cpu cores.
+> > 
+> > This has been root caused to cpu-local run queue being allocated per cpu
+> > bandwidth slices, and then not fully using that slice within the period.
+> > At which point the slice and quota expires. This expiration of unused
+> > slice results in applications not being able to utilize the quota for
+> > which they are allocated.
+> > 
+> > The non-expiration of per-cpu slices was recently fixed by
+> > 'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
+> > condition")'. Prior to that it appears that this had been broken since
+> > at least 'commit 51f2176d74ac ("sched/fair: Fix unlocked reads of some
+> > cfs_b->quota/period")' which was introduced in v3.16-rc1 in 2014. That
+> > added the following conditional which resulted in slices never being
+> > expired.
+> > 
+> > if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
+> > 	/* extend local deadline, drift is bounded above by 2 ticks */
+> > 	cfs_rq->runtime_expires += TICK_NSEC;
+> > 
+> > Because this was broken for nearly 5 years, and has recently been fixed
+> > and is now being noticed by many users running kubernetes
+> > (https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
+> > that the mechanisms around expiring runtime should be removed
+> > altogether.
+> > 
+> > This allows quota already allocated to per-cpu run-queues to live longer
+> > than the period boundary. This allows threads on runqueues that do not
+> > use much CPU to continue to use their remaining slice over a longer
+> > period of time than cpu.cfs_period_us. However, this helps prevent the
+> > above condition of hitting throttling while also not fully utilizing
+> > your cpu quota.
+> > 
+> > This theoretically allows a machine to use slightly more than its
+> > allotted quota in some periods. This overflow would be bounded by the
+> > remaining quota left on each per-cpu runqueueu. This is typically no
+> > more than min_cfs_rq_runtime=1ms per cpu. For CPU bound tasks this will
+> > change nothing, as they should theoretically fully utilize all of their
+> > quota in each period. For user-interactive tasks as described above this
+> > provides a much better user/application experience as their cpu
+> > utilization will more closely match the amount they requested when they
+> > hit throttling. This means that cpu limits no longer strictly apply per
+> > period for non-cpu bound applications, but that they are still accurate
+> > over longer timeframes.
+> > 
+> > This greatly improves performance of high-thread-count, non-cpu bound
+> > applications with low cfs_quota_us allocation on high-core-count
+> > machines. In the case of an artificial testcase (10ms/100ms of quota on
+> > 80 CPU machine), this commit resulted in almost 30x performance
+> > improvement, while still maintaining correct cpu quota restrictions.
+> > That testcase is available at https://github.com/indeedeng/fibtest.
+> > 
+> > Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
+> > Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
+> > Reviewed-by: Ben Segall <bsegall@google.com>
+> 
+> This still works for me. The documentation reads pretty well, too. Good job.
+> 
+> Feel free to add my Acked-by: or Reviewed-by: Phil Auld <pauld@redhat.com>.
 
-From the make htmldocs output, this appears very poorly for me, I get
-something like this in the browser:
-
-The rcu_dereference() uses volatile casts and (for DEC Alpha) memory barriers
-in the Linux kernel. Should a high-quality implementation of C11
-``memory_order_consume` [PDF]
-<http://www.rdrop.com/users/paulmck/RCU/consume.2015.07.13a.pdf>`__ ever
-appear, then rcu_dereference() could be implemented as a memory_order_consume
-load.
-
-Is there a syntax issue here?
-
-One more feedback,
-the image under "RCU read-side critical section that started before the current
-grace period:" should probably be blown up a bit.
+Thanks guys!
