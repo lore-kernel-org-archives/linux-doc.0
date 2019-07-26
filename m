@@ -3,52 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FA307DBD4
+	by archive.lwn.net (Postfix) with ESMTP id 292C97D982
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 12:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbfGZMvu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 08:51:50 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40048 "EHLO
+        id S1726319AbfGZMvs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 08:51:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40134 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfGZMvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:45 -0400
+        with ESMTP id S1726747AbfGZMvq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 08:51:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ZErB5JkXJ+AJC3gF/rewuZPhETPxcPKIdi59ty3DG7Q=; b=TLbZp7lyqvuk/YliNuyjpIq9gQ
-        RG7H6WCIGkZud9gSX9MHipsBWbDy3Mfh6QVQTFpEYprQeD8ui+hxt1p+fcR5NwGzaSVNbTJysyyVI
-        MoUL7u2xy6d4s9jf/EoX8d34CwsjZ6mok5vaoCpYxg7VrrNTXo7AcVsucywvwRFG4BJJr6bo9p/xJ
-        IemVKi1io5b2fu5GmRqbYUZlHu408tDYJqVgIlCB/CwkbOo6eFW03k/+9C7WvMEN3MehoTaJOlxGx
-        GD39JxXhbDFVOJ7CuKSv6b3vmC2kWVRFGR3chCDh3XdwuQKMgXVsE0ACVWTt6KyrwmtjHosqhD2fF
-        Q1Zo3A2A==;
+        bh=yJvMkY8vnCpDqvUDPjgvqplmFGkw4TfSA8VSHOTr0s0=; b=ea4SyeInbu6lxOEXSxRJcnXoe2
+        fBi1+6bh/3oQZ3RLyviHQO5r3FLr/ey0Fw/fRfIphxTfrdiu1VzEjkLQjfyE4WP+uXbl96/NaGNaG
+        derTk6bEBWOCBurO+sjHHKKO8Q+1pqkZr6rUzu79UqgDnIsvIKAph/ld2LhAFCNfPgXeqBnDyCQYS
+        PTgb4ntEpvUzW+pILveyqKh8tYK644KpaMMDFvSJzdEJc/XeivRnDDVVXDhF8wfowYxPe9IsHUYPm
+        GoAr5jwipne/sTfc30PNZL/bgInXECwUJdj5kfwouUR7EKp8u4jtZhlvT4rAQ7WnuI8oTKvN2K7r2
+        mkoGd7Tw==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqzhE-0006Ap-LR; Fri, 26 Jul 2019 12:51:41 +0000
+        id 1hqzhE-0006AU-8s; Fri, 26 Jul 2019 12:51:40 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqzhB-0005aC-UX; Fri, 26 Jul 2019 09:51:37 -0300
+        id 1hqzhC-0005az-9F; Fri, 26 Jul 2019 09:51:38 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 02/26] docs: thermal: add it to the driver API
-Date:   Fri, 26 Jul 2019 09:51:12 -0300
-Message-Id: <968a776693ded3027f25144d997eb4187c625906.1564145354.git.mchehab+samsung@kernel.org>
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>, linux-doc@vger.kernel.org,
+        openrisc@lists.librecores.org
+Subject: [PATCH v2 14/26] docs: openrisc: convert to ReST and add to documentation body
+Date:   Fri, 26 Jul 2019 09:51:24 -0300
+Message-Id: <02484db055b58d76ef62cb42fd3e9a4e701b49c8.1564145354.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564145354.git.mchehab+samsung@kernel.org>
 References: <cover.1564145354.git.mchehab+samsung@kernel.org>
@@ -60,193 +53,187 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file contents mostly describes driver internals.
+Manually convert the two openRisc documents to ReST, adding them
+to the Linux documentation body.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Stafford Horne <shorne@gmail.com>
 ---
- Documentation/driver-api/index.rst                   |  1 +
- .../{ => driver-api}/thermal/cpu-cooling-api.rst     |  0
- .../{ => driver-api}/thermal/exynos_thermal.rst      |  0
- .../thermal/exynos_thermal_emulation.rst             |  0
- Documentation/{ => driver-api}/thermal/index.rst     |  2 +-
- .../{ => driver-api}/thermal/intel_powerclamp.rst    |  0
- .../{ => driver-api}/thermal/nouveau_thermal.rst     |  0
- .../{ => driver-api}/thermal/power_allocator.rst     |  0
- Documentation/{ => driver-api}/thermal/sysfs-api.rst | 12 ++++++------
- .../thermal/x86_pkg_temperature_thermal.rst          |  2 +-
- MAINTAINERS                                          |  2 +-
- include/linux/thermal.h                              |  4 ++--
- 12 files changed, 12 insertions(+), 11 deletions(-)
- rename Documentation/{ => driver-api}/thermal/cpu-cooling-api.rst (100%)
- rename Documentation/{ => driver-api}/thermal/exynos_thermal.rst (100%)
- rename Documentation/{ => driver-api}/thermal/exynos_thermal_emulation.rst (100%)
- rename Documentation/{ => driver-api}/thermal/index.rst (86%)
- rename Documentation/{ => driver-api}/thermal/intel_powerclamp.rst (100%)
- rename Documentation/{ => driver-api}/thermal/nouveau_thermal.rst (100%)
- rename Documentation/{ => driver-api}/thermal/power_allocator.rst (100%)
- rename Documentation/{ => driver-api}/thermal/sysfs-api.rst (98%)
- rename Documentation/{ => driver-api}/thermal/x86_pkg_temperature_thermal.rst (94%)
+ Documentation/index.rst                       |  1 +
+ Documentation/openrisc/index.rst              | 18 +++++++++++++
+ .../openrisc/{README => openrisc_port.rst}    | 25 +++++++++++++------
+ Documentation/openrisc/{TODO => todo.rst}     |  9 ++++---
+ 4 files changed, 43 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/openrisc/index.rst
+ rename Documentation/openrisc/{README => openrisc_port.rst} (80%)
+ rename Documentation/openrisc/{TODO => todo.rst} (78%)
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index d12a80f386a6..37ac052ded85 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -65,6 +65,7 @@ available subsections can be seen below.
-    dmaengine/index
-    slimbus
-    soundwire/index
-+   thermal/index
-    fpga/index
-    acpi/index
-    backlight/lp855x-driver.rst
-diff --git a/Documentation/thermal/cpu-cooling-api.rst b/Documentation/driver-api/thermal/cpu-cooling-api.rst
-similarity index 100%
-rename from Documentation/thermal/cpu-cooling-api.rst
-rename to Documentation/driver-api/thermal/cpu-cooling-api.rst
-diff --git a/Documentation/thermal/exynos_thermal.rst b/Documentation/driver-api/thermal/exynos_thermal.rst
-similarity index 100%
-rename from Documentation/thermal/exynos_thermal.rst
-rename to Documentation/driver-api/thermal/exynos_thermal.rst
-diff --git a/Documentation/thermal/exynos_thermal_emulation.rst b/Documentation/driver-api/thermal/exynos_thermal_emulation.rst
-similarity index 100%
-rename from Documentation/thermal/exynos_thermal_emulation.rst
-rename to Documentation/driver-api/thermal/exynos_thermal_emulation.rst
-diff --git a/Documentation/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-similarity index 86%
-rename from Documentation/thermal/index.rst
-rename to Documentation/driver-api/thermal/index.rst
-index 8c1c00146cad..5ba61d19c6ae 100644
---- a/Documentation/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -1,4 +1,4 @@
--:orphan:
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 25e080664050..6402f62ac90f 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -148,6 +148,7 @@ implementation.
+    ia64/index
+    m68k/index
+    powerpc/index
++   openrisc/index
+    parisc/index
+    riscv/index
+    s390/index
+diff --git a/Documentation/openrisc/index.rst b/Documentation/openrisc/index.rst
+new file mode 100644
+index 000000000000..748b3eea1707
+--- /dev/null
++++ b/Documentation/openrisc/index.rst
+@@ -0,0 +1,18 @@
 +.. SPDX-License-Identifier: GPL-2.0
++
++=====================
++OpenRISC Architecture
++=====================
++
++.. toctree::
++   :maxdepth: 2
++
++   openrisc_port
++   todo
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/openrisc/README b/Documentation/openrisc/openrisc_port.rst
+similarity index 80%
+rename from Documentation/openrisc/README
+rename to Documentation/openrisc/openrisc_port.rst
+index 777a893d533d..a18747a8d191 100644
+--- a/Documentation/openrisc/README
++++ b/Documentation/openrisc/openrisc_port.rst
+@@ -1,3 +1,4 @@
++==============
+ OpenRISC Linux
+ ==============
  
- =======
- Thermal
-diff --git a/Documentation/thermal/intel_powerclamp.rst b/Documentation/driver-api/thermal/intel_powerclamp.rst
-similarity index 100%
-rename from Documentation/thermal/intel_powerclamp.rst
-rename to Documentation/driver-api/thermal/intel_powerclamp.rst
-diff --git a/Documentation/thermal/nouveau_thermal.rst b/Documentation/driver-api/thermal/nouveau_thermal.rst
-similarity index 100%
-rename from Documentation/thermal/nouveau_thermal.rst
-rename to Documentation/driver-api/thermal/nouveau_thermal.rst
-diff --git a/Documentation/thermal/power_allocator.rst b/Documentation/driver-api/thermal/power_allocator.rst
-similarity index 100%
-rename from Documentation/thermal/power_allocator.rst
-rename to Documentation/driver-api/thermal/power_allocator.rst
-diff --git a/Documentation/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-similarity index 98%
-rename from Documentation/thermal/sysfs-api.rst
-rename to Documentation/driver-api/thermal/sysfs-api.rst
-index e4930761d3e5..fab2c9b36d08 100644
---- a/Documentation/thermal/sysfs-api.rst
-+++ b/Documentation/driver-api/thermal/sysfs-api.rst
-@@ -552,7 +552,7 @@ emul_temp
- sustainable_power
- 	An estimate of the sustained power that can be dissipated by
- 	the thermal zone. Used by the power allocator governor. For
--	more information see Documentation/thermal/power_allocator.rst
-+	more information see Documentation/driver-api/thermal/power_allocator.rst
+@@ -6,8 +7,10 @@ target architecture, specifically, is the 32-bit OpenRISC 1000 family (or1k).
  
- 	Unit: milliwatts
+ For information about OpenRISC processors and ongoing development:
  
-@@ -563,7 +563,7 @@ k_po
- 	controller during temperature overshoot. Temperature overshoot
- 	is when the current temperature is above the "desired
- 	temperature" trip point. For more information see
--	Documentation/thermal/power_allocator.rst
-+	Documentation/driver-api/thermal/power_allocator.rst
++	=======		=============================
+ 	website		http://openrisc.io
+ 	email		openrisc@lists.librecores.org
++	=======		=============================
  
- 	RW, Optional
+ ---------------------------------------------------------------------
  
-@@ -572,7 +572,7 @@ k_pu
- 	controller during temperature undershoot. Temperature undershoot
- 	is when the current temperature is below the "desired
- 	temperature" trip point. For more information see
--	Documentation/thermal/power_allocator.rst
-+	Documentation/driver-api/thermal/power_allocator.rst
+@@ -24,13 +27,15 @@ Toolchain binaries can be obtained from openrisc.io or our github releases page.
+ Instructions for building the different toolchains can be found on openrisc.io
+ or Stafford's toolchain build and release scripts.
  
- 	RW, Optional
++	==========	=================================================
+ 	binaries	https://github.com/openrisc/or1k-gcc/releases
+ 	toolchains	https://openrisc.io/software
+ 	building	https://github.com/stffrdhrn/or1k-toolchain-build
++	==========	=================================================
  
-@@ -580,14 +580,14 @@ k_i
- 	The integral term of the power allocator governor's PID
- 	controller. This term allows the PID controller to compensate
- 	for long term drift. For more information see
--	Documentation/thermal/power_allocator.rst
-+	Documentation/driver-api/thermal/power_allocator.rst
+ 2) Building
  
- 	RW, Optional
+-Build the Linux kernel as usual
++Build the Linux kernel as usual::
  
- k_d
- 	The derivative term of the power allocator governor's PID
- 	controller. For more information see
--	Documentation/thermal/power_allocator.rst
-+	Documentation/driver-api/thermal/power_allocator.rst
+ 	make ARCH=openrisc defconfig
+ 	make ARCH=openrisc
+@@ -43,6 +48,8 @@ development board with the OpenRISC SoC.  During the build FPGA RTL is code
+ downloaded from the FuseSoC IP cores repository and built using the FPGA vendor
+ tools.  Binaries are loaded onto the board with openocd.
  
- 	RW, Optional
++::
++
+ 	git clone https://github.com/olofk/fusesoc
+ 	cd fusesoc
+ 	sudo pip install -e .
+@@ -65,7 +72,9 @@ platform.  Please follow the OpenRISC instructions on the QEMU website to get
+ Linux running on QEMU.  You can build QEMU yourself, but your Linux distribution
+ likely provides binary packages to support OpenRISC.
  
-@@ -598,7 +598,7 @@ integral_cutoff
- 	example, if integral_cutoff is 0, then the integral term only
- 	accumulates error when temperature is above the desired
- 	temperature trip point. For more information see
--	Documentation/thermal/power_allocator.rst
-+	Documentation/driver-api/thermal/power_allocator.rst
++	=============	======================================================
+ 	qemu openrisc	https://wiki.qemu.org/Documentation/Platforms/OpenRISC
++	=============	======================================================
  
- 	Unit: millidegree Celsius
+ ---------------------------------------------------------------------
  
-diff --git a/Documentation/thermal/x86_pkg_temperature_thermal.rst b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-similarity index 94%
-rename from Documentation/thermal/x86_pkg_temperature_thermal.rst
-rename to Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-index f134dbd3f5a9..2ac42ccd236f 100644
---- a/Documentation/thermal/x86_pkg_temperature_thermal.rst
-+++ b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-@@ -40,7 +40,7 @@ This contains two trip points:
- - trip_point_1_temp
+@@ -75,36 +84,38 @@ Terminology
+ In the code, the following particles are used on symbols to limit the scope
+ to more or less specific processor implementations:
  
- User can set any temperature between 0 to TJ-Max temperature. Temperature units
--are in milli-degree Celsius. Refer to "Documentation/thermal/sysfs-api.rst" for
-+are in milli-degree Celsius. Refer to "Documentation/driver-api/thermal/sysfs-api.rst" for
- thermal sys-fs details.
++========= =======================================
+ openrisc: the OpenRISC class of processors
+ or1k:     the OpenRISC 1000 family of processors
+ or1200:   the OpenRISC 1200 processor
++========= =======================================
  
- Any value other than 0 in these trip points, can trigger thermal notifications.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e2a525e22c0..3d6cd6efb264 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15907,7 +15907,7 @@ M:	Viresh Kumar <viresh.kumar@linaro.org>
- M:	Javi Merino <javi.merino@kernel.org>
- L:	linux-pm@vger.kernel.org
- S:	Supported
--F:	Documentation/thermal/cpu-cooling-api.rst
-+F:	Documentation/driver-api/thermal/cpu-cooling-api.rst
- F:	drivers/thermal/cpu_cooling.c
- F:	include/linux/cpu_cooling.h
+ ---------------------------------------------------------------------
  
-diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-index 681047f8cc05..e45659c75920 100644
---- a/include/linux/thermal.h
-+++ b/include/linux/thermal.h
-@@ -251,7 +251,7 @@ struct thermal_bind_params {
- 	 * platform characterization. This value is relative to the
- 	 * rest of the weights so a cooling device whose weight is
- 	 * double that of another cooling device is twice as
--	 * effective. See Documentation/thermal/sysfs-api.rst for more
-+	 * effective. See Documentation/driver-api/thermal/sysfs-api.rst for more
- 	 * information.
- 	 */
- 	int weight;
-@@ -259,7 +259,7 @@ struct thermal_bind_params {
- 	/*
- 	 * This is a bit mask that gives the binding relation between this
- 	 * thermal zone and cdev, for a particular trip point.
--	 * See Documentation/thermal/sysfs-api.rst for more information.
-+	 * See Documentation/driver-api/thermal/sysfs-api.rst for more information.
- 	 */
- 	int trip_mask;
+ History
+ ========
  
+-18. 11. 2003	Matjaz Breskvar (phoenix@bsemi.com)
++18-11-2003	Matjaz Breskvar (phoenix@bsemi.com)
+ 	initial port of linux to OpenRISC/or32 architecture.
+         all the core stuff is implemented and seams usable.
+ 
+-08. 12. 2003	Matjaz Breskvar (phoenix@bsemi.com)
++08-12-2003	Matjaz Breskvar (phoenix@bsemi.com)
+ 	complete change of TLB miss handling.
+ 	rewrite of exceptions handling.
+ 	fully functional sash-3.6 in default initrd.
+ 	a much improved version with changes all around.
+ 
+-10. 04. 2004	Matjaz Breskvar (phoenix@bsemi.com)
++10-04-2004	Matjaz Breskvar (phoenix@bsemi.com)
+ 	alot of bugfixes all over.
+ 	ethernet support, functional http and telnet servers.
+ 	running many standard linux apps.
+ 
+-26. 06. 2004	Matjaz Breskvar (phoenix@bsemi.com)
++26-06-2004	Matjaz Breskvar (phoenix@bsemi.com)
+ 	port to 2.6.x
+ 
+-30. 11. 2004	Matjaz Breskvar (phoenix@bsemi.com)
++30-11-2004	Matjaz Breskvar (phoenix@bsemi.com)
+ 	lots of bugfixes and enhancments.
+ 	added opencores framebuffer driver.
+ 
+-09. 10. 2010    Jonas Bonn (jonas@southpole.se)
++09-10-2010    Jonas Bonn (jonas@southpole.se)
+ 	major rewrite to bring up to par with upstream Linux 2.6.36
+diff --git a/Documentation/openrisc/TODO b/Documentation/openrisc/todo.rst
+similarity index 78%
+rename from Documentation/openrisc/TODO
+rename to Documentation/openrisc/todo.rst
+index c43d4e1d14eb..420b18b87eda 100644
+--- a/Documentation/openrisc/TODO
++++ b/Documentation/openrisc/todo.rst
+@@ -1,12 +1,15 @@
++====
++TODO
++====
++
+ The OpenRISC Linux port is fully functional and has been tracking upstream
+ since 2.6.35.  There are, however, remaining items to be completed within
+ the coming months.  Here's a list of known-to-be-less-than-stellar items
+ that are due for investigation shortly, i.e. our TODO list:
+ 
+--- Implement the rest of the DMA API... dma_map_sg, etc.
++-  Implement the rest of the DMA API... dma_map_sg, etc.
+ 
+--- Finish the renaming cleanup... there are references to or32 in the code
++-  Finish the renaming cleanup... there are references to or32 in the code
+    which was an older name for the architecture.  The name we've settled on is
+    or1k and this change is slowly trickling through the stack.  For the time
+    being, or32 is equivalent to or1k.
+-
 -- 
 2.21.0
 
