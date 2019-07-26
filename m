@@ -3,43 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 686497D2F0
+	by archive.lwn.net (Postfix) with ESMTP id AA6E57D92A
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 11:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbfGZLrc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 07:47:32 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47368 "EHLO
+        id S1726402AbfGZLrf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 07:47:35 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47404 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbfGZLrc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 07:47:32 -0400
+        with ESMTP id S1726180AbfGZLre (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 07:47:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=at/mIgBlu2gnTfF2dL+k+2q+ilBgl53195q9VZEG/NY=; b=aTznBVt5l/zfIREXZI+3vkR6El
-        il/QAyM+OEMrEnf7f9Mc7mrawmQ1RvF51ZOdr/mxWfNXAlrsNZMFaHvevwpUNAiNO5nVF/HAVikFe
-        WUFJx1EbJg6wUv7Qzw35mEhx2klY8JfSgUFgtVgGXa5zCY61Ewe8l3SMIco4K97kpq7vE5Qe/+n1H
-        wg57GLc0VDaM9vrl8AOC0sfyxzbSP9snPuEr0CrpLtrUXd2inMz7K/JTVDhF7vVMTlgeIrU91g6H9
-        23DPHKKA4XgPzkH/19U6liImcmLtufvNvBhMtkiNi/6DXE4WBrneOH3OAevbDVK31IDe7nd4INwz1
-        V/4l9JJw==;
+        bh=ns01a/+dJBOEjeT/1CWh/+CD7/ir0pFGY6xdTOQcPbo=; b=UP9N99OCHIHEjE6YNaXL68byYU
+        T9OJh95quUUTHJmwl1TlhrNz3vPuPsRL/wcHureyhjtx5cqyF5XtXCwM6My/a2IaX/vVEUGlLAlO3
+        tccfZ5isggOwEGTdT6AOhuXMTLPlhENjcDg5T+DxsqsofwgGP8JzQ/XKnUl9EP9tx0dqglHSrS2Ww
+        ezZ6hkOBtGKC8sZ208lIhOiNGGIqQLhhp65h+1Zcsb9nzvCs2Vttku+Za3kWcsGeTlYn+bLwAnoCI
+        kMJymY+XshcL8KCiZDeMtN6R7Y3+9D/BAISo0T1XS5qy4chqi/mR24cmui7/zDBhgQKrqm0HIZz9p
+        8nlVayPQ==;
 Received: from [179.95.31.157] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqyh9-0003BX-0s; Fri, 26 Jul 2019 11:47:31 +0000
+        id 1hqyh9-0003Bb-4m; Fri, 26 Jul 2019 11:47:31 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hqyh7-0000tu-0F; Fri, 26 Jul 2019 08:47:29 -0300
+        id 1hqyh7-0000u9-3J; Fri, 26 Jul 2019 08:47:29 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 2/7] docs: generic-counter.rst: fix broken references for ABI file
-Date:   Fri, 26 Jul 2019 08:47:22 -0300
-Message-Id: <f55e1ef71a3a7194dacd3f0cecc0aa67aaffbd15.1564140865.git.mchehab+samsung@kernel.org>
+        Tejun Heo <tj@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 5/7] docs: cgroup-v1/blkio-controller.rst: remove a CFQ left over
+Date:   Fri, 26 Jul 2019 08:47:25 -0300
+Message-Id: <21b9281684395202d815d574121df89fa0c7ac62.1564140865.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1564140865.git.mchehab+samsung@kernel.org>
 References: <cover.1564140865.git.mchehab+samsung@kernel.org>
@@ -51,40 +53,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two references to the generic counter ABI, with was added
-on a separate patch. Both point to a non-existing file.
+changeset fb5772cbfe48 ("blkio-controller.txt: Remove references to CFQ")
+removed cgroup references to CFQ, but it kept one left. Get rid of
+it.
 
-Fix them.
-
-Fixes: ea2b23b89579 ("counter: Documentation: Add Generic Counter sysfs documentation")
-Fixes: 09e7d4ed8991 ("docs: Add Generic Counter interface documentation")
+Fixes: fb5772cbfe48 ("blkio-controller.txt: Remove references to CFQ")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-api/generic-counter.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v1/blkio-controller.rst | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-index 0c161b1a3be6..8382f01a53e3 100644
---- a/Documentation/driver-api/generic-counter.rst
-+++ b/Documentation/driver-api/generic-counter.rst
-@@ -233,7 +233,7 @@ Userspace Interface
- Several sysfs attributes are generated by the Generic Counter interface,
- and reside under the /sys/bus/counter/devices/counterX directory, where
- counterX refers to the respective counter device. Please see
--Documentation/ABI/testing/sys-bus-counter-generic-sysfs for detailed
-+Documentation/ABI/testing/sysfs-bus-counter for detailed
- information on each Generic Counter interface sysfs attribute.
+diff --git a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+index 1d7d962933be..36d43ae7dc13 100644
+--- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
++++ b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+@@ -130,12 +130,6 @@ Proportional weight policy files
+ 	    dev     weight
+ 	    8:16    300
  
- Through these sysfs attributes, programs and scripts may interact with
-@@ -325,7 +325,7 @@ sysfs attributes, where Y is the unique ID of the respective Count:
- 
- For a more detailed breakdown of the available Generic Counter interface
- sysfs attributes, please refer to the
--Documentation/ABI/testing/sys-bus-counter file.
-+Documentation/ABI/testing/sysfs-bus-counter file.
- 
- The Signals and Counts associated with the Counter device are registered
- to the system as well by the counter_register function. The
+-- blkio.leaf_weight[_device]
+-	- Equivalents of blkio.weight[_device] for the purpose of
+-          deciding how much weight tasks in the given cgroup has while
+-          competing with the cgroup's child cgroups. For details,
+-          please refer to Documentation/block/cfq-iosched.txt.
+-
+ - blkio.time
+ 	- disk time allocated to cgroup per device in milliseconds. First
+ 	  two fields specify the major and minor number of the device and
 -- 
 2.21.0
 
