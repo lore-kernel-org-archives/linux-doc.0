@@ -1,61 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 605327D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:19:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D1B27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:24:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726651AbfGZWTa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 18:19:30 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45831 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727163AbfGZWTa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:19:30 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f9so55807274wre.12
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2019 15:19:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YCzn2d3M/bK6nxASHNYCTBtvF1uCCsPTj9a0ROwZiV8=;
-        b=Dy4H97CGnyGyXDXFIe9wSrvLCR6PNup5ZGiVm8GLQuui09TqA/SXxPcgCzGPjHqX6Q
-         xbsaZW8zIo7tSMH1F+oyVcTD6dtKciykYeGNHo3ZyGaI9qrrHwnYTRyeVLWOWnkJ8cNK
-         kNC9yfGKKBr60VxxcDPDb2ShHtevd00x44Zz5IFL5MK6hi8Q+kJopmmRXAYJ/Kz9PwXB
-         hF+ZP1gyTcOBQIcRf2cnkUb2v19vKH5cFyz7+CxVtnSe8nsq32R8lwm0yvTKVtKFmvQL
-         SPAHM8AZAJOVJNtK0SxvMzGpB21duAq16pnAE7md+thcDpUr7JqIg3jxhOhQ7eCsJmcZ
-         sLzg==
-X-Gm-Message-State: APjAAAUsgt12obqvPXQBjhg1PXr4a9dK8Pc5aKiXSCEAO0xjASX9yi/V
-        50reJSgjjeUxVJz34wKu8zVFfA==
-X-Google-Smtp-Source: APXvYqyRRPKjQm+AekBeMu3q9YUsqv008iQETXfKvvUxhOEE27ABBNIeCAqBKvTheZhMUo1s0PuG/g==
-X-Received: by 2002:a05:6000:187:: with SMTP id p7mr96507148wrx.189.1564179568428;
-        Fri, 26 Jul 2019 15:19:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9036:7130:d6ec:a346? ([2001:b07:6468:f312:9036:7130:d6ec:a346])
-        by smtp.gmail.com with ESMTPSA id i18sm72932769wrp.91.2019.07.26.15.19.27
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 15:19:27 -0700 (PDT)
-Subject: Re: [PATCH 2/3] Documentation: kvm: Convert cpuid.txt to .rst
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org, rkrcmar@redhat.com,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
- <e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
- <20190708140022.5fa9d01f@lwn.net> <20190708201510.GA13296@luke-XPS-13>
- <20190708142032.4fbd175e@lwn.net>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <5a18d0c0-8bfa-c936-11e5-8238a89b5b5f@redhat.com>
-Date:   Sat, 27 Jul 2019 00:19:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2387421AbfGZWYb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Jul 2019 18:24:31 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3585 "EHLO
+        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387405AbfGZWYa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:24:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1564179870; x=1595715870;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=if3brqcdHB/fxxSNFjpR7EE+qJbzAZzvUpJK8gt9Dh8=;
+  b=p8YIubdmm3b0IHKhSmDCE1aHVdajmHG9DGC1kbf+dy/maXctGQkXBIgx
+   TrQAWfTJ99XFi73LOKTwhLGbaA0Tnjcyv+IEG3qosB1nkiCyCQGiRxADo
+   ks/pgn5N8VXhJcx0jEz1Cmky0xS2gK3C0wUhNQMvojCx9kWJgZOtz+rM6
+   rMTrSjkvUrStL3PtpgJEhBfkyVAJvtm/NmGVGK+85jl+Iul6vZakgEOrx
+   e224GKmACp3WLZValFZoQYexaSOvwgkDd5/SeXXb60Z0GP+0PgJyOfyzb
+   OLoUN0If4WA9E7HMuyLyDNy+ULO2hDVG+Ul07QxxWLTdZbTLcAK7haTRd
+   Q==;
+IronPort-SDR: 4WFVCFba+z+Fy0G9WNZGJMNUpq8Fwvo/sSATHAV2pLtZniKpFwvwIy2Y4nvWZI9YYR+LbycPgr
+ 4s8T7WnkKqSihun2+n7D1VtxYZb/cvoxkTgiJhTTc6K6zG1PnxgG/+ye1dvkarcoXZ2Yt+P3fg
+ hav4CN2r0nufDJOf/xncZ94GwUIWRUgNDg7Lf0rDzd+eD4oeSB9J0/Vcd80Mw1bMTSV+YYMgdb
+ vPmwj6mMQjlHdyZNbQDS8vq4zijy2PRPWWRjOXIZyYbbSeiSGq9f+FapJVeJcqyUy5NLdnybpZ
+ mUY=
+X-IronPort-AV: E=Sophos;i="5.64,312,1559491200"; 
+   d="scan'208";a="115280892"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 27 Jul 2019 06:24:30 +0800
+IronPort-SDR: d7GaB12dGZu9LsY2v07NwI825WDG08la0pWr9n0cwMKLeJFdP7/Y6eSqsyswfdYN3rU+KciiOw
+ JQRVBbmVNHAnPsvk9vKhmZcNoMJBWco7m5vYIoxQTRHNJNKFIMqGfW29apC4Mj+7tfOqmAHDMb
+ z9SIeUWVnsnNIUFhU8iRubHMRxMeVsYR88E03SaiQZLCbpTqmsbguy3fyITxzbESBACKDirSLq
+ OTqSldX7EnH8qXevnukQXl6X+N2IAVyHYnZZoEmQGocUzmizLshSe5uL+InigeeRlIiMKfDwYt
+ nbKapwhtWfACLMHgl9gRdnJw
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP; 26 Jul 2019 15:22:38 -0700
+IronPort-SDR: jRa8eOdP/YuKfEzPjVyDpyFtNg+MPlqfk2n4XP6iJpn3/YPiLpWo2zO1hehiqWcxAZoTWjXrOS
+ PMiNzCPi9bKZujDpYd8JGTCq3CXFvimIPZGZVgKpJvCipV8kZ5xKQY/gMnZZ0L5LBw/5/Ewi9E
+ DDOaSpHgzou0PU1mik3wZdm5gyNssOF/044AidN0g/98RaHIjx8fg7+6BX11AYs+5IlC67Z9ND
+ ReDmbdOQZovtt4wDXzhyLz/ZLfZ++jQSeS2q1QoXkx7YR1DKeloXqM7zVlasNSC0Y9euP9wISO
+ rxI=
+Received: from unknown (HELO [10.225.104.231]) ([10.225.104.231])
+  by uls-op-cesaip01.wdc.com with ESMTP; 26 Jul 2019 15:24:29 -0700
+Subject: Re: [PATCH] docs: riscv: convert boot-image-header.txt to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Karsten Merker <merker@debian.org>
+References: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
+ <1eaeb3fbb74de55af0b3f6d93ab40776dcbbb5c8.1564174903.git.mchehab+samsung@kernel.org>
+From:   Atish Patra <atish.patra@wdc.com>
+Message-ID: <40e0f516-402b-29eb-d69b-fda1af26801e@wdc.com>
+Date:   Fri, 26 Jul 2019 15:24:24 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190708142032.4fbd175e@lwn.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1eaeb3fbb74de55af0b3f6d93ab40776dcbbb5c8.1564174903.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -63,24 +79,121 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/07/19 22:20, Jonathan Corbet wrote:
->>>> +:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010  
->>> I rather suspect that email address doesn't work these days.
->>>   
->> No I guess it wont :). We would still keep this correct? 
-> There's nothing good that will come from keeping a broken email address
-> there.  You could either:
+On 7/26/19 2:02 PM, Mauro Carvalho Chehab wrote:
+> Convert this small file to ReST format by:
+>     - Using a proper markup for the document title;
+>     - marking a code block as such;
+>     - use tags for Author and date;
+>     - use tables for bit map fields.
 > 
->  - Just take the address out, or
+> While here, fix a broken reference for a document with is
+> planned but is not here yet.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>   ...image-header.txt => boot-image-header.rst} | 39 ++++++++++++-------
+>   Documentation/riscv/index.rst                 |  1 +
+>   2 files changed, 26 insertions(+), 14 deletions(-)
+>   rename Documentation/riscv/{boot-image-header.txt => boot-image-header.rst} (72%)
+> 
+> diff --git a/Documentation/riscv/boot-image-header.txt b/Documentation/riscv/boot-image-header.rst
+> similarity index 72%
+> rename from Documentation/riscv/boot-image-header.txt
+> rename to Documentation/riscv/boot-image-header.rst
+> index 1b73fea23b39..43e9bd0731d5 100644
+> --- a/Documentation/riscv/boot-image-header.txt
+> +++ b/Documentation/riscv/boot-image-header.rst
+> @@ -1,22 +1,25 @@
+> -				Boot image header in RISC-V Linux
+> -			=============================================
+> +=================================
+> +Boot image header in RISC-V Linux
+> +=================================
+>   
+> -Author: Atish Patra <atish.patra@wdc.com>
+> -Date  : 20 May 2019
+> +:Author: Atish Patra <atish.patra@wdc.com>
+> +:Date:   20 May 2019
+>   
+>   This document only describes the boot image header details for RISC-V Linux.
+> -The complete booting guide will be available at Documentation/riscv/booting.txt.
+>   
+> -The following 64-byte header is present in decompressed Linux kernel image.
+> +TODO:
+> +  Write a complete booting guide.
+> +
+> +The following 64-byte header is present in decompressed Linux kernel image::
+>   
+>   	u32 code0;		  /* Executable code */
+> -	u32 code1; 		  /* Executable code */
+> +	u32 code1;		  /* Executable code */
+>   	u64 text_offset;	  /* Image load offset, little endian */
+>   	u64 image_size;		  /* Effective Image size, little endian */
+>   	u64 flags;		  /* kernel flags, little endian */
+>   	u32 version;		  /* Version of this header */
+> -	u32 res1  = 0;		  /* Reserved */
+> -	u64 res2  = 0;    	  /* Reserved */
+> +	u32 res1 = 0;		  /* Reserved */
+> +	u64 res2 = 0;		  /* Reserved */
+>   	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
+>   	u32 res3;		  /* Reserved for additional RISC-V specific header */
+>   	u32 res4;		  /* Reserved for PE COFF offset */
+> @@ -25,16 +28,21 @@ This header format is compliant with PE/COFF header and largely inspired from
+>   ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
+>   header in future.
+>   
+> -Notes:
+> +Notes
+> +=====
+> +
+>   - This header can also be reused to support EFI stub for RISC-V in future. EFI
+>     specification needs PE/COFF image header in the beginning of the kernel image
+>     in order to load it as an EFI application. In order to support EFI stub,
+>     code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
+>     point to the rest of the PE/COFF header.
+>   
+> -- version field indicate header version number.
+> -	Bits 0:15  - Minor version
+> -	Bits 16:31 - Major version
+> +- version field indicate header version number
+> +
+> +	==========  =============
+> +	Bits 0:15   Minor version
+> +	Bits 16:31  Major version
+> +	==========  =============
+>   
+>     This preserves compatibility across newer and older version of the header.
+>     The current version is defined as 0.1.
+> @@ -44,7 +52,10 @@ Notes:
+>     extension for RISC-V in future. For current version, it is set to be zero.
+>   
+>   - In current header, the flag field has only one field.
+> -	Bit 0: Kernel endianness. 1 if BE, 0 if LE.
+> +
+> +	=====  ====================================
+> +	Bit 0  Kernel endianness. 1 if BE, 0 if LE.
+> +	=====  ====================================
+>   
+>   - Image size is mandatory for boot loader to load kernel image. Booting will
+>     fail otherwise.
+> diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+> index e3ca0922a8c2..215fd3c1f2d5 100644
+> --- a/Documentation/riscv/index.rst
+> +++ b/Documentation/riscv/index.rst
+> @@ -5,6 +5,7 @@ RISC-V architecture
+>   .. toctree::
+>       :maxdepth: 1
+>   
+> +    boot-image-header
+>       pmu
+>   
+>   .. only::  subproject and html
+> 
 
-I agree with this, there have been more authors since 2010.
+Thanks for the quick patch.
 
-Regarding the license, it was my understanding that if somebody wants
-anything but GPL-2.0 they should put it in the file when they create it.
- That's because even if Glauber had a different idea of what license to
-use, other contributors to the file couldn't know.
+Reviewed-by: Atish Patra <atish.patra@wdc.com>
 
-Paolo
-
->  - Track Glauber down and get a newer address; you could ask him about the
->    licensing while you're at it :)
+-- 
+Regards,
+Atish
