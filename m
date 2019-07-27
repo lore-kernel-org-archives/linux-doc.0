@@ -1,167 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C65B7D912
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Jul 2019 15:38:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 488F97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Jul 2019 19:49:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387691AbfG0PiG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Jul 2019 11:38:06 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55478 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387673AbfG0PiF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Jul 2019 11:38:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=9zYuzthuf2nX5/BCPAhm8DHdx0y9b8nhU7td1YRW+rk=; b=jvEjp6+SbQcqxLBeXB+QX8M3q
-        OAnOqE3wbt2wO3EDiwTJvi2g4vV/NRii7ORAgqekYEOJQMwSRnpYUvZmZFcrz8lVXso/1isN6QoWn
-        X+mKh/RhFZvZqT/IRK78jhL5o1SBQgXnmLAHuxCoseUwQVkEt7BdRsA8MxZkZhx+2WvbtbjvZn49Z
-        8AtlArRC08OL4ALTrRYp9os+zGt6rRV4eU5mAF8KKWpVMcSuvuMPQTxN3Jp4gnAERoRkKPO70xnK8
-        X8ua/nRxS8/d2mGPQDDr3xfvSvmftU3i4t977I/EVFUtFnBNPjVeWneZwDJA+SXM4zNFsTWONpvMK
-        EjVMkPAsQ==;
-Received: from 177.41.114.203.dynamic.adsl.gvt.net.br ([177.41.114.203] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hrOlm-0001aR-0x; Sat, 27 Jul 2019 15:38:02 +0000
-Date:   Sat, 27 Jul 2019 12:37:54 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Ingo Molnar <mingo@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        SeongJae Park <sj38.park@gmail.com>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH] tools: memory-model: add it to the Documentation body
-Message-ID: <20190727123754.5d91d4a4@coco.lan>
-In-Reply-To: <20190727141013.dpvjlcp3juja4see@penguin>
-References: <20190726180201.GE146401@google.com>
-        <5826090bf29ec831df620b79d7fe60ef7a705795.1564167643.git.mchehab+samsung@kernel.org>
-        <20190727141013.dpvjlcp3juja4see@penguin>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S2388099AbfG0Tta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Jul 2019 15:49:30 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:46378 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387999AbfG0Tt3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Jul 2019 15:49:29 -0400
+Received: by mail-qk1-f194.google.com with SMTP id r4so41460610qkm.13
+        for <linux-doc@vger.kernel.org>; Sat, 27 Jul 2019 12:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=MLshReDkYuv6FydwbDI/5u0SStZzmu3eRSUwofEi1c8=;
+        b=KoPbzQD9PlwrCccSFdsZKevyCr6HA0txjn1/ZTGoVuMO4mq2k/BvUdeAj2i5NWVCOL
+         cyPFAmwDqyGt4EzhjjAi2rZxzoUMaddGsvnmoVXvFWzpfZ7Pp2EEyhMaL3zLhjEJ3Dxh
+         KX8Tst6bJbFqP6FUAtcUXG8Vyl0/vACXs3ajERZOEX4OssqQo97hKyV0GYin/LG7+wpx
+         sTvjGVUFtmBp0Ar2ksf5gcgdQfhIRdQuMiNqf6aBvlYgW/RW0P9GCCw9s13ibCWSFi+q
+         b+pWaZ1aU6jRG27Y+PKiaNeD0z+PCwFX4R1h/kpjAf/3XTnmN2yrypbkVgSp+/Byk4uk
+         cpcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MLshReDkYuv6FydwbDI/5u0SStZzmu3eRSUwofEi1c8=;
+        b=lmDCmkNIIS/mTYm+WETtt9jeAbc3r5aIgslS1x20ZZyAJ1lH5Q3sbL9xixDOwl99b+
+         v9o66RKOwbv0zYItiMf93ELWDT1JOSW+x9YWBu0EIM4ig9t1n/QIioI0xYvVOjCh3GCJ
+         BT6JvyBH06FsXBrF0OdIL7IfUAT9VsQUazL21Ugn2MiaDT+Tb01Cuu+oZizumKfKUUj1
+         oRT5++avbZC8b2mniDoOuNwrCp7l2VA0t6lRL5UMwIHBO02f4IOQJ++fdFO83MyizIQV
+         fBhWpgNJ9BqkaOMVbhOGS1JVqMAcNjn307sYteUUVGc9lqtkxeok52xf9twhDy1Gt2Wq
+         +Eyw==
+X-Gm-Message-State: APjAAAXf3i8IjgRf30pd1+8mqUCBHkXzwo7UxTqQjnMmFW4xY7w2yaxR
+        0vuXHwzErF/I2C7uH/Uuit/cAVAo
+X-Google-Smtp-Source: APXvYqwYuOaEqSRjxIubfVGN0TFTYjMw5AXspC5h/bfuTmYjn5wfcB5dlpL7Unxty9yRmxM8bfw+0Q==
+X-Received: by 2002:ae9:de05:: with SMTP id s5mr69903948qkf.184.1564256968684;
+        Sat, 27 Jul 2019 12:49:28 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:22a:18a2:7b63:4439:1287])
+        by smtp.gmail.com with ESMTPSA id r5sm25172442qkc.42.2019.07.27.12.49.25
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 27 Jul 2019 12:49:27 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     sfr@canb.auug.org.au, corbet@lwn.net, mchehab+samsung@kernel.org,
+        linux-doc@vger.kernel.org, dima@arista.com,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2] docs: admin-guide: Adjust title underline length
+Date:   Sat, 27 Jul 2019 16:49:33 -0300
+Message-Id: <20190727194933.28270-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 27 Jul 2019 14:14:53 +0000
-Joel Fernandes <joel@joelfernandes.org> escreveu:
+The following warning is seen when building 'make htmldocs':
 
-> On Fri, Jul 26, 2019 at 04:01:37PM -0300, Mauro Carvalho Chehab wrote:
-> > The books at tools/memory-model/Documentation are very well
-> > formatted. Congrats to the ones that wrote them!
-> > 
-> > The manual conversion to ReST is really trivial:
-> > 
-> > 	- Add document titles;
-> > 	- change the bullets on some lists;
-> > 	- mark code blocks.  
-> 
-> Thanks so much, some feedback:
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
-> 
-> (1)
-> I could not find the table of contents appear in the HTML output for this.
-> Basically this list in the beginning doesn't render:
->   1. INTRODUCTION
->   2. BACKGROUND
->   3. A SIMPLE EXAMPLE
->   4. A SELECTION OF MEMORY MODELS
->   5. ORDERING AND CYCLES
+Documentation/admin-guide/sysctl/kernel.rst:397: WARNING: Title underline too short.
 
-Yes. It is written as a comment, like:
+Fix it by adjusting the title underline length appropriately.
 
-	.. foo  This is a comment block
+Fixes: 725d8c9a2cc5 ("hung_task: allow printing warnings every check interval")
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Changes since v1:
+- Added Fixes tag
+- Sent to Andrew as the commit that generates the warning comes
+from his tree (Jonathan)
 
-	   Everything on this block
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	   won't be parsed.
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 2e36620ec1e4..8af424dd0364 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
+ 
+ 
+ hung_task_interval_warnings:
+-===================
++============================
+ 
+ The same as hung_task_warnings, but set the number of interval
+ warnings to be issued about detected hung tasks during check
+-- 
+2.17.1
 
-So it won't be parsed, but having a TOC like this isn't need, as
-Sphinx generates it automatically via "toctree" markup. 
-
-> Could we add a proper TOC with sections? My motivation for ReST here would be
-> to make the sections jumpable since it is a large document.
-
-Just change the toctree depth at index.rst to 2 and you'll see an index
-produced by Sphinx with both levels 1 (doc name) and level 2 (chapters):
-
-	.. toctree::
-	   :maxdepth: 2
-
-> Also could we make the different sections appear as a tree in the left
-> sidebar?
-
-The sidebar follows the maxdepth too.
-
-> 
-> (2) Arguably several function names in the document HTML output should appear
-> in monospace fonting and/or referring to the documentation for real function
-> names, but these can be fixed as we go, I guess.
-
-If you want monospaced fonts, just use: ``monospaced_symbol_foo`` within
-any paragraph, or place the monospaced data inside a code-block:
-
-	::
-
-		This will be monospaced.
-
-> 
-> (3) Things like smp_load_acquire() and spin_lock() should probably refer to
-> the documentation for those elsewhere..
-
-Jon added an automarkup extension on Kernel 5.2. So, all functions that
-are defined elsewhere will automatically generate an hyperlink. For that to
-happen, you need to add the kernel-doc markup at the *.h or *.c file where
-the function is declared and use the kernel-doc markup somewhere within the
-Kernel Documentation/.
-
-> 
-> (4) I would argue that every occurence of
-> A ->(some dependency) B should be replaced with fixed size font in the HTML
-> results.
-
-Just place those with ``A -> (some dependency)``. This will make them use
-a fixed size font.
-
-> Arguably it is better IMO if the whole document is fixed size font in the
-> HTML output because so many things need to be fixed size, but that my just be
-> my opinion.
-
-Just my 2 cents here, but having the entire document using a fixed size
-font makes it more boring to read. Having just the symbols with a fixed size
-is a common convention used on technical books, and helps to make easier
-to identify the symbols while reading the docs.
-
-That's said, Sphinx doesn't have any tag to switch the font for the entire
-document. All it can be done is to define a CSS and apply it for the
-doc - or to place everything within a code-block, with will suppress all
-markup tags, including cross-references for functions.
-
-The problem with CSS is that you need to write both an html CSS file
-and add LaTeX macros associated to this "CSS style" (technically, LaTeX
-doesn't have a CSS concept, but Sphinx emulates it).
-
-Thanks,
-Mauro
