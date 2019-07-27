@@ -1,199 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D1B27D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Jul 2019 22:24:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 924147D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Jul 2019 12:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387421AbfGZWYb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Jul 2019 18:24:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3585 "EHLO
-        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387405AbfGZWYa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jul 2019 18:24:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1564179870; x=1595715870;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=if3brqcdHB/fxxSNFjpR7EE+qJbzAZzvUpJK8gt9Dh8=;
-  b=p8YIubdmm3b0IHKhSmDCE1aHVdajmHG9DGC1kbf+dy/maXctGQkXBIgx
-   TrQAWfTJ99XFi73LOKTwhLGbaA0Tnjcyv+IEG3qosB1nkiCyCQGiRxADo
-   ks/pgn5N8VXhJcx0jEz1Cmky0xS2gK3C0wUhNQMvojCx9kWJgZOtz+rM6
-   rMTrSjkvUrStL3PtpgJEhBfkyVAJvtm/NmGVGK+85jl+Iul6vZakgEOrx
-   e224GKmACp3WLZValFZoQYexaSOvwgkDd5/SeXXb60Z0GP+0PgJyOfyzb
-   OLoUN0If4WA9E7HMuyLyDNy+ULO2hDVG+Ul07QxxWLTdZbTLcAK7haTRd
-   Q==;
-IronPort-SDR: 4WFVCFba+z+Fy0G9WNZGJMNUpq8Fwvo/sSATHAV2pLtZniKpFwvwIy2Y4nvWZI9YYR+LbycPgr
- 4s8T7WnkKqSihun2+n7D1VtxYZb/cvoxkTgiJhTTc6K6zG1PnxgG/+ye1dvkarcoXZ2Yt+P3fg
- hav4CN2r0nufDJOf/xncZ94GwUIWRUgNDg7Lf0rDzd+eD4oeSB9J0/Vcd80Mw1bMTSV+YYMgdb
- vPmwj6mMQjlHdyZNbQDS8vq4zijy2PRPWWRjOXIZyYbbSeiSGq9f+FapJVeJcqyUy5NLdnybpZ
- mUY=
-X-IronPort-AV: E=Sophos;i="5.64,312,1559491200"; 
-   d="scan'208";a="115280892"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 27 Jul 2019 06:24:30 +0800
-IronPort-SDR: d7GaB12dGZu9LsY2v07NwI825WDG08la0pWr9n0cwMKLeJFdP7/Y6eSqsyswfdYN3rU+KciiOw
- JQRVBbmVNHAnPsvk9vKhmZcNoMJBWco7m5vYIoxQTRHNJNKFIMqGfW29apC4Mj+7tfOqmAHDMb
- z9SIeUWVnsnNIUFhU8iRubHMRxMeVsYR88E03SaiQZLCbpTqmsbguy3fyITxzbESBACKDirSLq
- OTqSldX7EnH8qXevnukQXl6X+N2IAVyHYnZZoEmQGocUzmizLshSe5uL+InigeeRlIiMKfDwYt
- nbKapwhtWfACLMHgl9gRdnJw
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP; 26 Jul 2019 15:22:38 -0700
-IronPort-SDR: jRa8eOdP/YuKfEzPjVyDpyFtNg+MPlqfk2n4XP6iJpn3/YPiLpWo2zO1hehiqWcxAZoTWjXrOS
- PMiNzCPi9bKZujDpYd8JGTCq3CXFvimIPZGZVgKpJvCipV8kZ5xKQY/gMnZZ0L5LBw/5/Ewi9E
- DDOaSpHgzou0PU1mik3wZdm5gyNssOF/044AidN0g/98RaHIjx8fg7+6BX11AYs+5IlC67Z9ND
- ReDmbdOQZovtt4wDXzhyLz/ZLfZ++jQSeS2q1QoXkx7YR1DKeloXqM7zVlasNSC0Y9euP9wISO
- rxI=
-Received: from unknown (HELO [10.225.104.231]) ([10.225.104.231])
-  by uls-op-cesaip01.wdc.com with ESMTP; 26 Jul 2019 15:24:29 -0700
-Subject: Re: [PATCH] docs: riscv: convert boot-image-header.txt to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Karsten Merker <merker@debian.org>
-References: <57eaa99a-d644-7b79-7177-a45d3ef1e71a@wdc.com>
- <1eaeb3fbb74de55af0b3f6d93ab40776dcbbb5c8.1564174903.git.mchehab+samsung@kernel.org>
-From:   Atish Patra <atish.patra@wdc.com>
-Message-ID: <40e0f516-402b-29eb-d69b-fda1af26801e@wdc.com>
-Date:   Fri, 26 Jul 2019 15:24:24 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.8.0
+        id S1728882AbfG0MC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Jul 2019 08:02:26 -0400
+Received: from saturn.retrosnub.co.uk ([46.235.226.198]:42380 "EHLO
+        saturn.retrosnub.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfG0MC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Jul 2019 08:02:26 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        by saturn.retrosnub.co.uk (Postfix; Retrosnub mail submission) with ESMTPSA id A39B49E774D;
+        Sat, 27 Jul 2019 13:02:23 +0100 (BST)
+Date:   Sat, 27 Jul 2019 13:02:22 +0100
+From:   Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/7] docs: generic-counter.rst: fix broken references
+ for ABI file
+Message-ID: <20190727130204.78f5a3f1@archlinux>
+In-Reply-To: <f55e1ef71a3a7194dacd3f0cecc0aa67aaffbd15.1564140865.git.mchehab+samsung@kernel.org>
+References: <cover.1564140865.git.mchehab+samsung@kernel.org>
+        <f55e1ef71a3a7194dacd3f0cecc0aa67aaffbd15.1564140865.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1eaeb3fbb74de55af0b3f6d93ab40776dcbbb5c8.1564174903.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/26/19 2:02 PM, Mauro Carvalho Chehab wrote:
-> Convert this small file to ReST format by:
->     - Using a proper markup for the document title;
->     - marking a code block as such;
->     - use tags for Author and date;
->     - use tables for bit map fields.
+On Fri, 26 Jul 2019 08:47:22 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+
+> There are two references to the generic counter ABI, with was added
+> on a separate patch. Both point to a non-existing file.
 > 
-> While here, fix a broken reference for a document with is
-> planned but is not here yet.
+> Fix them.
 > 
+> Fixes: ea2b23b89579 ("counter: Documentation: Add Generic Counter sysfs documentation")
+> Fixes: 09e7d4ed8991 ("docs: Add Generic Counter interface documentation")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Applied to the fixes-togreg branch of iio.git.
+
+Thanks,
+
+Jonathan
+
 > ---
->   ...image-header.txt => boot-image-header.rst} | 39 ++++++++++++-------
->   Documentation/riscv/index.rst                 |  1 +
->   2 files changed, 26 insertions(+), 14 deletions(-)
->   rename Documentation/riscv/{boot-image-header.txt => boot-image-header.rst} (72%)
+>  Documentation/driver-api/generic-counter.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/riscv/boot-image-header.txt b/Documentation/riscv/boot-image-header.rst
-> similarity index 72%
-> rename from Documentation/riscv/boot-image-header.txt
-> rename to Documentation/riscv/boot-image-header.rst
-> index 1b73fea23b39..43e9bd0731d5 100644
-> --- a/Documentation/riscv/boot-image-header.txt
-> +++ b/Documentation/riscv/boot-image-header.rst
-> @@ -1,22 +1,25 @@
-> -				Boot image header in RISC-V Linux
-> -			=============================================
-> +=================================
-> +Boot image header in RISC-V Linux
-> +=================================
->   
-> -Author: Atish Patra <atish.patra@wdc.com>
-> -Date  : 20 May 2019
-> +:Author: Atish Patra <atish.patra@wdc.com>
-> +:Date:   20 May 2019
->   
->   This document only describes the boot image header details for RISC-V Linux.
-> -The complete booting guide will be available at Documentation/riscv/booting.txt.
->   
-> -The following 64-byte header is present in decompressed Linux kernel image.
-> +TODO:
-> +  Write a complete booting guide.
-> +
-> +The following 64-byte header is present in decompressed Linux kernel image::
->   
->   	u32 code0;		  /* Executable code */
-> -	u32 code1; 		  /* Executable code */
-> +	u32 code1;		  /* Executable code */
->   	u64 text_offset;	  /* Image load offset, little endian */
->   	u64 image_size;		  /* Effective Image size, little endian */
->   	u64 flags;		  /* kernel flags, little endian */
->   	u32 version;		  /* Version of this header */
-> -	u32 res1  = 0;		  /* Reserved */
-> -	u64 res2  = 0;    	  /* Reserved */
-> +	u32 res1 = 0;		  /* Reserved */
-> +	u64 res2 = 0;		  /* Reserved */
->   	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
->   	u32 res3;		  /* Reserved for additional RISC-V specific header */
->   	u32 res4;		  /* Reserved for PE COFF offset */
-> @@ -25,16 +28,21 @@ This header format is compliant with PE/COFF header and largely inspired from
->   ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
->   header in future.
->   
-> -Notes:
-> +Notes
-> +=====
-> +
->   - This header can also be reused to support EFI stub for RISC-V in future. EFI
->     specification needs PE/COFF image header in the beginning of the kernel image
->     in order to load it as an EFI application. In order to support EFI stub,
->     code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
->     point to the rest of the PE/COFF header.
->   
-> -- version field indicate header version number.
-> -	Bits 0:15  - Minor version
-> -	Bits 16:31 - Major version
-> +- version field indicate header version number
-> +
-> +	==========  =============
-> +	Bits 0:15   Minor version
-> +	Bits 16:31  Major version
-> +	==========  =============
->   
->     This preserves compatibility across newer and older version of the header.
->     The current version is defined as 0.1.
-> @@ -44,7 +52,10 @@ Notes:
->     extension for RISC-V in future. For current version, it is set to be zero.
->   
->   - In current header, the flag field has only one field.
-> -	Bit 0: Kernel endianness. 1 if BE, 0 if LE.
-> +
-> +	=====  ====================================
-> +	Bit 0  Kernel endianness. 1 if BE, 0 if LE.
-> +	=====  ====================================
->   
->   - Image size is mandatory for boot loader to load kernel image. Booting will
->     fail otherwise.
-> diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-> index e3ca0922a8c2..215fd3c1f2d5 100644
-> --- a/Documentation/riscv/index.rst
-> +++ b/Documentation/riscv/index.rst
-> @@ -5,6 +5,7 @@ RISC-V architecture
->   .. toctree::
->       :maxdepth: 1
->   
-> +    boot-image-header
->       pmu
->   
->   .. only::  subproject and html
-> 
+> diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
+> index 0c161b1a3be6..8382f01a53e3 100644
+> --- a/Documentation/driver-api/generic-counter.rst
+> +++ b/Documentation/driver-api/generic-counter.rst
+> @@ -233,7 +233,7 @@ Userspace Interface
+>  Several sysfs attributes are generated by the Generic Counter interface,
+>  and reside under the /sys/bus/counter/devices/counterX directory, where
+>  counterX refers to the respective counter device. Please see
+> -Documentation/ABI/testing/sys-bus-counter-generic-sysfs for detailed
+> +Documentation/ABI/testing/sysfs-bus-counter for detailed
+>  information on each Generic Counter interface sysfs attribute.
+>  
+>  Through these sysfs attributes, programs and scripts may interact with
+> @@ -325,7 +325,7 @@ sysfs attributes, where Y is the unique ID of the respective Count:
+>  
+>  For a more detailed breakdown of the available Generic Counter interface
+>  sysfs attributes, please refer to the
+> -Documentation/ABI/testing/sys-bus-counter file.
+> +Documentation/ABI/testing/sysfs-bus-counter file.
+>  
+>  The Signals and Counts associated with the Counter device are registered
+>  to the system as well by the counter_register function. The
 
-Thanks for the quick patch.
-
-Reviewed-by: Atish Patra <atish.patra@wdc.com>
-
--- 
-Regards,
-Atish
