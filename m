@@ -1,82 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-2.9 required=5.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SORTED_RECIPS,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A5097D92A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Jul 2019 00:55:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90F7D7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Jul 2019 03:46:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbfG1Azp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Jul 2019 20:55:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58650 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726044AbfG1Azp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 27 Jul 2019 20:55:45 -0400
-Received: from [192.168.0.101] (unknown [180.111.32.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76E7E20840;
-        Sun, 28 Jul 2019 00:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564275345;
-        bh=ib6sX26AXwbDi3ZB+Fz05tdgLXwFegl+X7JA9+1MoA8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=FE3s7pPpLKE6fNyKadY5IvO9j3S1hknF451M623wEBUgqt0JGE9vZCVBBFQuPk0SE
-         loiQOaF8fG2Sdz6nOUVA+6MVkXudeCNLGAeIkDS93jjeSjR5LzpvrnXVL/kyoAd504
-         DLc40YM1HqlcAxRpN5F6aCR6xZ4q/oMIIgUapNZ0=
-Subject: Re: [f2fs-dev] [PATCH v4 3/3] f2fs: Support case-insensitive file
- name lookups
-To:     Daniel Rosenberg <drosen@google.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net
-Cc:     linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
-From:   Chao Yu <chao@kernel.org>
-Message-ID: <9362e4ed-2be8-39f5-b4d9-9c86e37ab993@kernel.org>
-Date:   Sun, 28 Jul 2019 08:55:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1725878AbfG1DqC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Jul 2019 23:46:02 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:53486 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbfG1DqB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Jul 2019 23:46:01 -0400
+Received: by mail-io1-f69.google.com with SMTP id h3so63580450iob.20
+        for <linux-doc@vger.kernel.org>; Sat, 27 Jul 2019 20:46:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=o2kzyTbMhQL/kAorHcC+7ID+BqHWTQyphajjOBsUUz8=;
+        b=TiERs5WeWK2/LHDowNePkTHtya05vIi/Fv66Jl3H1HgZZifgvPIawYvnlFrm6epFHU
+         ++OvsHhrmmkVMrkkGf06FYKUXsD/QnaoTre/E4b43llk6AzLRo062VdCHGiFudMz5pbF
+         GzSm7+SzPWaxZRV0QBHcZWojpxsV0zoL5EtiNbMHUSZov0gpbg+c+yVFKe7522+5N2+3
+         UPW+u9UgpbvisV0gIDtHG/lBIM3JPNmputOf9LGjamuGT5MiuqGQ4MLdjZtyT92Fn1W1
+         M8wZM3AQaOW01RerhLHKTcSeMOoi/wo1QQPWzGEMdHHQDA38dhso0eCitS4Noga/oKbe
+         19UQ==
+X-Gm-Message-State: APjAAAVvHVJOaofvzG+tgeYd13Z1JNnPkhiJod2PaUrVdzzwVX3f3aeA
+        WXQq2/8CjgiHdb+iMktK5MbvpQmmTQNbNnx7Ogjlg7YbAe97
+X-Google-Smtp-Source: APXvYqxXM+e7HkG1ndOj4S4xy8tLRGbSOz7rHomFcVxe9opbIqsbCOX/jEqUOK4tXAcI7y8l03aMdveo9Zu26OKpCrjDuyQnBW0q
 MIME-Version: 1.0
-In-Reply-To: <20190723230529.251659-4-drosen@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a02:878a:: with SMTP id t10mr33742269jai.112.1564285560945;
+ Sat, 27 Jul 2019 20:46:00 -0700 (PDT)
+Date:   Sat, 27 Jul 2019 20:46:00 -0700
+In-Reply-To: <0000000000002b4896058e7abf78@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000300996058eb59dd7@google.com>
+Subject: Re: general protection fault in tls_trim_both_msgs
+From:   syzbot <syzbot+0e0fedcad708d12d3032@syzkaller.appspotmail.com>
+To:     ast@kernel.org, aviadye@mellanox.com, borisp@mellanox.com,
+        bpf@vger.kernel.org, corbet@lwn.net, daniel@iogearbox.net,
+        davejwatson@fb.com, davem@davemloft.net,
+        jakub.kicinski@netronome.com, john.fastabend@gmail.com,
+        kafai@fb.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
->  /* Flags that are appropriate for regular files (all but dir-specific ones). */
->  #define F2FS_REG_FLMASK		(~(F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL))
+syzbot has bisected this bug to:
 
-We missed to add F2FS_CASEFOLD_FL here to exclude it in F2FS_REG_FLMASK.
+commit 32857cf57f920cdc03b5095f08febec94cf9c36b
+Author: John Fastabend <john.fastabend@gmail.com>
+Date:   Fri Jul 19 17:29:18 2019 +0000
 
-> @@ -1660,7 +1660,16 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
->  		return -EPERM;
->  
->  	oldflags = fi->i_flags;
-> +	if ((iflags ^ oldflags) & F2FS_CASEFOLD_FL) {
-> +		if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
-> +			return -EOPNOTSUPP;
-> +
-> +		if (!S_ISDIR(inode->i_mode))
-> +			return -ENOTDIR;
->  
-> +		if (!f2fs_empty_dir(inode))
-> +			return -ENOTEMPTY;
-> +	}
+     net/tls: fix transition through disconnect with close
 
-I applied the patches based on last Jaegeuk's dev branch, it seems we needs to
-adjust above code a bit. Otherwise it looks good to me.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=155064d8600000
+start commit:   fde50b96 Add linux-next specific files for 20190726
+git tree:       linux-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=175064d8600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=135064d8600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4b58274564b354c1
+dashboard link: https://syzkaller.appspot.com/bug?extid=0e0fedcad708d12d3032
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14779d64600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1587c842600000
 
-BTW, it looks the patchset works fine with generic/556 testcase.
+Reported-by: syzbot+0e0fedcad708d12d3032@syzkaller.appspotmail.com
+Fixes: 32857cf57f92 ("net/tls: fix transition through disconnect with  
+close")
 
-Thanks,
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
