@@ -1,156 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93C0D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Jul 2019 16:08:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7218A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Jul 2019 22:02:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbfG1QIA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 28 Jul 2019 12:08:00 -0400
-Received: from mga01.intel.com ([192.55.52.88]:9438 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726046AbfG1QIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 28 Jul 2019 12:08:00 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Jul 2019 09:07:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,319,1559545200"; 
-   d="scan'208";a="161938649"
-Received: from ngote-system-product-name.iind.intel.com ([10.106.124.92])
-  by orsmga007.jf.intel.com with ESMTP; 28 Jul 2019 09:07:56 -0700
-From:   NitinGote <nitin.r.gote@intel.com>
-To:     joe@perches.com, keescook@chromium.org
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, apw@canonical.com,
-        linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        Nitin Gote <nitin.r.gote@intel.com>
-Subject: [PATCH v7] Documentation/checkpatch: Prefer stracpy/strscpy over strcpy/strlcpy/strncpy.
-Date:   Sun, 28 Jul 2019 21:36:08 +0530
-Message-Id: <20190728160608.3119-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726120AbfG1WCt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 28 Jul 2019 18:02:49 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:46699 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726097AbfG1WCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Jul 2019 18:02:49 -0400
+Received: by mail-lf1-f66.google.com with SMTP id z15so36376122lfh.13
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jul 2019 15:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D97GiV2zjliG05FCmmKHimhjxGqrt+6hvc46zTJ3N/g=;
+        b=M++hQSZT088Q+I7VrthayIDJusWd0Q9cTsyvmgd05II5PpwvsIXEWEtkKsb7zUR4jk
+         BxuOxyeSgHoEOvZkzRhXl/n1KklgMksJGGMsDIdBbJ01ssxWpq58eBN39X9GlISHS1zp
+         YrpH22J8Aj4mfDD4SP8tz7KzVDea2F9+w6NvcqhS/jpaKWg/C0RiD5+8FTA9ItWSHnM+
+         +zGYm62H+CZMdfxdt2s6ZyO1GjYbNUVXX1b7x4QXnKFn7CBX6kv2GYBUrH/C5+Pt0WTu
+         nOYkhpuy2llh054WbHAFjJ3OysnnQkK2nR6CSanRbPYdGDBx4/7piyLCkOz/+uWHP9ji
+         VH5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D97GiV2zjliG05FCmmKHimhjxGqrt+6hvc46zTJ3N/g=;
+        b=nMbVqzQEQ7ji2pYWsQoeyRMBRmxxa7m9WfY9g1ytFpWAeRUCzlPwvHe9IM5V5ArTM9
+         FgvCc4M2ivWqHCyJMJWAUK5cqU4vLQ4fdnkaVXO8lLIzAKOwe4Zg2o/ckx1m5bmqDdxV
+         HDsZjYtLAplAaY+aSAfNyZ+g5/hr+HAc4QkLym7C9c4/b7gKaOONCUD0/QOxL9BoxW3I
+         e2mA2fwc0k6D59tIbiSxzbn+bmGtutFavokT55aTD7jYGpBVRoi6pLSaoax+j1ItTl6v
+         Rw3sQ5Zj8yVQu5nTIaAlq6Er9AAogQ5w275MAouk8r347B6qF+BRxxRSSi1ggh3iOSBU
+         Ld7g==
+X-Gm-Message-State: APjAAAXpi8zen+itLiHD2+5hzmnnMbACDcPtcuiPW7pjPk71siTmf1BI
+        naD/UIfJUO/6FNUQKCkOGmBysrJIdK1Z8kYD1eBrAw==
+X-Google-Smtp-Source: APXvYqx++MDRFL3YR0qvlj/ZonTl8VxH9hzquyKvc86+3nJZNfQ68/uCC51c02cFBjWHL9vmbLKxf5BYkKaaSiGbLCk=
+X-Received: by 2002:a19:e006:: with SMTP id x6mr48839895lfg.165.1564351367853;
+ Sun, 28 Jul 2019 15:02:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1563360659.git.mchehab+samsung@kernel.org> <07b6de638cb80767dd3ea2fdec8b19ee3ceb60a7.1563360659.git.mchehab+samsung@kernel.org>
+In-Reply-To: <07b6de638cb80767dd3ea2fdec8b19ee3ceb60a7.1563360659.git.mchehab+samsung@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 29 Jul 2019 00:02:36 +0200
+Message-ID: <CACRpkdbSssyXo-2tzjPGDhfhVt6rEuD0NBV2t3XwM54g-xR82A@mail.gmail.com>
+Subject: Re: [PATCH v3 18/20] docs: ABI: don't escape ReST-incompatible chars
+ from obsolete and removed
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Nitin Gote <nitin.r.gote@intel.com>
+On Wed, Jul 17, 2019 at 1:05 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 
-Added check in checkpatch.pl to deprecate strcpy(), strlcpy() and
-strncpy() in favor of stracpy() or strscpy().
+> With just a single fix, the contents there can be parsed properly
+> without the need to escape any ReST incompatible stuff.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Updated Documentation/process/deprecated.rst for stracpy() and strscpy().
+This seems to depend on other stuff so:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
- Change log:
- v6->v7
- - Favored both stracpy() or strscpy(), as stracpy() preferred when the
-   destination is char array (rather than string pointer).
-
- v5->v6
- - Used stracpy() instead of strscpy().
-
- v4->v5
- - Change the subject line as per review comment.
- - v5 is Reviewed-by: Kees Cook <keescook@chromium.org>
-
- v3->v4
- - Removed "c:func:" from deprecated.rst as per review comment.
-
- v2->v3
- - Avoided use of $check in implementation.
- - Incorporated trivial comments.
-
- v1->v2
- - For string related apis, created different %deprecated_string_api
-   and these will get emitted at CHECK Level using command line option
-   -f/--file to avoid bad patched from novice script users.
-
- Documentation/process/deprecated.rst | 10 +++++-----
- scripts/checkpatch.pl                | 24 ++++++++++++++++++++++++
- 2 files changed, 29 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..b4c82589d301 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -84,7 +84,7 @@ buffer. This could result in linear overflows beyond the
- end of the buffer, leading to all kinds of misbehaviors. While
- `CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
- risk of using this function, there is no good reason to add new uses of
--this function. The safe replacement is :c:func:`strscpy`.
-+this function. The safe replacement is stracpy() or strscpy().
-
- strncpy() on NUL-terminated strings
- -----------------------------------
-@@ -93,9 +93,9 @@ will be NUL terminated. This can lead to various linear read overflows
- and other misbehavior due to the missing termination. It also NUL-pads the
- destination buffer if the source contents are shorter than the destination
- buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
--(Users of :c:func:`strscpy` still needing NUL-padding will need an
--explicit :c:func:`memset` added.)
-+only NUL-terminated strings. In this case, the safe replacement is
-+stracpy() or strscpy(). If, however, the destination buffer still needs
-+NUL-padding, the safe replacement is stracpy_pad().
-
- If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
- still be used, but destinations should be marked with the `__nonstring
-@@ -107,7 +107,7 @@ strlcpy()
- :c:func:`strlcpy` reads the entire source buffer first, possibly exceeding
- the given limit of bytes to copy. This is inefficient and can lead to
- linear read overflows if a source string is not NUL-terminated. The
--safe replacement is :c:func:`strscpy`.
-+safe replacement is stracpy() or strscpy().
-
- Variable Length Arrays (VLAs)
- -----------------------------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 342c7c781ba5..0e14a1ae6502 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -605,6 +605,20 @@ foreach my $entry (keys %deprecated_apis) {
- }
- $deprecated_apis_search = "(?:${deprecated_apis_search})";
-
-+our %deprecated_string_apis = (
-+	"strcpy"		=> "stracpy or strscpy",
-+	"strlcpy"		=> "stracpy or strscpy",
-+	"strncpy"		=> "stracpy or strscpy - for non-NUL-terminated uses, strncpy dest should be __nonstring",
-+);
-+
-+#Create a search pattern for all these strings apis to speed up a loop below
-+our $deprecated_string_apis_search = "";
-+foreach my $entry (keys %deprecated_string_apis) {
-+        $deprecated_string_apis_search .= '|' if ($deprecated_string_apis_search ne "");
-+        $deprecated_string_apis_search .= $entry;
-+}
-+$deprecated_string_apis_search = "(?:${deprecated_string_apis_search})";
-+
- our $mode_perms_world_writable = qr{
- 	S_IWUGO		|
- 	S_IWOTH		|
-@@ -6446,6 +6460,16 @@ sub process {
- 			     "Deprecated use of '$deprecated_api', prefer '$new_api' instead\n" . $herecurr);
- 		}
-
-+# check for string deprecated apis
-+		if ($line =~ /\b($deprecated_string_apis_search)\b\s*\(/) {
-+			my $deprecated_string_api = $1;
-+			my $new_api = $deprecated_string_apis{$deprecated_string_api};
-+			my $msg_level = \&WARN;
-+			$msg_level = \&CHK if ($file);
-+			&{$msg_level}("DEPRECATED_API",
-+				      "Deprecated use of '$deprecated_string_api', prefer '$new_api' instead\n" . $herecurr);
-+		}
-+
- # check for various structs that are normally const (ops, kgdb, device_tree)
- # and avoid what seem like struct definitions 'struct foo {'
- 		if ($line !~ /\bconst\b/ &&
---
-2.17.1
-
+Yours,
+Linus Walleij
