@@ -1,95 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 488F97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Jul 2019 19:49:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C81E7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Jul 2019 00:36:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388099AbfG0Tta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Jul 2019 15:49:30 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46378 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387999AbfG0Tt3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Jul 2019 15:49:29 -0400
-Received: by mail-qk1-f194.google.com with SMTP id r4so41460610qkm.13
-        for <linux-doc@vger.kernel.org>; Sat, 27 Jul 2019 12:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=MLshReDkYuv6FydwbDI/5u0SStZzmu3eRSUwofEi1c8=;
-        b=KoPbzQD9PlwrCccSFdsZKevyCr6HA0txjn1/ZTGoVuMO4mq2k/BvUdeAj2i5NWVCOL
-         cyPFAmwDqyGt4EzhjjAi2rZxzoUMaddGsvnmoVXvFWzpfZ7Pp2EEyhMaL3zLhjEJ3Dxh
-         KX8Tst6bJbFqP6FUAtcUXG8Vyl0/vACXs3ajERZOEX4OssqQo97hKyV0GYin/LG7+wpx
-         sTvjGVUFtmBp0Ar2ksf5gcgdQfhIRdQuMiNqf6aBvlYgW/RW0P9GCCw9s13ibCWSFi+q
-         b+pWaZ1aU6jRG27Y+PKiaNeD0z+PCwFX4R1h/kpjAf/3XTnmN2yrypbkVgSp+/Byk4uk
-         cpcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=MLshReDkYuv6FydwbDI/5u0SStZzmu3eRSUwofEi1c8=;
-        b=lmDCmkNIIS/mTYm+WETtt9jeAbc3r5aIgslS1x20ZZyAJ1lH5Q3sbL9xixDOwl99b+
-         v9o66RKOwbv0zYItiMf93ELWDT1JOSW+x9YWBu0EIM4ig9t1n/QIioI0xYvVOjCh3GCJ
-         BT6JvyBH06FsXBrF0OdIL7IfUAT9VsQUazL21Ugn2MiaDT+Tb01Cuu+oZizumKfKUUj1
-         oRT5++avbZC8b2mniDoOuNwrCp7l2VA0t6lRL5UMwIHBO02f4IOQJ++fdFO83MyizIQV
-         fBhWpgNJ9BqkaOMVbhOGS1JVqMAcNjn307sYteUUVGc9lqtkxeok52xf9twhDy1Gt2Wq
-         +Eyw==
-X-Gm-Message-State: APjAAAXf3i8IjgRf30pd1+8mqUCBHkXzwo7UxTqQjnMmFW4xY7w2yaxR
-        0vuXHwzErF/I2C7uH/Uuit/cAVAo
-X-Google-Smtp-Source: APXvYqwYuOaEqSRjxIubfVGN0TFTYjMw5AXspC5h/bfuTmYjn5wfcB5dlpL7Unxty9yRmxM8bfw+0Q==
-X-Received: by 2002:ae9:de05:: with SMTP id s5mr69903948qkf.184.1564256968684;
-        Sat, 27 Jul 2019 12:49:28 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:22a:18a2:7b63:4439:1287])
-        by smtp.gmail.com with ESMTPSA id r5sm25172442qkc.42.2019.07.27.12.49.25
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 27 Jul 2019 12:49:27 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     sfr@canb.auug.org.au, corbet@lwn.net, mchehab+samsung@kernel.org,
-        linux-doc@vger.kernel.org, dima@arista.com,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2] docs: admin-guide: Adjust title underline length
-Date:   Sat, 27 Jul 2019 16:49:33 -0300
-Message-Id: <20190727194933.28270-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726404AbfG1Ag0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Jul 2019 20:36:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726044AbfG1Ag0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Jul 2019 20:36:26 -0400
+Received: from [192.168.0.101] (unknown [180.111.32.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 32516205C9;
+        Sun, 28 Jul 2019 00:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564274185;
+        bh=3QcKMWyvud9E/WuCoeT08n9lTblApc1uZ21h4kx9PhU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=rGgP1an4Xkc81fP263JRufM8BgqKjlDC3mlNL3lmt272CzPVdK4B9dyJWB3gSxqBq
+         TPkB8mhv9GqJLzn4sNEveW25kMW4/kt2NSjMLJ2CYmkWgYjnvwdRLMLcs29BKyzIXT
+         085dg8hYsKwLZUBAzE/J6C1Xc1SmUEMJVJUGd+64=
+Subject: Re: [f2fs-dev] [PATCH v4 1/3] fs: Reserve flag for casefolding
+To:     Daniel Rosenberg <drosen@google.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net
+Cc:     linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+References: <20190723230529.251659-1-drosen@google.com>
+ <20190723230529.251659-2-drosen@google.com>
+From:   Chao Yu <chao@kernel.org>
+Message-ID: <056a12d4-d787-9a3d-9ad4-4d1136b2a197@kernel.org>
+Date:   Sun, 28 Jul 2019 08:36:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20190723230529.251659-2-drosen@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following warning is seen when building 'make htmldocs':
+On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
+> In preparation for including the casefold feature within f2fs, elevate
+> the EXT4_CASEFOLD_FL flag to FS_CASEFOLD_FL.
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 
-Documentation/admin-guide/sysctl/kernel.rst:397: WARNING: Title underline too short.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
-Fix it by adjusting the title underline length appropriately.
-
-Fixes: 725d8c9a2cc5 ("hung_task: allow printing warnings every check interval")
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v1:
-- Added Fixes tag
-- Sent to Andrew as the commit that generates the warning comes
-from his tree (Jonathan)
-
- Documentation/admin-guide/sysctl/kernel.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 2e36620ec1e4..8af424dd0364 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
- 
- 
- hung_task_interval_warnings:
--===================
-+============================
- 
- The same as hung_task_warnings, but set the number of interval
- warnings to be issued about detected hung tasks during check
--- 
-2.17.1
-
+Thanks,
