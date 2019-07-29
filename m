@@ -3,112 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71BEE7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 07:22:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 745D07D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 09:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfG2HW1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Jul 2019 03:22:27 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3229 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725917AbfG2HW1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Jul 2019 03:22:27 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 75FAC6D82EC4BAD96A58;
-        Mon, 29 Jul 2019 15:22:24 +0800 (CST)
-Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
- (10.3.19.207) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 29 Jul
- 2019 15:22:22 +0800
-Subject: Re: [f2fs-dev] [PATCH v4 3/3] f2fs: Support case-insensitive file
- name lookups
-To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
-CC:     Daniel Rosenberg <drosen@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        <linux-doc@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <kernel-team@android.com>
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
- <9362e4ed-2be8-39f5-b4d9-9c86e37ab993@kernel.org>
- <20190729062735.GA98839@jaegeuk-macbookpro.roam.corp.google.com>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <fa07a09d-92c9-4e0b-7c2b-e87771273dce@huawei.com>
-Date:   Mon, 29 Jul 2019 15:22:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726220AbfG2JuO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Jul 2019 05:50:14 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46869 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726167AbfG2JuN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jul 2019 05:50:13 -0400
+Received: by mail-wr1-f67.google.com with SMTP id z1so61064824wru.13;
+        Mon, 29 Jul 2019 02:50:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ybJ7P05K53NX7FKc/5oYAFDyVwoukuxNSWJd3L/Xwdo=;
+        b=Z03/+5Sty5w8S9pmwS1pjVOvaits+8IcnlnVX8jWUElzugjZNrgSm2sEQgt6K1XSUF
+         wbHz2q6oQBb9k74+v6Mq1MBH7K075SVqTgMnZes1c1z1FC27AUrGvMMePZwHWRyxnZaL
+         DmKf+uVxNp6GIaNGbhK2QF1CPM/ULw8f6ug9PEfNxgPaLVxIWdF3bFqCCuV1LiwQyjCH
+         t2CgbZtD58faimjQ9/2bodIej8QwYrHlur89gA/fYUxaNzGMa2U5tIJq/lcy3EQaHPPT
+         aUpc5Z0IWanf+5dlYdjvNHxBCBn5G0gVnXH90YrBt4+RwZFolwxpzCaM0tJKTRouatqC
+         jy/Q==
+X-Gm-Message-State: APjAAAUqYfAi9mrwc+c0g1453qg54aRDmOniAzgbSceaaVytP+tY5j9G
+        NUh9GnGxzVCWj5Tmb2XtryfpTJ/MCS4GR5vQ70s=
+X-Google-Smtp-Source: APXvYqydWdciQhxcH+vguMadU3e/QMGpFs8E7ayB0642ju9nV7ioyOwZXklB1RPcn6w20A+8P+fjCDuTdw6IfWso4Cg=
+X-Received: by 2002:a5d:630c:: with SMTP id i12mr31548467wru.312.1564393811759;
+ Mon, 29 Jul 2019 02:50:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190729062735.GA98839@jaegeuk-macbookpro.roam.corp.google.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.134.22.195]
-X-CFilter-Loop: Reflected
+References: <cover.1561723979.git.mchehab+samsung@kernel.org>
+In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 29 Jul 2019 11:50:00 +0200
+Message-ID: <CAMuHMdVRaaU-r48uhLH6-KH8yYnCSY8X_XJLuPuUTWGuy4_82g@mail.gmail.com>
+Subject: Re: [PATCH 00/43] Convert doc files to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/7/29 14:27, Jaegeuk Kim wrote:
-> On 07/28, Chao Yu wrote:
->> On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
->>>  /* Flags that are appropriate for regular files (all but dir-specific ones). */
->>>  #define F2FS_REG_FLMASK		(~(F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL))
->>
->> We missed to add F2FS_CASEFOLD_FL here to exclude it in F2FS_REG_FLMASK.
-> 
-> Applied.
-> 
->>
->>> @@ -1660,7 +1660,16 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
->>>  		return -EPERM;
->>>  
->>>  	oldflags = fi->i_flags;
->>> +	if ((iflags ^ oldflags) & F2FS_CASEFOLD_FL) {
->>> +		if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
->>> +			return -EOPNOTSUPP;
->>> +
->>> +		if (!S_ISDIR(inode->i_mode))
->>> +			return -ENOTDIR;
->>>  
->>> +		if (!f2fs_empty_dir(inode))
->>> +			return -ENOTEMPTY;
->>> +	}
-> 
-> Modified like this:
-> @@ -1665,6 +1665,13 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
->         if (IS_NOQUOTA(inode))
->                 return -EPERM;
-> 
-> +       if ((iflags ^ fi->i_flags) & F2FS_CASEFOLD_FL) {
-> +               if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
-> +                       return -EOPNOTSUPP;
-> +               if (!f2fs_empty_dir(inode))
-> +                       return -ENOTEMPTY;
-> +       }
-> +
-> 
-> Note that, directory is checked by above change.
-> 
-> I've uploaded in f2fs.git, so could you check it out and test a bit?
+Hi Mauro,
 
-I've checked it out, it looks good to me now, and later I will test this new
-version.
+On Fri, Jun 28, 2019 at 2:25 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> This patchset contains the patches that weren't merged yet from
+> part 2 and 3 of the previous ReST conversion patchset.
+>
+> This is based aganst linux-next (next-20190627), so they may not
+> apply cleanly at docs-next.
+>
+> It does contain file renames, but, except for a few exceptions, the files
+> are kept where they are.
+>
+> The first patches on this series were agreed to be merged via subsystem's
+> tree, but, as they didn't appear at -next, I'm recending as a gentile
+> ping.
 
-Reviewed-by: Chao Yu <yuchao0@huawei.com>
+[...]
 
-Thanks,
+>  .../arm/{SH-Mobile => sh-mobile}/.gitignore   |    0
 
-> 
-> Thanks,
-> 
->>
->> I applied the patches based on last Jaegeuk's dev branch, it seems we needs to
->> adjust above code a bit. Otherwise it looks good to me.
->>
->> BTW, it looks the patchset works fine with generic/556 testcase.
->>
->> Thanks,
-> .
-> 
+I guess that should have been "shmobile^H^H^H^H^H^H^H^Hrenesas",
+for consistency with modern naming?
+For whatever it's worth keeping empty subdirectories, of course,
+containing just an obsolete .gitignore file...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
