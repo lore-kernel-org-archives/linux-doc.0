@@ -1,90 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 745D07D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 09:50:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CA407D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 10:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbfG2JuO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Jul 2019 05:50:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46869 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfG2JuN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jul 2019 05:50:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z1so61064824wru.13;
-        Mon, 29 Jul 2019 02:50:12 -0700 (PDT)
+        id S2387479AbfG2KyR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Jul 2019 06:54:17 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:40566 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387444AbfG2KyR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jul 2019 06:54:17 -0400
+Received: by mail-io1-f66.google.com with SMTP id h6so32360405iom.7;
+        Mon, 29 Jul 2019 03:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q8iqs/lSQVwY/t+gDmVcPAuTj0Q+h2kk0gSLp1nf66E=;
+        b=en4fjHFHPiZuiYjLWFL5ihDQesbUNCfuRyhmaj91oj/ylqOLhTIflQnMpSYDZpyze6
+         7SJw3muzq4JdL/XpnXYEKkq58Wvh6xqiP28d4FQZfu+M3qTyIVIXvWoWbp2kfCI+6wjf
+         o/se6EME6KkyfIV0yXstoyQWfyd/RGTiJn9JbKnSkE/zNQgtEw+rTM7xJZ6SvUoZBokJ
+         DHzNUz8qhk1KvlWrlHR7eG1J7kBVJjsT8otTC9WxefpOcUncZb9KlVTo0N2jm3HDh9eA
+         SKnFC8B/kch8YM03AUMNFCQxHD8v/652YuKLb6xhIowtkBSsDmPlwLygREHySRiK0lbG
+         sWjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ybJ7P05K53NX7FKc/5oYAFDyVwoukuxNSWJd3L/Xwdo=;
-        b=Z03/+5Sty5w8S9pmwS1pjVOvaits+8IcnlnVX8jWUElzugjZNrgSm2sEQgt6K1XSUF
-         wbHz2q6oQBb9k74+v6Mq1MBH7K075SVqTgMnZes1c1z1FC27AUrGvMMePZwHWRyxnZaL
-         DmKf+uVxNp6GIaNGbhK2QF1CPM/ULw8f6ug9PEfNxgPaLVxIWdF3bFqCCuV1LiwQyjCH
-         t2CgbZtD58faimjQ9/2bodIej8QwYrHlur89gA/fYUxaNzGMa2U5tIJq/lcy3EQaHPPT
-         aUpc5Z0IWanf+5dlYdjvNHxBCBn5G0gVnXH90YrBt4+RwZFolwxpzCaM0tJKTRouatqC
-         jy/Q==
-X-Gm-Message-State: APjAAAUqYfAi9mrwc+c0g1453qg54aRDmOniAzgbSceaaVytP+tY5j9G
-        NUh9GnGxzVCWj5Tmb2XtryfpTJ/MCS4GR5vQ70s=
-X-Google-Smtp-Source: APXvYqydWdciQhxcH+vguMadU3e/QMGpFs8E7ayB0642ju9nV7ioyOwZXklB1RPcn6w20A+8P+fjCDuTdw6IfWso4Cg=
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr31548467wru.312.1564393811759;
- Mon, 29 Jul 2019 02:50:11 -0700 (PDT)
+        bh=Q8iqs/lSQVwY/t+gDmVcPAuTj0Q+h2kk0gSLp1nf66E=;
+        b=KLkQ0Xe0S5kqF6yOty0ogosZX0pNU94kjdxdRp9jWt4h3zBcRaLIh+XfS986EKbzOo
+         s/+iyN9q8gVSsCM4FpNFUk/vLRt3KmXaUu+KPCxV6muofMYdXOaHOeXw96NvPXvboCxg
+         y9WOQIv365Qy4QWo8DKaJP9JJ8o6NJXoVkI9h8e1O0oPp6QRXs2P0RAW9ckF9m+Uu/g2
+         b+Y0KBSBZKehhuv53BvYEcyWwDFZi8GwIqdxHDXPiFI4OHemlmnU4IxOx2XXuZiDM09M
+         4HMSPvT+vgi5tZg+GG05lcw+WbdJnVF7Xs0rZ+R9UnagHiXySxnmFlqFHAsKC+JO2558
+         vr1Q==
+X-Gm-Message-State: APjAAAV+chULOOO/VA/ynZx4lN+GseJFSdcoLZHD9WFiVqRlTQSAUaUa
+        nNH4Md1jgfAbDr06qGE389L8F8N+BLhKMiZ1v5M=
+X-Google-Smtp-Source: APXvYqwKkT5tIBwNGEgYfklsdvr8XCZxuj7SbGRVLa0scIYwQBhSGytpuWUJXX4Z168xOQFckbEIol4rJPZmst9FA7c=
+X-Received: by 2002:a5e:c241:: with SMTP id w1mr94473273iop.58.1564397656857;
+ Mon, 29 Jul 2019 03:54:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1561723979.git.mchehab+samsung@kernel.org>
-In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 11:50:00 +0200
-Message-ID: <CAMuHMdVRaaU-r48uhLH6-KH8yYnCSY8X_XJLuPuUTWGuy4_82g@mail.gmail.com>
-Subject: Re: [PATCH 00/43] Convert doc files to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+In-Reply-To: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Mon, 29 Jul 2019 16:24:05 +0530
+Message-ID: <CAKTKpr5kmG3k4b85Zf05Q9xXpxMNZJyzWN7RXqZdteYUdMkc6g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Add CCPI2 PMU support
+To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>,
+        "will@kernel.org" <will@kernel.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Hi Will,
 
-On Fri, Jun 28, 2019 at 2:25 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
+Any comments to this patchset?
+
+On Tue, Jul 23, 2019 at 2:46 PM Ganapatrao Kulkarni
+<gkulkarni@marvell.com> wrote:
 >
-> This patchset contains the patches that weren't merged yet from
-> part 2 and 3 of the previous ReST conversion patchset.
+> Add Cavium Coherent Processor Interconnect (CCPI2) PMU
+> support in ThunderX2 Uncore driver.
 >
-> This is based aganst linux-next (next-20190627), so they may not
-> apply cleanly at docs-next.
+> v3: Rebased to 5.3-rc1
 >
-> It does contain file renames, but, except for a few exceptions, the files
-> are kept where they are.
+> v2: Updated with review comments [1]
 >
-> The first patches on this series were agreed to be merged via subsystem's
-> tree, but, as they didn't appear at -next, I'm recending as a gentile
-> ping.
+> [1] https://lkml.org/lkml/2019/6/14/965
+>
+> v1: initial patch
+>
+> Ganapatrao Kulkarni (2):
+>   Documentation: perf: Update documentation for ThunderX2 PMU uncore
+>     driver
+>   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
+>
+>  .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
+>  drivers/perf/thunderx2_pmu.c                  | 248 +++++++++++++++---
+>  2 files changed, 225 insertions(+), 43 deletions(-)
+>
+> --
+> 2.17.1
+>
 
-[...]
-
->  .../arm/{SH-Mobile => sh-mobile}/.gitignore   |    0
-
-I guess that should have been "shmobile^H^H^H^H^H^H^H^Hrenesas",
-for consistency with modern naming?
-For whatever it's worth keeping empty subdirectories, of course,
-containing just an obsolete .gitignore file...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Ganapat
