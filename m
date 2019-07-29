@@ -1,204 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D2C57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 07:09:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71BEE7D91B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 07:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfG2HJK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Jul 2019 03:09:10 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:42252 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726238AbfG2HJK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jul 2019 03:09:10 -0400
-Received: by mail-io1-f65.google.com with SMTP id e20so87353653iob.9
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2019 00:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VUdf5YnKpAJwylxl/ycwhJ4KC3kGMhohvJ8eC68Wkak=;
-        b=dW1tFk4jEtVlXfgeb3SHVVbL78P7kmDnXs/6cBlP5NoogRImJw72mLK3rJ50mB13Tz
-         75I84NhCw7Rufe6pGZLxmDGJXZvDT9AImVTyTLIBueDJb1Fsx5/IbxpYrEssvWsPbsLS
-         zNF6DsHTnfgab8E7fzAMT5mi1LbNAvs/N4MbtfUzIdhck8gSe5U+IhTR2uuAwWYhFbx8
-         z3nz7LYMoUlxDoPZa4+M9ksh+KmF4Yat5qslLoRA71UyibFTXRIDVZPHgUZ0gYGnSA0B
-         xUpSWYdlvQKAlZDVsBwuVah0jG6Ot6RsJLbpnUe4TH4RWbMxydx7X4qYTkOf6omvvijg
-         Nj+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VUdf5YnKpAJwylxl/ycwhJ4KC3kGMhohvJ8eC68Wkak=;
-        b=Ceo7W3p1CTSePiWQ0Mznc+Spy1h+x/ERypYfsmPpFuH/xP8VMTW8Tq7QCnfpEgJQqu
-         pRlnvOjY9rYQJrZgBsG2V9orG5LLKZLQBEzvz9YgjnrS077/u1RVf001GcTXQDKsDVBB
-         CotChmeVIFoDG7FmAGM99+evgdBgDWqk0RTTnqRWLPEC45cUC4iuVG3Lm8/c086lRYjV
-         hKUq2qsScuvQsOrgLrcmOpnxq4ublHypeR2nKWpGvs9mJHK5vI3uVyPjSgQXSz2hiOY5
-         fWuNfTfwa1Z0qZavQdHGeZMP19sV3dmmO8UGNB4d0FoP2DyLwD57OkZ6YcF/UwyiF5Jb
-         eIvA==
-X-Gm-Message-State: APjAAAURE2Ih/8Ad6AYwfXS6HHG1544hcUEyqEaW8rz5LDOm7UQH2od4
-        a9dUiahdwWrca8chKjCKYxkHPrJ/NPaRgN3zBxMWgA==
-X-Google-Smtp-Source: APXvYqxfyLRG2NB8NA6t2hptMHKLx1/S6kETRqPNP50e41r75/fCTH+7913CQDbpvLvodTcgaUntXV0H/NiJXLo2GsY=
-X-Received: by 2002:a6b:c9d8:: with SMTP id z207mr96480501iof.184.1564384149745;
- Mon, 29 Jul 2019 00:09:09 -0700 (PDT)
+        id S1726508AbfG2HW1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Jul 2019 03:22:27 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3229 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725917AbfG2HW1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Jul 2019 03:22:27 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 75FAC6D82EC4BAD96A58;
+        Mon, 29 Jul 2019 15:22:24 +0800 (CST)
+Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 29 Jul
+ 2019 15:22:22 +0800
+Subject: Re: [f2fs-dev] [PATCH v4 3/3] f2fs: Support case-insensitive file
+ name lookups
+To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
+CC:     Daniel Rosenberg <drosen@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        <linux-doc@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <kernel-team@android.com>
+References: <20190723230529.251659-1-drosen@google.com>
+ <20190723230529.251659-4-drosen@google.com>
+ <9362e4ed-2be8-39f5-b4d9-9c86e37ab993@kernel.org>
+ <20190729062735.GA98839@jaegeuk-macbookpro.roam.corp.google.com>
+From:   Chao Yu <yuchao0@huawei.com>
+Message-ID: <fa07a09d-92c9-4e0b-7c2b-e87771273dce@huawei.com>
+Date:   Mon, 29 Jul 2019 15:22:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
- <1560421833-27414-4-git-send-email-sumit.garg@linaro.org> <20190708153908.GA28253@jax>
- <CAFA6WYNzs=RErreWaa5BmF-P03Vf9nzQjvY_JpMckw87k9z12w@mail.gmail.com>
- <20190709070354.GA5791@jax> <CAFA6WYPHVXbsOjzGVT1WWziMRKmWns=3YkD6_j+C1OJxTUbDmw@mail.gmail.com>
-In-Reply-To: <CAFA6WYPHVXbsOjzGVT1WWziMRKmWns=3YkD6_j+C1OJxTUbDmw@mail.gmail.com>
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-Date:   Mon, 29 Jul 2019 09:08:58 +0200
-Message-ID: <CAHUa44GBt-8Z8ZniTraJYHgFVEUgMTjTJLEden3m2jhhY9qc-w@mail.gmail.com>
-Subject: Re: [RFC 3/7] tee: add private login method for kernel clients
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, dhowells@redhat.com,
-        jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, jmorris@namei.org,
-        serge@hallyn.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190729062735.GA98839@jaegeuk-macbookpro.roam.corp.google.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.134.22.195]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sumit,
+On 2019/7/29 14:27, Jaegeuk Kim wrote:
+> On 07/28, Chao Yu wrote:
+>> On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
+>>>  /* Flags that are appropriate for regular files (all but dir-specific ones). */
+>>>  #define F2FS_REG_FLMASK		(~(F2FS_DIRSYNC_FL | F2FS_PROJINHERIT_FL))
+>>
+>> We missed to add F2FS_CASEFOLD_FL here to exclude it in F2FS_REG_FLMASK.
+> 
+> Applied.
+> 
+>>
+>>> @@ -1660,7 +1660,16 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
+>>>  		return -EPERM;
+>>>  
+>>>  	oldflags = fi->i_flags;
+>>> +	if ((iflags ^ oldflags) & F2FS_CASEFOLD_FL) {
+>>> +		if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
+>>> +			return -EOPNOTSUPP;
+>>> +
+>>> +		if (!S_ISDIR(inode->i_mode))
+>>> +			return -ENOTDIR;
+>>>  
+>>> +		if (!f2fs_empty_dir(inode))
+>>> +			return -ENOTEMPTY;
+>>> +	}
+> 
+> Modified like this:
+> @@ -1665,6 +1665,13 @@ static int f2fs_setflags_common(struct inode *inode, u32 iflags, u32 mask)
+>         if (IS_NOQUOTA(inode))
+>                 return -EPERM;
+> 
+> +       if ((iflags ^ fi->i_flags) & F2FS_CASEFOLD_FL) {
+> +               if (!f2fs_sb_has_casefold(F2FS_I_SB(inode)))
+> +                       return -EOPNOTSUPP;
+> +               if (!f2fs_empty_dir(inode))
+> +                       return -ENOTEMPTY;
+> +       }
+> +
+> 
+> Note that, directory is checked by above change.
+> 
+> I've uploaded in f2fs.git, so could you check it out and test a bit?
 
-On Tue, Jul 9, 2019 at 11:36 AM Sumit Garg <sumit.garg@linaro.org> wrote:
->
-> On Tue, 9 Jul 2019 at 12:33, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> >
-> > On Tue, Jul 09, 2019 at 11:26:19AM +0530, Sumit Garg wrote:
-> > > Thanks Jens for your comments.
-> > >
-> > > On Mon, 8 Jul 2019 at 21:09, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > > >
-> > > > Hi Sumit,
-> > > >
-> > > > On Thu, Jun 13, 2019 at 04:00:29PM +0530, Sumit Garg wrote:
-> > > > > There are use-cases where user-space shouldn't be allowed to communicate
-> > > > > directly with a TEE device which is dedicated to provide a specific
-> > > > > service for a kernel client. So add a private login method for kernel
-> > > > > clients and disallow user-space to open-session using this login method.
-> > > > >
-> > > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > > > > ---
-> > > > >  drivers/tee/tee_core.c   | 6 ++++++
-> > > > >  include/uapi/linux/tee.h | 2 ++
-> > > > >  2 files changed, 8 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > > > > index 0f16d9f..4581bd1 100644
-> > > > > --- a/drivers/tee/tee_core.c
-> > > > > +++ b/drivers/tee/tee_core.c
-> > > > > @@ -334,6 +334,12 @@ static int tee_ioctl_open_session(struct tee_context *ctx,
-> > > > >                       goto out;
-> > > > >       }
-> > > > >
-> > > > > +     if (arg.clnt_login == TEE_IOCTL_LOGIN_REE_KERNEL) {
-> > > > TEE_IOCTL_LOGIN_REE_KERNEL is defined as 0x80000000 which is in the
-> > > > range specified and implementation defined by the GP spec. I wonder if
-> > > > we shouldn't filter the entire implementation defined range instead of
-> > > > just this value.
-> > >
-> > > Agree. Will rather check for entire implementation defined range:
-> > > 0x80000000 - 0xFFFFFFFF.
-> > >
->
-> I had a second thought on this. It would be more restrictive for
-> user-space TEE client library which may need to use implementation
-> defined login method. So either we could define specific ranges for
-> kernel and user-space or we can start with single login method
-> reserved for kernel.
+I've checked it out, it looks good to me now, and later I will test this new
+version.
 
-I think we should reserve a range for kernel internal use. Only
-reserving a single single login for kernel could force us to restrict
-the API once more later, better to take a chunk now and be done with
-it. Half of 0x80000000 - 0xFFFFFFFF is probably more than enough too
-to leave a range for user space too.
-
->
-> > > >
-> > > > > +             pr_err("login method not allowed for user-space client\n");
-> > > > pr_debug(), if it's needed at all.
-> > > >
-> > >
-> > > Ok will use pr_debug() instead.
-> > >
-> > > > > +             rc = -EPERM;
-> > > > > +             goto out;
-> > > > > +     }
-> > > > > +
-> > > > >       rc = ctx->teedev->desc->ops->open_session(ctx, &arg, params);
-> > > > >       if (rc)
-> > > > >               goto out;
-> > > > > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > > > > index 4b9eb06..f33c69c 100644
-> > > > > --- a/include/uapi/linux/tee.h
-> > > > > +++ b/include/uapi/linux/tee.h
-> > > > > @@ -172,6 +172,8 @@ struct tee_ioctl_buf_data {
-> > > > >  #define TEE_IOCTL_LOGIN_APPLICATION          4
-> > > > >  #define TEE_IOCTL_LOGIN_USER_APPLICATION     5
-> > > > >  #define TEE_IOCTL_LOGIN_GROUP_APPLICATION    6
-> > > > > +/* Private login method for REE kernel clients */
-> > > > It's worth noting that this is filtered by the TEE framework, compared
-> > > > to everything else which is treated opaquely.
-> > > >
-> > >
-> > > IIUC, you are referring to login filter in optee_os. Change to prevent
-> > > filter for this login method is part of this PR [1].
-> > >
-> > > [1] https://github.com/OP-TEE/optee_os/pull/3082
-> >
-> > No, I was referring to the changes in tee_ioctl_open_session() above.
-> > It's relevant for user space to know since it will be prevented from
-> > using that range of login identifiers.
->
-> Ok, so you mean to extend the comment here for user-space to know that
-> this login method/range is filtered by the TEE framework. Will do
-> that.
->
-> > This will restrict the user space
-> > API, but I think the risk of breakage is minimal as OP-TEE is the only
-> > in-tree driver registering in the TEE framework. I'm not aware of any
-> > out-of-tree drivers registering.
->
-> I am not sure if I follow you here. How do you expect this change to
-> break out-of-tree TEE driver registration?
-
-It's a change in common code that put restrictions on the API.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
 Thanks,
-Jens
 
-
->
-> -Sumit
->
-> >
-> > Thanks,
-> > Jens
-> >
-> > >
-> > > -Sumit
-> > >
-> > > > > +#define TEE_IOCTL_LOGIN_REE_KERNEL           0x80000000
-> > > > >
-> > > > >  /**
-> > > > >   * struct tee_ioctl_param - parameter
-> > > > > --
-> > > > > 2.7.4
-> > > > >
-> > > >
-> > > > Thanks,
-> > > > Jens
+> 
+> Thanks,
+> 
+>>
+>> I applied the patches based on last Jaegeuk's dev branch, it seems we needs to
+>> adjust above code a bit. Otherwise it looks good to me.
+>>
+>> BTW, it looks the patchset works fine with generic/556 testcase.
+>>
+>> Thanks,
+> .
+> 
