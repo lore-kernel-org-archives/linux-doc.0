@@ -1,142 +1,323 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF1D27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 21:59:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D79F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 22:11:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbfG2V7V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Jul 2019 17:59:21 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:29794 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730602AbfG2V7V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Jul 2019 17:59:21 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 2221C5B5;
-        Mon, 29 Jul 2019 23:59:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1564437558; x=1566251959;
-         bh=gmrks1gL8rsotA022rT28bK42uNcWkGQHEPJY39U71w=; b=WBSjQ597086J
-        LZMCKHP/8Pwv73dnSnLFg177Cs/8lH6bQ3/j7n25tVkEf1QZeuDWZ5kTbK1lUS90
-        R1ZUgIQW996FjzCadA6aOM3wXtTYar0C6pE5YecvwsUzOLn8Jkx3Fh9AR+hRQtNM
-        y3+KqSa+XsdiDyv9N4BFQcZduillxAtRCm4X8y4P1GANKrBnnbXP9KDYZ50M51cF
-        5ea0TxZxYBpKXb3j7L96qYYLm/J7+85gle8VJpjkwcVHY5VKXbzEtclrhFA55am/
-        Ea4BE9hUs7WQ1lpKvq7RxBFLnLzy+43wFVU9S6Ou6j9Tk1HD4ggYFGedHjhwGKP2
-        nju7MCwtKCzxd6Y/Bz0oHRi2hehqiaoiY20j8EUidTyNVSZpW6qZ+8+VclY7wL6l
-        aG+Nib9G37L09U0XHyTpF5xcTSoJq/zBagbeaUALPMAyx1JX0c+vjSNCQ97U80kN
-        KlsPD/Z/7ARr3+LRuYn+/U7gTJVs3Id78qL5mjm2ZBvzxJ2JCCOX4HhT9NDYMxJi
-        6mzZrWCSVSfSQvsXvx+uXcEUwpZguQQjkhDgOkBHIZEJfxexkndiI4vDkzmX7NnJ
-        vZTFBC/N4lvMSlNWBodj2hGht3UB7WRb4357GYRZoaxn6D0aNWYUWhbRqorTWjxZ
-        I6EBiJ4a5kMGmUiHrAL/IQ0GfomBLxU=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Wqn3w0dfto0H; Mon, 29 Jul 2019 23:59:18 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7413135F;
-        Mon, 29 Jul 2019 23:59:17 +0200 (CEST)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 52444B23;
-        Mon, 29 Jul 2019 23:59:16 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>
-Subject: [PATCH] doc:it_IT: align translation to mainline
-Date:   Mon, 29 Jul 2019 23:58:56 +0200
-Message-Id: <20190729215856.11128-1-federico.vaga@vaga.pv.it>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S2387826AbfG2WLR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Jul 2019 18:11:17 -0400
+Received: from mail-vs1-f74.google.com ([209.85.217.74]:35785 "EHLO
+        mail-vs1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387955AbfG2WLQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jul 2019 18:11:16 -0400
+Received: by mail-vs1-f74.google.com with SMTP id 66so11088040vsp.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2019 15:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=NxD4O+KzEnUKxoluKkGdRyWWGADjQlaizRCikFu4Ds0=;
+        b=GFTyGHtVXo3bQ5OuxGl2geLAib4zXp4rHi/HYDt58JMRWO7uwxX392XT7jJcyoNRR5
+         TkLMRXlg+3mS+14ajWWDD7NggxD9N8Pu9wQLEpeinMcNoIR5KilFOzj+wdecjCl8Z7RR
+         yyXIVfjJmY/zJk7tWjzk0qwpSm/RlG+Nx6/LnkKWiLIfquoqwxxwbEM4yRZ1Fmk2FwLh
+         RAVOjSIfMlHL7lfOvB2odrU1I1vk+tBhdK333VESWKBJS7qDjA40PT9EzB+R27WIcamT
+         zLmHcrdF7F908g/78/OWVSERJDSWUr50Lfg1lAP1M3eSbKYGBFQn1PxL7ZxvcenBgeh6
+         lsmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=NxD4O+KzEnUKxoluKkGdRyWWGADjQlaizRCikFu4Ds0=;
+        b=dcI3Rd0Twy4anh4RlnxYvlZAEYPVGCKKCt4trIFVQJrYQwxzDxABUqbSwucNNYpkOq
+         PiVBBst1DuZuBbU7kqUmq+C9eieDNXvOf5+6LWjvTWzKBOgV6QQvm6Ob9dtuZ+AozTmW
+         sEG7XLkxu6A9DuGTfTMAyQd3DiiAQZMVsU4X0sh1TK8EX6VcoL27UHW1HsgN1YTjSbJA
+         0/4kZN0QwDw5qc8DvjS0duWp2/Fz+YWF/1EmlKlBuyJESS1Ccp1jikfOMkbrreyRw+sq
+         tgefTQuvOiBUR10tgIJtbQroqKmT1DuaWGC873ollW2UFJgGzUhDXdAHDXcScr4Pv9mP
+         A9tQ==
+X-Gm-Message-State: APjAAAWQ2Bh/Tj3FqQh1FGF4GzKRngD0Fr9QUmLdo3+G52FFHVrdBZoE
+        jDllxqVW1ux7zz5zbtnCN3rqxf/E0mlNb6c=
+X-Google-Smtp-Source: APXvYqzBC/neNr+YmIwCQLod5ZcELAEhzbpaQVzlNoujlCRHhJxj1XG/G9RPa2VDUfuDSWK6SShT8QT9EqpmF/A=
+X-Received: by 2002:a1f:180a:: with SMTP id 10mr42495188vky.45.1564438275594;
+ Mon, 29 Jul 2019 15:11:15 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 15:10:57 -0700
+In-Reply-To: <20190729221101.228240-1-saravanak@google.com>
+Message-Id: <20190729221101.228240-4-saravanak@google.com>
+Mime-Version: 1.0
+References: <20190729221101.228240-1-saravanak@google.com>
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+Subject: [PATCH v8 3/7] of/platform: Add functional dependency link from DT bindings
+From:   Saravana Kannan <saravanak@google.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        David Collins <collinsd@codeaurora.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The patch translates the following patches in Italian:
+Add device-links after the devices are created (but before they are
+probed) by looking at common DT bindings like clocks and
+interconnects.
 
-1fb12b35e5ff kbuild: Raise the minimum required binutils version to 2.21
-9c3c0c204814 isdn: remove isdn4linux
+Automatically adding device-links for functional dependencies at the
+framework level provides the following benefits:
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+- Optimizes device probe order and avoids the useless work of
+  attempting probes of devices that will not probe successfully
+  (because their suppliers aren't present or haven't probed yet).
+
+  For example, in a commonly available mobile SoC, registering just
+  one consumer device's driver at an initcall level earlier than the
+  supplier device's driver causes 11 failed probe attempts before the
+  consumer device probes successfully. This was with a kernel with all
+  the drivers statically compiled in. This problem gets a lot worse if
+  all the drivers are loaded as modules without direct symbol
+  dependencies.
+
+- Supplier devices like clock providers, interconnect providers, etc
+  need to keep the resources they provide active and at a particular
+  state(s) during boot up even if their current set of consumers don't
+  request the resource to be active. This is because the rest of the
+  consumers might not have probed yet and turning off the resource
+  before all the consumers have probed could lead to a hang or
+  undesired user experience.
+
+  Some frameworks (Eg: regulator) handle this today by turning off
+  "unused" resources at late_initcall_sync and hoping all the devices
+  have probed by then. This is not a valid assumption for systems with
+  loadable modules. Other frameworks (Eg: clock) just don't handle
+  this due to the lack of a clear signal for when they can turn off
+  resources. This leads to downstream hacks to handle cases like this
+  that can easily be solved in the upstream kernel.
+
+  By linking devices before they are probed, we give suppliers a clear
+  count of the number of dependent consumers. Once all of the
+  consumers are active, the suppliers can turn off the unused
+  resources without making assumptions about the number of consumers.
+
+By default we just add device-links to track "driver presence" (probe
+succeeded) of the supplier device. If any other functionality provided
+by device-links are needed, it is left to the consumer/supplier
+devices to change the link when they probe.
+
+Signed-off-by: Saravana Kannan <saravanak@google.com>
 ---
- .../translations/it_IT/process/changes.rst    | 22 ++++---------------
- 1 file changed, 4 insertions(+), 18 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |   5 +
+ drivers/of/platform.c                         | 165 ++++++++++++++++++
+ 2 files changed, 170 insertions(+)
 
-diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
-index d0874327f301..94a6499742ac 100644
---- a/Documentation/translations/it_IT/process/changes.rst
-+++ b/Documentation/translations/it_IT/process/changes.rst
-@@ -26,16 +26,15 @@ Prima di pensare d'avere trovato un baco, aggiornate i seguenti programmi
- usando, il comando indicato dovrebbe dirvelo.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7ccd158b3894..dba3200d3516 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3170,6 +3170,11 @@
+ 			This can be set from sysctl after boot.
+ 			See Documentation/admin-guide/sysctl/vm.rst for details.
  
- Questa lista presume che abbiate già un kernel Linux funzionante.  In aggiunta,
--non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete un
--modem ISDN, per esempio, probabilmente non dovreste preoccuparvi di
--isdn4k-utils.
-+non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete una
-+PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
++	of_devlink	[KNL] Make device links from common DT bindings. Useful
++			for optimizing probe order and making sure resources
++			aren't turned off before the consumer devices have
++			probed.
++
+ 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
+ 			See Documentation/debugging-via-ohci1394.txt for more
+ 			info.
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index 7801e25e6895..4344419a26fc 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -508,6 +508,170 @@ int of_platform_default_populate(struct device_node *root,
+ }
+ EXPORT_SYMBOL_GPL(of_platform_default_populate);
  
- ====================== =================  ========================================
-         Programma       Versione minima       Comando per verificare la versione
- ====================== =================  ========================================
- GNU C                  4.6                gcc --version
- GNU make               3.81               make --version
--binutils               2.20               ld -v
-+binutils               2.21               ld -v
- flex                   2.5.35             flex --version
- bison                  2.0                bison --version
- util-linux             2.10o              fdformat --version
-@@ -49,7 +48,6 @@ btrfs-progs            0.18               btrfsck
- pcmciautils            004                pccardctl -V
- quota-tools            3.09               quota -V
- PPP                    2.4.0              pppd --version
--isdn4k-utils           3.1pre1            isdnctrl 2>&1|grep version
- nfs-utils              1.0.5              showmount --version
- procps                 3.2.0              ps --version
- oprofile               0.9                oprofiled --version
-@@ -81,10 +79,7 @@ Per compilare il kernel vi servirà GNU make 3.81 o successivo.
- Binutils
- --------
++bool of_link_is_valid(struct device_node *con, struct device_node *sup)
++{
++	of_node_get(sup);
++	/*
++	 * Don't allow linking a device node as a consumer of one of its
++	 * descendant nodes. By definition, a child node can't be a functional
++	 * dependency for the parent node.
++	 */
++	while (sup) {
++		if (sup == con) {
++			of_node_put(sup);
++			return false;
++		}
++		sup = of_get_next_parent(sup);
++	}
++	return true;
++}
++
++static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
++{
++	struct platform_device *sup_dev;
++	u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
++	int ret = 0;
++
++	/*
++	 * Since we are trying to create device links, we need to find
++	 * the actual device node that owns this supplier phandle.
++	 * Often times it's the same node, but sometimes it can be one
++	 * of the parents. So walk up the parent till you find a
++	 * device.
++	 */
++	while (sup_np && !of_find_property(sup_np, "compatible", NULL))
++		sup_np = of_get_next_parent(sup_np);
++	if (!sup_np)
++		return 0;
++
++	if (!of_link_is_valid(dev->of_node, sup_np)) {
++		of_node_put(sup_np);
++		return 0;
++	}
++	sup_dev = of_find_device_by_node(sup_np);
++	of_node_put(sup_np);
++	if (!sup_dev)
++		return -ENODEV;
++	if (!device_link_add(dev, &sup_dev->dev, dl_flags))
++		ret = -ENODEV;
++	put_device(&sup_dev->dev);
++	return ret;
++}
++
++static struct device_node *parse_prop_cells(struct device_node *np,
++					    const char *prop, int index,
++					    const char *binding,
++					    const char *cell)
++{
++	struct of_phandle_args sup_args;
++
++	/* Don't need to check property name for every index. */
++	if (!index && strcmp(prop, binding))
++		return NULL;
++
++	if (of_parse_phandle_with_args(np, binding, cell, index, &sup_args))
++		return NULL;
++
++	return sup_args.np;
++}
++
++static struct device_node *parse_clocks(struct device_node *np,
++					const char *prop, int index)
++{
++	return parse_prop_cells(np, prop, index, "clocks", "#clock-cells");
++}
++
++static struct device_node *parse_interconnects(struct device_node *np,
++					       const char *prop, int index)
++{
++	return parse_prop_cells(np, prop, index, "interconnects",
++				"#interconnect-cells");
++}
++
++static int strcmp_suffix(const char *str, const char *suffix)
++{
++	unsigned int len, suffix_len;
++
++	len = strlen(str);
++	suffix_len = strlen(suffix);
++	if (len <= suffix_len)
++		return -1;
++	return strcmp(str + len - suffix_len, suffix);
++}
++
++static struct device_node *parse_regulators(struct device_node *np,
++					    const char *prop, int index)
++{
++	if (index || strcmp_suffix(prop, "-supply"))
++		return NULL;
++
++	return of_parse_phandle(np, prop, 0);
++}
++
++/**
++ * struct supplier_bindings - Information for parsing supplier DT binding
++ *
++ * @parse_prop:		If the function cannot parse the property, return NULL.
++ *			Otherwise, return the phandle listed in the property
++ *			that corresponds to the index.
++ */
++struct supplier_bindings {
++	struct device_node *(*parse_prop)(struct device_node *np,
++					  const char *name, int index);
++};
++
++static const struct supplier_bindings bindings[] = {
++	{ .parse_prop = parse_clocks, },
++	{ .parse_prop = parse_interconnects, },
++	{ .parse_prop = parse_regulators, },
++	{ },
++};
++
++static bool of_link_property(struct device *dev, struct device_node *con_np,
++			     const char *prop)
++{
++	struct device_node *phandle;
++	struct supplier_bindings *s = bindings;
++	unsigned int i = 0;
++	bool done = true, matched = false;
++
++	while (!matched && s->parse_prop) {
++		while ((phandle = s->parse_prop(con_np, prop, i))) {
++			matched = true;
++			i++;
++			if (of_link_to_phandle(dev, phandle))
++				/*
++				 * Don't stop at the first failure. See
++				 * Documentation for bus_type.add_links for
++				 * more details.
++				 */
++				done = false;
++		}
++		s++;
++	}
++	return done ? 0 : -ENODEV;
++}
++
++static bool of_devlink;
++core_param(of_devlink, of_devlink, bool, 0);
++
++static int of_link_to_suppliers(struct device *dev)
++{
++	struct property *p;
++	bool done = true;
++
++	if (!of_devlink)
++		return 0;
++	if (unlikely(!dev->of_node))
++		return 0;
++
++	for_each_property_of_node(dev->of_node, p)
++		if (of_link_property(dev, dev->of_node, p->name))
++			done = false;
++
++	return done ? 0 : -ENODEV;
++}
++
+ #ifndef CONFIG_PPC
+ static const struct of_device_id reserved_mem_matches[] = {
+ 	{ .compatible = "qcom,rmtfs-mem" },
+@@ -523,6 +687,7 @@ static int __init of_platform_default_populate_init(void)
+ 	if (!of_have_populated_dt())
+ 		return -ENODEV;
  
--Il sistema di compilazione, dalla versione 4.13,  per la produzione dei passi
--intermedi, si è convertito all'uso di *thin archive* (`ar T`) piuttosto che
--all'uso del *linking* incrementale (`ld -r`). Questo richiede binutils 2.20 o
--successivo.
-+Per generare il kernel è necessario avere Binutils 2.21 o superiore.
- 
- pkg-config
- ----------
-@@ -286,11 +281,6 @@ col seguente comando::
- 
-   mknod /dev/ppp c 108 0
- 
--Isdn4k-utils
--------------
--
--Per via della modifica del campo per il numero di telefono, il pacchetto
--isdn4k-utils dev'essere ricompilato o (preferibilmente) aggiornato.
- 
- NFS-utils
- ---------
-@@ -456,10 +446,6 @@ PPP
- 
- - <ftp://ftp.samba.org/pub/ppp/>
- 
--Isdn4k-utils
--------------
--
--- <ftp://ftp.isdn4linux.de/pub/isdn4linux/utils/>
- 
- NFS-utils
- ---------
++	platform_bus_type.add_links = of_link_to_suppliers;
+ 	/*
+ 	 * Handle certain compatibles explicitly, since we don't want to create
+ 	 * platform_devices for every node in /reserved-memory with a
 -- 
-2.21.0
+2.22.0.709.g102302147b-goog
 
