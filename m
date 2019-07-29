@@ -5,59 +5,92 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 32B037D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 13:55:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7877B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Jul 2019 14:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbfG2Nz4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Jul 2019 09:55:56 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40434 "EHLO ms.lwn.net"
+        id S1727036AbfG2Ohk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Jul 2019 10:37:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58540 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726281AbfG2Nz4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Jul 2019 09:55:56 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726478AbfG2Ohk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Jul 2019 10:37:40 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1911355A;
-        Mon, 29 Jul 2019 13:55:55 +0000 (UTC)
-Date:   Mon, 29 Jul 2019 07:55:54 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Christoph Hellwig <hch@lst.de>, rkrcmar@redhat.com,
-        jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: move Documentation/virtual to
- Documentation/virt
-Message-ID: <20190729075554.46dfaaeb@lwn.net>
-In-Reply-To: <be4ba4a7-a21b-8c56-4517-8886a754ff55@redhat.com>
-References: <20190724072449.19599-1-hch@lst.de>
-        <b9baabbb-9e9b-47cf-f5a8-ea42ba1ddc25@redhat.com>
-        <20190724120005.31a990af@lwn.net>
-        <be4ba4a7-a21b-8c56-4517-8886a754ff55@redhat.com>
-Organization: LWN.net
+        by mx1.redhat.com (Postfix) with ESMTPS id 96013796EB;
+        Mon, 29 Jul 2019 14:37:39 +0000 (UTC)
+Received: from laptop.jcline.org (ovpn-125-161.rdu2.redhat.com [10.10.125.161])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6628460C4C;
+        Mon, 29 Jul 2019 14:37:39 +0000 (UTC)
+Received: from laptop.jcline.org.com (localhost [IPv6:::1])
+        by laptop.jcline.org (Postfix) with ESMTP id 71A4F7044064;
+        Mon, 29 Jul 2019 10:37:38 -0400 (EDT)
+From:   Jeremy Cline <jcline@redhat.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jeremy Cline <jcline@redhat.com>
+Subject: [PATCH v2] Documentation: gpio: fix function links in the HTML docs
+Date:   Mon, 29 Jul 2019 10:37:30 -0400
+Message-Id: <20190729143730.18660-1-jcline@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 29 Jul 2019 14:37:39 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 27 Jul 2019 00:10:32 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+The shorthand [_data] and [devm_] cause the HTML documentation to not
+link to the function documentation properly. This expands the references
+to the complete function names with the exception of
+devm_gpiochip_remove() which was dropped by commit 48207d7595d2 ("gpio:
+drop devm_gpiochip_remove()").
 
-> Does the userspace API
-> cover only syscall or perhaps sysfs interfaces?   There are more API
-> files (amd-memory-encryption.txt, cpuid.txt, halt-polling.txt msr.txt,
-> ppc-pv.txt, s390-diag.txt) but, with the exception of
-> amd-memory-encryption.txt and halt-polling.txt, they cover the
-> emulated-hardware interfaces that KVM provides to virtual machines.
+Signed-off-by: Jeremy Cline <jcline@redhat.com>
+---
+New in v2:
+  - Rebased onto v5.3-rc2
 
-The user-space API certainly goes beyond system calls.  For sysfs, I
-guess, the question would be whether a given knob is something that an
-application would use (userspace-api) or something that a sysadmin would
-want to tweak (admin-guide).
+ Documentation/driver-api/gpio/driver.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Thanks,
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index 921c71a3d683..906af220b164 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -69,9 +69,9 @@ driver code:
+ 
+ The code implementing a gpio_chip should support multiple instances of the
+ controller, preferably using the driver model. That code will configure each
+-gpio_chip and issue ``gpiochip_add[_data]()`` or ``devm_gpiochip_add_data()``.
+-Removing a GPIO controller should be rare; use ``[devm_]gpiochip_remove()``
+-when it is unavoidable.
++gpio_chip and issue gpiochip_add(), gpiochip_add_data(), or
++devm_gpiochip_add_data().  Removing a GPIO controller should be rare; use
++gpiochip_remove() when it is unavoidable.
+ 
+ Often a gpio_chip is part of an instance-specific structure with states not
+ exposed by the GPIO interfaces, such as addressing, power management, and more.
+@@ -418,11 +418,11 @@ symbol:
+ 
+ If there is a need to exclude certain GPIO lines from the IRQ domain handled by
+ these helpers, we can set .irq.need_valid_mask of the gpiochip before
+-``[devm_]gpiochip_add_data()`` is called. This allocates an .irq.valid_mask with as
+-many bits set as there are GPIO lines in the chip, each bit representing line
+-0..n-1. Drivers can exclude GPIO lines by clearing bits from this mask. The mask
+-must be filled in before gpiochip_irqchip_add() or gpiochip_irqchip_add_nested()
+-is called.
++devm_gpiochip_add_data() or gpiochip_add_data() is called. This allocates an
++.irq.valid_mask with as many bits set as there are GPIO lines in the chip, each
++bit representing line 0..n-1. Drivers can exclude GPIO lines by clearing bits
++from this mask. The mask must be filled in before gpiochip_irqchip_add() or
++gpiochip_irqchip_add_nested() is called.
+ 
+ To use the helpers please keep the following in mind:
+ 
+-- 
+2.21.0
 
-jon
