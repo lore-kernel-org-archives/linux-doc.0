@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 907F97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 15:52:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B698B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 15:52:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730803AbfG3Pwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 11:52:40 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42836 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731002AbfG3Pwk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 11:52:40 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so30045789pff.9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 08:52:40 -0700 (PDT)
+        id S1732683AbfG3Pwp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 11:52:45 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:33621 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732057AbfG3Pwo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 11:52:44 -0400
+Received: by mail-pg1-f193.google.com with SMTP id f20so21050010pgj.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 08:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=android.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RtTBSxKVGkXm5joRk17n+qSFBzsiaHvI4NuQZRyF/Fg=;
-        b=RAtHM/md668sWkFc+1tpmyHKAutDo90221bbOJHgQzdqiv2i8Qpgivpck0tm/vR2xx
-         AMtMtoCtb4vybHpgtEgX8CdC5v+KNmiFZTiH2GCFAAhBiPR8rHX5JWlAgUcXPjyHiLte
-         Cbl9BHaalOZmEcCJLLs/82N+YFfrcMV9PD1v13OFG0ooS5mGJ90iCwl50WQz9ZNaNM3y
-         UyQ+/R8yn7p2FXwN78kDjWVNHZanqrHwrneE4TFz1ircTL9AZ4O544XjlPCBzfy2Q1xx
-         PasayHDr9hJbEHp8gB5RoJeH/t9c0yftEx+5A25D56T7yHyA7AFtXBmkvF2Hp8x18oRH
-         GJcg==
+        bh=DxnrGcc7AvHyymca2iRUY2VmSq5SsDzU7A81wj1Q1kA=;
+        b=t8YLoxAiwt9jLs0ltmXYLe3szj3BRw96GfuO3Lx/RnRQ2Lz5lRMwbvQ2VV00AMt+Y+
+         +b5TktFWW0nxyXxUNu24uk/+b/3ZiiWNGYiVSmjYyhe5tVHDjRX4Y3ReyQlTmPnZvr58
+         Mtq+0muwjKy/QlbNwoxnzugtsxt6iulWLPv8vtEPnlEzgOfUHvNGS97UUntOy/XiHjAo
+         fTsKZC/4VkWCoIe0oSTpq7ar3Lr1J4xGcO6GaEn7hjzeXVkWY1rAO/1sPx2Jg7byTpHh
+         /0/N/9TKyXfV11rGD6zLSJIoXXKMWZHMuMjvr0hfkVGP3Jl5E/VbFEtJJdm9FjqChcht
+         kKbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RtTBSxKVGkXm5joRk17n+qSFBzsiaHvI4NuQZRyF/Fg=;
-        b=IfApLjIcaBFSlRjLUlZFpA5O6XnEL0NB4ruGUFM1xQGExfMVpz7rtMctgcl0MgepjP
-         pbjvLvLfm6Gm17Jd8ycUPc0n+XmQHLiKilw6QrAZN+8vI8RB2ISuvGR5fnJ8zRoqZeB3
-         6o5B4/abjCCYmpuKsnol5E+iYLjxzhOsK7U+FODLBHfa4yQ6qxnHfn4bEPHX0J+yensH
-         w1zQjKrL+1sJwcxLtZlo9nGvp9BXWK3xxdz/ce+gTa2wJCROKaRIls3OxhtMXkL+Jq2h
-         G/mv97KxKZ9gj5j+WjLMrkw+VpmiMYUbzpcaDcbhRMVjMCbyNeDlti/0NxHv8I2m5zK/
-         jb6w==
-X-Gm-Message-State: APjAAAX0sYQ2tG0CcNKYEl8/xiV0k55UZcvRuAKeBdqGmgsyNHbFZMj3
-        h6uvY4F3t1xhKrJ+r8+LviY=
-X-Google-Smtp-Source: APXvYqxAFfBtlg1l2w4yWmER2V4Yrtdm7GslobdW/IsitUtrmmRIm+xDh33YMdU7xsBgQFXk5teSzw==
-X-Received: by 2002:a65:4489:: with SMTP id l9mr112861883pgq.207.1564501959699;
-        Tue, 30 Jul 2019 08:52:39 -0700 (PDT)
+        bh=DxnrGcc7AvHyymca2iRUY2VmSq5SsDzU7A81wj1Q1kA=;
+        b=Ze1xwr2ZMmUrjnI+2PMkCDlwHwkc3I1HDydAcj1E3fJv45wn3GPRZZpZqvUQDSBN1Y
+         r/LYZOV3UIwv+Q/Imo0gQMcQiTOhnp4gFX++MsaTFb201nQOEazWBDmjc37YYBff6dzB
+         V6IwVCc/Ic44FJTBTs6kHCP0eAJtP44Y5O4hZ4GSh36uO9zxV93B9398U7WCwi9LRLtL
+         HEzAIGq/loH7gBq2XPRKpMff7HoRhV7TbW9gwp77kfiNiPDUN9yrFG2iLF/ihw9dZL1e
+         /gAy4YjO8S5WeFhcJuZQyuTYdLJ5fXJj7qQn6Sd+IKlbxcERYhdx0voXrQg7+ItP7fi+
+         LbYA==
+X-Gm-Message-State: APjAAAV7DIQQrDWrC92ze0Kwb4xXn4CLBkq7/dJ2Y3+9NYLm/7cmJCa6
+        d0FkwghJA0K30epyDSTkJZY=
+X-Google-Smtp-Source: APXvYqzjccGSoIbwh+qDMtePKn3NyCOzg8XVKEr0dLFzjciRcbnNV0p4LA9QlqryZRQ5bhT0e+rYvA==
+X-Received: by 2002:a63:b919:: with SMTP id z25mr108579853pge.201.1564501962876;
+        Tue, 30 Jul 2019 08:52:42 -0700 (PDT)
 Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.gmail.com with ESMTPSA id q1sm76758814pfg.84.2019.07.30.08.52.38
+        by smtp.gmail.com with ESMTPSA id q1sm76758814pfg.84.2019.07.30.08.52.41
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 30 Jul 2019 08:52:39 -0700 (PDT)
+        Tue, 30 Jul 2019 08:52:42 -0700 (PDT)
 From:   Mark Salyzyn <salyzyn@android.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
@@ -58,10 +58,14 @@ Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
         Amir Goldstein <amir73il@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Stephen Smalley <sds@tycho.nsa.gov>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v11 1/4] overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
-Date:   Tue, 30 Jul 2019 08:52:22 -0700
-Message-Id: <20190730155227.41468-2-salyzyn@android.com>
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v11 2/4] fs: __vfs_getxattr nesting paradigm
+Date:   Tue, 30 Jul 2019 08:52:23 -0700
+Message-Id: <20190730155227.41468-3-salyzyn@android.com>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
 In-Reply-To: <20190730155227.41468-1-salyzyn@android.com>
 References: <20190730155227.41468-1-salyzyn@android.com>
@@ -72,8 +76,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Assumption never checked, should fail if the mounter creds are not
-sufficient.
+Add a per-thread PF_NO_SECURITY flag that ensures that nested calls
+that result in vfs_getxattr do not fall under security framework
+scrutiny.  Use cases include selinux when acquiring the xattr data
+to evaluate security, and internal trusted xattr data soleley managed
+by the filesystem drivers.
+
+This handles the case of a union filesystem driver that is being
+requested by the security layer to report back the data that is the
+target label or context embedded into wrapped filesystem's xattr.
+
+For the use case where access is to be blocked by the security layer.
+
+The path then could be security(dentry) -> __vfs_getxattr(dentry) ->
+handler->get(dentry) -> __vfs_getxattr(lower_dentry) ->
+lower_handler->get(lower_dentry) which would report back through the
+chain data and success as expected, but the logging security layer at
+the top would have the data to determine the access permissions and
+report back the target context that was blocked.
+
+Without the nesting check, the path on a union filesystem would be
+the errant security(dentry) -> __vfs_getxattr(dentry) ->
+handler->get(dentry) -> vfs_getxattr(lower_dentry) -> *nested*
+security(lower_dentry, log off) -> lower_handler->get(lower_dentry)
+which would report back through the chain no data, and -EACCES.
+
+For selinux for both cases, this would translate to a correctly
+determined blocked access. In the first corrected case a correct avc
+log would be reported, in the second legacy case an incorrect avc log
+would be reported against an uninitialized u:object_r:unlabeled:s0
+context making the logs cosmetically useless for audit2allow.
 
 Signed-off-by: Mark Salyzyn <salyzyn@android.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>
@@ -88,42 +120,59 @@ Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Cc: kernel-team@android.com
 ---
-v11 - Rebase
-
-v10:
-- return NULL rather than ERR_PTR(-EPERM)
-- did _not_ add it ovl_can_decode_fh() because of changes since last
-  review, suspect needs to be added to ovl_lower_uuid_ok()?
-
-v8 + v9:
-- rebase
-
-v7:
-- This time for realz
-
-v6:
-- rebase
-
-v5:
-- dependency of "overlayfs: override_creds=off option bypass creator_cred"
+v11 - squish out v10 introduced patch 2 and 3 in the series,
+      then use per-thread flag instead for nesting.
 ---
- fs/overlayfs/namei.c | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/xattr.c            | 10 +++++++++-
+ include/linux/sched.h |  1 +
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-index e9717c2f7d45..9702f0d5309d 100644
---- a/fs/overlayfs/namei.c
-+++ b/fs/overlayfs/namei.c
-@@ -161,6 +161,9 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
- 	if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
- 		return NULL;
+diff --git a/fs/xattr.c b/fs/xattr.c
+index 90dd78f0eb27..46ebd5014e01 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -302,13 +302,19 @@ __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
+ 	       void *value, size_t size)
+ {
+ 	const struct xattr_handler *handler;
++	ssize_t ret;
++	unsigned int flags;
  
-+	if (!capable(CAP_DAC_READ_SEARCH))
-+		return NULL;
-+
- 	bytes = (fh->len - offsetof(struct ovl_fh, fid));
- 	real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
- 				  bytes >> 2, (int)fh->type,
+ 	handler = xattr_resolve_name(inode, &name);
+ 	if (IS_ERR(handler))
+ 		return PTR_ERR(handler);
+ 	if (!handler->get)
+ 		return -EOPNOTSUPP;
+-	return handler->get(handler, dentry, inode, name, value, size);
++	flags = current->flags;
++	current->flags |= PF_NO_SECURITY;
++	ret = handler->get(handler, dentry, inode, name, value, size);
++	current_restore_flags(flags, PF_NO_SECURITY);
++	return ret;
+ }
+ EXPORT_SYMBOL(__vfs_getxattr);
+ 
+@@ -318,6 +324,8 @@ vfs_getxattr(struct dentry *dentry, const char *name, void *value, size_t size)
+ 	struct inode *inode = dentry->d_inode;
+ 	int error;
+ 
++	if (unlikely(current->flags & PF_NO_SECURITY))
++		goto nolsm;
+ 	error = xattr_permission(inode, name, MAY_READ);
+ 	if (error)
+ 		return error;
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 8dc1811487f5..5cda3ff89d4e 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1468,6 +1468,7 @@ extern struct pid *cad_pid;
+ #define PF_NO_SETAFFINITY	0x04000000	/* Userland is not allowed to meddle with cpus_mask */
+ #define PF_MCE_EARLY		0x08000000      /* Early kill for mce process policy */
+ #define PF_MEMALLOC_NOCMA	0x10000000	/* All allocation request will have _GFP_MOVABLE cleared */
++#define PF_NO_SECURITY		0x20000000	/* nested security context */
+ #define PF_FREEZER_SKIP		0x40000000	/* Freezer should not count it as freezable */
+ #define PF_SUSPEND_TASK		0x80000000      /* This thread called freeze_processes() and should not be frozen */
+ 
 -- 
 2.22.0.770.g0f2c4a37fd-goog
 
