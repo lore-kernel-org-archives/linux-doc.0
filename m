@@ -1,353 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 825307D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 14:48:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7CF67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 15:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731582AbfG3OsY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 10:48:24 -0400
-Received: from foss.arm.com ([217.140.110.172]:33922 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731560AbfG3OsX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Jul 2019 10:48:23 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F245628;
-        Tue, 30 Jul 2019 07:48:22 -0700 (PDT)
-Received: from [10.1.194.48] (e123572-lin.cambridge.arm.com [10.1.194.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0551C3F694;
-        Tue, 30 Jul 2019 07:48:18 -0700 (PDT)
-Subject: Re: [PATCH v6 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.rst
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-References: <cover.1563904656.git.andreyknvl@google.com>
- <20190725135044.24381-1-vincenzo.frascino@arm.com>
- <20190725135044.24381-2-vincenzo.frascino@arm.com>
- <52fa2cfc-f7a6-af6f-0dc2-f9ea0e41ac3c@arm.com>
- <c45df19e-8f48-7f4e-3eae-ada54cb6f707@arm.com>
- <6eba1250-c0a2-0a51-c8c2-0e77e6241f29@arm.com>
- <fb2e7693-9fc9-da47-0c8d-a8367cf8060f@arm.com>
-From:   Kevin Brodsky <kevin.brodsky@arm.com>
-Message-ID: <bf068016-70ea-1624-a937-6278e9031343@arm.com>
-Date:   Tue, 30 Jul 2019 15:48:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1725974AbfG3Pwg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 11:52:36 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39978 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbfG3Pwf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 11:52:35 -0400
+Received: by mail-pg1-f193.google.com with SMTP id w10so30285940pgj.7
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 08:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5nROKYMlxUSQXPN0RUQKtMMM6F4C3uP2jlfRem/QuiY=;
+        b=Mj/6QwoEkcNtMeypMi+v/jC3QqdPjicd27n8XIW2v59C9n/47WcgoL0k3FKs1s8Clm
+         dQiNZTzApteVC/fO/B7/qW/9GmUHzZODlFq+KLGCLjpX/XGaVfk3Cy/dnYcAulRghZ1a
+         tPZ3sQAExYcWjPBC7JhInnR+lgljIV0LcHKsutbvMvHYy5La3SiAPht3ibz6W7ihbFK8
+         qNWe9Q7agHz0to/y/1LfjZU1hHoXd/YoANapZAQAyMX09PGv7TkLGjpdl1ruFrfEFZOV
+         t6gDcaQAIFtDUs4Ioc1BccSWNoC6cLi1nDZh8RaAwPtaMIwx2eJObkJkW/ByNJ1qNwAl
+         7J6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5nROKYMlxUSQXPN0RUQKtMMM6F4C3uP2jlfRem/QuiY=;
+        b=d7+OVvojl2Ehkw46EgringIxqG4GD28IIXCEeguvAGBgdl3dM2Z/g4xnAlUjLBQQG2
+         IRHihsC6reqVpETu1X9YedtfhLz2UHMGPMGDikwvKBC+9Y+hh7wt8qi6mBFakFIEQQgm
+         OknSm3KcK2pjC8hEqTZuE+WSdpbgwfUteYxDqbQD9uhW/Ay7rdO1ZW2K0dNfQaOvC1e2
+         gKsy8oYcaTcoPJtB7EPFOUuk/e0Fq3gSYg+y84NkrQ0Uifc2ShAvjVCbCre4m+BBhuZo
+         zZ+fbU/CHfSRlWgp4ECdz0ftL+w6iQehc3RbydwLeZS+cAyU65oWUkyJVNiInX0qI8P4
+         C6yQ==
+X-Gm-Message-State: APjAAAUbzfvAlqJvktgGsJpIW3dmGCkkOVgTCs+dImmha7jodA79qRzX
+        BxUNBKBnjdaF1lbYZ1ImVMI=
+X-Google-Smtp-Source: APXvYqyEmCTaVLfsMONuV6ABrTwjdCMUF6yVY+j8EXIWHssId7BHMydcV6xnYjJlijRKaGjiNrY/YQ==
+X-Received: by 2002:aa7:8b51:: with SMTP id i17mr43148183pfd.33.1564501954793;
+        Tue, 30 Jul 2019 08:52:34 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.gmail.com with ESMTPSA id q1sm76758814pfg.84.2019.07.30.08.52.33
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 30 Jul 2019 08:52:34 -0700 (PDT)
+From:   Mark Salyzyn <salyzyn@android.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v11 0/4] overlayfs override_creds=off
+Date:   Tue, 30 Jul 2019 08:52:21 -0700
+Message-Id: <20190730155227.41468-1-salyzyn@android.com>
+X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
 MIME-Version: 1.0
-In-Reply-To: <fb2e7693-9fc9-da47-0c8d-a8367cf8060f@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30/07/2019 15:24, Vincenzo Frascino wrote:
-> Hi Kevin,
->
-> On 7/30/19 2:57 PM, Kevin Brodsky wrote:
->> On 30/07/2019 14:25, Vincenzo Frascino wrote:
->>> Hi Kevin,
->>>
->>> On 7/30/19 11:32 AM, Kevin Brodsky wrote:
->>>> Some more comments. Mostly minor wording issues, except the prctl() exclusion at
->>>> the end.
->>>>
->>>> On 25/07/2019 14:50, Vincenzo Frascino wrote:
->>>>> On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
->>>>> the userspace (EL0) is allowed to set a non-zero value in the
->>>>> top byte but the resulting pointers are not allowed at the
->>>>> user-kernel syscall ABI boundary.
->>>>>
->>>>> With the relaxed ABI proposed through this document, it is now possible
->>>>> to pass tagged pointers to the syscalls, when these pointers are in
->>>>> memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
->>>>>
->>>>> This change in the ABI requires a mechanism to requires the userspace
->>>>> to opt-in to such an option.
->>>>>
->>>>> Specify and document the way in which sysctl and prctl() can be used
->>>>> in combination to allow the userspace to opt-in this feature.
->>>>>
->>>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
->>>>> Cc: Will Deacon <will.deacon@arm.com>
->>>>> CC: Andrey Konovalov <andreyknvl@google.com>
->>>>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
->>>>> Acked-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
->>>>> ---
->>>>>     Documentation/arm64/tagged-address-abi.rst | 148 +++++++++++++++++++++
->>>>>     1 file changed, 148 insertions(+)
->>>>>     create mode 100644 Documentation/arm64/tagged-address-abi.rst
->>>>>
->>>>> diff --git a/Documentation/arm64/tagged-address-abi.rst
->>>>> b/Documentation/arm64/tagged-address-abi.rst
->>>>> new file mode 100644
->>>>> index 000000000000..a8ecb991de82
->>>>> --- /dev/null
->>>>> +++ b/Documentation/arm64/tagged-address-abi.rst
->>>>> @@ -0,0 +1,148 @@
->>>>> +========================
->>>>> +ARM64 TAGGED ADDRESS ABI
->>>>> +========================
->>>>> +
->>>>> +Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
->>>>> +
->>>>> +Date: 25 July 2019
->>>>> +
->>>>> +This document describes the usage and semantics of the Tagged Address
->>>>> +ABI on arm64.
->>>>> +
->>>>> +1. Introduction
->>>>> +---------------
->>>>> +
->>>>> +On arm64 the TCR_EL1.TBI0 bit has always been enabled on the kernel, hence
->>>>> +the userspace (EL0) is entitled to perform a user memory access through a
->>>>> +64-bit pointer with a non-zero top byte but the resulting pointers are not
->>>>> +allowed at the user-kernel syscall ABI boundary.
->>>>> +
->>>>> +This document describes a relaxation of the ABI that makes it possible to
->>>>> +to pass tagged pointers to the syscalls, when these pointers are in memory
->>>> One too many "to" (at the end the previous line).
->>>>
->>> Yep will fix in v7.
->>>
->>>>> +ranges obtained as described in section 2.
->>>>> +
->>>>> +Since it is not desirable to relax the ABI to allow tagged user addresses
->>>>> +into the kernel indiscriminately, arm64 provides a new sysctl interface
->>>>> +(/proc/sys/abi/tagged_addr) that is used to prevent the applications from
->>>>> +enabling the relaxed ABI and a new prctl() interface that can be used to
->>>>> +enable or disable the relaxed ABI.
->>>>> +A detailed description of the newly introduced mechanisms will be provided
->>>>> +in section 2.
->>>>> +
->>>>> +2. ARM64 Tagged Address ABI
->>>>> +---------------------------
->>>>> +
->>>>> +From the kernel syscall interface perspective, we define, for the purposes
->>>>> +of this document, a "valid tagged pointer" as a pointer that either has a
->>>>> +zero value set in the top byte or has a non-zero value, is in memory ranges
->>>>> +privately owned by a userspace process and is obtained in one of the
->>>>> +following ways:
->>>>> +- mmap() done by the process itself, where either:
->>>>> +
->>>>> +  - flags have **MAP_PRIVATE** and **MAP_ANONYMOUS**
->>>>> +  - flags have **MAP_PRIVATE** and the file descriptor refers to a regular
->>>>> +    file or **/dev/zero**
->>>>> +
->>>>> +- brk() system call done by the process itself (i.e. the heap area between
->>>>> +  the initial location of the program break at process creation and its
->>>>> +  current location).
->>>>> +- any memory mapped by the kernel in the process's address space during
->>>>> +  creation and with the same restrictions as for mmap() (e.g. data, bss,
->>>>> +  stack).
->>>>> +
->>>>> +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
->>>>> +control it using the following:
->>>>> +
->>>>> +- **/proc/sys/abi/tagged_addr**: a new sysctl interface that can be used to
->>>>> +  prevent the applications from enabling the access to the relaxed ABI.
->>>>> +  The sysctl supports the following configuration options:
->>>>> +
->>>>> +  - **0**: Disable the access to the ARM64 Tagged Address ABI for all
->>>>> +    the applications.
->>>>> +  - **1** (Default): Enable the access to the ARM64 Tagged Address ABI for
->>>>> +    all the applications.
->>>>> +
->>>>> +   If the access to the ARM64 Tagged Address ABI is disabled at a certain
->>>>> +   point in time, all the applications that were using tagging before this
->>>>> +   event occurs, will continue to use tagging.
->>>> "tagging" may be misinterpreted here. I would be more explicit by saying that
->>>> the tagged address ABI remains enabled in processes that opted in before the
->>>> access got disabled.
->>>>
->>> Assuming that ARM64 Tagged Address ABI gives access to "tagging" and since it is
->>> what this document is talking about, I do not see how it can be misinterpreted ;)
->> "tagging" is a confusing term ("using tagging" even more so), it could be
->> interpreted as memory tagging (especially in the presence of MTE). This document
->> does not use "tagging" anywhere else, which is good. Let's stick to the same
->> name for the ABI throughout the document, repetition is less problematic than
->> vague wording.
->>
-> This document does not cover MTE, it covers the "ARM64 Tagged Address ABI" hence
-> "tagging" has a precise semantical meaning in this context. Still I do not see
-> how it can be confused.
->
->>>>> +- **prctl()s**:
->>>>> +
->>>>> +  - **PR_SET_TAGGED_ADDR_CTRL**: Invoked by a process, can be used to
->>>>> enable or
->>>>> +    disable its access to the ARM64 Tagged Address ABI.
->>>> I still find the wording confusing, because "access to the ABI" is not used
->>>> consistently. The "tagged_addr" sysctl enables *access to the ABI*, that's fine.
->>>> However, PR_SET_TAGGED_ADDR_CTRL enables *the ABI itself* (which is only
->>>> possible if access to the ABI is enabled).
->>>>
->>> As it stands, it enables or disables the ABI itself when used with
->>> PR_TAGGED_ADDR_ENABLE, or can enable other things in future. IMHO the only thing
->>> that these features have in common is the access to the ABI which is granted by
->>> this prctl().
->> I see your point, you could have other bits controlling other aspects. However,
->> I would really avoid saying that this prctl is used to enable or disable access
->> to the new ABI, because it isn't (either you have access to the new ABI and this
->> prctl can be used, or you don't and this prctl will fail).
->>
-> What is the system wide evidence that the access to the ABI is denied? Or what
-> is the system wide evidence that it is granted?
->
-> In other words, is it enough for a process to have the sysctl set (system wide)
-> to know that the the ABI is enabled and have granted access to it? or does it
-> need to do something else?
+Patch series:
 
-I think we really have a wording problem here, which is why this part of the document 
-and this discussion is confusing.
+overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
+fs: __vfs_getxattr nesting paradigm
+overlayfs: internal getxattr operations without sepolicy checking
+overlayfs: override_creds=off option bypass creator_cred
 
-tagged_addr=1 (system-wide) allows processes to enable the tagged address ABI by 
-calling prctl(PR_SET_TAGGED_ADDR_CTRL). It does not alter the state of any running 
-process, and does not enable the ABI by default for new processes either. Conversely, 
-when tagged_addr=0, that prctl() is always denied.
+The first three patches address fundamental security issues that should
+be solved regardless of the override_creds=off feature.
+on them).
 
-The current description of the sysctl and prctl does not make that clear. I think 
-that it would be much more obvious by reorganising that section as such:
-- prctl() first, the current wording is fine.
-- sysctl() second, described *only* in terms of the prctl() (denying 
-PR_SET_TAGGED_ADDR_CTRL or not), and nothing else, to avoid wording issues.
+The fourth adds the feature depends on these other fixes.
 
-It's certainly not the only way to do it, but that would be much clearer to me :)
+By default, all access to the upper, lower and work directories is the
+recorded mounter's MAC and DAC credentials.  The incoming accesses are
+checked against the caller's credentials.
 
-Kevin
+If the principles of least privilege are applied for sepolicy, the
+mounter's credentials might not overlap the credentials of the caller's
+when accessing the overlayfs filesystem.  For example, a file that a
+lower DAC privileged caller can execute, is MAC denied to the
+generally higher DAC privileged mounter, to prevent an attack vector.
 
->>>>> +
->>>>> +    The (unsigned int) arg2 argument is a bit mask describing the control mode
->>>>> +    used:
->>>>> +
->>>>> +    - **PR_TAGGED_ADDR_ENABLE**: Enable ARM64 Tagged Address ABI.
->>>>> +
->>>>> +    The prctl(PR_SET_TAGGED_ADDR_CTRL, ...) will return -EINVAL if the ARM64
->>>>> +    Tagged Address ABI is not available.
->>>> For clarity, it would be good to mention that one possible reason for the ABI
->>>> not to be available is tagged_addr == 0.
->>>>
->>> The logical implication is already quite clear tagged_addr == 0 (Disabled) =>
->>> Tagged Address ABI not available => return -EINVAL. I do not see the need to
->>> repeat the concept twice.
->>>
->>>>> +
->>>>> +    The arguments arg3, arg4, and arg5 are ignored.
->>>>> +  - **PR_GET_TAGGED_ADDR_CTRL**: can be used to check the status of the Tagged
->>>>> +    Address ABI.
->>>>> +
->>>>> +    The arguments arg2, arg3, arg4, and arg5 are ignored.
->>>>> +
->>>>> +The ABI properties set by the mechanisms described above are inherited by
->>>>> threads
->>>>> +of the same application and fork()'ed children but cleared by execve().
->>>>> +
->>>>> +When a process has successfully opted into the new ABI by invoking
->>>>> +PR_SET_TAGGED_ADDR_CTRL prctl(), this guarantees the following behaviours:
->>>>> +
->>>>> + - Every currently available syscall, except the cases mentioned in section
->>>>> 3, can
->>>>> +   accept any valid tagged pointer. The same rule is applicable to any syscall
->>>>> +   introduced in the future.
->>>> I thought Catalin wanted to drop this guarantee?
->>>>
->>> The guarantee is changed and explicitly includes the syscalls that can be added
->>> in the future. IMHO since we are defining an ABI, we cannot leave that topic in
->>> an uncharted territory, we need to address it.
->> It makes sense to me, just wanted to be sure that Catalin is on the same page.
->>
->>>>> + - If a non valid tagged pointer is passed to a syscall then the behaviour
->>>>> +   is undefined.
->>>>> + - Every valid tagged pointer is expected to work as an untagged one.
->>>>> + - The kernel preserves any valid tagged pointer and returns it to the
->>>>> +   userspace unchanged (i.e. on syscall return) in all the cases except the
->>>>> +   ones documented in the "Preserving tags" section of tagged-pointers.txt.
->>>>> +
->>>>> +A definition of the meaning of tagged pointers on arm64 can be found in:
->>>>> +Documentation/arm64/tagged-pointers.txt.
->>>>> +
->>>>> +3. ARM64 Tagged Address ABI Exceptions
->>>>> +--------------------------------------
->>>>> +
->>>>> +The behaviours described in section 2, with particular reference to the
->>>>> +acceptance by the syscalls of any valid tagged pointer are not applicable
->>>>> +to the following cases:
->>>>> +
->>>>> + - mmap() addr parameter.
->>>>> + - mremap() new_address parameter.
->>>>> + - prctl(PR_SET_MM, PR_SET_MM_MAP, ...) struct prctl_mm_map fields.
->>>>> + - prctl(PR_SET_MM, PR_SET_MM_MAP_SIZE, ...) struct prctl_mm_map fields.
->>>> All the PR_SET_MM options that specify pointers (PR_SET_MM_START_CODE,
->>>> PR_SET_MM_END_CODE, ...) should be excluded as well. AFAICT (but don't take my
->>>> word for it), that's all of them except PR_SET_MM_EXE_FILE. Conversely,
->>>> PR_SET_MM_MAP_SIZE should not be excluded (it does not pass a prctl_mm_map
->>>> struct, and the pointer to unsigned int can be tagged).
->>>>
->>> Agreed, I clearly misread the prctl() man page here. Fill fix in v7.
->>> PR_SET_MM_MAP_SIZE _returns_  struct prctl_mm_map, does not take it as a
->>> parameter.
->> OK. About PR_SET_MM_MAP_SIZE, it neither takes nor returns struct prctl_mm_map.
->> It writes the size of prctl_map to the int pointed to by arg3, and does nothing
->> else. Therefore, there's no need to exclude it.
->>
-> Agreed, I missed the word size in my reply: s/_returns_  struct
-> prctl_mm_map/_returns_  the size of struct prctl_mm_map/
->
->> BTW I've just realised that the man page is wrong about PR_SET_MM_MAP_SIZE, the
->> pointer to int is passed in arg3, not arg4. Anyone knows where to report that?
->>
->> Thanks,
->> Kevin
->>
->>> Vincenzo
->>>
->>>> Kevin
->>>>
->>>>> +
->>>>> +Any attempt to use non-zero tagged pointers will lead to undefined behaviour.
->>>>> +
->>>>> +4. Example of correct usage
->>>>> +---------------------------
->>>>> +.. code-block:: c
->>>>> +
->>>>> +   void main(void)
->>>>> +   {
->>>>> +           static int tbi_enabled = 0;
->>>>> +           unsigned long tag = 0;
->>>>> +
->>>>> +           char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
->>>>> +                            MAP_ANONYMOUS, -1, 0);
->>>>> +
->>>>> +           if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
->>>>> +                     0, 0, 0) == 0)
->>>>> +                   tbi_enabled = 1;
->>>>> +
->>>>> +           if (ptr == (void *)-1) /* MAP_FAILED */
->>>>> +                   return -1;
->>>>> +
->>>>> +           if (tbi_enabled)
->>>>> +                   tag = rand() & 0xff;
->>>>> +
->>>>> +           ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
->>>>> +
->>>>> +           *ptr = 'a';
->>>>> +
->>>>> +           ...
->>>>> +   }
->>>>> +
->>>> _______________________________________________
->>>> linux-arm-kernel mailing list
->>>> linux-arm-kernel@lists.infradead.org
->>>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+We add the option to turn off override_creds in the mount options; all
+subsequent operations after mount on the filesystem will be only the
+caller's credentials.  The module boolean parameter and mount option
+override_creds is also added as a presence check for this "feature",
+existence of /sys/module/overlay/parameters/overlay_creds
 
+Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Stephen Smalley <sds@tycho.nsa.gov>
+Cc: linux-unionfs@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+v11:
+- Squish out v10 introduced patch 2 and 3 in the series,
+  then and use per-thread flag instead for nesting.
+- Switch name to ovl_do_vds_getxattr for __vds_getxattr wrapper.
+- Add sb argument to ovl_revert_creds to match future work.
+
+v10:
+- Return NULL on CAP_DAC_READ_SEARCH
+- Add __get xattr method to solve sepolicy logging issue
+- Drop unnecessary sys_admin sepolicy checking for administrative
+  driver internal xattr functions.
+
+v6:
+- Drop CONFIG_OVERLAY_FS_OVERRIDE_CREDS.
+- Do better with the documentation, drop rationalizations.
+- pr_warn message adjusted to report consequences.
+
+v5:
+- beefed up the caveats in the Documentation
+- Is dependent on
+  "overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh"
+  "overlayfs: check CAP_MKNOD before issuing vfs_whiteout"
+- Added prwarn when override_creds=off
+
+v4:
+- spelling and grammar errors in text
+
+v3:
+- Change name from caller_credentials / creator_credentials to the
+  boolean override_creds.
+- Changed from creator to mounter credentials.
+- Updated and fortified the documentation.
+- Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
+
+v2:
+- Forward port changed attr to stat, resulting in a build error.
+- altered commit message.
