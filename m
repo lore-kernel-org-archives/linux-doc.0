@@ -1,151 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F2DF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 21:20:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F2E37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 21:23:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387672AbfG3VU6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 17:20:58 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:33595 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387480AbfG3VUv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 17:20:51 -0400
-Received: by mail-pl1-f193.google.com with SMTP id c14so29316222plo.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 14:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44ONowdSlztBIQEZ8M7KxSw1b2hoFMAz6PJ/0W+xxXg=;
-        b=MYdDGpp4U8oIsvbKVIe106xriDXDt2HsL7ey1BlQ47Ueozytcr9m4K0kD1zTuiDIUr
-         s81G9I+zLn6mpHlhRusMyJTXhU0xiQKG6H1w+TjpUsvrxZP2UJ6+xTm3wvFvOwal8vuW
-         Kw41DfrD39NC3wbOQq+/iHnnwakNPOXJMDv1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44ONowdSlztBIQEZ8M7KxSw1b2hoFMAz6PJ/0W+xxXg=;
-        b=K96MgzOzGSajIjPckh5qED2oU65bfX95PCvN6junkfiW8cd1DZIklseVlAjeCEJG24
-         E484/rXPjo4G1ljO13JRhVs5e7b0JlxPTn/+lxh0vYvrmU0xCIH86pTQZcTbWvtjsWJM
-         rLANTzD/USgLJi9UnzCskzmHYgwAmn+Zrc3SZ6kv8O39MtMY8pQ3PXWQ22J0SjIrf2ft
-         ZcQcJImkU7uPsokgFurs9q77IBbQ0oV1jG5KSyxj/xL3l/GP/Bse/TuhCJ1G6atG61Jh
-         tqmzrF7j54/CsuW3w3gWhAsnfGPP9tDEHy0GaMLHRrxt5PP8/VwKGBcAYFNeGrBZBNlD
-         lUDg==
-X-Gm-Message-State: APjAAAXqgYTCBXDA3AiPFnFvofRgPxPHVRZHquIhT0cO2Ddd6m1qyxLI
-        V+hWgTgffg7Je+8Cgog2e02Lyw==
-X-Google-Smtp-Source: APXvYqwSvLy4JdF9PJDCx8oAd5LCxJAQBDlp7X/T7IjGLK5mMyOmj16cBEiWsPXuNBpZ5ITHvwqSmA==
-X-Received: by 2002:a17:902:4b:: with SMTP id 69mr116375727pla.89.1564521650056;
-        Tue, 30 Jul 2019 14:20:50 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id n140sm68205686pfd.132.2019.07.30.14.20.49
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 30 Jul 2019 14:20:49 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Tri Vo <trong@android.com>, Jonathan Corbet <corbet@lwn.net>,
+        id S2387673AbfG3VXZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 17:23:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30862 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2387649AbfG3VXZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 17:23:25 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6ULHIYh111296;
+        Tue, 30 Jul 2019 17:22:52 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2u2wp3r5x7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 30 Jul 2019 17:22:52 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6ULHO7E111414;
+        Tue, 30 Jul 2019 17:22:52 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2u2wp3r5wb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 30 Jul 2019 17:22:52 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6ULAECh003389;
+        Tue, 30 Jul 2019 21:22:50 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+        by ppma01dal.us.ibm.com with ESMTP id 2u0e871hnq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 30 Jul 2019 21:22:50 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6ULMo8j39911730
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 30 Jul 2019 21:22:50 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E4848B2064;
+        Tue, 30 Jul 2019 21:22:49 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C455EB2072;
+        Tue, 30 Jul 2019 21:22:49 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.181.16])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 30 Jul 2019 21:22:49 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id BA57916C0553; Tue, 30 Jul 2019 14:22:50 -0700 (PDT)
+Date:   Tue, 30 Jul 2019 14:22:50 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v2 1/2] idr: Document calling context for IDA APIs mustn't use locks
-Date:   Tue, 30 Jul 2019 14:20:47 -0700
-Message-Id: <20190730212048.164657-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+Subject: Re: [PATCH v2 25/26] docs: rcu: convert some articles from html to
+ ReST
+Message-ID: <20190730212250.GJ14271@linux.ibm.com>
+Reply-To: paulmck@linux.ibm.com
+References: <cover.1564145354.git.mchehab+samsung@kernel.org>
+ <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-30_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907300212
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation for these functions indicates that callers don't need
-to hold a lock while calling them, but that documentation is only in one
-place under "IDA Usage". Let's state the same information on each IDA
-function so that it's clear what the calling context requires.
-Furthermore, let's document ida_simple_get() with the same information
-so that callers know how this API works.
+On Fri, Jul 26, 2019 at 09:51:35AM -0300, Mauro Carvalho Chehab wrote:
+> There are 4 RCU articles that are written on html format.
+> 
+> The way they are, they can't be part of the Linux Kernel
+> documentation body nor share the styles and pdf output.
+> 
+> So, convert them to ReST format.
+> 
+> This way, make htmldocs and make pdfdocs will produce a
+> documentation output that will be like the original ones, but
+> will be part of the Linux Kernel documentation body.
+> 
+> Part of the conversion was done with the help of pandoc, but
+> the result had some broken things that had to be manually
+> fixed.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Cc: Greg KH <gregkh@linuxfoundation.org>
-Cc: Tri Vo <trong@android.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- include/linux/idr.h | 9 ++++++---
- lib/idr.c           | 9 ++++++---
- 2 files changed, 12 insertions(+), 6 deletions(-)
+I am having some trouble applying these, at least in part due to UTF-8
+sequences, for example double left quotation mark.  These end up being
+"=E2=80=9C", with a few space characters turned into "=20".
 
-diff --git a/include/linux/idr.h b/include/linux/idr.h
-index 4ec8986e5dfb..5bb026007044 100644
---- a/include/linux/idr.h
-+++ b/include/linux/idr.h
-@@ -263,7 +263,8 @@ void ida_destroy(struct ida *ida);
-  *
-  * Allocate an ID between 0 and %INT_MAX, inclusive.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
-  * or %-ENOSPC if there are no free IDs.
-  */
-@@ -280,7 +281,8 @@ static inline int ida_alloc(struct ida *ida, gfp_t gfp)
-  *
-  * Allocate an ID between @min and %INT_MAX, inclusive.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
-  * or %-ENOSPC if there are no free IDs.
-  */
-@@ -297,7 +299,8 @@ static inline int ida_alloc_min(struct ida *ida, unsigned int min, gfp_t gfp)
-  *
-  * Allocate an ID between 0 and @max, inclusive.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
-  * or %-ENOSPC if there are no free IDs.
-  */
-diff --git a/lib/idr.c b/lib/idr.c
-index 66a374892482..dbd25696162e 100644
---- a/lib/idr.c
-+++ b/lib/idr.c
-@@ -381,7 +381,8 @@ EXPORT_SYMBOL(idr_replace);
-  * Allocate an ID between @min and @max, inclusive.  The allocated ID will
-  * not exceed %INT_MAX, even if @max is larger.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
-  * or %-ENOSPC if there are no free IDs.
-  */
-@@ -488,7 +489,8 @@ EXPORT_SYMBOL(ida_alloc_range);
-  * @ida: IDA handle.
-  * @id: Previously allocated ID.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  */
- void ida_free(struct ida *ida, unsigned int id)
- {
-@@ -540,7 +542,8 @@ EXPORT_SYMBOL(ida_free);
-  * or freed.  If the IDA is already empty, there is no need to call this
-  * function.
-  *
-- * Context: Any context.
-+ * Context: Any context. It is safe to call this function without
-+ * locking in your code.
-  */
- void ida_destroy(struct ida *ida)
- {
--- 
-Sent by a computer through tubes
+Any advice on how to apply these?  Should I just pull commits from
+somewhere?
 
+							Thanx, Paul
