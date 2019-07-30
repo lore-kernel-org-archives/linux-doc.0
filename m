@@ -2,99 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C12117D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 12:25:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA4027D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 12:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729973AbfG3MZQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 08:25:16 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36614 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730296AbfG3MZQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 08:25:16 -0400
-Received: by mail-pf1-f195.google.com with SMTP id r7so29768682pfl.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 05:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=UdO7TiN1GZWaQttAvLZ44/neyJcGu5j8j3RhNT+Sui8=;
-        b=oeNn2Nb/KW67tK/SQYA3SwA0z1uQndtVJSRu+PDEjP72OlO8KmCMDtWBV5wq5bXjh9
-         hS9nOcAhh0rZcgj0RAfW0XRibChG2g3/3zWkiH4hkx8VgHfmHWA4aM6qvQRMCbMGDSOp
-         Bo53QaBP5OkWQzpZYWoNrCGtD3zIF2iH9bYNCt0o/ZLVt1XE+gTFteVw0X0p801KmcMi
-         mIumz0AGK/+0LiHxAWX/nfQoS8Y1yP7gHMEixVeHFMyQ1tqGa9Tnh5U41MsKDVNf5llv
-         RVYHfmDG2keihY0FTtTRGgzTF4IdgXDe5G/ve9Nji1Pbk27WKRIn6biY+aN2+F66OH/R
-         oz6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=UdO7TiN1GZWaQttAvLZ44/neyJcGu5j8j3RhNT+Sui8=;
-        b=Y2fb/bd5gupVNKzXUAsoqmVOI50gFnVacal5plKH0YEGcSyjD4fVe/nxkemd0F7mEi
-         goJBkrkC7SznJvewZA4psOOAxy+EZ1xae+1wMSk5Zgft7+bTuB5YTz74t4R9QbsNCfIg
-         VcMYJrR3Sp0dHcQCh8OiFqSzVV01QYZPqmYh+xzVSuqRTSpswqQV+cAuDR/AaN56lhnj
-         zB3cNNu7YkElPYxz0X978drjMT2qINKPSxdRS5MdugR5xSo4M99DTHxQUAXP2X/x4jPh
-         1rnG0NRnZ8i9kcDjZs7j5uo03A9o3Mo+0PYk7zxhkZy1xZAV/7mr4YtkyZXtuV6Q0IZZ
-         z39Q==
-X-Gm-Message-State: APjAAAXrz5a56gOcGwygfCwxd0hvt7S/5ltxqr4PYzUXwXqoj2QkDtsg
-        WSvcK8YD4s/LOqlM417IO5oaXw==
-X-Google-Smtp-Source: APXvYqwiIFZ1Lpnf1zrtvEq7BSLgYRy9SXqV38k99nAfJbSJqZuysqZ14yG/NTWJNUvb4F6Bw3cxBw==
-X-Received: by 2002:a63:5c7:: with SMTP id 190mr106671104pgf.67.1564489515198;
-        Tue, 30 Jul 2019 05:25:15 -0700 (PDT)
-Received: from localhost.localdomain ([45.114.72.197])
-        by smtp.gmail.com with ESMTPSA id v8sm54895462pgs.82.2019.07.30.05.25.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 30 Jul 2019 05:25:14 -0700 (PDT)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Cc:     jens.wiklander@linaro.org, corbet@lwn.net, dhowells@redhat.com,
-        jejb@linux.ibm.com, jarkko.sakkinen@linux.intel.com,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        casey@schaufler-ca.com, ard.biesheuvel@linaro.org,
-        daniel.thompson@linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        tee-dev@lists.linaro.org, Sumit Garg <sumit.garg@linaro.org>
-Subject: [RFC v2 6/6] MAINTAINERS: Add entry for TEE based Trusted Keys
-Date:   Tue, 30 Jul 2019 17:53:40 +0530
-Message-Id: <1564489420-677-7-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
-References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+        id S1728370AbfG3MbU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 08:31:20 -0400
+Received: from mout.web.de ([217.72.192.78]:55545 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726167AbfG3MbU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Jul 2019 08:31:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1564489859;
+        bh=f/2pwlRqhUiVGsaMkeRb1AlrqvbiiI6KPkCJUIors2g=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=nKd3eAgpUjavAsvLf8Tg3yVxtYpefAlahC1Ea/UYQdppldn4DdsCUYb2g6xv7zmf7
+         ddQdUkWNureTBhLvcxYhxsr6i6nJmEgFzYuLb5a+Jcnb3QdvsduOBJRXrenDuP00Qf
+         zfFFNmELuW9sb+G0ehnW2Tdu1W7ESM38KCDApdlc=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.243.24.141]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M5OYl-1iIkZR3VhH-00zTQo; Tue, 30
+ Jul 2019 14:30:59 +0200
+Subject: Re: [PATCH v5 1/3] driver core: platform: Add an error message to
+ platform_get_irq*()
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Mark Brown <broonie@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <20190730053845.126834-1-swboyd@chromium.org>
+ <20190730053845.126834-2-swboyd@chromium.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <3197785f-91df-21d3-72f4-97ca73681bc8@web.de>
+Date:   Tue, 30 Jul 2019 14:30:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190730053845.126834-2-swboyd@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:JC8Rm8G2wNrcuNzKLcK5Ve0lv9MtywAnAaY4CWdveNooUr9Q5s2
+ XvyNuGqwwqXVmVMJ4RL46GhcppT+y7ht+Xj+fL4v2MlCk0DnEhD4r9MsoOJl1YkMtWWlPOK
+ vQsXUX569TWGzSlN3h/Sn1IjnKQYHyY05PpdyegyNbQW/xnn+nE8nxqNXTOswrQ/YZ05/xO
+ 0GJ5W4JkeT1uLGvZ9AwXA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MgPID9UBP0U=:Kw9ObdYbzNeuD4aKS52TOV
+ 2wO9Y7zUhamQD3O+iGgMuQYyXZkdceu6R8D5e3E5k0/1B6vrrYgiIZHR34zBS6HVSP8oxkHpR
+ hpWln6bHW/69x8zo9ZKyKar0WlE+PERyWih6SDhmTLQBGVrx2UlTAJB/1CgtPSFWUvcVM47T6
+ xbQ20SBN84MnufHhQzeupfBzZr90b+g8ACHYGJJrNDBJsVh0D+xHpOvlNepVfTlv8LWCkZl2L
+ y4i+MmspOEQCyrW68tTrbWBB+Ib/Dk31Iv2/8OuTft069laZaod53cxPFqe8tkS8rLl3ayNOL
+ PWRG9OARKUTJMe3R0+LWIAEeLcPbinr/Bm51bBhKuk6hZADUTYkWqrF0LO3waVtJbx0cUZpOl
+ VIQJV8t7ldWHeWt1lwWUnXJONyj+nLX18UMU6LbonReIM4llpO6FrnPjTeXmXhIiUh5lr2HAu
+ L9lx1xjg+7GhrGfEmnSFIEX0rytRWX3+0ZYpdVJ51yy13x59Epck3jE1uQizS7u79Q3Sv36BT
+ rkN0uiMXF/Jt0f5yVaTzy0Ih1ELvMtsc8O71v0Ars/hE5qlP1qFdDZCq0cpVQc3jyZs0+57Nv
+ vVlL/Gqxj4RUNxTc9Y0G/OZk/F5CpKdp3rl+1PcaPovJO+xHeiKe+xVecUuPHOGOTrysgHsly
+ ubSSjgHs+/VX4ZXMVU71HKQ/HqreojHuGH1IthyqIqlwgmj5evfVBoiwttsZvYFK5y8NO24jp
+ LAUAeV7SljikRL1HKjYUy+3twVJgCtdXloycPqhEwt1DgtxY/I9DU2dBydEJJin79UNl6IgIF
+ yo1BDD9nDTK8Uts2knVKvOaW4Lg/QyxIlzbEHdIddyvikIEm9w53uqH1QDUvJbITH6LG9sScG
+ o6uo5wJ0rq1okdO6mq99teVLEkNw7a3MrIn/UncAA4oNNoEZx923OoTmAozA3jIXjML0s94ML
+ DDvWCl//qk/4lGr2CVssVIiv6srwZN4bmjOxtaZVq4IheITSijNnjOJ+AxWMd0+soyyJPLcyI
+ 2RDNH5I4JJc7pO0wmXYQ/PpFCCwZ0YgDp7piSgl3IR0AJHmlpUWq0sBi8FY1VMcSl1bJ029Pv
+ GJnF8BIBBCsAw8liA/5keUZUvsd2G0JeG8w
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MAINTAINERS entry for TEE based Trusted Keys framework.
+=E2=80=A6
+> +++ b/drivers/base/platform.c
+=E2=80=A6
+> @@ -163,6 +158,33 @@ int platform_get_irq(struct platform_device *dev, u=
+nsigned int num)
+>  	return -ENXIO;
+>  #endif
+>  }
+> +
+> +/**
+> + * platform_get_irq - get an IRQ for a device
+> + * @dev: platform device
+> + * @num: IRQ number index
+> + *
+> + * Gets an IRQ for a platform device and prints an error message if fin=
+ding the
+> + * IRQ fails. Device drivers should check the return value for errors s=
+o as to
+> + * not pass a negative integer value to the request_irq() APIs.
+> + *
+> + * Example:
+> + *		int irq =3D platform_get_irq(pdev, 0);
+> + *		if (irq < 0)
+> + *			return irq;
+> + *
+> + * Return: IRQ number on success, negative error number on failure.
+> + */
+=E2=80=A6
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thanks for your extension of the description for this programming interfac=
+e.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ce06877..0b61ecf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8930,6 +8930,15 @@ F:	include/keys/trusted-type.h
- F:	security/keys/trusted.c
- F:	security/keys/trusted.h
- 
-+KEYS-TEE-TRUSTED
-+M:	Sumit Garg <sumit.garg@linaro.org>
-+L:	linux-integrity@vger.kernel.org
-+L:	keyrings@vger.kernel.org
-+S:	Supported
-+F:	Documentation/security/keys/tee-trusted.rst
-+F:	include/keys/trusted_tee.h
-+F:	security/keys/trusted-keys/trusted-tee.c
-+
- KEYS/KEYRINGS:
- M:	David Howells <dhowells@redhat.com>
- L:	keyrings@vger.kernel.org
--- 
-2.7.4
+I imagine that adjustments for this software documentation format can make=
+ it
+safer to extract desired API properties.
+Would you like to improve provided information any further?
 
+Regards,
+Markus
