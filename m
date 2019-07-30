@@ -1,262 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE17B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 10:32:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B6BD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 12:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729420AbfG3KcR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 06:32:17 -0400
-Received: from foss.arm.com ([217.140.110.172]:59042 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726964AbfG3KcR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Jul 2019 06:32:17 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA340344;
-        Tue, 30 Jul 2019 03:32:16 -0700 (PDT)
-Received: from [10.1.194.48] (e123572-lin.cambridge.arm.com [10.1.194.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3ADB13F575;
-        Tue, 30 Jul 2019 03:32:15 -0700 (PDT)
-Subject: Re: [PATCH v6 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.rst
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-References: <cover.1563904656.git.andreyknvl@google.com>
- <20190725135044.24381-1-vincenzo.frascino@arm.com>
- <20190725135044.24381-2-vincenzo.frascino@arm.com>
-From:   Kevin Brodsky <kevin.brodsky@arm.com>
-Message-ID: <52fa2cfc-f7a6-af6f-0dc2-f9ea0e41ac3c@arm.com>
-Date:   Tue, 30 Jul 2019 11:32:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190725135044.24381-2-vincenzo.frascino@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+        id S1729265AbfG3MY0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 08:24:26 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39496 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729251AbfG3MY0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 08:24:26 -0400
+Received: by mail-pf1-f196.google.com with SMTP id f17so25772607pfn.6
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 05:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=6ZePv7NXstL+Sqt4m1uBMWD7mL3/ZMzlrVfaZ2NvhzM=;
+        b=lB6yIwwCNSDjrWVykyeL4K++VnFNec4YxgddVvaRS4/R/0oHWt7LQVpKqdjpAASjgc
+         0iPKuYv15NgUSHfKLcA6CR1Nt0rx5zAGcXi/FyaiI3Xda53pvauMaNAfx/1m2rxCwa0Z
+         crzWacGPYYLLS5WXzVHnAOSrRG2imu9I/H7H4MXZIRTWu2zC2Zr5jM99w2uIL74nv9o2
+         i3GLJevzUkxAKOe8KmddtnXsoghJmrXz7PF7/cL5Ph7z9nx8OAyBwxbwRwYd+OQInO1o
+         tw9DWp8rvkv2AIt4K5pjZmJc0yRBKpJaeeStReenRYdnj1+Iiz60kQljwoVnlels7CqU
+         z9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6ZePv7NXstL+Sqt4m1uBMWD7mL3/ZMzlrVfaZ2NvhzM=;
+        b=fxYfzoU+WuJ3wqTgW6j4M83JyAFoQVZ4WaL4hMRR9qM05cvq49SRG2nC7DQHNbEN70
+         2kAXiDwHUU68bbL5Spi9j9q7QkhNqUAlQSk1AZUMV7/7CNOSY0SbW+YP1KThaZWuV/kj
+         K455fdZ0Mdb2RZE7xkH0uim+HmhbNWg/WEYd+6FmdGZwJYvr71JZpkOlKM2oMMJTmUug
+         GCpKFAdWcX+kKyvQJZxyl/Wt7D7191MrA9sGj1DDcVbf+qHfMIqB+CBDaGgqDwubZwwY
+         gudAEamXlmiHd0zJ2LSp1ZszKwPOYYVH7dMtPE+ZK3d5LxECxjl6h3XPuOTqcF1qh5JJ
+         ejwA==
+X-Gm-Message-State: APjAAAVOlRfRwtUGxVPjbtGxYOvoDN/NV/0Rc/1wc5VgZqWmg9quBZ27
+        iIHHPfzWTkHbfLfbFBYCukwfAA==
+X-Google-Smtp-Source: APXvYqzz0ouwcr+qO6OuAcn5WOt/R6U7643Qf7Q0IRtZgQR9bhTL3t8PR7Ke8ewd4iiIWjlDBn2OnQ==
+X-Received: by 2002:a17:90a:ca11:: with SMTP id x17mr117801760pjt.107.1564489465898;
+        Tue, 30 Jul 2019 05:24:25 -0700 (PDT)
+Received: from localhost.localdomain ([45.114.72.197])
+        by smtp.gmail.com with ESMTPSA id v8sm54895462pgs.82.2019.07.30.05.24.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 30 Jul 2019 05:24:25 -0700 (PDT)
+From:   Sumit Garg <sumit.garg@linaro.org>
+To:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Cc:     jens.wiklander@linaro.org, corbet@lwn.net, dhowells@redhat.com,
+        jejb@linux.ibm.com, jarkko.sakkinen@linux.intel.com,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        casey@schaufler-ca.com, ard.biesheuvel@linaro.org,
+        daniel.thompson@linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        tee-dev@lists.linaro.org, Sumit Garg <sumit.garg@linaro.org>
+Subject: [RFC v2 0/6] Introduce TEE based Trusted Keys support
+Date:   Tue, 30 Jul 2019 17:53:34 +0530
+Message-Id: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some more comments. Mostly minor wording issues, except the prctl() exclusion at the end.
+Add support for TEE based trusted keys where TEE provides the functionality
+to seal and unseal trusted keys using hardware unique key. Also, this is
+an alternative in case platform doesn't possess a TPM device.
 
-On 25/07/2019 14:50, Vincenzo Frascino wrote:
-> On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
-> the userspace (EL0) is allowed to set a non-zero value in the
-> top byte but the resulting pointers are not allowed at the
-> user-kernel syscall ABI boundary.
->
-> With the relaxed ABI proposed through this document, it is now possible
-> to pass tagged pointers to the syscalls, when these pointers are in
-> memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
->
-> This change in the ABI requires a mechanism to requires the userspace
-> to opt-in to such an option.
->
-> Specify and document the way in which sysctl and prctl() can be used
-> in combination to allow the userspace to opt-in this feature.
->
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will.deacon@arm.com>
-> CC: Andrey Konovalov <andreyknvl@google.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Acked-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> ---
->   Documentation/arm64/tagged-address-abi.rst | 148 +++++++++++++++++++++
->   1 file changed, 148 insertions(+)
->   create mode 100644 Documentation/arm64/tagged-address-abi.rst
->
-> diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arm64/tagged-address-abi.rst
-> new file mode 100644
-> index 000000000000..a8ecb991de82
-> --- /dev/null
-> +++ b/Documentation/arm64/tagged-address-abi.rst
-> @@ -0,0 +1,148 @@
-> +========================
-> +ARM64 TAGGED ADDRESS ABI
-> +========================
-> +
-> +Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> +
-> +Date: 25 July 2019
-> +
-> +This document describes the usage and semantics of the Tagged Address
-> +ABI on arm64.
-> +
-> +1. Introduction
-> +---------------
-> +
-> +On arm64 the TCR_EL1.TBI0 bit has always been enabled on the kernel, hence
-> +the userspace (EL0) is entitled to perform a user memory access through a
-> +64-bit pointer with a non-zero top byte but the resulting pointers are not
-> +allowed at the user-kernel syscall ABI boundary.
-> +
-> +This document describes a relaxation of the ABI that makes it possible to
-> +to pass tagged pointers to the syscalls, when these pointers are in memory
+This series also adds some TEE features like:
 
-One too many "to" (at the end the previous line).
+Patch #1, #2 enables support for registered kernel shared memory with TEE.
 
-> +ranges obtained as described in section 2.
-> +
-> +Since it is not desirable to relax the ABI to allow tagged user addresses
-> +into the kernel indiscriminately, arm64 provides a new sysctl interface
-> +(/proc/sys/abi/tagged_addr) that is used to prevent the applications from
-> +enabling the relaxed ABI and a new prctl() interface that can be used to
-> +enable or disable the relaxed ABI.
-> +A detailed description of the newly introduced mechanisms will be provided
-> +in section 2.
-> +
-> +2. ARM64 Tagged Address ABI
-> +---------------------------
-> +
-> +From the kernel syscall interface perspective, we define, for the purposes
-> +of this document, a "valid tagged pointer" as a pointer that either has a
-> +zero value set in the top byte or has a non-zero value, is in memory ranges
-> +privately owned by a userspace process and is obtained in one of the
-> +following ways:
-> +- mmap() done by the process itself, where either:
-> +
-> +  - flags have **MAP_PRIVATE** and **MAP_ANONYMOUS**
-> +  - flags have **MAP_PRIVATE** and the file descriptor refers to a regular
-> +    file or **/dev/zero**
-> +
-> +- brk() system call done by the process itself (i.e. the heap area between
-> +  the initial location of the program break at process creation and its
-> +  current location).
-> +- any memory mapped by the kernel in the process's address space during
-> +  creation and with the same restrictions as for mmap() (e.g. data, bss,
-> +  stack).
-> +
-> +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
-> +control it using the following:
-> +
-> +- **/proc/sys/abi/tagged_addr**: a new sysctl interface that can be used to
-> +  prevent the applications from enabling the access to the relaxed ABI.
-> +  The sysctl supports the following configuration options:
-> +
-> +  - **0**: Disable the access to the ARM64 Tagged Address ABI for all
-> +    the applications.
-> +  - **1** (Default): Enable the access to the ARM64 Tagged Address ABI for
-> +    all the applications.
-> +
-> +   If the access to the ARM64 Tagged Address ABI is disabled at a certain
-> +   point in time, all the applications that were using tagging before this
-> +   event occurs, will continue to use tagging.
+Patch #3 enables support for private kernel login method required for
+cases like trusted keys where we don't wan't user-space to directly access
+TEE service to retrieve trusted key contents.
 
-"tagging" may be misinterpreted here. I would be more explicit by saying that the 
-tagged address ABI remains enabled in processes that opted in before the access got 
-disabled.
+Rest of the patches from #4 to #6 adds support for TEE based trusted keys.
 
-> +- **prctl()s**:
-> +
-> +  - **PR_SET_TAGGED_ADDR_CTRL**: Invoked by a process, can be used to enable or
-> +    disable its access to the ARM64 Tagged Address ABI.
+This patch-set has been tested with OP-TEE based pseudo TA which can be
+found here [1].
 
-I still find the wording confusing, because "access to the ABI" is not used 
-consistently. The "tagged_addr" sysctl enables *access to the ABI*, that's fine. 
-However, PR_SET_TAGGED_ADDR_CTRL enables *the ABI itself* (which is only possible if 
-access to the ABI is enabled).
+Also, this patch-set is dependent on generic Trusted Keys framework
+patch-set [2].
 
-> +
-> +    The (unsigned int) arg2 argument is a bit mask describing the control mode
-> +    used:
-> +
-> +    - **PR_TAGGED_ADDR_ENABLE**: Enable ARM64 Tagged Address ABI.
-> +
-> +    The prctl(PR_SET_TAGGED_ADDR_CTRL, ...) will return -EINVAL if the ARM64
-> +    Tagged Address ABI is not available.
+[1] https://github.com/OP-TEE/optee_os/pull/3082
+[2] https://lkml.org/lkml/2019/7/18/284
 
-For clarity, it would be good to mention that one possible reason for the ABI not to 
-be available is tagged_addr == 0.
+Changes in v2:
+1. Add reviewed-by tags for patch #1 and #2.
+2. Incorporate comments from Jens for patch #3.
+3. Switch to use generic trusted keys framework.
 
-> +
-> +    The arguments arg3, arg4, and arg5 are ignored.
-> +  - **PR_GET_TAGGED_ADDR_CTRL**: can be used to check the status of the Tagged
-> +    Address ABI.
-> +
-> +    The arguments arg2, arg3, arg4, and arg5 are ignored.
-> +
-> +The ABI properties set by the mechanisms described above are inherited by threads
-> +of the same application and fork()'ed children but cleared by execve().
-> +
-> +When a process has successfully opted into the new ABI by invoking
-> +PR_SET_TAGGED_ADDR_CTRL prctl(), this guarantees the following behaviours:
-> +
-> + - Every currently available syscall, except the cases mentioned in section 3, can
-> +   accept any valid tagged pointer. The same rule is applicable to any syscall
-> +   introduced in the future.
+Sumit Garg (6):
+  tee: optee: allow kernel pages to register as shm
+  tee: enable support to register kernel memory
+  tee: add private login method for kernel clients
+  KEYS: trusted: Introduce TEE based Trusted Keys
+  doc: keys: Document usage of TEE based Trusted Keys
+  MAINTAINERS: Add entry for TEE based Trusted Keys
 
-I thought Catalin wanted to drop this guarantee?
+ Documentation/security/keys/index.rst       |   1 +
+ Documentation/security/keys/tee-trusted.rst |  93 +++++++++
+ MAINTAINERS                                 |   9 +
+ drivers/tee/optee/call.c                    |   7 +
+ drivers/tee/tee_core.c                      |   6 +
+ drivers/tee/tee_shm.c                       |  16 +-
+ include/keys/trusted-type.h                 |   3 +
+ include/keys/trusted_tee.h                  |  66 +++++++
+ include/linux/tee_drv.h                     |   1 +
+ include/uapi/linux/tee.h                    |   8 +
+ security/keys/Kconfig                       |   3 +
+ security/keys/trusted-keys/Makefile         |   3 +-
+ security/keys/trusted-keys/trusted-tee.c    | 282 ++++++++++++++++++++++++++++
+ security/keys/trusted-keys/trusted.c        |   3 +
+ 14 files changed, 498 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/security/keys/tee-trusted.rst
+ create mode 100644 include/keys/trusted_tee.h
+ create mode 100644 security/keys/trusted-keys/trusted-tee.c
 
-> + - If a non valid tagged pointer is passed to a syscall then the behaviour
-> +   is undefined.
-> + - Every valid tagged pointer is expected to work as an untagged one.
-> + - The kernel preserves any valid tagged pointer and returns it to the
-> +   userspace unchanged (i.e. on syscall return) in all the cases except the
-> +   ones documented in the "Preserving tags" section of tagged-pointers.txt.
-> +
-> +A definition of the meaning of tagged pointers on arm64 can be found in:
-> +Documentation/arm64/tagged-pointers.txt.
-> +
-> +3. ARM64 Tagged Address ABI Exceptions
-> +--------------------------------------
-> +
-> +The behaviours described in section 2, with particular reference to the
-> +acceptance by the syscalls of any valid tagged pointer are not applicable
-> +to the following cases:
-> +
-> + - mmap() addr parameter.
-> + - mremap() new_address parameter.
-> + - prctl(PR_SET_MM, PR_SET_MM_MAP, ...) struct prctl_mm_map fields.
-> + - prctl(PR_SET_MM, PR_SET_MM_MAP_SIZE, ...) struct prctl_mm_map fields.
+-- 
+2.7.4
 
-All the PR_SET_MM options that specify pointers (PR_SET_MM_START_CODE, 
-PR_SET_MM_END_CODE, ...) should be excluded as well. AFAICT (but don't take my word 
-for it), that's all of them except PR_SET_MM_EXE_FILE. Conversely, PR_SET_MM_MAP_SIZE 
-should not be excluded (it does not pass a prctl_mm_map struct, and the pointer to 
-unsigned int can be tagged).
-
-Kevin
-
-> +
-> +Any attempt to use non-zero tagged pointers will lead to undefined behaviour.
-> +
-> +4. Example of correct usage
-> +---------------------------
-> +.. code-block:: c
-> +
-> +   void main(void)
-> +   {
-> +           static int tbi_enabled = 0;
-> +           unsigned long tag = 0;
-> +
-> +           char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
-> +                            MAP_ANONYMOUS, -1, 0);
-> +
-> +           if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
-> +                     0, 0, 0) == 0)
-> +                   tbi_enabled = 1;
-> +
-> +           if (ptr == (void *)-1) /* MAP_FAILED */
-> +                   return -1;
-> +
-> +           if (tbi_enabled)
-> +                   tag = rand() & 0xff;
-> +
-> +           ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
-> +
-> +           *ptr = 'a';
-> +
-> +           ...
-> +   }
-> +
