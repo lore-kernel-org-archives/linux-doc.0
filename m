@@ -1,144 +1,308 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FB737D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 13:06:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A030F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 13:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729332AbfG3NGu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 09:06:50 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:34922 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728172AbfG3NGt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 09:06:49 -0400
-Received: by mail-lf1-f68.google.com with SMTP id p197so44641459lfa.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 06:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+w66kByWBg6FjYrxXcGd5uPmMwPtO1bhVxzbFathPzI=;
-        b=rlvbtrIt21GU4iIJZ5r9dzLKvzu4zMCj4l8RKBDeA0o2mYiR3UKN0mPszMjSSAhX6X
-         3OVtDWT+La05tWgdt87ZEAWGPkMfChkvs3/3jpFIqx88JiCdQhRyg5Hp1suRYIE7B9ff
-         MncOgoeiv7F+vEZfGTVRnoNhuPuHjjFqr7im4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+w66kByWBg6FjYrxXcGd5uPmMwPtO1bhVxzbFathPzI=;
-        b=eT7g+DA+kb7nnGTgXMt7sGiBsbmXdrl6rbFSRVmJqK0Ri5dUiBb8TNQbKvp/L7Vymo
-         jOm6PelVqdCLXOD4P7MsBmucbZefGD4DbgpKMPveWCssc5kw6uuP+PqGrfcSYxeSTeNV
-         9teOJ2pFpzVP2B6YtonFYKzrXH6RXRG26dUjxf9an2SecM58x16FKO84WmCnXdERS2lb
-         bfacGQDWGuOsYNV4qQhk99u3qbdMCq97TYwd1flE60bNPl8LbBupOkxHZ5qQJOzvqCa9
-         of/3pxvEy/rlwiECFSBKScoTLP7yETCODXxuSq92XoQ2RR2SVBcXGW3uOiJdIeSsjBl1
-         7/QQ==
-X-Gm-Message-State: APjAAAXGyZ55WkfU9o3SFnGJJkIRQDmq3EhLHqOOfU/QILjtMDYAJagF
-        1WZOUjMqGGm/chBrHE6OXWX3B/mvTEYwgJSa40A=
-X-Google-Smtp-Source: APXvYqxs+4zVTdk9wyREtf+ZtRrQRM3zR7YozzpsYYyXpsDMuwIYF8bDwOGtZvkDbZ5vHhbJCEniuM4mVcKBeMp71V4=
-X-Received: by 2002:ac2:53a7:: with SMTP id j7mr23078118lfh.112.1564492007737;
- Tue, 30 Jul 2019 06:06:47 -0700 (PDT)
+        id S1726050AbfG3NYJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 09:24:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:60878 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725889AbfG3NYJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Jul 2019 09:24:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 811B828;
+        Tue, 30 Jul 2019 06:24:07 -0700 (PDT)
+Received: from [10.37.12.80] (unknown [10.37.12.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9E97B3F694;
+        Tue, 30 Jul 2019 06:24:05 -0700 (PDT)
+Subject: Re: [PATCH v6 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+To:     Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <20190725135044.24381-1-vincenzo.frascino@arm.com>
+ <20190725135044.24381-2-vincenzo.frascino@arm.com>
+ <52fa2cfc-f7a6-af6f-0dc2-f9ea0e41ac3c@arm.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <c45df19e-8f48-7f4e-3eae-ada54cb6f707@arm.com>
+Date:   Tue, 30 Jul 2019 14:25:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20190726152319.134152-1-joel@joelfernandes.org>
-In-Reply-To: <20190726152319.134152-1-joel@joelfernandes.org>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Tue, 30 Jul 2019 09:06:36 -0400
-Message-ID: <CAEXW_YQN+htU-LpYQ_jxepVdRhO0byw1pWFrsbU2XsH=8FDKLA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] mm/page_idle: Add per-pid idle page tracking using
- virtual indexing
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>,
-        Florian Mayer <fmayer@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Namhyung Kim <namhyung@google.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Todd Kjos <tkjos@google.com>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Wei Wang <wvw@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <52fa2cfc-f7a6-af6f-0dc2-f9ea0e41ac3c@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 11:23 AM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
->
-> The page_idle tracking feature currently requires looking up the pagemap
-> for a process followed by interacting with /sys/kernel/mm/page_idle.
-> Looking up PFN from pagemap in Android devices is not supported by
-> unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
->
-> This patch adds support to directly interact with page_idle tracking at
-> the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> looking up PFN through pagemap is not needed since the interface uses
-> virtual frame numbers, and at the same time also does not require
-> SYS_ADMIN.
->
-> In Android, we are using this for the heap profiler (heapprofd) which
-> profiles and pin points code paths which allocates and leaves memory
-> idle for long periods of time. This method solves the security issue
-> with userspace learning the PFN, and while at it is also shown to yield
-> better results than the pagemap lookup, the theory being that the window
-> where the address space can change is reduced by eliminating the
-> intermediate pagemap look up stage. In virtual address indexing, the
-> process's mmap_sem is held for the duration of the access.
->
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->
-> ---
-> v2->v3:
-> Fixed a bug where I was doing a kfree that is not needed due to not
-> needing to do GFP_ATOMIC allocations.
->
-> v1->v2:
-> Mark swap ptes as idle (Minchan)
-> Avoid need for GFP_ATOMIC (Andrew)
-> Get rid of idle_page_list lock by moving list to stack
+Hi Kevin,
 
-I believe all suggestions have been addressed.  Do these look good now?
+On 7/30/19 11:32 AM, Kevin Brodsky wrote:
+> Some more comments. Mostly minor wording issues, except the prctl() exclusion at
+> the end.
+> 
+> On 25/07/2019 14:50, Vincenzo Frascino wrote:
+>> On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
+>> the userspace (EL0) is allowed to set a non-zero value in the
+>> top byte but the resulting pointers are not allowed at the
+>> user-kernel syscall ABI boundary.
+>>
+>> With the relaxed ABI proposed through this document, it is now possible
+>> to pass tagged pointers to the syscalls, when these pointers are in
+>> memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
+>>
+>> This change in the ABI requires a mechanism to requires the userspace
+>> to opt-in to such an option.
+>>
+>> Specify and document the way in which sysctl and prctl() can be used
+>> in combination to allow the userspace to opt-in this feature.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> CC: Andrey Konovalov <andreyknvl@google.com>
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Acked-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
+>> ---
+>>   Documentation/arm64/tagged-address-abi.rst | 148 +++++++++++++++++++++
+>>   1 file changed, 148 insertions(+)
+>>   create mode 100644 Documentation/arm64/tagged-address-abi.rst
+>>
+>> diff --git a/Documentation/arm64/tagged-address-abi.rst
+>> b/Documentation/arm64/tagged-address-abi.rst
+>> new file mode 100644
+>> index 000000000000..a8ecb991de82
+>> --- /dev/null
+>> +++ b/Documentation/arm64/tagged-address-abi.rst
+>> @@ -0,0 +1,148 @@
+>> +========================
+>> +ARM64 TAGGED ADDRESS ABI
+>> +========================
+>> +
+>> +Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> +
+>> +Date: 25 July 2019
+>> +
+>> +This document describes the usage and semantics of the Tagged Address
+>> +ABI on arm64.
+>> +
+>> +1. Introduction
+>> +---------------
+>> +
+>> +On arm64 the TCR_EL1.TBI0 bit has always been enabled on the kernel, hence
+>> +the userspace (EL0) is entitled to perform a user memory access through a
+>> +64-bit pointer with a non-zero top byte but the resulting pointers are not
+>> +allowed at the user-kernel syscall ABI boundary.
+>> +
+>> +This document describes a relaxation of the ABI that makes it possible to
+>> +to pass tagged pointers to the syscalls, when these pointers are in memory
+> 
+> One too many "to" (at the end the previous line).
+> 
 
-thanks,
+Yep will fix in v7.
 
- - Joel
+>> +ranges obtained as described in section 2.
+>> +
+>> +Since it is not desirable to relax the ABI to allow tagged user addresses
+>> +into the kernel indiscriminately, arm64 provides a new sysctl interface
+>> +(/proc/sys/abi/tagged_addr) that is used to prevent the applications from
+>> +enabling the relaxed ABI and a new prctl() interface that can be used to
+>> +enable or disable the relaxed ABI.
+>> +A detailed description of the newly introduced mechanisms will be provided
+>> +in section 2.
+>> +
+>> +2. ARM64 Tagged Address ABI
+>> +---------------------------
+>> +
+>> +From the kernel syscall interface perspective, we define, for the purposes
+>> +of this document, a "valid tagged pointer" as a pointer that either has a
+>> +zero value set in the top byte or has a non-zero value, is in memory ranges
+>> +privately owned by a userspace process and is obtained in one of the
+>> +following ways:
+>> +- mmap() done by the process itself, where either:
+>> +
+>> +  - flags have **MAP_PRIVATE** and **MAP_ANONYMOUS**
+>> +  - flags have **MAP_PRIVATE** and the file descriptor refers to a regular
+>> +    file or **/dev/zero**
+>> +
+>> +- brk() system call done by the process itself (i.e. the heap area between
+>> +  the initial location of the program break at process creation and its
+>> +  current location).
+>> +- any memory mapped by the kernel in the process's address space during
+>> +  creation and with the same restrictions as for mmap() (e.g. data, bss,
+>> +  stack).
+>> +
+>> +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
+>> +control it using the following:
+>> +
+>> +- **/proc/sys/abi/tagged_addr**: a new sysctl interface that can be used to
+>> +  prevent the applications from enabling the access to the relaxed ABI.
+>> +  The sysctl supports the following configuration options:
+>> +
+>> +  - **0**: Disable the access to the ARM64 Tagged Address ABI for all
+>> +    the applications.
+>> +  - **1** (Default): Enable the access to the ARM64 Tagged Address ABI for
+>> +    all the applications.
+>> +
+>> +   If the access to the ARM64 Tagged Address ABI is disabled at a certain
+>> +   point in time, all the applications that were using tagging before this
+>> +   event occurs, will continue to use tagging.
+> 
+> "tagging" may be misinterpreted here. I would be more explicit by saying that
+> the tagged address ABI remains enabled in processes that opted in before the
+> access got disabled.
+> 
 
+Assuming that ARM64 Tagged Address ABI gives access to "tagging" and since it is
+what this document is talking about, I do not see how it can be misinterpreted ;)
 
+>> +- **prctl()s**:
+>> +
+>> +  - **PR_SET_TAGGED_ADDR_CTRL**: Invoked by a process, can be used to enable or
+>> +    disable its access to the ARM64 Tagged Address ABI.
+> 
+> I still find the wording confusing, because "access to the ABI" is not used
+> consistently. The "tagged_addr" sysctl enables *access to the ABI*, that's fine.
+> However, PR_SET_TAGGED_ADDR_CTRL enables *the ABI itself* (which is only
+> possible if access to the ABI is enabled).
+> 
 
-> Internal review -> v1:
-> Fixes from Suren.
-> Corrections to change log, docs (Florian, Sandeep)
->
->  fs/proc/base.c            |   3 +
->  fs/proc/internal.h        |   1 +
->  fs/proc/task_mmu.c        |  57 +++++++
->  include/linux/page_idle.h |   4 +
->  mm/page_idle.c            | 340 +++++++++++++++++++++++++++++++++-----
->  5 files changed, 360 insertions(+), 45 deletions(-)
->
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 77eb628ecc7f..a58dd74606e9 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -3021,6 +3021,9 @@ static const struct pid_entry tgid_base_stuff[] = {
->         REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
->         REG("smaps_rollup", S_IRUGO, proc_pid_smaps_rollup_operations),
+As it stands, it enables or disables the ABI itself when used with
+PR_TAGGED_ADDR_ENABLE, or can enable other things in future. IMHO the only thing
+that these features have in common is the access to the ABI which is granted by
+this prctl().
+
+>> +
+>> +    The (unsigned int) arg2 argument is a bit mask describing the control mode
+>> +    used:
+>> +
+>> +    - **PR_TAGGED_ADDR_ENABLE**: Enable ARM64 Tagged Address ABI.
+>> +
+>> +    The prctl(PR_SET_TAGGED_ADDR_CTRL, ...) will return -EINVAL if the ARM64
+>> +    Tagged Address ABI is not available.
+> 
+> For clarity, it would be good to mention that one possible reason for the ABI
+> not to be available is tagged_addr == 0.
+> 
+
+The logical implication is already quite clear tagged_addr == 0 (Disabled) =>
+Tagged Address ABI not available => return -EINVAL. I do not see the need to
+repeat the concept twice.
+
+>> +
+>> +    The arguments arg3, arg4, and arg5 are ignored.
+>> +  - **PR_GET_TAGGED_ADDR_CTRL**: can be used to check the status of the Tagged
+>> +    Address ABI.
+>> +
+>> +    The arguments arg2, arg3, arg4, and arg5 are ignored.
+>> +
+>> +The ABI properties set by the mechanisms described above are inherited by
+>> threads
+>> +of the same application and fork()'ed children but cleared by execve().
+>> +
+>> +When a process has successfully opted into the new ABI by invoking
+>> +PR_SET_TAGGED_ADDR_CTRL prctl(), this guarantees the following behaviours:
+>> +
+>> + - Every currently available syscall, except the cases mentioned in section
+>> 3, can
+>> +   accept any valid tagged pointer. The same rule is applicable to any syscall
+>> +   introduced in the future.
+> 
+> I thought Catalin wanted to drop this guarantee?
+> 
+
+The guarantee is changed and explicitly includes the syscalls that can be added
+in the future. IMHO since we are defining an ABI, we cannot leave that topic in
+an uncharted territory, we need to address it.
+
+>> + - If a non valid tagged pointer is passed to a syscall then the behaviour
+>> +   is undefined.
+>> + - Every valid tagged pointer is expected to work as an untagged one.
+>> + - The kernel preserves any valid tagged pointer and returns it to the
+>> +   userspace unchanged (i.e. on syscall return) in all the cases except the
+>> +   ones documented in the "Preserving tags" section of tagged-pointers.txt.
+>> +
+>> +A definition of the meaning of tagged pointers on arm64 can be found in:
+>> +Documentation/arm64/tagged-pointers.txt.
+>> +
+>> +3. ARM64 Tagged Address ABI Exceptions
+>> +--------------------------------------
+>> +
+>> +The behaviours described in section 2, with particular reference to the
+>> +acceptance by the syscalls of any valid tagged pointer are not applicable
+>> +to the following cases:
+>> +
+>> + - mmap() addr parameter.
+>> + - mremap() new_address parameter.
+>> + - prctl(PR_SET_MM, PR_SET_MM_MAP, ...) struct prctl_mm_map fields.
+>> + - prctl(PR_SET_MM, PR_SET_MM_MAP_SIZE, ...) struct prctl_mm_map fields.
+> 
+> All the PR_SET_MM options that specify pointers (PR_SET_MM_START_CODE,
+> PR_SET_MM_END_CODE, ...) should be excluded as well. AFAICT (but don't take my
+> word for it), that's all of them except PR_SET_MM_EXE_FILE. Conversely,
+> PR_SET_MM_MAP_SIZE should not be excluded (it does not pass a prctl_mm_map
+> struct, and the pointer to unsigned int can be tagged).
+> 
+
+Agreed, I clearly misread the prctl() man page here. Fill fix in v7.
+PR_SET_MM_MAP_SIZE _returns_  struct prctl_mm_map, does not take it as a parameter.
+
+Vincenzo
+
+> Kevin
+> 
+>> +
+>> +Any attempt to use non-zero tagged pointers will lead to undefined behaviour.
+>> +
+>> +4. Example of correct usage
+>> +---------------------------
+>> +.. code-block:: c
+>> +
+>> +   void main(void)
+>> +   {
+>> +           static int tbi_enabled = 0;
+>> +           unsigned long tag = 0;
+>> +
+>> +           char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
+>> +                            MAP_ANONYMOUS, -1, 0);
+>> +
+>> +           if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
+>> +                     0, 0, 0) == 0)
+>> +                   tbi_enabled = 1;
+>> +
+>> +           if (ptr == (void *)-1) /* MAP_FAILED */
+>> +                   return -1;
+>> +
+>> +           if (tbi_enabled)
+>> +                   tag = rand() & 0xff;
+>> +
+>> +           ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
+>> +
+>> +           *ptr = 'a';
+>> +
+>> +           ...
+>> +   }
+>> +
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
+-- 
+Regards,
+Vincenzo
