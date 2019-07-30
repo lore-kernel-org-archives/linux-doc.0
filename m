@@ -1,77 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E260D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 21:50:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 658B77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 21:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728774AbfG3VuK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 17:50:10 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36875 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbfG3VuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 17:50:10 -0400
-Received: by mail-pf1-f193.google.com with SMTP id 19so30521540pfa.4
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 14:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+BKxq2zvW/G3+yMMfWlvFPhL1dIassShUGlUo0+V2Mw=;
-        b=ahlAaMvQS4rjYqfVnsUJKeziqu8HKLQYgiaZD8xK1yUMWyZWtGc655v/mrPLRpekW4
-         TFlButmmm+cXD9haxjScCAfbdiirsOWOaC9z3AwPi1u/IIrOKpwsEhlTXJh/1541N1rL
-         V6Utky5MtINFFV2VWCyzkh8p9xhZ+Thrppldc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+BKxq2zvW/G3+yMMfWlvFPhL1dIassShUGlUo0+V2Mw=;
-        b=XdGPm2jaWOaXluV0k9ShuudtcwD30JmyAgWku8e8TwyxPl0Q8juwyl1CWUcRfD3BII
-         0Wf9guIhsUYiLB7QRVeS68vYlrB7shs/Xh/m6IMxhM9nxkhP9mzK4jaGO5wdV4N4jSHG
-         08cF0LOFsQGqkEufuGnSdM9/Q7QrOU613iXOLUaM14zEgL4kXeWJt7iJx6sNwfKHkJG6
-         TLoeNLsMabRMw7CKgTyIFO94ueS9+sx8JjmQ1J2Mn9B65ARh9ejoAj0sOPN5Voqa+Mz3
-         mJzKHnG4WYvLg+nZvyUg6ebhwh56djG9FwmuO49J9c6hYG8Npxc85012vtUgjw4acSA1
-         Q6Og==
-X-Gm-Message-State: APjAAAWifqe//onyGuGkqRa/kvXH2NhEZpuA5BBwkfu/braK7noFyXu6
-        Tk0aAg0PJjTFlrKembkSMpw=
-X-Google-Smtp-Source: APXvYqzBtYvOpW8MZN5Z/2/1reQkPTVdbmFWLbijCAJduuWs4XJmyMykXqW6O3fsrMKTVANHfibzQw==
-X-Received: by 2002:aa7:8502:: with SMTP id v2mr42878772pfn.98.1564523409500;
-        Tue, 30 Jul 2019 14:50:09 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id s20sm75619140pfe.169.2019.07.30.14.50.08
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 30 Jul 2019 14:50:08 -0700 (PDT)
-Date:   Tue, 30 Jul 2019 17:50:07 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
+        id S1727959AbfG3VvJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 17:51:09 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46294 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725963AbfG3VvI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 17:51:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=2YM+iRTjD02xQQLTCNDr1ceqwh6Wn/ZI6sRCyZvD2A4=; b=UNTzpSj0IBHeyp8yWfAy3K6FW
+        gjgzxQNn3C438iKxDw5RmIGgU2Pz/4y5w1JRT39KFWJmBsS8MTh67PHnH0/i1jh/VYJiofZzDRUDY
+        seUpmRwkfz4XkEmgqy9RVUz5Jk9cqaJorZRh/nsiJPknmOpGYTiqzhRAKvzOV8V4NdWLU/37z4B8U
+        sy73T/Dg0gJVCVtBrZm7h+ybABXvVIJEy06PK7eub2hc0noABxnvI+z2030tZyvKJW0AvKz74AL8j
+        /RZyT9pzwEmhUb4j0zAylhKCmHK/sD6mHj9iZKiWliU05EAYDc5ZCmx6+mu26UDyyHHIvkPkC07N7
+        m5hqRrDJQ==;
+Received: from [177.157.101.143] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hsa1H-0001XD-Uc; Tue, 30 Jul 2019 21:50:56 +0000
+Date:   Tue, 30 Jul 2019 18:50:51 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
+Cc:     Josh Triplett <josh@joshtriplett.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH v2 25/26] docs: rcu: convert some articles from html to
  ReST
-Message-ID: <20190730215007.GA254050@google.com>
-References: <cover.1564145354.git.mchehab+samsung@kernel.org>
- <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
- <20190730212250.GJ14271@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <20190730185040.3fbc44ca@coco.lan>
 In-Reply-To: <20190730212250.GJ14271@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1564145354.git.mchehab+samsung@kernel.org>
+        <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
+        <20190730212250.GJ14271@linux.ibm.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 30, 2019 at 02:22:50PM -0700, Paul E. McKenney wrote:
+Em Tue, 30 Jul 2019 14:22:50 -0700
+"Paul E. McKenney" <paulmck@linux.ibm.com> escreveu:
+
 > On Fri, Jul 26, 2019 at 09:51:35AM -0300, Mauro Carvalho Chehab wrote:
 > > There are 4 RCU articles that are written on html format.
 > > 
@@ -88,29 +74,29 @@ On Tue, Jul 30, 2019 at 02:22:50PM -0700, Paul E. McKenney wrote:
 > > the result had some broken things that had to be manually
 > > fixed.
 > > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
 > 
 > I am having some trouble applying these, at least in part due to UTF-8
 > sequences, for example double left quotation mark.  These end up being
 > "=E2=80=9C", with a few space characters turned into "=20".
 > 
-> Any advice on how to apply these?  Should I just pull commits from
-> somewhere?
+> Any advice on how to apply these?
 
-I was able to successfully apply and build this particular patch. I think
-this is the only one in the series that applies to RCU.
+Didn't notice it ended with UTF-8 chars. It is probably because it came
+from the html conversion.
 
-Sadly, I can't find the patch in any of the public archives, but I could
-perhaps email it to you as an .mbox attach which 'git am' should be able to
-apply.
+I guess it shouldn't hurt keeping those, but if you prefer I can find 
+some time later to replace them.
 
-Mauro did say he was going to add some more details to changelog, or it could
-be added when it is applied:
-https://lore.kernel.org/rcu/20190726154550.5eeae294@coco.lan/
+> Should I just pull commits from somewhere?
 
-Let me know how else I can help! I am reviewing this patch further today.
+Yeah, if you prefer, you can pull from this branch:
 
-thanks,
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=rcu-v1
 
- - Joel
+It has just two patches: the RCU and tools/memory-model ones.
 
+It is based on v5.3-rc2.
+
+Thanks,
+Mauro
