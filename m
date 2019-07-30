@@ -1,90 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D673A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 08:11:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BE8D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 08:17:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbfG3ILk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 04:11:40 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:55952 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726870AbfG3ILk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 04:11:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lqG3hFLeHki6KlZNi6gozV3r9j/aZGFzc0fdJeJSVQ8=; b=rxPQWpq1LSCp6jnJK/v6L8dDR
-        SkDfaijqdixP9Xmv7Riil22otsXN/ASK8qonDt1a1WnmCwcZFzOTSgAbcTOGAJ/q0YjwnjWVOAN4J
-        aQItm82TxPGN0WVkOpGnPl0gdgabuNsroTPsKVPIGkdefwHCL43Mywg9MUHzTccgCcvBp/fp4Tg4Y
-        yb89urip9Lk2Qp+GyN86WBbHtK6btdzda9xLD4lNnQyxBqeCeVecQ6vHWKegBrGJD6R9nuf6igjct
-        DKTn0E8lGqly9r6I8JgKv/fXzc1I4FI5mzOw56W98AiFk6F9PGvDdRWJkXs8fM1iS6LW9Cqh9J+Sr
-        mV+nqySTw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hsNEB-0005KX-Sn; Tue, 30 Jul 2019 08:11:24 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A37B120D27EAA; Tue, 30 Jul 2019 10:11:22 +0200 (CEST)
-Date:   Tue, 30 Jul 2019 10:11:22 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     mingo@redhat.com, lizefan@huawei.com, hannes@cmpxchg.org,
-        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, Nick Kralevich <nnk@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 1/1] psi: do not require setsched permission from the
- trigger creator
-Message-ID: <20190730081122.GH31381@hirez.programming.kicks-ass.net>
-References: <20190730013310.162367-1-surenb@google.com>
+        id S1729473AbfG3IRR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 04:17:17 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43425 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728297AbfG3IRR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 04:17:17 -0400
+Received: by mail-oi1-f196.google.com with SMTP id w79so47339001oif.10
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 01:17:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=CNU8TS9u3/ubSDEXC8bYLt11vTX+jIiR3ccUu5xBq/s=;
+        b=xn6TrcnJQW1843kXVkaivWSqaN6YpPuOoSGwYZH296NWOGCTIIFUhybEsgwhGezhj/
+         JW8rx5mw3kap3WdICRseoi7PjJM75dSjB0Nz9wm9q63Krqsnlkc0a7J0mlGvPvEqp6KK
+         kdNapt9bS6ofRieaQoz2o8+I7Ex7zVe+chFEKlZBN3rlxPzLAMZm7TSFuLXf/MYG0bzg
+         5YPohWDxh6QreIXNahDV6kcvYSxG6RS+qCegWHydhnkykJbLHNNXLdkWE3Qd0H4Q1H8g
+         4WAef36wkgJGMpHDKLpyC7H++2UMaCTsF4tp3CLNLXWhJQCkZjy1xq+i5XE+wP84aGct
+         UX5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CNU8TS9u3/ubSDEXC8bYLt11vTX+jIiR3ccUu5xBq/s=;
+        b=CCN5VvSLQp3vplXc22/kmQBV3a7eIw5CbmyT/NsS+F8s9vFheVzmu73CHC4pjBpr4L
+         U3RkflyM5+d2o5PAX69oiUGCj4moU19+i3vGJ+8ubkvkZgR3zTbUPe4c2PITs7DQ8xSG
+         t/PagT/JktTDBgJsOO3njpwLLogBmBu2uMV6yklGpdV1zImg9gVoqOUhOYK6VPtt1A+l
+         RvG8djjm2aiYbQLtiO9kK25MNpPNbaYTM29LJvWtLGAPjnxVjcFxftfxJEweuQmDDdmG
+         78o2Rqgoj6yxB34hnYIswJXJ6l+Z9Me79dDcE45cDR0e7SwGeoJAN8wB+OXn9Qg3Nj0g
+         5E9w==
+X-Gm-Message-State: APjAAAXVpYD4KZI3DukGOl4XKf72pMYUoE3shqTP9ppH89m0IABpz2Bb
+        M304+n3FI7eQGB30H9S+pr2D0wmgQt5VczJbZgaTcFGj
+X-Google-Smtp-Source: APXvYqzA9lnj0jchZGCMVFVje5J2e2ig9YqjWZigBEwtFQWTiBVjS1h0WVLyPMueKKXBH389khOeqr/AbFqXtSaX1Ig=
+X-Received: by 2002:aca:b58b:: with SMTP id e133mr367236oif.147.1564474636495;
+ Tue, 30 Jul 2019 01:17:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190730013310.162367-1-surenb@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190729143730.18660-1-jcline@redhat.com>
+In-Reply-To: <20190729143730.18660-1-jcline@redhat.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Tue, 30 Jul 2019 10:17:05 +0200
+Message-ID: <CAMpxmJXanG_-Cet-VEg2=XHsZqCqqPJ9O8kUC+14u5-rr+ypkA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: gpio: fix function links in the HTML docs
+To:     Jeremy Cline <jcline@redhat.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 06:33:10PM -0700, Suren Baghdasaryan wrote:
-> When a process creates a new trigger by writing into /proc/pressure/*
-> files, permissions to write such a file should be used to determine whether
-> the process is allowed to do so or not. Current implementation would also
-> require such a process to have setsched capability. Setting of psi trigger
-> thread's scheduling policy is an implementation detail and should not be
-> exposed to the user level. Remove the permission check by using _nocheck
-> version of the function.
-> 
-> Suggested-by: Nick Kralevich <nnk@google.com>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+pon., 29 lip 2019 o 16:37 Jeremy Cline <jcline@redhat.com> napisa=C5=82(a):
+>
+> The shorthand [_data] and [devm_] cause the HTML documentation to not
+> link to the function documentation properly. This expands the references
+> to the complete function names with the exception of
+> devm_gpiochip_remove() which was dropped by commit 48207d7595d2 ("gpio:
+> drop devm_gpiochip_remove()").
+>
+> Signed-off-by: Jeremy Cline <jcline@redhat.com>
 > ---
->  kernel/sched/psi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> index 7acc632c3b82..ed9a1d573cb1 100644
-> --- a/kernel/sched/psi.c
-> +++ b/kernel/sched/psi.c
-> @@ -1061,7 +1061,7 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->  			mutex_unlock(&group->trigger_lock);
->  			return ERR_CAST(kworker);
->  		}
-> -		sched_setscheduler(kworker->task, SCHED_FIFO, &param);
-> +		sched_setscheduler_nocheck(kworker->task, SCHED_FIFO, &param);
+> New in v2:
+>   - Rebased onto v5.3-rc2
+>
+>  Documentation/driver-api/gpio/driver.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/dri=
+ver-api/gpio/driver.rst
+> index 921c71a3d683..906af220b164 100644
+> --- a/Documentation/driver-api/gpio/driver.rst
+> +++ b/Documentation/driver-api/gpio/driver.rst
+> @@ -69,9 +69,9 @@ driver code:
+>
+>  The code implementing a gpio_chip should support multiple instances of t=
+he
+>  controller, preferably using the driver model. That code will configure =
+each
+> -gpio_chip and issue ``gpiochip_add[_data]()`` or ``devm_gpiochip_add_dat=
+a()``.
+> -Removing a GPIO controller should be rare; use ``[devm_]gpiochip_remove(=
+)``
+> -when it is unavoidable.
+> +gpio_chip and issue gpiochip_add(), gpiochip_add_data(), or
+> +devm_gpiochip_add_data().  Removing a GPIO controller should be rare; us=
+e
+> +gpiochip_remove() when it is unavoidable.
+>
+>  Often a gpio_chip is part of an instance-specific structure with states =
+not
+>  exposed by the GPIO interfaces, such as addressing, power management, an=
+d more.
+> @@ -418,11 +418,11 @@ symbol:
+>
+>  If there is a need to exclude certain GPIO lines from the IRQ domain han=
+dled by
+>  these helpers, we can set .irq.need_valid_mask of the gpiochip before
+> -``[devm_]gpiochip_add_data()`` is called. This allocates an .irq.valid_m=
+ask with as
+> -many bits set as there are GPIO lines in the chip, each bit representing=
+ line
+> -0..n-1. Drivers can exclude GPIO lines by clearing bits from this mask. =
+The mask
+> -must be filled in before gpiochip_irqchip_add() or gpiochip_irqchip_add_=
+nested()
+> -is called.
+> +devm_gpiochip_add_data() or gpiochip_add_data() is called. This allocate=
+s an
+> +.irq.valid_mask with as many bits set as there are GPIO lines in the chi=
+p, each
+> +bit representing line 0..n-1. Drivers can exclude GPIO lines by clearing=
+ bits
+> +from this mask. The mask must be filled in before gpiochip_irqchip_add()=
+ or
+> +gpiochip_irqchip_add_nested() is called.
+>
+>  To use the helpers please keep the following in mind:
+>
+> --
+> 2.21.0
+>
 
-ARGGH, wtf is there a FIFO-99!! thread here at all !?
+Patch applied, thanks!
 
->  		kthread_init_delayed_work(&group->poll_work,
->  				psi_poll_work);
->  		rcu_assign_pointer(group->poll_kworker, kworker);
-> -- 
-> 2.22.0.709.g102302147b-goog
-> 
+Bartosz
