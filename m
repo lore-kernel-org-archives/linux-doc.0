@@ -1,122 +1,177 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A47BF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 17:45:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 365F47D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Jul 2019 21:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbfG3RpF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 13:45:05 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42510 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726145AbfG3RpF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 13:45:05 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x1so16808618wrr.9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 10:45:03 -0700 (PDT)
+        id S2387544AbfG3VHy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Jul 2019 17:07:54 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45113 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387543AbfG3VHy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 17:07:54 -0400
+Received: by mail-pg1-f195.google.com with SMTP id o13so30672009pgp.12
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2019 14:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=55SXhObGMSQ3B0w5iMjyyzalfBJzrVOBbclW7iiKCkQ=;
-        b=exjzghzO7EhbkTlYRFfZpr6tmrtVXcAc1TUpBd+Kl4u2JUg38zLUxXExvK1XJMeAHr
-         SlyxbTxUP2z+uLswK5N+R5aD9XurFsnLC7er31ADmEw6e+cthpO8vgTny/Txh/AaxhZy
-         UyP5/EwXK5UjoggTiOow6IAF0r7VTqfO69BIgtbWgyUNP0ncKxhxcQKicE91n2/lV9GL
-         ULiImcXpHVtfhBQVZL6kj0KY15jtIpMDwL5j/EdSck5lUOzB7BhcXdADbWAn7+0ox4AY
-         clZVy+4OW2s2Mz0wdzzmFCii/R+659YbFBpBorz3TPYwfRJ6Uo8crDJGkNoDfjYysPcj
-         PCyg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TQmtlWm+E4Ht8KJWS3CIc6OxhoEnlgrUfo3WZfK6Cgk=;
+        b=BK1+NHtgcxXYd9svHIXl4oaEdad9kLD6Mbaabj6IKd0mKnQP6iz6av6uLftJ2EfIp0
+         IHgcwqlVAm+LY5PT9XIJCbo8J+roHxXbYtrRLXGVk4QUPtLMvLyx3EfA6kqObonleANQ
+         62sPbi3KvkPvCNl2xCTmsiLcUj1NUjRd9goIQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=55SXhObGMSQ3B0w5iMjyyzalfBJzrVOBbclW7iiKCkQ=;
-        b=hSsemD1gDHLC3jjQXIYX7RBudv83+mPtAsqQKbDX5+ApNjFbTs8XTEdxJbRt/e9/u5
-         TUhSY8UUdGnXIaEpScKMC0n5F2QDgHFV9MTcgsi2QIIDqMenwjFXOLzrct+AWlg0VSw/
-         gp1DSlRRKJBOVbaFhRiZ+JspskgY8Htda5j2Mbhu7kBfTsX2uVsr3oSwY1++J0YqofN0
-         13GpUDlWmbt7ms1nLc8W/ASaKnvWNH1kgun9sjOtIa9iUBifD5NUL5sSYXFkayPyTa+l
-         MwKApmGoaoUmqjEzbD1LLsX8e3Xa4zG/Md7nlTMoVc1xgwZyi6y+TMLG5TcC9F7YmJec
-         g0/w==
-X-Gm-Message-State: APjAAAVHO7mW8tzGXcvSvSWtBu577lhFYcMlJEAwLmyFTOtRiYKGtSPs
-        lWs0ZITQ89H+QK+x6tsRvvs9OsCDztr/rHgl0jYIDg==
-X-Google-Smtp-Source: APXvYqw7bdW2U1qAn58HfHRrUeJI5mayWPJXnuvI4caiQBk+twxM3cUV7/aucx0o+qhr7HnlZGa3XX7YY+oTszTwMDI=
-X-Received: by 2002:adf:e50c:: with SMTP id j12mr45502820wrm.117.1564508702443;
- Tue, 30 Jul 2019 10:45:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TQmtlWm+E4Ht8KJWS3CIc6OxhoEnlgrUfo3WZfK6Cgk=;
+        b=AdCPaT5xYZjAOFYM2s6bqPnh85I8gKTm8SNRPTY62yzEBqwQypyRVG/DieZ+xgk7aQ
+         if9qgCIq/6uYRGDqumW4ygie7O5E4TP03jK2W/2wEURYRSjyDo21z7Z9LZWZj6vF/aNo
+         vuLTpWzWMKw0TbU/djGxF35Zf6uxc1G0bZQ+uSydTPqYceMNpvcxQ+Gcehiy4Fswbw8+
+         P4g6Isaiab2VfDIuneOSDHnnoxIjQufCYFCihM6fHU+uUaaL1CqG52wsxeAsTdhuWrtj
+         lsSpHWNpC+E7qhj9R6w/4KALNAYJke10E7u9UXzCZWPnAofH1TGCJCwc8Y7pUIJ5AoFB
+         iMOQ==
+X-Gm-Message-State: APjAAAUQKfCpAYiA/awcaj9XMGnEZQX236szeW7su/zi15mmBX+CBd3S
+        pREw0yxDaW/53naco9gaRwnViQ==
+X-Google-Smtp-Source: APXvYqyrYFXubXrdWWyteW8t45F3qq8NknERY3imh1RniTNQgWLo48CyG109AH2gQQ7FnJTccgLJCg==
+X-Received: by 2002:a17:90a:8b98:: with SMTP id z24mr120053812pjn.77.1564520873658;
+        Tue, 30 Jul 2019 14:07:53 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id q1sm77273595pfg.84.2019.07.30.14.07.52
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 30 Jul 2019 14:07:52 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Tri Vo <trong@android.com>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] idr: Document calling context for IDA APIs mustn't use locks
+Date:   Tue, 30 Jul 2019 14:07:52 -0700
+Message-Id: <20190730210752.157700-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
 MIME-Version: 1.0
-References: <20190730013310.162367-1-surenb@google.com> <20190730081122.GH31381@hirez.programming.kicks-ass.net>
-In-Reply-To: <20190730081122.GH31381@hirez.programming.kicks-ass.net>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 30 Jul 2019 10:44:51 -0700
-Message-ID: <CAJuCfpH7NpuYKv-B9-27SpQSKhkzraw0LZzpik7_cyNMYcqB2Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] psi: do not require setsched permission from the
- trigger creator
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
-        Dennis Zhou <dennis@kernel.org>,
-        Dennis Zhou <dennisszhou@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        Nick Kralevich <nnk@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 30, 2019 at 1:11 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Jul 29, 2019 at 06:33:10PM -0700, Suren Baghdasaryan wrote:
-> > When a process creates a new trigger by writing into /proc/pressure/*
-> > files, permissions to write such a file should be used to determine whether
-> > the process is allowed to do so or not. Current implementation would also
-> > require such a process to have setsched capability. Setting of psi trigger
-> > thread's scheduling policy is an implementation detail and should not be
-> > exposed to the user level. Remove the permission check by using _nocheck
-> > version of the function.
-> >
-> > Suggested-by: Nick Kralevich <nnk@google.com>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  kernel/sched/psi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> > index 7acc632c3b82..ed9a1d573cb1 100644
-> > --- a/kernel/sched/psi.c
-> > +++ b/kernel/sched/psi.c
-> > @@ -1061,7 +1061,7 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
-> >                       mutex_unlock(&group->trigger_lock);
-> >                       return ERR_CAST(kworker);
-> >               }
-> > -             sched_setscheduler(kworker->task, SCHED_FIFO, &param);
-> > +             sched_setscheduler_nocheck(kworker->task, SCHED_FIFO, &param);
->
-> ARGGH, wtf is there a FIFO-99!! thread here at all !?
+The documentation for these functions indicates that callers don't need
+to hold a lock while calling them, but that documentation is only in one
+place under "IDA Usage". Let's state the same information on each IDA
+function so that it's clear what the calling context requires.
+Furthermore, let's document ida_simple_get() with the same information
+so that callers know how this API works.
 
-We need psi poll_kworker to be an rt-priority thread so that psi
-notifications are delivered to the userspace without delay even when
-the CPUs are very congested. Otherwise it's easy to delay psi
-notifications by running a simple CPU hogger executing "chrt -f 50 dd
-if=/dev/zero of=/dev/null". Because these notifications are
-time-critical for reacting to memory shortages we can't allow for such
-delays.
-Notice that this kworker is created only if userspace creates a psi
-trigger. So unless you are using psi triggers you will never see this
-kthread created.
+Cc: Greg KH <gregkh@linuxfoundation.org>
+Cc: Tri Vo <trong@android.com>
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
 
-> >               kthread_init_delayed_work(&group->poll_work,
-> >                               psi_poll_work);
-> >               rcu_assign_pointer(group->poll_kworker, kworker);
-> > --
-> > 2.22.0.709.g102302147b-goog
-> >
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+See Greg's comment[1] for the reason why this patch is created.
+
+[1] https://lkml.kernel.org/r/20190730064657.GA1213@kroah.com
+
+ include/linux/idr.h | 23 ++++++++++++++++++++---
+ lib/idr.c           |  9 ++++++---
+ 2 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/include/linux/idr.h b/include/linux/idr.h
+index 4ec8986e5dfb..b591ecbba3f4 100644
+--- a/include/linux/idr.h
++++ b/include/linux/idr.h
+@@ -263,7 +263,8 @@ void ida_destroy(struct ida *ida);
+  *
+  * Allocate an ID between 0 and %INT_MAX, inclusive.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+  * or %-ENOSPC if there are no free IDs.
+  */
+@@ -280,7 +281,8 @@ static inline int ida_alloc(struct ida *ida, gfp_t gfp)
+  *
+  * Allocate an ID between @min and %INT_MAX, inclusive.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+  * or %-ENOSPC if there are no free IDs.
+  */
+@@ -297,7 +299,8 @@ static inline int ida_alloc_min(struct ida *ida, unsigned int min, gfp_t gfp)
+  *
+  * Allocate an ID between 0 and @max, inclusive.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+  * or %-ENOSPC if there are no free IDs.
+  */
+@@ -311,6 +314,20 @@ static inline void ida_init(struct ida *ida)
+ 	xa_init_flags(&ida->xa, IDA_INIT_FLAGS);
+ }
+ 
++/**
++ * ida_simple_get() - Allocate an unused ID between (start, end].
++ * @ida: IDA handle.
++ * @start: ID to start from (inclusive)
++ * @end: ID to stop at (exclusive). Use 0 to indicate %INT_MAX.
++ * @gfp: Memory allocation flags.
++ *
++ * Allocate an ID between (start, end].
++ *
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
++ * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
++ * or %-ENOSPC if there are no free IDs.
++ */
+ #define ida_simple_get(ida, start, end, gfp)	\
+ 			ida_alloc_range(ida, start, (end) - 1, gfp)
+ #define ida_simple_remove(ida, id)	ida_free(ida, id)
+diff --git a/lib/idr.c b/lib/idr.c
+index 66a374892482..e8a5f47c0c78 100644
+--- a/lib/idr.c
++++ b/lib/idr.c
+@@ -381,7 +381,8 @@ EXPORT_SYMBOL(idr_replace);
+  * Allocate an ID between @min and @max, inclusive.  The allocated ID will
+  * not exceed %INT_MAX, even if @max is larger.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+  * or %-ENOSPC if there are no free IDs.
+  */
+@@ -488,7 +489,8 @@ EXPORT_SYMBOL(ida_alloc_range);
+  * @ida: IDA handle.
+  * @id: Previously allocated ID.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  */
+ void ida_free(struct ida *ida, unsigned int id)
+ {
+@@ -540,7 +542,8 @@ EXPORT_SYMBOL(ida_free);
+  * or freed.  If the IDA is already empty, there is no need to call this
+  * function.
+  *
+- * Context: Any context.
++ * Context: Any context. It is safe to call this function without
++ * synchronisation in your code.
+  */
+ void ida_destroy(struct ida *ida)
+ {
+-- 
+Sent by a computer through tubes
+
