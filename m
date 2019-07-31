@@ -1,103 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8218E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 20:22:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF8757D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 20:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729605AbfGaUWY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 16:22:24 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55062 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729594AbfGaUWY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 16:22:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=8T3oN0ay0ADCvgHkGALYwHuH3kC20Zzu6Hu9EAzOso0=; b=tQET+ncriJIfJ3qECd3FP3DB7
-        f1K9NE6SaKEtYb3U6XYUTwzTuwx/9/SrvpNAor2RcpO+4KWehM3PLWk5COhYu0Ha1mdugho8R1I0C
-        GgTNMK3ek55qdqLAbREUagc3LZCdrmmu8jQECKWB6oyaUc0x1YIC7LbTTbFeNk+VqxIsrYsxY2Ntm
-        d9wqGiEEGyL8ft8J4TKYugtG3XDLKXdKy0J6Xdsk+iY4EK0hv/xBHs5ufFcDA52xK1z/CdtR3z6Xp
-        9yj90nqPFUbtuoB/eFLeMZA28CCxi2nUMmQK98e1pc1HWIUq2tR5gcg9hVzAmdfrVWwkx6zSTz/YZ
-        Sykb1HzHw==;
-Received: from [191.33.152.89] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hsv79-0006JS-Hc; Wed, 31 Jul 2019 20:22:23 +0000
-Date:   Wed, 31 Jul 2019 17:22:19 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1730334AbfGaUZX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 16:25:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49252 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730309AbfGaUZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 16:25:23 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6VKNnPg068980
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 16:25:21 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2u3grvu7ug-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 16:25:21 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Wed, 31 Jul 2019 21:25:21 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 31 Jul 2019 21:25:16 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6VKPFVW52756816
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 31 Jul 2019 20:25:15 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2BFA1B2064;
+        Wed, 31 Jul 2019 20:25:15 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0CEB2B205F;
+        Wed, 31 Jul 2019 20:25:14 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.154])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 31 Jul 2019 20:25:14 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 9874316C99FD; Wed, 31 Jul 2019 13:25:17 -0700 (PDT)
+Date:   Wed, 31 Jul 2019 13:25:17 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] docs: fs: convert porting to ReST
-Message-ID: <20190731172219.2f07d420@coco.lan>
-In-Reply-To: <20190731141707.6f3d21d7@lwn.net>
-References: <cover.1564603513.git.mchehab+samsung@kernel.org>
-        <a2303fe9fa2103e7d1f8589e1f91a7d65497e8b7.1564603513.git.mchehab+samsung@kernel.org>
-        <20190731141707.6f3d21d7@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Ingo Molnar <mingo@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        SeongJae Park <sj38.park@gmail.com>, linux-arch@vger.kernel.org
+Subject: Re: [PATCH] tools: memory-model: add it to the Documentation body
+Reply-To: paulmck@linux.ibm.com
+References: <Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org>
+ <cb9785b7-ed43-b91a-7392-e50216bd5771@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb9785b7-ed43-b91a-7392-e50216bd5771@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19073120-0052-0000-0000-000003E70E3E
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011530; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000287; SDB=6.01240217; UDB=6.00653980; IPR=6.01021637;
+ MB=3.00027984; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-31 20:25:20
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19073120-0053-0000-0000-000061EAB294
+Message-Id: <20190731202517.GF5913@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-31_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907310203
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 31 Jul 2019 14:17:07 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> On Wed, 31 Jul 2019 17:08:52 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Thu, Aug 01, 2019 at 12:19:25AM +0900, Akira Yokosawa wrote:
+> On Wed, 31 Jul 2019 09:52:05 -0400, Alan Stern wrote:
+> > On Tue, 30 Jul 2019, Mauro Carvalho Chehab wrote:
+> > 
+> >> Em Tue, 30 Jul 2019 18:17:01 -0400
+> >> Joel Fernandes <joel@joelfernandes.org> escreveu:
+> > 
+> >>>>> (4) I would argue that every occurence of
+> >>>>> A ->(some dependency) B should be replaced with fixed size font in the HTML
+> >>>>> results.  
+> >>>>
+> >>>> Just place those with ``A -> (some dependency)``. This will make them use
+> >>>> a fixed size font.  
+> >>>
+> >>> Ok, understood all these. I guess my point was all of these will need to be
+> >>> done to make this document useful from a ReST conversion standpoint. Until
+> >>> then it is probably just better off being plain text - since there are so
+> >>> many of those ``A -> (dep) B`` things.
+> > 
+> >> On a very quick look, it seems that, if we replace:
+> >>
+> >> 	(\S+\s->\S*\s\w+)
+> >>
+> >> by:
+> >> 	``\1``
+> >>
+> >>
+> >> On an editor that would allow to manually replace the regex (like kate),
+> >> most of those can be get.
+> >>
+> >> See patch enclosed.
+> > 
+> > Some time ago I considered the problem of converting this file to ReST 
+> > format.  But I gave up on the idea, because the necessary changes were 
+> > so widespread and the resulting text file would not be easily readable.
+> > 
+> > Replacing things of the form "A ->dep B" just scratches the surface.  
+> > That document teems with variable names, formulas, code extracts, and
+> > other things which would all need to be rendered in a different font
+> > style.  The density of the markup required to do this would be
+> > phenomenally high.
+> > 
+> > In my opinion it simply was not worthwhile.
 > 
-> > This file has its own proper style, except that, after a while,
-> > the coding style gets violated and whitespaces are placed on
-> > different ways.
-> > 
-> > As Sphinx and ReST are very sentitive to whitespace differences,
-> > I had to opt if each entry after required/mandatory/... fields
-> > should start with zero spaces or with a tab. I opted to start them
-> > all from the zero position, in order to avoid needing to break lines
-> > with more than 80 columns, with would make harder for review.
-> > 
-> > Most of the other changes at porting.rst were made to use an unified
-> > notation with works nice as a text file while also produce a good html
-> > output after being parsed.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/filesystems/porting.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-> > index 66aa521e6376..f18506083ced 100644
-> > --- a/Documentation/filesystems/porting.rst
-> > +++ b/Documentation/filesystems/porting.rst
-> > @@ -158,7 +158,7 @@ Callers of notify_change() need ->i_mutex now.
-> >  New super_block field ``struct export_operations *s_export_op`` for
-> >  explicit support for exporting, e.g. via NFS.  The structure is fully
-> >  documented at its declaration in include/linux/fs.h, and in
-> > -Documentation/filesystems/nfs/Exporting.
-> > +Documentation/filesystems/nfs/exporting.rst.
-> >  
-> >  Briefly it allows for the definition of decode_fh and encode_fh operations
-> >  to encode and decode filehandles, and allows the filesystem to use  
-> 
-> This patch doesn't match the changelog at all.  I think it's one leftover
-> fix after the previous version of the patch was applied...?
+> +1 on keeping this and the other .txt files of LKMM intact.
 
-Gah, sorry. Yeah, you're right: this is just a fixup patch.
+Looks like a pretty clear consensus thus far.  Any objections to keeping
+these .txt for the time being?
 
-> 
-> jon
+							Thanx, Paul
 
-
-
-Thanks,
-Mauro
