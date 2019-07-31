@@ -1,89 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3EC777D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 16:01:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 920987D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 16:33:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729464AbfGaQBT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 12:01:19 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:46816 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728093AbfGaQBT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 12:01:19 -0400
-Received: by mail-ed1-f47.google.com with SMTP id d4so66214714edr.13
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 09:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OOHNaf/9zGja9offVGntbMakWJQ+ZGc77yJFGDwH+JY=;
-        b=PNBn1vWg4YbSeIowQjqpM/X23ksXLc6f3T3CgQCwNd4mt2cTyo7ZzHCzFOd5K1E4Iy
-         v4pzf31+LzNF9jhZ74VoLjDAEniolM4dYJ+UpfPPdEAH5TbYVVzHXfBlV66rIU0gUfPM
-         zXZCAUoX/jNc4sONQMGRGcYLTOFVAvx6f2ztMskDsa9mZz05W288TyU311SRl1/Qk+jN
-         o3QsrCKdgzFmQjIBIJerB/AjhVzS9O5yeQK/EnRHuNWXFMBWK65A+iIVESBIMYXjk92a
-         E3loxdrE0PaHqIuCD95gAksQsGy7FbeKWPF1CvNgm1zmfkOVtwlh5lRNyxxrsPzpkM4r
-         NEqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OOHNaf/9zGja9offVGntbMakWJQ+ZGc77yJFGDwH+JY=;
-        b=pdLouPytVzLdtFh8U3XEQXS1x6NTahZA7C7s/cJobjO2XQB8knoO4F3gapRCVxVh0h
-         W/Eyb61DniYzbN2WfhgmGCmAUR296RGLoBQZ3C7KP/EPaiA/zGTWVjqvh9QizQ7gQznB
-         GZZ7Xw9NUtdpnmpGfQPE4slmH+Nh+FPRNJwplBr/1hB2McwTIhEQH+vUL1hyJaqfnGVO
-         mSap8Di6E41kg3tcdZr2PDdnoUhdY2S5oXwa1GSbTJyrG65LznEcsgfaop0wjR44HGnY
-         Jh5Nr2GdvsQ+iaUwPFPhbVBEBADnGvgYbs1FtKRn8olYood8fYitrMaKwXhBaWVFHAaK
-         CeYQ==
-X-Gm-Message-State: APjAAAUyc2PlcunOCiP6+pMbOfeAWeZZPjvD7r2aiqG6pbRc1uJStz82
-        k47Pntk+yRbop0BPqnXdjHFZVas12sSeLaTRVPM=
-X-Google-Smtp-Source: APXvYqwueLVfu4t2A7GiLdjDq8PdZifweEvG9mIYGEKN2rj55OFqd4HfaufMCDSjY0DZ2kfK5Vn500PtEux8jGZKWu8=
-X-Received: by 2002:a17:906:9447:: with SMTP id z7mr29744336ejx.165.1564588877876;
- Wed, 31 Jul 2019 09:01:17 -0700 (PDT)
-MIME-Version: 1.0
+        id S1729445AbfGaQdE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 12:33:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:51206 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729444AbfGaQdE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Jul 2019 12:33:04 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E9B6337;
+        Wed, 31 Jul 2019 09:33:03 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AE8B3F71F;
+        Wed, 31 Jul 2019 09:33:00 -0700 (PDT)
+Date:   Wed, 31 Jul 2019 17:32:58 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     jmorris@namei.org, sashal@kernel.org, ebiederm@xmission.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        marc.zyngier@arm.com, james.morse@arm.com, vladimir.murzin@arm.com,
+        matthias.bgg@gmail.com, bhsharma@redhat.com
+Subject: Re: [RFC v2 0/8] arm64: MMU enabled kexec relocation
+Message-ID: <20190731163258.GH39768@lakrids.cambridge.arm.com>
 References: <20190731153857.4045-1-pasha.tatashin@soleen.com>
- <20190731153857.4045-9-pasha.tatashin@soleen.com> <20190731155042.GF39768@lakrids.cambridge.arm.com>
-In-Reply-To: <20190731155042.GF39768@lakrids.cambridge.arm.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 31 Jul 2019 12:01:07 -0400
-Message-ID: <CA+CK2bCBxff=ZcCMw196idR-1uvryACdzREebqrZeJ2JPwDNFw@mail.gmail.com>
-Subject: Re: [RFC v2 8/8] arm64, kexec: enable MMU during kexec relocation
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bhupesh Sharma <bhsharma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190731153857.4045-1-pasha.tatashin@soleen.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> For various reasons, one cannot safely use Set/Way operations in
-> portable code. They only make sense for low-level platform-specific
-> firmware performing power management operations.
->
-> If you need to perform D-cache maintenance, you must use the VA
-> operations to do so.
+Hi Pavel,
 
-Hi Mark,
+Generally, the cover letter should state up-front what the goal is (or
+what problem you're trying to solve). It would be really helpful to have
+that so that we understand what you're trying to achieve, and why.
 
-I see, thank you for letting me know. I will do d-cache flushing by VA
-in the next iteration. First I need to root cause/fix the bug
-described in the cover letter.
+Messing with the MMU is often fraught with danger (and very painful to
+debug, as you are now aware), and so far we've tried to minimize the
+number of places where we have to do so.
 
-Thank you,
-Pasha
+On Wed, Jul 31, 2019 at 11:38:49AM -0400, Pavel Tatashin wrote:
+> Changelog from previous RFC:
+> - Added trans_table support for both hibernate and kexec.
+> - Fixed performance issue, where enabling MMU did not yield the
+>   actual performance improvement.
+> 
+> Bug:
+> With the current state, this patch series works on kernels booted with EL1
+> mode, but for some reason, when elevated to EL2 mode reboot freezes in
+> both QEMU and on real hardware.
+> 
+> The freeze happens in:
+> 
+> arch/arm64/kernel/relocate_kernel.S
+> 	turn_on_mmu()
+> 
+> Right after sctlr_el2 is written (MMU on EL2 is enabled)
+> 
+> 	msr     sctlr_el2, \tmp1
+> 
+> I've been studying all the relevant control registers for EL2, but do not
+> see what might be causing this hang:
+> 
+> MAIR_EL2 is set to be exactly the same as MAIR_EL1 0xbbff440c0400
+> 
+> TCR_EL2        0x80843510
+> Enabled bits:
+> PS      Physical Address Size. (0b100   44 bits, 16TB.)
+> SH0     Shareability    11 Inner Shareable
+> ORGN0   Normal memory, Outer Write-Back Read-Allocate Write-Allocate Cach.
+> IRGN0   Normal memory, Inner Write-Back Read-Allocate Write-Allocate Cach.
+> T0SZ    01 0000
+> 
+> SCTLR_EL2	0x30e5183f
+> RES1    : Reserve ones
+> M       : MMU enabled
+> A       : Align check
+> C       : Cacheability control
+> SA      : SP Alignment check enable
+> IESB    : Implicit Error Synchronization event
+> I       : Instruction access Cacheability
+> 
+> TTBR0_EL2      0x1b3069000 (address of trans_table)
+> 
+> Any suggestion of what else might be missing that causes this freeze when
+> MMU is enabled in EL2?
+> 
+> =====
+
+> Here is the current data from the real hardware:
+> (because of bug, I forced EL1 mode by setting el2_switch always to zero in
+> cpu_soft_restart()):
+> 
+> For this experiment, the size of kernel plus initramfs is 25M. If initramfs
+> was larger, than the improvements would be even greater, as time spent in
+> relocation is proportional to the size of relocation.
+> 
+> Previously:
+> kernel shutdown	0.022131328s
+> relocation	0.440510736s
+> kernel startup	0.294706768s
+
+In total this takes ~0.76s...
+
+> 
+> Relocation was taking: 58.2% of reboot time
+> 
+> Now:
+> kernel shutdown	0.032066576s
+> relocation	0.022158152s
+> kernel startup	0.296055880s
+
+... and this takes ~0.35s
+
+So do we really need this complexity for a few blinks of an eye?
+
+Thanks,
+Mark.
