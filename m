@@ -1,72 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C9B017D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 19:39:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45F227D92A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 19:59:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbfGaTju (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 15:39:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55906 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726232AbfGaTju (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:39:50 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6CBFD7DA;
-        Wed, 31 Jul 2019 19:39:49 +0000 (UTC)
-Date:   Wed, 31 Jul 2019 13:39:48 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, tweek@google.com,
-        matthewgarrett@google.com, jorhand@linux.microsoft.com,
-        rdunlap@infradead.org, Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH v4] tpm: Document UEFI event log quirks
-Message-ID: <20190731133948.1a527db8@lwn.net>
-In-Reply-To: <20190712154439.10642-1-jarkko.sakkinen@linux.intel.com>
-References: <20190712154439.10642-1-jarkko.sakkinen@linux.intel.com>
-Organization: LWN.net
+        id S1730184AbfGaT7G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 15:59:06 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44710 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730095AbfGaT7G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 15:59:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0FCgrVECgHJ5mN0TOLb6qGjmrOPbesWGR16zdSh0WtI=; b=r7C5N+pecqmZ+wGnQ0eBJgI6K
+        OieGkEotLn7ZIsuqxUC09nkXC73FRG+HDD++sZo3HPiL8KRuchfKzaGeQcf8QXAHUlZrTKWCZbnW9
+        XvyWyaHapg1EjywoFq/+xTK1gnG8oucj1vaplCGjFUN72/Z6ptG85+uQbhNBHZyb0P8d9Jd0UA8Ne
+        QcCA8MOBHBfi2ptKd6QqtTO6YWXLZy4KlxASy6Lxp6OgAi60GuN28VgGdvnYJAJ6FSsYy0z4lXlyj
+        498IiA36yV7ceGVsFa8EYPmNeS+ngzQjsAszY/ePkT+si/20g40OyJ2wwihWvUc+FnlLcfMaSDCzn
+        EtYGbtdQA==;
+Received: from [191.33.152.89] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hsukZ-0008O6-Nm; Wed, 31 Jul 2019 19:59:03 +0000
+Date:   Wed, 31 Jul 2019 16:58:59 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 01/26] docs: power: add it to to the main
+ documentation index
+Message-ID: <20190731165859.10b439c8@coco.lan>
+In-Reply-To: <20190731133443.49368cbb@lwn.net>
+References: <cover.1564145354.git.mchehab+samsung@kernel.org>
+        <5417112ea7a391e6622c46bf833b7d6a5725c158.1564145354.git.mchehab+samsung@kernel.org>
+        <20190731130338.6de6c5d7@lwn.net>
+        <20190731161606.2572a567@coco.lan>
+        <20190731133443.49368cbb@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Jul 2019 18:44:32 +0300
-Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com> wrote:
+Em Wed, 31 Jul 2019 13:34:43 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> There are some weird quirks when it comes to UEFI event log. Provide a
-> brief introduction to TPM event log mechanism and describe the quirks
-> and how they can be sorted out.
+> On Wed, 31 Jul 2019 16:16:06 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
-> v4: - Unfortanely -> Unfortunately
-> v3: - Add a section for refs and use a bullet list to enumerate them.
->     - Remove an invalid author info.
-> v2: - Fix one typo.
->     - Refine the last paragraph to better explain how the two halves
->       of the event log are concatenated.
->  Documentation/security/tpm/index.rst         |  1 +
->  Documentation/security/tpm/tpm_event_log.rst | 55 ++++++++++++++++++++
->  2 files changed, 56 insertions(+)
->  create mode 100644 Documentation/security/tpm/tpm_event_log.rst
+> > The remaining ones in this series aren't there yet.
+> > 
+> > From this series, besides this patch, you can also exclude patch
+> > 25/26, as it seems that Paul will merge via RCU tree.
+> > 
+> > The remaining ones apply cleanly on the top of docs-next
+> > (I tested applying them on the top of your tree yesterday).  
+> 
+> Hmm...really?
+> 
+> - [PATCH v2 03/26] docs: powerpc: convert docs to ReST and rename to *.rst
+> 
+> 	Seems to already be applied.
+> 
+> - [PATCH v2 07/26] docs: w1: convert to ReST and add to the kAPI group of
+>   docs
+> 
+> 	Gives me the dreaded "could not build fake ancestor" error, I
+> 	don't really understand why.
 
-I've applied this, thanks.  Before I could do so, though, I had to edit
-the headers, which read:
+That's new! What Sphinx version are you using?
 
-> Content-Type: text/plain; charset=y
+Btw, on my build here (Sphinx 2.0.1 on Python3), I can't see this error.
 
-"git am" *really* doesn't like "charset=y".  I think this is something
-that git send-email likes to do occasionally, don't know why...
+> 
+> - [PATCH v2 08/26] spi: docs: convert to ReST and add it to the kABI
+>   bookset
+> - [PATCH v2 16/26] docs: fs: cifs: convert to ReST and add to admin-guide
+>   book
+> 
+> 	Likewise
+> 
+> I've applied the others, so we're getting closer...
+
+Weird...
+
+I did a rebase here on the top of your current docs/docs-next... they
+apply fine. Had to do just a small trivial fix on one of the patches.
+
+Anyway, thanks for merging those... I have now just 5 patches.
+
+Btw, it seems that there are now 5 new broken links:
+
+MAINTAINERS: Documentation/filesystems/jfs.txt
+MAINTAINERS: Documentation/filesystems/ufs.txt
+drivers/hwtracing/coresight/Kconfig: Documentation/trace/coresight-cpu-debug.txt
+fs/jfs/Kconfig: file:Documentation/filesystems/jfs.txt
+fs/ufs/Kconfig: file:Documentation/filesystems/ufs.txt
+
+4 of them related to the two fs patches applied today.
+
+I'll send you a fix together with the remaining patches in a few.
 
 Thanks,
-
-jon
+Mauro
