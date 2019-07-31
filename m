@@ -2,103 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C0617D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 10:22:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5317D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 10:26:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727418AbfGaKV5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 06:21:57 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45208 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726666AbfGaKV4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 06:21:56 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m23so64975624lje.12;
-        Wed, 31 Jul 2019 03:21:54 -0700 (PDT)
+        id S1728098AbfGaK00 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 06:26:26 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:39524 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727751AbfGaK00 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 06:26:26 -0400
+Received: by mail-lj1-f193.google.com with SMTP id v18so65007513ljh.6
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 03:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WTjYYJ5w8JGFiCV+fisqsMFDW4bJ2CE5EvIC9ToOEts=;
-        b=kQgLwbxGzgHNMyuTAkxNFzi2aRlyhVO9V24U6HoPMgsf73FeO4NNRkfbI9sA1/VeCi
-         L+vRPE0C3z1l0UJxCQYGpmkdJfvC3jC+J18p407ueMt6c80hF66r4PMCidNSlV2pZVYh
-         hJj99MZl7trjLsU28smtLW55AiDdl4TlXelTS2YuejV4BUW5JhJjShGEm9mKW27TPeLa
-         QRy6yGgoBgplQLbP/GvoGKhajbKfSwsOTs1uvbYFnYX4n44Oji+j0MrTdbv21yJP43Hk
-         wtu9Mqomps2+RbIuua4UWVObpyjn07ZnC5xX0mzc18psE6MD0ZT5nvbZ4EMRfD/pR7+n
-         JDZQ==
+        bh=JUZSHlOC2NsvHH+oiYgXd/P9aGC7hBdS8UD65AtoMp4=;
+        b=MQiLGOAWAeeOz7OvhR0Srak34dyDFzwv68hLoy3nUVLq1Ok4QKDOGspGoCLiCYmrsl
+         X53gwv/rai5eej0QK73mKUVb9t737/JnqyNFTDy3ud2eorwscZF/qVEhn/BI0oZfsUMX
+         NoICCfPOb5jeWu0aA1R5XdP93vlkhILcxoIL6Bf+Pme7yWed9VVKTeOxvaXLm3EViblG
+         bGCBElPhzYPNZVjOgapbV1/DZKl2AMMCaspfmKtCBYkTr7liVQ4IXthOr4B74aJynBUX
+         0mIzuX+PD1vORUscdCQ8kS1BDpsmqzR8d5B0vqB5KEyhGRuDcTR+C0CId8saWMKP4v4l
+         0GOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WTjYYJ5w8JGFiCV+fisqsMFDW4bJ2CE5EvIC9ToOEts=;
-        b=rV6YVU6zl1m6pEuFume43G0K2Svgx0KPsUdevHvbSkcLcl8o1p585QyNbENSKw1TdS
-         4VARvT3Bvie+WdhVM38oCRxIma8dfon13e2MlxET9kCSIAEo3W2IszAvMXLrxOqEzGOf
-         OKVAZj7e/FTK973SYlb0B+JxyJ0cw57wchGh+W402llrNKvFVRRb7xY9MlffRJ88Xgvs
-         sSMUqEW3zC6hRkjVqoTwlZI7schTT8uoN9OeVa/mz2EO3OQr7WW9EyOooPGN5ySimrp7
-         mPpIsEASOjVfRtM9L/5In5OFtghehxdDyGtVLmeg89ZxOGwF6A75uAw9A4cMlQk3Xb94
-         2HmQ==
-X-Gm-Message-State: APjAAAUuUi9olv+nhVz0AvJkq46c1y5IwN4qWMzI6HX08vbQcRCTPqR3
-        P43tw22FRHiPlYNUqoM0204G/xEftLYp+uZPUjI=
-X-Google-Smtp-Source: APXvYqx/9SP/mdIA/VveogDuSBQVAooZmV3FTt0pb7Z8M4ZHoddgQssQP7MNd2vdOvgkZ7HmpBbZgYsmAHs3KDhjdKE=
-X-Received: by 2002:a2e:9857:: with SMTP id e23mr62898681ljj.217.1564568513273;
- Wed, 31 Jul 2019 03:21:53 -0700 (PDT)
+        bh=JUZSHlOC2NsvHH+oiYgXd/P9aGC7hBdS8UD65AtoMp4=;
+        b=mhpXHMhMF0/BZUiZdicHT70EVbyA6sx97u9bq6Ml8yE2m9Rvu3qnzx9VueIdgdjzfQ
+         zjb/ZDHaPbs867w5zamGzHZq4JXaGz2RWwJ8NSCq0U4n1dGsd8O7637gVPITj1KkUPiC
+         2gS3wmssH28+H3h459zHLk6Sbrq3AHCW6DIFnYz02q/aZMJED0aMuzQ5t8vjkjp2CSQG
+         3ianY/Fl2qKChbfjljy7K7hO2/TDo/4VOcOWjNU+EAmyaw6LQeVJiB3xS8ENZL5e3+P/
+         tFu9s7oH7oaF2JHBWiwEzCpGGUPa/eou+ZoJEoY6fpmGvwc7aVy5GRTjwII6SQpdKuAM
+         dB8g==
+X-Gm-Message-State: APjAAAV4N2wRjgbgoM6RzkgdGVHxotkXq46VskXt7dKvXzFHUhdqnKFq
+        UOzlRXiZDNuASVq5PjQxkzBCZGBE/oU8+AzRQw4bsQ==
+X-Google-Smtp-Source: APXvYqzK9w7NfgMq23mlEeHWtRc1vd+SdbVRqgKv0YbwMlIYSzawLj8RuR4WbpJLpxKS9HshxfPzK8im8DJXEMjL6UY=
+X-Received: by 2002:a2e:85d4:: with SMTP id h20mr6120835ljj.142.1564568783805;
+ Wed, 31 Jul 2019 03:26:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org> <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
 In-Reply-To: <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
-From:   Janne Karhunen <janne.karhunen@gmail.com>
-Date:   Wed, 31 Jul 2019 13:21:41 +0300
-Message-ID: <CAE=NcrY7b8eTTovOszBhGhVbjfJAXoAYehiUJyPENGfwWoVcPw@mail.gmail.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 31 Jul 2019 15:56:12 +0530
+Message-ID: <CAFA6WYPJAzbPdcpBqioxjY=T8RLw-73B_hpzX4cGnwVvm5zpJw@mail.gmail.com>
 Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
-To:     Sumit Garg <sumit.garg@linaro.org>
+To:     Janne Karhunen <janne.karhunen@gmail.com>
 Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, jens.wiklander@linaro.org,
-        corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
-        jarkko.sakkinen@linux.intel.com, Mimi Zohar <zohar@linux.ibm.com>,
+        linux-security-module@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, dhowells@redhat.com,
+        jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
         James Morris <jmorris@namei.org>,
         "Serge E. Hallyn" <serge@hallyn.com>,
         Casey Schaufler <casey@schaufler-ca.com>,
-        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
-        linux-doc@vger.kernel.org,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org, tee-dev@lists.linaro.org
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Janne,
 
-To clarify a bit further - my thought was to support any type of trust
-source. Remote, local or both. Just having one particular type of
-locally bound 'TEE' sounded very limited, especially when nothing from
-the TEE execution side is really needed for supporting the kernel
-crypto. What you really need is the seal/unseal transaction going
-somewhere and where that somewhere is does not matter much. With the
-user mode helper in between anyone can easily add their own thing in
-there.
-
-
---
-Janne
-
-On Wed, Jul 31, 2019 at 10:11 AM Janne Karhunen
-<janne.karhunen@gmail.com> wrote:
+On Wed, 31 Jul 2019 at 12:41, Janne Karhunen <janne.karhunen@gmail.com> wrote:
 >
 > Hi,
 >
 > Interesting, I wrote something similar and posted it to the lists a while back:
 > https://github.com/jkrh/linux/commit/d77ea03afedcb5fd42234cd834da8f8a0809f6a6
 >
-> Since there are no generic 'TEEs' available, I implemented the same
+> Since there are no generic 'TEEs' available,
+
+There is already a generic TEE interface driver available in kernel.
+Have a look here: "Documentation/tee.txt".
+
+> I implemented the same
 > thing as a generic protocol translator. The shared memory binding for
 > instance already assumes fair amount about the TEE and how that is
 > physically present in the system. Besides, the help from usage of shm
 > is pretty limited due to the size of the keydata.
 >
+
+If you look at patch #1 and #2, they add support to register kernel
+memory buffer (keydata buffer in this case) with TEE to operate on. So
+there isn't any limitation due to the size of the keydata.
+
+-Sumit
+
 >
 > --
 > Janne
