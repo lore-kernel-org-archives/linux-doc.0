@@ -1,152 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CEE367D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 01:33:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 417D87D913
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 06:44:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbfGaBde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Jul 2019 21:33:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39822 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfGaBde (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jul 2019 21:33:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CtWv+Kt5oLMIEauP6yj+pwM5nJ2GVTC+1w/6yeuf8Bg=; b=qTMAlS0wVeKvtm0hdT5TMZ1Pw
-        DjCeBPgThY7z1IwyUhKUxQwH+MyCFftGkCbyud8mpzubuYfw0bwqsPWltkShl2Ycz+5qWChEYp0P8
-        Sx73wsoDvw60mG8mkHBAEpxuuQ5l3HLNwk06pULOiqHnA6o9bcl3gZq/a1j1KCwGE5oEDSaDlql7u
-        xbf252uaQuRQKboq39grUCq6Ob0BB82WjngfjZ36rleF6hOFjFhpv2Z7UCMN/+yUDNBnY9XR4wl97
-        H1J6N7R6l0f4Y33Hln/eVk8HnlJcwYlqFPKei4hsLpcTg6EtebrSP0ekRv7D/PnRY3n+67dkVXweS
-        gOttiTnqw==;
-Received: from [177.157.101.143] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hsdUc-0002QA-OL; Wed, 31 Jul 2019 01:33:27 +0000
-Date:   Tue, 30 Jul 2019 22:33:21 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 25/26] docs: rcu: convert some articles from html to
- ReST
-Message-ID: <20190730223321.73f909f2@coco.lan>
-In-Reply-To: <20190731010623.GN14271@linux.ibm.com>
-References: <cover.1564145354.git.mchehab+samsung@kernel.org>
-        <8444797277eea7be474f40625bb190775a9cee33.1564145354.git.mchehab+samsung@kernel.org>
-        <20190730212250.GJ14271@linux.ibm.com>
-        <20190730185040.3fbc44ca@coco.lan>
-        <20190730233720.GL14271@linux.ibm.com>
-        <20190731000455.GA11465@linux.ibm.com>
-        <20190730214722.53432fe3@coco.lan>
-        <20190731010623.GN14271@linux.ibm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2387431AbfGaGoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 02:44:18 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1086 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387548AbfGaGoS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 02:44:18 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6V6gTk2120417
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 02:44:17 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2u34424gjf-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 02:44:17 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 31 Jul 2019 07:44:14 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 31 Jul 2019 07:44:07 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6V6i6kP42270910
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 31 Jul 2019 06:44:06 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 389A64C04E;
+        Wed, 31 Jul 2019 06:44:06 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5E4614C04A;
+        Wed, 31 Jul 2019 06:44:04 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.168])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 31 Jul 2019 06:44:04 +0000 (GMT)
+Date:   Wed, 31 Jul 2019 09:44:02 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, joaodias@google.com, joelaf@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>, minchan@kernel.org,
+        namhyung@google.com, Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
+Subject: Re: [PATCH v3 2/2] doc: Update documentation for page_idle virtual
+ address indexing
+References: <20190726152319.134152-1-joel@joelfernandes.org>
+ <20190726152319.134152-2-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190726152319.134152-2-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19073106-0016-0000-0000-00000297D60A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19073106-0017-0000-0000-000032F5E768
+Message-Id: <20190731064400.GD21422@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-31_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907310070
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 30 Jul 2019 18:06:24 -0700
-"Paul E. McKenney" <paulmck@linux.ibm.com> escreveu:
-
-> On Tue, Jul 30, 2019 at 09:47:22PM -0300, Mauro Carvalho Chehab wrote:
-> > Em Tue, 30 Jul 2019 17:04:55 -0700
-> > "Paul E. McKenney" <paulmck@linux.ibm.com> escreveu:
-
-> > > This appears to come from Documentation/output/latex/RCU.tex.
-> > > There is nevertheless an RCU.pdf in this directory.  It is not
-> > > bad, but has a figure full of XML on PDF page 21.  And a few later
-> > > on as well.  
-> > 
-> > PDF output is indeed an issue. The way it works is that it first
-> > generates a LaTeX and then it uses texlive to produce the PDF. 
+On Fri, Jul 26, 2019 at 11:23:19AM -0400, Joel Fernandes (Google) wrote:
+> This patch updates the documentation with the new page_idle tracking
+> feature which uses virtual address indexing.
 > 
-> Would it be fair to say that html output is what is currently supported,
-> and that PDF output is a future thing?
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Sure.
+One nit below, otherwise
 
-Anyway, if you want to fix PDF later, I suspect that simply adding:
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
-	.. cssclass:: longtable
-
-Before each quiz table should be enough to fix, as the tables there seem
-to be simple enough. 
-
-After fixed, the PDF and LaTeX output are usually decent.
-
-> > > On the HTML side, the quick quizzes have immediately visible answers,
-> > > which defeats the purpose.  The original HTML used a white font,
-> > > so that you selected the answer with your mouse to make it visible.
-> > >
-> > > Can something similar be done with Sphinx?  Another approach is to
-> > > gather the answers into a separate file and link to them.  
-> > 
-> > Yeah, I guess you used a css style that would make the answer visible
-> > when the mouse is inside it on your original lwn.net set of articles. 
-> > 
-> > Sphinx has a directive to use css, so, the short answer is: yes, you
-> > can. 
-> > 
-> > For html, you would need to add a css specific for the RCU quiz,
-> > placing it under Documentation/sphinx directory. Then, use the
-> >  ".. css" directive to handle that.
-> > 
-> > You should notice, however, that this will be ignored for 
-> > LaTeX/pdf output.
-> > 
-> > I guess you can place this on another file, or perhaps place at the
-> > end of the document, having a link for the quiz answers. 
-> > 
-> > Another alternative would be to make the answer as a footnote.  
+> ---
+>  .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
+>  1 file changed, 36 insertions(+), 7 deletions(-)
 > 
-> Making it CSS for HTML and a footnote for PDF seems eminently
-> reasonable to me!
+> diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
+> index df9394fb39c2..1eeac78c94a7 100644
+> --- a/Documentation/admin-guide/mm/idle_page_tracking.rst
+> +++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
+> @@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
+>  
+>  User API
+>  ========
+> +There are 2 ways to access the idle page tracking API. One uses physical
+> +address indexing, another uses a simpler virtual address indexing scheme.
+>  
+> -The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
+> -Currently, it consists of the only read-write file,
+> -``/sys/kernel/mm/page_idle/bitmap``.
+> +Physical address indexing
+> +-------------------------
+> +The idle page tracking API for physical address indexing using page frame
+> +numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
+> +consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
+>  
+>  The file implements a bitmap where each bit corresponds to a memory page. The
+>  bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
+> @@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
+>  information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
+>  ``/proc/kpagecgroup``.
+>  
+> +Virtual address indexing
+> +------------------------
+> +The idle page tracking API for virtual address indexing using virtual page
+> +frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
+> +that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
+> +except that it uses virtual instead of physical frame numbers.
 
-You should either do CSS or PDF, as otherwise you will end with dirty
-hacks like:
+Can you please make it more explicit that VFNs are in the <pid>'s address
+space?
 
-.. only:: html
-
-	<some quiz table with answers using css>
-
-.. only: latex
-
-	<some quiz table with answers using footnotes>
-
-E. g. you'll need to place the quiz twice, making it harder to maintain
-and messier.
-
-Btw, the LaTeX may also parse a css tag, processing it via some custom
-macro (with should be added at Documentation/conf.py.
-
-> > > I believe that Joel already noted that internal links are not working.
-> > > The external links that I tried work just fine, though.  As do the
-> > > links from the table of contents.  
-> > 
-> > Yeah. Funny enough, when I tested here, they worked fine. Maybe
-> > this is due to the Sphinx version I used here at the time I wrote
-> > it.
-> > 
-> > Anyway, Joel already submitted a patch addressing this one.   
+> +
+> +This idle page tracking API does not need deal with PFN so it does not require
+> +prior lookups of ``pagemap`` in order to find if page is idle or not. This is
+> +an advantage on some systems where looking up PFN is considered a security
+> +issue.  Also in some cases, this interface could be slightly more reliable to
+> +use than physical address indexing, since in physical address indexing, address
+> +space changes can occur between reading the ``pagemap`` and reading the
+> +``bitmap``, while in virtual address indexing, the process's ``mmap_sem`` is
+> +held for the duration of the access.
+> +
+> +To estimate the amount of pages that are not used by a workload one should:
+> +
+> + 1. Mark all the workload's pages as idle by setting corresponding bits in
+> +    ``/proc/<pid>/page_idle``.
+> +
+> + 2. Wait until the workload accesses its working set.
+> +
+> + 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
+> +
+>  .. _impl_details:
+>  
+>  Implementation Details
+> @@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
+>  exceeding the dirty memory limit, it is not marked referenced.
+>  
+>  The idle memory tracking feature adds a new page flag, the Idle flag. This flag
+> -is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
+> -:ref:`User API <user_api>`
+> -section), and cleared automatically whenever a page is referenced as defined
+> -above.
+> +is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
+> +addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
+> +addressing (see the :ref:`User API <user_api>` section), and cleared
+> +automatically whenever a page is referenced as defined above.
+>  
+>  When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
+>  mapped to, otherwise we will not be able to detect accesses to the page coming
+> -- 
+> 2.22.0.709.g102302147b-goog
 > 
-> And it works for me, anyway!  ;-)
 
-Great!
+-- 
+Sincerely yours,
+Mike.
 
-Thanks,
-Mauro
