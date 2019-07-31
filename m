@@ -1,89 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB21E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 15:50:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3EC777D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 16:01:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728734AbfGaPur (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 11:50:47 -0400
-Received: from foss.arm.com ([217.140.110.172]:50476 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726675AbfGaPur (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Jul 2019 11:50:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCC8A1570;
-        Wed, 31 Jul 2019 08:50:46 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB15D3F694;
-        Wed, 31 Jul 2019 08:50:44 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 16:50:42 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     jmorris@namei.org, sashal@kernel.org, ebiederm@xmission.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        marc.zyngier@arm.com, james.morse@arm.com, vladimir.murzin@arm.com,
-        matthias.bgg@gmail.com, bhsharma@redhat.com
-Subject: Re: [RFC v2 8/8] arm64, kexec: enable MMU during kexec relocation
-Message-ID: <20190731155042.GF39768@lakrids.cambridge.arm.com>
-References: <20190731153857.4045-1-pasha.tatashin@soleen.com>
- <20190731153857.4045-9-pasha.tatashin@soleen.com>
+        id S1729464AbfGaQBT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 12:01:19 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:46816 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728093AbfGaQBT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 12:01:19 -0400
+Received: by mail-ed1-f47.google.com with SMTP id d4so66214714edr.13
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 09:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OOHNaf/9zGja9offVGntbMakWJQ+ZGc77yJFGDwH+JY=;
+        b=PNBn1vWg4YbSeIowQjqpM/X23ksXLc6f3T3CgQCwNd4mt2cTyo7ZzHCzFOd5K1E4Iy
+         v4pzf31+LzNF9jhZ74VoLjDAEniolM4dYJ+UpfPPdEAH5TbYVVzHXfBlV66rIU0gUfPM
+         zXZCAUoX/jNc4sONQMGRGcYLTOFVAvx6f2ztMskDsa9mZz05W288TyU311SRl1/Qk+jN
+         o3QsrCKdgzFmQjIBIJerB/AjhVzS9O5yeQK/EnRHuNWXFMBWK65A+iIVESBIMYXjk92a
+         E3loxdrE0PaHqIuCD95gAksQsGy7FbeKWPF1CvNgm1zmfkOVtwlh5lRNyxxrsPzpkM4r
+         NEqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OOHNaf/9zGja9offVGntbMakWJQ+ZGc77yJFGDwH+JY=;
+        b=pdLouPytVzLdtFh8U3XEQXS1x6NTahZA7C7s/cJobjO2XQB8knoO4F3gapRCVxVh0h
+         W/Eyb61DniYzbN2WfhgmGCmAUR296RGLoBQZ3C7KP/EPaiA/zGTWVjqvh9QizQ7gQznB
+         GZZ7Xw9NUtdpnmpGfQPE4slmH+Nh+FPRNJwplBr/1hB2McwTIhEQH+vUL1hyJaqfnGVO
+         mSap8Di6E41kg3tcdZr2PDdnoUhdY2S5oXwa1GSbTJyrG65LznEcsgfaop0wjR44HGnY
+         Jh5Nr2GdvsQ+iaUwPFPhbVBEBADnGvgYbs1FtKRn8olYood8fYitrMaKwXhBaWVFHAaK
+         CeYQ==
+X-Gm-Message-State: APjAAAUyc2PlcunOCiP6+pMbOfeAWeZZPjvD7r2aiqG6pbRc1uJStz82
+        k47Pntk+yRbop0BPqnXdjHFZVas12sSeLaTRVPM=
+X-Google-Smtp-Source: APXvYqwueLVfu4t2A7GiLdjDq8PdZifweEvG9mIYGEKN2rj55OFqd4HfaufMCDSjY0DZ2kfK5Vn500PtEux8jGZKWu8=
+X-Received: by 2002:a17:906:9447:: with SMTP id z7mr29744336ejx.165.1564588877876;
+ Wed, 31 Jul 2019 09:01:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731153857.4045-9-pasha.tatashin@soleen.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+References: <20190731153857.4045-1-pasha.tatashin@soleen.com>
+ <20190731153857.4045-9-pasha.tatashin@soleen.com> <20190731155042.GF39768@lakrids.cambridge.arm.com>
+In-Reply-To: <20190731155042.GF39768@lakrids.cambridge.arm.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 31 Jul 2019 12:01:07 -0400
+Message-ID: <CA+CK2bCBxff=ZcCMw196idR-1uvryACdzREebqrZeJ2JPwDNFw@mail.gmail.com>
+Subject: Re: [RFC v2 8/8] arm64, kexec: enable MMU during kexec relocation
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Bhupesh Sharma <bhsharma@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 11:38:57AM -0400, Pavel Tatashin wrote:
-> +/*
-> + * The following code is adoped from "Bare-metal Boot Code for ARMv8-A
-> + * Processors Version 1.0, 5.3.1 Cleaning and invalidating the caches".
-> + * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0527a
-> + */
-> +.macro dcache_invalidate tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8
-> +	mov	\tmp0, #0x0			/* tmp0 = Cache level */
-> +	msr	CSSELR_EL1, \tmp0		/* 0x0 for L1, 0x2 for L2 */
-> +	mrs	\tmp4, CCSIDR_EL1		/* Read Cache Size ID */
-> +	and	\tmp1, \tmp4, #0x7
-> +	add	\tmp1, \tmp1, #0x4		/* tmp1 Cache Line Size */
-> +	ldr	\tmp3, =0x7fff
-> +	and	\tmp2, \tmp3, \tmp4, lsr #13	/* tmp2 Cache Set num - 1 */
-> +	ldr	\tmp3, =0x3ff
-> +	and	\tmp3, \tmp3, \tmp4, lsr #3	/* tmp3 Cache Assoc. num - 1 */
-> +	clz	\tmp4, \tmp3			/* tmp4 way pos. in the CISW */
-> +	mov	\tmp5, #0			/* tmp5 way counter way_loop */
-> +1: /* way_loop */
-> +	mov	\tmp6, #0			/* tmp6 set counter set_loop */
-> +2: /* set_loop */
-> +	lsl	\tmp7, \tmp5, \tmp4
-> +	orr	\tmp7, \tmp0, \tmp7		/* Set way */
-> +	lsl	\tmp8, \tmp6, \tmp1
-> +	orr	\tmp7, \tmp7, \tmp8		/* Set set */
-> +	dc	cisw, \tmp7			/* Clean & Inval. cache line */
-> +	add	\tmp6, \tmp6, #1		/* Increment set counter */
-> +	cmp	\tmp6, \tmp2			/* Last set reached yet? */
-> +	ble	2b				/* If not, iterate set_loop, */
-> +	add	\tmp5, \tmp5, #1		/* else, next way. */
-> +	cmp	\tmp5, \tmp3			/* Last way reached yet? */
-> +	ble	1b				/* If not, iterate way_loop. */
-> +.endm
-> +
+> For various reasons, one cannot safely use Set/Way operations in
+> portable code. They only make sense for low-level platform-specific
+> firmware performing power management operations.
+>
+> If you need to perform D-cache maintenance, you must use the VA
+> operations to do so.
 
-For various reasons, one cannot safely use Set/Way operations in
-portable code. They only make sense for low-level platform-specific
-firmware performing power management operations.
+Hi Mark,
 
-If you need to perform D-cache maintenance, you must use the VA
-operations to do so.
+I see, thank you for letting me know. I will do d-cache flushing by VA
+in the next iteration. First I need to root cause/fix the bug
+described in the cover letter.
 
-Thanks,
-Mark.
+Thank you,
+Pasha
