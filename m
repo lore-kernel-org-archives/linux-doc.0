@@ -1,183 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 417D87D913
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 06:44:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C940F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 07:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387431AbfGaGoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 02:44:18 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1086 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387548AbfGaGoS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 02:44:18 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6V6gTk2120417
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 02:44:17 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2u34424gjf-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2019 02:44:17 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 31 Jul 2019 07:44:14 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 31 Jul 2019 07:44:07 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6V6i6kP42270910
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 31 Jul 2019 06:44:06 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 389A64C04E;
-        Wed, 31 Jul 2019 06:44:06 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5E4614C04A;
-        Wed, 31 Jul 2019 06:44:04 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.168])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 31 Jul 2019 06:44:04 +0000 (GMT)
-Date:   Wed, 31 Jul 2019 09:44:02 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, joaodias@google.com, joelaf@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>, minchan@kernel.org,
-        namhyung@google.com, Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v3 2/2] doc: Update documentation for page_idle virtual
- address indexing
-References: <20190726152319.134152-1-joel@joelfernandes.org>
- <20190726152319.134152-2-joel@joelfernandes.org>
+        id S1726253AbfGaHLt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 03:11:49 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33147 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbfGaHLt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Jul 2019 03:11:49 -0400
+Received: by mail-lj1-f193.google.com with SMTP id h10so64557546ljg.0;
+        Wed, 31 Jul 2019 00:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kqr8tEl+A/BsI/SRcfQuAdRPZm/jRaraQ1jAsd1n/gs=;
+        b=XkPjlIKzJuoQMP5k1IsZh1gweTmAgYUgfi0sMTRiBPfg0kOUfGzkmc+xVQclJvr5nl
+         sNmFNLUDHd/0OqC8c34zy5HLWPTpy7twxxUxBs/BOoQTYEnUVvKKtNJFCT9+3pBGHtpm
+         wmj+cSHBY3A+8J6HQ++nKBN2YQZk5nG349PGsEeobfaj6kBDsgX2KYvHtDV53VBufFsP
+         UGcqfUdntPuUlbk3T+JWTbGWMrD3jMsriHJbxp8JEH/0uaRzBF74ZNkW9CAb26vC13J/
+         tHV+u9iDzM2uzApWhiA841UQA0+zmesrfzE4d6wIqQRVQHpwqWRNF8KBc5GekWu/QrCs
+         K4VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kqr8tEl+A/BsI/SRcfQuAdRPZm/jRaraQ1jAsd1n/gs=;
+        b=m1T8cdfl+byFsF/AuhlI+skpmS0tUwZmxs9ZTwKItQMZSJkMWyjOyOdPnIan2jOT9V
+         3EbHRvjE6OTU/AWDy43xFttsx/ZCbLEF0X7V9kudDku274zEdK5H/qyazQvB9zaaufJW
+         q81MvFTg9TanjZOAarbT7iypgj1nUi7iQF/baApaLRQ1uMBVjVch23gTjtqyIRk47v2e
+         /5EO6vyL+r1LyedStytm/HlptCmVHkYOMBUXFDXzs+djyS+rBAVZNDP/AM0bMwH2Ucvj
+         HspsVNlaq7nYGIbF1PR2p8RL5q0916ygM1gIXRlPhYnHOQQNqKsJrZRYOVvLbxVRTxyd
+         LWwg==
+X-Gm-Message-State: APjAAAUYH3Tf0Wsgs69jBIUS1OEiuT69B97cD1ipwxu+Bz0BSOJLKcGA
+        9Mo6D4085MnMqAHuVBdojbFJC4z4n2PkHS/EHWc=
+X-Google-Smtp-Source: APXvYqywjHZBwxsXA1068nZBZHE0Ulkn//um58llA3xod4Ipo+akfow/68WBjfdpXjVY2Sc+txo6D77ywYRO9CqXl7E=
+X-Received: by 2002:a2e:b1c1:: with SMTP id e1mr28147758lja.228.1564557106084;
+ Wed, 31 Jul 2019 00:11:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190726152319.134152-2-joel@joelfernandes.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19073106-0016-0000-0000-00000297D60A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19073106-0017-0000-0000-000032F5E768
-Message-Id: <20190731064400.GD21422@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-31_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907310070
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+In-Reply-To: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+From:   Janne Karhunen <janne.karhunen@gmail.com>
+Date:   Wed, 31 Jul 2019 10:11:34 +0300
+Message-ID: <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
+Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, jens.wiklander@linaro.org,
+        corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
+        jarkko.sakkinen@linux.intel.com, Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, tee-dev@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 11:23:19AM -0400, Joel Fernandes (Google) wrote:
-> This patch updates the documentation with the new page_idle tracking
-> feature which uses virtual address indexing.
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Hi,
 
-One nit below, otherwise
+Interesting, I wrote something similar and posted it to the lists a while back:
+https://github.com/jkrh/linux/commit/d77ea03afedcb5fd42234cd834da8f8a0809f6a6
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+Since there are no generic 'TEEs' available, I implemented the same
+thing as a generic protocol translator. The shared memory binding for
+instance already assumes fair amount about the TEE and how that is
+physically present in the system. Besides, the help from usage of shm
+is pretty limited due to the size of the keydata.
 
-> ---
->  .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
->  1 file changed, 36 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-> index df9394fb39c2..1eeac78c94a7 100644
-> --- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-> +++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-> @@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
->  
->  User API
->  ========
-> +There are 2 ways to access the idle page tracking API. One uses physical
-> +address indexing, another uses a simpler virtual address indexing scheme.
->  
-> -The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
-> -Currently, it consists of the only read-write file,
-> -``/sys/kernel/mm/page_idle/bitmap``.
-> +Physical address indexing
-> +-------------------------
-> +The idle page tracking API for physical address indexing using page frame
-> +numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-> +consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
->  
->  The file implements a bitmap where each bit corresponds to a memory page. The
->  bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-> @@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
->  information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
->  ``/proc/kpagecgroup``.
->  
-> +Virtual address indexing
-> +------------------------
-> +The idle page tracking API for virtual address indexing using virtual page
-> +frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
-> +that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
-> +except that it uses virtual instead of physical frame numbers.
 
-Can you please make it more explicit that VFNs are in the <pid>'s address
-space?
+--
+Janne
 
-> +
-> +This idle page tracking API does not need deal with PFN so it does not require
-> +prior lookups of ``pagemap`` in order to find if page is idle or not. This is
-> +an advantage on some systems where looking up PFN is considered a security
-> +issue.  Also in some cases, this interface could be slightly more reliable to
-> +use than physical address indexing, since in physical address indexing, address
-> +space changes can occur between reading the ``pagemap`` and reading the
-> +``bitmap``, while in virtual address indexing, the process's ``mmap_sem`` is
-> +held for the duration of the access.
-> +
-> +To estimate the amount of pages that are not used by a workload one should:
-> +
-> + 1. Mark all the workload's pages as idle by setting corresponding bits in
-> +    ``/proc/<pid>/page_idle``.
-> +
-> + 2. Wait until the workload accesses its working set.
-> +
-> + 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
-> +
->  .. _impl_details:
->  
->  Implementation Details
-> @@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
->  exceeding the dirty memory limit, it is not marked referenced.
->  
->  The idle memory tracking feature adds a new page flag, the Idle flag. This flag
-> -is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
-> -:ref:`User API <user_api>`
-> -section), and cleared automatically whenever a page is referenced as defined
-> -above.
-> +is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
-> +addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
-> +addressing (see the :ref:`User API <user_api>` section), and cleared
-> +automatically whenever a page is referenced as defined above.
->  
->  When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
->  mapped to, otherwise we will not be able to detect accesses to the page coming
-> -- 
-> 2.22.0.709.g102302147b-goog
-> 
 
--- 
-Sincerely yours,
-Mike.
 
+
+On Tue, Jul 30, 2019 at 3:26 PM Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> Add support for TEE based trusted keys where TEE provides the functionality
+> to seal and unseal trusted keys using hardware unique key. Also, this is
+> an alternative in case platform doesn't possess a TPM device.
+>
+> This series also adds some TEE features like:
+>
+> Patch #1, #2 enables support for registered kernel shared memory with TEE.
+>
+> Patch #3 enables support for private kernel login method required for
+> cases like trusted keys where we don't wan't user-space to directly access
+> TEE service to retrieve trusted key contents.
+>
+> Rest of the patches from #4 to #6 adds support for TEE based trusted keys.
+>
+> This patch-set has been tested with OP-TEE based pseudo TA which can be
+> found here [1].
+>
+> Also, this patch-set is dependent on generic Trusted Keys framework
+> patch-set [2].
+>
+> [1] https://github.com/OP-TEE/optee_os/pull/3082
+> [2] https://lkml.org/lkml/2019/7/18/284
+>
+> Changes in v2:
+> 1. Add reviewed-by tags for patch #1 and #2.
+> 2. Incorporate comments from Jens for patch #3.
+> 3. Switch to use generic trusted keys framework.
+>
+> Sumit Garg (6):
+>   tee: optee: allow kernel pages to register as shm
+>   tee: enable support to register kernel memory
+>   tee: add private login method for kernel clients
+>   KEYS: trusted: Introduce TEE based Trusted Keys
+>   doc: keys: Document usage of TEE based Trusted Keys
+>   MAINTAINERS: Add entry for TEE based Trusted Keys
+>
+>  Documentation/security/keys/index.rst       |   1 +
+>  Documentation/security/keys/tee-trusted.rst |  93 +++++++++
+>  MAINTAINERS                                 |   9 +
+>  drivers/tee/optee/call.c                    |   7 +
+>  drivers/tee/tee_core.c                      |   6 +
+>  drivers/tee/tee_shm.c                       |  16 +-
+>  include/keys/trusted-type.h                 |   3 +
+>  include/keys/trusted_tee.h                  |  66 +++++++
+>  include/linux/tee_drv.h                     |   1 +
+>  include/uapi/linux/tee.h                    |   8 +
+>  security/keys/Kconfig                       |   3 +
+>  security/keys/trusted-keys/Makefile         |   3 +-
+>  security/keys/trusted-keys/trusted-tee.c    | 282 ++++++++++++++++++++++++++++
+>  security/keys/trusted-keys/trusted.c        |   3 +
+>  14 files changed, 498 insertions(+), 3 deletions(-)
+>  create mode 100644 Documentation/security/keys/tee-trusted.rst
+>  create mode 100644 include/keys/trusted_tee.h
+>  create mode 100644 security/keys/trusted-keys/trusted-tee.c
+>
+> --
+> 2.7.4
+>
