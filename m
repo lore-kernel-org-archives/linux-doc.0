@@ -3,33 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E12A07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 18:42:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B000C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 18:45:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfGaSm0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 14:42:26 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55530 "EHLO ms.lwn.net"
+        id S1730178AbfGaSpQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 14:45:16 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55548 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727579AbfGaSm0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Jul 2019 14:42:26 -0400
+        id S1729312AbfGaSpQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Jul 2019 14:45:16 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D0A179AA;
-        Wed, 31 Jul 2019 18:42:25 +0000 (UTC)
-Date:   Wed, 31 Jul 2019 12:42:24 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 91CC27DA;
+        Wed, 31 Jul 2019 18:45:15 +0000 (UTC)
+Date:   Wed, 31 Jul 2019 12:45:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: arm: Remove orphan sh-mobile directory
-Message-ID: <20190731124224.49d9d7ee@lwn.net>
-In-Reply-To: <20190731090211.19408-1-geert+renesas@glider.be>
-References: <20190731090211.19408-1-geert+renesas@glider.be>
+To:     Chao Yu <yuchao0@huawei.com>
+Cc:     <linux-doc@vger.kernel.org>, <chao@kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] mailmap: add entry to connect my email addresses
+Message-ID: <20190731124514.5659597e@lwn.net>
+In-Reply-To: <20190731114510.42003-1-yuchao0@huawei.com>
+References: <20190731114510.42003-1-yuchao0@huawei.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,15 +37,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 31 Jul 2019 11:02:11 +0200
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+On Wed, 31 Jul 2019 19:45:10 +0800
+Chao Yu <yuchao0@huawei.com> wrote:
 
-> This directory is empty, except for a .gitignore file, listing an
-> executable file that can no longer be built since commit
-> c6535e1e0361157e ("Documentation: Remove ZBOOT MMC/SDHI utility and
-> docs").
+> I've used several email accounts to contribute codes, samsung's one
+> is obsolete, so let me add entry to map them, in order to let people
+> find me easily when they blame my codes.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Chao Yu <yuchao0@huawei.com>
 
 Applied, thanks.
 
