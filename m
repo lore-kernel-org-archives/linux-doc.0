@@ -5,34 +5,31 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8154B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 19:34:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9B017D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Jul 2019 19:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbfGaTep (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 15:34:45 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55876 "EHLO ms.lwn.net"
+        id S1727084AbfGaTju (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 15:39:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55906 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729737AbfGaTep (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:34:45 -0400
+        id S1726232AbfGaTju (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Jul 2019 15:39:50 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4AF156D9;
-        Wed, 31 Jul 2019 19:34:44 +0000 (UTC)
-Date:   Wed, 31 Jul 2019 13:34:43 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 6CBFD7DA;
+        Wed, 31 Jul 2019 19:39:49 +0000 (UTC)
+Date:   Wed, 31 Jul 2019 13:39:48 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 01/26] docs: power: add it to to the main
- documentation index
-Message-ID: <20190731133443.49368cbb@lwn.net>
-In-Reply-To: <20190731161606.2572a567@coco.lan>
-References: <cover.1564145354.git.mchehab+samsung@kernel.org>
-        <5417112ea7a391e6622c46bf833b7d6a5725c158.1564145354.git.mchehab+samsung@kernel.org>
-        <20190731130338.6de6c5d7@lwn.net>
-        <20190731161606.2572a567@coco.lan>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, tweek@google.com,
+        matthewgarrett@google.com, jorhand@linux.microsoft.com,
+        rdunlap@infradead.org, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH v4] tpm: Document UEFI event log quirks
+Message-ID: <20190731133948.1a527db8@lwn.net>
+In-Reply-To: <20190712154439.10642-1-jarkko.sakkinen@linux.intel.com>
+References: <20190712154439.10642-1-jarkko.sakkinen@linux.intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,36 +39,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 31 Jul 2019 16:16:06 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Fri, 12 Jul 2019 18:44:32 +0300
+Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com> wrote:
 
-> The remaining ones in this series aren't there yet.
+> There are some weird quirks when it comes to UEFI event log. Provide a
+> brief introduction to TPM event log mechanism and describe the quirks
+> and how they can be sorted out.
 > 
-> From this series, besides this patch, you can also exclude patch
-> 25/26, as it seems that Paul will merge via RCU tree.
-> 
-> The remaining ones apply cleanly on the top of docs-next
-> (I tested applying them on the top of your tree yesterday).
+> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> ---
+> v4: - Unfortanely -> Unfortunately
+> v3: - Add a section for refs and use a bullet list to enumerate them.
+>     - Remove an invalid author info.
+> v2: - Fix one typo.
+>     - Refine the last paragraph to better explain how the two halves
+>       of the event log are concatenated.
+>  Documentation/security/tpm/index.rst         |  1 +
+>  Documentation/security/tpm/tpm_event_log.rst | 55 ++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
+>  create mode 100644 Documentation/security/tpm/tpm_event_log.rst
 
-Hmm...really?
+I've applied this, thanks.  Before I could do so, though, I had to edit
+the headers, which read:
 
-- [PATCH v2 03/26] docs: powerpc: convert docs to ReST and rename to *.rst
+> Content-Type: text/plain; charset=y
 
-	Seems to already be applied.
+"git am" *really* doesn't like "charset=y".  I think this is something
+that git send-email likes to do occasionally, don't know why...
 
-- [PATCH v2 07/26] docs: w1: convert to ReST and add to the kAPI group of
-  docs
-
-	Gives me the dreaded "could not build fake ancestor" error, I
-	don't really understand why.
-
-- [PATCH v2 08/26] spi: docs: convert to ReST and add it to the kABI
-  bookset
-- [PATCH v2 16/26] docs: fs: cifs: convert to ReST and add to admin-guide
-  book
-
-	Likewise
-
-I've applied the others, so we're getting closer...
+Thanks,
 
 jon
