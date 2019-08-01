@@ -2,119 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 138EC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 10:40:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9E5D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 13:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731045AbfHAKkl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 06:40:41 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43669 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725930AbfHAKkl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 06:40:41 -0400
-Received: by mail-lf1-f66.google.com with SMTP id c19so49869251lfm.10;
-        Thu, 01 Aug 2019 03:40:39 -0700 (PDT)
+        id S1730993AbfHANYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 09:24:51 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37360 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726407AbfHANYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 09:24:50 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w13so69205156eds.4
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 06:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=isUGmEYOLpjEg3jfVYEfLLyDXZizpluoarkdQOeJEco=;
-        b=e7zESjZM2/wzjwmiWWWbSAsTWhAV77ru/rCVx4JUymN/53sRSzBFQXud45X8Dr61zK
-         sqmwE48x+NwYk2Cj06PSvNDR8EAL73UGkym1ZfUF++xJXuhNMPXz+ZbmblOckb2EDibR
-         hn6TqYNEl4I925P779zb0qgrYlBYkGxknrNhHKo6jUgsDvnooc9DJ8mSJdetEzKQzfIu
-         yGRZza/lQjKJDFIMW4HrtW4SNKRhMMEr9D67Icb79a0oMCaE2HtXRxR5M4RhrEn5SpKM
-         a576UQfrDmvM2vsFwwi7Yxa0NJUzNBsNMxHNw41zLHW1yIPJgW5/e35MPiKmD1Qk/tSb
-         zgFg==
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=oRhWWHTTWAXjDtJAWmN6dRP46bz3/nitxwY0Vh4QWL8=;
+        b=nPRpJopYE4tNaMnqZge6egyB0YrEeLdK4PCzRIU2RwlfARMnqPyF82311Oy9pqi/3k
+         0ArhmxcRjZjQ0tYE3RdMosZcnuCUW+XxYmGnFp0pCiiDG1vE7nmbGRehsgse9k8EkWRR
+         Ei18k9N1dGn12cAB4uri2mxedwKCIBAa4O1ztgsvUtEHrUBm8KpDMTH3tzMdgIk1UznU
+         q1Xy0DiyhS3uV+UuggDmbP00BfXSUBr5DAGUJREUuiGcYl5enPkIFxvhlaWknaAeKaXt
+         nWhAWQ94wd8miYxbEUUEDxtuvzfjnrqXO4gnAiKEe3pEKKfiM1OKrzcyP0QjcwzwfnFY
+         0Veg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=isUGmEYOLpjEg3jfVYEfLLyDXZizpluoarkdQOeJEco=;
-        b=ocAW3vNpNejlf8c0y698MOcyJuojw2geujr5OI8EZf8JixVMH5BGYxyF12OwheKIUr
-         FTkdTfoVZjrYAQL6lLfV8xkuHqGIc/iMpZpVLlt3/G8K2a8OuhouDCchfXqv1C8P+dsd
-         Zet/ZJ0cIQSfEO8PU9iF47fqCK9jcvbKzlbzGLkdcrjgFbU5maowA9KThaHBi4VpCbGc
-         2xh8w4QFQSqKfm0c1HP/Lse5r4w5kFs7HdDXpVRCMS31VWfrjBTkcGB8JxnURvRAvKP+
-         QarxpIYxLhb/Bz+SMCtaKJqZ24UyvFuxi+VZcheCsLlaZmPr7uHMGqwUDCV2qchzCwIc
-         chkg==
-X-Gm-Message-State: APjAAAVpPfQFmrrocYYUn3tEzDYHhy5pR6AJwrLW++aj5K8MBLqchcvZ
-        fLMKoKL1ZfUbOrA4QSy8DD5B9YmUQv4xYWyeyXU=
-X-Google-Smtp-Source: APXvYqzBC9Gdh1FFxLOeL/OcODPMG8H50PClL/jL6/hOC+Ro8fVfZSKCPuosp/rXDAuw8uu1AiQV5PVAqbOPMwJCVac=
-X-Received: by 2002:ac2:5181:: with SMTP id u1mr10511367lfi.42.1564656038513;
- Thu, 01 Aug 2019 03:40:38 -0700 (PDT)
+         :message-id:subject:to;
+        bh=oRhWWHTTWAXjDtJAWmN6dRP46bz3/nitxwY0Vh4QWL8=;
+        b=Atbv1aZkLhP5AjAFEuLJ017f/mS0K93keXJQZPEwuP7O2leg/t3wFZ51veJNWZZEw7
+         +7eThsgl2jfKLnQ8JAfak/bSmNaNB1KAgcP+JUYwaJpZpcbg/lYOpcjOdmrlu7TV1vax
+         gfTIbgmHM9KZGcAgOAmdeyJM5rygrpbo4walPf1Epd7mTm7aBYGEwiW8Bc3JTXOBCBa3
+         eLZyLfgojI6JD1xOXPR072MWaxyKT80TF6fI+kGMCriHz/NHdGzkbjbfRli/jtpJNxqC
+         Y0HNX56LVyagwR4BOh0HknnXmc2RvSSwQ0A8djjhedRlOWFCC/LStG1IwaNb4moGyZTW
+         le1w==
+X-Gm-Message-State: APjAAAUtBgG8A9sTab7AGPLBi1rMCDLffOrnP6xJU52ZGHCXkBnFrtrg
+        nwSy8zTE7gUom4a962hE5BMfDhl3w5p/uHzzmC8=
+X-Google-Smtp-Source: APXvYqy2/ZgGf2sBP6haXVbAhJHBKZtN/9NXbuW5KNpgIJ6trcfevVCbVzIkgyp0iij4A8romsBvvltgRqFg/r3/jS0=
+X-Received: by 2002:a50:9116:: with SMTP id e22mr114258222eda.161.1564665887525;
+ Thu, 01 Aug 2019 06:24:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
- <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
- <CAE=NcrY7b8eTTovOszBhGhVbjfJAXoAYehiUJyPENGfwWoVcPw@mail.gmail.com>
- <CAFA6WYOEqe1a1DCyVYKA+oZaZ0n5hnjxdubstUnrwdUW1-4xHw@mail.gmail.com>
- <CAE=NcraDkm5cxE=ceq_9XkQz=NZ6KdVXkNUsdD4G2LrWz-bpDw@mail.gmail.com>
- <CAFA6WYMOXQbL5OeheFUFpTr8gte8XHHr-71-h8+qX0+R_sekDQ@mail.gmail.com>
- <CAE=Ncrae6pM+WBDu9eJ7Fw2Fkvf3_YqH5tj9Tt938D4RtWcdSQ@mail.gmail.com> <CAFA6WYOwcO5-cyaJf3tMMAdyVHJo=BzmCWtsjA3S8aj5g-GZxQ@mail.gmail.com>
-In-Reply-To: <CAFA6WYOwcO5-cyaJf3tMMAdyVHJo=BzmCWtsjA3S8aj5g-GZxQ@mail.gmail.com>
-From:   Janne Karhunen <janne.karhunen@gmail.com>
-Date:   Thu, 1 Aug 2019 13:40:26 +0300
-Message-ID: <CAE=NcrY7zA1OkKwpVrPbPd+c0OymZeAgT2hp6xZ3HQOgbXaZjg@mail.gmail.com>
-Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, dhowells@redhat.com,
-        jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
+References: <20190731153857.4045-1-pasha.tatashin@soleen.com>
+In-Reply-To: <20190731153857.4045-1-pasha.tatashin@soleen.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Thu, 1 Aug 2019 09:24:36 -0400
+Message-ID: <CA+CK2bBVsU1hhgPB4cO8ZcjL_Y+v59W+-m4rLZPEKfpgvvvEpg@mail.gmail.com>
+Subject: Re: [RFC v2 0/8] arm64: MMU enabled kexec relocation
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
         James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
+        Sasha Levin <sashal@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Bhupesh Sharma <bhsharma@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 1, 2019 at 1:00 PM Sumit Garg <sumit.garg@linaro.org> wrote:
+I will send a new version soon, so please do not spend time reviewing
+this work.  In the new version I will fix MMU at EL2 issue by doing
+what we are doing in hibernation: reduce to EL1 to do the copying, and
+escalate back to to EL2 to branch to new kernel. Also, this will
+simplify copying function by actually doing the linear copy as ttbr1
+and ttbr0 are always available this way.
 
-> > > Here TEE isn't similar to a user-space crypto library. In our case TEE
-> > > is based on ARM TrustZone which only allows TEE communications to be
-> > > initiated from privileged mode. So why would you like to route
-> > > communications via user-mode (which is less secure) when we have
-> > > standardised TEE interface available in kernel?
-> >
-> > The physical access guards for reading/writing the involved critical
-> > memory are identical as far as I know? Layered security is generally a
-> > good thing, and the userspace pass actually adds a layer, so not sure
-> > which is really safer?
+Thank you,
+Pasha
+
+On Wed, Jul 31, 2019 at 11:38 AM Pavel Tatashin
+<pasha.tatashin@soleen.com> wrote:
 >
-> AFAIK, layered security is better in case we move from lower privilege
-> level to higher privilege level rather than in reverse order.
-
-You can look at this in many ways. Another way to look at it is that
-the services should be provided with the least amount of permissions
-required for the task. Further you can containerize something, the
-better.
-
-As for your PLATFORMS support: it is all nice, but there is no way to
-convince op-tee or any other tee to be adopted by many real users.
-Every serious user can and will do their own thing, or at very best,
-buy it from someone who did their own thing and is trusted. There is
-zero chance that samsung, huawei, apple, nsa, google, rambus, payment
-system vendors, .. would actually share the tee (or probably even the
-interfaces). It is just too vital and people do not trust each other
-anymore :(
-
-Anyway, enough about the topic from my side. I guess people will tell
-what they want, I'm fine with any, and it is all progress from the
-current state :)
-
-
---
-Janne
+> Changelog from previous RFC:
+> - Added trans_table support for both hibernate and kexec.
+> - Fixed performance issue, where enabling MMU did not yield the
+>   actual performance improvement.
+>
+> Bug:
+> With the current state, this patch series works on kernels booted with EL1
+> mode, but for some reason, when elevated to EL2 mode reboot freezes in
+> both QEMU and on real hardware.
+>
+> The freeze happens in:
+>
+> arch/arm64/kernel/relocate_kernel.S
+>         turn_on_mmu()
+>
+> Right after sctlr_el2 is written (MMU on EL2 is enabled)
+>
+>         msr     sctlr_el2, \tmp1
+>
+> I've been studying all the relevant control registers for EL2, but do not
+> see what might be causing this hang:
+>
+> MAIR_EL2 is set to be exactly the same as MAIR_EL1 0xbbff440c0400
+>
+> TCR_EL2        0x80843510
+> Enabled bits:
+> PS      Physical Address Size. (0b100   44 bits, 16TB.)
+> SH0     Shareability    11 Inner Shareable
+> ORGN0   Normal memory, Outer Write-Back Read-Allocate Write-Allocate Cach.
+> IRGN0   Normal memory, Inner Write-Back Read-Allocate Write-Allocate Cach.
+> T0SZ    01 0000
+>
+> SCTLR_EL2       0x30e5183f
+> RES1    : Reserve ones
+> M       : MMU enabled
+> A       : Align check
+> C       : Cacheability control
+> SA      : SP Alignment check enable
+> IESB    : Implicit Error Synchronization event
+> I       : Instruction access Cacheability
+>
+> TTBR0_EL2      0x1b3069000 (address of trans_table)
+>
+> Any suggestion of what else might be missing that causes this freeze when
+> MMU is enabled in EL2?
+>
+> =====
+> Here is the current data from the real hardware:
+> (because of bug, I forced EL1 mode by setting el2_switch always to zero in
+> cpu_soft_restart()):
+>
+> For this experiment, the size of kernel plus initramfs is 25M. If initramfs
+> was larger, than the improvements would be even greater, as time spent in
+> relocation is proportional to the size of relocation.
+>
+> Previously:
+> kernel shutdown 0.022131328s
+> relocation      0.440510736s
+> kernel startup  0.294706768s
+>
+> Relocation was taking: 58.2% of reboot time
+>
+> Now:
+> kernel shutdown 0.032066576s
+> relocation      0.022158152s
+> kernel startup  0.296055880s
+>
+> Now: Relocation takes 6.3% of reboot time
+>
+> Total reboot is x2.16 times faster.
+>
+> Previous approaches and discussions
+> -----------------------------------
+> https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com
+> reserve space for kexec to avoid relocation, involves changes to generic code
+> to optimize a problem that exists on arm64 only:
+>
+> https://lore.kernel.org/lkml/20190716165641.6990-1-pasha.tatashin@soleen.com
+> The first attempt to enable MMU, some bugs that prevented performance
+> improvement. The page tables unnecessary configured idmap for the whole
+> physical space.
+>
+> Pavel Tatashin (8):
+>   kexec: quiet down kexec reboot
+>   arm64, mm: transitional tables
+>   arm64: hibernate: switch to transtional page tables.
+>   kexec: add machine_kexec_post_load()
+>   arm64, kexec: move relocation function setup and clean up
+>   arm64, kexec: add expandable argument to relocation function
+>   arm64, kexec: configure transitional page table for kexec
+>   arm64, kexec: enable MMU during kexec relocation
+>
+>  arch/arm64/Kconfig                     |   4 +
+>  arch/arm64/include/asm/kexec.h         |  24 ++-
+>  arch/arm64/include/asm/pgtable-hwdef.h |   1 +
+>  arch/arm64/include/asm/trans_table.h   |  66 ++++++
+>  arch/arm64/kernel/asm-offsets.c        |  10 +
+>  arch/arm64/kernel/cpu-reset.S          |   4 +-
+>  arch/arm64/kernel/cpu-reset.h          |   8 +-
+>  arch/arm64/kernel/hibernate.c          | 261 ++++++------------------
+>  arch/arm64/kernel/machine_kexec.c      | 168 ++++++++++++---
+>  arch/arm64/kernel/relocate_kernel.S    | 238 +++++++++++++++-------
+>  arch/arm64/mm/Makefile                 |   1 +
+>  arch/arm64/mm/trans_table.c            | 272 +++++++++++++++++++++++++
+>  kernel/kexec.c                         |   4 +
+>  kernel/kexec_core.c                    |   8 +-
+>  kernel/kexec_file.c                    |   4 +
+>  kernel/kexec_internal.h                |   2 +
+>  16 files changed, 756 insertions(+), 319 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/trans_table.h
+>  create mode 100644 arch/arm64/mm/trans_table.c
+>
+> --
+> 2.22.0
+>
