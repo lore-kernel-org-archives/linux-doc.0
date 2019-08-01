@@ -1,102 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AC317D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 09:38:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D502D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 09:51:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbfHAJiF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 05:38:05 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:23352 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725790AbfHAJiF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Aug 2019 05:38:05 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 80C29404BA;
-        Thu,  1 Aug 2019 11:38:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1564652281; x=1566466682; bh=aC1zXoQ9mU5ArfgbwuVk+EggHbZS/Kn1AQ9
-        zYKAWWzY=; b=ZAp73AomL9UNhXSPy8zkjk+szZJFCc6yjuCOZVYnDynQVYklTVa
-        ElvIkMZ3bpgt+YdJTpLZ4OHH/rvYG2VlJ8HdMzHhwzBlZYySmBOOLZMETSo5RLPD
-        RMqyCf0BKbSd9jAEU7ebgvSCSMqNzCdBQZs19KDNg+wsek4aegLGHTeiYNXPDeUn
-        lKv0MhDfuu0bQfyiTXTkJHfYH4mlyA4XRJ6jB3BlHM7w2gpkjBNq8LrqAhsLbid7
-        AavGHYgQlJkcJlqHqTPWlHSgYFuhzsC69q02ULsFe93YR+KEZLbeFlxwaZ/Nrrh/
-        O1UIkVoXx6t01OjPpPmM72Oi7ld7Ejlkkcra6XIwbgzgZMp2hcB9NwHGSdh/Kr2S
-        TU+XzbG7/XFx0vv3Ji4SiDWndS4yhKWbyyIJsGQOBNxEL28pCjWdwkakybb0eGh5
-        ZhRciDwqrqqLsxnHhY5PxHfRGwLCwQErpIXj7Iys7647USCkMZf3qwuDhqUtemtf
-        +g0rNnyhvebNfDZ1tTg74ac1xfS4SILA5PNZXxyUtdjoVGjdKRD4r+24nk/rVBp0
-        YkFIuxlXa6qqc8RGDAPlq1lHiROMiCebPJHECURsRannteI9GZqIWJk0LwoC4uER
-        K1+W3S0xXweMJ9pNWvgTavO4umxLTq3FhhljMnUkWritkXyLNGh7biIQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OQLc090K_CnM; Thu,  1 Aug 2019 11:38:01 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 4AAE440404;
-        Thu,  1 Aug 2019 11:38:01 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id A35AE3555;
-        Thu,  1 Aug 2019 11:38:00 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: translations for documents in process/
-Date:   Thu, 01 Aug 2019 11:37:58 +0200
-Message-ID: <20864529.Q1CKeA7GMu@pcbe13614>
-In-Reply-To: <20190731125124.46e06ab6@lwn.net>
-References: <20190728092054.1183-1-federico.vaga@vaga.pv.it> <20190731125124.46e06ab6@lwn.net>
+        id S1726125AbfHAJvZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 05:51:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59302 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725379AbfHAJvZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 05:51:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=/RCQXkoLdx1Dap2zHV/paZLxYVJHeWju5RP8ynoxTPI=; b=UluEH/75fC5+qgudhOiGsRDkg
+        Dmv3F33wa/UY2uDdoFibQqQZ/AqqbiXyF/wqMePOsemH4nmb1rKJpHHfYVfEv3f3ai4nBEp7Ug+sL
+        SWzd5y8YOKyQ/tSuRq0AiUJXLq4NeSuDbMiZURN9ycAr1WLCUOUT5OizKLOhC9xB/AVC02rjw3CtK
+        Wax8iH9jNoLz0U6pypJXmZ8HPc5NNfEIKf4EOPSG1OTeIXbzBGbcVP41xY+kvR+e+I/f8rggEFydN
+        eqt4MyjaUuiqqF6LW21UPHkR1sy64DUUDe4i1To53kp8ma1FLTaZT+7cLoi8LygcrYfmuoqz0PCAh
+        nXgvvDuHQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1ht7ju-0003e9-F5; Thu, 01 Aug 2019 09:51:14 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 149A52029F4CD; Thu,  1 Aug 2019 11:51:12 +0200 (CEST)
+Date:   Thu, 1 Aug 2019 11:51:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, lizefan@huawei.com,
+        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
+        Dennis Zhou <dennis@kernel.org>,
+        Dennis Zhou <dennisszhou@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        Nick Kralevich <nnk@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 1/1] psi: do not require setsched permission from the
+ trigger creator
+Message-ID: <20190801095112.GA31381@hirez.programming.kicks-ass.net>
+References: <20190730013310.162367-1-surenb@google.com>
+ <20190730081122.GH31381@hirez.programming.kicks-ass.net>
+ <CAJuCfpH7NpuYKv-B9-27SpQSKhkzraw0LZzpik7_cyNMYcqB2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpH7NpuYKv-B9-27SpQSKhkzraw0LZzpik7_cyNMYcqB2Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, July 31, 2019 8:51:24 PM CEST Jonathan Corbet wrote:
-> On Sun, 28 Jul 2019 11:20:54 +0200
+On Tue, Jul 30, 2019 at 10:44:51AM -0700, Suren Baghdasaryan wrote:
+> On Tue, Jul 30, 2019 at 1:11 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Mon, Jul 29, 2019 at 06:33:10PM -0700, Suren Baghdasaryan wrote:
+> > > When a process creates a new trigger by writing into /proc/pressure/*
+> > > files, permissions to write such a file should be used to determine whether
+> > > the process is allowed to do so or not. Current implementation would also
+> > > require such a process to have setsched capability. Setting of psi trigger
+> > > thread's scheduling policy is an implementation detail and should not be
+> > > exposed to the user level. Remove the permission check by using _nocheck
+> > > version of the function.
+> > >
+> > > Suggested-by: Nick Kralevich <nnk@google.com>
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > ---
+> > >  kernel/sched/psi.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> > > index 7acc632c3b82..ed9a1d573cb1 100644
+> > > --- a/kernel/sched/psi.c
+> > > +++ b/kernel/sched/psi.c
+> > > @@ -1061,7 +1061,7 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+> > >                       mutex_unlock(&group->trigger_lock);
+> > >                       return ERR_CAST(kworker);
+> > >               }
+> > > -             sched_setscheduler(kworker->task, SCHED_FIFO, &param);
+> > > +             sched_setscheduler_nocheck(kworker->task, SCHED_FIFO, &param);
+> >
+> > ARGGH, wtf is there a FIFO-99!! thread here at all !?
 > 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > From: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > 
-> > Translations for the following documents in process/:
-> >     - email-clients
-> >     - management-style
-> > 
-> > Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> 
-> This looks generally good, but I have to ask...
-> 
-> > +Se la patch che avete inserito dev'essere modificata usato la finestra di
-> > +scrittura di Claws, allora assicuratevi che l'"auto-interruzione" sia
-> > +disabilitata
-> > :menuselection:`Configurazione-->Preferenze-->Composizione-->Interruzione
-> > riga`.
-> Have you actually verified that the translations used in these mail
-> clients matches what you have here?
+> We need psi poll_kworker to be an rt-priority thread so that psi
 
-Yep, I've installed all of them and gone through all menus.
-But I just noticed a typo in the quoted statement, I will send a new patch:
+There is a giant difference between 'needs to be higher than OTHER' and
+FIFO-99.
 
-"modificata usato" -> "modificata usando"
+> notifications are delivered to the userspace without delay even when
+> the CPUs are very congested. Otherwise it's easy to delay psi
+> notifications by running a simple CPU hogger executing "chrt -f 50 dd
+> if=/dev/zero of=/dev/null". Because these notifications are
 
-> 
-> Thanks,
-> 
-> jon
+So what; at that point that's exactly what you're asking for. Using RT
+is for those who know what they're doing.
 
+> time-critical for reacting to memory shortages we can't allow for such
+> delays.
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+Furthermore, actual RT programs will have pre-allocated and locked any
+memory they rely on. They don't give a crap about your pressure
+nonsense.
 
+> Notice that this kworker is created only if userspace creates a psi
+> trigger. So unless you are using psi triggers you will never see this
+> kthread created.
+
+By marking it FIFO-99 you're in effect saying that your stupid
+statistics gathering is more important than your life. It will preempt
+the task that's in control of the band-saw emergency break, it will
+preempt the task that's adjusting the electromagnetic field containing
+this plasma flow.
+
+That's insane.
+
+I'm going to queue a patch to reduce this to FIFO-1, that will preempt
+regular OTHER tasks but will not perturb (much) actual RT bits.
 
