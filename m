@@ -1,139 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB1827D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 21:43:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 77C457D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 21:59:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732039AbfHAVn4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 17:43:56 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35196 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731579AbfHAVn4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 17:43:56 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w24so32769148plp.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 14:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tRJWWqPxe4v7OGh5SzFgwfV47CyOeIABo0H7U+M+pdg=;
-        b=S/P5gz+a9jUw7SwOiz84JEbZSB3baAlVLSphUNs8eZlN3ZPowtpH0MpNodRchncDaL
-         h/pwktm3ZoMM5ur9uIqRsyskaBqjhXhPvxaJG//b32Uphj0PG1ynA9CUTm1TW0sAsjm6
-         HvrHFAepLSyokzes/1ht5wjMSnlrEgSRbO09yXW02SG1IbAd8mAQKhoiLKJYr6VkLWg+
-         7rO55CqVAf6utB/oO5cCFpNjfcdHsW2PZ6e5nZCbdexwb5KuZDKGxSTHr3F16NHksaHQ
-         xyoTxMhvtaSYfpReQiXJpspTpAAqnNeKDN71dNMH70NnoXLk5zU84jZ89voAQsdAyikW
-         53ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tRJWWqPxe4v7OGh5SzFgwfV47CyOeIABo0H7U+M+pdg=;
-        b=gD6aT2KuKEqWJWcQN88ZoPB7Mz9i637oMAjuzZlxa0yK6WumIqApO4R8WChXMIpUH2
-         6yre3w8pjIYw8XmoDdAjz9bO50FJvrfQjny3qrxcnRcJq8dSy2br0BIj2xbeMXcXSrZb
-         JdfOa4AEthXDwpE6uI5nooqTkZ4TLVWvroF9L6ud6e9Y4Dy0UYnoo3RrgIWBn/BtOlHA
-         oGzUT9Jqf7bK0OcBZyGtNO2FPOXuig8ho+b2kwe4WOOIHabKYE29FriOJbmDWOd9Ys3Z
-         xpYRYSjiLtZl5sHNgREBPy6Piaejb3vhWN78cHyibB/FsA/JKDuyRB6tr0Mf8GOa009+
-         hy1g==
-X-Gm-Message-State: APjAAAVLvmsRKGEhbqSs2xI913SdU9yXIR+Fwarhrmk4LZOxYuKOGnYo
-        FSvMgOpiVg6c5IfMiqwO2qz8j+Sh1TLWS8pMnfV6NA==
-X-Google-Smtp-Source: APXvYqyQJ3oYuIkR4HxnjqcvX8HB7OCTCVhJ4Fku+hNPqOUYjGToK6i2G0j1xWhCd4v39RwFH1V7C/0k5dVHTOnW45I=
-X-Received: by 2002:a17:902:347:: with SMTP id 65mr32846391pld.232.1564695834770;
- Thu, 01 Aug 2019 14:43:54 -0700 (PDT)
+        id S1730419AbfHAV70 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 17:59:26 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:55528 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbfHAV7Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 17:59:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=FlbNAsgaWkp1ShDCheHxAkj85en9Tu2y9Hru44fhYz0=; b=NFJ5mx3pun9BIYphO0C68UAUu
+        bNIl5t6nnsxHXQq8rOyvK1+2xENKG1banbuqonFceMoKyQfDoNijJJq1cmdDthZGkLdEJaHaa+JRR
+        sy9AZHK01JafhzTXpLIhZcM24Nt52lWl/kRGtNf5E6LX5xx1DNeoa8ZNntincpMLRDHuDoi7WC/+y
+        HA3O23EObKhT4TPP+bFOaHWWnfil3CE5Ggc/aCnZxceKFfwCToLfXOTGqgxuInpjTOEyU5G52eQ61
+        7gsEOZqcrfczHuU7P7Dx4ONddvwcraEmcYcTxxpMkFOgVNQGyPcL7cM+eMlCVnQ+Z2HDd9+SLiVEF
+        If+0fSSdQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1htJ6I-0002fJ-Mv; Thu, 01 Aug 2019 21:59:07 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 51E57202953B0; Thu,  1 Aug 2019 23:59:04 +0200 (CEST)
+Date:   Thu, 1 Aug 2019 23:59:04 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, lizefan@huawei.com,
+        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
+        Dennis Zhou <dennis@kernel.org>,
+        Dennis Zhou <dennisszhou@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        Nick Kralevich <nnk@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 1/1] psi: do not require setsched permission from the
+ trigger creator
+Message-ID: <20190801215904.GC2332@hirez.programming.kicks-ass.net>
+References: <20190730013310.162367-1-surenb@google.com>
+ <20190730081122.GH31381@hirez.programming.kicks-ass.net>
+ <CAJuCfpH7NpuYKv-B9-27SpQSKhkzraw0LZzpik7_cyNMYcqB2Q@mail.gmail.com>
+ <20190801095112.GA31381@hirez.programming.kicks-ass.net>
+ <CAJuCfpHGpsU4bVcRxpc3wOybAOtiTKAsB=BNAtZcGnt10j5gbA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190716175021.9CA412173C@mail.kernel.org> <20190719000834.GA3228@google.com>
- <20190722200347.261D3218C9@mail.kernel.org> <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
- <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
- <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com>
- <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz> <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
- <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com> <20190801211447.6D3D7206A2@mail.kernel.org>
-In-Reply-To: <20190801211447.6D3D7206A2@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 1 Aug 2019 14:43:42 -0700
-Message-ID: <CAFd5g47tk8x5iet=xfPVO6MphD3SsLtYQLrCi5O2h0bvdXwHtA@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Petr Mladek <pmladek@suse.com>, Jeff Dike <jdike@addtoit.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kees Cook <keescook@google.com>,
-        David Rientjes <rientjes@google.com>,
-        kunit-dev@googlegroups.com,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        wfg@linux.intel.com, Greg KH <gregkh@linuxfoundation.org>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Richard Weinberger <richard@nod.at>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpHGpsU4bVcRxpc3wOybAOtiTKAsB=BNAtZcGnt10j5gbA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 1, 2019 at 2:14 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-08-01 11:59:57)
-> > On Thu, Aug 1, 2019 at 11:55 AM Brendan Higgins
-> > <brendanhiggins@google.com> wrote:
-> > >
-> > > On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
-> > >
-> > > > To be honest I do not fully understand KUnit design. I am not
-> > > > completely sure how the tested code is isolated from the running
-> > > > system. Namely, I do not know if the tested code shares
-> > > > the same locks with the system running the test.
-> > >
-> > > No worries, I don't expect printk to be the hang up in those cases. It
-> > > sounds like KUnit has a long way to evolve before printk is going to
-> > > be a limitation.
+On Thu, Aug 01, 2019 at 11:28:30AM -0700, Suren Baghdasaryan wrote:
+> > By marking it FIFO-99 you're in effect saying that your stupid
+> > statistics gathering is more important than your life. It will preempt
+> > the task that's in control of the band-saw emergency break, it will
+> > preempt the task that's adjusting the electromagnetic field containing
+> > this plasma flow.
 > >
-> > So Stephen, what do you think?
-> >
-> > Do you want me to go forward with the new kunit_assert API wrapping
-> > the string_stream as I have it now? Would you prefer to punt this to a
-> > later patch? Or would you prefer something else?
-> >
->
-> I like the struct based approach. If anything, it can be adjusted to
-> make the code throw some records into a spinlock later on and delay the
-> formatting of the assertion if need be.
+> > That's insane.
+> 
+> IMHO an opt-in feature stops being "stupid" as soon as the user opted
+> in to use it, therefore explicitly indicating interest in it. However
+> I assume you are using "stupid" here to indicate that it's "less
+> important" rather than it's "useless".
 
-That's a fair point.
-
-> Can you resend with that
-> approach? I don't think I'll have any more comments after that.
-
-Cool, will do.
-
-Thanks!
+Quite; PSI does have its uses. RT just isn't one of them.
