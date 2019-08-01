@@ -1,254 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A9A117D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 19:00:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7E477D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 19:12:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733295AbfHATAK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 15:00:10 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:32948 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726118AbfHATAJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 15:00:09 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n190so3268371pgn.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 12:00:09 -0700 (PDT)
+        id S2388538AbfHATMf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 15:12:35 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38566 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388536AbfHATMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 15:12:35 -0400
+Received: by mail-pl1-f196.google.com with SMTP id az7so32597224plb.5
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 12:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aDxLBS4nbidlZaAtXYw0USt8/H/W+WG8684PWx5rwyQ=;
-        b=pv0bAx16eo2h6cETtsAYgENWK9M2bYvG+2Hz6A34FYrqmcynxgrW9FNs/525MND6gB
-         2g6kcjb+Wkd+pb0xI7ftHNd0BVOITtTiTdD56/FcKgN4Oo2+porzmf4U9X3Pqjv9ogM1
-         Z/kC+frcls4vFOv0a+Igy+yBfGaArcosyMDHDXjiNXpDaeofzOG5DOQcNazFjnvoRzuL
-         lMNAJ094wDYyEwWeRaNCuSip3QYCnNDMNHTTayzSCRSrzP0/lO3z9AfO8vlHbyMc08h0
-         L6e7CWilIk4y/ObfnP2JjpR9VQdXeLa/Y/zr+BG5epVgFfah7DysLVeveUDkPYm8KXFn
-         gqfQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=u3M46kJjAPF4b1mqVIN/QqF1xk0nbqKlZydzEhZoL6s=;
+        b=Iu1CH4ToXYW90mTOdeHkqHqps0H4/Jt6nXnjawYRwpFRpCQ3R+FOjlvAHtsf0q+cca
+         g/GwPjYINrkuM0M27UfcxGN0Hpzq1z+zbIQRr9A8cLNBE6045TW8YO5B1jv+3zrSM+AI
+         RwmR2ijMX/YKSlorl4qZN6W9VRTC6OW7Mk6NYDrjpVniQ6cLad/+XzqpNwinuFtcNb6o
+         GTdsYR1aNvUhF9KHd0BLzgdnZis8Y+VjfG/T5HxcorMnvqNAW8q864HiIsdjCkh4XWvu
+         mGmSsJd4vy/0+OKrbqrS2lRjhwOvHCzqJiDH6nI0GAHQ2FHm8Lic/V7jrb83izS6/2/D
+         KuMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aDxLBS4nbidlZaAtXYw0USt8/H/W+WG8684PWx5rwyQ=;
-        b=RMP2zAw291theaYXNnpgJjS00D3igIck45CzQ/HVUG96zyUWGqVX+3fyEIYLfgw+Nc
-         /ZS385hUnutzd43Is7A8fWNc5PZ/5h0ataWpdf/JALPKGFguT1VTVsVndfMhtMsfQV+r
-         hl4H7pABK/tc0KD1j8oihGMq29NvEYXVFVdBDdMI5ub487W56m8FP5pFxOBocAh6ybWa
-         PNTFLxKv/3L5BHkyy4Q++6h9HraKr3wAvf1/Ao2qO0E8VJn3RaxsH2FAm8uZ46WyUvO6
-         6ScN13VYwzeiWuHQD+DhY6mZBDk8LjFnD3Mk1GLCYb8HIudyZUJ5+UMx+qIcG7n/br6P
-         CLQw==
-X-Gm-Message-State: APjAAAVxLFTh2U7oYAAJ8D8hBjD0ZrpXXdfSFjHJysXYWgFBy9o5Hr7s
-        Rc70uwrXVDUZwf/+41Whdq4onOVI2JbL2f/xh1+rAg==
-X-Google-Smtp-Source: APXvYqwv+GK8Cv38wHfxPLEhDVQmFebg2D/gxuBYSy86PyxeYJ6WQOVIPvsR1azS2zoUo23aYbsoJojKwt0bn5jaZnM=
-X-Received: by 2002:a17:90a:ab0d:: with SMTP id m13mr268291pjq.84.1564686008520;
- Thu, 01 Aug 2019 12:00:08 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=u3M46kJjAPF4b1mqVIN/QqF1xk0nbqKlZydzEhZoL6s=;
+        b=PPcATCe2/ZFDGXstq27oBxlSDXewdet+aGGxlprKNIMeOsHNVakZUHQWkCT0/3f6st
+         6vsSSHTOHtzxVMPlIAsOzTn1FuZEdw9T0cetur4qtEIIPBGVh3YHiOCt/9HPvXE4kkdo
+         /ahZ/4EVoNbcNKVfMA6ah9SJ7xW0XAf2uGx3WN38iw/241fBqoXehjYz0EOahLLsPytn
+         Vhq+URFghQilmum/SONFzJc87QGzrBdYDw3NEGGBYGx8Zr9NZDOMjNdZ/qPAM6hfNoiD
+         X7GelaP4O6DYHb28YOPLnn4gzF+hF8vdmTgh79o1yj0QzqcmQvd1JKeNa0ESLTTNbjSF
+         Lo5g==
+X-Gm-Message-State: APjAAAX1wdnch8aDVzU9NxAQc6W4jB8rD4UjXfRVRV6XfyaFHkUDunyL
+        RdfxroaSkzFb/5Jz+ZzGxyo1Jg==
+X-Google-Smtp-Source: APXvYqyXQfNjDuCkBrlF9sH4WaQpLYB6kh01jQJmr+SAa0EdEbp3B9CGOkSzrUP/hpK0bXspTKw35A==
+X-Received: by 2002:a17:902:d90a:: with SMTP id c10mr124505738plz.208.1564686753720;
+        Thu, 01 Aug 2019 12:12:33 -0700 (PDT)
+Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id q4sm5434151pjq.27.2019.08.01.12.12.32
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 01 Aug 2019 12:12:33 -0700 (PDT)
+Date:   Thu, 1 Aug 2019 12:14:03 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Fabien Dessenne <fabien.dessenne@st.com>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH 0/6] hwspinlock: allow sharing of hwspinlocks
+Message-ID: <20190801191403.GA7234@tuxbook-pro>
+References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
 MIME-Version: 1.0
-References: <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
- <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
- <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
- <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
- <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
- <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com>
- <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz> <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
-In-Reply-To: <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 1 Aug 2019 11:59:57 -0700
-Message-ID: <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Petr Mladek <pmladek@suse.com>, Jeff Dike <jdike@addtoit.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kees Cook <keescook@google.com>,
-        David Rientjes <rientjes@google.com>,
-        kunit-dev@googlegroups.com,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        wfg@linux.intel.com, Greg KH <gregkh@linuxfoundation.org>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Richard Weinberger <richard@nod.at>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 1, 2019 at 11:55 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
-> >
-> > On Thu 2019-07-25 13:21:12, Brendan Higgins wrote:
-> > > On Wed, Jul 24, 2019 at 12:31 AM Petr Mladek <pmladek@suse.com> wrote:
-> > > >
-> > > > On Mon 2019-07-22 16:54:10, Stephen Boyd wrote:
-> > > > > Quoting Brendan Higgins (2019-07-22 15:30:49)
-> > > > > > On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > > > >
-> > > > > > >
-> > > > > > > What's the calling context of the assertions and expectations? I still
-> > > > > > > don't like the fact that string stream needs to allocate buffers and
-> > > > > > > throw them into a list somewhere because the calling context matters
-> > > > > > > there.
-> > > > > >
-> > > > > > The calling context is the same as before, which is anywhere.
-> > > > >
-> > > > > Ok. That's concerning then.
-> > > > >
-> > > > > >
-> > > > > > > I'd prefer we just wrote directly to the console/log via printk
-> > > > > > > instead. That way things are simple because we use the existing
-> > > > > > > buffering path of printk, but maybe there's some benefit to the string
-> > > > > > > stream that I don't see? Right now it looks like it builds a string and
-> > > > > > > then dumps it to printk so I'm sort of lost what the benefit is over
-> > > > > > > just writing directly with printk.
-> > > > > >
-> > > > > > It's just buffering it so the whole string gets printed uninterrupted.
-> > > > > > If we were to print out piecemeal to printk, couldn't we have another
-> > > > > > call to printk come in causing it to garble the KUnit message we are
-> > > > > > in the middle of printing?
-> > > > >
-> > > > > Yes, printing piecemeal by calling printk many times could lead to
-> > > > > interleaving of messages if something else comes in such as an interrupt
-> > > > > printing something. Printk has some support to hold "records" but I'm
-> > > > > not sure how that would work here because KERN_CONT talks about only
-> > > > > being used early on in boot code. I haven't looked at printk in detail
-> > > > > though so maybe I'm all wrong and KERN_CONT just works?
-> > > >
-> > > > KERN_CONT does not guarantee that the message will get printed
-> > > > together. The pieces get interleaved with messages printed in
-> > > > parallel.
-> > > >
-> > > > Note that KERN_CONT was originally really meant to be used only during
-> > > > boot. It was later used more widely and ended in the best effort category.
-> > > >
-> > > > There were several attempts to make it more reliable. But it was
-> > > > always either too complicated or error prone or both.
-> > > >
-> > > > You need to use your own buffering if you rely want perfect output.
-> > > > The question is if it is really worth the complexity. Also note that
-> > > > any buffering reduces the chance that the messages will reach
-> > > > the console.
-> > >
-> > > Seems like that settles it then. Thanks!
-> > >
-> > > > BTW: There is a work in progress on a lockless printk ring buffer.
-> > > > It will make printk() more secure regarding deadlocks. But it might
-> > > > make transparent handling of continuous lines even more tricky.
-> > > >
-> > > > I guess that local buffering, before calling printk(), will be
-> > > > even more important then. Well, it might really force us to create
-> > > > an API for it.
-> > >
-> > > Cool! Can you CC me on that discussion?
-> >
-> > Adding John Oggness into CC.
-> >
-> > John, please CC Brendan Higgins on the patchsets eventually switching
-> > printk() into the lockless buffer. The test framework is going to
-> > do its own buffering to keep the related messages together.
-> >
-> > The lockless ringbuffer might make handling of related (partial)
-> > lines worse or better. It might justify KUnit's extra buffering
-> > or it might allow to get rid of it.
->
-> Thanks for CC'ing me on the printk ringbuffer thread. It looks like it
-> actually probably won't affect my needs for KUnit logging. The biggest
-> reason I need some sort of buffering system is to be able to compose
-> messages piece meal into a single message that will be printed out to
-> the user as a single message with no messages from other printk
-> callers printed out in the middle of mine.
->
-> The prb does look interesting; however, it appears that to get the
-> semantics that I need, I would have to put my entire message in a
-> single data block and would consequently need to know the size of my
-> message a priori, which is problematic. Consequently, it seems as
-> though I will probably need to compose my entire message using my own
-> buffering system.
->
-> > > > Note that stroring the messages into the printk log is basically safe in any
-> > > > context. It uses temporary per-CPU buffers for recursive messages and
-> > > > in NMI. The only problem is panic() when some CPU gets stuck with the
-> > > > lock taken. This will get solved by the lockless ringbuffer. Also
-> > > > the temporary buffers will not be necessary any longer.
-> > >
-> > > Sure, I think Stephen's concern is all the supporting code that is
-> > > involved. Not printk specifically. It just means a lot more of KUnit
-> > > has to be IRQ safe.
-> >
-> > I see.
-> >
-> > BTW: I wonder if KUnit could reuse the existing seq_buf implementation
-> > for buffering messages.
-> >
-> > I am sorry if it has already been proposed and rejected for some
-> > reason. I might have missed it. Feel free to just point me to
-> > same older mail.
->
-> Yeah, we discussed it briefly here:
->
-> https://lkml.org/lkml/2019/5/17/497
->
-> Looks like I forgot to include my reasoning in the commit text, sorry
-> about that.
->
-> > > > Much bigger problems are with consoles. There are many of them. It
-> > > > means a lot of code and more locks involved, including scheduler
-> > > > locks. Note that console lock is a semaphore.
-> > >
-> > > That shouldn't affect us though, right? As long as we continue to use
-> > > the printk interface?
-> >
-> > I guess that it should not affect KUnit.
-> >
-> > The only problem might be if the testing framework calls printk()
-> > inside scheduler or console code. And only when the tested code
-> > uses the same locks that will be used by the called printk().
->
-> Yeah, well printk will not be our only problem in those instances.
->
-> > To be honest I do not fully understand KUnit design. I am not
-> > completely sure how the tested code is isolated from the running
-> > system. Namely, I do not know if the tested code shares
-> > the same locks with the system running the test.
->
-> No worries, I don't expect printk to be the hang up in those cases. It
-> sounds like KUnit has a long way to evolve before printk is going to
-> be a limitation.
+On Wed 13 Mar 08:50 PDT 2019, Fabien Dessenne wrote:
 
-So Stephen, what do you think?
+> The current implementation does not allow two different devices to use
+> a common hwspinlock. This patch set proposes to have, as an option, some
+> hwspinlocks shared between several users.
+> 
+> Below is an example that explain the need for this:
+> 	exti: interrupt-controller@5000d000 {
+> 		compatible = "st,stm32mp1-exti", "syscon";
+> 		interrupt-controller;
+> 		#interrupt-cells = <2>;
+> 		reg = <0x5000d000 0x400>;
+> 		hwlocks = <&hsem 1>;
+> 	};
+> The two drivers (stm32mp1-exti and syscon) refer to the same hwlock.
+> With the current hwspinlock implementation, only the first driver succeeds
+> in requesting (hwspin_lock_request_specific) the hwlock. The second request
+> fails.
+> 
+> 
+> The proposed approach does not modify the API, but extends the DT 'hwlocks'
+> property with a second optional parameter (the first one identifies an
+> hwlock) that specifies whether an hwlock is requested for exclusive usage
+> (current behavior) or can be shared between several users.
+> Examples:
+> 	hwlocks = <&hsem 8>;	Ref to hwlock #8 for exclusive usage
+> 	hwlocks = <&hsem 8 0>;	Ref to hwlock #8 for exclusive (0) usage
+> 	hwlocks = <&hsem 8 1>;	Ref to hwlock #8 for shared (1) usage
+> 
+> As a constraint, the #hwlock-cells value must be 1 or 2.
+> In the current implementation, this can have theorically any value but:
+> - all of the exisiting drivers use the same value : 1.
+> - the framework supports only one value : 1 (see implementation of
+>   of_hwspin_lock_simple_xlate())
+> Hence, it shall not be a problem to restrict this value to 1 or 2 since
+> it won't break any driver.
+> 
 
-Do you want me to go forward with the new kunit_assert API wrapping
-the string_stream as I have it now? Would you prefer to punt this to a
-later patch? Or would you prefer something else?
+Hi Fabien,
 
-Cheers
+Your series looks good, but it makes me wonder why the hardware locks
+should be an exclusive resource.
+
+How about just making all (specific) locks shared?
+
+Regards,
+Bjorn
+
+> Fabien Dessenne (6):
+>   dt-bindings: hwlock: add support of shared locks
+>   hwspinlock: allow sharing of hwspinlocks
+>   dt-bindings: hwlock: update STM32 #hwlock-cells value
+>   ARM: dts: stm32: Add hwspinlock node for stm32mp157 SoC
+>   ARM: dts: stm32: Add hwlock for irqchip on stm32mp157
+>   ARM: dts: stm32: hwlocks for GPIO for stm32mp157
+> 
+>  .../devicetree/bindings/hwlock/hwlock.txt          | 27 +++++--
+>  .../bindings/hwlock/st,stm32-hwspinlock.txt        |  6 +-
+>  Documentation/hwspinlock.txt                       | 10 ++-
+>  arch/arm/boot/dts/stm32mp157-pinctrl.dtsi          |  2 +
+>  arch/arm/boot/dts/stm32mp157c.dtsi                 | 10 +++
+>  drivers/hwspinlock/hwspinlock_core.c               | 82 +++++++++++++++++-----
+>  drivers/hwspinlock/hwspinlock_internal.h           |  2 +
+>  7 files changed, 108 insertions(+), 31 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
