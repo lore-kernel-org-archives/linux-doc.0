@@ -1,201 +1,53 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C9E5D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 13:24:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6EC8E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 14:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730993AbfHANYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 09:24:51 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:37360 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726407AbfHANYu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 09:24:50 -0400
-Received: by mail-ed1-f65.google.com with SMTP id w13so69205156eds.4
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 06:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=oRhWWHTTWAXjDtJAWmN6dRP46bz3/nitxwY0Vh4QWL8=;
-        b=nPRpJopYE4tNaMnqZge6egyB0YrEeLdK4PCzRIU2RwlfARMnqPyF82311Oy9pqi/3k
-         0ArhmxcRjZjQ0tYE3RdMosZcnuCUW+XxYmGnFp0pCiiDG1vE7nmbGRehsgse9k8EkWRR
-         Ei18k9N1dGn12cAB4uri2mxedwKCIBAa4O1ztgsvUtEHrUBm8KpDMTH3tzMdgIk1UznU
-         q1Xy0DiyhS3uV+UuggDmbP00BfXSUBr5DAGUJREUuiGcYl5enPkIFxvhlaWknaAeKaXt
-         nWhAWQ94wd8miYxbEUUEDxtuvzfjnrqXO4gnAiKEe3pEKKfiM1OKrzcyP0QjcwzwfnFY
-         0Veg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=oRhWWHTTWAXjDtJAWmN6dRP46bz3/nitxwY0Vh4QWL8=;
-        b=Atbv1aZkLhP5AjAFEuLJ017f/mS0K93keXJQZPEwuP7O2leg/t3wFZ51veJNWZZEw7
-         +7eThsgl2jfKLnQ8JAfak/bSmNaNB1KAgcP+JUYwaJpZpcbg/lYOpcjOdmrlu7TV1vax
-         gfTIbgmHM9KZGcAgOAmdeyJM5rygrpbo4walPf1Epd7mTm7aBYGEwiW8Bc3JTXOBCBa3
-         eLZyLfgojI6JD1xOXPR072MWaxyKT80TF6fI+kGMCriHz/NHdGzkbjbfRli/jtpJNxqC
-         Y0HNX56LVyagwR4BOh0HknnXmc2RvSSwQ0A8djjhedRlOWFCC/LStG1IwaNb4moGyZTW
-         le1w==
-X-Gm-Message-State: APjAAAUtBgG8A9sTab7AGPLBi1rMCDLffOrnP6xJU52ZGHCXkBnFrtrg
-        nwSy8zTE7gUom4a962hE5BMfDhl3w5p/uHzzmC8=
-X-Google-Smtp-Source: APXvYqy2/ZgGf2sBP6haXVbAhJHBKZtN/9NXbuW5KNpgIJ6trcfevVCbVzIkgyp0iij4A8romsBvvltgRqFg/r3/jS0=
-X-Received: by 2002:a50:9116:: with SMTP id e22mr114258222eda.161.1564665887525;
- Thu, 01 Aug 2019 06:24:47 -0700 (PDT)
+        id S1731204AbfHAOAK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 10:00:10 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42540 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730581AbfHAOAK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Aug 2019 10:00:10 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5F61E8B2;
+        Thu,  1 Aug 2019 14:00:09 +0000 (UTC)
+Date:   Thu, 1 Aug 2019 08:00:08 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Federico Vaga <federico.vaga@cern.ch>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Alessia Mantegazza" <amantegazza@vaga.pv.it>
+Subject: Re: [PATCH] doc:it_IT: translations for documents in process/
+Message-ID: <20190801080008.44b3f8f4@lwn.net>
+In-Reply-To: <1695846.t893fQQLz3@pcbe13614>
+References: <20190728092054.1183-1-federico.vaga@vaga.pv.it>
+        <20190731125124.46e06ab6@lwn.net>
+        <20864529.Q1CKeA7GMu@pcbe13614>
+        <1695846.t893fQQLz3@pcbe13614>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20190731153857.4045-1-pasha.tatashin@soleen.com>
-In-Reply-To: <20190731153857.4045-1-pasha.tatashin@soleen.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Thu, 1 Aug 2019 09:24:36 -0400
-Message-ID: <CA+CK2bBVsU1hhgPB4cO8ZcjL_Y+v59W+-m4rLZPEKfpgvvvEpg@mail.gmail.com>
-Subject: Re: [RFC v2 0/8] arm64: MMU enabled kexec relocation
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
-        James Morris <jmorris@namei.org>,
-        Sasha Levin <sashal@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bhupesh Sharma <bhsharma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I will send a new version soon, so please do not spend time reviewing
-this work.  In the new version I will fix MMU at EL2 issue by doing
-what we are doing in hibernation: reduce to EL1 to do the copying, and
-escalate back to to EL2 to branch to new kernel. Also, this will
-simplify copying function by actually doing the linear copy as ttbr1
-and ttbr0 are always available this way.
+On Thu, 1 Aug 2019 11:53:06 +0200
+Federico Vaga <federico.vaga@cern.ch> wrote:
 
-Thank you,
-Pasha
+> Of course, I checked on the version available on my distribution. I did not 
+> look for translation changes on different version of the same email client @_@ 
 
-On Wed, Jul 31, 2019 at 11:38 AM Pavel Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> Changelog from previous RFC:
-> - Added trans_table support for both hibernate and kexec.
-> - Fixed performance issue, where enabling MMU did not yield the
->   actual performance improvement.
->
-> Bug:
-> With the current state, this patch series works on kernels booted with EL1
-> mode, but for some reason, when elevated to EL2 mode reboot freezes in
-> both QEMU and on real hardware.
->
-> The freeze happens in:
->
-> arch/arm64/kernel/relocate_kernel.S
->         turn_on_mmu()
->
-> Right after sctlr_el2 is written (MMU on EL2 is enabled)
->
->         msr     sctlr_el2, \tmp1
->
-> I've been studying all the relevant control registers for EL2, but do not
-> see what might be causing this hang:
->
-> MAIR_EL2 is set to be exactly the same as MAIR_EL1 0xbbff440c0400
->
-> TCR_EL2        0x80843510
-> Enabled bits:
-> PS      Physical Address Size. (0b100   44 bits, 16TB.)
-> SH0     Shareability    11 Inner Shareable
-> ORGN0   Normal memory, Outer Write-Back Read-Allocate Write-Allocate Cach.
-> IRGN0   Normal memory, Inner Write-Back Read-Allocate Write-Allocate Cach.
-> T0SZ    01 0000
->
-> SCTLR_EL2       0x30e5183f
-> RES1    : Reserve ones
-> M       : MMU enabled
-> A       : Align check
-> C       : Cacheability control
-> SA      : SP Alignment check enable
-> IESB    : Implicit Error Synchronization event
-> I       : Instruction access Cacheability
->
-> TTBR0_EL2      0x1b3069000 (address of trans_table)
->
-> Any suggestion of what else might be missing that causes this freeze when
-> MMU is enabled in EL2?
->
-> =====
-> Here is the current data from the real hardware:
-> (because of bug, I forced EL1 mode by setting el2_switch always to zero in
-> cpu_soft_restart()):
->
-> For this experiment, the size of kernel plus initramfs is 25M. If initramfs
-> was larger, than the improvements would be even greater, as time spent in
-> relocation is proportional to the size of relocation.
->
-> Previously:
-> kernel shutdown 0.022131328s
-> relocation      0.440510736s
-> kernel startup  0.294706768s
->
-> Relocation was taking: 58.2% of reboot time
->
-> Now:
-> kernel shutdown 0.032066576s
-> relocation      0.022158152s
-> kernel startup  0.296055880s
->
-> Now: Relocation takes 6.3% of reboot time
->
-> Total reboot is x2.16 times faster.
->
-> Previous approaches and discussions
-> -----------------------------------
-> https://lore.kernel.org/lkml/20190709182014.16052-1-pasha.tatashin@soleen.com
-> reserve space for kexec to avoid relocation, involves changes to generic code
-> to optimize a problem that exists on arm64 only:
->
-> https://lore.kernel.org/lkml/20190716165641.6990-1-pasha.tatashin@soleen.com
-> The first attempt to enable MMU, some bugs that prevented performance
-> improvement. The page tables unnecessary configured idmap for the whole
-> physical space.
->
-> Pavel Tatashin (8):
->   kexec: quiet down kexec reboot
->   arm64, mm: transitional tables
->   arm64: hibernate: switch to transtional page tables.
->   kexec: add machine_kexec_post_load()
->   arm64, kexec: move relocation function setup and clean up
->   arm64, kexec: add expandable argument to relocation function
->   arm64, kexec: configure transitional page table for kexec
->   arm64, kexec: enable MMU during kexec relocation
->
->  arch/arm64/Kconfig                     |   4 +
->  arch/arm64/include/asm/kexec.h         |  24 ++-
->  arch/arm64/include/asm/pgtable-hwdef.h |   1 +
->  arch/arm64/include/asm/trans_table.h   |  66 ++++++
->  arch/arm64/kernel/asm-offsets.c        |  10 +
->  arch/arm64/kernel/cpu-reset.S          |   4 +-
->  arch/arm64/kernel/cpu-reset.h          |   8 +-
->  arch/arm64/kernel/hibernate.c          | 261 ++++++------------------
->  arch/arm64/kernel/machine_kexec.c      | 168 ++++++++++++---
->  arch/arm64/kernel/relocate_kernel.S    | 238 +++++++++++++++-------
->  arch/arm64/mm/Makefile                 |   1 +
->  arch/arm64/mm/trans_table.c            | 272 +++++++++++++++++++++++++
->  kernel/kexec.c                         |   4 +
->  kernel/kexec_core.c                    |   8 +-
->  kernel/kexec_file.c                    |   4 +
->  kernel/kexec_internal.h                |   2 +
->  16 files changed, 756 insertions(+), 319 deletions(-)
->  create mode 100644 arch/arm64/include/asm/trans_table.h
->  create mode 100644 arch/arm64/mm/trans_table.c
->
-> --
-> 2.22.0
->
+Hmm...normally we expect you to check all versions back to the 1991
+release of the 0.01 kernel...:)  I think that your diligence is more than
+sufficiently due, thanks.
+
+jon
