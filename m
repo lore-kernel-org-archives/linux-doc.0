@@ -1,143 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F0E27D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 01:11:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB25D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 03:18:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728154AbfHABLW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Jul 2019 21:11:22 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:34548 "EHLO huawei.com"
+        id S1726125AbfHADSM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Jul 2019 23:18:12 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3686 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725942AbfHABLW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Jul 2019 21:11:22 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 6295B2C0F960B1BEB31C;
-        Thu,  1 Aug 2019 09:11:19 +0800 (CST)
-Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
- (10.3.19.211) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 1 Aug 2019
- 09:11:14 +0800
-Subject: Re: [PATCH v4 3/3] f2fs: Support case-insensitive file name lookups
-To:     Nathan Chancellor <natechancellor@gmail.com>,
-        Daniel Rosenberg <drosen@google.com>
-CC:     Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <kernel-team@android.com>
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
- <20190731175748.GA48637@archlinux-threadripper>
+        id S1725793AbfHADSM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Jul 2019 23:18:12 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 1F2C6B5F8AF3181109BD;
+        Thu,  1 Aug 2019 11:18:10 +0800 (CST)
+Received: from szvp000203569.huawei.com (10.120.216.130) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 1 Aug 2019 11:17:59 +0800
 From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <5d6c5da8-ad1e-26e2-0a3d-84949cd4e9aa@huawei.com>
-Date:   Thu, 1 Aug 2019 09:11:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <gaoxiang25@huawei.com>,
+        <chao@kernel.org>, Chao Yu <yuchao0@huawei.com>
+Subject: [PATCH] mailmap: add entry for Gao Xiang
+Date:   Thu, 1 Aug 2019 11:17:50 +0800
+Message-ID: <20190801031750.17094-1-yuchao0@huawei.com>
+X-Mailer: git-send-email 2.18.0.rc1
 MIME-Version: 1.0
-In-Reply-To: <20190731175748.GA48637@archlinux-threadripper>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.134.22.195]
+Content-Type: text/plain
+X-Originating-IP: [10.120.216.130]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nathan,
+Add entry to connect all Gao Xiang's email addresses.
 
-Thanks for the report! :)
+Signed-off-by: Chao Yu <yuchao0@huawei.com>
+---
+ .mailmap | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 2019/8/1 1:57, Nathan Chancellor wrote:
-> Hi all,
-> 
-> <snip>
-> 
->> diff --git a/fs/f2fs/hash.c b/fs/f2fs/hash.c
->> index cc82f142f811f..99e79934f5088 100644
->> --- a/fs/f2fs/hash.c
->> +++ b/fs/f2fs/hash.c
->> @@ -14,6 +14,7 @@
->>  #include <linux/f2fs_fs.h>
->>  #include <linux/cryptohash.h>
->>  #include <linux/pagemap.h>
->> +#include <linux/unicode.h>
->>  
->>  #include "f2fs.h"
->>  
->> @@ -67,7 +68,7 @@ static void str2hashbuf(const unsigned char *msg, size_t len,
->>  		*buf++ = pad;
->>  }
->>  
->> -f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
->> +static f2fs_hash_t __f2fs_dentry_hash(const struct qstr *name_info,
->>  				struct fscrypt_name *fname)
->>  {
->>  	__u32 hash;
->> @@ -103,3 +104,35 @@ f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
->>  	f2fs_hash = cpu_to_le32(hash & ~F2FS_HASH_COL_BIT);
->>  	return f2fs_hash;
->>  }
->> +
->> +f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
->> +		const struct qstr *name_info, struct fscrypt_name *fname)
->> +{
->> +#ifdef CONFIG_UNICODE
->> +	struct f2fs_sb_info *sbi = F2FS_SB(dir->i_sb);
->> +	const struct unicode_map *um = sbi->s_encoding;
->> +	int r, dlen;
->> +	unsigned char *buff;
->> +	struct qstr *folded;
->> +
->> +	if (name_info->len && IS_CASEFOLDED(dir)) {
->> +		buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
->> +		if (!buff)
->> +			return -ENOMEM;
->> +
->> +		dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
->> +		if (dlen < 0) {
->> +			kvfree(buff);
->> +			goto opaque_seq;
->> +		}
->> +		folded->name = buff;
->> +		folded->len = dlen;
->> +		r = __f2fs_dentry_hash(folded, fname);
->> +
->> +		kvfree(buff);
->> +		return r;
->> +	}
->> +opaque_seq:
->> +#endif
->> +	return __f2fs_dentry_hash(name_info, fname);
->> +}
-> 
-> Clang now warns:
-> 
-> fs/f2fs/hash.c:128:3: warning: variable 'folded' is uninitialized when used here [-Wuninitialized]
->                 folded->name = buff;
->                 ^~~~~~
-> fs/f2fs/hash.c:116:21: note: initialize the variable 'folded' to silence this warning
->         struct qstr *folded;
->                            ^
->                             = NULL
-> 1 warning generated.
-> 
-> I assume that it wants to be initialized with f2fs_kzalloc as well but
-> I am not familiar with this code and what it expects to do.
-> 
-> Please look into this when you get a chance!
+diff --git a/.mailmap b/.mailmap
+index 4ff3f20b4f11..00588c37e99d 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -79,6 +79,8 @@ Frank Rowand <frowand.list@gmail.com> <frowand@mvista.com>
+ Frank Rowand <frowand.list@gmail.com> <frank.rowand@am.sony.com>
+ Frank Rowand <frowand.list@gmail.com> <frank.rowand@sonymobile.com>
+ Frank Zago <fzago@systemfabricworks.com>
++Gao Xiang <xiang@kernel.org> <gaoxiang25@huawei.com>
++Gao Xiang <xiang@kernel.org> <hsiangkao@aol.com>
+ Greg Kroah-Hartman <greg@echidna.(none)>
+ Greg Kroah-Hartman <gregkh@suse.de>
+ Greg Kroah-Hartman <greg@kroah.com>
+-- 
+2.18.0.rc1
 
-That should be a bug, it needs to define a struct qstr type variable rather than
-a pointer there.
-
-Jaegeuk, could you fix this in you branch?
-
-Thanks,
-
-> Nathan
-> .
-> 
