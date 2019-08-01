@@ -1,144 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7E477D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 19:12:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F3DB7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 21:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388538AbfHATMf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 15:12:35 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38566 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388536AbfHATMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 15:12:35 -0400
-Received: by mail-pl1-f196.google.com with SMTP id az7so32597224plb.5
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 12:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=u3M46kJjAPF4b1mqVIN/QqF1xk0nbqKlZydzEhZoL6s=;
-        b=Iu1CH4ToXYW90mTOdeHkqHqps0H4/Jt6nXnjawYRwpFRpCQ3R+FOjlvAHtsf0q+cca
-         g/GwPjYINrkuM0M27UfcxGN0Hpzq1z+zbIQRr9A8cLNBE6045TW8YO5B1jv+3zrSM+AI
-         RwmR2ijMX/YKSlorl4qZN6W9VRTC6OW7Mk6NYDrjpVniQ6cLad/+XzqpNwinuFtcNb6o
-         GTdsYR1aNvUhF9KHd0BLzgdnZis8Y+VjfG/T5HxcorMnvqNAW8q864HiIsdjCkh4XWvu
-         mGmSsJd4vy/0+OKrbqrS2lRjhwOvHCzqJiDH6nI0GAHQ2FHm8Lic/V7jrb83izS6/2/D
-         KuMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=u3M46kJjAPF4b1mqVIN/QqF1xk0nbqKlZydzEhZoL6s=;
-        b=PPcATCe2/ZFDGXstq27oBxlSDXewdet+aGGxlprKNIMeOsHNVakZUHQWkCT0/3f6st
-         6vsSSHTOHtzxVMPlIAsOzTn1FuZEdw9T0cetur4qtEIIPBGVh3YHiOCt/9HPvXE4kkdo
-         /ahZ/4EVoNbcNKVfMA6ah9SJ7xW0XAf2uGx3WN38iw/241fBqoXehjYz0EOahLLsPytn
-         Vhq+URFghQilmum/SONFzJc87QGzrBdYDw3NEGGBYGx8Zr9NZDOMjNdZ/qPAM6hfNoiD
-         X7GelaP4O6DYHb28YOPLnn4gzF+hF8vdmTgh79o1yj0QzqcmQvd1JKeNa0ESLTTNbjSF
-         Lo5g==
-X-Gm-Message-State: APjAAAX1wdnch8aDVzU9NxAQc6W4jB8rD4UjXfRVRV6XfyaFHkUDunyL
-        RdfxroaSkzFb/5Jz+ZzGxyo1Jg==
-X-Google-Smtp-Source: APXvYqyXQfNjDuCkBrlF9sH4WaQpLYB6kh01jQJmr+SAa0EdEbp3B9CGOkSzrUP/hpK0bXspTKw35A==
-X-Received: by 2002:a17:902:d90a:: with SMTP id c10mr124505738plz.208.1564686753720;
-        Thu, 01 Aug 2019 12:12:33 -0700 (PDT)
-Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id q4sm5434151pjq.27.2019.08.01.12.12.32
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 01 Aug 2019 12:12:33 -0700 (PDT)
-Date:   Thu, 1 Aug 2019 12:14:03 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Fabien Dessenne <fabien.dessenne@st.com>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH 0/6] hwspinlock: allow sharing of hwspinlocks
-Message-ID: <20190801191403.GA7234@tuxbook-pro>
-References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
+        id S2389071AbfHAVOt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 17:14:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57560 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731215AbfHAVOt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Aug 2019 17:14:49 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D3D7206A2;
+        Thu,  1 Aug 2019 21:14:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564694087;
+        bh=n0IdgFG7Kos2nGnJ4DnkR9p1y4CCyIbJ6ZBAUiBNpN4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=mCeQAbdwzIbwLPOijpChQVFo4UiYoSWfSZsIgfoIrNYNDT1t+cF6inHSpvwbpaWEE
+         h3a75ihCGxnVfKz0yO5MH+8Z55L0rleQ67pJQ89uiV1jYfk7eCIm+wLogdHeiGG1J2
+         0oPUv74xqN1E4K+r3Bcp5gj1D6bBbIkaOl5oR1Jc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
+References: <20190716175021.9CA412173C@mail.kernel.org> <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org> <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com> <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz> <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com> <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz> <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com> <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Petr Mladek <pmladek@suse.com>, Jeff Dike <jdike@addtoit.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@google.com>,
+        David Rientjes <rientjes@google.com>,
+        kunit-dev@googlegroups.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        wfg@linux.intel.com, Greg KH <gregkh@linuxfoundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
+User-Agent: alot/0.8.1
+Date:   Thu, 01 Aug 2019 14:14:46 -0700
+Message-Id: <20190801211447.6D3D7206A2@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 13 Mar 08:50 PDT 2019, Fabien Dessenne wrote:
+Quoting Brendan Higgins (2019-08-01 11:59:57)
+> On Thu, Aug 1, 2019 at 11:55 AM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > > To be honest I do not fully understand KUnit design. I am not
+> > > completely sure how the tested code is isolated from the running
+> > > system. Namely, I do not know if the tested code shares
+> > > the same locks with the system running the test.
+> >
+> > No worries, I don't expect printk to be the hang up in those cases. It
+> > sounds like KUnit has a long way to evolve before printk is going to
+> > be a limitation.
+>=20
+> So Stephen, what do you think?
+>=20
+> Do you want me to go forward with the new kunit_assert API wrapping
+> the string_stream as I have it now? Would you prefer to punt this to a
+> later patch? Or would you prefer something else?
+>=20
 
-> The current implementation does not allow two different devices to use
-> a common hwspinlock. This patch set proposes to have, as an option, some
-> hwspinlocks shared between several users.
-> 
-> Below is an example that explain the need for this:
-> 	exti: interrupt-controller@5000d000 {
-> 		compatible = "st,stm32mp1-exti", "syscon";
-> 		interrupt-controller;
-> 		#interrupt-cells = <2>;
-> 		reg = <0x5000d000 0x400>;
-> 		hwlocks = <&hsem 1>;
-> 	};
-> The two drivers (stm32mp1-exti and syscon) refer to the same hwlock.
-> With the current hwspinlock implementation, only the first driver succeeds
-> in requesting (hwspin_lock_request_specific) the hwlock. The second request
-> fails.
-> 
-> 
-> The proposed approach does not modify the API, but extends the DT 'hwlocks'
-> property with a second optional parameter (the first one identifies an
-> hwlock) that specifies whether an hwlock is requested for exclusive usage
-> (current behavior) or can be shared between several users.
-> Examples:
-> 	hwlocks = <&hsem 8>;	Ref to hwlock #8 for exclusive usage
-> 	hwlocks = <&hsem 8 0>;	Ref to hwlock #8 for exclusive (0) usage
-> 	hwlocks = <&hsem 8 1>;	Ref to hwlock #8 for shared (1) usage
-> 
-> As a constraint, the #hwlock-cells value must be 1 or 2.
-> In the current implementation, this can have theorically any value but:
-> - all of the exisiting drivers use the same value : 1.
-> - the framework supports only one value : 1 (see implementation of
->   of_hwspin_lock_simple_xlate())
-> Hence, it shall not be a problem to restrict this value to 1 or 2 since
-> it won't break any driver.
-> 
+I like the struct based approach. If anything, it can be adjusted to
+make the code throw some records into a spinlock later on and delay the
+formatting of the assertion if need be. Can you resend with that
+approach? I don't think I'll have any more comments after that.
 
-Hi Fabien,
-
-Your series looks good, but it makes me wonder why the hardware locks
-should be an exclusive resource.
-
-How about just making all (specific) locks shared?
-
-Regards,
-Bjorn
-
-> Fabien Dessenne (6):
->   dt-bindings: hwlock: add support of shared locks
->   hwspinlock: allow sharing of hwspinlocks
->   dt-bindings: hwlock: update STM32 #hwlock-cells value
->   ARM: dts: stm32: Add hwspinlock node for stm32mp157 SoC
->   ARM: dts: stm32: Add hwlock for irqchip on stm32mp157
->   ARM: dts: stm32: hwlocks for GPIO for stm32mp157
-> 
->  .../devicetree/bindings/hwlock/hwlock.txt          | 27 +++++--
->  .../bindings/hwlock/st,stm32-hwspinlock.txt        |  6 +-
->  Documentation/hwspinlock.txt                       | 10 ++-
->  arch/arm/boot/dts/stm32mp157-pinctrl.dtsi          |  2 +
->  arch/arm/boot/dts/stm32mp157c.dtsi                 | 10 +++
->  drivers/hwspinlock/hwspinlock_core.c               | 82 +++++++++++++++++-----
->  drivers/hwspinlock/hwspinlock_internal.h           |  2 +
->  7 files changed, 108 insertions(+), 31 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
