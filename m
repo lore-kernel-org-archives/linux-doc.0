@@ -1,191 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85FB37D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 04:05:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E6B3E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 06:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725768AbfHAEFX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 00:05:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33712 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725308AbfHAEFW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Aug 2019 00:05:22 -0400
-Received: from localhost (c-98-234-77-170.hsd1.ca.comcast.net [98.234.77.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F7AA206A3;
-        Thu,  1 Aug 2019 04:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564632321;
-        bh=p93UwHtzJnT9bTmzWi9Xj9kNuVoH+OlrITuCGkgZCU0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZvE7R67i5/FJqUTpXXMJgmYnrP6zkjLyIIQ94Tw1YOk7s0QqPvmNW/1maP7qQTEm/
-         vWMPM77/byfy78m7B/pqD4jpczOqeWOzwnSaKYaX6tsk4zQMH/EQLw/tBAw4Yxb5va
-         SVcj+hsNBIIFdLlvxBRGSUG5zSnPzPc9A2Lo+tQo=
-Date:   Wed, 31 Jul 2019 21:05:20 -0700
-From:   Jaegeuk Kim <jaegeuk@kernel.org>
-To:     Chao Yu <yuchao0@huawei.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Daniel Rosenberg <drosen@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v4 3/3] f2fs: Support case-insensitive file name lookups
-Message-ID: <20190801040520.GA84433@jaegeuk-macbookpro.roam.corp.google.com>
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
- <20190731175748.GA48637@archlinux-threadripper>
- <5d6c5da8-ad1e-26e2-0a3d-84949cd4e9aa@huawei.com>
+        id S1729906AbfHAGVy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 02:21:54 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39843 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728884AbfHAGVy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 02:21:54 -0400
+Received: by mail-lf1-f68.google.com with SMTP id v85so49273523lfa.6;
+        Wed, 31 Jul 2019 23:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1vSZqJMnvEYK79BuKh6WUgr+O0wW6TMjJ9YpHKa1USU=;
+        b=Arm8SbO3zGrCc5avNA7dsMeg85DbeTjU5zzCj7quGtHPNxa8/SQT6F5BxoH/oW9lU+
+         rxTr+oQxxUsihwCoaxsTIyiDxgny9BvFH1L8WxV3tlw2KRSZPI+I16EN+PzHL0wEaHUC
+         +wk5CNLeGxCaTXsaXuQW46Zml1KG+s2Q/hXX165ScX10Rhvf74bOIcX4NlnjS54S8AHI
+         xxbUlheuiKF7RwuNv+h83UPOZrSFZ33E+Xxk7rMCrOZA2taAypqDXjNgZlx09PmqGlUu
+         hhWb44TjnRf0xQuebHwAMIC2EBjamD7JbUM+fNSQmxuS4VBghCU1+21vEVInMcUZd824
+         MIiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1vSZqJMnvEYK79BuKh6WUgr+O0wW6TMjJ9YpHKa1USU=;
+        b=mbrCGxUODrxQXCwo2X2gWQS2vKP4+VyXUKTwc9WJEt7HFuu4Uhd2GYdX+LgUrUoHk0
+         17u1HT54TVSXox3DW3o1dOkgzwpc6IJIXDabA8pXCDG6KFZw7ia6GxCC2PDZom29tGBC
+         dWaTuFSxXH0E6VLrkqwHADahw2rFpXfB2WytsciYKdgJNWMvS7YKVTnweXX6ErccqzzY
+         1ZuX2R8G3piYFqapH4UAbmqTNdhItcAjqfrtK4h+nR9Fws8xfBfqPXndt8m5Sx/Hjdn0
+         i+uhgMynLT633kvHzy/WZbWN5XPWiAKgPcxN9EG+m21zu7GHJ+R2Uy4DbN5HvV948kVX
+         oRcg==
+X-Gm-Message-State: APjAAAWkKO1OChjVwrawXHg7oEB9/4FMlw93cFNPKNo9V0tZ3VWZbtvL
+        K3YYvxC3bqQArpfQ8bfKj4nGtXTt3RTO++UldCI=
+X-Google-Smtp-Source: APXvYqwHSeFpB9tSV0Ei5U+HuQh1iF1dV3lxekEtE3WsWY2xkt0Unm2jUg3lSom7xaUo+nfynVkJjq4uUMXG5qYU6Jk=
+X-Received: by 2002:a19:641a:: with SMTP id y26mr58261160lfb.29.1564640511451;
+ Wed, 31 Jul 2019 23:21:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d6c5da8-ad1e-26e2-0a3d-84949cd4e9aa@huawei.com>
-User-Agent: Mutt/1.8.2 (2017-04-18)
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+ <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
+ <CAE=NcrY7b8eTTovOszBhGhVbjfJAXoAYehiUJyPENGfwWoVcPw@mail.gmail.com> <CAFA6WYOEqe1a1DCyVYKA+oZaZ0n5hnjxdubstUnrwdUW1-4xHw@mail.gmail.com>
+In-Reply-To: <CAFA6WYOEqe1a1DCyVYKA+oZaZ0n5hnjxdubstUnrwdUW1-4xHw@mail.gmail.com>
+From:   Janne Karhunen <janne.karhunen@gmail.com>
+Date:   Thu, 1 Aug 2019 09:21:39 +0300
+Message-ID: <CAE=NcraDkm5cxE=ceq_9XkQz=NZ6KdVXkNUsdD4G2LrWz-bpDw@mail.gmail.com>
+Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, dhowells@redhat.com,
+        jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/01, Chao Yu wrote:
-> Hi Nathan,
-> 
-> Thanks for the report! :)
-> 
-> On 2019/8/1 1:57, Nathan Chancellor wrote:
-> > Hi all,
-> > 
-> > <snip>
-> > 
-> >> diff --git a/fs/f2fs/hash.c b/fs/f2fs/hash.c
-> >> index cc82f142f811f..99e79934f5088 100644
-> >> --- a/fs/f2fs/hash.c
-> >> +++ b/fs/f2fs/hash.c
-> >> @@ -14,6 +14,7 @@
-> >>  #include <linux/f2fs_fs.h>
-> >>  #include <linux/cryptohash.h>
-> >>  #include <linux/pagemap.h>
-> >> +#include <linux/unicode.h>
-> >>  
-> >>  #include "f2fs.h"
-> >>  
-> >> @@ -67,7 +68,7 @@ static void str2hashbuf(const unsigned char *msg, size_t len,
-> >>  		*buf++ = pad;
-> >>  }
-> >>  
-> >> -f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
-> >> +static f2fs_hash_t __f2fs_dentry_hash(const struct qstr *name_info,
-> >>  				struct fscrypt_name *fname)
-> >>  {
-> >>  	__u32 hash;
-> >> @@ -103,3 +104,35 @@ f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
-> >>  	f2fs_hash = cpu_to_le32(hash & ~F2FS_HASH_COL_BIT);
-> >>  	return f2fs_hash;
-> >>  }
-> >> +
-> >> +f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
-> >> +		const struct qstr *name_info, struct fscrypt_name *fname)
-> >> +{
-> >> +#ifdef CONFIG_UNICODE
-> >> +	struct f2fs_sb_info *sbi = F2FS_SB(dir->i_sb);
-> >> +	const struct unicode_map *um = sbi->s_encoding;
-> >> +	int r, dlen;
-> >> +	unsigned char *buff;
-> >> +	struct qstr *folded;
-> >> +
-> >> +	if (name_info->len && IS_CASEFOLDED(dir)) {
-> >> +		buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
-> >> +		if (!buff)
-> >> +			return -ENOMEM;
-> >> +
-> >> +		dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
-> >> +		if (dlen < 0) {
-> >> +			kvfree(buff);
-> >> +			goto opaque_seq;
-> >> +		}
-> >> +		folded->name = buff;
-> >> +		folded->len = dlen;
-> >> +		r = __f2fs_dentry_hash(folded, fname);
-> >> +
-> >> +		kvfree(buff);
-> >> +		return r;
-> >> +	}
-> >> +opaque_seq:
-> >> +#endif
-> >> +	return __f2fs_dentry_hash(name_info, fname);
-> >> +}
-> > 
-> > Clang now warns:
-> > 
-> > fs/f2fs/hash.c:128:3: warning: variable 'folded' is uninitialized when used here [-Wuninitialized]
-> >                 folded->name = buff;
-> >                 ^~~~~~
-> > fs/f2fs/hash.c:116:21: note: initialize the variable 'folded' to silence this warning
-> >         struct qstr *folded;
-> >                            ^
-> >                             = NULL
-> > 1 warning generated.
-> > 
-> > I assume that it wants to be initialized with f2fs_kzalloc as well but
-> > I am not familiar with this code and what it expects to do.
-> > 
-> > Please look into this when you get a chance!
-> 
-> That should be a bug, it needs to define a struct qstr type variable rather than
-> a pointer there.
-> 
-> Jaegeuk, could you fix this in you branch?
+On Wed, Jul 31, 2019 at 4:58 PM Sumit Garg <sumit.garg@linaro.org> wrote:
 
-Yeah, let me apply this.
+> > To clarify a bit further - my thought was to support any type of trust
+> > source.
+>
+> That could be very well accomplished via Trusted Keys abstraction
+> framework [1]. A trust source just need to implement following APIs:
+>
+> struct trusted_key_ops ts_trusted_key_ops = {
+>        .migratable = 0, /* non-migratable */
+>        .init = init_ts_trusted,
+>        .seal = ts_key_seal,
+>        .unseal = ts_key_unseal,
+>        .get_random = ts_get_random,
+>        .cleanup = cleanup_ts_trusted,
+> };
 
---- a/fs/f2fs/hash.c
-+++ b/fs/f2fs/hash.c
-@@ -113,25 +113,27 @@ f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
-        const struct unicode_map *um = sbi->s_encoding;
-        int r, dlen;
-        unsigned char *buff;
--       struct qstr *folded;
-+       struct qstr folded;
+Which is basically the same as implementing a new keytype in the
+kernel; abstraction is not raised in any considerable manner this way?
 
--       if (name_info->len && IS_CASEFOLDED(dir)) {
--               buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
--               if (!buff)
--                       return -ENOMEM;
-+       if (!name_info->len || !IS_CASEFOLDED(dir))
-+               goto opaque_seq;
+I chose the userspace plugin due to this, you can use userspace aids
+to provide any type of service. Use the crypto library you desire to
+do the magic you want.
 
--               dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
--               if (dlen < 0) {
--                       kvfree(buff);
--                       goto opaque_seq;
--               }
--               folded->name = buff;
--               folded->len = dlen;
--               r = __f2fs_dentry_hash(folded, fname);
-+       buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
-+       if (!buff)
-+               return -ENOMEM;
 
-+       dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
-+       if (dlen < 0) {
-                kvfree(buff);
--               return r;
-+               goto opaque_seq;
-        }
-+       folded.name = buff;
-+       folded.len = dlen;
-+       r = __f2fs_dentry_hash(&folded, fname);
-+
-+       kvfree(buff);
-+       return r;
-+
- opaque_seq:
- #endif
-        return __f2fs_dentry_hash(name_info, fname);
+> > With the
+> > user mode helper in between anyone can easily add their own thing in
+> > there.
+>
+> Isn't actual purpose to have trusted keys is to protect user-space
+> from access to kernel keys in plain format? Doesn't user mode helper
+> defeat that purpose in one way or another?
 
+Not really. CPU is in the user mode while running the code, but the
+code or the secure keydata being is not available to the 'normal'
+userspace. It's like microkernel service/driver this way. The usermode
+driver is part of the kernel image and it runs on top of a invisible
+rootfs.
+
+
+--
+Janne
