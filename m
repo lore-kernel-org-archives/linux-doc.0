@@ -4,161 +4,242 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 798F37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 18:28:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCB9B7D917
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 18:55:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728909AbfHAS2q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 14:28:46 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33840 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728809AbfHAS2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 14:28:45 -0400
-Received: by mail-wr1-f68.google.com with SMTP id 31so74652935wrm.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 11:28:43 -0700 (PDT)
+        id S2387918AbfHASzm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 14:55:42 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39293 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387921AbfHASzd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 14:55:33 -0400
+Received: by mail-pg1-f196.google.com with SMTP id u17so34705565pgi.6
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 11:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0LASMwAA/tL/BAH/uT4ThFdb6tOVmHfjXl+JLumhDUs=;
-        b=T9SNBetjpP9aJmtLho0U4R1eQMvjfbE8ive2XLdxBpmHiR/lhyGZRF3woDGof8407y
-         aTNpny9z7d3u6suklr4N8FS28ayUZIuEC1h8yJST1qoHX8vWCVzkefbjYJB5PKtbAsTS
-         hQ32//bcAcSebAShg+dlMfH6TBtbJHEvyD9MrEvs2VC07K7yyBlmc9VqFguoYTPTTsuB
-         v8dq8FtBZ4Le5ko2oQKgEi1mz1pTOlDqJ8eVXafDVRrupuPxgjJNiD46t8HThefgdM4B
-         uXmKssFvph5ey1jB1r8+DIb0wv8SO9fPWdVSqjmp3o5QBnc/vB45lgHTj6PJU5OGG6oE
-         VVhw==
+        bh=yanPVyyCo7aV5PHJPTHnUF5WwSupWh42aAlO/2TU4qM=;
+        b=AXEJGSbzy2nisZCuQomwcAJjsmAS3tsN47D57OouJ7agEzm6inwYRVuQHNR+bPjtqR
+         9UzQ05+qRlUInKBsk4vQH8hvJVlwufmneBdZeObqoysE3ZQd/BS43SlI+a070qUA+GFP
+         zGdObxqzuaBUkQi+613lUJ+GcPdnTPQ8max5aW44qTMSrTr7ootlST/1JXY0DWLChkPU
+         ZltkXhvybDqjkXR6mrxErttgqxF4cTX9l2/i4pArlHsqyX8ykeUJsS6FZqsYTc1h6k5J
+         Bwnn1W+citAhlj45JYHcp8CJHpN/h+1KGAAyVB5oHCOQgrPo5/XgonZSlSrX+PfHOS4i
+         YaJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0LASMwAA/tL/BAH/uT4ThFdb6tOVmHfjXl+JLumhDUs=;
-        b=jTx0djzu9+5qOI+p3Q1z+gHInhavVrvOjknE8YhO5PR2R8Qwt4w5FipFoXcXN5gs5W
-         aSO/5A1PFgND+nLdfZMT1/KRsMZXL+MiLx9xu6huCCz1QCaEBjYsD7xzUa9WHfuq9780
-         xjdbs2mJgjSfcu3lcoZdReBZyfAFNPLaVOpxpr/SWpVjyi1BJIYS6fU3HJ3ywICCpSAv
-         13CufFqNNbc4Hh2ygkRXdhkGf2Z3wk8TvF3HYCe1w9+/OC/dOZAaj5X9WVFdw1RZsaIg
-         ewM9GL3HuRmL0KcqUkb1K/G4BLu6EViLbfFsQ14I/0tnA1rdUKlm0E4w4LMKG54Elo5X
-         CZ1w==
-X-Gm-Message-State: APjAAAVAJJGmVNasBEncArSXWR0JL5H6qQlsTkB0EcjLpPXhx0qZ874F
-        liZgM8G2/y2zYdPQSVuRghtl/3T0hCXtJZvANiUA/w==
-X-Google-Smtp-Source: APXvYqy4P6VCuqoeuVUZ2KjNmm94cVgmTRIX91RWIsWFdz3OKNqiO12BvCI7yWcc++1AFK4h3az4ABTYL1GOqRxeFXo=
-X-Received: by 2002:a5d:46cf:: with SMTP id g15mr4809916wrs.93.1564684122173;
- Thu, 01 Aug 2019 11:28:42 -0700 (PDT)
+        bh=yanPVyyCo7aV5PHJPTHnUF5WwSupWh42aAlO/2TU4qM=;
+        b=IRpsxNNWK3ZdBNIC9vLHa4RGTEv2/uniGRkUiIALOFkljK8fcazWY3JZ6SHZgMOx/x
+         387g5PBLwKd+aPP2e43r/LqPSCCHs09/JawRmvPdgunx8q1l2tCF9akY0yTSsjIlnjrR
+         dlKMyDI8N+ZCQyjacGoluZt3j4AO9z9z8Nq27SPe7vjR1uPslydhl/3bKo7DX0bF7jo8
+         xKaG/p1I8kQLxWk1T72ckCov7C59lubyQpmA1rdqub848a5pJOl9zolKA0/QDX65v4xx
+         zxKCmazd2WTGJLDssdUWtPByV43LHNnhjOBtlCk5EvXYGeTM9ko9oc2dOD4R+xPOst4i
+         pFpA==
+X-Gm-Message-State: APjAAAWiLDuZG1I7YEJb1NZfQEq7a/kS/Z/rez1TNtJIYmr5Qb2R7vAM
+        HNiAz3tNrDMNMPQ6wPN3/4cFgg9ZUZ0M+39nSysAbQ==
+X-Google-Smtp-Source: APXvYqzoFLt8JjfyNttcO+f/0oII0xixTgSXhZRfLC4Blo6PZ1XHxN/CDmHW1v1/KBomRNqbKOVo9+SEvV2fnQP9DnA=
+X-Received: by 2002:aa7:81ca:: with SMTP id c10mr55681458pfn.185.1564685731859;
+ Thu, 01 Aug 2019 11:55:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190730013310.162367-1-surenb@google.com> <20190730081122.GH31381@hirez.programming.kicks-ass.net>
- <CAJuCfpH7NpuYKv-B9-27SpQSKhkzraw0LZzpik7_cyNMYcqB2Q@mail.gmail.com> <20190801095112.GA31381@hirez.programming.kicks-ass.net>
-In-Reply-To: <20190801095112.GA31381@hirez.programming.kicks-ass.net>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 1 Aug 2019 11:28:30 -0700
-Message-ID: <CAJuCfpHGpsU4bVcRxpc3wOybAOtiTKAsB=BNAtZcGnt10j5gbA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] psi: do not require setsched permission from the
- trigger creator
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
-        Dennis Zhou <dennis@kernel.org>,
-        Dennis Zhou <dennisszhou@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        Nick Kralevich <nnk@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
+References: <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
+ <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+ <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
+ <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+ <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+ <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com> <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz>
+In-Reply-To: <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 1 Aug 2019 11:55:20 -0700
+Message-ID: <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Jeff Dike <jdike@addtoit.com>, Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@google.com>,
+        David Rientjes <rientjes@google.com>,
+        kunit-dev@googlegroups.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, wfg@linux.intel.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter,
-Thanks for sharing your thoughts. I understand your point and I tend
-to agree with it. I originally designed this using watchdog as the
-example of a critical system health signal and in the context of
-mobile device memory pressure is critical but I agree that there are
-more important things in life. I checked and your proposal to change
-it to FIFO-1 should still work for our purposes. Will test to make
-sure and reply to your patch. Couple clarifications in-line.
-
-On Thu, Aug 1, 2019 at 2:51 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
 >
-> On Tue, Jul 30, 2019 at 10:44:51AM -0700, Suren Baghdasaryan wrote:
-> > On Tue, Jul 30, 2019 at 1:11 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> On Thu 2019-07-25 13:21:12, Brendan Higgins wrote:
+> > On Wed, Jul 24, 2019 at 12:31 AM Petr Mladek <pmladek@suse.com> wrote:
 > > >
-> > > On Mon, Jul 29, 2019 at 06:33:10PM -0700, Suren Baghdasaryan wrote:
-> > > > When a process creates a new trigger by writing into /proc/pressure/*
-> > > > files, permissions to write such a file should be used to determine whether
-> > > > the process is allowed to do so or not. Current implementation would also
-> > > > require such a process to have setsched capability. Setting of psi trigger
-> > > > thread's scheduling policy is an implementation detail and should not be
-> > > > exposed to the user level. Remove the permission check by using _nocheck
-> > > > version of the function.
+> > > On Mon 2019-07-22 16:54:10, Stephen Boyd wrote:
+> > > > Quoting Brendan Higgins (2019-07-22 15:30:49)
+> > > > > On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> > > > > >
+> > > > > >
+> > > > > > What's the calling context of the assertions and expectations? I still
+> > > > > > don't like the fact that string stream needs to allocate buffers and
+> > > > > > throw them into a list somewhere because the calling context matters
+> > > > > > there.
+> > > > >
+> > > > > The calling context is the same as before, which is anywhere.
 > > > >
-> > > > Suggested-by: Nick Kralevich <nnk@google.com>
-> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > > ---
-> > > >  kernel/sched/psi.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > Ok. That's concerning then.
 > > > >
-> > > > diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> > > > index 7acc632c3b82..ed9a1d573cb1 100644
-> > > > --- a/kernel/sched/psi.c
-> > > > +++ b/kernel/sched/psi.c
-> > > > @@ -1061,7 +1061,7 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
-> > > >                       mutex_unlock(&group->trigger_lock);
-> > > >                       return ERR_CAST(kworker);
-> > > >               }
-> > > > -             sched_setscheduler(kworker->task, SCHED_FIFO, &param);
-> > > > +             sched_setscheduler_nocheck(kworker->task, SCHED_FIFO, &param);
+> > > > >
+> > > > > > I'd prefer we just wrote directly to the console/log via printk
+> > > > > > instead. That way things are simple because we use the existing
+> > > > > > buffering path of printk, but maybe there's some benefit to the string
+> > > > > > stream that I don't see? Right now it looks like it builds a string and
+> > > > > > then dumps it to printk so I'm sort of lost what the benefit is over
+> > > > > > just writing directly with printk.
+> > > > >
+> > > > > It's just buffering it so the whole string gets printed uninterrupted.
+> > > > > If we were to print out piecemeal to printk, couldn't we have another
+> > > > > call to printk come in causing it to garble the KUnit message we are
+> > > > > in the middle of printing?
+> > > >
+> > > > Yes, printing piecemeal by calling printk many times could lead to
+> > > > interleaving of messages if something else comes in such as an interrupt
+> > > > printing something. Printk has some support to hold "records" but I'm
+> > > > not sure how that would work here because KERN_CONT talks about only
+> > > > being used early on in boot code. I haven't looked at printk in detail
+> > > > though so maybe I'm all wrong and KERN_CONT just works?
 > > >
-> > > ARGGH, wtf is there a FIFO-99!! thread here at all !?
+> > > KERN_CONT does not guarantee that the message will get printed
+> > > together. The pieces get interleaved with messages printed in
+> > > parallel.
+> > >
+> > > Note that KERN_CONT was originally really meant to be used only during
+> > > boot. It was later used more widely and ended in the best effort category.
+> > >
+> > > There were several attempts to make it more reliable. But it was
+> > > always either too complicated or error prone or both.
+> > >
+> > > You need to use your own buffering if you rely want perfect output.
+> > > The question is if it is really worth the complexity. Also note that
+> > > any buffering reduces the chance that the messages will reach
+> > > the console.
 > >
-> > We need psi poll_kworker to be an rt-priority thread so that psi
+> > Seems like that settles it then. Thanks!
+> >
+> > > BTW: There is a work in progress on a lockless printk ring buffer.
+> > > It will make printk() more secure regarding deadlocks. But it might
+> > > make transparent handling of continuous lines even more tricky.
+> > >
+> > > I guess that local buffering, before calling printk(), will be
+> > > even more important then. Well, it might really force us to create
+> > > an API for it.
+> >
+> > Cool! Can you CC me on that discussion?
 >
-> There is a giant difference between 'needs to be higher than OTHER' and
-> FIFO-99.
+> Adding John Oggness into CC.
 >
-> > notifications are delivered to the userspace without delay even when
-> > the CPUs are very congested. Otherwise it's easy to delay psi
-> > notifications by running a simple CPU hogger executing "chrt -f 50 dd
-> > if=/dev/zero of=/dev/null". Because these notifications are
+> John, please CC Brendan Higgins on the patchsets eventually switching
+> printk() into the lockless buffer. The test framework is going to
+> do its own buffering to keep the related messages together.
 >
-> So what; at that point that's exactly what you're asking for. Using RT
-> is for those who know what they're doing.
->
-> > time-critical for reacting to memory shortages we can't allow for such
-> > delays.
->
-> Furthermore, actual RT programs will have pre-allocated and locked any
-> memory they rely on. They don't give a crap about your pressure
-> nonsense.
->
+> The lockless ringbuffer might make handling of related (partial)
+> lines worse or better. It might justify KUnit's extra buffering
+> or it might allow to get rid of it.
 
-This signal is used not to protect other RT tasks but to monitor
-overall system memory health for the sake of system responsiveness.
+Thanks for CC'ing me on the printk ringbuffer thread. It looks like it
+actually probably won't affect my needs for KUnit logging. The biggest
+reason I need some sort of buffering system is to be able to compose
+messages piece meal into a single message that will be printed out to
+the user as a single message with no messages from other printk
+callers printed out in the middle of mine.
 
-> > Notice that this kworker is created only if userspace creates a psi
-> > trigger. So unless you are using psi triggers you will never see this
-> > kthread created.
+The prb does look interesting; however, it appears that to get the
+semantics that I need, I would have to put my entire message in a
+single data block and would consequently need to know the size of my
+message a priori, which is problematic. Consequently, it seems as
+though I will probably need to compose my entire message using my own
+buffering system.
+
+> > > Note that stroring the messages into the printk log is basically safe in any
+> > > context. It uses temporary per-CPU buffers for recursive messages and
+> > > in NMI. The only problem is panic() when some CPU gets stuck with the
+> > > lock taken. This will get solved by the lockless ringbuffer. Also
+> > > the temporary buffers will not be necessary any longer.
+> >
+> > Sure, I think Stephen's concern is all the supporting code that is
+> > involved. Not printk specifically. It just means a lot more of KUnit
+> > has to be IRQ safe.
 >
-> By marking it FIFO-99 you're in effect saying that your stupid
-> statistics gathering is more important than your life. It will preempt
-> the task that's in control of the band-saw emergency break, it will
-> preempt the task that's adjusting the electromagnetic field containing
-> this plasma flow.
+> I see.
 >
-> That's insane.
-
-IMHO an opt-in feature stops being "stupid" as soon as the user opted
-in to use it, therefore explicitly indicating interest in it. However
-I assume you are using "stupid" here to indicate that it's "less
-important" rather than it's "useless".
-
-> I'm going to queue a patch to reduce this to FIFO-1, that will preempt
-> regular OTHER tasks but will not perturb (much) actual RT bits.
+> BTW: I wonder if KUnit could reuse the existing seq_buf implementation
+> for buffering messages.
 >
+> I am sorry if it has already been proposed and rejected for some
+> reason. I might have missed it. Feel free to just point me to
+> same older mail.
 
-Thanks for posting the fix.
+Yeah, we discussed it briefly here:
 
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+https://lkml.org/lkml/2019/5/17/497
+
+Looks like I forgot to include my reasoning in the commit text, sorry
+about that.
+
+> > > Much bigger problems are with consoles. There are many of them. It
+> > > means a lot of code and more locks involved, including scheduler
+> > > locks. Note that console lock is a semaphore.
+> >
+> > That shouldn't affect us though, right? As long as we continue to use
+> > the printk interface?
 >
+> I guess that it should not affect KUnit.
+>
+> The only problem might be if the testing framework calls printk()
+> inside scheduler or console code. And only when the tested code
+> uses the same locks that will be used by the called printk().
+
+Yeah, well printk will not be our only problem in those instances.
+
+> To be honest I do not fully understand KUnit design. I am not
+> completely sure how the tested code is isolated from the running
+> system. Namely, I do not know if the tested code shares
+> the same locks with the system running the test.
+
+No worries, I don't expect printk to be the hang up in those cases. It
+sounds like KUnit has a long way to evolve before printk is going to
+be a limitation.
+
+Thanks!
