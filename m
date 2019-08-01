@@ -1,144 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 469777D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 09:53:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 99D6F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Aug 2019 10:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728146AbfHAJxM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Aug 2019 05:53:12 -0400
-Received: from mail-eopbgr20066.outbound.protection.outlook.com ([40.107.2.66]:13837
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726407AbfHAJxM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Aug 2019 05:53:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GwuKD+nOYoyNaahTa/LFv0syidf98Oo2Gh9Hk3YKxqmlbVkI7J/IDnTsTaAcyCZZDbHGUt25WlKsm0JUzAEttg7crKWSsjiUXnHh0AJOE1PvC2oDlo7R1ynpMRIOK9J6MLF2lK7/31HyQ8Y7SSRLqBK+u/Na2MKOG2rQSYaYbjUcbVQKqXsVa0x10X4cglrf1iQKQ301aluwkkO6XLbsn8ESpL43arIqG/+CoESTV/JR2CpxQoeZ0HH4vNGIa3gAUUbW8jja2ggPm/PAlbP8nTsFxlz7Lq4wMP0Dj15r5pOJZeTwwmChxflfrXTysrTt3n5tahFWwBHX6aNcweBLMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+OZxqOGVrQj75rZP5NM5vawD6+osHFZdVF652tz/5ek=;
- b=KaE9ety2UrvmK59O1z0qzjVvbMI/P88K8W1c2sKpt4hU87gRFEhDbEzKQqSMUgf87V0+7rnluZQwD98R9GjEmcBhv+clstHGTIFZ6OUHcpDFoeL/CLIb7lrKrOdsWQxciwD5WPiykDPKu6KLYnVq6dolpdoTK5xe6Inm+ujxNoIYdqXoxoVWEUO9sl69kJ0YuiY/x25AN7NZzGfx2O7xavOyO1Gppi9jATFy7Ipup028TujtXv81vuXNrprT9g0euDeLPmpuAGkBydzCcVdK1VpcZ6h9CoknshDkUFXb7d2xrJiKzTwqqh4HDdUHco/b1Bqp7dL5OjIiR58EmWwirA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass (sender ip is
- 188.184.36.50) smtp.rcpttodomain=lwn.net
- smtp.mailfrom=cern.ch;dmarc=bestguesspass action=none
- header.from=cern.ch;dkim=none (message not signed);arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cern.onmicrosoft.com;
- s=selector2-cern-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+OZxqOGVrQj75rZP5NM5vawD6+osHFZdVF652tz/5ek=;
- b=XsAqJuu9L5yVdLL/TsvxcoeUwkJpc9+IWuMvWn4aaQD06q0fEvMJzrYN3XZcHv4TS6q4S69pLaP8L3deQ5zoTxfrDPQ8rGduH+ZG482G6OrTzWdggvGHn0VUEDDXmsGu8/o3ftLVH8yCfW3B6hrjml+xE5MLE7AyddoHYay8Juo=
-Received: from AM0PR06CA0050.eurprd06.prod.outlook.com (2603:10a6:208:aa::27)
- by HE1PR0602MB3305.eurprd06.prod.outlook.com (2603:10a6:7:1b::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2136.12; Thu, 1 Aug
- 2019 09:53:08 +0000
-Received: from VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com
- (2a01:111:f400:7e06::208) by AM0PR06CA0050.outlook.office365.com
- (2603:10a6:208:aa::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2136.15 via Frontend
- Transport; Thu, 1 Aug 2019 09:53:08 +0000
-Authentication-Results: spf=pass (sender IP is 188.184.36.50)
- smtp.mailfrom=cern.ch; lwn.net; dkim=none (message not signed)
- header.d=none;lwn.net; dmarc=bestguesspass action=none header.from=cern.ch;
-Received-SPF: Pass (protection.outlook.com: domain of cern.ch designates
- 188.184.36.50 as permitted sender) receiver=protection.outlook.com;
- client-ip=188.184.36.50; helo=cernmxgwlb4.cern.ch;
-Received: from cernmxgwlb4.cern.ch (188.184.36.50) by
- VE1EUR02FT028.mail.protection.outlook.com (10.152.12.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2136.14 via Frontend Transport; Thu, 1 Aug 2019 09:53:07 +0000
-Received: from cernfe04.cern.ch (188.184.36.41) by cernmxgwlb4.cern.ch
- (188.184.36.50) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 1 Aug
- 2019 11:53:06 +0200
-Received: from pcbe13614.localnet (2001:1458:202:121::100:40) by smtp.cern.ch
- (2001:1458:201:66::100:14) with Microsoft SMTP Server (TLS) id 14.3.468.0;
- Thu, 1 Aug 2019 11:53:07 +0200
-From:   Federico Vaga <federico.vaga@cern.ch>
-To:     Jonathan Corbet <corbet@lwn.net>
-Reply-To: <federico.vaga@cern.ch>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Alessia Mantegazza" <amantegazza@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: translations for documents in process/
-Date:   Thu, 1 Aug 2019 11:53:06 +0200
-Message-ID: <1695846.t893fQQLz3@pcbe13614>
-In-Reply-To: <20864529.Q1CKeA7GMu@pcbe13614>
-References: <20190728092054.1183-1-federico.vaga@vaga.pv.it> <20190731125124.46e06ab6@lwn.net> <20864529.Q1CKeA7GMu@pcbe13614>
+        id S1729426AbfHAKAV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Aug 2019 06:00:21 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36137 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbfHAKAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Aug 2019 06:00:21 -0400
+Received: by mail-lj1-f194.google.com with SMTP id i21so68759668ljj.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2019 03:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7gKvcJabgKuUbvQyf6qVD7f9YQGD2U9hjlCz5FyenjE=;
+        b=txHMwmKZEVe1dwKVgNRDOeChaNcOfwWW6SO7gSedbMhpOzA9pGEQq9mcO49z6Dy2nq
+         XZyWuFjIrr94RLjep/tAet6DBQKpSwV/mDC6XfoCunkPf9vbhzXgPsigyelRV46JU+xe
+         J7xWzK5+5BkhHdA/6IypMjQbxyqn63eNRO/1UvC7UyIATn/QhVzjMh5B8inochEaqOA3
+         2t6ad/g+kpwhtVoWx9DFfwqr7P8Cwzey8gO7zTEN2pxnViu9dWy8Unqk8ev4XtKYTzJK
+         r5Za5d8YNy3etaA/lLz8F6H7dqnCmoE6cGZ5Q+9f+tAQ0MszPXaB3xbzfBkuRZCdK+ff
+         EQjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7gKvcJabgKuUbvQyf6qVD7f9YQGD2U9hjlCz5FyenjE=;
+        b=NYUm0axFh/27KDb+KMmtmd6RpXixojRueM9f2lMhkLTnRnfcSg7PZt18M8JKYZGwld
+         NrqizLZ1ZKiBBiF6M6FVlg9tIpamqbvJQjj015Vv72Fv6/7cSqZQyb2eTMfUUmwOZmoX
+         ozfMBJ4wRDi5azUxqwzlsL3trX8ayCZ6lcC/e1m9a14+peN1TQ4l3c+F6QR9d7BQSiyG
+         54q1m0fgdJn540J6zVXvbfOV5mVdrIqi+Ku4t1iV7Bi0hbjreokS2m9FF5nZ1IK66nxZ
+         S/Uhg8I6UK6GU4UQt1NSG86t1lm2jPIrnt/J4idpCJczVYReAOhriLD+yPA0hxwfM8bz
+         eOCQ==
+X-Gm-Message-State: APjAAAWs7RrteziLxW+hCqRKtc4EPJ8ty6gG8KjE+KJ78wm6a9cCGWKA
+        ve7WtrT1RqWOSkR1Qq6kWJNBLAdXG3u1E1JGB58cHg==
+X-Google-Smtp-Source: APXvYqyWSE7IQpvuMFy/pIaK7WPbXKuGXqON/op4MJWwDpM4SPonR2MQsrxZdzAgHnF5eZuqmlowswx974SBISxIilQ=
+X-Received: by 2002:a2e:301a:: with SMTP id w26mr65927001ljw.76.1564653619372;
+ Thu, 01 Aug 2019 03:00:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [2001:1458:202:121::100:40]
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:188.184.36.50;IPV:NLI;CTRY:CH;EFV:NLI;SFV:NSPM;SFS:(10009020)(136003)(396003)(346002)(39860400002)(376002)(2980300002)(199004)(189003)(2906002)(478600001)(5660300002)(50466002)(23726003)(47776003)(6916009)(6246003)(70586007)(70206006)(6116002)(230700001)(126002)(9686003)(43066004)(86362001)(53546011)(97756001)(26005)(7636002)(316002)(46406003)(76176011)(446003)(8676002)(11346002)(9576002)(8936002)(356004)(305945005)(7736002)(33716001)(229853002)(4326008)(3450700001)(336012)(44832011)(106002)(246002)(476003)(426003)(186003)(486006)(16526019)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:HE1PR0602MB3305;H:cernmxgwlb4.cern.ch;FPR:;SPF:Pass;LANG:en;PTR:cernmx11.cern.ch;A:1;MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e7f692f-3b38-4d15-a54f-08d716660e71
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(4709080)(1401327)(2017052603328)(7193020);SRVR:HE1PR0602MB3305;
-X-MS-TrafficTypeDiagnostic: HE1PR0602MB3305:
-X-Microsoft-Antispam-PRVS: <HE1PR0602MB33051F3AA3447D827872EBE4EFDE0@HE1PR0602MB3305.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 01165471DB
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: LeSGVg0uN7NVonfT+9TlP6hhWolpCKm/fm1J/NUFuBnsL4YKDr8mICSgacJXruf8B2AZoB+kHJRINddNYvmjjtMx2bHC43IAnJficoJDe7vx52jP/Uv8Wrk+Mzf5aH5OlTAGkMsOhHWCHgwvIJyFhxE2MpFap+i+16QLmpum5vUIQJPljpmW8GDXrBA9VfZHObSfWJeF1g/TYgamZIxV35+/xz6CXDqM6D3a+HgJmpN5+CUe3dWh6xnjAxPsKOsekCaahtgS/d/2mN6BBnw/l0lxRBKqCFaLX8lG4QXCGtM1FL0BvCFCaM89b41OeNld81/7wt8/Cop8j5IipBHf3/IxZTTDCWNNfKvOg61HvTtGyhHAAKLjs+RiiHtpEP99hMTqPEbFdlAvnpFoqBOVdUXxSR1RaXL4uBNY5w0eXq4=
-X-OriginatorOrg: cern.ch
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2019 09:53:07.8336
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e7f692f-3b38-4d15-a54f-08d716660e71
-X-MS-Exchange-CrossTenant-Id: c80d3499-4a40-4a8c-986e-abce017d6b19
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=c80d3499-4a40-4a8c-986e-abce017d6b19;Ip=[188.184.36.50];Helo=[cernmxgwlb4.cern.ch]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0602MB3305
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+ <CAE=Ncrb63dQLe-nDQyO9OPv7XjwM_9mzL9SrcLiUi2Dr10cD4A@mail.gmail.com>
+ <CAE=NcrY7b8eTTovOszBhGhVbjfJAXoAYehiUJyPENGfwWoVcPw@mail.gmail.com>
+ <CAFA6WYOEqe1a1DCyVYKA+oZaZ0n5hnjxdubstUnrwdUW1-4xHw@mail.gmail.com>
+ <CAE=NcraDkm5cxE=ceq_9XkQz=NZ6KdVXkNUsdD4G2LrWz-bpDw@mail.gmail.com>
+ <CAFA6WYMOXQbL5OeheFUFpTr8gte8XHHr-71-h8+qX0+R_sekDQ@mail.gmail.com> <CAE=Ncrae6pM+WBDu9eJ7Fw2Fkvf3_YqH5tj9Tt938D4RtWcdSQ@mail.gmail.com>
+In-Reply-To: <CAE=Ncrae6pM+WBDu9eJ7Fw2Fkvf3_YqH5tj9Tt938D4RtWcdSQ@mail.gmail.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Thu, 1 Aug 2019 15:30:07 +0530
+Message-ID: <CAFA6WYOwcO5-cyaJf3tMMAdyVHJo=BzmCWtsjA3S8aj5g-GZxQ@mail.gmail.com>
+Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
+To:     Janne Karhunen <janne.karhunen@gmail.com>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, dhowells@redhat.com,
+        jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, August 1, 2019 11:37:58 AM CEST Federico Vaga wrote:
-> On Wednesday, July 31, 2019 8:51:24 PM CEST Jonathan Corbet wrote:
-> > On Sun, 28 Jul 2019 11:20:54 +0200
-> > 
-> > Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > > From: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > > 
-> > > Translations for the following documents in process/:
-> > >     - email-clients
-> > >     - management-style
-> > > 
-> > > Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> > 
-> > This looks generally good, but I have to ask...
-> > 
-> > > +Se la patch che avete inserito dev'essere modificata usato la finestra
-> > > di
-> > > +scrittura di Claws, allora assicuratevi che l'"auto-interruzione" sia
-> > > +disabilitata
-> > > 
-> > > :menuselection:`Configurazione-->Preferenze-->Composizione-->Interruzion
-> > > :e
-> > > 
-> > > riga`.
-> > 
-> > Have you actually verified that the translations used in these mail
-> > clients matches what you have here?
-> 
-> Yep, I've installed all of them and gone through all menus.
+On Thu, 1 Aug 2019 at 13:30, Janne Karhunen <janne.karhunen@gmail.com> wrote:
+>
+> On Thu, Aug 1, 2019 at 10:40 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> > > I chose the userspace plugin due to this, you can use userspace aids
+> > > to provide any type of service. Use the crypto library you desire to
+> > > do the magic you want.
+> >
+> > Here TEE isn't similar to a user-space crypto library. In our case TEE
+> > is based on ARM TrustZone which only allows TEE communications to be
+> > initiated from privileged mode. So why would you like to route
+> > communications via user-mode (which is less secure) when we have
+> > standardised TEE interface available in kernel?
+>
+> The physical access guards for reading/writing the involved critical
+> memory are identical as far as I know? Layered security is generally a
+> good thing, and the userspace pass actually adds a layer, so not sure
+> which is really safer?
+>
 
-P.S.
-Of course, I checked on the version available on my distribution. I did not 
-look for translation changes on different version of the same email client @_@ 
-But even if I do it, there is no "nice" solution to the problem
+AFAIK, layered security is better in case we move from lower privilege
+level to higher privilege level rather than in reverse order.
 
-> But I just noticed a typo in the quoted statement, I will send a new patch:
-> 
-> "modificata usato" -> "modificata usando"
-> 
-> > Thanks,
-> > 
-> > jon
+-Sumit
 
-
-
-
+> In my case the rerouting was to done generalize it. Any type of trust
+> source, anywhere.
+>
+>
+> > > > Isn't actual purpose to have trusted keys is to protect user-space
+> > > > from access to kernel keys in plain format? Doesn't user mode helper
+> > > > defeat that purpose in one way or another?
+> > >
+> > > Not really. CPU is in the user mode while running the code, but the
+> > > code or the secure keydata being is not available to the 'normal'
+> > > userspace. It's like microkernel service/driver this way. The usermode
+> > > driver is part of the kernel image and it runs on top of a invisible
+> > > rootfs.
+> >
+> > Can you elaborate here with an example regarding how this user-mode
+> > helper will securely communicate with a hardware based trust source
+> > with other user-space processes denied access to that trust source?
+>
+> The other user mode processes will never see the device node to open.
+> There is none in existence for them; it only exists in the ramfs based
+> root for the user mode helper.
+>
+>
+> --
+> Janne
