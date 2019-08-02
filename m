@@ -5,29 +5,30 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 106DA7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 13:28:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B05B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 13:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731899AbfHBN2D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 09:28:03 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49532 "EHLO ms.lwn.net"
+        id S2390910AbfHBNi7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 09:38:59 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49608 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390660AbfHBN02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 09:26:28 -0400
+        id S1725886AbfHBNi7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 09:38:59 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4C9687DA;
-        Fri,  2 Aug 2019 13:26:27 +0000 (UTC)
-Date:   Fri, 2 Aug 2019 07:26:26 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 0B9BC7DA;
+        Fri,  2 Aug 2019 13:38:59 +0000 (UTC)
+Date:   Fri, 2 Aug 2019 07:38:58 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chao Yu <yuchao0@huawei.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <chao@kernel.org>, <jaegeuk@kernel.org>
-Subject: Re: [PATCH] mailmap: add entry for Jaegeuk Kim
-Message-ID: <20190802072626.405246e3@lwn.net>
-In-Reply-To: <20190802012135.31419-1-yuchao0@huawei.com>
-References: <20190802012135.31419-1-yuchao0@huawei.com>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/checkpatch: Prefer str_has_prefix over
+ strncmp
+Message-ID: <20190802073858.19a86f82@lwn.net>
+In-Reply-To: <20190802062537.11510-1-hslester96@gmail.com>
+References: <20190802062537.11510-1-hslester96@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -37,37 +38,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Aug 2019 09:21:35 +0800
-Chao Yu <yuchao0@huawei.com> wrote:
+On Fri,  2 Aug 2019 14:25:37 +0800
+Chuhong Yuan <hslester96@gmail.com> wrote:
 
-> Add entry to connect all Jaegeuk's email addresses.
+> Add strncmp() to Documentation/process/deprecated.rst since
+> using strncmp() to check whether a string starts with a
+> prefix is error-prone.
+> The safe replacement is str_has_prefix().
+
+Is that the *only* use of strncmp()?
+
+> Also add check to the newly introduced deprecated_string_apis
+> in checkpatch.pl.
 > 
-> Acked-by: Jaegeuk Kim <jaegeuk@kernel.org>
-> Signed-off-by: Chao Yu <yuchao0@huawei.com>
+> This patch depends on patch:
+> "Documentation/checkpatch: Prefer stracpy/strscpy over
+> strcpy/strlcpy/strncpy."
+> 
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 > ---
->  .mailmap | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/process/deprecated.rst | 8 ++++++++
+>  scripts/checkpatch.pl                | 1 +
+>  2 files changed, 9 insertions(+)
 > 
-> diff --git a/.mailmap b/.mailmap
-> index 477debe3d960..70d41c86e644 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -89,6 +89,9 @@ Henrik Kretzschmar <henne@nachtwindheim.de>
->  Henrik Rydberg <rydberg@bitmath.org>
->  Herbert Xu <herbert@gondor.apana.org.au>
->  Jacob Shin <Jacob.Shin@amd.com>
-> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
-> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@motorola.com>
-> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 56280e108d5a..22d3f0dbcf61 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -109,6 +109,14 @@ the given limit of bytes to copy. This is inefficient and can lead to
+>  linear read overflows if a source string is not NUL-terminated. The
+>  safe replacement is stracpy() or strscpy().
+>  
+> +strncmp()
+> +---------
+> +:c:func:`strncmp` is often used to test if a string starts with a prefix
 
-So as I understand it, the mailmap file is there mostly to ensure that a
-person's changesets are properly collected in 'git shortlog' and such.  As
-documented on the man page, it is used when a person's name is spelled
-differently at different times.
-
-That doesn't appear to be the case here, and shortlog output is correct
-already.  Given that, do we *really* need to maintain a collection of old
-email addresses in the mailmap file?  What is the benefit of that?
+Please don't use :c:func: anymore; just say strncmp() and the right things
+will happen.
 
 Thanks,
 
