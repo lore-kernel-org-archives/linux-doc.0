@@ -1,96 +1,226 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 084A27D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:24:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B8C827D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390684AbfHBOYE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 10:24:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37488 "EHLO mail.kernel.org"
+        id S2436828AbfHBOus (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 10:50:48 -0400
+Received: from foss.arm.com ([217.140.110.172]:53336 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731067AbfHBOYE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 10:24:04 -0400
-Received: from [192.168.0.101] (unknown [180.111.32.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA07F20679;
-        Fri,  2 Aug 2019 14:24:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564755843;
-        bh=TgNcbo6TXcLbjq5+6OYqRgo/Qoe3xOKUkbU920IR4iE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QdJbHI4QqAf5coM6w57j/GQ9wNbAmk57r70Ay5RmCr8gUGhWlTy5PBEM5C4Q9zS5b
-         BYxLuLKi1vFk7ymoVG9ICyvdZuUyI3H3IT5y+uj/bvDjvExZo9yOtoEANv0ymSdKIS
-         3Ev9S/1AokA1xrp+CoDJCxpYvVX/4paPncNoZs1k=
-Subject: Re: [PATCH] mailmap: add entry for Jaegeuk Kim
-To:     Jonathan Corbet <corbet@lwn.net>, Chao Yu <yuchao0@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jaegeuk@kernel.org
-References: <20190802012135.31419-1-yuchao0@huawei.com>
- <20190802072626.405246e3@lwn.net>
-From:   Chao Yu <chao@kernel.org>
-Message-ID: <fe9cd2bc-76ed-5371-e0c3-b538e7a805e7@kernel.org>
-Date:   Fri, 2 Aug 2019 22:23:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1730713AbfHBOur (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 10:50:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC60B1596;
+        Fri,  2 Aug 2019 07:50:46 -0700 (PDT)
+Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11E373F575;
+        Fri,  2 Aug 2019 07:50:44 -0700 (PDT)
+From:   Steven Price <steven.price@arm.com>
+Cc:     Steven Price <steven.price@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 8/9] arm/arm64: Make use of the SMCCC 1.1 wrapper
+Date:   Fri,  2 Aug 2019 15:50:16 +0100
+Message-Id: <20190802145017.42543-9-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190802145017.42543-1-steven.price@arm.com>
+References: <20190802145017.42543-1-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20190802072626.405246e3@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-8-2 21:26, Jonathan Corbet wrote:
-> On Fri, 2 Aug 2019 09:21:35 +0800
-> Chao Yu <yuchao0@huawei.com> wrote:
-> 
->> Add entry to connect all Jaegeuk's email addresses.
->>
->> Acked-by: Jaegeuk Kim <jaegeuk@kernel.org>
->> Signed-off-by: Chao Yu <yuchao0@huawei.com>
->> ---
->>  .mailmap | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/.mailmap b/.mailmap
->> index 477debe3d960..70d41c86e644 100644
->> --- a/.mailmap
->> +++ b/.mailmap
->> @@ -89,6 +89,9 @@ Henrik Kretzschmar <henne@nachtwindheim.de>
->>  Henrik Rydberg <rydberg@bitmath.org>
->>  Herbert Xu <herbert@gondor.apana.org.au>
->>  Jacob Shin <Jacob.Shin@amd.com>
->> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
->> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@motorola.com>
->> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
-> 
-> So as I understand it, the mailmap file is there mostly to ensure that a
-> person's changesets are properly collected in 'git shortlog' and such.  As
-> documented on the man page, it is used when a person's name is spelled
-> differently at different times.
-> 
-> That doesn't appear to be the case here, and shortlog output is correct
-> already.  Given that, do we *really* need to maintain a collection of old
-> email addresses in the mailmap file?  What is the benefit of that?
+Rather than directly choosing which function to use based on
+psci_ops.conduit, use the new arm_smccc_1_1 wrapper instead.
 
-IMO, when we use git-blame to find out who is response for specified code, w/o
-mailmap we may just found old obsolete email address in the related commit; even
-we can search full name for his/her new email address, how can we make sure they
-are the same person... so anyway, it can help to find last valid/canonical email
-address of someone.
+In some cases we still need to do some operations based on the
+conduit, but the code duplication is removed.
 
-Thanks,
+No functional change.
 
-> 
-> Thanks,
-> 
-> jon
-> 
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ arch/arm/mm/proc-v7-bugs.c     | 13 +++---
+ arch/arm64/kernel/cpu_errata.c | 80 ++++++++++++----------------------
+ 2 files changed, 33 insertions(+), 60 deletions(-)
+
+diff --git a/arch/arm/mm/proc-v7-bugs.c b/arch/arm/mm/proc-v7-bugs.c
+index 9a07916af8dd..8eb52f3385e7 100644
+--- a/arch/arm/mm/proc-v7-bugs.c
++++ b/arch/arm/mm/proc-v7-bugs.c
+@@ -78,12 +78,13 @@ static void cpu_v7_spectre_init(void)
+ 		if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 			break;
+ 
++		arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
++				     ARM_SMCCC_ARCH_WORKAROUND_1, &res);
++		if ((int)res.a0 != 0)
++			return;
++
+ 		switch (psci_ops.conduit) {
+ 		case PSCI_CONDUIT_HVC:
+-			arm_smccc_1_1_hvc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-					  ARM_SMCCC_ARCH_WORKAROUND_1, &res);
+-			if ((int)res.a0 != 0)
+-				break;
+ 			per_cpu(harden_branch_predictor_fn, cpu) =
+ 				call_hvc_arch_workaround_1;
+ 			cpu_do_switch_mm = cpu_v7_hvc_switch_mm;
+@@ -91,10 +92,6 @@ static void cpu_v7_spectre_init(void)
+ 			break;
+ 
+ 		case PSCI_CONDUIT_SMC:
+-			arm_smccc_1_1_smc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-					  ARM_SMCCC_ARCH_WORKAROUND_1, &res);
+-			if ((int)res.a0 != 0)
+-				break;
+ 			per_cpu(harden_branch_predictor_fn, cpu) =
+ 				call_smc_arch_workaround_1;
+ 			cpu_do_switch_mm = cpu_v7_smc_switch_mm;
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 1e43ba5c79b7..400a49aaae85 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -215,40 +215,31 @@ static int detect_harden_bp_fw(void)
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return -1;
+ 
++	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
++			     ARM_SMCCC_ARCH_WORKAROUND_1, &res);
++
++	switch ((int)res.a0) {
++	case 1:
++		/* Firmware says we're just fine */
++		return 0;
++	case 0:
++		break;
++	default:
++		return -1;
++	}
++
+ 	switch (psci_ops.conduit) {
+ 	case PSCI_CONDUIT_HVC:
+-		arm_smccc_1_1_hvc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-				  ARM_SMCCC_ARCH_WORKAROUND_1, &res);
+-		switch ((int)res.a0) {
+-		case 1:
+-			/* Firmware says we're just fine */
+-			return 0;
+-		case 0:
+-			cb = call_hvc_arch_workaround_1;
+-			/* This is a guest, no need to patch KVM vectors */
+-			smccc_start = NULL;
+-			smccc_end = NULL;
+-			break;
+-		default:
+-			return -1;
+-		}
++		cb = call_hvc_arch_workaround_1;
++		/* This is a guest, no need to patch KVM vectors */
++		smccc_start = NULL;
++		smccc_end = NULL;
+ 		break;
+ 
+ 	case PSCI_CONDUIT_SMC:
+-		arm_smccc_1_1_smc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-				  ARM_SMCCC_ARCH_WORKAROUND_1, &res);
+-		switch ((int)res.a0) {
+-		case 1:
+-			/* Firmware says we're just fine */
+-			return 0;
+-		case 0:
+-			cb = call_smc_arch_workaround_1;
+-			smccc_start = __smccc_workaround_1_smc_start;
+-			smccc_end = __smccc_workaround_1_smc_end;
+-			break;
+-		default:
+-			return -1;
+-		}
++		cb = call_smc_arch_workaround_1;
++		smccc_start = __smccc_workaround_1_smc_start;
++		smccc_end = __smccc_workaround_1_smc_end;
+ 		break;
+ 
+ 	default:
+@@ -338,6 +329,7 @@ void __init arm64_enable_wa2_handling(struct alt_instr *alt,
+ 
+ void arm64_set_ssbd_mitigation(bool state)
+ {
++	int conduit;
+ 	if (!IS_ENABLED(CONFIG_ARM64_SSBD)) {
+ 		pr_info_once("SSBD disabled by kernel configuration\n");
+ 		return;
+@@ -351,19 +343,10 @@ void arm64_set_ssbd_mitigation(bool state)
+ 		return;
+ 	}
+ 
+-	switch (psci_ops.conduit) {
+-	case PSCI_CONDUIT_HVC:
+-		arm_smccc_1_1_hvc(ARM_SMCCC_ARCH_WORKAROUND_2, state, NULL);
+-		break;
++	conduit = arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_WORKAROUND_2, state,
++				       NULL);
+ 
+-	case PSCI_CONDUIT_SMC:
+-		arm_smccc_1_1_smc(ARM_SMCCC_ARCH_WORKAROUND_2, state, NULL);
+-		break;
+-
+-	default:
+-		WARN_ON_ONCE(1);
+-		break;
+-	}
++	WARN_ON_ONCE(conduit == PSCI_CONDUIT_NONE);
+ }
+ 
+ static bool has_ssbd_mitigation(const struct arm64_cpu_capabilities *entry,
+@@ -373,6 +356,7 @@ static bool has_ssbd_mitigation(const struct arm64_cpu_capabilities *entry,
+ 	bool required = true;
+ 	s32 val;
+ 	bool this_cpu_safe = false;
++	int conduit;
+ 
+ 	WARN_ON(scope != SCOPE_LOCAL_CPU || preemptible());
+ 
+@@ -397,18 +381,10 @@ static bool has_ssbd_mitigation(const struct arm64_cpu_capabilities *entry,
+ 		return false;
+ 	}
+ 
+-	switch (psci_ops.conduit) {
+-	case PSCI_CONDUIT_HVC:
+-		arm_smccc_1_1_hvc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-				  ARM_SMCCC_ARCH_WORKAROUND_2, &res);
+-		break;
+-
+-	case PSCI_CONDUIT_SMC:
+-		arm_smccc_1_1_smc(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-				  ARM_SMCCC_ARCH_WORKAROUND_2, &res);
+-		break;
++	conduit = arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
++				       ARM_SMCCC_ARCH_WORKAROUND_2, &res);
+ 
+-	default:
++	if (conduit == PSCI_CONDUIT_NONE) {
+ 		ssbd_state = ARM64_SSBD_UNKNOWN;
+ 		if (!this_cpu_safe)
+ 			__ssb_safe = false;
+-- 
+2.20.1
+
