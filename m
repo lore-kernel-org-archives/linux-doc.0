@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E8FC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FF2F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436780AbfHBOuo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 10:50:44 -0400
-Received: from foss.arm.com ([217.140.110.172]:53296 "EHLO foss.arm.com"
+        id S2436756AbfHBOuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 10:50:35 -0400
+Received: from foss.arm.com ([217.140.110.172]:53212 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730713AbfHBOun (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 10:50:43 -0400
+        id S2436754AbfHBOuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 10:50:35 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4CB71596;
-        Fri,  2 Aug 2019 07:50:42 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4481A15A2;
+        Fri,  2 Aug 2019 07:50:34 -0700 (PDT)
 Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEBC53F575;
-        Fri,  2 Aug 2019 07:50:40 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27E6A3F575;
+        Fri,  2 Aug 2019 07:50:32 -0700 (PDT)
 From:   Steven Price <steven.price@arm.com>
 Cc:     Steven Price <steven.price@arm.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -33,10 +33,11 @@ Cc:     Steven Price <steven.price@arm.com>,
         Suzuki K Pouloze <suzuki.poulose@arm.com>,
         kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 6/9] KVM: arm64: Provide a PV_TIME device to user space
-Date:   Fri,  2 Aug 2019 15:50:14 +0100
-Message-Id: <20190802145017.42543-7-steven.price@arm.com>
+        linux-kernel@vger.kernel.org,
+        Christoffer Dall <christoffer.dall@arm.com>
+Subject: [PATCH 2/9] KVM: arm/arm64: Factor out hypercall handling from PSCI code
+Date:   Fri,  2 Aug 2019 15:50:10 +0100
+Message-Id: <20190802145017.42543-3-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190802145017.42543-1-steven.price@arm.com>
 References: <20190802145017.42543-1-steven.price@arm.com>
@@ -48,334 +49,334 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow user space to inform the KVM host where in the physical memory
-map the paravirtualized time structures should be located.
+From: Christoffer Dall <christoffer.dall@arm.com>
 
-A device is created which provides the base address of an array of
-Stolen Time (ST) structures, one for each VCPU. There must be (64 *
-total number of VCPUs) bytes of memory available at this location.
+We currently intertwine the KVM PSCI implementation with the general
+dispatch of hypercall handling, which makes perfect sense because PSCI
+is the only category of hypercalls we support.
 
-The address is given in terms of the physical address visible to
-the guest and must be 64 byte aligned. The memory should be marked as
-reserved to the guest to stop it allocating it for other purposes.
+However, as we are about to support additional hypercalls, factor out
+this functionality into a separate hypercall handler file.
 
+Signed-off-by: Christoffer Dall <christoffer.dall@arm.com>
+[steven.price@arm.com: rebased]
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- arch/arm64/include/asm/kvm_mmu.h  |   2 +
- arch/arm64/include/uapi/asm/kvm.h |   6 +
- arch/arm64/kvm/Makefile           |   1 +
- include/uapi/linux/kvm.h          |   2 +
- virt/kvm/arm/mmu.c                |  44 +++++++
- virt/kvm/arm/pvtime.c             | 190 ++++++++++++++++++++++++++++++
- 6 files changed, 245 insertions(+)
- create mode 100644 virt/kvm/arm/pvtime.c
+ arch/arm/kvm/Makefile        |  2 +-
+ arch/arm/kvm/handle_exit.c   |  2 +-
+ arch/arm64/kvm/Makefile      |  1 +
+ arch/arm64/kvm/handle_exit.c |  4 +-
+ include/kvm/arm_hypercalls.h | 43 ++++++++++++++++++
+ include/kvm/arm_psci.h       |  2 +-
+ virt/kvm/arm/hypercalls.c    | 59 +++++++++++++++++++++++++
+ virt/kvm/arm/psci.c          | 84 +-----------------------------------
+ 8 files changed, 110 insertions(+), 87 deletions(-)
+ create mode 100644 include/kvm/arm_hypercalls.h
+ create mode 100644 virt/kvm/arm/hypercalls.c
 
-diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
-index befe37d4bc0e..88c8a4b2836f 100644
---- a/arch/arm64/include/asm/kvm_mmu.h
-+++ b/arch/arm64/include/asm/kvm_mmu.h
-@@ -157,6 +157,8 @@ int kvm_alloc_stage2_pgd(struct kvm *kvm);
- void kvm_free_stage2_pgd(struct kvm *kvm);
- int kvm_phys_addr_ioremap(struct kvm *kvm, phys_addr_t guest_ipa,
- 			  phys_addr_t pa, unsigned long size, bool writable);
-+int kvm_phys_addr_memremap(struct kvm *kvm, phys_addr_t guest_ipa,
-+			  phys_addr_t pa, unsigned long size, bool writable);
+diff --git a/arch/arm/kvm/Makefile b/arch/arm/kvm/Makefile
+index 531e59f5be9c..ef4d01088efc 100644
+--- a/arch/arm/kvm/Makefile
++++ b/arch/arm/kvm/Makefile
+@@ -23,7 +23,7 @@ obj-y += kvm-arm.o init.o interrupts.o
+ obj-y += handle_exit.o guest.o emulate.o reset.o
+ obj-y += coproc.o coproc_a15.o coproc_a7.o   vgic-v3-coproc.o
+ obj-y += $(KVM)/arm/arm.o $(KVM)/arm/mmu.o $(KVM)/arm/mmio.o
+-obj-y += $(KVM)/arm/psci.o $(KVM)/arm/perf.o
++obj-y += $(KVM)/arm/psci.o $(KVM)/arm/perf.o $(KVM)/arm/hypercalls.o
+ obj-y += $(KVM)/arm/aarch32.o
  
- int kvm_handle_guest_abort(struct kvm_vcpu *vcpu, struct kvm_run *run);
+ obj-y += $(KVM)/arm/vgic/vgic.o
+diff --git a/arch/arm/kvm/handle_exit.c b/arch/arm/kvm/handle_exit.c
+index 2a6a1394d26e..e58a89d2f13f 100644
+--- a/arch/arm/kvm/handle_exit.c
++++ b/arch/arm/kvm/handle_exit.c
+@@ -9,7 +9,7 @@
+ #include <asm/kvm_emulate.h>
+ #include <asm/kvm_coproc.h>
+ #include <asm/kvm_mmu.h>
+-#include <kvm/arm_psci.h>
++#include <kvm/arm_hypercalls.h>
+ #include <trace/events/kvm.h>
  
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index 9a507716ae2f..95516a4198ea 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -367,6 +367,12 @@ struct kvm_vcpu_events {
- #define KVM_PSCI_RET_INVAL		PSCI_RET_INVALID_PARAMS
- #define KVM_PSCI_RET_DENIED		PSCI_RET_DENIED
- 
-+/* Device Control API: PV_TIME */
-+#define KVM_DEV_ARM_PV_TIME_PADDR	0
-+#define  KVM_DEV_ARM_PV_TIME_ST		0
-+#define KVM_DEV_ARM_PV_TIME_STATE_SIZE	1
-+#define KVM_DEV_ARM_PV_TIME_STATE	2
-+
- #endif
- 
- #endif /* __ARM_KVM_H__ */
+ #include "trace.h"
 diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
-index 73dce4d47d47..5ffbdc39e780 100644
+index 3ac1a64d2fb9..73dce4d47d47 100644
 --- a/arch/arm64/kvm/Makefile
 +++ b/arch/arm64/kvm/Makefile
-@@ -14,6 +14,7 @@ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/kvm_main.o $(KVM)/coalesced_mmio.o $(KVM)/e
+@@ -13,6 +13,7 @@ obj-$(CONFIG_KVM_ARM_HOST) += hyp/
+ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/kvm_main.o $(KVM)/coalesced_mmio.o $(KVM)/eventfd.o $(KVM)/vfio.o
  kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/arm.o $(KVM)/arm/mmu.o $(KVM)/arm/mmio.o
  kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/psci.o $(KVM)/arm/perf.o
- kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/hypercalls.o
-+kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/pvtime.o
++kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/hypercalls.o
  
  kvm-$(CONFIG_KVM_ARM_HOST) += inject_fault.o regmap.o va_layout.o
  kvm-$(CONFIG_KVM_ARM_HOST) += hyp.o hyp-init.o handle_exit.o
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index a7c19540ce21..04bffafa0708 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1222,6 +1222,8 @@ enum kvm_device_type {
- #define KVM_DEV_TYPE_ARM_VGIC_ITS	KVM_DEV_TYPE_ARM_VGIC_ITS
- 	KVM_DEV_TYPE_XIVE,
- #define KVM_DEV_TYPE_XIVE		KVM_DEV_TYPE_XIVE
-+	KVM_DEV_TYPE_ARM_PV_TIME,
-+#define KVM_DEV_TYPE_ARM_PV_TIME	KVM_DEV_TYPE_ARM_PV_TIME
- 	KVM_DEV_TYPE_MAX,
- };
+diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
+index 706cca23f0d2..aacfc55de44c 100644
+--- a/arch/arm64/kvm/handle_exit.c
++++ b/arch/arm64/kvm/handle_exit.c
+@@ -11,8 +11,6 @@
+ #include <linux/kvm.h>
+ #include <linux/kvm_host.h>
  
-diff --git a/virt/kvm/arm/mmu.c b/virt/kvm/arm/mmu.c
-index 38b4c910b6c3..be28a4aee451 100644
---- a/virt/kvm/arm/mmu.c
-+++ b/virt/kvm/arm/mmu.c
-@@ -1368,6 +1368,50 @@ int kvm_phys_addr_ioremap(struct kvm *kvm, phys_addr_t guest_ipa,
- 	return ret;
- }
+-#include <kvm/arm_psci.h>
+-
+ #include <asm/esr.h>
+ #include <asm/exception.h>
+ #include <asm/kvm_asm.h>
+@@ -22,6 +20,8 @@
+ #include <asm/debug-monitors.h>
+ #include <asm/traps.h>
  
-+/**
-+ * kvm_phys_addr_memremap - map a memory range to guest IPA
-+ *
-+ * @kvm:	The KVM pointer
-+ * @guest_ipa:	The IPA at which to insert the mapping
-+ * @pa:		The physical address of the memory
-+ * @size:	The size of the mapping
-+ */
-+int kvm_phys_addr_memremap(struct kvm *kvm, phys_addr_t guest_ipa,
-+			  phys_addr_t pa, unsigned long size, bool writable)
++#include <kvm/arm_hypercalls.h>
++
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+ 
+diff --git a/include/kvm/arm_hypercalls.h b/include/kvm/arm_hypercalls.h
+new file mode 100644
+index 000000000000..35a5abcc4ca3
+--- /dev/null
++++ b/include/kvm/arm_hypercalls.h
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (C) 2019 Arm Ltd. */
++
++#ifndef __KVM_ARM_HYPERCALLS_H
++#define __KVM_ARM_HYPERCALLS_H
++
++#include <asm/kvm_emulate.h>
++
++int kvm_hvc_call_handler(struct kvm_vcpu *vcpu);
++
++static inline u32 smccc_get_function(struct kvm_vcpu *vcpu)
 +{
-+	phys_addr_t addr, end;
-+	int ret = 0;
-+	unsigned long pfn;
-+	struct kvm_mmu_memory_cache cache = { 0, };
-+
-+	end = (guest_ipa + size + PAGE_SIZE - 1) & PAGE_MASK;
-+	pfn = __phys_to_pfn(pa);
-+
-+	for (addr = guest_ipa; addr < end; addr += PAGE_SIZE) {
-+		pte_t pte = pfn_pte(pfn, PAGE_S2);
-+
-+		if (writable)
-+			pte = kvm_s2pte_mkwrite(pte);
-+
-+		ret = mmu_topup_memory_cache(&cache,
-+					     kvm_mmu_cache_min_pages(kvm),
-+					     KVM_NR_MEM_OBJS);
-+		if (ret)
-+			goto out;
-+		spin_lock(&kvm->mmu_lock);
-+		ret = stage2_set_pte(kvm, &cache, addr, &pte, 0);
-+		spin_unlock(&kvm->mmu_lock);
-+		if (ret)
-+			goto out;
-+
-+		pfn++;
-+	}
-+
-+out:
-+	mmu_free_memory_cache(&cache);
-+	return ret;
++	return vcpu_get_reg(vcpu, 0);
 +}
 +
- static bool transparent_hugepage_adjust(kvm_pfn_t *pfnp, phys_addr_t *ipap)
- {
- 	kvm_pfn_t pfn = *pfnp;
-diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
++static inline unsigned long smccc_get_arg1(struct kvm_vcpu *vcpu)
++{
++	return vcpu_get_reg(vcpu, 1);
++}
++
++static inline unsigned long smccc_get_arg2(struct kvm_vcpu *vcpu)
++{
++	return vcpu_get_reg(vcpu, 2);
++}
++
++static inline unsigned long smccc_get_arg3(struct kvm_vcpu *vcpu)
++{
++	return vcpu_get_reg(vcpu, 3);
++}
++
++static inline void smccc_set_retval(struct kvm_vcpu *vcpu,
++			     unsigned long a0,
++			     unsigned long a1,
++			     unsigned long a2,
++			     unsigned long a3)
++{
++	vcpu_set_reg(vcpu, 0, a0);
++	vcpu_set_reg(vcpu, 1, a1);
++	vcpu_set_reg(vcpu, 2, a2);
++	vcpu_set_reg(vcpu, 3, a3);
++}
++
++#endif
+diff --git a/include/kvm/arm_psci.h b/include/kvm/arm_psci.h
+index 632e78bdef4d..5b58bd2fe088 100644
+--- a/include/kvm/arm_psci.h
++++ b/include/kvm/arm_psci.h
+@@ -40,7 +40,7 @@ static inline int kvm_psci_version(struct kvm_vcpu *vcpu, struct kvm *kvm)
+ }
+ 
+ 
+-int kvm_hvc_call_handler(struct kvm_vcpu *vcpu);
++int kvm_psci_call(struct kvm_vcpu *vcpu);
+ 
+ struct kvm_one_reg;
+ 
+diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
 new file mode 100644
-index 000000000000..9051bc07eae1
+index 000000000000..f875241bd030
 --- /dev/null
-+++ b/virt/kvm/arm/pvtime.c
-@@ -0,0 +1,190 @@
++++ b/virt/kvm/arm/hypercalls.c
+@@ -0,0 +1,59 @@
 +// SPDX-License-Identifier: GPL-2.0
 +// Copyright (C) 2019 Arm Ltd.
 +
++#include <linux/arm-smccc.h>
 +#include <linux/kvm_host.h>
-+#include <asm/kvm_mmu.h>
 +
-+/* We currently only support PV time on ARM64 */
-+#ifdef CONFIG_ARM64
++#include <asm/kvm_emulate.h>
 +
-+#include <asm/pvclock-abi.h>
++#include <kvm/arm_hypercalls.h>
++#include <kvm/arm_psci.h>
 +
-+static int max_stolen_size(void)
++int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
 +{
-+	int size = KVM_MAX_VCPUS * sizeof(struct pvclock_vcpu_stolen_time_info);
++	u32 func_id = smccc_get_function(vcpu);
++	u32 val = SMCCC_RET_NOT_SUPPORTED;
++	u32 feature;
 +
-+	return ALIGN(size, PAGE_SIZE);
-+}
-+
-+static int kvm_arm_pvtime_create(struct kvm_device *dev, u32 type)
-+{
-+	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
-+
-+	pvtime->st = alloc_pages_exact(max_stolen_size(),
-+				       GFP_KERNEL | __GFP_ZERO);
-+	if (!pvtime->st)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+static void kvm_arm_pvtime_destroy(struct kvm_device *dev)
-+{
-+	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
-+
-+	pvtime->st_base = GPA_INVALID;
-+	free_pages_exact(pvtime->st, max_stolen_size());
-+	kfree(dev);
-+}
-+
-+static int pvtime_map_pages(struct kvm *kvm, gpa_t guest_paddr,
-+			    void *kaddr, int size)
-+{
-+	return kvm_phys_addr_memremap(kvm, guest_paddr,
-+			virt_to_phys(kaddr),
-+			size, false);
-+}
-+
-+static int pvtime_save_state(struct kvm *kvm, u64 type, void __user *user)
-+{
-+	void *source;
-+	size_t size;
-+
-+	switch (type) {
-+	case KVM_DEV_ARM_PV_TIME_ST:
-+		source = kvm->arch.pvtime.st;
-+		size = sizeof(struct pvclock_vcpu_stolen_time_info) *
-+			atomic_read(&kvm->online_vcpus);
++	switch (func_id) {
++	case ARM_SMCCC_VERSION_FUNC_ID:
++		val = ARM_SMCCC_VERSION_1_1;
 +		break;
-+	default:
-+		return -ENXIO;
-+	}
-+
-+	if (copy_to_user(user, source, size))
-+		return -EFAULT;
-+	return 0;
-+}
-+
-+static int pvtime_restore_state(struct kvm *kvm, u64 type, void __user *user)
-+{
-+	void *dest;
-+	size_t size;
-+
-+	switch (type) {
-+	case KVM_DEV_ARM_PV_TIME_ST:
-+		dest = kvm->arch.pvtime.st;
-+		size = sizeof(struct pvclock_vcpu_stolen_time_info) *
-+			atomic_read(&kvm->online_vcpus);
-+		break;
-+	default:
-+		return -ENXIO;
-+	}
-+
-+	if (copy_from_user(dest, user, size))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int kvm_arm_pvtime_set_attr(struct kvm_device *dev,
-+				   struct kvm_device_attr *attr)
-+{
-+	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
-+	u64 __user *user = (u64 __user *)attr->addr;
-+	u64 paddr;
-+	int ret;
-+
-+	switch (attr->group) {
-+	case KVM_DEV_ARM_PV_TIME_PADDR:
-+		if (get_user(paddr, user))
-+			return -EFAULT;
-+		if (paddr & 63)
-+			return -EINVAL;
-+		switch (attr->attr) {
-+		case KVM_DEV_ARM_PV_TIME_ST:
-+			if (pvtime->st_base != GPA_INVALID)
-+				return -EEXIST;
-+			ret = pvtime_map_pages(dev->kvm, paddr, pvtime->st,
-+					max_stolen_size());
-+			if (ret)
-+				return ret;
-+			pvtime->st_base = paddr;
-+			return 0;
-+		}
-+		break;
-+	case KVM_DEV_ARM_PV_TIME_STATE_SIZE:
-+		return -EPERM;
-+	case KVM_DEV_ARM_PV_TIME_STATE:
-+		return pvtime_restore_state(dev->kvm, attr->attr, user);
-+	}
-+	return -ENXIO;
-+}
-+
-+static int kvm_arm_pvtime_get_attr(struct kvm_device *dev,
-+				   struct kvm_device_attr *attr)
-+{
-+	u64 __user *user = (u64 __user *)attr->addr;
-+	u32 size;
-+
-+	switch (attr->group) {
-+	case KVM_DEV_ARM_PV_TIME_PADDR:
-+		switch (attr->attr) {
-+		case KVM_DEV_ARM_PV_TIME_ST:
-+			if (put_user(dev->kvm->arch.pvtime.st_base, user))
-+				return -EFAULT;
-+			return 0;
-+		}
-+		break;
-+	case KVM_DEV_ARM_PV_TIME_STATE_SIZE:
-+		switch (attr->attr) {
-+		case KVM_DEV_ARM_PV_TIME_ST:
-+			size = sizeof(struct pvclock_vcpu_stolen_time_info);
-+			size *= atomic_read(&dev->kvm->online_vcpus);
++	case ARM_SMCCC_ARCH_FEATURES_FUNC_ID:
++		feature = smccc_get_arg1(vcpu);
++		switch (feature) {
++		case ARM_SMCCC_ARCH_WORKAROUND_1:
++			switch (kvm_arm_harden_branch_predictor()) {
++			case KVM_BP_HARDEN_UNKNOWN:
++				break;
++			case KVM_BP_HARDEN_WA_NEEDED:
++				val = SMCCC_RET_SUCCESS;
++				break;
++			case KVM_BP_HARDEN_NOT_REQUIRED:
++				val = SMCCC_RET_NOT_REQUIRED;
++				break;
++			}
 +			break;
-+		default:
-+			return -ENXIO;
-+		}
-+		if (put_user(size, user))
-+			return -EFAULT;
-+		return 0;
-+	case KVM_DEV_ARM_PV_TIME_STATE:
-+		return pvtime_save_state(dev->kvm, attr->attr, user);
-+	}
-+	return -ENXIO;
-+}
-+
-+static int kvm_arm_pvtime_has_attr(struct kvm_device *dev,
-+				   struct kvm_device_attr *attr)
-+{
-+	switch (attr->group) {
-+	case KVM_DEV_ARM_PV_TIME_PADDR:
-+	case KVM_DEV_ARM_PV_TIME_STATE_SIZE:
-+	case KVM_DEV_ARM_PV_TIME_STATE:
-+		switch (attr->attr) {
-+		case KVM_DEV_ARM_PV_TIME_ST:
-+			return 0;
++		case ARM_SMCCC_ARCH_WORKAROUND_2:
++			switch (kvm_arm_have_ssbd()) {
++			case KVM_SSBD_FORCE_DISABLE:
++			case KVM_SSBD_UNKNOWN:
++				break;
++			case KVM_SSBD_KERNEL:
++				val = SMCCC_RET_SUCCESS;
++				break;
++			case KVM_SSBD_FORCE_ENABLE:
++			case KVM_SSBD_MITIGATED:
++				val = SMCCC_RET_NOT_REQUIRED;
++				break;
++			}
++			break;
 +		}
 +		break;
++	default:
++		return kvm_psci_call(vcpu);
 +	}
-+	return -ENXIO;
++
++	smccc_set_retval(vcpu, val, 0, 0, 0);
++	return 1;
 +}
-+
-+static const struct kvm_device_ops pvtime_ops = {
-+	"Arm PV time",
-+	.create = kvm_arm_pvtime_create,
-+	.destroy = kvm_arm_pvtime_destroy,
-+	.set_attr = kvm_arm_pvtime_set_attr,
-+	.get_attr = kvm_arm_pvtime_get_attr,
-+	.has_attr = kvm_arm_pvtime_has_attr
-+};
-+
-+static int __init kvm_pvtime_init(void)
-+{
-+	kvm_register_device_ops(&pvtime_ops, KVM_DEV_TYPE_ARM_PV_TIME);
-+
-+	return 0;
-+}
-+
-+late_initcall(kvm_pvtime_init);
-+
-+#endif
+diff --git a/virt/kvm/arm/psci.c b/virt/kvm/arm/psci.c
+index 87927f7e1ee7..17e2bdd4b76f 100644
+--- a/virt/kvm/arm/psci.c
++++ b/virt/kvm/arm/psci.c
+@@ -15,6 +15,7 @@
+ #include <asm/kvm_host.h>
+ 
+ #include <kvm/arm_psci.h>
++#include <kvm/arm_hypercalls.h>
+ 
+ /*
+  * This is an implementation of the Power State Coordination Interface
+@@ -23,38 +24,6 @@
+ 
+ #define AFFINITY_MASK(level)	~((0x1UL << ((level) * MPIDR_LEVEL_BITS)) - 1)
+ 
+-static u32 smccc_get_function(struct kvm_vcpu *vcpu)
+-{
+-	return vcpu_get_reg(vcpu, 0);
+-}
+-
+-static unsigned long smccc_get_arg1(struct kvm_vcpu *vcpu)
+-{
+-	return vcpu_get_reg(vcpu, 1);
+-}
+-
+-static unsigned long smccc_get_arg2(struct kvm_vcpu *vcpu)
+-{
+-	return vcpu_get_reg(vcpu, 2);
+-}
+-
+-static unsigned long smccc_get_arg3(struct kvm_vcpu *vcpu)
+-{
+-	return vcpu_get_reg(vcpu, 3);
+-}
+-
+-static void smccc_set_retval(struct kvm_vcpu *vcpu,
+-			     unsigned long a0,
+-			     unsigned long a1,
+-			     unsigned long a2,
+-			     unsigned long a3)
+-{
+-	vcpu_set_reg(vcpu, 0, a0);
+-	vcpu_set_reg(vcpu, 1, a1);
+-	vcpu_set_reg(vcpu, 2, a2);
+-	vcpu_set_reg(vcpu, 3, a3);
+-}
+-
+ static unsigned long psci_affinity_mask(unsigned long affinity_level)
+ {
+ 	if (affinity_level <= 3)
+@@ -373,7 +342,7 @@ static int kvm_psci_0_1_call(struct kvm_vcpu *vcpu)
+  * Errors:
+  * -EINVAL: Unrecognized PSCI function
+  */
+-static int kvm_psci_call(struct kvm_vcpu *vcpu)
++int kvm_psci_call(struct kvm_vcpu *vcpu)
+ {
+ 	switch (kvm_psci_version(vcpu, vcpu->kvm)) {
+ 	case KVM_ARM_PSCI_1_0:
+@@ -387,55 +356,6 @@ static int kvm_psci_call(struct kvm_vcpu *vcpu)
+ 	};
+ }
+ 
+-int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+-{
+-	u32 func_id = smccc_get_function(vcpu);
+-	u32 val = SMCCC_RET_NOT_SUPPORTED;
+-	u32 feature;
+-
+-	switch (func_id) {
+-	case ARM_SMCCC_VERSION_FUNC_ID:
+-		val = ARM_SMCCC_VERSION_1_1;
+-		break;
+-	case ARM_SMCCC_ARCH_FEATURES_FUNC_ID:
+-		feature = smccc_get_arg1(vcpu);
+-		switch(feature) {
+-		case ARM_SMCCC_ARCH_WORKAROUND_1:
+-			switch (kvm_arm_harden_branch_predictor()) {
+-			case KVM_BP_HARDEN_UNKNOWN:
+-				break;
+-			case KVM_BP_HARDEN_WA_NEEDED:
+-				val = SMCCC_RET_SUCCESS;
+-				break;
+-			case KVM_BP_HARDEN_NOT_REQUIRED:
+-				val = SMCCC_RET_NOT_REQUIRED;
+-				break;
+-			}
+-			break;
+-		case ARM_SMCCC_ARCH_WORKAROUND_2:
+-			switch (kvm_arm_have_ssbd()) {
+-			case KVM_SSBD_FORCE_DISABLE:
+-			case KVM_SSBD_UNKNOWN:
+-				break;
+-			case KVM_SSBD_KERNEL:
+-				val = SMCCC_RET_SUCCESS;
+-				break;
+-			case KVM_SSBD_FORCE_ENABLE:
+-			case KVM_SSBD_MITIGATED:
+-				val = SMCCC_RET_NOT_REQUIRED;
+-				break;
+-			}
+-			break;
+-		}
+-		break;
+-	default:
+-		return kvm_psci_call(vcpu);
+-	}
+-
+-	smccc_set_retval(vcpu, val, 0, 0, 0);
+-	return 1;
+-}
+-
+ int kvm_arm_get_fw_num_regs(struct kvm_vcpu *vcpu)
+ {
+ 	return 3;		/* PSCI version and two workaround registers */
 -- 
 2.20.1
 
