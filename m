@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D69557D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEA9A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389250AbfHBOvO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 10:51:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:53272 "EHLO foss.arm.com"
+        id S2395042AbfHBOud (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 10:50:33 -0400
+Received: from foss.arm.com ([217.140.110.172]:53196 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436764AbfHBOul (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 10:50:41 -0400
+        id S2387625AbfHBOuc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 10:50:32 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98F0615A2;
-        Fri,  2 Aug 2019 07:50:40 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5E831597;
+        Fri,  2 Aug 2019 07:50:31 -0700 (PDT)
 Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B2C8E3F575;
-        Fri,  2 Aug 2019 07:50:38 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B7773F575;
+        Fri,  2 Aug 2019 07:50:29 -0700 (PDT)
 From:   Steven Price <steven.price@arm.com>
 Cc:     Steven Price <steven.price@arm.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -34,9 +34,9 @@ Cc:     Steven Price <steven.price@arm.com>,
         kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 5/9] KVM: Allow kvm_device_ops to be const
-Date:   Fri,  2 Aug 2019 15:50:13 +0100
-Message-Id: <20190802145017.42543-6-steven.price@arm.com>
+Subject: [PATCH 1/9] KVM: arm64: Document PV-time interface
+Date:   Fri,  2 Aug 2019 15:50:09 +0100
+Message-Id: <20190802145017.42543-2-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190802145017.42543-1-steven.price@arm.com>
 References: <20190802145017.42543-1-steven.price@arm.com>
@@ -48,69 +48,139 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently a kvm_device_ops structure cannot be const without triggering
-compiler warnings. However the structure doesn't need to be written to
-and, by marking it const, it can be read-only in memory. Add some more
-const keywords to allow this.
+Introduce a paravirtualization interface for KVM/arm64 based on the
+"Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+
+This only adds the details about "Stolen Time" as the details of "Live
+Physical Time" have not been fully agreed.
+
+User space can specify a reserved area of memory for the guest and
+inform KVM to populate the memory with information on time that the host
+kernel has stolen from the guest.
+
+A hypercall interface is provided for the guest to interrogate the
+hypervisor's support for this interface and the location of the shared
+memory structures.
 
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- include/linux/kvm_host.h | 4 ++--
- virt/kvm/kvm_main.c      | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/virtual/kvm/arm/pvtime.txt | 107 +++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100644 Documentation/virtual/kvm/arm/pvtime.txt
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 5c5b5867024c..be31a6f8351a 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -1236,7 +1236,7 @@ extern unsigned int halt_poll_ns_grow_start;
- extern unsigned int halt_poll_ns_shrink;
- 
- struct kvm_device {
--	struct kvm_device_ops *ops;
-+	const struct kvm_device_ops *ops;
- 	struct kvm *kvm;
- 	void *private;
- 	struct list_head vm_node;
-@@ -1289,7 +1289,7 @@ struct kvm_device_ops {
- void kvm_device_get(struct kvm_device *dev);
- void kvm_device_put(struct kvm_device *dev);
- struct kvm_device *kvm_device_from_filp(struct file *filp);
--int kvm_register_device_ops(struct kvm_device_ops *ops, u32 type);
-+int kvm_register_device_ops(const struct kvm_device_ops *ops, u32 type);
- void kvm_unregister_device_ops(u32 type);
- 
- extern struct kvm_device_ops kvm_mpic_ops;
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 887f3b0c2b60..8c12110ec87a 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -3035,14 +3035,14 @@ struct kvm_device *kvm_device_from_filp(struct file *filp)
- 	return filp->private_data;
- }
- 
--static struct kvm_device_ops *kvm_device_ops_table[KVM_DEV_TYPE_MAX] = {
-+static const struct kvm_device_ops *kvm_device_ops_table[KVM_DEV_TYPE_MAX] = {
- #ifdef CONFIG_KVM_MPIC
- 	[KVM_DEV_TYPE_FSL_MPIC_20]	= &kvm_mpic_ops,
- 	[KVM_DEV_TYPE_FSL_MPIC_42]	= &kvm_mpic_ops,
- #endif
- };
- 
--int kvm_register_device_ops(struct kvm_device_ops *ops, u32 type)
-+int kvm_register_device_ops(const struct kvm_device_ops *ops, u32 type)
- {
- 	if (type >= ARRAY_SIZE(kvm_device_ops_table))
- 		return -ENOSPC;
-@@ -3063,7 +3063,7 @@ void kvm_unregister_device_ops(u32 type)
- static int kvm_ioctl_create_device(struct kvm *kvm,
- 				   struct kvm_create_device *cd)
- {
--	struct kvm_device_ops *ops = NULL;
-+	const struct kvm_device_ops *ops = NULL;
- 	struct kvm_device *dev;
- 	bool test = cd->flags & KVM_CREATE_DEVICE_TEST;
- 	int type;
+diff --git a/Documentation/virtual/kvm/arm/pvtime.txt b/Documentation/virtual/kvm/arm/pvtime.txt
+new file mode 100644
+index 000000000000..e6ae9799e1d5
+--- /dev/null
++++ b/Documentation/virtual/kvm/arm/pvtime.txt
+@@ -0,0 +1,107 @@
++Paravirtualized time support for arm64
++======================================
++
++Arm specification DEN0057/A defined a standard for paravirtualised time
++support for Aarch64 guests:
++
++https://developer.arm.com/docs/den0057/a
++
++KVM/Arm64 implements the stolen time part of this specification by providing
++some hypervisor service calls to support a paravirtualized guest obtaining a
++view of the amount of time stolen from its execution.
++
++Two new SMCCC compatible hypercalls are defined:
++
++PV_FEATURES 0xC5000020
++PV_TIME_ST  0xC5000022
++
++These are only available in the SMC64/HVC64 calling convention as
++paravirtualized time is not available to 32 bit Arm guests.
++
++PV_FEATURES
++    Function ID:  (uint32)  : 0xC5000020
++    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
++    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
++                              PV-time feature is supported by the hypervisor.
++
++PV_TIME_ST
++    Function ID:  (uint32)  : 0xC5000022
++    Return value: (int64)   : IPA of the stolen time data structure for this
++                              (V)CPU. On failure:
++                              NOT_SUPPORTED (-1)
++
++Stolen Time
++-----------
++
++The structure pointed to by the PV_TIME_ST hypercall is as follows:
++
++  Field       | Byte Length | Byte Offset | Description
++  ----------- | ----------- | ----------- | --------------------------
++  Revision    |      4      |      0      | Must be 0 for version 0.1
++  Attributes  |      4      |      4      | Must be 0
++  Stolen time |      8      |      8      | Stolen time in unsigned
++              |             |             | nanoseconds indicating how
++              |             |             | much time this VCPU thread
++              |             |             | was involuntarily not
++              |             |             | running on a physical CPU.
++
++The structure will be updated by the hypervisor periodically as time is stolen
++from the VCPU. It will be present within a reserved region of the normal
++memory given to the guest. The guest should not attempt to write into this
++memory. There is a structure by VCPU of the guest.
++
++User space interface
++====================
++
++User space can request that KVM provide the paravirtualized time interface to
++a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
++
++    struct kvm_create_device pvtime_device = {
++            .type = KVM_DEV_TYPE_ARM_PV_TIME,
++            .attr = 0,
++            .flags = 0,
++    };
++
++    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
++
++The guest IPA of the structures must be given to KVM. This is the base address
++of an array of stolen time structures (one for each VCPU). For example:
++
++    struct kvm_device_attr st_base = {
++            .group = KVM_DEV_ARM_PV_TIME_PADDR,
++            .attr = KVM_DEV_ARM_PV_TIME_ST,
++            .addr = (u64)(unsigned long)&st_paddr
++    };
++
++    ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
++
++For migration (or save/restore) of a guest it is necessary to save the contents
++of the shared page(s) and later restore them. KVM_DEV_ARM_PV_TIME_STATE_SIZE
++provides the size of this data and KVM_DEV_ARM_PV_TIME_STATE allows the state
++to be read/written.
++
++It is also necessary for the physical address to be set identically when
++restoring.
++
++    void *save_state(int fd, u64 attr, u32 *size) {
++        struct kvm_device_attr get_size = {
++                .group = KVM_DEV_ARM_PV_TIME_STATE_SIZE,
++                .attr = attr,
++                .addr = (u64)(unsigned long)size
++        };
++
++        ioctl(fd, KVM_GET_DEVICE_ATTR, get_size);
++
++        void *buffer = malloc(*size);
++
++        struct kvm_device_attr get_state = {
++                .group = KVM_DEV_ARM_PV_TIME_STATE,
++                .attr = attr,
++                .addr = (u64)(unsigned long)size
++        };
++
++        ioctl(fd, KVM_GET_DEVICE_ATTR, buffer);
++    }
++
++    void *st_state = save_state(pvtime_fd, KVM_DEV_ARM_PV_TIME_ST, &st_size);
++
 -- 
 2.20.1
 
