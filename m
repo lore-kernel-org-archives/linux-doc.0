@@ -3,65 +3,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EDEE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 10:08:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 106DA7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 13:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387536AbfHBKIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 06:08:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:48772 "EHLO foss.arm.com"
+        id S1731899AbfHBN2D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 09:28:03 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49532 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728855AbfHBKIj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 06:08:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C9EB344;
-        Fri,  2 Aug 2019 03:08:39 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B1D323F71F;
-        Fri,  2 Aug 2019 03:08:37 -0700 (PDT)
-Date:   Fri, 2 Aug 2019 11:08:35 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: Re: [PATCH v6 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.rst
-Message-ID: <20190802100835.GA4175@arrakis.emea.arm.com>
-References: <cover.1563904656.git.andreyknvl@google.com>
- <20190725135044.24381-1-vincenzo.frascino@arm.com>
- <20190725135044.24381-2-vincenzo.frascino@arm.com>
- <b74e7ce7-d58a-68a0-2f28-6648ec6302c0@intel.com>
+        id S2390660AbfHBN02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 09:26:28 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4C9687DA;
+        Fri,  2 Aug 2019 13:26:27 +0000 (UTC)
+Date:   Fri, 2 Aug 2019 07:26:26 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Chao Yu <yuchao0@huawei.com>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <chao@kernel.org>, <jaegeuk@kernel.org>
+Subject: Re: [PATCH] mailmap: add entry for Jaegeuk Kim
+Message-ID: <20190802072626.405246e3@lwn.net>
+In-Reply-To: <20190802012135.31419-1-yuchao0@huawei.com>
+References: <20190802012135.31419-1-yuchao0@huawei.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b74e7ce7-d58a-68a0-2f28-6648ec6302c0@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+On Fri, 2 Aug 2019 09:21:35 +0800
+Chao Yu <yuchao0@huawei.com> wrote:
 
-On Wed, Jul 31, 2019 at 09:43:46AM -0700, Dave Hansen wrote:
-> On 7/25/19 6:50 AM, Vincenzo Frascino wrote:
-> > With the relaxed ABI proposed through this document, it is now possible
-> > to pass tagged pointers to the syscalls, when these pointers are in
-> > memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
+> Add entry to connect all Jaegeuk's email addresses.
 > 
-> I don't see a lot of description of why this restriction is necessary.
-> What's the problem with supporting MAP_SHARED?
+> Acked-by: Jaegeuk Kim <jaegeuk@kernel.org>
+> Signed-off-by: Chao Yu <yuchao0@huawei.com>
+> ---
+>  .mailmap | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/.mailmap b/.mailmap
+> index 477debe3d960..70d41c86e644 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -89,6 +89,9 @@ Henrik Kretzschmar <henne@nachtwindheim.de>
+>  Henrik Rydberg <rydberg@bitmath.org>
+>  Herbert Xu <herbert@gondor.apana.org.au>
+>  Jacob Shin <Jacob.Shin@amd.com>
+> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
+> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@motorola.com>
+> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
 
-We could support MAP_SHARED | MAP_ANONYMOUS (and based on some internal
-discussions, this would be fine with the hardware memory tagging as
-well). What we don't want in the ABI is to support file mmap() for
-top-byte-ignore (or MTE). If you see a use-case, please let us know.
+So as I understand it, the mailmap file is there mostly to ensure that a
+person's changesets are properly collected in 'git shortlog' and such.  As
+documented on the man page, it is used when a person's name is spelled
+differently at different times.
 
--- 
-Catalin
+That doesn't appear to be the case here, and shortlog output is correct
+already.  Given that, do we *really* need to maintain a collection of old
+email addresses in the mailmap file?  What is the benefit of that?
+
+Thanks,
+
+jon
