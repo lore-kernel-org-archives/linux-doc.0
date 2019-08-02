@@ -3,76 +3,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 635267D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 09:24:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0EDEE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 10:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387657AbfHBJYr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 05:24:47 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:18765 "EHLO 1wt.eu"
+        id S2387536AbfHBKIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 06:08:40 -0400
+Received: from foss.arm.com ([217.140.110.172]:48772 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726716AbfHBJYq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 05:24:46 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id x729OV9N012895;
-        Fri, 2 Aug 2019 11:24:31 +0200
-Date:   Fri, 2 Aug 2019 11:24:31 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, security@kernel.org,
-        linux-doc@vger.kernel.org, Jiri Kosina <jkosina@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
- issues
-Message-ID: <20190802092431.GB12845@1wt.eu>
-References: <20190725130113.GA12932@kroah.com>
- <20190802044908.GA12834@1wt.eu>
- <20190802065729.GA24024@kroah.com>
+        id S1728855AbfHBKIj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 06:08:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C9EB344;
+        Fri,  2 Aug 2019 03:08:39 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B1D323F71F;
+        Fri,  2 Aug 2019 03:08:37 -0700 (PDT)
+Date:   Fri, 2 Aug 2019 11:08:35 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v6 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+Message-ID: <20190802100835.GA4175@arrakis.emea.arm.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <20190725135044.24381-1-vincenzo.frascino@arm.com>
+ <20190725135044.24381-2-vincenzo.frascino@arm.com>
+ <b74e7ce7-d58a-68a0-2f28-6648ec6302c0@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190802065729.GA24024@kroah.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
+In-Reply-To: <b74e7ce7-d58a-68a0-2f28-6648ec6302c0@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 02, 2019 at 08:57:29AM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Aug 02, 2019 at 06:49:08AM +0200, Willy Tarreau wrote:
-> > Hi Greg, Thomas,
-> > 
-> > On Thu, Jul 25, 2019 at 03:01:13PM +0200, Greg Kroah-Hartman wrote:
-> > > +The list is encrypted and email to the list can be sent by either PGP or
-> > > +S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
-> > > +certificate. The list's PGP key and S/MIME certificate are available from
-> > > +https://www.kernel.org/....
-> > 
-> > Just thinking, wouldn't it be useful to strongly encourage that the
-> > document should be in plain text format ? Otherwise the door remains open
-> > for sending you a self-extractable EXE file which contains an encrypted
-> > Word doc, which is not the most useful to handle especially to copy-paste
-> > mitigation code nor to comment on. Even some occasional PDFs we've seen
-> > on the sec@k.o list were sometimes quite detailed but less convenient
-> > than the vast majority of plain text ones, particularly when it comes
-> > to quoting some parts.
+Hi Dave,
+
+On Wed, Jul 31, 2019 at 09:43:46AM -0700, Dave Hansen wrote:
+> On 7/25/19 6:50 AM, Vincenzo Frascino wrote:
+> > With the relaxed ABI proposed through this document, it is now possible
+> > to pass tagged pointers to the syscalls, when these pointers are in
+> > memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
 > 
-> What document are you referring to here?  This just describes how the
-> encrypted mailing list is going to work, not anything else.
+> I don't see a lot of description of why this restriction is necessary.
+> What's the problem with supporting MAP_SHARED?
 
-I mean the document describing the issue that the reporter is going to
-send to the mailing list.
+We could support MAP_SHARED | MAP_ANONYMOUS (and based on some internal
+discussions, this would be fine with the hardware memory tagging as
+well). What we don't want in the ABI is to support file mmap() for
+top-byte-ignore (or MTE). If you see a use-case, please let us know.
 
-> But yes, we have had some "encrypted pdfs" be sent to us recently that
-> no one can decrypt unless they run Windows or do some really crazy hacks
-> with the gstreamer pipeline.  But that's separate from this specific
-> mailing list, we can always just tell people to not do foolish things if
-> that happens again (like we did in this case.)
-
-That was exactly my point :-)  Just like the process indicates what list
-to contact to report an issue, it can also indicate the preferred way to
-efficiently report these issues.
-
-Willy
+-- 
+Catalin
