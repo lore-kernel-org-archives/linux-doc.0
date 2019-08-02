@@ -1,119 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7545B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 06:26:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0323E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 06:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732570AbfHBG0D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 02:26:03 -0400
-Received: from mail-pl1-f170.google.com ([209.85.214.170]:35956 "EHLO
-        mail-pl1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732127AbfHBG0C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Aug 2019 02:26:02 -0400
-Received: by mail-pl1-f170.google.com with SMTP id k8so33260326plt.3;
-        Thu, 01 Aug 2019 23:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bYz2zjlmuoUx8fz7ph0W6vocNPa4yLLWG/oBEqims+s=;
-        b=Uk6JlHwJ5rA6oxdi4JAnrY+bbHXdnkLgmd10LOtF4eLcLf2VyOXf0ti2Gfe5BP8ddy
-         YV3th702Ym2sx95MKI9tY4qslxArrdlG7jQkwhn+HHGiLoi5hw+hx2iWaNQOqkBkyC7v
-         jpTJFiwa8Wi59DaRV6+6GhC5/CmOhH1CdRyMN5e4Krzj8tSP3bMbyknE4ac+3JJ8oWNb
-         459mRlaES8d+ASl0JN6CYr0QWF+zX2U0s6MJygLu4E8NyxROi6e+85lNxQhwSzuEFBrl
-         MHZqqkM5JCUnBNw4x24BGkoBmnp75k1gXnjt09tBguwTHEHHx0OsKIl1IFV+p4TMIqMQ
-         lXqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bYz2zjlmuoUx8fz7ph0W6vocNPa4yLLWG/oBEqims+s=;
-        b=ARWHoa359jUiY1OzldfdZpw5+bonzT8F6AvXV6+5x/tCHGHVUz+iNCQpGJCSKqSkxw
-         CEc++uh0y4bfgk097ZvBMoQUU5BcqGqIjI9EZd7M4buw2d4pBZWw6nrAqZ740VosyimN
-         r++oI9ynQuGPSJbUlyTER+8a6Cufl+hm/DIYvTdFGQfe6qU0IabU+eTUbJD26glum7je
-         hN57NP2vgVf0lycnDQ64+UHki+CiXPJxYSorxBYhgjG02Lok/oTjVhNqoIlBfETw+dYX
-         REhfurZxhjqz4VjHlLv3kFMegQ1aeXjU2tvhd+4N3T8ouV/0ErwZhqDaq1jKgPz6al/F
-         UCUA==
-X-Gm-Message-State: APjAAAWh62Ut/52/6K51S7QQtTA9WwsvTR/GpHb7M5wPZzivP72WrIhW
-        kKDfRHii6f3oIgY5ShoSxcw=
-X-Google-Smtp-Source: APXvYqy7LvIbDxwGr8HTYZI8mucWvnBpQn1BTFB8FCSqImzxnyTdeKKeGmeuvTffKnTb2C1P8Qj9nA==
-X-Received: by 2002:a17:902:7781:: with SMTP id o1mr129601537pll.205.1564727161951;
-        Thu, 01 Aug 2019 23:26:01 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id m4sm85470823pgs.71.2019.08.01.23.25.59
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 01 Aug 2019 23:26:01 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Documentation/checkpatch: Prefer str_has_prefix over strncmp
-Date:   Fri,  2 Aug 2019 14:25:37 +0800
-Message-Id: <20190802062537.11510-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        id S2389183AbfHBG5d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 02:57:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34520 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389177AbfHBG5d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Aug 2019 02:57:33 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C82FC2086A;
+        Fri,  2 Aug 2019 06:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564729052;
+        bh=ffM+LICWllxWJE/vQvAaeiAc+X9tSUkA68IQmo2LQ9g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fAItImq9S90rX9l+DgsGbTRR+l8aOgIVns7ZwcBkAamUtiBQjgh6/Za1osWY0q23I
+         aYBBMz53C9J2HvskmWRFcNgWGgE+V9kj6KVbnQ2GwvB2sVM+W884Bm8B/yqdlp8uCA
+         TcTJFAPXluoI+zaj5nOyt7BgxDxEdzs/MgG2LCA8=
+Date:   Fri, 2 Aug 2019 08:57:29 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, security@kernel.org,
+        linux-doc@vger.kernel.org, Jiri Kosina <jkosina@suse.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
+ issues
+Message-ID: <20190802065729.GA24024@kroah.com>
+References: <20190725130113.GA12932@kroah.com>
+ <20190802044908.GA12834@1wt.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190802044908.GA12834@1wt.eu>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add strncmp() to Documentation/process/deprecated.rst since
-using strncmp() to check whether a string starts with a
-prefix is error-prone.
-The safe replacement is str_has_prefix().
+On Fri, Aug 02, 2019 at 06:49:08AM +0200, Willy Tarreau wrote:
+> Hi Greg, Thomas,
+> 
+> On Thu, Jul 25, 2019 at 03:01:13PM +0200, Greg Kroah-Hartman wrote:
+> > +The list is encrypted and email to the list can be sent by either PGP or
+> > +S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
+> > +certificate. The list's PGP key and S/MIME certificate are available from
+> > +https://www.kernel.org/....
+> 
+> Just thinking, wouldn't it be useful to strongly encourage that the
+> document should be in plain text format ? Otherwise the door remains open
+> for sending you a self-extractable EXE file which contains an encrypted
+> Word doc, which is not the most useful to handle especially to copy-paste
+> mitigation code nor to comment on. Even some occasional PDFs we've seen
+> on the sec@k.o list were sometimes quite detailed but less convenient
+> than the vast majority of plain text ones, particularly when it comes
+> to quoting some parts.
 
-Also add check to the newly introduced deprecated_string_apis
-in checkpatch.pl.
+What document are you referring to here?  This just describes how the
+encrypted mailing list is going to work, not anything else.
 
-This patch depends on patch:
-"Documentation/checkpatch: Prefer stracpy/strscpy over
-strcpy/strlcpy/strncpy."
+But yes, we have had some "encrypted pdfs" be sent to us recently that
+no one can decrypt unless they run Windows or do some really crazy hacks
+with the gstreamer pipeline.  But that's separate from this specific
+mailing list, we can always just tell people to not do foolish things if
+that happens again (like we did in this case.)
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- Documentation/process/deprecated.rst | 8 ++++++++
- scripts/checkpatch.pl                | 1 +
- 2 files changed, 9 insertions(+)
+thanks,
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 56280e108d5a..22d3f0dbcf61 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -109,6 +109,14 @@ the given limit of bytes to copy. This is inefficient and can lead to
- linear read overflows if a source string is not NUL-terminated. The
- safe replacement is stracpy() or strscpy().
- 
-+strncmp()
-+---------
-+:c:func:`strncmp` is often used to test if a string starts with a prefix
-+by strncmp(str, prefix, length of prefix). This is error-prone because
-+length of prefix can have counting error if using a constant length, or use
-+sizeof(prefix) without - 1. Also, if the prefix is a pointer, sizeof(prefix)
-+leads to a wrong size. The safe replacement is str_has_prefix().
-+
- Variable Length Arrays (VLAs)
- -----------------------------
- Using stack VLAs produces much worse machine code than statically
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 0ae9ae01d855..38e82d2ac286 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -609,6 +609,7 @@ our %deprecated_string_apis = (
- 	"strcpy"		=> "stracpy or strscpy",
- 	"strlcpy"		=> "stracpy or strscpy",
- 	"strncpy"		=> "stracpy or strscpy - for non-NUL-terminated uses, strncpy dest should be __nonstring",
-+	"strncmp"		=> "str_has_prefix",
- );
- 
- #Create a search pattern for all these strings apis to speed up a loop below
--- 
-2.20.1
-
+greg k-h
