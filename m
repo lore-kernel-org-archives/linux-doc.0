@@ -1,117 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC4FA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 14:51:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C74B47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Aug 2019 15:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387833AbfHBOud (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Aug 2019 10:50:33 -0400
-Received: from foss.arm.com ([217.140.110.172]:53178 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731205AbfHBOuc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Aug 2019 10:50:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9FD11596;
-        Fri,  2 Aug 2019 07:50:29 -0700 (PDT)
-Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2E0B3F575;
-        Fri,  2 Aug 2019 07:50:27 -0700 (PDT)
-From:   Steven Price <steven.price@arm.com>
-Cc:     Steven Price <steven.price@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 0/9] arm64: Stolen time support
-Date:   Fri,  2 Aug 2019 15:50:08 +0100
-Message-Id: <20190802145017.42543-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
+        id S1730970AbfHBPV1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Aug 2019 11:21:27 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:38179 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727198AbfHBPV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Aug 2019 11:21:27 -0400
+Received: by mail-ed1-f65.google.com with SMTP id r12so37918821edo.5;
+        Fri, 02 Aug 2019 08:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=u/6xSIRYHiOP85ntjseSZQgtsjWb+fEA7f5+m0DuZOs=;
+        b=Eu8Q9a98dbycsbHrjw5S2fpv5HWJJvMYh368ryAYZgHoUjo2Z2fD1TXsG/RmsM9KzN
+         pxACT1HmAvWqBnrsjrCHaV29OWB8+z8mOF7LDEwG84CfrctxqmN2DDxoNmnvXRKzfr0f
+         gdZd99XWAUVenMrtkx8XFjFZlTwgdwgVA88+XiQ/dnwYQM1gnyUtO3qWrxyu6UZMGAqr
+         5FdLvKYXo+ZKLpqZ6NBEvzdo/f4CYuHHaGITr71dYkzvlfXJ7cqAWQp4D9+d8g44nW4R
+         NWhYRm15UuTNqpvnjSwCCFPh8iUCsMHe2hGJmgD/AvseERpi+KBAyXQSfqPSM5fRxH7i
+         mYZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=u/6xSIRYHiOP85ntjseSZQgtsjWb+fEA7f5+m0DuZOs=;
+        b=f0VWoMl1eLsBr3IlINFB35jTSQhWj8vSk/RgGCIcDxkc7217W+CJFDbp5twhsCB3OK
+         9PlIOmEQQpMGq1GdrmdgIZKcCTBTMORFf7zslHymrHyZveaOKwU4Lgnhlh86p4mWO5d2
+         O9EuHWoljKfC5ETO/HiinYd67GmtNLjQQAG2WxxaOMSATv4u1d+eHxaU2iO1urUhF7rT
+         vbjvhfH2g1DZ3m0aD9CSmYI5lhDlr4t1BwhNU13HZcXKZEnEbihxL+ynUicdgfwRORo7
+         xZVw1/3XAcAGsCcz7C09t56hCvS6b97+fSDcOnX1AsMM2EMmcMH4igYhumeDorHYi9Pl
+         e8SA==
+X-Gm-Message-State: APjAAAU9laJ+G6UpZj9fELyZSgZhJIJ6CnwsOXT5XEb+DuZao1thCWuG
+        C9WsQEW6OQkOFDcM2v2j4udogYILEBNZk3ZhlU42IdzsGCo=
+X-Google-Smtp-Source: APXvYqzVCrZejk2zw7E8YTLUxwOLFwwlBwdv2rI44EljcQy/4/XE5SgR8YwCaLt00Ld+MkSGZgxVpLrcIIZtG0FcGOY=
+X-Received: by 2002:a17:906:7cd6:: with SMTP id h22mr12851541ejp.254.1564759285374;
+ Fri, 02 Aug 2019 08:21:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <20190802062537.11510-1-hslester96@gmail.com> <20190802073858.19a86f82@lwn.net>
+In-Reply-To: <20190802073858.19a86f82@lwn.net>
+From:   Chuhong Yuan <hslester96@gmail.com>
+Date:   Fri, 2 Aug 2019 23:21:14 +0800
+Message-ID: <CANhBUQ23mc8e+RhG48Vcb_xNUcBuGACMN6SuAJzTom5yUirXgA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/checkpatch: Prefer str_has_prefix over strncmp
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series add support for paravirtualized time for arm64 guests and
-KVM hosts following the specification in Arm's document DEN 0057A:
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2019=E5=B9=B48=E6=9C=882=E6=97=A5=
+=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:38=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri,  2 Aug 2019 14:25:37 +0800
+> Chuhong Yuan <hslester96@gmail.com> wrote:
+>
+> > Add strncmp() to Documentation/process/deprecated.rst since
+> > using strncmp() to check whether a string starts with a
+> > prefix is error-prone.
+> > The safe replacement is str_has_prefix().
+>
+> Is that the *only* use of strncmp()?
 
-https://developer.arm.com/docs/den0057/a
+This is not the only use of strncmp().
+Maybe add a case description like strncpy() is more precise?
+For example, "strncmp() on string prefix".
 
-It implements support for stolen time, allowing the guest to
-identify time when it is forcibly not executing.
+>
+> > Also add check to the newly introduced deprecated_string_apis
+> > in checkpatch.pl.
+> >
+> > This patch depends on patch:
+> > "Documentation/checkpatch: Prefer stracpy/strscpy over
+> > strcpy/strlcpy/strncpy."
+> >
+> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> > ---
+> >  Documentation/process/deprecated.rst | 8 ++++++++
+> >  scripts/checkpatch.pl                | 1 +
+> >  2 files changed, 9 insertions(+)
+> >
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/proce=
+ss/deprecated.rst
+> > index 56280e108d5a..22d3f0dbcf61 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -109,6 +109,14 @@ the given limit of bytes to copy. This is ineffici=
+ent and can lead to
+> >  linear read overflows if a source string is not NUL-terminated. The
+> >  safe replacement is stracpy() or strscpy().
+> >
+> > +strncmp()
+> > +---------
+> > +:c:func:`strncmp` is often used to test if a string starts with a pref=
+ix
+>
+> Please don't use :c:func: anymore; just say strncmp() and the right thing=
+s
+> will happen.
+>
 
-It doesn't implement support for Live Physical Time (LPT) as there are
-some concerns about the overheads and approach in the above
-specification, and I expect an updated version of the specification to
-be released soon with just the stolen time parts.
+I will revise this in the next version.
 
-I previously posted a series including LPT (as well as stolen time):
-https://lore.kernel.org/kvmarm/20181212150226.38051-1-steven.price@arm.com/
+Regards,
+Chuhong
 
-Patches 2, 5, 7 and 8 are cleanup patches and could be taken separately.
-
-Christoffer Dall (1):
-  KVM: arm/arm64: Factor out hypercall handling from PSCI code
-
-Steven Price (8):
-  KVM: arm64: Document PV-time interface
-  KVM: arm64: Implement PV_FEATURES call
-  KVM: arm64: Support stolen time reporting via shared structure
-  KVM: Allow kvm_device_ops to be const
-  KVM: arm64: Provide a PV_TIME device to user space
-  arm/arm64: Provide a wrapper for SMCCC 1.1 calls
-  arm/arm64: Make use of the SMCCC 1.1 wrapper
-  arm64: Retrieve stolen time as paravirtualized guest
-
- Documentation/virtual/kvm/arm/pvtime.txt | 107 +++++++++++++
- arch/arm/kvm/Makefile                    |   2 +-
- arch/arm/kvm/handle_exit.c               |   2 +-
- arch/arm/mm/proc-v7-bugs.c               |  13 +-
- arch/arm64/include/asm/kvm_host.h        |  13 +-
- arch/arm64/include/asm/kvm_mmu.h         |   2 +
- arch/arm64/include/asm/pvclock-abi.h     |  20 +++
- arch/arm64/include/uapi/asm/kvm.h        |   6 +
- arch/arm64/kernel/Makefile               |   1 +
- arch/arm64/kernel/cpu_errata.c           |  80 ++++------
- arch/arm64/kernel/kvm.c                  | 155 ++++++++++++++++++
- arch/arm64/kvm/Kconfig                   |   1 +
- arch/arm64/kvm/Makefile                  |   2 +
- arch/arm64/kvm/handle_exit.c             |   4 +-
- include/kvm/arm_hypercalls.h             |  44 ++++++
- include/kvm/arm_psci.h                   |   2 +-
- include/linux/arm-smccc.h                |  58 +++++++
- include/linux/cpuhotplug.h               |   1 +
- include/linux/kvm_host.h                 |   4 +-
- include/linux/kvm_types.h                |   2 +
- include/uapi/linux/kvm.h                 |   2 +
- virt/kvm/arm/arm.c                       |  18 +++
- virt/kvm/arm/hypercalls.c                | 138 ++++++++++++++++
- virt/kvm/arm/mmu.c                       |  44 ++++++
- virt/kvm/arm/psci.c                      |  84 +---------
- virt/kvm/arm/pvtime.c                    | 190 +++++++++++++++++++++++
- virt/kvm/kvm_main.c                      |   6 +-
- 27 files changed, 848 insertions(+), 153 deletions(-)
- create mode 100644 Documentation/virtual/kvm/arm/pvtime.txt
- create mode 100644 arch/arm64/include/asm/pvclock-abi.h
- create mode 100644 arch/arm64/kernel/kvm.c
- create mode 100644 include/kvm/arm_hypercalls.h
- create mode 100644 virt/kvm/arm/hypercalls.c
- create mode 100644 virt/kvm/arm/pvtime.c
-
--- 
-2.20.1
-
+> Thanks,
+>
+> jon
