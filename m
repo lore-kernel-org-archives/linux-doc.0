@@ -1,227 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 56FBB7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Aug 2019 10:38:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF1E07D910
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Aug 2019 15:47:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbfHDKhv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 06:37:51 -0400
-Received: from mga01.intel.com ([192.55.52.88]:31912 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725941AbfHDKhu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Aug 2019 06:37:50 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Aug 2019 03:37:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,345,1559545200"; 
-   d="scan'208";a="167678922"
-Received: from hao-dev.bj.intel.com ([10.238.157.65])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2019 03:37:48 -0700
-From:   Wu Hao <hao.wu@intel.com>
-To:     gregkh@linuxfoundation.org, mdf@kernel.org,
-        linux-fpga@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org,
-        Wu Hao <hao.wu@intel.com>, Zhang Yi Z <yi.z.zhang@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Subject: [PATCH v4 02/12] fpga: dfl: pci: enable SRIOV support.
-Date:   Sun,  4 Aug 2019 18:20:12 +0800
-Message-Id: <1564914022-3710-3-git-send-email-hao.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564914022-3710-1-git-send-email-hao.wu@intel.com>
-References: <1564914022-3710-1-git-send-email-hao.wu@intel.com>
+        id S1726369AbfHDPrt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Aug 2019 11:47:49 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35797 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbfHDPrs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 11:47:48 -0400
+Received: by mail-wm1-f67.google.com with SMTP id l2so70735556wmg.0;
+        Sun, 04 Aug 2019 08:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=XpKZwopndEr+MAU5NPtSJHYcO6Ev0MiXZLBr1uT/g74=;
+        b=XU5QG53d3+2crKQsbTdHoGONPn6CyVrAJXUf8YhuW3jwt3jQNVcwL0fkkD4qsI6q24
+         iRlsjJFNqFjAk34GEB5i5ZsPAoK7cqv8xr3ardQdu3a9vwP92MMf/ROCAQO3yfSl5CYQ
+         2JZfTKPbcmQd8/HUDYjUjfhlvLH34tg8FBgB81GOx2nkc13oLYz+ypMoIwMGKVfakLvi
+         hg2+QMbP/eowocijrEJiHCjdm1p7XCaHVkavK3FcGPuESQCxl0tZAgiPZIxMoHYipia2
+         YENHHfbhrj4DPU/oZHFHHLxreYtH61LP0TQSKY1rfJV2C5dhj1tnKZmqKZiT7vZcq1Sn
+         u5ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=XpKZwopndEr+MAU5NPtSJHYcO6Ev0MiXZLBr1uT/g74=;
+        b=K9w+4lqS6MUJa74oyxJmoLIXgJ7/pn7LPDlx93jxN29u8K+yGVQyRBBlkpD3MPhhkx
+         BHJGOj9cf/BqaqLREQxh7IrfMYBV1EnWZ0rwyE4gQbLWCSo37LihuOeV6HKvi7fpAqTJ
+         z+hwvXHFqt6bS71qZvRoKUtg5fEHrjLq60vNUAdj7sZbrcMYC05zX6TGQ6BS0CBwuNMj
+         /8FiRPjotFy77396AX2f1ZsfTJT7T2ewMIOYMBRdB17j4xP+dR54txFjpAKV1NEk8q/4
+         PaEa0nitpRTeUXeSf3qRYUK2FNh4O+26PCE1z6Pg+aoAGkvnhslzETsFXAwKhVkAIyqE
+         AWqg==
+X-Gm-Message-State: APjAAAXUI63yiDAgzAJ61wSMkEPWpKC3A1BXvFRi0gilHRpiEmmEspsl
+        MstbSRsbAmODy3R/tB/2aaU=
+X-Google-Smtp-Source: APXvYqzJFuGB25ozI+29umWEdsL9Hgl2qPQJteoUcZ6uWqBwZ6hn5nsD/8MzEZeeH8OkXj4yd8zWVg==
+X-Received: by 2002:a1c:f918:: with SMTP id x24mr13576652wmh.132.1564933666469;
+        Sun, 04 Aug 2019 08:47:46 -0700 (PDT)
+Received: from localhost ([197.211.57.129])
+        by smtp.gmail.com with ESMTPSA id o20sm217192312wrh.8.2019.08.04.08.47.40
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 04 Aug 2019 08:47:45 -0700 (PDT)
+Date:   Sun, 4 Aug 2019 16:46:35 +0100
+From:   Sheriff Esseson <sheriffesseson@gmail.com>
+To:     skhan@linuxfoundation.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        "open list:BPF (Safe dynamic programs and tools)" 
+        <netdev@vger.kernel.org>,
+        "open list:BPF (Safe dynamic programs and tools)" 
+        <bpf@vger.kernel.org>
+Subject: [PATCH] Documentation: virt: Fix broken reference to virt tree's
+ index
+Message-ID: <20190804154635.GA18475@localhost>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch enables the standard sriov support. It allows user to
-enable SRIOV (and VFs), then user could pass through accelerators
-(VFs) into virtual machine or use VFs directly in host.
+Fix broken reference to virt/index.rst.
 
-Signed-off-by: Zhang Yi Z <yi.z.zhang@intel.com>
-Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-Signed-off-by: Wu Hao <hao.wu@intel.com>
-Acked-by: Alan Tull <atull@kernel.org>
-Acked-by: Moritz Fischer <mdf@kernel.org>
-Signed-off-by: Moritz Fischer <mdf@kernel.org>
----
-v2: remove DRV/MODULE_VERSION modifications.
-v4: split __dfl_fpga_cdev_config_port_vf into 2 functions with
-    locking added.
----
- drivers/fpga/dfl-pci.c | 36 ++++++++++++++++++++++
- drivers/fpga/dfl.c     | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/fpga/dfl.h     |  3 +-
- 3 files changed, 120 insertions(+), 1 deletion(-)
+Sequel to: 2f5947dfcaec ("Documentation: move Documentation/virtual to
+Documentation/virt")
 
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index 66b5720..89ca292 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -223,8 +223,43 @@ int cci_pci_probe(struct pci_dev *pcidev, const struct pci_device_id *pcidevid)
- 	return ret;
- }
- 
-+static int cci_pci_sriov_configure(struct pci_dev *pcidev, int num_vfs)
-+{
-+	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
-+	struct dfl_fpga_cdev *cdev = drvdata->cdev;
-+	int ret = 0;
-+
-+	if (!num_vfs) {
-+		/*
-+		 * disable SRIOV and then put released ports back to default
-+		 * PF access mode.
-+		 */
-+		pci_disable_sriov(pcidev);
-+
-+		dfl_fpga_cdev_config_ports_pf(cdev);
-+
-+	} else {
-+		/*
-+		 * before enable SRIOV, put released ports into VF access mode
-+		 * first of all.
-+		 */
-+		ret = dfl_fpga_cdev_config_ports_vf(cdev, num_vfs);
-+		if (ret)
-+			return ret;
-+
-+		ret = pci_enable_sriov(pcidev, num_vfs);
-+		if (ret)
-+			dfl_fpga_cdev_config_ports_pf(cdev);
-+	}
-+
-+	return ret;
-+}
-+
- static void cci_pci_remove(struct pci_dev *pcidev)
- {
-+	if (dev_is_pf(&pcidev->dev))
-+		cci_pci_sriov_configure(pcidev, 0);
-+
- 	cci_remove_feature_devs(pcidev);
- 	pci_disable_pcie_error_reporting(pcidev);
- }
-@@ -234,6 +269,7 @@ static void cci_pci_remove(struct pci_dev *pcidev)
- 	.id_table = cci_pcie_id_tbl,
- 	.probe = cci_pci_probe,
- 	.remove = cci_pci_remove,
-+	.sriov_configure = cci_pci_sriov_configure,
- };
- 
- module_pci_driver(cci_pci_driver);
-diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-index 70ffe8b..b913704 100644
---- a/drivers/fpga/dfl.c
-+++ b/drivers/fpga/dfl.c
-@@ -1131,6 +1131,88 @@ int dfl_fpga_cdev_assign_port(struct dfl_fpga_cdev *cdev, int port_id)
- }
- EXPORT_SYMBOL_GPL(dfl_fpga_cdev_assign_port);
- 
-+static void config_port_access_mode(struct device *fme_dev, int port_id,
-+				    bool is_vf)
-+{
-+	void __iomem *base;
-+	u64 v;
-+
-+	base = dfl_get_feature_ioaddr_by_id(fme_dev, FME_FEATURE_ID_HEADER);
-+
-+	v = readq(base + FME_HDR_PORT_OFST(port_id));
-+
-+	v &= ~FME_PORT_OFST_ACC_CTRL;
-+	v |= FIELD_PREP(FME_PORT_OFST_ACC_CTRL,
-+			is_vf ? FME_PORT_OFST_ACC_VF : FME_PORT_OFST_ACC_PF);
-+
-+	writeq(v, base + FME_HDR_PORT_OFST(port_id));
-+}
-+
-+#define config_port_vf_mode(dev, id) config_port_access_mode(dev, id, true)
-+#define config_port_pf_mode(dev, id) config_port_access_mode(dev, id, false)
-+
-+/**
-+ * dfl_fpga_cdev_config_ports_pf - configure ports to PF access mode
-+ *
-+ * @cdev: parent container device.
-+ *
-+ * This function is needed in sriov configuration routine. It could be used to
-+ * configure the all released ports from VF access mode to PF.
-+ */
-+void dfl_fpga_cdev_config_ports_pf(struct dfl_fpga_cdev *cdev)
-+{
-+	struct dfl_feature_platform_data *pdata;
-+
-+	mutex_lock(&cdev->lock);
-+	list_for_each_entry(pdata, &cdev->port_dev_list, node) {
-+		if (device_is_registered(&pdata->dev->dev))
-+			continue;
-+
-+		config_port_pf_mode(cdev->fme_dev, pdata->id);
-+	}
-+	mutex_unlock(&cdev->lock);
-+}
-+EXPORT_SYMBOL_GPL(dfl_fpga_cdev_config_ports_pf);
-+
-+/**
-+ * dfl_fpga_cdev_config_ports_vf - configure ports to VF access mode
-+ *
-+ * @cdev: parent container device.
-+ * @num_vfs: VF device number.
-+ *
-+ * This function is needed in sriov configuration routine. It could be used to
-+ * configure the released ports from PF access mode to VF.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+int dfl_fpga_cdev_config_ports_vf(struct dfl_fpga_cdev *cdev, int num_vfs)
-+{
-+	struct dfl_feature_platform_data *pdata;
-+	int ret = 0;
-+
-+	mutex_lock(&cdev->lock);
-+	/*
-+	 * can't turn multiple ports into 1 VF device, only 1 port for 1 VF
-+	 * device, so if released port number doesn't match VF device number,
-+	 * then reject the request with -EINVAL error code.
-+	 */
-+	if (cdev->released_port_num != num_vfs) {
-+		ret = -EINVAL;
-+		goto done;
-+	}
-+
-+	list_for_each_entry(pdata, &cdev->port_dev_list, node) {
-+		if (device_is_registered(&pdata->dev->dev))
-+			continue;
-+
-+		config_port_vf_mode(cdev->fme_dev, pdata->id);
-+	}
-+done:
-+	mutex_unlock(&cdev->lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(dfl_fpga_cdev_config_ports_vf);
-+
- static void __exit dfl_fpga_exit(void)
- {
- 	dfl_chardev_uinit();
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index 6f7855e..b3f2f53 100644
---- a/drivers/fpga/dfl.h
-+++ b/drivers/fpga/dfl.h
-@@ -416,5 +416,6 @@ struct platform_device *
- 
- int dfl_fpga_cdev_release_port(struct dfl_fpga_cdev *cdev, int port_id);
- int dfl_fpga_cdev_assign_port(struct dfl_fpga_cdev *cdev, int port_id);
--
-+void dfl_fpga_cdev_config_ports_pf(struct dfl_fpga_cdev *cdev);
-+int dfl_fpga_cdev_config_ports_vf(struct dfl_fpga_cdev *cdev, int num_vf);
- #endif /* __FPGA_DFL_H */
+Reported-by: Sphinx
+
+Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
+---
+ Documentation/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 2df5a3da563c..5205430305d5 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -115,7 +115,7 @@ needed).
+    target/index
+    timers/index
+    watchdog/index
+-   virtual/index
++   virt/index
+    input/index
+    hwmon/index
+    gpu/index
 -- 
-1.8.3.1
+2.17.1
 
