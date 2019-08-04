@@ -1,110 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF1E07D910
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Aug 2019 15:47:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BE5E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Aug 2019 20:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726369AbfHDPrt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 11:47:49 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35797 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbfHDPrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 11:47:48 -0400
-Received: by mail-wm1-f67.google.com with SMTP id l2so70735556wmg.0;
-        Sun, 04 Aug 2019 08:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=XpKZwopndEr+MAU5NPtSJHYcO6Ev0MiXZLBr1uT/g74=;
-        b=XU5QG53d3+2crKQsbTdHoGONPn6CyVrAJXUf8YhuW3jwt3jQNVcwL0fkkD4qsI6q24
-         iRlsjJFNqFjAk34GEB5i5ZsPAoK7cqv8xr3ardQdu3a9vwP92MMf/ROCAQO3yfSl5CYQ
-         2JZfTKPbcmQd8/HUDYjUjfhlvLH34tg8FBgB81GOx2nkc13oLYz+ypMoIwMGKVfakLvi
-         hg2+QMbP/eowocijrEJiHCjdm1p7XCaHVkavK3FcGPuESQCxl0tZAgiPZIxMoHYipia2
-         YENHHfbhrj4DPU/oZHFHHLxreYtH61LP0TQSKY1rfJV2C5dhj1tnKZmqKZiT7vZcq1Sn
-         u5ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=XpKZwopndEr+MAU5NPtSJHYcO6Ev0MiXZLBr1uT/g74=;
-        b=K9w+4lqS6MUJa74oyxJmoLIXgJ7/pn7LPDlx93jxN29u8K+yGVQyRBBlkpD3MPhhkx
-         BHJGOj9cf/BqaqLREQxh7IrfMYBV1EnWZ0rwyE4gQbLWCSo37LihuOeV6HKvi7fpAqTJ
-         z+hwvXHFqt6bS71qZvRoKUtg5fEHrjLq60vNUAdj7sZbrcMYC05zX6TGQ6BS0CBwuNMj
-         /8FiRPjotFy77396AX2f1ZsfTJT7T2ewMIOYMBRdB17j4xP+dR54txFjpAKV1NEk8q/4
-         PaEa0nitpRTeUXeSf3qRYUK2FNh4O+26PCE1z6Pg+aoAGkvnhslzETsFXAwKhVkAIyqE
-         AWqg==
-X-Gm-Message-State: APjAAAXUI63yiDAgzAJ61wSMkEPWpKC3A1BXvFRi0gilHRpiEmmEspsl
-        MstbSRsbAmODy3R/tB/2aaU=
-X-Google-Smtp-Source: APXvYqzJFuGB25ozI+29umWEdsL9Hgl2qPQJteoUcZ6uWqBwZ6hn5nsD/8MzEZeeH8OkXj4yd8zWVg==
-X-Received: by 2002:a1c:f918:: with SMTP id x24mr13576652wmh.132.1564933666469;
-        Sun, 04 Aug 2019 08:47:46 -0700 (PDT)
-Received: from localhost ([197.211.57.129])
-        by smtp.gmail.com with ESMTPSA id o20sm217192312wrh.8.2019.08.04.08.47.40
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 08:47:45 -0700 (PDT)
-Date:   Sun, 4 Aug 2019 16:46:35 +0100
-From:   Sheriff Esseson <sheriffesseson@gmail.com>
-To:     skhan@linuxfoundation.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <netdev@vger.kernel.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <bpf@vger.kernel.org>
-Subject: [PATCH] Documentation: virt: Fix broken reference to virt tree's
- index
-Message-ID: <20190804154635.GA18475@localhost>
+        id S1726621AbfHDUsR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Aug 2019 16:48:17 -0400
+Received: from mga09.intel.com ([134.134.136.24]:45944 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726346AbfHDUsR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Aug 2019 16:48:17 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Aug 2019 13:48:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,347,1559545200"; 
+   d="scan'208";a="348926486"
+Received: from rmohamed-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.37.16])
+  by orsmga005.jf.intel.com with ESMTP; 04 Aug 2019 13:48:08 -0700
+Date:   Sun, 4 Aug 2019 23:48:07 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, jens.wiklander@linaro.org,
+        corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        casey@schaufler-ca.com, ard.biesheuvel@linaro.org,
+        daniel.thompson@linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        tee-dev@lists.linaro.org
+Subject: Re: [RFC v2 0/6] Introduce TEE based Trusted Keys support
+Message-ID: <20190804204807.ajhy3jhwie3oq6d5@linux.intel.com>
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix broken reference to virt/index.rst.
+On Tue, Jul 30, 2019 at 05:53:34PM +0530, Sumit Garg wrote:
+>   tee: optee: allow kernel pages to register as shm
+>   tee: enable support to register kernel memory
+>   tee: add private login method for kernel clients
+>   KEYS: trusted: Introduce TEE based Trusted Keys
+>   doc: keys: Document usage of TEE based Trusted Keys
+>   MAINTAINERS: Add entry for TEE based Trusted Keys
 
-Sequel to: 2f5947dfcaec ("Documentation: move Documentation/virtual to
-Documentation/virt")
+Skimmed through the patches. I think it is better to sort out the
+current LKM dependency issue with trusted.ko and get TPM 1.2 and TPM 2.0
+trusted keys code consolidated before it makes sense to really go detail
+on this.
 
-Reported-by: Sphinx
-
-Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
----
- Documentation/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 2df5a3da563c..5205430305d5 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -115,7 +115,7 @@ needed).
-    target/index
-    timers/index
-    watchdog/index
--   virtual/index
-+   virt/index
-    input/index
-    hwmon/index
-    gpu/index
--- 
-2.17.1
-
+/Jarkko
