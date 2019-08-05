@@ -1,111 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BODY_URI_ONLY,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA1F37D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 03:47:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91C1D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 06:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbfHEDrS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 23:47:18 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:32900 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbfHEDrS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 23:47:18 -0400
-Received: by mail-io1-f68.google.com with SMTP id z3so23251240iog.0;
-        Sun, 04 Aug 2019 20:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NdPVws2a6Dt8y874ce3RveAAw3TWAis9HKBWlXlAjvY=;
-        b=OBYI43XlN/vZLhQ4I5ks3RXrtil8B+rCxmR8cwtZaowww5tDMI+Cxo2hbvdu8FHNLu
-         BhH+YD93jhkSfrl75up6xGGlXrLaP9X1t6rqAOFVil8kLtPjDeioFzDMuFQajnlVdRXD
-         vKwdzSfwVwamLFFT/rx74hSgj/FhZcXk1ZWlptrNGi2gPYAiI8KZnlTVm+14MmX9P5FS
-         8gmxewjFS1UqvwscTQgGNwQ6bR3nt37XDvxJJmddgiuSkKN9VaXugpLVKDADofPFxIQ5
-         7Buoec1ZXqzVleG6k7Fc8qYaTdsBGRUzReQ+BvUDuQso9RmWcnuP87fxacB0HDOaS4fH
-         7G6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NdPVws2a6Dt8y874ce3RveAAw3TWAis9HKBWlXlAjvY=;
-        b=QfI8NYeg4y/cjhevFWdUIet5tIckVy1PZIi1Kq0Hf/58phWCx2C52ig25prSKSU5XU
-         8hxImQ7pQZ5k3ZvcOgx6/eeKX61RjoPKXZ0QQDqK7y/D3aL7uu21xmpwW5B0uzweuDiW
-         ftuz9XpwdN3SH3ObEcx+TJU8zDaKeM/UscJ7Tq2xKFxFkuCioU9PoQd9FlmKDdjPVijd
-         APLNtYFLgs1vbl7gTAoguBtlWfLTPKxt7mmSTX6g8/pCd1QyxgdDUu+peO/nr6FV337H
-         9h9kR0XMrvgDza6JTXdVuZC+Y02OpyEcKAex3DhiCwePYZtX6uGlZy0VHvKvfDbb/uiw
-         xcxA==
-X-Gm-Message-State: APjAAAVbd0hbDRtY7AYDsGX9dCsYMBuAaSduLJ7P2YqXdQavC6GB/F7F
-        7oZzdsaGUBdqmYV8a0JiY7x77mFh7TKEJyCdG8g=
-X-Google-Smtp-Source: APXvYqxtnVLtg3Sb9+ZhAgKfKLHG6VNs+MEi642xPS4QqUS2THpCFZQ3F8/DSRihpUHBbfKShzmtrYIA9PT3Yz+Gpug=
-X-Received: by 2002:a02:29ce:: with SMTP id p197mr19639555jap.139.1564976837286;
- Sun, 04 Aug 2019 20:47:17 -0700 (PDT)
+        id S1726481AbfHEGqj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 02:46:39 -0400
+Received: from mail3.coboce.com ([186.121.207.29]:38461 "EHLO mail3.coboce.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725992AbfHEGqi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Aug 2019 02:46:38 -0400
+X-Greylist: delayed 2583 seconds by postgrey-1.27 at vger.kernel.org; Mon, 05 Aug 2019 02:46:38 EDT
+Received: from correo.coboce.com ([192.9.200.106])
+        by mail3.coboce.com  with ESMTP id x7561kr5016314-x7561kr7016314
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Mon, 5 Aug 2019 02:01:46 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by correo.coboce.com (Postfix) with ESMTP id 2915D224E86;
+        Mon,  5 Aug 2019 01:44:17 -0400 (-04)
+Received: from correo.coboce.com ([127.0.0.1])
+        by localhost (correo.coboce.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id bdMfKJ64pfb8; Mon,  5 Aug 2019 01:44:16 -0400 (-04)
+Received: from localhost (localhost [127.0.0.1])
+        by correo.coboce.com (Postfix) with ESMTP id 8E65B224E88;
+        Mon,  5 Aug 2019 01:44:13 -0400 (-04)
+X-Virus-Scanned: amavisd-new at coboce.com
+Received: from correo.coboce.com ([127.0.0.1])
+        by localhost (correo.coboce.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id LlRvfb3sW0ew; Mon,  5 Aug 2019 01:44:13 -0400 (-04)
+Received: from correo.coboce.com (correo.coboce.com [192.9.200.106])
+        by correo.coboce.com (Postfix) with ESMTP id 30A6B224E63;
+        Mon,  5 Aug 2019 01:44:08 -0400 (-04)
+Date:   Mon, 5 Aug 2019 01:44:07 -0400 (BOT)
+From:   Charles jackson <gsalinas@coboce.com>
+Reply-To: Charles jackson <charlesjacksonjr01@gmail.com>
+Message-ID: <761628862.834061.1564983847986.JavaMail.zimbra@coboce.com>
+Subject: =?utf-8?Q?Wohlt=C3=A4tigkeitsspende_von_2.000.000_Millionen_Euro?=
 MIME-Version: 1.0
-References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com> <CAKTKpr5kmG3k4b85Zf05Q9xXpxMNZJyzWN7RXqZdteYUdMkc6g@mail.gmail.com>
-In-Reply-To: <CAKTKpr5kmG3k4b85Zf05Q9xXpxMNZJyzWN7RXqZdteYUdMkc6g@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Mon, 5 Aug 2019 09:17:04 +0530
-Message-ID: <CAKTKpr6QqvNQcm43res=3MtAYSsbj5NVwstfuQE3cdFjyo2eNQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] Add CCPI2 PMU support
-To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>,
-        "will@kernel.org" <will@kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Jan Glauber <jglauber@marvell.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.9.200.106]
+X-Mailer: Zimbra 8.8.12_GA_3803 (zclient/8.8.12_GA_3803)
+Thread-Index: B33PJOSyL3zcYDU7O0vy9rCGrH2zLg==
+Thread-Topic: =?utf-8?Q?Wohlt=C3=A4tigkeitsspende?= von 2.000.000 Millionen Euro
+X-FEAS-SYSTEM-SAFE-LIST: 192.9.200.106 / 192.9.200.106
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 4:24 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
->
-> Hi Will,
->
-> Any comments to this patchset?
 
-If no further comments, can it be queued please?
->
-> On Tue, Jul 23, 2019 at 2:46 PM Ganapatrao Kulkarni
-> <gkulkarni@marvell.com> wrote:
-> >
-> > Add Cavium Coherent Processor Interconnect (CCPI2) PMU
-> > support in ThunderX2 Uncore driver.
-> >
-> > v3: Rebased to 5.3-rc1
-> >
-> > v2: Updated with review comments [1]
-> >
-> > [1] https://lkml.org/lkml/2019/6/14/965
-> >
-> > v1: initial patch
-> >
-> > Ganapatrao Kulkarni (2):
-> >   Documentation: perf: Update documentation for ThunderX2 PMU uncore
-> >     driver
-> >   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
-> >
-> >  .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
-> >  drivers/perf/thunderx2_pmu.c                  | 248 +++++++++++++++---
-> >  2 files changed, 225 insertions(+), 43 deletions(-)
-> >
-> > --
-> > 2.17.1
-> >
->
-> Thanks,
-> Ganapat
 
-Thanks,
-Ganapat
+Lieber Freund,Ich bin Herr Charles W Jackson, North Carolina, Vereinigte Staaten von Amerika, der Mega-Gewinner von 344 Millionen US-Dollar. Beim Mega-Millions-Jackpot spende ich an 5 zuf&auml;llige Personen. Wenn Sie diese E-Mail erhalten, wurde Ihre E-Mail zu einem Spinball, den ich am h&auml;ufigsten verteilt habe von meinem Verm&ouml;gen an eine Reihe von Wohlt&auml;tigkeitsorganisationen. Ich habe mich freiwillig entschlossen, Ihnen als einer der ausgew&auml;hlten 5 einen Betrag von &euro; 2.000.000,00 zu spenden, um meine Gewinne zu &uuml;berpr&uuml;fen. Dies ist Ihr Spendencode: [CJ530342019]
+www.youtube.com/watch?v=BSr8myiLPMQ
+Antworten Sie auf diese E-Mail mit dem SPENDER-CODE: charlesjacksonjr01@gmail.comIch hoffe, Sie und Ihre Familie gl&uuml;cklich zu machenSch&ouml;ne Gr&uuml;&szlig;e
+Mr. Charles Jackson
