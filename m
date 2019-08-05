@@ -1,142 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6BBBF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Aug 2019 21:45:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B76057D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 00:10:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfHDVpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 17:45:00 -0400
-Received: from mga03.intel.com ([134.134.136.65]:4039 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726346AbfHDVo7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Aug 2019 17:44:59 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Aug 2019 14:44:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,347,1559545200"; 
-   d="scan'208";a="173712234"
-Received: from chenghao-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.36.2])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Aug 2019 14:44:28 -0700
-Date:   Mon, 5 Aug 2019 00:44:28 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
-        thiruan@microsoft.com, bryankel@microsoft.com,
-        tee-dev@lists.linaro.org, ilias.apalodimas@linaro.org,
-        sumit.garg@linaro.org, rdunlap@infradead.org
-Subject: Re: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
-Message-ID: <20190804214218.vdv2sn4oc4cityy2@linux.intel.com>
-References: <20190705204746.27543-1-sashal@kernel.org>
- <20190711200858.xydm3wujikufxjcw@linux.intel.com>
+        id S1726759AbfHEAKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Aug 2019 20:10:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46052 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726532AbfHEAKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 20:10:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=rrSge+Ou39enQtggjfw97C05S0AT6/LDL4+Td7GzXqo=; b=rt+Cwu4aN9dj8FNJ9j8WimAWw
+        /voDELMBcEZqVCTnt2wiJwQ64mtmAQJg8N0vJhM/dY3yDbuqKn+k9RJzYn74HbRzV5PH800Ft20zq
+        Zy+twK1dRca2Gzk7CeXQUz6f1IpIx+eOJOs4knnmEetbE7du8Xx1CY6c43zdjIipL+sZHvLsggODA
+        jyh3K/IBGAR3BMcC0ypc0gBrIoYpI3GOso5ufIuocnV2Fjv2MPHDVkXFqWfFSjgjSqsmqZpEJore1
+        U8f0o7WtMhhPY4BfuPGOedN7GMjkakTRfbjPQouq1fhSAC6TPpYc8Ho7OJrNyM+CyfJNk5rX8PRzc
+        OspzJK32Q==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1huQZf-00055K-CZ; Mon, 05 Aug 2019 00:10:03 +0000
+Date:   Sun, 4 Aug 2019 17:10:03 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Sheriff Esseson <sheriffesseson@gmail.com>
+Cc:     skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        "open list:BPF (Safe dynamic programs and tools)" 
+        <netdev@vger.kernel.org>,
+        "open list:BPF (Safe dynamic programs and tools)" 
+        <bpf@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: virt: Fix broken reference to virt tree's
+ index
+Message-ID: <20190805001003.GA30179@bombadil.infradead.org>
+References: <20190804154635.GA18475@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190711200858.xydm3wujikufxjcw@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190804154635.GA18475@localhost>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 11:08:58PM +0300, Jarkko Sakkinen wrote:
-> On Fri, Jul 05, 2019 at 04:47:44PM -0400, Sasha Levin wrote:
-> > Changes from v7:
-> > 
-> >  - Address Jarkko's comments.
-> > 
-> > Sasha Levin (2):
-> >   fTPM: firmware TPM running in TEE
-> >   fTPM: add documentation for ftpm driver
-> > 
-> >  Documentation/security/tpm/index.rst        |   1 +
-> >  Documentation/security/tpm/tpm_ftpm_tee.rst |  27 ++
-> >  drivers/char/tpm/Kconfig                    |   5 +
-> >  drivers/char/tpm/Makefile                   |   1 +
-> >  drivers/char/tpm/tpm_ftpm_tee.c             | 350 ++++++++++++++++++++
-> >  drivers/char/tpm/tpm_ftpm_tee.h             |  40 +++
-> >  6 files changed, 424 insertions(+)
-> >  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
-> >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
-> >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
-> > 
-> > -- 
-> > 2.20.1
-> > 
+On Sun, Aug 04, 2019 at 04:46:35PM +0100, Sheriff Esseson wrote:
+> Fix broken reference to virt/index.rst.
 > 
-> I applied the patches now. Appreciate a lot the patience with these.
-> Thank you.
+> Sequel to: 2f5947dfcaec ("Documentation: move Documentation/virtual to
+> Documentation/virt")
 
-Hi, can you possibly fix these:
+'Sequel to'?  Do you mean 'Fixes'?
 
-005-tpm-tpm_ftpm_tee-A-driver-for-firmware-TPM-running-i.patch
----------------------------------------------------------------
-WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-#10:
-https://www.microsoft.com/en-us/research/publication/ftpm-software-implementation-tpm-chip/ .
+> Reported-by: Sphinx
 
-WARNING: Non-standard signature: Co-authored-by:
-#18:
-Co-authored-by: Sasha Levin <sashal@kernel.org>
+Reported-by is used for people.  See
+Documentation/process/submitting-patches.rst section 13.
 
-WARNING: prefer 'help' over '---help---' for new help texts
-#39: FILE: drivers/char/tpm/Kconfig:167:
-+config TCG_FTPM_TEE
-
-WARNING: please write a paragraph that describes the config symbol fully
-#39: FILE: drivers/char/tpm/Kconfig:167:
-+config TCG_FTPM_TEE
-
-WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-#57:
-new file mode 100644
-
-WARNING: please, no space before tabs
-#102: FILE: drivers/char/tpm/tpm_ftpm_tee.c:41:
-+ * ^IIn case of success the number of bytes received.$
-
-WARNING: please, no space before tabs
-#131: FILE: drivers/char/tpm/tpm_ftpm_tee.c:70:
-+ * ^IIn case of success, returns 0.$
-
-WARNING: please, no space before tabs
-#276: FILE: drivers/char/tpm/tpm_ftpm_tee.c:215:
-+ * ^IOn success, 0. On failure, -errno.$
-
-WARNING: please, no space before tabs
-#366: FILE: drivers/char/tpm/tpm_ftpm_tee.c:305:
-+ * ^I0 always.$
-
-ERROR: code indent should use tabs where possible
-#387: FILE: drivers/char/tpm/tpm_ftpm_tee.c:326:
-+        /* memory allocated with devm_kzalloc() is freed automatically */$
-
-WARNING: DT compatible string "microsoft,ftpm" appears un-documented -- check ./Documentation/devicetree/bindings/
-#393: FILE: drivers/char/tpm/tpm_ftpm_tee.c:332:
-+	{ .compatible = "microsoft,ftpm" },
-
-WARNING: DT compatible string vendor "microsoft" appears un-documented -- check ./Documentation/devicetree/bindings/vendor-prefixes.yaml
-#393: FILE: drivers/char/tpm/tpm_ftpm_tee.c:332:
-+	{ .compatible = "microsoft,ftpm" },
-
-total: 1 errors, 11 warnings, 405 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-NOTE: Whitespace errors detected.
-      You may wish to use scripts/cleanpatch or scripts/cleanfile
-
-I temporarily dropped the patches but can apply them once the issues
-are fixed.
-
-/Jarkko
