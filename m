@@ -1,75 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FE8D7D922
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 10:03:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 532A47D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 10:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727230AbfHEKDT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 06:03:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727830AbfHEKDT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Aug 2019 06:03:19 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D63212075B;
-        Mon,  5 Aug 2019 10:03:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564999399;
-        bh=YOw3eXXTngamY2vUc4t6eNrKhwGf591Fl1XUuUTIR14=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hSLcHvvUheEUjR3iZldH1kFTzjsmKYQEJY3qZfcH2XHVp85wSCD10iY/IOI7hrQ0M
-         RXojUUFfKcGjxcUYjZhk++s1wQBVkRKmQhCSJkDbeHWO0jF/4x/0ofAqCZ0MduABXE
-         R/xSf8650vmGSiEbz9ThcRl5ywyoTZtrvpD4W18g=
-Date:   Mon, 5 Aug 2019 11:03:14 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Steven Price <steven.price@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/9] arm/arm64: Provide a wrapper for SMCCC 1.1 calls
-Message-ID: <20190805100313.x65743i3n4qx6gyc@willie-the-truck>
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-8-steven.price@arm.com>
+        id S1728422AbfHEKtz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 06:49:55 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60991 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727989AbfHEKtz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 06:49:55 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1huaYq-0007m9-6f; Mon, 05 Aug 2019 10:49:52 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: docs: fix spelling mistake "potocol" -> "protocol"
+Date:   Mon,  5 Aug 2019 11:49:51 +0100
+Message-Id: <20190805104951.26947-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190802145017.42543-8-steven.price@arm.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 02, 2019 at 03:50:15PM +0100, Steven Price wrote:
-> SMCCC 1.1 calls may use either HVC or SMC depending on the PSCI
-> conduit. Rather than coding this in every call site provide a macro
-> which uses the correct instruction. The macro also handles the case
-> where no PSCI conduit is configured returning a not supported error
-> in res, along with returning the conduit used for the call.
-> 
-> This allow us to remove some duplicated code and will be useful later
-> when adding paravirtualized time hypervisor calls.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  include/linux/arm-smccc.h | 44 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
+From: Colin Ian King <colin.king@canonical.com>
 
-Acked-by: Will Deacon <will@kernel.org>
+There is a minor spelling mistake in the documentation, fix it.
 
-Will
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ Documentation/input/multi-touch-protocol.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
+index 6be70342e709..307fe22d9668 100644
+--- a/Documentation/input/multi-touch-protocol.rst
++++ b/Documentation/input/multi-touch-protocol.rst
+@@ -23,7 +23,7 @@ devices capable of tracking identifiable contacts (type B), the protocol
+ describes how to send updates for individual contacts via event slots.
+ 
+ .. note::
+-   MT potocol type A is obsolete, all kernel drivers have been
++   MT protocol type A is obsolete, all kernel drivers have been
+    converted to use type B.
+ 
+ Protocol Usage
+-- 
+2.20.1
+
