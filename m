@@ -5,226 +5,106 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6F907D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 14:18:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 375517D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 14:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728863AbfHEOSI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 10:18:08 -0400
-Received: from foss.arm.com ([217.140.110.172]:50078 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726508AbfHEOSI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Aug 2019 10:18:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67451337;
-        Mon,  5 Aug 2019 07:18:07 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F43B3F706;
-        Mon,  5 Aug 2019 07:18:05 -0700 (PDT)
-Subject: Re: [PATCH 4/9] KVM: arm64: Support stolen time reporting via shared
- structure
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-5-steven.price@arm.com> <20190803185817.11285b2a@why>
- <20190803191303.02e9bcc9@why>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <4a373dc5-4a6b-efc6-4309-e7180eb0c696@arm.com>
-Date:   Mon, 5 Aug 2019 15:18:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190803191303.02e9bcc9@why>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        id S1728401AbfHEOZz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 10:25:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55538 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727328AbfHEOZz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 10:25:55 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x75ELsv9085834
+        for <linux-doc@vger.kernel.org>; Mon, 5 Aug 2019 10:25:54 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2u6n024b9h-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2019 10:25:53 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Mon, 5 Aug 2019 15:25:51 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 5 Aug 2019 15:25:46 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x75EPiE337486818
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 5 Aug 2019 14:25:44 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 01BDAA405E;
+        Mon,  5 Aug 2019 14:25:44 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 11DCBA4057;
+        Mon,  5 Aug 2019 14:25:42 +0000 (GMT)
+Received: from dhcp-9-31-103-47.watson.ibm.com (unknown [9.31.103.47])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  5 Aug 2019 14:25:41 +0000 (GMT)
+Subject: Re: [PATCH v12 01/11] MODSIGN: Export module signature definitions
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Philipp Rudo <prudo@linux.ibm.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Cc:     Jessica Yu <jeyu@kernel.org>, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-s390@vger.kernel.org
+Date:   Mon, 05 Aug 2019 10:25:41 -0400
+In-Reply-To: <20190805151123.12510d72@laptop-ibm>
+References: <20190628021934.4260-1-bauerman@linux.ibm.com>
+         <20190628021934.4260-2-bauerman@linux.ibm.com>
+         <20190701144752.GC25484@linux-8ccs> <87lfxel2q6.fsf@morokweng.localdomain>
+         <20190704125427.31146026@laptop-ibm> <874l41ocf5.fsf@morokweng.localdomain>
+         <20190705150000.372345b0@laptop-ibm> <8736iw9y00.fsf@morokweng.localdomain>
+         <20190805151123.12510d72@laptop-ibm>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19080514-0016-0000-0000-0000029A6FB3
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19080514-0017-0000-0000-000032F977CF
+Message-Id: <1565015141.11223.145.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-05_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908050159
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/08/2019 19:13, Marc Zyngier wrote:
-> On Sat, 3 Aug 2019 18:58:17 +0100
-> Marc Zyngier <maz@kernel.org> wrote:
+On Mon, 2019-08-05 at 15:11 +0200, Philipp Rudo wrote:
+> Hi Thiago,
 > 
->> On Fri,  2 Aug 2019 15:50:12 +0100
->> Steven Price <steven.price@arm.com> wrote:
->>
->>> Implement the service call for configuring a shared structre between a
->>> VCPU and the hypervisor in which the hypervisor can write the time
->>> stolen from the VCPU's execution time by other tasks on the host.
->>>
->>> The hypervisor allocates memory which is placed at an IPA chosen by user
->>> space. The hypervisor then uses WRITE_ONCE() to update the shared
->>> structre ensuring single copy atomicity of the 64-bit unsigned value
->>> that reports stolen time in nanoseconds.
->>>
->>> Whenever stolen time is enabled by the guest, the stolen time counter is
->>> reset.
->>>
->>> The stolen time itself is retrieved from the sched_info structure
->>> maintained by the Linux scheduler code. We enable SCHEDSTATS when
->>> selecting KVM Kconfig to ensure this value is meaningful.
->>>
->>> Signed-off-by: Steven Price <steven.price@arm.com>
->>> ---
->>>  arch/arm64/include/asm/kvm_host.h | 13 +++++-
->>>  arch/arm64/kvm/Kconfig            |  1 +
->>>  include/kvm/arm_hypercalls.h      |  1 +
->>>  include/linux/kvm_types.h         |  2 +
->>>  virt/kvm/arm/arm.c                | 18 ++++++++
->>>  virt/kvm/arm/hypercalls.c         | 70 +++++++++++++++++++++++++++++++
->>>  6 files changed, 104 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
->>> index f656169db8c3..78f270190d43 100644
->>> --- a/arch/arm64/include/asm/kvm_host.h
->>> +++ b/arch/arm64/include/asm/kvm_host.h
->>> @@ -44,6 +44,7 @@
->>>  	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->>>  #define KVM_REQ_IRQ_PENDING	KVM_ARCH_REQ(1)
->>>  #define KVM_REQ_VCPU_RESET	KVM_ARCH_REQ(2)
->>> +#define KVM_REQ_RECORD_STEAL	KVM_ARCH_REQ(3)
->>>  
->>>  DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
->>>  
->>> @@ -83,6 +84,11 @@ struct kvm_arch {
->>>  
->>>  	/* Mandated version of PSCI */
->>>  	u32 psci_version;
->>> +
->>> +	struct kvm_arch_pvtime {
->>> +		void *st;
->>> +		gpa_t st_base;
->>> +	} pvtime;
->>>  };
->>>  
->>>  #define KVM_NR_MEM_OBJS     40
->>> @@ -338,8 +344,13 @@ struct kvm_vcpu_arch {
->>>  	/* True when deferrable sysregs are loaded on the physical CPU,
->>>  	 * see kvm_vcpu_load_sysregs and kvm_vcpu_put_sysregs. */
->>>  	bool sysregs_loaded_on_cpu;
->>> -};
->>>  
->>> +	/* Guest PV state */
->>> +	struct {
->>> +		u64 steal;
->>> +		u64 last_steal;
->>> +	} steal;
->>> +};
->>>  /* Pointer to the vcpu's SVE FFR for sve_{save,load}_state() */
->>>  #define vcpu_sve_pffr(vcpu) ((void *)((char *)((vcpu)->arch.sve_state) + \
->>>  				      sve_ffr_offset((vcpu)->arch.sve_max_vl)))
->>> diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
->>> index a67121d419a2..d8b88e40d223 100644
->>> --- a/arch/arm64/kvm/Kconfig
->>> +++ b/arch/arm64/kvm/Kconfig
->>> @@ -39,6 +39,7 @@ config KVM
->>>  	select IRQ_BYPASS_MANAGER
->>>  	select HAVE_KVM_IRQ_BYPASS
->>>  	select HAVE_KVM_VCPU_RUN_PID_CHANGE
->>> +	select SCHEDSTATS
->>>  	---help---
->>>  	  Support hosting virtualized guest machines.
->>>  	  We don't support KVM with 16K page tables yet, due to the multiple
->>> diff --git a/include/kvm/arm_hypercalls.h b/include/kvm/arm_hypercalls.h
->>> index 35a5abcc4ca3..9f0710ab4292 100644
->>> --- a/include/kvm/arm_hypercalls.h
->>> +++ b/include/kvm/arm_hypercalls.h
->>> @@ -7,6 +7,7 @@
->>>  #include <asm/kvm_emulate.h>
->>>  
->>>  int kvm_hvc_call_handler(struct kvm_vcpu *vcpu);
->>> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu);
->>>  
->>>  static inline u32 smccc_get_function(struct kvm_vcpu *vcpu)
->>>  {
->>> diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
->>> index bde5374ae021..1c88e69db3d9 100644
->>> --- a/include/linux/kvm_types.h
->>> +++ b/include/linux/kvm_types.h
->>> @@ -35,6 +35,8 @@ typedef unsigned long  gva_t;
->>>  typedef u64            gpa_t;
->>>  typedef u64            gfn_t;
->>>  
->>> +#define GPA_INVALID	(~(gpa_t)0)
->>> +
->>>  typedef unsigned long  hva_t;
->>>  typedef u64            hpa_t;
->>>  typedef u64            hfn_t;
->>> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
->>> index f645c0fbf7ec..ebd963d2580b 100644
->>> --- a/virt/kvm/arm/arm.c
->>> +++ b/virt/kvm/arm/arm.c
->>> @@ -40,6 +40,10 @@
->>>  #include <asm/kvm_coproc.h>
->>>  #include <asm/sections.h>
->>>  
->>> +#include <kvm/arm_hypercalls.h>
->>> +#include <kvm/arm_pmu.h>
->>> +#include <kvm/arm_psci.h>
->>> +
->>>  #ifdef REQUIRES_VIRT
->>>  __asm__(".arch_extension	virt");
->>>  #endif
->>> @@ -135,6 +139,7 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
->>>  	kvm->arch.max_vcpus = vgic_present ?
->>>  				kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
->>>  
->>> +	kvm->arch.pvtime.st_base = GPA_INVALID;
->>>  	return ret;
->>>  out_free_stage2_pgd:
->>>  	kvm_free_stage2_pgd(kvm);
->>> @@ -371,6 +376,7 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
->>>  	kvm_vcpu_load_sysregs(vcpu);
->>>  	kvm_arch_vcpu_load_fp(vcpu);
->>>  	kvm_vcpu_pmu_restore_guest(vcpu);
->>> +	kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
->>>  
->>>  	if (single_task_running())
->>>  		vcpu_clear_wfe_traps(vcpu);
->>> @@ -617,6 +623,15 @@ static void vcpu_req_sleep(struct kvm_vcpu *vcpu)
->>>  	smp_rmb();
->>>  }
->>>  
->>> +static void vcpu_req_record_steal(struct kvm_vcpu *vcpu)
->>> +{
->>> +	int idx;
->>> +
->>> +	idx = srcu_read_lock(&vcpu->kvm->srcu);
->>> +	kvm_update_stolen_time(vcpu);
->>> +	srcu_read_unlock(&vcpu->kvm->srcu, idx);
->>> +}
->>> +
->>>  static int kvm_vcpu_initialized(struct kvm_vcpu *vcpu)
->>>  {
->>>  	return vcpu->arch.target >= 0;
->>> @@ -636,6 +651,9 @@ static void check_vcpu_requests(struct kvm_vcpu *vcpu)
->>>  		 * that a VCPU sees new virtual interrupts.
->>>  		 */
->>>  		kvm_check_request(KVM_REQ_IRQ_PENDING, vcpu);
->>> +
->>> +		if (kvm_check_request(KVM_REQ_RECORD_STEAL, vcpu))
->>> +			vcpu_req_record_steal(vcpu);  
->>
->> Something troubles me. Here, you've set the request on load. But you
->> can be preempted at any time (preemption gets disabled just after).
->>
->> I have the feeling that should you get preempted right here, you'll
->> end-up having accumulated the wrong amount of steal time, as the
->> request put via load when you'll get scheduled back in will only get
->> processed after a full round of entry/exit/entry, which doesn't look
->> great.
+> > > The patch looks good now.  
+> > 
+> > Thanks! Can I add your Reviewed-by?
 > 
-> Ah, no. We're saved by the check for pending requests right before we
-> jump in the guest, causing an early exit and the whole shebang to be
-> restarted.
+> sorry, for the late answer, but I was on vacation the last two weeks. I hope
+> it's not too late now.
+> 
+> Reviewed-by: Philipp Rudo <prudo@linux.ibm.com>
 
-Yes, that's my understanding. Obviously not ideal if it happens in that
-small window, but everything is redone to get the right values in the end.
+Thanks!  This patch set is still in the #next-queued-testing
+branch.  I'm still hoping for a few more tags, before pushing it out
+to the #next-integrity branch later today.
 
-Steve
+Mimi
+
