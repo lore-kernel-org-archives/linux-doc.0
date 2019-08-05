@@ -1,196 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29BC47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 03:26:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA1F37D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 03:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbfHED02 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 23:26:28 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3754 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726767AbfHED01 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Aug 2019 23:26:27 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 0D4FB1DD753B7D944085;
-        Mon,  5 Aug 2019 11:26:25 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Mon, 5 Aug 2019
- 11:26:17 +0800
-Subject: Re: [PATCH 1/9] KVM: arm64: Document PV-time interface
-To:     Steven Price <steven.price@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-2-steven.price@arm.com>
-From:   Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <3bdd764a-b6f5-d17e-a703-d8eb13838efc@huawei.com>
-Date:   Mon, 5 Aug 2019 11:23:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
+        id S1726767AbfHEDrS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Aug 2019 23:47:18 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:32900 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726765AbfHEDrS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 23:47:18 -0400
+Received: by mail-io1-f68.google.com with SMTP id z3so23251240iog.0;
+        Sun, 04 Aug 2019 20:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NdPVws2a6Dt8y874ce3RveAAw3TWAis9HKBWlXlAjvY=;
+        b=OBYI43XlN/vZLhQ4I5ks3RXrtil8B+rCxmR8cwtZaowww5tDMI+Cxo2hbvdu8FHNLu
+         BhH+YD93jhkSfrl75up6xGGlXrLaP9X1t6rqAOFVil8kLtPjDeioFzDMuFQajnlVdRXD
+         vKwdzSfwVwamLFFT/rx74hSgj/FhZcXk1ZWlptrNGi2gPYAiI8KZnlTVm+14MmX9P5FS
+         8gmxewjFS1UqvwscTQgGNwQ6bR3nt37XDvxJJmddgiuSkKN9VaXugpLVKDADofPFxIQ5
+         7Buoec1ZXqzVleG6k7Fc8qYaTdsBGRUzReQ+BvUDuQso9RmWcnuP87fxacB0HDOaS4fH
+         7G6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NdPVws2a6Dt8y874ce3RveAAw3TWAis9HKBWlXlAjvY=;
+        b=QfI8NYeg4y/cjhevFWdUIet5tIckVy1PZIi1Kq0Hf/58phWCx2C52ig25prSKSU5XU
+         8hxImQ7pQZ5k3ZvcOgx6/eeKX61RjoPKXZ0QQDqK7y/D3aL7uu21xmpwW5B0uzweuDiW
+         ftuz9XpwdN3SH3ObEcx+TJU8zDaKeM/UscJ7Tq2xKFxFkuCioU9PoQd9FlmKDdjPVijd
+         APLNtYFLgs1vbl7gTAoguBtlWfLTPKxt7mmSTX6g8/pCd1QyxgdDUu+peO/nr6FV337H
+         9h9kR0XMrvgDza6JTXdVuZC+Y02OpyEcKAex3DhiCwePYZtX6uGlZy0VHvKvfDbb/uiw
+         xcxA==
+X-Gm-Message-State: APjAAAVbd0hbDRtY7AYDsGX9dCsYMBuAaSduLJ7P2YqXdQavC6GB/F7F
+        7oZzdsaGUBdqmYV8a0JiY7x77mFh7TKEJyCdG8g=
+X-Google-Smtp-Source: APXvYqxtnVLtg3Sb9+ZhAgKfKLHG6VNs+MEi642xPS4QqUS2THpCFZQ3F8/DSRihpUHBbfKShzmtrYIA9PT3Yz+Gpug=
+X-Received: by 2002:a02:29ce:: with SMTP id p197mr19639555jap.139.1564976837286;
+ Sun, 04 Aug 2019 20:47:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190802145017.42543-2-steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com> <CAKTKpr5kmG3k4b85Zf05Q9xXpxMNZJyzWN7RXqZdteYUdMkc6g@mail.gmail.com>
+In-Reply-To: <CAKTKpr5kmG3k4b85Zf05Q9xXpxMNZJyzWN7RXqZdteYUdMkc6g@mail.gmail.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Mon, 5 Aug 2019 09:17:04 +0530
+Message-ID: <CAKTKpr6QqvNQcm43res=3MtAYSsbj5NVwstfuQE3cdFjyo2eNQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Add CCPI2 PMU support
+To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>,
+        "will@kernel.org" <will@kernel.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steven,
+On Mon, Jul 29, 2019 at 4:24 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+>
+> Hi Will,
+>
+> Any comments to this patchset?
 
-On 2019/8/2 22:50, Steven Price wrote:
-> Introduce a paravirtualization interface for KVM/arm64 based on the
-> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
-> 
-> This only adds the details about "Stolen Time" as the details of "Live
-> Physical Time" have not been fully agreed.
-> 
-> User space can specify a reserved area of memory for the guest and
-> inform KVM to populate the memory with information on time that the host
-> kernel has stolen from the guest.
-> 
-> A hypercall interface is provided for the guest to interrogate the
-> hypervisor's support for this interface and the location of the shared
-> memory structures.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->   Documentation/virtual/kvm/arm/pvtime.txt | 107 +++++++++++++++++++++++
->   1 file changed, 107 insertions(+)
->   create mode 100644 Documentation/virtual/kvm/arm/pvtime.txt
-                                     ^^^^^^^
-This directory has been renamed recently, see:
+If no further comments, can it be queued please?
+>
+> On Tue, Jul 23, 2019 at 2:46 PM Ganapatrao Kulkarni
+> <gkulkarni@marvell.com> wrote:
+> >
+> > Add Cavium Coherent Processor Interconnect (CCPI2) PMU
+> > support in ThunderX2 Uncore driver.
+> >
+> > v3: Rebased to 5.3-rc1
+> >
+> > v2: Updated with review comments [1]
+> >
+> > [1] https://lkml.org/lkml/2019/6/14/965
+> >
+> > v1: initial patch
+> >
+> > Ganapatrao Kulkarni (2):
+> >   Documentation: perf: Update documentation for ThunderX2 PMU uncore
+> >     driver
+> >   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
+> >
+> >  .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
+> >  drivers/perf/thunderx2_pmu.c                  | 248 +++++++++++++++---
+> >  2 files changed, 225 insertions(+), 43 deletions(-)
+> >
+> > --
+> > 2.17.1
+> >
+>
+> Thanks,
+> Ganapat
 
-https://patchwork.ozlabs.org/patch/1136104/
-
-
-Zenghui
-
-> 
-> diff --git a/Documentation/virtual/kvm/arm/pvtime.txt b/Documentation/virtual/kvm/arm/pvtime.txt
-> new file mode 100644
-> index 000000000000..e6ae9799e1d5
-> --- /dev/null
-> +++ b/Documentation/virtual/kvm/arm/pvtime.txt
-> @@ -0,0 +1,107 @@
-> +Paravirtualized time support for arm64
-> +======================================
-> +
-> +Arm specification DEN0057/A defined a standard for paravirtualised time
-> +support for Aarch64 guests:
-> +
-> +https://developer.arm.com/docs/den0057/a
-> +
-> +KVM/Arm64 implements the stolen time part of this specification by providing
-> +some hypervisor service calls to support a paravirtualized guest obtaining a
-> +view of the amount of time stolen from its execution.
-> +
-> +Two new SMCCC compatible hypercalls are defined:
-> +
-> +PV_FEATURES 0xC5000020
-> +PV_TIME_ST  0xC5000022
-> +
-> +These are only available in the SMC64/HVC64 calling convention as
-> +paravirtualized time is not available to 32 bit Arm guests.
-> +
-> +PV_FEATURES
-> +    Function ID:  (uint32)  : 0xC5000020
-> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
-> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
-> +                              PV-time feature is supported by the hypervisor.
-> +
-> +PV_TIME_ST
-> +    Function ID:  (uint32)  : 0xC5000022
-> +    Return value: (int64)   : IPA of the stolen time data structure for this
-> +                              (V)CPU. On failure:
-> +                              NOT_SUPPORTED (-1)
-> +
-> +Stolen Time
-> +-----------
-> +
-> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
-> +
-> +  Field       | Byte Length | Byte Offset | Description
-> +  ----------- | ----------- | ----------- | --------------------------
-> +  Revision    |      4      |      0      | Must be 0 for version 0.1
-> +  Attributes  |      4      |      4      | Must be 0
-> +  Stolen time |      8      |      8      | Stolen time in unsigned
-> +              |             |             | nanoseconds indicating how
-> +              |             |             | much time this VCPU thread
-> +              |             |             | was involuntarily not
-> +              |             |             | running on a physical CPU.
-> +
-> +The structure will be updated by the hypervisor periodically as time is stolen
-> +from the VCPU. It will be present within a reserved region of the normal
-> +memory given to the guest. The guest should not attempt to write into this
-> +memory. There is a structure by VCPU of the guest.
-> +
-> +User space interface
-> +====================
-> +
-> +User space can request that KVM provide the paravirtualized time interface to
-> +a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
-> +
-> +    struct kvm_create_device pvtime_device = {
-> +            .type = KVM_DEV_TYPE_ARM_PV_TIME,
-> +            .attr = 0,
-> +            .flags = 0,
-> +    };
-> +
-> +    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
-> +
-> +The guest IPA of the structures must be given to KVM. This is the base address
-> +of an array of stolen time structures (one for each VCPU). For example:
-> +
-> +    struct kvm_device_attr st_base = {
-> +            .group = KVM_DEV_ARM_PV_TIME_PADDR,
-> +            .attr = KVM_DEV_ARM_PV_TIME_ST,
-> +            .addr = (u64)(unsigned long)&st_paddr
-> +    };
-> +
-> +    ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
-> +
-> +For migration (or save/restore) of a guest it is necessary to save the contents
-> +of the shared page(s) and later restore them. KVM_DEV_ARM_PV_TIME_STATE_SIZE
-> +provides the size of this data and KVM_DEV_ARM_PV_TIME_STATE allows the state
-> +to be read/written.
-> +
-> +It is also necessary for the physical address to be set identically when
-> +restoring.
-> +
-> +    void *save_state(int fd, u64 attr, u32 *size) {
-> +        struct kvm_device_attr get_size = {
-> +                .group = KVM_DEV_ARM_PV_TIME_STATE_SIZE,
-> +                .attr = attr,
-> +                .addr = (u64)(unsigned long)size
-> +        };
-> +
-> +        ioctl(fd, KVM_GET_DEVICE_ATTR, get_size);
-> +
-> +        void *buffer = malloc(*size);
-> +
-> +        struct kvm_device_attr get_state = {
-> +                .group = KVM_DEV_ARM_PV_TIME_STATE,
-> +                .attr = attr,
-> +                .addr = (u64)(unsigned long)size
-> +        };
-> +
-> +        ioctl(fd, KVM_GET_DEVICE_ATTR, buffer);
-> +    }
-> +
-> +    void *st_state = save_state(pvtime_fd, KVM_DEV_ARM_PV_TIME_ST, &st_size);
-> +
-> 
-
+Thanks,
+Ganapat
