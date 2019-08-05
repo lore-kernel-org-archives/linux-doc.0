@@ -1,126 +1,288 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C95A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 07:26:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B44967D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 07:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbfHEH05 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 03:26:57 -0400
-Received: from mail-pg1-f178.google.com ([209.85.215.178]:44157 "EHLO
-        mail-pg1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfHEH05 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 03:26:57 -0400
-Received: by mail-pg1-f178.google.com with SMTP id i18so39251082pgl.11;
-        Mon, 05 Aug 2019 00:26:57 -0700 (PDT)
+        id S1726423AbfHEHz5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 03:55:57 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40266 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726394AbfHEHz5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 03:55:57 -0400
+Received: by mail-pl1-f195.google.com with SMTP id a93so36087898pla.7;
+        Mon, 05 Aug 2019 00:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EimvqE0jwyqP2WGVedMuh7qrn6YSjJuzP7Su4aO08UA=;
-        b=PxzyLfa7re80m4D/ZGKf2uK1mGVnjoa23fNDxiw41OD6EYPoVxEksmkmpjZXTZJr3d
-         f35V4qcpVFb1fWfZvDv+6oPRtrusv3q7rJtlen32b+gK3sn2PG3lwNUDPqGKyadLvvjV
-         zTavhVtYpLjrovjEYS+rromXBFnHjMigjkUQYyv7AtaiVmGJD0d011li/a1Ldvoy5Bd0
-         tLcxrBTk0RLH6q+Uro0RKlEQcY4L2Sg58j43ckvIRI45UW53CWldSZhbm4xo39YulDF4
-         1hiIhZgj3sQfyUMFguThXe0LxeL28bXfxyS+DxT446cTVLRIjm+syT0sq7bCT752RAIB
-         ZpDA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GBNssX1bMqNwZuTT2aXjIxOqWduoE+LBh8Ztzf4N6oQ=;
+        b=tm6N87dhYHIAEbxEoy1HHkioi5rH39Ke3r/VrlQqfkwdGu1vwyKT4LOes5F3vdfzRZ
+         QXx6rq30FRBNIUF3tG4TcybP/rP/ADn3UWG54enC6hq5D4PWuLkfjvgKa5Wo+xt5GeIS
+         UUWEyThwWTZ8b96DfSdDD+im57ytDv+o9v9QpWWXMG1dQ3fGMa3XfHtp54FktA2xO/0q
+         NLiBXKd7Jrs2mJxD1aRn5yDijrYQ1iH2gAFLgbSDXb1o/n0TYYt9yedrcGYp2a+Xc+YQ
+         hBBbcpZGFswP55MSgnjuHvZKFbQ4h0/5H5b+SD6Igezo9aOdxOqXFka++m0zGSLmjasD
+         0cfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EimvqE0jwyqP2WGVedMuh7qrn6YSjJuzP7Su4aO08UA=;
-        b=SC7f8faNYRSkTsFXtnLq3LkPGTeZmIxUfMLksWfpFSyL1pVnojLS0z99MVjNX+6JKs
-         o4fJoZXTn32yvwJY3TzdSbbhlenjV501d7Kd0ePQhDDCpMbQVxuGAxHkRXmixe0X2w3q
-         221iGNeUqzEuJ22DYmfDnOVMdciquiHTYOZi7KYSJ8MY+3mDORTKzojWTt7MZkgGLSsq
-         IpzBYzqTkfLAkeHZLbfZH9xTJNjXYDPF7mOlBd84ppOGYrLVJb+ZDxNyq9aAQpHn7fIr
-         jphpOkBXyDJ6d2NeJkP+jQ9WmK/wTqaue5u93O2qeMYXSdmzWjm/vKXnqbgXG5D9KvoE
-         VBxw==
-X-Gm-Message-State: APjAAAXoRjWkQCGOahRd+bU1p1f6cTz6fkmaYJX33sH9o6bGzJOLQRsJ
-        RiE6cZYdHOBwnHXcS6LYepWKzUg9yt9scg==
-X-Google-Smtp-Source: APXvYqyiGHjzQnzFsluj5XM90F8t6hyJvvi+Lq6zx2SX9OAWkCqaHYGp6mt9zRTsPtj1MgZ6nW2LUQ==
-X-Received: by 2002:a63:c006:: with SMTP id h6mr4759884pgg.290.1564990016921;
-        Mon, 05 Aug 2019 00:26:56 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id x25sm113662267pfa.90.2019.08.05.00.26.53
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GBNssX1bMqNwZuTT2aXjIxOqWduoE+LBh8Ztzf4N6oQ=;
+        b=uQSX9MwqjnQ528EIc34IP/AMawzmkfdB8I+sEQv7rDeajjnx7pD2xiZ0iYfofNHvdk
+         b/ppnIp71fr2nnWR0dLXH8BuFRl+BdXoNZjdj0gRVGrsRzWHMlXbLLRD/Pd3nzwMapkL
+         eQb7bnwmd1IQhODPqMgbrYv11ZlgTN8ygGI24byC6QJCE1S8knzUT6RJKzvn3m2fBDux
+         avgiGZNpOlwkMlN5gLKtR2LnqCxYo/fs/Wts3iAB4NvtZUfQtFINlNfufN9QMEBr/P55
+         igTZW10yFAw2w+vwxDq87HmNPmwM5c23eKI+zpdTPbE4OXP9L8N+78L3+nLB9YMJDbtz
+         d4jw==
+X-Gm-Message-State: APjAAAWkBrHO7DzYSU3gofgIN1ov6Sph6QAKwSxHqcDTbVwqZ/tPjrK9
+        LQs53hDCm/Bl37lvGQ9zk9I=
+X-Google-Smtp-Source: APXvYqwrIdb5V4XLj2mWxoROgMr9ehjgpGMOkAhx5G5NUWMC3q3ieyB2ylBmkKu83M7kCJtegUPuPA==
+X-Received: by 2002:a17:902:124:: with SMTP id 33mr146390064plb.145.1564991755961;
+        Mon, 05 Aug 2019 00:55:55 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id e5sm13241222pgt.91.2019.08.05.00.55.49
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 00:26:55 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH v2] Documentation/checkpatch: Prefer str_has_prefix over strncmp
-Date:   Mon,  5 Aug 2019 15:26:45 +0800
-Message-Id: <20190805072645.32691-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Mon, 05 Aug 2019 00:55:54 -0700 (PDT)
+Date:   Mon, 5 Aug 2019 16:55:47 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, joaodias@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
+Subject: Re: [PATCH v3 1/2] mm/page_idle: Add per-pid idle page tracking
+ using virtual indexing
+Message-ID: <20190805075547.GA196934@google.com>
+References: <20190726152319.134152-1-joel@joelfernandes.org>
+ <20190731085335.GD155569@google.com>
+ <20190731171937.GA75376@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190731171937.GA75376@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add "strncmp() on string prefix" to
-Documentation/process/deprecated.rst since using strncmp()
-to check whether a string starts with a prefix is error-prone.
-The safe replacement is str_has_prefix().
+Hi Joel,
 
-Also add check to the newly introduced deprecated_string_apis
-in checkpatch.pl.
+On Wed, Jul 31, 2019 at 01:19:37PM -0400, Joel Fernandes wrote:
+> > > -static struct page *page_idle_get_page(unsigned long pfn)
+> > > +static struct page *page_idle_get_page(struct page *page_in)
+> > 
+> > Looks weird function name after you changed the argument.
+> > Maybe "bool check_valid_page(struct page *page)"?
+> 
+> 
+> I don't think so, this function does a get_page_unless_zero() on the page as well.
+> 
+> > >  {
+> > >  	struct page *page;
+> > >  	pg_data_t *pgdat;
+> > >  
+> > > -	if (!pfn_valid(pfn))
+> > > -		return NULL;
+> > > -
+> > > -	page = pfn_to_page(pfn);
+> > > +	page = page_in;
+> > >  	if (!page || !PageLRU(page) ||
+> > >  	    !get_page_unless_zero(page))
+> > >  		return NULL;
+> > > @@ -51,6 +49,18 @@ static struct page *page_idle_get_page(unsigned long pfn)
+> > >  	return page;
+> > >  }
+> > >  
+> > > +/*
+> > > + * This function tries to get a user memory page by pfn as described above.
+> > > + */
+> > > +static struct page *page_idle_get_page_pfn(unsigned long pfn)
+> > 
+> > So we could use page_idle_get_page name here.
+> 
+> 
+> Based on above comment, I prefer to keep same name. Do you agree?
 
-This patch depends on patch:
-"Documentation/checkpatch: Prefer stracpy/strscpy over
-strcpy/strlcpy/strncpy."
+Yes, I agree. Just please add a comment about refcount in the description
+on page_idle_get_page.
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
-Changes in v2:
-  - Use "strncmp() on string prefix" instead of
-    "strncmp()" to make it more precise.
-  - Remove "c:func" and use "strncmp" directly
-    in description.
+> 
+> 
+> > > +	return page_idle_get_page(pfn_to_page(pfn));
+> > > +}
+> > > +
+> > >  static bool page_idle_clear_pte_refs_one(struct page *page,
+> > >  					struct vm_area_struct *vma,
+> > >  					unsigned long addr, void *arg)
+> > > @@ -118,6 +128,47 @@ static void page_idle_clear_pte_refs(struct page *page)
+> > >  		unlock_page(page);
+> > >  }
+> > >  
+> > > +/* Helper to get the start and end frame given a pos and count */
+> > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
+> > > +				unsigned long *start, unsigned long *end)
+> > > +{
+> > > +	unsigned long max_frame;
+> > > +
+> > > +	/* If an mm is not given, assume we want physical frames */
+> > > +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
+> > > +
+> > > +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+> > > +		return -EINVAL;
+> > > +
+> > > +	*start = pos * BITS_PER_BYTE;
+> > > +	if (*start >= max_frame)
+> > > +		return -ENXIO;
+> > > +
+> > > +	*end = *start + count * BITS_PER_BYTE;
+> > > +	if (*end > max_frame)
+> > > +		*end = max_frame;
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static bool page_really_idle(struct page *page)
+> > 
+> > Just minor:
+> > Instead of creating new API, could we combine page_is_idle with
+> > introducing furthere argument pte_check?
+> 
+> 
+> I cannot see in the code where pte_check will be false when this is called? I
+> could rename the function to page_idle_check_ptes() if that's Ok with you.
 
- Documentation/process/deprecated.rst | 8 ++++++++
- scripts/checkpatch.pl                | 1 +
- 2 files changed, 9 insertions(+)
+What I don't like is _*really*_ part of the funcion name.
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 56280e108d5a..96fa32aba189 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -109,6 +109,14 @@ the given limit of bytes to copy. This is inefficient and can lead to
- linear read overflows if a source string is not NUL-terminated. The
- safe replacement is stracpy() or strscpy().
+I see several page_is_idle calls in huge_memory.c, migration.c, swap.c.
+They could just check only page flag so they could use "false" with pte_check.
+
+< snip >
  
-+strncmp() on string prefix
-+--------------------------
-+strncmp() is often used to test if a string starts with a prefix by
-+strncmp(str, prefix, length of prefix). This is error-prone because length
-+of prefix can have counting error if using a constant length, or use
-+sizeof(prefix) without - 1. Also, if the prefix is a pointer, sizeof(prefix)
-+leads to a wrong size. The safe replacement is str_has_prefix().
-+
- Variable Length Arrays (VLAs)
- -----------------------------
- Using stack VLAs produces much worse machine code than statically
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 0ae9ae01d855..38e82d2ac286 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -609,6 +609,7 @@ our %deprecated_string_apis = (
- 	"strcpy"		=> "stracpy or strscpy",
- 	"strlcpy"		=> "stracpy or strscpy",
- 	"strncpy"		=> "stracpy or strscpy - for non-NUL-terminated uses, strncpy dest should be __nonstring",
-+	"strncmp"		=> "str_has_prefix",
- );
- 
- #Create a search pattern for all these strings apis to speed up a loop below
--- 
-2.20.1
+> > > +ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
+> > > +			       size_t count, loff_t *pos,
+> > > +			       struct task_struct *tsk, int write)
+> > > +{
+> > > +	int ret;
+> > > +	char *buffer;
+> > > +	u64 *out;
+> > > +	unsigned long start_addr, end_addr, start_frame, end_frame;
+> > > +	struct mm_struct *mm = file->private_data;
+> > > +	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
+> > > +	struct page_node *cur;
+> > > +	struct page_idle_proc_priv priv;
+> > > +	bool walk_error = false;
+> > > +	LIST_HEAD(idle_page_list);
+> > > +
+> > > +	if (!mm || !mmget_not_zero(mm))
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (count > PAGE_SIZE)
+> > > +		count = PAGE_SIZE;
+> > > +
+> > > +	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
+> > > +	if (!buffer) {
+> > > +		ret = -ENOMEM;
+> > > +		goto out_mmput;
+> > > +	}
+> > > +	out = (u64 *)buffer;
+> > > +
+> > > +	if (write && copy_from_user(buffer, ubuff, count)) {
+> > > +		ret = -EFAULT;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
+> > > +	if (ret)
+> > > +		goto out;
+> > > +
+> > > +	start_addr = (start_frame << PAGE_SHIFT);
+> > > +	end_addr = (end_frame << PAGE_SHIFT);
+> > > +	priv.buffer = buffer;
+> > > +	priv.start_addr = start_addr;
+> > > +	priv.write = write;
+> > > +
+> > > +	priv.idle_page_list = &idle_page_list;
+> > > +	priv.cur_page_node = 0;
+> > > +	priv.page_nodes = kzalloc(sizeof(struct page_node) *
+> > > +				  (end_frame - start_frame), GFP_KERNEL);
+> > > +	if (!priv.page_nodes) {
+> > > +		ret = -ENOMEM;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	walk.private = &priv;
+> > > +	walk.mm = mm;
+> > > +
+> > > +	down_read(&mm->mmap_sem);
+> > > +
+> > > +	/*
+> > > +	 * idle_page_list is needed because walk_page_vma() holds ptlock which
+> > > +	 * deadlocks with page_idle_clear_pte_refs(). So we have to collect all
+> > > +	 * pages first, and then call page_idle_clear_pte_refs().
+> > > +	 */
+> > 
+> > Thanks for the comment, I was curious why you want to have
+> > idle_page_list and the reason is here.
+> > 
+> > How about making this /proc/<pid>/page_idle per-process granuariy,
+> > unlike system level /sys/xxx/page_idle? What I meant is not to check
+> > rmap to see any reference from random process but just check only
+> > access from the target process. It would be more proper as /proc/
+> > <pid>/ interface and good for per-process tracking as well as
+> > fast.
+> 
+> 
+> I prefer not to do this for the following reasons:
+> (1) It makes a feature lost, now accesses to shared pages will not be
+> accounted properly. 
 
+Do you really want to check global attribute by per-process interface?
+That would be doable with existing idle page tracking feature and that's
+the one of reasons page idle tracking was born(e.g. even, page cache
+for non-mapped) unlike clear_refs.
+Once we create a new interface by per-process, just checking the process
+-granuariy access check sounds more reasonable to me.
+
+With that, we could catch only idle pages of the target process even though
+the page was touched by several other processes.
+If the user want to know global level access point, they could use
+exisint interface(If there is a concern(e.g., security) to use existing
+idle page tracking, let's discuss it as other topic how we could make
+existing feature more useful).
+
+IOW, my point is that we already have global access check(1. from ptes
+among several processes, 2. from page flag for non-mapped pages) feature
+from from existing idle page tracking interface and now we are about to create
+new interface for per-process wise so I wanted to create a particular
+feature which cannot be covered by existing iterface.
+
+> 
+> (2) It makes it inconsistent with other idle page tracking mechanism. I
+
+That's the my comment to create different idle page tracking we couldn't
+do with existing interface.
+
+> prefer if post per-process. At the heart of it, the tracking is always at the
+
+What does it mean "post per-process"?
+
+> physical page level -- I feel that is how it should be. Other drawback, is
+> also we have to document this subtlety.
+
+Sorry, Could you elaborate it a bit?
