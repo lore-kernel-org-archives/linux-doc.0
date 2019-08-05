@@ -5,106 +5,73 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 375517D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 14:25:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7CD07D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 14:40:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728401AbfHEOZz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 10:25:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55538 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727328AbfHEOZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 10:25:55 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x75ELsv9085834
-        for <linux-doc@vger.kernel.org>; Mon, 5 Aug 2019 10:25:54 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2u6n024b9h-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2019 10:25:53 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Mon, 5 Aug 2019 15:25:51 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 5 Aug 2019 15:25:46 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x75EPiE337486818
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 5 Aug 2019 14:25:44 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 01BDAA405E;
-        Mon,  5 Aug 2019 14:25:44 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 11DCBA4057;
-        Mon,  5 Aug 2019 14:25:42 +0000 (GMT)
-Received: from dhcp-9-31-103-47.watson.ibm.com (unknown [9.31.103.47])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  5 Aug 2019 14:25:41 +0000 (GMT)
-Subject: Re: [PATCH v12 01/11] MODSIGN: Export module signature definitions
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Philipp Rudo <prudo@linux.ibm.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Cc:     Jessica Yu <jeyu@kernel.org>, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        linux-s390@vger.kernel.org
-Date:   Mon, 05 Aug 2019 10:25:41 -0400
-In-Reply-To: <20190805151123.12510d72@laptop-ibm>
-References: <20190628021934.4260-1-bauerman@linux.ibm.com>
-         <20190628021934.4260-2-bauerman@linux.ibm.com>
-         <20190701144752.GC25484@linux-8ccs> <87lfxel2q6.fsf@morokweng.localdomain>
-         <20190704125427.31146026@laptop-ibm> <874l41ocf5.fsf@morokweng.localdomain>
-         <20190705150000.372345b0@laptop-ibm> <8736iw9y00.fsf@morokweng.localdomain>
-         <20190805151123.12510d72@laptop-ibm>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19080514-0016-0000-0000-0000029A6FB3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19080514-0017-0000-0000-000032F977CF
-Message-Id: <1565015141.11223.145.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-05_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908050159
+        id S1729660AbfHEOky (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 10:40:54 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:43799 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729133AbfHEOky (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 10:40:54 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1hueAP-00089V-En; Mon, 05 Aug 2019 08:40:53 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1hueAD-0006yY-3G; Mon, 05 Aug 2019 08:40:53 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        security@kernel.org, linux-doc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+References: <20190725130113.GA12932@kroah.com>
+        <nycvar.YFH.7.76.1908040214090.5899@cbobk.fhfr.pm>
+Date:   Mon, 05 Aug 2019 09:40:21 -0500
+In-Reply-To: <nycvar.YFH.7.76.1908040214090.5899@cbobk.fhfr.pm> (Jiri Kosina's
+        message of "Sun, 4 Aug 2019 02:17:00 +0200 (CEST)")
+Message-ID: <87blx3n0a2.fsf@xmission.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1hueAD-0006yY-3G;;;mid=<87blx3n0a2.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/734h3jRw/GfGy5IwgZetr3oaBMoj7LHI=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security issues
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-08-05 at 15:11 +0200, Philipp Rudo wrote:
-> Hi Thiago,
-> 
-> > > The patch looks good now.  
-> > 
-> > Thanks! Can I add your Reviewed-by?
-> 
-> sorry, for the late answer, but I was on vacation the last two weeks. I hope
-> it's not too late now.
-> 
-> Reviewed-by: Philipp Rudo <prudo@linux.ibm.com>
 
-Thanks!  This patch set is still in the #next-queued-testing
-branch.  I'm still hoping for a few more tags, before pushing it out
-to the #next-integrity branch later today.
+I skimmed this and a couple things jumped out at me.
 
-Mimi
+1) PGP and S/MIME because of their use of long term keys do not provide
+   forward secrecy.  Which can makes it worth while to cryptographically
+   factor a key or to obtain knowledge of a private key without the key
+   holders knowledge.  As the keys will be used again and again over a
+   long period of time.
 
+   More recent protocol's such as Signal's Double Ratchet Protocol
+   enable forward secrecy for store and foward communications, and
+   remove the problem of long term keys.
+
+2) The existence of such a process with encrypted communications to
+   ensure long term confidentiality is going to make our contact people
+   the targets of people who want access to knolwedge about hardware
+   bugs like meltdown, before they become public.
+
+I am just mentioning these things in case they are not immediately
+obvious to everyone else involved, so that people can be certain
+they are comfortable with the tradeoffs being made.
+
+Eric
