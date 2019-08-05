@@ -1,78 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBE0B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 16:29:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1807A7D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 16:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729146AbfHEQ3y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 12:29:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56394 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbfHEQ3y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 12:29:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=O/cOvUBI1ERP7wt0pfm8UV4BQQBmZinQ5jmqMRrRT3s=; b=uhwlkx7DAglWC5KpvGCBlGwg1
-        dUAcvuQB7umeU4YBhYbXiVAyRPD7tzseUppEYZnnSCIOzseQwE0QYorBjauDfE8NRP6Qj43yyZuhg
-        xFAH+So5W5IUjbIQdh2VgfV5GhBzlLmnnhwpvWKVIYqLrkEuZVT3NSn2wgmTV33eoCcZglBGtqBtL
-        EV46nqrG6G97PZThySj8vmaQ612Rv/qJrnj543XuVvp0rlKJTdmI1NpQn/iQ/eoSmc5p+M/uEdTaN
-        Vw4/pYS7sbzYLgbUxOGNTo+9OHFUUvyVc96rNgdlmcvT8PbQHjsHi9DWoV1j9vFB8mhnh+n9FKJhF
-        6AFBLIRqA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hufrq-0000iB-Sq; Mon, 05 Aug 2019 16:29:51 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] kernel-doc: ignore __printf attribute
-Message-ID: <77cf8297-7de3-4ad1-d497-4ad941012b75@infradead.org>
-Date:   Mon, 5 Aug 2019 09:29:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728686AbfHEQlC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 12:41:02 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40564 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726559AbfHEQlC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 12:41:02 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r1so85034968wrl.7;
+        Mon, 05 Aug 2019 09:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:references:user-agent:to:cc:subject:message-id:in-reply-to
+         :date:mime-version;
+        bh=ABajkI5eExlI/xSitmeiji8gDOSYLzGBroq8lVBwkdg=;
+        b=Jf1TsCUn3vg9vZIttQpRDxQyLLdSkih/m9y3kA3yWVwK1tHBcluvzb64DtQ25oH1/V
+         xc+QogvPb9pckGM5vfsy43/UEaWPZWupWkE5UPXHzZT5A7/7Ma3dw/KrHAyWf+SIQ5pr
+         Dcvq5iH0eSbCNiujtHHwUJZ240xv7Qi/eds7T8oztvpIBx2XrJ5va7rgiLI/SzDbk43Q
+         Z9ORvjpxuJo5BgjdcSStKB849ChK0G8vPO2yzLZGaqzz0g6WR36X48+GBvCQz9Tay6xs
+         czQE6+3WjSb7nz9cH1JuMb4iiT+97q5c2zuu/BUbeRroBVjCzNGInLsmtjQPkR05iWcK
+         8OZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:references:user-agent:to:cc:subject
+         :message-id:in-reply-to:date:mime-version;
+        bh=ABajkI5eExlI/xSitmeiji8gDOSYLzGBroq8lVBwkdg=;
+        b=ja333Nqtw20Mg9p87EzOhrEgYcG7GmjPnXLyAE4NJqb8hLRY9yagT4GFUZuohHJ2iR
+         SAmnNigQGyxIXTdBfVu1ZmiFSDyC6AneB1xemr2cNDqdrSWKVN7wIHvKnAQbW87i3zL5
+         2yhFktPRlmgHyb+QfCQ9uOSWZs4O/b6z1deXeokbgBny6NOEFGBO3n25sHdGA2wA1+KA
+         m4GALRztMhorwE0gqrRmO3FSmuWBup1q8j2x7eyTIqjnQOSEnKNiYUL7HQBeEJEQ4IAn
+         1Mr64JLB9LZNDW4q9FGYPZ3+PywIqfx2Q6j4YtdSh3rvHuSYYyy6/Fswk4l+xi6ykduS
+         NKhg==
+X-Gm-Message-State: APjAAAVKtD726JUIa1WAiplMkkuru1+L8SojAzp9AdVuxovPwFYEwhzT
+        ndKL1hSyrCfEkuxXvSgtEVL3KSef2ck=
+X-Google-Smtp-Source: APXvYqz/Y6nmSCAzfJUUyNSVsxAyHbqu5I0RQoLKZMj78OsAAfjqWRVGFPKFfORnGY8ls5vKuqHU6Q==
+X-Received: by 2002:adf:f050:: with SMTP id t16mr791943wro.99.1565023259727;
+        Mon, 05 Aug 2019 09:40:59 -0700 (PDT)
+Received: from ptitpuce ([2a01:e35:8b6a:1220:5461:8d4f:b809:4bf8])
+        by smtp.gmail.com with ESMTPSA id i12sm99839220wrx.61.2019.08.05.09.40.56
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 05 Aug 2019 09:40:59 -0700 (PDT)
+From:   Christophe de Dinechin <christophe.de.dinechin@gmail.com>
+X-Google-Original-From: Christophe de Dinechin <christophe@dinechin.org>
+References: <20190802145017.42543-1-steven.price@arm.com> <20190802145017.42543-2-steven.price@arm.com>
+User-agent: mu4e 1.3.2; emacs 26.2
+To:     Steven Price <steven.price@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] KVM: arm64: Document PV-time interface
+Message-ID: <m1mugnmv0x.fsf@dinechin.org>
+In-reply-to: <20190802145017.42543-2-steven.price@arm.com>
+Date:   Mon, 05 Aug 2019 18:40:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
 
-Ignore __printf() function attributes just as other __attribute__
-strings are ignored.
+Steven Price writes:
 
-Fixes this kernel-doc warning message:
-include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
+> Introduce a paravirtualization interface for KVM/arm64 based on the
+> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+>
+> This only adds the details about "Stolen Time" as the details of "Live
+> Physical Time" have not been fully agreed.
+>
+[...]
 
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Brendan Higgins <brendanhiggins@google.com>
-Tested-by: Brendan Higgins <brendanhiggins@google.com>
----
- scripts/kernel-doc |    1 +
- 1 file changed, 1 insertion(+)
+> +
+> +Stolen Time
+> +-----------
+> +
+> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+> +
+> +  Field       | Byte Length | Byte Offset | Description
+> +  ----------- | ----------- | ----------- | --------------------------
+> +  Revision    |      4      |      0      | Must be 0 for version 0.1
+> +  Attributes  |      4      |      4      | Must be 0
+> +  Stolen time |      8      |      8      | Stolen time in unsigned
+> +              |             |             | nanoseconds indicating how
+> +              |             |             | much time this VCPU thread
+> +              |             |             | was involuntarily not
+> +              |             |             | running on a physical CPU.
 
---- linux-next-20190805.orig/scripts/kernel-doc
-+++ linux-next-20190805/scripts/kernel-doc
-@@ -1580,6 +1580,7 @@ sub dump_function($$) {
-     $prototype =~ s/__must_check +//;
-     $prototype =~ s/__weak +//;
-     $prototype =~ s/__sched +//;
-+    $prototype =~ s/__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +//;
-     my $define = $prototype =~ s/^#\s*define\s+//; #ak added
-     $prototype =~ s/__attribute__\s*\(\(
-             (?:
+I know very little about the topic, but I don't understand how the spec
+as proposed allows an accurate reading of the relation between physical
+time and stolen time simultaneously. In other words, could you draw
+Figure 1 of the spec from within the guest? Or is it a non-objective?
 
+For example, if you read the stolen time before you read CNTVCT_EL0,
+isn't it possible for a lengthy event like a migration to occur between
+the two reads, causing the stolen time to be obsolete and off by seconds?
 
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
