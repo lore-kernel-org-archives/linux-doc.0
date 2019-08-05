@@ -1,231 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7E647D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 17:45:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 39A257D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 18:05:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbfHERp3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Aug 2019 13:45:29 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:40296 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726559AbfHERp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Aug 2019 13:45:29 -0400
-Received: by mail-pl1-f196.google.com with SMTP id a93so36693655pla.7
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2019 10:45:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=yaMCm60MQbAiEe109hZbk3mz1nB4Kn7VLm+HH7rwTRQ=;
-        b=uILuQErqEj6dMFOf5SZh0i/b2tp5bwQfRZyTmmXbXwiJ905gJe7x+Y0F/LzIGf1GOM
-         dbAhNp1MwxulQi3XQYrmPEEMHTBx2zFans4TpSdPfRssyPvaP8pThH1p2vRyI+qyq0er
-         50z0RKVU3FWTZjDbrgC0275nB2kfXT95xJt6YA5QW/TQxFgtylRV5BLkD1bzZR9WxUjC
-         jsXt6K+hAn+ZyM5pE2UZNTsjqbgDaX6+CXW3zdlkIdtZaoJXr2Tr8NzTJnoyvm1PTMG+
-         cDsYIcu7PYHwyrBRenExj3UgjXocGhhCbvtc5z2de0yrPpz+BXVe4NgmA3lJMFHkwzCi
-         pEhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=yaMCm60MQbAiEe109hZbk3mz1nB4Kn7VLm+HH7rwTRQ=;
-        b=NWEEHnkeWJs867awxtoVq1ZK+lZVnLIMYomEAOXXPfUfV2oZKYInBz3tTmgeNkfSIE
-         CDitaeZ+GGf8uB8KtH1pRApAjPEIApSV+Q/P3N5TIe0Yt7K6AI76Nv0D7koLUZnzocc+
-         cniAGsqmw9q1VFToiJtX7Ogc2TAr1ENPTUU4iyaviZ7ISeAZMeoDx85qEu7QBIk3q13F
-         YhYC6oVHYxGmMiU0muOoHVd2vFSCD0Tfi6p2arogwPpbsu7y+iBecxPGVt2Uoz5amG1r
-         252ri2kGV3h0KIxjYIgaR8YhJe2xfThS/cZz8HuSHIzlAyzeUSjwuWhpnCrXNS1ynGL6
-         k8+g==
-X-Gm-Message-State: APjAAAUVfajFTya6gjc+g8kPPUdeqiy9Va1NXwbUo4Wh9l1WLSnM74vB
-        FUha1Q0Sno7Nk9fEJo2WqWpX8w==
-X-Google-Smtp-Source: APXvYqyXSBold9rTE84iJAtGLze32KZeXA3Zh9TxcfLV0XfYpUb8i/gYaAVGpQpEYjhS9ow7s7fROw==
-X-Received: by 2002:a17:902:9689:: with SMTP id n9mr147750614plp.241.1565027127918;
-        Mon, 05 Aug 2019 10:45:27 -0700 (PDT)
-Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id s20sm96177226pfe.169.2019.08.05.10.45.26
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 10:45:27 -0700 (PDT)
-Date:   Mon, 5 Aug 2019 10:46:59 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Fabien DESSENNE <fabien.dessenne@st.com>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Benjamin GAIGNARD <benjamin.gaignard@st.com>
-Subject: Re: [PATCH 0/6] hwspinlock: allow sharing of hwspinlocks
-Message-ID: <20190805174659.GA23928@tuxbook-pro>
-References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
- <20190801191403.GA7234@tuxbook-pro>
- <1a057176-81ab-e302-4375-2717ceef6924@st.com>
+        id S1730222AbfHESFU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Aug 2019 14:05:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730011AbfHESFU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Aug 2019 14:05:20 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 36C1A206A2;
+        Mon,  5 Aug 2019 18:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565028319;
+        bh=4zj0WOS0HKxI+9HNAwbT0W8pBLSjUbq7Qvos7piJMe8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HHpciDACnikAmxWjh5CUq79Xi+1N61c7Mf/IK9ah412iKlsgGkpZ7W+vNAETumn6B
+         D0vaQYM32YAo8YFFV5Ux2xqjo0agtKj43xUn7ENA5JJGOP2ffGK1wn19/AyzUhK//y
+         xXSnRgZKfECIZS+vd5UoPR9TJo8YIdJKFpUYbkO4=
+Date:   Mon, 5 Aug 2019 14:05:18 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com,
+        tee-dev@lists.linaro.org, ilias.apalodimas@linaro.org,
+        sumit.garg@linaro.org, rdunlap@infradead.org
+Subject: Re: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190805180518.GC17747@sasha-vm>
+References: <20190705204746.27543-1-sashal@kernel.org>
+ <20190711200858.xydm3wujikufxjcw@linux.intel.com>
+ <20190804214218.vdv2sn4oc4cityy2@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1a057176-81ab-e302-4375-2717ceef6924@st.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190804214218.vdv2sn4oc4cityy2@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 05 Aug 01:48 PDT 2019, Fabien DESSENNE wrote:
+On Mon, Aug 05, 2019 at 12:44:28AM +0300, Jarkko Sakkinen wrote:
+>On Thu, Jul 11, 2019 at 11:08:58PM +0300, Jarkko Sakkinen wrote:
+>> On Fri, Jul 05, 2019 at 04:47:44PM -0400, Sasha Levin wrote:
+>> > Changes from v7:
+>> >
+>> >  - Address Jarkko's comments.
+>> >
+>> > Sasha Levin (2):
+>> >   fTPM: firmware TPM running in TEE
+>> >   fTPM: add documentation for ftpm driver
+>> >
+>> >  Documentation/security/tpm/index.rst        |   1 +
+>> >  Documentation/security/tpm/tpm_ftpm_tee.rst |  27 ++
+>> >  drivers/char/tpm/Kconfig                    |   5 +
+>> >  drivers/char/tpm/Makefile                   |   1 +
+>> >  drivers/char/tpm/tpm_ftpm_tee.c             | 350 ++++++++++++++++++++
+>> >  drivers/char/tpm/tpm_ftpm_tee.h             |  40 +++
+>> >  6 files changed, 424 insertions(+)
+>> >  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+>> >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
+>> >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
+>> >
+>> > --
+>> > 2.20.1
+>> >
+>>
+>> I applied the patches now. Appreciate a lot the patience with these.
+>> Thank you.
+>
+>Hi, can you possibly fix these:
 
-> 
-> On 01/08/2019 9:14 PM, Bjorn Andersson wrote:
-> > On Wed 13 Mar 08:50 PDT 2019, Fabien Dessenne wrote:
-> >
-> >> The current implementation does not allow two different devices to use
-> >> a common hwspinlock. This patch set proposes to have, as an option, some
-> >> hwspinlocks shared between several users.
-> >>
-> >> Below is an example that explain the need for this:
-> >> 	exti: interrupt-controller@5000d000 {
-> >> 		compatible = "st,stm32mp1-exti", "syscon";
-> >> 		interrupt-controller;
-> >> 		#interrupt-cells = <2>;
-> >> 		reg = <0x5000d000 0x400>;
-> >> 		hwlocks = <&hsem 1>;
-> >> 	};
-> >> The two drivers (stm32mp1-exti and syscon) refer to the same hwlock.
-> >> With the current hwspinlock implementation, only the first driver succeeds
-> >> in requesting (hwspin_lock_request_specific) the hwlock. The second request
-> >> fails.
-> >>
-> >>
-> >> The proposed approach does not modify the API, but extends the DT 'hwlocks'
-> >> property with a second optional parameter (the first one identifies an
-> >> hwlock) that specifies whether an hwlock is requested for exclusive usage
-> >> (current behavior) or can be shared between several users.
-> >> Examples:
-> >> 	hwlocks = <&hsem 8>;	Ref to hwlock #8 for exclusive usage
-> >> 	hwlocks = <&hsem 8 0>;	Ref to hwlock #8 for exclusive (0) usage
-> >> 	hwlocks = <&hsem 8 1>;	Ref to hwlock #8 for shared (1) usage
-> >>
-> >> As a constraint, the #hwlock-cells value must be 1 or 2.
-> >> In the current implementation, this can have theorically any value but:
-> >> - all of the exisiting drivers use the same value : 1.
-> >> - the framework supports only one value : 1 (see implementation of
-> >>    of_hwspin_lock_simple_xlate())
-> >> Hence, it shall not be a problem to restrict this value to 1 or 2 since
-> >> it won't break any driver.
-> >>
-> > Hi Fabien,
-> >
-> > Your series looks good, but it makes me wonder why the hardware locks
-> > should be an exclusive resource.
-> >
-> > How about just making all (specific) locks shared?
-> 
-> Hi Bjorn,
-> 
-> Making all locks shared is a possible implementation (my first 
-> implementation
-> was going this way) but there are some drawbacks we must be aware of:
-> 
-> A/ This theoretically break the legacy behavior (the legacy works with
-> exclusive (UNUSED radix tag) usage). As a consequence, an existing driver
-> that is currently failing to request a lock (already claimed by another
-> user) would now work fine. Not sure that there are such drivers, so this
-> point is probably not a real issue.
-> 
+Any objection to sending you a patch on top of your tree instead?
 
-Right, it's possible that a previously misconfigured system now
-successfully probes more than one device that uses a particular
-spinlock. But such system would be suffering from issues related to e.g.
-probe ordering.
-
-So I think we should ignore this issue.
-
-> B/ This would introduce some inconsistency between the two 'request' API
-> which are hwspin_lock_request() and hwspin_lock_request_specific().
-> hwspin_lock_request() looks for an unused lock, so requests for an exclusive
-> usage. On the other side, request_specific() would request shared locks.
-> Worst the following sequence can transform an exclusive usage into a shared
-> 
-
-There is already an inconsistency in between these; as with above any
-system that uses both request() and request_specific() will be suffering
-from intermittent failures due to probe ordering.
-
-> one:
->    -hwspin_lock_request() -> returns Id#0 (exclusive)
->    -hwspin_lock_request() -> returns Id#1 (exclusive)
->    -hwspin_lock_request_specific(0) -> returns Id#0 and makes Id#0 shared
-> Honestly I am not sure that this is a real issue, but it's better to have it
-> in mind before we take ay decision
-
-The case where I can see a
-problem with this would be if the two clients somehow would nest their
-locking regions.
-
-But generally I think this could consider this an improvement, because
-the request_specific() would now be able to acquire its hwlock, with
-some additional contention due to the multiple use.
-
-> I could not find any driver using the hwspin_lock_request() API, we
-> may decide to remove (or to make deprecated) this API, having
-> everything 'shared without any conditions'.
-> 
-
-It would be nice to have an upstream user of this API.
-
-> 
-> I can see three options:
-> 1- Keep my initial proposition
-> 2- Have hwspin_lock_request_specific() using shared locks and
->     hwspin_lock_request() using unused (so 'initially' exclusive) locks.
-> 3- Have hwspin_lock_request_specific() using shared locks and
->     remove/make deprecated hwspin_lock_request().
-> 
-> Just let me know what is your preference.
-> 
-
-I think we should start with #2 and would like input from e.g. Suman
-regarding #3.
-
-Regards,
-Bjorn
-
-> BR
-> 
-> Fabien
-> 
-> >
-> > Regards,
-> > Bjorn
-> >
-> >> Fabien Dessenne (6):
-> >>    dt-bindings: hwlock: add support of shared locks
-> >>    hwspinlock: allow sharing of hwspinlocks
-> >>    dt-bindings: hwlock: update STM32 #hwlock-cells value
-> >>    ARM: dts: stm32: Add hwspinlock node for stm32mp157 SoC
-> >>    ARM: dts: stm32: Add hwlock for irqchip on stm32mp157
-> >>    ARM: dts: stm32: hwlocks for GPIO for stm32mp157
-> >>
-> >>   .../devicetree/bindings/hwlock/hwlock.txt          | 27 +++++--
-> >>   .../bindings/hwlock/st,stm32-hwspinlock.txt        |  6 +-
-> >>   Documentation/hwspinlock.txt                       | 10 ++-
-> >>   arch/arm/boot/dts/stm32mp157-pinctrl.dtsi          |  2 +
-> >>   arch/arm/boot/dts/stm32mp157c.dtsi                 | 10 +++
-> >>   drivers/hwspinlock/hwspinlock_core.c               | 82 +++++++++++++++++-----
-> >>   drivers/hwspinlock/hwspinlock_internal.h           |  2 +
-> >>   7 files changed, 108 insertions(+), 31 deletions(-)
-> >>
-> >> -- 
-> >> 2.7.4
-> >>
+--
+Thanks,
+Sasha
