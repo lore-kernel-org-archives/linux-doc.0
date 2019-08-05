@@ -1,77 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B76057D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 00:10:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 34FD57D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Aug 2019 03:18:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbfHEAKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Aug 2019 20:10:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46052 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726532AbfHEAKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 20:10:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=rrSge+Ou39enQtggjfw97C05S0AT6/LDL4+Td7GzXqo=; b=rt+Cwu4aN9dj8FNJ9j8WimAWw
-        /voDELMBcEZqVCTnt2wiJwQ64mtmAQJg8N0vJhM/dY3yDbuqKn+k9RJzYn74HbRzV5PH800Ft20zq
-        Zy+twK1dRca2Gzk7CeXQUz6f1IpIx+eOJOs4knnmEetbE7du8Xx1CY6c43zdjIipL+sZHvLsggODA
-        jyh3K/IBGAR3BMcC0ypc0gBrIoYpI3GOso5ufIuocnV2Fjv2MPHDVkXFqWfFSjgjSqsmqZpEJore1
-        U8f0o7WtMhhPY4BfuPGOedN7GMjkakTRfbjPQouq1fhSAC6TPpYc8Ho7OJrNyM+CyfJNk5rX8PRzc
-        OspzJK32Q==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1huQZf-00055K-CZ; Mon, 05 Aug 2019 00:10:03 +0000
-Date:   Sun, 4 Aug 2019 17:10:03 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Sheriff Esseson <sheriffesseson@gmail.com>
-Cc:     skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
+        id S1726795AbfHEDSN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Aug 2019 23:18:13 -0400
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:48050 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726766AbfHEDSN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Aug 2019 23:18:13 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0TYeNBde_1564975089;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TYeNBde_1564975089)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 05 Aug 2019 11:18:10 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <netdev@vger.kernel.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <bpf@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: virt: Fix broken reference to virt tree's
- index
-Message-ID: <20190805001003.GA30179@bombadil.infradead.org>
-References: <20190804154635.GA18475@localhost>
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        SeongJae Park <sj38.park@gmail.com>,
+        Tom Levy <tomlevy93@gmail.com>, linux-doc@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: update Chinese howto.rst for latexdocs making
+Date:   Mon,  5 Aug 2019 11:17:58 +0800
+Message-Id: <20190805031758.64156-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190804154635.GA18475@localhost>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 04, 2019 at 04:46:35PM +0100, Sheriff Esseson wrote:
-> Fix broken reference to virt/index.rst.
-> 
-> Sequel to: 2f5947dfcaec ("Documentation: move Documentation/virtual to
-> Documentation/virt")
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> foundd a reference
+error in Chinese howto.rst. which need update introducations for
+latexdocs/epubdocs format doc making.
 
-'Sequel to'?  Do you mean 'Fixes'?
+So I update this part according to latest howto.rst.
 
-> Reported-by: Sphinx
+Originally-from: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: SeongJae Park <sj38.park@gmail.com>
+Cc: Tom Levy <tomlevy93@gmail.com>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/translations/zh_CN/process/howto.rst | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Reported-by is used for people.  See
-Documentation/process/submitting-patches.rst section 13.
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 5b671178b17b..b244a7190eb6 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -146,14 +146,18 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+   :ref:`Documentation/process/applying-patches.rst <applying_patches>`
+     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
+ 
+-内核还拥有大量从代码自动生成的文档。它包含内核内部API的全面介绍以及如何
+-妥善处理加锁的规则。生成的文档会放在 Documentation/DocBook/目录下。在内
+-核源码的主目录中使用以下不同命令将会分别生成PDF、Postscript、HTML和手册
+-页等不同格式的文档::
++内核还拥有大量从代码自动生成或者从 ReStructuredText(ReST) 标记生成的文档，
++比如这个文档，它包含内核内部API的全面介绍以及如何妥善处理加锁的规则。所有
++这些文档都可以通过运行以下命令从内核代码中生成为PDF或HTML文档::
+ 
+     make pdfdocs
+     make htmldocs
+ 
++ReST格式的文档会生成在 Documentation/output. 目录中。
++它们也可以用下列命令生成 LaTeX 和 ePub 格式文档::
++
++    make latexdocs
++    make epubdocs
+ 
+ 如何成为内核开发者
+ ------------------
+-- 
+2.19.1.856.g8858448bb
 
