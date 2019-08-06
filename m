@@ -3,52 +3,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A7CE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 10:36:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 048EB7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 10:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732537AbfHFKgc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Aug 2019 06:36:32 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40909 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbfHFKgb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Aug 2019 06:36:31 -0400
-Received: by mail-pl1-f194.google.com with SMTP id a93so37643844pla.7
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2019 03:36:31 -0700 (PDT)
+        id S1732651AbfHFKqB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Aug 2019 06:46:01 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36747 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730868AbfHFKp5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Aug 2019 06:45:57 -0400
+Received: by mail-pg1-f195.google.com with SMTP id l21so41380937pgm.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2019 03:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=q0Wilp6roBIsdQ40Pa0gikkfrKuFSJkj9vHJ430JGZ8=;
-        b=yBSWChLqbeoq5PRv1NFDpgqkTe+IWZ0NXp3UXkWOdUFbznL4X5s9a4jX9e7zqwGMsP
-         7siDaILd0QUW2OiwTs2TBkA2nguDPr7Gw3/0ZiosrM67X3yu5+zmOU8YxJM9GNeOlYRi
-         FWNYZppcftyNVxczw/mmMiQOjJeqjapSl9VBI=
+        bh=ABKgADdiGa23iy+5xy09f6OBQqR3I/07f0qdbQrp2Ug=;
+        b=BK0x5edz5Iheer/fK6xR02+EYpWEe73+fBNaVu3psDyEfFgQR4iTDEjMX3llLyVbBQ
+         oo5c2wtKKMdHq+s0dbGvvCrA28tZJ7WgRbNvmF9B9TCPhzQEMI365I16VRvzSe8CiyqZ
+         ulIdft17U/LPUUnWy2+R0724GxrzxbZjJPUj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=q0Wilp6roBIsdQ40Pa0gikkfrKuFSJkj9vHJ430JGZ8=;
-        b=Q3NorBhvwDRBYCYbgPkWZHZ4SHWnQFpjlitFpzb4u/ug+UB61euMbfyK+7b95fgJVQ
-         tTsR+B31XefORd/yfZXc4i6y22lj+CtVUTwS0ttdGLwQq0amzgm3YAOraO2aG1hfoAtN
-         qCi2LBwx5lasYKQRHaFUnMh8ZPNbrWMjeaRcfpAZM++X1/v02MuCejkCTipCnXYvJpWu
-         j2ZSnOqnt82nWZhaezKCVQQQ2PRyVsTQLNnn1kJDj2WHxySlFMLe11AA3gPXweH8vt4S
-         U40K14gY8MEHCJV08B22LPB0VPYnH907R9QU/YkYArwbI15ONO1/vVgjrAXFsQmrIS/G
-         yksg==
-X-Gm-Message-State: APjAAAW4FzZnOxYvaWLXQ16h0JqOSPu39iHVK9SNQUiQPLJTq6tVxQNX
-        YoHOW8+AgbC0Dwmopu9YECCjgQ==
-X-Google-Smtp-Source: APXvYqxI32lagxLu9cZ/Ui9N0pJztkq18ietG60iUZs8inFhbhnQnPT6tWK0xEvWGoQOr/kBgINWoQ==
-X-Received: by 2002:a17:902:ac85:: with SMTP id h5mr2564494plr.198.1565087790447;
-        Tue, 06 Aug 2019 03:36:30 -0700 (PDT)
+        bh=ABKgADdiGa23iy+5xy09f6OBQqR3I/07f0qdbQrp2Ug=;
+        b=mNNJlvl2AJbs8WUkFPb/Ca4VB/hT/bWEfa+7d6UVfnbSuos81IuCmx9dod/8PWnznY
+         6LnbUxpHOSAxxZB1jGZujTid2ue8BzejZ1r5XTZAvP5sZ/94WjO5OJe12RedfAXlu3V1
+         nVGKcvt5nYPwr+SVDNqvWGIF1lFD+Kh0tRHBHS4HnvdJqalTe5oTAVZfzMsWl3dO/ZGm
+         srUArCuRKeT1STWczNec+HwYV8T/+5yTGQ+jq1sCL9jeszlmqnwv7rDv5KsM821PrXrr
+         T2hUPma9CyhXhjq8JIipqww8ApZPCNLHB1RRpZ3dkdsKCbMItKwR2/+PzG5RiS99eusN
+         dJ3w==
+X-Gm-Message-State: APjAAAVqsmKdDwPNUS5aMwA/ubRkH9tsC+QpHNoEHafF2OGKLV8QDPTy
+        7qlCMn+VvAEMsvriJLlejujXmA==
+X-Google-Smtp-Source: APXvYqyKhAOOvSnRzmdX9OiAK7Cu7h4b/c73qpWbsn3JUV5APW6ELiBP2MjwevD8QijB6PWnNqvwJA==
+X-Received: by 2002:aa7:90d4:: with SMTP id k20mr2919746pfk.78.1565088356112;
+        Tue, 06 Aug 2019 03:45:56 -0700 (PDT)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id j15sm99017998pfe.3.2019.08.06.03.36.28
+        by smtp.gmail.com with ESMTPSA id b126sm126571952pfa.126.2019.08.06.03.45.54
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 06 Aug 2019 03:36:29 -0700 (PDT)
-Date:   Tue, 6 Aug 2019 06:36:27 -0400
+        Tue, 06 Aug 2019 03:45:55 -0700 (PDT)
+Date:   Tue, 6 Aug 2019 06:45:54 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
 To:     Michal Hocko <mhocko@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+Cc:     linux-kernel@vger.kernel.org,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -63,116 +63,98 @@ Cc:     linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
         namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
         Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 3/5] [RFC] arm64: Add support for idle bit in swap PTE
-Message-ID: <20190806103627.GA218260@google.com>
+Subject: Re: [PATCH v4 4/5] page_idle: Drain all LRU pagevec before idle
+ tracking
+Message-ID: <20190806104554.GB218260@google.com>
 References: <20190805170451.26009-1-joel@joelfernandes.org>
- <20190805170451.26009-3-joel@joelfernandes.org>
- <20190806084203.GJ11812@dhcp22.suse.cz>
+ <20190805170451.26009-4-joel@joelfernandes.org>
+ <20190806084357.GK11812@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190806084203.GJ11812@dhcp22.suse.cz>
+In-Reply-To: <20190806084357.GK11812@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 10:42:03AM +0200, Michal Hocko wrote:
-> On Mon 05-08-19 13:04:49, Joel Fernandes (Google) wrote:
-> > This bit will be used by idle page tracking code to correctly identify
-> > if a page that was swapped out was idle before it got swapped out.
-> > Without this PTE bit, we lose information about if a page is idle or not
-> > since the page frame gets unmapped.
+On Tue, Aug 06, 2019 at 10:43:57AM +0200, Michal Hocko wrote:
+> On Mon 05-08-19 13:04:50, Joel Fernandes (Google) wrote:
+> > During idle tracking, we see that sometimes faulted anon pages are in
+> > pagevec but are not drained to LRU. Idle tracking considers pages only
+> > on LRU. Drain all CPU's LRU before starting idle tracking.
 > 
-> And why do we need that? Why cannot we simply assume all swapped out
-> pages to be idle? They were certainly idle enough to be reclaimed,
-> right? Or what does idle actualy mean here?
+> Please expand on why does this matter enough to introduce a potentially
+> expensinve draining which has to schedule a work on each CPU and wait
+> for them to finish.
 
-Yes, but other than swapping, in Android a page can be forced to be swapped
-out as well using the new hints that Minchan is adding?
+Sure, I can expand. I am able to find multiple issues involving this. One
+issue looks like idle tracking is completely broken. It shows up in my
+testing as if a page that is marked as idle is always "accessed" -- because
+it was never marked as idle (due to not draining of pagevec).
 
-Also, even if they were idle enough to be swapped, there is a chance that they
-were marked as idle and *accessed* before the swapping. Due to swapping, the
-"page was accessed since we last marked it as idle" information is lost. I am
-able to verify this.
+The other issue shows up as a failure in my "swap test", with the following
+sequence:
+1. Allocate some pages
+2. Write to them
+3. Mark them as idle                                    <--- fails
+4. Introduce some memory pressure to induce swapping.
+5. Check the swap bit I introduced in this series.      <--- fails to set idle
+                                                             bit in swap PTE.
 
-Idle in this context means the same thing as in page idle tracking terms, the
-page was not accessed by userspace since we last marked it as idle (using
-/proc/<pid>/page_idle).
+Draining the pagevec in advance fixes both of these issues.
+
+This operation even if expensive is only done once during the access of the
+page_idle file. Did you have a better fix in mind?
 
 thanks,
 
  - Joel
 
 
-> > In this patch we reuse PTE_DEVMAP bit since idle page tracking only
-> > works on user pages in the LRU. Device pages should not consitute those
-> > so it should be unused and safe to use.
-> > 
-> > Cc: Robin Murphy <robin.murphy@arm.com>
 > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > > ---
-> >  arch/arm64/Kconfig                    |  1 +
-> >  arch/arm64/include/asm/pgtable-prot.h |  1 +
-> >  arch/arm64/include/asm/pgtable.h      | 15 +++++++++++++++
-> >  3 files changed, 17 insertions(+)
+> >  mm/page_idle.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
 > > 
-> > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > index 3adcec05b1f6..9d1412c693d7 100644
-> > --- a/arch/arm64/Kconfig
-> > +++ b/arch/arm64/Kconfig
-> > @@ -128,6 +128,7 @@ config ARM64
-> >  	select HAVE_ARCH_MMAP_RND_BITS
-> >  	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
-> >  	select HAVE_ARCH_PREL32_RELOCATIONS
-> > +	select HAVE_ARCH_PTE_SWP_PGIDLE
-> >  	select HAVE_ARCH_SECCOMP_FILTER
-> >  	select HAVE_ARCH_STACKLEAK
-> >  	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
-> > diff --git a/arch/arm64/include/asm/pgtable-prot.h b/arch/arm64/include/asm/pgtable-prot.h
-> > index 92d2e9f28f28..917b15c5d63a 100644
-> > --- a/arch/arm64/include/asm/pgtable-prot.h
-> > +++ b/arch/arm64/include/asm/pgtable-prot.h
-> > @@ -18,6 +18,7 @@
-> >  #define PTE_SPECIAL		(_AT(pteval_t, 1) << 56)
-> >  #define PTE_DEVMAP		(_AT(pteval_t, 1) << 57)
-> >  #define PTE_PROT_NONE		(_AT(pteval_t, 1) << 58) /* only when !PTE_VALID */
-> > +#define PTE_SWP_PGIDLE		PTE_DEVMAP		 /* for idle page tracking during swapout */
+> > diff --git a/mm/page_idle.c b/mm/page_idle.c
+> > index a5b00d63216c..2972367a599f 100644
+> > --- a/mm/page_idle.c
+> > +++ b/mm/page_idle.c
+> > @@ -180,6 +180,8 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
+> >  	unsigned long pfn, end_pfn;
+> >  	int bit, ret;
 > >  
-> >  #ifndef __ASSEMBLY__
+> > +	lru_add_drain_all();
+> > +
+> >  	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
+> >  	if (ret == -ENXIO)
+> >  		return 0;  /* Reads beyond max_pfn do nothing */
+> > @@ -211,6 +213,8 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
+> >  	unsigned long pfn, end_pfn;
+> >  	int bit, ret;
 > >  
-> > diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-> > index 3f5461f7b560..558f5ebd81ba 100644
-> > --- a/arch/arm64/include/asm/pgtable.h
-> > +++ b/arch/arm64/include/asm/pgtable.h
-> > @@ -212,6 +212,21 @@ static inline pte_t pte_mkdevmap(pte_t pte)
-> >  	return set_pte_bit(pte, __pgprot(PTE_DEVMAP));
-> >  }
+> > +	lru_add_drain_all();
+> > +
+> >  	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
+> >  	if (ret)
+> >  		return ret;
+> > @@ -428,6 +432,8 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
+> >  	walk.private = &priv;
+> >  	walk.mm = mm;
 > >  
-> > +static inline int pte_swp_page_idle(pte_t pte)
-> > +{
-> > +	return 0;
-> > +}
+> > +	lru_add_drain_all();
 > > +
-> > +static inline pte_t pte_swp_mkpage_idle(pte_t pte)
-> > +{
-> > +	return set_pte_bit(pte, __pgprot(PTE_SWP_PGIDLE));
-> > +}
-> > +
-> > +static inline pte_t pte_swp_clear_page_idle(pte_t pte)
-> > +{
-> > +	return clear_pte_bit(pte, __pgprot(PTE_SWP_PGIDLE));
-> > +}
-> > +
-> >  static inline void set_pte(pte_t *ptep, pte_t pte)
-> >  {
-> >  	WRITE_ONCE(*ptep, pte);
+> >  	down_read(&mm->mmap_sem);
+> >  
+> >  	/*
 > > -- 
 > > 2.22.0.770.g0f2c4a37fd-goog
 > 
