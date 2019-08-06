@@ -1,55 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D80D87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 11:26:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CDFF7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 11:44:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732312AbfHFL0J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Aug 2019 07:26:09 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42719 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731425AbfHFL0J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Aug 2019 07:26:09 -0400
-Received: by mail-pl1-f196.google.com with SMTP id ay6so37801562plb.9
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2019 04:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=eQDxozI2qjukpUkcofnkYlDLvFKSd1P/XqoYuWp8Iko=;
-        b=KdWHadNeW6pa2dnhFD6vGAJeFuZ4bU94l8h5hGmJoB6iVklb97AFdq2hkigQMM5/UW
-         duwzf5xlAas4hj7F57fOHGW4Fbh0eAqKIwiEUMntWH0rzszBSsXQxg7vmdW0vXnYKvIV
-         u177tjd2FQ7ASDBdqt2QwZ/5p/Ocdpipr0UPw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=eQDxozI2qjukpUkcofnkYlDLvFKSd1P/XqoYuWp8Iko=;
-        b=aZ6BX1J4u1OaxymjD1HeZxfZxMBCM80S2BYxzwTmuC4/VKMwK5z0vPtjpolq9lfPPo
-         qjoyFVdTCdxPyiiErg8VL98rhJTU9RXnge+XVy5g+uOrK9NxTxiQkj36xVTCdqgfu0wu
-         Zj7L1GnL4NtYXM7ZC6FR9cdY7yz0CiMa4NYee7whZeEVS0SU/k5DDsKdsh4kYKJvOfyA
-         oFqKoy5E/CCxIGySb5sfG5jqMHXPxg5OljHRuirFXgB50t3OgppWo6GX7QlurEgAhEVd
-         SlY3Ki1moAt05zsxeavwIdLetQToGrcYdmgatSNxejrHOF5ri0ualwPE4Kfj/3nZUQxQ
-         slmg==
-X-Gm-Message-State: APjAAAUIcy1QbsQ7MtsR/3Uw0ErWP4Rizfbz2u6JpHnw3zgDAIu8IzGj
-        ABKE3ZLFoltojRB075KyFsBLjQ==
-X-Google-Smtp-Source: APXvYqyhzcoKkLyUNInxKHTRQ0D58ehVR/MM5voEdZBk61kMSmPqKu2JfV8+IDkI8ipd4TE0B17EDQ==
-X-Received: by 2002:a17:902:a413:: with SMTP id p19mr2767311plq.134.1565090768446;
-        Tue, 06 Aug 2019 04:26:08 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id h14sm113010833pfq.22.2019.08.06.04.26.07
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 06 Aug 2019 04:26:07 -0700 (PDT)
-Date:   Tue, 6 Aug 2019 07:26:06 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Minchan Kim <minchan@kernel.org>, linux-kernel@vger.kernel.org,
-        Robin Murphy <robin.murphy@arm.com>,
+        id S1730094AbfHFLoH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Aug 2019 07:44:07 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58590 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726783AbfHFLoH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Aug 2019 07:44:07 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0656EAF59;
+        Tue,  6 Aug 2019 11:44:04 +0000 (UTC)
+Date:   Tue, 6 Aug 2019 13:44:02 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -62,69 +34,94 @@ Cc:     Minchan Kim <minchan@kernel.org>, linux-kernel@vger.kernel.org,
         Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        paulmck@linux.ibm.com, Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
         Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 3/5] [RFC] arm64: Add support for idle bit in swap PTE
-Message-ID: <20190806112606.GC117316@google.com>
+Subject: Re: [PATCH v4 4/5] page_idle: Drain all LRU pagevec before idle
+ tracking
+Message-ID: <20190806114402.GX11812@dhcp22.suse.cz>
 References: <20190805170451.26009-1-joel@joelfernandes.org>
- <20190805170451.26009-3-joel@joelfernandes.org>
- <20190806084203.GJ11812@dhcp22.suse.cz>
- <20190806103627.GA218260@google.com>
- <20190806104755.GR11812@dhcp22.suse.cz>
- <20190806110737.GB32615@google.com>
- <20190806111452.GW11812@dhcp22.suse.cz>
+ <20190805170451.26009-4-joel@joelfernandes.org>
+ <20190806084357.GK11812@dhcp22.suse.cz>
+ <20190806104554.GB218260@google.com>
+ <20190806105149.GT11812@dhcp22.suse.cz>
+ <20190806111921.GB117316@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190806111452.GW11812@dhcp22.suse.cz>
+In-Reply-To: <20190806111921.GB117316@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 01:14:52PM +0200, Michal Hocko wrote:
-> On Tue 06-08-19 20:07:37, Minchan Kim wrote:
-> > On Tue, Aug 06, 2019 at 12:47:55PM +0200, Michal Hocko wrote:
-> > > On Tue 06-08-19 06:36:27, Joel Fernandes wrote:
-> > > > On Tue, Aug 06, 2019 at 10:42:03AM +0200, Michal Hocko wrote:
-> > > > > On Mon 05-08-19 13:04:49, Joel Fernandes (Google) wrote:
-> > > > > > This bit will be used by idle page tracking code to correctly identify
-> > > > > > if a page that was swapped out was idle before it got swapped out.
-> > > > > > Without this PTE bit, we lose information about if a page is idle or not
-> > > > > > since the page frame gets unmapped.
-> > > > > 
-> > > > > And why do we need that? Why cannot we simply assume all swapped out
-> > > > > pages to be idle? They were certainly idle enough to be reclaimed,
-> > > > > right? Or what does idle actualy mean here?
+On Tue 06-08-19 07:19:21, Joel Fernandes wrote:
+> On Tue, Aug 06, 2019 at 12:51:49PM +0200, Michal Hocko wrote:
+> > On Tue 06-08-19 06:45:54, Joel Fernandes wrote:
+> > > On Tue, Aug 06, 2019 at 10:43:57AM +0200, Michal Hocko wrote:
+> > > > On Mon 05-08-19 13:04:50, Joel Fernandes (Google) wrote:
+> > > > > During idle tracking, we see that sometimes faulted anon pages are in
+> > > > > pagevec but are not drained to LRU. Idle tracking considers pages only
+> > > > > on LRU. Drain all CPU's LRU before starting idle tracking.
 > > > > 
-> > > > Yes, but other than swapping, in Android a page can be forced to be swapped
-> > > > out as well using the new hints that Minchan is adding?
+> > > > Please expand on why does this matter enough to introduce a potentially
+> > > > expensinve draining which has to schedule a work on each CPU and wait
+> > > > for them to finish.
 > > > 
-> > > Yes and that is effectivelly making them idle, no?
+> > > Sure, I can expand. I am able to find multiple issues involving this. One
+> > > issue looks like idle tracking is completely broken. It shows up in my
+> > > testing as if a page that is marked as idle is always "accessed" -- because
+> > > it was never marked as idle (due to not draining of pagevec).
+> > > 
+> > > The other issue shows up as a failure in my "swap test", with the following
+> > > sequence:
+> > > 1. Allocate some pages
+> > > 2. Write to them
+> > > 3. Mark them as idle                                    <--- fails
+> > > 4. Introduce some memory pressure to induce swapping.
+> > > 5. Check the swap bit I introduced in this series.      <--- fails to set idle
+> > >                                                              bit in swap PTE.
+> > > 
+> > > Draining the pagevec in advance fixes both of these issues.
 > > 
-> > 1. mark page-A idle which was present at that time.
-> > 2. run workload
-> > 3. page-A is touched several times
-> > 4. *sudden* memory pressure happen so finally page A is finally swapped out
-> > 5. now see the page A idle - but it's incorrect.
+> > This belongs to the changelog.
 > 
-> Could you expand on what you mean by idle exactly? Why pageout doesn't
-> really qualify as "mark-idle and reclaim"? Also could you describe a
-> usecase where the swapout distinction really matters and it would lead
-> to incorrect behavior?
+> Sure, will add.
+> 
+> 
+> > > This operation even if expensive is only done once during the access of the
+> > > page_idle file. Did you have a better fix in mind?
+> > 
+> > Can we set the idle bit also for non-lru pages as long as they are
+> > reachable via pte?
+> 
+> Not at the moment with the current page idle tracking code. PageLRU(page)
+> flag is checked in page_idle_get_page().
 
-Michal,
-Did you read this post ? :
-https://lore.kernel.org/lkml/20190806104715.GC218260@google.com/T/#m4ece68ceaf6e54d4d29e974f5f4c1080e733f6c1
+yes, I am aware of the current code. I strongly suspect that the PageLRU
+check was there to not mark arbitrary page looked up by pfn with the
+idle bit because that would be unexpected. But I might be easily wrong
+here.
 
-Just wanted to be sure you did not miss it.
+> Even if we could set it for non-LRU, the idle bit (page flag) would not be
+> cleared if page is not on LRU because page-reclaim code (page_referenced() I
+> believe) would not clear it.
 
-thanks,
+Yes, it is either reclaim when checking references as you say but also
+mark_page_accessed. I believe the later might still have the page on the
+pcp LRU add cache. Maybe I am missing something something but it seems
+that there is nothing fundamentally requiring the user mapped page to be
+on the LRU list when seting the idle bit.
 
- - Joel
-
+That being said, your big hammer approach will work more reliable but if
+you do not feel like changing the underlying PageLRU assumption then
+document that draining should be removed longterm.
+-- 
+Michal Hocko
+SUSE Labs
