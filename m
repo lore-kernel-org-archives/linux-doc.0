@@ -1,127 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AB167D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 21:45:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC4277D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 22:19:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbfHFVdf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Aug 2019 17:33:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51354 "EHLO mail.kernel.org"
+        id S1726821AbfHFWTY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Aug 2019 18:19:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37640 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727067AbfHFVde (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:33:34 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726419AbfHFWTY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Aug 2019 18:19:24 -0400
+Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C973A21743;
-        Tue,  6 Aug 2019 21:33:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AB7B121874;
+        Tue,  6 Aug 2019 22:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127212;
-        bh=TN/yZ7FjGl5BN0jJpt8bZnFuEvxtK5gvDFA4qWawSi8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IO2DxLoLP2XBTcG6DKhj+LtbEryyetM83hLNmJuHMzuRKI1DKItYI61T3Y9eWyOTY
-         /WdZgZ1Jo2dpipEoIzfC557ZT7OgPUEwDvZfoguzUH6oEDsrLLk91pDrEHNz1nronB
-         shkGE3xB2I3bz6k9TSoERWwkMIU5rIxQeJSWY5CM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 10/59] mm/hmm: always return EBUSY for invalid ranges in hmm_range_{fault,snapshot}
-Date:   Tue,  6 Aug 2019 17:32:30 -0400
-Message-Id: <20190806213319.19203-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
-References: <20190806213319.19203-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        s=default; t=1565129963;
+        bh=uggloegaAwke9A4UP4qBuMyVFR/d5SRDz42VgcGIwio=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=meFIABtuhORcSvMNLD1Hv0nThWvFZI0Qr53BkMiWwh6sZaACsB8AxS19EWRhOD245
+         XPjeM7EQeanIE0mnWrDAF2RVaT5KRg5MyslBzowrxK7IAG3AckB1mYjDZTe7CHOPId
+         5LjvjYRK0qyrzcwOxuFdWnbt8prbQySEv0+MClOM=
+Date:   Tue, 6 Aug 2019 15:19:21 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, joelaf@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Brendan Gregg <brendan.d.gregg@gmail.com>
+Subject: Re: [PATCH v4 1/5] mm/page_idle: Add per-pid idle page tracking
+ using virtual indexing
+Message-Id: <20190806151921.edec128271caccb5214fc1bd@linux-foundation.org>
+In-Reply-To: <20190805170451.26009-1-joel@joelfernandes.org>
+References: <20190805170451.26009-1-joel@joelfernandes.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Christoph Hellwig <hch@lst.de>
+(cc Brendan's other email address, hoping for review input ;))
 
-[ Upstream commit 2bcbeaefde2f0384d6ad351c151b1a9fe7791a0a ]
+On Mon,  5 Aug 2019 13:04:47 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
 
-We should not have two different error codes for the same
-condition. EAGAIN must be reserved for the FAULT_FLAG_ALLOW_RETRY retry
-case and signals to the caller that the mmap_sem has been unlocked.
+> The page_idle tracking feature currently requires looking up the pagemap
+> for a process followed by interacting with /sys/kernel/mm/page_idle.
+> Looking up PFN from pagemap in Android devices is not supported by
+> unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
+> 
+> This patch adds support to directly interact with page_idle tracking at
+> the PID level by introducing a /proc/<pid>/page_idle file.  It follows
+> the exact same semantics as the global /sys/kernel/mm/page_idle, but now
+> looking up PFN through pagemap is not needed since the interface uses
+> virtual frame numbers, and at the same time also does not require
+> SYS_ADMIN.
+> 
+> In Android, we are using this for the heap profiler (heapprofd) which
+> profiles and pin points code paths which allocates and leaves memory
+> idle for long periods of time. This method solves the security issue
+> with userspace learning the PFN, and while at it is also shown to yield
+> better results than the pagemap lookup, the theory being that the window
+> where the address space can change is reduced by eliminating the
+> intermediate pagemap look up stage. In virtual address indexing, the
+> process's mmap_sem is held for the duration of the access.
 
-Use EBUSY for the !valid case so that callers can get the locking right.
+Quite a lot of changes to the page_idle code.  Has this all been
+runtime tested on architectures where
+CONFIG_HAVE_ARCH_PTE_SWP_PGIDLE=n?  That could be x86 with a little
+Kconfig fiddle-for-testing-purposes.
 
-Link: https://lore.kernel.org/r/20190724065258.16603-2-hch@lst.de
-Tested-by: Ralph Campbell <rcampbell@nvidia.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-[jgg: elaborated commit message]
-Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/vm/hmm.rst |  2 +-
- mm/hmm.c                 | 10 ++++------
- 2 files changed, 5 insertions(+), 7 deletions(-)
+> 8 files changed, 376 insertions(+), 45 deletions(-)
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index 7cdf7282e0229..65b6c1109cc81 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -231,7 +231,7 @@ respect in order to keep things properly synchronized. The usage pattern is::
-       ret = hmm_range_snapshot(&range);
-       if (ret) {
-           up_read(&mm->mmap_sem);
--          if (ret == -EAGAIN) {
-+          if (ret == -EBUSY) {
-             /*
-              * No need to check hmm_range_wait_until_valid() return value
-              * on retry we will get proper error with hmm_range_snapshot()
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 4c405dfbd2b3d..27dd9a8816272 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -995,7 +995,7 @@ EXPORT_SYMBOL(hmm_range_unregister);
-  * @range: range
-  * Returns: -EINVAL if invalid argument, -ENOMEM out of memory, -EPERM invalid
-  *          permission (for instance asking for write and range is read only),
-- *          -EAGAIN if you need to retry, -EFAULT invalid (ie either no valid
-+ *          -EBUSY if you need to retry, -EFAULT invalid (ie either no valid
-  *          vma or it is illegal to access that range), number of valid pages
-  *          in range->pfns[] (from range start address).
-  *
-@@ -1019,7 +1019,7 @@ long hmm_range_snapshot(struct hmm_range *range)
- 	do {
- 		/* If range is no longer valid force retry. */
- 		if (!range->valid)
--			return -EAGAIN;
-+			return -EBUSY;
- 
- 		vma = find_vma(hmm->mm, start);
- 		if (vma == NULL || (vma->vm_flags & device_vma))
-@@ -1117,10 +1117,8 @@ long hmm_range_fault(struct hmm_range *range, bool block)
- 
- 	do {
- 		/* If range is no longer valid force retry. */
--		if (!range->valid) {
--			up_read(&hmm->mm->mmap_sem);
--			return -EAGAIN;
--		}
-+		if (!range->valid)
-+			return -EBUSY;
- 
- 		vma = find_vma(hmm->mm, start);
- 		if (vma == NULL || (vma->vm_flags & device_vma))
--- 
-2.20.1
+Quite a lot of new code unconditionally added to major architectures. 
+Are we confident that everyone will want this feature?
 
+>
+> ...
+>
+> +static int proc_page_idle_open(struct inode *inode, struct file *file)
+> +{
+> +	struct mm_struct *mm;
+> +
+> +	mm = proc_mem_open(inode, PTRACE_MODE_READ);
+> +	if (IS_ERR(mm))
+> +		return PTR_ERR(mm);
+> +	file->private_data = mm;
+> +	return 0;
+> +}
+> +
+> +static int proc_page_idle_release(struct inode *inode, struct file *file)
+> +{
+> +	struct mm_struct *mm = file->private_data;
+> +
+> +	if (mm)
+
+I suspect the test isn't needed?  proc_page_idle_release) won't be
+called if proc_page_idle_open() failed?
+
+> +		mmdrop(mm);
+> +	return 0;
+> +}
+>
+> ...
+>
