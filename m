@@ -1,117 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 827F17D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 16:47:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43AC77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 17:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732949AbfHFQrL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Aug 2019 12:47:11 -0400
-Received: from skedge04.snt-world.com ([91.208.41.69]:52236 "EHLO
-        skedge04.snt-world.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732917AbfHFQrK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Aug 2019 12:47:10 -0400
-X-Greylist: delayed 379 seconds by postgrey-1.27 at vger.kernel.org; Tue, 06 Aug 2019 12:47:10 EDT
-Received: from sntmail12r.snt-is.com (unknown [10.203.32.182])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by skedge04.snt-world.com (Postfix) with ESMTPS id CAAD367A883;
-        Tue,  6 Aug 2019 18:40:49 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail12r.snt-is.com
- (10.203.32.182) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 6 Aug 2019
- 18:40:49 +0200
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1713.004; Tue, 6 Aug 2019 18:40:49 +0200
-From:   Schrempf Frieder <frieder.schrempf@kontron.de>
-To:     John Garry <john.garry@huawei.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1728879AbfHFRLW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Aug 2019 13:11:22 -0400
+Received: from mail-eopbgr70089.outbound.protection.outlook.com ([40.107.7.89]:5470
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726783AbfHFRLW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Aug 2019 13:11:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vxm5RE49shRV2hTcUfrFMQoRotGSb6PkbQT1WNJMZAd9po1Gp8MmWxb2/eVHVpfpy4Eqk+IH9ym4KNmWK+xABzpEngtwUm3v8cUTTYxUHBEHUckxFJ/go1Y1ZWicHy10YiR+dB45y1SnscaXvYSuBH6yCeYhtf3GGC88N/14m/9uWq6IK9M1Pc4zklfBjZFaCpCmYfdhulNu61U4Bkb0kSs49CFvwZGT1GzLINp9f2tQvvNfLp1urj8uE7uRsCtYkJSxt9LicmT7ZxwP7D1RVcrQseECMsjQNYK3Ym3l6TqtxBDDhAnfFMoNQdnlUokZHCxXOuMCBsxJNxmqfCoLAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YHe2KIGn3QBQdyBwIdd9a0pE6v/FfkYw/l0ipDDlpnQ=;
+ b=IaYk/Ll+4Xi9OD7JXJ1eAWP9C0r8kZ8d6j11WYXi3TtUz2rw+56W6JikhuPOsN3bt6fe9kMi5qzgZbB254H5WRtdIqfpjjtYyzTndwZHaQHBEK2KlYjJH9r6s3Vi7hpinZVA3xxhrLf2eriYjKydc1ia3HOJu+YB6WJkRd15b95r2YvxuHPL8uSEyCsbEVG0uXWOmY1Vrf5ThXxo6SvvdI9M0Sc38IIeoFOvGXQ21rQoDC94+EdJcNqg1zqS/eN+QZDMGM0i0c57zkYJRqmfTQ40QMpEqWJN/7SAdQZr9HO+gB0mp5Jr4wAIlQCIa8HMqgsJwrtxUGTV3berCrQoWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=nxp.com;dmarc=pass action=none header.from=nxp.com;dkim=pass
+ header.d=nxp.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YHe2KIGn3QBQdyBwIdd9a0pE6v/FfkYw/l0ipDDlpnQ=;
+ b=sMWtBIw4VlMf/+movomvq7ogx5MFv3Sb6MXtGtFgPpPWS3cfYOY7yy5V2qXWcs+aadz7ngzk8JGGOvqZ529bBKOGm1b/gEuDGGbW2RJV6mwg4bHgHdKkxHG7lidZw4WQVPd1vjJAq3gvn0eYndLqtM1Bjy83lbrszl9Ez23Ps2Q=
+Received: from HE1PR0402MB2857.eurprd04.prod.outlook.com (10.175.29.135) by
+ HE1PR0402MB3578.eurprd04.prod.outlook.com (10.167.126.140) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2136.17; Tue, 6 Aug 2019 17:11:17 +0000
+Received: from HE1PR0402MB2857.eurprd04.prod.outlook.com
+ ([fe80::1ced:9626:a551:ec5f]) by HE1PR0402MB2857.eurprd04.prod.outlook.com
+ ([fe80::1ced:9626:a551:ec5f%11]) with mapi id 15.20.2136.018; Tue, 6 Aug 2019
+ 17:11:17 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
-        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
-        "richard@nod.at" <richard@nod.at>,
-        "vigneshr@ti.com" <vigneshr@ti.com>
-Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
-Thread-Topic: [PATCH] docs: mtd: Update spi nor reference driver
-Thread-Index: AQHVTHFK/VQj/Xg/00CSD7MmPvBJMabuL3MAgAABiQA=
-Date:   Tue, 6 Aug 2019 16:40:49 +0000
-Message-ID: <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
-References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
- <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
-In-Reply-To: <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
-Accept-Language: de-DE, en-US
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
+        Larisa Ileana Grigore <larisa.grigore@nxp.com>
+Subject: Re: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
+Thread-Topic: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
+Thread-Index: AQHVTHn1y10az0N8mUWM4VNvSHKzDA==
+Date:   Tue, 6 Aug 2019 17:11:17 +0000
+Message-ID: <HE1PR0402MB28579034C09EB49A76A4F8E7DFD50@HE1PR0402MB2857.eurprd04.prod.outlook.com>
+References: <20190802194702.30249-1-stefan-gabriel.mirea@nxp.com>
+ <20190802194702.30249-6-stefan-gabriel.mirea@nxp.com>
+ <20190805153114.GA16836@kroah.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <632CB3CC467B7C46ABA2F0EDB4C1B97E@snt-world.com>
-Content-Transfer-Encoding: base64
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 703609ad-10c5-439b-4f88-08d71a911843
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:HE1PR0402MB3578;
+x-ms-traffictypediagnostic: HE1PR0402MB3578:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <HE1PR0402MB357893B470A4A40CA87426C0DFD50@HE1PR0402MB3578.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0121F24F22
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(396003)(346002)(39860400002)(136003)(189003)(199004)(2351001)(99286004)(6436002)(91956017)(6306002)(2501003)(33656002)(55016002)(5640700003)(8676002)(66556008)(64756008)(9686003)(66446008)(66476007)(229853002)(66946007)(4326008)(5660300002)(53936002)(1730700003)(81156014)(81166006)(478600001)(14444005)(6916009)(52536014)(256004)(8936002)(76116006)(966005)(6246003)(71200400001)(7416002)(25786009)(71190400001)(3846002)(6116002)(7736002)(486006)(7696005)(316002)(186003)(26005)(14454004)(74316002)(86362001)(446003)(476003)(305945005)(68736007)(53546011)(6506007)(54906003)(66066001)(2906002)(102836004)(76176011);DIR:OUT;SFP:1101;SCL:1;SRVR:HE1PR0402MB3578;H:HE1PR0402MB2857.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 3vvQvASBOmKksFhtBOAUw/ZnPoA734mnfKfv3o0JIuvo+qT/vAbO8iHS8lxFAXQagLuwqvE7BFGKIr3bG8kLPCX5wT6tDEzWCTSrZvwV17hFSUTqFF7slT/9Ul4sf2Tv+Y6sqFhtRVfC+mya9ON2w2ePK9lwwdu3CynO+lEKXLYwxMg7bcATaY2Kbo2UnhbVzIf7bvFGr33KrUJcADmPIFCNTmQ21Jc/uI9JKThneuEkDl+VSBLixsKSUVCTjtTHWYBXfc7QNR0H82cnFLAQfouDbFhwgVzIpttWlMA8VAMI5ABh+opDjoLI3zcqiOGArj4og71LYXDw7hyU4RWgm9t78MSL4z5dfha9y42xJZV7eh5diA3/MM4iJRpWOhNVv7tuxNOGC95mt13/QU4kYsBQYhM7gITZ8rtfZx00VbM=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: CAAD367A883.A1723
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: broonie@kernel.org, corbet@lwn.net,
-        john.garry@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-        marek.vasut@gmail.com, mchehab+samsung@kernel.org,
-        miquel.raynal@bootlin.com, richard@nod.at,
-        tudor.ambarus@microchip.com, vigneshr@ti.com
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 703609ad-10c5-439b-4f88-08d71a911843
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2019 17:11:17.4749
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: stefan-gabriel.mirea@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0402MB3578
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Q2M6ICtNVEQvU1BJLU5PUi9TUEkgbWFpbnRhaW5lcnMNCg0KSGkgSm9obiwNCg0KT24gMDYuMDgu
-MTkgMTg6MzUsIEpvaG4gR2Fycnkgd3JvdGU6DQo+IE9uIDA2LzA4LzIwMTkgMTc6MDYsIEpvaG4g
-R2Fycnkgd3JvdGU6DQo+PiBUaGUgcmVmZXJlbmNlIGRyaXZlciBubyBsb25nZXIgZXhpc3RzIHNp
-bmNlIGNvbW1pdCA1MGYxMjQyYzY3NDIgKCJtdGQ6DQo+PiBmc2wtcXVhZHNwaTogUmVtb3ZlIHRo
-ZSBkcml2ZXIgYXMgaXQgd2FzIHJlcGxhY2VkIGJ5IHNwaS1mc2wtcXNwaS5jIikuDQo+Pg0KPj4g
-VXBkYXRlIHJlZmVyZW5jZSB0byBzcGktZnNsLXFzcGkuYyBkcml2ZXIuDQo+Pg0KPj4gU2lnbmVk
-LW9mZi1ieTogSm9obiBHYXJyeSA8am9obi5nYXJyeUBodWF3ZWkuY29tPg0KPj4NCj4+IGRpZmYg
-LS1naXQgYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbXRkL3NwaS1ub3IucnN0IA0KPj4gYi9E
-b2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbXRkL3NwaS1ub3IucnN0DQo+PiBpbmRleCBmNTMzM2Uz
-YmY0ODYuLjFmMDQzNzY3Njc2MiAxMDA2NDQNCj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZHJpdmVy
-LWFwaS9tdGQvc3BpLW5vci5yc3QNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9t
-dGQvc3BpLW5vci5yc3QNCj4gDQo+IEluIGZhY3QgdGhpcyBkb2N1bWVudCBoYXMgbWFueSByZWZl
-cmVuY2VzIHRvIEZyZWVzY2FsZSBRdWFkU1BJIC0gY291bGQgDQo+IHNvbWVvbmUga2luZGx5IHJl
-dmlldyB0aGlzIGNvbXBsZXRlIGRvY3VtZW50IGZvciB1cC10by1kYXRlIGFjY3VyYWN5Pw0KDQpU
-aGUgbmV3IGRyaXZlciBzcGktZnNsLXFzcGkuYyBpcyBub3QgYSBTUEkgTk9SIGNvbnRyb2xsZXIg
-ZHJpdmVyIA0KYW55bW9yZS4gSXQgaXMgbm93IGEgU1BJIGNvbnRyb2xsZXIgZHJpdmVyIHRoYXQg
-dXNlcyB0aGUgU1BJIE1FTSBBUEksIHNvIA0KcmVmZXJlbmNpbmcgaXQgaGVyZSBpcyBvYnNvbGV0
-ZS4NCg0KQWN0dWFsbHkgaXQgc2VlbXMgbGlrZSB0aGUgd2hvbGUgZmlsZSBpcyBvYnNvbGV0ZSBh
-bmQgbmVlZHMgdG8gYmUgDQpyZW1vdmVkIG9yIHJlcGxhY2VkIGJ5IHByb3BlciBkb2N1bWVudGF0
-aW9uIG9mIHRoZSBTUEkgTUVNIEFQSS4NCg0KQE1haW50YWluZXJzOg0KTWF5YmUgdGhlIGRvY3Mg
-dW5kZXIgRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL210ZCBzaG91bGQgYmUgb2ZmaWNpYWxseSAN
-Cm1haW50YWluZWQgYnkgdGhlIE1URCBzdWJzeXN0ZW0gKGFuZCBhZGRlZCB0byBNQUlOVEFJTkVS
-UykuIEFuZCBpZiB0aGVyZSANCndpbGwgYmUgc29tZSBkcml2ZXIgQVBJIGRvY3MgZm9yIFNQSSBN
-RU0gaXQgc2hvdWxkIHByb2JhYmx5IGxpdmUgaW4gDQpEb2N1bWVudGF0aW9uL2RyaXZlci1hcGkv
-c3BpIGluc3RlYWQgb2YgRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL210ZCwgYXMgDQpzcGktbWVt
-LmMgaXRzZWxmIGlzIGluIGRyaXZlcnMvc3BpLg0KDQpSZWdhcmRzLA0KRnJpZWRlcg0KDQo+IA0K
-PiBUaGFua3MsDQo+IEpvaG4NCj4gDQo+PiBAQCAtNTksNyArNTksNyBAQCBQYXJ0IElJSSAtIEhv
-dyBjYW4gZHJpdmVycyB1c2UgdGhlIGZyYW1ld29yaz8NCj4+DQo+PiDCoFRoZSBtYWluIEFQSSBp
-cyBzcGlfbm9yX3NjYW4oKS4gQmVmb3JlIHlvdSBjYWxsIHRoZSBob29rLCBhIGRyaXZlciANCj4+
-IHNob3VsZA0KPj4gwqBpbml0aWFsaXplIHRoZSBuZWNlc3NhcnkgZmllbGRzIGZvciBzcGlfbm9y
-e30uIFBsZWFzZSBzZWUNCj4+IC1kcml2ZXJzL210ZC9zcGktbm9yL3NwaS1ub3IuYyBmb3IgZGV0
-YWlsLiBQbGVhc2UgYWxzbyByZWZlciB0byANCj4+IGZzbC1xdWFkc3BpLmMNCj4+ICtkcml2ZXJz
-L210ZC9zcGktbm9yL3NwaS1ub3IuYyBmb3IgZGV0YWlsLiBQbGVhc2UgYWxzbyByZWZlciB0byAN
-Cj4+IHNwaS1mc2wtcXNwaS5jDQo+PiDCoHdoZW4geW91IHdhbnQgdG8gd3JpdGUgYSBuZXcgZHJp
-dmVyIGZvciBhIFNQSSBOT1IgY29udHJvbGxlci4NCj4+IMKgQW5vdGhlciBBUEkgaXMgc3BpX25v
-cl9yZXN0b3JlKCksIHRoaXMgaXMgdXNlZCB0byByZXN0b3JlIHRoZSBzdGF0dXMgDQo+PiBvZiBT
-UEkNCj4+IMKgZmxhc2ggY2hpcCBzdWNoIGFzIGFkZHJlc3NpbmcgbW9kZS4gQ2FsbCBpdCB3aGVu
-ZXZlciBkZXRhY2ggdGhlIA0KPj4gZHJpdmVyIGZyb20NCj4+DQo+IA0KPiANCj4gDQo+IF9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBMaW51
-eCBNVEQgZGlzY3Vzc2lvbiBtYWlsaW5nIGxpc3QNCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1tdGQv
+On 8/5/2019 6:31 PM, gregkh@linuxfoundation.org wrote:=0A=
+> On Fri, Aug 02, 2019 at 07:47:23PM +0000, Stefan-gabriel Mirea wrote:=0A=
+>>=0A=
+>> +/* Freescale Linflex UART */=0A=
+>> +#define PORT_LINFLEXUART     121=0A=
+> =0A=
+> Do you really need this modified?=0A=
+=0A=
+Hello Greg,=0A=
+=0A=
+This macro is meant to be assigned to port->type in the config_port=0A=
+method from uart_ops, in order for verify_port to know if the received=0A=
+serial_struct structure was really targeted for a LINFlex port. It=0A=
+needs to be defined outside, to avoid "collisions" with other drivers.=0A=
+=0A=
+As far as I see, uart_set_info() will actually fail at the=0A=
+"baud_base < 9600" check[1], right after calling verify_port(), when=0A=
+performing an ioctl() on "/dev/console" with TIOCSSERIAL using a=0A=
+serial_struct obtained with TIOCGSERIAL. This happens because this=0A=
+reduced version of the LINFlex UART driver will not touch the uartclk=0A=
+field of the uart_port (as there is currently no clock support).=0A=
+Therefore, the linflex_config/verify_port() functions, along with the=0A=
+PORT_LINFLEXUART macro, may be indeed unnecessary at this point (and=0A=
+should be added later). Is this what you mean?=0A=
+=0A=
+Other than that, I do not see anything wrong with the addition of a=0A=
+define in serial_core.h for this purpose (which is also what most of the=0A=
+serial drivers do, including amba-pl011.c, mentioned in=0A=
+Documentation/driver-api/serial/driver.rst as providing the reference=0A=
+implementation), so please be more specific.=0A=
+=0A=
+Regards,=0A=
+Stefan=0A=
+=0A=
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/drivers/tty/serial/serial_core.c?h=3Dv5.3-rc1#n872=0A=
