@@ -5,59 +5,71 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE1557D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 16:08:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87CF87D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Aug 2019 16:35:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732676AbfHFQI1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Aug 2019 12:08:27 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60952 "EHLO huawei.com"
+        id S2387818AbfHFQf1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Aug 2019 12:35:27 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56360 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732203AbfHFQI1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Aug 2019 12:08:27 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 1E2BBCD242C6BF83393B;
-        Wed,  7 Aug 2019 00:08:25 +0800 (CST)
-Received: from localhost.localdomain (10.67.212.75) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 7 Aug 2019 00:08:17 +0800
-From:   John Garry <john.garry@huawei.com>
+        id S1726877AbfHFQf0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Aug 2019 12:35:26 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 0D6F1403823FB709DEE3;
+        Wed,  7 Aug 2019 00:35:24 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Wed, 7 Aug 2019
+ 00:35:22 +0800
+Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
 To:     <corbet@lwn.net>, <mchehab+samsung@kernel.org>,
         <linux-mtd@lists.infradead.org>
+References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
 CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <frieder.schrempf@kontron.de>, John Garry <john.garry@huawei.com>
-Subject: [PATCH] docs: mtd: Update spi nor reference driver
-Date:   Wed, 7 Aug 2019 00:06:23 +0800
-Message-ID: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
+        <frieder.schrempf@kontron.de>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
+Date:   Tue, 6 Aug 2019 17:35:18 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.212.75]
+In-Reply-To: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reference driver no longer exists since commit 50f1242c6742 ("mtd:
-fsl-quadspi: Remove the driver as it was replaced by spi-fsl-qspi.c").
+On 06/08/2019 17:06, John Garry wrote:
+> The reference driver no longer exists since commit 50f1242c6742 ("mtd:
+> fsl-quadspi: Remove the driver as it was replaced by spi-fsl-qspi.c").
+>
+> Update reference to spi-fsl-qspi.c driver.
+>
+> Signed-off-by: John Garry <john.garry@huawei.com>
+>
+> diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
+> index f5333e3bf486..1f0437676762 100644
+> --- a/Documentation/driver-api/mtd/spi-nor.rst
+> +++ b/Documentation/driver-api/mtd/spi-nor.rst
 
-Update reference to spi-fsl-qspi.c driver.
+In fact this document has many references to Freescale QuadSPI - could 
+someone kindly review this complete document for up-to-date accuracy?
 
-Signed-off-by: John Garry <john.garry@huawei.com>
+Thanks,
+John
 
-diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
-index f5333e3bf486..1f0437676762 100644
---- a/Documentation/driver-api/mtd/spi-nor.rst
-+++ b/Documentation/driver-api/mtd/spi-nor.rst
-@@ -59,7 +59,7 @@ Part III - How can drivers use the framework?
- 
- The main API is spi_nor_scan(). Before you call the hook, a driver should
- initialize the necessary fields for spi_nor{}. Please see
--drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to fsl-quadspi.c
-+drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to spi-fsl-qspi.c
- when you want to write a new driver for a SPI NOR controller.
- Another API is spi_nor_restore(), this is used to restore the status of SPI
- flash chip such as addressing mode. Call it whenever detach the driver from
--- 
-2.17.1
+> @@ -59,7 +59,7 @@ Part III - How can drivers use the framework?
+>
+>  The main API is spi_nor_scan(). Before you call the hook, a driver should
+>  initialize the necessary fields for spi_nor{}. Please see
+> -drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to fsl-quadspi.c
+> +drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to spi-fsl-qspi.c
+>  when you want to write a new driver for a SPI NOR controller.
+>  Another API is spi_nor_restore(), this is used to restore the status of SPI
+>  flash chip such as addressing mode. Call it whenever detach the driver from
+>
+
 
