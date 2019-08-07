@@ -6,149 +6,632 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81C6C7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 17:06:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 120597D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 17:16:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388810AbfHGRG2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Aug 2019 13:06:28 -0400
-Received: from mail-eopbgr140088.outbound.protection.outlook.com ([40.107.14.88]:7041
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729278AbfHGRG1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Aug 2019 13:06:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C+4RWqS9mWQuYvxoKFrA8TwRtuaMNbIqdlzDENJyiykRsHSlWH2Z9EpOF7qxyCDW2kdANhAiwLlpOmVnX6S5ANdIwbMeKV5RQ/G5MkZzUFrjkavVpF1pTP4Qu36ZGurpy31pvICfDg4meUezibi3Hc0nN8S1KSX4nKZI8rqK5WuHhbVjB8Iwn7GXY0dhYdaTHk2WAeanTS5453Y4ukUvMM5ub89YWMgWf9ByJ6gPXcncJXJsAU5uUuZsYNzyue0gJI1G3/xLkuxiQCa3167y1UIMmFYPxfhmw/q5qYIUDit9uLOBgXd+HdTe14bxmPYF5l9JAcUNq6XuJkyhTUzBFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xXgom3m4usbskkXUBX4HQzilg0P2eehK84yCaDE9nHg=;
- b=MuECgnTNj61UdBvbejGDeufRc1XU012VqVjxvP54Vkb7QtVNz3OkX+no+aYjxE7RAtmZkui+d9xpp0fKo7/MR+WPZxvRc69vPNR2qxWSkO8CFvCQSkBFGQbeTdlTblgxL72YasyL8Qq8vfsFtMnzKigTuk+hJr7WcfdrtzEXZAWjQdcGPETNLjjPPpucVBdf3Fc+XYMQURSUIlf3k46krqAbB3abkKiyTfqT5QMuQibCnchADXwo5dy+SWIqpsTCGAIokUVXha9oeIDS2MD7HEhB+XMIvfxcK40PTKYUC4Tvzw3JChsavNCLTktsFq6EkyzrAwHM8H2qtma3m8TWSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=nxp.com;dmarc=pass action=none header.from=nxp.com;dkim=pass
- header.d=nxp.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xXgom3m4usbskkXUBX4HQzilg0P2eehK84yCaDE9nHg=;
- b=ZO4Uohw+YqIxJAbreLNtk5Bf02nHXO8/ScodvSMyZXjihi1p0/ABCNZNZmNSk/EM6x+90cgArtxO4BYsX0fU/ZZPcFz/VgHIT29rc7xP/OrZVSj4VCMWdAUWT5tEjy8ckqvcLsi/5iCBe+QM7nmF3DaMDvrs+VZLMJa3VwU7/to=
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
- VI1PR0402MB3774.eurprd04.prod.outlook.com (52.134.15.156) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.17; Wed, 7 Aug 2019 17:05:44 +0000
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023%7]) with mapi id 15.20.2157.015; Wed, 7 Aug 2019
- 17:05:44 +0000
-From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
-        Larisa Ileana Grigore <larisa.grigore@nxp.com>
-Subject: Re: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Topic: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Index: AQHVTUJZuWgkceiY7EG3+fZ0PXp0Og==
-Date:   Wed, 7 Aug 2019 17:05:43 +0000
-Message-ID: <VI1PR0402MB2863C28FAB5DA6356280432BDFD40@VI1PR0402MB2863.eurprd04.prod.outlook.com>
-References: <20190802194702.30249-1-stefan-gabriel.mirea@nxp.com>
- <20190802194702.30249-6-stefan-gabriel.mirea@nxp.com>
- <20190805153114.GA16836@kroah.com>
- <HE1PR0402MB28579034C09EB49A76A4F8E7DFD50@HE1PR0402MB2857.eurprd04.prod.outlook.com>
- <20190806184042.GA26041@kroah.com>
- <VI1PR0402MB2863C4406C06B0BDA3581822DFD40@VI1PR0402MB2863.eurprd04.prod.outlook.com>
- <20190807165646.GA6584@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c91bf569-509d-400c-82ed-08d71b597bde
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3774;
-x-ms-traffictypediagnostic: VI1PR0402MB3774:
-x-microsoft-antispam-prvs: <VI1PR0402MB3774540372699E7CBE161B28DFD40@VI1PR0402MB3774.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01221E3973
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(199004)(189003)(51744003)(71200400001)(66556008)(66946007)(64756008)(446003)(102836004)(53546011)(66476007)(6506007)(229853002)(186003)(66446008)(6916009)(5640700003)(53936002)(68736007)(2501003)(55016002)(4326008)(99286004)(71190400001)(3846002)(86362001)(74316002)(6116002)(66066001)(1730700003)(8676002)(8936002)(76116006)(9686003)(25786009)(91956017)(7736002)(7416002)(476003)(5660300002)(7696005)(478600001)(316002)(76176011)(26005)(6246003)(54906003)(81166006)(52536014)(2906002)(305945005)(33656002)(6436002)(14454004)(81156014)(2351001)(486006)(256004);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3774;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: CZi9f2mPsDSmKGfJ1WOPqmo3/Yf5Pk4oWs0Zcr1+djpEJdn2QHUSOPHqSQTp/5Em33c7RJe2zW+564r8lxy+8LN2qkFXi1sJ1/OCDG4mFYFVSoyH/dIaFnQqF/a3tyL/kJvuQf6+1Tx6sp/YMSW5qze7W3fsP9J3MohHwwHOgzUGQqIfRZ4akY5SgM9rMU6HSHPo8z8q3Igi6VAFWYc54scfGVcR8FTrGmN4lNDhMaWn9TktMXE+OBIZgDr3ehCInQJDExn3MDoIZalRL51DH8w92c4iRFw97dH28829MGw+oKrOaghVjxx5Mc+IWf7o6/ti69dJGUx+0Di3IIR6UQrapRfDqUcE5XIrn9VHfs/rhjy5uAWzYf+5urNY7OyUMFS0McvOZrDDik54OyQNrn1kJdSOzYz5Ry5xXD4gMAg=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1730266AbfHGRQJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Aug 2019 13:16:09 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43225 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729938AbfHGRQJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Aug 2019 13:16:09 -0400
+Received: by mail-pl1-f195.google.com with SMTP id 4so34764040pld.10
+        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2019 10:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kwNMw3tfSAgsxfQd6cmcDmIiNN49UpfqFGiK+CAE+vw=;
+        b=EaKbMWOI4W9lbLhaIFF7P4qLAUMsBQ6NB48fzxhcwctLHl4ntf/fKgT2JH1ar4MFFx
+         amsgfw+40lW7z3Q5c3BocesXT2wnD+sz8VN51IxjL1MtI9j1BcKaClUHGRa3kA2H1ljH
+         qHTBnLJkhIaxTL5mKVSHGnnW8VNwHX8sqwj/w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kwNMw3tfSAgsxfQd6cmcDmIiNN49UpfqFGiK+CAE+vw=;
+        b=nbPMSvhYJie9z6BdnQMq4bssehzpBVoZdzDABE0FhmHerDWoqUVaFi9uCT+VBC53o2
+         7Nya0mQXLkjn1fgBaRGNH7FVrh1um942Ygh+3pMfpN9eFxkDf8To6Z+oFgtxek6GtHei
+         21Y3K5BzzknN046p8FDQl0M62cOH3Hqunns/VoCPtP3urKQeyB3Eoq+pfwdphpkBGCtL
+         sb3lSQBRvROFY+na+CuFlAQGUAjb9Y7nTGPvwb5jlq9jp3EjBFu5yHZBX8O6SvVmQuRA
+         ABAMuYtv4IHsFvCgkLPveZrMT4NvuAYHBXNNeTxJEXNaydOdnfZ4F3DA8DWg0kaJNl4I
+         OC0w==
+X-Gm-Message-State: APjAAAXaXFPLcKI2ma412RV21GJPL+H1IUrAOtOXd8MvBlZamJe81mR8
+        i58LGGUu6Ecf987P+agm6B8A7Q==
+X-Google-Smtp-Source: APXvYqwOvh5fv9YPPkELPqezqZMHunyYysuKQkQRLMtPFm/lOj5teF51zHN97WthIhWg3ihU+CA5dQ==
+X-Received: by 2002:a17:902:d70a:: with SMTP id w10mr8605610ply.251.1565198168180;
+        Wed, 07 Aug 2019 10:16:08 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id a1sm62692130pgh.61.2019.08.07.10.16.04
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 07 Aug 2019 10:16:07 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, joelaf@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking using virtual index
+Date:   Wed,  7 Aug 2019 13:15:54 -0400
+Message-Id: <20190807171559.182301-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c91bf569-509d-400c-82ed-08d71b597bde
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2019 17:05:43.8454
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EqXslEB28TsGX4osT9gFlsJoBtjvEcCRemOuKUHSQ9QXrBzCt6xmpvC+RTXp/5G19p09hUCJWM6cYT0+fNt0HwV6xRx0B3wLp3uJc8ilLK0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3774
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/7/2019 7:56 PM, gregkh@linuxfoundation.org wrote:=0A=
-> On Wed, Aug 07, 2019 at 04:42:17PM +0000, Stefan-gabriel Mirea wrote:=0A=
->> On 8/6/2019 9:40 PM, gregkh@linuxfoundation.org wrote:=0A=
->>> On Tue, Aug 06, 2019 at 05:11:17PM +0000, Stefan-gabriel Mirea wrote:=
-=0A=
-=0A=
-<snip>=0A=
-=0A=
->>>> Other than that, I do not see anything wrong with the addition of a=0A=
->>>> define in serial_core.h for this purpose (which is also what most of t=
-he=0A=
->>>> serial drivers do, including amba-pl011.c, mentioned in=0A=
->>>> Documentation/driver-api/serial/driver.rst as providing the reference=
-=0A=
->>>> implementation), so please be more specific.=0A=
->>>=0A=
->>> I am getting tired of dealing with merge issues with that list, and no=
-=0A=
->>> one seems to be able to find where they are really needed for userspace=
-,=0A=
->>> especially for new devices.  What happens if you do not have use it?=0A=
->>=0A=
->> I see. If I drop its usage completely and leave 'type' from the=0A=
->> uart_port as 0, uart_port_startup() will fail when finding that=0A=
->> uport->type =3D=3D PORT_UNKNOWN at [1] (there may be other effects as we=
-ll,=0A=
->> e.g. due to the check in uart_configure_port[2]).=0A=
->>=0A=
->> So I suppose that I need to define some nonzero 'PORT_KNOWN' macro in=0A=
->> the driver and use that one internally for 'type'. Is my understanding=
-=0A=
->> correct? Will there be any problems if I define it to a positive integer=
-=0A=
->> which is already assigned to another driver, according to serial_core.h?=
-=0A=
-> =0A=
-> Ugh, ok, that's messy, nevermind.  Keep the #define in there, I will try=
-=0A=
-> to figure out how to move all of these at once sometime in the future...=
-=0A=
-> =0A=
-> sorry for the noise.=0A=
-=0A=
-No problem, thank you for your time.=0A=
-=0A=
-Regards,=0A=
-Stefan=0A=
+The page_idle tracking feature currently requires looking up the pagemap
+for a process followed by interacting with /sys/kernel/mm/page_idle.
+Looking up PFN from pagemap in Android devices is not supported by
+unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
+
+This patch adds support to directly interact with page_idle tracking at
+the PID level by introducing a /proc/<pid>/page_idle file.  It follows
+the exact same semantics as the global /sys/kernel/mm/page_idle, but now
+looking up PFN through pagemap is not needed since the interface uses
+virtual frame numbers, and at the same time also does not require
+SYS_ADMIN.
+
+In Android, we are using this for the heap profiler (heapprofd) which
+profiles and pin points code paths which allocates and leaves memory
+idle for long periods of time. This method solves the security issue
+with userspace learning the PFN, and while at it is also shown to yield
+better results than the pagemap lookup, the theory being that the window
+where the address space can change is reduced by eliminating the
+intermediate pagemap look up stage. In virtual address indexing, the
+process's mmap_sem is held for the duration of the access.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+v3->v4: Minor fixups (Minchan)
+        Add swap pte handling (Konstantin, Minchan)
+v2->v3:
+Fixed a bug where I was doing a kfree that is not needed due to not
+needing to do GFP_ATOMIC allocations.
+
+v1->v2:
+Mark swap ptes as idle (Minchan)
+Avoid need for GFP_ATOMIC (Andrew)
+Get rid of idle_page_list lock by moving list to stack
+
+Internal review -> v1:
+Fixes from Suren.
+Corrections to change log, docs (Florian, Sandeep)
+
+ fs/proc/base.c            |   3 +
+ fs/proc/internal.h        |   1 +
+ fs/proc/task_mmu.c        |  42 +++++
+ include/linux/page_idle.h |   4 +
+ mm/page_idle.c            | 337 +++++++++++++++++++++++++++++++++-----
+ 5 files changed, 342 insertions(+), 45 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index ebea9501afb8..fd2f74bd4e35 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3039,6 +3039,9 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
+ 	REG("smaps_rollup", S_IRUGO, proc_pid_smaps_rollup_operations),
+ 	REG("pagemap",    S_IRUSR, proc_pagemap_operations),
++#ifdef CONFIG_IDLE_PAGE_TRACKING
++	REG("page_idle", S_IRUSR|S_IWUSR, proc_page_idle_operations),
++#endif
+ #endif
+ #ifdef CONFIG_SECURITY
+ 	DIR("attr",       S_IRUGO|S_IXUGO, proc_attr_dir_inode_operations, proc_attr_dir_operations),
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index cd0c8d5ce9a1..bc9371880c63 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -293,6 +293,7 @@ extern const struct file_operations proc_pid_smaps_operations;
+ extern const struct file_operations proc_pid_smaps_rollup_operations;
+ extern const struct file_operations proc_clear_refs_operations;
+ extern const struct file_operations proc_pagemap_operations;
++extern const struct file_operations proc_page_idle_operations;
+ 
+ extern unsigned long task_vsize(struct mm_struct *);
+ extern unsigned long task_statm(struct mm_struct *,
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 582c5e680176..192ffc4e24d7 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1650,6 +1650,48 @@ const struct file_operations proc_pagemap_operations = {
+ 	.open		= pagemap_open,
+ 	.release	= pagemap_release,
+ };
++
++#ifdef CONFIG_IDLE_PAGE_TRACKING
++static ssize_t proc_page_idle_read(struct file *file, char __user *buf,
++				   size_t count, loff_t *ppos)
++{
++	return page_idle_proc_read(file, buf, count, ppos);
++}
++
++static ssize_t proc_page_idle_write(struct file *file, const char __user *buf,
++				 size_t count, loff_t *ppos)
++{
++	return page_idle_proc_write(file, (char __user *)buf, count, ppos);
++}
++
++static int proc_page_idle_open(struct inode *inode, struct file *file)
++{
++	struct mm_struct *mm;
++
++	mm = proc_mem_open(inode, PTRACE_MODE_READ);
++	if (IS_ERR(mm))
++		return PTR_ERR(mm);
++	file->private_data = mm;
++	return 0;
++}
++
++static int proc_page_idle_release(struct inode *inode, struct file *file)
++{
++	struct mm_struct *mm = file->private_data;
++
++	mmdrop(mm);
++	return 0;
++}
++
++const struct file_operations proc_page_idle_operations = {
++	.llseek		= mem_lseek, /* borrow this */
++	.read		= proc_page_idle_read,
++	.write		= proc_page_idle_write,
++	.open		= proc_page_idle_open,
++	.release	= proc_page_idle_release,
++};
++#endif /* CONFIG_IDLE_PAGE_TRACKING */
++
+ #endif /* CONFIG_PROC_PAGE_MONITOR */
+ 
+ #ifdef CONFIG_NUMA
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index 1e894d34bdce..a765a6d14e1a 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -106,6 +106,10 @@ static inline void clear_page_idle(struct page *page)
+ }
+ #endif /* CONFIG_64BIT */
+ 
++ssize_t page_idle_proc_write(struct file *file,
++	char __user *buf, size_t count, loff_t *ppos);
++ssize_t page_idle_proc_read(struct file *file,
++	char __user *buf, size_t count, loff_t *ppos);
+ #else /* !CONFIG_IDLE_PAGE_TRACKING */
+ 
+ static inline bool page_is_young(struct page *page)
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 295512465065..9de4f4c67a8c 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -5,17 +5,22 @@
+ #include <linux/sysfs.h>
+ #include <linux/kobject.h>
+ #include <linux/mm.h>
+-#include <linux/mmzone.h>
+-#include <linux/pagemap.h>
+-#include <linux/rmap.h>
+ #include <linux/mmu_notifier.h>
++#include <linux/mmzone.h>
+ #include <linux/page_ext.h>
+ #include <linux/page_idle.h>
++#include <linux/pagemap.h>
++#include <linux/rmap.h>
++#include <linux/sched/mm.h>
++#include <linux/swap.h>
++#include <linux/swapops.h>
+ 
+ #define BITMAP_CHUNK_SIZE	sizeof(u64)
+ #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
+ 
+ /*
++ * Get a reference to a page for idle tracking purposes, with additional checks.
++ *
+  * Idle page tracking only considers user memory pages, for other types of
+  * pages the idle flag is always unset and an attempt to set it is silently
+  * ignored.
+@@ -25,18 +30,13 @@
+  * page tracking. With such an indicator of user pages we can skip isolated
+  * pages, but since there are not usually many of them, it will hardly affect
+  * the overall result.
+- *
+- * This function tries to get a user memory page by pfn as described above.
+  */
+-static struct page *page_idle_get_page(unsigned long pfn)
++static struct page *page_idle_get_page(struct page *page_in)
+ {
+ 	struct page *page;
+ 	pg_data_t *pgdat;
+ 
+-	if (!pfn_valid(pfn))
+-		return NULL;
+-
+-	page = pfn_to_page(pfn);
++	page = page_in;
+ 	if (!page || !PageLRU(page) ||
+ 	    !get_page_unless_zero(page))
+ 		return NULL;
+@@ -51,6 +51,18 @@ static struct page *page_idle_get_page(unsigned long pfn)
+ 	return page;
+ }
+ 
++/*
++ * This function tries to get a user memory page by pfn as described above.
++ */
++static struct page *page_idle_get_page_pfn(unsigned long pfn)
++{
++
++	if (!pfn_valid(pfn))
++		return NULL;
++
++	return page_idle_get_page(pfn_to_page(pfn));
++}
++
+ static bool page_idle_clear_pte_refs_one(struct page *page,
+ 					struct vm_area_struct *vma,
+ 					unsigned long addr, void *arg)
+@@ -118,6 +130,47 @@ static void page_idle_clear_pte_refs(struct page *page)
+ 		unlock_page(page);
+ }
+ 
++/* Helper to get the start and end frame given a pos and count */
++static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
++				unsigned long *start, unsigned long *end)
++{
++	unsigned long max_frame;
++
++	/* If an mm is not given, assume we want physical frames */
++	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
++
++	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
++		return -EINVAL;
++
++	*start = pos * BITS_PER_BYTE;
++	if (*start >= max_frame)
++		return -ENXIO;
++
++	*end = *start + count * BITS_PER_BYTE;
++	if (*end > max_frame)
++		*end = max_frame;
++	return 0;
++}
++
++static bool page_idle_pte_check(struct page *page)
++{
++	if (!page)
++		return false;
++
++	if (page_is_idle(page)) {
++		/*
++		 * The page might have been referenced via a
++		 * pte, in which case it is not idle. Clear
++		 * refs and recheck.
++		 */
++		page_idle_clear_pte_refs(page);
++		if (page_is_idle(page))
++			return true;
++	}
++
++	return false;
++}
++
+ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
+ 				     struct bin_attribute *attr, char *buf,
+ 				     loff_t pos, size_t count)
+@@ -125,35 +178,21 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
+ 	u64 *out = (u64 *)buf;
+ 	struct page *page;
+ 	unsigned long pfn, end_pfn;
+-	int bit;
++	int bit, ret;
+ 
+-	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+-		return -EINVAL;
+-
+-	pfn = pos * BITS_PER_BYTE;
+-	if (pfn >= max_pfn)
+-		return 0;
+-
+-	end_pfn = pfn + count * BITS_PER_BYTE;
+-	if (end_pfn > max_pfn)
+-		end_pfn = max_pfn;
++	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
++	if (ret == -ENXIO)
++		return 0;  /* Reads beyond max_pfn do nothing */
++	else if (ret)
++		return ret;
+ 
+ 	for (; pfn < end_pfn; pfn++) {
+ 		bit = pfn % BITMAP_CHUNK_BITS;
+ 		if (!bit)
+ 			*out = 0ULL;
+-		page = page_idle_get_page(pfn);
+-		if (page) {
+-			if (page_is_idle(page)) {
+-				/*
+-				 * The page might have been referenced via a
+-				 * pte, in which case it is not idle. Clear
+-				 * refs and recheck.
+-				 */
+-				page_idle_clear_pte_refs(page);
+-				if (page_is_idle(page))
+-					*out |= 1ULL << bit;
+-			}
++		page = page_idle_get_page_pfn(pfn);
++		if (page && page_idle_pte_check(page)) {
++			*out |= 1ULL << bit;
+ 			put_page(page);
+ 		}
+ 		if (bit == BITMAP_CHUNK_BITS - 1)
+@@ -170,23 +209,16 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
+ 	const u64 *in = (u64 *)buf;
+ 	struct page *page;
+ 	unsigned long pfn, end_pfn;
+-	int bit;
++	int bit, ret;
+ 
+-	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+-		return -EINVAL;
+-
+-	pfn = pos * BITS_PER_BYTE;
+-	if (pfn >= max_pfn)
+-		return -ENXIO;
+-
+-	end_pfn = pfn + count * BITS_PER_BYTE;
+-	if (end_pfn > max_pfn)
+-		end_pfn = max_pfn;
++	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
++	if (ret)
++		return ret;
+ 
+ 	for (; pfn < end_pfn; pfn++) {
+ 		bit = pfn % BITMAP_CHUNK_BITS;
+ 		if ((*in >> bit) & 1) {
+-			page = page_idle_get_page(pfn);
++			page = page_idle_get_page_pfn(pfn);
+ 			if (page) {
+ 				page_idle_clear_pte_refs(page);
+ 				set_page_idle(page);
+@@ -224,6 +256,221 @@ struct page_ext_operations page_idle_ops = {
+ };
+ #endif
+ 
++/*  page_idle tracking for /proc/<pid>/page_idle */
++
++struct page_node {
++	struct page *page;
++	unsigned long addr;
++	struct list_head list;
++};
++
++struct page_idle_proc_priv {
++	unsigned long start_addr;
++	char *buffer;
++	int write;
++
++	/* Pre-allocate and provide nodes to pte_page_idle_proc_add() */
++	struct page_node *page_nodes;
++	int cur_page_node;
++	struct list_head *idle_page_list;
++};
++
++/*
++ * Add page to list to be set as idle later.
++ */
++static void pte_page_idle_proc_add(struct page *page,
++			       unsigned long addr, struct mm_walk *walk)
++{
++	struct page *page_get = NULL;
++	struct page_node *pn;
++	int bit;
++	unsigned long frames;
++	struct page_idle_proc_priv *priv = walk->private;
++	u64 *chunk = (u64 *)priv->buffer;
++
++	if (priv->write) {
++		VM_BUG_ON(!page);
++
++		/* Find whether this page was asked to be marked */
++		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
++		bit = frames % BITMAP_CHUNK_BITS;
++		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
++		if (((*chunk >> bit) & 1) == 0)
++			return;
++	}
++
++	if (page) {
++		page_get = page_idle_get_page(page);
++		if (!page_get)
++			return;
++	}
++
++	/*
++	 * For all other pages, add it to a list since we have to walk rmap,
++	 * which acquires ptlock, and we cannot walk rmap right now.
++	 */
++	pn = &(priv->page_nodes[priv->cur_page_node++]);
++	pn->page = page_get;
++	pn->addr = addr;
++	list_add(&pn->list, priv->idle_page_list);
++}
++
++static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
++				    unsigned long end,
++				    struct mm_walk *walk)
++{
++	pte_t *pte;
++	spinlock_t *ptl;
++	struct page *page;
++	struct vm_area_struct *vma = walk->vma;
++
++	ptl = pmd_trans_huge_lock(pmd, vma);
++	if (ptl) {
++		if (pmd_present(*pmd)) {
++			page = follow_trans_huge_pmd(vma, addr, pmd,
++						     FOLL_DUMP|FOLL_WRITE);
++			if (!IS_ERR_OR_NULL(page))
++				pte_page_idle_proc_add(page, addr, walk);
++		}
++		spin_unlock(ptl);
++		return 0;
++	}
++
++	if (pmd_trans_unstable(pmd))
++		return 0;
++
++	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
++	for (; addr != end; pte++, addr += PAGE_SIZE) {
++		if (!pte_present(*pte))
++			continue;
++
++		page = vm_normal_page(vma, addr, *pte);
++		if (page)
++			pte_page_idle_proc_add(page, addr, walk);
++	}
++
++	pte_unmap_unlock(pte - 1, ptl);
++	return 0;
++}
++
++ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
++			       size_t count, loff_t *pos, int write)
++{
++	int ret;
++	char *buffer;
++	u64 *out;
++	unsigned long start_addr, end_addr, start_frame, end_frame;
++	struct mm_struct *mm = file->private_data;
++	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
++	struct page_node *cur;
++	struct page_idle_proc_priv priv;
++	bool walk_error = false;
++	LIST_HEAD(idle_page_list);
++
++	if (!mm || !mmget_not_zero(mm))
++		return -EINVAL;
++
++	if (count > PAGE_SIZE)
++		count = PAGE_SIZE;
++
++	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
++	if (!buffer) {
++		ret = -ENOMEM;
++		goto out_mmput;
++	}
++	out = (u64 *)buffer;
++
++	if (write && copy_from_user(buffer, ubuff, count)) {
++		ret = -EFAULT;
++		goto out;
++	}
++
++	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
++	if (ret)
++		goto out;
++
++	start_addr = (start_frame << PAGE_SHIFT);
++	end_addr = (end_frame << PAGE_SHIFT);
++	priv.buffer = buffer;
++	priv.start_addr = start_addr;
++	priv.write = write;
++
++	priv.idle_page_list = &idle_page_list;
++	priv.cur_page_node = 0;
++	priv.page_nodes = kzalloc(sizeof(struct page_node) *
++				  (end_frame - start_frame), GFP_KERNEL);
++	if (!priv.page_nodes) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	walk.private = &priv;
++	walk.mm = mm;
++
++	down_read(&mm->mmap_sem);
++
++	/*
++	 * idle_page_list is needed because walk_page_vma() holds ptlock which
++	 * deadlocks with page_idle_clear_pte_refs(). So we have to collect all
++	 * pages first, and then call page_idle_clear_pte_refs().
++	 */
++	ret = walk_page_range(start_addr, end_addr, &walk);
++	if (ret)
++		walk_error = true;
++
++	list_for_each_entry(cur, &idle_page_list, list) {
++		int bit, index;
++		unsigned long off;
++		struct page *page = cur->page;
++
++		if (unlikely(walk_error))
++			goto remove_page;
++
++		if (write) {
++			if (page) {
++				page_idle_clear_pte_refs(page);
++				set_page_idle(page);
++			}
++		} else {
++			if (page_idle_pte_check(page)) {
++				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
++				bit = off % BITMAP_CHUNK_BITS;
++				index = off / BITMAP_CHUNK_BITS;
++				out[index] |= 1ULL << bit;
++			}
++		}
++remove_page:
++		if (page)
++			put_page(page);
++	}
++
++	if (!write && !walk_error)
++		ret = copy_to_user(ubuff, buffer, count);
++
++	up_read(&mm->mmap_sem);
++	kfree(priv.page_nodes);
++out:
++	kfree(buffer);
++out_mmput:
++	mmput(mm);
++	if (!ret)
++		ret = count;
++	return ret;
++
++}
++
++ssize_t page_idle_proc_read(struct file *file, char __user *ubuff,
++			    size_t count, loff_t *pos)
++{
++	return page_idle_proc_generic(file, ubuff, count, pos, 0);
++}
++
++ssize_t page_idle_proc_write(struct file *file, char __user *ubuff,
++			     size_t count, loff_t *pos)
++{
++	return page_idle_proc_generic(file, ubuff, count, pos, 1);
++}
++
+ static int __init page_idle_init(void)
+ {
+ 	int err;
+-- 
+2.22.0.770.g0f2c4a37fd-goog
