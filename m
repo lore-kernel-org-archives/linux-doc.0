@@ -6,50 +6,49 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA9687D91B
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 17:16:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7CA47D91A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 17:16:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389100AbfHGRQ3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Aug 2019 13:16:29 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35463 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388207AbfHGRQ2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Aug 2019 13:16:28 -0400
-Received: by mail-pl1-f193.google.com with SMTP id w24so41765062plp.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2019 10:16:28 -0700 (PDT)
+        id S2388917AbfHGRQO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Aug 2019 13:16:14 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46337 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729714AbfHGRQN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Aug 2019 13:16:13 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c2so41738966plz.13
+        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2019 10:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
-        b=qSJJinjx4WgXKOGFZMmrrGe4d2ALaNficzckUCKQ9VzSczmwMe7F1Cq0uQ7tfoks+e
-         rtGpQwgXk30A1hVz+miPyOItSF28qM821PY2ovorbdNSmTsSYUUDhgdU2OE+wjQDzDPX
-         CSpRQfnNtyIHoIY+g92oO+tp+BGpBJMqcqBT0=
+        bh=P5X7WGyKIvWzv40/K4oiDqLDCW/4zY9Hm3MOMY58jQs=;
+        b=mD9C8IKc4XKpcbSYfwPnZKRldyQiL1dBx81QYoVmJDdux8Iep7i59/JSHFJYHk+XrJ
+         vrMJi8Xp2bdjRbFDtFrhqEh5Yc3Oopi7lxX7lQLO8r3AEgEvgNhzwo8UcjWMEY04/AC8
+         JYsHF/E+aVAAZwpyg1/P7F6EoLQTnU39+G9fc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
-        b=AHPfVhfeXrPUZU/S73l1nAMPleGLjt/j1Y+6UcMyD4hN9firs2D+zAAxPwVzzpL66y
-         /UPAytDVvRgRgMVPv87JWRfcN4q2MrKSHoEg7/6RK9/tlA8pdB31LJ0KG41SHy4u2AqS
-         ItocVINrUWXjqQh8bR97G0rEvzdMsHr+tPlo75OvrqpoUwZif7IomTsVKdIKZUFUb8++
-         c8baNzcqK02cuHBvAtd8FQ+z7M+Kkbyvdc9mDcAkGPuuJmH9LYy2iAb9NnO2pU8LouZJ
-         4ZMyAViLO/0dGy4njhUMJo4TCHoEVV1Dcd7BOJBlqB9aWxuf+oEiOh+dQ/LkhjG5GXWs
-         hbMg==
-X-Gm-Message-State: APjAAAUAMK/qQcP5BSVWbKO3rQ1+AEYjkb5fpy1AMRtgWu082ezmchRW
-        Y+H8WptgIRzCk4WYiH+hp0Ta2Q==
-X-Google-Smtp-Source: APXvYqwFZ4pqna4e9p6C0a1Fkqp6qRc76QmaknFJcHpGMEiflBOSwsFgniRNvWcMNGSw3sFAcWvCGQ==
-X-Received: by 2002:a17:90a:7148:: with SMTP id g8mr938080pjs.51.1565198187764;
-        Wed, 07 Aug 2019 10:16:27 -0700 (PDT)
+        bh=P5X7WGyKIvWzv40/K4oiDqLDCW/4zY9Hm3MOMY58jQs=;
+        b=KMdrZGTgtmNKyI3cK7b+ecGhDNwDPKg2ox1Uuy+xtxHxCl0W+Fk28OnFNyKL46C57J
+         9FfSkxWAKifuNjFZgxzVflDKiNQO0u2L/93qOkGPW4DcmYm4IlVxOKtkj5nQRIulsHJo
+         f55iQtWOr2ksVzELQfGVMEOagjGGlEV1rteSwENp3ny9I0baPt5OcXdCyYo189A1LFp5
+         +whMxYRclmJFNmTTQ2MOy4ut6TBf6AIW0LvWWbH86bvDh8PM3ryeukP8gTEyg2T6G1c6
+         eTJEgB9exUgu3vmXi1/eiv5O+w4jxAyAqrabJ7YbdDrFzT8/8t8sSPXLbHjpIP7wwOrf
+         p5oA==
+X-Gm-Message-State: APjAAAVsV6c6tWfWB5FqJ3aR+tBYJ9r2mwNn8008x2oAUlK4m+DrAZd/
+        yoiI7DNxap3fMnIIWLs8U1zQhA==
+X-Google-Smtp-Source: APXvYqy2HYLAn0m4KciMvOj56Jnl+GhF3rHn4PDJ2pDxkWs47lImKTGAEMqQOwqhhdZJFZxyaLa3aQ==
+X-Received: by 2002:a62:1ac9:: with SMTP id a192mr10254306pfa.260.1565198172140;
+        Wed, 07 Aug 2019 10:16:12 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id a1sm62692130pgh.61.2019.08.07.10.16.23
+        by smtp.gmail.com with ESMTPSA id a1sm62692130pgh.61.2019.08.07.10.16.08
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 07 Aug 2019 10:16:26 -0700 (PDT)
+        Wed, 07 Aug 2019 10:16:11 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Sandeep Patil <sspatil@google.com>,
+        Minchan Kim <minchan@kernel.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -62,17 +61,17 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>, minchan@kernel.org,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
+        paulmck@linux.ibm.com, Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
         Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: [PATCH v5 6/6] doc: Update documentation for page_idle virtual address indexing
-Date:   Wed,  7 Aug 2019 13:15:59 -0400
-Message-Id: <20190807171559.182301-6-joel@joelfernandes.org>
+Subject: [PATCH v5 2/6] mm/page_idle: Add support for handling swapped PG_Idle pages
+Date:   Wed,  7 Aug 2019 13:15:55 -0400
+Message-Id: <20190807171559.182301-2-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
 In-Reply-To: <20190807171559.182301-1-joel@joelfernandes.org>
 References: <20190807171559.182301-1-joel@joelfernandes.org>
@@ -83,85 +82,142 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch updates the documentation with the new page_idle tracking
-feature which uses virtual address indexing.
+Idle page tracking currently does not work well in the following
+scenario:
+ 1. mark page-A idle which was present at that time.
+ 2. run workload
+ 3. page-A is not touched by workload
+ 4. *sudden* memory pressure happen so finally page A is finally swapped out
+ 5. now see the page A - it appears as if it was accessed (pte unmapped
+    so idle bit not set in output) - but it's incorrect.
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Sandeep Patil <sspatil@google.com>
+To fix this, we store the idle information into a new idle bit of the
+swap PTE during swapping of anonymous pages.
+
+Also in the future, madvise extensions will allow a system process
+manager (like Android's ActivityManager) to swap pages out of a process
+that it knows will be cold. To an external process like a heap profiler
+that is doing idle tracking on another process, this procedure will
+interfere with the idle page tracking similar to the above steps.
+
+Suggested-by: Minchan Kim <minchan@kernel.org>
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
- 1 file changed, 36 insertions(+), 7 deletions(-)
+ arch/Kconfig                  |  3 +++
+ include/asm-generic/pgtable.h |  6 ++++++
+ mm/page_idle.c                | 26 ++++++++++++++++++++++++--
+ mm/rmap.c                     |  2 ++
+ 4 files changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-index df9394fb39c2..9eef32000f5e 100644
---- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-+++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-@@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
+diff --git a/arch/Kconfig b/arch/Kconfig
+index a7b57dd42c26..3aa121ce824e 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -575,6 +575,9 @@ config ARCH_WANT_HUGE_PMD_SHARE
+ config HAVE_ARCH_SOFT_DIRTY
+ 	bool
  
- User API
- ========
-+There are 2 ways to access the idle page tracking API. One uses physical
-+address indexing, another uses a simpler virtual address indexing scheme.
- 
--The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
--Currently, it consists of the only read-write file,
--``/sys/kernel/mm/page_idle/bitmap``.
-+Physical address indexing
-+-------------------------
-+The idle page tracking API for physical address indexing using page frame
-+numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-+consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
- 
- The file implements a bitmap where each bit corresponds to a memory page. The
- bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-@@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
- information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
- ``/proc/kpagecgroup``.
- 
-+Virtual address indexing
-+------------------------
-+The idle page tracking API for virtual address indexing using virtual frame
-+numbers (VFN) for a process ``<pid>`` is located at ``/proc/<pid>/page_idle``.
-+It is a bitmap that follows the same semantics as
-+``/sys/kernel/mm/page_idle/bitmap`` except that it uses virtual instead of
-+physical frame numbers.
++config HAVE_ARCH_PTE_SWP_PGIDLE
++	bool
 +
-+This idle page tracking API does not deal with PFN so it does not require prior
-+lookups of ``pagemap``. This is an advantage on some systems where looking up
-+PFN is considered a security issue.  Also in some cases, this interface could
-+be slightly more reliable to use than physical address indexing, since in
-+physical address indexing, address space changes can occur between reading the
-+``pagemap`` and reading the ``bitmap``, while in virtual address indexing, the
-+process's ``mmap_sem`` is held for the duration of the access.
-+
-+To estimate the amount of pages that are not used by a workload one should:
-+
-+ 1. Mark all the workload's pages as idle by setting corresponding bits in
-+    ``/proc/<pid>/page_idle``.
-+
-+ 2. Wait until the workload accesses its working set.
-+
-+ 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
-+
- .. _impl_details:
+ config HAVE_MOD_ARCH_SPECIFIC
+ 	bool
+ 	help
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 75d9d68a6de7..6d51d0a355a7 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -712,6 +712,12 @@ static inline void ptep_modify_prot_commit(struct vm_area_struct *vma,
+ #define arch_start_context_switch(prev)	do {} while (0)
+ #endif
  
- Implementation Details
-@@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
- exceeding the dirty memory limit, it is not marked referenced.
++#ifndef CONFIG_HAVE_ARCH_PTE_SWP_PGIDLE
++static inline pte_t pte_swp_mkpage_idle(pte_t pte) { return pte; }
++static inline int pte_swp_page_idle(pte_t pte) { return 0; }
++static inline pte_t pte_swp_clear_mkpage_idle(pte_t pte) { return pte; }
++#endif
++
+ #ifdef CONFIG_HAVE_ARCH_SOFT_DIRTY
+ #ifndef CONFIG_ARCH_ENABLE_THP_MIGRATION
+ static inline pmd_t pmd_swp_mksoft_dirty(pmd_t pmd)
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 9de4f4c67a8c..2766d4ab348c 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -276,7 +276,7 @@ struct page_idle_proc_priv {
+ };
  
- The idle memory tracking feature adds a new page flag, the Idle flag. This flag
--is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
--:ref:`User API <user_api>`
--section), and cleared automatically whenever a page is referenced as defined
--above.
-+is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
-+addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
-+addressing (see the :ref:`User API <user_api>` section), and cleared
-+automatically whenever a page is referenced as defined above.
+ /*
+- * Add page to list to be set as idle later.
++ * Set a page as idle or add it to a list to be set as idle later.
+  */
+ static void pte_page_idle_proc_add(struct page *page,
+ 			       unsigned long addr, struct mm_walk *walk)
+@@ -303,6 +303,13 @@ static void pte_page_idle_proc_add(struct page *page,
+ 		page_get = page_idle_get_page(page);
+ 		if (!page_get)
+ 			return;
++	} else {
++		/* For swapped pages, set output bit as idle */
++		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
++		bit = frames % BITMAP_CHUNK_BITS;
++		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
++		*chunk |= (1 << bit);
++		return;
+ 	}
  
- When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
- mapped to, otherwise we will not be able to detect accesses to the page coming
+ 	/*
+@@ -323,6 +330,7 @@ static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
+ 	spinlock_t *ptl;
+ 	struct page *page;
+ 	struct vm_area_struct *vma = walk->vma;
++	struct page_idle_proc_priv *priv = walk->private;
+ 
+ 	ptl = pmd_trans_huge_lock(pmd, vma);
+ 	if (ptl) {
+@@ -341,6 +349,19 @@ static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
+ 
+ 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+ 	for (; addr != end; pte++, addr += PAGE_SIZE) {
++		/* For swap_pte handling, we use an idle bit in the swap pte. */
++		if (is_swap_pte(*pte)) {
++			if (priv->write) {
++				set_pte_at(walk->mm, addr, pte,
++					   pte_swp_mkpage_idle(*pte));
++			} else {
++				/* If swap pte has idle bit set, report it as idle */
++				if (pte_swp_page_idle(*pte))
++					pte_page_idle_proc_add(NULL, addr, walk);
++			}
++			continue;
++		}
++
+ 		if (!pte_present(*pte))
+ 			continue;
+ 
+@@ -432,7 +453,8 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
+ 				set_page_idle(page);
+ 			}
+ 		} else {
+-			if (page_idle_pte_check(page)) {
++			/* If page is NULL, it was swapped out */
++			if (!page || page_idle_pte_check(page)) {
+ 				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
+ 				bit = off % BITMAP_CHUNK_BITS;
+ 				index = off / BITMAP_CHUNK_BITS;
+diff --git a/mm/rmap.c b/mm/rmap.c
+index e5dfe2ae6b0d..4bd618aab402 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1629,6 +1629,8 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
+ 			swp_pte = swp_entry_to_pte(entry);
+ 			if (pte_soft_dirty(pteval))
+ 				swp_pte = pte_swp_mksoft_dirty(swp_pte);
++			if (page_is_idle(page))
++				swp_pte = pte_swp_mkpage_idle(swp_pte);
+ 			set_pte_at(mm, address, pvmw.pte, swp_pte);
+ 			/* Invalidate as we cleared the pte */
+ 			mmu_notifier_invalidate_range(mm, address,
 -- 
 2.22.0.770.g0f2c4a37fd-goog
 
