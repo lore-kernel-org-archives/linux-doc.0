@@ -1,176 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08C2A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 10:00:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB4CA7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 10:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbfHGKAQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Aug 2019 06:00:16 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46368 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729241AbfHGKAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Aug 2019 06:00:16 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c2so39996874plz.13
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2019 03:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZzlW9YyeiJ854Q1Ko1IPtbBbq0BYDBiTFOQHxFAcEc0=;
-        b=tCgJHesT9hyuTLNhA2JU2/UNk19RK2nU5AFtCBJaYk5S3w1NDvpmaFeth5Yo8wYH0s
-         oM4Lnuq7N9b9hZ/RVsWSEyFtN0JZddKU9+yGb3onrTbH8MixdAzzdFWXDrrSZxkzHWDG
-         kUybN6h9P7J8OPDKxwZ6UTFwzfLKIdRbmfvNc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZzlW9YyeiJ854Q1Ko1IPtbBbq0BYDBiTFOQHxFAcEc0=;
-        b=hMZMG8+xMfU6swiBheAhDwWwsO5CvUNJHqxQUDkzRTUyLWAs86qnX1OBt/3ougDLR+
-         HoB76W+GuP0gLhERT4prBv2O06Pai6tuznTdFMWvniVo/uNSVt9ejj4cqbC0Yb1XQuYq
-         fPPbrCFWcmILFdJ4X9JlKFWdfMDwpRFH/2x1N4mLDnh5/mdUEwAC6GDH55WLYZ/BLlJU
-         7gAb2JtwO1Tb3IQNVvMTFJUxFQBteIFSru3K4RPoTs2WzEgAhG3l4F1bojbSj+tb6G1H
-         ZosrUphM6H1lpfVRFw9ONkSS3Cp2ZFyLLP8JqVG59qyjVpkW5z+hfiRkxs90lODEp3UQ
-         wllg==
-X-Gm-Message-State: APjAAAXMhvZgRsUEUNMSvG217beNnnJnOct/Y46EBE5k2ALtXtxH63zc
-        0N+7k9wWu3OY/NWVMTw96VRhAg==
-X-Google-Smtp-Source: APXvYqy9F4k99hNGDmUxs4p0Ff8mjnfF/NFd08nAV9/aNP72bhh+a9yeZ5zU0WZFHIFPpVKE8BbX4A==
-X-Received: by 2002:aa7:9117:: with SMTP id 23mr8530297pfh.206.1565172015496;
-        Wed, 07 Aug 2019 03:00:15 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id b136sm120273213pfb.73.2019.08.07.03.00.14
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 07 Aug 2019 03:00:14 -0700 (PDT)
-Date:   Wed, 7 Aug 2019 06:00:13 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>
-Subject: Re: [PATCH v4 1/5] mm/page_idle: Add per-pid idle page tracking
- using virtual indexing
-Message-ID: <20190807100013.GC169551@google.com>
-References: <20190805170451.26009-1-joel@joelfernandes.org>
- <20190806151921.edec128271caccb5214fc1bd@linux-foundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190806151921.edec128271caccb5214fc1bd@linux-foundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727012AbfHGKiy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Aug 2019 06:38:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43574 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727031AbfHGKiy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Aug 2019 06:38:54 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6158430BCB83;
+        Wed,  7 Aug 2019 10:38:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com [10.36.116.144])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 967F45DAA0;
+        Wed,  7 Aug 2019 10:38:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 779089D00; Wed,  7 Aug 2019 12:38:49 +0200 (CEST)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     tzimmermann@suse.de, Gerd Hoffmann <kraxel@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 1/3] drm: add gem ttm helpers
+Date:   Wed,  7 Aug 2019 12:38:47 +0200
+Message-Id: <20190807103849.7289-2-kraxel@redhat.com>
+In-Reply-To: <20190807103849.7289-1-kraxel@redhat.com>
+References: <20190807103849.7289-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Wed, 07 Aug 2019 10:38:53 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 03:19:21PM -0700, Andrew Morton wrote:
-> (cc Brendan's other email address, hoping for review input ;))
+Now with ttm_buffer_object being a subclass of drm_gem_object we can
+easily lookup ttm_buffer_object for a given drm_gem_object, which in
+turm allows to create common helper functions.  This patch starts off
+with dump mmap helpers.
 
-;)
+v2:
+ - drop drm_gem_ttm_mmap_offset().
+ - improve kerneldocs.
 
-> On Mon,  5 Aug 2019 13:04:47 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
-> 
-> > The page_idle tracking feature currently requires looking up the pagemap
-> > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > Looking up PFN from pagemap in Android devices is not supported by
-> > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
-> > 
-> > This patch adds support to directly interact with page_idle tracking at
-> > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > looking up PFN through pagemap is not needed since the interface uses
-> > virtual frame numbers, and at the same time also does not require
-> > SYS_ADMIN.
-> > 
-> > In Android, we are using this for the heap profiler (heapprofd) which
-> > profiles and pin points code paths which allocates and leaves memory
-> > idle for long periods of time. This method solves the security issue
-> > with userspace learning the PFN, and while at it is also shown to yield
-> > better results than the pagemap lookup, the theory being that the window
-> > where the address space can change is reduced by eliminating the
-> > intermediate pagemap look up stage. In virtual address indexing, the
-> > process's mmap_sem is held for the duration of the access.
-> 
-> Quite a lot of changes to the page_idle code.  Has this all been
-> runtime tested on architectures where
-> CONFIG_HAVE_ARCH_PTE_SWP_PGIDLE=n?  That could be x86 with a little
-> Kconfig fiddle-for-testing-purposes.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/drm/drm_gem_ttm_helper.h     | 27 +++++++++++++++++
+ drivers/gpu/drm/drm_gem_ttm_helper.c | 45 ++++++++++++++++++++++++++++
+ Documentation/gpu/drm-mm.rst         | 12 ++++++++
+ drivers/gpu/drm/Kconfig              |  7 +++++
+ drivers/gpu/drm/Makefile             |  3 ++
+ 5 files changed, 94 insertions(+)
+ create mode 100644 include/drm/drm_gem_ttm_helper.h
+ create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
 
-I will do this Kconfig fiddle test with CONFIG_HAVE_ARCH_PTE_SWP_PGIDLE=n and test
-the patch as well.
-
-In previous series, this flag was not there (which should have been
-equivalent to the above test), and things are working fine.
-
-> > 8 files changed, 376 insertions(+), 45 deletions(-)
-> 
-> Quite a lot of new code unconditionally added to major architectures. 
-> Are we confident that everyone will want this feature?
-
-I did not follow, could you clarify more? All of this diff stat is not to
-architecture code:
-
- arch/Kconfig                  |   3 ++
- fs/proc/base.c                |   3 ++
- fs/proc/internal.h            |   1 +
- fs/proc/task_mmu.c            |  43 +++++++++++++++++++++
- include/asm-generic/pgtable.h |   6 +++
- include/linux/page_idle.h     |   4 ++
- mm/page_idle.c                | 359 +++++++++++++++++++++++++++++..
- mm/rmap.c                     |   2 +
- 8 files changed, 376 insertions(+), 45 deletions(-)
-
-The arcitecture change is in a later patch, and is not that many lines.
-
-Also, I am planning to split the swap functionality of the patch into a
-separate one for easier review.
-
-> > +static int proc_page_idle_open(struct inode *inode, struct file *file)
-> > +{
-> > +	struct mm_struct *mm;
-> > +
-> > +	mm = proc_mem_open(inode, PTRACE_MODE_READ);
-> > +	if (IS_ERR(mm))
-> > +		return PTR_ERR(mm);
-> > +	file->private_data = mm;
-> > +	return 0;
-> > +}
-> > +
-> > +static int proc_page_idle_release(struct inode *inode, struct file *file)
-> > +{
-> > +	struct mm_struct *mm = file->private_data;
-> > +
-> > +	if (mm)
-> 
-> I suspect the test isn't needed?  proc_page_idle_release) won't be
-> called if proc_page_idle_open() failed?
-
-Yes you are right, will remove the test.
-
-thanks,
-
- - Joel
+diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
+new file mode 100644
+index 000000000000..0c0fbf76af60
+--- /dev/null
++++ b/include/drm/drm_gem_ttm_helper.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++
++#ifndef DRM_GEM_TTM_HELPER_H
++#define DRM_GEM_TTM_HELPER_H
++
++#include <linux/kernel.h>
++
++#include <drm/drm_gem.h>
++#include <drm/ttm/ttm_bo_api.h>
++
++/**
++ * Returns the container of type &struct ttm_buffer_object
++ * for field base.
++ * @gem:	the GEM object
++ * Returns:	The containing GEM VRAM object
++ */
++static inline struct ttm_buffer_object *drm_gem_ttm_of_gem(
++	struct drm_gem_object *gem)
++{
++	return container_of(gem, struct ttm_buffer_object, base);
++}
++
++int drm_gem_ttm_driver_dumb_mmap_offset(struct drm_file *file,
++					struct drm_device *dev,
++					uint32_t handle, uint64_t *offset);
++
++#endif
+diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
+new file mode 100644
+index 000000000000..7aa3c115e42c
+--- /dev/null
++++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++
++#include <drm/drm_gem_ttm_helper.h>
++
++/**
++ * DOC: overview
++ *
++ * This library provides helper functions for gem objects backed by
++ * ttm.
++ */
++
++/**
++ * drm_gem_ttm_driver_dumb_mmap_offset() - \
++	Implements &struct drm_driver.dumb_mmap_offset
++ * @file:	DRM file pointer.
++ * @dev:	DRM device.
++ * @handle:	GEM handle
++ * @offset:	Returns the mapping's memory offset on success
++ *
++ * Returns:
++ * 0 on success, or
++ * a negative errno code otherwise.
++ */
++int drm_gem_ttm_driver_dumb_mmap_offset(struct drm_file *file,
++					 struct drm_device *dev,
++					 uint32_t handle, uint64_t *offset)
++{
++	struct drm_gem_object *gem;
++
++	gem = drm_gem_object_lookup(file, handle);
++	if (!gem)
++		return -ENOENT;
++
++	/*
++	 * No drm_gem_create_mmap_offset() call here, ttm handles this
++	 * at bo initialization time instead.
++	 */
++
++	*offset = drm_vma_node_offset_addr(&gem->vma_node);
++
++	drm_gem_object_put_unlocked(gem);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_gem_ttm_driver_dumb_mmap_offset);
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index b664f054c259..a70a1d9f30ec 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
+    :export:
+ 
++GEM TTM Helper Functions Reference
++-----------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
++   :doc: overview
++
++.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
++   :internal:
++
++.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
++   :export:
++
+ VMA Offset Manager
+ ==================
+ 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index e6f40fb54c9a..f7b25519f95c 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
+ 	help
+ 	  Helpers for VRAM memory management
+ 
++config DRM_TTM_HELPER
++	tristate
++	depends on DRM
++	select DRM_TTM
++	help
++	  Helpers for ttm-based gem objects
++
+ config DRM_GEM_CMA_HELPER
+ 	bool
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 10f8329a8b71..545c61d6528b 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
+ 		     drm_vram_mm_helper.o
+ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+ 
++drm_ttm_helper-y := drm_gem_ttm_helper.o
++obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
++
+ drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
+ 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
+ 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
+-- 
+2.18.1
 
