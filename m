@@ -1,48 +1,51 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BODY_URI_ONLY,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_NAME_MR_MRS,HK_SCAM,LOTS_OF_MONEY,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E8537D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 22:27:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A58BF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 22:59:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404642AbfHHW07 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 18:26:59 -0400
-Received: from foss.arm.com ([217.140.110.172]:39522 "EHLO foss.arm.com"
+        id S2390006AbfHHW7l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 18:59:41 -0400
+Received: from zmail1.ufrnet.br ([177.20.144.93]:60150 "EHLO zmail1.ufrnet.br"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404636AbfHHW07 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Aug 2019 18:26:59 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB72F15A2;
-        Thu,  8 Aug 2019 15:26:58 -0700 (PDT)
-Received: from c02sv19cfvh4.usa.arm.com (c02sv19cfvh4.usa.arm.com [10.118.108.51])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D02DF3F575;
-        Thu,  8 Aug 2019 15:26:58 -0700 (PDT)
-Subject: Re: [Tee-dev] [RFC v2 2/6] tee: enable support to register kernel
- memory
-To:     Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Cc:     tee-dev@lists.linaro.org, daniel.thompson@linaro.org,
-        corbet@lwn.net, jejb@linux.ibm.com, ard.biesheuvel@linaro.org,
-        linux-doc@vger.kernel.org, zohar@linux.ibm.com,
-        linux-kernel@vger.kernel.org, dhowells@redhat.com,
-        jarkko.sakkinen@linux.intel.com, casey@schaufler-ca.com,
-        linux-arm-kernel@lists.infradead.org, serge@hallyn.com
-References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
- <1564489420-677-3-git-send-email-sumit.garg@linaro.org>
-From:   Stuart Yoder <stuart.yoder@arm.com>
-Message-ID: <99777010-db74-096a-ce1a-da30539d6fb5@arm.com>
-Date:   Thu, 8 Aug 2019 17:26:58 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.8.0
+        id S1725785AbfHHW7l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Aug 2019 18:59:41 -0400
+X-Greylist: delayed 725 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Aug 2019 18:59:39 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by zmail1.ufrnet.br (Postfix) with ESMTP id 5652A3229B7;
+        Thu,  8 Aug 2019 19:42:39 -0300 (-03)
+Received: from zmail1.ufrnet.br ([127.0.0.1])
+        by localhost (zmail1.ufrnet.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id j6HcwWcrGTMs; Thu,  8 Aug 2019 19:42:39 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by zmail1.ufrnet.br (Postfix) with ESMTP id A64833229C3;
+        Thu,  8 Aug 2019 19:42:38 -0300 (-03)
+X-Virus-Scanned: amavisd-new at zmail1.ufrnet.br
+Received: from zmail1.ufrnet.br ([127.0.0.1])
+        by localhost (zmail1.ufrnet.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id cfLiMHsfpwvD; Thu,  8 Aug 2019 19:42:38 -0300 (-03)
+Received: from zmail1.ufrnet.br (zmail1.ufrnet.br [10.3.224.96])
+        by zmail1.ufrnet.br (Postfix) with ESMTP id 485953229AE;
+        Thu,  8 Aug 2019 19:42:37 -0300 (-03)
+Date:   Thu, 8 Aug 2019 19:42:37 -0300 (BRT)
+From:   "Mrs. Laura Cha Shih" <faep@ufrnet.br>
+Reply-To: "lauracha203@gmail.com" <lauracha203@gmail.com>
+Message-ID: <603534923.10612304.1565304157265.JavaMail.zimbra@ufrnet.br>
+Subject: Business Proposal !!!
 MIME-Version: 1.0
-In-Reply-To: <1564489420-677-3-git-send-email-sumit.garg@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.3.224.96]
+X-Mailer: Zimbra 8.8.12_GA_3803 (zclient/8.8.12_GA_3803)
+Thread-Index: an82l44uk31Tx+0b8EiIDHsfZ6SxPQ==
+Thread-Topic: Business Proposal !!!
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -50,25 +53,5 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 7/30/19 7:23 AM, Sumit Garg wrote:
-
-> @@ -264,7 +266,17 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
->   		goto err;
->   	}
->   
-> -	rc = get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
-> +	if (flags & TEE_SHM_USER_MAPPED) {
-> +		rc = get_user_pages_fast(start, num_pages, FOLL_WRITE,
-> +					 shm->pages);
-> +	} else {
-> +		const struct kvec kiov = {
-> +			.iov_base = (void *)start,
-> +			.iov_len = PAGE_SIZE
-> +		};
-> +
-> +		rc = get_kernel_pages(&kiov, num_pages, 0, shm->pages);
-
-Passing a single kvec struct is temporary I assume?  Because as currently
-written this will only work with num_pages==1.
-
-Stuart
+Greetings to you,I am Mrs. Laura Cha Shih, from Shanghai Banking Corporation Limited,(China). I have a business proposal worth USD$30,000,000 (Thirty Million United States Dollars Only) for you to transact with me. Reply For More Details.Best Regards
+Mrs. Laura Cha Shih
