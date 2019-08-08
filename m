@@ -1,97 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F2DF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 20:15:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E8537D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 22:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390211AbfHHUPk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 16:15:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34096 "EHLO mail.kernel.org"
+        id S2404642AbfHHW07 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 18:26:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:39522 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389974AbfHHUPk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Aug 2019 16:15:40 -0400
-Received: from localhost (unknown [150.199.191.185])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3EC8D216C8;
-        Thu,  8 Aug 2019 20:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565295339;
-        bh=NN99e5PHnfVmaKBrXc64nZkhR1BnM4m3Qolu56N/q/I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PSwBxDwD5PNtiGP6UVcmsaSNYmAE7wY4wqZ0Qz2LOdzsasewk+C4887SX/IZ3k9ki
-         /e4Ckyi6Igw8L7lxU4a82HPEQ0jaBIIUcUoZoPRLs8jdHJkCWPV2PDTsNOXSKAHQ1k
-         NwYcXRexc4ny4k4Aj1bA84M7S090ygstF5/cgL94=
-Date:   Thu, 8 Aug 2019 15:15:38 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: PCI: Correct the resource_alignment parameter example
-Message-ID: <20190808201538.GB7302@google.com>
-References: <20190606032557.107542-1-aik@ozlabs.ru>
+        id S2404636AbfHHW07 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Aug 2019 18:26:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB72F15A2;
+        Thu,  8 Aug 2019 15:26:58 -0700 (PDT)
+Received: from c02sv19cfvh4.usa.arm.com (c02sv19cfvh4.usa.arm.com [10.118.108.51])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D02DF3F575;
+        Thu,  8 Aug 2019 15:26:58 -0700 (PDT)
+Subject: Re: [Tee-dev] [RFC v2 2/6] tee: enable support to register kernel
+ memory
+To:     Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Cc:     tee-dev@lists.linaro.org, daniel.thompson@linaro.org,
+        corbet@lwn.net, jejb@linux.ibm.com, ard.biesheuvel@linaro.org,
+        linux-doc@vger.kernel.org, zohar@linux.ibm.com,
+        linux-kernel@vger.kernel.org, dhowells@redhat.com,
+        jarkko.sakkinen@linux.intel.com, casey@schaufler-ca.com,
+        linux-arm-kernel@lists.infradead.org, serge@hallyn.com
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+ <1564489420-677-3-git-send-email-sumit.garg@linaro.org>
+From:   Stuart Yoder <stuart.yoder@arm.com>
+Message-ID: <99777010-db74-096a-ce1a-da30539d6fb5@arm.com>
+Date:   Thu, 8 Aug 2019 17:26:58 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606032557.107542-1-aik@ozlabs.ru>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1564489420-677-3-git-send-email-sumit.garg@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 01:25:57PM +1000, Alexey Kardashevskiy wrote:
-> The option description requires an order and so does the option
-> parsing code, however the example uses a size, fix this.
-> 
-> Fixes: 8b078c603249 ("PCI: Update "pci=resource_alignment" documentation")
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Applied to pci/resource for v5.4, thanks!
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 2b8ee90bb644..dcb53d64ad74 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3340,27 +3340,28 @@
->  		resource_alignment=
->  				Format:
->  				[<order of align>@]<pci_dev>[; ...]
->  				Specifies alignment and device to reassign
->  				aligned memory resources. How to
->  				specify the device is described above.
->  				If <order of align> is not specified,
->  				PAGE_SIZE is used as alignment.
->  				PCI-PCI bridge can be specified, if resource
->  				windows need to be expanded.
->  				To specify the alignment for several
->  				instances of a device, the PCI vendor,
->  				device, subvendor, and subdevice may be
-> -				specified, e.g., 4096@pci:8086:9c22:103c:198f
-> +				specified, e.g., 12@pci:8086:9c22:103c:198f
-> +				for the 4096 alignment.
->  		ecrc=		Enable/disable PCIe ECRC (transaction layer
->  				end-to-end CRC checking).
->  				bios: Use BIOS/firmware settings. This is the
->  				the default.
->  				off: Turn ECRC off
->  				on: Turn ECRC on.
->  		hpiosize=nn[KMG]	The fixed amount of bus space which is
->  				reserved for hotplug bridge's IO window.
->  				Default size is 256 bytes.
->  		hpmemsize=nn[KMG]	The fixed amount of bus space which is
->  				reserved for hotplug bridge's memory window.
->  				Default size is 2 megabytes.
->  		hpbussize=nn	The minimum amount of additional bus numbers
-> -- 
-> 2.17.1
-> 
+On 7/30/19 7:23 AM, Sumit Garg wrote:
+
+> @@ -264,7 +266,17 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
+>   		goto err;
+>   	}
+>   
+> -	rc = get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
+> +	if (flags & TEE_SHM_USER_MAPPED) {
+> +		rc = get_user_pages_fast(start, num_pages, FOLL_WRITE,
+> +					 shm->pages);
+> +	} else {
+> +		const struct kvec kiov = {
+> +			.iov_base = (void *)start,
+> +			.iov_len = PAGE_SIZE
+> +		};
+> +
+> +		rc = get_kernel_pages(&kiov, num_pages, 0, shm->pages);
+
+Passing a single kvec struct is temporary I assume?  Because as currently
+written this will only work with num_pages==1.
+
+Stuart
