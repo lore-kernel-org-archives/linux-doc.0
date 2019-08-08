@@ -1,59 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 887C97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 18:21:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F2DF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 20:15:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732327AbfHHSVR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 14:21:17 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:49362 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729925AbfHHSVR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Aug 2019 14:21:17 -0400
-Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::d71])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1B02A154FAE91;
-        Thu,  8 Aug 2019 11:21:16 -0700 (PDT)
-Date:   Thu, 08 Aug 2019 11:21:15 -0700 (PDT)
-Message-Id: <20190808.112115.294506784370148268.davem@davemloft.net>
-To:     emserrat@hotmail.com
-Cc:     clabbe@baylibre.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, tgraf@suug.ch
-Subject: Re: [Linux-decnet-user] [PATCH] Documentation: decnet: remove
- reference to CONFIG_DECNET_ROUTE_FWMARK
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <DM5PR22MB03797234267E8B37EA3080BBC4D70@DM5PR22MB0379.namprd22.prod.outlook.com>
-References: <1555778581-21468-1-git-send-email-clabbe@baylibre.com>
-        <20190421.112529.876668648990643427.davem@davemloft.net>
-        <DM5PR22MB03797234267E8B37EA3080BBC4D70@DM5PR22MB0379.namprd22.prod.outlook.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 08 Aug 2019 11:21:16 -0700 (PDT)
+        id S2390211AbfHHUPk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 16:15:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34096 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389974AbfHHUPk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Aug 2019 16:15:40 -0400
+Received: from localhost (unknown [150.199.191.185])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3EC8D216C8;
+        Thu,  8 Aug 2019 20:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565295339;
+        bh=NN99e5PHnfVmaKBrXc64nZkhR1BnM4m3Qolu56N/q/I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PSwBxDwD5PNtiGP6UVcmsaSNYmAE7wY4wqZ0Qz2LOdzsasewk+C4887SX/IZ3k9ki
+         /e4Ckyi6Igw8L7lxU4a82HPEQ0jaBIIUcUoZoPRLs8jdHJkCWPV2PDTsNOXSKAHQ1k
+         NwYcXRexc4ny4k4Aj1bA84M7S090ygstF5/cgL94=
+Date:   Thu, 8 Aug 2019 15:15:38 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: PCI: Correct the resource_alignment parameter example
+Message-ID: <20190808201538.GB7302@google.com>
+References: <20190606032557.107542-1-aik@ozlabs.ru>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606032557.107542-1-aik@ozlabs.ru>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eduardo Marcelo Serrat <emserrat@hotmail.com>
-Date: Thu, 8 Aug 2019 11:44:14 +0000
+On Thu, Jun 06, 2019 at 01:25:57PM +1000, Alexey Kardashevskiy wrote:
+> The option description requires an order and so does the option
+> parsing code, however the example uses a size, fix this.
+> 
+> Fixes: 8b078c603249 ("PCI: Update "pci=resource_alignment" documentation")
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-> Sorry for using the list for this purpose but we are looking for
-> senior engineers with knowledge in OpenVMS/ Tru64 Unix, Solaris,
-> HP-UX and of course Linux and familiar with virtualization
-> technologies, specially cross platform emulators. We need to fill
-> support engineer roles. If anybody interested for positions in the
-> US / Europe please send me an email.
+Applied to pci/resource for v5.4, thanks!
 
-Please do not ever use the vger.kernel.org mailing lists for this kind
-of solicitation.
-
-It is completely inappropriate.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 2b8ee90bb644..dcb53d64ad74 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3340,27 +3340,28 @@
+>  		resource_alignment=
+>  				Format:
+>  				[<order of align>@]<pci_dev>[; ...]
+>  				Specifies alignment and device to reassign
+>  				aligned memory resources. How to
+>  				specify the device is described above.
+>  				If <order of align> is not specified,
+>  				PAGE_SIZE is used as alignment.
+>  				PCI-PCI bridge can be specified, if resource
+>  				windows need to be expanded.
+>  				To specify the alignment for several
+>  				instances of a device, the PCI vendor,
+>  				device, subvendor, and subdevice may be
+> -				specified, e.g., 4096@pci:8086:9c22:103c:198f
+> +				specified, e.g., 12@pci:8086:9c22:103c:198f
+> +				for the 4096 alignment.
+>  		ecrc=		Enable/disable PCIe ECRC (transaction layer
+>  				end-to-end CRC checking).
+>  				bios: Use BIOS/firmware settings. This is the
+>  				the default.
+>  				off: Turn ECRC off
+>  				on: Turn ECRC on.
+>  		hpiosize=nn[KMG]	The fixed amount of bus space which is
+>  				reserved for hotplug bridge's IO window.
+>  				Default size is 256 bytes.
+>  		hpmemsize=nn[KMG]	The fixed amount of bus space which is
+>  				reserved for hotplug bridge's memory window.
+>  				Default size is 2 megabytes.
+>  		hpbussize=nn	The minimum amount of additional bus numbers
+> -- 
+> 2.17.1
+> 
