@@ -5,205 +5,90 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B7A57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 09:37:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3AD77D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 10:04:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732444AbfHHJhH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 05:37:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40836 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732423AbfHHJhH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:37:07 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9B01130C746E;
-        Thu,  8 Aug 2019 09:37:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com [10.36.116.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F273A5DA5B;
-        Thu,  8 Aug 2019 09:37:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 0A95E9D00; Thu,  8 Aug 2019 11:37:03 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     tzimmermann@suse.de, Gerd Hoffmann <kraxel@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 3/8] drm/ttm: add gem_ttm_bo_device_init()
-Date:   Thu,  8 Aug 2019 11:36:57 +0200
-Message-Id: <20190808093702.29512-4-kraxel@redhat.com>
-In-Reply-To: <20190808093702.29512-1-kraxel@redhat.com>
-References: <20190808093702.29512-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Thu, 08 Aug 2019 09:37:06 +0000 (UTC)
+        id S2389779AbfHHKEg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 06:04:36 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:46801 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389773AbfHHKEg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Aug 2019 06:04:36 -0400
+Received: by mail-qt1-f196.google.com with SMTP id h21so91447767qtn.13;
+        Thu, 08 Aug 2019 03:04:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RjvrmHnLkNY8judMLmiwx+J5kIvDISrhio/7dX5zE9M=;
+        b=A4L/lVEnAhzimNvZOk2dlay//kRmDE29VrHcAuetZ/+P4JB3Sld8H0YWMeCC1c3mQE
+         wstifSkxoflQ2ddSoIE+VNQ+yTVy9glgoyoKBxzR4dpYfrXoefpDcWMF4HLPEV9jWTbp
+         K/aasTxqk54UTrMWMLdLmxYVnjY1ccSJoj5VgLepnNfA/zFcgC71Hm/eYtj/OW69Wklk
+         m1fISftkc6C8sQD/5EYLMmNzB2TEHQKn2mMMsL2lyru+dNW0pRKJOcBxqmW20PWaae0/
+         GRB0xs0T6TDjR/3W+8s3e4B4sTRhQXX8HsRQ952ImdBoNy1lbzQ8vrriBqfc9opIoqAy
+         7X0A==
+X-Gm-Message-State: APjAAAUsGdPI8Qq8syVEwBV4KItFjxH2sLeAHH0lDWzjKDEUuP3KCn/g
+        Q5SAozm65eI/XTwDwDp5+v1TUv/8Yox7o0uE9hM=
+X-Google-Smtp-Source: APXvYqzYiIGgaQsnnsl/ev4HI3EBWf/N9eNNIZAf4tphrn0oTVGBurf6vSIQ6z6xYL8ITJbX0KbZAIZ3U8xYBBzOq94=
+X-Received: by 2002:ac8:6684:: with SMTP id d4mr7259661qtp.204.1565258674868;
+ Thu, 08 Aug 2019 03:04:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190724171615.20774-1-paul@crapouillou.net> <20190724171615.20774-5-paul@crapouillou.net>
+ <20190729165536.dd67ws6nr2msx4pk@pburton-laptop>
+In-Reply-To: <20190729165536.dd67ws6nr2msx4pk@pburton-laptop>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 8 Aug 2019 12:04:18 +0200
+Message-ID: <CAK8P3a0nOc2tpxYAoE0EGzXT1+FXFqzdK1mYE+ZR9CTqAaH_fQ@mail.gmail.com>
+Subject: Re: [EXTERNAL][PATCH v15 04/13] mfd/syscon: Add device_node_to_regmap()
+To:     Paul Burton <paul.burton@mips.com>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "od@zcrc.me" <od@zcrc.me>, Mathieu Malaterre <malat@debian.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now with ttm_buffer_object being a subclass of drm_gem_object we can
-easily lookup ttm_buffer_object for a given drm_gem_object, which in
-turm allows to create common helper functions.
+On Mon, Jul 29, 2019 at 6:55 PM Paul Burton <paul.burton@mips.com> wrote:
+>
+> Lee, Arnd,
+>
+> On Wed, Jul 24, 2019 at 01:16:06PM -0400, Paul Cercueil wrote:
+> > device_node_to_regmap() is exactly like syscon_node_to_regmap(), but it
+> > does not check that the node is compatible with "syscon", and won't
+> > attach the first clock it finds to the regmap.
+> >
+> > The rationale behind this, is that one device node with a standard
+> > compatible string "foo,bar" can be covered by multiple drivers sharing a
+> > regmap, or by a single driver doing all the job without a regmap, but
+> > these are implementation details which shouldn't reflect on the
+> > devicetree.
+>
+> Does this looks like a good path forwards to you? Its use in this case
+> is described by Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+> in patch 3 of the series.
+>
+> If you're OK with it an ack would be appreciated so I can take the
+> series through mips-next, otherwise I guess we'd need to go back to the
+> v14 approach.
 
-This patch starts off with a gem_ttm_bo_device_init() helper function
-which initializes ttm with the vma offset manager used by gem, to make
-sure gem and ttm have the same view on vma offsets.
+Yes, I guess this is ok, sorry for missing the submission earlier.
 
-With that in place gem+ttm drivers don't need their private
-drm_driver.dumb_map_offset implementation any more.
-
-v3:
- - complete rewrite
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/drm/drm_gem_ttm_helper.h     | 30 +++++++++++++++++++++++
- drivers/gpu/drm/drm_gem_ttm_helper.c | 36 ++++++++++++++++++++++++++++
- Documentation/gpu/drm-mm.rst         | 12 ++++++++++
- drivers/gpu/drm/Kconfig              |  7 ++++++
- drivers/gpu/drm/Makefile             |  3 +++
- 5 files changed, 88 insertions(+)
- create mode 100644 include/drm/drm_gem_ttm_helper.h
- create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
-
-diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
-new file mode 100644
-index 000000000000..43c9db3583cc
---- /dev/null
-+++ b/include/drm/drm_gem_ttm_helper.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef DRM_GEM_TTM_HELPER_H
-+#define DRM_GEM_TTM_HELPER_H
-+
-+#include <linux/kernel.h>
-+
-+#include <drm/drm_gem.h>
-+#include <drm/drm_device.h>
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+
-+/**
-+ * Returns the container of type &struct ttm_buffer_object
-+ * for field base.
-+ * @gem:	the GEM object
-+ * Returns:	The containing GEM VRAM object
-+ */
-+static inline struct ttm_buffer_object *drm_gem_ttm_of_gem(
-+	struct drm_gem_object *gem)
-+{
-+	return container_of(gem, struct ttm_buffer_object, base);
-+}
-+
-+int drm_gem_ttm_bo_device_init(struct drm_device *dev,
-+			       struct ttm_bo_device *bdev,
-+			       struct ttm_bo_driver *driver,
-+			       bool need_dma32);
-+
-+#endif
-diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-new file mode 100644
-index 000000000000..0c57e9fd50b9
---- /dev/null
-+++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <drm/drm_gem_ttm_helper.h>
-+
-+/**
-+ * DOC: overview
-+ *
-+ * This library provides helper functions for gem objects backed by
-+ * ttm.
-+ */
-+
-+/**
-+ * drm_gem_ttm_bo_device_init - ttm init for devices which use gem+ttm
-+ *
-+ * @dev: A pointer to a struct drm_device.
-+ * @bdev: A pointer to a struct ttm_bo_device to initialize.
-+ * @driver: A pointer to a struct ttm_bo_driver set up by the caller.
-+ * @need_dma32: Whenever the device is limited to 32bit DMA.
-+ *
-+ * This initializes ttm with dev->vma_offset_manager, so gem and ttm
-+ * fuction are working with the same vma_offset_manager.
-+ *
-+ * Returns:
-+ * !0: Failure.
-+ */
-+int drm_gem_ttm_bo_device_init(struct drm_device *dev,
-+			       struct ttm_bo_device *bdev,
-+			       struct ttm_bo_driver *driver,
-+			       bool need_dma32)
-+{
-+	return ttm_bo_device_init_with_vma_manager(bdev, driver,
-+						   dev->anon_inode->i_mapping,
-+						   dev->vma_offset_manager,
-+						   need_dma32);
-+}
-+EXPORT_SYMBOL(drm_gem_ttm_bo_device_init);
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index b664f054c259..a70a1d9f30ec 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
- .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
-    :export:
- 
-+GEM TTM Helper Functions Reference
-+-----------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :doc: overview
-+
-+.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :export:
-+
- VMA Offset Manager
- ==================
- 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e6f40fb54c9a..f7b25519f95c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
- 	help
- 	  Helpers for VRAM memory management
- 
-+config DRM_TTM_HELPER
-+	tristate
-+	depends on DRM
-+	select DRM_TTM
-+	help
-+	  Helpers for ttm-based gem objects
-+
- config DRM_GEM_CMA_HELPER
- 	bool
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 10f8329a8b71..545c61d6528b 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
- 		     drm_vram_mm_helper.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
-+drm_ttm_helper-y := drm_gem_ttm_helper.o
-+obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
-+
- drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
- 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
- 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
--- 
-2.18.1
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
