@@ -6,98 +6,70 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFDE97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 14:37:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D7C77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 14:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730768AbfHHOh4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 10:37:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56054 "EHLO mail.kernel.org"
+        id S1732404AbfHHOsm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 10:48:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728327AbfHHOh4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Aug 2019 10:37:56 -0400
-Received: from [192.168.0.101] (unknown [180.111.132.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725785AbfHHOsl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Aug 2019 10:48:41 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F10EB2173E;
-        Thu,  8 Aug 2019 14:37:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D9A572173E;
+        Thu,  8 Aug 2019 14:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565275075;
-        bh=otbC7ZHjlg0OuA+dibKxeYqdWppYhikbhtR5Iw6Pydw=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=iJlaLQ/3qqvhCh/FTvrsprgcpxGbowGXnMel3p1mqee5soCS9adbMxPkP90E94sRD
-         mW4coBP/RGc0xJiLelW+UE6bCgPP5WZWPlqvJf0fTgfdjwgNwqLkLX6lr0x3uhOBhz
-         Tzag9l7EJkUBqFo8GJIqcmlQW8ZnO35PWmb6M3OA=
-Subject: Re: [PATCH] mailmap: add entry for Jaegeuk Kim
-From:   Chao Yu <chao@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Chao Yu <yuchao0@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jaegeuk@kernel.org
-References: <20190802012135.31419-1-yuchao0@huawei.com>
- <20190802072626.405246e3@lwn.net>
- <fe9cd2bc-76ed-5371-e0c3-b538e7a805e7@kernel.org>
-Message-ID: <fd14e8d4-7468-ed3a-a679-6167eac72626@kernel.org>
-Date:   Thu, 8 Aug 2019 22:37:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        s=default; t=1565275721;
+        bh=ip5y6dS3z93opKHe2A5wm+Cj1WUaPJd1CfxGtTV6y/k=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=Kmc6cxo1tmL/b0B9Jg3h6uPuxP2RFntVvILJWjv8ZA/7tXozcXPE+bNWKEgyXhDp0
+         5HC1gU+283Gi9ooXldMjVmpB7c0Plxn/p5JhhNdqLZSbuB3QpbfwzDqhYgNqTSNlY+
+         4HV6LPHw7fACe/GZ925houOyyvzCH/FmPtMZFkto=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <fe9cd2bc-76ed-5371-e0c3-b538e7a805e7@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190724171615.20774-6-paul@crapouillou.net>
+References: <20190724171615.20774-1-paul@crapouillou.net> <20190724171615.20774-6-paul@crapouillou.net>
+Subject: Re: [PATCH v15 05/13] clk: ingenic: Add driver for the TCU clocks
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me,
+        Mathieu Malaterre <malat@debian.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Artur Rojek <contact@artur-rojek.eu>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        James Hogan <jhogan@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Paul Burton <paul.burton@mips.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+User-Agent: alot/0.8.1
+Date:   Thu, 08 Aug 2019 07:48:40 -0700
+Message-Id: <20190808144840.D9A572173E@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-8-2 22:23, Chao Yu wrote:
-> On 2019-8-2 21:26, Jonathan Corbet wrote:
->> On Fri, 2 Aug 2019 09:21:35 +0800
->> Chao Yu <yuchao0@huawei.com> wrote:
->>
->>> Add entry to connect all Jaegeuk's email addresses.
->>>
->>> Acked-by: Jaegeuk Kim <jaegeuk@kernel.org>
->>> Signed-off-by: Chao Yu <yuchao0@huawei.com>
->>> ---
->>>  .mailmap | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/.mailmap b/.mailmap
->>> index 477debe3d960..70d41c86e644 100644
->>> --- a/.mailmap
->>> +++ b/.mailmap
->>> @@ -89,6 +89,9 @@ Henrik Kretzschmar <henne@nachtwindheim.de>
->>>  Henrik Rydberg <rydberg@bitmath.org>
->>>  Herbert Xu <herbert@gondor.apana.org.au>
->>>  Jacob Shin <Jacob.Shin@amd.com>
->>> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
->>> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@motorola.com>
->>> +Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
->>
->> So as I understand it, the mailmap file is there mostly to ensure that a
->> person's changesets are properly collected in 'git shortlog' and such.  As
->> documented on the man page, it is used when a person's name is spelled
->> differently at different times.
->>
->> That doesn't appear to be the case here, and shortlog output is correct
->> already.  Given that, do we *really* need to maintain a collection of old
->> email addresses in the mailmap file?  What is the benefit of that?
-> 
-> IMO, when we use git-blame to find out who is response for specified code, w/o
-> mailmap we may just found old obsolete email address in the related commit; even
-> we can search full name for his/her new email address, how can we make sure they
-> are the same person... so anyway, it can help to find last valid/canonical email
-> address of someone.
+Quoting Paul Cercueil (2019-07-24 10:16:07)
+> Add driver to support the clocks provided by the Timer/Counter Unit
+> (TCU) of the JZ47xx SoCs from Ingenic.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Mathieu Malaterre <malat@debian.org>
+> Tested-by: Artur Rojek <contact@artur-rojek.eu>
+> ---
 
-Any thoughts?
+Acked-by: Stephen Boyd <sboyd@kernel.org>
 
-Thanks,
-
-> 
-> Thanks,
-> 
->>
->> Thanks,
->>
->> jon
->>
