@@ -1,75 +1,295 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D7C77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 14:48:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05A067D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 15:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732404AbfHHOsm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 10:48:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60586 "EHLO mail.kernel.org"
+        id S1727649AbfHHP3g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Aug 2019 11:29:36 -0400
+Received: from foss.arm.com ([217.140.110.172]:34992 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725785AbfHHOsl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Aug 2019 10:48:41 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D9A572173E;
-        Thu,  8 Aug 2019 14:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565275721;
-        bh=ip5y6dS3z93opKHe2A5wm+Cj1WUaPJd1CfxGtTV6y/k=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Kmc6cxo1tmL/b0B9Jg3h6uPuxP2RFntVvILJWjv8ZA/7tXozcXPE+bNWKEgyXhDp0
-         5HC1gU+283Gi9ooXldMjVmpB7c0Plxn/p5JhhNdqLZSbuB3QpbfwzDqhYgNqTSNlY+
-         4HV6LPHw7fACe/GZ925houOyyvzCH/FmPtMZFkto=
-Content-Type: text/plain; charset="utf-8"
+        id S1730768AbfHHP3g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Aug 2019 11:29:36 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E98A1596;
+        Thu,  8 Aug 2019 08:29:35 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A89F3F706;
+        Thu,  8 Aug 2019 08:29:33 -0700 (PDT)
+Subject: Re: [PATCH 9/9] arm64: Retrieve stolen time as paravirtualized guest
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190802145017.42543-1-steven.price@arm.com>
+ <20190802145017.42543-10-steven.price@arm.com> <20190804105353.5e9824dc@why>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <dc8a1e56-7b52-cc8f-265d-27eb5f458613@arm.com>
+Date:   Thu, 8 Aug 2019 16:29:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190724171615.20774-6-paul@crapouillou.net>
-References: <20190724171615.20774-1-paul@crapouillou.net> <20190724171615.20774-6-paul@crapouillou.net>
-Subject: Re: [PATCH v15 05/13] clk: ingenic: Add driver for the TCU clocks
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me,
-        Mathieu Malaterre <malat@debian.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Artur Rojek <contact@artur-rojek.eu>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        James Hogan <jhogan@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Paul Burton <paul.burton@mips.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-User-Agent: alot/0.8.1
-Date:   Thu, 08 Aug 2019 07:48:40 -0700
-Message-Id: <20190808144840.D9A572173E@mail.kernel.org>
+In-Reply-To: <20190804105353.5e9824dc@why>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Paul Cercueil (2019-07-24 10:16:07)
-> Add driver to support the clocks provided by the Timer/Counter Unit
-> (TCU) of the JZ47xx SoCs from Ingenic.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Tested-by: Mathieu Malaterre <malat@debian.org>
-> Tested-by: Artur Rojek <contact@artur-rojek.eu>
-> ---
+On 04/08/2019 10:53, Marc Zyngier wrote:
+> On Fri,  2 Aug 2019 15:50:17 +0100
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> Enable paravirtualization features when running under a hypervisor
+>> supporting the PV_TIME_ST hypercall.
+>>
+>> For each (v)CPU, we ask the hypervisor for the location of a shared
+>> page which the hypervisor will use to report stolen time to us. We set
+>> pv_time_ops to the stolen time function which simply reads the stolen
+>> value from the shared page for a VCPU. We guarantee single-copy
+>> atomicity using READ_ONCE which means we can also read the stolen
+>> time for another VCPU than the currently running one while it is
+>> potentially being updated by the hypervisor.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm64/kernel/Makefile |   1 +
+>>  arch/arm64/kernel/kvm.c    | 155 +++++++++++++++++++++++++++++++++++++
+> 
+> nit: Why not using paravirt.c, which clearly states what it does? The
+> alternative would be to name it kvm-pv.c.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+I can move it to paravirt.c - seems reasonable.
+
+>>  include/linux/cpuhotplug.h |   1 +
+>>  3 files changed, 157 insertions(+)
+>>  create mode 100644 arch/arm64/kernel/kvm.c
+>>
+>> diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+>> index 478491f07b4f..eb36edf9b930 100644
+>> --- a/arch/arm64/kernel/Makefile
+>> +++ b/arch/arm64/kernel/Makefile
+>> @@ -63,6 +63,7 @@ obj-$(CONFIG_CRASH_CORE)		+= crash_core.o
+>>  obj-$(CONFIG_ARM_SDE_INTERFACE)		+= sdei.o
+>>  obj-$(CONFIG_ARM64_SSBD)		+= ssbd.o
+>>  obj-$(CONFIG_ARM64_PTR_AUTH)		+= pointer_auth.o
+>> +obj-$(CONFIG_PARAVIRT)			+= kvm.o
+>>  
+>>  obj-y					+= vdso/ probes/
+>>  obj-$(CONFIG_COMPAT_VDSO)		+= vdso32/
+>> diff --git a/arch/arm64/kernel/kvm.c b/arch/arm64/kernel/kvm.c
+>> new file mode 100644
+>> index 000000000000..245398c79dae
+>> --- /dev/null
+>> +++ b/arch/arm64/kernel/kvm.c
+>> @@ -0,0 +1,155 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +// Copyright (C) 2019 Arm Ltd.
+>> +
+>> +#define pr_fmt(fmt) "kvmarm-pv: " fmt
+>> +
+>> +#include <linux/arm-smccc.h>
+>> +#include <linux/cpuhotplug.h>
+>> +#include <linux/io.h>
+>> +#include <linux/printk.h>
+>> +#include <linux/psci.h>
+>> +#include <linux/reboot.h>
+>> +#include <linux/slab.h>
+>> +
+>> +#include <asm/paravirt.h>
+>> +#include <asm/pvclock-abi.h>
+>> +#include <asm/smp_plat.h>
+>> +
+>> +struct kvmarm_stolen_time_region {
+>> +	struct pvclock_vcpu_stolen_time_info *kaddr;
+>> +};
+>> +
+>> +static DEFINE_PER_CPU(struct kvmarm_stolen_time_region, stolen_time_region);
+>> +
+>> +static bool steal_acc = true;
+>> +static int __init parse_no_stealacc(char *arg)
+>> +{
+>> +	steal_acc = false;
+>> +	return 0;
+>> +}
+>> +early_param("no-steal-acc", parse_no_stealacc);
+>> +
+>> +/* return stolen time in ns by asking the hypervisor */
+>> +static u64 kvm_steal_clock(int cpu)
+>> +{
+>> +	struct kvmarm_stolen_time_region *reg;
+>> +
+>> +	reg = per_cpu_ptr(&stolen_time_region, cpu);
+>> +	if (!reg->kaddr) {
+>> +		pr_warn_once("stolen time enabled but not configured for cpu %d\n",
+>> +			     cpu);
+>> +		return 0;
+>> +	}
+>> +
+>> +	return le64_to_cpu(READ_ONCE(reg->kaddr->stolen_time));
+>> +}
+>> +
+>> +static int disable_stolen_time_current_cpu(void)
+>> +{
+>> +	struct kvmarm_stolen_time_region *reg;
+>> +
+>> +	reg = this_cpu_ptr(&stolen_time_region);
+>> +	if (!reg->kaddr)
+>> +		return 0;
+>> +
+>> +	memunmap(reg->kaddr);
+>> +	memset(reg, 0, sizeof(*reg));
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int stolen_time_dying_cpu(unsigned int cpu)
+>> +{
+>> +	return disable_stolen_time_current_cpu();
+>> +}
+>> +
+>> +static int init_stolen_time_cpu(unsigned int cpu)
+>> +{
+>> +	struct kvmarm_stolen_time_region *reg;
+>> +	struct arm_smccc_res res;
+>> +
+>> +	reg = this_cpu_ptr(&stolen_time_region);
+>> +
+>> +	if (reg->kaddr)
+>> +		return 0;
+> 
+> Can this actually happen? It'd take two CPU_UP calls from the HP
+> notifiers to get in that situation...
+
+Yes, something would have to be very broken for that to happen - I'll
+remove this check.
+
+>> +
+>> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_TIME_ST, &res);
+>> +
+>> +	if ((long)res.a0 < 0)
+>> +		return -EINVAL;
+>> +
+>> +	reg->kaddr = memremap(res.a0,
+>> +			sizeof(struct pvclock_vcpu_stolen_time_info),
+>> +			MEMREMAP_WB);
+>> +
+>> +	if (reg->kaddr == NULL) {
+>> +		pr_warn("Failed to map stolen time data structure\n");
+>> +		return -EINVAL;
+> 
+> -ENOMEM is the expected return code.
+
+Ok
+
+>> +	}
+>> +
+>> +	if (le32_to_cpu(reg->kaddr->revision) != 0 ||
+>> +			le32_to_cpu(reg->kaddr->attributes) != 0) {
+>> +		pr_warn("Unexpected revision or attributes in stolen time data\n");
+>> +		return -ENXIO;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int kvm_arm_init_stolen_time(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = cpuhp_setup_state(CPUHP_AP_ARM_KVMPV_STARTING,
+>> +				"hypervisor/kvmarm/pv:starting",
+>> +				init_stolen_time_cpu, stolen_time_dying_cpu);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	return 0;
+>> +}
+>> +
+>> +static bool has_kvm_steal_clock(void)
+>> +{
+>> +	struct arm_smccc_res res;
+>> +
+>> +	/* To detect the presence of PV time support we require SMCCC 1.1+ */
+>> +	if (psci_ops.smccc_version < SMCCC_VERSION_1_1)
+>> +		return false;
+>> +
+>> +	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+>> +			     ARM_SMCCC_HV_PV_FEATURES, &res);
+>> +
+>> +	if (res.a0 != SMCCC_RET_SUCCESS)
+>> +		return false;
+>> +
+>> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_FEATURES,
+>> +			     ARM_SMCCC_HV_PV_TIME_ST, &res);
+>> +
+>> +	if (res.a0 != SMCCC_RET_SUCCESS)
+>> +		return false;
+>> +
+>> +	return true;
+>> +}
+>> +
+>> +static int __init kvm_guest_init(void)
+>> +{
+>> +	int ret = 0;
+>> +
+>> +	if (!has_kvm_steal_clock())
+>> +		return 0;
+>> +
+>> +	ret = kvm_arm_init_stolen_time();
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	pv_ops.time.steal_clock = kvm_steal_clock;
+>> +
+>> +	static_key_slow_inc(&paravirt_steal_enabled);
+>> +	if (steal_acc)
+>> +		static_key_slow_inc(&paravirt_steal_rq_enabled);
+>> +
+>> +	pr_info("using stolen time PV\n");
+>> +
+>> +	return 0;
+>> +}
+>> +early_initcall(kvm_guest_init);
+> 
+> Is there any reason why we wouldn't directly call into this rather than
+> using an initcall?
+
+I'm not sure where the direct call would go - any pointers?
+
+Thanks,
+
+Steve
+
+>> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+>> index 068793a619ca..89d75edb5750 100644
+>> --- a/include/linux/cpuhotplug.h
+>> +++ b/include/linux/cpuhotplug.h
+>> @@ -136,6 +136,7 @@ enum cpuhp_state {
+>>  	/* Must be the last timer callback */
+>>  	CPUHP_AP_DUMMY_TIMER_STARTING,
+>>  	CPUHP_AP_ARM_XEN_STARTING,
+>> +	CPUHP_AP_ARM_KVMPV_STARTING,
+>>  	CPUHP_AP_ARM_CORESIGHT_STARTING,
+>>  	CPUHP_AP_ARM64_ISNDEP_STARTING,
+>>  	CPUHP_AP_SMPCFD_DYING,
+> 
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
