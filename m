@@ -1,139 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 370097D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Aug 2019 21:55:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2085B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Aug 2019 01:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388945AbfHGVzw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Aug 2019 17:55:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40208 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388620AbfHGVzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Aug 2019 17:55:52 -0400
-Received: by mail-pg1-f195.google.com with SMTP id w10so42870980pgj.7
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2019 14:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fPDNifyL3Y36NBVemhHSXF79qGomK0S4tenrlniMG8c=;
-        b=iLFial3WG2Y7hC5RmH/BPZMbk7K/mSRsub86lIBJhU4yCFb7muLzqQlM2Rw/ElKGgC
-         SFjKYwdRoliyNAlbyClW8nV7pvHzWz0n8BGIO7Li2Qvwc3w0FvMgmdrCGjAVrSK9JbBy
-         BL0fPr4WaEXa+YoPzJ+O512HUakd8rmUXyXUM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fPDNifyL3Y36NBVemhHSXF79qGomK0S4tenrlniMG8c=;
-        b=Xsxwfm24lUR4c3dpgceA5woMEDS9Ft/lFn4K1w4PESTEs7pR27knjVA6oaVGm1j0AP
-         0zWedRTglJa0PCNtFWqicI+PSNXe5LI1H0W6Aq+099tO7CAywVQWVb4ltDfaSgqUAMZc
-         2Q/4Rrew026WHDUBNtieaRX0RnOAwct5r5JhvWR1tiCZZbj017ORzJ8SCnKCaTa92Vwj
-         Sc2Ev3BzBMZ4RMtmzaA19qO1n/Z67ZFFR3KPci3kl/Yx+FwlpcpNvJGaNy8FBJg6dDt1
-         Ugv5HecN/3NZN7oLOucMsrilSSwuGJLekQjVZmRVdV0snVGLDWLMjD8IL7JAlv1PqR57
-         Zdqg==
-X-Gm-Message-State: APjAAAURw5G5JtdBDms3IJKaXNDgJuvafBCOCLbjHa3ocbUixTnjAQzs
-        Qi0uCinanznkOnImMNqBHEWg6w==
-X-Google-Smtp-Source: APXvYqxtYbX1J2T4gE/+OoiVyWtnb2A4+C1faUKsGzqUpJz/BeHl7Ul7v7RUi0zJvoSnKkCTeSkNNg==
-X-Received: by 2002:aa7:9afc:: with SMTP id y28mr11421501pfp.252.1565214951446;
-        Wed, 07 Aug 2019 14:55:51 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id z4sm79672843pgp.80.2019.08.07.14.55.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 07 Aug 2019 14:55:50 -0700 (PDT)
-Date:   Wed, 7 Aug 2019 17:55:49 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190807215549.GB14622@google.com>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
- <20190807204530.GB90900@google.com>
- <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
- <20190807213105.GA14622@google.com>
+        id S1730633AbfHHBIt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Aug 2019 21:08:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37350 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730626AbfHHBIt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Aug 2019 21:08:49 -0400
+Received: from localhost (unknown [65.200.167.5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95AD82184E;
+        Thu,  8 Aug 2019 01:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565226528;
+        bh=gNF57YoB8Yriv3C573qb+XOB2FsI9s0QaaJyXutg9/4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2rvV4yOfIXfCJEHpC25spqGYHKgBoT+0D1pdEzPhdDAydud2z/8PVw9DNztXtoWd7
+         qAEBNzMOLYsSA3bMFMftKIzenyOnpiASeKaPlKnfJT8e6L0fb1WgoXGhgm1o/FxXKI
+         hVkWhYor2eLDGFTlIJlf27KYWw66edIxKiKN1jaE=
+Date:   Wed, 7 Aug 2019 21:08:47 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com,
+        tee-dev@lists.linaro.org, ilias.apalodimas@linaro.org,
+        sumit.garg@linaro.org, rdunlap@infradead.org
+Subject: Re: [PATCH v8 0/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190808010847.GU17747@sasha-vm>
+References: <20190705204746.27543-1-sashal@kernel.org>
+ <20190711200858.xydm3wujikufxjcw@linux.intel.com>
+ <20190804214218.vdv2sn4oc4cityy2@linux.intel.com>
+ <20190805180518.GC17747@sasha-vm>
+ <20190805223324.qvbqa45xnp5fgsib@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20190807213105.GA14622@google.com>
+In-Reply-To: <20190805223324.qvbqa45xnp5fgsib@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 07, 2019 at 05:31:05PM -0400, Joel Fernandes wrote:
-> On Wed, Aug 07, 2019 at 01:58:40PM -0700, Andrew Morton wrote:
-> > On Wed, 7 Aug 2019 16:45:30 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
-> > 
-> > > On Wed, Aug 07, 2019 at 01:04:02PM -0700, Andrew Morton wrote:
-> > > > On Wed,  7 Aug 2019 13:15:54 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
-> > > > 
-> > > > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > > > profiles and pin points code paths which allocates and leaves memory
-> > > > > idle for long periods of time. This method solves the security issue
-> > > > > with userspace learning the PFN, and while at it is also shown to yield
-> > > > > better results than the pagemap lookup, the theory being that the window
-> > > > > where the address space can change is reduced by eliminating the
-> > > > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > > > process's mmap_sem is held for the duration of the access.
-> > > > 
-> > > > So is heapprofd a developer-only thing?  Is heapprofd included in
-> > > > end-user android loads?  If not then, again, wouldn't it be better to
-> > > > make the feature Kconfigurable so that Android developers can enable it
-> > > > during development then disable it for production kernels?
-> > > 
-> > > Almost all of this code is already configurable with
-> > > CONFIG_IDLE_PAGE_TRACKING. If you disable it, then all of this code gets
-> > > disabled.
-> > > 
-> > > Or are you referring to something else that needs to be made configurable?
-> > 
-> > Yes - the 300+ lines of code which this patchset adds!
-> > 
-> > The impacted people will be those who use the existing
-> > idle-page-tracking feature but who will not use the new feature.  I
-> > guess we can assume this set is small...
-> 
-> Yes, I think this set should be small. The code size increase of page_idle.o
-> is from ~1KB to ~2KB. Most of the extra space is consumed by
-> page_idle_proc_generic() function which this patch adds. I don't think adding
-> another CONFIG option to disable this while keeping existing
-> CONFIG_IDLE_PAGE_TRACKING enabled, is worthwhile but I am open to the
-> addition of such an option if anyone feels strongly about it. I believe that
-> once this patch is merged, most like this new interface being added is what
+On Tue, Aug 06, 2019 at 01:51:32AM +0300, Jarkko Sakkinen wrote:
+>On Mon, Aug 05, 2019 at 02:05:18PM -0400, Sasha Levin wrote:
+>> On Mon, Aug 05, 2019 at 12:44:28AM +0300, Jarkko Sakkinen wrote:
+>> > On Thu, Jul 11, 2019 at 11:08:58PM +0300, Jarkko Sakkinen wrote:
+>> > > On Fri, Jul 05, 2019 at 04:47:44PM -0400, Sasha Levin wrote:
+>> > > > Changes from v7:
+>> > > >
+>> > > >  - Address Jarkko's comments.
+>> > > >
+>> > > > Sasha Levin (2):
+>> > > >   fTPM: firmware TPM running in TEE
+>> > > >   fTPM: add documentation for ftpm driver
+>> > > >
+>> > > >  Documentation/security/tpm/index.rst        |   1 +
+>> > > >  Documentation/security/tpm/tpm_ftpm_tee.rst |  27 ++
+>> > > >  drivers/char/tpm/Kconfig                    |   5 +
+>> > > >  drivers/char/tpm/Makefile                   |   1 +
+>> > > >  drivers/char/tpm/tpm_ftpm_tee.c             | 350 ++++++++++++++++++++
+>> > > >  drivers/char/tpm/tpm_ftpm_tee.h             |  40 +++
+>> > > >  6 files changed, 424 insertions(+)
+>> > > >  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+>> > > >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
+>> > > >  create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
+>> > > >
+>> > > > --
+>> > > > 2.20.1
+>> > > >
+>> > >
+>> > > I applied the patches now. Appreciate a lot the patience with these.
+>> > > Thank you.
+>> >
+>> > Hi, can you possibly fix these:
+>>
+>> Any objection to sending you a patch on top of your tree instead?
+>
+>Go ahead. Added the previous patches to my master.
 
-s/most like/most likely/
+Thanks! I'm getting back home on Monday and I'll send it out right away.
 
-> will be used more than the old interface (for some of the usecases) so it
-> makes sense to keep it alive with CONFIG_IDLE_PAGE_TRACKING.
-> 
-> thanks,
-> 
->  - Joel
-> 
+--
+Thanks,
+Sasha
