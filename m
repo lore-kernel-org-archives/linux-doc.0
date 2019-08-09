@@ -1,112 +1,272 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E11D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 13:25:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FA9B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 13:51:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406744AbfHINY6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 09:24:58 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51035 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406273AbfHINY6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 09:24:58 -0400
-Received: by mail-wm1-f67.google.com with SMTP id v15so5724247wml.0;
-        Fri, 09 Aug 2019 06:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=ILDppnCmjlOfgJgJ2qNB5ceciycNxLir06qMezCpixc=;
-        b=eZT+w59UUZFyL2cCRDMRHbuHDIC4RKWJEJrzCdA8oNEb6thqLiNew7cw7jfP0Phi7J
-         f+FMHqlAI16KHYSE0ibaSbNqX+dizyMIqiEEEwVV3QIwtMbLv02nJ5CQvVYuUxBXR/VF
-         0l8m7qMLUqGDNtWlKpHhxIRJJCdztftGKS301K7JgJ9CsKj+RKbbSLvjJbF6EvypPIlT
-         HsPE+Gv/ODbYaM22lNsT33zTECWqnV3KUF3jwZLDkWtami3ij+fUi6/LQnR9Ht9Jh4VY
-         781LpF4t7NA2AHAViDrw8v0kl+ezWbfaOn0hkp/rN6EGmJL4j/dHpKgmfceU6/hl+c7n
-         e7ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=ILDppnCmjlOfgJgJ2qNB5ceciycNxLir06qMezCpixc=;
-        b=VfuIjVaWUUoGcB6GumWyfYT+9DnU3kXhEg+mwjeczyTWQaoFTBAalQfVWGT2E382YK
-         uh6NjRKRn2ZSRCzK4/dxKFRIA/3ey9qql0Twc13vfjky46JfT/B5jEPS9vgcZmkTj1jd
-         RWsmciCYwAAv92Zl4ZDm30s0UgbASMEHvQvqrgpaVfhLqYZwS9j3P4F7X9I6DegnrBG8
-         Ey5LDH6JU8j4ehpwQLLyfztHv3CN/pSEUXtvnKL9XralshrvueBQpW49a5rxNHyHsqm6
-         gWz/SliBDJoJOIqQoR0AQCVoNOL6DYgPaSo6lE5VQgl9G70IloCjXY/PzkJCmmSnKnAf
-         qpDQ==
-X-Gm-Message-State: APjAAAVRlxFVAu6rkun1MxN8GiwYuPZM5it0L+WlYaodaGtYUwhyQVx8
-        YBQICWGSabTYoukjcWS7fEI=
-X-Google-Smtp-Source: APXvYqyoIq7cQyCyqyaTH2fo4y1zxmmZ+SxcwfcCyTtt3q94bYPWzefG8vVhK4GVKNwWCIJEWnX5Vw==
-X-Received: by 2002:a1c:ab06:: with SMTP id u6mr10757190wme.125.1565357095875;
-        Fri, 09 Aug 2019 06:24:55 -0700 (PDT)
-Received: from localhost ([197.211.57.145])
-        by smtp.gmail.com with ESMTPSA id a2sm4863912wmj.9.2019.08.09.06.24.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 09 Aug 2019 06:24:55 -0700 (PDT)
-Date:   Fri, 9 Aug 2019 14:23:49 +0100
-From:   Sheriff Esseson <sheriffesseson@gmail.com>
-To:     skhan@linuxfoundation.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <netdev@vger.kernel.org>,
-        "open list:BPF (Safe dynamic programs and tools)" 
-        <bpf@vger.kernel.org>
-Subject: [PATCH v2] Documentation: virt: Fix broken reference to virt tree's
- index
-Message-ID: <20190809132349.GA15460@localhost>
+        id S2406374AbfHINv4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 09:51:56 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4655 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726037AbfHINv4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Aug 2019 09:51:56 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id ACB5A78427CCE41A010A;
+        Fri,  9 Aug 2019 21:51:52 +0800 (CST)
+Received: from [127.0.0.1] (10.184.12.158) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Fri, 9 Aug 2019
+ 21:51:43 +0800
+Subject: Re: [PATCH 9/9] arm64: Retrieve stolen time as paravirtualized guest
+To:     Steven Price <steven.price@arm.com>
+CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>
+References: <20190802145017.42543-1-steven.price@arm.com>
+ <20190802145017.42543-10-steven.price@arm.com>
+From:   Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <5d763c8e-9c06-c448-2644-25bfa0e57e8c@huawei.com>
+Date:   Fri, 9 Aug 2019 21:51:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
+ Thunderbird/64.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190802145017.42543-10-steven.price@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.184.12.158]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix broken reference to virt/index.rst.
+On 2019/8/2 22:50, Steven Price wrote:
+> Enable paravirtualization features when running under a hypervisor
+> supporting the PV_TIME_ST hypercall.
+> 
+> For each (v)CPU, we ask the hypervisor for the location of a shared
+> page which the hypervisor will use to report stolen time to us. We set
+> pv_time_ops to the stolen time function which simply reads the stolen
+> value from the shared page for a VCPU. We guarantee single-copy
+> atomicity using READ_ONCE which means we can also read the stolen
+> time for another VCPU than the currently running one while it is
+> potentially being updated by the hypervisor.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>   arch/arm64/kernel/Makefile |   1 +
+>   arch/arm64/kernel/kvm.c    | 155 +++++++++++++++++++++++++++++++++++++
+>   include/linux/cpuhotplug.h |   1 +
+>   3 files changed, 157 insertions(+)
+>   create mode 100644 arch/arm64/kernel/kvm.c
+> 
+> diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+> index 478491f07b4f..eb36edf9b930 100644
+> --- a/arch/arm64/kernel/Makefile
+> +++ b/arch/arm64/kernel/Makefile
+> @@ -63,6 +63,7 @@ obj-$(CONFIG_CRASH_CORE)		+= crash_core.o
+>   obj-$(CONFIG_ARM_SDE_INTERFACE)		+= sdei.o
+>   obj-$(CONFIG_ARM64_SSBD)		+= ssbd.o
+>   obj-$(CONFIG_ARM64_PTR_AUTH)		+= pointer_auth.o
+> +obj-$(CONFIG_PARAVIRT)			+= kvm.o
+>   
+>   obj-y					+= vdso/ probes/
+>   obj-$(CONFIG_COMPAT_VDSO)		+= vdso32/
+> diff --git a/arch/arm64/kernel/kvm.c b/arch/arm64/kernel/kvm.c
+> new file mode 100644
+> index 000000000000..245398c79dae
+> --- /dev/null
+> +++ b/arch/arm64/kernel/kvm.c
+> @@ -0,0 +1,155 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (C) 2019 Arm Ltd.
+> +
+> +#define pr_fmt(fmt) "kvmarm-pv: " fmt
+> +
+> +#include <linux/arm-smccc.h>
+> +#include <linux/cpuhotplug.h>
+> +#include <linux/io.h>
+> +#include <linux/printk.h>
+> +#include <linux/psci.h>
+> +#include <linux/reboot.h>
+> +#include <linux/slab.h>
+> +
+> +#include <asm/paravirt.h>
+> +#include <asm/pvclock-abi.h>
+> +#include <asm/smp_plat.h>
+> +
+> +struct kvmarm_stolen_time_region {
+> +	struct pvclock_vcpu_stolen_time_info *kaddr;
+> +};
+> +
+> +static DEFINE_PER_CPU(struct kvmarm_stolen_time_region, stolen_time_region);
+> +
+> +static bool steal_acc = true;
+> +static int __init parse_no_stealacc(char *arg)
+> +{
+> +	steal_acc = false;
+> +	return 0;
+> +}
+> +early_param("no-steal-acc", parse_no_stealacc);
+> +
+> +/* return stolen time in ns by asking the hypervisor */
+> +static u64 kvm_steal_clock(int cpu)
+> +{
+> +	struct kvmarm_stolen_time_region *reg;
+> +
+> +	reg = per_cpu_ptr(&stolen_time_region, cpu);
+> +	if (!reg->kaddr) {
+> +		pr_warn_once("stolen time enabled but not configured for cpu %d\n",
+> +			     cpu);
+> +		return 0;
+> +	}
+> +
+> +	return le64_to_cpu(READ_ONCE(reg->kaddr->stolen_time));
+> +}
+> +
+> +static int disable_stolen_time_current_cpu(void)
+> +{
+> +	struct kvmarm_stolen_time_region *reg;
+> +
+> +	reg = this_cpu_ptr(&stolen_time_region);
+> +	if (!reg->kaddr)
+> +		return 0;
+> +
+> +	memunmap(reg->kaddr);
+> +	memset(reg, 0, sizeof(*reg));
+> +
+> +	return 0;
+> +}
+> +
+> +static int stolen_time_dying_cpu(unsigned int cpu)
+> +{
+> +	return disable_stolen_time_current_cpu();
+> +}
+> +
+> +static int init_stolen_time_cpu(unsigned int cpu)
+> +{
+> +	struct kvmarm_stolen_time_region *reg;
+> +	struct arm_smccc_res res;
+> +
+> +	reg = this_cpu_ptr(&stolen_time_region);
+> +
+> +	if (reg->kaddr)
+> +		return 0;
+> +
+> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_TIME_ST, &res);
+> +
+> +	if ((long)res.a0 < 0)
+> +		return -EINVAL;
 
-Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to
-Documentation/virt")
+Hi Steven,
 
-Signed-off-by: Sheriff Esseson <sheriffesseson@gmail.com>
----
+Since userspace is not involved yet (right?), no one will create the
+PV_TIME device for guest (and no one will specify the IPA of the shared
+stolen time region), and I guess we will get a "not supported" error
+here.
 
-Changes in v2:
-	- Fix patch description. 
+So what should we do if we want to test this series now?  Any userspace
+tools?  If no, do you have any plans for userspace developing? ;-)
 
- Documentation/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 2df5a3da563c..5205430305d5 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -115,7 +115,7 @@ needed).
-    target/index
-    timers/index
-    watchdog/index
--   virtual/index
-+   virt/index
-    input/index
-    hwmon/index
-    gpu/index
--- 
-2.17.1
+Thanks,
+zenghui
+
+> +
+> +	reg->kaddr = memremap(res.a0,
+> +			sizeof(struct pvclock_vcpu_stolen_time_info),
+> +			MEMREMAP_WB);
+> +
+> +	if (reg->kaddr == NULL) {
+> +		pr_warn("Failed to map stolen time data structure\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (le32_to_cpu(reg->kaddr->revision) != 0 ||
+> +			le32_to_cpu(reg->kaddr->attributes) != 0) {
+> +		pr_warn("Unexpected revision or attributes in stolen time data\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int kvm_arm_init_stolen_time(void)
+> +{
+> +	int ret;
+> +
+> +	ret = cpuhp_setup_state(CPUHP_AP_ARM_KVMPV_STARTING,
+> +				"hypervisor/kvmarm/pv:starting",
+> +				init_stolen_time_cpu, stolen_time_dying_cpu);
+> +	if (ret < 0)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+> +static bool has_kvm_steal_clock(void)
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	/* To detect the presence of PV time support we require SMCCC 1.1+ */
+> +	if (psci_ops.smccc_version < SMCCC_VERSION_1_1)
+> +		return false;
+> +
+> +	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+> +			     ARM_SMCCC_HV_PV_FEATURES, &res);
+> +
+> +	if (res.a0 != SMCCC_RET_SUCCESS)
+> +		return false;
+> +
+> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_FEATURES,
+> +			     ARM_SMCCC_HV_PV_TIME_ST, &res);
+> +
+> +	if (res.a0 != SMCCC_RET_SUCCESS)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static int __init kvm_guest_init(void)
+> +{
+> +	int ret = 0;
+> +
+> +	if (!has_kvm_steal_clock())
+> +		return 0;
+> +
+> +	ret = kvm_arm_init_stolen_time();
+> +	if (ret)
+> +		return ret;
+> +
+> +	pv_ops.time.steal_clock = kvm_steal_clock;
+> +
+> +	static_key_slow_inc(&paravirt_steal_enabled);
+> +	if (steal_acc)
+> +		static_key_slow_inc(&paravirt_steal_rq_enabled);
+> +
+> +	pr_info("using stolen time PV\n");
+> +
+> +	return 0;
+> +}
+> +early_initcall(kvm_guest_init);
+> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+> index 068793a619ca..89d75edb5750 100644
+> --- a/include/linux/cpuhotplug.h
+> +++ b/include/linux/cpuhotplug.h
+> @@ -136,6 +136,7 @@ enum cpuhp_state {
+>   	/* Must be the last timer callback */
+>   	CPUHP_AP_DUMMY_TIMER_STARTING,
+>   	CPUHP_AP_ARM_XEN_STARTING,
+> +	CPUHP_AP_ARM_KVMPV_STARTING,
+>   	CPUHP_AP_ARM_CORESIGHT_STARTING,
+>   	CPUHP_AP_ARM64_ISNDEP_STARTING,
+>   	CPUHP_AP_SMPCFD_DYING,
+> 
 
