@@ -1,131 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 690167D91B
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 00:22:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17D1C7D922
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 05:36:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405101AbfHIAV5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Aug 2019 20:21:57 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34209 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732796AbfHIAV4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Aug 2019 20:21:56 -0400
-Received: by mail-ot1-f67.google.com with SMTP id n5so126128552otk.1;
-        Thu, 08 Aug 2019 17:21:56 -0700 (PDT)
+        id S2405536AbfHIFgi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 01:36:38 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35985 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725879AbfHIFgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 01:36:38 -0400
+Received: by mail-lj1-f195.google.com with SMTP id i21so11735108ljj.3
+        for <linux-doc@vger.kernel.org>; Thu, 08 Aug 2019 22:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IGL5DKWdJn7PBi3pvoDO2whZUNIAfJTBQdVIbDm2ils=;
-        b=ZScCbWpeAMjzl0XmTuKKF8pd17I8kPcB3a/WlU1fcXRTtSba0jThQX6frIL/CsC4gf
-         U4bT2fG4mp48haUjk2hNJ+P92k8Lf4Wx1uylZPiKQbzeWFOYACCtHK9aQ5QOjH/yZ2KY
-         UpcQRUil/+FjYtDO9ioS3yzu5F+yXWYO57Lc6xrYCfMX9Ay5LdOw3a+mfz7j2Wr9s8XV
-         fWX3U7uXdRMXlqmKPvGrMSK/EWBRMAoQhI9grQG8IkCR0po3fZaqZglhzZoVS0MseANc
-         0ILdgV95rz0c6WlAGjIsZ1iTgxB7SWn4ctSS0M73QUL7ja0GrTv2o7TcE6gVcYEbmFoV
-         ykXQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tkESspP4zbr99ojw52v1cXFMI0dDrn0lXHnV6ilVC5Q=;
+        b=atU7IHWXmtnksMrbQ1k8BhvgynR/4zyE9OG6rt3PbzKxYem2YQ+LktsQVrdVxU9YLC
+         6YS80Puii0arAAtUnabMIGV3zOeVA3ApszU4i/8p8wffKinEejM0dX7NX0PIEsTgMwvO
+         TLzlf48b35qwzLFYgJMSx7ys1Tf0RN+OG8QBquU8whFJhPaB1FkUd42OD9c0OyIJsSHJ
+         KiLi5JgnoeFZjOcc1P0sXibjDkKRUkLk7IMYnOeem0uchFACJ8+T4ZID/+da8ANX2BVu
+         Ko5uHliRhM4w0sAseDx2oJ+M853EwbV2INgH2yf6WehmFBIkH027WuZ/eSEYYm1W4a3G
+         FllQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=IGL5DKWdJn7PBi3pvoDO2whZUNIAfJTBQdVIbDm2ils=;
-        b=R3tbPb1QtchVxUlBNjiRRzTSHHwp5Z1s4QC3Hcip2qh/O07Iyyf20p5WUW3bdx19cg
-         tr4hS4qsQts95n/nO2UM0cLeZFOs1BzUmSlYPf7pg7/N0OY7EnFhYa9DHWlDUzzmxkjo
-         E5DFj8/8D/SBbzeS13NRswGoF8Ql/rmkd3ssPnE3kQA3mZ6beFw7LhD6VpgrXKpgR0+9
-         Kj5qw9BzEnjIEWn9bHRk28RXr1Tn87Uw1n/uW5pipoRG27A7u+rWb0qNdvr2Z01lfiwn
-         CXd2RqN6ci6dSKDevuMiTH6xYyNpyZbX2AS0d/x/syL9qdy+/7Ows69C54bNt2F21dao
-         iOyg==
-X-Gm-Message-State: APjAAAU1ky3WkZSOsmPOemdB7kKOkxlLAryFwVm1/70WMqauyULEC008
-        9Gb/q8h9/Dwgy9Re26KO9VU=
-X-Google-Smtp-Source: APXvYqynkSKSBU8dR/EgmijfUwQOlFO0FMYaqeA49ZHZeG/SA/1Z7vAuDfRBpmHmcrDe7Nu4NJ4CwQ==
-X-Received: by 2002:a6b:b804:: with SMTP id i4mr17180702iof.119.1565310115747;
-        Thu, 08 Aug 2019 17:21:55 -0700 (PDT)
-Received: from wandering.us.cray.com (msp-nat.cray.com. [136.162.2.1])
-        by smtp.gmail.com with ESMTPSA id l7sm8426377iof.81.2019.08.08.17.21.54
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 08 Aug 2019 17:21:55 -0700 (PDT)
-From:   Shaun Tancheff <shaun@tancheff.com>
-X-Google-Original-From: Shaun Tancheff <stancheff@cray.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Shaun Tancheff <stancheff@cray.com>, linux-kbuild@vger.kernel.org,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        "'James E . J . Bottomley'" <jejb@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "'Martin K . Petersen'" <martin.petersen@oracle.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Renninger <trenn@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH 1/1] kbuild: recursive build of external kernel modules
-Date:   Thu,  8 Aug 2019 19:21:04 -0500
-Message-Id: <20190809002104.18599-2-stancheff@cray.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190809002104.18599-1-stancheff@cray.com>
-References: <20190809002104.18599-1-stancheff@cray.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tkESspP4zbr99ojw52v1cXFMI0dDrn0lXHnV6ilVC5Q=;
+        b=gPrLdqlRUPAoGnpBTyXpJvBSIL370rRmPYCN1THgGLYRmvYUl69VZ3JCgSsBaJ07O1
+         22kk7/BDKaXebmLKZ1OLicET7AbuByQstlFkFAJo240guGvSw4MV5zdcJrGBEyf9KWGe
+         xrhrlD7ePOOllii7K+U4Z08wWChhnHEDUKSPwBvh9ISxt51twspqQZfsOM70yeJas+lj
+         eTO84+06O/pi6mslVuGHaVaYSg6O+tM6sg4Q43QAs3LBElKtSRTfOcGhxCX8UB5ioEYH
+         PZVTjlDl4yz2jNW2z+XAqZZ741giSQdXNwN8cF4yCommPdDJn7C7WMfWpqQEv92swuJZ
+         QzgA==
+X-Gm-Message-State: APjAAAXfUFEMKlDD/m25sR6TUPyUVjc5aIQ7yaliV2K6cooun6WhxbK/
+        5TSJK9T6luh6RAqy8zBTngYCWI8NmROJCCBODabIZA==
+X-Google-Smtp-Source: APXvYqxxy1TTV6QUfZHgTqMprUtqV1APmZ3PZFtZk65sg1r/cmrL6x9y1rC58d2HxqSp7BbfYHFxOnFanGeQ7Y6xGlk=
+X-Received: by 2002:a2e:301a:: with SMTP id w26mr10098807ljw.76.1565328996305;
+ Thu, 08 Aug 2019 22:36:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1564489420-677-1-git-send-email-sumit.garg@linaro.org>
+ <1564489420-677-3-git-send-email-sumit.garg@linaro.org> <99777010-db74-096a-ce1a-da30539d6fb5@arm.com>
+In-Reply-To: <99777010-db74-096a-ce1a-da30539d6fb5@arm.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Fri, 9 Aug 2019 11:06:24 +0530
+Message-ID: <CAFA6WYPUEUVJqk9E2F6z9oBW3VpC+xeqqpY4YrU9KPL1s0DTyA@mail.gmail.com>
+Subject: Re: [Tee-dev] [RFC v2 2/6] tee: enable support to register kernel memory
+To:     Stuart Yoder <stuart.yoder@arm.com>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, jejb@linux.ibm.com,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dhowells@redhat.com,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When building a tree of external modules stage 2 fails
-silently as the root modules.order is empty.
+On Fri, 9 Aug 2019 at 03:57, Stuart Yoder <stuart.yoder@arm.com> wrote:
+>
+>
+>
+> On 7/30/19 7:23 AM, Sumit Garg wrote:
+>
+> > @@ -264,7 +266,17 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
+> >               goto err;
+> >       }
+> >
+> > -     rc = get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
+> > +     if (flags & TEE_SHM_USER_MAPPED) {
+> > +             rc = get_user_pages_fast(start, num_pages, FOLL_WRITE,
+> > +                                      shm->pages);
+> > +     } else {
+> > +             const struct kvec kiov = {
+> > +                     .iov_base = (void *)start,
+> > +                     .iov_len = PAGE_SIZE
+> > +             };
+> > +
+> > +             rc = get_kernel_pages(&kiov, num_pages, 0, shm->pages);
+>
+> Passing a single kvec struct is temporary I assume?  Because as currently
+> written this will only work with num_pages==1.
+>
 
-Modify the modules.order location to be fixed to the
-root when KBUILD_EXTMOD is specified and write all
-module paths to the single modules.order file.
+Ah, thanks Stuart for pointing this out. It should rather be an array
+of kvec struct. Will fix it in next version.
 
-Signed-off-by: Shaun Tancheff <stancheff@cray.com>
----
- Makefile               | 1 +
- scripts/Makefile.build | 8 +++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+-Sumit
 
-diff --git a/Makefile b/Makefile
-index 23cdf1f41364..a9964492f47e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1622,6 +1622,7 @@ $(module-dirs): prepare $(objtree)/Module.symvers
- 
- modules: $(module-dirs)
- 	@$(kecho) '  Building modules, stage 2.';
-+	$(Q)$rm -f $(KBUILD_EXTMOD)/modules.order
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
- 
- PHONY += modules_install
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 0d434d0afc0b..f9908b3d59e0 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -64,7 +64,13 @@ builtin-target := $(obj)/built-in.a
- endif
- 
- ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
-+ifneq ($(KBUILD_EXTMOD),)
-+modorder-target := $(KBUILD_EXTMOD)/modules.order
-+modorder-add := >>
-+else
- modorder-target := $(obj)/modules.order
-+modorder-add := >
-+endif
- endif
- 
- mod-targets := $(patsubst %.o, %.mod, $(obj-m))
-@@ -423,7 +429,7 @@ endif # builtin-target
- $(modorder-target): $(subdir-ym) FORCE
- 	$(Q){ $(foreach m, $(modorder), \
- 	$(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
--	| $(AWK) '!x[$$0]++' - > $@
-+	| $(AWK) '!x[$$0]++' - $(modorder-add) $@
- 
- #
- # Rule to compile a set of .o files into one .a file (with symbol table)
--- 
-2.20.1
-
+> Stuart
