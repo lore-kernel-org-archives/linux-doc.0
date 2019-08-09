@@ -5,268 +5,229 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FA9B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 13:51:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1C337D919
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 14:10:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406374AbfHINv4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 09:51:56 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4655 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726037AbfHINv4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Aug 2019 09:51:56 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id ACB5A78427CCE41A010A;
-        Fri,  9 Aug 2019 21:51:52 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Fri, 9 Aug 2019
- 21:51:43 +0800
-Subject: Re: [PATCH 9/9] arm64: Retrieve stolen time as paravirtualized guest
-To:     Steven Price <steven.price@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-10-steven.price@arm.com>
-From:   Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <5d763c8e-9c06-c448-2644-25bfa0e57e8c@huawei.com>
-Date:   Fri, 9 Aug 2019 21:51:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
+        id S2406219AbfHIOKV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 10:10:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:7130 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbfHIOKU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Aug 2019 10:10:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 07:10:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; 
+   d="scan'208";a="182917945"
+Received: from devajeet-mobl2.amr.corp.intel.com (HELO [10.251.27.22]) ([10.251.27.22])
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2019 07:10:19 -0700
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v7 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org
+References: <20190807155321.9648-1-catalin.marinas@arm.com>
+ <20190807155321.9648-2-catalin.marinas@arm.com>
+ <826a9ace-feac-c019-843e-07e23c9fd46c@intel.com>
+ <20190808172730.GC37129@arrakis.emea.arm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <68354acd-e205-71cb-11c6-74a150178ae0@intel.com>
+Date:   Fri, 9 Aug 2019 07:10:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190802145017.42543-10-steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20190808172730.GC37129@arrakis.emea.arm.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/8/2 22:50, Steven Price wrote:
-> Enable paravirtualization features when running under a hypervisor
-> supporting the PV_TIME_ST hypercall.
+On 8/8/19 10:27 AM, Catalin Marinas wrote:
+> On Wed, Aug 07, 2019 at 01:38:16PM -0700, Dave Hansen wrote:
+> Extending the interface is still possible even with the current
+> proposal, by changing arg2 etc. We also don't seem to be consistent in
+> sys_prctl().
+
+We are not consistent because it took a long time to learn this lesson,
+but I think this is a best-practice that we follow for new ones.
+
+>> Also, shouldn't this be converted over to an arch_prctl()?
 > 
-> For each (v)CPU, we ask the hypervisor for the location of a shared
-> page which the hypervisor will use to report stolen time to us. We set
-> pv_time_ops to the stolen time function which simply reads the stolen
-> value from the shared page for a VCPU. We guarantee single-copy
-> atomicity using READ_ONCE which means we can also read the stolen
-> time for another VCPU than the currently running one while it is
-> potentially being updated by the hypervisor.
+> What do you mean by arch_prctl()? We don't have such thing, apart from
+> maybe arch_prctl_spec_ctrl_*(). We achieve the same thing with the
+> {SET,GET}_TAGGED_ADDR_CTRL macros. They could be renamed to
+> arch_prctl_tagged_addr_{set,get} or something but I don't see much
+> point.
+
+Silly me.  We have an x86-specific:
+
+	SYSCALL_DEFINE2(arch_prctl, int , option, unsigned long , arg2)
+
+I guess there's no ARM equivalent so you're stuck with the generic one.
+
+> What would be better (for a separate patch series) is to clean up
+> sys_prctl() and move the arch-specific options into separate
+> arch_prctl() under arch/*/kernel/. But it's not really for this series.
+
+I think it does make sense for truly arch-specific features to stay out
+of the arch-generic prctl().  Yes, I know I've personally violated this
+in the past. :)
+
+>> What is the scope of these prctl()'s?  Are they thread-scoped or
+>> process-scoped?  Can two threads in the same process run with different
+>> tagging ABI modes?
 > 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->   arch/arm64/kernel/Makefile |   1 +
->   arch/arm64/kernel/kvm.c    | 155 +++++++++++++++++++++++++++++++++++++
->   include/linux/cpuhotplug.h |   1 +
->   3 files changed, 157 insertions(+)
->   create mode 100644 arch/arm64/kernel/kvm.c
+> Good point. They are thread-scoped and this should be made clear in the
+> doc. Two threads can have different modes.
 > 
-> diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
-> index 478491f07b4f..eb36edf9b930 100644
-> --- a/arch/arm64/kernel/Makefile
-> +++ b/arch/arm64/kernel/Makefile
-> @@ -63,6 +63,7 @@ obj-$(CONFIG_CRASH_CORE)		+= crash_core.o
->   obj-$(CONFIG_ARM_SDE_INTERFACE)		+= sdei.o
->   obj-$(CONFIG_ARM64_SSBD)		+= ssbd.o
->   obj-$(CONFIG_ARM64_PTR_AUTH)		+= pointer_auth.o
-> +obj-$(CONFIG_PARAVIRT)			+= kvm.o
->   
->   obj-y					+= vdso/ probes/
->   obj-$(CONFIG_COMPAT_VDSO)		+= vdso32/
-> diff --git a/arch/arm64/kernel/kvm.c b/arch/arm64/kernel/kvm.c
-> new file mode 100644
-> index 000000000000..245398c79dae
-> --- /dev/null
-> +++ b/arch/arm64/kernel/kvm.c
-> @@ -0,0 +1,155 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (C) 2019 Arm Ltd.
-> +
-> +#define pr_fmt(fmt) "kvmarm-pv: " fmt
-> +
-> +#include <linux/arm-smccc.h>
-> +#include <linux/cpuhotplug.h>
-> +#include <linux/io.h>
-> +#include <linux/printk.h>
-> +#include <linux/psci.h>
-> +#include <linux/reboot.h>
-> +#include <linux/slab.h>
-> +
-> +#include <asm/paravirt.h>
-> +#include <asm/pvclock-abi.h>
-> +#include <asm/smp_plat.h>
-> +
-> +struct kvmarm_stolen_time_region {
-> +	struct pvclock_vcpu_stolen_time_info *kaddr;
-> +};
-> +
-> +static DEFINE_PER_CPU(struct kvmarm_stolen_time_region, stolen_time_region);
-> +
-> +static bool steal_acc = true;
-> +static int __init parse_no_stealacc(char *arg)
-> +{
-> +	steal_acc = false;
-> +	return 0;
-> +}
-> +early_param("no-steal-acc", parse_no_stealacc);
-> +
-> +/* return stolen time in ns by asking the hypervisor */
-> +static u64 kvm_steal_clock(int cpu)
-> +{
-> +	struct kvmarm_stolen_time_region *reg;
-> +
-> +	reg = per_cpu_ptr(&stolen_time_region, cpu);
-> +	if (!reg->kaddr) {
-> +		pr_warn_once("stolen time enabled but not configured for cpu %d\n",
-> +			     cpu);
-> +		return 0;
-> +	}
-> +
-> +	return le64_to_cpu(READ_ONCE(reg->kaddr->stolen_time));
-> +}
-> +
-> +static int disable_stolen_time_current_cpu(void)
-> +{
-> +	struct kvmarm_stolen_time_region *reg;
-> +
-> +	reg = this_cpu_ptr(&stolen_time_region);
-> +	if (!reg->kaddr)
-> +		return 0;
-> +
-> +	memunmap(reg->kaddr);
-> +	memset(reg, 0, sizeof(*reg));
-> +
-> +	return 0;
-> +}
-> +
-> +static int stolen_time_dying_cpu(unsigned int cpu)
-> +{
-> +	return disable_stolen_time_current_cpu();
-> +}
-> +
-> +static int init_stolen_time_cpu(unsigned int cpu)
-> +{
-> +	struct kvmarm_stolen_time_region *reg;
-> +	struct arm_smccc_res res;
-> +
-> +	reg = this_cpu_ptr(&stolen_time_region);
-> +
-> +	if (reg->kaddr)
-> +		return 0;
-> +
-> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_TIME_ST, &res);
-> +
-> +	if ((long)res.a0 < 0)
-> +		return -EINVAL;
+> The expectation is that this is invoked early during process start (by
+> the dynamic loader or libc init) while in single-thread mode and
+> subsequent threads will inherit the same mode. However, other uses are
+> possible.
 
-Hi Steven,
+If that's the expectation, it would be really nice to codify it.
+Basically, you can't enable the feature if another thread is already
+been forked off.
 
-Since userspace is not involved yet (right?), no one will create the
-PV_TIME device for guest (and no one will specify the IPA of the shared
-stolen time region), and I guess we will get a "not supported" error
-here.
+> That said, do we have a precedent for changing user ABI from the kernel
+> cmd line? 'noexec32', 'vsyscall' I think come close. With the prctl()
+> for opt-in, controlling this from the cmd line is not too bad (though my
+> preference is still for the sysctl).
 
-So what should we do if we want to test this series now?  Any userspace
-tools?  If no, do you have any plans for userspace developing? ;-)
+There are certainly user-visible things like being able to select
+various CPU features.
 
-
-Thanks,
-zenghui
-
-> +
-> +	reg->kaddr = memremap(res.a0,
-> +			sizeof(struct pvclock_vcpu_stolen_time_info),
-> +			MEMREMAP_WB);
-> +
-> +	if (reg->kaddr == NULL) {
-> +		pr_warn("Failed to map stolen time data structure\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (le32_to_cpu(reg->kaddr->revision) != 0 ||
-> +			le32_to_cpu(reg->kaddr->attributes) != 0) {
-> +		pr_warn("Unexpected revision or attributes in stolen time data\n");
-> +		return -ENXIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int kvm_arm_init_stolen_time(void)
-> +{
-> +	int ret;
-> +
-> +	ret = cpuhp_setup_state(CPUHP_AP_ARM_KVMPV_STARTING,
-> +				"hypervisor/kvmarm/pv:starting",
-> +				init_stolen_time_cpu, stolen_time_dying_cpu);
-> +	if (ret < 0)
-> +		return ret;
-> +	return 0;
-> +}
-> +
-> +static bool has_kvm_steal_clock(void)
-> +{
-> +	struct arm_smccc_res res;
-> +
-> +	/* To detect the presence of PV time support we require SMCCC 1.1+ */
-> +	if (psci_ops.smccc_version < SMCCC_VERSION_1_1)
-> +		return false;
-> +
-> +	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
-> +			     ARM_SMCCC_HV_PV_FEATURES, &res);
-> +
-> +	if (res.a0 != SMCCC_RET_SUCCESS)
-> +		return false;
-> +
-> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_FEATURES,
-> +			     ARM_SMCCC_HV_PV_TIME_ST, &res);
-> +
-> +	if (res.a0 != SMCCC_RET_SUCCESS)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static int __init kvm_guest_init(void)
-> +{
-> +	int ret = 0;
-> +
-> +	if (!has_kvm_steal_clock())
-> +		return 0;
-> +
-> +	ret = kvm_arm_init_stolen_time();
-> +	if (ret)
-> +		return ret;
-> +
-> +	pv_ops.time.steal_clock = kvm_steal_clock;
-> +
-> +	static_key_slow_inc(&paravirt_steal_enabled);
-> +	if (steal_acc)
-> +		static_key_slow_inc(&paravirt_steal_rq_enabled);
-> +
-> +	pr_info("using stolen time PV\n");
-> +
-> +	return 0;
-> +}
-> +early_initcall(kvm_guest_init);
-> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-> index 068793a619ca..89d75edb5750 100644
-> --- a/include/linux/cpuhotplug.h
-> +++ b/include/linux/cpuhotplug.h
-> @@ -136,6 +136,7 @@ enum cpuhp_state {
->   	/* Must be the last timer callback */
->   	CPUHP_AP_DUMMY_TIMER_STARTING,
->   	CPUHP_AP_ARM_XEN_STARTING,
-> +	CPUHP_AP_ARM_KVMPV_STARTING,
->   	CPUHP_AP_ARM_CORESIGHT_STARTING,
->   	CPUHP_AP_ARM64_ISNDEP_STARTING,
->   	CPUHP_AP_SMPCFD_DYING,
+>>> +When a process has successfully enabled the new ABI by invoking
+>>> +prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE), the following
+>>> +behaviours are guaranteed:
+>>> +
+>>> +- Every currently available syscall, except the cases mentioned in section
+>>> +  3, can accept any valid tagged pointer. The same rule is applicable to
+>>> +  any syscall introduced in the future.
+>>> +
+>>> +- The syscall behaviour is undefined for non valid tagged pointers.
+>>
+>> Do you really mean "undefined"?  I mean, a bad pointer is a bad pointer.
+>>  Why should it matter if it's a tagged bad pointer or an untagged bad
+>> pointer?
 > 
+> Szabolcs already replied here. We may have tagged pointers that can be
+> dereferenced just fine but being passed to the kernel may not be well
+> defined (e.g. some driver doing a find_vma() that fails unless it
+> explicitly untags the address). It's as undefined as the current
+> behaviour (without these patches) guarantees.
+
+It might just be nicer to point out what this features *changes* about
+invalid pointer handling, which is nothing. :)  Maybe:
+
+	The syscall behaviour for invalid pointers is the same for both
+	tagged and untagged pointers.
+
+>>> +- prctl(PR_SET_MM, ``*``, ...) other than arg2 PR_SET_MM_MAP and
+>>> +  PR_SET_MM_MAP_SIZE.
+>>> +
+>>> +- prctl(PR_SET_MM, PR_SET_MM_MAP{,_SIZE}, ...) struct prctl_mm_map fields.
+>>> +
+>>> +Any attempt to use non-zero tagged pointers will lead to undefined
+>>> +behaviour.
+>>
+>> I wonder if you want to generalize this a bit.  I think you're saying
+>> that parts of the ABI that modify the *layout* of the address space
+>> never accept tagged pointers.
+> 
+> I guess our difficulty in specifying this may have been caused by
+> over-generalising. For example, madvise/mprotect came under the same
+> category but there is a use-case for malloc'ed pointers (and tagged) to
+> the kernel (e.g. MADV_DONTNEED). If we can restrict the meaning to
+> address space *layout* manipulation, we'd have mmap/mremap/munmap,
+> brk/sbrk, prctl(PR_SET_MM). Did I miss anything?. Other related syscalls
+> like mprotect/madvise preserve the layout while only changing permissions,
+> backing store, so the would be allowed to accept tags.
+
+shmat() comes to mind.  I also did a quick grep for mmap_sem taken for
+write and didn't see anything else obvious jump out at me.
+
+>> It looks like the TAG_SHIFT and tag size are pretty baked into the
+>> aarch64 architecture.  But, are you confident that no future
+>> implementations will want different positions or sizes?  (obviously
+>> controlled by other TCR_EL1 bits)
+> 
+> For the top-byte-ignore (TBI), that's been baked in the architecture
+> since ARMv8.0 and we'll have to keep the backwards compatible mode. As
+> the name implies, it's the top byte of the address and that's what the
+> document above refers to.
+> 
+> With MTE, I can't exclude other configurations in the future but I'd
+> expect the kernel to present the option as a new HWCAP and the user to
+> explicitly opt in via a new prctl() flag. I seriously doubt we'd break
+> existing binaries. So, yes TAG_SHIFT may be different but so would the
+> prctl() above.
+
+Basically, what you have is a "turn tagging on" and "turn tagging off"
+call which are binary: all on or all off.  How about exposing a mask:
+
+	/* Replace hard-coded mask size/position: */
+	unsigned long mask = prctl(GET_POSSIBLE_TAGGED_ADDR_BITS);
+
+	if (mask == 0)
+		// no tagging is supported obviously
+
+	prctl(SET_TAGGED_ADDR_BITS, mask);
+
+	// now userspace knows via 'mask' where the tag bits are
+
 
