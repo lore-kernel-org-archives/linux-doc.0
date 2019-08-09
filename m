@@ -1,153 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 95ECC7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 09:46:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6F727D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 09:50:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406167AbfHIJpr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 05:45:47 -0400
-Received: from mail-eopbgr50057.outbound.protection.outlook.com ([40.107.5.57]:32389
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2406138AbfHIJpr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Aug 2019 05:45:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HwvhAU50FVGmkGJlGxmEfjXrhh366das8yim7aUT5TWeCPqTwUVRK15Yg/FTXKQXkmEsJfU68vp1fV1v68OqaLy01MBJX4mbUs3ToMaoiTMFfsYQpHDOnXznqAGsOvYdCEyahrjCRRPbCZpy0LeSeoWOdDAui6sKCUEOiisjSDGUlanDvO5TCTOOB1RF5U1M6rvCbJLhw69tK2esM6WDCFgN8cuTzS/f59wQyvCqH1D+i/5CkLbfUtcOZKsAqXM04MbtZoNW+K0+Y+HKTh2kLtQqPsrslRfDiVLM6J5y5hmyxLw5uSVxYGT8Zs1IAS3lpVHoymyXJ/U57Zgh3LHPhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hg3Gp8dptVuK+uaY9Ye8x7ZbYCrF0v/JWUmNUsOlG64=;
- b=YNlLLt5xj/UAP/6fYQrlDFDh1XuJU12PLZto+vEPpoG+cD9jPmNLWFIacN7eqAVIcdXkqoKXQJA7Jpeh9EtCBxD8Se1OOox8dAZIHrXjiHBg0D19+IzII/bI9/5kyaFWbLybn5bstZEJ156vutzSW6CuJHOHCt2wQ4dTkFyEaSt7G1fcWfdjb526UkWnfonWMFN6eCTOjpopm4sQ0+gkQu8QLOuODet5Pdyt9qY4mgRmV2ZNpWYllfgOdxp4WwgtdHwqz6Yfz7nBYzjFDNkluKSUjFfDqO0Zkw32E9k9nC1HRCREHBMN7w6CgNYT/RNKN//+h3zkHbCjeGwnmDz/tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hg3Gp8dptVuK+uaY9Ye8x7ZbYCrF0v/JWUmNUsOlG64=;
- b=LfazChVs4fqY/yHq4h9uqKcMB3Cpi28fmljijeOYaihTEl1nFmqJ4JRB6qtrOIdsdGCmYNDpSgsOeSc4dwQkdRr6jYuUhAz5I1yPz7FKQLYkVHS0DlhiHX2cppeYFeQ0fPx9yVzFnyqk8UUcpSkJx1lPcXvWyzVCG+ThwapwBmQ=
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
- VI1PR0402MB3487.eurprd04.prod.outlook.com (52.134.4.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.18; Fri, 9 Aug 2019 09:45:40 +0000
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023%7]) with mapi id 15.20.2157.020; Fri, 9 Aug 2019
- 09:45:40 +0000
-From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-To:     Will Deacon <will@kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
-        Larisa Ileana Grigore <larisa.grigore@nxp.com>
-Subject: Re: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Topic: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Index: AQHVTpc0N7PGKATl60WX/HSnUpERYA==
-Date:   Fri, 9 Aug 2019 09:45:40 +0000
-Message-ID: <VI1PR0402MB2863B3E3E2F93CBA8ADB96E5DFD60@VI1PR0402MB2863.eurprd04.prod.outlook.com>
-References: <20190802194702.30249-1-stefan-gabriel.mirea@nxp.com>
- <20190802194702.30249-6-stefan-gabriel.mirea@nxp.com>
- <20190808080832.nleult5bknmzr3ze@willie-the-truck>
- <VI1PR0402MB28635661A4A294EC6F01095EDFD70@VI1PR0402MB2863.eurprd04.prod.outlook.com>
- <20190808171711.nk7ljqkugtketu4q@willie-the-truck>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b1ce9e63-d687-4377-7fc5-08d71cae56dd
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3487;
-x-ms-traffictypediagnostic: VI1PR0402MB3487:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR0402MB3487A57EC47CF9CC1DCD49EBDFD60@VI1PR0402MB3487.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 01244308DF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(136003)(366004)(39860400002)(396003)(189003)(199004)(14454004)(9686003)(66066001)(478600001)(25786009)(6246003)(66446008)(91956017)(64756008)(99286004)(966005)(66476007)(7416002)(76116006)(476003)(81156014)(446003)(486006)(52536014)(4326008)(5660300002)(229853002)(256004)(33656002)(81166006)(6916009)(8676002)(86362001)(66556008)(6436002)(66946007)(74316002)(54906003)(8936002)(53936002)(6506007)(3846002)(186003)(26005)(7696005)(6116002)(2906002)(76176011)(6306002)(102836004)(7736002)(55016002)(305945005)(53546011)(71190400001)(71200400001)(316002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3487;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: VyyhMslZwBvsUnmwB6TSMV9voZEpehOg1viKRnTsBSlMEttEi66M5sogjcHRrhNeThzg5UuxOTh01aLizkypE8lSec88QvBZoLI/SLJa7eF1MQGUjuHH4raKtWsbBncL5xSvUfrPww3q8z+bGz3hVwblZY2qvuctjhxofq7LVkWMN8+6ITj7T5lp9aPSpEvweOt7dybZ7z8FzRiUF0rHHnQVEA3o6WZ8cBXWuHYf66M8wNQSWn/3lrhqgZ8Cr9tYUNlGwsjcQ2XAVZSf2S7DERRaS5+Dm+uQGx4aAIdVT2fL6t4T6YIugeNHAxxVBi89alw0PMoVZbY4B43KNfSdRqmqBM21pReMQ78Gujw3BkjShkkZBSPiNLeEbEA6kKipIc5t8xHjzNYHMWutbZHhFjMZVuZxkfWBwVNE2sY6YLs=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1ce9e63-d687-4377-7fc5-08d71cae56dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2019 09:45:40.2418
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mQTYDFCG5FWbj/6dT0j0JlhWuLrK/tfyIhrltz1ZxBCa0EY/7PVgvAkHY1XrM+gcgsCUj1yFevooUHTaefHnohN++xPwd9OHH3B5rjhTQTE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3487
+        id S2405723AbfHIJuA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 05:50:00 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34445 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730233AbfHIJuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 05:50:00 -0400
+Received: by mail-pf1-f194.google.com with SMTP id b13so45774180pfo.1;
+        Fri, 09 Aug 2019 02:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=M4LYnoEJb207t6aRi5HbsF+k6e61KxB5f8QClUX5QIY=;
+        b=B7sZuZnKX9erQAhbjqw7MPqVXJ1QGVCBauMPHnwn+8d3Y70ibLxR/VuXgfpYq9U9Mq
+         wD8WP7IsMY8UxnPc9tSz1arJGz58NG2i1+8Ovm6bDASpvLwtIx7EqiRHbqd5z81IOSOo
+         hZkiEuKO68UxMRliSf6XwL91l0//eBIA9WlFNXDV3m0098aAO1Na+2cDI+kRVDTvdc+/
+         a6QEINj1di2Qdd4kWjRbSsR0nNyqhAy7a/+lqeLbSLqlSgrLOrcOFgsrh0fv9XjQuQQY
+         IBlcnU5AVTnC4ZyWAHVEXqjgfB5cDOIhQYh4DroPRCVAwMXxAG2WgjaJqh70Mh15ZxCj
+         YyvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=M4LYnoEJb207t6aRi5HbsF+k6e61KxB5f8QClUX5QIY=;
+        b=qVIzXcun/XLV0do0vaLR5EyMlFqLL8nH1fmQd3ysvotRC/sygyuWLwoNU/wM5sksZQ
+         oMq1M0LHFpIb++VoOxuOah4jmvg2Pf31wgqGIVLczFW1PEEHt34hn3IIUOXsT6yfNi1R
+         h6YPW5iSSHSsLaNTvd40P9XQAhmiMEFGXdKS8Nx5IaRqLqNqPNJgnJ16+hc+erDea+Oo
+         lGgYqq2eoQhJKPFa6bqAdfLM+3hj8gsFQc7vU5K9A2kaUM951eu0xmsz65iuQGHvpjgb
+         uBwGagLaxRTVLIUCBX0hm6y4kx+ZyOKzPzAWIzRLsMJP8EaTJPEGXk6RNkvEKzC+Vhc6
+         EBOw==
+X-Gm-Message-State: APjAAAUr6kPNZE4BEiAhRDkDKjmNCUiNEttRvfof6Oqqfi3/IKSNQrs3
+        MpPrfstxgoP96SQQOFzPbX0=
+X-Google-Smtp-Source: APXvYqwEf426bx7Lg/Kot7Q5FVKeANn4QigqsluEKd28l6me5MSvuWJJG/VFDpcQRQSVOu+dGsRYmg==
+X-Received: by 2002:a17:90a:2305:: with SMTP id f5mr8964682pje.128.1565344199350;
+        Fri, 09 Aug 2019 02:49:59 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.255.114])
+        by smtp.googlemail.com with ESMTPSA id b16sm159653631pfo.54.2019.08.09.02.49.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 09 Aug 2019 02:49:58 -0700 (PDT)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com
+Subject: [PATCH 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+Date:   Fri,  9 Aug 2019 17:49:36 +0800
+Message-Id: <20190809094939.76093-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/8/2019 8:17 PM, Will Deacon wrote:=0A=
-> On Thu, Aug 08, 2019 at 12:47:00PM +0000, Stefan-gabriel Mirea wrote:=0A=
->> On 8/8/2019 11:08 AM, Will Deacon wrote:=0A=
->>> On Fri, Aug 02, 2019 at 07:47:23PM +0000, Stefan-gabriel Mirea wrote:=
-=0A=
->>>> +             linflex,<addr>=0A=
->>>> +                     Use early console provided by Freescale LinFlex =
-UART=0A=
->>>> +                     serial driver for NXP S32V234 SoCs. A valid base=
-=0A=
->>>> +                     address must be provided, and the serial port mu=
-st=0A=
->>>> +                     already be setup and configured.=0A=
->>>=0A=
->>> Why isn't earlycon=3D sufficient for this?=0A=
->>=0A=
->> "earlycon=3D" is not actually supported. I will fix this in the next=0A=
->> version by adding a /chosen/stdout-path to the dts. The compatible=0A=
->> string provided to OF_EARLYCON_DECLARE will also be changed from=0A=
->> "fsl,s32v234-linflexuart" to "fsl,s32-linflexuart" to match the one in=
-=0A=
->> the device tree nodes. I missed this after importing a rename from our=
-=0A=
->> codebase.=0A=
->>=0A=
->> Should I remove this addition from kernel-parameters.txt after that?=0A=
-> =0A=
-> Yes, if you can use earlycon instead, then you can drop your custom optio=
-n=0A=
-> entirely and therefore there's no need to document it either.=0A=
-=0A=
-Can you please clarify what you mean by "drop your custom option"? The=0A=
-"linflex" option documented in the paragraph is the name of the=0A=
-earlycon_id declared via "OF_EARLYCON_DECLARE(linflex, ...)". We have=0A=
-not done anything particular to accept it in the parameter value.=0A=
-=0A=
-We do use earlycon (e.g. "earlycon=3Dlinflex,0x40053000"), we just do not=
-=0A=
-support an empty value after "=3D", which needs to be fixed as I=0A=
-understand, because it does not respect the comment[1] about ARM64.=0A=
-=0A=
-Regards,=0A=
-Stefan=0A=
-=0A=
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/admin-guide/kernel-parameters.txt?h=3Dv5.3-rc3#n980=0A=
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+
+
+This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+in L0 can delegate L1 hypervisor to handle tlb flush request from
+L2 guest when direct tlb flush is enabled in L1.
+
+Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+feature from user space. User space should enable this feature only
+when Hyper-V hypervisor capability is exposed to guest and KVM profile
+is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+We hope L2 guest doesn't use KVM hypercall when the feature is
+enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+
+Tianyu Lan (2):
+  x86/Hyper-V: Fix definition of struct hv_vp_assist_page
+  KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
+
+Vitaly Kuznetsov (1):
+  KVM/Hyper-V/VMX: Add direct tlb flush support
+
+ Documentation/virtual/kvm/api.txt  | 10 ++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h | 24 +++++++++++++++++++-----
+ arch/x86/include/asm/kvm_host.h    |  2 ++
+ arch/x86/kvm/vmx/evmcs.h           |  2 ++
+ arch/x86/kvm/vmx/vmx.c             | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/x86/kvm/x86.c                 |  8 ++++++++
+ include/linux/kvm_host.h           |  1 +
+ include/uapi/linux/kvm.h           |  1 +
+ 8 files changed, 81 insertions(+), 5 deletions(-)
+
+-- 
+2.14.2
+
