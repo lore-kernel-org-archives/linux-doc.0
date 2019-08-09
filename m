@@ -1,159 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F4167D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 09:50:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E10AA7D913
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 09:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406121AbfHIJu2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 05:50:28 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46966 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726078AbfHIJu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 05:50:27 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c2so44740291plz.13;
-        Fri, 09 Aug 2019 02:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Atc4BJswO9FqSuTtYaBzlXzj28k8fIGbRP3z5mb0CLo=;
-        b=rEZkCZMk5CPxG24fbgvRRyk7BDHZ2M1b3XQUCUTFP/DLFesJrUZlgHGWF3weO28T/F
-         Nc3AkdOeg/fOyeGOKV69x71UqUNH9PTRwQ2W7AO3Aq063LzHvlRlwkENUtZ7FbOF6FvB
-         kgU2mmGXe+IaDjijV6EXq9wsyAhhOAyoVVdDrocn0nV3xbhSfCsuShMSWeAQY1BW5FiP
-         YUa8OW/v4d6R3L6yjaHZxGzjnV61upYIBulsOb9hhOXEjUxVs2RFhqNQH5F4y1yjfHb/
-         AN160tvH9YzJ6Y7A0JCVN6wTL8MqcN5dyz+yuQMkVCoG8XIVcWkIzKutZWGyPcTu6emL
-         5Xwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Atc4BJswO9FqSuTtYaBzlXzj28k8fIGbRP3z5mb0CLo=;
-        b=Rt3SbpKu0i5UivqIjxFbYxIbxaXEQdQi1tFTmu5j6rmPhHJ2kZOGT0q99ztLqC9dBN
-         FyojH18y1WByIxmJhi90AepdszJ6uu+SQ9O036akgVuUaOfy6R216lf/IzfP03wL3hwR
-         /OCo8zejG1+i2No7enYDZeESU5LxTKPb94DqmVNL3BiQ4yIMEhosKgsH4atQMwBEMqWK
-         UgwSHJqmfI+Sukiplm1r/go/ichptgEhrTEeMvRjcn5ozR8IMTacE4082MesbxKDVQMV
-         7V3z7yTMebDftlVh5HjTd0207DR6ASEASyLIy1zfXXwi64sIF+5KBTIvpmfzNx4I+Isq
-         KIDg==
-X-Gm-Message-State: APjAAAXm7QAd0M9shsxRoLB3a9lhSpj9SFWCRQWVrkpQHpdhYOdXGB5S
-        31XTnEwG8kjFi8kApuICakU=
-X-Google-Smtp-Source: APXvYqyQvioXozfaCcOY1rFaU8I0RHo0Isan7blQvSuI0A4SMQOVkO7vzQaQIQeJKR4mZETm9zs2vQ==
-X-Received: by 2002:a17:902:8689:: with SMTP id g9mr16880319plo.252.1565344227241;
-        Fri, 09 Aug 2019 02:50:27 -0700 (PDT)
-Received: from localhost.corp.microsoft.com ([167.220.255.114])
-        by smtp.googlemail.com with ESMTPSA id b16sm159653631pfo.54.2019.08.09.02.50.22
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 09 Aug 2019 02:50:26 -0700 (PDT)
-From:   lantianyu1986@gmail.com
-X-Google-Original-From: Tianyu.Lan@microsoft.com
-To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        michael.h.kelley@microsoft.com
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, vkuznets@redhat.com
-Subject: [PATCH 2/3] KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-Date:   Fri,  9 Aug 2019 17:49:38 +0800
-Message-Id: <20190809094939.76093-3-Tianyu.Lan@microsoft.com>
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190809094939.76093-1-Tianyu.Lan@microsoft.com>
-References: <20190809094939.76093-1-Tianyu.Lan@microsoft.com>
+        id S2405726AbfHIJxp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 05:53:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59704 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405641AbfHIJxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Aug 2019 05:53:45 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 815C82171F;
+        Fri,  9 Aug 2019 09:53:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565344424;
+        bh=HvIMRzJAD8xKVNar+I0poiTdap6cuZjybn8Cb39/S4A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mAW5usvY5TRTwNwiyb9HbLqnttY7Fl181BMCrvMtghPMrPW3HXe/FUImhq15iYn+R
+         Fy0fDCyZCSZqFB9kERdFKnUn41T527BTUSDqT89jqc5LukkdNqmwjulPAd8DZKyhu6
+         eTjpDwZA0xMwsF4/pd+QBlSjd51QxUOAeObojS5I=
+Date:   Fri, 9 Aug 2019 10:53:38 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
+        Larisa Ileana Grigore <larisa.grigore@nxp.com>
+Subject: Re: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
+Message-ID: <20190809095338.d73fomq424gayf2b@willie-the-truck>
+References: <20190802194702.30249-1-stefan-gabriel.mirea@nxp.com>
+ <20190802194702.30249-6-stefan-gabriel.mirea@nxp.com>
+ <20190808080832.nleult5bknmzr3ze@willie-the-truck>
+ <VI1PR0402MB28635661A4A294EC6F01095EDFD70@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+ <20190808171711.nk7ljqkugtketu4q@willie-the-truck>
+ <VI1PR0402MB2863B3E3E2F93CBA8ADB96E5DFD60@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <VI1PR0402MB2863B3E3E2F93CBA8ADB96E5DFD60@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+On Fri, Aug 09, 2019 at 09:45:40AM +0000, Stefan-gabriel Mirea wrote:
+> On 8/8/2019 8:17 PM, Will Deacon wrote:
+> > On Thu, Aug 08, 2019 at 12:47:00PM +0000, Stefan-gabriel Mirea wrote:
+> >> On 8/8/2019 11:08 AM, Will Deacon wrote:
+> >>> On Fri, Aug 02, 2019 at 07:47:23PM +0000, Stefan-gabriel Mirea wrote:
+> >>>> +             linflex,<addr>
+> >>>> +                     Use early console provided by Freescale LinFlex UART
+> >>>> +                     serial driver for NXP S32V234 SoCs. A valid base
+> >>>> +                     address must be provided, and the serial port must
+> >>>> +                     already be setup and configured.
+> >>>
+> >>> Why isn't earlycon= sufficient for this?
+> >>
+> >> "earlycon=" is not actually supported. I will fix this in the next
+> >> version by adding a /chosen/stdout-path to the dts. The compatible
+> >> string provided to OF_EARLYCON_DECLARE will also be changed from
+> >> "fsl,s32v234-linflexuart" to "fsl,s32-linflexuart" to match the one in
+> >> the device tree nodes. I missed this after importing a rename from our
+> >> codebase.
+> >>
+> >> Should I remove this addition from kernel-parameters.txt after that?
+> > 
+> > Yes, if you can use earlycon instead, then you can drop your custom option
+> > entirely and therefore there's no need to document it either.
+> 
+> Can you please clarify what you mean by "drop your custom option"? The
+> "linflex" option documented in the paragraph is the name of the
+> earlycon_id declared via "OF_EARLYCON_DECLARE(linflex, ...)". We have
+> not done anything particular to accept it in the parameter value.
 
-This patch adds new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH and let
-user space to enable direct tlb flush function when only Hyper-V
-hypervsior capability is exposed to VM. This patch also adds
-enable_direct_tlbflush callback in the struct kvm_x86_ops and
-platforms may use it to implement direct tlb flush support.
+My apologies, I completely misread your patch and thought your were adding
+a *new* kernel parameter. Having looked at the context, I now see you're
+adding a new earlycon option, which is what I was suggesting :)
 
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- Documentation/virtual/kvm/api.txt | 10 ++++++++++
- arch/x86/include/asm/kvm_host.h   |  2 ++
- arch/x86/kvm/x86.c                |  8 ++++++++
- include/uapi/linux/kvm.h          |  1 +
- 4 files changed, 21 insertions(+)
+By all means, please update the stdout-path, because then you can just pass
+"earlycon" and things will work as expected.
 
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index 2cd6250b2896..45308ed6dd75 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -5289,3 +5289,13 @@ Architectures: x86
- This capability indicates that KVM supports paravirtualized Hyper-V IPI send
- hypercalls:
- HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-+8.21 KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-+
-+Architecture: x86
-+
-+This capability indicates that KVM supports Hyper-V direct tlb flush function.
-+User space should enable this feature only when Hyper-V hypervisor capability
-+is exposed to guest and KVM profile is hided. Both Hyper-V and KVM hypercalls
-+use RAX and RCX registers to pass parameters. If KVM hypercall is exposed
-+to L2 guest with direct tlbflush enabled, Hyper-V may mistake KVM hypercall
-+for Hyper-V tlb flush Hypercall due to paremeter register overlap.
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 0cc5b611a113..667d154e89d4 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1205,6 +1205,8 @@ struct kvm_x86_ops {
- 	uint16_t (*nested_get_evmcs_version)(struct kvm_vcpu *vcpu);
- 
- 	bool (*need_emulation_on_page_fault)(struct kvm_vcpu *vcpu);
-+
-+	int (*enable_direct_tlbflush)(struct kvm_vcpu *vcpu);
- };
- 
- struct kvm_arch_async_pf {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 9d7b9e6a0939..a9d8ee7f7bf0 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3183,6 +3183,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		r = kvm_x86_ops->get_nested_state ?
- 			kvm_x86_ops->get_nested_state(NULL, NULL, 0) : 0;
- 		break;
-+	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-+		r = kvm_x86_ops->enable_direct_tlbflush ? 1 : 0;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -3953,6 +3956,11 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
- 				r = -EFAULT;
- 		}
- 		return r;
-+	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-+		if (!kvm_x86_ops->enable_direct_tlbflush)
-+			return -ENOTTY;
-+
-+		return kvm_x86_ops->enable_direct_tlbflush(vcpu);
- 
- 	default:
- 		return -EINVAL;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index a7c19540ce21..cb959bc925b1 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -996,6 +996,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
- #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
- #define KVM_CAP_PMU_EVENT_FILTER 173
-+#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-2.14.2
-
+Will
