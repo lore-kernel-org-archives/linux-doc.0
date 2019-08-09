@@ -1,163 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AA3B7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 09:57:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AF657D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 10:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405690AbfHIJ5R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 05:57:17 -0400
-Received: from mail-eopbgr130080.outbound.protection.outlook.com ([40.107.13.80]:42005
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726037AbfHIJ5R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Aug 2019 05:57:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KV1Y645e6LJ/hDsdB+SPBsrWE5g3b9xkPutbYav/n97GYjDy5z9wHRy43fCAUQN169eS8fLwXTdtAOftndCvVTxLgGP8ngGOCsqaZpj+kl5zvu+p+FYgdHFPQSTc08xrtJ5pnlGkzlkqrksUED3fqAMJl0/aZC6BbwfLvg5JhaeYD3IzP14l6xBENC/hNiFOMc4GlhiDnEbbhRjiHBuPvvF4EGMDYQDwSobUgFaeu5f+JITH1uIzcVUaB7gQlWpff+wMnOt2knA7CXGJA35XMJkuHInWtS1AINoJad82K/Sw2OC/HjDcrr6gV0C+sMwvoV3VRZgkbTDQcka9u3oggg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z7ADiLfyDQ6SMb4iZxbJcLZ8cV0x8UM6mZu6qwT6Qjg=;
- b=bc5osxAWCQCK64BRW3QpHX39DGizqeWxEYmdk3mMYHF7nAvwGEaoR2iVqfFLokpiGvE4ZpezmKrCaMvE1HW9kbzuuXu54a7xYFh87C8dP5fElff764KgH7mA9Hfc7VHcZ79T/EG6441Fz1Ha/GasCVbDxrQkaAgbcXRL7eZTw5bohL9eP0ZuK/319zGMupLeGTkH+2UKyodMTsCfVBk9TZFG0EQCYgttSkvDZdHe/y8kAqdzg0KvdqzbTZTNJGbmSDa633nagKMvutNnrV9VNz2g++ypbyB+dMvUWPiEmFN6IKn59uuut8nRdOMyYtaonPWlGfsmkYlDEDdIjbP+zA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=nxp.com;dmarc=pass action=none header.from=nxp.com;dkim=pass
- header.d=nxp.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z7ADiLfyDQ6SMb4iZxbJcLZ8cV0x8UM6mZu6qwT6Qjg=;
- b=PX0nNo5P7XsjQNb4KHsIUm429hLlAr7Yzlwf6Trqv+mhAfhm8VT3w/ImdVlUQUb+PvjzU8PFBzBSSvpjHXxz5wIDCzTLkYBqu23rzOI2caHee12lIOWdHIs8JGjN5XasqK4uaNENFY/osd41Gz2smJyLPbbQUuIgfb/rmqBJ+OA=
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
- VI1PR0402MB3375.eurprd04.prod.outlook.com (52.134.1.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Fri, 9 Aug 2019 09:57:11 +0000
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::7de6:ea4b:9b5d:d023%7]) with mapi id 15.20.2157.020; Fri, 9 Aug 2019
- 09:57:11 +0000
-From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-To:     Will Deacon <will@kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
-        Larisa Ileana Grigore <larisa.grigore@nxp.com>
-Subject: Re: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Topic: [PATCH 5/6] tty: serial: Add linflexuart driver for S32V234
-Thread-Index: AQHVTpjQef+rwi1Z1UKpXJwR9xDaOg==
-Date:   Fri, 9 Aug 2019 09:57:11 +0000
-Message-ID: <VI1PR0402MB2863475AD0326DA86594427EDFD60@VI1PR0402MB2863.eurprd04.prod.outlook.com>
-References: <20190802194702.30249-1-stefan-gabriel.mirea@nxp.com>
- <20190802194702.30249-6-stefan-gabriel.mirea@nxp.com>
- <20190808080832.nleult5bknmzr3ze@willie-the-truck>
- <VI1PR0402MB28635661A4A294EC6F01095EDFD70@VI1PR0402MB2863.eurprd04.prod.outlook.com>
- <20190808171711.nk7ljqkugtketu4q@willie-the-truck>
- <VI1PR0402MB2863B3E3E2F93CBA8ADB96E5DFD60@VI1PR0402MB2863.eurprd04.prod.outlook.com>
- <20190809095338.d73fomq424gayf2b@willie-the-truck>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3ac1c76-d9f0-4497-0617-08d71caff309
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3375;
-x-ms-traffictypediagnostic: VI1PR0402MB3375:
-x-microsoft-antispam-prvs: <VI1PR0402MB33758DF6D9DE8D0CE6715F13DFD60@VI1PR0402MB3375.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 01244308DF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(396003)(136003)(366004)(346002)(376002)(189003)(199004)(25786009)(71200400001)(476003)(486006)(71190400001)(186003)(5660300002)(64756008)(53546011)(6506007)(76176011)(86362001)(7416002)(66946007)(14454004)(14444005)(478600001)(256004)(102836004)(26005)(66066001)(76116006)(91956017)(9686003)(8936002)(6916009)(6246003)(53936002)(7696005)(7736002)(6116002)(99286004)(66446008)(66556008)(3846002)(66476007)(305945005)(8676002)(316002)(6436002)(81166006)(81156014)(446003)(52536014)(74316002)(2906002)(33656002)(4326008)(229853002)(54906003)(55016002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3375;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: DjE8S6x4URCD84Mb5GS6egryn40zkVwH3emtJo+rSL4SofcP7bPBkjz+c0dzk7LrlAU3F2ueBumlBxMjvgbECpVoyh53mn4b4g4RzP0HBgwh/Ph7VFfCIX+CAoOw18X3A2gjS1lDTcqQY5vFS3lCaKBEZF0EThV5YKUXfG2+o20OQo58eXt/kVUxi2gnCH5yUBl3F0vL+V/P46Ivc3Zl3dg5pGVB7SecebXhALZGBux4QedLYOxfATR2ckPMtzCvWV9C4bZLK+I5b6+mtdYhX4KpuWiN7FtuISorcK1/9VuWQq7+FgdX8WWrL/nLZBpoI20/6GxTj9dCL1G87POp/0FTxoDA5ceWLNZE8MhQblZLZEaJ+bfFzwX1pkxnK6gBrA/iWt4LbQQyMcSo5joBntEPgLM2X2tsOfQVpACEptk=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726152AbfHIKNR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 06:13:17 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:33253 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727063AbfHIKNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 06:13:17 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190809101314euoutp02966d05fcc703c36400abcab81cb4d8a8~5OYZL8Lb31175911759euoutp02Q;
+        Fri,  9 Aug 2019 10:13:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190809101314euoutp02966d05fcc703c36400abcab81cb4d8a8~5OYZL8Lb31175911759euoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1565345594;
+        bh=On0a66YZsNhqmW6GFpk7DdmlHp6VUZfe3/Xvo17x8cY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mzQPBa13fJoj+yhPpyw0Kddf0CXPPwEMF1cJ16xq85Azd+XGWFXrBBrSVp6oM6cz+
+         W3ShLvKNipV10QOmWjAokOtMX+E5RjmQ2lODj+FvPPfnn58RaR6skgN7wSsH2RH3Dj
+         VOux87E8aYqP+yB2BK0G2vdOkI+enpu0Iw7lW1M0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190809101313eucas1p2bbf588fa70e7b0fd281b1ea7d9e9e6d7~5OYYu2XUL2491324913eucas1p23;
+        Fri,  9 Aug 2019 10:13:13 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id CC.1C.04469.9374D4D5; Fri,  9
+        Aug 2019 11:13:13 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20190809101313eucas1p1363a5f60c06081bd9b2ef9b45248414f~5OYYAtYbc0554705547eucas1p1a;
+        Fri,  9 Aug 2019 10:13:13 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190809101312eusmtrp18326d54ae492d6195deedb7e1e676044~5OYXyaCwD2706727067eusmtrp1R;
+        Fri,  9 Aug 2019 10:13:12 +0000 (GMT)
+X-AuditID: cbfec7f2-569ff70000001175-48-5d4d4739b99a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id F9.17.04117.8374D4D5; Fri,  9
+        Aug 2019 11:13:12 +0100 (BST)
+Received: from localhost (unknown [106.120.51.46]) by eusmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20190809101312eusmtip220a64e082a563ff754044ed53efe3b10~5OYXm0p6b2333223332eusmtip2j;
+        Fri,  9 Aug 2019 10:13:12 +0000 (GMT)
+From:   =?utf-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
+To:     Rob Herring <robh+dt@kernel.org>, Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Atish Patra <atish.patra@wdc.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 0/7] Fix broken references to files under
+ Documentation/*
+Date:   Fri, 09 Aug 2019 12:13:07 +0200
+In-Reply-To: <cover.1564140865.git.mchehab+samsung@kernel.org> (Mauro
+        Carvalho Chehab's message of "Fri, 26 Jul 2019 08:47:20 -0300")
+Message-ID: <87a7ciejf0.fsf%l.stelmach@samsung.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3ac1c76-d9f0-4497-0617-08d71caff309
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2019 09:57:11.7364
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d4AA8nA41aoyhthothlFQOTQdBpYYcA889pBY0taKlVnt/vh+x0ie26hxBcDIo+bzYHnaJ7SFFScC5mIalejVhVTPY/tF9bij1lF2cDneVs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3375
+Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
+        protocol="application/pgp-signature"
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOKsWRmVeSWpSXmKPExsWy7djP87qW7r6xBm0zNC0WrfjOYtH9Ssbi
+        /PkN7BYL25awWFzeNYfN4v2nTiaLBdv6GC1a9x5hd+Dw2HZA1WPTqk42j76XGxg9Pm+S82g/
+        0M0UwBrFZZOSmpNZllqkb5fAlTF79xuWgi7Jio7Ne5kaGL8LdzFyckgImEjMeXWArYuRi0NI
+        YAWjxI62PewQzhdGifZ375ghnM+MEuc/9DLDtPy9cQ6qZTmjRMOBi4wQznNGie77newgVWwC
+        9hL9R/axdDFycIgIFEgsOZQGUsMssJ9RYv67RiaQGmEBf4nl096A2SwCqhJf7zQzgRRxCrQz
+        SrQePgc2iFfAWGLZtu2MILaogKXEvb67bBBxQYmTM5+wgNjMArkSM8+/YYQ47xK7xLvNMhC2
+        i8S9uw0sELawxKvjW9ghbBmJ05N7wI6TEKiXmDzJDGSvhEAPo8S2OT+g6q0lDh+/yAphO0os
+        vNHNDFHPJ3HjrSDEWj6JSdumQ4V5JTrahCCqVSTW9e+BmiIl0ftqBdRlHhI39s9lhYTVREaJ
+        Tb9+ME9gVJiF5JtZSL6ZBTSWWUBTYv0ufYiwtsSyha+ZIWxbiXXr3rMsYGRdxSieWlqcm55a
+        bJiXWq5XnJhbXJqXrpecn7uJEZikTv87/mkH49dLSYcYBTgYlXh4GxR9YoVYE8uKK3MPMaoA
+        TXq0YfUFRimWvPy8VCUR3iscvrFCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeasZHkQLCaQnlqRm
+        p6YWpBbBZJk4OKUaGNerzHD8+TtWnTdM8NGBntkpNW7V7xO3Wwb65e3TqPf7Pefk8pbAuW3f
+        mOb9V7rYefGutkbGg9KlEibF77423z7WJc/2ZYa2kdy0jhVpMYWnly7f1X1i8lz//WwHCw10
+        /hQLVoR7NqRorXjzJUEj6KT8BffvK5OjM+tKJycuWdR/bfuTjzHrJiqxFGckGmoxFxUnAgDe
+        rcSEWgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAIsWRmVeSWpSXmKPExsVy+t/xe7oW7r6xBr07TC0WrfjOYtH9Ssbi
+        /PkN7BYL25awWFzeNYfN4v2nTiaLBdv6GC1a9x5hd+Dw2HZA1WPTqk42j76XGxg9Pm+S82g/
+        0M0UwBqlZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5eg
+        lzF79xuWgi7Jio7Ne5kaGL8LdzFyckgImEj8vXGOrYuRi0NIYCmjxMxtF9i7GDmAElISK+em
+        Q9QIS/y51gVV85RRYu/dKawgCTYBe4n+I/tYQGwRgTyJzSs2sIIUMQvsZpT4M/s4E0hCWMBX
+        4vOxG2ANQgK2EnM7l4I1sAioSny908wE0sAp0M4osa7xDVgRr4CxxLJt2xlBbFEBS4l7fXfZ
+        IOKCEidnPgFrZhbIlvi6+jnzBEaBWUhSs5CkZgE9wSygKbF+lz5EWFti2cLXzBC2rcS6de9Z
+        FjCyrmIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAiMsW3Hfm7Zwdj1LvgQowAHoxIPr4a8T6wQ
+        a2JZcWXuIUYVoDGPNqy+wCjFkpefl6okwnuFwzdWiDclsbIqtSg/vqg0J7X4EKMp0KMTmaVE
+        k/OBaSGvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVAPjJtUj1v2b
+        H/38sN/9bO7Crd6vEnRYpNc1PtyRx+meGZK0bXYNc+7+7BeCcdxlJadWmf5etMaF86fRiVNS
+        Bl+jPJ/X7Zi3+2LR/VkPws7OFpjKrlHoYv9TLWPfit8B/x35Dz1cJv7YYOIFDc+Gl3dD9E81
+        Oh9It0svmbb16e+APbefKk+KF7L/qMRSnJFoqMVcVJwIAPNJgjLTAgAA
+X-CMS-MailID: 20190809101313eucas1p1363a5f60c06081bd9b2ef9b45248414f
+X-Msg-Generator: CA
+X-RootMTR: 20190809101313eucas1p1363a5f60c06081bd9b2ef9b45248414f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190809101313eucas1p1363a5f60c06081bd9b2ef9b45248414f
+References: <cover.1564140865.git.mchehab+samsung@kernel.org>
+        <CGME20190809101313eucas1p1363a5f60c06081bd9b2ef9b45248414f@eucas1p1.samsung.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/9/2019 12:53 PM, Will Deacon wrote:=0A=
-> On Fri, Aug 09, 2019 at 09:45:40AM +0000, Stefan-gabriel Mirea wrote:=0A=
->> On 8/8/2019 8:17 PM, Will Deacon wrote:=0A=
->>> On Thu, Aug 08, 2019 at 12:47:00PM +0000, Stefan-gabriel Mirea wrote:=
-=0A=
->>>> On 8/8/2019 11:08 AM, Will Deacon wrote:=0A=
->>>>> On Fri, Aug 02, 2019 at 07:47:23PM +0000, Stefan-gabriel Mirea wrote:=
-=0A=
->>>>>> +             linflex,<addr>=0A=
->>>>>> +                     Use early console provided by Freescale LinFle=
-x UART=0A=
->>>>>> +                     serial driver for NXP S32V234 SoCs. A valid ba=
-se=0A=
->>>>>> +                     address must be provided, and the serial port =
-must=0A=
->>>>>> +                     already be setup and configured.=0A=
->>>>>=0A=
->>>>> Why isn't earlycon=3D sufficient for this?=0A=
->>>>=0A=
->>>> "earlycon=3D" is not actually supported. I will fix this in the next=
-=0A=
->>>> version by adding a /chosen/stdout-path to the dts. The compatible=0A=
->>>> string provided to OF_EARLYCON_DECLARE will also be changed from=0A=
->>>> "fsl,s32v234-linflexuart" to "fsl,s32-linflexuart" to match the one in=
-=0A=
->>>> the device tree nodes. I missed this after importing a rename from our=
-=0A=
->>>> codebase.=0A=
->>>>=0A=
->>>> Should I remove this addition from kernel-parameters.txt after that?=
-=0A=
->>>=0A=
->>> Yes, if you can use earlycon instead, then you can drop your custom opt=
-ion=0A=
->>> entirely and therefore there's no need to document it either.=0A=
->>=0A=
->> Can you please clarify what you mean by "drop your custom option"? The=
-=0A=
->> "linflex" option documented in the paragraph is the name of the=0A=
->> earlycon_id declared via "OF_EARLYCON_DECLARE(linflex, ...)". We have=0A=
->> not done anything particular to accept it in the parameter value.=0A=
-> =0A=
-> My apologies, I completely misread your patch and thought your were addin=
-g=0A=
-> a *new* kernel parameter. Having looked at the context, I now see you're=
-=0A=
-> adding a new earlycon option, which is what I was suggesting :)=0A=
-> =0A=
-> By all means, please update the stdout-path, because then you can just pa=
-ss=0A=
-> "earlycon" and things will work as expected.=0A=
-=0A=
-No problem, I will submit the new version soon. Thank you!=0A=
-=0A=
-Regards,=0A=
-Stefan=0A=
+--=-=-=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+It was <2019-07-26 pi=C4=85 13:47>, when Mauro Carvalho Chehab wrote:
+> Solves most of the pending broken references upstream, except for two of
+> them:
+>
+> 	$ ./scripts/documentation-file-ref-check=20
+> 	Documentation/riscv/boot-image-header.txt: Documentation/riscv/booting.t=
+xt
+> 	MAINTAINERS: Documentation/devicetree/bindings/rng/samsung,exynos5250-tr=
+ng.txt
+
+Please apply the patch https://patchwork.kernel.org/patch/10758009/
+
+> As written at boot-image-header.txt, it is waiting for the addition of
+> a future file:=20
+>
+> 	"The complete booting guide will be available at
+> 	  Documentation/riscv/booting.txt."
+>
+> The second is due to this patch, pending to be merged:
+> 	https://lore.kernel.org/patchwork/patch/994210/
+>
+> I'm not a DT expert, but I can't see any issue with this patch, except
+> for a missing acked-by a DT maintainer, and a possible conversion to
+> yaml. IMO, the best fix for this would be to merge the DT patch.
+>
+> Patch 1 was already submitted before, together with the v1 of
+> my PDF fix series.
+>
+> Mauro Carvalho Chehab (7):
+>   docs: fix broken doc references due to renames
+>   docs: generic-counter.rst: fix broken references for ABI file
+>   MAINTAINERS: fix reference to net phy ABI file
+>   MAINTAINERS: fix a renamed DT reference
+>   docs: cgroup-v1/blkio-controller.rst: remove a CFQ left over
+>   docs: zh_CN: howto.rst: fix a broken reference
+>   docs: dt: fix a sound binding broken reference
+>
+>  Documentation/RCU/rculist_nulls.txt                |  2 +-
+>  .../admin-guide/cgroup-v1/blkio-controller.rst     |  6 ------
+>  .../devicetree/bindings/arm/idle-states.txt        |  2 +-
+>  .../devicetree/bindings/sound/sun8i-a33-codec.txt  |  2 +-
+>  Documentation/driver-api/generic-counter.rst       |  4 ++--
+>  Documentation/locking/spinlocks.rst                |  4 ++--
+>  Documentation/memory-barriers.txt                  |  2 +-
+>  .../translations/ko_KR/memory-barriers.txt         |  2 +-
+>  Documentation/translations/zh_CN/process/howto.rst |  2 +-
+>  Documentation/watchdog/hpwdt.rst                   |  2 +-
+>  MAINTAINERS                                        | 14 +++++++-------
+>  drivers/gpu/drm/drm_modes.c                        |  2 +-
+>  drivers/i2c/busses/i2c-nvidia-gpu.c                |  2 +-
+>  drivers/scsi/hpsa.c                                |  4 ++--
+>  14 files changed, 22 insertions(+), 28 deletions(-)
+
+=2D-=20
+=C5=81ukasz Stelmach
+Samsung R&D Institute Poland
+Samsung Electronics
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAl1NRzMACgkQsK4enJil
+gBCx9wf/Xz4VEP3ZoqTg+7U+hPCgXFt6Kx0rBgkk+XBo7u/gnSSZrXWR3vH+3iKk
+0m2PsNAhOZO/nEHKFckBUps5YMz4b6UU8lk+D36OPxdR9VjB5pzL/uHl5DovD8hc
+o6oi3VV7fQCyOQqKni47KGmC4GZfS9AOoAc1khUUlt+3HaxXhwc/YEeclYu3cQ3W
+SvoK9ji7jnEl0BMzKk8uESXspBOf5UIyI9v7BUm2A6pxQUzJgDn4GEbL2GHDCnpm
+ybuoD4WqfNe0eUsfgXFL0YWBkSyjvK9ZzWLeLUw9xdnBgDCoryk1Y1MupfRps2Y7
+3YC45VH8kZQSy7J4C/v7KgJJVQe0Ag==
+=joGJ
+-----END PGP SIGNATURE-----
+--=-=-=--
