@@ -1,86 +1,446 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A81D77D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 19:51:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A68CA7D913
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 20:29:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726216AbfHITvw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 15:51:52 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40687 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726022AbfHITvw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 15:51:52 -0400
-Received: by mail-pl1-f193.google.com with SMTP id a93so45295413pla.7
-        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2019 12:51:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UTaxKlCQs2rMVT6dmaq6PY1yYeN42Xa3IY6ykXZ99rU=;
-        b=crpKlefmlnpEercEiztphPMdLNVySXjDqAGE76+GSPvihnI5mUb02gWNCzs6FdA0gk
-         s6tNPCu63IV2oQPxSW2F+siwWL0QeJPaTaVB+OiRT2SR3iLz6Wi1WWDeZHX5atsNArg1
-         NVof1NP5p8HFVNi/8INUIFgZCYB9yz22CDbN/EJ3kk4HxZRvK9wwxIis3dQtyst2pRmn
-         neUfOn2WRfLgvegDamAwXNUXqaeeMrBmh20+46/tO3m4tdsgowrxsX6kcHnwXha93hlY
-         o1iEyqUgb8tmqrlNvjRwQTZqA40I2rl/7tst9lIfGieESavbw2CxabKy1yBOD9DqsE+2
-         jVHQ==
-X-Gm-Message-State: APjAAAX0Qc1fvqS5vBSwIZX+3NzJW+ZL2cBssnBpeCqxAlJWfuIY7xIj
-        f+/IUebjuUEihftbAF4zLcJOeA==
-X-Google-Smtp-Source: APXvYqwJIsjHm9/3r8AONPEu+5ScceQ+yC2jFmx3vHPuhwPESekE53KUkPxX83lynaQO8jTUwealAA==
-X-Received: by 2002:a17:902:968c:: with SMTP id n12mr21482416plp.59.1565380311248;
-        Fri, 09 Aug 2019 12:51:51 -0700 (PDT)
-Received: from localhost ([2601:647:5b80:29f7:1bdd:d748:9a4e:8083])
-        by smtp.gmail.com with ESMTPSA id a15sm137192004pfg.102.2019.08.09.12.51.49
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 09 Aug 2019 12:51:50 -0700 (PDT)
-Date:   Fri, 9 Aug 2019 12:51:49 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Wu Hao <hao.wu@intel.com>
-Cc:     gregkh@linuxfoundation.org, mdf@kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        atull@kernel.org
-Subject: Re: [PATCH v4 08/12] fpga: dfl: make uinit callback optional
-Message-ID: <20190809195149.GA2788@archbox>
-References: <1564914022-3710-1-git-send-email-hao.wu@intel.com>
- <1564914022-3710-9-git-send-email-hao.wu@intel.com>
+        id S1728255AbfHIU25 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 16:28:57 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:40777 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726557AbfHIU24 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 16:28:56 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MiJhW-1iZ4UU3SoY-00fOaA; Fri, 09 Aug 2019 22:28:28 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     soc@kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 04/16] watchdog: remove ks8695 driver
+Date:   Fri,  9 Aug 2019 22:27:32 +0200
+Message-Id: <20190809202749.742267-5-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20190809202749.742267-1-arnd@arndb.de>
+References: <20190809202749.742267-1-arnd@arndb.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1564914022-3710-9-git-send-email-hao.wu@intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/xUJ0urBROFGs9psZRmzii/x6kcPUzVYJxl3kP276+fX5WTKDQJ
+ AEr5kjNrQllMr6Z7NrWzUAosq4zoo17U5hXEHU1wpbNBF/FzqZG5NpMpn5LmfTvS/oHwrSC
+ SPivcPSIrBUD3Wt8JtE7FjLsqknJiLKaxARHJY18MFfhys5Pi20FKvPXIZaoXZvjWMEWqsn
+ y86kNTdsiTwj2mtVjJDZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5F3GSB/6Nc0=:0OfCFRE5YMaF7NC0TBIXLU
+ yk6ETYg8YqB8FGy11h7Y7L//B6f4+goRdrik/F0V+bk2DatX85QQd1DlyqCc96+UiFGNwBS09
+ Qv7z6vjR890ibcchOcnmadBVZwSeVZZecL1nP/dE2FKDZyzUnngL0NFlMS+70zsMTqejaGjXI
+ ob413DTJ7ukWeWZoRr9XQm4BpR0Z5okW6FQTFQYFnIDBeUoGV9olG6F67BZJc1er/W0GThp8e
+ XXcBv+2HMkW40pV9DNFpARsx/Hkd+2g6rJ1WRiEpPfssyi/QQGZRt/yYPaqjWbv4brrZricO6
+ LmPEXGI/nZQ8ZBfoWM0y74zwS76J42av57ifvnBX047rWSB66X+a1NRNKhS8S1m+HFiZU6Ipj
+ XxxbRiv1mf5oyRPGuybzhvh5ZLYZIUbC33ryujyvR2dpz5GGdPIRbaS+K4CDGhmzGfkbmbWJw
+ zXO1836RFCCdJnYKli0kYcVkQ6W+5gg3jmihOj0GINi46YolfvGpxjEoTFfGAFMrKFRzg2/Bt
+ 2C7SB49uCVUFbPjRiFfWM31aJDzk/xqYJ7ggWMhMtL7JQ+MVLkBKssvFPynYos9VEeWdV5hhA
+ ofdgyBI6o2R8VV6BBdJU869DdteYXhWNJx6xtRuhs2IljiuS2jJv0b3y4Sp21qR55wqH7PsIJ
+ cYiASF9Jr6JhBiZ1SPtml20vBsMSx2jWu0hvpDRvxA7eobSIDfE2GoB/WCkkwHVzD5bl+WbCf
+ QxWYyqW/tuMzAmZTlvB6KDUvTckS6Ma3M+KXOg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 04, 2019 at 06:20:18PM +0800, Wu Hao wrote:
-> This patch makes uinit callback of sub features optional. With
-> this change, people don't need to prepare any empty uinit callback.
-> 
-> Signed-off-by: Wu Hao <hao.wu@intel.com>
-Acked-by: Moritz Fischer <mdf@kernel.org>
-> ---
->  drivers/fpga/dfl.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index 87eaef6..c0512af 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -259,7 +259,8 @@ void dfl_fpga_dev_feature_uinit(struct platform_device *pdev)
->  
->  	dfl_fpga_dev_for_each_feature(pdata, feature)
->  		if (feature->ops) {
-> -			feature->ops->uinit(pdev, feature);
-> +			if (feature->ops->uinit)
-> +				feature->ops->uinit(pdev, feature);
->  			feature->ops = NULL;
->  		}
->  }
-> -- 
-> 1.8.3.1
-> 
+The platform is getting removed, so there are no remaining
+users of this driver.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ .../watchdog/watchdog-parameters.rst          |   9 -
+ drivers/watchdog/Kconfig                      |   7 -
+ drivers/watchdog/Makefile                     |   1 -
+ drivers/watchdog/ks8695_wdt.c                 | 319 ------------------
+ 4 files changed, 336 deletions(-)
+ delete mode 100644 drivers/watchdog/ks8695_wdt.c
+
+diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
+index a3985cc5aeda..226aba56f704 100644
+--- a/Documentation/watchdog/watchdog-parameters.rst
++++ b/Documentation/watchdog/watchdog-parameters.rst
+@@ -301,15 +301,6 @@ ixp4xx_wdt:
+ 
+ -------------------------------------------------
+ 
+-ks8695_wdt:
+-    wdt_time:
+-	Watchdog time in seconds. (default=5)
+-    nowayout:
+-	Watchdog cannot be stopped once started
+-	(default=kernel config parameter)
+-
+--------------------------------------------------
+-
+ machzwd:
+     nowayout:
+ 	Watchdog cannot be stopped once started
+diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+index 8188963a405b..e631f1ae303a 100644
+--- a/drivers/watchdog/Kconfig
++++ b/drivers/watchdog/Kconfig
+@@ -477,13 +477,6 @@ config IXP4XX_WATCHDOG
+ 
+ 	  Say N if you are unsure.
+ 
+-config KS8695_WATCHDOG
+-	tristate "KS8695 watchdog"
+-	depends on ARCH_KS8695
+-	help
+-	  Watchdog timer embedded into KS8695 processor. This will reboot your
+-	  system when the timeout is reached.
+-
+ config HAVE_S3C2410_WATCHDOG
+ 	bool
+ 	help
+diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+index 7caa920e7e60..85f55ec76f8d 100644
+--- a/drivers/watchdog/Makefile
++++ b/drivers/watchdog/Makefile
+@@ -49,7 +49,6 @@ obj-$(CONFIG_21285_WATCHDOG) += wdt285.o
+ obj-$(CONFIG_977_WATCHDOG) += wdt977.o
+ obj-$(CONFIG_FTWDT010_WATCHDOG) += ftwdt010_wdt.o
+ obj-$(CONFIG_IXP4XX_WATCHDOG) += ixp4xx_wdt.o
+-obj-$(CONFIG_KS8695_WATCHDOG) += ks8695_wdt.o
+ obj-$(CONFIG_S3C2410_WATCHDOG) += s3c2410_wdt.o
+ obj-$(CONFIG_SA1100_WATCHDOG) += sa1100_wdt.o
+ obj-$(CONFIG_SAMA5D4_WATCHDOG) += sama5d4_wdt.o
+diff --git a/drivers/watchdog/ks8695_wdt.c b/drivers/watchdog/ks8695_wdt.c
+deleted file mode 100644
+index 1550ce3c5702..000000000000
+--- a/drivers/watchdog/ks8695_wdt.c
++++ /dev/null
+@@ -1,319 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Watchdog driver for Kendin/Micrel KS8695.
+- *
+- * (C) 2007 Andrew Victor
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/bitops.h>
+-#include <linux/errno.h>
+-#include <linux/fs.h>
+-#include <linux/init.h>
+-#include <linux/kernel.h>
+-#include <linux/miscdevice.h>
+-#include <linux/module.h>
+-#include <linux/moduleparam.h>
+-#include <linux/platform_device.h>
+-#include <linux/types.h>
+-#include <linux/watchdog.h>
+-#include <linux/io.h>
+-#include <linux/uaccess.h>
+-#include <mach/hardware.h>
+-
+-#define KS8695_TMR_OFFSET	(0xF0000 + 0xE400)
+-#define KS8695_TMR_VA		(KS8695_IO_VA + KS8695_TMR_OFFSET)
+-
+-/*
+- * Timer registers
+- */
+-#define KS8695_TMCON		(0x00)		/* Timer Control Register */
+-#define KS8695_T0TC		(0x08)		/* Timer 0 Timeout Count Register */
+-#define TMCON_T0EN		(1 << 0)	/* Timer 0 Enable */
+-
+-/* Timer0 Timeout Counter Register */
+-#define T0TC_WATCHDOG		(0xff)		/* Enable watchdog mode */
+-
+-#define WDT_DEFAULT_TIME	5	/* seconds */
+-#define WDT_MAX_TIME		171	/* seconds */
+-
+-static int wdt_time = WDT_DEFAULT_TIME;
+-static bool nowayout = WATCHDOG_NOWAYOUT;
+-
+-module_param(wdt_time, int, 0);
+-MODULE_PARM_DESC(wdt_time, "Watchdog time in seconds. (default="
+-					__MODULE_STRING(WDT_DEFAULT_TIME) ")");
+-
+-#ifdef CONFIG_WATCHDOG_NOWAYOUT
+-module_param(nowayout, bool, 0);
+-MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (default="
+-				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
+-#endif
+-
+-
+-static unsigned long ks8695wdt_busy;
+-static DEFINE_SPINLOCK(ks8695_lock);
+-
+-/* ......................................................................... */
+-
+-/*
+- * Disable the watchdog.
+- */
+-static inline void ks8695_wdt_stop(void)
+-{
+-	unsigned long tmcon;
+-
+-	spin_lock(&ks8695_lock);
+-	/* disable timer0 */
+-	tmcon = __raw_readl(KS8695_TMR_VA + KS8695_TMCON);
+-	__raw_writel(tmcon & ~TMCON_T0EN, KS8695_TMR_VA + KS8695_TMCON);
+-	spin_unlock(&ks8695_lock);
+-}
+-
+-/*
+- * Enable and reset the watchdog.
+- */
+-static inline void ks8695_wdt_start(void)
+-{
+-	unsigned long tmcon;
+-	unsigned long tval = wdt_time * KS8695_CLOCK_RATE;
+-
+-	spin_lock(&ks8695_lock);
+-	/* disable timer0 */
+-	tmcon = __raw_readl(KS8695_TMR_VA + KS8695_TMCON);
+-	__raw_writel(tmcon & ~TMCON_T0EN, KS8695_TMR_VA + KS8695_TMCON);
+-
+-	/* program timer0 */
+-	__raw_writel(tval | T0TC_WATCHDOG, KS8695_TMR_VA + KS8695_T0TC);
+-
+-	/* re-enable timer0 */
+-	tmcon = __raw_readl(KS8695_TMR_VA + KS8695_TMCON);
+-	__raw_writel(tmcon | TMCON_T0EN, KS8695_TMR_VA + KS8695_TMCON);
+-	spin_unlock(&ks8695_lock);
+-}
+-
+-/*
+- * Reload the watchdog timer.  (ie, pat the watchdog)
+- */
+-static inline void ks8695_wdt_reload(void)
+-{
+-	unsigned long tmcon;
+-
+-	spin_lock(&ks8695_lock);
+-	/* disable, then re-enable timer0 */
+-	tmcon = __raw_readl(KS8695_TMR_VA + KS8695_TMCON);
+-	__raw_writel(tmcon & ~TMCON_T0EN, KS8695_TMR_VA + KS8695_TMCON);
+-	__raw_writel(tmcon | TMCON_T0EN, KS8695_TMR_VA + KS8695_TMCON);
+-	spin_unlock(&ks8695_lock);
+-}
+-
+-/*
+- * Change the watchdog time interval.
+- */
+-static int ks8695_wdt_settimeout(int new_time)
+-{
+-	/*
+-	 * All counting occurs at KS8695_CLOCK_RATE / 128 = 0.256 Hz
+-	 *
+-	 * Since WDV is a 16-bit counter, the maximum period is
+-	 * 65536 / 0.256 = 256 seconds.
+-	 */
+-	if ((new_time <= 0) || (new_time > WDT_MAX_TIME))
+-		return -EINVAL;
+-
+-	/* Set new watchdog time. It will be used when
+-	   ks8695_wdt_start() is called. */
+-	wdt_time = new_time;
+-	return 0;
+-}
+-
+-/* ......................................................................... */
+-
+-/*
+- * Watchdog device is opened, and watchdog starts running.
+- */
+-static int ks8695_wdt_open(struct inode *inode, struct file *file)
+-{
+-	if (test_and_set_bit(0, &ks8695wdt_busy))
+-		return -EBUSY;
+-
+-	ks8695_wdt_start();
+-	return stream_open(inode, file);
+-}
+-
+-/*
+- * Close the watchdog device.
+- * If CONFIG_WATCHDOG_NOWAYOUT is NOT defined then the watchdog is also
+- *  disabled.
+- */
+-static int ks8695_wdt_close(struct inode *inode, struct file *file)
+-{
+-	/* Disable the watchdog when file is closed */
+-	if (!nowayout)
+-		ks8695_wdt_stop();
+-	clear_bit(0, &ks8695wdt_busy);
+-	return 0;
+-}
+-
+-static const struct watchdog_info ks8695_wdt_info = {
+-	.identity	= "ks8695 watchdog",
+-	.options	= WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING,
+-};
+-
+-/*
+- * Handle commands from user-space.
+- */
+-static long ks8695_wdt_ioctl(struct file *file, unsigned int cmd,
+-							unsigned long arg)
+-{
+-	void __user *argp = (void __user *)arg;
+-	int __user *p = argp;
+-	int new_value;
+-
+-	switch (cmd) {
+-	case WDIOC_GETSUPPORT:
+-		return copy_to_user(argp, &ks8695_wdt_info,
+-					sizeof(ks8695_wdt_info)) ? -EFAULT : 0;
+-	case WDIOC_GETSTATUS:
+-	case WDIOC_GETBOOTSTATUS:
+-		return put_user(0, p);
+-	case WDIOC_SETOPTIONS:
+-		if (get_user(new_value, p))
+-			return -EFAULT;
+-		if (new_value & WDIOS_DISABLECARD)
+-			ks8695_wdt_stop();
+-		if (new_value & WDIOS_ENABLECARD)
+-			ks8695_wdt_start();
+-		return 0;
+-	case WDIOC_KEEPALIVE:
+-		ks8695_wdt_reload();	/* pat the watchdog */
+-		return 0;
+-	case WDIOC_SETTIMEOUT:
+-		if (get_user(new_value, p))
+-			return -EFAULT;
+-		if (ks8695_wdt_settimeout(new_value))
+-			return -EINVAL;
+-		/* Enable new time value */
+-		ks8695_wdt_start();
+-		/* Return current value */
+-		return put_user(wdt_time, p);
+-	case WDIOC_GETTIMEOUT:
+-		return put_user(wdt_time, p);
+-	default:
+-		return -ENOTTY;
+-	}
+-}
+-
+-/*
+- * Pat the watchdog whenever device is written to.
+- */
+-static ssize_t ks8695_wdt_write(struct file *file, const char *data,
+-						size_t len, loff_t *ppos)
+-{
+-	ks8695_wdt_reload();		/* pat the watchdog */
+-	return len;
+-}
+-
+-/* ......................................................................... */
+-
+-static const struct file_operations ks8695wdt_fops = {
+-	.owner		= THIS_MODULE,
+-	.llseek		= no_llseek,
+-	.unlocked_ioctl	= ks8695_wdt_ioctl,
+-	.open		= ks8695_wdt_open,
+-	.release	= ks8695_wdt_close,
+-	.write		= ks8695_wdt_write,
+-};
+-
+-static struct miscdevice ks8695wdt_miscdev = {
+-	.minor		= WATCHDOG_MINOR,
+-	.name		= "watchdog",
+-	.fops		= &ks8695wdt_fops,
+-};
+-
+-static int ks8695wdt_probe(struct platform_device *pdev)
+-{
+-	int res;
+-
+-	if (ks8695wdt_miscdev.parent)
+-		return -EBUSY;
+-	ks8695wdt_miscdev.parent = &pdev->dev;
+-
+-	res = misc_register(&ks8695wdt_miscdev);
+-	if (res)
+-		return res;
+-
+-	pr_info("KS8695 Watchdog Timer enabled (%d seconds%s)\n",
+-		wdt_time, nowayout ? ", nowayout" : "");
+-	return 0;
+-}
+-
+-static int ks8695wdt_remove(struct platform_device *pdev)
+-{
+-	misc_deregister(&ks8695wdt_miscdev);
+-	ks8695wdt_miscdev.parent = NULL;
+-
+-	return 0;
+-}
+-
+-static void ks8695wdt_shutdown(struct platform_device *pdev)
+-{
+-	ks8695_wdt_stop();
+-}
+-
+-#ifdef CONFIG_PM
+-
+-static int ks8695wdt_suspend(struct platform_device *pdev, pm_message_t message)
+-{
+-	ks8695_wdt_stop();
+-	return 0;
+-}
+-
+-static int ks8695wdt_resume(struct platform_device *pdev)
+-{
+-	if (ks8695wdt_busy)
+-		ks8695_wdt_start();
+-	return 0;
+-}
+-
+-#else
+-#define ks8695wdt_suspend NULL
+-#define ks8695wdt_resume	NULL
+-#endif
+-
+-static struct platform_driver ks8695wdt_driver = {
+-	.probe		= ks8695wdt_probe,
+-	.remove		= ks8695wdt_remove,
+-	.shutdown	= ks8695wdt_shutdown,
+-	.suspend	= ks8695wdt_suspend,
+-	.resume		= ks8695wdt_resume,
+-	.driver		= {
+-		.name	= "ks8695_wdt",
+-	},
+-};
+-
+-static int __init ks8695_wdt_init(void)
+-{
+-	/* Check that the heartbeat value is within range;
+-	   if not reset to the default */
+-	if (ks8695_wdt_settimeout(wdt_time)) {
+-		ks8695_wdt_settimeout(WDT_DEFAULT_TIME);
+-		pr_info("ks8695_wdt: wdt_time value must be 1 <= wdt_time <= %i"
+-					", using %d\n", wdt_time, WDT_MAX_TIME);
+-	}
+-	return platform_driver_register(&ks8695wdt_driver);
+-}
+-
+-static void __exit ks8695_wdt_exit(void)
+-{
+-	platform_driver_unregister(&ks8695wdt_driver);
+-}
+-
+-module_init(ks8695_wdt_init);
+-module_exit(ks8695_wdt_exit);
+-
+-MODULE_AUTHOR("Andrew Victor");
+-MODULE_DESCRIPTION("Watchdog driver for KS8695");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:ks8695_wdt");
+-- 
+2.20.0
+
