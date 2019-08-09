@@ -1,166 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F02187D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 10:44:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D10B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 11:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406163AbfHIKo5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 06:44:57 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40306 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbfHIKo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 06:44:57 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r1so97758824wrl.7
-        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2019 03:44:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=9WzyURDH7ESFlnfzMS62H/D7+dda89YOvkjObehxwI4=;
-        b=HqKRxGBvqW0YlPRtggBX3gvouw1qPiC/+VyJgIdFP6oAJk9RntYFdOTvcJrV+YUZwp
-         SpsKQGCgYeu+Y+AaDTt2P6TtS4FpGwREp73Eapbp25yab9srruUOGPx6x56l2ShNi3Bu
-         FKRGDPJtIzMYyk87KeVGaF7DWaiM9OIPqyaLu0CuYMl5LvZGUFRkSTb5/x6zY5/dXJqx
-         yJAHSo4yxw7dn8PBMW+CpXFUDuWnQz095ubUQvWIiz/ParEhsTXBqzunKotuBaed5xlt
-         VPzNL0+yejWuJUiv/IMYzkmlA835yi/r7cEEMVe7dDM8a1Lapxm4vO2KcygQDBiy1xtp
-         Cg6w==
-X-Gm-Message-State: APjAAAVDXqP8/zPW6wApbNNXE6D+oVYprY8bZK7tAU6A864qrSIP1cp1
-        xof+IIVmzH5K3nUHGfz0q+ec2Q==
-X-Google-Smtp-Source: APXvYqyShx0+uf7pVce5ZDJOlO/Kcni/X/ot9S5XvNCwawUL4fIjZNa87xwbrVguDjFtFCSkw6VU0g==
-X-Received: by 2002:adf:df8b:: with SMTP id z11mr22569218wrl.62.1565347494857;
-        Fri, 09 Aug 2019 03:44:54 -0700 (PDT)
-Received: from vitty.brq.redhat.com (ip-89-176-127-93.net.upcbroadband.cz. [89.176.127.93])
-        by smtp.gmail.com with ESMTPSA id u1sm5907164wml.14.2019.08.09.03.44.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 09 Aug 2019 03:44:54 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     lantianyu1986@gmail.com
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, pbonzini@redhat.com,
-        rkrcmar@redhat.com, corbet@lwn.net, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, sashal@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, michael.h.kelley@microsoft.com
-Subject: Re: [PATCH 2/3] KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-In-Reply-To: <20190809094939.76093-3-Tianyu.Lan@microsoft.com>
-References: <20190809094939.76093-1-Tianyu.Lan@microsoft.com> <20190809094939.76093-3-Tianyu.Lan@microsoft.com>
-Date:   Fri, 09 Aug 2019 12:44:52 +0200
-Message-ID: <87r25ubot7.fsf@vitty.brq.redhat.com>
+        id S1726152AbfHIL3N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 07:29:13 -0400
+Received: from mail-eopbgr130059.outbound.protection.outlook.com ([40.107.13.59]:49541
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726037AbfHIL3M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Aug 2019 07:29:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UL0YzdNd7UmZ+kPM2Fulnd6+AoUrtbs8t8N58YHQ9lnEpkSNcg4QZV0iAprPLQ9EQAnWwYSwZ2krLlYf1hOJJQBLZgGhqLjFB7uvGXB1iDmD8cvWzsBolCUBUBZ9C/k4wwhi6G+OuSTlASy3QAkf8Z+02wfOFKaY4tjTK2nluUCw2SfVRajKOVdQla3Jf4Nq9bgXCIDeftDCkLyM8SNxK0NqsndWTKH6gPJL7eoiXRVI5EqaMnu0T3sATWYS+0C3DaiQXUh+gGNPAUtw7jp/L2UGYtywZpVVRU9eKDn4vG68xWpfbSkPR2qio4vEXFlMWPIKSD5warcor980nVPxTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pFRrGnxpuUZm0V041Jpp0Wo9CyxnHIAUOl5O1flZwc4=;
+ b=KZZragFzBiNMqVdmTmRULLYqMAsxJqrI+oJLI8L/6jHsBYGpLz+2hh8n5UoqnipkfqzkMCpd9KOfTCPyxN6jxUa1BMD2/ZTDbWoZK5v0RHwdxpjNAJwBzKt8kYMPS1r+gzymuGZmNc5p6DAslbLm44ilItkFs6JMdijqzsRhNO26wBnm2X7pITrZm7jHcbhegjGpuv5Lng/JtV1WuST517Mywahq6GXkCOI1My169S1FGV67Rf6l6YUWeCOu+LAwl2qH0JcIGGAi5Cx/0J2UihhOeYVhVvRayQ0lJSDyNgt4Y1MmF3sG+CpTio8N+xilF/jLchjVx+IdreUt/FyX4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pFRrGnxpuUZm0V041Jpp0Wo9CyxnHIAUOl5O1flZwc4=;
+ b=F2Eq4BusylbRt0XPwjdv1CocdWQU4V1zS9uUeuCK87xD38LJQ5cY968747JWniQklpy181OPwHO94ycF4VOclmgYzvxrbE0IFkFBUWJoh037PY0kowGv0jceLSeakYzuI+A6euFk6E3SFGrkJYN6cPRV80ywzBNzZV0oU3B3G0Y=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3359.eurprd04.prod.outlook.com (52.134.1.20) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.13; Fri, 9 Aug 2019 11:29:07 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::7de6:ea4b:9b5d:d023]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::7de6:ea4b:9b5d:d023%7]) with mapi id 15.20.2157.020; Fri, 9 Aug 2019
+ 11:29:07 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>
+CC:     "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v2 0/6] Add initial support for S32V234-EVB
+Thread-Topic: [PATCH v2 0/6] Add initial support for S32V234-EVB
+Thread-Index: AQHVTqWnBGnrO7YebEiZ2+gJcmIkbw==
+Date:   Fri, 9 Aug 2019 11:29:06 +0000
+Message-ID: <20190809112853.15846-1-stefan-gabriel.mirea@nxp.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.22.0
+x-clientproxiedby: AM5PR06CA0024.eurprd06.prod.outlook.com
+ (2603:10a6:206:2::37) To VI1PR0402MB2863.eurprd04.prod.outlook.com
+ (2603:10a6:800:af::18)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: df7f9c70-f1e2-4f31-58c8-08d71cbcca13
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3359;
+x-ms-traffictypediagnostic: VI1PR0402MB3359:
+x-ms-exchange-purlcount: 5
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB33599B1A88C9F8AB136D1D93DFD60@VI1PR0402MB3359.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 01244308DF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(199004)(189003)(66476007)(66446008)(66556008)(64756008)(5660300002)(6512007)(26005)(186003)(6306002)(2201001)(52116002)(8936002)(99286004)(14454004)(50226002)(66574012)(1076003)(86362001)(66946007)(71190400001)(71200400001)(4326008)(386003)(966005)(6506007)(53936002)(478600001)(102836004)(110136005)(2906002)(256004)(25786009)(8676002)(66066001)(476003)(2616005)(14444005)(54906003)(2501003)(486006)(316002)(36756003)(6116002)(3846002)(6486002)(7736002)(6636002)(7416002)(6436002)(305945005)(81156014)(81166006);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3359;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: hGPhyuka0rqYGGt1LTbf7q5GtNqSPFdXqZYFg9qs4D8lpR2zWeXERE5KSmPKaqFeEWui5YOkrYZCeNUaP+S8lhoxg3Y+ZPxOb4BpD+p9Y+AArQfOMtTC9xcsMNar62xJ8ifc/lueywayLNl198EBssLwGz8ew/MLOnIBqUuU4KL/tgJVVU1bjMSvfQdsK6ZtLLE2cOS4J1x8mRPHkP52IBDiH1sQz285/u/UuWbK3Ww3MX0gBO635WuUaAx0qgah3ofSYpJT9MC37CkKgrdE/m1qzdV3CmSXoimXM+EVJXZB0BHTs+iFxK2jC/4xsSXOH/N+XNjnXWrZglRrOeQD1GeeJnT/fGHt85Bd0kXIKby987sKnJ92208XKQe+kJnJxrFSF2bGaOescoKjD11uEDgUSI9rT1UJj/AtSCfBmZ0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C9556161C6F6534893AD1C6086F98C1D@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df7f9c70-f1e2-4f31-58c8-08d71cbcca13
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2019 11:29:06.8668
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Glqu7ShaGN6XKxrbm8KgZIlDozJOjQx0BMYj0HSiAHP/TUZayEUE/ixbiwsSCC7qNf/JC23VHEXdX2hqvEE/56iPnvauVqnzjV6+3v9cA3U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3359
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-lantianyu1986@gmail.com writes:
-
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
->
-> This patch adds new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH and let
-> user space to enable direct tlb flush function when only Hyper-V
-> hypervsior capability is exposed to VM. This patch also adds
-> enable_direct_tlbflush callback in the struct kvm_x86_ops and
-> platforms may use it to implement direct tlb flush support.
->
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
->  Documentation/virtual/kvm/api.txt | 10 ++++++++++
->  arch/x86/include/asm/kvm_host.h   |  2 ++
->  arch/x86/kvm/x86.c                |  8 ++++++++
->  include/uapi/linux/kvm.h          |  1 +
->  4 files changed, 21 insertions(+)
->
-> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-> index 2cd6250b2896..45308ed6dd75 100644
-> --- a/Documentation/virtual/kvm/api.txt
-> +++ b/Documentation/virtual/kvm/api.txt
-> @@ -5289,3 +5289,13 @@ Architectures: x86
->  This capability indicates that KVM supports paravirtualized Hyper-V IPI send
->  hypercalls:
->  HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-> +8.21 KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-> +
-> +Architecture: x86
-> +
-> +This capability indicates that KVM supports Hyper-V direct tlb flush function.
-> +User space should enable this feature only when Hyper-V hypervisor capability
-> +is exposed to guest and KVM profile is hided. Both Hyper-V and KVM hypercalls
-> +use RAX and RCX registers to pass parameters. If KVM hypercall is exposed
-> +to L2 guest with direct tlbflush enabled, Hyper-V may mistake KVM hypercall
-> +for Hyper-V tlb flush Hypercall due to paremeter register overlap.
-
-First, we need to explicitly state that this is for KVM on Hyper-V and
-second, that this disables normal hypercall handling by KVM.
-
-My take:
-
-This capability indicates that KVM running on top of Hyper-V hypervisor
-enables Direct TLB flush for its guests meaning that TLB flush
-hypercalls are handled by Level 1 hypervisor (Hyper-V) bypassing KVM. 
-Due to the different ABI for hypercall parameters between Hyper-V and
-KVM, enabling this capability effectively disables all hypercall
-handling by KVM (as some KVM hypercall may be mistakenly treated as TLB
-flush hypercalls by Hyper-C) so userspace should disable KVM
-identification in CPUID.
-
-I think we should also enforce this somehow leaving only Hyper-V style
-hypercalls handling (for Windows guests) in place.
-
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 0cc5b611a113..667d154e89d4 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1205,6 +1205,8 @@ struct kvm_x86_ops {
->  	uint16_t (*nested_get_evmcs_version)(struct kvm_vcpu *vcpu);
->  
->  	bool (*need_emulation_on_page_fault)(struct kvm_vcpu *vcpu);
-> +
-> +	int (*enable_direct_tlbflush)(struct kvm_vcpu *vcpu);
->  };
->  
->  struct kvm_arch_async_pf {
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 9d7b9e6a0939..a9d8ee7f7bf0 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -3183,6 +3183,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->  		r = kvm_x86_ops->get_nested_state ?
->  			kvm_x86_ops->get_nested_state(NULL, NULL, 0) : 0;
->  		break;
-> +	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-> +		r = kvm_x86_ops->enable_direct_tlbflush ? 1 : 0;
-> +		break;
->  	default:
->  		break;
->  	}
-> @@ -3953,6 +3956,11 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
->  				r = -EFAULT;
->  		}
->  		return r;
-> +	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-> +		if (!kvm_x86_ops->enable_direct_tlbflush)
-> +			return -ENOTTY;
-> +
-> +		return kvm_x86_ops->enable_direct_tlbflush(vcpu);
->  
->  	default:
->  		return -EINVAL;
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index a7c19540ce21..cb959bc925b1 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -996,6 +996,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
->  #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
->  #define KVM_CAP_PMU_EVENT_FILTER 173
-> +#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174
->  
->  #ifdef KVM_CAP_IRQ_ROUTING
-
--- 
-Vitaly
+SGVsbG8sDQoNCk5YUCdzIFMzMlYyMzRbMV0gKCJUcmVlcnVubmVyIikgdmlzaW9uIG1pY3JvcHJv
+Y2Vzc29ycyBhcmUgdGFyZ2V0ZWQgZm9yDQpoaWdoLXBlcmZvcm1hbmNlLCBjb21wdXRhdGlvbmFs
+bHkgaW50ZW5zaXZlIHZpc2lvbiBhbmQgc2Vuc29yIGZ1c2lvbg0KYXBwbGljYXRpb25zIHRoYXQg
+cmVxdWlyZSBhdXRvbW90aXZlIHNhZmV0eSBsZXZlbHMuIFRoZXkgaW5jbHVkZSBsZWFkaW5nDQpl
+ZGdlIENhbWVyYSBWaXNpb24gbW9kdWxlcyBsaWtlIEFQRVgtMiwgSVNQIGFuZCBHUFUuIFRoZSBT
+MzJWMjM0LUVWQiBhbmQNClMzMlYyMzQtU0JDIGJvYXJkcyBhcmUgYXZhaWxhYmxlIGZvciBjdXN0
+b21lciBldmFsdWF0aW9uLg0KDQpUaGUgZm9sbG93aW5nIHBhdGNoIHNlcmllcyBpbnRyb2R1Y2Vz
+IG1pbmltYWwgZW5hYmxlbWVudCBzdXBwb3J0IGZvciB0aGUNCk5YUCBTMzJWMjM0LUVWQjJbMl0g
+Ym9hcmQsIHdoaWNoIGxldmVyYWdlcyBtb3N0IG9mIHRoZSBTb0MgY2FwYWJpbGl0aWVzLg0KVGhl
+IHNlcmllcyBpbmNsdWRlcyBhIGRyaXZlciBmb3Igb3BlcmF0aW5nIHRoZSBvbi1jaGlwIExJTkZs
+ZXhEIGNvbnRyb2xsZXINCmluIFVBUlQgbW9kZS4NCg0KSW4gdGhlIGZ1dHVyZSwgd2UgYWltIHRv
+IHN1Ym1pdCBtdWx0aXBsZSBkcml2ZXJzIHVwc3RyZWFtLCB3aGljaCBjYW4gYmUNCmZvdW5kIGlu
+IHRoZSBrZXJuZWwgb2Ygb3VyIEF1dG8gTGludXggQlNQWzNdICgiQUxCIiksIHN0YXJ0aW5nIHdp
+dGggYmFzaWMNCnBpbm11eGluZywgY2xvY2sgYW5kIHVTREhDIGRyaXZlcnMuDQoNCkZvciB2YWxp
+ZGF0aW9uLCB5b3UgY2FuIHVzZSB0aGUgVS1Cb290IGJvb3Rsb2FkZXIgaW4gdGhlIEFMQls0XSwg
+d2hpY2ggd2UNCmJ1aWxkIGFuZCB0ZXN0IHdpdGggb3VyIHBhdGNoZWQgdmVyc2lvbiBvZiB0aGUg
+TGluYXJvIEdDQyA2LjMuMSAyMDE3LjA1DQp0b29sY2hhaW4gZm9yIEFSTSA2NC1iaXQsIHdpdGgg
+c291cmNlcyBhdmFpbGFibGUgb24gWzVdLg0KDQpDaGFuZ2VzIGluIHYyOg0KKiBVcGRhdGUgdGhl
+IGVudHJ5IGluIGZzbC55YW1sIHRvIGFwcGx5IHRvIGFsbCBTMzJWMjM0IGJhc2VkIGJvYXJkczsN
+CiogQWRkIGNob3NlbiBub2RlIHRvIGR0cywgd2l0aCBhICdzdGRvdXQtcGF0aCcgcHJvcGVydHkg
+Zm9yIGVhcmx5Y29uOw0KKiBSZW1vdmUgbGluZmxleF92ZXJpZnlfcG9ydCgpLCBiZWNhdXNlIGl0
+IHdhcyBvbmx5IGNhbGxlZCBmcm9tDQogIHVhcnRfc2V0X2luZm8oKSwgd2hpY2ggd2FzIGdvaW5n
+IHRvIGFsd2F5cyBmYWlsIGF0IHRoZSAiYmF1ZF9iYXNlIDwgOTYwMCINCiAgY2hlY2ssIGFzIHdl
+IGFyZSBub3QgdXNpbmcgdWFydGNsayBmcm9tIHVhcnRfcG9ydCB5ZXQ7DQoqIEZpeCBjb21wYXRp
+YmxlIHN0cmluZyB1c2VkIGluIE9GX0VBUkxZQ09OX0RFQ0xBUkUuDQoNClsxXSBodHRwczovL3d3
+dy5ueHAuY29tL3Byb2R1Y3RzL3Byb2Nlc3NvcnMtYW5kLW1pY3JvY29udHJvbGxlcnMvYXJtLWJh
+c2VkLXByb2Nlc3NvcnMtYW5kLW1jdXMvczMyLWF1dG9tb3RpdmUtcGxhdGZvcm0vdmlzaW9uLXBy
+b2Nlc3Nvci1mb3ItZnJvbnQtYW5kLXN1cnJvdW5kLXZpZXctY2FtZXJhLW1hY2hpbmUtbGVhcm5p
+bmctYW5kLXNlbnNvci1mdXNpb246UzMyVjIzNA0KWzJdIGh0dHBzOi8vd3d3Lm54cC5jb20vc3Vw
+cG9ydC9kZXZlbG9wZXItcmVzb3VyY2VzL2V2YWx1YXRpb24tYW5kLWRldmVsb3BtZW50LWJvYXJk
+cy91bHRyYS1yZWxpYWJsZS1kZXYtcGxhdGZvcm1zL3MzMnYtbXB1cy1wbGF0Zm9ybXMvczMydi12
+aXNpb24tYW5kLXNlbnNvci1mdXNpb24tZXZhbHVhdGlvbi1zeXN0ZW06UzMyVjIzNEVWQg0KWzNd
+IGh0dHBzOi8vc291cmNlLmNvZGVhdXJvcmEub3JnL2V4dGVybmFsL2F1dG9ic3BzMzIvbGludXgv
+DQpbNF0gaHR0cHM6Ly9zb3VyY2UuY29kZWF1cm9yYS5vcmcvZXh0ZXJuYWwvYXV0b2JzcHMzMi91
+LWJvb3QvDQpbNV0gaHR0cHM6Ly9zb3VyY2UuY29kZWF1cm9yYS5vcmcvZXh0ZXJuYWwvczMyZHMv
+Y29tcGlsZXIvZ2NjLw0KDQpFZGR5IFBldHJpyJlvciAoMSk6DQogIGR0LWJpbmRpbmdzOiBhcm06
+IGZzbDogQWRkIHRoZSBTMzJWMjM0LUVWQiBib2FyZA0KDQpNaWhhZWxhIE1hcnRpbmFzICgyKToN
+CiAgYXJtNjQ6IEludHJvZHVjZSBjb25maWcgZm9yIFMzMg0KICBhcm02NDogZGVmY29uZmlnOiBF
+bmFibGUgY29uZmlncyBmb3IgUzMyVjIzNA0KDQpTdGVmYW4tR2FicmllbCBNaXJlYSAoMSk6DQog
+IHR0eTogc2VyaWFsOiBBZGQgbGluZmxleHVhcnQgZHJpdmVyIGZvciBTMzJWMjM0DQoNClN0b2lj
+YSBDb3NtaW4tU3RlZmFuICgyKToNCiAgYXJtNjQ6IGR0czogZnNsOiBBZGQgZGV2aWNlIHRyZWUg
+Zm9yIFMzMlYyMzQtRVZCDQogIGR0LWJpbmRpbmdzOiBzZXJpYWw6IERvY3VtZW50IEZyZWVzY2Fs
+ZSBMSU5GbGV4IFVBUlQNCg0KIC4uLi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQg
+ICAgICAgICB8ICAgNiArDQogLi4uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZzbC55YW1sICAg
+ICAgICAgIHwgICA2ICsNCiAuLi4vYmluZGluZ3Mvc2VyaWFsL2ZzbCxzMzItbGluZmxleHVhcnQu
+dHh0ICAgfCAgMjQgKw0KIGFyY2gvYXJtNjQvS2NvbmZpZy5wbGF0Zm9ybXMgICAgICAgICAgICAg
+ICAgICB8ICAgNSArDQogYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvTWFrZWZpbGUgICAg
+ICAgIHwgICAyICsNCiAuLi4vYm9vdC9kdHMvZnJlZXNjYWxlL2ZzbC1zMzJ2MjM0LWV2Yi5kdHMg
+ICAgfCAgMjQgKw0KIC4uLi9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvZnNsLXMzMnYyMzQuZHRz
+aSB8IDEzMCArKysNCiBhcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnICAgICAgICAgICAgICAg
+ICAgfCAgIDMgKw0KIGRyaXZlcnMvdHR5L3NlcmlhbC9LY29uZmlnICAgICAgICAgICAgICAgICAg
+ICB8ICAxNSArDQogZHJpdmVycy90dHkvc2VyaWFsL01ha2VmaWxlICAgICAgICAgICAgICAgICAg
+IHwgICAxICsNCiBkcml2ZXJzL3R0eS9zZXJpYWwvZnNsX2xpbmZsZXh1YXJ0LmMgICAgICAgICAg
+fCA5NDIgKysrKysrKysrKysrKysrKysrDQogaW5jbHVkZS91YXBpL2xpbnV4L3NlcmlhbF9jb3Jl
+LmggICAgICAgICAgICAgIHwgICAzICsNCiAxMiBmaWxlcyBjaGFuZ2VkLCAxMTYxIGluc2VydGlv
+bnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL3NlcmlhbC9mc2wsczMyLWxpbmZsZXh1YXJ0LnR4dA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBh
+cmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9mc2wtczMydjIzNC1ldmIuZHRzDQogY3JlYXRl
+IG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2ZzbC1zMzJ2MjM0LmR0
+c2kNCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy90dHkvc2VyaWFsL2ZzbF9saW5mbGV4dWFy
+dC5jDQoNCi0tIA0KMi4yMi4wDQoNCg==
