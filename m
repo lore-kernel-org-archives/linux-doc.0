@@ -5,83 +5,62 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
 	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60B6E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 12:05:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DE357D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 12:06:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406668AbfHIMFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 08:05:34 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:40640 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2406667AbfHIMFd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 08:05:33 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R501e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TZ0fQL7_1565352323;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TZ0fQL7_1565352323)
+        id S1726216AbfHIMGO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Aug 2019 08:06:14 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:41104 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726505AbfHIMGN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 08:06:13 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R391e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TZ0sRLV_1565352370;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TZ0sRLV_1565352370)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 09 Aug 2019 20:05:23 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
+          Fri, 09 Aug 2019 20:06:11 +0800
+Subject: Re: [PATCH] docs/zh_CN: update Chinese howto.rst for latexdocs making
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Harry Wei <harryxiyou@gmail.com>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         SeongJae Park <sj38.park@gmail.com>,
         Tom Levy <tomlevy93@gmail.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2] docs/zh_CN: update Chinese howto.rst for latexdocs making
-Date:   Fri,  9 Aug 2019 20:04:47 +0800
-Message-Id: <20190809120447.22921-1-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
+References: <20190805031758.64156-1-alex.shi@linux.alibaba.com>
+ <20190806112557.6d1310fb@lwn.net>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <3df2fb10-1891-48c2-33a4-810624deedbd@linux.alibaba.com>
+Date:   Fri, 9 Aug 2019 20:06:08 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190806112557.6d1310fb@lwn.net>
+Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> found a reference
-error in Chinese howto.rst. and further more there more infos of
-latexdocs/epubdocs format doc making in English howto.rst.
 
-So I update this part according to latest howto.rst and settled
-the correct reference.
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: SeongJae Park <sj38.park@gmail.com>
-Cc: Tom Levy <tomlevy93@gmail.com>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/translations/zh_CN/process/howto.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+�� 2019/8/7 ����1:25, Jonathan Corbet д��:
+> On Mon,  5 Aug 2019 11:17:58 +0800
+> Alex Shi <alex.shi@linux.alibaba.com> wrote:
+> 
+>> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> foundd a reference
+>> error in Chinese howto.rst. which need update introducations for
+>> latexdocs/epubdocs format doc making.
+>>
+>> So I update this part according to latest howto.rst.
+> 
+> This one doesn't apply to docs-next, and I hesitate to try to fix it
+> myself.  Any chance of a respin?
 
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index c4ff8356b88d..b244a7190eb6 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -146,14 +146,18 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
-   :ref:`Documentation/process/applying-patches.rst <applying_patches>`
-     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
- 
--内核还拥有大量从代码自动生成的文档。它包含内核内部API的全面介绍以及如何
--妥善处理加锁的规则。生成的文档会放在 Documentation/output/目录下。在内
--核源码的主目录中使用以下不同命令将会分别生成PDF、Postscript、HTML和手册
--页等不同格式的文档::
-+内核还拥有大量从代码自动生成或者从 ReStructuredText(ReST) 标记生成的文档，
-+比如这个文档，它包含内核内部API的全面介绍以及如何妥善处理加锁的规则。所有
-+这些文档都可以通过运行以下命令从内核代码中生成为PDF或HTML文档::
- 
-     make pdfdocs
-     make htmldocs
- 
-+ReST格式的文档会生成在 Documentation/output. 目录中。
-+它们也可以用下列命令生成 LaTeX 和 ePub 格式文档::
-+
-+    make latexdocs
-+    make epubdocs
- 
- 如何成为内核开发者
- ------------------
--- 
-2.19.1.856.g8858448bb
+Hi Jon,
 
+Sorry for slow responsing.
+
+I just out the v2 version on your docs-next. 
+
+Thanks!
+Alex
