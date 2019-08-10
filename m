@@ -5,52 +5,70 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4614E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Aug 2019 23:37:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5FCB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Aug 2019 08:37:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbfHIXhe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Aug 2019 19:37:34 -0400
-Received: from mail3.marvil07.net ([139.162.190.158]:49216 "EHLO
-        mail3.marvil07.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbfHIXhe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Aug 2019 19:37:34 -0400
-X-Greylist: delayed 473 seconds by postgrey-1.27 at vger.kernel.org; Fri, 09 Aug 2019 19:37:34 EDT
-Received: from localhost.localdomain (unknown [179.6.221.43])
-        by mail3.marvil07.net (Postfix) with ESMTPSA id 6F7CB1EF3B;
-        Fri,  9 Aug 2019 23:29:38 +0000 (UTC)
-From:   Marco Villegas <git@marvil07.net>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Marco Villegas <git@marvil07.net>
-Subject: [PATCH] docs: Fix typo on pull requests guide
-Date:   Fri,  9 Aug 2019 18:29:07 -0500
-Message-Id: <20190809232907.5432-1-git@marvil07.net>
-X-Mailer: git-send-email 2.20.1
+        id S1725468AbfHJIhc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Aug 2019 04:37:32 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:36913 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725372AbfHJIhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Aug 2019 04:37:31 -0400
+Received: by mail-qk1-f196.google.com with SMTP id s14so3099549qkm.4;
+        Sat, 10 Aug 2019 01:37:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SfSLgCnqpc/WM1GqrvF/G7Golq4Tsd0KkkiO9gDWwfM=;
+        b=I5+U5NtDrXSadrgTl0w6Xfwf7EVlKPEqGaH83D9EVzdZrV47tqTaxdGAI/PctgyWDj
+         QsG2Xbpm8KKxSWjnyjiC3OY0+irYIiUBJeG7wjI158JDGPKSIDQS7+M1M3g6uAZrsen5
+         ebrZGp0WKcoDHV3//schxebOETX84zyRevi4vMhdlF/7ZTXCpayHK9/nqB04OngDGOL6
+         R0ow3S0YMy+9P2BFQXKgxidmqizTf1VN2hYTu/Azftwa1BvXsHe82bVxSSol05iTbxTK
+         HUiSbgf5t+U/ddEQ6k6WQ8jUb2N+83cRNzwfgKj+3JsMBa8cBehClAsbLAtrWam41Zic
+         c9HQ==
+X-Gm-Message-State: APjAAAV+NUyjuPw5WQ42KgofF0MUndVjUmnVZF8CF6BJrUgwsz5+iVsh
+        m/HsvlsSGQ0Bzgyvrps9cGs0pY5w8j4bT4BGDWc=
+X-Google-Smtp-Source: APXvYqzhR32Ka29FgJwVblR/FtuBmLOPpfMS6RiFA0SBwglvDwGDijW6+Oln3ZpLuc+hkkW/5wgQ1CxsgweTfcOzQwI=
+X-Received: by 2002:a37:984:: with SMTP id 126mr15919398qkj.3.1565426250665;
+ Sat, 10 Aug 2019 01:37:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190809202749.742267-1-arnd@arndb.de> <20190809202749.742267-5-arnd@arndb.de>
+ <20190809204227.GA19839@roeck-us.net>
+In-Reply-To: <20190809204227.GA19839@roeck-us.net>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 10 Aug 2019 10:37:14 +0200
+Message-ID: <CAK8P3a35Aa3-LKi+uWh5SJQpYKqd5VsTw6BhwTxwWW=Vh5B+Mw@mail.gmail.com>
+Subject: Re: [PATCH 04/16] watchdog: remove ks8695 driver
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     soc@kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Marco Villegas <git@marvil07.net>
----
- Documentation/maintainer/pull-requests.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Aug 9, 2019 at 10:42 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Fri, Aug 09, 2019 at 10:27:32PM +0200, Arnd Bergmann wrote:
+> > The platform is getting removed, so there are no remaining
+> > users of this driver.
+> >
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+>
+> Please let me know if this should be applied through the watchdog tree.
+> For now I'll assume it will be applied together with the rest of the
+> series.
 
-diff --git a/Documentation/maintainer/pull-requests.rst b/Documentation/maintainer/pull-requests.rst
-index 22b271de0304..1a2f99b67d25 100644
---- a/Documentation/maintainer/pull-requests.rst
-+++ b/Documentation/maintainer/pull-requests.rst
-@@ -29,7 +29,7 @@ request to.
- In order to create the pull request you must first tag the branch that you
- have just created. It is recommended that you choose a meaningful tag name,
- in a way that you and others can understand, even after some time.  A good
--practice is to include in the name an indicator of the sybsystem of origin
-+practice is to include in the name an indicator of the subsystem of origin
- and the target kernel version.
- 
- Greg offers the following. A pull request with miscellaneous stuff for
--- 
-2.20.1
+For this series, my preference is that you apply the patches through
+the subsystem tree as there are no dependencies.
 
+Thanks,
+
+     Arnd
