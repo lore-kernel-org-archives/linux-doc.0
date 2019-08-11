@@ -1,131 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B24547D912
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Aug 2019 11:33:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 660447D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Aug 2019 22:11:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726084AbfHKLdH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Aug 2019 07:33:07 -0400
-Received: from mout.gmx.net ([212.227.15.18]:53855 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725990AbfHKLdH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 11 Aug 2019 07:33:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1565523160;
-        bh=5XNLSGLV/n8XATlDhvdkuJ0c9QjsZbpQ2b3uSxwJK6w=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=bYyr51s8eLybvh94uOtY1iy/RL+qrsRvhIqX/y4gU5zcOm4PQzksqf+zXKoslev7D
-         NP2u7cSloBXdFHSIX9LUiA3dVht1iTP26Jl9Oz+nmPJLrGqz5FoJT34A0i9VyyLL0D
-         oaUFb5e12LIj1zFqZYpF2oPRAO7y25HgbbTQcur0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx001
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0MQ2Wx-1i0Kr52FzX-005KXD; Sun, 11
- Aug 2019 13:32:40 +0200
-Date:   Sun, 11 Aug 2019 13:32:25 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-doc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        netdev@vger.kernel.org, xdp-newbies@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/networking/af_xdp: Inhibit reference to
- struct socket
-Message-ID: <20190811113225.GD1966@latitude>
-References: <20190810121738.19587-1-j.neuschaefer@gmx.net>
- <20190810085821.11cee8b0@lwn.net>
+        id S1726527AbfHKWLa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Aug 2019 18:11:30 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40212 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbfHKWL3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Aug 2019 18:11:29 -0400
+Received: by mail-pf1-f193.google.com with SMTP id p184so48756280pfp.7
+        for <linux-doc@vger.kernel.org>; Sun, 11 Aug 2019 15:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jg1q7sKCNt8sI7DQNayH9inWmrGqOZwwN13K5ONIY4Q=;
+        b=RNMJIQZoGD+AKdhoRPPti5I51AMHvV5mYDXKAJvWLLTIXhov2hAB/mlubzCGJZZvqN
+         jdFGMPAG0ui/vmgBiTmzrK1TSmtU4Ff8BsjO/AOMv/ogYfOTU7XEwv4oYwpoynaUuXlz
+         FB+/0/PFQfK8A6SidEG+2RrPrN0tWz6fx7rwE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jg1q7sKCNt8sI7DQNayH9inWmrGqOZwwN13K5ONIY4Q=;
+        b=af3VV7Temd8ob1kGsz7c4XkRHUCz54JHCLauB4i2e238r8b89eo2bDLmefkhkwyUgT
+         T2+Jriz1JfvuIyzyVOfhD4uprahhb2xt8IwMQT1oKKxLcAGxg90e6+5Kf3C4P5e4Azq2
+         yljw1Shm/yxuwztLchf6Rn3gQ1p4WMWbUQq4EBkR0Fs0JZJIltZGiMJa0LURJrgXm7EV
+         XYBG/GkjMyGRxmqmAVvTwzZbdGsjwER4fgg8GM5F/Q0g/uqbjFjtM3448bkvdmxD5Mra
+         FCcjBsk6cN/5DQFGRsIPETY8X4tw/xXnKGr4fI2cyAxyC5JvZ06haP53F4L5NEgH9aqk
+         GJqw==
+X-Gm-Message-State: APjAAAXMsGeaF+ocjSCOSgHwZcG14k+snEFJ9Zngnu08n25rU0WHOFxX
+        ptp0e6PwSHmto/ay6WO01vza8Q==
+X-Google-Smtp-Source: APXvYqwV0Q84Ts/sU/Wiyc5e58Q2BXvfPrlpDhgpdlrMav0oBqexshnN2vV/yXZRyBgkrd69z686NQ==
+X-Received: by 2002:a62:e901:: with SMTP id j1mr33444864pfh.189.1565561489050;
+        Sun, 11 Aug 2019 15:11:29 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id n10sm31376428pgv.67.2019.08.11.15.11.25
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 11 Aug 2019 15:11:27 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>
+Subject: [PATCH 1/3] workqueue: Convert for_each_wq to use built-in list check (v2)
+Date:   Sun, 11 Aug 2019 18:11:09 -0400
+Message-Id: <20190811221111.99401-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3Pql8miugIZX0722"
-Content-Disposition: inline
-In-Reply-To: <20190810085821.11cee8b0@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:WSlMOTVkTIxgNdANUM34B9Gmw91nDYkQ4iCc+WK1bcjyk8C1UVC
- xd4RXLqrHapjXCexH+vQ3NdTtgk03TD0vuPZ+zgdyQKcB/OBs1TdT7T6e7GZs9RfH1BUjvU
- 5eUraiD5cWDMFKmPen2rgxYhu409cLv5Vh/xJr3Nbhx36lwNMVCPzEGVKzIdS2mOH4PxxOH
- Gu1usr2e7Hg9gQhtvvCpA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:y64qkCK5mCY=:Ul8qM4rYjC/JIKtPh+C2QA
- O+NQ+dtV+T+uJHv+18CPWbiFdp5IvIJrqq6fEsC1/9rvOfRkPVTHlNy5+3hImBlfdj3tGASW8
- E9f8vcOr5XSqUf3uTwU993wHkK4hXX0yErTG18Yj3n1nc0h2vu6LBc6HGsDJm2YSl0XVm4sAs
- 6022eCI1cgEW9RH0v8t8CJkezSvr3GV0EgRTflBEFIVVmz9q1Y2ljSVGSeSCREXHJvemB2L3j
- ReTM+XO0LLZlM9vMVscZ63Rt+1uZYDVMqDyLYN9AXRa7uE+QdHpYlFGIVNMCABXUpoBCWiD1X
- GlFyqAr/1yOyfgDz/zbjAi0Y4wGO+J35M+dlDxt6kIPCMS/f8LyXpnRqu4Z1eKzOn6zw1fB9O
- /Psvu4iRxvr+HQ2n5EPbIj+ktG+It6+9O8vzdzj9d27Jhysy9ot3SNbZta0NiGbjsEHOodVqX
- Bq1BwSnK2sTgMTCAt/y/MvY0nDSyMQ3dOUwEYEWJk7y5/aTqD4R75QOrLQS0e5qlJmnwoMwRj
- +XRSU4ox8FyZMcL1f/3D1BFYNXr0BvlTHQgAwyxTS8UOIxnXVwoNVpzPmJ2npZGgbvzyPLNXw
- OwgK/F/13q9H1YKBzLUyK/4EUBB1Wybb44Eig2bK1XrEjXLWhdlsCCUoFvJjKonC6wQwRLPwx
- y8hGLVxZo7Po/KmLfrxNsSkZplVMK/5JcFP2KmHpTZ3Kt+89ZuE9XVJz9Gchtyova5jYMcOgv
- haCI5Qlc1+sTkqG81+pRSVtEt+LAG7j7SibahVhB+65QPdlIK87drPSmLJP6OFt0vZdJLqxBx
- sA1ozCd/ZGyIGGqHbyr8DrnjYVto5IIvltYEc7qMWNq7PD0xJvb4Kakd4i6Wfjjb9TRtvm6eV
- M03K7GPVhbmJFKL/DCQBRwaa7GU8Yc7eWBjeHe4svs3uJuM83FjEt5m7fHQAzwe2DL3TJNPHn
- n2vmD9BQgK45Z+2xVAU0mqlUmOaMBnQptu8bolR3EoqhyirC2Uo6P3DN58Vsz94zUGZyFsASX
- Bd/pRcUuJ8aWBDk5lQAfr46cLuIHrhEZDeSH/NOFy1UbJ7wZYB/1mE5UkA/OeDGPOchJaqxhR
- bTnOf675spHdrb7v6xdI7a6hpcU4oQ0mwv9aynbWG54b6EJT02E7gkc4Q==
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+list_for_each_entry_rcu now has support to check for RCU reader sections
+as well as lock. Just use the support in it, instead of explicitly
+checking in the caller.
 
---3Pql8miugIZX0722
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ kernel/workqueue.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-On Sat, Aug 10, 2019 at 08:58:21AM -0600, Jonathan Corbet wrote:
-> On Sat, 10 Aug 2019 14:17:37 +0200
-> Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
->=20
-> > With the recent change to auto-detect function names, Sphinx parses
-> > socket() as a reference to the in-kernel definition of socket. It then
-> > decides that struct socket is a good match, which was obviously not
-> > intended in this case, because the text speaks about the syscall with
-> > the same name.
-> >=20
-> > Prevent socket() from being misinterpreted by wrapping it in ``inline
-> > literal`` quotes.
-> >=20
-> > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
->=20
-> Thanks for looking at that.  The better fix, though, would be to add
-> socket() to the Skipfuncs array in Documentation/sphinx/automarkup.py.
-> Then it will do the right thing everywhere without the need to add markup
-> to the RST files.
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index 601d61150b65..e882477ebf6e 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -364,11 +364,6 @@ static void workqueue_sysfs_unregister(struct workqueue_struct *wq);
+ 			 !lockdep_is_held(&wq_pool_mutex),		\
+ 			 "RCU or wq_pool_mutex should be held")
+ 
+-#define assert_rcu_or_wq_mutex(wq)					\
+-	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&			\
+-			 !lockdep_is_held(&wq->mutex),			\
+-			 "RCU or wq->mutex should be held")
+-
+ #define assert_rcu_or_wq_mutex_or_pool_mutex(wq)			\
+ 	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&			\
+ 			 !lockdep_is_held(&wq->mutex) &&		\
+@@ -425,9 +420,8 @@ static void workqueue_sysfs_unregister(struct workqueue_struct *wq);
+  * ignored.
+  */
+ #define for_each_pwq(pwq, wq)						\
+-	list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node)		\
+-		if (({ assert_rcu_or_wq_mutex(wq); false; })) { }	\
+-		else
++	list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,		\
++				 lock_is_held(&(wq->mutex).dep_map))
+ 
+ #ifdef CONFIG_DEBUG_OBJECTS_WORK
+ 
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
 
-Alright, I'll do that for v2.
-
-
-Thanks,
-Jonathan Neusch=C3=A4fer
-
---3Pql8miugIZX0722
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl1P/IAACgkQCDBEmo7z
-X9sBYw//WDx7jJODlKacEnlPkuHTxAkanqNDkGnT1Ghh6pIMjM4kqaZSusMiTy77
-BCcw1O+iDfYLGZgBVuEeOZzaQtmKPGiaYvaOCGlEse5I/FR51qxXJmH6joU7ernN
-SktIdNBlV7GnisrZHoXvxVeBmnCtLUDX0mIdqstioLlkGNnu1zEduNhM+p/KkBzj
-iSxlNeQ/NEETCj2e4UHpLpYynix8j17T7X7uG/uO4b8gzoMBRe1bSOfKp45+AOoN
-0LwjbcS3rnsFqaYiP/7dJ8LaQUYCSWfUd4+f7yKgrvzA2cH3ObjYbDd8XeKHRm/R
-Gndzkxqm3SzxaUfAo8xYBqzD9tl/lfVVDYz0LUl1S+zMWAVK9v6rLXvdX7Ab7YRX
-dY3gRKCPYvL0jzyrLFHOZTBIlHqSHV9X/kECgVCS2ahOMIDx3ll8scb/Pw2XkM06
-bKQ/M/4SEaW4kxbhIj3H8y3lzngY46I5kFW/R64vhiH5KITQvqNd31V5ZUNzkdAT
-2+pQP1tBasxhur956ITqgW74t3KhwnqSTv8c7VS+VtmJQrB2QvXzaWT9RrodcrTo
-Tm5mWmfVBy8d0xfUu6RFNZN7SuQ2aUwb5WxDmzvNrB7FGD3vFpd42SJN2ub3qSDZ
-OeHDnYBFmcvbsYAi7JUi+Wg7yZzZoCeKsbKdgQdyxQG2UHYFpyg=
-=rjZu
------END PGP SIGNATURE-----
-
---3Pql8miugIZX0722--
