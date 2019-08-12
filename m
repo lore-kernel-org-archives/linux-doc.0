@@ -5,197 +5,321 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29F3B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 10:39:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FEBA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 10:46:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbfHLKjU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 06:39:20 -0400
-Received: from foss.arm.com ([217.140.110.172]:47986 "EHLO foss.arm.com"
+        id S1728016AbfHLKqK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 06:46:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:48134 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727323AbfHLKjU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Aug 2019 06:39:20 -0400
+        id S1727691AbfHLKqJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 06:46:09 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0EAD1715;
-        Mon, 12 Aug 2019 03:39:19 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 250763F706;
-        Mon, 12 Aug 2019 03:39:18 -0700 (PDT)
-From:   Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 9/9] arm64: Retrieve stolen time as paravirtualized guest
-To:     Zenghui Yu <yuzenghui@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-10-steven.price@arm.com>
- <5d763c8e-9c06-c448-2644-25bfa0e57e8c@huawei.com>
-Message-ID: <07075994-3a32-8f20-23d8-1759ec2874e3@arm.com>
-Date:   Mon, 12 Aug 2019 11:39:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B486515AB;
+        Mon, 12 Aug 2019 03:46:08 -0700 (PDT)
+Received: from localhost (unknown [10.37.6.20])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 321463F706;
+        Mon, 12 Aug 2019 03:46:08 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 11:46:06 +0100
+From:   Andrew Murray <andrew.murray@arm.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+Message-ID: <20190812104606.GY56241@e119886-lin.cambridge.arm.com>
+References: <20190807155321.9648-1-catalin.marinas@arm.com>
+ <20190807155321.9648-2-catalin.marinas@arm.com>
+ <20190808170424.6td34cpdngkcxxpu@willie-the-truck>
 MIME-Version: 1.0
-In-Reply-To: <5d763c8e-9c06-c448-2644-25bfa0e57e8c@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808170424.6td34cpdngkcxxpu@willie-the-truck>
+User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/08/2019 14:51, Zenghui Yu wrote:
-[...]
-> Hi Steven,
+On Thu, Aug 08, 2019 at 06:04:24PM +0100, Will Deacon wrote:
+> On Wed, Aug 07, 2019 at 04:53:20PM +0100, Catalin Marinas wrote:
+> > From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > 
+> > On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
+> > the userspace (EL0) is allowed to set a non-zero value in the
+> > top byte but the resulting pointers are not allowed at the
+> > user-kernel syscall ABI boundary.
+> > 
+> > With the relaxed ABI proposed through this document, it is now possible
+> > to pass tagged pointers to the syscalls, when these pointers are in
+> > memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
+> > 
+> > This change in the ABI requires a mechanism to requires the userspace
+> > to opt-in to such an option.
+> > 
+> > Specify and document the way in which sysctl and prctl() can be used
+> > in combination to allow the userspace to opt-in this feature.
+> > 
+> > Cc: Will Deacon <will.deacon@arm.com>
+> > Cc: Andrey Konovalov <andreyknvl@google.com>
+> > Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
+> > Cc: Kevin Brodsky <kevin.brodsky@arm.com>
+> > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > [catalin.marinas@arm.com: some rewording, dropped MAP_PRIVATE]
+> > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+> > ---
+> >  Documentation/arm64/tagged-address-abi.rst | 151 +++++++++++++++++++++
+> >  1 file changed, 151 insertions(+)
+> >  create mode 100644 Documentation/arm64/tagged-address-abi.rst
+> > 
+> > diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arm64/tagged-address-abi.rst
+> > new file mode 100644
+> > index 000000000000..f91a5d2ac865
+> > --- /dev/null
+> > +++ b/Documentation/arm64/tagged-address-abi.rst
+> > @@ -0,0 +1,151 @@
+> > +==========================
+> > +AArch64 TAGGED ADDRESS ABI
+> > +==========================
+> > +
+> > +Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > +
+> > +Date: 25 July 2019
+> > +
+> > +This document describes the usage and semantics of the Tagged Address
+> > +ABI on AArch64 Linux.
+> > +
+> > +1. Introduction
+> > +---------------
+> > +
+> > +On AArch64 the TCR_EL1.TBI0 bit has always been enabled, allowing userspace
+> > +(EL0) to perform memory accesses through 64-bit pointers with a non-zero
+> > +top byte. Such tagged pointers, however, were not allowed at the
+> > +user-kernel syscall ABI boundary.
 > 
-> Since userspace is not involved yet (right?), no one will create the
-> PV_TIME device for guest (and no one will specify the IPA of the shared
-> stolen time region), and I guess we will get a "not supported" error
-> here.
+> I think we should drop the temporal language, so:
 > 
-> So what should we do if we want to test this series now?  Any userspace
-> tools?  If no, do you have any plans for userspace developing? ;-)
+>   "has always been enabled" => "is set by the kernel"
+>   "were not allowed" => "are not allowed by default"
+> 
+> > +
+> > +This document describes the relaxation of the syscall ABI that allows
+> > +userspace to pass certain tagged pointers to kernel syscalls, as described
+> > +in section 2.
+> > +
+> > +2. AArch64 Tagged Address ABI
+> > +-----------------------------
+> > +
+> > +From the kernel syscall interface perspective and for the purposes of this
+> > +document, a "valid tagged pointer" is a pointer with a potentially non-zero
+> > +top-byte that references an address in the user process address space
+> > +obtained in one of the following ways:
+> > +
+> > +- mmap() done by the process itself (or its parent), where either:
+> > +
+> > +  - flags have the **MAP_ANONYMOUS** bit set
+> > +  - the file descriptor refers to a regular file (including those returned
+> > +    by memfd_create()) or **/dev/zero**
+> > +
+> > +- brk() system call done by the process itself (i.e. the heap area between
+> > +  the initial location of the program break at process creation and its
+> > +  current location).
+> > +
+> > +- any memory mapped by the kernel in the address space of the process
+> > +  during creation and with the same restrictions as for mmap() above (e.g.
+> > +  data, bss, stack).
+> > +
+> > +The AArch64 Tagged Address ABI is an opt-in feature and an application can
+> > +control it via **prctl()** as follows:
+> > +
+> > +- **PR_SET_TAGGED_ADDR_CTRL**: enable or disable the AArch64 Tagged Address
+> > +  ABI for the calling process.
+> > +
+> > +  The (unsigned int) arg2 argument is a bit mask describing the control mode
+> > +  used:
+> > +
+> > +  - **PR_TAGGED_ADDR_ENABLE**: enable AArch64 Tagged Address ABI. Default
+> > +    status is disabled.
+> > +
+> > +  The arguments arg3, arg4, and arg5 are ignored.
+> > +
+> > +- **PR_GET_TAGGED_ADDR_CTRL**: get the status of the AArch64 Tagged Address
+> > +  ABI for the calling process.
+> > +
+> > +  The arguments arg2, arg3, arg4, and arg5 are ignored.
+> 
+> I agree with Dave (H) that we should require these to be zero. We may be
+> able to use arg2 to namespace things for PR_SET_TAGGED_ADDR_CTRL, but for
+> PR_GET_TAGGED_ADDR_CTRL we'd have to add a new prctl if we wanted to extend
+> it otherwise.
+> 
+> > +The prctl(PR_SET_TAGGED_ADDR_CTRL, ...) will return -EINVAL if the
+> 
+> *The* prctl? Maybe "Calling prctl(..." is better?
+> 
+> > +AArch64 Tagged Address ABI is not available
+> > +(CONFIG_ARM64_TAGGED_ADDR_ABI disabled or sysctl abi.tagged_addr=0).
+> 
+> drop the brackets and say "because CONFIG_... is disabled or ..".
+> 
+> > +
+> > +The ABI properties set by the mechanism described above are inherited by
+> > +threads of the same application and fork()'ed children but cleared by
+> > +execve().
+> 
+> Maybe just exec() here, since there are other flavours we shouldn't need to
+> enumerate.
+> 
+> > +Opting in (the prctl() option described above only) to or out of the
+> > +AArch64 Tagged Address ABI can be disabled globally at runtime using the
+> > +sysctl interface:
+> 
+> This sentence reads really badly thanks to the random bracketed part.
+> 
+> > +
+> > +- **abi.tagged_addr**: a new sysctl interface that can be used to prevent
+> > +  applications from enabling or disabling the relaxed ABI. The sysctl
+> > +  supports the following configuration options:
+> > +
+> > +  - **0**: disable the prctl(PR_SET_TAGGED_ADDR_CTRL) option to
+> > +    enable/disable the AArch64 Tagged Address ABI globally
+> 
+> This is clunky because it sounds like we're enabling the ABI for everybody,
+> where in actual fact we're enabling the controls for the ABI instead. It
+> also applies equally to PR_GET_TAGGED_ADDR_CTRL (but see below). Given that
+> we've already defined the prctl() above, I think we can just say:
+> 
+>   **0**: AArch64 Tagged Address ABI prctl() calls will return -EINVAL
+>   **1**: AArch64 Tagged Address ABI prctl() calls will behave as documented above.
+> 
+> > +  - **1** (Default): enable the prctl(PR_SET_TAGGED_ADDR_CTRL) option to
+> > +    enable/disable the AArch64 Tagged Address ABI globally
+> > +
+> > +  Note that this sysctl does not affect the status of the AArch64 Tagged
+> > +  Address ABI of the running processes.
+> 
+> Hmm, but it does mean that you can no longer ask if a previously running
+> process is using tags. Is that intentional?
+> 
+> > +When a process has successfully enabled the new ABI by invoking
+> > +prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE), the following
+> > +behaviours are guaranteed:
+> 
+> nit: this also applies to processes that have inherited the new ABI
+> bevaiour via fork() and haven't invoked the prctl() themselves.
+> 
+> > +- Every currently available syscall, except the cases mentioned in section
+> 
+> "currently available" is meaningless and should be removed
+> 
+> > +  3, can accept any valid tagged pointer. The same rule is applicable to
+> > +  any syscall introduced in the future.
+> 
+> Delete this last sentence.
+> 
+> > +- The syscall behaviour is undefined for non valid tagged pointers.
+> 
+> non valid => invalid
+> 
+> although this needs to be better defined, I think.
+> 
+> > +
+> > +- Every valid tagged pointer is expected to work as an untagged one.
+> 
+> What does that mean? Expected by who? What does "work" mean?
+> 
+> > +A definition of the meaning of tagged pointers on AArch64 can be found in:
+> > +Documentation/arm64/tagged-pointers.txt.
+> 
+> .txt => .rst
+> 
+> > +
+> > +3. AArch64 Tagged Address ABI Exceptions
+> > +-----------------------------------------
+> > +
+> > +The behaviour described in section 2, with particular reference to the
+> > +acceptance by the syscalls of any valid tagged pointer, is not applicable
+> > +to the following cases:
+> 
+> Jeez louise...
+> 
+> How about: "The following system call parameters must be untagged, regardless
+> of the ABI relaxation:"
+> 
+> > +
+> > +- mmap() addr parameter.
+> > +
+> > +- mremap() new_address parameter.
+> > +
+> > +- prctl(PR_SET_MM, ``*``, ...) other than arg2 PR_SET_MM_MAP and
+> > +  PR_SET_MM_MAP_SIZE.
+> > +
+> > +- prctl(PR_SET_MM, PR_SET_MM_MAP{,_SIZE}, ...) struct prctl_mm_map fields.
+> 
+> How did you generate this list and who will keep it up to date? How do you
+> know you haven't missed anything?
 
-At the moment I have the following patch to kvmtool which creates the
-PV_TIME device - this isn't in a state to go upstream, and Marc has
-asked that I rework the memory allocation, so this will need to change.
+What about shared memory system calls: shmat, shmdt? The latest "arm64: untag
+user pointers passed to the kernel" series doesn't untag these, thus we should
+indicate here that these too are no supported.
 
-It's a little ugly as it simply reserves the first page of RAM to use
-for the PV time structures.
+Thanks,
 
-----8<----
-diff --git a/Makefile b/Makefile
-index 3862112..a79956b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -158,7 +158,7 @@ endif
- # ARM
- OBJS_ARM_COMMON		:= arm/fdt.o arm/gic.o arm/gicv2m.o arm/ioport.o \
- 			   arm/kvm.o arm/kvm-cpu.o arm/pci.o arm/timer.o \
--			   arm/pmu.o
-+			   arm/pmu.o arm/pvtime.o
- HDRS_ARM_COMMON		:= arm/include
- ifeq ($(ARCH), arm)
- 	DEFINES		+= -DCONFIG_ARM
-diff --git a/arm/fdt.c b/arm/fdt.c
-index c80e6da..19eccbc 100644
---- a/arm/fdt.c
-+++ b/arm/fdt.c
-@@ -119,6 +119,7 @@ static int setup_fdt(struct kvm *kvm)
- 
- 	/* Create new tree without a reserve map */
- 	_FDT(fdt_create(fdt, FDT_MAX_SIZE));
-+	_FDT(fdt_add_reservemap_entry(fdt, kvm->arch.memory_guest_start, 4096));
- 	_FDT(fdt_finish_reservemap(fdt));
- 
- 	/* Header */
-diff --git a/arm/kvm.c b/arm/kvm.c
-index 1f85fc6..8bbfef1 100644
---- a/arm/kvm.c
-+++ b/arm/kvm.c
-@@ -11,6 +11,8 @@
- #include <linux/kvm.h>
- #include <linux/sizes.h>
- 
-+int pvtime_create(struct kvm *kvm);
-+
- struct kvm_ext kvm_req_ext[] = {
- 	{ DEFINE_KVM_EXT(KVM_CAP_IRQCHIP) },
- 	{ DEFINE_KVM_EXT(KVM_CAP_ONE_REG) },
-@@ -86,6 +88,10 @@ void kvm__arch_init(struct kvm *kvm, const char *hugetlbfs_path, u64 ram_size)
- 	/* Create the virtual GIC. */
- 	if (gic__create(kvm, kvm->cfg.arch.irqchip))
- 		die("Failed to create virtual GIC");
-+
-+	/* Setup PV time */
-+	if (pvtime_create(kvm))
-+		die("Failed to initialise PV time");
- }
- 
- #define FDT_ALIGN	SZ_2M
-diff --git a/arm/pvtime.c b/arm/pvtime.c
-new file mode 100644
-index 0000000..abcaab3
---- /dev/null
-+++ b/arm/pvtime.c
-@@ -0,0 +1,77 @@
-+#include "kvm/kvm.h"
-+
-+#define KVM_DEV_TYPE_ARM_PV_TIME (KVM_DEV_TYPE_ARM_VGIC_ITS+2)
-+
-+/* Device Control API: PV_TIME */
-+#define KVM_DEV_ARM_PV_TIME_PADDR	0
-+#define KVM_DEV_ARM_PV_TIME_FREQUENCY	3
-+
-+#define KVM_DEV_ARM_PV_TIME_ST		0
-+#define KVM_DEV_ARM_PV_TIME_LPT		1
-+
-+static int pvtime_fd;
-+
-+int pvtime_create(struct kvm *kvm);
-+
-+int pvtime_create(struct kvm *kvm)
-+{
-+	int err;
-+	u64 lpt_paddr = 0x10000000;
-+	u64 st_paddr = lpt_paddr + 4096;
-+	u32 frequency = 100 * 1000 * 1000;
-+
-+	printf("lpt_paddr=%llx\n", lpt_paddr);
-+
-+	struct kvm_create_device pvtime_device = {
-+		.type = KVM_DEV_TYPE_ARM_PV_TIME,
-+		.flags = 0,
-+	};
-+
-+	err = ioctl(kvm->vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
-+	if (err) {
-+		printf("Failed to create PV device\n");
-+		return 0;
-+	}
-+
-+	pvtime_fd = pvtime_device.fd;
-+
-+	struct kvm_device_attr lpt_base = {
-+		.group = KVM_DEV_ARM_PV_TIME_PADDR,
-+		.attr = KVM_DEV_ARM_PV_TIME_LPT,
-+		.addr = (u64)(unsigned long)&lpt_paddr
-+	};
-+	struct kvm_device_attr st_base = {
-+		.group = KVM_DEV_ARM_PV_TIME_PADDR,
-+		.attr = KVM_DEV_ARM_PV_TIME_ST,
-+		.addr = (u64)(unsigned long)&st_paddr
-+	};
-+
-+	struct kvm_device_attr lpt_freq = {
-+		.group = KVM_DEV_ARM_PV_TIME_FREQUENCY,
-+		.attr = KVM_DEV_ARM_PV_TIME_LPT,
-+		.addr = (u64)(unsigned long)&frequency
-+	};
-+
-+	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &lpt_base);
-+	if (err) {
-+		perror("ioctl lpt_base failed");
-+		printf("Ignoring LPT...\n");
-+	}
-+	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
-+	if (err) {
-+		perror("ioctl st_base failed");
-+		goto out_err;
-+	}
-+	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &lpt_freq);
-+	if (err) {
-+		perror("ioctl lpt_freq failed");
-+		printf("Ignoring LPT...\n");
-+	}
-+
-+	printf("PV time setup\n");
-+
-+	return 0;
-+out_err:
-+	close(pvtime_fd);
-+	return err;
-+}
+Andrew Murray
+
+> 
+> > +Any attempt to use non-zero tagged pointers will lead to undefined
+> > +behaviour.
+> 
+> In the tagged pointer document we're slightly more specific and say that
+> using non-zero address tags "may result in an error code being returned, a
+> (fatal) signal being rasied, or other modes of failure". Maybe reuse that?
+> 
+> > +4. Example of correct usage
+> > +---------------------------
+> > +.. code-block:: c
+> > +
+> > +   void main(void)
+> > +   {
+> > +           static int tbi_enabled = 0;
+> > +           unsigned long tag = 0;
+> > +
+> 
+> Some comments won't go amiss here.
+> 
+> > +           char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
+> > +                            MAP_ANONYMOUS, -1, 0);
+> > +
+> > +           if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
+> > +                     0, 0, 0) == 0)
+> > +                   tbi_enabled = 1;
+> > +
+> > +           if (ptr == (void *)-1) /* MAP_FAILED */
+> > +                   return -1;
+> > +
+> > +           if (tbi_enabled)
+> > +                   tag = rand() & 0xff;
+> > +
+> > +           ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
+> > +
+> > +           *ptr = 'a';
+> > +
+> > +           ...
+> > +   }
+> 
+> Hmm, doesn't this snippet work today? You're not actually passing the
+> tagged pointer back to the kernel...
+> 
+> Will
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
