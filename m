@@ -5,131 +5,191 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD1A77D912
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 17:34:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 565947D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 17:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727223AbfHLReo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 13:34:44 -0400
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:41928 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbfHLReo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 13:34:44 -0400
-Received: by mail-vk1-f194.google.com with SMTP id u64so20870530vku.8;
-        Mon, 12 Aug 2019 10:34:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XCsKdiFdCyUb9h1XpQVRtFcaXFlzTncnJBLcRKOgyMM=;
-        b=AnxMh+t8b0773ZzHDr31aS5lKDV9T9SzVCmQT/Sw3iVpt8oCqyN202akVsNfKec/4B
-         dep1gbQs/pKoJxl532mIRPpFyXSYpmNB+Lot3bcgzemFI4D5rIhrxkSNvCqyurS5nV79
-         ANj/uRGKGnw2Wv/3MDh82P52VMctHhOvyvjERGzOWPfrqwqHB4eEoHiYIhhm+waYyoIR
-         omYnxcomRI3zXRyWB+vMFC4c9HKDF9sqSAtf46SV/nnyQC+ep262OZzJQsX+YcrOtyR6
-         70wUaMV3/vKtHf7K8X860ADjdACgnZoWdMgxzxyTfpllnlMq0oL5fL1SQTllwijfxt0k
-         d9IA==
-X-Gm-Message-State: APjAAAVctJ51NxmI66r0mPP54LQ/en4JATnnaP+/KNYKBOF9FMOK0uwv
-        Moc5ohwGFZZ2fds4ElPcR54LFKuf2MkW6XUFIzs7KGxxXVMbUA==
-X-Google-Smtp-Source: APXvYqzcrQcBsk0/Yrys6c8GgXQrSpsNz4FqdTvJYCSbqFE1AU6tZPX+nx2Ca0ELNiwlAPTAwEcFEPS8L5YbFKICUH4=
-X-Received: by 2002:a1f:d687:: with SMTP id n129mr12600410vkg.71.1565631281261;
- Mon, 12 Aug 2019 10:34:41 -0700 (PDT)
+        id S1727115AbfHLRgQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 13:36:16 -0400
+Received: from foss.arm.com ([217.140.110.172]:53478 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725843AbfHLRgQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 13:36:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99B4A15AB;
+        Mon, 12 Aug 2019 10:36:15 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 459F33F706;
+        Mon, 12 Aug 2019 10:36:14 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 18:36:12 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        Dave P Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+Message-ID: <20190812173611.GD62772@arrakis.emea.arm.com>
+References: <20190807155321.9648-1-catalin.marinas@arm.com>
+ <20190807155321.9648-2-catalin.marinas@arm.com>
+ <826a9ace-feac-c019-843e-07e23c9fd46c@intel.com>
+ <20190808172730.GC37129@arrakis.emea.arm.com>
+ <68354acd-e205-71cb-11c6-74a150178ae0@intel.com>
 MIME-Version: 1.0
-References: <20190809002104.18599-1-stancheff@cray.com> <20190809002104.18599-2-stancheff@cray.com>
- <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-In-Reply-To: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-From:   Shaun Tancheff <shaun@tancheff.com>
-Date:   Mon, 12 Aug 2019 12:34:30 -0500
-Message-ID: <CAJ48U8Xp40is+R1dMW8sXq77ZS5D_h+hHte5Mq5eOrtpb41Qxw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kbuild: recursive build of external kernel modules
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Shaun Tancheff <stancheff@cray.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Renninger <trenn@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM mailing list <linux-pm@vger.kernel.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68354acd-e205-71cb-11c6-74a150178ae0@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 10:24 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> On Fri, Aug 9, 2019 at 9:21 AM Shaun Tancheff <shaun@tancheff.com> wrote:
-> >
-> > When building a tree of external modules stage 2 fails
-> > silently as the root modules.order is empty.
-> >
-> > Modify the modules.order location to be fixed to the
-> > root when KBUILD_EXTMOD is specified and write all
-> > module paths to the single modules.order file.
->
-> Could you try v5.3-rc4 please?
+On Fri, Aug 09, 2019 at 07:10:18AM -0700, Dave Hansen wrote:
+> On 8/8/19 10:27 AM, Catalin Marinas wrote:
+> > On Wed, Aug 07, 2019 at 01:38:16PM -0700, Dave Hansen wrote:
+> >> Also, shouldn't this be converted over to an arch_prctl()?
+> > 
+> > What do you mean by arch_prctl()? We don't have such thing, apart from
+> > maybe arch_prctl_spec_ctrl_*(). We achieve the same thing with the
+> > {SET,GET}_TAGGED_ADDR_CTRL macros. They could be renamed to
+> > arch_prctl_tagged_addr_{set,get} or something but I don't see much
+> > point.
+> 
+> Silly me.  We have an x86-specific:
+> 
+> 	SYSCALL_DEFINE2(arch_prctl, int , option, unsigned long , arg2)
+> 
+> I guess there's no ARM equivalent so you're stuck with the generic one.
+> 
+> > What would be better (for a separate patch series) is to clean up
+> > sys_prctl() and move the arch-specific options into separate
+> > arch_prctl() under arch/*/kernel/. But it's not really for this series.
+> 
+> I think it does make sense for truly arch-specific features to stay out
+> of the arch-generic prctl().  Yes, I know I've personally violated this
+> in the past. :)
 
-So it seems we are using 'subdir-m' but that is now gone?
+Maybe Dave M could revive his prctl() clean-up patches which moves the
+arch specific cases to the corresponding arch/*/ code
 
-Is there a recommend pattern for backward compatibility?
+> >> What is the scope of these prctl()'s?  Are they thread-scoped or
+> >> process-scoped?  Can two threads in the same process run with different
+> >> tagging ABI modes?
+> > 
+> > Good point. They are thread-scoped and this should be made clear in the
+> > doc. Two threads can have different modes.
+> > 
+> > The expectation is that this is invoked early during process start (by
+> > the dynamic loader or libc init) while in single-thread mode and
+> > subsequent threads will inherit the same mode. However, other uses are
+> > possible.
+> 
+> If that's the expectation, it would be really nice to codify it.
+> Basically, you can't enable the feature if another thread is already
+> been forked off.
 
-Thanks!
->
-> > Signed-off-by: Shaun Tancheff <stancheff@cray.com>
-> > ---
-> >  Makefile               | 1 +
-> >  scripts/Makefile.build | 8 +++++++-
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 23cdf1f41364..a9964492f47e 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1622,6 +1622,7 @@ $(module-dirs): prepare $(objtree)/Module.symvers
-> >
-> >  modules: $(module-dirs)
-> >         @$(kecho) '  Building modules, stage 2.';
-> > +       $(Q)$rm -f $(KBUILD_EXTMOD)/modules.order
-> >         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
-> >
-> >  PHONY += modules_install
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 0d434d0afc0b..f9908b3d59e0 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -64,7 +64,13 @@ builtin-target := $(obj)/built-in.a
-> >  endif
-> >
-> >  ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
-> > +ifneq ($(KBUILD_EXTMOD),)
-> > +modorder-target := $(KBUILD_EXTMOD)/modules.order
-> > +modorder-add := >>
-> > +else
-> >  modorder-target := $(obj)/modules.order
-> > +modorder-add := >
-> > +endif
-> >  endif
-> >
-> >  mod-targets := $(patsubst %.o, %.mod, $(obj-m))
-> > @@ -423,7 +429,7 @@ endif # builtin-target
-> >  $(modorder-target): $(subdir-ym) FORCE
-> >         $(Q){ $(foreach m, $(modorder), \
-> >         $(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
-> > -       | $(AWK) '!x[$$0]++' - > $@
-> > +       | $(AWK) '!x[$$0]++' - $(modorder-add) $@
-> >
-> >  #
-> >  # Rule to compile a set of .o files into one .a file (with symbol table)
-> > --
-> > 2.20.1
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Well, that's my expectation but I'm not a userspace developer. I don't
+think there is any good reason to prevent it. It doesn't cost us
+anything to support in the kernel, other than making the documentation
+clearer.
+
+> >>> +When a process has successfully enabled the new ABI by invoking
+> >>> +prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE), the following
+> >>> +behaviours are guaranteed:
+> >>> +
+> >>> +- Every currently available syscall, except the cases mentioned in section
+> >>> +  3, can accept any valid tagged pointer. The same rule is applicable to
+> >>> +  any syscall introduced in the future.
+> >>> +
+> >>> +- The syscall behaviour is undefined for non valid tagged pointers.
+> >>
+> >> Do you really mean "undefined"?  I mean, a bad pointer is a bad pointer.
+> >>  Why should it matter if it's a tagged bad pointer or an untagged bad
+> >> pointer?
+> > 
+> > Szabolcs already replied here. We may have tagged pointers that can be
+> > dereferenced just fine but being passed to the kernel may not be well
+> > defined (e.g. some driver doing a find_vma() that fails unless it
+> > explicitly untags the address). It's as undefined as the current
+> > behaviour (without these patches) guarantees.
+> 
+> It might just be nicer to point out what this features *changes* about
+> invalid pointer handling, which is nothing. :)  Maybe:
+> 
+> 	The syscall behaviour for invalid pointers is the same for both
+> 	tagged and untagged pointers.
+
+Good point.
+
+> >>> +- prctl(PR_SET_MM, ``*``, ...) other than arg2 PR_SET_MM_MAP and
+> >>> +  PR_SET_MM_MAP_SIZE.
+> >>> +
+> >>> +- prctl(PR_SET_MM, PR_SET_MM_MAP{,_SIZE}, ...) struct prctl_mm_map fields.
+> >>> +
+> >>> +Any attempt to use non-zero tagged pointers will lead to undefined
+> >>> +behaviour.
+> >>
+> >> I wonder if you want to generalize this a bit.  I think you're saying
+> >> that parts of the ABI that modify the *layout* of the address space
+> >> never accept tagged pointers.
+> > 
+> > I guess our difficulty in specifying this may have been caused by
+> > over-generalising. For example, madvise/mprotect came under the same
+> > category but there is a use-case for malloc'ed pointers (and tagged) to
+> > the kernel (e.g. MADV_DONTNEED). If we can restrict the meaning to
+> > address space *layout* manipulation, we'd have mmap/mremap/munmap,
+> > brk/sbrk, prctl(PR_SET_MM). Did I miss anything?. Other related syscalls
+> > like mprotect/madvise preserve the layout while only changing permissions,
+> > backing store, so the would be allowed to accept tags.
+> 
+> shmat() comes to mind.  I also did a quick grep for mmap_sem taken for
+> write and didn't see anything else obvious jump out at me.
+
+I'll document shmat() as not supported, together with the prctl().
+
+As I submitted a fixup already, I propose that we allow tagged pointers
+on mmap/munmap/mremap/brk. It makes the documentation simpler ;) (and
+the user understanding of what is and is not allowed).
+
+> >> It looks like the TAG_SHIFT and tag size are pretty baked into the
+> >> aarch64 architecture.  But, are you confident that no future
+> >> implementations will want different positions or sizes?  (obviously
+> >> controlled by other TCR_EL1 bits)
+> > 
+> > For the top-byte-ignore (TBI), that's been baked in the architecture
+> > since ARMv8.0 and we'll have to keep the backwards compatible mode. As
+> > the name implies, it's the top byte of the address and that's what the
+> > document above refers to.
+> > 
+> > With MTE, I can't exclude other configurations in the future but I'd
+> > expect the kernel to present the option as a new HWCAP and the user to
+> > explicitly opt in via a new prctl() flag. I seriously doubt we'd break
+> > existing binaries. So, yes TAG_SHIFT may be different but so would the
+> > prctl() above.
+> 
+> Basically, what you have is a "turn tagging on" and "turn tagging off"
+> call which are binary: all on or all off.  How about exposing a mask:
+> 
+> 	/* Replace hard-coded mask size/position: */
+> 	unsigned long mask = prctl(GET_POSSIBLE_TAGGED_ADDR_BITS);
+> 
+> 	if (mask == 0)
+> 		// no tagging is supported obviously
+> 
+> 	prctl(SET_TAGGED_ADDR_BITS, mask);
+> 
+> 	// now userspace knows via 'mask' where the tag bits are
+
+For the actual hardware memory tagging, maybe we could get the possible
+bits but for TBI, as I said above, that's baked into the architecture. I
+don't think it's worth the effort of getting a mask as I don't see ARM
+changing this without breaking existing software. Even compiler support
+like hwasan relies on the 8-bit TBI.
+
+-- 
+Catalin
