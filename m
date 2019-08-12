@@ -3,430 +3,234 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED1457D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 11:00:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DE987D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 12:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727980AbfHLLAw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 07:00:52 -0400
-Received: from lgeamrelo13.lge.com ([156.147.23.53]:49882 "EHLO
-        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727691AbfHLLAw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 07:00:52 -0400
-X-Greylist: delayed 1801 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Aug 2019 07:00:51 EDT
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-        by 156.147.23.53 with ESMTP; 12 Aug 2019 19:30:48 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.222.33)
-        by 156.147.1.151 with ESMTP; 12 Aug 2019 19:30:48 +0900
-X-Original-SENDERIP: 10.177.222.33
-X-Original-MAILFROM: byungchul.park@lge.com
-Date:   Mon, 12 Aug 2019 19:29:17 +0900
-From:   Byungchul Park <byungchul.park@lge.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
-        max.byungchul.park@gmail.com, kernel-team@android.com,
-        kernel-team@lge.com, Andrew Morton <akpm@linux-foundation.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2 1/2] rcu/tree: Add basic support for kfree_rcu batching
-Message-ID: <20190812102917.GA10624@X58A-UD3R>
-References: <20190811024957.233650-1-joel@joelfernandes.org>
+        id S1726486AbfHLMBf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 08:01:35 -0400
+Received: from foss.arm.com ([217.140.110.172]:49134 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726483AbfHLMBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 08:01:35 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BA9915AB;
+        Mon, 12 Aug 2019 05:01:34 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 450AC3F706;
+        Mon, 12 Aug 2019 05:01:33 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 13:01:26 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: Re: [PATCH v3 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+Message-ID: <20190812120125.GA50712@lakrids.cambridge.arm.com>
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+ <1563873380-2003-3-git-send-email-gkulkarni@marvell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190811024957.233650-1-joel@joelfernandes.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <1563873380-2003-3-git-send-email-gkulkarni@marvell.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 10, 2019 at 10:49:55PM -0400, Joel Fernandes (Google) wrote:
-> Recently a discussion about stability and performance of a system
-> involving a high rate of kfree_rcu() calls surfaced on the list [1]
-> which led to another discussion how to prepare for this situation.
+On Tue, Jul 23, 2019 at 09:16:28AM +0000, Ganapatrao Kulkarni wrote:
+> CCPI2 is a low-latency high-bandwidth serial interface for connecting
+> ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
+
+It would be worth pointing out in the commit message how the CCPI2
+counters differ from the others. I realise you have that in the body of
+patch 1, but it's critical information when reviewing this patch...
+
 > 
-> This patch adds basic batching support for kfree_rcu(). It is "basic"
-> because we do none of the slab management, dynamic allocation, code
-> moving or any of the other things, some of which previous attempts did
-> [2]. These fancier improvements can be follow-up patches and there are
-> several ideas being discussed in those regards.
-> 
-> Torture tests follow in the next patch and show improvements of around
-> 400% in reduction of number of  grace periods on a 16 CPU system. More
-> details and test data are in that patch.
-> 
-> This is an effort to start simple, and build up from there. In the
-> future, an extension to use kfree_bulk and possibly per-slab batching
-> could be done to further improve performance due to cache-locality and
-> slab-specific bulk free optimizations.
-> 
-> There is an implication with rcu_barrier() with this patch. Since the
-> kfree_rcu() calls can be batched, and may not be handed yet to the RCU
-> machinery in fact, the monitor may not have even run yet to do the
-> queue_rcu_work(), there seems no easy way of implementing rcu_barrier()
-> to wait for those kfree_rcu()s that are already made. So this means a
-> kfree_rcu() followed by an rcu_barrier() does not imply that memory will
-> be freed once rcu_barrier() returns.
-> 
-> Another implication is higher active memory usage (although not
-> run-away..) until the kfree_rcu() flooding ends, in comparison to
-> without batching. More details about this are in the second patch which
-> adds an rcuperf test.
-> 
-> Finally, in the future we should get rid of kfree_rcu special casing
-> within RCU such as in rcu_do_batch and switch everything to just
-> batching. Currently we don't do that since timer subsystem is not yet up
-> and we cannot schedule the kfree_rcu() monitor as the timer subsystem's
-> lock are not initialized. That would also mean getting rid of
-> kfree_call_rcu_nobatch() entirely.
-> 
-> [1] http://lore.kernel.org/lkml/20190723035725-mutt-send-email-mst@kernel.org
-> [2] https://lkml.org/lkml/2017/12/19/824
-> 
-> Cc: Rao Shoaib <rao.shoaib@oracle.com>
-> Cc: max.byungchul.park@gmail.com
-> Cc: byungchul.park@lge.com
-> Cc: kernel-team@android.com
-> Cc: kernel-team@lge.com
-> Co-developed-by: Byungchul Park <byungchul.park@lge.com>
-> Signed-off-by: Byungchul Park <byungchul.park@lge.com>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> 
+> Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
 > ---
-> RFC v1-> PATCH v2: Removed limits on the ->head list, just let it grow.
->                    Dropped KFREE_MAX_JIFFIES to HZ/50 from HZ/20 to reduce OOM occurrence.
->                    Removed sleeps in rcuperf test, just using cond_resched()in loop.
->                    Better code comments ;)
+>  drivers/perf/thunderx2_pmu.c | 248 ++++++++++++++++++++++++++++++-----
+>  1 file changed, 214 insertions(+), 34 deletions(-)
 > 
->  .../admin-guide/kernel-parameters.txt         |  17 ++
->  include/linux/rcutiny.h                       |   5 +
->  include/linux/rcutree.h                       |   1 +
->  kernel/rcu/tree.c                             | 213 +++++++++++++++++-
->  4 files changed, 230 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 7ccd158b3894..a9156ca5de24 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3895,6 +3895,23 @@
->  			test until boot completes in order to avoid
->  			interference.
->  
-> +	rcuperf.kfree_rcu_test= [KNL]
-> +			Set to measure performance of kfree_rcu() flooding.
-> +
-> +	rcuperf.kfree_nthreads= [KNL]
-> +			The number of threads running loops of kfree_rcu().
-> +
-> +	rcuperf.kfree_alloc_num= [KNL]
-> +			Number of allocations and frees done in an iteration.
-> +
-> +	rcuperf.kfree_loops= [KNL]
-> +			Number of loops doing rcuperf.kfree_alloc_num number
-> +			of allocations and frees.
-> +
-> +	rcuperf.kfree_no_batch= [KNL]
-> +			Use the non-batching (slower) version of kfree_rcu.
-> +			This is useful for comparing with the batched version.
-> +
->  	rcuperf.nreaders= [KNL]
->  			Set number of RCU readers.  The value -1 selects
->  			N, where N is the number of CPUs.  A value
-> diff --git a/include/linux/rcutiny.h b/include/linux/rcutiny.h
-> index 8e727f57d814..383f2481750f 100644
-> --- a/include/linux/rcutiny.h
-> +++ b/include/linux/rcutiny.h
-> @@ -39,6 +39,11 @@ static inline void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
->  	call_rcu(head, func);
->  }
->  
-> +static inline void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
-> +{
-> +	call_rcu(head, func);
-> +}
-> +
->  void rcu_qs(void);
->  
->  static inline void rcu_softirq_qs(void)
-> diff --git a/include/linux/rcutree.h b/include/linux/rcutree.h
-> index 735601ac27d3..7e38b39ec634 100644
-> --- a/include/linux/rcutree.h
-> +++ b/include/linux/rcutree.h
-> @@ -34,6 +34,7 @@ static inline void rcu_virt_note_context_switch(int cpu)
->  
->  void synchronize_rcu_expedited(void);
->  void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func);
-> +void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func);
->  
->  void rcu_barrier(void);
->  bool rcu_eqs_special_set(int cpu);
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index a14e5fbbea46..102a5f606d78 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -2593,17 +2593,204 @@ void call_rcu(struct rcu_head *head, rcu_callback_t func)
->  }
->  EXPORT_SYMBOL_GPL(call_rcu);
->  
-> +
-> +/* Maximum number of jiffies to wait before draining a batch. */
-> +#define KFREE_DRAIN_JIFFIES (HZ / 50)
-
-JFYI, I also can see oom with a larger value of this. I hope this magic
-value works well for all kind of systems.
-
-> +
->  /*
-> - * Queue an RCU callback for lazy invocation after a grace period.
-> - * This will likely be later named something like "call_rcu_lazy()",
-> - * but this change will require some way of tagging the lazy RCU
-> - * callbacks in the list of pending callbacks. Until then, this
-> - * function may only be called from __kfree_rcu().
-> + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-> + * kfree(s) is queued for freeing after a grace period, right away.
+> diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+> index 43d76c85da56..a4e1273eafa3 100644
+> --- a/drivers/perf/thunderx2_pmu.c
+> +++ b/drivers/perf/thunderx2_pmu.c
+> @@ -17,22 +17,31 @@
 >   */
-> -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> +struct kfree_rcu_cpu {
-> +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-> +	 * is done after a grace period.
-> +	 */
-> +	struct rcu_work rcu_work;
-> +
-> +	/* The list of objects being queued in a batch but are not yet
-> +	 * scheduled to be freed.
-> +	 */
-> +	struct rcu_head *head;
-> +
-> +	/* The list of objects that have now left ->head and are queued for
-> +	 * freeing after a grace period.
-> +	 */
-> +	struct rcu_head *head_free;
-> +
-> +	/* Protect concurrent access to this structure. */
-> +	spinlock_t lock;
-> +
-> +	/* The delayed work that flushes ->head to ->head_free incase ->head
-> +	 * did not reach a length of KFREE_MAX_BATCH within KFREE_DRAIN_JIFFIES.
-> +	 * In case flushing cannot be done if RCU is busy, then ->head just
-> +	 * continues to grow beyond KFREE_MAX_BATCH and we retry flushing later.
+>  
+>  #define TX2_PMU_MAX_COUNTERS		4
 
-Minor one. We don't use KFREE_MAX_BATCH anymore.
+Shouldn't this be 8 now?
 
-> +	 */
-> +	struct delayed_work monitor_work;
-> +	bool monitor_todo;	/* Is a delayed work pending execution? */
-> +};
-> +
-> +static DEFINE_PER_CPU(struct kfree_rcu_cpu, krc);
-> +
-> +/*
-> + * This function is invoked in workqueue context after a grace period.
-> + * It frees all the objects queued on ->head_free.
-> + */
-> +static void kfree_rcu_work(struct work_struct *work)
-> +{
-> +	unsigned long flags;
-> +	struct rcu_head *head, *next;
-> +	struct kfree_rcu_cpu *krcp = container_of(to_rcu_work(work),
-> +					struct kfree_rcu_cpu, rcu_work);
-> +
-> +	spin_lock_irqsave(&krcp->lock, flags);
-> +	head = krcp->head_free;
-> +	krcp->head_free = NULL;
-> +	spin_unlock_irqrestore(&krcp->lock, flags);
-> +
-> +	/*
-> +	 * The head is detached and not referenced from anywhere, so lockless
-> +	 * access is Ok.
-> +	 */
-> +	for (; head; head = next) {
-> +		next = head->next;
-> +		head->next = NULL;
-> +		/* Could be possible to optimize with kfree_bulk in future */
-> +		__rcu_reclaim(rcu_state.name, head);
-> +		cond_resched_tasks_rcu_qs();
-> +	}
-> +}
-> +
-> +/*
-> + * Schedule the kfree batch RCU work to run in workqueue context after a GP.
-> + *
-> + * This function is invoked when the ->head batch has reached size
-> + * KFREE_MAX_BATCH or when kfree_rcu_monitor() sees that the
-> + * KFREE_DRAIN_JIFFIES timeout has been reached.
+[...]
 
-KFREE_MAX_BATCH again.
+>  /*
+> - * pmu on each socket has 2 uncore devices(dmc and l3c),
+> - * each device has 4 counters.
+> + * pmu on each socket has 3 uncore devices(dmc, l3ci and ccpi2),
+> + * dmc and l3c has 4 counters and ccpi2 8.
+>   */
 
-> + *
-> + * It can also be called from IRQ context if ->head fills up completely.
-> + * (i.e. ->head reaches KFREE_MAX_BATCH under heavy kfree_rcu() load
-> + *  and that last kfree_rcu() in the ->head batch happened from IRQ context).
+How about:
 
-Not true anymore.
+/*
+ * Each socket has 3 uncore device associated with a PMU. The DMC and
+ * L3C have 4 32-bit counters, and the CCPI2 has 8 64-bit counters.
+ */
 
-> + */
-> +static inline bool queue_kfree_rcu_work(struct kfree_rcu_cpu *krcp)
-> +{
-> +	lockdep_assert_held(&krcp->lock);
-> +
-> +	/* If a previous RCU batch work is already in progress, we cannot queue
-> +	 * another one, just refuse the optimization and it will be retried
-> +	 * again in KFREE_DRAIN_JIFFIES time.
-> +	 */
-> +	if (krcp->head_free)
-> +		return false;
-> +
-> +	krcp->head_free = krcp->head;
-> +	krcp->head = NULL;
-> +	INIT_RCU_WORK(&krcp->rcu_work, kfree_rcu_work);
-> +	queue_rcu_work(system_wq, &krcp->rcu_work);
-> +
-> +	return true;
-> +}
-> +
-> +static inline void kfree_rcu_drain_unlock(struct kfree_rcu_cpu *krcp,
-> +				   unsigned long flags)
-> +{
-> +	/* Flush ->head to ->head_free, all objects on ->head_free will be
-> +	 * kfree'd after a grace period.
-> +	 */
-> +	if (queue_kfree_rcu_work(krcp)) {
-> +		/* Success! Our job is done here. */
-> +		spin_unlock_irqrestore(&krcp->lock, flags);
-> +		return;
-> +	}
-> +
-> +	/* Previous batch did not get free yet, let us try again soon. */
-> +	if (krcp->monitor_todo == false) {
-> +		schedule_delayed_work_on(smp_processor_id(),
-> +				&krcp->monitor_work,  KFREE_DRAIN_JIFFIES);
-> +		krcp->monitor_todo = true;
-> +	}
-> +	spin_unlock_irqrestore(&krcp->lock, flags);
-> +}
-> +
-> +/*
-> + * This function is invoked after the KFREE_DRAIN_JIFFIES timeout has elapsed,
-> + * so it drains the specified kfree_rcu_cpu structure's ->head list.
-> + */
-> +static void kfree_rcu_monitor(struct work_struct *work)
-> +{
-> +	bool todo;
-> +	unsigned long flags;
-> +	struct kfree_rcu_cpu *krcp = container_of(work, struct kfree_rcu_cpu,
-> +						 monitor_work.work);
-> +
-> +	spin_lock_irqsave(&krcp->lock, flags);
-> +	todo = krcp->monitor_todo;
-> +	krcp->monitor_todo = false;
-> +	if (todo)
-> +		kfree_rcu_drain_unlock(krcp, flags);
-> +	else
-> +		spin_unlock_irqrestore(&krcp->lock, flags);
-> +}
-> +
-> +/*
-> + * This version of kfree_call_rcu does not do batching of kfree_rcu() requests.
-> + * Used only by rcuperf torture test for comparison with kfree_rcu_batch().
-> + */
-> +void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
+>  struct tx2_uncore_pmu {
+>  	struct hlist_node hpnode;
+> @@ -69,12 +86,14 @@ struct tx2_uncore_pmu {
+>  	int node;
+>  	int cpu;
+>  	u32 max_counters;
+> +	u32 counters_mask;
+>  	u32 prorate_factor;
+>  	u32 max_events;
+> +	u32 events_mask;
+>  	u64 hrtimer_interval;
+>  	void __iomem *base;
+>  	DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
+
+This bitmap isn't big enough for the 4 new counters.
+
+> -	struct perf_event *events[TX2_PMU_MAX_COUNTERS];
+> +	struct perf_event **events;
+
+As above, can't we bump TX2_PMU_MAX_COUNTERS to 8 rather than making
+this a dynamic allocation?
+
+[...]
+
+>  static inline u32 reg_readl(unsigned long addr)
 >  {
->  	__call_rcu(head, func, -1, 1);
+>  	return readl((void __iomem *)addr);
 >  }
-> +EXPORT_SYMBOL_GPL(kfree_call_rcu_nobatch);
-> +
-> +/*
-> + * Queue a request for lazy invocation of kfree() after a grace period.
-> + *
-> + * Each kfree_call_rcu() request is added to a batch. Once the batch reaches a
-> + * threshold of KFREE_MAX_BATCH, all the objects in the batch will be kfree'd
-> + * in workqueue context. This allows us to:
-> + *
-> + * 1. Batch requests together to reduce the number of grace periods during
-> + * heavy kfree_rcu() load.
-> + *
-> + * 2. In the future, makes it possible to use kfree_bulk() on a large number of
-> + * kfree_rcu() requests thus reducing the per-object overhead of kfree().
-> + *
-> + * If the batch does not reach a threshold of KFREE_MAX_BATCH within
-> + * KFREE_DRAIN_JIFFIES, then kfree_rcu_monitor() queues them for freeing in
-> + * workqueue context after a grace period.
+>  
+> +static inline u32 reg_readq(unsigned long addr)
+> +{
+> +	return readq((void __iomem *)addr);
+> +}
 
-KFREE_MAX_BATCH again.
+Presumably reg_readq() should return a u64.
+
+[...]
+
+> +static void uncore_start_event_ccpi2(struct perf_event *event, int flags)
+> +{
+> +	u32 emask;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	struct tx2_uncore_pmu *tx2_pmu;
+> +
+> +	tx2_pmu = pmu_to_tx2_pmu(event->pmu);
+> +	emask = tx2_pmu->events_mask;
+> +
+> +	/* Bit [09:00] to set event id, set level and type to 1 */
+> +	reg_writel((3 << 10) |
+
+Do you mean that bits [11:10] are level and type?
+
+What exactly are 'level' and 'type'?
+
+Can we give those bits mnemonics?
+
+> +			GET_EVENTID(event, emask), hwc->config_base);
+> +	/* reset[4], enable[0] and start[1] counters */
+
+Rather than using magic numbers everywhere, please give these mnemonics,
+e.g.
+
+#define CCPI2_PERF_CTL_ENABLE	BIT(0)
+#define CCPI2_PERF_CTL_START	BIT(1)
+#define CCPI2_PERF_CTL_RESET	BIT(4)
+
+> +	reg_writel(0x13, hwc->event_base + CCPI2_PERF_CTL);
+
+... and then you can OR them in here:
+
+	ctl = CCPI2_PERF_CTL_ENABLE |
+	      CCPI2_PERF_CTL_START |
+	      CCPI2_PERF_CTL_RESET;
+	reg_writel(ctl, hwc->event_base + CCPI2_PERF_CTL);
+
+[...]
+
+> @@ -456,8 +603,9 @@ static void tx2_uncore_event_start(struct perf_event *event, int flags)
+>  	tx2_pmu->start_event(event, flags);
+>  	perf_event_update_userpage(event);
+>  
+> -	/* Start timer for first event */
+> -	if (bitmap_weight(tx2_pmu->active_counters,
+> +	/* Start timer for first non ccpi2 event */
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2 &&
+> +			bitmap_weight(tx2_pmu->active_counters,
+>  				tx2_pmu->max_counters) == 1) {
+>  		hrtimer_start(&tx2_pmu->hrtimer,
+>  			ns_to_ktime(tx2_pmu->hrtimer_interval),
+
+This would be easier to read as two statements:
+
+	/* No hrtimer needed with 64-bit counters */
+	if (tx2_pmu->type == PMU_TYPE_CCPI2)
+		return;
+	
+	/* Start timer for first event */
+	if (bitmap_weight(tx2_pmu->active_counters,
+	    tx2_pmu->max_counters) != 1) {
+	    	...
+	}
+
+> @@ -495,7 +643,8 @@ static int tx2_uncore_event_add(struct perf_event *event, int flags)
+>  	if (hwc->idx < 0)
+>  		return -EAGAIN;
+>  
+> -	tx2_pmu->events[hwc->idx] = event;
+> +	if (tx2_pmu->events)
+> +		tx2_pmu->events[hwc->idx] = event;
+
+So this is NULL for CCPI2?
+
+I guess we don't strictly need the if we don't have a hrtimer to update
+event counts, but this makes the code more complicated than it needs to
+be.
+
+[...]
+
+> @@ -580,8 +732,12 @@ static int tx2_uncore_pmu_add_dev(struct tx2_uncore_pmu *tx2_pmu)
+>  			cpu_online_mask);
+>  
+>  	tx2_pmu->cpu = cpu;
+> -	hrtimer_init(&tx2_pmu->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> -	tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> +	/* CCPI2 counters are 64 bit counters, no overflow  */
+> +	if (tx2_pmu->type != PMU_TYPE_CCPI2) {
+> +		hrtimer_init(&tx2_pmu->hrtimer,
+> +				CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> +		tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> +	}
+
+Hmmm... this means that tx2_pmu->hrtimer.function is NULL for the CCPI2
+PMU. I think it would be best to check that when (re)programming the
+counters rather than the PMU type. For example, in
+tx2_uncore_event_start() we could have:
+
+	if (!tx2_pmu->hrtimer.function)
+		return;
+	if (bitmap_weight(tx2_pmu->active_counters,
+	    tx2_pmu->max_counters) != 1) {
+	    	...
+	}
 
 Thanks,
-Byungchul
-
-> + */
-> +void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> +{
-> +	unsigned long flags;
-> +	struct kfree_rcu_cpu *krcp;
-> +	bool monitor_todo;
-> +
-> +	/* kfree_call_rcu() batching requires timers to be up. If the scheduler
-> +	 * is not yet up, just skip batching and do non-batched kfree_call_rcu().
-> +	 */
-> +	if (rcu_scheduler_active != RCU_SCHEDULER_RUNNING)
-> +		return kfree_call_rcu_nobatch(head, func);
-> +
-> +	local_irq_save(flags);
-> +	krcp = this_cpu_ptr(&krc);
-> +
-> +	spin_lock(&krcp->lock);
-> +
-> +	/* Queue the kfree but don't yet schedule the batch. */
-> +	head->func = func;
-> +	head->next = krcp->head;
-> +	krcp->head = head;
-> +
-> +	/* Schedule monitor for timely drain after KFREE_DRAIN_JIFFIES. */
-> +	monitor_todo = krcp->monitor_todo;
-> +	krcp->monitor_todo = true;
-> +	spin_unlock(&krcp->lock);
-> +
-> +	if (!monitor_todo) {
-> +		schedule_delayed_work_on(smp_processor_id(),
-> +				&krcp->monitor_work,  KFREE_DRAIN_JIFFIES);
-> +	}
-> +	local_irq_restore(flags);
-> +}
->  EXPORT_SYMBOL_GPL(kfree_call_rcu);
->  
->  /*
-> @@ -3455,10 +3642,24 @@ static void __init rcu_dump_rcu_node_tree(void)
->  struct workqueue_struct *rcu_gp_wq;
->  struct workqueue_struct *rcu_par_gp_wq;
->  
-> +static void __init kfree_rcu_batch_init(void)
-> +{
-> +	int cpu;
-> +
-> +	for_each_possible_cpu(cpu) {
-> +		struct kfree_rcu_cpu *krcp = per_cpu_ptr(&krc, cpu);
-> +
-> +		spin_lock_init(&krcp->lock);
-> +		INIT_DELAYED_WORK(&krcp->monitor_work, kfree_rcu_monitor);
-> +	}
-> +}
-> +
->  void __init rcu_init(void)
->  {
->  	int cpu;
->  
-> +	kfree_rcu_batch_init();
-> +
->  	rcu_early_boot_tests();
->  
->  	rcu_bootup_announce();
-> -- 
-> 2.23.0.rc1.153.gdeed80330f-goog
+Mark.
