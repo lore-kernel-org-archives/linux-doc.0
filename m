@@ -6,160 +6,147 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61BF97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 13:08:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D847F7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 14:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728744AbfHLNIM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 09:08:12 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46615 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728563AbfHLNIL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 09:08:11 -0400
-Received: by mail-pg1-f196.google.com with SMTP id w3so12253228pgt.13
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 06:08:11 -0700 (PDT)
+        id S1726791AbfHLO4Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 10:56:24 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42397 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726786AbfHLO4X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 10:56:23 -0400
+Received: by mail-pg1-f195.google.com with SMTP id t132so49610431pgb.9
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 07:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0+d7JiE4ALvh+vozWgQX9WRuAWwlUlbg0HRlo3FMVKM=;
-        b=XuHwYpVy4YKDtkBncgZgarepVoaPreVCKt5pefACP+j1hsGxvnUD3UAc7zX6MEHqRz
-         sSvzKE9SEErpR8GuW7cCSDvttY5W8YiCTLbu+Io2+tbPcN87ElV3LqukcHrdDGUv9vtT
-         DCaNaiazekE/y9Ng3AM/qvYGjeWum23ndyYDg=
+        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
+        b=NQ/9B5p6EJnc/jGagbLM/8utrsVRGSqpApLAwGccX5pyS3J/WcnaL76DY5ZPmNj/me
+         +sOQkXutAriyMqi+oLObLZvGQLAia8jcHXEZ76S2/2iX/m6q9ZxUBAuq6hc8fExbhUE5
+         WykTmRJksJRkfuwSeyqAdKimKYBeiv/vOihXA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0+d7JiE4ALvh+vozWgQX9WRuAWwlUlbg0HRlo3FMVKM=;
-        b=gqIgR7N5Ob6Jcsky2sYpKsFKgzWyjbBMRpOZdjh9w+LMiKnEvWyVXYQExb7Z05VOK4
-         aDKWXq+taFY1xb2UDB6tCrL47j6Qg5YMhgYzk5VCpuFtfVPkX1u0QTRNC5P6d9jlRMH2
-         MFVXEyGo32eynYbEj4n2t+booy3tTdkkYXxNR0VBM0LOr8Jvb7xQ1LBGVsWbtElpg+j1
-         F3rOoGsfDP2R5dKEKuSEf7zaUCjRz1E0exbNujX2Eob0XKgZBU/EyBUNWiMra3WOlAmw
-         W7yDdRVEaFK87kGPGJqAOZ76TbD9Zj9coJlcZyQ2hOvPiwcso1vNbpUuRQZ9hYRGAbC7
-         UQag==
-X-Gm-Message-State: APjAAAXStdC9bNV7THNQK6X14QklA4V1zCbD8OzkGqrEpihC6WlzM2dr
-        VOZE08tlNE49HVfj4ZlM6FZPyg==
-X-Google-Smtp-Source: APXvYqwzwSNMzkoGkoKrM7gC6Kss7FrU3+9YPzxEYeGpsPCnpjpC2W6CZwZrbnKkmicR5H8Ki5UIqA==
-X-Received: by 2002:a17:90a:a896:: with SMTP id h22mr1309321pjq.1.1565615291134;
-        Mon, 12 Aug 2019 06:08:11 -0700 (PDT)
+        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
+        b=Q7nVl5cIHHZrWq1xH3bWP/rgThOhUx3f1kbFHkLrMhbNJR+iFE5917vDTb2tsoDSkS
+         z1G1dzCxqFYEdnTBpBwQfmnOwGwQRPZMGYRxQ459caOb7PmaXK02NW3tZwwknaR2/NTq
+         v/jxa+QM+o/rux3+DIxAE/cwDbX+V8moap0vMi/tNjij4f6s+RpYWEQpcjgnthezFChE
+         xVPDjIbpK62x8Te4mWEw+8wqFXjySG/GyNUMDR6neMPDR//MrD+1SH1UThuRt6cd1QlO
+         9j0vD0e/yHybOFPD4AADR4u8uu4zeVdE9fM5NWeOjwhCdZ9dwgGeEsSNPEBtFx1JVuMd
+         gyeA==
+X-Gm-Message-State: APjAAAW2RoDCVGohofAZJ6o9JPx/2j6FVZcmENmTFw/sOpWDiCNGulED
+        bingYuYFO/+1PwqS3xiRDhP5DQ==
+X-Google-Smtp-Source: APXvYqwENYmtyILjOnl4HilVvOmaVrKuBkJ28bAMVAwHSpsNFJRH+v3wmBUJf3pYNep/OXJa+KX7pQ==
+X-Received: by 2002:a65:4786:: with SMTP id e6mr29905703pgs.448.1565621782717;
+        Mon, 12 Aug 2019 07:56:22 -0700 (PDT)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id v14sm113161991pfm.164.2019.08.12.06.08.09
+        by smtp.gmail.com with ESMTPSA id y23sm5052754pfr.86.2019.08.12.07.56.21
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 12 Aug 2019 06:08:10 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 09:08:09 -0400
+        Mon, 12 Aug 2019 07:56:21 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 10:56:20 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Byungchul Park <byungchul.park@lge.com>
-Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
-        max.byungchul.park@gmail.com, kernel-team@android.com,
-        kernel-team@lge.com, Andrew Morton <akpm@linux-foundation.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2 1/2] rcu/tree: Add basic support for kfree_rcu batching
-Message-ID: <20190812130809.GB27552@google.com>
-References: <20190811024957.233650-1-joel@joelfernandes.org>
- <20190812102917.GA10624@X58A-UD3R>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190812145620.GB224541@google.com>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
+ <20190807204530.GB90900@google.com>
+ <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
+ <20190807213105.GA14622@google.com>
+ <20190808080044.GA18351@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190812102917.GA10624@X58A-UD3R>
+In-Reply-To: <20190808080044.GA18351@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 07:29:17PM +0900, Byungchul Park wrote:
-[snip]
-> > diff --git a/include/linux/rcutiny.h b/include/linux/rcutiny.h
-> > index 8e727f57d814..383f2481750f 100644
-> > --- a/include/linux/rcutiny.h
-> > +++ b/include/linux/rcutiny.h
-> > @@ -39,6 +39,11 @@ static inline void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> >  	call_rcu(head, func);
-> >  }
-> >  
-> > +static inline void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
-> > +{
-> > +	call_rcu(head, func);
-> > +}
-> > +
-> >  void rcu_qs(void);
-> >  
-> >  static inline void rcu_softirq_qs(void)
-> > diff --git a/include/linux/rcutree.h b/include/linux/rcutree.h
-> > index 735601ac27d3..7e38b39ec634 100644
-> > --- a/include/linux/rcutree.h
-> > +++ b/include/linux/rcutree.h
-> > @@ -34,6 +34,7 @@ static inline void rcu_virt_note_context_switch(int cpu)
-> >  
-> >  void synchronize_rcu_expedited(void);
-> >  void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func);
-> > +void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func);
-> >  
-> >  void rcu_barrier(void);
-> >  bool rcu_eqs_special_set(int cpu);
-> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > index a14e5fbbea46..102a5f606d78 100644
-> > --- a/kernel/rcu/tree.c
-> > +++ b/kernel/rcu/tree.c
-> > @@ -2593,17 +2593,204 @@ void call_rcu(struct rcu_head *head, rcu_callback_t func)
-> >  }
-> >  EXPORT_SYMBOL_GPL(call_rcu);
-> >  
-> > +
-> > +/* Maximum number of jiffies to wait before draining a batch. */
-> > +#define KFREE_DRAIN_JIFFIES (HZ / 50)
+On Thu, Aug 08, 2019 at 10:00:44AM +0200, Michal Hocko wrote:
+> On Wed 07-08-19 17:31:05, Joel Fernandes wrote:
+> > On Wed, Aug 07, 2019 at 01:58:40PM -0700, Andrew Morton wrote:
+> > > On Wed, 7 Aug 2019 16:45:30 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > 
+> > > > On Wed, Aug 07, 2019 at 01:04:02PM -0700, Andrew Morton wrote:
+> > > > > On Wed,  7 Aug 2019 13:15:54 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+> > > > > 
+> > > > > > In Android, we are using this for the heap profiler (heapprofd) which
+> > > > > > profiles and pin points code paths which allocates and leaves memory
+> > > > > > idle for long periods of time. This method solves the security issue
+> > > > > > with userspace learning the PFN, and while at it is also shown to yield
+> > > > > > better results than the pagemap lookup, the theory being that the window
+> > > > > > where the address space can change is reduced by eliminating the
+> > > > > > intermediate pagemap look up stage. In virtual address indexing, the
+> > > > > > process's mmap_sem is held for the duration of the access.
+> > > > > 
+> > > > > So is heapprofd a developer-only thing?  Is heapprofd included in
+> > > > > end-user android loads?  If not then, again, wouldn't it be better to
+> > > > > make the feature Kconfigurable so that Android developers can enable it
+> > > > > during development then disable it for production kernels?
+> > > > 
+> > > > Almost all of this code is already configurable with
+> > > > CONFIG_IDLE_PAGE_TRACKING. If you disable it, then all of this code gets
+> > > > disabled.
+> > > > 
+> > > > Or are you referring to something else that needs to be made configurable?
+> > > 
+> > > Yes - the 300+ lines of code which this patchset adds!
+> > > 
+> > > The impacted people will be those who use the existing
+> > > idle-page-tracking feature but who will not use the new feature.  I
+> > > guess we can assume this set is small...
+> > 
+> > Yes, I think this set should be small. The code size increase of page_idle.o
+> > is from ~1KB to ~2KB. Most of the extra space is consumed by
+> > page_idle_proc_generic() function which this patch adds. I don't think adding
+> > another CONFIG option to disable this while keeping existing
+> > CONFIG_IDLE_PAGE_TRACKING enabled, is worthwhile but I am open to the
+> > addition of such an option if anyone feels strongly about it. I believe that
+> > once this patch is merged, most like this new interface being added is what
+> > will be used more than the old interface (for some of the usecases) so it
+> > makes sense to keep it alive with CONFIG_IDLE_PAGE_TRACKING.
 > 
-> JFYI, I also can see oom with a larger value of this. I hope this magic
-> value works well for all kind of systems.
+> I would tend to agree with Joel here. The functionality falls into an
+> existing IDLE_PAGE_TRACKING config option quite nicely. If there really
+> are users who want to save some space and this is standing in the way
+> then they can easily add a new config option with some justification so
+> the savings are clear. Without that an additional config simply adds to
+> the already existing configurability complexity and balkanization.
 
-It seems to work well in my testing. I am glad you could not perceive OOMs at
-this value, either.
+Michal, Andrew, Minchan,
 
-> > - * Queue an RCU callback for lazy invocation after a grace period.
-> > - * This will likely be later named something like "call_rcu_lazy()",
-> > - * but this change will require some way of tagging the lazy RCU
-> > - * callbacks in the list of pending callbacks. Until then, this
-> > - * function may only be called from __kfree_rcu().
-> > + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-> > + * kfree(s) is queued for freeing after a grace period, right away.
-> >   */
-> > -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> > +struct kfree_rcu_cpu {
-> > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-> > +	 * is done after a grace period.
-> > +	 */
-> > +	struct rcu_work rcu_work;
-> > +
-> > +	/* The list of objects being queued in a batch but are not yet
-> > +	 * scheduled to be freed.
-> > +	 */
-> > +	struct rcu_head *head;
-> > +
-> > +	/* The list of objects that have now left ->head and are queued for
-> > +	 * freeing after a grace period.
-> > +	 */
-> > +	struct rcu_head *head_free;
-> > +
-> > +	/* Protect concurrent access to this structure. */
-> > +	spinlock_t lock;
-> > +
-> > +	/* The delayed work that flushes ->head to ->head_free incase ->head
-> > +	 * did not reach a length of KFREE_MAX_BATCH within KFREE_DRAIN_JIFFIES.
-> > +	 * In case flushing cannot be done if RCU is busy, then ->head just
-> > +	 * continues to grow beyond KFREE_MAX_BATCH and we retry flushing later.
-> 
-> Minor one. We don't use KFREE_MAX_BATCH anymore.
+Would you have any other review comments on the v5 series? This is just a new
+interface that does not disrupt existing users of the older page-idle
+tracking, so as such it is a safe change (as in, doesn't change existing
+functionality except for the draining bug fix).
 
-Sorry for leaving these KFREE_MAX_BATCH comments stale, I cleaned up many of
-them already but some where still left behind. I will fix these in the v3.
-
-thanks for review!
+thanks,
 
  - Joel
 
-[snip]
