@@ -1,114 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38C8D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 16:11:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 37A2F7D912
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 17:17:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbfHLQLq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 12:11:46 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40012 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfHLQLq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 12:11:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=acc3WF35LR8BXEDMGJ13kNusezGrO1SutQPhnhxeBCw=; b=eWv3m7KcDGlqFNO3Yad5F/wta
-        m7r6ZVcp6p6MSp20w6n8sMza+rI0sCCtzdzvaJ3TzrPH21tYKbUNwBRcoKYULQcpISRzRUw85wPWX
-        PsDY+oNVtbEx/9pBa5rePj62z8keperADcjWaAvzkFnSsKY345OTrNIthz+2TUHzE5cOWR1nQL9pV
-        lY8CrO1+2H7TfGMCYSXJaR56QaxhZx/+FDrHEe8+SXzPddYMWzy1qxH9jq45Zx0MJpd8nC7dAwgyl
-        OP15PscPVMaZDv5PNPv33OCBIwPjsr/wUnwyfOFDKXWPo1I8DXPQZSi7T8L6pC6oze7JjUqqSr4Dh
-        I0o92n8GQ==;
-Received: from [179.182.166.35] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hxCv9-0005tS-LL; Mon, 12 Aug 2019 16:11:43 +0000
-Date:   Mon, 12 Aug 2019 13:11:37 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        xdp-newbies@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] Documentation: sphinx: Don't parse socket() as
- identifier reference
-Message-ID: <20190812131137.74a4ddf3@coco.lan>
-In-Reply-To: <20190812160708.32172-2-j.neuschaefer@gmx.net>
-References: <20190812160708.32172-1-j.neuschaefer@gmx.net>
-        <20190812160708.32172-2-j.neuschaefer@gmx.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726990AbfHLRRj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 13:17:39 -0400
+Received: from foss.arm.com ([217.140.110.172]:53012 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726681AbfHLRRj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 13:17:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C90F215AB;
+        Mon, 12 Aug 2019 10:17:38 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59BEC3F706;
+        Mon, 12 Aug 2019 10:17:37 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 18:17:35 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrew Murray <andrew.murray@arm.com>
+Cc:     Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+Message-ID: <20190812171734.GC62772@arrakis.emea.arm.com>
+References: <20190807155321.9648-1-catalin.marinas@arm.com>
+ <20190807155321.9648-2-catalin.marinas@arm.com>
+ <20190808170424.6td34cpdngkcxxpu@willie-the-truck>
+ <20190812104606.GY56241@e119886-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190812104606.GY56241@e119886-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 12 Aug 2019 18:07:05 +0200
-Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> escreveu:
+On Mon, Aug 12, 2019 at 11:46:06AM +0100, Andrew Murray wrote:
+> On Thu, Aug 08, 2019 at 06:04:24PM +0100, Will Deacon wrote:
+> > On Wed, Aug 07, 2019 at 04:53:20PM +0100, Catalin Marinas wrote:
+> > > +
+> > > +- mmap() addr parameter.
+> > > +
+> > > +- mremap() new_address parameter.
+> > > +
+> > > +- prctl(PR_SET_MM, ``*``, ...) other than arg2 PR_SET_MM_MAP and
+> > > +  PR_SET_MM_MAP_SIZE.
+> > > +
+> > > +- prctl(PR_SET_MM, PR_SET_MM_MAP{,_SIZE}, ...) struct prctl_mm_map fields.
+> > 
+> > How did you generate this list and who will keep it up to date? How do you
+> > know you haven't missed anything?
+> 
+> What about shared memory system calls: shmat, shmdt? The latest "arm64: untag
+> user pointers passed to the kernel" series doesn't untag these, thus we should
+> indicate here that these too are no supported.
 
-> With the introduction of Documentation/sphinx/automarkup.py, socket() is
-> parsed as a reference to the in-kernel definition of socket. Sphinx then
-> decides that struct socket is a good match, which is usually not
-> intended, when the syscall is meant instead. This was observed in
-> Documentation/networking/af_xdp.rst.
->=20
-> Prevent socket() from being misinterpreted by adding it to the Skipfuncs
-> list in automarkup.py.
->=20
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> ---
->=20
-> v2:
-> - block socket() in Documentation/sphinx/automarkup.py, as suggested by
->   Jonathan Corbet
->=20
-> v1:
-> - https://lore.kernel.org/lkml/20190810121738.19587-1-j.neuschaefer@gmx.n=
-et/
-> ---
->  Documentation/sphinx/automarkup.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/au=
-tomarkup.py
-> index a8798369e8f7..5b6119ff69f4 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -26,7 +26,8 @@ RE_function =3D re.compile(r'([\w_][\w\d_]+\(\))')
->  # just don't even try with these names.
->  #
->  Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl', 'mmap',
-> -              'select', 'poll', 'fork', 'execve', 'clone', 'ioctl']
-> +              'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
-> +              'socket' ]
+Yes. We dropped them from a previous version of the series but they've
+never been documented. I'll add something (unless someone has a real
+use-case for using tags with shmat/shmdt).
 
-Both patches sound OK on my eyes. Yet, I would just fold them into
-a single one.
-
-In any case:
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
->=20
->  #
->  # Find all occurrences of function() and try to replace them with
-> --
-> 2.20.1
->=20
-
-
-
-Thanks,
-Mauro
+-- 
+Catalin
