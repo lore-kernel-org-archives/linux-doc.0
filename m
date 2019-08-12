@@ -1,170 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC9167D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 20:23:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AAA437D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 20:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbfHLUXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 16:23:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47728 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726925AbfHLUXO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 16:23:14 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7CKLhwS016225;
-        Mon, 12 Aug 2019 16:22:40 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ubd81c51f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Aug 2019 16:22:40 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7CKMdDQ019426;
-        Mon, 12 Aug 2019 16:22:39 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ubd81c50y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Aug 2019 16:22:39 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7CK5F8J030208;
-        Mon, 12 Aug 2019 20:22:38 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
-        by ppma02dal.us.ibm.com with ESMTP id 2u9nj62kr3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Aug 2019 20:22:38 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7CKMbni53281230
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 12 Aug 2019 20:22:37 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B9D7BB2066;
-        Mon, 12 Aug 2019 20:22:37 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8C846B205F;
-        Mon, 12 Aug 2019 20:22:37 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.154])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 12 Aug 2019 20:22:37 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 9371916C9A7D; Mon, 12 Aug 2019 13:22:41 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 13:22:41 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH 2/3] doc: Update documentation about
- list_for_each_entry_rcu (v1)
-Message-ID: <20190812202241.GP28441@linux.ibm.com>
-Reply-To: paulmck@linux.ibm.com
-References: <20190811221111.99401-1-joel@joelfernandes.org>
- <20190811221111.99401-2-joel@joelfernandes.org>
+        id S1726549AbfHLUli (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 16:41:38 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:40834 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726500AbfHLUli (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 16:41:38 -0400
+Received: by mail-pg1-f195.google.com with SMTP id w10so50071285pgj.7
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 13:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MJnh/DbbwUp2ykhuWtKroei6fTXCscBWC620YMU78kw=;
+        b=vB8BBLTcHyR/6MmManbwUwxuFJIulQIi8ssstEWavyxVjDjZTqCdDV4k+GvQznx2Gu
+         BYrmoSxq/p6EpObadBuog/qnQED0Er2g3FPY/R5mmU2+6prANR/EPeaPhjZJhguiIiRP
+         laVlnix+3k3ldsZoV0C1xagsklVYtYidBM9aE1xGrFVcLjBbwRpW6HahGY9+Avp/kWLm
+         T5NAN/tqvOLG0auDu2paiIhDdkHD9xVBreQFe50Qz3Fk4VEdJTBMNP4enXfrvN3t06qW
+         EUgtNhbhUYFQV5XLv75AMMsdUTUbhRhJq5GaejhlsHjGOrbIRPayAm9bBTghIOMPNAZO
+         gGvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MJnh/DbbwUp2ykhuWtKroei6fTXCscBWC620YMU78kw=;
+        b=LW6m2Nlp6zuLN5+seB6jYbBvtCHlcWUmuCnomLOGvhEhJGg6bFGQ6F0PGmByEEeeIR
+         6ta6aMjEv1t8R5DkhbuQxSog+yCKU5ERd8Qt0lo2+3t3LvlN1/R9OCeR81laDOlWi4Dw
+         z72cWyTmtuWBXADRyOAFFrvlCfnMnYAxpW2lSEeFj1bEsftK1SPqY9uu7oGRE2ZENL/q
+         AxAfOrhMaq7qXxkIHIb/sVOrMY8mGgwiU716cdmxrXeBw4Gv3dCqueZMTLBynxAE1jfc
+         REmPduZ09fMlp8rm/GN8XjCGC/NddBbZ1QI+z9XSDxw4JE/ZtkNLdTIoLgAJrdqPSCZ+
+         fhAA==
+X-Gm-Message-State: APjAAAXdSm9Gx+C+pKIBB3UuawGlJgOzV1rt3DduyPylkD5I3QUJziGi
+        xqDjM56QgxdEME4rlid4ee2L4A8KlgZ4ZWLi2rkt8g==
+X-Google-Smtp-Source: APXvYqzmkY3rA1NydAKLLowsftOVMQA6KoE5ccWG/aJPzsMG71zwm21zQ2Wdnhb2Togz1F6UwE1Me36C6jQdnlOZ3bs=
+X-Received: by 2002:a63:b919:: with SMTP id z25mr31379684pge.201.1565642496668;
+ Mon, 12 Aug 2019 13:41:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190811221111.99401-2-joel@joelfernandes.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-12_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908120202
+References: <20190716175021.9CA412173C@mail.kernel.org> <20190719000834.GA3228@google.com>
+ <20190722200347.261D3218C9@mail.kernel.org> <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+ <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+ <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com>
+ <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz> <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
+ <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
+ <20190801211447.6D3D7206A2@mail.kernel.org> <CAFd5g47tk8x5iet=xfPVO6MphD3SsLtYQLrCi5O2h0bvdXwHtA@mail.gmail.com>
+In-Reply-To: <CAFd5g47tk8x5iet=xfPVO6MphD3SsLtYQLrCi5O2h0bvdXwHtA@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 12 Aug 2019 13:41:24 -0700
+Message-ID: <CAFd5g44bovSiiqGCip1Q4zBOUauXMcryxnPs8miOa0-QrPW61Q@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Petr Mladek <pmladek@suse.com>, Jeff Dike <jdike@addtoit.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@google.com>,
+        David Rientjes <rientjes@google.com>,
+        kunit-dev@googlegroups.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        wfg@linux.intel.com, Greg KH <gregkh@linuxfoundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 11, 2019 at 06:11:10PM -0400, Joel Fernandes (Google) wrote:
-> This patch updates the documentation with information about
-> usage of lockdep with list_for_each_entry_rcu().
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+On Thu, Aug 1, 2019 at 2:43 PM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> On Thu, Aug 1, 2019 at 2:14 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> >
+> > Quoting Brendan Higgins (2019-08-01 11:59:57)
+> > > On Thu, Aug 1, 2019 at 11:55 AM Brendan Higgins
+> > > <brendanhiggins@google.com> wrote:
+> > > >
+> > > > On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
+> > > >
+> > > > > To be honest I do not fully understand KUnit design. I am not
+> > > > > completely sure how the tested code is isolated from the running
+> > > > > system. Namely, I do not know if the tested code shares
+> > > > > the same locks with the system running the test.
+> > > >
+> > > > No worries, I don't expect printk to be the hang up in those cases. It
+> > > > sounds like KUnit has a long way to evolve before printk is going to
+> > > > be a limitation.
+> > >
+> > > So Stephen, what do you think?
+> > >
+> > > Do you want me to go forward with the new kunit_assert API wrapping
+> > > the string_stream as I have it now? Would you prefer to punt this to a
+> > > later patch? Or would you prefer something else?
+> > >
+> >
+> > I like the struct based approach. If anything, it can be adjusted to
+> > make the code throw some records into a spinlock later on and delay the
+> > formatting of the assertion if need be.
+>
+> That's a fair point.
+>
+> > Can you resend with that
+> > approach? I don't think I'll have any more comments after that.
 
-Thank you!!!
+I sent a new revision, v12, that incorporates the kunit_assert stuff.
 
-I queued this for v5.5 with the following wordsmithing.  Please check
-to make sure that I didn't mess anything up.
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit d06933df6b5919abfd298291f2a6b0a3a095ae64
-Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-Date:   Sun Aug 11 18:11:10 2019 -0400
-
-    doc: Update list_for_each_entry_rcu() documentation
-    
-    This commit updates the documentation with information about
-    usage of lockdep with list_for_each_entry_rcu().
-    
-    Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-    [ paulmck: Wordsmithing. ]
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-
-diff --git a/Documentation/RCU/lockdep.txt b/Documentation/RCU/lockdep.txt
-index da51d3068850..89db949eeca0 100644
---- a/Documentation/RCU/lockdep.txt
-+++ b/Documentation/RCU/lockdep.txt
-@@ -96,7 +96,17 @@ other flavors of rcu_dereference().  On the other hand, it is illegal
- to use rcu_dereference_protected() if either the RCU-protected pointer
- or the RCU-protected data that it points to can change concurrently.
- 
--There are currently only "universal" versions of the rcu_assign_pointer()
--and RCU list-/tree-traversal primitives, which do not (yet) check for
--being in an RCU read-side critical section.  In the future, separate
--versions of these primitives might be created.
-+Like rcu_dereference(), when lockdep is enabled, RCU list and hlist
-+traversal primitives check for being called from within an RCU read-side
-+critical section.  However, a lockdep expression can be passed to them
-+as a additional optional argument.  With this lockdep expression, these
-+traversal primitives will complain only if the lockdep expression is
-+false and they are called from outside any RCU read-side critical section.
-+
-+For example, the workqueue for_each_pwq() macro is intended to be used
-+either within an RCU read-side critical section or with wq->mutex held.
-+It is thus implemented as follows:
-+
-+	#define for_each_pwq(pwq, wq)
-+		list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,
-+					lock_is_held(&(wq->mutex).dep_map))
-diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
-index 17f48319ee16..58ba05c4d97f 100644
---- a/Documentation/RCU/whatisRCU.txt
-+++ b/Documentation/RCU/whatisRCU.txt
-@@ -290,7 +290,7 @@ rcu_dereference()
- 	at any time, including immediately after the rcu_dereference().
- 	And, again like rcu_assign_pointer(), rcu_dereference() is
- 	typically used indirectly, via the _rcu list-manipulation
--	primitives, such as list_for_each_entry_rcu().
-+	primitives, such as list_for_each_entry_rcu() [2].
- 
- 	[1] The variant rcu_dereference_protected() can be used outside
- 	of an RCU read-side critical section as long as the usage is
-@@ -305,6 +305,14 @@ rcu_dereference()
- 	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
- 	and the API's code comments for more details and example usage.
- 
-+	[2] If the list_for_each_entry_rcu() instance might be used by
-+	update-side code as well as by RCU readers, then an additional
-+	lockdep expression can be added to its list of arguments.
-+	For example, given an additional "lock_is_held(&mylock)" argument,
-+	the RCU lockdep code would complain only if this instance was
-+	invoked outside of an RCU read-side critical section and without
-+	the protection of mylock.
-+
- The following diagram shows how each API communicates among the
- reader, updater, and reclaimer.
- 
+Let me know what you think!
