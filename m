@@ -1,63 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 535317D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 23:33:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4473C7D919
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 23:46:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbfHLXdn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 19:33:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33761 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbfHLXdn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 19:33:43 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g2so50495164pfq.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 16:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LTfhhIMEVWBJ1fQ8dSU/yBqkpCSWczjteIKFZOpbLX8=;
-        b=c9dOYm8jUrYmRfI5dEYJE2Wdnda5vlKFp8TRu/bv1paeS5Nb3I93x9HcYZ5ednOIno
-         wGUiE4FUkpp0oe3pnvKv6pG5E0pSyHTSelc+rec86VL0eKpaX1nLvJb20gWSbR51tasf
-         pgzzqgph/ELjX9q8SLyXYbEtVD5OMe2Bv9/Yd1k25uiMzejzz4xG8apO6djfJpMz8vcn
-         XxJ7D8O/Gc8sfv/yWGdO+KIi2sqttmFcaUq9dKaYH8/xsyQWTJSFN1Jmxc4txyx4aB+z
-         WGBS3gigW8iS9W0dFVg6j9MrUrNTENxkLxw6lLoD3AWXnMP8qmgG1uCcjQTNKLdPM7ys
-         zaWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LTfhhIMEVWBJ1fQ8dSU/yBqkpCSWczjteIKFZOpbLX8=;
-        b=uiChcf20rDrZpl+MXWw/cyCoNmxrDjRk5yJoLUZmHvpkBmycqJD6X8iHlV7ZAu+pCz
-         +AqSWYJLTX91k1s6lkJCuCV4U/qSwy1cagoGHnHvsGP0WKAz2BI0eWAdruI4lzzH4nOd
-         B91ldsKzhRMWmE8kGqoaqgjy1Yh2ngFsh6Tud2OCL4YtPyuydGfxBZXMvF0tnmzQ6I3m
-         o28vY3H+a/tb3Ypj25uRjsiKhUVswBM5QDL5CkzTZDbKxcLyP1fNfiYCPQl97FyNoemD
-         pbMVwRJYyDKUv4uk9YNsJndSeUZLLlUbJ12mR6seerANkQRyVwBIepyxwJMbhgnP81PY
-         CNiw==
-X-Gm-Message-State: APjAAAWuve5I9Qzsn79tw6iqE2OczrA8ImYDdTXTR1h1hATDdvfAKb1X
-        4aORga1brNHvzLzCSO0YRSbpTg==
-X-Google-Smtp-Source: APXvYqxcDoap4N3EkfxGt7+4TrFgEHcuwub7I5n6cGzvsvHggQpTuDBEDm80K9tY5UT8aKNLpSv+9A==
-X-Received: by 2002:a63:2a08:: with SMTP id q8mr31927403pgq.415.1565652822096;
-        Mon, 12 Aug 2019 16:33:42 -0700 (PDT)
-Received: from google.com ([2620:15c:2cb:1:e90c:8e54:c2b4:29e7])
-        by smtp.gmail.com with ESMTPSA id j187sm13658683pfg.178.2019.08.12.16.33.40
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 12 Aug 2019 16:33:41 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 16:33:36 -0700
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        id S1726600AbfHLXqq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 19:46:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39536 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726296AbfHLXqq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 19:46:46 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E054D20679;
+        Mon, 12 Aug 2019 23:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565653605;
+        bh=B5M35uPs7D5CLgV2WuA3jEwtQw8IijPFRqyXw/4bWMU=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=AGOwiTgbdj+2ifl0a7Xbp5/lsMWfdJc7+aAllnZ0hjKfSs/gNRN2411MBEaSKQzNW
+         jmCAe62dNE3Eo33h9i7ShysYfWASja+7gi/ROqRCoY/PPSVzU5+gcDFa0QwS9wu2/G
+         09nGYZB8GjciLbmMfntmYaBwKJxcaqwUc60bVJjM=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190812182421.141150-5-brendanhiggins@google.com>
+References: <20190812182421.141150-1-brendanhiggins@google.com> <20190812182421.141150-5-brendanhiggins@google.com>
+Subject: Re: [PATCH v12 04/18] kunit: test: add assertion printing library
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
@@ -68,45 +45,104 @@ Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Subject: Re: [PATCH v12 03/18] kunit: test: add string_stream a std::stream
- like string builder
-Message-ID: <20190812233336.GA224410@google.com>
-References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-4-brendanhiggins@google.com>
- <20190812225520.5A67C206A2@mail.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190812225520.5A67C206A2@mail.kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+User-Agent: alot/0.8.1
+Date:   Mon, 12 Aug 2019 16:46:44 -0700
+Message-Id: <20190812234644.E054D20679@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 03:55:19PM -0700, Stephen Boyd wrote:
-> Quoting Brendan Higgins (2019-08-12 11:24:06)
-> > +void string_stream_clear(struct string_stream *stream)
-> > +{
-> > +       struct string_stream_fragment *frag_container, *frag_container_safe;
-> > +
-> > +       spin_lock(&stream->lock);
-> > +       list_for_each_entry_safe(frag_container,
-> > +                                frag_container_safe,
-> > +                                &stream->fragments,
-> > +                                node) {
-> > +               list_del(&frag_container->node);
-> 
-> Shouldn't we free the allocation here? Otherwise, if some test is going
-> to add, add, clear, add, it's going to leak until the test is over?
+Quoting Brendan Higgins (2019-08-12 11:24:07)
+> Add `struct kunit_assert` and friends which provide a structured way to
+> capture data from an expectation or an assertion (introduced later in
+> the series) so that it may be printed out in the event of a failure.
+>=20
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> ---
 
-So basically this means I should add a kunit_kfree and
-kunit_resource_destroy (respective equivalents to devm_kfree, and
-devres_destroy) and use kunit_kfree here?
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 
-> > +       }
-> > +       stream->length = 0;
-> > +       spin_unlock(&stream->lock);
-> > +}
-> > +
+Just some minor nits below
+
+> diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+> new file mode 100644
+> index 0000000000000..55f1b88b0cb4d
+> --- /dev/null
+> +++ b/include/kunit/assert.h
+> @@ -0,0 +1,183 @@
+[...]
+> +                           struct string_stream *stream);
+> +
+> +struct kunit_fail_assert {
+> +       struct kunit_assert assert;
+> +};
+> +
+> +void kunit_fail_assert_format(const struct kunit_assert *assert,
+> +                             struct string_stream *stream);
+> +
+> +#define KUNIT_INIT_FAIL_ASSERT_STRUCT(test, type) {                     =
+      \
+> +               .assert =3D KUNIT_INIT_ASSERT_STRUCT(test,               =
+        \
+> +                                                  type,                 =
+      \
+> +                                                  kunit_fail_assert_form=
+at)   \
+
+This one got indented one too many times?
+
+> +}
+> +
+> +struct kunit_unary_assert {
+> +       struct kunit_assert assert;
+> +       const char *condition;
+> +       bool expected_true;
+> +};
+> +
+> +void kunit_unary_assert_format(const struct kunit_assert *assert,
+> +                              struct string_stream *stream);
+> +
+[...]
+> +#define KUNIT_INIT_BINARY_STR_ASSERT_STRUCT(test,                       =
+      \
+> +                                           type,                        =
+      \
+> +                                           op_str,                      =
+      \
+> +                                           left_str,                    =
+      \
+> +                                           left_val,                    =
+      \
+> +                                           right_str,                   =
+      \
+> +                                           right_val) {                 =
+      \
+> +       .assert =3D KUNIT_INIT_ASSERT_STRUCT(test,                       =
+        \
+> +                                          type,                         =
+      \
+> +                                          kunit_binary_str_assert_format=
+),    \
+> +       .operation =3D op_str,                                           =
+        \
+> +       .left_text =3D left_str,                                         =
+        \
+> +       .left_value =3D left_val,                                        =
+        \
+> +       .right_text =3D right_str,                                       =
+        \
+> +       .right_value =3D right_val                                       =
+        \
+> +}
+
+It would be nice to have kernel doc on these macros so we know how to
+use them.
+
