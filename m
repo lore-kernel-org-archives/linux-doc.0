@@ -1,72 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 648DB7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 16:07:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C12DF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 16:07:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbfHLQHA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 12:07:00 -0400
-Received: from mga02.intel.com ([134.134.136.20]:14128 "EHLO mga02.intel.com"
+        id S1725901AbfHLQHe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 12:07:34 -0400
+Received: from mout.gmx.net ([212.227.15.19]:46663 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbfHLQHA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Aug 2019 12:07:00 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Aug 2019 09:06:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,378,1559545200"; 
-   d="scan'208";a="175932480"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Aug 2019 09:06:33 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 47F5A11C; Mon, 12 Aug 2019 19:06:31 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] kernel-doc: Allow anonymous enum
-Date:   Mon, 12 Aug 2019 19:06:31 +0300
-Message-Id: <20190812160631.32844-1-andriy.shevchenko@linux.intel.com>
+        id S1725843AbfHLQHe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 12:07:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1565626046;
+        bh=jYqSSfwsqy4C7rhUIFY1F8fvGU/ThZ9cQcIj55AiQe0=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=InpQlwRl0mir4fU+tcBZwX+2oo9SB+CkYV7NIIRpaheI9NJEzcWvW7ebOq1bWEC8D
+         4KDiHOCzSxkRdoViEpqh4jfF0MO2xM+6UENsea+nYs7sAn8U2i+Tq6jrRnYUEhzIRU
+         Ub0JKNuGTRHf+dEf0hF6XrFAMpZyRXAl4JnKb26U=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([78.34.97.158]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mjj8D-1ihZ5B2kjT-00lAky; Mon, 12
+ Aug 2019 18:07:26 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] Documentation: sphinx: Add missing comma to list of strings
+Date:   Mon, 12 Aug 2019 18:07:04 +0200
+Message-Id: <20190812160708.32172-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:m3/VrLP0nK4HpNyVMEvCewsjH/ETwFJt9ujTkwCs/jS4bS1mQ9H
+ JZY4OwJQWCeZiCM0mlR5U9KPe7QdzhqDqqegA0HnMueToF8pivvBOem5HwsbxQNoUF7tmmA
+ MpqSujIg7mkXzi9kZGf0QZvYvXxhXanmeL0BXDrgBJFY+aq8mJYviXy9dYZLNjYvLAztzCa
+ JBqScbZmd2E2vy/GoDf3Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:whMTWpobSPw=:cx8Joqsvn5xwMhlo4mhlZ6
+ j0YBFQCGkFess/Aq4HAzCR0m8EROXSPukdSPl1AhN5DbTcR/XHfZTHM6aX4f89C3CRQ/QPcvX
+ zXERYa+ninHW2AQpYRx6vbmESHyWoyDk4hd3KXWq9GEwjlCkzzK06oKbUbemTGLcp7iyCpCsJ
+ 73D4YThdeD5e9ncisM/Kw7RriQdOSzgxylO98ccumk2aRABso3aVRCSENanhHq+FnA47at8j9
+ jYaQdGztFDxfsFWxWHnbeAkb9+HPCNyqBQLV8GQ3F5cLvTdMNmekXaEzuOSSsAlwo2K7HUOOP
+ jQrQIMmMThj/SMGvXP4h28g1il9MYpa6OjaP2MFS4CwlpqLUM2dpKQNlG7j0Daa49qSoRsbqO
+ +F6ilW1DPKp4lXg3T1vo9S0FnEuHdUdWbRthAGvkw3o1d3oH7sIVm5s57SmzEHTF3pLshuRiS
+ WsLNMLs8s6UeaMvFTPnwv/YIFIBEFaiSEx1GDcJ6oeEvRXgxqy+mvP8CLKHrndA/FlMCCUuDj
+ QDzrdrxmu9o9VLQRUeItqx6CTZzq5li6gZj7ZIijDIRuFmjrt06CL8C/rP3+ZpS9HH2j1gCcA
+ IBvBFudponbMgG3VPj4G8MkTBUtRCsZ97c4559TZrbQXJOJWF/G6jPaXY47rENen3X331pxeL
+ /1WPAfPdieRxqMbx6ZXnXxclncRzJrtOoVX1lI3dE60QpHUbFcO2ZxuWclZdvRErrofm/GGCr
+ UdsJghXm7r6fWUxD1vSM+qWMcv9NLMhCI+L8F7P9/slS7pa/i9IoYaiIV2TP7TJG9zpYpopzz
+ e8LoFZcXimPRIelroabWEIUmvEZ/9XNaXG4w7FGqhdo/8ZAM04orv9RMMhXKy/jAmyxKFO8xq
+ ++vwxppK4ZAcxj71AGxxK9NdIhia2pyN3ukYwPJn6XxeJT8K+wMX/0yu72FecTuAv6e6l1aXy
+ Do8euI05nCeWK4wxX5vWf1YSRAi7r3sDle8C0jLVBSCmNoWddnhpJZ6iLfkJLigZy5WQnjeZY
+ oh5SQEkqrej9PLNxUoo8khPHrkhBEU7yVsg/Q5T4lfTz+2N6ZxOSQA4moGM04dcKpyBKR4pWz
+ 4dJy/aln+WIae1mBGKs84dGNPF0JOoaVZeYAe2py1SuSmQgj9orMGnsN9LxgF7x4GVHAlvIqg
+ XCjss=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In C is a valid construction to have an anonymous enumerator.
+In Python, like in C, when a comma is omitted in a list of strings, the
+two strings around the missing comma are concatenated.
 
-Though we have now:
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
 
-  drivers/pinctrl/intel/pinctrl-intel.c:240: error: Cannot parse enum!
-
-Support it in the kernel-doc script.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- scripts/kernel-doc | 2 +-
+v2:
+- new patch
+=2D--
+ Documentation/sphinx/automarkup.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 6b03012750da..079502bcc5a3 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1245,7 +1245,7 @@ sub dump_enum($$) {
-     # strip #define macros inside enums
-     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
- 
--    if ($x =~ /enum\s+(\w+)\s*\{(.*)\}/) {
-+    if ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
- 	$declaration_name = $1;
- 	my $members = $2;
- 	my %_members;
--- 
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/aut=
+omarkup.py
+index 77e89c1956d7..a8798369e8f7 100644
+=2D-- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -25,7 +25,7 @@ RE_function =3D re.compile(r'([\w_][\w\d_]+\(\))')
+ # to the creation of incorrect and confusing cross references.  So
+ # just don't even try with these names.
+ #
+-Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl', 'mmap'
++Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl', 'mmap',
+               'select', 'poll', 'fork', 'execve', 'clone', 'ioctl']
+
+ #
+=2D-
 2.20.1
 
