@@ -1,463 +1,391 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A0987D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 03:00:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B37307D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 03:07:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbfHLDA3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Aug 2019 23:00:29 -0400
-Received: from unicom146.biz-email.net ([210.51.26.146]:4319 "EHLO
-        unicom146.biz-email.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbfHLDA3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Aug 2019 23:00:29 -0400
-Received: from ([60.208.111.195])
-        by unicom146.biz-email.net (Antispam) with ASMTP (SSL) id DKN75718;
-        Mon, 12 Aug 2019 10:53:18 +0800
-Received: from localhost (10.100.1.52) by Jtjnmail201618.home.langchao.com
- (10.100.2.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 12 Aug
- 2019 10:53:09 +0800
-From:   John Wang <wangzqbj@inspur.com>
-To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <miltonm@us.ibm.com>,
-        <mine260309@gmail.com>, <duanzhijia01@inspur.com>,
-        <joel@jms.id.au>, <openbmc@lists.ozlabs.org>
-Subject: [PATCH v3 2/2] hwmon: pmbus: Add Inspur Power System power supply driver
-Date:   Mon, 12 Aug 2019 10:53:09 +0800
-Message-ID: <20190812025309.15702-1-wangzqbj@inspur.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.100.1.52]
-X-ClientProxiedBy: jtjnmail201603.home.langchao.com (10.100.2.3) To
- Jtjnmail201618.home.langchao.com (10.100.2.18)
+        id S1726813AbfHLDH6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Aug 2019 23:07:58 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12631 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726808AbfHLDH6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 11 Aug 2019 23:07:58 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Aug 2019 20:07:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,375,1559545200"; 
+   d="scan'208";a="199987493"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2019 20:07:56 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>
+Subject: [PATCH v5 6/9] fpga: dfl: afu: add error reporting support.
+Date:   Mon, 12 Aug 2019 10:50:01 +0800
+Message-Id: <1565578204-13969-7-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the driver to monitor Inspur Power System power supplies
-with hwmon over pmbus.
+Error reporting is one important private feature, it reports error
+detected on port and accelerated function unit (AFU). It introduces
+several sysfs interfaces to allow userspace to check and clear
+errors detected by hardware.
 
-This driver adds sysfs attributes for additional power supply data,
-including vendor, model, part_number, serial number,
-firmware revision, hardware revision, and psu mode(active/standby).
-
-Signed-off-by: John Wang <wangzqbj@inspur.com>
+Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+Signed-off-by: Wu Hao <hao.wu@intel.com>
+Acked-by: Alan Tull <atull@kernel.org>
+Signed-off-by: Moritz Fischer <mdf@kernel.org>
 ---
-v3:
-    - Sort kconfig/makefile entries alphabetically
-    - Remove unnecessary initialization
-    - Use ATTRIBUTE_GROUPS instead of expanding directly
-    - Use memscan to avoid reimplementation
-v2:
-    - Fix typos in commit message
-    - Invert Christmas tree
-    - Configure device with sysfs attrs, not debugfs entries
-    - Fix errno in fw_version_read, ENODATA to EPROTO
-    - Change the print format of fw-version
-    - Use sysfs_streq instead of strcmp("xxx" "\n", "xxx")
-    - Document sysfs attributes
+v2: switch to device_add/remove_group for sysfs.
+v3: update kernel version and date in sysfs doc
+v4: remove dev_dbg in init/uinit callback function.
+v5: rework init/uinit function and improve naming.
+    update sysfs entries:
+      remove revision sysfs entry.
+      merge WO "clear" sysfs to RO "errors" to keep alignment with
+      latest changes in fme error reporting support.
+    expose error related sysfs entries via dev_groups.
 ---
- Documentation/hwmon/inspur-ipsps1.rst |  79 +++++++++
- drivers/hwmon/pmbus/Kconfig           |   9 +
- drivers/hwmon/pmbus/Makefile          |  41 ++---
- drivers/hwmon/pmbus/inspur-ipsps.c    | 226 ++++++++++++++++++++++++++
- 4 files changed, 335 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/hwmon/inspur-ipsps1.rst
- create mode 100644 drivers/hwmon/pmbus/inspur-ipsps.c
+ Documentation/ABI/testing/sysfs-platform-dfl-port |  25 +++
+ drivers/fpga/Makefile                             |   1 +
+ drivers/fpga/dfl-afu-error.c                      | 230 ++++++++++++++++++++++
+ drivers/fpga/dfl-afu-main.c                       |   5 +
+ drivers/fpga/dfl-afu.h                            |   5 +
+ 5 files changed, 266 insertions(+)
+ create mode 100644 drivers/fpga/dfl-afu-error.c
 
-diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
-new file mode 100644
-index 000000000000..aa19f0ccc8b0
---- /dev/null
-+++ b/Documentation/hwmon/inspur-ipsps1.rst
-@@ -0,0 +1,79 @@
-+Kernel driver inspur-ipsps1
-+=======================
+diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-port b/Documentation/ABI/testing/sysfs-platform-dfl-port
+index c2660e4..6565826 100644
+--- a/Documentation/ABI/testing/sysfs-platform-dfl-port
++++ b/Documentation/ABI/testing/sysfs-platform-dfl-port
+@@ -74,3 +74,28 @@ KernelVersion:	5.4
+ Contact:	Wu Hao <hao.wu@intel.com>
+ Description:	Read-only. Read this file to get the status of issued command
+ 		to userclck_freqcntrcmd.
 +
-+Supported chips:
++What:		/sys/bus/platform/devices/dfl-port.0/errors/errors
++Date:		August 2019
++KernelVersion:	5.4
++Contact:	Wu Hao <hao.wu@intel.com>
++Description:	Read-Write. Read this file to get errors detected on port and
++		Accelerated Function Unit (AFU). Write error code to this file
++		to clear errors. Write fails with -EINVAL if input parsing
++		fails or input error code doesn't match. Write fails with
++		-EBUSY or -ETIMEDOUT if error can't be cleared as hardware
++		in low power state (-EBUSY) or not respoding (-ETIMEDOUT).
 +
-+  * Inspur Power System power supply unit
++What:		/sys/bus/platform/devices/dfl-port.0/errors/first_error
++Date:		August 2019
++KernelVersion:	5.4
++Contact:	Wu Hao <hao.wu@intel.com>
++Description:	Read-only. Read this file to get the first error detected by
++		hardware.
 +
-+Author: John Wang <wangzqbj@inspur.com>
-+
-+Description
-+-----------
-+
-+This driver supports Inspur Power System power supplies. This driver
-+is a client to the core PMBus driver.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices for
-+details.
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported:
-+
-+======================= ======================================================
-+curr1_input             Measured input current
-+curr1_label             "iin"
-+curr1_max               Maximum current
-+curr1_max_alarm         Current high alarm
-+curr2_input		Measured output current in mA.
-+curr2_label		"iout1"
-+curr2_crit              Critical maximum current
-+curr2_crit_alarm        Current critical high alarm
-+curr2_max               Maximum current
-+curr2_max_alarm         Current high alarm
-+
-+fan1_alarm		Fan 1 warning.
-+fan1_fault		Fan 1 fault.
-+fan1_input		Fan 1 speed in RPM.
-+
-+in1_alarm		Input voltage under-voltage alarm.
-+in1_input		Measured input voltage in mV.
-+in1_label		"vin"
-+in2_input		Measured output voltage in mV.
-+in2_label		"vout1"
-+in2_lcrit               Critical minimum output voltage
-+in2_lcrit_alarm         Output voltage critical low alarm
-+in2_max                 Maximum output voltage
-+in2_max_alarm           Output voltage high alarm
-+in2_min                 Minimum output voltage
-+in2_min_alarm           Output voltage low alarm
-+
-+power1_alarm		Input fault or alarm.
-+power1_input		Measured input power in uW.
-+power1_label		"pin"
-+power1_max              Input power limit
-+power2_max_alarm	Output power high alarm
-+power2_max              Output power limit
-+power2_input		Measured output power in uW.
-+power2_label		"pout"
-+
-+temp[1-3]_input		Measured temperature
-+temp[1-2]_max		Maximum temperature
-+temp[1-3]_max_alarm	Temperature high alarm
-+
-+vendor                  Manufacturer name
-+model                   Product model
-+part_number             Product part number
-+serial_number           Product serial number
-+fw_version              Firmware version
-+hw_version              Hardware version
-+mode                    Work mode. Can be set to active or
-+                        standby, when set to standby, PSU will
-+                        automatically switch between standby
-+                        and redundancy mode.
-+======================= ======================================================
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 30751eb9550a..2370fce6e816 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -46,6 +46,15 @@ config SENSORS_IBM_CFFPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ibm-cffps.
++What:		/sys/bus/platform/devices/dfl-port.0/errors/first_malformed_req
++Date:		August 2019
++KernelVersion:	5.4
++Contact:	Wu Hao <hao.wu@intel.com>
++Description:	Read-only. Read this file to get the first malformed request
++		captured by hardware.
+diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
+index 312b937..7255891 100644
+--- a/drivers/fpga/Makefile
++++ b/drivers/fpga/Makefile
+@@ -41,6 +41,7 @@ obj-$(CONFIG_FPGA_DFL_AFU)		+= dfl-afu.o
  
-+config SENSORS_INSPUR_IPSPS
-+	tristate "INSPUR Power System Power Supply"
-+	help
-+	  If you say yes here you get hardware monitoring support for the INSPUR
-+	  Power System power supply.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called inspur-ipsps.
-+
- config SENSORS_IR35221
- 	tristate "Infineon IR35221"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 2219b9300316..c4f82f65f2ad 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -3,23 +3,24 @@
- # Makefile for PMBus chip drivers.
- #
+ dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o
+ dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o
++dfl-afu-objs += dfl-afu-error.o
  
--obj-$(CONFIG_PMBUS)		+= pmbus_core.o
--obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
--obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
--obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
--obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
--obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
--obj-$(CONFIG_SENSORS_ISL68137)	+= isl68137.o
--obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
--obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
--obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
--obj-$(CONFIG_SENSORS_MAX16064)	+= max16064.o
--obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
--obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
--obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
--obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
--obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
--obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
--obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
--obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
--obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
-+obj-$(CONFIG_PMBUS)			+= pmbus_core.o
-+obj-$(CONFIG_SENSORS_PMBUS)		+= pmbus.o
-+obj-$(CONFIG_SENSORS_ADM1275)		+= adm1275.o
-+obj-$(CONFIG_SENSORS_IBM_CFFPS)		+= ibm-cffps.o
-+obj-$(CONFIG_SENSORS_INSPUR_IPSPS)	+= inspur-ipsps.o
-+obj-$(CONFIG_SENSORS_IR35221)		+= ir35221.o
-+obj-$(CONFIG_SENSORS_IR38064)		+= ir38064.o
-+obj-$(CONFIG_SENSORS_ISL68137)		+= isl68137.o
-+obj-$(CONFIG_SENSORS_LM25066)		+= lm25066.o
-+obj-$(CONFIG_SENSORS_LTC2978)		+= ltc2978.o
-+obj-$(CONFIG_SENSORS_LTC3815)		+= ltc3815.o
-+obj-$(CONFIG_SENSORS_MAX16064)		+= max16064.o
-+obj-$(CONFIG_SENSORS_MAX20751)		+= max20751.o
-+obj-$(CONFIG_SENSORS_MAX31785)		+= max31785.o
-+obj-$(CONFIG_SENSORS_MAX34440)		+= max34440.o
-+obj-$(CONFIG_SENSORS_MAX8688)		+= max8688.o
-+obj-$(CONFIG_SENSORS_TPS40422)		+= tps40422.o
-+obj-$(CONFIG_SENSORS_TPS53679)		+= tps53679.o
-+obj-$(CONFIG_SENSORS_UCD9000)		+= ucd9000.o
-+obj-$(CONFIG_SENSORS_UCD9200)		+= ucd9200.o
-+obj-$(CONFIG_SENSORS_ZL6100)		+= zl6100.o
-diff --git a/drivers/hwmon/pmbus/inspur-ipsps.c b/drivers/hwmon/pmbus/inspur-ipsps.c
+ # Drivers for FPGAs which implement DFL
+ obj-$(CONFIG_FPGA_DFL_PCI)		+= dfl-pci.o
+diff --git a/drivers/fpga/dfl-afu-error.c b/drivers/fpga/dfl-afu-error.c
 new file mode 100644
-index 000000000000..fa981b881a60
+index 0000000..c1467ae
 --- /dev/null
-+++ b/drivers/hwmon/pmbus/inspur-ipsps.c
-@@ -0,0 +1,226 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
++++ b/drivers/fpga/dfl-afu-error.c
+@@ -0,0 +1,230 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Copyright 2019 Inspur Corp.
++ * Driver for FPGA Accelerated Function Unit (AFU) Error Reporting
++ *
++ * Copyright 2019 Intel Corporation, Inc.
++ *
++ * Authors:
++ *   Wu Hao <hao.wu@linux.intel.com>
++ *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
++ *   Joseph Grecco <joe.grecco@intel.com>
++ *   Enno Luebbers <enno.luebbers@intel.com>
++ *   Tim Whisonant <tim.whisonant@intel.com>
++ *   Ananda Ravuri <ananda.ravuri@intel.com>
++ *   Mitchel Henry <henry.mitchel@intel.com>
 + */
 +
-+#include <linux/debugfs.h>
-+#include <linux/device.h>
-+#include <linux/fs.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pmbus.h>
-+#include <linux/hwmon-sysfs.h>
++#include <linux/uaccess.h>
 +
-+#include "pmbus.h"
++#include "dfl-afu.h"
 +
-+#define IPSPS_REG_VENDOR_ID	0x99
-+#define IPSPS_REG_MODEL		0x9A
-+#define IPSPS_REG_FW_VERSION	0x9B
-+#define IPSPS_REG_PN		0x9C
-+#define IPSPS_REG_SN		0x9E
-+#define IPSPS_REG_HW_VERSION	0xB0
-+#define IPSPS_REG_MODE		0xFC
++#define PORT_ERROR_MASK		0x8
++#define PORT_ERROR		0x10
++#define PORT_FIRST_ERROR	0x18
++#define PORT_MALFORMED_REQ0	0x20
++#define PORT_MALFORMED_REQ1	0x28
 +
-+#define MODE_ACTIVE		0x55
-+#define MODE_STANDBY		0x0E
-+#define MODE_REDUNDANCY		0x00
++#define ERROR_MASK		GENMASK_ULL(63, 0)
 +
-+#define MODE_ACTIVE_STRING		"active"
-+#define MODE_STANDBY_STRING		"standby"
-+#define MODE_REDUNDANCY_STRING		"redundancy"
-+
-+enum ipsps_index {
-+	vendor,
-+	model,
-+	fw_version,
-+	part_number,
-+	serial_number,
-+	hw_version,
-+	mode,
-+	num_regs,
-+};
-+
-+static const u8 ipsps_regs[num_regs] = {
-+	[vendor] = IPSPS_REG_VENDOR_ID,
-+	[model] = IPSPS_REG_MODEL,
-+	[fw_version] = IPSPS_REG_FW_VERSION,
-+	[part_number] = IPSPS_REG_PN,
-+	[serial_number] = IPSPS_REG_SN,
-+	[hw_version] = IPSPS_REG_HW_VERSION,
-+	[mode] = IPSPS_REG_MODE,
-+};
-+
-+static ssize_t ipsps_string_show(struct device *dev,
-+				 struct device_attribute *devattr,
-+				 char *buf)
++/* mask or unmask port errors by the error mask register. */
++static void __afu_port_err_mask(struct device *dev, bool mask)
 +{
-+	u8 reg;
-+	int rc;
-+	char *p;
-+	char data[I2C_SMBUS_BLOCK_MAX + 1];
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++	void __iomem *base;
 +
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_block_data(client, reg, data);
-+	if (rc < 0)
-+		return rc;
++	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
 +
-+	/* filled with printable characters, ending with # */
-+	p = memscan(data, '#', rc);
-+	*p = '\0';
-+
-+	return snprintf(buf, PAGE_SIZE, "%s\n", data);
++	writeq(mask ? ERROR_MASK : 0, base + PORT_ERROR_MASK);
 +}
 +
-+static ssize_t ipsps_fw_version_show(struct device *dev,
-+				     struct device_attribute *devattr,
-+				     char *buf)
++static void afu_port_err_mask(struct device *dev, bool mask)
 +{
-+	u8 reg;
-+	int rc;
-+	u8 data[I2C_SMBUS_BLOCK_MAX] = { 0 };
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
 +
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_block_data(client, reg, data);
-+	if (rc < 0)
-+		return rc;
-+
-+	if (rc != 6)
-+		return -EPROTO;
-+
-+	return snprintf(buf, PAGE_SIZE, "%u.%02u%u-%u.%02u\n",
-+			data[1], data[2]/* < 100 */, data[3]/*< 10*/,
-+			data[4], data[5]/* < 100 */);
++	mutex_lock(&pdata->lock);
++	__afu_port_err_mask(dev, mask);
++	mutex_unlock(&pdata->lock);
 +}
 +
-+static ssize_t ipsps_mode_show(struct device *dev,
-+			       struct device_attribute *devattr, char *buf)
++/* clear port errors. */
++static int afu_port_err_clear(struct device *dev, u64 err)
 +{
-+	u8 reg;
-+	int rc;
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
++	struct platform_device *pdev = to_platform_device(dev);
++	void __iomem *base_err, *base_hdr;
++	int ret = -EBUSY;
++	u64 v;
 +
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_byte_data(client, reg);
-+	if (rc < 0)
-+		return rc;
++	base_err = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
++	base_hdr = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
 +
-+	switch (rc) {
-+	case MODE_ACTIVE:
-+		return snprintf(buf, PAGE_SIZE, "[%s] %s %s\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	case MODE_STANDBY:
-+		return snprintf(buf, PAGE_SIZE, "%s [%s] %s\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	case MODE_REDUNDANCY:
-+		return snprintf(buf, PAGE_SIZE, "%s %s [%s]\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	default:
-+		return snprintf(buf, PAGE_SIZE, "unspecified\n");
-+	}
-+}
++	mutex_lock(&pdata->lock);
 +
-+static ssize_t ipsps_mode_store(struct device *dev,
-+				struct device_attribute *devattr,
-+				const char *buf, size_t count)
-+{
-+	u8 reg;
-+	int rc;
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++	/*
++	 * clear Port Errors
++	 *
++	 * - Check for AP6 State
++	 * - Halt Port by keeping Port in reset
++	 * - Set PORT Error mask to all 1 to mask errors
++	 * - Clear all errors
++	 * - Set Port mask to all 0 to enable errors
++	 * - All errors start capturing new errors
++	 * - Enable Port by pulling the port out of reset
++	 */
 +
-+	reg = ipsps_regs[attr->index];
-+	if (sysfs_streq(MODE_STANDBY_STRING, buf)) {
-+		rc = i2c_smbus_write_byte_data(client, reg,
-+					       MODE_STANDBY);
-+		if (rc < 0)
-+			return rc;
-+		return count;
-+	} else if (sysfs_streq(MODE_ACTIVE_STRING, buf)) {
-+		rc = i2c_smbus_write_byte_data(client, reg,
-+					       MODE_ACTIVE);
-+		if (rc < 0)
-+			return rc;
-+		return count;
++	/* if device is still in AP6 power state, can not clear any error. */
++	v = readq(base_hdr + PORT_HDR_STS);
++	if (FIELD_GET(PORT_STS_PWR_STATE, v) == PORT_STS_PWR_STATE_AP6) {
++		dev_err(dev, "Could not clear errors, device in AP6 state.\n");
++		goto done;
 +	}
 +
-+	return -EINVAL;
++	/* Halt Port by keeping Port in reset */
++	ret = __afu_port_disable(pdev);
++	if (ret)
++		goto done;
++
++	/* Mask all errors */
++	__afu_port_err_mask(dev, true);
++
++	/* Clear errors if err input matches with current port errors.*/
++	v = readq(base_err + PORT_ERROR);
++
++	if (v == err) {
++		writeq(v, base_err + PORT_ERROR);
++
++		v = readq(base_err + PORT_FIRST_ERROR);
++		writeq(v, base_err + PORT_FIRST_ERROR);
++	} else {
++		ret = -EINVAL;
++	}
++
++	/* Clear mask */
++	__afu_port_err_mask(dev, false);
++
++	/* Enable the Port by clear the reset */
++	__afu_port_enable(pdev);
++
++done:
++	mutex_unlock(&pdata->lock);
++	return ret;
 +}
 +
-+static SENSOR_DEVICE_ATTR_RO(vendor, ipsps_string, vendor);
-+static SENSOR_DEVICE_ATTR_RO(model, ipsps_string, model);
-+static SENSOR_DEVICE_ATTR_RO(part_number, ipsps_string, part_number);
-+static SENSOR_DEVICE_ATTR_RO(serial_number, ipsps_string, serial_number);
-+static SENSOR_DEVICE_ATTR_RO(hw_version, ipsps_string, hw_version);
-+static SENSOR_DEVICE_ATTR_RO(fw_version, ipsps_fw_version, fw_version);
-+static SENSOR_DEVICE_ATTR_RW(mode, ipsps_mode, mode);
++static ssize_t errors_show(struct device *dev, struct device_attribute *attr,
++			   char *buf)
++{
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
++	void __iomem *base;
++	u64 error;
 +
-+static struct attribute *ipsps_attrs[] = {
-+	&sensor_dev_attr_vendor.dev_attr.attr,
-+	&sensor_dev_attr_model.dev_attr.attr,
-+	&sensor_dev_attr_part_number.dev_attr.attr,
-+	&sensor_dev_attr_serial_number.dev_attr.attr,
-+	&sensor_dev_attr_hw_version.dev_attr.attr,
-+	&sensor_dev_attr_fw_version.dev_attr.attr,
-+	&sensor_dev_attr_mode.dev_attr.attr,
++	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
++
++	mutex_lock(&pdata->lock);
++	error = readq(base + PORT_ERROR);
++	mutex_unlock(&pdata->lock);
++
++	return sprintf(buf, "0x%llx\n", (unsigned long long)error);
++}
++
++static ssize_t errors_store(struct device *dev, struct device_attribute *attr,
++			    const char *buff, size_t count)
++{
++	u64 value;
++	int ret;
++
++	if (kstrtou64(buff, 0, &value))
++		return -EINVAL;
++
++	ret = afu_port_err_clear(dev, value);
++
++	return ret ? ret : count;
++}
++static DEVICE_ATTR_RW(errors);
++
++static ssize_t first_error_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
++	void __iomem *base;
++	u64 error;
++
++	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
++
++	mutex_lock(&pdata->lock);
++	error = readq(base + PORT_FIRST_ERROR);
++	mutex_unlock(&pdata->lock);
++
++	return sprintf(buf, "0x%llx\n", (unsigned long long)error);
++}
++static DEVICE_ATTR_RO(first_error);
++
++static ssize_t first_malformed_req_show(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
++	void __iomem *base;
++	u64 req0, req1;
++
++	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_ERROR);
++
++	mutex_lock(&pdata->lock);
++	req0 = readq(base + PORT_MALFORMED_REQ0);
++	req1 = readq(base + PORT_MALFORMED_REQ1);
++	mutex_unlock(&pdata->lock);
++
++	return sprintf(buf, "0x%016llx%016llx\n",
++		       (unsigned long long)req1, (unsigned long long)req0);
++}
++static DEVICE_ATTR_RO(first_malformed_req);
++
++static struct attribute *port_err_attrs[] = {
++	&dev_attr_errors.attr,
++	&dev_attr_first_error.attr,
++	&dev_attr_first_malformed_req.attr,
 +	NULL,
 +};
 +
-+ATTRIBUTE_GROUPS(ipsps);
-+
-+static struct pmbus_driver_info ipsps_info = {
-+	.pages = 1,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+		PMBUS_HAVE_IIN | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN |
-+		PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
-+		PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
-+		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
-+		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
-+	.groups = ipsps_groups,
-+};
-+
-+static struct pmbus_platform_data ipsps_pdata = {
-+	.flags = PMBUS_SKIP_STATUS_CHECK,
-+};
-+
-+static int ipsps_probe(struct i2c_client *client,
-+		       const struct i2c_device_id *id)
++static umode_t port_err_attrs_visible(struct kobject *kobj,
++				      struct attribute *attr, int n)
 +{
-+	client->dev.platform_data = &ipsps_pdata;
-+	return pmbus_do_probe(client, id, &ipsps_info);
++	struct device *dev = kobj_to_dev(kobj);
++
++	/*
++	 * sysfs entries are visible only if related private feature is
++	 * enumerated.
++	 */
++	if (!dfl_get_feature_by_id(dev, PORT_FEATURE_ID_ERROR))
++		return 0;
++
++	return attr->mode;
 +}
 +
-+static const struct i2c_device_id ipsps_id[] = {
-+	{ "inspur_ipsps1", 0 },
-+	{}
++const struct attribute_group port_err_group = {
++	.name       = "errors",
++	.attrs      = port_err_attrs,
++	.is_visible = port_err_attrs_visible,
 +};
-+MODULE_DEVICE_TABLE(i2c, ipsps_id);
 +
-+static const struct of_device_id ipsps_of_match[] = {
-+	{ .compatible = "inspur,ipsps1" },
-+	{}
++static int port_err_init(struct platform_device *pdev,
++			 struct dfl_feature *feature)
++{
++	afu_port_err_mask(&pdev->dev, false);
++
++	return 0;
++}
++
++static void port_err_uinit(struct platform_device *pdev,
++			   struct dfl_feature *feature)
++{
++	afu_port_err_mask(&pdev->dev, true);
++}
++
++const struct dfl_feature_id port_err_id_table[] = {
++	{.id = PORT_FEATURE_ID_ERROR,},
++	{0,}
 +};
-+MODULE_DEVICE_TABLE(of, ipsps_of_match);
 +
-+static struct i2c_driver ipsps_driver = {
-+	.driver = {
-+		.name = "inspur-ipsps",
-+		.of_match_table = ipsps_of_match,
++const struct dfl_feature_ops port_err_ops = {
++	.init = port_err_init,
++	.uinit = port_err_uinit,
++};
+diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+index 449185c..e11352a 100644
+--- a/drivers/fpga/dfl-afu-main.c
++++ b/drivers/fpga/dfl-afu-main.c
+@@ -518,6 +518,10 @@ static int port_afu_init(struct platform_device *pdev,
+ 		.ops = &port_afu_ops,
+ 	},
+ 	{
++		.id_table = port_err_id_table,
++		.ops = &port_err_ops,
 +	},
-+	.probe = ipsps_probe,
-+	.remove = pmbus_do_remove,
-+	.id_table = ipsps_id,
-+};
++	{
+ 		.ops = NULL,
+ 	}
+ };
+@@ -860,6 +864,7 @@ static int afu_remove(struct platform_device *pdev)
+ static const struct attribute_group *afu_dev_groups[] = {
+ 	&port_hdr_group,
+ 	&port_afu_group,
++	&port_err_group,
+ 	NULL
+ };
+ 
+diff --git a/drivers/fpga/dfl-afu.h b/drivers/fpga/dfl-afu.h
+index 83683f2..576e949 100644
+--- a/drivers/fpga/dfl-afu.h
++++ b/drivers/fpga/dfl-afu.h
+@@ -101,4 +101,9 @@ int afu_dma_map_region(struct dfl_feature_platform_data *pdata,
+ struct dfl_afu_dma_region *
+ afu_dma_region_find(struct dfl_feature_platform_data *pdata,
+ 		    u64 iova, u64 size);
 +
-+module_i2c_driver(ipsps_driver);
++extern const struct dfl_feature_ops port_err_ops;
++extern const struct dfl_feature_id port_err_id_table[];
++extern const struct attribute_group port_err_group;
 +
-+MODULE_AUTHOR("John Wang");
-+MODULE_DESCRIPTION("PMBus driver for Inspur Power System power supplies");
-+MODULE_LICENSE("GPL");
+ #endif /* __DFL_AFU_H */
 -- 
-2.17.1
+1.8.3.1
 
