@@ -1,133 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE5BC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 15:24:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 648DB7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 16:07:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727082AbfHLPYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 11:24:40 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:28767 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbfHLPYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 11:24:40 -0400
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x7CFOFVG015133;
-        Tue, 13 Aug 2019 00:24:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x7CFOFVG015133
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565623456;
-        bh=/ZLs0+GV+nR6TLnoM6cTJUiEDAyiLErBYzFGbX3v72M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OJzpQWw2Fwn/3fQ8DT/dj2bh1YFydaCAq5v8YJE8AxCIe3WPS2T5YtkW77TWjg9Tz
-         NoPYiwNyTZ1D4o7k8CKS1haSTcSef3BiTAMomiGs87V+5ICLpWQfMf9oiUGg/NdJVa
-         XR/HQovpgZ5u/XigRZl1C435CMvqiCsSUiMIch+Wvjr3r+UX2mL8LAttxrl0kqyAOH
-         GanJ99UvCbY4bHWZ/zsww5K0gRvD2Ezm7Tx8AWjUNbXiMzoe7Saef+lIqw8OrswMSy
-         VLezLRZfFoAtfQ8/5mqinYzP2XYhoQ0knpYwMA0q5isCpqxmy4PKpUdZaJ2QyPTriE
-         7FK8Zf13mX2xQ==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id r13so292799vke.12;
-        Mon, 12 Aug 2019 08:24:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAVMe2zbbQ5LGhS2eWq39HREyZFrilPa36wIzmT03ve3zkXzkpQM
-        WLG01bFqrJDQRsZ72sSK5Y+it/954scagU/RzWM=
-X-Google-Smtp-Source: APXvYqyf2GMOFUsRxNDu7JdMijybibC42MDZO/L+m1JKVxZCXdD83lEdp4K2xTiKxVjtWaNp/waolXng2NwGRKVWNbI=
-X-Received: by 2002:a1f:93cd:: with SMTP id v196mr5084585vkd.84.1565623454953;
- Mon, 12 Aug 2019 08:24:14 -0700 (PDT)
+        id S1726679AbfHLQHA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 12:07:00 -0400
+Received: from mga02.intel.com ([134.134.136.20]:14128 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726610AbfHLQHA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 12:07:00 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Aug 2019 09:06:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,378,1559545200"; 
+   d="scan'208";a="175932480"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 12 Aug 2019 09:06:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 47F5A11C; Mon, 12 Aug 2019 19:06:31 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1] kernel-doc: Allow anonymous enum
+Date:   Mon, 12 Aug 2019 19:06:31 +0300
+Message-Id: <20190812160631.32844-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190809002104.18599-1-stancheff@cray.com> <20190809002104.18599-2-stancheff@cray.com>
-In-Reply-To: <20190809002104.18599-2-stancheff@cray.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 13 Aug 2019 00:23:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-Message-ID: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kbuild: recursive build of external kernel modules
-To:     Shaun Tancheff <shaun@tancheff.com>
-Cc:     Shaun Tancheff <stancheff@cray.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Renninger <trenn@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM mailing list <linux-pm@vger.kernel.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 9, 2019 at 9:21 AM Shaun Tancheff <shaun@tancheff.com> wrote:
->
-> When building a tree of external modules stage 2 fails
-> silently as the root modules.order is empty.
->
-> Modify the modules.order location to be fixed to the
-> root when KBUILD_EXTMOD is specified and write all
-> module paths to the single modules.order file.
+In C is a valid construction to have an anonymous enumerator.
 
-Could you try v5.3-rc4 please?
+Though we have now:
 
+  drivers/pinctrl/intel/pinctrl-intel.c:240: error: Cannot parse enum!
 
+Support it in the kernel-doc script.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Shaun Tancheff <stancheff@cray.com>
-> ---
->  Makefile               | 1 +
->  scripts/Makefile.build | 8 +++++++-
->  2 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 23cdf1f41364..a9964492f47e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1622,6 +1622,7 @@ $(module-dirs): prepare $(objtree)/Module.symvers
->
->  modules: $(module-dirs)
->         @$(kecho) '  Building modules, stage 2.';
-> +       $(Q)$rm -f $(KBUILD_EXTMOD)/modules.order
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
->
->  PHONY += modules_install
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 0d434d0afc0b..f9908b3d59e0 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -64,7 +64,13 @@ builtin-target := $(obj)/built-in.a
->  endif
->
->  ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
-> +ifneq ($(KBUILD_EXTMOD),)
-> +modorder-target := $(KBUILD_EXTMOD)/modules.order
-> +modorder-add := >>
-> +else
->  modorder-target := $(obj)/modules.order
-> +modorder-add := >
-> +endif
->  endif
->
->  mod-targets := $(patsubst %.o, %.mod, $(obj-m))
-> @@ -423,7 +429,7 @@ endif # builtin-target
->  $(modorder-target): $(subdir-ym) FORCE
->         $(Q){ $(foreach m, $(modorder), \
->         $(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
-> -       | $(AWK) '!x[$$0]++' - > $@
-> +       | $(AWK) '!x[$$0]++' - $(modorder-add) $@
->
->  #
->  # Rule to compile a set of .o files into one .a file (with symbol table)
-> --
-> 2.20.1
->
-
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 6b03012750da..079502bcc5a3 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1245,7 +1245,7 @@ sub dump_enum($$) {
+     # strip #define macros inside enums
+     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
+ 
+-    if ($x =~ /enum\s+(\w+)\s*\{(.*)\}/) {
++    if ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
+ 	$declaration_name = $1;
+ 	my $members = $2;
+ 	my %_members;
 -- 
-Best Regards
-Masahiro Yamada
+2.20.1
+
