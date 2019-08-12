@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 503D17D919
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 18:26:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1F1B07D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 18:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbfHLSZH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 14:25:07 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:32872 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726976AbfHLSZB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 14:25:01 -0400
-Received: by mail-pl1-f202.google.com with SMTP id f5so11678340plr.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 11:25:01 -0700 (PDT)
+        id S1726878AbfHLSYy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 14:24:54 -0400
+Received: from mail-ua1-f74.google.com ([209.85.222.74]:35710 "EHLO
+        mail-ua1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726876AbfHLSYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 14:24:51 -0400
+Received: by mail-ua1-f74.google.com with SMTP id s1so9453718uao.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 11:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=dJI3f1SN7FHCWsT2YqJJAK+Vl1EvHBTDcI6eHyMtfac=;
-        b=TCXT4rGGA9pYgeGSCQOuwK+doWXPxrVb0AOPXxXQYGefHSTyEI76rZLOMEBucLYXJP
-         Kl/YP3d/wByIytQWP4Kex8kaDH6aXm10JGy9E26rvvCKnc3kWivdZWxW7mVjjPVG1jdc
-         B5d8cMNDdAEsb8NTNOmBKDM3Grrx/HJiMeWHQ25J7USIwDfTXkGqGcQUWCu16x4oIewF
-         ArXvn7g3xON93c+6BDTa3AZGqLIr2NI17irPbGs2Lcc+bpTd4KtL3QtbRH+aysicvRrL
-         s0pHKa7gRu0wDTB4A6uHp4C/kpR0hLfAxfUhmFjy8/5MrJWQJLRtKBIqN2ZlHzPzkuTo
-         6woA==
+        bh=1lm2vg62YgNJV8aGAtuoCBokWk9J7/vL1Y4Yz7D8cCE=;
+        b=g1hRuiMxleIXT0BCawGGy+JHLzmxgX8P5AgOGtzNB83MWOgfpGYOdtLVaZhJRCBn5j
+         7EUaXxSIuVmI8dOEwbLlAHpvypqg4NJaTgMnzPB8Xi9o1Tf3N4hcwaHMxpKAeWhYmKE1
+         HKg9+1j5B0QFSO/frOo3XEBciaAGazVei6AvmLuvu4SZRubYM4UDyTQd7is9o+Rice08
+         p06SzXmuFuDGZejA6vM8BJF8pXNw+wu+RhTlhvRreS7/sZa2P7ZkU6IPtc2p7yEnAWNk
+         nkIvxWKb2SRkf89XBvsYv/3mWe2gCAutWiZBXY7FtdpqBp6yQtWFSXZBSuDyqGaIJPSl
+         d6ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=dJI3f1SN7FHCWsT2YqJJAK+Vl1EvHBTDcI6eHyMtfac=;
-        b=dt+Pqqw9RSqk9spIkpU160YR2Y9uirnZk6vMeGbyEfUMbAtvFcXMbm/pEUTJ/nrXxD
-         knAxUZZzZoE/5+DMiYq7+PPxOT90dPccK8jFPcW8iYmyyuxtXZhhROEzs0ZQSYSxv8G2
-         UaUFLM+HEnYcLT2fmLfue5jExDN86CzK3zUDaJhrvSbPnJpFscHes0r29GeTjduFVQfm
-         q8fo6aR0pVgljZkncPCL0CcVJrOV4rQ3mLaE08glYwYr4VP9vz66s0UKJiPu4f65yDlI
-         PkRb8wV3Ra9O0kjnZNsMuMxCaGe/bExcBZh2lXeMja9ayP9hkCWFeTtUV89d+cLl2Qku
-         sj4g==
-X-Gm-Message-State: APjAAAUPw9+nyWX9RSDkf41CntmHVSclOnwCDbOle4459m263DLdnhqp
-        hRG0b0FimVnUxpPlUzn/6+IVAQHS9S37V12L4a+xDQ==
-X-Google-Smtp-Source: APXvYqw92Wf36wL6Vq2NvamqmhQfIJvYCMbrqX7shiORRX3/SG4CRBa9Fefpmbw4Gnie+/T7oijkOxElDm0pwXK0Yzhrzw==
-X-Received: by 2002:a63:e901:: with SMTP id i1mr30762084pgh.451.1565634300656;
- Mon, 12 Aug 2019 11:25:00 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 11:24:11 -0700
+        bh=1lm2vg62YgNJV8aGAtuoCBokWk9J7/vL1Y4Yz7D8cCE=;
+        b=I4bU3c9U0Wu6osHmddqAziG61kZ4+nNxHDDEDfd0JRqMUqUBfaWmgV58Tdc7e4v5l+
+         Y4xJzRKtqfGQiM5808wksqjt5/cBtaQwdy3taU+1gPUV55VMxyQA0ze7rFGme4s/Fmrf
+         tSOV/oSms+TMC4X3abVcZyPIDWyJLSydPt/6vgUvqq9etV4V/U0HPdsxYRcbcUU3XP/p
+         LJpFr2JMmSj+i+x3oQUwOoEOv8kxACz1RDQy7vGI0mDYniWhEe/PavMp2eUA8XrkV9s4
+         +tuhyBpx5fYPAaT1ZeSKsVW3XLuuukzVJHXgtUBwOSZQWl5OiOrZtQ6h+xntnyOWu3EZ
+         LlRA==
+X-Gm-Message-State: APjAAAUS6UpPijzugqgLnXUd7s2gBM938sYhuN9mazmU6gFEJx4Vlb7j
+        Uve9RE56v3F4D4H/juGk3cvLPeOk4N6hptnQ6xjrow==
+X-Google-Smtp-Source: APXvYqy/b41GTjEEX7uN1bv3CBRrVdrZKatw7/En7moeScfgED29iInB+lzlVrZxhuKtvIn/bSRPR0mQu9eZiGbmIgPVjQ==
+X-Received: by 2002:a1f:ec41:: with SMTP id k62mr3543588vkh.32.1565634289900;
+ Mon, 12 Aug 2019 11:24:49 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 11:24:07 -0700
 In-Reply-To: <20190812182421.141150-1-brendanhiggins@google.com>
-Message-Id: <20190812182421.141150-9-brendanhiggins@google.com>
+Message-Id: <20190812182421.141150-5-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190812182421.141150-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v12 08/18] objtool: add kunit_try_catch_throw to the noreturn list
+Subject: [PATCH v12 04/18] kunit: test: add assertion printing library
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -69,44 +69,371 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
-        kbuild test robot <lkp@intel.com>
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the following warning seen on GCC 7.3:
-  kunit/test-test.o: warning: objtool: kunit_test_unsuccessful_try() falls through to next function kunit_test_catch()
+Add `struct kunit_assert` and friends which provide a structured way to
+capture data from an expectation or an assertion (introduced later in
+the series) so that it may be printed out in the event of a failure.
 
-kunit_try_catch_throw is a function added in the following patch in this
-series; it allows KUnit, a unit testing framework for the kernel, to
-bail out of a broken test. As a consequence, it is a new __noreturn
-function that objtool thinks is broken (as seen above). So fix this
-warning by adding kunit_try_catch_throw to objtool's noreturn list.
-
-Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
-Link: https://www.spinics.net/lists/linux-kbuild/msg21708.html
-Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- tools/objtool/check.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/kunit/assert.h | 183 +++++++++++++++++++++++++++++++++++++++++
+ kunit/Makefile         |   3 +-
+ kunit/assert.c         | 141 +++++++++++++++++++++++++++++++
+ 3 files changed, 326 insertions(+), 1 deletion(-)
+ create mode 100644 include/kunit/assert.h
+ create mode 100644 kunit/assert.c
 
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 176f2f0840609..0c8e17f946cda 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -145,6 +145,7 @@ static bool __dead_end_function(struct objtool_file *file, struct symbol *func,
- 		"usercopy_abort",
- 		"machine_real_restart",
- 		"rewind_stack_do_exit",
-+		"kunit_try_catch_throw",
- 	};
- 
- 	if (!func)
+diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+new file mode 100644
+index 0000000000000..55f1b88b0cb4d
+--- /dev/null
++++ b/include/kunit/assert.h
+@@ -0,0 +1,183 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Assertion and expectation serialization API.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#ifndef _KUNIT_ASSERT_H
++#define _KUNIT_ASSERT_H
++
++#include <linux/err.h>
++#include <kunit/string-stream.h>
++
++struct kunit;
++
++enum kunit_assert_type {
++	KUNIT_ASSERTION,
++	KUNIT_EXPECTATION,
++};
++
++struct kunit_assert {
++	struct kunit *test;
++	enum kunit_assert_type type;
++	int line;
++	const char *file;
++	struct va_format message;
++	void (*format)(const struct kunit_assert *assert,
++		       struct string_stream *stream);
++};
++
++#define KUNIT_INIT_VA_FMT_NULL { .fmt = NULL, .va = NULL }
++
++#define KUNIT_INIT_ASSERT_STRUCT(kunit, assert_type, fmt) {		       \
++	.test = kunit,							       \
++	.type = assert_type,						       \
++	.file = __FILE__,						       \
++	.line = __LINE__,						       \
++	.message = KUNIT_INIT_VA_FMT_NULL,				       \
++	.format = fmt							       \
++}
++
++void kunit_base_assert_format(const struct kunit_assert *assert,
++			      struct string_stream *stream);
++
++void kunit_assert_print_msg(const struct kunit_assert *assert,
++			    struct string_stream *stream);
++
++struct kunit_fail_assert {
++	struct kunit_assert assert;
++};
++
++void kunit_fail_assert_format(const struct kunit_assert *assert,
++			      struct string_stream *stream);
++
++#define KUNIT_INIT_FAIL_ASSERT_STRUCT(test, type) {			       \
++		.assert = KUNIT_INIT_ASSERT_STRUCT(test,		       \
++						   type,		       \
++						   kunit_fail_assert_format)   \
++}
++
++struct kunit_unary_assert {
++	struct kunit_assert assert;
++	const char *condition;
++	bool expected_true;
++};
++
++void kunit_unary_assert_format(const struct kunit_assert *assert,
++			       struct string_stream *stream);
++
++#define KUNIT_INIT_UNARY_ASSERT_STRUCT(test, type, cond, expect_true) {	       \
++	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
++					   type,			       \
++					   kunit_unary_assert_format),	       \
++	.condition = cond,						       \
++	.expected_true = expect_true					       \
++}
++
++struct kunit_ptr_not_err_assert {
++	struct kunit_assert assert;
++	const char *text;
++	const void *value;
++};
++
++void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
++				     struct string_stream *stream);
++
++#define KUNIT_INIT_PTR_NOT_ERR_STRUCT(test, type, txt, val) {		       \
++	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
++					   type,			       \
++					   kunit_ptr_not_err_assert_format),   \
++	.text = txt,							       \
++	.value = val							       \
++}
++
++struct kunit_binary_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	long long left_value;
++	const char *right_text;
++	long long right_value;
++};
++
++void kunit_binary_assert_format(const struct kunit_assert *assert,
++				struct string_stream *stream);
++
++#define KUNIT_INIT_BINARY_ASSERT_STRUCT(test,				       \
++					type,				       \
++					op_str,				       \
++					left_str,			       \
++					left_val,			       \
++					right_str,			       \
++					right_val) {			       \
++	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
++					   type,			       \
++					   kunit_binary_assert_format),	       \
++	.operation = op_str,						       \
++	.left_text = left_str,						       \
++	.left_value = left_val,						       \
++	.right_text = right_str,					       \
++	.right_value = right_val					       \
++}
++
++struct kunit_binary_ptr_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	const void *left_value;
++	const char *right_text;
++	const void *right_value;
++};
++
++void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
++				    struct string_stream *stream);
++
++#define KUNIT_INIT_BINARY_PTR_ASSERT_STRUCT(test,			       \
++					    type,			       \
++					    op_str,			       \
++					    left_str,			       \
++					    left_val,			       \
++					    right_str,			       \
++					    right_val) {		       \
++	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
++					   type,			       \
++					   kunit_binary_ptr_assert_format),    \
++	.operation = op_str,						       \
++	.left_text = left_str,						       \
++	.left_value = left_val,						       \
++	.right_text = right_str,					       \
++	.right_value = right_val					       \
++}
++
++struct kunit_binary_str_assert {
++	struct kunit_assert assert;
++	const char *operation;
++	const char *left_text;
++	const char *left_value;
++	const char *right_text;
++	const char *right_value;
++};
++
++void kunit_binary_str_assert_format(const struct kunit_assert *assert,
++				    struct string_stream *stream);
++
++#define KUNIT_INIT_BINARY_STR_ASSERT_STRUCT(test,			       \
++					    type,			       \
++					    op_str,			       \
++					    left_str,			       \
++					    left_val,			       \
++					    right_str,			       \
++					    right_val) {		       \
++	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
++					   type,			       \
++					   kunit_binary_str_assert_format),    \
++	.operation = op_str,						       \
++	.left_text = left_str,						       \
++	.left_value = left_val,						       \
++	.right_text = right_str,					       \
++	.right_value = right_val					       \
++}
++
++#endif /*  _KUNIT_ASSERT_H */
+diff --git a/kunit/Makefile b/kunit/Makefile
+index 275b565a0e81f..6dcbe309036b8 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_KUNIT) +=			test.o \
+-					string-stream.o
++					string-stream.o \
++					assert.o
+diff --git a/kunit/assert.c b/kunit/assert.c
+new file mode 100644
+index 0000000000000..86013d4cf891c
+--- /dev/null
++++ b/kunit/assert.c
+@@ -0,0 +1,141 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Assertion and expectation serialization API.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++#include <kunit/assert.h>
++
++void kunit_base_assert_format(const struct kunit_assert *assert,
++			      struct string_stream *stream)
++{
++	const char *expect_or_assert = NULL;
++
++	switch (assert->type) {
++	case KUNIT_EXPECTATION:
++		expect_or_assert = "EXPECTATION";
++		break;
++	case KUNIT_ASSERTION:
++		expect_or_assert = "ASSERTION";
++		break;
++	}
++
++	string_stream_add(stream, "%s FAILED at %s:%d\n",
++			 expect_or_assert, assert->file, assert->line);
++}
++
++void kunit_assert_print_msg(const struct kunit_assert *assert,
++			    struct string_stream *stream)
++{
++	if (assert->message.fmt)
++		string_stream_add(stream, "\n%pV", &assert->message);
++}
++
++void kunit_fail_assert_format(const struct kunit_assert *assert,
++			      struct string_stream *stream)
++{
++	kunit_base_assert_format(assert, stream);
++	string_stream_add(stream, "%pV", &assert->message);
++}
++
++void kunit_unary_assert_format(const struct kunit_assert *assert,
++			       struct string_stream *stream)
++{
++	struct kunit_unary_assert *unary_assert = container_of(
++			assert, struct kunit_unary_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	if (unary_assert->expected_true)
++		string_stream_add(stream,
++				 "\tExpected %s to be true, but is false\n",
++				 unary_assert->condition);
++	else
++		string_stream_add(stream,
++				 "\tExpected %s to be false, but is true\n",
++				 unary_assert->condition);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
++				     struct string_stream *stream)
++{
++	struct kunit_ptr_not_err_assert *ptr_assert = container_of(
++			assert, struct kunit_ptr_not_err_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	if (!ptr_assert->value) {
++		string_stream_add(stream,
++				 "\tExpected %s is not null, but is\n",
++				 ptr_assert->text);
++	} else if (IS_ERR(ptr_assert->value)) {
++		string_stream_add(stream,
++				 "\tExpected %s is not error, but is: %ld\n",
++				 ptr_assert->text,
++				 PTR_ERR(ptr_assert->value));
++	}
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_assert_format(const struct kunit_assert *assert,
++				struct string_stream *stream)
++{
++	struct kunit_binary_assert *binary_assert = container_of(
++			assert, struct kunit_binary_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	string_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	string_stream_add(stream, "\t\t%s == %lld\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	string_stream_add(stream, "\t\t%s == %lld",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
++				    struct string_stream *stream)
++{
++	struct kunit_binary_ptr_assert *binary_assert = container_of(
++			assert, struct kunit_binary_ptr_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	string_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	string_stream_add(stream, "\t\t%s == %pK\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	string_stream_add(stream, "\t\t%s == %pK",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
++
++void kunit_binary_str_assert_format(const struct kunit_assert *assert,
++				    struct string_stream *stream)
++{
++	struct kunit_binary_str_assert *binary_assert = container_of(
++			assert, struct kunit_binary_str_assert, assert);
++
++	kunit_base_assert_format(assert, stream);
++	string_stream_add(stream,
++			 "\tExpected %s %s %s, but\n",
++			 binary_assert->left_text,
++			 binary_assert->operation,
++			 binary_assert->right_text);
++	string_stream_add(stream, "\t\t%s == %s\n",
++			 binary_assert->left_text,
++			 binary_assert->left_value);
++	string_stream_add(stream, "\t\t%s == %s",
++			 binary_assert->right_text,
++			 binary_assert->right_value);
++	kunit_assert_print_msg(assert, stream);
++}
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
