@@ -1,236 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DE987D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 12:01:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F18937D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 13:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbfHLMBf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 08:01:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:49134 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726483AbfHLMBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Aug 2019 08:01:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BA9915AB;
-        Mon, 12 Aug 2019 05:01:34 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 450AC3F706;
-        Mon, 12 Aug 2019 05:01:33 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 13:01:26 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Ganapatrao Kulkarni <gkulkarni@marvell.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Jan Glauber <jglauber@marvell.com>,
-        "gklkml16@gmail.com" <gklkml16@gmail.com>
-Subject: Re: [PATCH v3 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-Message-ID: <20190812120125.GA50712@lakrids.cambridge.arm.com>
-References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
- <1563873380-2003-3-git-send-email-gkulkarni@marvell.com>
+        id S1728815AbfHLNDO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 09:03:14 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36654 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728651AbfHLNDN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 09:03:13 -0400
+Received: by mail-pf1-f194.google.com with SMTP id r7so49661024pfl.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 06:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9PGFo0IOTBF0bIx7y/QxiVY31P4bvTcKQoBfJqZTG+w=;
+        b=PwGI0wkwa6ZBvzJS2WowZtgp5DVi7QPH+BrB9p0HCfQcxpdzKqQgPTHdIAl3D1o9Ui
+         UwguTSYRYWuAd3qrqhfjY+51MrRtaJizalVxHqxwXrlJqDBvavY40TWKCBgS4IeFRTPK
+         AfF57tOE8WhINap7lLBY+lYVRyduY9cx0H4rc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9PGFo0IOTBF0bIx7y/QxiVY31P4bvTcKQoBfJqZTG+w=;
+        b=MuzcatDoeN1fGXcPRZ9hofTRkt3Kza8j1UaScEZKuZcAe0Naa95b1Kp9BCBvvRllX7
+         chVfMi/SMQegTMiYSOJqMhtWGQ96N3LWw+TRwMYM1Qn5DhbkFOPcZy3H4hxWIpGATc+G
+         ZW4SnBfOZHngTy6Hm2LvIiRtDDSJhNVrs9cegz5QYMFR2j1N52GfD+/Sv8XZL8+cAUed
+         +1/ZINuDC3+pqYWajIg4GwQCVdDVm2cofo/hN0O8CKIu+Nr952wjpiDmfg5EjmktIsm7
+         3bcBtMs/pkButA4BGfXPf3ZmUEJkRUAT4myLwnI9T42xFhSiWt3oE+AmBftr5PiQy8L1
+         KdIA==
+X-Gm-Message-State: APjAAAX5hFP9haAqZrtRw/UxxuSL+8etLEhquintZ3cpisdRoEAGcR7p
+        EHwIRbolEgFmGlB45OA4apXtsA==
+X-Google-Smtp-Source: APXvYqyz6EmE0iTkl3gZlNovk6A/dv0bMJdkggbBqQc3eqErF9H/OyeJ1CsBomxTPL6iok8vEgG0pQ==
+X-Received: by 2002:a17:90a:ec07:: with SMTP id l7mr18571059pjy.39.1565614992605;
+        Mon, 12 Aug 2019 06:03:12 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id o3sm25222103pje.1.2019.08.12.06.03.11
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 12 Aug 2019 06:03:11 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 09:03:10 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, kbuild test robot <lkp@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH 3/3] driver/core: Fix build error when SRCU and lockdep
+ disabled
+Message-ID: <20190812130310.GA27552@google.com>
+References: <20190811221111.99401-1-joel@joelfernandes.org>
+ <20190811221111.99401-3-joel@joelfernandes.org>
+ <20190812050256.GC5834@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1563873380-2003-3-git-send-email-gkulkarni@marvell.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+In-Reply-To: <20190812050256.GC5834@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 09:16:28AM +0000, Ganapatrao Kulkarni wrote:
-> CCPI2 is a low-latency high-bandwidth serial interface for connecting
-> ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
-
-It would be worth pointing out in the commit message how the CCPI2
-counters differ from the others. I realise you have that in the body of
-patch 1, but it's critical information when reviewing this patch...
-
+On Mon, Aug 12, 2019 at 07:02:56AM +0200, Greg Kroah-Hartman wrote:
+> On Sun, Aug 11, 2019 at 06:11:11PM -0400, Joel Fernandes (Google) wrote:
+> > Properly check if lockdep lock checking is disabled at config time. If
+> > so, then lock_is_held() is undefined so don't do any checking.
+> > 
+> > This fix is similar to the pattern used in srcu_read_lock_held().
+> > 
+> > Link: https://lore.kernel.org/lkml/201908080026.WSAFx14k%25lkp@intel.com/
+> > Fixes: c9e4d3a2fee8 ("acpi: Use built-in RCU list checking for acpi_ioremaps list")
 > 
-> Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
-> ---
->  drivers/perf/thunderx2_pmu.c | 248 ++++++++++++++++++++++++++++++-----
->  1 file changed, 214 insertions(+), 34 deletions(-)
+> What tree is this commit in?
 > 
-> diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-> index 43d76c85da56..a4e1273eafa3 100644
-> --- a/drivers/perf/thunderx2_pmu.c
-> +++ b/drivers/perf/thunderx2_pmu.c
-> @@ -17,22 +17,31 @@
->   */
->  
->  #define TX2_PMU_MAX_COUNTERS		4
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > ---
+> > This patch is based on the -rcu dev branch.
+> 
+> Ah...
+> 
+> >  drivers/base/core.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/base/core.c b/drivers/base/core.c
+> > index 32cf83d1c744..fe25cf690562 100644
+> > --- a/drivers/base/core.c
+> > +++ b/drivers/base/core.c
+> > @@ -99,7 +99,11 @@ void device_links_read_unlock(int not_used)
+> >  
+> >  int device_links_read_lock_held(void)
+> >  {
+> > -	return lock_is_held(&device_links_lock);
+> > +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > +	return lock_is_held(&(device_links_lock.dep_map));
+> > +#else
+> > +	return 1;
+> > +#endif
+> 
+> return 1?  So the lock is always held?
 
-Shouldn't this be 8 now?
+This is just the pattern of an assert that is disabled, so that
+false-positives don't happen if lockdep is disabled.
 
-[...]
+So say someone writes a statement like:
+WARN_ON_ONCE(!device_links_read_lock_held());
 
->  /*
-> - * pmu on each socket has 2 uncore devices(dmc and l3c),
-> - * each device has 4 counters.
-> + * pmu on each socket has 3 uncore devices(dmc, l3ci and ccpi2),
-> + * dmc and l3c has 4 counters and ccpi2 8.
->   */
+Since lockdep is disabled, we cannot check whether lock is held or not. Yet,
+we don't want false positives by reporting that the lock is not held. In this
+case, it is better to report that the lock is held to suppress
+false-positives.  srcu_read_lock_held() also follows the same pattern.
 
-How about:
+thanks,
 
-/*
- * Each socket has 3 uncore device associated with a PMU. The DMC and
- * L3C have 4 32-bit counters, and the CCPI2 has 8 64-bit counters.
- */
+ - Joel
 
->  struct tx2_uncore_pmu {
->  	struct hlist_node hpnode;
-> @@ -69,12 +86,14 @@ struct tx2_uncore_pmu {
->  	int node;
->  	int cpu;
->  	u32 max_counters;
-> +	u32 counters_mask;
->  	u32 prorate_factor;
->  	u32 max_events;
-> +	u32 events_mask;
->  	u64 hrtimer_interval;
->  	void __iomem *base;
->  	DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
-
-This bitmap isn't big enough for the 4 new counters.
-
-> -	struct perf_event *events[TX2_PMU_MAX_COUNTERS];
-> +	struct perf_event **events;
-
-As above, can't we bump TX2_PMU_MAX_COUNTERS to 8 rather than making
-this a dynamic allocation?
-
-[...]
-
->  static inline u32 reg_readl(unsigned long addr)
->  {
->  	return readl((void __iomem *)addr);
->  }
->  
-> +static inline u32 reg_readq(unsigned long addr)
-> +{
-> +	return readq((void __iomem *)addr);
-> +}
-
-Presumably reg_readq() should return a u64.
-
-[...]
-
-> +static void uncore_start_event_ccpi2(struct perf_event *event, int flags)
-> +{
-> +	u32 emask;
-> +	struct hw_perf_event *hwc = &event->hw;
-> +	struct tx2_uncore_pmu *tx2_pmu;
-> +
-> +	tx2_pmu = pmu_to_tx2_pmu(event->pmu);
-> +	emask = tx2_pmu->events_mask;
-> +
-> +	/* Bit [09:00] to set event id, set level and type to 1 */
-> +	reg_writel((3 << 10) |
-
-Do you mean that bits [11:10] are level and type?
-
-What exactly are 'level' and 'type'?
-
-Can we give those bits mnemonics?
-
-> +			GET_EVENTID(event, emask), hwc->config_base);
-> +	/* reset[4], enable[0] and start[1] counters */
-
-Rather than using magic numbers everywhere, please give these mnemonics,
-e.g.
-
-#define CCPI2_PERF_CTL_ENABLE	BIT(0)
-#define CCPI2_PERF_CTL_START	BIT(1)
-#define CCPI2_PERF_CTL_RESET	BIT(4)
-
-> +	reg_writel(0x13, hwc->event_base + CCPI2_PERF_CTL);
-
-... and then you can OR them in here:
-
-	ctl = CCPI2_PERF_CTL_ENABLE |
-	      CCPI2_PERF_CTL_START |
-	      CCPI2_PERF_CTL_RESET;
-	reg_writel(ctl, hwc->event_base + CCPI2_PERF_CTL);
-
-[...]
-
-> @@ -456,8 +603,9 @@ static void tx2_uncore_event_start(struct perf_event *event, int flags)
->  	tx2_pmu->start_event(event, flags);
->  	perf_event_update_userpage(event);
->  
-> -	/* Start timer for first event */
-> -	if (bitmap_weight(tx2_pmu->active_counters,
-> +	/* Start timer for first non ccpi2 event */
-> +	if (tx2_pmu->type != PMU_TYPE_CCPI2 &&
-> +			bitmap_weight(tx2_pmu->active_counters,
->  				tx2_pmu->max_counters) == 1) {
->  		hrtimer_start(&tx2_pmu->hrtimer,
->  			ns_to_ktime(tx2_pmu->hrtimer_interval),
-
-This would be easier to read as two statements:
-
-	/* No hrtimer needed with 64-bit counters */
-	if (tx2_pmu->type == PMU_TYPE_CCPI2)
-		return;
-	
-	/* Start timer for first event */
-	if (bitmap_weight(tx2_pmu->active_counters,
-	    tx2_pmu->max_counters) != 1) {
-	    	...
-	}
-
-> @@ -495,7 +643,8 @@ static int tx2_uncore_event_add(struct perf_event *event, int flags)
->  	if (hwc->idx < 0)
->  		return -EAGAIN;
->  
-> -	tx2_pmu->events[hwc->idx] = event;
-> +	if (tx2_pmu->events)
-> +		tx2_pmu->events[hwc->idx] = event;
-
-So this is NULL for CCPI2?
-
-I guess we don't strictly need the if we don't have a hrtimer to update
-event counts, but this makes the code more complicated than it needs to
-be.
-
-[...]
-
-> @@ -580,8 +732,12 @@ static int tx2_uncore_pmu_add_dev(struct tx2_uncore_pmu *tx2_pmu)
->  			cpu_online_mask);
->  
->  	tx2_pmu->cpu = cpu;
-> -	hrtimer_init(&tx2_pmu->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> -	tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
-> +	/* CCPI2 counters are 64 bit counters, no overflow  */
-> +	if (tx2_pmu->type != PMU_TYPE_CCPI2) {
-> +		hrtimer_init(&tx2_pmu->hrtimer,
-> +				CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +		tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
-> +	}
-
-Hmmm... this means that tx2_pmu->hrtimer.function is NULL for the CCPI2
-PMU. I think it would be best to check that when (re)programming the
-counters rather than the PMU type. For example, in
-tx2_uncore_event_start() we could have:
-
-	if (!tx2_pmu->hrtimer.function)
-		return;
-	if (bitmap_weight(tx2_pmu->active_counters,
-	    tx2_pmu->max_counters) != 1) {
-	    	...
-	}
-
-Thanks,
-Mark.
