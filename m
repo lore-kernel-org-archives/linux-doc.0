@@ -1,322 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 584887D91B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 18:26:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2006F7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Aug 2019 18:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbfHLS0X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Aug 2019 14:26:23 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:46865 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbfHLSYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Aug 2019 14:24:48 -0400
-Received: by mail-pl1-f202.google.com with SMTP id k9so61596446pls.13
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2019 11:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=pJv5HABph5FUlcwnI++MYtn3UsN0gFtrxBAJYf9YQW0=;
-        b=QEpE3GjsD9zFKs71nGTBAfMyLainCV5U3pvyn3IyTeO9b70dASmJQOSw/n5m7axwBT
-         2jDnpN75NrkG/5zQZSVNXgHcEfW1LTtf0/wA4UuLHuBdvWaSOicAx2Qb/uyPkYiCCW0J
-         9jB3FNeAlkTkONPoAgF/FLWAgm2LDH9m12q5u8laOFDLP7h80vn4IpQvFwA+3W2Em6Gy
-         6AyR3fRxLR/3JtnuiDf2V6xnihPgw1v1l0RAWfSACs5EhSLkIMket85QzpcLinHsAXEq
-         JnTwG9iSbnHi8TqgQV0yVQshi9oWq/d1ma54ECb8Ovyk4eA3PFn3kk6XZMKKjBacrcWM
-         CSAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=pJv5HABph5FUlcwnI++MYtn3UsN0gFtrxBAJYf9YQW0=;
-        b=dc5ydr27qUu1xcl2N5K2+xZQ8ZDt8Hz2221Y2kDtSy8VDrb2SBRn5jSL0Fcxqkah6L
-         1rP7CRdK80nFICKq5/lEyq7vJ/kVhQqiQBKjUfcGU+AOrkMDAoaOydJofTHqCIVNbPmu
-         Tju1EjN9N50iA0nQirqpPntMpkjRo/VzgbkOI0jasQNM/HozOViQw987Lcq8U+tY/0ql
-         15g/BMVSOBWaLsUwg3mDvk2vnaxRulNE89kdOhv9wKR6lOPJornd9Ue9zUeiAZS9UHGs
-         /ZAGaTEp4jPoGAiwR2Ywsvq7f04fuE96LihRav6tkta5cerdVZTDPm7S0qU7Oue0QOhQ
-         rF+w==
-X-Gm-Message-State: APjAAAUtzcRBsKLr8x2nX7mCftYUxVZEYynuXh0pEy+HwhcUdhlwC56u
-        DirlEs5aTZDPBAfMOCtMyXhCYLPMN4g1AF+xRVzkMg==
-X-Google-Smtp-Source: APXvYqw4sOn9Y9TlUOBo/vo3Nnszkv9bDrP6M0fzpcRJtFWD0bGjJRxxqAdM5K0WV6WkEV1R6TncbxAp4kQa3YgEhxHreQ==
-X-Received: by 2002:a63:c008:: with SMTP id h8mr32244105pgg.427.1565634286919;
- Mon, 12 Aug 2019 11:24:46 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 11:24:06 -0700
-In-Reply-To: <20190812182421.141150-1-brendanhiggins@google.com>
-Message-Id: <20190812182421.141150-4-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190812182421.141150-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v12 03/18] kunit: test: add string_stream a std::stream like
- string builder
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+        id S1726594AbfHLS6g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Aug 2019 14:58:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44654 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726090AbfHLS6g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Aug 2019 14:58:36 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 306C22075B;
+        Mon, 12 Aug 2019 18:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565636315;
+        bh=R7sUkUsIyBVyM0xgwC6ssrjHDpSaec6rd52f5BsBnQI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Q/p1uiloLNDD1JaGaTSp7kW8zk6vGVCwMeJHmjWRFZ8xwSTKj2dI3Ll9JxRE/wjhA
+         0vRCmaNuDX7okExuF58HoslSn7oeke6LU1HaWU5rDPsFMYcd3uQH/hUXkooSdx8cB1
+         vpIN7FKvtlyV9vVkX4BVNAmJyb9jELe++tKI/mho=
+Received: by mail-qt1-f181.google.com with SMTP id d17so24954019qtj.8;
+        Mon, 12 Aug 2019 11:58:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAVGHbemEwBJFHf1Jtvv+l8cvSLR9PHLg2SzzEcbJ7TcphuXfu2g
+        +6DzzxYwecPD5PzEFYtLJmnhSlki1jOQNc15Tg==
+X-Google-Smtp-Source: APXvYqzFjlTyS2m8jvSL/rEOx3inN5YXegwV3lD2MVMO9vmnvZIOtTu5uyTMAAy7H8+QyiC/chnN1YS23chwygY3KUU=
+X-Received: by 2002:ac8:44c4:: with SMTP id b4mr19765999qto.224.1565636314436;
+ Mon, 12 Aug 2019 11:58:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190809112853.15846-1-stefan-gabriel.mirea@nxp.com> <20190809112853.15846-2-stefan-gabriel.mirea@nxp.com>
+In-Reply-To: <20190809112853.15846-2-stefan-gabriel.mirea@nxp.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 12 Aug 2019 12:58:22 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJkTzcUnDCoWH9DP9LpwpdBh3wWHzPVfg=ieTTZet92pw@mail.gmail.com>
+Message-ID: <CAL_JsqJkTzcUnDCoWH9DP9LpwpdBh3wWHzPVfg=ieTTZet92pw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: arm: fsl: Add the S32V234-EVB board
+To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Eddy Petrisor <eddy.petrisor@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A number of test features need to do pretty complicated string printing
-where it may not be possible to rely on a single preallocated string
-with parameters.
+On Fri, Aug 9, 2019 at 5:29 AM Stefan-gabriel Mirea
+<stefan-gabriel.mirea@nxp.com> wrote:
+>
+> From: Eddy Petri=C8=99or <eddy.petrisor@nxp.com>
+>
+> Add entry for the NXP S32V234 Customer Evaluation Board to the board/SoC
+> bindings.
+>
+> Signed-off-by: Eddy Petri=C8=99or <eddy.petrisor@nxp.com>
+> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/arm/fsl.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-So provide a library for constructing the string as you go similar to
-C++'s std::string. string_stream is really just a string builder,
-nothing more.
-
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
----
- include/kunit/string-stream.h |  49 +++++++++++
- kunit/Makefile                |   3 +-
- kunit/string-stream.c         | 152 ++++++++++++++++++++++++++++++++++
- 3 files changed, 203 insertions(+), 1 deletion(-)
- create mode 100644 include/kunit/string-stream.h
- create mode 100644 kunit/string-stream.c
-
-diff --git a/include/kunit/string-stream.h b/include/kunit/string-stream.h
-new file mode 100644
-index 0000000000000..4fa107e38deb5
---- /dev/null
-+++ b/include/kunit/string-stream.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * C++ stream style string builder used in KUnit for building messages.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ * Author: Brendan Higgins <brendanhiggins@google.com>
-+ */
-+
-+#ifndef _KUNIT_STRING_STREAM_H
-+#define _KUNIT_STRING_STREAM_H
-+
-+#include <linux/types.h>
-+#include <linux/spinlock.h>
-+#include <stdarg.h>
-+
-+struct string_stream_fragment {
-+	struct list_head node;
-+	char *fragment;
-+};
-+
-+struct string_stream {
-+	size_t length;
-+	struct list_head fragments;
-+	/* length and fragments are protected by this lock */
-+	spinlock_t lock;
-+	struct kunit *test;
-+	gfp_t gfp;
-+};
-+
-+struct kunit;
-+
-+struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp);
-+
-+int string_stream_add(struct string_stream *stream, const char *fmt, ...);
-+
-+int string_stream_vadd(struct string_stream *stream,
-+		       const char *fmt,
-+		       va_list args);
-+
-+char *string_stream_get_string(struct string_stream *stream);
-+
-+int string_stream_append(struct string_stream *stream,
-+			 struct string_stream *other);
-+
-+void string_stream_clear(struct string_stream *stream);
-+
-+bool string_stream_is_empty(struct string_stream *stream);
-+
-+#endif /* _KUNIT_STRING_STREAM_H */
-diff --git a/kunit/Makefile b/kunit/Makefile
-index 5efdc4dea2c08..275b565a0e81f 100644
---- a/kunit/Makefile
-+++ b/kunit/Makefile
-@@ -1 +1,2 @@
--obj-$(CONFIG_KUNIT) +=			test.o
-+obj-$(CONFIG_KUNIT) +=			test.o \
-+					string-stream.o
-diff --git a/kunit/string-stream.c b/kunit/string-stream.c
-new file mode 100644
-index 0000000000000..bcd56d6755544
---- /dev/null
-+++ b/kunit/string-stream.c
-@@ -0,0 +1,152 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * C++ stream style string builder used in KUnit for building messages.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ * Author: Brendan Higgins <brendanhiggins@google.com>
-+ */
-+
-+#include <linux/list.h>
-+#include <linux/slab.h>
-+#include <kunit/string-stream.h>
-+#include <kunit/test.h>
-+
-+int string_stream_vadd(struct string_stream *stream,
-+		       const char *fmt,
-+		       va_list args)
-+{
-+	struct string_stream_fragment *frag_container;
-+	int len;
-+	va_list args_for_counting;
-+
-+	/* Make a copy because `vsnprintf` could change it */
-+	va_copy(args_for_counting, args);
-+
-+	/* Need space for null byte. */
-+	len = vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
-+
-+	va_end(args_for_counting);
-+
-+	frag_container = kunit_kmalloc(stream->test, sizeof(*frag_container),
-+				       stream->gfp);
-+	if (!frag_container)
-+		return -ENOMEM;
-+
-+	frag_container->fragment = kunit_kmalloc(stream->test, len,
-+						 stream->gfp);
-+	if (!frag_container->fragment)
-+		return -ENOMEM;
-+
-+	len = vsnprintf(frag_container->fragment, len, fmt, args);
-+	spin_lock(&stream->lock);
-+	stream->length += len;
-+	list_add_tail(&frag_container->node, &stream->fragments);
-+	spin_unlock(&stream->lock);
-+
-+	return 0;
-+}
-+
-+int string_stream_add(struct string_stream *stream, const char *fmt, ...)
-+{
-+	va_list args;
-+	int result;
-+
-+	va_start(args, fmt);
-+	result = string_stream_vadd(stream, fmt, args);
-+	va_end(args);
-+
-+	return result;
-+}
-+
-+void string_stream_clear(struct string_stream *stream)
-+{
-+	struct string_stream_fragment *frag_container, *frag_container_safe;
-+
-+	spin_lock(&stream->lock);
-+	list_for_each_entry_safe(frag_container,
-+				 frag_container_safe,
-+				 &stream->fragments,
-+				 node) {
-+		list_del(&frag_container->node);
-+	}
-+	stream->length = 0;
-+	spin_unlock(&stream->lock);
-+}
-+
-+char *string_stream_get_string(struct string_stream *stream)
-+{
-+	struct string_stream_fragment *frag_container;
-+	size_t buf_len = stream->length + 1; /* +1 for null byte. */
-+	char *buf;
-+
-+	buf = kunit_kzalloc(stream->test, buf_len, stream->gfp);
-+	if (!buf)
-+		return NULL;
-+
-+	spin_lock(&stream->lock);
-+	list_for_each_entry(frag_container, &stream->fragments, node)
-+		strlcat(buf, frag_container->fragment, buf_len);
-+	spin_unlock(&stream->lock);
-+
-+	return buf;
-+}
-+
-+int string_stream_append(struct string_stream *stream,
-+			 struct string_stream *other)
-+{
-+	const char *other_content;
-+
-+	other_content = string_stream_get_string(other);
-+
-+	if (!other_content)
-+		return -ENOMEM;
-+
-+	return string_stream_add(stream, other_content);
-+}
-+
-+bool string_stream_is_empty(struct string_stream *stream)
-+{
-+	return list_empty(&stream->fragments);
-+}
-+
-+struct string_stream_alloc_context {
-+	struct kunit *test;
-+	gfp_t gfp;
-+};
-+
-+static int string_stream_init(struct kunit_resource *res, void *context)
-+{
-+	struct string_stream *stream;
-+	struct string_stream_alloc_context *ctx = context;
-+
-+	stream = kunit_kzalloc(ctx->test, sizeof(*stream), ctx->gfp);
-+	if (!stream)
-+		return -ENOMEM;
-+
-+	res->allocation = stream;
-+	stream->gfp = ctx->gfp;
-+	stream->test = ctx->test;
-+	INIT_LIST_HEAD(&stream->fragments);
-+	spin_lock_init(&stream->lock);
-+
-+	return 0;
-+}
-+
-+static void string_stream_free(struct kunit_resource *res)
-+{
-+	/* Nothing to do since everything is already a KUnit managed resource */
-+}
-+
-+struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp)
-+{
-+	struct string_stream_alloc_context context = {
-+		.test = test,
-+		.gfp = gfp
-+	};
-+
-+	return kunit_alloc_resource(test,
-+				    string_stream_init,
-+				    string_stream_free,
-+				    gfp,
-+				    &context);
-+}
--- 
-2.23.0.rc1.153.gdeed80330f-goog
-
+Reviewed-by: Rob Herring <robh@kernel.org>
