@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B76E87DE5B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 21:04:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB0237D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 21:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727385AbfHMVEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 17:04:13 -0400
+        id S1727229AbfHMVDm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 17:03:42 -0400
 Received: from mga09.intel.com ([134.134.136.24]:18661 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727253AbfHMVDo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:03:44 -0400
+        id S1726957AbfHMVDl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:03:41 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:42 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
-   d="scan'208";a="194276005"
+   d="scan'208";a="194275971"
 Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:42 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:39 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -49,9 +49,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v8 13/14] x86: Discard .note.gnu.property sections
-Date:   Tue, 13 Aug 2019 13:53:58 -0700
-Message-Id: <20190813205359.12196-14-yu-cheng.yu@intel.com>
+Subject: [PATCH v8 04/14] mm/mmap: Add IBT bitmap size to address space limit check
+Date:   Tue, 13 Aug 2019 13:53:49 -0700
+Message-Id: <20190813205359.12196-5-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190813205359.12196-1-yu-cheng.yu@intel.com>
 References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
@@ -60,74 +60,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+The indirect branch tracking legacy bitmap takes a large address
+space.  This causes may_expand_vm() failure on the address limit
+check.  For a IBT-enabled task, add the bitmap size to the
+address limit.
 
-With the command-line option, -mx86-used-note=yes, the x86 assembler
-in binutils 2.32 and above generates a program property note in a note
-section, .note.gnu.property, to encode used x86 ISAs and features.
-To exclude .note.gnu.property sections from NOTE segment in x86 kernel
-linker script:
-
-PHDRS {
- text PT_LOAD FLAGS(5);
- data PT_LOAD FLAGS(6);
- percpu PT_LOAD FLAGS(6);
- init PT_LOAD FLAGS(7);
- note PT_NOTE FLAGS(0);
-}
-SECTIONS
-{
-...
- .notes : AT(ADDR(.notes) - 0xffffffff80000000) { __start_notes = .; KEEP(*(.not
-e.*)) __stop_notes = .; } :text :note
-...
-}
-
-this patch discards .note.gnu.property sections in kernel linker script
-by adding
-
- /DISCARD/ : {
-  *(.note.gnu.property)
- }
-
-before .notes sections.  Since .exit.text and .exit.data sections are
-discarded at runtime, it undefines EXIT_TEXT and EXIT_DATA to exclude
-.exit.text and .exit.data sections from default discarded sections.
-
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/kernel/vmlinux.lds.S | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/x86/include/asm/mmu_context.h | 10 ++++++++++
+ mm/mmap.c                          | 19 ++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index e2feacf921a0..5ef137493a85 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -146,6 +146,10 @@ SECTIONS
- 		_etext = .;
- 	} :text = 0x9090
+diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
+index a9a768529540..e18e89ef332d 100644
+--- a/arch/x86/include/asm/mmu_context.h
++++ b/arch/x86/include/asm/mmu_context.h
+@@ -360,6 +360,16 @@ static inline unsigned long __get_current_cr3_fast(void)
+ 	return cr3;
+ }
  
-+	/* .note.gnu.property sections should be discarded */
-+	/DISCARD/ : {
-+		*(.note.gnu.property)
-+	}
- 	NOTES :text :note
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++static inline unsigned long arch_as_limit(void)
++{
++	if (current->thread.cet.ibt_enabled)
++		return IBT_BITMAP_SIZE;
++	else
++		return 0;
++}
++#endif
++
+ typedef struct {
+ 	struct mm_struct *mm;
+ } temp_mm_state_t;
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 1acded00f003..1bfd9aec9aed 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -3283,13 +3283,30 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+ 	return NULL;
+ }
  
- 	EXCEPTION_TABLE(16) :text = 0x9090
-@@ -415,6 +419,12 @@ SECTIONS
- 	STABS_DEBUG
- 	DWARF_DEBUG
++#ifndef CONFIG_ARCH_HAS_AS_LIMIT
++static inline unsigned long arch_as_limit(void)
++{
++	return 0;
++}
++#endif
++
+ /*
+  * Return true if the calling process may expand its vm space by the passed
+  * number of pages
+  */
+ bool may_expand_vm(struct mm_struct *mm, vm_flags_t flags, unsigned long npages)
+ {
+-	if (mm->total_vm + npages > rlimit(RLIMIT_AS) >> PAGE_SHIFT)
++	unsigned long as_limit = rlimit(RLIMIT_AS);
++	unsigned long as_limit_plus = as_limit + arch_as_limit();
++
++	/* as_limit_plus overflowed */
++	if (as_limit_plus < as_limit)
++		as_limit_plus = RLIM_INFINITY;
++
++	if (as_limit_plus > as_limit)
++		as_limit = as_limit_plus;
++
++	if (mm->total_vm + npages > as_limit >> PAGE_SHIFT)
+ 		return false;
  
-+	/* Sections to be discarded.  EXIT_TEXT and EXIT_DATA discard at
-+	 * runtime, not link time. */
-+#undef EXIT_TEXT
-+#define EXIT_TEXT
-+#undef EXIT_DATA
-+#define EXIT_DATA
- 	DISCARDS
- 	/DISCARD/ : {
- 		*(.eh_frame)
+ 	if (is_data_mapping(flags) &&
 -- 
 2.17.1
 
