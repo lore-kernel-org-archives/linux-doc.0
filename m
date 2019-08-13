@@ -1,151 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2122D7D919
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 15:41:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C22417D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 16:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730081AbfHMPl0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 11:41:26 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33310 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730080AbfHMPl0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 11:41:26 -0400
-Received: by mail-ot1-f68.google.com with SMTP id q20so21287773otl.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 08:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MTdtKCAFd9Jy/7ibMRAuyCjCVrja1NtEGRgDRccZP3s=;
-        b=uw9/eV5N0ZExRUVoCgJf8G+srilhjSZQGDy5IBC5b4v/wcuzr+Uw4cZNlYPOWtRP+l
-         3o5dtvf03dScoKE2SWAEtOoXv0C9YjnC0pVbiJQifIrMpUSH/roSYaqja1BcWza3cNqn
-         tmQ70HlvmL5aGUkwVK4o0q2+NXAi3mdOjN/SjouEdsZmGxcCFsCYBAfdP0Vz0NoXuURd
-         AkEbJUG2f5dTQNDs3ypBfxleNmvcO65GGXpuhvQZ4i3yRffgE/U5TP19aBcLzVtQVxu/
-         oAv467iy4QAb744hHdwVvgVVHO1RAhbxc35afTD2zkqXAXWulAa0c4vJA27HYjBSRElo
-         5e/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MTdtKCAFd9Jy/7ibMRAuyCjCVrja1NtEGRgDRccZP3s=;
-        b=TwiFpgYArQH0aYIIXlsINjsgmZQm0XwnMUV0rBYdRRS24A/SFik73hG/zgCtssak9L
-         qricOjKzLkDDrgc9JPrnCqJm0nQm0DJlFzk1R2nOZBZ+RNzvEAD2cD+BikxE5Kw/m8Yo
-         bRAu3VvL/3s1HKRDwAiJG34i3YrKp/mClc0R72QY9mOffqRsWZ+HeyvJzho2OuHPcYBL
-         0Sf8HFZmVkf6fJzjuDO4qqB03ryhFhRRs9n1wGeE7HcmTVFK34LTYV7XWEzsxs8HSsHx
-         qMCTfH4Gzvr1nswfmkcWLTwJ/qADswqCBW7b0kzYH53u9hioxXtyBROC8zlPeQNBYhGk
-         PAHQ==
-X-Gm-Message-State: APjAAAUazP/7K1wbRHiH+sA/WAP+MhcQ1FU7VHCLSVGgcjBUrCWI+ic6
-        Xr7e0XL50sLnsPMnDhOMjHYhvHQTsAUeKY1Ewct36w==
-X-Google-Smtp-Source: APXvYqy0Gr24iQpZBx4GGZNCq6qo1HJdpVtqntwwwEkKInWAr7LkPZicBlh5Px02dy2tsSSNvomzY4JkCTDDIxQJ/k8=
-X-Received: by 2002:aca:dd55:: with SMTP id u82mr2003223oig.68.1565710885153;
- Tue, 13 Aug 2019 08:41:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com> <20190813153020.GC14622@google.com>
-In-Reply-To: <20190813153020.GC14622@google.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 13 Aug 2019 17:40:58 +0200
-Message-ID: <CAG48ez1xEt1zyMjwqS4Ysy7Vwtf4M1OOtYiPTdAmOGjViRCDvQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking using
- virtual index
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        id S1727546AbfHMQTf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 12:19:35 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:33022 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727211AbfHMQTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 12:19:35 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7DG8mQW196607;
+        Tue, 13 Aug 2019 16:19:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2019-08-05;
+ bh=HTb/5J0BxVV9yBflGge7ur7d2g2RQgG9Szn5YAC5Qi4=;
+ b=YxnsGrUDIMQnzffjadT6wZJ1O7v7EcxMSFdST2astU26n1dhaoXZ+dGbGYWFWGsMpCn4
+ iiXWn0sd+JxeRckdCxllKWddBRgCpFVkShEuBQt7czpK6EZCBjX8WLScT1s3VdyBetU+
+ NhYwMeKuhZIouo2tua4Kprwfqvk7A09fWLasW8wcCmr8kYtOlsGyyqc3Ct6k2u4mZAQz
+ RRcXVUzlyPOkAWQ0apgOv7imzoixgU16YIVkVQfAV2J7elRl0ecQP3/ecbL1Y4urLMVO
+ D9qCZKaYKz7qX7LUBXaPd4wwL+TNnQYJTNX1+HKFJn9ncjC8v4lM67zvSTIQ5/1TjZR/ Vw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2u9nvp7ffp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Aug 2019 16:19:10 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7DG8PSe111097;
+        Tue, 13 Aug 2019 16:19:10 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2ubwrg68be-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Aug 2019 16:19:10 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7DGJ7xS032677;
+        Tue, 13 Aug 2019 16:19:07 GMT
+Received: from asu (/92.220.18.196)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 13 Aug 2019 09:19:06 -0700
+Message-ID: <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
+Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and
+ host-cxxshlib
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Date:   Tue, 13 Aug 2019 18:19:01 +0200
+In-Reply-To: <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+         <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
+         <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908130161
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908130161
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 5:30 PM Joel Fernandes <joel@joelfernandes.org> wrote:
-> On Mon, Aug 12, 2019 at 08:14:38PM +0200, Jann Horn wrote:
-> [snip]
-> > > +/* Helper to get the start and end frame given a pos and count */
-> > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
-> > > +                               unsigned long *start, unsigned long *end)
-> > > +{
-> > > +       unsigned long max_frame;
-> > > +
-> > > +       /* If an mm is not given, assume we want physical frames */
-> > > +       max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
-> > > +
-> > > +       if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > > +               return -EINVAL;
-> > > +
-> > > +       *start = pos * BITS_PER_BYTE;
-> > > +       if (*start >= max_frame)
-> > > +               return -ENXIO;
-> > > +
-> > > +       *end = *start + count * BITS_PER_BYTE;
-> > > +       if (*end > max_frame)
-> > > +               *end = max_frame;
-> > > +       return 0;
-> > > +}
+On Tue, 2019-08-13 at 23:01 +0900, Masahiro Yamada wrote:
+> On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
 > >
-> > You could add some overflow checks for the multiplications. I haven't
-> > seen any place where it actually matters, but it seems unclean; and in
-> > particular, on a 32-bit architecture where the maximum user address is
-> > very high (like with a 4G:4G split), it looks like this function might
-> > theoretically return with `*start > *end`, which could be confusing to
-> > callers.
->
-> I could store the multiplication result in unsigned long long (since we are
-> bounds checking with max_frame, start > end would not occur). Something like
-> the following (with extraneous casts). But I'll think some more about the
-> point you are raising.
+> > C++ libraries interfacing to C APIs might sometimes need some glue
+> > logic more easily written in C.
+> > Allow a C++ library to also contain 0 or more C objects.
+> >
+> > Also fix rules for both C and C++ shared libraries:
+> > - C++ shared libraries depended on .c instead of .cc files
+> > - Rules were referenced as -objs instead of the intended
+> >   -cobjs and -cxxobjs following the pattern from hostprogs*.
+> >
+> > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> 
+> 
+> How is this patch related to the rest of this series?
 
-check_mul_overflow() exists and could make that a bit cleaner.
+This is just my (likely naive) way I to get what I had working 
+using autotools in the Github version of KTF) translated into something 
+comparable using kbuild only. We need to build a shared library consisting 
+of a few C++ files and a very simple C file, and a couple of simple binaries, 
+and the rule in there does seem to take .c files and subject them to the 
+C++ compiler, which makes this difficult to achieve?
 
+> This patch breaks GCC-plugins.
+> Did you really compile-test this patch before the submission?
 
-> > This means that BITMAP_CHUNK_SIZE is UAPI on big-endian systems,
-> > right? My opinion is that it would be slightly nicer to design the
-> > UAPI such that incrementing virtual addresses are mapped to
-> > incrementing offsets in the buffer (iow, either use bytewise access or
-> > use little-endian), but I'm not going to ask you to redesign the UAPI
-> > this late.
->
-> That would also be slow and consume more memory in userspace buffers.
-> Currently, a 64-bit (8 byte) chunk accounts for 64 pages worth or 256KB.
+Sorry for my ignorance here:
+I ran through the kernel build and installed the resulting kernel 
+on a VM that I used to test this, if that's what you are asking 
+about?
 
-I still wanted to use one bit per page; I just wanted to rearrange the
-bits. So the first byte would always contain 8 bits corresponding to
-the first 8 pages, instead of corresponding to pages 56-63 on some
-systems depending on endianness. Anyway, this is a moot point, since
-as you said...
+Do I need some unusual .config options or run a special make target 
+to trigger the problem you see?
 
-> Also I wanted to keep the interface consistent with the global
-> /sys/kernel/mm/page_idle interface.
+I used a recent Fedora config with default values for new options,
+and ran the normal default make target (also with O=) and make selftests 
+to test the patch itself.
 
-Sorry, I missed that this is already UAPI in the global interface. I
-agree, using a different API for the per-process interface would be a
-bad idea.
+Thanks,
+Knut
+
+> --
+> Best Regards
+> 
+> Masahiro Yamada
+
