@@ -1,180 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0D527D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 15:19:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0857C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 15:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729900AbfHMPT4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 11:19:56 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:40179 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729912AbfHMPT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 11:19:56 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c34so33886724otb.7
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 08:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xuo82W680vfMqA0vjhlKyKy1WIhwCKADAN98TM3xDdg=;
-        b=Fk1Dc/CHcXCvYiOTomqNv0zmBWlrR9D+HqfO1gKyIHgLJslb1kPNyTxNdjV/YBUBJl
-         VFi0gheINDE48llBE2R/v8PcAapA7TsC2L+tCszHNHE8BMiAnBfyvQ3BeTgrrG7hYJgx
-         iOSqRSx60Yi9S8YNoRsU2dXtmT+3WKOrOLCBZVm2uGQjNhhfdJmo6IhY7kn+guA1GqKN
-         P/52/JmahNx9K5WuoSrr7/eJLCbdpHYrCDZ9QSF668dGyyLDrs9fygFj+BF+S3srrQam
-         srUSgjROBxIq/WxIap+N60Qa6mvdP78oyd3ewOyWuiQkmhYhuq3HD/pCdrVZCjxmnkl7
-         u1Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xuo82W680vfMqA0vjhlKyKy1WIhwCKADAN98TM3xDdg=;
-        b=tCF3tzFXfApn+otYL5yJJLCyUd0r8OxnWhZgnhgW2VxRYOqYDZpgRSK8l0ZpqxBLdF
-         ZpR7+P9Ru0OhuYLqOOiRTFAbvpCjZuyHtmZUC/JnD2v2k5O1rYGI8F/k9+EAXQe6fKKo
-         a01gpOzhF90wkPMp8Ni4pD0ao+XEhMW7G4T2itKovITmVfoRD3cKMfa7/JKBu1XDvhHh
-         w9ScUy8Hyy/uYW46r0A7ywrB+wOKYhNFNpqwtwNQXAJqY+97A1yzWNoisF8rH6J1iQlL
-         rfzYIqDqkmOZAzpx+f8lc1zVYxadew4BscGCd/e1ywF6WK0CDnt2hLWFkN3beTWAPi0D
-         dyhQ==
-X-Gm-Message-State: APjAAAUUB832OZD5+9FsqIewuHM85K8e7wrThVmJKZRQ9f9PIscHZ/JC
-        kssyK+8Wy2JeSpiJgRmhyH7CDIkoGag0OgYbyWaHvw==
-X-Google-Smtp-Source: APXvYqxcZF4gU1ub1LLFg/qKp1ZrFgTQMzOSzMW6cWHW1kLXjABD4Sai5Y205ckHfgZ5NHx4tWUFsQyWBTGBmxzQkL4=
-X-Received: by 2002:aca:3dd7:: with SMTP id k206mr1661128oia.47.1565709594369;
- Tue, 13 Aug 2019 08:19:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz> <20190813142527.GD258732@google.com>
-In-Reply-To: <20190813142527.GD258732@google.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 13 Aug 2019 17:19:27 +0200
-Message-ID: <CAG48ez2shpP+WMRRJxM_za-701aoc5+i6ZrdpQ8CzjsjEzEsOA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking using
- virtual index
-To:     Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Gruss <daniel.gruss@iaik.tugraz.at>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1727097AbfHMP0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 11:26:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727035AbfHMP0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 11:26:00 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F20FA20663;
+        Tue, 13 Aug 2019 15:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565709959;
+        bh=SucDibVqB1Y6XJo22ADJTrZr/i/5Mo/9zkyEYvRtiyo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WDUzqsDwCUvJpPnUro5nrw2rYkWOE7CzVwQ6FTy1etS8EF51sHnkhLMPEqq0ROv4s
+         zElsbAeuayJ7FJRXjRLsTGwhN3xN60ua/oV5CdMCYcFDyCPSZzAY+LdX2vCNO2Ooxf
+         CYV16DXHVpzI/PVCFeMioa0zcbPqdhPHd9ogqzfo=
+Date:   Tue, 13 Aug 2019 17:25:56 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        kbuild test robot <lkp@intel.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2] driver/core: Fix build error when SRCU and lockdep
+ disabled
+Message-ID: <20190813152556.GA26138@kroah.com>
+References: <20190812214918.101756-1-joel@joelfernandes.org>
+ <20190813060540.GE6670@kroah.com>
+ <20190813133905.GA258732@google.com>
+ <20190813134014.GB258732@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813134014.GB258732@google.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 4:25 PM Joel Fernandes <joel@joelfernandes.org> wrote:
-> On Tue, Aug 13, 2019 at 12:08:56PM +0200, Michal Hocko wrote:
-> > On Mon 12-08-19 20:14:38, Jann Horn wrote:
-> > > On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
-> > > <joel@joelfernandes.org> wrote:
-> > > > The page_idle tracking feature currently requires looking up the pagemap
-> > > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > > Looking up PFN from pagemap in Android devices is not supported by
-> > > > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
-> > > >
-> > > > This patch adds support to directly interact with page_idle tracking at
-> > > > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > > > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > > > looking up PFN through pagemap is not needed since the interface uses
-> > > > virtual frame numbers, and at the same time also does not require
-> > > > SYS_ADMIN.
-> > > >
-> > > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > > profiles and pin points code paths which allocates and leaves memory
-> > > > idle for long periods of time. This method solves the security issue
-> > > > with userspace learning the PFN, and while at it is also shown to yield
-> > > > better results than the pagemap lookup, the theory being that the window
-> > > > where the address space can change is reduced by eliminating the
-> > > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > > process's mmap_sem is held for the duration of the access.
-> > >
-> > > What happens when you use this interface on shared pages, like memory
-> > > inherited from the zygote, library file mappings and so on? If two
-> > > profilers ran concurrently for two different processes that both map
-> > > the same libraries, would they end up messing up each other's data?
-> >
-> > Yup PageIdle state is shared. That is the page_idle semantic even now
-> > IIRC.
->
-> Yes, that's right. This patch doesn't change that semantic. Idle page
-> tracking at the core is a global procedure which is based on pages that can
-> be shared.
->
-> One of the usecases of the heap profiler is to enable profiling of pages that
-> are shared between zygote and any processes that are forked. In this case,
-> I am told by our team working on the heap profiler, that the monitoring of
-> shared pages will help.
->
-> > > Can this be used to observe which library pages other processes are
-> > > accessing, even if you don't have access to those processes, as long
-> > > as you can map the same libraries? I realize that there are already a
-> > > bunch of ways to do that with side channels and such; but if you're
-> > > adding an interface that allows this by design, it seems to me like
-> > > something that should be gated behind some sort of privilege check.
-> >
-> > Hmm, you need to be priviledged to get the pfn now and without that you
-> > cannot get to any page so the new interface is weakening the rules.
-> > Maybe we should limit setting the idle state to processes with the write
-> > status. Or do you think that even observing idle status is useful for
-> > practical side channel attacks? If yes, is that a problem of the
-> > profiler which does potentially dangerous things?
->
-> The heap profiler is currently unprivileged. Would it help the concern Jann
-> raised, if the new interface was limited to only anonymous private/shared
-> pages and not to file pages? Or, is this even a real concern?
+On Tue, Aug 13, 2019 at 09:40:14AM -0400, Joel Fernandes wrote:
+> On Tue, Aug 13, 2019 at 09:39:05AM -0400, Joel Fernandes wrote:
+> [snip] 
+> > > >  drivers/base/core.c | 4 +++-
+> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/base/core.c b/drivers/base/core.c
+> > > > index 32cf83d1c744..c22271577c84 100644
+> > > > --- a/drivers/base/core.c
+> > > > +++ b/drivers/base/core.c
+> > > > @@ -97,10 +97,12 @@ void device_links_read_unlock(int not_used)
+> > > >  	up_read(&device_links_lock);
+> > > >  }
+> > > >  
+> > > > +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > > >  int device_links_read_lock_held(void)
+> > > >  {
+> > > > -	return lock_is_held(&device_links_lock);
+> > > > +	return lock_is_held(&(device_links_lock.dep_map));
+> > > >  }
+> > > > +#endif
+> > > 
+> > > I don't know what the original code looks like here, but I'm guessing
+> > > that some .h file will need to be fixed up as you are just preventing
+> > > this function from ever being present without that option enabled?
+> > 
+> > No, it doesn't. I already thought about that and it is not an issue. I know
+> > this may be confusing because the patch I am fixing is not yet in mainline
+> > but in -rcu dev branch, however I did CC you on that RCU patch before but
+> > understandably it is not in the series so it was harder to review.
+> > 
+> > Let me explain, the lock checking facility that this patch uses is here:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=28875945ba98d1b47a8a706812b6494d165bb0a0
+> > 
+> > If you see, the CONFIG_PROVE_RCU_LIST defines an alternate __list_check_rcu()
+> > which is just a NOOP if CONFIG_PROVE_RCU_LIST=n.
+> > 
+> > CONFIG_PROVE_RCU_LIST depends on CONFIG_PROVE_RCU which is def_bool on
+> > CONFIG_PROVE_LOCKING which selects CONFIG_DEBUG_LOCK_ALLOC.
+> > 
+> > So there cannot be a scenario where CONFIG_PROVE_RCU_LIST is enabled but
+> > CONFIG_DEBUG_LOCK_ALLOC is disabled.
+> > 
+> > To verify this, one could clone the RCU tree's dev branch and do this:
+> > 
+> > Initially PROVE_RCU_LIST is not in config:
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ grep -i prove_rcu .config
+> > 
+> > Neither is DEBUG_LOCK_ALLOC:
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ grep -i debug_lock .config
+> > # CONFIG_DEBUG_LOCK_ALLOC is not set
+> > 
+> > Enable all configs:
+> > joelaf@joelaf:~/repo/linux-master$ ./scripts/config -e CONFIG_RCU_EXPERT
+> > joelaf@joelaf:~/repo/linux-master$ ./scripts/config -e CONFIG_PROVE_LOCKING
+> > joelaf@joelaf:~/repo/linux-master$ ./scripts/config -e CONFIG_PROVE_RCU
+> > joelaf@joelaf:~/repo/linux-master$ ./scripts/config -e CONFIG_PROVE_RCU_LIST
+> > joelaf@joelaf:~/repo/linux-master$ make olddefconfig
+> > 
+> > DEBUG_LOCK_ALLOC shows up:
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ grep -i debug_lock_all .config
+> > CONFIG_DEBUG_LOCK_ALLOC=y
+> > 
+> > So does PROVE_RCU options:
+> > joelaf@joelaf:~/repo/linux-master$ grep -i prove_rcu .config
+> > CONFIG_PROVE_RCU=y
+> > CONFIG_PROVE_RCU_LIST=y
+> > 
+> > Now, force disable DEBUG_LOCK_ALLOC:
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ ./scripts/config -d CONFIG_DEBUG_LOCK_ALLOC
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ make olddefconfig
+> > 
+> > Options are still enabled:
+> > 
+> > joelaf@joelaf:~/repo/linux-master$ grep -i debug_lock .config
+> > CONFIG_DEBUG_LOCK_ALLOC=y
+> > joelaf@joelaf:~/repo/linux-master$ grep -i prove_rcu .config
+> > CONFIG_PROVE_RCU=y
+> > CONFIG_PROVE_RCU_LIST=y
+> 
+> Also, appreciate if you could Ack the fix ;-)  (assuming the newlines in
+> commit message are fixed).
 
-+Daniel Gruss in case he wants to provide some more detail; he has
-been involved in a lot of the public research around this topic.
+I don't know enough here to ack it, given that I can't even remember the
+original patch...
 
-It is a bit of a concern when code that wasn't hardened as rigorously
-as cryptographic library code operates on secret values.
-A paper was published this year that abused mincore() in combination
-with tricks for flushing the page cache to obtain information about
-when shared read-only memory was accessed:
-<https://arxiv.org/pdf/1901.01161.pdf>. In response to that, the
-semantics of mincore() were changed to prevent that information from
-leaking (see commit 134fca9063ad4851de767d1768180e5dede9a881).
+If you think it's ok, that's fine with me, you can deal with the fallout
+if it fails later :)
 
-On the other hand, an attacker could also use things like cache timing
-attacks instead of abusing operating system features; that is more
-hardware-specific, but it has a higher spatial granularity (typically
-64 bytes instead of 4096 bytes). Timing-granularity-wise, I'm not sure
-whether the proposed interface would be more or less bad than existing
-cache side-channels on common architectures. There are papers that
-demonstrate things like being able to distinguish some classes of
-keyboard keys from others on an Android phone:
-<https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_lipp.pdf>
 
-I don't think limiting it to anonymous pages is necessarily enough to
-completely solve this; in a normal Linux environment, it might be good
-enough, but on Android, I'm worried about the CoW private memory from
-the zygote.
+thanks,
+
+greg k-h
