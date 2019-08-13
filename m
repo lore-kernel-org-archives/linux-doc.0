@@ -1,365 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AAFD47D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 17:01:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 572577D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 17:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727462AbfHMRBE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 13:01:04 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37044 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727425AbfHMRBE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 13:01:04 -0400
-Received: by mail-pl1-f193.google.com with SMTP id bj8so2507050plb.4
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 10:01:03 -0700 (PDT)
+        id S1727715AbfHMRCb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 13:02:31 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46161 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727321AbfHMRCb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 13:02:31 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w3so14365131pgt.13
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 10:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8D+1uC6iV4FvAozNO4xfgRi1TLdDOLAuZ9417tGHLoc=;
-        b=JkaqBGNV5wyIcW+I2alwRXAKUGD+DvVFeEJ9CnPELZc192SUOdPc4Z8hwbyxEUxSW2
-         yR/vhsTYxvfPmhnRG5GcxF2PN2qCoSBCrsujrcNBEvP1tOEkeZCZkIUJNUij01S1i03n
-         XXs9vDiCzjPpnw6KwlSm7nkwjKN4DeDhiAFOA=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BG31IdTtyicCDPh3vXx1nhiittmwUB0Yq2rcUYCbYUo=;
+        b=K8XRlY7JDJXLNNvGqHfdVZJQ9a5VNjCkjwZANDUW9TuuB1ZEzYERq3mQwjA8BJ9Y4s
+         6XJQTwJpGEgBRyf8UaDjL5hrQiCF2jXaT3Pvmh8bbF9bFBcB6C+4UHT8SpOLWJSHDzrD
+         mlDFiQwDwmY3oYYVCIbumbAWcbokEXIT+zEgaWsug4nYa6isFt3sH8TYHWYCPi0m9IPA
+         XElwL6x+27qM3o+3I+oxteDi0nbA4Uo/Uk+dz7ss+8bCoHNYg6vG++6KRWD0JEefIpaL
+         qfYFRveEQPkczl1IiwPGtk6E4NYNbK4FWlm87eXuk8Ui9uwOfgH1pdPq3nnModSdZ2NK
+         Ex/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8D+1uC6iV4FvAozNO4xfgRi1TLdDOLAuZ9417tGHLoc=;
-        b=VR22EmAGSxTHfRdlm9TP83C2rqFtttp7TmpkzMelUellGFEWEnDLq53wc/Moi9yeSr
-         0sTetTJ7xzbEfi3km4naSQJXhFuDckKXaFlIaVfKk8SXJPjeZOuISBu8fsewm7mS0UFl
-         B2ZsxbV8NWkse9zvb+fRSvfhoxb3R3dY6M/6lqeQF0T2Yv/l373datkFY6BA9QXWMnTJ
-         v2ncoO7XRc05twt8UhG2dfSEFnFRudaSMhfcXxxcFir1sWUu9plrpcE6LS+2lk1OL8/w
-         eR41OLx6n8NwNRdcvh6xcgLMcchxkvTJs+yHdd3nlFf4pssoj1sX3upLeTeoPCPwpfOy
-         /DEw==
-X-Gm-Message-State: APjAAAXbKe55SVCGsz+wD54FZTrLD7TSOovR2ozNWAlW8FQrJmtxdHvN
-        sAxtImZR9SUyNXo7xqul5BYZZw==
-X-Google-Smtp-Source: APXvYqx1M1CH414B2qAiUUdkAZfN03w3KwkehxPTB3CoWAGezV0cnY/JfARMCAwoMlfXSehsTU3DuA==
-X-Received: by 2002:a17:902:a9c3:: with SMTP id b3mr7578373plr.179.1565715662707;
-        Tue, 13 Aug 2019 10:01:02 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id 203sm13141528pfu.30.2019.08.13.10.01.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2019 10:01:01 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        byungchul.park@lge.com, Davidlohr Bueso <dave@stgolabs.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        kernel-team@lge.com, Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        max.byungchul.park@gmail.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Rao Shoaib <rao.shoaib@oracle.com>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH v3 2/2] rcuperf: Add kfree_rcu performance Tests
-Date:   Tue, 13 Aug 2019 13:00:46 -0400
-Message-Id: <20190813170046.81707-2-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-In-Reply-To: <20190813170046.81707-1-joel@joelfernandes.org>
-References: <20190813170046.81707-1-joel@joelfernandes.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BG31IdTtyicCDPh3vXx1nhiittmwUB0Yq2rcUYCbYUo=;
+        b=cMdlhYMgZPgBS1m4glvzBP0wLGIjFGQn4qXQ3PXtZq4QZ3eKzRH2xyva3VAYat15Io
+         CHxAD4eTxI4zO1FvwbjbVQZjV+GiqKGRd32w3c1LNcVK+ffl6avvg9wza9RzFG8/JFio
+         LqybYQj2HP7luSLJ/xwNReKeYXt6Qo2upbkVp2aMRvgR1SaoNwYLOFccBWh75vwVlKWl
+         55FMVAOcH+QGdJ3LThRU3oLBc79t6s7LF7aszrGpUGpBMSdmLO4S0tSCMkjHIau1Xi8L
+         f09mtE+8fXZnn0F6SuuBEc1B7H5G55Zyuuz36B4qCTMC21xIvvPaK5TzAepHZPWaZ2Dj
+         PjSQ==
+X-Gm-Message-State: APjAAAVMTHgBxYbkEOSPesT+vVMVNLsKYc810EcGI3aCpo7U0X8F4Esv
+        N9ilmcdxuQUcR/CG+KDU3QRaMW6jIphXip3/VeEY3w==
+X-Google-Smtp-Source: APXvYqwySabXHotNvQRy/UUN/EhAL08CmISGwSZKsEXDa2DGE+8KsL0EhT8WGXmfoKi4f5IrGA753TLXzw9BhWqTRdA=
+X-Received: by 2002:aa7:8f2e:: with SMTP id y14mr12687349pfr.113.1565715749878;
+ Tue, 13 Aug 2019 10:02:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+ <20190813082336.GB17627@kroah.com> <f0e1a6efa8f21ab93935c4c19e13b904d4a71f98.camel@oracle.com>
+In-Reply-To: <f0e1a6efa8f21ab93935c4c19e13b904d4a71f98.camel@oracle.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 13 Aug 2019 10:02:18 -0700
+Message-ID: <CAFd5g45eK8LRgXj0vnY4ONB70+EeR2gjk+Dv9+b6Lgf+ykJu-Q@mail.gmail.com>
+Subject: Re: [RFC 00/19] Integration of Kernel Test Framework (KTF) into the
+ kernel tree
+To:     Knut Omang <knut.omang@oracle.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This test runs kfree_rcu in a loop to measure performance of the new
-kfree_rcu batching functionality.
+On Tue, Aug 13, 2019 at 2:51 AM Knut Omang <knut.omang@oracle.com> wrote:
+>
+> On Tue, 2019-08-13 at 10:23 +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Aug 13, 2019 at 08:09:15AM +0200, Knut Omang wrote:
+> > > and in the making::
+> > >
+> > > kunit/                        (kernel only (UML))
+> >
+> > You are going to have to integrate this with kunit, to come up with a
+> > superset of both in the end.
+>
+> Yes, I agree - getting to a unified approach has been my intention since I first brought this
+> up at LPC'17.
+>
+> > And I do not think that kunit is only UML, it's just that seems to be
+> > what Brendan tests with, but should work with other arches as well.
+>
+> If I get Brendan right, it is UML only now but can be extended to also support
+> kernels running on real hardware. Still it is kernel only, while KTF also has the
+> hybrid mode, where a test can have code and assertions both in user mode and kernel mode.
+> This is made easier and more streamlined by letting all reporting happen from user mode.
 
-The following table shows results when booting with arguments:
-rcuperf.kfree_loops=200000 rcuperf.kfree_alloc_num=1000 rcuperf.kfree_rcu_test=1
+Nope, the KUnit patchset currently under review *does* support any
+architecture; we have tested it on x86, ARM, and UML, but it should
+work on any architecture.
 
-In addition, rcuperf.kfree_no_batch is used to toggle the batching of
-kfree_rcu()s for a test run.
-
-rcuperf.kfree_no_batch	GPs	time (seconds)
- 0 (default)		1732	15.9
- 1			9133 	14.5
-
-Note that the results are the same for the case:
-1. Patch is not applied and rcuperf.kfree_no_batch=0
-2. Patch is applied     and rcuperf.kfree_no_batch=1
-
-On a 16 CPU system with the above boot parameters, we see that the total
-number of grace periods that elapse during the test drops from 9133 when
-not batching to 1732 when batching (a ~427% improvement). The
-kfree_rcu() flood itself slows down a bit when batching, though, as
-shown. This is likely due to rcuperf threads contending with the
-additional worker threads that are now running both before (the monitor)
-and after (the work done to kfree()) the grace period.
-
-Note that the active memory consumption during the kfree_rcu() flood
-does increase to around 300-400MB due to the batching (from around 50MB
-without batching). However, this memory consumption is relatively
-constant and is just an effect of the buffering. In other words, the
-system is able to keep up with the kfree_rcu() load.
-
-Also, when running the test, please disable CONFIG_DEBUG_PREEMPT and
-CONFIG_PROVE_RCU for realistic comparisons with/without batching.
-
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- kernel/rcu/rcuperf.c | 189 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 181 insertions(+), 8 deletions(-)
-
-diff --git a/kernel/rcu/rcuperf.c b/kernel/rcu/rcuperf.c
-index 7a6890b23c5f..70d6ac19cbff 100644
---- a/kernel/rcu/rcuperf.c
-+++ b/kernel/rcu/rcuperf.c
-@@ -86,6 +86,7 @@ torture_param(bool, shutdown, RCUPERF_SHUTDOWN,
- 	      "Shutdown at end of performance tests.");
- torture_param(int, verbose, 1, "Enable verbose debugging printk()s");
- torture_param(int, writer_holdoff, 0, "Holdoff (us) between GPs, zero to disable");
-+torture_param(int, kfree_rcu_test, 0, "Do we run a kfree_rcu perf test?");
- 
- static char *perf_type = "rcu";
- module_param(perf_type, charp, 0444);
-@@ -105,8 +106,8 @@ static atomic_t n_rcu_perf_writer_finished;
- static wait_queue_head_t shutdown_wq;
- static u64 t_rcu_perf_writer_started;
- static u64 t_rcu_perf_writer_finished;
--static unsigned long b_rcu_perf_writer_started;
--static unsigned long b_rcu_perf_writer_finished;
-+static unsigned long b_rcu_gp_test_started;
-+static unsigned long b_rcu_gp_test_finished;
- static DEFINE_PER_CPU(atomic_t, n_async_inflight);
- 
- static int rcu_perf_writer_state;
-@@ -379,10 +380,10 @@ rcu_perf_writer(void *arg)
- 	if (atomic_inc_return(&n_rcu_perf_writer_started) >= nrealwriters) {
- 		t_rcu_perf_writer_started = t;
- 		if (gp_exp) {
--			b_rcu_perf_writer_started =
-+			b_rcu_gp_test_started =
- 				cur_ops->exp_completed() / 2;
- 		} else {
--			b_rcu_perf_writer_started = cur_ops->get_gp_seq();
-+			b_rcu_gp_test_started = cur_ops->get_gp_seq();
- 		}
- 	}
- 
-@@ -435,10 +436,10 @@ rcu_perf_writer(void *arg)
- 				PERFOUT_STRING("Test complete");
- 				t_rcu_perf_writer_finished = t;
- 				if (gp_exp) {
--					b_rcu_perf_writer_finished =
-+					b_rcu_gp_test_finished =
- 						cur_ops->exp_completed() / 2;
- 				} else {
--					b_rcu_perf_writer_finished =
-+					b_rcu_gp_test_finished =
- 						cur_ops->get_gp_seq();
- 				}
- 				if (shutdown) {
-@@ -523,8 +524,8 @@ rcu_perf_cleanup(void)
- 			 t_rcu_perf_writer_finished -
- 			 t_rcu_perf_writer_started,
- 			 ngps,
--			 rcuperf_seq_diff(b_rcu_perf_writer_finished,
--					  b_rcu_perf_writer_started));
-+			 rcuperf_seq_diff(b_rcu_gp_test_finished,
-+					  b_rcu_gp_test_started));
- 		for (i = 0; i < nrealwriters; i++) {
- 			if (!writer_durations)
- 				break;
-@@ -592,6 +593,175 @@ rcu_perf_shutdown(void *arg)
- 	return -EINVAL;
- }
- 
-+/*
-+ * kfree_rcu performance tests: Start a kfree_rcu loop on all CPUs for number
-+ * of iterations and measure total time and number of GP for all iterations to complete.
-+ */
-+
-+torture_param(int, kfree_nthreads, -1, "Number of threads running loops of kfree_rcu().");
-+torture_param(int, kfree_alloc_num, 8000, "Number of allocations and frees done in an iteration.");
-+torture_param(int, kfree_loops, 10, "Number of loops doing kfree_alloc_num allocations and frees.");
-+torture_param(int, kfree_no_batch, 0, "Use the non-batching (slower) version of kfree_rcu.");
-+
-+static struct task_struct **kfree_reader_tasks;
-+static int kfree_nrealthreads;
-+static atomic_t n_kfree_perf_thread_started;
-+static atomic_t n_kfree_perf_thread_ended;
-+
-+struct kfree_obj {
-+	char kfree_obj[8];
-+	struct rcu_head rh;
-+};
-+
-+static int
-+kfree_perf_thread(void *arg)
-+{
-+	int i, loop = 0;
-+	long me = (long)arg;
-+	struct kfree_obj **alloc_ptrs;
-+	u64 start_time, end_time;
-+
-+	VERBOSE_PERFOUT_STRING("kfree_perf_thread task started");
-+	set_cpus_allowed_ptr(current, cpumask_of(me % nr_cpu_ids));
-+	set_user_nice(current, MAX_NICE);
-+
-+	alloc_ptrs = (struct kfree_obj **)kmalloc(sizeof(struct kfree_obj *) * kfree_alloc_num,
-+						  GFP_KERNEL);
-+	if (!alloc_ptrs)
-+		return -ENOMEM;
-+
-+	start_time = ktime_get_mono_fast_ns();
-+
-+	if (atomic_inc_return(&n_kfree_perf_thread_started) >= kfree_nrealthreads) {
-+		if (gp_exp)
-+			b_rcu_gp_test_started = cur_ops->exp_completed() / 2;
-+		else
-+			b_rcu_gp_test_started = cur_ops->get_gp_seq();
-+	}
-+
-+	do {
-+		for (i = 0; i < kfree_alloc_num; i++) {
-+			alloc_ptrs[i] = kmalloc(sizeof(struct kfree_obj), GFP_KERNEL);
-+			if (!alloc_ptrs[i])
-+				return -ENOMEM;
-+		}
-+
-+		for (i = 0; i < kfree_alloc_num; i++) {
-+			if (!kfree_no_batch) {
-+				kfree_rcu(alloc_ptrs[i], rh);
-+			} else {
-+				rcu_callback_t cb;
-+
-+				cb = (rcu_callback_t)(unsigned long)offsetof(struct kfree_obj, rh);
-+				kfree_call_rcu_nobatch(&(alloc_ptrs[i]->rh), cb);
-+			}
-+		}
-+
-+		cond_resched();
-+	} while (!torture_must_stop() && ++loop < kfree_loops);
-+
-+	if (atomic_inc_return(&n_kfree_perf_thread_ended) >= kfree_nrealthreads) {
-+		end_time = ktime_get_mono_fast_ns();
-+
-+		if (gp_exp)
-+			b_rcu_gp_test_finished = cur_ops->exp_completed() / 2;
-+		else
-+			b_rcu_gp_test_finished = cur_ops->get_gp_seq();
-+
-+		pr_alert("Total time taken by all kfree'ers: %llu ns, loops: %d, batches: %ld\n",
-+		       (unsigned long long)(end_time - start_time), kfree_loops,
-+		       rcuperf_seq_diff(b_rcu_gp_test_finished, b_rcu_gp_test_started));
-+		if (shutdown) {
-+			smp_mb(); /* Assign before wake. */
-+			wake_up(&shutdown_wq);
-+		}
-+	}
-+
-+	kfree(alloc_ptrs);
-+	torture_kthread_stopping("kfree_perf_thread");
-+	return 0;
-+}
-+
-+static void
-+kfree_perf_cleanup(void)
-+{
-+	int i;
-+
-+	if (torture_cleanup_begin())
-+		return;
-+
-+	if (kfree_reader_tasks) {
-+		for (i = 0; i < kfree_nrealthreads; i++)
-+			torture_stop_kthread(kfree_perf_thread,
-+					     kfree_reader_tasks[i]);
-+		kfree(kfree_reader_tasks);
-+	}
-+
-+	torture_cleanup_end();
-+}
-+
-+/*
-+ * shutdown kthread.  Just waits to be awakened, then shuts down system.
-+ */
-+static int
-+kfree_perf_shutdown(void *arg)
-+{
-+	do {
-+		wait_event(shutdown_wq,
-+			   atomic_read(&n_kfree_perf_thread_ended) >=
-+			   kfree_nrealthreads);
-+	} while (atomic_read(&n_kfree_perf_thread_ended) < kfree_nrealthreads);
-+
-+	smp_mb(); /* Wake before output. */
-+
-+	kfree_perf_cleanup();
-+	kernel_power_off();
-+	return -EINVAL;
-+}
-+
-+static int __init
-+kfree_perf_init(void)
-+{
-+	long i;
-+	int firsterr = 0;
-+
-+	kfree_nrealthreads = compute_real(kfree_nthreads);
-+	/* Start up the kthreads. */
-+	if (shutdown) {
-+		init_waitqueue_head(&shutdown_wq);
-+		firsterr = torture_create_kthread(kfree_perf_shutdown, NULL,
-+						  shutdown_task);
-+		if (firsterr)
-+			goto unwind;
-+		schedule_timeout_uninterruptible(1);
-+	}
-+
-+	kfree_reader_tasks = kcalloc(kfree_nrealthreads, sizeof(kfree_reader_tasks[0]),
-+			       GFP_KERNEL);
-+	if (kfree_reader_tasks == NULL) {
-+		firsterr = -ENOMEM;
-+		goto unwind;
-+	}
-+
-+	for (i = 0; i < kfree_nrealthreads; i++) {
-+		firsterr = torture_create_kthread(kfree_perf_thread, (void *)i,
-+						  kfree_reader_tasks[i]);
-+		if (firsterr)
-+			goto unwind;
-+	}
-+
-+	while (atomic_read(&n_kfree_perf_thread_started) < kfree_nrealthreads)
-+		schedule_timeout_uninterruptible(1);
-+
-+	torture_init_end();
-+	return 0;
-+
-+unwind:
-+	torture_init_end();
-+	kfree_perf_cleanup();
-+	return firsterr;
-+}
-+
- static int __init
- rcu_perf_init(void)
- {
-@@ -624,6 +794,9 @@ rcu_perf_init(void)
- 	if (cur_ops->init)
- 		cur_ops->init();
- 
-+	if (kfree_rcu_test)
-+		return kfree_perf_init();
-+
- 	nrealwriters = compute_real(nwriters);
- 	nrealreaders = compute_real(nreaders);
- 	atomic_set(&n_rcu_perf_reader_started, 0);
--- 
-2.23.0.rc1.153.gdeed80330f-goog
-
+I added support for that a while ago due to popular demand.
