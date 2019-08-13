@@ -1,151 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AC0E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 14:42:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6AEF7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 14:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbfHMOm3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 10:42:29 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20789 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728026AbfHMOm2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:42:28 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 07:42:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,381,1559545200"; 
-   d="scan'208";a="375618727"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Aug 2019 07:42:25 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1hxY0E-0007PY-UG; Tue, 13 Aug 2019 17:42:22 +0300
-Date:   Tue, 13 Aug 2019 17:42:22 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        linux-doc@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v2] dma-mapping: Fix filename references
-Message-ID: <20190813144222.GF30120@smile.fi.intel.com>
-References: <20190619141956.65696-1-andriy.shevchenko@linux.intel.com>
+        id S1729719AbfHMOpU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 10:45:20 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:45736 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729717AbfHMOpU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 10:45:20 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y8so7266161plr.12
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 07:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=/DG06eqM38QIeCr7IhG3JFD4cD2ewwaHEcvvXfdRS3I=;
+        b=ppUSosWQ6sQWFc0IxI3Nzmy6G6kGbMK13Q7JBH1pQcc9bf+4UAFK5wkEfJuEq2XyLj
+         t9OBW+rPflJtJfIti+xJcNkoJHWUhFO5WsWzjJhB0nxVuJKsG+dJW/Jt+/IPwEjq5jsr
+         aZ9axBTFOg1N2CPyUZAQwMx0PG5wxwoentHNI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=/DG06eqM38QIeCr7IhG3JFD4cD2ewwaHEcvvXfdRS3I=;
+        b=Ya+u06/qIh+7V3A5qvE+fyvD1w64aiPdTnE+TvLBCcoV/u/Pyo1Y6EVOX4C8SNm9ii
+         xaFjoBlULWiDCK/h9B5BApA3frbreX5ZgFgsPdn1IOnpWADjo3/y/Ht628guBB+QaxiZ
+         HOprZFmnrda1iNHKyOGwSjUtuDJstX+tU21OKxhDSRhXAU5xbMR28L1vWyxQTFZnO3aV
+         IsO3K2L1tUV9VV82WZRt8XV2YSGImpXycmFIOkCfkahjRNkuVKSyIe2vwTvYLudJ4pW8
+         cl4Wyu6qHGRkBOtRJHLr6H6950+Myiutjg53ZSc+HjEJz1g16q3Wk0lST1m9VrhZaxdI
+         +KEQ==
+X-Gm-Message-State: APjAAAWdJbayksZvQut2Xlhr0ECGKodno3n8Nwx/p8s2Oe3dRe/sO1+g
+        LOw93TK3emGK5nbKs9ALtp2EcA==
+X-Google-Smtp-Source: APXvYqwu2kcgtFp5t6/t0JC/c/SSw4ArhZsHerk/StDup/KwlFxIPyKBmZzPisDuPSJvG83H6RolJA==
+X-Received: by 2002:a17:902:a508:: with SMTP id s8mr14768087plq.280.1565707519367;
+        Tue, 13 Aug 2019 07:45:19 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id k22sm117365235pfk.157.2019.08.13.07.45.18
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 13 Aug 2019 07:45:18 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 10:45:17 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190813144517.GE258732@google.com>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
+ <20190807204530.GB90900@google.com>
+ <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
+ <20190807213105.GA14622@google.com>
+ <20190808080044.GA18351@dhcp22.suse.cz>
+ <20190812145620.GB224541@google.com>
+ <20190813091430.GE17933@dhcp22.suse.cz>
+ <20190813135152.GC258732@google.com>
+ <20190813141432.GL17933@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190619141956.65696-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20190813141432.GL17933@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 05:19:55PM +0300, Andy Shevchenko wrote:
-> After the commit cf65a0f6f6ff
+On Tue, Aug 13, 2019 at 04:14:32PM +0200, Michal Hocko wrote:
+[snip] 
+> > > If the API is flawed then this is likely going
+> > > to kick us later and will be hard to fix. I am still not convinced about
+> > > the swap part of the thing TBH.
+> > 
+> > Ok, then let us discuss it. As I mentioned before, without this we lose the
+> > access information due to MADVISE or swapping. Minchan and Konstantin both
+> > suggested it that's why I also added it (other than me also realizing that it
+> > is neeed).
 > 
->   ("dma-mapping: move all DMA mapping code to kernel/dma")
-> 
-> some of the files are referring to outdated information, i.e. old file names
-> of DMA mapping sources.
-> 
-> Fix it here.
-> 
-> Note, the lines with "Glue code for..." have been removed completely.
+> I have described my concerns about the general idle bit behavior after
+> unmapping pointing to discrepancy with !anon pages. And I believe those
+> haven't been addressed yet.
 
-Any comment on this?
+You are referring to this post right?
+https://lkml.org/lkml/2019/8/6/637
 
-> 
-> Cc: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> - address Bjorn's comments
->  Documentation/x86/x86_64/boot-options.rst | 2 +-
->  arch/ia64/kernel/setup.c                  | 2 +-
->  arch/x86/kernel/pci-swiotlb.c             | 1 -
->  arch/x86/kernel/setup.c                   | 2 +-
->  arch/x86/pci/sta2x11-fixup.c              | 4 +---
->  5 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x86/x86_64/boot-options.rst
-> index 6a4285a3c7a4..2b98efb5ba7f 100644
-> --- a/Documentation/x86/x86_64/boot-options.rst
-> +++ b/Documentation/x86/x86_64/boot-options.rst
-> @@ -230,7 +230,7 @@ IOMMU (input/output memory management unit)
->  ===========================================
->  Multiple x86-64 PCI-DMA mapping implementations exist, for example:
->  
-> -   1. <lib/dma-direct.c>: use no hardware/software IOMMU at all
-> +   1. <kernel/dma/direct.c>: use no hardware/software IOMMU at all
->        (e.g. because you have < 3 GB memory).
->        Kernel boot message: "PCI-DMA: Disabling IOMMU"
->  
-> diff --git a/arch/ia64/kernel/setup.c b/arch/ia64/kernel/setup.c
-> index c9cfa760cd57..ab8d25d3e358 100644
-> --- a/arch/ia64/kernel/setup.c
-> +++ b/arch/ia64/kernel/setup.c
-> @@ -256,7 +256,7 @@ __initcall(register_memory);
->   * This function checks if the reserved crashkernel is allowed on the specific
->   * IA64 machine flavour. Machines without an IO TLB use swiotlb and require
->   * some memory below 4 GB (i.e. in 32 bit area), see the implementation of
-> - * lib/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
-> + * kernel/dma/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
->   * in kdump case. See the comment in sba_init() in sba_iommu.c.
->   *
->   * So, the only machvec that really supports loading the kdump kernel
-> diff --git a/arch/x86/kernel/pci-swiotlb.c b/arch/x86/kernel/pci-swiotlb.c
-> index 5f5302028a9a..c2cfa5e7c152 100644
-> --- a/arch/x86/kernel/pci-swiotlb.c
-> +++ b/arch/x86/kernel/pci-swiotlb.c
-> @@ -1,5 +1,4 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -/* Glue code to lib/swiotlb.c */
->  
->  #include <linux/pci.h>
->  #include <linux/cache.h>
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 08a5f4a131f5..8655bf374893 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -477,7 +477,7 @@ static int __init reserve_crashkernel_low(void)
->  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
->  	if (ret) {
->  		/*
-> -		 * two parts from lib/swiotlb.c:
-> +		 * two parts from kernel/dma/swiotlb.c:
->  		 * -swiotlb size: user-specified with swiotlb= or default.
->  		 *
->  		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
-> diff --git a/arch/x86/pci/sta2x11-fixup.c b/arch/x86/pci/sta2x11-fixup.c
-> index 97bbc12dd6b2..6269a175385d 100644
-> --- a/arch/x86/pci/sta2x11-fixup.c
-> +++ b/arch/x86/pci/sta2x11-fixup.c
-> @@ -1,8 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * arch/x86/pci/sta2x11-fixup.c
-> - * glue code for lib/swiotlb.c and DMA translation between STA2x11
-> - * AMBA memory mapping and the X86 memory mapping
-> + * DMA translation between STA2x11 AMBA memory mapping and the x86 memory mapping
->   *
->   * ST Microelectronics ConneXt (STA2X11/STA2X10)
->   *
-> -- 
-> 2.20.1
-> 
+Specifically your question was:
+How are you going to handle situation when the page is unmapped  and refaulted again (e.g. a normal reclaim of a pagecache)?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Currently I don't know how to implement that. Would it work if I stored the
+page-idle bit information in the pte of the file page (after the page is
+unmapped by reclaim?).
 
+Also, this could be a future extension - the Android heap profiler does not
+need it right now. I know that's not a good argument but it is useful to say
+that it doesn't affect a real world usecase.. the swap issue on the other
+hand, is a real usecase. Since the profiler should not get affected by
+swapping or MADVISE_COLD hints.
+
+> Besides that I am still not seeing any
+> description of the usecase that would suffer from the lack of the
+> functionality in changelogs.
+
+You are talking about the swap usecase? The usecase is well layed out in v5
+2/6. Did you see it? https://lore.kernel.org/patchwork/patch/1112283/
+
+thanks,
+
+ - Joel
 
