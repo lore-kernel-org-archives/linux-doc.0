@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB0237D2F0
+	by archive.lwn.net (Postfix) with ESMTP id D53B07D910
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 21:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727229AbfHMVDm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 17:03:42 -0400
-Received: from mga09.intel.com ([134.134.136.24]:18661 "EHLO mga09.intel.com"
+        id S1727275AbfHMVEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 17:04:13 -0400
+Received: from mga09.intel.com ([134.134.136.24]:18664 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726957AbfHMVDl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:03:41 -0400
+        id S1727252AbfHMVDo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:03:44 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:40 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
-   d="scan'208";a="194275971"
+   d="scan'208";a="194275998"
 Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:39 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:41 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -49,9 +49,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v8 04/14] mm/mmap: Add IBT bitmap size to address space limit check
-Date:   Tue, 13 Aug 2019 13:53:49 -0700
-Message-Id: <20190813205359.12196-5-yu-cheng.yu@intel.com>
+Subject: [PATCH v8 11/14] x86/vsyscall/64: Fixup shadow stack and branch tracking for vsyscall
+Date:   Tue, 13 Aug 2019 13:53:56 -0700
+Message-Id: <20190813205359.12196-12-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190813205359.12196-1-yu-cheng.yu@intel.com>
 References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
@@ -60,74 +60,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The indirect branch tracking legacy bitmap takes a large address
-space.  This causes may_expand_vm() failure on the address limit
-check.  For a IBT-enabled task, add the bitmap size to the
-address limit.
+When emulating a RET, also unwind the task's shadow stack and cancel
+the current branch tracking status.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/mmu_context.h | 10 ++++++++++
- mm/mmap.c                          | 19 ++++++++++++++++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
+ arch/x86/entry/vsyscall/vsyscall_64.c    | 29 ++++++++++++++++++++++++
+ arch/x86/entry/vsyscall/vsyscall_trace.h |  1 +
+ 2 files changed, 30 insertions(+)
 
-diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
-index a9a768529540..e18e89ef332d 100644
---- a/arch/x86/include/asm/mmu_context.h
-+++ b/arch/x86/include/asm/mmu_context.h
-@@ -360,6 +360,16 @@ static inline unsigned long __get_current_cr3_fast(void)
- 	return cr3;
- }
+diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
+index e7c596dea947..27ff81f75c82 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_64.c
++++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+@@ -38,6 +38,9 @@
+ #include <asm/fixmap.h>
+ #include <asm/traps.h>
+ #include <asm/paravirt.h>
++#include <asm/fpu/xstate.h>
++#include <asm/fpu/types.h>
++#include <asm/fpu/internal.h>
  
+ #define CREATE_TRACE_POINTS
+ #include "vsyscall_trace.h"
+@@ -286,6 +289,32 @@ bool emulate_vsyscall(unsigned long error_code,
+ 	/* Emulate a ret instruction. */
+ 	regs->ip = caller;
+ 	regs->sp += 8;
++
++	/* Unwind shadow stack. */
++
++#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++	if (current->thread.cet.shstk_enabled) {
++		u64 r;
++
++		modify_fpu_regs_begin();
++		rdmsrl(MSR_IA32_PL3_SSP, r);
++		wrmsrl(MSR_IA32_PL3_SSP, r + 8);
++		modify_fpu_regs_end();
++	}
++#endif
++
++	/* Fixup branch tracking */
 +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+static inline unsigned long arch_as_limit(void)
-+{
-+	if (current->thread.cet.ibt_enabled)
-+		return IBT_BITMAP_SIZE;
-+	else
-+		return 0;
-+}
++	if (current->thread.cet.ibt_enabled) {
++		u64 r;
++
++		modify_fpu_regs_begin();
++		rdmsrl(MSR_IA32_U_CET, r);
++		wrmsrl(MSR_IA32_U_CET, r & ~MSR_IA32_CET_WAIT_ENDBR);
++		modify_fpu_regs_end();
++	}
 +#endif
 +
- typedef struct {
- 	struct mm_struct *mm;
- } temp_mm_state_t;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 1acded00f003..1bfd9aec9aed 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -3283,13 +3283,30 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
- 	return NULL;
- }
+ 	return true;
  
-+#ifndef CONFIG_ARCH_HAS_AS_LIMIT
-+static inline unsigned long arch_as_limit(void)
-+{
-+	return 0;
-+}
-+#endif
-+
- /*
-  * Return true if the calling process may expand its vm space by the passed
-  * number of pages
-  */
- bool may_expand_vm(struct mm_struct *mm, vm_flags_t flags, unsigned long npages)
- {
--	if (mm->total_vm + npages > rlimit(RLIMIT_AS) >> PAGE_SHIFT)
-+	unsigned long as_limit = rlimit(RLIMIT_AS);
-+	unsigned long as_limit_plus = as_limit + arch_as_limit();
-+
-+	/* as_limit_plus overflowed */
-+	if (as_limit_plus < as_limit)
-+		as_limit_plus = RLIM_INFINITY;
-+
-+	if (as_limit_plus > as_limit)
-+		as_limit = as_limit_plus;
-+
-+	if (mm->total_vm + npages > as_limit >> PAGE_SHIFT)
- 		return false;
+ sigsegv:
+diff --git a/arch/x86/entry/vsyscall/vsyscall_trace.h b/arch/x86/entry/vsyscall/vsyscall_trace.h
+index 3c3f9765a85c..7aa2101ada44 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_trace.h
++++ b/arch/x86/entry/vsyscall/vsyscall_trace.h
+@@ -25,6 +25,7 @@ TRACE_EVENT(emulate_vsyscall,
+ #endif
  
- 	if (is_data_mapping(flags) &&
+ #undef TRACE_INCLUDE_PATH
++#undef TRACE_INCLUDE_FILE
+ #define TRACE_INCLUDE_PATH ../../arch/x86/entry/vsyscall/
+ #define TRACE_INCLUDE_FILE vsyscall_trace
+ #include <trace/define_trace.h>
 -- 
 2.17.1
 
