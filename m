@@ -1,138 +1,179 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 40BE47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 19:24:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B591C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 21:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbfHMTYT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 15:24:19 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:37627 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfHMTYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 15:24:19 -0400
-Received: by mail-ot1-f67.google.com with SMTP id f17so41323408otq.4;
-        Tue, 13 Aug 2019 12:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0BGADOSDNi0yEXJGYbIS7Es/7+y3WA9cMlUX5F4uA3I=;
-        b=KE3GYgXjoB+OjzuGsPmiAcRayJ6zju7RPzcdKGrMzVlkey77jjZxtEP2mh1WWv9sLH
-         ZLMlMjxt2wR2TGRUwQxDhztynGX3APXiJD1kSQjb2/KavbrOWht5m8t0cWuEoje6TxE7
-         44Huamiy10vZn8q+9xjaKC0GYqpD8w7HhTLT6L5zQu/2cugN4hbedB1kO+xS+TyMxLOv
-         bwl6kKSAXjiNinqMNDx86QfPebu18GpyViD0CXVdg4XK64TwicdGeuABSziFnP9+zdHz
-         u9cFnhGSRhgcXXGSo5Rlog586C+LQL8pZqnYwNVWTh3UrfdUpF3AseKSqw2mZ/pN7lus
-         rNRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0BGADOSDNi0yEXJGYbIS7Es/7+y3WA9cMlUX5F4uA3I=;
-        b=HN5Q05tDUPsBZJGrOtCIJJ2IOHvG4tqbvJamrtvSjs/B8IKzIsMKh9fzRjgg7JsNpT
-         Jg2czdvnN70YDpXFc3cUXL9tnkFcAyZKPaiuHVX3yx7T+3XJc697TE4f/xoz0NPpfLYb
-         PjIZlyJDD2tXAhnD+dQd2X3NAVOckiX2sJpBb4DxDS3T+l8bV/GZDJZGZ/Ghzr4l0DTe
-         glwBuAzb9eX6hELBLVh1SltLExcXoAtKLmOEqvn7SfuZZQU1ci0Rb6RGcGXKN7LG2B9T
-         I1op26C7yMxFVAhifuqFac58A6ld2REl4NXdx8ymDqQkTr8/Snk8bAi/lvcvbjHGVIHw
-         jsHA==
-X-Gm-Message-State: APjAAAUmg0l24usH56u5cL5EE9kS5HyTGlicxIXQmEZ+Y5JYoT4imgH7
-        Y1yg7d0fkCyEnQUXROJPHfZRN5quxJ64yF91soA=
-X-Google-Smtp-Source: APXvYqyNWl6EB6hqtWOLBAyHMMulekRu0qD9+ndzTr07RTNTOCPXCYzvAypulGqjwsebgf4b+owsuwKVp8jgDKJPlE8=
-X-Received: by 2002:a6b:f406:: with SMTP id i6mr6656iog.110.1565724258526;
- Tue, 13 Aug 2019 12:24:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <20190807171559.182301-2-joel@joelfernandes.org> <20190813150450.GN17933@dhcp22.suse.cz>
- <20190813153659.GD14622@google.com>
-In-Reply-To: <20190813153659.GD14622@google.com>
-From:   Konstantin Khlebnikov <koct9i@gmail.com>
-Date:   Tue, 13 Aug 2019 22:24:06 +0300
-Message-ID: <CALYGNiOj4pxZAMvM_3fJZ0xJ0E5-FfSRQbGdxb4eFC37USCYvA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] mm/page_idle: Add support for handling swapped
- PG_Idle pages
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        =?UTF-8?B?0JrQvtC90YHRgtCw0L3RgtC40L0g0KXQu9C10LHQvdC40LrQvtCy?= 
-        <khlebnikov@yandex-team.ru>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1726124AbfHMVCd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 17:02:33 -0400
+Received: from mga06.intel.com ([134.134.136.31]:16057 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726007AbfHMVCd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:02:33 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:02:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
+   d="scan'208";a="187901299"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by orsmga002.jf.intel.com with ESMTP; 13 Aug 2019 14:02:30 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
         Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v8 00/27] Control-flow Enforcement: Shadow Stack
+Date:   Tue, 13 Aug 2019 13:51:58 -0700
+Message-Id: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 6:37 PM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Tue, Aug 13, 2019 at 05:04:50PM +0200, Michal Hocko wrote:
-> > On Wed 07-08-19 13:15:55, Joel Fernandes (Google) wrote:
-> > > Idle page tracking currently does not work well in the following
-> > > scenario:
-> > >  1. mark page-A idle which was present at that time.
-> > >  2. run workload
-> > >  3. page-A is not touched by workload
-> > >  4. *sudden* memory pressure happen so finally page A is finally swapped out
-> > >  5. now see the page A - it appears as if it was accessed (pte unmapped
-> > >     so idle bit not set in output) - but it's incorrect.
-> > >
-> > > To fix this, we store the idle information into a new idle bit of the
-> > > swap PTE during swapping of anonymous pages.
-> > >
-> > > Also in the future, madvise extensions will allow a system process
-> > > manager (like Android's ActivityManager) to swap pages out of a process
-> > > that it knows will be cold. To an external process like a heap profiler
-> > > that is doing idle tracking on another process, this procedure will
-> > > interfere with the idle page tracking similar to the above steps.
-> >
-> > This could be solved by checking the !present/swapped out pages
-> > right? Whoever decided to put the page out to the swap just made it
-> > idle effectively.  So the monitor can make some educated guess for
-> > tracking. If that is fundamentally not possible then please describe
-> > why.
->
-> But the monitoring process (profiler) does not have control over the 'whoever
-> made it effectively idle' process.
->
-> As you said it will be a guess, it will not be accurate.
+Intel has published Control-flow Enforcement (CET) in the Architecture
+Instruction Set Extensions Programming Reference:
 
-Yep. Without saving idle bit in swap entry (and presuming that all swap is idle)
-profiler could miss access. This patch adds accurate tracking almost for free.
-After that profiler could work with any pace without races.
+  https://software.intel.com/en-us/download/intel-architecture-instruction-set-
+  extensions-programming-reference
 
->
-> I am curious what is your concern with using a bit in the swap PTE?
->
-> (Adding Konstantin as well since we may be interested in this, since we also
-> suggested this idea).
->
-> thanks,
->
->  - Joel
->
->
+The previous version (v7) of CET Shadow Stack patches is here:
+
+  https://lkml.org/lkml/2019/6/6/1003
+
+Summary of changes from v7:
+
+  Rewrite ELF GNU property parsing (Patch #22).  Look at PT_GNU_PROPERTY now.
+  Rebase to v5.3-rc4.
+  Small fixes in response to comments.
+
+Yu-cheng Yu (27):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Change names to separate XSAVES system and user states
+  x86/fpu/xstate: Introduce XSAVES system states
+  x86/fpu/xstate: Introduce CET MSR system states
+  x86/cet: Add control protection exception handler
+  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
+  mm: Introduce VM_SHSTK for shadow stack memory
+  mm/mmap: Prevent Shadow Stack VMA merges
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow stack page fault error checking
+  mm: Handle shadow stack page fault
+  mm: Handle THP/HugeTLB shadow stack page fault
+  mm: Update can_follow_write_pte/pmd for shadow stack
+  mm: Introduce do_mmap_locked()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Handle signals for shadow stack
+  binfmt_elf: Extract .note.gnu.property from an ELF file
+  x86/cet/shstk: ELF header parsing of Shadow Stack
+  x86/cet/shstk: Handle thread shadow stack
+  mm/mmap: Add Shadow stack pages to memory accounting
+  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+  x86/cet/shstk: Add Shadow Stack instructions to opcode map
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 269 ++++++++++++++
+ arch/x86/Kconfig                              |  27 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/ia32/ia32_signal.c                   |   8 +
+ arch/x86/include/asm/cet.h                    |  48 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |  27 +-
+ arch/x86/include/asm/fpu/signal.h             |   2 +
+ arch/x86/include/asm/fpu/types.h              |  22 ++
+ arch/x86/include/asm/fpu/xstate.h             |  26 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  18 +
+ arch/x86/include/asm/pgtable.h                | 191 ++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  38 +-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |  15 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 327 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  85 +++++
+ arch/x86/kernel/cpu/common.c                  |  25 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/core.c                    |  26 +-
+ arch/x86/kernel/fpu/init.c                    |  10 -
+ arch/x86/kernel/fpu/signal.c                  |  81 ++++-
+ arch/x86/kernel/fpu/xstate.c                  | 169 +++++----
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |   8 +-
+ arch/x86/kernel/process_64.c                  |  41 +++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +-
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  57 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/lib/x86-opcode-map.txt               |  26 +-
+ arch/x86/mm/fault.c                           |  18 +
+ arch/x86/mm/pgtable.c                         |  41 +++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/Kconfig.binfmt                             |   3 +
+ fs/Makefile                                   |   1 +
+ fs/binfmt_elf.c                               |  20 ++
+ fs/gnu_property.c                             | 178 ++++++++++
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  33 ++
+ include/linux/elf.h                           |  11 +
+ include/linux/mm.h                            |  26 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  12 +-
+ mm/memory.c                                   |   7 +-
+ mm/mmap.c                                     |  11 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
+ 62 files changed, 1920 insertions(+), 166 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 fs/gnu_property.c
+
+-- 
+2.17.1
+
