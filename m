@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4CAF7D91B
+	by archive.lwn.net (Postfix) with ESMTP id D39DB7D981
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 21:04:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727261AbfHMVDp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727258AbfHMVDp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 13 Aug 2019 17:03:45 -0400
-Received: from mga09.intel.com ([134.134.136.24]:18658 "EHLO mga09.intel.com"
+Received: from mga09.intel.com ([134.134.136.24]:18664 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727248AbfHMVDn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:03:43 -0400
+        id S1727200AbfHMVDo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:03:44 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
-   d="scan'208";a="194275993"
+   d="scan'208";a="194275985"
 Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:41 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:40 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -49,9 +49,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v8 10/14] x86/vsyscall/64: Add ENDBR64 to vsyscall entry points
-Date:   Tue, 13 Aug 2019 13:53:55 -0700
-Message-Id: <20190813205359.12196-11-yu-cheng.yu@intel.com>
+Subject: [PATCH v8 08/14] x86/vdso: Insert endbr32/endbr64 to vDSO
+Date:   Tue, 13 Aug 2019 13:53:53 -0700
+Message-Id: <20190813205359.12196-9-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190813205359.12196-1-yu-cheng.yu@intel.com>
 References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
@@ -62,45 +62,67 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H.J. Lu" <hjl.tools@gmail.com>
 
-Add ENDBR64 to vsyscall entry points.
+When Intel indirect branch tracking is enabled, functions in vDSO which
+may be called indirectly must have endbr32 or endbr64 as the first
+instruction.  Compiler must support -fcf-protection=branch so that it
+can be used to compile vDSO.
 
 Acked-by: Andy Lutomirski <luto@kernel.org>
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/entry/vsyscall/vsyscall_emu_64.S | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
+ arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/entry/vsyscall/vsyscall_emu_64.S b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
-index 2e203f3a25a7..040696333457 100644
---- a/arch/x86/entry/vsyscall/vsyscall_emu_64.S
-+++ b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
-@@ -17,16 +17,25 @@ __PAGE_ALIGNED_DATA
- 	.type __vsyscall_page, @object
- __vsyscall_page:
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 8df549138193..1e6a95881e73 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -114,13 +114,17 @@ vobjx32s := $(foreach F,$(vobjx32s-y),$(obj)/$F)
  
-+#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+	endbr64
-+#endif
- 	mov $__NR_gettimeofday, %rax
- 	syscall
- 	ret
+ # Convert 64bit object file to x32 for x32 vDSO.
+ quiet_cmd_x32 = X32     $@
+-      cmd_x32 = $(OBJCOPY) -O elf32-x86-64 $< $@
++      cmd_x32 = $(OBJCOPY) -R .note.gnu.property -O elf32-x86-64 $< $@
  
- 	.balign 1024, 0xcc
-+#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+	endbr64
-+#endif
- 	mov $__NR_time, %rax
- 	syscall
- 	ret
+ $(obj)/%-x32.o: $(obj)/%.o FORCE
+ 	$(call if_changed,x32)
  
- 	.balign 1024, 0xcc
-+#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+	endbr64
-+#endif
- 	mov $__NR_getcpu, %rax
- 	syscall
- 	ret
+ targets += vdsox32.lds $(vobjx32s-y)
+ 
++ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch
++endif
++
+ $(obj)/%.so: OBJCOPYFLAGS := -S
+ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ 	$(call if_changed,objcopy)
+@@ -178,6 +182,12 @@ quiet_cmd_vdso = VDSO    $@
+ 
+ VDSO_LDFLAGS = -shared --hash-style=both --build-id \
+ 	$(call ld-option, --eh-frame-hdr) -Bsymbolic
++ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++  VDSO_LDFLAGS += $(call ldoption, -z$(comma)ibt)
++endif
++ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++  VDSO_LDFLAGS += $(call ldoption, -z$(comma)shstk)
++endif
+ GCOV_PROFILE := n
+ 
+ quiet_cmd_vdso_and_check = VDSO    $@
+diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
+index 93c6dc7812d0..3fea2ce318bc 100644
+--- a/arch/x86/entry/vdso/vdso-layout.lds.S
++++ b/arch/x86/entry/vdso/vdso-layout.lds.S
+@@ -52,6 +52,7 @@ SECTIONS
+ 		*(.gnu.linkonce.b.*)
+ 	}						:text
+ 
++	.note.gnu.property : { *(.note.gnu.property) }	:text	:note
+ 	.note		: { *(.note.*) }		:text	:note
+ 
+ 	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
 -- 
 2.17.1
 
