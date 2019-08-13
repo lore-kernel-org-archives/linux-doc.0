@@ -1,158 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D40747D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 14:25:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AC0E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 14:42:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729382AbfHMOZa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 10:25:30 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:33873 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729167AbfHMOZa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 10:25:30 -0400
-Received: by mail-pl1-f194.google.com with SMTP id i2so49391374plt.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 07:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cgcBlbXGFsc/om+/smWu+Pn0e+PGsj2TzOvbc6+E86U=;
-        b=C6Wd4yxwaQCT0SiFrDTxUSIkFQODTgQV7PQEXI9kmvPnDsR4HFuL/kHGspte6crI3X
-         niIRYHkysNGFVRaeTjgdQiq57VbO4gQEWfnYaaLSFYY8xqxSoVaRN0B+Y/u0fOLI71aG
-         /pLkgNgZK3s+44ARW92U42yPDfe33KSorJnyE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cgcBlbXGFsc/om+/smWu+Pn0e+PGsj2TzOvbc6+E86U=;
-        b=cDraEfPORezrF07d9RTCDpbPFkCsl8cwbUXTKRWSTcmxltoloP+lWJnw63st6vhYga
-         houBeFZMp5mq71azWVsJRRTeI3VkVN1u8lXYG4Tmy/CoqyZTvyppL0ljE6reEHjkDNfO
-         eMiMH3YK53+p3p9piKAn6kWLsjE3sNcOO72fV2K8EIXUqDHiP0UP33OP7OCGWlPYGu99
-         5DJmzIJPGyPOcdD8Q1JjrXvDameEwQrM6yHvzYaDoT41xpUvm+62aFiaQpR8kzpOEi/X
-         ZXdIcunm7kqCje6d+SxTtNpyvSMjw4loE7HUi+829CGMiaY8H/DF+DtJdUm+cXdaCa/6
-         hIMw==
-X-Gm-Message-State: APjAAAWRa0u/4Jzy2jutw5XDuX1m/krjpb6SVJEp+cddk09VYC5Frxdh
-        xd4YLQDKTq96eTCTKn6UgTy7kw==
-X-Google-Smtp-Source: APXvYqwTcTitvpJ7cl19fmHfaEht6G7+vMW1EpqZcjp3DkM9u+O42KKZEWe7yKNHPpAxz/5bAy17gQ==
-X-Received: by 2002:a17:902:a508:: with SMTP id s8mr14691501plq.280.1565706329107;
-        Tue, 13 Aug 2019 07:25:29 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id r137sm24048741pfc.145.2019.08.13.07.25.27
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 13 Aug 2019 07:25:28 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 10:25:27 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Jann Horn <jannh@google.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190813142527.GD258732@google.com>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz>
+        id S1728216AbfHMOm3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 10:42:29 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20789 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728026AbfHMOm2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 10:42:28 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 07:42:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,381,1559545200"; 
+   d="scan'208";a="375618727"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
+  by fmsmga005.fm.intel.com with ESMTP; 13 Aug 2019 07:42:25 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1hxY0E-0007PY-UG; Tue, 13 Aug 2019 17:42:22 +0300
+Date:   Tue, 13 Aug 2019 17:42:22 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        linux-doc@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v2] dma-mapping: Fix filename references
+Message-ID: <20190813144222.GF30120@smile.fi.intel.com>
+References: <20190619141956.65696-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190813100856.GF17933@dhcp22.suse.cz>
+In-Reply-To: <20190619141956.65696-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 12:08:56PM +0200, Michal Hocko wrote:
-> On Mon 12-08-19 20:14:38, Jann Horn wrote:
-> > On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
-> > <joel@joelfernandes.org> wrote:
-> > > The page_idle tracking feature currently requires looking up the pagemap
-> > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > Looking up PFN from pagemap in Android devices is not supported by
-> > > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
-> > >
-> > > This patch adds support to directly interact with page_idle tracking at
-> > > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > > looking up PFN through pagemap is not needed since the interface uses
-> > > virtual frame numbers, and at the same time also does not require
-> > > SYS_ADMIN.
-> > >
-> > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > profiles and pin points code paths which allocates and leaves memory
-> > > idle for long periods of time. This method solves the security issue
-> > > with userspace learning the PFN, and while at it is also shown to yield
-> > > better results than the pagemap lookup, the theory being that the window
-> > > where the address space can change is reduced by eliminating the
-> > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > process's mmap_sem is held for the duration of the access.
-> > 
-> > What happens when you use this interface on shared pages, like memory
-> > inherited from the zygote, library file mappings and so on? If two
-> > profilers ran concurrently for two different processes that both map
-> > the same libraries, would they end up messing up each other's data?
+On Wed, Jun 19, 2019 at 05:19:55PM +0300, Andy Shevchenko wrote:
+> After the commit cf65a0f6f6ff
 > 
-> Yup PageIdle state is shared. That is the page_idle semantic even now
-> IIRC.
-
-Yes, that's right. This patch doesn't change that semantic. Idle page
-tracking at the core is a global procedure which is based on pages that can
-be shared.
-
-One of the usecases of the heap profiler is to enable profiling of pages that
-are shared between zygote and any processes that are forked. In this case,
-I am told by our team working on the heap profiler, that the monitoring of
-shared pages will help.
-
-> > Can this be used to observe which library pages other processes are
-> > accessing, even if you don't have access to those processes, as long
-> > as you can map the same libraries? I realize that there are already a
-> > bunch of ways to do that with side channels and such; but if you're
-> > adding an interface that allows this by design, it seems to me like
-> > something that should be gated behind some sort of privilege check.
+>   ("dma-mapping: move all DMA mapping code to kernel/dma")
 > 
-> Hmm, you need to be priviledged to get the pfn now and without that you
-> cannot get to any page so the new interface is weakening the rules.
-> Maybe we should limit setting the idle state to processes with the write
-> status. Or do you think that even observing idle status is useful for
-> practical side channel attacks? If yes, is that a problem of the
-> profiler which does potentially dangerous things?
+> some of the files are referring to outdated information, i.e. old file names
+> of DMA mapping sources.
+> 
+> Fix it here.
+> 
+> Note, the lines with "Glue code for..." have been removed completely.
 
-The heap profiler is currently unprivileged. Would it help the concern Jann
-raised, if the new interface was limited to only anonymous private/shared
-pages and not to file pages? Or, is this even a real concern?
+Any comment on this?
 
-thanks,
+> 
+> Cc: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> - address Bjorn's comments
+>  Documentation/x86/x86_64/boot-options.rst | 2 +-
+>  arch/ia64/kernel/setup.c                  | 2 +-
+>  arch/x86/kernel/pci-swiotlb.c             | 1 -
+>  arch/x86/kernel/setup.c                   | 2 +-
+>  arch/x86/pci/sta2x11-fixup.c              | 4 +---
+>  5 files changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x86/x86_64/boot-options.rst
+> index 6a4285a3c7a4..2b98efb5ba7f 100644
+> --- a/Documentation/x86/x86_64/boot-options.rst
+> +++ b/Documentation/x86/x86_64/boot-options.rst
+> @@ -230,7 +230,7 @@ IOMMU (input/output memory management unit)
+>  ===========================================
+>  Multiple x86-64 PCI-DMA mapping implementations exist, for example:
+>  
+> -   1. <lib/dma-direct.c>: use no hardware/software IOMMU at all
+> +   1. <kernel/dma/direct.c>: use no hardware/software IOMMU at all
+>        (e.g. because you have < 3 GB memory).
+>        Kernel boot message: "PCI-DMA: Disabling IOMMU"
+>  
+> diff --git a/arch/ia64/kernel/setup.c b/arch/ia64/kernel/setup.c
+> index c9cfa760cd57..ab8d25d3e358 100644
+> --- a/arch/ia64/kernel/setup.c
+> +++ b/arch/ia64/kernel/setup.c
+> @@ -256,7 +256,7 @@ __initcall(register_memory);
+>   * This function checks if the reserved crashkernel is allowed on the specific
+>   * IA64 machine flavour. Machines without an IO TLB use swiotlb and require
+>   * some memory below 4 GB (i.e. in 32 bit area), see the implementation of
+> - * lib/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
+> + * kernel/dma/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
+>   * in kdump case. See the comment in sba_init() in sba_iommu.c.
+>   *
+>   * So, the only machvec that really supports loading the kdump kernel
+> diff --git a/arch/x86/kernel/pci-swiotlb.c b/arch/x86/kernel/pci-swiotlb.c
+> index 5f5302028a9a..c2cfa5e7c152 100644
+> --- a/arch/x86/kernel/pci-swiotlb.c
+> +++ b/arch/x86/kernel/pci-swiotlb.c
+> @@ -1,5 +1,4 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> -/* Glue code to lib/swiotlb.c */
+>  
+>  #include <linux/pci.h>
+>  #include <linux/cache.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 08a5f4a131f5..8655bf374893 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -477,7 +477,7 @@ static int __init reserve_crashkernel_low(void)
+>  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
+>  	if (ret) {
+>  		/*
+> -		 * two parts from lib/swiotlb.c:
+> +		 * two parts from kernel/dma/swiotlb.c:
+>  		 * -swiotlb size: user-specified with swiotlb= or default.
+>  		 *
+>  		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+> diff --git a/arch/x86/pci/sta2x11-fixup.c b/arch/x86/pci/sta2x11-fixup.c
+> index 97bbc12dd6b2..6269a175385d 100644
+> --- a/arch/x86/pci/sta2x11-fixup.c
+> +++ b/arch/x86/pci/sta2x11-fixup.c
+> @@ -1,8 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * arch/x86/pci/sta2x11-fixup.c
+> - * glue code for lib/swiotlb.c and DMA translation between STA2x11
+> - * AMBA memory mapping and the X86 memory mapping
+> + * DMA translation between STA2x11 AMBA memory mapping and the x86 memory mapping
+>   *
+>   * ST Microelectronics ConneXt (STA2X11/STA2X10)
+>   *
+> -- 
+> 2.20.1
+> 
 
- - Joel
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
