@@ -1,128 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 808CF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 09:51:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A06247D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 10:09:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728448AbfHMJvq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 05:51:46 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:57898 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727890AbfHMJvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 05:51:45 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7D9nFOG016489;
-        Tue, 13 Aug 2019 09:51:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
- : from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=corp-2019-08-05;
- bh=kyPIjO27oB72GLTsVcnxsAv0kJDQtfl0IzTAum6ojek=;
- b=kcmhkiuOmv0oYQi5OPzF9osdz7+bo7yoSXgjRgG1NAhUu3WcDaebg2xHw97VJLaCHBcx
- F2jDxB9tMl32E2zoQm5QQHuvfy7mvmNx2nYorz5jehmaU7JqyQVNmL9FH8p+x97cAEGD
- 8+etznfdhqt9O+Fky33OsU4QGWoDAHTIJ+uknRlen5oZb8N89l6qtVgLCS+lvqCnoDDf
- iEcok/maVV3tAM21DjTaGWFOn8p+1l5z2bX7VFIDJvMMJLgzlspM5o5N7cO8CAbetZcf
- bn3RW4rcKulilvuQPkJPQ3RPlqF3jQ8iluSepqFZl+711xTqx+vz+yY1FGglA1HIeJF+ pQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
- : from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=corp-2018-07-02;
- bh=kyPIjO27oB72GLTsVcnxsAv0kJDQtfl0IzTAum6ojek=;
- b=Nc8KdvEMmM3jNiuK3jeEAFgXthR4fLpum+U9m6yQ/Ysv81woltVn9LNejPlLREsYfMrX
- 2LxN/DiBxXCRP7S9QAy0mMeKfEmAnNNQgE69x5Zao2KpoAuINCSpFPW9yNVFPvEK9MPf
- HL5WJ9iBJuqh98WLFJ7FUuGmYzMRYpIA35aE1NjeQ4TLIqSCpfBcU40CEcs1iXqkYPQh
- M7KCxdmC84/wgU0ZNqPi4UxsKzfDp/2+WZLRBGQCekTkCTBBL2nZXCa4E9C3tTPZbmRb
- Je4Ozgen/wJq6jfx/9YbxIL9c6DaCAn4/CjKY/4+nK9QN4dJb1jlmWcZL4KQredQVimI lQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2u9nbtd996-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Aug 2019 09:51:18 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7D9laLB094626;
-        Tue, 13 Aug 2019 09:51:17 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 2u9m0b5ykf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Aug 2019 09:51:17 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7D9pAXh004636;
-        Tue, 13 Aug 2019 09:51:10 GMT
-Received: from abi.no.oracle.com (/141.143.213.43)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 13 Aug 2019 02:51:10 -0700
-Message-ID: <f0e1a6efa8f21ab93935c4c19e13b904d4a71f98.camel@oracle.com>
-Subject: Re: [RFC 00/19] Integration of Kernel Test Framework (KTF) into the
- kernel tree
-From:   Knut Omang <knut.omang@oracle.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Shuah Khan <shuah@kernel.org>,
+        id S1728762AbfHMKJA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 06:09:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46980 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728700AbfHMKJA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 06:09:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 42D5EABD9;
+        Tue, 13 Aug 2019 10:08:57 +0000 (UTC)
+Date:   Tue, 13 Aug 2019 12:08:56 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Jann Horn <jannh@google.com>
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>,
+        Daniel Colascione <dancol@google.com>, fmayer@google.com,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joel Fernandes <joelaf@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Hidenori Yamaji <hidenori.yamaji@sony.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
-        Stephen Boyd <sboyd@kernel.org>
-Date:   Tue, 13 Aug 2019 11:51:05 +0200
-In-Reply-To: <20190813082336.GB17627@kroah.com>
-References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
-         <20190813082336.GB17627@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+        Kees Cook <keescook@chromium.org>,
+        kernel-team <kernel-team@android.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Todd Kjos <tkjos@google.com>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190813100856.GF17933@dhcp22.suse.cz>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9347 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1908130105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9347 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1908130105
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-08-13 at 10:23 +0200, Greg Kroah-Hartman wrote:
-> On Tue, Aug 13, 2019 at 08:09:15AM +0200, Knut Omang wrote:
-> > and in the making::
-> > 
-> > kunit/			  (kernel only (UML))
+On Mon 12-08-19 20:14:38, Jann Horn wrote:
+> On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
+> <joel@joelfernandes.org> wrote:
+> > The page_idle tracking feature currently requires looking up the pagemap
+> > for a process followed by interacting with /sys/kernel/mm/page_idle.
+> > Looking up PFN from pagemap in Android devices is not supported by
+> > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
+> >
+> > This patch adds support to directly interact with page_idle tracking at
+> > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
+> > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
+> > looking up PFN through pagemap is not needed since the interface uses
+> > virtual frame numbers, and at the same time also does not require
+> > SYS_ADMIN.
+> >
+> > In Android, we are using this for the heap profiler (heapprofd) which
+> > profiles and pin points code paths which allocates and leaves memory
+> > idle for long periods of time. This method solves the security issue
+> > with userspace learning the PFN, and while at it is also shown to yield
+> > better results than the pagemap lookup, the theory being that the window
+> > where the address space can change is reduced by eliminating the
+> > intermediate pagemap look up stage. In virtual address indexing, the
+> > process's mmap_sem is held for the duration of the access.
 > 
-> You are going to have to integrate this with kunit, to come up with a
-> superset of both in the end.
+> What happens when you use this interface on shared pages, like memory
+> inherited from the zygote, library file mappings and so on? If two
+> profilers ran concurrently for two different processes that both map
+> the same libraries, would they end up messing up each other's data?
 
-Yes, I agree - getting to a unified approach has been my intention since I first brought this
-up at LPC'17.
+Yup PageIdle state is shared. That is the page_idle semantic even now
+IIRC.
 
-> And I do not think that kunit is only UML, it's just that seems to be
-> what Brendan tests with, but should work with other arches as well.
+> Can this be used to observe which library pages other processes are
+> accessing, even if you don't have access to those processes, as long
+> as you can map the same libraries? I realize that there are already a
+> bunch of ways to do that with side channels and such; but if you're
+> adding an interface that allows this by design, it seems to me like
+> something that should be gated behind some sort of privilege check.
 
-If I get Brendan right, it is UML only now but can be extended to also support 
-kernels running on real hardware. Still it is kernel only, while KTF also has the 
-hybrid mode, where a test can have code and assertions both in user mode and kernel mode.
-This is made easier and more streamlined by letting all reporting happen from user mode.
-
-Thanks!
-Knut
-
-> thanks,
-> 
-> greg k-h
-
+Hmm, you need to be priviledged to get the pfn now and without that you
+cannot get to any page so the new interface is weakening the rules.
+Maybe we should limit setting the idle state to processes with the write
+status. Or do you think that even observing idle status is useful for
+practical side channel attacks? If yes, is that a problem of the
+profiler which does potentially dangerous things?
+-- 
+Michal Hocko
+SUSE Labs
