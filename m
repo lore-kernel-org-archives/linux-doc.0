@@ -1,115 +1,304 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A06247D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 10:09:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4400B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 10:55:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbfHMKJA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 06:09:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46980 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728700AbfHMKJA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 06:09:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 42D5EABD9;
-        Tue, 13 Aug 2019 10:08:57 +0000 (UTC)
-Date:   Tue, 13 Aug 2019 12:08:56 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190813100856.GF17933@dhcp22.suse.cz>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
+        id S1727129AbfHMKz2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 06:55:28 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41280 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726769AbfHMKz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 06:55:28 -0400
+Received: by mail-ot1-f68.google.com with SMTP id o101so17794810ota.8;
+        Tue, 13 Aug 2019 03:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M7GJCS2+nN7LzL0hVAu7+fXi7vAKyLZ5WbkP+JMkhsQ=;
+        b=U5Z+j7P31wD8dPVO64/0OxRcrGzm1Nkuum4danFLl3rR5rwBxQtxqjmrpj67lws/HO
+         WJ9Hk317T/VuwSRfhyIoxcGb6RY00LPS4R+KZaiXYRGwjfdta+MWJxRB+RRvHpLwJXkG
+         lcvHfORPBd/RJerSrocc3YR8HzfWlOqUgrd6hIZJKWfnhn6kEc2qFoWkvaACdVRFgmjO
+         3KnCytP9xLnYKB3PrxFDbNJxe6x18j3VYR0DIvWYYfPDiQV3po/9ciOt+p9YOIUu4YmL
+         WenyOMs+d0EtSNkvFXXSzO14tWT5umMTH5QRQoutGEc+61NNwV+2Vy6OmZ64+6RyIpdW
+         YCww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M7GJCS2+nN7LzL0hVAu7+fXi7vAKyLZ5WbkP+JMkhsQ=;
+        b=IUurHdtHTVZTYHyBZUwmXZn1B9VznDbdBXZeKAYSWoUA+I9hAKfZyDe5SVY0ctWy+m
+         1Lx3TVQNoQvXWnzu1XYBGEotvfcSfIKiAkDAAXlyIPoqCRiJUGJnXtC+CTFvM4FSYtOU
+         AaBFhIIxq+WrDP5kaprs4TCgmosH+/fhwevcNWos88Jzvd1aYi2DbAeNbhxaWy2dMiXq
+         LTuIWjB/WFcSs+JU36SrBRpu20tQvnQ0cNWIkcJ7TyLf1WeGT9n7A7M2Ww6xUazeipSs
+         aUupUcNliqkV77uKfSfqBEYQ2q8z1WjB3OWslTp2GR9OStpXLZnDiRVkLx7SiPIsXA/w
+         5m0w==
+X-Gm-Message-State: APjAAAVQFeSEGDqBTagEdqsuXnv94zw9Y/LXkhtxe5bW220tKFmzwMZx
+        jszu9DBUch/ATno/6O7f5NFKUmMh46wGlOb32cA=
+X-Google-Smtp-Source: APXvYqxgbxmd+WfNqrdwdnfKbYW9LnWtCKNG0kC5nUYYQUHlfGbUvepYSqlRr3sYzlWQr+hJELeoLVFAZkOA0tTJ6mw=
+X-Received: by 2002:a6b:6f06:: with SMTP id k6mr15215680ioc.232.1565693727255;
+ Tue, 13 Aug 2019 03:55:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+ <1563873380-2003-3-git-send-email-gkulkarni@marvell.com> <20190812120125.GA50712@lakrids.cambridge.arm.com>
+In-Reply-To: <20190812120125.GA50712@lakrids.cambridge.arm.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Tue, 13 Aug 2019 16:25:15 +0530
+Message-ID: <CAKTKpr7juHd9Bgam28LESadihFadEAevRAhc-7w3PTMYY7HLNw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 12-08-19 20:14:38, Jann Horn wrote:
-> On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
-> <joel@joelfernandes.org> wrote:
-> > The page_idle tracking feature currently requires looking up the pagemap
-> > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > Looking up PFN from pagemap in Android devices is not supported by
-> > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
+Hi Mark,
+
+On Mon, Aug 12, 2019 at 5:31 PM Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> On Tue, Jul 23, 2019 at 09:16:28AM +0000, Ganapatrao Kulkarni wrote:
+> > CCPI2 is a low-latency high-bandwidth serial interface for connecting
+> > ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
+>
+> It would be worth pointing out in the commit message how the CCPI2
+> counters differ from the others. I realise you have that in the body of
+> patch 1, but it's critical information when reviewing this patch...
+
+Ok, I will add in next version.
+>
 > >
-> > This patch adds support to directly interact with page_idle tracking at
-> > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > looking up PFN through pagemap is not needed since the interface uses
-> > virtual frame numbers, and at the same time also does not require
-> > SYS_ADMIN.
+> > Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
+> > ---
+> >  drivers/perf/thunderx2_pmu.c | 248 ++++++++++++++++++++++++++++++-----
+> >  1 file changed, 214 insertions(+), 34 deletions(-)
 > >
-> > In Android, we are using this for the heap profiler (heapprofd) which
-> > profiles and pin points code paths which allocates and leaves memory
-> > idle for long periods of time. This method solves the security issue
-> > with userspace learning the PFN, and while at it is also shown to yield
-> > better results than the pagemap lookup, the theory being that the window
-> > where the address space can change is reduced by eliminating the
-> > intermediate pagemap look up stage. In virtual address indexing, the
-> > process's mmap_sem is held for the duration of the access.
-> 
-> What happens when you use this interface on shared pages, like memory
-> inherited from the zygote, library file mappings and so on? If two
-> profilers ran concurrently for two different processes that both map
-> the same libraries, would they end up messing up each other's data?
+> > diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+> > index 43d76c85da56..a4e1273eafa3 100644
+> > --- a/drivers/perf/thunderx2_pmu.c
+> > +++ b/drivers/perf/thunderx2_pmu.c
+> > @@ -17,22 +17,31 @@
+> >   */
+> >
+> >  #define TX2_PMU_MAX_COUNTERS         4
+>
+> Shouldn't this be 8 now?
 
-Yup PageIdle state is shared. That is the page_idle semantic even now
-IIRC.
+It is kept unchanged to 4(as suggested by Will), which is same for
+both L3 and DMC.
+For CCPI2 this macro is not used.
 
-> Can this be used to observe which library pages other processes are
-> accessing, even if you don't have access to those processes, as long
-> as you can map the same libraries? I realize that there are already a
-> bunch of ways to do that with side channels and such; but if you're
-> adding an interface that allows this by design, it seems to me like
-> something that should be gated behind some sort of privilege check.
+>
+> [...]
+>
+> >  /*
+> > - * pmu on each socket has 2 uncore devices(dmc and l3c),
+> > - * each device has 4 counters.
+> > + * pmu on each socket has 3 uncore devices(dmc, l3ci and ccpi2),
+> > + * dmc and l3c has 4 counters and ccpi2 8.
+> >   */
+>
+> How about:
+>
+> /*
+>  * Each socket has 3 uncore device associated with a PMU. The DMC and
+>  * L3C have 4 32-bit counters, and the CCPI2 has 8 64-bit counters.
+>  */
 
-Hmm, you need to be priviledged to get the pfn now and without that you
-cannot get to any page so the new interface is weakening the rules.
-Maybe we should limit setting the idle state to processes with the write
-status. Or do you think that even observing idle status is useful for
-practical side channel attacks? If yes, is that a problem of the
-profiler which does potentially dangerous things?
--- 
-Michal Hocko
-SUSE Labs
+Thanks.
+>
+> >  struct tx2_uncore_pmu {
+> >       struct hlist_node hpnode;
+> > @@ -69,12 +86,14 @@ struct tx2_uncore_pmu {
+> >       int node;
+> >       int cpu;
+> >       u32 max_counters;
+> > +     u32 counters_mask;
+> >       u32 prorate_factor;
+> >       u32 max_events;
+> > +     u32 events_mask;
+> >       u64 hrtimer_interval;
+> >       void __iomem *base;
+> >       DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
+>
+> This bitmap isn't big enough for the 4 new counters.
+>
+> > -     struct perf_event *events[TX2_PMU_MAX_COUNTERS];
+> > +     struct perf_event **events;
+>
+> As above, can't we bump TX2_PMU_MAX_COUNTERS to 8 rather than making
+> this a dynamic allocation?
+
+events is only relevant for L3 and DMC since they use timer callbacks.
+This is done as per previous review comments.
+
+>
+> [...]
+>
+> >  static inline u32 reg_readl(unsigned long addr)
+> >  {
+> >       return readl((void __iomem *)addr);
+> >  }
+> >
+> > +static inline u32 reg_readq(unsigned long addr)
+> > +{
+> > +     return readq((void __iomem *)addr);
+> > +}
+>
+> Presumably reg_readq() should return a u64.
+
+Yes,  My bad.
+
+>
+> [...]
+>
+> > +static void uncore_start_event_ccpi2(struct perf_event *event, int flags)
+> > +{
+> > +     u32 emask;
+> > +     struct hw_perf_event *hwc = &event->hw;
+> > +     struct tx2_uncore_pmu *tx2_pmu;
+> > +
+> > +     tx2_pmu = pmu_to_tx2_pmu(event->pmu);
+> > +     emask = tx2_pmu->events_mask;
+> > +
+> > +     /* Bit [09:00] to set event id, set level and type to 1 */
+> > +     reg_writel((3 << 10) |
+>
+> Do you mean that bits [11:10] are level and type?
+
+Yes, i will change the comment.
+>
+> What exactly are 'level' and 'type'?
+
+They are for other settings which are not relevant for software/kernel.
+>
+> Can we give those bits mnemonics?
+>
+> > +                     GET_EVENTID(event, emask), hwc->config_base);
+> > +     /* reset[4], enable[0] and start[1] counters */
+>
+> Rather than using magic numbers everywhere, please give these mnemonics,
+> e.g.
+>
+> #define CCPI2_PERF_CTL_ENABLE   BIT(0)
+> #define CCPI2_PERF_CTL_START    BIT(1)
+> #define CCPI2_PERF_CTL_RESET    BIT(4)
+
+not used everywhere, only in this function.
+I can add these macros.
+
+>
+> > +     reg_writel(0x13, hwc->event_base + CCPI2_PERF_CTL);
+>
+> ... and then you can OR them in here:
+
+OK
+>
+>         ctl = CCPI2_PERF_CTL_ENABLE |
+>               CCPI2_PERF_CTL_START |
+>               CCPI2_PERF_CTL_RESET;
+>         reg_writel(ctl, hwc->event_base + CCPI2_PERF_CTL);
+>
+> [...]
+>
+> > @@ -456,8 +603,9 @@ static void tx2_uncore_event_start(struct perf_event *event, int flags)
+> >       tx2_pmu->start_event(event, flags);
+> >       perf_event_update_userpage(event);
+> >
+> > -     /* Start timer for first event */
+> > -     if (bitmap_weight(tx2_pmu->active_counters,
+> > +     /* Start timer for first non ccpi2 event */
+> > +     if (tx2_pmu->type != PMU_TYPE_CCPI2 &&
+> > +                     bitmap_weight(tx2_pmu->active_counters,
+> >                               tx2_pmu->max_counters) == 1) {
+> >               hrtimer_start(&tx2_pmu->hrtimer,
+> >                       ns_to_ktime(tx2_pmu->hrtimer_interval),
+>
+> This would be easier to read as two statements:
+>
+>         /* No hrtimer needed with 64-bit counters */
+>         if (tx2_pmu->type == PMU_TYPE_CCPI2)
+>                 return;
+>
+>         /* Start timer for first event */
+>         if (bitmap_weight(tx2_pmu->active_counters,
+>             tx2_pmu->max_counters) != 1) {
+>                 ...
+>         }
+>
+
+OK, makes sense.
+
+> > @@ -495,7 +643,8 @@ static int tx2_uncore_event_add(struct perf_event *event, int flags)
+> >       if (hwc->idx < 0)
+> >               return -EAGAIN;
+> >
+> > -     tx2_pmu->events[hwc->idx] = event;
+> > +     if (tx2_pmu->events)
+> > +             tx2_pmu->events[hwc->idx] = event;
+>
+> So this is NULL for CCPI2?
+
+Yes.
+>
+> I guess we don't strictly need the if we don't have a hrtimer to update
+> event counts, but this makes the code more complicated than it needs to
+> be.
+
+Yes I am using tx2_pmu->events to differentiate the type, it is NULL for CCPI2.
+I can extend same to tx2_uncore_event_start().
+>
+> [...]
+>
+> > @@ -580,8 +732,12 @@ static int tx2_uncore_pmu_add_dev(struct tx2_uncore_pmu *tx2_pmu)
+> >                       cpu_online_mask);
+> >
+> >       tx2_pmu->cpu = cpu;
+> > -     hrtimer_init(&tx2_pmu->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> > -     tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> > +     /* CCPI2 counters are 64 bit counters, no overflow  */
+> > +     if (tx2_pmu->type != PMU_TYPE_CCPI2) {
+> > +             hrtimer_init(&tx2_pmu->hrtimer,
+> > +                             CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> > +             tx2_pmu->hrtimer.function = tx2_hrtimer_callback;
+> > +     }
+>
+> Hmmm... this means that tx2_pmu->hrtimer.function is NULL for the CCPI2
+> PMU. I think it would be best to check that when (re)programming the
+> counters rather than the PMU type. For example, in
+> tx2_uncore_event_start() we could have:
+>
+>         if (!tx2_pmu->hrtimer.function)
+>                 return;
+>         if (bitmap_weight(tx2_pmu->active_counters,
+>             tx2_pmu->max_counters) != 1) {
+>                 ...
+>         }
+>
+
+Yes it is NULL for CCPI2.
+Ok, I can use tx2_pmu->events instead(like other places).
+
+> Thanks,
+> Mark.
+
+Thanks,
+Ganapat
