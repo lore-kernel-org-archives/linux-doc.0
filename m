@@ -1,116 +1,432 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E1C87D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 16:48:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 01C167D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 17:01:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbfHMQsU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 12:48:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726769AbfHMQsT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 12:48:19 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06A2D20842;
-        Tue, 13 Aug 2019 16:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565714898;
-        bh=+ClQXQZYMO3oD0vJh2iCm8rSEOKMIpNSMDMOjbE3t+k=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=pjR7+sDpG5QV8mqVLOqQHM+8vC+tRobkv0ngA4hd4MBaO/KrG4XqTeZ1bpn5bn1bq
-         KhfBsT1su6Wd2h61ArrsWNQlNeGWtPTPht9QXac/YRw1heGospZwGZg3FIXZ4HQ+Nu
-         vKsI/4s3VfFW3biZ3Mbn7FIY6xfwnAsdy1fw46EY=
-Content-Type: text/plain; charset="utf-8"
+        id S1727251AbfHMRBB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 13:01:01 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35031 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726637AbfHMRBB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 13:01:01 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n4so9837473pgv.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 10:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2Wh36zRfIjqrN3yPf6lW93bqqLIR2jPFD+zTjM8dtpc=;
+        b=LI26I4sxSLEw0TNQrcM+s3ymMcgk/V3LEJPEp7FoLcuMacMaSTOhZkHk7tiotpBUbj
+         AMzsHxSFx7Hmgvj1uQIccXkNMWyOueHSQQMLbAO+p3hXjBaqdQIzL5tPUNYImT8eKeSy
+         cuMKVZ44i2Vq3vD34kBvgAop9bHIA/l0l+uGU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2Wh36zRfIjqrN3yPf6lW93bqqLIR2jPFD+zTjM8dtpc=;
+        b=sBaW4UM0y5QMtNKBxLmBGPeb3DMwFOEODrHPuopjoylWfYhSbuOUqKQZFmlGGRcc/3
+         u+if1AnF/Qe0KcUsUIOShBvr1so3JKpT2wA/2UacsMlFfrbondWfy2DYDmJmSdrMrVtY
+         MKzOtAcjzvM7LP+tC78nOLLcuHDEaII4hoSwMix2s6IrDkqwiR+814tUP8q//brCb+FI
+         xlE6TfIN6BLfl6zBYVWv5wRzRqTzLDnvr3/Iu1xzxC1PM6+E0RATHcmY6cLiLKRE8w3D
+         wnzJdmEDdviMG/b51ruKnObKc/ukNvcmnjH6HngVeofuO+ndWIP3wraAm8H8o0YAGSie
+         JW5g==
+X-Gm-Message-State: APjAAAVQyXWyAW+hlPpWJOWA+l2TRzUWsvhOo8ivllkSkPYTt638uXN+
+        I3Q8VzhFUaW+IY8xXji7wfDFqg==
+X-Google-Smtp-Source: APXvYqx0tHgpZi/aiQKXWjq/gCwy1k6HVZHb9pSF4hSW8yoWynHvK4PzMzuh/jiQWv7637p0+PBSTw==
+X-Received: by 2002:a17:90a:a897:: with SMTP id h23mr3159058pjq.44.1565715659993;
+        Tue, 13 Aug 2019 10:00:59 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id 203sm13141528pfu.30.2019.08.13.10.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2019 10:00:59 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Rao Shoaib <rao.shoaib@oracle.com>,
+        max.byungchul.park@gmail.com, byungchul.park@lge.com,
+        kernel-team@android.com, kernel-team@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH v3 1/2] rcu/tree: Add basic support for kfree_rcu batching
+Date:   Tue, 13 Aug 2019 13:00:45 -0400
+Message-Id: <20190813170046.81707-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAFd5g452+-6m1eiVK0ccTDkJ2wH8GBwxRDw5owwC8h3NscE1ag@mail.gmail.com>
-References: <20190812182421.141150-1-brendanhiggins@google.com> <20190812225520.5A67C206A2@mail.kernel.org> <20190812233336.GA224410@google.com> <20190812235940.100842063F@mail.kernel.org> <CAFd5g44xciLPBhH_J3zUcY3TedWTijdnWgF055qffF+dAguhPQ@mail.gmail.com> <20190813045623.F3D9520842@mail.kernel.org> <CAFd5g46PJNTOUAA4GOOrW==74Zy7u1sRESTanL_BXBn6QykscA@mail.gmail.com> <20190813053023.CC86120651@mail.kernel.org> <CAFd5g47v7410QRAizPV8zaHrKrc95-Sk-GNzRRVngN741OKnvg@mail.gmail.com> <CAFd5g452+-6m1eiVK0ccTDkJ2wH8GBwxRDw5owwC8h3NscE1ag@mail.gmail.com>
-Subject: Re: [PATCH v12 03/18] kunit: test: add string_stream a std::stream like string builder
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-To:     Brendan Higgins <brendanhiggins@google.com>
-User-Agent: alot/0.8.1
-Date:   Tue, 13 Aug 2019 09:48:17 -0700
-Message-Id: <20190813164818.06A2D20842@mail.kernel.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-08-13 02:12:54)
-> On Tue, Aug 13, 2019 at 2:04 AM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > On Mon, Aug 12, 2019 at 10:30 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > > Quoting Brendan Higgins (2019-08-12 22:02:59)
-> > > > However, now that I added the kunit_resource_destroy, I thought it
-> > > > might be good to free the string_stream after I use it in each call=
- to
-> > > > kunit_assert->format(...) in which case I will be using this logic.
-> > > >
-> > > > So I think the right thing to do is to expose string_stream_destroy=
- so
-> > > > kunit_do_assert can clean up when it's done, and then demote
-> > > > string_stream_clear to static. Sound good?
-> > >
-> > > Ok, sure. I don't really see how clearing it explicitly when the
-> > > assertion prints vs. never allocating it to begin with is really any
-> > > different. Maybe I've missed something though.
-> >
-> > It's for the case that we *do* print something out. Once we are doing
-> > printing, we don't want the fragments anymore.
->=20
-> Oops, sorry fat fingered: s/doing/done
+Recently a discussion about stability and performance of a system
+involving a high rate of kfree_rcu() calls surfaced on the list [1]
+which led to another discussion how to prepare for this situation.
 
-Yes, but when we print something out we've run into some sort of problem
-and then the test is over. So freeing the memory when it fails vs. when
-the test is over seems like a minor difference. Or is it also used to
-print other informational messages while the test is running?
+This patch adds basic batching support for kfree_rcu(). It is "basic"
+because we do none of the slab management, dynamic allocation, code
+moving or any of the other things, some of which previous attempts did
+[2]. These fancier improvements can be follow-up patches and there are
+different ideas being discussed in those regards.
 
-I'm not particularly worried here, just trying to see if less code is
-possible.
+Torture tests follow in the next patch and show improvements of around
+400% in reduction of number of  grace periods on a 16 CPU system. More
+details and test data are in that patch.
 
+This is an effort to start simple, and build up from there. In the
+future, an extension to use kfree_bulk and possibly per-slab batching
+could be done to further improve performance due to cache-locality and
+slab-specific bulk free optimizations. By using an array of pointers,
+the worker thread processing the work would need to read lesser data
+since it does not need to deal with large rcu_head(s) any longer.
+
+There is an implication with rcu_barrier() with this patch. Since the
+kfree_rcu() calls can be batched, and may not be handed yet to the RCU
+machinery in fact, the monitor may not have even run yet to do the
+queue_rcu_work(), there seems no easy way of implementing rcu_barrier()
+to wait for those kfree_rcu()s that are already made. So this means a
+kfree_rcu() followed by an rcu_barrier() does not imply that memory will
+be freed once rcu_barrier() returns.
+
+Another implication is higher active memory usage (although not
+run-away..) until the kfree_rcu() flooding ends, in comparison to
+without batching. More details about this are in the second patch which
+adds an rcuperf test.
+
+Finally, in the near future we will get rid of kfree_rcu special casing
+within RCU such as in rcu_do_batch and switch everything to just
+batching. Currently we don't do that since timer subsystem is not yet up
+and we cannot schedule the kfree_rcu() monitor as the timer subsystem's
+lock are not initialized. That would also mean getting rid of
+kfree_call_rcu_nobatch() entirely.
+
+[1] http://lore.kernel.org/lkml/20190723035725-mutt-send-email-mst@kernel.org
+[2] https://lkml.org/lkml/2017/12/19/824
+
+Cc: Rao Shoaib <rao.shoaib@oracle.com>
+Cc: max.byungchul.park@gmail.com
+Cc: byungchul.park@lge.com
+Cc: kernel-team@android.com
+Cc: kernel-team@lge.com
+Co-developed-by: Byungchul Park <byungchul.park@lge.com>
+Signed-off-by: Byungchul Park <byungchul.park@lge.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+---
+v2->v3: Just some code comment changes thanks to Byungchul.
+
+RFCv1->PATCH v2: Removed limits on the ->head list, just let it grow.
+                   Dropped KFREE_MAX_JIFFIES to HZ/50 from HZ/20 to reduce OOM occurrence.
+                   Removed sleeps in rcuperf test, just using cond_resched()in loop.
+                   Better code comments ;)
+
+ .../admin-guide/kernel-parameters.txt         |  17 ++
+ include/linux/rcutiny.h                       |   5 +
+ include/linux/rcutree.h                       |   1 +
+ kernel/rcu/tree.c                             | 204 +++++++++++++++++-
+ 4 files changed, 221 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7ccd158b3894..a9156ca5de24 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3895,6 +3895,23 @@
+ 			test until boot completes in order to avoid
+ 			interference.
+ 
++	rcuperf.kfree_rcu_test= [KNL]
++			Set to measure performance of kfree_rcu() flooding.
++
++	rcuperf.kfree_nthreads= [KNL]
++			The number of threads running loops of kfree_rcu().
++
++	rcuperf.kfree_alloc_num= [KNL]
++			Number of allocations and frees done in an iteration.
++
++	rcuperf.kfree_loops= [KNL]
++			Number of loops doing rcuperf.kfree_alloc_num number
++			of allocations and frees.
++
++	rcuperf.kfree_no_batch= [KNL]
++			Use the non-batching (slower) version of kfree_rcu.
++			This is useful for comparing with the batched version.
++
+ 	rcuperf.nreaders= [KNL]
+ 			Set number of RCU readers.  The value -1 selects
+ 			N, where N is the number of CPUs.  A value
+diff --git a/include/linux/rcutiny.h b/include/linux/rcutiny.h
+index 8e727f57d814..383f2481750f 100644
+--- a/include/linux/rcutiny.h
++++ b/include/linux/rcutiny.h
+@@ -39,6 +39,11 @@ static inline void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
+ 	call_rcu(head, func);
+ }
+ 
++static inline void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
++{
++	call_rcu(head, func);
++}
++
+ void rcu_qs(void);
+ 
+ static inline void rcu_softirq_qs(void)
+diff --git a/include/linux/rcutree.h b/include/linux/rcutree.h
+index 735601ac27d3..7e38b39ec634 100644
+--- a/include/linux/rcutree.h
++++ b/include/linux/rcutree.h
+@@ -34,6 +34,7 @@ static inline void rcu_virt_note_context_switch(int cpu)
+ 
+ void synchronize_rcu_expedited(void);
+ void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func);
++void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func);
+ 
+ void rcu_barrier(void);
+ bool rcu_eqs_special_set(int cpu);
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index a14e5fbbea46..3e62bbb0e1fa 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -2593,17 +2593,195 @@ void call_rcu(struct rcu_head *head, rcu_callback_t func)
+ }
+ EXPORT_SYMBOL_GPL(call_rcu);
+ 
++
++/* Maximum number of jiffies to wait before draining a batch. */
++#define KFREE_DRAIN_JIFFIES (HZ / 50)
++
+ /*
+- * Queue an RCU callback for lazy invocation after a grace period.
+- * This will likely be later named something like "call_rcu_lazy()",
+- * but this change will require some way of tagging the lazy RCU
+- * callbacks in the list of pending callbacks. Until then, this
+- * function may only be called from __kfree_rcu().
++ * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
++ * kfree(s) is queued for freeing after a grace period, right away.
+  */
+-void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
++struct kfree_rcu_cpu {
++	/* The rcu_work node for queuing work with queue_rcu_work(). The work
++	 * is done after a grace period.
++	 */
++	struct rcu_work rcu_work;
++
++	/* The list of objects being queued in a batch but are not yet
++	 * scheduled to be freed.
++	 */
++	struct rcu_head *head;
++
++	/* The list of objects that have now left ->head and are queued for
++	 * freeing after a grace period.
++	 */
++	struct rcu_head *head_free;
++
++	/* Protect concurrent access to this structure. */
++	spinlock_t lock;
++
++	/* The delayed work that flushes ->head to ->head_free incase ->head
++	 * within KFREE_DRAIN_JIFFIES. In case flushing cannot be done if RCU
++	 * is busy, ->head just continues to grow and we retry flushing later.
++	 */
++	struct delayed_work monitor_work;
++	bool monitor_todo;	/* Is a delayed work pending execution? */
++};
++
++static DEFINE_PER_CPU(struct kfree_rcu_cpu, krc);
++
++/*
++ * This function is invoked in workqueue context after a grace period.
++ * It frees all the objects queued on ->head_free.
++ */
++static void kfree_rcu_work(struct work_struct *work)
++{
++	unsigned long flags;
++	struct rcu_head *head, *next;
++	struct kfree_rcu_cpu *krcp = container_of(to_rcu_work(work),
++					struct kfree_rcu_cpu, rcu_work);
++
++	spin_lock_irqsave(&krcp->lock, flags);
++	head = krcp->head_free;
++	krcp->head_free = NULL;
++	spin_unlock_irqrestore(&krcp->lock, flags);
++
++	/*
++	 * The head is detached and not referenced from anywhere, so lockless
++	 * access is Ok.
++	 */
++	for (; head; head = next) {
++		next = head->next;
++		head->next = NULL;
++		/* Could be possible to optimize with kfree_bulk in future */
++		__rcu_reclaim(rcu_state.name, head);
++		cond_resched_tasks_rcu_qs();
++	}
++}
++
++/*
++ * Schedule the kfree batch RCU work to run in workqueue context after a GP.
++ *
++ * This function is invoked by kfree_rcu_monitor() when the KFREE_DRAIN_JIFFIES
++ * timeout has been reached.
++ */
++static inline bool queue_kfree_rcu_work(struct kfree_rcu_cpu *krcp)
++{
++	lockdep_assert_held(&krcp->lock);
++
++	/* If a previous RCU batch work is already in progress, we cannot queue
++	 * another one, just refuse the optimization and it will be retried
++	 * again in KFREE_DRAIN_JIFFIES time.
++	 */
++	if (krcp->head_free)
++		return false;
++
++	krcp->head_free = krcp->head;
++	krcp->head = NULL;
++	INIT_RCU_WORK(&krcp->rcu_work, kfree_rcu_work);
++	queue_rcu_work(system_wq, &krcp->rcu_work);
++
++	return true;
++}
++
++static inline void kfree_rcu_drain_unlock(struct kfree_rcu_cpu *krcp,
++				   unsigned long flags)
++{
++	/* Flush ->head to ->head_free, all objects on ->head_free will be
++	 * kfree'd after a grace period.
++	 */
++	if (queue_kfree_rcu_work(krcp)) {
++		/* Success! Our job is done here. */
++		spin_unlock_irqrestore(&krcp->lock, flags);
++		return;
++	}
++
++	/* Previous batch did not get free yet, let us try again soon. */
++	if (krcp->monitor_todo == false) {
++		schedule_delayed_work_on(smp_processor_id(),
++				&krcp->monitor_work,  KFREE_DRAIN_JIFFIES);
++		krcp->monitor_todo = true;
++	}
++	spin_unlock_irqrestore(&krcp->lock, flags);
++}
++
++/*
++ * This function is invoked after the KFREE_DRAIN_JIFFIES timeout has elapsed,
++ * so it drains the specified kfree_rcu_cpu structure's ->head list.
++ */
++static void kfree_rcu_monitor(struct work_struct *work)
++{
++	bool todo;
++	unsigned long flags;
++	struct kfree_rcu_cpu *krcp = container_of(work, struct kfree_rcu_cpu,
++						 monitor_work.work);
++
++	spin_lock_irqsave(&krcp->lock, flags);
++	todo = krcp->monitor_todo;
++	krcp->monitor_todo = false;
++	if (todo)
++		kfree_rcu_drain_unlock(krcp, flags);
++	else
++		spin_unlock_irqrestore(&krcp->lock, flags);
++}
++
++/*
++ * This version of kfree_call_rcu does not do batching of kfree_rcu() requests.
++ * Used only by rcuperf torture test for comparison with kfree_rcu_batch().
++ */
++void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
+ {
+ 	__call_rcu(head, func, -1, 1);
+ }
++EXPORT_SYMBOL_GPL(kfree_call_rcu_nobatch);
++
++/*
++ * Queue a request for lazy invocation of kfree() after a grace period.
++ *
++ * Each kfree_call_rcu() request is added to a batch. The batch will be drained
++ * every KFREE_DRAIN_JIFFIES number of jiffies. All the objects in the batch
++ * will be kfree'd in workqueue context. This allows us to:
++ *
++ * 1. Batch requests together to reduce the number of grace periods during
++ * heavy kfree_rcu() load.
++ *
++ * 2. In the future, makes it possible to use kfree_bulk() on a large number of
++ * kfree_rcu() requests thus reducing the per-object overhead of kfree() and
++ * also reducing cache misses.
++ */
++void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
++{
++	unsigned long flags;
++	struct kfree_rcu_cpu *krcp;
++	bool monitor_todo;
++
++	/* kfree_call_rcu() batching requires timers to be up. If the scheduler
++	 * is not yet up, just skip batching and do non-batched kfree_call_rcu().
++	 */
++	if (rcu_scheduler_active != RCU_SCHEDULER_RUNNING)
++		return kfree_call_rcu_nobatch(head, func);
++
++	local_irq_save(flags);
++	krcp = this_cpu_ptr(&krc);
++
++	spin_lock(&krcp->lock);
++
++	/* Queue the kfree but don't yet schedule the batch. */
++	head->func = func;
++	head->next = krcp->head;
++	krcp->head = head;
++
++	/* Schedule monitor for timely drain after KFREE_DRAIN_JIFFIES. */
++	monitor_todo = krcp->monitor_todo;
++	krcp->monitor_todo = true;
++	spin_unlock(&krcp->lock);
++
++	if (!monitor_todo) {
++		schedule_delayed_work_on(smp_processor_id(),
++				&krcp->monitor_work,  KFREE_DRAIN_JIFFIES);
++	}
++	local_irq_restore(flags);
++}
+ EXPORT_SYMBOL_GPL(kfree_call_rcu);
+ 
+ /*
+@@ -3455,10 +3633,24 @@ static void __init rcu_dump_rcu_node_tree(void)
+ struct workqueue_struct *rcu_gp_wq;
+ struct workqueue_struct *rcu_par_gp_wq;
+ 
++static void __init kfree_rcu_batch_init(void)
++{
++	int cpu;
++
++	for_each_possible_cpu(cpu) {
++		struct kfree_rcu_cpu *krcp = per_cpu_ptr(&krc, cpu);
++
++		spin_lock_init(&krcp->lock);
++		INIT_DELAYED_WORK(&krcp->monitor_work, kfree_rcu_monitor);
++	}
++}
++
+ void __init rcu_init(void)
+ {
+ 	int cpu;
+ 
++	kfree_rcu_batch_init();
++
+ 	rcu_early_boot_tests();
+ 
+ 	rcu_bootup_announce();
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
