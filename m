@@ -1,143 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A134F7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 09:13:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ACF5B7D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 09:15:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727682AbfHMJNJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 05:13:09 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34266 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727636AbfHMJNJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 05:13:09 -0400
-Received: by mail-lf1-f65.google.com with SMTP id b29so69010486lfq.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 02:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b9ILhd2aCjQh4oMSFsJoowCjN4C8D/s8MJgq4YAEBLc=;
-        b=W2oxF32qcEgwvRN+TzYXAddY5GIfE0TU07ZZEMjsnTdZHws8iAZ2t8Ultvl9YT7B9l
-         FcqQcsJALGn/N6C5ZuExhftHA8ZS8MNOrSUeIrQu3gBXXLe4ixyR8Oo5hmg4UUGyabxo
-         uWv09COtEGpqAdax3WCg5P2ubO3WE1ftRGYMB38Ed3fgj3xpruF/YDRjA5s4U1SsywTz
-         raOTZO3u1j8iOcpslIka2xJ8bkvq+QSToLsxoCLDTz8ppRJhCuL8ltvK/wB/IXN51+OA
-         Tmzcrff2zT5F1o2XfVqbtXnT9QaUbGOA7cZQ4WzLX6NEXNn++uTMldyauztGbKy/kIWW
-         PdfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b9ILhd2aCjQh4oMSFsJoowCjN4C8D/s8MJgq4YAEBLc=;
-        b=SR/JxoXevRCxzvB1FkxAadA7aq+Ge0m82gElbgQcJAI2JvWa/WD09nrDJpd3wXt/Y5
-         9ltpAzQ0fdtjNSdUumQMYfu67f6Hald0HXLyiJ1zOP2gRSfOlBEmXAZkf0dTVueNR0JX
-         cYsvWusg1Wl4bEnrRN7ZYb33uaUTSdt+tCPTjopMbiJsXsAIvykUNxu0GYxduprMSOSb
-         4qDeyqCJejOI9Dge2XwLtDxIsgFN6t6eJflm8HhFWaSjxYwomaKAx9AIwIDiRUZnsFEr
-         POelq+Dtlm2bRzPaPgoWlWwc543L41nQUXy6Er1W/wgLgf50eGRAfiEl3r0uBDb0RjxA
-         0i/A==
-X-Gm-Message-State: APjAAAVFutqmooSa1KrdY4apZu1pZaJDWyQRZ4iHENwJNodxoABRJcvH
-        gAnEP3Kyo50T3YjKn508c2+mn8tx3HIMQRmcI4xnuA==
-X-Google-Smtp-Source: APXvYqwLnkbduPeN9fnl3i+lRRTsMYZatTj1IuJmhpqxnMiio1q0JfaKumMLZmtQt11+bQEG/iQwBN5AGKfhGyCW+Rs=
-X-Received: by 2002:ac2:5dd6:: with SMTP id x22mr21614482lfq.92.1565687586809;
- Tue, 13 Aug 2019 02:13:06 -0700 (PDT)
+        id S1728479AbfHMJOf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 05:14:35 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58966 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728436AbfHMJOe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Aug 2019 05:14:34 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 117B6AB91;
+        Tue, 13 Aug 2019 09:14:32 +0000 (UTC)
+Date:   Tue, 13 Aug 2019 11:14:30 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190813091430.GE17933@dhcp22.suse.cz>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
+ <20190807204530.GB90900@google.com>
+ <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
+ <20190807213105.GA14622@google.com>
+ <20190808080044.GA18351@dhcp22.suse.cz>
+ <20190812145620.GB224541@google.com>
 MIME-Version: 1.0
-References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-4-brendanhiggins@google.com> <20190812225520.5A67C206A2@mail.kernel.org>
- <20190812233336.GA224410@google.com> <20190812235940.100842063F@mail.kernel.org>
- <CAFd5g44xciLPBhH_J3zUcY3TedWTijdnWgF055qffF+dAguhPQ@mail.gmail.com>
- <20190813045623.F3D9520842@mail.kernel.org> <CAFd5g46PJNTOUAA4GOOrW==74Zy7u1sRESTanL_BXBn6QykscA@mail.gmail.com>
- <20190813053023.CC86120651@mail.kernel.org> <CAFd5g47v7410QRAizPV8zaHrKrc95-Sk-GNzRRVngN741OKnvg@mail.gmail.com>
-In-Reply-To: <CAFd5g47v7410QRAizPV8zaHrKrc95-Sk-GNzRRVngN741OKnvg@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 13 Aug 2019 02:12:54 -0700
-Message-ID: <CAFd5g452+-6m1eiVK0ccTDkJ2wH8GBwxRDw5owwC8h3NscE1ag@mail.gmail.com>
-Subject: Re: [PATCH v12 03/18] kunit: test: add string_stream a std::stream
- like string builder
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190812145620.GB224541@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 2:04 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> On Mon, Aug 12, 2019 at 10:30 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> >
-> > Quoting Brendan Higgins (2019-08-12 22:02:59)
-> > > On Mon, Aug 12, 2019 at 9:56 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > >
-> > > > Quoting Brendan Higgins (2019-08-12 17:41:05)
-> > > > > On Mon, Aug 12, 2019 at 4:59 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > > >
-> > > > > > > kunit_resource_destroy (respective equivalents to devm_kfree, and
-> > > > > > > devres_destroy) and use kunit_kfree here?
-> > > > > > >
-> > > > > >
-> > > > > > Yes, or drop the API entirely? Does anything need this functionality?
-> > > > >
-> > > > > Drop the kunit_resource API? I would strongly prefer not to.
-> > > >
-> > > > No. I mean this API, string_stream_clear(). Does anything use it?
-> > >
-> > > Oh, right. No.
-> > >
-> > > However, now that I added the kunit_resource_destroy, I thought it
-> > > might be good to free the string_stream after I use it in each call to
-> > > kunit_assert->format(...) in which case I will be using this logic.
-> > >
-> > > So I think the right thing to do is to expose string_stream_destroy so
-> > > kunit_do_assert can clean up when it's done, and then demote
-> > > string_stream_clear to static. Sound good?
-> >
-> > Ok, sure. I don't really see how clearing it explicitly when the
-> > assertion prints vs. never allocating it to begin with is really any
-> > different. Maybe I've missed something though.
->
-> It's for the case that we *do* print something out. Once we are doing
-> printing, we don't want the fragments anymore.
+On Mon 12-08-19 10:56:20, Joel Fernandes wrote:
+> On Thu, Aug 08, 2019 at 10:00:44AM +0200, Michal Hocko wrote:
+> > On Wed 07-08-19 17:31:05, Joel Fernandes wrote:
+> > > On Wed, Aug 07, 2019 at 01:58:40PM -0700, Andrew Morton wrote:
+> > > > On Wed, 7 Aug 2019 16:45:30 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > > 
+> > > > > On Wed, Aug 07, 2019 at 01:04:02PM -0700, Andrew Morton wrote:
+> > > > > > On Wed,  7 Aug 2019 13:15:54 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+> > > > > > 
+> > > > > > > In Android, we are using this for the heap profiler (heapprofd) which
+> > > > > > > profiles and pin points code paths which allocates and leaves memory
+> > > > > > > idle for long periods of time. This method solves the security issue
+> > > > > > > with userspace learning the PFN, and while at it is also shown to yield
+> > > > > > > better results than the pagemap lookup, the theory being that the window
+> > > > > > > where the address space can change is reduced by eliminating the
+> > > > > > > intermediate pagemap look up stage. In virtual address indexing, the
+> > > > > > > process's mmap_sem is held for the duration of the access.
+> > > > > > 
+> > > > > > So is heapprofd a developer-only thing?  Is heapprofd included in
+> > > > > > end-user android loads?  If not then, again, wouldn't it be better to
+> > > > > > make the feature Kconfigurable so that Android developers can enable it
+> > > > > > during development then disable it for production kernels?
+> > > > > 
+> > > > > Almost all of this code is already configurable with
+> > > > > CONFIG_IDLE_PAGE_TRACKING. If you disable it, then all of this code gets
+> > > > > disabled.
+> > > > > 
+> > > > > Or are you referring to something else that needs to be made configurable?
+> > > > 
+> > > > Yes - the 300+ lines of code which this patchset adds!
+> > > > 
+> > > > The impacted people will be those who use the existing
+> > > > idle-page-tracking feature but who will not use the new feature.  I
+> > > > guess we can assume this set is small...
+> > > 
+> > > Yes, I think this set should be small. The code size increase of page_idle.o
+> > > is from ~1KB to ~2KB. Most of the extra space is consumed by
+> > > page_idle_proc_generic() function which this patch adds. I don't think adding
+> > > another CONFIG option to disable this while keeping existing
+> > > CONFIG_IDLE_PAGE_TRACKING enabled, is worthwhile but I am open to the
+> > > addition of such an option if anyone feels strongly about it. I believe that
+> > > once this patch is merged, most like this new interface being added is what
+> > > will be used more than the old interface (for some of the usecases) so it
+> > > makes sense to keep it alive with CONFIG_IDLE_PAGE_TRACKING.
+> > 
+> > I would tend to agree with Joel here. The functionality falls into an
+> > existing IDLE_PAGE_TRACKING config option quite nicely. If there really
+> > are users who want to save some space and this is standing in the way
+> > then they can easily add a new config option with some justification so
+> > the savings are clear. Without that an additional config simply adds to
+> > the already existing configurability complexity and balkanization.
+> 
+> Michal, Andrew, Minchan,
+> 
+> Would you have any other review comments on the v5 series? This is just a new
+> interface that does not disrupt existing users of the older page-idle
+> tracking, so as such it is a safe change (as in, doesn't change existing
+> functionality except for the draining bug fix).
 
-Oops, sorry fat fingered: s/doing/done
+I hope to find some more time to finish the review but let me point out
+that "it's new it is regression safe" is not really a great argument for
+a new user visible API. If the API is flawed then this is likely going
+to kick us later and will be hard to fix. I am still not convinced about
+the swap part of the thing TBH.
+-- 
+Michal Hocko
+SUSE Labs
