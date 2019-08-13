@@ -1,216 +1,357 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D11F7D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 06:12:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E9A37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 06:12:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbfHMGMF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 02:12:05 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4237 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727772AbfHMGME (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Aug 2019 02:12:04 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id D5DD77C092C7A2CF99D1;
-        Tue, 13 Aug 2019 14:11:58 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Tue, 13 Aug 2019
- 14:11:52 +0800
-Subject: Re: [PATCH 9/9] arm64: Retrieve stolen time as paravirtualized guest
-To:     Steven Price <steven.price@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190802145017.42543-10-steven.price@arm.com>
- <5d763c8e-9c06-c448-2644-25bfa0e57e8c@huawei.com>
- <07075994-3a32-8f20-23d8-1759ec2874e3@arm.com>
-From:   Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <42698e3c-c382-8621-7d9e-af09398f4aef@huawei.com>
-Date:   Tue, 13 Aug 2019 14:06:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
+        id S1727540AbfHMGMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 02:12:15 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:38520 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727485AbfHMGMO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 02:12:14 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7D68uMj021972;
+        Tue, 13 Aug 2019 06:11:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2019-08-05;
+ bh=gq6T668rkWls/bxZrbwyu380I/xpVBippRU1jyjSOOg=;
+ b=d/573iIpCX9yPFLlxk1CgqdR4610RRj0mAF5cWpbaB0bIrd4se+eZexwhA1mCf66xYEO
+ CsPxmkJeMxBzS3SmeEZGsWPbtkzeobJU+CBLiP72OPRgEoZRx9lUmDh63M5eJSZwE5jT
+ B2yddnuNpLgBZ60qwUqmfbOedRcJVd81zKD4esydlZunooXGtAXfynMASGJMYwtZ+dps
+ J5gyh2NlIF8ReoaQCiGuzEWw+AQDS3TaZT5AUJSiNewgbnkDjdV6ja8+qdLTxtcuh1sj
+ yYHR8nqRaqCw73FNli6D0ww3rCaD/xXCtUsiMMHcwASBclq2mr5zDPXQzlqtnpJOhIQD 8g== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=gq6T668rkWls/bxZrbwyu380I/xpVBippRU1jyjSOOg=;
+ b=RenkVvOiBOTkk1/wEhNe2wlXEWi74QJwkZzEHHDf388OZhzhGP33qV2AbLfjbW48hhzL
+ u+v+hCJLPYVB7hCiKKTnn0To9BxG7nlAeKp4V/6r8xttNDWTP6XpAxGSUnLd8XX5+BR6
+ +GqmBFcyX4Z5Kszt6G1woLwp+9ENHtJFcL7WmXX3BFyl2ycELdLdvtLLMlNCHmLh4kSg
+ hXzLriprsvUv0PlYGq2sTiHH5aotkfM3+EwGiOr4H+fd2jC/DKBQyiEwEn4uBKKsxkkl
+ wDmWrk7YAiEJVjXgXMwgbeaW0bO02Huacz7YqN0riVSPsXQ+uAieoaRj2DRkXxrL3/pW Qw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 2u9pjqbvpd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Aug 2019 06:11:54 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7D68YNc049789;
+        Tue, 13 Aug 2019 06:11:54 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 2u9k1w41vc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Aug 2019 06:11:54 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7D6BqwY011407;
+        Tue, 13 Aug 2019 06:11:52 GMT
+Received: from abi.no.oracle.com (/10.172.144.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 12 Aug 2019 23:11:51 -0700
+From:   Knut Omang <knut.omang@oracle.com>
+To:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Subject: [RFC 16/19] ktf: Some user applications to run tests
+Date:   Tue, 13 Aug 2019 08:09:31 +0200
+Message-Id: <c8c6df6d7b068c2103475f28056ab9a6df3fda4c.1565676440.git-series.knut.omang@oracle.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <07075994-3a32-8f20-23d8-1759ec2874e3@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9347 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908130067
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9347 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908130067
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/8/12 18:39, Steven Price wrote:
-> On 09/08/2019 14:51, Zenghui Yu wrote:
-> [...]
->> Hi Steven,
->>
->> Since userspace is not involved yet (right?), no one will create the
->> PV_TIME device for guest (and no one will specify the IPA of the shared
->> stolen time region), and I guess we will get a "not supported" error
->> here.
->>
->> So what should we do if we want to test this series now?  Any userspace
->> tools?  If no, do you have any plans for userspace developing? ;-)
-> 
-> At the moment I have the following patch to kvmtool which creates the
-> PV_TIME device - this isn't in a state to go upstream, and Marc has
-> asked that I rework the memory allocation, so this will need to change.
-> 
-> It's a little ugly as it simply reserves the first page of RAM to use
-> for the PV time structures.
+Some minimal user land executables to run tests and to enable/disable
+coverage:
 
-Thanks for sharing the code. It's good enough to show what is required
-in user-space.
+ktfrun:		Simple generic test runner for generic ktf tests
+ktftest:	A test runner for the ktf selftests. Contains code to
+		configure specific selftest context objects.
+ktfcov:		A utility to selectively enable coverage support for
+		a kernel module. Coverage support can also be enabled
+		in code by tests, if desired.
+hybrun:		A test that implements a hybrid test runner.
 
-(I'm not familiar with kvmtool. I will first take some time to move the
-steal time part to Qemu and see what will happen.)
+hybrid.cc:      User mode part of the hybrid_self
+ktfrun.cc:      Generic user level application to run kernel tests
 
+Signed-off-by: Knut Omang <knut.omang@oracle.com>
+---
+ tools/testing/selftests/ktf/user/Makefile   | 26 ++++++++-
+ tools/testing/selftests/ktf/user/hybrid.cc  | 39 +++++++++++++-
+ tools/testing/selftests/ktf/user/ktfcov.cc  | 68 ++++++++++++++++++++++-
+ tools/testing/selftests/ktf/user/ktfrun.cc  | 20 ++++++-
+ tools/testing/selftests/ktf/user/ktftest.cc | 46 +++++++++++++++-
+ 5 files changed, 199 insertions(+)
+ create mode 100644 tools/testing/selftests/ktf/user/Makefile
+ create mode 100644 tools/testing/selftests/ktf/user/hybrid.cc
+ create mode 100644 tools/testing/selftests/ktf/user/ktfcov.cc
+ create mode 100644 tools/testing/selftests/ktf/user/ktfrun.cc
+ create mode 100644 tools/testing/selftests/ktf/user/ktftest.cc
 
-Thanks,
-zenghui
-
-> ----8<----
-> diff --git a/Makefile b/Makefile
-> index 3862112..a79956b 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -158,7 +158,7 @@ endif
->   # ARM
->   OBJS_ARM_COMMON		:= arm/fdt.o arm/gic.o arm/gicv2m.o arm/ioport.o \
->   			   arm/kvm.o arm/kvm-cpu.o arm/pci.o arm/timer.o \
-> -			   arm/pmu.o
-> +			   arm/pmu.o arm/pvtime.o
->   HDRS_ARM_COMMON		:= arm/include
->   ifeq ($(ARCH), arm)
->   	DEFINES		+= -DCONFIG_ARM
-> diff --git a/arm/fdt.c b/arm/fdt.c
-> index c80e6da..19eccbc 100644
-> --- a/arm/fdt.c
-> +++ b/arm/fdt.c
-> @@ -119,6 +119,7 @@ static int setup_fdt(struct kvm *kvm)
->   
->   	/* Create new tree without a reserve map */
->   	_FDT(fdt_create(fdt, FDT_MAX_SIZE));
-> +	_FDT(fdt_add_reservemap_entry(fdt, kvm->arch.memory_guest_start, 4096));
->   	_FDT(fdt_finish_reservemap(fdt));
->   
->   	/* Header */
-> diff --git a/arm/kvm.c b/arm/kvm.c
-> index 1f85fc6..8bbfef1 100644
-> --- a/arm/kvm.c
-> +++ b/arm/kvm.c
-> @@ -11,6 +11,8 @@
->   #include <linux/kvm.h>
->   #include <linux/sizes.h>
->   
-> +int pvtime_create(struct kvm *kvm);
-> +
->   struct kvm_ext kvm_req_ext[] = {
->   	{ DEFINE_KVM_EXT(KVM_CAP_IRQCHIP) },
->   	{ DEFINE_KVM_EXT(KVM_CAP_ONE_REG) },
-> @@ -86,6 +88,10 @@ void kvm__arch_init(struct kvm *kvm, const char *hugetlbfs_path, u64 ram_size)
->   	/* Create the virtual GIC. */
->   	if (gic__create(kvm, kvm->cfg.arch.irqchip))
->   		die("Failed to create virtual GIC");
-> +
-> +	/* Setup PV time */
-> +	if (pvtime_create(kvm))
-> +		die("Failed to initialise PV time");
->   }
->   
->   #define FDT_ALIGN	SZ_2M
-> diff --git a/arm/pvtime.c b/arm/pvtime.c
-> new file mode 100644
-> index 0000000..abcaab3
-> --- /dev/null
-> +++ b/arm/pvtime.c
-> @@ -0,0 +1,77 @@
-> +#include "kvm/kvm.h"
-> +
-> +#define KVM_DEV_TYPE_ARM_PV_TIME (KVM_DEV_TYPE_ARM_VGIC_ITS+2)
-> +
-> +/* Device Control API: PV_TIME */
-> +#define KVM_DEV_ARM_PV_TIME_PADDR	0
-> +#define KVM_DEV_ARM_PV_TIME_FREQUENCY	3
-> +
-> +#define KVM_DEV_ARM_PV_TIME_ST		0
-> +#define KVM_DEV_ARM_PV_TIME_LPT		1
-> +
-> +static int pvtime_fd;
-> +
-> +int pvtime_create(struct kvm *kvm);
-> +
-> +int pvtime_create(struct kvm *kvm)
-> +{
-> +	int err;
-> +	u64 lpt_paddr = 0x10000000;
-> +	u64 st_paddr = lpt_paddr + 4096;
-> +	u32 frequency = 100 * 1000 * 1000;
-> +
-> +	printf("lpt_paddr=%llx\n", lpt_paddr);
-> +
-> +	struct kvm_create_device pvtime_device = {
-> +		.type = KVM_DEV_TYPE_ARM_PV_TIME,
-> +		.flags = 0,
-> +	};
-> +
-> +	err = ioctl(kvm->vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
-> +	if (err) {
-> +		printf("Failed to create PV device\n");
-> +		return 0;
-> +	}
-> +
-> +	pvtime_fd = pvtime_device.fd;
-> +
-> +	struct kvm_device_attr lpt_base = {
-> +		.group = KVM_DEV_ARM_PV_TIME_PADDR,
-> +		.attr = KVM_DEV_ARM_PV_TIME_LPT,
-> +		.addr = (u64)(unsigned long)&lpt_paddr
-> +	};
-> +	struct kvm_device_attr st_base = {
-> +		.group = KVM_DEV_ARM_PV_TIME_PADDR,
-> +		.attr = KVM_DEV_ARM_PV_TIME_ST,
-> +		.addr = (u64)(unsigned long)&st_paddr
-> +	};
-> +
-> +	struct kvm_device_attr lpt_freq = {
-> +		.group = KVM_DEV_ARM_PV_TIME_FREQUENCY,
-> +		.attr = KVM_DEV_ARM_PV_TIME_LPT,
-> +		.addr = (u64)(unsigned long)&frequency
-> +	};
-> +
-> +	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &lpt_base);
-> +	if (err) {
-> +		perror("ioctl lpt_base failed");
-> +		printf("Ignoring LPT...\n");
-> +	}
-> +	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
-> +	if (err) {
-> +		perror("ioctl st_base failed");
-> +		goto out_err;
-> +	}
-> +	err = ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &lpt_freq);
-> +	if (err) {
-> +		perror("ioctl lpt_freq failed");
-> +		printf("Ignoring LPT...\n");
-> +	}
-> +
-> +	printf("PV time setup\n");
-> +
-> +	return 0;
-> +out_err:
-> +	close(pvtime_fd);
-> +	return err;
-> +}
-
+diff --git a/tools/testing/selftests/ktf/user/Makefile b/tools/testing/selftests/ktf/user/Makefile
+new file mode 100644
+index 0000000..04c8e7e
+--- /dev/null
++++ b/tools/testing/selftests/ktf/user/Makefile
+@@ -0,0 +1,26 @@
++
++GTEST_CFLAGS ?= -I$(GTEST_PATH)/include -DGTEST_HAS_PTHREAD=1 -lpthread
++GTEST_LIBS ?= -L$(GTEST_PATH)/lib64 -lgtest -lpthread
++NETLINK_CFLAGS ?= $(shell pkgconf --cflags libnl-genl-3.0)
++HOST_EXTRACFLAGS = -I$(srctree)/$(src)/../lib $(NETLINK_CFLAGS) $(GTEST_CFLAGS) \
++		-Wall -Werror \
++		-Wno-packed-bitfield-compat -D_GNU_SOURCE
++
++HOST_EXTRACXXFLAGS = -I$(srctree)/$(src)/../lib $(NETLINK_CFLAGS) $(GTEST_CFLAGS) \
++		-Wall \
++		-Wno-packed-bitfield-compat \
++		-Wno-pointer-arith -Werror \
++		-D__FILENAME__=\"`basename $<`\"
++NETLINK_LIBS ?= $(shell pkgconf --libs libnl-genl-3.0)
++KBUILD_HOSTLDLIBS =	-L$(obj)/../lib -lktf $(NETLINK_LIBS) $(GTEST_LIBS)
++
++hostprogs-y := ktfrun ktfcov ktftest
++
++__build: $(addprefix $(obj)/,$(hostprogs-y))
++
++## Simple kernel test runner sample program:
++ktfrun-cxxobjs = ktfrun.o
++ktfcov-cxxobjs = ktfcov.o
++
++## Configure and run the KTF selftests:
++ktftest-cxxobjs = ktftest.o hybrid.o
+diff --git a/tools/testing/selftests/ktf/user/hybrid.cc b/tools/testing/selftests/ktf/user/hybrid.cc
+new file mode 100644
+index 0000000..6aa5ad2
+--- /dev/null
++++ b/tools/testing/selftests/ktf/user/hybrid.cc
+@@ -0,0 +1,39 @@
++/* Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
++ *    Author: Knut Omang <knut.omang@oracle.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0
++ *
++ * hybrid.cpp: User mode part of the hybrid_self
++ * test in selftests
++ */
++
++#include "ktf.h"
++#include <string.h>
++
++extern "C" {
++#include "../selftest/hybrid_self.h"
++}
++
++/* User side of a simple hybrid test that just sends an out-of-band message
++ * to the kernel side - the kernel implementation picks it up and verifies
++ * that it is the expected string and integer values.
++ *
++ * This form of test allows the mixing of normal gtest user land assertions
++ * with one or more calls to the kernel side to run tests there:
++ */
++
++HTEST(selftest, msg)
++{
++  KTF_USERDATA(self, hybrid_self_params, data);
++
++  strcpy(data->text_val, HYBRID_MSG);
++  data->val = HYBRID_MSG_VAL;
++
++  /* assertions can be specified here: */
++  EXPECT_TRUE(true);
++
++  ktf::run(self);
++
++  /* and here.. */
++  EXPECT_TRUE(true);
++}
+diff --git a/tools/testing/selftests/ktf/user/ktfcov.cc b/tools/testing/selftests/ktf/user/ktfcov.cc
+new file mode 100644
+index 0000000..d5a9ef4
+--- /dev/null
++++ b/tools/testing/selftests/ktf/user/ktfcov.cc
+@@ -0,0 +1,68 @@
++/*
++ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
++ *    Author: Alan Maguire <alan.maguire@oracle.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0
++ *
++ * ktfcov.cpp:
++ *   User level application to enable/disable coverage of kernel modules.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include "ktf.h"
++#include "../kernel/ktf_unlproto.h"
++
++using namespace std;
++
++void
++usage(char *progname)
++{
++	cerr << "Usage: " << progname << " [-e module[-m]] [-d module]\n";
++}
++
++int main (int argc, char** argv)
++{
++  int opt, nopts = 0;
++  unsigned int cov_opts = 0;
++  std::string modname = std::string();
++  bool enable = false;
++
++  ktf::setup();
++  testing::InitGoogleTest(&argc,argv);
++
++  if (argc < 3) {
++	usage(argv[0]);
++	return -1;
++  }
++
++  while ((opt = getopt(argc, argv, "e:d:m")) != -1) {
++	switch (opt) {
++	case 'e':
++		nopts++;
++		enable = true;
++		modname = optarg;
++		break;
++	case 'd':
++		nopts++;
++		enable = false;
++		modname = optarg;
++		break;
++	case 'm':
++		cov_opts |= KTF_COV_OPT_MEM;
++		break;
++	default:
++		cerr << "Unknown option '" << char(optopt) << "'";
++		return -1;
++	}
++  }
++  /* Either enable or disable must be specified, and -m is only valid
++   * for enable.
++   */
++  if (modname.size() == 0 || nopts != 1 || (cov_opts && !enable)) {
++	usage(argv[0]);
++	return -1;
++  }
++  return ktf::set_coverage(modname, cov_opts, enable);
++}
+diff --git a/tools/testing/selftests/ktf/user/ktfrun.cc b/tools/testing/selftests/ktf/user/ktfrun.cc
+new file mode 100644
+index 0000000..9229b21
+--- /dev/null
++++ b/tools/testing/selftests/ktf/user/ktfrun.cc
+@@ -0,0 +1,20 @@
++/*
++ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
++ *    Author: Knut Omang <knut.omang@oracle.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0
++ *
++ * ktfrun.cpp: Generic user level application to run kernel tests
++ *   provided by modules subscribing to ktf services.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <ktf.h>
++
++int main (int argc, char** argv)
++{
++  ktf::setup();
++  testing::InitGoogleTest(&argc,argv);
++
++  return RUN_ALL_TESTS();
++}
+diff --git a/tools/testing/selftests/ktf/user/ktftest.cc b/tools/testing/selftests/ktf/user/ktftest.cc
+new file mode 100644
+index 0000000..fda625d
+--- /dev/null
++++ b/tools/testing/selftests/ktf/user/ktftest.cc
+@@ -0,0 +1,46 @@
++/*
++ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
++ *    Author: Knut Omang <knut.omang@oracle.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0
++ *
++ * ktfrun.cpp: Generic user level application to run kernel tests
++ *   provided by modules subscribing to ktf services.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <ktf.h>
++
++extern "C" {
++#include "../selftest/context_self.h"
++}
++
++void selftest_configure()
++{
++  struct test_parameter_block p;
++  memset(&p, 0, sizeof(p));
++  strcpy(p.s, CONTEXT_MSG);
++
++  /* First configure two contexts provided by the kernel part: */
++  p.magic = CONTEXT_MAGIC1;
++  KTF_CONTEXT_CFG("context1", "context_type_1", test_parameter_block, &p);
++  p.magic = CONTEXT_MAGIC2;
++  KTF_CONTEXT_CFG("context2", "context_type_2", test_parameter_block, &p);
++
++  /* Configure a 3rd, dynamically created context, using CONTEXT3_TYPE_ID
++   * which the kernel part has enabled for dynamic creation of contexts
++   * from user space (see kernel/context.c: add_context_tests()
++   * for details of setup)
++   */
++  p.magic = CONTEXT_MAGIC3;
++  KTF_CONTEXT_CFG("context3", "context_type_3", test_parameter_block, &p);
++}
++
++
++int main (int argc, char** argv)
++{
++  ktf::setup(selftest_configure);
++  testing::InitGoogleTest(&argc,argv);
++
++  return RUN_ALL_TESTS();
++}
+-- 
+git-series 0.9.1
