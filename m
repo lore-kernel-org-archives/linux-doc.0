@@ -1,128 +1,396 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC1647D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 16:58:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CFB17D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 17:17:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbfHNQ6m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 12:58:42 -0400
-Received: from mga11.intel.com ([192.55.52.93]:41091 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727558AbfHNQ6l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 12:58:41 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 09:58:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,386,1559545200"; 
-   d="scan'208";a="351971119"
-Received: from ray.jf.intel.com (HELO [10.7.201.140]) ([10.7.201.140])
-  by orsmga005.jf.intel.com with ESMTP; 14 Aug 2019 09:58:40 -0700
-Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1730916AbfHNRRs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 13:17:48 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:52006 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730902AbfHNRRr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 13:17:47 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EGs4T6046794;
+        Wed, 14 Aug 2019 17:17:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2019-08-05;
+ bh=v+67tp2xg4CxzjejgnDU4HMesl0ZP9hJ06uNB6nago8=;
+ b=IbcJEzM8nLKTbJFdykTbb9vXk+vCG+0PG2TtlObANAeGc+8AfW8bQbeNUNUeUKoL1ExW
+ jD5Z9tqzJd9cDsLBSbpCDbTVKN0Uj7tp/1UKawD35/KZp/zZ3X9ALQsZhElQQwO0LfFS
+ euUBivJqjzhT6Vxou7w4Xud3HaO0fLTfO5UTpqp5olTqFcKjL6UYxW4juq0x+LxMTFVa
+ V0aHxe8jEEUTachDIAWExjk/gWZJoaqogbwNlyzcaxj3RJXp5ZZZFo380CDBuH6ccnrv
+ tcp5scqVhcbD3fC37j5SgaIvN8dsXIDmE5aEcTA5MESl9EjfbA4MsVIf6KuqDnlLqjvw /g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2u9pjqp2dr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 17:17:19 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EGrCLk048616;
+        Wed, 14 Aug 2019 17:17:18 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 2ubwcy9swm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 17:17:18 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7EHHCkZ000361;
+        Wed, 14 Aug 2019 17:17:12 GMT
+Received: from asu (/92.220.18.196)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Aug 2019 10:17:12 -0700
+Message-ID: <a63bea757e02656a38463cc794da7da15273dd16.camel@oracle.com>
+Subject: Re: [RFC 06/19] ktf: A simple debugfs interface to test results
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Shuah Khan <shuah@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
- <20190813205225.12032-12-yu-cheng.yu@intel.com>
- <dac2d62b-9045-4767-87dd-eac12e7abafd@intel.com>
- <c7731c682b55ec882ad3d4ea11ad7a823dcaae8f.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <ced0a235-6469-5f6a-f56f-6c928ff056ca@intel.com>
-Date:   Wed, 14 Aug 2019 09:58:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Date:   Wed, 14 Aug 2019 19:17:07 +0200
+In-Reply-To: <20190813082152.GA17627@kroah.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+         <ae6c38384e2338aa3cfb8a4e4dd1002833789253.1565676440.git-series.knut.omang@oracle.com>
+         <20190813082152.GA17627@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-In-Reply-To: <c7731c682b55ec882ad3d4ea11ad7a823dcaae8f.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9349 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908140158
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9349 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908140158
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/14/19 9:42 AM, Yu-cheng Yu wrote:
-> On Tue, 2019-08-13 at 16:02 -0700, Dave Hansen wrote:
-> [...]
->> Please also reconcile the supervisor XSAVE portion of your patches with
->> the ones that Fenghua has been sending around.  I've given quite a bit
->> of feedback to improve those.  Please consolidate and agree on a common
->> set of patches with him.
-> XSAVES supervisor is now a six-patch set.  Maybe we can make it a separate
-> series?  I will consolidate and send it out.
+On Tue, 2019-08-13 at 10:21 +0200, Greg Kroah-Hartman wrote:
+> On Tue, Aug 13, 2019 at 08:09:21AM +0200, Knut Omang wrote:
+> > From: Alan Maguire <alan.maguire@oracle.com>
+> > 
+> > While test results is available via netlink from user space, sometimes
+> > it may be useful to be able to access the results from the kernel as well,
+> > for instance due to a crash. Make that possible via debugfs.
+> > 
+> > ktf_debugfs.h:   Support for creating a debugfs representation of test
+> > 
+> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> > ---
+> >  tools/testing/selftests/ktf/kernel/ktf_debugfs.c | 356 ++++++++++++++++-
+> >  tools/testing/selftests/ktf/kernel/ktf_debugfs.h |  34 ++-
+> >  2 files changed, 390 insertions(+)
+> >  create mode 100644 tools/testing/selftests/ktf/kernel/ktf_debugfs.c
+> >  create mode 100644 tools/testing/selftests/ktf/kernel/ktf_debugfs.h
+> > 
+> > diff --git a/tools/testing/selftests/ktf/kernel/ktf_debugfs.c b/tools/testing/selftests/ktf/kernel/ktf_debugfs.c
+> > new file mode 100644
+> > index 0000000..a20fbd2
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/ktf/kernel/ktf_debugfs.c
+> > @@ -0,0 +1,356 @@
+> > +/*
+> > + * Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
+> > + *    Author: Alan Maguire <alan.maguire@oracle.com>
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0
+> 
+> Has to be the first line of the file, did you run this through
+> checkpatch?
 
-A separate series would be great.
+Yes, the code has been subject to continuous integration which uses 
+a version of my runchecks tool (https://lkml.org/lkml/2018/1/19/157)
+to ensure that it is not possible to "forget" to run checkpatch 
+(or sparse, smatch doc.check for that sake)
 
-Please also make sure it's in a (temporary) git tree somewhere so that
-it's easy to base other sets on top of it.
+Ironically though I fell victim to my own tooling here,
+as I postponed fixing the SPDX_LICENSE_TAG class of issues 
+once that test appeared, while working on something else, 
+and just forgot to re-enable it again..
+
+> > +static int ktf_run_test_open(struct inode *inode, struct file *file)
+> > +{
+> > +	struct ktf_test *t;
+> > +
+> > +	if (!try_module_get(THIS_MODULE))
+> > +		return -EIO;
+> 
+> This is an anti-pattern, and one guaranteed to not work properly.  NEVER
+> do this.
+
+Sorry, I didn't know this, and the origin is probably my responsibility.
+
+I know the feeling of never being able to get rid of bad examples 
+because they keep getting copied..
+
+The pattern seemed to be widely used the first time I saw it, and although 
+somewhat awkward, it seemed to be the standard way then, but as you know, 
+my Infiniband driver (
+https://github.com/oracle/linux-uek/blob/uek4/qu7/drivers/infiniband/hw/sif/sif_debug.c)
+unfortunately never made it to the scrutiny of LKML, since the hardware project 
+got cancelled.
+The -EIO return value was also copied from merged kernel code back then.
+
+I notice the discussion and your response here: 
+http://linux-kernel.2935.n7.nabble.com/debugfs-and-module-unloading-td865175.html
+I assume that means that protection against module unload while a debugfs file
+is open is now safe.
+
+On older kernels, having this code in place is far better than an unprotected 
+debugfs entry/exit - I have tested it extensively in the past :-)
+
+Back when I first used it, I had this cool set of polymorphic 
+debugfs file code to list the set of active MRs, CQs, QPs, AHs etc 
+that the whole infiniband driver, database and hardware teams loved 
+so much that multiple users ended up using it in multiple windows 
+from within watch for live observations of state changes, 
+and often also running driver load/unloads for testing purposes.
+
+I perfectly agree with you that reducing the hole for a race condition 
+is generally a bad idea, but from the above mail thread 
+it seems that's the only available choice for older kernels?
+
+(I am asking because I still want to be able to support rather 
+old kernels with the github version of KTF)
+
+Anyway, great to know that a better solution now exists!
+
+We'll fix the rest of the issues below as well for the next version..
+
+Thanks!
+Knut
+
+> > +
+> > +	t = (struct ktf_test *)inode->i_private;
+> > +
+> > +	return single_open(file, ktf_debugfs_run, t);
+> > +}
+> > +
+> > +static int ktf_debugfs_release(struct inode *inode, struct file *file)
+> > +{
+> > +	module_put(THIS_MODULE);
+> 
+> Same here, not ok.
+> 
+> 
+> > +	return single_release(inode, file);
+> > +}
+> > +
+> > +static const struct file_operations ktf_run_test_fops = {
+> > +	.open = ktf_run_test_open,
+> > +	.read = seq_read,
+> > +	.llseek = seq_lseek,
+> > +	.release = ktf_debugfs_release,
+> > +};
+> > +
+> > +static int ktf_results_test_open(struct inode *inode, struct file *file)
+> > +{
+> > +	struct ktf_test *t;
+> > +
+> > +	if (!try_module_get(THIS_MODULE))
+> > +		return -EIO;
+> 
+> Nope!
+> 
+> And why -EIO?  That is not an io issue.
+
+Agreed
+> 
+> > +void ktf_debugfs_create_test(struct ktf_test *t)
+> > +{
+> > +	struct ktf_case *testset = ktf_case_find(t->tclass);
+> > +
+> > +	if (!testset)
+> > +		return;
+> > +
+> > +	memset(&t->debugfs, 0, sizeof(t->debugfs));
+> > +
+> > +	t->debugfs.debugfs_results_test =
+> > +		debugfs_create_file(t->name, S_IFREG | 0444,
+> > +				    testset->debugfs.debugfs_results_test,
+> > +				 t, &ktf_results_test_fops);
+> > +
+> > +	if (t->debugfs.debugfs_results_test) {
+> 
+> How can that variable ever be NULL (hint, it can not.)
+> 
+> > +		t->debugfs.debugfs_run_test =
+> > +			debugfs_create_file(t->name, S_IFREG | 0444,
+> > +					    testset->debugfs.debugfs_run_test,
+> > +				 t, &ktf_run_test_fops);
+> > +		if (!t->debugfs.debugfs_run_test) {
+> > +			_ktf_debugfs_destroy_test(t);
+> > +		} else {
+> > +			/* Take reference for test for debugfs */
+> > +			ktf_test_get(t);
+> > +		}
+> > +	}
+> 
+> Never test the result of any debugfs call, you do not need to.  Just
+> call it and move on, your code flow should NEVER be different with, or
+> without, a successful debugfs call.
+> 
+> 
+> > +static int ktf_run_testset_open(struct inode *inode, struct file *file)
+> > +{
+> > +	struct ktf_case *testset;
+> > +
+> > +	if (!try_module_get(THIS_MODULE))
+> > +		return -EIO;
+> 
+> Again no.  I hate to know what code you copied this all from, as that
+> code is very wrong.  Do you have a pointer to that code anywhere so we
+> can fix that up?
+> 
+> > +
+> > +	testset = (struct ktf_case *)inode->i_private;
+> > +
+> > +	return single_open(file, ktf_debugfs_run_all, testset);
+> > +}
+> > +
+> > +static const struct file_operations ktf_run_testset_fops = {
+> > +	.open = ktf_run_testset_open,
+> > +	.read = seq_read,
+> > +	.llseek = seq_lseek,
+> > +	.release = ktf_debugfs_release,
+> 
+> If you really care about module references you should be setting the
+> owner of the module here.
+> 
+> > +};
+> > +
+> > +static void _ktf_debugfs_destroy_testset(struct ktf_case *testset)
+> > +{
+> > +	debugfs_remove(testset->debugfs.debugfs_run_testset);
+> > +	debugfs_remove(testset->debugfs.debugfs_run_test);
+> > +	debugfs_remove(testset->debugfs.debugfs_results_testset);
+> > +	debugfs_remove(testset->debugfs.debugfs_results_test);
+> 
+> Why not just recursivly remove the directory?  That way you do not have
+> to keep track of any individual files.
+> 
+> 
+> > +}
+> > +
+> > +void ktf_debugfs_create_testset(struct ktf_case *testset)
+> > +{
+> > +	char tests_subdir[KTF_DEBUGFS_NAMESZ];
+> > +	const char *name = ktf_case_name(testset);
+> > +
+> > +	memset(&testset->debugfs, 0, sizeof(testset->debugfs));
+> > +
+> > +	/* First add /sys/kernel/debug/ktf/[results|run]/<testset> */
+> > +	testset->debugfs.debugfs_results_testset =
+> > +		debugfs_create_file(name, S_IFREG | 0444,
+> > +				    ktf_debugfs_resultsdir,
+> > +				 testset, &ktf_results_testset_fops);
+> > +	if (!testset->debugfs.debugfs_results_testset)
+> > +		goto err;
+> 
+> Again, can never happen, and again, do not do different things depending
+> on the result of a debugfs call.
+> 
+> > +
+> > +	testset->debugfs.debugfs_run_testset =
+> > +		debugfs_create_file(name, S_IFREG | 0444,
+> > +				    ktf_debugfs_rundir,
+> > +				    testset, &ktf_run_testset_fops);
+> > +	if (!testset->debugfs.debugfs_run_testset)
+> > +		goto err;
+> 
+> Again, nope.
+> 
+> > +
+> > +	/* Now add parent directories for individual test result/run tests
+> > +	 * which live in
+> > +	 * /sys/kernel/debug/ktf/[results|run]/<testset>-tests/<testname>
+> > +	 */
+> > +	(void)snprintf(tests_subdir, sizeof(tests_subdir), "%s%s",
+> > +			name, KTF_DEBUGFS_TESTS_SUFFIX);
+> 
+> why (void)?
+> 
+> 
+> > +
+> > +	testset->debugfs.debugfs_results_test =
+> > +		debugfs_create_dir(tests_subdir, ktf_debugfs_resultsdir);
+> > +	if (!testset->debugfs.debugfs_results_test)
+> > +		goto err;
+> 
+> nope :)
+> 
+> > +
+> > +	testset->debugfs.debugfs_run_test =
+> > +		debugfs_create_dir(tests_subdir, ktf_debugfs_rundir);
+> > +	if (!testset->debugfs.debugfs_run_test)
+> > +		goto err;
+> 
+> Nope :)
+> 
+> > +
+> > +	/* Take reference count for testset.  One will do as we will always
+> > +	 * free testset debugfs resources together.
+> > +	 */
+> > +	ktf_case_get(testset);
+> > +	return;
+> > +err:
+> > +	_ktf_debugfs_destroy_testset(testset);
+> > +}
+> > +
+> > +void ktf_debugfs_destroy_testset(struct ktf_case *testset)
+> > +{
+> > +	tlog(T_DEBUG, "Destroying debugfs testset %s", ktf_case_name(testset));
+> > +	_ktf_debugfs_destroy_testset(testset);
+> > +	/* Remove our debugfs reference cout to testset */
+> > +	ktf_case_put(testset);
+> > +}
+> > +
+> > +/* /sys/kernel/debug/ktf/coverage shows coverage statistics. */
+> > +static int ktf_debugfs_cov(struct seq_file *seq, void *v)
+> > +{
+> > +	ktf_cov_seq_print(seq);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int ktf_cov_open(struct inode *inode, struct file *file)
+> > +{
+> > +	if (!try_module_get(THIS_MODULE))
+> > +		return -EIO;
+> 
+> {sigh}  I'll stop reviewing now :)
+
+
+> 
+> thanks,
+> 
+> greg k-h
+
+
+
+
