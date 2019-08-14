@@ -1,91 +1,238 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A98DF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 10:54:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D78BE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 12:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727594AbfHNKyf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 06:54:35 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:52502 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727110AbfHNKyf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 06:54:35 -0400
-Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x7EAs34Z024567;
-        Wed, 14 Aug 2019 19:54:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x7EAs34Z024567
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565780045;
-        bh=Hfj4V/SBxgMk8U6X1oeV3V2ByVnCtLeD3aXokuYTB1c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BUATFTtS5AvC8UcDPz6n9Zj9WT0D6gRgAi+/ewDBpRFbUUu08HiVa0LeFInEI4ylJ
-         FR4qubC6Z2NH08PWOPzRKylDm+VaZS1qgpkO2PwPrPG6Zzyjry/vvyUi/dowm+0G/C
-         Jy3o5wQWqOnJlNmC5B8gXJNn4gHgtzTfY51QYvV7EBpE8cOysywhvLLnUMEIxdSTbl
-         HTID/JZomIaSP7c+lhSztnQSRWv6ngVNn/8jV9ZR4B7/o2E7Trh2/3z/MfF0sdy4hu
-         bnle3vHXyJTPDu5Rfu4L2PEQEKl5hCMgPhalgJk6y4pEqumiEUPWPJ46Y/+a5e068n
-         1lhb9Sv0xLdgA==
-X-Nifty-SrcIP: [126.125.143.222]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        id S1727910AbfHNMx6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 08:53:58 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:47328 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727850AbfHNMx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 08:53:58 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECnvwD007079;
+        Wed, 14 Aug 2019 12:53:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2019-08-05;
+ bh=UJ4xxL7YKF03XgJIhV7cmew+iA7ilSZmjlToLDjnJJM=;
+ b=eA9bXi3lc8YAYrhpC0mJi6Y2la++PG/pR9ghUffgZxOrdDva2i5DOF8x5HS9dxmW/6vF
+ LVvJS/jgzHpChCYxSQ1eIm8n/N8UOIVVgwOTDDQft2yBiRDXqQo+v1sxo5kqYQ1G3bwd
+ DBBdXX7GXwJEIRpVJcqwUkiGmSh+UC4bLcdvadArii09AmvsKPX0SiiMPb1iSWM2zs8W
+ sxb7bXeyvtVF0lUsMFc3NfSctU3F95/y6+BLOvLvK8dO9HaX8KUBE4FleShYkGAuHSd7
+ 0H7qapXonZAQ7ltA1PewZX/9tsCLRT2sl6yKwquvhOcDHqxOLn80agHThYs106e74ySH Mg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2u9nbtmnfx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 12:53:18 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECrCGh041860;
+        Wed, 14 Aug 2019 12:53:18 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2ubwrh7eex-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 12:53:17 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7ECqlJ7027212;
+        Wed, 14 Aug 2019 12:52:47 GMT
+Received: from abi.no.oracle.com (/141.143.213.43)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Aug 2019 05:52:46 -0700
+Message-ID: <1c4760f43313488786ca867acc2835f9c9acef1f.camel@oracle.com>
+Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and
+ host-cxxshlib
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs: kbuild: remove cc-ldoption from document again
-Date:   Wed, 14 Aug 2019 19:54:00 +0900
-Message-Id: <20190814105400.1339-3-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190814105400.1339-1-yamada.masahiro@socionext.com>
-References: <20190814105400.1339-1-yamada.masahiro@socionext.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Date:   Wed, 14 Aug 2019 14:52:42 +0200
+In-Reply-To: <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+         <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
+         <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
+         <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
+         <CAK7LNASgfd6KPRQ=hcqKkpZ6EVhFmbBjCXa30bvEqscu_5dwbQ@mail.gmail.com>
+         <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908140132
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908140131
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 055efab3120b ("kbuild: drop support for cc-ldoption") correctly
-removed the cc-ldoption from Documentation/kbuild/makefiles.txt, but
-commit cd238effefa2 ("docs: kbuild: convert docs to ReST and rename
-to *.rst") revived it. I guess it was a rebase mistake.
+On Wed, 2019-08-14 at 07:52 +0200, Knut Omang wrote:
+> On Wed, 2019-08-14 at 11:02 +0900, Masahiro Yamada wrote:
+> > Hi Knut,
+> > 
+> > On Wed, Aug 14, 2019 at 1:19 AM Knut Omang <knut.omang@oracle.com> wrote:
+> > > On Tue, 2019-08-13 at 23:01 +0900, Masahiro Yamada wrote:
+> > > > On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
+> > > > > C++ libraries interfacing to C APIs might sometimes need some glue
+> > > > > logic more easily written in C.
+> > > > > Allow a C++ library to also contain 0 or more C objects.
+> > > > > 
+> > > > > Also fix rules for both C and C++ shared libraries:
+> > > > > - C++ shared libraries depended on .c instead of .cc files
+> > > > > - Rules were referenced as -objs instead of the intended
+> > > > >   -cobjs and -cxxobjs following the pattern from hostprogs*.
+> > > > > 
+> > > > > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> > > > 
+> > > > How is this patch related to the rest of this series?
+> > > 
+> > > This is just my (likely naive) way I to get what I had working
+> > > using autotools in the Github version of KTF) translated into something
+> > > comparable using kbuild only. We need to build a shared library consisting
+> > > of a few C++ files and a very simple C file, and a couple of simple binaries,
+> > > and the rule in there does seem to take .c files and subject them to the
+> > > C++ compiler, which makes this difficult to achieve?
+> > 
+> > Looking at the diff stat of the cover-letter,
+> > the rest of this patch series is touching only
+> > Documentation/ and tools/testing/kselftests/.
+> > 
+> > So, this one is unused by the rest of the changes, isn't it?
+> > Am I missing something?
+> > 
+> > 
+> > 
+> > > > This patch breaks GCC-plugins.
+> > > > Did you really compile-test this patch before the submission?
+> > > 
+> > > Sorry for my ignorance here:
+> > > I ran through the kernel build and installed the resulting kernel
+> > > on a VM that I used to test this, if that's what you are asking
+> > > about?
+> > > 
+> > > Do I need some unusual .config options or run a special make target
+> > > to trigger the problem you see?
+> > > 
+> > > I used a recent Fedora config with default values for new options,
+> > > and ran the normal default make target (also with O=) and make selftests
+> > > to test the patch itself.
+> > 
+> > I just built allmodconfig for arm.
+> > 
+> > (The 0-day bot tests allmodconfig for most of architectures,
+> > so you may receive error reports anyway.)
+> > 
+> > 
+> > With your patch, I got the following:
+> > 
+> > 
+> > masahiro@grover:~/ref/linux$ make  ARCH=arm
+> > CROSS_COMPILE=-  allmodconfig all
+> >   HOSTCC  scripts/basic/fixdep
+> >   HOSTCC  scripts/kconfig/conf.o
+> >   HOSTCC  scripts/kconfig/confdata.o
+> >   HOSTCC  scripts/kconfig/expr.o
+> >   LEX     scripts/kconfig/lexer.lex.c
+> >   YACC    scripts/kconfig/parser.tab.h
+> >   HOSTCC  scripts/kconfig/lexer.lex.o
+> >   YACC    scripts/kconfig/parser.tab.c
+> >   HOSTCC  scripts/kconfig/parser.tab.o
+> >   HOSTCC  scripts/kconfig/preprocess.o
+> >   HOSTCC  scripts/kconfig/symbol.o
+> >   HOSTLD  scripts/kconfig/conf
+> > scripts/kconfig/conf  --allmodconfig Kconfig
+> > #
+> > # configuration written to .config
+> > #
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-common.h
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-oabi.h
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-eabi.h
+> >   HOSTCC  scripts/dtc/dtc.o
+> >   HOSTCC  scripts/dtc/flattree.o
+> >   HOSTCC  scripts/dtc/fstree.o
+> >   HOSTCC  scripts/dtc/data.o
+> >   HOSTCC  scripts/dtc/livetree.o
+> >   HOSTCC  scripts/dtc/treesource.o
+> >   HOSTCC  scripts/dtc/srcpos.o
+> >   HOSTCC  scripts/dtc/checks.o
+> >   HOSTCC  scripts/dtc/util.o
+> >   LEX     scripts/dtc/dtc-lexer.lex.c
+> >   YACC    scripts/dtc/dtc-parser.tab.h
+> >   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+> >   YACC    scripts/dtc/dtc-parser.tab.c
+> >   HOSTCC  scripts/dtc/dtc-parser.tab.o
+> >   HOSTCC  scripts/dtc/yamltree.o
+> >   HOSTLD  scripts/dtc/dtc
+> >   CC      scripts/gcc-plugins/latent_entropy_plugin.o
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so
+> >    ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: cannot open
+> > shared object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so
+> >    ./scripts/gcc-plugins/structleak_plugin.so: cannot open shared
+> > object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so
+> >    ./scripts/gcc-plugins/latent_entropy_plugin.so: cannot open shared
+> > object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so
+> >    ./scripts/gcc-plugins/randomize_layout_plugin.so: cannot open
+> > shared object file: No such file or directory
+> > make[3]: *** [scripts/Makefile.build;281:
+> > scripts/gcc-plugins/latent_entropy_plugin.o] Error 1
+> > make[2]: *** [scripts/Makefile.build;497: scripts/gcc-plugins] Error 2
+> > make[1]: *** [Makefile;1097: scripts] Error 2
+> > make: *** [Makefile;330: __build_one_by_one] Error 2
+> 
+> Ok, I see!
+> 
+> I'll recall this target and look into it!
 
-Remove it again.
+Ok, so I have tried installing the arm-linux-gnueabihf cross compiler and compiled the kernel for arm,
+but allmodconfig does not seem to enable any GCC plugins per default even on ARM and I haven't been able
+to figure out how to enable any. 
 
-Fixes: cd238effefa2 ("docs: kbuild: convert docs to ReST and rename to *.rst")
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+A plain allmodconfig generated config compiles perfectly for me both native x86 and w/arm cross compile,
+but it doesn't seem to enable any gcc plugins.
 
- Documentation/kbuild/makefiles.rst | 15 ---------------
- 1 file changed, 15 deletions(-)
+Anyway, maybe I am getting this wrong anyway: 
+Having played with cross compile, it starts to become clear to me that HOSTCC rules
+might not be the right rules to use, as it will generate host user land binaries as opposed to 
+target user land binaries (in a cross compile world obviously these differ)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index b4c28c543d72..7971729d1fd4 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -471,21 +471,6 @@ more details, with real examples.
- 	The second argument is optional, and if supplied will be used
- 	if first argument is not supported.
- 
--    cc-ldoption
--	cc-ldoption is used to check if $(CC) when used to link object files
--	supports the given option.  An optional second option may be
--	specified if first option are not supported.
--
--	Example::
--
--		#arch/x86/kernel/Makefile
--		vsyscall-flags += $(call cc-ldoption, -Wl$(comma)--hash-style=sysv)
--
--	In the above example, vsyscall-flags will be assigned the option
--	-Wl$(comma)--hash-style=sysv if it is supported by $(CC).
--	The second argument is optional, and if supplied will be used
--	if first argument is not supported.
--
-     as-instr
- 	as-instr checks if the assembler reports a specific instruction
- 	and then outputs either option1 or option2
--- 
-2.17.1
+Now, I started off with using the rules in the selftests makefiles for this, but they do not play that well with 
+kernel module building. My goal is to be able to do both user land and kernel module **target** compiles 
+from the same subtree. Any hints on how to accomplish this appreciated :-)
+
+Thanks,
+Knut
 
