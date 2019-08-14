@@ -7,48 +7,52 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02AA77D90D
+	by archive.lwn.net (Postfix) with ESMTP id 39A6D7D912
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 05:54:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbfHNFwK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 01:52:10 -0400
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:49516 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727064AbfHNFwK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 01:52:10 -0400
-Received: by mail-pg1-f202.google.com with SMTP id a9so7101805pga.16
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 22:52:09 -0700 (PDT)
+        id S1727540AbfHNFxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 01:53:50 -0400
+Received: from mail-pl1-f201.google.com ([209.85.214.201]:33593 "EHLO
+        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727427AbfHNFwS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 01:52:18 -0400
+Received: by mail-pl1-f201.google.com with SMTP id f5so14265688plr.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 22:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=JIx6gT8XrMurJkYFq0Mwh3doyQoWfrR1Obdr19umRAo=;
-        b=lYtLPslE++KBhps7EtMXbyUcustGXe90OzEpA99zwHxQbVzot3NR81r30SxELmpTRj
-         bFTX6PGmhfSfkUB0/hnN4TiDWPb9DGLT5n61SEFnAdjshDyjj9bfjOnYsVA8+2Wxa382
-         hltZppNluZLMP3S27A5ep9xYE0fIqIXqNkFfqFxv/fX4amYyXfyPeKZMuHa0KtJyXYcL
-         3dfzQ9XQrdy8jFFrB3jJCdZRXVPkDPt0BxDMzHm0Rbo2i7qahJfYSiN5kDw0wJhAXIM9
-         5J0ignULWuWomRnfxW/Cnhs9Nkq0yzbvKJSmYrGdmqVvm6nl9IXqxbyhcWibeLv1FLvS
-         sTXg==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=7BwB+wMWUUc9lMbBgT2UM/fkLk+IPczvj1DNZaIo7js=;
+        b=Ey5X/DilM5yXDr1T3rkvjeSA4hQHEB4dnHsM7LOmmXWQ1/JZbBl9nonR9D7Nuk547j
+         wMVN/+QGLNp4A+0wFkQ6PJVsPYPCKN5tG9DKL3L/1Dk3TxaVt5xIjCVz3lLbTnUHxdtv
+         aPOR9TsoQWO1Q/lN9o5yKj24mxcDILGdu+TtsU08Ame99/0Zlb1qnku60EFCLP8W5Rme
+         GHEFWDZHSNF99wNETg3ZviH9j4mAxBgARV0lvsLpMhFse+V1Q53zMJTDyrN79ej1SCUX
+         dq7EfDzWUSR+ZBau3K20ETM0YxtxqNZzXThMASIqUIoU+hQcv9qscn9EKkX9WDfC2xPJ
+         Cf3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=JIx6gT8XrMurJkYFq0Mwh3doyQoWfrR1Obdr19umRAo=;
-        b=tDe7A40KM926HiM9NIs7WrDBKlZc3gnvvwyl8S97/+41x0cws/3S3BzMg+YlolZ+B8
-         CoZza+bx2JOD/ReeV7IDXSGK43wTUCdxqXrvY8dA39kCGHLqtLmheKSSYcftoguDUcDF
-         s/kSgRoC674S062OozG00otiq6h+THoWUvjh/ua7+AqidGZLSiCL+yiJI5Khe/xzp7W3
-         rSaWJlsdThO7YRp6rmPbbnZzMc0McMaP/aqi1CIXUnWBiWsYRoVi6GtDaIDAyA8yEf1z
-         THA9RP6GOSMoIgf3uHs1FoEbxyiD4IvMYbGSaBdn5nVxKek6RNskucSTK14PCAiRW0n7
-         T6KQ==
-X-Gm-Message-State: APjAAAXtwu3oFeXCZxHUhgTk8BDONg149qw4mJwbUSmY2kpgAn5sNHJ+
-        VKimx4UrK7QNZ9Qr8gKBtHvoldbBB3iEROaNXRi4XQ==
-X-Google-Smtp-Source: APXvYqzpu9CiuWlTANWLufkskZGUP8V49k9uzqoRz2WmUPz8UVqc7iwJcusHzog7K8pIU/rzSJgkN1EhsWWgKYr26ckb6g==
-X-Received: by 2002:a63:6c4:: with SMTP id 187mr34796011pgg.401.1565761928470;
- Tue, 13 Aug 2019 22:52:08 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 22:50:50 -0700
-Message-Id: <20190814055108.214253-1-brendanhiggins@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=7BwB+wMWUUc9lMbBgT2UM/fkLk+IPczvj1DNZaIo7js=;
+        b=DeWjMPBx6EZbD/cSFgt2NvwQElJLouE8f5WEYfBTGUHFpwZ65d7z3fyXRPr2KTnDRy
+         4W1HXM0iUCazzh+Ny1AdL20t1zga1OSDDPJdyCLjko9Mc/LR6sDUG9KE3giZNjJRVfDf
+         JqoPNNf2HkJlid9ofSTib63l6NlgBIyjmtFWYiRF9o0QEafbHRiVLutmKeSudVbnVLCS
+         XeN+bEi+yyMGCgQFy+dF5RDZa31WnC7vF+AXdRxTXVfFTb0auo91YB9MiW23Drbw/Fa4
+         SMBTzBTsnIvJbmIb4wvJej2JxFQNyveQpP4/IUmqlBb5KmYepoCAwi+OOdXi2ZsaXUPa
+         YhKw==
+X-Gm-Message-State: APjAAAWGcABiO/8x3wJ3w3nmD7MmSXMxyxBl+99IdQgEKzG4yNzdkFpr
+        EzyfnmodWshVE5rWTj1v9cMvW+1Em90hYLbHRbECzA==
+X-Google-Smtp-Source: APXvYqwRpfR5V171aALBxNgHtd8qW4LD3QH7VWqhw02xxR40bMh/iSepQ4+LQeq6w+Rwc9ZKoXuPxv0TIzKmy+69DurD0Q==
+X-Received: by 2002:a63:c64b:: with SMTP id x11mr37297091pgg.319.1565761936948;
+ Tue, 13 Aug 2019 22:52:16 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 22:50:53 -0700
+In-Reply-To: <20190814055108.214253-1-brendanhiggins@google.com>
+Message-Id: <20190814055108.214253-4-brendanhiggins@google.com>
 Mime-Version: 1.0
+References: <20190814055108.214253-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v13 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
+Subject: [PATCH v13 03/18] kunit: test: add string_stream a std::stream like
+ string builder
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -66,95 +70,320 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-## TL;DR
+A number of test features need to do pretty complicated string printing
+where it may not be possible to rely on a single preallocated string
+with parameters.
 
-This revision addresses comments from Stephen and Bjorn Helgaas. Most
-changes are pretty minor stuff that doesn't affect the API in anyway.
-One significant change, however, is that I added support for freeing
-kunit_resource managed resources before the test case is finished via
-kunit_resource_destroy(). Additionally, Bjorn pointed out that I broke
-KUnit on certain configurations (like the default one for x86, whoops).
+So provide a library for constructing the string as you go similar to
+C++'s std::string. string_stream is really just a string builder,
+nothing more.
 
-Based on Stephen's feedback on the previous change, I think we are
-pretty close. I am not expecting any significant changes from here on
-out.
+Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+---
+ include/kunit/string-stream.h |  51 ++++++++
+ kunit/Makefile                |   3 +-
+ kunit/string-stream.c         | 217 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 270 insertions(+), 1 deletion(-)
+ create mode 100644 include/kunit/string-stream.h
+ create mode 100644 kunit/string-stream.c
 
-## Background
-
-This patch set proposes KUnit, a lightweight unit testing and mocking
-framework for the Linux kernel.
-
-Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-it does not require installing the kernel on a test machine or in a VM
-(however, KUnit still allows you to run tests on test machines or in VMs
-if you want[1]) and does not require tests to be written in userspace
-running on a host kernel. Additionally, KUnit is fast: From invocation
-to completion KUnit can run several dozen tests in about a second.
-Currently, the entire KUnit test suite for KUnit runs in under a second
-from the initial invocation (build time excluded).
-
-KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-Googletest/Googlemock for C++. KUnit provides facilities for defining
-unit test cases, grouping related test cases into test suites, providing
-common infrastructure for running tests, mocking, spying, and much more.
-
-### What's so special about unit testing?
-
-A unit test is supposed to test a single unit of code in isolation,
-hence the name. There should be no dependencies outside the control of
-the test; this means no external dependencies, which makes tests orders
-of magnitudes faster. Likewise, since there are no external dependencies,
-there are no hoops to jump through to run the tests. Additionally, this
-makes unit tests deterministic: a failing unit test always indicates a
-problem. Finally, because unit tests necessarily have finer granularity,
-they are able to test all code paths easily solving the classic problem
-of difficulty in exercising error handling code.
-
-### Is KUnit trying to replace other testing frameworks for the kernel?
-
-No. Most existing tests for the Linux kernel are end-to-end tests, which
-have their place. A well tested system has lots of unit tests, a
-reasonable number of integration tests, and some end-to-end tests. KUnit
-is just trying to address the unit test space which is currently not
-being addressed.
-
-### More information on KUnit
-
-There is a bunch of documentation near the end of this patch set that
-describes how to use KUnit and best practices for writing unit tests.
-For convenience I am hosting the compiled docs here[2].
-
-Additionally for convenience, I have applied these patches to a
-branch[3]. The repo may be cloned with:
-git clone https://kunit.googlesource.com/linux
-This patchset is on the kunit/rfc/v5.3/v13 branch.
-
-## Changes Since Last Version
-
-- Added support for freeing kunit_resources (KUnit managed resources)
-  via kunit_resource_destroy() as suggested by Stephen.
-- Promoted WARN() after __noreturn function to BUG() in
-  "[PATCH v13 09/18] kunit: test: add support for test abort" as
-  suggested by Stephen.
-- Dropped concept of death test since I am not actually using it yet as
-  pointed out by Stephen.
-- Replaced usage of warn_slowpath_fmt with WARN in kunit_do_assertion
-  since warn_slowpath_fmt is not available on some build configurations,
-  as pointed out by Bjorn.
-- Lots of other minor changes suggested by Stephen.
-
-[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
-[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
-[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.3/v13
-
+diff --git a/include/kunit/string-stream.h b/include/kunit/string-stream.h
+new file mode 100644
+index 0000000000000..fe98a00b75a9c
+--- /dev/null
++++ b/include/kunit/string-stream.h
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * C++ stream style string builder used in KUnit for building messages.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#ifndef _KUNIT_STRING_STREAM_H
++#define _KUNIT_STRING_STREAM_H
++
++#include <linux/spinlock.h>
++#include <linux/types.h>
++#include <stdarg.h>
++
++struct string_stream_fragment {
++	struct kunit *test;
++	struct list_head node;
++	char *fragment;
++};
++
++struct string_stream {
++	size_t length;
++	struct list_head fragments;
++	/* length and fragments are protected by this lock */
++	spinlock_t lock;
++	struct kunit *test;
++	gfp_t gfp;
++};
++
++struct kunit;
++
++struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp);
++
++int __printf(2, 3) string_stream_add(struct string_stream *stream,
++				     const char *fmt, ...);
++
++int string_stream_vadd(struct string_stream *stream,
++		       const char *fmt,
++		       va_list args);
++
++char *string_stream_get_string(struct string_stream *stream);
++
++int string_stream_append(struct string_stream *stream,
++			 struct string_stream *other);
++
++bool string_stream_is_empty(struct string_stream *stream);
++
++int string_stream_destroy(struct string_stream *stream);
++
++#endif /* _KUNIT_STRING_STREAM_H */
+diff --git a/kunit/Makefile b/kunit/Makefile
+index 5efdc4dea2c08..275b565a0e81f 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -1 +1,2 @@
+-obj-$(CONFIG_KUNIT) +=			test.o
++obj-$(CONFIG_KUNIT) +=			test.o \
++					string-stream.o
+diff --git a/kunit/string-stream.c b/kunit/string-stream.c
+new file mode 100644
+index 0000000000000..e6d17aacca30d
+--- /dev/null
++++ b/kunit/string-stream.c
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * C++ stream style string builder used in KUnit for building messages.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#include <kunit/string-stream.h>
++#include <kunit/test.h>
++#include <linux/list.h>
++#include <linux/slab.h>
++
++struct string_stream_fragment_alloc_context {
++	struct kunit *test;
++	int len;
++	gfp_t gfp;
++};
++
++static int string_stream_fragment_init(struct kunit_resource *res,
++				       void *context)
++{
++	struct string_stream_fragment_alloc_context *ctx = context;
++	struct string_stream_fragment *frag;
++
++	frag = kunit_kzalloc(ctx->test, sizeof(*frag), ctx->gfp);
++	if (!frag)
++		return -ENOMEM;
++
++	frag->test = ctx->test;
++	frag->fragment = kunit_kmalloc(ctx->test, ctx->len, ctx->gfp);
++	if (!frag->fragment)
++		return -ENOMEM;
++
++	res->allocation = frag;
++
++	return 0;
++}
++
++static void string_stream_fragment_free(struct kunit_resource *res)
++{
++	struct string_stream_fragment *frag = res->allocation;
++
++	list_del(&frag->node);
++	kunit_kfree(frag->test, frag->fragment);
++	kunit_kfree(frag->test, frag);
++}
++
++static struct string_stream_fragment *alloc_string_stream_fragment(
++		struct kunit *test, int len, gfp_t gfp)
++{
++	struct string_stream_fragment_alloc_context context = {
++		.test = test,
++		.len = len,
++		.gfp = gfp
++	};
++
++	return kunit_alloc_resource(test,
++				    string_stream_fragment_init,
++				    string_stream_fragment_free,
++				    gfp,
++				    &context);
++}
++
++static int string_stream_fragment_destroy(struct string_stream_fragment *frag)
++{
++	return kunit_resource_destroy(frag->test,
++				      kunit_resource_instance_match,
++				      string_stream_fragment_free,
++				      frag);
++}
++
++int string_stream_vadd(struct string_stream *stream,
++		       const char *fmt,
++		       va_list args)
++{
++	struct string_stream_fragment *frag_container;
++	int len;
++	va_list args_for_counting;
++
++	/* Make a copy because `vsnprintf` could change it */
++	va_copy(args_for_counting, args);
++
++	/* Need space for null byte. */
++	len = vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
++
++	va_end(args_for_counting);
++
++	frag_container = alloc_string_stream_fragment(stream->test,
++						      len,
++						      stream->gfp);
++	if (!frag_container)
++		return -ENOMEM;
++
++	len = vsnprintf(frag_container->fragment, len, fmt, args);
++	spin_lock(&stream->lock);
++	stream->length += len;
++	list_add_tail(&frag_container->node, &stream->fragments);
++	spin_unlock(&stream->lock);
++
++	return 0;
++}
++
++int string_stream_add(struct string_stream *stream, const char *fmt, ...)
++{
++	va_list args;
++	int result;
++
++	va_start(args, fmt);
++	result = string_stream_vadd(stream, fmt, args);
++	va_end(args);
++
++	return result;
++}
++
++static void string_stream_clear(struct string_stream *stream)
++{
++	struct string_stream_fragment *frag_container, *frag_container_safe;
++
++	spin_lock(&stream->lock);
++	list_for_each_entry_safe(frag_container,
++				 frag_container_safe,
++				 &stream->fragments,
++				 node) {
++		string_stream_fragment_destroy(frag_container);
++	}
++	stream->length = 0;
++	spin_unlock(&stream->lock);
++}
++
++char *string_stream_get_string(struct string_stream *stream)
++{
++	struct string_stream_fragment *frag_container;
++	size_t buf_len = stream->length + 1; /* +1 for null byte. */
++	char *buf;
++
++	buf = kunit_kzalloc(stream->test, buf_len, stream->gfp);
++	if (!buf)
++		return NULL;
++
++	spin_lock(&stream->lock);
++	list_for_each_entry(frag_container, &stream->fragments, node)
++		strlcat(buf, frag_container->fragment, buf_len);
++	spin_unlock(&stream->lock);
++
++	return buf;
++}
++
++int string_stream_append(struct string_stream *stream,
++			 struct string_stream *other)
++{
++	const char *other_content;
++
++	other_content = string_stream_get_string(other);
++
++	if (!other_content)
++		return -ENOMEM;
++
++	return string_stream_add(stream, other_content);
++}
++
++bool string_stream_is_empty(struct string_stream *stream)
++{
++	return list_empty(&stream->fragments);
++}
++
++struct string_stream_alloc_context {
++	struct kunit *test;
++	gfp_t gfp;
++};
++
++static int string_stream_init(struct kunit_resource *res, void *context)
++{
++	struct string_stream *stream;
++	struct string_stream_alloc_context *ctx = context;
++
++	stream = kunit_kzalloc(ctx->test, sizeof(*stream), ctx->gfp);
++	if (!stream)
++		return -ENOMEM;
++
++	res->allocation = stream;
++	stream->gfp = ctx->gfp;
++	stream->test = ctx->test;
++	INIT_LIST_HEAD(&stream->fragments);
++	spin_lock_init(&stream->lock);
++
++	return 0;
++}
++
++static void string_stream_free(struct kunit_resource *res)
++{
++	struct string_stream *stream = res->allocation;
++
++	string_stream_clear(stream);
++}
++
++struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp)
++{
++	struct string_stream_alloc_context context = {
++		.test = test,
++		.gfp = gfp
++	};
++
++	return kunit_alloc_resource(test,
++				    string_stream_init,
++				    string_stream_free,
++				    gfp,
++				    &context);
++}
++
++int string_stream_destroy(struct string_stream *stream)
++{
++	return kunit_resource_destroy(stream->test,
++				      kunit_resource_instance_match,
++				      string_stream_free,
++				      stream);
++}
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
