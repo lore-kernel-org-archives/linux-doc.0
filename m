@@ -3,264 +3,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB34A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 22:34:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B2337D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 22:42:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728838AbfHNWeR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 18:34:17 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:33574 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728252AbfHNWeR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 18:34:17 -0400
-Received: by mail-pl1-f193.google.com with SMTP id c14so262056plo.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 15:34:16 -0700 (PDT)
+        id S1728758AbfHNWmI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 18:42:08 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:39790 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728378AbfHNWmI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 18:42:08 -0400
+Received: by mail-pl1-f195.google.com with SMTP id z3so258680pln.6
+        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 15:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=P47TDuRTyb4CTcChk4uKRWf5tpIOxFmUJ6D7+RADtYo=;
-        b=M2x3Lm7CFOMXtOC79ogniyQQEDRqCpNlYjaZNzCuXhVjeQYuKgD+SNsCBQ8tFoBDcB
-         91PCVHFy9XsArKaAs6S7pipslLdcyN5rDy9gemdNddoN88SunkS5Gl1WTla/FdH6MzZe
-         KoC2+zz/M9Eo7iEW7Dc+jNnTGiuvaLRv17Yjs=
+        bh=hMEHK3D0DeqRXHR3V666QBC5hkX1AwG9+yo5maZ51Ws=;
+        b=PzkYxpR+WsvJ0GKSPP9wt0l4YqVfxxZlRPySwxDENc0uquYDE4FH3bIiRoxfTPA1v0
+         daLJqf8B4sQuDac5d61sdyojfc8b9g9yhK52TGU9vCCC2Q6Ozm2F1P/8FaMyzsrTVEb0
+         3Xm3jaPn/9nJxAF4SojpaoPdnkNoRcv5nmLjQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P47TDuRTyb4CTcChk4uKRWf5tpIOxFmUJ6D7+RADtYo=;
-        b=LO/47QRMydyP7dOGyLMiY7LFAHFFNHmPj2207t7YKxR77ROrOz5guKbyRfM3fAb9jx
-         k4SjEvmwkTxf52WTGFXxE/7t9EDiZm8T373gjKHz1fZ/v4EUwqHe33IKWfuvMnXIeIrm
-         eDq1t+eqnzyumFYSv0Rv384NTlmXagW3jTsmpIeYFbZ/o+0sUDjijdPcbScj89y51lkk
-         WhSFC0DFIEglRfTAt/jJcx+TfuwNy/Ll6xQFcFBKGzH3E+Bm3a8B+nloIgDgGooOYXQq
-         1GQ5FtGU1LZ0ctijoknz4M95tuG0s0gKU45tXZoNf2h7vcL4oPvsE+221Tp6zXvFG+pn
-         5Kyg==
-X-Gm-Message-State: APjAAAXoD+3CFe+nfWiY7RZbJ7SCLtnia8Cj7C4LTVmwxft6G3UDjzto
-        5Tw9zWlv+kTc+u8YjbsjZF+tJA==
-X-Google-Smtp-Source: APXvYqyB8uTK4c4CzFde17hlAvp2SoyFZ6korIE0B42TuaiK9xhuzlbI0Urmfviqv4gAvDB6Ub0urw==
-X-Received: by 2002:a17:902:44f:: with SMTP id 73mr1575891ple.192.1565822055899;
-        Wed, 14 Aug 2019 15:34:15 -0700 (PDT)
+        bh=hMEHK3D0DeqRXHR3V666QBC5hkX1AwG9+yo5maZ51Ws=;
+        b=LyzwrZdIccGNPiRI/y4/OSOWeFv64HZNX/wOqF09HAzhSE1DKVw8cvxXBEXOiBJ+Ge
+         /vDCwZPVciua2HhdWjCIe6YLe4hQaG22zmbTIYz5TYM9r3gndSY2H0HlZMTxZ9CPClZz
+         IYJ9bYfGBdX70mxeEtwL9KQxjLSoGREPdhhwCvjlgLs/JPtSAKq791FoMsiJwUDkaeCR
+         dyjJ+hxaXdupk4LQLizEbFam9NN70c0zP3mZTZyChIbukld8LP+88qtH5O1eavs0YWu8
+         u6ibPkL+/uNzefjyv3peeO1eaedgOWQ7SRKcPeqxgmRr8Zvuf8OSLAJqaj5HPW9DsIJU
+         uqig==
+X-Gm-Message-State: APjAAAU7BjnT0oBGO7L+ypZHZV2RitJASGvBW1crP2nzHwc8NZrhqVCQ
+        jRHtEcbiOgARdfGC6fE7NUXShw==
+X-Google-Smtp-Source: APXvYqxeCtn5YQ0RrQb6xdht/iQSMOK2IulsqUWdD2tppaE3yQNeQo12jNVOsbuEuixCZiNvYLOGgg==
+X-Received: by 2002:a17:902:2f05:: with SMTP id s5mr1571241plb.170.1565822527290;
+        Wed, 14 Aug 2019 15:42:07 -0700 (PDT)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id c13sm935755pfi.17.2019.08.14.15.34.14
+        by smtp.gmail.com with ESMTPSA id v6sm31357pjn.13.2019.08.14.15.42.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2019 15:34:14 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 18:34:13 -0400
+        Wed, 14 Aug 2019 15:42:06 -0700 (PDT)
+Date:   Wed, 14 Aug 2019 18:42:05 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
-        max.byungchul.park@gmail.com, byungchul.park@lge.com,
-        kernel-team@android.com, kernel-team@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
+To:     Tejun Heo <tj@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
-        Kees Cook <keescook@chromium.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v3 1/2] rcu/tree: Add basic support for kfree_rcu batching
-Message-ID: <20190814223413.GB69375@google.com>
-References: <20190813170046.81707-1-joel@joelfernandes.org>
- <20190813190738.GH28441@linux.ibm.com>
- <20190814143817.GA253999@google.com>
- <20190814172233.GA68498@google.com>
- <20190814184429.GV28441@linux.ibm.com>
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 1/3] workqueue: Convert for_each_wq to use built-in list
+ check (v2)
+Message-ID: <20190814224205.GC69375@google.com>
+References: <20190811221111.99401-1-joel@joelfernandes.org>
+ <20190814194841.GA588936@devbig004.ftw2.facebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190814184429.GV28441@linux.ibm.com>
+In-Reply-To: <20190814194841.GA588936@devbig004.ftw2.facebook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 11:44:29AM -0700, Paul E. McKenney wrote:
-> On Wed, Aug 14, 2019 at 01:22:33PM -0400, Joel Fernandes wrote:
-> > On Wed, Aug 14, 2019 at 10:38:17AM -0400, Joel Fernandes wrote:
-> > > On Tue, Aug 13, 2019 at 12:07:38PM -0700, Paul E. McKenney wrote:
-> >  [snip]
-> > > > > - * Queue an RCU callback for lazy invocation after a grace period.
-> > > > > - * This will likely be later named something like "call_rcu_lazy()",
-> > > > > - * but this change will require some way of tagging the lazy RCU
-> > > > > - * callbacks in the list of pending callbacks. Until then, this
-> > > > > - * function may only be called from __kfree_rcu().
-> > > > > + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-> > > > > + * kfree(s) is queued for freeing after a grace period, right away.
-> > > > >   */
-> > > > > -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> > > > > +struct kfree_rcu_cpu {
-> > > > > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-> > > > > +	 * is done after a grace period.
-> > > > > +	 */
-> > > > > +	struct rcu_work rcu_work;
-> > > > > +
-> > > > > +	/* The list of objects being queued in a batch but are not yet
-> > > > > +	 * scheduled to be freed.
-> > > > > +	 */
-> > > > > +	struct rcu_head *head;
-> > > > > +
-> > > > > +	/* The list of objects that have now left ->head and are queued for
-> > > > > +	 * freeing after a grace period.
-> > > > > +	 */
-> > > > > +	struct rcu_head *head_free;
-> > > > 
-> > > > So this is not yet the one that does multiple batches concurrently
-> > > > awaiting grace periods, correct?  Or am I missing something subtle?
-> > > 
-> > > Yes, it is not. I honestly, still did not understand that idea. Or how it
-> > > would improve things. May be we can discuss at LPC on pen and paper? But I
-> > > think that can also be a follow-up optimization.
+On Wed, Aug 14, 2019 at 12:48:41PM -0700, Tejun Heo wrote:
+> Hello, Joel.
+> 
+> On Sun, Aug 11, 2019 at 06:11:09PM -0400, Joel Fernandes (Google) wrote:
+> > list_for_each_entry_rcu now has support to check for RCU reader sections
+> > as well as lock. Just use the support in it, instead of explicitly
+> > checking in the caller.
 > > 
-> > I got it now. Basically we can benefit a bit more by having another list
-> > (that is have multiple kfree_rcu batches in flight). I will think more about
-> > it - but hopefully we don't need to gate this patch by that.
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > 
-> I am willing to take this as a later optimization.
+> Acked-by: Tejun Heo <tj@kernel.org>
+
+Thanks.
+
+> >  #define for_each_pwq(pwq, wq)						\
+> > -	list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node)		\
+> > -		if (({ assert_rcu_or_wq_mutex(wq); false; })) { }	\
+> > -		else
+> > +	list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,		\
+> > +				 lock_is_held(&(wq->mutex).dep_map))
 > 
-> > It'll be interesting to see what rcuperf says about such an improvement :)
-> 
-> Indeed, no guarantees either way.  The reason for hope assumes a busy
-> system where each grace period is immediately followed by another
-> grace period.  On such a system, the current setup allows each CPU to
-> make use only of every second grace period for its kfree_rcu() work.
-> The hope would therefore be that this would reduce the memory footprint
-> substantially with no increase in overhead.
+> Why not lockdep_is_held() tho?
 
-Good news! I was able to bring down memory foot print by almost 30% by adding
-another batch. Below is the patch. Thanks for the suggestion!
+Yes, that's better.
 
-I can add this as a patch on top of the initial one, for easier review.
+thanks,
 
-The memory consumed drops from 300-350MB to 200-250MB. Increasing
-KFREE_N_BATCHES did not cause a reduction in memory, though.
-
----8<-----------------------
-
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Subject: [PATCH] WIP: Multiple batches
-
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- kernel/rcu/tree.c | 58 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 41 insertions(+), 17 deletions(-)
-
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index 1d1847cadea2..a272c893dbdc 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -2596,26 +2596,35 @@ EXPORT_SYMBOL_GPL(call_rcu);
- 
- /* Maximum number of jiffies to wait before draining a batch. */
- #define KFREE_DRAIN_JIFFIES (HZ / 50)
-+#define KFREE_N_BATCHES 2
-+
-+struct kfree_rcu_work {
-+	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-+	 * is done after a grace period.
-+	 */
-+	struct rcu_work rcu_work;
-+
-+	/* The list of objects that have now left ->head and are queued for
-+	 * freeing after a grace period.
-+	 */
-+	struct rcu_head *head_free;
-+
-+	struct kfree_rcu_cpu *krc;
-+};
-+static DEFINE_PER_CPU(__typeof__(struct kfree_rcu_work)[KFREE_N_BATCHES], krw);
- 
- /*
-  * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-  * kfree(s) is queued for freeing after a grace period, right away.
-  */
- struct kfree_rcu_cpu {
--	/* The rcu_work node for queuing work with queue_rcu_work(). The work
--	 * is done after a grace period.
--	 */
--	struct rcu_work rcu_work;
- 
- 	/* The list of objects being queued in a batch but are not yet
- 	 * scheduled to be freed.
- 	 */
- 	struct rcu_head *head;
- 
--	/* The list of objects that have now left ->head and are queued for
--	 * freeing after a grace period.
--	 */
--	struct rcu_head *head_free;
-+	struct kfree_rcu_work *krw;
- 
- 	/* Protect concurrent access to this structure. */
- 	spinlock_t lock;
-@@ -2638,12 +2647,15 @@ static void kfree_rcu_work(struct work_struct *work)
- {
- 	unsigned long flags;
- 	struct rcu_head *head, *next;
--	struct kfree_rcu_cpu *krcp = container_of(to_rcu_work(work),
--					struct kfree_rcu_cpu, rcu_work);
-+	struct kfree_rcu_work *krw = container_of(to_rcu_work(work),
-+					struct kfree_rcu_work, rcu_work);
-+	struct kfree_rcu_cpu *krcp;
-+
-+	krcp = krw->krc;
- 
- 	spin_lock_irqsave(&krcp->lock, flags);
--	head = krcp->head_free;
--	krcp->head_free = NULL;
-+	head = krw->head_free;
-+	krw->head_free = NULL;
- 	spin_unlock_irqrestore(&krcp->lock, flags);
- 
- 	/*
-@@ -2666,19 +2678,30 @@ static void kfree_rcu_work(struct work_struct *work)
-  */
- static inline bool queue_kfree_rcu_work(struct kfree_rcu_cpu *krcp)
- {
-+	int i = 0;
-+	struct kfree_rcu_work *krw = NULL;
-+
- 	lockdep_assert_held(&krcp->lock);
-+	while (i < KFREE_N_BATCHES) {
-+		if (!krcp->krw[i].head_free) {
-+			krw = &(krcp->krw[i]);
-+			break;
-+		}
-+		i++;
-+	}
- 
--	/* If a previous RCU batch work is already in progress, we cannot queue
-+	/* If both RCU batches are already in progress, we cannot queue
- 	 * another one, just refuse the optimization and it will be retried
- 	 * again in KFREE_DRAIN_JIFFIES time.
- 	 */
--	if (krcp->head_free)
-+	if (!krw)
- 		return false;
- 
--	krcp->head_free = krcp->head;
-+	krw->head_free = krcp->head;
-+	krw->krc = krcp;   /* Should need to do only once, optimize later. */
- 	krcp->head = NULL;
--	INIT_RCU_WORK(&krcp->rcu_work, kfree_rcu_work);
--	queue_rcu_work(system_wq, &krcp->rcu_work);
-+	INIT_RCU_WORK(&krw->rcu_work, kfree_rcu_work);
-+	queue_rcu_work(system_wq, &krw->rcu_work);
- 
- 	return true;
- }
-@@ -3631,6 +3654,7 @@ static void __init kfree_rcu_batch_init(void)
- 		struct kfree_rcu_cpu *krcp = per_cpu_ptr(&krc, cpu);
- 
- 		spin_lock_init(&krcp->lock);
-+		krcp->krw = &(per_cpu(krw, cpu)[0]);
- 		INIT_DELAYED_WORK(&krcp->monitor_work, kfree_rcu_monitor);
- 	}
- }
--- 
-2.23.0.rc1.153.gdeed80330f-goog
+ - Joel
 
