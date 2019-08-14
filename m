@@ -1,74 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 346367D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 07:19:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BADDC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 07:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727038AbfHNHTB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 03:19:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727447AbfHNHTB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 03:19:01 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB2312084F;
-        Wed, 14 Aug 2019 07:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565767140;
-        bh=CgAKQPDJ39jdFLM0nBvPd2yB9ynIfZDmD15ru0dJ7Os=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=xaHZ0IYch7m/jbb9TEOjTqeFLiP9rjxW2XvyKLTklDuQ9VCWvHmVQLVD1vQiu2rnn
-         cOw3uwlSbmBaV+/CauuBCa6G8Ycn0SjO7DHdkifs3BC5XJgnHS80jI2+9Un3NHt0B8
-         RdlAMWFb7XoCTlu2ZRn/MyMMRRqi3LC5q4DnDaVA=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190814055108.214253-15-brendanhiggins@google.com>
-References: <20190814055108.214253-1-brendanhiggins@google.com> <20190814055108.214253-15-brendanhiggins@google.com>
-Subject: Re: [PATCH v13 14/18] kunit: defconfig: add defconfigs for building KUnit tests
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com
-User-Agent: alot/0.8.1
-Date:   Wed, 14 Aug 2019 00:18:59 -0700
-Message-Id: <20190814071859.EB2312084F@mail.kernel.org>
+        id S1727017AbfHNHe6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 03:34:58 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:46236 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfHNHe6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 03:34:58 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q139so4786687pfc.13;
+        Wed, 14 Aug 2019 00:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=RHOMr4ptKfjquPk5bhUDtq5uLFKfISVcupJSVaOf/TA=;
+        b=FBi/8nGE8HcVC+P34RYHPJ9g24kSlA2MLqh/h6tXLHEDmsvkRu1ZcmKJQYTkbdfJoJ
+         cBACdIbmQsqSzhry0zkObXx60Y4ZEqjl2lMl2vqZ+ku+oDS1mPhZjBcB5E3VTa+jgzOd
+         f+Vzm3pjeyQOzUd6R34loEr9V6PZmL1m718Dh3pY+Xp1b3AAsP9UPbTZAswnZRMq0BlY
+         lVkenWT/0tKIjO22TX713kE+0k6mMfZh5loTOnBiJTf3cMX+YwZ/4jsFGO896yPUQMSM
+         7ppi95qVM1xYvbnqaTKZ8MXiDlCVpIFgvaLyaj2W1oeza8FJwleyN1+bWf2fBiIuP8XK
+         HLlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=RHOMr4ptKfjquPk5bhUDtq5uLFKfISVcupJSVaOf/TA=;
+        b=f5ca3j0wnw5wkiBdoJkDYhXkZrjvY/hktiErP6u4nqs+u/Mn62xdVao8M3W8A6/leI
+         jOAcyyFw56NAlGa20kPVWUKF9B/y8F4F8HtvHcYF8X9u4O6Bm2k01lm9LoKjZb8Qb8xs
+         Q8wBR4uM8jlihgcapBfw8/0aKcDXjUH8X37HuqbSERZT7PJUPJ7/HbTPm9i/295CO9/P
+         azF8VWMKlXF3MLszijohhNLeYCaXjbAqWW3mNEmuyTeU4zqNCDa4w7Fgyh0gnPhgN/Pe
+         nHJ2IzXNIDc5s1Gsxs4QA02/NrUa7vnHjEzLxjW5JVCwm6bmQX5JApvzx+LKwEv4qKxh
+         Gzrg==
+X-Gm-Message-State: APjAAAVZGXpqm9JFxkhxxDLl/F2wGQpQVrEzxiHN2xPmo274+vddzr9r
+        gigc9jHCVNdZIYV7FnzrmpE=
+X-Google-Smtp-Source: APXvYqznL4dsNbQONSJciPqTQxe+yFkIGRzx4cM9Q0lLHaDfbY7p0gHdYdXVzAJPhJQVqIjLYM32gQ==
+X-Received: by 2002:a17:90a:9202:: with SMTP id m2mr5879136pjo.16.1565768097390;
+        Wed, 14 Aug 2019 00:34:57 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.255.114])
+        by smtp.googlemail.com with ESMTPSA id v184sm109639230pfb.82.2019.08.14.00.34.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 14 Aug 2019 00:34:56 -0700 (PDT)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com
+Subject: [PATCH V2 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+Date:   Wed, 14 Aug 2019 15:34:44 +0800
+Message-Id: <20190814073447.96141-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-08-13 22:51:04)
-> Add defconfig for UML and a fragment that can be used to configure other
-> architectures for building KUnit tests. Add option to kunit_tool to use
-> a defconfig to create the kunitconfig.
->=20
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> ---
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+in L0 can delegate L1 hypervisor to handle tlb flush request from
+L2 guest when direct tlb flush is enabled in L1.
+
+Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+feature from user space. User space should enable this feature only
+when Hyper-V hypervisor capability is exposed to guest and KVM profile
+is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+We hope L2 guest doesn't use KVM hypercall when the feature is
+enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+
+Change since v1:
+       - Fix offset issue in the patch 1.
+       - Update description of KVM KVM_CAP_HYPERV_DIRECT_TLBFLUSH.
+
+Tianyu Lan (2):
+  x86/Hyper-V: Fix definition of struct hv_vp_assist_page
+  KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
+
+Vitaly Kuznetsov (1):
+  KVM/Hyper-V/VMX: Add direct tlb flush support
+
+ Documentation/virtual/kvm/api.txt  | 12 ++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h | 24 +++++++++++++++++++-----
+ arch/x86/include/asm/kvm_host.h    |  2 ++
+ arch/x86/kvm/vmx/evmcs.h           |  2 ++
+ arch/x86/kvm/vmx/vmx.c             | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/x86/kvm/x86.c                 |  8 ++++++++
+ include/linux/kvm_host.h           |  1 +
+ include/uapi/linux/kvm.h           |  1 +
+ 8 files changed, 83 insertions(+), 5 deletions(-)
+
+-- 
+2.14.5
 
