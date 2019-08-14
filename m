@@ -1,126 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB9FF7D922
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 18:37:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D52677D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 18:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbfHNShC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 14:37:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51548 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728389AbfHNShB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 14:37:01 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D8BC2AC6E;
-        Wed, 14 Aug 2019 18:36:58 +0000 (UTC)
-Date:   Wed, 14 Aug 2019 20:36:57 +0200
-From:   Michal Hocko <mhocko@kernel.org>
+        id S1729286AbfHNSog (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 14:44:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42706 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729082AbfHNSog (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 14:44:36 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7EIfc17088359
+        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 14:44:34 -0400
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ucn5epa3h-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 14:44:34 -0400
+Received: from localhost
+        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Wed, 14 Aug 2019 19:44:33 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 14 Aug 2019 19:44:28 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7EIiRlf49873240
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 18:44:27 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8864DB205F;
+        Wed, 14 Aug 2019 18:44:27 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 68424B2065;
+        Wed, 14 Aug 2019 18:44:27 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.154])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 14 Aug 2019 18:44:27 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 446FE16C1049; Wed, 14 Aug 2019 11:44:29 -0700 (PDT)
+Date:   Wed, 14 Aug 2019 11:44:29 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
 To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     khlebnikov@yandex-team.ru, linux-kernel@vger.kernel.org,
-        Minchan Kim <minchan@kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
+        max.byungchul.park@gmail.com, byungchul.park@lge.com,
+        kernel-team@android.com, kernel-team@lge.com,
         Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        paulmck@linux.ibm.com, Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 2/6] mm/page_idle: Add support for handling swapped
- PG_Idle pages
-Message-ID: <20190814183657.GK17933@dhcp22.suse.cz>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <20190807171559.182301-2-joel@joelfernandes.org>
- <20190813150450.GN17933@dhcp22.suse.cz>
- <20190813153659.GD14622@google.com>
- <20190814080531.GP17933@dhcp22.suse.cz>
- <20190814163203.GB59398@google.com>
+        Josh Triplett <josh@joshtriplett.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v3 1/2] rcu/tree: Add basic support for kfree_rcu batching
+Reply-To: paulmck@linux.ibm.com
+References: <20190813170046.81707-1-joel@joelfernandes.org>
+ <20190813190738.GH28441@linux.ibm.com>
+ <20190814143817.GA253999@google.com>
+ <20190814172233.GA68498@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190814163203.GB59398@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190814172233.GA68498@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19081418-0064-0000-0000-000004089D35
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011590; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000287; SDB=6.01246810; UDB=6.00657983; IPR=6.01028317;
+ MB=3.00028174; MTD=3.00000008; XFM=3.00000015; UTC=2019-08-14 18:44:33
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19081418-0065-0000-0000-00003EAB4496
+Message-Id: <20190814184429.GV28441@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-14_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908140165
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 14-08-19 12:32:03, Joel Fernandes wrote:
-> On Wed, Aug 14, 2019 at 10:05:31AM +0200, Michal Hocko wrote:
-> > On Tue 13-08-19 11:36:59, Joel Fernandes wrote:
-> > > On Tue, Aug 13, 2019 at 05:04:50PM +0200, Michal Hocko wrote:
-> > > > On Wed 07-08-19 13:15:55, Joel Fernandes (Google) wrote:
-> > > > > Idle page tracking currently does not work well in the following
-> > > > > scenario:
-> > > > >  1. mark page-A idle which was present at that time.
-> > > > >  2. run workload
-> > > > >  3. page-A is not touched by workload
-> > > > >  4. *sudden* memory pressure happen so finally page A is finally swapped out
-> > > > >  5. now see the page A - it appears as if it was accessed (pte unmapped
-> > > > >     so idle bit not set in output) - but it's incorrect.
-> > > > > 
-> > > > > To fix this, we store the idle information into a new idle bit of the
-> > > > > swap PTE during swapping of anonymous pages.
-> > > > >
-> > > > > Also in the future, madvise extensions will allow a system process
-> > > > > manager (like Android's ActivityManager) to swap pages out of a process
-> > > > > that it knows will be cold. To an external process like a heap profiler
-> > > > > that is doing idle tracking on another process, this procedure will
-> > > > > interfere with the idle page tracking similar to the above steps.
-> > > > 
-> > > > This could be solved by checking the !present/swapped out pages
-> > > > right? Whoever decided to put the page out to the swap just made it
-> > > > idle effectively.  So the monitor can make some educated guess for
-> > > > tracking. If that is fundamentally not possible then please describe
-> > > > why.
+On Wed, Aug 14, 2019 at 01:22:33PM -0400, Joel Fernandes wrote:
+> On Wed, Aug 14, 2019 at 10:38:17AM -0400, Joel Fernandes wrote:
+> > On Tue, Aug 13, 2019 at 12:07:38PM -0700, Paul E. McKenney wrote:
+>  [snip]
+> > > > - * Queue an RCU callback for lazy invocation after a grace period.
+> > > > - * This will likely be later named something like "call_rcu_lazy()",
+> > > > - * but this change will require some way of tagging the lazy RCU
+> > > > - * callbacks in the list of pending callbacks. Until then, this
+> > > > - * function may only be called from __kfree_rcu().
+> > > > + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
+> > > > + * kfree(s) is queued for freeing after a grace period, right away.
+> > > >   */
+> > > > -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
+> > > > +struct kfree_rcu_cpu {
+> > > > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
+> > > > +	 * is done after a grace period.
+> > > > +	 */
+> > > > +	struct rcu_work rcu_work;
+> > > > +
+> > > > +	/* The list of objects being queued in a batch but are not yet
+> > > > +	 * scheduled to be freed.
+> > > > +	 */
+> > > > +	struct rcu_head *head;
+> > > > +
+> > > > +	/* The list of objects that have now left ->head and are queued for
+> > > > +	 * freeing after a grace period.
+> > > > +	 */
+> > > > +	struct rcu_head *head_free;
 > > > 
-> > > But the monitoring process (profiler) does not have control over the 'whoever
-> > > made it effectively idle' process.
+> > > So this is not yet the one that does multiple batches concurrently
+> > > awaiting grace periods, correct?  Or am I missing something subtle?
 > > 
-> > Why does that matter? Whether it is a global/memcg reclaim or somebody
-> > calling MADV_PAGEOUT or whatever it is a decision to make the page not
-> > hot. Sure you could argue that a missing idle bit on swap entries might
-> > mean that the swap out decision was pre-mature/sub-optimal/wrong but is
-> > this the aim of the interface?
-> > 
-> > > As you said it will be a guess, it will not be accurate.
-> > 
-> > Yes and the point I am trying to make is that having some space and not
-> > giving a guarantee sounds like a safer option for this interface because
+> > Yes, it is not. I honestly, still did not understand that idea. Or how it
+> > would improve things. May be we can discuss at LPC on pen and paper? But I
+> > think that can also be a follow-up optimization.
 > 
-> I do see your point of view, but jJust because a future (and possibly not
-> going to happen) usecase which you mentioned as pte reclaim, makes you feel
-> that userspace may be subject to inaccuracies anyway, doesn't mean we should
-> make everything inaccurate..  We already know idle page tracking is not
-> completely accurate. But that doesn't mean we miss out on the opportunity to
-> make the "non pte-reclaim" usecase inaccurate as well. 
+> I got it now. Basically we can benefit a bit more by having another list
+> (that is have multiple kfree_rcu batches in flight). I will think more about
+> it - but hopefully we don't need to gate this patch by that.
 
-Just keep in mind that you will add more burden to future features
-because they would have to somehow overcome this user visible behavior
-and we will get to the usual question - Is this going to break
-something that relies on the idle bit being stable?
+I am willing to take this as a later optimization.
 
-> IMO, we should do our best for today, and not hypothesize. How likely is pte
-> reclaim and is there a thread to describe that direction?
+> It'll be interesting to see what rcuperf says about such an improvement :)
 
-Not that I am aware of now but with large NVDIMM mapped files I can see
-that this will get more and more interesting.
--- 
-Michal Hocko
-SUSE Labs
+Indeed, no guarantees either way.  The reason for hope assumes a busy
+system where each grace period is immediately followed by another
+grace period.  On such a system, the current setup allows each CPU to
+make use only of every second grace period for its kfree_rcu() work.
+The hope would therefore be that this would reduce the memory footprint
+substantially with no increase in overhead.
+
+But no way to know without trying it!  ;-)
+
+							Thanx, Paul
+
