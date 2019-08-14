@@ -1,124 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 529AD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 17:22:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3058C7D92A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 17:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729672AbfHNRWh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 13:22:37 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:43211 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730236AbfHNRWg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 13:22:36 -0400
-Received: by mail-pf1-f194.google.com with SMTP id v12so6175580pfn.10
-        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 10:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tKeZkHVdOTrrbp3L6xiLYQzT4PgNeWVgJQ71pR7Y1hc=;
-        b=Jq1WJLMwYfOmDtdlMvLrPfs483e6jQtjYKl+AAfH0yGzvtGSJJLPMsWePCTcLNKMVD
-         cy0HrsN51kEFY1pHyD7ey4tjU72XdiwPntsGqoW/lhKTnpsu7S62HWyZQbZymaM13Q9d
-         DIcUGp1c7vxz2uMzIJz7ijs67TMWf04Pssp1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tKeZkHVdOTrrbp3L6xiLYQzT4PgNeWVgJQ71pR7Y1hc=;
-        b=Mm+M/eEWSt1a0wJ5jn+tecbWt8ZWyavvG7p19JygQqvKUBY8TnNochRwfp9ol0g+kr
-         C6rWNl3BCtq3o8oG8TjK83WzgrfvWS3ONobsS5iY5o7z9cRLR1F+OBsUrnkaLWPOODu1
-         tFTF0YR+GQzoCkA/kyti+07pXBH056F4zPSmsnc4c3dtriGQF/90jaIxMAiLcy1Ck9hr
-         YiT8S0joDdhWkTF0wNoO9AN+pR/rrS77My47iSauOtTnzEHF8vV+eFlnNRkIlnpCM2k+
-         wq+jahFPc3H4xbcmWkmH34pDMBd+bYRQsDmmG355QtqOITzerbpfZx3Z6KsQo6NFpmcj
-         iLVw==
-X-Gm-Message-State: APjAAAVS8iXfxNtYDh9i16q/Zf2pUQ+3h1PH8Upb/bYCXJ+Q/B+60TvE
-        8BZz5jqEGF8rgDath8Ld/Kstxg==
-X-Google-Smtp-Source: APXvYqytE1M4/ayfarH7qXRQ/lomdLGUawyJeO7H22yRrGzjc3MD2Vf7zQBRnVNFFKiHv6DgKBg34g==
-X-Received: by 2002:a17:90a:fc95:: with SMTP id ci21mr804345pjb.52.1565803355964;
-        Wed, 14 Aug 2019 10:22:35 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id g18sm267119pgm.9.2019.08.14.10.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2019 10:22:35 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 13:22:33 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
-        max.byungchul.park@gmail.com, byungchul.park@lge.com,
-        kernel-team@android.com, kernel-team@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Kees Cook <keescook@chromium.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v3 1/2] rcu/tree: Add basic support for kfree_rcu batching
-Message-ID: <20190814172233.GA68498@google.com>
-References: <20190813170046.81707-1-joel@joelfernandes.org>
- <20190813190738.GH28441@linux.ibm.com>
- <20190814143817.GA253999@google.com>
+        id S1730273AbfHNRXE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 13:23:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45684 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729276AbfHNRXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Aug 2019 13:23:02 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9246520665;
+        Wed, 14 Aug 2019 17:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565803381;
+        bh=FN7svZ/+iXMULArgYt1oBNGNoJcD+bkl47j+nxOdq5Y=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=U2k+Omw28LwRRoFmVtodT07PV6nxV/NjO0n84ZnQwJqJzPx0vkjnq79bp1wEvklFG
+         VMEVAJLqqexfV8yMpJeyrQSBTfCgZag1WzGsv1E4V8fP+esmsvW+CqJy/MmWeHrA/1
+         KqbEgb8F4a9wCCJHNpBFKV7UIh0krHKOR86fwJ8w=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190814143817.GA253999@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFd5g45NdQEcP0JQpZc3HYYgNZfsBsHL+ByXRK+OupWObwMuqg@mail.gmail.com>
+References: <20190814055108.214253-1-brendanhiggins@google.com> <CAFd5g45NdQEcP0JQpZc3HYYgNZfsBsHL+ByXRK+OupWObwMuqg@mail.gmail.com>
+Subject: Re: [PATCH v13 00/18] kunit: introduce KUnit, the Linux kernel unit testing framework
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Bjorn Helgaas <bhelgaas@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+        shuah <shuah@kernel.org>
+User-Agent: alot/0.8.1
+Date:   Wed, 14 Aug 2019 10:23:00 -0700
+Message-Id: <20190814172301.9246520665@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 10:38:17AM -0400, Joel Fernandes wrote:
-> On Tue, Aug 13, 2019 at 12:07:38PM -0700, Paul E. McKenney wrote:
- [snip]
-> > > - * Queue an RCU callback for lazy invocation after a grace period.
-> > > - * This will likely be later named something like "call_rcu_lazy()",
-> > > - * but this change will require some way of tagging the lazy RCU
-> > > - * callbacks in the list of pending callbacks. Until then, this
-> > > - * function may only be called from __kfree_rcu().
-> > > + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-> > > + * kfree(s) is queued for freeing after a grace period, right away.
-> > >   */
-> > > -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> > > +struct kfree_rcu_cpu {
-> > > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-> > > +	 * is done after a grace period.
-> > > +	 */
-> > > +	struct rcu_work rcu_work;
-> > > +
-> > > +	/* The list of objects being queued in a batch but are not yet
-> > > +	 * scheduled to be freed.
-> > > +	 */
-> > > +	struct rcu_head *head;
-> > > +
-> > > +	/* The list of objects that have now left ->head and are queued for
-> > > +	 * freeing after a grace period.
-> > > +	 */
-> > > +	struct rcu_head *head_free;
-> > 
-> > So this is not yet the one that does multiple batches concurrently
-> > awaiting grace periods, correct?  Or am I missing something subtle?
-> 
-> Yes, it is not. I honestly, still did not understand that idea. Or how it
-> would improve things. May be we can discuss at LPC on pen and paper? But I
-> think that can also be a follow-up optimization.
+Quoting Brendan Higgins (2019-08-14 03:03:47)
+> On Tue, Aug 13, 2019 at 10:52 PM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > ## TL;DR
+> >
+> > This revision addresses comments from Stephen and Bjorn Helgaas. Most
+> > changes are pretty minor stuff that doesn't affect the API in anyway.
+> > One significant change, however, is that I added support for freeing
+> > kunit_resource managed resources before the test case is finished via
+> > kunit_resource_destroy(). Additionally, Bjorn pointed out that I broke
+> > KUnit on certain configurations (like the default one for x86, whoops).
+> >
+> > Based on Stephen's feedback on the previous change, I think we are
+> > pretty close. I am not expecting any significant changes from here on
+> > out.
+>=20
+> Stephen, it looks like you have just replied with "Reviewed-bys" on
+> all the remaining emails that you looked at. Is there anything else
+> that we are missing? Or is this ready for Shuah to apply?
+>=20
 
-I got it now. Basically we can benefit a bit more by having another list
-(that is have multiple kfree_rcu batches in flight). I will think more about
-it - but hopefully we don't need to gate this patch by that.
-
-It'll be interesting to see what rcuperf says about such an improvement :)
-
-thanks,
-
- - Joel
+I think it's good to go! Thanks for the persistence.
 
