@@ -3,236 +3,173 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D78BE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 12:54:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96F0C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 13:02:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727910AbfHNMx6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 08:53:58 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:47328 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727850AbfHNMx6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 08:53:58 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECnvwD007079;
-        Wed, 14 Aug 2019 12:53:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
- : from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=corp-2019-08-05;
- bh=UJ4xxL7YKF03XgJIhV7cmew+iA7ilSZmjlToLDjnJJM=;
- b=eA9bXi3lc8YAYrhpC0mJi6Y2la++PG/pR9ghUffgZxOrdDva2i5DOF8x5HS9dxmW/6vF
- LVvJS/jgzHpChCYxSQ1eIm8n/N8UOIVVgwOTDDQft2yBiRDXqQo+v1sxo5kqYQ1G3bwd
- DBBdXX7GXwJEIRpVJcqwUkiGmSh+UC4bLcdvadArii09AmvsKPX0SiiMPb1iSWM2zs8W
- sxb7bXeyvtVF0lUsMFc3NfSctU3F95/y6+BLOvLvK8dO9HaX8KUBE4FleShYkGAuHSd7
- 0H7qapXonZAQ7ltA1PewZX/9tsCLRT2sl6yKwquvhOcDHqxOLn80agHThYs106e74ySH Mg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2u9nbtmnfx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Aug 2019 12:53:18 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECrCGh041860;
-        Wed, 14 Aug 2019 12:53:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 2ubwrh7eex-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Aug 2019 12:53:17 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7ECqlJ7027212;
-        Wed, 14 Aug 2019 12:52:47 GMT
-Received: from abi.no.oracle.com (/141.143.213.43)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 14 Aug 2019 05:52:46 -0700
-Message-ID: <1c4760f43313488786ca867acc2835f9c9acef1f.camel@oracle.com>
-Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and
- host-cxxshlib
-From:   Knut Omang <knut.omang@oracle.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Hidenori Yamaji <hidenori.yamaji@sony.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
-        Stephen Boyd <sboyd@kernel.org>
-Date:   Wed, 14 Aug 2019 14:52:42 +0200
-In-Reply-To: <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
-References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
-         <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
-         <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
-         <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
-         <CAK7LNASgfd6KPRQ=hcqKkpZ6EVhFmbBjCXa30bvEqscu_5dwbQ@mail.gmail.com>
-         <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+        id S1726821AbfHNNCf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 09:02:35 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:60545 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbfHNNCe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 09:02:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1565787753; x=1597323753;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=ahedc4jUDKTjKYr/t9LKGSVGXplFx3U807P6YTr2BXY=;
+  b=pxcnvuyy+e6NkEQZRmNvsII4zW0P1AEo78w3dH5gpd5a/LuIQNFJEbUS
+   Gjoxz5a005sd9YSda+v/yy9DcRaWUd0b6jCQJxy8uirvoNJ/0I23+4DOt
+   QN55pPqNb6/499xTAbRv8tJwV3Fp2q1mIB9yF4JR+CF/krABI1QC+w9ji
+   w=;
+X-IronPort-AV: E=Sophos;i="5.64,385,1559520000"; 
+   d="scan'208";a="409587587"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-8549039f.us-west-2.amazon.com) ([10.124.125.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 14 Aug 2019 13:02:30 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-8549039f.us-west-2.amazon.com (Postfix) with ESMTPS id C0243A227C;
+        Wed, 14 Aug 2019 13:02:29 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 14 Aug 2019 13:02:29 +0000
+Received: from 38f9d3867b82.ant.amazon.com (10.43.160.211) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 14 Aug 2019 13:02:26 +0000
+Subject: Re: [PATCH 0/9] arm64: Stolen time support
+To:     Steven Price <steven.price@arm.com>, Marc Zyngier <maz@kernel.org>
+CC:     <kvm@vger.kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
+        <linux-kernel@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Will Deacon" <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20190802145017.42543-1-steven.price@arm.com>
+ <20190803190522.5fec8f7d@why> <6789f477-8ab5-cc54-1ad2-8627917b07c9@arm.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <8ca5c106-7c12-4c6e-6d81-a90f281a9894@amazon.com>
+Date:   Wed, 14 Aug 2019 15:02:25 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <6789f477-8ab5-cc54-1ad2-8627917b07c9@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1908140132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1908140131
+X-Originating-IP: [10.43.160.211]
+X-ClientProxiedBy: EX13D03UWA002.ant.amazon.com (10.43.160.144) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-08-14 at 07:52 +0200, Knut Omang wrote:
-> On Wed, 2019-08-14 at 11:02 +0900, Masahiro Yamada wrote:
-> > Hi Knut,
-> > 
-> > On Wed, Aug 14, 2019 at 1:19 AM Knut Omang <knut.omang@oracle.com> wrote:
-> > > On Tue, 2019-08-13 at 23:01 +0900, Masahiro Yamada wrote:
-> > > > On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
-> > > > > C++ libraries interfacing to C APIs might sometimes need some glue
-> > > > > logic more easily written in C.
-> > > > > Allow a C++ library to also contain 0 or more C objects.
-> > > > > 
-> > > > > Also fix rules for both C and C++ shared libraries:
-> > > > > - C++ shared libraries depended on .c instead of .cc files
-> > > > > - Rules were referenced as -objs instead of the intended
-> > > > >   -cobjs and -cxxobjs following the pattern from hostprogs*.
-> > > > > 
-> > > > > Signed-off-by: Knut Omang <knut.omang@oracle.com>
-> > > > 
-> > > > How is this patch related to the rest of this series?
-> > > 
-> > > This is just my (likely naive) way I to get what I had working
-> > > using autotools in the Github version of KTF) translated into something
-> > > comparable using kbuild only. We need to build a shared library consisting
-> > > of a few C++ files and a very simple C file, and a couple of simple binaries,
-> > > and the rule in there does seem to take .c files and subject them to the
-> > > C++ compiler, which makes this difficult to achieve?
-> > 
-> > Looking at the diff stat of the cover-letter,
-> > the rest of this patch series is touching only
-> > Documentation/ and tools/testing/kselftests/.
-> > 
-> > So, this one is unused by the rest of the changes, isn't it?
-> > Am I missing something?
-> > 
-> > 
-> > 
-> > > > This patch breaks GCC-plugins.
-> > > > Did you really compile-test this patch before the submission?
-> > > 
-> > > Sorry for my ignorance here:
-> > > I ran through the kernel build and installed the resulting kernel
-> > > on a VM that I used to test this, if that's what you are asking
-> > > about?
-> > > 
-> > > Do I need some unusual .config options or run a special make target
-> > > to trigger the problem you see?
-> > > 
-> > > I used a recent Fedora config with default values for new options,
-> > > and ran the normal default make target (also with O=) and make selftests
-> > > to test the patch itself.
-> > 
-> > I just built allmodconfig for arm.
-> > 
-> > (The 0-day bot tests allmodconfig for most of architectures,
-> > so you may receive error reports anyway.)
-> > 
-> > 
-> > With your patch, I got the following:
-> > 
-> > 
-> > masahiro@grover:~/ref/linux$ make  ARCH=arm
-> > CROSS_COMPILE=-  allmodconfig all
-> >   HOSTCC  scripts/basic/fixdep
-> >   HOSTCC  scripts/kconfig/conf.o
-> >   HOSTCC  scripts/kconfig/confdata.o
-> >   HOSTCC  scripts/kconfig/expr.o
-> >   LEX     scripts/kconfig/lexer.lex.c
-> >   YACC    scripts/kconfig/parser.tab.h
-> >   HOSTCC  scripts/kconfig/lexer.lex.o
-> >   YACC    scripts/kconfig/parser.tab.c
-> >   HOSTCC  scripts/kconfig/parser.tab.o
-> >   HOSTCC  scripts/kconfig/preprocess.o
-> >   HOSTCC  scripts/kconfig/symbol.o
-> >   HOSTLD  scripts/kconfig/conf
-> > scripts/kconfig/conf  --allmodconfig Kconfig
-> > #
-> > # configuration written to .config
-> > #
-> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-common.h
-> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-oabi.h
-> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-eabi.h
-> >   HOSTCC  scripts/dtc/dtc.o
-> >   HOSTCC  scripts/dtc/flattree.o
-> >   HOSTCC  scripts/dtc/fstree.o
-> >   HOSTCC  scripts/dtc/data.o
-> >   HOSTCC  scripts/dtc/livetree.o
-> >   HOSTCC  scripts/dtc/treesource.o
-> >   HOSTCC  scripts/dtc/srcpos.o
-> >   HOSTCC  scripts/dtc/checks.o
-> >   HOSTCC  scripts/dtc/util.o
-> >   LEX     scripts/dtc/dtc-lexer.lex.c
-> >   YACC    scripts/dtc/dtc-parser.tab.h
-> >   HOSTCC  scripts/dtc/dtc-lexer.lex.o
-> >   YACC    scripts/dtc/dtc-parser.tab.c
-> >   HOSTCC  scripts/dtc/dtc-parser.tab.o
-> >   HOSTCC  scripts/dtc/yamltree.o
-> >   HOSTLD  scripts/dtc/dtc
-> >   CC      scripts/gcc-plugins/latent_entropy_plugin.o
-> > cc1: error: cannot load plugin ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so
-> >    ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: cannot open
-> > shared object file: No such file or directory
-> > cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so
-> >    ./scripts/gcc-plugins/structleak_plugin.so: cannot open shared
-> > object file: No such file or directory
-> > cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so
-> >    ./scripts/gcc-plugins/latent_entropy_plugin.so: cannot open shared
-> > object file: No such file or directory
-> > cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so
-> >    ./scripts/gcc-plugins/randomize_layout_plugin.so: cannot open
-> > shared object file: No such file or directory
-> > make[3]: *** [scripts/Makefile.build;281:
-> > scripts/gcc-plugins/latent_entropy_plugin.o] Error 1
-> > make[2]: *** [scripts/Makefile.build;497: scripts/gcc-plugins] Error 2
-> > make[1]: *** [Makefile;1097: scripts] Error 2
-> > make: *** [Makefile;330: __build_one_by_one] Error 2
+
+
+On 05.08.19 15:06, Steven Price wrote:
+> On 03/08/2019 19:05, Marc Zyngier wrote:
+>> On Fri,  2 Aug 2019 15:50:08 +0100
+>> Steven Price <steven.price@arm.com> wrote:
+>>
+>> Hi Steven,
+>>
+>>> This series add support for paravirtualized time for arm64 guests and
+>>> KVM hosts following the specification in Arm's document DEN 0057A:
+>>>
+>>> https://developer.arm.com/docs/den0057/a
+>>>
+>>> It implements support for stolen time, allowing the guest to
+>>> identify time when it is forcibly not executing.
+>>>
+>>> It doesn't implement support for Live Physical Time (LPT) as there are
+>>> some concerns about the overheads and approach in the above
+>>> specification, and I expect an updated version of the specification to
+>>> be released soon with just the stolen time parts.
+>>
+>> Thanks for posting this.
+>>
+>> My current concern with this series is around the fact that we allocate
+>> memory from the kernel on behalf of the guest. It is the first example
+>> of such thing in the ARM port, and I can't really say I'm fond of it.
+>>
+>> x86 seems to get away with it by having the memory allocated from
+>> userspace, why I tend to like more. Yes, put_user is more
+>> expensive than a straight store, but this isn't done too often either.
+>>
+>> What is the rational for your current approach?
 > 
-> Ok, I see!
+> As I see it there are 3 approaches that can be taken here:
 > 
-> I'll recall this target and look into it!
+> 1. Hypervisor allocates memory and adds it to the virtual machine. This
+> means that everything to do with the 'device' is encapsulated behind the
+> KVM_CREATE_DEVICE / KVM_[GS]ET_DEVICE_ATTR ioctls. But since we want the
+> stolen time structure to be fast it cannot be a trapping region and has
+> to be backed by real memory - in this case allocated by the host kernel.
+> 
+> 2. Host user space allocates memory. Similar to above, but this time
+> user space needs to manage the memory region as well as the usual
+> KVM_CREATE_DEVICE dance. I've no objection to this, but it means
+> kvmtool/QEMU needs to be much more aware of what is going on (e.g. how
+> to size the memory region).
 
-Ok, so I have tried installing the arm-linux-gnueabihf cross compiler and compiled the kernel for arm,
-but allmodconfig does not seem to enable any GCC plugins per default even on ARM and I haven't been able
-to figure out how to enable any. 
+You ideally want to get the host overhead for a VM to as little as you 
+can. I'm not terribly fond of the idea of reserving a full page just 
+because we're too afraid of having the guest donate memory.
 
-A plain allmodconfig generated config compiles perfectly for me both native x86 and w/arm cross compile,
-but it doesn't seem to enable any gcc plugins.
+> 
+> 3. Guest kernel "donates" the memory to the hypervisor for the
+> structure. As far as I'm aware this is what x86 does. The problems I see
+> this approach are:
+> 
+>   a) kexec becomes much more tricky - there needs to be a disabling
+> mechanism for the guest to stop the hypervisor scribbling on memory
+> before starting the new kernel.
 
-Anyway, maybe I am getting this wrong anyway: 
-Having played with cross compile, it starts to become clear to me that HOSTCC rules
-might not be the right rules to use, as it will generate host user land binaries as opposed to 
-target user land binaries (in a cross compile world obviously these differ)
+I wouldn't call "quiesce a device" much more tricky. We have to do that 
+for other devices as well today.
 
-Now, I started off with using the rules in the selftests makefiles for this, but they do not play that well with 
-kernel module building. My goal is to be able to do both user land and kernel module **target** compiles 
-from the same subtree. Any hints on how to accomplish this appreciated :-)
+>   b) If there is more than one entity that is interested in the
+> information (e.g. firmware and kernel) then this requires some form of
+> arbitration in the guest because the hypervisor doesn't want to have to
+> track an arbitrary number of regions to update.
 
-Thanks,
-Knut
+Why would FW care?
 
+>   c) Performance can suffer if the host kernel doesn't have a suitably
+> aligned/sized area to use. As you say - put_user() is more expensive.
+
+Just define the interface to always require natural alignment when 
+donating a memory location?
+
+> The structure is updated on every return to the VM.
+
+If you really do suffer from put_user(), there are alternatives. You 
+could just map the page on the registration hcall and then leave it 
+pinned until the vcpu gets destroyed again.
+
+> Of course x86 does prove the third approach can work, but I'm not sure
+> which is actually better. Avoid the kexec cancellation requirements was
+> the main driver of the current approach. Although many of the
+
+I really don't understand the problem with kexec cancellation. Worst 
+case, let guest FW set it up for you and propagate only the address down 
+via ACPI/DT. That way you can mark the respective memory as reserved too.
+
+But even with a Linux only mechanism, just take a look at 
+arch/x86/kernel/kvmclock.c. All they do to remove the map is to hook 
+into machine_crash_shutdown() and machine_shutdown().
+
+
+Alex
+
+> conversations about this were also tied up with Live Physical Time which
+> adds its own complications.
+> 
+> Steve
+> _______________________________________________
+> kvmarm mailing list
+> kvmarm@lists.cs.columbia.edu
+> https://lists.cs.columbia.edu/mailman/listinfo/kvmarm
+> 
