@@ -1,235 +1,388 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0810D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 20:57:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 644DA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 21:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729877AbfHNU4x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 16:56:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:47397 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729385AbfHNU4x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 16:56:53 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MzR0i-1iBFr30hTU-00vKnH; Wed, 14 Aug 2019 22:56:45 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        linux-fsdevel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Mackerras <paulus@samba.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-ppp@vger.kernel.org
-Subject: [PATCH v5 14/18] compat_ioctl: handle PPPIOCGIDLE for 64-bit time_t
-Date:   Wed, 14 Aug 2019 22:54:49 +0200
-Message-Id: <20190814205521.122180-5-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190814204259.120942-1-arnd@arndb.de>
-References: <20190814204259.120942-1-arnd@arndb.de>
+        id S1728397AbfHNVRu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 17:17:50 -0400
+Received: from mail-eopbgr730088.outbound.protection.outlook.com ([40.107.73.88]:6014
+        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728364AbfHNVRt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Aug 2019 17:17:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S9IW+rbhbXi1DsSEGVlIC6Bdk5AlOalmQp+9DSyrWLOXmNNp/fSHBVCxtIDN1XcLMdmD7FKRdn1NeIGebw4XLNm7iF4yPspBPdxhbZHRKQ2uflhertw5BvwSya9rgdLdAgio1xzV/u8nhPE2JeRd2toCYkJDCnmnVfAIF1VIWsgj7Eo3SNhJD3PHJefKKeisp8gbxhoyUlId14MvBk+1TyZ8UN4sWYeGMNE5wxE0q5yF2yqHyqqXgSQEjKswUWaZB9mM9iRZanNPDgLNWjEwafrsIiekGd8VYrShsw+Bx18QOZr7n1FyJ9pOL6jW9a9yyI5AWTvnEF63viklRUcLFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qxc/b5MBXxYBY7r8W8lqFgeqEB9988tTDe8NesdUoEI=;
+ b=BPrZNbJzlz3BZxYHCF4PULcf/RTVVjL247bLSv3id2Rgtty0vL7niO8Hi09zJe3/lRMI4x9DDuWsEM1pmFXVFV+n7kWj2bP0btuTvXnUiHy+RE0LXNzJoSn9oqiab0dISB1+XIgQ3B8QIQ4db3NOfGMNyduYao8m5vOMxMV0GBgbzY9vJAamwvbrBtzcVsziIWCxxXBnO6oJqmhsszrJy/Avk/tCk5Lw8hP6cBUypTPsxlxUtECQv566ksQq/mgJ46AQ6F/fG2IhDc1IU00nZAhzT8j/bBSqdbYm1hIYoJTyK1DLP9s46qw4VI0MyDS1bdPKdHWVewZiIUTHEok5DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qxc/b5MBXxYBY7r8W8lqFgeqEB9988tTDe8NesdUoEI=;
+ b=vJeFSvHB5CGgQcDu1JUuF6SiURKqtrDtiJ51dEv21hrUJUhCf2hNCvosHQFkB/QhUYHO8VitUOvJQsmJyKikkec6EZal0V0eESvAac+quRCUHnEUmtFJCBCgdA5pCirpXrvDeYuRAiK7/DV7b2+FGueFYm0Kw5EVm9UBRHDq0Hw=
+Received: from DM6PR12MB3163.namprd12.prod.outlook.com (20.179.104.150) by
+ DM6PR12MB3612.namprd12.prod.outlook.com (20.178.199.86) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.22; Wed, 14 Aug 2019 21:17:41 +0000
+Received: from DM6PR12MB3163.namprd12.prod.outlook.com
+ ([fe80::9c3d:8593:906c:e4f7]) by DM6PR12MB3163.namprd12.prod.outlook.com
+ ([fe80::9c3d:8593:906c:e4f7%6]) with mapi id 15.20.2157.022; Wed, 14 Aug 2019
+ 21:17:41 +0000
+From:   "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
+To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, Chen Yu <yu.c.chen@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
+Thread-Topic: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family
+ 15h/16h
+Thread-Index: AQHVUuW0/upDXQeDUkyQJLUEYNL76Q==
+Date:   Wed, 14 Aug 2019 21:17:41 +0000
+Message-ID: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.17.1
+x-clientproxiedby: SN6PR05CA0002.namprd05.prod.outlook.com
+ (2603:10b6:805:de::15) To DM6PR12MB3163.namprd12.prod.outlook.com
+ (2603:10b6:5:182::22)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Thomas.Lendacky@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.77.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b9527c2c-4b96-4330-e67e-08d720fcd75b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM6PR12MB3612;
+x-ms-traffictypediagnostic: DM6PR12MB3612:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB3612D15B363047B249B18F9EECAD0@DM6PR12MB3612.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 01294F875B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(199004)(189003)(7416002)(7736002)(2616005)(486006)(25786009)(476003)(3846002)(6116002)(14444005)(256004)(102836004)(50226002)(2906002)(8936002)(305945005)(54906003)(110136005)(99286004)(71200400001)(52116002)(71190400001)(386003)(6506007)(4326008)(2201001)(478600001)(81156014)(66556008)(64756008)(66446008)(316002)(118296001)(26005)(81166006)(66066001)(5660300002)(86362001)(8676002)(6436002)(36756003)(6486002)(2501003)(53936002)(66946007)(186003)(66476007)(14454004)(6512007);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR12MB3612;H:DM6PR12MB3163.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: SmpOrkqgqxRdkcKwMdHb+4VYXFW8uec608uPfuKAJ6Gzf/YxiJWDcixSHgdVbmepTYOHSyXOExuMjKIVkapjD5m+5rU4RBSS04WevmDK2/O5eRwB1er59rNQ2Q3m42hmo+g2HDbJkbpNfnxy362NKO+CMkYxlk+L4GmUoBQQvJfxrzKi50ZSASMEFx2Xb/jgE1TrzgbtIqPEX3hAtdHy7FXThyhYV9CMH9NQzTK3sPYY4EDpmyGbjBW9j/TcPFgCVVlZOxf+5rRa3vWFvogDygs0lPE640S/4vOkxMCSLCRyH6zsJgPEnqM3IfpSq9nkuMH1CsbGzKn6CX1iwxtrbsm/8T1n/0nlZbKl4ltAfnQDG6LU5srHWHYPnO5EARIHmtGJxzevMVWQRtj75shhVaQPB6TnFHxyZdCTvlY5Ttk=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <533022FAEB72864080AFE58FAAD5CCB1@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YPvpBTFvL5Y424x3E0kBMGJ6zBdgxHHTi8t4BTlVfozQmf4fZBs
- gNWQCBj+noYa2owNFNHhaYWiHeqIuSqzlhOYaXM30oDtyqr9+3pXgJqt6uGkm7wV8fHu9Qb
- w3b9neggVXVruCTqgepQhDDsUAyM9TfJcKPShiSbn9GGE4txA2DhblYD5oJve7Oeh1kbvp4
- 3puGfzaXWqPlnzHetdBMw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:enJiRsEo4Z8=:5wsBczWSevpQTgjH3Ir2mZ
- FPt66Ou8IFIN0Dn/7Ees/65xfnK1gxJD2Hq7kDwmc3WI76hI/RbjGCvFmwBXLUUSTy0rTqFNh
- Z6CqHm7xBqO2CckYzFTj6hO96kBuQbbvHle04hV7kikil8KbQ0/biobykbJXhqDt6uDHL7zLJ
- wugSmhc6xm2nRKPQsBb8saQoryrnYRuI3J+3utWhZdCTYK/6YZEJXTxkngZXYcU/cXVZZrpt9
- SYry79DMmxm+niQupn+izUwrhRputcFqsUkeapfKFeOnsLzQhoPoFpN9D/YdivKD9upnKqeZl
- /4jon59vjn7WPti5guejqv9yjpV19uPsXmYUG6xJPttkOZ+BVoYdn/VJpjb5LLpKPVESBWuU2
- nYS8pH9VF4NAq0++cAZLWMbTOrCKryB0t+1pIrb4H+HmcbGs4oyUiE2qPBy7pc3WRnwJKifTW
- e7jlRzITa0YntDssYNX4OnTZBBjNT8WKU4/XWzVNWAVnA8X4z4NEtcLBQgcQ7pBQ+6gJ+CboP
- pwiRWaH8LKVXNX0yCCt5tzC1sEG8tIrEsOx4qa86zHma0gsA9TAABi3Rr4X0xKNzwUaAO/D/m
- UGtZlIf1L3JMoWEK6eEZRlAmPpQUsjxyeqFiZHT+1F3lx7tyWwmORSA1bPr5SFtQRAKS1RsCD
- mB98iATggVu9t7ArnFSpq7GnUMneg1VM19bx/YNApcs8SJVvyrDRF98YTFMA/lyzqcrjZvVZJ
- p/XQOXv+Ybdyc0cgGfIMvu7NqsEtDrfaJ/A2YA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9527c2c-4b96-4330-e67e-08d720fcd75b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2019 21:17:41.4935
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8LSAjM1/gvUum1Uj3ivbLULanpmyWK7kw2/3hJl0bY8L4+4nE1Fva5ghMahCNgx4LgHuWLvDyvR0V7L6qnHRAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3612
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ppp_idle structure is defined in terms of __kernel_time_t, which is
-defined as 'long' on all architectures, and this usage is not affected
-by the y2038 problem since it transports a time interval rather than an
-absolute time.
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-However, the ppp user space defines the same structure as time_t, which
-may be 64-bit wide on new libc versions even on 32-bit architectures.
+There have been reports of RDRAND issues after resuming from suspend on
+some AMD family 15h and family 16h systems. This issue stems from BIOS
+not performing the proper steps during resume to ensure RDRAND continues
+to function properly.
 
-It's easy enough to just handle both possible structure layouts on
-all architectures, to deal with the possibility that a user space ppp
-implementation comes with its own ppp_idle structure definition, as well
-as to document the fact that the driver is y2038-safe.
+RDRAND support is indicated by CPUID Fn00000001_ECX[30]. This bit can be
+reset by clearing MSR C001_1004[62]. Any software that checks for RDRAND
+support using CPUID, including the kernel,  will believe that RDRAND is
+not supported.
 
-Doing this also avoids the need for a special compat mode translation,
-since 32-bit and 64-bit kernels now support the same interfaces.  The old
-32-bit structure is also available on native 64-bit architectures now,
-but this is harmless.
+Update the CPU initialization to clear the RDRAND CPUID bit for any family
+15h and 16h processor that supports RDRAND. If it is known that the family
+15h or family 16h system does not have an RDRAND resume issue or that the
+system will not be placed in suspend, the "rdrand_force" kernel parameter
+can be used to stop the clearing of the RDRAND CPUID bit.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Additionally, update the suspend and resume path to save and restore the
+MSR C001_1004 value to ensure that the RDRAND CPUID setting remains in
+place after resuming from suspend.
+
+Note, that clearing the RDRAND CPUID bit does not prevent a processor
+that normally supports the RDRAND instruction from executing the RDRAND
+instruction. So any code that determined the support based on family and
+model won't #UD.
+
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- Documentation/networking/ppp_generic.txt |  2 ++
- drivers/net/ppp/ppp_generic.c            | 19 ++++++++++----
- fs/compat_ioctl.c                        | 32 ++----------------------
- include/uapi/linux/ppp-ioctl.h           |  2 ++
- include/uapi/linux/ppp_defs.h            | 14 +++++++++++
- 5 files changed, 34 insertions(+), 35 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  8 ++
+ arch/x86/include/asm/msr-index.h              |  1 +
+ arch/x86/kernel/cpu/amd.c                     | 42 ++++++++++
+ arch/x86/power/cpu.c                          | 83 ++++++++++++++++---
+ 4 files changed, 121 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/networking/ppp_generic.txt b/Documentation/networking/ppp_generic.txt
-index 61daf4b39600..fd563aff5fc9 100644
---- a/Documentation/networking/ppp_generic.txt
-+++ b/Documentation/networking/ppp_generic.txt
-@@ -378,6 +378,8 @@ an interface unit are:
-   CONFIG_PPP_FILTER option is enabled, the set of packets which reset
-   the transmit and receive idle timers is restricted to those which
-   pass the `active' packet filter.
-+  Two versions of this command exist, to deal with user space
-+  expecting times as either 32-bit or 64-bit time_t seconds.
- 
- * PPPIOCSMAXCID sets the maximum connection-ID parameter (and thus the
-   number of connection slots) for the TCP header compressor and
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 2ab67bad6224..6b4e227cb002 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -612,7 +612,8 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	struct ppp_file *pf;
- 	struct ppp *ppp;
- 	int err = -EFAULT, val, val2, i;
--	struct ppp_idle idle;
-+	struct ppp_idle32 idle32;
-+	struct ppp_idle64 idle64;
- 	struct npioctl npi;
- 	int unit, cflags;
- 	struct slcompress *vj;
-@@ -735,10 +736,18 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 		err = 0;
- 		break;
- 
--	case PPPIOCGIDLE:
--		idle.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
--		idle.recv_idle = (jiffies - ppp->last_recv) / HZ;
--		if (copy_to_user(argp, &idle, sizeof(idle)))
-+	case PPPIOCGIDLE32:
-+                idle32.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
-+                idle32.recv_idle = (jiffies - ppp->last_recv) / HZ;
-+                if (copy_to_user(argp, &idle32, sizeof(idle32)))
-+			break;
-+		err = 0;
-+		break;
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
+n/admin-guide/kernel-parameters.txt
+index 47d981a86e2f..f47eb33958c1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4090,6 +4090,14 @@
+ 			Run specified binary instead of /init from the ramdisk,
+ 			used for early userspace startup. See initrd.
+=20
++	rdrand_force	[X86]
++			On certain AMD processors, the advertisement of the
++			RDRAND instruction has been disabled by the kernel
++			because of buggy BIOS support, specifically around the
++			suspend/resume path. This option allows for overriding
++			that decision if it is known that the BIOS support for
++			RDRAND is not buggy on the system.
 +
-+	case PPPIOCGIDLE64:
-+		idle64.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
-+		idle64.recv_idle = (jiffies - ppp->last_recv) / HZ;
-+		if (copy_to_user(argp, &idle64, sizeof(idle64)))
- 			break;
- 		err = 0;
- 		break;
-diff --git a/fs/compat_ioctl.c b/fs/compat_ioctl.c
-index 0b5a732d7afd..f97cf698cfdd 100644
---- a/fs/compat_ioctl.c
-+++ b/fs/compat_ioctl.c
-@@ -99,33 +99,6 @@ static int sg_grt_trans(struct file *file,
+ 	rdt=3D		[HW,X86,RDT]
+ 			Turn on/off individual RDT features. List is:
+ 			cmt, mbmtotal, mbmlocal, l3cat, l3cdp, l2cat, l2cdp,
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-in=
+dex.h
+index 6b4fc2788078..29ae2b66b9e9 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -381,6 +381,7 @@
+ #define MSR_AMD64_PATCH_LEVEL		0x0000008b
+ #define MSR_AMD64_TSC_RATIO		0xc0000104
+ #define MSR_AMD64_NB_CFG		0xc001001f
++#define MSR_AMD64_CPUID_FN_00000001	0xc0011004
+ #define MSR_AMD64_PATCH_LOADER		0xc0010020
+ #define MSR_AMD64_OSVW_ID_LENGTH	0xc0010140
+ #define MSR_AMD64_OSVW_STATUS		0xc0010141
+diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+index 3afe07d602dd..86ff1464302b 100644
+--- a/arch/x86/kernel/cpu/amd.c
++++ b/arch/x86/kernel/cpu/amd.c
+@@ -804,6 +804,40 @@ static void init_amd_ln(struct cpuinfo_x86 *c)
+ 	msr_set_bit(MSR_AMD64_DE_CFG, 31);
  }
- #endif /* CONFIG_BLOCK */
- 
--struct ppp_idle32 {
--	compat_time_t xmit_idle;
--	compat_time_t recv_idle;
--};
--#define PPPIOCGIDLE32		_IOR('t', 63, struct ppp_idle32)
--
--static int ppp_gidle(struct file *file, unsigned int cmd,
--		struct ppp_idle32 __user *idle32)
--{
--	struct ppp_idle __user *idle;
--	__kernel_time_t xmit, recv;
--	int err;
--
--	idle = compat_alloc_user_space(sizeof(*idle));
--
--	err = do_ioctl(file, PPPIOCGIDLE, (unsigned long) idle);
--
--	if (!err) {
--		if (get_user(xmit, &idle->xmit_idle) ||
--		    get_user(recv, &idle->recv_idle) ||
--		    put_user(xmit, &idle32->xmit_idle) ||
--		    put_user(recv, &idle32->recv_idle))
--			err = -EFAULT;
+=20
++static bool rdrand_force;
++
++static int __init rdrand_force_cmdline(char *str)
++{
++	rdrand_force =3D true;
++
++	return 0;
++}
++early_param("rdrand_force", rdrand_force_cmdline);
++
++static void init_hide_rdrand(struct cpuinfo_x86 *c)
++{
++	/*
++	 * The nordrand option can clear X86_FEATURE_RDRAND, so check for
++	 * RDRAND support using the CPUID function directly.
++	 */
++	if (!(cpuid_ecx(1) & BIT(30)) || rdrand_force)
++		return;
++
++	msr_clear_bit(MSR_AMD64_CPUID_FN_00000001, 62);
++	clear_cpu_cap(c, X86_FEATURE_RDRAND);
++	pr_info_once("hiding RDRAND via CPUID\n");
++}
++
++static void init_amd_jg(struct cpuinfo_x86 *c)
++{
++	/*
++	 * Some BIOS implementations do not restore proper RDRAND support
++	 * across suspend and resume. Check on whether to hide the RDRAND
++	 * instruction support via CPUID.
++	 */
++	init_hide_rdrand(c);
++}
++
+ static void init_amd_bd(struct cpuinfo_x86 *c)
+ {
+ 	u64 value;
+@@ -818,6 +852,13 @@ static void init_amd_bd(struct cpuinfo_x86 *c)
+ 			wrmsrl_safe(MSR_F15H_IC_CFG, value);
+ 		}
+ 	}
++
++	/*
++	 * Some BIOS implementations do not restore proper RDRAND support
++	 * across suspend and resume. Check on whether to hide the RDRAND
++	 * instruction support via CPUID.
++	 */
++	init_hide_rdrand(c);
+ }
+=20
+ static void init_amd_zn(struct cpuinfo_x86 *c)
+@@ -860,6 +901,7 @@ static void init_amd(struct cpuinfo_x86 *c)
+ 	case 0x10: init_amd_gh(c); break;
+ 	case 0x12: init_amd_ln(c); break;
+ 	case 0x15: init_amd_bd(c); break;
++	case 0x16: init_amd_jg(c); break;
+ 	case 0x17: init_amd_zn(c); break;
+ 	}
+=20
+diff --git a/arch/x86/power/cpu.c b/arch/x86/power/cpu.c
+index 1c58d8982728..146c4fd90c3d 100644
+--- a/arch/x86/power/cpu.c
++++ b/arch/x86/power/cpu.c
+@@ -12,6 +12,7 @@
+ #include <linux/smp.h>
+ #include <linux/perf_event.h>
+ #include <linux/tboot.h>
++#include <linux/dmi.h>
+=20
+ #include <asm/pgtable.h>
+ #include <asm/proto.h>
+@@ -23,7 +24,7 @@
+ #include <asm/debugreg.h>
+ #include <asm/cpu.h>
+ #include <asm/mmu_context.h>
+-#include <linux/dmi.h>
++#include <asm/cpu_device_id.h>
+=20
+ #ifdef CONFIG_X86_32
+ __visible unsigned long saved_context_ebx;
+@@ -393,15 +394,14 @@ static int __init bsp_pm_check_init(void)
+=20
+ core_initcall(bsp_pm_check_init);
+=20
+-static int msr_init_context(const u32 *msr_id, const int total_num)
++static int msr_build_context(const u32 *msr_id, const int num)
+ {
+-	int i =3D 0;
++	struct saved_msrs *saved_msrs =3D &saved_context.saved_msrs;
+ 	struct saved_msr *msr_array;
++	int total_num;
++	int i, j;
+=20
+-	if (saved_context.saved_msrs.array || saved_context.saved_msrs.num > 0) {
+-		pr_err("x86/pm: MSR quirk already applied, please check your DMI match t=
+able.\n");
+-		return -EINVAL;
 -	}
--	return err;
--}
--
++	total_num =3D saved_msrs->num + num;
+=20
+ 	msr_array =3D kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERN=
+EL);
+ 	if (!msr_array) {
+@@ -409,19 +409,27 @@ static int msr_init_context(const u32 *msr_id, const =
+int total_num)
+ 		return -ENOMEM;
+ 	}
+=20
+-	for (i =3D 0; i < total_num; i++) {
+-		msr_array[i].info.msr_no	=3D msr_id[i];
++	if (saved_msrs->array) {
++		/* Copy previous MSR save requests */
++		memcpy(msr_array, saved_msrs->array,
++		       sizeof(struct saved_msr) * saved_msrs->num);
++
++		kfree(saved_msrs->array);
++	}
++
++	for (i =3D saved_msrs->num, j =3D 0; i < total_num; i++, j++) {
++		msr_array[i].info.msr_no	=3D msr_id[j];
+ 		msr_array[i].valid		=3D false;
+ 		msr_array[i].info.reg.q		=3D 0;
+ 	}
+-	saved_context.saved_msrs.num	=3D total_num;
+-	saved_context.saved_msrs.array	=3D msr_array;
++	saved_msrs->num   =3D total_num;
++	saved_msrs->array =3D msr_array;
+=20
+ 	return 0;
+ }
+=20
  /*
-  * simple reversible transform to make our table more evenly
-  * distributed after sorting.
-@@ -192,7 +165,8 @@ COMPATIBLE_IOCTL(PPPIOCGDEBUG)
- COMPATIBLE_IOCTL(PPPIOCSDEBUG)
- /* PPPIOCSPASS is translated */
- /* PPPIOCSACTIVE is translated */
--/* PPPIOCGIDLE is translated */
-+COMPATIBLE_IOCTL(PPPIOCGIDLE32)
-+COMPATIBLE_IOCTL(PPPIOCGIDLE64)
- COMPATIBLE_IOCTL(PPPIOCNEWUNIT)
- COMPATIBLE_IOCTL(PPPIOCATTACH)
- COMPATIBLE_IOCTL(PPPIOCDETACH)
-@@ -217,8 +191,6 @@ static long do_ioctl_trans(unsigned int cmd,
- 	void __user *argp = compat_ptr(arg);
- 
- 	switch (cmd) {
--	case PPPIOCGIDLE32:
--		return ppp_gidle(file, cmd, argp);
- #ifdef CONFIG_BLOCK
- 	case SG_GET_REQUEST_TABLE:
- 		return sg_grt_trans(file, cmd, argp);
-diff --git a/include/uapi/linux/ppp-ioctl.h b/include/uapi/linux/ppp-ioctl.h
-index 88b5f9990320..7bd2a5a75348 100644
---- a/include/uapi/linux/ppp-ioctl.h
-+++ b/include/uapi/linux/ppp-ioctl.h
-@@ -104,6 +104,8 @@ struct pppol2tp_ioc_stats {
- #define PPPIOCGDEBUG	_IOR('t', 65, int)	/* Read debug level */
- #define PPPIOCSDEBUG	_IOW('t', 64, int)	/* Set debug level */
- #define PPPIOCGIDLE	_IOR('t', 63, struct ppp_idle) /* get idle time */
-+#define PPPIOCGIDLE32	_IOR('t', 63, struct ppp_idle32) /* 32-bit times */
-+#define PPPIOCGIDLE64	_IOR('t', 63, struct ppp_idle64) /* 64-bit times */
- #define PPPIOCNEWUNIT	_IOWR('t', 62, int)	/* create new ppp unit */
- #define PPPIOCATTACH	_IOW('t', 61, int)	/* attach to ppp unit */
- #define PPPIOCDETACH	_IOW('t', 60, int)	/* obsolete, do not use */
-diff --git a/include/uapi/linux/ppp_defs.h b/include/uapi/linux/ppp_defs.h
-index fff51b91b409..0039fa39a358 100644
---- a/include/uapi/linux/ppp_defs.h
-+++ b/include/uapi/linux/ppp_defs.h
-@@ -142,10 +142,24 @@ struct ppp_comp_stats {
- /*
-  * The following structure records the time in seconds since
-  * the last NP packet was sent or received.
-+ *
-+ * Linux implements both 32-bit and 64-bit time_t versions
-+ * for compatibility with user space that defines ppp_idle
-+ * based on the libc time_t.
-  */
- struct ppp_idle {
-     __kernel_time_t xmit_idle;	/* time since last NP packet sent */
-     __kernel_time_t recv_idle;	/* time since last NP packet received */
+- * The following section is a quirk framework for problematic BIOSen:
++ * The following sections are a quirk framework for problematic BIOSen:
+  * Sometimes MSRs are modified by the BIOSen after suspended to
+  * RAM, this might cause unexpected behavior after wakeup.
+  * Thus we save/restore these specified MSRs across suspend/resume
+@@ -436,7 +444,7 @@ static int msr_initialize_bdw(const struct dmi_system_i=
+d *d)
+ 	u32 bdw_msr_id[] =3D { MSR_IA32_THERM_CONTROL };
+=20
+ 	pr_info("x86/pm: %s detected, MSR saving is needed during suspending.\n",=
+ d->ident);
+-	return msr_init_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
++	return msr_build_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
+ }
+=20
+ static const struct dmi_system_id msr_save_dmi_table[] =3D {
+@@ -451,9 +459,58 @@ static const struct dmi_system_id msr_save_dmi_table[]=
+ =3D {
+ 	{}
  };
- 
-+struct ppp_idle32 {
-+    __s32 xmit_idle;		/* time since last NP packet sent */
-+    __s32 recv_idle;		/* time since last NP packet received */
+=20
++static int msr_save_cpuid_features(const struct x86_cpu_id *c)
++{
++	u32 cpuid_msr_id[] =3D {
++		MSR_AMD64_CPUID_FN_00000001,
++	};
++
++	pr_info("x86/pm: family %#hx cpu detected, MSR saving is needed during su=
+spending.\n",
++		c->family);
++
++	return msr_build_context(cpuid_msr_id, ARRAY_SIZE(cpuid_msr_id));
++}
++
++static const struct x86_cpu_id msr_save_cpu_table[] =3D {
++	{
++		.vendor =3D X86_VENDOR_AMD,
++		.family =3D 0x15,
++		.model =3D X86_MODEL_ANY,
++		.feature =3D X86_FEATURE_ANY,
++		.driver_data =3D (kernel_ulong_t)msr_save_cpuid_features,
++	},
++	{
++		.vendor =3D X86_VENDOR_AMD,
++		.family =3D 0x16,
++		.model =3D X86_MODEL_ANY,
++		.feature =3D X86_FEATURE_ANY,
++		.driver_data =3D (kernel_ulong_t)msr_save_cpuid_features,
++	},
++	{}
 +};
 +
-+struct ppp_idle64 {
-+    __s64 xmit_idle;		/* time since last NP packet sent */
-+    __s64 recv_idle;		/* time since last NP packet received */
-+};
++typedef int (*pm_cpu_match_t)(const struct x86_cpu_id *);
++static int pm_cpu_check(const struct x86_cpu_id *c)
++{
++	const struct x86_cpu_id *m;
++	int ret =3D 0;
 +
- #endif /* _UAPI_PPP_DEFS_H_ */
--- 
-2.20.0
++	m =3D x86_match_cpu(msr_save_cpu_table);
++	if (m) {
++		pm_cpu_match_t fn;
++
++		fn =3D (pm_cpu_match_t)m->driver_data;
++		ret =3D fn(m);
++	}
++
++	return ret;
++}
++
+ static int pm_check_save_msr(void)
+ {
+ 	dmi_check_system(msr_save_dmi_table);
++	pm_cpu_check(msr_save_cpu_table);
++
+ 	return 0;
+ }
+=20
+--=20
+2.17.1
 
