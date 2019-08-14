@@ -1,330 +1,248 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF92E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 14:38:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55A367D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 14:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfHNOiV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 10:38:21 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42576 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726230AbfHNOiV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 10:38:21 -0400
-Received: by mail-pl1-f196.google.com with SMTP id y1so419271plp.9
-        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2019 07:38:20 -0700 (PDT)
+        id S1727304AbfHNOwt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 10:52:49 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:16811 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726522AbfHNOws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 10:52:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dnhILnEfWOqxStPq7LG3lZYrD1YBx6HctrxOo4+vauA=;
-        b=eODpRzxIkgIJR99qXWTLR56HXfqAoLmEtZgoxfiXI0rnJ0soVmu1BAJtI83IHdZKj6
-         C08V0jbW1QvLehPruwxySoqAPP0DaTEReVNWcRbuTHrQF2VV+AFPalRx46KDJHZuzkUs
-         aJRFLTstOJ9dkNb8sx63T3xuiEI3IbFwtRWKU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dnhILnEfWOqxStPq7LG3lZYrD1YBx6HctrxOo4+vauA=;
-        b=qMaDV/pRmr37I8eOHf84Ge81fkaSOzBppQdMlWf4SuT129Mu/mX79fThi4w1zsB2mY
-         2uBVd71GvwG6TeK/XBIeuUlm5HJ12/uUh0UYDoIgaoib1dZMaJg+YJE1vhAZL3pVregY
-         GaWb6E2vyFBJ9iu6W40V1hCWnBW++YnHT9n10qsN8mBCpcyO6uCmmN5YzrvzE9XAXzGs
-         +mOxcNVrBI0iLk9atBDpBcqKvaKjL6p/7fjO5vY51nQdxAtg/nxjRzblQAII8QQNeIew
-         UlA8IVhqJfKVGi4sjldp6rMGPCcJiG0IOGoq3yYS9FK/ooxpfVdZqGkFK/m/JvENp5Hp
-         xv4Q==
-X-Gm-Message-State: APjAAAXwkVr1pZAa7nNzp+bXYeWEsPo3NU8BBr72Z8BUeeXhXB4SPLed
-        EeFa/i8twMfigJom4MDM1s3ruA==
-X-Google-Smtp-Source: APXvYqzJ70fC8jqYG7wscPIi503VBMvV+odnD7tjx4JNTIRzG/6hBbKRwleq2MDxXx9U80gwWV1MQQ==
-X-Received: by 2002:a17:902:a01:: with SMTP id 1mr7070003plo.278.1565793500035;
-        Wed, 14 Aug 2019 07:38:20 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id y128sm138039448pgy.41.2019.08.14.07.38.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2019 07:38:18 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 10:38:17 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, Rao Shoaib <rao.shoaib@oracle.com>,
-        max.byungchul.park@gmail.com, byungchul.park@lge.com,
-        kernel-team@android.com, kernel-team@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Kees Cook <keescook@chromium.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v3 1/2] rcu/tree: Add basic support for kfree_rcu batching
-Message-ID: <20190814143817.GA253999@google.com>
-References: <20190813170046.81707-1-joel@joelfernandes.org>
- <20190813190738.GH28441@linux.ibm.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1565794367; x=1597330367;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=uU2vXqQn2xE4aIoP2zRUvSscT0xOogCLYBrPAGfZQmY=;
+  b=GNfzivQ8hsMQ/0KewWAcxUqhx1W0zN8XpMscln6RVrSo35S8w5JdlElz
+   24LmfGYibwMolx2RQs/o1yWskt8YwxQONcPopjOQUvjUrOD2jbh937RFx
+   E199Nwmz76HLPwlnrVc8mucgDvDrbHKn2zqq0AoSzWcgGVUK9EweScIi8
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.64,385,1559520000"; 
+   d="scan'208";a="693828962"
+Received: from sea3-co-svc-lb6-vlan3.sea.amazon.com (HELO email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com) ([10.47.22.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 14 Aug 2019 14:52:41 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com (Postfix) with ESMTPS id 65391A21DD;
+        Wed, 14 Aug 2019 14:52:38 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 14 Aug 2019 14:52:37 +0000
+Received: from 38f9d3867b82.ant.amazon.com (10.43.160.245) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 14 Aug 2019 14:52:34 +0000
+Subject: Re: [UNVERIFIED SENDER] Re: [PATCH 0/9] arm64: Stolen time support
+To:     Marc Zyngier <maz@kernel.org>
+CC:     Steven Price <steven.price@arm.com>, <kvm@vger.kernel.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
+        <linux-kernel@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20190802145017.42543-1-steven.price@arm.com>
+ <20190803190522.5fec8f7d@why> <6789f477-8ab5-cc54-1ad2-8627917b07c9@arm.com>
+ <8ca5c106-7c12-4c6e-6d81-a90f281a9894@amazon.com>
+ <8636i3omnd.wl-maz@kernel.org>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <bda4e0f7-e5f4-32af-e998-00b6240b5260@amazon.com>
+Date:   Wed, 14 Aug 2019 16:52:33 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813190738.GH28441@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <8636i3omnd.wl-maz@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.43.160.245]
+X-ClientProxiedBy: EX13D18UWA002.ant.amazon.com (10.43.160.199) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 12:07:38PM -0700, Paul E. McKenney wrote:
-[snip]
-> > This patch adds basic batching support for kfree_rcu(). It is "basic"
-> > because we do none of the slab management, dynamic allocation, code
-> > moving or any of the other things, some of which previous attempts did
-> > [2]. These fancier improvements can be follow-up patches and there are
-> > different ideas being discussed in those regards.
-> > 
-> > Torture tests follow in the next patch and show improvements of around
-> > 400% in reduction of number of  grace periods on a 16 CPU system. More
+
+
+On 14.08.19 16:19, Marc Zyngier wrote:
+> On Wed, 14 Aug 2019 14:02:25 +0100,
+> Alexander Graf <graf@amazon.com> wrote:
+>>
+>>
+>>
+>> On 05.08.19 15:06, Steven Price wrote:
+>>> On 03/08/2019 19:05, Marc Zyngier wrote:
+>>>> On Fri,  2 Aug 2019 15:50:08 +0100
+>>>> Steven Price <steven.price@arm.com> wrote:
+>>>>
+>>>> Hi Steven,
+>>>>
+>>>>> This series add support for paravirtualized time for arm64 guests and
+>>>>> KVM hosts following the specification in Arm's document DEN 0057A:
+>>>>>
+>>>>> https://developer.arm.com/docs/den0057/a
+>>>>>
+>>>>> It implements support for stolen time, allowing the guest to
+>>>>> identify time when it is forcibly not executing.
+>>>>>
+>>>>> It doesn't implement support for Live Physical Time (LPT) as there are
+>>>>> some concerns about the overheads and approach in the above
+>>>>> specification, and I expect an updated version of the specification to
+>>>>> be released soon with just the stolen time parts.
+>>>>
+>>>> Thanks for posting this.
+>>>>
+>>>> My current concern with this series is around the fact that we allocate
+>>>> memory from the kernel on behalf of the guest. It is the first example
+>>>> of such thing in the ARM port, and I can't really say I'm fond of it.
+>>>>
+>>>> x86 seems to get away with it by having the memory allocated from
+>>>> userspace, why I tend to like more. Yes, put_user is more
+>>>> expensive than a straight store, but this isn't done too often either.
+>>>>
+>>>> What is the rational for your current approach?
+>>>
+>>> As I see it there are 3 approaches that can be taken here:
+>>>
+>>> 1. Hypervisor allocates memory and adds it to the virtual machine. This
+>>> means that everything to do with the 'device' is encapsulated behind the
+>>> KVM_CREATE_DEVICE / KVM_[GS]ET_DEVICE_ATTR ioctls. But since we want the
+>>> stolen time structure to be fast it cannot be a trapping region and has
+>>> to be backed by real memory - in this case allocated by the host kernel.
+>>>
+>>> 2. Host user space allocates memory. Similar to above, but this time
+>>> user space needs to manage the memory region as well as the usual
+>>> KVM_CREATE_DEVICE dance. I've no objection to this, but it means
+>>> kvmtool/QEMU needs to be much more aware of what is going on (e.g. how
+>>> to size the memory region).
+>>
+>> You ideally want to get the host overhead for a VM to as little as you
+>> can. I'm not terribly fond of the idea of reserving a full page just
+>> because we're too afraid of having the guest donate memory.
 > 
-> s/400% in reduction/a 5x reduction/
-
-Ok. That's more clear.
-
-> > details and test data are in that patch.
-> > 
-> > This is an effort to start simple, and build up from there. In the
-> > future, an extension to use kfree_bulk and possibly per-slab batching
-> > could be done to further improve performance due to cache-locality and
-> > slab-specific bulk free optimizations. By using an array of pointers,
-> > the worker thread processing the work would need to read lesser data
-> > since it does not need to deal with large rcu_head(s) any longer.
+> Well, reduce the amount of memory you give to the guest by one page,
+> and allocate that page to the stolen time device. Problem solved!
 > 
-> This should be combined with the second paragraph -- they both discuss
-> possible follow-on work.
+> Seriously, if you're worried about the allocation of a single page,
+> you should first look at how many holes we have in the vcpu structure,
+> for example (even better, with the 8.4 NV patches applied). Just
+> fixing that would give you that page back *per vcpu*.
 
-Ack.
+I'm worried about additional memory slots, about fragmenting the 
+cachable guest memory regions, about avoidable HV taxes.
 
-> > There is an implication with rcu_barrier() with this patch. Since the
-> > kfree_rcu() calls can be batched, and may not be handed yet to the RCU
-> > machinery in fact, the monitor may not have even run yet to do the
-> > queue_rcu_work(), there seems no easy way of implementing rcu_barrier()
-> > to wait for those kfree_rcu()s that are already made. So this means a
-> > kfree_rcu() followed by an rcu_barrier() does not imply that memory will
-> > be freed once rcu_barrier() returns.
+I think we need to distinguish here between the KVM implementation and 
+the hypervisor/guest interface. Just because in KVM we can save overhead 
+today doesn't mean that the HV interface should be built around the 
+assumption that "memory is free".
+
 > 
-> The usual approach (should kfree_rcu_barrier() in fact be needed) is to
-> record the address of the most recent block being kfree_rcu()'d on
-> each CPU, count the number of recorded addresses, and have the
-> kfree() side check the address, and do the usual atomic_dec_and_test()
-> and wakeup dance.  This gets a bit more crazy should the kfree_rcu()
-> requests be grouped per slab, of course!  So yes, good to avoid in
-> the meantime.
-
-Good idea!
-
-> > Another implication is higher active memory usage (although not
-> > run-away..) until the kfree_rcu() flooding ends, in comparison to
-> > without batching. More details about this are in the second patch which
-> > adds an rcuperf test.
+>>> 3. Guest kernel "donates" the memory to the hypervisor for the
+>>> structure. As far as I'm aware this is what x86 does. The problems I see
+>>> this approach are:
+>>>
+>>>    a) kexec becomes much more tricky - there needs to be a disabling
+>>> mechanism for the guest to stop the hypervisor scribbling on memory
+>>> before starting the new kernel.
+>>
+>> I wouldn't call "quiesce a device" much more tricky. We have to do
+>> that for other devices as well today.
 > 
-> But this is adjustable, at least via patching at build time, via
-> KFREE_DRAIN_JIFFIES, right?
+> And since there is no standard way of doing it, we keep inventing
+> weird and wonderful ways of doing so -- cue the terrible GICv3 LPI
+> situation, and all the various hacks to keep existing IOMMU mappings
+> around across firmware/kernel handovers as well as kexec.
 
-Yes.
+Well, the good news here is that we don't have to keep it around ;).
 
-> > Finally, in the near future we will get rid of kfree_rcu special casing
-> > within RCU such as in rcu_do_batch and switch everything to just
-> > batching. Currently we don't do that since timer subsystem is not yet up
-> > and we cannot schedule the kfree_rcu() monitor as the timer subsystem's
-> > lock are not initialized. That would also mean getting rid of
-> > kfree_call_rcu_nobatch() entirely.
 > 
-> Please consistently put "()" after function names.
-
-Done.
-
-> > [1] http://lore.kernel.org/lkml/20190723035725-mutt-send-email-mst@kernel.org
-> > [2] https://lkml.org/lkml/2017/12/19/824
-> > 
-> > Cc: Rao Shoaib <rao.shoaib@oracle.com>
-> > Cc: max.byungchul.park@gmail.com
-> > Cc: byungchul.park@lge.com
-> > Cc: kernel-team@android.com
-> > Cc: kernel-team@lge.com
-> > Co-developed-by: Byungchul Park <byungchul.park@lge.com>
-> > Signed-off-by: Byungchul Park <byungchul.park@lge.com>
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > 
-> > ---
-> > v2->v3: Just some code comment changes thanks to Byungchul.
-> > 
-> > RFCv1->PATCH v2: Removed limits on the ->head list, just let it grow.
-> >                    Dropped KFREE_MAX_JIFFIES to HZ/50 from HZ/20 to reduce OOM occurrence.
-> >                    Removed sleeps in rcuperf test, just using cond_resched()in loop.
-> >                    Better code comments ;)
-> > 
-> >  .../admin-guide/kernel-parameters.txt         |  17 ++
-> >  include/linux/rcutiny.h                       |   5 +
-> >  include/linux/rcutree.h                       |   1 +
-> >  kernel/rcu/tree.c                             | 204 +++++++++++++++++-
-> >  4 files changed, 221 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 7ccd158b3894..a9156ca5de24 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -3895,6 +3895,23 @@
-> >  			test until boot completes in order to avoid
-> >  			interference.
-> >  
-> > +	rcuperf.kfree_rcu_test= [KNL]
-> > +			Set to measure performance of kfree_rcu() flooding.
-> > +
-> > +	rcuperf.kfree_nthreads= [KNL]
-> > +			The number of threads running loops of kfree_rcu().
-> > +
-> > +	rcuperf.kfree_alloc_num= [KNL]
-> > +			Number of allocations and frees done in an iteration.
-> > +
-> > +	rcuperf.kfree_loops= [KNL]
-> > +			Number of loops doing rcuperf.kfree_alloc_num number
-> > +			of allocations and frees.
-> > +
-> > +	rcuperf.kfree_no_batch= [KNL]
-> > +			Use the non-batching (slower) version of kfree_rcu.
-> > +			This is useful for comparing with the batched version.
-> > +
-> >  	rcuperf.nreaders= [KNL]
-> >  			Set number of RCU readers.  The value -1 selects
-> >  			N, where N is the number of CPUs.  A value
+>>
+>>>    b) If there is more than one entity that is interested in the
+>>> information (e.g. firmware and kernel) then this requires some form of
+>>> arbitration in the guest because the hypervisor doesn't want to have to
+>>> track an arbitrary number of regions to update.
+>>
+>> Why would FW care?
 > 
-> This change to kernel-parameters.txt really needs to be in the
-> rcuperf patch rather than this one.
+> Exactly. It doesn't care. Not caring means it doesn't know about the
+> page the guest has allocated for stolen time, and starts using it for
+> its own purposes. Hello, memory corruption. Same thing goes if you
+> reboot into a non stolen time aware kernel.
 
-Fixed.
+If you reboot, you go via the vcpu reset path which clears the map, no? 
+Same goes for FW entry. If you enter firmware that does not set up the 
+map, you never see it.
 
-FWIW, my new tool (sort of under wraps) to move hunks from one patch to
-another in a git tree makes this easy: https://github.com/joelagnel/git-edit
-(I hit 'p' to edit patches and it commits back the results when I close the
-editor).
-
-[snip]
-> > - * Queue an RCU callback for lazy invocation after a grace period.
-> > - * This will likely be later named something like "call_rcu_lazy()",
-> > - * but this change will require some way of tagging the lazy RCU
-> > - * callbacks in the list of pending callbacks. Until then, this
-> > - * function may only be called from __kfree_rcu().
-> > + * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-> > + * kfree(s) is queued for freeing after a grace period, right away.
-> >   */
-> > -void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> > +struct kfree_rcu_cpu {
-> > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-> > +	 * is done after a grace period.
-> > +	 */
-> > +	struct rcu_work rcu_work;
-> > +
-> > +	/* The list of objects being queued in a batch but are not yet
-> > +	 * scheduled to be freed.
-> > +	 */
-> > +	struct rcu_head *head;
-> > +
-> > +	/* The list of objects that have now left ->head and are queued for
-> > +	 * freeing after a grace period.
-> > +	 */
-> > +	struct rcu_head *head_free;
 > 
-> So this is not yet the one that does multiple batches concurrently
-> awaiting grace periods, correct?  Or am I missing something subtle?
-
-Yes, it is not. I honestly, still did not understand that idea. Or how it
-would improve things. May be we can discuss at LPC on pen and paper? But I
-think that can also be a follow-up optimization.
-
-> If it is not doing the multiple-batch optimization, what does the
-> 400% in the commit log refer to?
-
-The 400% is the reduction in the number of grace periods just with this patch
-(single batch processed at a time). The improvement is because of batching, we end
-up having to start fewer grace periods while still managing to attend to the
-kfree_rcu() load.
-
-There is concurrency, because ->head continues to grow while ->head_free is
-being processed.
-
-> > +	/* Protect concurrent access to this structure. */
-> > +	spinlock_t lock;
-> > +
-> > +	/* The delayed work that flushes ->head to ->head_free incase ->head
-> > +	 * within KFREE_DRAIN_JIFFIES. In case flushing cannot be done if RCU
-> > +	 * is busy, ->head just continues to grow and we retry flushing later.
-> > +	 */
-> > +	struct delayed_work monitor_work;
-> > +	bool monitor_todo;	/* Is a delayed work pending execution? */
-> > +};
-> > +
-> > +static DEFINE_PER_CPU(struct kfree_rcu_cpu, krc);
-> > +
-> > +/*
-> > + * This function is invoked in workqueue context after a grace period.
-> > + * It frees all the objects queued on ->head_free.
-> > + */
-> > +static void kfree_rcu_work(struct work_struct *work)
-> > +{
-> > +	unsigned long flags;
-> > +	struct rcu_head *head, *next;
-> > +	struct kfree_rcu_cpu *krcp = container_of(to_rcu_work(work),
-> > +					struct kfree_rcu_cpu, rcu_work);
-> > +
-> > +	spin_lock_irqsave(&krcp->lock, flags);
-> > +	head = krcp->head_free;
-> > +	krcp->head_free = NULL;
-> > +	spin_unlock_irqrestore(&krcp->lock, flags);
-> > +
-> > +	/*
-> > +	 * The head is detached and not referenced from anywhere, so lockless
-> > +	 * access is Ok.
-> > +	 */
-> > +	for (; head; head = next) {
-> > +		next = head->next;
-> > +		head->next = NULL;
+>>
+>>>    c) Performance can suffer if the host kernel doesn't have a suitably
+>>> aligned/sized area to use. As you say - put_user() is more expensive.
+>>
+>> Just define the interface to always require natural alignment when
+>> donating a memory location?
+>>
+>>> The structure is updated on every return to the VM.
+>>
+>> If you really do suffer from put_user(), there are alternatives. You
+>> could just map the page on the registration hcall and then leave it
+>> pinned until the vcpu gets destroyed again.
 > 
-> Why do we need to NULL ->next?  Could produce an expensive cache miss,
-> and I don't see how it helps anything.  What am I missing here?
-
-You're right. I will get rid of hit, no reason to have it.
-
-[snip]
-> > +static inline void kfree_rcu_drain_unlock(struct kfree_rcu_cpu *krcp,
-> > +				   unsigned long flags)
-> > +{
-> > +	/* Flush ->head to ->head_free, all objects on ->head_free will be
-> > +	 * kfree'd after a grace period.
-> > +	 */
-> > +	if (queue_kfree_rcu_work(krcp)) {
-> > +		/* Success! Our job is done here. */
-> > +		spin_unlock_irqrestore(&krcp->lock, flags);
-> > +		return;
-> > +	}
-> > +
-> > +	/* Previous batch did not get free yet, let us try again soon. */
-> > +	if (krcp->monitor_todo == false) {
-> > +		schedule_delayed_work_on(smp_processor_id(),
-> > +				&krcp->monitor_work,  KFREE_DRAIN_JIFFIES);
+> put_user() should be cheap enough. It is one of the things we tend to
+> optimise anyway. And yes, worse case, we pin the page.
 > 
-> Given that we are using a lock, do we need to restrict to the current
-> CPU?  In any case, we do need to handle the case where the current
-> CPU has gone offline before we get around to sending a batch off to
-> wait for a grace period, correct?
+>>
+>>> Of course x86 does prove the third approach can work, but I'm not sure
+>>> which is actually better. Avoid the kexec cancellation requirements was
+>>> the main driver of the current approach. Although many of the
+>>
+>> I really don't understand the problem with kexec cancellation. Worst
+>> case, let guest FW set it up for you and propagate only the address
+>> down via ACPI/DT. That way you can mark the respective memory as
+>> reserved too.
+> 
+> We already went down that road with the LPI hack. I'm not going there
+> again if we can avoid it. And it turn out that we can. Just allocate
+> the stolen time page as a separate memblock, give it to KVM for that
+> purpose.
+> 
+> Your suggestion of letting the guest firmware set something up only
+> works if whatever you're booting after that understands it. If it
+> doesn't, you're screwed.
 
-The results either way are similar, but I agree it is better to not use the
-CPU specific API, and use the generic one especially because it tries to
-queue on the local CPU if possible.
+Why? For UEFI, mark the region as reserved in the memory map. For DT, 
+just mark it straight on reserved.
 
-Will respin!
+That said, I'm not advocating for doing it in the FW. I think this can 
+be solved really easily with a simple guest driver to enable and a vcpu 
+reset hook to disable the map.
 
-thanks,
+> 
+>> But even with a Linux only mechanism, just take a look at
+>> arch/x86/kernel/kvmclock.c. All they do to remove the map is to hook
+>> into machine_crash_shutdown() and machine_shutdown().
+> 
+> I'm not going to take something that is Linux specific. It has to work
+> for all guests, at all times, whether they know about the hypervisor
+> service or not.
 
- - Joel
+If they don't know about the HV service, they don't register the writer, 
+so they don't see corruption.
 
+If they know about the HV service and they don't support kexec, they 
+don't have to worry because a vcpu reset should also clear the map.
+
+If they do support kexec, they already have a mechanism to quiesce devices.
+
+So I don't understand how this is Linux specific? The question was Linux 
+specific, so I answered with precedence to show that disabling on kexec 
+is not all that hard :).
+
+
+Alex
