@@ -6,113 +6,198 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FA397D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Aug 2019 23:49:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 341797D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 02:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfHMXtc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Aug 2019 19:49:32 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38689 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbfHMXtc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 19:49:32 -0400
-Received: by mail-pl1-f196.google.com with SMTP id m12so11299417plt.5
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2019 16:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=yL2GiSxONyR1+wf+cPEJ785qgYB8kzY/mss0H7pGC9M=;
-        b=Wt6ztQ2X+fWJO0FTPgcX9A+51Mq8+dTZ9Ad+A3iCM8ClCkHgqKWJ2Drcvb3RRKr7tY
-         erf0TC5YpqS2Portj7ZVBheih5czwyWoynvvG+OcmmO4kYKcTGfe2f3XrwTEAsq4mi21
-         F50sQEzYTRfQKIDH+vxbJVarJg8gOG8ti6o2Fc+g1ZQKwAv93sQYllOrj4oWJ0zUPD+X
-         OhZHWL3rBvb7RYeJg5DrjtfulYBGFzk0abwLsjlwIA2YbLnzPETAHKm0OIYnmu8wnuCN
-         S6zZGySHxEitvDXRzvENqoZpHDohSYEySTt2GO05uL68b4/lXRsTldj/46PsM5r7KGQH
-         nhyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=yL2GiSxONyR1+wf+cPEJ785qgYB8kzY/mss0H7pGC9M=;
-        b=Iz/908JktCaINGOe68f0JyrxH6Hvw8i5umWNvEn6a7pLCb9O5VB7Hb6x92ncdSlT4B
-         7GxTRcVN63msk0c2M7IjYowfsr8YHMfR4rUoXbnkJt6QwuM/0W8Q1k01B7O8MbMT/cpV
-         9VxJBf/AmWyQLtXFYs+PJLfhzNTCAeGARoywY9DrwoektxwPR2OKq1XLUhkMETc8oO5Y
-         GDCeSAvjg6EJ1CfFvzg6l4DPfpbC3fUknoF0yzINc1Ze2j5FYeei1/xPG+07xbpsL8IW
-         NDipeIhtNs7TPBBFNe4zXXdcgwaE3u+DwRTcMIRYWp1wSGoZh3z5T3xdcu7/XQaMl4qP
-         J0MA==
-X-Gm-Message-State: APjAAAXRqr0bWsvjfB/7sySvAyQzZ9xMaCJmCh8EawWd10Fpy8tDp4qF
-        Ww72ageFdPxz7PPRM54K34g7ag==
-X-Google-Smtp-Source: APXvYqziYoxNMLaC/s1uQ9IVzw788DhInlAx7eBm4/seDB4Szhev8YYMyLyUEb33esQFu71+edIwvw==
-X-Received: by 2002:a17:902:2ac7:: with SMTP id j65mr40372077plb.242.1565740171253;
-        Tue, 13 Aug 2019 16:49:31 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:6cf1:fbba:cb42:db60? ([2601:646:c200:1ef2:6cf1:fbba:cb42:db60])
-        by smtp.gmail.com with ESMTPSA id bt18sm3110564pjb.1.2019.08.13.16.49.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Aug 2019 16:49:30 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16G77)
-In-Reply-To: <dac2d62b-9045-4767-87dd-eac12e7abafd@intel.com>
-Date:   Tue, 13 Aug 2019 16:49:29 -0700
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1727039AbfHNCDp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Aug 2019 22:03:45 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:44716 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbfHNCDp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Aug 2019 22:03:45 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x7E23L5g029484;
+        Wed, 14 Aug 2019 11:03:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x7E23L5g029484
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565748202;
+        bh=gg/aXfWoj1dr/iQJNgz6p/0wrctSN5GJ08iIhhlqIHY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LYR09X6NkgDT7yZadd1KwV6UdmZQdkHcmevmz1kYVgM7IRpW8m2ty4KkMUt9OiLTP
+         LDCwbVSXHQOidRWyWa/4obYsDJnX+u/v6b/uZDjHW/Av0Xwke1IlCJbO6RZfBpS7J0
+         sLpDUnGdv9S3IGvrM5kepqaJs9eNULIzfuZmiBm9K/OmYcRF1rEo6I8izp7orGyFsl
+         +QaImjQUlAzgxCiVrwzEFUPj4A5la3t91WYCKQnyJ6Z+r4kE5J8KvVbM0QSSOHILXb
+         QhjKkd/ZShxTCZE8NFPDNz8nDU7ieFBSzpEz1uVf4iyp8yKDT4CSyAQZ5ZRDVxIbES
+         IQHLtGL6cF/Gw==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id u3so73515988vsh.6;
+        Tue, 13 Aug 2019 19:03:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAXrh117WL2CovHMwdRm5km7NRTCeWBSnrJuFabGIY8xh0cq0WUk
+        bg4GcgfpDJyojVXNkrQGwJS0aW64LaAGJzmfvPA=
+X-Google-Smtp-Source: APXvYqzqNBqm+hwNLTOEci/lspPuPMkY9zOEYB7EyM/q2ufzPas85GtjdbUpizxOvvLyJqnSy4EsbPJ3kQPFBvoIe60=
+X-Received: by 2002:a67:b916:: with SMTP id q22mr242654vsn.54.1565748201144;
+ Tue, 13 Aug 2019 19:03:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+ <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
+ <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com> <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
+In-Reply-To: <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 14 Aug 2019 11:02:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASgfd6KPRQ=hcqKkpZ6EVhFmbBjCXa30bvEqscu_5dwbQ@mail.gmail.com>
+Message-ID: <CAK7LNASgfd6KPRQ=hcqKkpZ6EVhFmbBjCXa30bvEqscu_5dwbQ@mail.gmail.com>
+Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and host-cxxshlib
+To:     Knut Omang <knut.omang@oracle.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <08A983E6-7B9C-4BDF-887A-F57734FADC9E@amacapital.net>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com> <20190813205225.12032-12-yu-cheng.yu@intel.com> <dac2d62b-9045-4767-87dd-eac12e7abafd@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
+        Michal Marek <michal.lkml@markovi.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Knut,
 
-On Aug 13, 2019, at 4:02 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+On Wed, Aug 14, 2019 at 1:19 AM Knut Omang <knut.omang@oracle.com> wrote:
+>
+> On Tue, 2019-08-13 at 23:01 +0900, Masahiro Yamada wrote:
+> > On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
+> > >
+> > > C++ libraries interfacing to C APIs might sometimes need some glue
+> > > logic more easily written in C.
+> > > Allow a C++ library to also contain 0 or more C objects.
+> > >
+> > > Also fix rules for both C and C++ shared libraries:
+> > > - C++ shared libraries depended on .c instead of .cc files
+> > > - Rules were referenced as -objs instead of the intended
+> > >   -cobjs and -cxxobjs following the pattern from hostprogs*.
+> > >
+> > > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> >
+> >
+> > How is this patch related to the rest of this series?
+>
+> This is just my (likely naive) way I to get what I had working
+> using autotools in the Github version of KTF) translated into something
+> comparable using kbuild only. We need to build a shared library consisting
+> of a few C++ files and a very simple C file, and a couple of simple binaries,
+> and the rule in there does seem to take .c files and subject them to the
+> C++ compiler, which makes this difficult to achieve?
 
->>=20
->> static inline pte_t pte_mkwrite(pte_t pte)
->> {
->> +    pte =3D pte_move_flags(pte, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
->>    return pte_set_flags(pte, _PAGE_RW);
->> }
->=20
-> It also isn't clear to me why this *must* move bits here.  Its doubly
-> unclear why you would need to do this on systems when shadow stacks are
-> compiled in but disabled.
 
-Why is it conditional at all?  ISTM, in x86, RO+dirty has been effectively r=
-epurposed. To avoid having extra things that can conditionally break, I thin=
-k this code should be unconditional.=20
+Looking at the diff stat of the cover-letter,
+the rest of this patch series is touching only
+Documentation/ and tools/testing/kselftests/.
 
-That being said, I=E2=80=99m not at all sure that pte_mkwrite on a shadow st=
-ack page makes any sense.
+So, this one is unused by the rest of the changes, isn't it?
+Am I missing something?
 
-> <snip>
->=20
-> Same comments for pmds and puds.
 
-Wasn=E2=80=99t Kirill working on a rework if the whole page table system to j=
-ust have integer page table levels?=
+
+> > This patch breaks GCC-plugins.
+> > Did you really compile-test this patch before the submission?
+>
+> Sorry for my ignorance here:
+> I ran through the kernel build and installed the resulting kernel
+> on a VM that I used to test this, if that's what you are asking
+> about?
+>
+> Do I need some unusual .config options or run a special make target
+> to trigger the problem you see?
+>
+> I used a recent Fedora config with default values for new options,
+> and ran the normal default make target (also with O=) and make selftests
+> to test the patch itself.
+
+
+I just built allmodconfig for arm.
+
+(The 0-day bot tests allmodconfig for most of architectures,
+so you may receive error reports anyway.)
+
+
+With your patch, I got the following:
+
+
+masahiro@grover:~/ref/linux$ make  ARCH=arm
+CROSS_COMPILE=arm-linux-gnueabihf-  allmodconfig all
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.h
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  YACC    scripts/kconfig/parser.tab.c
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --allmodconfig Kconfig
+#
+# configuration written to .config
+#
+  SYSHDR  arch/arm/include/generated/uapi/asm/unistd-common.h
+  SYSHDR  arch/arm/include/generated/uapi/asm/unistd-oabi.h
+  SYSHDR  arch/arm/include/generated/uapi/asm/unistd-eabi.h
+  HOSTCC  scripts/dtc/dtc.o
+  HOSTCC  scripts/dtc/flattree.o
+  HOSTCC  scripts/dtc/fstree.o
+  HOSTCC  scripts/dtc/data.o
+  HOSTCC  scripts/dtc/livetree.o
+  HOSTCC  scripts/dtc/treesource.o
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/dtc/checks.o
+  HOSTCC  scripts/dtc/util.o
+  LEX     scripts/dtc/dtc-lexer.lex.c
+  YACC    scripts/dtc/dtc-parser.tab.h
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  YACC    scripts/dtc/dtc-parser.tab.c
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTCC  scripts/dtc/yamltree.o
+  HOSTLD  scripts/dtc/dtc
+  CC      scripts/gcc-plugins/latent_entropy_plugin.o
+cc1: error: cannot load plugin ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so
+   ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: cannot open
+shared object file: No such file or directory
+cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so
+   ./scripts/gcc-plugins/structleak_plugin.so: cannot open shared
+object file: No such file or directory
+cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so
+   ./scripts/gcc-plugins/latent_entropy_plugin.so: cannot open shared
+object file: No such file or directory
+cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so
+   ./scripts/gcc-plugins/randomize_layout_plugin.so: cannot open
+shared object file: No such file or directory
+make[3]: *** [scripts/Makefile.build;281:
+scripts/gcc-plugins/latent_entropy_plugin.o] Error 1
+make[2]: *** [scripts/Makefile.build;497: scripts/gcc-plugins] Error 2
+make[1]: *** [Makefile;1097: scripts] Error 2
+make: *** [Makefile;330: __build_one_by_one] Error 2
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
