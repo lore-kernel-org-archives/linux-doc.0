@@ -3,107 +3,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6B177D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 16:34:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 066767D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 16:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfHNQeR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 12:34:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46208 "EHLO mx1.redhat.com"
+        id S1726585AbfHNQhB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 12:37:01 -0400
+Received: from mga02.intel.com ([134.134.136.20]:39981 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726047AbfHNQeR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 12:34:17 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2E4D431752BD;
-        Wed, 14 Aug 2019 16:34:17 +0000 (UTC)
-Received: from ovpn-117-150.phx2.redhat.com (ovpn-117-150.phx2.redhat.com [10.3.117.150])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0697A10018F9;
-        Wed, 14 Aug 2019 16:34:15 +0000 (UTC)
-Message-ID: <32c46e3de1a6641eb0d5940868f7d8b8a30181d3.camel@redhat.com>
-Subject: Re: [PATCH v3 01/12] fpga: dfl: fme: support 512bit data width PR
-From:   Scott Wood <swood@redhat.com>
-To:     Wu Hao <hao.wu@intel.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org,
-        Ananda Ravuri <ananda.ravuri@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Date:   Wed, 14 Aug 2019 11:34:15 -0500
-In-Reply-To: <20190724142235.GE8463@hao-dev>
-References: <1563857495-26692-1-git-send-email-hao.wu@intel.com>
-         <1563857495-26692-2-git-send-email-hao.wu@intel.com>
-         <20190724093532.GB29532@kroah.com> <20190724142235.GE8463@hao-dev>
-Organization: Red Hat
+        id S1726126AbfHNQhB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Aug 2019 12:37:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 09:37:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
+   d="scan'208";a="178213373"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2019 09:37:00 -0700
+Message-ID: <eabd0c16bd2028ad9fef8d10ddf570b3a10d5680.camel@intel.com>
+Subject: Re: [PATCH v8 15/27] mm: Handle shadow stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Wed, 14 Aug 2019 09:27:21 -0700
+In-Reply-To: <CALCETrVKbqzivPfUOiGi5efHUpEsfPkNzP0CrmAZzcwUgf7quA@mail.gmail.com>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+         <20190813205225.12032-16-yu-cheng.yu@intel.com>
+         <CALCETrVKbqzivPfUOiGi5efHUpEsfPkNzP0CrmAZzcwUgf7quA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
-MIME-Version: 1.0
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Wed, 14 Aug 2019 16:34:17 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-07-24 at 22:22 +0800, Wu Hao wrote:
-> On Wed, Jul 24, 2019 at 11:35:32AM +0200, Greg KH wrote:
-> > On Tue, Jul 23, 2019 at 12:51:24PM +0800, Wu Hao wrote:
-> > >  
-> > > @@ -67,8 +69,43 @@
-> > >  #define PR_WAIT_TIMEOUT   8000000
-> > >  #define PR_HOST_STATUS_IDLE	0
-> > >  
-> > > +#if defined(CONFIG_X86) && defined(CONFIG_AS_AVX512)
-> > > +
-> > > +#include <linux/cpufeature.h>
-> > > +#include <asm/fpu/api.h>
-> > > +
-> > > +static inline int is_cpu_avx512_enabled(void)
-> > > +{
-> > > +	return cpu_feature_enabled(X86_FEATURE_AVX512F);
-> > > +}
+On Tue, 2019-08-13 at 15:55 -0700, Andy Lutomirski wrote:
+> On Tue, Aug 13, 2019 at 2:02 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 > > 
-> > That's a very arch specific function, why would a driver ever care about
-> > this?
-> 
-> Yes, this is only applied to a specific FPGA solution, which FPGA
-> has been integrated with XEON. Hardware indicates this using register
-> to software. As it's cpu integrated solution, so CPU always has this
-> AVX512 capability. The only check we do, is make sure this is not
-> manually disabled by kernel.
-> 
-> With this hardware, software could use AVX512 to accelerate the FPGA
-> partial reconfiguration as mentioned in the patch commit message.
-> It brings performance benifits to people who uses it. This is only one
-> optimization (512 vs 32bit data write to hw) for a specific hardware.
-
-I thought earlier you said that 512 bit accesses were required for this
-particular integrated-only version of the device, and not just an
-optimization?
-
-> > > +#else
-> > > +static inline int is_cpu_avx512_enabled(void)
-> > > +{
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static inline void copy512(const void *src, void __iomem *dst)
-> > > +{
-> > > +	WARN_ON_ONCE(1);
+> > When a task does fork(), its shadow stack (SHSTK) must be duplicated
+> > for the child.  This patch implements a flow similar to copy-on-write
+> > of an anonymous page, but for SHSTK.
 > > 
-> > Are you trying to get reports from syzbot?  :)
+> > A SHSTK PTE must be RO and dirty.  This dirty bit requirement is used
+> > to effect the copying.  In copy_one_pte(), clear the dirty bit from a
+> > SHSTK PTE to cause a page fault upon the next SHSTK access.  At that
+> > time, fix the PTE and copy/re-use the page.
 > 
-> Oh.. no.. I will remove it. :)
-> 
-> Thank you very much!
+> Is using VM_SHSTK and special-casing all of this really better than
+> using a special mapping or other pseudo-file-backed VMA and putting
+> all the magic in the vm_operations?
 
-What's wrong with this?  The driver should never call copy512() if
-is_cpu_avx512_enabled() returns 0, and if syzbot can somehow make the driver
-do so, then yes we do want a report.
+A special mapping is cleaner.  However, we also need to exclude normal [RO +
+dirty] pages from shadow stack.
 
--Scott
-
-
+Yu-cheng
