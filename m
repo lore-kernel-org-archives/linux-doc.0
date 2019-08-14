@@ -1,110 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08C3A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 16:06:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 226947D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 16:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbfHNQGl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 12:06:41 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:30683 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbfHNQGl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 12:06:41 -0400
-Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x7EG6O95024737;
-        Thu, 15 Aug 2019 01:06:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x7EG6O95024737
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565798785;
-        bh=rf9kuGp6W/jro4+SBAqrAWFWGdTd8x7Ckw78NH6Qbgg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Sh+axHMyON88uMlgsINIKa9xT9nD4poc53ea59vma/orQWYeiNvvBzREB/kG2SHKp
-         X5t5pr9LztrLIWFA7NzFM7xipAnoO1bM6+I5f8ED9MGOog0gIn4wB97EA3d6oERjTs
-         Rn3riSqvn1MovLTgXuSJ2iqsy1jxj5IcHIsHvehbw22jiTxsn3zafMkmGNRsxyMsPb
-         30QY1BeNvlab3DJ7WBCUaRFQo8kssSYhvprxIfRhpn5irjrrOjCokAq/oxiVPcKoui
-         r9fyr7V1PUj76Hs6gCQNN2LSswUshGpo0aul1Cmp/heVsGDPkuvOjb3YQUQOw09+nO
-         7ysdkliI4D/Yg==
-X-Nifty-SrcIP: [126.125.143.222]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        id S1728273AbfHNQG7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 12:06:59 -0400
+Received: from mga17.intel.com ([192.55.52.151]:38992 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726047AbfHNQG7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Aug 2019 12:06:59 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 09:06:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
+   d="scan'208";a="184358026"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Aug 2019 09:06:58 -0700
+Message-ID: <84fc1b3bb2dbcf52ca79cb1141a431e087f082b5.camel@intel.com>
+Subject: Re: [PATCH v8 01/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kbuild: move KBUILD_LDS, KBUILD_VMLINUX_{OBJS,LIBS} to makefiles.rst
-Date:   Thu, 15 Aug 2019 01:06:21 +0900
-Message-Id: <20190814160623.24802-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Wed, 14 Aug 2019 08:57:19 -0700
+In-Reply-To: <87tvakgofi.fsf@oldenburg2.str.redhat.com>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+         <20190813205225.12032-2-yu-cheng.yu@intel.com>
+         <87tvakgofi.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These three variables are not intended to be tweaked by users.
-Move them from kbuild.rst to makefiles.rst.
+On Wed, 2019-08-14 at 10:07 +0200, Florian Weimer wrote:
+> * Yu-cheng Yu:
+> 
+> > +ENDBR
+> > +    The compiler inserts an ENDBR at all valid branch targets.  Any
+> > +    CALL/JMP to a target without an ENDBR triggers a control
+> > +    protection fault.
+> 
+> Is this really correct?  I think ENDBR is needed only for indirect
+> branch targets where the jump/call does not have a NOTRACK prefix.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+You are right.  I will fix the wording.
 
-I will apply to linux-kbuild this
-to avoid conflicts.
-
-
- Documentation/kbuild/kbuild.rst    | 14 --------------
- Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 61b2181ed3ea..62f9d86c082c 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -258,17 +258,3 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
- These two variables allow to override the user@host string displayed during
- boot and in /proc/version. The default value is the output of the commands
- whoami and host, respectively.
--
--KBUILD_LDS
------------
--The linker script with full path. Assigned by the top-level Makefile.
--
--KBUILD_VMLINUX_OBJS
---------------------
--All object files for vmlinux. They are linked to vmlinux in the same
--order as listed in KBUILD_VMLINUX_OBJS.
--
--KBUILD_VMLINUX_LIBS
---------------------
--All .a "lib" files for vmlinux. KBUILD_VMLINUX_OBJS and KBUILD_VMLINUX_LIBS
--together specify all the object files used to link vmlinux.
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index f4f0f7ffde2b..d3448d2c8017 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -995,6 +995,20 @@ When kbuild executes, the following steps are followed (roughly):
- 	top-level Makefile has set any other flags. This provides a
- 	means for an architecture to override the defaults.
- 
-+    KBUILD_LDS
-+
-+	The linker script with full path. Assigned by the top-level Makefile.
-+
-+    KBUILD_VMLINUX_OBJS
-+
-+	All object files for vmlinux. They are linked to vmlinux in the same
-+	order as listed in KBUILD_VMLINUX_OBJS.
-+
-+    KBUILD_VMLINUX_LIBS
-+
-+	All .a "lib" files for vmlinux. KBUILD_VMLINUX_OBJS and
-+	KBUILD_VMLINUX_LIBS together specify all the object files used to
-+	link vmlinux.
- 
- 6.2 Add prerequisites to archheaders
- ------------------------------------
--- 
-2.17.1
-
+Yu-cheng
