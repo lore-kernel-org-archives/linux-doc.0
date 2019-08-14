@@ -5,17 +5,17 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FB637D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 13:39:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9B9A7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 13:39:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbfHNNjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 09:39:11 -0400
+        id S1727654AbfHNNjZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 09:39:25 -0400
 Received: from 8bytes.org ([81.169.241.247]:49366 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726821AbfHNNir (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 09:38:47 -0400
+        id S1728163AbfHNNip (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Aug 2019 09:38:45 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 1670A527; Wed, 14 Aug 2019 15:38:43 +0200 (CEST)
+        id 81587479; Wed, 14 Aug 2019 15:38:43 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,9 +24,9 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 09/10] iommu: Disable passthrough mode when SME is active
-Date:   Wed, 14 Aug 2019 15:38:40 +0200
-Message-Id: <20190814133841.7095-10-joro@8bytes.org>
+Subject: [PATCH 05/10] ia64: Get rid of iommu_pass_through
+Date:   Wed, 14 Aug 2019 15:38:36 +0200
+Message-Id: <20190814133841.7095-6-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190814133841.7095-1-joro@8bytes.org>
 References: <20190814133841.7095-1-joro@8bytes.org>
@@ -37,40 +37,42 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Using Passthrough mode when SME is active causes certain
-devices to use the SWIOTLB bounce buffer. The bounce buffer
-code has an upper limit of 256kb for the size of DMA
-allocations, which is too small for certain devices and
-causes them to fail.
-
-With this patch we enable IOMMU by default when SME is
-active in the system, making the default configuration work
-for more systems than it does now.
-
-Users that don't want IOMMUs to be enabled still can disable
-them with kernel parameters.
+This variable has no users anymore so it can be removed.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/ia64/include/asm/iommu.h | 2 --
+ arch/ia64/kernel/pci-dma.c    | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 96cc7cc8ab21..4bc9025a9975 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -119,6 +119,11 @@ static int __init iommu_subsys_init(void)
- 			iommu_set_default_passthrough();
- 		else
- 			iommu_set_default_translated();
-+
-+		if (iommu_default_passthrough() && sme_active()) {
-+			pr_info("SME detected - Disabling default IOMMU Passthrough\n");
-+			iommu_set_default_translated();
-+		}
- 	}
+diff --git a/arch/ia64/include/asm/iommu.h b/arch/ia64/include/asm/iommu.h
+index 7429a72f3f92..92aceef63710 100644
+--- a/arch/ia64/include/asm/iommu.h
++++ b/arch/ia64/include/asm/iommu.h
+@@ -8,10 +8,8 @@
+ extern void no_iommu_init(void);
+ #ifdef	CONFIG_INTEL_IOMMU
+ extern int force_iommu, no_iommu;
+-extern int iommu_pass_through;
+ extern int iommu_detected;
+ #else
+-#define iommu_pass_through	(0)
+ #define no_iommu		(1)
+ #define iommu_detected		(0)
+ #endif
+diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
+index fe988c49f01c..f5d49cd3fbb0 100644
+--- a/arch/ia64/kernel/pci-dma.c
++++ b/arch/ia64/kernel/pci-dma.c
+@@ -22,8 +22,6 @@ int force_iommu __read_mostly = 1;
+ int force_iommu __read_mostly;
+ #endif
  
- 	pr_info("Default domain type: %s %s\n",
+-int iommu_pass_through;
+-
+ static int __init pci_iommu_init(void)
+ {
+ 	if (iommu_detected)
 -- 
 2.17.1
 
