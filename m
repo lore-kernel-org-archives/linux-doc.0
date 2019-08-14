@@ -1,81 +1,54 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+	SPF_NONE,SUBJ_ALL_CAPS,T_HK_NAME_FM_MR_MRS autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D81C57D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 08:08:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 387F77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Aug 2019 08:12:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726957AbfHNIH6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Aug 2019 04:07:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45794 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726347AbfHNIH6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Aug 2019 04:07:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 53C9C31499;
-        Wed, 14 Aug 2019 08:07:57 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-200.str.redhat.com [10.33.192.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F4B4413C;
-        Wed, 14 Aug 2019 08:07:47 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Subject: Re: [PATCH v8 01/27] Documentation/x86: Add CET description
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-        <20190813205225.12032-2-yu-cheng.yu@intel.com>
-Date:   Wed, 14 Aug 2019 10:07:45 +0200
-In-Reply-To: <20190813205225.12032-2-yu-cheng.yu@intel.com> (Yu-cheng Yu's
-        message of "Tue, 13 Aug 2019 13:51:59 -0700")
-Message-ID: <87tvakgofi.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S1727644AbfHNIMr convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Aug 2019 04:12:47 -0400
+Received: from slot0.abamarket.ga ([178.156.202.135]:35744 "EHLO
+        slot0.abamarket.ga" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726818AbfHNIMq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Aug 2019 04:12:46 -0400
+X-Greylist: delayed 694 seconds by postgrey-1.27 at vger.kernel.org; Wed, 14 Aug 2019 04:12:46 EDT
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 14 Aug 2019 08:07:57 +0000 (UTC)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: PLEASE CONFIRM PURCHASE ORDER
+To:     Recipients <mscarolynsmtih@gmail.com>
+From:   "Mr NARESH KUMAR" <mscarolynsmtih@gmail.com>
+Date:   Wed, 14 Aug 2019 15:51:21 +0800
+Reply-To: saiapex09@outlook.com
+Message-ID: <0.0.3.435.1D55274C819A288.0@slot0.abamarket.ga>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yu-cheng Yu:
+Could you please confirm if your recieved our purchase order last week.
 
-> +ENDBR
-> +    The compiler inserts an ENDBR at all valid branch targets.  Any
-> +    CALL/JMP to a target without an ENDBR triggers a control
-> +    protection fault.
+If no please confirm let me resend it to you.
 
-Is this really correct?  I think ENDBR is needed only for indirect
-branch targets where the jump/call does not have a NOTRACK prefix.  In
-general, for security hardening, it seems best to minimize the number of
-ENDBR instructions, and use NOTRACK for indirect jumps which derive the
-branch target address from information that cannot be modified.
 
-Thanks,
-Florian
+
+
+NARESH KUMAR
+
+Executive Purchase Saiapextrading Ltd
+
+Dubai, KSA.
+
+(T/F): +96-2667-264 777 / 778
+
+(Mo): +96 94284 02803
+
+Website - http://www.saiapexgeneraltrading.com
