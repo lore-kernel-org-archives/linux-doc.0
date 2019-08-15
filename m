@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66CCE7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:44:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 718757D922
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:44:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730834AbfHOPoJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 11:44:09 -0400
-Received: from foss.arm.com ([217.140.110.172]:45708 "EHLO foss.arm.com"
+        id S1730842AbfHOPoL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 11:44:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:45722 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729975AbfHOPoI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:44:08 -0400
+        id S1729975AbfHOPoL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 11:44:11 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9BA528;
-        Thu, 15 Aug 2019 08:44:07 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2835360;
+        Thu, 15 Aug 2019 08:44:09 -0700 (PDT)
 Received: from arrakis.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 339C33F706;
-        Thu, 15 Aug 2019 08:44:06 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1A9763F706;
+        Thu, 15 Aug 2019 08:44:07 -0700 (PDT)
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -31,10 +31,12 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Dave P Martin <Dave.Martin@arm.com>,
         Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [PATCH v8 0/2] arm64 tagged address ABI
-Date:   Thu, 15 Aug 2019 16:43:58 +0100
-Message-Id: <20190815154403.16473-1-catalin.marinas@arm.com>
+Subject: [PATCH v8 1/5] mm: untag user pointers in mmap/munmap/mremap/brk
+Date:   Thu, 15 Aug 2019 16:43:59 +0100
+Message-Id: <20190815154403.16473-2-catalin.marinas@arm.com>
 X-Mailer: git-send-email 2.23.0.rc0
+In-Reply-To: <20190815154403.16473-1-catalin.marinas@arm.com>
+References: <20190815154403.16473-1-catalin.marinas@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -42,61 +44,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+There isn't a good reason to differentiate between the user address
+space layout modification syscalls and the other memory
+permission/attributes ones (e.g. mprotect, madvise) w.r.t. the tagged
+address ABI. Untag the user addresses on entry to these functions.
 
-This series contains an update to the arm64 tagged address ABI
-documentation posted here (v7):
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ mm/mmap.c   | 5 +++++
+ mm/mremap.c | 6 +-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-http://lkml.kernel.org/r/20190807155321.9648-1-catalin.marinas@arm.com
-
-together some adjustments to Andrey's patches (already queued through
-different trees) following the discussions on the ABI documents:
-
-http://lkml.kernel.org/r/cover.1563904656.git.andreyknvl@google.com
-
-If there are not objections, I propose that that patch 1 (mm: untag user
-pointers in mmap...) goes via the mm tree while the other 4 are routed
-via the arm64 tree.
-
-Changes in v8:
-
-- removed mmap/munmap/mremap/brk from the list of syscalls not accepting
-  tagged pointers
-
-- added ioctl() to the list of syscalls not accepting tagged pointers
-
-- added shmat/shmdt to a list of syscalls not accepting tagged pointers
-
-- prctl() now requires all unused arguments to be 0
-
-- note about two-stage ABI relaxation since even without the prctl()
-  opt-in, the tag is still ignored on a few syscalls (untagged_addr() in
-  the kernel is unconditional)
-
-- compilable example code together with syscall use
-
-- added a note on tag preservation in the tagged-pointers.rst document
-
-- various rewordings and cleanups
-
-
-Catalin Marinas (3):
-  mm: untag user pointers in mmap/munmap/mremap/brk
-  arm64: Tighten the PR_{SET,GET}_TAGGED_ADDR_CTRL prctl() unused
-    arguments
-  arm64: Change the tagged_addr sysctl control semantics to only prevent
-    the opt-in
-
-Vincenzo Frascino (2):
-  arm64: Define Documentation/arm64/tagged-address-abi.rst
-  arm64: Relax Documentation/arm64/tagged-pointers.rst
-
- Documentation/arm64/tagged-address-abi.rst | 155 +++++++++++++++++++++
- Documentation/arm64/tagged-pointers.rst    |  23 ++-
- arch/arm64/kernel/process.c                |  17 ++-
- kernel/sys.c                               |   4 +
- mm/mmap.c                                  |   5 +
- mm/mremap.c                                |   6 +-
- 6 files changed, 191 insertions(+), 19 deletions(-)
- create mode 100644 Documentation/arm64/tagged-address-abi.rst
-
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 7e8c3e8ae75f..b766b633b7ae 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -201,6 +201,8 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
+ 	bool downgraded = false;
+ 	LIST_HEAD(uf);
+ 
++	brk = untagged_addr(brk);
++
+ 	if (down_write_killable(&mm->mmap_sem))
+ 		return -EINTR;
+ 
+@@ -1573,6 +1575,8 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
+ 	struct file *file = NULL;
+ 	unsigned long retval;
+ 
++	addr = untagged_addr(addr);
++
+ 	if (!(flags & MAP_ANONYMOUS)) {
+ 		audit_mmap_fd(fd, flags);
+ 		file = fget(fd);
+@@ -2874,6 +2878,7 @@ EXPORT_SYMBOL(vm_munmap);
+ 
+ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
+ {
++	addr = untagged_addr(addr);
+ 	profile_munmap(addr);
+ 	return __vm_munmap(addr, len, true);
+ }
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 64c9a3b8be0a..1fc8a29fbe3f 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -606,12 +606,8 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+ 	LIST_HEAD(uf_unmap_early);
+ 	LIST_HEAD(uf_unmap);
+ 
+-	/*
+-	 * Architectures may interpret the tag passed to mmap as a background
+-	 * colour for the corresponding vma. For mremap we don't allow tagged
+-	 * new_addr to preserve similar behaviour to mmap.
+-	 */
+ 	addr = untagged_addr(addr);
++	new_addr = untagged_addr(new_addr);
+ 
+ 	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE))
+ 		return ret;
