@@ -6,66 +6,63 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B9ED7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 22:31:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C48A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 22:32:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733111AbfHOWbu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 18:31:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35232 "EHLO mail.kernel.org"
+        id S1733303AbfHOWcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 18:32:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35376 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733095AbfHOWbu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Aug 2019 18:31:50 -0400
+        id S1733099AbfHOWcC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 18:32:02 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA09C206C1;
-        Thu, 15 Aug 2019 22:31:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35E34206C1;
+        Thu, 15 Aug 2019 22:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565908309;
-        bh=JUGSZP1OX5849QbPzVQs+ETR+b8Pn+G4+/yEBBC8o+U=;
+        s=default; t=1565908321;
+        bh=Pm9SSHX8IOc2MhchN3WM+xETWq0MBuO2B658YKI1EHg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cRfJuEyWeJJuhd9QF7crXoOFqXFb+u+wQN6XqXf1A1x1kjJt2OFpxR0Zn6CilZfuI
-         g4GvJ0Im/niVAq3tSBh6zxznh1Yt8PhcLV4iAGXGv08V7S9O/836zf21UbFSB5cfSw
-         +uWad/+kXkvUhW72IUR2yLoAfpfPav4JWdYr7JRQ=
-Date:   Fri, 16 Aug 2019 00:31:47 +0200
+        b=NBc5yABsBxF5YK//taFe5vqEyLpQ/ai7GuuPjeaz5HK8bpczB+OuGgtTAfOwy9b7l
+         YiWbqcAI4E+xwjt4WIc/ePP8P94aG7G6c07ZUXSDuS8VVZJwpvcdSSEpiBbfU/hPKD
+         6H+L1QkDmiyif1VMePES2jXskgmBsTy5+zxVCRKw=
+Date:   Fri, 16 Aug 2019 00:31:59 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         security@kernel.org, linux-doc@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Jiri Kosina <jkosina@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
- issues
-Message-ID: <20190815223147.GA28275@kroah.com>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Tyler Hicks <tyhicks@canonical.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Subject: Re: [PATCH v2] Documentation/admin-guide: Embargoed hardware
+ security issues
+Message-ID: <20190815223159.GB28275@kroah.com>
 References: <20190725130113.GA12932@kroah.com>
- <20190725151302.16a3e0e3@lwn.net>
- <20190815212019.GB12041@kroah.com>
- <e3ae0d66-b9eb-97ba-647a-57f3e2eb4af2@infradead.org>
+ <20190815212505.GC12041@kroah.com>
+ <635f5f3d-dc1e-90a0-8d85-d26a786bb910@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e3ae0d66-b9eb-97ba-647a-57f3e2eb4af2@infradead.org>
+In-Reply-To: <635f5f3d-dc1e-90a0-8d85-d26a786bb910@infradead.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 03:12:34PM -0700, Randy Dunlap wrote:
-> On 8/15/19 2:20 PM, Greg Kroah-Hartman wrote:
-> >>> +The hardware security team will provide a per incident specific encrypted
-> >> s/per incident specific/incident-specific/
-> > Fixed.  And changed /a/ to /an/
+On Thu, Aug 15, 2019 at 03:15:11PM -0700, Randy Dunlap wrote:
+> On 8/15/19 2:25 PM, Greg Kroah-Hartman wrote:
+> > v2: updated list of people with document from Jiri as I had the old one
+> >     grammer tweaks based on Jon's review
+> >     moved document to Documentation/process/
 > 
-> eh?  still should be /a per incident/
+> If you get to do a v3, you can change the $Subject also.
 
-The sentence was changed to:
-	The hardware security team will provide an incident-specific
-	encrypted...
-
-is not "an" correct here?
-
-thanks,
-
-greg k-h
+Doh!
