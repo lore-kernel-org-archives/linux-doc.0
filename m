@@ -6,124 +6,99 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FE9B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:25:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3F367D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:34:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729176AbfHOPZB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 11:25:01 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:39271 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729130AbfHOPZB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 11:25:01 -0400
-Received: by mail-pg1-f195.google.com with SMTP id u17so1434707pgi.6
-        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2019 08:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/HAVtRJ1PsEuTkAUc5sMbDf7NKx2+25/4sGFjK/yLmI=;
-        b=p/rcF9HUaxokqqtlBD6cRzMqVS5aMb26xsT8XFZesE6GelXE2agrxezh39Oeg+hfGB
-         xAvaausfSkZJetZST//O1oxgq4aGZkjqemfeRnMo4W7+ZZ/erzX1F6adVqpbB+c90m3Q
-         V99zTMJqa9vfT5ucEAHWnJZ1WQ+Mn9yRvzAIw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/HAVtRJ1PsEuTkAUc5sMbDf7NKx2+25/4sGFjK/yLmI=;
-        b=UdV3CGfYaUsBNURb60sUYpKhyjqsMR2Jz+Hd638fVWhulhs1SA1wwFsN07XRZY475X
-         HSndzZHbTPqyjvTM9obWN3YjDSJDrW9ylWrh2N+GL+5kBEHpqtSbOyNcu8i3Ucpao1G8
-         iZb/qFNf6QKkAUJ328FAu9f3P6KEZRi7HLGcLcqSxsNrvYL3r2cPJLG5BJSYREc13gi1
-         CwOUN8iDWizCQGjQygXj+nV641oFMDyPYxUhCoZBkPcQP17t/o10PN4DP8dGDeP+RaAl
-         6t4xZsN6S2gbHAKPpsyWggXAj1X9UxRtZYu1P8/xjPttin5t2SVWRWDE16yfiBxw6/Us
-         WiWA==
-X-Gm-Message-State: APjAAAX4y3zICPmPsqIJmiuaX2VmoF7Omle/dXIccpt4pUF6AFNOH22k
-        8E1VqKqKTW2xNR5wYHOr/9AKlab9B8I=
-X-Google-Smtp-Source: APXvYqzGZZp0X2UruoJmPDipoLHodoHbSAODCUTEnrhBXIUOdW+725CS6Bq9Bv2QKCuiId8iQb2BGw==
-X-Received: by 2002:a17:90a:a489:: with SMTP id z9mr2679120pjp.24.1565882700049;
-        Thu, 15 Aug 2019 08:25:00 -0700 (PDT)
-Received: from localhost ([172.19.216.18])
-        by smtp.gmail.com with ESMTPSA id k6sm3082851pfi.12.2019.08.15.08.24.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2019 08:24:59 -0700 (PDT)
-Date:   Thu, 15 Aug 2019 11:24:42 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH v3 -rcu] workqueue: Convert for_each_wq to use built-in
- list check
-Message-ID: <20190815152442.GB12078@google.com>
-References: <20190815141842.GB20599@google.com>
- <20190815145749.GA18474@bombadil.infradead.org>
+        id S1729733AbfHOPeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 11:34:06 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:43036 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728728AbfHOPeG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 11:34:06 -0400
+Received: from zn.tnic (p200300EC2F0B52001DDC45CCE62FC494.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:5200:1ddc:45cc:e62f:c494])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7627B1EC074B;
+        Thu, 15 Aug 2019 17:34:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1565883244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=6ea0+0I7fYBanPI40B3Ad6TnGdmO71uK0qGfHM+0Bo4=;
+        b=ixw2ad5rraIJ95A28jqAg/FczeVEcYhxQFEzLrDlcL+fFOZ9Gc1GDa6MUF2M8s0AdfC+Bz
+        S77CYzbLrz7CLJC3Tv9lWuQRXOz97162qtRh/TmVGCmoYewt7C5uv5G64Zsn2XNbg6BB/R
+        IDkIkwuGBgKSfBHUmJCbTXH/Ll8qt5s=
+Date:   Thu, 15 Aug 2019 17:34:47 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, Chen Yu <yu.c.chen@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
+Message-ID: <20190815153447.GH15313@zn.tnic>
+References: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
+ <20190815071940.GB15313@zn.tnic>
+ <768aa720-1db1-81ca-4d0d-adf31f4d134b@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190815145749.GA18474@bombadil.infradead.org>
+In-Reply-To: <768aa720-1db1-81ca-4d0d-adf31f4d134b@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 07:57:49AM -0700, Matthew Wilcox wrote:
-> On Thu, Aug 15, 2019 at 10:18:42AM -0400, Joel Fernandes (Google) wrote:
-> > list_for_each_entry_rcu now has support to check for RCU reader sections
-> > as well as lock. Just use the support in it, instead of explicitly
-> > checking in the caller.
-> 
-> ...
-> 
-> >  #define assert_rcu_or_wq_mutex_or_pool_mutex(wq)			\
-> >  	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&			\
-> >  			 !lockdep_is_held(&wq->mutex) &&		\
-> 
-> Can't you also get rid of this macro?
+On Thu, Aug 15, 2019 at 01:47:24PM +0000, Lendacky, Thomas wrote:
+> Sure, I can do that. Do we want to tie this into the nordrand option and
+> add rdrand=off or keep that separate?
 
-Could be. But that should be a different patch. I am only cleaning up the RCU
-list lockdep checking in this series since the series introduces that
-concept).  Please feel free to send a patch for the same.
+Yeah, I was looking at that this morning and I'd say keep 'em separate
+because if you have to tie, you need to export functions and then
+there's
 
-Arguably, keeping the macro around also can be beneficial in the future.
+	setup_clear_cpu_cap(X86_FEATURE_RDSEED);
 
-> It's used in one place:
-> 
-> static struct pool_workqueue *unbound_pwq_by_node(struct workqueue_struct *wq,
->                                                   int node)
-> {
->         assert_rcu_or_wq_mutex_or_pool_mutex(wq);
-> 
->         /*
->          * XXX: @node can be NUMA_NO_NODE if CPU goes offline while a
->          * delayed item is pending.  The plan is to keep CPU -> NODE
->          * mapping valid and stable across CPU on/offlines.  Once that
->          * happens, this workaround can be removed.
->          */
->         if (unlikely(node == NUMA_NO_NODE))
->                 return wq->dfl_pwq;
-> 
->         return rcu_dereference_raw(wq->numa_pwq_tbl[node]);
-> }
-> 
-> Shouldn't we delete that assert and use
-> 
-> +	return rcu_dereference_check(wq->numa_pwq_tbl[node],
-> +			lockdep_is_held(&wq->mutex) ||
-> +			lockdep_is_held(&wq_pool_mutex));
+in the nordrand callback but then F15h and F16h don't have RDSEED and
+people would wonder, why clear RDSEED on AMD, blabla... so keeping them
+separate saves us all that.
 
-Makes sense. This API also does sparse checking. Also hopefully no sparse
-issues show up because rcu_dereference_check() but anyone such issues should
-be fixed as well.
+> I think this is a clearer indication that the action has taken place.
 
-thanks,
+Yeah, but what does that bring us? You wanna know this now, while
+testing. Once that whole effort is done, it is a useless printing of
+info which you have in cpuinfo already.
 
- - Joel
+> Not sure what you mean. We can't use the DMI stuff for this. So now, with
+> the x86 family checks, if anyone adds some DMI stuff or x86 family stuff
+> in the future that matches both the DMI and x86 family checks, this will
+> be called more than once and so you need to copy any previous settings and
+> add the new ones.
 
-> 
+I had a suspicion that it was something like that. Ok, this is not a
+big structure currently so I guess it is fine but if it keeps growing,
+it would need a proper redesign like making it a list and callbacks
+doing list_add_tail() for MSRs which get added. It would avoid that
+kmalloc and copying which is silly. Please put a comment ontop why we're
+copying.
+
+> Except that X86_FEATURE_RDRAND isn't set anymore. I could create a new
+> software feature that is set when the CPUID bit is cleared if that's
+> preferred.
+
+Nah, let's leave it like you had it.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
