@@ -1,95 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E52787D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 10:52:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAAC77D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 12:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731250AbfHOKw2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 06:52:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56256 "EHLO mail.kernel.org"
+        id S1727814AbfHOMHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 08:07:07 -0400
+Received: from helcar.hmeau.com ([216.24.177.18]:57230 "EHLO fornost.hmeau.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731246AbfHOKw2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Aug 2019 06:52:28 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F13C20665;
-        Thu, 15 Aug 2019 10:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565866347;
-        bh=0iwh4It9DTUtLTh6DHbA8L+rgka8HF2BN9oR2BEsK24=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KFbvlL/XpSfYFoaaYLK7CUkPh+jvKby1YKjr5f1OTsHNkM0HYdfLNsekt7Uz5OUv5
-         DkIJtPtFCAFLs1fLjIe8PRZ8w8N0brEMdi+52WcblAe7dyzPZaDkXHGQuKblYoUhTg
-         hPPfq/LeRdXGdeIOor9P5AMnRHYPSCE1slVTm8xg=
-Date:   Thu, 15 Aug 2019 12:52:25 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Knut Omang <knut.omang@oracle.com>
-Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Hidenori Yamaji <hidenori.yamaji@sony.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Theodore Ts'o <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
-        Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [RFC 06/19] ktf: A simple debugfs interface to test results
-Message-ID: <20190815105225.GA16395@kroah.com>
-References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
- <ae6c38384e2338aa3cfb8a4e4dd1002833789253.1565676440.git-series.knut.omang@oracle.com>
- <20190813082152.GA17627@kroah.com>
- <a63bea757e02656a38463cc794da7da15273dd16.camel@oracle.com>
- <20190815084921.GE3512@kroah.com>
- <9629068a41a160de0145a18dd22924bce70f37fe.camel@oracle.com>
+        id S1731630AbfHOMHG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 08:07:06 -0400
+Received: from gondolin.me.apana.org.au ([192.168.0.6] helo=gondolin.hengli.com.au)
+        by fornost.hmeau.com with esmtps (Exim 4.89 #2 (Debian))
+        id 1hyEWu-0003LU-Gz; Thu, 15 Aug 2019 22:06:56 +1000
+Received: from herbert by gondolin.hengli.com.au with local (Exim 4.80)
+        (envelope-from <herbert@gondor.apana.org.au>)
+        id 1hyEWt-0007ho-KQ; Thu, 15 Aug 2019 22:06:55 +1000
+Date:   Thu, 15 Aug 2019 22:06:55 +1000
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: crypto: crypto_engine: Fix Sphinx warning
+Message-ID: <20190815120655.GE29355@gondor.apana.org.au>
+References: <20190808163011.13468-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9629068a41a160de0145a18dd22924bce70f37fe.camel@oracle.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808163011.13468-1-j.neuschaefer@gmx.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 12:35:26PM +0200, Knut Omang wrote:
-> On Thu, 2019-08-15 at 10:49 +0200, Greg Kroah-Hartman wrote:
-> > > I perfectly agree with you that reducing the hole for a race condition 
-> > > is generally a bad idea, but from the above mail thread 
-> > > it seems that's the only available choice for older kernels?
-> > 
-> > I have no idea, but please, do not use that pattern of code as it is
-> > racy in all kernels, from all of time.
+On Thu, Aug 08, 2019 at 06:30:11PM +0200, Jonathan Neuschäfer wrote:
+> This fixes the following Sphinx warning:
 > 
-> Ok, will remove it :-)
+> Documentation/crypto/crypto_engine.rst:2:
+>   WARNING: Explicit markup ends without a blank line; unexpected unindent.
 > 
-> I tried in vain to find the commit from Al Viro that made the code safe,
-> to identify which kernels that are safe from this issue,
-> but he has a **lot** of commits, do you have a clue for what/where to look?
-> 
-> It will be good to have a mention/comment on this for future reference, 
-> like the earliest kernel version where this is safe.
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/crypto/crypto_engine.rst | 1 +
+>  1 file changed, 1 insertion(+)
 
-Always use a "newer" kernel to be "safe" and you will be fine :)
-
-> Maybe we can even get rid of some more of the remaining of these too..
-> (I notice there's 65 cases of 'if (!try_module_get(THIS_MODULE))'
-> right now)
-
-Something to put on a TODO list somewhere...
-
-thanks,
-
-greg k-h
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
