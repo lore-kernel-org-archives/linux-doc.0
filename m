@@ -1,95 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C63417D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 14:57:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC8457D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731986AbfHOO5w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 10:57:52 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53404 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728500AbfHOO5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 10:57:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=UtWqCtB9PpyWQIYQ9Bi5TbzICHIqvshf8py52+rLl2U=; b=G4SzC/FI8VrUVgg7x5ogth9Nh
-        eAj/6iV92t37KP0hcby0OvU4pn8r6qqwRQ+mDiAPDs4lpknfHrfHkvHqI9TSiRXds5/waTwwDGfHF
-        meMxFAZEAl7Cf8B3VueEMtJ03PDeZzImMALQq+XqBrXv2Wh3O5SAROxdfXpLFnbEdDqoghvy+AKzz
-        Aslj1+3wskB0Si6q83aZmd0wXVIj68QrgyZ0M7NabLUSPJ5Jun8mYQIMZueZUzaBuMtHc/Fm3Iw4v
-        fgF6wXhvCpPTQdQMHPWud1FNTNvrq5cCkHtEImFxPIsqrSSwAHNS9ER9O9pSyPHqq6VmpUQ4hUGZ8
-        KPH0cs0qg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hyHCH-0003uM-LN; Thu, 15 Aug 2019 14:57:49 +0000
-Date:   Thu, 15 Aug 2019 07:57:49 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH v3 -rcu] workqueue: Convert for_each_wq to use built-in
- list check
-Message-ID: <20190815145749.GA18474@bombadil.infradead.org>
-References: <20190815141842.GB20599@google.com>
+        id S1732523AbfHOPOL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 11:14:11 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:52439 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1732517AbfHOPOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 11:14:11 -0400
+Received: from callcc.thunk.org (guestnat-104-133-8-96.corp.google.com [104.133.8.96] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x7FFCP4x018561
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 15 Aug 2019 11:12:27 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id BF39B4218EF; Thu, 15 Aug 2019 11:12:24 -0400 (EDT)
+Date:   Thu, 15 Aug 2019 11:12:24 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        nhorman@tuxdriver.com,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Chen Yu <yu.c.chen@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: Non-random RDRAND Re: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID
+ bit on AMD family 15h/16h
+Message-ID: <20190815151224.GB18727@mit.edu>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, nhorman@tuxdriver.com,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Chen Yu <yu.c.chen@intel.com>, Jonathan Corbet <corbet@lwn.net>
+References: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
+ <20190814232434.GA31769@amd>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190815141842.GB20599@google.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190814232434.GA31769@amd>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 10:18:42AM -0400, Joel Fernandes (Google) wrote:
-> list_for_each_entry_rcu now has support to check for RCU reader sections
-> as well as lock. Just use the support in it, instead of explicitly
-> checking in the caller.
+On Thu, Aug 15, 2019 at 01:24:35AM +0200, Pavel Machek wrote:
+> Burn it with fire!
+> 
+> I mean... people were afraid RDRAND would be backdoored, and you now
+> confirm ... it indeed _is_ backdoored? /., here's news for you!
 
-...
+To be fair to AMD, I wouldn't call it a backdoor.  Hanlon's razor is
+applicable here:
 
->  #define assert_rcu_or_wq_mutex_or_pool_mutex(wq)			\
->  	RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&			\
->  			 !lockdep_is_held(&wq->mutex) &&		\
+	"Never attribute to malice that which can be adequately
+	explained by neglect."
 
-Can't you also get rid of this macro?
+(Sometimes other words are used instead of neglect, but i'm trying to
+be nice.)
 
-It's used in one place:
+					- Ted
 
-static struct pool_workqueue *unbound_pwq_by_node(struct workqueue_struct *wq,
-                                                  int node)
-{
-        assert_rcu_or_wq_mutex_or_pool_mutex(wq);
+P.S.   Also applicable:
 
-        /*
-         * XXX: @node can be NUMA_NO_NODE if CPU goes offline while a
-         * delayed item is pending.  The plan is to keep CPU -> NODE
-         * mapping valid and stable across CPU on/offlines.  Once that
-         * happens, this workaround can be removed.
-         */
-        if (unlikely(node == NUMA_NO_NODE))
-                return wq->dfl_pwq;
-
-        return rcu_dereference_raw(wq->numa_pwq_tbl[node]);
-}
-
-Shouldn't we delete that assert and use
-
-+	return rcu_dereference_check(wq->numa_pwq_tbl[node],
-+			lockdep_is_held(&wq->mutex) ||
-+			lockdep_is_held(&wq_pool_mutex));
-
+	https://www.youtube.com/watch?v=XZxzJGgox_E
