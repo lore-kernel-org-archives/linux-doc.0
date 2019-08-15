@@ -1,79 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A4E457D919
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 21:04:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10C5D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 21:05:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732124AbfHOVEY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 17:04:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43546 "EHLO mail.kernel.org"
+        id S1731572AbfHOVFI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 17:05:08 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:35698 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733090AbfHOVEX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Aug 2019 17:04:23 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1729562AbfHOVFI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 17:05:08 -0400
+Received: from zn.tnic (p200300EC2F0B5200F4090F5F0FC894B7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:5200:f409:f5f:fc8:94b7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A27A22063F;
-        Thu, 15 Aug 2019 21:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565903063;
-        bh=NNekQusaEPP5YPk53Rxg5OC3GdiRn8lGF9xopo7eZIg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ciLYl7u9ipJ7DsIf3xV/9jK89JpQEv5tzAAn7FX0GZMJqyiO7gk+CKuKuRXQSUlWX
-         nt5bP2O6S+xImvSCQPStYL8Rjg0FPSNfKlYaGG5Je3RXTnkrbW2le5HKg74l8QVq09
-         WwoqMjObF3zUfpviodqHoGLcuY8JQZj9wdA9vMV0=
-Date:   Thu, 15 Aug 2019 23:04:20 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        security@kernel.org, linux-doc@vger.kernel.org,
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 050B11EC074B;
+        Thu, 15 Aug 2019 23:05:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1565903107;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=3cTqspnxsRR+dFtWCSWAL1onU2pvC0uxIqpEe+/lcYY=;
+        b=Ipq2V1iJgsNLv9JZZ2ex9QwuIv/pOG9GfxP5YFImUmGL7w5NNfRH5wMrUzhU8THeFQi4YZ
+        sgCc9SsMP0DxBvRnxTCF4crIRMPOhqkCroMfre5zzrgQGJk6t9m02uFUwdiBDjB1v8qoL0
+        j0sz2O37NXmrbpPn4o0ctrIpXqTRLv8=
+Date:   Thu, 15 Aug 2019 23:05:47 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Andrew Cooper <andrew.cooper3@citrix.com>
+Cc:     "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
- issues
-Message-ID: <20190815210420.GA12041@kroah.com>
-References: <20190725130113.GA12932@kroah.com>
- <nycvar.YFH.7.76.1908040214090.5899@cbobk.fhfr.pm>
- <20190805151244.GA28296@kroah.com>
+        Ingo Molnar <mingo@redhat.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, Chen Yu <yu.c.chen@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
+Message-ID: <20190815210547.GL15313@zn.tnic>
+References: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
+ <a24a2c7d-cfab-a049-37e8-7260a9063a7c@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190805151244.GA28296@kroah.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <a24a2c7d-cfab-a049-37e8-7260a9063a7c@citrix.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 05, 2019 at 05:12:44PM +0200, Greg Kroah-Hartman wrote:
-> On Sun, Aug 04, 2019 at 02:17:00AM +0200, Jiri Kosina wrote:
-> > On Thu, 25 Jul 2019, Greg Kroah-Hartman wrote:
-> > 
-> > > To address the requirements of embargoed hardware issues, like Meltdown,
-> > > Spectre, L1TF, etc. it is necessary to define and document a process for
-> > > handling embargoed hardware security issues.
-> > 
-> > I don't know what exactly went wrong, but there is a much more up-to-date 
-> > version of that document (especially when it comes to vendor contacts), 
-> > which I sent around on Thu, 2 May 2019 20:23:48 +0200 (CEST) already. 
-> > Please find it below.
-> 
-> Ah, sorry, don't know what happened here, we had too many different
-> versions floating around.
-> 
-> I'll take your version, make the edits recommended and send out a new
-> one in a few days, thanks!
+On Thu, Aug 15, 2019 at 09:59:03PM +0100, Andrew Cooper wrote:
+> If you're virtualised, the write to MSR_AMD64_CPUID_FN_1 almost
+> certainly won't take effect, which means userspace will still be able to
+> see the bit.
 
-Looks like your version only had the difference being the list of
-ambassadors and a bunch of people who reviewed the document.  No
-text changes in the document itself, which was good to see we all agreed
-on the correct wording  :)
+msr_clear_bit() has a return value. We should check it before
+doing anything further. I hope the HV actually signals the write
+success/failure properly so that we get a correct return value.
 
-thanks,
+-- 
+Regards/Gruss,
+    Boris.
 
-greg k-h
+Good mailing practices for 400: avoid top-posting and trim the reply.
