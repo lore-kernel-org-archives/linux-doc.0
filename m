@@ -1,71 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E74CE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 22:15:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B9ED7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 22:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729387AbfHOWP0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 18:15:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33040 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728685AbfHOWP0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 18:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=JSn/G2Oy/FEQuWnzNZ5SW7BflOV+7FNEUWnKN4qTV8o=; b=CZnD/c6lx99rtJ5klCe9PqogQ
-        ijPThQc2FBWmVtYxTy5kSEWa0oKbBuvT5Iii7Ky+NstSfLmOty7W2Ip8XkYXAQglBeeY7KsfZadpa
-        sZEQw40B93sR1nApKujoUOAnILefYgrB6bff7NLpOcJi3YShA1MDPdlpUFJpyt8rPAzH290TqPDMC
-        0ntpVTbLYaSLOlrXbzmT6ZV5CGr3JnOTtjVcCXvHX/6bdiOqYFwZttk0L8ARJT0DrPQ94Ahjv45pe
-        clOMD3/4ThGYL3HtbiIUbkBAkRbjRFqAppuLj2XsIKNYLozH0fQpEt+/SwWzLhey1yOPigMz7D88C
-        SeJKC6niQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hyO1Y-0007yN-A5; Thu, 15 Aug 2019 22:15:12 +0000
-Subject: Re: [PATCH v2] Documentation/admin-guide: Embargoed hardware security
- issues
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     security@kernel.org, linux-doc@vger.kernel.org,
+        id S1733111AbfHOWbu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 18:31:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35232 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733095AbfHOWbu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 18:31:50 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA09C206C1;
+        Thu, 15 Aug 2019 22:31:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565908309;
+        bh=JUGSZP1OX5849QbPzVQs+ETR+b8Pn+G4+/yEBBC8o+U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cRfJuEyWeJJuhd9QF7crXoOFqXFb+u+wQN6XqXf1A1x1kjJt2OFpxR0Zn6CilZfuI
+         g4GvJ0Im/niVAq3tSBh6zxznh1Yt8PhcLV4iAGXGv08V7S9O/836zf21UbFSB5cfSw
+         +uWad/+kXkvUhW72IUR2yLoAfpfPav4JWdYr7JRQ=
+Date:   Fri, 16 Aug 2019 00:31:47 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        security@kernel.org, linux-doc@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Jiri Kosina <jkosina@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Jiri Kosina <jkosina@suse.cz>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH] Documentation/admin-guide: Embargoed hardware security
+ issues
+Message-ID: <20190815223147.GA28275@kroah.com>
 References: <20190725130113.GA12932@kroah.com>
- <20190815212505.GC12041@kroah.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <635f5f3d-dc1e-90a0-8d85-d26a786bb910@infradead.org>
-Date:   Thu, 15 Aug 2019 15:15:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ <20190725151302.16a3e0e3@lwn.net>
+ <20190815212019.GB12041@kroah.com>
+ <e3ae0d66-b9eb-97ba-647a-57f3e2eb4af2@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20190815212505.GC12041@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3ae0d66-b9eb-97ba-647a-57f3e2eb4af2@infradead.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/15/19 2:25 PM, Greg Kroah-Hartman wrote:
-> v2: updated list of people with document from Jiri as I had the old one
->     grammer tweaks based on Jon's review
->     moved document to Documentation/process/
+On Thu, Aug 15, 2019 at 03:12:34PM -0700, Randy Dunlap wrote:
+> On 8/15/19 2:20 PM, Greg Kroah-Hartman wrote:
+> >>> +The hardware security team will provide a per incident specific encrypted
+> >> s/per incident specific/incident-specific/
+> > Fixed.  And changed /a/ to /an/
+> 
+> eh?  still should be /a per incident/
 
-If you get to do a v3, you can change the $Subject also.
+The sentence was changed to:
+	The hardware security team will provide an incident-specific
+	encrypted...
 
--- 
-~Randy
+is not "an" correct here?
+
+thanks,
+
+greg k-h
