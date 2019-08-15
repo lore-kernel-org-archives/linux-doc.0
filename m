@@ -1,104 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C3F367D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:34:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66CCE7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Aug 2019 15:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729733AbfHOPeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 11:34:06 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:43036 "EHLO mail.skyhub.de"
+        id S1730834AbfHOPoJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 11:44:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:45708 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728728AbfHOPeG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:34:06 -0400
-Received: from zn.tnic (p200300EC2F0B52001DDC45CCE62FC494.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:5200:1ddc:45cc:e62f:c494])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7627B1EC074B;
-        Thu, 15 Aug 2019 17:34:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1565883244;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=6ea0+0I7fYBanPI40B3Ad6TnGdmO71uK0qGfHM+0Bo4=;
-        b=ixw2ad5rraIJ95A28jqAg/FczeVEcYhxQFEzLrDlcL+fFOZ9Gc1GDa6MUF2M8s0AdfC+Bz
-        S77CYzbLrz7CLJC3Tv9lWuQRXOz97162qtRh/TmVGCmoYewt7C5uv5G64Zsn2XNbg6BB/R
-        IDkIkwuGBgKSfBHUmJCbTXH/Ll8qt5s=
-Date:   Thu, 15 Aug 2019 17:34:47 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Chen Yu <yu.c.chen@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
-Message-ID: <20190815153447.GH15313@zn.tnic>
-References: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
- <20190815071940.GB15313@zn.tnic>
- <768aa720-1db1-81ca-4d0d-adf31f4d134b@amd.com>
+        id S1729975AbfHOPoI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Aug 2019 11:44:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9BA528;
+        Thu, 15 Aug 2019 08:44:07 -0700 (PDT)
+Received: from arrakis.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 339C33F706;
+        Thu, 15 Aug 2019 08:44:06 -0700 (PDT)
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Dave P Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: [PATCH v8 0/2] arm64 tagged address ABI
+Date:   Thu, 15 Aug 2019 16:43:58 +0100
+Message-Id: <20190815154403.16473-1-catalin.marinas@arm.com>
+X-Mailer: git-send-email 2.23.0.rc0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <768aa720-1db1-81ca-4d0d-adf31f4d134b@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 01:47:24PM +0000, Lendacky, Thomas wrote:
-> Sure, I can do that. Do we want to tie this into the nordrand option and
-> add rdrand=off or keep that separate?
+Hi,
 
-Yeah, I was looking at that this morning and I'd say keep 'em separate
-because if you have to tie, you need to export functions and then
-there's
+This series contains an update to the arm64 tagged address ABI
+documentation posted here (v7):
 
-	setup_clear_cpu_cap(X86_FEATURE_RDSEED);
+http://lkml.kernel.org/r/20190807155321.9648-1-catalin.marinas@arm.com
 
-in the nordrand callback but then F15h and F16h don't have RDSEED and
-people would wonder, why clear RDSEED on AMD, blabla... so keeping them
-separate saves us all that.
+together some adjustments to Andrey's patches (already queued through
+different trees) following the discussions on the ABI documents:
 
-> I think this is a clearer indication that the action has taken place.
+http://lkml.kernel.org/r/cover.1563904656.git.andreyknvl@google.com
 
-Yeah, but what does that bring us? You wanna know this now, while
-testing. Once that whole effort is done, it is a useless printing of
-info which you have in cpuinfo already.
+If there are not objections, I propose that that patch 1 (mm: untag user
+pointers in mmap...) goes via the mm tree while the other 4 are routed
+via the arm64 tree.
 
-> Not sure what you mean. We can't use the DMI stuff for this. So now, with
-> the x86 family checks, if anyone adds some DMI stuff or x86 family stuff
-> in the future that matches both the DMI and x86 family checks, this will
-> be called more than once and so you need to copy any previous settings and
-> add the new ones.
+Changes in v8:
 
-I had a suspicion that it was something like that. Ok, this is not a
-big structure currently so I guess it is fine but if it keeps growing,
-it would need a proper redesign like making it a list and callbacks
-doing list_add_tail() for MSRs which get added. It would avoid that
-kmalloc and copying which is silly. Please put a comment ontop why we're
-copying.
+- removed mmap/munmap/mremap/brk from the list of syscalls not accepting
+  tagged pointers
 
-> Except that X86_FEATURE_RDRAND isn't set anymore. I could create a new
-> software feature that is set when the CPUID bit is cleared if that's
-> preferred.
+- added ioctl() to the list of syscalls not accepting tagged pointers
 
-Nah, let's leave it like you had it.
+- added shmat/shmdt to a list of syscalls not accepting tagged pointers
 
-Thx.
+- prctl() now requires all unused arguments to be 0
 
--- 
-Regards/Gruss,
-    Boris.
+- note about two-stage ABI relaxation since even without the prctl()
+  opt-in, the tag is still ignored on a few syscalls (untagged_addr() in
+  the kernel is unconditional)
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+- compilable example code together with syscall use
+
+- added a note on tag preservation in the tagged-pointers.rst document
+
+- various rewordings and cleanups
+
+
+Catalin Marinas (3):
+  mm: untag user pointers in mmap/munmap/mremap/brk
+  arm64: Tighten the PR_{SET,GET}_TAGGED_ADDR_CTRL prctl() unused
+    arguments
+  arm64: Change the tagged_addr sysctl control semantics to only prevent
+    the opt-in
+
+Vincenzo Frascino (2):
+  arm64: Define Documentation/arm64/tagged-address-abi.rst
+  arm64: Relax Documentation/arm64/tagged-pointers.rst
+
+ Documentation/arm64/tagged-address-abi.rst | 155 +++++++++++++++++++++
+ Documentation/arm64/tagged-pointers.rst    |  23 ++-
+ arch/arm64/kernel/process.c                |  17 ++-
+ kernel/sys.c                               |   4 +
+ mm/mmap.c                                  |   5 +
+ mm/mremap.c                                |   6 +-
+ 6 files changed, 191 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/arm64/tagged-address-abi.rst
+
