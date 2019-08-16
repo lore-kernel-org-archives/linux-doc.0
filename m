@@ -1,431 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28AF87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 10:27:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 48F4C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 12:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbfHPK1M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Aug 2019 06:27:12 -0400
-Received: from vip.corpemail.net ([162.243.126.186]:47865 "EHLO
-        vip.corpemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbfHPK1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 06:27:12 -0400
-Received: from ([60.208.111.195])
-        by ssh248.corpemail.net (Antispam) with ASMTP (SSL) id HSJ67841;
-        Fri, 16 Aug 2019 18:19:41 +0800
-Received: from localhost (10.100.1.52) by Jtjnmail201618.home.langchao.com
- (10.100.2.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 16 Aug
- 2019 18:19:44 +0800
-From:   John Wang <wangzqbj@inspur.com>
-To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <duanzhijia01@inspur.com>, <mine260309@gmail.com>, <joel@jms.id.au>
-Subject: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power supply driver
-Date:   Fri, 16 Aug 2019 18:19:44 +0800
-Message-ID: <20190816101944.3586-1-wangzqbj@inspur.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727217AbfHPMiS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Aug 2019 08:38:18 -0400
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com ([46.30.210.182]:22573
+        "EHLO mailrelay1-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727182AbfHPMiS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 08:38:18 -0400
+X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 08:38:15 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelthusiast.com; s=20140924;
+        h=content-transfer-encoding:content-type:mime-version:message-id:subject:cc:to:
+         from:date:from;
+        bh=MqBGoGP8EsqeK+2XNYeOygT9JY6T6r/XKPLtK4b7IDw=;
+        b=pdF/yaELulMPNiOqXU+6GUe8hz+dLF5ldHPSbfnZKJ8dF947WPeaNWQ7yn/CtWUN2VgwKzyH9kkHy
+         wyz/2rJqa06FSwQ3nA98++MhUarE6TvfdkTv1rHEW/fws86vAlgwKzH2tULMp6NgQ+qeyhu2lDfT/f
+         M7bxfD8b1ybKOdt8=
+X-HalOne-Cookie: a2f75e830723c1a88d249f86aeee50bff8e4b055
+X-HalOne-ID: 787ae46b-c020-11e9-aee3-d0431ea8a283
+Received: from localhost (unknown [105.159.18.151])
+        by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 787ae46b-c020-11e9-aee3-d0431ea8a283;
+        Fri, 16 Aug 2019 12:22:10 +0000 (UTC)
+Date:   Fri, 16 Aug 2019 13:22:09 +0100
+From:   Jacob Huisman <jacobhuisman@kernelthusiast.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: process: fix broken link
+Message-ID: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.100.1.52]
-X-ClientProxiedBy: jtjnmail201605.home.langchao.com (10.100.2.5) To
- Jtjnmail201618.home.langchao.com (10.100.2.18)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the driver to monitor Inspur Power System power supplies
-with hwmon over pmbus.
+http://linux.yyz.us/patch-format.html seems to be down since
+approximately September 2018. There is a working archive copy on
+arhive.org. Replaced the links in documenation + translations.
 
-This driver adds sysfs attributes for additional power supply data,
-including vendor, model, part_number, serial number,
-firmware revision, hardware revision, and psu mode(active/standby).
-
-Signed-off-by: John Wang <wangzqbj@inspur.com>
+Signed-off-by: Jacob Huisman <jacobhuisman@kernelthusiast.com>
 ---
-v5:
-    - Align sysfs attrs description in inspur-ipsps1.rst
-      (Use tab instead of space to sperate names and values)
-v4:
-    - Remove the additional tabs in the Makefile
-    - Rebased on 5.3-rc4, not 5.2
-v3:
-    - Sort kconfig/makefile entries alphabetically
-    - Remove unnecessary initialization
-    - Use ATTRIBUTE_GROUPS instead of expanding directly
-    - Use memscan to avoid reimplementation
-v2:
-    - Fix typos in commit message
-    - Invert Christmas tree
-    - Configure device with sysfs attrs, not debugfs entries
-    - Fix errno in fw_version_read, ENODATA to EPROTO
-    - Change the print format of fw-version
-    - Use sysfs_streq instead of strcmp("xxx" "\n", "xxx")
-    - Document sysfs attributes
----
- Documentation/hwmon/inspur-ipsps1.rst |  79 +++++++++
- drivers/hwmon/pmbus/Kconfig           |   9 +
- drivers/hwmon/pmbus/Makefile          |   1 +
- drivers/hwmon/pmbus/inspur-ipsps.c    | 226 ++++++++++++++++++++++++++
- 4 files changed, 315 insertions(+)
- create mode 100644 Documentation/hwmon/inspur-ipsps1.rst
- create mode 100644 drivers/hwmon/pmbus/inspur-ipsps.c
+ Documentation/process/howto.rst                                 | 2 +-
+ Documentation/process/submitting-patches.rst                    | 2 +-
+ Documentation/translations/it_IT/process/howto.rst              | 2 +-
+ Documentation/translations/it_IT/process/submitting-patches.rst | 2 +-
+ Documentation/translations/ja_JP/SubmittingPatches              | 2 +-
+ Documentation/translations/ja_JP/howto.rst                      | 2 +-
+ Documentation/translations/ko_KR/howto.rst                      | 2 +-
+ Documentation/translations/zh_CN/process/howto.rst              | 2 +-
+ Documentation/translations/zh_CN/process/submitting-patches.rst | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
-new file mode 100644
-index 000000000000..2b871ae3448f
---- /dev/null
-+++ b/Documentation/hwmon/inspur-ipsps1.rst
-@@ -0,0 +1,79 @@
-+Kernel driver inspur-ipsps1
-+=======================
-+
-+Supported chips:
-+
-+  * Inspur Power System power supply unit
-+
-+Author: John Wang <wangzqbj@inspur.com>
-+
-+Description
-+-----------
-+
-+This driver supports Inspur Power System power supplies. This driver
-+is a client to the core PMBus driver.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices for
-+details.
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported:
-+
-+======================= ======================================================
-+curr1_input		Measured input current
-+curr1_label		"iin"
-+curr1_max		Maximum current
-+curr1_max_alarm		Current high alarm
-+curr2_input		Measured output current in mA.
-+curr2_label		"iout1"
-+curr2_crit		Critical maximum current
-+curr2_crit_alarm	Current critical high alarm
-+curr2_max		Maximum current
-+curr2_max_alarm		Current high alarm
-+
-+fan1_alarm		Fan 1 warning.
-+fan1_fault		Fan 1 fault.
-+fan1_input		Fan 1 speed in RPM.
-+
-+in1_alarm		Input voltage under-voltage alarm.
-+in1_input		Measured input voltage in mV.
-+in1_label		"vin"
-+in2_input		Measured output voltage in mV.
-+in2_label		"vout1"
-+in2_lcrit		Critical minimum output voltage
-+in2_lcrit_alarm		Output voltage critical low alarm
-+in2_max			Maximum output voltage
-+in2_max_alarm		Output voltage high alarm
-+in2_min			Minimum output voltage
-+in2_min_alarm		Output voltage low alarm
-+
-+power1_alarm		Input fault or alarm.
-+power1_input		Measured input power in uW.
-+power1_label		"pin"
-+power1_max		Input power limit
-+power2_max_alarm	Output power high alarm
-+power2_max		Output power limit
-+power2_input		Measured output power in uW.
-+power2_label		"pout"
-+
-+temp[1-3]_input		Measured temperature
-+temp[1-2]_max		Maximum temperature
-+temp[1-3]_max_alarm	Temperature high alarm
-+
-+vendor			Manufacturer name
-+model			Product model
-+part_number		Product part number
-+serial_number		Product serial number
-+fw_version		Firmware version
-+hw_version		Hardware version
-+mode			Work mode. Can be set to active or
-+			standby, when set to standby, PSU will
-+			automatically switch between standby
-+			and redundancy mode.
-+======================= ======================================================
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index b6588483fae1..d62d69bb7e49 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -46,6 +46,15 @@ config SENSORS_IBM_CFFPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ibm-cffps.
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 6ab75c11d2c3..b6f5a379ad6c 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -123,7 +123,7 @@ required reading:
+ 		https://www.ozlabs.org/~akpm/stuff/tpp.txt
  
-+config SENSORS_INSPUR_IPSPS
-+	tristate "INSPUR Power System Power Supply"
-+	help
-+	  If you say yes here you get hardware monitoring support for the INSPUR
-+	  Power System power supply.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called inspur-ipsps.
-+
- config SENSORS_IR35221
- 	tristate "Infineon IR35221"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index c950ea9a5d00..03bacfcfd660 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)		+= pmbus_core.o
- obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
- obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
- obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
-+obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
- obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
- obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
- obj-$(CONFIG_SENSORS_IRPS5401)	+= irps5401.o
-diff --git a/drivers/hwmon/pmbus/inspur-ipsps.c b/drivers/hwmon/pmbus/inspur-ipsps.c
-new file mode 100644
-index 000000000000..fa981b881a60
---- /dev/null
-+++ b/drivers/hwmon/pmbus/inspur-ipsps.c
-@@ -0,0 +1,226 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright 2019 Inspur Corp.
-+ */
-+
-+#include <linux/debugfs.h>
-+#include <linux/device.h>
-+#include <linux/fs.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pmbus.h>
-+#include <linux/hwmon-sysfs.h>
-+
-+#include "pmbus.h"
-+
-+#define IPSPS_REG_VENDOR_ID	0x99
-+#define IPSPS_REG_MODEL		0x9A
-+#define IPSPS_REG_FW_VERSION	0x9B
-+#define IPSPS_REG_PN		0x9C
-+#define IPSPS_REG_SN		0x9E
-+#define IPSPS_REG_HW_VERSION	0xB0
-+#define IPSPS_REG_MODE		0xFC
-+
-+#define MODE_ACTIVE		0x55
-+#define MODE_STANDBY		0x0E
-+#define MODE_REDUNDANCY		0x00
-+
-+#define MODE_ACTIVE_STRING		"active"
-+#define MODE_STANDBY_STRING		"standby"
-+#define MODE_REDUNDANCY_STRING		"redundancy"
-+
-+enum ipsps_index {
-+	vendor,
-+	model,
-+	fw_version,
-+	part_number,
-+	serial_number,
-+	hw_version,
-+	mode,
-+	num_regs,
-+};
-+
-+static const u8 ipsps_regs[num_regs] = {
-+	[vendor] = IPSPS_REG_VENDOR_ID,
-+	[model] = IPSPS_REG_MODEL,
-+	[fw_version] = IPSPS_REG_FW_VERSION,
-+	[part_number] = IPSPS_REG_PN,
-+	[serial_number] = IPSPS_REG_SN,
-+	[hw_version] = IPSPS_REG_HW_VERSION,
-+	[mode] = IPSPS_REG_MODE,
-+};
-+
-+static ssize_t ipsps_string_show(struct device *dev,
-+				 struct device_attribute *devattr,
-+				 char *buf)
-+{
-+	u8 reg;
-+	int rc;
-+	char *p;
-+	char data[I2C_SMBUS_BLOCK_MAX + 1];
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
-+
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_block_data(client, reg, data);
-+	if (rc < 0)
-+		return rc;
-+
-+	/* filled with printable characters, ending with # */
-+	p = memscan(data, '#', rc);
-+	*p = '\0';
-+
-+	return snprintf(buf, PAGE_SIZE, "%s\n", data);
-+}
-+
-+static ssize_t ipsps_fw_version_show(struct device *dev,
-+				     struct device_attribute *devattr,
-+				     char *buf)
-+{
-+	u8 reg;
-+	int rc;
-+	u8 data[I2C_SMBUS_BLOCK_MAX] = { 0 };
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
-+
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_block_data(client, reg, data);
-+	if (rc < 0)
-+		return rc;
-+
-+	if (rc != 6)
-+		return -EPROTO;
-+
-+	return snprintf(buf, PAGE_SIZE, "%u.%02u%u-%u.%02u\n",
-+			data[1], data[2]/* < 100 */, data[3]/*< 10*/,
-+			data[4], data[5]/* < 100 */);
-+}
-+
-+static ssize_t ipsps_mode_show(struct device *dev,
-+			       struct device_attribute *devattr, char *buf)
-+{
-+	u8 reg;
-+	int rc;
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
-+
-+	reg = ipsps_regs[attr->index];
-+	rc = i2c_smbus_read_byte_data(client, reg);
-+	if (rc < 0)
-+		return rc;
-+
-+	switch (rc) {
-+	case MODE_ACTIVE:
-+		return snprintf(buf, PAGE_SIZE, "[%s] %s %s\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	case MODE_STANDBY:
-+		return snprintf(buf, PAGE_SIZE, "%s [%s] %s\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	case MODE_REDUNDANCY:
-+		return snprintf(buf, PAGE_SIZE, "%s %s [%s]\n",
-+				MODE_ACTIVE_STRING,
-+				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
-+	default:
-+		return snprintf(buf, PAGE_SIZE, "unspecified\n");
-+	}
-+}
-+
-+static ssize_t ipsps_mode_store(struct device *dev,
-+				struct device_attribute *devattr,
-+				const char *buf, size_t count)
-+{
-+	u8 reg;
-+	int rc;
-+	struct i2c_client *client = to_i2c_client(dev->parent);
-+	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
-+
-+	reg = ipsps_regs[attr->index];
-+	if (sysfs_streq(MODE_STANDBY_STRING, buf)) {
-+		rc = i2c_smbus_write_byte_data(client, reg,
-+					       MODE_STANDBY);
-+		if (rc < 0)
-+			return rc;
-+		return count;
-+	} else if (sysfs_streq(MODE_ACTIVE_STRING, buf)) {
-+		rc = i2c_smbus_write_byte_data(client, reg,
-+					       MODE_ACTIVE);
-+		if (rc < 0)
-+			return rc;
-+		return count;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(vendor, ipsps_string, vendor);
-+static SENSOR_DEVICE_ATTR_RO(model, ipsps_string, model);
-+static SENSOR_DEVICE_ATTR_RO(part_number, ipsps_string, part_number);
-+static SENSOR_DEVICE_ATTR_RO(serial_number, ipsps_string, serial_number);
-+static SENSOR_DEVICE_ATTR_RO(hw_version, ipsps_string, hw_version);
-+static SENSOR_DEVICE_ATTR_RO(fw_version, ipsps_fw_version, fw_version);
-+static SENSOR_DEVICE_ATTR_RW(mode, ipsps_mode, mode);
-+
-+static struct attribute *ipsps_attrs[] = {
-+	&sensor_dev_attr_vendor.dev_attr.attr,
-+	&sensor_dev_attr_model.dev_attr.attr,
-+	&sensor_dev_attr_part_number.dev_attr.attr,
-+	&sensor_dev_attr_serial_number.dev_attr.attr,
-+	&sensor_dev_attr_hw_version.dev_attr.attr,
-+	&sensor_dev_attr_fw_version.dev_attr.attr,
-+	&sensor_dev_attr_mode.dev_attr.attr,
-+	NULL,
-+};
-+
-+ATTRIBUTE_GROUPS(ipsps);
-+
-+static struct pmbus_driver_info ipsps_info = {
-+	.pages = 1,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+		PMBUS_HAVE_IIN | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN |
-+		PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
-+		PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
-+		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
-+		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
-+	.groups = ipsps_groups,
-+};
-+
-+static struct pmbus_platform_data ipsps_pdata = {
-+	.flags = PMBUS_SKIP_STATUS_CHECK,
-+};
-+
-+static int ipsps_probe(struct i2c_client *client,
-+		       const struct i2c_device_id *id)
-+{
-+	client->dev.platform_data = &ipsps_pdata;
-+	return pmbus_do_probe(client, id, &ipsps_info);
-+}
-+
-+static const struct i2c_device_id ipsps_id[] = {
-+	{ "inspur_ipsps1", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, ipsps_id);
-+
-+static const struct of_device_id ipsps_of_match[] = {
-+	{ .compatible = "inspur,ipsps1" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, ipsps_of_match);
-+
-+static struct i2c_driver ipsps_driver = {
-+	.driver = {
-+		.name = "inspur-ipsps",
-+		.of_match_table = ipsps_of_match,
-+	},
-+	.probe = ipsps_probe,
-+	.remove = pmbus_do_remove,
-+	.id_table = ipsps_id,
-+};
-+
-+module_i2c_driver(ipsps_driver);
-+
-+MODULE_AUTHOR("John Wang");
-+MODULE_DESCRIPTION("PMBus driver for Inspur Power System power supplies");
-+MODULE_LICENSE("GPL");
+ 	"Linux kernel patch submission format"
+-		http://linux.yyz.us/patch-format.html
++		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+   :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
+     This file describes the rationale behind the conscious decision to
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 9c4299293c72..fb56297f70dc 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -844,7 +844,7 @@ Andrew Morton, "The perfect patch" (tpp).
+   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+ 
+ Jeff Garzik, "Linux kernel patch submission format".
+-  <http://linux.yyz.us/patch-format.html>
++  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+ 
+ Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
+   <http://www.kroah.com/log/linux/maintainer.html>
+diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
+index 44e6077730e8..1db5a1082389 100644
+--- a/Documentation/translations/it_IT/process/howto.rst
++++ b/Documentation/translations/it_IT/process/howto.rst
+@@ -129,7 +129,7 @@ Di seguito una lista di file che sono presenti nei sorgente del kernel e che
+ 		https://www.ozlabs.org/~akpm/stuff/tpp.txt
+ 
+ 	"Linux kernel patch submission format"
+-		http://linux.yyz.us/patch-format.html
++		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+   :ref:`Documentation/translations/it_IT/process/stable-api-nonsense.rst <it_stable_api_nonsense>`
+ 
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index 7d7ea92c5c5a..cba1f8cb61ed 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -868,7 +868,7 @@ Andrew Morton, "La patch perfetta" (tpp).
+   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+ 
+ Jeff Garzik, "Formato per la sottomissione di patch per il kernel Linux"
+-  <http://linux.yyz.us/patch-format.html>
++  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+ 
+ Greg Kroah-Hartman, "Come scocciare un manutentore di un sottosistema"
+   <http://www.kroah.com/log/linux/maintainer.html>
+diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
+index ad979c3c06a6..dd0c3280ba5a 100644
+--- a/Documentation/translations/ja_JP/SubmittingPatches
++++ b/Documentation/translations/ja_JP/SubmittingPatches
+@@ -693,7 +693,7 @@ Andrew Morton, "The perfect patch" (tpp).
+   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+ 
+ Jeff Garzik, "Linux kernel patch submission format".
+-  <http://linux.yyz.us/patch-format.html>
++  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+ 
+ Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
+   <http://www.kroah.com/log/2005/03/31/>
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index 2621b770a745..73ebdab4ced7 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -139,7 +139,7 @@ linux-api@vger.kernel.org に送ることを勧めます。
+        "The Perfect Patch"
+ 		http://www.ozlabs.org/~akpm/stuff/tpp.txt
+        "Linux kernel patch submission format"
+-		http://linux.yyz.us/patch-format.html
++		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+   :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
+     このファイルはカーネルの中に不変の API を持たないことにした意識的
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
+index bcd63731b80a..b3f51b19de7c 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -135,7 +135,7 @@ mtk.manpages@gmail.com의 메인테이너에게 보낼 것을 권장한다.
+         https://www.ozlabs.org/~akpm/stuff/tpp.txt
+ 
+     "Linux kernel patch submission format"
+-        http://linux.yyz.us/patch-format.html
++        https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+    :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
+     이 문서는 의도적으로 커널이 불변하는 API를 갖지 않도록 결정한
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index b244a7190eb6..a8e6ab818983 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -113,7 +113,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+ 
+     "Linux kernel patch submission format"
+ 
+-        http://linux.yyz.us/patch-format.html
++        https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+   :ref:`Documentation/translations/zh_CN/process/stable-api-nonsense.rst <cn_stable_api_nonsense>`
+     论证内核为什么特意不包括稳定的内核内部API，也就是说不包括像这样的特
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 437c23b367bb..1bb4271ab420 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -652,7 +652,7 @@ Andrew Morton, "The perfect patch" (tpp).
+   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+ 
+ Jeff Garzik, "Linux kernel patch submission format".
+-  <http://linux.yyz.us/patch-format.html>
++  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+ 
+ Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
+   <http://www.kroah.com/log/linux/maintainer.html>
 -- 
 2.17.1
 
