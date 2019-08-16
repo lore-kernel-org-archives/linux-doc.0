@@ -1,719 +1,479 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F6917D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 01:51:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64ECA7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 02:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbfHPBvc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Aug 2019 21:51:32 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40685 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726505AbfHPBvc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 21:51:32 -0400
-Received: by mail-oi1-f196.google.com with SMTP id h21so3710871oie.7
-        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2019 18:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bCi/in7gseJMAean2CF1KC0xrxNeRZi+lVHLUu1z8gQ=;
-        b=wAMJJne9vt6uNQW9wHq2Ha9fpr1F/2HopYCHjZo5ascjYcpiZZ+l/dd39ab+8rRKEJ
-         DLMjP9v9dQEN7mCshBeuK3GH9q6mQl/YUztfYMM3/tBRHBvxtV/NzLKNYR5NCsDDS4+5
-         2yGOyCnWgchMczryxqHuFP8xAVlwNMDHqwWFfjvGtedhHizmP/7ye6JnHnLAPDATzUFE
-         aBkjFxnaM/R2EBJJa77TQUV3bDM4KNOkpcGp/Y1GSp0oNQyR1aVoUXqV1NDoocjf/+0p
-         OA7XmHMYaEGKchObqyUT0lLBJm3Vgu4KwxBuwoztPvUs5+sUBXAZaf85DXDMdBFB4VgI
-         G7Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bCi/in7gseJMAean2CF1KC0xrxNeRZi+lVHLUu1z8gQ=;
-        b=OReYU/mjOX8wkyzuaF2jvgzeQHl7pOmqJxoKkBTKs8jh6Qd9cOUSZGRy1enL1MhorA
-         ppqrRcRfxdjBw6u7L376YxgNWwSUQdvseWZS0JjROPGFG+gPfVQo4wsYP8az/9TdMtk3
-         xAwpau3ydWn1tx85JHAR0upP8X5EpT7zjxNz0gkzqGGfwDybvKbqe7/C7DiehD769LyS
-         6FEQTulfFwobZszViio3ndqVAxYcJhgswpR4SOx/6VVPFmkq8kiZHlLP+HaGN3uBEnCT
-         I1QiCnQG3exJudoyThOq2B6lY1Mx5Jfi7LjcTpB6MSXAxW5XyvBCNIEBdUC6z5IbMyNA
-         omqg==
-X-Gm-Message-State: APjAAAVeNnywLvnh4WOMhYhJFPsi9goUQ6Wq88jEhu0TACoaA4oXLwm4
-        D6dViUeRoqSY7KnS407N7HvIDpQQEJ9ZNGuuPZ592g==
-X-Google-Smtp-Source: APXvYqwShjzeNtSpgvFHQcP7SpZExVXJIv1MH7jtZ443+k6NEfZiP/K5YVOdoLaJXnjiJ5ojTygKwiCKVGB99kxIlgo=
-X-Received: by 2002:aca:6104:: with SMTP id v4mr3605317oib.172.1565920290278;
- Thu, 15 Aug 2019 18:51:30 -0700 (PDT)
+        id S1726575AbfHPCoa convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Aug 2019 22:44:30 -0400
+Received: from unicom146.biz-email.net ([210.51.26.146]:2910 "EHLO
+        unicom146.biz-email.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbfHPCo3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Aug 2019 22:44:29 -0400
+Received: from ([60.208.111.195])
+        by unicom146.biz-email.net (Antispam) with ASMTP (SSL) id HKI69318;
+        Fri, 16 Aug 2019 10:44:18 +0800
+Received: from mail-lj1-f176.google.com (10.100.1.52) by
+ Jtjnmail201618.home.langchao.com (10.100.2.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 16 Aug 2019 10:44:17 +0800
+Received: by mail-lj1-f176.google.com with SMTP id u15so3987215ljl.3;
+        Thu, 15 Aug 2019 19:44:17 -0700 (PDT)
+X-Gm-Message-State: APjAAAUyFngan2VqbfWY2D0waRJ39mMvGfSDx2fP2ZJeFvT6v/iQjYAx
+        Czjn7F8xya6Vnp3ZL89uLZnMYt16JZwNWB3G9vU=
+X-Google-Smtp-Source: APXvYqxSWiJDERvVoTAtH91sQYbsKKk4QEHGOBfMSbn2rJjFA6cLsQCjQvrGUzDr7si8huakU4rVdMPQIp7MY3kFllg=
+X-Received: by 2002:a05:651c:1023:: with SMTP id w3mr3999143ljm.94.1565923454177;
+ Thu, 15 Aug 2019 19:44:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190724001100.133423-1-saravanak@google.com> <20190724001100.133423-4-saravanak@google.com>
- <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com>
-In-Reply-To: <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Thu, 15 Aug 2019 18:50:54 -0700
-Message-ID: <CAGETcx-dVnLCRA+1CX47gtZgtwTcrN5KefpjMzh9OJB-BEnqyg@mail.gmail.com>
-Subject: Re: [PATCH v7 3/7] of/platform: Add functional dependency link from
- DT bindings
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20190813083412.8668-1-wangzqbj@inspur.com> <70B3A211-2F43-4712-9B92-D407AA3C3934@fb.com>
+ <20190815194102.GA11916@roeck-us.net>
+In-Reply-To: <20190815194102.GA11916@roeck-us.net>
+From:   John Wang <wangzqbj@inspur.com>
+Date:   Fri, 16 Aug 2019 10:44:01 +0800
+X-Gmail-Original-Message-ID: <CAHkHK08ZkZDoVQ0qfLPcO=_=-OAmx+N5BGHRgZkoxLUNQzTp5g@mail.gmail.com>
+Message-ID: <CAHkHK08ZkZDoVQ0qfLPcO=_=-OAmx+N5BGHRgZkoxLUNQzTp5g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] hwmon: pmbus: Add Inspur Power System power supply driver
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     Vijay Khemka <vijaykhemka@fb.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "duanzhijia01@inspur.com" <duanzhijia01@inspur.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [10.100.1.52]
+X-ClientProxiedBy: jtjnmail201608.home.langchao.com (10.100.2.8) To
+ Jtjnmail201618.home.langchao.com (10.100.2.18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 7, 2019 at 7:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
+On Fri, Aug 16, 2019 at 3:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
 >
-> On 7/23/19 5:10 PM, Saravana Kannan wrote:
-> > Add device-links after the devices are created (but before they are
-> > probed) by looking at common DT bindings like clocks and
-> > interconnects.
+> On Thu, Aug 15, 2019 at 06:43:52PM +0000, Vijay Khemka wrote:
 > >
-> > Automatically adding device-links for functional dependencies at the
-> > framework level provides the following benefits:
 > >
-> > - Optimizes device probe order and avoids the useless work of
-> >   attempting probes of devices that will not probe successfully
-> >   (because their suppliers aren't present or haven't probed yet).
+> > ﻿On 8/13/19, 1:36 AM, "openbmc on behalf of John Wang" <openbmc-bounces+vijaykhemka=fb.com@lists.ozlabs.org on behalf of wangzqbj@inspur.com> wrote:
 > >
-> >   For example, in a commonly available mobile SoC, registering just
-> >   one consumer device's driver at an initcall level earlier than the
-> >   supplier device's driver causes 11 failed probe attempts before the
-> >   consumer device probes successfully. This was with a kernel with all
-> >   the drivers statically compiled in. This problem gets a lot worse if
-> >   all the drivers are loaded as modules without direct symbol
-> >   dependencies.
+> >     Add the driver to monitor Inspur Power System power supplies
+> >     with hwmon over pmbus.
 > >
-> > - Supplier devices like clock providers, interconnect providers, etc
-> >   need to keep the resources they provide active and at a particular
-> >   state(s) during boot up even if their current set of consumers don't
-> >   request the resource to be active. This is because the rest of the
-> >   consumers might not have probed yet and turning off the resource
-> >   before all the consumers have probed could lead to a hang or
-> >   undesired user experience.
+> >     This driver adds sysfs attributes for additional power supply data,
+> >     including vendor, model, part_number, serial number,
+> >     firmware revision, hardware revision, and psu mode(active/standby).
 > >
-> >   Some frameworks (Eg: regulator) handle this today by turning off
-> >   "unused" resources at late_initcall_sync and hoping all the devices
-> >   have probed by then. This is not a valid assumption for systems with
-> >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> >   this due to the lack of a clear signal for when they can turn off
-> >   resources. This leads to downstream hacks to handle cases like this
-> >   that can easily be solved in the upstream kernel.
+> >     Signed-off-by: John Wang <wangzqbj@inspur.com>
+> >     ---
+> >     v4:
+> >         - Remove the additional tabs in the Makefile
+> >         - Rebased on 5.3-rc4, not 5.2
+> >     v3:
+> >         - Sort kconfig/makefile entries alphabetically
+> >         - Remove unnecessary initialization
+> >         - Use ATTRIBUTE_GROUPS instead of expanding directly
+> >         - Use memscan to avoid reimplementation
+> >     v2:
+> >         - Fix typos in commit message
+> >         - Invert Christmas tree
+> >         - Configure device with sysfs attrs, not debugfs entries
+> >         - Fix errno in fw_version_read, ENODATA to EPROTO
+> >         - Change the print format of fw-version
+> >         - Use sysfs_streq instead of strcmp("xxx" "\n", "xxx")
+> >         - Document sysfs attributes
+> >     ---
+> >      Documentation/hwmon/inspur-ipsps1.rst |  79 +++++++++
+> >      drivers/hwmon/pmbus/Kconfig           |   9 +
+> >      drivers/hwmon/pmbus/Makefile          |   1 +
+> >      drivers/hwmon/pmbus/inspur-ipsps.c    | 226 ++++++++++++++++++++++++++
+> >      4 files changed, 315 insertions(+)
+> >      create mode 100644 Documentation/hwmon/inspur-ipsps1.rst
+> >      create mode 100644 drivers/hwmon/pmbus/inspur-ipsps.c
 > >
-> >   By linking devices before they are probed, we give suppliers a clear
-> >   count of the number of dependent consumers. Once all of the
-> >   consumers are active, the suppliers can turn off the unused
-> >   resources without making assumptions about the number of consumers.
+> >     diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
+> >     new file mode 100644
+> >     index 000000000000..aa19f0ccc8b0
+> >     --- /dev/null
+> >     +++ b/Documentation/hwmon/inspur-ipsps1.rst
+> >     @@ -0,0 +1,79 @@
+> >     +Kernel driver inspur-ipsps1
+> >     +=======================
+> >     +
+> >     +Supported chips:
+> >     +
+> >     +  * Inspur Power System power supply unit
+> >     +
+> >     +Author: John Wang <wangzqbj@inspur.com>
+> >     +
+> >     +Description
+> >     +-----------
+> >     +
+> >     +This driver supports Inspur Power System power supplies. This driver
+> >     +is a client to the core PMBus driver.
+> >     +
+> >     +Usage Notes
+> >     +-----------
+> >     +
+> >     +This driver does not auto-detect devices. You will have to instantiate the
+> >     +devices explicitly. Please see Documentation/i2c/instantiating-devices for
+> >     +details.
+> >     +
+> >     +Sysfs entries
+> >     +-------------
+> >     +
+> >     +The following attributes are supported:
+> >     +
+> >     +======================= ======================================================
+> >     +curr1_input             Measured input current
+> >     +curr1_label             "iin"
+> >     +curr1_max               Maximum current
+> >     +curr1_max_alarm         Current high alarm
+> >     +curr2_input              Measured output current in mA.
+> >     +curr2_label              "iout1"
+> >     +curr2_crit              Critical maximum current
+> >     +curr2_crit_alarm        Current critical high alarm
+> >     +curr2_max               Maximum current
+> >     +curr2_max_alarm         Current high alarm
+> >     +
+> > Please align above details.
+
+Sorry for the mix of table and space
+
+> >     +fan1_alarm               Fan 1 warning.
+> >     +fan1_fault               Fan 1 fault.
+> >     +fan1_input               Fan 1 speed in RPM.
+> >     +
+> >     +in1_alarm                Input voltage under-voltage alarm.
+> >     +in1_input                Measured input voltage in mV.
+> >     +in1_label                "vin"
+> >     +in2_input                Measured output voltage in mV.
+> >     +in2_label                "vout1"
+> >     +in2_lcrit               Critical minimum output voltage
+> >     +in2_lcrit_alarm         Output voltage critical low alarm
+> >     +in2_max                 Maximum output voltage
+> >     +in2_max_alarm           Output voltage high alarm
+> >     +in2_min                 Minimum output voltage
+> >     +in2_min_alarm           Output voltage low alarm
+> >     +
+> >     +power1_alarm             Input fault or alarm.
+> >     +power1_input             Measured input power in uW.
+> >     +power1_label             "pin"
+> >     +power1_max              Input power limit
+> >     +power2_max_alarm Output power high alarm
+> >     +power2_max              Output power limit
+> >     +power2_input             Measured output power in uW.
+> >     +power2_label             "pout"
+> >     +
+> > Same alignment issue in description.
+
+will fix.
+
+> >     +temp[1-3]_input          Measured temperature
+> >     +temp[1-2]_max            Maximum temperature
+> >     +temp[1-3]_max_alarm      Temperature high alarm
+> >     +
+> >     +vendor                  Manufacturer name
+> >     +model                   Product model
+> >     +part_number             Product part number
+> >     +serial_number           Product serial number
+> >     +fw_version              Firmware version
+> >     +hw_version              Hardware version
+> >     +mode                    Work mode. Can be set to active or
+> >     +                        standby, when set to standby, PSU will
+> >     +                        automatically switch between standby
+> >     +                        and redundancy mode.
+> >     +======================= ======================================================
+> >     diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> >     index b6588483fae1..d62d69bb7e49 100644
+> >     --- a/drivers/hwmon/pmbus/Kconfig
+> >     +++ b/drivers/hwmon/pmbus/Kconfig
+> >     @@ -46,6 +46,15 @@ config SENSORS_IBM_CFFPS
+> >         This driver can also be built as a module. If so, the module will
+> >         be called ibm-cffps.
 > >
-> > By default we just add device-links to track "driver presence" (probe
-> > succeeded) of the supplier device. If any other functionality provided
-> > by device-links are needed, it is left to the consumer/supplier
-> > devices to change the link when they probe.
+> >     +config SENSORS_INSPUR_IPSPS
+> >     + tristate "INSPUR Power System Power Supply"
+> >     + help
+> >     +   If you say yes here you get hardware monitoring support for the INSPUR
+> >     +   Power System power supply.
+> >     +
+> >     +   This driver can also be built as a module. If so, the module will
+> >     +   be called inspur-ipsps.
+> >     +
+> >      config SENSORS_IR35221
+> >       tristate "Infineon IR35221"
+> >       help
+> >     diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> >     index c950ea9a5d00..03bacfcfd660 100644
+> >     --- a/drivers/hwmon/pmbus/Makefile
+> >     +++ b/drivers/hwmon/pmbus/Makefile
+> >     @@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)               += pmbus_core.o
+> >      obj-$(CONFIG_SENSORS_PMBUS)      += pmbus.o
+> >      obj-$(CONFIG_SENSORS_ADM1275)    += adm1275.o
+> >      obj-$(CONFIG_SENSORS_IBM_CFFPS)  += ibm-cffps.o
+> >     +obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+> >      obj-$(CONFIG_SENSORS_IR35221)    += ir35221.o
+> >      obj-$(CONFIG_SENSORS_IR38064)    += ir38064.o
+> >      obj-$(CONFIG_SENSORS_IRPS5401)   += irps5401.o
+> >     diff --git a/drivers/hwmon/pmbus/inspur-ipsps.c b/drivers/hwmon/pmbus/inspur-ipsps.c
+> >     new file mode 100644
+> >     index 000000000000..fa981b881a60
+> >     --- /dev/null
+> >     +++ b/drivers/hwmon/pmbus/inspur-ipsps.c
+> >     @@ -0,0 +1,226 @@
+> >     +// SPDX-License-Identifier: GPL-2.0-or-later
+> >     +/*
+> >     + * Copyright 2019 Inspur Corp.
+> >     + */
+> >     +
+> >     +#include <linux/debugfs.h>
+> >     +#include <linux/device.h>
+> >     +#include <linux/fs.h>
+> >     +#include <linux/i2c.h>
+> >     +#include <linux/module.h>
+> >     +#include <linux/pmbus.h>
+> >     +#include <linux/hwmon-sysfs.h>
+> >     +
+> >     +#include "pmbus.h"
+> >     +
+> >     +#define IPSPS_REG_VENDOR_ID      0x99
+> >     +#define IPSPS_REG_MODEL          0x9A
+> >     +#define IPSPS_REG_FW_VERSION     0x9B
+> >     +#define IPSPS_REG_PN             0x9C
+> >     +#define IPSPS_REG_SN             0x9E
+> >     +#define IPSPS_REG_HW_VERSION     0xB0
+> >     +#define IPSPS_REG_MODE           0xFC
+> >     +
+> >     +#define MODE_ACTIVE              0x55
+> >     +#define MODE_STANDBY             0x0E
+> >     +#define MODE_REDUNDANCY          0x00
+> >     +
+> >     +#define MODE_ACTIVE_STRING               "active"
+> >     +#define MODE_STANDBY_STRING              "standby"
+> >     +#define MODE_REDUNDANCY_STRING           "redundancy"
+> >     +
+> >     +enum ipsps_index {
+> >     + vendor,
+> >     + model,
+> >     + fw_version,
+> >     + part_number,
+> >     + serial_number,
+> >     + hw_version,
+> >     + mode,
+> >     + num_regs,
+> >     +};
+> >     +
+> >     +static const u8 ipsps_regs[num_regs] = {
+> >     + [vendor] = IPSPS_REG_VENDOR_ID,
+> >     + [model] = IPSPS_REG_MODEL,
+> >     + [fw_version] = IPSPS_REG_FW_VERSION,
+> >     + [part_number] = IPSPS_REG_PN,
+> >     + [serial_number] = IPSPS_REG_SN,
+> >     + [hw_version] = IPSPS_REG_HW_VERSION,
+> >     + [mode] = IPSPS_REG_MODE,
+> >     +};
+> >     +
+> >     +static ssize_t ipsps_string_show(struct device *dev,
+> >     +                          struct device_attribute *devattr,
+> >     +                          char *buf)
+> >     +{
+> >     + u8 reg;
+> >     + int rc;
+> >     + char *p;
+> >     + char data[I2C_SMBUS_BLOCK_MAX + 1];
+> >     + struct i2c_client *client = to_i2c_client(dev->parent);
+> >     + struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> >     +
+> >     + reg = ipsps_regs[attr->index];
+> >     + rc = i2c_smbus_read_block_data(client, reg, data);
+> >     + if (rc < 0)
+> >     +         return rc;
+> >     +
+> >     + /* filled with printable characters, ending with # */
+> >     + p = memscan(data, '#', rc);
+> >     + *p = '\0';
+> >     +
+> >     + return snprintf(buf, PAGE_SIZE, "%s\n", data);
+> >     +}
+> >     +
+> >     +static ssize_t ipsps_fw_version_show(struct device *dev,
+> >     +                              struct device_attribute *devattr,
+> >     +                              char *buf)
+> >     +{
+> >     + u8 reg;
+> >     + int rc;
+> >     + u8 data[I2C_SMBUS_BLOCK_MAX] = { 0 };
+> >     + struct i2c_client *client = to_i2c_client(dev->parent);
+> >     + struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> >     +
+> >     + reg = ipsps_regs[attr->index];
+> >     + rc = i2c_smbus_read_block_data(client, reg, data);
+> >     + if (rc < 0)
+> >     +         return rc;
+> >     +
+> >     + if (rc != 6)
+> >     +         return -EPROTO;
+> >     +
+> >     + return snprintf(buf, PAGE_SIZE, "%u.%02u%u-%u.%02u\n",
+> >     +                 data[1], data[2]/* < 100 */, data[3]/*< 10*/,
+> >     +                 data[4], data[5]/* < 100 */);
+> >     +}
+> >     +
+> >     +static ssize_t ipsps_mode_show(struct device *dev,
+> >     +                        struct device_attribute *devattr, char *buf)
+> >     +{
+> >     + u8 reg;
+> >     + int rc;
+> >     + struct i2c_client *client = to_i2c_client(dev->parent);
+> >     + struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> >     +
+> >     + reg = ipsps_regs[attr->index];
+> >     + rc = i2c_smbus_read_byte_data(client, reg);
+> >     + if (rc < 0)
+> >     +         return rc;
+> >     +
+> >     + switch (rc) {
+> >     + case MODE_ACTIVE:
+> >     +         return snprintf(buf, PAGE_SIZE, "[%s] %s %s\n",
+> >     +                         MODE_ACTIVE_STRING,
+> >     +                         MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+> >     + case MODE_STANDBY:
+> >     +         return snprintf(buf, PAGE_SIZE, "%s [%s] %s\n",
+> >     +                         MODE_ACTIVE_STRING,
+> >     +                         MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+> >     + case MODE_REDUNDANCY:
+> >     +         return snprintf(buf, PAGE_SIZE, "%s %s [%s]\n",
+> >     +                         MODE_ACTIVE_STRING,
+> >     +                         MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+> >     + default:
+> >     +         return snprintf(buf, PAGE_SIZE, "unspecified\n");
+> >     + }
+> >     +}
+> >     +
+> >     +static ssize_t ipsps_mode_store(struct device *dev,
+> >     +                         struct device_attribute *devattr,
+> >     +                         const char *buf, size_t count)
+> >     +{
+> >     + u8 reg;
+> >     + int rc;
+> >     + struct i2c_client *client = to_i2c_client(dev->parent);
+> >     + struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> >     +
+> >     + reg = ipsps_regs[attr->index];
+> >     + if (sysfs_streq(MODE_STANDBY_STRING, buf)) {
+> >     +         rc = i2c_smbus_write_byte_data(client, reg,
+> >     +                                        MODE_STANDBY);
+> >     +         if (rc < 0)
+> >     +                 return rc;
+> >     +         return count;
+> >     + } else if (sysfs_streq(MODE_ACTIVE_STRING, buf)) {
+> >     +         rc = i2c_smbus_write_byte_data(client, reg,
+> >     +                                        MODE_ACTIVE);
+> >     +         if (rc < 0)
+> >     +                 return rc;
+> >     +         return count;
+> >     + }
+> >     +
+> >     + return -EINVAL;
+> >     +}
+> >     +
+> >     +static SENSOR_DEVICE_ATTR_RO(vendor, ipsps_string, vendor);
+> >     +static SENSOR_DEVICE_ATTR_RO(model, ipsps_string, model);
+> >     +static SENSOR_DEVICE_ATTR_RO(part_number, ipsps_string, part_number);
+> >     +static SENSOR_DEVICE_ATTR_RO(serial_number, ipsps_string, serial_number);
+> >     +static SENSOR_DEVICE_ATTR_RO(hw_version, ipsps_string, hw_version);
+> >     +static SENSOR_DEVICE_ATTR_RO(fw_version, ipsps_fw_version, fw_version);
+> >     +static SENSOR_DEVICE_ATTR_RW(mode, ipsps_mode, mode);
+> >     +
+> >     +static struct attribute *ipsps_attrs[] = {
+> >     + &sensor_dev_attr_vendor.dev_attr.attr,
+> >     + &sensor_dev_attr_model.dev_attr.attr,
+> >     + &sensor_dev_attr_part_number.dev_attr.attr,
+> >     + &sensor_dev_attr_serial_number.dev_attr.attr,
+> >     + &sensor_dev_attr_hw_version.dev_attr.attr,
+> >     + &sensor_dev_attr_fw_version.dev_attr.attr,
+> >     + &sensor_dev_attr_mode.dev_attr.attr,
+> >     + NULL,
+> >     +};
+> >     +
+> >     +ATTRIBUTE_GROUPS(ipsps);
+> >     +
+> >     +static struct pmbus_driver_info ipsps_info = {
+> >     + .pages = 1,
+> >     + .func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+> >     +         PMBUS_HAVE_IIN | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN |
+> >     +         PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
+> >     +         PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
+> >     +         PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
+> >     +         PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
+> > This can be dynamic read by chip identify function
+>
+> PMBUS_SKIP_STATUS_CHECK weakens auto-detetcion to some degree,
+> and auto-detection takes time since it needs to poll all registers
+> to determine if they exist. I don't mind if you insist, but I don't
+> immediately see the benefits.
+
+ipsps does not specify that the vendor must support the status_cml
+register( some vendor do not support),
+so PMBUS_SKIP_STATUS_CHECK is used here.
+
+>
+> >     + .groups = ipsps_groups,
+> >     +};
+> >     +
+> >     +static struct pmbus_platform_data ipsps_pdata = {
+> >     + .flags = PMBUS_SKIP_STATUS_CHECK,
+> >     +};
+> >     +
+> >     +static int ipsps_probe(struct i2c_client *client,
+> >     +                const struct i2c_device_id *id)
+> >     +{
+> >     + client->dev.platform_data = &ipsps_pdata;
+> > Allocate memory for this platform data inside tis function rather than having global variable.
+>
+> Does that have any value other than consuming more memory
+> if there are multiple instances of the driver ?
+>
+> >     + return pmbus_do_probe(client, id, &ipsps_info);
+> >     +}
+> >     +
+> >     +static const struct i2c_device_id ipsps_id[] = {
+> >     + { "inspur_ipsps1", 0 },
+> >     + {}
+> >     +};
+> >     +MODULE_DEVICE_TABLE(i2c, ipsps_id);
+> >     +
+> >     +static const struct of_device_id ipsps_of_match[] = {
+> >     + { .compatible = "inspur,ipsps1" },
+> >     + {}
+> >     +};
+> >     +MODULE_DEVICE_TABLE(of, ipsps_of_match);
+> >     +
+> >     +static struct i2c_driver ipsps_driver = {
+> >     + .driver = {
+> >     +         .name = "inspur-ipsps",
+> >     +         .of_match_table = ipsps_of_match,
+> >     + },
+> >     + .probe = ipsps_probe,
+> >     + .remove = pmbus_do_remove,
+> >     + .id_table = ipsps_id,
+> >     +};
+> >     +
+> >     +module_i2c_driver(ipsps_driver);
+> >     +
+> >     +MODULE_AUTHOR("John Wang");
+> >     +MODULE_DESCRIPTION("PMBus driver for Inspur Power System power supplies");
+> >     +MODULE_LICENSE("GPL");
+> >     --
+> >     2.17.1
 > >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > ---
-> >  .../admin-guide/kernel-parameters.txt         |   5 +
-> >  drivers/of/platform.c                         | 165 ++++++++++++++++++
-> >  2 files changed, 170 insertions(+)
 > >
->
-> Documentation/admin-guide/kernel-paramers.rst:
->
-> After line 129, add:
->
->         OF      Devicetree is enabled
-
-Will do.
-
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 46b826fcb5ad..12937349d79d 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -3170,6 +3170,11 @@
-> >                       This can be set from sysctl after boot.
-> >                       See Documentation/admin-guide/sysctl/vm.rst for details.
 > >
-> > +     of_devlink      [KNL] Make device links from common DT bindings. Useful
-> > +                     for optimizing probe order and making sure resources
-> > +                     aren't turned off before the consumer devices have
-> > +                     probed.
->
->         of_supplier_depend instead of of_devlink ????
-
-I'm open to other names, but of_supplier_depend is just odd.
-of_devlink stands for of_device_links. If someone wants to know what
-device links do, they can read up on the device links documentation?
-
->
->         of_supplier_depend
->                         [OF, KNL] Make device links from consumer devicetree
->                         nodes to supplier devicetree nodes.
-
-We are creating device links between devices. Not device tree nodes.
-So this would be wrong. I'll replace it with "devicetree nodes" with
-"devices"?
-
-> The
->                         consumer / supplier relationships are inferred from
->                         scanning the devicetree.
-
-I like this part. How about clarifying it with "from scanning the
-common bindings in the devicetree"? Because we aren't trying to scan
-the device specific properties.
-
->  The driver for a consumer
->                         device will not be probed until the drivers for all of
->                         its supplier devices have been successfully probed.
-
-A driver is never probed. It's a device that's probed. The dependency
-is between devices and not drivers. So, how about I replace this with:
-"The consumer device will not be probed until all of its supplier
-devices are successfully probed"?
-
-Also, any reason you removed the "resources aren't turned off ..."
-part? That's one of the biggest improvements of this patch series. Do
-you want to rewrite that part too? Or I'll leave my current wording of
-that part as is?
-
->
->
-> > +
-> >       ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
-> >                       See Documentation/debugging-via-ohci1394.txt for more
-> >                       info.
-> > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> > index 7801e25e6895..4344419a26fc 100644
-> > --- a/drivers/of/platform.c
-> > +++ b/drivers/of/platform.c
-> > @@ -508,6 +508,170 @@ int of_platform_default_populate(struct device_node *root,
-> >  }
-> >  EXPORT_SYMBOL_GPL(of_platform_default_populate);
-> >
->
-> > +bool of_link_is_valid(struct device_node *con, struct device_node *sup)
->
-> Change to less vague:
->
->    bool of_ancestor_of(struct device_node *test_np, struct device_node *np)
-
-I thought about that when I wrote the code. But the consumer being the
-ancestor of the supplier is just one of the things that makes a link
-invalid. There can be other tests we might add as we go. That's why I
-kept the function name as of_link_is_valid(). Even if I add an
-"ancestor_of" helper function, I'll still have of_link_is_valid() as a
-wrapper around it.
-
-> > +{
-> > +     of_node_get(sup);
-> > +     /*
-> > +      * Don't allow linking a device node as a consumer of one of its
-> > +      * descendant nodes. By definition, a child node can't be a functional
-> > +      * dependency for the parent node.
-> > +      */
-> > +     while (sup) {
-> > +             if (sup == con) {
-> > +                     of_node_put(sup);
-> > +                     return false;
-> > +             }
-> > +             sup = of_get_next_parent(sup);
-> > +     }
-> > +     return true;
->
-> Change to more generic:
->
->         of_node_get(test_np);
->         while (test_np) {
->                 if (test_np == np) {
->                         of_node_put(test_np);
->                         return true;
->                 }
->                 test_np = of_get_next_parent(test_np);
->         }
->         return false;
-
-If you do insist on this change, I think we need better names than
-test_np and np. It's not clear which node needs to be the ancestor for
-this function to return true. With consumer/supplier, it's kinda
-obvious that a consumer can't be an ancestor of a supplier.
-
-> > +}
-> > +
->
->
-> /**
->  * of_link_to_phandle - Add device link to supplier
->  * @dev: consumer device
->  * @sup_np: pointer to the supplier device tree node
-
-Could you suggest something that makes it a bit more clear that this
-phandle/node doesn't need to be an actual device (as in, one with
-compatible property)? phandle kinda make it clear at least to me. I'd
-prefer just saying "phandle to supplier". Thoughts?
-
-Also, what's the guideline on which functions needs doc headers? I
-always leaned towards adding them only for non-static functions.
-That's why I skipped this one. What's the reasoning for needing one
-for this? I'm happy to do this, just want to see that there's some
-consistent guideline that's being followed and something I can use for
-future patches.
-
->  *
->  * TODO: ...
->  *
->  * Return:
->  * * 0 if link successfully created for supplier or of_devlink is false
-
-The "or of_devlink is false" isn't true for this function?
-
->  * * an error if unable to create link
->  */
->
-> Should have dev_debug() or pr_warn() or something on errors in this
-> function -- the caller does not report any issue
-
-I think that'll be too spammy during bootup. This function is expected
-to fail often and it's not necessary a catastrophic failure. The
-caller can print something if they care to. The current set of callers
-don't.
-
-> > +static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
-> > +{
-> > +     struct platform_device *sup_dev;
-> > +     u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> > +     int ret = 0;
-> > +
-> > +     /*
->
-> > +      * Since we are trying to create device links, we need to find
-> > +      * the actual device node that owns this supplier phandle.
-> > +      * Often times it's the same node, but sometimes it can be one
-> > +      * of the parents. So walk up the parent till you find a
-> > +      * device.
->
-> Change comment to:
->
->          * Find the device node that contains the supplier phandle.  It may
->          * be @sup_np or it may be an ancestor of @sup_np.
-
-Aren't the existing comments giving a better explanation with more context?
-But I'll do this.
-
->
-> > +      */
->
-> See comment in caller of of_link_to_phandle() - do not hide the final
-> of_node_put() of sup_np inside of_link_to_phandle(), so need to do
-> an of_node_get() here.
->
->         of_node_get(sup_np);
-
-Will do. Good point.
-
->
-> > +     while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-> > +             sup_np = of_get_next_parent(sup_np);
-> > +     if (!sup_np)
->
-> > +             return 0;
->
-> This case should never occur(?), it is an error.
->
->                 return -ENODEV;
-
-I'm not too sure about all the possible DT combinations to say this?
-In that case, this isn't an error. As in, the consumer doesn't need to
-wait for this non-existent device to get populated/added. I'd lean
-towards leaving it as is and address it later if this is actually a
-problem. I want of_link_to_phandle to fail only when a link can be
-created, but isn't due to current system state (device isn't added,
-creating a cyclic link, etc).
-
->
-> > +
-> > +     if (!of_link_is_valid(dev->of_node, sup_np)) {
-> > +             of_node_put(sup_np);
-> > +             return 0;
->
-> Do not use a name that obscures what the function is doing, also
-> return an actual issue.
->
->         if (of_ancestor_of(sup_np, dev->of_node)) {
->                 of_node_put(sup_np);
->                 return -EINVAL;
-
-See my comment about not erroring on cases where a link can't ever be
-created? So in your case, you'd want the caller to check the error
-value to device which ones to ignore and which ones not to? That seems
-a bit more fragile when this function is potentially changed in the
-furture.
-
->
-> > +     }
-> > +     sup_dev = of_find_device_by_node(sup_np);
-> > +     of_node_put(sup_np);
-> > +     if (!sup_dev)
-> > +             return -ENODEV;
-> > +     if (!device_link_add(dev, &sup_dev->dev, dl_flags))
-> > +             ret = -ENODEV;
-
-For example, in the earlier comment you suggested -ENODEV if there's
-no device with "compatible" property that encapsulates the supplier
-phandle. But -ENODEV makes more sense for this case where there's
-actually no device because it hasn't been added yet. And the caller
-needs to be able to distinguish between these two. Are we just going
-to arbitrarily pick error values just to make sure they don't overlap?
-
-I don't have a strong opinion one way or another, but I'm trying to
-understand what's better in the long run where this function can
-evolve to add more checks or handle more cases.
-
-> > +     put_device(&sup_dev->dev);
-> > +     return ret;
-> > +}
-> > +
->
-> /**
->  * parse_prop_cells - Property parsing functions for suppliers
->  *
->  * @np:            pointer to a device tree node containing a list
->  * @prop_name:     Name of property holding a phandle value
->  * @phandle_index: For properties holding a table of phandles, this is the
->  *                 index into the table
->  * @list_name:     property name that contains a list
->  * @cells_name:    property name that specifies phandles' arguments count
->  *
->  * This function is useful to parse lists of phandles and their arguments.
->  *
->  * Return:
->  * * Node pointer with refcount incremented, use of_node_put() on it when done.
->  * * NULL if not found.
->  */
->
-> > +static struct device_node *parse_prop_cells(struct device_node *np,
-> > +                                         const char *prop, int index,
-> > +                                         const char *binding,
-> > +                                         const char *cell)
->
-> Make names consistent with of_parse_phandle_with_args():
->   Change prop to prop_name
->   Change index to phandle_index
-
-You call this index even in of_parse_phandle_with_args()
-
->   Change binding to list_name
->   Change cell to cells_name
-
-This going to cause a lot more line wraps for barely better names. But
-I'll reluctantly do this.
-
->
-> > +{
-> > +     struct of_phandle_args sup_args;
-> > +
->
-> > +     /* Don't need to check property name for every index. */
-> > +     if (!index && strcmp(prop, binding))
-> > +             return NULL;
->
-> I read the discussion on whether to check property name only once
-> in version 6.
->
-> This check is fragile, depending upon the calling code to be properly
-> structured.  Do the check for all values of index.  The reduction of
-> overhead from not checking does not justify the fragileness and the
-> extra complexity for the code reader to understand why the check can
-> be bypassed when
-> index is not zero.
-
-This is used only in this file. I understand needing the balance
-between code complexity/fragility and efficiency. But I think you push
-the line too far away from efficiency. This code is literally never
-going to fail because it's a static function called only inside this
-file. And the check isn't that hard to understand with that tiny
-comment.
-
-> > +
-> > +     if (of_parse_phandle_with_args(np, binding, cell, index, &sup_args))
-> > +             return NULL;
-> > +
-> > +     return sup_args.np;
-> > +}
-> > +
-> > +static struct device_node *parse_clocks(struct device_node *np,
-> > +                                     const char *prop, int index)
->
-> Change prop to prop_name
-> Change index to phandle_index
->
-> > +{
-> > +     return parse_prop_cells(np, prop, index, "clocks", "#clock-cells");
-> > +}
-> > +
-> > +static struct device_node *parse_interconnects(struct device_node *np,
-> > +                                            const char *prop, int index)
->
-> Change prop to prop_name
-> Change index to phandle_index
->
-> > +{
-> > +     return parse_prop_cells(np, prop, index, "interconnects",
-> > +                             "#interconnect-cells");
-> > +}
-> > +
-> > +static int strcmp_suffix(const char *str, const char *suffix)
-> > +{
-> > +     unsigned int len, suffix_len;
-> > +
-> > +     len = strlen(str);
-> > +     suffix_len = strlen(suffix);
-> > +     if (len <= suffix_len)
-> > +             return -1;
-> > +     return strcmp(str + len - suffix_len, suffix);
-> > +}
-> > +
-> > +static struct device_node *parse_regulators(struct device_node *np,
-> > +                                         const char *prop, int index)
->
-> Change prop to prop_name
-> Change index to phandle_index
->
-
-Will do all the renames you list above.
-
-> > +{
-> > +     if (index || strcmp_suffix(prop, "-supply"))
-> > +             return NULL;
-> > +
-> > +     return of_parse_phandle(np, prop, 0);
-> > +}
-> > +
-> > +/**
->
-> > + * struct supplier_bindings - Information for parsing supplier DT binding
-> > + *
-> > + * @parse_prop:              If the function cannot parse the property, return NULL.
-> > + *                   Otherwise, return the phandle listed in the property
-> > + *                   that corresponds to the index.
->
-> There is no documentation of dynamic function parameters in the docbook
-> description of a struct.  Use this format for now and I will clean up when
-> I clean up all of the devicetree docbook info.
->
-> Change above comment to:
->
->  * struct supplier_bindings - Property parsing functions for suppliers
->  *
->  * @parse_prop: function name
->  *              parse_prop() finds the node corresponding to a supplier phandle
->  * @parse_prop.np: Pointer to device node holding supplier phandle property
->  * @parse_prop.prop_name: Name of property holding a phandle value
->  * @parse_prop.index: For properties holding a table of phandles, this is the
->  *                    index into the table
->  *
->  * Return:
->  * * parse_prop() return values are
->  * * Node pointer with refcount incremented, use of_node_put() on it when done.
->  * * NULL if not found.
-
-Will do. Thanks for writing it.
-
-> > + */
-> > +struct supplier_bindings {
-> > +     struct device_node *(*parse_prop)(struct device_node *np,
-> > +                                       const char *name, int index);
->
-> Change name to prop_name
-> Change index to phandle_index
->
-> > +};
-> > +
-> > +static const struct supplier_bindings bindings[] = {
-> > +     { .parse_prop = parse_clocks, },
-> > +     { .parse_prop = parse_interconnects, },
-> > +     { .parse_prop = parse_regulators, },
->
-> > +     { },
->
->         {},
->
-> > +};
-> > +
->
-> /**
->  * of_link_property - TODO:
->  * dev:
->  * con_np:
->  * prop:
->  *
->  * TODO...
->  *
->  * Any failed attempt to create a link will NOT result in an immediate return.
->  * of_link_property() must create all possible links even when one of more
->  * attempts to create a link fail.
->
-> Why?  isn't one failure enough to prevent probing this device?
-> Continuing to scan just results in extra work... which will be
-> repeated every time device_link_check_waiting_consumers() is called
-
-Context:
-As I said in the cover letter, avoiding unnecessary probes is just one
-of the reasons for this patch. The other (arguably more important)
-reason for this patch is to make sure suppliers know that they have
-consumers that are yet to be probed. That way, suppliers can leave
-their resource on AND in the right state if they were left on by the
-bootloader. For example, if a clock was left on and at 200 MHz, the
-clock provider needs to keep that clock ON and at 200 MHz till all the
-consumers are probed.
-
-Answer: Let's say a consumer device Z has suppliers A, B and C. If the
-linking fails at A and you return immediately, then B and C could
-probe and then figure that they have no more consumers (they don't see
-a link to Z) and turn off their resources. And Z could fail
-catastrophically.
-
->  *
->  * Return:
->  * * 0 if TODO:
->  * * -ENODEV on error
->  */
->
->
-> I left some "TODO:" sections to be filled out above.
-
-Will do.
-
->
->
-> > +static bool of_link_property(struct device *dev, struct device_node *con_np,
-> > +                          const char *prop)
->
-> Returns 0 or -ENODEV, so bool is incorrect
->
-> (Also fixed on 8/8 in patch: "[PATCH 1/2] of/platform: Fix fn definitons for
-> of_link_is_valid() and of_link_property()")
-
-Right.
-
->
-> > +{
-> > +     struct device_node *phandle;
-> > +     struct supplier_bindings *s = bindings;
-> > +     unsigned int i = 0;
->
-> > +     bool done = true, matched = false;
->
-> Change to:
->
->         bool matched = false;
->         int ret = 0;
->
->         /* do not stop at first failed link, link all available suppliers */
->
-> > +
-> > +     while (!matched && s->parse_prop) {
-> > +             while ((phandle = s->parse_prop(con_np, prop, i))) {
-> > +                     matched = true;
-> > +                     i++;
-> > +                     if (of_link_to_phandle(dev, phandle))
->
->
-> Remove comment:
->
-> > +                             /*
-> > +                              * Don't stop at the first failure. See
-> > +                              * Documentation for bus_type.add_links for
-> > +                              * more details.
-> > +                              */
-
-Ok
-
->
-> > +                             done = false;
->
->                                 ret = -ENODEV;
-
-This is nicer. Thanks.
-
->
-> Do not hide of_node_put() inside of_link_to_phandle(), do it here:
->
->                         of_node_put(phandle);
-
-Ok
-
->
-> > +             }
-> > +             s++;
-> > +     }
->
-> > +     return done ? 0 : -ENODEV;
->
->         return ret;
->
-> > +}
-> > +
-> > +static bool of_devlink;
-> > +core_param(of_devlink, of_devlink, bool, 0);
-> > +
->
-> /**
->  * of_link_to_suppliers - Add device links to suppliers
->  * @dev: consumer device
->  *
->  * Create device links to all available suppliers of @dev.
->  * Must NOT stop at the first failed link.
->  * If some suppliers are not yet available, this function will be
->  * called again when additional suppliers become available.
->  *
->  * Return:
->  * * 0 if links successfully created for all suppliers
->  * * an error if one or more suppliers not yet available
->  */
-
-Ok
-
-> > +static int of_link_to_suppliers(struct device *dev)
-> > +{
-> > +     struct property *p;
->
-> > +     bool done = true;
->
-> remove done
->
->         int ret = 0;
->
-> > +
-> > +     if (!of_devlink)
-> > +             return 0;
->
-> > +     if (unlikely(!dev->of_node))
-> > +             return 0;
->
-> Check not needed, for_each_property_of_node() will detect !dev->of_node.
->
-> > +
-> > +     for_each_property_of_node(dev->of_node, p)
-> > +             if (of_link_property(dev, dev->of_node, p->name))
->
-> > +                     done = false;
->
->                         ret = -EAGAIN;
->
-> > +
-> > +     return done ? 0 : -ENODEV;
->
->         return ret;
-
-Thanks. I think I was too caught up on the rest of the logic
-complexity that I missed this obviously ugly code. Will fix.
-
-Thanks,
-Saravana
