@@ -1,73 +1,59 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 700A57D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 16:02:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D9EF87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 16:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbfHPQCE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Aug 2019 12:02:04 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:57770 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727559AbfHPQCC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 12:02:02 -0400
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7GFwx2g005121;
-        Fri, 16 Aug 2019 09:01:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : subject :
- date : message-id : references : in-reply-to : content-type : content-id :
- content-transfer-encoding : mime-version; s=facebook;
- bh=c20ILhxNuPe7LjFpuldhZqyLep+x08D2+OF0xjUUyb0=;
- b=lY/E401MpHVzIhbwXjw7uDpzeEB5+iKC/GGKTR7WwMEIbx6LwP5BStu/StiF0eb698Zo
- Lsl4hYWq+0sHUVjPb3H1jxHBuoIlaa0tDItCgpu2MhrAr4KA5f550gvgXRaxmUJLbKKV
- E63U1l7XzW+jVZDqTvCmYM379I9Rbq+ptrY= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by mx0a-00082601.pphosted.com with ESMTP id 2udw7grmbh-4
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Fri, 16 Aug 2019 09:01:12 -0700
-Received: from ash-exopmbx101.TheFacebook.com (2620:10d:c0a8:82::b) by
- ash-exhub103.TheFacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 16 Aug 2019 09:01:07 -0700
-Received: from ash-exhub103.TheFacebook.com (2620:10d:c0a8:82::c) by
- ash-exopmbx101.TheFacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 16 Aug 2019 09:01:06 -0700
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Fri, 16 Aug 2019 09:01:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m98NA7KN4GmWjJjAmXYH7WHYzdHYLZawQ4p1UcPb9hl3vuKjyQwYDa0MJmUkYh9c8vtzqMi4U6vxyzwFsxp2jA+KNdoUpGLCRmXGVj7Gn4qxMB3Iq6izMt5d1rmk2uU8fcW/8TVG4SIGL7AKh3Tby8N/+X/edT6H9yVL4v1d6frmBEqXkH6KxX4Vcmn0NP0j2fovm258j9a4fBM+lmIr16NB3NVZtJe2uNMnpL2J52JOLCh+h6LmoHtviyC7yv4dE5MF7i+RX880kC58omPcwcQtiELdgbnKDA2JxI+qpnWu4qIIGz87oPIcukJww4hwj0iQU1Z2SfYjKwup175STA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c20ILhxNuPe7LjFpuldhZqyLep+x08D2+OF0xjUUyb0=;
- b=VauUmeWSekQbZeVsrIoEhC44+G0mNUJ4HkUi2xMyPL+kVsXLzGblvE7re1Zh9cQEXMTcHA2KUDxJmkV+4HvMAsCIZfzT6evWcKojAKeW+IAs3auk3Zg3ngOmftmIikzZ5O7uFhsTlis9KZENknP9jniMiQ2K5xtYg8N+gm9Yk8yU28ruSs6jmmGi5j2C4zrbv8EkgUutFYmSkxmdOaZkbdGP9C+SDka8nBO5EULXuECVVCZToztIzZvHgQ7tgZg/B4WUenzsbR9SpWwo4RNEdWo6poaBxMAFRgf5zjtXLQl9xi/t6bCS7u2tRTfrq72c/7ImZTkJ/Kosdn7f7b1u9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c20ILhxNuPe7LjFpuldhZqyLep+x08D2+OF0xjUUyb0=;
- b=eEpYojkNNfDLYCyIlsyJPNE/BYB+lrge1wufppeB+KaaMcl8hT6Gp2kF2dab9J8EqT46uqQ/X4M6cWAHx8JEeCELRYGmE5cbrBZpQJ6NI/z6PMsXj/2wehV5tF7eICR8dzi0b4f9pHm+6xeK2xfX8y/Ae857+cUxnpdFup0ySZ8=
-Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
- CY4PR15MB1173.namprd15.prod.outlook.com (10.172.177.136) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.18; Fri, 16 Aug 2019 16:01:05 +0000
-Received: from CY4PR15MB1269.namprd15.prod.outlook.com
- ([fe80::8c93:f913:124:8dd0]) by CY4PR15MB1269.namprd15.prod.outlook.com
- ([fe80::8c93:f913:124:8dd0%8]) with mapi id 15.20.2157.022; Fri, 16 Aug 2019
- 16:01:05 +0000
-From:   Vijay Khemka <vijaykhemka@fb.com>
-To:     John Wang <wangzqbj@inspur.com>,
+        id S1727441AbfHPQMb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Aug 2019 12:12:31 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36896 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727357AbfHPQMb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 12:12:31 -0400
+Received: by mail-pg1-f194.google.com with SMTP id d1so2577616pgp.4;
+        Fri, 16 Aug 2019 09:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=kBicOEOE2/fEe4jf87oMJAd7NWf4XjwHxbhw9VwliWc=;
+        b=tjk+2pCvybEBu7NaYkMaUvI5vxl7oKHRIHe5KRUbk8OLW9t6Jqhk5cuIbr/jiNd9Cw
+         DbS9c5J301oDmy2v6hWRH3wsLkQ506zMuJujpSH7IKg953FSDWWn0GEhDuGA1JBIGPux
+         sV97+E4ndIy6etcFQ0uX1R1aY7khC/PEl1mhNCC6QF/kEPsBMcD4HuNgq42YTwA8GfEJ
+         sE31MEwv2B0xtsunx9vf96x8i257Y8q5ACBx0+3zPlKfhaitUglPLsEfdOXdMVZlglOR
+         YZTxnQnWcNUrP3XAD7UMV0xsczhM11kwJRYXrKt0oAUN1xOmKJ7l04XYS7/jCjQO67oa
+         7TwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=kBicOEOE2/fEe4jf87oMJAd7NWf4XjwHxbhw9VwliWc=;
+        b=mjFSqRVurijSkJq32p/XshFY68a8tKSWioLKTy9xq0kswdmVHikSU13xEXOMTPcpEC
+         g4ZxMEERexpBqE8c25iXfpNb9O4F54rvqi90cw71Shz1yLxG03IwoOS+D8qo8RZQGye9
+         a6QN5uOpXxwhwAR1tiveYiwlTD6/2agVYQVm9AVYLh45DgWpULIv7A0dIKhqus63k/pP
+         AfILsOLWUa8Fg4MJL1oWJhMFTfM4AeTkM32JZnLl/TncBUPAhft2dhW4S4K0V1RX9bg/
+         JV1VORj7+1MUxGiL8wQUSRpXy3gqgdmvsJU4HQ6Kqa6GrFfl6zdNN45Tzsh7ZaNoZhgf
+         2EdA==
+X-Gm-Message-State: APjAAAXSS9vJPcq3dhy3AZOOULWfo4auXNQ6fp0Sv2Br1G+ZXPA5b3D7
+        Hd0L+9eR8w4tcVMKwrxBh+0=
+X-Google-Smtp-Source: APXvYqxoSexf1Uv7JZwa1Y5OAurXfQiVQbNDpZzVGiEVO8BJVp8nTHvNJznv6XMX8KddUjYMi+C8KQ==
+X-Received: by 2002:a63:4c5c:: with SMTP id m28mr8894045pgl.333.1565971949933;
+        Fri, 16 Aug 2019 09:12:29 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g2sm1547022pfm.32.2019.08.16.09.12.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 16 Aug 2019 09:12:28 -0700 (PDT)
+Date:   Fri, 16 Aug 2019 09:12:27 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Vijay Khemka <vijaykhemka@fb.com>
+Cc:     John Wang <wangzqbj@inspur.com>,
         "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
@@ -76,297 +62,430 @@ To:     John Wang <wangzqbj@inspur.com>,
         "duanzhijia01@inspur.com" <duanzhijia01@inspur.com>,
         "mine260309@gmail.com" <mine260309@gmail.com>,
         "joel@jms.id.au" <joel@jms.id.au>
-Subject: Re: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power supply
- driver
-Thread-Topic: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power
+Subject: Re: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power
  supply driver
-Thread-Index: AQHVVBxJCFmMfc8NpkWRAilnZ2eOGKb9egsA
-Date:   Fri, 16 Aug 2019 16:01:05 +0000
-Message-ID: <45938741-A766-405A-86E8-5C946B395F27@fb.com>
+Message-ID: <20190816161226.GA5396@roeck-us.net>
 References: <20190816101944.3586-1-wangzqbj@inspur.com>
-In-Reply-To: <20190816101944.3586-1-wangzqbj@inspur.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::3:9016]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7c684d73-fa0b-491a-3e0f-08d72262f1b7
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR15MB1173;
-x-ms-traffictypediagnostic: CY4PR15MB1173:
-x-microsoft-antispam-prvs: <CY4PR15MB1173101B14C38737964FD947DDAF0@CY4PR15MB1173.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:66;
-x-forefront-prvs: 0131D22242
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(376002)(366004)(136003)(396003)(346002)(189003)(199004)(40224003)(6486002)(446003)(7736002)(229853002)(2501003)(33656002)(6436002)(7416002)(305945005)(76116006)(53936002)(5660300002)(46003)(64756008)(102836004)(476003)(86362001)(2201001)(71200400001)(11346002)(71190400001)(486006)(14454004)(76176011)(2616005)(6512007)(2906002)(186003)(30864003)(6506007)(6116002)(81156014)(14444005)(66446008)(66946007)(81166006)(6246003)(66476007)(8676002)(66556008)(256004)(91956017)(36756003)(110136005)(99286004)(316002)(478600001)(25786009)(8936002)(921003)(21314003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR15MB1173;H:CY4PR15MB1269.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +SGYSjkQGxBIw4Q2MQRMpI8nRgglGkqdj/nMAnhmGWnnjaeyjg7TZ5yumJ0dW0chjFvirtCIFtejHu2tSwhmKNuNFdEAcg/eRomfsZguOMKnpEGg+/zqPj+NrBdzL2mhm/XsgVqOHgccxbicILnUQRCs5sE6qKZWyfAt7LT6QzsQci9TJCcJjx60ka3C++z51M5SC05i4mp4/BQwzm0BcMcKDwYYkS+Yd/srPWTDvppO9ai7gx2+5naBzAXlpFVpQ12N2L+MzeQG+Ub4bxSapEWY/GRe+uxzl5ouEXpm40mm55r0krzgd3lmgJkKWc4XMVNfh5byFA8VS3nvW3Wyq+afaPhU43/hZbRDbA+6fABI7FTsfQt6pd7nmR3ZJ40BnoBp4MdbwWlBcdlAmvZhK2TBDITloD6dMlj1USMLPqE=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F41139EFD2A0F942A3F7244696CD57A4@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <45938741-A766-405A-86E8-5C946B395F27@fb.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c684d73-fa0b-491a-3e0f-08d72262f1b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2019 16:01:05.2622
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Pff4QYPKBp2d4BySkAvZZQTR1rsnEoQvkRNTSUtK2G+UnPKgSlM7UsuHEDb/TggVJqUc/tnlxt+7RdbKCCczDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1173
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-16_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908160170
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <45938741-A766-405A-86E8-5C946B395F27@fb.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCu+7v09uIDgvMTYvMTksIDM6MjAgQU0sICJvcGVuYm1jIG9uIGJlaGFsZiBvZiBKb2huIFdh
-bmciIDxvcGVuYm1jLWJvdW5jZXMrdmlqYXlraGVta2E9ZmIuY29tQGxpc3RzLm96bGFicy5vcmcg
-b24gYmVoYWxmIG9mIHdhbmd6cWJqQGluc3B1ci5jb20+IHdyb3RlOg0KDQogICAgQWRkIHRoZSBk
-cml2ZXIgdG8gbW9uaXRvciBJbnNwdXIgUG93ZXIgU3lzdGVtIHBvd2VyIHN1cHBsaWVzDQogICAg
-d2l0aCBod21vbiBvdmVyIHBtYnVzLg0KICAgIA0KICAgIFRoaXMgZHJpdmVyIGFkZHMgc3lzZnMg
-YXR0cmlidXRlcyBmb3IgYWRkaXRpb25hbCBwb3dlciBzdXBwbHkgZGF0YSwNCiAgICBpbmNsdWRp
-bmcgdmVuZG9yLCBtb2RlbCwgcGFydF9udW1iZXIsIHNlcmlhbCBudW1iZXIsDQogICAgZmlybXdh
-cmUgcmV2aXNpb24sIGhhcmR3YXJlIHJldmlzaW9uLCBhbmQgcHN1IG1vZGUoYWN0aXZlL3N0YW5k
-YnkpLg0KICAgIA0KICAgIFNpZ25lZC1vZmYtYnk6IEpvaG4gV2FuZyA8d2FuZ3pxYmpAaW5zcHVy
-LmNvbT4NCiAgICAtLS0NCiAgICB2NToNCiAgICAgICAgLSBBbGlnbiBzeXNmcyBhdHRycyBkZXNj
-cmlwdGlvbiBpbiBpbnNwdXItaXBzcHMxLnJzdA0KICAgICAgICAgIChVc2UgdGFiIGluc3RlYWQg
-b2Ygc3BhY2UgdG8gc3BlcmF0ZSBuYW1lcyBhbmQgdmFsdWVzKQ0KICAgIHY0Og0KICAgICAgICAt
-IFJlbW92ZSB0aGUgYWRkaXRpb25hbCB0YWJzIGluIHRoZSBNYWtlZmlsZQ0KICAgICAgICAtIFJl
-YmFzZWQgb24gNS4zLXJjNCwgbm90IDUuMg0KICAgIHYzOg0KICAgICAgICAtIFNvcnQga2NvbmZp
-Zy9tYWtlZmlsZSBlbnRyaWVzIGFscGhhYmV0aWNhbGx5DQogICAgICAgIC0gUmVtb3ZlIHVubmVj
-ZXNzYXJ5IGluaXRpYWxpemF0aW9uDQogICAgICAgIC0gVXNlIEFUVFJJQlVURV9HUk9VUFMgaW5z
-dGVhZCBvZiBleHBhbmRpbmcgZGlyZWN0bHkNCiAgICAgICAgLSBVc2UgbWVtc2NhbiB0byBhdm9p
-ZCByZWltcGxlbWVudGF0aW9uDQogICAgdjI6DQogICAgICAgIC0gRml4IHR5cG9zIGluIGNvbW1p
-dCBtZXNzYWdlDQogICAgICAgIC0gSW52ZXJ0IENocmlzdG1hcyB0cmVlDQogICAgICAgIC0gQ29u
-ZmlndXJlIGRldmljZSB3aXRoIHN5c2ZzIGF0dHJzLCBub3QgZGVidWdmcyBlbnRyaWVzDQogICAg
-ICAgIC0gRml4IGVycm5vIGluIGZ3X3ZlcnNpb25fcmVhZCwgRU5PREFUQSB0byBFUFJPVE8NCiAg
-ICAgICAgLSBDaGFuZ2UgdGhlIHByaW50IGZvcm1hdCBvZiBmdy12ZXJzaW9uDQogICAgICAgIC0g
-VXNlIHN5c2ZzX3N0cmVxIGluc3RlYWQgb2Ygc3RyY21wKCJ4eHgiICJcbiIsICJ4eHgiKQ0KICAg
-ICAgICAtIERvY3VtZW50IHN5c2ZzIGF0dHJpYnV0ZXMNCiAgICAtLS0NCiAgICAgRG9jdW1lbnRh
-dGlvbi9od21vbi9pbnNwdXItaXBzcHMxLnJzdCB8ICA3OSArKysrKysrKysNCiAgICAgZHJpdmVy
-cy9od21vbi9wbWJ1cy9LY29uZmlnICAgICAgICAgICB8ICAgOSArDQogICAgIGRyaXZlcnMvaHdt
-b24vcG1idXMvTWFrZWZpbGUgICAgICAgICAgfCAgIDEgKw0KICAgICBkcml2ZXJzL2h3bW9uL3Bt
-YnVzL2luc3B1ci1pcHNwcy5jICAgIHwgMjI2ICsrKysrKysrKysrKysrKysrKysrKysrKysrDQog
-ICAgIDQgZmlsZXMgY2hhbmdlZCwgMzE1IGluc2VydGlvbnMoKykNCiAgICAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IERvY3VtZW50YXRpb24vaHdtb24vaW5zcHVyLWlwc3BzMS5yc3QNCiAgICAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGRyaXZlcnMvaHdtb24vcG1idXMvaW5zcHVyLWlwc3BzLmMNCiAgICANCiAg
-ICBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9od21vbi9pbnNwdXItaXBzcHMxLnJzdCBiL0Rv
-Y3VtZW50YXRpb24vaHdtb24vaW5zcHVyLWlwc3BzMS5yc3QNCiAgICBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KICAgIGluZGV4IDAwMDAwMDAwMDAwMC4uMmI4NzFhZTM0NDhmDQogICAgLS0tIC9kZXYv
-bnVsbA0KICAgICsrKyBiL0RvY3VtZW50YXRpb24vaHdtb24vaW5zcHVyLWlwc3BzMS5yc3QNCiAg
-ICBAQCAtMCwwICsxLDc5IEBADQogICAgK0tlcm5lbCBkcml2ZXIgaW5zcHVyLWlwc3BzMQ0KICAg
-ICs9PT09PT09PT09PT09PT09PT09PT09PQ0KICAgICsNCiAgICArU3VwcG9ydGVkIGNoaXBzOg0K
-ICAgICsNCiAgICArICAqIEluc3B1ciBQb3dlciBTeXN0ZW0gcG93ZXIgc3VwcGx5IHVuaXQNCiAg
-ICArDQogICAgK0F1dGhvcjogSm9obiBXYW5nIDx3YW5nenFiakBpbnNwdXIuY29tPg0KICAgICsN
-CiAgICArRGVzY3JpcHRpb24NCiAgICArLS0tLS0tLS0tLS0NCiAgICArDQogICAgK1RoaXMgZHJp
-dmVyIHN1cHBvcnRzIEluc3B1ciBQb3dlciBTeXN0ZW0gcG93ZXIgc3VwcGxpZXMuIFRoaXMgZHJp
-dmVyDQogICAgK2lzIGEgY2xpZW50IHRvIHRoZSBjb3JlIFBNQnVzIGRyaXZlci4NCiAgICArDQog
-ICAgK1VzYWdlIE5vdGVzDQogICAgKy0tLS0tLS0tLS0tDQogICAgKw0KICAgICtUaGlzIGRyaXZl
-ciBkb2VzIG5vdCBhdXRvLWRldGVjdCBkZXZpY2VzLiBZb3Ugd2lsbCBoYXZlIHRvIGluc3RhbnRp
-YXRlIHRoZQ0KICAgICtkZXZpY2VzIGV4cGxpY2l0bHkuIFBsZWFzZSBzZWUgRG9jdW1lbnRhdGlv
-bi9pMmMvaW5zdGFudGlhdGluZy1kZXZpY2VzIGZvcg0KICAgICtkZXRhaWxzLg0KICAgICsNCiAg
-ICArU3lzZnMgZW50cmllcw0KICAgICstLS0tLS0tLS0tLS0tDQogICAgKw0KICAgICtUaGUgZm9s
-bG93aW5nIGF0dHJpYnV0ZXMgYXJlIHN1cHBvcnRlZDoNCiAgICArDQogICAgKz09PT09PT09PT09
-PT09PT09PT09PT09ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQ0KICAgICtjdXJyMV9pbnB1dAkJTWVhc3VyZWQgaW5wdXQgY3VycmVudA0KICAg
-ICtjdXJyMV9sYWJlbAkJImlpbiINCiAgICArY3VycjFfbWF4CQlNYXhpbXVtIGN1cnJlbnQNCiAg
-ICArY3VycjFfbWF4X2FsYXJtCQlDdXJyZW50IGhpZ2ggYWxhcm0NCiAgICArY3VycjJfaW5wdXQJ
-CU1lYXN1cmVkIG91dHB1dCBjdXJyZW50IGluIG1BLg0KICAgICtjdXJyMl9sYWJlbAkJImlvdXQx
-Ig0KICAgICtjdXJyMl9jcml0CQlDcml0aWNhbCBtYXhpbXVtIGN1cnJlbnQNCiAgICArY3VycjJf
-Y3JpdF9hbGFybQlDdXJyZW50IGNyaXRpY2FsIGhpZ2ggYWxhcm0NCiAgICArY3VycjJfbWF4CQlN
-YXhpbXVtIGN1cnJlbnQNCiAgICArY3VycjJfbWF4X2FsYXJtCQlDdXJyZW50IGhpZ2ggYWxhcm0N
-CiAgICArDQogICAgK2ZhbjFfYWxhcm0JCUZhbiAxIHdhcm5pbmcuDQogICAgK2ZhbjFfZmF1bHQJ
-CUZhbiAxIGZhdWx0Lg0KICAgICtmYW4xX2lucHV0CQlGYW4gMSBzcGVlZCBpbiBSUE0uDQogICAg
-Kw0KICAgICtpbjFfYWxhcm0JCUlucHV0IHZvbHRhZ2UgdW5kZXItdm9sdGFnZSBhbGFybS4NCiAg
-ICAraW4xX2lucHV0CQlNZWFzdXJlZCBpbnB1dCB2b2x0YWdlIGluIG1WLg0KICAgICtpbjFfbGFi
-ZWwJCSJ2aW4iDQogICAgK2luMl9pbnB1dAkJTWVhc3VyZWQgb3V0cHV0IHZvbHRhZ2UgaW4gbVYu
-DQogICAgK2luMl9sYWJlbAkJInZvdXQxIg0KICAgICtpbjJfbGNyaXQJCUNyaXRpY2FsIG1pbmlt
-dW0gb3V0cHV0IHZvbHRhZ2UNCiAgICAraW4yX2xjcml0X2FsYXJtCQlPdXRwdXQgdm9sdGFnZSBj
-cml0aWNhbCBsb3cgYWxhcm0NCiAgICAraW4yX21heAkJCU1heGltdW0gb3V0cHV0IHZvbHRhZ2UN
-CiAgICAraW4yX21heF9hbGFybQkJT3V0cHV0IHZvbHRhZ2UgaGlnaCBhbGFybQ0KICAgICtpbjJf
-bWluCQkJTWluaW11bSBvdXRwdXQgdm9sdGFnZQ0KICAgICtpbjJfbWluX2FsYXJtCQlPdXRwdXQg
-dm9sdGFnZSBsb3cgYWxhcm0NCiAgICArDQogICAgK3Bvd2VyMV9hbGFybQkJSW5wdXQgZmF1bHQg
-b3IgYWxhcm0uDQogICAgK3Bvd2VyMV9pbnB1dAkJTWVhc3VyZWQgaW5wdXQgcG93ZXIgaW4gdVcu
-DQogICAgK3Bvd2VyMV9sYWJlbAkJInBpbiINCiAgICArcG93ZXIxX21heAkJSW5wdXQgcG93ZXIg
-bGltaXQNCiAgICArcG93ZXIyX21heF9hbGFybQlPdXRwdXQgcG93ZXIgaGlnaCBhbGFybQ0KICAg
-ICtwb3dlcjJfbWF4CQlPdXRwdXQgcG93ZXIgbGltaXQNCiAgICArcG93ZXIyX2lucHV0CQlNZWFz
-dXJlZCBvdXRwdXQgcG93ZXIgaW4gdVcuDQogICAgK3Bvd2VyMl9sYWJlbAkJInBvdXQiDQogICAg
-Kw0KICAgICt0ZW1wWzEtM11faW5wdXQJCU1lYXN1cmVkIHRlbXBlcmF0dXJlDQogICAgK3RlbXBb
-MS0yXV9tYXgJCU1heGltdW0gdGVtcGVyYXR1cmUNCiAgICArdGVtcFsxLTNdX21heF9hbGFybQlU
-ZW1wZXJhdHVyZSBoaWdoIGFsYXJtDQogICAgKw0KICAgICt2ZW5kb3IJCQlNYW51ZmFjdHVyZXIg
-bmFtZQ0KICAgICttb2RlbAkJCVByb2R1Y3QgbW9kZWwNCiAgICArcGFydF9udW1iZXIJCVByb2R1
-Y3QgcGFydCBudW1iZXINCiAgICArc2VyaWFsX251bWJlcgkJUHJvZHVjdCBzZXJpYWwgbnVtYmVy
-DQogICAgK2Z3X3ZlcnNpb24JCUZpcm13YXJlIHZlcnNpb24NCiAgICAraHdfdmVyc2lvbgkJSGFy
-ZHdhcmUgdmVyc2lvbg0KICAgICttb2RlCQkJV29yayBtb2RlLiBDYW4gYmUgc2V0IHRvIGFjdGl2
-ZSBvcg0KICAgICsJCQlzdGFuZGJ5LCB3aGVuIHNldCB0byBzdGFuZGJ5LCBQU1Ugd2lsbA0KICAg
-ICsJCQlhdXRvbWF0aWNhbGx5IHN3aXRjaCBiZXR3ZWVuIHN0YW5kYnkNCiAgICArCQkJYW5kIHJl
-ZHVuZGFuY3kgbW9kZS4NCkkgZG9uJ3QgdGhpbmsgaXQgaXMgYWxpZ25lZCB5ZXQuIFBsZWFzZSB1
-c2Ugc3BhY2Ugb25seSBpbnN0ZWFkIG9mIHRhYnMuDQoNCiAgICArPT09PT09PT09PT09PT09PT09
-PT09PT0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09DQogICAgZGlmZiAtLWdpdCBhL2RyaXZlcnMvaHdtb24vcG1idXMvS2NvbmZpZyBiL2RyaXZl
-cnMvaHdtb24vcG1idXMvS2NvbmZpZw0KICAgIGluZGV4IGI2NTg4NDgzZmFlMS4uZDYyZDY5YmI3
-ZTQ5IDEwMDY0NA0KICAgIC0tLSBhL2RyaXZlcnMvaHdtb24vcG1idXMvS2NvbmZpZw0KICAgICsr
-KyBiL2RyaXZlcnMvaHdtb24vcG1idXMvS2NvbmZpZw0KICAgIEBAIC00Niw2ICs0NiwxNSBAQCBj
-b25maWcgU0VOU09SU19JQk1fQ0ZGUFMNCiAgICAgCSAgVGhpcyBkcml2ZXIgY2FuIGFsc28gYmUg
-YnVpbHQgYXMgYSBtb2R1bGUuIElmIHNvLCB0aGUgbW9kdWxlIHdpbGwNCiAgICAgCSAgYmUgY2Fs
-bGVkIGlibS1jZmZwcy4NCiAgICAgDQogICAgK2NvbmZpZyBTRU5TT1JTX0lOU1BVUl9JUFNQUw0K
-ICAgICsJdHJpc3RhdGUgIklOU1BVUiBQb3dlciBTeXN0ZW0gUG93ZXIgU3VwcGx5Ig0KICAgICsJ
-aGVscA0KICAgICsJICBJZiB5b3Ugc2F5IHllcyBoZXJlIHlvdSBnZXQgaGFyZHdhcmUgbW9uaXRv
-cmluZyBzdXBwb3J0IGZvciB0aGUgSU5TUFVSDQogICAgKwkgIFBvd2VyIFN5c3RlbSBwb3dlciBz
-dXBwbHkuDQogICAgKw0KICAgICsJICBUaGlzIGRyaXZlciBjYW4gYWxzbyBiZSBidWlsdCBhcyBh
-IG1vZHVsZS4gSWYgc28sIHRoZSBtb2R1bGUgd2lsbA0KICAgICsJICBiZSBjYWxsZWQgaW5zcHVy
-LWlwc3BzLg0KICAgICsNCiAgICAgY29uZmlnIFNFTlNPUlNfSVIzNTIyMQ0KICAgICAJdHJpc3Rh
-dGUgIkluZmluZW9uIElSMzUyMjEiDQogICAgIAloZWxwDQogICAgZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvaHdtb24vcG1idXMvTWFrZWZpbGUgYi9kcml2ZXJzL2h3bW9uL3BtYnVzL01ha2VmaWxlDQog
-ICAgaW5kZXggYzk1MGVhOWE1ZDAwLi4wM2JhY2ZjZmQ2NjAgMTAwNjQ0DQogICAgLS0tIGEvZHJp
-dmVycy9od21vbi9wbWJ1cy9NYWtlZmlsZQ0KICAgICsrKyBiL2RyaXZlcnMvaHdtb24vcG1idXMv
-TWFrZWZpbGUNCiAgICBAQCAtNyw2ICs3LDcgQEAgb2JqLSQoQ09ORklHX1BNQlVTKQkJKz0gcG1i
-dXNfY29yZS5vDQogICAgIG9iai0kKENPTkZJR19TRU5TT1JTX1BNQlVTKQkrPSBwbWJ1cy5vDQog
-ICAgIG9iai0kKENPTkZJR19TRU5TT1JTX0FETTEyNzUpCSs9IGFkbTEyNzUubw0KICAgICBvYmot
-JChDT05GSUdfU0VOU09SU19JQk1fQ0ZGUFMpCSs9IGlibS1jZmZwcy5vDQogICAgK29iai0kKENP
-TkZJR19TRU5TT1JTX0lOU1BVUl9JUFNQUykgKz0gaW5zcHVyLWlwc3BzLm8NCiAgICAgb2JqLSQo
-Q09ORklHX1NFTlNPUlNfSVIzNTIyMSkJKz0gaXIzNTIyMS5vDQogICAgIG9iai0kKENPTkZJR19T
-RU5TT1JTX0lSMzgwNjQpCSs9IGlyMzgwNjQubw0KICAgICBvYmotJChDT05GSUdfU0VOU09SU19J
-UlBTNTQwMSkJKz0gaXJwczU0MDEubw0KICAgIGRpZmYgLS1naXQgYS9kcml2ZXJzL2h3bW9uL3Bt
-YnVzL2luc3B1ci1pcHNwcy5jIGIvZHJpdmVycy9od21vbi9wbWJ1cy9pbnNwdXItaXBzcHMuYw0K
-ICAgIG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQogICAgaW5kZXggMDAwMDAwMDAwMDAwLi5mYTk4MWI4
-ODFhNjANCiAgICAtLS0gL2Rldi9udWxsDQogICAgKysrIGIvZHJpdmVycy9od21vbi9wbWJ1cy9p
-bnNwdXItaXBzcHMuYw0KICAgIEBAIC0wLDAgKzEsMjI2IEBADQogICAgKy8vIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyDQogICAgKy8qDQogICAgKyAqIENvcHlyaWdo
-dCAyMDE5IEluc3B1ciBDb3JwLg0KICAgICsgKi8NCiAgICArDQogICAgKyNpbmNsdWRlIDxsaW51
-eC9kZWJ1Z2ZzLmg+DQogICAgKyNpbmNsdWRlIDxsaW51eC9kZXZpY2UuaD4NCiAgICArI2luY2x1
-ZGUgPGxpbnV4L2ZzLmg+DQogICAgKyNpbmNsdWRlIDxsaW51eC9pMmMuaD4NCiAgICArI2luY2x1
-ZGUgPGxpbnV4L21vZHVsZS5oPg0KICAgICsjaW5jbHVkZSA8bGludXgvcG1idXMuaD4NCiAgICAr
-I2luY2x1ZGUgPGxpbnV4L2h3bW9uLXN5c2ZzLmg+DQogICAgKw0KICAgICsjaW5jbHVkZSAicG1i
-dXMuaCINCiAgICArDQogICAgKyNkZWZpbmUgSVBTUFNfUkVHX1ZFTkRPUl9JRAkweDk5DQogICAg
-KyNkZWZpbmUgSVBTUFNfUkVHX01PREVMCQkweDlBDQogICAgKyNkZWZpbmUgSVBTUFNfUkVHX0ZX
-X1ZFUlNJT04JMHg5Qg0KICAgICsjZGVmaW5lIElQU1BTX1JFR19QTgkJMHg5Qw0KICAgICsjZGVm
-aW5lIElQU1BTX1JFR19TTgkJMHg5RQ0KICAgICsjZGVmaW5lIElQU1BTX1JFR19IV19WRVJTSU9O
-CTB4QjANCiAgICArI2RlZmluZSBJUFNQU19SRUdfTU9ERQkJMHhGQw0KICAgICsNCiAgICArI2Rl
-ZmluZSBNT0RFX0FDVElWRQkJMHg1NQ0KICAgICsjZGVmaW5lIE1PREVfU1RBTkRCWQkJMHgwRQ0K
-ICAgICsjZGVmaW5lIE1PREVfUkVEVU5EQU5DWQkJMHgwMA0KICAgICsNCiAgICArI2RlZmluZSBN
-T0RFX0FDVElWRV9TVFJJTkcJCSJhY3RpdmUiDQogICAgKyNkZWZpbmUgTU9ERV9TVEFOREJZX1NU
-UklORwkJInN0YW5kYnkiDQogICAgKyNkZWZpbmUgTU9ERV9SRURVTkRBTkNZX1NUUklORwkJInJl
-ZHVuZGFuY3kiDQogICAgKw0KICAgICtlbnVtIGlwc3BzX2luZGV4IHsNCiAgICArCXZlbmRvciwN
-CiAgICArCW1vZGVsLA0KICAgICsJZndfdmVyc2lvbiwNCiAgICArCXBhcnRfbnVtYmVyLA0KICAg
-ICsJc2VyaWFsX251bWJlciwNCiAgICArCWh3X3ZlcnNpb24sDQogICAgKwltb2RlLA0KICAgICsJ
-bnVtX3JlZ3MsDQogICAgK307DQogICAgKw0KICAgICtzdGF0aWMgY29uc3QgdTggaXBzcHNfcmVn
-c1tudW1fcmVnc10gPSB7DQogICAgKwlbdmVuZG9yXSA9IElQU1BTX1JFR19WRU5ET1JfSUQsDQog
-ICAgKwlbbW9kZWxdID0gSVBTUFNfUkVHX01PREVMLA0KICAgICsJW2Z3X3ZlcnNpb25dID0gSVBT
-UFNfUkVHX0ZXX1ZFUlNJT04sDQogICAgKwlbcGFydF9udW1iZXJdID0gSVBTUFNfUkVHX1BOLA0K
-ICAgICsJW3NlcmlhbF9udW1iZXJdID0gSVBTUFNfUkVHX1NOLA0KICAgICsJW2h3X3ZlcnNpb25d
-ID0gSVBTUFNfUkVHX0hXX1ZFUlNJT04sDQogICAgKwlbbW9kZV0gPSBJUFNQU19SRUdfTU9ERSwN
-CiAgICArfTsNCiAgICArDQogICAgK3N0YXRpYyBzc2l6ZV90IGlwc3BzX3N0cmluZ19zaG93KHN0
-cnVjdCBkZXZpY2UgKmRldiwNCiAgICArCQkJCSBzdHJ1Y3QgZGV2aWNlX2F0dHJpYnV0ZSAqZGV2
-YXR0ciwNCiAgICArCQkJCSBjaGFyICpidWYpDQogICAgK3sNCiAgICArCXU4IHJlZzsNCiAgICAr
-CWludCByYzsNCiAgICArCWNoYXIgKnA7DQogICAgKwljaGFyIGRhdGFbSTJDX1NNQlVTX0JMT0NL
-X01BWCArIDFdOw0KICAgICsJc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCA9IHRvX2kyY19jbGll
-bnQoZGV2LT5wYXJlbnQpOw0KICAgICsJc3RydWN0IHNlbnNvcl9kZXZpY2VfYXR0cmlidXRlICph
-dHRyID0gdG9fc2Vuc29yX2Rldl9hdHRyKGRldmF0dHIpOw0KICAgICsNCiAgICArCXJlZyA9IGlw
-c3BzX3JlZ3NbYXR0ci0+aW5kZXhdOw0KICAgICsJcmMgPSBpMmNfc21idXNfcmVhZF9ibG9ja19k
-YXRhKGNsaWVudCwgcmVnLCBkYXRhKTsNCiAgICArCWlmIChyYyA8IDApDQogICAgKwkJcmV0dXJu
-IHJjOw0KICAgICsNCiAgICArCS8qIGZpbGxlZCB3aXRoIHByaW50YWJsZSBjaGFyYWN0ZXJzLCBl
-bmRpbmcgd2l0aCAjICovDQogICAgKwlwID0gbWVtc2NhbihkYXRhLCAnIycsIHJjKTsNCiAgICAr
-CSpwID0gJ1wwJzsNCiAgICArDQogICAgKwlyZXR1cm4gc25wcmludGYoYnVmLCBQQUdFX1NJWkUs
-ICIlc1xuIiwgZGF0YSk7DQogICAgK30NCiAgICArDQogICAgK3N0YXRpYyBzc2l6ZV90IGlwc3Bz
-X2Z3X3ZlcnNpb25fc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQogICAgKwkJCQkgICAgIHN0cnVj
-dCBkZXZpY2VfYXR0cmlidXRlICpkZXZhdHRyLA0KICAgICsJCQkJICAgICBjaGFyICpidWYpDQog
-ICAgK3sNCiAgICArCXU4IHJlZzsNCiAgICArCWludCByYzsNCiAgICArCXU4IGRhdGFbSTJDX1NN
-QlVTX0JMT0NLX01BWF0gPSB7IDAgfTsNCiAgICArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQg
-PSB0b19pMmNfY2xpZW50KGRldi0+cGFyZW50KTsNCiAgICArCXN0cnVjdCBzZW5zb3JfZGV2aWNl
-X2F0dHJpYnV0ZSAqYXR0ciA9IHRvX3NlbnNvcl9kZXZfYXR0cihkZXZhdHRyKTsNCiAgICArDQog
-ICAgKwlyZWcgPSBpcHNwc19yZWdzW2F0dHItPmluZGV4XTsNCiAgICArCXJjID0gaTJjX3NtYnVz
-X3JlYWRfYmxvY2tfZGF0YShjbGllbnQsIHJlZywgZGF0YSk7DQogICAgKwlpZiAocmMgPCAwKQ0K
-ICAgICsJCXJldHVybiByYzsNCiAgICArDQogICAgKwlpZiAocmMgIT0gNikNCiAgICArCQlyZXR1
-cm4gLUVQUk9UTzsNCiAgICArDQogICAgKwlyZXR1cm4gc25wcmludGYoYnVmLCBQQUdFX1NJWkUs
-ICIldS4lMDJ1JXUtJXUuJTAydVxuIiwNCiAgICArCQkJZGF0YVsxXSwgZGF0YVsyXS8qIDwgMTAw
-ICovLCBkYXRhWzNdLyo8IDEwKi8sDQogICAgKwkJCWRhdGFbNF0sIGRhdGFbNV0vKiA8IDEwMCAq
-Lyk7DQogICAgK30NCiAgICArDQogICAgK3N0YXRpYyBzc2l6ZV90IGlwc3BzX21vZGVfc2hvdyhz
-dHJ1Y3QgZGV2aWNlICpkZXYsDQogICAgKwkJCSAgICAgICBzdHJ1Y3QgZGV2aWNlX2F0dHJpYnV0
-ZSAqZGV2YXR0ciwgY2hhciAqYnVmKQ0KICAgICt7DQogICAgKwl1OCByZWc7DQogICAgKwlpbnQg
-cmM7DQogICAgKwlzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdG9faTJjX2NsaWVudChkZXYt
-PnBhcmVudCk7DQogICAgKwlzdHJ1Y3Qgc2Vuc29yX2RldmljZV9hdHRyaWJ1dGUgKmF0dHIgPSB0
-b19zZW5zb3JfZGV2X2F0dHIoZGV2YXR0cik7DQogICAgKw0KICAgICsJcmVnID0gaXBzcHNfcmVn
-c1thdHRyLT5pbmRleF07DQogICAgKwlyYyA9IGkyY19zbWJ1c19yZWFkX2J5dGVfZGF0YShjbGll
-bnQsIHJlZyk7DQogICAgKwlpZiAocmMgPCAwKQ0KICAgICsJCXJldHVybiByYzsNCiAgICArDQog
-ICAgKwlzd2l0Y2ggKHJjKSB7DQogICAgKwljYXNlIE1PREVfQUNUSVZFOg0KICAgICsJCXJldHVy
-biBzbnByaW50ZihidWYsIFBBR0VfU0laRSwgIlslc10gJXMgJXNcbiIsDQogICAgKwkJCQlNT0RF
-X0FDVElWRV9TVFJJTkcsDQogICAgKwkJCQlNT0RFX1NUQU5EQllfU1RSSU5HLCBNT0RFX1JFRFVO
-REFOQ1lfU1RSSU5HKTsNCiAgICArCWNhc2UgTU9ERV9TVEFOREJZOg0KICAgICsJCXJldHVybiBz
-bnByaW50ZihidWYsIFBBR0VfU0laRSwgIiVzIFslc10gJXNcbiIsDQogICAgKwkJCQlNT0RFX0FD
-VElWRV9TVFJJTkcsDQogICAgKwkJCQlNT0RFX1NUQU5EQllfU1RSSU5HLCBNT0RFX1JFRFVOREFO
-Q1lfU1RSSU5HKTsNCiAgICArCWNhc2UgTU9ERV9SRURVTkRBTkNZOg0KICAgICsJCXJldHVybiBz
-bnByaW50ZihidWYsIFBBR0VfU0laRSwgIiVzICVzIFslc11cbiIsDQogICAgKwkJCQlNT0RFX0FD
-VElWRV9TVFJJTkcsDQogICAgKwkJCQlNT0RFX1NUQU5EQllfU1RSSU5HLCBNT0RFX1JFRFVOREFO
-Q1lfU1RSSU5HKTsNCiAgICArCWRlZmF1bHQ6DQogICAgKwkJcmV0dXJuIHNucHJpbnRmKGJ1Ziwg
-UEFHRV9TSVpFLCAidW5zcGVjaWZpZWRcbiIpOw0KICAgICsJfQ0KICAgICt9DQogICAgKw0KICAg
-ICtzdGF0aWMgc3NpemVfdCBpcHNwc19tb2RlX3N0b3JlKHN0cnVjdCBkZXZpY2UgKmRldiwNCiAg
-ICArCQkJCXN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICpkZXZhdHRyLA0KICAgICsJCQkJY29uc3Qg
-Y2hhciAqYnVmLCBzaXplX3QgY291bnQpDQogICAgK3sNCiAgICArCXU4IHJlZzsNCiAgICArCWlu
-dCByYzsNCiAgICArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB0b19pMmNfY2xpZW50KGRl
-di0+cGFyZW50KTsNCiAgICArCXN0cnVjdCBzZW5zb3JfZGV2aWNlX2F0dHJpYnV0ZSAqYXR0ciA9
-IHRvX3NlbnNvcl9kZXZfYXR0cihkZXZhdHRyKTsNCiAgICArDQogICAgKwlyZWcgPSBpcHNwc19y
-ZWdzW2F0dHItPmluZGV4XTsNCiAgICArCWlmIChzeXNmc19zdHJlcShNT0RFX1NUQU5EQllfU1RS
-SU5HLCBidWYpKSB7DQogICAgKwkJcmMgPSBpMmNfc21idXNfd3JpdGVfYnl0ZV9kYXRhKGNsaWVu
-dCwgcmVnLA0KICAgICsJCQkJCSAgICAgICBNT0RFX1NUQU5EQlkpOw0KICAgICsJCWlmIChyYyA8
-IDApDQogICAgKwkJCXJldHVybiByYzsNCiAgICArCQlyZXR1cm4gY291bnQ7DQogICAgKwl9IGVs
-c2UgaWYgKHN5c2ZzX3N0cmVxKE1PREVfQUNUSVZFX1NUUklORywgYnVmKSkgew0KICAgICsJCXJj
-ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIHJlZywNCiAgICArCQkJCQkgICAg
-ICAgTU9ERV9BQ1RJVkUpOw0KICAgICsJCWlmIChyYyA8IDApDQogICAgKwkJCXJldHVybiByYzsN
-CiAgICArCQlyZXR1cm4gY291bnQ7DQogICAgKwl9DQogICAgKw0KICAgICsJcmV0dXJuIC1FSU5W
-QUw7DQogICAgK30NCiAgICArDQogICAgK3N0YXRpYyBTRU5TT1JfREVWSUNFX0FUVFJfUk8odmVu
-ZG9yLCBpcHNwc19zdHJpbmcsIHZlbmRvcik7DQogICAgK3N0YXRpYyBTRU5TT1JfREVWSUNFX0FU
-VFJfUk8obW9kZWwsIGlwc3BzX3N0cmluZywgbW9kZWwpOw0KICAgICtzdGF0aWMgU0VOU09SX0RF
-VklDRV9BVFRSX1JPKHBhcnRfbnVtYmVyLCBpcHNwc19zdHJpbmcsIHBhcnRfbnVtYmVyKTsNCiAg
-ICArc3RhdGljIFNFTlNPUl9ERVZJQ0VfQVRUUl9STyhzZXJpYWxfbnVtYmVyLCBpcHNwc19zdHJp
-bmcsIHNlcmlhbF9udW1iZXIpOw0KICAgICtzdGF0aWMgU0VOU09SX0RFVklDRV9BVFRSX1JPKGh3
-X3ZlcnNpb24sIGlwc3BzX3N0cmluZywgaHdfdmVyc2lvbik7DQogICAgK3N0YXRpYyBTRU5TT1Jf
-REVWSUNFX0FUVFJfUk8oZndfdmVyc2lvbiwgaXBzcHNfZndfdmVyc2lvbiwgZndfdmVyc2lvbik7
-DQogICAgK3N0YXRpYyBTRU5TT1JfREVWSUNFX0FUVFJfUlcobW9kZSwgaXBzcHNfbW9kZSwgbW9k
-ZSk7DQogICAgKw0KICAgICtzdGF0aWMgc3RydWN0IGF0dHJpYnV0ZSAqaXBzcHNfYXR0cnNbXSA9
-IHsNCiAgICArCSZzZW5zb3JfZGV2X2F0dHJfdmVuZG9yLmRldl9hdHRyLmF0dHIsDQogICAgKwkm
-c2Vuc29yX2Rldl9hdHRyX21vZGVsLmRldl9hdHRyLmF0dHIsDQogICAgKwkmc2Vuc29yX2Rldl9h
-dHRyX3BhcnRfbnVtYmVyLmRldl9hdHRyLmF0dHIsDQogICAgKwkmc2Vuc29yX2Rldl9hdHRyX3Nl
-cmlhbF9udW1iZXIuZGV2X2F0dHIuYXR0ciwNCiAgICArCSZzZW5zb3JfZGV2X2F0dHJfaHdfdmVy
-c2lvbi5kZXZfYXR0ci5hdHRyLA0KICAgICsJJnNlbnNvcl9kZXZfYXR0cl9md192ZXJzaW9uLmRl
-dl9hdHRyLmF0dHIsDQogICAgKwkmc2Vuc29yX2Rldl9hdHRyX21vZGUuZGV2X2F0dHIuYXR0ciwN
-CiAgICArCU5VTEwsDQogICAgK307DQogICAgKw0KICAgICtBVFRSSUJVVEVfR1JPVVBTKGlwc3Bz
-KTsNCiAgICArDQogICAgK3N0YXRpYyBzdHJ1Y3QgcG1idXNfZHJpdmVyX2luZm8gaXBzcHNfaW5m
-byA9IHsNCiAgICArCS5wYWdlcyA9IDEsDQogICAgKwkuZnVuY1swXSA9IFBNQlVTX0hBVkVfVklO
-IHwgUE1CVVNfSEFWRV9WT1VUIHwgUE1CVVNfSEFWRV9JT1VUIHwNCiAgICArCQlQTUJVU19IQVZF
-X0lJTiB8IFBNQlVTX0hBVkVfUE9VVCB8IFBNQlVTX0hBVkVfUElOIHwNCiAgICArCQlQTUJVU19I
-QVZFX0ZBTjEyIHwgUE1CVVNfSEFWRV9URU1QIHwgUE1CVVNfSEFWRV9URU1QMiB8DQogICAgKwkJ
-UE1CVVNfSEFWRV9URU1QMyB8IFBNQlVTX0hBVkVfU1RBVFVTX1ZPVVQgfA0KICAgICsJCVBNQlVT
-X0hBVkVfU1RBVFVTX0lPVVQgfCBQTUJVU19IQVZFX1NUQVRVU19JTlBVVCB8DQogICAgKwkJUE1C
-VVNfSEFWRV9TVEFUVVNfVEVNUCB8IFBNQlVTX0hBVkVfU1RBVFVTX0ZBTjEyLA0KICAgICsJLmdy
-b3VwcyA9IGlwc3BzX2dyb3VwcywNCiAgICArfTsNCiAgICArDQogICAgK3N0YXRpYyBzdHJ1Y3Qg
-cG1idXNfcGxhdGZvcm1fZGF0YSBpcHNwc19wZGF0YSA9IHsNCiAgICArCS5mbGFncyA9IFBNQlVT
-X1NLSVBfU1RBVFVTX0NIRUNLLA0KICAgICt9Ow0KICAgICsNCiAgICArc3RhdGljIGludCBpcHNw
-c19wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50LA0KICAgICsJCSAgICAgICBjb25zdCBz
-dHJ1Y3QgaTJjX2RldmljZV9pZCAqaWQpDQogICAgK3sNCiAgICArCWNsaWVudC0+ZGV2LnBsYXRm
-b3JtX2RhdGEgPSAmaXBzcHNfcGRhdGE7DQogICAgKwlyZXR1cm4gcG1idXNfZG9fcHJvYmUoY2xp
-ZW50LCBpZCwgJmlwc3BzX2luZm8pOw0KICAgICt9DQogICAgKw0KICAgICtzdGF0aWMgY29uc3Qg
-c3RydWN0IGkyY19kZXZpY2VfaWQgaXBzcHNfaWRbXSA9IHsNCiAgICArCXsgImluc3B1cl9pcHNw
-czEiLCAwIH0sDQogICAgKwl7fQ0KICAgICt9Ow0KICAgICtNT0RVTEVfREVWSUNFX1RBQkxFKGky
-YywgaXBzcHNfaWQpOw0KICAgICsNCiAgICArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2Vf
-aWQgaXBzcHNfb2ZfbWF0Y2hbXSA9IHsNCiAgICArCXsgLmNvbXBhdGlibGUgPSAiaW5zcHVyLGlw
-c3BzMSIgfSwNCiAgICArCXt9DQogICAgK307DQogICAgK01PRFVMRV9ERVZJQ0VfVEFCTEUob2Ys
-IGlwc3BzX29mX21hdGNoKTsNCiAgICArDQogICAgK3N0YXRpYyBzdHJ1Y3QgaTJjX2RyaXZlciBp
-cHNwc19kcml2ZXIgPSB7DQogICAgKwkuZHJpdmVyID0gew0KICAgICsJCS5uYW1lID0gImluc3B1
-ci1pcHNwcyIsDQogICAgKwkJLm9mX21hdGNoX3RhYmxlID0gaXBzcHNfb2ZfbWF0Y2gsDQogICAg
-Kwl9LA0KICAgICsJLnByb2JlID0gaXBzcHNfcHJvYmUsDQogICAgKwkucmVtb3ZlID0gcG1idXNf
-ZG9fcmVtb3ZlLA0KICAgICsJLmlkX3RhYmxlID0gaXBzcHNfaWQsDQogICAgK307DQogICAgKw0K
-ICAgICttb2R1bGVfaTJjX2RyaXZlcihpcHNwc19kcml2ZXIpOw0KICAgICsNCiAgICArTU9EVUxF
-X0FVVEhPUigiSm9obiBXYW5nIik7DQogICAgK01PRFVMRV9ERVNDUklQVElPTigiUE1CdXMgZHJp
-dmVyIGZvciBJbnNwdXIgUG93ZXIgU3lzdGVtIHBvd2VyIHN1cHBsaWVzIik7DQogICAgK01PRFVM
-RV9MSUNFTlNFKCJHUEwiKTsNCiAgICAtLSANCiAgICAyLjE3LjENCiAgICANCiAgICANCg0K
+On Fri, Aug 16, 2019 at 04:01:05PM +0000, Vijay Khemka wrote:
+> 
+> 
+> ﻿On 8/16/19, 3:20 AM, "openbmc on behalf of John Wang" <openbmc-bounces+vijaykhemka=fb.com@lists.ozlabs.org on behalf of wangzqbj@inspur.com> wrote:
+> 
+>     Add the driver to monitor Inspur Power System power supplies
+>     with hwmon over pmbus.
+>     
+>     This driver adds sysfs attributes for additional power supply data,
+>     including vendor, model, part_number, serial number,
+>     firmware revision, hardware revision, and psu mode(active/standby).
+>     
+>     Signed-off-by: John Wang <wangzqbj@inspur.com>
+>     ---
+>     v5:
+>         - Align sysfs attrs description in inspur-ipsps1.rst
+>           (Use tab instead of space to sperate names and values)
+>     v4:
+>         - Remove the additional tabs in the Makefile
+>         - Rebased on 5.3-rc4, not 5.2
+>     v3:
+>         - Sort kconfig/makefile entries alphabetically
+>         - Remove unnecessary initialization
+>         - Use ATTRIBUTE_GROUPS instead of expanding directly
+>         - Use memscan to avoid reimplementation
+>     v2:
+>         - Fix typos in commit message
+>         - Invert Christmas tree
+>         - Configure device with sysfs attrs, not debugfs entries
+>         - Fix errno in fw_version_read, ENODATA to EPROTO
+>         - Change the print format of fw-version
+>         - Use sysfs_streq instead of strcmp("xxx" "\n", "xxx")
+>         - Document sysfs attributes
+>     ---
+>      Documentation/hwmon/inspur-ipsps1.rst |  79 +++++++++
+>      drivers/hwmon/pmbus/Kconfig           |   9 +
+>      drivers/hwmon/pmbus/Makefile          |   1 +
+>      drivers/hwmon/pmbus/inspur-ipsps.c    | 226 ++++++++++++++++++++++++++
+>      4 files changed, 315 insertions(+)
+>      create mode 100644 Documentation/hwmon/inspur-ipsps1.rst
+>      create mode 100644 drivers/hwmon/pmbus/inspur-ipsps.c
+>     
+>     diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
+>     new file mode 100644
+>     index 000000000000..2b871ae3448f
+>     --- /dev/null
+>     +++ b/Documentation/hwmon/inspur-ipsps1.rst
+>     @@ -0,0 +1,79 @@
+>     +Kernel driver inspur-ipsps1
+>     +=======================
+>     +
+>     +Supported chips:
+>     +
+>     +  * Inspur Power System power supply unit
+>     +
+>     +Author: John Wang <wangzqbj@inspur.com>
+>     +
+>     +Description
+>     +-----------
+>     +
+>     +This driver supports Inspur Power System power supplies. This driver
+>     +is a client to the core PMBus driver.
+>     +
+>     +Usage Notes
+>     +-----------
+>     +
+>     +This driver does not auto-detect devices. You will have to instantiate the
+>     +devices explicitly. Please see Documentation/i2c/instantiating-devices for
+>     +details.
+>     +
+>     +Sysfs entries
+>     +-------------
+>     +
+>     +The following attributes are supported:
+>     +
+>     +======================= ======================================================
+>     +curr1_input		Measured input current
+>     +curr1_label		"iin"
+>     +curr1_max		Maximum current
+>     +curr1_max_alarm		Current high alarm
+>     +curr2_input		Measured output current in mA.
+>     +curr2_label		"iout1"
+>     +curr2_crit		Critical maximum current
+>     +curr2_crit_alarm	Current critical high alarm
+>     +curr2_max		Maximum current
+>     +curr2_max_alarm		Current high alarm
+>     +
+>     +fan1_alarm		Fan 1 warning.
+>     +fan1_fault		Fan 1 fault.
+>     +fan1_input		Fan 1 speed in RPM.
+>     +
+>     +in1_alarm		Input voltage under-voltage alarm.
+>     +in1_input		Measured input voltage in mV.
+>     +in1_label		"vin"
+>     +in2_input		Measured output voltage in mV.
+>     +in2_label		"vout1"
+>     +in2_lcrit		Critical minimum output voltage
+>     +in2_lcrit_alarm		Output voltage critical low alarm
+>     +in2_max			Maximum output voltage
+>     +in2_max_alarm		Output voltage high alarm
+>     +in2_min			Minimum output voltage
+>     +in2_min_alarm		Output voltage low alarm
+>     +
+>     +power1_alarm		Input fault or alarm.
+>     +power1_input		Measured input power in uW.
+>     +power1_label		"pin"
+>     +power1_max		Input power limit
+>     +power2_max_alarm	Output power high alarm
+>     +power2_max		Output power limit
+>     +power2_input		Measured output power in uW.
+>     +power2_label		"pout"
+>     +
+>     +temp[1-3]_input		Measured temperature
+>     +temp[1-2]_max		Maximum temperature
+>     +temp[1-3]_max_alarm	Temperature high alarm
+>     +
+>     +vendor			Manufacturer name
+>     +model			Product model
+>     +part_number		Product part number
+>     +serial_number		Product serial number
+>     +fw_version		Firmware version
+>     +hw_version		Hardware version
+>     +mode			Work mode. Can be set to active or
+>     +			standby, when set to standby, PSU will
+>     +			automatically switch between standby
+>     +			and redundancy mode.
+> I don't think it is aligned yet. Please use space only instead of tabs.
+> 
+
+First, it is aligned. It just appears unaligned in the patch because
+'+' at the beginning of the lins shifts the output. We want the result
+to be aligned, not the patch file.
+
+Second, let's use tabs like every other hwmon documentation file. I don't
+see the point of using spaces just to make the patch file appear aligned.
+
+Unless there is serious feedback, I am going to apply this patch to
+hwmon-next.
+
+Guenter
+
+>     +======================= ======================================================
+>     diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+>     index b6588483fae1..d62d69bb7e49 100644
+>     --- a/drivers/hwmon/pmbus/Kconfig
+>     +++ b/drivers/hwmon/pmbus/Kconfig
+>     @@ -46,6 +46,15 @@ config SENSORS_IBM_CFFPS
+>      	  This driver can also be built as a module. If so, the module will
+>      	  be called ibm-cffps.
+>      
+>     +config SENSORS_INSPUR_IPSPS
+>     +	tristate "INSPUR Power System Power Supply"
+>     +	help
+>     +	  If you say yes here you get hardware monitoring support for the INSPUR
+>     +	  Power System power supply.
+>     +
+>     +	  This driver can also be built as a module. If so, the module will
+>     +	  be called inspur-ipsps.
+>     +
+>      config SENSORS_IR35221
+>      	tristate "Infineon IR35221"
+>      	help
+>     diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+>     index c950ea9a5d00..03bacfcfd660 100644
+>     --- a/drivers/hwmon/pmbus/Makefile
+>     +++ b/drivers/hwmon/pmbus/Makefile
+>     @@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)		+= pmbus_core.o
+>      obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+>      obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+>      obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+>     +obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+>      obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+>      obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+>      obj-$(CONFIG_SENSORS_IRPS5401)	+= irps5401.o
+>     diff --git a/drivers/hwmon/pmbus/inspur-ipsps.c b/drivers/hwmon/pmbus/inspur-ipsps.c
+>     new file mode 100644
+>     index 000000000000..fa981b881a60
+>     --- /dev/null
+>     +++ b/drivers/hwmon/pmbus/inspur-ipsps.c
+>     @@ -0,0 +1,226 @@
+>     +// SPDX-License-Identifier: GPL-2.0-or-later
+>     +/*
+>     + * Copyright 2019 Inspur Corp.
+>     + */
+>     +
+>     +#include <linux/debugfs.h>
+>     +#include <linux/device.h>
+>     +#include <linux/fs.h>
+>     +#include <linux/i2c.h>
+>     +#include <linux/module.h>
+>     +#include <linux/pmbus.h>
+>     +#include <linux/hwmon-sysfs.h>
+>     +
+>     +#include "pmbus.h"
+>     +
+>     +#define IPSPS_REG_VENDOR_ID	0x99
+>     +#define IPSPS_REG_MODEL		0x9A
+>     +#define IPSPS_REG_FW_VERSION	0x9B
+>     +#define IPSPS_REG_PN		0x9C
+>     +#define IPSPS_REG_SN		0x9E
+>     +#define IPSPS_REG_HW_VERSION	0xB0
+>     +#define IPSPS_REG_MODE		0xFC
+>     +
+>     +#define MODE_ACTIVE		0x55
+>     +#define MODE_STANDBY		0x0E
+>     +#define MODE_REDUNDANCY		0x00
+>     +
+>     +#define MODE_ACTIVE_STRING		"active"
+>     +#define MODE_STANDBY_STRING		"standby"
+>     +#define MODE_REDUNDANCY_STRING		"redundancy"
+>     +
+>     +enum ipsps_index {
+>     +	vendor,
+>     +	model,
+>     +	fw_version,
+>     +	part_number,
+>     +	serial_number,
+>     +	hw_version,
+>     +	mode,
+>     +	num_regs,
+>     +};
+>     +
+>     +static const u8 ipsps_regs[num_regs] = {
+>     +	[vendor] = IPSPS_REG_VENDOR_ID,
+>     +	[model] = IPSPS_REG_MODEL,
+>     +	[fw_version] = IPSPS_REG_FW_VERSION,
+>     +	[part_number] = IPSPS_REG_PN,
+>     +	[serial_number] = IPSPS_REG_SN,
+>     +	[hw_version] = IPSPS_REG_HW_VERSION,
+>     +	[mode] = IPSPS_REG_MODE,
+>     +};
+>     +
+>     +static ssize_t ipsps_string_show(struct device *dev,
+>     +				 struct device_attribute *devattr,
+>     +				 char *buf)
+>     +{
+>     +	u8 reg;
+>     +	int rc;
+>     +	char *p;
+>     +	char data[I2C_SMBUS_BLOCK_MAX + 1];
+>     +	struct i2c_client *client = to_i2c_client(dev->parent);
+>     +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+>     +
+>     +	reg = ipsps_regs[attr->index];
+>     +	rc = i2c_smbus_read_block_data(client, reg, data);
+>     +	if (rc < 0)
+>     +		return rc;
+>     +
+>     +	/* filled with printable characters, ending with # */
+>     +	p = memscan(data, '#', rc);
+>     +	*p = '\0';
+>     +
+>     +	return snprintf(buf, PAGE_SIZE, "%s\n", data);
+>     +}
+>     +
+>     +static ssize_t ipsps_fw_version_show(struct device *dev,
+>     +				     struct device_attribute *devattr,
+>     +				     char *buf)
+>     +{
+>     +	u8 reg;
+>     +	int rc;
+>     +	u8 data[I2C_SMBUS_BLOCK_MAX] = { 0 };
+>     +	struct i2c_client *client = to_i2c_client(dev->parent);
+>     +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+>     +
+>     +	reg = ipsps_regs[attr->index];
+>     +	rc = i2c_smbus_read_block_data(client, reg, data);
+>     +	if (rc < 0)
+>     +		return rc;
+>     +
+>     +	if (rc != 6)
+>     +		return -EPROTO;
+>     +
+>     +	return snprintf(buf, PAGE_SIZE, "%u.%02u%u-%u.%02u\n",
+>     +			data[1], data[2]/* < 100 */, data[3]/*< 10*/,
+>     +			data[4], data[5]/* < 100 */);
+>     +}
+>     +
+>     +static ssize_t ipsps_mode_show(struct device *dev,
+>     +			       struct device_attribute *devattr, char *buf)
+>     +{
+>     +	u8 reg;
+>     +	int rc;
+>     +	struct i2c_client *client = to_i2c_client(dev->parent);
+>     +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+>     +
+>     +	reg = ipsps_regs[attr->index];
+>     +	rc = i2c_smbus_read_byte_data(client, reg);
+>     +	if (rc < 0)
+>     +		return rc;
+>     +
+>     +	switch (rc) {
+>     +	case MODE_ACTIVE:
+>     +		return snprintf(buf, PAGE_SIZE, "[%s] %s %s\n",
+>     +				MODE_ACTIVE_STRING,
+>     +				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+>     +	case MODE_STANDBY:
+>     +		return snprintf(buf, PAGE_SIZE, "%s [%s] %s\n",
+>     +				MODE_ACTIVE_STRING,
+>     +				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+>     +	case MODE_REDUNDANCY:
+>     +		return snprintf(buf, PAGE_SIZE, "%s %s [%s]\n",
+>     +				MODE_ACTIVE_STRING,
+>     +				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
+>     +	default:
+>     +		return snprintf(buf, PAGE_SIZE, "unspecified\n");
+>     +	}
+>     +}
+>     +
+>     +static ssize_t ipsps_mode_store(struct device *dev,
+>     +				struct device_attribute *devattr,
+>     +				const char *buf, size_t count)
+>     +{
+>     +	u8 reg;
+>     +	int rc;
+>     +	struct i2c_client *client = to_i2c_client(dev->parent);
+>     +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+>     +
+>     +	reg = ipsps_regs[attr->index];
+>     +	if (sysfs_streq(MODE_STANDBY_STRING, buf)) {
+>     +		rc = i2c_smbus_write_byte_data(client, reg,
+>     +					       MODE_STANDBY);
+>     +		if (rc < 0)
+>     +			return rc;
+>     +		return count;
+>     +	} else if (sysfs_streq(MODE_ACTIVE_STRING, buf)) {
+>     +		rc = i2c_smbus_write_byte_data(client, reg,
+>     +					       MODE_ACTIVE);
+>     +		if (rc < 0)
+>     +			return rc;
+>     +		return count;
+>     +	}
+>     +
+>     +	return -EINVAL;
+>     +}
+>     +
+>     +static SENSOR_DEVICE_ATTR_RO(vendor, ipsps_string, vendor);
+>     +static SENSOR_DEVICE_ATTR_RO(model, ipsps_string, model);
+>     +static SENSOR_DEVICE_ATTR_RO(part_number, ipsps_string, part_number);
+>     +static SENSOR_DEVICE_ATTR_RO(serial_number, ipsps_string, serial_number);
+>     +static SENSOR_DEVICE_ATTR_RO(hw_version, ipsps_string, hw_version);
+>     +static SENSOR_DEVICE_ATTR_RO(fw_version, ipsps_fw_version, fw_version);
+>     +static SENSOR_DEVICE_ATTR_RW(mode, ipsps_mode, mode);
+>     +
+>     +static struct attribute *ipsps_attrs[] = {
+>     +	&sensor_dev_attr_vendor.dev_attr.attr,
+>     +	&sensor_dev_attr_model.dev_attr.attr,
+>     +	&sensor_dev_attr_part_number.dev_attr.attr,
+>     +	&sensor_dev_attr_serial_number.dev_attr.attr,
+>     +	&sensor_dev_attr_hw_version.dev_attr.attr,
+>     +	&sensor_dev_attr_fw_version.dev_attr.attr,
+>     +	&sensor_dev_attr_mode.dev_attr.attr,
+>     +	NULL,
+>     +};
+>     +
+>     +ATTRIBUTE_GROUPS(ipsps);
+>     +
+>     +static struct pmbus_driver_info ipsps_info = {
+>     +	.pages = 1,
+>     +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+>     +		PMBUS_HAVE_IIN | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN |
+>     +		PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
+>     +		PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
+>     +		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
+>     +		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
+>     +	.groups = ipsps_groups,
+>     +};
+>     +
+>     +static struct pmbus_platform_data ipsps_pdata = {
+>     +	.flags = PMBUS_SKIP_STATUS_CHECK,
+>     +};
+>     +
+>     +static int ipsps_probe(struct i2c_client *client,
+>     +		       const struct i2c_device_id *id)
+>     +{
+>     +	client->dev.platform_data = &ipsps_pdata;
+>     +	return pmbus_do_probe(client, id, &ipsps_info);
+>     +}
+>     +
+>     +static const struct i2c_device_id ipsps_id[] = {
+>     +	{ "inspur_ipsps1", 0 },
+>     +	{}
+>     +};
+>     +MODULE_DEVICE_TABLE(i2c, ipsps_id);
+>     +
+>     +static const struct of_device_id ipsps_of_match[] = {
+>     +	{ .compatible = "inspur,ipsps1" },
+>     +	{}
+>     +};
+>     +MODULE_DEVICE_TABLE(of, ipsps_of_match);
+>     +
+>     +static struct i2c_driver ipsps_driver = {
+>     +	.driver = {
+>     +		.name = "inspur-ipsps",
+>     +		.of_match_table = ipsps_of_match,
+>     +	},
+>     +	.probe = ipsps_probe,
+>     +	.remove = pmbus_do_remove,
+>     +	.id_table = ipsps_id,
+>     +};
+>     +
+>     +module_i2c_driver(ipsps_driver);
+>     +
+>     +MODULE_AUTHOR("John Wang");
+>     +MODULE_DESCRIPTION("PMBus driver for Inspur Power System power supplies");
+>     +MODULE_LICENSE("GPL");
+>     -- 
+>     2.17.1
+>     
+>     
+> 
