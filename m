@@ -1,261 +1,431 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B64D37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 10:23:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28AF87D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 10:27:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbfHPKX7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Aug 2019 06:23:59 -0400
-Received: from foss.arm.com ([217.140.110.172]:54680 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726839AbfHPKX7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Aug 2019 06:23:59 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B72A928;
-        Fri, 16 Aug 2019 03:23:57 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 621223F706;
-        Fri, 16 Aug 2019 03:23:56 -0700 (PDT)
-Subject: Re: [UNVERIFIED SENDER] Re: [PATCH 0/9] arm64: Stolen time support
-To:     Alexander Graf <graf@amazon.com>, Marc Zyngier <maz@kernel.org>
-Cc:     kvm@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org
-References: <20190802145017.42543-1-steven.price@arm.com>
- <20190803190522.5fec8f7d@why> <6789f477-8ab5-cc54-1ad2-8627917b07c9@arm.com>
- <8ca5c106-7c12-4c6e-6d81-a90f281a9894@amazon.com>
- <8636i3omnd.wl-maz@kernel.org>
- <bda4e0f7-e5f4-32af-e998-00b6240b5260@amazon.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <4e811196-fa57-f523-8df6-0243886fb83a@arm.com>
-Date:   Fri, 16 Aug 2019 11:23:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726897AbfHPK1M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Aug 2019 06:27:12 -0400
+Received: from vip.corpemail.net ([162.243.126.186]:47865 "EHLO
+        vip.corpemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726261AbfHPK1M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 06:27:12 -0400
+Received: from ([60.208.111.195])
+        by ssh248.corpemail.net (Antispam) with ASMTP (SSL) id HSJ67841;
+        Fri, 16 Aug 2019 18:19:41 +0800
+Received: from localhost (10.100.1.52) by Jtjnmail201618.home.langchao.com
+ (10.100.2.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 16 Aug
+ 2019 18:19:44 +0800
+From:   John Wang <wangzqbj@inspur.com>
+To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <duanzhijia01@inspur.com>, <mine260309@gmail.com>, <joel@jms.id.au>
+Subject: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power supply driver
+Date:   Fri, 16 Aug 2019 18:19:44 +0800
+Message-ID: <20190816101944.3586-1-wangzqbj@inspur.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <bda4e0f7-e5f4-32af-e998-00b6240b5260@amazon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.100.1.52]
+X-ClientProxiedBy: jtjnmail201605.home.langchao.com (10.100.2.5) To
+ Jtjnmail201618.home.langchao.com (10.100.2.18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/08/2019 15:52, Alexander Graf wrote:
-> 
-> 
-> On 14.08.19 16:19, Marc Zyngier wrote:
->> On Wed, 14 Aug 2019 14:02:25 +0100,
->> Alexander Graf <graf@amazon.com> wrote:
->>>
->>>
->>>
->>> On 05.08.19 15:06, Steven Price wrote:
->>>> On 03/08/2019 19:05, Marc Zyngier wrote:
->>>>> On Fri,  2 Aug 2019 15:50:08 +0100
->>>>> Steven Price <steven.price@arm.com> wrote:
->>>>>
->>>>> Hi Steven,
->>>>>
->>>>>> This series add support for paravirtualized time for arm64 guests and
->>>>>> KVM hosts following the specification in Arm's document DEN 0057A:
->>>>>>
->>>>>> https://developer.arm.com/docs/den0057/a
->>>>>>
->>>>>> It implements support for stolen time, allowing the guest to
->>>>>> identify time when it is forcibly not executing.
->>>>>>
->>>>>> It doesn't implement support for Live Physical Time (LPT) as there
->>>>>> are
->>>>>> some concerns about the overheads and approach in the above
->>>>>> specification, and I expect an updated version of the
->>>>>> specification to
->>>>>> be released soon with just the stolen time parts.
->>>>>
->>>>> Thanks for posting this.
->>>>>
->>>>> My current concern with this series is around the fact that we
->>>>> allocate
->>>>> memory from the kernel on behalf of the guest. It is the first example
->>>>> of such thing in the ARM port, and I can't really say I'm fond of it.
->>>>>
->>>>> x86 seems to get away with it by having the memory allocated from
->>>>> userspace, why I tend to like more. Yes, put_user is more
->>>>> expensive than a straight store, but this isn't done too often either.
->>>>>
->>>>> What is the rational for your current approach?
->>>>
->>>> As I see it there are 3 approaches that can be taken here:
->>>>
->>>> 1. Hypervisor allocates memory and adds it to the virtual machine. This
->>>> means that everything to do with the 'device' is encapsulated behind
->>>> the
->>>> KVM_CREATE_DEVICE / KVM_[GS]ET_DEVICE_ATTR ioctls. But since we want
->>>> the
->>>> stolen time structure to be fast it cannot be a trapping region and has
->>>> to be backed by real memory - in this case allocated by the host
->>>> kernel.
->>>>
->>>> 2. Host user space allocates memory. Similar to above, but this time
->>>> user space needs to manage the memory region as well as the usual
->>>> KVM_CREATE_DEVICE dance. I've no objection to this, but it means
->>>> kvmtool/QEMU needs to be much more aware of what is going on (e.g. how
->>>> to size the memory region).
->>>
->>> You ideally want to get the host overhead for a VM to as little as you
->>> can. I'm not terribly fond of the idea of reserving a full page just
->>> because we're too afraid of having the guest donate memory.
->>
->> Well, reduce the amount of memory you give to the guest by one page,
->> and allocate that page to the stolen time device. Problem solved!
->>
->> Seriously, if you're worried about the allocation of a single page,
->> you should first look at how many holes we have in the vcpu structure,
->> for example (even better, with the 8.4 NV patches applied). Just
->> fixing that would give you that page back *per vcpu*.
-> 
-> I'm worried about additional memory slots, about fragmenting the
-> cachable guest memory regions, about avoidable HV taxes.
-> 
-> I think we need to distinguish here between the KVM implementation and
-> the hypervisor/guest interface. Just because in KVM we can save overhead
-> today doesn't mean that the HV interface should be built around the
-> assumption that "memory is free".
+Add the driver to monitor Inspur Power System power supplies
+with hwmon over pmbus.
 
-The HV interface just requires that the host provides some memory for
-the structures to live in. The memory can be adjacent (or even within)
-the normal memory of the guest. The only requirement is that the guest
-isn't told to use this memory for normal allocations (i.e. it should
-either be explicitly reserved or just not contained within the normal
-memory block).
+This driver adds sysfs attributes for additional power supply data,
+including vendor, model, part_number, serial number,
+firmware revision, hardware revision, and psu mode(active/standby).
 
->>
->>>> 3. Guest kernel "donates" the memory to the hypervisor for the
->>>> structure. As far as I'm aware this is what x86 does. The problems I
->>>> see
->>>> this approach are:
->>>>
->>>>    a) kexec becomes much more tricky - there needs to be a disabling
->>>> mechanism for the guest to stop the hypervisor scribbling on memory
->>>> before starting the new kernel.
->>>
->>> I wouldn't call "quiesce a device" much more tricky. We have to do
->>> that for other devices as well today.
->>
->> And since there is no standard way of doing it, we keep inventing
->> weird and wonderful ways of doing so -- cue the terrible GICv3 LPI
->> situation, and all the various hacks to keep existing IOMMU mappings
->> around across firmware/kernel handovers as well as kexec.
-> 
-> Well, the good news here is that we don't have to keep it around ;).
-> 
->>
->>>
->>>>    b) If there is more than one entity that is interested in the
->>>> information (e.g. firmware and kernel) then this requires some form of
->>>> arbitration in the guest because the hypervisor doesn't want to have to
->>>> track an arbitrary number of regions to update.
->>>
->>> Why would FW care?
->>
->> Exactly. It doesn't care. Not caring means it doesn't know about the
->> page the guest has allocated for stolen time, and starts using it for
->> its own purposes. Hello, memory corruption. Same thing goes if you
->> reboot into a non stolen time aware kernel.
-> 
-> If you reboot, you go via the vcpu reset path which clears the map, no?
-> Same goes for FW entry. If you enter firmware that does not set up the
-> map, you never see it.
+Signed-off-by: John Wang <wangzqbj@inspur.com>
+---
+v5:
+    - Align sysfs attrs description in inspur-ipsps1.rst
+      (Use tab instead of space to sperate names and values)
+v4:
+    - Remove the additional tabs in the Makefile
+    - Rebased on 5.3-rc4, not 5.2
+v3:
+    - Sort kconfig/makefile entries alphabetically
+    - Remove unnecessary initialization
+    - Use ATTRIBUTE_GROUPS instead of expanding directly
+    - Use memscan to avoid reimplementation
+v2:
+    - Fix typos in commit message
+    - Invert Christmas tree
+    - Configure device with sysfs attrs, not debugfs entries
+    - Fix errno in fw_version_read, ENODATA to EPROTO
+    - Change the print format of fw-version
+    - Use sysfs_streq instead of strcmp("xxx" "\n", "xxx")
+    - Document sysfs attributes
+---
+ Documentation/hwmon/inspur-ipsps1.rst |  79 +++++++++
+ drivers/hwmon/pmbus/Kconfig           |   9 +
+ drivers/hwmon/pmbus/Makefile          |   1 +
+ drivers/hwmon/pmbus/inspur-ipsps.c    | 226 ++++++++++++++++++++++++++
+ 4 files changed, 315 insertions(+)
+ create mode 100644 Documentation/hwmon/inspur-ipsps1.rst
+ create mode 100644 drivers/hwmon/pmbus/inspur-ipsps.c
 
-Doing this per-vcpu implies you are probably going to have to allocate
-an entire page per vcpu. Because it's entirely possible for a guest to
-reset an individual vcpu. Or at the least there's some messy reference
-counting going on here.
+diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
+new file mode 100644
+index 000000000000..2b871ae3448f
+--- /dev/null
++++ b/Documentation/hwmon/inspur-ipsps1.rst
+@@ -0,0 +1,79 @@
++Kernel driver inspur-ipsps1
++=======================
++
++Supported chips:
++
++  * Inspur Power System power supply unit
++
++Author: John Wang <wangzqbj@inspur.com>
++
++Description
++-----------
++
++This driver supports Inspur Power System power supplies. This driver
++is a client to the core PMBus driver.
++
++Usage Notes
++-----------
++
++This driver does not auto-detect devices. You will have to instantiate the
++devices explicitly. Please see Documentation/i2c/instantiating-devices for
++details.
++
++Sysfs entries
++-------------
++
++The following attributes are supported:
++
++======================= ======================================================
++curr1_input		Measured input current
++curr1_label		"iin"
++curr1_max		Maximum current
++curr1_max_alarm		Current high alarm
++curr2_input		Measured output current in mA.
++curr2_label		"iout1"
++curr2_crit		Critical maximum current
++curr2_crit_alarm	Current critical high alarm
++curr2_max		Maximum current
++curr2_max_alarm		Current high alarm
++
++fan1_alarm		Fan 1 warning.
++fan1_fault		Fan 1 fault.
++fan1_input		Fan 1 speed in RPM.
++
++in1_alarm		Input voltage under-voltage alarm.
++in1_input		Measured input voltage in mV.
++in1_label		"vin"
++in2_input		Measured output voltage in mV.
++in2_label		"vout1"
++in2_lcrit		Critical minimum output voltage
++in2_lcrit_alarm		Output voltage critical low alarm
++in2_max			Maximum output voltage
++in2_max_alarm		Output voltage high alarm
++in2_min			Minimum output voltage
++in2_min_alarm		Output voltage low alarm
++
++power1_alarm		Input fault or alarm.
++power1_input		Measured input power in uW.
++power1_label		"pin"
++power1_max		Input power limit
++power2_max_alarm	Output power high alarm
++power2_max		Output power limit
++power2_input		Measured output power in uW.
++power2_label		"pout"
++
++temp[1-3]_input		Measured temperature
++temp[1-2]_max		Maximum temperature
++temp[1-3]_max_alarm	Temperature high alarm
++
++vendor			Manufacturer name
++model			Product model
++part_number		Product part number
++serial_number		Product serial number
++fw_version		Firmware version
++hw_version		Hardware version
++mode			Work mode. Can be set to active or
++			standby, when set to standby, PSU will
++			automatically switch between standby
++			and redundancy mode.
++======================= ======================================================
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index b6588483fae1..d62d69bb7e49 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -46,6 +46,15 @@ config SENSORS_IBM_CFFPS
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called ibm-cffps.
+ 
++config SENSORS_INSPUR_IPSPS
++	tristate "INSPUR Power System Power Supply"
++	help
++	  If you say yes here you get hardware monitoring support for the INSPUR
++	  Power System power supply.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called inspur-ipsps.
++
+ config SENSORS_IR35221
+ 	tristate "Infineon IR35221"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index c950ea9a5d00..03bacfcfd660 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)		+= pmbus_core.o
+ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
++obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+ obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+ obj-$(CONFIG_SENSORS_IRPS5401)	+= irps5401.o
+diff --git a/drivers/hwmon/pmbus/inspur-ipsps.c b/drivers/hwmon/pmbus/inspur-ipsps.c
+new file mode 100644
+index 000000000000..fa981b881a60
+--- /dev/null
++++ b/drivers/hwmon/pmbus/inspur-ipsps.c
+@@ -0,0 +1,226 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright 2019 Inspur Corp.
++ */
++
++#include <linux/debugfs.h>
++#include <linux/device.h>
++#include <linux/fs.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/pmbus.h>
++#include <linux/hwmon-sysfs.h>
++
++#include "pmbus.h"
++
++#define IPSPS_REG_VENDOR_ID	0x99
++#define IPSPS_REG_MODEL		0x9A
++#define IPSPS_REG_FW_VERSION	0x9B
++#define IPSPS_REG_PN		0x9C
++#define IPSPS_REG_SN		0x9E
++#define IPSPS_REG_HW_VERSION	0xB0
++#define IPSPS_REG_MODE		0xFC
++
++#define MODE_ACTIVE		0x55
++#define MODE_STANDBY		0x0E
++#define MODE_REDUNDANCY		0x00
++
++#define MODE_ACTIVE_STRING		"active"
++#define MODE_STANDBY_STRING		"standby"
++#define MODE_REDUNDANCY_STRING		"redundancy"
++
++enum ipsps_index {
++	vendor,
++	model,
++	fw_version,
++	part_number,
++	serial_number,
++	hw_version,
++	mode,
++	num_regs,
++};
++
++static const u8 ipsps_regs[num_regs] = {
++	[vendor] = IPSPS_REG_VENDOR_ID,
++	[model] = IPSPS_REG_MODEL,
++	[fw_version] = IPSPS_REG_FW_VERSION,
++	[part_number] = IPSPS_REG_PN,
++	[serial_number] = IPSPS_REG_SN,
++	[hw_version] = IPSPS_REG_HW_VERSION,
++	[mode] = IPSPS_REG_MODE,
++};
++
++static ssize_t ipsps_string_show(struct device *dev,
++				 struct device_attribute *devattr,
++				 char *buf)
++{
++	u8 reg;
++	int rc;
++	char *p;
++	char data[I2C_SMBUS_BLOCK_MAX + 1];
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	reg = ipsps_regs[attr->index];
++	rc = i2c_smbus_read_block_data(client, reg, data);
++	if (rc < 0)
++		return rc;
++
++	/* filled with printable characters, ending with # */
++	p = memscan(data, '#', rc);
++	*p = '\0';
++
++	return snprintf(buf, PAGE_SIZE, "%s\n", data);
++}
++
++static ssize_t ipsps_fw_version_show(struct device *dev,
++				     struct device_attribute *devattr,
++				     char *buf)
++{
++	u8 reg;
++	int rc;
++	u8 data[I2C_SMBUS_BLOCK_MAX] = { 0 };
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	reg = ipsps_regs[attr->index];
++	rc = i2c_smbus_read_block_data(client, reg, data);
++	if (rc < 0)
++		return rc;
++
++	if (rc != 6)
++		return -EPROTO;
++
++	return snprintf(buf, PAGE_SIZE, "%u.%02u%u-%u.%02u\n",
++			data[1], data[2]/* < 100 */, data[3]/*< 10*/,
++			data[4], data[5]/* < 100 */);
++}
++
++static ssize_t ipsps_mode_show(struct device *dev,
++			       struct device_attribute *devattr, char *buf)
++{
++	u8 reg;
++	int rc;
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	reg = ipsps_regs[attr->index];
++	rc = i2c_smbus_read_byte_data(client, reg);
++	if (rc < 0)
++		return rc;
++
++	switch (rc) {
++	case MODE_ACTIVE:
++		return snprintf(buf, PAGE_SIZE, "[%s] %s %s\n",
++				MODE_ACTIVE_STRING,
++				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
++	case MODE_STANDBY:
++		return snprintf(buf, PAGE_SIZE, "%s [%s] %s\n",
++				MODE_ACTIVE_STRING,
++				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
++	case MODE_REDUNDANCY:
++		return snprintf(buf, PAGE_SIZE, "%s %s [%s]\n",
++				MODE_ACTIVE_STRING,
++				MODE_STANDBY_STRING, MODE_REDUNDANCY_STRING);
++	default:
++		return snprintf(buf, PAGE_SIZE, "unspecified\n");
++	}
++}
++
++static ssize_t ipsps_mode_store(struct device *dev,
++				struct device_attribute *devattr,
++				const char *buf, size_t count)
++{
++	u8 reg;
++	int rc;
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	reg = ipsps_regs[attr->index];
++	if (sysfs_streq(MODE_STANDBY_STRING, buf)) {
++		rc = i2c_smbus_write_byte_data(client, reg,
++					       MODE_STANDBY);
++		if (rc < 0)
++			return rc;
++		return count;
++	} else if (sysfs_streq(MODE_ACTIVE_STRING, buf)) {
++		rc = i2c_smbus_write_byte_data(client, reg,
++					       MODE_ACTIVE);
++		if (rc < 0)
++			return rc;
++		return count;
++	}
++
++	return -EINVAL;
++}
++
++static SENSOR_DEVICE_ATTR_RO(vendor, ipsps_string, vendor);
++static SENSOR_DEVICE_ATTR_RO(model, ipsps_string, model);
++static SENSOR_DEVICE_ATTR_RO(part_number, ipsps_string, part_number);
++static SENSOR_DEVICE_ATTR_RO(serial_number, ipsps_string, serial_number);
++static SENSOR_DEVICE_ATTR_RO(hw_version, ipsps_string, hw_version);
++static SENSOR_DEVICE_ATTR_RO(fw_version, ipsps_fw_version, fw_version);
++static SENSOR_DEVICE_ATTR_RW(mode, ipsps_mode, mode);
++
++static struct attribute *ipsps_attrs[] = {
++	&sensor_dev_attr_vendor.dev_attr.attr,
++	&sensor_dev_attr_model.dev_attr.attr,
++	&sensor_dev_attr_part_number.dev_attr.attr,
++	&sensor_dev_attr_serial_number.dev_attr.attr,
++	&sensor_dev_attr_hw_version.dev_attr.attr,
++	&sensor_dev_attr_fw_version.dev_attr.attr,
++	&sensor_dev_attr_mode.dev_attr.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(ipsps);
++
++static struct pmbus_driver_info ipsps_info = {
++	.pages = 1,
++	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++		PMBUS_HAVE_IIN | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN |
++		PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
++		PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
++		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
++		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
++	.groups = ipsps_groups,
++};
++
++static struct pmbus_platform_data ipsps_pdata = {
++	.flags = PMBUS_SKIP_STATUS_CHECK,
++};
++
++static int ipsps_probe(struct i2c_client *client,
++		       const struct i2c_device_id *id)
++{
++	client->dev.platform_data = &ipsps_pdata;
++	return pmbus_do_probe(client, id, &ipsps_info);
++}
++
++static const struct i2c_device_id ipsps_id[] = {
++	{ "inspur_ipsps1", 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, ipsps_id);
++
++static const struct of_device_id ipsps_of_match[] = {
++	{ .compatible = "inspur,ipsps1" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, ipsps_of_match);
++
++static struct i2c_driver ipsps_driver = {
++	.driver = {
++		.name = "inspur-ipsps",
++		.of_match_table = ipsps_of_match,
++	},
++	.probe = ipsps_probe,
++	.remove = pmbus_do_remove,
++	.id_table = ipsps_id,
++};
++
++module_i2c_driver(ipsps_driver);
++
++MODULE_AUTHOR("John Wang");
++MODULE_DESCRIPTION("PMBus driver for Inspur Power System power supplies");
++MODULE_LICENSE("GPL");
+-- 
+2.17.1
 
-Having a region of memory provided by the host means the structures can
-be packed and there's nothing to be done in the reset path.
-
->>
->>>
->>>>    c) Performance can suffer if the host kernel doesn't have a suitably
->>>> aligned/sized area to use. As you say - put_user() is more expensive.
->>>
->>> Just define the interface to always require natural alignment when
->>> donating a memory location?
->>>
->>>> The structure is updated on every return to the VM.
->>>
->>> If you really do suffer from put_user(), there are alternatives. You
->>> could just map the page on the registration hcall and then leave it
->>> pinned until the vcpu gets destroyed again.
->>
->> put_user() should be cheap enough. It is one of the things we tend to
->> optimise anyway. And yes, worse case, we pin the page.
->>
->>>
->>>> Of course x86 does prove the third approach can work, but I'm not sure
->>>> which is actually better. Avoid the kexec cancellation requirements was
->>>> the main driver of the current approach. Although many of the
->>>
->>> I really don't understand the problem with kexec cancellation. Worst
->>> case, let guest FW set it up for you and propagate only the address
->>> down via ACPI/DT. That way you can mark the respective memory as
->>> reserved too.
->>
->> We already went down that road with the LPI hack. I'm not going there
->> again if we can avoid it. And it turn out that we can. Just allocate
->> the stolen time page as a separate memblock, give it to KVM for that
->> purpose.
->>
->> Your suggestion of letting the guest firmware set something up only
->> works if whatever you're booting after that understands it. If it
->> doesn't, you're screwed.
-> 
-> Why? For UEFI, mark the region as reserved in the memory map. For DT,
-> just mark it straight on reserved.
-> 
-> That said, I'm not advocating for doing it in the FW. I think this can
-> be solved really easily with a simple guest driver to enable and a vcpu
-> reset hook to disable the map.
-> 
->>
->>> But even with a Linux only mechanism, just take a look at
->>> arch/x86/kernel/kvmclock.c. All they do to remove the map is to hook
->>> into machine_crash_shutdown() and machine_shutdown().
->>
->> I'm not going to take something that is Linux specific. It has to work
->> for all guests, at all times, whether they know about the hypervisor
->> service or not.
-> 
-> If they don't know about the HV service, they don't register the writer,
-> so they don't see corruption.
-> 
-> If they know about the HV service and they don't support kexec, they
-> don't have to worry because a vcpu reset should also clear the map.
-> 
-> If they do support kexec, they already have a mechanism to quiesce devices.
-> 
-> So I don't understand how this is Linux specific? The question was Linux
-> specific, so I answered with precedence to show that disabling on kexec
-> is not all that hard :).
-
-My concern is more around a something like Jailhouse as a
-guest-hypervisor. There Linux gives up CPUs to run another OS. This
-hand-off of a CPU is much easier if there's just a structure in memory
-somewhere which doesn't move.
-
-The kexec case like you say can be handled as a device to quiesce.
-
-I don't think either scheme is unworkable, but I do think getting the
-host to provide the memory is easier for both guest and host. Marc had a
-good point that getting user space to allocate the memory is probably
-preferable to getting the host kernel to do so, so I'm reworking the
-code to do that.
-
-Steve
