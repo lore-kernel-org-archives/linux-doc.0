@@ -5,98 +5,136 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 37AC47D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 09:07:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8E2D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 10:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfHPJHS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Aug 2019 05:07:18 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39959 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726800AbfHPJHS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 05:07:18 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D68E380F3A; Fri, 16 Aug 2019 11:07:01 +0200 (CEST)
-Date:   Fri, 16 Aug 2019 11:07:13 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        nhorman@tuxdriver.com,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1727081AbfHPKUp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Aug 2019 06:20:45 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4706 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726761AbfHPKUp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Aug 2019 06:20:45 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 29405BDAF1D26FCBC989;
+        Fri, 16 Aug 2019 18:20:43 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Fri, 16 Aug 2019
+ 18:20:35 +0800
+From:   John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
+To:     Schrempf Frieder <frieder.schrempf@kontron.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
+References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
+ <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
+ <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Chen Yu <yu.c.chen@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: Non-random RDRAND Re: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID
- bit on AMD family 15h/16h
-Message-ID: <20190816090713.GA17833@amd>
-References: <776cb5c2d33e7fd0d2893904724c0e52b394f24a.1565817448.git.thomas.lendacky@amd.com>
- <20190814232434.GA31769@amd>
- <20190815151224.GB18727@mit.edu>
+        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
+        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
+        "richard@nod.at" <richard@nod.at>,
+        "vigneshr@ti.com" <vigneshr@ti.com>,
+        wanghuiqiang <wanghuiqiang@huawei.com>
+Message-ID: <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
+Date:   Fri, 16 Aug 2019 11:20:28 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
-Content-Disposition: inline
-In-Reply-To: <20190815151224.GB18727@mit.edu>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 06/08/2019 17:40, Schrempf Frieder wrote:
+> Cc: +MTD/SPI-NOR/SPI maintainers
+>
+> Hi John,
+>
+> On 06.08.19 18:35, John Garry wrote:
+>> On 06/08/2019 17:06, John Garry wrote:
+>>> The reference driver no longer exists since commit 50f1242c6742 ("mtd:
+>>> fsl-quadspi: Remove the driver as it was replaced by spi-fsl-qspi.c").
+>>>
+>>> Update reference to spi-fsl-qspi.c driver.
+>>>
+>>> Signed-off-by: John Garry <john.garry@huawei.com>
+>>>
+>>> diff --git a/Documentation/driver-api/mtd/spi-nor.rst
+>>> b/Documentation/driver-api/mtd/spi-nor.rst
+>>> index f5333e3bf486..1f0437676762 100644
+>>> --- a/Documentation/driver-api/mtd/spi-nor.rst
+>>> +++ b/Documentation/driver-api/mtd/spi-nor.rst
+>>
+>> In fact this document has many references to Freescale QuadSPI - could
+>> someone kindly review this complete document for up-to-date accuracy?
+>
+> The new driver spi-fsl-qspi.c is not a SPI NOR controller driver
+> anymore. It is now a SPI controller driver that uses the SPI MEM API, so
+> referencing it here is obsolete.
+>
+> Actually it seems like the whole file is obsolete and needs to be
+> removed or replaced by proper documentation of the SPI MEM API.
 
---vtzGhvizbBRQ85DL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu 2019-08-15 11:12:24, Theodore Y. Ts'o wrote:
-> On Thu, Aug 15, 2019 at 01:24:35AM +0200, Pavel Machek wrote:
-> > Burn it with fire!
-> >=20
-> > I mean... people were afraid RDRAND would be backdoored, and you now
-> > confirm ... it indeed _is_ backdoored? /., here's news for you!
->=20
-> To be fair to AMD, I wouldn't call it a backdoor.  Hanlon's razor is
-> applicable here:
->=20
-> 	"Never attribute to malice that which can be adequately
-> 	explained by neglect."
+Could someone kindly advise on the following:
 
-> (Sometimes other words are used instead of neglect, but i'm trying to
-> be nice.)
+I am looking at ACPI support only for an mtd spi nor driver we're 
+targeting for mainline support.
 
-You are right, I thought it was returning values with low entropy, and
-it returns ~0 (so -- really really low entropy :-) and can't be
-clasified as a backdoor.
+So for the host, I could use a proprietary HID in the DSDT for matching 
+in the kernel driver.
 
-Anyway, AMD is _not_ doing good job right now.
+About the child spi flash devices, is the recommendation to just use 
+PRP0001 HID and "jedec,spi-nor" compatible?
 
-I'd expect:
+thanks,
+John
 
-a) CVE reference
 
-b) real fix; if BIOS can init the rng, so can kernel
+>
+> @Maintainers:
+> Maybe the docs under Documentation/driver-api/mtd should be officially
+> maintained by the MTD subsystem (and added to MAINTAINERS). And if there
+> will be some driver API docs for SPI MEM it should probably live in
+> Documentation/driver-api/spi instead of Documentation/driver-api/mtd, as
+> spi-mem.c itself is in drivers/spi.
+>
+> Regards,
+> Frieder
+>
+>>
+>> Thanks,
+>> John
+>>
+>>> @@ -59,7 +59,7 @@ Part III - How can drivers use the framework?
+>>>
+>>>  The main API is spi_nor_scan(). Before you call the hook, a driver
+>>> should
+>>>  initialize the necessary fields for spi_nor{}. Please see
+>>> -drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
+>>> fsl-quadspi.c
+>>> +drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
+>>> spi-fsl-qspi.c
+>>>  when you want to write a new driver for a SPI NOR controller.
+>>>  Another API is spi_nor_restore(), this is used to restore the status
+>>> of SPI
+>>>  flash chip such as addressing mode. Call it whenever detach the
+>>> driver from
+>>>
+>>
+>>
+>>
+>> ______________________________________________________
+>> Linux MTD discussion mailing list
+>> http://lists.infradead.org/mailman/listinfo/linux-mtd/
 
-									Pavel
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---vtzGhvizbBRQ85DL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl1WckEACgkQMOfwapXb+vJUmgCbBaZAQvUTMEhu0sVBHUxqvAVR
-ZPEAn3mz1LDei9CmYiqspf9+V/tvyKCj
-=tgYd
------END PGP SIGNATURE-----
-
---vtzGhvizbBRQ85DL--
