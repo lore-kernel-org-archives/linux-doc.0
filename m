@@ -1,188 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48F4C7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 12:38:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 63E447D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Aug 2019 13:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727217AbfHPMiS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Aug 2019 08:38:18 -0400
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com ([46.30.210.182]:22573
-        "EHLO mailrelay1-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727182AbfHPMiS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Aug 2019 08:38:18 -0400
-X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Aug 2019 08:38:15 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelthusiast.com; s=20140924;
-        h=content-transfer-encoding:content-type:mime-version:message-id:subject:cc:to:
-         from:date:from;
-        bh=MqBGoGP8EsqeK+2XNYeOygT9JY6T6r/XKPLtK4b7IDw=;
-        b=pdF/yaELulMPNiOqXU+6GUe8hz+dLF5ldHPSbfnZKJ8dF947WPeaNWQ7yn/CtWUN2VgwKzyH9kkHy
-         wyz/2rJqa06FSwQ3nA98++MhUarE6TvfdkTv1rHEW/fws86vAlgwKzH2tULMp6NgQ+qeyhu2lDfT/f
-         M7bxfD8b1ybKOdt8=
-X-HalOne-Cookie: a2f75e830723c1a88d249f86aeee50bff8e4b055
-X-HalOne-ID: 787ae46b-c020-11e9-aee3-d0431ea8a283
-Received: from localhost (unknown [105.159.18.151])
-        by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 787ae46b-c020-11e9-aee3-d0431ea8a283;
-        Fri, 16 Aug 2019 12:22:10 +0000 (UTC)
-Date:   Fri, 16 Aug 2019 13:22:09 +0100
-From:   Jacob Huisman <jacobhuisman@kernelthusiast.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: process: fix broken link
-Message-ID: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
+        id S1727205AbfHPNy1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Aug 2019 09:54:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38458 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726032AbfHPNy1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Aug 2019 09:54:27 -0400
+Received: from localhost (173-25-83-245.client.mchsi.com [173.25.83.245])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6FACE206C1;
+        Fri, 16 Aug 2019 13:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565963666;
+        bh=A1QP25a6ETdo4tCWntNKkSXSnYrJaCxFn/gAIPzd3X8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XMr0gc5XPndJI6GAjTrlBX7+g8VT71fqDvxPwi9nY5e7Zmzc/a1dF/UMouuUoBqSk
+         6GUtgBqVos9yRxIFnh9c+xXx8wxbqr7gdujb/ElVTFwDu8WDvIbYFG/VOyZURAXnZQ
+         qMph3dGyOP1L9VjgObrlijdTFj3yQ6q4hQWsGIHw=
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     linux-pci@vger.kernel.org
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] Documentation PCI: Fix pciebus-howto.rst filename typo
+Date:   Fri, 16 Aug 2019 08:53:58 -0500
+Message-Id: <20190816135357.142733-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-http://linux.yyz.us/patch-format.html seems to be down since
-approximately September 2018. There is a working archive copy on
-arhive.org. Replaced the links in documenation + translations.
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Signed-off-by: Jacob Huisman <jacobhuisman@kernelthusiast.com>
+2e6422444894 ("Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST")
+incorrectly renamed PCIEBUS-HOWTO.txt to picebus-howto.rst.
+
+Rename it to pciebus-howto.rst.
+
+Fixes: 2e6422444894 ("Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST")
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- Documentation/process/howto.rst                                 | 2 +-
- Documentation/process/submitting-patches.rst                    | 2 +-
- Documentation/translations/it_IT/process/howto.rst              | 2 +-
- Documentation/translations/it_IT/process/submitting-patches.rst | 2 +-
- Documentation/translations/ja_JP/SubmittingPatches              | 2 +-
- Documentation/translations/ja_JP/howto.rst                      | 2 +-
- Documentation/translations/ko_KR/howto.rst                      | 2 +-
- Documentation/translations/zh_CN/process/howto.rst              | 2 +-
- Documentation/translations/zh_CN/process/submitting-patches.rst | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+ Documentation/PCI/index.rst                                | 2 +-
+ Documentation/PCI/{picebus-howto.rst => pciebus-howto.rst} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/PCI/{picebus-howto.rst => pciebus-howto.rst} (100%)
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 6ab75c11d2c3..b6f5a379ad6c 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -123,7 +123,7 @@ required reading:
- 		https://www.ozlabs.org/~akpm/stuff/tpp.txt
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index f4c6121868c3..6768305e4c26 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -9,7 +9,7 @@ Linux PCI Bus Subsystem
+    :numbered:
  
- 	"Linux kernel patch submission format"
--		http://linux.yyz.us/patch-format.html
-+		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
- 
-   :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
-     This file describes the rationale behind the conscious decision to
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 9c4299293c72..fb56297f70dc 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -844,7 +844,7 @@ Andrew Morton, "The perfect patch" (tpp).
-   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
- 
- Jeff Garzik, "Linux kernel patch submission format".
--  <http://linux.yyz.us/patch-format.html>
-+  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
- 
- Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
-   <http://www.kroah.com/log/linux/maintainer.html>
-diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
-index 44e6077730e8..1db5a1082389 100644
---- a/Documentation/translations/it_IT/process/howto.rst
-+++ b/Documentation/translations/it_IT/process/howto.rst
-@@ -129,7 +129,7 @@ Di seguito una lista di file che sono presenti nei sorgente del kernel e che
- 		https://www.ozlabs.org/~akpm/stuff/tpp.txt
- 
- 	"Linux kernel patch submission format"
--		http://linux.yyz.us/patch-format.html
-+		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
- 
-   :ref:`Documentation/translations/it_IT/process/stable-api-nonsense.rst <it_stable_api_nonsense>`
- 
-diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-index 7d7ea92c5c5a..cba1f8cb61ed 100644
---- a/Documentation/translations/it_IT/process/submitting-patches.rst
-+++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-@@ -868,7 +868,7 @@ Andrew Morton, "La patch perfetta" (tpp).
-   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
- 
- Jeff Garzik, "Formato per la sottomissione di patch per il kernel Linux"
--  <http://linux.yyz.us/patch-format.html>
-+  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
- 
- Greg Kroah-Hartman, "Come scocciare un manutentore di un sottosistema"
-   <http://www.kroah.com/log/linux/maintainer.html>
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-index ad979c3c06a6..dd0c3280ba5a 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -693,7 +693,7 @@ Andrew Morton, "The perfect patch" (tpp).
-   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
- 
- Jeff Garzik, "Linux kernel patch submission format".
--  <http://linux.yyz.us/patch-format.html>
-+  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
- 
- Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
-   <http://www.kroah.com/log/2005/03/31/>
-diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
-index 2621b770a745..73ebdab4ced7 100644
---- a/Documentation/translations/ja_JP/howto.rst
-+++ b/Documentation/translations/ja_JP/howto.rst
-@@ -139,7 +139,7 @@ linux-api@vger.kernel.org に送ることを勧めます。
-        "The Perfect Patch"
- 		http://www.ozlabs.org/~akpm/stuff/tpp.txt
-        "Linux kernel patch submission format"
--		http://linux.yyz.us/patch-format.html
-+		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
- 
-   :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
-     このファイルはカーネルの中に不変の API を持たないことにした意識的
-diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
-index bcd63731b80a..b3f51b19de7c 100644
---- a/Documentation/translations/ko_KR/howto.rst
-+++ b/Documentation/translations/ko_KR/howto.rst
-@@ -135,7 +135,7 @@ mtk.manpages@gmail.com의 메인테이너에게 보낼 것을 권장한다.
-         https://www.ozlabs.org/~akpm/stuff/tpp.txt
- 
-     "Linux kernel patch submission format"
--        http://linux.yyz.us/patch-format.html
-+        https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
- 
-    :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
-     이 문서는 의도적으로 커널이 불변하는 API를 갖지 않도록 결정한
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index b244a7190eb6..a8e6ab818983 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -113,7 +113,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
- 
-     "Linux kernel patch submission format"
- 
--        http://linux.yyz.us/patch-format.html
-+        https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
- 
-   :ref:`Documentation/translations/zh_CN/process/stable-api-nonsense.rst <cn_stable_api_nonsense>`
-     论证内核为什么特意不包括稳定的内核内部API，也就是说不包括像这样的特
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index 437c23b367bb..1bb4271ab420 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -652,7 +652,7 @@ Andrew Morton, "The perfect patch" (tpp).
-   <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
- 
- Jeff Garzik, "Linux kernel patch submission format".
--  <http://linux.yyz.us/patch-format.html>
-+  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
- 
- Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
-   <http://www.kroah.com/log/linux/maintainer.html>
+    pci
+-   picebus-howto
++   pciebus-howto
+    pci-iov-howto
+    msi-howto
+    acpi-info
+diff --git a/Documentation/PCI/picebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+similarity index 100%
+rename from Documentation/PCI/picebus-howto.rst
+rename to Documentation/PCI/pciebus-howto.rst
 -- 
-2.17.1
+2.23.0.rc1.153.gdeed80330f-goog
 
