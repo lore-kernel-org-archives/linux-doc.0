@@ -5,17 +5,17 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C756E7D910
+	by archive.lwn.net (Postfix) with ESMTP id DE24D7D91A
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727746AbfHSNXD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:23:03 -0400
-Received: from 8bytes.org ([81.169.241.247]:50390 "EHLO theia.8bytes.org"
+        id S1727487AbfHSNXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:23:14 -0400
+Received: from 8bytes.org ([81.169.241.247]:50372 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727714AbfHSNXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:23:02 -0400
+        id S1727724AbfHSNXD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 09:23:03 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id EDF0B5D7; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
+        id A799872E; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,9 +24,9 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 07/11] ia64: Get rid of iommu_pass_through
-Date:   Mon, 19 Aug 2019 15:22:52 +0200
-Message-Id: <20190819132256.14436-8-joro@8bytes.org>
+Subject: [PATCH 11/11] Documentation: Update Documentation for iommu.passthrough
+Date:   Mon, 19 Aug 2019 15:22:56 +0200
+Message-Id: <20190819132256.14436-12-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -37,42 +37,26 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This variable has no users anymore so it can be removed.
+This kernel parameter now takes also effect on X86.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- arch/ia64/include/asm/iommu.h | 2 --
- arch/ia64/kernel/pci-dma.c    | 2 --
- 2 files changed, 4 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/ia64/include/asm/iommu.h b/arch/ia64/include/asm/iommu.h
-index 7429a72f3f92..92aceef63710 100644
---- a/arch/ia64/include/asm/iommu.h
-+++ b/arch/ia64/include/asm/iommu.h
-@@ -8,10 +8,8 @@
- extern void no_iommu_init(void);
- #ifdef	CONFIG_INTEL_IOMMU
- extern int force_iommu, no_iommu;
--extern int iommu_pass_through;
- extern int iommu_detected;
- #else
--#define iommu_pass_through	(0)
- #define no_iommu		(1)
- #define iommu_detected		(0)
- #endif
-diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
-index fe988c49f01c..f5d49cd3fbb0 100644
---- a/arch/ia64/kernel/pci-dma.c
-+++ b/arch/ia64/kernel/pci-dma.c
-@@ -22,8 +22,6 @@ int force_iommu __read_mostly = 1;
- int force_iommu __read_mostly;
- #endif
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 47d981a86e2f..2d5dfa46e88a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1811,7 +1811,7 @@
+ 			  synchronously.
  
--int iommu_pass_through;
--
- static int __init pci_iommu_init(void)
- {
- 	if (iommu_detected)
+ 	iommu.passthrough=
+-			[ARM64] Configure DMA to bypass the IOMMU by default.
++			[ARM64, X86] Configure DMA to bypass the IOMMU by default.
+ 			Format: { "0" | "1" }
+ 			0 - Use IOMMU translation for DMA.
+ 			1 - Bypass the IOMMU for DMA.
 -- 
 2.16.4
 
