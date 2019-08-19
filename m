@@ -5,17 +5,17 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 975F77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81EEA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727737AbfHSNXC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:23:02 -0400
-Received: from 8bytes.org ([81.169.241.247]:50386 "EHLO theia.8bytes.org"
+        id S1727705AbfHSNX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:23:28 -0400
+Received: from 8bytes.org ([81.169.241.247]:50416 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727709AbfHSNXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727715AbfHSNXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 19 Aug 2019 09:23:02 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id BE68257D; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
+        id 4E04C673; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,9 +24,9 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 06/11] x86/dma: Get rid of iommu_pass_through
-Date:   Mon, 19 Aug 2019 15:22:51 +0200
-Message-Id: <20190819132256.14436-7-joro@8bytes.org>
+Subject: [PATCH 09/11] iommu: Set default domain type at runtime
+Date:   Mon, 19 Aug 2019 15:22:54 +0200
+Message-Id: <20190819132256.14436-10-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -37,73 +37,63 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This variable has no users anymore. Remove it and tell the
-IOMMU code via its new functions about requested DMA modes.
+Set the default domain-type at runtime, not at compile-time.
+This keeps default domain type setting in one place when we
+have to change it at runtime.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- arch/x86/include/asm/iommu.h |  1 -
- arch/x86/kernel/pci-dma.c    | 20 +++-----------------
- 2 files changed, 3 insertions(+), 18 deletions(-)
+ drivers/iommu/iommu.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
-index baedab8ac538..b91623d521d9 100644
---- a/arch/x86/include/asm/iommu.h
-+++ b/arch/x86/include/asm/iommu.h
-@@ -4,7 +4,6 @@
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 0ddd0bd1ff75..01759d4ac70b 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -26,11 +26,8 @@
  
- extern int force_iommu, no_iommu;
- extern int iommu_detected;
--extern int iommu_pass_through;
- 
- /* 10 seconds */
- #define DMAR_OPERATION_TIMEOUT ((cycles_t) tsc_khz*10*1000)
-diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-index f62b498b18fb..fa4352dce491 100644
---- a/arch/x86/kernel/pci-dma.c
-+++ b/arch/x86/kernel/pci-dma.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/dma-direct.h>
- #include <linux/dma-debug.h>
-+#include <linux/iommu.h>
- #include <linux/dmar.h>
- #include <linux/export.h>
- #include <linux/memblock.h>
-@@ -34,21 +35,6 @@ int no_iommu __read_mostly;
- /* Set this to 1 if there is a HW IOMMU in the system */
- int iommu_detected __read_mostly = 0;
- 
--/*
-- * This variable becomes 1 if iommu=pt is passed on the kernel command line.
-- * If this variable is 1, IOMMU implementations do no DMA translation for
-- * devices and allow every device to access to whole physical memory. This is
-- * useful if a user wants to use an IOMMU only for KVM device assignment to
-- * guests and not for driver dma translation.
-- * It is also possible to disable by default in kernel config, and enable with
-- * iommu=nopt at boot time.
-- */
+ static struct kset *iommu_group_kset;
+ static DEFINE_IDA(iommu_group_ida);
 -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
--int iommu_pass_through __read_mostly = 1;
+-static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
 -#else
--int iommu_pass_through __read_mostly;
+-static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
 -#endif
--
- extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
++
++static unsigned int iommu_def_domain_type __read_mostly;
+ static bool iommu_dma_strict __read_mostly = true;
+ static u32 iommu_cmd_line __read_mostly;
  
- void __init pci_iommu_alloc(void)
-@@ -120,9 +106,9 @@ static __init int iommu_setup(char *p)
- 			swiotlb = 1;
- #endif
- 		if (!strncmp(p, "pt", 2))
--			iommu_pass_through = 1;
-+			iommu_set_default_passthrough(true);
- 		if (!strncmp(p, "nopt", 4))
--			iommu_pass_through = 0;
-+			iommu_set_default_translated(true);
+@@ -76,7 +73,7 @@ static void iommu_set_cmd_line_dma_api(void)
+ 	iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
+ }
  
- 		gart_parse_options(p);
+-static bool __maybe_unused iommu_cmd_line_dma_api(void)
++static bool iommu_cmd_line_dma_api(void)
+ {
+ 	return !!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API);
+ }
+@@ -115,8 +112,18 @@ static const char *iommu_domain_type_str(unsigned int t)
  
+ static int __init iommu_subsys_init(void)
+ {
+-	pr_info("Default domain type: %s\n",
+-		iommu_domain_type_str(iommu_def_domain_type));
++	bool cmd_line = iommu_cmd_line_dma_api();
++
++	if (!cmd_line) {
++		if (IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH))
++			iommu_set_default_passthrough(false);
++		else
++			iommu_set_default_translated(false);
++	}
++
++	pr_info("Default domain type: %s %s\n",
++		iommu_domain_type_str(iommu_def_domain_type),
++		cmd_line ? "(set via kernel command line)" : "");
+ 
+ 	return 0;
+ }
 -- 
 2.16.4
 
