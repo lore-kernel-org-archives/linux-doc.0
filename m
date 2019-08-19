@@ -3,19 +3,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE24D7D91A
+	by archive.lwn.net (Postfix) with ESMTP id F34487D922
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727487AbfHSNXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:23:14 -0400
-Received: from 8bytes.org ([81.169.241.247]:50372 "EHLO theia.8bytes.org"
+        id S1727611AbfHSNXU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:23:20 -0400
+Received: from 8bytes.org ([81.169.241.247]:50418 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727724AbfHSNXD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:23:03 -0400
+        id S1727716AbfHSNXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 09:23:02 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id A799872E; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
+        id 745E2712; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,9 +24,9 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 11/11] Documentation: Update Documentation for iommu.passthrough
-Date:   Mon, 19 Aug 2019 15:22:56 +0200
-Message-Id: <20190819132256.14436-12-joro@8bytes.org>
+Subject: [PATCH 10/11] iommu: Disable passthrough mode when SME is active
+Date:   Mon, 19 Aug 2019 15:22:55 +0200
+Message-Id: <20190819132256.14436-11-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -37,26 +37,40 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This kernel parameter now takes also effect on X86.
+Using Passthrough mode when SME is active causes certain
+devices to use the SWIOTLB bounce buffer. The bounce buffer
+code has an upper limit of 256kb for the size of DMA
+allocations, which is too small for certain devices and
+causes them to fail.
+
+With this patch we enable IOMMU by default when SME is
+active in the system, making the default configuration work
+for more systems than it does now.
+
+Users that don't want IOMMUs to be enabled still can disable
+them with kernel parameters.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 47d981a86e2f..2d5dfa46e88a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1811,7 +1811,7 @@
- 			  synchronously.
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 01759d4ac70b..ec18c9630e93 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -119,6 +119,11 @@ static int __init iommu_subsys_init(void)
+ 			iommu_set_default_passthrough(false);
+ 		else
+ 			iommu_set_default_translated(false);
++
++		if (iommu_default_passthrough() && sme_active()) {
++			pr_info("SME detected - Disabling default IOMMU Passthrough\n");
++			iommu_set_default_translated(false);
++		}
+ 	}
  
- 	iommu.passthrough=
--			[ARM64] Configure DMA to bypass the IOMMU by default.
-+			[ARM64, X86] Configure DMA to bypass the IOMMU by default.
- 			Format: { "0" | "1" }
- 			0 - Use IOMMU translation for DMA.
- 			1 - Bypass the IOMMU for DMA.
+ 	pr_info("Default domain type: %s %s\n",
 -- 
 2.16.4
 
