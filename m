@@ -3,19 +3,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B344F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C756E7D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727720AbfHSNXC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:23:02 -0400
-Received: from 8bytes.org ([81.169.241.247]:50372 "EHLO theia.8bytes.org"
+        id S1727746AbfHSNXD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:23:03 -0400
+Received: from 8bytes.org ([81.169.241.247]:50390 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727687AbfHSNXB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:23:01 -0400
+        id S1727714AbfHSNXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 09:23:02 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 64EF6527; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
+        id EDF0B5D7; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,9 +24,9 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 04/11] iommu/amd: Request passthrough mode from IOMMU core
-Date:   Mon, 19 Aug 2019 15:22:49 +0200
-Message-Id: <20190819132256.14436-5-joro@8bytes.org>
+Subject: [PATCH 07/11] ia64: Get rid of iommu_pass_through
+Date:   Mon, 19 Aug 2019 15:22:52 +0200
+Message-Id: <20190819132256.14436-8-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -37,45 +37,42 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Get rid of the iommu_pass_through variable and request
-passthrough mode via the new iommu core function.
+This variable has no users anymore so it can be removed.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd_iommu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/ia64/include/asm/iommu.h | 2 --
+ arch/ia64/kernel/pci-dma.c    | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index b607a92791d3..7434b34d7a94 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -436,7 +436,7 @@ static int iommu_init_device(struct device *dev)
- 	 * invalid address), we ignore the capability for the device so
- 	 * it'll be forced to go into translation mode.
- 	 */
--	if ((iommu_pass_through || !amd_iommu_force_isolation) &&
-+	if ((iommu_default_passthrough() || !amd_iommu_force_isolation) &&
- 	    dev_is_pci(dev) && pci_iommuv2_capable(to_pci_dev(dev))) {
- 		struct amd_iommu *iommu;
+diff --git a/arch/ia64/include/asm/iommu.h b/arch/ia64/include/asm/iommu.h
+index 7429a72f3f92..92aceef63710 100644
+--- a/arch/ia64/include/asm/iommu.h
++++ b/arch/ia64/include/asm/iommu.h
+@@ -8,10 +8,8 @@
+ extern void no_iommu_init(void);
+ #ifdef	CONFIG_INTEL_IOMMU
+ extern int force_iommu, no_iommu;
+-extern int iommu_pass_through;
+ extern int iommu_detected;
+ #else
+-#define iommu_pass_through	(0)
+ #define no_iommu		(1)
+ #define iommu_detected		(0)
+ #endif
+diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
+index fe988c49f01c..f5d49cd3fbb0 100644
+--- a/arch/ia64/kernel/pci-dma.c
++++ b/arch/ia64/kernel/pci-dma.c
+@@ -22,8 +22,6 @@ int force_iommu __read_mostly = 1;
+ int force_iommu __read_mostly;
+ #endif
  
-@@ -2226,7 +2226,7 @@ static int amd_iommu_add_device(struct device *dev)
- 
- 	BUG_ON(!dev_data);
- 
--	if (iommu_pass_through || dev_data->iommu_v2)
-+	if (dev_data->iommu_v2)
- 		iommu_request_dm_for_dev(dev);
- 
- 	/* Domains are initialized for this device - have a look what we ended up with */
-@@ -2805,7 +2805,7 @@ int __init amd_iommu_init_api(void)
- 
- int __init amd_iommu_init_dma_ops(void)
+-int iommu_pass_through;
+-
+ static int __init pci_iommu_init(void)
  {
--	swiotlb        = (iommu_pass_through || sme_me_mask) ? 1 : 0;
-+	swiotlb        = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
- 	iommu_detected = 1;
- 
- 	if (amd_iommu_unmap_flush)
+ 	if (iommu_detected)
 -- 
 2.16.4
 
