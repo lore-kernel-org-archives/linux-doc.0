@@ -1,73 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B60D47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 05:50:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7ADE47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 08:15:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbfHSFuX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 01:50:23 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:57382 "EHLO mx.kolabnow.com"
+        id S1726538AbfHSIPL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 04:15:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41304 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725846AbfHSFuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 01:50:23 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 055B56A0;
-        Mon, 19 Aug 2019 07:50:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1566193817; x=1568008218; bh=xu4Q1p4bYiyi178072Bu6oked5lCfvizVFr
-        3BFHAwcg=; b=WtRL/ltslL/Fnt2ZxIqmGprzvVhqLqJ7SR3Y0LzCdfjST699SS8
-        8gxx6tV4fFXAJe2O5APZceuxcQQH6iywuJMCbSUxB/LaDyZ4smWmHflo018XrYMM
-        9ccarFDKrqfhBDpsNZ1RA0budyGEyIbbcFVJYcOcH0sWBqnBM0N314eNem6WKTOa
-        baSsjqtIBVrqTwem0y3Fhib1RXqunEJkREyp69IEpJu3hzYa2KmPdf0uX7uLWAB4
-        TO5UsLjDEF0xZ8tzAiMj0uRks/PNpMgRIrmjA3XNanJCQzAkzhdc5HvhxreL5zc2
-        VCxunJwyv9mT7oqcG30RkUGL7OrRmKOvGORjfFLKswp8g/eFithHhBTKgD9mtmkt
-        WSc6qJVUzVdV9Grd2kpK/twyr8iyQdZWGTW0hJO+Yw9XS+0vfJjpC45OdAnDih+z
-        vNzMJ9XrQriuoLsJZ0z5Sj/NPY8iNSylSAWIeNG01p/WTYznpUW0fuQDnEPWPhwY
-        ds+xNuyJ3jafNiejMA5p6VU7Rfji33tekucD8vDnWdTAimCm0LQZu2q+NF58IRf0
-        WIScSCdjalouTOmldZY/fP4BM58JXBd7eR9chkps9RVG+9yyVYMkA1Wezc6Ahytn
-        +JCsckAABWzBT5z2h2d4JzvhJdOZGEf36gBrKR5WtljnCgZ1jflG/fF8=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id an7HK7bIczcE; Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 99A39185;
-        Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 348128D69;
-        Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jacob Huisman <jacobhuisman@kernelthusiast.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: process: fix broken link
-Date:   Mon, 19 Aug 2019 07:50:15 +0200
-Message-ID: <3592371.DDP23MczKt@pcbe13614>
-In-Reply-To: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
-References: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
+        id S1726390AbfHSIPL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 04:15:11 -0400
+Received: from X250 (37.80-203-192.nextgentel.com [80.203.192.37])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 40BF12085A;
+        Mon, 19 Aug 2019 08:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566202510;
+        bh=O4e325kx7cwySscV/ilDWSUX2qJy3pR9jyuhGb1Ccws=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XXHcbaH2UEQ6efRbP60vzBrmInpr9EOJhViVbpdsMcI0VM6YbXqdvZIxlA4d/bn4C
+         I08CSCbhtK2rHRxDXtwnf0u9kGCfGAxBzLZcbsifvEnjJtRSzbvwBttE+W1UjtYdgG
+         TqK3bb2f7N8xwmPuEspZVwEGUvdOERwVn99JW5NM=
+Date:   Mon, 19 Aug 2019 10:14:58 +0200
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>, Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>
+Subject: Re: [PATCH v2 2/6] arm64: Introduce config for S32
+Message-ID: <20190819081457.GH5999@X250>
+References: <20190809112853.15846-1-stefan-gabriel.mirea@nxp.com>
+ <20190809112853.15846-3-stefan-gabriel.mirea@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190809112853.15846-3-stefan-gabriel.mirea@nxp.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, August 16, 2019 2:22:09 PM CEST Jacob Huisman wrote:
-> http://linux.yyz.us/patch-format.html seems to be down since
-> approximately September 2018. There is a working archive copy on
-> arhive.org. Replaced the links in documenation + translations.
+On Fri, Aug 09, 2019 at 11:29:10AM +0000, Stefan-gabriel Mirea wrote:
+> From: Mihaela Martinas <Mihaela.Martinas@freescale.com>
 > 
-> Signed-off-by: Jacob Huisman <jacobhuisman@kernelthusiast.com>
+> Add configuration option for the Freescale S32 platform family in
+> Kconfig.platforms. For starters, the only SoC supported will be Treerunner
+> (S32V234), with a single execution target: the S32V234-EVB (rev 29288)
+> board.
+> 
+> Signed-off-by: Mihaela Martinas <Mihaela.Martinas@freescale.com>
+> Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
+> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+> ---
+>  arch/arm64/Kconfig.platforms | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+> index 4778c775de1b..a9a6152d37eb 100644
+> --- a/arch/arm64/Kconfig.platforms
+> +++ b/arch/arm64/Kconfig.platforms
+> @@ -210,6 +210,11 @@ config ARCH_ROCKCHIP
+>  	  This enables support for the ARMv8 based Rockchip chipsets,
+>  	  like the RK3368.
+>  
+> +config ARCH_S32
+> +	bool "Freescale S32 SoC Family"
 
-Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
+So you still want to use 'Freescale' than 'NXP' here?
 
+> +	help
+> +	  This enables support for the Freescale S32 family of processors.
 
+Shawn
+
+> +
+>  config ARCH_SEATTLE
+>  	bool "AMD Seattle SoC Family"
+>  	help
+> -- 
+> 2.22.0
+> 
