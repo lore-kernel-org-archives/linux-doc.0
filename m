@@ -4,54 +4,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC6DC7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 15:46:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7CBFF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 15:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbfHSPqZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 11:46:25 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:37527 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727970AbfHSPqZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 11:46:25 -0400
-Received: by mail-pf1-f193.google.com with SMTP id 129so1391138pfa.4
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 08:46:24 -0700 (PDT)
+        id S1727953AbfHSPpw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 11:45:52 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45217 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727943AbfHSPpu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 11:45:50 -0400
+Received: by mail-pg1-f193.google.com with SMTP id o13so1432798pgp.12
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 08:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yBo5l6Hb3i4HlgUMt0iRUlNpHTn17B/raGae53BLtlo=;
-        b=g1nXlHoCW7Y2bR1cRffuS4BNOtNrOe4CRBULxbwa13Z2T1F/a5TXCs/ygYuh3oJpQ6
-         iP9w/DB2iE5KseeaCoduO9chHspnlj7HeAyriaYqmf10ipcW7mCi/0Eo8NM8dvhRD/Hx
-         Os8in9EMk2OfaRBYl2cEpm5IXC3V7vGcD33PouZWEjieE1Pj+je2Nn7CaFF5BZvonZEg
-         u/VzJS+Hh/sdPpYsAqxeVCaiJsfiwPNG/PICBeFKxv0wfCAXdG6WShSIhktx1rp96BE0
-         +xWyt40ufdMRvdwQUi3opN+XtIpHJ8cXudqQeN1u2+KGLLvmxDa1RGlF7itwhCQRAOWu
-         FM6g==
+        bh=XtYpFyhBgTCiaGChS6+kaxar4vStZcnCYRWo71+/RtE=;
+        b=lkS0EhBoToJ8+dJ5+nnxpdrWvVmMHHZI7bNv0YOTEttc921AvasCizSuRflFNbq1Xj
+         Lpzl84ZZA2OQ6Fl0mVnvOJyIXEqYXu5ps1wPAfD33F9fSphuk4sFgI4SIKqe5ey5Tr57
+         G8XUL4SKezAspF0tskCc378nq+6tOXS5v2s6iY1fnPR8AmhGw3iI/NsuI0cW+A20hgEk
+         y05U8D//d6jldI/IInc3BskYQojRq9cgHqOL/Sxxioz1XALAEdpp/8OiQun/RJSUXJyo
+         GJMLBdsjaVvdZjcjp2MQ4TMMJwlzyVeEF08ndFUH3hSYiwHwBHn4nNJfq4wngD77uKww
+         /CPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yBo5l6Hb3i4HlgUMt0iRUlNpHTn17B/raGae53BLtlo=;
-        b=KdGljJaqKJcNBrrPUGlUK3QhqCMrpVpEuAf1hY6mWIfqov5nI1T30ozbK2ucS81xwO
-         QWFIbgGlMdKhzIK/EYc2x1CSlcW9rkQ6hkSRKayqRiDiTTogVhV/ukJLJ3F63rrqZA5+
-         CyVkk+DD38MXx9ECFS8Ew8gKoj5mdHZ+7M+X3jhZao6L54iE3DCCh4MY14lGmoJM/N+C
-         9mgnEp08FXIlTZmD3tIzcI7KfaYHoSxZf4X3duwxnTSba63IcTW69+d0eoDJ+0Dv3VAg
-         lgzGofGJG7bueHwahz3YsodZgY18OSYLrF0gnrfCEeSa/l/W7aO+3OyVjzX7ic2s+Y+N
-         HwCA==
-X-Gm-Message-State: APjAAAXPGPENZRSGf6su5vHAw108tfpDEGD4QqTdZNecQUwWM+xf7tCW
-        rAVPC0BjBgwFQma3pToVf1qWNjoAvZ6u1uMkik97Zw==
-X-Google-Smtp-Source: APXvYqwspcK95c1b7EzpNDYbzikjHPsqF9/mQX2RFrao6OHlpeBL0OGlH5Hg7JHZ2diW7v8MOGMj1LGIgGpYj/VFqkM=
-X-Received: by 2002:a63:c442:: with SMTP id m2mr62735pgg.286.1566229583644;
- Mon, 19 Aug 2019 08:46:23 -0700 (PDT)
+        bh=XtYpFyhBgTCiaGChS6+kaxar4vStZcnCYRWo71+/RtE=;
+        b=m0N8HedjeJ2XKzPuac+cjnhMSmBxY/u8uYEA9KMzTaVSbvh6TbMoDzXQw+AHq6SDGj
+         DLoMcZHLR6rRWYxMbT2TwWM10EhEjO0tLpreBz0EeY/THrJ9Cr6uBG6Kk5+GEchUqFVL
+         GF6/1Ts4U/snFEy8YVUNGYgDpxrEwLaEz6DnTBgdrEKijqqRKWePOvf4rDG2vAa9DmT8
+         oW7F+FApI2jeAHKqzmlb0nldFdHyhxFrFOcoWHmY+JtOpq1SpBaRT/rWLwq6YLiEl30a
+         RaxwpHQ1yZOBicpmsfCu/nO04Hyuw8xhR9KGKSJxx3YqwogYPdZT1ajefJQewSF/y56z
+         pQ4A==
+X-Gm-Message-State: APjAAAW1Fg0hASkqlUI+lIQR4WYjymOKGi0CB6MnFQyPGuspZf4u4Q8L
+        ULicwkteV4z4FB6High+PBc9Y2asdAAC0dCk3KTfuA==
+X-Google-Smtp-Source: APXvYqz6VTqoLf1MfWlpYT4kff14E1OwztGKr414bguuFTgjh6si0OD8mf+UDVjfdzyW4l952foknf+zoYxofSvLevs=
+X-Received: by 2002:aa7:9790:: with SMTP id o16mr25133292pfp.51.1566229549716;
+ Mon, 19 Aug 2019 08:45:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190815154403.16473-1-catalin.marinas@arm.com> <20190815154403.16473-3-catalin.marinas@arm.com>
-In-Reply-To: <20190815154403.16473-3-catalin.marinas@arm.com>
+References: <20190815154403.16473-1-catalin.marinas@arm.com> <20190815154403.16473-2-catalin.marinas@arm.com>
+In-Reply-To: <20190815154403.16473-2-catalin.marinas@arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 19 Aug 2019 17:46:12 +0200
-Message-ID: <CAAeHK+w7Y=UgwTyjyVt6bBSi=DZROkMaz1B6-0BefK3AjSPpYw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/5] arm64: Tighten the PR_{SET,GET}_TAGGED_ADDR_CTRL
- prctl() unused arguments
+Date:   Mon, 19 Aug 2019 17:45:38 +0200
+Message-ID: <CAAeHK+z6y4_rSH8b8Q=yMmNZYd_bsmMo2XPP0DO-74+=XPPrMg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/5] mm: untag user pointers in mmap/munmap/mremap/brk
 To:     Catalin Marinas <catalin.marinas@arm.com>
 Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
@@ -72,33 +72,65 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Aug 15, 2019 at 5:44 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> Require that arg{3,4,5} of the PR_{SET,GET}_TAGGED_ADDR_CTRL prctl and
-> arg2 of the PR_GET_TAGGED_ADDR_CTRL prctl() are zero rather than ignored
-> for future extensions.
+> There isn't a good reason to differentiate between the user address
+> space layout modification syscalls and the other memory
+> permission/attributes ones (e.g. mprotect, madvise) w.r.t. the tagged
+> address ABI. Untag the user addresses on entry to these functions.
 >
 > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
 
 Acked-by: Andrey Konovalov <andreyknvl@google.com>
 
 > ---
->  kernel/sys.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  mm/mmap.c   | 5 +++++
+>  mm/mremap.c | 6 +-----
+>  2 files changed, 6 insertions(+), 5 deletions(-)
 >
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index c6c4d5358bd3..ec48396b4943 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -2499,9 +2499,13 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->                 error = PAC_RESET_KEYS(me, arg2);
->                 break;
->         case PR_SET_TAGGED_ADDR_CTRL:
-> +               if (arg3 || arg4 || arg5)
-> +                       return -EINVAL;
->                 error = SET_TAGGED_ADDR_CTRL(arg2);
->                 break;
->         case PR_GET_TAGGED_ADDR_CTRL:
-> +               if (arg2 || arg3 || arg4 || arg5)
-> +                       return -EINVAL;
->                 error = GET_TAGGED_ADDR_CTRL();
->                 break;
->         default:
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 7e8c3e8ae75f..b766b633b7ae 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -201,6 +201,8 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
+>         bool downgraded = false;
+>         LIST_HEAD(uf);
+>
+> +       brk = untagged_addr(brk);
+> +
+>         if (down_write_killable(&mm->mmap_sem))
+>                 return -EINTR;
+>
+> @@ -1573,6 +1575,8 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
+>         struct file *file = NULL;
+>         unsigned long retval;
+>
+> +       addr = untagged_addr(addr);
+> +
+>         if (!(flags & MAP_ANONYMOUS)) {
+>                 audit_mmap_fd(fd, flags);
+>                 file = fget(fd);
+> @@ -2874,6 +2878,7 @@ EXPORT_SYMBOL(vm_munmap);
+>
+>  SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
+>  {
+> +       addr = untagged_addr(addr);
+>         profile_munmap(addr);
+>         return __vm_munmap(addr, len, true);
+>  }
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 64c9a3b8be0a..1fc8a29fbe3f 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -606,12 +606,8 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+>         LIST_HEAD(uf_unmap_early);
+>         LIST_HEAD(uf_unmap);
+>
+> -       /*
+> -        * Architectures may interpret the tag passed to mmap as a background
+> -        * colour for the corresponding vma. For mremap we don't allow tagged
+> -        * new_addr to preserve similar behaviour to mmap.
+> -        */
+>         addr = untagged_addr(addr);
+> +       new_addr = untagged_addr(new_addr);
+>
+>         if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE))
+>                 return ret;
