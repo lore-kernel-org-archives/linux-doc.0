@@ -1,427 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 330417D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 15:52:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B1377D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 16:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfHSPwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 11:52:40 -0400
-Received: from mail-eopbgr730088.outbound.protection.outlook.com ([40.107.73.88]:35192
-        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725536AbfHSPwk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 11:52:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=clvX/ejfKynAE7X2tkHdtIc+nSw3rxeEn08A2PTQg++hUknJQgBTD/b+8rQVhEaCk6RaWLuzIoS/r9MujxjiNNy3d66GOwS7eBI3qZi29RgGIlvmVYzJseMMwr/z7Xg9dAHBUt4y2+3k6sqhKtw7+dhDERveG8V8ncVkeA3xiW40b2FddXS6aOqKmXFvChE59d5v3zI4p7orVRUrOm4bfD5k7EUNc/HC79htIhoxSQL17Ina1sqikcG/AD/hZTDVg+2N4YZdLVOKcmAI2mQV6m0PYKSDwTPm57/ShZtRVwRi1FUt6z0xbESqPU91/302/Kgc7Fbc/J2c9J7NFBwY5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S4RSbITFg37i5t/g2I27LkGHufAimryAMFNJjmIwi40=;
- b=kNuLX0dQSOfjGzVxRUPz6Ak9hzNSh7+I+ugpPJmgbEDTH5/+Ji8SRnBl9oGacDGdDadfabqx6QYrgsJKJgVa/HMqRKbBuW6m+wyxkPaULyHAQOrvGGX9UXF2PqcszhAY/XNvDeQO6rbcIc5XyqmiaV9XdiXkC5CX+ZyyxrxVqlKaBgIsf/jCbdnSUsN7cZmdOCgn1i1a694Dxk+EXz48mUFL9my7YEp0t9mAoh9yek4Xe3M+PA0VpSgCi3gQNRrwHA0EARbEyOXEU9Joc1A0MNMpVrdRjEjjU8OwxntgMy8DVZmq7DCmYuiU8b3BWXEBLTznHxgOWReDzzLQPfuSjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S4RSbITFg37i5t/g2I27LkGHufAimryAMFNJjmIwi40=;
- b=rrOddpr0/WMShQW7rBV6rwbJq3geVCQPHnVQU76im3MONvn1rUEYiAyP9Q/owouwMG7GJii95N9/mYDVc09MudWf1I4/ZxMqTvdi56k9XPIzQRm+8sbAsTgR/lofl2b1Ja252m1HPU3p7kRfJMSqwcgXJ4cn81CHH50dn2c3u8s=
-Received: from BYAPR12MB3158.namprd12.prod.outlook.com (20.179.92.19) by
- BYAPR12MB2680.namprd12.prod.outlook.com (20.176.255.221) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Mon, 19 Aug 2019 15:52:35 +0000
-Received: from BYAPR12MB3158.namprd12.prod.outlook.com
- ([fe80::39b9:76bd:a491:1f27]) by BYAPR12MB3158.namprd12.prod.outlook.com
- ([fe80::39b9:76bd:a491:1f27%6]) with mapi id 15.20.2157.022; Mon, 19 Aug 2019
- 15:52:35 +0000
-From:   "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
-To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Chen Yu <yu.c.chen@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
-Thread-Topic: [PATCH v2] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family
- 15h/16h
-Thread-Index: AQHVVqYeBvEEiSebgUWOgoB4Tc5XXA==
-Date:   Mon, 19 Aug 2019 15:52:35 +0000
-Message-ID: <7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.17.1
-x-clientproxiedby: SN6PR1501CA0018.namprd15.prod.outlook.com
- (2603:10b6:805::31) To BYAPR12MB3158.namprd12.prod.outlook.com
- (2603:10b6:a03:132::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Thomas.Lendacky@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.77.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59c216cc-5edd-4af4-30c4-08d724bd40e9
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR12MB2680;
-x-ms-traffictypediagnostic: BYAPR12MB2680:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2680E73C0EDBDDBCD9CEA4AAECA80@BYAPR12MB2680.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0134AD334F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(366004)(39860400002)(396003)(136003)(189003)(199004)(66946007)(2501003)(7416002)(2201001)(36756003)(86362001)(66446008)(64756008)(66556008)(66476007)(66066001)(14454004)(7736002)(81166006)(8936002)(50226002)(81156014)(478600001)(8676002)(256004)(186003)(14444005)(6506007)(26005)(386003)(102836004)(486006)(476003)(2616005)(305945005)(53936002)(4326008)(71190400001)(71200400001)(6436002)(118296001)(25786009)(6486002)(6512007)(3846002)(6116002)(2906002)(99286004)(52116002)(54906003)(316002)(5660300002)(110136005);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR12MB2680;H:BYAPR12MB3158.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 9PWYyjE8+Dsz++wSgDuwkXstKKZmsatoexsA3iDG3GJyWoOA2xXrweHPizqTJlx5Oot5MwyAoILt3e82GGT75a/xGrtKuTS0sxGjRYJgXrpwPUtm7uVkTqBHgEcGjXJH6IoqIOX+EQrBV1qJqL87GXzwtdFaW2COVU0Yn1XfQL3cRqz9gq85f7bSNstGhyRQMiUTYNj/Fbw5W3tgb/SUEBSP7B7gXew1ioyFOsUjmIxNuviXrqXqUACwkCua8cEvhhHjE+D3l126+wbStSfmBZCFotQcyNlyaurGTj9fX1PgxfQh1Vk2X8hAkNDtG/w/RnfYqr+pXp64SADqfV8uxmz0LtQb31CylKpufUAd/TrhcWMaC2qP+P1SrDOxYx0PKtCWKki0GNFEBY1M595jDcI9OO85IdYibyDEaBkZwEE=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0C179DE4EF1B914399249FE1CAE3D69B@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1727873AbfHSQZ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 12:25:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727857AbfHSQZz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 12:25:55 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E2E322CEA;
+        Mon, 19 Aug 2019 16:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566231954;
+        bh=dreJjOF/L6ef6NrZc3iuTz3726uHjZ7gkP0YJGdGHG0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Gqn+tAYqBxyeyvPgLjWRmc6kokYMr8nSG21/SIX3emygHhXCZPb5up2OdCUnMqyJj
+         lA6HJZa6khq/ZWrH+cXiwTve9D4s9FTAsov1BewhiVi5qi0Stubtbki018gVCGxfPg
+         q9T4xgtaAZO0aBq+CmaHiJ746uzptEAa1tXpGOlo=
+Date:   Mon, 19 Aug 2019 17:25:49 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave P Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v8 4/5] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+Message-ID: <20190819162548.c7udab6g6i662qaa@willie-the-truck>
+References: <20190815154403.16473-1-catalin.marinas@arm.com>
+ <20190815154403.16473-5-catalin.marinas@arm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59c216cc-5edd-4af4-30c4-08d724bd40e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2019 15:52:35.5815
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XYLF9aByy7OvpLfypzuiSLouSxjVrAhO88zAAPCUoSCENd/zHCMwX9Icaggh2jpnRfzyJi2GbqTz41CdjHLPCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2680
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190815154403.16473-5-catalin.marinas@arm.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Lendacky <thomas.lendacky@amd.com>
+On Thu, Aug 15, 2019 at 04:44:02PM +0100, Catalin Marinas wrote:
+> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> 
+> On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
+> (EL0) to perform memory accesses through 64-bit pointers with a non-zero
+> top byte. Introduce the document describing the relaxation of the
+> syscall ABI that allows userspace to pass certain tagged pointers to
+> kernel syscalls.
+> 
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
+> Cc: Kevin Brodsky <kevin.brodsky@arm.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+> ---
+>  Documentation/arm64/tagged-address-abi.rst | 155 +++++++++++++++++++++
+>  1 file changed, 155 insertions(+)
+>  create mode 100644 Documentation/arm64/tagged-address-abi.rst
+> 
+> diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arm64/tagged-address-abi.rst
+> new file mode 100644
+> index 000000000000..8808337775d6
+> --- /dev/null
+> +++ b/Documentation/arm64/tagged-address-abi.rst
+> @@ -0,0 +1,155 @@
+> +==========================
+> +AArch64 TAGGED ADDRESS ABI
+> +==========================
+> +
+> +Authors: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> +         Catalin Marinas <catalin.marinas@arm.com>
+> +
+> +Date: 15 August 2019
+> +
+> +This document describes the usage and semantics of the Tagged Address
+> +ABI on AArch64 Linux.
+> +
+> +1. Introduction
+> +---------------
+> +
+> +On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
+> +(EL0) to perform memory accesses through 64-bit pointers with a non-zero
+> +top byte. This document describes the relaxation of the syscall ABI that
+> +allows userspace to pass certain tagged pointers to kernel syscalls.
+> +
+> +2. AArch64 Tagged Address ABI
+> +-----------------------------
+> +
+> +From the kernel syscall interface perspective and for the purposes of
+> +this document, a "valid tagged pointer" is a pointer with a potentially
+> +non-zero top-byte that references an address in the user process address
+> +space obtained in one of the following ways:
+> +
+> +- mmap() done by the process itself (or its parent), where either:
+> +
+> +  - flags have the **MAP_ANONYMOUS** bit set
+> +  - the file descriptor refers to a regular file (including those
+> +    returned by memfd_create()) or **/dev/zero**
 
-There have been reports of RDRAND issues after resuming from suspend on
-some AMD family 15h and family 16h systems. This issue stems from a BIOS
-not performing the proper steps during resume to ensure RDRAND continues
-to function properly.
+nit: but the markup is pretty inconsistent throughout. Why is /dev/zero
+bold, but not memfd_create()? I think they would both be better off in
+typewriter font, if that's a thing in rst.
 
-RDRAND support is indicated by CPUID Fn00000001_ECX[30]. This bit can be
-reset by clearing MSR C001_1004[62]. Any software that checks for RDRAND
-support using CPUID, including the kernel,  will believe that RDRAND is
-not supported.
+> +- brk() system call done by the process itself (i.e. the heap area
+> +  between the initial location of the program break at process creation
+> +  and its current location).
+> +
+> +- any memory mapped by the kernel in the address space of the process
+> +  during creation and with the same restrictions as for mmap() above
+> +  (e.g. data, bss, stack).
+> +
+> +The AArch64 Tagged Address ABI has two stages of relaxation depending
+> +how the user addresses are used by the kernel:
+> +
+> +1. User addresses not accessed by the kernel but used for address space
+> +   management (e.g. mmap(), mprotect(), madvise()). The use of valid
+> +   tagged pointers in this context is always allowed.
+> +
+> +2. User addresses accessed by the kernel (e.g. write()). This ABI
+> +   relaxation is disabled by default and the application thread needs to
+> +   explicitly enable it via **prctl()** as follows:
+> +
+> +   - **PR_SET_TAGGED_ADDR_CTRL**: enable or disable the AArch64 Tagged
+> +     Address ABI for the calling thread.
+> +
+> +     The (unsigned int) arg2 argument is a bit mask describing the
+> +     control mode used:
+> +
+> +     - **PR_TAGGED_ADDR_ENABLE**: enable AArch64 Tagged Address ABI.
+> +       Default status is disabled.
+> +
+> +     Arguments arg3, arg4, and arg5 must be 0.
+> +
+> +   - **PR_GET_TAGGED_ADDR_CTRL**: get the status of the AArch64 Tagged
+> +     Address ABI for the calling thread.
+> +
+> +     Arguments arg2, arg3, arg4, and arg5 must be 0.
+> +
+> +   The ABI properties described above are thread-scoped, inherited on
+> +   clone() and fork() and cleared on exec().
+> +
+> +   Calling prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0)
+> +   returns -EINVAL if the AArch64 Tagged Address ABI is globally disabled
+> +   by sysctl abi.tagged_addr_disabled=1. The default sysctl
+> +   abi.tagged_addr_disabled configuration is 0.
+> +
+> +When the AArch64 Tagged Address ABI is enabled for a thread, the
+> +following behaviours are guaranteed:
+> +
+> +- All syscalls except the cases mentioned in section 3 can accept any
+> +  valid tagged pointer.
+> +
+> +- The syscall behaviour is undefined for invalid tagged pointers: it may
+> +  result in an error code being returned, a (fatal) signal being raised,
+> +  or other modes of failure.
+> +
+> +- A valid tagged pointer has the same semantics as the corresponding
+> +  untagged pointer.
 
-Update the CPU initialization to clear the RDRAND CPUID bit for any family
-15h and 16h processor that supports RDRAND. If it is known that the family
-15h or family 16h system does not have an RDRAND resume issue or that the
-system will not be placed in suspend, the "rdrand_force" kernel parameter
-can be used to stop the clearing of the RDRAND CPUID bit.
+nit, but I'd reword this last bullet slightly to say:
 
-Additionally, update the suspend and resume path to save and restore the
-MSR C001_1004 value to ensure that the RDRAND CPUID setting remains in
-place after resuming from suspend.
+  - The syscall behaviour for a valid tagged pointer is the same as for
+    the corresponding untagged pointer.
 
-Note, that clearing the RDRAND CPUID bit does not prevent a processor
-that normally supports the RDRAND instruction from executing the RDRAND
-instruction. So any code that determined the support based on family and
-model won't #UD.
+Since that flows better wrt the previous bullet and is explicit about
+syscall behaviour, rather than overall semantics.
 
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> +
+> +A definition of the meaning of tagged pointers on AArch64 can be found
+> +in Documentation/arm64/tagged-pointers.rst.
+> +
+> +3. AArch64 Tagged Address ABI Exceptions
+> +-----------------------------------------
+> +
+> +The following system call parameters must be untagged regardless of the
+> +ABI relaxation:
+> +
+> +- prctl() other than arguments pointing to user structures to be
+> +  accessed by the kernel.
+> +
+> +- ioctl() other than arguments pointing to user structures to be
+> +  accessed by the kernel.
 
----
+I agree with Kevin that we should tighten this up. How about:
 
-Changes from v1:
-- Changed rdrand_force option to rdrand=3Dforce option
-- Only do this for configuratons with CONFIG_PM_SLEEP=3Dy
-- Various name clarifications
-- Added a check to verify change in case the kernel is running virtualized
-- More verbose messaging
----
- .../admin-guide/kernel-parameters.txt         |  7 ++
- arch/x86/include/asm/msr-index.h              |  1 +
- arch/x86/kernel/cpu/amd.c                     | 66 ++++++++++++++
- arch/x86/power/cpu.c                          | 86 ++++++++++++++++---
- 4 files changed, 147 insertions(+), 13 deletions(-)
+  - ... other than pointers to user data either passed directly or
+    indirectly as arguments to be accessed by the kernel.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
-n/admin-guide/kernel-parameters.txt
-index 47d981a86e2f..4c1971960afa 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4090,6 +4090,13 @@
- 			Run specified binary instead of /init from the ramdisk,
- 			used for early userspace startup. See initrd.
-=20
-+	rdrand=3D		[X86]
-+			force - Override the decision by the kernel to hide the
-+				advertisement of RDRAND support (this affects
-+				certain AMD processors because of buggy BIOS
-+				support, specifically around the suspend/resume
-+				path).
-+
- 	rdt=3D		[HW,X86,RDT]
- 			Turn on/off individual RDT features. List is:
- 			cmt, mbmtotal, mbmlocal, l3cat, l3cdp, l2cat, l2cdp,
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-in=
-dex.h
-index 6b4fc2788078..271d837d69a8 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -381,6 +381,7 @@
- #define MSR_AMD64_PATCH_LEVEL		0x0000008b
- #define MSR_AMD64_TSC_RATIO		0xc0000104
- #define MSR_AMD64_NB_CFG		0xc001001f
-+#define MSR_AMD64_CPUID_FN_1		0xc0011004
- #define MSR_AMD64_PATCH_LOADER		0xc0010020
- #define MSR_AMD64_OSVW_ID_LENGTH	0xc0010140
- #define MSR_AMD64_OSVW_STATUS		0xc0010141
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 3afe07d602dd..29f0cdfbdca5 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -804,6 +804,64 @@ static void init_amd_ln(struct cpuinfo_x86 *c)
- 	msr_set_bit(MSR_AMD64_DE_CFG, 31);
- }
-=20
-+static bool rdrand_force;
-+
-+static int __init rdrand_cmdline(char *str)
-+{
-+	if (!str)
-+		return -EINVAL;
-+
-+	if (!strcmp(str, "force"))
-+		rdrand_force =3D true;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("rdrand", rdrand_cmdline);
-+
-+static void clear_rdrand_cpuid_bit(struct cpuinfo_x86 *c)
-+{
-+	/*
-+	 * Saving of the MSR used to hide the RDRAND support during
-+	 * suspend/resume is done by arch/x86/power/cpu.c, which is
-+	 * dependent on CONFIG_PM_SLEEP.
-+	 */
-+	if (!IS_ENABLED(CONFIG_PM_SLEEP))
-+		return;
-+
-+	/*
-+	 * The nordrand option can clear X86_FEATURE_RDRAND, so check for
-+	 * RDRAND support using the CPUID function directly.
-+	 */
-+	if (!(cpuid_ecx(1) & BIT(30)) || rdrand_force)
-+		return;
-+
-+	msr_clear_bit(MSR_AMD64_CPUID_FN_1, 62);
-+
-+	/*
-+	 * Verify that the CPUID change has occurred in case the kernel is
-+	 * running virtualized and the hypervisor doesn't support the MSR.
-+	 */
-+	if (cpuid_ecx(1) & BIT(30)) {
-+		pr_info_once("BIOS may not properly restore RDRAND after suspend, but hy=
-pervisor does not support hiding RDRAND via CPUID.\n");
-+		return;
-+	}
-+
-+	clear_cpu_cap(c, X86_FEATURE_RDRAND);
-+	pr_info_once("BIOS may not properly restore RDRAND after suspend, hiding =
-RDRAND via CPUID. Use rdrand=3Dforce to reenable.\n");
-+}
-+
-+static void init_amd_jg(struct cpuinfo_x86 *c)
-+{
-+	/*
-+	 * Some BIOS implementations do not restore proper RDRAND support
-+	 * across suspend and resume. Check on whether to hide the RDRAND
-+	 * instruction support via CPUID.
-+	 */
-+	clear_rdrand_cpuid_bit(c);
-+}
-+
- static void init_amd_bd(struct cpuinfo_x86 *c)
- {
- 	u64 value;
-@@ -818,6 +876,13 @@ static void init_amd_bd(struct cpuinfo_x86 *c)
- 			wrmsrl_safe(MSR_F15H_IC_CFG, value);
- 		}
- 	}
-+
-+	/*
-+	 * Some BIOS implementations do not restore proper RDRAND support
-+	 * across suspend and resume. Check on whether to hide the RDRAND
-+	 * instruction support via CPUID.
-+	 */
-+	clear_rdrand_cpuid_bit(c);
- }
-=20
- static void init_amd_zn(struct cpuinfo_x86 *c)
-@@ -860,6 +925,7 @@ static void init_amd(struct cpuinfo_x86 *c)
- 	case 0x10: init_amd_gh(c); break;
- 	case 0x12: init_amd_ln(c); break;
- 	case 0x15: init_amd_bd(c); break;
-+	case 0x16: init_amd_jg(c); break;
- 	case 0x17: init_amd_zn(c); break;
- 	}
-=20
-diff --git a/arch/x86/power/cpu.c b/arch/x86/power/cpu.c
-index 1c58d8982728..915bb1639763 100644
---- a/arch/x86/power/cpu.c
-+++ b/arch/x86/power/cpu.c
-@@ -12,6 +12,7 @@
- #include <linux/smp.h>
- #include <linux/perf_event.h>
- #include <linux/tboot.h>
-+#include <linux/dmi.h>
-=20
- #include <asm/pgtable.h>
- #include <asm/proto.h>
-@@ -23,7 +24,7 @@
- #include <asm/debugreg.h>
- #include <asm/cpu.h>
- #include <asm/mmu_context.h>
--#include <linux/dmi.h>
-+#include <asm/cpu_device_id.h>
-=20
- #ifdef CONFIG_X86_32
- __visible unsigned long saved_context_ebx;
-@@ -393,15 +394,14 @@ static int __init bsp_pm_check_init(void)
-=20
- core_initcall(bsp_pm_check_init);
-=20
--static int msr_init_context(const u32 *msr_id, const int total_num)
-+static int msr_build_context(const u32 *msr_id, const int num)
- {
--	int i =3D 0;
-+	struct saved_msrs *saved_msrs =3D &saved_context.saved_msrs;
- 	struct saved_msr *msr_array;
-+	int total_num;
-+	int i, j;
-=20
--	if (saved_context.saved_msrs.array || saved_context.saved_msrs.num > 0) {
--		pr_err("x86/pm: MSR quirk already applied, please check your DMI match t=
-able.\n");
--		return -EINVAL;
--	}
-+	total_num =3D saved_msrs->num + num;
-=20
- 	msr_array =3D kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERN=
-EL);
- 	if (!msr_array) {
-@@ -409,19 +409,30 @@ static int msr_init_context(const u32 *msr_id, const =
-int total_num)
- 		return -ENOMEM;
- 	}
-=20
--	for (i =3D 0; i < total_num; i++) {
--		msr_array[i].info.msr_no	=3D msr_id[i];
-+	if (saved_msrs->array) {
-+		/*
-+		 * Multiple callbacks can invoke this function, so copy any
-+		 * MSR save requests from previous invocations.
-+		 */
-+		memcpy(msr_array, saved_msrs->array,
-+		       sizeof(struct saved_msr) * saved_msrs->num);
-+
-+		kfree(saved_msrs->array);
-+	}
-+
-+	for (i =3D saved_msrs->num, j =3D 0; i < total_num; i++, j++) {
-+		msr_array[i].info.msr_no	=3D msr_id[j];
- 		msr_array[i].valid		=3D false;
- 		msr_array[i].info.reg.q		=3D 0;
- 	}
--	saved_context.saved_msrs.num	=3D total_num;
--	saved_context.saved_msrs.array	=3D msr_array;
-+	saved_msrs->num   =3D total_num;
-+	saved_msrs->array =3D msr_array;
-=20
- 	return 0;
- }
-=20
- /*
-- * The following section is a quirk framework for problematic BIOSen:
-+ * The following sections are a quirk framework for problematic BIOSen:
-  * Sometimes MSRs are modified by the BIOSen after suspended to
-  * RAM, this might cause unexpected behavior after wakeup.
-  * Thus we save/restore these specified MSRs across suspend/resume
-@@ -436,7 +447,7 @@ static int msr_initialize_bdw(const struct dmi_system_i=
-d *d)
- 	u32 bdw_msr_id[] =3D { MSR_IA32_THERM_CONTROL };
-=20
- 	pr_info("x86/pm: %s detected, MSR saving is needed during suspending.\n",=
- d->ident);
--	return msr_init_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
-+	return msr_build_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
- }
-=20
- static const struct dmi_system_id msr_save_dmi_table[] =3D {
-@@ -451,9 +462,58 @@ static const struct dmi_system_id msr_save_dmi_table[]=
- =3D {
- 	{}
- };
-=20
-+static int msr_save_cpuid_features(const struct x86_cpu_id *c)
-+{
-+	u32 cpuid_msr_id[] =3D {
-+		MSR_AMD64_CPUID_FN_1,
-+	};
-+
-+	pr_info("x86/pm: family %#hx cpu detected, MSR saving is needed during su=
-spending.\n",
-+		c->family);
-+
-+	return msr_build_context(cpuid_msr_id, ARRAY_SIZE(cpuid_msr_id));
-+}
-+
-+static const struct x86_cpu_id msr_save_cpu_table[] =3D {
-+	{
-+		.vendor =3D X86_VENDOR_AMD,
-+		.family =3D 0x15,
-+		.model =3D X86_MODEL_ANY,
-+		.feature =3D X86_FEATURE_ANY,
-+		.driver_data =3D (kernel_ulong_t)msr_save_cpuid_features,
-+	},
-+	{
-+		.vendor =3D X86_VENDOR_AMD,
-+		.family =3D 0x16,
-+		.model =3D X86_MODEL_ANY,
-+		.feature =3D X86_FEATURE_ANY,
-+		.driver_data =3D (kernel_ulong_t)msr_save_cpuid_features,
-+	},
-+	{}
-+};
-+
-+typedef int (*pm_cpu_match_t)(const struct x86_cpu_id *);
-+static int pm_cpu_check(const struct x86_cpu_id *c)
-+{
-+	const struct x86_cpu_id *m;
-+	int ret =3D 0;
-+
-+	m =3D x86_match_cpu(msr_save_cpu_table);
-+	if (m) {
-+		pm_cpu_match_t fn;
-+
-+		fn =3D (pm_cpu_match_t)m->driver_data;
-+		ret =3D fn(m);
-+	}
-+
-+	return ret;
-+}
-+
- static int pm_check_save_msr(void)
- {
- 	dmi_check_system(msr_save_dmi_table);
-+	pm_cpu_check(msr_save_cpu_table);
-+
- 	return 0;
- }
-=20
---=20
-2.17.1
+?
 
+Will
