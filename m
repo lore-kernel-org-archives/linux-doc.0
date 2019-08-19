@@ -5,17 +5,17 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB7D77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B344F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbfHSNXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:23:00 -0400
-Received: from 8bytes.org ([81.169.241.247]:50272 "EHLO theia.8bytes.org"
+        id S1727720AbfHSNXC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:23:02 -0400
+Received: from 8bytes.org ([81.169.241.247]:50372 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727424AbfHSNXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:23:00 -0400
+        id S1727687AbfHSNXB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 09:23:01 -0400
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id D15E3309; Mon, 19 Aug 2019 15:22:58 +0200 (CEST)
+        id 64EF6527; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
 From:   Joerg Roedel <joro@8bytes.org>
 To:     Joerg Roedel <joro@8bytes.org>
 Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
@@ -24,10 +24,12 @@ Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
         linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
         Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH 00/11 v3] Cleanup IOMMU passthrough setting (and disable IOMMU Passthrough when SME is active)
-Date:   Mon, 19 Aug 2019 15:22:45 +0200
-Message-Id: <20190819132256.14436-1-joro@8bytes.org>
+Subject: [PATCH 04/11] iommu/amd: Request passthrough mode from IOMMU core
+Date:   Mon, 19 Aug 2019 15:22:49 +0200
+Message-Id: <20190819132256.14436-5-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
+References: <20190819132256.14436-1-joro@8bytes.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -35,71 +37,45 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Hi,
+Get rid of the iommu_pass_through variable and request
+passthrough mode via the new iommu core function.
 
-This patch-set started out small to overwrite the default passthrough
-setting (through CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y) when SME is active.
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ drivers/iommu/amd_iommu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-But on the way to that Tom reminded me that the current ways to
-configure passthrough/no-passthrough modes for IOMMU on x86 is a mess.
-So I added a few more patches to clean that up a bit, getting rid of the
-iommu_pass_through variable on the way.This information is now kept only
-in iommu code, with helpers to change that setting from architecture
-code.
-
-And of course this patch-set still disables IOMMU Passthrough mode when
-SME is active even when CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y is set.
-
-The reason for that change is that SME with passthrough mode turned out
-to be fragile with devices requiring SWIOTLB, mainly because SWIOTLB has
-a maximum allocation size of 256kb and a limit overall size of the
-bounce buffer.
-
-Therefore having IOMMU in translation mode by default is better when SME
-is active on a system.
-
-Please review.
-
-Thanks,
-
-	Joerg
-
-Changes since v2:
-
-	- Added 'bool cmd_line' parameter to iommu_set_default_*()
-	  functions, so that we correctly recognize iommu=pt/nopt
-	  command line parameters
-
-Changes since v1:
-
-	- Cleaned up the kernel command line parameters to
-	  configure passthrough/translated mode, getting rid
-	  of the global iommu_pass_through variable
-
-Joerg Roedel (11):
-  iommu: Remember when default domain type was set on kernel command line
-  iommu: Add helpers to set/get default domain type
-  iommu: Use Functions to set default domain type in iommu_set_def_domain_type()
-  iommu/amd: Request passthrough mode from IOMMU core
-  iommu/vt-d: Request passthrough mode from IOMMU core
-  x86/dma: Get rid of iommu_pass_through
-  ia64: Get rid of iommu_pass_through
-  iommu: Print default domain type on boot
-  iommu: Set default domain type at runtime
-  iommu: Disable passthrough mode when SME is active
-  Documentation: Update Documentation for iommu.passthrough
-
- Documentation/admin-guide/kernel-parameters.txt |  2 +-
- arch/ia64/include/asm/iommu.h                   |  2 -
- arch/ia64/kernel/pci-dma.c                      |  2 -
- arch/x86/include/asm/iommu.h                    |  1 -
- arch/x86/kernel/pci-dma.c                       | 20 +-----
- drivers/iommu/amd_iommu.c                       |  6 +-
- drivers/iommu/intel-iommu.c                     |  2 +-
- drivers/iommu/iommu.c                           | 93 +++++++++++++++++++++++--
- include/linux/iommu.h                           | 16 +++++
- 9 files changed, 110 insertions(+), 34 deletions(-)
-
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index b607a92791d3..7434b34d7a94 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -436,7 +436,7 @@ static int iommu_init_device(struct device *dev)
+ 	 * invalid address), we ignore the capability for the device so
+ 	 * it'll be forced to go into translation mode.
+ 	 */
+-	if ((iommu_pass_through || !amd_iommu_force_isolation) &&
++	if ((iommu_default_passthrough() || !amd_iommu_force_isolation) &&
+ 	    dev_is_pci(dev) && pci_iommuv2_capable(to_pci_dev(dev))) {
+ 		struct amd_iommu *iommu;
+ 
+@@ -2226,7 +2226,7 @@ static int amd_iommu_add_device(struct device *dev)
+ 
+ 	BUG_ON(!dev_data);
+ 
+-	if (iommu_pass_through || dev_data->iommu_v2)
++	if (dev_data->iommu_v2)
+ 		iommu_request_dm_for_dev(dev);
+ 
+ 	/* Domains are initialized for this device - have a look what we ended up with */
+@@ -2805,7 +2805,7 @@ int __init amd_iommu_init_api(void)
+ 
+ int __init amd_iommu_init_dma_ops(void)
+ {
+-	swiotlb        = (iommu_pass_through || sme_me_mask) ? 1 : 0;
++	swiotlb        = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
+ 	iommu_detected = 1;
+ 
+ 	if (amd_iommu_unmap_flush)
 -- 
 2.16.4
 
