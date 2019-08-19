@@ -1,154 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B17807D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 04:39:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1440E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 05:48:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbfHSEj5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 00:39:57 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:36470 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbfHSEj5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 00:39:57 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7J4dJ36095386;
-        Sun, 18 Aug 2019 23:39:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1566189559;
-        bh=SBM143+uKwC8gIRpIrvI0uZ39YPdVq+NjfiPpDmemoo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=mWIrPMjNpyIs7BqM2nUDCV/ei9nWDDqt8QKvxJ+iaeM9/iE34NmkGfPAnRCXtTRHW
-         9ivB8nziFGW3asvd7KDnmcRabF98N2WdpXJTcGargtxrDEoCyFK6SYUca2LMC5878i
-         w+SKd9PWojDPRnqOshmsGo2kX8iqvZoLNBmlvvhw=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7J4dJ5W065905
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 18 Aug 2019 23:39:19 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Sun, 18
- Aug 2019 23:39:19 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Sun, 18 Aug 2019 23:39:18 -0500
-Received: from [172.24.145.136] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7J4dEZr069725;
-        Sun, 18 Aug 2019 23:39:15 -0500
-Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
-To:     John Garry <john.garry@huawei.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
-        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
-        "richard@nod.at" <richard@nod.at>,
-        wanghuiqiang <wanghuiqiang@huawei.com>
-References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
- <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
- <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
- <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
-From:   Vignesh Raghavendra <vigneshr@ti.com>
-Message-ID: <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
-Date:   Mon, 19 Aug 2019 10:09:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726538AbfHSFsx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 01:48:53 -0400
+Received: from mga17.intel.com ([192.55.52.151]:30107 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725536AbfHSFsx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 01:48:53 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Aug 2019 22:48:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; 
+   d="scan'208";a="206898449"
+Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2019 22:48:51 -0700
+Date:   Mon, 19 Aug 2019 13:31:33 +0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org
+Subject: Re: [PATCH v5 0/9] FPGA DFL updates
+Message-ID: <20190819053133.GA31244@hao-dev>
+References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, Aug 12, 2019 at 10:49:55AM +0800, Wu Hao wrote:
+> Hi Greg,
+> 
+> This is v5 patchset which adds more features to FPGA DFL. Marjor changes
+> against v4 are sysfs related code rework to address comments on v4.
+> 
+> Please help to take a look. Thanks!
 
-On 16/08/19 3:50 PM, John Garry wrote:
-> On 06/08/2019 17:40, Schrempf Frieder wrote:
-[...]
-> 
-> Hi,
-> 
-> Could someone kindly advise on the following:
-> 
-> I am looking at ACPI support only for an mtd spi nor driver we're
-> targeting for mainline support.
-> 
+Hi Greg,
 
-If its a new driver, please add it under drivers/spi implementing SPI
-MEM framework.
-There are few drivers under drivers/spi that can be used as example.
-(Search for "spi_mem_ops")
+Did you get a chance to take a look at this new version patchset? :)
 
-> So for the host, I could use a proprietary HID in the DSDT for matching
-> in the kernel driver.
-> 
-> About the child spi flash devices, is the recommendation to just use
-> PRP0001 HID and "jedec,spi-nor" compatible?
->
+Thanks
+Hao
 
-I am not quite familiar with ACPI systems, but child flash device should
-use "jedec,spi-nor" as compatible.
-
-Regards
-Vignesh
-
-> thanks,
-> John
 > 
+> Main changes from v4:
+>   - convert code to use dev_groups for sysfs entries (#2, #3, #4, #6, #8).
+>   - clean up for empty init function after remove sysfs add/remove (#1).
+>   - introduce is_visible for sysfs groups (#3, #4, #6, #8).
+>   - remove revision sysfs entries (#4, #6, #8).
+>   - improve naming on shared functions (#5).
+>   - reorganize sysfs entries for port and fme error reporting (#6, #8).
 > 
->>
->> @Maintainers:
->> Maybe the docs under Documentation/driver-api/mtd should be officially
->> maintained by the MTD subsystem (and added to MAINTAINERS). And if there
->> will be some driver API docs for SPI MEM it should probably live in
->> Documentation/driver-api/spi instead of Documentation/driver-api/mtd, as
->> spi-mem.c itself is in drivers/spi.
->>
->> Regards,
->> Frieder
->>
->>>
->>> Thanks,
->>> John
->>>
->>>> @@ -59,7 +59,7 @@ Part III - How can drivers use the framework?
->>>>
->>>>  The main API is spi_nor_scan(). Before you call the hook, a driver
->>>> should
->>>>  initialize the necessary fields for spi_nor{}. Please see
->>>> -drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
->>>> fsl-quadspi.c
->>>> +drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
->>>> spi-fsl-qspi.c
->>>>  when you want to write a new driver for a SPI NOR controller.
->>>>  Another API is spi_nor_restore(), this is used to restore the status
->>>> of SPI
->>>>  flash chip such as addressing mode. Call it whenever detach the
->>>> driver from
->>>>
->>>
->>>
->>>
->>> ______________________________________________________
->>> Linux MTD discussion mailing list
->>> http://lists.infradead.org/mailman/listinfo/linux-mtd/
+> Main changes from v3:
+>   - drop avx512 partail reconfiguration patch for now.
+>   - split dfl_fpga_cdev_config_port to 2 functions *_release/assign_port
+>     (#1).
+>   - split __dfl_fpga_cdev_config_port_vf into 2 functions with locking
+>     added (#2).
+>   - improve description in sysfs doc to avoid misunderstanding (#3).
+>   - switch to boolean in sysfs entry store function (#3).
+>   - remove dev_dbg in init/uinit callback function (#7, #9, #11).
+>   - remove uinit callback which does does nothing (#8, #9)
 > 
+> Main changes from v2:
+>   - update kernel version/date in sysfs doc (patch #4, #5, #8, #10, #11).
+>   - add back Documentation patch (patch #12).
 > 
-
--- 
-Regards
-Vignesh
+> Main changes from v1:
+>   - remove DRV/MODULE_VERSION modifications. (patch #1, #3, #4, #6)
+>   - remove argsz from new ioctls. (patch #2)
+>   - replace sysfs_create/remove_* with device_add/remove_* for sysfs entries.
+>     (patch #5, #8, #11)
+> 
+> Wu Hao (9):
+>   fpga: dfl: make init callback optional
+>   fpga: dfl: fme: convert platform_driver to use dev_groups
+>   fpga: dfl: afu: convert platform_driver to use dev_groups
+>   fpga: dfl: afu: add userclock sysfs interfaces.
+>   fpga: dfl: afu: expose __afu_port_enable/disable function.
+>   fpga: dfl: afu: add error reporting support.
+>   fpga: dfl: afu: add STP (SignalTap) support
+>   fpga: dfl: fme: add global error reporting support
+>   Documentation: fpga: dfl: add descriptions for virtualization and new
+>     interfaces.
+> 
+>  Documentation/ABI/testing/sysfs-platform-dfl-fme  |  62 ++++
+>  Documentation/ABI/testing/sysfs-platform-dfl-port |  53 ++++
+>  Documentation/fpga/dfl.rst                        | 105 +++++++
+>  drivers/fpga/Makefile                             |   3 +-
+>  drivers/fpga/dfl-afu-error.c                      | 230 ++++++++++++++
+>  drivers/fpga/dfl-afu-main.c                       | 230 +++++++++++---
+>  drivers/fpga/dfl-afu.h                            |   9 +
+>  drivers/fpga/dfl-fme-error.c                      | 359 ++++++++++++++++++++++
+>  drivers/fpga/dfl-fme-main.c                       |  42 +--
+>  drivers/fpga/dfl-fme.h                            |   3 +
+>  drivers/fpga/dfl.c                                |  10 +-
+>  drivers/fpga/dfl.h                                |   9 +
+>  12 files changed, 1041 insertions(+), 74 deletions(-)
+>  create mode 100644 drivers/fpga/dfl-afu-error.c
+>  create mode 100644 drivers/fpga/dfl-fme-error.c
+> 
+> -- 
+> 1.8.3.1
