@@ -1,120 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1440E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 05:48:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B60D47D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 05:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfHSFsx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 01:48:53 -0400
-Received: from mga17.intel.com ([192.55.52.151]:30107 "EHLO mga17.intel.com"
+        id S1726149AbfHSFuX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 01:50:23 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:57382 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725536AbfHSFsx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 01:48:53 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Aug 2019 22:48:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; 
-   d="scan'208";a="206898449"
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2019 22:48:51 -0700
-Date:   Mon, 19 Aug 2019 13:31:33 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     gregkh@linuxfoundation.org, mdf@kernel.org,
-        linux-fpga@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org
-Subject: Re: [PATCH v5 0/9] FPGA DFL updates
-Message-ID: <20190819053133.GA31244@hao-dev>
-References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+        id S1725846AbfHSFuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 01:50:23 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 055B56A0;
+        Mon, 19 Aug 2019 07:50:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1566193817; x=1568008218; bh=xu4Q1p4bYiyi178072Bu6oked5lCfvizVFr
+        3BFHAwcg=; b=WtRL/ltslL/Fnt2ZxIqmGprzvVhqLqJ7SR3Y0LzCdfjST699SS8
+        8gxx6tV4fFXAJe2O5APZceuxcQQH6iywuJMCbSUxB/LaDyZ4smWmHflo018XrYMM
+        9ccarFDKrqfhBDpsNZ1RA0budyGEyIbbcFVJYcOcH0sWBqnBM0N314eNem6WKTOa
+        baSsjqtIBVrqTwem0y3Fhib1RXqunEJkREyp69IEpJu3hzYa2KmPdf0uX7uLWAB4
+        TO5UsLjDEF0xZ8tzAiMj0uRks/PNpMgRIrmjA3XNanJCQzAkzhdc5HvhxreL5zc2
+        VCxunJwyv9mT7oqcG30RkUGL7OrRmKOvGORjfFLKswp8g/eFithHhBTKgD9mtmkt
+        WSc6qJVUzVdV9Grd2kpK/twyr8iyQdZWGTW0hJO+Yw9XS+0vfJjpC45OdAnDih+z
+        vNzMJ9XrQriuoLsJZ0z5Sj/NPY8iNSylSAWIeNG01p/WTYznpUW0fuQDnEPWPhwY
+        ds+xNuyJ3jafNiejMA5p6VU7Rfji33tekucD8vDnWdTAimCm0LQZu2q+NF58IRf0
+        WIScSCdjalouTOmldZY/fP4BM58JXBd7eR9chkps9RVG+9yyVYMkA1Wezc6Ahytn
+        +JCsckAABWzBT5z2h2d4JzvhJdOZGEf36gBrKR5WtljnCgZ1jflG/fF8=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id an7HK7bIczcE; Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 99A39185;
+        Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 348128D69;
+        Mon, 19 Aug 2019 07:50:17 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jacob Huisman <jacobhuisman@kernelthusiast.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: process: fix broken link
+Date:   Mon, 19 Aug 2019 07:50:15 +0200
+Message-ID: <3592371.DDP23MczKt@pcbe13614>
+In-Reply-To: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
+References: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 10:49:55AM +0800, Wu Hao wrote:
-> Hi Greg,
+On Friday, August 16, 2019 2:22:09 PM CEST Jacob Huisman wrote:
+> http://linux.yyz.us/patch-format.html seems to be down since
+> approximately September 2018. There is a working archive copy on
+> arhive.org. Replaced the links in documenation + translations.
 > 
-> This is v5 patchset which adds more features to FPGA DFL. Marjor changes
-> against v4 are sysfs related code rework to address comments on v4.
-> 
-> Please help to take a look. Thanks!
+> Signed-off-by: Jacob Huisman <jacobhuisman@kernelthusiast.com>
 
-Hi Greg,
+Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Did you get a chance to take a look at this new version patchset? :)
 
-Thanks
-Hao
-
-> 
-> Main changes from v4:
->   - convert code to use dev_groups for sysfs entries (#2, #3, #4, #6, #8).
->   - clean up for empty init function after remove sysfs add/remove (#1).
->   - introduce is_visible for sysfs groups (#3, #4, #6, #8).
->   - remove revision sysfs entries (#4, #6, #8).
->   - improve naming on shared functions (#5).
->   - reorganize sysfs entries for port and fme error reporting (#6, #8).
-> 
-> Main changes from v3:
->   - drop avx512 partail reconfiguration patch for now.
->   - split dfl_fpga_cdev_config_port to 2 functions *_release/assign_port
->     (#1).
->   - split __dfl_fpga_cdev_config_port_vf into 2 functions with locking
->     added (#2).
->   - improve description in sysfs doc to avoid misunderstanding (#3).
->   - switch to boolean in sysfs entry store function (#3).
->   - remove dev_dbg in init/uinit callback function (#7, #9, #11).
->   - remove uinit callback which does does nothing (#8, #9)
-> 
-> Main changes from v2:
->   - update kernel version/date in sysfs doc (patch #4, #5, #8, #10, #11).
->   - add back Documentation patch (patch #12).
-> 
-> Main changes from v1:
->   - remove DRV/MODULE_VERSION modifications. (patch #1, #3, #4, #6)
->   - remove argsz from new ioctls. (patch #2)
->   - replace sysfs_create/remove_* with device_add/remove_* for sysfs entries.
->     (patch #5, #8, #11)
-> 
-> Wu Hao (9):
->   fpga: dfl: make init callback optional
->   fpga: dfl: fme: convert platform_driver to use dev_groups
->   fpga: dfl: afu: convert platform_driver to use dev_groups
->   fpga: dfl: afu: add userclock sysfs interfaces.
->   fpga: dfl: afu: expose __afu_port_enable/disable function.
->   fpga: dfl: afu: add error reporting support.
->   fpga: dfl: afu: add STP (SignalTap) support
->   fpga: dfl: fme: add global error reporting support
->   Documentation: fpga: dfl: add descriptions for virtualization and new
->     interfaces.
-> 
->  Documentation/ABI/testing/sysfs-platform-dfl-fme  |  62 ++++
->  Documentation/ABI/testing/sysfs-platform-dfl-port |  53 ++++
->  Documentation/fpga/dfl.rst                        | 105 +++++++
->  drivers/fpga/Makefile                             |   3 +-
->  drivers/fpga/dfl-afu-error.c                      | 230 ++++++++++++++
->  drivers/fpga/dfl-afu-main.c                       | 230 +++++++++++---
->  drivers/fpga/dfl-afu.h                            |   9 +
->  drivers/fpga/dfl-fme-error.c                      | 359 ++++++++++++++++++++++
->  drivers/fpga/dfl-fme-main.c                       |  42 +--
->  drivers/fpga/dfl-fme.h                            |   3 +
->  drivers/fpga/dfl.c                                |  10 +-
->  drivers/fpga/dfl.h                                |   9 +
->  12 files changed, 1041 insertions(+), 74 deletions(-)
->  create mode 100644 drivers/fpga/dfl-afu-error.c
->  create mode 100644 drivers/fpga/dfl-fme-error.c
-> 
-> -- 
-> 1.8.3.1
