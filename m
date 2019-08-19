@@ -1,205 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2C797D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 21:30:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C6817D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 21:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728511AbfHSVaH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 17:30:07 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36446 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728387AbfHSVaH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 17:30:07 -0400
-Received: by mail-pl1-f196.google.com with SMTP id f19so1169288plr.3;
-        Mon, 19 Aug 2019 14:30:06 -0700 (PDT)
+        id S1728532AbfHSVwU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 17:52:20 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:44844 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728283AbfHSVwU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 17:52:20 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c81so1961582pfc.11
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 14:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Edh1Yz4E7w1NZ9Sx/az64PkqGgiFtT5zbUPva6pMUa4=;
-        b=U+Vhg3eqCS8nYGf6OE4fQWuVplK/GpoiR0HhZrSjluWTaQkMqs6AqKkAL+J+8R5D5d
-         Wf3by8+NH+lV14cy9Is5cm2e0XBgiYPPpATDpbx6YUTnE6xA28/ClC66sQGYP6qU/UU2
-         62pu0HapDRSIkO79ygb8sjwWe2gPKc5PTPm6sIwtJ5Q27vga3NE4UgIEV9HPBCCjr22M
-         GpKrgze0R0tPwEiAyMODt1/496Uir8Ehk+EYrLCp8WebRiX3OFMae0y8RRLNAQoyijhy
-         CM+VQAkAzDbN/XxVkkBSsbN9sryEzlneyoNJtaClPRrMTKCUngLil2x0CXmyOtonSHTt
-         hXbg==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1NM94xksOiht8RmgWrLEcFY3PgSHOoB3FnNWuwtEkT8=;
+        b=ZIz4IZobyazBKzjPdPXduiU9VmQv41GRQbby3Zhrveo6Tz9PhO7CfVQSbB/TBOqzVV
+         HKeoTTvO+/pPOZ6NjxPybqIoS90KhiOlS45PxA7pJUrdFjv/+xi3aMSn2GcoZjntjeft
+         Q/tWStO+V0j/UbB2Xya/5GYUIAa/rOxLiAaAo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Edh1Yz4E7w1NZ9Sx/az64PkqGgiFtT5zbUPva6pMUa4=;
-        b=Ciqk19RAhFfmtW7PiXDDaBv51+eOQH9ggPRxqD9CHS/Pvn1WDePuOJA0vW0hZhUiHE
-         hrWu0Wdg4jqy3nCW++f/v6hs5nkbwUSLftU+rHUeMywUQY2fI0rEA37CDlYrvwkfpki3
-         uVzSaUDv7LSPDez0qV330Lr50d9kjJTq5fiaPlI8ks7LFOnOISg5nhD+rWFAF2z/79hW
-         a2wpX9m3rpVRQicq9b1u3/66IlgXgTt1oMuW6nVQKhrE45Dc1AmS1IRnL0MVxdM6gqEs
-         Cc4qzKkANq3OtHWNgQ4QZFH6racxfzY1b08jvUbh+kQc9PKBr5OESOAleEHfyDXWULB6
-         PYsA==
-X-Gm-Message-State: APjAAAXbwWtvEEuEGmIQ/6zmHdQGdg0oenO7vzPpkjJQeC+4YQW0uIR2
-        WQa1KS3Y7yIyUr7S1zP9arc=
-X-Google-Smtp-Source: APXvYqy0UQj7EgXtym2oSyuvkHVisZmXGSKvzoH1p1E/HNj3qg4yMA3qEOXZw54MOYNBVq8kBPMWbQ==
-X-Received: by 2002:a17:902:d882:: with SMTP id b2mr24477208plz.66.1566250206210;
-        Mon, 19 Aug 2019 14:30:06 -0700 (PDT)
-Received: from [192.168.1.70] (c-73-231-235-122.hsd1.ca.comcast.net. [73.231.235.122])
-        by smtp.gmail.com with ESMTPSA id v67sm29306052pfb.45.2019.08.19.14.30.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Aug 2019 14:30:05 -0700 (PDT)
-Subject: Re: [PATCH v7 3/7] of/platform: Add functional dependency link from
- DT bindings
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1NM94xksOiht8RmgWrLEcFY3PgSHOoB3FnNWuwtEkT8=;
+        b=onMwzWLE3dmLyZNyz/YC7B48XZzrRUXR2aQha77sXkaPUzodISVMiLBeneVSpVV5ER
+         /PmI6tRc7pAP+MU0UZznTeUzqEPzPKDi6nwSudFJZBs70trPyNsDeHiPvhGtlrFfYtXK
+         9ImDylX2ZT0JKaQnjSUNZH+wL+5dJ8XrdBVega1lvo1hnDwjgM9pOIEz3gmlG4dtJP4T
+         kfbhOHFOWMJZqiMDGdgbfYKv04G8J4KT8hhaWV+6b7NjXsAu0lp/GAE3XjWqOKnRdHDS
+         7kQAlVXyQOflvCGL85Wk6kYLHe6n8F9jAQ/K/3rsYYCCjCaFiHYkkkRE02uyBYu0j3wS
+         0JEw==
+X-Gm-Message-State: APjAAAWwFKvX+xtv/ooLYkjUB69TkSpRAT0TFISI3642gksut+tXClDY
+        vwpT54CteccHGIPkDVyw8jTHMA==
+X-Google-Smtp-Source: APXvYqwUvaI7TTB3Cq1JrLcXYfbfWpzlEsBG0HdCSLwtiPUe8V7Jo54+xeveGTu2L+fiSxLgsLREgA==
+X-Received: by 2002:a17:90a:3321:: with SMTP id m30mr23192445pjb.2.1566251538929;
+        Mon, 19 Aug 2019 14:52:18 -0700 (PDT)
+Received: from localhost ([172.19.216.18])
+        by smtp.gmail.com with ESMTPSA id v8sm19341824pjb.6.2019.08.19.14.52.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 14:52:18 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 17:52:01 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Jann Horn <jannh@google.com>,
+        Daniel Gruss <daniel.gruss@iaik.tugraz.at>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>,
+        Daniel Colascione <dancol@google.com>, fmayer@google.com,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20190724001100.133423-1-saravanak@google.com>
- <20190724001100.133423-4-saravanak@google.com>
- <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com>
- <CAGETcx-dVnLCRA+1CX47gtZgtwTcrN5KefpjMzh9OJB-BEnqyg@mail.gmail.com>
- <19c99a6e-51c3-68d7-d1d6-640aae754c14@gmail.com>
- <CAGETcx-XcXZq7YFHsFdzBDniQku9cxFUJL_vBoEKKhCH+cDKRw@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <74931824-f8a1-0435-e00a-5b5cdbe8a8a2@gmail.com>
-Date:   Mon, 19 Aug 2019 14:30:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Kees Cook <keescook@chromium.org>,
+        kernel-team <kernel-team@android.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190819215201.GG117548@google.com>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
+ <20190813100856.GF17933@dhcp22.suse.cz>
+ <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
+ <20190814075601.GO17933@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <CAGETcx-XcXZq7YFHsFdzBDniQku9cxFUJL_vBoEKKhCH+cDKRw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190814075601.GO17933@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/19/19 1:49 PM, Saravana Kannan wrote:
-> On Mon, Aug 19, 2019 at 10:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
->>
->> On 8/15/19 6:50 PM, Saravana Kannan wrote:
->>> On Wed, Aug 7, 2019 at 7:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>>>
->>>> On 7/23/19 5:10 PM, Saravana Kannan wrote:
->>>>> Add device-links after the devices are created (but before they are
->>>>> probed) by looking at common DT bindings like clocks and
->>>>> interconnects.
->>
->>
->> < very big snip (lots of comments that deserve answers) >
->>
->>
->>>>
->>>> /**
->>>>  * of_link_property - TODO:
->>>>  * dev:
->>>>  * con_np:
->>>>  * prop:
->>>>  *
->>>>  * TODO...
->>>>  *
->>>>  * Any failed attempt to create a link will NOT result in an immediate return.
->>>>  * of_link_property() must create all possible links even when one of more
->>>>  * attempts to create a link fail.
->>>>
->>>> Why?  isn't one failure enough to prevent probing this device?
->>>> Continuing to scan just results in extra work... which will be
->>>> repeated every time device_link_check_waiting_consumers() is called
->>>
->>> Context:
->>> As I said in the cover letter, avoiding unnecessary probes is just one
->>> of the reasons for this patch. The other (arguably more important)
->>
->> Agree that it is more important.
->>
->>
->>> reason for this patch is to make sure suppliers know that they have
->>> consumers that are yet to be probed. That way, suppliers can leave
->>> their resource on AND in the right state if they were left on by the
->>> bootloader. For example, if a clock was left on and at 200 MHz, the
->>> clock provider needs to keep that clock ON and at 200 MHz till all the
->>> consumers are probed.
->>>
->>> Answer: Let's say a consumer device Z has suppliers A, B and C. If the
->>> linking fails at A and you return immediately, then B and C could
->>> probe and then figure that they have no more consumers (they don't see
->>> a link to Z) and turn off their resources. And Z could fail
->>> catastrophically.
->>
->> Then I think that this approach is fatally flawed in the current implementation.
+On Wed, Aug 14, 2019 at 09:56:01AM +0200, Michal Hocko wrote:
+[snip]
+> > > > Can this be used to observe which library pages other processes are
+> > > > accessing, even if you don't have access to those processes, as long
+> > > > as you can map the same libraries? I realize that there are already a
+> > > > bunch of ways to do that with side channels and such; but if you're
+> > > > adding an interface that allows this by design, it seems to me like
+> > > > something that should be gated behind some sort of privilege check.
+> > >
+> > > Hmm, you need to be priviledged to get the pfn now and without that you
+> > > cannot get to any page so the new interface is weakening the rules.
+> > > Maybe we should limit setting the idle state to processes with the write
+> > > status. Or do you think that even observing idle status is useful for
+> > > practical side channel attacks? If yes, is that a problem of the
+> > > profiler which does potentially dangerous things?
+> > 
+> > I suppose read-only access isn't a real problem as long as the
+> > profiler isn't writing the idle state in a very tight loop... but I
+> > don't see a usecase where you'd actually want that? As far as I can
+> > tell, if you can't write the idle state, being able to read it is
+> > pretty much useless.
+> > 
+> > If the profiler only wants to profile process-private memory, then
+> > that should be implementable in a safe way in principle, I think, but
+> > since Joel said that they want to profile CoW memory as well, I think
+> > that's inherently somewhat dangerous.
 > 
-> I'm waiting to hear how it is fatally flawed. But maybe this is just a
-> misunderstanding of the problem?
-
-Fatally flawed because it does not handle modules that add a consumer
-device when the module is loaded.
-
-
+> I cannot really say how useful that would be but I can see that
+> implementing ownership checks would be really non-trivial for
+> shared pages. Reducing the interface to exclusive pages would make it
+> easier as you noted but less helpful.
 > 
-> In the text below, I'm not sure if you mixing up two different things
-> or just that your wording it a bit ambiguous. So pardon my nitpick to
-> err on the side of clarity.
-
-Please do nitpick.  Clarity is good.
-
-
+> Besides that the attack vector shouldn't be really much different from
+> the page cache access, right? So essentially can_do_mincore model.
 > 
->> A device can be added by a module that is loaded.
-> 
-> No, in the example I gave, of_platform_default_populate_init() would
-> add all 3 of those devices during arch_initcall_sync().
+> I guess we want to document that page idle tracking should be used with
+> care because it potentially opens a side channel opportunity if used
+> on sensitive data.
 
-The example you gave does not cover all use cases.
+I have been thinking of this, and discussing with our heap profiler folks.
+Not being able to track shared pages would be a limitation, but I don't see
+any way forward considering this security concern so maybe we have to
+limit what we can do.
 
-There are modules that add devices when the module is loaded.  You can not
-ignore systems using such modules.
+I will look into implementing this without doing the rmap but still make it
+work on shared pages from the point of view of the process being tracked. It
+just would no longer through the PTEs of *other* processes sharing the page.
 
+My current thought is to just rely on the PTE accessed bit, and not use the
+PageIdle flag at all. But we'd still set the PageYoung flag so that the
+reclaim code still sees the page as accessed. The reason I feel like avoiding
+the PageIdle flag is:
 
-> 
->>  In that case the device
->> was not present at late boot when the suppliers may turn off their resources.
-> 
-> In that case, the _drivers_ for those devices aren't present at late
-> boot. So that they can't request to keep the resources on for their
-> consumer devices. Since there are no consumer requests on resources,
-> the suppliers turn off their resources at late boot (since there isn't
-> a better location as of today). The sync_state() call back added in a
-> subsequent patche in this series will provide the better location.
+1. It looks like mark_page_accessed() can be called from other paths which
+can also result in some kind of side-channel issue if a page was shared.
 
-And the sync_state() call back will not deal with modules that add consumer
-devices when the module is loaded, correct?
+2. I don't think I need the PageIdle flag since the access bit alone should
+let me know, although it could be a bit slower. Since previously, I did not
+need to check every PTE and if the PageIdle flag was already cleared, then
+the page was declared as idle.
 
+At least this series resulted in a bug fix and a tonne of learning, so thank
+you everyone!
 
-> 
->> (I am assuming the details since I have not reviewed the patches later in
->> the series that implement this part.)
->>
->> Am I missing something?
-> 
-> I think you are mixing up devices getting added/populated with drivers
-> getting loaded as modules?
+Any other thoughts?
 
-Only some modules add devices when they are loaded.  But these modules do
-exist.
+thanks,
 
--Frank
-
-> 
->> If I am wrong, then I'll have more comments for your review replies for
->> patches 2 and 3.
-> 
-> I'll wait for more review replies?
-> 
-> Thanks,
-> Saravana
-> 
+ - Joel
 
