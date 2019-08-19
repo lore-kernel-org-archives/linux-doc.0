@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 263757D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:28:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BF6B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727658AbfHSN2A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 09:28:00 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:47221 "EHLO
+        id S1727301AbfHSNac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:30:32 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:47241 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727614AbfHSN2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 09:28:00 -0400
+        with ESMTP id S1727642AbfHSNac (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 09:30:32 -0400
 Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1hzhhQ-0004Vx-MT; Mon, 19 Aug 2019 15:27:52 +0200
-Date:   Mon, 19 Aug 2019 15:27:51 +0200 (CEST)
+        id 1hzhjt-0004ZC-Hq; Mon, 19 Aug 2019 15:30:25 +0200
+Date:   Mon, 19 Aug 2019 15:30:24 +0200 (CEST)
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     lantianyu1986@gmail.com
 cc:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
@@ -29,11 +29,11 @@ cc:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
         Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, vkuznets@redhat.com
-Subject: Re: [PATCH V3 2/3] KVM/Hyper-V: Add new KVM cap
- KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-In-Reply-To: <20190819131737.26942-3-Tianyu.Lan@microsoft.com>
-Message-ID: <alpine.DEB.2.21.1908191522390.2147@nanos.tec.linutronix.de>
-References: <20190819131737.26942-1-Tianyu.Lan@microsoft.com> <20190819131737.26942-3-Tianyu.Lan@microsoft.com>
+Subject: Re: [PATCH V3 1/3] x86/Hyper-V: Fix definition of struct
+ hv_vp_assist_page
+In-Reply-To: <20190819131737.26942-2-Tianyu.Lan@microsoft.com>
+Message-ID: <alpine.DEB.2.21.1908191520110.2147@nanos.tec.linutronix.de>
+References: <20190819131737.26942-1-Tianyu.Lan@microsoft.com> <20190819131737.26942-2-Tianyu.Lan@microsoft.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,33 +46,18 @@ On Mon, 19 Aug 2019, lantianyu1986@gmail.com wrote:
 
 > From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 > 
-> This patch adds
+> The struct hv_vp_assist_page was defined incorrectly.
+> The "vtl_control" should be u64[3], "nested_enlightenments
 
-Same git grep command as before
+s/The /The member/
 
->  new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH and let
+> _control" should be a u64 and there is 7 reserved bytes
 
-baseball cap? Please do not use weird acronyms. This is text and there is
-not limitation on characters.
+s/is/are/
 
-> user space to enable direct tlb flush function when only Hyper-V
-> hypervsior capability is exposed to VM.
+> following "enlighten_vmentry". This patch is to fix it.
 
-Sorry, but I'm not understanding this sentence.
-
-> This patch also adds
-
-Once more
-
-> enable_direct_tlbflush callback in the struct kvm_x86_ops and
-> platforms may use it to implement direct tlb flush support.
-
-Please tell in the changelog WHY you are doing things not what. The what is
-obviously in the patch.
-
-So you want to explain what you are trying to achieve and why it is
-useful. Then you can add a short note about what you are adding, but not at
-the level of detail which is available from the diff itself.
+git grep 'This patch' Documentation/process/
 
 Thanks,
 
