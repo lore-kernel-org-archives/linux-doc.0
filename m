@@ -1,76 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48E887D912
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 09:30:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C98AF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 13:17:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfHSJa5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 05:30:57 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:42958 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbfHSJa5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 05:30:57 -0400
-Received: by mail-qt1-f196.google.com with SMTP id t12so1136602qtp.9;
-        Mon, 19 Aug 2019 02:30:57 -0700 (PDT)
+        id S1727352AbfHSNR6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 09:17:58 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40905 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727332AbfHSNR6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 09:17:58 -0400
+Received: by mail-pl1-f195.google.com with SMTP id h3so964615pls.7;
+        Mon, 19 Aug 2019 06:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JFfcd2aWnD63uHxrGGrBMx20FuJCpjkBSuAwl0BDHEA=;
-        b=YdC/NSNaLxX9MHpFGBgW6CU7EZ1XTRHLmAXFhRSy5ehgbthqvmQcm39HaAi5OGQIHb
-         0eNSjYbbqlfjSDyujt1P0JDhw5rMV0WiECJiU3e+T6uleOoDaWmni9BMy+03LoVqVVsj
-         Ghzy557/dBTOuqxVM7ewVAsTXoDhI/4lBqwIw=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=aZ+5nrs0LMjDpHKkki7nAhcxgYSF9NknvkkgLtDTGPg=;
+        b=DEpiA+AQKlaUh3RF+A0tZaaCuPvzPryNNQGETkC05fPPFgLCBJEVRfWOmKQ1ziEoFj
+         0PubyaCZZn8frFwQksrf7erQSUkvwLZimSyuB+vonblyBB5nok7c0gNHiIWcvv3r9M1U
+         fKeX+BcrCw+VCzfoHHgdZ+4h7rP+p9Olgg5kKt5LrMu0XjnoJAEIAXMzx3/d/9wCe7Oc
+         G9BfFkm9svfl2GFqBSa3xBvAAa+jRnSSNGS7JUYdo/Dan45GObCNhtA+C6FcaeAxwGXW
+         ASlz1auo0fqa0wQKb0hbbpEOyfyFH5IUoK+iVAcV1fVy7J8KCdieL8ezBoq3F9r2lgrD
+         1T2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JFfcd2aWnD63uHxrGGrBMx20FuJCpjkBSuAwl0BDHEA=;
-        b=DBiiP9SRZTGLG7RXHvse/H6i1zcfU6U6BS84oLGOlRG0pzqX9L4noSDTEaZ4/u2gVU
-         AkBO6h1rmMSO8dWF1Dp1N8iY5PhEg950J/rLO7/9Z9grPTGqG1FRwz23zKK2doSEHMO0
-         zhC3Rz+6VYTqkKWMzs5mOGTzut6lSxQUyowI0E+BVGD5fPu7TxTdQqlYPBaZptS9R4V2
-         gBlKBTCUZZsVUZrSWOsCsRui8GkQbYVkIgJD6/Ipf/Wq4kARNdxlvEgVDhcTVc/uT4fX
-         L3NHSUsWsEJ4ClU/6psRfIY9arZtlHCSai+ogiyJqsmSzpF5aNKa3m+HBV9r8Ee6xF17
-         Qm3w==
-X-Gm-Message-State: APjAAAVMDBUiIs84mKU2ndRNHgo3jsK/vTYDpspNw+LL27qMUvizNk85
-        Y3UPMmTAAu7RiqPQQKXZd4+fxc96xS1k0lYvrAA=
-X-Google-Smtp-Source: APXvYqwdbyD050l1JQMNhqORypwCwlewcXrshUh6xNe/3T/3iFa5hXDqHmKkUkqt20f7MbKR1wov3rIhLLbsktfmLg8=
-X-Received: by 2002:aed:3e6f:: with SMTP id m44mr20030489qtf.220.1566207056483;
- Mon, 19 Aug 2019 02:30:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190819091509.29276-1-wangzqbj@inspur.com>
-In-Reply-To: <20190819091509.29276-1-wangzqbj@inspur.com>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Mon, 19 Aug 2019 09:30:44 +0000
-Message-ID: <CACPK8XfAAU+x8d+=7ALDAUSynLG=8KUWD3zDZqaHRnh5pajDKQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] hwmon: pmbus: Add Inspur Power System power supply driver
-To:     John Wang <wangzqbj@inspur.com>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        duanzhijia01@inspur.com, Lei YU <mine260309@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=aZ+5nrs0LMjDpHKkki7nAhcxgYSF9NknvkkgLtDTGPg=;
+        b=WD1TjZgcHnjWjbSDq5sUm/QBxOMKmcHap02SkzD7B1M14UZon9gQ/eWuH0X5jEWwKO
+         z4iWH61MA+5PUbIrkXbTB0CyxIDWsX8mWs41MrUX4j/7qbDYX2spbyWv+CC51Ho+y5sm
+         tgqFceX6GROWWx5i12BHcnYXcXnBxLKK0Bok8HRf494OxPr4yheopWrdtLisSVLTT18p
+         t+hc2CSpJHvQVuK8TH9s8OOrkzq8qTg4M4GGQRb2rSiBs96nFbKmDlwpAcqq5iYmv/52
+         LIgDY0SpcKt7LXipM2ZWVhaFSX939Z38nmZTpe8U4kBPsg6EpbGdv3JI7CZqrodsIvCp
+         ++1A==
+X-Gm-Message-State: APjAAAVEGrOkIaZstyfyx3y3rHjWDziDKFoKQRTbAsVoBetIR1XSlJ1P
+        W6Znomk1ZgS1WVo7m2Z2zC4=
+X-Google-Smtp-Source: APXvYqwecO8PDw3ZtuO6GQH+gpgy16iXAFvZIPaahS3WlVOAzV7gXtbyN0+gxYyd2JNffYM6wmGAkA==
+X-Received: by 2002:a17:902:b094:: with SMTP id p20mr2016081plr.320.1566220677481;
+        Mon, 19 Aug 2019 06:17:57 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.255.114])
+        by smtp.googlemail.com with ESMTPSA id h20sm16184329pfq.156.2019.08.19.06.17.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 19 Aug 2019 06:17:56 -0700 (PDT)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com
+Subject: [PATCH V3 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+Date:   Mon, 19 Aug 2019 21:17:34 +0800
+Message-Id: <20190819131737.26942-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Aug 2019 at 09:15, John Wang <wangzqbj@inspur.com> wrote:
->
-> Add the driver to monitor Inspur Power System power supplies
-> with hwmon over pmbus.
->
-> This driver adds sysfs attributes for additional power supply data,
-> including vendor, model, part_number, serial number,
-> firmware revision, hardware revision, and psu mode(active/standby).
->
-> Signed-off-by: John Wang <wangzqbj@inspur.com>
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+in L0 can delegate L1 hypervisor to handle tlb flush request from
+L2 guest when direct tlb flush is enabled in L1.
+
+Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+feature from user space. User space should enable this feature only
+when Hyper-V hypervisor capability is exposed to guest and KVM profile
+is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+We hope L2 guest doesn't use KVM hypercall when the feature is
+enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+
+Change since v2:
+       - Move hv assist page(hv_pa_pg) from struct kvm  to struct kvm_hv.
+
+Change since v1:
+       - Fix offset issue in the patch 1.
+       - Update description of KVM KVM_CAP_HYPERV_DIRECT_TLBFLUSH.
+
+
+Tianyu Lan (2):
+  x86/Hyper-V: Fix definition of struct hv_vp_assist_page
+  KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
+
+Vitaly Kuznetsov (1):
+  KVM/Hyper-V/VMX: Add direct tlb flush support
+
+ Documentation/virtual/kvm/api.txt  | 13 +++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h | 24 ++++++++++++++++++-----
+ arch/x86/include/asm/kvm_host.h    |  4 ++++
+ arch/x86/kvm/vmx/evmcs.h           |  2 ++
+ arch/x86/kvm/vmx/vmx.c             | 39 ++++++++++++++++++++++++++++++++++++++
+ arch/x86/kvm/x86.c                 |  8 ++++++++
+ include/uapi/linux/kvm.h           |  1 +
+ 7 files changed, 86 insertions(+), 5 deletions(-)
+
+-- 
+2.14.5
+
