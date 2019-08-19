@@ -1,391 +1,381 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EA847D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 16:34:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBA827D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 16:40:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbfHSQcE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 12:32:04 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55270 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727524AbfHSQcE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 12:32:04 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 8D471B0B6;
-        Mon, 19 Aug 2019 16:32:01 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: [PATCH v5 02/17] w1: add DS2501, DS2502, DS2505 EPROM device driver
-Date:   Mon, 19 Aug 2019 18:31:25 +0200
-Message-Id: <20190819163144.3478-3-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.13.7
-In-Reply-To: <20190819163144.3478-1-tbogendoerfer@suse.de>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
+        id S1727744AbfHSQk1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 12:40:27 -0400
+Received: from foss.arm.com ([217.140.110.172]:57280 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726525AbfHSQk1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 12:40:27 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ECBC2344;
+        Mon, 19 Aug 2019 09:40:25 -0700 (PDT)
+Received: from [10.1.197.61] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28E023F718;
+        Mon, 19 Aug 2019 09:40:24 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] KVM: arm64: Support stolen time reporting via
+ shared structure
+To:     Steven Price <steven.price@arm.com>, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190819140436.12207-1-steven.price@arm.com>
+ <20190819140436.12207-5-steven.price@arm.com>
+From:   Marc Zyngier <maz@kernel.org>
+Organization: Approximate
+Message-ID: <f6fad4fa-323d-306c-c582-de07464f4d00@kernel.org>
+Date:   Mon, 19 Aug 2019 17:40:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190819140436.12207-5-steven.price@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a 1-Wire slave driver to support DS250x EPROM deivces. This
-slave driver attaches the devices to the NVMEM subsystem for
-an easy in-kernel usage.
+Hi Steven,
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
- drivers/w1/slaves/Kconfig     |   6 +
- drivers/w1/slaves/Makefile    |   1 +
- drivers/w1/slaves/w1_ds250x.c | 293 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 300 insertions(+)
- create mode 100644 drivers/w1/slaves/w1_ds250x.c
+On 19/08/2019 15:04, Steven Price wrote:
+> Implement the service call for configuring a shared structure between a
+> VCPU and the hypervisor in which the hypervisor can write the time
+> stolen from the VCPU's execution time by other tasks on the host.
+> 
+> The hypervisor allocates memory which is placed at an IPA chosen by user
+> space. The hypervisor then uses WRITE_ONCE() to update the shared
+> structure ensuring single copy atomicity of the 64-bit unsigned value
+> that reports stolen time in nanoseconds.
+> 
+> Whenever stolen time is enabled by the guest, the stolen time counter is
+> reset.
+> 
+> The stolen time itself is retrieved from the sched_info structure
+> maintained by the Linux scheduler code. We enable SCHEDSTATS when
+> selecting KVM Kconfig to ensure this value is meaningful.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm/include/asm/kvm_host.h   | 15 +++++++
+>  arch/arm64/include/asm/kvm_host.h | 16 ++++++-
+>  arch/arm64/kvm/Kconfig            |  1 +
+>  include/linux/kvm_types.h         |  2 +
+>  virt/kvm/arm/arm.c                | 19 +++++++++
+>  virt/kvm/arm/hypercalls.c         |  3 ++
+>  virt/kvm/arm/pvtime.c             | 71 +++++++++++++++++++++++++++++++
+>  7 files changed, 126 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+> index 369b5d2d54bf..14d61a84c270 100644
+> --- a/arch/arm/include/asm/kvm_host.h
+> +++ b/arch/arm/include/asm/kvm_host.h
+> @@ -39,6 +39,7 @@
+>  	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>  #define KVM_REQ_IRQ_PENDING	KVM_ARCH_REQ(1)
+>  #define KVM_REQ_VCPU_RESET	KVM_ARCH_REQ(2)
+> +#define KVM_REQ_RECORD_STEAL	KVM_ARCH_REQ(3)
+>  
+>  DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>  
+> @@ -77,6 +78,12 @@ struct kvm_arch {
+>  
+>  	/* Mandated version of PSCI */
+>  	u32 psci_version;
+> +
+> +	struct kvm_arch_pvtime {
+> +		struct gfn_to_hva_cache st_ghc;
+> +		gpa_t st_base;
+> +		u64 st_size;
+> +	} pvtime;
 
-diff --git a/drivers/w1/slaves/Kconfig b/drivers/w1/slaves/Kconfig
-index 37aaad26b373..ebed495b9e69 100644
---- a/drivers/w1/slaves/Kconfig
-+++ b/drivers/w1/slaves/Kconfig
-@@ -101,6 +101,12 @@ config W1_SLAVE_DS2438
- 	  Say Y here if you want to use a 1-wire
- 	  DS2438 Smart Battery Monitor device support
- 
-+config W1_SLAVE_DS250X
-+	tristate "512b/1kb/16kb EPROM family support"
-+	help
-+	  Say Y here if you want to use a 1-wire
-+	  512b/1kb/16kb EPROM family device (DS250x).
-+
- config W1_SLAVE_DS2780
- 	tristate "Dallas 2780 battery monitor chip"
- 	help
-diff --git a/drivers/w1/slaves/Makefile b/drivers/w1/slaves/Makefile
-index eab29f151413..8e9655eaa478 100644
---- a/drivers/w1/slaves/Makefile
-+++ b/drivers/w1/slaves/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_W1_SLAVE_DS2431)	+= w1_ds2431.o
- obj-$(CONFIG_W1_SLAVE_DS2805)	+= w1_ds2805.o
- obj-$(CONFIG_W1_SLAVE_DS2433)	+= w1_ds2433.o
- obj-$(CONFIG_W1_SLAVE_DS2438)	+= w1_ds2438.o
-+obj-$(CONFIG_W1_SLAVE_DS250X)	+= w1_ds250x.o
- obj-$(CONFIG_W1_SLAVE_DS2780)	+= w1_ds2780.o
- obj-$(CONFIG_W1_SLAVE_DS2781)	+= w1_ds2781.o
- obj-$(CONFIG_W1_SLAVE_DS28E04)	+= w1_ds28e04.o
-diff --git a/drivers/w1/slaves/w1_ds250x.c b/drivers/w1/slaves/w1_ds250x.c
-new file mode 100644
-index 000000000000..78da3774bbbe
---- /dev/null
-+++ b/drivers/w1/slaves/w1_ds250x.c
-@@ -0,0 +1,293 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * w1_ds250x.c - w1 family 09/0b/89/91 (DS250x) driver
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/moduleparam.h>
-+#include <linux/device.h>
-+#include <linux/types.h>
-+#include <linux/delay.h>
-+#include <linux/slab.h>
-+#include <linux/crc16.h>
-+
-+#include <linux/w1.h>
-+#include <linux/nvmem-provider.h>
-+
-+#define W1_DS2501_UNW_FAMILY    0x91
-+#define W1_DS2501_SIZE          64
-+
-+#define W1_DS2502_FAMILY        0x09
-+#define W1_DS2502_UNW_FAMILY    0x89
-+#define W1_DS2502_SIZE          128
-+
-+#define W1_DS2505_FAMILY	0x0b
-+#define W1_DS2505_SIZE		2048
-+
-+#define W1_PAGE_SIZE		32
-+
-+#define W1_EXT_READ_MEMORY	0xA5
-+#define W1_READ_DATA_CRC        0xC3
-+
-+#define OFF2PG(off)	((off) / W1_PAGE_SIZE)
-+
-+#define CRC16_INIT		0
-+#define CRC16_VALID		0xb001
-+
-+struct w1_eprom_data {
-+	size_t size;
-+	int (*read)(struct w1_slave *sl, int pageno);
-+	u8 eprom[W1_DS2505_SIZE];
-+	DECLARE_BITMAP(page_present, W1_DS2505_SIZE / W1_PAGE_SIZE);
-+	char nvmem_name[64];
-+};
-+
-+static int w1_ds2502_read_page(struct w1_slave *sl, int pageno)
-+{
-+	struct w1_eprom_data *data = sl->family_data;
-+	int pgoff = pageno * W1_PAGE_SIZE;
-+	int ret = -EIO;
-+	u8 buf[3];
-+	u8 crc8;
-+
-+	if (test_bit(pageno, data->page_present))
-+		return 0; /* page already present */
-+
-+	mutex_lock(&sl->master->bus_mutex);
-+
-+	if (w1_reset_select_slave(sl))
-+		goto err;
-+
-+	buf[0] = W1_READ_DATA_CRC;
-+	buf[1] = pgoff & 0xff;
-+	buf[2] = pgoff >> 8;
-+	w1_write_block(sl->master, buf, 3);
-+
-+	crc8 = w1_read_8(sl->master);
-+	if (w1_calc_crc8(buf, 3) != crc8)
-+		goto err;
-+
-+	w1_read_block(sl->master, &data->eprom[pgoff], W1_PAGE_SIZE);
-+
-+	crc8 = w1_read_8(sl->master);
-+	if (w1_calc_crc8(&data->eprom[pgoff], W1_PAGE_SIZE) != crc8)
-+		goto err;
-+
-+	set_bit(pageno, data->page_present); /* mark page present */
-+	ret = 0;
-+err:
-+	mutex_unlock(&sl->master->bus_mutex);
-+	return ret;
-+}
-+
-+static int w1_ds2505_read_page(struct w1_slave *sl, int pageno)
-+{
-+	struct w1_eprom_data *data = sl->family_data;
-+	int redir_retries = 16;
-+	int pgoff, epoff;
-+	int ret = -EIO;
-+	u8 buf[6];
-+	u8 redir;
-+	u16 crc;
-+
-+	if (test_bit(pageno, data->page_present))
-+		return 0; /* page already present */
-+
-+	epoff = pgoff = pageno * W1_PAGE_SIZE;
-+	mutex_lock(&sl->master->bus_mutex);
-+
-+retry:
-+	if (w1_reset_select_slave(sl))
-+		goto err;
-+
-+	buf[0] = W1_EXT_READ_MEMORY;
-+	buf[1] = pgoff & 0xff;
-+	buf[2] = pgoff >> 8;
-+	w1_write_block(sl->master, buf, 3);
-+	w1_read_block(sl->master, buf + 3, 3); /* redir, crc16 */
-+	redir = buf[3];
-+	crc = crc16(CRC16_INIT, buf, 6);
-+
-+	if (crc != CRC16_VALID)
-+		goto err;
-+
-+
-+	if (redir != 0xff) {
-+		redir_retries--;
-+		if (redir_retries < 0)
-+			goto err;
-+
-+		pgoff = (redir ^ 0xff) * W1_PAGE_SIZE;
-+		goto retry;
-+	}
-+
-+	w1_read_block(sl->master, &data->eprom[epoff], W1_PAGE_SIZE);
-+	w1_read_block(sl->master, buf, 2); /* crc16 */
-+	crc = crc16(CRC16_INIT, &data->eprom[epoff], W1_PAGE_SIZE);
-+	crc = crc16(crc, buf, 2);
-+
-+	if (crc != CRC16_VALID)
-+		goto err;
-+
-+	set_bit(pageno, data->page_present);
-+	ret = 0;
-+err:
-+	mutex_unlock(&sl->master->bus_mutex);
-+	return ret;
-+}
-+
-+static int w1_nvmem_read(void *priv, unsigned int off, void *buf, size_t count)
-+{
-+	struct w1_slave *sl = priv;
-+	struct w1_eprom_data *data = sl->family_data;
-+	size_t eprom_size = data->size;
-+	int ret;
-+	int i;
-+
-+	if (off > eprom_size)
-+		return -EINVAL;
-+
-+	if ((off + count) > eprom_size)
-+		count = eprom_size - off;
-+
-+	i = OFF2PG(off);
-+	do {
-+		ret = data->read(sl, i++);
-+		if (ret < 0)
-+			return ret;
-+	} while (i < OFF2PG(off + count));
-+
-+	memcpy(buf, &data->eprom[off], count);
-+	return 0;
-+}
-+
-+static int w1_eprom_add_slave(struct w1_slave *sl)
-+{
-+	struct w1_eprom_data *data;
-+	struct nvmem_device *nvmem;
-+	struct nvmem_config nvmem_cfg = {
-+		.dev = &sl->dev,
-+		.reg_read = w1_nvmem_read,
-+		.type = NVMEM_TYPE_OTP,
-+		.read_only = true,
-+		.word_size = 1,
-+		.priv = sl,
-+		.id = -1
-+	};
-+
-+	data = devm_kzalloc(&sl->dev, sizeof(struct w1_eprom_data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	sl->family_data = data;
-+	switch (sl->family->fid) {
-+	case W1_DS2501_UNW_FAMILY:
-+		data->size = W1_DS2501_SIZE;
-+		data->read = w1_ds2502_read_page;
-+		break;
-+	case W1_DS2502_FAMILY:
-+	case W1_DS2502_UNW_FAMILY:
-+		data->size = W1_DS2502_SIZE;
-+		data->read = w1_ds2502_read_page;
-+		break;
-+	case W1_DS2505_FAMILY:
-+		data->size = W1_DS2505_SIZE;
-+		data->read = w1_ds2505_read_page;
-+		break;
-+	}
-+
-+	if (sl->master->bus_master->dev_id)
-+		snprintf(data->nvmem_name, sizeof(data->nvmem_name),
-+			 "%s-%02x-%012llx",
-+			 sl->master->bus_master->dev_id, sl->reg_num.family,
-+			 (unsigned long long)sl->reg_num.id);
-+	else
-+		snprintf(data->nvmem_name, sizeof(data->nvmem_name),
-+			 "%02x-%012llx",
-+			 sl->reg_num.family,
-+			 (unsigned long long)sl->reg_num.id);
-+
-+	nvmem_cfg.name = data->nvmem_name;
-+	nvmem_cfg.size = data->size;
-+
-+	nvmem = devm_nvmem_register(&sl->dev, &nvmem_cfg);
-+	if (IS_ERR(nvmem))
-+		return PTR_ERR(nvmem);
-+
-+	return 0;
-+}
-+
-+static struct w1_family_ops w1_eprom_fops = {
-+	.add_slave	= w1_eprom_add_slave,
-+};
-+
-+static struct w1_family w1_family_09 = {
-+	.fid = W1_DS2502_FAMILY,
-+	.fops = &w1_eprom_fops,
-+};
-+
-+static struct w1_family w1_family_0b = {
-+	.fid = W1_DS2505_FAMILY,
-+	.fops = &w1_eprom_fops,
-+};
-+
-+static struct w1_family w1_family_89 = {
-+	.fid = W1_DS2502_UNW_FAMILY,
-+	.fops = &w1_eprom_fops,
-+};
-+
-+static struct w1_family w1_family_91 = {
-+	.fid = W1_DS2501_UNW_FAMILY,
-+	.fops = &w1_eprom_fops,
-+};
-+
-+static int __init w1_ds250x_init(void)
-+{
-+	int err;
-+
-+	err = w1_register_family(&w1_family_09);
-+	if (err)
-+		return err;
-+
-+	err = w1_register_family(&w1_family_0b);
-+	if (err)
-+		goto err_0b;
-+
-+	err = w1_register_family(&w1_family_89);
-+	if (err)
-+		goto err_89;
-+
-+	err = w1_register_family(&w1_family_91);
-+	if (err)
-+		goto err_91;
-+
-+	return 0;
-+
-+err_91:
-+	w1_unregister_family(&w1_family_89);
-+err_89:
-+	w1_unregister_family(&w1_family_0b);
-+err_0b:
-+	w1_unregister_family(&w1_family_09);
-+	return err;
-+}
-+
-+static void __exit w1_ds250x_exit(void)
-+{
-+	w1_unregister_family(&w1_family_09);
-+	w1_unregister_family(&w1_family_0b);
-+	w1_unregister_family(&w1_family_89);
-+	w1_unregister_family(&w1_family_91);
-+}
-+
-+module_init(w1_ds250x_init);
-+module_exit(w1_ds250x_exit);
-+
-+MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfe@suse.de>");
-+MODULE_DESCRIPTION("w1 family driver for DS250x Add Only Memory");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("w1-family-" __stringify(W1_DS2502_FAMILY));
-+MODULE_ALIAS("w1-family-" __stringify(W1_DS2505_FAMILY));
-+MODULE_ALIAS("w1-family-" __stringify(W1_DS2501_UNW_FAMILY));
-+MODULE_ALIAS("w1-family-" __stringify(W1_DS2502_UNW_FAMILY));
+It'd be good if we could avoid having this in the 32bit vcpu structure,
+given that it serves no real purpose (other than being able to compile
+things).
+
+>  };
+>  
+>  #define KVM_NR_MEM_OBJS     40
+> @@ -328,6 +335,14 @@ static inline int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>  {
+>  	return SMCCC_RET_NOT_SUPPORTED;
+>  }
+> +static inline int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+> +{
+> +	return SMCCC_RET_NOT_SUPPORTED;
+> +}
+> +static inline int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+> +{
+> +	return -ENOTSUPP;
+> +}
+>  
+>  void kvm_mmu_wp_memory_region(struct kvm *kvm, int slot);
+>  
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 583b3639062a..627ecbdd0c59 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -44,6 +44,7 @@
+>  	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>  #define KVM_REQ_IRQ_PENDING	KVM_ARCH_REQ(1)
+>  #define KVM_REQ_VCPU_RESET	KVM_ARCH_REQ(2)
+> +#define KVM_REQ_RECORD_STEAL	KVM_ARCH_REQ(3)
+>  
+>  DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>  
+> @@ -83,6 +84,12 @@ struct kvm_arch {
+>  
+>  	/* Mandated version of PSCI */
+>  	u32 psci_version;
+> +
+> +	struct kvm_arch_pvtime {
+> +		struct gfn_to_hva_cache st_ghc;
+> +		gpa_t st_base;
+> +		u64 st_size;
+> +	} pvtime;
+>  };
+>  
+>  #define KVM_NR_MEM_OBJS     40
+> @@ -338,8 +345,13 @@ struct kvm_vcpu_arch {
+>  	/* True when deferrable sysregs are loaded on the physical CPU,
+>  	 * see kvm_vcpu_load_sysregs and kvm_vcpu_put_sysregs. */
+>  	bool sysregs_loaded_on_cpu;
+> -};
+>  
+> +	/* Guest PV state */
+> +	struct {
+> +		u64 steal;
+> +		u64 last_steal;
+> +	} steal;
+> +};
+>  /* Pointer to the vcpu's SVE FFR for sve_{save,load}_state() */
+>  #define vcpu_sve_pffr(vcpu) ((void *)((char *)((vcpu)->arch.sve_state) + \
+>  				      sve_ffr_offset((vcpu)->arch.sve_max_vl)))
+> @@ -479,6 +491,8 @@ int kvm_perf_init(void);
+>  int kvm_perf_teardown(void);
+>  
+>  int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
+> +int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu);
+> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init);
+>  
+>  void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+>  
+> diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+> index a67121d419a2..d8b88e40d223 100644
+> --- a/arch/arm64/kvm/Kconfig
+> +++ b/arch/arm64/kvm/Kconfig
+> @@ -39,6 +39,7 @@ config KVM
+>  	select IRQ_BYPASS_MANAGER
+>  	select HAVE_KVM_IRQ_BYPASS
+>  	select HAVE_KVM_VCPU_RUN_PID_CHANGE
+> +	select SCHEDSTATS
+>  	---help---
+>  	  Support hosting virtualized guest machines.
+>  	  We don't support KVM with 16K page tables yet, due to the multiple
+> diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
+> index bde5374ae021..1c88e69db3d9 100644
+> --- a/include/linux/kvm_types.h
+> +++ b/include/linux/kvm_types.h
+> @@ -35,6 +35,8 @@ typedef unsigned long  gva_t;
+>  typedef u64            gpa_t;
+>  typedef u64            gfn_t;
+>  
+> +#define GPA_INVALID	(~(gpa_t)0)
+> +
+>  typedef unsigned long  hva_t;
+>  typedef u64            hpa_t;
+>  typedef u64            hfn_t;
+> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+> index 35a069815baf..53cc80e98d8b 100644
+> --- a/virt/kvm/arm/arm.c
+> +++ b/virt/kvm/arm/arm.c
+> @@ -40,6 +40,10 @@
+>  #include <asm/kvm_coproc.h>
+>  #include <asm/sections.h>
+>  
+> +#include <kvm/arm_hypercalls.h>
+> +#include <kvm/arm_pmu.h>
+> +#include <kvm/arm_psci.h>
+> +
+>  #ifdef REQUIRES_VIRT
+>  __asm__(".arch_extension	virt");
+>  #endif
+> @@ -135,6 +139,7 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
+>  	kvm->arch.max_vcpus = vgic_present ?
+>  				kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
+>  
+> +	kvm->arch.pvtime.st_base = GPA_INVALID;
+>  	return ret;
+>  out_free_stage2_pgd:
+>  	kvm_free_stage2_pgd(kvm);
+> @@ -379,6 +384,8 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+>  	kvm_vcpu_load_sysregs(vcpu);
+>  	kvm_arch_vcpu_load_fp(vcpu);
+>  	kvm_vcpu_pmu_restore_guest(vcpu);
+> +	if (vcpu->kvm->arch.pvtime.st_base != GPA_INVALID)
+> +		kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
+>  
+>  	if (single_task_running())
+>  		vcpu_clear_wfe_traps(vcpu);
+> @@ -625,6 +632,15 @@ static void vcpu_req_sleep(struct kvm_vcpu *vcpu)
+>  	smp_rmb();
+>  }
+>  
+> +static void vcpu_req_record_steal(struct kvm_vcpu *vcpu)
+> +{
+> +	int idx;
+> +
+> +	idx = srcu_read_lock(&vcpu->kvm->srcu);
+> +	kvm_update_stolen_time(vcpu, false);
+> +	srcu_read_unlock(&vcpu->kvm->srcu, idx);
+> +}
+> +
+>  static int kvm_vcpu_initialized(struct kvm_vcpu *vcpu)
+>  {
+>  	return vcpu->arch.target >= 0;
+> @@ -644,6 +660,9 @@ static void check_vcpu_requests(struct kvm_vcpu *vcpu)
+>  		 * that a VCPU sees new virtual interrupts.
+>  		 */
+>  		kvm_check_request(KVM_REQ_IRQ_PENDING, vcpu);
+> +
+> +		if (kvm_check_request(KVM_REQ_RECORD_STEAL, vcpu))
+> +			vcpu_req_record_steal(vcpu);
+>  	}
+>  }
+>  
+> diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+> index 63ae629c466a..ac678eabf15f 100644
+> --- a/virt/kvm/arm/hypercalls.c
+> +++ b/virt/kvm/arm/hypercalls.c
+> @@ -56,6 +56,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+>  	case ARM_SMCCC_HV_PV_FEATURES:
+>  		val = kvm_hypercall_pv_features(vcpu);
+>  		break;
+> +	case ARM_SMCCC_HV_PV_TIME_ST:
+> +		val = kvm_hypercall_stolen_time(vcpu);
+> +		break;
+>  	default:
+>  		return kvm_psci_call(vcpu);
+>  	}
+> diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+> index 6201d71cb1f8..f169184e4076 100644
+> --- a/virt/kvm/arm/pvtime.c
+> +++ b/virt/kvm/arm/pvtime.c
+> @@ -3,8 +3,55 @@
+>  
+>  #include <linux/arm-smccc.h>
+>  
+> +#include <asm/pvclock-abi.h>
+> +
+>  #include <kvm/arm_hypercalls.h>
+>  
+> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct kvm_arch_pvtime *pvtime = &kvm->arch.pvtime;
+> +	u64 steal;
+> +	u64 steal_le;
+> +	u64 offset;
+> +	int idx;
+> +	const int stride = sizeof(struct pvclock_vcpu_stolen_time);
+> +
+> +	if (pvtime->st_base == GPA_INVALID)
+> +		return -ENOTSUPP;
+> +
+> +	/* Let's do the local bookkeeping */
+> +	steal = vcpu->arch.steal.steal;
+> +	steal += current->sched_info.run_delay - vcpu->arch.steal.last_steal;
+> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+> +	vcpu->arch.steal.steal = steal;
+> +
+> +	offset = stride * kvm_vcpu_get_idx(vcpu);
+> +
+> +	if (unlikely(offset + stride > pvtime->st_size))
+> +		return -EINVAL;
+> +
+> +	steal_le = cpu_to_le64(steal);
+> +	pagefault_disable();
+
+What's the reason for doing a pagefault_disable()? What I'd expect is
+for the userspace page to be faulted in and written to, and doing a
+pagefault_disable() seems to be going against this idea.
+
+> +	idx = srcu_read_lock(&kvm->srcu);
+> +	if (init) {
+> +		struct pvclock_vcpu_stolen_time init_values = {
+> +			.revision = 0,
+> +			.attributes = 0
+> +		};
+> +		kvm_write_guest_offset_cached(kvm,
+> +				&pvtime->st_ghc,
+> +				&init_values, offset, sizeof(init_values));
+> +	}
+> +	offset += offsetof(struct pvclock_vcpu_stolen_time, stolen_time);
+> +	kvm_write_guest_offset_cached(kvm, &pvtime->st_ghc,
+> +			&steal_le, offset, sizeof(steal_le));
+> +	srcu_read_unlock(&kvm->srcu, idx);
+> +	pagefault_enable();
+> +
+> +	return 0;
+> +}
+> +
+>  int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>  {
+>  	u32 feature = smccc_get_arg1(vcpu);
+> @@ -12,6 +59,7 @@ int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>  
+>  	switch (feature) {
+>  	case ARM_SMCCC_HV_PV_FEATURES:
+> +	case ARM_SMCCC_HV_PV_TIME_ST:
+>  		val = SMCCC_RET_SUCCESS;
+>  		break;
+>  	}
+> @@ -19,3 +67,26 @@ int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>  	return val;
+>  }
+>  
+> +int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+> +{
+> +	u64 ret;
+> +	int err;
+> +
+> +	/*
+> +	 * Start counting stolen time from the time the guest requests
+> +	 * the feature enabled.
+> +	 */
+> +	vcpu->arch.steal.steal = 0;
+> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+> +
+> +	err = kvm_update_stolen_time(vcpu, true);
+> +
+> +	if (err)
+> +		ret = SMCCC_RET_NOT_SUPPORTED;
+> +	else
+> +		ret = vcpu->kvm->arch.pvtime.st_base +
+> +			(sizeof(struct pvclock_vcpu_stolen_time) *
+> +			 kvm_vcpu_get_idx(vcpu));
+> +
+> +	return ret;
+> +}
+> 
+
+Thanks,
+
+	M.
 -- 
-2.13.7
-
+Jazz is not dead, it just smells funny...
