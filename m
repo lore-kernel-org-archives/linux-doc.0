@@ -3,23 +3,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 581F27D910
+	by archive.lwn.net (Postfix) with ESMTP id 3B7757D2F0
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 14:05:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727374AbfHSOFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 10:05:34 -0400
-Received: from foss.arm.com ([217.140.110.172]:54990 "EHLO foss.arm.com"
+        id S1727378AbfHSOEw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 10:04:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:54954 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727341AbfHSOEz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 10:04:55 -0400
+        id S1727341AbfHSOEv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Aug 2019 10:04:51 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4416128;
-        Mon, 19 Aug 2019 07:04:55 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C86C228;
+        Mon, 19 Aug 2019 07:04:50 -0700 (PDT)
 Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 432AE3F718;
-        Mon, 19 Aug 2019 07:04:53 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C6B853F718;
+        Mon, 19 Aug 2019 07:04:48 -0700 (PDT)
 From:   Steven Price <steven.price@arm.com>
 To:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
         linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
@@ -33,9 +33,9 @@ Cc:     Steven Price <steven.price@arm.com>,
         Suzuki K Pouloze <suzuki.poulose@arm.com>,
         Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/9] KVM: Allow kvm_device_ops to be const
-Date:   Mon, 19 Aug 2019 15:04:32 +0100
-Message-Id: <20190819140436.12207-6-steven.price@arm.com>
+Subject: [PATCH v2 3/9] KVM: arm64: Implement PV_FEATURES call
+Date:   Mon, 19 Aug 2019 15:04:30 +0100
+Message-Id: <20190819140436.12207-4-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190819140436.12207-1-steven.price@arm.com>
 References: <20190819140436.12207-1-steven.price@arm.com>
@@ -46,69 +46,174 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently a kvm_device_ops structure cannot be const without triggering
-compiler warnings. However the structure doesn't need to be written to
-and, by marking it const, it can be read-only in memory. Add some more
-const keywords to allow this.
+This provides a mechanism for querying which paravirtualized features
+are available in this hypervisor.
+
+Also add the header file which defines the ABI for the paravirtualized
+clock features we're about to add.
 
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- include/linux/kvm_host.h | 4 ++--
- virt/kvm/kvm_main.c      | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ arch/arm/include/asm/kvm_host.h      |  6 ++++++
+ arch/arm64/include/asm/kvm_host.h    |  2 ++
+ arch/arm64/include/asm/pvclock-abi.h | 17 +++++++++++++++++
+ arch/arm64/kvm/Makefile              |  1 +
+ include/linux/arm-smccc.h            | 14 ++++++++++++++
+ virt/kvm/arm/hypercalls.c            |  6 ++++++
+ virt/kvm/arm/pvtime.c                | 21 +++++++++++++++++++++
+ 7 files changed, 67 insertions(+)
+ create mode 100644 arch/arm64/include/asm/pvclock-abi.h
+ create mode 100644 virt/kvm/arm/pvtime.c
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index fcb46b3374c6..785e2d42b3fb 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -1238,7 +1238,7 @@ extern unsigned int halt_poll_ns_grow_start;
- extern unsigned int halt_poll_ns_shrink;
+diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+index 8a37c8e89777..369b5d2d54bf 100644
+--- a/arch/arm/include/asm/kvm_host.h
++++ b/arch/arm/include/asm/kvm_host.h
+@@ -7,6 +7,7 @@
+ #ifndef __ARM_KVM_HOST_H__
+ #define __ARM_KVM_HOST_H__
  
- struct kvm_device {
--	struct kvm_device_ops *ops;
-+	const struct kvm_device_ops *ops;
- 	struct kvm *kvm;
- 	void *private;
- 	struct list_head vm_node;
-@@ -1291,7 +1291,7 @@ struct kvm_device_ops {
- void kvm_device_get(struct kvm_device *dev);
- void kvm_device_put(struct kvm_device *dev);
- struct kvm_device *kvm_device_from_filp(struct file *filp);
--int kvm_register_device_ops(struct kvm_device_ops *ops, u32 type);
-+int kvm_register_device_ops(const struct kvm_device_ops *ops, u32 type);
- void kvm_unregister_device_ops(u32 type);
++#include <linux/arm-smccc.h>
+ #include <linux/errno.h>
+ #include <linux/types.h>
+ #include <linux/kvm_types.h>
+@@ -323,6 +324,11 @@ static inline int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ int kvm_perf_init(void);
+ int kvm_perf_teardown(void);
  
- extern struct kvm_device_ops kvm_mpic_ops;
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index c6a91b044d8d..75488ebb87c9 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -3046,14 +3046,14 @@ struct kvm_device *kvm_device_from_filp(struct file *filp)
- 	return filp->private_data;
- }
++static inline int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
++{
++	return SMCCC_RET_NOT_SUPPORTED;
++}
++
+ void kvm_mmu_wp_memory_region(struct kvm *kvm, int slot);
  
--static struct kvm_device_ops *kvm_device_ops_table[KVM_DEV_TYPE_MAX] = {
-+static const struct kvm_device_ops *kvm_device_ops_table[KVM_DEV_TYPE_MAX] = {
- #ifdef CONFIG_KVM_MPIC
- 	[KVM_DEV_TYPE_FSL_MPIC_20]	= &kvm_mpic_ops,
- 	[KVM_DEV_TYPE_FSL_MPIC_42]	= &kvm_mpic_ops,
- #endif
- };
+ struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index f656169db8c3..583b3639062a 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -478,6 +478,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
+ int kvm_perf_init(void);
+ int kvm_perf_teardown(void);
  
--int kvm_register_device_ops(struct kvm_device_ops *ops, u32 type)
-+int kvm_register_device_ops(const struct kvm_device_ops *ops, u32 type)
- {
- 	if (type >= ARRAY_SIZE(kvm_device_ops_table))
- 		return -ENOSPC;
-@@ -3074,7 +3074,7 @@ void kvm_unregister_device_ops(u32 type)
- static int kvm_ioctl_create_device(struct kvm *kvm,
- 				   struct kvm_create_device *cd)
- {
--	struct kvm_device_ops *ops = NULL;
-+	const struct kvm_device_ops *ops = NULL;
- 	struct kvm_device *dev;
- 	bool test = cd->flags & KVM_CREATE_DEVICE_TEST;
- 	int type;
++int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
++
+ void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+ 
+ struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
+diff --git a/arch/arm64/include/asm/pvclock-abi.h b/arch/arm64/include/asm/pvclock-abi.h
+new file mode 100644
+index 000000000000..c4f1c0a0789c
+--- /dev/null
++++ b/arch/arm64/include/asm/pvclock-abi.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (C) 2019 Arm Ltd. */
++
++#ifndef __ASM_PVCLOCK_ABI_H
++#define __ASM_PVCLOCK_ABI_H
++
++/* The below structure is defined in ARM DEN0057A */
++
++struct pvclock_vcpu_stolen_time {
++	__le32 revision;
++	__le32 attributes;
++	__le64 stolen_time;
++	/* Structure must be 64 byte aligned, pad to that size */
++	u8 padding[48];
++} __packed;
++
++#endif
+diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
+index 73dce4d47d47..5ffbdc39e780 100644
+--- a/arch/arm64/kvm/Makefile
++++ b/arch/arm64/kvm/Makefile
+@@ -14,6 +14,7 @@ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/kvm_main.o $(KVM)/coalesced_mmio.o $(KVM)/e
+ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/arm.o $(KVM)/arm/mmu.o $(KVM)/arm/mmio.o
+ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/psci.o $(KVM)/arm/perf.o
+ kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/hypercalls.o
++kvm-$(CONFIG_KVM_ARM_HOST) += $(KVM)/arm/pvtime.o
+ 
+ kvm-$(CONFIG_KVM_ARM_HOST) += inject_fault.o regmap.o va_layout.o
+ kvm-$(CONFIG_KVM_ARM_HOST) += hyp.o hyp-init.o handle_exit.o
+diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+index 080012a6f025..e7f129f26ebd 100644
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
+@@ -45,6 +45,7 @@
+ #define ARM_SMCCC_OWNER_SIP		2
+ #define ARM_SMCCC_OWNER_OEM		3
+ #define ARM_SMCCC_OWNER_STANDARD	4
++#define ARM_SMCCC_OWNER_STANDARD_HYP	5
+ #define ARM_SMCCC_OWNER_TRUSTED_APP	48
+ #define ARM_SMCCC_OWNER_TRUSTED_APP_END	49
+ #define ARM_SMCCC_OWNER_TRUSTED_OS	50
+@@ -302,5 +303,18 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
+ #define SMCCC_RET_NOT_SUPPORTED			-1
+ #define SMCCC_RET_NOT_REQUIRED			-2
+ 
++/* Paravirtualised time calls (defined by ARM DEN0057A) */
++#define ARM_SMCCC_HV_PV_FEATURES				\
++	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
++			   ARM_SMCCC_SMC_64,			\
++			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
++			   0x20)
++
++#define ARM_SMCCC_HV_PV_TIME_ST					\
++	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
++			   ARM_SMCCC_SMC_64,			\
++			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
++			   0x22)
++
+ #endif /*__ASSEMBLY__*/
+ #endif /*__LINUX_ARM_SMCCC_H*/
+diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+index f875241bd030..63ae629c466a 100644
+--- a/virt/kvm/arm/hypercalls.c
++++ b/virt/kvm/arm/hypercalls.c
+@@ -48,8 +48,14 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+ 				break;
+ 			}
+ 			break;
++		case ARM_SMCCC_HV_PV_FEATURES:
++			val = SMCCC_RET_SUCCESS;
++			break;
+ 		}
+ 		break;
++	case ARM_SMCCC_HV_PV_FEATURES:
++		val = kvm_hypercall_pv_features(vcpu);
++		break;
+ 	default:
+ 		return kvm_psci_call(vcpu);
+ 	}
+diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+new file mode 100644
+index 000000000000..6201d71cb1f8
+--- /dev/null
++++ b/virt/kvm/arm/pvtime.c
+@@ -0,0 +1,21 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (C) 2019 Arm Ltd.
++
++#include <linux/arm-smccc.h>
++
++#include <kvm/arm_hypercalls.h>
++
++int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
++{
++	u32 feature = smccc_get_arg1(vcpu);
++	u32 val = SMCCC_RET_NOT_SUPPORTED;
++
++	switch (feature) {
++	case ARM_SMCCC_HV_PV_FEATURES:
++		val = SMCCC_RET_SUCCESS;
++		break;
++	}
++
++	return val;
++}
++
 -- 
 2.20.1
 
