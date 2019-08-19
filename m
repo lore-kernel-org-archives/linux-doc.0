@@ -7,52 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4DE907D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 15:47:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B11637D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 15:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727944AbfHSPr0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 11:47:26 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43179 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727925AbfHSPr0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 11:47:26 -0400
-Received: by mail-pg1-f196.google.com with SMTP id k3so1436809pgb.10
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 08:47:26 -0700 (PDT)
+        id S1728127AbfHSPsb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 11:48:31 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39164 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727824AbfHSPsa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 11:48:30 -0400
+Received: by mail-pg1-f193.google.com with SMTP id u17so1447866pgi.6
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 08:48:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GVKhbnPbpjWbhz5xDYatb5Jf0xezOaFTSU5iPuDRTeo=;
-        b=hb156RXeMFMq/ZFBxV79hUwsJ33TBPwNChB7tz9IM49HqYq3bFTECBQ0jWs93GlT2G
-         SEOQohdK8Qpvg992CDM37AZOCtspic82CV7MxeJ16y4n+GAIARuDtkAqM0Vpcs5ugO59
-         3sRkxC82ZNpPiJFiSjHCE8xFRcNyFvlrnKXcUERASk/OU7gh9oUuKntlcF8+9VOgRdQO
-         XwzHDLp8GeaF9DmG79eL+xmRZIDuOI163umv7VF+AUJ3CNUJ8QSO3555UzdSqQRzm98/
-         M6E4uyzHKgmn+l3ROAiDQuvOoBKPpaBx3AvAN7T4WwNWZXw8eHWQZ7MH/qOuEtyRVpnD
-         8p+A==
+        bh=ZA8BuBvs/hbur5A2af1dfs7zv3Ei9mj0dJpknoIQZUk=;
+        b=PZ0HD3Y2zeoBC2zq5xuE6l3mXjwan01XY4nhIVdOCwkGN+nwuKAXafYOLL1EcyeH6L
+         guxT7lPZIguUFZz8+wh65JBURxJpLGAkfzG8A4uKNyblf1WUlIar4sSkLUZlLedc7l8b
+         Kkifxp4sdWxzXyg1r6oIp0pGHz3JRXUbvzxL88zaZDD3rbw9QZOH2O8jylbRgCyFULyn
+         wKS2Wl26+PuJ2MiEsDh0j3wJSSTGRF9csTjf/IM4s15buWx2GvmeIyTAk5en+TK7/LRz
+         2LEWmnUgk8vMJCOoTOgvmeVN8Uy8gvIfiQNNMQg5e614Buy5U209kXTc52yI4yRoRBcD
+         ip6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GVKhbnPbpjWbhz5xDYatb5Jf0xezOaFTSU5iPuDRTeo=;
-        b=AFxSS1JvwK6tYwAh9W9KcmTJmgII039UtOhPlmurUEa+qC4xPILwZpzJMhtk1JobOI
-         y3aeiDgkaskwZAzE6aHPLZEc9rSPA9nbaGeq9MEhwjOzPbLAgKePFTG/7so8qsgxUuo6
-         9qwcYfSmNmcvIsVhguuqO6chCI0j+0DcDpiSlswTDVClwxFtWbhDyWGVwLWOn2QhBOOV
-         3IgLrTlQrtMYx9ZEz/e4U3U59rXMVx4ejrS3Yyy4N2AciDH335d8kKRNQMxFtsLEOP1x
-         bMR3NNvJW6DPnfCR3GEc5xDV9RpJMBKEkIZPMYoeg/AD1QbGLtg4SKtm0rg1jQV4HAYg
-         6dbA==
-X-Gm-Message-State: APjAAAXWpD3An+ZPWIer+cnUluKy0P5hEb3FknKja7u2ZjSxNOSuatSg
-        yVjzMWA6EdUvOi/5xLrArE5rlnKgXIWBup4Iv2bWAQ==
-X-Google-Smtp-Source: APXvYqxLTHM5LEFPfn7KCCEc2GvHDBYCQbwS1b0CfA10FVE2b1wMY/bojyivxbvU4UFTnmGkD/DFGafc0BRQouvpbVg=
-X-Received: by 2002:a17:90a:858c:: with SMTP id m12mr21540803pjn.129.1566229645488;
- Mon, 19 Aug 2019 08:47:25 -0700 (PDT)
+        bh=ZA8BuBvs/hbur5A2af1dfs7zv3Ei9mj0dJpknoIQZUk=;
+        b=XF/0qRZyEE48JjxpAyX62JOD2vz7Qehk/JtX+4PmefsxvTmO8iAnsZjX3pZF3Z5Hhx
+         PvnE8dDDvD7NNY7JNrPWiBjmfPSGOZd9gv1XiKx2QEPLFqbC8VHxZEhQfMmJjOQcT8BF
+         iDJwjt1EsIdIQsQERqwV+b6lMHYslkQ7LDbRsEcZyl8uwlMNCSx23iVQ11vaR17qGBIr
+         IUHQd8UcBTfvY/PJVK3z//+Q2pnUT3WXkXPe5kR0Pe8NJ94gtbzr4+wpgR/D4Xj9cdOe
+         IQlSGnqNELj+tN2UbPMemXewJZW81mwky0OAIC41ECDVKIvOAUlgSLfAoGEvV4Aa+H6W
+         qcVQ==
+X-Gm-Message-State: APjAAAVqgpsWK8uFyTwZpi1OElV3hA4Q5918FOtkIX3MYL9u1KnmU1N3
+        pnD6z/ZqPxCDfHw741NvbgxsHuqSHwsN2BI4tt8c0g==
+X-Google-Smtp-Source: APXvYqwo1Y//ODybWVzSFI9UN2sBOGCtICrz2FP1xF+itsQOS80vSVdDi/mfEKruFfUtKA1F2Hx+OmLOBRNDL+KKy/0=
+X-Received: by 2002:a63:c442:: with SMTP id m2mr72019pgg.286.1566229708817;
+ Mon, 19 Aug 2019 08:48:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190815154403.16473-1-catalin.marinas@arm.com> <20190815154403.16473-4-catalin.marinas@arm.com>
-In-Reply-To: <20190815154403.16473-4-catalin.marinas@arm.com>
+References: <20190815154403.16473-1-catalin.marinas@arm.com> <20190815154403.16473-6-catalin.marinas@arm.com>
+In-Reply-To: <20190815154403.16473-6-catalin.marinas@arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 19 Aug 2019 17:47:14 +0200
-Message-ID: <CAAeHK+wSw6x8EpPc5-7tBnxEjKfYGfH6mUEh013YjKBCy40AZA@mail.gmail.com>
-Subject: Re: [PATCH v8 3/5] arm64: Change the tagged_addr sysctl control
- semantics to only prevent the opt-in
+Date:   Mon, 19 Aug 2019 17:48:17 +0200
+Message-ID: <CAAeHK+xxsMkt=pU+ChfMYLQU4TqeL0c-f4PdN_KLG7sq6yKX2w@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] arm64: Relax Documentation/arm64/tagged-pointers.rst
 To:     Catalin Marinas <catalin.marinas@arm.com>
 Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
@@ -73,67 +72,78 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Aug 15, 2019 at 5:44 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> First rename the sysctl control to abi.tagged_addr_disabled and make it
-> default off (zero). When abi.tagged_addr_disabled == 1, only block the
-> enabling of the TBI ABI via prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE).
-> Getting the status of the ABI or disabling it is still allowed.
+> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 >
+> On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
+> (EL0) to perform memory accesses through 64-bit pointers with a non-zero
+> top byte. However, such pointers were not allowed at the user-kernel
+> syscall ABI boundary.
+>
+> With the Tagged Address ABI patchset, it is now possible to pass tagged
+> pointers to the syscalls. Relax the requirements described in
+> tagged-pointers.rst to be compliant with the behaviours guaranteed by
+> the AArch64 Tagged Address ABI.
+>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
+> Cc: Kevin Brodsky <kevin.brodsky@arm.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
 > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
 
 Acked-by: Andrey Konovalov <andreyknvl@google.com>
 
 > ---
->  arch/arm64/kernel/process.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
+>  Documentation/arm64/tagged-pointers.rst | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
 >
-> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-> index 76b7c55026aa..03689c0beb34 100644
-> --- a/arch/arm64/kernel/process.c
-> +++ b/arch/arm64/kernel/process.c
-> @@ -579,17 +579,22 @@ void arch_setup_new_exec(void)
->  /*
->   * Control the relaxed ABI allowing tagged user addresses into the kernel.
->   */
-> -static unsigned int tagged_addr_prctl_allowed = 1;
-> +static unsigned int tagged_addr_disabled;
+> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
+> index 2acdec3ebbeb..fd5306019e91 100644
+> --- a/Documentation/arm64/tagged-pointers.rst
+> +++ b/Documentation/arm64/tagged-pointers.rst
+> @@ -20,7 +20,9 @@ Passing tagged addresses to the kernel
+>  --------------------------------------
 >
->  long set_tagged_addr_ctrl(unsigned long arg)
->  {
-> -       if (!tagged_addr_prctl_allowed)
-> -               return -EINVAL;
->         if (is_compat_task())
->                 return -EINVAL;
->         if (arg & ~PR_TAGGED_ADDR_ENABLE)
->                 return -EINVAL;
+>  All interpretation of userspace memory addresses by the kernel assumes
+> -an address tag of 0x00.
+> +an address tag of 0x00, unless the application enables the AArch64
+> +Tagged Address ABI explicitly
+> +(Documentation/arm64/tagged-address-abi.rst).
 >
-> +       /*
-> +        * Do not allow the enabling of the tagged address ABI if globally
-> +        * disabled via sysctl abi.tagged_addr_disabled.
-> +        */
-> +       if (arg & PR_TAGGED_ADDR_ENABLE && tagged_addr_disabled)
-> +               return -EINVAL;
+>  This includes, but is not limited to, addresses found in:
+>
+> @@ -33,13 +35,15 @@ This includes, but is not limited to, addresses found in:
+>   - the frame pointer (x29) and frame records, e.g. when interpreting
+>     them to generate a backtrace or call graph.
+>
+> -Using non-zero address tags in any of these locations may result in an
+> -error code being returned, a (fatal) signal being raised, or other modes
+> -of failure.
+> +Using non-zero address tags in any of these locations when the
+> +userspace application did not enable the AArch64 Tagged Address ABI may
+> +result in an error code being returned, a (fatal) signal being raised,
+> +or other modes of failure.
+>
+> -For these reasons, passing non-zero address tags to the kernel via
+> -system calls is forbidden, and using a non-zero address tag for sp is
+> -strongly discouraged.
+> +For these reasons, when the AArch64 Tagged Address ABI is disabled,
+> +passing non-zero address tags to the kernel via system calls is
+> +forbidden, and using a non-zero address tag for sp is strongly
+> +discouraged.
+>
+>  Programs maintaining a frame pointer and frame records that use non-zero
+>  address tags may suffer impaired or inaccurate debug and profiling
+> @@ -59,6 +63,11 @@ be preserved.
+>  The architecture prevents the use of a tagged PC, so the upper byte will
+>  be set to a sign-extension of bit 55 on exception return.
+>
+> +This behaviour is maintained when the AArch64 Tagged Address ABI is
+> +enabled. In addition, with the exceptions above, the kernel will
+> +preserve any non-zero tags passed by the user via syscalls and stored in
+> +kernel data structures (e.g. set_robust_list(), sigaltstack()).
 > +
->         update_thread_flag(TIF_TAGGED_ADDR, arg & PR_TAGGED_ADDR_ENABLE);
 >
->         return 0;
-> @@ -597,8 +602,6 @@ long set_tagged_addr_ctrl(unsigned long arg)
->
->  long get_tagged_addr_ctrl(void)
->  {
-> -       if (!tagged_addr_prctl_allowed)
-> -               return -EINVAL;
->         if (is_compat_task())
->                 return -EINVAL;
->
-> @@ -618,9 +621,9 @@ static int one = 1;
->
->  static struct ctl_table tagged_addr_sysctl_table[] = {
->         {
-> -               .procname       = "tagged_addr",
-> +               .procname       = "tagged_addr_disabled",
->                 .mode           = 0644,
-> -               .data           = &tagged_addr_prctl_allowed,
-> +               .data           = &tagged_addr_disabled,
->                 .maxlen         = sizeof(int),
->                 .proc_handler   = proc_dointvec_minmax,
->                 .extra1         = &zero,
+>  Other considerations
+>  --------------------
