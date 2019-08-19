@@ -1,144 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E57F67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 02:56:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B17807D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Aug 2019 04:39:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbfHSC4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 18 Aug 2019 22:56:50 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33893 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726254AbfHSC4u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Aug 2019 22:56:50 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n9so290900pgc.1;
-        Sun, 18 Aug 2019 19:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8KUldHqdiyJfIYKI91smI3BWWSLCesS4OFhanXdAB/8=;
-        b=sXAUC0VsPZ95/x3N+AJoCZaVM9xS1RsBjh1x32rDiJer2EZDEL5FRDXLQhowUIipwZ
-         Ol7LpEgSmYsZX0Q1AC9+esB45wtPow6MUvTI4jY0xqpwXhSDP6M6NxiMMYKpM5/JyUz4
-         nWFYnzpGn8T6XgEfyJZwQzwQry8qtUrCRlvBXvqCdjqU8pxHdxS1DbbMDFhwTazG78Y9
-         25Uo7881pnKWUgzPR9qqHMFInYdW0si0OmvnNnm63a94a6bTX4IIyn4AL6QTebL+9J+Q
-         cmcBhbRNrnhYphMBq7LvfyBfMtZOE82vkXXiVOhQ56qZOpZSLavb3O0lf8sFz3hTlUob
-         LLfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8KUldHqdiyJfIYKI91smI3BWWSLCesS4OFhanXdAB/8=;
-        b=QZ9COTh+vCpgy5V/aG9PBqOSEADWXQMwa5E7KuPwtQdsHSIrpPJU/wc7QooB02r3AM
-         nC+XHwXtFcoxwgN9LOKo460hOwoRSvE7dMuTrCr/KI2tp4XanacQTz3/s7XzT1NzZUFw
-         B6FYyt/B3qGchrnC9YIcgZreeKGDopk+0Oe/LF4Jyf/d8kyFlFIvwXz2RZ/BxWs8kvCY
-         fP3n14mMTJGefgDeHgfJuQG5BVJegRwNxQaEgYkNoVE3VuxWZPOm3QqqkGjvqAPb4Wib
-         2K9nsvM1ch92NsAQ10Ml6USXz43oB0+vknjYcPuqS7Ij0nSd3qmwDYinY/tYpKIHX5kz
-         toTQ==
-X-Gm-Message-State: APjAAAWX1vpFc4Mmr/S7WAZkPNVEcSG4H/XXcd0kafOewrGj0Ny6hYrL
-        TJQUFxB2z42aGNbdWNSHKTA=
-X-Google-Smtp-Source: APXvYqzdebKbzf683EonE73ov8DQqsTH4NZnIqlhEvoNm5ygQFU9oeZxDW4BBWxfXZGqHc12vT2ubQ==
-X-Received: by 2002:a63:595d:: with SMTP id j29mr18224659pgm.134.1566183409576;
-        Sun, 18 Aug 2019 19:56:49 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id s72sm16976535pgc.92.2019.08.18.19.56.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 18 Aug 2019 19:56:48 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] hwmon: pmbus: Add Inspur Power System power supply
- driver
-To:     Joel Stanley <joel@jms.id.au>, John Wang <wangzqbj@inspur.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        duanzhijia01@inspur.com, Lei YU <mine260309@gmail.com>
-References: <20190816101944.3586-1-wangzqbj@inspur.com>
- <CACPK8XegTePdmykMzZHnW=g6hyEGr7jiW3TP8AvdzSwZGr=2gA@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <8c6a287f-49f0-bb36-71d0-2bce8eb19ff9@roeck-us.net>
-Date:   Sun, 18 Aug 2019 19:56:46 -0700
+        id S1725872AbfHSEj5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 00:39:57 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:36470 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725308AbfHSEj5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 00:39:57 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7J4dJ36095386;
+        Sun, 18 Aug 2019 23:39:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1566189559;
+        bh=SBM143+uKwC8gIRpIrvI0uZ39YPdVq+NjfiPpDmemoo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=mWIrPMjNpyIs7BqM2nUDCV/ei9nWDDqt8QKvxJ+iaeM9/iE34NmkGfPAnRCXtTRHW
+         9ivB8nziFGW3asvd7KDnmcRabF98N2WdpXJTcGargtxrDEoCyFK6SYUca2LMC5878i
+         w+SKd9PWojDPRnqOshmsGo2kX8iqvZoLNBmlvvhw=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7J4dJ5W065905
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 18 Aug 2019 23:39:19 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Sun, 18
+ Aug 2019 23:39:19 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Sun, 18 Aug 2019 23:39:18 -0500
+Received: from [172.24.145.136] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7J4dEZr069725;
+        Sun, 18 Aug 2019 23:39:15 -0500
+Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
+To:     John Garry <john.garry@huawei.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
+        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
+        "richard@nod.at" <richard@nod.at>,
+        wanghuiqiang <wanghuiqiang@huawei.com>
+References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
+ <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
+ <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
+ <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
+From:   Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
+Date:   Mon, 19 Aug 2019 10:09:54 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CACPK8XegTePdmykMzZHnW=g6hyEGr7jiW3TP8AvdzSwZGr=2gA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/18/19 7:20 PM, Joel Stanley wrote:
-> On Fri, 16 Aug 2019 at 10:19, John Wang <wangzqbj@inspur.com> wrote:
+Hi,
+
+On 16/08/19 3:50 PM, John Garry wrote:
+> On 06/08/2019 17:40, Schrempf Frieder wrote:
+[...]
+> 
+> Hi,
+> 
+> Could someone kindly advise on the following:
+> 
+> I am looking at ACPI support only for an mtd spi nor driver we're
+> targeting for mainline support.
+> 
+
+If its a new driver, please add it under drivers/spi implementing SPI
+MEM framework.
+There are few drivers under drivers/spi that can be used as example.
+(Search for "spi_mem_ops")
+
+> So for the host, I could use a proprietary HID in the DSDT for matching
+> in the kernel driver.
+> 
+> About the child spi flash devices, is the recommendation to just use
+> PRP0001 HID and "jedec,spi-nor" compatible?
+>
+
+I am not quite familiar with ACPI systems, but child flash device should
+use "jedec,spi-nor" as compatible.
+
+Regards
+Vignesh
+
+> thanks,
+> John
+> 
+> 
 >>
->> Add the driver to monitor Inspur Power System power supplies
->> with hwmon over pmbus.
+>> @Maintainers:
+>> Maybe the docs under Documentation/driver-api/mtd should be officially
+>> maintained by the MTD subsystem (and added to MAINTAINERS). And if there
+>> will be some driver API docs for SPI MEM it should probably live in
+>> Documentation/driver-api/spi instead of Documentation/driver-api/mtd, as
+>> spi-mem.c itself is in drivers/spi.
 >>
->> This driver adds sysfs attributes for additional power supply data,
->> including vendor, model, part_number, serial number,
->> firmware revision, hardware revision, and psu mode(active/standby).
+>> Regards,
+>> Frieder
 >>
->> Signed-off-by: John Wang <wangzqbj@inspur.com>
+>>>
+>>> Thanks,
+>>> John
+>>>
+>>>> @@ -59,7 +59,7 @@ Part III - How can drivers use the framework?
+>>>>
+>>>>  The main API is spi_nor_scan(). Before you call the hook, a driver
+>>>> should
+>>>>  initialize the necessary fields for spi_nor{}. Please see
+>>>> -drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
+>>>> fsl-quadspi.c
+>>>> +drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to
+>>>> spi-fsl-qspi.c
+>>>>  when you want to write a new driver for a SPI NOR controller.
+>>>>  Another API is spi_nor_restore(), this is used to restore the status
+>>>> of SPI
+>>>>  flash chip such as addressing mode. Call it whenever detach the
+>>>> driver from
+>>>>
+>>>
+>>>
+>>>
+>>> ______________________________________________________
+>>> Linux MTD discussion mailing list
+>>> http://lists.infradead.org/mailman/listinfo/linux-mtd/
 > 
->> +static const struct i2c_device_id ipsps_id[] = {
->> +       { "inspur_ipsps1", 0 },
-> 
-> Convention would be to use "ipsps" here, instead of "vendor_device"?
-
-ipsps1, but good catch.
-
->> +       {}
->> +};
->> +MODULE_DEVICE_TABLE(i2c, ipsps_id);
->> +
->> +static const struct of_device_id ipsps_of_match[] = {
->> +       { .compatible = "inspur,ipsps1" },
->> +       {}
->> +};
->> +MODULE_DEVICE_TABLE(of, ipsps_of_match);
-> 
-> Do we need the of match table? I thought the match on the device name
-> from the i2c table would be enough. I will defer to Guenter here
-> though.
-> 
-
-Strictly speaking it is unnecessary, but it is kind of customary to have it.
-The automatic detection also only works if the i2c device ID would be "ipsps1",
-without vendor ID embedded.
-
-I would recomment to have both, but name the i2c device "ipsps1" as you suggested,
-for consistency.
-
-I'll also have to check if we need of_match_ptr below in the assignment of
-of_match_table. Probably not, but it would save a few bytes if CONFIG_OF
-is not enabled.
-
-Thanks,
-Guenter
-
-
-> Assuming the device tables are okay:
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> 
-> Cheers,
-> 
-> Joel
-> 
->> +
->> +static struct i2c_driver ipsps_driver = {
->> +       .driver = {
->> +               .name = "inspur-ipsps",
->> +               .of_match_table = ipsps_of_match,
->> +       },
->> +       .probe = ipsps_probe,
->> +       .remove = pmbus_do_remove,
->> +       .id_table = ipsps_id,
->> +};
 > 
 
+-- 
+Regards
+Vignesh
