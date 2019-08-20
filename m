@@ -1,105 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B3C77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 00:08:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8D157D913
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 00:09:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728771AbfHTAHq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 20:07:46 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:42907 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728740AbfHTAHp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 20:07:45 -0400
-Received: by mail-qt1-f195.google.com with SMTP id t12so4003871qtp.9
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 17:07:44 -0700 (PDT)
+        id S1728802AbfHTAJq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Aug 2019 20:09:46 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:34605 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728750AbfHTAJq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Aug 2019 20:09:46 -0400
+Received: by mail-ot1-f67.google.com with SMTP id c7so3399446otp.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2019 17:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=XAiAnlHmkO+0jIPS0nCrMqFBgMcioHrpGQSObqqyeas=;
-        b=dfIUq6ddf9ulKASU6Bv2+Z+qverPNdci02k7EuMkUVkCz1tzrPT2V+peCQB1mSaYn2
-         WbClo3aQBa1BfkNHVrbwUW9+4yBrOVVxNn+YsIKbgq6VUxYvdz73CgyNgwAxj6PZS5OJ
-         6JYvvcuEX9N1qMJfiar986WkawCYWvo4FHiHy7AiM8/0h9oRftPVOhvBxSTeWF4NwtEi
-         PWVsa8m13KOJVYNQbzKp+bw38O/l8m3ATDg0lpwP+LdWw3PIL2Oo7j/osajOs2aBlh+6
-         gS4HOs3nx2YT+WIXvckHc35hK3uAI84RgRaechcT/wEOcLH2DzcowDvWNTiqJIvmRT4W
-         l0Lg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bkkChTW0EqV/CgrPH+BbWe/Zt2gMOVq7+GmSUYWaXDE=;
+        b=XPpZ1C0ntJ/QDMGuBSe60QhMfwQdBTtGKgaEfG1T5FoRaHQ7f3StWl6c9eD3CyyFNc
+         ybxTNZf5aC9h/iBz5aLyoJzn43SIzYono7iJkqn4tFCnJ2/xWp9u4lrstgB41o2i1Bh2
+         FbWaqQKVay3rP3ZfDFERUvIxYi5ptyNa5JGdiYUgxjJwAtSgQl8qmMZKgvKMl3jMURz2
+         VF8v+EOCUWN8hkhsNVFkkPPD9kS8UfVH+h/4xp+lCY2P1lIjfFMrn5Ko++2cJtQyGQgQ
+         opQr/DKapSrigvn8ikV8YjFscAog7WYEIlpGEpprSsD1jKGtfzP41Z6EAsuebtmgMw6q
+         yt/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=XAiAnlHmkO+0jIPS0nCrMqFBgMcioHrpGQSObqqyeas=;
-        b=X0kBWHGzwgqE4owcRgJv2COG5kkTVHLPdrS7RgqboKPju6NkcwibmPlnDuPEff/VVR
-         D5Bmd4AtlGEQNIGl4sWovvrl6Q2hZsrFuaBI+IT/YrIKLWMIWsJMawrjNdKJgApCw6Yv
-         MBU5XKNlVvZArRzGn5wcq1NDU9fh25p4XvYu10KBHkl4+JBLyP/AMGWHWRPQEQm/W+LA
-         VlmmPmx5YNwqN5/PK/9wJEQkh1b3H8F1f8+9t7CGC25oTJIG+kclNmC5aZqsr+Ts6e3A
-         n1wxAftv6tVw5IispzGLPw+flfaqUwihwMZRL4AH3USCnYq3YpTG4ZT5B7ovbmibwQbi
-         PCTw==
-X-Gm-Message-State: APjAAAWVaK6h4VJ9Mc3aVqIhZl89MEB5koSONQu4eMWb0VlxEKlcYlco
-        TS7ZKtaHFTwGeeEmiE293hGYGA==
-X-Google-Smtp-Source: APXvYqwGcLBdZK3nU6pGDNftkfkgJPgtpG1aXGPnvYkUGNtX/j6WJIJu/+V0scfWhhEsSLdQ4n5dfw==
-X-Received: by 2002:aed:27c9:: with SMTP id m9mr23137596qtg.322.1566259664507;
-        Mon, 19 Aug 2019 17:07:44 -0700 (PDT)
-Received: from cakuba.netronome.com ([66.60.152.14])
-        by smtp.gmail.com with ESMTPSA id a23sm1283772qtj.5.2019.08.19.17.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2019 17:07:44 -0700 (PDT)
-Date:   Mon, 19 Aug 2019 17:07:35 -0700
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v5 12/17] net: sgi: ioc3-eth: use dma-direct for dma
- allocations
-Message-ID: <20190819170735.13884ec9@cakuba.netronome.com>
-In-Reply-To: <20190819163144.3478-13-tbogendoerfer@suse.de>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
-        <20190819163144.3478-13-tbogendoerfer@suse.de>
-Organization: Netronome Systems, Ltd.
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bkkChTW0EqV/CgrPH+BbWe/Zt2gMOVq7+GmSUYWaXDE=;
+        b=sjaJHNa6/bBPWHlw6NNJ1okmwMfjkpPYnSx+2d6bS/KBDTSVHOUnzLL7p5Pc3u2gzl
+         eucnTC381WC18UFc0J7XkjZMqq7aRxSOYB58gUriVjpXv7KMm8DLBXtF8u7UNq05bkOU
+         w60Wm+M4F2PljWwjiQyvQ+9PlNf7qwwMj/YsCt10TBN5Lg6XWapeRZVkXMmO8SVOSSda
+         qXeX6/dCb6npWEL5kwqMoT6yoYHMFPJuQ3fAgmJGqWEEUBE23fjQtUTQVMCqDbPc/98b
+         HeMIEbBzEbmMKyGVuUZP5QBct2nidzHIb7iV3bqq6S2m/egZty0C1hXv2th+XAV01W4l
+         l98Q==
+X-Gm-Message-State: APjAAAVJz9xeq4SyWiKp/XpNii/8wvcVaax6kBX98pIWYLUTwa/vmsIh
+        6CuMoUZXxLkxx3vXcEn9AqnZQFSDMqaV76DlmWEqIQ==
+X-Google-Smtp-Source: APXvYqzLrU6k2Oxl+nNG6jVEZdNpIh6QkYLJsHK+cvyresmWebIsdTzCV8QY/zFYA1GwuBK/f3qGP7C5U1TJdXJ7QAc=
+X-Received: by 2002:a05:6830:1e0f:: with SMTP id s15mr21605580otr.231.1566259784272;
+ Mon, 19 Aug 2019 17:09:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190724001100.133423-1-saravanak@google.com> <20190724001100.133423-4-saravanak@google.com>
+ <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com> <CAGETcx-dVnLCRA+1CX47gtZgtwTcrN5KefpjMzh9OJB-BEnqyg@mail.gmail.com>
+ <19c99a6e-51c3-68d7-d1d6-640aae754c14@gmail.com> <CAGETcx-XcXZq7YFHsFdzBDniQku9cxFUJL_vBoEKKhCH+cDKRw@mail.gmail.com>
+ <74931824-f8a1-0435-e00a-5b5cdbe8a8a2@gmail.com>
+In-Reply-To: <74931824-f8a1-0435-e00a-5b5cdbe8a8a2@gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 19 Aug 2019 17:09:08 -0700
+Message-ID: <CAGETcx8UHA9kNkjjnBXcf_OYXaaPO9ky60M01Cfz3NFb1c1FZw@mail.gmail.com>
+Subject: Re: [PATCH v7 3/7] of/platform: Add functional dependency link from
+ DT bindings
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Aug 2019 18:31:35 +0200, Thomas Bogendoerfer wrote:
-> @@ -1386,18 +1427,24 @@ static netdev_tx_t ioc3_start_xmit(struct sk_buff *skb, struct net_device *dev)
->  		unsigned long b2 = (data | 0x3fffUL) + 1UL;
->  		unsigned long s1 = b2 - data;
->  		unsigned long s2 = data + len - b2;
-> +		dma_addr_t d;
->  
->  		desc->cmd    = cpu_to_be32(len | ETXD_INTWHENDONE |
->  					   ETXD_B1V | ETXD_B2V | w0);
->  		desc->bufcnt = cpu_to_be32((s1 << ETXD_B1CNT_SHIFT) |
->  					   (s2 << ETXD_B2CNT_SHIFT));
-> -		desc->p1     = cpu_to_be64(ioc3_map(skb->data, 1));
-> -		desc->p2     = cpu_to_be64(ioc3_map((void *)b2, 1));
-> +		d = dma_map_single(ip->dma_dev, skb->data, s1, DMA_TO_DEVICE);
+On Mon, Aug 19, 2019 at 2:30 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>
+> On 8/19/19 1:49 PM, Saravana Kannan wrote:
+> > On Mon, Aug 19, 2019 at 10:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
+> >>
+> >> On 8/15/19 6:50 PM, Saravana Kannan wrote:
+> >>> On Wed, Aug 7, 2019 at 7:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
+> >>>>
+> >>>> On 7/23/19 5:10 PM, Saravana Kannan wrote:
+> >>>>> Add device-links after the devices are created (but before they are
+> >>>>> probed) by looking at common DT bindings like clocks and
+> >>>>> interconnects.
+> >>
+> >>
+> >> < very big snip (lots of comments that deserve answers) >
+> >>
+> >>
+> >>>>
+> >>>> /**
+> >>>>  * of_link_property - TODO:
+> >>>>  * dev:
+> >>>>  * con_np:
+> >>>>  * prop:
+> >>>>  *
+> >>>>  * TODO...
+> >>>>  *
+> >>>>  * Any failed attempt to create a link will NOT result in an immediate return.
+> >>>>  * of_link_property() must create all possible links even when one of more
+> >>>>  * attempts to create a link fail.
+> >>>>
+> >>>> Why?  isn't one failure enough to prevent probing this device?
+> >>>> Continuing to scan just results in extra work... which will be
+> >>>> repeated every time device_link_check_waiting_consumers() is called
+> >>>
+> >>> Context:
+> >>> As I said in the cover letter, avoiding unnecessary probes is just one
+> >>> of the reasons for this patch. The other (arguably more important)
+> >>
+> >> Agree that it is more important.
+> >>
+> >>
+> >>> reason for this patch is to make sure suppliers know that they have
+> >>> consumers that are yet to be probed. That way, suppliers can leave
+> >>> their resource on AND in the right state if they were left on by the
+> >>> bootloader. For example, if a clock was left on and at 200 MHz, the
+> >>> clock provider needs to keep that clock ON and at 200 MHz till all the
+> >>> consumers are probed.
+> >>>
+> >>> Answer: Let's say a consumer device Z has suppliers A, B and C. If the
+> >>> linking fails at A and you return immediately, then B and C could
+> >>> probe and then figure that they have no more consumers (they don't see
+> >>> a link to Z) and turn off their resources. And Z could fail
+> >>> catastrophically.
+> >>
+> >> Then I think that this approach is fatally flawed in the current implementation.
+> >
+> > I'm waiting to hear how it is fatally flawed. But maybe this is just a
+> > misunderstanding of the problem?
+>
+> Fatally flawed because it does not handle modules that add a consumer
+> device when the module is loaded.
 
-You'll need to check the DMA address with dma_mapping_error(dev, addr),
-otherwise static checkers will get upset.
+If you are talking about modules adding child devices of the device
+they are managing, then that's handled correctly later in the series.
 
-> +		desc->p1     = cpu_to_be64(ioc3_map(d, PCI64_ATTR_PREF));
-> +		d = dma_map_single(ip->dma_dev, (void *)b2, s1, DMA_TO_DEVICE);
-> +		desc->p2     = cpu_to_be64(ioc3_map(d, PCI64_ATTR_PREF));
+If you are talking about modules adding devices that aren't defined in
+DT, then right, I'm not trying to handle that. The module needs to
+make sure it keeps the resources needed for new devices it's adding
+are in the right state or need to add the right device links.
+
+> > In the text below, I'm not sure if you mixing up two different things
+> > or just that your wording it a bit ambiguous. So pardon my nitpick to
+> > err on the side of clarity.
+>
+> Please do nitpick.  Clarity is good.
+>
+>
+> >
+> >> A device can be added by a module that is loaded.
+> >
+> > No, in the example I gave, of_platform_default_populate_init() would
+> > add all 3 of those devices during arch_initcall_sync().
+>
+> The example you gave does not cover all use cases.
+>
+> There are modules that add devices when the module is loaded.  You can not
+> ignore systems using such modules.
+
+I'll have to agree to disagree on that. While I understand that the
+design should be good and I'm happy to work on that, you can't insist
+that a patch series shouldn't be allowed because it's only improving
+99% of the cases and leaves the other 1% in the status quo. You are
+just going to bring the kernel development to a grinding halt.
+
+> >
+> >>  In that case the device
+> >> was not present at late boot when the suppliers may turn off their resources.
+> >
+> > In that case, the _drivers_ for those devices aren't present at late
+> > boot. So that they can't request to keep the resources on for their
+> > consumer devices. Since there are no consumer requests on resources,
+> > the suppliers turn off their resources at late boot (since there isn't
+> > a better location as of today). The sync_state() call back added in a
+> > subsequent patche in this series will provide the better location.
+>
+> And the sync_state() call back will not deal with modules that add consumer
+> devices when the module is loaded, correct?
+
+Depends. If it's just more devices from DT, then it'll be fine. If
+it's not, then the module needs to take care of the needs of devices
+it's adding.
+
+> >
+> >> (I am assuming the details since I have not reviewed the patches later in
+> >> the series that implement this part.)
+> >>
+> >> Am I missing something?
+> >
+> > I think you are mixing up devices getting added/populated with drivers
+> > getting loaded as modules?
+>
+> Only some modules add devices when they are loaded.  But these modules do
+> exist.
+
+Out of the billions of Android devices, how many do you see this happening in?
+
+Thanks,
+Saravana
