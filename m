@@ -3,23 +3,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAADA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 08:54:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90B3D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 08:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729400AbfHTIyL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 04:54:11 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:51160 "EHLO
+        id S1729503AbfHTIyM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 04:54:12 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:51162 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728842AbfHTIyL (ORCPT
+        with ESMTP id S1729342AbfHTIyL (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 04:54:11 -0400
 Received: from p5de0b6c5.dip0.t-ipconnect.de ([93.224.182.197] helo=nanos)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1hzzth-0007eD-0p; Tue, 20 Aug 2019 10:53:45 +0200
-Date:   Tue, 20 Aug 2019 10:53:43 +0200 (CEST)
+        id 1hzztv-0007fA-Do; Tue, 20 Aug 2019 10:53:59 +0200
+Date:   Tue, 20 Aug 2019 10:53:58 +0200 (CEST)
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
 cc:     Catalin Marinas <catalin.marinas@arm.com>,
@@ -36,10 +36,11 @@ cc:     Catalin Marinas <catalin.marinas@arm.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 3/3] arm64: implement KPROBES_ON_FTRACE
-In-Reply-To: <20190820114314.685a3239@xhacker.debian>
-Message-ID: <alpine.DEB.2.21.1908201052570.2223@nanos.tec.linutronix.de>
-References: <20190820113928.1971900c@xhacker.debian> <20190820114314.685a3239@xhacker.debian>
+Subject: Re: [PATCH v2 1/3] kprobes/x86: use instruction_pointer and
+ instruction_pointer_set
+In-Reply-To: <20190820114109.4624d56b@xhacker.debian>
+Message-ID: <alpine.DEB.2.21.1908201050370.2223@nanos.tec.linutronix.de>
+References: <20190820113928.1971900c@xhacker.debian> <20190820114109.4624d56b@xhacker.debian>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,14 +54,13 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, 20 Aug 2019, Jisheng Zhang wrote:
 
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
-> 
-> This patch implements KPROBES_ON_FTRACE for arm64.
+> This is to make the x86 kprobe_ftrace_handler() more common so that
+> the code could be reused in future.
 
- git grep 'This patch' Documentation/process/submitting-patches.rst
- 
+While I agree with the change in general, I can't find anything which
+reuses that code. So the change log is pretty useless and I have no idea
+how this is related to the rest of the series.
+
 Thanks,
 
 	tglx
