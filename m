@@ -1,116 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63C217D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 16:17:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 695187D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 16:39:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbfHTQRm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 12:17:42 -0400
-Received: from mga07.intel.com ([134.134.136.100]:58739 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725971AbfHTQRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Aug 2019 12:17:42 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 09:17:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,408,1559545200"; 
-   d="scan'208";a="169130943"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by orsmga007.jf.intel.com with ESMTP; 20 Aug 2019 09:17:39 -0700
-Message-ID: <fb058c3d56bb070706aa5f8502b4d8f0da265b74.camel@intel.com>
-Subject: Re: [PATCH v8 18/27] mm: Introduce do_mmap_locked()
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Tue, 20 Aug 2019 09:08:34 -0700
-In-Reply-To: <20190820010200.GI1916@linux.intel.com>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-         <20190813205225.12032-19-yu-cheng.yu@intel.com>
-         <20190820010200.GI1916@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1730232AbfHTQil (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 12:38:41 -0400
+Received: from mail-eopbgr140052.outbound.protection.outlook.com ([40.107.14.52]:13543
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725983AbfHTQil (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Aug 2019 12:38:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JBmc8noZq8RJ/BedsDjXnEnodz9VhVtv3h8njZKMpsJLf0JcDM4XQ+GW4/QZMttikiIgUmcQh7ZVzwUW/adP0a3QcP0Y0S9Q8jV0B0EeF44/8Xy/hsQRom2JYWUJsW40oJehTQGu97vGBPKMyqICJGqwF7HR79EaO8ogJ/EVHYvIL22TKQCfSZBkozL8fVm29YeE/pfGxZA57RNyqDStWcGsARIrXtGGIgjGIfKN9AVcKcjSxod+dD7146QaTSiiJ/lD9ZRllS0pxbnB/64u3di6EeCEiu9HeMOWO7apjXqTvdLnqsnYad1Wpltk+KmGu9FKmz4rarHJHpkbk5EbBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4FLbOdTX0wSybYtQ9hXAsJhEjrhBxn1NRZuoSp8LI80=;
+ b=B3rG2yHAex8v7GHBHql765COspBYcXhHpJNa/542rzfoZAPvdz3EyIJYNFarPtPG+AyfJj5gHG1pCvZGLDDBQT6yONwATtDaBkIAncrUz8ZXMsQuIb9Q63TDRhYbBD6E9D3fnHZ2ocPc1WBX3GIe6srjpVxYtF/ewybqpZiP37cWpYJFjPapZAsSsQjDGhPWR3dPfowP0LyrUpbdrzcuHEB77tmkLjax1kaSrV3pgjhFHV3SrVNcoAPenjeyE2j/xu8ecrMesL+l9l6JPURqiHnK9WcoSLKtGaskvR/GZMA+eML9ty/nJNFIHldOO8TA+VE3uB58pi4Dk1Jdj15iow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4FLbOdTX0wSybYtQ9hXAsJhEjrhBxn1NRZuoSp8LI80=;
+ b=CtrXHZU5Zw5a1IbNHiuq0+qqUmosRzU2r0rHlpSFUStA3gSLPr0gbshTFxrADkd6UasgJupbHNGn1L1YheCS4lT+KVrqhIvDYcLvgIiZcjYXOoB4CPx/g8mRC5R840y4ylx+V0yXrsHseCv8qj9VdVo5ZBcj28gmTkMs4X3C9lw=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3343.eurprd04.prod.outlook.com (52.134.8.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.16; Tue, 20 Aug 2019 16:38:31 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::7de6:ea4b:9b5d:d023]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::7de6:ea4b:9b5d:d023%7]) with mapi id 15.20.2178.018; Tue, 20 Aug 2019
+ 16:38:31 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>, Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>
+Subject: Re: [PATCH v2 2/6] arm64: Introduce config for S32
+Thread-Topic: [PATCH v2 2/6] arm64: Introduce config for S32
+Thread-Index: AQHVV3WzypZWNneu9kiQkORbn2Hd8w==
+Date:   Tue, 20 Aug 2019 16:38:30 +0000
+Message-ID: <VI1PR0402MB2863F70B8497B8901087B7A4DFAB0@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+References: <20190809112853.15846-1-stefan-gabriel.mirea@nxp.com>
+ <20190809112853.15846-3-stefan-gabriel.mirea@nxp.com>
+ <20190819081457.GH5999@X250>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 80742a49-84df-47f0-3984-08d7258cd5e8
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3343;
+x-ms-traffictypediagnostic: VI1PR0402MB3343:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB334359C298A74213AC7C4DD4DFAB0@VI1PR0402MB3343.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3276;
+x-forefront-prvs: 013568035E
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(189003)(199004)(71200400001)(71190400001)(9686003)(53936002)(6436002)(33656002)(55016002)(256004)(6916009)(4744005)(5660300002)(229853002)(6246003)(99286004)(25786009)(53546011)(6506007)(52536014)(4326008)(102836004)(54906003)(316002)(14454004)(7696005)(486006)(26005)(476003)(446003)(76176011)(2906002)(7416002)(186003)(8936002)(74316002)(81166006)(81156014)(478600001)(3846002)(8676002)(66066001)(86362001)(76116006)(91956017)(66946007)(6116002)(64756008)(66556008)(66476007)(66446008)(7736002)(305945005);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3343;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ue/VcgzjdsQdaBLZsxcoOTV0hJV5CRBrIXuVlP13ngS5HpSIfyVgBypLzChauXcL98EpRQHxRNs3QfR/jlOwYoPzlOgYTnBfX7UmEpAEDgGwr3tbelkcCrhoZQCZWf7B2wlwOU/xeXGo92aL4GXeJ+hYrF1Y1kmeeXfwLUHPl9X8cTUc/+3O3XzgElTqgdhbCbO9WAyF2UR+RLrWDCy0MOqC1AxJLr7KwvNTkozvfjnNPz3Nx5+dsNsa9et+WrUe+xGafl4jMvJzKOPGY0t6QHZa5uWCfLijAer6tvFMqSjQHY8FSMwpmkTa0a3pIhzyB0f7qGCvIpql2jLXC82IwfDPkinbYywHd5pI49EwMoVeh5IOw8KvbG2d2UdLHPoa6TdPYC+ZldqJ4LlfNAKDnWyxcBMzJep1msSso6Kg3HQ=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80742a49-84df-47f0-3984-08d7258cd5e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 16:38:30.9260
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 31cL24he+y4J9FJTM5jD8DtAmSpK6TDZrlQlhO/mffWDnAMlfu7F7iR7vyGl76VPXa1HMNuKhG2Xn383YTa9nTAe6JYN2h5RVqzkiV38JeY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3343
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-08-19 at 18:02 -0700, Sean Christopherson wrote:
-> On Tue, Aug 13, 2019 at 01:52:16PM -0700, Yu-cheng Yu wrote:
-> > There are a few places that need do_mmap() with mm->mmap_sem held.
-> > Create an in-line function for that.
-> > 
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  include/linux/mm.h | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> > 
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index bc58585014c9..275c385f53c6 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -2394,6 +2394,24 @@ static inline void mm_populate(unsigned long addr,
-> > unsigned long len)
-> >  static inline void mm_populate(unsigned long addr, unsigned long len) {}
-> >  #endif
-> >  
-> > +static inline unsigned long do_mmap_locked(struct file *file,
-> > +	unsigned long addr, unsigned long len, unsigned long prot,
-> > +	unsigned long flags, vm_flags_t vm_flags, struct list_head *uf)
-> > +{
-> > +	struct mm_struct *mm = current->mm;
-> > +	unsigned long populate;
-> > +
-> > +	down_write(&mm->mmap_sem);
-> > +	addr = do_mmap(file, addr, len, prot, flags, vm_flags, 0,
-> > +		       &populate, uf);
-> > +	up_write(&mm->mmap_sem);
-> > +
-> > +	if (populate)
-> > +		mm_populate(addr, populate);
-> > +
-> > +	return addr;
-> > +}
-> 
-> Any reason not to put this in cet.c, as suggested by PeterZ?  All of the
-> calls from CET have identical params except for @len, e.g. you can add
-> 'static unsigned long cet_mmap(unsigned long len)' and bury most of the
-> copy-paste code in there.
-> 
-> https://lkml.kernel.org/r/20190607074707.GD3463@hirez.programming.kicks-ass.ne
-> t
-
-Yes, I will do that.  I thought this would be useful in other places, but
-currently only in mpx.c.
-
-Yu-cheng
+Hello Shawn,=0A=
+=0A=
+On 8/19/2019 11:15 AM, Shawn Guo wrote:=0A=
+> On Fri, Aug 09, 2019 at 11:29:10AM +0000, Stefan-gabriel Mirea wrote:=0A=
+>> +config ARCH_S32=0A=
+>> +     bool "Freescale S32 SoC Family"=0A=
+> =0A=
+> So you still want to use 'Freescale' than 'NXP' here?=0A=
+> =0A=
+>> +     help=0A=
+>> +       This enables support for the Freescale S32 family of processors.=
+=0A=
+=0A=
+Thanks; I will replace Freescale with NXP wherever possible in the next=0A=
+version.=0A=
+=0A=
+Regards,=0A=
+Stefan=0A=
