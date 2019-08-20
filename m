@@ -1,85 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CD4B7D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 13:21:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 696647D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 14:09:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729851AbfHTNVa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 09:21:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46748 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728248AbfHTNV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 09:21:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jTJbNtWSYKy75ac9nrDMS4DD8w6zR87+w5MdrKdbeMw=; b=Fvh58Q77mLxjeT7XJUaQiRbN5
-        6oZAsZT6f8O4rm6zT1QFGryCbpB/D4cwG18gXEMCQuQXaIDx6O/Iu5HMLSYKwMDF0qD4NN6na0WRA
-        5YyWqnaUP4GTro8uLGiC2UlbyUCdgLRhz31RS+JKkSsM3UOeEkDPU+6gRROOrQ1zUIZHf3BDT09AN
-        6zY/D7B85pm/gf5DY9HR5w2wdq6xVofJNQ4ZvNp4hXFrQfpfJAS0uA/StQrI0oQtQzNGhgdnM9Znq
-        RTA/xVbFLi1LJ80P8DaO3kECRm68p5w1kQpQZiAOPCpfSk85exV6/LiV0SMjp9Rb0FrEsI4GMET4A
-        CRUK0A34w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i044X-00024h-5t; Tue, 20 Aug 2019 13:21:13 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D62A43075FF;
-        Tue, 20 Aug 2019 15:20:38 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 244AB20A99A00; Tue, 20 Aug 2019 15:21:10 +0200 (CEST)
-Date:   Tue, 20 Aug 2019 15:21:10 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+        id S1729762AbfHTOJd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 10:09:33 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4736 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729155AbfHTOJc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Aug 2019 10:09:32 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 8ED62CBA83DCFAA8EE97;
+        Tue, 20 Aug 2019 22:09:29 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Tue, 20 Aug 2019
+ 22:09:23 +0800
+Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
+To:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
+References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
+ <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
+ <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
+ <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
+ <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 1/3] kprobes/x86: use instruction_pointer and
- instruction_pointer_set
-Message-ID: <20190820132110.GP2332@hirez.programming.kicks-ass.net>
-References: <20190820113928.1971900c@xhacker.debian>
- <20190820114109.4624d56b@xhacker.debian>
- <alpine.DEB.2.21.1908201050370.2223@nanos.tec.linutronix.de>
- <20190820165152.20275268@xhacker.debian>
+        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
+        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
+        "richard@nod.at" <richard@nod.at>,
+        wanghuiqiang <wanghuiqiang@huawei.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <c5e063e8-5025-8206-f819-6ce5228ef0fb@huawei.com>
+Date:   Tue, 20 Aug 2019 15:09:15 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190820165152.20275268@xhacker.debian>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 09:02:59AM +0000, Jisheng Zhang wrote:
-> In v2, actually, the arm64 version's kprobe_ftrace_handler() is the same
-> as x86's, the only difference is comment, e.g
-> 
-> /* Kprobe handler expects regs->ip = ip + 1 as breakpoint hit */
-> 
-> while in arm64
-> 
-> /* Kprobe handler expects regs->pc = ip + 1 as breakpoint hit */
+On 19/08/2019 05:39, Vignesh Raghavendra wrote:
+> Hi,
+>
+> On 16/08/19 3:50 PM, John Garry wrote:
+>> On 06/08/2019 17:40, Schrempf Frieder wrote:
+> [...]
+>>
+>> Hi,
+>>
+>> Could someone kindly advise on the following:
+>>
 
-What's weird; I thought ARM has fixed sized instructions and they are
-all 4 bytes? So how does a single byte offset make sense for ARM?
+Hi Vignesh,
+
+>> I am looking at ACPI support only for an mtd spi nor driver we're
+>> targeting for mainline support.
+>>
+>
+> If its a new driver, please add it under drivers/spi implementing SPI
+> MEM framework.
+> There are few drivers under drivers/spi that can be used as example.
+> (Search for "spi_mem_ops"
+
+Ok, fine. I note that in doing this I would still be using the spi nor 
+framework indirectly through the m25p80 driver.
+
+>> So for the host, I could use a proprietary HID in the DSDT for matching
+>> in the kernel driver.
+>>
+>> About the child spi flash devices, is the recommendation to just use
+>> PRP0001 HID and "jedec,spi-nor" compatible?
+>>
+>
+> I am not quite familiar with ACPI systems, but child flash device should
+> use "jedec,spi-nor" as compatible.
+
+Right, so to use SPI MEM framework, it looks like I will have to use 
+PRP0001 and "jedec,spi-nor" as compatible.
+
+My reluctance in using PRP0001 and compatible "jedec,spi-nor" is how 
+other OS can understand this.
+
+All the best,
+John
+
+>
+> Regards
+> Vignesh
+>
+>> thanks,
+>> John
+>>
+>>
+
