@@ -1,123 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A4117D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 12:38:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4CD4B7D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 13:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728595AbfHTMiW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 08:38:22 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40425 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729383AbfHTMiW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 08:38:22 -0400
-Received: by mail-pg1-f196.google.com with SMTP id w10so3184787pgj.7;
-        Tue, 20 Aug 2019 05:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nPEeXkHVugtuWFlIz8GtMsMv1+S0Lha6cbNZpxpRArU=;
-        b=LJOIlwqNYHXD7cHZ6EOsmob8xvknsOMLrMfO5zhrO/hlOWCbl9oRhwtm6GgYdix2xu
-         er230DjbgsQiYIUvGeSCtB/XU+iCevsrploFnAK3HjojGToNX3MeX+f3z/WRg2j1Q7xa
-         vUTX4He41+Um9Hj+tyTyBgDEwdDaMgrIqsgXJom2/xdfqHRguDhVy+xCHIRVJUg35sw2
-         v39oOT5FZyi8moTwiCsatiaiE1FMrKTuHTp/hDmSNmT68FzLGFXSH8cJpKBoqkVfqXIF
-         kN8k2VksGohU40xiIxRPVyFZ9SpWPms3lbT/tIhWAMUB9tF+4pGAzRm8ZMgvLl5RqOOF
-         cEUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nPEeXkHVugtuWFlIz8GtMsMv1+S0Lha6cbNZpxpRArU=;
-        b=rsDxLZB8Ol9Z1JkEpKv7TqgFOIFUX4cgnQormXapeQlUs3p+J3FLlwJG+1Bqsd/b4F
-         5pSJ/xOmZJWEa/I5klFwN3Qyj0W1gee4GIFxuqg5fk1r2mbrPq0aBX0m1CFhCKqzaDjp
-         MWODilI6oa5T4UyWSdyHTSKkWsv8JIwLsHHgezGtibP8u2ZKMQwLuxL6I0wyPIpUWWEX
-         S7LW0blJQTZOCYA3ijcvYPXMEGEuskGuTg+sMcPtsDjnHRwpw1l36FKO0LEdL75Ny28V
-         K+rg2+6zEZIpGSsIE0Qg32lFnILS2VgKyfSj+g4ZW5YiW/rdqfdYylGIC4n+ZmpQpwmQ
-         LwWA==
-X-Gm-Message-State: APjAAAUd3nO+H5mBxAhsL321nsAJBJQlIUzSS98G9UsaVvwEZt3faF5a
-        aMXxrrOM1Y+F8z8IKqnWQJ61qiLin4FDPv1KxnQ=
-X-Google-Smtp-Source: APXvYqwggjmfndZ9vdx+84JSw4dPC+8rQAoRcmAZ/Rgr8ykhjxqa0jdGrCOY5Bb3JWVdr8YvApTm37u9Tm5cVXV+lE4=
-X-Received: by 2002:a65:5043:: with SMTP id k3mr25355913pgo.406.1566304701388;
- Tue, 20 Aug 2019 05:38:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190819131737.26942-1-Tianyu.Lan@microsoft.com>
- <20190819131737.26942-3-Tianyu.Lan@microsoft.com> <alpine.DEB.2.21.1908191522390.2147@nanos.tec.linutronix.de>
-In-Reply-To: <alpine.DEB.2.21.1908191522390.2147@nanos.tec.linutronix.de>
-From:   Tianyu Lan <lantianyu1986@gmail.com>
-Date:   Tue, 20 Aug 2019 20:38:11 +0800
-Message-ID: <CAOLK0pxPKh3Gr8TVPqGernoHSTY=UyjwjqC4wEyR=Vo500ygFQ@mail.gmail.com>
-Subject: Re: [PATCH V3 2/3] KVM/Hyper-V: Add new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Radim Krcmar <rkrcmar@redhat.com>, corbet@lwn.net,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        id S1729851AbfHTNVa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 09:21:30 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46748 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728248AbfHTNV3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 09:21:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=jTJbNtWSYKy75ac9nrDMS4DD8w6zR87+w5MdrKdbeMw=; b=Fvh58Q77mLxjeT7XJUaQiRbN5
+        6oZAsZT6f8O4rm6zT1QFGryCbpB/D4cwG18gXEMCQuQXaIDx6O/Iu5HMLSYKwMDF0qD4NN6na0WRA
+        5YyWqnaUP4GTro8uLGiC2UlbyUCdgLRhz31RS+JKkSsM3UOeEkDPU+6gRROOrQ1zUIZHf3BDT09AN
+        6zY/D7B85pm/gf5DY9HR5w2wdq6xVofJNQ4ZvNp4hXFrQfpfJAS0uA/StQrI0oQtQzNGhgdnM9Znq
+        RTA/xVbFLi1LJ80P8DaO3kECRm68p5w1kQpQZiAOPCpfSk85exV6/LiV0SMjp9Rb0FrEsI4GMET4A
+        CRUK0A34w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i044X-00024h-5t; Tue, 20 Aug 2019 13:21:13 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D62A43075FF;
+        Tue, 20 Aug 2019 15:20:38 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 244AB20A99A00; Tue, 20 Aug 2019 15:21:10 +0200 (CEST)
+Date:   Tue, 20 Aug 2019 15:21:10 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        michael.h.kelley@microsoft.com,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        kvm <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "linux-kernel@vger kernel org" <linux-kernel@vger.kernel.org>,
-        linux-hyperv@vger.kernel.org,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        "x86@kernel.org" <x86@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 1/3] kprobes/x86: use instruction_pointer and
+ instruction_pointer_set
+Message-ID: <20190820132110.GP2332@hirez.programming.kicks-ass.net>
+References: <20190820113928.1971900c@xhacker.debian>
+ <20190820114109.4624d56b@xhacker.debian>
+ <alpine.DEB.2.21.1908201050370.2223@nanos.tec.linutronix.de>
+ <20190820165152.20275268@xhacker.debian>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190820165152.20275268@xhacker.debian>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas:
-               Thanks for your review. Will fix your comment in the
-next version.
+On Tue, Aug 20, 2019 at 09:02:59AM +0000, Jisheng Zhang wrote:
+> In v2, actually, the arm64 version's kprobe_ftrace_handler() is the same
+> as x86's, the only difference is comment, e.g
+> 
+> /* Kprobe handler expects regs->ip = ip + 1 as breakpoint hit */
+> 
+> while in arm64
+> 
+> /* Kprobe handler expects regs->pc = ip + 1 as breakpoint hit */
 
-On Mon, Aug 19, 2019 at 9:27 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> On Mon, 19 Aug 2019, lantianyu1986@gmail.com wrote:
->
-> > From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> >
-> > This patch adds
->
-> Same git grep command as before
->
-> >  new KVM cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH and let
->
-> baseball cap? Please do not use weird acronyms. This is text and there is
-> not limitation on characters.
->
-> > user space to enable direct tlb flush function when only Hyper-V
-> > hypervsior capability is exposed to VM.
->
-> Sorry, but I'm not understanding this sentence.
->
-> > This patch also adds
->
-> Once more
->
-> > enable_direct_tlbflush callback in the struct kvm_x86_ops and
-> > platforms may use it to implement direct tlb flush support.
->
-> Please tell in the changelog WHY you are doing things not what. The what is
-> obviously in the patch.
->
-> So you want to explain what you are trying to achieve and why it is
-> useful. Then you can add a short note about what you are adding, but not at
-> the level of detail which is available from the diff itself.
->
-> Thanks,
->
->         tglx
-
-
-
---
-Best regards
-Tianyu Lan
+What's weird; I thought ARM has fixed sized instructions and they are
+all 4 bytes? So how does a single byte offset make sense for ARM?
