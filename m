@@ -4,318 +4,142 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 078F27D913
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 22:10:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2C4D7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 23:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730650AbfHTWKb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 18:10:31 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34362 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730837AbfHTWKb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 18:10:31 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c7so206348otp.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2019 15:10:30 -0700 (PDT)
+        id S1726482AbfHTXUz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 19:20:55 -0400
+Received: from mail-vk1-f202.google.com ([209.85.221.202]:50828 "EHLO
+        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726424AbfHTXUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 19:20:54 -0400
+Received: by mail-vk1-f202.google.com with SMTP id s80so214176vkb.17
+        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2019 16:20:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vhPvtlC17u44ufmkUxOTA4i7NI0WexPiKwUB/fujZ0c=;
-        b=ceZEG8+XIftpTwQRtvjUwrogG2VUTQXOzeaZt7AihCTnOQXaSJdwj5EOaUCXRzz4Sm
-         ux2jGvCpVkPXrAzgJq4hXsuPLx4oQrD1Zm52YDaH5anfmtOUsMINt6JxrI9mzyY37hzc
-         9BkjYAbi97w0xvwYfqmkUzzYdCnNZ8squFoYb/FUns5faQRKkrhSxmoh0FS+Wl5oQ8No
-         wnaYy1A1UcjVd/ZTO0KPjBSdMuxBNtmt6Q/1WrVFApt2Bybq4pCNfJQlqC9nvhgPGg5m
-         3E4JDWmNN5a1iqQnKmtZOyzZYuAJR4Lg+Z1VehcXcEHQc2g18wC/VLDwXgsXPcFh3TdF
-         IgHw==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=d/yRotIqofKL6ivNLT0spFL8C+ImKotVaARxIwjjT6U=;
+        b=AVw2bVu+4NwiDCTMe7ctCvAsytyWg/rXh1qSlFIYcZ34MZ2W4zFBX61usfUDXKDI+U
+         6mkzeHkKvCm3jsXc7ellvdvzMZ/yYq5pQYIgEJEeej2GmzjldUwbhas7sVL0y1BF9R5Q
+         aeLd89FDK15SPfbl+SuyrbqBs3o2uiag6LIW+dn6YgaIXzRVfITYu/qa+PVnh2pu0la1
+         EgwkQGeMgeft4WVs3y+cr1sGSCDFeF0e6bPs6wefJLtZGnA3fREotyJnv1WY33ED8Kos
+         PZta1YwDrJCXLZftQ0jdf7GzZQX+uUMqkEw7bGquy+vwd3aApIC+kCto7n+WJu4zEbsw
+         +lOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vhPvtlC17u44ufmkUxOTA4i7NI0WexPiKwUB/fujZ0c=;
-        b=lwt2TgtNRXVwn9rp0RNymJabcI4waeCZdqUuooQM7yw3UQ43uymNg1cbEVc+brCAy9
-         y1Ae4JD+vVNNjNoP6LEjoess3Yg4541t2S446D5KfclCa6cuDLQ0IyCPAIyR3UJhlDt7
-         ixih6ZCmlD+/+4ANBbmPrr6/WyaOO3u2m+dbv2kd0h9lixNTMD5nnEsBLcprLsdQHaUa
-         DAX1jPQKsxmwYoIFyjxmS9UH4GLl9qD5iXpPD4f8aDl9xZ/sj/UXs/okW0nSfAYb4Bo/
-         03up6DakWTtfxTYR7kcrE71+bmU1pmNEyRuqVN/qP5X1mW6jRPPs+nYl/jjEVJ3DlTEj
-         sj1A==
-X-Gm-Message-State: APjAAAWbPEaoUNfAJzjgLE9YQvT5f2pOYLRhcVsDjm6fUCx+HPIKn48K
-        T4910GziO+bSWH8yPFuVNNz09r8Lq2DMgmbt1JLSYA==
-X-Google-Smtp-Source: APXvYqzwRi7EhxrfrGazsfQHIS+TEXp7A+J1AGcntOEjY/jJkakPZnqU53EYWe/f0W45hDHyufhDbj2shmZWeY0GIic=
-X-Received: by 2002:a05:6830:54:: with SMTP id d20mr21760645otp.225.1566339029143;
- Tue, 20 Aug 2019 15:10:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190724001100.133423-1-saravanak@google.com> <20190724001100.133423-4-saravanak@google.com>
- <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com> <CAGETcx-dVnLCRA+1CX47gtZgtwTcrN5KefpjMzh9OJB-BEnqyg@mail.gmail.com>
- <19c99a6e-51c3-68d7-d1d6-640aae754c14@gmail.com> <CAGETcx-XcXZq7YFHsFdzBDniQku9cxFUJL_vBoEKKhCH+cDKRw@mail.gmail.com>
- <74931824-f8a1-0435-e00a-5b5cdbe8a8a2@gmail.com> <CAGETcx8UHA9kNkjjnBXcf_OYXaaPO9ky60M01Cfz3NFb1c1FZw@mail.gmail.com>
- <15ab4fb0-7e69-9cc1-4a79-cff06767f7d9@gmail.com>
-In-Reply-To: <15ab4fb0-7e69-9cc1-4a79-cff06767f7d9@gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 20 Aug 2019 15:09:52 -0700
-Message-ID: <CAGETcx-F7VoQsDihvJ1FY=Pw8Rhu69zh6pBzkV4nSabwYRvbZw@mail.gmail.com>
-Subject: Re: [PATCH v7 3/7] of/platform: Add functional dependency link from
- DT bindings
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=d/yRotIqofKL6ivNLT0spFL8C+ImKotVaARxIwjjT6U=;
+        b=KGZt9NTws2ZI44H4kkJpIhLmLbwj59RWk7uiI05MZlPbLept5LbjdRnu01Mz/TyzbG
+         G9n9Q9uyb/Ja1enxuNO5gvSWl5bC8Bv9rN7pcc0fiFzgSNrsYcvaupd/iPVDS8KJlZen
+         k4co2SjZJZOiCyyP8b7kA5t8va64rhiDDUp6cvKOTbiqdCgVgDpGIj0ygphwUITiG1YF
+         nt8wCRIHsyMr5ToqeXAI6xBxhDVufK1I1fbvvlw2Bg5Kv4jr+gBgAUfVJVVDePY0GYZL
+         /9BGWKXulhQ4xy0IKjydBg6OmlQIU8o/P8RYXiTH8NSl3Ns3nrZ0i4GoYD3pdR1E9dzL
+         DcmA==
+X-Gm-Message-State: APjAAAV/5buvasoXFDzoSNLenCziBFgjB54Kd27lv50SzYSkV0a2Kk3o
+        Vok8xgl5q88F7xTHK6vtg9TthLq1LHQ9HHkx7+5W7Q==
+X-Google-Smtp-Source: APXvYqxI/nPId+DHfk6D741GOqFrVhdMCpaqnV+6xqhMReBcYshk3sm1bvTSqco2NKWiElhS3+UgytqYYzLVwPw9MVYXZA==
+X-Received: by 2002:a67:2605:: with SMTP id m5mr19353609vsm.120.1566343253112;
+ Tue, 20 Aug 2019 16:20:53 -0700 (PDT)
+Date:   Tue, 20 Aug 2019 16:20:28 -0700
+Message-Id: <20190820232046.50175-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH v14 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 19, 2019 at 9:26 PM Frank Rowand <frowand.list@gmail.com> wrote:
->
-> On 8/19/19 5:09 PM, Saravana Kannan wrote:
-> > On Mon, Aug 19, 2019 at 2:30 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> >>
-> >> On 8/19/19 1:49 PM, Saravana Kannan wrote:
-> >>> On Mon, Aug 19, 2019 at 10:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
-> >>>>
-> >>>> On 8/15/19 6:50 PM, Saravana Kannan wrote:
-> >>>>> On Wed, Aug 7, 2019 at 7:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> >>>>>>
-> >>>>>> On 7/23/19 5:10 PM, Saravana Kannan wrote:
-> >>>>>>> Add device-links after the devices are created (but before they are
-> >>>>>>> probed) by looking at common DT bindings like clocks and
-> >>>>>>> interconnects.
-> >>>>
-> >>>>
-> >>>> < very big snip (lots of comments that deserve answers) >
-> >>>>
-> >>>>
-> >>>>>>
-> >>>>>> /**
-> >>>>>>  * of_link_property - TODO:
-> >>>>>>  * dev:
-> >>>>>>  * con_np:
-> >>>>>>  * prop:
-> >>>>>>  *
-> >>>>>>  * TODO...
-> >>>>>>  *
-> >>>>>>  * Any failed attempt to create a link will NOT result in an immediate return.
-> >>>>>>  * of_link_property() must create all possible links even when one of more
-> >>>>>>  * attempts to create a link fail.
-> >>>>>>
-> >>>>>> Why?  isn't one failure enough to prevent probing this device?
-> >>>>>> Continuing to scan just results in extra work... which will be
-> >>>>>> repeated every time device_link_check_waiting_consumers() is called
-> >>>>>
-> >>>>> Context:
-> >>>>> As I said in the cover letter, avoiding unnecessary probes is just one
-> >>>>> of the reasons for this patch. The other (arguably more important)
-> >>>>
-> >>>> Agree that it is more important.
-> >>>>
-> >>>>
-> >>>>> reason for this patch is to make sure suppliers know that they have
-> >>>>> consumers that are yet to be probed. That way, suppliers can leave
-> >>>>> their resource on AND in the right state if they were left on by the
-> >>>>> bootloader. For example, if a clock was left on and at 200 MHz, the
-> >>>>> clock provider needs to keep that clock ON and at 200 MHz till all the
-> >>>>> consumers are probed.
-> >>>>>
-> >>>>> Answer: Let's say a consumer device Z has suppliers A, B and C. If the
-> >>>>> linking fails at A and you return immediately, then B and C could
-> >>>>> probe and then figure that they have no more consumers (they don't see
-> >>>>> a link to Z) and turn off their resources. And Z could fail
-> >>>>> catastrophically.
-> >>>>
-> >>>> Then I think that this approach is fatally flawed in the current implementation.
-> >>>
-> >>> I'm waiting to hear how it is fatally flawed. But maybe this is just a
-> >>> misunderstanding of the problem?
-> >>
-> >> Fatally flawed because it does not handle modules that add a consumer
-> >> device when the module is loaded.
-> >
-> > If you are talking about modules adding child devices of the device
-> > they are managing, then that's handled correctly later in the series.
->
-> They may or they may not.  I do not know.  I am not going to audit all
-> current cases of devices being added to check that relationship and I am
-> not going to monitor all future patches that add devices.  Adding devices
-> is an existing pattern of behavior that the new feature must be able to
-> handle.
->
-> I have not looked at patch 6 yet (the place where modules adding child
-> devices is handled).  I am guessing that patch 6 could be made more
-> general to remove the parent child relationship restriction.
+## TL;DR
 
-Please do look into it then. I think it already handles all cases.
+This revision addresses comments from Shuah by removing two macros that
+were causing checkpatch errors. No API or major structual changes have
+been made since v13.
 
-> >
-> > If you are talking about modules adding devices that aren't defined in
-> > DT, then right, I'm not trying to handle that. The module needs to
-> > make sure it keeps the resources needed for new devices it's adding
-> > are in the right state or need to add the right device links.
->
-> I am not talking about devices that are not defined in the devicetree.
+## Background
 
-In that case, I'm sure my patch series handle all the scenarios
-correctly. Here's why:
-1. For all the top level devices the patches you've reviewed already
-show how it's handled correctly.
-2. All other devices in the DT are by definition the child devices of
-the top level devices and patch 6 handles those cases.
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
 
-Hopefully this shows to you that all DT cases are handled correctly.
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
 
-> >>> In the text below, I'm not sure if you mixing up two different things
-> >>> or just that your wording it a bit ambiguous. So pardon my nitpick to
-> >>> err on the side of clarity.
-> >>
-> >> Please do nitpick.  Clarity is good.
-> >>
-> >>
-> >>>
-> >>>> A device can be added by a module that is loaded.
-> >>>
-> >>> No, in the example I gave, of_platform_default_populate_init() would
-> >>> add all 3 of those devices during arch_initcall_sync().
-> >>
-> >> The example you gave does not cover all use cases.
-> >>
-> >> There are modules that add devices when the module is loaded.  You can not
-> >> ignore systems using such modules.
-> >
-> > I'll have to agree to disagree on that. While I understand that the
-> > design should be good and I'm happy to work on that, you can't insist
-> > that a patch series shouldn't be allowed because it's only improving
-> > 99% of the cases and leaves the other 1% in the status quo. You are
-> > just going to bring the kernel development to a grinding halt.
->
-> No, you do not get to disagree on that.  And you are presenting a straw
-> man argument.
->
-> You are proposing a new feature that contributes fragility and complexity
-> to the house of cards that device instantiation and driver probing already
-> is.
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
 
-Any piece of code is going to "add complexity". It's a question of
-benefits vs complexity. Also, I'm mostly reusing existing device links
-API. The majority of the complexity is in parsing DT. The driver core
-maintainers seem to be fine with adding sync_state() support for
-device links (that is independent of DT).
+### What's so special about unit testing?
 
-> The feature is clever but it is intertwined into an area that is already
-> complex and in many cases difficult to work within.
->
-> I had hoped that the feature was robust enough and generic enough to
-> accept.
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
 
-What I'm doing IS the most generic solution instead of doing the same
-work multiple times at a framework level. Also, for multi-function
-devices, framework level solutions would be worse.
+### Is KUnit trying to replace other testing frameworks for the kernel?
 
-> The proposed feature is a hack to paper over a specific problem
-> that you are facing.  I had hoped that the feature would appear generic
-> enough that I would not have to regard it as an attempt to paper over
-> the real problem.  I have not given up this hope yet but I still am
-> quite cautious about this approach to addressing your use case.
->
-> You have a real bug.  I have told you how to fix the real bug.  And you
-> have ignored my suggestion.  (To be honest, I do not know for sure that
-> my suggestion is feasible, but on the surface it appears to be.)
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
 
-I'd actually say that your proposal is what's trying to paper over a
-generic problem by saying it's specific to one or a few set of
-resources. And it looks feasible to you because you haven't dove deep
-into this issue.
+### More information on KUnit
 
-> Again,
-> my suggestion is to have the boot loader pass information to the kernel
-> (via a chosen property) telling the kernel which devices the bootloader
-> has enabled power to.  The power subsystem would use that information
-> early in boot to do a "get" on the power supplier (I am not using precise
-> power subsystem terminology, but it should be obvious what I mean).
-> The consumer device driver would also have to be aware of the information
-> passed via the chosen property because the power subsystem has done the
-> "get" on the consumer devices behalf (exactly how the consumer gets
-> that information is an implementation detail).  This approach is
-> more direct, less subtle, less fragile.
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
 
-I'll have to disagree on your claim. You are adding unnecessary
-bootloader dependency when the kernel is completely capable of
-handling this on its own. You are requiring explicit "gets" by
-suppliers and then hoping all the consumers do the corresponding
-"puts" to balance it out. Somehow the consumers need to know which
-suppliers have parsed which bootloader input. And it's barely
-scratching the surface of the problem.
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.3/v14 branch.
 
-You are assuming this has to do with just power when it can be clocks,
-interconnects, etc. Why solve this repeated for each framework when
-you can have a generic solution?
+## Changes Since Last Version
 
-Also, while I understand what you mean by "get" it's not going to be
-as simple as a reference count to keep the resource on. In reality
-you'll need more complex handling. For example, having to keep a
-voltage rail at or above X mV because one consumer might fail if the
-voltage is < X mV. Or making sure a clock never goes about the
-bootloader set frequency before all the consumer drivers are probed to
-avoid overclocking one of the consumers. Trying to have this
-explicitly coordinated across multiple drivers would be a nightmare.
-It gets even more complicated with interconnects.
+- Removed to macros which helped define expectation and assertion
+  macros; these values are now just copied and pasted. Change was made
+  to fix checkpatch error, as suggested by Shuah.
 
-With my patch series, the consumers don't need to do anything. They
-just probe as usual. The suppliers don't need to track or coordinate
-with any consumers. For example, regulator suppliers just need to keep
-the voltage rail at (or above) the level that the boot loader left it
-on at and then apply the aggregated requests from their APIs once they
-get the sync_state() callback. And it actually works -- tested for
-regulators and clocks (and maybe even interconnects -- I forgot) in a
-device I have.
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.3/v14
 
-> >>>
-> >>>>  In that case the device
-> >>>> was not present at late boot when the suppliers may turn off their resources.
-> >>>
-> >>> In that case, the _drivers_ for those devices aren't present at late
-> >>> boot. So that they can't request to keep the resources on for their
-> >>> consumer devices. Since there are no consumer requests on resources,
-> >>> the suppliers turn off their resources at late boot (since there isn't
-> >>> a better location as of today). The sync_state() call back added in a
-> >>> subsequent patche in this series will provide the better location.
-> >>
-> >> And the sync_state() call back will not deal with modules that add consumer
-> >> devices when the module is loaded, correct?
-> >
-> > Depends. If it's just more devices from DT, then it'll be fine. If
-> > it's not, then the module needs to take care of the needs of devices
-> > it's adding.>
-> >>>
-> >>>> (I am assuming the details since I have not reviewed the patches later in
-> >>>> the series that implement this part.)
-> >>>>
-> >>>> Am I missing something?
-> >>>
-> >>> I think you are mixing up devices getting added/populated with drivers
-> >>> getting loaded as modules?
-> >>
-> >> Only some modules add devices when they are loaded.  But these modules do
-> >> exist.
-> >
-> > Out of the billions of Android devices, how many do you see this happening in?
->
-> The Linux kernel is not just used by Android devices.
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
 
-Ofcourse Linux is used by more than just Android. And Android is just
-an ARM64(32) distribution. But how many platforms do you have where a
-module adds devices that are not part of DT (because I'm handling the
-DT part fine -- see other emails)? How does that count compare to
-millions of products that can use this feature? And I'm not breaking
-any of the existing platforms that don't use DT either. So saying I
-have to fix this for 100% of the use cases for Linux before I can
-remove the roadblocks for a common ARM64 kernel that can run on any
-ARM64 platform seems like an unreasonable position.
-
--Saravana
