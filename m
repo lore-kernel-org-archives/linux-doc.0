@@ -3,94 +3,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 381BD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 08:17:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAADA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 08:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729298AbfHTIRh convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 04:17:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51140 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729150AbfHTIRh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:17:37 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6F5DEAEA1;
-        Tue, 20 Aug 2019 08:17:35 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 10:17:34 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
+        id S1729400AbfHTIyL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 04:54:11 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:51160 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728842AbfHTIyL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 04:54:11 -0400
+Received: from p5de0b6c5.dip0.t-ipconnect.de ([93.224.182.197] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hzzth-0007eD-0p; Tue, 20 Aug 2019 10:53:45 +0200
+Date:   Tue, 20 Aug 2019 10:53:43 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v5 15/17] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-Id: <20190820101734.bffe41588e0c92094b9dba3d@suse.de>
-In-Reply-To: <20190820062308.GK3545@piout.net>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
-        <20190819163144.3478-16-tbogendoerfer@suse.de>
-        <20190820062308.GK3545@piout.net>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 3/3] arm64: implement KPROBES_ON_FTRACE
+In-Reply-To: <20190820114314.685a3239@xhacker.debian>
+Message-ID: <alpine.DEB.2.21.1908201052570.2223@nanos.tec.linutronix.de>
+References: <20190820113928.1971900c@xhacker.debian> <20190820114314.685a3239@xhacker.debian>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Aug 2019 08:23:08 +0200
-Alexandre Belloni <alexandre.belloni@bootlin.com> wrote:
-> On 19/08/2019 18:31:38+0200, Thomas Bogendoerfer wrote:
-> > diff --git a/drivers/mfd/ioc3.c b/drivers/mfd/ioc3.c
-> > new file mode 100644
-> > index 000000000000..5bcb3461a189
-> > --- /dev/null
-> > +++ b/drivers/mfd/ioc3.c
-> > @@ -0,0 +1,586 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * SGI IOC3 multifunction device driver
-> > + *
-> > + * Copyright (C) 2018, 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> > + *
-> > + * Based on work by:
-> > + *   Stanislaw Skowronek <skylark@unaligned.org>
-> > + *   Joshua Kinard <kumba@gentoo.org>
-> > + *   Brent Casavant <bcasavan@sgi.com> - IOC4 master driver
-> > + *   Pat Gefre <pfg@sgi.com> - IOC3 serial port IRQ demuxer
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/mfd/core.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/platform_data/sgi-w1.h>
-> > +#include <linux/rtc/ds1685.h>
-> I don't think this include is necessary.
+On Tue, 20 Aug 2019, Jisheng Zhang wrote:
 
-you are right. I'll move it to the patch where IP30 systemboard gets added.
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
+> 
+> This patch implements KPROBES_ON_FTRACE for arm64.
 
+ git grep 'This patch' Documentation/process/submitting-patches.rst
+ 
 Thanks,
-Thomas.
 
--- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+	tglx
