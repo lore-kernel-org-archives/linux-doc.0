@@ -1,168 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CB987D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 10:41:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 359F97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 11:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbfHTKlU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 06:41:20 -0400
-Received: from mail-eopbgr720088.outbound.protection.outlook.com ([40.107.72.88]:35936
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728842AbfHTKlT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Aug 2019 06:41:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cDz0jHFoSzRzxT9J6T/yVh7Z//SQrRbX2QMKSqWKMBxX9w73UYR+f6AnDV+G1agZY9l1IwuaqR6XdKHkygI/JePTJFWVIAC32zOMUGus/nM20ibCU9nAijv+trTaUdFBgp7YnOg6jSZq3QhLo+ahCC8u4NsISSAEZgSYaJlYdbwWTSERbS2r84xsWXaPeuv4lS2bkb73my6EnP4tH3nGwUiip2MQLn+OdSnABnaBXFYXhqqj4eiNw2+xbS9feO/mSQFSkvVyJaMX4oGsAtZUlytHdQNXeGt4zLLRav8txDTViQLj3sZ+tOY53yz6vu7I3optpXLPSyaSD7jLOPVXFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/1B0ttXKBUVnx709ARvmQLu2Rz1k/Y6tXYiVQl/mg8Y=;
- b=CSfcRT1Gz0c7xDLTa/WNAj+cbBODWtPtpt6mIoq+bVuRwYZVhqwXv7e1gA5CrSbRieaim7jwOYua98FOMwhaZIzxzbsmb1FFHsFjZj4wkDr3RXv9ZQ+vNhAGb0CHWAFmHYUOi+eDjGmU5Rfr+uTYHzkZ+NBe3TjsmlpyYWwgWFI6Y2ftTVPw6yTL/PKSFD0ax/U3nMotxSeb+OHPkwGWo+WsBMMcNkax3zgWiS9cXgC9PYg82NW4YjlS2UgGq7Q6obaF3VOS/x4Nt/AE5mfE3rNCNyFVj612vCRM61uluGmIj7jougDjJs8wXJb+TXeX/7y9xcceTINV/yUp5dXksA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/1B0ttXKBUVnx709ARvmQLu2Rz1k/Y6tXYiVQl/mg8Y=;
- b=OmLW5u4GQrQVWtPWMNbsK9m3VzAJO/c59M1mtFtMTwyFgxzK46u4OYYQFunmiaF7oDRJVW3dHm8+Y2i5hPKv6lLfO1J35hHn4yr8Q1Op3dSxqZ+D4wUrvLOb4gIuANqA4dbmgO6sacKHy8hWd9RnG3xXmnKQ5J5rpJIvCaqi2xA=
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
- BYAPR03MB3575.namprd03.prod.outlook.com (52.135.213.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Tue, 20 Aug 2019 10:41:16 +0000
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::a517:3578:67bf:6c88]) by BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::a517:3578:67bf:6c88%7]) with mapi id 15.20.2157.022; Tue, 20 Aug 2019
- 10:41:15 +0000
-From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-CC:     Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] kprobes: adjust kprobe addr for KPROBES_ON_FTRACE
-Thread-Topic: [PATCH v2 2/3] kprobes: adjust kprobe addr for KPROBES_ON_FTRACE
-Thread-Index: AQHVVwrOlWp5wQEBs0CTmAwXsgLkUqcD0kYAgAAEH4A=
-Date:   Tue, 20 Aug 2019 10:41:15 +0000
-Message-ID: <20190820183009.1ef539cf@xhacker.debian>
-References: <20190820113928.1971900c@xhacker.debian>
-        <20190820114224.0c8963c4@xhacker.debian>
-        <1566295437.yqnot2qd2e.naveen@linux.ibm.com>
-In-Reply-To: <1566295437.yqnot2qd2e.naveen@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [124.74.246.114]
-x-clientproxiedby: TY1PR01CA0199.jpnprd01.prod.outlook.com (2603:1096:403::29)
- To BYAPR03MB4773.namprd03.prod.outlook.com (2603:10b6:a03:134::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f866b5f0-b77f-4903-288a-08d7255aed5a
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR03MB3575;
-x-ms-traffictypediagnostic: BYAPR03MB3575:
-x-microsoft-antispam-prvs: <BYAPR03MB35756448ADC24DC97CDD6242EDAB0@BYAPR03MB3575.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 013568035E
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(39860400002)(366004)(376002)(396003)(199004)(189003)(25786009)(5660300002)(64756008)(86362001)(486006)(26005)(71190400001)(66446008)(71200400001)(66556008)(6436002)(66066001)(66476007)(66946007)(476003)(386003)(6506007)(256004)(8676002)(102836004)(6486002)(186003)(53936002)(9686003)(6512007)(14454004)(6916009)(50226002)(81156014)(76176011)(4326008)(8936002)(1076003)(81166006)(229853002)(14444005)(7416002)(446003)(11346002)(6246003)(478600001)(305945005)(316002)(2906002)(6116002)(3846002)(54906003)(7736002)(52116002)(99286004)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB3575;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: synaptics.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: yNsIplS3g5erwKNDe9Aggwv3WmPANboGhCnndv/Qe1uyDEssCCzsMEcKkryrH39KnzPVoUhAV67xYtqKNGTNM7br4bJMOhsPXeNa2xfUIO+qRZHBKr6l/gTyAG4IO0k3D+K71MRf4lsvw5MO+ng5/Gwc93bIXm5J11b5C0KsQwPIkHA0MdgsHki2zsevh2HeqVTZHtt02i67bPURSGfMQ2UfGSSs7itrsisnhaTTtjvlQXWLJP7hiWhB+89En/abmhFLjvkYio/ENgHVHwq2qR4Hcz7msOYHmvUuZdmyCrvj7tMeRDki+bgOQoUMSFxC9C2Fx32848dvo3C47e3eLP7me26KVB+TNrEk4CYNIIXShGFhkaZ9oy2W+a0DwIwNB4xxJgKvBKOjOAZtxDdb9/2ux+5/jYlNU2rp3LoG7tU=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1998460293D9114B826D762A1BF42427@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1729428AbfHTLSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 07:18:02 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:48742 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728283AbfHTLSC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Aug 2019 07:18:02 -0400
+Received: from zn.tnic (p200300EC2F0AD10084521F4194A0C4F9.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:d100:8452:1f41:94a0:c4f9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2D7CD1EC0554;
+        Tue, 20 Aug 2019 13:18:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1566299881;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qLD0ExhlVQNU4tohbyQwZ28DUVLBgVJZM+C1XKxSUmQ=;
+        b=p/8kRcVksfZDDobCZ0xUuotYx4yIstkcACTjuPPK0O1I2rI6BSoNl3e8ws3ScRov+kuec+
+        hG+7O0p12EzbAhwnvxQnx7XAxRmF8tA6yE7IyCwsEUtBVSi5v/z1kzD2UvFMbSeWx1yloC
+        zgHLgddrt3uiTUPogfl4HN91pmBF1J8=
+Date:   Tue, 20 Aug 2019 13:17:53 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
+        tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
+        Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
+Subject: Re: [PATCH 06/11] x86/dma: Get rid of iommu_pass_through
+Message-ID: <20190820111753.GD31607@zn.tnic>
+References: <20190819132256.14436-1-joro@8bytes.org>
+ <20190819132256.14436-7-joro@8bytes.org>
 MIME-Version: 1.0
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f866b5f0-b77f-4903-288a-08d7255aed5a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 10:41:15.8066
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zBnrU2yGql1LAGQ+PPp8P6UPzymYEoUTgjy44oIfuK57af7izoPhLaG/eBQi3Sm0kfGjm1X+S+QGdFI4tZ+mWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB3575
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190819132256.14436-7-joro@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Aug 2019 15:45:24 +0530 "Naveen N. Rao" wrote:
+On Mon, Aug 19, 2019 at 03:22:51PM +0200, Joerg Roedel wrote:
+> From: Joerg Roedel <jroedel@suse.de>
+> 
+> This variable has no users anymore. Remove it and tell the
+> IOMMU code via its new functions about requested DMA modes.
+> 
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
+>  arch/x86/include/asm/iommu.h |  1 -
+>  arch/x86/kernel/pci-dma.c    | 20 +++-----------------
+>  2 files changed, 3 insertions(+), 18 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
+> index baedab8ac538..b91623d521d9 100644
+> --- a/arch/x86/include/asm/iommu.h
+> +++ b/arch/x86/include/asm/iommu.h
+> @@ -4,7 +4,6 @@
+>  
+>  extern int force_iommu, no_iommu;
+>  extern int iommu_detected;
+> -extern int iommu_pass_through;
+>  
+>  /* 10 seconds */
+>  #define DMAR_OPERATION_TIMEOUT ((cycles_t) tsc_khz*10*1000)
+> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
+> index f62b498b18fb..fa4352dce491 100644
+> --- a/arch/x86/kernel/pci-dma.c
+> +++ b/arch/x86/kernel/pci-dma.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  #include <linux/dma-direct.h>
+>  #include <linux/dma-debug.h>
+> +#include <linux/iommu.h>
+>  #include <linux/dmar.h>
+>  #include <linux/export.h>
+>  #include <linux/memblock.h>
+> @@ -34,21 +35,6 @@ int no_iommu __read_mostly;
+>  /* Set this to 1 if there is a HW IOMMU in the system */
+>  int iommu_detected __read_mostly = 0;
+>  
+> -/*
+> - * This variable becomes 1 if iommu=pt is passed on the kernel command line.
+> - * If this variable is 1, IOMMU implementations do no DMA translation for
+> - * devices and allow every device to access to whole physical memory. This is
+> - * useful if a user wants to use an IOMMU only for KVM device assignment to
+> - * guests and not for driver dma translation.
+> - * It is also possible to disable by default in kernel config, and enable with
+> - * iommu=nopt at boot time.
+> - */
+> -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
+> -int iommu_pass_through __read_mostly = 1;
+> -#else
+> -int iommu_pass_through __read_mostly;
+> -#endif
+> -
+>  extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
+>  
+>  void __init pci_iommu_alloc(void)
+> @@ -120,9 +106,9 @@ static __init int iommu_setup(char *p)
+>  			swiotlb = 1;
+>  #endif
+>  		if (!strncmp(p, "pt", 2))
+> -			iommu_pass_through = 1;
+> +			iommu_set_default_passthrough(true);
+>  		if (!strncmp(p, "nopt", 4))
+> -			iommu_pass_through = 0;
+> +			iommu_set_default_translated(true);
+>  
+>  		gart_parse_options(p);
+>  
+> -- 
 
->=20
->=20
-> Jisheng Zhang wrote:
-> > For KPROBES_ON_FTRACE case, we need to adjust the kprobe's addr
-> > correspondingly.
-> >
-> > Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-> > ---
-> >  kernel/kprobes.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-> > index 9873fc627d61..3fd2f68644da 100644
-> > --- a/kernel/kprobes.c
-> > +++ b/kernel/kprobes.c
-> > @@ -1484,15 +1484,19 @@ static inline int check_kprobe_rereg(struct kpr=
-obe *p)
-> >
-> >  int __weak arch_check_ftrace_location(struct kprobe *p)
-> >  {
-> > -     unsigned long ftrace_addr;
-> > +     unsigned long ftrace_addr, addr =3D (unsigned long)p->addr;
-> >
-> > -     ftrace_addr =3D ftrace_location((unsigned long)p->addr);
-> > +#ifdef CONFIG_KPROBES_ON_FTRACE
-> > +     addr =3D ftrace_call_adjust(addr);
-> > +#endif =20
->=20
-> Looking at the commit message for patch 3/3, it looks like you want the
-> probe to be placed on ftrace entry by default, and this patch seems to
-> be aimed at that.
+Reviewed-by: Borislav Petkov <bp@suse.de>
 
-Yeah.
+-- 
+Regards/Gruss,
+    Boris.
 
->=20
-> If so, this is not the right approach. As I mentioned previously, you
-> would want to over-ride kprobe_lookup_name(). This ensures that the
-> address is changed only if the user provided a symbol, and not if the
-> user wanted to probe at a very specific address. See commit
-
-Great! Now I understand the reason.
-
-> 24bd909e94776 ("powerpc/kprobes: Prefer ftrace when probing function
-> entry").
-
-Now, I got your meaning. You are right. I will update the patch in newer
-version.
-
-Thanks a lot!
-
->=20
-> If this patch is for some other purpose, then it isn't clear from the
-> commit log. Please provide a better explanation.
->=20
->=20
-> - Naveen
->=20
-
+Good mailing practices for 400: avoid top-posting and trim the reply.
