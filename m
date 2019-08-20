@@ -1,244 +1,270 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D045B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 03:54:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D7017D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Aug 2019 04:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729085AbfHTDyW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Aug 2019 23:54:22 -0400
-Received: from mail-eopbgr710044.outbound.protection.outlook.com ([40.107.71.44]:2304
-        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728777AbfHTDyW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Aug 2019 23:54:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B1XdVSOvaXIQubruidpCcfxKTSG4Ubrm0475d8ZVb0PV/NmedUJ8IJvZeBpICbx2cgHJfRkA8ein7F+t6E2HMY6zW+rRqC01NRKyUm6FiZdNF5GwJXG6blNssXWq+4J/MfS6JeFOVEeGZ3cHkKeciVDOp5MU1Hm9vM7miYpgHXkotqvatecsNlBxyoYmnSs44SKrTgVGFAKbDvmt4uZkKJRfrTuDIJjkvkxua446EJSLhrBxlQmdW6PKIXzEiaVCFLggayFho6s7+cWv6uIgo6Zvy96bFKBPnuDkWHKP6MYULFVvi5UfMaWiyiIkZuJ2xOBQz4dDVeYMvr1P1riCrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ErXupsvfk+tkZsOGpLtm1FI/DiDjRBvF0nj30oUOZh0=;
- b=A0QJFpLUhs6zJvu7JVcG78kl2d1SDtC4G+y26CNJufUVLN8C3Euweg34lXTMB9uhPpl0um9kyB7X3T9+DsjkPxgyXAQGcf98jBvCKGduqbG+mTmJ4+hXFQ9YXxmuO3MClamW/tKkLgruCXjZKW2gyoTTsCyC6AhemVo2IpQr/usDTZMtE+Y6F1rIhj4Rr/OZF8UX+VdTrw62LVLhh3bksoE0/Zc6+GCvsTJ60J5XeQF5EQufpJase8zUTvuaQZZ349iZzKlGBuJAb5CRBLIHbzjZ8vX2zPfYZ7B3u+1tvTvF1uq/3nDNbGke3w5lqAJa+n4h6yyy/+juR4Hm+pu74Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+        id S1729053AbfHTE0Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 00:26:16 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37675 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfHTE0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Aug 2019 00:26:16 -0400
+Received: by mail-pg1-f193.google.com with SMTP id d1so2440022pgp.4;
+        Mon, 19 Aug 2019 21:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ErXupsvfk+tkZsOGpLtm1FI/DiDjRBvF0nj30oUOZh0=;
- b=Wm7aDHMd1+sNydYOYpMVF+PWWvzZ9lyDguNk5ABmA8m6RSHLsLWgbpmuu5iMbA0IHSWsQWnhI/rdgMuyXyg5gbDqhooLv/Tr9A0B+uffZLYVqnmuyf2FZIkeaNjParVO8D/Q5PVERVD/R/JJJe+JYFjS6IQ7oKrQvTyC97/S5mg=
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
- BYAPR03MB4870.namprd03.prod.outlook.com (20.179.93.215) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.16; Tue, 20 Aug 2019 03:54:20 +0000
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::a517:3578:67bf:6c88]) by BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::a517:3578:67bf:6c88%7]) with mapi id 15.20.2157.022; Tue, 20 Aug 2019
- 03:54:20 +0000
-From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BOAs8YQrpkx9LCbclh4zUa+NNlVulxSWv8zZAn7Gcts=;
+        b=goMxEvOUrJ34v2kj05/3O0ot1oh0hOgppqKF2ngXdFnxsJcIQTS8C0dq7QskKohqTF
+         HmKCOyxOjbky3y7Cej5Y7rBTMZVqvsIZhsPhRre9fFESjIUILi6yRY1lefEEru9y//VL
+         ofd+2ch9sFPUtNq8HVhl7A7JTDkz2AHRz+IL3XkRnHffIEHpGLx48dNjWPbGPwlqd8Kz
+         bwKTy0JGa+IsTolalFkiMz9C73jHvVrmnoR0lBJWzn5SfRbbqzJMV0hu9pdFiyZr9TiY
+         HNI/Eg8xRP1tlu6cVmjm2enlyA6K8zj1b50rnb58qBUY3VdxZ2QF9V3iQ73Ut592pQ/X
+         dAkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BOAs8YQrpkx9LCbclh4zUa+NNlVulxSWv8zZAn7Gcts=;
+        b=idc9CGJngDQumd2BAqiQKLq+rKVQRS6X2SQas46cEG5eoag2PfFTSpQC8MxEZP706h
+         CKqv4w/4XFcgQ20DwKURWxF3TRLI8QUsZQZKfSyaTZbG7As7Ha+wfgn3NEFNVQcsMysY
+         GwT/JlTQKpYY6W8WnVlKRzIvzwqOAMdpyKa/ycXPlWWd413kfImk/sfzKEFhC1tbiMVg
+         tjgfGyVKEdGSdNxFhLIiS5MOojoaXUY58M/55+H8hGWIotr5wzPckcykYmoVV+g2eDHk
+         wsO7pSKnhDlBaf4G0cx1P6d27ySaxv3lPfM+tH9Ov91aDVzcN/Ix8v78WNk5DEhknoFU
+         JDvw==
+X-Gm-Message-State: APjAAAUQnj6RqVMUcpJGe2cBYLicCbUmi3mce8ITO4jx85Wcdh5w5oVl
+        qr73qQE0huVxHFLZe17siMs=
+X-Google-Smtp-Source: APXvYqwxsvdQU8SH1HHVjCfzsbvZ/8Jyeac7UK684Qnmk7ZdKIDhsbWD6B+xCj1Dv4jiG2ltIQ1Y+g==
+X-Received: by 2002:a17:90a:bf0e:: with SMTP id c14mr23071202pjs.140.1566275175170;
+        Mon, 19 Aug 2019 21:26:15 -0700 (PDT)
+Received: from [192.168.1.70] (c-73-231-235-122.hsd1.ca.comcast.net. [73.231.235.122])
+        by smtp.gmail.com with ESMTPSA id j5sm17940322pfi.104.2019.08.19.21.26.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Aug 2019 21:26:14 -0700 (PDT)
+Subject: Re: [PATCH v7 3/7] of/platform: Add functional dependency link from
+ DT bindings
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 3/3] arm64: implement KPROBES_ON_FTRACE
-Thread-Topic: [PATCH v2 3/3] arm64: implement KPROBES_ON_FTRACE
-Thread-Index: AQHVVwryjSNW9eV9u0mDAvz7yXMGOw==
-Date:   Tue, 20 Aug 2019 03:54:20 +0000
-Message-ID: <20190820114314.685a3239@xhacker.debian>
-References: <20190820113928.1971900c@xhacker.debian>
-In-Reply-To: <20190820113928.1971900c@xhacker.debian>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [124.74.246.114]
-x-clientproxiedby: TY2PR06CA0027.apcprd06.prod.outlook.com
- (2603:1096:404:2e::15) To BYAPR03MB4773.namprd03.prod.outlook.com
- (2603:10b6:a03:134::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4cf07ffa-c85f-46fb-5508-08d72522145e
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BYAPR03MB4870;
-x-ms-traffictypediagnostic: BYAPR03MB4870:
-x-microsoft-antispam-prvs: <BYAPR03MB48707CF25317210EB816843BEDAB0@BYAPR03MB4870.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 013568035E
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(39860400002)(376002)(366004)(396003)(189003)(199004)(6116002)(6486002)(3846002)(53936002)(76176011)(2906002)(6436002)(86362001)(1076003)(64756008)(71190400001)(6512007)(110136005)(9686003)(6506007)(71200400001)(54906003)(66066001)(5660300002)(4326008)(14454004)(316002)(52116002)(66556008)(476003)(7736002)(99286004)(446003)(2501003)(486006)(386003)(8676002)(14444005)(81166006)(66946007)(256004)(478600001)(50226002)(102836004)(8936002)(26005)(305945005)(66446008)(66476007)(7416002)(186003)(11346002)(25786009)(81156014)(921003)(39210200001)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB4870;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: synaptics.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: aCiZWPwy8Jwdi/+8CSI+xJM9idFvTBdYY4HlzBQTf8HwUnS/c4nJpic5UAvYidiJ6dtg4XAdC2K7Gd0LNqQFfQ4jgQS+31sJxp23Qva49gPylD2dTWoSPr2gg5qUlQcMR97ECGzM22nQnXyUrc+aDYK+DHrkaOl03hY29WpfiwtLc1F83yU30RzioHt75JvaXN5ADv9p/N+iNCT5VOAi23KHLuszvh8qaJdq+ALd/Z7zs37vSRzqTYUPP8H9eHB8rtAN+sJORY/TRKvdkmUlSIyjwp/qdjgMUvtHrmEweSNP3qR7PJJPsWidlwPWScegHfwDUYqZyMkB5QSWMN/muCpZCpBnmzS5RUJkqOJgrymiivETL8HyKWkjXvOTvGxZJwMiMG5HP2FkYNnkljePAj0JMgLz9pydgcVDsKhYAto=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <758C392CCF526742B344A76B55289EB3@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20190724001100.133423-1-saravanak@google.com>
+ <20190724001100.133423-4-saravanak@google.com>
+ <141d2e16-26cc-1f05-1ac0-6784bab5ae88@gmail.com>
+ <CAGETcx-dVnLCRA+1CX47gtZgtwTcrN5KefpjMzh9OJB-BEnqyg@mail.gmail.com>
+ <19c99a6e-51c3-68d7-d1d6-640aae754c14@gmail.com>
+ <CAGETcx-XcXZq7YFHsFdzBDniQku9cxFUJL_vBoEKKhCH+cDKRw@mail.gmail.com>
+ <74931824-f8a1-0435-e00a-5b5cdbe8a8a2@gmail.com>
+ <CAGETcx8UHA9kNkjjnBXcf_OYXaaPO9ky60M01Cfz3NFb1c1FZw@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <15ab4fb0-7e69-9cc1-4a79-cff06767f7d9@gmail.com>
+Date:   Mon, 19 Aug 2019 21:26:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cf07ffa-c85f-46fb-5508-08d72522145e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 03:54:20.0344
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CAcL2sqKhRE5cmCP02pDSD1yfO3F+kGxqmameVtbPHlnLTImORFfR/k7vWwSSIv5o1KHH5PMynr1R/LnJg29iA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4870
+In-Reply-To: <CAGETcx8UHA9kNkjjnBXcf_OYXaaPO9ky60M01Cfz3NFb1c1FZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-eliminates the need for a trap, as well as the need to emulate or
-single-step instructions.
+On 8/19/19 5:09 PM, Saravana Kannan wrote:
+> On Mon, Aug 19, 2019 at 2:30 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>
+>> On 8/19/19 1:49 PM, Saravana Kannan wrote:
+>>> On Mon, Aug 19, 2019 at 10:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
+>>>>
+>>>> On 8/15/19 6:50 PM, Saravana Kannan wrote:
+>>>>> On Wed, Aug 7, 2019 at 7:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>>>>>
+>>>>>> On 7/23/19 5:10 PM, Saravana Kannan wrote:
+>>>>>>> Add device-links after the devices are created (but before they are
+>>>>>>> probed) by looking at common DT bindings like clocks and
+>>>>>>> interconnects.
+>>>>
+>>>>
+>>>> < very big snip (lots of comments that deserve answers) >
+>>>>
+>>>>
+>>>>>>
+>>>>>> /**
+>>>>>>  * of_link_property - TODO:
+>>>>>>  * dev:
+>>>>>>  * con_np:
+>>>>>>  * prop:
+>>>>>>  *
+>>>>>>  * TODO...
+>>>>>>  *
+>>>>>>  * Any failed attempt to create a link will NOT result in an immediate return.
+>>>>>>  * of_link_property() must create all possible links even when one of more
+>>>>>>  * attempts to create a link fail.
+>>>>>>
+>>>>>> Why?  isn't one failure enough to prevent probing this device?
+>>>>>> Continuing to scan just results in extra work... which will be
+>>>>>> repeated every time device_link_check_waiting_consumers() is called
+>>>>>
+>>>>> Context:
+>>>>> As I said in the cover letter, avoiding unnecessary probes is just one
+>>>>> of the reasons for this patch. The other (arguably more important)
+>>>>
+>>>> Agree that it is more important.
+>>>>
+>>>>
+>>>>> reason for this patch is to make sure suppliers know that they have
+>>>>> consumers that are yet to be probed. That way, suppliers can leave
+>>>>> their resource on AND in the right state if they were left on by the
+>>>>> bootloader. For example, if a clock was left on and at 200 MHz, the
+>>>>> clock provider needs to keep that clock ON and at 200 MHz till all the
+>>>>> consumers are probed.
+>>>>>
+>>>>> Answer: Let's say a consumer device Z has suppliers A, B and C. If the
+>>>>> linking fails at A and you return immediately, then B and C could
+>>>>> probe and then figure that they have no more consumers (they don't see
+>>>>> a link to Z) and turn off their resources. And Z could fail
+>>>>> catastrophically.
+>>>>
+>>>> Then I think that this approach is fatally flawed in the current implementation.
+>>>
+>>> I'm waiting to hear how it is fatally flawed. But maybe this is just a
+>>> misunderstanding of the problem?
+>>
+>> Fatally flawed because it does not handle modules that add a consumer
+>> device when the module is loaded.
+> 
+> If you are talking about modules adding child devices of the device
+> they are managing, then that's handled correctly later in the series.
 
-This patch implements KPROBES_ON_FTRACE for arm64.
+They may or they may not.  I do not know.  I am not going to audit all
+current cases of devices being added to check that relationship and I am
+not going to monitor all future patches that add devices.  Adding devices
+is an existing pattern of behavior that the new feature must be able to
+handle.
 
-Tested on berlin arm64 platform.
+I have not looked at patch 6 yet (the place where modules adding child
+devices is handled).  I am guessing that patch 6 could be made more
+general to remove the parent child relationship restriction.
 
-~ # mount -t debugfs debugfs /sys/kernel/debug/
-~ # cd /sys/kernel/debug/
-/sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
+> 
+> If you are talking about modules adding devices that aren't defined in
+> DT, then right, I'm not trying to handle that. The module needs to
+> make sure it keeps the resources needed for new devices it's adding
+> are in the right state or need to add the right device links.
 
-before the patch:
+I am not talking about devices that are not defined in the devicetree.
 
-/sys/kernel/debug # cat kprobes/list
-ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
 
-after the patch:
+> 
+>>> In the text below, I'm not sure if you mixing up two different things
+>>> or just that your wording it a bit ambiguous. So pardon my nitpick to
+>>> err on the side of clarity.
+>>
+>> Please do nitpick.  Clarity is good.
+>>
+>>
+>>>
+>>>> A device can be added by a module that is loaded.
+>>>
+>>> No, in the example I gave, of_platform_default_populate_init() would
+>>> add all 3 of those devices during arch_initcall_sync().
+>>
+>> The example you gave does not cover all use cases.
+>>
+>> There are modules that add devices when the module is loaded.  You can not
+>> ignore systems using such modules.
+> 
+> I'll have to agree to disagree on that. While I understand that the
+> design should be good and I'm happy to work on that, you can't insist
+> that a patch series shouldn't be allowed because it's only improving
+> 99% of the cases and leaves the other 1% in the status quo. You are
+> just going to bring the kernel development to a grinding halt.
 
-/sys/kernel/debug # cat kprobes/list
-ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
+No, you do not get to disagree on that.  And you are presenting a straw
+man argument.
 
-Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
----
- .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
- arch/arm64/Kconfig                            |  1 +
- arch/arm64/kernel/probes/Makefile             |  1 +
- arch/arm64/kernel/probes/ftrace.c             | 60 +++++++++++++++++++
- 4 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/kernel/probes/ftrace.c
+You are proposing a new feature that contributes fragility and complexity
+to the house of cards that device instantiation and driver probing already
+is.
 
-diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.tx=
-t b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-index 68f266944d5f..e8358a38981c 100644
---- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-+++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-@@ -9,7 +9,7 @@
-     |       alpha: | TODO |
-     |         arc: | TODO |
-     |         arm: | TODO |
--    |       arm64: | TODO |
-+    |       arm64: |  ok  |
-     |         c6x: | TODO |
-     |        csky: | TODO |
-     |       h8300: | TODO |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 663392d1eae2..928700f15e23 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -167,6 +167,7 @@ config ARM64
- 	select HAVE_STACKPROTECTOR
- 	select HAVE_SYSCALL_TRACEPOINTS
- 	select HAVE_KPROBES
-+	select HAVE_KPROBES_ON_FTRACE
- 	select HAVE_KRETPROBES
- 	select HAVE_GENERIC_VDSO
- 	select IOMMU_DMA if IOMMU_SUPPORT
-diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/M=
-akefile
-index 8e4be92e25b1..4020cfc66564 100644
---- a/arch/arm64/kernel/probes/Makefile
-+++ b/arch/arm64/kernel/probes/Makefile
-@@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+=3D kprobes.o decode-insn.o	\
- 				   simulate-insn.o
- obj-$(CONFIG_UPROBES)		+=3D uprobes.o decode-insn.o	\
- 				   simulate-insn.o
-+obj-$(CONFIG_KPROBES_ON_FTRACE)	+=3D ftrace.o
-diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/f=
-trace.c
-new file mode 100644
-index 000000000000..52901ffff570
---- /dev/null
-+++ b/arch/arm64/kernel/probes/ftrace.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Dynamic Ftrace based Kprobes Optimization
-+ *
-+ * Copyright (C) Hitachi Ltd., 2012
-+ * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
-+ *		      Synaptics Incorporated
-+ */
-+
-+#include <linux/kprobes.h>
-+
-+/* Ftrace callback handler for kprobes -- called under preepmt disabed */
-+void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
-+			   struct ftrace_ops *ops, struct pt_regs *regs)
-+{
-+	struct kprobe *p;
-+	struct kprobe_ctlblk *kcb;
-+
-+	/* Preempt is disabled by ftrace */
-+	p =3D get_kprobe((kprobe_opcode_t *)ip);
-+	if (unlikely(!p) || kprobe_disabled(p))
-+		return;
-+
-+	kcb =3D get_kprobe_ctlblk();
-+	if (kprobe_running()) {
-+		kprobes_inc_nmissed_count(p);
-+	} else {
-+		unsigned long orig_ip =3D instruction_pointer(regs);
-+		/* Kprobe handler expects regs->pc =3D pc + 1 as breakpoint hit */
-+		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
-+
-+		__this_cpu_write(current_kprobe, p);
-+		kcb->kprobe_status =3D KPROBE_HIT_ACTIVE;
-+		if (!p->pre_handler || !p->pre_handler(p, regs)) {
-+			/*
-+			 * Emulate singlestep (and also recover regs->pc)
-+			 * as if there is a nop
-+			 */
-+			instruction_pointer_set(regs,
-+				(unsigned long)p->addr + MCOUNT_INSN_SIZE);
-+			if (unlikely(p->post_handler)) {
-+				kcb->kprobe_status =3D KPROBE_HIT_SSDONE;
-+				p->post_handler(p, regs, 0);
-+			}
-+			instruction_pointer_set(regs, orig_ip);
-+		}
-+		/*
-+		 * If pre_handler returns !0, it changes regs->pc. We have to
-+		 * skip emulating post_handler.
-+		 */
-+		__this_cpu_write(current_kprobe, NULL);
-+	}
-+}
-+NOKPROBE_SYMBOL(kprobe_ftrace_handler);
-+
-+int arch_prepare_kprobe_ftrace(struct kprobe *p)
-+{
-+	p->ainsn.api.insn =3D NULL;
-+	return 0;
-+}
---=20
-2.23.0.rc1
+The feature is clever but it is intertwined into an area that is already
+complex and in many cases difficult to work within.
+
+I had hoped that the feature was robust enough and generic enough to
+accept.  The proposed feature is a hack to paper over a specific problem
+that you are facing.  I had hoped that the feature would appear generic
+enough that I would not have to regard it as an attempt to paper over
+the real problem.  I have not given up this hope yet but I still am
+quite cautious about this approach to addressing your use case.
+
+You have a real bug.  I have told you how to fix the real bug.  And you
+have ignored my suggestion.  (To be honest, I do not know for sure that
+my suggestion is feasible, but on the surface it appears to be.)  Again,
+my suggestion is to have the boot loader pass information to the kernel
+(via a chosen property) telling the kernel which devices the bootloader
+has enabled power to.  The power subsystem would use that information
+early in boot to do a "get" on the power supplier (I am not using precise
+power subsystem terminology, but it should be obvious what I mean).
+The consumer device driver would also have to be aware of the information
+passed via the chosen property because the power subsystem has done the
+"get" on the consumer devices behalf (exactly how the consumer gets
+that information is an implementation detail).  This approach is
+more direct, less subtle, less fragile.
+
+
+> 
+>>>
+>>>>  In that case the device
+>>>> was not present at late boot when the suppliers may turn off their resources.
+>>>
+>>> In that case, the _drivers_ for those devices aren't present at late
+>>> boot. So that they can't request to keep the resources on for their
+>>> consumer devices. Since there are no consumer requests on resources,
+>>> the suppliers turn off their resources at late boot (since there isn't
+>>> a better location as of today). The sync_state() call back added in a
+>>> subsequent patche in this series will provide the better location.
+>>
+>> And the sync_state() call back will not deal with modules that add consumer
+>> devices when the module is loaded, correct?
+> 
+> Depends. If it's just more devices from DT, then it'll be fine. If
+> it's not, then the module needs to take care of the needs of devices
+> it's adding.> 
+>>>
+>>>> (I am assuming the details since I have not reviewed the patches later in
+>>>> the series that implement this part.)
+>>>>
+>>>> Am I missing something?
+>>>
+>>> I think you are mixing up devices getting added/populated with drivers
+>>> getting loaded as modules?
+>>
+>> Only some modules add devices when they are loaded.  But these modules do
+>> exist.
+> 
+> Out of the billions of Android devices, how many do you see this happening in?
+
+The Linux kernel is not just used by Android devices.
+
+-Frank
+
+> 
+> Thanks,
+> Saravana
+> 
 
