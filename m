@@ -1,36 +1,46 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6AB1D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 01:52:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1B877D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 02:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbfHUBwz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Aug 2019 21:52:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726608AbfHUBwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Aug 2019 21:52:55 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BFADC22DD3;
-        Wed, 21 Aug 2019 01:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566352374;
-        bh=Fk4BuAJQ/UfY9FS0/yq7nmtZd1hFBjcyaLZT6Qsj3rQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=k4TG6qwivdIYF+iiueoI0OgTmUJAFVF88b4Py7H64RPYZqf4RhvPKeCawLZ2wpM1r
-         mMb3j5D0cEZm0+cLYXJ8ZcxeoV2G6H3MiJ5foTHnoGmWyIRNDTdujFYW/2KQsb9v0+
-         O5CPI4WDm44Zd1wOt/HIKUhDpSEy/rbt0NfRv/cs=
-Date:   Wed, 21 Aug 2019 10:52:47 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S1726869AbfHUCC1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Aug 2019 22:02:27 -0400
+Received: from mail-eopbgr740070.outbound.protection.outlook.com ([40.107.74.70]:39982
+        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726372AbfHUCC1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Aug 2019 22:02:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BQ9936GfR4Vxh4KuakPfq/JPKrr7o/AbUxo+SdG63eYjDG6o0WNFG7cGdzsZNhfmy4i3d1gVED66neOtZnClolb0igePKHVh/UXJp7knSfoAjM3omNt/6uRq2Wywmbck7uSEB5uHmyLlqGCDs4bZWsDbn3rvQdh/s2qzfMtVL+gbmhqF+v0yFLq6+VYIPe43zNB36q6D9IYYizg+13y5yaQ2H8SOcBo0+UUJx3YOKEf9IYd7C3SO0GHwhq15Sf/pY4U8jJP6cqLRgr2UrCMY+kBpp/++QNCGakNn0o+6xF2YrdkC5UZzbhgX/mluhSWAuGaJTLJbdXbpeRSYxle4mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hUuMHjoe75rqWTnQaVQatauchNyXq7Z+RK96qIFK5Io=;
+ b=FDu+wwZBrjMHH2lISFucuqHo/Iup3IrNrza3Hl3DZwQgpDuxOH9FYMkcpMTKU4xucAUoVAv+NnQu0OjqvZnz82xdbvIjaXjpMgC+Yw4hhf1aT1kqhZ0fjCaV2wxZXJMpAo/mGpC/dwooESDNzgm8iBAFyGFBT0GtdYHpt9CQZnsTnGzIh/QlJqqU084oKCpCNdjBy9/KocrFV8p6yvOhSB046LpPMw4U7f4gx25YyW1pwASNFUZrpbCL/KUeEbw4Dx4cXA1n5/Pr7vaMrS2ii6D1jCSx2jEdi41D+cUbF1cx2ZyjrSvRzJz4D37vL8CrolFJ7QmDPEHEl9WntLLBMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hUuMHjoe75rqWTnQaVQatauchNyXq7Z+RK96qIFK5Io=;
+ b=Y++f/hypMiLNY8Mc3nRnA95quJq6oAOkwhKJ3YCWoatn3RNtUraDJMPKWfQcX7I69g/onfQlqsz+tbZ7qVwuBe8fM05yqiSIKTek6xDUOIrgDrkWNViQmNjPCwXeFtstOlvHOuSEsA84cf9n2tTU/rlqegVwL8CYWt+BVUPqFs4=
+Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
+ BYAPR03MB4885.namprd03.prod.outlook.com (20.179.94.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.18; Wed, 21 Aug 2019 02:02:24 +0000
+Received: from BYAPR03MB4773.namprd03.prod.outlook.com
+ ([fe80::a517:3578:67bf:6c88]) by BYAPR03MB4773.namprd03.prod.outlook.com
+ ([fe80::a517:3578:67bf:6c88%7]) with mapi id 15.20.2157.022; Wed, 21 Aug 2019
+ 02:02:23 +0000
+From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
@@ -47,76 +57,80 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         <linux-arm-kernel@lists.infradead.org>
 Subject: Re: [PATCH v2 1/3] kprobes/x86: use instruction_pointer and
  instruction_pointer_set
-Message-Id: <20190821105247.f0236d2c04b2c0c4d4e1847e@kernel.org>
-In-Reply-To: <20190820165152.20275268@xhacker.debian>
+Thread-Topic: [PATCH v2 1/3] kprobes/x86: use instruction_pointer and
+ instruction_pointer_set
+Thread-Index: AQHVVwqiEXrXfYjUc0SG3b0/wT6us6cDu4YAgACFhgD//8UhAIAA0YuA
+Date:   Wed, 21 Aug 2019 02:02:23 +0000
+Message-ID: <20190821095109.34c8a47f@xhacker.debian>
 References: <20190820113928.1971900c@xhacker.debian>
         <20190820114109.4624d56b@xhacker.debian>
         <alpine.DEB.2.21.1908201050370.2223@nanos.tec.linutronix.de>
         <20190820165152.20275268@xhacker.debian>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        <20190820132110.GP2332@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190820132110.GP2332@hirez.programming.kicks-ass.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [124.74.246.114]
+x-clientproxiedby: TYAPR03CA0007.apcprd03.prod.outlook.com
+ (2603:1096:404:14::19) To BYAPR03MB4773.namprd03.prod.outlook.com
+ (2603:10b6:a03:134::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3a617a94-17ba-449a-3b57-08d725db9b5a
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR03MB4885;
+x-ms-traffictypediagnostic: BYAPR03MB4885:
+x-microsoft-antispam-prvs: <BYAPR03MB488506EC9DE9722D8A069701EDAA0@BYAPR03MB4885.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-forefront-prvs: 0136C1DDA4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(366004)(346002)(376002)(39860400002)(189003)(199004)(316002)(76176011)(6916009)(6246003)(8936002)(2906002)(86362001)(26005)(50226002)(81156014)(81166006)(52116002)(99286004)(8676002)(6116002)(9686003)(53936002)(66476007)(229853002)(6512007)(66556008)(64756008)(6486002)(3846002)(66446008)(66946007)(6436002)(14454004)(25786009)(4326008)(54906003)(478600001)(386003)(7416002)(71190400001)(71200400001)(256004)(305945005)(7736002)(66066001)(11346002)(186003)(102836004)(6506007)(446003)(476003)(486006)(4744005)(1076003)(5660300002)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB4885;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: synaptics.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: shHB0z3Lt1+J1Ki7s8ZOpHzcAyXBvr8/NFz/HzIhP5L/GEypbQo8nQvq655e/o4DqQtVdzKqxn/l8VsKQZLSM/cAPcHmr4ORSE7XAvL43Wvp9kA2Ho0zSF7CmTkns8lw6cZppXUpcM/6b5gFSYHjjjw7zOQ5rNA3pNpbgKwlRygKQwUdtHswgzD9G6IKchJab/MtxvVS6/CAIfaaH8cdoAjG5nEpZY90U0NJwj1xdvF4VXXeTB0bCCHAg/ErwBtWGLCG8FDrn8CEUbBmX9MFkKGTfSGSlVb83pBuJa7ql/xiIwztBXLUOrhtJVvThaggThldQitDDGclonePbeHnk7gzkYUkTEy8tUIyvVJQui6a+Ytc0GIXLtj4SQ9ox2bleBKHQ3aTFGmumd5MHyqDinnuYBSA9bbHb10Vw0RZOYY=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4C07A4FB8806CE458AFD476C7948DA7B@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a617a94-17ba-449a-3b57-08d725db9b5a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2019 02:02:23.2990
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DB9R5wdkeldXDg4VeETorIOfE5CXxsTkOiMIMFEBsF+Xrh9e7kQQUNpcehD0zQgNjJPGvShpX3Xm0PF5zf3uaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4885
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jisheng,
+Hi Peter,
 
-On Tue, 20 Aug 2019 09:02:59 +0000
-Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
+On Tue, 20 Aug 2019 15:21:10 +0200 Peter Zijlstra wrote:
 
-> Hi Thomas,
-> 
-> On Tue, 20 Aug 2019 10:53:58 +0200 (CEST) Thomas Gleixner wrote:
-> 
-> > 
-> > 
-> > On Tue, 20 Aug 2019, Jisheng Zhang wrote:
-> > 
-> > > This is to make the x86 kprobe_ftrace_handler() more common so that
-> > > the code could be reused in future.  
-> > 
-> > While I agree with the change in general, I can't find anything which
-> > reuses that code. So the change log is pretty useless and I have no idea
-> > how this is related to the rest of the series.
-> 
-> In v1, this code is moved from x86 to common kprobes.c [1]
-> But I agree with Masami, consolidation could be done when arm64 kprobes
-> on ftrace is stable.
+>=20
+>=20
+> On Tue, Aug 20, 2019 at 09:02:59AM +0000, Jisheng Zhang wrote:
+> > In v2, actually, the arm64 version's kprobe_ftrace_handler() is the sam=
+e
+> > as x86's, the only difference is comment, e.g
+> >
+> > /* Kprobe handler expects regs->ip =3D ip + 1 as breakpoint hit */
+> >
+> > while in arm64
+> >
+> > /* Kprobe handler expects regs->pc =3D ip + 1 as breakpoint hit */ =20
+>=20
+> What's weird; I thought ARM has fixed sized instructions and they are
+> all 4 bytes? So how does a single byte offset make sense for ARM?
 
-We'll revisit to consolidate the code after we got 3rd or 4th clones.
+I believe the "+1" here means + one kprobe_opcode_t.
 
-> 
-> In v2, actually, the arm64 version's kprobe_ftrace_handler() is the same
-> as x86's, the only difference is comment, e.g
-> 
-> /* Kprobe handler expects regs->ip = ip + 1 as breakpoint hit */
-> 
-> while in arm64
-> 
-> /* Kprobe handler expects regs->pc = ip + 1 as breakpoint hit */
-
-As Peter pointed, on arm64, is that really 1 or 4 bytes?
-This part is heavily depends on the processor software-breakpoint
-implementation.
-
-> 
-> 
-> W/ above, any suggestion about the suitable change log?
-
-I think you just need to keep the first half of the description.
-Since this patch itself is not related to the series, could you update
-the description and resend it as a single cleanup patch out of the series?
-
-Thank you!
-
-> 
-> Thanks
-> 
-> [1] http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674417.html
-
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Thanks
