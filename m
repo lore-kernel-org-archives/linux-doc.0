@@ -5,143 +5,271 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 53A2E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 18:46:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F8B07D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 20:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727959AbfHUSq4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 14:46:56 -0400
-Received: from foss.arm.com ([217.140.110.172]:35182 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727719AbfHUSq4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 14:46:56 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8135344;
-        Wed, 21 Aug 2019 11:46:55 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 12BF53F706;
-        Wed, 21 Aug 2019 11:46:53 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 19:46:51 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arch@vger.kernel.org, Dave Hansen <dave.hansen@intel.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v9 3/3] arm64: Relax
- Documentation/arm64/tagged-pointers.rst
-Message-ID: <20190821184649.GD27757@arm.com>
-References: <20190821164730.47450-1-catalin.marinas@arm.com>
- <20190821164730.47450-4-catalin.marinas@arm.com>
- <20190821173352.yqfgaozi7nfhcofg@willie-the-truck>
+        id S1726330AbfHUUNA convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 16:13:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45262 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727656AbfHUUNA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Aug 2019 16:13:00 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7LKCkXd095578
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2019 16:12:59 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2uhb0ccbda-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2019 16:12:58 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <naveen.n.rao@linux.ibm.com>;
+        Wed, 21 Aug 2019 21:12:56 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 21 Aug 2019 21:12:51 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7LKCol060162128
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Aug 2019 20:12:50 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7B78EAE04D;
+        Wed, 21 Aug 2019 20:12:50 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 15FCBAE045;
+        Wed, 21 Aug 2019 20:12:50 +0000 (GMT)
+Received: from localhost (unknown [9.85.72.179])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 21 Aug 2019 20:12:49 +0000 (GMT)
+Date:   Thu, 22 Aug 2019 01:42:48 +0530
+From:   "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Subject: Re: [PATCH v3] arm64: implement KPROBES_ON_FTRACE
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>
+Cc:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+References: <20190821183501.33588dd8@xhacker.debian>
+In-Reply-To: <20190821183501.33588dd8@xhacker.debian>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821173352.yqfgaozi7nfhcofg@willie-the-truck>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-TM-AS-GCONF: 00
+x-cbid: 19082120-4275-0000-0000-0000035BA116
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19082120-4276-0000-0000-0000386DC544
+Message-Id: <1566418060.32spdm55zk.naveen@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-21_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908210196
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 06:33:53PM +0100, Will Deacon wrote:
-> On Wed, Aug 21, 2019 at 05:47:30PM +0100, Catalin Marinas wrote:
-> > From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > 
-> > On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
-> > (EL0) to perform memory accesses through 64-bit pointers with a non-zero
-> > top byte. However, such pointers were not allowed at the user-kernel
-> > syscall ABI boundary.
-> > 
-> > With the Tagged Address ABI patchset, it is now possible to pass tagged
-> > pointers to the syscalls. Relax the requirements described in
-> > tagged-pointers.rst to be compliant with the behaviours guaranteed by
-> > the AArch64 Tagged Address ABI.
-> > 
-> > Cc: Will Deacon <will.deacon@arm.com>
-> > Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> > Cc: Kevin Brodsky <kevin.brodsky@arm.com>
-> > Acked-by: Andrey Konovalov <andreyknvl@google.com>
-> > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
-> > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-> > ---
-> >  Documentation/arm64/tagged-pointers.rst | 23 ++++++++++++++++-------
-> >  1 file changed, 16 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-> > index 2acdec3ebbeb..04f2ba9b779e 100644
-> > --- a/Documentation/arm64/tagged-pointers.rst
-> > +++ b/Documentation/arm64/tagged-pointers.rst
-> > @@ -20,7 +20,9 @@ Passing tagged addresses to the kernel
-> >  --------------------------------------
-> >  
-> >  All interpretation of userspace memory addresses by the kernel assumes
-> > -an address tag of 0x00.
-> > +an address tag of 0x00, unless the application enables the AArch64
-> > +Tagged Address ABI explicitly
-> > +(Documentation/arm64/tagged-address-abi.rst).
-> >  
-> >  This includes, but is not limited to, addresses found in:
-> >  
-> > @@ -33,13 +35,15 @@ This includes, but is not limited to, addresses found in:
-> >   - the frame pointer (x29) and frame records, e.g. when interpreting
-> >     them to generate a backtrace or call graph.
-> >  
-> > -Using non-zero address tags in any of these locations may result in an
-> > -error code being returned, a (fatal) signal being raised, or other modes
-> > -of failure.
-> > +Using non-zero address tags in any of these locations when the
-> > +userspace application did not enable the AArch64 Tagged Address ABI may
-> > +result in an error code being returned, a (fatal) signal being raised,
-> > +or other modes of failure.
-> >  
-> > -For these reasons, passing non-zero address tags to the kernel via
-> > -system calls is forbidden, and using a non-zero address tag for sp is
-> > -strongly discouraged.
-> > +For these reasons, when the AArch64 Tagged Address ABI is disabled,
-> > +passing non-zero address tags to the kernel via system calls is
-> > +forbidden, and using a non-zero address tag for sp is strongly
-> > +discouraged.
-> >  
-> >  Programs maintaining a frame pointer and frame records that use non-zero
-> >  address tags may suffer impaired or inaccurate debug and profiling
-> > @@ -59,6 +63,11 @@ be preserved.
-> >  The architecture prevents the use of a tagged PC, so the upper byte will
-> >  be set to a sign-extension of bit 55 on exception return.
-> >  
-> > +This behaviour is maintained when the AArch64 Tagged Address ABI is
-> > +enabled. In addition, with the exceptions above, the kernel will
-> > +preserve any non-zero tags passed by the user via syscalls and stored in
-> > +kernel data structures (e.g. ``set_robust_list()``, ``sigaltstack()``).
-
-sigaltstack() is interesting, since we don't support tagged stacks.
-
-Do we keep the ss_sp tag in the kernel, but squash it when delivering
-a signal to the alternate stack?
-
-(I can't remember whether this would be compatible with the
-architectural tag checking semantics...)
-
-> Hmm. I can see the need to provide this guarantee for things like
-> set_robust_list(), but the problem is that the statement above is too broad
-> and isn't strictly true: for example, mmap() doesn't propagate the tag of
-> its address parameter into the VMA.
+Jisheng Zhang wrote:
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
 > 
-> So I think we need to nail this down a bit more, but I'm having a really
-> hard time coming up with some wording :(
+> Tested on berlin arm64 platform.
+> 
+> ~ # mount -t debugfs debugfs /sys/kernel/debug/
+> ~ # cd /sys/kernel/debug/
+> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
+> 
+> before the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
+> 
+> after the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
+> 
+> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+> ---
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
+> 
+> Applied after arm64 FTRACE_WITH_REGS:
+> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674404.html
+> 
+> Changes since v2:
+>   - remove patch1, make it a single cleanup patch
+>   - remove "This patch" in the change log
+>   - implement arm64's kprobe_lookup_name() and arch_kprobe_on_func_entry instead
+>     patching the common kprobes code
+> 
+> Changes since v1:
+>   - make the kprobes/x86: use instruction_pointer and instruction_pointer_set
+>     as patch1
+>   - add Masami's ACK to patch1
+>   - add some description about KPROBES_ON_FTRACE and why we need it on
+>     arm64
+>   - correct the log before the patch
+>   - remove the consolidation patch, make it as TODO
+>   - only adjust kprobe's addr when KPROBE_FLAG_FTRACE is set
+>   - if KPROBES_ON_FTRACE, ftrace_call_adjust() the kprobe's addr before
+>     calling ftrace_location()
+>   - update the kprobes-on-ftrace/arch-support.txt in doc
+> 
+> 
+>  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+>  arch/arm64/Kconfig                            |  1 +
+>  arch/arm64/kernel/probes/Makefile             |  1 +
+>  arch/arm64/kernel/probes/ftrace.c             | 60 +++++++++++++++++++
+>  arch/arm64/kernel/probes/kprobes.c            | 23 +++++++
+>  5 files changed, 86 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/kernel/probes/ftrace.c
+> 
+> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> index 68f266944d5f..e8358a38981c 100644
+> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> @@ -9,7 +9,7 @@
+>      |       alpha: | TODO |
+>      |         arc: | TODO |
+>      |         arm: | TODO |
+> -    |       arm64: | TODO |
+> +    |       arm64: |  ok  |
+>      |         c6x: | TODO |
+>      |        csky: | TODO |
+>      |       h8300: | TODO |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 663392d1eae2..928700f15e23 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -167,6 +167,7 @@ config ARM64
+>  	select HAVE_STACKPROTECTOR
+>  	select HAVE_SYSCALL_TRACEPOINTS
+>  	select HAVE_KPROBES
+> +	select HAVE_KPROBES_ON_FTRACE
+>  	select HAVE_KRETPROBES
+>  	select HAVE_GENERIC_VDSO
+>  	select IOMMU_DMA if IOMMU_SUPPORT
+> diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/Makefile
+> index 8e4be92e25b1..4020cfc66564 100644
+> --- a/arch/arm64/kernel/probes/Makefile
+> +++ b/arch/arm64/kernel/probes/Makefile
+> @@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+= kprobes.o decode-insn.o	\
+>  				   simulate-insn.o
+>  obj-$(CONFIG_UPROBES)		+= uprobes.o decode-insn.o	\
+>  				   simulate-insn.o
+> +obj-$(CONFIG_KPROBES_ON_FTRACE)	+= ftrace.o
+> diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/ftrace.c
+> new file mode 100644
+> index 000000000000..1f0c09d02bb8
+> --- /dev/null
+> +++ b/arch/arm64/kernel/probes/ftrace.c
+> @@ -0,0 +1,60 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Dynamic Ftrace based Kprobes Optimization
+> + *
+> + * Copyright (C) Hitachi Ltd., 2012
+> + * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
+> + *		      Synaptics Incorporated
+> + */
+> +
+> +#include <linux/kprobes.h>
+> +
+> +/* Ftrace callback handler for kprobes -- called under preepmt disabed */
+> +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
+> +			   struct ftrace_ops *ops, struct pt_regs *regs)
+> +{
+> +	struct kprobe *p;
+> +	struct kprobe_ctlblk *kcb;
+> +
+> +	/* Preempt is disabled by ftrace */
+> +	p = get_kprobe((kprobe_opcode_t *)ip);
+> +	if (unlikely(!p) || kprobe_disabled(p))
+> +		return;
+> +
+> +	kcb = get_kprobe_ctlblk();
+> +	if (kprobe_running()) {
+> +		kprobes_inc_nmissed_count(p);
+> +	} else {
+> +		unsigned long orig_ip = instruction_pointer(regs);
+> +		/* Kprobe handler expects regs->pc = pc + 4 as breakpoint hit */
+> +		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
+> +
+> +		__this_cpu_write(current_kprobe, p);
+> +		kcb->kprobe_status = KPROBE_HIT_ACTIVE;
+> +		if (!p->pre_handler || !p->pre_handler(p, regs)) {
+> +			/*
+> +			 * Emulate singlestep (and also recover regs->pc)
+> +			 * as if there is a nop
+> +			 */
+> +			instruction_pointer_set(regs,
+> +				(unsigned long)p->addr + MCOUNT_INSN_SIZE);
+> +			if (unlikely(p->post_handler)) {
+> +				kcb->kprobe_status = KPROBE_HIT_SSDONE;
+> +				p->post_handler(p, regs, 0);
+> +			}
+> +			instruction_pointer_set(regs, orig_ip);
+> +		}
+> +		/*
+> +		 * If pre_handler returns !0, it changes regs->pc. We have to
+> +		 * skip emulating post_handler.
+> +		 */
+> +		__this_cpu_write(current_kprobe, NULL);
+> +	}
+> +}
+> +NOKPROBE_SYMBOL(kprobe_ftrace_handler);
+> +
+> +int arch_prepare_kprobe_ftrace(struct kprobe *p)
+> +{
+> +	p->ainsn.api.insn = NULL;
+> +	return 0;
+> +}
+> diff --git a/arch/arm64/kernel/probes/kprobes.c b/arch/arm64/kernel/probes/kprobes.c
+> index c4452827419b..f2bf8c70da79 100644
+> --- a/arch/arm64/kernel/probes/kprobes.c
+> +++ b/arch/arm64/kernel/probes/kprobes.c
+> @@ -551,6 +551,29 @@ void __kprobes __used *trampoline_probe_handler(struct pt_regs *regs)
+>  	return (void *)orig_ret_address;
+>  }
+>  
+> +#ifdef CONFIG_DYNAMIC_FTRACE_WITH_REGS
 
-Time for some creative vagueness?
+This should be CONFIG_KPROBES_ON_FTRACE since you only want to choose 
+the ftrace entry in that case.
 
-We can write a statement of our overall intent, along with examples of
-a few cases where the tag should and should not be expected to emerge
-intact.
+> +kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
+> +{
+> +	unsigned long addr = kallsyms_lookup_name(name);
+> +	unsigned long faddr;
+> +
+> +	/*
+> +	 * with -fpatchable-function-entry=2, the first 4 bytes is the
+> +	 * LR saver, then the actual call insn. So ftrace location is
+> +	 * always on the first 4 bytes offset.
+> +	 */
+> +	faddr = ftrace_location_range(addr, addr + AARCH64_INSN_SIZE);
+> +	if (faddr)
+> +		return (kprobe_opcode_t *)faddr;
 
-There is no foolproof rule, unless we can rewrite history...
+You should only return the ftrace location if offset is 0, since the 
+offset is added to the address returned from here (see _kprobe_addr()).
 
-Cheers
----Dave
+
+- Naveen
+
