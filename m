@@ -1,77 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 217327D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 12:40:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 872977D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 13:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbfHUMkg convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 08:40:36 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59388 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726484AbfHUMkg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 08:40:36 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 43AA6AFCE;
-        Wed, 21 Aug 2019 12:40:34 +0000 (UTC)
-Date:   Wed, 21 Aug 2019 14:40:33 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v5 11/17] net: sgi: ioc3-eth: no need to stop queue
- set_multicast_list
-Message-Id: <20190821144033.2e206cb18b1dfd10377357c2@suse.de>
-In-Reply-To: <20190819170440.37ff18d4@cakuba.netronome.com>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
-        <20190819163144.3478-12-tbogendoerfer@suse.de>
-        <20190819170440.37ff18d4@cakuba.netronome.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        id S1728254AbfHUNPR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 09:15:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53342 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726484AbfHUNPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 09:15:17 -0400
+Received: from [192.168.0.101] (unknown [180.111.132.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9CC2B214DA;
+        Wed, 21 Aug 2019 13:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566393316;
+        bh=EO9Bip6DSF9x/AWrsU50iQqY5CV6rf7s8XCVw7bhH/k=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=C3segr/6YdtzYrAkfoIuaHjBH3hsXn3HQvP3H7GYJ/LLFZRYBIIIVVUZtmNmVhUes
+         SQL67+adFwRxD/HgPcOsaqyJ0V1E7R04rt0k0RuHtHUbHfGfjeaOLhvl9EEyLTddQa
+         PwteJ65+4VijcgcfVc0cubkDO43wTJ1A/F01XGUU=
+Subject: Re: [f2fs-dev] [PATCH v4 3/3] f2fs: Support case-insensitive file
+ name lookups
+To:     Daniel Rosenberg <drosen@google.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net
+Cc:     linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+References: <20190723230529.251659-1-drosen@google.com>
+ <20190723230529.251659-4-drosen@google.com>
+From:   Chao Yu <chao@kernel.org>
+Message-ID: <354102fb-e076-78d4-174d-5a193cae70f0@kernel.org>
+Date:   Wed, 21 Aug 2019 21:15:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20190723230529.251659-4-drosen@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Aug 2019 17:04:53 -0700
-Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
+> +static int f2fs_d_compare(const struct dentry *dentry, unsigned int len,
+> + const char *str, const struct qstr *name)
+> +{
+> +	struct qstr qstr = {.name = str, .len = len };
+> +
+> +	if (!IS_CASEFOLDED(dentry->d_parent->d_inode)) {
+> +		if (len != name->len)
+> +			return -1;
+> +		return memcmp(str, name, len);
 
-> On Mon, 19 Aug 2019 18:31:34 +0200, Thomas Bogendoerfer wrote:
-> > netif_stop_queue()/netif_wake_qeue() aren't needed for changing
-> > multicast filters. Use spinlocks instead for proper protection
-> > of private struct.
-> > 
->
-> I thought it may protect ip->emcr, but that one is accessed with no
-> locking from the ioc3_timer() -> ioc3_setup_duplex() path..
+66883da1eee8 ("ext4: fix dcache lookup of !casefolded directories")
 
-it should protect ip->emcr ... I'll add spin_lock/unlock to setup_duplex and
-respin the patch.
-
-Thomas.
-
--- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+memcmp(str, name->name, len);
