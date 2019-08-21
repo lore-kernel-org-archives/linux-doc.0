@@ -3,92 +3,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22C3F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 13:39:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F7507D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 14:28:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728986AbfHUNjW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 09:39:22 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4749 "EHLO huawei.com"
+        id S1728502AbfHUO2w convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 10:28:52 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39348 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728567AbfHUNjW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 09:39:22 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 654F640D1167F25D5595;
-        Wed, 21 Aug 2019 21:39:19 +0800 (CST)
-Received: from [127.0.0.1] (10.202.227.238) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Wed, 21 Aug 2019
- 21:39:09 +0800
-From:   John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
-To:     Mark Brown <broonie@kernel.org>
-References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
- <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
- <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
- <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
- <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
- <c5e063e8-5025-8206-f819-6ce5228ef0fb@huawei.com>
- <20190820165826.GF4738@sirena.co.uk>
-CC:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
-        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
-        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
-        "richard@nod.at" <richard@nod.at>,
-        wanghuiqiang <wanghuiqiang@huawei.com>
-Message-ID: <bd9109c6-8f25-f674-4a7b-c659c4c368df@huawei.com>
-Date:   Wed, 21 Aug 2019 14:39:02 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <20190820165826.GF4738@sirena.co.uk>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.238]
-X-CFilter-Loop: Reflected
+        id S1727949AbfHUO2v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 10:28:51 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 89345AD94;
+        Wed, 21 Aug 2019 14:28:49 +0000 (UTC)
+Date:   Wed, 21 Aug 2019 16:28:47 +0200
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v5 10/17] net: sgi: ioc3-eth: rework skb rx handling
+Message-Id: <20190821162847.479c9967d4dc8026fe65fa0e@suse.de>
+In-Reply-To: <20190819165522.451f2ea2@cakuba.netronome.com>
+References: <20190819163144.3478-1-tbogendoerfer@suse.de>
+        <20190819163144.3478-11-tbogendoerfer@suse.de>
+        <20190819165522.451f2ea2@cakuba.netronome.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/08/2019 17:58, Mark Brown wrote:
-> On Tue, Aug 20, 2019 at 03:09:15PM +0100, John Garry wrote:
->> On 19/08/2019 05:39, Vignesh Raghavendra wrote:
->>> On 16/08/19 3:50 PM, John Garry wrote:
->
->>>> About the child spi flash devices, is the recommendation to just use
->>>> PRP0001 HID and "jedec,spi-nor" compatible?
->
->>> I am not quite familiar with ACPI systems, but child flash device should
->>> use "jedec,spi-nor" as compatible.
->
->> Right, so to use SPI MEM framework, it looks like I will have to use PRP0001
->> and "jedec,spi-nor" as compatible.
->
->> My reluctance in using PRP0001 and compatible "jedec,spi-nor" is how other
->> OS can understand this.
->
+On Mon, 19 Aug 2019 16:55:22 -0700
+Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
 
-Hi Mark,
+> On Mon, 19 Aug 2019 18:31:33 +0200, Thomas Bogendoerfer wrote:
+> > Buffers alloacted by alloc_skb() are already cache aligned so there
+> > is no need for an extra align done by ioc3_alloc_skb. And instead
+> > of skb_put/skb_trim simply use one skb_put after frame size is known
+> > during receive.
+> [...]  
+> > -/* We use this to acquire receive skb's that we can DMA directly into. */
+> > -
+> > -#define IOC3_CACHELINE	128UL
+> 
+> Is the cache line on the platform this driver works on 128B?
 
-> Last I heard Windows wasn't doing anything with PRP0001 but on the other
-> hand the idiomatic way to handle this for ACPI is as far as I can tell
-> to have what is essentially a board file loaded based on DMI information
-> without any real enumerability so there's no real conflict between the
-> two methods.
+right now yes, in theory IOC3 CAD DUO cards might work in SGI O2 systems,
+but the current Linux PCI implementation for O2 will not detect that card.
+On X86 usually the BIOS will choke up on that cards.
 
-Fine, I'll consider this alt method further.
+> This looks like a DMA engine alignment requirement, more than an
+> optimization.
 
-Thanks,
-John
+that true, there are two constraints for the rx buffers, start must be aligned
+to 128 bytes and a buffer must not cross a 16kbyte boundary. I was already
+thinking of allocating pages and chop them up. Is there a Linux API available,
+which could help for implementing this ?
 
->
+I'll probably drop this patch or only change the skb_put stuff plus RX_BUF_SIZE
+define.
 
+Thomas.
 
-
+-- 
+SUSE Linux GmbH
+GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG Nürnberg)
