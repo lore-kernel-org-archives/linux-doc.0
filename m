@@ -1,211 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D15B47D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 07:04:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DE3D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 10:21:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbfHUHEa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 03:04:30 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:39557 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726693AbfHUHEa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Aug 2019 03:04:30 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x7L727vB010350;
-        Wed, 21 Aug 2019 16:02:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x7L727vB010350
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566370932;
-        bh=RaFKffSw+PipHQQxACqqSUGOlGcAb1Ci/wYUrlHdarU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oMNSV3F9SR5IxWOnFaL2EymiVkvsLtY4gtmfulltW89fku6upTrhdpOsjWYXOk4nA
-         GyvFMFUYjx3vcXqvqFSnSFS2RZeRBsZsxetEskDCQZMK3MAP7Dn9vAiCrcxOBpSPjC
-         VCgJRqPLx5J+QvD3mpeJZNvd7gcjzWfI15RUAnO5kod135kO89A3rzpIaNpFYS3ZUi
-         6kaigjogibAHpzqR6nb0MQeqX8N3JAKbgw8LLiLi3sjQ9R9+8oNwfIOxozO89WTC4Z
-         mRA1Qk0htQxpNEnHrvrkRZo6B+bwmjbUqWH152F9N3wvHI8Y10fkv1xYFAxwZPdiDX
-         yvY5bSruvZGVg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        id S1728175AbfHUKU7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 06:20:59 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:47128 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727669AbfHUKU7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 06:20:59 -0400
+Received: from zn.tnic (p200300EC2F0A6300A5E08EBEFD6E27E2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:6300:a5e0:8ebe:fd6e:27e2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 98A141EC0391;
+        Wed, 21 Aug 2019 12:20:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1566382857;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=5HldHmjPtVDsjJt+73zl6zmVCWyCnVG8ascf+hIMWGg=;
+        b=JXBIHsFigf7rf/+opBf5Rm5Ekjif6uD6SYKry/tXM+paMrS7u1OT6MDNykHTeDtw3w4T52
+        /9jl1C9BKsaRZUQLAG7PcRSTF5dnSSfdKFJCAibbfRt+91K6pBpvmPI2CjfeCy6tEAebCH
+        axlDog6P1OYaf3Z4gMdyoY7QGY034Vs=
+Date:   Wed, 21 Aug 2019 12:20:52 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] kbuild: pkg: rename scripts/package/Makefile to scripts/Makefile.package
-Date:   Wed, 21 Aug 2019 16:02:04 +0900
-Message-Id: <20190821070205.8297-3-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190821070205.8297-1-yamada.masahiro@socionext.com>
-References: <20190821070205.8297-1-yamada.masahiro@socionext.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v8 02/27] x86/cpufeatures: Add CET CPU feature flags for
+ Control-flow Enforcement Technology (CET)
+Message-ID: <20190821102052.GD6752@zn.tnic>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+ <20190813205225.12032-3-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190813205225.12032-3-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-scripts/package/Makefile does not use $(obj) or $(src) at all.
-It actually generates files and directories in the top of $(objtree).
-I do not see much sense in descending into scripts/package/.
+On Tue, Aug 13, 2019 at 01:52:00PM -0700, Yu-cheng Yu wrote:
+> Add CPU feature flags for Control-flow Enforcement Technology (CET).
+> 
+> CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
+> CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect branch tracking
+> 
+> Reviewed-by: Borislav Petkov <bp@suse.de>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/cpufeatures.h | 2 ++
+>  arch/x86/kernel/cpu/cpuid-deps.c   | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index e880f2408e29..122265ab46c1 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -334,6 +334,7 @@
+>  #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
+>  #define X86_FEATURE_WAITPKG		(16*32+ 5) /* UMONITOR/UMWAIT/TPAUSE Instructions */
+>  #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
+> +#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
+>  #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+>  #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+>  #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
+> @@ -358,6 +359,7 @@
+>  #define X86_FEATURE_MD_CLEAR		(18*32+10) /* VERW clears CPU buffers */
+>  #define X86_FEATURE_TSX_FORCE_ABORT	(18*32+13) /* "" TSX_FORCE_ABORT */
+>  #define X86_FEATURE_PCONFIG		(18*32+18) /* Intel PCONFIG */
+> +#define X86_FEATURE_IBT			(18*32+20) /* Indirect Branch Tracking */
+>  #define X86_FEATURE_SPEC_CTRL		(18*32+26) /* "" Speculation Control (IBRS + IBPB) */
+>  #define X86_FEATURE_INTEL_STIBP		(18*32+27) /* "" Single Thread Indirect Branch Predictors */
+>  #define X86_FEATURE_FLUSH_L1D		(18*32+28) /* Flush L1D cache */
+> diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+> index b5353244749b..9bf35f081080 100644
+> --- a/arch/x86/kernel/cpu/cpuid-deps.c
+> +++ b/arch/x86/kernel/cpu/cpuid-deps.c
+> @@ -68,6 +68,8 @@ static const struct cpuid_dep cpuid_deps[] = {
+>  	{ X86_FEATURE_CQM_MBM_TOTAL,	X86_FEATURE_CQM_LLC   },
+>  	{ X86_FEATURE_CQM_MBM_LOCAL,	X86_FEATURE_CQM_LLC   },
+>  	{ X86_FEATURE_AVX512_BF16,	X86_FEATURE_AVX512VL  },
+> +	{ X86_FEATURE_SHSTK,		X86_FEATURE_XSAVES    },
+> +	{ X86_FEATURE_IBT,		X86_FEATURE_XSAVES    },
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+This hunk needs re-tabbing after:
 
- Documentation/kbuild/makefiles.rst             | 16 ++++------------
- Makefile                                       |  8 +++-----
- scripts/Makefile.clean                         | 14 +-------------
- scripts/{package/Makefile => Makefile.package} |  5 ++++-
- scripts/kconfig/Makefile                       |  2 +-
- usr/include/Makefile                           |  4 +---
- 6 files changed, 14 insertions(+), 35 deletions(-)
- rename scripts/{package/Makefile => Makefile.package} (99%)
+1e0c08e3034d ("cpu/cpuid-deps: Add a tab to cpuid dependent features")
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 68ed20ef37dd..78aa51a6fcd4 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -765,7 +765,8 @@ Files matching the patterns "*.[oas]", "*.ko", plus some additional files
- generated by kbuild are deleted all over the kernel src tree when
- "make clean" is executed.
- 
--Additional files can be specified in kbuild makefiles by use of $(clean-files).
-+Additional files or directories can be specified in kbuild makefiles by use of
-+$(clean-files).
- 
- 	Example::
- 
-@@ -776,17 +777,8 @@ When executing "make clean", the file "crc32table.h" will be deleted.
- Kbuild will assume files to be in the same relative directory as the
- Makefile, except if prefixed with $(objtree).
- 
--To delete a directory hierarchy use:
--
--	Example::
--
--		#scripts/package/Makefile
--		clean-dirs := $(objtree)/debian/
--
--This will delete the directory debian in the toplevel directory, including all
--subdirectories.
--
--To exclude certain files from make clean, use the $(no-clean-files) variable.
-+To exclude certain files or directories from make clean, use the
-+$(no-clean-files) variable.
- 
- Usually kbuild descends down in subdirectories due to "obj-* := dir/",
- but in the architecture makefiles where the kbuild infrastructure
-diff --git a/Makefile b/Makefile
-index e88d4fcd5e87..ec2a6b85a0fa 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1448,13 +1448,11 @@ distclean: mrproper
- 
- # Packaging of the kernel to various formats
- # ---------------------------------------------------------------------------
--package-dir	:= scripts/package
- 
- %src-pkg: FORCE
--	$(Q)$(MAKE) $(build)=$(package-dir) $@
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.package $@
- %pkg: include/config/kernel.release FORCE
--	$(Q)$(MAKE) $(build)=$(package-dir) $@
--
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.package $@
- 
- # Brief documentation of the typical targets used
- # ---------------------------------------------------------------------------
-@@ -1526,7 +1524,7 @@ help:
- 	@echo '  or  "cd tools; make help"'
- 	@echo  ''
- 	@echo  'Kernel packaging:'
--	@$(MAKE) $(build)=$(package-dir) help
-+	@$(MAKE) -f $(srctree)/scripts/Makefile.package help
- 	@echo  ''
- 	@echo  'Documentation targets:'
- 	@$(MAKE) -f $(srctree)/Documentation/Makefile dochelp
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 0b80e3207b20..798e8717c1d9 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -52,26 +52,14 @@ __clean-files   := $(wildcard                                               \
- 		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
- 		   $(filter $(objtree)/%, $(__clean-files)))
- 
--# same as clean-files
--
--__clean-dirs    := $(wildcard                                               \
--		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(clean-dirs)))    \
--		   $(filter $(objtree)/%, $(clean-dirs)))
--
- # ==========================================================================
- 
- quiet_cmd_clean    = CLEAN   $(obj)
--      cmd_clean    = rm -f $(__clean-files)
--quiet_cmd_cleandir = CLEAN   $(__clean-dirs)
--      cmd_cleandir = rm -rf $(__clean-dirs)
--
-+      cmd_clean    = rm -rf $(__clean-files)
- 
- __clean: $(subdir-ymn)
- ifneq ($(strip $(__clean-files)),)
- 	+$(call cmd,clean)
--endif
--ifneq ($(strip $(__clean-dirs)),)
--	+$(call cmd,cleandir)
- endif
- 	@:
- 
-diff --git a/scripts/package/Makefile b/scripts/Makefile.package
-similarity index 99%
-rename from scripts/package/Makefile
-rename to scripts/Makefile.package
-index 407189d9942a..56eadcc48d46 100644
---- a/scripts/package/Makefile
-+++ b/scripts/Makefile.package
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- # Makefile for the different targets used to generate full packages of a kernel
--# It uses the generic clean infrastructure of kbuild
-+
-+include $(srctree)/scripts/Kbuild.include
- 
- # RPM target
- # ---------------------------------------------------------------------------
-@@ -154,3 +155,5 @@ help:
- 	@echo '  perf-targz-src-pkg  - Build $(perf-tar).tar.gz source tarball'
- 	@echo '  perf-tarbz2-src-pkg - Build $(perf-tar).tar.bz2 source tarball'
- 	@echo '  perf-tarxz-src-pkg  - Build $(perf-tar).tar.xz source tarball'
-+
-+.PHONY: $(PHONY)
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 7656e1137b6b..bed7a5a2fbe9 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -114,7 +114,7 @@ testconfig: $(obj)/conf
- 	$(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
- 	-o cache_dir=$(abspath $(obj)/tests/.cache) \
- 	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
--clean-dirs += tests/.cache
-+clean-files += tests/.cache
- 
- # Help text used by make help
- help:
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 1fb6abe29b2f..05c71ef42f51 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -115,6 +115,4 @@ header-test-y += $(filter-out $(header-test-), \
- 			$(patsubst $(obj)/%,%, $(wildcard \
- 			$(addprefix $(obj)/, *.h */*.h */*/*.h */*/*/*.h))))
- 
--# For GNU Make <= 4.2.1, $(wildcard $(obj)/*/) matches to not only directories
--# but also regular files. Use $(filter %/, ...) just in case.
--clean-dirs += $(patsubst $(obj)/%/,%,$(filter %/, $(wildcard $(obj)/*/)))
-+clean-files += $(filter-out Makefile, $(notdir $(wildcard $(obj)/*)))
+Thx.
+
 -- 
-2.17.1
+Regards/Gruss,
+    Boris.
 
+Good mailing practices for 400: avoid top-posting and trim the reply.
