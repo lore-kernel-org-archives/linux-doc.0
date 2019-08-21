@@ -1,275 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F8B07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 20:13:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 677AB7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 20:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfHUUNA convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 16:13:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45262 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727656AbfHUUNA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Aug 2019 16:13:00 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7LKCkXd095578
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2019 16:12:59 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uhb0ccbda-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2019 16:12:58 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <naveen.n.rao@linux.ibm.com>;
-        Wed, 21 Aug 2019 21:12:56 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 21 Aug 2019 21:12:51 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7LKCol060162128
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Aug 2019 20:12:50 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7B78EAE04D;
-        Wed, 21 Aug 2019 20:12:50 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 15FCBAE045;
-        Wed, 21 Aug 2019 20:12:50 +0000 (GMT)
-Received: from localhost (unknown [9.85.72.179])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 21 Aug 2019 20:12:49 +0000 (GMT)
-Date:   Thu, 22 Aug 2019 01:42:48 +0530
-From:   "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-Subject: Re: [PATCH v3] arm64: implement KPROBES_ON_FTRACE
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>
-Cc:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-References: <20190821183501.33588dd8@xhacker.debian>
-In-Reply-To: <20190821183501.33588dd8@xhacker.debian>
+        id S1729184AbfHUUiG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 16:38:06 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:44724 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728687AbfHUUiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Aug 2019 16:38:05 -0400
+Received: by mail-qt1-f196.google.com with SMTP id 44so4713768qtg.11
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2019 13:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=KBkBS4T8hAWzkfNP3gQHnK1bQ8RpJnciYJrpqq3rMf8=;
+        b=NGNASHAt0aPooyP8CTgYOtb0t3kgtdGLqJ/VHFyFTEdgiE7gvblv2PrEwXcwoLyfxI
+         ccDsl3wj3dinhEivqLgnXhnjdMvz9SYxIr9fpo4xGRV7gSPqHBr6rxbt2u8iEjVZdgpw
+         7AE+NjJy/4oGhxrVjvzRnstX2xG3qMkv8QBUgrw6BgXzyLRd9Q1gQlOhegN3181ZOKWQ
+         hisqrpXmlhJPtYveRNEhyFqUIVvw2jXBRTKqiPYR1tNoVElMJ3Vgs77iGpC9g9m12/JU
+         /PQ7v6S2UdmdJ+RxLBjBRRYTkQgr4jOXbD0hugqQzNfBaj2Xn77PLl4Vddgkb4PP6FlG
+         yMBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=KBkBS4T8hAWzkfNP3gQHnK1bQ8RpJnciYJrpqq3rMf8=;
+        b=FsjKOOmw9GoeOYYk30tu0DxcVdBPknKxlireHJEU9UXdhn6WzIeJDWf+pDHdbe41H2
+         os352zZHjiqOYVDSihDsTSocv60flt+3PW+JWkPkTm7Pb/Z1Q6uqjpO+dv/X9zkqPc47
+         JT5QolDHd4geAHDTdZHNKb98OpSAl2/7RHxsKGvCfTegm7mfCDclir7aVPoZ2uXXDuKR
+         O1cy2Db3XfWj7tRzcllGDUVgS/gFxWIfk3pEmuZiqtnfbvGoiEnY5Q+4lOaQonHyApC9
+         RYXuLXptXwm937VZxLC1pw1TnoV6IJ9taxjbD3NMiQ5pKF9vtjGcwhhTQn3/hXSnm5aQ
+         scCQ==
+X-Gm-Message-State: APjAAAUIBjp/G1eMsKTlzlj2HTNOgkbDcfe6stBkDNcTtYzIpTV+MpYe
+        b4snhrEq3l12MLbFt8/Z2Yx0iw==
+X-Google-Smtp-Source: APXvYqwe9lERHFY9Jt1Z7JNSvqvEYMbh8DR6XD7zaGMsKCtoXCi/P5AunlMu5Ut2t+UrTpcRunsngQ==
+X-Received: by 2002:ac8:739a:: with SMTP id t26mr33575094qtp.65.1566419884839;
+        Wed, 21 Aug 2019 13:38:04 -0700 (PDT)
+Received: from cakuba.netronome.com ([66.60.152.14])
+        by smtp.gmail.com with ESMTPSA id e15sm9805954qtr.51.2019.08.21.13.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2019 13:38:04 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 13:37:57 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        Jesper Dangaard Brouer <brouer@redhat.com>
+Subject: Re: [PATCH v5 10/17] net: sgi: ioc3-eth: rework skb rx handling
+Message-ID: <20190821133757.4fb5253c@cakuba.netronome.com>
+In-Reply-To: <20190821162847.479c9967d4dc8026fe65fa0e@suse.de>
+References: <20190819163144.3478-1-tbogendoerfer@suse.de>
+        <20190819163144.3478-11-tbogendoerfer@suse.de>
+        <20190819165522.451f2ea2@cakuba.netronome.com>
+        <20190821162847.479c9967d4dc8026fe65fa0e@suse.de>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-TM-AS-GCONF: 00
-x-cbid: 19082120-4275-0000-0000-0000035BA116
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19082120-4276-0000-0000-0000386DC544
-Message-Id: <1566418060.32spdm55zk.naveen@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-21_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908210196
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jisheng Zhang wrote:
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
+On Wed, 21 Aug 2019 16:28:47 +0200, Thomas Bogendoerfer wrote:
+> > This looks like a DMA engine alignment requirement, more than an
+> > optimization.  
 > 
-> Tested on berlin arm64 platform.
+> that true, there are two constraints for the rx buffers, start must be aligned
+> to 128 bytes and a buffer must not cross a 16kbyte boundary. I was already
+> thinking of allocating pages and chop them up. Is there a Linux API available,
+> which could help for implementing this ?
 > 
-> ~ # mount -t debugfs debugfs /sys/kernel/debug/
-> ~ # cd /sys/kernel/debug/
-> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
-> 
-> before the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
-> 
-> after the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
-> 
-> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-> ---
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
-> 
-> Applied after arm64 FTRACE_WITH_REGS:
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674404.html
-> 
-> Changes since v2:
->   - remove patch1, make it a single cleanup patch
->   - remove "This patch" in the change log
->   - implement arm64's kprobe_lookup_name() and arch_kprobe_on_func_entry instead
->     patching the common kprobes code
-> 
-> Changes since v1:
->   - make the kprobes/x86: use instruction_pointer and instruction_pointer_set
->     as patch1
->   - add Masami's ACK to patch1
->   - add some description about KPROBES_ON_FTRACE and why we need it on
->     arm64
->   - correct the log before the patch
->   - remove the consolidation patch, make it as TODO
->   - only adjust kprobe's addr when KPROBE_FLAG_FTRACE is set
->   - if KPROBES_ON_FTRACE, ftrace_call_adjust() the kprobe's addr before
->     calling ftrace_location()
->   - update the kprobes-on-ftrace/arch-support.txt in doc
-> 
-> 
->  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
->  arch/arm64/Kconfig                            |  1 +
->  arch/arm64/kernel/probes/Makefile             |  1 +
->  arch/arm64/kernel/probes/ftrace.c             | 60 +++++++++++++++++++
->  arch/arm64/kernel/probes/kprobes.c            | 23 +++++++
->  5 files changed, 86 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/kernel/probes/ftrace.c
-> 
-> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> index 68f266944d5f..e8358a38981c 100644
-> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: |  ok  |
->      |         c6x: | TODO |
->      |        csky: | TODO |
->      |       h8300: | TODO |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 663392d1eae2..928700f15e23 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -167,6 +167,7 @@ config ARM64
->  	select HAVE_STACKPROTECTOR
->  	select HAVE_SYSCALL_TRACEPOINTS
->  	select HAVE_KPROBES
-> +	select HAVE_KPROBES_ON_FTRACE
->  	select HAVE_KRETPROBES
->  	select HAVE_GENERIC_VDSO
->  	select IOMMU_DMA if IOMMU_SUPPORT
-> diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/Makefile
-> index 8e4be92e25b1..4020cfc66564 100644
-> --- a/arch/arm64/kernel/probes/Makefile
-> +++ b/arch/arm64/kernel/probes/Makefile
-> @@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+= kprobes.o decode-insn.o	\
->  				   simulate-insn.o
->  obj-$(CONFIG_UPROBES)		+= uprobes.o decode-insn.o	\
->  				   simulate-insn.o
-> +obj-$(CONFIG_KPROBES_ON_FTRACE)	+= ftrace.o
-> diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/ftrace.c
-> new file mode 100644
-> index 000000000000..1f0c09d02bb8
-> --- /dev/null
-> +++ b/arch/arm64/kernel/probes/ftrace.c
-> @@ -0,0 +1,60 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Dynamic Ftrace based Kprobes Optimization
-> + *
-> + * Copyright (C) Hitachi Ltd., 2012
-> + * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
-> + *		      Synaptics Incorporated
-> + */
-> +
-> +#include <linux/kprobes.h>
-> +
-> +/* Ftrace callback handler for kprobes -- called under preepmt disabed */
-> +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
-> +			   struct ftrace_ops *ops, struct pt_regs *regs)
-> +{
-> +	struct kprobe *p;
-> +	struct kprobe_ctlblk *kcb;
-> +
-> +	/* Preempt is disabled by ftrace */
-> +	p = get_kprobe((kprobe_opcode_t *)ip);
-> +	if (unlikely(!p) || kprobe_disabled(p))
-> +		return;
-> +
-> +	kcb = get_kprobe_ctlblk();
-> +	if (kprobe_running()) {
-> +		kprobes_inc_nmissed_count(p);
-> +	} else {
-> +		unsigned long orig_ip = instruction_pointer(regs);
-> +		/* Kprobe handler expects regs->pc = pc + 4 as breakpoint hit */
-> +		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
-> +
-> +		__this_cpu_write(current_kprobe, p);
-> +		kcb->kprobe_status = KPROBE_HIT_ACTIVE;
-> +		if (!p->pre_handler || !p->pre_handler(p, regs)) {
-> +			/*
-> +			 * Emulate singlestep (and also recover regs->pc)
-> +			 * as if there is a nop
-> +			 */
-> +			instruction_pointer_set(regs,
-> +				(unsigned long)p->addr + MCOUNT_INSN_SIZE);
-> +			if (unlikely(p->post_handler)) {
-> +				kcb->kprobe_status = KPROBE_HIT_SSDONE;
-> +				p->post_handler(p, regs, 0);
-> +			}
-> +			instruction_pointer_set(regs, orig_ip);
-> +		}
-> +		/*
-> +		 * If pre_handler returns !0, it changes regs->pc. We have to
-> +		 * skip emulating post_handler.
-> +		 */
-> +		__this_cpu_write(current_kprobe, NULL);
-> +	}
-> +}
-> +NOKPROBE_SYMBOL(kprobe_ftrace_handler);
-> +
-> +int arch_prepare_kprobe_ftrace(struct kprobe *p)
-> +{
-> +	p->ainsn.api.insn = NULL;
-> +	return 0;
-> +}
-> diff --git a/arch/arm64/kernel/probes/kprobes.c b/arch/arm64/kernel/probes/kprobes.c
-> index c4452827419b..f2bf8c70da79 100644
-> --- a/arch/arm64/kernel/probes/kprobes.c
-> +++ b/arch/arm64/kernel/probes/kprobes.c
-> @@ -551,6 +551,29 @@ void __kprobes __used *trampoline_probe_handler(struct pt_regs *regs)
->  	return (void *)orig_ret_address;
->  }
->  
-> +#ifdef CONFIG_DYNAMIC_FTRACE_WITH_REGS
+> I'll probably drop this patch or only change the skb_put stuff plus RX_BUF_SIZE
+> define.
 
-This should be CONFIG_KPROBES_ON_FTRACE since you only want to choose 
-the ftrace entry in that case.
-
-> +kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
-> +{
-> +	unsigned long addr = kallsyms_lookup_name(name);
-> +	unsigned long faddr;
-> +
-> +	/*
-> +	 * with -fpatchable-function-entry=2, the first 4 bytes is the
-> +	 * LR saver, then the actual call insn. So ftrace location is
-> +	 * always on the first 4 bytes offset.
-> +	 */
-> +	faddr = ftrace_location_range(addr, addr + AARCH64_INSN_SIZE);
-> +	if (faddr)
-> +		return (kprobe_opcode_t *)faddr;
-
-You should only return the ftrace location if offset is 0, since the 
-offset is added to the address returned from here (see _kprobe_addr()).
-
-
-- Naveen
-
+Sounds a little like frag allocator (napi_alloc_frag()/
+netdev_alloc_frag()), but I'm not sure you'd have sufficient control
+to skip over the 16k boundary.. Perhaps others have better suggestions.
