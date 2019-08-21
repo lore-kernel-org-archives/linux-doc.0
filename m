@@ -1,83 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B131F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 16:47:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4518D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 16:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729747AbfHUQrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 12:47:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:33434 "EHLO foss.arm.com"
+        id S1727476AbfHUQxp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 12:53:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729690AbfHUQrn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 12:47:43 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B85EA360;
-        Wed, 21 Aug 2019 09:47:42 -0700 (PDT)
-Received: from arrakis.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 09F003F718;
-        Wed, 21 Aug 2019 09:47:40 -0700 (PDT)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Dave P Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Subject: [PATCH v9 0/3] arm64 tagged address ABI
-Date:   Wed, 21 Aug 2019 17:47:27 +0100
-Message-Id: <20190821164730.47450-1-catalin.marinas@arm.com>
-X-Mailer: git-send-email 2.23.0.rc0
+        id S1726696AbfHUQxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 12:53:45 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9699122DD3;
+        Wed, 21 Aug 2019 16:53:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566406424;
+        bh=8EpYXOIJQ7TePwZ/ZCJnzDEkdpUgKmzzxBX02HTYDWc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mfA3TYZ5mReb6a41G+2FUsWZ4XDr3vM5MuLTd+xih2gFnd/B+p3syzRto7GLy1yCP
+         yNbNLlyJluiuGn/UDS0ljvkiKAsdh75khbDmuBybOByPBaXAfA3M/PM56Bd93ckdf7
+         Uz4JeqWNifNtxOjNgPEvRWiDgS+Ymy2V+CFJCsZE=
+Date:   Wed, 21 Aug 2019 17:53:39 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Kulkarni <gklkml16@gmail.com>,
+        Ganapatrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>
+Subject: Re: [PATCH v3 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+Message-ID: <20190821165339.7gu4rxkvdjcr4mta@willie-the-truck>
+References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
+ <1563873380-2003-3-git-send-email-gkulkarni@marvell.com>
+ <20190812120125.GA50712@lakrids.cambridge.arm.com>
+ <CAKTKpr7juHd9Bgam28LESadihFadEAevRAhc-7w3PTMYY7HLNw@mail.gmail.com>
+ <20190813110345.GD866@lakrids.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813110345.GD866@lakrids.cambridge.arm.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, Aug 13, 2019 at 12:03:45PM +0100, Mark Rutland wrote:
+> On Tue, Aug 13, 2019 at 04:25:15PM +0530, Ganapatrao Kulkarni wrote:
+> > On Mon, Aug 12, 2019 at 5:31 PM Mark Rutland <mark.rutland@arm.com> wrote:
+> > >
+> > > On Tue, Jul 23, 2019 at 09:16:28AM +0000, Ganapatrao Kulkarni wrote:
+> > > > CCPI2 is a low-latency high-bandwidth serial interface for connecting
+> > > > ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
+> > >
+> > > It would be worth pointing out in the commit message how the CCPI2
+> > > counters differ from the others. I realise you have that in the body of
+> > > patch 1, but it's critical information when reviewing this patch...
+> > 
+> > Ok, I will add in next version.
+> > >
+> > > >
+> > > > Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
+> > > > ---
+> > > >  drivers/perf/thunderx2_pmu.c | 248 ++++++++++++++++++++++++++++++-----
+> > > >  1 file changed, 214 insertions(+), 34 deletions(-)
+> > > >
+> > > > diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+> > > > index 43d76c85da56..a4e1273eafa3 100644
+> > > > --- a/drivers/perf/thunderx2_pmu.c
+> > > > +++ b/drivers/perf/thunderx2_pmu.c
+> > > > @@ -17,22 +17,31 @@
+> > > >   */
+> > > >
+> > > >  #define TX2_PMU_MAX_COUNTERS         4
+> > >
+> > > Shouldn't this be 8 now?
+> > 
+> > It is kept unchanged to 4(as suggested by Will), which is same for
+> > both L3 and DMC.
+> > For CCPI2 this macro is not used.
+> 
+> Hmmm....
+> 
+> I disagree with that suggestion given that this also affects the
+> active_counters bitmap size (and thus it is not correctly sized as of
+> this patch), and it doesn't really save us much.
+> 
+> I think it would be better to bump this to 8 and always update the
+> events array, even though it will be unused for CCPI2. That's less
+> surprising, needs fewer special-cases, and we can use the hrtimer
+> function pointer alone to determine if we need to do any hrtimer work.
 
-This series is an update to the arm64 tagged address ABI documentation
-patches v8, posted here:
+tbf, my complaint was actually about some macros applying to the whole
+PMU whilst others refer only to DMC/L3C and this not being apparent from
+the naming:
 
-http://lkml.kernel.org/r/20190815154403.16473-1-catalin.marinas@arm.com
+https://lkml.org/lkml/2019/6/27/250
 
-From v8, I dropped patches 2 and 3 as they've been queued by Will via
-the arm64 tree. Reposting patch 1 (unmodified) as it should be merged
-via the mm tree.
+so I'm fine having TX2_PMU_DMC_L3C_MAX_COUNTERS and
+TX2_PMU_CCPI2_MAX_COUNTERS, but that sort of naming needs to be consistent
+unless the macro/definition really applies to both. That fed the suggestion
+that GET_EVENTID could be generic and switch on the event type internally
+instead of at the caller.
 
-Changes in v9:
-
-- Replaced the emphasized/bold font with a typewriter one for
-  function/constant names
-
-- Simplified the mmap/brk bullet points when describing the tagged
-  pointer origin
-
-- Reworded expected syscall behaviour with valid tagged pointers
-
-- Reworded the prctl/ioctl restrictions to clarify the allowed tagged
-  pointers w.r.t. user data access by the kernel
-
-
-Catalin Marinas (1):
-  mm: untag user pointers in mmap/munmap/mremap/brk
-
-Vincenzo Frascino (2):
-  arm64: Define Documentation/arm64/tagged-address-abi.rst
-  arm64: Relax Documentation/arm64/tagged-pointers.rst
-
- Documentation/arm64/tagged-address-abi.rst | 156 +++++++++++++++++++++
- Documentation/arm64/tagged-pointers.rst    |  23 ++-
- mm/mmap.c                                  |   5 +
- mm/mremap.c                                |   6 +-
- 4 files changed, 178 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/arm64/tagged-address-abi.rst
-
+Will
