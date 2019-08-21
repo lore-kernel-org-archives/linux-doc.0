@@ -1,69 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 872977D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 13:15:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22C3F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 13:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728254AbfHUNPR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 09:15:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53342 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726484AbfHUNPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 09:15:17 -0400
-Received: from [192.168.0.101] (unknown [180.111.132.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9CC2B214DA;
-        Wed, 21 Aug 2019 13:15:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566393316;
-        bh=EO9Bip6DSF9x/AWrsU50iQqY5CV6rf7s8XCVw7bhH/k=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=C3segr/6YdtzYrAkfoIuaHjBH3hsXn3HQvP3H7GYJ/LLFZRYBIIIVVUZtmNmVhUes
-         SQL67+adFwRxD/HgPcOsaqyJ0V1E7R04rt0k0RuHtHUbHfGfjeaOLhvl9EEyLTddQa
-         PwteJ65+4VijcgcfVc0cubkDO43wTJ1A/F01XGUU=
-Subject: Re: [f2fs-dev] [PATCH v4 3/3] f2fs: Support case-insensitive file
- name lookups
-To:     Daniel Rosenberg <drosen@google.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net
-Cc:     linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
-From:   Chao Yu <chao@kernel.org>
-Message-ID: <354102fb-e076-78d4-174d-5a193cae70f0@kernel.org>
-Date:   Wed, 21 Aug 2019 21:15:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1728986AbfHUNjW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 09:39:22 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4749 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728567AbfHUNjW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 09:39:22 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 654F640D1167F25D5595;
+        Wed, 21 Aug 2019 21:39:19 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Wed, 21 Aug 2019
+ 21:39:09 +0800
+From:   John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH] docs: mtd: Update spi nor reference driver
+To:     Mark Brown <broonie@kernel.org>
+References: <1565107583-68506-1-git-send-email-john.garry@huawei.com>
+ <6c4bb892-6cf5-af46-3ace-b333fd47ef14@huawei.com>
+ <9b074db7-b95d-a081-2fba-7b2b82997332@kontron.de>
+ <ab2d3c29-982f-cb13-e2a2-e6d8da8f1438@huawei.com>
+ <b2a475eb-58e6-e7c7-7b8f-b1be04cf27c0@ti.com>
+ <c5e063e8-5025-8206-f819-6ce5228ef0fb@huawei.com>
+ <20190820165826.GF4738@sirena.co.uk>
+CC:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
+        "tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>,
+        "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
+        "richard@nod.at" <richard@nod.at>,
+        wanghuiqiang <wanghuiqiang@huawei.com>
+Message-ID: <bd9109c6-8f25-f674-4a7b-c659c4c368df@huawei.com>
+Date:   Wed, 21 Aug 2019 14:39:02 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-In-Reply-To: <20190723230529.251659-4-drosen@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20190820165826.GF4738@sirena.co.uk>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-7-24 7:05, Daniel Rosenberg via Linux-f2fs-devel wrote:
-> +static int f2fs_d_compare(const struct dentry *dentry, unsigned int len,
-> + const char *str, const struct qstr *name)
-> +{
-> +	struct qstr qstr = {.name = str, .len = len };
-> +
-> +	if (!IS_CASEFOLDED(dentry->d_parent->d_inode)) {
-> +		if (len != name->len)
-> +			return -1;
-> +		return memcmp(str, name, len);
+On 20/08/2019 17:58, Mark Brown wrote:
+> On Tue, Aug 20, 2019 at 03:09:15PM +0100, John Garry wrote:
+>> On 19/08/2019 05:39, Vignesh Raghavendra wrote:
+>>> On 16/08/19 3:50 PM, John Garry wrote:
+>
+>>>> About the child spi flash devices, is the recommendation to just use
+>>>> PRP0001 HID and "jedec,spi-nor" compatible?
+>
+>>> I am not quite familiar with ACPI systems, but child flash device should
+>>> use "jedec,spi-nor" as compatible.
+>
+>> Right, so to use SPI MEM framework, it looks like I will have to use PRP0001
+>> and "jedec,spi-nor" as compatible.
+>
+>> My reluctance in using PRP0001 and compatible "jedec,spi-nor" is how other
+>> OS can understand this.
+>
 
-66883da1eee8 ("ext4: fix dcache lookup of !casefolded directories")
+Hi Mark,
 
-memcmp(str, name->name, len);
+> Last I heard Windows wasn't doing anything with PRP0001 but on the other
+> hand the idiomatic way to handle this for ACPI is as far as I can tell
+> to have what is essentially a board file loaded based on DMI information
+> without any real enumerability so there's no real conflict between the
+> two methods.
+
+Fine, I'll consider this alt method further.
+
+Thanks,
+John
+
+>
+
+
+
