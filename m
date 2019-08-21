@@ -1,91 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F7507D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 14:28:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC8137D919
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 14:45:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728502AbfHUO2w convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 10:28:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39348 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727949AbfHUO2v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 10:28:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 89345AD94;
-        Wed, 21 Aug 2019 14:28:49 +0000 (UTC)
-Date:   Wed, 21 Aug 2019 16:28:47 +0200
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v5 10/17] net: sgi: ioc3-eth: rework skb rx handling
-Message-Id: <20190821162847.479c9967d4dc8026fe65fa0e@suse.de>
-In-Reply-To: <20190819165522.451f2ea2@cakuba.netronome.com>
-References: <20190819163144.3478-1-tbogendoerfer@suse.de>
-        <20190819163144.3478-11-tbogendoerfer@suse.de>
-        <20190819165522.451f2ea2@cakuba.netronome.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+        id S1729148AbfHUOpp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 10:45:45 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:59090 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728608AbfHUOpp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 10:45:45 -0400
+Received: from zn.tnic (p200300EC2F0A6300AD34BF75F4F01B21.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:6300:ad34:bf75:f4f0:1b21])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 640051EC02FE;
+        Wed, 21 Aug 2019 16:45:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1566398743;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=lTbUTRWT7/yDYikPZXnxrPfidgHBKAk129d3QMAlBN8=;
+        b=UkT303Q6PQdQLRjF8bKFTVDYvf4/veO5tJOiyCziZe8EFQW68CVP7lBVMYQ6nGizmgFJKg
+        FXELQvYm+ouBqgeO8bgrwK4zZB6waqhJ19Svr+ncvTHiXIWFyPkdLQkYqVzmPMYB1QhKcy
+        UQ+ZL3nw4KcOvt+o5NmnqkpKAJ1PVOU=
+Date:   Wed, 21 Aug 2019 16:45:37 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v8 03/27] x86/fpu/xstate: Change names to separate XSAVES
+ system and user states
+Message-ID: <20190821144537.GE6752@zn.tnic>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+ <20190813205225.12032-4-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190813205225.12032-4-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Aug 2019 16:55:22 -0700
-Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
-
-> On Mon, 19 Aug 2019 18:31:33 +0200, Thomas Bogendoerfer wrote:
-> > Buffers alloacted by alloc_skb() are already cache aligned so there
-> > is no need for an extra align done by ioc3_alloc_skb. And instead
-> > of skb_put/skb_trim simply use one skb_put after frame size is known
-> > during receive.
-> [...]  
-> > -/* We use this to acquire receive skb's that we can DMA directly into. */
-> > -
-> > -#define IOC3_CACHELINE	128UL
+On Tue, Aug 13, 2019 at 01:52:01PM -0700, Yu-cheng Yu wrote:
+> Control-flow Enforcement (CET) MSR contents are XSAVES system states.
+> To support CET, introduce XSAVES system states first.
 > 
-> Is the cache line on the platform this driver works on 128B?
+> XSAVES is a "supervisor" instruction and, comparing to XSAVE, saves
+> additional "supervisor" states that can be modified only from CPL 0.
+> However, these states are per-task and not kernel's own.  Rename
+> "supervisor" states to "system" states to clearly separate them from
+> "user" states.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/internal.h |  4 +-
+>  arch/x86/include/asm/fpu/xstate.h   | 20 +++----
+>  arch/x86/kernel/fpu/init.c          |  2 +-
+>  arch/x86/kernel/fpu/signal.c        | 10 ++--
+>  arch/x86/kernel/fpu/xstate.c        | 86 ++++++++++++++---------------
+>  5 files changed, 60 insertions(+), 62 deletions(-)
 
-right now yes, in theory IOC3 CAD DUO cards might work in SGI O2 systems,
-but the current Linux PCI implementation for O2 will not detect that card.
-On X86 usually the BIOS will choke up on that cards.
+...
 
-> This looks like a DMA engine alignment requirement, more than an
-> optimization.
+> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> index e5cb67d67c03..d560e8861a3c 100644
+> --- a/arch/x86/kernel/fpu/xstate.c
+> +++ b/arch/x86/kernel/fpu/xstate.c
+> @@ -54,13 +54,16 @@ static short xsave_cpuid_features[] __initdata = {
+>  };
+>  
+>  /*
+> - * Mask of xstate features supported by the CPU and the kernel:
+> + * XSAVES system states can only be modified from CPL 0 and saved by
+> + * XSAVES.  The rest are user states.  The following is a mask of
+> + * supported user state features derived from boot_cpu_has() and
 
-that true, there are two constraints for the rx buffers, start must be aligned
-to 128 bytes and a buffer must not cross a 16kbyte boundary. I was already
-thinking of allocating pages and chop them up. Is there a Linux API available,
-which could help for implementing this ?
-
-I'll probably drop this patch or only change the skb_put stuff plus RX_BUF_SIZE
-define.
-
-Thomas.
+...derived from detected CPUID feature flags and
+SUPPORTED_XFEATURES_MASK.
 
 -- 
-SUSE Linux GmbH
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
