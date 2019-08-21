@@ -5,87 +5,138 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6A567D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 14:55:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3F847D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 15:37:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727448AbfHUOzk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 10:55:40 -0400
-Received: from mga07.intel.com ([134.134.136.100]:41312 "EHLO mga07.intel.com"
+        id S1728891AbfHUPhO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 11:37:14 -0400
+Received: from foss.arm.com ([217.140.110.172]:60322 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727286AbfHUOzk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Aug 2019 10:55:40 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 07:55:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,412,1559545200"; 
-   d="scan'208";a="186252384"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Aug 2019 07:55:38 -0700
-Message-ID: <8d2e5bc4496075032393ff9ae81a26f7fbc711e6.camel@intel.com>
-Subject: Re: [PATCH v8 02/27] x86/cpufeatures: Add CET CPU feature flags for
- Control-flow Enforcement Technology (CET)
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Wed, 21 Aug 2019 07:46:32 -0700
-In-Reply-To: <20190821102052.GD6752@zn.tnic>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-         <20190813205225.12032-3-yu-cheng.yu@intel.com>
-         <20190821102052.GD6752@zn.tnic>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1728848AbfHUPhO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 11:37:14 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C3FB337;
+        Wed, 21 Aug 2019 08:37:13 -0700 (PDT)
+Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 609123F718;
+        Wed, 21 Aug 2019 08:37:11 -0700 (PDT)
+From:   Steven Price <steven.price@arm.com>
+To:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
+Cc:     Steven Price <steven.price@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/10] arm64: Stolen time support
+Date:   Wed, 21 Aug 2019 16:36:46 +0100
+Message-Id: <20190821153656.33429-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-08-21 at 12:20 +0200, Borislav Petkov wrote:
-> On Tue, Aug 13, 2019 at 01:52:00PM -0700, Yu-cheng Yu wrote:
-> > Add CPU feature flags for Control-flow Enforcement Technology (CET).
-> > 
-> > [...]
-> > diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-
-> > deps.c
-> > index b5353244749b..9bf35f081080 100644
-> > --- a/arch/x86/kernel/cpu/cpuid-deps.c
-> > +++ b/arch/x86/kernel/cpu/cpuid-deps.c
-> > @@ -68,6 +68,8 @@ static const struct cpuid_dep cpuid_deps[] = {
-> >  	{ X86_FEATURE_CQM_MBM_TOTAL,	X86_FEATURE_CQM_LLC   },
-> >  	{ X86_FEATURE_CQM_MBM_LOCAL,	X86_FEATURE_CQM_LLC   },
-> >  	{ X86_FEATURE_AVX512_BF16,	X86_FEATURE_AVX512VL  },
-> > +	{ X86_FEATURE_SHSTK,		X86_FEATURE_XSAVES    },
-> > +	{ X86_FEATURE_IBT,		X86_FEATURE_XSAVES    },
-> 
-> This hunk needs re-tabbing after:
-> 
-> 1e0c08e3034d ("cpu/cpuid-deps: Add a tab to cpuid dependent features")
+This series add support for paravirtualized time for arm64 guests and
+KVM hosts following the specification in Arm's document DEN 0057A:
 
-Thanks, I will fix it.
+https://developer.arm.com/docs/den0057/a
 
-Yu-cheng
+It implements support for stolen time, allowing the guest to
+identify time when it is forcibly not executing.
+
+It doesn't implement support for Live Physical Time (LPT) as there are
+some concerns about the overheads and approach in the above
+specification, and I expect an updated version of the specification to
+be released soon with just the stolen time parts.
+
+NOTE: Patches 8 and 9 will conflict with Mark Rutland's series[1] cleaning
+up the SMCCC conduit. I do feel that the addition of an _invoke() call
+makes a number of call sites cleaner and it should be possible to
+integrate both this and Mark's other cleanups.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20190809132245.43505-1-mark.rutland@arm.com/
+
+Also available as a git tree:
+git://linux-arm.org/linux-sp.git stolen_time/v3
+
+Changes from v2:
+https://lore.kernel.org/lkml/20190819140436.12207-1-steven.price@arm.com/
+ * Switched from using gfn_to_hva_cache to a new macro kvm_put_guest()
+   that can provide the single-copy atomicity required (on arm64). This
+   macro is added in patch 4.
+ * Tidied up the locking for kvm_update_stolen_time().
+   pagefault_disable() was unnecessary and the caller didn't need to
+   take kvm->srcu as the function does it itself.
+ * Removed struct kvm_arch_pvtime from the arm implementation, replaced
+   instead with inline static functions which are empty for arm.
+ * Fixed a few checkpatch --strict warnings.
+
+Changes from v1:
+https://lore.kernel.org/lkml/20190802145017.42543-1-steven.price@arm.com/
+ * Host kernel no longer allocates the stolen time structure, instead it
+   is allocated by user space. This means the save/restore functionality
+   can be removed.
+ * Refactored the code so arm has stub implementations and to avoid
+   initcall
+ * Rebased to pick up Documentation/{virt->virtual} change
+ * Bunch of typo fixes
+
+Christoffer Dall (1):
+  KVM: arm/arm64: Factor out hypercall handling from PSCI code
+
+Steven Price (9):
+  KVM: arm64: Document PV-time interface
+  KVM: arm64: Implement PV_FEATURES call
+  KVM: Implement kvm_put_guest()
+  KVM: arm64: Support stolen time reporting via shared structure
+  KVM: Allow kvm_device_ops to be const
+  KVM: arm64: Provide a PV_TIME device to user space
+  arm/arm64: Provide a wrapper for SMCCC 1.1 calls
+  arm/arm64: Make use of the SMCCC 1.1 wrapper
+  arm64: Retrieve stolen time as paravirtualized guest
+
+ Documentation/virt/kvm/arm/pvtime.txt | 100 ++++++++++++++
+ arch/arm/include/asm/kvm_host.h       |  30 +++++
+ arch/arm/kvm/Makefile                 |   2 +-
+ arch/arm/kvm/handle_exit.c            |   2 +-
+ arch/arm/mm/proc-v7-bugs.c            |  13 +-
+ arch/arm64/include/asm/kvm_host.h     |  28 +++-
+ arch/arm64/include/asm/paravirt.h     |   9 +-
+ arch/arm64/include/asm/pvclock-abi.h  |  17 +++
+ arch/arm64/include/uapi/asm/kvm.h     |   8 ++
+ arch/arm64/kernel/cpu_errata.c        |  80 ++++-------
+ arch/arm64/kernel/paravirt.c          | 148 +++++++++++++++++++++
+ arch/arm64/kernel/time.c              |   3 +
+ arch/arm64/kvm/Kconfig                |   1 +
+ arch/arm64/kvm/Makefile               |   2 +
+ arch/arm64/kvm/handle_exit.c          |   4 +-
+ include/kvm/arm_hypercalls.h          |  43 ++++++
+ include/kvm/arm_psci.h                |   2 +-
+ include/linux/arm-smccc.h             |  58 ++++++++
+ include/linux/cpuhotplug.h            |   1 +
+ include/linux/kvm_host.h              |  28 +++-
+ include/linux/kvm_types.h             |   2 +
+ include/uapi/linux/kvm.h              |   2 +
+ virt/kvm/arm/arm.c                    |  11 ++
+ virt/kvm/arm/hypercalls.c             |  68 ++++++++++
+ virt/kvm/arm/psci.c                   |  84 +-----------
+ virt/kvm/arm/pvtime.c                 | 182 ++++++++++++++++++++++++++
+ virt/kvm/kvm_main.c                   |   6 +-
+ 27 files changed, 780 insertions(+), 154 deletions(-)
+ create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
+ create mode 100644 arch/arm64/include/asm/pvclock-abi.h
+ create mode 100644 include/kvm/arm_hypercalls.h
+ create mode 100644 virt/kvm/arm/hypercalls.c
+ create mode 100644 virt/kvm/arm/pvtime.c
+
+-- 
+2.20.1
+
