@@ -1,57 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D48E87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 21:40:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58B037D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 23:41:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390839AbfHVVks convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 17:40:48 -0400
-Received: from mail.physics.pub.ro ([141.85.216.3]:45738 "EHLO
-        physics1.physics.pub.ro" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389759AbfHVVks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 17:40:48 -0400
-X-Greylist: delayed 37709 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Aug 2019 17:40:47 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by physics1.physics.pub.ro (Postfix) with ESMTP id 8B37CE3A0EA;
-        Thu, 22 Aug 2019 13:22:48 +0300 (EEST)
-X-Virus-Scanned: amavisd-new at physics.pub.ro
-Received: from physics1.physics.pub.ro ([127.0.0.1])
-        by localhost (physics1.physics.pub.ro [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 1cAldMgZjzBs; Thu, 22 Aug 2019 13:22:48 +0300 (EEST)
-Received: from [10.51.176.174] (unknown [105.4.6.61])
-        by physics1.physics.pub.ro (Postfix) with ESMTPSA id 58BF3E372A2;
-        Thu, 22 Aug 2019 13:22:40 +0300 (EEST)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <niculae-tiberiu.puscas@physics.pub.ro>
-From:   ''Tayeb Souami'' <niculae-tiberiu.puscas@physics.pub.ro>
-Date:   Thu, 22 Aug 2019 12:22:38 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20190822102240.58BF3E372A2@physics1.physics.pub.ro>
+        id S1727126AbfHVXl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 19:41:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44638 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726591AbfHVXl1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 19:41:27 -0400
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 684C121848;
+        Thu, 22 Aug 2019 23:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566517286;
+        bh=YtRCAC6fgsRgJnEx63ur5nyjptr+AEUs6gIrAbXRiQI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=o8UdmRX97TswzWBvjk2gFJF6KO7BY2x+E967bHezsjBUP95XqFclydiiZxQDIWGNS
+         /HK3TqMe1pG0vXyWjTqyWMiN6WOHRQ1slbrz8a4c6qtJJ6NDsk6SdUwK5hdhg43NJH
+         om2HivuzvF1RXZajtMlOuiaXDG6/WAAxgrYZQZQg=
+Date:   Thu, 22 Aug 2019 16:41:25 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Will Deacon <will@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave P Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v8 1/5] mm: untag user pointers in
+ mmap/munmap/mremap/brk
+Message-Id: <20190822164125.acfb97de912996b2b9127c61@linux-foundation.org>
+In-Reply-To: <20190819162851.tncj4wpwf625ofg6@willie-the-truck>
+References: <20190815154403.16473-1-catalin.marinas@arm.com>
+        <20190815154403.16473-2-catalin.marinas@arm.com>
+        <20190819162851.tncj4wpwf625ofg6@willie-the-truck>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lieber Freund,
+On Mon, 19 Aug 2019 17:28:51 +0100 Will Deacon <will@kernel.org> wrote:
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+> On Thu, Aug 15, 2019 at 04:43:59PM +0100, Catalin Marinas wrote:
+> > There isn't a good reason to differentiate between the user address
+> > space layout modification syscalls and the other memory
+> > permission/attributes ones (e.g. mprotect, madvise) w.r.t. the tagged
+> > address ABI. Untag the user addresses on entry to these functions.
+> > 
+> > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+> > ---
+> >  mm/mmap.c   | 5 +++++
+> >  mm/mremap.c | 6 +-----
+> >  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> Acked-by: Will Deacon <will@kernel.org>
+> 
+> Andrew -- please can you pick this patch up? I'll take the rest of the
+> series via arm64 once we've finished discussing the wording details.
+> 
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+Sure, I grabbed the patch from the v9 series.
 
-Das ist dein Spendencode: [TS530342018]
+But please feel free to include this in the arm64 tree - I'll autodrop
+my copy if this turns up in linux-next.
 
-Antworten Sie mit dem SPENDE-CODE an diese E-Mail:Tayebsouam.spende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
