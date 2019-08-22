@@ -1,221 +1,284 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE6327D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 10:44:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55F1A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 10:57:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387758AbfHVKoJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 06:44:09 -0400
-Received: from mail-eopbgr740070.outbound.protection.outlook.com ([40.107.74.70]:26432
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+        id S2387936AbfHVK5k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 06:57:40 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4758 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387710AbfHVKoJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 06:44:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CLX62PrtxtT6PaGTRH423mSSR9AhtSsmqvvId8xaKFOd8UDrjD0k+8uIUxuaqlNtkWz9f7yOMqILM/hm6/fFJ0aWhX/e2JtJN5KTr6Cw2fYcEmgBCe5JF+pQ3PYAPxB2Y0AS+D/rcP/hY6Y0UjKtaU3t7yzmi0WGWgPGjVYYQCU0UgpZPbL4LhrVFkTQfIFQx/fGuiYqvqhi8PZDcL4lMd/NlspugZuyKR9ZisuSWPJV/XByKFzlV8Sa6bgvZgA5po8M8zhTvOKddhB7Ie246bEYgAmCe1kr3IxPzlIBv/+Dxy+aD4bjcHsECurKPDAY4Je3O4leva/Rr+wRgSJx8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBxmssn2OKSXWcr+k/5rrNQfoK8KXpoqd1TaaRKg0PA=;
- b=Tq9TDgMap/Y1tCDzLLDM/VsNd1k/AkN2+xwa8LMLwpDQIoMAzPkJnvDwK0HZKIBxIMxD4fcj4jt1YYUE1OMTGe3zN53YtQrxcdzTHyhiIJCscyRW3gMZgbmpitvtHJKi/2npd0J0klJFmkkaMlIS2FImhgOUj/YpcNqpT34bGfh1vr+dwBcnfXG/388mOMRAAAZCYzRo54qUtWIkclQHMgSYpQySBNwbotsEbnIhanWEYzvNYpmT4zMLt93GOnl1twfeZH04FfQoDA07TW5vqQWgoGQubaJ2ELkiSBQUYqg5+zyiQDk6iUMnSUhnpB1xGaSaK/o9BTwkE6ScIqqDXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBxmssn2OKSXWcr+k/5rrNQfoK8KXpoqd1TaaRKg0PA=;
- b=jd5+8VjUQvDFydKxtvsHvcgdE/4+g7ad97JMx0tlcPt8TFDNVmgCKiKHWDJqOjiTTAI1rvzRbZ72Y3W/tqaY6eG8CjZ9BwAFzM9FygViMP1HBfvibWDAgThKAuddKrKRGJf6aFFXAyzxobwjHaVCir92IkbNwzRoThZs3QcJpkY=
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
- BYAPR03MB3624.namprd03.prod.outlook.com (52.135.213.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.18; Thu, 22 Aug 2019 10:44:04 +0000
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::b050:60f8:d275:e9f4]) by BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::b050:60f8:d275:e9f4%7]) with mapi id 15.20.2178.020; Thu, 22 Aug 2019
- 10:44:04 +0000
-From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-arm-kernel@lists.infradead.org" 
+        id S1732246AbfHVK5j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 06:57:39 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id DC7189DA9D936A007E2D;
+        Thu, 22 Aug 2019 18:57:36 +0800 (CST)
+Received: from localhost (10.202.226.61) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 22 Aug 2019
+ 18:57:35 +0800
+Date:   Thu, 22 Aug 2019 11:57:22 +0100
+From:   Jonathan Cameron <jonathan.cameron@huawei.com>
+To:     Steven Price <steven.price@arm.com>
+CC:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
-Thread-Topic: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
-Thread-Index: AQHVWJwGDRorz/HiOUajlPa5ER0qaKcGu4YAgACzXwD//4bGgIAAAwYA
-Date:   Thu, 22 Aug 2019 10:44:03 +0000
-Message-ID: <20190822183254.1bb5576d@xhacker.debian>
-References: <20190822113421.52920377@xhacker.debian>
-        <1566456155.27ojwy97ss.naveen@linux.ibm.com>
-        <20190822173558.63de3fc4@xhacker.debian>
-        <1566468150.x8u1577wgh.naveen@linux.ibm.com>
-In-Reply-To: <1566468150.x8u1577wgh.naveen@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [124.74.246.114]
-x-clientproxiedby: TY2PR06CA0041.apcprd06.prod.outlook.com
- (2603:1096:404:2e::29) To BYAPR03MB4773.namprd03.prod.outlook.com
- (2603:10b6:a03:134::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c3e8b1e9-091b-4078-a527-08d726eda66e
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR03MB3624;
-x-ms-traffictypediagnostic: BYAPR03MB3624:
-x-microsoft-antispam-prvs: <BYAPR03MB3624A58FE647EDC761C42A9BEDA50@BYAPR03MB3624.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01371B902F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(396003)(346002)(39850400004)(136003)(376002)(189003)(199004)(7736002)(26005)(386003)(6506007)(5660300002)(6916009)(86362001)(6436002)(6486002)(478600001)(53936002)(229853002)(4326008)(50226002)(54906003)(8936002)(52116002)(81166006)(8676002)(76176011)(2906002)(99286004)(81156014)(305945005)(25786009)(7416002)(102836004)(316002)(6246003)(476003)(14444005)(6116002)(11346002)(446003)(64756008)(66946007)(66476007)(486006)(256004)(66556008)(186003)(3846002)(66446008)(66066001)(1076003)(14454004)(6512007)(9686003)(71190400001)(71200400001)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB3624;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: synaptics.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: cCdIEPXcWL/I/RaCRgBfDcedl/gErQmE8cgbu3UlsSLqd44O2YJAClmSzs6iksqjrw4hjo0LQHg+N1Lc/p8WjGlf2WILgLMqCIP67ggeGAKG57HngLD0PIKiXGpbWUWkHg0jzkM68iE6p09+HUf9Ss3w+FaNS3qp1CyWaM1vYUR8C2OOb0yA7ZCKqsukj5T8Q6xTk1LYvg5WLYXRvlf0g5jKqy2MEH7p9trbOldD6hkgmbJ7q5hwg13M+kwL3CLWlIvbOVatZDHRpZSKaNimtUjyllQVjr7qZFMBPNpQY3m/yEOqaIDaghnCfhFAifQT2VZ7v/Qr0QiE9VjVwYds98+CU/GKN8tSOgkiAlAj0x3JSNzDi4dla69pEyplcXiPjRoVZr3vi2b+sZDz42u5EpM2tjARDgymebfiDCSVOm0=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <52D37053CF07584DA4A594C3BC219B1F@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        <kvmarm@lists.cs.columbia.edu>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        Radim =?UTF-8?Q?Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Suzuki K Pouloze" <suzuki.poulose@arm.com>,
+        <linux-doc@vger.kernel.org>,
+        "Russell King" <linux@armlinux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        "Paolo Bonzini" <pbonzini@redhat.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>
+Subject: Re: [PATCH v3 07/10] KVM: arm64: Provide a PV_TIME device to user
+ space
+Message-ID: <20190822115722.00005aa7@huawei.com>
+In-Reply-To: <20190821153656.33429-8-steven.price@arm.com>
+References: <20190821153656.33429-1-steven.price@arm.com>
+        <20190821153656.33429-8-steven.price@arm.com>
+Organization: Huawei
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3e8b1e9-091b-4078-a527-08d726eda66e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2019 10:44:03.9547
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zQ6hrPj454XE+NovC32VY3InAbwBh1VtPPr9pterPmeuhKdmgLWhpDDFOyPsld4BJITjjUNEDW3xJio9SBpcPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB3624
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.61]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Aug 2019 15:52:05 +0530
-"Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com> wrote:
+On Wed, 21 Aug 2019 16:36:53 +0100
+Steven Price <steven.price@arm.com> wrote:
 
->=20
->=20
-> Jisheng Zhang wrote:
-> > Hi,
-> >
-> > On Thu, 22 Aug 2019 12:23:58 +0530
-> > "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com> wrote: =20
-> >> Jisheng Zhang wrote: =20
-> ...
-> >> > +/* Ftrace callback handler for kprobes -- called under preepmt
-> >> > disabed */
-> >> > +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_i=
-p,
-> >> > +                        struct ftrace_ops *ops, struct pt_regs *reg=
-s)
-> >> > +{
-> >> > +     struct kprobe *p;
-> >> > +     struct kprobe_ctlblk *kcb;
-> >> > +
-> >> > +     /* Preempt is disabled by ftrace */
-> >> > +     p =3D get_kprobe((kprobe_opcode_t *)ip);
-> >> > +     if (unlikely(!p) || kprobe_disabled(p))
-> >> > +             return;
-> >> > +
-> >> > +     kcb =3D get_kprobe_ctlblk();
-> >> > +     if (kprobe_running()) {
-> >> > +             kprobes_inc_nmissed_count(p);
-> >> > +     } else {
-> >> > +             unsigned long orig_ip =3D instruction_pointer(regs);
-> >> > +             /* Kprobe handler expects regs->pc =3D pc + 4 as break=
-point hit */
-> >> > +             instruction_pointer_set(regs, ip + sizeof(kprobe_opcod=
-e_t)); =20
-> >>
-> >> Just want to make sure that you've confirmed that this is what happens
-> >> with a regular trap/brk based kprobe on ARM64. The reason for setting
-> >> the instruction pointer here is to ensure that it is set to the same
-> >> value as would be set if there was a trap/brk instruction at the ftrac=
-e
-> >> location. This ensures that the kprobe pre handler sees the same value
-> >> regardless. =20
-> >
-> > Due to the arm64's DYNAMIC_FTRACE_WITH_REGS implementation, the code it=
-self
-> > is correct. But this doesn't look like "there was a trap instruction at
-> > the ftrace location".
-> >
-> > W/O KPROBE_ON_FTRACE:
-> >
-> > foo:
-> > 00    insA
-> > 04    insB
-> > 08    insC
-> >
-> > kprobe's pre_handler() will see pc points to 00. =20
->=20
-> In this case, the probe will be placed at foo+0x00, so pre_handler()
-> seeing that address in pt_regs is correct behavior - as long as arm64
-> 'brk' instruction causes an exception with the instruction pointer set
+> Allow user space to inform the KVM host where in the physical memory
+> map the paravirtualized time structures should be located.
+> 
+> A device is created which provides the base address of an array of
+> Stolen Time (ST) structures, one for each VCPU. There must be (64 *
+> total number of VCPUs) bytes of memory available at this location.
+> 
+> The address is given in terms of the physical address visible to
+> the guest and must be page aligned. The guest will discover the address
+> via a hypercall.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
 
-Yep, confirmed with regular trap/brk based kprobes, I do see PC set to
-the "brk" instruction.
+Hi Steven,
 
-> *to* the 'brk' instruction. This is similar to how powerpc 'trap' works.
-> However, x86 'int3' causes an exception *after* execution of the
-> instruction.
+One general question inline.  I'm not particularly familiar with this area
+of the kernel, so maybe I'm missing something obvious, but having
+.destroy free the kvm_device which wasn't created in .create seems
+'unusual'. 
 
-Got it. I understand where's the comment "expects regs->pc =3D pc + 1" from=
-.
+Otherwise, FWIW looks good to me.
 
->=20
-> >
-> > W/ KPROBE_ON_FTRACE:
-> >
-> > foo:
-> > 00    lr saver
-> > 04    nop     // will be modified to ftrace call ins when KPROBE is arm=
-ed
-> > 08    insA
-> > 0c    insB =20
->=20
-> In this case, if user asks for a probe to be placed at 'foo', we will
-> choose foo+0x04 and from that point on, the behavior should reflect that
-> a kprobe was placed at foo+0x04. In particular, the pre_handler() should
-> see foo+0x04 in pt_regs. The post_handler() would then see foo+0x08.
->=20
-> >
-> > later, kprobe_ftrace_handler() will see pc points to 04, so pc + 4 will
-> > point to 08 the same as the one w/o KPROBE_ON_FTRACE. =20
->=20
-> I didn't mean to compare regular trap/brk based kprobes with
-> KPROBES_ON_FTRACE. The only important aspect is that the handlers see
-> consistent pt_regs in both cases, depending on where the kprobe was
-> placed. Choosing a different address/offset to place a kprobe during its
-> registration is an orthogonal aspect.
+Jonathan
 
-Indeed, previously, I want to let the PC point to the same instruction, it
-seems I misunderstood the "consistent" meaning.
+> ---
+>  arch/arm/include/asm/kvm_host.h   |  4 ++
+>  arch/arm64/include/asm/kvm_host.h |  1 +
+>  arch/arm64/include/uapi/asm/kvm.h |  8 +++
+>  include/uapi/linux/kvm.h          |  2 +
+>  virt/kvm/arm/arm.c                |  1 +
+>  virt/kvm/arm/pvtime.c             | 94 +++++++++++++++++++++++++++++++
+>  6 files changed, 110 insertions(+)
+> 
+> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+> index 47d2ced99421..b6c8dbc0556b 100644
+> --- a/arch/arm/include/asm/kvm_host.h
+> +++ b/arch/arm/include/asm/kvm_host.h
+> @@ -325,6 +325,10 @@ static inline int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  int kvm_perf_init(void);
+>  int kvm_perf_teardown(void);
+>  
+> +static inline void kvm_pvtime_init(void)
+> +{
+> +}
+> +
+>  static inline int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>  {
+>  	return SMCCC_RET_NOT_SUPPORTED;
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index b6fa7beffd8a..7b2147f62c16 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -489,6 +489,7 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
+>  int kvm_perf_init(void);
+>  int kvm_perf_teardown(void);
+>  
+> +void kvm_pvtime_init(void);
+>  int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
+>  int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu);
+>  int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init);
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 9a507716ae2f..209c4de67306 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -367,6 +367,14 @@ struct kvm_vcpu_events {
+>  #define KVM_PSCI_RET_INVAL		PSCI_RET_INVALID_PARAMS
+>  #define KVM_PSCI_RET_DENIED		PSCI_RET_DENIED
+>  
+> +/* Device Control API: PV_TIME */
+> +#define KVM_DEV_ARM_PV_TIME_REGION	0
+> +#define  KVM_DEV_ARM_PV_TIME_ST		0
+> +struct kvm_dev_arm_st_region {
+> +	__u64 gpa;
+> +	__u64 size;
+> +};
+> +
+>  #endif
+>  
+>  #endif /* __ARM_KVM_H__ */
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 5e3f12d5359e..265156a984f2 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1222,6 +1222,8 @@ enum kvm_device_type {
+>  #define KVM_DEV_TYPE_ARM_VGIC_ITS	KVM_DEV_TYPE_ARM_VGIC_ITS
+>  	KVM_DEV_TYPE_XIVE,
+>  #define KVM_DEV_TYPE_XIVE		KVM_DEV_TYPE_XIVE
+> +	KVM_DEV_TYPE_ARM_PV_TIME,
+> +#define KVM_DEV_TYPE_ARM_PV_TIME	KVM_DEV_TYPE_ARM_PV_TIME
+>  	KVM_DEV_TYPE_MAX,
+>  };
+>  
+> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+> index 5e8343e2dd62..bfb5a842e6ab 100644
+> --- a/virt/kvm/arm/arm.c
+> +++ b/virt/kvm/arm/arm.c
+> @@ -1494,6 +1494,7 @@ static int init_subsystems(void)
+>  
+>  	kvm_perf_init();
+>  	kvm_coproc_table_init();
+> +	kvm_pvtime_init();
+>  
+>  out:
+>  	on_each_cpu(_kvm_arch_hardware_disable, NULL, 1);
+> diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+> index 28603689f6e0..3e55c1fb6a49 100644
+> --- a/virt/kvm/arm/pvtime.c
+> +++ b/virt/kvm/arm/pvtime.c
+> @@ -2,7 +2,9 @@
+>  // Copyright (C) 2019 Arm Ltd.
+>  
+>  #include <linux/arm-smccc.h>
+> +#include <linux/kvm_host.h>
+>  
+> +#include <asm/kvm_mmu.h>
+>  #include <asm/pvclock-abi.h>
+>  
+>  #include <kvm/arm_hypercalls.h>
+> @@ -86,3 +88,95 @@ int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+>  
+>  	return ret;
+>  }
+> +
+> +static int kvm_arm_pvtime_create(struct kvm_device *dev, u32 type)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void kvm_arm_pvtime_destroy(struct kvm_device *dev)
+> +{
+> +	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
+> +
+> +	pvtime->st_base = GPA_INVALID;
+> +	kfree(dev);
 
->=20
-> >
-> > It seems I need to fix the comment. =20
->=20
-> Given your explanation above, I think you can simply drop the first
-> adjustment to the instruction pointer before the pre handler invocation.
-> The rest of the code looks fine.
->=20
->=20
+Nothing to do with your patch as such... All users do the same.
 
-Yep, thanks a lot. Will send out a new version soon.
+This seems miss balanced. Why do we need to free the device by hand
+when we didn't create it in the create function?  I appreciate
+the comments say this is needed, but as far as I can see every
+single callback does kfree(dev) at the end which seems an
+odd thing to do.
+
+> +}
+> +
+> +static int kvm_arm_pvtime_set_attr(struct kvm_device *dev,
+> +				   struct kvm_device_attr *attr)
+> +{
+> +	struct kvm *kvm = dev->kvm;
+> +	struct kvm_arch_pvtime *pvtime = &kvm->arch.pvtime;
+> +	u64 __user *user = (u64 __user *)attr->addr;
+> +	struct kvm_dev_arm_st_region region;
+> +
+> +	switch (attr->group) {
+> +	case KVM_DEV_ARM_PV_TIME_REGION:
+> +		if (copy_from_user(&region, user, sizeof(region)))
+> +			return -EFAULT;
+> +		if (region.gpa & ~PAGE_MASK)
+> +			return -EINVAL;
+> +		if (region.size & ~PAGE_MASK)
+> +			return -EINVAL;
+> +		switch (attr->attr) {
+> +		case KVM_DEV_ARM_PV_TIME_ST:
+> +			if (pvtime->st_base != GPA_INVALID)
+> +				return -EEXIST;
+> +			pvtime->st_base = region.gpa;
+> +			pvtime->st_size = region.size;
+> +			return 0;
+> +		}
+> +		break;
+> +	}
+> +	return -ENXIO;
+> +}
+> +
+> +static int kvm_arm_pvtime_get_attr(struct kvm_device *dev,
+> +				   struct kvm_device_attr *attr)
+> +{
+> +	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
+> +	u64 __user *user = (u64 __user *)attr->addr;
+> +	struct kvm_dev_arm_st_region region;
+> +
+> +	switch (attr->group) {
+> +	case KVM_DEV_ARM_PV_TIME_REGION:
+> +		switch (attr->attr) {
+> +		case KVM_DEV_ARM_PV_TIME_ST:
+> +			region.gpa = pvtime->st_base;
+> +			region.size = pvtime->st_size;
+> +			if (copy_to_user(user, &region, sizeof(region)))
+> +				return -EFAULT;
+> +			return 0;
+> +		}
+> +		break;
+> +	}
+> +	return -ENXIO;
+> +}
+> +
+> +static int kvm_arm_pvtime_has_attr(struct kvm_device *dev,
+> +				   struct kvm_device_attr *attr)
+> +{
+> +	switch (attr->group) {
+> +	case KVM_DEV_ARM_PV_TIME_REGION:
+> +		switch (attr->attr) {
+> +		case KVM_DEV_ARM_PV_TIME_ST:
+> +			return 0;
+> +		}
+> +		break;
+> +	}
+> +	return -ENXIO;
+> +}
+> +
+> +static const struct kvm_device_ops pvtime_ops = {
+> +	"Arm PV time",
+> +	.create = kvm_arm_pvtime_create,
+> +	.destroy = kvm_arm_pvtime_destroy,
+> +	.set_attr = kvm_arm_pvtime_set_attr,
+> +	.get_attr = kvm_arm_pvtime_get_attr,
+> +	.has_attr = kvm_arm_pvtime_has_attr
+> +};
+> +
+> +void kvm_pvtime_init(void)
+> +{
+> +	kvm_register_device_ops(&pvtime_ops, KVM_DEV_TYPE_ARM_PV_TIME);
+> +}
+
+
