@@ -3,81 +3,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA2617D912
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 15:47:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21CAB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 15:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732460AbfHVPqO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 11:46:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:48276 "EHLO foss.arm.com"
+        id S2388353AbfHVPzh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 11:55:37 -0400
+Received: from foss.arm.com ([217.140.110.172]:48388 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730741AbfHVPqO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 11:46:14 -0400
+        id S1725934AbfHVPzh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 11:55:37 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A80BA337;
-        Thu, 22 Aug 2019 08:46:13 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7BD53F718;
-        Thu, 22 Aug 2019 08:46:11 -0700 (PDT)
-Subject: Re: [PATCH v3 04/10] KVM: Implement kvm_put_guest()
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC227337;
+        Thu, 22 Aug 2019 08:55:36 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1721B3F718;
+        Thu, 22 Aug 2019 08:55:34 -0700 (PDT)
+Date:   Thu, 22 Aug 2019 16:55:32 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+        Dave Hansen <dave.hansen@intel.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
         linux-arm-kernel@lists.infradead.org
-References: <20190821153656.33429-1-steven.price@arm.com>
- <20190821153656.33429-5-steven.price@arm.com>
- <20190822152854.GE25467@linux.intel.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <e2abc69b-74c2-64ef-e270-43d93513eaae@arm.com>
-Date:   Thu, 22 Aug 2019 16:46:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Subject: Re: [PATCH v9 3/3] arm64: Relax
+ Documentation/arm64/tagged-pointers.rst
+Message-ID: <20190822155531.GB55798@arrakis.emea.arm.com>
+References: <20190821164730.47450-1-catalin.marinas@arm.com>
+ <20190821164730.47450-4-catalin.marinas@arm.com>
+ <20190821173352.yqfgaozi7nfhcofg@willie-the-truck>
+ <20190821184649.GD27757@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20190822152854.GE25467@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190821184649.GD27757@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/08/2019 16:28, Sean Christopherson wrote:
-> On Wed, Aug 21, 2019 at 04:36:50PM +0100, Steven Price wrote:
->> kvm_put_guest() is analogous to put_user() - it writes a single value to
->> the guest physical address. The implementation is built upon put_user()
->> and so it has the same single copy atomic properties.
+On Wed, Aug 21, 2019 at 07:46:51PM +0100, Dave P Martin wrote:
+> On Wed, Aug 21, 2019 at 06:33:53PM +0100, Will Deacon wrote:
+> > On Wed, Aug 21, 2019 at 05:47:30PM +0100, Catalin Marinas wrote:
+> > > @@ -59,6 +63,11 @@ be preserved.
+> > >  The architecture prevents the use of a tagged PC, so the upper byte will
+> > >  be set to a sign-extension of bit 55 on exception return.
+> > >  
+> > > +This behaviour is maintained when the AArch64 Tagged Address ABI is
+> > > +enabled. In addition, with the exceptions above, the kernel will
+> > > +preserve any non-zero tags passed by the user via syscalls and stored in
+> > > +kernel data structures (e.g. ``set_robust_list()``, ``sigaltstack()``).
 > 
-> What you mean by "single copy atomic"?  I.e. what guarantees does
-> put_user() provide that __copy_to_user() does not?
+> sigaltstack() is interesting, since we don't support tagged stacks.
 
-Single-copy atomicity is defined by the Arm architecture[1] and I'm not
-going to try to go into the full details here, so this is a summary.
+We should support tagged SP with the new ABI as they'll be required for
+MTE. sigaltstack() and clone() are the two syscalls that come to mind
+here.
 
-For the sake of this feature what we care about is that the value
-written/read cannot be "torn". In other words if there is a read (in
-this case from another VCPU) that is racing with the write then the read
-will either get the old value or the new value. It cannot return a
-mixture. (This is of course assuming that the read is using a
-single-copy atomic safe method).
+> Do we keep the ss_sp tag in the kernel, but squash it when delivering
+> a signal to the alternate stack?
 
-__copy_to_user() is implemented as a memcpy() and as such cannot provide
-single-copy atomicity in the general case (the buffer could easily be
-bigger than the architecture can guarantee).
+We don't seem to be doing any untagging, so we just just use whatever
+the caller asked for. We may need a small test to confirm.
 
-put_user() on the other hand is implemented (on arm64) as an explicit
-store instruction and therefore is guaranteed by the architecture to be
-single-copy atomic (i.e. another CPU cannot see a half-written value).
+That said, on_sig_stack() probably needs some untagging as it does user
+pointer arithmetics with potentially different tags.
 
-Steve
+> > Hmm. I can see the need to provide this guarantee for things like
+> > set_robust_list(), but the problem is that the statement above is too broad
+> > and isn't strictly true: for example, mmap() doesn't propagate the tag of
+> > its address parameter into the VMA.
+> > 
+> > So I think we need to nail this down a bit more, but I'm having a really
+> > hard time coming up with some wording :(
+> 
+> Time for some creative vagueness?
+> 
+> We can write a statement of our overall intent, along with examples of
+> a few cases where the tag should and should not be expected to emerge
+> intact.
+> 
+> There is no foolproof rule, unless we can rewrite history...
 
-[1] https://static.docs.arm.com/ddi0487/ea/DDI0487E_a_armv8_arm.pdf#page=110
+I would expect the norm to be the preservation of tags with a few
+exceptions. The only ones I think where we won't preserve the tags are
+mmap, mremap, brk (apart from the signal stuff already mentioned in the
+current tagged-pointers.rst doc).
+
+So I can remove this paragraph altogether and add a note in part 3 of
+the tagged-address-abi.rst document that mmap/mremap/brk do not preserve
+the tag information.
+
+-- 
+Catalin
