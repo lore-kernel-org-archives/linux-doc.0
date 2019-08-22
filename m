@@ -3,103 +3,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF7B67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 15:28:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA2617D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 15:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731798AbfHVP2z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 11:28:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50937 "EHLO mga06.intel.com"
+        id S1732460AbfHVPqO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 11:46:14 -0400
+Received: from foss.arm.com ([217.140.110.172]:48276 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728964AbfHVP2z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 11:28:55 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Aug 2019 08:28:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,417,1559545200"; 
-   d="scan'208";a="186601083"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2019 08:28:54 -0700
-Date:   Thu, 22 Aug 2019 08:28:54 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Steven Price <steven.price@arm.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        id S1730741AbfHVPqO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 11:46:14 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A80BA337;
+        Thu, 22 Aug 2019 08:46:13 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7BD53F718;
+        Thu, 22 Aug 2019 08:46:11 -0700 (PDT)
+Subject: Re: [PATCH v3 04/10] KVM: Implement kvm_put_guest()
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/10] KVM: Implement kvm_put_guest()
-Message-ID: <20190822152854.GE25467@linux.intel.com>
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
 References: <20190821153656.33429-1-steven.price@arm.com>
  <20190821153656.33429-5-steven.price@arm.com>
+ <20190822152854.GE25467@linux.intel.com>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <e2abc69b-74c2-64ef-e270-43d93513eaae@arm.com>
+Date:   Thu, 22 Aug 2019 16:46:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821153656.33429-5-steven.price@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190822152854.GE25467@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 04:36:50PM +0100, Steven Price wrote:
-> kvm_put_guest() is analogous to put_user() - it writes a single value to
-> the guest physical address. The implementation is built upon put_user()
-> and so it has the same single copy atomic properties.
+On 22/08/2019 16:28, Sean Christopherson wrote:
+> On Wed, Aug 21, 2019 at 04:36:50PM +0100, Steven Price wrote:
+>> kvm_put_guest() is analogous to put_user() - it writes a single value to
+>> the guest physical address. The implementation is built upon put_user()
+>> and so it has the same single copy atomic properties.
+> 
+> What you mean by "single copy atomic"?  I.e. what guarantees does
+> put_user() provide that __copy_to_user() does not?
 
-What you mean by "single copy atomic"?  I.e. what guarantees does
-put_user() provide that __copy_to_user() does not?
+Single-copy atomicity is defined by the Arm architecture[1] and I'm not
+going to try to go into the full details here, so this is a summary.
 
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  include/linux/kvm_host.h | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index fcb46b3374c6..e154a1897e20 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -746,6 +746,30 @@ int kvm_write_guest_offset_cached(struct kvm *kvm, struct gfn_to_hva_cache *ghc,
->  				  unsigned long len);
->  int kvm_gfn_to_hva_cache_init(struct kvm *kvm, struct gfn_to_hva_cache *ghc,
->  			      gpa_t gpa, unsigned long len);
-> +
-> +#define __kvm_put_guest(kvm, gfn, offset, value, type)			\
-> +({									\
-> +	unsigned long __addr = gfn_to_hva(kvm, gfn);			\
-> +	type __user *__uaddr = (type __user *)(__addr + offset);	\
-> +	int __ret = 0;							\
-> +									\
-> +	if (kvm_is_error_hva(__addr))					\
-> +		__ret = -EFAULT;					\
-> +	else								\
-> +		__ret = put_user(value, __uaddr);			\
-> +	if (!__ret)							\
-> +		mark_page_dirty(kvm, gfn);				\
-> +	__ret;								\
-> +})
-> +
-> +#define kvm_put_guest(kvm, gpa, value, type)				\
-> +({									\
-> +	gpa_t __gpa = gpa;						\
-> +	struct kvm *__kvm = kvm;					\
-> +	__kvm_put_guest(__kvm, __gpa >> PAGE_SHIFT,			\
-> +			offset_in_page(__gpa), (value), type);		\
-> +})
-> +
->  int kvm_clear_guest_page(struct kvm *kvm, gfn_t gfn, int offset, int len);
->  int kvm_clear_guest(struct kvm *kvm, gpa_t gpa, unsigned long len);
->  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn);
-> -- 
-> 2.20.1
-> 
+For the sake of this feature what we care about is that the value
+written/read cannot be "torn". In other words if there is a read (in
+this case from another VCPU) that is racing with the write then the read
+will either get the old value or the new value. It cannot return a
+mixture. (This is of course assuming that the read is using a
+single-copy atomic safe method).
+
+__copy_to_user() is implemented as a memcpy() and as such cannot provide
+single-copy atomicity in the general case (the buffer could easily be
+bigger than the architecture can guarantee).
+
+put_user() on the other hand is implemented (on arm64) as an explicit
+store instruction and therefore is guaranteed by the architecture to be
+single-copy atomic (i.e. another CPU cannot see a half-written value).
+
+Steve
+
+[1] https://static.docs.arm.com/ddi0487/ea/DDI0487E_a_armv8_arm.pdf#page=110
