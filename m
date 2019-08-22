@@ -1,143 +1,236 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 37A297D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 04:01:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 335DD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 06:54:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbfHVEBI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 00:01:08 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:45453 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbfHVEBI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 00:01:08 -0400
-Received: by mail-io1-f67.google.com with SMTP id t3so9042940ioj.12;
-        Wed, 21 Aug 2019 21:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BybcKrDqDsV1vLqaW8rNec228gnkGTbH03h7q1YFv58=;
-        b=Y7vQ3Zm+wj8+Yuzw3JUYDonuE6oRk7m8wI4gRuWHwKlAAMlW717d5+hrRvZn9ANlMc
-         8mI6Mhx7E1KK8+LRauJkSBRDFUAMFm3T0YTvhsKOZS0eLrltn96jn57ZJw/sVyFIsNkj
-         A7i+7VkiC1VDAve32spDxJwfpP65doQtBTAzBnaKGNmcczqaTmixrA4tLXTuOdR6mI6h
-         fcCcSZ4LAZyu3erb/LqIpUpiQowiccIrAOp5Q02/uTbLqRkS9d/xiMnf25aSBrHr8N8X
-         redTAM3ldbRT7bBIQLLPNBw2cg0O7HvhxawnZOekNdCDkej+HNc30U1TI4PGTz3eCol9
-         TEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BybcKrDqDsV1vLqaW8rNec228gnkGTbH03h7q1YFv58=;
-        b=hn1Y7CEFvbsgj6SXxhtLvcJGuYODXgOgyttekuilXcyPxVbbiQ3/8qFbUacZoM/n1r
-         AYbErTkgM0tyB4K1gm64HhhhGjvNm35EGNY5040DA2EU92K71KfXSzGDcZmrizzGJdKr
-         n7fmNE6XA0SmhNg9cJkG3dLRfWdWRXAhCGJUixN8gdjO6hJeZ4qsDl+vnznJAo/6NxJq
-         5q6CIcP0KvQLz/BjVp63H3+Zo4z0R7uhKqsbE5ytECFw6xq4HWlJ6uvGa7AjtVNwBE71
-         NL0PC0ZHIXz8Y180UcFcyo6GKtSfVQILbYt0zQDoTtUSx/DAYMY3y+ucV7bg04RHXuB9
-         2Rvg==
-X-Gm-Message-State: APjAAAUkGjMGXYAD2hjgJasHRyLSKFhtITPAyPD/UviYsHERIaUyeOLF
-        8LhW6XNq5Je//PcROpsuhnSb7fp0y56szbLJJHg=
-X-Google-Smtp-Source: APXvYqxTBiRXARJgZzQt0mN0CCKgd09Sfxj9MwGfaPw58BNsM2WnEWudKSMOy2KZVA6yswYrCsPxKMh7jPQrukzwxks=
-X-Received: by 2002:a02:b713:: with SMTP id g19mr13929241jam.77.1566446467556;
- Wed, 21 Aug 2019 21:01:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <1563873380-2003-1-git-send-email-gkulkarni@marvell.com>
- <1563873380-2003-3-git-send-email-gkulkarni@marvell.com> <20190812120125.GA50712@lakrids.cambridge.arm.com>
- <CAKTKpr7juHd9Bgam28LESadihFadEAevRAhc-7w3PTMYY7HLNw@mail.gmail.com>
- <20190813110345.GD866@lakrids.cambridge.arm.com> <20190821165339.7gu4rxkvdjcr4mta@willie-the-truck>
-In-Reply-To: <20190821165339.7gu4rxkvdjcr4mta@willie-the-truck>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Thu, 22 Aug 2019 09:30:56 +0530
-Message-ID: <CAKTKpr48Cmcs8u81EZeMMndP1XwaNOMCE-r00vhE6ysK3CUsrw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-To:     Will Deacon <will@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Ganapatrao Kulkarni <gkulkarni@marvell.com>,
+        id S1726206AbfHVGyI convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 02:54:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32844 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726422AbfHVGyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 02:54:08 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7M6r4VN006309
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 02:54:08 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2uhkern9um-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 02:54:07 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <naveen.n.rao@linux.vnet.ibm.com>;
+        Thu, 22 Aug 2019 07:54:05 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 22 Aug 2019 07:54:00 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7M6rxBW49021104
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 22 Aug 2019 06:53:59 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 46BD8A4062;
+        Thu, 22 Aug 2019 06:53:59 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DBF21A405F;
+        Thu, 22 Aug 2019 06:53:58 +0000 (GMT)
+Received: from localhost (unknown [9.199.32.226])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 22 Aug 2019 06:53:58 +0000 (GMT)
+Date:   Thu, 22 Aug 2019 12:23:58 +0530
+From:   "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
+Subject: Re: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Will Deacon <will@kernel.org>
+Cc:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Jan Glauber <jglauber@marvell.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20190822113421.52920377@xhacker.debian>
+In-Reply-To: <20190822113421.52920377@xhacker.debian>
+MIME-Version: 1.0
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-TM-AS-GCONF: 00
+x-cbid: 19082206-0020-0000-0000-000003625D37
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19082206-0021-0000-0000-000021B796B9
+Message-Id: <1566456155.27ojwy97ss.naveen@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-22_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908220074
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 10:23 PM Will Deacon <will@kernel.org> wrote:
->
-> On Tue, Aug 13, 2019 at 12:03:45PM +0100, Mark Rutland wrote:
-> > On Tue, Aug 13, 2019 at 04:25:15PM +0530, Ganapatrao Kulkarni wrote:
-> > > On Mon, Aug 12, 2019 at 5:31 PM Mark Rutland <mark.rutland@arm.com> wrote:
-> > > >
-> > > > On Tue, Jul 23, 2019 at 09:16:28AM +0000, Ganapatrao Kulkarni wrote:
-> > > > > CCPI2 is a low-latency high-bandwidth serial interface for connecting
-> > > > > ThunderX2 processors. This patch adds support to capture CCPI2 perf events.
-> > > >
-> > > > It would be worth pointing out in the commit message how the CCPI2
-> > > > counters differ from the others. I realise you have that in the body of
-> > > > patch 1, but it's critical information when reviewing this patch...
-> > >
-> > > Ok, I will add in next version.
-> > > >
-> > > > >
-> > > > > Signed-off-by: Ganapatrao Kulkarni <gkulkarni@marvell.com>
-> > > > > ---
-> > > > >  drivers/perf/thunderx2_pmu.c | 248 ++++++++++++++++++++++++++++++-----
-> > > > >  1 file changed, 214 insertions(+), 34 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-> > > > > index 43d76c85da56..a4e1273eafa3 100644
-> > > > > --- a/drivers/perf/thunderx2_pmu.c
-> > > > > +++ b/drivers/perf/thunderx2_pmu.c
-> > > > > @@ -17,22 +17,31 @@
-> > > > >   */
-> > > > >
-> > > > >  #define TX2_PMU_MAX_COUNTERS         4
-> > > >
-> > > > Shouldn't this be 8 now?
-> > >
-> > > It is kept unchanged to 4(as suggested by Will), which is same for
-> > > both L3 and DMC.
-> > > For CCPI2 this macro is not used.
-> >
-> > Hmmm....
-> >
-> > I disagree with that suggestion given that this also affects the
-> > active_counters bitmap size (and thus it is not correctly sized as of
-> > this patch), and it doesn't really save us much.
-> >
-> > I think it would be better to bump this to 8 and always update the
-> > events array, even though it will be unused for CCPI2. That's less
-> > surprising, needs fewer special-cases, and we can use the hrtimer
-> > function pointer alone to determine if we need to do any hrtimer work.
->
-> tbf, my complaint was actually about some macros applying to the whole
-> PMU whilst others refer only to DMC/L3C and this not being apparent from
-> the naming:
->
-> https://lkml.org/lkml/2019/6/27/250
->
-> so I'm fine having TX2_PMU_DMC_L3C_MAX_COUNTERS and
-> TX2_PMU_CCPI2_MAX_COUNTERS, but that sort of naming needs to be consistent
-> unless the macro/definition really applies to both. That fed the suggestion
-> that GET_EVENTID could be generic and switch on the event type internally
-> instead of at the caller.
+Jisheng Zhang wrote:
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
+> 
+> Tested on berlin arm64 platform.
+> 
+> ~ # mount -t debugfs debugfs /sys/kernel/debug/
+> ~ # cd /sys/kernel/debug/
+> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
+> 
+> before the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
+> 
+> after the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
+> 
+> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
 
-Thanks Will for the clarification.
-I will send new version with changes as suggested.
+This looks good to me. Except for a small confirmation below:
+Reviewed-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
 
->
-> Will
 
-Thanks,
-Ganapat
+> ---
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
+> 
+> Applied after arm64 FTRACE_WITH_REGS:
+> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674404.html
+> 
+> Changes since v3:
+>   - move kprobe_lookup_name() and arch_kprobe_on_func_entry to ftrace.c since
+>     we only want to choose the ftrace entry for KPROBES_ON_FTRACE.
+>   - only choose ftrace entry if (addr && !offset)
+> 
+> Changes since v2:
+>   - remove patch1, make it a single cleanup patch
+>   - remove "This patch" in the change log
+>   - implement arm64's kprobe_lookup_name() and arch_kprobe_on_func_entry instead
+>     of patching the common kprobes code
+> 
+> Changes since v1:
+>   - make the kprobes/x86: use instruction_pointer and instruction_pointer_set
+>     as patch1
+>   - add Masami's ACK to patch1
+>   - add some description about KPROBES_ON_FTRACE and why we need it on
+>     arm64
+>   - correct the log before the patch
+>   - remove the consolidation patch, make it as TODO
+>   - only adjust kprobe's addr when KPROBE_FLAG_FTRACE is set
+>   - if KPROBES_ON_FTRACE, ftrace_call_adjust() the kprobe's addr before
+>     calling ftrace_location()
+>   - update the kprobes-on-ftrace/arch-support.txt in doc
+> 
+> 
+>  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+>  arch/arm64/Kconfig                            |  1 +
+>  arch/arm64/kernel/probes/Makefile             |  1 +
+>  arch/arm64/kernel/probes/ftrace.c             | 84 +++++++++++++++++++
+>  4 files changed, 87 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/kernel/probes/ftrace.c
+> 
+> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> index 68f266944d5f..e8358a38981c 100644
+> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> @@ -9,7 +9,7 @@
+>      |       alpha: | TODO |
+>      |         arc: | TODO |
+>      |         arm: | TODO |
+> -    |       arm64: | TODO |
+> +    |       arm64: |  ok  |
+>      |         c6x: | TODO |
+>      |        csky: | TODO |
+>      |       h8300: | TODO |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 663392d1eae2..928700f15e23 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -167,6 +167,7 @@ config ARM64
+>  	select HAVE_STACKPROTECTOR
+>  	select HAVE_SYSCALL_TRACEPOINTS
+>  	select HAVE_KPROBES
+> +	select HAVE_KPROBES_ON_FTRACE
+>  	select HAVE_KRETPROBES
+>  	select HAVE_GENERIC_VDSO
+>  	select IOMMU_DMA if IOMMU_SUPPORT
+> diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/Makefile
+> index 8e4be92e25b1..4020cfc66564 100644
+> --- a/arch/arm64/kernel/probes/Makefile
+> +++ b/arch/arm64/kernel/probes/Makefile
+> @@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+= kprobes.o decode-insn.o	\
+>  				   simulate-insn.o
+>  obj-$(CONFIG_UPROBES)		+= uprobes.o decode-insn.o	\
+>  				   simulate-insn.o
+> +obj-$(CONFIG_KPROBES_ON_FTRACE)	+= ftrace.o
+> diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/ftrace.c
+> new file mode 100644
+> index 000000000000..5989c57660f3
+> --- /dev/null
+> +++ b/arch/arm64/kernel/probes/ftrace.c
+> @@ -0,0 +1,84 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Dynamic Ftrace based Kprobes Optimization
+> + *
+> + * Copyright (C) Hitachi Ltd., 2012
+> + * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
+> + *		      Synaptics Incorporated
+> + */
+> +
+> +#include <linux/kprobes.h>
+> +
+> +/* Ftrace callback handler for kprobes -- called under preepmt disabed */
+> +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
+> +			   struct ftrace_ops *ops, struct pt_regs *regs)
+> +{
+> +	struct kprobe *p;
+> +	struct kprobe_ctlblk *kcb;
+> +
+> +	/* Preempt is disabled by ftrace */
+> +	p = get_kprobe((kprobe_opcode_t *)ip);
+> +	if (unlikely(!p) || kprobe_disabled(p))
+> +		return;
+> +
+> +	kcb = get_kprobe_ctlblk();
+> +	if (kprobe_running()) {
+> +		kprobes_inc_nmissed_count(p);
+> +	} else {
+> +		unsigned long orig_ip = instruction_pointer(regs);
+> +		/* Kprobe handler expects regs->pc = pc + 4 as breakpoint hit */
+> +		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
+
+Just want to make sure that you've confirmed that this is what happens 
+with a regular trap/brk based kprobe on ARM64. The reason for setting 
+the instruction pointer here is to ensure that it is set to the same 
+value as would be set if there was a trap/brk instruction at the ftrace 
+location. This ensures that the kprobe pre handler sees the same value 
+regardless.
+
+Further changes to the instruction pointer are to achieve the same 
+effect for kprobe post handlers.
+
+
+- Naveen
+
