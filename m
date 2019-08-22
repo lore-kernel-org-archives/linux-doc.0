@@ -1,244 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 817047D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 09:38:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFF677D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 09:48:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731043AbfHVJim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 05:38:42 -0400
-Received: from foss.arm.com ([217.140.110.172]:42528 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730897AbfHVJim (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:38:42 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B42A1596;
-        Thu, 22 Aug 2019 02:38:41 -0700 (PDT)
-Received: from [10.1.194.48] (e123572-lin.cambridge.arm.com [10.1.194.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CBCE93F246;
-        Thu, 22 Aug 2019 02:38:39 -0700 (PDT)
-Subject: Re: [PATCH v9 2/3] arm64: Define
- Documentation/arm64/tagged-address-abi.rst
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        id S1731991AbfHVJrS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 05:47:18 -0400
+Received: from mail-eopbgr680040.outbound.protection.outlook.com ([40.107.68.40]:11399
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726262AbfHVJrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 05:47:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BRzZsvojYJEzn8t+CEn5CxOkNKZ8LjKVVxHBwRUFf242ZIzRJo/h0XJuzCVkf/1BKaOAz1M7KY1KXA083xChuomhEti2eFvA9tZUC2UtTGBQCekWi97kVIvZfkHdrLpfDEZjaA8zS7oNT+KSXxlg4SDkh61CEwmb7xytwhQUxUlSIPxW5ljI+CehizTgLf0kpz+FwC4Up8W+HakqzELBM4KrBO/qQRvy6vchBE8YyXreACvk5wfSZkDImtvE7SmJ3KGROwgBruZY9WqPJOSg5TzonVJkUX0EenRLeohM14/6hrYiLXlZxoerzfrJHO01tE5IRO5eVBWPMzKAXCOgww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iuJB/D9ZAYIC4/U+5sFDlnKf5jFkhlANnyJd94ODdTk=;
+ b=QnCdQA2H0PTTXWU6ApcEWCEGndBd5KpfXstX8fGgHyEiEN4ox6jDpK0RLRaDAdEh0X0avG6fLZwVYQ4IQk8IKMYwSv8D7qqTmPTVDEEUlSXWJJgOUXl6TSOKpC2oxJ+XwqZxz5FPcIJZFBUu0NkBcZF1TZs4aVqhZzxRSIYVIzOmmxOrMIjhK0KWDDCQ+rHsl3RWaCzYa/k4lAcri/4xf/hHPwRC9IVBBXMqZz4Tvyp05oOnMpqOVWM76kvy7mfLY79A/dWp4w4p8soCGo1N7f0QMvp/LT8O/4KiKU8r23rl48SmqtDn+zu6MbpUl/iBV+Ak8QDq/gJHRhGsQpN1tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iuJB/D9ZAYIC4/U+5sFDlnKf5jFkhlANnyJd94ODdTk=;
+ b=kgIIwDBioO3eIZVV20lcuSHjZ8h93L4BmJrRr/2aYrJDOcQudSjhK7OqOVck94GRdFbKLVv5CscINFHgvhiCb5G/NpuAXLfvDctLTwZcX5wVk3bKCXMR+PhlN8oIIWoFqd2UGJbIAggmSeSthSU9OwIv4WSZlkIhrBdxnrilC0Q=
+Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
+ BYAPR03MB3606.namprd03.prod.outlook.com (52.135.213.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.16; Thu, 22 Aug 2019 09:47:13 +0000
+Received: from BYAPR03MB4773.namprd03.prod.outlook.com
+ ([fe80::b050:60f8:d275:e9f4]) by BYAPR03MB4773.namprd03.prod.outlook.com
+ ([fe80::b050:60f8:d275:e9f4%7]) with mapi id 15.20.2178.020; Thu, 22 Aug 2019
+ 09:47:13 +0000
+From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Will Deacon <will@kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Dave P Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>
-References: <20190821164730.47450-1-catalin.marinas@arm.com>
- <20190821164730.47450-3-catalin.marinas@arm.com>
- <CAAeHK+wHDx5bqNd+OQuJWoiA=LzsjCWkQ2UY_JVipr852Gv4JA@mail.gmail.com>
-From:   Kevin Brodsky <kevin.brodsky@arm.com>
-Message-ID: <b6ea0be1-398c-f2ee-c586-7bf0142a6793@arm.com>
-Date:   Thu, 22 Aug 2019 10:38:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
+Thread-Topic: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
+Thread-Index: AQHVWJwGDRorz/HiOUajlPa5ER0qaKcGu4YAgAAtQwA=
+Date:   Thu, 22 Aug 2019 09:47:13 +0000
+Message-ID: <20190822173558.63de3fc4@xhacker.debian>
+References: <20190822113421.52920377@xhacker.debian>
+        <1566456155.27ojwy97ss.naveen@linux.ibm.com>
+In-Reply-To: <1566456155.27ojwy97ss.naveen@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [124.74.246.114]
+x-clientproxiedby: TY1PR01CA0162.jpnprd01.prod.outlook.com (2603:1096:402::14)
+ To BYAPR03MB4773.namprd03.prod.outlook.com (2603:10b6:a03:134::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c86dcc4b-a5c5-4285-68ac-08d726e5b5b1
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR03MB3606;
+x-ms-traffictypediagnostic: BYAPR03MB3606:
+x-microsoft-antispam-prvs: <BYAPR03MB36062B8D1A079519B6A4C197EDA50@BYAPR03MB3606.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 01371B902F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39850400004)(346002)(366004)(136003)(396003)(376002)(189003)(199004)(478600001)(14454004)(50226002)(7416002)(3846002)(6116002)(446003)(26005)(4326008)(186003)(25786009)(66446008)(66476007)(64756008)(66556008)(52116002)(66946007)(305945005)(6916009)(6246003)(53936002)(7736002)(102836004)(11346002)(486006)(229853002)(99286004)(386003)(6506007)(476003)(316002)(2906002)(71190400001)(1076003)(5660300002)(14444005)(256004)(86362001)(6436002)(76176011)(8936002)(6486002)(6512007)(81156014)(8676002)(54906003)(9686003)(66066001)(71200400001)(81166006)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB3606;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: synaptics.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: zGFL02ylg/+6vR4i9eNdVgXqglW/BIazKBhUfaMMdOSgWj8qVy9fNpvAGWBoUcpxG8oerVsS9MhPulojauKXtJLBMzGGcvst7p9txzVcBogFm3xXCJT/R0pn3UT9DJLbAh3dMxbogRk8OJdLhIWexi92ljStuBMqvCePZ9OKyfeZfOzbAEQc4YjV9VimaG9hCdcdepjtUODWPOhlxFqaySLPtZ1WMUQ3NOSv7MeeELklbHtaDA1n/gFXqluAAezefWeS03Jbw2+J26YKEuPJxu2BGyMvXKgq/F53tF7fsro2ko93HjTdWA9DHaE9XQEfZcahYrmL0t8c3G9i0zQPQJY2OFyyy+n6iLmp4kTpovrZYGFXI/nOszWt94HAYAbydLuhv85EHCfVyV/6TETPSGzx4WarVsQCK+nrhGEkYh4=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D08A975643B7AC41B1D6B870A7F5FB7F@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <CAAeHK+wHDx5bqNd+OQuJWoiA=LzsjCWkQ2UY_JVipr852Gv4JA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c86dcc4b-a5c5-4285-68ac-08d726e5b5b1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2019 09:47:13.6052
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yp5GDMiuRrrS/I+HNgk5dsoW/+ONKEWylN1dgay/RVs1F1n/azXaBXOWCjVh8s7bGJo/bFl7m9oJsU2Dcnn65A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB3606
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/08/2019 17:57, Andrey Konovalov wrote:
-> On Wed, Aug 21, 2019 at 6:47 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
->> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
->>
->> On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
->> (EL0) to perform memory accesses through 64-bit pointers with a non-zero
->> top byte. Introduce the document describing the relaxation of the
->> syscall ABI that allows userspace to pass certain tagged pointers to
->> kernel syscalls.
->>
->> Cc: Will Deacon <will.deacon@arm.com>
->> Cc: Andrey Konovalov <andreyknvl@google.com>
->> Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
->> Cc: Kevin Brodsky <kevin.brodsky@arm.com>
->> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
->> Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
->> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-> Acked-by: Andrey Konovalov <andreyknvl@google.com>
+Hi,
 
-Acked-by: Kevin Brodsky <kevin.brodsky@arm.com>
+On Thu, 22 Aug 2019 12:23:58 +0530
+"Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com> wrote:
 
->> ---
->>   Documentation/arm64/tagged-address-abi.rst | 156 +++++++++++++++++++++
->>   1 file changed, 156 insertions(+)
->>   create mode 100644 Documentation/arm64/tagged-address-abi.rst
->>
->> diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arm64/tagged-address-abi.rst
->> new file mode 100644
->> index 000000000000..d4a85d535bf9
->> --- /dev/null
->> +++ b/Documentation/arm64/tagged-address-abi.rst
->> @@ -0,0 +1,156 @@
->> +==========================
->> +AArch64 TAGGED ADDRESS ABI
->> +==========================
->> +
->> +Authors: Vincenzo Frascino <vincenzo.frascino@arm.com>
->> +         Catalin Marinas <catalin.marinas@arm.com>
->> +
->> +Date: 21 August 2019
->> +
->> +This document describes the usage and semantics of the Tagged Address
->> +ABI on AArch64 Linux.
->> +
->> +1. Introduction
->> +---------------
->> +
->> +On AArch64 the ``TCR_EL1.TBI0`` bit is set by default, allowing
->> +userspace (EL0) to perform memory accesses through 64-bit pointers with
->> +a non-zero top byte. This document describes the relaxation of the
->> +syscall ABI that allows userspace to pass certain tagged pointers to
->> +kernel syscalls.
->> +
->> +2. AArch64 Tagged Address ABI
->> +-----------------------------
->> +
->> +From the kernel syscall interface perspective and for the purposes of
->> +this document, a "valid tagged pointer" is a pointer with a potentially
->> +non-zero top-byte that references an address in the user process address
->> +space obtained in one of the following ways:
->> +
->> +- ``mmap()`` syscall where either:
->> +
->> +  - flags have the ``MAP_ANONYMOUS`` bit set or
->> +  - the file descriptor refers to a regular file (including those
->> +    returned by ``memfd_create()``) or ``/dev/zero``
->> +
->> +- ``brk()`` syscall (i.e. the heap area between the initial location of
->> +  the program break at process creation and its current location).
->> +
->> +- any memory mapped by the kernel in the address space of the process
->> +  during creation and with the same restrictions as for ``mmap()`` above
->> +  (e.g. data, bss, stack).
->> +
->> +The AArch64 Tagged Address ABI has two stages of relaxation depending
->> +how the user addresses are used by the kernel:
->> +
->> +1. User addresses not accessed by the kernel but used for address space
->> +   management (e.g. ``mmap()``, ``mprotect()``, ``madvise()``). The use
->> +   of valid tagged pointers in this context is always allowed.
->> +
->> +2. User addresses accessed by the kernel (e.g. ``write()``). This ABI
->> +   relaxation is disabled by default and the application thread needs to
->> +   explicitly enable it via ``prctl()`` as follows:
->> +
->> +   - ``PR_SET_TAGGED_ADDR_CTRL``: enable or disable the AArch64 Tagged
->> +     Address ABI for the calling thread.
->> +
->> +     The ``(unsigned int) arg2`` argument is a bit mask describing the
->> +     control mode used:
->> +
->> +     - ``PR_TAGGED_ADDR_ENABLE``: enable AArch64 Tagged Address ABI.
->> +       Default status is disabled.
->> +
->> +     Arguments ``arg3``, ``arg4``, and ``arg5`` must be 0.
->> +
->> +   - ``PR_GET_TAGGED_ADDR_CTRL``: get the status of the AArch64 Tagged
->> +     Address ABI for the calling thread.
->> +
->> +     Arguments ``arg2``, ``arg3``, ``arg4``, and ``arg5`` must be 0.
->> +
->> +   The ABI properties described above are thread-scoped, inherited on
->> +   clone() and fork() and cleared on exec().
->> +
->> +   Calling ``prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0)``
->> +   returns ``-EINVAL`` if the AArch64 Tagged Address ABI is globally
->> +   disabled by ``sysctl abi.tagged_addr_disabled=1``. The default
->> +   ``sysctl abi.tagged_addr_disabled`` configuration is 0.
->> +
->> +When the AArch64 Tagged Address ABI is enabled for a thread, the
->> +following behaviours are guaranteed:
->> +
->> +- All syscalls except the cases mentioned in section 3 can accept any
->> +  valid tagged pointer.
->> +
->> +- The syscall behaviour is undefined for invalid tagged pointers: it may
->> +  result in an error code being returned, a (fatal) signal being raised,
->> +  or other modes of failure.
->> +
->> +- The syscall behaviour for a valid tagged pointer is the same as for
->> +  the corresponding untagged pointer.
->> +
->> +
->> +A definition of the meaning of tagged pointers on AArch64 can be found
->> +in Documentation/arm64/tagged-pointers.rst.
->> +
->> +3. AArch64 Tagged Address ABI Exceptions
->> +-----------------------------------------
->> +
->> +The following system call parameters must be untagged regardless of the
->> +ABI relaxation:
->> +
->> +- ``prctl()`` other than pointers to user data either passed directly or
->> +  indirectly as arguments to be accessed by the kernel.
->> +
->> +- ``ioctl()`` other than pointers to user data either passed directly or
->> +  indirectly as arguments to be accessed by the kernel.
->> +
->> +- ``shmat()`` and ``shmdt()``.
->> +
->> +Any attempt to use non-zero tagged pointers may result in an error code
->> +being returned, a (fatal) signal being raised, or other modes of
->> +failure.
->> +
->> +4. Example of correct usage
->> +---------------------------
->> +.. code-block:: c
->> +
->> +   #include <stdlib.h>
->> +   #include <string.h>
->> +   #include <unistd.h>
->> +   #include <sys/mman.h>
->> +   #include <sys/prctl.h>
->> +
->> +   #define PR_SET_TAGGED_ADDR_CTRL     55
->> +   #define PR_TAGGED_ADDR_ENABLE       (1UL << 0)
->> +
->> +   #define TAG_SHIFT           56
->> +
->> +   int main(void)
->> +   {
->> +       int tbi_enabled = 0;
->> +       unsigned long tag = 0;
->> +       char *ptr;
->> +
->> +       /* check/enable the tagged address ABI */
->> +       if (!prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0))
->> +               tbi_enabled = 1;
->> +
->> +       /* memory allocation */
->> +       ptr = mmap(NULL, sysconf(_SC_PAGE_SIZE), PROT_READ | PROT_WRITE,
->> +                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
->> +       if (ptr == MAP_FAILED)
->> +               return 1;
->> +
->> +       /* set a non-zero tag if the ABI is available */
->> +       if (tbi_enabled)
->> +               tag = rand() & 0xff;
->> +       ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
->> +
->> +       /* memory access to a tagged address */
->> +       strcpy(ptr, "tagged pointer\n");
->> +
->> +       /* syscall with a tagged pointer */
->> +       write(1, ptr, strlen(ptr));
->> +
->> +       return 0;
->> +   }
+
+>=20
+>=20
+> Jisheng Zhang wrote:
+> > KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as i=
+t
+> > eliminates the need for a trap, as well as the need to emulate or
+> > single-step instructions.
+> >
+> > Tested on berlin arm64 platform.
+> >
+> > ~ # mount -t debugfs debugfs /sys/kernel/debug/
+> > ~ # cd /sys/kernel/debug/
+> > /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
+> >
+> > before the patch:
+> >
+> > /sys/kernel/debug # cat kprobes/list
+> > ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
+> >
+> > after the patch:
+> >
+> > /sys/kernel/debug # cat kprobes/list
+> > ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
+> >
+> > Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com> =20
+>=20
+> This looks good to me. Except for a small confirmation below:
+> Reviewed-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
+>=20
+>=20
+
+<...>
+
+> > +/* Ftrace callback handler for kprobes -- called under preepmt disabed=
+ */
+> > +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
+> > +                        struct ftrace_ops *ops, struct pt_regs *regs)
+> > +{
+> > +     struct kprobe *p;
+> > +     struct kprobe_ctlblk *kcb;
+> > +
+> > +     /* Preempt is disabled by ftrace */
+> > +     p =3D get_kprobe((kprobe_opcode_t *)ip);
+> > +     if (unlikely(!p) || kprobe_disabled(p))
+> > +             return;
+> > +
+> > +     kcb =3D get_kprobe_ctlblk();
+> > +     if (kprobe_running()) {
+> > +             kprobes_inc_nmissed_count(p);
+> > +     } else {
+> > +             unsigned long orig_ip =3D instruction_pointer(regs);
+> > +             /* Kprobe handler expects regs->pc =3D pc + 4 as breakpoi=
+nt hit */
+> > +             instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t=
+)); =20
+>=20
+> Just want to make sure that you've confirmed that this is what happens
+> with a regular trap/brk based kprobe on ARM64. The reason for setting
+> the instruction pointer here is to ensure that it is set to the same
+> value as would be set if there was a trap/brk instruction at the ftrace
+> location. This ensures that the kprobe pre handler sees the same value
+> regardless.
+
+Due to the arm64's DYNAMIC_FTRACE_WITH_REGS implementation, the code itself
+is correct. But this doesn't look like "there was a trap instruction at
+the ftrace location".
+
+W/O KPROBE_ON_FTRACE:
+
+foo:
+00	insA
+04	insB
+08	insC
+
+kprobe's pre_handler() will see pc points to 00.
+
+W/ KPROBE_ON_FTRACE:
+
+foo:
+00	lr saver
+04	nop     // will be modified to ftrace call ins when KPROBE is armed
+08	insA
+0c	insB
+
+later, kprobe_ftrace_handler() will see pc points to 04, so pc + 4 will
+point to 08 the same as the one w/o KPROBE_ON_FTRACE.
+
+It seems I need to fix the comment.
+
+>=20
+> Further changes to the instruction pointer are to achieve the same
+> effect for kprobe post handlers.
+>=20
+>=20
 
