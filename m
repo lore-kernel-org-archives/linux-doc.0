@@ -5,232 +5,152 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 335DD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 06:54:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B4E07D981
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 09:37:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbfHVGyI convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 02:54:08 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32844 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726422AbfHVGyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 02:54:08 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7M6r4VN006309
-        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 02:54:08 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uhkern9um-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 02:54:07 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <naveen.n.rao@linux.vnet.ibm.com>;
-        Thu, 22 Aug 2019 07:54:05 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 22 Aug 2019 07:54:00 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7M6rxBW49021104
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 22 Aug 2019 06:53:59 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 46BD8A4062;
-        Thu, 22 Aug 2019 06:53:59 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DBF21A405F;
-        Thu, 22 Aug 2019 06:53:58 +0000 (GMT)
-Received: from localhost (unknown [9.199.32.226])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu, 22 Aug 2019 06:53:58 +0000 (GMT)
-Date:   Thu, 22 Aug 2019 12:23:58 +0530
-From:   "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
-Subject: Re: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
-To:     Catalin Marinas <catalin.marinas@arm.com>,
+        id S1726738AbfHVJg7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 05:36:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49236 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731857AbfHVJg6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 05:36:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id BB49F309175F;
+        Thu, 22 Aug 2019 09:36:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com [10.36.116.60])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE522600CD;
+        Thu, 22 Aug 2019 09:36:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 3A3757F; Thu, 22 Aug 2019 11:36:54 +0200 (CEST)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Will Deacon <will@kernel.org>
-Cc:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <20190822113421.52920377@xhacker.debian>
-In-Reply-To: <20190822113421.52920377@xhacker.debian>
-MIME-Version: 1.0
-User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-TM-AS-GCONF: 00
-x-cbid: 19082206-0020-0000-0000-000003625D37
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19082206-0021-0000-0000-000021B796B9
-Message-Id: <1566456155.27ojwy97ss.naveen@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-22_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908220074
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/3] udmabuf: add documentation
+Date:   Thu, 22 Aug 2019 11:36:52 +0200
+Message-Id: <20190822093654.23752-2-kraxel@redhat.com>
+In-Reply-To: <20190822093654.23752-1-kraxel@redhat.com>
+References: <20190822093654.23752-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Thu, 22 Aug 2019 09:36:58 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jisheng Zhang wrote:
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
-> 
-> Tested on berlin arm64 platform.
-> 
-> ~ # mount -t debugfs debugfs /sys/kernel/debug/
-> ~ # cd /sys/kernel/debug/
-> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
-> 
-> before the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
-> 
-> after the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
-> 
-> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/uapi/linux/udmabuf.h         | 52 ++++++++++++++++++++++++++--
+ Documentation/driver-api/dma-buf.rst |  8 +++++
+ 2 files changed, 57 insertions(+), 3 deletions(-)
 
-This looks good to me. Except for a small confirmation below:
-Reviewed-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
-
-
-> ---
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
-> 
-> Applied after arm64 FTRACE_WITH_REGS:
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674404.html
-> 
-> Changes since v3:
->   - move kprobe_lookup_name() and arch_kprobe_on_func_entry to ftrace.c since
->     we only want to choose the ftrace entry for KPROBES_ON_FTRACE.
->   - only choose ftrace entry if (addr && !offset)
-> 
-> Changes since v2:
->   - remove patch1, make it a single cleanup patch
->   - remove "This patch" in the change log
->   - implement arm64's kprobe_lookup_name() and arch_kprobe_on_func_entry instead
->     of patching the common kprobes code
-> 
-> Changes since v1:
->   - make the kprobes/x86: use instruction_pointer and instruction_pointer_set
->     as patch1
->   - add Masami's ACK to patch1
->   - add some description about KPROBES_ON_FTRACE and why we need it on
->     arm64
->   - correct the log before the patch
->   - remove the consolidation patch, make it as TODO
->   - only adjust kprobe's addr when KPROBE_FLAG_FTRACE is set
->   - if KPROBES_ON_FTRACE, ftrace_call_adjust() the kprobe's addr before
->     calling ftrace_location()
->   - update the kprobes-on-ftrace/arch-support.txt in doc
-> 
-> 
->  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
->  arch/arm64/Kconfig                            |  1 +
->  arch/arm64/kernel/probes/Makefile             |  1 +
->  arch/arm64/kernel/probes/ftrace.c             | 84 +++++++++++++++++++
->  4 files changed, 87 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/kernel/probes/ftrace.c
-> 
-> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> index 68f266944d5f..e8358a38981c 100644
-> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: |  ok  |
->      |         c6x: | TODO |
->      |        csky: | TODO |
->      |       h8300: | TODO |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 663392d1eae2..928700f15e23 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -167,6 +167,7 @@ config ARM64
->  	select HAVE_STACKPROTECTOR
->  	select HAVE_SYSCALL_TRACEPOINTS
->  	select HAVE_KPROBES
-> +	select HAVE_KPROBES_ON_FTRACE
->  	select HAVE_KRETPROBES
->  	select HAVE_GENERIC_VDSO
->  	select IOMMU_DMA if IOMMU_SUPPORT
-> diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/Makefile
-> index 8e4be92e25b1..4020cfc66564 100644
-> --- a/arch/arm64/kernel/probes/Makefile
-> +++ b/arch/arm64/kernel/probes/Makefile
-> @@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+= kprobes.o decode-insn.o	\
->  				   simulate-insn.o
->  obj-$(CONFIG_UPROBES)		+= uprobes.o decode-insn.o	\
->  				   simulate-insn.o
-> +obj-$(CONFIG_KPROBES_ON_FTRACE)	+= ftrace.o
-> diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/ftrace.c
-> new file mode 100644
-> index 000000000000..5989c57660f3
-> --- /dev/null
-> +++ b/arch/arm64/kernel/probes/ftrace.c
-> @@ -0,0 +1,84 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Dynamic Ftrace based Kprobes Optimization
-> + *
-> + * Copyright (C) Hitachi Ltd., 2012
-> + * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
-> + *		      Synaptics Incorporated
-> + */
-> +
-> +#include <linux/kprobes.h>
-> +
-> +/* Ftrace callback handler for kprobes -- called under preepmt disabed */
-> +void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
-> +			   struct ftrace_ops *ops, struct pt_regs *regs)
-> +{
-> +	struct kprobe *p;
-> +	struct kprobe_ctlblk *kcb;
-> +
-> +	/* Preempt is disabled by ftrace */
-> +	p = get_kprobe((kprobe_opcode_t *)ip);
-> +	if (unlikely(!p) || kprobe_disabled(p))
-> +		return;
-> +
-> +	kcb = get_kprobe_ctlblk();
-> +	if (kprobe_running()) {
-> +		kprobes_inc_nmissed_count(p);
-> +	} else {
-> +		unsigned long orig_ip = instruction_pointer(regs);
-> +		/* Kprobe handler expects regs->pc = pc + 4 as breakpoint hit */
-> +		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
-
-Just want to make sure that you've confirmed that this is what happens 
-with a regular trap/brk based kprobe on ARM64. The reason for setting 
-the instruction pointer here is to ensure that it is set to the same 
-value as would be set if there was a trap/brk instruction at the ftrace 
-location. This ensures that the kprobe pre handler sees the same value 
-regardless.
-
-Further changes to the instruction pointer are to achieve the same 
-effect for kprobe post handlers.
-
-
-- Naveen
+diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
+index 46b6532ed855..9fe440abf2f9 100644
+--- a/include/uapi/linux/udmabuf.h
++++ b/include/uapi/linux/udmabuf.h
+@@ -5,8 +5,39 @@
+ #include <linux/types.h>
+ #include <linux/ioctl.h>
+ 
++/**
++ * DOC: udmabuf
++ *
++ * udmabuf is a device driver which allows userspace to create
++ * dmabufs.  The memory used for these dmabufs must be backed by
++ * memfd.  The memfd must have F_SEAL_SHRINK and it must not have
++ * F_SEAL_WRITE.
++ *
++ * The driver has two ioctls, one to create a dmabuf from a single
++ * memory block and one to create a dmabuf from a list of memory
++ * blocks.
++ *
++ * UDMABUF_CREATE - _IOW('u', 0x42, udmabuf_create)
++ *
++ * UDMABUF_CREATE_LIST - _IOW('u', 0x43, udmabuf_create_list)
++ */
++
++#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
++#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
++
+ #define UDMABUF_FLAGS_CLOEXEC	0x01
+ 
++/**
++ * struct udmabuf_create - create a dmabuf from a single memory block.
++ *
++ * @memfd: The file handle.
++ * @offset: Start of the buffer (from memfd start).
++ * Must be page aligned.
++ * @size: Size of the buffer.  Must be rounded to page size.
++ *
++ * @flags:
++ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
++ */
+ struct udmabuf_create {
+ 	__u32 memfd;
+ 	__u32 flags;
+@@ -14,6 +45,15 @@ struct udmabuf_create {
+ 	__u64 size;
+ };
+ 
++/**
++ * struct udmabuf_create_item - one memory block list item.
++ *
++ * @memfd: The file handle.
++ * @__pad: Padding field (unused).
++ * @offset: Start of the buffer (from memfd start).
++ * Must be page aligned.
++ * @size: Size of the buffer.  Must be rounded to page size.
++ */
+ struct udmabuf_create_item {
+ 	__u32 memfd;
+ 	__u32 __pad;
+@@ -21,13 +61,19 @@ struct udmabuf_create_item {
+ 	__u64 size;
+ };
+ 
++/**
++ * struct udmabuf_create_list - create a dmabuf from a memory block list.
++ *
++ * @count: The number of list elements.
++ * @list: The memory block list
++ *
++ * @flags:
++ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
++ */
+ struct udmabuf_create_list {
+ 	__u32 flags;
+ 	__u32 count;
+ 	struct udmabuf_create_item list[];
+ };
+ 
+-#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
+-#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
+-
+ #endif /* _UAPI_LINUX_UDMABUF_H */
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index b541e97c7ab1..1f62c30a14b0 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -166,3 +166,11 @@ DMA Fence uABI/Sync File
+ .. kernel-doc:: include/linux/sync_file.h
+    :internal:
+ 
++Userspace DMA Buffer driver
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/uapi/linux/udmabuf.h
++   :doc: udmabuf
++
++.. kernel-doc:: include/uapi/linux/udmabuf.h
++   :internal:
+-- 
+2.18.1
 
