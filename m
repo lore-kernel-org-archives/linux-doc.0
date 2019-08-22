@@ -3,154 +3,242 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B4E07D981
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 09:37:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 817047D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 09:38:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbfHVJg7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 05:36:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49236 "EHLO mx1.redhat.com"
+        id S1731043AbfHVJim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 05:38:42 -0400
+Received: from foss.arm.com ([217.140.110.172]:42528 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731857AbfHVJg6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:36:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BB49F309175F;
-        Thu, 22 Aug 2019 09:36:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com [10.36.116.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DE522600CD;
-        Thu, 22 Aug 2019 09:36:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 3A3757F; Thu, 22 Aug 2019 11:36:54 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/3] udmabuf: add documentation
-Date:   Thu, 22 Aug 2019 11:36:52 +0200
-Message-Id: <20190822093654.23752-2-kraxel@redhat.com>
-In-Reply-To: <20190822093654.23752-1-kraxel@redhat.com>
-References: <20190822093654.23752-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Thu, 22 Aug 2019 09:36:58 +0000 (UTC)
+        id S1730897AbfHVJim (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Aug 2019 05:38:42 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B42A1596;
+        Thu, 22 Aug 2019 02:38:41 -0700 (PDT)
+Received: from [10.1.194.48] (e123572-lin.cambridge.arm.com [10.1.194.48])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CBCE93F246;
+        Thu, 22 Aug 2019 02:38:39 -0700 (PDT)
+Subject: Re: [PATCH v9 2/3] arm64: Define
+ Documentation/arm64/tagged-address-abi.rst
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Dave P Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>
+References: <20190821164730.47450-1-catalin.marinas@arm.com>
+ <20190821164730.47450-3-catalin.marinas@arm.com>
+ <CAAeHK+wHDx5bqNd+OQuJWoiA=LzsjCWkQ2UY_JVipr852Gv4JA@mail.gmail.com>
+From:   Kevin Brodsky <kevin.brodsky@arm.com>
+Message-ID: <b6ea0be1-398c-f2ee-c586-7bf0142a6793@arm.com>
+Date:   Thu, 22 Aug 2019 10:38:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAAeHK+wHDx5bqNd+OQuJWoiA=LzsjCWkQ2UY_JVipr852Gv4JA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/uapi/linux/udmabuf.h         | 52 ++++++++++++++++++++++++++--
- Documentation/driver-api/dma-buf.rst |  8 +++++
- 2 files changed, 57 insertions(+), 3 deletions(-)
+On 21/08/2019 17:57, Andrey Konovalov wrote:
+> On Wed, Aug 21, 2019 at 6:47 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>>
+>> On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
+>> (EL0) to perform memory accesses through 64-bit pointers with a non-zero
+>> top byte. Introduce the document describing the relaxation of the
+>> syscall ABI that allows userspace to pass certain tagged pointers to
+>> kernel syscalls.
+>>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> Cc: Andrey Konovalov <andreyknvl@google.com>
+>> Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
+>> Cc: Kevin Brodsky <kevin.brodsky@arm.com>
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
+>> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+> Acked-by: Andrey Konovalov <andreyknvl@google.com>
 
-diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
-index 46b6532ed855..9fe440abf2f9 100644
---- a/include/uapi/linux/udmabuf.h
-+++ b/include/uapi/linux/udmabuf.h
-@@ -5,8 +5,39 @@
- #include <linux/types.h>
- #include <linux/ioctl.h>
- 
-+/**
-+ * DOC: udmabuf
-+ *
-+ * udmabuf is a device driver which allows userspace to create
-+ * dmabufs.  The memory used for these dmabufs must be backed by
-+ * memfd.  The memfd must have F_SEAL_SHRINK and it must not have
-+ * F_SEAL_WRITE.
-+ *
-+ * The driver has two ioctls, one to create a dmabuf from a single
-+ * memory block and one to create a dmabuf from a list of memory
-+ * blocks.
-+ *
-+ * UDMABUF_CREATE - _IOW('u', 0x42, udmabuf_create)
-+ *
-+ * UDMABUF_CREATE_LIST - _IOW('u', 0x43, udmabuf_create_list)
-+ */
-+
-+#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-+#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
-+
- #define UDMABUF_FLAGS_CLOEXEC	0x01
- 
-+/**
-+ * struct udmabuf_create - create a dmabuf from a single memory block.
-+ *
-+ * @memfd: The file handle.
-+ * @offset: Start of the buffer (from memfd start).
-+ * Must be page aligned.
-+ * @size: Size of the buffer.  Must be rounded to page size.
-+ *
-+ * @flags:
-+ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-+ */
- struct udmabuf_create {
- 	__u32 memfd;
- 	__u32 flags;
-@@ -14,6 +45,15 @@ struct udmabuf_create {
- 	__u64 size;
- };
- 
-+/**
-+ * struct udmabuf_create_item - one memory block list item.
-+ *
-+ * @memfd: The file handle.
-+ * @__pad: Padding field (unused).
-+ * @offset: Start of the buffer (from memfd start).
-+ * Must be page aligned.
-+ * @size: Size of the buffer.  Must be rounded to page size.
-+ */
- struct udmabuf_create_item {
- 	__u32 memfd;
- 	__u32 __pad;
-@@ -21,13 +61,19 @@ struct udmabuf_create_item {
- 	__u64 size;
- };
- 
-+/**
-+ * struct udmabuf_create_list - create a dmabuf from a memory block list.
-+ *
-+ * @count: The number of list elements.
-+ * @list: The memory block list
-+ *
-+ * @flags:
-+ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-+ */
- struct udmabuf_create_list {
- 	__u32 flags;
- 	__u32 count;
- 	struct udmabuf_create_item list[];
- };
- 
--#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
--#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
--
- #endif /* _UAPI_LINUX_UDMABUF_H */
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index b541e97c7ab1..1f62c30a14b0 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -166,3 +166,11 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+Userspace DMA Buffer driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/udmabuf.h
-+   :doc: udmabuf
-+
-+.. kernel-doc:: include/uapi/linux/udmabuf.h
-+   :internal:
--- 
-2.18.1
+Acked-by: Kevin Brodsky <kevin.brodsky@arm.com>
+
+>> ---
+>>   Documentation/arm64/tagged-address-abi.rst | 156 +++++++++++++++++++++
+>>   1 file changed, 156 insertions(+)
+>>   create mode 100644 Documentation/arm64/tagged-address-abi.rst
+>>
+>> diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arm64/tagged-address-abi.rst
+>> new file mode 100644
+>> index 000000000000..d4a85d535bf9
+>> --- /dev/null
+>> +++ b/Documentation/arm64/tagged-address-abi.rst
+>> @@ -0,0 +1,156 @@
+>> +==========================
+>> +AArch64 TAGGED ADDRESS ABI
+>> +==========================
+>> +
+>> +Authors: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> +         Catalin Marinas <catalin.marinas@arm.com>
+>> +
+>> +Date: 21 August 2019
+>> +
+>> +This document describes the usage and semantics of the Tagged Address
+>> +ABI on AArch64 Linux.
+>> +
+>> +1. Introduction
+>> +---------------
+>> +
+>> +On AArch64 the ``TCR_EL1.TBI0`` bit is set by default, allowing
+>> +userspace (EL0) to perform memory accesses through 64-bit pointers with
+>> +a non-zero top byte. This document describes the relaxation of the
+>> +syscall ABI that allows userspace to pass certain tagged pointers to
+>> +kernel syscalls.
+>> +
+>> +2. AArch64 Tagged Address ABI
+>> +-----------------------------
+>> +
+>> +From the kernel syscall interface perspective and for the purposes of
+>> +this document, a "valid tagged pointer" is a pointer with a potentially
+>> +non-zero top-byte that references an address in the user process address
+>> +space obtained in one of the following ways:
+>> +
+>> +- ``mmap()`` syscall where either:
+>> +
+>> +  - flags have the ``MAP_ANONYMOUS`` bit set or
+>> +  - the file descriptor refers to a regular file (including those
+>> +    returned by ``memfd_create()``) or ``/dev/zero``
+>> +
+>> +- ``brk()`` syscall (i.e. the heap area between the initial location of
+>> +  the program break at process creation and its current location).
+>> +
+>> +- any memory mapped by the kernel in the address space of the process
+>> +  during creation and with the same restrictions as for ``mmap()`` above
+>> +  (e.g. data, bss, stack).
+>> +
+>> +The AArch64 Tagged Address ABI has two stages of relaxation depending
+>> +how the user addresses are used by the kernel:
+>> +
+>> +1. User addresses not accessed by the kernel but used for address space
+>> +   management (e.g. ``mmap()``, ``mprotect()``, ``madvise()``). The use
+>> +   of valid tagged pointers in this context is always allowed.
+>> +
+>> +2. User addresses accessed by the kernel (e.g. ``write()``). This ABI
+>> +   relaxation is disabled by default and the application thread needs to
+>> +   explicitly enable it via ``prctl()`` as follows:
+>> +
+>> +   - ``PR_SET_TAGGED_ADDR_CTRL``: enable or disable the AArch64 Tagged
+>> +     Address ABI for the calling thread.
+>> +
+>> +     The ``(unsigned int) arg2`` argument is a bit mask describing the
+>> +     control mode used:
+>> +
+>> +     - ``PR_TAGGED_ADDR_ENABLE``: enable AArch64 Tagged Address ABI.
+>> +       Default status is disabled.
+>> +
+>> +     Arguments ``arg3``, ``arg4``, and ``arg5`` must be 0.
+>> +
+>> +   - ``PR_GET_TAGGED_ADDR_CTRL``: get the status of the AArch64 Tagged
+>> +     Address ABI for the calling thread.
+>> +
+>> +     Arguments ``arg2``, ``arg3``, ``arg4``, and ``arg5`` must be 0.
+>> +
+>> +   The ABI properties described above are thread-scoped, inherited on
+>> +   clone() and fork() and cleared on exec().
+>> +
+>> +   Calling ``prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0)``
+>> +   returns ``-EINVAL`` if the AArch64 Tagged Address ABI is globally
+>> +   disabled by ``sysctl abi.tagged_addr_disabled=1``. The default
+>> +   ``sysctl abi.tagged_addr_disabled`` configuration is 0.
+>> +
+>> +When the AArch64 Tagged Address ABI is enabled for a thread, the
+>> +following behaviours are guaranteed:
+>> +
+>> +- All syscalls except the cases mentioned in section 3 can accept any
+>> +  valid tagged pointer.
+>> +
+>> +- The syscall behaviour is undefined for invalid tagged pointers: it may
+>> +  result in an error code being returned, a (fatal) signal being raised,
+>> +  or other modes of failure.
+>> +
+>> +- The syscall behaviour for a valid tagged pointer is the same as for
+>> +  the corresponding untagged pointer.
+>> +
+>> +
+>> +A definition of the meaning of tagged pointers on AArch64 can be found
+>> +in Documentation/arm64/tagged-pointers.rst.
+>> +
+>> +3. AArch64 Tagged Address ABI Exceptions
+>> +-----------------------------------------
+>> +
+>> +The following system call parameters must be untagged regardless of the
+>> +ABI relaxation:
+>> +
+>> +- ``prctl()`` other than pointers to user data either passed directly or
+>> +  indirectly as arguments to be accessed by the kernel.
+>> +
+>> +- ``ioctl()`` other than pointers to user data either passed directly or
+>> +  indirectly as arguments to be accessed by the kernel.
+>> +
+>> +- ``shmat()`` and ``shmdt()``.
+>> +
+>> +Any attempt to use non-zero tagged pointers may result in an error code
+>> +being returned, a (fatal) signal being raised, or other modes of
+>> +failure.
+>> +
+>> +4. Example of correct usage
+>> +---------------------------
+>> +.. code-block:: c
+>> +
+>> +   #include <stdlib.h>
+>> +   #include <string.h>
+>> +   #include <unistd.h>
+>> +   #include <sys/mman.h>
+>> +   #include <sys/prctl.h>
+>> +
+>> +   #define PR_SET_TAGGED_ADDR_CTRL     55
+>> +   #define PR_TAGGED_ADDR_ENABLE       (1UL << 0)
+>> +
+>> +   #define TAG_SHIFT           56
+>> +
+>> +   int main(void)
+>> +   {
+>> +       int tbi_enabled = 0;
+>> +       unsigned long tag = 0;
+>> +       char *ptr;
+>> +
+>> +       /* check/enable the tagged address ABI */
+>> +       if (!prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0))
+>> +               tbi_enabled = 1;
+>> +
+>> +       /* memory allocation */
+>> +       ptr = mmap(NULL, sysconf(_SC_PAGE_SIZE), PROT_READ | PROT_WRITE,
+>> +                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+>> +       if (ptr == MAP_FAILED)
+>> +               return 1;
+>> +
+>> +       /* set a non-zero tag if the ABI is available */
+>> +       if (tbi_enabled)
+>> +               tag = rand() & 0xff;
+>> +       ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
+>> +
+>> +       /* memory access to a tagged address */
+>> +       strcpy(ptr, "tagged pointer\n");
+>> +
+>> +       /* syscall with a tagged pointer */
+>> +       write(1, ptr, strlen(ptr));
+>> +
+>> +       return 0;
+>> +   }
 
