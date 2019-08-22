@@ -1,138 +1,300 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D54017D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Aug 2019 21:18:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E90AE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 03:47:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727257AbfHUVSo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Aug 2019 17:18:44 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:37693 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727136AbfHUVSn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Aug 2019 17:18:43 -0400
-Received: by mail-ot1-f67.google.com with SMTP id f17so3471574otq.4;
-        Wed, 21 Aug 2019 14:18:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0BysGlcLSnXeBZ1pv0mPCj6ITlGQ3QNXjoyF2Ap0RJY=;
-        b=hQ18nXsiPm8wqzfq38jJ8lQCu2q87OuXaZnysQLVlm9K/LZO0fxuRq+Ai+Sdhco7Un
-         fqP9b6yfqiZX7LCIZ4EbqVIEG6YkMLAQ7V3Oqqoas7o7Y/uhdyvhQ8Ra/4D9GfH1yeKH
-         JrU8oWEirm2LVXC+22RKxiZAFoZFBvPLUA5Mm/kIb4RCYMAg0PJWNBHXRbH6cYtsCZG+
-         gg+MH3jESDgnjwl76sXZsqwodkNrIe54hB+LxVOls4gP6Zl1CeduPswL2eQZEH+EGiSh
-         NaLydsc4XFU+gy+vZE+JghXCafCR3zS1FcNr0sbQGuGsoQuFTgWW17mTox5Gy7mn1vxG
-         UslA==
-X-Gm-Message-State: APjAAAUQp6p5H2CPCwRFiGhlurGLJMQjZASfA2XSCDMOGmUIN3xfDeX+
-        hqUFdBmSHe+iye+d/Dk5VA==
-X-Google-Smtp-Source: APXvYqwyCdp9o8YTLQuqlTyT5OIepCOx0aazVgW8orqSC0e9+vmRZf4pQjus03+ay0tw1yhN7gQitQ==
-X-Received: by 2002:a05:6830:54:: with SMTP id d20mr25800639otp.225.1566422322638;
-        Wed, 21 Aug 2019 14:18:42 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id o26sm7711687otl.34.2019.08.21.14.18.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 14:18:42 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 16:18:41 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
+        id S1728788AbfHVDrX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Aug 2019 23:47:23 -0400
+Received: from mail-eopbgr810080.outbound.protection.outlook.com ([40.107.81.80]:55904
+        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729135AbfHVDrW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Aug 2019 23:47:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CABafZ3ghswPVKIaYOzHAi9RMm8b3zVEJF30NtI9ztG7x37SlIHM5JW6/9j3T429l8z7dnPmJ/TC0RarBPyf7a8Z/tQrXYgGwDgoAZXOe+LFtaVsjD1T3dZ6TyjagISMWtXbbp9uRhB53ou1rVxunoUbjHRCW59CUg9qJTFLCUmG5zAtU51kyWbPC2AOKEb/56McHrfoW5asYGInpARDLYo1f441IC+0gkDelN682JwhHOlYBlMEGOdzT5VuLZchkSsM9LMRxKjK+mR3nEai9zq5X7mN5qqmXgZI4Fw9UzaEu9Ip35qeGmamagDbczwJacfWAOaTdpbClCUf3dXddg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=usdSeSuhasYXmm3QNXdqKWSUcRnKw2893WrYZKkVG9g=;
+ b=mx0XaQBaiCBMuCwsCQvYyhx4t7GKcFLFoYP2GS6/NG55d3PBRqUidt5phpsDckAvttWb2BGrN4mHovmi/4FFWRrwzgnBp0Hq0u2AlTA9q3WJIIiQPTmN0bE1EtQgmTJyfPoTaoqK2SH5REnBsUxeuXDO1YG5XLCkfNAnfGzWs0l8NGE6slFuYVpPnG4C1I4hek913AHP7OfdcN0aBLGLgxEBaH/M0uvbbMGKSx9+1RUaUCZDtLKVc/9SLDvthY4FRN9GBj3VpIWmggPWJKQDy/DE3dwQrQtnMRll9cnoCfEmo8ABgxsMZL2DKrHlR21p7dLfyn52a/kPWlyNu08rLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=usdSeSuhasYXmm3QNXdqKWSUcRnKw2893WrYZKkVG9g=;
+ b=geDPjQwaMn6GTEgyvhEGmOltp9TIA7fvAG71r60yaIDtL5VYryY8ILtSDPKPKLVVhiEp4Y89ZUsICZep8GfFHzOvHOHI89q09V/4HTbQIYeAhzXyCxOjkn/AUxHTJFJBPjQ0uTP39/teOUns4D/qc+pHc6dUijweXjgP/Stpv54=
+Received: from DM6PR03MB4778.namprd03.prod.outlook.com (20.179.105.26) by
+ DM6PR03MB5036.namprd03.prod.outlook.com (10.141.162.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.16; Thu, 22 Aug 2019 03:45:39 +0000
+Received: from DM6PR03MB4778.namprd03.prod.outlook.com
+ ([fe80::16e:7410:d85f:ed8a]) by DM6PR03MB4778.namprd03.prod.outlook.com
+ ([fe80::16e:7410:d85f:ed8a%7]) with mapi id 15.20.2157.022; Thu, 22 Aug 2019
+ 03:45:39 +0000
+From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        Cosmin Stefan Stoica <cosmin.stoica@nxp.com>,
-        Larisa Ileana Grigore <larisa.grigore@nxp.com>
-Subject: Re: [PATCH v2 4/6] dt-bindings: serial: Document Freescale LINFlex
- UART
-Message-ID: <20190821211841.GA16627@bogus>
-References: <20190809112853.15846-1-stefan-gabriel.mirea@nxp.com>
- <20190809112853.15846-5-stefan-gabriel.mirea@nxp.com>
+        Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
+Thread-Topic: [PATCH v4] arm64: implement KPROBES_ON_FTRACE
+Thread-Index: AQHVWJwQA6oCa6sgREe9v4FYsERl0w==
+Date:   Thu, 22 Aug 2019 03:45:38 +0000
+Message-ID: <20190822113421.52920377@xhacker.debian>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [124.74.246.114]
+x-clientproxiedby: TYAPR01CA0039.jpnprd01.prod.outlook.com
+ (2603:1096:404:28::27) To DM6PR03MB4778.namprd03.prod.outlook.com
+ (2603:10b6:5:184::26)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a576ac20-4f76-4e9a-468a-08d726b3329e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DM6PR03MB5036;
+x-ms-traffictypediagnostic: DM6PR03MB5036:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <DM6PR03MB50365BC1BA18ADA24BB2B5B9EDA50@DM6PR03MB5036.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 01371B902F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(136003)(376002)(39850400004)(396003)(346002)(189003)(199004)(54534003)(70486001)(6306002)(6512007)(9686003)(8936002)(66066001)(117636001)(86362001)(478600001)(6436002)(6486002)(7416002)(8266002)(2906002)(6116002)(3846002)(81166006)(50226002)(8676002)(81156014)(316002)(4326008)(1076003)(14444005)(256004)(71200400001)(99286004)(52116002)(476003)(486006)(110136005)(54906003)(7736002)(305945005)(25786009)(66446008)(64756008)(66556008)(97876018)(26005)(386003)(6506007)(186003)(102836004)(66476007)(66946007)(966005)(53936002)(14454004)(71190400001)(5660300002)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR03MB5036;H:DM6PR03MB4778.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: synaptics.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: zbkARI8DZa8D+GPXXm/YHcuw6AjlKe0qx5WQGe4OWTHQ+nK31GpqkRGx0vKIFstiLFiMr/oElLZzu0jHrqJPIVXk3nZn9IlY2t4lRpB99hCJz7A9pZ+zB+/rpjf3Au543czNAPMMgfaRGBYcOE6CDkjltZeoSlsUsFs4gERINgRwx0ieEy03sKATobQ9D3Tg7sw0ecw3eMYGnPnKbBhDxaJZVyNDj7CiWB3nNodsOGgrQqRAZDFJTmEWMZ8Ym/RV1HJ+ZzVveKakTUfkLVmFZ39QonoADEAO+kFpP3eyr0VMuzvsCnHF8FgXvpAF6Aiqyow/w9r46NjyWhHUMKwGG20hd1rFVtvpOptNYjtlZFkYBZ2vn4YYaKRAXzONUgnHZ0vLEKnQl7I6grqqtkNMDri4OUofrEQhMCT0WTgTR9Y=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3C6EDF32F9D3EE49B3B4F56DC9A91833@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190809112853.15846-5-stefan-gabriel.mirea@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a576ac20-4f76-4e9a-468a-08d726b3329e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2019 03:45:38.9847
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hrT4hLLiwrhDf6hugZ02bNMrZJkR84ApAfp25i2dk/ZtTbCrHWgQWP9FJN62Af5sX1vrZqMcyRvZPk1CqiZ/tA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5036
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 09, 2019 at 11:29:14AM +0000, Stefan-gabriel Mirea wrote:
-> From: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
-> 
-> Add documentation for the serial communication interface module (LINFlex),
-> found in two instances on S32V234.
-> 
-> Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
-> Signed-off-by: Larisa Grigore <Larisa.Grigore@nxp.com>
-> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-> ---
->  .../bindings/serial/fsl,s32-linflexuart.txt   | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.txt b/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.txt
-> new file mode 100644
-> index 000000000000..957ffeaca9f1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.txt
-> @@ -0,0 +1,24 @@
-> +* Freescale Linflex UART
+KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+eliminates the need for a trap, as well as the need to emulate or
+single-step instructions.
 
-Be consistent with the name: LINFlexD?
+Tested on berlin arm64 platform.
 
-> +
-> +The LINFlexD controller implements several LIN protocol versions, as well as
-> +support for full-duplex UART communication through 8-bit and 9-bit frames. The
-> +Linflex UART driver enables operation only in UART mode.
+~ # mount -t debugfs debugfs /sys/kernel/debug/
+~ # cd /sys/kernel/debug/
+/sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
 
-What the driver supports or not is independent of the binding.
+before the patch:
 
-> +
-> +See chapter 47 ("LINFlexD") in the reference manual[1].
-> +
-> +Required properties:
-> +- compatible :
-> +  - "fsl,s32-linflexuart" for linflex configured in uart mode which
+/sys/kernel/debug # cat kprobes/list
+ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
 
-LINFlexD?
+after the patch:
 
-> +  is compatible with the one integrated on S32V234 SoC
+/sys/kernel/debug # cat kprobes/list
+ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
 
-Compatibles should be SoC specific. Is 's32' specific enough to account 
-for any differences or future bugs found?
+Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+---
+KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+eliminates the need for a trap, as well as the need to emulate or
+single-step instructions.
 
-> +- reg : Address and length of the register set for the device
-> +- interrupts : Should contain uart interrupt
-> +
-> +Example:
-> +uart0:serial@40053000 {
+Applied after arm64 FTRACE_WITH_REGS:
+http://lists.infradead.org/pipermail/linux-arm-kernel/2019-August/674404.ht=
+ml
 
-space    ^
+Changes since v3:
+  - move kprobe_lookup_name() and arch_kprobe_on_func_entry to ftrace.c sin=
+ce
+    we only want to choose the ftrace entry for KPROBES_ON_FTRACE.
+  - only choose ftrace entry if (addr && !offset)
 
-> +	compatible = "fsl,s32-linflexuart";
-> +	reg = <0x0 0x40053000 0x0 0x1000>;
-> +	interrupts = <0 59 4>;
-> +	status = "disabled";
+Changes since v2:
+  - remove patch1, make it a single cleanup patch
+  - remove "This patch" in the change log
+  - implement arm64's kprobe_lookup_name() and arch_kprobe_on_func_entry in=
+stead
+    of patching the common kprobes code
 
-Don't show status in examples.
+Changes since v1:
+  - make the kprobes/x86: use instruction_pointer and instruction_pointer_s=
+et
+    as patch1
+  - add Masami's ACK to patch1
+  - add some description about KPROBES_ON_FTRACE and why we need it on
+    arm64
+  - correct the log before the patch
+  - remove the consolidation patch, make it as TODO
+  - only adjust kprobe's addr when KPROBE_FLAG_FTRACE is set
+  - if KPROBES_ON_FTRACE, ftrace_call_adjust() the kprobe's addr before
+    calling ftrace_location()
+  - update the kprobes-on-ftrace/arch-support.txt in doc
 
-> +};
-> +
-> +[1] https://www.nxp.com/webapp/Download?colCode=S32V234RM
-> -- 
-> 2.22.0
-> 
+
+ .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+ arch/arm64/Kconfig                            |  1 +
+ arch/arm64/kernel/probes/Makefile             |  1 +
+ arch/arm64/kernel/probes/ftrace.c             | 84 +++++++++++++++++++
+ 4 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/kernel/probes/ftrace.c
+
+diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.tx=
+t b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+index 68f266944d5f..e8358a38981c 100644
+--- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
++++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: | TODO |
+     |         arm: | TODO |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |        csky: | TODO |
+     |       h8300: | TODO |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 663392d1eae2..928700f15e23 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -167,6 +167,7 @@ config ARM64
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HAVE_KPROBES
++	select HAVE_KPROBES_ON_FTRACE
+ 	select HAVE_KRETPROBES
+ 	select HAVE_GENERIC_VDSO
+ 	select IOMMU_DMA if IOMMU_SUPPORT
+diff --git a/arch/arm64/kernel/probes/Makefile b/arch/arm64/kernel/probes/M=
+akefile
+index 8e4be92e25b1..4020cfc66564 100644
+--- a/arch/arm64/kernel/probes/Makefile
++++ b/arch/arm64/kernel/probes/Makefile
+@@ -4,3 +4,4 @@ obj-$(CONFIG_KPROBES)		+=3D kprobes.o decode-insn.o	\
+ 				   simulate-insn.o
+ obj-$(CONFIG_UPROBES)		+=3D uprobes.o decode-insn.o	\
+ 				   simulate-insn.o
++obj-$(CONFIG_KPROBES_ON_FTRACE)	+=3D ftrace.o
+diff --git a/arch/arm64/kernel/probes/ftrace.c b/arch/arm64/kernel/probes/f=
+trace.c
+new file mode 100644
+index 000000000000..5989c57660f3
+--- /dev/null
++++ b/arch/arm64/kernel/probes/ftrace.c
+@@ -0,0 +1,84 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Dynamic Ftrace based Kprobes Optimization
++ *
++ * Copyright (C) Hitachi Ltd., 2012
++ * Copyright (C) 2019 Jisheng Zhang <jszhang@kernel.org>
++ *		      Synaptics Incorporated
++ */
++
++#include <linux/kprobes.h>
++
++/* Ftrace callback handler for kprobes -- called under preepmt disabed */
++void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
++			   struct ftrace_ops *ops, struct pt_regs *regs)
++{
++	struct kprobe *p;
++	struct kprobe_ctlblk *kcb;
++
++	/* Preempt is disabled by ftrace */
++	p =3D get_kprobe((kprobe_opcode_t *)ip);
++	if (unlikely(!p) || kprobe_disabled(p))
++		return;
++
++	kcb =3D get_kprobe_ctlblk();
++	if (kprobe_running()) {
++		kprobes_inc_nmissed_count(p);
++	} else {
++		unsigned long orig_ip =3D instruction_pointer(regs);
++		/* Kprobe handler expects regs->pc =3D pc + 4 as breakpoint hit */
++		instruction_pointer_set(regs, ip + sizeof(kprobe_opcode_t));
++
++		__this_cpu_write(current_kprobe, p);
++		kcb->kprobe_status =3D KPROBE_HIT_ACTIVE;
++		if (!p->pre_handler || !p->pre_handler(p, regs)) {
++			/*
++			 * Emulate singlestep (and also recover regs->pc)
++			 * as if there is a nop
++			 */
++			instruction_pointer_set(regs,
++				(unsigned long)p->addr + MCOUNT_INSN_SIZE);
++			if (unlikely(p->post_handler)) {
++				kcb->kprobe_status =3D KPROBE_HIT_SSDONE;
++				p->post_handler(p, regs, 0);
++			}
++			instruction_pointer_set(regs, orig_ip);
++		}
++		/*
++		 * If pre_handler returns !0, it changes regs->pc. We have to
++		 * skip emulating post_handler.
++		 */
++		__this_cpu_write(current_kprobe, NULL);
++	}
++}
++NOKPROBE_SYMBOL(kprobe_ftrace_handler);
++
++kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
++{
++	unsigned long addr =3D kallsyms_lookup_name(name);
++
++	if (addr && !offset) {
++		unsigned long faddr;
++		/*
++		 * with -fpatchable-function-entry=3D2, the first 4 bytes is the
++		 * LR saver, then the actual call insn. So ftrace location is
++		 * always on the first 4 bytes offset.
++		 */
++		faddr =3D ftrace_location_range(addr,
++					      addr + AARCH64_INSN_SIZE);
++		if (faddr)
++			return (kprobe_opcode_t *)faddr;
++	}
++	return (kprobe_opcode_t *)addr;
++}
++
++bool arch_kprobe_on_func_entry(unsigned long offset)
++{
++	return offset <=3D AARCH64_INSN_SIZE;
++}
++
++int arch_prepare_kprobe_ftrace(struct kprobe *p)
++{
++	p->ainsn.api.insn =3D NULL;
++	return 0;
++}
+--=20
+2.23.0.rc1
+
