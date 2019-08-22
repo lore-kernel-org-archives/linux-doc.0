@@ -3,221 +3,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27A7A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 11:48:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 004287D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 11:52:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732965AbfHVLsm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 07:48:42 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5193 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732607AbfHVLsm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Aug 2019 07:48:42 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id E3D4ACC6F3D6B9BD062D;
-        Thu, 22 Aug 2019 19:48:39 +0800 (CST)
-Received: from localhost (10.202.226.61) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 22 Aug 2019
- 19:48:38 +0800
-Date:   Thu, 22 Aug 2019 12:48:25 +0100
-From:   Jonathan Cameron <jonathan.cameron@huawei.com>
-To:     Steven Price <steven.price@arm.com>
-CC:     Mark Rutland <mark.rutland@arm.com>, <kvm@vger.kernel.org>,
-        Radim =?utf-8?Q?Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v3 07/10] KVM: arm64: Provide a PV_TIME device to user
- space
-Message-ID: <20190822124825.000009f1@huawei.com>
-In-Reply-To: <87bc2a01-8cf5-5161-45f8-00384775cf3a@arm.com>
-References: <20190821153656.33429-1-steven.price@arm.com>
-        <20190821153656.33429-8-steven.price@arm.com>
-        <20190822115722.00005aa7@huawei.com>
-        <87bc2a01-8cf5-5161-45f8-00384775cf3a@arm.com>
-Organization: Huawei
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1732906AbfHVLww convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 07:52:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59194 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731963AbfHVLww (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 07:52:52 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7MBm8D7003211
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 07:52:49 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2uhs8du782-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 07:52:49 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <naveen.n.rao@linux.vnet.ibm.com>;
+        Thu, 22 Aug 2019 12:52:47 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 22 Aug 2019 12:52:44 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7MBqhY831260730
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 22 Aug 2019 11:52:43 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EB44D4C052;
+        Thu, 22 Aug 2019 11:52:42 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8BE844C050;
+        Thu, 22 Aug 2019 11:52:42 +0000 (GMT)
+Received: from localhost (unknown [9.199.32.226])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 22 Aug 2019 11:52:42 +0000 (GMT)
+Date:   Thu, 22 Aug 2019 17:22:42 +0530
+From:   "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
+Subject: Re: [PATCH v5] arm64: implement KPROBES_ON_FTRACE
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20190822191351.3796aca8@xhacker.debian>
+In-Reply-To: <20190822191351.3796aca8@xhacker.debian>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.61]
-X-CFilter-Loop: Reflected
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-TM-AS-GCONF: 00
+x-cbid: 19082211-4275-0000-0000-0000035BDF6A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19082211-4276-0000-0000-0000386E055A
+Message-Id: <1566474733.p35psfjpl2.naveen@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-22_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=688 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908220129
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Aug 2019 12:11:55 +0100
-Steven Price <steven.price@arm.com> wrote:
-
-> On 22/08/2019 11:57, Jonathan Cameron wrote:
-> > On Wed, 21 Aug 2019 16:36:53 +0100
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >> Allow user space to inform the KVM host where in the physical memory
-> >> map the paravirtualized time structures should be located.
-> >>
-> >> A device is created which provides the base address of an array of
-> >> Stolen Time (ST) structures, one for each VCPU. There must be (64 *
-> >> total number of VCPUs) bytes of memory available at this location.
-> >>
-> >> The address is given in terms of the physical address visible to
-> >> the guest and must be page aligned. The guest will discover the address
-> >> via a hypercall.
-> >>
-> >> Signed-off-by: Steven Price <steven.price@arm.com>  
-> > 
-> > Hi Steven,
-> > 
-> > One general question inline.  I'm not particularly familiar with this area
-> > of the kernel, so maybe I'm missing something obvious, but having
-> > .destroy free the kvm_device which wasn't created in .create seems
-> > 'unusual'. 
-> > 
-> > Otherwise, FWIW looks good to me.
-> > 
-> > Jonathan
-> >   
-> [...]
-> >> +static void kvm_arm_pvtime_destroy(struct kvm_device *dev)
-> >> +{
-> >> +	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
-> >> +
-> >> +	pvtime->st_base = GPA_INVALID;
-> >> +	kfree(dev);  
-> > 
-> > Nothing to do with your patch as such... All users do the same.
-> > 
-> > This seems miss balanced. Why do we need to free the device by hand
-> > when we didn't create it in the create function?  I appreciate
-> > the comments say this is needed, but as far as I can see every
-> > single callback does kfree(dev) at the end which seems an
-> > odd thing to do.  
+Jisheng Zhang wrote:
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
 > 
-> Yes I think this is odd too - indeed when I initially wrote this I
-> missed off the kfree() call and had to track down the memory leak.
+> Tested on berlin arm64 platform.
 > 
-> When I looked into potentially tiding this up I found some other
-> oddities, e.g. "kvm-xive" (arch/powerpc/kvm/book3s_xive.c) doesn't have
-> a destroy callback. But I can't see anything in the common code which
-> deals with that case. So I decided to just "go with the flow" at the
-> moment, since I don't understand how some of these existing devices work
-> (perhaps they are already broken?).
-
-It has a release however and kvm_device_release also removes the
-device from the list that would then be cleared by kvm_destroy_devices.
-
-kvm_device_release is a release callback for the file operations so it
-'might' be called in all paths.
-
-Fun though, in kvm_ioctl_create_device the error handling for
-the anon_inode_getfd calls ops->destroy without checking it exists.
-Boom.
-
-Possibly never happens in reality but looks like a bug to me.
-
-Jonathan
-
-
+> ~ # mount -t debugfs debugfs /sys/kernel/debug/
+> ~ # cd /sys/kernel/debug/
+> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
 > 
-> Steve
+> before the patch:
 > 
-> >> +}
-> >> +
-> >> +static int kvm_arm_pvtime_set_attr(struct kvm_device *dev,
-> >> +				   struct kvm_device_attr *attr)
-> >> +{
-> >> +	struct kvm *kvm = dev->kvm;
-> >> +	struct kvm_arch_pvtime *pvtime = &kvm->arch.pvtime;
-> >> +	u64 __user *user = (u64 __user *)attr->addr;
-> >> +	struct kvm_dev_arm_st_region region;
-> >> +
-> >> +	switch (attr->group) {
-> >> +	case KVM_DEV_ARM_PV_TIME_REGION:
-> >> +		if (copy_from_user(&region, user, sizeof(region)))
-> >> +			return -EFAULT;
-> >> +		if (region.gpa & ~PAGE_MASK)
-> >> +			return -EINVAL;
-> >> +		if (region.size & ~PAGE_MASK)
-> >> +			return -EINVAL;
-> >> +		switch (attr->attr) {
-> >> +		case KVM_DEV_ARM_PV_TIME_ST:
-> >> +			if (pvtime->st_base != GPA_INVALID)
-> >> +				return -EEXIST;
-> >> +			pvtime->st_base = region.gpa;
-> >> +			pvtime->st_size = region.size;
-> >> +			return 0;
-> >> +		}
-> >> +		break;
-> >> +	}
-> >> +	return -ENXIO;
-> >> +}
-> >> +
-> >> +static int kvm_arm_pvtime_get_attr(struct kvm_device *dev,
-> >> +				   struct kvm_device_attr *attr)
-> >> +{
-> >> +	struct kvm_arch_pvtime *pvtime = &dev->kvm->arch.pvtime;
-> >> +	u64 __user *user = (u64 __user *)attr->addr;
-> >> +	struct kvm_dev_arm_st_region region;
-> >> +
-> >> +	switch (attr->group) {
-> >> +	case KVM_DEV_ARM_PV_TIME_REGION:
-> >> +		switch (attr->attr) {
-> >> +		case KVM_DEV_ARM_PV_TIME_ST:
-> >> +			region.gpa = pvtime->st_base;
-> >> +			region.size = pvtime->st_size;
-> >> +			if (copy_to_user(user, &region, sizeof(region)))
-> >> +				return -EFAULT;
-> >> +			return 0;
-> >> +		}
-> >> +		break;
-> >> +	}
-> >> +	return -ENXIO;
-> >> +}
-> >> +
-> >> +static int kvm_arm_pvtime_has_attr(struct kvm_device *dev,
-> >> +				   struct kvm_device_attr *attr)
-> >> +{
-> >> +	switch (attr->group) {
-> >> +	case KVM_DEV_ARM_PV_TIME_REGION:
-> >> +		switch (attr->attr) {
-> >> +		case KVM_DEV_ARM_PV_TIME_ST:
-> >> +			return 0;
-> >> +		}
-> >> +		break;
-> >> +	}
-> >> +	return -ENXIO;
-> >> +}
-> >> +
-> >> +static const struct kvm_device_ops pvtime_ops = {
-> >> +	"Arm PV time",
-> >> +	.create = kvm_arm_pvtime_create,
-> >> +	.destroy = kvm_arm_pvtime_destroy,
-> >> +	.set_attr = kvm_arm_pvtime_set_attr,
-> >> +	.get_attr = kvm_arm_pvtime_get_attr,
-> >> +	.has_attr = kvm_arm_pvtime_has_attr
-> >> +};
-> >> +
-> >> +void kvm_pvtime_init(void)
-> >> +{
-> >> +	kvm_register_device_ops(&pvtime_ops, KVM_DEV_TYPE_ARM_PV_TIME);
-> >> +}  
-> > 
-> > 
-> > 
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> >   
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
 > 
+> after the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
+> 
+> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
 
+Reviewed-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
+
+
+- Naveen
 
