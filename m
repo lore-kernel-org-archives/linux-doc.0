@@ -1,170 +1,205 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AAB6C7D982
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 14:30:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 544657D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 15:07:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388914AbfHVOaq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 10:30:46 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:40782 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732001AbfHVOap (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 10:30:45 -0400
-Received: by mail-pl1-f195.google.com with SMTP id h3so3582647pls.7;
-        Thu, 22 Aug 2019 07:30:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=a4p8TCPaKfvEooizyzxHRIZAkY4d+DzJCKHmH6UyvCo=;
-        b=MAdP3FsXFIrJVFxUSj2otOJoFvfqmDO4tlehtTrismgS9VWaoUbSDZ7iiGkOIl8ABq
-         +R0lxcqwgaMHRWBPVZjRr11rLMFNfF9E1/n3bm0ur2uDpHcYwNiunvkQDy00EpPZQLkC
-         2I6b5nyVgR77g3KgCw6cX6JFOmeJIcZy2HBlpQuxK8fKLb5D4lNGkRc8USRR2wIw4kke
-         0/7jcrc5jpjqbMcIzrUy057QTDW2ZJY242WvPtstx9GFS+F46HAAhQmxnAEIZIuQtt0S
-         kalZ8NM/e2CABcSb4MhGanmdmmSxlCP9tgkTgG5qDF2AWnUPSumsDhIQFa8l4hJ0VtJs
-         IiOA==
+        id S2389381AbfHVPHE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 11:07:04 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35250 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387589AbfHVPHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 11:07:04 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n4so3851011pgv.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 08:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=a4p8TCPaKfvEooizyzxHRIZAkY4d+DzJCKHmH6UyvCo=;
-        b=oJVoikOozfxx12V+M8QYVvx8Kix7pcOHAMvAFw6CDKglRxQolIa6habbdeK+GDK7+O
-         7jjOtKepIMjLKQOMriwnhF41wSnM1lWFs4+SQ1ESj/5bHbc+uDZg4Cgua60QCWUiU8HF
-         twBkgk0JcLnX2sN8cVxKtjPXkfNIN9EjEEwE1tL9WoJF0wp6cxW9opI4ciDJu/PQY+1z
-         JK4yGOwK0bsGn2ZySChiCmsJrZb3kQ8ftRs1OBsv1LrIbEBwSxthw91F8sdD50otYaai
-         0DI0u0LzAbgOPwd/i7HJUiqRmmzEHTeNUOfMscGRgWioqLhx/Mdl3yGlBeDFD2vIjxvh
-         Fwkw==
-X-Gm-Message-State: APjAAAXwSkT4zQvHw2fPeDxuEbYo5xFBCaXCNC7cHv1tXrIEgvwvX3N+
-        aM0zFrzA0r8D5fquwX+R+NM=
-X-Google-Smtp-Source: APXvYqwALLBfgiwxGFa9tOYNMRQrYeu3WlICxCBO1gzKOzDYuX9mmAPLFJ71qGPupq8dDLKzgc0xVw==
-X-Received: by 2002:a17:902:b084:: with SMTP id p4mr39521574plr.309.1566484245065;
-        Thu, 22 Aug 2019 07:30:45 -0700 (PDT)
-Received: from localhost.corp.microsoft.com ([167.220.255.114])
-        by smtp.googlemail.com with ESMTPSA id r23sm32263161pfg.10.2019.08.22.07.30.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 22 Aug 2019 07:30:44 -0700 (PDT)
-From:   lantianyu1986@gmail.com
-X-Google-Original-From: Tianyu.Lan@microsoft.com
-To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        michael.h.kelley@microsoft.com
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, vkuznets@redhat.com
-Subject: [PATCH V4 2/3] KVM/Hyper-V: Add new KVM capability KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-Date:   Thu, 22 Aug 2019 22:30:20 +0800
-Message-Id: <20190822143021.7518-3-Tianyu.Lan@microsoft.com>
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
-References: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DwlPQdW0JeEtIGvgq8R1ceN0wd/Kz610hNpWCu5gwlA=;
+        b=VQMl++1efpINf34LGjaBEGszgLnZ4jxhb2BOADdXklSqNcfvJVBjXrvTsto1OzvMTP
+         O6dBgmY9YiONwlsL+30k2vguLarFdNsP8L280xhJfikkKqa16yqwJCqwey0eItKQphXT
+         TTnXIcUPbJX0EPdkVr+Pr+WOQUMtH/CDgBjtkipSr2KTgHpxo1YnWUTTq91DnCnx1GP1
+         3RNS/AsPt3nC5LtvvSXisMjCvML3XlpN8yBa6FXhTz8ll0U7o6duCwTIPaiiapwQbwHS
+         o2lG1eak0xQkPNjY0boqfKg5ImYdfOY9flydRxkt28BxQDZXP1nbnNtK0kJDJloBspNv
+         mwsQ==
+X-Gm-Message-State: APjAAAXtymjrO+kcxUhpJW4RpUxsHJXxr+mnNg07e5g/B52dRyVaNquc
+        XJk9KKyBa7FZNqgpf28LxwzVXQ==
+X-Google-Smtp-Source: APXvYqxJedFbXqQsR91ygwGRNG5VFsHWjFMw+ey7bYeczu1U3+7RN2or2CgkfKGJex4aCcngRkgHTA==
+X-Received: by 2002:aa7:95b8:: with SMTP id a24mr41746708pfk.103.1566486423362;
+        Thu, 22 Aug 2019 08:07:03 -0700 (PDT)
+Received: from localhost ([2601:647:5b80:29f7:1bdd:d748:9a4e:8083])
+        by smtp.gmail.com with ESMTPSA id 71sm3357841pfw.157.2019.08.22.08.07.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2019 08:07:02 -0700 (PDT)
+Date:   Thu, 22 Aug 2019 08:07:01 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        atull@kernel.org
+Subject: Re: [PATCH v5 3/9] fpga: dfl: afu: convert platform_driver to use
+ dev_groups
+Message-ID: <20190822150701.GB22556@archbox>
+References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+ <1565578204-13969-4-git-send-email-hao.wu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1565578204-13969-4-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+Hi Hao,
 
-Hyper-V direct tlb flush function should be enabled for
-guest that only uses Hyper-V hypercall. User space
-hypervisor(e.g, Qemu) can disable KVM identification in
-CPUID and just exposes Hyper-V identification to make
-sure the precondition. Add new KVM capability KVM_CAP_
-HYPERV_DIRECT_TLBFLUSH for user space to enable Hyper-V
-direct tlb function and this function is default to be
-disabled in KVM.
+On Mon, Aug 12, 2019 at 10:49:58AM +0800, Wu Hao wrote:
+> This patch takes advantage of driver core which helps to create
+> and remove sysfs attribute files, so there is no need to register
+> sysfs entries manually in dfl-afu platform river code.
+Same nit: s/river/driver
+> 
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+Acked-by: Moritz Fischer <mdf@kernel.org>
+> ---
+>  drivers/fpga/dfl-afu-main.c | 69 +++++++++++++++++++++++----------------------
+>  1 file changed, 36 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+> index e50c45e..e955149 100644
+> --- a/drivers/fpga/dfl-afu-main.c
+> +++ b/drivers/fpga/dfl-afu-main.c
+> @@ -282,24 +282,17 @@ static int port_get_id(struct platform_device *pdev)
+>  	&dev_attr_power_state.attr,
+>  	NULL,
+>  };
+> -ATTRIBUTE_GROUPS(port_hdr);
+> +
+> +static const struct attribute_group port_hdr_group = {
+> +	.attrs = port_hdr_attrs,
+> +};
+>  
+>  static int port_hdr_init(struct platform_device *pdev,
+>  			 struct dfl_feature *feature)
+>  {
+> -	dev_dbg(&pdev->dev, "PORT HDR Init.\n");
+> -
+>  	port_reset(pdev);
+>  
+> -	return device_add_groups(&pdev->dev, port_hdr_groups);
+> -}
+> -
+> -static void port_hdr_uinit(struct platform_device *pdev,
+> -			   struct dfl_feature *feature)
+> -{
+> -	dev_dbg(&pdev->dev, "PORT HDR UInit.\n");
+> -
+> -	device_remove_groups(&pdev->dev, port_hdr_groups);
+> +	return 0;
+>  }
+>  
+>  static long
+> @@ -330,7 +323,6 @@ static void port_hdr_uinit(struct platform_device *pdev,
+>  
+>  static const struct dfl_feature_ops port_hdr_ops = {
+>  	.init = port_hdr_init,
+> -	.uinit = port_hdr_uinit,
+>  	.ioctl = port_hdr_ioctl,
+>  };
+>  
+> @@ -361,32 +353,37 @@ static void port_hdr_uinit(struct platform_device *pdev,
+>  	&dev_attr_afu_id.attr,
+>  	NULL
+>  };
+> -ATTRIBUTE_GROUPS(port_afu);
+>  
+> -static int port_afu_init(struct platform_device *pdev,
+> -			 struct dfl_feature *feature)
+> +static umode_t port_afu_attrs_visible(struct kobject *kobj,
+> +				      struct attribute *attr, int n)
+>  {
+> -	struct resource *res = &pdev->resource[feature->resource_index];
+> -	int ret;
+> -
+> -	dev_dbg(&pdev->dev, "PORT AFU Init.\n");
+> +	struct device *dev = kobj_to_dev(kobj);
+>  
+> -	ret = afu_mmio_region_add(dev_get_platdata(&pdev->dev),
+> -				  DFL_PORT_REGION_INDEX_AFU, resource_size(res),
+> -				  res->start, DFL_PORT_REGION_READ |
+> -				  DFL_PORT_REGION_WRITE | DFL_PORT_REGION_MMAP);
+> -	if (ret)
+> -		return ret;
+> +	/*
+> +	 * sysfs entries are visible only if related private feature is
+> +	 * enumerated.
+> +	 */
+> +	if (!dfl_get_feature_by_id(dev, PORT_FEATURE_ID_AFU))
+> +		return 0;
+>  
+> -	return device_add_groups(&pdev->dev, port_afu_groups);
+> +	return attr->mode;
+>  }
+>  
+> -static void port_afu_uinit(struct platform_device *pdev,
+> -			   struct dfl_feature *feature)
+> +static const struct attribute_group port_afu_group = {
+> +	.attrs      = port_afu_attrs,
+> +	.is_visible = port_afu_attrs_visible,
+> +};
+> +
+> +static int port_afu_init(struct platform_device *pdev,
+> +			 struct dfl_feature *feature)
+>  {
+> -	dev_dbg(&pdev->dev, "PORT AFU UInit.\n");
+Thanks.
+> +	struct resource *res = &pdev->resource[feature->resource_index];
+>  
+> -	device_remove_groups(&pdev->dev, port_afu_groups);
+> +	return afu_mmio_region_add(dev_get_platdata(&pdev->dev),
+> +				   DFL_PORT_REGION_INDEX_AFU,
+> +				   resource_size(res), res->start,
+> +				   DFL_PORT_REGION_MMAP | DFL_PORT_REGION_READ |
+> +				   DFL_PORT_REGION_WRITE);
+>  }
+>  
+>  static const struct dfl_feature_id port_afu_id_table[] = {
+> @@ -396,7 +393,6 @@ static void port_afu_uinit(struct platform_device *pdev,
+>  
+>  static const struct dfl_feature_ops port_afu_ops = {
+>  	.init = port_afu_init,
+> -	.uinit = port_afu_uinit,
+>  };
+>  
+>  static struct dfl_feature_driver port_feature_drvs[] = {
+> @@ -748,9 +744,16 @@ static int afu_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct attribute_group *afu_dev_groups[] = {
+> +	&port_hdr_group,
+> +	&port_afu_group,
+> +	NULL
+> +};
+> +
+>  static struct platform_driver afu_driver = {
+>  	.driver	= {
+> -		.name    = DFL_FPGA_FEATURE_DEV_PORT,
+> +		.name	    = DFL_FPGA_FEATURE_DEV_PORT,
+> +		.dev_groups = afu_dev_groups,
+>  	},
+>  	.probe   = afu_probe,
+>  	.remove  = afu_remove,
+> -- 
+> 1.8.3.1
+> 
 
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
-Change since v3:
-	- Update Changelog.
-Change since v1:
-	- Update description of KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-        in the KVM API doc.
----
- Documentation/virtual/kvm/api.txt | 13 +++++++++++++
- arch/x86/include/asm/kvm_host.h   |  2 ++
- arch/x86/kvm/x86.c                |  8 ++++++++
- include/uapi/linux/kvm.h          |  1 +
- 4 files changed, 24 insertions(+)
-
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index 2cd6250b2896..0c6e1b25d0c8 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -5289,3 +5289,16 @@ Architectures: x86
- This capability indicates that KVM supports paravirtualized Hyper-V IPI send
- hypercalls:
- HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-+8.21 KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-+
-+Architecture: x86
-+
-+This capability indicates that KVM running on top of Hyper-V hypervisor
-+enables Direct TLB flush for its guests meaning that TLB flush
-+hypercalls are handled by Level 0 hypervisor (Hyper-V) bypassing KVM.
-+Due to the different ABI for hypercall parameters between Hyper-V and
-+KVM, enabling this capability effectively disables all hypercall
-+handling by KVM (as some KVM hypercall may be mistakenly treated as TLB
-+flush hypercalls by Hyper-V) so userspace should disable KVM identification
-+in CPUID and only exposes Hyper-V identification. In this case, guest
-+thinks it's running on Hyper-V and only use Hyper-V hypercalls.
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 0cc5b611a113..667d154e89d4 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1205,6 +1205,8 @@ struct kvm_x86_ops {
- 	uint16_t (*nested_get_evmcs_version)(struct kvm_vcpu *vcpu);
- 
- 	bool (*need_emulation_on_page_fault)(struct kvm_vcpu *vcpu);
-+
-+	int (*enable_direct_tlbflush)(struct kvm_vcpu *vcpu);
- };
- 
- struct kvm_arch_async_pf {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 9d7b9e6a0939..a9d8ee7f7bf0 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3183,6 +3183,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		r = kvm_x86_ops->get_nested_state ?
- 			kvm_x86_ops->get_nested_state(NULL, NULL, 0) : 0;
- 		break;
-+	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-+		r = kvm_x86_ops->enable_direct_tlbflush ? 1 : 0;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -3953,6 +3956,11 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
- 				r = -EFAULT;
- 		}
- 		return r;
-+	case KVM_CAP_HYPERV_DIRECT_TLBFLUSH:
-+		if (!kvm_x86_ops->enable_direct_tlbflush)
-+			return -ENOTTY;
-+
-+		return kvm_x86_ops->enable_direct_tlbflush(vcpu);
- 
- 	default:
- 		return -EINVAL;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index a7c19540ce21..cb959bc925b1 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -996,6 +996,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
- #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
- #define KVM_CAP_PMU_EVENT_FILTER 173
-+#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-2.14.5
-
+Thanks,
+Moritz
