@@ -1,98 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=5.0 tests=ADVANCE_FEE_4_NEW_FRM_MNY,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,MONEY_FORM,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	SUBJ_ALL_CAPS,T_MONEY_PERCENT autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB29D7DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 12:30:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 581BF7D913
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Aug 2019 14:30:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732794AbfHVM3c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 08:29:32 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34054 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732771AbfHVM3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 08:29:31 -0400
-Received: by mail-lj1-f193.google.com with SMTP id x18so5393323ljh.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2019 05:29:30 -0700 (PDT)
+        id S1731156AbfHVOaf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Aug 2019 10:30:35 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:33262 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732789AbfHVOaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 10:30:35 -0400
+Received: by mail-pl1-f193.google.com with SMTP id go14so3581696plb.0;
+        Thu, 22 Aug 2019 07:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=qWWfTTeqrZcy9/OopEiFpE0T85V34gaRedOg12P+6SUG02/prRN5WLAnTo39iGSuhd
-         uwvFgD3PCver+ffNcXM80NBYUsdl06YI7GQuLJEDlpD1CfsJJ9ZfVOPf4kBpHPFLee1W
-         3WpTBwXZB7bBRv9ApFtcEriSzIERqXPF79v/IzkM4KO1I9N6u1J+i+IqS2IB8Rw8JG5C
-         6EX4D5ECvIPyNUzEV5c+mzTJptkGNnEtw2TqB4qdcr+Ko2kRaJjH82GXkM/cNjzZoNXf
-         e6SdVevFT1z8GFR6zS6ysEtDbOu55ULuVcHO7seeki3VOxI692e9RL0aREAigHTyR8Te
-         SUAg==
+        h=from:to:cc:subject:date:message-id;
+        bh=tDRFmgdNOn89BNEOePAuDKx2szX/hZIctu/3Yr6F4SY=;
+        b=GcpWx0alS4jSrHm66E2XU1peda1oBep0K+w9L2px9b14LBgA6xy/ISrhhtK8mg/w/4
+         TnFvf9R3krlEFyZKKwmrRU4OArQX0zpLujT73xRdF9X01F3Cd5zpDgPJxQrmV7DiR/4J
+         CoxdcK/1ItS1/h3ShD4cilXzjv+bV4Nqxqg9i4zmIfntX9EqBFFM3hqTCFxmjil19oKO
+         L51GUnnnMAIqdELQclX+fpHjdEmFZlf/9wsWhQqMab8go17GiyzYwqtG6aFDErp4b2VI
+         D1tQaHItI8JQiK35fs7BLtTxXxpz+UBcujtZihIsLRZH6i+Ri+NRjgwEb22bMgEEkmtH
+         EApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=Gz52XCP7qnOv2PR1u0v2qGImJ/LkLwo140zgfSbACpL3Amb/e2jwF3Gmp+AQdMhsL5
-         Af9cUf/rUKKy5zK5hW1uJgCv0QGLdVFAaoMQd2ew1KEZqNkX+4Xgr6Sk6rJQrl8sts2b
-         /4O8au1dfJo1TZdhzNwRjrIzIpH9vlSakVe8nqoZ/aLf59Jb7w+dAX9UeZOuZNRLk4q9
-         FEpGL6+cU8/hCsCwRr1Q0cI3NoBF7cnGvVcuDqolaqtv9GqEt2rWB57d/PhQj37YsHfT
-         MGga/Q/apAO1XMCn06qmxe9BXTPX7PqryiwKKQ2UqVGsYpE8dlvWrFZULz1jYn1nP2ea
-         BntQ==
-X-Gm-Message-State: APjAAAVRZu4oiipbqQU9laZ8nzPePuwflpafLa5YBTjtLSt1B1+/6vKc
-        3wan6XRS5B1SxcIdbx1zuaIri6w/krl5ZXgZXto=
-X-Google-Smtp-Source: APXvYqx8lmjNLlZmhV2EKdvFGr6qqA7ERabgSpIeKxmA7GlgPXtIa3Yvo0rTQSnN5bXdpn69yPtF+AQ6JxaG0Dxz1F8=
-X-Received: by 2002:a2e:8559:: with SMTP id u25mr21624370ljj.224.1566476969740;
- Thu, 22 Aug 2019 05:29:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a19:dc4f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:29:29
- -0700 (PDT)
-Reply-To: eku.lawfirm@gmail.com
-From:   "Law firm(Eku and Associates)" <elenabaltach66@gmail.com>
-Date:   Thu, 22 Aug 2019 12:29:29 +0000
-Message-ID: <CAOGpsp7hH8Vp1jtp=_QqkJen5m=v9RwFD0vOb74vspGvAOhcGw@mail.gmail.com>
-Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=tDRFmgdNOn89BNEOePAuDKx2szX/hZIctu/3Yr6F4SY=;
+        b=jpWiTad/eRvYU3L6aIAb8NwbYI8x/qbejtXIGJJSsrUyk7nx9SDe4ouxFoHQDOcVw1
+         44m9DuId2ZYTBCsc/2ln9HOqdPksiZzMpxJq9I5PESMOISggl+E1UGPIzaKoX+361Rzm
+         AYK4/JSWgof7CFrd44Y8lP6FF8WvXoowJza0XloY9w/ZbKWsfellbb+MICwRrd1TTG4d
+         Q5YGr8ufb2pfej4+oeK/ISF2JSLFXOfgaaGvEGnRjipCuEgWJNeB7Mi2ZhBeqRA2HtUh
+         cenJqqBW8Sd4cz3xNZxPC39mPtwHlmIpbBynx5hbaZMqi3QCVw2KnA5REUA7mGyP7+we
+         TQHg==
+X-Gm-Message-State: APjAAAWlLx8wluPJsw8QYf8dVhXC0oNcqeJ/vASyBuvhLt7ZuVQ2C/Ku
+        EQPPr0HW1J4lfDJ0pWx/szc=
+X-Google-Smtp-Source: APXvYqw3uqWAVTZJzp78Lvd64ZCkRs9PAqZfr8g9qiVxMHxM+hHWnzzYrq4pCpeuhee1evkxC8YUiQ==
+X-Received: by 2002:a17:902:8649:: with SMTP id y9mr36937329plt.252.1566484234243;
+        Thu, 22 Aug 2019 07:30:34 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.255.114])
+        by smtp.googlemail.com with ESMTPSA id r23sm32263161pfg.10.2019.08.22.07.30.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 22 Aug 2019 07:30:33 -0700 (PDT)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com
+Subject: [PATCH V4 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+Date:   Thu, 22 Aug 2019 22:30:18 +0800
+Message-Id: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=20
-Dear,
-With due respect this is not spam or Scam mail, because I have
-contacted you before and there was no response from you,I apologise if
-the contents of this mail are contrary to your moral ethics, which I
-feel may be of great disturbance to your person, but please treat this
-with absolute confidentiality, believing that this email reaches you
-in good faith. My contacting you is not a mistake or a coincidence
-because God can use any person known or unknown to accomplish great
-things.
-I am a lawyer and I have an investment business proposal to offer you.
-It is not official but should be considered as legal and confidential
-business. I have a customer's deposit of $US25 million dollars ready
-to be moved for investment if you can partner with us. We are ready to
-offer you 10% of this total amount as your compensation for supporting
-the transaction to completion. If you are interested to help me please
-reply me with your full details as stated below:
-(1) Your full names:
-(2) Your address:
-(3) Your occupation:
-(4) Your mobile telephone number:
-(5) Your nationality:
-(6) Your present location:
-(7) Your age:
-So that I will provide you more details on what to do and what is
-required for successful completion.
-Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
-MENTIONED DETAILS
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Sinc=C3=A8rement v=C3=B4tre,
-Avocat Etienne Eku Esq.(Lawfirm)
-Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
-=E2=80=99ouest.
-Skype:westafricalawfirm
+This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+in L0 can delegate L1 hypervisor to handle tlb flush request from
+L2 guest when direct tlb flush is enabled in L1.
+
+Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+feature from user space. User space should enable this feature only
+when Hyper-V hypervisor capability is exposed to guest and KVM profile
+is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+We hope L2 guest doesn't use KVM hypercall when the feature is
+enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+
+Change since v3:
+       - Update changelog in each patches. 
+
+Change since v2:
+       - Move hv assist page(hv_pa_pg) from struct kvm  to struct kvm_hv.
+
+Change since v1:
+       - Fix offset issue in the patch 1.
+       - Update description of KVM KVM_CAP_HYPERV_DIRECT_TLBFLUSH.
+
+Tianyu Lan (2):
+  x86/Hyper-V: Fix definition of struct hv_vp_assist_page
+  KVM/Hyper-V: Add new KVM capability KVM_CAP_HYPERV_DIRECT_TLBFLUSH
+
+Vitaly Kuznetsov (1):
+  KVM/Hyper-V/VMX: Add direct tlb flush support
+
+ Documentation/virtual/kvm/api.txt  | 13 +++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h | 24 ++++++++++++++++++-----
+ arch/x86/include/asm/kvm_host.h    |  4 ++++
+ arch/x86/kvm/vmx/evmcs.h           |  2 ++
+ arch/x86/kvm/vmx/vmx.c             | 39 ++++++++++++++++++++++++++++++++++++++
+ arch/x86/kvm/x86.c                 |  8 ++++++++
+ include/uapi/linux/kvm.h           |  1 +
+ 7 files changed, 86 insertions(+), 5 deletions(-)
+
+-- 
+2.14.5
+
