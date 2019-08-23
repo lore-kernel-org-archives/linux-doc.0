@@ -1,185 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBF5A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 08:47:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 754F77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 10:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390915AbfHWIrv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Aug 2019 04:47:51 -0400
-Received: from mail-eopbgr80103.outbound.protection.outlook.com ([40.107.8.103]:56545
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732418AbfHWIrv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Aug 2019 04:47:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b+UrdJs2RBL7ysUeQBTYAmfh31bAtT31zoyNyO+/XTrlRVIeugLgjkEreHsA6yFqCgnMjydfMa5LjjB+FeUPVaso7EtnUMvPzIQM1MIl8bHIjCVBxxyo7MR/1NUIu0i6sqvewVqMjm94SYMqBNE5FHdNPeFJ6DOSTpYR4YSPYXK6qjPbMkqODCEZMMJeFXfb7onVtQX7tkaIJMRI0yttz5X24LvpIvrpzgpmgJ2OhohnYyXzg0rAqRPoc8s83kyoUgoj/vKmQ6f/aq25EGiumdU6NQp+34KmaYUD7P/BS5qHEo9FAgeA9i5XXUffQvBjTHdoCNPHWv8pDANmaPJaqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VHh5pz6CDFYyQgu2xiYoU4VNbYl3Y4bYqHD8MPU44Ys=;
- b=NvvzTpTa8bOCD8GdV0cw+rw7NOVPHomyACCfTSmlUIwpexvV6UvlX2/E2AkIs7jjpbcSIS/p5DVQhEwGw/wxzazxBhVBiZQxRd+1ufzqC+d5Ml49gYJxRgzrQR94FAA8zYFNR3ka9OQpXNWqhu0Ko0F5od3qYDGRwaYF9MouPEYoukodP83J5VNtFokHTNT9mewPErb5lcdJrom5APoyanrrIyq9BAvqcLmEb5jYBraG9/SpjyVU3VLRN2q3r0ailqblRnNiHDdKLqGpOtG1HbSfu38vpGWTFqRoDcvgz7MbF2uzFE1SDtJfUZEfdKgRyvTAfajanmisVm1I3Gq46g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VHh5pz6CDFYyQgu2xiYoU4VNbYl3Y4bYqHD8MPU44Ys=;
- b=NXDxQjWGXpKpJw5VZNzfeuzUuNUFBSe68UmsM3vq5bKCbPJxxoBMDje5zhieSnij7l1Vm5jlUuCRXrYc7E8qABW57f91VwTFUSS3aTGNl1wlcieAAZhkSzQ+nxE2/sQ6N/ygnV0n6cQMpTVJyVxs2x33cv/k9cfC11RWwN0jg38=
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
- DB3PR0202MB3322.eurprd02.prod.outlook.com (52.134.66.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Fri, 23 Aug 2019 08:47:47 +0000
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::a0df:d7d9:f95e:f3ea]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::a0df:d7d9:f95e:f3ea%3]) with mapi id 15.20.2178.020; Fri, 23 Aug 2019
- 08:47:47 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Peter Rosin <peda@axentia.se>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH 2/2] fbdev: fbmem: allow overriding the number of bootup logos
-Thread-Topic: [PATCH 2/2] fbdev: fbmem: allow overriding the number of bootup
- logos
-Thread-Index: AQHVWY9wDEebDlWGKU6SxCgqM+Aamg==
-Date:   Fri, 23 Aug 2019 08:47:47 +0000
-Message-ID: <20190823084725.4271-3-peda@axentia.se>
-References: <20190823084725.4271-1-peda@axentia.se>
-In-Reply-To: <20190823084725.4271-1-peda@axentia.se>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.11.0
-x-originating-ip: [213.112.138.100]
-x-clientproxiedby: HE1PR0401CA0084.eurprd04.prod.outlook.com
- (2603:10a6:3:19::52) To DB3PR0202MB3434.eurprd02.prod.outlook.com
- (2603:10a6:8:5::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 81ce9c27-eab8-41e9-77f5-08d727a69292
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(2017052603328)(7193020);SRVR:DB3PR0202MB3322;
-x-ms-traffictypediagnostic: DB3PR0202MB3322:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB3PR0202MB3322286FA48DD9A55BB6D204BCA40@DB3PR0202MB3322.eurprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 0138CD935C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(366004)(346002)(376002)(396003)(39830400003)(189003)(199004)(2501003)(2351001)(86362001)(66066001)(36756003)(71190400001)(6512007)(71200400001)(2906002)(3846002)(4326008)(14444005)(5024004)(53936002)(256004)(25786009)(7736002)(26005)(305945005)(6486002)(6916009)(186003)(1076003)(102836004)(6506007)(386003)(6436002)(99286004)(52116002)(76176011)(8936002)(6116002)(11346002)(446003)(476003)(2616005)(50226002)(486006)(81156014)(81166006)(508600001)(8676002)(14454004)(5660300002)(66446008)(66946007)(5640700003)(54906003)(64756008)(316002)(66476007)(66556008);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3322;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: GyDYt5qs7zZtv0oluN+lgqNqjZR+tsbUxYPcjACL0Dc4g7Z449phE7gbkGWh3FSLO1PxWqUC7iAGbFzB0hgWp4FAuhjvzyuPo7vudCn3h5oDlTo/XCuBoXA1XxtADA/0R7uApop/UsoUJm+SgBGyJHyR0CMpOnOP7MiSeeLZqyQGciaVHRPnINkXrLdlvBb6oO6Lcdj5APtGtIiklxq/VR4pfsBhjGvn9fSBi+C0Z5Z1AGxJ/YD4SvPkVnZq50TMCl0wgwgIpN1aEzKm9Sp8BDdPIBnJ999+TTdGkMLF4R+/Z4e2oibTeRuP5PzmHumpGRr6CqReEObaPZ27M1z7wFuPy5u46/IZF5C8vKFyRBdFEllVxo60/+pwKRydp6lknSaeQeX9E6dDWaNAMq9rEs/N+j3Lenfm4w+rMLj6P7Q=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S2389040AbfHWKdz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Aug 2019 06:33:55 -0400
+Received: from foss.arm.com ([217.140.110.172]:59664 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732974AbfHWKdy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Aug 2019 06:33:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF842337;
+        Fri, 23 Aug 2019 03:33:53 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4123A3F246;
+        Fri, 23 Aug 2019 03:33:51 -0700 (PDT)
+Subject: Re: [PATCH v3 04/10] KVM: Implement kvm_put_guest()
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
+References: <20190821153656.33429-1-steven.price@arm.com>
+ <20190821153656.33429-5-steven.price@arm.com>
+ <20190822152854.GE25467@linux.intel.com>
+ <e2abc69b-74c2-64ef-e270-43d93513eaae@arm.com>
+ <20190822162449.GF25467@linux.intel.com>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <691598cf-284d-5156-c15f-78d363b9f18e@arm.com>
+Date:   Fri, 23 Aug 2019 11:33:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81ce9c27-eab8-41e9-77f5-08d727a69292
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2019 08:47:47.5200
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xq39EpXg9qMmY/xvrGnMgD5fhd+EOVctJHSlxfVMc9RbnI6HRxovsEg3kN9zjbmB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3322
+In-Reply-To: <20190822162449.GF25467@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Probably most useful if you only want one logo regardless of how many
-CPU cores you have.
+On 22/08/2019 17:24, Sean Christopherson wrote:
+> On Thu, Aug 22, 2019 at 04:46:10PM +0100, Steven Price wrote:
+>> On 22/08/2019 16:28, Sean Christopherson wrote:
+>>> On Wed, Aug 21, 2019 at 04:36:50PM +0100, Steven Price wrote:
+>>>> kvm_put_guest() is analogous to put_user() - it writes a single value to
+>>>> the guest physical address. The implementation is built upon put_user()
+>>>> and so it has the same single copy atomic properties.
+>>>
+>>> What you mean by "single copy atomic"?  I.e. what guarantees does
+>>> put_user() provide that __copy_to_user() does not?
+>>
+>> Single-copy atomicity is defined by the Arm architecture[1] and I'm not
+>> going to try to go into the full details here, so this is a summary.
+>>
+>> For the sake of this feature what we care about is that the value
+>> written/read cannot be "torn". In other words if there is a read (in
+>> this case from another VCPU) that is racing with the write then the read
+>> will either get the old value or the new value. It cannot return a
+>> mixture. (This is of course assuming that the read is using a
+>> single-copy atomic safe method).
+> 
+> Thanks for the explanation.  I assumed that's what you were referring to,
+> but wanted to double check.
+>  
+>> __copy_to_user() is implemented as a memcpy() and as such cannot provide
+>> single-copy atomicity in the general case (the buffer could easily be
+>> bigger than the architecture can guarantee).
+>>
+>> put_user() on the other hand is implemented (on arm64) as an explicit
+>> store instruction and therefore is guaranteed by the architecture to be
+>> single-copy atomic (i.e. another CPU cannot see a half-written value).
+> 
+> I don't think kvm_put_guest() belongs in generic code, at least not with
+> the current changelog explanation about it providing single-copy atomic
+> semantics.  AFAICT, the single-copy thing is very much an arm64
+> implementation detail, e.g. the vast majority of 32-bit architectures,
+> including x86, do not provide any guarantees, and x86-64 generates more
+> or less the same code for put_user() and __copy_to_user() for 8-byte and
+> smaller accesses.
+> 
+> As an alternative to kvm_put_guest() entirely, is it an option to change
+> arm64's raw_copy_to_user() to redirect to __put_user() for sizes that are
+> constant at compile time and can be handled by __put_user()?  That would
+> allow using kvm_write_guest() to update stolen time, albeit with
+> arguably an even bigger dependency on the uaccess implementation details.
 
-Signed-off-by: Peter Rosin <peda@axentia.se>
----
- Documentation/fb/fbcon.rst       | 5 +++++
- drivers/video/fbdev/core/fbcon.c | 7 +++++++
- drivers/video/fbdev/core/fbmem.c | 5 ++++-
- include/linux/fb.h               | 1 +
- 4 files changed, 17 insertions(+), 1 deletion(-)
+I think it's important to in some way ensure that the desire that this
+is a single write is shown. copy_to_user() is effectively
+"setup();memcpy();finish();" and while a good memcpy() implementation
+would be identical to put_user() there's a lot more room for this being
+broken in the future by changes to the memcpy() implementation. (And I
+don't want to require that memcpy() has to detect this case).
 
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index 65ba40255137..9f0b399d8d4e 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -174,6 +174,11 @@ C. Boot options
- 	displayed due to multiple CPUs, the collected line of logos is moved
- 	as a whole.
-=20
-+9. fbcon=3Dlogo-count:<n>
-+
-+	The value 'n' overrides the number of bootup logos. Zero gives the
-+	default, which is the number of online cpus.
-+
- C. Attaching, Detaching and Unloading
-=20
- Before going on to how to attach, detach and unload the framebuffer consol=
-e, an
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fb=
-con.c
-index c9235a2f42f8..be4bc5540aad 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -536,6 +536,13 @@ static int __init fb_console_setup(char *this_opt)
- 				fb_center_logo =3D true;
- 			continue;
- 		}
-+
-+		if (!strncmp(options, "logo-count:", 11)) {
-+			options +=3D 11;
-+			if (*options)
-+				fb_logo_count =3D simple_strtoul(options, &options, 0);
-+			continue;
-+		}
- 	}
- 	return 1;
- }
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fb=
-mem.c
-index 64dd732021d8..4c57d522b72e 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -56,6 +56,9 @@ EXPORT_SYMBOL(num_registered_fb);
- bool fb_center_logo __read_mostly;
- EXPORT_SYMBOL(fb_center_logo);
-=20
-+unsigned int fb_logo_count __read_mostly;
-+EXPORT_SYMBOL(fb_logo_count);
-+
- static struct fb_info *get_fb_info(unsigned int idx)
- {
- 	struct fb_info *fb_info;
-@@ -689,7 +692,7 @@ int fb_show_logo(struct fb_info *info, int rotate)
- 	int y;
-=20
- 	y =3D fb_show_logo_line(info, rotate, fb_logo.logo, 0,
--			      num_online_cpus());
-+			      fb_logo_count ?: num_online_cpus());
- 	y =3D fb_show_extra_logos(info, y, rotate);
-=20
- 	return y;
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 303771264644..5f2b05406262 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -630,6 +630,7 @@ extern int fb_new_modelist(struct fb_info *info);
- extern struct fb_info *registered_fb[FB_MAX];
- extern int num_registered_fb;
- extern bool fb_center_logo;
-+extern unsigned int fb_logo_count;
- extern struct class *fb_class;
-=20
- #define for_each_registered_fb(i)		\
---=20
-2.11.0
+One suggestion is to call it something like kvm_put_guest_atomic() to
+reflect the atomicity requirement. Presumably that would be based on a
+new put_user_atomic() which architectures could override as necessary if
+put_user() doesn't provide the necessary guarantees.
 
+Steve
