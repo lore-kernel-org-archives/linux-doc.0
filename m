@@ -1,116 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31D8B7D982
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 16:39:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 65D0D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 16:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436804AbfHWQhZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Aug 2019 12:37:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:37126 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390933AbfHWQhZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Aug 2019 12:37:25 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44B021570;
-        Fri, 23 Aug 2019 09:37:24 -0700 (PDT)
-Received: from arrakis.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 75CAC3F246;
-        Fri, 23 Aug 2019 09:37:22 -0700 (PDT)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Dave P Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, Will Deacon <will.deacon@arm.com>
-Subject: [PATCH v10 1/1] arm64: Relax Documentation/arm64/tagged-pointers.rst
-Date:   Fri, 23 Aug 2019 17:37:17 +0100
-Message-Id: <20190823163717.19569-2-catalin.marinas@arm.com>
-X-Mailer: git-send-email 2.23.0.rc0
-In-Reply-To: <20190823163717.19569-1-catalin.marinas@arm.com>
-References: <20190823163717.19569-1-catalin.marinas@arm.com>
+        id S2388187AbfHWQsW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Aug 2019 12:48:22 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:39681 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388580AbfHWQsV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Aug 2019 12:48:21 -0400
+Received: by mail-pl1-f195.google.com with SMTP id z3so5894445pln.6
+        for <linux-doc@vger.kernel.org>; Fri, 23 Aug 2019 09:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=shB6SKOCWrivD7S412WveV0DXQGCOHDXUApJqsM/wlA=;
+        b=Ompr7qYsU3e4pxkTUvcGDfd4ML8vgFjnLheqC9j82bJxX2WMtGNPBrUA1tpfZZ7kkl
+         2MlcYLnijPbPInvIsR6zoBG80ArVaqo/qH8Nz2C1fLluKeQqMKpdn1Isx73kDPRrmtfA
+         uzlQbv8SAmt8wmBgLzDRa1pCbkLXVUC7pw3IzF7X6tCUWtvjtpbvC0Rxd012AHX4+phE
+         8vFfpItPxvkt5HF2AluYoxPT8xW+p0eqWdqhZxhn3iXjphBqdQMERaOSG3vodu0lrJ5X
+         dliaDAtQHPNKh2+Qm2AedTz/hBlaONpPrX2iSmH0iODNpBCdBlLEBbRkV7kNpmjj1hL+
+         ogpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=shB6SKOCWrivD7S412WveV0DXQGCOHDXUApJqsM/wlA=;
+        b=GS/UsL94jah6rhgSSusbVS8JrrCw3WJqspxocMELhpHoIbNWUS1JacOwneWxJT+xin
+         x0rMou7dyrGIm83+o2ynhDNq54QTxMvrxvNsBeWuHANNFSrcKIFr1niqRwGhKteE3/vo
+         OzfNU/9cveMnp7yTkZMDfKF6nEioTu8EwTiDktDMfy3/3a3vi2Nac1l9IFi02oamjW0C
+         iqKn/UwYY4Drimnj/aW8Afsr3IhOkHWYD1QjoyggrZaGk0KqkaxajUHK9PgNARKMdF3l
+         UnWVjYLVJFEZjkGrI33mwtVFqv4W8jArwd8ixm+xyOrOf/qa/WdCVmv4h+2k6p6XFmO2
+         qKGw==
+X-Gm-Message-State: APjAAAVy2dh/gl9WwW/EBzi55tHZ2sFKJ3uOjBe1tvoH/qV0C+WteIXg
+        H6Jy8CJlOdNp6xPS3eK+OsLMu/D5CXx4GVc9dpP+2A==
+X-Google-Smtp-Source: APXvYqyVqeK74/JWJUZ7pW5UAwhfOe02PTG6GeE5ufM2yWENnaiC/3vIkdv/0Gau1b+w32MpN7Tbr1pv4cTuRxiXwSc=
+X-Received: by 2002:a17:902:169:: with SMTP id 96mr5617305plb.297.1566578900191;
+ Fri, 23 Aug 2019 09:48:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190820232046.50175-1-brendanhiggins@google.com>
+ <20190820232046.50175-2-brendanhiggins@google.com> <7f2c8908-75f6-b793-7113-ad57c51777ce@kernel.org>
+In-Reply-To: <7f2c8908-75f6-b793-7113-ad57c51777ce@kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Fri, 23 Aug 2019 09:48:08 -0700
+Message-ID: <CAFd5g44mRK9t4f58i_YMEt=e9RTxwrrhFY_V2LW_E7bUwR3cdg@mail.gmail.com>
+Subject: Re: [PATCH v14 01/18] kunit: test: add KUnit test runner core
+To:     shuah <shuah@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+On Fri, Aug 23, 2019 at 8:33 AM shuah <shuah@kernel.org> wrote:
+>
+> Hi Brendan,
+>
+> On 8/20/19 5:20 PM, Brendan Higgins wrote:
+> > Add core facilities for defining unit tests; this provides a common way
+> > to define test cases, functions that execute code which is under test
+> > and determine whether the code under test behaves as expected; this also
+> > provides a way to group together related test cases in test suites (here
+> > we call them test_modules).
+> >
+> > Just define test cases and how to execute them for now; setting
+> > expectations on code will be defined later.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> > ---
+> >   include/kunit/test.h | 179 ++++++++++++++++++++++++++++++++++++++++
+> >   kunit/Kconfig        |  17 ++++
+> >   kunit/Makefile       |   1 +
+> >   kunit/test.c         | 191 +++++++++++++++++++++++++++++++++++++++++++
+> >   4 files changed, 388 insertions(+)
+> >   create mode 100644 include/kunit/test.h
+> >   create mode 100644 kunit/Kconfig
+> >   create mode 100644 kunit/Makefile
+> >   create mode 100644 kunit/test.c
+> >
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > new file mode 100644
+> > index 0000000000000..e0b34acb9ee4e
+> > --- /dev/null
+> > +++ b/include/kunit/test.h
+> > @@ -0,0 +1,179 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Base unit test (KUnit) API.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +
+> > +#ifndef _KUNIT_TEST_H
+> > +#define _KUNIT_TEST_H
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +struct kunit;
+> > +
+> > +/**
+> > + * struct kunit_case - represents an individual test case.
+> > + * @run_case: the function representing the actual test case.
+> > + * @name: the name of the test case.
+> > + *
+> > + * A test case is a function with the signature, ``void (*)(struct kunit *)``
+> > + * that makes expectations (see KUNIT_EXPECT_TRUE()) about code under test. Each
+> > + * test case is associated with a &struct kunit_suite and will be run after the
+> > + * suite's init function and followed by the suite's exit function.
+> > + *
+> > + * A test case should be static and should only be created with the KUNIT_CASE()
+> > + * macro; additionally, every array of test cases should be terminated with an
+> > + * empty test case.
+> > + *
+> > + * Example:
+>
+> Can you fix these line continuations. It makes it very hard to read.
+> Sorry for this late comment. These comments lines are longer than 80
+> and wrap.
 
-On AArch64 the TCR_EL1.TBI0 bit is set by default, allowing userspace
-(EL0) to perform memory accesses through 64-bit pointers with a non-zero
-top byte. However, such pointers were not allowed at the user-kernel
-syscall ABI boundary.
+None of the lines in this commit are over 80 characters in column
+width. Some are exactly 80 characters (like above).
 
-With the Tagged Address ABI patchset, it is now possible to pass tagged
-pointers to the syscalls. Relax the requirements described in
-tagged-pointers.rst to be compliant with the behaviours guaranteed by
-the AArch64 Tagged Address ABI.
+My guess is that you are seeing the diff added text (+ ), which when
+you add that to a line which is exactly 80 char in length ends up
+being over 80 char in email. If you apply the patch you will see that
+they are only 80 chars.
 
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc: Kevin Brodsky <kevin.brodsky@arm.com>
-Acked-by: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Co-developed-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
----
- Documentation/arm64/tagged-pointers.rst | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+>
+> There are several comment lines in the file that are way too long.
 
-diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-index 2acdec3ebbeb..eab4323609b9 100644
---- a/Documentation/arm64/tagged-pointers.rst
-+++ b/Documentation/arm64/tagged-pointers.rst
-@@ -20,7 +20,9 @@ Passing tagged addresses to the kernel
- --------------------------------------
- 
- All interpretation of userspace memory addresses by the kernel assumes
--an address tag of 0x00.
-+an address tag of 0x00, unless the application enables the AArch64
-+Tagged Address ABI explicitly
-+(Documentation/arm64/tagged-address-abi.rst).
- 
- This includes, but is not limited to, addresses found in:
- 
-@@ -33,13 +35,15 @@ This includes, but is not limited to, addresses found in:
-  - the frame pointer (x29) and frame records, e.g. when interpreting
-    them to generate a backtrace or call graph.
- 
--Using non-zero address tags in any of these locations may result in an
--error code being returned, a (fatal) signal being raised, or other modes
--of failure.
-+Using non-zero address tags in any of these locations when the
-+userspace application did not enable the AArch64 Tagged Address ABI may
-+result in an error code being returned, a (fatal) signal being raised,
-+or other modes of failure.
- 
--For these reasons, passing non-zero address tags to the kernel via
--system calls is forbidden, and using a non-zero address tag for sp is
--strongly discouraged.
-+For these reasons, when the AArch64 Tagged Address ABI is disabled,
-+passing non-zero address tags to the kernel via system calls is
-+forbidden, and using a non-zero address tag for sp is strongly
-+discouraged.
- 
- Programs maintaining a frame pointer and frame records that use non-zero
- address tags may suffer impaired or inaccurate debug and profiling
-@@ -59,6 +63,9 @@ be preserved.
- The architecture prevents the use of a tagged PC, so the upper byte will
- be set to a sign-extension of bit 55 on exception return.
- 
-+This behaviour is maintained when the AArch64 Tagged Address ABI is
-+enabled.
-+
- 
- Other considerations
- --------------------
+Note that checkpatch also does not complain about any over 80 char
+lines in this file.
+
+Sorry if I am misunderstanding what you are trying to tell me. Please
+confirm either way.
+
+Thanks
