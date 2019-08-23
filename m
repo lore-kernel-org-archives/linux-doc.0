@@ -5,412 +5,365 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DED907D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 12:42:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 024FA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 13:23:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394848AbfHWMmk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Aug 2019 08:42:40 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46044 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391482AbfHWMmk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Aug 2019 08:42:40 -0400
-Received: from laptop.home (unknown [IPv6:2a01:cb19:8ad6:900:42dd:dd1c:19ee:7c60])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: aragua)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0151F28B44B;
-        Fri, 23 Aug 2019 13:42:36 +0100 (BST)
-From:   Fabien Lahoudere <fabien.lahoudere@collabora.com>
-Cc:     gwendal@chromium.org, egranata@chromium.org, kernel@collabora.com,
-        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nick Vaccaro <nvaccaro@chromium.org>,
-        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
-Date:   Fri, 23 Aug 2019 14:41:27 +0200
-Message-Id: <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1566563833.git.fabien.lahoudere@collabora.com>
-References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
+        id S1730610AbfHWNXL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Aug 2019 09:23:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:34444 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726319AbfHWNXL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Aug 2019 09:23:11 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8C3E28;
+        Fri, 23 Aug 2019 06:23:09 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 240BD3F718;
+        Fri, 23 Aug 2019 06:23:08 -0700 (PDT)
+Subject: Re: [PATCH v3 05/10] KVM: arm64: Support stolen time reporting via
+ shared structure
+To:     Zenghui Yu <yuzenghui@huawei.com>, Marc Zyngier <maz@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
+Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Paolo Bonzini <pbonzini@redhat.com>
+References: <20190821153656.33429-1-steven.price@arm.com>
+ <20190821153656.33429-6-steven.price@arm.com>
+ <d3c493f0-31e8-2334-0ac3-f27bfe9fa976@huawei.com>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <5c12ce80-0014-ff92-d6d1-08c81ee8f35b@arm.com>
+Date:   Fri, 23 Aug 2019 14:23:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <d3c493f0-31e8-2334-0ac3-f27bfe9fa976@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Gwendal Grignou <gwendal@chromium.org>
+On 23/08/2019 13:07, Zenghui Yu wrote:
+> Hi Steven,
+> 
+> Only one comment, at the bottom.
+> 
+> On 2019/8/21 23:36, Steven Price wrote:
+>> Implement the service call for configuring a shared structure between a
+>> VCPU and the hypervisor in which the hypervisor can write the time
+>> stolen from the VCPU's execution time by other tasks on the host.
+>>
+>> The hypervisor allocates memory which is placed at an IPA chosen by user
+>> space. The hypervisor then updates the shared structure using
+>> kvm_put_guest() to ensure single copy atomicity of the 64-bit value
+>> reporting the stolen time in nanoseconds.
+>>
+>> Whenever stolen time is enabled by the guest, the stolen time counter is
+>> reset.
+>>
+>> The stolen time itself is retrieved from the sched_info structure
+>> maintained by the Linux scheduler code. We enable SCHEDSTATS when
+>> selecting KVM Kconfig to ensure this value is meaningful.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   arch/arm/include/asm/kvm_host.h   | 20 +++++++++
+>>   arch/arm64/include/asm/kvm_host.h | 25 +++++++++++-
+>>   arch/arm64/kvm/Kconfig            |  1 +
+>>   include/linux/kvm_types.h         |  2 +
+>>   virt/kvm/arm/arm.c                | 10 +++++
+>>   virt/kvm/arm/hypercalls.c         |  3 ++
+>>   virt/kvm/arm/pvtime.c             | 67 +++++++++++++++++++++++++++++++
+>>   7 files changed, 127 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm/include/asm/kvm_host.h
+>> b/arch/arm/include/asm/kvm_host.h
+>> index 369b5d2d54bf..47d2ced99421 100644
+>> --- a/arch/arm/include/asm/kvm_host.h
+>> +++ b/arch/arm/include/asm/kvm_host.h
+>> @@ -39,6 +39,7 @@
+>>       KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>>   #define KVM_REQ_IRQ_PENDING    KVM_ARCH_REQ(1)
+>>   #define KVM_REQ_VCPU_RESET    KVM_ARCH_REQ(2)
+>> +#define KVM_REQ_RECORD_STEAL    KVM_ARCH_REQ(3)
+>>     DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>>   @@ -329,6 +330,25 @@ static inline int
+>> kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>       return SMCCC_RET_NOT_SUPPORTED;
+>>   }
+>>   +static inline int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+>> +{
+>> +    return SMCCC_RET_NOT_SUPPORTED;
+>> +}
+>> +
+>> +static inline int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool
+>> init)
+>> +{
+>> +    return -ENOTSUPP;
+>> +}
+>> +
+>> +static inline void kvm_pvtime_init_vm(struct kvm_arch *kvm_arch)
+>> +{
+>> +}
+>> +
+>> +static inline bool kvm_is_pvtime_enabled(struct kvm_arch *kvm_arch)
+>> +{
+>> +    return false;
+>> +}
+>> +
+>>   void kvm_mmu_wp_memory_region(struct kvm *kvm, int slot);
+>>     struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long
+>> mpidr);
+>> diff --git a/arch/arm64/include/asm/kvm_host.h
+>> b/arch/arm64/include/asm/kvm_host.h
+>> index 583b3639062a..b6fa7beffd8a 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -44,6 +44,7 @@
+>>       KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>>   #define KVM_REQ_IRQ_PENDING    KVM_ARCH_REQ(1)
+>>   #define KVM_REQ_VCPU_RESET    KVM_ARCH_REQ(2)
+>> +#define KVM_REQ_RECORD_STEAL    KVM_ARCH_REQ(3)
+>>     DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>>   @@ -83,6 +84,11 @@ struct kvm_arch {
+>>         /* Mandated version of PSCI */
+>>       u32 psci_version;
+>> +
+>> +    struct kvm_arch_pvtime {
+>> +        gpa_t st_base;
+>> +        u64 st_size;
+>> +    } pvtime;
+>>   };
+>>     #define KVM_NR_MEM_OBJS     40
+>> @@ -338,8 +344,13 @@ struct kvm_vcpu_arch {
+>>       /* True when deferrable sysregs are loaded on the physical CPU,
+>>        * see kvm_vcpu_load_sysregs and kvm_vcpu_put_sysregs. */
+>>       bool sysregs_loaded_on_cpu;
+>> -};
+>>   +    /* Guest PV state */
+>> +    struct {
+>> +        u64 steal;
+>> +        u64 last_steal;
+>> +    } steal;
+>> +};
+>>   /* Pointer to the vcpu's SVE FFR for sve_{save,load}_state() */
+>>   #define vcpu_sve_pffr(vcpu) ((void *)((char
+>> *)((vcpu)->arch.sve_state) + \
+>>                         sve_ffr_offset((vcpu)->arch.sve_max_vl)))
+>> @@ -479,6 +490,18 @@ int kvm_perf_init(void);
+>>   int kvm_perf_teardown(void);
+>>     int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
+>> +int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu);
+>> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init);
+>> +
+>> +static inline void kvm_pvtime_init_vm(struct kvm_arch *kvm_arch)
+>> +{
+>> +    kvm_arch->pvtime.st_base = GPA_INVALID;
+>> +}
+>> +
+>> +static inline bool kvm_is_pvtime_enabled(struct kvm_arch *kvm_arch)
+>> +{
+>> +    return (kvm_arch->pvtime.st_base != GPA_INVALID);
+>> +}
+>>     void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+>>   diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+>> index a67121d419a2..d8b88e40d223 100644
+>> --- a/arch/arm64/kvm/Kconfig
+>> +++ b/arch/arm64/kvm/Kconfig
+>> @@ -39,6 +39,7 @@ config KVM
+>>       select IRQ_BYPASS_MANAGER
+>>       select HAVE_KVM_IRQ_BYPASS
+>>       select HAVE_KVM_VCPU_RUN_PID_CHANGE
+>> +    select SCHEDSTATS
+>>       ---help---
+>>         Support hosting virtualized guest machines.
+>>         We don't support KVM with 16K page tables yet, due to the
+>> multiple
+>> diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
+>> index bde5374ae021..1c88e69db3d9 100644
+>> --- a/include/linux/kvm_types.h
+>> +++ b/include/linux/kvm_types.h
+>> @@ -35,6 +35,8 @@ typedef unsigned long  gva_t;
+>>   typedef u64            gpa_t;
+>>   typedef u64            gfn_t;
+>>   +#define GPA_INVALID    (~(gpa_t)0)
+>> +
+>>   typedef unsigned long  hva_t;
+>>   typedef u64            hpa_t;
+>>   typedef u64            hfn_t;
+>> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+>> index 35a069815baf..5e8343e2dd62 100644
+>> --- a/virt/kvm/arm/arm.c
+>> +++ b/virt/kvm/arm/arm.c
+>> @@ -40,6 +40,10 @@
+>>   #include <asm/kvm_coproc.h>
+>>   #include <asm/sections.h>
+>>   +#include <kvm/arm_hypercalls.h>
+>> +#include <kvm/arm_pmu.h>
+>> +#include <kvm/arm_psci.h>
+>> +
+>>   #ifdef REQUIRES_VIRT
+>>   __asm__(".arch_extension    virt");
+>>   #endif
+>> @@ -135,6 +139,7 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned
+>> long type)
+>>       kvm->arch.max_vcpus = vgic_present ?
+>>                   kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
+>>   +    kvm_pvtime_init_vm(&kvm->arch);
+>>       return ret;
+>>   out_free_stage2_pgd:
+>>       kvm_free_stage2_pgd(kvm);
+>> @@ -379,6 +384,8 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int
+>> cpu)
+>>       kvm_vcpu_load_sysregs(vcpu);
+>>       kvm_arch_vcpu_load_fp(vcpu);
+>>       kvm_vcpu_pmu_restore_guest(vcpu);
+>> +    if (kvm_is_pvtime_enabled(&vcpu->kvm->arch))
+>> +        kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
+>>         if (single_task_running())
+>>           vcpu_clear_wfe_traps(vcpu);
+>> @@ -644,6 +651,9 @@ static void check_vcpu_requests(struct kvm_vcpu
+>> *vcpu)
+>>            * that a VCPU sees new virtual interrupts.
+>>            */
+>>           kvm_check_request(KVM_REQ_IRQ_PENDING, vcpu);
+>> +
+>> +        if (kvm_check_request(KVM_REQ_RECORD_STEAL, vcpu))
+>> +            kvm_update_stolen_time(vcpu, false);
+>>       }
+>>   }
+>>   diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+>> index 63ae629c466a..ac678eabf15f 100644
+>> --- a/virt/kvm/arm/hypercalls.c
+>> +++ b/virt/kvm/arm/hypercalls.c
+>> @@ -56,6 +56,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+>>       case ARM_SMCCC_HV_PV_FEATURES:
+>>           val = kvm_hypercall_pv_features(vcpu);
+>>           break;
+>> +    case ARM_SMCCC_HV_PV_TIME_ST:
+>> +        val = kvm_hypercall_stolen_time(vcpu);
+>> +        break;
+>>       default:
+>>           return kvm_psci_call(vcpu);
+>>       }
+>> diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+>> index 6201d71cb1f8..28603689f6e0 100644
+>> --- a/virt/kvm/arm/pvtime.c
+>> +++ b/virt/kvm/arm/pvtime.c
+>> @@ -3,8 +3,51 @@
+>>     #include <linux/arm-smccc.h>
+>>   +#include <asm/pvclock-abi.h>
+>> +
+>>   #include <kvm/arm_hypercalls.h>
+>>   +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+>> +{
+>> +    struct kvm *kvm = vcpu->kvm;
+>> +    struct kvm_arch_pvtime *pvtime = &kvm->arch.pvtime;
+>> +    u64 steal;
+>> +    u64 steal_le;
+>> +    u64 offset;
+>> +    int idx;
+>> +    const int stride = sizeof(struct pvclock_vcpu_stolen_time);
+>> +
+>> +    if (pvtime->st_base == GPA_INVALID)
+>> +        return -ENOTSUPP;
+>> +
+>> +    /* Let's do the local bookkeeping */
+>> +    steal = vcpu->arch.steal.steal;
+>> +    steal += current->sched_info.run_delay -
+>> vcpu->arch.steal.last_steal;
+>> +    vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+>> +    vcpu->arch.steal.steal = steal;
+>> +
+>> +    offset = stride * kvm_vcpu_get_idx(vcpu);
+>> +
+>> +    if (unlikely(offset + stride > pvtime->st_size))
+>> +        return -EINVAL;
+>> +
+>> +    steal_le = cpu_to_le64(steal);
+>> +    idx = srcu_read_lock(&kvm->srcu);
+>> +    if (init) {
+>> +        struct pvclock_vcpu_stolen_time init_values = {
+>> +            .revision = 0,
+>> +            .attributes = 0
+>> +        };
+>> +        kvm_write_guest(kvm, pvtime->st_base + offset, &init_values,
+>> +                sizeof(init_values));
+>> +    }
+>> +    offset += offsetof(struct pvclock_vcpu_stolen_time, stolen_time);
+>> +    kvm_put_guest(kvm, pvtime->st_base + offset, steal_le, u64);
+>> +    srcu_read_unlock(&kvm->srcu, idx);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>   {
+>>       u32 feature = smccc_get_arg1(vcpu);
+>> @@ -12,6 +55,7 @@ int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>         switch (feature) {
+>>       case ARM_SMCCC_HV_PV_FEATURES:
+>> +    case ARM_SMCCC_HV_PV_TIME_ST:
+>>           val = SMCCC_RET_SUCCESS;
+>>           break;
+>>       }
+>> @@ -19,3 +63,26 @@ int kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>       return val;
+>>   }
+>>   +int kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+>> +{
+>> +    u64 ret;
+>> +    int err;
+>> +
+>> +    /*
+>> +     * Start counting stolen time from the time the guest requests
+>> +     * the feature enabled.
+>> +     */
+>> +    vcpu->arch.steal.steal = 0;
+>> +    vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+>> +
+>> +    err = kvm_update_stolen_time(vcpu, true);
+>> +
+>> +    if (err)
+>> +        ret = SMCCC_RET_NOT_SUPPORTED;
+>> +    else
+>> +        ret = vcpu->kvm->arch.pvtime.st_base +
+>> +            (sizeof(struct pvclock_vcpu_stolen_time) *
+>> +             kvm_vcpu_get_idx(vcpu));
+>> +
+>> +    return ret;
+> 
+> The *type* of the 'ret' here looks a bit messy to me:
+> (1)u64 -> (2)int -> (3)u32 -> (4)unsigned long
+> 
+> (1)->(2): just inside kvm_hypercall_stolen_time()
+> (2)->(3): inside kvm_hvc_call_handler(), assign 'ret' to 'val'
+> (3)->(4): through smccc_set_retval()
+> 
+> I really have seen an issue caused by (2)->(3).
+> 
+> When the PV guest running without PV_TIME device supporting, the result
+> of the ARM_SMCCC_HV_PV_TIME_ST hypercall is expected to be -1 (which
+> means "not supported"), but the actual result I got is 4294967295.
+> Guest continues to run blindly, bad things would happen then...
+> 
+> I think this needs a fix?
 
-EC returns a counter when there is an event on camera vsync.
-This patch comes from chromeos kernel 4.4
+Yes you are entirely right. I'm afraid this happened because I
+refactored the functions and apparently forgot to update the return
+type. In a previous version the functions themselves did
+smccc_set_retval() themselves and the return value was always "1" (the
+same as kvm_hvc_call_handler()).
 
-Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
-Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
+The function should really return a "long" and "val" in
+kvm_hvc_call_handler() should be upgraded to a "long" too - the
+SMC64/HVC64 calling convention requires error codes to be 64-bit signed
+integers.
 
-CROS EC sync sensor was originally designed as an IIO device.
-Now that the counter subsystem will replace IIO_COUNTER, we
-have to implement a new way to get sync count.
+Thanks for spotting this!
 
-Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
----
- Documentation/driver-api/generic-counter.rst  |   3 +
- MAINTAINERS                                   |   7 +
- drivers/counter/Kconfig                       |   9 +
- drivers/counter/Makefile                      |   1 +
- drivers/counter/counter.c                     |   2 +
- drivers/counter/cros_ec_sensors_sync.c        | 208 ++++++++++++++++++
- .../cros_ec_sensors/cros_ec_sensors_core.c    |   1 +
- drivers/mfd/cros_ec_dev.c                     |   3 +
- include/linux/counter.h                       |   1 +
- 9 files changed, 235 insertions(+)
- create mode 100644 drivers/counter/cros_ec_sensors_sync.c
-
-diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-index 8382f01a53e3..beb80714ac8b 100644
---- a/Documentation/driver-api/generic-counter.rst
-+++ b/Documentation/driver-api/generic-counter.rst
-@@ -44,6 +44,9 @@ Counter interface provides the following available count data types:
- * COUNT_POSITION:
-   Unsigned integer value representing position.
- 
-+* COUNT_TALLY:
-+  Unsigned integer value representing tally.
-+
- A Count has a count function mode which represents the update behavior
- for the count data. The Generic Counter interface provides the following
- available count function modes:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e60f5c361969..83bd291d103e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3902,6 +3902,13 @@ R:	Guenter Roeck <groeck@chromium.org>
- F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.txt
- F:	sound/soc/codecs/cros_ec_codec.*
- 
-+CHROMEOS EC COUNTER DRIVER
-+M:	Fabien Lahoudere <fabien.lahoudere@collabora.com>
-+M:	William Breathitt Gray <vilhelm.gray@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	drivers/counter/cros_ec_sensors_sync.c
-+
- CIRRUS LOGIC AUDIO CODEC DRIVERS
- M:	Brian Austin <brian.austin@cirrus.com>
- M:	Paul Handrigan <Paul.Handrigan@cirrus.com>
-diff --git a/drivers/counter/Kconfig b/drivers/counter/Kconfig
-index 2967d0a9ff91..22287f5715e5 100644
---- a/drivers/counter/Kconfig
-+++ b/drivers/counter/Kconfig
-@@ -59,4 +59,13 @@ config FTM_QUADDEC
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ftm-quaddec.
- 
-+config IIO_CROS_EC_SENSORS_SYNC
-+	tristate "ChromeOS EC Counter Sensors"
-+	depends on IIO_CROS_EC_SENSORS_CORE && IIO
-+	help
-+	  Module to handle synchronisation sensors presented by the ChromeOS EC
-+	  Sensor hub.
-+	  Synchronisation sensors are counter sensors triggered when events
-+	  occurs from other subsystems.
-+
- endif # COUNTER
-diff --git a/drivers/counter/Makefile b/drivers/counter/Makefile
-index 40d35522937d..6fe4c98a446f 100644
---- a/drivers/counter/Makefile
-+++ b/drivers/counter/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_104_QUAD_8)	+= 104-quad-8.o
- obj-$(CONFIG_STM32_TIMER_CNT)	+= stm32-timer-cnt.o
- obj-$(CONFIG_STM32_LPTIMER_CNT)	+= stm32-lptimer-cnt.o
- obj-$(CONFIG_FTM_QUADDEC)	+= ftm-quaddec.o
-+obj-$(CONFIG_IIO_CROS_EC_SENSORS_SYNC) += cros_ec_sensors_sync.o
-diff --git a/drivers/counter/counter.c b/drivers/counter/counter.c
-index 106bc7180cd8..53525b109094 100644
---- a/drivers/counter/counter.c
-+++ b/drivers/counter/counter.c
-@@ -261,6 +261,7 @@ void counter_count_read_value_set(struct counter_count_read_value *const val,
- {
- 	switch (type) {
- 	case COUNTER_COUNT_POSITION:
-+	case COUNTER_COUNT_TALLY:
- 		val->len = sprintf(val->buf, "%lu\n", *(unsigned long *)data);
- 		break;
- 	default:
-@@ -290,6 +291,7 @@ int counter_count_write_value_get(void *const data,
- 
- 	switch (type) {
- 	case COUNTER_COUNT_POSITION:
-+	case COUNTER_COUNT_TALLY:
- 		err = kstrtoul(val->buf, 0, data);
- 		if (err)
- 			return err;
-diff --git a/drivers/counter/cros_ec_sensors_sync.c b/drivers/counter/cros_ec_sensors_sync.c
-new file mode 100644
-index 000000000000..b6f5e2c6da9f
---- /dev/null
-+++ b/drivers/counter/cros_ec_sensors_sync.c
-@@ -0,0 +1,208 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver of counter incremented after events on interrupt line in EC.
-+ *
-+ * Copyright 2018 Google, Inc
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/counter.h>
-+#include <linux/iio/common/cros_ec_sensors_core.h>
-+#include <linux/iio/triggered_buffer.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/cros_ec.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#define DRV_NAME "cros-ec-sync"
-+
-+/*
-+ * One channel for counter, the other for timestamp.
-+ */
-+#define MAX_CHANNELS (1)
-+
-+/* State data for ec_sensors iio driver. */
-+struct cros_ec_sensors_sync_state {
-+	/* Shared by all sensors */
-+	struct cros_ec_sensors_core_state core;
-+	struct counter_device counter;
-+	struct iio_chan_spec channels[MAX_CHANNELS];
-+};
-+
-+static int cros_ec_sensors_sync_read(struct iio_dev *indio_dev,
-+				     struct iio_chan_spec const *chan,
-+				     int *val, int *val2, long mask)
-+{
-+	struct cros_ec_sensors_sync_state *st = iio_priv(indio_dev);
-+	u16 data;
-+	int ret;
-+
-+	mutex_lock(&st->core.cmd_lock);
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = cros_ec_sensors_read_cmd(indio_dev, BIT(0), &data);
-+		if (ret < 0)
-+			break;
-+		ret = IIO_VAL_INT;
-+		*val = data;
-+		break;
-+	default:
-+		ret = cros_ec_sensors_core_read(&st->core, chan, val, val2,
-+						mask);
-+		break;
-+	}
-+	mutex_unlock(&st->core.cmd_lock);
-+	return ret;
-+}
-+
-+static struct iio_info cros_ec_sensors_sync_info = {
-+	.read_raw = &cros_ec_sensors_sync_read,
-+	.read_avail = &cros_ec_sensors_core_read_avail,
-+};
-+
-+static struct counter_count cros_ec_sync_counts = {
-+	.id = 0,
-+	.name = "Cros EC sync counter",
-+};
-+
-+static int cros_ec_sync_cnt_read(struct counter_device *counter,
-+				struct counter_count *count,
-+				struct counter_count_read_value *val)
-+{
-+	s16 cnt;
-+	int ret;
-+	struct iio_dev *indio_dev = counter->priv;
-+	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-+	unsigned long data;
-+
-+	mutex_lock(&st->core.cmd_lock);
-+	ret = cros_ec_sensors_read_cmd(indio_dev, BIT(0), &cnt);
-+	mutex_unlock(&st->core.cmd_lock);
-+	if (ret != 0) {
-+		dev_warn(&indio_dev->dev, "Unable to read sensor data\n");
-+		return ret;
-+	}
-+
-+	data = (unsigned long) cnt;
-+	counter_count_read_value_set(val, COUNTER_COUNT_TALLY, &data);
-+
-+	return 0;
-+}
-+
-+static const struct counter_ops cros_ec_sync_cnt_ops = {
-+	.count_read = cros_ec_sync_cnt_read,
-+};
-+
-+static char *cros_ec_loc[] = {
-+	[MOTIONSENSE_LOC_BASE] = "base",
-+	[MOTIONSENSE_LOC_LID] = "lid",
-+	[MOTIONSENSE_LOC_CAMERA] = "camera",
-+	[MOTIONSENSE_LOC_MAX] = "unknown",
-+};
-+
-+static ssize_t cros_ec_sync_id(struct counter_device *counter,
-+				  void *private, char *buf)
-+{
-+	struct iio_dev *indio_dev = counter->priv;
-+	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-+
-+	return snprintf(buf, PAGE_SIZE, "%d\n", st->core.param.info.sensor_num);
-+}
-+
-+static ssize_t cros_ec_sync_loc(struct counter_device *counter,
-+				   void *private, char *buf)
-+{
-+	struct iio_dev *indio_dev = counter->priv;
-+	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-+
-+	return snprintf(buf, PAGE_SIZE, "%s\n", cros_ec_loc[st->core.loc]);
-+}
-+
-+static struct counter_device_ext cros_ec_sync_cnt_ext[] = {
-+	{
-+		.name = "id",
-+		.read = cros_ec_sync_id
-+	},
-+	{
-+		.name = "location",
-+		.read = cros_ec_sync_loc
-+	},
-+};
-+
-+static int cros_ec_sensors_sync_probe(struct platform_device *pdev)
-+{
-+	struct cros_ec_sensors_sync_state *state;
-+	struct device *dev = &pdev->dev;
-+	struct iio_chan_spec *channel;
-+	struct iio_dev *indio_dev;
-+	int ret;
-+
-+	indio_dev = devm_iio_device_alloc(dev, sizeof(*state));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	ret = cros_ec_sensors_core_init(pdev, indio_dev, true);
-+	if (ret)
-+		return ret;
-+
-+	indio_dev->info = &cros_ec_sensors_sync_info;
-+	state = iio_priv(indio_dev);
-+
-+	if (state->core.type != MOTIONSENSE_TYPE_SYNC)
-+		return -EINVAL;
-+
-+	/* Initialize IIO device */
-+	channel = state->channels;
-+	channel->type = IIO_TIMESTAMP;
-+	channel->channel = -1;
-+	channel->scan_index = 1;
-+	channel->scan_type.sign = 's';
-+	channel->scan_type.realbits = 64;
-+	channel->scan_type.storagebits = 64;
-+
-+	indio_dev->channels = state->channels;
-+	indio_dev->num_channels = MAX_CHANNELS;
-+
-+	state->core.read_ec_sensors_data = cros_ec_sensors_read_cmd;
-+
-+	ret = devm_iio_triggered_buffer_setup(dev, indio_dev, NULL,
-+					      cros_ec_sensors_capture, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_iio_device_register(dev, indio_dev);
-+	if (ret)
-+		return ret;
-+
-+	/* Initialize counter device */
-+	state->counter.name = dev_name(&pdev->dev);
-+	state->counter.parent = &pdev->dev;
-+	state->counter.counts = &cros_ec_sync_counts;
-+	state->counter.num_counts = 1;
-+	state->counter.priv = indio_dev;
-+	state->counter.ops = &cros_ec_sync_cnt_ops;
-+	state->counter.ext = cros_ec_sync_cnt_ext;
-+	state->counter.num_ext = ARRAY_SIZE(cros_ec_sync_cnt_ext);
-+
-+	return devm_counter_register(&pdev->dev, &state->counter);
-+}
-+
-+static const struct platform_device_id cros_ec_sensors_sync_ids[] = {
-+	{ .name = DRV_NAME, },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(platform, cros_ec_sensors_sync_ids);
-+
-+static struct platform_driver cros_ec_sensors_sync_platform_driver = {
-+	.driver = {
-+		.name	= DRV_NAME,
-+		.pm	= &cros_ec_sensors_pm_ops,
-+	},
-+	.probe		= cros_ec_sensors_sync_probe,
-+	.id_table	= cros_ec_sensors_sync_ids,
-+};
-+module_platform_driver(cros_ec_sensors_sync_platform_driver);
-+
-+MODULE_DESCRIPTION("ChromeOS EC synchronisation sensor driver");
-+MODULE_ALIAS("platform:" DRV_NAME);
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index 805652250960..2bf183425eaf 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -22,6 +22,7 @@
- static char *cros_ec_loc[] = {
- 	[MOTIONSENSE_LOC_BASE] = "base",
- 	[MOTIONSENSE_LOC_LID] = "lid",
-+	[MOTIONSENSE_LOC_CAMERA] = "camera",
- 	[MOTIONSENSE_LOC_MAX] = "unknown",
- };
- 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 41dccced5026..1c5c2c38af88 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -332,6 +332,9 @@ static void cros_ec_sensors_register(struct cros_ec_dev *ec)
- 		case MOTIONSENSE_TYPE_ACTIVITY:
- 			sensor_cells[id].name = "cros-ec-activity";
- 			break;
-+		case MOTIONSENSE_TYPE_SYNC:
-+			sensor_cells[id].name = "cros-ec-sync";
-+			break;
- 		default:
- 			dev_warn(ec->dev, "unknown type %d\n", resp->info.type);
- 			continue;
-diff --git a/include/linux/counter.h b/include/linux/counter.h
-index a061cdcdef7c..1198e675306f 100644
---- a/include/linux/counter.h
-+++ b/include/linux/counter.h
-@@ -488,6 +488,7 @@ enum counter_signal_value_type {
- 
- enum counter_count_value_type {
- 	COUNTER_COUNT_POSITION = 0,
-+	COUNTER_COUNT_TALLY
- };
- 
- void counter_signal_read_value_set(struct counter_signal_read_value *const val,
--- 
-2.20.1
-
+Steve
