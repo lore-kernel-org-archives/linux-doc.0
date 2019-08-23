@@ -3,91 +3,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33F007D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 03:18:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 877427D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 08:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404159AbfHWDSL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Aug 2019 23:18:11 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36606 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2404154AbfHWDSL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Aug 2019 23:18:11 -0400
-Received: from callcc.thunk.org ([66.31.38.53])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x7N3I2Hw005113
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 22 Aug 2019 23:18:03 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 0DDCB42049E; Thu, 22 Aug 2019 23:18:02 -0400 (EDT)
-Date:   Thu, 22 Aug 2019 23:18:02 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Ayush Ranjan <ayushr2@illinois.edu>
-Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Ext4 documentation fixes.
-Message-ID: <20190823031801.GD8130@mit.edu>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Ayush Ranjan <ayushr2@illinois.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <CA+UE=SPyMXZUhHFm0KgvihPdaE=yH5ra6n1C4XhKgM6aGheo=A@mail.gmail.com>
+        id S2390833AbfHWIMj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Aug 2019 04:12:39 -0400
+Received: from 8bytes.org ([81.169.241.247]:51010 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389496AbfHWIMj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Aug 2019 04:12:39 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 46A6D1C7; Fri, 23 Aug 2019 10:12:37 +0200 (CEST)
+Date:   Fri, 23 Aug 2019 10:12:37 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
+        Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
+Subject: Re: [PATCH 00/11 v3] Cleanup IOMMU passthrough setting (and disable
+ IOMMU Passthrough when SME is active)
+Message-ID: <20190823081236.GE30332@8bytes.org>
+References: <20190819132256.14436-1-joro@8bytes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+UE=SPyMXZUhHFm0KgvihPdaE=yH5ra6n1C4XhKgM6aGheo=A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 09:11:51AM -0700, Ayush Ranjan wrote:
-> This commit aims to fix the following issues in ext4 documentation:
-> - Flexible block group docs said that the aim was to group block
->   metadata together instead of block group metadata.
-> - The documentation consistly uses "location" instead of "block number".
->   It is easy to confuse location to be an absolute offset on disk. Added
->   a line to clarify all location values are in terms of block numbers.
-> - Dirent2 docs said that the rec_len field is shortened instead of the
->   name_len field.
-> - Typo in bg_checksum description.
-> - Inode size is 160 bytes now, and hence i_extra_isize is now 32.
-> - Cluster size formula was incorrect, it did not include the +10 to
->   s_log_cluster_size value.
-> - Typo: there were two s_wtime_hi in the superblock struct.
-> - Superblock struct was outdated, added the new fields which were part
->   of s_reserved earlier.
-> - Multiple mount protection seems to be implemented in fs/ext4/mmp.c.
+On Mon, Aug 19, 2019 at 03:22:45PM +0200, Joerg Roedel wrote:
+> Joerg Roedel (11):
+>   iommu: Remember when default domain type was set on kernel command line
+>   iommu: Add helpers to set/get default domain type
+>   iommu: Use Functions to set default domain type in iommu_set_def_domain_type()
+>   iommu/amd: Request passthrough mode from IOMMU core
+>   iommu/vt-d: Request passthrough mode from IOMMU core
+>   x86/dma: Get rid of iommu_pass_through
+>   ia64: Get rid of iommu_pass_through
+>   iommu: Print default domain type on boot
+>   iommu: Set default domain type at runtime
+>   iommu: Disable passthrough mode when SME is active
+>   Documentation: Update Documentation for iommu.passthrough
 > 
-> Signed-off-by: Ayush Ranjan <ayushr2@illinois.edu>
+>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>  arch/ia64/include/asm/iommu.h                   |  2 -
+>  arch/ia64/kernel/pci-dma.c                      |  2 -
+>  arch/x86/include/asm/iommu.h                    |  1 -
+>  arch/x86/kernel/pci-dma.c                       | 20 +-----
+>  drivers/iommu/amd_iommu.c                       |  6 +-
+>  drivers/iommu/intel-iommu.c                     |  2 +-
+>  drivers/iommu/iommu.c                           | 93 +++++++++++++++++++++++--
+>  include/linux/iommu.h                           | 16 +++++
+>  9 files changed, 110 insertions(+), 34 deletions(-)
 
-Fixed with one minor typo fix:
-
-> diff --git a/Documentation/filesystems/ext4/group_descr.rst
-> b/Documentation/filesystems/ext4/group_descr.rst
-> index 0f783ed88..feb5c613d 100644
-> --- a/Documentation/filesystems/ext4/group_descr.rst
-> +++ b/Documentation/filesystems/ext4/group_descr.rst
-> @@ -100,7 +100,7 @@ The block group descriptor is laid out in ``struct
-> ext4_group_desc``.
->       - \_\_le16
->       - bg\_checksum
->       - Group descriptor checksum; crc16(sb\_uuid+group+desc) if the
-> -       RO\_COMPAT\_GDT\_CSUM feature is set, or crc32c(sb\_uuid+group\_desc) &
-> +       RO\_COMPAT\_GDT\_CSUM feature is set, or crc32c(sb\_uuid+group+desc) &
->         0xFFFF if the RO\_COMPAT\_METADATA\_CSUM feature is set.
-
-The correct checksum should be "crc16(sb\_uuid+group\_desc)" or
-"crc32c(sb\_uuid+group\_desc)".  That is, it's previous line which
-needed modification.
-
-					- Ted
+Applied.
