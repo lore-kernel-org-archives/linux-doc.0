@@ -6,88 +6,134 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 582F57D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 15:01:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 303AD7D913
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Aug 2019 15:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfHWPB3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Aug 2019 11:01:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39114 "EHLO mail.kernel.org"
+        id S2405623AbfHWPdi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Aug 2019 11:33:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51256 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726586AbfHWPB3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Aug 2019 11:01:29 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2388022AbfHWPdi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Aug 2019 11:33:38 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6EB4320870;
-        Fri, 23 Aug 2019 15:01:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F8AD2133F;
+        Fri, 23 Aug 2019 15:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566572488;
-        bh=VeDXUNhYi4KOLRcPtTimB9I/sRPTZn6cLXwdsKfPAoM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ogw5G1a4JKEhadQ4VXMl8TD9pUVeCpgRlOTMDgBEM80gSNPg9C9ilMz662jfrrP1D
-         C0Ht4swy/wJGr0TqI3JQy1vqynpRHpPFJGNGSigNYfrwVf14YBKQpVaFkXmW8Hu0AX
-         lQ2Ehl2PfHVZv6NukNtD+6USjCHPjarbfILjbFQU=
-Date:   Fri, 23 Aug 2019 16:01:23 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave P Martin <Dave.Martin@arm.com>
-Subject: Re: [PATCH v8 1/5] mm: untag user pointers in mmap/munmap/mremap/brk
-Message-ID: <20190823150123.okjow4g3mt2znz7c@willie-the-truck>
-References: <20190815154403.16473-1-catalin.marinas@arm.com>
- <20190815154403.16473-2-catalin.marinas@arm.com>
- <20190819162851.tncj4wpwf625ofg6@willie-the-truck>
- <20190822164125.acfb97de912996b2b9127c61@linux-foundation.org>
+        s=default; t=1566574416;
+        bh=yCT4ObOgsNt0bYY8blJS3y9Aifbq9ZOtPmFappz9gKg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=o79+bNgvN/+G52KjHl2k7P+/9FYtVoFa6klyl9gzDLuUZmv2FLD2H6/h6kgCvvnGO
+         RFvuceeQSSSVqLj+co0KPaqw2Cjpu4rkBzl2xsJBk8SmTfznnZR1skMABiBGgQCWnW
+         h17J/lCDhV60JedIGFyevZgryI2eRxj+0jNWq+Gg=
+Subject: Re: [PATCH v14 01/18] kunit: test: add KUnit test runner core
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        shuah <shuah@kernel.org>, pmladek@suse.com,
+        rdunlap@infradead.org, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+References: <20190820232046.50175-1-brendanhiggins@google.com>
+ <20190820232046.50175-2-brendanhiggins@google.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <7f2c8908-75f6-b793-7113-ad57c51777ce@kernel.org>
+Date:   Fri, 23 Aug 2019 09:33:13 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190822164125.acfb97de912996b2b9127c61@linux-foundation.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190820232046.50175-2-brendanhiggins@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 04:41:25PM -0700, Andrew Morton wrote:
-> On Mon, 19 Aug 2019 17:28:51 +0100 Will Deacon <will@kernel.org> wrote:
+Hi Brendan,
+
+On 8/20/19 5:20 PM, Brendan Higgins wrote:
+> Add core facilities for defining unit tests; this provides a common way
+> to define test cases, functions that execute code which is under test
+> and determine whether the code under test behaves as expected; this also
+> provides a way to group together related test cases in test suites (here
+> we call them test_modules).
 > 
-> > On Thu, Aug 15, 2019 at 04:43:59PM +0100, Catalin Marinas wrote:
-> > > There isn't a good reason to differentiate between the user address
-> > > space layout modification syscalls and the other memory
-> > > permission/attributes ones (e.g. mprotect, madvise) w.r.t. the tagged
-> > > address ABI. Untag the user addresses on entry to these functions.
-> > > 
-> > > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-> > > ---
-> > >  mm/mmap.c   | 5 +++++
-> > >  mm/mremap.c | 6 +-----
-> > >  2 files changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > Acked-by: Will Deacon <will@kernel.org>
-> > 
-> > Andrew -- please can you pick this patch up? I'll take the rest of the
-> > series via arm64 once we've finished discussing the wording details.
-> > 
+> Just define test cases and how to execute them for now; setting
+> expectations on code will be defined later.
 > 
-> Sure, I grabbed the patch from the v9 series.
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> ---
+>   include/kunit/test.h | 179 ++++++++++++++++++++++++++++++++++++++++
+>   kunit/Kconfig        |  17 ++++
+>   kunit/Makefile       |   1 +
+>   kunit/test.c         | 191 +++++++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 388 insertions(+)
+>   create mode 100644 include/kunit/test.h
+>   create mode 100644 kunit/Kconfig
+>   create mode 100644 kunit/Makefile
+>   create mode 100644 kunit/test.c
+> 
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> new file mode 100644
+> index 0000000000000..e0b34acb9ee4e
+> --- /dev/null
+> +++ b/include/kunit/test.h
+> @@ -0,0 +1,179 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Base unit test (KUnit) API.
+> + *
+> + * Copyright (C) 2019, Google LLC.
+> + * Author: Brendan Higgins <brendanhiggins@google.com>
+> + */
+> +
+> +#ifndef _KUNIT_TEST_H
+> +#define _KUNIT_TEST_H
+> +
+> +#include <linux/types.h>
+> +
+> +struct kunit;
+> +
+> +/**
+> + * struct kunit_case - represents an individual test case.
+> + * @run_case: the function representing the actual test case.
+> + * @name: the name of the test case.
+> + *
+> + * A test case is a function with the signature, ``void (*)(struct kunit *)``
+> + * that makes expectations (see KUNIT_EXPECT_TRUE()) about code under test. Each
+> + * test case is associated with a &struct kunit_suite and will be run after the
+> + * suite's init function and followed by the suite's exit function.
+> + *
+> + * A test case should be static and should only be created with the KUNIT_CASE()
+> + * macro; additionally, every array of test cases should be terminated with an
+> + * empty test case.
+> + *
+> + * Example:
 
-Thanks, Andrew.
+Can you fix these line continuations. It makes it very hard to read.
+Sorry for this late comment. These comments lines are longer than 80
+and wrap.
 
-> But please feel free to include this in the arm64 tree - I'll autodrop
-> my copy if this turns up in linux-next.
+There are several comment lines in the file that are way too long.
 
-I'd prefer for this one to go via you so that it can sit with the rest of
-the core changes relating to tagged addresses. Obviously please yell if
-you run into any issues with it!
+thanks,
+-- Shuah
 
-Cheers,
-
-Will
