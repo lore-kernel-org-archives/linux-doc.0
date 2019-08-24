@@ -1,79 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59BFF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 21:24:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53A197D91A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 21:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727708AbfHXVYz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Aug 2019 17:24:55 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50340 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727690AbfHXVYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Aug 2019 17:24:54 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1BB5B300;
-        Sat, 24 Aug 2019 21:24:54 +0000 (UTC)
-Date:   Sat, 24 Aug 2019 15:24:53 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andreas Dilger <adilger@dilger.ca>
-Cc:     Ayush Ranjan <ayushr2@illinois.edu>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Ext4 documentation fixes.
-Message-ID: <20190824152453.03737143@lwn.net>
-In-Reply-To: <DEDD6BA5-6E18-4ED6-9EF6-E11EDA593700@dilger.ca>
-References: <CA+UE=SPyMXZUhHFm0KgvihPdaE=yH5ra6n1C4XhKgM6aGheo=A@mail.gmail.com>
-        <DEDD6BA5-6E18-4ED6-9EF6-E11EDA593700@dilger.ca>
-Organization: LWN.net
+        id S1728289AbfHXVge (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Aug 2019 17:36:34 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:39725 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727708AbfHXVgd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Aug 2019 17:36:33 -0400
+Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3281:e7ea:4585:74bd:2ff0])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x7OLZlZI1693806
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Sat, 24 Aug 2019 14:35:47 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x7OLZlZI1693806
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019081901; t=1566682550;
+        bh=2gQzKPo4WrQnlvDY26oni/RH8wMNjOHmljo2FnAYqSQ=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=jfa8ujf6Bo1t5AdTUjdpXdAFm8XuC39+BjMNqj+VUJ3I53oJo8pLL8aqGEuCFFlpF
+         mwuiVt5W4twlgKdrwazMwd/61MKfTF4NAY11XuCMz/Ej1knheH/Kqod+N3MIPMcnIK
+         cktpL1xZjdX5eoOtI9MknxvSwHVr1fI8qBSoNC3LNQYeNSnmeD84o3whZzxDwNPfwG
+         gh/3M8807qmCeoj0hhRip3VMQkcUT2k058MR72yR9RAETn0/4FIKzK3WhJgnwoAar5
+         HnEPzDPWJwws1MytshNO8EJOiF+QUagVUh1dO3bzXlhf83JKnsGzcKS+aVx/usQ/fp
+         EvEO265n3vcaQ==
+Subject: Re: [tip: x86/urgent] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
+ family 15h/16h
+To:     Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org
+Cc:     linux-tip-commits@vger.kernel.org,
+        "x86@kernel.org" <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Juergen Gross <jgross@suse.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Chen Yu <yu.c.chen@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Borislav Petkov <bp@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>
+References: <7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com>
+ <156652264945.9541.4969272027980914591.tip-bot2@tip-bot2>
+ <20190824181929.GA18551@amd>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <409703ae-6d70-3f6a-d6fc-b7dada3c2797@zytor.com>
+Date:   Sat, 24 Aug 2019 14:35:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190824181929.GA18551@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 15 Aug 2019 09:16:23 -0700
-Andreas Dilger <adilger@dilger.ca> wrote:
-
-> On Aug 15, 2019, at 09:11, Ayush Ranjan <ayushr2@illinois.edu> wrote:
-> > 
-> > This commit aims to fix the following issues in ext4 documentation:
-> > - Flexible block group docs said that the aim was to group block
-> >   metadata together instead of block group metadata.
-> > - The documentation consistly uses "location" instead of "block number".
-> >   It is easy to confuse location to be an absolute offset on disk. Added
-> >   a line to clarify all location values are in terms of block numbers.
-> > - Dirent2 docs said that the rec_len field is shortened instead of the
-> >   name_len field.
-> > - Typo in bg_checksum description.
-> > - Inode size is 160 bytes now, and hence i_extra_isize is now 32.
-> > - Cluster size formula was incorrect, it did not include the +10 to
-> >   s_log_cluster_size value.
-> > - Typo: there were two s_wtime_hi in the superblock struct.
-> > - Superblock struct was outdated, added the new fields which were part
-> >   of s_reserved earlier.
-> > - Multiple mount protection seems to be implemented in fs/ext4/mmp.c.
-> > 
-> > Signed-off-by: Ayush Ranjan <ayushr2@illinois.edu>  
+On 8/24/19 11:19 AM, Pavel Machek wrote:
+> On Fri 2019-08-23 01:10:49, tip-bot2 for Tom Lendacky wrote:
+>> The following commit has been merged into the x86/urgent branch of tip:
+>>
+>> Commit-ID:     c49a0a80137c7ca7d6ced4c812c9e07a949f6f24
+>> Gitweb:        https://git.kernel.org/tip/c49a0a80137c7ca7d6ced4c812c9e07a949f6f24
+>> Author:        Tom Lendacky <thomas.lendacky@amd.com>
+>> AuthorDate:    Mon, 19 Aug 2019 15:52:35 
+>> Committer:     Borislav Petkov <bp@suse.de>
+>> CommitterDate: Mon, 19 Aug 2019 19:42:52 +02:00
+>>
+>> x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
+>>
+>> There have been reports of RDRAND issues after resuming from suspend on
+>> some AMD family 15h and family 16h systems. This issue stems from a BIOS
+>> not performing the proper steps during resume to ensure RDRAND continues
+>> to function properly.
 > 
-> Reviewed-by: Andreas Dilger <adilger@dilger.ca>
+> There are quite a few unanswered questions here.
+> 
+> a) Is there/should there be CVE for this?
+> 
+> b) Can we perform proper steps in kernel, thus making RDRAND usable
+> even when BIOS is buggy?
+> 
 
-I've applied this to the docs tree.
+The kernel should at least be able to set its internal "CPUID" bit, visible
+through /proc/cpuinfo.
 
-However, Ayush: the patch was rather badly corrupted by your mail client.
-I managed to fix it up, but please in the future verify that you can email
-a patch to yourself and apply it before submitting it.  There may be some
-useful hints in Documentation/process/email-clients.rst .
+	-hpa
 
-Thanks,
-
-jon
