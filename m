@@ -3,33 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4C2D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 21:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 59BFF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 21:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbfHXVSL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Aug 2019 17:18:11 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50308 "EHLO ms.lwn.net"
+        id S1727708AbfHXVYz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Aug 2019 17:24:55 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50340 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727969AbfHXVSK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Aug 2019 17:18:10 -0400
+        id S1727690AbfHXVYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Aug 2019 17:24:54 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0899035A;
-        Sat, 24 Aug 2019 21:18:09 +0000 (UTC)
-Date:   Sat, 24 Aug 2019 15:18:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 1BB5B300;
+        Sat, 24 Aug 2019 21:24:54 +0000 (UTC)
+Date:   Sat, 24 Aug 2019 15:24:53 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jacob Huisman <jacobhuisman@kernelthusiast.com>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: process: fix broken link
-Message-ID: <20190824151808.782b77c4@lwn.net>
-In-Reply-To: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
-References: <20190816122209.5bz4rlln5cahn7ki@jacob-MS-7A62>
+To:     Andreas Dilger <adilger@dilger.ca>
+Cc:     Ayush Ranjan <ayushr2@illinois.edu>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] Ext4 documentation fixes.
+Message-ID: <20190824152453.03737143@lwn.net>
+In-Reply-To: <DEDD6BA5-6E18-4ED6-9EF6-E11EDA593700@dilger.ca>
+References: <CA+UE=SPyMXZUhHFm0KgvihPdaE=yH5ra6n1C4XhKgM6aGheo=A@mail.gmail.com>
+        <DEDD6BA5-6E18-4ED6-9EF6-E11EDA593700@dilger.ca>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,31 +41,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 16 Aug 2019 13:22:09 +0100
-Jacob Huisman <jacobhuisman@kernelthusiast.com> wrote:
+On Thu, 15 Aug 2019 09:16:23 -0700
+Andreas Dilger <adilger@dilger.ca> wrote:
 
-> http://linux.yyz.us/patch-format.html seems to be down since
-> approximately September 2018. There is a working archive copy on
-> arhive.org. Replaced the links in documenation + translations.
+> On Aug 15, 2019, at 09:11, Ayush Ranjan <ayushr2@illinois.edu> wrote:
+> > 
+> > This commit aims to fix the following issues in ext4 documentation:
+> > - Flexible block group docs said that the aim was to group block
+> >   metadata together instead of block group metadata.
+> > - The documentation consistly uses "location" instead of "block number".
+> >   It is easy to confuse location to be an absolute offset on disk. Added
+> >   a line to clarify all location values are in terms of block numbers.
+> > - Dirent2 docs said that the rec_len field is shortened instead of the
+> >   name_len field.
+> > - Typo in bg_checksum description.
+> > - Inode size is 160 bytes now, and hence i_extra_isize is now 32.
+> > - Cluster size formula was incorrect, it did not include the +10 to
+> >   s_log_cluster_size value.
+> > - Typo: there were two s_wtime_hi in the superblock struct.
+> > - Superblock struct was outdated, added the new fields which were part
+> >   of s_reserved earlier.
+> > - Multiple mount protection seems to be implemented in fs/ext4/mmp.c.
+> > 
+> > Signed-off-by: Ayush Ranjan <ayushr2@illinois.edu>  
 > 
-> Signed-off-by: Jacob Huisman <jacobhuisman@kernelthusiast.com>
-> ---
->  Documentation/process/howto.rst                                 | 2 +-
->  Documentation/process/submitting-patches.rst                    | 2 +-
->  Documentation/translations/it_IT/process/howto.rst              | 2 +-
->  Documentation/translations/it_IT/process/submitting-patches.rst | 2 +-
->  Documentation/translations/ja_JP/SubmittingPatches              | 2 +-
->  Documentation/translations/ja_JP/howto.rst                      | 2 +-
->  Documentation/translations/ko_KR/howto.rst                      | 2 +-
->  Documentation/translations/zh_CN/process/howto.rst              | 2 +-
->  Documentation/translations/zh_CN/process/submitting-patches.rst | 2 +-
->  9 files changed, 9 insertions(+), 9 deletions(-)
+> Reviewed-by: Andreas Dilger <adilger@dilger.ca>
 
-Dead links don't help anybody, so I've applied this.  I have to wonder,
-though, whether there is really value in carrying around a link to a page
-that hasn't been maintained in years.  Almost everything that appears
-there is already in submitting-patches.rst; maybe we could see if there's
-anything that's missing, add it, then drop the link?
+I've applied this to the docs tree.
+
+However, Ayush: the patch was rather badly corrupted by your mail client.
+I managed to fix it up, but please in the future verify that you can email
+a patch to yourself and apply it before submitting it.  There may be some
+useful hints in Documentation/process/email-clients.rst .
 
 Thanks,
 
