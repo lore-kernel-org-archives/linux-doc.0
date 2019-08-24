@@ -3,149 +3,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBB247D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 16:30:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6099B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 17:29:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbfHXQap (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Aug 2019 12:30:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51202 "EHLO mail.kernel.org"
+        id S1726808AbfHXR3V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Aug 2019 13:29:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726628AbfHXQap (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Aug 2019 12:30:45 -0400
-Received: from localhost (unknown [8.46.76.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726769AbfHXR3V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Aug 2019 13:29:21 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E87272133F;
-        Sat, 24 Aug 2019 16:30:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6F9F020870;
+        Sat, 24 Aug 2019 17:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566664243;
-        bh=+JuKxCOgJyBntCQvY6U3JY+tJ2pkpRKpi7Kas9YX6aQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2JCsvY6KrYzxYIpv+m8WMh+iSkH0tmAKK2RhzWqbs9T4ahODOuEjgejLGapr5RUd9
-         tffZ1z1dcUGfhiBbn+/plVU7AmJxYa08G3zby2VydzN3K4cMa8xutpmhkbQBEWLw7d
-         dmhrbql6MJj0ka0EGuC9P5zWcopoMB8TBOVm/uo0=
-Date:   Sat, 24 Aug 2019 09:50:28 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-tip-commits@vger.kernel.org,
-        "x86@kernel.org" <x86@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Juergen Gross <jgross@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Chen Yu <yu.c.chen@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Borislav Petkov <bp@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [tip: x86/urgent] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-Message-ID: <20190824135028.GJ1581@sasha-vm>
-References: <7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com>
- <156652264945.9541.4969272027980914591.tip-bot2@tip-bot2>
+        s=default; t=1566667760;
+        bh=D3nLnnNPLuL/zFk4MNDUmFGzPOfuIQGc/sSLWQeMJCo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=qQvJssVcUppRZfxWiCWZqD4orXYOwW51Do+MjiJOlXvIE1EasomxA6H/BjQg/l+0v
+         fa5vfHkA/8e+t+mj1UEi7/X+/xak2vcoK3eKYd2CcRnPgYkX6N9X5nDioWKtJGCcNl
+         sMf76jjgFYGDYB4WceIHBLhFl/0T9P84t2fquPsY=
+Subject: Re: [PATCH v15 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, shuah <shuah@kernel.org>
+References: <20190824013425.175645-1-brendanhiggins@google.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <a657b995-32b3-3352-bc10-834547e44dd4@kernel.org>
+Date:   Sat, 24 Aug 2019 11:29:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <156652264945.9541.4969272027980914591.tip-bot2@tip-bot2>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190824013425.175645-1-brendanhiggins@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 01:10:49AM -0000, tip-bot2 for Tom Lendacky wrote:
->The following commit has been merged into the x86/urgent branch of tip:
->
->Commit-ID:     c49a0a80137c7ca7d6ced4c812c9e07a949f6f24
->Gitweb:        https://git.kernel.org/tip/c49a0a80137c7ca7d6ced4c812c9e07a949f6f24
->Author:        Tom Lendacky <thomas.lendacky@amd.com>
->AuthorDate:    Mon, 19 Aug 2019 15:52:35
->Committer:     Borislav Petkov <bp@suse.de>
->CommitterDate: Mon, 19 Aug 2019 19:42:52 +02:00
->
->x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
->
->There have been reports of RDRAND issues after resuming from suspend on
->some AMD family 15h and family 16h systems. This issue stems from a BIOS
->not performing the proper steps during resume to ensure RDRAND continues
->to function properly.
->
->RDRAND support is indicated by CPUID Fn00000001_ECX[30]. This bit can be
->reset by clearing MSR C001_1004[62]. Any software that checks for RDRAND
->support using CPUID, including the kernel, will believe that RDRAND is
->not supported.
->
->Update the CPU initialization to clear the RDRAND CPUID bit for any family
->15h and 16h processor that supports RDRAND. If it is known that the family
->15h or family 16h system does not have an RDRAND resume issue or that the
->system will not be placed in suspend, the "rdrand=force" kernel parameter
->can be used to stop the clearing of the RDRAND CPUID bit.
->
->Additionally, update the suspend and resume path to save and restore the
->MSR C001_1004 value to ensure that the RDRAND CPUID setting remains in
->place after resuming from suspend.
->
->Note, that clearing the RDRAND CPUID bit does not prevent a processor
->that normally supports the RDRAND instruction from executing it. So any
->code that determined the support based on family and model won't #UD.
->
->Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->Signed-off-by: Borislav Petkov <bp@suse.de>
->Cc: Andrew Cooper <andrew.cooper3@citrix.com>
->Cc: Andrew Morton <akpm@linux-foundation.org>
->Cc: Chen Yu <yu.c.chen@intel.com>
->Cc: "H. Peter Anvin" <hpa@zytor.com>
->Cc: Ingo Molnar <mingo@redhat.com>
->Cc: Jonathan Corbet <corbet@lwn.net>
->Cc: Josh Poimboeuf <jpoimboe@redhat.com>
->Cc: Juergen Gross <jgross@suse.com>
->Cc: Kees Cook <keescook@chromium.org>
->Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
->Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
->Cc: Nathan Chancellor <natechancellor@gmail.com>
->Cc: Paolo Bonzini <pbonzini@redhat.com>
->Cc: Pavel Machek <pavel@ucw.cz>
->Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
->Cc: <stable@vger.kernel.org>
->Cc: Thomas Gleixner <tglx@linutronix.de>
->Cc: "x86@kernel.org" <x86@kernel.org>
->Link: https://lkml.kernel.org/r/7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com
->---
-> Documentation/admin-guide/kernel-parameters.txt |  7 +-
-> arch/x86/include/asm/msr-index.h                |  1 +-
-> arch/x86/kernel/cpu/amd.c                       | 66 +------------
-> arch/x86/power/cpu.c                            | 86 ++--------------
-> 4 files changed, 13 insertions(+), 147 deletions(-)
->
->diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->index 4c19719..47d981a 100644
->--- a/Documentation/admin-guide/kernel-parameters.txt
->+++ b/Documentation/admin-guide/kernel-parameters.txt
->@@ -4090,13 +4090,6 @@
-> 			Run specified binary instead of /init from the ramdisk,
-> 			used for early userspace startup. See initrd.
->
->-	rdrand=		[X86]
->-			force - Override the decision by the kernel to hide the
->-				advertisement of RDRAND support (this affects
->-				certain AMD processors because of buggy BIOS
->-				support, specifically around the suspend/resume
->-				path).
->-
+On 8/23/19 7:34 PM, Brendan Higgins wrote:
+> ## TL;DR
+> 
+> This revision addresses comments from Shuah by fixing a couple
+> checkpatch warnings and fixing some comment readability issues. No API
+> or major structual changes have been made since v13.
+> 
+> ## Background
+> 
+> This patch set proposes KUnit, a lightweight unit testing and mocking
+> framework for the Linux kernel.
+> 
+> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+> it does not require installing the kernel on a test machine or in a VM
+> (however, KUnit still allows you to run tests on test machines or in VMs
+> if you want[1]) and does not require tests to be written in userspace
+> running on a host kernel. Additionally, KUnit is fast: From invocation
+> to completion KUnit can run several dozen tests in about a second.
+> Currently, the entire KUnit test suite for KUnit runs in under a second
+> from the initial invocation (build time excluded).
+> 
+> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+> Googletest/Googlemock for C++. KUnit provides facilities for defining
+> unit test cases, grouping related test cases into test suites, providing
+> common infrastructure for running tests, mocking, spying, and much more.
+> 
+> ### What's so special about unit testing?
+> 
+> A unit test is supposed to test a single unit of code in isolation,
+> hence the name. There should be no dependencies outside the control of
+> the test; this means no external dependencies, which makes tests orders
+> of magnitudes faster. Likewise, since there are no external dependencies,
+> there are no hoops to jump through to run the tests. Additionally, this
+> makes unit tests deterministic: a failing unit test always indicates a
+> problem. Finally, because unit tests necessarily have finer granularity,
+> they are able to test all code paths easily solving the classic problem
+> of difficulty in exercising error handling code.
+> 
+> ### Is KUnit trying to replace other testing frameworks for the kernel?
+> 
+> No. Most existing tests for the Linux kernel are end-to-end tests, which
+> have their place. A well tested system has lots of unit tests, a
+> reasonable number of integration tests, and some end-to-end tests. KUnit
+> is just trying to address the unit test space which is currently not
+> being addressed.
+> 
+> ### More information on KUnit
+> 
+> There is a bunch of documentation near the end of this patch set that
+> describes how to use KUnit and best practices for writing unit tests.
+> For convenience I am hosting the compiled docs here[2].
+> 
+> Additionally for convenience, I have applied these patches to a
+> branch[3]. The repo may be cloned with:
+> git clone https://kunit.googlesource.com/linux
+> This patchset is on the kunit/rfc/v5.3/v15 branch.
+> 
+> ## Changes Since Last Version
+> 
+> - Moved comment from inline in macro to kernel-doc to address checkpatch
+>    warning.
+> - Demoted BUG() to WARN_ON.
+> - Formatted some kernel-doc comments to make them more readible.
+> 
+> [1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+> [2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+> [3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.3/v15
+> 
 
-Why is this being removed (along with supporting code)?
+Hi Brendan,
 
---
-Thanks,
-Sasha
+Thanks for doing this work.
+
+Thanks for accommodating my request to improve the document/comment
+blocks in patch 01 and removing BUG() from patch 09. The comment block
+reads well now.
+
+Applied the series to linux-kselftest next for 5.4-rc1.
+
+thanks,
+-- Shuah
