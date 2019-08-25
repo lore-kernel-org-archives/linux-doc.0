@@ -1,107 +1,59 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 21C067D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Aug 2019 13:25:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 727777D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Aug 2019 14:42:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbfHYNZO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Aug 2019 09:25:14 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33450 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbfHYNZO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Aug 2019 09:25:14 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n190so8764783pgn.0;
-        Sun, 25 Aug 2019 06:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0QzXKgHJNJjac27m2EIm1Lz0/kAofQ72J+526iejRFQ=;
-        b=GO/PVWf3Aip/lj76SnUDb0sMdXD+1tVF4Pr4MtQbEEKh9xmXb2UDDeimXy+D9tSRoG
-         ONfI3x+1GnVxlk4972mu5UBRbB3v9cDn0s0GXIfDvUkoxvFpZB7qpM3Wm7svq08IqXES
-         3/9H/nvW/APPaP6DXd/ZlsqTaXXFgfY5nbRum3oET7EhpHDQM6O7aQgrLYUCx31vh/tp
-         Pj3jnXMeh/9xoFgvF62TEqWkl9dtlG9kZEQ23LqbLsRsqn9qkIxzDaA35xnLfCdk7Yvg
-         kdWiDXZHWBnkOUGF5K8KzJ635D2qzEbl/F8Ge9MZplop+b+vPJfi/jVV3tdF7l5wEKUI
-         HPiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0QzXKgHJNJjac27m2EIm1Lz0/kAofQ72J+526iejRFQ=;
-        b=Jvvca8TFYhzYsqQ/ZFPDiSNutCaBpej+5YxzhZvvjJSLbcab7uIEPRV4tJHG5HKAJl
-         suuVlly85JWk8GgrzrdO2B0jEvxIm00qLeTDHwk1Cy50T7dGhJiQgTdapAUv4Q/dmFqK
-         ktEHfIU49Eus3RvJ8DDf1p2zeAyBBOT8k0bs7/l1uiYiYfawHQOYTCNW2LXahdcxRees
-         TPbf8FdMQbJvUvdbXBF1OIGIWMrTGrKiBZyed30PdtcPXZQPs0V12fjqtUhi2n+9P8o+
-         tWmTdbVjPxFuQEYrn4nAsfwk73qYxlDYCak06TUX4mXFYkBhhJ3e17kD8XBjdyt02W+2
-         452A==
-X-Gm-Message-State: APjAAAWBPEmoJISmEYJN+ZGWdinrVEqqb+pPMSFlF05v0L2Uug8TFZch
-        Q5tzo4+eWCFxJS4ZJeLe6Vk=
-X-Google-Smtp-Source: APXvYqxZ3PAtXLqHmn+Zgv1+tnSLgb0uWh1NyJ7+nIhirLt8hpEvkUAsM2RAxT5IIyrqsmvFKAmyHw==
-X-Received: by 2002:a17:90a:3465:: with SMTP id o92mr14610155pjb.20.1566739513587;
-        Sun, 25 Aug 2019 06:25:13 -0700 (PDT)
-Received: from localhost.localdomain ([149.28.153.17])
-        by smtp.gmail.com with ESMTPSA id y23sm11076562pfr.86.2019.08.25.06.25.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2019 06:25:13 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 11/11] MAINTAINERS: make scripts/ftrace/ maintained
-Date:   Sun, 25 Aug 2019 21:23:30 +0800
-Message-Id: <20190825132330.5015-12-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190825132330.5015-1-changbin.du@gmail.com>
-References: <20190825132330.5015-1-changbin.du@gmail.com>
+        id S1728472AbfHYOmk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 25 Aug 2019 10:42:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53398 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728433AbfHYOmk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 25 Aug 2019 10:42:40 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E9BB3300;
+        Sun, 25 Aug 2019 14:42:39 +0000 (UTC)
+Date:   Sun, 25 Aug 2019 08:42:38 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Andreas Dilger <adilger@dilger.ca>,
+        Ayush Ranjan <ayushr2@illinois.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] Ext4 documentation fixes.
+Message-ID: <20190825084238.41b6f912@lwn.net>
+In-Reply-To: <20190824230930.GB5163@mit.edu>
+References: <CA+UE=SPyMXZUhHFm0KgvihPdaE=yH5ra6n1C4XhKgM6aGheo=A@mail.gmail.com>
+        <DEDD6BA5-6E18-4ED6-9EF6-E11EDA593700@dilger.ca>
+        <20190824152453.03737143@lwn.net>
+        <20190824230930.GB5163@mit.edu>
+Organization: LWN.net
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make scripts/ftrace/ maintained and I would like to help with reviewing
-related patches.
+On Sat, 24 Aug 2019 19:09:30 -0400
+"Theodore Y. Ts'o" <tytso@mit.edu> wrote:
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+> If you haven't pushed out your doc tree, can you please drop it?  I've
+> already applied an (improved) version of this patch to the ext4 tree,
+> and I actually have some plans to do further fixups of ext4 on-disk
+> format documentation in the ext4 tree.  So it would be easier if we
+> keep ext4 documentation updates in the ext4 git tree.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9cbcf167bdd0..ca012ea260d7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16293,6 +16293,7 @@ F:	drivers/char/tpm/
- TRACING
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	Ingo Molnar <mingo@redhat.com>
-+R:	Changbin Du <changbin.du@gmail.com>
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
- S:	Maintained
- F:	Documentation/trace/ftrace.rst
-@@ -16303,6 +16304,7 @@ F:	include/linux/trace*.h
- F:	include/trace/
- F:	kernel/trace/
- F:	tools/testing/selftests/ftrace/
-+F:	scripts/ftrace/
- 
- TRACING MMIO ACCESSES (MMIOTRACE)
- M:	Steven Rostedt <rostedt@goodmis.org>
--- 
-2.20.1
+Sigh...I checked linux-next first and saw no signs of activity there.  Oh
+well; I guess I can disappear that change.
 
+jon
