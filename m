@@ -1,146 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 32CC27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Aug 2019 23:58:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 09F0A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Aug 2019 01:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728246AbfHXX6b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Aug 2019 19:58:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33202 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727708AbfHXX6b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Aug 2019 19:58:31 -0400
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 952CB2146E;
-        Sat, 24 Aug 2019 23:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566691110;
-        bh=M1/H4AHqbV1FG5SmdVNCBOq8Z72AscE8HXdy4tYQpkQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VLmmmAQYvM86BVLQ3rx0sIRgOgK8wmNWAuTRLEvk0FKsiaGPjojwAz/OBewTTd3yU
-         g+sz34F3MFg7Om9mm40XY7ji/6KHpCcL1CFvgw7typaRwp66ac+yKY3YA0OsvC2xDN
-         rAXVTmMYQoTcLL71fZknTaaZVJb1irAy0cC3wGuc=
-Date:   Sat, 24 Aug 2019 16:58:29 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v1 1/2] vsprintf: introduce %dE for error constants
-Message-Id: <20190824165829.7d330367992c62dab87f6652@linux-foundation.org>
-In-Reply-To: <20190824233724.1775-1-uwe@kleine-koenig.org>
-References: <20190824233724.1775-1-uwe@kleine-koenig.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+        id S1728356AbfHYBcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Aug 2019 21:32:02 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:34351 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728320AbfHYBcB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Aug 2019 21:32:01 -0400
+Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x7P1VTtI011335;
+        Sun, 25 Aug 2019 10:31:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x7P1VTtI011335
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566696690;
+        bh=UySt3IPQMKQvA8Z6xXUcqOfyPtK0Hni6tKUbgs1EZ/I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eWAcLDCT59y58Rfu/1f5RkY99019OS3+Wlfv0VmdeXHVcwlbhs7LJJpzNqi3TdGDw
+         9EA6rclq5AGHFwaD2alKpEUtofXI69ZR7RP/PBjN29NtoaYoa0YlQRTvHpflbyPvln
+         I4HMi8kbXkJljsXilZqbE8doE+GF9h8k3BauVzdr6esn79gaI1khmSXC9x+xqa1ntv
+         cF0TMcx3olVOAsZle6/7OFFYHXxvLVVllOeuO22IosFCbNxsXkZpfnE+YlOCK/itaW
+         rJArTylYRZm0jb/OMbgs6iK6KL2h47D9bxqcjwL+Vs5QSpgjkaqIrg9WiP3mAPX0ew
+         wzTCuzu59R1ng==
+X-Nifty-SrcIP: [126.125.143.222]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: remove clean-dirs syntax
+Date:   Sun, 25 Aug 2019 10:31:27 +0900
+Message-Id: <20190825013128.12831-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The only the difference between clean-files and clean-dirs is the -r
+option passed to the 'rm' command.
 
-(cc printk maintainers).
+You can always pass -r, and then remove the clean-dirs syntax.
 
-On Sun, 25 Aug 2019 01:37:23 +0200 Uwe Kleine-K=F6nig <uwe@kleine-koenig.or=
-g> wrote:
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-> 	pr_info("probing failed (%dE)\n", ret);
->=20
-> expands to
->=20
-> 	probing failed (EIO)
->=20
-> if ret holds -EIO (or EIO). This introduces an array of error codes. If
-> the error code is missing, %dE falls back to %d and so prints the plain
-> number.
+ Documentation/kbuild/makefiles.rst | 16 ++++------------
+ scripts/Makefile.clean             | 16 ++--------------
+ scripts/kconfig/Makefile           |  2 +-
+ usr/include/Makefile               |  4 +---
+ 4 files changed, 8 insertions(+), 30 deletions(-)
 
-Huh.  I'm surprised we don't already have this.  Seems that this will
-be applicable in a lot of places?  Although we shouldn't go blindly
-converting everything in sight - that would risk breaking userspace
-which parses kernel strings.
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 68ed20ef37dd..78aa51a6fcd4 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -765,7 +765,8 @@ Files matching the patterns "*.[oas]", "*.ko", plus some additional files
+ generated by kbuild are deleted all over the kernel src tree when
+ "make clean" is executed.
+ 
+-Additional files can be specified in kbuild makefiles by use of $(clean-files).
++Additional files or directories can be specified in kbuild makefiles by use of
++$(clean-files).
+ 
+ 	Example::
+ 
+@@ -776,17 +777,8 @@ When executing "make clean", the file "crc32table.h" will be deleted.
+ Kbuild will assume files to be in the same relative directory as the
+ Makefile, except if prefixed with $(objtree).
+ 
+-To delete a directory hierarchy use:
+-
+-	Example::
+-
+-		#scripts/package/Makefile
+-		clean-dirs := $(objtree)/debian/
+-
+-This will delete the directory debian in the toplevel directory, including all
+-subdirectories.
+-
+-To exclude certain files from make clean, use the $(no-clean-files) variable.
++To exclude certain files or directories from make clean, use the
++$(no-clean-files) variable.
+ 
+ Usually kbuild descends down in subdirectories due to "obj-* := dir/",
+ but in the architecture makefiles where the kbuild infrastructure
+diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+index 0b80e3207b20..cbfbe13dc87d 100644
+--- a/scripts/Makefile.clean
++++ b/scripts/Makefile.clean
+@@ -52,26 +52,14 @@ __clean-files   := $(wildcard                                               \
+ 		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
+ 		   $(filter $(objtree)/%, $(__clean-files)))
+ 
+-# same as clean-files
+-
+-__clean-dirs    := $(wildcard                                               \
+-		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(clean-dirs)))    \
+-		   $(filter $(objtree)/%, $(clean-dirs)))
+-
+ # ==========================================================================
+ 
+-quiet_cmd_clean    = CLEAN   $(obj)
+-      cmd_clean    = rm -f $(__clean-files)
+-quiet_cmd_cleandir = CLEAN   $(__clean-dirs)
+-      cmd_cleandir = rm -rf $(__clean-dirs)
+-
++quiet_cmd_clean = CLEAN   $(obj)
++      cmd_clean = rm -rf $(__clean-files)
+ 
+ __clean: $(subdir-ymn)
+ ifneq ($(strip $(__clean-files)),)
+ 	+$(call cmd,clean)
+-endif
+-ifneq ($(strip $(__clean-dirs)),)
+-	+$(call cmd,cleandir)
+ endif
+ 	@:
+ 
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 7656e1137b6b..bed7a5a2fbe9 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -114,7 +114,7 @@ testconfig: $(obj)/conf
+ 	$(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
+ 	-o cache_dir=$(abspath $(obj)/tests/.cache) \
+ 	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
+-clean-dirs += tests/.cache
++clean-files += tests/.cache
+ 
+ # Help text used by make help
+ help:
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index 1fb6abe29b2f..05c71ef42f51 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -115,6 +115,4 @@ header-test-y += $(filter-out $(header-test-), \
+ 			$(patsubst $(obj)/%,%, $(wildcard \
+ 			$(addprefix $(obj)/, *.h */*.h */*/*.h */*/*/*.h))))
+ 
+-# For GNU Make <= 4.2.1, $(wildcard $(obj)/*/) matches to not only directories
+-# but also regular files. Use $(filter %/, ...) just in case.
+-clean-dirs += $(patsubst $(obj)/%/,%,$(filter %/, $(wildcard $(obj)/*/)))
++clean-files += $(filter-out Makefile, $(notdir $(wildcard $(obj)/*)))
+-- 
+2.17.1
 
-Is it really necessary to handle the positive errnos?  Does much kernel
-code actually do that (apart from kernel code which is buggy)?
-
-> Signed-off-by: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> ---
-> Hello
->=20
-> there are many code sites that benefit from this. Just grep for
-> "(%d)" ...
-
-Yup.  This observation shouldn't be below the "^---$" ;) An approximate
-grep|wc would be interesting.
-
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -533,6 +533,192 @@ char *number(char *buf, char *end, unsigned long lo=
-ng num,
->  	return buf;
->  }
-> =20
-> +#define ERRORCODE(x) { .str =3D #x, .err =3D x }
-> +
-> +static const struct {
-> +	const char *str;
-> +	int err;
-> +} errorcodes[] =3D {
-
-It's a bit of a hack, but an array of char*'s and a separate array of
-ushorts would save a bit of space.
-
-> +	ERRORCODE(EPERM),
-> +	ERRORCODE(ENOENT),
-> +	ERRORCODE(ESRCH),
->
-> ...
->
-> +static noinline_for_stack
-
-Why this?  I'm suspecting this will actually increase stack use?
-
-> +char *errstr(char *buf, char *end, unsigned long long num,
-> +	     struct printf_spec spec)
-> +{
-> +	char *errname =3D NULL;
-> +	size_t errnamelen, copy;
-> +	int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(errorcodes); ++i) {
-> +		if (num =3D=3D errorcodes[i].err || num =3D=3D -errorcodes[i].err) {
-> +			errname =3D errorcodes[i].str;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!errname) {
-> +		/* fall back to ordinary number */
-> +		return number(buf, end, num, spec);
-> +	}
-> +
-> +	copy =3D errnamelen =3D strlen(errname);
-> +	if (copy > end - buf)
-> +		copy =3D end - buf;
-> +	buf =3D memcpy(buf, errname, copy);
-> +
-> +	return buf + errnamelen;
-> +}
-
-OK, I guess `errstr' is an OK name for a static function and we can use
-this to add a new strerror() should the need arise.
-
->
-> ...
->
