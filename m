@@ -3,110 +3,198 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D839F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 12:05:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 46B417D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 13:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfHZMFr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Aug 2019 08:05:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43554 "EHLO mx1.suse.de"
+        id S1731183AbfHZNIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Aug 2019 09:08:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33634 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726962AbfHZMFq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Aug 2019 08:05:46 -0400
+        id S1731174AbfHZNIt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Aug 2019 09:08:49 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 62E2AAFCC;
-        Mon, 26 Aug 2019 12:05:45 +0000 (UTC)
-Date:   Mon, 26 Aug 2019 14:05:44 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] vsprintf: introduce %dE for error constants
-Message-ID: <20190826120544.ccbtjkgvk3ao4ak6@pathway.suse.cz>
-References: <20190824233724.1775-1-uwe@kleine-koenig.org>
- <20190824165829.7d330367992c62dab87f6652@linux-foundation.org>
- <20190825091442.GA5817@taurus.defre.kleine-koenig.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190825091442.GA5817@taurus.defre.kleine-koenig.org>
-User-Agent: NeoMutt/20170912 (1.9.0)
+        by mx1.suse.de (Postfix) with ESMTP id C0C3CAC2E;
+        Mon, 26 Aug 2019 13:08:47 +0000 (UTC)
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nvmem: core: add nvmem_device_find
+Date:   Mon, 26 Aug 2019 15:08:28 +0200
+Message-Id: <20190826130829.21073-1-tbogendoerfer@suse.de>
+X-Mailer: git-send-email 2.13.7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun 2019-08-25 11:14:42, Uwe Kleine-König  wrote:
-> Hello Andrew,
-> 
-> On Sat, Aug 24, 2019 at 04:58:29PM -0700, Andrew Morton wrote:
-> > (cc printk maintainers).
-> 
-> Ah, I wasn't aware there is something like them. Thanks
-> 
-> > On Sun, 25 Aug 2019 01:37:23 +0200 Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
-> > 
-> > > 	pr_info("probing failed (%dE)\n", ret);
-> > > 
-> > > expands to
-> > > 
-> > > 	probing failed (EIO)
-> > > 
-> > > if ret holds -EIO (or EIO). This introduces an array of error codes. If
-> > > the error code is missing, %dE falls back to %d and so prints the plain
-> > > number.
+nvmem_device_find provides a way to search for nvmem devices with
+the help of a match function simlair to bus_find_device.
 
-What was the motivation for this patch, please?
+Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+---
+ Documentation/driver-api/nvmem.rst |  2 ++
+ drivers/nvmem/core.c               | 61 +++++++++++++++++---------------------
+ include/linux/nvmem-consumer.h     |  9 ++++++
+ 3 files changed, 38 insertions(+), 34 deletions(-)
 
-Did it look like a good idea?
-Did anyone got tired by searching for the error codes many
-times a day?
-Did the idea came from a developer, support, or user, please?
+diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
+index d9d958d5c824..287e86819640 100644
+--- a/Documentation/driver-api/nvmem.rst
++++ b/Documentation/driver-api/nvmem.rst
+@@ -129,6 +129,8 @@ To facilitate such consumers NVMEM framework provides below apis::
+   struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
+   struct nvmem_device *devm_nvmem_device_get(struct device *dev,
+ 					   const char *name);
++  struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data));
+   void nvmem_device_put(struct nvmem_device *nvmem);
+   int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
+ 		      size_t bytes, void *buf);
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 057d1ff87d5d..9f1ee9c766ec 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -76,33 +76,6 @@ static struct bus_type nvmem_bus_type = {
+ 	.name		= "nvmem",
+ };
+ 
+-static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
+-{
+-	struct device *d;
+-
+-	if (!nvmem_np)
+-		return NULL;
+-
+-	d = bus_find_device_by_of_node(&nvmem_bus_type, nvmem_np);
+-
+-	if (!d)
+-		return NULL;
+-
+-	return to_nvmem_device(d);
+-}
+-
+-static struct nvmem_device *nvmem_find(const char *name)
+-{
+-	struct device *d;
+-
+-	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
+-
+-	if (!d)
+-		return NULL;
+-
+-	return to_nvmem_device(d);
+-}
+-
+ static void nvmem_cell_drop(struct nvmem_cell *cell)
+ {
+ 	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
+@@ -532,13 +505,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ }
+ EXPORT_SYMBOL(devm_nvmem_unregister);
+ 
+-static struct nvmem_device *__nvmem_device_get(struct device_node *np,
+-					       const char *nvmem_name)
++static struct nvmem_device *__nvmem_device_get(void *data,
++			int (*match)(struct device *dev, const void *data))
+ {
+ 	struct nvmem_device *nvmem = NULL;
++	struct device *dev;
+ 
+ 	mutex_lock(&nvmem_mutex);
+-	nvmem = np ? of_nvmem_find(np) : nvmem_find(nvmem_name);
++	dev = bus_find_device(&nvmem_bus_type, NULL, data, match);
++	if (dev)
++		nvmem = to_nvmem_device(dev);
+ 	mutex_unlock(&nvmem_mutex);
+ 	if (!nvmem)
+ 		return ERR_PTR(-EPROBE_DEFER);
+@@ -587,7 +563,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-ENOENT);
+ 
+-	return __nvmem_device_get(nvmem_np, NULL);
++	return __nvmem_device_get(nvmem_np, device_match_of_node);
+ }
+ EXPORT_SYMBOL_GPL(of_nvmem_device_get);
+ #endif
+@@ -613,10 +589,26 @@ struct nvmem_device *nvmem_device_get(struct device *dev, const char *dev_name)
+ 
+ 	}
+ 
+-	return __nvmem_device_get(NULL, dev_name);
++	return __nvmem_device_get((void *)dev_name, device_match_name);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_device_get);
+ 
++/**
++ * nvmem_device_find() - Find nvmem device with matching function
++ *
++ * @data: Data to pass to match function
++ * @match: Callback function to check device
++ *
++ * Return: ERR_PTR() on error or a valid pointer to a struct nvmem_device
++ * on success.
++ */
++struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data))
++{
++	return __nvmem_device_get(data, match);
++}
++EXPORT_SYMBOL_GPL(nvmem_device_find);
++
+ static int devm_nvmem_device_match(struct device *dev, void *res, void *data)
+ {
+ 	struct nvmem_device **nvmem = res;
+@@ -710,7 +702,8 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
+ 		    (strcmp(lookup->con_id, con_id) == 0)) {
+ 			/* This is the right entry. */
+-			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
++			nvmem = __nvmem_device_get((void *)lookup->nvmem_name,
++						   device_match_name);
+ 			if (IS_ERR(nvmem)) {
+ 				/* Provider may not be registered yet. */
+ 				cell = ERR_CAST(nvmem);
+@@ -780,7 +773,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	nvmem = __nvmem_device_get(nvmem_np, NULL);
++	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
+ 	of_node_put(nvmem_np);
+ 	if (IS_ERR(nvmem))
+ 		return ERR_CAST(nvmem);
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 8f8be5b00060..02dc4aa992b2 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -89,6 +89,9 @@ void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
+ int nvmem_register_notifier(struct notifier_block *nb);
+ int nvmem_unregister_notifier(struct notifier_block *nb);
+ 
++struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data));
++
+ #else
+ 
+ static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
+@@ -204,6 +207,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data))
++{
++	return NULL;
++}
++
+ #endif /* CONFIG_NVMEM */
+ 
+ #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+-- 
+2.13.7
 
-> 	add/remove: 2/0 grow/shrink: 4/2 up/down: 1488/-8 (1480)
-> 	Function                                     old     new   delta
-> 	errorcodes                                     -    1200   +1200
-> 	errstr                                         -     200    +200
-> 	vsnprintf                                    884     960     +76
-> 	set_precision                                148     152      +4
-> 	resource_string                             1380    1384      +4
-> 	flags_string                                 400     404      +4
-> 	num_to_str                                   288     284      -4
-> 	format_decode                               1024    1020      -4
-> 	Total: Before=21686, After=23166, chg +6.82%
-> 
-> But that doesn't seem to include the size increase for all the added
-> strings which seems to be around another 1300 bytes.
-
-This non-trivial increase of the size and the table still
-includes only part of the error codes.
-
-The array is long, created by cpu&paste, the index of each code
-is not obvious.
-
-There are ideas to make the code even more tricky to reduce
-the size, keep it fast.
-
-Both, %dE modifier and the output format (ECODE) is non-standard.
-
-Upper letters gain a lot of attention. But the error code is
-only helper information. Also many error codes are misleading because
-they are used either wrongly or there was no better available.
-
-There is no proof that this approach would be widely acceptable for
-subsystem maintainers. Some might not like mass and "blind" code
-changes. Some might not like the output at all.
-
-I am not persuaded that all this is worth it. Also I do not like
-the non-standard solution.
-
-Best Regards,
-Petr
