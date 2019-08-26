@@ -1,434 +1,400 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 811627D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 08:56:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 853057D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 08:59:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729557AbfHZI4W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Aug 2019 04:56:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34034 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727974AbfHZI4V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Aug 2019 04:56:21 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03FCF206BA;
-        Mon, 26 Aug 2019 08:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566809780;
-        bh=tcS8K/s1i8KfMqHuEbwek20gIkSr0U6AsqOiw1H+uGY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FjhT9Fc94rYqwk9XFpiqM7EvmBJ14MhKXbYZXAy49AKT0YGFbcz6B7V/Cq766MYPt
-         yacVsPVF/H3shzb70quG4tuEiaMocKM+yvfF8GQMrACWyYktOsCfcdQ/nRGOzSMKeI
-         K0EVsOnHKqBDreww+hIxm2JHJZaBiquPi+zohLWo=
-Date:   Mon, 26 Aug 2019 09:56:12 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Fabien Lahoudere <fabien.lahoudere@collabora.com>
-Cc:     gwendal@chromium.org, egranata@chromium.org, kernel@collabora.com,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nick Vaccaro <nvaccaro@chromium.org>,
-        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
-Message-ID: <20190826095612.7455cb05@archlinux>
-In-Reply-To: <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
-References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
-        <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1730342AbfHZI7j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Aug 2019 04:59:39 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:47223 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729802AbfHZI7j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Aug 2019 04:59:39 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CC3451EAC;
+        Mon, 26 Aug 2019 04:59:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 26 Aug 2019 04:59:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:message-id:mime-version:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=EYQTmb
+        VD3CucO9GOAfqghBf89Pz6bGe9naRI2nQkTI0=; b=pqhdDrXxGgV0Px2XPZSaEc
+        JONcGGaCx7MnEy1Lyn9tqpcfGk0VsINL/a1dE8Op5NXmqr+FPmCIRAl7r+6rohWh
+        vS8li5ka2aEOg+9CvPE28Zy0pIyD6oA5AePIfiBG5yem5dVN/C4TFLq8CJ+dGX8Q
+        OEROqsyuTvXr7qCRvl3rb27xmKgOr6xmZHm4OF41Afmm9T2BgOANrC3FoJLixoOG
+        gdczluy5bsbyimEnuApmbS/bfid96bVQL7c8VO0bgg1A9nn2RZ1cORiSmu9/fU7Y
+        iHORjm86xmLl37eIIuqLwwvT1mzDlv2CYmpfYUAJKa93zZYbJRO/mTqsyW4UE6TA
+        ==
+X-ME-Sender: <xms:d59jXZFg2I-pNn_tBuO9se4QQUz1KfGSEcyyaWxedd9yfShM-51LQQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudehgedgudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefuvffhfffkgggtgfesthekredttd
+    dtlfenucfhrhhomhepoehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhr
+    gheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepkeelrddvtdehrdduvd
+    ekrddvgeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
+    mhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:d59jXV5Q_kPIfB-RWk8NNOvfzB0cYelq2nJzAtaAQJ4hjrKKNByMfQ>
+    <xmx:d59jXdbCL6xnKnUdMxxm1IUeuiykQF2n20DxdkHPygLHQAYCLe1XUw>
+    <xmx:d59jXZvZpRIJu3m-az1zZ6hSqNbvcZNEdC-Z-U2UHm-C16FaZbWGGw>
+    <xmx:eZ9jXekG9F0InlNR5Vu2VF8ga74OfzS1hNOY9zXJ498DBa4DabjJzA>
+Received: from localhost (unknown [89.205.128.246])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2A8DD80059;
+        Mon, 26 Aug 2019 04:59:34 -0400 (EDT)
+Subject: FAILED: patch "[PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h" failed to apply to 4.4-stable tree
+To:     thomas.lendacky@amd.com, akpm@linux-foundation.org,
+        andrew.cooper3@citrix.com, bp@suse.de, corbet@lwn.net,
+        hpa@zytor.com, jgross@suse.com, jpoimboe@redhat.com,
+        keescook@chromium.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, mingo@redhat.com,
+        natechancellor@gmail.com, pavel@ucw.cz, pbonzini@redhat.com,
+        rjw@rjwysocki.net, stable@vger.kernel.org, tglx@linutronix.de,
+        x86@kernel.org, yu.c.chen@intel.com
+Cc:     <stable@vger.kernel.org>
+From:   <gregkh@linuxfoundation.org>
+Date:   Mon, 26 Aug 2019 10:59:33 +0200
+Message-ID: <1566809973112223@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Aug 2019 14:41:27 +0200
-Fabien Lahoudere <fabien.lahoudere@collabora.com> wrote:
 
-> From: Gwendal Grignou <gwendal@chromium.org>
-> 
-> EC returns a counter when there is an event on camera vsync.
-> This patch comes from chromeos kernel 4.4
-> 
-> Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
-> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
-> 
-> CROS EC sync sensor was originally designed as an IIO device.
-> Now that the counter subsystem will replace IIO_COUNTER, we
-> have to implement a new way to get sync count.
+The patch below does not apply to the 4.4-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-I'm curious.  What is this counter used for?
+thanks,
 
-This combined counter and iio driver isn't something we would normally
-want to support.  What is the reasoning behind doing both interfaces?
+greg k-h
 
-> 
-> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
-> ---
->  Documentation/driver-api/generic-counter.rst  |   3 +
->  MAINTAINERS                                   |   7 +
->  drivers/counter/Kconfig                       |   9 +
->  drivers/counter/Makefile                      |   1 +
->  drivers/counter/counter.c                     |   2 +
->  drivers/counter/cros_ec_sensors_sync.c        | 208 ++++++++++++++++++
->  .../cros_ec_sensors/cros_ec_sensors_core.c    |   1 +
->  drivers/mfd/cros_ec_dev.c                     |   3 +
->  include/linux/counter.h                       |   1 +
->  9 files changed, 235 insertions(+)
->  create mode 100644 drivers/counter/cros_ec_sensors_sync.c
-> 
-> diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-> index 8382f01a53e3..beb80714ac8b 100644
-> --- a/Documentation/driver-api/generic-counter.rst
-> +++ b/Documentation/driver-api/generic-counter.rst
-> @@ -44,6 +44,9 @@ Counter interface provides the following available count data types:
->  * COUNT_POSITION:
->    Unsigned integer value representing position.
->  
-> +* COUNT_TALLY:
-> +  Unsigned integer value representing tally.
-> +
->  A Count has a count function mode which represents the update behavior
->  for the count data. The Generic Counter interface provides the following
->  available count function modes:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e60f5c361969..83bd291d103e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3902,6 +3902,13 @@ R:	Guenter Roeck <groeck@chromium.org>
->  F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.txt
->  F:	sound/soc/codecs/cros_ec_codec.*
->  
-> +CHROMEOS EC COUNTER DRIVER
-> +M:	Fabien Lahoudere <fabien.lahoudere@collabora.com>
-> +M:	William Breathitt Gray <vilhelm.gray@gmail.com>
-> +L:	linux-iio@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/counter/cros_ec_sensors_sync.c
-> +
->  CIRRUS LOGIC AUDIO CODEC DRIVERS
->  M:	Brian Austin <brian.austin@cirrus.com>
->  M:	Paul Handrigan <Paul.Handrigan@cirrus.com>
-> diff --git a/drivers/counter/Kconfig b/drivers/counter/Kconfig
-> index 2967d0a9ff91..22287f5715e5 100644
-> --- a/drivers/counter/Kconfig
-> +++ b/drivers/counter/Kconfig
-> @@ -59,4 +59,13 @@ config FTM_QUADDEC
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called ftm-quaddec.
->  
-> +config IIO_CROS_EC_SENSORS_SYNC
-> +	tristate "ChromeOS EC Counter Sensors"
-> +	depends on IIO_CROS_EC_SENSORS_CORE && IIO
-> +	help
-> +	  Module to handle synchronisation sensors presented by the ChromeOS EC
-> +	  Sensor hub.
-> +	  Synchronisation sensors are counter sensors triggered when events
-> +	  occurs from other subsystems.
-> +
->  endif # COUNTER
-> diff --git a/drivers/counter/Makefile b/drivers/counter/Makefile
-> index 40d35522937d..6fe4c98a446f 100644
-> --- a/drivers/counter/Makefile
-> +++ b/drivers/counter/Makefile
-> @@ -9,3 +9,4 @@ obj-$(CONFIG_104_QUAD_8)	+= 104-quad-8.o
->  obj-$(CONFIG_STM32_TIMER_CNT)	+= stm32-timer-cnt.o
->  obj-$(CONFIG_STM32_LPTIMER_CNT)	+= stm32-lptimer-cnt.o
->  obj-$(CONFIG_FTM_QUADDEC)	+= ftm-quaddec.o
-> +obj-$(CONFIG_IIO_CROS_EC_SENSORS_SYNC) += cros_ec_sensors_sync.o
-> diff --git a/drivers/counter/counter.c b/drivers/counter/counter.c
-> index 106bc7180cd8..53525b109094 100644
-> --- a/drivers/counter/counter.c
-> +++ b/drivers/counter/counter.c
-> @@ -261,6 +261,7 @@ void counter_count_read_value_set(struct counter_count_read_value *const val,
->  {
->  	switch (type) {
->  	case COUNTER_COUNT_POSITION:
-> +	case COUNTER_COUNT_TALLY:
->  		val->len = sprintf(val->buf, "%lu\n", *(unsigned long *)data);
->  		break;
->  	default:
-> @@ -290,6 +291,7 @@ int counter_count_write_value_get(void *const data,
->  
->  	switch (type) {
->  	case COUNTER_COUNT_POSITION:
-> +	case COUNTER_COUNT_TALLY:
->  		err = kstrtoul(val->buf, 0, data);
->  		if (err)
->  			return err;
-> diff --git a/drivers/counter/cros_ec_sensors_sync.c b/drivers/counter/cros_ec_sensors_sync.c
-> new file mode 100644
-> index 000000000000..b6f5e2c6da9f
-> --- /dev/null
-> +++ b/drivers/counter/cros_ec_sensors_sync.c
-> @@ -0,0 +1,208 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver of counter incremented after events on interrupt line in EC.
-> + *
-> + * Copyright 2018 Google, Inc
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/counter.h>
-> +#include <linux/iio/common/cros_ec_sensors_core.h>
-> +#include <linux/iio/triggered_buffer.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/cros_ec.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +
-> +#define DRV_NAME "cros-ec-sync"
-> +
-> +/*
-> + * One channel for counter, the other for timestamp.
-> + */
-> +#define MAX_CHANNELS (1)
-> +
-> +/* State data for ec_sensors iio driver. */
-> +struct cros_ec_sensors_sync_state {
-> +	/* Shared by all sensors */
-> +	struct cros_ec_sensors_core_state core;
-> +	struct counter_device counter;
-> +	struct iio_chan_spec channels[MAX_CHANNELS];
-> +};
-> +
-> +static int cros_ec_sensors_sync_read(struct iio_dev *indio_dev,
-> +				     struct iio_chan_spec const *chan,
-> +				     int *val, int *val2, long mask)
-> +{
-> +	struct cros_ec_sensors_sync_state *st = iio_priv(indio_dev);
-> +	u16 data;
-> +	int ret;
-> +
-> +	mutex_lock(&st->core.cmd_lock);
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_RAW:
-> +		ret = cros_ec_sensors_read_cmd(indio_dev, BIT(0), &data);
-> +		if (ret < 0)
-> +			break;
-> +		ret = IIO_VAL_INT;
-> +		*val = data;
-> +		break;
-> +	default:
-> +		ret = cros_ec_sensors_core_read(&st->core, chan, val, val2,
-> +						mask);
-> +		break;
-> +	}
-> +	mutex_unlock(&st->core.cmd_lock);
-> +	return ret;
-> +}
-> +
-> +static struct iio_info cros_ec_sensors_sync_info = {
-> +	.read_raw = &cros_ec_sensors_sync_read,
-> +	.read_avail = &cros_ec_sensors_core_read_avail,
-> +};
-> +
-> +static struct counter_count cros_ec_sync_counts = {
-> +	.id = 0,
-> +	.name = "Cros EC sync counter",
-> +};
-> +
-> +static int cros_ec_sync_cnt_read(struct counter_device *counter,
-> +				struct counter_count *count,
-> +				struct counter_count_read_value *val)
-> +{
-> +	s16 cnt;
-> +	int ret;
-> +	struct iio_dev *indio_dev = counter->priv;
-> +	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-> +	unsigned long data;
-> +
-> +	mutex_lock(&st->core.cmd_lock);
-> +	ret = cros_ec_sensors_read_cmd(indio_dev, BIT(0), &cnt);
-> +	mutex_unlock(&st->core.cmd_lock);
-> +	if (ret != 0) {
-> +		dev_warn(&indio_dev->dev, "Unable to read sensor data\n");
-> +		return ret;
-> +	}
-> +
-> +	data = (unsigned long) cnt;
-> +	counter_count_read_value_set(val, COUNTER_COUNT_TALLY, &data);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct counter_ops cros_ec_sync_cnt_ops = {
-> +	.count_read = cros_ec_sync_cnt_read,
-> +};
-> +
-> +static char *cros_ec_loc[] = {
-> +	[MOTIONSENSE_LOC_BASE] = "base",
-> +	[MOTIONSENSE_LOC_LID] = "lid",
-> +	[MOTIONSENSE_LOC_CAMERA] = "camera",
-> +	[MOTIONSENSE_LOC_MAX] = "unknown",
-> +};
-> +
-> +static ssize_t cros_ec_sync_id(struct counter_device *counter,
-> +				  void *private, char *buf)
-> +{
-> +	struct iio_dev *indio_dev = counter->priv;
-> +	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", st->core.param.info.sensor_num);
-> +}
-> +
-> +static ssize_t cros_ec_sync_loc(struct counter_device *counter,
-> +				   void *private, char *buf)
-> +{
-> +	struct iio_dev *indio_dev = counter->priv;
-> +	struct cros_ec_sensors_sync_state *const st = iio_priv(indio_dev);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%s\n", cros_ec_loc[st->core.loc]);
-> +}
-> +
-> +static struct counter_device_ext cros_ec_sync_cnt_ext[] = {
-> +	{
-> +		.name = "id",
-> +		.read = cros_ec_sync_id
-> +	},
-> +	{
-> +		.name = "location",
-> +		.read = cros_ec_sync_loc
-> +	},
-> +};
-> +
-> +static int cros_ec_sensors_sync_probe(struct platform_device *pdev)
-> +{
-> +	struct cros_ec_sensors_sync_state *state;
-> +	struct device *dev = &pdev->dev;
-> +	struct iio_chan_spec *channel;
-> +	struct iio_dev *indio_dev;
-> +	int ret;
-> +
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*state));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	ret = cros_ec_sensors_core_init(pdev, indio_dev, true);
-> +	if (ret)
-> +		return ret;
-> +
-> +	indio_dev->info = &cros_ec_sensors_sync_info;
-> +	state = iio_priv(indio_dev);
-> +
-> +	if (state->core.type != MOTIONSENSE_TYPE_SYNC)
-> +		return -EINVAL;
-> +
-> +	/* Initialize IIO device */
-> +	channel = state->channels;
-> +	channel->type = IIO_TIMESTAMP;
-> +	channel->channel = -1;
-> +	channel->scan_index = 1;
-> +	channel->scan_type.sign = 's';
-> +	channel->scan_type.realbits = 64;
-> +	channel->scan_type.storagebits = 64;
-> +
-> +	indio_dev->channels = state->channels;
-> +	indio_dev->num_channels = MAX_CHANNELS;
-> +
-> +	state->core.read_ec_sensors_data = cros_ec_sensors_read_cmd;
-> +
-> +	ret = devm_iio_triggered_buffer_setup(dev, indio_dev, NULL,
-> +					      cros_ec_sensors_capture, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_iio_device_register(dev, indio_dev);
+------------------ original commit in Linus's tree ------------------
 
-Hmm. Wasn't expecting to see that here if it's a counter device.
+From c49a0a80137c7ca7d6ced4c812c9e07a949f6f24 Mon Sep 17 00:00:00 2001
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Date: Mon, 19 Aug 2019 15:52:35 +0000
+Subject: [PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
 
+There have been reports of RDRAND issues after resuming from suspend on
+some AMD family 15h and family 16h systems. This issue stems from a BIOS
+not performing the proper steps during resume to ensure RDRAND continues
+to function properly.
 
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Initialize counter device */
-> +	state->counter.name = dev_name(&pdev->dev);
-> +	state->counter.parent = &pdev->dev;
-> +	state->counter.counts = &cros_ec_sync_counts;
-> +	state->counter.num_counts = 1;
-> +	state->counter.priv = indio_dev;
-> +	state->counter.ops = &cros_ec_sync_cnt_ops;
-> +	state->counter.ext = cros_ec_sync_cnt_ext;
-> +	state->counter.num_ext = ARRAY_SIZE(cros_ec_sync_cnt_ext);
-> +
-> +	return devm_counter_register(&pdev->dev, &state->counter);
-> +}
-> +
-> +static const struct platform_device_id cros_ec_sensors_sync_ids[] = {
-> +	{ .name = DRV_NAME, },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(platform, cros_ec_sensors_sync_ids);
-> +
-> +static struct platform_driver cros_ec_sensors_sync_platform_driver = {
-> +	.driver = {
-> +		.name	= DRV_NAME,
-> +		.pm	= &cros_ec_sensors_pm_ops,
-> +	},
-> +	.probe		= cros_ec_sensors_sync_probe,
-> +	.id_table	= cros_ec_sensors_sync_ids,
-> +};
-> +module_platform_driver(cros_ec_sensors_sync_platform_driver);
-> +
-> +MODULE_DESCRIPTION("ChromeOS EC synchronisation sensor driver");
-> +MODULE_ALIAS("platform:" DRV_NAME);
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> index 805652250960..2bf183425eaf 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> @@ -22,6 +22,7 @@
->  static char *cros_ec_loc[] = {
->  	[MOTIONSENSE_LOC_BASE] = "base",
->  	[MOTIONSENSE_LOC_LID] = "lid",
-> +	[MOTIONSENSE_LOC_CAMERA] = "camera",
->  	[MOTIONSENSE_LOC_MAX] = "unknown",
->  };
->  
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index 41dccced5026..1c5c2c38af88 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -332,6 +332,9 @@ static void cros_ec_sensors_register(struct cros_ec_dev *ec)
->  		case MOTIONSENSE_TYPE_ACTIVITY:
->  			sensor_cells[id].name = "cros-ec-activity";
->  			break;
-> +		case MOTIONSENSE_TYPE_SYNC:
-> +			sensor_cells[id].name = "cros-ec-sync";
-> +			break;
->  		default:
->  			dev_warn(ec->dev, "unknown type %d\n", resp->info.type);
->  			continue;
-> diff --git a/include/linux/counter.h b/include/linux/counter.h
-> index a061cdcdef7c..1198e675306f 100644
-> --- a/include/linux/counter.h
-> +++ b/include/linux/counter.h
-> @@ -488,6 +488,7 @@ enum counter_signal_value_type {
->  
->  enum counter_count_value_type {
->  	COUNTER_COUNT_POSITION = 0,
-> +	COUNTER_COUNT_TALLY
->  };
->  
->  void counter_signal_read_value_set(struct counter_signal_read_value *const val,
+RDRAND support is indicated by CPUID Fn00000001_ECX[30]. This bit can be
+reset by clearing MSR C001_1004[62]. Any software that checks for RDRAND
+support using CPUID, including the kernel, will believe that RDRAND is
+not supported.
+
+Update the CPU initialization to clear the RDRAND CPUID bit for any family
+15h and 16h processor that supports RDRAND. If it is known that the family
+15h or family 16h system does not have an RDRAND resume issue or that the
+system will not be placed in suspend, the "rdrand=force" kernel parameter
+can be used to stop the clearing of the RDRAND CPUID bit.
+
+Additionally, update the suspend and resume path to save and restore the
+MSR C001_1004 value to ensure that the RDRAND CPUID setting remains in
+place after resuming from suspend.
+
+Note, that clearing the RDRAND CPUID bit does not prevent a processor
+that normally supports the RDRAND instruction from executing it. So any
+code that determined the support based on family and model won't #UD.
+
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Chen Yu <yu.c.chen@intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Cc: Nathan Chancellor <natechancellor@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: <stable@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: "x86@kernel.org" <x86@kernel.org>
+Link: https://lkml.kernel.org/r/7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 47d981a86e2f..4c1971960afa 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4090,6 +4090,13 @@
+ 			Run specified binary instead of /init from the ramdisk,
+ 			used for early userspace startup. See initrd.
+ 
++	rdrand=		[X86]
++			force - Override the decision by the kernel to hide the
++				advertisement of RDRAND support (this affects
++				certain AMD processors because of buggy BIOS
++				support, specifically around the suspend/resume
++				path).
++
+ 	rdt=		[HW,X86,RDT]
+ 			Turn on/off individual RDT features. List is:
+ 			cmt, mbmtotal, mbmlocal, l3cat, l3cdp, l2cat, l2cdp,
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 6b4fc2788078..271d837d69a8 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -381,6 +381,7 @@
+ #define MSR_AMD64_PATCH_LEVEL		0x0000008b
+ #define MSR_AMD64_TSC_RATIO		0xc0000104
+ #define MSR_AMD64_NB_CFG		0xc001001f
++#define MSR_AMD64_CPUID_FN_1		0xc0011004
+ #define MSR_AMD64_PATCH_LOADER		0xc0010020
+ #define MSR_AMD64_OSVW_ID_LENGTH	0xc0010140
+ #define MSR_AMD64_OSVW_STATUS		0xc0010141
+diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+index 8d4e50428b68..68c363c341bf 100644
+--- a/arch/x86/kernel/cpu/amd.c
++++ b/arch/x86/kernel/cpu/amd.c
+@@ -804,6 +804,64 @@ static void init_amd_ln(struct cpuinfo_x86 *c)
+ 	msr_set_bit(MSR_AMD64_DE_CFG, 31);
+ }
+ 
++static bool rdrand_force;
++
++static int __init rdrand_cmdline(char *str)
++{
++	if (!str)
++		return -EINVAL;
++
++	if (!strcmp(str, "force"))
++		rdrand_force = true;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++early_param("rdrand", rdrand_cmdline);
++
++static void clear_rdrand_cpuid_bit(struct cpuinfo_x86 *c)
++{
++	/*
++	 * Saving of the MSR used to hide the RDRAND support during
++	 * suspend/resume is done by arch/x86/power/cpu.c, which is
++	 * dependent on CONFIG_PM_SLEEP.
++	 */
++	if (!IS_ENABLED(CONFIG_PM_SLEEP))
++		return;
++
++	/*
++	 * The nordrand option can clear X86_FEATURE_RDRAND, so check for
++	 * RDRAND support using the CPUID function directly.
++	 */
++	if (!(cpuid_ecx(1) & BIT(30)) || rdrand_force)
++		return;
++
++	msr_clear_bit(MSR_AMD64_CPUID_FN_1, 62);
++
++	/*
++	 * Verify that the CPUID change has occurred in case the kernel is
++	 * running virtualized and the hypervisor doesn't support the MSR.
++	 */
++	if (cpuid_ecx(1) & BIT(30)) {
++		pr_info_once("BIOS may not properly restore RDRAND after suspend, but hypervisor does not support hiding RDRAND via CPUID.\n");
++		return;
++	}
++
++	clear_cpu_cap(c, X86_FEATURE_RDRAND);
++	pr_info_once("BIOS may not properly restore RDRAND after suspend, hiding RDRAND via CPUID. Use rdrand=force to reenable.\n");
++}
++
++static void init_amd_jg(struct cpuinfo_x86 *c)
++{
++	/*
++	 * Some BIOS implementations do not restore proper RDRAND support
++	 * across suspend and resume. Check on whether to hide the RDRAND
++	 * instruction support via CPUID.
++	 */
++	clear_rdrand_cpuid_bit(c);
++}
++
+ static void init_amd_bd(struct cpuinfo_x86 *c)
+ {
+ 	u64 value;
+@@ -818,6 +876,13 @@ static void init_amd_bd(struct cpuinfo_x86 *c)
+ 			wrmsrl_safe(MSR_F15H_IC_CFG, value);
+ 		}
+ 	}
++
++	/*
++	 * Some BIOS implementations do not restore proper RDRAND support
++	 * across suspend and resume. Check on whether to hide the RDRAND
++	 * instruction support via CPUID.
++	 */
++	clear_rdrand_cpuid_bit(c);
+ }
+ 
+ static void init_amd_zn(struct cpuinfo_x86 *c)
+@@ -860,6 +925,7 @@ static void init_amd(struct cpuinfo_x86 *c)
+ 	case 0x10: init_amd_gh(c); break;
+ 	case 0x12: init_amd_ln(c); break;
+ 	case 0x15: init_amd_bd(c); break;
++	case 0x16: init_amd_jg(c); break;
+ 	case 0x17: init_amd_zn(c); break;
+ 	}
+ 
+diff --git a/arch/x86/power/cpu.c b/arch/x86/power/cpu.c
+index 24b079e94bc2..c9ef6a7a4a1a 100644
+--- a/arch/x86/power/cpu.c
++++ b/arch/x86/power/cpu.c
+@@ -12,6 +12,7 @@
+ #include <linux/smp.h>
+ #include <linux/perf_event.h>
+ #include <linux/tboot.h>
++#include <linux/dmi.h>
+ 
+ #include <asm/pgtable.h>
+ #include <asm/proto.h>
+@@ -23,7 +24,7 @@
+ #include <asm/debugreg.h>
+ #include <asm/cpu.h>
+ #include <asm/mmu_context.h>
+-#include <linux/dmi.h>
++#include <asm/cpu_device_id.h>
+ 
+ #ifdef CONFIG_X86_32
+ __visible unsigned long saved_context_ebx;
+@@ -397,15 +398,14 @@ static int __init bsp_pm_check_init(void)
+ 
+ core_initcall(bsp_pm_check_init);
+ 
+-static int msr_init_context(const u32 *msr_id, const int total_num)
++static int msr_build_context(const u32 *msr_id, const int num)
+ {
+-	int i = 0;
++	struct saved_msrs *saved_msrs = &saved_context.saved_msrs;
+ 	struct saved_msr *msr_array;
++	int total_num;
++	int i, j;
+ 
+-	if (saved_context.saved_msrs.array || saved_context.saved_msrs.num > 0) {
+-		pr_err("x86/pm: MSR quirk already applied, please check your DMI match table.\n");
+-		return -EINVAL;
+-	}
++	total_num = saved_msrs->num + num;
+ 
+ 	msr_array = kmalloc_array(total_num, sizeof(struct saved_msr), GFP_KERNEL);
+ 	if (!msr_array) {
+@@ -413,19 +413,30 @@ static int msr_init_context(const u32 *msr_id, const int total_num)
+ 		return -ENOMEM;
+ 	}
+ 
+-	for (i = 0; i < total_num; i++) {
+-		msr_array[i].info.msr_no	= msr_id[i];
++	if (saved_msrs->array) {
++		/*
++		 * Multiple callbacks can invoke this function, so copy any
++		 * MSR save requests from previous invocations.
++		 */
++		memcpy(msr_array, saved_msrs->array,
++		       sizeof(struct saved_msr) * saved_msrs->num);
++
++		kfree(saved_msrs->array);
++	}
++
++	for (i = saved_msrs->num, j = 0; i < total_num; i++, j++) {
++		msr_array[i].info.msr_no	= msr_id[j];
+ 		msr_array[i].valid		= false;
+ 		msr_array[i].info.reg.q		= 0;
+ 	}
+-	saved_context.saved_msrs.num	= total_num;
+-	saved_context.saved_msrs.array	= msr_array;
++	saved_msrs->num   = total_num;
++	saved_msrs->array = msr_array;
+ 
+ 	return 0;
+ }
+ 
+ /*
+- * The following section is a quirk framework for problematic BIOSen:
++ * The following sections are a quirk framework for problematic BIOSen:
+  * Sometimes MSRs are modified by the BIOSen after suspended to
+  * RAM, this might cause unexpected behavior after wakeup.
+  * Thus we save/restore these specified MSRs across suspend/resume
+@@ -440,7 +451,7 @@ static int msr_initialize_bdw(const struct dmi_system_id *d)
+ 	u32 bdw_msr_id[] = { MSR_IA32_THERM_CONTROL };
+ 
+ 	pr_info("x86/pm: %s detected, MSR saving is needed during suspending.\n", d->ident);
+-	return msr_init_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
++	return msr_build_context(bdw_msr_id, ARRAY_SIZE(bdw_msr_id));
+ }
+ 
+ static const struct dmi_system_id msr_save_dmi_table[] = {
+@@ -455,9 +466,58 @@ static const struct dmi_system_id msr_save_dmi_table[] = {
+ 	{}
+ };
+ 
++static int msr_save_cpuid_features(const struct x86_cpu_id *c)
++{
++	u32 cpuid_msr_id[] = {
++		MSR_AMD64_CPUID_FN_1,
++	};
++
++	pr_info("x86/pm: family %#hx cpu detected, MSR saving is needed during suspending.\n",
++		c->family);
++
++	return msr_build_context(cpuid_msr_id, ARRAY_SIZE(cpuid_msr_id));
++}
++
++static const struct x86_cpu_id msr_save_cpu_table[] = {
++	{
++		.vendor = X86_VENDOR_AMD,
++		.family = 0x15,
++		.model = X86_MODEL_ANY,
++		.feature = X86_FEATURE_ANY,
++		.driver_data = (kernel_ulong_t)msr_save_cpuid_features,
++	},
++	{
++		.vendor = X86_VENDOR_AMD,
++		.family = 0x16,
++		.model = X86_MODEL_ANY,
++		.feature = X86_FEATURE_ANY,
++		.driver_data = (kernel_ulong_t)msr_save_cpuid_features,
++	},
++	{}
++};
++
++typedef int (*pm_cpu_match_t)(const struct x86_cpu_id *);
++static int pm_cpu_check(const struct x86_cpu_id *c)
++{
++	const struct x86_cpu_id *m;
++	int ret = 0;
++
++	m = x86_match_cpu(msr_save_cpu_table);
++	if (m) {
++		pm_cpu_match_t fn;
++
++		fn = (pm_cpu_match_t)m->driver_data;
++		ret = fn(m);
++	}
++
++	return ret;
++}
++
+ static int pm_check_save_msr(void)
+ {
+ 	dmi_check_system(msr_save_dmi_table);
++	pm_cpu_check(msr_save_cpu_table);
++
+ 	return 0;
+ }
+ 
 
