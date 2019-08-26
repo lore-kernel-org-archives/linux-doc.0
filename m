@@ -1,200 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46B417D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 13:08:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 156EE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 13:28:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731183AbfHZNIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Aug 2019 09:08:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33634 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731174AbfHZNIt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Aug 2019 09:08:49 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id C0C3CAC2E;
-        Mon, 26 Aug 2019 13:08:47 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nvmem: core: add nvmem_device_find
-Date:   Mon, 26 Aug 2019 15:08:28 +0200
-Message-Id: <20190826130829.21073-1-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.13.7
+        id S1731029AbfHZN2C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Aug 2019 09:28:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59592 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729937AbfHZN2C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Aug 2019 09:28:02 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F203121872;
+        Mon, 26 Aug 2019 13:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566826081;
+        bh=VjxUxDnVuRk1DSTLUCljhelqYMjetMiX0Jgtit+/pPg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eAitVO3YoyuYVrg7Km4FZM80GaTZmMfF8XtM3rxdRoM6HhgSMSp2F9PG0ox13+4Cy
+         3fjRHYFpb+2S9sIgjempVLcUAjTm/MvWf1sYpH72WDCqbDiRgxekXMPhys7WQGW4Ln
+         XZUZxUL3UphvQDnUcW5hAb9oFOzsOY2T2DRowQ2Q=
+Received: by mail-qt1-f171.google.com with SMTP id y26so17842245qto.4;
+        Mon, 26 Aug 2019 06:28:00 -0700 (PDT)
+X-Gm-Message-State: APjAAAUrgrlGqxFau6Fykf+oqttbW9HsDb+GPMxsLjdi9MP4BrloV/Wg
+        gi2+fB35edzSPmXhNP0pyLW23d+8QuGaLN1yUw==
+X-Google-Smtp-Source: APXvYqyW4dx7oo0NyfH+v5v1S1mxW/IB4r3yTuAklXjRgYFmYC3NHSt4KOPNnz1iCNqEuKQUONG7lWxDvV5wx6aOu1E=
+X-Received: by 2002:aed:24f4:: with SMTP id u49mr17690228qtc.110.1566826080079;
+ Mon, 26 Aug 2019 06:28:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <156678933823.21459.4100380582025186209.stgit@devnote2> <156678934990.21459.10847677747264952252.stgit@devnote2>
+In-Reply-To: <156678934990.21459.10847677747264952252.stgit@devnote2>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 26 Aug 2019 08:27:48 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+Pm4D_fm+iG9UfGSObx2fSXshZuMW4QKwGePbg4RUEjA@mail.gmail.com>
+Message-ID: <CAL_Jsq+Pm4D_fm+iG9UfGSObx2fSXshZuMW4QKwGePbg4RUEjA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 01/19] skc: Add supplemental kernel cmdline support
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-nvmem_device_find provides a way to search for nvmem devices with
-the help of a match function simlair to bus_find_device.
+On Sun, Aug 25, 2019 at 10:15 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> Supplemental kernel command line (SKC) allows admin to pass a
+> tree-structured supplemental kernel commandline file (SKC file)
+> when boot up kernel. This expands the kernel command line in
+> efficient way.
+>
+> SKC file will contain some key-value commands, e.g.
+>
+> key.word = value1;
+> another.key.word = value2;
+>
+> It can fold same keys with braces, also you can write array
+> data. For example,
+>
+> key {
+>    word1 {
+>       setting1 = data;
+>       setting2;
+>    }
+>    word2.array = "val1", "val2";
+> }
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
- Documentation/driver-api/nvmem.rst |  2 ++
- drivers/nvmem/core.c               | 61 +++++++++++++++++---------------------
- include/linux/nvmem-consumer.h     |  9 ++++++
- 3 files changed, 38 insertions(+), 34 deletions(-)
+Why invent a custom file format? You could use YAML (or JSON):
 
-diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-index d9d958d5c824..287e86819640 100644
---- a/Documentation/driver-api/nvmem.rst
-+++ b/Documentation/driver-api/nvmem.rst
-@@ -129,6 +129,8 @@ To facilitate such consumers NVMEM framework provides below apis::
-   struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
-   struct nvmem_device *devm_nvmem_device_get(struct device *dev,
- 					   const char *name);
-+  struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data));
-   void nvmem_device_put(struct nvmem_device *nvmem);
-   int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
- 		      size_t bytes, void *buf);
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 057d1ff87d5d..9f1ee9c766ec 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -76,33 +76,6 @@ static struct bus_type nvmem_bus_type = {
- 	.name		= "nvmem",
- };
- 
--static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
--{
--	struct device *d;
--
--	if (!nvmem_np)
--		return NULL;
--
--	d = bus_find_device_by_of_node(&nvmem_bus_type, nvmem_np);
--
--	if (!d)
--		return NULL;
--
--	return to_nvmem_device(d);
--}
--
--static struct nvmem_device *nvmem_find(const char *name)
--{
--	struct device *d;
--
--	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
--
--	if (!d)
--		return NULL;
--
--	return to_nvmem_device(d);
--}
--
- static void nvmem_cell_drop(struct nvmem_cell *cell)
- {
- 	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
-@@ -532,13 +505,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
- }
- EXPORT_SYMBOL(devm_nvmem_unregister);
- 
--static struct nvmem_device *__nvmem_device_get(struct device_node *np,
--					       const char *nvmem_name)
-+static struct nvmem_device *__nvmem_device_get(void *data,
-+			int (*match)(struct device *dev, const void *data))
- {
- 	struct nvmem_device *nvmem = NULL;
-+	struct device *dev;
- 
- 	mutex_lock(&nvmem_mutex);
--	nvmem = np ? of_nvmem_find(np) : nvmem_find(nvmem_name);
-+	dev = bus_find_device(&nvmem_bus_type, NULL, data, match);
-+	if (dev)
-+		nvmem = to_nvmem_device(dev);
- 	mutex_unlock(&nvmem_mutex);
- 	if (!nvmem)
- 		return ERR_PTR(-EPROBE_DEFER);
-@@ -587,7 +563,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
- 	if (!nvmem_np)
- 		return ERR_PTR(-ENOENT);
- 
--	return __nvmem_device_get(nvmem_np, NULL);
-+	return __nvmem_device_get(nvmem_np, device_match_of_node);
- }
- EXPORT_SYMBOL_GPL(of_nvmem_device_get);
- #endif
-@@ -613,10 +589,26 @@ struct nvmem_device *nvmem_device_get(struct device *dev, const char *dev_name)
- 
- 	}
- 
--	return __nvmem_device_get(NULL, dev_name);
-+	return __nvmem_device_get((void *)dev_name, device_match_name);
- }
- EXPORT_SYMBOL_GPL(nvmem_device_get);
- 
-+/**
-+ * nvmem_device_find() - Find nvmem device with matching function
-+ *
-+ * @data: Data to pass to match function
-+ * @match: Callback function to check device
-+ *
-+ * Return: ERR_PTR() on error or a valid pointer to a struct nvmem_device
-+ * on success.
-+ */
-+struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data))
-+{
-+	return __nvmem_device_get(data, match);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_device_find);
-+
- static int devm_nvmem_device_match(struct device *dev, void *res, void *data)
- {
- 	struct nvmem_device **nvmem = res;
-@@ -710,7 +702,8 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
- 		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
- 		    (strcmp(lookup->con_id, con_id) == 0)) {
- 			/* This is the right entry. */
--			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
-+			nvmem = __nvmem_device_get((void *)lookup->nvmem_name,
-+						   device_match_name);
- 			if (IS_ERR(nvmem)) {
- 				/* Provider may not be registered yet. */
- 				cell = ERR_CAST(nvmem);
-@@ -780,7 +773,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 	if (!nvmem_np)
- 		return ERR_PTR(-EINVAL);
- 
--	nvmem = __nvmem_device_get(nvmem_np, NULL);
-+	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
- 	of_node_put(nvmem_np);
- 	if (IS_ERR(nvmem))
- 		return ERR_CAST(nvmem);
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 8f8be5b00060..02dc4aa992b2 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -89,6 +89,9 @@ void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
- int nvmem_register_notifier(struct notifier_block *nb);
- int nvmem_unregister_notifier(struct notifier_block *nb);
- 
-+struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data));
-+
- #else
- 
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -204,6 +207,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data))
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_NVMEM */
- 
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
--- 
-2.13.7
+key:
+ word1:
+  setting1: data
+  setting2: true
+ word2:
+  - val1
+  - val2
 
+
+That would allow you to define a schema for defined options and can
+easily be manipulated with python (or any language with dictionaries
+and lists). That does imply adding a YAML parser to the kernel which
+I'm not sure is a great idea. There is a C parser lib, but working
+with YAML in C is not that great compared to python.
+
+Another option would be using the DTS format, but as a separate file.
+That's not unprecedented as u-boot FIT image is a DTB. Then the kernel
+already has the parser. And you could still have schema now.
+
+A new interface will take a lot of bootloader work to make it easy to
+use given the user has to manually load some file in the bootloader
+and know a good address to load it to. Between that and rebuilding the
+kernel with the configuration, I'd pick rebuilding the kernel. Perhaps
+this version will highlight that the original proposal was not so bad.
+
+
+Another thought, maybe you could process the configuration file that's
+in a readable/editable format into a flat representation that could
+simply be added to the kernel command line:
+
+key.word1.setting1=data key.word1.setting2 key.word2=val1,val2
+
+That would then use an existing interface and probably simplify the
+kernel parsing.
+
+Rob
