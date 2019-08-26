@@ -1,211 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 817E77D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 10:13:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A2687D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Aug 2019 10:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730584AbfHZKNc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Aug 2019 06:13:32 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:37373 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730423AbfHZKNb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Aug 2019 06:13:31 -0400
-Received: by mail-lf1-f65.google.com with SMTP id w67so3674082lff.4
-        for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2019 03:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=t5IFyVt9ycUTswozYtX7dDQi6y3j9+8f5c65D6FhaJk=;
-        b=V2kDrxIwe3zBsUdenFJteBOLthl93Ehz+6GkRgF8H67aCPc6C4NT6avkNNDp2rA9vB
-         q8hjjP7wJE+alfVoFDtR03iPo3a1VZ96woLncoAgaLqYQWF2kCNFc0yPd2wWOT3AxmXq
-         8t/dP0va+AY6rAeI9PlV7NUMYU9dUZSNJMeGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=t5IFyVt9ycUTswozYtX7dDQi6y3j9+8f5c65D6FhaJk=;
-        b=TcCNwYA2llFJGp8d6n+Gd8wxO/EneVSl5N+ckYwnSr3dRk00uRtRxoypzXfTVR00xP
-         fqLny23uQ43xhA0QwnLbLgj25c5UwvgIrh8Sync/ItUpzfDN8WBWp0GDdXzZ7ckGKZnF
-         Or252tExCIeiSW/TDr2uqWk9HbZTrcrg0N2w/64JoUytPdeu9FAf//sGAGetPubmmBxl
-         9hcLONUDOK/hpNWmg0y/5ICXb91aPDIigSaNtEXtFo4Aq7NOUmivl0yGX0FuY1xcAQ33
-         IPZkHB1Zchzpe/AVIpe/6CXNIn5pPXCvGWCw+qmQlmYbuYdj1z4JS5awptrOrha9c91K
-         nCQg==
-X-Gm-Message-State: APjAAAW0J+1c24noiD5qkQ50jcsc+wEDqJ+HQ9ouND9qHZ071cpKa7eB
-        LCx5bjeZEwkU5inu/nxsPDbdj2I+kOkIKvxw
-X-Google-Smtp-Source: APXvYqwT5Lvtv0r+bFYvEOW2LjCvYtNI9bYRgtzeC1tRpJDtm/RJUlStouFMu+qIBYaMc1hxPS7l9w==
-X-Received: by 2002:a19:2d19:: with SMTP id k25mr1777488lfj.76.1566814408505;
-        Mon, 26 Aug 2019 03:13:28 -0700 (PDT)
-Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id n2sm2026320lfl.62.2019.08.26.03.13.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Aug 2019 03:13:27 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] vsprintf: introduce %dE for error constants
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20190824233724.1775-1-uwe@kleine-koenig.org>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <ff5d3756-7fac-84ed-ba1e-ff0a4ece32be@rasmusvillemoes.dk>
-Date:   Mon, 26 Aug 2019 12:13:26 +0200
+        id S1727233AbfHZKQ0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Aug 2019 06:16:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22300 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726562AbfHZKQ0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Aug 2019 06:16:26 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7QA8CsO049871
+        for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2019 06:16:24 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2umbbj5d9w-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2019 06:16:24 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Mon, 26 Aug 2019 11:16:23 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 26 Aug 2019 11:16:20 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7QAGJtI42532948
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 26 Aug 2019 10:16:19 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5C3DCA4064;
+        Mon, 26 Aug 2019 10:16:19 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 227C8A405C;
+        Mon, 26 Aug 2019 10:16:18 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.106])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 26 Aug 2019 10:16:17 +0000 (GMT)
+Subject: Re: [PATCH v3] powerpc/fadump: sysfs for fadump memory reservation
+To:     Hari Bathini <hbathini@linux.ibm.com>, mpe@ellerman.id.au
+Cc:     linuxppc-dev@lists.ozlabs.org, mahesh@linux.vnet.ibm.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+References: <20190810175905.7761-1-sourabhjain@linux.ibm.com>
+ <53311fa4-2cce-1eb6-1aae-0c835e06eb24@linux.ibm.com>
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+Date:   Mon, 26 Aug 2019 15:46:17 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20190824233724.1775-1-uwe@kleine-koenig.org>
+In-Reply-To: <53311fa4-2cce-1eb6-1aae-0c835e06eb24@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19082610-0028-0000-0000-0000039410D5
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19082610-0029-0000-0000-0000245644F4
+Message-Id: <cf4fdb60-438c-bc4e-d759-1fbb27364c50@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-26_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908260112
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/08/2019 01.37, Uwe Kleine-König wrote:
-> 	pr_info("probing failed (%dE)\n", ret);
+
+
+On 8/26/19 3:29 PM, Hari Bathini wrote:
 > 
-> expands to
 > 
-> 	probing failed (EIO)
+> On 10/08/19 11:29 PM, Sourabh Jain wrote:
+>> Add a sys interface to allow querying the memory reserved by
+>> fadump for saving the crash dump.
+>>
+>> Add an ABI doc entry for new sysfs interface.
+>>    - /sys/kernel/fadump_mem_reserved
+>>
+>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+>> ---
+>> Changelog:
+>> v1 -> v2:
+>>   - Added ABI doc for new sysfs interface.
+>>
+>> v2 -> v3:
+>>   - Updated the ABI documentation.
+>> ---
+>>
+>>  Documentation/ABI/testing/sysfs-kernel-fadump    |  6 ++++++
 > 
-> if ret holds -EIO (or EIO). This introduces an array of error codes. If
-> the error code is missing, %dE falls back to %d and so prints the plain
-> number.
+> Shouldn't this be Documentation/ABI/testing/sysfs-kernel-fadump_mem_reserved?
 > 
-> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
-> ---
-> Hello
+>> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
+>> @@ -0,0 +1,6 @@
+>> +What:		/sys/kernel/fadump_mem_reserved
+>> +Date:		August 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:	read only
+>> +		Provide information about the amount of memory
+>> +		reserved by fadump to save the crash dump.
 > 
-> there are many code sites that benefit from this. Just grep for
-> "(%d)" ...
-> 
-> As an example the follow up patch converts a printk to use this new
-> format escape.
-> 
-> Best regards
-> Uwe
-> 
->  Documentation/core-api/printk-formats.rst |   3 +
->  lib/vsprintf.c                            | 193 +++++++++++++++++++++-
->  2 files changed, 195 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index c6224d039bcb..81002414f956 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -35,6 +35,9 @@ Integer types
->  		u64			%llu or %llx
->  
->  
-> +To print the name that corresponds to an integer error constant, use %dE and
-> +pass the int.
-> +
->  If <type> is dependent on a config option for its size (e.g., sector_t,
->  blkcnt_t) or is architecture-dependent for its size (e.g., tcflag_t), use a
->  format specifier of its largest possible type and explicitly cast to it.
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index b0967cf17137..672eab8dab84 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -533,6 +533,192 @@ char *number(char *buf, char *end, unsigned long long num,
->  	return buf;
->  }
->  
-> +#define ERRORCODE(x) { .str = #x, .err = x }
-> +
-> +static const struct {
-> +	const char *str;
-> +	int err;
-> +} errorcodes[] = {
-> +	ERRORCODE(EPERM),
-...
-> +	ERRORCODE(ERECALLCONFLICT),
-> +};
-> +
-> +static noinline_for_stack
-> +char *errstr(char *buf, char *end, unsigned long long num,
-> +	     struct printf_spec spec)
-> +{
-> +	char *errname = NULL;
-> +	size_t errnamelen, copy;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(errorcodes); ++i) {
-> +		if (num == errorcodes[i].err || num == -errorcodes[i].err) {
-> +			errname = errorcodes[i].str;
-> +			break;
-> +		}
-> +	}
+> Split this up into a separate patch and have ABI documentation for
+> fadump_reserved & fadump_registered as well..
 
-Not sure I'm a fan of iterating this array. Yes, the errno values are a
-bit sparse, but maybe one could use a dense array with O(1) lookup for
-those < 128 and then have an exceptional table like yours for the rest.
-But if you do keep this whole array thing, please do as Andrew suggested
-and compact it somewhat (4 bytes per entry plus the storage for the
-strings themselves is enough, see e.g. e1f0bce3), and put EINVAL and
-other common things near the start (at least EINVAL is a lot more common
-than ENOEXEC).
 
-> +	if (!errname) {
-> +		/* fall back to ordinary number */
-> +		return number(buf, end, num, spec);
-> +	}
-> +
-> +	copy = errnamelen = strlen(errname);
-> +	if (copy > end - buf)
-> +		copy = end - buf;
-> +	buf = memcpy(buf, errname, copy);
+Sure. Thanks for review.
 
-This is buggy, AFAICT. buf may be beyond end (that's the convention), so
-end-buf (which is a ptrdiff_t, which is probably a signed type, but it
-gets converted to a size_t when compared to copy) can be a huge number,
-so copy>end-buf is false.
 
-Please just use the string() helper that gets used for printing other
-fixed strings (as well as %s input).
+- Sourabh Jain
 
-And add tests to lib/test_printf.c, that would catch this sort of thing
-immediately.
-
-> +	return buf + errnamelen;
-> +}
-> +
->  static noinline_for_stack
->  char *special_hex_number(char *buf, char *end, unsigned long long num, int size)
->  {
-> @@ -2566,7 +2752,12 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
->  				num = va_arg(args, unsigned int);
->  			}
->  
-> -			str = number(str, end, num, spec);
-> +			if (spec.type == FORMAT_TYPE_INT && *fmt == 'E') {
-> +				fmt++;
-> +				str = errstr(str, end, num, spec);
-
-drivers/staging/speakup/speakup_bns.c has a %dE, have you checked
-whether you're breaking that one? It's hard to grep for all the
-variations, %-0*.5dE is also legal and would be caught here.
-
-This has previously been suggested as a %p extension, and I think users
-would just as often have an ERR_PTR() as a plain int or long. Since we
-already have %p[alphanumeric] as a special kernel thing, why not do
-that? It's more convenient to convert from ints/longs to error pointers
-
-  pr_err("Uh-oh: %pE", ERR_PTR(ret));
-
-than the other way around
-
-  pr_err("Uh-oh: %dE", PTR_ERR(p)); // oops, must be %ldE
-
-Kernel size impact? Have you considered making it possible to opt-out
-and have %dE just mean %d?
-
-Rasmus
