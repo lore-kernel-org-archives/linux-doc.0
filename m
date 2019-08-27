@@ -6,43 +6,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7BE37D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 15:08:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8B537D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 15:09:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730207AbfH0PI4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 11:08:56 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:58774 "EHLO
+        id S1730305AbfH0PJD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 11:09:03 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:58816 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726054AbfH0PI4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 11:08:56 -0400
+        by vger.kernel.org with ESMTP id S1730276AbfH0PJD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 11:09:03 -0400
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7RF27Ps026516;
-        Tue, 27 Aug 2019 17:08:29 +0200
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7RF2Bim026535;
+        Tue, 27 Aug 2019 17:08:46 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=WCVwMfXR8g1j5Zrd8gSemrcYNLfQjqC+GHfOy9t5zVo=;
- b=v84wXD4zkDFkoWgr/paZtKm5VOcO5Nrnzm7i0EE2WfaYqJa3fi7e2mIQ4iIz+sLvtCvr
- 5/ewb5Q4At/B/iv1d+9B1wSTKn3U39s/W1ipI9+0A+tIJ/6Q+NZLvC1iDmrf5Qvi6MuO
- fgD7nXic52Sre8I0aymQ/tj8WU7dkiBBRymnEWeqThDHfCXw5rvfKTDCJykbj5pdNGyM
- NRjeE8FlDpMjzCLNMbYWjDVB0sXIlVhdr5nIMdOP1oyq7/py2u304A9hR0RibjYzeL1G
- iZZ6eMbS/XXEy/WayuibsrKp/Utelpdr+pITnYWg1YY/gFVDrzMrJrqyH35TQccFqP7C gQ== 
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=STMicroelectronics;
+ bh=gUrvHgWah4ogK3e4d0X42dS33drOe0YLe+g4hljra6o=;
+ b=K3vuiPZdjQRwuogyBGGmCVwVhUnIoztJkMiE1atuBbpcgX/pyRAoXcs5vvR7NKZV8d9I
+ dhCVBrBKLVTOrgfA+uYNNn3fAOTl2mwmCqRbyUfeX56+2dELOgN2slqYDBmv5erAtZQG
+ PSggwkbHt1sLpmJbAQQFaBFNnBkLNCqItHazJrQ/W+bEJRMMAugfn+aFT/UmBhjrNZfY
+ SQHsqpnZ5GBliovconIptSZzgg+pvSIErx31m6qhleoTPQDxUwH5bP6NvD8egP9m0Kr9
+ fR7CwnctL7LSMsDyG1TtlhWJlNXoRIYxB7KnkAZF6yyVIR+87QjN2jFUgdPVWspNbUFX KQ== 
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2ujv4kt4as-1
+        by mx08-00178001.pphosted.com with ESMTP id 2ujv4kt4a8-1
         (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Tue, 27 Aug 2019 17:08:29 +0200
+        Tue, 27 Aug 2019 17:08:46 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id CB53B52;
-        Tue, 27 Aug 2019 15:08:20 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7AFAE2B6ABC;
-        Tue, 27 Aug 2019 17:08:20 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 27 Aug
- 2019 17:08:20 +0200
+        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C14A222;
+        Tue, 27 Aug 2019 15:08:13 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D24672AFE03;
+        Tue, 27 Aug 2019 17:08:12 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Aug
+ 2019 17:08:12 +0200
 Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
  SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Tue, 27 Aug 2019 17:08:19 +0200
+ 15.00.1473.003; Tue, 27 Aug 2019 17:08:12 +0200
 From:   Gerald BAEZA <gerald.baeza@st.com>
 To:     "will@kernel.org" <will@kernel.org>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
@@ -60,13 +60,11 @@ To:     "will@kernel.org" <will@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 CC:     Gerald BAEZA <gerald.baeza@st.com>
-Subject: [PATCH v3 2/5] dt-bindings: perf: stm32: ddrperfm support
-Thread-Topic: [PATCH v3 2/5] dt-bindings: perf: stm32: ddrperfm support
-Thread-Index: AQHVXOlCMu3qbdWcXEe5CqPZR/zfNQ==
-Date:   Tue, 27 Aug 2019 15:08:19 +0000
-Message-ID: <1566918464-23927-3-git-send-email-gerald.baeza@st.com>
-References: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
-In-Reply-To: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
+Subject: [PATCH v3 0/5] stm32-ddr-pmu driver creation
+Thread-Topic: [PATCH v3 0/5] stm32-ddr-pmu driver creation
+Thread-Index: AQHVXOk+As8mb1s6+UKuO5XjiYJqiQ==
+Date:   Tue, 27 Aug 2019 15:08:12 +0000
+Message-ID: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
 Accept-Language: fr-FR, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -86,39 +84,45 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
 
-This documentation indicates how to enable stm32-ddr-pmu driver on
-DDRPERFM peripheral, via the device tree.
+This series adds support for the DDRPERFM via a new stm32-ddr-pmu driver,
+registered into the perf framework.
 
-Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+This driver is inspired from arch/arm/mm/cache-l2x0-pmu.c
+
 ---
- Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt | 16 ++++++++++++=
+Changes from v1:
+- add 'resets' description (bindings) and using (driver). Thanks Rob.
+- rebase on 5.2-rc1 (that includes the ddrperfm clock control patch).
+
+Changes from v2:
+- rebase on 5.3-rc6 that has to be completed with
+  'perf tools: fix alignment trap in perf stat': mandatory.
+  'Documentation: add link to stm32mp157 docs': referenced from this series=
+.
+- take into account all remarks from Mark Rutland: thanks for your time!
+  https://lkml.org/lkml/2019/6/26/388
+- fix for event type filtering in stm32_ddr_pmu_event_init()
+
+Gerald Baeza (5):
+  Documentation: perf: stm32: ddrperfm support
+  dt-bindings: perf: stm32: ddrperfm support
+  perf: stm32: ddrperfm driver creation
+  ARM: configs: enable STM32_DDR_PMU
+  ARM: dts: stm32: add ddrperfm on stm32mp157c
+
+ .../devicetree/bindings/perf/stm32-ddr-pmu.txt     |  16 +
+ Documentation/perf/stm32-ddr-pmu.txt               |  37 ++
+ arch/arm/boot/dts/stm32mp157c.dtsi                 |   8 +
+ arch/arm/configs/multi_v7_defconfig                |   1 +
+ drivers/perf/Kconfig                               |   6 +
+ drivers/perf/Makefile                              |   1 +
+ drivers/perf/stm32_ddr_pmu.c                       | 426 +++++++++++++++++=
 ++++
- 1 file changed, 16 insertions(+)
+ 7 files changed, 495 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/perf/stm32-ddr-pmu.tx=
 t
+ create mode 100644 Documentation/perf/stm32-ddr-pmu.txt
+ create mode 100644 drivers/perf/stm32_ddr_pmu.c
 
-diff --git a/Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt b/Doc=
-umentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
-new file mode 100644
-index 0000000..87ab12e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
-@@ -0,0 +1,16 @@
-+* STM32 DDR Performance Monitor (DDRPERFM)
-+
-+Required properties:
-+- compatible: must be "st,stm32-ddr-pmu".
-+- reg: physical address and length of the registers set.
-+- clocks: phandle and specifier for DDRPERFM input clock
-+- resets: phandle and specifier for DDRPERFM reset
-+
-+Example:
-+	ddrperfm: perf@5a007000 {
-+		compatible =3D "st,stm32-ddr-pmu";
-+		reg =3D <0x5a007000 0x400>;
-+		clocks =3D <&rcc DDRPERFM>;
-+		resets =3D <&rcc DDRPERFM_R>;
-+	};
-+
 --=20
 2.7.4
