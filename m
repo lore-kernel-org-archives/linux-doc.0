@@ -5,416 +5,189 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BCD737D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 21:12:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FA6B7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 21:17:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728834AbfH0VMx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 17:12:53 -0400
-Received: from antares.kleine-koenig.org ([94.130.110.236]:47334 "EHLO
+        id S1726735AbfH0VRz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 17:17:55 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:47608 "EHLO
         antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbfH0VMx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 17:12:53 -0400
-Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
-        id 9886F786050; Tue, 27 Aug 2019 23:12:48 +0200 (CEST)
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+        with ESMTP id S1726675AbfH0VRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 17:17:55 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by antares.kleine-koenig.org (Postfix) with ESMTP id 20EBB786076;
+        Tue, 27 Aug 2019 23:17:51 +0200 (CEST)
+Received: from antares.kleine-koenig.org ([127.0.0.1])
+        by localhost (antares.kleine-koenig.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 2OvSDvR1vu2f; Tue, 27 Aug 2019 23:17:50 +0200 (CEST)
+Received: from [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986] (unknown [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986])
+        by antares.kleine-koenig.org (Postfix) with ESMTPSA;
+        Tue, 27 Aug 2019 23:17:50 +0200 (CEST)
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+From:   =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
 To:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Petr Mladek <pmladek@suse.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Enrico@kleine-koenig.org, Weigelt@kleine-koenig.org,
-        metux IT consult <lkml@metux.net>
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] vsprintf: introduce %dE for error constants
-Date:   Tue, 27 Aug 2019 23:12:44 +0200
-Message-Id: <20190827211244.7210-1-uwe@kleine-koenig.org>
-X-Mailer: git-send-email 2.23.0
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=uwe@kleine-koenig.org; prefer-encrypt=mutual; keydata=
+ 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
+ kC8vBDJg
+Message-ID: <fe6a908b-b40f-f8ca-95f3-28e0f984bf5a@kleine-koenig.org>
+Date:   Tue, 27 Aug 2019 23:17:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190827211244.7210-1-uwe@kleine-koenig.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="BokEtrlVHX9871h2J9KxIcMHLHUl7r1Jr"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The new format specifier %dE introduced with this patch pretty-prints
-the typical negative error values. So
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BokEtrlVHX9871h2J9KxIcMHLHUl7r1Jr
+Content-Type: multipart/mixed; boundary="jwtInlTtReE6F8boaNgP2AHgQvQKw2Qpp";
+ protected-headers="v1"
+From: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <fe6a908b-b40f-f8ca-95f3-28e0f984bf5a@kleine-koenig.org>
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+In-Reply-To: <20190827211244.7210-1-uwe@kleine-koenig.org>
 
-	pr_info("probing failed (%dE)\n", ret);
+--jwtInlTtReE6F8boaNgP2AHgQvQKw2Qpp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-yields
-
-	probing failed (EIO)
-
-if ret holds -EIO. This is easier to understand than the for now common
-
-	probing failed (-5)
-
-(which used %d instead of %dE) for kernel developers who don't know the
-numbers by heart, The error names are also known and understood by
-userspace coders as they match the values the errno variable can have.
-Also to debug the sitation that resulted in the above message very
-probably involves EIO, so the message already gives the string to look
-out for.
-
-glibc (and other libc variants)'s printf have a similar feature: %m
-expands to strerror(errno). I preferred using %dE however because %m in
-userspace doesn't consume an argument (which is however necessary in the
-kernel as there is no global errno variable). Also this is handled
-correctly by the compiler's format string checker as there is a matching
-int variable for the %d the compiler notices.
-
-There are quite some code locations that could be adapted to benefit
-from this:
-
-	$ git grep -E '^\s*(printk|(kv?as|sn?|vs(c?n)?)printf|(kvm|dev|pr)_(emerg|alert|crit|err|warn(ing)?|notice|info|cont|devel|debug|dbg))\(.*(\(%d\)|: %d)\\n' v5.3-rc5 | wc -l
-	9141
-
-I expect there are some false negatives where the match is distributed
-over two or more lines and so isn't found.
-
-Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
----
 Hello,
 
-in v1 I handled both positive and negative errors which was challenged.
-I decided to drop that and only handle the (common) negative values.
-Readding handling of positive values later is easier than dropping it.
+I fat-fingered Enrico Weigelt's e-mail address. Please when you reply to
+my patch fix that up (i.e. drop Enrico@kleine-koenig.org and
+Weigelt@kleine-koenig.org).
 
-Sergey Senozhatsky and Enrico Weigelt suggested to use strerror as name
-for the function that I called errno2errstr. (In v1 it was not a
-separate function). I didn't pick this up because the semantic of
-strerror in userspace is different. It returns something like
-"Interrupted system call" while errno2errstr only yields "EINTR".
-
-I dropped EWOULDBLOCK from the list of codes as it is on all Linux archs
-identical to EAGAIN and the way the lookup works now breaks otherwise.
-(And having it wasn't useful already in v1.)
-
-Rasmus Villemoes pointed out that the way I wrote the resulting string
-to the buffer was broken. This is fixed according to his suggestion by
-using string_nocheck(). I also added a test to lib/test_printf.c as he
-requested.
-
-Petr Mladek had some concerns:
-> The array is long, created by cpu&paste, the index of each code
-> is not obvious.
-
-Yeah right, the array is long. This cannot really be changed because we
-have that many error codes. I don't understand your concern about the
-index not being obvious. The array was just a list of (number, string)
-pairs where the position in the array didn't have any semantic.
-
-I agree it would be nice to have only one place that has a collection of
-error codes. I thought about reorganizing how the error constants are
-defined, i.e. doing something like:
-
-        DEFINE_ERROR(EIO, 5, "I/O error")
-
-but I don't see a possibility to let this expand to
-
-        #define EIO 5
-
-without resorting to another macro language. If that were possible the
-list of DEFINE_ERRORs could be reused to help generating the code for
-errno2errstr. So if you have a good idea, please speak up.
-
-> There are ideas to make the code even more tricky to reduce
-> the size, keep it fast.
-
-I think Enrico Weigelt's suggestion to use a case is the best
-performance-wise so that's what I picked up. Also I hope that
-performance isn't that important because the need to print an error
-should not be so common that it really hurts in production.
-
-> Both, %dE modifier and the output format (ECODE) is non-standard.
-
-Yeah, obviously right. The problem is that the new modifier does
-something that wasn't implemented before, so it cannot match any
-standard. %pI is only known on Linux either, so I think being
-non-standard is a weak argument. For user consumption it would be nice
-if we'd get
-
-        probing failed (I/O Error)
-
-from pr_info("probing failed (%dE)\n", -EIO); but that would be still
-more expensive because the collection of string constants would become
-bigger that it is already now and "EIO" is the right one to search for
-when debugging the underlaying problem. So I think "EIO" is even more
-useful than "I/O Error".
-
-> Upper letters gain a lot of attention. But the error code is
-> only helper information. Also many error codes are misleading because
-> they are used either wrongly or there was no better available.
-
-This isn't really an argument against the patch I think. Sure, if a
-function returned (say) EIO while ETIMEOUT would be better, my patch
-doesn't improve that detail. Still
-
-        mydev: Failed to initialize blablub: EIO
-
-is more expressive than
-
-        mydev: Failed to initialize blablub: -5
-
-. With "EIO" in the message it is not worse than with "-5" independant of the
-question if EIO is the right error code used.
-
-> There is no proof that this approach would be widely acceptable for
-> subsystem maintainers. Some might not like mass and "blind" code
-> changes. Some might not like the output at all.
-
-I don't intend to mass convert existing code. I would restrict myself to
-updating the documentation and then maybe send a patch per subsystem as an
-example to let maintainers know and judge for themselves if they like it or
-not. And if it doesn't get picked up, we can just remove the feature again next
-year (or so).
-
-I dropped the example conversion, I think the idea should be clear now
-even without an explicit example.
-
-Best regards
+Thanks and sorry,
 Uwe
 
----
- Documentation/core-api/printk-formats.rst |   3 +
- lib/test_printf.c                         |   1 +
- lib/vsprintf.c                            | 188 +++++++++++++++++++++-
- 3 files changed, 191 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index c6224d039bcb..81002414f956 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -35,6 +35,9 @@ Integer types
- 		u64			%llu or %llx
- 
- 
-+To print the name that corresponds to an integer error constant, use %dE and
-+pass the int.
-+
- If <type> is dependent on a config option for its size (e.g., sector_t,
- blkcnt_t) or is architecture-dependent for its size (e.g., tcflag_t), use a
- format specifier of its largest possible type and explicitly cast to it.
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 944eb50f3862..9b0687928717 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -174,6 +174,7 @@ test_number(void)
- 		test("0xfffffff0|0xf0|0xf0", "%#02x|%#02x|%#02x", val, val & 0xff, (u8)val);
- 	}
- #endif
-+	test("EIO", "%dE", -EIO);
- }
- 
- static void __init
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index b0967cf17137..8fed03610402 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -682,6 +682,187 @@ static char *pointer_string(char *buf, char *end,
- 	return number(buf, end, (unsigned long int)ptr, spec);
- }
- 
-+#define ERRORCODES \
-+	ERRORCODE(EPERM) \
-+	ERRORCODE(ENOENT) \
-+	ERRORCODE(ESRCH) \
-+	ERRORCODE(EINTR) \
-+	ERRORCODE(EIO) \
-+	ERRORCODE(ENXIO) \
-+	ERRORCODE(E2BIG) \
-+	ERRORCODE(ENOEXEC) \
-+	ERRORCODE(EBADF) \
-+	ERRORCODE(ECHILD) \
-+	ERRORCODE(EAGAIN) \
-+	ERRORCODE(ENOMEM) \
-+	ERRORCODE(EACCES) \
-+	ERRORCODE(EFAULT) \
-+	ERRORCODE(ENOTBLK) \
-+	ERRORCODE(EBUSY) \
-+	ERRORCODE(EEXIST) \
-+	ERRORCODE(EXDEV) \
-+	ERRORCODE(ENODEV) \
-+	ERRORCODE(ENOTDIR) \
-+	ERRORCODE(EISDIR) \
-+	ERRORCODE(EINVAL) \
-+	ERRORCODE(ENFILE) \
-+	ERRORCODE(EMFILE) \
-+	ERRORCODE(ENOTTY) \
-+	ERRORCODE(ETXTBSY) \
-+	ERRORCODE(EFBIG) \
-+	ERRORCODE(ENOSPC) \
-+	ERRORCODE(ESPIPE) \
-+	ERRORCODE(EROFS) \
-+	ERRORCODE(EMLINK) \
-+	ERRORCODE(EPIPE) \
-+	ERRORCODE(EDOM) \
-+	ERRORCODE(ERANGE) \
-+	ERRORCODE(EDEADLK) \
-+	ERRORCODE(ENAMETOOLONG) \
-+	ERRORCODE(ENOLCK) \
-+	ERRORCODE(ENOSYS) \
-+	ERRORCODE(ENOTEMPTY) \
-+	ERRORCODE(ELOOP) \
-+	ERRORCODE(ENOMSG) \
-+	ERRORCODE(EIDRM) \
-+	ERRORCODE(ECHRNG) \
-+	ERRORCODE(EL2NSYNC) \
-+	ERRORCODE(EL3HLT) \
-+	ERRORCODE(EL3RST) \
-+	ERRORCODE(ELNRNG) \
-+	ERRORCODE(EUNATCH) \
-+	ERRORCODE(ENOCSI) \
-+	ERRORCODE(EL2HLT) \
-+	ERRORCODE(EBADE) \
-+	ERRORCODE(EBADR) \
-+	ERRORCODE(EXFULL) \
-+	ERRORCODE(ENOANO) \
-+	ERRORCODE(EBADRQC) \
-+	ERRORCODE(EBADSLT) \
-+	ERRORCODE(EBFONT) \
-+	ERRORCODE(ENOSTR) \
-+	ERRORCODE(ENODATA) \
-+	ERRORCODE(ETIME) \
-+	ERRORCODE(ENOSR) \
-+	ERRORCODE(ENONET) \
-+	ERRORCODE(ENOPKG) \
-+	ERRORCODE(EREMOTE) \
-+	ERRORCODE(ENOLINK) \
-+	ERRORCODE(EADV) \
-+	ERRORCODE(ESRMNT) \
-+	ERRORCODE(ECOMM) \
-+	ERRORCODE(EPROTO) \
-+	ERRORCODE(EMULTIHOP) \
-+	ERRORCODE(EDOTDOT) \
-+	ERRORCODE(EBADMSG) \
-+	ERRORCODE(EOVERFLOW) \
-+	ERRORCODE(ENOTUNIQ) \
-+	ERRORCODE(EBADFD) \
-+	ERRORCODE(EREMCHG) \
-+	ERRORCODE(ELIBACC) \
-+	ERRORCODE(ELIBBAD) \
-+	ERRORCODE(ELIBSCN) \
-+	ERRORCODE(ELIBMAX) \
-+	ERRORCODE(ELIBEXEC) \
-+	ERRORCODE(EILSEQ) \
-+	ERRORCODE(ERESTART) \
-+	ERRORCODE(ESTRPIPE) \
-+	ERRORCODE(EUSERS) \
-+	ERRORCODE(ENOTSOCK) \
-+	ERRORCODE(EDESTADDRREQ) \
-+	ERRORCODE(EMSGSIZE) \
-+	ERRORCODE(EPROTOTYPE) \
-+	ERRORCODE(ENOPROTOOPT) \
-+	ERRORCODE(EPROTONOSUPPORT) \
-+	ERRORCODE(ESOCKTNOSUPPORT) \
-+	ERRORCODE(EOPNOTSUPP) \
-+	ERRORCODE(EPFNOSUPPORT) \
-+	ERRORCODE(EAFNOSUPPORT) \
-+	ERRORCODE(EADDRINUSE) \
-+	ERRORCODE(EADDRNOTAVAIL) \
-+	ERRORCODE(ENETDOWN) \
-+	ERRORCODE(ENETUNREACH) \
-+	ERRORCODE(ENETRESET) \
-+	ERRORCODE(ECONNABORTED) \
-+	ERRORCODE(ECONNRESET) \
-+	ERRORCODE(ENOBUFS) \
-+	ERRORCODE(EISCONN) \
-+	ERRORCODE(ENOTCONN) \
-+	ERRORCODE(ESHUTDOWN) \
-+	ERRORCODE(ETOOMANYREFS) \
-+	ERRORCODE(ETIMEDOUT) \
-+	ERRORCODE(ECONNREFUSED) \
-+	ERRORCODE(EHOSTDOWN) \
-+	ERRORCODE(EHOSTUNREACH) \
-+	ERRORCODE(EALREADY) \
-+	ERRORCODE(EINPROGRESS) \
-+	ERRORCODE(ESTALE) \
-+	ERRORCODE(EUCLEAN) \
-+	ERRORCODE(ENOTNAM) \
-+	ERRORCODE(ENAVAIL) \
-+	ERRORCODE(EISNAM) \
-+	ERRORCODE(EREMOTEIO) \
-+	ERRORCODE(EDQUOT) \
-+	ERRORCODE(ENOMEDIUM) \
-+	ERRORCODE(EMEDIUMTYPE) \
-+	ERRORCODE(ECANCELED) \
-+	ERRORCODE(ENOKEY) \
-+	ERRORCODE(EKEYEXPIRED) \
-+	ERRORCODE(EKEYREVOKED) \
-+	ERRORCODE(EKEYREJECTED) \
-+	ERRORCODE(EOWNERDEAD) \
-+	ERRORCODE(ENOTRECOVERABLE) \
-+	ERRORCODE(ERFKILL) \
-+	ERRORCODE(EHWPOISON) \
-+	ERRORCODE(ERESTARTSYS) \
-+	ERRORCODE(ERESTARTNOINTR) \
-+	ERRORCODE(ERESTARTNOHAND) \
-+	ERRORCODE(ENOIOCTLCMD) \
-+	ERRORCODE(ERESTART_RESTARTBLOCK) \
-+	ERRORCODE(EPROBE_DEFER) \
-+	ERRORCODE(EOPENSTALE) \
-+	ERRORCODE(ENOPARAM) \
-+	ERRORCODE(EBADHANDLE) \
-+	ERRORCODE(ENOTSYNC) \
-+	ERRORCODE(EBADCOOKIE) \
-+	ERRORCODE(ENOTSUPP) \
-+	ERRORCODE(ETOOSMALL) \
-+	ERRORCODE(ESERVERFAULT) \
-+	ERRORCODE(EBADTYPE) \
-+	ERRORCODE(EJUKEBOX) \
-+	ERRORCODE(EIOCBQUEUED) \
-+	ERRORCODE(ERECALLCONFLICT)
-+
-+#define ERRORCODE(x) 	case x: return #x;
-+
-+static const char *errint2errstr(int err)
-+{
-+	switch(-err) {
-+	ERRORCODES
-+	}
-+	return NULL;
-+}
-+#undef ERRORCODE
-+
-+static noinline_for_stack
-+char *errstr(char *buf, char *end, unsigned long long num,
-+	     struct printf_spec spec)
-+{
-+	const char *errstr = errint2errstr(num);
-+	static const struct printf_spec strspec = {
-+		.field_width = -1,
-+		.precision = 10,
-+		.flags = LEFT,
-+	};
-+
-+	if (!errstr) {
-+		/* fall back to ordinary number */
-+		return number(buf, end, num, spec);
-+	}
-+
-+	return string_nocheck(buf, end, errstr, strspec);
-+}
-+
- /* Make pointers available for printing early in the boot sequence. */
- static int debug_boot_weak_hash __ro_after_init;
- 
-@@ -2566,7 +2747,12 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
- 				num = va_arg(args, unsigned int);
- 			}
- 
--			str = number(str, end, num, spec);
-+			if (spec.type == FORMAT_TYPE_INT && *fmt == 'E') {
-+				fmt++;
-+				str = errstr(str, end, num, spec);
-+			} else {
-+				str = number(str, end, num, spec);
-+			}
- 		}
- 	}
- 
--- 
-2.23.0
+--jwtInlTtReE6F8boaNgP2AHgQvQKw2Qpp--
 
+--BokEtrlVHX9871h2J9KxIcMHLHUl7r1Jr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl1lnecACgkQwfwUeK3K
+7Akdegf/TpaxTAFH34q/DTJh9b+GX1JURnCD2bg5p7LeDDhpIoSIB293NbvFEn2x
+VcguWCCbbJTtpSYCW7dCe0msEAVmii05oVA+tLuqIGhjmEGExRWHHIfLp8zfideG
+gQkASZb09bAdDNeN5YG+SaoEqkhzQer2AHH3t5SQ2wl4za9PpeFgJmWHEiCSBjNu
+a22psXtvn/j4sk5DhWmJanQMvO+ZE6HGzAMcqpV6c8k4OQZIqrfXY+/J1rWDC7pL
+pPLGq6tnBzsf/p8iDdZ7bgvENdWHBlS3Wo+zhmpBJEOF0ki19lN6BY7K8HO2JQzR
+cVVSzYu8KcmvNb7wJ+Bp6JLWqBfwBw==
+=r2E0
+-----END PGP SIGNATURE-----
+
+--BokEtrlVHX9871h2J9KxIcMHLHUl7r1Jr--
