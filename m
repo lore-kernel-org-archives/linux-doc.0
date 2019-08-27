@@ -1,172 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A5487D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 02:37:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA0EE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 03:19:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbfH0Chd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Aug 2019 22:37:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34532 "EHLO mail.kernel.org"
+        id S1728668AbfH0DTl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Aug 2019 23:19:41 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60357 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726487AbfH0Chd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Aug 2019 22:37:33 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728345AbfH0DTl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Aug 2019 23:19:41 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC527206E0;
-        Tue, 27 Aug 2019 02:37:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566873452;
-        bh=1IV2CM6ErWuo3N+yfdMw51ZAbsWRy4I36btniWe1qIA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Q7Go3M99ctkACkffmRIl2U9APAA7HHwtwnMynerXPU5BSUSZR8Ru99vPmYSG2aJLa
-         VYMoQrvB097EzDzv3sL6Ia+UOUks4qbnXOu6opjr96OAci7grhSLeKJjw2DQHJXYCK
-         dRgXzahaJxb2PBjJQCuInQN+zjyswv+UYbfMBiFw=
-Date:   Tue, 27 Aug 2019 11:37:24 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 01/19] skc: Add supplemental kernel cmdline
- support
-Message-Id: <20190827113724.fa32ce580f5901004044d0f1@kernel.org>
-In-Reply-To: <CAL_Jsq+Pm4D_fm+iG9UfGSObx2fSXshZuMW4QKwGePbg4RUEjA@mail.gmail.com>
-References: <156678933823.21459.4100380582025186209.stgit@devnote2>
-        <156678934990.21459.10847677747264952252.stgit@devnote2>
-        <CAL_Jsq+Pm4D_fm+iG9UfGSObx2fSXshZuMW4QKwGePbg4RUEjA@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 46HYyL5HWHz9sBF;
+        Tue, 27 Aug 2019 13:19:38 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Hari Bathini <hbathini@linux.ibm.com>,
+        Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc:     mahesh@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v3] powerpc/fadump: sysfs for fadump memory reservation
+In-Reply-To: <f8e9cbdd-1926-081d-c8e6-f9d55408fe51@linux.ibm.com>
+References: <20190810175905.7761-1-sourabhjain@linux.ibm.com> <53311fa4-2cce-1eb6-1aae-0c835e06eb24@linux.ibm.com> <cf4fdb60-438c-bc4e-d759-1fbb27364c50@linux.ibm.com> <f53e4cfe-57cb-d8a6-385a-fa6243940573@linux.ibm.com> <f8e9cbdd-1926-081d-c8e6-f9d55408fe51@linux.ibm.com>
+Date:   Tue, 27 Aug 2019 13:19:35 +1000
+Message-ID: <87sgpn2t2w.fsf@concordia.ellerman.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Hari Bathini <hbathini@linux.ibm.com> writes:
+> On 26/08/19 4:14 PM, Sourabh Jain wrote:
+>> On 8/26/19 3:46 PM, Sourabh Jain wrote:
+>>> On 8/26/19 3:29 PM, Hari Bathini wrote:
+>>>> On 10/08/19 11:29 PM, Sourabh Jain wrote:
+>>>>> Add a sys interface to allow querying the memory reserved by
+>>>>> fadump for saving the crash dump.
+>>>>>
+>>>>> Add an ABI doc entry for new sysfs interface.
+>>>>>    - /sys/kernel/fadump_mem_reserved
+>>>>>
+>>>>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+>>>>> ---
+>>>>> Changelog:
+>>>>> v1 -> v2:
+>>>>>   - Added ABI doc for new sysfs interface.
+>>>>>
+>>>>> v2 -> v3:
+>>>>>   - Updated the ABI documentation.
+>>>>> ---
+>>>>>
+>>>>>  Documentation/ABI/testing/sysfs-kernel-fadump    |  6 ++++++
+>>>>
+>>>> Shouldn't this be Documentation/ABI/testing/sysfs-kernel-fadump_mem_reserved?
+>> 
+>> How about documenting fadump_mem_reserved and other sysfs attributes suggested
+>> by you in a single file Documentation/ABI/testing/sysfs-kernel-fadump?
+>
+> I wouldn't mind that but please do check if it is breaking a convention..
 
-Thank you for your comment!
+AIUI a file named like that would hold the documentation for the files
+inside a directory called /sys/kernel/fadump.
 
-On Mon, 26 Aug 2019 08:27:48 -0500
-Rob Herring <robh+dt@kernel.org> wrote:
+And in fact that's probably where these files should live, rather than
+just dropped directly into /sys/kernel.
 
-> On Sun, Aug 25, 2019 at 10:15 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> >
-> > Supplemental kernel command line (SKC) allows admin to pass a
-> > tree-structured supplemental kernel commandline file (SKC file)
-> > when boot up kernel. This expands the kernel command line in
-> > efficient way.
-> >
-> > SKC file will contain some key-value commands, e.g.
-> >
-> > key.word = value1;
-> > another.key.word = value2;
-> >
-> > It can fold same keys with braces, also you can write array
-> > data. For example,
-> >
-> > key {
-> >    word1 {
-> >       setting1 = data;
-> >       setting2;
-> >    }
-> >    word2.array = "val1", "val2";
-> > }
-> 
-> Why invent a custom file format? You could use YAML (or JSON):
-
-Yeah, actually my early idea was using JSON, since it is widely used and
-many good tools. However, I thought that is not human friendly format :(.
-I would like to give an easy to read/write but structured interface.
-
-> 
-> key:
->  word1:
->   setting1: data
->   setting2: true
->  word2:
->   - val1
->   - val2
-
-(Ah, in above example "array" is just a part of key, and is not
-a reserved word.)
-
-> That would allow you to define a schema for defined options and can
-> easily be manipulated with python (or any language with dictionaries
-> and lists). That does imply adding a YAML parser to the kernel which
-> I'm not sure is a great idea. There is a C parser lib, but working
-> with YAML in C is not that great compared to python.
-
-Yes, using plain YAML maybe requires user-space coverter to some
-other format.
-
-> 
-> Another option would be using the DTS format, but as a separate file.
-> That's not unprecedented as u-boot FIT image is a DTB. Then the kernel
-> already has the parser. And you could still have schema now.
-
-Yeah, that is what I consider at first. I discussed it with Frank at
-OSSJ, but he suggested to not use DTS, nor touch current parser in kernel.
-So I finally convinced not using DTS.
-
-> A new interface will take a lot of bootloader work to make it easy to
-> use given the user has to manually load some file in the bootloader
-> and know a good address to load it to.
-
-Right, that is what I have to do next if this is accepted. As I shown, I
-modified Qemu and Grub. (Since U-Boot is very flexible, it is easy to
-load skc file and modify bootargs by manual.)
-What I found was, since the bootloaders already supported loading DTB,
-it would not be so hard to add loading another file :)  (curiously, the
-most complicated part was modifying kernel cmdline)
-
-> Between that and rebuilding the
-> kernel with the configuration, I'd pick rebuilding the kernel. Perhaps
-> this version will highlight that the original proposal was not so bad.
-
-Maybe for embedded, yes. For admins who use vendor kernel, no.
-
-> Another thought, maybe you could process the configuration file that's
-> in a readable/editable format into a flat representation that could
-> simply be added to the kernel command line:
-
-(BTW, it is easy to make a flat representation data as you can see
-in /proc/sup_cmdline, which is added by [2/19])
-
-> 
-> key.word1.setting1=data key.word1.setting2 key.word2=val1,val2
-> 
-> That would then use an existing interface and probably simplify the
-> kernel parsing.
-
-Hmm, if it is just for passing extended arguments, that will be enough
-(that was my first version of SKC, here 
-https://github.com/mhiramat/skc/tree/5f0429c244d1c9f8f84711bc33e1e6f90df62df8 )
-
-But I found that was not enough flexible for my usage. For expressing
-complex ftrace settings (e.g. nesting options, some options related to
-other options etc.), I need tree-structured data, something like Devicetree. 
-
-Thank you,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+cheers
