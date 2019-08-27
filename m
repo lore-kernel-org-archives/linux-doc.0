@@ -1,123 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D603F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 12:17:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 68AA87D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 12:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728810AbfH0MRq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 08:17:46 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34969 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfH0MRq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 08:17:46 -0400
-Received: by mail-pg1-f196.google.com with SMTP id n4so12617084pgv.2;
-        Tue, 27 Aug 2019 05:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M1Igxvo01clEvfQnAlKc8g7MH2NPhkoAR4LaSiR0pRs=;
-        b=GKfBKw3D52+Xy/qWzQjGDH3QWIJHODnwZkm1akApr0LkuhNUohI1mb9gGCgPNeUhIb
-         MXncX0VnltPoGAllYM3+i1DN39V3WhwM4okw/0ZZmKgNqbfkrQnk4agg96+GAUVGifOV
-         GU8eIitNuu6MwiWxHjHSm6GILhJXmtCYFaHYeiJEDhViciRubgrXhGGdlufyaMDRIwTI
-         pXv4DhMbx5kMo68fs2EhNGF5CXVRmdm4iEXHL5FpiAphlaDazQb8h62LgsGHuFteLofb
-         LaH36pR9qI06StHW3Eg09JBASsBd2diSWMrfLYqyfqTELAXrfhaTtawN7QTqu79EZVnA
-         FCDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M1Igxvo01clEvfQnAlKc8g7MH2NPhkoAR4LaSiR0pRs=;
-        b=arIJ4TcfiXfU+2aVhvIzzW1ZtHo3BZz/2/iLsgc+LK3sG8P6QkcBSAwm1qZ42VYWec
-         0FTomBJWxy+rXQNEiePdGEUL/NCwD6nb2qthYZ73ZLPqdSaEhzYCc2pjqvpri1DB7/44
-         moDOzTg2R2Zoz4RVixeJN54XnUzlrarlYktm0IkwVeXaA3PZR5zM6Stn4aG2rvmCAHHg
-         pc2dnfkx3/kYb3lmHpxCHbEl++N+SOLz3glopZVG8KcBScLVXjzW6FdieuUmBgbe6aOf
-         78gEmUomVDhrruQISFaqYyxmSSDcltxktIX9vvafa0oEVyRyCoRpbTP2dtOGzQ6Sacbi
-         DI0Q==
-X-Gm-Message-State: APjAAAUSI4kadpHB5Fn7uVk4LEAKwZH5Z+6dXCyW/4iniKm5TOgHiX6l
-        pVKRHghm//4f3fUef5zCHGkDV0XUTaYVOsxtmMQ=
-X-Google-Smtp-Source: APXvYqyNVP7eTfGHr0vNdXoLRp87VeeH8daldujg3itfkr4XpFs5/WX66QGlRWGswR650VdAPNN74il5q9eRKSXEf08=
-X-Received: by 2002:a65:5043:: with SMTP id k3mr7999171pgo.406.1566908265675;
- Tue, 27 Aug 2019 05:17:45 -0700 (PDT)
+        id S1729091AbfH0MTv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 08:19:51 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:55980 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726596AbfH0MTu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 08:19:50 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7RC6odm017691;
+        Tue, 27 Aug 2019 14:19:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=STMicroelectronics;
+ bh=jmXRhIE8q+Sed7f9WiZAUW4GbJ4tUfk7sqSvhf1B3xw=;
+ b=tWSbMhUxOcUa7IXi/+0gVCq61TsIBEaiL01X4EURsI/nyBZg39ganAiugp279ZTR6Wp1
+ 9B999Prv5z3C6LXligMToI4Qp1j/zzFcvfJOH/0ZbQ72Qt1rCydaqAjlNBLgb9agrZoH
+ T6VfkLZw/ywI6PST2MAagFbtGgQRcAc1UBe+jQWPIUoORXRoARBuy/ICtcgkF21kTc4x
+ 1uWHEXHNX6pi5HobGjJvb+wxk87YbTg9O6zr8CaiD/thxQw7GMjxpINQM6rKWnhLAYxt
+ UAXzlK8Cc0sC5VeJUPnGqSB1kZFkYH5XIjU/54tdi7m7QSiQ+EvjiM6NviK7tRXJdBtE iQ== 
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2ujv4ksbxh-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Tue, 27 Aug 2019 14:19:37 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8E95353;
+        Tue, 27 Aug 2019 12:19:33 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag5node1.st.com [10.75.127.13])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 461EE2CA731;
+        Tue, 27 Aug 2019 14:19:33 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG5NODE1.st.com
+ (10.75.127.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Aug
+ 2019 14:19:32 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Tue, 27 Aug 2019 14:19:32 +0200
+From:   Gerald BAEZA <gerald.baeza@st.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Gerald BAEZA <gerald.baeza@st.com>
+Subject: [PATCH] Documentation: add link to stm32mp157 docs
+Thread-Topic: [PATCH] Documentation: add link to stm32mp157 docs
+Thread-Index: AQHVXNGu+WgWi0gJwE+sfJwWkTflzQ==
+Date:   Tue, 27 Aug 2019 12:19:32 +0000
+Message-ID: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20190819131737.26942-1-Tianyu.Lan@microsoft.com> <87ftlnm7o8.fsf@vitty.brq.redhat.com>
-In-Reply-To: <87ftlnm7o8.fsf@vitty.brq.redhat.com>
-From:   Tianyu Lan <lantianyu1986@gmail.com>
-Date:   Tue, 27 Aug 2019 20:17:35 +0800
-Message-ID: <CAOLK0pzXPG9tBnQoKGTSNHMwXXrEQ4zZH1uWn2F2mQ2ddVcoFA@mail.gmail.com>
-Subject: Re: [PATCH V3 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm <kvm@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        "linux-kernel@vger kernel org" <linux-kernel@vger.kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Radim Krcmar <rkrcmar@redhat.com>, corbet@lwn.net,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        michael.h.kelley@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-27_02:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 2:41 PM Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->
-> lantianyu1986@gmail.com writes:
->
-> > From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> >
-> > This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
-> > in L0 can delegate L1 hypervisor to handle tlb flush request from
-> > L2 guest when direct tlb flush is enabled in L1.
-> >
-> > Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
-> > feature from user space. User space should enable this feature only
-> > when Hyper-V hypervisor capability is exposed to guest and KVM profile
-> > is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
-> > We hope L2 guest doesn't use KVM hypercall when the feature is
-> > enabled. Detail please see comment of new API
-> > "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
->
-> I was thinking about this for awhile and I think I have a better
-> proposal. Instead of adding this new capability let's enable direct TLB
-> flush when KVM guest enables Hyper-V Hypercall page (writes to
-> HV_X64_MSR_HYPERCALL) - this guarantees that the guest doesn't need KVM
-> hypercalls as we can't handle both KVM-style and Hyper-V-style
-> hypercalls simultaneously and kvm_emulate_hypercall() does:
->
->         if (kvm_hv_hypercall_enabled(vcpu->kvm))
->                 return kvm_hv_hypercall(vcpu);
->
-> What do you think?
->
-> (and instead of adding the capability we can add kvm.ko module parameter
-> to enable direct tlb flush unconditionally, like
-> 'hv_direct_tlbflush=-1/0/1' with '-1' being the default (autoselect
-> based on Hyper-V hypercall enablement, '0' - permanently disabled, '1' -
-> permanenetly enabled)).
->
+Link to the online stm32mp157 documentation added
+in the overview.
 
-Hi Vitaly::
-     Actually, I had such idea before. But user space should check
-whether hv tlb flush
-is exposed to VM before enabling direct tlb flush. If no, user space
-should not direct
-tlb flush for guest since Hyper-V will do more check for each
-hypercall from nested
-VM with enabling the feauter..
+Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+---
+ Documentation/arm/stm32/stm32mp157-overview.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
--- 
-Best regards
-Tianyu Lan
+diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentatio=
+n/arm/stm32/stm32mp157-overview.rst
+index f62fdc8..8d5a476 100644
+--- a/Documentation/arm/stm32/stm32mp157-overview.rst
++++ b/Documentation/arm/stm32/stm32mp157-overview.rst
+@@ -14,6 +14,12 @@ It features:
+ - Standard connectivity, widely inherited from the STM32 MCU family
+ - Comprehensive security support
+=20
++Resources
++---------
++
++Datasheet and reference manual are publicly available on ST website:
++.. _STM32MP157: https://www.st.com/en/microcontrollers-microprocessors/stm=
+32mp157.html
++
+ :Authors:
+=20
+ - Ludovic Barre <ludovic.barre@st.com>
+--=20
+2.7.4
