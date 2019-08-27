@@ -3,100 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B5AA7D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 22:46:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08F117D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 23:11:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726044AbfH0Wqc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 18:46:32 -0400
-Received: from mga09.intel.com ([134.134.136.24]:33194 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725992AbfH0Wqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Aug 2019 18:46:32 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Aug 2019 15:46:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,439,1559545200"; 
-   d="scan'208";a="192396943"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by orsmga002.jf.intel.com with ESMTP; 27 Aug 2019 15:46:30 -0700
-Message-ID: <6c3dc33e16c8bbb6d45c0a6ec7c684de197fa065.camel@intel.com>
-Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Tue, 27 Aug 2019 15:37:12 -0700
-In-Reply-To: <20190823140233.GC2332@hirez.programming.kicks-ass.net>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-         <20190813205225.12032-12-yu-cheng.yu@intel.com>
-         <20190823140233.GC2332@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726030AbfH0XLB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 19:11:01 -0400
+Received: from smtprelay0211.hostedemail.com ([216.40.44.211]:34622 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726034AbfH0XLB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 19:11:01 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id DC4C818224D63;
+        Tue, 27 Aug 2019 23:10:59 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: form24_42aa91898ca32
+X-Filterd-Recvd-Size: 2375
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 27 Aug 2019 23:10:57 +0000 (UTC)
+Message-ID: <a828ba39477f1cfb8933b0e6cc704dfa6c315bcc.camel@perches.com>
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+From:   Joe Perches <joe@perches.com>
+To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 27 Aug 2019 16:10:56 -0700
+In-Reply-To: <59bfcf90-f7f8-4d55-b5bf-211f6ca67917@kleine-koenig.org>
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+         <04b021b263465c62628964ac402e15fd4cdc13a0.camel@perches.com>
+         <59bfcf90-f7f8-4d55-b5bf-211f6ca67917@kleine-koenig.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-08-23 at 16:02 +0200, Peter Zijlstra wrote:
-> On Tue, Aug 13, 2019 at 01:52:09PM -0700, Yu-cheng Yu wrote:
+On Tue, 2019-08-27 at 23:35 +0200, Uwe Kleine-König wrote:
+> Hello Joe,
 > 
-> > +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
-> > +{
-> > +	if (pte_flags(pte) & from)
-> > +		pte = pte_set_flags(pte_clear_flags(pte, from), to);
-> > +	return pte;
-> > +}
+> On 8/27/19 11:22 PM, Joe Perches wrote:
+> > On Tue, 2019-08-27 at 23:12 +0200, Uwe Kleine-König wrote:
+> > > The new format specifier %dE introduced with this patch pretty-prints
+> > > the typical negative error values. So
+> > > 
+> > > 	pr_info("probing failed (%dE)\n", ret);
+> > > 
+> > > yields
+> > > 
+> > > 	probing failed (EIO)
+> > > 
+> > > if ret holds -EIO. This is easier to understand than the for now common
+> > > 
+> > > 	probing failed (-5)
+> > 
+> > I suggest using both outputs like '-5 -EIO'
+> > rather than a single string
 > 
-> Aside of the whole conditional thing (I agree it would be better to have
-> this unconditionally); the function doesn't really do as advertised.
+> I like it the way it is implemented as it is more flexible. If you want
+> to see both, you can still do
 > 
-> That is, if @from is clear, it doesn't endeavour to make sure @to is
-> also clear.
+> 	pr_info("probing failed (%d %dE)\n", ret, ret);
 > 
-> Now it might be sufficient, but in that case it really needs a comment
-> and or different name.
-> 
-> An implementation that actually moves the bit is something like:
-> 
-> 	pteval_t a,b;
-> 
-> 	a = native_pte_value(pte);
-> 	b = (a >> from_bit) & 1;
-> 	a &= ~((1ULL << from_bit) | (1ULL << to_bit));
-> 	a |= b << to_bit;
-> 	return make_native_pte(a);
+> and people (like me) who think that giving only EIO can still do just that.
 
-There can be places calling pte_wrprotect() on a PTE that is already RO +
-DIRTY_SW.  Then in pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW) we do not
- want to clear _PAGE_DIRTY_SW.  But, I will look into this and make it more
-obvious.
+<shrug>  Up to you.  Just a suggestion.
 
-Thanks,
-Yu-cheng  
+btw:
+
+The test for %<dixu>E (FORMAT_TYPE_INT)
+should probably include a test for
+
+(spec->flags & SIGN)
+
+so that it only is used for %d and %i and
+disregarded for %x and %u
+
+
