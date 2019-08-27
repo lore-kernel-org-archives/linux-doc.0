@@ -3,87 +3,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A86F87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 13:30:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D023A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 13:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbfH0Nav (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 09:30:51 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:43700 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbfH0Nav (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 09:30:51 -0400
-Received: from p5de0b6c5.dip0.t-ipconnect.de ([93.224.182.197] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1i2bYN-0006N9-RX; Tue, 27 Aug 2019 15:30:31 +0200
-Date:   Tue, 27 Aug 2019 15:30:30 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Pavel Machek <pavel@denx.de>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chen Yu <yu.c.chen@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
+        id S1726257AbfH0Ns1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 09:48:27 -0400
+Received: from ms.lwn.net ([45.79.88.28]:37120 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725825AbfH0Ns1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Aug 2019 09:48:27 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 70A72537;
+        Tue, 27 Aug 2019 13:48:26 +0000 (UTC)
+Date:   Tue, 27 Aug 2019 07:48:25 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Gerald BAEZA <gerald.baeza@st.com>
+Cc:     "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH 4.19 72/98] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-In-Reply-To: <20190827113604.GB18218@amd>
-Message-ID: <alpine.DEB.2.21.1908271525480.1939@nanos.tec.linutronix.de>
-References: <20190827072718.142728620@linuxfoundation.org> <20190827072722.020603090@linuxfoundation.org> <20190827113604.GB18218@amd>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: add link to stm32mp157 docs
+Message-ID: <20190827074825.64a28e88@lwn.net>
+In-Reply-To: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
+References: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Aug 2019, Pavel Machek wrote:
+On Tue, 27 Aug 2019 12:19:32 +0000
+Gerald BAEZA <gerald.baeza@st.com> wrote:
 
-> On Tue 2019-08-27 09:50:51, Greg Kroah-Hartman wrote:
-> > From: Tom Lendacky <thomas.lendacky@amd.com>
-> > 
-> > commit c49a0a80137c7ca7d6ced4c812c9e07a949f6f24 upstream.
-> > 
-> > There have been reports of RDRAND issues after resuming from suspend on
-> > some AMD family 15h and family 16h systems. This issue stems from a BIOS
-> > not performing the proper steps during resume to ensure RDRAND continues
-> > to function properly.
+> Link to the online stm32mp157 documentation added
+> in the overview.
 > 
-> Yes. And instead of reinitializing the RDRAND on resume, this patch
-> breaks support even for people with properly functioning BIOSes...
+> Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+> ---
+>  Documentation/arm/stm32/stm32mp157-overview.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
+> index f62fdc8..8d5a476 100644
+> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
+> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
+> @@ -14,6 +14,12 @@ It features:
+>  - Standard connectivity, widely inherited from the STM32 MCU family
+>  - Comprehensive security support
+>  
+> +Resources
+> +---------
+> +
+> +Datasheet and reference manual are publicly available on ST website:
+> +.. _STM32MP157: https://www.st.com/en/microcontrollers-microprocessors/stm32mp157.html
+> +
 
-There is no way to reinitialize RDRAND from the kernel otherwise we would
-have exactly done that. If you know how to do that please tell.
-
-Also disabling it for every BIOS is the only way which can be done because
-there is no way to know whether the BIOS is fixed or not at cold boot
-time. And it has to be known there because applications cache the
-availablity and continue using it after resume and because the valid bit is
-set they wont notice.
-
-There is a know to turn it back on for those who are sure that it works,
-but the default has to be: OFF simply because we cannot endanger everyone
-out there with a broken BIOS just to please you.
+Adding the URL is a fine idea.  But you don't need the extra syntax to
+create a link if you're not going to actually make a link out of it.  So
+I'd take the ".. _STM32MP157:" part out and life will be good.
 
 Thanks,
 
-	tglx
+jon
