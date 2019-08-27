@@ -1,259 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 440EA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 12:46:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FCEA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 13:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729756AbfH0MqE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 08:46:04 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5669 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726170AbfH0MqE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Aug 2019 08:46:04 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 041F6D3CA078F0D5976C;
-        Tue, 27 Aug 2019 20:45:57 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Tue, 27 Aug 2019
- 20:45:45 +0800
-Subject: Re: [PATCH v3 10/10] arm64: Retrieve stolen time as paravirtualized
- guest
-To:     Steven Price <steven.price@arm.com>, Marc Zyngier <maz@kernel.org>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>
-CC:     <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        <linux-kernel@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20190821153656.33429-1-steven.price@arm.com>
- <20190821153656.33429-11-steven.price@arm.com>
- <6040a45c-fc39-a33e-c6a4-7baa586c247c@huawei.com>
- <29cd1304-6b4d-05ef-3c08-6b4ba769c8fa@arm.com>
-From:   Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <21c73195-4cf7-8e3f-f188-ba8bfcb4dd41@huawei.com>
-Date:   Tue, 27 Aug 2019 20:43:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
+        id S1729970AbfH0NHn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 09:07:43 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:47058 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729770AbfH0NHm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 09:07:42 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q139so14072552pfc.13;
+        Tue, 27 Aug 2019 06:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0p0/hlezeGt/XbIcoNDfHR/8GDIxHTpZEoMAoi00kVo=;
+        b=lwwkBmUDxvrSWCOKfQtDd9u6cFOILblaRkNEidKKOyHtBc3Y4yvbvqiAfXUh9n5TxK
+         tBQqsvPhhXlqFv27/EfIqNoSw+t2qirVwqVRtLAvq0fTNWgjVVVvpyrXZdxiFJ9WpKsN
+         0eA/xKIyBetTXLQg2hSC39JBJi0wrpM9HJzX+VU62MNye6pZ3X0t0ExlRrwAQRbZZG01
+         v7RWCShBtjCUsTu62FtRb/YPo3PP+tpoiJ+AwqTFC06wZfVgr7UXghWE6YBz6A4j1krm
+         7Rdq7VXhwciuSiWFHQzdrNjspRnGxpIR21uJHy30f2gDBWemnvnx6etM25pY7UzXQZ31
+         hoPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0p0/hlezeGt/XbIcoNDfHR/8GDIxHTpZEoMAoi00kVo=;
+        b=LWkXurlSpoNv23QWUS1DWgnFYto4noncFRsADRe5hTzemz12+eIAzgjzS51uw0ppfJ
+         V9e4DXv3K9npEOfPlAb5MI7p2Dy9nsk/N91ujPyhs1RbJCtLh8327arjXQB8UF3+1rHK
+         16SmKSG0qZPoeKxUgbeGEbNYIDriJ38Ad7BrRH1GINMvwK+2tK5K2MQV+Hr+X7Mpmwwr
+         jk1JG9iUc19mvXsM9dviASRdDaseDNQUciMgttE553QK3aB1z9bHRWvIxfHEot0DFR8m
+         kFSpSuPHcgjYhTsImGve3yK2yxxIDTfI4+saUzHtY9vUsNfBqHXiHmGU4kSd1WNd0N1Z
+         /cqw==
+X-Gm-Message-State: APjAAAU6xf/BAT4DJjH4ifHxkinnp0T7xpskV5woE8lGU5xcwcLFCcPB
+        ObJ02Foy5A+WI3NFL8OBSWFZSG80f7ozv0sJgw8=
+X-Google-Smtp-Source: APXvYqxAXZc5R1W4+GvI1l4xx6Dj+UN3D4K2f77cZLskNZQvJNdFEJBSLNSa8RtTkr5L5dehnyQJBOMTR9EYrEDpjOs=
+X-Received: by 2002:a62:8343:: with SMTP id h64mr24990152pfe.170.1566911262160;
+ Tue, 27 Aug 2019 06:07:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <29cd1304-6b4d-05ef-3c08-6b4ba769c8fa@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
+References: <20190819131737.26942-1-Tianyu.Lan@microsoft.com>
+ <87ftlnm7o8.fsf@vitty.brq.redhat.com> <CAOLK0pzXPG9tBnQoKGTSNHMwXXrEQ4zZH1uWn2F2mQ2ddVcoFA@mail.gmail.com>
+ <87v9uilr5x.fsf@vitty.brq.redhat.com>
+In-Reply-To: <87v9uilr5x.fsf@vitty.brq.redhat.com>
+From:   Tianyu Lan <lantianyu1986@gmail.com>
+Date:   Tue, 27 Aug 2019 21:07:32 +0800
+Message-ID: <CAOLK0py2rvYkLPP9uQ6Q7y31Btu4XOsWr3Vsk6GtUDWvg5uUOg@mail.gmail.com>
+Subject: Re: [PATCH V3 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm <kvm@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        "linux-kernel@vger kernel org" <linux-kernel@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Radim Krcmar <rkrcmar@redhat.com>, corbet@lwn.net,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        michael.h.kelley@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/8/23 22:22, Steven Price wrote:
-> On 23/08/2019 12:45, Zenghui Yu wrote:
->> Hi Steven,
->>
->> On 2019/8/21 23:36, Steven Price wrote:
->>> Enable paravirtualization features when running under a hypervisor
->>> supporting the PV_TIME_ST hypercall.
->>>
->>> For each (v)CPU, we ask the hypervisor for the location of a shared
->>> page which the hypervisor will use to report stolen time to us. We set
->>> pv_time_ops to the stolen time function which simply reads the stolen
->>> value from the shared page for a VCPU. We guarantee single-copy
->>> atomicity using READ_ONCE which means we can also read the stolen
->>> time for another VCPU than the currently running one while it is
->>> potentially being updated by the hypervisor.
->>>
->>> Signed-off-by: Steven Price <steven.price@arm.com>
->>> ---
->>>    arch/arm64/include/asm/paravirt.h |   9 +-
->>>    arch/arm64/kernel/paravirt.c      | 148 ++++++++++++++++++++++++++++++
->>>    arch/arm64/kernel/time.c          |   3 +
->>>    include/linux/cpuhotplug.h        |   1 +
->>>    4 files changed, 160 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/arm64/include/asm/paravirt.h
->>> b/arch/arm64/include/asm/paravirt.h
->>> index 799d9dd6f7cc..125c26c42902 100644
->>> --- a/arch/arm64/include/asm/paravirt.h
->>> +++ b/arch/arm64/include/asm/paravirt.h
->>> @@ -21,6 +21,13 @@ static inline u64 paravirt_steal_clock(int cpu)
->>>    {
->>>        return pv_ops.time.steal_clock(cpu);
->>>    }
->>> -#endif
->>> +
->>> +int __init kvm_guest_init(void);
->>> +
->>> +#else
->>> +
->>> +#define kvm_guest_init()
->>> +
->>> +#endif // CONFIG_PARAVIRT
->>>      #endif
->>> diff --git a/arch/arm64/kernel/paravirt.c b/arch/arm64/kernel/paravirt.c
->>> index 4cfed91fe256..ea8dbbbd3293 100644
->>> --- a/arch/arm64/kernel/paravirt.c
->>> +++ b/arch/arm64/kernel/paravirt.c
->>> @@ -6,13 +6,161 @@
->>>     * Author: Stefano Stabellini <stefano.stabellini@eu.citrix.com>
->>>     */
->>>    +#define pr_fmt(fmt) "kvmarm-pv: " fmt
->>> +
->>> +#include <linux/arm-smccc.h>
->>> +#include <linux/cpuhotplug.h>
->>>    #include <linux/export.h>
->>> +#include <linux/io.h>
->>>    #include <linux/jump_label.h>
->>> +#include <linux/printk.h>
->>> +#include <linux/psci.h>
->>> +#include <linux/reboot.h>
->>> +#include <linux/slab.h>
->>>    #include <linux/types.h>
->>> +
->>>    #include <asm/paravirt.h>
->>> +#include <asm/pvclock-abi.h>
->>> +#include <asm/smp_plat.h>
->>>      struct static_key paravirt_steal_enabled;
->>>    struct static_key paravirt_steal_rq_enabled;
->>>      struct paravirt_patch_template pv_ops;
->>>    EXPORT_SYMBOL_GPL(pv_ops);
->>> +
->>> +struct kvmarm_stolen_time_region {
->>> +    struct pvclock_vcpu_stolen_time *kaddr;
->>> +};
->>> +
->>> +static DEFINE_PER_CPU(struct kvmarm_stolen_time_region,
->>> stolen_time_region);
->>> +
->>> +static bool steal_acc = true;
->>> +static int __init parse_no_stealacc(char *arg)
->>> +{
->>> +    steal_acc = false;
->>> +    return 0;
->>> +}
->>> +
->>> +early_param("no-steal-acc", parse_no_stealacc);
->>> +
->>> +/* return stolen time in ns by asking the hypervisor */
->>> +static u64 kvm_steal_clock(int cpu)
->>> +{
->>> +    struct kvmarm_stolen_time_region *reg;
->>> +
->>> +    reg = per_cpu_ptr(&stolen_time_region, cpu);
->>> +    if (!reg->kaddr) {
->>> +        pr_warn_once("stolen time enabled but not configured for cpu
->>> %d\n",
->>> +                 cpu);
->>> +        return 0;
->>> +    }
->>> +
->>> +    return le64_to_cpu(READ_ONCE(reg->kaddr->stolen_time));
->>> +}
->>> +
->>> +static int disable_stolen_time_current_cpu(void)
->>> +{
->>> +    struct kvmarm_stolen_time_region *reg;
->>> +
->>> +    reg = this_cpu_ptr(&stolen_time_region);
->>> +    if (!reg->kaddr)
->>> +        return 0;
->>> +
->>> +    memunmap(reg->kaddr);
->>> +    memset(reg, 0, sizeof(*reg));
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int stolen_time_dying_cpu(unsigned int cpu)
->>> +{
->>> +    return disable_stolen_time_current_cpu();
->>> +}
->>> +
->>> +static int init_stolen_time_cpu(unsigned int cpu)
->>> +{
->>> +    struct kvmarm_stolen_time_region *reg;
->>> +    struct arm_smccc_res res;
->>> +
->>> +    reg = this_cpu_ptr(&stolen_time_region);
->>> +
->>> +    arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_TIME_ST, &res);
->>> +
->>> +    if ((long)res.a0 < 0)
->>> +        return -EINVAL;
->>> +
->>> +    reg->kaddr = memremap(res.a0,
->>> +                  sizeof(struct pvclock_vcpu_stolen_time),
->>> +                  MEMREMAP_WB);
->>
->> cpuhp callbacks can be invoked in atomic context (see:
->>      secondary_start_kernel ->
->>      notify_cpu_starting ->
->>      invoke callbacks),
->> but memremap might sleep...
->>
->> Try to run a DEBUG_ATOMIC_SLEEP enabled PV guest, I guess we will be
->> greeted by the Sleep-in-Atomic-Context BUG.  We need an alternative
->> here?
-> 
-> Actually I had run DEBUG_ATOMIC_SLEEP and not seen any issue. But I
-> think that's because of the way I've configured the region in my kvmtool
-> changes. I'm hitting the path where the memory region is in the linear
-> map of the kernel and so no actual remapping is needed and hence
-> memremap doesn't sleep (the shared structure is in a reserved region of
-> RAM).
-> 
-> But even changing the memory layout of the guest so the call goes into
-> ioremap_page_range() (which contains a might_sleep()) I'm not seeing any
-> problems.
+On Tue, Aug 27, 2019 at 8:38 PM Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>
+> Tianyu Lan <lantianyu1986@gmail.com> writes:
+>
+> > On Tue, Aug 27, 2019 at 2:41 PM Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+> >>
+> >> lantianyu1986@gmail.com writes:
+> >>
+> >> > From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> >> >
+> >> > This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+> >> > in L0 can delegate L1 hypervisor to handle tlb flush request from
+> >> > L2 guest when direct tlb flush is enabled in L1.
+> >> >
+> >> > Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+> >> > feature from user space. User space should enable this feature only
+> >> > when Hyper-V hypervisor capability is exposed to guest and KVM profile
+> >> > is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+> >> > We hope L2 guest doesn't use KVM hypercall when the feature is
+> >> > enabled. Detail please see comment of new API
+> >> > "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+> >>
+> >> I was thinking about this for awhile and I think I have a better
+> >> proposal. Instead of adding this new capability let's enable direct TLB
+> >> flush when KVM guest enables Hyper-V Hypercall page (writes to
+> >> HV_X64_MSR_HYPERCALL) - this guarantees that the guest doesn't need KVM
+> >> hypercalls as we can't handle both KVM-style and Hyper-V-style
+> >> hypercalls simultaneously and kvm_emulate_hypercall() does:
+> >>
+> >>         if (kvm_hv_hypercall_enabled(vcpu->kvm))
+> >>                 return kvm_hv_hypercall(vcpu);
+> >>
+> >> What do you think?
+> >>
+> >> (and instead of adding the capability we can add kvm.ko module parameter
+> >> to enable direct tlb flush unconditionally, like
+> >> 'hv_direct_tlbflush=-1/0/1' with '-1' being the default (autoselect
+> >> based on Hyper-V hypercall enablement, '0' - permanently disabled, '1' -
+> >> permanenetly enabled)).
+> >>
+> >
+> > Hi Vitaly::
+> >      Actually, I had such idea before. But user space should check
+> > whether hv tlb flush
+> > is exposed to VM before enabling direct tlb flush. If no, user space
+> > should not direct
+> > tlb flush for guest since Hyper-V will do more check for each
+> > hypercall from nested
+> > VM with enabling the feauter..
+>
+> If TLB Flush enlightenment is not exposed to the VM at all there's no
+> difference if we enable direct TLB flush in eVMCS or not: the guest
+> won't be using 'TLB Flush' hypercall and will do TLB flushing with
+> IPIs. And, in case the guest enables Hyper-V hypercall page, it is
+> definitelly not going to use KVM hypercalls so we can't break these.
+>
 
-Emm, I hit this SAC BUG when testing your V1 with the kvmtool changes
-you've provided, but forgot to report it at that time.  I go back to V1
-and get the following call trace:
+Yes, this won't tigger KVM/Hyper-V hypercall conflict. My point is
+that if tlb flush enlightenment is not enabled, enabling direct tlb
+flush will not accelate anything and Hyper-V still will check each
+hypercalls from nested VM in order to intercpt tlb flush hypercall
+But guest won't use tlb flush hypercall in this case. The check
+of each hypercall in Hyper-V is redundant. We may avoid the
+overhead via checking status of tlb flush enlightenment and just
+enable direct tlb flush when it's enabled.
 
-[    0.120113] BUG: sleeping function called from invalid context at 
-mm/slab.h:501
-[    0.120118] in_atomic(): 1, irqs_disabled(): 128, pid: 0, name: swapper/1
-[    0.120122] no locks held by swapper/1/0.
-[    0.120126] irq event stamp: 0
-[    0.120135] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-[    0.120145] hardirqs last disabled at (0): [<ffff200010113b40>] 
-copy_process+0x870/0x2878
-[    0.120152] softirqs last  enabled at (0): [<ffff200010113b40>] 
-copy_process+0x870/0x2878
-[    0.120157] softirqs last disabled at (0): [<0000000000000000>] 0x0
-[    0.120164] CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.3.0-rc6+ #2
-[    0.120168] Hardware name: linux,dummy-virt (DT)
-[    0.120173] Call trace:
-[    0.120179]  dump_backtrace+0x0/0x250
-[    0.120184]  show_stack+0x24/0x30
-[    0.120192]  dump_stack+0x120/0x174
-[    0.120198]  ___might_sleep+0x1b0/0x280
-[    0.120203]  __might_sleep+0x80/0xf0
-[    0.120209]  kmem_cache_alloc_node_trace+0x30c/0x3c8
-[    0.120216]  __get_vm_area_node+0x9c/0x208
-[    0.120221]  get_vm_area_caller+0x58/0x68
-[    0.120227]  __ioremap_caller+0x78/0x120
-[    0.120233]  ioremap_cache+0xf0/0x1a8
-[    0.120240]  memremap+0x154/0x3b8
-[    0.120245]  init_stolen_time_cpu+0x94/0x150
-[    0.120251]  cpuhp_invoke_callback+0x12c/0x12f8
-[    0.120257]  notify_cpu_starting+0xa0/0xc0
-[    0.120263]  secondary_start_kernel+0x1d4/0x328
-
-But things may have changed because we're talking about V3 now...
-I will dig it a bit deeper.
-
-> Am I missing something? I have to admit I don't entirely follow the
-> early start up - perhaps it's a simple as DEBUG_ATOMIC_SLEEP doesn't
-> work this early in boot?
-
-I think it should work.
-
-
-Thanks,
-zenghui
-
+---
+Best regards
+Tianyu Lan
