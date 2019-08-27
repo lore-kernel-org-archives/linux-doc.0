@@ -3,88 +3,182 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 948437D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 08:36:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D38E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Aug 2019 08:44:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729252AbfH0Igu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 04:36:50 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34951 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729047AbfH0Igu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 04:36:50 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 100so7135156otn.2;
-        Tue, 27 Aug 2019 01:36:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gy8QSlZb4lT6kTyFQW393XSRIZRR//dSxSXR0M5umDw=;
-        b=rseanfH3ezo2KyfQXe+UxVzRFtUFb7MgWbYH4F2I3+n6RVT053q/cV97RevehWNGN9
-         ftf+CE4XyxJgWsuEx56SE+T+NhTrixLBOiFn0c0ynd0LNDhTGHJt94cc7KYMVH/9XKtN
-         5Kk01RGgF6RjXEyvI5lEMgVd3QeuRfL52qc+wh9Sc3z2Plg+wsz6nQJeVOuJQfSGjE8G
-         /5EHcIIPBOd+xZF20tQV6+9VmENXgw38pr4h+uixJZv6zfJUceG7JoU78DUy5pVBKLBw
-         5VyDeNUcYqQdLscaLC8/s3QihVNV6SPgQ9XHV9Eejfb+ENrD/ZgSDSr/L8GyFFQgwVoJ
-         onbg==
-X-Gm-Message-State: APjAAAURvYakp9bMeOtxnJfFeRo7hBsu55Fa49WYt4BykD/Rgn8xTRVN
-        gO9ttOPjk9UF16CZt2FDF7f+B4y0XsDj4VrX/T8=
-X-Google-Smtp-Source: APXvYqwqr+4C8z0AckmhxVmMT1WH0NiPgJPn7BzlKjPtLP4Os4b98pJGuuNkYsXNVKyLkpOOnfzy1tcfnDVwRgf1Xao=
-X-Received: by 2002:a9d:2cc:: with SMTP id 70mr15907270otl.145.1566895009070;
- Tue, 27 Aug 2019 01:36:49 -0700 (PDT)
+        id S1726392AbfH0IoK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 04:44:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:40976 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725912AbfH0IoJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Aug 2019 04:44:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF7B9337;
+        Tue, 27 Aug 2019 01:44:08 -0700 (PDT)
+Received: from localhost (e113682-lin.copenhagen.arm.com [10.32.144.41])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6222B3F246;
+        Tue, 27 Aug 2019 01:44:08 -0700 (PDT)
+Date:   Tue, 27 Aug 2019 10:44:07 +0200
+From:   Christoffer Dall <christoffer.dall@arm.com>
+To:     Steven Price <steven.price@arm.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 01/10] KVM: arm64: Document PV-time interface
+Message-ID: <20190827084407.GA6541@e113682-lin.lund.arm.com>
+References: <20190821153656.33429-1-steven.price@arm.com>
+ <20190821153656.33429-2-steven.price@arm.com>
 MIME-Version: 1.0
-References: <20190826195740.29415-1-peda@axentia.se> <20190826195740.29415-3-peda@axentia.se>
-In-Reply-To: <20190826195740.29415-3-peda@axentia.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Aug 2019 10:36:38 +0200
-Message-ID: <CAMuHMdVx77aOyUVhZ2_N76VAP+AJ3X8w-gdHLjnjUEeRKcZmOA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] fbdev: fbmem: allow overriding the number of
- bootup logos
-To:     Peter Rosin <peda@axentia.se>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190821153656.33429-2-steven.price@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter,
-
-On Mon, Aug 26, 2019 at 10:46 PM Peter Rosin <peda@axentia.se> wrote:
-> Probably most useful if you only want one logo regardless of how many
-> CPU cores you have.
->
-> Signed-off-by: Peter Rosin <peda@axentia.se>
-
-Thanks for your patch!
-
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -174,6 +174,11 @@ C. Boot options
->         displayed due to multiple CPUs, the collected line of logos is moved
->         as a whole.
->
-> +9. fbcon=logo-count:<n>
+On Wed, Aug 21, 2019 at 04:36:47PM +0100, Steven Price wrote:
+> Introduce a paravirtualization interface for KVM/arm64 based on the
+> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+> 
+> This only adds the details about "Stolen Time" as the details of "Live
+> Physical Time" have not been fully agreed.
+> 
+> User space can specify a reserved area of memory for the guest and
+> inform KVM to populate the memory with information on time that the host
+> kernel has stolen from the guest.
+> 
+> A hypercall interface is provided for the guest to interrogate the
+> hypervisor's support for this interface and the location of the shared
+> memory structures.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  Documentation/virt/kvm/arm/pvtime.txt | 100 ++++++++++++++++++++++++++
+>  1 file changed, 100 insertions(+)
+>  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
+> 
+> diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
+> new file mode 100644
+> index 000000000000..1ceb118694e7
+> --- /dev/null
+> +++ b/Documentation/virt/kvm/arm/pvtime.txt
+> @@ -0,0 +1,100 @@
+> +Paravirtualized time support for arm64
+> +======================================
 > +
-> +       The value 'n' overrides the number of bootup logos. Zero gives the
-> +       default, which is the number of online cpus.
+> +Arm specification DEN0057/A defined a standard for paravirtualised time
+> +support for AArch64 guests:
+> +
+> +https://developer.arm.com/docs/den0057/a
+> +
+> +KVM/arm64 implements the stolen time part of this specification by providing
+> +some hypervisor service calls to support a paravirtualized guest obtaining a
+> +view of the amount of time stolen from its execution.
+> +
+> +Two new SMCCC compatible hypercalls are defined:
+> +
+> +PV_FEATURES 0xC5000020
+> +PV_TIME_ST  0xC5000022
+> +
+> +These are only available in the SMC64/HVC64 calling convention as
+> +paravirtualized time is not available to 32 bit Arm guests. The existence of
+> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
+> +mechanism before calling it.
+> +
+> +PV_FEATURES
+> +    Function ID:  (uint32)  : 0xC5000020
+> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
+> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+> +                              PV-time feature is supported by the hypervisor.
+> +
+> +PV_TIME_ST
+> +    Function ID:  (uint32)  : 0xC5000022
+> +    Return value: (int64)   : IPA of the stolen time data structure for this
+> +                              (V)CPU. On failure:
+> +                              NOT_SUPPORTED (-1)
+> +
+> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+> +with inner and outer write back caching attributes, in the inner shareable
+> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+> +meaningfully filled by the hypervisor (see structure below).
+> +
+> +PV_TIME_ST returns the structure for the calling VCPU.
+> +
+> +Stolen Time
+> +-----------
+> +
+> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+> +
+> +  Field       | Byte Length | Byte Offset | Description
+> +  ----------- | ----------- | ----------- | --------------------------
+> +  Revision    |      4      |      0      | Must be 0 for version 0.1
+> +  Attributes  |      4      |      4      | Must be 0
+> +  Stolen time |      8      |      8      | Stolen time in unsigned
+> +              |             |             | nanoseconds indicating how
+> +              |             |             | much time this VCPU thread
+> +              |             |             | was involuntarily not
+> +              |             |             | running on a physical CPU.
+> +
+> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
+> +will be present within a reserved region of the normal memory given to the
+> +guest. The guest should not attempt to write into this memory. There is a
+> +structure per VCPU of the guest.
+> +
+> +User space interface
+> +====================
+> +
+> +User space can request that KVM provide the paravirtualized time interface to
+> +a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
+> +
 
-Isn't that a bit unexpected for the user?
-What about making -1 the default (auto), and zero meaning no logos?
+I feel it would be more consistent to have the details of this in
+Documentation/virt/kvm/devices/arm-pv-time.txt and refer to this
+document from here.
 
-Gr{oetje,eeting}s,
+> +    struct kvm_create_device pvtime_device = {
+> +            .type = KVM_DEV_TYPE_ARM_PV_TIME,
+> +            .attr = 0,
+> +            .flags = 0,
+> +    };
+> +
+> +    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
+> +
+> +Creation of the device should be done after creating the vCPUs of the virtual
+> +machine.
+> +
+> +The IPA of the structures must be given to KVM. This is the base address
+> +of an array of stolen time structures (one for each VCPU). The base address
+> +must be page aligned. The size must be at least 64 * number of VCPUs and be a
+> +multiple of PAGE_SIZE.
+> +
+> +The memory for these structures should be added to the guest in the usual
+> +manner (e.g. using KVM_SET_USER_MEMORY_REGION).
+> +
+> +For example:
+> +
+> +    struct kvm_dev_arm_st_region region = {
+> +            .gpa = <IPA of guest base address>,
+> +            .size = <size in bytes>
+> +    };
+> +
+> +    struct kvm_device_attr st_base = {
+> +            .group = KVM_DEV_ARM_PV_TIME_PADDR,
+> +            .attr = KVM_DEV_ARM_PV_TIME_ST,
+> +            .addr = (u64)&region
+> +    };
+> +
+> +    ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
+> -- 
+> 2.20.1
+> 
 
-                        Geert
+Thanks,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+    Christoffer
