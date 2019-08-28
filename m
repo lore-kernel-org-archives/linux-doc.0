@@ -1,209 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 964EE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 14:10:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFC2E7D91B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 14:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfH1OKA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 10:10:00 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34502 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726457AbfH1OKA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 10:10:00 -0400
-Received: by mail-pf1-f194.google.com with SMTP id b24so1828509pfp.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 07:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VZRhNAxweazD8NBV7eTpA6CYJ/gd+z7Ql9WdGyX+FwE=;
-        b=GBbT5UQ7j3ObgzNNU7cgMooQCCCx3dRxBHnZqv1rFtHUA2POQnoDDQsvAbZyCl/cwf
-         SJVF1fxU7Fh/6Jci262clcMHzRVM+GP2ao39pPIEJrIcw/mDLPyMyRd4+66KT2/3A9Sy
-         PRos7CgZ5HzSpKREFBlGsJooDNCVvYNec7KlI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VZRhNAxweazD8NBV7eTpA6CYJ/gd+z7Ql9WdGyX+FwE=;
-        b=S1Wg2pqdKMywoirqXtM3/MofAQuLtS/IQwaPJFQrUhXXeAPT9S1OM1Y9eyekNFWc5g
-         JjRjAezHIClRUxM3z+0pAKtoDpXlhyjPUwfC7n4nNmnuoHXHb9rtYZUbKyOa00DxvE/g
-         m5SaVLjtQfExa/hLO6LUmOd0DoVgzW4o4+k4MWy0369KtdE53a4JRq3hRkOwRMZhVgIp
-         Yu0jMWwoKnOi1bFlMacbTSrB/3Qi4ghvf6m3M8NVQKOHMV87oPDN6g9glBwCZUemD+q9
-         +IujLADXUCWfQK/VNqYOz0VcrWN1kHqmxxmO7Q2zhMZ0LIbN0NXUT9t1JpDKlInNG4C/
-         zbXA==
-X-Gm-Message-State: APjAAAUuduAbq/mSZHh0U2zuSLPyDGhwEpdOYcg0eRY748njpA9hvtiy
-        XTeEkXtplmia47mSkdqzjNcY5g==
-X-Google-Smtp-Source: APXvYqzvdFe17PVHbUCFnJwUB7HFOOAdpLphkVC6hDocrD+EALSi3m1Fl5NCIiZY36dfgBic1u3gug==
-X-Received: by 2002:a17:90a:326e:: with SMTP id k101mr4660392pjb.15.1567001399024;
-        Wed, 28 Aug 2019 07:09:59 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id w2sm4550209pjr.27.2019.08.28.07.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2019 07:09:58 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        "Paul E . McKenney" <paulmck@linux.ibm.com>,
-        byungchul.park@lge.com, Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        kernel-team@android.com
-Subject: [PATCH v2] rcu/tree: Add multiple in-flight batches of kfree_rcu work
-Date:   Wed, 28 Aug 2019 10:09:52 -0400
-Message-Id: <20190828140952.258739-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-In-Reply-To: <5d657e35.1c69fb81.54250.01de@mx.google.com>
-References: <5d657e35.1c69fb81.54250.01de@mx.google.com>
+        id S1726805AbfH1OPT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 10:15:19 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:47494 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbfH1OPT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 10:15:19 -0400
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1i2yj5-0005hU-A0; Wed, 28 Aug 2019 16:15:07 +0200
+Date:   Wed, 28 Aug 2019 16:15:06 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Pavel Machek <pavel@denx.de>
+cc:     Borislav Petkov <bp@alien8.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Chen Yu <yu.c.chen@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "x86@kernel.org" <x86@kernel.org>
+Subject: Re: [PATCH 4.19 72/98] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
+ family 15h/16h
+In-Reply-To: <20190828133713.GF8052@amd>
+Message-ID: <alpine.DEB.2.21.1908281610310.23149@nanos.tec.linutronix.de>
+References: <20190827113604.GB18218@amd> <alpine.DEB.2.21.1908271525480.1939@nanos.tec.linutronix.de> <20190828103113.GA14677@amd> <alpine.DEB.2.21.1908281231480.1869@nanos.tec.linutronix.de> <20190828114947.GC8052@amd> <20190828120024.GF4920@zn.tnic>
+ <20190828120935.GD8052@amd> <20190828121628.GG4920@zn.tnic> <20190828122913.GE8052@amd> <20190828124621.GI4920@zn.tnic> <20190828133713.GF8052@amd>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-During testing, it was observed that amount of memory consumed due
-kfree_rcu() batching is 300-400MB. Previously we had only a single
-head_free pointer pointing to the list of rcu_head(s) that are to be
-freed after a grace period. Until this list is drained, we cannot queue
-any more objects on it since such objects may not be ready to be
-reclaimed when the worker thread eventually gets to drainin g the
-head_free list.
+On Wed, 28 Aug 2019, Pavel Machek wrote:
+> On Wed 2019-08-28 14:46:21, Borislav Petkov wrote:
+> > On Wed, Aug 28, 2019 at 02:29:13PM +0200, Pavel Machek wrote:
+> > > This is not a way to have an inteligent conversation.
+> > 
+> > No, this *is* the way to keep the conversation sane, without veering
+> > off into some absurd claims.
+> > 
+> > So, to cut to the chase: you can simply add "rdrand=force" to your
+> > cmdline parameters and get back to using RDRAND.
+> > 
+> > And yet if you still feel this fix does not meet your expectations,
+> > you were told already to either produce patches or who to contact. I'm
+> > afraid complaining on this thread won't get you anywhere but that's your
+> > call.
+> 
+> No, this does not meet my expectations, it violates stable kernel
+> rules, and will cause regression to some users, while better solution
+> is known to be available.
 
-We can do better by maintaining multiple lists as done by this patch.
-Testing shows that memory consumption came down by around 100-150MB with
-just adding another list. Adding more than 1 additional list did not
-show any improvement.
+Your unqualified ranting does not meet my expectation either and it
+violates any rule of common sense.
 
-Suggested-by: Paul E. McKenney <paulmck@linux.ibm.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- kernel/rcu/tree.c | 61 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 42 insertions(+), 19 deletions(-)
+For the record:
 
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index 4f7c3096d786..5bf8f7e793ea 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -2688,28 +2688,37 @@ EXPORT_SYMBOL_GPL(call_rcu);
- 
- /* Maximum number of jiffies to wait before draining a batch. */
- #define KFREE_DRAIN_JIFFIES (HZ / 50)
-+#define KFREE_N_BATCHES 2
-+
-+struct kfree_rcu_work {
-+	/* The rcu_work node for queuing work with queue_rcu_work(). The work
-+	 * is done after a grace period.
-+	 */
-+	struct rcu_work rcu_work;
-+
-+	/* The list of objects that have now left ->head and are queued for
-+	 * freeing after a grace period.
-+	 */
-+	struct rcu_head *head_free;
-+
-+	struct kfree_rcu_cpu *krcp;
-+};
- 
- /*
-  * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
-  * kfree(s) is queued for freeing after a grace period, right away.
-  */
- struct kfree_rcu_cpu {
--	/* The rcu_work node for queuing work with queue_rcu_work(). The work
--	 * is done after a grace period.
--	 */
--	struct rcu_work rcu_work;
- 
- 	/* The list of objects being queued in a batch but are not yet
- 	 * scheduled to be freed.
- 	 */
- 	struct rcu_head *head;
- 
--	/* The list of objects that have now left ->head and are queued for
--	 * freeing after a grace period.
--	 */
--	struct rcu_head *head_free;
-+	/* Pointer to the per-cpu array of kfree_rcu_work structures */
-+	struct kfree_rcu_work krw_arr[KFREE_N_BATCHES];
- 
--	/* Protect concurrent access to this structure. */
-+	/* Protect concurrent access to this structure and kfree_rcu_work. */
- 	spinlock_t lock;
- 
- 	/* The delayed work that flushes ->head to ->head_free incase ->head
-@@ -2730,12 +2739,14 @@ static void kfree_rcu_work(struct work_struct *work)
- {
- 	unsigned long flags;
- 	struct rcu_head *head, *next;
--	struct kfree_rcu_cpu *krcp = container_of(to_rcu_work(work),
--					struct kfree_rcu_cpu, rcu_work);
-+	struct kfree_rcu_work *krwp = container_of(to_rcu_work(work),
-+					struct kfree_rcu_work, rcu_work);
-+	struct kfree_rcu_cpu *krcp;
-+
-+	krcp = krwp->krcp;
- 
- 	spin_lock_irqsave(&krcp->lock, flags);
--	head = krcp->head_free;
--	krcp->head_free = NULL;
-+	head = xchg(&krwp->head_free, NULL);
- 	spin_unlock_irqrestore(&krcp->lock, flags);
- 
- 	/*
-@@ -2758,19 +2769,28 @@ static void kfree_rcu_work(struct work_struct *work)
-  */
- static inline bool queue_kfree_rcu_work(struct kfree_rcu_cpu *krcp)
- {
-+	int i = 0;
-+	struct kfree_rcu_work *krwp = NULL;
-+
- 	lockdep_assert_held(&krcp->lock);
-+	while (i < KFREE_N_BATCHES) {
-+		if (!krcp->krw_arr[i].head_free) {
-+			krwp = &(krcp->krw_arr[i]);
-+			break;
-+		}
-+		i++;
-+	}
- 
--	/* If a previous RCU batch work is already in progress, we cannot queue
-+	/* If both RCU batches are already in progress, we cannot queue
- 	 * another one, just refuse the optimization and it will be retried
- 	 * again in KFREE_DRAIN_JIFFIES time.
- 	 */
--	if (krcp->head_free)
-+	if (!krwp)
- 		return false;
- 
--	krcp->head_free = krcp->head;
--	krcp->head = NULL;
--	INIT_RCU_WORK(&krcp->rcu_work, kfree_rcu_work);
--	queue_rcu_work(system_wq, &krcp->rcu_work);
-+	krwp->head_free = xchg(&krcp->head, NULL);
-+	INIT_RCU_WORK(&krwp->rcu_work, kfree_rcu_work);
-+	queue_rcu_work(system_wq, &krwp->rcu_work);
- 
- 	return true;
- }
-@@ -3736,8 +3756,11 @@ static void __init kfree_rcu_batch_init(void)
- 
- 	for_each_possible_cpu(cpu) {
- 		struct kfree_rcu_cpu *krcp = per_cpu_ptr(&krc, cpu);
-+		int i = KFREE_N_BATCHES;
- 
- 		spin_lock_init(&krcp->lock);
-+		while (i--)
-+			krcp->krw_arr[i].krcp = krcp;
- 		INIT_DELAYED_WORK(&krcp->monitor_work, kfree_rcu_monitor);
- 	}
- }
--- 
-2.23.0.187.g17f5b7556c-goog
+  Neither AMD nor we have any idea which particular machines have a fixed
+  BIOS and which have not. There is no technical indicator either at boot
+  time as the wreckage manifests itself only after resume.
 
+  So in the interest of users the only sensible decision is to disable
+  RDRAND for this class of CPUs.
+
+  If you have a list of machines which have a fixed BIOS, then provide it
+  in form of patches. If not then stop claiming that there is a better
+  solution available.
+
+Anyway, I'm done with that and further rants of yours go directly to
+/dev/null.
+
+Thanks for wasting everyones time
+
+       tglx
