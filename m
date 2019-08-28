@@ -1,134 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 715967D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 20:47:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A5A9C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 20:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfH1UrA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 16:47:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6002 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726400AbfH1UrA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 16:47:00 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7SKjEsP095912;
-        Wed, 28 Aug 2019 16:46:26 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2up0bks425-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Aug 2019 16:46:25 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7SKjHUq096153;
-        Wed, 28 Aug 2019 16:46:25 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2up0bks41f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Aug 2019 16:46:25 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7SKjdLb030640;
-        Wed, 28 Aug 2019 20:46:24 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-        by ppma01dal.us.ibm.com with ESMTP id 2unb3t03rs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Aug 2019 20:46:24 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7SKkNpu24641864
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Aug 2019 20:46:23 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3BAEDB205F;
-        Wed, 28 Aug 2019 20:46:23 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1CAE5B2066;
-        Wed, 28 Aug 2019 20:46:23 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.154])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 28 Aug 2019 20:46:23 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id D9FBC16C1700; Wed, 28 Aug 2019 13:46:24 -0700 (PDT)
-Date:   Wed, 28 Aug 2019 13:46:24 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, byungchul.park@lge.com,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        kernel-team@android.com
-Subject: Re: [PATCH 0/5] kfree_rcu() additions for -rcu
-Message-ID: <20190828204624.GV26530@linux.ibm.com>
-Reply-To: paulmck@kernel.org
-References: <5d657e30.1c69fb81.54250.01dc@mx.google.com>
- <20190828202808.GT26530@linux.ibm.com>
- <20190828203458.GA75931@google.com>
+        id S1726725AbfH1UwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 16:52:11 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:46126 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbfH1UwL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 16:52:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=AVPMlOp8TwCm/B2SRGvb8TqqWHTIVFeNesWs0ES1bTo=; b=U0LY1DVwfDBtZbUe0Wc7XT4Ng
+        eCRauOI5QxY0qSLsBU4KORFmyGsMTdxvGzuOU8RjfgSgx5S/hvbfapnWuWyfFc/D/gKB/EUS04bpr
+        mrniz7hKRyE9sme4i34895JH8F21VNuwuXOR3UY5syKdXgblQp+mxa7l5JRhHKhwKbiPE=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1i34ux-0006c6-1Y; Wed, 28 Aug 2019 20:51:47 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 66E042742B61; Wed, 28 Aug 2019 21:51:44 +0100 (BST)
+Date:   Wed, 28 Aug 2019 21:51:44 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+Message-ID: <20190828205144.GK4298@sirena.co.uk>
+Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="J2pR2RtFp0tAjF3C"
 Content-Disposition: inline
-In-Reply-To: <20190828203458.GA75931@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-28_11:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908280202
+In-Reply-To: <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
+X-Cookie: Oatmeal raisin.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 04:34:58PM -0400, Joel Fernandes wrote:
-> On Wed, Aug 28, 2019 at 01:28:08PM -0700, Paul E. McKenney wrote:
-> > On Tue, Aug 27, 2019 at 03:01:54PM -0400, Joel Fernandes (Google) wrote:
-> > > Hi,
-> > > 
-> > > This is a series on top of the patch "rcu/tree: Add basic support for kfree_rcu() batching".
-> > > 
-> > > Link: http://lore.kernel.org/r/20190814160411.58591-1-joel@joelfernandes.org
-> > > 
-> > > It adds performance tests, some clean ups and removal of "lazy" RCU callbacks.
-> > > 
-> > > Now that kfree_rcu() is handled separately from call_rcu(), we also get rid of
-> > > kfree "lazy" handling from tree RCU as suggested by Paul which will be unused.
-> > > This also results in a nice negative delta as well.
-> > > 
-> > > Joel Fernandes (Google) (5):
-> > > rcu/rcuperf: Add kfree_rcu() performance Tests
-> > > rcu/tree: Add multiple in-flight batches of kfree_rcu work
-> > > rcu/tree: Add support for debug_objects debugging for kfree_rcu()
-> > > rcu: Remove kfree_rcu() special casing and lazy handling
-> > > rcu: Remove kfree_call_rcu_nobatch()
-> > > 
-> > > Documentation/RCU/stallwarn.txt               |  13 +-
-> > > .../admin-guide/kernel-parameters.txt         |  13 ++
-> > > include/linux/rcu_segcblist.h                 |   2 -
-> > > include/linux/rcutiny.h                       |   5 -
-> > > include/linux/rcutree.h                       |   1 -
-> > > include/trace/events/rcu.h                    |  32 ++--
-> > > kernel/rcu/rcu.h                              |  27 ---
-> > > kernel/rcu/rcu_segcblist.c                    |  25 +--
-> > > kernel/rcu/rcu_segcblist.h                    |  25 +--
-> > > kernel/rcu/rcuperf.c                          | 173 +++++++++++++++++-
-> > > kernel/rcu/srcutree.c                         |   4 +-
-> > > kernel/rcu/tiny.c                             |  29 ++-
-> > > kernel/rcu/tree.c                             | 145 ++++++++++-----
-> > > kernel/rcu/tree.h                             |   1 -
-> > > kernel/rcu/tree_plugin.h                      |  42 +----
-> > > kernel/rcu/tree_stall.h                       |   6 +-
-> > > 16 files changed, 337 insertions(+), 206 deletions(-)
-> > 
-> > Looks like a 131-line positive delta to me.  ;-)
-> 
-> Not if you overlook the rcuperf changes which is just test code. :-D ;-)
 
-Which suggests that you should move the "nice negative delta" comment
-to the commits that actually have nice negative deltas.  ;-)
+--J2pR2RtFp0tAjF3C
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-							Thanx, Paul
+On Wed, Aug 28, 2019 at 09:59:16PM +0200, Uwe Kleine-K=F6nig wrote:
+> On 8/28/19 1:32 PM, Petr Mladek wrote:
+
+> > Please, do the opposite. Add conversion of few subsystems into the
+> > patchset and add more people into CC. We will see immediately whether
+> > it makes sense to spend time on this.
+
+> For now I asked in the arm linux irc channel and got two people replying
+> (both added to Cc:):
+
+> Mark Brown (maintainer of SPI, regmap, ASoC and regulator) said:
+
+> 1567019926 < broonie> ukleinek: I think that's a great idea and have
+> 	thought about trying to implement it in the past.
+> 1567019937 < broonie> ukleinek: Making the logs more directly readable
+> 	is enormously helpful.
+
+In the past I've actually implemented error code decoders like this for
+some other systems I've worked on due to annoyance with having to look
+up codes, as far as I can tell they went over quite well with other
+developers and I certainly found them helpful myself.  They're also
+useful to end users looking at logs, they're not always aware of how to
+find the relevant error code definitions so a slightly more descriptive
+messages can help people figure things out.
+
+It does also occur to me that this might be useful to the people who
+want to work on making probe deferral quieter since it gives them an
+annotation that the number going in is an error code.  There's a bunch
+more work to do there though.
+
+--J2pR2RtFp0tAjF3C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1m6V8ACgkQJNaLcl1U
+h9ADqAf8DQNAwWvUmNzD11savIMgUa9QDovvhuNqbDJ68y+q3/MNqqtULyxlM9EU
+ddDFK42VpctrmBRfQAKOxk+IuKGL3sPKFZhlSzc2Ilgbprj/A+4Jat91LxYZGZDZ
+OZarYQg0PoIrdzHWNjuCstvvklJktdoZ7bG5JHTootFTCfHRRaahp60OPtHa9Fiv
+BLee/u09Tk2bO8X9kfXs+EW6ETPYxlXffZxbbkU7jGVa9sS4/6YBjSFxI864k6b/
+BfxgfFnV0H4Kva/dSYOEaP9Z37uScY4bs/0AY/eOeOJBodYMvAK+u3SJKPAZzIuG
+JY6qO/tG/EcNAWFwnP+abgvmgahxNg==
+=6V5A
+-----END PGP SIGNATURE-----
+
+--J2pR2RtFp0tAjF3C--
