@@ -3,194 +3,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 014D77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 11:24:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58F517D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 11:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbfH1LXy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 07:23:54 -0400
-Received: from foss.arm.com ([217.140.110.172]:57506 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726382AbfH1LXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Aug 2019 07:23:54 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DAD1344;
-        Wed, 28 Aug 2019 04:23:53 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC9EB3F246;
-        Wed, 28 Aug 2019 04:23:51 -0700 (PDT)
-Subject: Re: [PATCH v3 01/10] KVM: arm64: Document PV-time interface
-To:     Christoffer Dall <christoffer.dall@arm.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Paolo Bonzini <pbonzini@redhat.com>
-References: <20190821153656.33429-1-steven.price@arm.com>
- <20190821153656.33429-2-steven.price@arm.com>
- <20190827084407.GA6541@e113682-lin.lund.arm.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <28c3248e-1d63-dac6-d2b0-4422025c1376@arm.com>
-Date:   Wed, 28 Aug 2019 12:23:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726270AbfH1LcU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 07:32:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55558 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726253AbfH1LcT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Aug 2019 07:32:19 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 9A700AED0;
+        Wed, 28 Aug 2019 11:32:17 +0000 (UTC)
+Date:   Wed, 28 Aug 2019 13:32:16 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Enrico@kleine-koenig.org,
+        Weigelt@kleine-koenig.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        metux IT consult <lkml@metux.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+Message-ID: <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-In-Reply-To: <20190827084407.GA6541@e113682-lin.lund.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190827211244.7210-1-uwe@kleine-koenig.org>
+User-Agent: NeoMutt/20170912 (1.9.0)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27/08/2019 09:44, Christoffer Dall wrote:
-> On Wed, Aug 21, 2019 at 04:36:47PM +0100, Steven Price wrote:
->> Introduce a paravirtualization interface for KVM/arm64 based on the
->> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
->>
->> This only adds the details about "Stolen Time" as the details of "Live
->> Physical Time" have not been fully agreed.
->>
->> User space can specify a reserved area of memory for the guest and
->> inform KVM to populate the memory with information on time that the host
->> kernel has stolen from the guest.
->>
->> A hypercall interface is provided for the guest to interrogate the
->> hypervisor's support for this interface and the location of the shared
->> memory structures.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>  Documentation/virt/kvm/arm/pvtime.txt | 100 ++++++++++++++++++++++++++
->>  1 file changed, 100 insertions(+)
->>  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
->>
->> diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
->> new file mode 100644
->> index 000000000000..1ceb118694e7
->> --- /dev/null
->> +++ b/Documentation/virt/kvm/arm/pvtime.txt
->> @@ -0,0 +1,100 @@
->> +Paravirtualized time support for arm64
->> +======================================
->> +
->> +Arm specification DEN0057/A defined a standard for paravirtualised time
->> +support for AArch64 guests:
->> +
->> +https://developer.arm.com/docs/den0057/a
->> +
->> +KVM/arm64 implements the stolen time part of this specification by providing
->> +some hypervisor service calls to support a paravirtualized guest obtaining a
->> +view of the amount of time stolen from its execution.
->> +
->> +Two new SMCCC compatible hypercalls are defined:
->> +
->> +PV_FEATURES 0xC5000020
->> +PV_TIME_ST  0xC5000022
->> +
->> +These are only available in the SMC64/HVC64 calling convention as
->> +paravirtualized time is not available to 32 bit Arm guests. The existence of
->> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
->> +mechanism before calling it.
->> +
->> +PV_FEATURES
->> +    Function ID:  (uint32)  : 0xC5000020
->> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
->> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
->> +                              PV-time feature is supported by the hypervisor.
->> +
->> +PV_TIME_ST
->> +    Function ID:  (uint32)  : 0xC5000022
->> +    Return value: (int64)   : IPA of the stolen time data structure for this
->> +                              (V)CPU. On failure:
->> +                              NOT_SUPPORTED (-1)
->> +
->> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
->> +with inner and outer write back caching attributes, in the inner shareable
->> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
->> +meaningfully filled by the hypervisor (see structure below).
->> +
->> +PV_TIME_ST returns the structure for the calling VCPU.
->> +
->> +Stolen Time
->> +-----------
->> +
->> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
->> +
->> +  Field       | Byte Length | Byte Offset | Description
->> +  ----------- | ----------- | ----------- | --------------------------
->> +  Revision    |      4      |      0      | Must be 0 for version 0.1
->> +  Attributes  |      4      |      4      | Must be 0
->> +  Stolen time |      8      |      8      | Stolen time in unsigned
->> +              |             |             | nanoseconds indicating how
->> +              |             |             | much time this VCPU thread
->> +              |             |             | was involuntarily not
->> +              |             |             | running on a physical CPU.
->> +
->> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
->> +will be present within a reserved region of the normal memory given to the
->> +guest. The guest should not attempt to write into this memory. There is a
->> +structure per VCPU of the guest.
->> +
->> +User space interface
->> +====================
->> +
->> +User space can request that KVM provide the paravirtualized time interface to
->> +a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
->> +
+On Tue 2019-08-27 23:12:44, Uwe Kleine-König  wrote:
+> Petr Mladek had some concerns:
+> > The array is long, created by cpu&paste, the index of each code
+> > is not obvious.
 > 
-> I feel it would be more consistent to have the details of this in
-> Documentation/virt/kvm/devices/arm-pv-time.txt and refer to this
-> document from here.
+> Yeah right, the array is long. This cannot really be changed because we
+> have that many error codes. I don't understand your concern about the
+> index not being obvious. The array was just a list of (number, string)
+> pairs where the position in the array didn't have any semantic.
 
-Fair point - I'll move this lower part of the document and add a reference.
+I missed that the number was stored in the array as well. I somehow
+expected that it was array of strings.
 
-Thanks,
 
-Steve
-
->> +    struct kvm_create_device pvtime_device = {
->> +            .type = KVM_DEV_TYPE_ARM_PV_TIME,
->> +            .attr = 0,
->> +            .flags = 0,
->> +    };
->> +
->> +    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
->> +
->> +Creation of the device should be done after creating the vCPUs of the virtual
->> +machine.
->> +
->> +The IPA of the structures must be given to KVM. This is the base address
->> +of an array of stolen time structures (one for each VCPU). The base address
->> +must be page aligned. The size must be at least 64 * number of VCPUs and be a
->> +multiple of PAGE_SIZE.
->> +
->> +The memory for these structures should be added to the guest in the usual
->> +manner (e.g. using KVM_SET_USER_MEMORY_REGION).
->> +
->> +For example:
->> +
->> +    struct kvm_dev_arm_st_region region = {
->> +            .gpa = <IPA of guest base address>,
->> +            .size = <size in bytes>
->> +    };
->> +
->> +    struct kvm_device_attr st_base = {
->> +            .group = KVM_DEV_ARM_PV_TIME_PADDR,
->> +            .attr = KVM_DEV_ARM_PV_TIME_ST,
->> +            .addr = (u64)&region
->> +    };
->> +
->> +    ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
->> -- 
->> 2.20.1
->>
+> > There are ideas to make the code even more tricky to reduce
+> > the size, keep it fast.
 > 
-> Thanks,
-> 
->     Christoffer
-> 
+> I think Enrico Weigelt's suggestion to use a case is the best
+> performance-wise so that's what I picked up. Also I hope that
+> performance isn't that important because the need to print an error
+> should not be so common that it really hurts in production.
 
+I personally do not like switch/case. It is a lot of code.
+I wonder if it even saved some space.
+
+If you want to safe space, I would use u16 to store the numbers.
+Or I would use array of strings. There will be only few holes.
+
+You might also consider handling only the most commonly
+used codes from errno.h and errno-base.h (1..133). There will
+be no holes and the codes are stable.
+
+
+> > Both, %dE modifier and the output format (ECODE) is non-standard.
+> 
+> Yeah, obviously right. The problem is that the new modifier does
+> something that wasn't implemented before, so it cannot match any
+> standard. %pI is only known on Linux either, so I think being
+> non-standard is a weak argument.
+
+I am not completely sure that %p modifiers were a good idea.
+They came before I started maintaining printk(). They add more
+complex algorithms into paths where we could not report problems
+easily (printk recursion). Also they are causing problems with
+unit testing that might be done in userspace. These non-standard
+formats cause that printk() can't be simply substituted by printf().
+
+I am not keen to spread these problems over more formats.
+Also %d format is more complicated. It is often used with
+already existing modifiers.
+
+
+> > Upper letters gain a lot of attention. But the error code is
+> > only helper information. Also many error codes are misleading because
+> > they are used either wrongly or there was no better available.
+> 
+> This isn't really an argument against the patch I think. Sure, if a
+> function returned (say) EIO while ETIMEOUT would be better, my patch
+> doesn't improve that detail. Still
+>
+>         mydev: Failed to initialize blablub: EIO
+>
+> is more expressive than
+> 
+>         mydev: Failed to initialize blablub: -5
+
+OK, upper letters probably are not a problem.
+
+But what about EWOULDBLOCK and EDEADLOCK? They have the same
+error codes as EAGAIN and EDEADLK. It might cause a lot of confusion.
+People might spend a lot of time searching for EAGAIN before they
+notice that EWOULDBLOCK was used in the code instead.
+
+Also you still did not answer the question where the idea came from.
+Did it just look nice? Anyone asked for it? Who? Why?
+
+
+> > There is no proof that this approach would be widely acceptable for
+> > subsystem maintainers. Some might not like mass and "blind" code
+> > changes. Some might not like the output at all.
+> 
+> I don't intend to mass convert existing code. I would restrict myself to
+> updating the documentation and then maybe send a patch per subsystem as an
+> example to let maintainers know and judge for themselves if they like it or
+> not. And if it doesn't get picked up, we can just remove the feature again next
+> year (or so).
+
+It looks like a lot of potentially useless work.
+
+
+> I dropped the example conversion, I think the idea should be clear now
+> even without an explicit example.
+
+Please, do the opposite. Add conversion of few subsystems into the
+patchset and add more people into CC. We will see immediately whether
+it makes sense to spend time on this.
+
+I personally think that this feature is not worth the code, data,
+and bikeshedding.
+
+Best Regards,
+Petr
