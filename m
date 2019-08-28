@@ -1,123 +1,217 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E517A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 22:18:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 322F97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 23:06:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbfH1WS2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 18:18:28 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:58257 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727065AbfH1WS1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 18:18:27 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 680128051E; Thu, 29 Aug 2019 00:18:11 +0200 (CEST)
-Date:   Thu, 29 Aug 2019 00:18:24 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     corbet@lwn.net, LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Salvatore Bonaccorso <carnil@debian.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
- to look back
-Message-ID: <20190828221824.GB24056@amd>
-References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de>
- <20190102235152.GA24163@amd>
- <20190311102109.GA14118@amd>
- <alpine.DEB.2.21.1903111403330.1691@nanos.tec.linutronix.de>
- <20190311131341.GA28223@amd>
- <alpine.DEB.2.21.1903112211180.1651@nanos.tec.linutronix.de>
- <20190312115757.GA29955@amd>
- <alpine.DEB.2.21.1903120633000.1985@nanos.tec.linutronix.de>
+        id S1726839AbfH1XGL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 19:06:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:65492 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726400AbfH1XGL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 19:06:11 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7SMl944023628;
+        Wed, 28 Aug 2019 19:05:38 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2unys2dtca-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Aug 2019 19:05:38 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7SMlAfE023744;
+        Wed, 28 Aug 2019 19:05:38 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2unys2dtc2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Aug 2019 19:05:38 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7SMj31Q010154;
+        Wed, 28 Aug 2019 23:05:36 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+        by ppma01wdc.us.ibm.com with ESMTP id 2ujvv6grqh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Aug 2019 23:05:36 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7SN5ap750987338
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Aug 2019 23:05:36 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D51EEB2066;
+        Wed, 28 Aug 2019 23:05:36 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A56DFB2064;
+        Wed, 28 Aug 2019 23:05:36 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.154])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 28 Aug 2019 23:05:36 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 9051516C65B8; Wed, 28 Aug 2019 16:05:38 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 16:05:38 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] rcu/dyntick-idle: Add better tracing
+Message-ID: <20190828230538.GD26530@linux.ibm.com>
+Reply-To: paulmck@kernel.org
+References: <20190828001146.GM26530@linux.ibm.com>
+ <20190828182613.37715-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="A6N2fC+uXW/VQSAv"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.1903120633000.1985@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190828182613.37715-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-28_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908280218
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 28, 2019 at 02:26:13PM -0400, Joel Fernandes (Google) wrote:
+> The dyntick-idle traces are a bit confusing. This patch makes it simpler
+> and adds some missing cases such as EQS-enter because user vs idle mode.
+> 
+> Following are the changes:
+> (1) Add a new context field to trace_rcu_dyntick tracepoint. This
+>     context field can be "USER", "IDLE" or "IRQ".
+> 
+> (2) Remove the "++=" and "--=" strings and replace them with
+>    "StillNonIdle". This is much easier on the eyes, and the -- and ++
+>    are easily apparent in the dynticks_nesting counters we are printing
+>    anyway.
+> 
+> This patch is based on the previous patches to simplify rcu_dyntick
+> counters [1] and with these traces, I have verified the counters are
+> working properly.
+> 
+> [1]
+> Link: https://lore.kernel.org/patchwork/patch/1120021/
+> Link: https://lore.kernel.org/patchwork/patch/1120022/
+> 
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
---A6N2fC+uXW/VQSAv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Looks plausible to me.
 
-Hi!
+							Thanx, Paul
 
-> On Tue, 12 Mar 2019, Pavel Machek wrote:
-> > On Mon 2019-03-11 23:31:08, Thomas Gleixner wrote:
-> > > Calling this a lie is a completly unjustified personal attack on thos=
-e who
-> >=20
-> > So how should it be called? I initally used less strong words, only to
-> > get "Care to tell what's a lie instead of making bold statements?"
-> > back. Also look at the timing of the thread.
->=20
-> You called it a lie from the very beginning or what do you think made me
-> tell you that? Here is what you said:
-
-Actually, I still call it a lie. Document clearly says that bug is
-fixed in non-virtualized cases, when in fact it depends on PAE and
-limited memory.
-
-> If you want to provide more accurate documentation then you better come up
-> with something which is helpful instead of completely useless blurb like
-> the below:
-
-At this point I want you to fix it yourself. Lying about security bugs
-being fixed when they are not is not cool. I tried to be helpful and
-submit a patch, but I don't feel like you are cooperating on getting
-the patch applied.
-
-> > +   Mitigation is present in kernels v4.19 and newer, and in
-> > +   recent -stable kernels. PAE needs to be enabled for mitigation to
-> > +   work.
->=20
-> No. The mitigation is available when the kernel provides it. Numbers are
-> irrelevant because that documentation has to be applicable for stable
-> kernels as well. And what is a recent -stable kernel?
->=20
-> Also the PAE part needs to go to a completely different section.
-
-Best regards,
-								Pavel
-
-
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---A6N2fC+uXW/VQSAv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl1m/bAACgkQMOfwapXb+vKFyACffq6XkJvAWQwUcLfh9KmQ9cn3
-tdYAoJ+7fLiag86nhWVARzGKq5ICLBjw
-=PtcO
------END PGP SIGNATURE-----
-
---A6N2fC+uXW/VQSAv--
+> ---
+>  include/trace/events/rcu.h | 13 ++++++++-----
+>  kernel/rcu/tree.c          | 17 +++++++++++------
+>  2 files changed, 19 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/trace/events/rcu.h b/include/trace/events/rcu.h
+> index 66122602bd08..474c1f7e7104 100644
+> --- a/include/trace/events/rcu.h
+> +++ b/include/trace/events/rcu.h
+> @@ -449,12 +449,14 @@ TRACE_EVENT_RCU(rcu_fqs,
+>   */
+>  TRACE_EVENT_RCU(rcu_dyntick,
+>  
+> -	TP_PROTO(const char *polarity, long oldnesting, long newnesting, atomic_t dynticks),
+> +	TP_PROTO(const char *polarity, const char *context, long oldnesting,
+> +		 long newnesting, atomic_t dynticks),
+>  
+> -	TP_ARGS(polarity, oldnesting, newnesting, dynticks),
+> +	TP_ARGS(polarity, context, oldnesting, newnesting, dynticks),
+>  
+>  	TP_STRUCT__entry(
+>  		__field(const char *, polarity)
+> +		__field(const char *, context)
+>  		__field(long, oldnesting)
+>  		__field(long, newnesting)
+>  		__field(int, dynticks)
+> @@ -462,14 +464,15 @@ TRACE_EVENT_RCU(rcu_dyntick,
+>  
+>  	TP_fast_assign(
+>  		__entry->polarity = polarity;
+> +		__entry->context = context;
+>  		__entry->oldnesting = oldnesting;
+>  		__entry->newnesting = newnesting;
+>  		__entry->dynticks = atomic_read(&dynticks);
+>  	),
+>  
+> -	TP_printk("%s %lx %lx %#3x", __entry->polarity,
+> -		  __entry->oldnesting, __entry->newnesting,
+> -		  __entry->dynticks & 0xfff)
+> +	TP_printk("%s %s %lx %lx %#3x", __entry->polarity,
+> +		__entry->context, __entry->oldnesting, __entry->newnesting,
+> +		__entry->dynticks & 0xfff)
+>  );
+>  
+>  /*
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 1465a3e406f8..1a65919ec800 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -570,7 +570,8 @@ static void rcu_eqs_enter(bool user)
+>  	}
+>  
+>  	lockdep_assert_irqs_disabled();
+> -	trace_rcu_dyntick(TPS("Start"), rdp->dynticks_nesting, 0, rdp->dynticks);
+> +	trace_rcu_dyntick(TPS("Start"), (user ? TPS("USER") : TPS("IDLE")),
+> +			  rdp->dynticks_nesting, 0, rdp->dynticks);
+>  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
+>  	rdp = this_cpu_ptr(&rcu_data);
+>  	do_nocb_deferred_wakeup(rdp);
+> @@ -642,15 +643,17 @@ static __always_inline void rcu_nmi_exit_common(bool irq)
+>  	 * leave it in non-RCU-idle state.
+>  	 */
+>  	if (rdp->dynticks_nesting != 1) {
+> -		trace_rcu_dyntick(TPS("--="), rdp->dynticks_nesting,
+> -				  rdp->dynticks_nesting - 2, rdp->dynticks);
+> +		trace_rcu_dyntick(TPS("StillNonIdle"), TPS("IRQ"),
+> +				  rdp->dynticks_nesting, rdp->dynticks_nesting - 2,
+> +				  rdp->dynticks);
+>  		WRITE_ONCE(rdp->dynticks_nesting, /* No store tearing. */
+>  			   rdp->dynticks_nesting - 2);
+>  		return;
+>  	}
+>  
+>  	/* This NMI interrupted an RCU-idle CPU, restore RCU-idleness. */
+> -	trace_rcu_dyntick(TPS("Startirq"), rdp->dynticks_nesting, 0, rdp->dynticks);
+> +	trace_rcu_dyntick(TPS("Start"), TPS("IRQ"), rdp->dynticks_nesting, 0,
+> +			  rdp->dynticks);
+>  	WRITE_ONCE(rdp->dynticks_nesting, 0); /* Avoid store tearing. */
+>  
+>  	if (irq)
+> @@ -733,7 +736,8 @@ static void rcu_eqs_exit(bool user)
+>  	rcu_dynticks_task_exit();
+>  	rcu_dynticks_eqs_exit();
+>  	rcu_cleanup_after_idle();
+> -	trace_rcu_dyntick(TPS("End"), rdp->dynticks_nesting, 1, rdp->dynticks);
+> +	trace_rcu_dyntick(TPS("End"), (user ? TPS("USER") : TPS("IDLE")),
+> +			  rdp->dynticks_nesting, 1, rdp->dynticks);
+>  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
+>  	WRITE_ONCE(rdp->dynticks_nesting, 1);
+>  
+> @@ -825,7 +829,8 @@ static __always_inline void rcu_nmi_enter_common(bool irq)
+>  		tick_dep_set_cpu(rdp->cpu, TICK_DEP_BIT_RCU);
+>  	}
+>  
+> -	trace_rcu_dyntick(incby == 1 ? TPS("Endirq") : TPS("++="),
+> +	trace_rcu_dyntick(incby == 1 ? TPS("End") : TPS("StillNonIdle"),
+> +			  TPS("IRQ"),
+>  			  rdp->dynticks_nesting,
+>  			  rdp->dynticks_nesting + incby, rdp->dynticks);
+>  
+> -- 
+> 2.23.0.187.g17f5b7556c-goog
+> 
