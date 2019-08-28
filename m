@@ -1,123 +1,196 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6062A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 13:54:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3885F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 14:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbfH1NyB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 09:54:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35512 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726407AbfH1NyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 09:54:00 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7SDr2ue143953
-        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 09:53:59 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2unrhkwphg-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 09:53:59 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Wed, 28 Aug 2019 14:43:51 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 28 Aug 2019 14:43:46 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7SDhjxr37879864
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Aug 2019 13:43:45 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8D0A311C052;
-        Wed, 28 Aug 2019 13:43:45 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8A6C111C05C;
-        Wed, 28 Aug 2019 13:43:42 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.129.156])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 28 Aug 2019 13:43:42 +0000 (GMT)
-Subject: Re: [PATCH v12 00/11] Appended signatures support for IMA appraisal
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Jordan Hand <jorhand@linux.microsoft.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        linux-integrity@vger.kernel.org
-Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
-Date:   Wed, 28 Aug 2019 09:43:41 -0400
-In-Reply-To: <9682b5d0-1634-2dd0-2cbb-eb1fa8ba7423@linux.microsoft.com>
-References: <20190628021934.4260-1-bauerman@linux.ibm.com>
-         <9682b5d0-1634-2dd0-2cbb-eb1fa8ba7423@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19082813-4275-0000-0000-0000035E558B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19082813-4276-0000-0000-0000387089DF
-Message-Id: <1566999821.6115.14.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-28_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=961 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908280145
+        id S1726400AbfH1OCV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 10:02:21 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35631 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726437AbfH1OCV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 10:02:21 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n4so1544243pgv.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 07:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sm8uUWc7t4LJLgsQULbihUhF9V5jwzZ1lbrcWrp+6/Y=;
+        b=LTsE2TEAEu36pNiCf5zLFUWz7duzQrtYjrLmIUx2ZbVSZOCITzducoib1LMjg/BIf4
+         oJqx15OYLZFXgr7KzRetLbcjfICBjA01bw54V3junFR6MfHddSC7P1eBrBfJfMNi+SBf
+         mORsTDF51mM0TBQtpQ8w5eCBI9FqSNvxHzaPI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sm8uUWc7t4LJLgsQULbihUhF9V5jwzZ1lbrcWrp+6/Y=;
+        b=GU0MtLIpgh380FvCmiudsHDkknpry6IQtz8s/VzmyBDhsalO6INqlGN4XvOwOiw7mN
+         9VYAlmGw0+51ZJkNz2fLT3FJvjbppmMvIuGUOVFqgP0ajTd9KlJGfLgYEKHHyHo3ujxP
+         hsDAc2bh+/oWOOcn1WcspppRkS3A9tH6c0VHI/op3vd1w3awIaOKTAXp9FaQBuVmhZkw
+         fTT6utN7PNvXex53L5V894PPP3McQKZDqd4AMniG6pADTyhRGVom++erQrsCvZBlNBtx
+         EMF3T4ucVBG7JxWfI4mztjQY4TUL5XQkQ+x7hlsBeJnGI2QSOkJ58THHghk2WVoTqXBP
+         y/ag==
+X-Gm-Message-State: APjAAAVR34FL8hRu3hy2ZliPZtj2etQ2hbqbVfb54RrFriZ7Y9feypTf
+        FDfFihn/2eOAYmpvCFW1uUVXIw==
+X-Google-Smtp-Source: APXvYqzXCFvpg5AYsMC9v6QuYVpE0bSIdWbYXYKu8unBPaJtbRdq/x5GWtvrYcZsFRUY3Zo34auRbQ==
+X-Received: by 2002:a17:90a:734a:: with SMTP id j10mr4413753pjs.63.1567000940536;
+        Wed, 28 Aug 2019 07:02:20 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id z63sm2865783pfb.163.2019.08.28.07.02.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 07:02:19 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 10:02:18 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        byungchul.park@lge.com, Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        kernel-team@android.com
+Subject: Re: [PATCH 2/5] rcu/tree: Add multiple in-flight batches of
+ kfree_rcu work
+Message-ID: <20190828140218.GB230957@google.com>
+References: <5d657e35.1c69fb81.54250.01de@mx.google.com>
+ <20190827235253.GB30253@tardis>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190827235253.GB30253@tardis>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jordan,
-
-On Mon, 2019-08-26 at 15:46 -0700, Jordan Hand wrote:
-> On 6/27/19 7:19 PM, Thiago Jung Bauermann wrote:
-> > On the OpenPOWER platform, secure boot and trusted boot are being
-> > implemented using IMA for taking measurements and verifying signatures.
-> > Since the kernel image on Power servers is an ELF binary, kernels are
-> > signed using the scripts/sign-file tool and thus use the same signature
-> > format as signed kernel modules.
+On Wed, Aug 28, 2019 at 07:52:53AM +0800, Boqun Feng wrote:
+> Hi Joel,
+> 
+> On Tue, Aug 27, 2019 at 03:01:56PM -0400, Joel Fernandes (Google) wrote:
+> > During testing, it was observed that amount of memory consumed due
+> > kfree_rcu() batching is 300-400MB. Previously we had only a single
+> > head_free pointer pointing to the list of rcu_head(s) that are to be
+> > freed after a grace period. Until this list is drained, we cannot queue
+> > any more objects on it since such objects may not be ready to be
+> > reclaimed when the worker thread eventually gets to drainin g the
+> > head_free list.
 > > 
-> > This patch series adds support in IMA for verifying those signatures.
-> > It adds flexibility to OpenPOWER secure boot, because it allows it to boot
-> > kernels with the signature appended to them as well as kernels where the
-> > signature is stored in the IMA extended attribute.
+> > We can do better by maintaining multiple lists as done by this patch.
+> > Testing shows that memory consumption came down by around 100-150MB with
+> > just adding another list. Adding more than 1 additional list did not
+> > show any improvement.
+> > 
+> > Suggested-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > ---
+> >  kernel/rcu/tree.c | 64 +++++++++++++++++++++++++++++++++--------------
+> >  1 file changed, 45 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > index 4f7c3096d786..9b9ae4db1c2d 100644
+> > --- a/kernel/rcu/tree.c
+> > +++ b/kernel/rcu/tree.c
+> > @@ -2688,28 +2688,38 @@ EXPORT_SYMBOL_GPL(call_rcu);
+> >  
+> >  /* Maximum number of jiffies to wait before draining a batch. */
+> >  #define KFREE_DRAIN_JIFFIES (HZ / 50)
+> > +#define KFREE_N_BATCHES 2
+> > +
+> > +struct kfree_rcu_work {
+> > +	/* The rcu_work node for queuing work with queue_rcu_work(). The work
+> > +	 * is done after a grace period.
+> > +	 */
+> > +	struct rcu_work rcu_work;
+> > +
+> > +	/* The list of objects that have now left ->head and are queued for
+> > +	 * freeing after a grace period.
+> > +	 */
+> > +	struct rcu_head *head_free;
+> > +
+> > +	struct kfree_rcu_cpu *krcp;
+> > +};
+> > +static DEFINE_PER_CPU(__typeof__(struct kfree_rcu_work)[KFREE_N_BATCHES], krw);
+> >  
 > 
-> I know this is pretty late, but I just wanted to let you know that I
-> tested this patch set on x86_64 with QEMU.
+> Why not
 > 
-> That is, I enrolled a key to _ima keyring, signed my kernel and modules
-> with appended signatures (with scripts/sign-file), set the IMA policy to
-> appraise and measure my kernel and modules. Also tested kexec appraisal.
+> 	static DEFINE_PER_CPU(struct kfree_rcu_work[KFREE_N_BATCHES], krw);
 > 
-> You can add my tested-by if you'd like.
+> here? Am I missing something?
 
-I really appreciate your testing.  Based on the recent
-Documentation/maintainer/rebasing-and-merging.rst,  I'm trying not to
-rebase patches already staged in linux-next.  Patches are first being
-staged in the next-queued-testing branch.
+Yes, that's better.
 
-FYI, I just posted a patch that adds IMA appended signature support to
-test_kexec_file_load.sh.
+> Further, given "struct kfree_rcu_cpu" is only for defining percpu
+> variables, how about orginazing the data structure like:
+> 
+> 	struct kfree_rcu_cpu {
+> 		...
+> 		struct kfree_rcu_work krws[KFREE_N_BATCHES];
+> 		...
+> 	}
+> 
+> This could save one pointer in kfree_rcu_cpu, and I think it provides
+> better cache locality for accessing _cpu and _work on the same cpu.
+> 
+> Thoughts?
 
-thanks,
+Yes, that's better. Thanks, Boqun! Following is the diff which I will fold
+into this patch:
 
-Mimi
+---8<-----------------------
 
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index b3259306b7a5..fac5ae96d8b1 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -2717,7 +2717,6 @@ struct kfree_rcu_work {
+ 
+ 	struct kfree_rcu_cpu *krcp;
+ };
+-static DEFINE_PER_CPU(__typeof__(struct kfree_rcu_work)[KFREE_N_BATCHES], krw);
+ 
+ /*
+  * Maximum number of kfree(s) to batch, if this limit is hit then the batch of
+@@ -2731,7 +2730,7 @@ struct kfree_rcu_cpu {
+ 	struct rcu_head *head;
+ 
+ 	/* Pointer to the per-cpu array of kfree_rcu_work structures */
+-	struct kfree_rcu_work *krwp;
++	struct kfree_rcu_work krw_arr[KFREE_N_BATCHES];
+ 
+ 	/* Protect concurrent access to this structure and kfree_rcu_work. */
+ 	spinlock_t lock;
+@@ -2800,8 +2799,8 @@ static inline bool queue_kfree_rcu_work(struct kfree_rcu_cpu *krcp)
+ 
+ 	lockdep_assert_held(&krcp->lock);
+ 	while (i < KFREE_N_BATCHES) {
+-		if (!krcp->krwp[i].head_free) {
+-			krwp = &(krcp->krwp[i]);
++		if (!krcp->krw_arr[i].head_free) {
++			krwp = &(krcp->krw_arr[i]);
+ 			break;
+ 		}
+ 		i++;
+@@ -3780,13 +3779,11 @@ static void __init kfree_rcu_batch_init(void)
+ 
+ 	for_each_possible_cpu(cpu) {
+ 		struct kfree_rcu_cpu *krcp = per_cpu_ptr(&krc, cpu);
+-		struct kfree_rcu_work *krwp = &(per_cpu(krw, cpu)[0]);
+ 		int i = KFREE_N_BATCHES;
+ 
+ 		spin_lock_init(&krcp->lock);
+-		krcp->krwp = krwp;
+ 		while (i--)
+-			krwp[i].krcp = krcp;
++			krcp->krw_arr[i].krcp = krcp;
+ 		INIT_DELAYED_WORK(&krcp->monitor_work, kfree_rcu_monitor);
+ 	}
+ }
