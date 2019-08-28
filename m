@@ -5,94 +5,114 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFC2E7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 14:15:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 255EC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 15:07:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbfH1OPT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 10:15:19 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:47494 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726847AbfH1OPT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 10:15:19 -0400
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1i2yj5-0005hU-A0; Wed, 28 Aug 2019 16:15:07 +0200
-Date:   Wed, 28 Aug 2019 16:15:06 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Pavel Machek <pavel@denx.de>
-cc:     Borislav Petkov <bp@alien8.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chen Yu <yu.c.chen@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        id S1726394AbfH1PHC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 11:07:02 -0400
+Received: from mga02.intel.com ([134.134.136.20]:6091 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726440AbfH1PHB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Aug 2019 11:07:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 08:07:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,441,1559545200"; 
+   d="scan'208";a="380429742"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by fmsmga005.fm.intel.com with ESMTP; 28 Aug 2019 08:06:59 -0700
+Message-ID: <29e6afa9cd7a7b0069ec6b999a2830cbbbe50a56.camel@intel.com>
+Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
         Kees Cook <keescook@chromium.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH 4.19 72/98] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-In-Reply-To: <20190828133713.GF8052@amd>
-Message-ID: <alpine.DEB.2.21.1908281610310.23149@nanos.tec.linutronix.de>
-References: <20190827113604.GB18218@amd> <alpine.DEB.2.21.1908271525480.1939@nanos.tec.linutronix.de> <20190828103113.GA14677@amd> <alpine.DEB.2.21.1908281231480.1869@nanos.tec.linutronix.de> <20190828114947.GC8052@amd> <20190828120024.GF4920@zn.tnic>
- <20190828120935.GD8052@amd> <20190828121628.GG4920@zn.tnic> <20190828122913.GE8052@amd> <20190828124621.GI4920@zn.tnic> <20190828133713.GF8052@amd>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Wed, 28 Aug 2019 07:57:41 -0700
+In-Reply-To: <20190828070308.GJ2332@hirez.programming.kicks-ass.net>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+         <20190813205225.12032-12-yu-cheng.yu@intel.com>
+         <20190823140233.GC2332@hirez.programming.kicks-ass.net>
+         <6c3dc33e16c8bbb6d45c0a6ec7c684de197fa065.camel@intel.com>
+         <20190828070308.GJ2332@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 28 Aug 2019, Pavel Machek wrote:
-> On Wed 2019-08-28 14:46:21, Borislav Petkov wrote:
-> > On Wed, Aug 28, 2019 at 02:29:13PM +0200, Pavel Machek wrote:
-> > > This is not a way to have an inteligent conversation.
+On Wed, 2019-08-28 at 09:03 +0200, Peter Zijlstra wrote:
+> On Tue, Aug 27, 2019 at 03:37:12PM -0700, Yu-cheng Yu wrote:
+> > On Fri, 2019-08-23 at 16:02 +0200, Peter Zijlstra wrote:
+> > > On Tue, Aug 13, 2019 at 01:52:09PM -0700, Yu-cheng Yu wrote:
+> > > 
+> > > > +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t
+> > > > to)
+> > > > +{
+> > > > +	if (pte_flags(pte) & from)
+> > > > +		pte = pte_set_flags(pte_clear_flags(pte, from), to);
+> > > > +	return pte;
+> > > > +}
+> > > 
+> > > Aside of the whole conditional thing (I agree it would be better to have
+> > > this unconditionally); the function doesn't really do as advertised.
+> > > 
+> > > That is, if @from is clear, it doesn't endeavour to make sure @to is
+> > > also clear.
+> > > 
+> > > Now it might be sufficient, but in that case it really needs a comment
+> > > and or different name.
+> > > 
+> > > An implementation that actually moves the bit is something like:
+> > > 
+> > > 	pteval_t a,b;
+> > > 
+> > > 	a = native_pte_value(pte);
+> > > 	b = (a >> from_bit) & 1;
+> > > 	a &= ~((1ULL << from_bit) | (1ULL << to_bit));
+> > > 	a |= b << to_bit;
+> > > 	return make_native_pte(a);
 > > 
-> > No, this *is* the way to keep the conversation sane, without veering
-> > off into some absurd claims.
-> > 
-> > So, to cut to the chase: you can simply add "rdrand=force" to your
-> > cmdline parameters and get back to using RDRAND.
-> > 
-> > And yet if you still feel this fix does not meet your expectations,
-> > you were told already to either produce patches or who to contact. I'm
-> > afraid complaining on this thread won't get you anywhere but that's your
-> > call.
+> > There can be places calling pte_wrprotect() on a PTE that is already RO +
+> > DIRTY_SW.  Then in pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW) we do
+> > not
+> >  want to clear _PAGE_DIRTY_SW.  But, I will look into this and make it more
+> > obvious.
 > 
-> No, this does not meet my expectations, it violates stable kernel
-> rules, and will cause regression to some users, while better solution
-> is known to be available.
+> Well, then the name 'move' is just wrong, because that is not the
+> semantics you're looking for.
+> 
+> So the thing is; if you provide a generic function that 'munges' two
+> bits, then it's name had better be accurate. But AFAICT you only ever
+> used this for the DIRTY bits, so it might be better to have a function
+> specifically for that and with a comment that spells out the exact
+> semantics and reasons for them.
 
-Your unqualified ranting does not meet my expectation either and it
-violates any rule of common sense.
+Yes, I will work on that.
 
-For the record:
-
-  Neither AMD nor we have any idea which particular machines have a fixed
-  BIOS and which have not. There is no technical indicator either at boot
-  time as the wreckage manifests itself only after resume.
-
-  So in the interest of users the only sensible decision is to disable
-  RDRAND for this class of CPUs.
-
-  If you have a list of machines which have a fixed BIOS, then provide it
-  in form of patches. If not then stop claiming that there is a better
-  solution available.
-
-Anyway, I'm done with that and further rants of yours go directly to
-/dev/null.
-
-Thanks for wasting everyones time
-
-       tglx
+Yu-cheng
