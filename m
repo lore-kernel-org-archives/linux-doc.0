@@ -1,123 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5A9C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 20:52:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95D667D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 21:05:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbfH1UwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 16:52:11 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:46126 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726616AbfH1UwL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 16:52:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=AVPMlOp8TwCm/B2SRGvb8TqqWHTIVFeNesWs0ES1bTo=; b=U0LY1DVwfDBtZbUe0Wc7XT4Ng
-        eCRauOI5QxY0qSLsBU4KORFmyGsMTdxvGzuOU8RjfgSgx5S/hvbfapnWuWyfFc/D/gKB/EUS04bpr
-        mrniz7hKRyE9sme4i34895JH8F21VNuwuXOR3UY5syKdXgblQp+mxa7l5JRhHKhwKbiPE=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1i34ux-0006c6-1Y; Wed, 28 Aug 2019 20:51:47 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 66E042742B61; Wed, 28 Aug 2019 21:51:44 +0100 (BST)
-Date:   Wed, 28 Aug 2019 21:51:44 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
-Message-ID: <20190828205144.GK4298@sirena.co.uk>
-Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20190827211244.7210-1-uwe@kleine-koenig.org>
- <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
- <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
+        id S1726954AbfH1VF2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 17:05:28 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:42620 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbfH1VF2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 17:05:28 -0400
+Received: by mail-pl1-f194.google.com with SMTP id y1so518582plp.9
+        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 14:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tGKLjqHdsKnrQMsqvxWYX8BNIB8dsHvVYmXitJQvIY8=;
+        b=RFlq1BGb97485VEGp4Xicp6KUlcliEx1eudqrOhXE304zaduAEIFLzfyYRgQaZCHtd
+         dVOpD7hpqr/L145nO32gUtJZSWeELibAPSuhK0kbCViYo6ci3zZPkEAJiKMhjc/IF1uG
+         pi0h//FAxE3PcRrC0B5/0yva1p1v9mmm0F2+w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tGKLjqHdsKnrQMsqvxWYX8BNIB8dsHvVYmXitJQvIY8=;
+        b=Ovab0sGjSFxEfol4eBFZHmjYI2jwXaXhPFPtc2tWHkjAGXwVD3gOMlA7UJPOCqx3gS
+         WyTAfah0SEB/ATczzJpzhX8SeVbbP1xYS69WjKJwOOpGLV+W41aRratUxj3r3H+aZlZh
+         RGLMcgRNj8PjR4/AI/inaWbWuDb+1gYC+17xXkFSVs23hNQMQHXmLLetipbOvOd7Cpn5
+         ESFBu0hhB+jTe+JLmIgGcn9a0tMITxT9rZFbA0gKSJy5WyUSNLW5rYR6ODwSNSw3jP7L
+         gAWwVHS6DeHSvlAfIWEc47sRjLzSK6uvORXWI6KAucDCEKzxdM+5sQqkwJkGKTl8p7mO
+         chjw==
+X-Gm-Message-State: APjAAAWOZMV3CHd31YZaP13j8eyyDn2sbjYpikrLfhuVvDKAyV4ILDid
+        V63X0k7KQkvXlBA8mdT+uXErSQ==
+X-Google-Smtp-Source: APXvYqwEgEEMC6zC9TdtXLixdm3FxBIusYyWN97g4JChtNKDV8MOyzj8EwSfdno3vbNm8Xsg1Oo8PA==
+X-Received: by 2002:a17:902:20c2:: with SMTP id v2mr5790480plg.209.1567026327074;
+        Wed, 28 Aug 2019 14:05:27 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id d129sm266319pfc.168.2019.08.28.14.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 14:05:26 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 17:05:25 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
+Message-ID: <20190828210525.GB75931@google.com>
+References: <5d648897.1c69fb81.5e60a.fc70@mx.google.com>
+ <20190828202330.GS26530@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="J2pR2RtFp0tAjF3C"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
-X-Cookie: Oatmeal raisin.
+In-Reply-To: <20190828202330.GS26530@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 28, 2019 at 01:23:30PM -0700, Paul E. McKenney wrote:
+> On Mon, Aug 26, 2019 at 09:33:54PM -0400, Joel Fernandes (Google) wrote:
+> > The dynticks_nmi_nesting counter serves 4 purposes:
+> > 
+> >       (a) rcu_is_cpu_rrupt_from_idle() needs to be able to detect first
+> >           interrupt nesting level.
+> > 
+> >       (b) We need to detect half-interrupts till we are sure they're not an
+> >           issue. However, change the comparison to DYNTICK_IRQ_NONIDLE with 0.
+> > 
+> >       (c) When a quiescent state report is needed from a nohz_full CPU.
+> >           The nesting counter detects we are a first level interrupt.
+> > 
+> > For (a) we can just use dyntick_nesting == 1 to determine this. Only the
+> > outermost interrupt that interrupted an RCU-idle state can set it to 1.
+> > 
+> > For (b), this warning condition has not occurred for several kernel
+> > releases.  But we still keep the warning but change it to use
+> > in_interrupt() instead of the nesting counter. In a later year, we can
+> > remove the warning.
+> > 
+> > For (c), the nest check is not really necessary since forced_tick would
+> > have been set to true in the outermost interrupt, so the nested/NMI
+> > interrupts will check forced_tick anyway, and bail.
+> 
+> Skipping the commit log and documentation for this pass.
+[snip] 
+> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > index 255cd6835526..1465a3e406f8 100644
+> > --- a/kernel/rcu/tree.c
+> > +++ b/kernel/rcu/tree.c
+> > @@ -81,7 +81,6 @@
+> >  
+> >  static DEFINE_PER_CPU_SHARED_ALIGNED(struct rcu_data, rcu_data) = {
+> >  	.dynticks_nesting = 1,
+> > -	.dynticks_nmi_nesting = 0,
+> 
+> This should be in the previous patch, give or take naming.
 
---J2pR2RtFp0tAjF3C
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Done.
 
-On Wed, Aug 28, 2019 at 09:59:16PM +0200, Uwe Kleine-K=F6nig wrote:
-> On 8/28/19 1:32 PM, Petr Mladek wrote:
+> >  	.dynticks = ATOMIC_INIT(RCU_DYNTICK_CTRL_CTR),
+> >  };
+> >  struct rcu_state rcu_state = {
+> > @@ -392,15 +391,9 @@ static int rcu_is_cpu_rrupt_from_idle(void)
+> >  	/* Check for counter underflows */
+> >  	RCU_LOCKDEP_WARN(__this_cpu_read(rcu_data.dynticks_nesting) < 0,
+> >  			 "RCU dynticks_nesting counter underflow!");
+> > -	RCU_LOCKDEP_WARN(__this_cpu_read(rcu_data.dynticks_nmi_nesting) <= 0,
+> > -			 "RCU dynticks_nmi_nesting counter underflow/zero!");
+> >  
+> > -	/* Are we at first interrupt nesting level? */
+> > -	if (__this_cpu_read(rcu_data.dynticks_nmi_nesting) != 1)
+> > -		return false;
+> > -
+> > -	/* Does CPU appear to be idle from an RCU standpoint? */
+> > -	return __this_cpu_read(rcu_data.dynticks_nesting) == 0;
+> > +	/* Are we the outermost interrupt that arrived when RCU was idle? */
+> > +	return __this_cpu_read(rcu_data.dynticks_nesting) == 1;
+> >  }
+> >  
+> >  #define DEFAULT_RCU_BLIMIT 10     /* Maximum callbacks per rcu_do_batch ... */
+> > @@ -564,11 +557,10 @@ static void rcu_eqs_enter(bool user)
+> >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+> >  
+> >  	/* Entering usermode/idle from interrupt is not handled. These would
+> > -	 * mean usermode upcalls or idle entry happened from interrupts. But,
+> > -	 * reset the counter if we warn.
+> > +	 * mean usermode upcalls or idle exit happened from interrupts. Remove
+> > +	 * the warning by 2020.
+> >  	 */
+> > -	if (WARN_ON_ONCE(rdp->dynticks_nmi_nesting != 0))
+> > -		WRITE_ONCE(rdp->dynticks_nmi_nesting, 0);
+> > +	WARN_ON_ONCE(in_interrupt());
+> 
+> And this is a red flag.  Bad things happen should some common code
+> that disables BH be invoked from the idle loop.  This might not be
+> happening now, but we need to avoid this sort of constraint.
+> How about instead merging ->dyntick_nesting into the low-order bits
+> of ->dyntick_nmi_nesting?
+> 
+> Yes, this assumes that we don't enter process level twice, but it should
+> be easy to add a WARN_ON() to test for that.  Except that we don't have
+> to because there is already this near the end of rcu_eqs_exit():
+> 
+> 	WARN_ON_ONCE(rdp->dynticks_nmi_nesting);
+> 
+> So the low-order bit of the combined counter could indicate process-level
+> non-idle, the next three bits could be unused to make interpretation
+> of hex printouts easier, and then the rest of the bits could be used in
+> the same way as currently.
+> 
+> This would allow a single read to see the full state, so that 0x1 means
+> at process level in the kernel, 0x11 is interrupt (or NMI) from process
+> level, 0x10 is interrupt/NMI from idle/user, and so on.
+> 
+> What am I missing here?  Why wouldn't this work, and without adding yet
+> another RCU-imposed constraint on some other subsystem?
 
-> > Please, do the opposite. Add conversion of few subsystems into the
-> > patchset and add more people into CC. We will see immediately whether
-> > it makes sense to spend time on this.
+What about replacing the warning with a WARN_ON_ONCE(in_irq()), would that
+address your concern?
 
-> For now I asked in the arm linux irc channel and got two people replying
-> (both added to Cc:):
+Also, considering this warning condition is most likely never occurring as we
+know it, and we are considering deleting it soon enough, is it really worth
+reimplementing the whole mechanism with a complex bit-sharing scheme just
+because of the BH-disable condition you mentioned, which likely doesn't
+happen today? In my implementation, this is just a simple counter. I feel
+combining bits in the same counter will just introduce more complexity that
+this patch tries to address/avoid.
 
-> Mark Brown (maintainer of SPI, regmap, ASoC and regulator) said:
+OTOH, I also don't mind with just deleting the warning altogether if you are
+Ok with that.
 
-> 1567019926 < broonie> ukleinek: I think that's a great idea and have
-> 	thought about trying to implement it in the past.
-> 1567019937 < broonie> ukleinek: Making the logs more directly readable
-> 	is enormously helpful.
+thanks!
 
-In the past I've actually implemented error code decoders like this for
-some other systems I've worked on due to annoyance with having to look
-up codes, as far as I can tell they went over quite well with other
-developers and I certainly found them helpful myself.  They're also
-useful to end users looking at logs, they're not always aware of how to
-find the relevant error code definitions so a slightly more descriptive
-messages can help people figure things out.
+ - Joel
 
-It does also occur to me that this might be useful to the people who
-want to work on making probe deferral quieter since it gives them an
-annotation that the number going in is an error code.  There's a bunch
-more work to do there though.
-
---J2pR2RtFp0tAjF3C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1m6V8ACgkQJNaLcl1U
-h9ADqAf8DQNAwWvUmNzD11savIMgUa9QDovvhuNqbDJ68y+q3/MNqqtULyxlM9EU
-ddDFK42VpctrmBRfQAKOxk+IuKGL3sPKFZhlSzc2Ilgbprj/A+4Jat91LxYZGZDZ
-OZarYQg0PoIrdzHWNjuCstvvklJktdoZ7bG5JHTootFTCfHRRaahp60OPtHa9Fiv
-BLee/u09Tk2bO8X9kfXs+EW6ETPYxlXffZxbbkU7jGVa9sS4/6YBjSFxI864k6b/
-BfxgfFnV0H4Kva/dSYOEaP9Z37uScY4bs/0AY/eOeOJBodYMvAK+u3SJKPAZzIuG
-JY6qO/tG/EcNAWFwnP+abgvmgahxNg==
-=6V5A
------END PGP SIGNATURE-----
-
---J2pR2RtFp0tAjF3C--
