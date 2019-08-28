@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 47F247D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 19:18:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 309AE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 19:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbfH1TSq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 15:18:46 -0400
-Received: from antares.kleine-koenig.org ([94.130.110.236]:55794 "EHLO
+        id S1726875AbfH1T70 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 15:59:26 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:57810 "EHLO
         antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726614AbfH1TSq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 15:18:46 -0400
+        with ESMTP id S1726315AbfH1T70 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 15:59:26 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by antares.kleine-koenig.org (Postfix) with ESMTP id 58A36787FFB;
-        Wed, 28 Aug 2019 21:18:43 +0200 (CEST)
+        by antares.kleine-koenig.org (Postfix) with ESMTP id 9D8647884A3;
+        Wed, 28 Aug 2019 21:59:22 +0200 (CEST)
 Received: from antares.kleine-koenig.org ([127.0.0.1])
         by localhost (antares.kleine-koenig.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RF-hXXnfhJbl; Wed, 28 Aug 2019 21:18:41 +0200 (CEST)
+        with ESMTP id KxhsB4YUSduu; Wed, 28 Aug 2019 21:59:21 +0200 (CEST)
 Received: from [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986] (unknown [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986])
         by antares.kleine-koenig.org (Postfix) with ESMTPSA;
-        Wed, 28 Aug 2019 21:18:41 +0200 (CEST)
+        Wed, 28 Aug 2019 21:59:21 +0200 (CEST)
 To:     Petr Mladek <pmladek@suse.com>
 Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -30,7 +30,9 @@ Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>
 References: <20190827211244.7210-1-uwe@kleine-koenig.org>
  <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
 From:   =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
@@ -126,23 +128,23 @@ Autocrypt: addr=uwe@kleine-koenig.org; prefer-encrypt=mutual; keydata=
  hCaye/ulWpSqZSdx+G9GkTn05lsuHu9zfTwY6B0A6nlrqQSR/yWPvSq1Ud6IOZY1alq7ZSag
  kC8vBDJg
 Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
-Message-ID: <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
-Date:   Wed, 28 Aug 2019 21:18:37 +0200
+Message-ID: <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
+Date:   Wed, 28 Aug 2019 21:59:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
 In-Reply-To: <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
 Content-Type: multipart/signed; micalg=pgp-sha512;
  protocol="application/pgp-signature";
- boundary="av11XUwE8mDhmOQ1qTtlQUyY8ix89TiJk"
+ boundary="rSOjE7rB6lX6GUyn5hB3dRaHY6tUB1oUA"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---av11XUwE8mDhmOQ1qTtlQUyY8ix89TiJk
-Content-Type: multipart/mixed; boundary="ojA5z5Pb7ExItRpmd7q9kHykuSBbk4DsD";
+--rSOjE7rB6lX6GUyn5hB3dRaHY6tUB1oUA
+Content-Type: multipart/mixed; boundary="vHmknm6J0swRVaD9EPFfKxtfQP3dIhZqt";
  protected-headers="v1"
 From: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
 To: Petr Mladek <pmladek@suse.com>
@@ -152,142 +154,22 @@ Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
  Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
+ linux-kernel@vger.kernel.org,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Mark Brown <broonie@kernel.org>
+Message-ID: <ebd9e2f6-a6f7-b3df-480d-cd6b818fb065@kleine-koenig.org>
 Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
 References: <20190827211244.7210-1-uwe@kleine-koenig.org>
  <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
 In-Reply-To: <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
 
---ojA5z5Pb7ExItRpmd7q9kHykuSBbk4DsD
+--vHmknm6J0swRVaD9EPFfKxtfQP3dIhZqt
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hello Petr,
-
 On 8/28/19 1:32 PM, Petr Mladek wrote:
 > On Tue 2019-08-27 23:12:44, Uwe Kleine-K=C3=B6nig  wrote:
->> Petr Mladek had some concerns:
->>> There are ideas to make the code even more tricky to reduce
->>> the size, keep it fast.
->>
->> I think Enrico Weigelt's suggestion to use a case is the best
->> performance-wise so that's what I picked up. Also I hope that
->> performance isn't that important because the need to print an error
->> should not be so common that it really hurts in production.
->=20
-> I personally do not like switch/case. It is a lot of code.
-> I wonder if it even saved some space.
-
-I guess we have to die either way. Either it is quick or it is space
-efficient. With the big case I trust the compiler to pick something
-sensible expecting that it adapts for example to -Osize.
-
-> If you want to safe space, I would use u16 to store the numbers.
-> Or I would use array of strings. There will be only few holes.
->=20
-> You might also consider handling only the most commonly
-> used codes from errno.h and errno-base.h (1..133). There will
-> be no holes and the codes are stable.
-
-I'd like to postpone the discussion about "how" until we agreed about
-the "if at all".
-
->>> Both, %dE modifier and the output format (ECODE) is non-standard.
->>
->> Yeah, obviously right. The problem is that the new modifier does
->> something that wasn't implemented before, so it cannot match any
->> standard. %pI is only known on Linux either, so I think being
->> non-standard is a weak argument.
->=20
-> I am not completely sure that %p modifiers were a good idea.
-> They came before I started maintaining printk(). They add more
-> complex algorithms into paths where we could not report problems
-> easily (printk recursion). Also they are causing problems with
-> unit testing that might be done in userspace. These non-standard
-> formats cause that printk() can't be simply substituted by printf().
-
-In my eyes the wish to have printk() and userspace's printf
-feature-identical isn't helpful because they have similar but not equal
-purposes. And if a driver author cares about being able to use their
-code 1:1 in userspace they could just not use %dE, %pI and whatever
-there is additionally.
-
-> I am not keen to spread these problems over more formats.
-> Also %d format is more complicated. It is often used with
-> already existing modifiers.
-
-I don't understand what you want to tell me here.
-
->>> Upper letters gain a lot of attention. But the error code is
->>> only helper information. Also many error codes are misleading because=
-
->>> they are used either wrongly or there was no better available.
->>
->> This isn't really an argument against the patch I think. Sure, if a
->> function returned (say) EIO while ETIMEOUT would be better, my patch
->> doesn't improve that detail. Still
->>
->>         mydev: Failed to initialize blablub: EIO
->>
->> is more expressive than
->>
->>         mydev: Failed to initialize blablub: -5
->=20
-> OK, upper letters probably are not a problem.
->=20
-> But what about EWOULDBLOCK and EDEADLOCK? They have the same
-> error codes as EAGAIN and EDEADLK. It might cause a lot of confusion.
->
-> People might spend a lot of time searching for EAGAIN before they
-> notice that EWOULDBLOCK was used in the code instead.
-
-It already does now. If you start to debug an error message that tells
-you the error is -11, you might well come to the conclusion you have to
-look for EDEADLK. IMHO the right approach here should be to declare one
-of the duplicates as the "right" one and replace the wrong one in the
-complete tree (apart from the definition for user space of course).
-After that the problem with these duplicates is completely orthogonal
-(it is already now mostly orthogonal in my eyes) and also solved for
-those who picked the wrong one by hand.
-
-> Also you still did not answer the question where the idea came from.
-> Did it just look nice? Anyone asked for it? Who? Why?
-
-It was my idea, and I didn't talk about it before creating a patch. You
-asked in reply to v1: "Did it look like a good idea?
-Did anyone got tired by searching for the error codes many
-times a day? Did the idea came from a developer, support, or user, please=
-?"
-
-So yes, having to lookup the right error code from messages is something
-that annoys me, especially because there are at least two files you have
-to check for the definition. I consider myself to have all three hats
-(developer, supporter and user), and your feedback set apart my
-impression is that all people replying to this thread consider it a good
-idea, too.
-
->>> There is no proof that this approach would be widely acceptable for
->>> subsystem maintainers. Some might not like mass and "blind" code
->>> changes. Some might not like the output at all.
->>
->> I don't intend to mass convert existing code. I would restrict myself =
-to
->> updating the documentation and then maybe send a patch per subsystem a=
-s an
->> example to let maintainers know and judge for themselves if they like =
-it or
->> not. And if it doesn't get picked up, we can just remove the feature a=
-gain next
->> year (or so).
->=20
-> It looks like a lot of potentially useless work.
-
-If the idea will not gain speed, removing the then few users is straight
-forward (just a question of calling sed s/%dE/%d/ on all affected
-files). So at least it shouldn't be your useless work and time.
-
 >> I dropped the example conversion, I think the idea should be clear now=
 
 >> even without an explicit example.
@@ -295,33 +177,49 @@ files). So at least it shouldn't be your useless work and time.
 > Please, do the opposite. Add conversion of few subsystems into the
 > patchset and add more people into CC. We will see immediately whether
 > it makes sense to spend time on this.
->=20
-> I personally think that this feature is not worth the code, data,
-> and bikeshedding.
 
-I agree about the bike shedding ;-)
+For now I asked in the arm linux irc channel and got two people replying
+(both added to Cc:):
+
+Mark Brown (maintainer of SPI, regmap, ASoC and regulator) said:
+
+1567019926 < broonie> ukleinek: I think that's a great idea and have
+	thought about trying to implement it in the past.
+1567019937 < broonie> ukleinek: Making the logs more directly readable
+	is enormously helpful.
+
+and Alexandre Belloni (arm/at91, mips/microsemi, rtc) said:
+
+1567021451 < abelloni> ukleinek: seems good to me but it would probably
+	be better to be able to generate the list
+
+(I fully agree to the wish to generate the list, as I already wrote
+before, I don't have a good idea how to do that without generating
+C-Code by some means which is ugly and also complicated by the fact that
+there are several locations (at least for now) that have definitions for
+error codes.)
 
 Best regards
 Uwe
 
 
---ojA5z5Pb7ExItRpmd7q9kHykuSBbk4DsD--
+--vHmknm6J0swRVaD9EPFfKxtfQP3dIhZqt--
 
---av11XUwE8mDhmOQ1qTtlQUyY8ix89TiJk
+--rSOjE7rB6lX6GUyn5hB3dRaHY6tUB1oUA
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl1m040ACgkQwfwUeK3K
-7AncaAf/ZpT0ssvDEpUv6XUofb7GwOi1usWX+ObOzkvRFWT8qDANhYhCcEmNhLVg
-LL/w5sEqZlbDroJ6RUS24VpR9Mkv3AQjjeBcbJQ6meU9u9ceM1rvktsQSaWD3OYX
-gXLp3Ayv2bmP/pCBOb1T7Aiam0QMDyIJfajoYjGX4QKWVs/7QO3t2k8JRCGqi/wX
-35+mulF7/+CQ/w92Z5JLFPBA4Clnbo5zmEo/rDudnWCjs+m5DwH58oZK0zHMcbNZ
-OrNDKE5bJsOzLKVQ5sSyDSGm0cpxKQ13uwyhnuTJGBWTR/E9LPYs6jhJXdzVwFc3
-lKeR8dDYqTjIYHy1PRu3f8eymN0APw==
-=bhp5
+iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl1m3RQACgkQwfwUeK3K
+7Al34Af6AyGEW+FM8toEL39gVnkll2wZWvdjvmx7WvptZ7gflV6xx4pWZYP556yo
+Ibr1pTbWeLd60aMubcr8gZCIPnvTimtVN9B58ff1X2ehK8fH+adPFCs0NJWqDdkb
+tZ9Ha415xoxDmv1EILjIaWCcF/EiWjyRx2utlTM6C9Gt+thsHEpsO2Hejv1s4LSb
+7yJR7A6yqIN/4uUd7eyG6LsuP4gwMyKwMcsCRCR3I3LbJG0pcPXRTA0zUyaCqfcS
+xun/VoPrEFhJGlCvSMAcXW8+hdFCB/xFvjBpUISev6HF+uJ+cnyKQ1P3esw3apcJ
+gl/YlHwQi5b9DDxXWC3fXwNgf9w28g==
+=OVBx
 -----END PGP SIGNATURE-----
 
---av11XUwE8mDhmOQ1qTtlQUyY8ix89TiJk--
+--rSOjE7rB6lX6GUyn5hB3dRaHY6tUB1oUA--
