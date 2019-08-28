@@ -3,92 +3,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7ED757D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 12:46:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C6A517D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 12:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbfH1Mq2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 08:46:28 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:47058 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726270AbfH1Mq2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Aug 2019 08:46:28 -0400
-Received: from zn.tnic (p200300EC2F0A5300B1A6357224C8EB83.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:5300:b1a6:3572:24c8:eb83])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 596B01EC09E2;
-        Wed, 28 Aug 2019 14:46:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1566996386;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=YotASNKG5TQSIo5/90ZJMMOo66u6rq+Oxb5MG7ExeFI=;
-        b=ANJ2J/8Qgwxx2nKsfT3swocAsnLzRZS10vUSsL9UD+cLKvyOm49ULSHJl4vQTFa2Vwnp60
-        2tNRkKLRq05O9sokFKiG5dlleG3PLvhXaK++tvwHsGx84jexrhunszr8RoDIXSeJpWCoP5
-        kit090PCjxJItAS0rgxU07S8c5EvYRs=
-Date:   Wed, 28 Aug 2019 14:46:21 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
+        id S1726253AbfH1MtW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 08:49:22 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:40812 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726394AbfH1MtU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 08:49:20 -0400
+Received: by mail-lf1-f67.google.com with SMTP id u29so2052022lfk.7
+        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2019 05:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Zlkz8KUfDT8cC4jOhmIeSJINsnWdWSyOo+2Oixz/yYs=;
+        b=CEH/2rsPg2RAJzBYTHoa+XO5U2t7zjT6RLrxTXq1QnhwFU+qH7obrd3ZUvIGEJTKh9
+         jACanixwWe4ptM6SADDhk04KKtwebYbPeXduxEKbP/CxbjYK1beusXiHESDfbZj/ioT2
+         8GxAB6JIyk3PzqIhR/zXF51yfSVgc48MEJi+c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Zlkz8KUfDT8cC4jOhmIeSJINsnWdWSyOo+2Oixz/yYs=;
+        b=cqSwRzdx0tTSKxbQ7Md5fRGZlz+1VDrEi7YiV/DSeOHlS4w6CzfNIyl4TzZMVfTtwS
+         03FlVyCmn1OWPHEUQYMc3TuQDlmyiN5TjezZxCvmYlESspF9pOo1MjvrO/b4dWMvcDnO
+         gINCp82ubXpLRn1bqo7tnx7KS6kVJBTNLKTnu0zaEFIJEsOHk5UFdTjtXRLicFL2wg09
+         b8WCOxMLpg5gzNeMSPFajNcHU6I0eJeUGeVTKJb5x/t0g/TISJ0c8iUHxyMjtaaajuOD
+         axBJeGNnyJWXb1vWMrCbWESgzU/lvmM/NUh9jSPDulaRtKCzPQBpgSKMRkjrs41zEwE5
+         3ShA==
+X-Gm-Message-State: APjAAAWZ88aH1NOVwcsu7LRToCUuOXzxtcnj/9NpB7nSnlULwVgIX1wJ
+        sQIe8A5Qh3y5sZLN8gNvFbI6hw==
+X-Google-Smtp-Source: APXvYqyuyR7dqvFwYw4L2nqcfsgayKXert43eSrWPgU+L10hsDn9DiY2Z/FGPBUwry5rRf6lR4ufwQ==
+X-Received: by 2002:a19:6d02:: with SMTP id i2mr2502485lfc.191.1566996557855;
+        Wed, 28 Aug 2019 05:49:17 -0700 (PDT)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id b30sm814534lfq.59.2019.08.28.05.49.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 28 Aug 2019 05:49:17 -0700 (PDT)
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+To:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
+        Steven Rostedt <rostedt@goodmis.org>, Enrico@kleine-koenig.org,
+        Weigelt@kleine-koenig.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Chen Yu <yu.c.chen@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH 4.19 72/98] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-Message-ID: <20190828124621.GI4920@zn.tnic>
-References: <20190827072722.020603090@linuxfoundation.org>
- <20190827113604.GB18218@amd>
- <alpine.DEB.2.21.1908271525480.1939@nanos.tec.linutronix.de>
- <20190828103113.GA14677@amd>
- <alpine.DEB.2.21.1908281231480.1869@nanos.tec.linutronix.de>
- <20190828114947.GC8052@amd>
- <20190828120024.GF4920@zn.tnic>
- <20190828120935.GD8052@amd>
- <20190828121628.GG4920@zn.tnic>
- <20190828122913.GE8052@amd>
+        metux IT consult <lkml@metux.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz> <87o9097bff.fsf@intel.com>
+ <20190828120246.GA31416@jagdpanzerIV>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <087e8e18-8044-27ef-b0bd-8a1093f53b32@rasmusvillemoes.dk>
+Date:   Wed, 28 Aug 2019 14:49:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190828122913.GE8052@amd>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190828120246.GA31416@jagdpanzerIV>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 02:29:13PM +0200, Pavel Machek wrote:
-> This is not a way to have an inteligent conversation.
+On 28/08/2019 14.02, Sergey Senozhatsky wrote:
+> On (08/28/19 14:54), Jani Nikula wrote:
+> [..]
+>>> I personally think that this feature is not worth the code, data,
+>>> and bikeshedding.
+>>
+>> The obvious alternative, I think already mentioned, is to just add
+>> strerror() or similar as a function. I doubt there'd be much opposition
+>> to that. Folks could use %s and strerr(ret). And a follow-up could add
+>> the special format specifier if needed.
+> 
+> Yeah, I'd say that strerror() would be a better alternative
+> to vsprintf() specifier. (if we decide to add such functionality).
 
-No, this *is* the way to keep the conversation sane, without veering
-off into some absurd claims.
+Please no. The .text footprint of the changes at the call sites to do
+pr_err("...%s...", errcode(err)) instead of the current
+pr_err("...%d...", err) would very soon dwarf whatever is necessary to
+implement %pE or %dE. Also that would prevent any kind of graceful
+fallback in case err doesn't have a known value - errcode() would have
+to return some fixed "huh, unknown error number" string, so we'd lose
+the actual number.
 
-So, to cut to the chase: you can simply add "rdrand=force" to your
-cmdline parameters and get back to using RDRAND.
-
-And yet if you still feel this fix does not meet your expectations,
-you were told already to either produce patches or who to contact. I'm
-afraid complaining on this thread won't get you anywhere but that's your
-call.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Rasmus
