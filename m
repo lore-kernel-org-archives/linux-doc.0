@@ -5,104 +5,184 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9AE597D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 13:37:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD0CA7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 13:49:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726341AbfH1NhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 09:37:17 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:40944 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbfH1NhR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 09:37:17 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id C98C982573; Wed, 28 Aug 2019 15:37:00 +0200 (CEST)
-Date:   Wed, 28 Aug 2019 15:37:13 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Pavel Machek <pavel@denx.de>, Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chen Yu <yu.c.chen@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+        id S1726429AbfH1NtD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 09:49:03 -0400
+Received: from foss.arm.com ([217.140.110.172]:59844 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726400AbfH1NtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Aug 2019 09:49:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F43828;
+        Wed, 28 Aug 2019 06:49:02 -0700 (PDT)
+Received: from localhost (c02w217fhv2r.copenhagen.arm.com [10.32.148.24])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1DA13F246;
+        Wed, 28 Aug 2019 06:49:01 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 15:49:00 +0200
+From:   Christoffer Dall <christoffer.dall@arm.com>
+To:     Steven Price <steven.price@arm.com>
+Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH 4.19 72/98] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-Message-ID: <20190828133713.GF8052@amd>
-References: <20190827113604.GB18218@amd>
- <alpine.DEB.2.21.1908271525480.1939@nanos.tec.linutronix.de>
- <20190828103113.GA14677@amd>
- <alpine.DEB.2.21.1908281231480.1869@nanos.tec.linutronix.de>
- <20190828114947.GC8052@amd>
- <20190828120024.GF4920@zn.tnic>
- <20190828120935.GD8052@amd>
- <20190828121628.GG4920@zn.tnic>
- <20190828122913.GE8052@amd>
- <20190828124621.GI4920@zn.tnic>
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 01/10] KVM: arm64: Document PV-time interface
+Message-ID: <20190828134900.GA2113@lvm>
+References: <20190821153656.33429-1-steven.price@arm.com>
+ <20190821153656.33429-2-steven.price@arm.com>
+ <20190827085706.GB6541@e113682-lin.lund.arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="KJY2Ze80yH5MUxol"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190828124621.GI4920@zn.tnic>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190827085706.GB6541@e113682-lin.lund.arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Aug 27, 2019 at 10:57:06AM +0200, Christoffer Dall wrote:
+> On Wed, Aug 21, 2019 at 04:36:47PM +0100, Steven Price wrote:
+> > Introduce a paravirtualization interface for KVM/arm64 based on the
+> > "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+> > 
+> > This only adds the details about "Stolen Time" as the details of "Live
+> > Physical Time" have not been fully agreed.
+> > 
+> > User space can specify a reserved area of memory for the guest and
+> > inform KVM to populate the memory with information on time that the host
+> > kernel has stolen from the guest.
+> > 
+> > A hypercall interface is provided for the guest to interrogate the
+> > hypervisor's support for this interface and the location of the shared
+> > memory structures.
+> > 
+> > Signed-off-by: Steven Price <steven.price@arm.com>
+> > ---
+> >  Documentation/virt/kvm/arm/pvtime.txt | 100 ++++++++++++++++++++++++++
+> >  1 file changed, 100 insertions(+)
+> >  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
+> > 
+> > diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
+> > new file mode 100644
+> > index 000000000000..1ceb118694e7
+> > --- /dev/null
+> > +++ b/Documentation/virt/kvm/arm/pvtime.txt
+> > @@ -0,0 +1,100 @@
+> > +Paravirtualized time support for arm64
+> > +======================================
+> > +
+> > +Arm specification DEN0057/A defined a standard for paravirtualised time
+> > +support for AArch64 guests:
+> > +
+> > +https://developer.arm.com/docs/den0057/a
+> > +
+> > +KVM/arm64 implements the stolen time part of this specification by providing
+> > +some hypervisor service calls to support a paravirtualized guest obtaining a
+> > +view of the amount of time stolen from its execution.
+> > +
+> > +Two new SMCCC compatible hypercalls are defined:
+> > +
+> > +PV_FEATURES 0xC5000020
+> > +PV_TIME_ST  0xC5000022
+> > +
+> > +These are only available in the SMC64/HVC64 calling convention as
+> > +paravirtualized time is not available to 32 bit Arm guests. The existence of
+> > +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
+> > +mechanism before calling it.
+> > +
+> > +PV_FEATURES
+> > +    Function ID:  (uint32)  : 0xC5000020
+> > +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
+> > +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+> > +                              PV-time feature is supported by the hypervisor.
+> > +
+> > +PV_TIME_ST
+> > +    Function ID:  (uint32)  : 0xC5000022
+> > +    Return value: (int64)   : IPA of the stolen time data structure for this
+> > +                              (V)CPU. On failure:
+> > +                              NOT_SUPPORTED (-1)
+> > +
+> > +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+> > +with inner and outer write back caching attributes, in the inner shareable
+> > +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+> > +meaningfully filled by the hypervisor (see structure below).
+> > +
+> > +PV_TIME_ST returns the structure for the calling VCPU.
+> > +
+> > +Stolen Time
+> > +-----------
+> > +
+> > +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+> > +
+> > +  Field       | Byte Length | Byte Offset | Description
+> > +  ----------- | ----------- | ----------- | --------------------------
+> > +  Revision    |      4      |      0      | Must be 0 for version 0.1
+> > +  Attributes  |      4      |      4      | Must be 0
+> > +  Stolen time |      8      |      8      | Stolen time in unsigned
+> > +              |             |             | nanoseconds indicating how
+> > +              |             |             | much time this VCPU thread
+> > +              |             |             | was involuntarily not
+> > +              |             |             | running on a physical CPU.
+> > +
+> > +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
+> > +will be present within a reserved region of the normal memory given to the
+> > +guest. The guest should not attempt to write into this memory. There is a
+> > +structure per VCPU of the guest.
+> > +
+> > +User space interface
+> > +====================
+> > +
+> > +User space can request that KVM provide the paravirtualized time interface to
+> > +a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
+> > +
+> > +    struct kvm_create_device pvtime_device = {
+> > +            .type = KVM_DEV_TYPE_ARM_PV_TIME,
+> > +            .attr = 0,
+> > +            .flags = 0,
+> > +    };
+> > +
+> > +    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
+> > +
+> > +Creation of the device should be done after creating the vCPUs of the virtual
+> > +machine.
+> > +
+> > +The IPA of the structures must be given to KVM. This is the base address
+> > +of an array of stolen time structures (one for each VCPU). The base address
+> > +must be page aligned. The size must be at least 64 * number of VCPUs and be a
+> > +multiple of PAGE_SIZE.
+> > +
+> > +The memory for these structures should be added to the guest in the usual
+> > +manner (e.g. using KVM_SET_USER_MEMORY_REGION).
+> > +
+> > +For example:
+> > +
+> > +    struct kvm_dev_arm_st_region region = {
+> > +            .gpa = <IPA of guest base address>,
+> > +            .size = <size in bytes>
+> > +    };
+> 
+> This feel fragile; how are you handling userspace creating VCPUs after
+> setting this up, the GPA overlapping guest memory, etc.  Is the
+> philosophy here that the VMM can mess up the VM if it wants, but that
+> this should never lead attacks on the host (we better hope not) and so
+> we don't care?
+> 
+> It seems to me setting the IPA per vcpu throught the VCPU device would
+> avoid a lot of these issues.  See
+> Documentation/virt/kvm/devices/vcpu.txt.
+> 
+> 
+I discussed this with Marc the other day, and we realized that if we
+make the configuration of the IPA per-PE, then a VMM can construct a VM
+where these data structures are distributed within the IPA space of a
+VM, which could lead to a lower TLB pressure for some
+configurations/workloads.
 
---KJY2Ze80yH5MUxol
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
 
-On Wed 2019-08-28 14:46:21, Borislav Petkov wrote:
-> On Wed, Aug 28, 2019 at 02:29:13PM +0200, Pavel Machek wrote:
-> > This is not a way to have an inteligent conversation.
->=20
-> No, this *is* the way to keep the conversation sane, without veering
-> off into some absurd claims.
->=20
-> So, to cut to the chase: you can simply add "rdrand=3Dforce" to your
-> cmdline parameters and get back to using RDRAND.
->=20
-> And yet if you still feel this fix does not meet your expectations,
-> you were told already to either produce patches or who to contact. I'm
-> afraid complaining on this thread won't get you anywhere but that's your
-> call.
-
-No, this does not meet my expectations, it violates stable kernel
-rules, and will cause regression to some users, while better solution
-is known to be available.
-
-Best regards,
-
-								Pavel
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---KJY2Ze80yH5MUxol
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl1mg4kACgkQMOfwapXb+vJ5lQCfe67ZQO1KqO+Emi7h3sVMu+RT
-SAEAn1oFIuqthMNyVQDSzzirRUHxxId7
-=FeXY
------END PGP SIGNATURE-----
-
---KJY2Ze80yH5MUxol--
+    Christoffer
