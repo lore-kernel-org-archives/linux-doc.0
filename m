@@ -1,129 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC5BF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 00:12:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DFB37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 03:58:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726025AbfH1AMX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Aug 2019 20:12:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49532 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725992AbfH1AMX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Aug 2019 20:12:23 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7S08IYq032288;
-        Tue, 27 Aug 2019 20:11:49 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uncnfvdxd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Aug 2019 20:11:49 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7S08t0P034595;
-        Tue, 27 Aug 2019 20:11:49 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uncnfvdx9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Aug 2019 20:11:49 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7S0Ao0g006619;
-        Wed, 28 Aug 2019 00:11:48 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
-        by ppma01dal.us.ibm.com with ESMTP id 2unb3ssc23-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Aug 2019 00:11:48 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7S0Blni7930552
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Aug 2019 00:11:47 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 754A9B205F;
-        Wed, 28 Aug 2019 00:11:47 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 51F1DB2066;
-        Wed, 28 Aug 2019 00:11:47 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.80.209.133])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 28 Aug 2019 00:11:47 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id F15FA16C17EA; Tue, 27 Aug 2019 17:11:46 -0700 (PDT)
-Date:   Tue, 27 Aug 2019 17:11:46 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <fweisbec@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [RFC v1 0/2] RCU dyntick nesting counter cleanups
-Message-ID: <20190828001146.GM26530@linux.ibm.com>
-Reply-To: paulmck@kernel.org
-References: <5d648893.1c69fb81.5e60a.fc6c@mx.google.com>
+        id S1726254AbfH1D6s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Aug 2019 23:58:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44958 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726232AbfH1D6s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Aug 2019 23:58:48 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 465DF20679;
+        Wed, 28 Aug 2019 03:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566964727;
+        bh=m6h+Bl3vJyFNkRo8EsoTNu6M/5eP2UUcfGWd/62JK+U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xm798tLHE3siV/HWJ4c/1D1k7BxnGhZK0ArJZMeW+faT9KFLkOowMYobxb2HHlZmx
+         oh5ScM5lh1pwFxK8GSY6KEz3CFPWiywAYvEGVnJoiNuTBZdhfam6eOXcvJOx9zABOs
+         YRHMOnQ9tL1F2U7IWtZ+jMUYJg4QGGNOQhXM7plI=
+Date:   Tue, 27 Aug 2019 23:58:46 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     gregkh@linuxfoundation.org
+Cc:     thomas.lendacky@amd.com, akpm@linux-foundation.org,
+        andrew.cooper3@citrix.com, bp@suse.de, corbet@lwn.net,
+        hpa@zytor.com, jgross@suse.com, jpoimboe@redhat.com,
+        keescook@chromium.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, mingo@redhat.com,
+        natechancellor@gmail.com, pavel@ucw.cz, pbonzini@redhat.com,
+        rjw@rjwysocki.net, stable@vger.kernel.org, tglx@linutronix.de,
+        x86@kernel.org, yu.c.chen@intel.com
+Subject: Re: FAILED: patch "[PATCH] x86/CPU/AMD: Clear RDRAND CPUID bit on
+ AMD family 15h/16h" failed to apply to 4.9-stable tree
+Message-ID: <20190828035846.GY5281@sasha-vm>
+References: <1566809975147242@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <5d648893.1c69fb81.5e60a.fc6c@mx.google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-27_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908270231
+In-Reply-To: <1566809975147242@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 26, 2019 at 09:33:52PM -0400, Joel Fernandes (Google) wrote:
-> These patches clean up the usage of dynticks nesting counters simplifying the
-> code, while preserving the usecases.
-> 
-> It is a much needed simplification, makes the code less confusing, and prevents
-> future bugs such as those that arise from forgetting that the
-> dynticks_nmi_nesting counter is not a simple counter and can be "crowbarred" in
-> common situations.
-> 
-> Several nights of rcutorture testing with CONFIG_RCU_EQS_DEBUG on all RCU
-> kernel configurations have survived without any splats.
-> 
-> Further testing is in progress, hence marked as RFC!
+On Mon, Aug 26, 2019 at 10:59:35AM +0200, gregkh@linuxfoundation.org wrote:
+>The patch below does not apply to the 4.9-stable tree.
+>If someone wants it applied there, or to any other stable or longterm
+>tree, then please email the backport, including the original git commit
+>id to <stable@vger.kernel.org>.
 
-My intent was to review this today, but this ran afoul of recent 3.10
-work that made for some "interesting" review comments.  Fortunately,
-I realized my mistake before sending the email.  I then reviewed the
-current 2019 RCU dyntick-idle code.
+I've fixed it up and queued for 4.9 and 4.4.
 
-I am doing some (possibly redundant) rcutorture runs on them here, and
-will take a fresh look tomorrow.
-
-							Thanx, Paul
-
-> thanks,
-> 
->  - Joel
-> 
-> Joel Fernandes (Google) (2):
-> rcu/tree: Clean up dynticks counter usage
-> rcu/tree: Remove dynticks_nmi_nesting counter
-> 
-> .../Data-Structures/Data-Structures.rst       | 31 ++----
-> Documentation/RCU/stallwarn.txt               |  6 +-
-> kernel/rcu/rcu.h                              |  4 -
-> kernel/rcu/tree.c                             | 98 +++++++++----------
-> kernel/rcu/tree.h                             |  4 +-
-> kernel/rcu/tree_stall.h                       |  4 +-
-> 6 files changed, 64 insertions(+), 83 deletions(-)
-> 
-> --
-> 2.23.0.187.g17f5b7556c-goog
-> 
+--
+Thanks,
+Sasha
