@@ -3,51 +3,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF6D27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 14:38:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A103A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 14:38:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfH2OiO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 10:38:14 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53716 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727968AbfH2OiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 10:38:14 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 10so3984084wmp.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 07:38:13 -0700 (PDT)
+        id S1727411AbfH2Oif (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 10:38:35 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35739 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727942AbfH2OiL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 10:38:11 -0400
+Received: by mail-wm1-f66.google.com with SMTP id l2so4148442wmg.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 07:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0MCSm3PwhLeVZkLTF5crXAvat1wv6lwOmpNcM2aNtkA=;
-        b=goztYIZL91fhNd7Q0e26K36T37XhDMhY9r1mWBqLUP77R6Fca/IWYIh+pU/sYypGqo
-         AIG/cl+IQsJe92KLYVP7WYP+kzkACZsg7acw0iy+0WZx20r844FMHvhbeOKMJMv/dhP9
-         9u74rEDU8/G1ig3+CkThjhsIivLAjuuwAx7sWCga3Rd+lrYBmBgJvR0GvuzZxKjMHpt3
-         2z2HfVRae22htdzMQrUZx+GKJ+yvVnsBwQJf9J34KxztRFUCbnTCI3NZoNbexHBsqm8u
-         07vKriwVFgPbjcGmcHNRWIhhOl7N8L8er8KugnPooYnDy99GFGGcfC/UVPfNEEUFCQrr
-         Y1qg==
+        bh=u8Ebk7QWN+LKifxQ3AQ5Izn0oOsKOrrKqkWevkW/A00=;
+        b=EcliQ+vOmLp3SblL1HLYAa8iir+biJd+OuLdMsEJFq9COfCD7D0KPcbfpzpd4s3622
+         h3BFVLHJEYzZOhzbRW2DmbiY9b05s0etnxIm1RMbEYLcyHvvHY8I9W1PvblE1bLP2eRj
+         yFKZ1WL9uSrCLhsYv9+dBIat5Fida7JjXleICprcESjn8+zj+aHaS32gauGTBgKgWR7c
+         thEy5wAK3ZO0qcoZlvaS34DRBe/JVWG3N6q1TYz6zUviwAk7qTJoBWELthZUjperax30
+         SGsXChmwh9WqBrQjk2+JYk6cYmT/cGHpKdB+6vDDRXbdwEVHXXZC4U61HiCVQqhLvVdu
+         kabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0MCSm3PwhLeVZkLTF5crXAvat1wv6lwOmpNcM2aNtkA=;
-        b=k4rf0EJPDHxVf/qJLe42KVVlkrb+qlOOt45iOLUanPrytjUdknohs667SFNcHIXVZs
-         OM0ouzwDWSJrwshYyxio1JawCAVEDN5ZYF5H7/ec8/XfPAgHyQMFu6cjUYnZzbX/+vHc
-         kWmnSKHKBpEQTANGK7Mt793ttUFwdj9rjfda0DUMAaR3rluws+FF4od5iziCUACHZlLN
-         RtUHYU1e0XhTumIjeNvHj04RlHPETtQOiklqurvBPeKOHF8QQPFHn3rxgeJYisU6Px1w
-         eQnjtX8KEysgCWjahE1/KwwEP6dQz7rP8EQz+oujM60qhMuWj+qc7d0F+NtGQrp8Nx2C
-         6sfg==
-X-Gm-Message-State: APjAAAUAryE8Ss4TPIduce7rFOaHzb/Q3lEoA7a7J/LG6uYi58vCKUC3
-        lxhc0/dAS84Q2pUUjr2nApJzmw==
-X-Google-Smtp-Source: APXvYqx9ZRM6jA7Xi+MPZwFdPZ5Ui7XDERLRN1q9Q5CY6ZlmVljwQAixjqmpTApxKlfRhibyItWZGQ==
-X-Received: by 2002:a05:600c:254e:: with SMTP id e14mr1004275wma.150.1567089492368;
-        Thu, 29 Aug 2019 07:38:12 -0700 (PDT)
+        bh=u8Ebk7QWN+LKifxQ3AQ5Izn0oOsKOrrKqkWevkW/A00=;
+        b=KGP8GyZbgZ3dv07tXL9uyS8URopcWMKPWWcDGT1Tk7v+z1dLJrlBIY4Sxm+aLTmkWX
+         qGYH09tXrf9FCd/cAA71VoK47/MmloItjmgrlscOWX5fATMEDrl4ZFcerR5+pFYeTTlU
+         PxYHHsNS3+RO9aUVANhtfL1LP+2GGszeVxUlnjEcYudRt/h5yAXhPHeaxBPj33iy3vNG
+         XUuq07uzwN2kv3IHx2+k9PZ6JcA+572aknS/Z9QnqCg771aGQFhfqY8j/RfEMm4hfxRX
+         gsx3wdjOB038XidSDixV0iEPKjBqSiEPMVyMGKCYcRNgIbhtF/d3bI1jMbOA8U+uq43b
+         67mQ==
+X-Gm-Message-State: APjAAAVH9B0EsWqP7EtpK1QmNIzq78BDY6voXMRx9XcpSRprYomcjW/8
+        NiR1v/ay9gZdggmUOzjc83lskQ==
+X-Google-Smtp-Source: APXvYqyZPJd9llioD6vMb/qjxHg/Ic6BXTeCoVOfUAhQH3SeuOwXjfdHya2X39hvaybpiH5Oblo68A==
+X-Received: by 2002:a7b:c933:: with SMTP id h19mr11498491wml.177.1567089490210;
+        Thu, 29 Aug 2019 07:38:10 -0700 (PDT)
 Received: from localhost.localdomain (amontpellier-652-1-281-69.w109-210.abo.wanadoo.fr. [109.210.96.69])
-        by smtp.gmail.com with ESMTPSA id g15sm3241925wrp.29.2019.08.29.07.38.11
+        by smtp.gmail.com with ESMTPSA id g15sm3241925wrp.29.2019.08.29.07.38.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 07:38:11 -0700 (PDT)
+        Thu, 29 Aug 2019 07:38:09 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +58,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-gpio@vger.kernel.org, Julia Lawall <Julia.Lawall@lip6.fr>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 8/9] gpio: xgene: use devm_platform_ioremap_resource_nocache()
-Date:   Thu, 29 Aug 2019 16:37:41 +0200
-Message-Id: <20190829143742.24726-9-brgl@bgdev.pl>
+Subject: [PATCH 6/9] gpio: ath79: use devm_platform_ioremap_resource_nocache()
+Date:   Thu, 29 Aug 2019 16:37:39 +0200
+Message-Id: <20190829143742.24726-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190829143742.24726-1-brgl@bgdev.pl>
 References: <20190829143742.24726-1-brgl@bgdev.pl>
@@ -80,41 +79,37 @@ platform_get_resource().
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/gpio/gpio-xgene.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/gpio/gpio-ath79.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpio/gpio-xgene.c b/drivers/gpio/gpio-xgene.c
-index 2918363884de..559b8e53c2e0 100644
---- a/drivers/gpio/gpio-xgene.c
-+++ b/drivers/gpio/gpio-xgene.c
-@@ -155,7 +155,6 @@ static SIMPLE_DEV_PM_OPS(xgene_gpio_pm, xgene_gpio_suspend, xgene_gpio_resume);
- 
- static int xgene_gpio_probe(struct platform_device *pdev)
- {
+diff --git a/drivers/gpio/gpio-ath79.c b/drivers/gpio/gpio-ath79.c
+index f1a5ea9b3de2..c2c5d7dd2575 100644
+--- a/drivers/gpio/gpio-ath79.c
++++ b/drivers/gpio/gpio-ath79.c
+@@ -226,7 +226,6 @@ static int ath79_gpio_probe(struct platform_device *pdev)
+ 	struct device_node *np = dev->of_node;
+ 	struct ath79_gpio_ctrl *ctrl;
+ 	struct gpio_irq_chip *girq;
 -	struct resource *res;
- 	struct xgene_gpio *gpio;
- 	int err = 0;
- 
-@@ -165,16 +164,9 @@ static int xgene_gpio_probe(struct platform_device *pdev)
- 		goto err;
+ 	u32 ath79_gpio_count;
+ 	bool oe_inverted;
+ 	int err;
+@@ -256,12 +255,9 @@ static int ath79_gpio_probe(struct platform_device *pdev)
+ 		return -EINVAL;
  	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		err = -EINVAL;
--		goto err;
--	}
--
--	gpio->base = devm_ioremap_nocache(&pdev->dev, res->start,
--							resource_size(res));
--	if (!gpio->base) {
--		err = -ENOMEM;
-+	gpio->base = devm_platform_ioremap_resource_nocache(pdev, 0);
-+	if (IS_ERR(gpio->base)) {
-+		err = PTR_ERR(gpio->base);
- 		goto err;
- 	}
+-	if (!res)
+-		return -EINVAL;
+-	ctrl->base = devm_ioremap_nocache(dev, res->start, resource_size(res));
+-	if (!ctrl->base)
+-		return -ENOMEM;
++	ctrl->base = devm_platform_ioremap_resource_nocache(pdev, 0);
++	if (IS_ERR(ctrl->base))
++		return PTR_ERR(ctrl->base);
  
+ 	raw_spin_lock_init(&ctrl->lock);
+ 	err = bgpio_init(&ctrl->gc, dev, 4,
 -- 
 2.21.0
 
