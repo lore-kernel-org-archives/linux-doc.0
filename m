@@ -1,78 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6EEE37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 15:45:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C72E67D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 16:10:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727474AbfH2PpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 11:45:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:33464 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726670AbfH2Po7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Aug 2019 11:44:59 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 272F02CF;
-        Thu, 29 Aug 2019 15:44:59 +0000 (UTC)
-Date:   Thu, 29 Aug 2019 09:44:58 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexandre Torgue <alexandre.torgue@st.com>
-Cc:     Gerald BAEZA <gerald.baeza@st.com>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: add link to stm32mp157 docs
-Message-ID: <20190829094458.590884ba@lwn.net>
-In-Reply-To: <5257eff7-418b-8e94-1ced-30718dd3f5dc@st.com>
-References: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
-        <20190827074825.64a28e88@lwn.net>
-        <5257eff7-418b-8e94-1ced-30718dd3f5dc@st.com>
-Organization: LWN.net
+        id S1727410AbfH2QKW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 12:10:22 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45238 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726739AbfH2QKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 12:10:22 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7TG7fRc142856;
+        Thu, 29 Aug 2019 12:09:48 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2uphet99ej-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Aug 2019 12:09:48 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7TG7nIn143444;
+        Thu, 29 Aug 2019 12:09:47 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2uphet99e6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Aug 2019 12:09:47 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7TG5nq2028247;
+        Thu, 29 Aug 2019 16:09:47 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
+        by ppma04dal.us.ibm.com with ESMTP id 2ujvv75103-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Aug 2019 16:09:46 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7TG9kZH51904930
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Aug 2019 16:09:46 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2170FB2066;
+        Thu, 29 Aug 2019 16:09:46 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F2DA4B205F;
+        Thu, 29 Aug 2019 16:09:45 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.151.154])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 29 Aug 2019 16:09:45 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 9198F16C0963; Thu, 29 Aug 2019 09:09:46 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 09:09:46 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        luto@kernel.org
+Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
+Message-ID: <20190829160946.GP4125@linux.ibm.com>
+Reply-To: paulmck@kernel.org
+References: <20190828202330.GS26530@linux.ibm.com>
+ <20190828210525.GB75931@google.com>
+ <20190828211904.GX26530@linux.ibm.com>
+ <20190828214241.GD75931@google.com>
+ <20190828220108.GC26530@linux.ibm.com>
+ <20190828221444.GA100789@google.com>
+ <20190828231247.GE26530@linux.ibm.com>
+ <20190829015155.GB100789@google.com>
+ <20190829034336.GD4125@linux.ibm.com>
+ <20190829144355.GE63638@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190829144355.GE63638@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-29_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=818 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908290170
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Aug 2019 17:23:30 +0200
-Alexandre Torgue <alexandre.torgue@st.com> wrote:
+On Thu, Aug 29, 2019 at 10:43:55AM -0400, Joel Fernandes wrote:
 
-> >> +Datasheet and reference manual are publicly available on ST website:
-> >> +.. _STM32MP157: https://www.st.com/en/microcontrollers-microprocessors/stm32mp157.html
-> >> +  
-> > 
-> > Adding the URL is a fine idea.  But you don't need the extra syntax to
-> > create a link if you're not going to actually make a link out of it.  So
-> > I'd take the ".. _STM32MP157:" part out and life will be good.
-> >   
+[ . . . ]
+
+> Paul, do we also nuke rcu_eqs_special_set()?  Currently I don't see anyone
+> using it. And also remove the bottom most bit of dynticks?
 > 
-> We also did it for older stm32 product. Idea was to not have the "full" 
-> address but just a shortcut of the link when html file is read. It maybe 
-> makes no sens ? (if yes we will have to update older stm32 overview :))
+> Also what happens if a TLB flush broadcast is needed? Do we IPI nohz or idle
+> CPUs are the moment?
+> 
+> All of this was introduced in:
+> b8c17e6664c4 ("rcu: Maintain special bits at bottom of ->dynticks counter")
 
-Did you actually run it through Sphinx to see what you get?  If I
-understand the effect you're after, you want something like this:
+Adding Andy Lutomirski on CC.
 
-  The datasheet and reference manual are publicly available on
-  STM32MP157_.
+Andy, is this going to be used in the near term, or should we just get
+rid of it?
 
-  .. _STM32MP157: https://www.st.com/en/microcontrollers-microprocessors/stm32mp157.html
-
-IOW you have to actually *use* the label you are setting up.  That's a fine
-way to do it, I guess, though I'm not really convinced it's better than
-just putting the URL in directly.
-
-Thanks,
-
-jon
+							Thanx, Paul
