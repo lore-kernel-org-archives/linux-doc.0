@@ -6,540 +6,800 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAFD77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 21:33:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19F5F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 22:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728026AbfH2Vdq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 17:33:46 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38044 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727969AbfH2Vdq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 17:33:46 -0400
-Received: by mail-wm1-f65.google.com with SMTP id o184so5276139wme.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 14:33:43 -0700 (PDT)
+        id S1728057AbfH2WNQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 18:13:16 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36319 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727912AbfH2WNQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 18:13:16 -0400
+Received: by mail-pf1-f194.google.com with SMTP id w2so3055574pfi.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 15:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/2XOyQLpjYpb4f81dQSvV3NsL3TFwR2l1eCGNZYgJ6M=;
-        b=GXI915Gr4sBvc7SSL5wW4D3g4Gopt2DQ91d3Nm7sI6JEscnzZE0Ti3BDIjgvnocRFI
-         P++FRdLfSp2UuI7qs/O0blGhu1nUR1EGc27v5jKebOGeEmjEG5CID15eKAe43TqV0ZAz
-         hN+WAhIEN/rvioNfB1zkswPMIw2Fknui6Mir1jQnt3eKFsN4/5Gd66KpoDbFAmwdtuRA
-         9Lx5DHU71DsdxyX/v1wFQ8MSxCGGUcaIkwjnhglD1nYTswPjOHbwqGNvKvPDnPKMm+cQ
-         ApWdcVRBnYo6Ngx3/zWv0ROcYg/2bASdc49WHh1isLY6vG48lFqvpbi1kXLhnd1Irtq4
-         RSOg==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aeaUCXjvW2hrJnKWMbEnx69KBfGTa3XVNnesPkfP4GE=;
+        b=GbNW56EIEku4ipPwQftCp7wovsj9wVcDMrLARv22hF0J5zlmDFdFr3K55jTWODvN9m
+         vRPS1l3ZDWFprhpfhHZDLLUBMac5+N2hprMNb2fcyfALZe3GQ8igx8HP3qrjZt2CLHny
+         eLZGbJqi52Bdu+FyYsNwlec3rZWXNdNaFS8zc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/2XOyQLpjYpb4f81dQSvV3NsL3TFwR2l1eCGNZYgJ6M=;
-        b=aw7DW/OfQgTJhDeIOyZKcwwMQI/NWOiLgqR3Fr4b6zXqfoMQo/XSjo/GTGv+RGq3Jk
-         /GCFzurZEv4a8L9fSoIoHhC6JQjm5X2dbPnMXq3F0FXu3EVAJTDpYSCUSt1HY9oNIc/a
-         pjy4ZtI2bGJyywu23i4isQqC2XBPxCoPFC1E7ezJU5NYuesn9MeZDAJz/JO/ImDq7nd3
-         8Fjdwd1aVqKDGhMVHcm9IJQ7C8INnZz3ABP//o33EW87obRHb7IfEkwwzOSmsMwJMsYy
-         PkVAkNQQVKhbP6heyFTJ1gDfLdxXS7iNIpCvrHZOwbBNatS0Il3EoI4l1EiXqAgivFbV
-         PFIA==
-X-Gm-Message-State: APjAAAW1UYVINn8BC3NL4cPCQvnv5PVDI+2nnLJIMQOzAKrLaO+3M6vB
-        kmYU+dHEl5g6m9AEA/Qwy6Y1rQ==
-X-Google-Smtp-Source: APXvYqzICz8CnLRIOK7wrdAJvKFFkZLQdN6NWKgvme7Ror4HNGVDYp2sPI2tYjJWsaWuqJ068//8Ag==
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr14032291wmi.104.1567114421450;
-        Thu, 29 Aug 2019 14:33:41 -0700 (PDT)
-Received: from linaro.org ([2a00:23c5:6815:3901:c44b:1415:84d1:2692])
-        by smtp.gmail.com with ESMTPSA id o17sm4515711wrx.60.2019.08.29.14.33.40
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aeaUCXjvW2hrJnKWMbEnx69KBfGTa3XVNnesPkfP4GE=;
+        b=ZrZYj6IT2H/HuOZEDoviD/8emyvuToODzf6zEihLmO7qiTlFouuNpf7vwheCc/bvew
+         usksgkX/SaHqbdOIhRVTArF7VsFPvTn/jbIlPxn5vDP744Kq664UXHAG9WujECAmJXRw
+         LooB1UwmyREsgdGXvfiZLteEMf7Zw1eyx+wtIkGMWkupKg7VVJtNTIoBKNr4YDYwTSdl
+         qb2Xo6hOxbTCHndBXRaqyYn1hzU7cx1dtjuh2SIure3IRDSvyZ/q6Rg3zrw0NbPUdX4D
+         CpBcBvIBSb2sV5LTsHMeWHAClzwtQTx3L9o605lyHH8P6tUMx0Ckav/OJQSrTY0TxHuq
+         B32A==
+X-Gm-Message-State: APjAAAUkyVIOUU9sn7RQ1x2W6i+ATnqRypL5e/cJwMGiLd9xWitoMMEr
+        lTvxzXXe8+w2JyykF0f2odlPxg==
+X-Google-Smtp-Source: APXvYqwe513kKJ+UTjxEWTfxi2tL2vdEUaCaxwdJWuXKIeKwiJd1HzzRZsv7tXP9VhT7hjN9KOmS4Q==
+X-Received: by 2002:a17:90b:8ca:: with SMTP id ds10mr12037569pjb.139.1567116795033;
+        Thu, 29 Aug 2019 15:13:15 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id 185sm4192848pfa.170.2019.08.29.15.13.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 14:33:40 -0700 (PDT)
-From:   Mike Leach <mike.leach@linaro.org>
-To:     mike.leach@linaro.org, mathieu.poirier@linaro.org,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org
-Cc:     suzuki.poulose@arm.com, corbet@lwn.net, gregkh@linuxfoundation.org
-Subject: [PATCH v2 11/11] coresight: etm4x: docs: Adds detailed document for programming etm4x.
-Date:   Thu, 29 Aug 2019 22:33:21 +0100
-Message-Id: <20190829213321.4092-12-mike.leach@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190829213321.4092-1-mike.leach@linaro.org>
-References: <20190829213321.4092-1-mike.leach@linaro.org>
+        Thu, 29 Aug 2019 15:13:14 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 18:13:12 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, byungchul.park@lge.com,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        kernel-team@android.com
+Subject: Re: [PATCH 4/5] rcu: Remove kfree_rcu() special casing and lazy
+ handling
+Message-ID: <20190829221312.GB183862@google.com>
+References: <5d657e39.1c69fb81.54250.01e0@mx.google.com>
+ <20190828214629.GZ26530@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190828214629.GZ26530@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add in detailed programmers reference for users wanting to program the
-CoreSight ETM 4.x driver using sysfs.
 
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
----
- .../coresight/coresight-etm4x-reference.txt   | 458 ++++++++++++++++++
- 1 file changed, 458 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-etm4x-reference.txt
+All comments addressed on this one, thanks!
 
-diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.txt b/Documentation/trace/coresight/coresight-etm4x-reference.txt
-new file mode 100644
-index 000000000000..f0c370870992
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-etm4x-reference.txt
-@@ -0,0 +1,458 @@
-+ETMv4 sysfs linux driver programming reference - v2.
-+====================================================
-+
-+Supplement to existing ETMv4 driver documentation.
-+
-+Sysfs files and directories
-+---------------------------
-+
-+Root: /sys/bus/coresight/devices/etm<N>
-+
-+
-+The following paragraphs explain the association between sysfs files and the
-+ETMv4 registers that they effect. Note the register names are given without
-+the ‘TRC’ prefix.
-+
-+File		: mode (rw)
-+Trace Registers	: {CONFIGR + others}
-+Notes		: Bit select trace features. See ‘mode’ section below. Bits
-+		in this will cause equivalent programming of trace config and
-+		other registers to enable the features requested.
-+Syntax & eg	: 'echo bitfield > mode'
-+		bitfield up to 32 bits setting trace features.
-+Example		: $> echo 0x > mode
-+
-+File		: reset (wo)
-+Trace Registers	: All
-+Notes		: Reset all programming to trace nothing / no logic programmed.
-+Syntax		: 'echo 1 > reset'
-+
-+File		: enable_source (wo)
-+Trace Registers	: PRGCTLR, All hardware regs.
-+Notes		:  >0: Programs up the hardware with the current values held in
-+		the driver and enables trace.
-+		0: disable trace hardware.
-+Syntax		: 'echo 1 > enable_source'
-+
-+File		: cpu (ro)
-+Trace Registers	: None.
-+Notes		: CPU ID that this ETM is attached to.
-+Example		:$> cat cpu
-+		$> 0
-+
-+File		: addr_idx (rw)
-+Trace Registers	: None.
-+Notes		: Virtual register to index address comparator and range
-+		features. Set index for first of the pair in a range.
-+Syntax		: 'echo idx > addr_idx'
-+		Where idx <  nr_addr_cmp x 2
-+
-+File		: addr_range (rw)
-+Trace Registers	: ACVR[idx, idx+1], VIIECTLR
-+Notes		: Pair of addresses for a range selected by addr_idx. Include
-+		/ exclude according to the optional parameter, or if omitted
-+		uses the current ‘mode’ setting. Select comparator range in
-+		control register. Error if index is odd value.
-+Depends		: mode, addr_idx
-+Syntax		: 'echo addr1 addr2 [exclude] > addr_range'
-+		Where addr1 and addr2 define the range and addr1 < addr2.
-+		Optional exclude value - 0 for include, 1 for exclude.
-+Example		: $> echo 0x0000 0x2000 0 > addr_range
-+
-+File		: addr_single (rw)
-+Trace Registers	: ACVR[idx]
-+Notes		: Set a single address comparator according to addr_idx. This
-+		is used if the address comparator is used as part of event
-+		generation logic etc.
-+Depends		: addr_idx
-+Syntax		: 'echo addr1 > addr_single'
-+
-+File		: addr_start (rw)
-+Trace Registers	: ACVR[idx], VISSCTLR
-+Notes		: Set a trace start address comparator according to addr_idx.
-+		Select comparator in control register.
-+Depends		: addr_idx
-+Syntax		: 'echo addr1 > addr_start'
-+
-+File		: addr_stop (rw)
-+Trace Registers	: ACVR[idx], VISSCTLR
-+Notes		: Set a trace stop address comparator according to addr_idx.
-+		Select comparator in control register.
-+Depends		: addr_idx
-+Syntax		: 'echo addr1 > addr_stop'
-+
-+File		: addr_context (rw)
-+Trace Registers	: ACATR[idx,{6:4}]
-+Notes		: Link context ID comparator to address comparator addr_idx
-+Depends		: addr_idx.
-+Syntax		: 'echo ctxt_idx > addr_context'
-+		Where ctxt_idx is the index of the linked context id / vmid
-+		comparator.
-+
-+File		: addr_ctxtype (rw)
-+Trace Registers	: ACATR[idx,{3:2}]
-+Notes		: Input value string. Set type for linked context ID comparator
-+Depends		: addr_idx
-+Syntax		: 'echo type > addr_ctxtype'
-+		Type one of {all, vmid, ctxid, none}
-+Example		: $> echo ctxid > addr_ctxtype
-+
-+File		: addr_exlevel_s_ns (rw)
-+Trace Registers	: ACATR[idx,{14:8}]
-+Notes		: Set the ELx secure and non-secure matching bits for the
-+		selected address comparator
-+Depends		: addr_idx
-+Syntax		: 'echo val > addr_exlevel_s_ns'
-+		val is a 7 bit value for exception levels to exclude. Input
-+		value shifted to correct bits in register.
-+Example		: $> echo 0x4F > addr_exlevel_s_ns
-+
-+File		: addr_instdatatype (rw)
-+Trace Registers	: ACATR[idx,{1:0}]
-+Notes		: Set the comparator address type for matching. Driver only
-+		supports setting instruction address type.
-+Depends		: addr_idx
-+
-+File		: addr_cmp_view (ro)
-+Trace Registers	: ACVR[idx, idx+1], ACATR[idx], VIIECTLR
-+Notes		: Read the currently selected address comparator. If part of
-+		address range then display both addresses.
-+Depends		: addr_idx
-+Syntax		: 'cat addr_cmp_view'
-+Example		: $> cat addr_cmp_view
-+		addr_cmp[0] range 0x0 0xffffffffffffffff include ctrl(0x4b00)
-+
-+File		: nr_addr_cmp (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of address comparator pairs
-+
-+File		: sshot_idx (rw)
-+Trace Registers	: None
-+Notes		: Select  single shot register set.
-+
-+File		: sshot_ctrl (rw)
-+Trace Registers	: SSCCR[idx]
-+Notes		: Access a single shot comparator control register.
-+Depends		: sshot_idx
-+Syntax		: 'echo val > sshot_ctrl'
-+		Writes val into the selected control register.
-+
-+File		: sshot_status (ro)
-+Trace Registers	: SSCSR[idx]
-+Notes		: Read a single shot comparator status register
-+Depends		: sshot_idx
-+Syntax		: 'cat sshot_status'
-+		Read status.
-+Example		: $> cat sshot_status
-+		0x1
-+
-+File		: sshot_pe_ctrl (rw)
-+Trace Registers	: SSPCICR[idx]
-+Notes		: Access a single shot PE comparator input control register.
-+Depends		: sshot_idx
-+Syntax		: echo val > sshot_pe_ctrl
-+		Writes val into the selected control register.
-+
-+File		: ns_exlevel_vinst (rw)
-+Trace Registers	: VICTLR{23:20}
-+Notes		: Program non-secure exception level filters. Set / clear NS
-+		exception filter bits. Setting ‘1’ excludes trace from the
-+		exception level.
-+Syntax		: 'echo bitfield > ns_exlevel_viinst'
-+		Where bitfield contains bits to set clear for EL0 to EL2
-+Example		: %> echo 0x4 > ns_exlevel_viinst
-+		; Exclude EL2 NS trace.
-+
-+File		: vinst_pe_cmp_start_stop (rw)
-+Trace Registers	: VIPCSSCTLR
-+Notes		: Access PE start stop comparator input control registers
-+
-+File		: bb_ctrl (rw)
-+Trace Registers	: BBCTLR
-+Notes		: Define ranges that Branch Broadcast will operate in.
-+		Default (0x0) is all addresses.
-+Depends		: BB enabled.
-+
-+File		: cyc_threshold (rw)
-+Trace Registers	: CCCTLR
-+Notes		: Set the threshold for which cycle counts will be emitted.
-+		Error if attempt to set below minimum defined in IDR3, masked
-+		to width of valid bits.
-+Depends		: CC enabled.
-+
-+File		: syncfreq (rw)
-+Trace Registers	: SYNCPR
-+Notes		: Set trace synchronisation period. Power of 2 value, 0 (off)
-+		or 8-20. Driver defaults to 12 (every 4096 bytes).
-+
-+File		: cntr_idx (rw)
-+Trace Registers	: none
-+Notes		: Select the counter to access
-+Syntax		: 'echo idx > cntr_idx'
-+		Where idx <  nr_cntr
-+
-+File		: cntr_ctrl (rw)
-+Trace Registers	: CNTCTLR[idx]
-+Notes		: Set counter control value
-+Depends		: cntr_idx
-+Syntax		: 'echo val > cntr_ctrl'
-+		Where val is per ETMv4 spec.
-+
-+File		: cntrldvr (rw)
-+Trace Registers	: CNTRLDVR[idx]
-+Notes		: Set counter reload value
-+Depends		: cntr_idx
-+Syntax		: 'echo val > cntrldvr'
-+		Where val is per ETMv4 spec.
-+
-+File		: nr_cntr (ro)
-+Trace Registers	: From IDR5
-+Notes		: Number of counters implemented.
-+
-+File		: ctxid_idx (rw)
-+Trace Registers	: None
-+Notes		: Select the context ID comparator to access
-+Syntax		: 'echo idx > ctxid_idx'
-+		Where idx <  numcidc
-+
-+File		: ctxid_pid (rw)
-+Trace Registers	: CIDCVR[idx]
-+Notes		: Set the context ID comparator value
-+Depends		: ctxid_idx
-+
-+File		: ctxid_masks (rw)
-+Trace Registers	: CIDCCTLR0, CIDCCTLR1, CIDCVR<0-7>
-+Notes		: Pair of values to set the byte masks for 1-8 context ID
-+		comparators. Automatically clears masked bytes to 0 in CID
-+		value registers.
-+Syntax		: 'echo m3m2m1m0 [m7m6m5m4] > ctxid_masks'
-+		32 bit values made up of mask bytes, where mN represents a
-+		byte mask value for Ctxt ID comparator N.
-+		Second value not required on systems that have fewer than 4
-+		context ID comparators
-+
-+File		: numcidc (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of Context ID comparators
-+
-+File		: vmid_idx (rw)
-+Trace Registers	: None
-+Notes		: Select the VM ID comparator to access.
-+Syntax		: 'echo idx > vmid_idx'
-+		Where idx <  numvmidc
-+
-+File		: vmid_val (rw)
-+Trace Registers	: VMIDCVR[idx]
-+Notes		: Set the VM ID comparator value
-+Depends		: vmid_idx
-+
-+File		: vmid_masks (rw)
-+Trace Registers	: VMIDCCTLR0, VMIDCCTLR1, VMIDCVR<0-7>
-+Notes		: Pair of values to set the byte masks for 1-8 VM ID
-+		comparators. Automatically clears masked bytes to 0 in VMID
-+		value registers.
-+Syntax		: 'echo m3m2m1m0 [m7m6m5m4] > vmid_masks'
-+		Where mN represents a byte mask value for VMID comparator N.
-+		Second value not required on systems that have fewer than
-+		4 VMID comparators.
-+
-+File		: numvmidc (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of VMID comparators
-+
-+File		: res_idx (rw)
-+Trace Registers	: None.
-+Notes		: Select the resource selector control to access. Must be 2 or
-+		higher as selectors 0 and 1 are hardwired.
-+Syntax		: 'echo idx > res_idx'
-+		Where 2 <= idx < nr_resource x 2
-+
-+File		: res_ctrl (rw)
-+Trace Registers	: RSCTLR[idx]
-+Notes		: Set resource selector control value. Value per ETMv4 spec.
-+Depends		: res_idx
-+Syntax		: 'echo val > res_cntr'
-+		Where val is per ETMv4 spec.
-+
-+File		: nr_resource (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of resource selector pairs
-+
-+File		: event (rw)
-+Trace Registers	: EVENTCTRL0R
-+Notes		: Set up to 4 implemented event fields.
-+Syntax		: 'echo ev3ev2ev1ev0 > event'
-+		Where evN is an 8 bit event field. Up to 4 event fields make up
-+		the 32bit input value. Number of valid fields implementation
-+		dependent defined in IDR0.
-+
-+File		: event_instren (rw)
-+Trace Registers	: EVENTCTRL1R
-+Notes		: Choose events which insert event packets into trace stream.
-+Depends		: EVENTCTRL0R
-+Syntax		: 'echo bitfield > event_instren'
-+		Where bitfield is up to 4 bits according to number of event
-+		fields.
-+
-+File		: event_ts (rw)
-+Trace Registers	: TSCTLR
-+Notes		: Set the event that will generate timestamp requests.
-+Depends		: TS activated
-+Syntax		: 'echo evfield > event_ts'
-+		Where evfield is an 8 bit event selector.
-+
-+File		: seq_idx (rw)
-+Trace Registers	: None
-+Notes		: Sequencer event register select - 0 to 2
-+
-+
-+File		: seq_state (rw)
-+Trace Registers	: SEQSTR
-+Notes		: Sequencer current state - 0 to 3.
-+
-+File		: seq_event (rw)
-+Trace Registers	: SEQEVR[idx]
-+Notes		: State transition event registers
-+Depends		: seq_idx
-+Syntax		: 'echo evBevF > seq_event'
-+		Where evBevF is a 16 bit value made up of two event selectors,
-+		evB - back, evF - forwards.
-+
-+File		: seq_reset_event (rw)
-+Trace Registers	: SEQRSTEVR
-+Notes		: Sequencer reset event
-+Syntax		: 'echo evfield > seq_reset_event'
-+		Where evfield is an 8 bit event selector.
-+
-+File		: nrseqstate (ro)
-+Trace Registers	: From IDR5
-+Notes		: Number of sequencer states (0 or 4)
-+
-+File		: nr_pe_cmp (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of PE comparator inputs
-+
-+File		: nr_ext_inp (ro)
-+Trace Registers	: From IDR5
-+Notes		: Number of external inputs
-+
-+File		: nr_ss_cmp (ro)
-+Trace Registers	: From IDR4
-+Notes		: Number of Single Shot control registers
-+
-+Note: When programming any address comparator the driver will tag the
-+comparator with a type used - i.e. RANGE, SINGLE, START, STOP. Once this tag
-+is set, then only the values can be changed using the same sysfs file / type
-+used to program it.
-+
-+Thus:-
-+% echo 0 > addr_idx		    ; select address comparator 0
-+% echo 0x1000 0x5000 0 > addr_range ; set address range on comparators 0 and 1.
-+% echo 0x2000 > addr_start	    ; this will error as comparator 0 is a
-+				    ; range comparator
-+% echo 2 > addr_idx		    ; select address comparator 2
-+% echo 0x2000 > addr_start	    ; this is OK as comparator 2 is unused,
-+% echo 0x3000 > addr_stop	    ; this will error as comparator 2 a start
-+				    ; address comparator
-+% echo 2 > addr_idx		    ; select address comparator 3
-+% echo 0x3000 > addr_stop	    ; this is OK
-+
-+To remove programming on all the comparators (and all the other hardware) use
-+the reset parameter:
-+
-+% echo 1 > reset
-+
-+The ‘mode’ sysfs parameter.
-+---------------------------
-+
-+This is a bitfield selection parameter that sets the overall trace mode for the
-+ETM. The table below describes the bits, using the defines from the driver
-+source file, along with a description of the feature these represent. Many
-+features are optional and therefore dependent on implementation in the
-+hardware.
-+
-+Bit assignements shown below:-
-+
-+bit (0)	    : #define ETM_MODE_EXCLUDE
-+description : This is the default value for the include / exclude function when
-+	      setting address ranges. Set 1 for exclude range. When the mode
-+	      parameter is set this value is applied to the currently indexed
-+	      address range.
-+
-+bit (4)	    : #define ETM_MODE_BB
-+description : Set to enable branch broadcast if supported in hardware [IDR0].
-+
-+bit (5)	    : #define ETMv4_MODE_CYCACC
-+description : Set to enable cycle accurate trace if supported [IDR0].
-+
-+bit (6)	    : ETMv4_MODE_CTXID
-+description : Set to enable context ID tracing if supported in hardware [IDR2].
-+
-+bit (7)	    : ETM_MODE_VMID
-+description : Set to enable virtual machine ID tracing if supported [IDR2].
-+
-+bit (11)    : ETMv4_MODE_TIMESTAMP
-+description : Set to enable timestamp generation if supported [IDR0].
-+
-+bit (12)    : ETM_MODE_RETURNSTACK
-+description : Set to enable trace return stack use if supported [IDR0].
-+
-+bit (13-14) : ETM_MODE_QELEM(val)
-+description : ‘val’ determines level of Q element support enabled if
-+	    implemented by the ETM [IDR0]
-+
-+bit (19)    : ETM_MODE_ATB_TRIGGER
-+description : Set to enable the ATBTRIGGER bit in the event control register
-+	    [EVENTCTLR1] if supported [IDR5].
-+
-+bit (20)    : ETM_MODE_LPOVERRIDE
-+description : Set to enable the LPOVERRIDE bit in the event control register
-+	    [EVENTCTLR1], if supported [IDR5].
-+
-+bit (21)    : ETM_MODE_ISTALL_EN
-+description : Set to enable the ISTALL bit in the stall control register
-+	    [STALLCTLR]
-+
-+bit (23)    : ETM_MODE_INSTPRIO
-+description : Set to enable the INSTPRIORITY bit in the stall control register
-+	    [STALLCTLR] , if supported [IDR0].
-+
-+bit (24)    : ETM_MODE_NOOVERFLOW
-+description : Set to enable the NOOVERFLOW bit in the stall control register
-+	    [STALLCTLR], if supported [IDR3].
-+
-+bit (25)    : ETM_MODE_TRACE_RESET
-+description : Set to enable the TRCRESET bit in the viewinst control register
-+	    [VICTLR] , if supported [IDR3].
-+
-+bit (26)    : ETM_MODE_TRACE_ERR
-+description : Set to enable the TRCCTRL bit in the viewinst control register
-+	    [VICTLR].
-+
-+bit (27)    : ETM_MODE_VIEWINST_STARTSTOP
-+description : Set the initial state value of the ViewInst start / stop logic
-+	    in the viewinst control register [VICTLR]
-+
-+bit (30)    : ETM_MODE_EXCL_KERN
-+description : Set default trace setup to exclude kernel mode trace (see note a)
-+
-+bit (31)    : ETM_MODE_EXCL_USER
-+description : Set default trace setup to exclude user space trace (see note a)
-+
-+Note a) On startup the ETM is programmed to trace the complete address space
-+using address range comparator 0. ‘mode’ bits 30 / 31 modify this setting to
-+set EL exclude bits for NS state in either user space (EL0) or kernel space
-+(EL1) in the address range comparator. (the default setting excludes all
-+secure EL, and NS EL2)
-+
-+Once the reset parameter has been used, and/or custom programming has been
-+implemented - using these bits will result in the EL bits for address
-+comparator 0 being set in the same way.
-+
-+Note b) Bits 2-3, 8-10, 15-16, 18, 22, control features that only work with
-+data trace. As A profile data trace is architecturally prohibited in ETMv4,
-+these have been omitted here. Possible uses could be where a kernel has
-+support for control of R or M profile infrastructure as part of a heterogeneous
-+system.
-+
-+Bits 17, 28-29 are unused.
--- 
-2.17.1
+ - Joel
 
+On Wed, Aug 28, 2019 at 02:46:29PM -0700, Paul E. McKenney wrote:
+> On Tue, Aug 27, 2019 at 03:01:58PM -0400, Joel Fernandes (Google) wrote:
+> > Remove kfree_rcu() special casing and lazy handling from RCU.
+> > For Tiny RCU we fold the special handling into just Tiny RCU code.
+> > 
+> > Suggested-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> 
+> Nice!  Several comments inline below.
+> 
+> 							Thanx, Paul
+> 
+> > ---
+> >  Documentation/RCU/stallwarn.txt | 13 +++------
+> >  include/linux/rcu_segcblist.h   |  2 --
+> >  include/trace/events/rcu.h      | 32 +++++++++-------------
+> >  kernel/rcu/rcu.h                | 27 -------------------
+> >  kernel/rcu/rcu_segcblist.c      | 25 +++--------------
+> >  kernel/rcu/rcu_segcblist.h      | 25 ++---------------
+> >  kernel/rcu/srcutree.c           |  4 +--
+> >  kernel/rcu/tiny.c               | 29 +++++++++++++++++++-
+> >  kernel/rcu/tree.c               | 48 ++++++++++++++++++++++++---------
+> >  kernel/rcu/tree.h               |  1 -
+> >  kernel/rcu/tree_plugin.h        | 42 +++++++----------------------
+> >  kernel/rcu/tree_stall.h         |  6 ++---
+> >  12 files changed, 97 insertions(+), 157 deletions(-)
+> > 
+> > diff --git a/Documentation/RCU/stallwarn.txt b/Documentation/RCU/stallwarn.txt
+> > index f48f4621ccbc..2c02b8de01e7 100644
+> > --- a/Documentation/RCU/stallwarn.txt
+> > +++ b/Documentation/RCU/stallwarn.txt
+> > @@ -225,18 +225,12 @@ an estimate of the total number of RCU callbacks queued across all CPUs
+> >  In kernels with CONFIG_RCU_FAST_NO_HZ, more information is printed
+> >  for each CPU:
+> >  
+> > -	0: (64628 ticks this GP) idle=dd5/3fffffffffffffff/0 softirq=82/543 last_accelerate: a345/d342 Nonlazy posted: ..D
+> > +	0: (64628 ticks this GP) idle=dd5/3fffffffffffffff/0 softirq=82/543 last_accelerate: a345/d342 dyntick_enabled: 1
+> >  
+> >  The "last_accelerate:" prints the low-order 16 bits (in hex) of the
+> >  jiffies counter when this CPU last invoked rcu_try_advance_all_cbs()
+> >  from rcu_needs_cpu() or last invoked rcu_accelerate_cbs() from
+> > -rcu_prepare_for_idle().  The "Nonlazy posted:" indicates lazy-callback
+> > -status, so that an "l" indicates that all callbacks were lazy at the start
+> > -of the last idle period and an "L" indicates that there are currently
+> > -no non-lazy callbacks (in both cases, "." is printed otherwise, as
+> > -shown above) and "D" indicates that dyntick-idle processing is enabled
+> > -("." is printed otherwise, for example, if disabled via the "nohz="
+> > -kernel boot parameter).
+> > +rcu_prepare_for_idle().
+> > 
+> >  If the grace period ends just as the stall warning starts printing,
+> >  there will be a spurious stall-warning message, which will include
+> > @@ -249,7 +243,8 @@ possible for a zero-jiffy stall to be flagged in this case, depending
+> >  on how the stall warning and the grace-period initialization happen to
+> >  interact.  Please note that it is not possible to entirely eliminate this
+> >  sort of false positive without resorting to things like stop_machine(),
+> > -which is overkill for this sort of problem.
+> > +which is overkill for this sort of problem. "dyntick_enabled: 1" indicates that
+> > +dyntick-idle processing is enabled.
+> 
+> OK, I'll bite...  Why not add the sentence to the earlier paragraph that
+> used to discuss its "D" counterpart?
+> 
+> >  If all CPUs and tasks have passed through quiescent states, but the
+> >  grace period has nevertheless failed to end, the stall-warning splat
+> > diff --git a/include/linux/rcu_segcblist.h b/include/linux/rcu_segcblist.h
+> > index 646759042333..b36afe7b22c9 100644
+> > --- a/include/linux/rcu_segcblist.h
+> > +++ b/include/linux/rcu_segcblist.h
+> > @@ -22,7 +22,6 @@ struct rcu_cblist {
+> >  	struct rcu_head *head;
+> >  	struct rcu_head **tail;
+> >  	long len;
+> > -	long len_lazy;
+> >  };
+> >  
+> >  #define RCU_CBLIST_INITIALIZER(n) { .head = NULL, .tail = &n.head }
+> > @@ -73,7 +72,6 @@ struct rcu_segcblist {
+> >  #else
+> >  	long len;
+> >  #endif
+> > -	long len_lazy;
+> >  	u8 enabled;
+> >  	u8 offloaded;
+> >  };
+> > diff --git a/include/trace/events/rcu.h b/include/trace/events/rcu.h
+> > index 694bd040cf51..0dd3478597ee 100644
+> > --- a/include/trace/events/rcu.h
+> > +++ b/include/trace/events/rcu.h
+> > @@ -474,16 +474,14 @@ TRACE_EVENT_RCU(rcu_dyntick,
+> >   */
+> >  TRACE_EVENT_RCU(rcu_callback,
+> >  
+> > -	TP_PROTO(const char *rcuname, struct rcu_head *rhp, long qlen_lazy,
+> > -		 long qlen),
+> > +	TP_PROTO(const char *rcuname, struct rcu_head *rhp, long qlen),
+> >  
+> > -	TP_ARGS(rcuname, rhp, qlen_lazy, qlen),
+> > +	TP_ARGS(rcuname, rhp, qlen),
+> >  
+> >  	TP_STRUCT__entry(
+> >  		__field(const char *, rcuname)
+> >  		__field(void *, rhp)
+> >  		__field(void *, func)
+> > -		__field(long, qlen_lazy)
+> >  		__field(long, qlen)
+> >  	),
+> >  
+> > @@ -491,13 +489,12 @@ TRACE_EVENT_RCU(rcu_callback,
+> >  		__entry->rcuname = rcuname;
+> >  		__entry->rhp = rhp;
+> >  		__entry->func = rhp->func;
+> > -		__entry->qlen_lazy = qlen_lazy;
+> >  		__entry->qlen = qlen;
+> >  	),
+> >  
+> > -	TP_printk("%s rhp=%p func=%ps %ld/%ld",
+> > +	TP_printk("%s rhp=%p func=%ps %ld",
+> >  		  __entry->rcuname, __entry->rhp, __entry->func,
+> > -		  __entry->qlen_lazy, __entry->qlen)
+> > +		  __entry->qlen)
+> >  );
+> >  
+> >  /*
+> > @@ -511,15 +508,14 @@ TRACE_EVENT_RCU(rcu_callback,
+> >  TRACE_EVENT_RCU(rcu_kfree_callback,
+> >  
+> >  	TP_PROTO(const char *rcuname, struct rcu_head *rhp, unsigned long offset,
+> > -		 long qlen_lazy, long qlen),
+> > +		 long qlen),
+> >  
+> > -	TP_ARGS(rcuname, rhp, offset, qlen_lazy, qlen),
+> > +	TP_ARGS(rcuname, rhp, offset, qlen),
+> >  
+> >  	TP_STRUCT__entry(
+> >  		__field(const char *, rcuname)
+> >  		__field(void *, rhp)
+> >  		__field(unsigned long, offset)
+> > -		__field(long, qlen_lazy)
+> >  		__field(long, qlen)
+> >  	),
+> >  
+> > @@ -527,13 +523,12 @@ TRACE_EVENT_RCU(rcu_kfree_callback,
+> >  		__entry->rcuname = rcuname;
+> >  		__entry->rhp = rhp;
+> >  		__entry->offset = offset;
+> > -		__entry->qlen_lazy = qlen_lazy;
+> >  		__entry->qlen = qlen;
+> >  	),
+> >  
+> > -	TP_printk("%s rhp=%p func=%ld %ld/%ld",
+> > +	TP_printk("%s rhp=%p func=%ld %ld",
+> >  		  __entry->rcuname, __entry->rhp, __entry->offset,
+> > -		  __entry->qlen_lazy, __entry->qlen)
+> > +		  __entry->qlen)
+> >  );
+> >  
+> >  /*
+> > @@ -545,27 +540,24 @@ TRACE_EVENT_RCU(rcu_kfree_callback,
+> >   */
+> >  TRACE_EVENT_RCU(rcu_batch_start,
+> >  
+> > -	TP_PROTO(const char *rcuname, long qlen_lazy, long qlen, long blimit),
+> > +	TP_PROTO(const char *rcuname, long qlen, long blimit),
+> >  
+> > -	TP_ARGS(rcuname, qlen_lazy, qlen, blimit),
+> > +	TP_ARGS(rcuname, qlen, blimit),
+> >  
+> >  	TP_STRUCT__entry(
+> >  		__field(const char *, rcuname)
+> > -		__field(long, qlen_lazy)
+> >  		__field(long, qlen)
+> >  		__field(long, blimit)
+> >  	),
+> >  
+> >  	TP_fast_assign(
+> >  		__entry->rcuname = rcuname;
+> > -		__entry->qlen_lazy = qlen_lazy;
+> >  		__entry->qlen = qlen;
+> >  		__entry->blimit = blimit;
+> >  	),
+> >  
+> > -	TP_printk("%s CBs=%ld/%ld bl=%ld",
+> > -		  __entry->rcuname, __entry->qlen_lazy, __entry->qlen,
+> > -		  __entry->blimit)
+> > +	TP_printk("%s CBs=%ld bl=%ld",
+> > +		  __entry->rcuname, __entry->qlen, __entry->blimit)
+> >  );
+> >  
+> >  /*
+> > diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
+> > index aeec70fda82c..3f5a30ca7ed7 100644
+> > --- a/kernel/rcu/rcu.h
+> > +++ b/kernel/rcu/rcu.h
+> > @@ -198,33 +198,6 @@ static inline void debug_rcu_head_unqueue(struct rcu_head *head)
+> >  }
+> >  #endif	/* #else !CONFIG_DEBUG_OBJECTS_RCU_HEAD */
+> >  
+> > -void kfree(const void *);
+> > -
+> > -/*
+> > - * Reclaim the specified callback, either by invoking it (non-lazy case)
+> > - * or freeing it directly (lazy case).  Return true if lazy, false otherwise.
+> > - */
+> > -static inline bool __rcu_reclaim(const char *rn, struct rcu_head *head)
+> > -{
+> > -	rcu_callback_t f;
+> > -	unsigned long offset = (unsigned long)head->func;
+> > -
+> > -	rcu_lock_acquire(&rcu_callback_map);
+> > -	if (__is_kfree_rcu_offset(offset)) {
+> > -		trace_rcu_invoke_kfree_callback(rn, head, offset);
+> > -		kfree((void *)head - offset);
+> > -		rcu_lock_release(&rcu_callback_map);
+> > -		return true;
+> > -	} else {
+> > -		trace_rcu_invoke_callback(rn, head);
+> > -		f = head->func;
+> > -		WRITE_ONCE(head->func, (rcu_callback_t)0L);
+> > -		f(head);
+> > -		rcu_lock_release(&rcu_callback_map);
+> > -		return false;
+> > -	}
+> > -}
+> 
+> Nice to see this one go!  ;-)
+> 
+> >  #ifdef CONFIG_RCU_STALL_COMMON
+> >  
+> >  extern int rcu_cpu_stall_ftrace_dump;
+> > diff --git a/kernel/rcu/rcu_segcblist.c b/kernel/rcu/rcu_segcblist.c
+> > index cbc87b804db9..5f4fd3b8777c 100644
+> > --- a/kernel/rcu/rcu_segcblist.c
+> > +++ b/kernel/rcu/rcu_segcblist.c
+> > @@ -20,14 +20,10 @@ void rcu_cblist_init(struct rcu_cblist *rclp)
+> >  	rclp->head = NULL;
+> >  	rclp->tail = &rclp->head;
+> >  	rclp->len = 0;
+> > -	rclp->len_lazy = 0;
+> >  }
+> >  
+> >  /*
+> >   * Enqueue an rcu_head structure onto the specified callback list.
+> > - * This function assumes that the callback is non-lazy because it
+> > - * is intended for use by no-CBs CPUs, which do not distinguish
+> > - * between lazy and non-lazy RCU callbacks.
+> >   */
+> >  void rcu_cblist_enqueue(struct rcu_cblist *rclp, struct rcu_head *rhp)
+> >  {
+> > @@ -54,7 +50,6 @@ void rcu_cblist_flush_enqueue(struct rcu_cblist *drclp,
+> >  	else
+> >  		drclp->tail = &drclp->head;
+> >  	drclp->len = srclp->len;
+> > -	drclp->len_lazy = srclp->len_lazy;
+> >  	if (!rhp) {
+> >  		rcu_cblist_init(srclp);
+> >  	} else {
+> > @@ -62,16 +57,12 @@ void rcu_cblist_flush_enqueue(struct rcu_cblist *drclp,
+> >  		srclp->head = rhp;
+> >  		srclp->tail = &rhp->next;
+> >  		WRITE_ONCE(srclp->len, 1);
+> > -		srclp->len_lazy = 0;
+> >  	}
+> >  }
+> >  
+> >  /*
+> >   * Dequeue the oldest rcu_head structure from the specified callback
+> > - * list.  This function assumes that the callback is non-lazy, but
+> > - * the caller can later invoke rcu_cblist_dequeued_lazy() if it
+> > - * finds otherwise (and if it cares about laziness).  This allows
+> > - * different users to have different ways of determining laziness.
+> > + * list.
+> >   */
+> >  struct rcu_head *rcu_cblist_dequeue(struct rcu_cblist *rclp)
+> >  {
+> > @@ -161,7 +152,6 @@ void rcu_segcblist_init(struct rcu_segcblist *rsclp)
+> >  	for (i = 0; i < RCU_CBLIST_NSEGS; i++)
+> >  		rsclp->tails[i] = &rsclp->head;
+> >  	rcu_segcblist_set_len(rsclp, 0);
+> > -	rsclp->len_lazy = 0;
+> >  	rsclp->enabled = 1;
+> >  }
+> >  
+> > @@ -173,7 +163,6 @@ void rcu_segcblist_disable(struct rcu_segcblist *rsclp)
+> >  {
+> >  	WARN_ON_ONCE(!rcu_segcblist_empty(rsclp));
+> >  	WARN_ON_ONCE(rcu_segcblist_n_cbs(rsclp));
+> > -	WARN_ON_ONCE(rcu_segcblist_n_lazy_cbs(rsclp));
+> >  	rsclp->enabled = 0;
+> >  }
+> >  
+> > @@ -253,11 +242,9 @@ bool rcu_segcblist_nextgp(struct rcu_segcblist *rsclp, unsigned long *lp)
+> >   * absolutely not OK for it to ever miss posting a callback.
+> >   */
+> >  void rcu_segcblist_enqueue(struct rcu_segcblist *rsclp,
+> > -			   struct rcu_head *rhp, bool lazy)
+> > +			   struct rcu_head *rhp)
+> >  {
+> >  	rcu_segcblist_inc_len(rsclp);
+> > -	if (lazy)
+> > -		rsclp->len_lazy++;
+> >  	smp_mb(); /* Ensure counts are updated before callback is enqueued. */
+> >  	rhp->next = NULL;
+> >  	WRITE_ONCE(*rsclp->tails[RCU_NEXT_TAIL], rhp);
+> > @@ -275,15 +262,13 @@ void rcu_segcblist_enqueue(struct rcu_segcblist *rsclp,
+> >   * period.  You have been warned.
+> >   */
+> >  bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
+> > -			   struct rcu_head *rhp, bool lazy)
+> > +			   struct rcu_head *rhp)
+> >  {
+> >  	int i;
+> >  
+> >  	if (rcu_segcblist_n_cbs(rsclp) == 0)
+> >  		return false;
+> >  	rcu_segcblist_inc_len(rsclp);
+> > -	if (lazy)
+> > -		rsclp->len_lazy++;
+> >  	smp_mb(); /* Ensure counts are updated before callback is entrained. */
+> >  	rhp->next = NULL;
+> >  	for (i = RCU_NEXT_TAIL; i > RCU_DONE_TAIL; i--)
+> > @@ -307,8 +292,6 @@ bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
+> >  void rcu_segcblist_extract_count(struct rcu_segcblist *rsclp,
+> >  					       struct rcu_cblist *rclp)
+> >  {
+> > -	rclp->len_lazy += rsclp->len_lazy;
+> > -	rsclp->len_lazy = 0;
+> >  	rclp->len = rcu_segcblist_xchg_len(rsclp, 0);
+> >  }
+> >  
+> > @@ -361,9 +344,7 @@ void rcu_segcblist_extract_pend_cbs(struct rcu_segcblist *rsclp,
+> >  void rcu_segcblist_insert_count(struct rcu_segcblist *rsclp,
+> >  				struct rcu_cblist *rclp)
+> >  {
+> > -	rsclp->len_lazy += rclp->len_lazy;
+> >  	rcu_segcblist_add_len(rsclp, rclp->len);
+> > -	rclp->len_lazy = 0;
+> >  	rclp->len = 0;
+> >  }
+> >  
+> > diff --git a/kernel/rcu/rcu_segcblist.h b/kernel/rcu/rcu_segcblist.h
+> > index 815c2fdd3fcc..5c293afc07b8 100644
+> > --- a/kernel/rcu/rcu_segcblist.h
+> > +++ b/kernel/rcu/rcu_segcblist.h
+> > @@ -15,15 +15,6 @@ static inline long rcu_cblist_n_cbs(struct rcu_cblist *rclp)
+> >  	return READ_ONCE(rclp->len);
+> >  }
+> >  
+> > -/*
+> > - * Account for the fact that a previously dequeued callback turned out
+> > - * to be marked as lazy.
+> > - */
+> > -static inline void rcu_cblist_dequeued_lazy(struct rcu_cblist *rclp)
+> > -{
+> > -	rclp->len_lazy--;
+> > -}
+> > -
+> >  void rcu_cblist_init(struct rcu_cblist *rclp);
+> >  void rcu_cblist_enqueue(struct rcu_cblist *rclp, struct rcu_head *rhp);
+> >  void rcu_cblist_flush_enqueue(struct rcu_cblist *drclp,
+> > @@ -59,18 +50,6 @@ static inline long rcu_segcblist_n_cbs(struct rcu_segcblist *rsclp)
+> >  #endif
+> >  }
+> >  
+> > -/* Return number of lazy callbacks in segmented callback list. */
+> > -static inline long rcu_segcblist_n_lazy_cbs(struct rcu_segcblist *rsclp)
+> > -{
+> > -	return rsclp->len_lazy;
+> > -}
+> > -
+> > -/* Return number of lazy callbacks in segmented callback list. */
+> > -static inline long rcu_segcblist_n_nonlazy_cbs(struct rcu_segcblist *rsclp)
+> > -{
+> > -	return rcu_segcblist_n_cbs(rsclp) - rsclp->len_lazy;
+> > -}
+> > -
+> >  /*
+> >   * Is the specified rcu_segcblist enabled, for example, not corresponding
+> >   * to an offline CPU?
+> > @@ -106,9 +85,9 @@ struct rcu_head *rcu_segcblist_first_cb(struct rcu_segcblist *rsclp);
+> >  struct rcu_head *rcu_segcblist_first_pend_cb(struct rcu_segcblist *rsclp);
+> >  bool rcu_segcblist_nextgp(struct rcu_segcblist *rsclp, unsigned long *lp);
+> >  void rcu_segcblist_enqueue(struct rcu_segcblist *rsclp,
+> > -			   struct rcu_head *rhp, bool lazy);
+> > +			   struct rcu_head *rhp);
+> >  bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
+> > -			   struct rcu_head *rhp, bool lazy);
+> > +			   struct rcu_head *rhp);
+> >  void rcu_segcblist_extract_count(struct rcu_segcblist *rsclp,
+> >  				 struct rcu_cblist *rclp);
+> >  void rcu_segcblist_extract_done_cbs(struct rcu_segcblist *rsclp,
+> > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> > index 5dffade2d7cd..d0a9d5b69087 100644
+> > --- a/kernel/rcu/srcutree.c
+> > +++ b/kernel/rcu/srcutree.c
+> > @@ -853,7 +853,7 @@ static void __call_srcu(struct srcu_struct *ssp, struct rcu_head *rhp,
+> >  	local_irq_save(flags);
+> >  	sdp = this_cpu_ptr(ssp->sda);
+> >  	spin_lock_rcu_node(sdp);
+> > -	rcu_segcblist_enqueue(&sdp->srcu_cblist, rhp, false);
+> > +	rcu_segcblist_enqueue(&sdp->srcu_cblist, rhp);
+> >  	rcu_segcblist_advance(&sdp->srcu_cblist,
+> >  			      rcu_seq_current(&ssp->srcu_gp_seq));
+> >  	s = rcu_seq_snap(&ssp->srcu_gp_seq);
+> > @@ -1052,7 +1052,7 @@ void srcu_barrier(struct srcu_struct *ssp)
+> >  		sdp->srcu_barrier_head.func = srcu_barrier_cb;
+> >  		debug_rcu_head_queue(&sdp->srcu_barrier_head);
+> >  		if (!rcu_segcblist_entrain(&sdp->srcu_cblist,
+> > -					   &sdp->srcu_barrier_head, 0)) {
+> > +					   &sdp->srcu_barrier_head)) {
+> >  			debug_rcu_head_unqueue(&sdp->srcu_barrier_head);
+> >  			atomic_dec(&ssp->srcu_barrier_cpu_cnt);
+> >  		}
+> > diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
+> > index 477b4eb44af5..cc64dc8b3893 100644
+> > --- a/kernel/rcu/tiny.c
+> > +++ b/kernel/rcu/tiny.c
+> > @@ -73,6 +73,33 @@ void rcu_sched_clock_irq(int user)
+> >  	}
+> >  }
+> >  
+> > +void kfree(const void *);
+> > +
+> > +/*
+> > + * Reclaim the specified callback, either by invoking it for non-kfree cases or
+> > + * freeing it directly (for kfree). Return true if kfreeing, false otherwise.
+> > + */
+> > +static inline bool rcu_reclaim_tiny(struct rcu_head *head)
+> > +{
+> > +	rcu_callback_t f;
+> > +	unsigned long offset = (unsigned long)head->func;
+> > +
+> > +	rcu_lock_acquire(&rcu_callback_map);
+> > +	if (__is_kfree_rcu_offset(offset)) {
+> > +		trace_rcu_invoke_kfree_callback("", head, offset);
+> > +		kfree((void *)head - offset);
+> > +		rcu_lock_release(&rcu_callback_map);
+> > +		return true;
+> > +	}
+> > +
+> > +	trace_rcu_invoke_callback("", head);
+> > +	f = head->func;
+> > +	WRITE_ONCE(head->func, (rcu_callback_t)0L);
+> > +	f(head);
+> > +	rcu_lock_release(&rcu_callback_map);
+> > +	return false;
+> > +}
+> 
+> Even if it did show up here in the meantime.  ;-)
+> 
+> >  /* Invoke the RCU callbacks whose grace period has elapsed.  */
+> >  static __latent_entropy void rcu_process_callbacks(struct softirq_action *unused)
+> >  {
+> > @@ -100,7 +127,7 @@ static __latent_entropy void rcu_process_callbacks(struct softirq_action *unused
+> >  		prefetch(next);
+> >  		debug_rcu_head_unqueue(list);
+> >  		local_bh_disable();
+> > -		__rcu_reclaim("", list);
+> > +		rcu_reclaim_tiny(list);
+> >  		local_bh_enable();
+> >  		list = next;
+> >  	}
+> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > index 64568f12641d..12c17e10f2b4 100644
+> > --- a/kernel/rcu/tree.c
+> > +++ b/kernel/rcu/tree.c
+> > @@ -2129,6 +2129,23 @@ int rcutree_dead_cpu(unsigned int cpu)
+> >  	return 0;
+> >  }
+> >  
+> > +/*
+> > + * Reclaim the specified callback.
+> > + */
+> > +static inline void rcu_reclaim_tree(const char *rn, struct rcu_head *head)
+> > +{
+> > +	rcu_callback_t f;
+> > +
+> > +	rcu_lock_acquire(&rcu_callback_map);
+> > +	trace_rcu_invoke_callback(rn, head);
+> > +
+> > +	f = head->func;
+> > +	WRITE_ONCE(head->func, (rcu_callback_t)0L);
+> > +	f(head);
+> > +
+> > +	rcu_lock_release(&rcu_callback_map);
+> > +}
+> 
+> Might be worth inlining this one, as you did for kfree_rcu().
+> 
+> >  /*
+> >   * Invoke any RCU callbacks that have made it to the end of their grace
+> >   * period.  Thottle as specified by rdp->blimit.
+> > @@ -2146,7 +2163,6 @@ static void rcu_do_batch(struct rcu_data *rdp)
+> >  	/* If no callbacks are ready, just return. */
+> >  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
+> >  		trace_rcu_batch_start(rcu_state.name,
+> > -				      rcu_segcblist_n_lazy_cbs(&rdp->cblist),
+> >  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
+> >  		trace_rcu_batch_end(rcu_state.name, 0,
+> >  				    !rcu_segcblist_empty(&rdp->cblist),
+> > @@ -2168,7 +2184,6 @@ static void rcu_do_batch(struct rcu_data *rdp)
+> >  	if (unlikely(bl > 100))
+> >  		tlimit = local_clock() + rcu_resched_ns;
+> >  	trace_rcu_batch_start(rcu_state.name,
+> > -			      rcu_segcblist_n_lazy_cbs(&rdp->cblist),
+> >  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
+> >  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
+> >  	if (offloaded)
+> > @@ -2181,8 +2196,8 @@ static void rcu_do_batch(struct rcu_data *rdp)
+> >  	rhp = rcu_cblist_dequeue(&rcl);
+> >  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
+> >  		debug_rcu_head_unqueue(rhp);
+> > -		if (__rcu_reclaim(rcu_state.name, rhp))
+> > -			rcu_cblist_dequeued_lazy(&rcl);
+> > +		rcu_reclaim_tree(rcu_state.name, rhp);
+> > +
+> >  		/*
+> >  		 * Stop only if limit reached and CPU has something to do.
+> >  		 * Note: The rcl structure counts down from zero.
+> > @@ -2585,7 +2600,7 @@ static void rcu_leak_callback(struct rcu_head *rhp)
+> >   * is expected to specify a CPU.
+> >   */
+> >  static void
+> > -__call_rcu(struct rcu_head *head, rcu_callback_t func, bool lazy)
+> > +__call_rcu(struct rcu_head *head, rcu_callback_t func)
+> >  {
+> >  	unsigned long flags;
+> >  	struct rcu_data *rdp;
+> > @@ -2620,18 +2635,17 @@ __call_rcu(struct rcu_head *head, rcu_callback_t func, bool lazy)
+> >  		if (rcu_segcblist_empty(&rdp->cblist))
+> >  			rcu_segcblist_init(&rdp->cblist);
+> >  	}
+> > +
+> >  	if (rcu_nocb_try_bypass(rdp, head, &was_alldone, flags))
+> >  		return; // Enqueued onto ->nocb_bypass, so just leave.
+> >  	/* If we get here, rcu_nocb_try_bypass() acquired ->nocb_lock. */
+> > -	rcu_segcblist_enqueue(&rdp->cblist, head, lazy);
+> > +	rcu_segcblist_enqueue(&rdp->cblist, head);
+> >  	if (__is_kfree_rcu_offset((unsigned long)func))
+> >  		trace_rcu_kfree_callback(rcu_state.name, head,
+> >  					 (unsigned long)func,
+> > -					 rcu_segcblist_n_lazy_cbs(&rdp->cblist),
+> >  					 rcu_segcblist_n_cbs(&rdp->cblist));
+> >  	else
+> >  		trace_rcu_callback(rcu_state.name, head,
+> > -				   rcu_segcblist_n_lazy_cbs(&rdp->cblist),
+> >  				   rcu_segcblist_n_cbs(&rdp->cblist));
+> >  
+> >  	/* Go handle any RCU core processing required. */
+> > @@ -2681,7 +2695,7 @@ __call_rcu(struct rcu_head *head, rcu_callback_t func, bool lazy)
+> >   */
+> >  void call_rcu(struct rcu_head *head, rcu_callback_t func)
+> >  {
+> > -	__call_rcu(head, func, 0);
+> > +	__call_rcu(head, func);
+> >  }
+> >  EXPORT_SYMBOL_GPL(call_rcu);
+> >  
+> > @@ -2755,10 +2769,18 @@ static void kfree_rcu_work(struct work_struct *work)
+> >  	 * access is Ok.
+> >  	 */
+> >  	for (; head; head = next) {
+> > +		unsigned long offset = (unsigned long)head->func;
+> > +
+> >  		next = head->next;
+> > -		/* Could be possible to optimize with kfree_bulk in future */
+> > +
+> >  		debug_rcu_head_unqueue(head);
+> > -		__rcu_reclaim(rcu_state.name, head);
+> > +		rcu_lock_acquire(&rcu_callback_map);
+> > +		trace_rcu_invoke_kfree_callback(rcu_state.name, head, offset);
+> > +
+> > +		/* Could be possible to optimize with kfree_bulk in future */
+> > +		kfree((void *)head - offset);
+> > +
+> > +		rcu_lock_release(&rcu_callback_map);
+> >  		cond_resched_tasks_rcu_qs();
+> >  	}
+> >  }
+> > @@ -2840,7 +2862,7 @@ static void kfree_rcu_monitor(struct work_struct *work)
+> >   */
+> >  void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
+> >  {
+> > -	__call_rcu(head, func, 1);
+> > +	__call_rcu(head, func);
+> >  }
+> >  EXPORT_SYMBOL_GPL(kfree_call_rcu_nobatch);
+> >  
+> > @@ -3094,7 +3116,7 @@ static void rcu_barrier_func(void *unused)
+> >  	debug_rcu_head_queue(&rdp->barrier_head);
+> >  	rcu_nocb_lock(rdp);
+> >  	WARN_ON_ONCE(!rcu_nocb_flush_bypass(rdp, NULL, jiffies));
+> > -	if (rcu_segcblist_entrain(&rdp->cblist, &rdp->barrier_head, 0)) {
+> > +	if (rcu_segcblist_entrain(&rdp->cblist, &rdp->barrier_head)) {
+> >  		atomic_inc(&rcu_state.barrier_cpu_count);
+> >  	} else {
+> >  		debug_rcu_head_unqueue(&rdp->barrier_head);
+> > diff --git a/kernel/rcu/tree.h b/kernel/rcu/tree.h
+> > index 055c31781d3a..15405420b40c 100644
+> > --- a/kernel/rcu/tree.h
+> > +++ b/kernel/rcu/tree.h
+> > @@ -183,7 +183,6 @@ struct rcu_data {
+> >  	bool rcu_urgent_qs;		/* GP old need light quiescent state. */
+> >  	bool rcu_forced_tick;		/* Forced tick to provide QS. */
+> >  #ifdef CONFIG_RCU_FAST_NO_HZ
+> > -	bool all_lazy;			/* All CPU's CBs lazy at idle start? */
+> >  	unsigned long last_accelerate;	/* Last jiffy CBs were accelerated. */
+> >  	unsigned long last_advance_all;	/* Last jiffy CBs were all advanced. */
+> >  	int tick_nohz_enabled_snap;	/* Previously seen value from sysfs. */
+> > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > index 2defc7fe74c3..0d0fa615c5fa 100644
+> > --- a/kernel/rcu/tree_plugin.h
+> > +++ b/kernel/rcu/tree_plugin.h
+> > @@ -1274,21 +1274,15 @@ static void rcu_prepare_for_idle(void)
+> 
+> We now have only one preprocessor symbol (as opposed to the erroneous
+> "three proprocessor symbols" in my original).
+> 
+> >   *	number, be warned: Setting RCU_IDLE_GP_DELAY too high can hang your
+> >   *	system.  And if you are -that- concerned about energy efficiency,
+> >   *	just power the system down and be done with it!
+> > - * RCU_IDLE_LAZY_GP_DELAY gives the number of jiffies that a CPU is
+> > - *	permitted to sleep in dyntick-idle mode with only lazy RCU
+> > - *	callbacks pending.  Setting this too high can OOM your system.
+> >   *
+> >   * The values below work well in practice.  If future workloads require
+> 
+> "value below works"
+> 
+> >   * adjustment, they can be converted into kernel config parameters, though
+> >   * making the state machine smarter might be a better option.
+> >   */
+> >  #define RCU_IDLE_GP_DELAY 4		/* Roughly one grace period. */
+> > -#define RCU_IDLE_LAZY_GP_DELAY (6 * HZ)	/* Roughly six seconds. */
+> >  
+> >  static int rcu_idle_gp_delay = RCU_IDLE_GP_DELAY;
+> >  module_param(rcu_idle_gp_delay, int, 0644);
+> > -static int rcu_idle_lazy_gp_delay = RCU_IDLE_LAZY_GP_DELAY;
+> > -module_param(rcu_idle_lazy_gp_delay, int, 0644);
+> >  
+> >  /*
+> >   * Try to advance callbacks on the current CPU, but only if it has been
+> > @@ -1327,8 +1321,7 @@ static bool __maybe_unused rcu_try_advance_all_cbs(void)
+> >  /*
+> >   * Allow the CPU to enter dyntick-idle mode unless it has callbacks ready
+> >   * to invoke.  If the CPU has callbacks, try to advance them.  Tell the
+> > - * caller to set the timeout based on whether or not there are non-lazy
+> > - * callbacks.
+> > + * caller about what to set the timeout.
+> >   *
+> >   * The caller must have disabled interrupts.
+> >   */
+> > @@ -1354,25 +1347,19 @@ int rcu_needs_cpu(u64 basemono, u64 *nextevt)
+> >  	}
+> >  	rdp->last_accelerate = jiffies;
+> >  
+> > -	/* Request timer delay depending on laziness, and round. */
+> > -	rdp->all_lazy = !rcu_segcblist_n_nonlazy_cbs(&rdp->cblist);
+> > -	if (rdp->all_lazy) {
+> > -		dj = round_jiffies(rcu_idle_lazy_gp_delay + jiffies) - jiffies;
+> > -	} else {
+> > -		dj = round_up(rcu_idle_gp_delay + jiffies,
+> > -			       rcu_idle_gp_delay) - jiffies;
+> > -	}
+> > +	/* Request timer and round. */
+> > +	dj = round_up(rcu_idle_gp_delay + jiffies,
+> > +		      rcu_idle_gp_delay) - jiffies;
+> 
+> I bet that this now fits onto one line.
+> 
+> > +
+> >  	*nextevt = basemono + dj * TICK_NSEC;
+> >  	return 0;
+> >  }
+> >  
+> >  /*
+> > - * Prepare a CPU for idle from an RCU perspective.  The first major task
+> > - * is to sense whether nohz mode has been enabled or disabled via sysfs.
+> > - * The second major task is to check to see if a non-lazy callback has
+> > - * arrived at a CPU that previously had only lazy callbacks.  The third
+> > - * major task is to accelerate (that is, assign grace-period numbers to)
+> > - * any recently arrived callbacks.
+> > + * Prepare a CPU for idle from an RCU perspective.  The first major task is to
+> > + * sense whether nohz mode has been enabled or disabled via sysfs.  The second
+> > + * major task is to accelerate (that is, assign grace-period numbers to) any
+> > + * recently arrived callbacks.
+> >   *
+> >   * The caller must have disabled interrupts.
+> >   */
+> > @@ -1398,17 +1385,6 @@ static void rcu_prepare_for_idle(void)
+> >  	if (!tne)
+> >  		return;
+> >  
+> > -	/*
+> > -	 * If a non-lazy callback arrived at a CPU having only lazy
+> > -	 * callbacks, invoke RCU core for the side-effect of recalculating
+> > -	 * idle duration on re-entry to idle.
+> > -	 */
+> > -	if (rdp->all_lazy && rcu_segcblist_n_nonlazy_cbs(&rdp->cblist)) {
+> > -		rdp->all_lazy = false;
+> > -		invoke_rcu_core();
+> > -		return;
+> > -	}
+> > -
+> >  	/*
+> >  	 * If we have not yet accelerated this jiffy, accelerate all
+> >  	 * callbacks on this CPU.
+> > diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
+> > index 841ab43f3e60..67530c23c708 100644
+> > --- a/kernel/rcu/tree_stall.h
+> > +++ b/kernel/rcu/tree_stall.h
+> > @@ -263,11 +263,9 @@ static void print_cpu_stall_fast_no_hz(char *cp, int cpu)
+> >  {
+> >  	struct rcu_data *rdp = &per_cpu(rcu_data, cpu);
+> >  
+> > -	sprintf(cp, "last_accelerate: %04lx/%04lx, Nonlazy posted: %c%c%c",
+> > +	sprintf(cp, "last_accelerate: %04lx/%04lx dyntick_enabled: %d",
+> >  		rdp->last_accelerate & 0xffff, jiffies & 0xffff,
+> > -		".l"[rdp->all_lazy],
+> > -		".L"[!rcu_segcblist_n_nonlazy_cbs(&rdp->cblist)],
+> > -		".D"[!!rdp->tick_nohz_enabled_snap]);
+> > +		!!rdp->tick_nohz_enabled_snap);
+> >  }
+> >  
+> >  #else /* #ifdef CONFIG_RCU_FAST_NO_HZ */
+> > -- 
+> > 2.23.0.187.g17f5b7556c-goog
+> > 
