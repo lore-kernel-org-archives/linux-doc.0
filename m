@@ -1,123 +1,209 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AB557D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 07:08:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCE207D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 07:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfH2HIc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 03:08:32 -0400
-Received: from mail-eopbgr140129.outbound.protection.outlook.com ([40.107.14.129]:28142
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726889AbfH2HIc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Aug 2019 03:08:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KGfwNhFcIk3qQa9AkVViXimtlsZ+hAetSmt7xRFbGpcB5Jct7QGMRUg/yugNnjyJU/Ow6JC+X7BV6c84B3NWDS1BzfmMeBFwHKISDt99afOMeTde2igF4mHEoHh3k41H/vU3CAfWeAMyA30j/uylEZzGze6rFewzSxAxlDIiVNYxJJi2IEMccPOf7TuqVXLcMJznKnHT/2pHaFuFOUpy103716g0IW723Ze/GaqV+h10m9gzCN1LrEKjc94WuA2oV0opFexwbak2Sj8avCwlxNj8SxHjqszGVJX02RRWaOcv4CpKC4xX9CilzGttcXP7ROspIW1O0RBoDROSKySOBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3bZCDKJeJ+GZufTwyzF6KKK9+Ey+RD/JkmbaGPhfik=;
- b=bWl3yczjXJ2M36ulGoNWqc9N43TT7ofGbeZcOWfrC1Jf9u8tGHUlWFzM9VTbjbUFlrjqa7pm6j7ULZ50gxlW1ITeXQoY6tY0nB844viOS+jT+9d5VX5hBtUYSKauFjYOIoEPkbAuSzuZ7P9aj+ouqr4yqz2SzCpC8sX3oxvtwzRYzLKb7n2Aku4Zcjyo5ochVOqwPVhXxJfnmqRo+nluYbgrB5hJ05GuQXILDb10AWa4iTttyXuw6eYp5F/hY3G0wz+ZnILGyyfjrXIZaYpmeYoD3lD7vo4waZV5Vf/D6KjAIX4UyMIyAOGswAyajBSr2O/nigmtXV8GPqV2jE45HA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3bZCDKJeJ+GZufTwyzF6KKK9+Ey+RD/JkmbaGPhfik=;
- b=LN8GkmPQp0yWJ2TZNhLME0caqyJPtv/niEREoQRjoWQ8vUP84kALI0ZKm4wrQY0sXNO5mG1df1MGtaDtjXMz8xsWr2AXHZ9NmH1u+uPtGq1j3cXQOf9tJwUmq/WWDg/yotRRDo8Z1OzflVbfR9e0n4OG6tR4iOWYYh1jLlNEJl4=
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
- DB3PR0202MB3356.eurprd02.prod.outlook.com (52.134.68.155) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2199.21; Thu, 29 Aug 2019 07:08:27 +0000
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::a0df:d7d9:f95e:f3ea]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::a0df:d7d9:f95e:f3ea%3]) with mapi id 15.20.2199.021; Thu, 29 Aug 2019
- 07:08:27 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
-Thread-Topic: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
-Thread-Index: AQHVXMfjb9HuvMXdNUO0R8iyHBP+3qcO3XKAgALaFgA=
-Date:   Thu, 29 Aug 2019 07:08:26 +0000
-Message-ID: <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
-References: <20190827110854.12574-1-peda@axentia.se>
- <20190827110854.12574-4-peda@axentia.se>
- <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-originating-ip: [213.112.138.100]
-x-clientproxiedby: HE1PR05CA0218.eurprd05.prod.outlook.com
- (2603:10a6:3:fa::18) To DB3PR0202MB3434.eurprd02.prod.outlook.com
- (2603:10a6:8:5::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 42dd0384-1e27-4376-e533-08d72c4fb051
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DB3PR0202MB3356;
-x-ms-traffictypediagnostic: DB3PR0202MB3356:
-x-microsoft-antispam-prvs: <DB3PR0202MB3356E418B8E4FBB6D5569C2CBCA20@DB3PR0202MB3356.eurprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0144B30E41
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(396003)(136003)(376002)(39830400003)(189003)(199004)(6916009)(305945005)(229853002)(25786009)(5660300002)(6512007)(53936002)(508600001)(6246003)(2906002)(8676002)(81156014)(14454004)(81166006)(8936002)(256004)(53546011)(6506007)(86362001)(71190400001)(7736002)(71200400001)(54906003)(58126008)(6436002)(386003)(316002)(4326008)(6486002)(66946007)(31686004)(486006)(476003)(76176011)(2616005)(52116002)(66476007)(64756008)(26005)(186003)(66446008)(3846002)(31696002)(446003)(11346002)(36756003)(102836004)(66556008)(65806001)(65956001)(6116002)(66066001)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3356;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: WtRfi917UieKwBot5FgZVczZsuHriU4cMK7joE+4+OKUBX+qTQ6CfzobNpo63bCMRSNAvldGL44J04kNFtVjsGxQLC0MGxcjYBwMlp6YTNGyOjDt/n5Eat8ht4QNsv06NmaIMRaw2cVi39B0irhtyA9kuKHcijL1uTX76YbUCOqiPcjFvSvfJw4LpeeDc0oN9Hj974W3sDer+Bmh1IKtLpNrs22K+m2C2tMcdtSkIq2ZJoPtfMP1MHULrIWFN5WCANN3lbzNEAC22ExN+Dz3une1ObYgfqmMzsxxqUpe8QTN5WeEjBN2sC2Xc6IM4/bRZ2kvJUd7yONoOxBeWw4QM8/SKW4Cbs+Z9+LczIKnO9Q1o8sJYGuXOvbMPTZTA9LHsTWid9S/naNBzZWg+CA2UP4HrGwXabeDW+5wtb9F6No=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D9E405F063191F4593B2660CF485CDC6@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42dd0384-1e27-4376-e533-08d72c4fb051
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2019 07:08:26.9959
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MLoA3G0rfiSllDc7YT83kGR605Yd5+UBK/Tq08HeHH64tj7Wxb53YAJgg0SalEBL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3356
+        id S1727883AbfH2HqN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 03:46:13 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:44194 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727315AbfH2HqK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 03:46:10 -0400
+Received: by mail-pg1-f201.google.com with SMTP id o21so1498879pgd.11
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 00:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=W1PmjVL/6s5ZXXFzVRoWXIYsoDfmFEis3kh7AY5/b/U=;
+        b=BlBlZcZoKDjgUAr7XG6MtHOGce0R3ksWhAYokbXmmIBoBJml3QfGoVZnzlSpGJZ7fo
+         ctBud1He4pmoya0E8XD2Q32uvOOZ0BdedmzPEab50lAtOEa+5NeR03NsNnFtyn3WRkTE
+         g3GM3mZhgXqy4srOHzbGLNj8cSyz+++EWnPSUacRg70jS7mzrzEM+zqmkOEE8qMbOon7
+         5JWBj0P+lhdTL7oESqnUj3SisI1jTDbiiABGWvDD8AqArQBJXi820TWLlnBCxW6YvuSX
+         LgaKO0ZVZPjezsn1SEIfqZvIaXIZNMVbBPdSuSd0rbrNZSILWVwusSRflGEGf5Z83xwa
+         Xv3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=W1PmjVL/6s5ZXXFzVRoWXIYsoDfmFEis3kh7AY5/b/U=;
+        b=auIYRXaJXqnEt2rI67GyJHkrrgXuEbP6mK8l9OwM10oa3IdX6UM31CT4KzUzB2GCTr
+         7NxtfwMd88WCe0Byv3AkxGzgFvZj3SWzMGx3Xb5RcIVtlggm1qXojoDnbyHfighHW+DV
+         GUi4F0Hno82rp/7VkKR/fYvwKwM/sXQXUahIJ4gpbDMgeUrPswYQZ4U+T8CPPNP9nNO9
+         UcIq6L09HG8mfLj8wVzxlSF/LUuXtQHuK0WXWv8nZhJC8SkXtuQcYu97tYSfcnJsSjST
+         23p0c1D8nuvMPqCceFBZEy7sCGR79UrAsyN6q1JLFuV2oomvJ6+8pFoarfiSWGH63S0D
+         MAlQ==
+X-Gm-Message-State: APjAAAV8vC7ropsL4UL1TwvD6XzxoRmZvWIkyEHe5vhB60I2ZDZjqH5Y
+        AdH/WMSJ8Md4LL4s6Qy/6036abTuRv8Fsao=
+X-Google-Smtp-Source: APXvYqx8b6RNwtvC8vhWCgQOo7SditWRgK6j21AF90oa0Vxuu2xB7Qykx4b8MpO0DR/c1K1mehO1tLGPMlWRAhs=
+X-Received: by 2002:a63:6901:: with SMTP id e1mr6839120pgc.390.1567064768278;
+ Thu, 29 Aug 2019 00:46:08 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 00:45:56 -0700
+Message-Id: <20190829074603.70424-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Subject: [PATCH v10 0/7] Solve postboot supplier cleanup and optimize probe ordering
+From:   Saravana Kannan <saravanak@google.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>
+Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, clang-built-linux@googlegroups.com,
+        David Collins <collinsd@codeaurora.org>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMjAxOS0wOC0yNyAxMzozNSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0KPiBIaSBQZXRl
-ciwNCj4gDQo+IE9uIFR1ZSwgQXVnIDI3LCAyMDE5IGF0IDE6MDkgUE0gUGV0ZXIgUm9zaW4gPHBl
-ZGFAYXhlbnRpYS5zZT4gd3JvdGU6DQo+PiBUaGUgdmFyaWFibGUgaXMgb25seSBldmVyIHVzZWQg
-ZnJvbSBmYmNvbi5jIHdoaWNoIGlzIGxpbmtlZCBpbnRvIHRoZQ0KPj4gc2FtZSBtb2R1bGUuIFRo
-ZXJlZm9yZSwgdGhlIGV4cG9ydCBpcyBub3QgbmVlZGVkLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6
-IFBldGVyIFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+DQo+IA0KPiBSZXZpZXdlZC1ieTogR2VlcnQg
-VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gDQo+IEJ1dCBub3RlIHRoYXQg
-dGhlIHNhbWUgaXMgdHJ1ZSBmb3IgZmJfY2xhc3MsIHNvIHBlcmhhcHMgaXQgY2FuIGJlIGFkZGVk
-DQo+IChvciBiZXR0ZXIsIHJlbW92ZWQgOy0pPw0KDQpSaWdodC4gU29tZW9uZSBwbGVhc2UgbGV0
-IG1lIGtub3cgaWYgMy8zIG5lZWRzIHRvIGJlIGV4dGVuZGVkLiBJJ20gYWxzbw0KaGFwcHkgdG8g
-anVzdCBkcm9wIGl0Li4uDQoNCj4gT25jZSBkcml2ZXJzL3N0YWdpbmcvb2xwY19kY29uL29scGNf
-ZGNvbi5jIHN0b3BzIGFidXNpbmcgcmVnaXN0ZXJlZF9mYltdDQo+IGFuZCBudW1fcmVnaXN0ZXJl
-ZF9mYiwgdGhvc2UgY2FuIGdvLCB0b28uDQo+IA0KPiBEb2VzIGFueW9uZSByZW1lbWJlIHdoeSBh
-dTEyMDBmYiBjYWxscyBmYl9wcmVwYXJlX2xvZ28oKSBhbmQgZmJfc2hvd19sb2dvKCkNCj4gaXRz
-ZWxmPw0KDQpNYXliZSB0aGVyZSBzaG91bGQgYmUgYSBzbWFsbCBkcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2NvcmUvZmJtZW0uaCBmaWxlIChvcg0Kc29tZXRoaW5nKSB3aXRoIHRoZXNlICJpbnRlcm5hbCIg
-ZGVjbGFyYXRpb25zLCB0byBoaWRlIHNvbWUgY2x1dHRlciBjdXJyZW50bHkNCmluIGluY2x1ZGUv
-bGludXgvZmIuaD8NCg0KRmVlbHMgbGlrZSB0aGF0IGNvdWxkIGJlIGRvbmUgbGF0ZXIsIGFmdGVy
-IHRoZXNlIG90aGVyIGNsZWFudXBzIHlvdSBtZW50aW9uLA0Kc28gdGhhdCB0aGUgbmV3IGZpbGUg
-aGFzIGEgZmV3IG1vcmUgdGhpbmdzIHRvIGRlY2xhcmUuDQoNCkNoZWVycywNClBldGVyDQo=
+Add device-links to track functional dependencies between devices
+after they are created (but before they are probed) by looking at
+their common DT bindings like clocks, interconnects, etc.
+
+Having functional dependencies automatically added before the devices
+are probed, provides the following benefits:
+
+- Optimizes device probe order and avoids the useless work of
+  attempting probes of devices that will not probe successfully
+  (because their suppliers aren't present or haven't probed yet).
+
+  For example, in a commonly available mobile SoC, registering just
+  one consumer device's driver at an initcall level earlier than the
+  supplier device's driver causes 11 failed probe attempts before the
+  consumer device probes successfully. This was with a kernel with all
+  the drivers statically compiled in. This problem gets a lot worse if
+  all the drivers are loaded as modules without direct symbol
+  dependencies.
+
+- Supplier devices like clock providers, interconnect providers, etc
+  need to keep the resources they provide active and at a particular
+  state(s) during boot up even if their current set of consumers don't
+  request the resource to be active. This is because the rest of the
+  consumers might not have probed yet and turning off the resource
+  before all the consumers have probed could lead to a hang or
+  undesired user experience.
+
+  Some frameworks (Eg: regulator) handle this today by turning off
+  "unused" resources at late_initcall_sync and hoping all the devices
+  have probed by then. This is not a valid assumption for systems with
+  loadable modules. Other frameworks (Eg: clock) just don't handle
+  this due to the lack of a clear signal for when they can turn off
+  resources. This leads to downstream hacks to handle cases like this
+  that can easily be solved in the upstream kernel.
+
+  By linking devices before they are probed, we give suppliers a clear
+  count of the number of dependent consumers. Once all of the
+  consumers are active, the suppliers can turn off the unused
+  resources without making assumptions about the number of consumers.
+
+By default we just add device-links to track "driver presence" (probe
+succeeded) of the supplier device. If any other functionality provided
+by device-links are needed, it is left to the consumer/supplier
+devices to change the link when they probe.
+
+v1 -> v2:
+- Drop patch to speed up of_find_device_by_node()
+- Drop depends-on property and use existing bindings
+
+v2 -> v3:
+- Refactor the code to have driver core initiate the linking of devs
+- Have driver core link consumers to supplier before it's probed
+- Add support for drivers to edit the device links before probing
+
+v3 -> v4:
+- Tested edit_links() on system with cyclic dependency. Works.
+- Added some checks to make sure device link isn't attempted from
+  parent device node to child device node.
+- Added way to pause/resume sync_state callbacks across
+  of_platform_populate().
+- Recursively parse DT node to create device links from parent to
+  suppliers of parent and all child nodes.
+
+v4 -> v5:
+- Fixed copy-pasta bugs with linked list handling
+- Walk up the phandle reference till I find an actual device (needed
+  for regulators to work)
+- Added support for linking devices from regulator DT bindings
+- Tested the whole series again to make sure cyclic dependencies are
+  broken with edit_links() and regulator links are created properly.
+
+v5 -> v6:
+- Split, squashed and reordered some of the patches.
+- Refactored the device linking code to follow the same code pattern for
+  any property.
+
+v6 -> v7:
+- No functional changes.
+- Renamed i to index
+- Added comment to clarify not having to check property name for every
+  index
+- Added "matched" variable to clarify code. No functional change.
+- Added comments to include/linux/device.h for add_links()
+
+v7 -> v8:
+- Rebased on top of linux-next to handle device link changes in [1]
+
+v8 -> v9:
+- Fixed kbuild test bot reported errors (docs and const)
+
+v9->v10:
+- Changes made based on reviews on LKML [2] and discussions at ELC [3]
+- Dropped the edit_links() patch
+- Dropped the patch that skips linking for default bus nodes
+- 1/7: Changed from bus.add_links() to fwnode.ops.add_links() 
+- 1/7: Update device link doc
+- 1/7: Lots of comments/fn doc updates
+- 1/7: Renamed device_link_check_waiting_consumers() to
+  device_link_add_missing_supplier_links()
+- 2/7: Moved DT parsing/linking code from of/platform.c to of/property.c
+- 2/7: Lots of comments/fn doc updates
+- 2/7: Returned errors for all error cases in of_link_to_phandle()
+- 2/7: Some minor code refactor to remove "bool done"
+- 2/7: Added debug messages when links not created due permanent errors
+- 3/7: Minor comments update
+- Added 2 new patches 6/7 and 7/7 to handle cyclic dependencies using
+  depends-on
+
+[1] - https://lore.kernel.org/lkml/2305283.AStDPdUUnE@kreacher/
+[2] - https://lore.kernel.org/lkml/20190724001100.133423-2-saravanak@google.com/
+[3] - https://lore.kernel.org/lkml/CAGETcx_pSnC_2D7ufLRyfE3b8uRc814XEf8zu+SpNtT7_Z8NLg@mail.gmail.com/
+
+-Saravana
+
+Saravana Kannan (7):
+  driver core: Add support for linking devices during device addition
+  of: property: Add functional dependency link from DT bindings
+  driver core: Add sync_state driver/bus callback
+  of/platform: Pause/resume sync state during init and
+    of_platform_populate()
+  of: property: Create device links for all child-supplier depencencies
+  dt-bindings: Add depends-on property to break cyclic inferred
+    dependencies
+  of: property: Add "depends-on" parsing support to
+    of_fwnode_add_links()
+
+ .../admin-guide/kernel-parameters.rst         |   1 +
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ .../devicetree/bindings/depends-on.txt        |  46 ++++
+ Documentation/driver-api/device_link.rst      |   3 +-
+ drivers/base/core.c                           | 154 +++++++++++
+ drivers/of/platform.c                         |  12 +
+ drivers/of/property.c                         | 258 ++++++++++++++++++
+ include/linux/device.h                        |  26 ++
+ include/linux/fwnode.h                        |  17 ++
+ 9 files changed, 522 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/depends-on.txt
+
+-- 
+2.23.0.187.g17f5b7556c-goog
+
