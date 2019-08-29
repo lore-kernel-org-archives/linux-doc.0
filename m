@@ -4,115 +4,93 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 643FE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Aug 2019 23:42:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A663D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 00:27:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbfH1Xlu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Aug 2019 19:41:50 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:33867 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbfH1Xlu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 19:41:50 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n9so556255pgc.1;
-        Wed, 28 Aug 2019 16:41:49 -0700 (PDT)
+        id S1725892AbfH2A1y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Aug 2019 20:27:54 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:45289 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbfH2A1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Aug 2019 20:27:53 -0400
+Received: by mail-pf1-f193.google.com with SMTP id w26so815423pfq.12;
+        Wed, 28 Aug 2019 17:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LEwbl1nqNHBHcJacD9dfeICHgcsBE/f/ceNiyU0uO2c=;
-        b=kWxS12FOGo7kRO8bUZisQdbdPaD7m90liBO1DJILGgor5och3M3Y8ixQUrLiOlvUAQ
-         KSCAKzPOIhK4qh4mkp723yecDQTzrNvHfSo5O2PLFMUzPr9tFIvttGdACmQk3GcLv9I5
-         cjYvi8Gr7ER3JMRMI2IeaYoSEzfDVilJaC9VvUum/aPr5t4C5xA5idz5lFsS5zANKFcg
-         337AY91x4TvIwnn1y9efIs3f4w9SNmURv9K2dvAIcHu0ypgbd+SQV2CIW7BfJIlZApXq
-         u8dQIG+K1EEA2/INmvvXiOQePA1oy0eoOgbrzRogC4V4vLfCANYJbRnPt4/hj/mnM9HJ
-         IDqA==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=+FnKt6T+ltE8w3yLy1h9tF886M9S45rP25oiOveKiPQ=;
+        b=GsjSJvpfeS5lqXKDFc6FVuaL98JD5Wymo3Lbqr26yCOctql4nM8K7m43/YzFJ25tCa
+         XRnIlBVTgCCa7GpBgbs+0vYz5kuwLZ6NUe0LA7qEMv4qb2oMzH5HXMD6VVt5NjV1Wnlk
+         SF+xwwb5UnvhqkeLyaOO8Azi7QTOhGGcRlLl3CVViQ3OBSbm2voGPbH0uNafLXI9pN8k
+         p1HSPtbGO/pc8153DuNXTJILp9RTNuHZJx0zs4hpwXRAdcEswrqj9donhrTYrefBB7RQ
+         VFRNjEXtXq5OzGO0oRupaFTzDFO8s8r9sMDRv9+5B24znf0uA0hCtuuoAUtT7CAyvz4t
+         CDSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LEwbl1nqNHBHcJacD9dfeICHgcsBE/f/ceNiyU0uO2c=;
-        b=Dm6bK6YON5/uJ6yGcjawkadlawzzNOu4QZ/dxM4e/ZS6ZOM3weqTqSHAvvlNt+4cL7
-         bfMuHglY8fX44F7wMu5Uf+A2h+OmwcsvFW2+nAo0QTUypU2F05WBVXbfmfG12cdnTxLE
-         YxzDQVlpF3VYifP8YunGgnh/0FC5P4ztnlFbuVoVeoC8PBmvCF6NJhcEO/VLuKRH3jad
-         lW9WvNVzgtm1BzUDWfto0zH+/2zs7qlDbjLdIRqSGrZUaJcfUkoypEApUU3MDT7PmzEg
-         70pt2B7Lsp7vPBaA40BcYnebuANLTbT8ggelkPlPmEwP+BR2lzk7ji4HI2uDK82fopA3
-         MxXA==
-X-Gm-Message-State: APjAAAUYMvbDkleLX03ySndy5ert+il4kq9FkW6y9/LZBMEyqWPezMyX
-        nhDQRuq3AquMzIHDlmudKKjAzF9up37YUg==
-X-Google-Smtp-Source: APXvYqyltBUmIDPff9MzOKVsnLKdLLLDhQKStB24jbwVvtjezQpxtP9BLXnDENuon3HqazilZSGjqw==
-X-Received: by 2002:a17:90a:32a3:: with SMTP id l32mr7061863pjb.14.1567035708956;
-        Wed, 28 Aug 2019 16:41:48 -0700 (PDT)
-Received: from mail.google.com ([149.28.153.17])
-        by smtp.gmail.com with ESMTPSA id g1sm270497pgg.27.2019.08.28.16.41.44
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 28 Aug 2019 16:41:48 -0700 (PDT)
-Date:   Wed, 28 Aug 2019 23:41:34 +0000
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        "John F . Reiser" <jreiser@BitWagon.com>,
-        Matt Helsley <mhelsley@vmware.com>
-Subject: Re: [PATCH 01/11] ftrace: move recordmcount tools to scripts/ftrace
-Message-ID: <20190828234133.quir3ptl4kidnxud@mail.google.com>
-References: <20190825132330.5015-1-changbin.du@gmail.com>
- <20190825132330.5015-2-changbin.du@gmail.com>
- <20190826184444.09334ae9@gandalf.local.home>
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=+FnKt6T+ltE8w3yLy1h9tF886M9S45rP25oiOveKiPQ=;
+        b=d7tKff4vTT4kQv8lEQ0J7ZvN+kwGjZEB+2np7f/Ye8lGC4ytXBgCLgiDIC7+bSQJG7
+         XxQncgwhzZD0pGQUWhnJWviyGAgj8MapmqLE+7ztALsoz5dzY78YFRuyKlRp31P80FJY
+         Cs/cJhAqx9uaX+cThi5eiN+DpXuyKjpDCoGwW8bCKrncgf96zlCbtvKmSYPwJS7hyCVz
+         l0AdH4LpEnEqE+DbyN+37520T4z+XAb+2Hdo+INizLcevZK59NyA9a5IyJwI9d+ToAdL
+         9lQy49Va5JDR8ZyHp5CfNWRcEf8bJSGNBjdf8xVgXvD5NQxlVhi1wV2sPCxIUBUMq7LT
+         FOIw==
+X-Gm-Message-State: APjAAAWZLpz2xit3+87Vji2KzPpeMfiMbVnpGhOgvC3XYB5CgkkgfJNl
+        ivy/JtwIeJEs9TOZ7UzB8pg=
+X-Google-Smtp-Source: APXvYqw2OlfA6jZmJSpwaH818/I+5awEkLLuXP4oPnTJM9FuiV5ShzYywDl2G+kuK0f0/O2haKhnxQ==
+X-Received: by 2002:aa7:8808:: with SMTP id c8mr7648608pfo.67.1567038473241;
+        Wed, 28 Aug 2019 17:27:53 -0700 (PDT)
+Received: from localhost ([39.7.51.95])
+        by smtp.gmail.com with ESMTPSA id 65sm574401pff.148.2019.08.28.17.27.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 17:27:52 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 09:27:49 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+Message-ID: <20190829002749.GA530@jagdpanzerIV>
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <87o9097bff.fsf@intel.com>
+ <20190828120246.GA31416@jagdpanzerIV>
+ <087e8e18-8044-27ef-b0bd-8a1093f53b32@rasmusvillemoes.dk>
+ <20190828125951.GA12653@jagdpanzerIV>
+ <61cd079f-d41b-75ec-9a1e-ef80f9d1f8fd@kleine-koenig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190826184444.09334ae9@gandalf.local.home>
-User-Agent: NeoMutt/20180716-508-7c9a6d
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <61cd079f-d41b-75ec-9a1e-ef80f9d1f8fd@kleine-koenig.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 26, 2019 at 06:44:44PM -0400, Steven Rostedt wrote:
-> On Sun, 25 Aug 2019 21:23:20 +0800
-> Changbin Du <changbin.du@gmail.com> wrote:
+On (08/28/19 18:22), Uwe Kleine-König wrote:
+> That is wrong. When you do
 > 
-> > Move ftrace tools to its own directory. We will add another tool later.
-> > 
-> > Cc: John F. Reiser <jreiser@BitWagon.com>
-> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > ---
-> >  scripts/.gitignore                   |  1 -
-> >  scripts/Makefile                     |  2 +-
-> >  scripts/Makefile.build               | 10 +++++-----
-> >  scripts/ftrace/.gitignore            |  4 ++++
-> >  scripts/ftrace/Makefile              |  4 ++++
-> >  scripts/{ => ftrace}/recordmcount.c  |  0
-> >  scripts/{ => ftrace}/recordmcount.h  |  0
-> >  scripts/{ => ftrace}/recordmcount.pl |  0
-> >  8 files changed, 14 insertions(+), 7 deletions(-)
-> >  create mode 100644 scripts/ftrace/.gitignore
-> >  create mode 100644 scripts/ftrace/Makefile
-> >  rename scripts/{ => ftrace}/recordmcount.c (100%)
-> >  rename scripts/{ => ftrace}/recordmcount.h (100%)
-> >  rename scripts/{ => ftrace}/recordmcount.pl (100%)
-> >  mode change 100755 => 100644
+> 	pr_err("There are no round tuits to give out: %dE\n", -ENOENT);
 > 
-> Note, we are in the process of merging recordmcount with objtool. It
-> would be better to continue from that work.
+> in a kernel that doesn't support %dE you get:
 > 
->  http://lkml.kernel.org/r/2767f55f4a5fbf30ba0635aed7a9c5ee92ac07dd.1563992889.git.mhelsley@vmware.com
-> 
-> -- Steve
-Thanks for reminding. Let me check if prototype tool can merge into
-objtool easily after above work.
+> 	There are no round tuits to give out: -2E
 
--- 
-Cheers,
-Changbin Du
+OK. Good point.
+
+	-ss
