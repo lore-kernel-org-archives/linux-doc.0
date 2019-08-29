@@ -1,72 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B4BA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 16:54:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C339F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 17:14:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727736AbfH2Qyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 12:54:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19772 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727483AbfH2Qyl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 12:54:41 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7TGrDRS033344;
-        Thu, 29 Aug 2019 12:54:09 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2uphbyue43-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Aug 2019 12:54:09 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7TGs82j036591;
-        Thu, 29 Aug 2019 12:54:08 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2uphbyue3r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Aug 2019 12:54:08 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7TGqJr0006466;
-        Thu, 29 Aug 2019 16:54:07 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
-        by ppma01dal.us.ibm.com with ESMTP id 2unb3t6vbm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Aug 2019 16:54:07 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7TGs7hb55378288
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Aug 2019 16:54:07 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E8A83B2067;
-        Thu, 29 Aug 2019 16:54:06 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C6F79B2065;
-        Thu, 29 Aug 2019 16:54:06 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.151.154])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 29 Aug 2019 16:54:06 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 71A0816C12C2; Thu, 29 Aug 2019 09:54:07 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 09:54:07 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1727417AbfH2RO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 13:14:57 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:34294 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727387AbfH2RO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 13:14:57 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n9so1938190pgc.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 10:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mPDM53/6fx4rnRkVTsQ5BY1RiGRNlZ4KUune0Ro7yNA=;
+        b=ES+v6LcCwtNJsRIRE18/qNv6QT20nJphH77qku4h5nuifb2Wj1/18f5TeoE4dY3IPA
+         rhhxr+Wqb3oUpX46hfOnzYY3HDNWdMUd+HJV5GYySJ/TEv4Yg5h3x3lj4DcKeSKvoCWS
+         TN7fwkfTE6IjogQx7daWws5OBakVs4pcljWHU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mPDM53/6fx4rnRkVTsQ5BY1RiGRNlZ4KUune0Ro7yNA=;
+        b=rHvMUhUIS7Z8FPV9wzRVRIQslYrDvR3BmErQ72se5vzE+q0SVYVmmX1sgDK/7ccZV/
+         OzTxrNEQkmw2DB8aPLG3K8z6mGo3nz9RmWpwEq9lYY2g3ruvHt8JzdqB9S7uKhkjR9h4
+         AZc6Va4rJDuv9n0Y6WyumAWbJQ5ExMWpXabs6Vy042hlRKBKeaawUg2NwvAe26rJPhim
+         4NnNRdU8IsV8VvLp1o1BuNNFqIDiSUedaohHsgDhUMjuqn9zT3jlOnKeOw2rL+qQ1aZG
+         Uc88/XIMMLd68+VYc4sJYPN/wCvBynHHj9kgW2HJ+StwNJUsNUcVdMb70u3jZdTtv+aV
+         a4Cw==
+X-Gm-Message-State: APjAAAUa7KqtU5RgwNVc/cIDXek4JHy+z4SPLZuEIDlecXsWiE+6++KX
+        ps0b9AcbY407UAxmvtScWKBaM/PlXts=
+X-Google-Smtp-Source: APXvYqzLu5wk3DxAGdv97u2fDeuvOrok07/5HmEdMMy5kzt5jkkZmQC2p7EkfjQqRXSQajATsBsnrg==
+X-Received: by 2002:a17:90a:e286:: with SMTP id d6mr11225418pjz.61.1567098896195;
+        Thu, 29 Aug 2019 10:14:56 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id x17sm3516199pff.62.2019.08.29.10.14.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2019 10:14:55 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 13:14:54 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
         Frederic Weisbecker <fweisbec@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Android Kernel Team <kernel-team@android.com>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
         Lai Jiangshan <jiangshanlai@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
 Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
-Message-ID: <20190829165407.GT4125@linux.ibm.com>
-Reply-To: paulmck@kernel.org
+Message-ID: <20190829171454.GA115245@google.com>
 References: <20190828211904.GX26530@linux.ibm.com>
  <20190828214241.GD75931@google.com>
  <20190828220108.GC26530@linux.ibm.com>
@@ -75,65 +67,119 @@ References: <20190828211904.GX26530@linux.ibm.com>
  <20190829015155.GB100789@google.com>
  <20190829034336.GD4125@linux.ibm.com>
  <20190829144355.GE63638@google.com>
- <20190829160946.GP4125@linux.ibm.com>
- <CALCETrWNPOOdTrFabTDd=H7+wc6xJ9rJceg6OL1S0rTV5pfSsA@mail.gmail.com>
+ <20190829151325.GF63638@google.com>
+ <20190829161301.GQ4125@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrWNPOOdTrFabTDd=H7+wc6xJ9rJceg6OL1S0rTV5pfSsA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-29_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=973 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908290179
+In-Reply-To: <20190829161301.GQ4125@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 09:21:46AM -0700, Andy Lutomirski wrote:
-> On Thu, Aug 29, 2019 at 9:10 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
+On Thu, Aug 29, 2019 at 09:13:01AM -0700, Paul E. McKenney wrote:
+> On Thu, Aug 29, 2019 at 11:13:25AM -0400, Joel Fernandes wrote:
 > > On Thu, Aug 29, 2019 at 10:43:55AM -0400, Joel Fernandes wrote:
-> >
-> > [ . . . ]
-> >
+> > > On Wed, Aug 28, 2019 at 08:43:36PM -0700, Paul E. McKenney wrote:
+> > > [snip]
+> > > > > > > > This change is not fixing a bug, so there is no need for an emergency fix,
+> > > > > > > > and thus no point in additional churn.  I understand that it is a bit
+> > > > > > > > annoying to code and test something and have your friendly maintainer say
+> > > > > > > > "sorry, wrong rocks", and the reason that I understand this is that I do
+> > > > > > > > that to myself rather often.
+> > > > > > > 
+> > > > > > > The motivation for me for this change is to avoid future bugs such as with
+> > > > > > > the following patch where "== 2" did not take the force write of
+> > > > > > > DYNTICK_IRQ_NONIDLE into account:
+> > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=13c4b07593977d9288e5d0c21c89d9ba27e2ea1f
+> > > > > > 
+> > > > > > Yes, the current code does need some simplification.
+> > > > > > 
+> > > > > > > I still don't see it as pointless churn, it is also a maintenance cost in its
+> > > > > > > current form and the simplification is worth it IMHO both from a readability,
+> > > > > > > and maintenance stand point.
+> > > > > > > 
+> > > > > > > I still don't see what's technically wrong with the patch. I could perhaps
+> > > > > > > add the above "== 2" point in the patch?
+> > > > > > 
+> > > > > > I don't know of a crash or splat your patch would cause, if that is
+> > > > > > your question.  But that is also true of the current code, so the point
+> > > > > > is simplification, not bug fixing.  And from what I can see, there is an
+> > > > > > opportunity to simplify quite a bit further.  And with something like
+> > > > > > RCU, further simplification is worth -serious- consideration.
+> > > > > > 
+> > > > > > > We could also discuss f2f at LPC to see if we can agree about it?
+> > > > > > 
+> > > > > > That might make a lot of sense.
+> > > > > 
+> > > > > Sure. I am up for a further redesign / simplification. I will think more
+> > > > > about your suggestions and can also further discuss at LPC.
+> > > > 
+> > > > One question that might (or might not) help:  Given the compound counter,
+> > > > where the low-order hex digit indicates whether the corresponding CPU
+> > > > is running in a non-idle kernel task and the rest of the hex digits
+> > > > indicate the NMI-style nesting counter shifted up by four bits, what
+> > > > could rcu_is_cpu_rrupt_from_idle() be reduced to?
+> > > > 
+> > > > > And this patch is on LKML archives and is not going anywhere so there's no
+> > > > > rush I guess ;-)
+> > > > 
+> > > > True enough!  ;-)
+> > > 
 > > > Paul, do we also nuke rcu_eqs_special_set()?  Currently I don't see anyone
 > > > using it. And also remove the bottom most bit of dynticks?
-> > >
+> > > 
 > > > Also what happens if a TLB flush broadcast is needed? Do we IPI nohz or idle
 > > > CPUs are the moment?
-> > >
+> > > 
 > > > All of this was introduced in:
 > > > b8c17e6664c4 ("rcu: Maintain special bits at bottom of ->dynticks counter")
-> >
-> > Adding Andy Lutomirski on CC.
-> >
-> > Andy, is this going to be used in the near term, or should we just get
-> > rid of it?
+> > 
+> > 
+> > Paul, also what what happens in the following scenario:
+> > 
+> > CPU0                                                 CPU1
+> > 
+> > A syscall causes rcu_eqs_exit()
+> > rcu_read_lock();
+> >                                                      ---> FQS loop waiting on
+> > 						           dyntick_snap
+> > usermode-upcall  entry -->causes rcu_eqs_enter();
+> > 
+> > usermode-upcall  exit  -->causes rcu_eqs_exit();
+> > 
+> >                                                      ---> FQS loop sees
+> > 						          dyntick snap
+> > 							  increment and
+> > 							  declares CPU0 is
+> > 							  in a QS state
+> > 							  before the
+> > 							  rcu_read_unlock!
+> > 
+> > rcu_read_unlock();
+> > ---
+> > 
+> > Does the context tracking not call rcu_user_enter() in this case, or did I
+> > really miss something?
 > 
-> Let's get rid of it.  I'm not actually convinced it *can* be used as designed.
-> 
-> For those who forgot the history or weren't cc'd on all of it: I had
-> this clever idea about how we could reduce TLB flushes.  I implemented
-> some of it (but not the part that would have used this RCU feature),
-> and it exploded in nasty and subtle ways.  This caused me to learn
-> that speculative TLB fills were a problem that I had entirely failed
-> to account for.  Then PTI happened and thoroughly muddied the water.
+> Holding rcu_read_lock() across usermode execution (in this case,
+> the usermode upcall) is a bad idea.  Why is CPU 0 doing that?
 
-Yeah, PTI was quite annoying.  Still is, from what I can see.  :-/
+Oh, ok. I was just hypothesizing that since usermode upcalls from
+something as heavy as interrupts, it could also mean we had the same from
+some path that held an rcu_read_lock() as well. It was just a theoretical
+concern, if it is not an issue, no problem.
 
-> So I think we should just drop this :(
+The other question I had was, in which cases would dyntick_nesting in current
+RCU code be > 1 (after removing the lower bit and any crowbarring) ? In the
+scenarios I worked out on paper, I can only see this as 1 or 0. But the
+wording of it is 'dynticks_nesting'. May be I am missing a nesting scenario?
+We can exit RCU-idleness into process context only once (either exiting idle
+mode or user mode). Both cases would imply a value of 1.
 
-OK, thank you!  I will put a tag into -rcu marking its removal in case
-it should prove useful whenever for whatever.
+thanks!
 
-Joel, would you like to remove this, or would you rather that I did?
-It is in code you are working with right now, so if I do it, I need to
-wait until yours is finalized.  Which wouldn't be a problem.
+ - Joel
 
-						Thanx, Paul
