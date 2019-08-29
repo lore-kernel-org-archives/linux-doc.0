@@ -1,120 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CCF5F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 08:27:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30B287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 08:49:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725807AbfH2I1H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 04:27:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34120 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725776AbfH2I1H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Aug 2019 04:27:07 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id EFD47AFF9;
-        Thu, 29 Aug 2019 08:27:05 +0000 (UTC)
-Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
-To:     Petr Mladek <pmladek@suse.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        metux IT consult Enrico Weigelt <lkml@metux.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190827211244.7210-1-uwe@kleine-koenig.org>
- <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
- <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
- <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
-From:   Juergen Gross <jgross@suse.com>
-Message-ID: <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
-Date:   Thu, 29 Aug 2019 10:27:04 +0200
+        id S1725990AbfH2It1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 04:49:27 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:36661 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726070AbfH2It1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 04:49:27 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7T8kxr5031268;
+        Thu, 29 Aug 2019 10:48:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : references
+ : from : message-id : date : mime-version : in-reply-to : content-type :
+ content-transfer-encoding; s=STMicroelectronics;
+ bh=NlGM32ocdpPWCJcOtDVLjpgH+SvU7mlXgBdhDT7M+X8=;
+ b=u0db09ugjsVglBswXP+mVOWomLQtCDERzWqyS+4Tpnl9MaCsmoTNFiPCKzdfA50T6D7C
+ C+GbQFCz9y6h5qxvB99GS73qVvw+KBZ69vEVNNDHZmhmS15jbzNJVBCyDo2rYNVPA0M7
+ AyM0nNRswqEa8rgxhWc9dSev0UQYkJERN5IjBULZUiyCR/eN9O5v/jIbbg2kSa8HokzD
+ rtGaXJ45MtbkV2OIbOKlJc3uFrOvxL1SpY0kxAVa5WkVxmObe6Qqx27tr3PO4f2e0oac
+ pDQVtheQDemuJ/HUlrZ3smKV1zedt2eG+UZXZqQCz4eKkIaj21L5ZvS8MsZ+wsLUnvfD 2g== 
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2unujk470g-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Thu, 29 Aug 2019 10:48:55 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8F4B04D;
+        Thu, 29 Aug 2019 08:48:47 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E22742AD3F3;
+        Thu, 29 Aug 2019 10:48:46 +0200 (CEST)
+Received: from lmecxl0912.lme.st.com (10.75.127.47) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 29 Aug
+ 2019 10:48:46 +0200
+Subject: Re: [PATCH v3 5/5] ARM: dts: stm32: add ddrperfm on stm32mp157c
+To:     Gerald BAEZA <gerald.baeza@st.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
+ <1566918464-23927-6-git-send-email-gerald.baeza@st.com>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <8e3170a3-c814-d06e-f1f9-6d4e6a4bed71@st.com>
+Date:   Thu, 29 Aug 2019 10:48:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
+In-Reply-To: <1566918464-23927-6-git-send-email-gerald.baeza@st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG8NODE2.st.com (10.75.127.23) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-29_05:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29.08.19 10:12, Petr Mladek wrote:
-> On Wed 2019-08-28 21:18:37, Uwe Kleine-König  wrote:
->> Hello Petr,
->>
->> On 8/28/19 1:32 PM, Petr Mladek wrote:
->>> On Tue 2019-08-27 23:12:44, Uwe Kleine-König  wrote:
->>>> Petr Mladek had some concerns:
->>>>> There are ideas to make the code even more tricky to reduce
->>>>> the size, keep it fast.
->>>>
->>>> I think Enrico Weigelt's suggestion to use a case is the best
->>>> performance-wise so that's what I picked up. Also I hope that
->>>> performance isn't that important because the need to print an error
->>>> should not be so common that it really hurts in production.
-> 
-> This is contadicting. The "best" performance-wise solution was
-> choosen in favor of space. The next sentence says that performance
-> is not important.
-> 
->>> I personally do not like switch/case. It is a lot of code.
->>> I wonder if it even saved some space.
->>
->> I guess we have to die either way. Either it is quick or it is space
->> efficient.
-> 
-> I am more concerned about the size. Well, array of strings will
-> be both fast and size efficient.
-> 
->> With the big case I trust the compiler to pick something
->> sensible expecting that it adapts for example to -Osize.
-> 
-> I am not sure what are the expectations here. I can't imagine
-> another translation than:
-> 
->     if (val == 1)
->       str = "EPERM";
->     else if (val == 2)
->       str = "ENOENT"
->     else if (val == 3)
->       str = "ESRCH"
->     ...
-> 
-> It means that all constans will be hardcoded in the code instead
-> of in data section. Plus there will be instructions for each
-> if/else part.
-> 
->>> If you want to safe space, I would use u16 to store the numbers.
->>> Or I would use array of strings. There will be only few holes.
->>>
->>> You might also consider handling only the most commonly
->>> used codes from errno.h and errno-base.h (1..133). There will
->>> be no holes and the codes are stable.
->>
->> I'd like to postpone the discussion about "how" until we agreed about
->> the "if at all".
-> 
-> It seems that all people like this feature.
+Hi Gerald
 
-Hmm, what about already existing format strings conatining "%dE"?
-
-Yes, I could find only one (drivers/staging/speakup/speakup_bns.c), but
-nevertheless...
-
+On 8/27/19 5:08 PM, Gerald BAEZA wrote:
+> The DDRPERFM is the DDR Performance Monitor embedded
+> in STM32MP1 SOC.
 > 
-> BTW: I though more about generating or cut&pasting the arrary.
-> I can't find any reasonable way how to generate it.
+> Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+> ---
+>   arch/arm/boot/dts/stm32mp157c.dtsi | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/stm32mp157c.dtsi 
+> b/arch/arm/boot/dts/stm32mp157c.dtsi
+> index 0c4e6eb..6ea6933 100644
+> --- a/arch/arm/boot/dts/stm32mp157c.dtsi
+> +++ b/arch/arm/boot/dts/stm32mp157c.dtsi
+> @@ -1378,6 +1378,14 @@
+>                           };
+>                   };
+> 
+> +               ddrperfm: perf@5a007000 {
+> +                       compatible = "st,stm32-ddr-pmu";
+> +                       reg = <0x5a007000 0x400>;
+> +                       clocks = <&rcc DDRPERFM>;
+> +                       resets = <&rcc DDRPERFM_R>;
+> +                       status = "okay";
 
-Generate the array and errno.h/errno-base.h from the same source?
+No need to add "status = "okay"" here.
 
+regards
+Alex
 
-Juergen
+> +               };
+> +
+>                   usart1: serial@5c000000 {
+>                           compatible = "st,stm32h7-uart";
+>                           reg = <0x5c000000 0x400>;
+> -- 
+> 2.7.4
