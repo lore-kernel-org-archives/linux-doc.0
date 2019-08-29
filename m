@@ -1,147 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7ABB67D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 04:37:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AB557D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 07:08:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbfH2Eh0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 00:37:26 -0400
-Received: from antares.kleine-koenig.org ([94.130.110.236]:55084 "EHLO
-        antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbfH2EhZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 00:37:25 -0400
-Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
-        id D512B7891D8; Thu, 29 Aug 2019 06:37:22 +0200 (CEST)
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>
-Cc:     kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Enrico Weigelt <lkml@metux.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] [RFC] tty/serial: imx: make use of format specifier %dE
-Date:   Thu, 29 Aug 2019 06:37:16 +0200
-Message-Id: <20190829043716.5223-1-uwe@kleine-koenig.org>
-X-Mailer: git-send-email 2.23.0
+        id S1727235AbfH2HIc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 03:08:32 -0400
+Received: from mail-eopbgr140129.outbound.protection.outlook.com ([40.107.14.129]:28142
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726889AbfH2HIc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Aug 2019 03:08:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KGfwNhFcIk3qQa9AkVViXimtlsZ+hAetSmt7xRFbGpcB5Jct7QGMRUg/yugNnjyJU/Ow6JC+X7BV6c84B3NWDS1BzfmMeBFwHKISDt99afOMeTde2igF4mHEoHh3k41H/vU3CAfWeAMyA30j/uylEZzGze6rFewzSxAxlDIiVNYxJJi2IEMccPOf7TuqVXLcMJznKnHT/2pHaFuFOUpy103716g0IW723Ze/GaqV+h10m9gzCN1LrEKjc94WuA2oV0opFexwbak2Sj8avCwlxNj8SxHjqszGVJX02RRWaOcv4CpKC4xX9CilzGttcXP7ROspIW1O0RBoDROSKySOBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3bZCDKJeJ+GZufTwyzF6KKK9+Ey+RD/JkmbaGPhfik=;
+ b=bWl3yczjXJ2M36ulGoNWqc9N43TT7ofGbeZcOWfrC1Jf9u8tGHUlWFzM9VTbjbUFlrjqa7pm6j7ULZ50gxlW1ITeXQoY6tY0nB844viOS+jT+9d5VX5hBtUYSKauFjYOIoEPkbAuSzuZ7P9aj+ouqr4yqz2SzCpC8sX3oxvtwzRYzLKb7n2Aku4Zcjyo5ochVOqwPVhXxJfnmqRo+nluYbgrB5hJ05GuQXILDb10AWa4iTttyXuw6eYp5F/hY3G0wz+ZnILGyyfjrXIZaYpmeYoD3lD7vo4waZV5Vf/D6KjAIX4UyMIyAOGswAyajBSr2O/nigmtXV8GPqV2jE45HA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
+ dkim=pass header.d=axentia.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3bZCDKJeJ+GZufTwyzF6KKK9+Ey+RD/JkmbaGPhfik=;
+ b=LN8GkmPQp0yWJ2TZNhLME0caqyJPtv/niEREoQRjoWQ8vUP84kALI0ZKm4wrQY0sXNO5mG1df1MGtaDtjXMz8xsWr2AXHZ9NmH1u+uPtGq1j3cXQOf9tJwUmq/WWDg/yotRRDo8Z1OzflVbfR9e0n4OG6tR4iOWYYh1jLlNEJl4=
+Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
+ DB3PR0202MB3356.eurprd02.prod.outlook.com (52.134.68.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Thu, 29 Aug 2019 07:08:27 +0000
+Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
+ ([fe80::a0df:d7d9:f95e:f3ea]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
+ ([fe80::a0df:d7d9:f95e:f3ea%3]) with mapi id 15.20.2199.021; Thu, 29 Aug 2019
+ 07:08:27 +0000
+From:   Peter Rosin <peda@axentia.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
+Thread-Topic: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
+Thread-Index: AQHVXMfjb9HuvMXdNUO0R8iyHBP+3qcO3XKAgALaFgA=
+Date:   Thu, 29 Aug 2019 07:08:26 +0000
+Message-ID: <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
+References: <20190827110854.12574-1-peda@axentia.se>
+ <20190827110854.12574-4-peda@axentia.se>
+ <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-originating-ip: [213.112.138.100]
+x-clientproxiedby: HE1PR05CA0218.eurprd05.prod.outlook.com
+ (2603:10a6:3:fa::18) To DB3PR0202MB3434.eurprd02.prod.outlook.com
+ (2603:10a6:8:5::30)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peda@axentia.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 42dd0384-1e27-4376-e533-08d72c4fb051
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DB3PR0202MB3356;
+x-ms-traffictypediagnostic: DB3PR0202MB3356:
+x-microsoft-antispam-prvs: <DB3PR0202MB3356E418B8E4FBB6D5569C2CBCA20@DB3PR0202MB3356.eurprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0144B30E41
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(396003)(136003)(376002)(39830400003)(189003)(199004)(6916009)(305945005)(229853002)(25786009)(5660300002)(6512007)(53936002)(508600001)(6246003)(2906002)(8676002)(81156014)(14454004)(81166006)(8936002)(256004)(53546011)(6506007)(86362001)(71190400001)(7736002)(71200400001)(54906003)(58126008)(6436002)(386003)(316002)(4326008)(6486002)(66946007)(31686004)(486006)(476003)(76176011)(2616005)(52116002)(66476007)(64756008)(26005)(186003)(66446008)(3846002)(31696002)(446003)(11346002)(36756003)(102836004)(66556008)(65806001)(65956001)(6116002)(66066001)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3356;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: axentia.se does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: WtRfi917UieKwBot5FgZVczZsuHriU4cMK7joE+4+OKUBX+qTQ6CfzobNpo63bCMRSNAvldGL44J04kNFtVjsGxQLC0MGxcjYBwMlp6YTNGyOjDt/n5Eat8ht4QNsv06NmaIMRaw2cVi39B0irhtyA9kuKHcijL1uTX76YbUCOqiPcjFvSvfJw4LpeeDc0oN9Hj974W3sDer+Bmh1IKtLpNrs22K+m2C2tMcdtSkIq2ZJoPtfMP1MHULrIWFN5WCANN3lbzNEAC22ExN+Dz3une1ObYgfqmMzsxxqUpe8QTN5WeEjBN2sC2Xc6IM4/bRZ2kvJUd7yONoOxBeWw4QM8/SKW4Cbs+Z9+LczIKnO9Q1o8sJYGuXOvbMPTZTA9LHsTWid9S/naNBzZWg+CA2UP4HrGwXabeDW+5wtb9F6No=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D9E405F063191F4593B2660CF485CDC6@eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42dd0384-1e27-4376-e533-08d72c4fb051
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2019 07:08:26.9959
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MLoA3G0rfiSllDc7YT83kGR605Yd5+UBK/Tq08HeHH64tj7Wxb53YAJgg0SalEBL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3356
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I created a patch that teaches printk et al to emit a symbolic error
-name for an error valued integer[1]. With that applied
-
-	dev_err(&pdev->dev, "failed to get ipg clk: %dE\n", ret);
-
-emits
-
-	... failed to get ipg clk: EPROBE_DEFER
-
-if ret is -EPROBE_DEFER. Petr Mladek (i.e. one of the printk
-maintainers) had concerns if this would be well received and worth the
-effort. He asked to present it to a few subsystems. So for now, this
-patch converting the imx UART driver shouldn't be applied yet but it
-would be great to get some feedback about if you think that being able
-to easily printk (for example) "EIO" instead of "-5" is a good idea.
-Would it help you? Do you think it helps your users?
-
-Thanks
-Uwe
-
-[1] https://lkml.org/lkml/2019/8/27/1456
----
- drivers/tty/serial/imx.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
-index 57d6e6ba556e..a3dbb9378e8b 100644
---- a/drivers/tty/serial/imx.c
-+++ b/drivers/tty/serial/imx.c
-@@ -2143,7 +2143,7 @@ static int imx_uart_probe_dt(struct imx_port *sport,
- 
- 	ret = of_alias_get_id(np, "serial");
- 	if (ret < 0) {
--		dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
-+		dev_err(&pdev->dev, "failed to get alias id, error %dE\n", ret);
- 		return ret;
- 	}
- 	sport->port.line = ret;
-@@ -2236,14 +2236,14 @@ static int imx_uart_probe(struct platform_device *pdev)
- 	sport->clk_ipg = devm_clk_get(&pdev->dev, "ipg");
- 	if (IS_ERR(sport->clk_ipg)) {
- 		ret = PTR_ERR(sport->clk_ipg);
--		dev_err(&pdev->dev, "failed to get ipg clk: %d\n", ret);
-+		dev_err(&pdev->dev, "failed to get ipg clk: %dE\n", ret);
- 		return ret;
- 	}
- 
- 	sport->clk_per = devm_clk_get(&pdev->dev, "per");
- 	if (IS_ERR(sport->clk_per)) {
- 		ret = PTR_ERR(sport->clk_per);
--		dev_err(&pdev->dev, "failed to get per clk: %d\n", ret);
-+		dev_err(&pdev->dev, "failed to get per clk: %dE\n", ret);
- 		return ret;
- 	}
- 
-@@ -2252,7 +2252,7 @@ static int imx_uart_probe(struct platform_device *pdev)
- 	/* For register access, we only need to enable the ipg clock. */
- 	ret = clk_prepare_enable(sport->clk_ipg);
- 	if (ret) {
--		dev_err(&pdev->dev, "failed to enable per clk: %d\n", ret);
-+		dev_err(&pdev->dev, "failed to enable per clk: %dE\n", ret);
- 		return ret;
- 	}
- 
-@@ -2330,7 +2330,7 @@ static int imx_uart_probe(struct platform_device *pdev)
- 		ret = devm_request_irq(&pdev->dev, rxirq, imx_uart_rxint, 0,
- 				       dev_name(&pdev->dev), sport);
- 		if (ret) {
--			dev_err(&pdev->dev, "failed to request rx irq: %d\n",
-+			dev_err(&pdev->dev, "failed to request rx irq: %dE\n",
- 				ret);
- 			return ret;
- 		}
-@@ -2338,7 +2338,7 @@ static int imx_uart_probe(struct platform_device *pdev)
- 		ret = devm_request_irq(&pdev->dev, txirq, imx_uart_txint, 0,
- 				       dev_name(&pdev->dev), sport);
- 		if (ret) {
--			dev_err(&pdev->dev, "failed to request tx irq: %d\n",
-+			dev_err(&pdev->dev, "failed to request tx irq: %dE\n",
- 				ret);
- 			return ret;
- 		}
-@@ -2346,7 +2346,7 @@ static int imx_uart_probe(struct platform_device *pdev)
- 		ret = devm_request_irq(&pdev->dev, rtsirq, imx_uart_rtsint, 0,
- 				       dev_name(&pdev->dev), sport);
- 		if (ret) {
--			dev_err(&pdev->dev, "failed to request rts irq: %d\n",
-+			dev_err(&pdev->dev, "failed to request rts irq: %dE\n",
- 				ret);
- 			return ret;
- 		}
-@@ -2354,7 +2354,7 @@ static int imx_uart_probe(struct platform_device *pdev)
- 		ret = devm_request_irq(&pdev->dev, rxirq, imx_uart_int, 0,
- 				       dev_name(&pdev->dev), sport);
- 		if (ret) {
--			dev_err(&pdev->dev, "failed to request irq: %d\n", ret);
-+			dev_err(&pdev->dev, "failed to request irq: %dE\n", ret);
- 			return ret;
- 		}
- 	}
--- 
-2.23.0
-
+T24gMjAxOS0wOC0yNyAxMzozNSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0KPiBIaSBQZXRl
+ciwNCj4gDQo+IE9uIFR1ZSwgQXVnIDI3LCAyMDE5IGF0IDE6MDkgUE0gUGV0ZXIgUm9zaW4gPHBl
+ZGFAYXhlbnRpYS5zZT4gd3JvdGU6DQo+PiBUaGUgdmFyaWFibGUgaXMgb25seSBldmVyIHVzZWQg
+ZnJvbSBmYmNvbi5jIHdoaWNoIGlzIGxpbmtlZCBpbnRvIHRoZQ0KPj4gc2FtZSBtb2R1bGUuIFRo
+ZXJlZm9yZSwgdGhlIGV4cG9ydCBpcyBub3QgbmVlZGVkLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6
+IFBldGVyIFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+DQo+IA0KPiBSZXZpZXdlZC1ieTogR2VlcnQg
+VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gDQo+IEJ1dCBub3RlIHRoYXQg
+dGhlIHNhbWUgaXMgdHJ1ZSBmb3IgZmJfY2xhc3MsIHNvIHBlcmhhcHMgaXQgY2FuIGJlIGFkZGVk
+DQo+IChvciBiZXR0ZXIsIHJlbW92ZWQgOy0pPw0KDQpSaWdodC4gU29tZW9uZSBwbGVhc2UgbGV0
+IG1lIGtub3cgaWYgMy8zIG5lZWRzIHRvIGJlIGV4dGVuZGVkLiBJJ20gYWxzbw0KaGFwcHkgdG8g
+anVzdCBkcm9wIGl0Li4uDQoNCj4gT25jZSBkcml2ZXJzL3N0YWdpbmcvb2xwY19kY29uL29scGNf
+ZGNvbi5jIHN0b3BzIGFidXNpbmcgcmVnaXN0ZXJlZF9mYltdDQo+IGFuZCBudW1fcmVnaXN0ZXJl
+ZF9mYiwgdGhvc2UgY2FuIGdvLCB0b28uDQo+IA0KPiBEb2VzIGFueW9uZSByZW1lbWJlIHdoeSBh
+dTEyMDBmYiBjYWxscyBmYl9wcmVwYXJlX2xvZ28oKSBhbmQgZmJfc2hvd19sb2dvKCkNCj4gaXRz
+ZWxmPw0KDQpNYXliZSB0aGVyZSBzaG91bGQgYmUgYSBzbWFsbCBkcml2ZXJzL3ZpZGVvL2ZiZGV2
+L2NvcmUvZmJtZW0uaCBmaWxlIChvcg0Kc29tZXRoaW5nKSB3aXRoIHRoZXNlICJpbnRlcm5hbCIg
+ZGVjbGFyYXRpb25zLCB0byBoaWRlIHNvbWUgY2x1dHRlciBjdXJyZW50bHkNCmluIGluY2x1ZGUv
+bGludXgvZmIuaD8NCg0KRmVlbHMgbGlrZSB0aGF0IGNvdWxkIGJlIGRvbmUgbGF0ZXIsIGFmdGVy
+IHRoZXNlIG90aGVyIGNsZWFudXBzIHlvdSBtZW50aW9uLA0Kc28gdGhhdCB0aGUgbmV3IGZpbGUg
+aGFzIGEgZmV3IG1vcmUgdGhpbmdzIHRvIGRlY2xhcmUuDQoNCkNoZWVycywNClBldGVyDQo=
