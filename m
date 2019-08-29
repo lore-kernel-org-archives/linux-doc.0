@@ -5,76 +5,85 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67EF37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 14:55:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F0657D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 15:09:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727073AbfH2OzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 10:55:16 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:36441 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727364AbfH2OzP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 10:55:15 -0400
-X-Originating-IP: 86.250.200.211
-Received: from localhost.localdomain (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 10497E0011;
-        Thu, 29 Aug 2019 14:55:13 +0000 (UTC)
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH] ALSA: doc: Fix PCM interface section typos
-Date:   Thu, 29 Aug 2019 16:55:12 +0200
-Message-Id: <20190829145512.3752-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.20.1
+        id S1727073AbfH2PJx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 11:09:53 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:37773 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726950AbfH2PJx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 11:09:53 -0400
+Received: by mail-qk1-f194.google.com with SMTP id s14so3255780qkm.4;
+        Thu, 29 Aug 2019 08:09:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6u6dCwC2AXkIji3mWvHkjCdJECAtIHmA17odygtXfv4=;
+        b=EmLtseUKbwckhUwybNTPRma2kFhUf0KBHggEvVEXhuDAw1OL5tuDurb0pdEpKmN4hW
+         lm0cLveE80IYJLOuh6oXY4U8o8aCyYCIv9Jb2UPQgwytGNmaFMXxoY1O6wf1+TZtYwuf
+         QsJ8e8/DUv/XU9sHXg0iGSO/QEijOz1MizLITpIO6SUOJpr7y0fCvqwoNt3VV0zeS/Du
+         c3UFdl+aq092Sk/GQIzKs8rEZF8H7rJuNGG9x1nQIivWcrJC1i/OpJOUNeqjvorOPi9Y
+         C3smr69EMx3IA9bXsQ/Ls32rWD0qagzBbFgfkecPo4bFWWtT0g1R7VNdJ6MxpqQNsI9n
+         Cgeg==
+X-Gm-Message-State: APjAAAV++5N4smUutPjhsU4vWubJBHUEhi6b/g0zshU6pu3z8SoCloYx
+        pdHTyYamJs6nmARtxl21yXLJ3PKJV5uvIL8CVxU=
+X-Google-Smtp-Source: APXvYqz+OTLX5WalC0BHdlzlG68GfRdHuWYXB7TEvUIwtsbgeNRNSEwMSu7vDs8mtEOGVF2Qu2vjyjHby17ElUNZrYQ=
+X-Received: by 2002:a37:4051:: with SMTP id n78mr9705549qka.138.1567091392126;
+ Thu, 29 Aug 2019 08:09:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190829143742.24726-1-brgl@bgdev.pl> <20190829143742.24726-4-brgl@bgdev.pl>
+In-Reply-To: <20190829143742.24726-4-brgl@bgdev.pl>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 29 Aug 2019 17:09:35 +0200
+Message-ID: <CAK8P3a1vKmYS-sRj=GrjtqudjbYrwmEOEiKWOVRfHm2rLqxgPg@mail.gmail.com>
+Subject: Re: [PATCH 3/9] lib: devres: provide new variants for devm_ioremap_resource()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Alban Bedel <albeu@free.fr>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix two mistakes in the PCM interface section:
-1/ Members of the snd_pcm_hardware structure are channels_{min,max}
-   and not channel_{min,max} (mind the 's').
-2/ Another sentence is incomplete as the reference to one structure
-   member (period_bytes_max) is missing.
+On Thu, Aug 29, 2019 at 4:38 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-There is no relevant 'Fixes:' tag to apply as both typos predate the
-Git era.
+> @@ -710,6 +710,10 @@ extern void devm_free_pages(struct device *dev, unsigned long addr);
+>
+>  void __iomem *devm_ioremap_resource(struct device *dev,
+>                                     const struct resource *res);
+> +void __iomem *devm_ioremap_resource_nocache(struct device *dev,
+> +                                           const struct resource *res);
+> +void __iomem *devm_ioremap_resource_wc(struct device *dev,
+> +                                      const struct resource *res);
+>
+>  void __iomem *devm_of_iomap(struct device *dev,
+>                             struct device_node *node, int index,
+> diff --git a/lib/devres.c b/lib/devres.c
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- .../sound/kernel-api/writing-an-alsa-driver.rst        | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+I think adding devm_ioremap_resource_wc() and
+devm_platform_ioremap_resource_wc() makes sense, but I think we're
+better off without devm_ioremap_resource_nocache() and
+devm_ioremap_resource_cache().
 
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 6b154dbb02cc..3488b8be5bd5 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -1715,16 +1715,16 @@ Typically, you'll have a hardware descriptor as below:
- -  ``rate_min`` and ``rate_max`` define the minimum and maximum sample
-    rate. This should correspond somehow to ``rates`` bits.
- 
---  ``channel_min`` and ``channel_max`` define, as you might already
-+-  ``channels_min`` and ``channels_max`` define, as you might already
-    expected, the minimum and maximum number of channels.
- 
- -  ``buffer_bytes_max`` defines the maximum buffer size in
-    bytes. There is no ``buffer_bytes_min`` field, since it can be
-    calculated from the minimum period size and the minimum number of
--   periods. Meanwhile, ``period_bytes_min`` and define the minimum and
--   maximum size of the period in bytes. ``periods_max`` and
--   ``periods_min`` define the maximum and minimum number of periods in
--   the buffer.
-+   periods. Meanwhile, ``period_bytes_min`` and ``period_bytes_max``
-+   define the minimum and maximum size of the period in bytes.
-+   ``periods_max`` and ``periods_min`` define the maximum and minimum
-+   number of periods in the buffer.
- 
-    The “period” is a term that corresponds to a fragment in the OSS
-    world. The period defines the size at which a PCM interrupt is
--- 
-2.20.1
+The only architecture that actually has a difference between
+ioremap() and ioremap_nocache() seems to be ia64. I would
+generally assume that any driver using ioremap_nocache()
+that is not ia64 specific should just use ioremap().
 
+The ia64 version of ioremap() tries to guess whether it needs
+a cached or uncached mapping, everyone else always
+gets uncached these days.
+
+       Arnd
