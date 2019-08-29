@@ -1,109 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 217B57D917
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 14:39:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D09E37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 14:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbfH2OjG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 10:39:06 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33091 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727066AbfH2OiG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 10:38:06 -0400
-Received: by mail-wr1-f65.google.com with SMTP id u16so3735900wrr.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 07:38:04 -0700 (PDT)
+        id S1727787AbfH2On6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 10:43:58 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39638 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727684AbfH2On6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 10:43:58 -0400
+Received: by mail-pl1-f193.google.com with SMTP id az1so703975plb.6
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 07:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lE7XX75yR5MTUDt0RcCW0PjxA1AwFACxE3fSvtSieZk=;
-        b=E4/h8FaqQxHIPE+lyWVoIiYaohjVmxyJxNjhr4mVE7ydU3eFRBaO9bDcFmwHHHMLGe
-         UhpMU1eioTe76W/DMfVRPPx+cb/2aWPv9oYfhfbJwczs1UWdoreCBFRDfCNCmip7kvR2
-         TN3pvj/DhTphU4WkfTRgTNz11/2jlBnOct2Nx++ItR4D+woDSwGkZkFMwHzJHWW/OLVo
-         JFJfQ+3Efv/Hat8DK7BZEeFNtQdxE2h2kpmjqbmpJvI/GqfWOaepSxqBPHU4ekzDZvn1
-         u7YIbw+QuGgZksaApBzGRgYxAHtwqeO4hfoIOK/is0s+ZUVkR2f/9n1ShZzWkWOel1Ic
-         gfIA==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1jbNDnatKqrZZbvhaAxgomk5lFvDz0GUQU4rtuS0hzg=;
+        b=pws3InZSGoRYhnY0msy/KI8nH8nUy9PWXFaj3FcNG/GZCigAofnwgs5fjrQ8Da9fqU
+         LNpQeOlxbcmYSt6Uaj1LSagZSEqFQ2qS4K/en9qTys+ZgKZrM0ZGqrZ4NHMOsNDFBuXF
+         4uZe3hiSoi6hgUH6GDDOvCVr2tIEgef6i48qQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lE7XX75yR5MTUDt0RcCW0PjxA1AwFACxE3fSvtSieZk=;
-        b=UYJZ69rR3Xqj4vp5jROngNp95RYEHDZOfCVi87hQK7oAKEi2OwDhVYwYI5x9seMOIK
-         F3w+EvIdFscSnx02yM50Nv4NZVWAnX3XlVejrj9nATlhTAFes/LS+/j903nqYwHIFZTa
-         5aRwNVTTGDmQSDpL6COlO18y6JAeT34BhSd0klG6qRnpliCq+zagVNjPuktfSDZ7hnPw
-         twGwiuKjU/74qLe7ya1KD3OEg7hWY2BZ+UuoTITu+g+9VqWUkon7zVBa/tVVK/R2P5GL
-         bLUftfLrVSQfje2CPlTgyeE5t/y64eaQI6deGQjJ+zGNtP7/Ow+ZtHz0Z55tL5ak6CLZ
-         ovBA==
-X-Gm-Message-State: APjAAAUSFh4sdDcSGOGUfllR7ybFyNPljOCeMzLufycE2SOM7nx4de4i
-        liRUNMMHlUHFAi1BKMkib/qT9Q==
-X-Google-Smtp-Source: APXvYqxDQrS8AALyEx0kI8uwCK17C4j0Sj65Wf212UqhAKwMPXuCpKUGz6RWY5RQSygoujaEeX7r/Q==
-X-Received: by 2002:a5d:6446:: with SMTP id d6mr11636659wrw.159.1567089483908;
-        Thu, 29 Aug 2019 07:38:03 -0700 (PDT)
-Received: from localhost.localdomain (amontpellier-652-1-281-69.w109-210.abo.wanadoo.fr. [109.210.96.69])
-        by smtp.gmail.com with ESMTPSA id g15sm3241925wrp.29.2019.08.29.07.38.02
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1jbNDnatKqrZZbvhaAxgomk5lFvDz0GUQU4rtuS0hzg=;
+        b=lyhA+2DOazb2LujybL+kCW5kSXwBPKL7XXZnhW5kZO9wOd3FntPvBMKFAShyV3DjYu
+         dMor+VPrvMVAOZQSx+FsrVM8yyJHNX7DQn4GtuFtXYwkSb0U1sWmSJL62Q83X6QFwZO+
+         wMcH8f9XTBPhoSyxuJ6crGl0jeuzIioxO/f6vmXSvYkmFfrCRp1/tcautrZdDsb+t+Bu
+         WdegM5dAqm4NZvlsF9gjWDXhrsrULSB5r2VNb4JVtr3Od/8btQJpiPlzlHxpxV/Q1VTJ
+         UlGGzyLQDpspeJS3pJTBftP2Ec1hrabRZ226fGPpCs7cXC4kadlILvyHBi8W8lus1Pia
+         Zjow==
+X-Gm-Message-State: APjAAAX7Nu4hyoaszm5sgu4AEorD9C4c50Y2XjGQ5qUpmzbjcufIIx8U
+        htKsNQnEPqa/Glqs4zQrB19hEw==
+X-Google-Smtp-Source: APXvYqxMzTPU8bK6VjApFdjKL0gEBlWweOLhLYTEdCnvF7eVDYTr1s/5dEscVTxlZWsL0uFq/aCAzw==
+X-Received: by 2002:a17:902:126:: with SMTP id 35mr2476290plb.76.1567089837473;
+        Thu, 29 Aug 2019 07:43:57 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id ev3sm16452782pjb.3.2019.08.29.07.43.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 07:38:03 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Alban Bedel <albeu@free.fr>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Julia Lawall <Julia.Lawall@lip6.fr>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 0/9] drivers: add new variants of devm_platform_ioremap_resource()
-Date:   Thu, 29 Aug 2019 16:37:33 +0200
-Message-Id: <20190829143742.24726-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
+        Thu, 29 Aug 2019 07:43:56 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 10:43:55 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
+Message-ID: <20190829144355.GE63638@google.com>
+References: <5d648897.1c69fb81.5e60a.fc70@mx.google.com>
+ <20190828202330.GS26530@linux.ibm.com>
+ <20190828210525.GB75931@google.com>
+ <20190828211904.GX26530@linux.ibm.com>
+ <20190828214241.GD75931@google.com>
+ <20190828220108.GC26530@linux.ibm.com>
+ <20190828221444.GA100789@google.com>
+ <20190828231247.GE26530@linux.ibm.com>
+ <20190829015155.GB100789@google.com>
+ <20190829034336.GD4125@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190829034336.GD4125@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Wed, Aug 28, 2019 at 08:43:36PM -0700, Paul E. McKenney wrote:
+[snip]
+> > > > > This change is not fixing a bug, so there is no need for an emergency fix,
+> > > > > and thus no point in additional churn.  I understand that it is a bit
+> > > > > annoying to code and test something and have your friendly maintainer say
+> > > > > "sorry, wrong rocks", and the reason that I understand this is that I do
+> > > > > that to myself rather often.
+> > > > 
+> > > > The motivation for me for this change is to avoid future bugs such as with
+> > > > the following patch where "== 2" did not take the force write of
+> > > > DYNTICK_IRQ_NONIDLE into account:
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=13c4b07593977d9288e5d0c21c89d9ba27e2ea1f
+> > > 
+> > > Yes, the current code does need some simplification.
+> > > 
+> > > > I still don't see it as pointless churn, it is also a maintenance cost in its
+> > > > current form and the simplification is worth it IMHO both from a readability,
+> > > > and maintenance stand point.
+> > > > 
+> > > > I still don't see what's technically wrong with the patch. I could perhaps
+> > > > add the above "== 2" point in the patch?
+> > > 
+> > > I don't know of a crash or splat your patch would cause, if that is
+> > > your question.  But that is also true of the current code, so the point
+> > > is simplification, not bug fixing.  And from what I can see, there is an
+> > > opportunity to simplify quite a bit further.  And with something like
+> > > RCU, further simplification is worth -serious- consideration.
+> > > 
+> > > > We could also discuss f2f at LPC to see if we can agree about it?
+> > > 
+> > > That might make a lot of sense.
+> > 
+> > Sure. I am up for a further redesign / simplification. I will think more
+> > about your suggestions and can also further discuss at LPC.
+> 
+> One question that might (or might not) help:  Given the compound counter,
+> where the low-order hex digit indicates whether the corresponding CPU
+> is running in a non-idle kernel task and the rest of the hex digits
+> indicate the NMI-style nesting counter shifted up by four bits, what
+> could rcu_is_cpu_rrupt_from_idle() be reduced to?
+> 
+> > And this patch is on LKML archives and is not going anywhere so there's no
+> > rush I guess ;-)
+> 
+> True enough!  ;-)
 
-The new devm_platform_ioremap_resource() helper has now been widely
-adopted and used in many drivers. Users of nocache and write-combined
-ioremap() variants could profit from the same code shrinkage. This
-series provides two new versions of devm_platform_ioremap_resource()
-and uses it in a few example drivers with the assumption that - just
-like was the case previously - a coccinelle script will be developed
-to ease the transition for others.
+Paul, do we also nuke rcu_eqs_special_set()?  Currently I don't see anyone
+using it. And also remove the bottom most bit of dynticks?
 
-Bartosz Golaszewski (9):
-  Documentation: devres: add missing entry for
-    devm_platform_ioremap_resource()
-  lib: devres: prepare devm_ioremap_resource() for more variants
-  lib: devres: provide new variants for devm_ioremap_resource()
-  drivers: provide new variants of devm_platform_ioremap_resource()
-  gpio: em: use devm_platform_ioremap_resource_nocache()
-  gpio: ath79: use devm_platform_ioremap_resource_nocache()
-  gpio: htc-egpio: use devm_platform_ioremap_resource_nocache()
-  gpio: xgene: use devm_platform_ioremap_resource_nocache()
-  misc: sram: use devm_platform_ioremap_resource_wc()
+Also what happens if a TLB flush broadcast is needed? Do we IPI nohz or idle
+CPUs are the moment?
 
- .../driver-api/driver-model/devres.rst        |  5 ++
- drivers/base/platform.c                       | 70 +++++++++++++++--
- drivers/gpio/gpio-ath79.c                     | 10 +--
- drivers/gpio/gpio-em.c                        | 22 +++---
- drivers/gpio/gpio-htc-egpio.c                 | 13 ++--
- drivers/gpio/gpio-xgene.c                     | 14 +---
- drivers/misc/sram.c                           | 28 ++-----
- include/linux/device.h                        |  4 +
- include/linux/platform_device.h               |  6 ++
- lib/devres.c                                  | 76 ++++++++++++++-----
- 10 files changed, 165 insertions(+), 83 deletions(-)
+All of this was introduced in:
+b8c17e6664c4 ("rcu: Maintain special bits at bottom of ->dynticks counter")
 
--- 
-2.21.0
+thanks,
+
+ - Joel
 
