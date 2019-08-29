@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FDDF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 09:01:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A8887D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 09:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbfH2JBC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 05:01:02 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45204 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725853AbfH2JBC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 05:01:02 -0400
-Received: by mail-lf1-f68.google.com with SMTP id r134so1003607lff.12
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 02:01:01 -0700 (PDT)
+        id S1727183AbfH2JJu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 05:09:50 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:41505 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726038AbfH2JJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 05:09:50 -0400
+Received: by mail-lj1-f196.google.com with SMTP id m24so2258693ljg.8
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 02:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rasmusvillemoes.dk; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GflFtIVZM88+m/b3O03bHRfVUBRCQA10rQsteTPRKU0=;
-        b=RP9ClfqOBQdl68pRWDcY1JCCs1Q5wuSwXqTQrxZa5L9iq2jlLy/LK7xGMohK9vjwrI
-         8QanvCJNGjB66AKh+egkfLNnsxAPiDwz0oIhnJxN/4upQRp6I9mgP6GbkpjEaklkyWNo
-         f5ODkjYbir1wzaER7e4PsqFQ0LVLKue9Tx9J4=
+        bh=489FQGjJLqXDSKSlEr9geJrL+c7/49Z600Juares+AY=;
+        b=Z64hx8aYxKDT1yQBt+9mE+5YSVj95qMujrRDTYi50my74gMq0cNlWOYCbUqIeoVFhg
+         jZnAb1B6fKq6cOas5/PxOwzDbhOkP+9iNSbocSqG1WsLlEEQPZYGb+YKnKiQ9BLV0l5h
+         8/RK1EyRP5i8CEFyG81o0PhyW6p8ZVV9IiUMc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GflFtIVZM88+m/b3O03bHRfVUBRCQA10rQsteTPRKU0=;
-        b=IIJqh4hJvA2ZlPnn54P2GKrNbvzY7HIvhHy1qi3yr1lZdTNmurBKrjeUKRp5jK9wbU
-         1HjdnLlIcbW2OsEO5HBZrv81I/8Vl3b2vnceSAX/zgsbt7Dx+4Xb6braqaNCEgVp0TYR
-         PT+FoFdug6h6bc2yZRMkdgv2sBBCHHQl66bdxgcQZ2F8yU0Kvd14IZVoBG0z9IamOlea
-         01rG7xcZWgn7p4wum37jQPiTK9RLvj3c2IH+y2kcnBsuCtXQQKI6rRO6SNAFg5p+7dda
-         lvao1ymnC7UDDD0QQAbnqgSWoqbOqXxItp5u86kQppqC7C207c+zSIT4cNhvqPdbeedB
-         Fysw==
-X-Gm-Message-State: APjAAAXangkkKVS95xiNWMYmpS3Ld7fuvU1B98mSP2uKXgB/eNlRvU0s
-        6u5cwJWSOTxL9xyXFrGJUMYT/Q==
-X-Google-Smtp-Source: APXvYqwjN+5W4ntXA7MNnNHNpk1WEY6DjWz1C1dmXfCEJi7QBlRTnI4JIU6BGp373PYAFgm2lm4kVw==
-X-Received: by 2002:a19:6d17:: with SMTP id i23mr5440814lfc.44.1567069260255;
-        Thu, 29 Aug 2019 02:01:00 -0700 (PDT)
+        bh=489FQGjJLqXDSKSlEr9geJrL+c7/49Z600Juares+AY=;
+        b=L3lVPFxWa5NbF5UPsqbOADSxQoJtFixkmQGgJTZr2fe4i7JObOD9Ga2m/meXqOyTmB
+         U7YEW17ggHedI21OnqdvehhewNlQTyQpM/NMdRhF0EspSpBWq/htrYq4qrD2yWvUg5ie
+         qorjQcanWRAG7VfJbRejt//zfp1RDES7f0AJR04wDTiA9+qEH4lIQhlCLxk2NsEy6kTa
+         B3DGznO3V+4IaNgz1R2FePjUYfoAL7NwTQYwQ58kAAf9LK+OqjYbETFysVVzNqxvvG62
+         CZX5WFCDUb2pAH6p4QYc0I6r0j3D/1XyZyLMUwhv8QbPmtifyuH7wCEjG/qDtK0T8Ogy
+         UbrA==
+X-Gm-Message-State: APjAAAWWV1pFAyuX66l4cVtnK6gD90RZUUt6mtxxHKokhxLNnv06Boww
+        qX4RVACVaYBaJEgEdO85GS3XBA==
+X-Google-Smtp-Source: APXvYqzV7OlXH2nJCS1ZKsuXiWBHCy7VrQyQdigDb0HhJ8/pdOTlG/NXHxIi8zuyjb8PS/msNi+GIA==
+X-Received: by 2002:a2e:3109:: with SMTP id x9mr4525887ljx.19.1567069788536;
+        Thu, 29 Aug 2019 02:09:48 -0700 (PDT)
 Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id l11sm293261lfh.48.2019.08.29.02.00.58
+        by smtp.gmail.com with ESMTPSA id v20sm261658ljj.47.2019.08.29.02.09.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 29 Aug 2019 02:00:59 -0700 (PDT)
+        Thu, 29 Aug 2019 02:09:48 -0700 (PDT)
 Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
-To:     Petr Mladek <pmladek@suse.com>,
+To:     Juergen Gross <jgross@suse.com>, Petr Mladek <pmladek@suse.com>,
         =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
 Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -60,14 +60,15 @@ References: <20190827211244.7210-1-uwe@kleine-koenig.org>
  <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
  <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
  <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+ <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
 From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <39eda8f7-8c39-f899-075f-b4abdefe0098@rasmusvillemoes.dk>
-Date:   Thu, 29 Aug 2019 11:00:58 +0200
+Message-ID: <a83449cf-3a4a-f3e0-210a-dc7c39505355@rasmusvillemoes.dk>
+Date:   Thu, 29 Aug 2019 11:09:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -75,29 +76,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/08/2019 10.12, Petr Mladek wrote:
-> On Wed 2019-08-28 21:18:37, Uwe Kleine-K�nig  wrote:
+On 29/08/2019 10.27, Juergen Gross wrote:
+> On 29.08.19 10:12, Petr Mladek wrote:
+>> On Wed 2019-08-28 21:18:37, Uwe Kleine-König  wrote:
+>>>
+>>> I'd like to postpone the discussion about "how" until we agreed about
+>>> the "if at all".
+>>
+>> It seems that all people like this feature.
+> 
+> Hmm, what about already existing format strings conatining "%dE"?
+> 
+> Yes, I could find only one (drivers/staging/speakup/speakup_bns.c), but
+> nevertheless...
 
-> BTW: I though more about generating or cut&pasting the arrary.
-> I can't find any reasonable way how to generate it.
+Indeed, Uwe still needs to respond to how he wants to handle that. I
+still prefer making it %pE, both because it's easier to convert integers
+to ERR_PTRs than having to worry about the type of PTR_ERR() being long
+and not int, and because alphanumerics after %p have been ignored for a
+long time (10 years?) whether or not those characters have been
+recognized as a %p extension, so nobody relies on %pE putting an E after
+the %p output. It also keeps the non-standard extensions in the same
+"namespace", so to speak.
 
-Something like this seems to work, though it probably needs some massage
-to be accepted by kbuild folks:
-
-define filechk_errcode.h
-	echo '#include <linux/errno.h>' | \
-	$(CPP) $(NOSTDINC_FLAGS) $(LINUXINCLUDE) -dM - | \
-	grep 'define E' | sort -k3,3n | \
-	awk '{print "errcode("$$2")\t/* "$$3" */"}'
-endef
-
-include/generated/errcode.h: FORCE
-	$(call filechk,errcode.h)
-
-Then one can just #define errcode(foo) ... right before #include
-<generated/errcode.h>. It cannot be used to generate cases in a switch()
-because some expand to the same number, but that's ok, because I can't
-imagine the switch actually generating good or small code. I haven't
-checked how or whether it works in a cross-compile situation.
+Oh, 'E' is taken, well, make it 'e' then.
 
 Rasmus
