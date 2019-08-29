@@ -1,111 +1,251 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C23F17D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 20:39:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D247C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 20:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbfH2UjP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 16:39:15 -0400
-Received: from sauhun.de ([88.99.104.3]:43518 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726245AbfH2UjP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Aug 2019 16:39:15 -0400
-Received: from localhost (p54B33070.dip0.t-ipconnect.de [84.179.48.112])
-        by pokefinder.org (Postfix) with ESMTPSA id 1426E2C001C;
-        Thu, 29 Aug 2019 22:39:13 +0200 (CEST)
-Date:   Thu, 29 Aug 2019 22:39:12 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Enrico Weigelt <lkml@metux.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [RFC] i2c: imx: make use of format specifier %dE
-Message-ID: <20190829203912.GU3740@ninjato>
-References: <20190829042905.4850-1-uwe@kleine-koenig.org>
+        id S1727802AbfH2U4l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 16:56:41 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:43748 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727792AbfH2U4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 16:56:40 -0400
+Received: by mail-pf1-f195.google.com with SMTP id v12so2887757pfn.10
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 13:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VpoCOiTqt2OXtuTEcfdRivemuSYVHt20AJpr4bHjRMs=;
+        b=wQAjOzxG38j3KShRalpKFUSlN2Pd78hXVqN+9h+m2yA6pPnRI46QIrqs8J0gjfS+Nr
+         W4i9JkH1kpAHAyb9gRQLmiXsdvrmmKmr9jGVak0Ba8JSGCk1WU1Xo1ODb+xrvxP5jnNh
+         KZVLf/gKNC0uoHJU1ZPxRMbddjjBqAzeD3EtM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VpoCOiTqt2OXtuTEcfdRivemuSYVHt20AJpr4bHjRMs=;
+        b=uQdj5RIU3mm5uw6gUT2Y77i1peeuDSxyVcMUqNFmAzhIcfTvoPy7ueedWNue0OgE69
+         ku92wx1pgCBD6GC63PcM2CONytmea2iF+xVuN2QceQw6TCofpN6LuV6Drd2hMtucDjdI
+         AjJabBBFumFRemSnqfhh4S6kwHjJjvvodKHBWuxleLes4Tkf8+BZivrso3xy3yE1ewL4
+         mVboa/VcRdWjeHbt8s+aM1tOxnADg5N8jSwmOa3lHIRxUMefFaLveFY+PKV+/q2/5Pv4
+         Ry/zGA+zL6ihVgh3ZY+7HMhMBJ31TMVGZGD9xTTPgWoRYBB2nonftmNMU/6eWG4tSdyf
+         b+8w==
+X-Gm-Message-State: APjAAAUkMQ0bmcHj1vIP6VDqr52lTiilNQs9OWj+XkuSMuh03XleVg3O
+        4EEY2yJdJXF0xZv0GdKV6NszAw==
+X-Google-Smtp-Source: APXvYqztHwoxkUqyVXeIXD9BZ7I5PAuVTbqWub9Vj1FWPwK1+v8pWWCY+5HJwBK5XS9ln01APQCHPQ==
+X-Received: by 2002:a17:90b:907:: with SMTP id bo7mr12095330pjb.107.1567112199751;
+        Thu, 29 Aug 2019 13:56:39 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id y13sm3901434pfm.164.2019.08.29.13.56.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2019 13:56:38 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 16:56:37 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, byungchul.park@lge.com,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 1/5] rcu/rcuperf: Add kfree_rcu() performance Tests
+Message-ID: <20190829205637.GA162830@google.com>
+References: <5d657e33.1c69fb81.54250.01dd@mx.google.com>
+ <20190828211226.GW26530@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8Tx+BDMK09J610+l"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190829042905.4850-1-uwe@kleine-koenig.org>
+In-Reply-To: <20190828211226.GW26530@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 28, 2019 at 02:12:26PM -0700, Paul E. McKenney wrote:
+> On Tue, Aug 27, 2019 at 03:01:55PM -0400, Joel Fernandes (Google) wrote:
+> > This test runs kfree_rcu() in a loop to measure performance of the new
+> > kfree_rcu() batching functionality.
+> > 
+> > The following table shows results when booting with arguments:
+> > rcuperf.kfree_loops=20000 rcuperf.kfree_alloc_num=8000 rcuperf.kfree_rcu_test=1
+> > 
+> > In addition, rcuperf.kfree_no_batch is used to toggle the batching of
+> > kfree_rcu()s for a test run.
+> > 
+> > patch applied		GPs	time (seconds)
+> >  yes			1732	14.5
+> >  no			9133 	11.5
+> 
+> This is really "rcuperf.kfree_no_batch" rather than "patch applied", right?
+> (Yes, we did discuss this last time around, but this table combined with
+> the prior paragraph is still ambiguous.)  Please make it unambiguous.
+> One way to do that is as follows:
+> 
+> ------------------------------------------------------------------------
+> 
+> The following table shows results when booting with arguments:
+> rcuperf.kfree_loops=20000 rcuperf.kfree_alloc_num=8000 rcuperf.kfree_rcu_test=1  rcuperf.kfree_no_batch=X
+> 
+> rcuperf.kfree_no_batch=X    # Grace Periods	Test Duration (s)
+>  X=1 (old behavior)              9133                 11.5
+>  X=0 (new behavior)              1732                 14.5
 
---8Tx+BDMK09J610+l
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes you are right, will fix. The reason I changed it to 'patch applied' is
+because the last patch in the series removes kfree_no_batch. Will fix!
+thanks!
+ 
+> > On a 16 CPU system with the above boot parameters, we see that the total
+> > number of grace periods that elapse during the test drops from 9133 when
+> > not batching to 1732 when batching (a 5X improvement). The kfree_rcu()
+> > flood itself slows down a bit when batching, though, as shown.
+> 
+> This last sentence would be more clear as something like: "However,
+> use of batching increases the duration of the kfree_rcu()-flood test."
+> 
+> > Note that the active memory consumption during the kfree_rcu() flood
+> > does increase to around 200-250MB due to the batching (from around 50MB
+> > without batching). However, this memory consumption is relatively
+> > constant. In other words, the system is able to keep up with the
+> > kfree_rcu() load. The memory consumption comes down considerably if
+> > KFREE_DRAIN_JIFFIES is increased from HZ/50 to HZ/80.
+> 
+> That would be a decrease rather than an increase in KFREE_DRAIN_JIFFIES,
+> correct?
+> 
+> This would also be a good place to mention that a later patch will
+> decrease consumption, but that is strictly optional.  However, you did
+> introduce the topic of changing KFREE_DRAIN_JIFFIES, so if a later patch
+> changes this value, this would be an excellent place to mention this.
 
-On Thu, Aug 29, 2019 at 06:29:05AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> I created a patch that teaches printk et al to emit a symbolic error
-> name for an error valued integer[1]. With that applied
->=20
-> 	dev_err(&pdev->dev, "can't enable I2C clock, ret=3D%dE\n", ret);
->=20
-> emits
->=20
-> 	... can't enable I2C clock, ret=3DEIO
->=20
-> if ret is -EIO. Petr Mladek (i.e. one of the printk maintainers) had
-> concerns if this would be well received and worth the effort. He asked
-> to present it to a few subsystems. So for now, this patch converting the
-> i2c-imx driver shouldn't be applied yet but it would be great to get
-> some feedback about if you think that being able to easily printk (for
-> example) "EIO" instead of "-5" is a good idea. Would it help you? Do you
-> think it helps your users?
+Fixed.
 
-Yes, it would help me. And users, too, I am quite sure. For me, if I mix
-up two numbers while debugging, I am hunting ghosts for a while until I
-realize my mistake. So:
+[snip]
+> > +/*
+> > + * kfree_rcu() performance tests: Start a kfree_rcu() loop on all CPUs for number
+> > + * of iterations and measure total time and number of GP for all iterations to complete.
+> > + */
+> > +
+> > +torture_param(int, kfree_nthreads, -1, "Number of threads running loops of kfree_rcu().");
+> > +torture_param(int, kfree_alloc_num, 8000, "Number of allocations and frees done in an iteration.");
+> > +torture_param(int, kfree_loops, 10, "Number of loops doing kfree_alloc_num allocations and frees.");
+> > +torture_param(int, kfree_no_batch, 0, "Use the non-batching (slower) version of kfree_rcu().");
+> > +
+> > +static struct task_struct **kfree_reader_tasks;
+> > +static int kfree_nrealthreads;
+> > +static atomic_t n_kfree_perf_thread_started;
+> > +static atomic_t n_kfree_perf_thread_ended;
+> > +
+> > +struct kfree_obj {
+> > +	char kfree_obj[8];
+> > +	struct rcu_head rh;
+> > +};
+> > +
+> > +static int
+> > +kfree_perf_thread(void *arg)
+> > +{
+> > +	int i, loop = 0;
+> > +	long me = (long)arg;
+> > +	struct kfree_obj *alloc_ptr;
+> > +	u64 start_time, end_time;
+> > +
+> > +	VERBOSE_PERFOUT_STRING("kfree_perf_thread task started");
+> > +	set_cpus_allowed_ptr(current, cpumask_of(me % nr_cpu_ids));
+> > +	set_user_nice(current, MAX_NICE);
+> > +
+> > +	start_time = ktime_get_mono_fast_ns();
+> > +
+> > +	if (atomic_inc_return(&n_kfree_perf_thread_started) >= kfree_nrealthreads) {
+> > +		if (gp_exp)
+> > +			b_rcu_gp_test_started = cur_ops->exp_completed() / 2;
+> 
+> At some point, it would be good to use the new grace-period
+> sequence-counter functions (rcuperf_seq_diff(), for example) instead of
+> the open-coded division by 2.  I freely admit that you are just copying
+> my obsolete hack in this case, so not needed in this patch.
 
-Acked-by: Wolfram Sang <wsa@the-dreams.de>
+But I am using rcu_seq_diff() below in the pr_alert().
 
-I think the main drawback is that ERRORCODES in vsprintf.c now need
-maintenance, but I think it is worth the effort. I'd be interested in
-the overhead in size this causes, but I also think it is worth the
-effort. (It could even be compiled out if we have some generic Kconfig
-symbol for smaller kernels).
+Anyway, I agree this can be a follow-on since this pattern is borrowed from
+another part of rcuperf. However, I am also confused about the pattern
+itself.
 
-Thanks,
+If I understand, you are doing the "/ 2" because expedited_sequence
+progresses by 2 for every expedited batch.
 
-   Wolfram
+But does rcu_seq_diff() really work on these expedited GP numbers, and will
+it be immune to changes in RCU_SEQ_STATE_MASK? Sorry for the silly questions,
+but admittedly I have not looked too much yet into expedited RCU so I could
+be missing the point.
 
+> > +		else
+> > +			b_rcu_gp_test_finished = cur_ops->get_gp_seq();
+> > +
+> > +		pr_alert("Total time taken by all kfree'ers: %llu ns, loops: %d, batches: %ld\n",
+> > +		       (unsigned long long)(end_time - start_time), kfree_loops,
+> > +		       rcuperf_seq_diff(b_rcu_gp_test_finished, b_rcu_gp_test_started));
+> > +		if (shutdown) {
+> > +			smp_mb(); /* Assign before wake. */
+> > +			wake_up(&shutdown_wq);
+> > +		}
+> > +	}
+> > +
+> > +	torture_kthread_stopping("kfree_perf_thread");
+> > +	return 0;
+> > +}
+> > +
+> > +static void
+> > +kfree_perf_cleanup(void)
+> > +{
+> > +	int i;
+> > +
+> > +	if (torture_cleanup_begin())
+> > +		return;
+> > +
+> > +	if (kfree_reader_tasks) {
+> > +		for (i = 0; i < kfree_nrealthreads; i++)
+> > +			torture_stop_kthread(kfree_perf_thread,
+> > +					     kfree_reader_tasks[i]);
+> > +		kfree(kfree_reader_tasks);
+> > +	}
+> > +
+> > +	torture_cleanup_end();
+> > +}
+> > +
+> > +/*
+> > + * shutdown kthread.  Just waits to be awakened, then shuts down system.
+> > + */
+> > +static int
+> > +kfree_perf_shutdown(void *arg)
+> > +{
+> > +	do {
+> > +		wait_event(shutdown_wq,
+> > +			   atomic_read(&n_kfree_perf_thread_ended) >=
+> > +			   kfree_nrealthreads);
+> > +	} while (atomic_read(&n_kfree_perf_thread_ended) < kfree_nrealthreads);
+> > +
+> > +	smp_mb(); /* Wake before output. */
+> > +
+> > +	kfree_perf_cleanup();
+> > +	kernel_power_off();
+> > +	return -EINVAL;
+> 
+> These last four lines should be combined with those of
+> rcu_perf_shutdown().  Actually, you could fold the two functions together
+> with only a pair of arguments and two one-line wrapper functions, which
+> would be even better.
 
---8Tx+BDMK09J610+l
-Content-Type: application/pgp-signature; name="signature.asc"
+But the cleanup() function is different in the 2 cases and will have to be
+passed in as a function pointer. I believe we discussed this last review as
+well.
 
------BEGIN PGP SIGNATURE-----
+thanks,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1oN+wACgkQFA3kzBSg
-KbaAsw/+KQeS89gkyeBgAuyg+ZnDAtyMHwIHqkX4EkYR3abYoCEQARebjkC5PomS
-r9Ie2ueeR8sZe2MjpIds7ajUq/VwCb7oSstIWsS7mpiQsFDmMH7UxrpeuUdL6yP9
-3DxNgaIfKpf7kw/AbOMU0KBtb28tzG8qkw7+iGu6W7U5/H7XCGHTmHm0a5K2sEvk
-ajZxyXeaXGZL4Y5EYyTRK+p4Allrr169BsOzh2oZhnn0WGxgC0S5Afkq3WcCs8gr
-id+80az2VZ7wZkDklu2/c3TO5PkROViHnAISfXtqeyrD7fqnEhpsH4aX7iEuSed+
-GSa67N0uMO+0Pap/5Y+CgXazG1EGgc3UYUywgxLw9vRneNy6yXLTZ3S375Xb3GOF
-L3BOqOW2lbVchDr9t+igYPEIWH63DEWfyrVZyWR0BfXWCkNQhjOM3r+9X7YvXdQG
-fTu0Jwxt8sEHcaug7L0PDEGfU3ym/lcGSwiJSKSc1bwVbthJSpDtgfnY8B+KU+1x
-q/cXdcP1CLOykl1FGJ4YeGP+cVoNYDRd61DkU6hY44vVdZ+ZgoEKnz2wr4w2JDzb
-3SLqPQpu7SBw/YmmFWliCfbKhiPxhWlyZfNh/qRYj/k4gEVfW/SGyQ5odeFLRY5P
-lE64DMYszcabfUgh0QGiE78PeeekqZd0kyIRLKWytvfN5YXHKTI=
-=XXiC
------END PGP SIGNATURE-----
+ - Joel
 
---8Tx+BDMK09J610+l--
