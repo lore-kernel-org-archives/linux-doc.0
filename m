@@ -1,106 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FE417D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 13:43:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 510497D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 13:59:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727309AbfH2Nng (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 09:43:36 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39782 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbfH2Nng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 09:43:36 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y200so2080821pfb.6;
-        Thu, 29 Aug 2019 06:43:35 -0700 (PDT)
+        id S1727454AbfH2N7N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 09:59:13 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44428 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727626AbfH2N7K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 09:59:10 -0400
+Received: by mail-pl1-f193.google.com with SMTP id t14so1605477plr.11
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 06:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8zPNbZDUiMhdq/ieedCuYewAeGQ+edqxjj6irK3rFuk=;
-        b=ny1BJU7zHymSjrJnVno3H/+nPslnl3iVcEUY5179US9gDUYOyLuRNAjYuQGBGrRbdz
-         l6GaK7U8gzf/eNTky7FvG4KCJeuTL2DuAFVVXeSCC6YCrX2v74Sg+oegZLOPn3OzZlZ2
-         D5NyAOxMPjx/prwMNsL6bH1+O4sDRi/P3/K9jCwezfp14ZnPDl6sHvA5RYGYLdeaMvqT
-         BUvDIh3lvVkC/yR3hCUhGHj+HQC8QzqX0kEwWpd6BRYnEuxdjBCj+lZfggxx7WT8O6DV
-         oXC1MUGfOsEHujAL+drJYZqE+JiGuSPIri1oB2E6fXwWFpnxm0p7end0wbsy89dD4qda
-         VLhA==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=40EqMQd0G4SVbrZfGPeA5SE4upLhPO04pKe2ongbivs=;
+        b=B7vedP+381Vda1eCJ1DpCKGye34MvOP4SaLRfcWFXrezjckDaL2DCJkysvbc5x6x9K
+         5ZHaAq8dolDDtXD5Emsjg2p4yLOStQjh6ER9RX2SxOPJPrpxQ9KcL7NtxmBaNUHUfkqr
+         9SWPCrsL1tOOGwTXDBiFQSW/yOhdLnH2Y9d3g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8zPNbZDUiMhdq/ieedCuYewAeGQ+edqxjj6irK3rFuk=;
-        b=iAYkpAkDfZ1F1uZg98x9qamljIufpsY0mfDO43Qxawp1QWxMOuc+QCXpVtsdlVpUGw
-         Bi/0+SLwsQIU+7g2a6t4P45qUbt/jtQy5HdUbPOAHZYwsaciessLGQvdodR8GmcvXiPY
-         f3CXeGvhiSyzOgox9pKrJc0XoE/0o4lnKdTHuC0QbjybWiOrjhqxxYdfqS6+TM+l4i/l
-         J4/AYp/VBfV6yaoA9a2d4P1VqFy+fdETzCj6I7M6LCZlSvgbGlVB6BXv/6ssnDuLbXkX
-         shRBs/MG1cXnh5ULcAwW///J8KGsOUVR0lSujpfIPohIlc3IkdOst4G7YJevq4jABqnh
-         DJwQ==
-X-Gm-Message-State: APjAAAXztKgPnwJrezifbakybt9I6QLpj4dxtz88YpAaLGtveigllWGF
-        o11PbPUXg9H1dmxhpDA1E+3xGH73X4fkPMsxlQY=
-X-Google-Smtp-Source: APXvYqxBEzf1LYRCXKjSqfC3G4XRdlGyv3ix/Ro7ebl58PTSdhxOhn+Rmk9ARuIu9ZzwXYUK2aPiBTZDBQEnefAnMoU=
-X-Received: by 2002:a63:1020:: with SMTP id f32mr8694066pgl.203.1567086215455;
- Thu, 29 Aug 2019 06:43:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190829043716.5223-1-uwe@kleine-koenig.org>
-In-Reply-To: <20190829043716.5223-1-uwe@kleine-koenig.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 29 Aug 2019 16:43:24 +0300
-Message-ID: <CAHp75VeV8jDP1uP3HtkJ+j7+SbkB50cs4V9tJ+j9tS6icO95FQ@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] tty/serial: imx: make use of format specifier %dE
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Enrico Weigelt <lkml@metux.net>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=40EqMQd0G4SVbrZfGPeA5SE4upLhPO04pKe2ongbivs=;
+        b=rm+dI48Z1FuPsJDKdjzYphKlb88Ujg3BbZ4ha49y7V1rsg8jZwHUqGoEZyQ8/yBAz7
+         pxh5TG9IjcF6DNzWp2gQCdBCXM4OsoK9I53e9+v+WzE50DYL4jmAXGOgz0YQA+ReUtdK
+         SXO71dOTm1NsJ1ZzxVenXDBeB0dSgjPNKjxYb1gTsudhioTAQmpIzskZzWb3XLbEodOj
+         auaB/qREQ/cQ2QpeRFUp+7yxo5KnjwbYOxKHs9feHTzUnEPfTcU5NkqzYVyoZzCkaLtm
+         8UVv7rIQ+hFNYJV1S877Um02+gXhUVuBpiH0aaFNKP7HYdJBm6oOt+ETKQzZl+8HCPlr
+         Wf+Q==
+X-Gm-Message-State: APjAAAWLagis9jg26PYfBrNagZp3zE3YcDy3rO6rGMRXbXqtRTjzOJRG
+        YRfdY6oVecITbmZ8vJQ4mdTtDg==
+X-Google-Smtp-Source: APXvYqyN3H4PkVt4D8iZLYVpLv8rCMjL0d2y1VW3RXuJ+ApI39d4sYSpewllOECHNz60vokFKp1bBQ==
+X-Received: by 2002:a17:902:223:: with SMTP id 32mr10245894plc.220.1567087149497;
+        Thu, 29 Aug 2019 06:59:09 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id dw7sm2200431pjb.21.2019.08.29.06.59.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2019 06:59:08 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 09:59:07 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
+Message-ID: <20190829135907.GC63638@google.com>
+References: <5d648897.1c69fb81.5e60a.fc70@mx.google.com>
+ <20190828202330.GS26530@linux.ibm.com>
+ <20190828210525.GB75931@google.com>
+ <20190828211904.GX26530@linux.ibm.com>
+ <20190828214241.GD75931@google.com>
+ <20190828220108.GC26530@linux.ibm.com>
+ <20190828221444.GA100789@google.com>
+ <20190828231247.GE26530@linux.ibm.com>
+ <20190829015155.GB100789@google.com>
+ <20190829034336.GD4125@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190829034336.GD4125@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 7:40 AM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.or=
-g> wrote:
->
-> I created a patch that teaches printk et al to emit a symbolic error
-> name for an error valued integer[1]. With that applied
->
->         dev_err(&pdev->dev, "failed to get ipg clk: %dE\n", ret);
->
-> emits
->
->         ... failed to get ipg clk: EPROBE_DEFER
->
-> if ret is -EPROBE_DEFER. Petr Mladek (i.e. one of the printk
-> maintainers) had concerns if this would be well received and worth the
-> effort. He asked to present it to a few subsystems. So for now, this
-> patch converting the imx UART driver shouldn't be applied yet but it
-> would be great to get some feedback about if you think that being able
-> to easily printk (for example) "EIO" instead of "-5" is a good idea.
+On Wed, Aug 28, 2019 at 08:43:36PM -0700, Paul E. McKenney wrote:
+[snip] 
+> On the tracing patch...  That patch might be a good idea regardless,
+> but I bet that the reason that you felt the sudden need for it was due
+> to the loss of information in your eventual ->dynticks_nesting field.
+> After all, the value 0x1 might be an interrupt from idle, or it might
+> just as easily be a task running in the kernel at process level.
 
-> Would it help you? Do you think it helps your users?
+True, however what really triggered me to do it was the existing code which
+does not distinguish between entry/exit from USER and IDLE.
 
-No, it makes sense only for debug where the user is supposed to be
-developer and thus needs anyway to know code base better than average.
+> The reason the patch might nevertheless be a good idea is that redundant
+> information can be helpful when debugging.  Especially when debugging
+> new architecture-specific code, which is when RCU's dyntick-idle warnings
+> tend to find bugs.
 
+Sure, and also that it is more readable to ordinary human beings than "++="
+and "--=" :-D.
 
---=20
-With Best Regards,
-Andy Shevchenko
+thanks,
+
+ - Joel
+
