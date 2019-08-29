@@ -3,117 +3,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30B287D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 08:49:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FDDF7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 09:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbfH2It1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 04:49:27 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:36661 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726070AbfH2It1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 04:49:27 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7T8kxr5031268;
-        Thu, 29 Aug 2019 10:48:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : references
- : from : message-id : date : mime-version : in-reply-to : content-type :
- content-transfer-encoding; s=STMicroelectronics;
- bh=NlGM32ocdpPWCJcOtDVLjpgH+SvU7mlXgBdhDT7M+X8=;
- b=u0db09ugjsVglBswXP+mVOWomLQtCDERzWqyS+4Tpnl9MaCsmoTNFiPCKzdfA50T6D7C
- C+GbQFCz9y6h5qxvB99GS73qVvw+KBZ69vEVNNDHZmhmS15jbzNJVBCyDo2rYNVPA0M7
- AyM0nNRswqEa8rgxhWc9dSev0UQYkJERN5IjBULZUiyCR/eN9O5v/jIbbg2kSa8HokzD
- rtGaXJ45MtbkV2OIbOKlJc3uFrOvxL1SpY0kxAVa5WkVxmObe6Qqx27tr3PO4f2e0oac
- pDQVtheQDemuJ/HUlrZ3smKV1zedt2eG+UZXZqQCz4eKkIaj21L5ZvS8MsZ+wsLUnvfD 2g== 
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2unujk470g-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 29 Aug 2019 10:48:55 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8F4B04D;
-        Thu, 29 Aug 2019 08:48:47 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E22742AD3F3;
-        Thu, 29 Aug 2019 10:48:46 +0200 (CEST)
-Received: from lmecxl0912.lme.st.com (10.75.127.47) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 29 Aug
- 2019 10:48:46 +0200
-Subject: Re: [PATCH v3 5/5] ARM: dts: stm32: add ddrperfm on stm32mp157c
-To:     Gerald BAEZA <gerald.baeza@st.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
- <1566918464-23927-6-git-send-email-gerald.baeza@st.com>
-From:   Alexandre Torgue <alexandre.torgue@st.com>
-Message-ID: <8e3170a3-c814-d06e-f1f9-6d4e6a4bed71@st.com>
-Date:   Thu, 29 Aug 2019 10:48:45 +0200
+        id S1726009AbfH2JBC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 05:01:02 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45204 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725853AbfH2JBC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 05:01:02 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r134so1003607lff.12
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 02:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GflFtIVZM88+m/b3O03bHRfVUBRCQA10rQsteTPRKU0=;
+        b=RP9ClfqOBQdl68pRWDcY1JCCs1Q5wuSwXqTQrxZa5L9iq2jlLy/LK7xGMohK9vjwrI
+         8QanvCJNGjB66AKh+egkfLNnsxAPiDwz0oIhnJxN/4upQRp6I9mgP6GbkpjEaklkyWNo
+         f5ODkjYbir1wzaER7e4PsqFQ0LVLKue9Tx9J4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GflFtIVZM88+m/b3O03bHRfVUBRCQA10rQsteTPRKU0=;
+        b=IIJqh4hJvA2ZlPnn54P2GKrNbvzY7HIvhHy1qi3yr1lZdTNmurBKrjeUKRp5jK9wbU
+         1HjdnLlIcbW2OsEO5HBZrv81I/8Vl3b2vnceSAX/zgsbt7Dx+4Xb6braqaNCEgVp0TYR
+         PT+FoFdug6h6bc2yZRMkdgv2sBBCHHQl66bdxgcQZ2F8yU0Kvd14IZVoBG0z9IamOlea
+         01rG7xcZWgn7p4wum37jQPiTK9RLvj3c2IH+y2kcnBsuCtXQQKI6rRO6SNAFg5p+7dda
+         lvao1ymnC7UDDD0QQAbnqgSWoqbOqXxItp5u86kQppqC7C207c+zSIT4cNhvqPdbeedB
+         Fysw==
+X-Gm-Message-State: APjAAAXangkkKVS95xiNWMYmpS3Ld7fuvU1B98mSP2uKXgB/eNlRvU0s
+        6u5cwJWSOTxL9xyXFrGJUMYT/Q==
+X-Google-Smtp-Source: APXvYqwjN+5W4ntXA7MNnNHNpk1WEY6DjWz1C1dmXfCEJi7QBlRTnI4JIU6BGp373PYAFgm2lm4kVw==
+X-Received: by 2002:a19:6d17:: with SMTP id i23mr5440814lfc.44.1567069260255;
+        Thu, 29 Aug 2019 02:01:00 -0700 (PDT)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id l11sm293261lfh.48.2019.08.29.02.00.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Aug 2019 02:00:59 -0700 (PDT)
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+To:     Petr Mladek <pmladek@suse.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        metux IT consult Enrico Weigelt <lkml@metux.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
+ <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <39eda8f7-8c39-f899-075f-b4abdefe0098@rasmusvillemoes.dk>
+Date:   Thu, 29 Aug 2019 11:00:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1566918464-23927-6-git-send-email-gerald.baeza@st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG8NODE2.st.com (10.75.127.23) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-29_05:,,
- signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gerald
+On 29/08/2019 10.12, Petr Mladek wrote:
+> On Wed 2019-08-28 21:18:37, Uwe Kleine-K�nig  wrote:
 
-On 8/27/19 5:08 PM, Gerald BAEZA wrote:
-> The DDRPERFM is the DDR Performance Monitor embedded
-> in STM32MP1 SOC.
-> 
-> Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
-> ---
->   arch/arm/boot/dts/stm32mp157c.dtsi | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/stm32mp157c.dtsi 
-> b/arch/arm/boot/dts/stm32mp157c.dtsi
-> index 0c4e6eb..6ea6933 100644
-> --- a/arch/arm/boot/dts/stm32mp157c.dtsi
-> +++ b/arch/arm/boot/dts/stm32mp157c.dtsi
-> @@ -1378,6 +1378,14 @@
->                           };
->                   };
-> 
-> +               ddrperfm: perf@5a007000 {
-> +                       compatible = "st,stm32-ddr-pmu";
-> +                       reg = <0x5a007000 0x400>;
-> +                       clocks = <&rcc DDRPERFM>;
-> +                       resets = <&rcc DDRPERFM_R>;
-> +                       status = "okay";
+> BTW: I though more about generating or cut&pasting the arrary.
+> I can't find any reasonable way how to generate it.
 
-No need to add "status = "okay"" here.
+Something like this seems to work, though it probably needs some massage
+to be accepted by kbuild folks:
 
-regards
-Alex
+define filechk_errcode.h
+	echo '#include <linux/errno.h>' | \
+	$(CPP) $(NOSTDINC_FLAGS) $(LINUXINCLUDE) -dM - | \
+	grep 'define E' | sort -k3,3n | \
+	awk '{print "errcode("$$2")\t/* "$$3" */"}'
+endef
 
-> +               };
-> +
->                   usart1: serial@5c000000 {
->                           compatible = "st,stm32h7-uart";
->                           reg = <0x5c000000 0x400>;
-> -- 
-> 2.7.4
+include/generated/errcode.h: FORCE
+	$(call filechk,errcode.h)
+
+Then one can just #define errcode(foo) ... right before #include
+<generated/errcode.h>. It cannot be used to generate cases in a switch()
+because some expand to the same number, but that's ok, because I can't
+imagine the switch actually generating good or small code. I haven't
+checked how or whether it works in a cross-compile situation.
+
+Rasmus
