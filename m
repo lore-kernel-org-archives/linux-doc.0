@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9389D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 04:29:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7ABB67D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 04:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725826AbfH2E3p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 00:29:45 -0400
-Received: from antares.kleine-koenig.org ([94.130.110.236]:54664 "EHLO
+        id S1725855AbfH2Eh0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 00:37:26 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:55084 "EHLO
         antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbfH2E3p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 00:29:45 -0400
+        with ESMTP id S1725776AbfH2EhZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 00:37:25 -0400
 Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
-        id C8D38789194; Thu, 29 Aug 2019 06:29:41 +0200 (CEST)
+        id D512B7891D8; Thu, 29 Aug 2019 06:37:22 +0200 (CEST)
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-To:     Wolfram Sang <wsa@the-dreams.de>,
-        Oleksij Rempel <linux@rempel-privat.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>
 Cc:     kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Petr Mladek <pmladek@suse.com>,
         Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -31,9 +31,9 @@ Cc:     kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
         Enrico Weigelt <lkml@metux.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] [RFC] i2c: imx: make use of format specifier %dE
-Date:   Thu, 29 Aug 2019 06:29:05 +0200
-Message-Id: <20190829042905.4850-1-uwe@kleine-koenig.org>
+Subject: [PATCH] [RFC] tty/serial: imx: make use of format specifier %dE
+Date:   Thu, 29 Aug 2019 06:37:16 +0200
+Message-Id: <20190829043716.5223-1-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,104 +45,103 @@ X-Mailing-List: linux-doc@vger.kernel.org
 I created a patch that teaches printk et al to emit a symbolic error
 name for an error valued integer[1]. With that applied
 
-	dev_err(&pdev->dev, "can't enable I2C clock, ret=%dE\n", ret);
+	dev_err(&pdev->dev, "failed to get ipg clk: %dE\n", ret);
 
 emits
 
-	... can't enable I2C clock, ret=EIO
+	... failed to get ipg clk: EPROBE_DEFER
 
-if ret is -EIO. Petr Mladek (i.e. one of the printk maintainers) had
-concerns if this would be well received and worth the effort. He asked
-to present it to a few subsystems. So for now, this patch converting the
-i2c-imx driver shouldn't be applied yet but it would be great to get
-some feedback about if you think that being able to easily printk (for
-example) "EIO" instead of "-5" is a good idea. Would it help you? Do you
-think it helps your users?
+if ret is -EPROBE_DEFER. Petr Mladek (i.e. one of the printk
+maintainers) had concerns if this would be well received and worth the
+effort. He asked to present it to a few subsystems. So for now, this
+patch converting the imx UART driver shouldn't be applied yet but it
+would be great to get some feedback about if you think that being able
+to easily printk (for example) "EIO" instead of "-5" is a good idea.
+Would it help you? Do you think it helps your users?
 
 Thanks
 Uwe
 
 [1] https://lkml.org/lkml/2019/8/27/1456
 ---
- drivers/i2c/busses/i2c-imx.c | 16 ++++++++--------
+ drivers/tty/serial/imx.c | 16 ++++++++--------
  1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-imx.c b/drivers/i2c/busses/i2c-imx.c
-index 15f6cde6452f..359e911cb891 100644
---- a/drivers/i2c/busses/i2c-imx.c
-+++ b/drivers/i2c/busses/i2c-imx.c
-@@ -289,7 +289,7 @@ static void i2c_imx_dma_request(struct imx_i2c_struct *i2c_imx,
- 	if (IS_ERR(dma->chan_tx)) {
- 		ret = PTR_ERR(dma->chan_tx);
- 		if (ret != -ENODEV && ret != -EPROBE_DEFER)
--			dev_err(dev, "can't request DMA tx channel (%d)\n", ret);
-+			dev_err(dev, "can't request DMA tx channel (%dE)\n", ret);
- 		goto fail_al;
- 	}
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index 57d6e6ba556e..a3dbb9378e8b 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -2143,7 +2143,7 @@ static int imx_uart_probe_dt(struct imx_port *sport,
  
-@@ -300,7 +300,7 @@ static void i2c_imx_dma_request(struct imx_i2c_struct *i2c_imx,
- 	dma_sconfig.direction = DMA_MEM_TO_DEV;
- 	ret = dmaengine_slave_config(dma->chan_tx, &dma_sconfig);
+ 	ret = of_alias_get_id(np, "serial");
  	if (ret < 0) {
--		dev_err(dev, "can't configure tx channel (%d)\n", ret);
-+		dev_err(dev, "can't configure tx channel (%dE)\n", ret);
- 		goto fail_tx;
+-		dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
++		dev_err(&pdev->dev, "failed to get alias id, error %dE\n", ret);
+ 		return ret;
  	}
- 
-@@ -308,7 +308,7 @@ static void i2c_imx_dma_request(struct imx_i2c_struct *i2c_imx,
- 	if (IS_ERR(dma->chan_rx)) {
- 		ret = PTR_ERR(dma->chan_rx);
- 		if (ret != -ENODEV && ret != -EPROBE_DEFER)
--			dev_err(dev, "can't request DMA rx channel (%d)\n", ret);
-+			dev_err(dev, "can't request DMA rx channel (%dE)\n", ret);
- 		goto fail_tx;
- 	}
- 
-@@ -319,7 +319,7 @@ static void i2c_imx_dma_request(struct imx_i2c_struct *i2c_imx,
- 	dma_sconfig.direction = DMA_DEV_TO_MEM;
- 	ret = dmaengine_slave_config(dma->chan_rx, &dma_sconfig);
- 	if (ret < 0) {
--		dev_err(dev, "can't configure rx channel (%d)\n", ret);
-+		dev_err(dev, "can't configure rx channel (%dE)\n", ret);
- 		goto fail_rx;
- 	}
- 
-@@ -964,7 +964,7 @@ static int i2c_imx_xfer(struct i2c_adapter *adapter,
- 	pm_runtime_put_autosuspend(i2c_imx->adapter.dev.parent);
- 
- out:
--	dev_dbg(&i2c_imx->adapter.dev, "<%s> exit with: %s: %d\n", __func__,
-+	dev_dbg(&i2c_imx->adapter.dev, "<%s> exit with: %s: %dE\n", __func__,
- 		(result < 0) ? "error" : "success msg",
- 			(result < 0) ? result : num);
- 	return (result < 0) ? result : num;
-@@ -1100,7 +1100,7 @@ static int i2c_imx_probe(struct platform_device *pdev)
- 
- 	ret = clk_prepare_enable(i2c_imx->clk);
- 	if (ret) {
--		dev_err(&pdev->dev, "can't enable I2C clock, ret=%d\n", ret);
-+		dev_err(&pdev->dev, "can't enable I2C clock, ret=%dE\n", ret);
+ 	sport->port.line = ret;
+@@ -2236,14 +2236,14 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 	sport->clk_ipg = devm_clk_get(&pdev->dev, "ipg");
+ 	if (IS_ERR(sport->clk_ipg)) {
+ 		ret = PTR_ERR(sport->clk_ipg);
+-		dev_err(&pdev->dev, "failed to get ipg clk: %d\n", ret);
++		dev_err(&pdev->dev, "failed to get ipg clk: %dE\n", ret);
  		return ret;
  	}
  
-@@ -1108,7 +1108,7 @@ static int i2c_imx_probe(struct platform_device *pdev)
- 	ret = devm_request_irq(&pdev->dev, irq, i2c_imx_isr, IRQF_SHARED,
- 				pdev->name, i2c_imx);
- 	if (ret) {
--		dev_err(&pdev->dev, "can't claim irq %d\n", irq);
-+		dev_err(&pdev->dev, "can't claim irq %dE\n", irq);
- 		goto clk_disable;
+ 	sport->clk_per = devm_clk_get(&pdev->dev, "per");
+ 	if (IS_ERR(sport->clk_per)) {
+ 		ret = PTR_ERR(sport->clk_per);
+-		dev_err(&pdev->dev, "failed to get per clk: %d\n", ret);
++		dev_err(&pdev->dev, "failed to get per clk: %dE\n", ret);
+ 		return ret;
  	}
  
-@@ -1230,7 +1230,7 @@ static int __maybe_unused i2c_imx_runtime_resume(struct device *dev)
+@@ -2252,7 +2252,7 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 	/* For register access, we only need to enable the ipg clock. */
+ 	ret = clk_prepare_enable(sport->clk_ipg);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to enable per clk: %d\n", ret);
++		dev_err(&pdev->dev, "failed to enable per clk: %dE\n", ret);
+ 		return ret;
+ 	}
  
- 	ret = clk_enable(i2c_imx->clk);
- 	if (ret)
--		dev_err(dev, "can't enable I2C clock, ret=%d\n", ret);
-+		dev_err(dev, "can't enable I2C clock, ret=%dE\n", ret);
- 
- 	return ret;
- }
+@@ -2330,7 +2330,7 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 		ret = devm_request_irq(&pdev->dev, rxirq, imx_uart_rxint, 0,
+ 				       dev_name(&pdev->dev), sport);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "failed to request rx irq: %d\n",
++			dev_err(&pdev->dev, "failed to request rx irq: %dE\n",
+ 				ret);
+ 			return ret;
+ 		}
+@@ -2338,7 +2338,7 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 		ret = devm_request_irq(&pdev->dev, txirq, imx_uart_txint, 0,
+ 				       dev_name(&pdev->dev), sport);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "failed to request tx irq: %d\n",
++			dev_err(&pdev->dev, "failed to request tx irq: %dE\n",
+ 				ret);
+ 			return ret;
+ 		}
+@@ -2346,7 +2346,7 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 		ret = devm_request_irq(&pdev->dev, rtsirq, imx_uart_rtsint, 0,
+ 				       dev_name(&pdev->dev), sport);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "failed to request rts irq: %d\n",
++			dev_err(&pdev->dev, "failed to request rts irq: %dE\n",
+ 				ret);
+ 			return ret;
+ 		}
+@@ -2354,7 +2354,7 @@ static int imx_uart_probe(struct platform_device *pdev)
+ 		ret = devm_request_irq(&pdev->dev, rxirq, imx_uart_int, 0,
+ 				       dev_name(&pdev->dev), sport);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "failed to request irq: %d\n", ret);
++			dev_err(&pdev->dev, "failed to request irq: %dE\n", ret);
+ 			return ret;
+ 		}
+ 	}
 -- 
 2.23.0
 
