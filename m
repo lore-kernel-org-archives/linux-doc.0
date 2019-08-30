@@ -1,175 +1,204 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E6737D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Aug 2019 22:23:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCE2D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 01:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728217AbfH2WXX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 18:23:23 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38516 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727992AbfH2WXX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 18:23:23 -0400
-Received: by mail-pf1-f193.google.com with SMTP id o70so3075942pfg.5
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 15:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=iwgSPC5+ukBlrbIQeB/N8VAwP9kt6jHmPxRFKIIZNR4=;
-        b=Z8UYs6V0qLG6rtyI7XKUacTn6lq1O1s+qRW37pkFtf3HmBqyzG/3NUc8S6wlRAk6jk
-         6AknBj9ZgutPaRnCKnMUF982f2AdraJNFRCyoYzu+e8F3HIgF7QFHDpPAOPw8kp29t6s
-         wPpPXVB0IOvcZ7GgabjhVf91UPxq+3oyQZW54=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iwgSPC5+ukBlrbIQeB/N8VAwP9kt6jHmPxRFKIIZNR4=;
-        b=TvgPkvWLU3cCbhBWCH30Oq1zUgKGHCTQrQhKFNFAp8PdQ1y2NPve2sLOdEFFxyc+wx
-         qAkug8ejBd0GIsLZ5kS1g6Cr8vmyhnn6BFMG496MoODhqpeR2WSf6c1GTZDHVpwuRPvs
-         TTU0fZEHYXiymvxGP+Ytns4d0s3JoMmwhE9CDnNljbxWr72Auv4FAulIpQkel7z+0PoY
-         5KRqvL6B5ZVEtlO9AJimEruocq1PpKLegpR574jYEOG4LurqG45PitKRD9AAzL/xyH5/
-         GZOYwA2+072bXFNvDeRh+/apXCipcvhi/JgOKsuju6y103AFq3BJDIaxStAJ90sDbvgQ
-         jf+w==
-X-Gm-Message-State: APjAAAUogQT3tIls7b1J11OcGzAQp+c6OwI9O9kFlg3P8itOGQrwDIbr
-        oziDT48SXPViBS8GksxT0v6hoA==
-X-Google-Smtp-Source: APXvYqwdEpxbHLpvww66IXQ+B+uwz1uKbVSfStxpcuTJ8OaCz61p1uvV8f7k6aUClGl3k9U+7M30iA==
-X-Received: by 2002:a65:638c:: with SMTP id h12mr10218799pgv.436.1567117402248;
-        Thu, 29 Aug 2019 15:23:22 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id e9sm3541022pja.17.2019.08.29.15.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 15:23:21 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 18:23:20 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, byungchul.park@lge.com,
-        Josh Triplett <josh@joshtriplett.org>,
+        id S1727213AbfH3BJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Aug 2019 21:09:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34532 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726991AbfH3BJt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 21:09:49 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7U1848w053567;
+        Thu, 29 Aug 2019 21:09:08 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2upn48rqwd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Aug 2019 21:09:08 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7U18LLo054562;
+        Thu, 29 Aug 2019 21:09:07 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2upn48rqvv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Aug 2019 21:09:07 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7U17OIK005553;
+        Fri, 30 Aug 2019 01:09:06 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
+        by ppma05wdc.us.ibm.com with ESMTP id 2ujvv7fu62-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Aug 2019 01:09:06 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7U195pS11797236
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 30 Aug 2019 01:09:05 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 82DCCB2067;
+        Fri, 30 Aug 2019 01:09:05 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 58A6CB2075;
+        Fri, 30 Aug 2019 01:09:05 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.201.94])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 30 Aug 2019 01:09:05 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id F128C16C0963; Thu, 29 Aug 2019 17:47:56 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 17:47:56 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <fweisbec@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        kernel-team@android.com
-Subject: Re: [PATCH 5/5] rcu: Remove kfree_call_rcu_nobatch()
-Message-ID: <20190829222320.GC183862@google.com>
-References: <5d657e3b.1c69fb81.54250.01e2@mx.google.com>
- <20190828215636.GA26530@linux.ibm.com>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
+Message-ID: <20190830004756.GW4125@linux.ibm.com>
+Reply-To: paulmck@kernel.org
+References: <20190828214241.GD75931@google.com>
+ <20190828220108.GC26530@linux.ibm.com>
+ <20190828221444.GA100789@google.com>
+ <20190828231247.GE26530@linux.ibm.com>
+ <20190829015155.GB100789@google.com>
+ <20190829034336.GD4125@linux.ibm.com>
+ <20190829144355.GE63638@google.com>
+ <20190829151325.GF63638@google.com>
+ <20190829161301.GQ4125@linux.ibm.com>
+ <20190829171454.GA115245@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190828215636.GA26530@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190829171454.GA115245@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-30_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908300009
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
-
-I think this is the only contentious patch preventing my resend of the
-series, let me know what you think, I replied below:
-
-On Wed, Aug 28, 2019 at 02:56:36PM -0700, Paul E. McKenney wrote:
-> On Tue, Aug 27, 2019 at 03:01:59PM -0400, Joel Fernandes (Google) wrote:
-[snip]
-> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > index 12c17e10f2b4..c767973d62ac 100644
-> > --- a/kernel/rcu/tree.c
-> > +++ b/kernel/rcu/tree.c
-> > @@ -2777,8 +2777,10 @@ static void kfree_rcu_work(struct work_struct *work)
-> >  		rcu_lock_acquire(&rcu_callback_map);
-> >  		trace_rcu_invoke_kfree_callback(rcu_state.name, head, offset);
-> >  
-> > -		/* Could be possible to optimize with kfree_bulk in future */
-> > -		kfree((void *)head - offset);
-> > +		if (!WARN_ON_ONCE(!__is_kfree_rcu_offset(offset))) {
-> > +			/* Could be optimized with kfree_bulk() in future. */
-> > +			kfree((void *)head - offset);
-> > +		}
+On Thu, Aug 29, 2019 at 01:14:54PM -0400, Joel Fernandes wrote:
+> On Thu, Aug 29, 2019 at 09:13:01AM -0700, Paul E. McKenney wrote:
+> > On Thu, Aug 29, 2019 at 11:13:25AM -0400, Joel Fernandes wrote:
+> > > On Thu, Aug 29, 2019 at 10:43:55AM -0400, Joel Fernandes wrote:
+> > > > On Wed, Aug 28, 2019 at 08:43:36PM -0700, Paul E. McKenney wrote:
+> > > > [snip]
+> > > > > > > > > This change is not fixing a bug, so there is no need for an emergency fix,
+> > > > > > > > > and thus no point in additional churn.  I understand that it is a bit
+> > > > > > > > > annoying to code and test something and have your friendly maintainer say
+> > > > > > > > > "sorry, wrong rocks", and the reason that I understand this is that I do
+> > > > > > > > > that to myself rather often.
+> > > > > > > > 
+> > > > > > > > The motivation for me for this change is to avoid future bugs such as with
+> > > > > > > > the following patch where "== 2" did not take the force write of
+> > > > > > > > DYNTICK_IRQ_NONIDLE into account:
+> > > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=13c4b07593977d9288e5d0c21c89d9ba27e2ea1f
+> > > > > > > 
+> > > > > > > Yes, the current code does need some simplification.
+> > > > > > > 
+> > > > > > > > I still don't see it as pointless churn, it is also a maintenance cost in its
+> > > > > > > > current form and the simplification is worth it IMHO both from a readability,
+> > > > > > > > and maintenance stand point.
+> > > > > > > > 
+> > > > > > > > I still don't see what's technically wrong with the patch. I could perhaps
+> > > > > > > > add the above "== 2" point in the patch?
+> > > > > > > 
+> > > > > > > I don't know of a crash or splat your patch would cause, if that is
+> > > > > > > your question.  But that is also true of the current code, so the point
+> > > > > > > is simplification, not bug fixing.  And from what I can see, there is an
+> > > > > > > opportunity to simplify quite a bit further.  And with something like
+> > > > > > > RCU, further simplification is worth -serious- consideration.
+> > > > > > > 
+> > > > > > > > We could also discuss f2f at LPC to see if we can agree about it?
+> > > > > > > 
+> > > > > > > That might make a lot of sense.
+> > > > > > 
+> > > > > > Sure. I am up for a further redesign / simplification. I will think more
+> > > > > > about your suggestions and can also further discuss at LPC.
+> > > > > 
+> > > > > One question that might (or might not) help:  Given the compound counter,
+> > > > > where the low-order hex digit indicates whether the corresponding CPU
+> > > > > is running in a non-idle kernel task and the rest of the hex digits
+> > > > > indicate the NMI-style nesting counter shifted up by four bits, what
+> > > > > could rcu_is_cpu_rrupt_from_idle() be reduced to?
+> > > > > 
+> > > > > > And this patch is on LKML archives and is not going anywhere so there's no
+> > > > > > rush I guess ;-)
+> > > > > 
+> > > > > True enough!  ;-)
+> > > > 
+> > > > Paul, do we also nuke rcu_eqs_special_set()?  Currently I don't see anyone
+> > > > using it. And also remove the bottom most bit of dynticks?
+> > > > 
+> > > > Also what happens if a TLB flush broadcast is needed? Do we IPI nohz or idle
+> > > > CPUs are the moment?
+> > > > 
+> > > > All of this was introduced in:
+> > > > b8c17e6664c4 ("rcu: Maintain special bits at bottom of ->dynticks counter")
+> > > 
+> > > 
+> > > Paul, also what what happens in the following scenario:
+> > > 
+> > > CPU0                                                 CPU1
+> > > 
+> > > A syscall causes rcu_eqs_exit()
+> > > rcu_read_lock();
+> > >                                                      ---> FQS loop waiting on
+> > > 						           dyntick_snap
+> > > usermode-upcall  entry -->causes rcu_eqs_enter();
+> > > 
+> > > usermode-upcall  exit  -->causes rcu_eqs_exit();
+> > > 
+> > >                                                      ---> FQS loop sees
+> > > 						          dyntick snap
+> > > 							  increment and
+> > > 							  declares CPU0 is
+> > > 							  in a QS state
+> > > 							  before the
+> > > 							  rcu_read_unlock!
+> > > 
+> > > rcu_read_unlock();
+> > > ---
+> > > 
+> > > Does the context tracking not call rcu_user_enter() in this case, or did I
+> > > really miss something?
+> > 
+> > Holding rcu_read_lock() across usermode execution (in this case,
+> > the usermode upcall) is a bad idea.  Why is CPU 0 doing that?
 > 
-> This really needs to be in the previous patch until such time as Tiny RCU
-> no longer needs the restriction.
+> Oh, ok. I was just hypothesizing that since usermode upcalls from
+> something as heavy as interrupts, it could also mean we had the same from
+> some path that held an rcu_read_lock() as well. It was just a theoretical
+> concern, if it is not an issue, no problem.
 
-I was only going by whatever is already committed to the -rcu dev branch. The
-series is based on the -dev branch.
+Are there the usual lockdep checks in the upcall code?  Holding a spinlock
+across them would seem to be at least as bad as holding an rcu_read_lock()
+across them.
 
-The original patch adding the kfree_rcu() batching is already merged into the
--rcu dev branch (that version just had 1 list, this series adds multiple
-lists).
+> The other question I had was, in which cases would dyntick_nesting in current
+> RCU code be > 1 (after removing the lower bit and any crowbarring) ? In the
+> scenarios I worked out on paper, I can only see this as 1 or 0. But the
+> wording of it is 'dynticks_nesting'. May be I am missing a nesting scenario?
+> We can exit RCU-idleness into process context only once (either exiting idle
+> mode or user mode). Both cases would imply a value of 1.
 
-In the above diff, I just added the WARN_ON_ONCE() as extra checking for tree
-RCU kfree batching. It has nothing to do with tiny RCU per-se. Should I
-submit the WARN_ON_ONCE() as a separate patch then?
+Interrrupt -> NMI -> certain types of tracing.  I believe that can get
+it to 5.  There might be even more elaborate sequences of events.
 
-To prevent confusion, could you let me know if I am supposed to submitting
-patches against a branch other than the dev branch?
-
-> >  		rcu_lock_release(&rcu_callback_map);
-> >  		cond_resched_tasks_rcu_qs();
-> > @@ -2856,16 +2858,6 @@ static void kfree_rcu_monitor(struct work_struct *work)
-> >  		spin_unlock_irqrestore(&krcp->lock, flags);
-> >  }
-> >  
-> > -/*
-> > - * This version of kfree_call_rcu does not do batching of kfree_rcu() requests.
-> > - * Used only by rcuperf torture test for comparison with kfree_rcu_batch().
-> > - */
-> > -void kfree_call_rcu_nobatch(struct rcu_head *head, rcu_callback_t func)
-> > -{
-> > -	__call_rcu(head, func);
-> > -}
-> > -EXPORT_SYMBOL_GPL(kfree_call_rcu_nobatch);
-> > -
-> >  /*
-> >   * Queue a request for lazy invocation of kfree() after a grace period.
-> >   *
-> > @@ -2885,12 +2877,6 @@ void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> >  	unsigned long flags;
-> >  	struct kfree_rcu_cpu *krcp;
-> >  
-> > -	/* kfree_call_rcu() batching requires timers to be up. If the scheduler
-> > -	 * is not yet up, just skip batching and do the non-batched version.
-> > -	 */
-> > -	if (rcu_scheduler_active != RCU_SCHEDULER_RUNNING)
-> > -		return kfree_call_rcu_nobatch(head, func);
-> > -
-> >  	if (debug_rcu_head_queue(head)) {
-> >  		/* Probable double kfree_rcu() */
-> >  		WARN_ONCE(1, "kfree_call_rcu(): Double-freed call. rcu_head %p\n",
-> > @@ -2909,8 +2895,15 @@ void kfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
-> >  	krcp->head = head;
-> >  
-> >  	/* Schedule monitor for timely drain after KFREE_DRAIN_JIFFIES. */
-> > -	if (!xchg(&krcp->monitor_todo, true))
-> > -		schedule_delayed_work(&krcp->monitor_work, KFREE_DRAIN_JIFFIES);
-> > +	if (!xchg(&krcp->monitor_todo, true)) {
-> > +		/* Scheduling the monitor requires scheduler/timers to be up,
-> > +		 * if it is not, just skip it. An eventual kfree_rcu() will
-> > +		 * kick it again.
-> > +		 */
-> > +		if ((rcu_scheduler_active == RCU_SCHEDULER_RUNNING)) {
-> > +			schedule_delayed_work(&krcp->monitor_work, KFREE_DRAIN_JIFFIES);
-> > +		}
-> > +	}
-> 
-> And this also needs to be in an earlier patch.  Bisectability and all that!
-> 
-> Are we really guaranteed that there will be an eventual kfree_rcu()?
-> More of a worry for Tiny RCU than for Tree RCU, but still could be
-> annoying for someone trying to debug a memory leak.
-
-Same comment as above, the original patch adding the schedule_delayed_work()
-is already merged into the -dev branch. This series is based on top of that.
-The reason I had to rearrange &krcp->monitor_todo code above is because we no
-longer have kfree_rcu_no_batch() which this patch removes.
-
-thanks,
-
- - Joel
-
-
+							Thanx, Paul
