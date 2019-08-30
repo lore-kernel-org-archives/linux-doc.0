@@ -1,71 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 571937D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 15:59:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3EE537D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 21:45:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727884AbfH3P7y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 11:59:54 -0400
-Received: from verein.lst.de ([213.95.11.211]:56753 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727304AbfH3P7x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Aug 2019 11:59:53 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 50407227A81; Fri, 30 Aug 2019 17:59:49 +0200 (CEST)
-Date:   Fri, 30 Aug 2019 17:59:49 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        id S1728122AbfH3Vpu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 17:45:50 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44272 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728079AbfH3Vpr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 17:45:47 -0400
+Received: by mail-ed1-f65.google.com with SMTP id a21so9520734edt.11
+        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2019 14:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cBz0MMX0JgyAHjwyE8I1352iGkSxJIlsmG5ztl+6roE=;
+        b=SaLyfj4vRd7n2LDFFQRahUDf4PcSzy7K79IMAxpqyV4LzQALLJ5uUvekBkwAr72dpS
+         7ayWBlDt0ahoDU1k002ECX1qUVqL8sw5R3Hl6b11PWdt/YaebFSUeHs6b3Gl3Jxo5ok2
+         Zph2ANDm+Cdq46G6qrE6+s+NoOVsjK6AaoCS4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=cBz0MMX0JgyAHjwyE8I1352iGkSxJIlsmG5ztl+6roE=;
+        b=nFc4wvKczAivSlse5mp9DCoRh63/IE4wFdCqhrzacVsDH7fgrN8DNS/8xOsp+W46yQ
+         AADI+ENhcOGYWPsRNf0s6zvWKGQ6JSOxeo52FYFKWIG9nVg3qmD+k+z5ankJnkAL5a+d
+         J+rHqeaB9kOLouXaEo/V5DqooI51swEQCSJJUD30TaKCWj81WNYZ2LgxjJGwwVEp1wXl
+         exOkiessGdRCHDYQkLG0P2x6st0EOfdfLy2GSCkPrSfmmhjeCkWtUzTM9zv3lwIf3uyL
+         xWR8nNiPbBf4vHazVJpNDGCmb9gXSmhFOBjnBi5YzsBWnTlBtc/cTEtowy80UMuEOjG+
+         gMLA==
+X-Gm-Message-State: APjAAAXQhfrx92zQuAdAc0BAZVPuNZ5NrpOdRPCsgppO4LpehQy4itep
+        5TFNAemC0/kimVHTpSQCp22yoA==
+X-Google-Smtp-Source: APXvYqyUMuKdzY/FFg+N2C4z43XxYZzTyHfyt1kARxcF6rQuLUR39CDEOTIT5F3KhAgvAnwKa2ylTg==
+X-Received: by 2002:aa7:c490:: with SMTP id m16mr18062490edq.156.1567201545118;
+        Fri, 30 Aug 2019 14:45:45 -0700 (PDT)
+Received: from [192.168.1.149] (ip-5-186-115-35.cgn.fibianet.dk. [5.186.115.35])
+        by smtp.gmail.com with ESMTPSA id qx4sm920543ejb.11.2019.08.30.14.45.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Aug 2019 14:45:44 -0700 (PDT)
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Juergen Gross <jgross@suse.com>, Petr Mladek <pmladek@suse.com>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Alban Bedel <albeu@free.fr>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 0/9] drivers: add new variants of
- devm_platform_ioremap_resource()
-Message-ID: <20190830155949.GA26757@lst.de>
-References: <20190829143742.24726-1-brgl@bgdev.pl> <CAMuHMdW8d1h-81jy-dgDiLfGB3MGPx+f-Zqz+4D5S+gtmk3-BQ@mail.gmail.com>
+        metux IT consult Enrico Weigelt <lkml@metux.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
+ <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+ <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
+ <a83449cf-3a4a-f3e0-210a-dc7c39505355@rasmusvillemoes.dk>
+ <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <7eb732b3-eca5-34c0-ed1f-6814deab60d9@rasmusvillemoes.dk>
+Date:   Fri, 30 Aug 2019 23:45:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW8d1h-81jy-dgDiLfGB3MGPx+f-Zqz+4D5S+gtmk3-BQ@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 04:48:36PM +0200, Geert Uytterhoeven wrote:
-> Hi Bartosz,
-> 
-> On Thu, Aug 29, 2019 at 4:38 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > The new devm_platform_ioremap_resource() helper has now been widely
-> > adopted and used in many drivers. Users of nocache and write-combined
-> > ioremap() variants could profit from the same code shrinkage. This
-> > series provides two new versions of devm_platform_ioremap_resource()
-> > and uses it in a few example drivers with the assumption that - just
-> > like was the case previously - a coccinelle script will be developed
-> > to ease the transition for others.
-> 
-> Please be aware that the number of ioremap() variants is being
-> reduced, as some of them are redundant (e.g. ioremap() already creates
-> an uncached mapping, so ioremap_nocache() is not needed).
-> So less is better than more ;-)
+On 29/08/2019 19.39, Uwe Kleine-König wrote:
+> On 8/29/19 11:09 AM, Rasmus Villemoes wrote:
 
-Yes.  If I can get the ia64 and openrisc patch in I plan to send Linus
-a scripted removal of ioremap_nocache after -rc1.  I already have a
-local patch for current mainline as of about two weeks ago.
+>> still prefer making it %pE, both because it's easier to convert integers
+>> to ERR_PTRs than having to worry about the type of PTR_ERR() being long
+>> and not int, and because alphanumerics after %p have been ignored for a
+>> long time (10 years?) whether or not those characters have been
+>> recognized as a %p extension, so nobody relies on %pE putting an E after
+>> the %p output. It also keeps the non-standard extensions in the same
+>> "namespace", so to speak.
+>>
+>> Oh, 'E' is taken, well, make it 'e' then.
+> 
+> I like having %pe to print error valued pointers. Then maybe we could
+> have both %de for ints and %pe for pointers. :-)
+
+Oh no. And actually, come to think of it, we don't even need to extend
+%p at all (taking away yet another letter for future expansion...), we
+should simply make %p DTRT when passed an ERR_PTR - currently, if it's
+some %p<extension> that would normally derefence it, there's sanity
+checking in place which makes it print (efault), while if it's plain %p,
+it just does the hashing, making it impossible to figure out that it was
+an errno value (or which it was).
+
+I've cooked up what I mean, sending in separate thread.
+
+Rasmus
+
+
