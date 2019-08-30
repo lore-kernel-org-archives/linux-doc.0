@@ -1,192 +1,205 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E2F17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 02:46:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A78807D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 04:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfH3Cqd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Aug 2019 22:46:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55452 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727066AbfH3Cqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Aug 2019 22:46:33 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7U2fliL024217;
-        Thu, 29 Aug 2019 22:45:59 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uppvcfjnc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Aug 2019 22:45:59 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7U2fwJn024344;
-        Thu, 29 Aug 2019 22:45:59 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uppvcfjmu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Aug 2019 22:45:59 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
-        by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7U2iZpW009104;
-        Fri, 30 Aug 2019 02:45:58 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
-        by ppma04wdc.us.ibm.com with ESMTP id 2ujvv709n8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Aug 2019 02:45:58 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7U2jvcR48496946
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Aug 2019 02:45:57 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8B89AB2065;
-        Fri, 30 Aug 2019 02:45:57 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 557BBB205F;
-        Fri, 30 Aug 2019 02:45:57 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.159.7])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 30 Aug 2019 02:45:57 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id EF33C16C1D7F; Thu, 29 Aug 2019 19:45:56 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 19:45:56 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <fweisbec@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [RFC v1 2/2] rcu/tree: Remove dynticks_nmi_nesting counter
-Message-ID: <20190830024556.GZ4125@linux.ibm.com>
-Reply-To: paulmck@kernel.org
-References: <20190828221444.GA100789@google.com>
- <20190828231247.GE26530@linux.ibm.com>
- <20190829015155.GB100789@google.com>
- <20190829034336.GD4125@linux.ibm.com>
- <20190829144355.GE63638@google.com>
- <20190829151325.GF63638@google.com>
- <20190829161301.GQ4125@linux.ibm.com>
- <20190829171454.GA115245@google.com>
- <20190830004756.GW4125@linux.ibm.com>
- <20190830012036.GA184995@google.com>
+        id S1727540AbfH3EdE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 00:33:04 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37844 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725819AbfH3EdE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 00:33:04 -0400
+Received: by mail-oi1-f193.google.com with SMTP id b25so4382389oib.4
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 21:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dckypzty3MXWBDTJpI2rCDfqM2cRZodYiUO2dmQlaCU=;
+        b=sHAapob+H6miA+mQX2BYVpewzufVv5Y3FsO5WLoWbQmnWUzrZF3K7h2nU/aPZhOcHM
+         l1tsF1fCipcFwY5jGWnzgW0IY7CF+gEYDQelZBODttt5Hq1ITiJgV8jsB/KZFVFA5AKh
+         kzdEGdI2OA/voVvEmjd2+5zj3j3KnQcZzEc9/pC+d/4m3sMG9XhJXFPHDCc5SZ6DbFJ/
+         dQhuoP/YICeX4pe1w0avEbbBV5MzNWP+ChlcVNSwDVpM2M3CA4G1RHsP7wGtgEePpEQI
+         xgZYtn6Iiwgli4XRRlcD2XLUkN/nFRs704vOV8FzICvXFitzppTFRPPOLoaINjm9IxQp
+         xmXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dckypzty3MXWBDTJpI2rCDfqM2cRZodYiUO2dmQlaCU=;
+        b=foUfggEVlpc65VF81ZCM+4xz9+2GkwqPOD3JJl4apB24FSAzXVLdq/x7ZAz+PGKj9Q
+         yJBfjA94k/WL4oK+V5F+kGb8uoDx0D5nZ3qCIppupaBxmsDKVMSvfOQE1QV/JP8fQq+R
+         TrM7aoFOSlqbHzzMXpTUmp+/IvDnEEeViOafl0Ed9etDtnxW0jgKkbsGsAfelewbPcrJ
+         lJI0QgT5jlClTh4TXEoGLkSdpQXjMj3bKHyostAJGF/HW171les5xNdYzilEuTiNNT7f
+         nNBicDr5fd+STciUL5jJBHyTsG0jkaqJ3yfMfBgLvnlfEsU8cNGiuBoqVQHnXWBsAUF7
+         K7IQ==
+X-Gm-Message-State: APjAAAWr9liqSEy4DmE+gAVQJUyLrBb5hq5G81ZPVq7y8/2CgPGdkAQQ
+        PW6xQtWZJpTpoLeT2wB8EeIV0wU6q33eXh9/AhwIIw==
+X-Google-Smtp-Source: APXvYqz+dnW0egNjofi/hbg61kqJwdkaAieyvb4VrFqONk/EHwkfUQ2t1veZKRT/Mr49JwMorSR7uXbSuHFt543L/vw=
+X-Received: by 2002:aca:cc81:: with SMTP id c123mr9117245oig.30.1567139582896;
+ Thu, 29 Aug 2019 21:33:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190830012036.GA184995@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-30_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908300026
+References: <20190829074603.70424-1-saravanak@google.com> <CAL_Jsq+2vR75ofq=aKOt1bb1T-JfhiGSR9dnHWQf7VLmgJP4eA@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+2vR75ofq=aKOt1bb1T-JfhiGSR9dnHWQf7VLmgJP4eA@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Thu, 29 Aug 2019 21:32:26 -0700
+Message-ID: <CAGETcx_8AS8AVB-95vSzXXC=Rs0+0sp3OnJvFWXWtwEn-wH-ew@mail.gmail.com>
+Subject: Re: [PATCH v10 0/7] Solve postboot supplier cleanup and optimize
+ probe ordering
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 09:20:36PM -0400, Joel Fernandes wrote:
-> On Thu, Aug 29, 2019 at 05:47:56PM -0700, Paul E. McKenney wrote:
-> [snip]
-> > > > > Paul, also what what happens in the following scenario:
-> > > > > 
-> > > > > CPU0                                                 CPU1
-> > > > > 
-> > > > > A syscall causes rcu_eqs_exit()
-> > > > > rcu_read_lock();
-> > > > >                                                      ---> FQS loop waiting on
-> > > > > 						           dyntick_snap
-> > > > > usermode-upcall  entry -->causes rcu_eqs_enter();
-> > > > > 
-> > > > > usermode-upcall  exit  -->causes rcu_eqs_exit();
-> > > > > 
-> > > > >                                                      ---> FQS loop sees
-> > > > > 						          dyntick snap
-> > > > > 							  increment and
-> > > > > 							  declares CPU0 is
-> > > > > 							  in a QS state
-> > > > > 							  before the
-> > > > > 							  rcu_read_unlock!
-> > > > > 
-> > > > > rcu_read_unlock();
-> > > > > ---
-> > > > > 
-> > > > > Does the context tracking not call rcu_user_enter() in this case, or did I
-> > > > > really miss something?
-> > > > 
-> > > > Holding rcu_read_lock() across usermode execution (in this case,
-> > > > the usermode upcall) is a bad idea.  Why is CPU 0 doing that?
-> > > 
-> > > Oh, ok. I was just hypothesizing that since usermode upcalls from
-> > > something as heavy as interrupts, it could also mean we had the same from
-> > > some path that held an rcu_read_lock() as well. It was just a theoretical
-> > > concern, if it is not an issue, no problem.
-> > 
-> > Are there the usual lockdep checks in the upcall code?  Holding a spinlock
-> > across them would seem to be at least as bad as holding an rcu_read_lock()
-> > across them.
-> 
-> Great point, I'll take a look.
-> 
-> > > The other question I had was, in which cases would dyntick_nesting in current
-> > > RCU code be > 1 (after removing the lower bit and any crowbarring) ? In the
-> > > scenarios I worked out on paper, I can only see this as 1 or 0. But the
-> > > wording of it is 'dynticks_nesting'. May be I am missing a nesting scenario?
-> > > We can exit RCU-idleness into process context only once (either exiting idle
-> > > mode or user mode). Both cases would imply a value of 1.
-> > 
-> > Interrrupt -> NMI -> certain types of tracing.  I believe that can get
-> > it to 5.  There might be even more elaborate sequences of events.
-> 
-> I am only talking about dynticks_nesting, not dynticks_nmi_nesting. In
-> current mainline, I see this only 0 or 1. I am running the below patch
-> overnight on all RCU configurations to see if it is ever any other value.
+On Thu, Aug 29, 2019 at 9:43 AM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Thu, Aug 29, 2019 at 2:46 AM Saravana Kannan <saravanak@google.com> wrote:
+> >
+> > Add device-links to track functional dependencies between devices
+> > after they are created (but before they are probed) by looking at
+> > their common DT bindings like clocks, interconnects, etc.
+> >
+> > Having functional dependencies automatically added before the devices
+> > are probed, provides the following benefits:
+> >
+> > - Optimizes device probe order and avoids the useless work of
+> >   attempting probes of devices that will not probe successfully
+> >   (because their suppliers aren't present or haven't probed yet).
+> >
+> >   For example, in a commonly available mobile SoC, registering just
+> >   one consumer device's driver at an initcall level earlier than the
+> >   supplier device's driver causes 11 failed probe attempts before the
+> >   consumer device probes successfully. This was with a kernel with all
+> >   the drivers statically compiled in. This problem gets a lot worse if
+> >   all the drivers are loaded as modules without direct symbol
+> >   dependencies.
+> >
+> > - Supplier devices like clock providers, interconnect providers, etc
+> >   need to keep the resources they provide active and at a particular
+> >   state(s) during boot up even if their current set of consumers don't
+> >   request the resource to be active. This is because the rest of the
+> >   consumers might not have probed yet and turning off the resource
+> >   before all the consumers have probed could lead to a hang or
+> >   undesired user experience.
+> >
+> >   Some frameworks (Eg: regulator) handle this today by turning off
+> >   "unused" resources at late_initcall_sync and hoping all the devices
+> >   have probed by then. This is not a valid assumption for systems with
+> >   loadable modules. Other frameworks (Eg: clock) just don't handle
+> >   this due to the lack of a clear signal for when they can turn off
+> >   resources. This leads to downstream hacks to handle cases like this
+> >   that can easily be solved in the upstream kernel.
+> >
+> >   By linking devices before they are probed, we give suppliers a clear
+> >   count of the number of dependent consumers. Once all of the
+> >   consumers are active, the suppliers can turn off the unused
+> >   resources without making assumptions about the number of consumers.
+> >
+> > By default we just add device-links to track "driver presence" (probe
+> > succeeded) of the supplier device. If any other functionality provided
+> > by device-links are needed, it is left to the consumer/supplier
+> > devices to change the link when they probe.
+> >
+> > v1 -> v2:
+> > - Drop patch to speed up of_find_device_by_node()
+> > - Drop depends-on property and use existing bindings
+> >
+> > v2 -> v3:
+> > - Refactor the code to have driver core initiate the linking of devs
+> > - Have driver core link consumers to supplier before it's probed
+> > - Add support for drivers to edit the device links before probing
+> >
+> > v3 -> v4:
+> > - Tested edit_links() on system with cyclic dependency. Works.
+> > - Added some checks to make sure device link isn't attempted from
+> >   parent device node to child device node.
+> > - Added way to pause/resume sync_state callbacks across
+> >   of_platform_populate().
+> > - Recursively parse DT node to create device links from parent to
+> >   suppliers of parent and all child nodes.
+> >
+> > v4 -> v5:
+> > - Fixed copy-pasta bugs with linked list handling
+> > - Walk up the phandle reference till I find an actual device (needed
+> >   for regulators to work)
+> > - Added support for linking devices from regulator DT bindings
+> > - Tested the whole series again to make sure cyclic dependencies are
+> >   broken with edit_links() and regulator links are created properly.
+> >
+> > v5 -> v6:
+> > - Split, squashed and reordered some of the patches.
+> > - Refactored the device linking code to follow the same code pattern for
+> >   any property.
+> >
+> > v6 -> v7:
+> > - No functional changes.
+> > - Renamed i to index
+> > - Added comment to clarify not having to check property name for every
+> >   index
+> > - Added "matched" variable to clarify code. No functional change.
+> > - Added comments to include/linux/device.h for add_links()
+> >
+> > v7 -> v8:
+> > - Rebased on top of linux-next to handle device link changes in [1]
+> >
+> > v8 -> v9:
+> > - Fixed kbuild test bot reported errors (docs and const)
+> >
+> > v9->v10:
+> > - Changes made based on reviews on LKML [2] and discussions at ELC [3]
+> > - Dropped the edit_links() patch
+> > - Dropped the patch that skips linking for default bus nodes
+> > - 1/7: Changed from bus.add_links() to fwnode.ops.add_links()
+> > - 1/7: Update device link doc
+> > - 1/7: Lots of comments/fn doc updates
+> > - 1/7: Renamed device_link_check_waiting_consumers() to
+> >   device_link_add_missing_supplier_links()
+> > - 2/7: Moved DT parsing/linking code from of/platform.c to of/property.c
+>
+> Why? You'll notice that of/property.c doesn't know anything about
+> platform_device (and struct device):
+>
+> $ git grep platform_device -- drivers/of/property.c
+> $
+>
+> Everything related to platform_device goes in of/platform.c.
+> Everything related to struct device only goes in of/device.c. I'd be
+> okay with a new file for this too.
 
-Ah!  Then yes, we never enter non-idle/non-user process-level mode
-twice without having exited it.  There would have been a splat,
-I believe.
+The only platform_device related code in what got moved to
+of/property.c is the call to of_find_device_by_node(). And that's
+because I forgot that function returns a platform_device --- it should
+really have been called of_find_plat_device_by_node() or something
+similar. Outside of that, of/property.c makes sense because that's
+where the fwnode ops are implemented.
 
-> And, please feel free to ignore my emails as you mentioned you are supposed
-> to be out next 2 days! Thanks for the replies though!
+As you mentioned in the other email, just searching platform_bus is
+not sufficient. So I'll have to figure something out for that. Once I
+do, I think the code will be fine in of/property.c as it shouldn't
+have any reference to platform_device.
 
-Actually this day and next.  ;-)
+Thanks for catching what I missed.
 
-							Thanx, Paul
-
-> ---8<-----------------------
-> 
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index 68ebf0eb64c8..8c8ddb6457d5 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -571,6 +571,9 @@ static void rcu_eqs_enter(bool user)
->  	WRITE_ONCE(rdp->dynticks_nmi_nesting, 0);
->  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
->  		     rdp->dynticks_nesting == 0);
-> +
-> +	WARN_ON_ONCE(rdp->dynticks_nesting != 1);
-> +
->  	if (rdp->dynticks_nesting != 1) {
->  		rdp->dynticks_nesting--;
->  		return;
-> @@ -736,6 +739,9 @@ static void rcu_eqs_exit(bool user)
->  	lockdep_assert_irqs_disabled();
->  	rdp = this_cpu_ptr(&rcu_data);
->  	oldval = rdp->dynticks_nesting;
-> +
-> +	WARN_ON_ONCE(rdp->dynticks_nesting != 0);
-> +
->  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && oldval < 0);
->  	if (oldval) {
->  		rdp->dynticks_nesting++;
-> -- 
-> 2.23.0.187.g17f5b7556c-goog
-> 
+-Saravana
