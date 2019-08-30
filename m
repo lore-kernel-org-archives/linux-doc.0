@@ -1,205 +1,240 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A78807D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 04:33:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 332AA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 08:35:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727540AbfH3EdE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 00:33:04 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37844 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725819AbfH3EdE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 00:33:04 -0400
-Received: by mail-oi1-f193.google.com with SMTP id b25so4382389oib.4
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2019 21:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dckypzty3MXWBDTJpI2rCDfqM2cRZodYiUO2dmQlaCU=;
-        b=sHAapob+H6miA+mQX2BYVpewzufVv5Y3FsO5WLoWbQmnWUzrZF3K7h2nU/aPZhOcHM
-         l1tsF1fCipcFwY5jGWnzgW0IY7CF+gEYDQelZBODttt5Hq1ITiJgV8jsB/KZFVFA5AKh
-         kzdEGdI2OA/voVvEmjd2+5zj3j3KnQcZzEc9/pC+d/4m3sMG9XhJXFPHDCc5SZ6DbFJ/
-         dQhuoP/YICeX4pe1w0avEbbBV5MzNWP+ChlcVNSwDVpM2M3CA4G1RHsP7wGtgEePpEQI
-         xgZYtn6Iiwgli4XRRlcD2XLUkN/nFRs704vOV8FzICvXFitzppTFRPPOLoaINjm9IxQp
-         xmXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dckypzty3MXWBDTJpI2rCDfqM2cRZodYiUO2dmQlaCU=;
-        b=foUfggEVlpc65VF81ZCM+4xz9+2GkwqPOD3JJl4apB24FSAzXVLdq/x7ZAz+PGKj9Q
-         yJBfjA94k/WL4oK+V5F+kGb8uoDx0D5nZ3qCIppupaBxmsDKVMSvfOQE1QV/JP8fQq+R
-         TrM7aoFOSlqbHzzMXpTUmp+/IvDnEEeViOafl0Ed9etDtnxW0jgKkbsGsAfelewbPcrJ
-         lJI0QgT5jlClTh4TXEoGLkSdpQXjMj3bKHyostAJGF/HW171les5xNdYzilEuTiNNT7f
-         nNBicDr5fd+STciUL5jJBHyTsG0jkaqJ3yfMfBgLvnlfEsU8cNGiuBoqVQHnXWBsAUF7
-         K7IQ==
-X-Gm-Message-State: APjAAAWr9liqSEy4DmE+gAVQJUyLrBb5hq5G81ZPVq7y8/2CgPGdkAQQ
-        PW6xQtWZJpTpoLeT2wB8EeIV0wU6q33eXh9/AhwIIw==
-X-Google-Smtp-Source: APXvYqz+dnW0egNjofi/hbg61kqJwdkaAieyvb4VrFqONk/EHwkfUQ2t1veZKRT/Mr49JwMorSR7uXbSuHFt543L/vw=
-X-Received: by 2002:aca:cc81:: with SMTP id c123mr9117245oig.30.1567139582896;
- Thu, 29 Aug 2019 21:33:02 -0700 (PDT)
+        id S1727236AbfH3IfS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 04:35:18 -0400
+Received: from foss.arm.com ([217.140.110.172]:56004 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726653AbfH3IfS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Aug 2019 04:35:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE18D344;
+        Fri, 30 Aug 2019 01:35:17 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 689183F718;
+        Fri, 30 Aug 2019 01:35:16 -0700 (PDT)
+Subject: Re: [PATCH v3 01/10] KVM: arm64: Document PV-time interface
+To:     Andrew Jones <drjones@redhat.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Paolo Bonzini <pbonzini@redhat.com>
+References: <20190821153656.33429-1-steven.price@arm.com>
+ <20190821153656.33429-2-steven.price@arm.com>
+ <20190829171548.xfk7i2bwnwl4w2po@kamzik.brq.redhat.com>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <22fc60f0-e3d5-900d-c067-007c39485ba9@arm.com>
+Date:   Fri, 30 Aug 2019 09:35:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190829074603.70424-1-saravanak@google.com> <CAL_Jsq+2vR75ofq=aKOt1bb1T-JfhiGSR9dnHWQf7VLmgJP4eA@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+2vR75ofq=aKOt1bb1T-JfhiGSR9dnHWQf7VLmgJP4eA@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Thu, 29 Aug 2019 21:32:26 -0700
-Message-ID: <CAGETcx_8AS8AVB-95vSzXXC=Rs0+0sp3OnJvFWXWtwEn-wH-ew@mail.gmail.com>
-Subject: Re: [PATCH v10 0/7] Solve postboot supplier cleanup and optimize
- probe ordering
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-acpi@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190829171548.xfk7i2bwnwl4w2po@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 9:43 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Thu, Aug 29, 2019 at 2:46 AM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > Add device-links to track functional dependencies between devices
-> > after they are created (but before they are probed) by looking at
-> > their common DT bindings like clocks, interconnects, etc.
-> >
-> > Having functional dependencies automatically added before the devices
-> > are probed, provides the following benefits:
-> >
-> > - Optimizes device probe order and avoids the useless work of
-> >   attempting probes of devices that will not probe successfully
-> >   (because their suppliers aren't present or haven't probed yet).
-> >
-> >   For example, in a commonly available mobile SoC, registering just
-> >   one consumer device's driver at an initcall level earlier than the
-> >   supplier device's driver causes 11 failed probe attempts before the
-> >   consumer device probes successfully. This was with a kernel with all
-> >   the drivers statically compiled in. This problem gets a lot worse if
-> >   all the drivers are loaded as modules without direct symbol
-> >   dependencies.
-> >
-> > - Supplier devices like clock providers, interconnect providers, etc
-> >   need to keep the resources they provide active and at a particular
-> >   state(s) during boot up even if their current set of consumers don't
-> >   request the resource to be active. This is because the rest of the
-> >   consumers might not have probed yet and turning off the resource
-> >   before all the consumers have probed could lead to a hang or
-> >   undesired user experience.
-> >
-> >   Some frameworks (Eg: regulator) handle this today by turning off
-> >   "unused" resources at late_initcall_sync and hoping all the devices
-> >   have probed by then. This is not a valid assumption for systems with
-> >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> >   this due to the lack of a clear signal for when they can turn off
-> >   resources. This leads to downstream hacks to handle cases like this
-> >   that can easily be solved in the upstream kernel.
-> >
-> >   By linking devices before they are probed, we give suppliers a clear
-> >   count of the number of dependent consumers. Once all of the
-> >   consumers are active, the suppliers can turn off the unused
-> >   resources without making assumptions about the number of consumers.
-> >
-> > By default we just add device-links to track "driver presence" (probe
-> > succeeded) of the supplier device. If any other functionality provided
-> > by device-links are needed, it is left to the consumer/supplier
-> > devices to change the link when they probe.
-> >
-> > v1 -> v2:
-> > - Drop patch to speed up of_find_device_by_node()
-> > - Drop depends-on property and use existing bindings
-> >
-> > v2 -> v3:
-> > - Refactor the code to have driver core initiate the linking of devs
-> > - Have driver core link consumers to supplier before it's probed
-> > - Add support for drivers to edit the device links before probing
-> >
-> > v3 -> v4:
-> > - Tested edit_links() on system with cyclic dependency. Works.
-> > - Added some checks to make sure device link isn't attempted from
-> >   parent device node to child device node.
-> > - Added way to pause/resume sync_state callbacks across
-> >   of_platform_populate().
-> > - Recursively parse DT node to create device links from parent to
-> >   suppliers of parent and all child nodes.
-> >
-> > v4 -> v5:
-> > - Fixed copy-pasta bugs with linked list handling
-> > - Walk up the phandle reference till I find an actual device (needed
-> >   for regulators to work)
-> > - Added support for linking devices from regulator DT bindings
-> > - Tested the whole series again to make sure cyclic dependencies are
-> >   broken with edit_links() and regulator links are created properly.
-> >
-> > v5 -> v6:
-> > - Split, squashed and reordered some of the patches.
-> > - Refactored the device linking code to follow the same code pattern for
-> >   any property.
-> >
-> > v6 -> v7:
-> > - No functional changes.
-> > - Renamed i to index
-> > - Added comment to clarify not having to check property name for every
-> >   index
-> > - Added "matched" variable to clarify code. No functional change.
-> > - Added comments to include/linux/device.h for add_links()
-> >
-> > v7 -> v8:
-> > - Rebased on top of linux-next to handle device link changes in [1]
-> >
-> > v8 -> v9:
-> > - Fixed kbuild test bot reported errors (docs and const)
-> >
-> > v9->v10:
-> > - Changes made based on reviews on LKML [2] and discussions at ELC [3]
-> > - Dropped the edit_links() patch
-> > - Dropped the patch that skips linking for default bus nodes
-> > - 1/7: Changed from bus.add_links() to fwnode.ops.add_links()
-> > - 1/7: Update device link doc
-> > - 1/7: Lots of comments/fn doc updates
-> > - 1/7: Renamed device_link_check_waiting_consumers() to
-> >   device_link_add_missing_supplier_links()
-> > - 2/7: Moved DT parsing/linking code from of/platform.c to of/property.c
->
-> Why? You'll notice that of/property.c doesn't know anything about
-> platform_device (and struct device):
->
-> $ git grep platform_device -- drivers/of/property.c
-> $
->
-> Everything related to platform_device goes in of/platform.c.
-> Everything related to struct device only goes in of/device.c. I'd be
-> okay with a new file for this too.
+On 29/08/2019 18:15, Andrew Jones wrote:
+> On Wed, Aug 21, 2019 at 04:36:47PM +0100, Steven Price wrote:
+>> Introduce a paravirtualization interface for KVM/arm64 based on the
+>> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+>>
+>> This only adds the details about "Stolen Time" as the details of "Live
+>> Physical Time" have not been fully agreed.
+>>
+>> User space can specify a reserved area of memory for the guest and
+>> inform KVM to populate the memory with information on time that the host
+>> kernel has stolen from the guest.
+>>
+>> A hypercall interface is provided for the guest to interrogate the
+>> hypervisor's support for this interface and the location of the shared
+>> memory structures.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  Documentation/virt/kvm/arm/pvtime.txt | 100 ++++++++++++++++++++++++++
+>>  1 file changed, 100 insertions(+)
+>>  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
+>>
+>> diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
+>> new file mode 100644
+>> index 000000000000..1ceb118694e7
+>> --- /dev/null
+>> +++ b/Documentation/virt/kvm/arm/pvtime.txt
+>> @@ -0,0 +1,100 @@
+>> +Paravirtualized time support for arm64
+>> +======================================
+>> +
+>> +Arm specification DEN0057/A defined a standard for paravirtualised time
+>> +support for AArch64 guests:
+>> +
+>> +https://developer.arm.com/docs/den0057/a
+>> +
+>> +KVM/arm64 implements the stolen time part of this specification by providing
+>> +some hypervisor service calls to support a paravirtualized guest obtaining a
+>> +view of the amount of time stolen from its execution.
+>> +
+>> +Two new SMCCC compatible hypercalls are defined:
+>> +
+>> +PV_FEATURES 0xC5000020
+>> +PV_TIME_ST  0xC5000022
+>> +
+>> +These are only available in the SMC64/HVC64 calling convention as
+>> +paravirtualized time is not available to 32 bit Arm guests. The existence of
+>> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
+>> +mechanism before calling it.
+>> +
+>> +PV_FEATURES
+>> +    Function ID:  (uint32)  : 0xC5000020
+>> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
+>> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+>> +                              PV-time feature is supported by the hypervisor.
+>> +
+>> +PV_TIME_ST
+>> +    Function ID:  (uint32)  : 0xC5000022
+>> +    Return value: (int64)   : IPA of the stolen time data structure for this
+>> +                              (V)CPU. On failure:
+> 
+> Why the () around the V in VCPU?
 
-The only platform_device related code in what got moved to
-of/property.c is the call to of_find_device_by_node(). And that's
-because I forgot that function returns a platform_device --- it should
-really have been called of_find_plat_device_by_node() or something
-similar. Outside of that, of/property.c makes sense because that's
-where the fwnode ops are implemented.
+There's nothing preventing the same mechanism being used without the
+virtualisation of CPUs. For example a hypervisor like Jailhouse could
+implement this interface even though there the CPU isn't being
+virtualised but is being handed over to the guest. Equally it is
+possible for firmware to provide the same mechanism (using the SMC64
+calling convention).
 
-As you mentioned in the other email, just searching platform_bus is
-not sufficient. So I'll have to figure something out for that. Once I
-do, I think the code will be fine in of/property.c as it shouldn't
-have any reference to platform_device.
+Admittedly that's a little confusing here because the rest of this
+document is talking about KVM's implementation and normal hypervisors.
+So I'll drop the brackets.
 
-Thanks for catching what I missed.
+>> +                              NOT_SUPPORTED (-1)
+>> +
+>> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+>> +with inner and outer write back caching attributes, in the inner shareable
+>> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+>> +meaningfully filled by the hypervisor (see structure below).
+>> +
+>> +PV_TIME_ST returns the structure for the calling VCPU.
+> 
+> The above sentence seems redundant here.
 
--Saravana
+It is an important detail that each VCPU must use PV_TIME_ST to fetch
+the address of the structure for that VCPU. E.g. It could have been
+implemented so that the hypercall took a VCPU number. So while redundant
+I do feel it's worth pointing this out explicitly.
+
+>> +
+>> +Stolen Time
+>> +-----------
+>> +
+>> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+>> +
+>> +  Field       | Byte Length | Byte Offset | Description
+>> +  ----------- | ----------- | ----------- | --------------------------
+>> +  Revision    |      4      |      0      | Must be 0 for version 0.1
+>> +  Attributes  |      4      |      4      | Must be 0
+>> +  Stolen time |      8      |      8      | Stolen time in unsigned
+>> +              |             |             | nanoseconds indicating how
+>> +              |             |             | much time this VCPU thread
+>> +              |             |             | was involuntarily not
+>> +              |             |             | running on a physical CPU.
+>> +
+>> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
+>> +will be present within a reserved region of the normal memory given to the
+>> +guest. The guest should not attempt to write into this memory. There is a
+>> +structure per VCPU of the guest.
+>> +
+>> +User space interface
+>> +====================
+>> +
+>> +User space can request that KVM provide the paravirtualized time interface to
+>> +a guest by creating a KVM_DEV_TYPE_ARM_PV_TIME device, for example:
+>> +
+>> +    struct kvm_create_device pvtime_device = {
+>> +            .type = KVM_DEV_TYPE_ARM_PV_TIME,
+>> +            .attr = 0,
+>> +            .flags = 0,
+>> +    };
+>> +
+>> +    pvtime_fd = ioctl(vm_fd, KVM_CREATE_DEVICE, &pvtime_device);
+> 
+> The ioctl doesn't return the fd. If the ioctl returns zero the fd will be
+> in pvtime_device.fd.
+
+Good catch - I'm not sure quite why I wrote that. Anyway I've agreed to
+change the interface to operate on the VCPU device instead so this text
+is rewritten completely.
+
+>> +
+>> +Creation of the device should be done after creating the vCPUs of the virtual
+>> +machine.
+> 
+> Or else what? Will an error be reported in that case?
+
+This is now enforced by calling the ioctl on the VCPU device, so it's
+impossible to do in the wrong order.
+
+>> +
+>> +The IPA of the structures must be given to KVM. This is the base address
+>> +of an array of stolen time structures (one for each VCPU). The base address
+>> +must be page aligned. The size must be at least 64 * number of VCPUs and be a
+>> +multiple of PAGE_SIZE.
+>> +
+>> +The memory for these structures should be added to the guest in the usual
+>> +manner (e.g. using KVM_SET_USER_MEMORY_REGION).
+> 
+> Above it says the guest shouldn't attempt to write the memory. Should
+> KVM_MEM_READONLY be used with KVM_SET_USER_MEMORY_REGION for it?
+
+That is optional - the specification states the guest must not attempt
+to write to it - so marking it read-only for the guest should work fine
+with a conforming guest. But it's not required.
+
+>> +
+>> +For example:
+>> +
+>> +    struct kvm_dev_arm_st_region region = {
+>> +            .gpa = <IPA of guest base address>,
+>> +            .size = <size in bytes>
+>> +    };
+>> +
+>> +    struct kvm_device_attr st_base = {
+>> +            .group = KVM_DEV_ARM_PV_TIME_PADDR,
+> 
+> This is KVM_DEV_ARM_PV_TIME_REGION in the code.
+
+Gah - I obviously missed that when I refactored to define the region
+rather than just the base address. Anyway this has all changed (again)
+because each VCPU has its own base address so the size is no longer
+necessary.
+
+Thanks for the review,
+
+Steve
+
+>> +            .attr = KVM_DEV_ARM_PV_TIME_ST,
+>> +            .addr = (u64)&region
+>> +    };
+>> +
+>> +    ioctl(pvtime_fd, KVM_SET_DEVICE_ATTR, &st_base);
+>> -- 
+>> 2.20.1
+>>
+> 
+> Thanks,
+> drew 
+> 
+
