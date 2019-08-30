@@ -1,110 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3EE537D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 21:45:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ACAE37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 21:51:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728122AbfH3Vpu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 17:45:50 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:44272 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728079AbfH3Vpr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 17:45:47 -0400
-Received: by mail-ed1-f65.google.com with SMTP id a21so9520734edt.11
-        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2019 14:45:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cBz0MMX0JgyAHjwyE8I1352iGkSxJIlsmG5ztl+6roE=;
-        b=SaLyfj4vRd7n2LDFFQRahUDf4PcSzy7K79IMAxpqyV4LzQALLJ5uUvekBkwAr72dpS
-         7ayWBlDt0ahoDU1k002ECX1qUVqL8sw5R3Hl6b11PWdt/YaebFSUeHs6b3Gl3Jxo5ok2
-         Zph2ANDm+Cdq46G6qrE6+s+NoOVsjK6AaoCS4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cBz0MMX0JgyAHjwyE8I1352iGkSxJIlsmG5ztl+6roE=;
-        b=nFc4wvKczAivSlse5mp9DCoRh63/IE4wFdCqhrzacVsDH7fgrN8DNS/8xOsp+W46yQ
-         AADI+ENhcOGYWPsRNf0s6zvWKGQ6JSOxeo52FYFKWIG9nVg3qmD+k+z5ankJnkAL5a+d
-         J+rHqeaB9kOLouXaEo/V5DqooI51swEQCSJJUD30TaKCWj81WNYZ2LgxjJGwwVEp1wXl
-         exOkiessGdRCHDYQkLG0P2x6st0EOfdfLy2GSCkPrSfmmhjeCkWtUzTM9zv3lwIf3uyL
-         xWR8nNiPbBf4vHazVJpNDGCmb9gXSmhFOBjnBi5YzsBWnTlBtc/cTEtowy80UMuEOjG+
-         gMLA==
-X-Gm-Message-State: APjAAAXQhfrx92zQuAdAc0BAZVPuNZ5NrpOdRPCsgppO4LpehQy4itep
-        5TFNAemC0/kimVHTpSQCp22yoA==
-X-Google-Smtp-Source: APXvYqyUMuKdzY/FFg+N2C4z43XxYZzTyHfyt1kARxcF6rQuLUR39CDEOTIT5F3KhAgvAnwKa2ylTg==
-X-Received: by 2002:aa7:c490:: with SMTP id m16mr18062490edq.156.1567201545118;
-        Fri, 30 Aug 2019 14:45:45 -0700 (PDT)
-Received: from [192.168.1.149] (ip-5-186-115-35.cgn.fibianet.dk. [5.186.115.35])
-        by smtp.gmail.com with ESMTPSA id qx4sm920543ejb.11.2019.08.30.14.45.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Aug 2019 14:45:44 -0700 (PDT)
-Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Juergen Gross <jgross@suse.com>, Petr Mladek <pmladek@suse.com>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        metux IT consult Enrico Weigelt <lkml@metux.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190827211244.7210-1-uwe@kleine-koenig.org>
- <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
- <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
- <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
- <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
- <a83449cf-3a4a-f3e0-210a-dc7c39505355@rasmusvillemoes.dk>
- <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <7eb732b3-eca5-34c0-ed1f-6814deab60d9@rasmusvillemoes.dk>
-Date:   Fri, 30 Aug 2019 23:45:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728138AbfH3VvM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 17:51:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39394 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728111AbfH3VvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Aug 2019 17:51:12 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E104E2342E;
+        Fri, 30 Aug 2019 21:51:10 +0000 (UTC)
+Date:   Fri, 30 Aug 2019 17:51:08 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Peter Wu <peter@lekensteyn.nl>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH] docs: ftrace: clarify when tracing is disabled by the
+ trace file
+Message-ID: <20190830175108.0ffa6ef1@gandalf.local.home>
+In-Reply-To: <20190822234823.18594-1-peter@lekensteyn.nl>
+References: <20190822234823.18594-1-peter@lekensteyn.nl>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/08/2019 19.39, Uwe Kleine-König wrote:
-> On 8/29/19 11:09 AM, Rasmus Villemoes wrote:
+On Fri, 23 Aug 2019 00:48:23 +0100
+Peter Wu <peter@lekensteyn.nl> wrote:
 
->> still prefer making it %pE, both because it's easier to convert integers
->> to ERR_PTRs than having to worry about the type of PTR_ERR() being long
->> and not int, and because alphanumerics after %p have been ignored for a
->> long time (10 years?) whether or not those characters have been
->> recognized as a %p extension, so nobody relies on %pE putting an E after
->> the %p output. It also keeps the non-standard extensions in the same
->> "namespace", so to speak.
->>
->> Oh, 'E' is taken, well, make it 'e' then.
+> The current text could mislead the user into believing that only read()
+> disables tracing. Clarify that any open() call that requests read access
+> disables tracing.
 > 
-> I like having %pe to print error valued pointers. Then maybe we could
-> have both %de for ints and %pe for pointers. :-)
+> Link: https://lkml.kernel.org/r/CAADnVQ+hU6QOC_dPmpjnuv=9g4SQEeaMEMqXOS2WpMj=q=LdiQ@mail.gmail.com
+> Signed-off-by: Peter Wu <peter@lekensteyn.nl>
+> ---
+>  Documentation/trace/ftrace.rst | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index f60079259669..965be5c9afb3 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -125,7 +125,8 @@ of ftrace. Here is a list of some of the key files:
+>  
+>  	This file holds the output of the trace in a human
+>  	readable format (described below). Note, tracing is temporarily
+> -	disabled while this file is being read (opened).
+> +	disabled when the file is open for reading. Once all readers
+> +	are closed, tracing is re-enabled.
+>  
+>    trace_pipe:
+>  
+> @@ -139,8 +140,9 @@ of ftrace. Here is a list of some of the key files:
+>  	will not be read again with a sequential read. The
+>  	"trace" file is static, and if the tracer is not
+>  	adding more data, it will display the same
+> -	information every time it is read. This file will not
+> -	disable tracing while being read.
+> +	information every time it is read. Unlike the
+> +	"trace" file, opening this file for reading will not
+> +	temporarily disable tracing.
+>  
+>    trace_options:
+>  
+> @@ -3153,7 +3155,10 @@ different. The trace is live.
+>  
+>  
+>  Note, reading the trace_pipe file will block until more input is
+> -added.
+> +added. This is contrary to the trace file. If any process opened
+> +the trace file for reading, it will actually disable tracing and
+> +prevent new entries from being added. The trace_file file does
 
-Oh no. And actually, come to think of it, we don't even need to extend
-%p at all (taking away yet another letter for future expansion...), we
-should simply make %p DTRT when passed an ERR_PTR - currently, if it's
-some %p<extension> that would normally derefence it, there's sanity
-checking in place which makes it print (efault), while if it's plain %p,
-it just does the hashing, making it impossible to figure out that it was
-an errno value (or which it was).
+I was just about to ack this, and then I saw the above.
 
-I've cooked up what I mean, sending in separate thread.
+  s/trace_file/trace_pipe/
 
-Rasmus
+Other than that, it looks good!
 
+-- Steve
+
+> +not have this limitation.
+>  
+>  trace entries
+>  -------------
 
