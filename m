@@ -1,80 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F45F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 11:32:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B3BB07D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 12:54:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbfH3Lcf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 07:32:35 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55124 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727170AbfH3Lcf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 07:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=YGyzX7o+0kt4KwDAVePl6jt5JfthEYZLjGAK6qAsuCg=; b=V2r8Xy3yxoPkd6XGDjTOp8joX
-        RhTqwqBI37l5VwDVnTCed//97hYrKG4mr3jynHcCXCDzScrt5BdUke4p4ysRn8CrVZ/prUsZrF27K
-        JZrflsUbI+kUw68BZ67TIx03i81RN/sjF5XVDMkPO0Co6LXgY29k8Q7bXo+p4G1uSjDv0s8wnJpSN
-        t5tBIq3puLcZaSFlSmGMv8rPY9nKbo7RbjLUbyo09ghwrxOFGxBgQAy4BPnUhyvB+H5vkfRDH6M0n
-        06wB/A0Vs5rKK30DHv81Sig6dfjGVEZ6fIHShsOWYmjL4D29V5ST265og9WYvgj0n83qFyIvLFdbY
-        yjA+4XRMQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i3f8f-0000vu-Ui; Fri, 30 Aug 2019 11:32:22 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F259B300489;
-        Fri, 30 Aug 2019 13:31:41 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7B238200AB64F; Fri, 30 Aug 2019 13:32:16 +0200 (CEST)
-Date:   Fri, 30 Aug 2019 13:32:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Ingo Molnar <mingo@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        SeongJae Park <sj38.park@gmail.com>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH] tools: memory-model: add it to the Documentation body
-Message-ID: <20190830113216.GE2369@hirez.programming.kicks-ass.net>
-References: <Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org>
- <cb9785b7-ed43-b91a-7392-e50216bd5771@gmail.com>
- <20190731202517.GF5913@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731202517.GF5913@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727751AbfH3Myx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 08:54:53 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:32875 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727718AbfH3Myx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 08:54:53 -0400
+Received: by mail-pg1-f195.google.com with SMTP id n190so3538514pgn.0;
+        Fri, 30 Aug 2019 05:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=NNZTN+WQXt07/j/McJZ3KBjtoeBvNNmWQ056voTxfiM=;
+        b=r3LMGzyx+ZvjV8GlVBxtzk0bSXmI6YPya2Z+VV787v/dxqRkzUSdqMoJr3BP/AdXVA
+         yOnUJHMm3fo/9FzNz4iSp4X/yzVvvt3EeiWmaukn9gwfHM5aicnJ7AU4RGFV2l11U3Oe
+         Msk6MV2Zi4Sl8E3T+prgYG0386TuPMJmAomxuDqwrrQrodGaE/Qwoe9IuXCPda7DDdwW
+         zJ1WvxDn2Cu1wEtI6UvZ0mwgUew0vK4Ba8z4RbiMBYHQUUNyss2N86wQ9exXNIyR+J7V
+         36fws7anJkOwLnvS9xCnLygo5oW3GuTBKwAo+E1vy2qmlt4FS3DHE3MwYOfmHZIvRIRL
+         KoNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=NNZTN+WQXt07/j/McJZ3KBjtoeBvNNmWQ056voTxfiM=;
+        b=DIPjYuJTwBjO7Z/TC/PHOEYuh1cCPoF7yXCSRzsw9kWJxvzKLUq2Rl6dW180z5NYQW
+         QBfo4I4bU+qJMaWMvMBIvnalNhvlLehRps/uknCdJmQK92aEYl2OI703iIYo9Hxea2zI
+         PlSGi/Z+QJv5jXFoWTeZTZ2+jJBr1+FrYYBy/86QxE03AmfGND7osvgniM4VpZjcS/vC
+         TFUhS6Y5jOaDgevQrDq/xBo7MAfJ9T2avvDCvaRnZ355hg+rV4DXVxZMO9svwn+e+Lvk
+         qbmsQRDau+KDEbGmcCPSFUWt53VWZzmHAhWLdnzhH14oarr21kkqYRQgYXxTJF+IP+Vs
+         9Iuw==
+X-Gm-Message-State: APjAAAVHi9fxbuC0k00Of5LYQkvCI1HAm/48FBhRWIYQMXXLTfFVBcr5
+        S239jQoyv4UV4P0pG9/LKPGMVTpO
+X-Google-Smtp-Source: APXvYqwGtfgFCLtLkW6um+vUd1H1urHTPtZAgLo0Vny3nBbacPkJ9IiTdsOutWgr+AjLqpKq8snq4g==
+X-Received: by 2002:a63:5945:: with SMTP id j5mr12831171pgm.452.1567169692018;
+        Fri, 30 Aug 2019 05:54:52 -0700 (PDT)
+Received: from localhost.localdomain.com ([115.113.156.3])
+        by smtp.gmail.com with ESMTPSA id e189sm5871043pgc.15.2019.08.30.05.54.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Aug 2019 05:54:51 -0700 (PDT)
+From:   ganapat <gklkml16@gmail.com>
+X-Google-Original-From: ganapat <ganapat@localhost.localdomain>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     will@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
+        jnair@marvell.com, rrichter@marvell.com, jglauber@marvell.com,
+        gkulkarni@marvell.com
+Subject: [PATCH v5 0/2] Add CCPI2 PMU support
+Date:   Fri, 30 Aug 2019 18:24:34 +0530
+Message-Id: <20190830125436.16959-1-ganapat@localhost.localdomain>
+X-Mailer: git-send-email 2.9.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 01:25:17PM -0700, Paul E. McKenney wrote:
-> Looks like a pretty clear consensus thus far.  Any objections to keeping
-> these .txt for the time being?
+From: Ganapatrao Kulkarni <gkulkarni@marvell.com>
 
-Obviously I'm a huge proponent of abandoning RST and an advocate for
-normal .txt files ;-)
+Add Cavium Coherent Processor Interconnect (CCPI2) PMU
+support in ThunderX2 Uncore driver.
+
+v5:
+	Fixed minor bug of v4 (timer callback fuction
+	was getting initialized to NULL for all PMUs).
+
+v4:
+	Update with review comments [2].
+	Changed Counter read to 2 word read since single dword read is misbhehaving(hw issue).
+
+[2] https://lkml.org/lkml/2019/7/23/231
+
+v3: Rebased to 5.3-rc1
+
+v2: Updated with review comments [1]
+
+[1] https://lkml.org/lkml/2019/6/14/965
+
+v1: initial patch
+
+
+Ganapatrao Kulkarni (2):
+  Documentation: perf: Update documentation for ThunderX2 PMU uncore
+    driver
+  drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
+
+ .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
+ drivers/perf/thunderx2_pmu.c                  | 267 +++++++++++++++---
+ 2 files changed, 245 insertions(+), 42 deletions(-)
+
+-- 
+2.17.1
+
