@@ -3,236 +3,286 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 925237D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 15:25:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 25B157D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 15:47:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727859AbfH3PZO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 11:25:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:33962 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727135AbfH3PZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Aug 2019 11:25:14 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6A8E344;
-        Fri, 30 Aug 2019 08:25:12 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B2653F703;
-        Fri, 30 Aug 2019 08:25:10 -0700 (PDT)
-Subject: Re: [PATCH v4 01/10] KVM: arm64: Document PV-time interface
-To:     Andrew Jones <drjones@redhat.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org
-References: <20190830084255.55113-1-steven.price@arm.com>
- <20190830084255.55113-2-steven.price@arm.com>
- <20190830144734.kvj4dvt32qzmhw32@kamzik.brq.redhat.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <7f459290-9c39-cfba-c514-a07469ff120f@arm.com>
-Date:   Fri, 30 Aug 2019 16:25:08 +0100
+        id S1727876AbfH3PrZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Aug 2019 11:47:25 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:45536 "EHLO
+        antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727820AbfH3PrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Aug 2019 11:47:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by antares.kleine-koenig.org (Postfix) with ESMTP id 59B5E78C4D8;
+        Fri, 30 Aug 2019 17:47:21 +0200 (CEST)
+Received: from antares.kleine-koenig.org ([127.0.0.1])
+        by localhost (antares.kleine-koenig.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id zlE0DWgc_0C2; Fri, 30 Aug 2019 17:47:20 +0200 (CEST)
+Received: from [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986] (unknown [IPv6:2a02:8071:b5c2:53f8:3192:99d7:1d59:986])
+        by antares.kleine-koenig.org (Postfix) with ESMTPSA;
+        Fri, 30 Aug 2019 17:47:20 +0200 (CEST)
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Juergen Gross <jgross@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        metux IT consult Enrico Weigelt <lkml@metux.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
+ <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+ <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
+ <a83449cf-3a4a-f3e0-210a-dc7c39505355@rasmusvillemoes.dk>
+ <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
+ <20190830090624.tb2tmhbt3wzwz6rp@pathway.suse.cz>
+From:   =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=uwe@kleine-koenig.org; prefer-encrypt=mutual; keydata=
+ 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
+ kC8vBDJg
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+Message-ID: <b3469eeb-eb74-895e-e3ef-92be716f0789@kleine-koenig.org>
+Date:   Fri, 30 Aug 2019 17:47:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190830144734.kvj4dvt32qzmhw32@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190830090624.tb2tmhbt3wzwz6rp@pathway.suse.cz>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="C6EZnzSBketa4Jbvz8hG0hQgbF9HT5QvZ"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30/08/2019 15:47, Andrew Jones wrote:
-> On Fri, Aug 30, 2019 at 09:42:46AM +0100, Steven Price wrote:
->> Introduce a paravirtualization interface for KVM/arm64 based on the
->> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--C6EZnzSBketa4Jbvz8hG0hQgbF9HT5QvZ
+Content-Type: multipart/mixed; boundary="Jv1B4TPbxy2kcppz9RVwAgGTZjl5SEqgj";
+ protected-headers="v1"
+From: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Juergen Gross <jgross@suse.com>,
+ Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ metux IT consult Enrico Weigelt <lkml@metux.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <b3469eeb-eb74-895e-e3ef-92be716f0789@kleine-koenig.org>
+Subject: Re: [PATCH v2] vsprintf: introduce %dE for error constants
+References: <20190827211244.7210-1-uwe@kleine-koenig.org>
+ <20190828113216.p2yiha4xyupkbcbs@pathway.suse.cz>
+ <74303921-aa95-9962-2254-27e556af54f4@kleine-koenig.org>
+ <20190829081249.3zvvsa4ggb5pfozl@pathway.suse.cz>
+ <45cd5b50-9854-fce7-5f08-f7660abb8691@suse.com>
+ <a83449cf-3a4a-f3e0-210a-dc7c39505355@rasmusvillemoes.dk>
+ <002dc2a7-40a3-f52a-c8fa-5dbb42e6dd7b@kleine-koenig.org>
+ <20190830090624.tb2tmhbt3wzwz6rp@pathway.suse.cz>
+In-Reply-To: <20190830090624.tb2tmhbt3wzwz6rp@pathway.suse.cz>
+
+--Jv1B4TPbxy2kcppz9RVwAgGTZjl5SEqgj
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hello Petr,
+
+On 8/30/19 11:06 AM, Petr Mladek wrote:
+> On Thu 2019-08-29 19:39:45, Uwe Kleine-K=C3=B6nig  wrote:
+>> On 8/29/19 11:09 AM, Rasmus Villemoes wrote:
+>>> On 29/08/2019 10.27, Juergen Gross wrote:
+>>>> Hmm, what about already existing format strings conatining "%dE"?
+>>>>
+>>>> Yes, I could find only one (drivers/staging/speakup/speakup_bns.c), =
+but
+>>>> nevertheless...
+>>>
+>>> Indeed, Uwe still needs to respond to how he wants to handle that. I
 >>
->> This only adds the details about "Stolen Time" as the details of "Live
->> Physical Time" have not been fully agreed.
+>> This is indeed bad and I didn't expect that. I just took a quick look
+>> and this string is indeed used as sprintf format string.
+>=20
+> Hmm, it seems that solving this might be pretty tricky.
+
+I thought about this and we could make it possible by some syntax. Such t=
+hat
+
+	someint =3D 42
+	pr_info("%d}E\n", someint)
+
+emits
+
+	42E
+
+(I'm open to use a different "end-of-fmt-specifier" char, a } might
+confuse source editors when highlighting matching braces. Maybe '#'?
+
+This idea could be transferred to %p, too, which then lift the
+limitation that some strings cannot easily be produced by printk et al.
+(Of course this makes the format string parsing still more complicated
+which I expect you won't like.) This would make it possible then to
+adapt drivers/staging/speakup/speakup_bns.c before introducing the
+format for error ints.
+
+> I see this as a warning that we should not play with fire.
+> There might be a reason why all format modifiers are put
+> between % and the format identifier.
+
+AFAIK they are put after the format specifier in the kernel to still be
+able to benefit from the compiler's printf attribute.
+
+>>> still prefer making it %pE, both because it's easier to convert integ=
+ers
+>>> to ERR_PTRs than having to worry about the type of PTR_ERR() being lo=
+ng
+>>> and not int, and because alphanumerics after %p have been ignored for=
+ a
+>>> long time (10 years?) whether or not those characters have been
+>>> recognized as a %p extension, so nobody relies on %pE putting an E af=
+ter
+>>> the %p output. It also keeps the non-standard extensions in the same
+>>> "namespace", so to speak.
 >>
->> User space can specify a reserved area of memory for the guest and
->> inform KVM to populate the memory with information on time that the host
->> kernel has stolen from the guest.
+>>> Oh, 'E' is taken, well, make it 'e' then.
 >>
->> A hypercall interface is provided for the guest to interrogate the
->> hypervisor's support for this interface and the location of the shared
->> memory structures.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>  Documentation/virt/kvm/arm/pvtime.txt   | 64 +++++++++++++++++++++++++
->>  Documentation/virt/kvm/devices/vcpu.txt | 14 ++++++
->>  2 files changed, 78 insertions(+)
->>  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
->>
->> diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
->> new file mode 100644
->> index 000000000000..dda3f0f855b9
->> --- /dev/null
->> +++ b/Documentation/virt/kvm/arm/pvtime.txt
->> @@ -0,0 +1,64 @@
->> +Paravirtualized time support for arm64
->> +======================================
->> +
->> +Arm specification DEN0057/A defined a standard for paravirtualised time
->> +support for AArch64 guests:
->> +
->> +https://developer.arm.com/docs/den0057/a
->> +
->> +KVM/arm64 implements the stolen time part of this specification by providing
->> +some hypervisor service calls to support a paravirtualized guest obtaining a
->> +view of the amount of time stolen from its execution.
->> +
->> +Two new SMCCC compatible hypercalls are defined:
->> +
->> +PV_FEATURES 0xC5000020
->> +PV_TIME_ST  0xC5000022
->> +
->> +These are only available in the SMC64/HVC64 calling convention as
->> +paravirtualized time is not available to 32 bit Arm guests. The existence of
->> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
->> +mechanism before calling it.
->> +
->> +PV_FEATURES
->> +    Function ID:  (uint32)  : 0xC5000020
->> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
-> 
-> PV_TIME_LPT doesn't exist
+>> I like having %pe to print error valued pointers. Then maybe we could
+>> have both %de for ints and %pe for pointers. :-)
+>=20
+> I would prefer to avoid %pe. It would make sense only when the value
+> really contains error id.
 
-Thanks, will remove.
+The same holds true for %dE. Something has to happen if an int is passed
+that isn't an error code. I'm emitting it as is in my patch, the same
+could be done for a pointer.
 
->> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
->> +                              PV-time feature is supported by the hypervisor.
->> +
->> +PV_TIME_ST
->> +    Function ID:  (uint32)  : 0xC5000022
->> +    Return value: (int64)   : IPA of the stolen time data structure for this
->> +                              VCPU. On failure:
->> +                              NOT_SUPPORTED (-1)
->> +
->> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
->> +with inner and outer write back caching attributes, in the inner shareable
->> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
->> +meaningfully filled by the hypervisor (see structure below).
->> +
->> +PV_TIME_ST returns the structure for the calling VCPU.
->> +
->> +Stolen Time
->> +-----------
->> +
->> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
->> +
->> +  Field       | Byte Length | Byte Offset | Description
->> +  ----------- | ----------- | ----------- | --------------------------
->> +  Revision    |      4      |      0      | Must be 0 for version 0.1
->> +  Attributes  |      4      |      4      | Must be 0
-> 
-> The above fields don't appear to be exposed to userspace in anyway. How
-> will we handle migration from one KVM with one version of the structure
-> to another?
+> It means that it has to be used as:
+>=20
+>     if (IS_ERR(p)) {
+>        pr_warn(...);
+>=20
+> The error path might handle the error using PTR_ERR() also
+> on other locations. Also PTR_ERR() will make it clear that we
+> are trying to print the error code.
 
-Interesting question. User space does have access to them now it is
-providing the memory, but it's not exactly an easy method. In particular
-user space has no (simple) way of probing the kernel's supported version.
+I suggest to postpone this until we have %dE. (But I consider using %de
+instead as then if we later chose that %pe is a nice idea they can use
+the same modifier.)
 
-I guess one solution would be to add an extra attribute on the VCPU
-which would provide the revision information. The current kernel would
-then reject any revision other than 0, but this could then be extended
-to support other revision numbers in the future.
+Best regards
+Uwe
 
-Although there's some logic in saying we could add the extra attribute
-when(/if) there is a new version. Future kernels would then be expected
-to use the current version unless user space explicitly set the new
-attribute.
 
-Do you feel this is something that needs to be addressed now, or can it
-be deferred until another version is proposed?
+--Jv1B4TPbxy2kcppz9RVwAgGTZjl5SEqgj--
 
->> +  Stolen time |      8      |      8      | Stolen time in unsigned
->> +              |             |             | nanoseconds indicating how
->> +              |             |             | much time this VCPU thread
->> +              |             |             | was involuntarily not
->> +              |             |             | running on a physical CPU.
->> +
->> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
->> +will be present within a reserved region of the normal memory given to the
->> +guest. The guest should not attempt to write into this memory. There is a
->> +structure per VCPU of the guest.
-> 
-> Should we provide a recommendation as to how that reserved memory is
-> provided? One memslot divided into NR_VCPUS subregions? Should the
-> reserved region be described to the guest kernel with DT/ACPI? Or
-> should userspace ensure the region is not within any DT/ACPI described
-> regions?
+--C6EZnzSBketa4Jbvz8hG0hQgbF9HT5QvZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-I'm open to providing a recommendation, but I'm not entirely sure I know
-enough here to provide one.
+-----BEGIN PGP SIGNATURE-----
 
-There is an obvious efficiency argument for minimizing memslots with the
-current code. But if someone has a reason for using multiple memslots
-then that's probably a good argument for implementing a memslot-caching
-kvm_put_user() rather than to be dis-recommended.
+iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl1pRQQACgkQwfwUeK3K
+7Anu4wf+N/bwc1vIflzNFCRkQKsK1x2C0GHcW0oaggDeGcKbXo0+9KOw6hpGgHAg
+Ch3p3Gz1VCseH+mWn4UJgcaGWv++hWc+exuqmLlHUagmOnpVneJDITSYZ12q18ea
+yvbXTZNNsYDfpLv3no1QDx/LKE0kZSPX90XkWWF6aUg1koe3DnrrkAvPMX45z/jK
+59vDprsJLDarlusIrzpWxdaAtG246I2c7I5gTpgp8TytUJKCc9KTQP5Ja0xlCFuq
+TqF+ZWKT4Iz3xEJCInzUsVpk5vco9QXyaHkCen/Bzwy4VI2rivWLXCnR97jwyfgu
+P4+GBKUD29CGe/iOx7MDQj7W7oPgyw==
+=YrpT
+-----END PGP SIGNATURE-----
 
-My assumption (and testing) has been with a single memslot divided into
-NR_VCPUS (or more accurately the number of VCPUs in the VM) subregions.
-
-For testing DT I've tested both methods: an explicit reserved region or
-just ensuring it's not in any DT described region. Both seem reasonable,
-but it might be easier to integrate into existing migration mechanisms
-if it's simply a reserved region (then the memory block of the guest is
-just as it always was).
-
-For ACPI the situation should be similar, but my testing has been with DT.
-
-Thanks,
-
-Steve
-
->> +
->> +For the user space interface see Documentation/virt/kvm/devices/vcpu.txt
->> +section "3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL".
->> +
->> diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
->> index 2b5dab16c4f2..896777f76f36 100644
->> --- a/Documentation/virt/kvm/devices/vcpu.txt
->> +++ b/Documentation/virt/kvm/devices/vcpu.txt
->> @@ -60,3 +60,17 @@ time to use the number provided for a given timer, overwriting any previously
->>  configured values on other VCPUs.  Userspace should configure the interrupt
->>  numbers on at least one VCPU after creating all VCPUs and before running any
->>  VCPUs.
->> +
->> +3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
->> +Architectures: ARM64
->> +
->> +3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_SET_IPA
->> +Parameters: 64-bit base address
->> +Returns: -ENXIO:  Stolen time not implemented
->> +         -EEXIST: Base address already set for this VCPU
->> +         -EINVAL: Base address not 64 byte aligned
->> +
->> +Specifies the base address of the stolen time structure for this VCPU. The
->> +base address must be 64 byte aligned and exist within a valid guest memory
->> +region. See Documentation/virt/kvm/arm/pvtime.txt for more information
->> +including the layout of the stolen time structure.
->> -- 
->> 2.20.1
->>
-> 
-> Thanks,
-> drew 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-
+--C6EZnzSBketa4Jbvz8hG0hQgbF9HT5QvZ--
