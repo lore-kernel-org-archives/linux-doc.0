@@ -1,102 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACAE37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Aug 2019 21:51:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD8937D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 31 Aug 2019 13:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728138AbfH3VvM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Aug 2019 17:51:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39394 "EHLO mail.kernel.org"
+        id S1726740AbfHaNlu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 31 Aug 2019 09:41:50 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:11244 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728111AbfH3VvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Aug 2019 17:51:12 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E104E2342E;
-        Fri, 30 Aug 2019 21:51:10 +0000 (UTC)
-Date:   Fri, 30 Aug 2019 17:51:08 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Peter Wu <peter@lekensteyn.nl>
-Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: Re: [PATCH] docs: ftrace: clarify when tracing is disabled by the
- trace file
-Message-ID: <20190830175108.0ffa6ef1@gandalf.local.home>
-In-Reply-To: <20190822234823.18594-1-peter@lekensteyn.nl>
-References: <20190822234823.18594-1-peter@lekensteyn.nl>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726354AbfHaNlu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 31 Aug 2019 09:41:50 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 7D537403FB;
+        Sat, 31 Aug 2019 15:41:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1567258905; x=1569073306; bh=RVPkgbu0sxV6mcZJE0j
+        Oj7nmkVC+BNiaQ+8xHqgLNmM=; b=YJlXYID/w1UXyY4/Qpx9k/1UH1lvxS27JKB
+        72vjWrrJbs+ltJOrFmL7hPz6FU+gG91pIGJlbsMmd4tHvmtvJeVg9CnFF0d5Iwep
+        CYU1Ly40rHajx0W//Icob0D2hWH7kZgysrumuKMuT7vBZ9+ead5hUoG9mAYzufKK
+        zN4Ac75vUNzqI+Nz7/QRz/7MqW87WxogUZeDC6TqpRmIcRPDN+r9hwblkFYa2gfA
+        PxKTbRP2qeaWKUMHWPHk/IPf+cfxdifpZGDZpiBIoHAc358bxBX3xmi/X5lSOq95
+        0CcJF+86AKuq5g52XXGGMGwYvQfT706R1RwxGhW7jaUJibSfI2jz6nD4xxzKM9GE
+        mNZ+VxMasTVtwceyERpCujlUGJBdng+VG6AYwFBXWQe0KEUkRk1YQjmPRO2jm/LG
+        v5+9p6ufhuYzyVTAjPgS3EEKH/qMkwTq+2aemMpxFq7PCqx3Hw5w1bETuIeil4Ev
+        Cp4snbhf6LKjly2/AgK0rrfsCulrqyx59uX6+jiB9UADZJKFYBTAgxc1xBfVrC5B
+        lBdcEjsVve7wnhCWutZcVeMVasqh3gckFqThHpTGy69lbdZpF27NiPxBjjbmzyfU
+        B18phR57oiVK+UHsUltHnCsFbTi5er/SB7j+xylhGlguW5bu7OzAOEpugWWDIXZQ
+        Yo59BX4U=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Qoz9PPGpPg2l; Sat, 31 Aug 2019 15:41:45 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id BBA42403EB;
+        Sat, 31 Aug 2019 15:41:45 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 3591A246A;
+        Sat, 31 Aug 2019 15:41:45 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc:lock: remove reference to clever use of read-write lock
+Date:   Sat, 31 Aug 2019 15:41:16 +0200
+Message-Id: <20190831134116.25417-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Aug 2019 00:48:23 +0100
-Peter Wu <peter@lekensteyn.nl> wrote:
+Remove the clever example about read-write lock because these type of
+lock is not reccomended anymore (according to the very same document).
+So there is no reason to teach cleaver things that people should not do.
 
-> The current text could mislead the user into believing that only read()
-> disables tracing. Clarify that any open() call that requests read access
-> disables tracing.
-> 
-> Link: https://lkml.kernel.org/r/CAADnVQ+hU6QOC_dPmpjnuv=9g4SQEeaMEMqXOS2WpMj=q=LdiQ@mail.gmail.com
-> Signed-off-by: Peter Wu <peter@lekensteyn.nl>
-> ---
->  Documentation/trace/ftrace.rst | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index f60079259669..965be5c9afb3 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -125,7 +125,8 @@ of ftrace. Here is a list of some of the key files:
->  
->  	This file holds the output of the trace in a human
->  	readable format (described below). Note, tracing is temporarily
-> -	disabled while this file is being read (opened).
-> +	disabled when the file is open for reading. Once all readers
-> +	are closed, tracing is re-enabled.
->  
->    trace_pipe:
->  
-> @@ -139,8 +140,9 @@ of ftrace. Here is a list of some of the key files:
->  	will not be read again with a sequential read. The
->  	"trace" file is static, and if the tracer is not
->  	adding more data, it will display the same
-> -	information every time it is read. This file will not
-> -	disable tracing while being read.
-> +	information every time it is read. Unlike the
-> +	"trace" file, opening this file for reading will not
-> +	temporarily disable tracing.
->  
->    trace_options:
->  
-> @@ -3153,7 +3155,10 @@ different. The trace is live.
->  
->  
->  Note, reading the trace_pipe file will block until more input is
-> -added.
-> +added. This is contrary to the trace file. If any process opened
-> +the trace file for reading, it will actually disable tracing and
-> +prevent new entries from being added. The trace_file file does
+(and by the way there was a little typo)
 
-I was just about to ack this, and then I saw the above.
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/locking/spinlocks.rst | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-  s/trace_file/trace_pipe/
-
-Other than that, it looks good!
-
--- Steve
-
-> +not have this limitation.
->  
->  trace entries
->  -------------
+diff --git a/Documentation/locking/spinlocks.rst b/Documentation/locking/spinlocks.rst
+index e93ec6645238..8053fd4c3544 100644
+--- a/Documentation/locking/spinlocks.rst
++++ b/Documentation/locking/spinlocks.rst
+@@ -106,7 +106,7 @@ and on other architectures it can be worse).
+ 
+ If you have a case where you have to protect a data structure across
+ several CPU's and you want to use spinlocks you can potentially use
+-cheaper versions of the spinlocks. IFF you know that the spinlocks are
++cheaper versions of the spinlocks. If you know that the spinlocks are
+ never used in interrupt handlers, you can use the non-irq versions::
+ 
+ 	spin_lock(&lock);
+@@ -139,18 +139,6 @@ on other CPU's, because an interrupt on another CPU doesn't interrupt the
+ CPU that holds the lock, so the lock-holder can continue and eventually
+ releases the lock).
+ 
+-Note that you can be clever with read-write locks and interrupts. For
+-example, if you know that the interrupt only ever gets a read-lock, then
+-you can use a non-irq version of read locks everywhere - because they
+-don't block on each other (and thus there is no dead-lock wrt interrupts.
+-But when you do the write-lock, you have to use the irq-safe version.
+-
+-For an example of being clever with rw-locks, see the "waitqueue_lock"
+-handling in kernel/sched/core.c - nothing ever _changes_ a wait-queue from
+-within an interrupt, they only read the queue in order to know whom to
+-wake up. So read-locks are safe (which is good: they are very common
+-indeed), while write-locks need to protect themselves against interrupts.
+-
+ 		Linus
+ 
+ ----
+-- 
+2.21.0
 
