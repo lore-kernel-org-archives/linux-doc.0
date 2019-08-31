@@ -1,96 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 152087D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 31 Aug 2019 15:35:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A22F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 31 Aug 2019 15:44:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728090AbfHaPfM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 31 Aug 2019 11:35:12 -0400
-Received: from lekensteyn.nl ([178.21.112.251]:60649 "EHLO lekensteyn.nl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727816AbfHaPfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 31 Aug 2019 11:35:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lekensteyn.nl; s=s2048-2015-q1;
-        h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From; bh=7MKXkrZFo7Tit/BRm4PhZFkOp6mAut8LTFTqxKuZ1kY=;
-        b=Hfe2Do98oI6/jH8/NEBSuc9M17sEnj54j3HOVpDoRDwgKoECAFfdq/sTa0r09y+z0jr3IRw0YvhB/gAhQxqRaJ5HQfZmaaiZWrutpCcWKS76asaqoaKpc/y3Qkc8R6sr5PpG0Bm8YzY53WHtqoJsGFD0M/6fP15tVwHXYj3OJqXQsoTZGSh47QHOTTSILZ6Z96/vm22iMdVODMHzG+2NPB2MbRqlOpmu9Bj9KIdHBmN8qAcCa4S3LvhYBgtGQchkwDCb/ATvoAndFvq4tPJbJAQxZubTjqOtKsLWuUzixmIMtON+TDGnRFt4CANZdTGmAZlZX+LIX8FoPwkaGp8lig==;
-Received: by lekensteyn.nl with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.84_2)
-        (envelope-from <peter@lekensteyn.nl>)
-        id 1i45P3-0002pU-OV; Sat, 31 Aug 2019 17:35:02 +0200
-From:   Peter Wu <peter@lekensteyn.nl>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1727905AbfHaPoW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 31 Aug 2019 11:44:22 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:33258 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727657AbfHaPoW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 31 Aug 2019 11:44:22 -0400
+Received: by mail-io1-f65.google.com with SMTP id z3so20425827iog.0;
+        Sat, 31 Aug 2019 08:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding:user-agent;
+        bh=ohorzUHq4fR5QI0aCkIZzsVnCzNXq2up1MIejCCdXtU=;
+        b=j/A8tGkZTsw68BurXTRjuqgIpKVts9NowNu9EKC8iciTKJIWVhS/8BSG7aKEoGeBh1
+         iZMdPJCz3Jza8JgpNOWraWq9nj5wdc/Ypa/+NW8MaLIfy/XHeuB8TnQZNh5GP6ABo0to
+         uE0OzCAQzG/7cA7c0cVatB1uYHn1TzuyAgnIqS6RZ7PVfqWUxZVwkAZ6jvACUKFaitjq
+         wRTYtTK61C5Vak9TAVqfUhkheLfAe+LORRIWRiOTZpRXAu8fo1HBMwxkf6Px5PZxdspC
+         ujjnyKSjfbM3wB8qW7lhH+mQgCa8rxB9aUGjcp0KBczoR+1Wi9knwyj/eisybcfX20U6
+         frtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding:user-agent;
+        bh=ohorzUHq4fR5QI0aCkIZzsVnCzNXq2up1MIejCCdXtU=;
+        b=tmhaQHds2Nhc/j7Kr8NIisCwAScO2NVCe/wkQ1NHCOHqEigNWk6Ntupq3EpM8DLNKW
+         4EzDY7OofI94Vg8Q/VF8FImLTsWK3SQxSOVad7KVSaAgA4TWIVa0qzYCrGIF6VtpD776
+         KjLXKmSuGfEBFc4KGpbvVgh4okJ2MRGR4UfFRCR0SiEvCBDfNPM/9UMlV1xccLibUZdf
+         QYdbkmLBCijNbUqJc4eXhTeDGc8CP7NbGfPK2zCvyTQKVXioit5ICAgXHfcH00Rm0ALJ
+         cftNYF1/YKpTCWpbuogZNlmH2Di2qY1UonPoRsurJIxlTJK9+tIxn8MOF43VoBX6SG/i
+         rKow==
+X-Gm-Message-State: APjAAAU4OEEqm7S+C08AB4GGE5DF3nVahE7J0yD9mpOA+AFZFcAXPyxc
+        bqdNRgb9oYXOjdVuRK20R6lVP3gMiUdDSA==
+X-Google-Smtp-Source: APXvYqwbeXBTBtNmAdK9zN53hqq3hsnCg5BDnQ+17n8ws6WrLkoSY62zoyno8xmjZWk+ZnwdfVwTxg==
+X-Received: by 2002:a5d:9aca:: with SMTP id x10mr23722874ion.11.1567266260718;
+        Sat, 31 Aug 2019 08:44:20 -0700 (PDT)
+Received: from fa19-cs241-404 ([192.17.168.68])
+        by smtp.gmail.com with ESMTPSA id i9sm8207846ioe.35.2019.08.31.08.44.19
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sat, 31 Aug 2019 08:44:20 -0700 (PDT)
+From:   Ayush Ranjan <ayush.ranjan98@gmail.com>
+X-Google-Original-From: Ayush Ranjan <ayushr2@illinois.edu>
+Date:   Sat, 31 Aug 2019 10:44:19 -0500
+To:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: [PATCH v2] docs: ftrace: clarify when tracing is disabled by the trace file
-Date:   Sat, 31 Aug 2019 16:35:00 +0100
-Message-Id: <20190831153500.7399-1-peter@lekensteyn.nl>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190830175108.0ffa6ef1@gandalf.local.home>
-References: <20190830175108.0ffa6ef1@gandalf.local.home>
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Ext4 Docs: Add missing bigalloc documentation.
+Message-ID: <20190831154419.GA30357@fa19-cs241-404.cs.illinois.edu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current text could mislead the user into believing that only read()
-disables tracing. Clarify that any open() call that requests read access
-disables tracing.
+There was a broken link for bigalloc. The page
+https://ext4.wiki.kernel.org/index.php/Bigalloc was not migrated into
+the current documentation sources. This patch adds the contents of that
+missing page into the section for Bigalloc itself.
 
-Link: https://lkml.kernel.org/r/CAADnVQ+hU6QOC_dPmpjnuv=9g4SQEeaMEMqXOS2WpMj=q=LdiQ@mail.gmail.com
-Signed-off-by: Peter Wu <peter@lekensteyn.nl>
+Signed-off-by: Ayush Ranjan <ayushr2@illinois.edu>
 ---
-v2: fix typo s/trace_file/trace_pipe/ (spotted by Steven)
----
- Documentation/trace/ftrace.rst | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Please note that I have not included changes from the "Kernel Support"
+and "E2fsprogs Support" sections of the original page because the
+comments there seemed outdated.
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index f60079259669..e3060eedb22d 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -125,7 +125,8 @@ of ftrace. Here is a list of some of the key files:
+ Documentation/filesystems/ext4/bigalloc.rst | 32 ++++++++++++++-------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/filesystems/ext4/bigalloc.rst b/Documentation/filesystems/ext4/bigalloc.rst
+index c6d885575..72075aa60 100644
+--- a/Documentation/filesystems/ext4/bigalloc.rst
++++ b/Documentation/filesystems/ext4/bigalloc.rst
+@@ -9,14 +9,26 @@ ext4 code is not prepared to handle the case where the block size
+ exceeds the page size. However, for a filesystem of mostly huge files,
+ it is desirable to be able to allocate disk blocks in units of multiple
+ blocks to reduce both fragmentation and metadata overhead. The
+-`bigalloc <Bigalloc>`__ feature provides exactly this ability. The
+-administrator can set a block cluster size at mkfs time (which is stored
+-in the s\_log\_cluster\_size field in the superblock); from then on, the
+-block bitmaps track clusters, not individual blocks. This means that
+-block groups can be several gigabytes in size (instead of just 128MiB);
+-however, the minimum allocation unit becomes a cluster, not a block,
+-even for directories. TaoBao had a patchset to extend the “use units of
+-clusters instead of blocks” to the extent tree, though it is not clear
+-where those patches went-- they eventually morphed into “extent tree v2”
+-but that code has not landed as of May 2015.
++bigalloc feature provides exactly this ability.
++
++The bigalloc feature (EXT4_FEATURE_RO_COMPAT_BIGALLOC) changes ext4 to
++use clustered allocation, so that each bit in the ext4 block allocation
++bitmap addresses a power of two number of blocks. For example, if the
++file system is mainly going to be storing large files in the 4-32
++megabyte range, it might make sense to set a cluster size of 1 megabyte.
++This means that each bit in the block allocation bitmap now addresses
++256 4k blocks. This shrinks the total size of the block allocation
++bitmaps for a 2T file system from 64 megabytes to 256 kilobytes. It also
++means that a block group addresses 32 gigabytes instead of 128 megabytes,
++also shrinking the amount of file system overhead for metadata.
++
++The administrator can set a block cluster size at mkfs time (which is
++stored in the s\_log\_cluster\_size field in the superblock); from then
++on, the block bitmaps track clusters, not individual blocks. This means
++that block groups can be several gigabytes in size (instead of just
++128MiB); however, the minimum allocation unit becomes a cluster, not a
++block, even for directories. TaoBao had a patchset to extend the “use
++units of clusters instead of blocks” to the extent tree, though it is
++not clear where those patches went-- they eventually morphed into
++“extent tree v2” but that code has not landed as of May 2015.
  
- 	This file holds the output of the trace in a human
- 	readable format (described below). Note, tracing is temporarily
--	disabled while this file is being read (opened).
-+	disabled when the file is open for reading. Once all readers
-+	are closed, tracing is re-enabled.
- 
-   trace_pipe:
- 
-@@ -139,8 +140,9 @@ of ftrace. Here is a list of some of the key files:
- 	will not be read again with a sequential read. The
- 	"trace" file is static, and if the tracer is not
- 	adding more data, it will display the same
--	information every time it is read. This file will not
--	disable tracing while being read.
-+	information every time it is read. Unlike the
-+	"trace" file, opening this file for reading will not
-+	temporarily disable tracing.
- 
-   trace_options:
- 
-@@ -3153,7 +3155,10 @@ different. The trace is live.
- 
- 
- Note, reading the trace_pipe file will block until more input is
--added.
-+added. This is contrary to the trace file. If any process opened
-+the trace file for reading, it will actually disable tracing and
-+prevent new entries from being added. The trace_pipe file does
-+not have this limitation.
- 
- trace entries
- -------------
 -- 
-2.22.0
+2.23.0
 
