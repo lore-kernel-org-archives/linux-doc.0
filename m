@@ -5,217 +5,222 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D6DF7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 12:41:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BEC177D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 12:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730106AbfIBMlc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Sep 2019 08:41:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40710 "EHLO mx1.redhat.com"
+        id S1730715AbfIBMxB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Sep 2019 08:53:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41966 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730311AbfIBMlc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Sep 2019 08:41:32 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        id S1729571AbfIBMxB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Sep 2019 08:53:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3414C81F0E;
-        Mon,  2 Sep 2019 12:41:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-67.ams2.redhat.com [10.36.117.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C87AD5C207;
-        Mon,  2 Sep 2019 12:41:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id D6AC431EAD; Mon,  2 Sep 2019 14:41:26 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/5] drm/ttm: add drm_gem_ttm_print_info()
-Date:   Mon,  2 Sep 2019 14:41:22 +0200
-Message-Id: <20190902124126.7700-2-kraxel@redhat.com>
-In-Reply-To: <20190902124126.7700-1-kraxel@redhat.com>
-References: <20190902124126.7700-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Mon, 02 Sep 2019 12:41:31 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id DA6F9190C004;
+        Mon,  2 Sep 2019 12:52:59 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A723E608AB;
+        Mon,  2 Sep 2019 12:52:56 +0000 (UTC)
+Date:   Mon, 2 Sep 2019 14:52:54 +0200
+From:   Andrew Jones <drjones@redhat.com>
+To:     Steven Price <steven.price@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 01/10] KVM: arm64: Document PV-time interface
+Message-ID: <20190902125254.3w6lnvcbs7sfhjz7@kamzik.brq.redhat.com>
+References: <20190830084255.55113-1-steven.price@arm.com>
+ <20190830084255.55113-2-steven.price@arm.com>
+ <20190830144734.kvj4dvt32qzmhw32@kamzik.brq.redhat.com>
+ <7f459290-9c39-cfba-c514-a07469ff120f@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f459290-9c39-cfba-c514-a07469ff120f@arm.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.70]); Mon, 02 Sep 2019 12:53:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now with ttm_buffer_object being a subclass of drm_gem_object we can
-easily lookup ttm_buffer_object for a given drm_gem_object, which in
-turm allows to create common helper functions.
+On Fri, Aug 30, 2019 at 04:25:08PM +0100, Steven Price wrote:
+> On 30/08/2019 15:47, Andrew Jones wrote:
+> > On Fri, Aug 30, 2019 at 09:42:46AM +0100, Steven Price wrote:
+> >> Introduce a paravirtualization interface for KVM/arm64 based on the
+> >> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
+> >>
+> >> This only adds the details about "Stolen Time" as the details of "Live
+> >> Physical Time" have not been fully agreed.
+> >>
+> >> User space can specify a reserved area of memory for the guest and
+> >> inform KVM to populate the memory with information on time that the host
+> >> kernel has stolen from the guest.
+> >>
+> >> A hypercall interface is provided for the guest to interrogate the
+> >> hypervisor's support for this interface and the location of the shared
+> >> memory structures.
+> >>
+> >> Signed-off-by: Steven Price <steven.price@arm.com>
+> >> ---
+> >>  Documentation/virt/kvm/arm/pvtime.txt   | 64 +++++++++++++++++++++++++
+> >>  Documentation/virt/kvm/devices/vcpu.txt | 14 ++++++
+> >>  2 files changed, 78 insertions(+)
+> >>  create mode 100644 Documentation/virt/kvm/arm/pvtime.txt
+> >>
+> >> diff --git a/Documentation/virt/kvm/arm/pvtime.txt b/Documentation/virt/kvm/arm/pvtime.txt
+> >> new file mode 100644
+> >> index 000000000000..dda3f0f855b9
+> >> --- /dev/null
+> >> +++ b/Documentation/virt/kvm/arm/pvtime.txt
+> >> @@ -0,0 +1,64 @@
+> >> +Paravirtualized time support for arm64
+> >> +======================================
+> >> +
+> >> +Arm specification DEN0057/A defined a standard for paravirtualised time
+> >> +support for AArch64 guests:
+> >> +
+> >> +https://developer.arm.com/docs/den0057/a
+> >> +
+> >> +KVM/arm64 implements the stolen time part of this specification by providing
+> >> +some hypervisor service calls to support a paravirtualized guest obtaining a
+> >> +view of the amount of time stolen from its execution.
+> >> +
+> >> +Two new SMCCC compatible hypercalls are defined:
+> >> +
+> >> +PV_FEATURES 0xC5000020
+> >> +PV_TIME_ST  0xC5000022
+> >> +
+> >> +These are only available in the SMC64/HVC64 calling convention as
+> >> +paravirtualized time is not available to 32 bit Arm guests. The existence of
+> >> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
+> >> +mechanism before calling it.
+> >> +
+> >> +PV_FEATURES
+> >> +    Function ID:  (uint32)  : 0xC5000020
+> >> +    PV_func_id:   (uint32)  : Either PV_TIME_LPT or PV_TIME_ST
+> > 
+> > PV_TIME_LPT doesn't exist
+> 
+> Thanks, will remove.
+> 
+> >> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+> >> +                              PV-time feature is supported by the hypervisor.
+> >> +
+> >> +PV_TIME_ST
+> >> +    Function ID:  (uint32)  : 0xC5000022
+> >> +    Return value: (int64)   : IPA of the stolen time data structure for this
+> >> +                              VCPU. On failure:
+> >> +                              NOT_SUPPORTED (-1)
+> >> +
+> >> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+> >> +with inner and outer write back caching attributes, in the inner shareable
+> >> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+> >> +meaningfully filled by the hypervisor (see structure below).
+> >> +
+> >> +PV_TIME_ST returns the structure for the calling VCPU.
+> >> +
+> >> +Stolen Time
+> >> +-----------
+> >> +
+> >> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+> >> +
+> >> +  Field       | Byte Length | Byte Offset | Description
+> >> +  ----------- | ----------- | ----------- | --------------------------
+> >> +  Revision    |      4      |      0      | Must be 0 for version 0.1
+> >> +  Attributes  |      4      |      4      | Must be 0
+> > 
+> > The above fields don't appear to be exposed to userspace in anyway. How
+> > will we handle migration from one KVM with one version of the structure
+> > to another?
+> 
+> Interesting question. User space does have access to them now it is
+> providing the memory, but it's not exactly an easy method. In particular
+> user space has no (simple) way of probing the kernel's supported version.
+> 
+> I guess one solution would be to add an extra attribute on the VCPU
+> which would provide the revision information. The current kernel would
+> then reject any revision other than 0, but this could then be extended
+> to support other revision numbers in the future.
+> 
+> Although there's some logic in saying we could add the extra attribute
+> when(/if) there is a new version. Future kernels would then be expected
+> to use the current version unless user space explicitly set the new
+> attribute.
+> 
+> Do you feel this is something that needs to be addressed now, or can it
+> be deferred until another version is proposed?
 
-This patch starts off with a drm_gem_ttm_print_info() helper function
-which prints adds some ttm specific lines to the debug output.
+Assuming we'll want userspace to have the option of choosing version=0,
+and that we're fine with version=0 being the implicit choice, when nothing
+is selected, then I guess it can be left as is for now. If, OTOH, we just
+want migration to fail when attempting to migrate to another host with
+an incompatible stolen-time structure (i.e. version=0 is not selectable
+on hosts that implement later versions), then we should expose the version
+in some way now. Perhaps a VCPU's "PV config" should be described in a
+set of pseudo registers?
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/drm/drm_gem_ttm_helper.h     | 19 ++++++++
- drivers/gpu/drm/drm_gem_ttm_helper.c | 67 ++++++++++++++++++++++++++++
- Documentation/gpu/drm-mm.rst         | 12 +++++
- drivers/gpu/drm/Kconfig              |  7 +++
- drivers/gpu/drm/Makefile             |  3 ++
- 5 files changed, 108 insertions(+)
- create mode 100644 include/drm/drm_gem_ttm_helper.h
- create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
+> 
+> >> +  Stolen time |      8      |      8      | Stolen time in unsigned
+> >> +              |             |             | nanoseconds indicating how
+> >> +              |             |             | much time this VCPU thread
+> >> +              |             |             | was involuntarily not
+> >> +              |             |             | running on a physical CPU.
+> >> +
+> >> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
+> >> +will be present within a reserved region of the normal memory given to the
+> >> +guest. The guest should not attempt to write into this memory. There is a
+> >> +structure per VCPU of the guest.
+> > 
+> > Should we provide a recommendation as to how that reserved memory is
+> > provided? One memslot divided into NR_VCPUS subregions? Should the
+> > reserved region be described to the guest kernel with DT/ACPI? Or
+> > should userspace ensure the region is not within any DT/ACPI described
+> > regions?
+> 
+> I'm open to providing a recommendation, but I'm not entirely sure I know
+> enough here to provide one.
+> 
+> There is an obvious efficiency argument for minimizing memslots with the
+> current code. But if someone has a reason for using multiple memslots
+> then that's probably a good argument for implementing a memslot-caching
+> kvm_put_user() rather than to be dis-recommended.
 
-diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
-new file mode 100644
-index 000000000000..6268f89c5a48
---- /dev/null
-+++ b/include/drm/drm_gem_ttm_helper.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef DRM_GEM_TTM_HELPER_H
-+#define DRM_GEM_TTM_HELPER_H
-+
-+#include <linux/kernel.h>
-+
-+#include <drm/drm_gem.h>
-+#include <drm/drm_device.h>
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+
-+#define drm_gem_ttm_of_gem(gem_obj) \
-+	container_of(gem_obj, struct ttm_buffer_object, base)
-+
-+void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-+			    const struct drm_gem_object *gem);
-+
-+#endif
-diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-new file mode 100644
-index 000000000000..cd6ac2cc8fdd
---- /dev/null
-+++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-@@ -0,0 +1,67 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/module.h>
-+
-+#include <drm/drm_gem_ttm_helper.h>
-+
-+/**
-+ * DOC: overview
-+ *
-+ * This library provides helper functions for gem objects backed by
-+ * ttm.
-+ */
-+
-+/**
-+ * drm_gem_ttm_print_info() - Print &ttm_buffer_object info for debugfs
-+ * @p: DRM printer
-+ * @indent: Tab indentation level
-+ * @gem: GEM object
-+ *
-+ * This function can be used as the &drm_driver->gem_print_info callback.
-+ */
-+void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-+			    const struct drm_gem_object *gem)
-+{
-+	static const char *plname[] = {
-+		[ TTM_PL_SYSTEM ] = "system",
-+		[ TTM_PL_TT     ] = "tt",
-+		[ TTM_PL_VRAM   ] = "vram",
-+		[ TTM_PL_PRIV   ] = "priv",
-+
-+		[ 16 ]            = "cached",
-+		[ 17 ]            = "uncached",
-+		[ 18 ]            = "wc",
-+		[ 19 ]            = "contig",
-+
-+		[ 21 ]            = "pinned", /* NO_EVICT */
-+		[ 22 ]            = "topdown",
-+	};
-+	const struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
-+	bool first = true;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(plname); i++) {
-+		if (!(bo->mem.placement & (1 << i)))
-+			continue;
-+		if (!plname[i])
-+			continue;
-+		if (first) {
-+			first = false;
-+			drm_printf_indent(p, indent, "placement=%s", plname[i]);
-+		} else
-+			drm_printf(p, ",%s", plname[i]);
-+	}
-+	if (!first)
-+		drm_printf(p, "\n");
-+
-+	if (bo->mem.bus.is_iomem) {
-+		drm_printf_indent(p, indent, "bus.base=%lx\n",
-+				  (unsigned long)bo->mem.bus.base);
-+		drm_printf_indent(p, indent, "bus.offset=%lx\n",
-+				  (unsigned long)bo->mem.bus.offset);
-+	}
-+}
-+EXPORT_SYMBOL(drm_gem_ttm_print_info);
-+
-+MODULE_DESCRIPTION("DRM gem ttm helpers");
-+MODULE_LICENSE("GPL");
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index b664f054c259..a70a1d9f30ec 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
- .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
-    :export:
- 
-+GEM TTM Helper Functions Reference
-+-----------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :doc: overview
-+
-+.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :export:
-+
- VMA Offset Manager
- ==================
- 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e6f40fb54c9a..f7b25519f95c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
- 	help
- 	  Helpers for VRAM memory management
- 
-+config DRM_TTM_HELPER
-+	tristate
-+	depends on DRM
-+	select DRM_TTM
-+	help
-+	  Helpers for ttm-based gem objects
-+
- config DRM_GEM_CMA_HELPER
- 	bool
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 10f8329a8b71..545c61d6528b 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
- 		     drm_vram_mm_helper.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
-+drm_ttm_helper-y := drm_gem_ttm_helper.o
-+obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
-+
- drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
- 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
- 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
--- 
-2.18.1
+Actually even if a single memslot is used for all the PV structures for
+all VCPUs, but it's separate from the slot(s) used for main memory, then
+we'll likely see performance issues with memslot searches (even though
+it's a binary search). This is because memslots already have caching. The
+last used slot is stored in the memslots' lru_slot member (the "lru" name
+is confusing, but it means "last used" somehow). This means we could get
+thrashing on that slot cache if we're searching for the PV structure
+memslot on each vcpu load after searching for the main memory slot on each
+page fault.
 
+> 
+> My assumption (and testing) has been with a single memslot divided into
+> NR_VCPUS (or more accurately the number of VCPUs in the VM) subregions.
+> 
+> For testing DT I've tested both methods: an explicit reserved region or
+> just ensuring it's not in any DT described region. Both seem reasonable,
+> but it might be easier to integrate into existing migration mechanisms
+> if it's simply a reserved region (then the memory block of the guest is
+> just as it always was).
+> 
+> For ACPI the situation should be similar, but my testing has been with DT.
+
+I also can't think of any reason why we'd have to describe it in DT/ACPI,
+but I get this feeling that if we don't, then we'll hit some issue that
+will make us wish we had...
+
+Thanks,
+drew
