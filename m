@@ -1,108 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 76FEB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 05:58:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A5E9C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 07:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbfIBF6m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Sep 2019 01:58:42 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42739 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726192AbfIBF6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Sep 2019 01:58:42 -0400
-Received: from soja.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:13da])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <o.rempel@pengutronix.de>)
-        id 1i4fMO-0007zm-FU; Mon, 02 Sep 2019 07:58:40 +0200
-Subject: Re: [PATCH] [RFC] i2c: imx: make use of format specifier %dE
-To:     Wolfram Sang <wsa@the-dreams.de>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
-Cc:     Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Enrico Weigelt <lkml@metux.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190829042905.4850-1-uwe@kleine-koenig.org>
- <20190829203912.GU3740@ninjato>
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-Message-ID: <aefbf1c5-d0b7-bb6e-0f97-d65575d549ff@pengutronix.de>
-Date:   Mon, 2 Sep 2019 07:58:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1729524AbfIBHBe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Sep 2019 03:01:34 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:51738 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729476AbfIBHBe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Sep 2019 03:01:34 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 62EDC403F1;
+        Mon,  2 Sep 2019 09:01:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1567407688; x=1569222089; bh=gQTLlnjxfU5wtu5rW3AqaO/cAFjAnpJ6Tai
+        mExqVlFA=; b=VCF2ypNoGc6gj2VcDTY24Hgpz+lWZfLUIwGuDVaTH2dk8CjuYdy
+        PqP027/8lXWoQebo018ZCqKWLFF4wmd1BdeVfKKtYesRPuH8sCamcr2I+uO7Ysc6
+        M8VPVcCkPDPusHFVwrk7Kj1RmBJzsyW6XI7EFreglZTbrWRJ2x02YP5HnSHBhHqU
+        PutOUzRcRy5OOLxh8UGRrwh+4JgzoO+hSg/hqchg09deRUYPMvVe28GEpFGJaffG
+        JALreoIdoPGxjoNKYkHxypBKyKa4+ffAf3EGHEz4MO4/2dYIkyyN/dD6gsf7MjcK
+        h7E7OptnHnpT1iM0ppnaasbLl/GIgq6j7RNuErVznwJo57uJTgm0IMIvS7jvPd+G
+        c8TVtDXHNisDazOBHcIw2cfVyRPlJeUhuHrw+4B89Lht3g4HQmFov8O6ozqSgJ+8
+        1pWH+fg6aCs5siLh8AlUojKM0k3tlWdtD4XT6bnq0rj+Mw7RnUW8SS/mNRnOPCKw
+        NXINYsYLo0S7FWX93skgQxa3IHsA5KPRuadPByqGPJKmQfaP6xESJp25hmyznCML
+        IB/SC1gm3RFk+lop2kjIUqLWgaOqI0e+KvZH7P0M5LN8231ZPoJhAkWL69985gmk
+        iIpMAWbEt16S87XUWeBP6MFIJwFJRzU21nmJUVg4WnyQaHwrIIG5Zz6M=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id MvEp27HjTeVe; Mon,  2 Sep 2019 09:01:28 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 96D4E403C8;
+        Mon,  2 Sep 2019 09:01:28 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 1B4F43964;
+        Mon,  2 Sep 2019 09:01:28 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc:lock: remove reference to clever use of read-write lock
+Date:   Mon, 02 Sep 2019 09:01:26 +0200
+Message-ID: <2216492.xyESGPMPG3@pcbe13614>
+In-Reply-To: <20190831084344.6fd7c039@lwn.net>
+References: <20190831134116.25417-1-federico.vaga@vaga.pv.it> <20190831084344.6fd7c039@lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20190829203912.GU3740@ninjato>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:13da
-X-SA-Exim-Mail-From: o.rempel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 29.08.19 22:39, Wolfram Sang wrote:
-> On Thu, Aug 29, 2019 at 06:29:05AM +0200, Uwe Kleine-König wrote:
->> I created a patch that teaches printk et al to emit a symbolic error
->> name for an error valued integer[1]. With that applied
->>
->> 	dev_err(&pdev->dev, "can't enable I2C clock, ret=%dE\n", ret);
->>
->> emits
->>
->> 	... can't enable I2C clock, ret=EIO
->>
->> if ret is -EIO. Petr Mladek (i.e. one of the printk maintainers) had
->> concerns if this would be well received and worth the effort. He asked
->> to present it to a few subsystems. So for now, this patch converting the
->> i2c-imx driver shouldn't be applied yet but it would be great to get
->> some feedback about if you think that being able to easily printk (for
->> example) "EIO" instead of "-5" is a good idea. Would it help you? Do you
->> think it helps your users?
+On Saturday, August 31, 2019 4:43:44 PM CEST Jonathan Corbet wrote:
+> On Sat, 31 Aug 2019 15:41:16 +0200
 > 
-> Yes, it would help me. And users, too, I am quite sure. For me, if I mix
-> up two numbers while debugging, I am hunting ghosts for a while until I
-> realize my mistake. So:
+> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> >  several CPU's and you want to use spinlocks you can potentially use
+> > 
+> > -cheaper versions of the spinlocks. IFF you know that the spinlocks are
+> > +cheaper versions of the spinlocks. If you know that the spinlocks are
+> > 
+> >  never used in interrupt handlers, you can use the non-irq versions::
+> I suspect that was not actually a typo; "iff" is a way for the
+> mathematically inclined to say "if and only if".
 > 
-> Acked-by: Wolfram Sang <wsa@the-dreams.de>
-> 
-> I think the main drawback is that ERRORCODES in vsprintf.c now need
-> maintenance, but I think it is worth the effort. I'd be interested in
-> the overhead in size this causes, but I also think it is worth the
-> effort. (It could even be compiled out if we have some generic Kconfig
-> symbol for smaller kernels).
+> jon
 
+I learned something new today :)
 
-I like it, at least it will safe me some time.
-I tested this patch together with the vprintf patch, so result looks like:
-[    0.281843] imx-i2c 21a0000.i2c: can't enable I2C clock, ret=EIO
-[    0.281891] imx-i2c: probe of 21a0000.i2c failed with error -5
+I am not used to the mathematical English jargon. It make sense, but then I 
+would replace it with "If and only if": for clarity.
 
-Tested-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-
-Kind regards,
-Oleksij Rempel
 
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Federico Vaga
+
+
+
