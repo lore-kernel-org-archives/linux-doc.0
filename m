@@ -5,76 +5,320 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 248B67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 13:22:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 234CF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 14:19:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730244AbfIBNWz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Sep 2019 09:22:55 -0400
-Received: from mga14.intel.com ([192.55.52.115]:22003 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729889AbfIBNWz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Sep 2019 09:22:55 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Sep 2019 06:22:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,459,1559545200"; 
-   d="scan'208";a="333565086"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004.jf.intel.com with ESMTP; 02 Sep 2019 06:22:52 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1i4mIE-0002S7-GQ; Mon, 02 Sep 2019 16:22:50 +0300
-Date:   Mon, 2 Sep 2019 16:22:50 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        linux-doc@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v2] dma-mapping: Fix filename references
-Message-ID: <20190902132250.GM2680@smile.fi.intel.com>
-References: <20190619141956.65696-1-andriy.shevchenko@linux.intel.com>
- <20190813144222.GF30120@smile.fi.intel.com>
- <20190813144536.GA7961@lst.de>
+        id S1726438AbfIBOT6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Sep 2019 10:19:58 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55138 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731097AbfIBOT5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Sep 2019 10:19:57 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E4503AEE0;
+        Mon,  2 Sep 2019 14:19:55 +0000 (UTC)
+Subject: Re: [PATCH 1/5] drm/ttm: add drm_gem_ttm_print_info()
+To:     Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>
+References: <20190902124126.7700-1-kraxel@redhat.com>
+ <20190902124126.7700-2-kraxel@redhat.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
+Date:   Mon, 2 Sep 2019 16:19:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813144536.GA7961@lst.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190902124126.7700-2-kraxel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="cjdjp9ulf2nRxuOF8VQ8GWyCSJ89L0qOD"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 04:45:36PM +0200, Christoph Hellwig wrote:
-> On Tue, Aug 13, 2019 at 05:42:22PM +0300, Andy Shevchenko wrote:
-> > On Wed, Jun 19, 2019 at 05:19:55PM +0300, Andy Shevchenko wrote:
-> > > After the commit cf65a0f6f6ff
-> > > 
-> > >   ("dma-mapping: move all DMA mapping code to kernel/dma")
-> > > 
-> > > some of the files are referring to outdated information, i.e. old file names
-> > > of DMA mapping sources.
-> > > 
-> > > Fix it here.
-> > > 
-> > > Note, the lines with "Glue code for..." have been removed completely.
-> > 
-> > Any comment on this?
-> 
-> Fine with me, and I also agree with the glue code comment.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cjdjp9ulf2nRxuOF8VQ8GWyCSJ89L0qOD
+Content-Type: multipart/mixed; boundary="2ENU1Q48nBJiWetPUBub11NB9hTIhOfj1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
+Message-ID: <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
+Subject: Re: [PATCH 1/5] drm/ttm: add drm_gem_ttm_print_info()
+References: <20190902124126.7700-1-kraxel@redhat.com>
+ <20190902124126.7700-2-kraxel@redhat.com>
+In-Reply-To: <20190902124126.7700-2-kraxel@redhat.com>
 
-Are you going to apply this?
+--2ENU1Q48nBJiWetPUBub11NB9hTIhOfj1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hi
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+But please see below.
+
+Am 02.09.19 um 14:41 schrieb Gerd Hoffmann:
+> Now with ttm_buffer_object being a subclass of drm_gem_object we can
+> easily lookup ttm_buffer_object for a given drm_gem_object, which in
+> turm allows to create common helper functions.
+
+s/trum/trun
+
+>=20
+> This patch starts off with a drm_gem_ttm_print_info() helper function
+> which prints adds some ttm specific lines to the debug output.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/drm/drm_gem_ttm_helper.h     | 19 ++++++++
+>  drivers/gpu/drm/drm_gem_ttm_helper.c | 67 ++++++++++++++++++++++++++++=
+
+>  Documentation/gpu/drm-mm.rst         | 12 +++++
+>  drivers/gpu/drm/Kconfig              |  7 +++
+>  drivers/gpu/drm/Makefile             |  3 ++
+>  5 files changed, 108 insertions(+)
+>  create mode 100644 include/drm/drm_gem_ttm_helper.h
+>  create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
+>=20
+> diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm=
+_helper.h
+> new file mode 100644
+> index 000000000000..6268f89c5a48
+> --- /dev/null
+> +++ b/include/drm/drm_gem_ttm_helper.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +
+> +#ifndef DRM_GEM_TTM_HELPER_H
+> +#define DRM_GEM_TTM_HELPER_H
+> +
+> +#include <linux/kernel.h>
+> +
+> +#include <drm/drm_gem.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/ttm/ttm_bo_api.h>
+> +#include <drm/ttm/ttm_bo_driver.h>
+> +
+> +#define drm_gem_ttm_of_gem(gem_obj) \
+> +	container_of(gem_obj, struct ttm_buffer_object, base)
+> +
+> +void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent=
+,
+> +			    const struct drm_gem_object *gem);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm=
+_gem_ttm_helper.c
+> new file mode 100644
+> index 000000000000..cd6ac2cc8fdd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
+> @@ -0,0 +1,67 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/module.h>
+> +
+> +#include <drm/drm_gem_ttm_helper.h>
+> +
+> +/**
+> + * DOC: overview
+> + *
+> + * This library provides helper functions for gem objects backed by
+> + * ttm.
+> + */
+> +
+> +/**
+> + * drm_gem_ttm_print_info() - Print &ttm_buffer_object info for debugf=
+s
+> + * @p: DRM printer
+> + * @indent: Tab indentation level
+> + * @gem: GEM object
+> + *
+> + * This function can be used as the &drm_driver->gem_print_info callba=
+ck.
+> + */
+> +void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent=
+,
+> +			    const struct drm_gem_object *gem)
+> +{
+> +	static const char *plname[] =3D {
+
+The array and the strings should be declared const. IIRC something like
+
+  static const char * const plname[] =3D {
+
+> +		[ TTM_PL_SYSTEM ] =3D "system",
+> +		[ TTM_PL_TT     ] =3D "tt",
+> +		[ TTM_PL_VRAM   ] =3D "vram",
+> +		[ TTM_PL_PRIV   ] =3D "priv",
+> +
+
+This 'gap' in the array seems to be a problem for drivers that use these
+bits. Could the print logic be moved into s separate function that also
+takes the array as an argument?
+
+Best regards
+Thomas
+
+> +		[ 16 ]            =3D "cached",
+> +		[ 17 ]            =3D "uncached",
+> +		[ 18 ]            =3D "wc",
+> +		[ 19 ]            =3D "contig",
+> +
+> +		[ 21 ]            =3D "pinned", /* NO_EVICT */
+> +		[ 22 ]            =3D "topdown",
+> +	};
+> +	const struct ttm_buffer_object *bo =3D drm_gem_ttm_of_gem(gem);
+> +	bool first =3D true;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(plname); i++) {
+> +		if (!(bo->mem.placement & (1 << i)))
+> +			continue;
+> +		if (!plname[i])
+> +			continue;
+> +		if (first) {
+> +			first =3D false;
+> +			drm_printf_indent(p, indent, "placement=3D%s", plname[i]);
+> +		} else
+> +			drm_printf(p, ",%s", plname[i]);
+> +	}
+> +	if (!first)
+> +		drm_printf(p, "\n");
+> +
+> +	if (bo->mem.bus.is_iomem) {
+> +		drm_printf_indent(p, indent, "bus.base=3D%lx\n",
+> +				  (unsigned long)bo->mem.bus.base);
+> +		drm_printf_indent(p, indent, "bus.offset=3D%lx\n",
+> +				  (unsigned long)bo->mem.bus.offset);
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_gem_ttm_print_info);
+> +
+> +MODULE_DESCRIPTION("DRM gem ttm helpers");
+> +MODULE_LICENSE("GPL");
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rs=
+t
+> index b664f054c259..a70a1d9f30ec 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
+>  .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
+>     :export:
+> =20
+> +GEM TTM Helper Functions Reference
+> +-----------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
+> +   :doc: overview
+> +
+> +.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
+> +   :export:
+> +
+>  VMA Offset Manager
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index e6f40fb54c9a..f7b25519f95c 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
+>  	help
+>  	  Helpers for VRAM memory management
+> =20
+> +config DRM_TTM_HELPER
+> +	tristate
+> +	depends on DRM
+> +	select DRM_TTM
+> +	help
+> +	  Helpers for ttm-based gem objects
+> +
+>  config DRM_GEM_CMA_HELPER
+>  	bool
+>  	depends on DRM
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 10f8329a8b71..545c61d6528b 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -37,6 +37,9 @@ drm_vram_helper-y :=3D drm_gem_vram_helper.o \
+>  		     drm_vram_mm_helper.o
+>  obj-$(CONFIG_DRM_VRAM_HELPER) +=3D drm_vram_helper.o
+> =20
+> +drm_ttm_helper-y :=3D drm_gem_ttm_helper.o
+> +obj-$(CONFIG_DRM_TTM_HELPER) +=3D drm_ttm_helper.o
+> +
+>  drm_kms_helper-y :=3D drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_=
+probe_helper.o \
+>  		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
+>  		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
 
 
+--2ENU1Q48nBJiWetPUBub11NB9hTIhOfj1--
+
+--cjdjp9ulf2nRxuOF8VQ8GWyCSJ89L0qOD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1tJQoACgkQaA3BHVML
+eiOHcAf3VTUaB9PMaditKrmiH36Jt8ohPz8W0pa/SFXIDg+YKId36BTBxbxJXUcK
+p+nD1ZL39TxMbHYORl0vQpJIzef1JKSu3NMGZa5UuErPpEoerqsXf90Ua7tkJHGv
+DsC/N8hcjirwkaQoXGL2eJoaRyb8mrlzb57NQ1evN7iIpJT1++Pto2w7UqclTixp
+lr1+Bqi+pHhzwGx7zkTLlcgxxIzoVwC66Pin9EEnrmxCSm5cHRKzXj8kSCsZTejo
+Ls/nk4dCAw3+WRIMA1789qxKZjWHqQh0vPPSZBYnq/TV24rgnkzbg9FF28uEU9Bi
+9DSR9YP3QZprzRfogKEY00LNa3Y8
+=UtGE
+-----END PGP SIGNATURE-----
+
+--cjdjp9ulf2nRxuOF8VQ8GWyCSJ89L0qOD--
