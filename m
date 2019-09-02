@@ -1,66 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 694D47D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 20:21:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4462D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Sep 2019 21:07:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbfIBUVf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Sep 2019 16:21:35 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56534 "EHLO ms.lwn.net"
+        id S1726881AbfIBVHI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Sep 2019 17:07:08 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:12090 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726518AbfIBUVf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Sep 2019 16:21:35 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4487530D;
-        Mon,  2 Sep 2019 20:21:34 +0000 (UTC)
-Date:   Mon, 2 Sep 2019 14:21:33 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
+        id S1726860AbfIBVHI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Sep 2019 17:07:08 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 67D68829;
+        Mon,  2 Sep 2019 23:07:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1567458426; x=1569272827; bh=WuXCxjOvHNPIr4f4FJI2dIbj/gOBpQVskgt
+        sRbojjiE=; b=lli5Txam2/ig+K9Eqk0TUyex2OEYzqaDfAazREZIKUxi0V1oZ2x
+        LIuc4CoFrPa2cTCiLnu+B2dKkco8lLeZj+X/MC48C7fzU6LxYJ+tKQoBhQiagrgw
+        vQ4HSTVxEKbgnp9NBVXKJnqpPtA24xpMsbc5buG1WY2Nobad0iIvKct1BlPaHTFx
+        kt0osiY0f6QC9sK9y/jKs7fPM883xB0UV29xsJwMrhLKZ2vg+TYct6wwiMesvm8+
+        xxWWoEJZmlzwb+ia+3+bhEg6DIlTu4YrUka5jKSn8KxSKHP2xh9I14+MwZNCX7DG
+        1aBGd4g8ALzCE6SKVFWF+s2apb0cBdi6VCPcoX4B/BFA+fXrUQsWbSt71VOLXEW4
+        R49/vuT14W0/IMA2UXseumSLacVQEReynC84aUD9O+lwxBdHHlVouz07Q4eQDXmP
+        D68hNeY0AdN176XVQ5YHnXA72M9E8ZBJtVYvzRqEADGgKaH06xeeNEmXyKp9eBG2
+        +vwMuZVel9yRI2kJYndY6SFikvTKajXs4riT8X/B5zFpUYBia3FG9NEO9Fd6BBOj
+        TyiLC/8iK7RSOBuwDOa0tqwg9fj8VDh3gA1ufel6Bh2BwWQ+sUsVAe7VhoRClX8R
+        LhjUQ7LewZWHLEiPrCj+wq4GpjRR9DikZgXwdc4Dq+OllSWgR+nwQ5DA=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FSSCfrSDwaJL; Mon,  2 Sep 2019 23:07:06 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 28EF1812;
+        Mon,  2 Sep 2019 23:07:05 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id A70964EF3;
+        Mon,  2 Sep 2019 23:07:05 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Ingo Molnar <mingo@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc:lock: remove reference to clever use of read-write
- lock
-Message-ID: <20190902142133.37e106af@lwn.net>
-In-Reply-To: <4627860.yBeiQmOknq@harkonnen>
-References: <20190831134116.25417-1-federico.vaga@vaga.pv.it>
-        <2216492.xyESGPMPG3@pcbe13614>
-        <20190902181010.GA35858@gmail.com>
-        <4627860.yBeiQmOknq@harkonnen>
-Organization: LWN.net
+Subject: Re: [PATCH] doc:lock: remove reference to clever use of read-write lock
+Date:   Mon, 02 Sep 2019 23:07:04 +0200
+Message-ID: <2901443.IPKE8n5AsX@harkonnen>
+In-Reply-To: <20190902142133.37e106af@lwn.net>
+References: <20190831134116.25417-1-federico.vaga@vaga.pv.it> <4627860.yBeiQmOknq@harkonnen> <20190902142133.37e106af@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 02 Sep 2019 21:19:24 +0200
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-
-> > > I am not used to the mathematical English jargon. It make sense, but then
-> > > I
-> > > would replace it with "If and only if": for clarity.  
-> > 
-> > While it's used in a number of places and it's pretty common wording
-> > overall in the literature, I agree that we should probably change this in
-> > locking API user facing documentation.  
+On Monday, September 2, 2019 10:21:33 PM CEST Jonathan Corbet wrote:
+> On Mon, 02 Sep 2019 21:19:24 +0200
 > 
-> I would say not only in locking/. The argument is valid for the entire 
-> Documentation/. I wait for Jon's opinion before proceeding.
+> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> > > > I am not used to the mathematical English jargon. It make sense, but
+> > > > then
+> > > > I
+> > > > would replace it with "If and only if": for clarity.
+> > > 
+> > > While it's used in a number of places and it's pretty common wording
+> > > overall in the literature, I agree that we should probably change this
+> > > in
+> > > locking API user facing documentation.
+> > 
+> > I would say not only in locking/. The argument is valid for the entire
+> > Documentation/. I wait for Jon's opinion before proceeding.
+> 
+> I don't really have a problem with "iff"; it doesn't seem like *that*
+> obscure a term to me.  But if you want spell it out, I guess I don't have
+> a problem with that.  We can change it - iff you send a patch to do it :)
 
-I don't really have a problem with "iff"; it doesn't seem like *that*
-obscure a term to me.  But if you want spell it out, I guess I don't have
-a problem with that.  We can change it - iff you send a patch to do it :)
+I do not mind too, once I got the meaning of IFF to *me* is clear and 
+translatable to SSE (i will not).
 
-Thanks,
+My opinion is that abbreviations should not be used in general. But it is a 
+weak opinion. I can do, and send, a patch
 
-jon
+> 
+> Thanks,
+> 
+> jon
+
+
+
+
