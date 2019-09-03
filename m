@@ -1,90 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE6257D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 05:37:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D1BD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 06:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfICFhk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Sep 2019 01:37:40 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38524 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbfICFhk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 01:37:40 -0400
-Received: by mail-wm1-f67.google.com with SMTP id o184so16567691wme.3;
-        Mon, 02 Sep 2019 22:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dHZB7av9ACZZKXwGXky8ptXmiuaPwp7UFQYgxLaFadk=;
-        b=ZHTJjC9mcxUyZllM3u90Dq/A9Yw5Ml0cRRfAWmttvW3PhUNPkzfuRj+UJHiRIKyB/u
-         pAJ2ZeFHTPoZNBEr4Y+DqpB/My5LeV69caKE2dozG5WuweRwPxubEDLwjKtnXZa2OzDP
-         o7EbjQxqtpZYs9NyIgRxzFBO0XK4rwzZLF5ZNwEwmLUVrh7Fj/X+fCgCEOd79v/ur7ht
-         W/1XrenehgzYcmw5h14CuA9YIeF1vaw4GVKXihhVjcECQSn4eMyRRFeLD3ERW+0NJhll
-         b6D3L+sYxr2DIPo2nw7cg95QyReGQcfJMA9a5bvNzTGkK6kgsix6BjJIPgot68XIfCon
-         z2iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dHZB7av9ACZZKXwGXky8ptXmiuaPwp7UFQYgxLaFadk=;
-        b=DouWJIz5GZiUBOa8nLIueVHyvw6mKeBHS4+X6YYnpEcy+bqI7IS6TfKC24tIILUc3X
-         4ZrSMRYN5uUUn3aZJftcPfcSPoM6sfwaKFYYVNWJUGpFhX2tQMROW3zR9tSJhC58v554
-         cUVkLUfpWfwZrpTg4U+9bW0sTUH6GZMfjKzqqmUgK+O9m79fef/Rb9KDrWT1tQrV6SAu
-         EouY6GR+oQ8F0cMASt1lTMj0i48FnCtbTvfbjdaOWbQjwz2dONLHvSMCSQenVfO5RvCm
-         GhNpB4/eaqtA7AClfftOFmJQZuMNuBZx6lWXSAQO1J8JNzC05qv/wseIlh8jwtB6hkkr
-         b9aA==
-X-Gm-Message-State: APjAAAXSfhoJaHDMWTKsWcPC99s2E3iHHsQTyVC3u4U8TuBP2OJ/S/82
-        6GeMSyNt+XQ3ed/STXWxAlw=
-X-Google-Smtp-Source: APXvYqy4lgkFGkl7Qf9buQYgHWfd2Vr+qRY5+MNXkk3jPv4O/wnCd+JJv5RYYpR6k0I+LpcLG5gKBQ==
-X-Received: by 2002:a7b:cf0a:: with SMTP id l10mr8284178wmg.4.1567489057760;
-        Mon, 02 Sep 2019 22:37:37 -0700 (PDT)
-Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
-        by smtp.gmail.com with ESMTPSA id f24sm16833876wmc.25.2019.09.02.22.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2019 22:37:37 -0700 (PDT)
-Date:   Mon, 2 Sep 2019 22:37:35 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] kbuild: rename KBUILD_ENABLE_EXTRA_GCC_CHECKS to
- KBUILD_EXTRA_WARN
-Message-ID: <20190903053735.GA56603@archlinux-threadripper>
-References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
- <20190831162555.31887-2-yamada.masahiro@socionext.com>
+        id S1726016AbfICGP2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Sep 2019 02:15:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56116 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725919AbfICGP1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Sep 2019 02:15:27 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id AD2173082E4E;
+        Tue,  3 Sep 2019 06:15:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-67.ams2.redhat.com [10.36.117.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 03A7E19D70;
+        Tue,  3 Sep 2019 06:15:25 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id A2AD346D3; Tue,  3 Sep 2019 08:15:24 +0200 (CEST)
+Date:   Tue, 3 Sep 2019 08:15:24 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH 1/5] drm/ttm: add drm_gem_ttm_print_info()
+Message-ID: <20190903061524.v75akt6rmx5vow2n@sirius.home.kraxel.org>
+References: <20190902124126.7700-1-kraxel@redhat.com>
+ <20190902124126.7700-2-kraxel@redhat.com>
+ <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190831162555.31887-2-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 03 Sep 2019 06:15:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 01, 2019 at 01:25:55AM +0900, Masahiro Yamada wrote:
-> KBUILD_ENABLE_EXTRA_GCC_CHECKS started as a switch to add extra warning
-> options for GCC, but now it is a historical misnomer since we use it
-> also for Clang, DTC, and even kernel-doc.
-> 
-> Rename it to more sensible, and shorter KBUILD_EXTRA_WARN.
-> 
-> For the backward compatibility, KBUILD_ENABLE_EXTRA_GCC_CHECKS is still
-> supported (but not advertised in the documentation).
-> 
-> I also fixed up 'make help', and updated the documentation.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+  Hi,
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> > +		[ TTM_PL_SYSTEM ] = "system",
+> > +		[ TTM_PL_TT     ] = "tt",
+> > +		[ TTM_PL_VRAM   ] = "vram",
+> > +		[ TTM_PL_PRIV   ] = "priv",
+> > +
+> 
+> This 'gap' in the array seems to be a problem for drivers that use these
+> bits. Could the print logic be moved into s separate function that also
+> takes the array as an argument?
+
+Are there any drivers which actually use these bits and which therefore
+might want to use a different array?
+
+Also note they should not cause any problems (other than not being
+printed).  There is an explicit check here ...
+
+> > +		if (!plname[i])
+> > +			continue;
+
+.. to skip unknown bits.
+
+cheers,
+  Gerd
+
