@@ -1,99 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F8747D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 02:38:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 856C27D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 03:07:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfICCi3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Sep 2019 22:38:29 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47932 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbfICCi3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Sep 2019 22:38:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=//Ea53kN5rE79WQGkQIGYNCPvD/egheDqPPhkUd4fxw=; b=NYROjrDDbZMFrJbuXg65KL4yE
-        XY6uZgPHqEvyrXNqvhpZEMzIgtRuXkEsAHPihUjGXz6YkRmJEmSArhNQN3VbtoDvVAXfpAw+LCIl2
-        nl7lVpnSG/OWG7j26uNhfRw2piBo5OG5eo68Siz/A6Jdafzi1CtFb1ed1SNp6F7CWAejwXkHEvONy
-        eVQ/JcIql9XqPGnhYH8KM4ZuqhNojbLzWjdVJunbSEvjTsCrTm8sYaIZUbByUDjxTCglysouGtIJx
-        KX5uLNWoJxj4RhDU2eICUZ8saSMP5quSugoHuKgtX6m3CANHd4Ddwx7LzRsAVG+OBL90x1ljUnD0V
-        JQl5X+F+Q==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i4yi6-0000V9-R1; Tue, 03 Sep 2019 02:38:22 +0000
-Date:   Mon, 2 Sep 2019 19:38:22 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc:lock: remove reference to clever use of read-write
- lock
-Message-ID: <20190903023822.GB29434@bombadil.infradead.org>
-References: <20190831134116.25417-1-federico.vaga@vaga.pv.it>
- <2216492.xyESGPMPG3@pcbe13614>
- <20190902181010.GA35858@gmail.com>
- <4627860.yBeiQmOknq@harkonnen>
- <20190902142133.37e106af@lwn.net>
+        id S1725813AbfICDHh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Sep 2019 23:07:37 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33626 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725807AbfICDHg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Sep 2019 23:07:36 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n190so8312479pgn.0;
+        Mon, 02 Sep 2019 20:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=uAKNKTEPFk1mVQ1+Q6BKvm0iGSLi1ciDyCpkJPyNehw=;
+        b=JcVosbshXiWymuUsBObokDYauCjKU0VfvBpioyzqVuMAnCQa7+VwRDf+RMdak46X50
+         0BUJRroacR9FuBp0fDFKXksCsM4Fun6pP3Pv1SRjd75caVrPdLf2uWWx1xsZLY+KyEC3
+         603x6XoemMEs7vA7XneTM7pKK2Mh6ymiAgupVzhX+R8ynUeO2hZ22m+FPMZ4InGtLsY6
+         vEq2BgODhmHOcSfgqlObA/l8BVOZ0i8AeAILu81RuWm4n8gtidq+b2tuLXOzyj4D+MOA
+         9ayRDZD/Wfx1Qri0sM49idSFxrb0XD5Bd63CGxbctFSWLbgg+nJqMXdBcf+vi775X4Ib
+         kpjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=uAKNKTEPFk1mVQ1+Q6BKvm0iGSLi1ciDyCpkJPyNehw=;
+        b=ETx3asnQEoo3V9NRHIZlTN8O/cUmqIlLRG0S+shHQOtJ4yHjFGhmKKk3SGHBaSLerH
+         LvupkP+KW+cZv2YCvRolzl0Me7Xy14EF5pMhjYxbxTVnYOfzsw9amM4VYqdmgwrLbVas
+         MtrBOxxJn7FmxpkOrF9tDyfhm53F/hrR4lbvy5lhQjvgbIIyn96ikSDTPUXajLb2mtNY
+         Ql1BqsZKSxppDwEZ0OIzpl/yidOHKD0Br1ZKtJyOuFxfloEIWv6ZTJVMQ8bCY0dTAXBg
+         eMK4ZYFDJO5ixXKbGbFDVOn4aE2W6VQ9DKeIl/3Nh4fFajAY4MKfIpZ3LnrAC8RscVaP
+         iHRA==
+X-Gm-Message-State: APjAAAXVMvIBHDaGSMnil+966yOphezPT5MOwkg/AJA2E+OREVa8VsCJ
+        AoTbtF8tOuw4UxYqNipgBsLYfJs7Z0k=
+X-Google-Smtp-Source: APXvYqyItemcIN/Oa2zFnFhC5SQ+uWBBZu0bF3vV7xBRx1fvs/iqvGRKUr1GPfi5PJEblut+UBD35w==
+X-Received: by 2002:a17:90a:248c:: with SMTP id i12mr10389198pje.130.1567480055910;
+        Mon, 02 Sep 2019 20:07:35 -0700 (PDT)
+Received: from [0.0.0.0] (82.ip-201-30-69.topnewsphil.com. [69.30.201.82])
+        by smtp.gmail.com with ESMTPSA id g18sm14703807pgm.9.2019.09.02.20.07.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2019 20:07:35 -0700 (PDT)
+To:     harryxiyou@gmail.com, alex.shi@linux.alibaba.com
+Cc:     corbet@lwn.net, robh@kernel.org, mchehab+samsung@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   lixianfa <lixianfa.official@gmail.com>
+Subject: [PATCH] doc: arm64: fix grammar dtb placed in no attributes region
+Message-ID: <3fe85082-6788-c693-c18f-4c029a3d093c@gmail.com>
+Date:   Tue, 3 Sep 2019 11:07:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190902142133.37e106af@lwn.net>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 02, 2019 at 02:21:33PM -0600, Jonathan Corbet wrote:
-> On Mon, 02 Sep 2019 21:19:24 +0200
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> 
-> > > > I am not used to the mathematical English jargon. It make sense, but then
-> > > > I
-> > > > would replace it with "If and only if": for clarity.  
-> > > 
-> > > While it's used in a number of places and it's pretty common wording
-> > > overall in the literature, I agree that we should probably change this in
-> > > locking API user facing documentation.  
-> > 
-> > I would say not only in locking/. The argument is valid for the entire 
-> > Documentation/. I wait for Jon's opinion before proceeding.
-> 
-> I don't really have a problem with "iff"; it doesn't seem like *that*
-> obscure a term to me.  But if you want spell it out, I guess I don't have
-> a problem with that.  We can change it - iff you send a patch to do it :)
+Fix grammar dtb placed in no attributes region.
+This makes Chinese translation smooth to read.
 
-$ git grep -iwc iff Documentation
-Documentation/admin-guide/cgroup-v1/blkio-controller.rst:1
-Documentation/admin-guide/cgroup-v1/cgroups.rst:1
-Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst:2
-Documentation/admin-guide/cgroup-v2.rst:1
-Documentation/devicetree/bindings/media/st-rc.txt:2
-Documentation/devicetree/bindings/net/ibm,emac.txt:5
-Documentation/devicetree/bindings/pinctrl/pinctrl-st.txt:1
-Documentation/driver-api/libata.rst:1
-Documentation/features/scripts/features-refresh.sh:1
-Documentation/filesystems/directory-locking:1
-Documentation/i2c/i2c-topology:3
-Documentation/ioctl/hdio.rst:1
-Documentation/locking/spinlocks.rst:1
-Documentation/locking/ww-mutex-design.rst:1
-Documentation/scsi/scsi_eh.txt:2
-Documentation/spi/spidev:2
-Documentation/trace/ring-buffer-design.txt:1
-Documentation/virt/kvm/api.txt:1
-Documentation/virt/kvm/halt-polling.txt:1
+Signed-off-by: lixinafa <lixinafa.official@gmail.com>
+---
+ Documentation/translations/zh_CN/arm64/booting.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-(29 total)
+diff --git a/Documentation/translations/zh_CN/arm64/booting.txt b/Documentation/translations/zh_CN/arm64/booting.txt
+index 4e373d1..5b01641 100644
+--- a/Documentation/translations/zh_CN/arm64/booting.txt
++++ b/Documentation/translations/zh_CN/arm64/booting.txt
+@@ -67,8 +67,8 @@ RAM，或可能使用对这个设备已知的 RAM 信息，还可能是引导装
+ 必要性: 强制
 
-Of course that doesn't count any in kernel-doc.
+ 设备树数据块（dtb）必须 8 字节对齐，且大小不能超过 2MB。由于设备树
+-数据块将在使能缓存的情况下以 2MB 粒度被映射，故其不能被置于带任意
+-特定属性被映射的 2MB 区域内。
++数据块将在使能缓存的情况下以 2MB 粒度被映射，故其不能被置于必须以特定
++属性映射的2M区域内。
+
+ 注： v4.2 之前的版本同时要求设备树数据块被置于从内核映像以下
+ text_offset 字节处算起第一个 512MB 内。
+--
+1.8.3.1
