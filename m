@@ -1,98 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFF2B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 12:45:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6AA67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 16:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729090AbfICMpa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Sep 2019 08:45:30 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46300 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728983AbfICMpa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 08:45:30 -0400
-Received: by mail-ed1-f65.google.com with SMTP id i8so4670401edn.13;
-        Tue, 03 Sep 2019 05:45:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=YuU5Kut51UGWatXnkAlIqGxLpuRa0KTrEmrDc7CWAno=;
-        b=VICwTZtkx0EwcMMTSSNqVxyf3gaKYP7SJXhh+ZkgC2V1+F1u3N36Iy///DzVa7chvU
-         pbQ6hBFRGHTwYG5DXg2c3AdLw2k7Vf4lGDoxjtOf74DDVNIjpZ8n+cUPuJdzHaKIZ4LI
-         MipwS2A5pFZChQAoR+/feK0BSk25KFVVE71VNvTW8m+xdoti28o95xXcH1iGmpr65ShQ
-         osQoHMcNkq4JvNRfDLkh84N5Jx6AEGaaqEe+Uqq4bZu5kbXoFoxgHY75OWhdikDK42gw
-         5A8skVtrqm4H/yGrbPtXXIn9xIK+Nz5EmVU3ZGtGmE16yjMyUMeEgm/wWJ2CqGOTatA9
-         bTbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YuU5Kut51UGWatXnkAlIqGxLpuRa0KTrEmrDc7CWAno=;
-        b=sjXvi9M5Atm/tyYpeOt5b8L/FH/natyxK5Y1A5Ohp4vOQ778cHFzkTAGBy593TcPwy
-         D/K+SC+8XFns6cjTP9wP/XtQSt43Juw8T6VeyPWDsq2j67S16dw+Anx3TrOM4WwmBgui
-         xaB3PyqOzi3La69nneVYjYVNwLi0VkRbtNtcYltqWOlteg5CBk6WsZZatQSXsJkz8HJv
-         wQF4Z1rrfoSYQlWFYlxO2CsnrQEJD+E4tLC/Tu3ueeKIG6ZY1G85jNUW6vMhx42ALgaB
-         k1TektsPOOr8vFJzYqv1pnv5ng83/bRoBpPhYwd9HTP0MqqoKSzp8Uxr5KBaw8j8GCEP
-         z40A==
-X-Gm-Message-State: APjAAAVcEqonRZt0tBMKPTdEWnNtEZWJWn+nuS4h6lpAHuTROk7U8XfL
-        gT50weWfAS0CGK7hbGddBvg=
-X-Google-Smtp-Source: APXvYqxLfYP7dNCG8E1yxQOGrRDglt2Kt2HKST4ZJffgNCqtameGmym6UUiDn6xM6ap7QmGZTxxx4w==
-X-Received: by 2002:aa7:c353:: with SMTP id j19mr36340105edr.292.1567514728173;
-        Tue, 03 Sep 2019 05:45:28 -0700 (PDT)
-Received: from ls00508.pb.local ([2001:1438:4010:2540:d18b:bb02:c1af:62c1])
-        by smtp.gmail.com with ESMTPSA id r13sm3418061edb.16.2019.09.03.05.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2019 05:45:27 -0700 (PDT)
-From:   Guoqing Jiang <jgq516@gmail.com>
-X-Google-Original-From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-To:     dledford@redhat.com, jgg@ziepe.ca, corbet@lwn.net
-Cc:     linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Subject: [PATCH] Documentation/infiniband: update name of some functions
-Date:   Tue,  3 Sep 2019 14:45:19 +0200
-Message-Id: <20190903124519.28318-1-guoqing.jiang@cloud.ionos.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729169AbfICQIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Sep 2019 12:08:50 -0400
+Received: from tartarus.angband.pl ([54.37.238.230]:46552 "EHLO
+        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728679AbfICQIu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 12:08:50 -0400
+Received: from [2a02:a31c:853f:a300::4] (helo=valinor.angband.pl)
+        by tartarus.angband.pl with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <kilobyte@angband.pl>)
+        id 1i5BML-0005on-BJ; Tue, 03 Sep 2019 18:08:47 +0200
+Received: from kilobyte by valinor.angband.pl with local (Exim 4.92.1)
+        (envelope-from <kilobyte@valinor.angband.pl>)
+        id 1i5BMK-000EhM-Ch; Tue, 03 Sep 2019 18:08:44 +0200
+From:   Adam Borowski <kilobyte@angband.pl>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Adam Borowski <kilobyte@angband.pl>
+Date:   Tue,  3 Sep 2019 18:08:40 +0200
+Message-Id: <20190903160840.56652-1-kilobyte@angband.pl>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a02:a31c:853f:a300::4
+X-SA-Exim-Mail-From: kilobyte@angband.pl
+Subject: [PATCH] Documentation: sysrq: don't recommend 'S' 'U' before 'B'
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on tartarus.angband.pl)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the document since those functions had been renamed in below.
+This advice is obsolete and slightly harmful for filesystems from this
+millenium: any modern filesystem can handle unexpected crashes without
+requiring fsck -- and on the other hand, trying to write to the disk when
+the kernel is in a bad state risks introducing corruption.
 
-commit 0a18cfe4f6d7d ("IB/core: Rename ib_create_ah to rdma_create_ah")
-commit 67b985b6c7553 ("IB/core: Rename ib_modify_ah to rdma_modify_ah")
-commit bfbfd661c9ea2 ("IB/core: Rename ib_query_ah to rdma_query_ah")
-commit 365231593409f ("IB/core: Rename ib_destroy_ah to rdma_destroy_ah")
+For ext2, any unsafe shutdown meant widespread breakage, but it's no longer
+a reasonable filesystem for any non-special use.
 
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
+Signed-off-by: Adam Borowski <kilobyte@angband.pl>
 ---
- Documentation/infiniband/core_locking.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/sysrq.rst | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/infiniband/core_locking.rst b/Documentation/infiniband/core_locking.rst
-index f34669beb4fe..8f76a8a5a38f 100644
---- a/Documentation/infiniband/core_locking.rst
-+++ b/Documentation/infiniband/core_locking.rst
-@@ -29,10 +29,10 @@ Sleeping and interrupt context
-   The corresponding functions exported to upper level protocol
-   consumers:
+diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+index 7b9035c01a2e..72b2cfb066f4 100644
+--- a/Documentation/admin-guide/sysrq.rst
++++ b/Documentation/admin-guide/sysrq.rst
+@@ -171,22 +171,20 @@ It seems others find it useful as (System Attention Key) which is
+ useful when you want to exit a program that will not let you switch consoles.
+ (For example, X or a svgalib program.)
  
--    - ib_create_ah
--    - ib_modify_ah
--    - ib_query_ah
--    - ib_destroy_ah
-+    - rdma_create_ah
-+    - rdma_modify_ah
-+    - rdma_query_ah
-+    - rdma_destroy_ah
-     - ib_post_send
-     - ib_post_recv
-     - ib_req_notify_cq
+-``reboot(b)`` is good when you're unable to shut down. But you should also
+-``sync(s)`` and ``umount(u)`` first.
++``reboot(b)`` is good when you're unable to shut down, it is an equivalent
++of pressing the "reset" button.
+ 
+ ``crash(c)`` can be used to manually trigger a crashdump when the system is hung.
+ Note that this just triggers a crash if there is no dump mechanism available.
+ 
+-``sync(s)`` is great when your system is locked up, it allows you to sync your
+-disks and will certainly lessen the chance of data loss and fscking. Note
+-that the sync hasn't taken place until you see the "OK" and "Done" appear
+-on the screen. (If the kernel is really in strife, you may not ever get the
+-OK or Done message...)
++``sync(s)`` is handy before yanking removable medium or after using a rescue
++shell that provides no graceful shutdown -- it will ensure your data is
++safely written to the disk. Note that the sync hasn't taken place until you see
++the "OK" and "Done" appear on the screen.
+ 
+-``umount(u)`` is basically useful in the same ways as ``sync(s)``. I generally
+-``sync(s)``, ``umount(u)``, then ``reboot(b)`` when my system locks. It's saved
+-me many a fsck. Again, the unmount (remount read-only) hasn't taken place until
+-you see the "OK" and "Done" message appear on the screen.
++``umount(u)`` can be used to mark filesystems as properly unmounted. From the
++running system's point of view, they will be remounted read-only. The remount
++isn't complete until you see the "OK" and "Done" message appear on the screen.
+ 
+ The loglevels ``0``-``9`` are useful when your console is being flooded with
+ kernel messages you do not want to see. Selecting ``0`` will prevent all but
 -- 
-2.17.1
+2.23.0
 
