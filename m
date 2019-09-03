@@ -1,257 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCB447D919
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 10:56:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 667E87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 11:14:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728783AbfICK4h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Sep 2019 06:56:37 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36516 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728288AbfICK4h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 06:56:37 -0400
-Received: by mail-ed1-f67.google.com with SMTP id g24so18129869edu.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2019 03:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KQW5ksUhth30PvkhQFOylQR/xNf82JELFG+PaoKpjl8=;
-        b=HCr/Ff4IC/t1ZweR3epw+151TIAAyUjN8ycson8ojpS3AhP6c8Zv7sFnCOjT6VZ/Yy
-         zIObkyOxQvQj6T+Jdzqtq5Ckw8l/tUiDTOsQ81a6J1ZJBgR5KsvFRapTdTSy8yXFa2IG
-         UCOlXa0LmS3X5OSSSqWIEqdw0LaIv2c7Orm0U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=KQW5ksUhth30PvkhQFOylQR/xNf82JELFG+PaoKpjl8=;
-        b=H2d0QixkNvVQVVD7iaO/bHIqvKJ/0onPrG+bvUvZ0p0S8Kr6wGz/2BypRaddYBvAaJ
-         Brp3LSEhBP2p9fY4ioCqrqZotsgcONEVuVkX+Quj/nx9eEOq+tXwdx5Z9VwTe894CV44
-         vudvye3EipFvdj5qhRkQwS6e3oTnvj6HgcVadG7w4alaEEweA0CxdEcn+WOvI0eAlpiQ
-         VFKzU149fdDSgPrW3G6/s/ja0ldsso5Hvkk8qadtKC1MXFkFI12m/1/VR3qsBWooPG3r
-         VVB7mFR/ryP2sGO83gBarieBy867FWbSSngtddZmNWag0ymuAQ5kTd0V32mGdUeSnHU/
-         Aerw==
-X-Gm-Message-State: APjAAAXSLu31jsg8NrAa8A+XYrjAGzS14IvfJMnISFCvkmdpQ7WBtc39
-        znQbZJ7DMwZ/XoFBVVtj2vO5JA==
-X-Google-Smtp-Source: APXvYqyrII1RCMo80LZV/0pNv78bxoT8GQ59T3vfIdsTL9O6A4nYU+5Hh5B7//NyoCQMO9Nd1XqAQQ==
-X-Received: by 2002:a17:906:80cd:: with SMTP id a13mr4565145ejx.155.1567508194892;
-        Tue, 03 Sep 2019 03:56:34 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id u27sm122992edb.48.2019.09.03.03.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2019 03:56:34 -0700 (PDT)
-Date:   Tue, 3 Sep 2019 12:56:32 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/6] drm/ttm: add drm gem ttm helpers, starting with
- drm_gem_ttm_print_info()
-Message-ID: <20190903105631.GV2112@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
-        dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20190903101248.12879-1-kraxel@redhat.com>
- <20190903101248.12879-3-kraxel@redhat.com>
+        id S1728490AbfICLOT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Sep 2019 07:14:19 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:31892 "EHLO
+        mx0a-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728288AbfICLOS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 07:14:18 -0400
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+        by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x83B9s0W015813;
+        Tue, 3 Sep 2019 04:14:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=TZ8nGziQlW+a5wDYdKs45iTjnMlJb/mQyXTuDUvImg8=;
+ b=0V5IOIYuyRJp7r8Bc4Yh5keRynJVjGf5YFLHbh9t6amiwNJ+eap6/sKzZOUpz5mPPdvU
+ nlLxN4Wbm/n6/2ydwUFlkNHyRLIGEn/9j+CrGVRKDugJvKgvrFWgWy6KsG6GqIPlTM80
+ H8h4zimw5qRSa5oUqOpc8s+GN9/ff2KO8qqUVTyvBzdDFEZu70XMdFTOC6lhJxVbDw1r
+ CFeSXbhrhqgieKEIgMuePML2NtfJ50xwcMsRU1GNGKGlJruLj+6XyfF10xicLugjUMX1
+ aMqc98hg3l1l9nLh6BZs7tCrT3sH8W4wVF2GRPUzevaMcO4CpXVXKnqLlUoLrJAyPQXB SA== 
+Received: from nam01-by2-obe.outbound.protection.outlook.com (mail-by2nam01lp2052.outbound.protection.outlook.com [104.47.34.52])
+        by mx0a-002c1b01.pphosted.com with ESMTP id 2uqqyg4r6d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 03 Sep 2019 04:14:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FZyzB3zzN1gHl00s0NV/Ds0r4o3Y9wUR3Nsu6E/Oeknpt/CoEhYtIyFOzBB07O0q8S56/fsBl6FSLIpsH+fggfd8gPYOnvcHgPUG8IEkGAvXW1cD4aeO4ksvVRdgWTWygOL586CNzRVEIGDx055H8rHTN0DJE1BdQ/oOlpfBhurhiGRDWtG7g358ns4uGtZUbnSSGxA0lNcIvP1HOG+NJy5J8H9qrKkTov1m5aw8eSijYIIp507neKbQijib0bPL9vC7UDqDKxOnD6BeXfbX62q04mAmWmOAKT1mwTHS2PyEGPFbG8+58CrZ7A8dLtj9N5f03xpyb4FcYsfL0WuINQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TZ8nGziQlW+a5wDYdKs45iTjnMlJb/mQyXTuDUvImg8=;
+ b=FPDgTbi8/V27eCyFzeJ1ll7xYcpX01ds/tnrEkvlr9eKNW8hY96NM25mE68kIqWY8+vjMbiIJm9ju4xX7IL7xN2uUE6Ch4qvdHscrMQBjYcKqV7dBilCXF47SsGnRappgsyLY+xXhNaHiBUTIgmtSNfHitf9LuVEIV82jG6frR/oDrbSJ8g9m0s9uxTM448EPJhygniwqwvKI6DBsJ5xjizG1F5frRaPv1Ev/BPOWnFNAPgClkUGF94TF3oQSXbDQSjtyUvNnCb4HdJ5ifCFWtLN/ZONHw7Qzg2AdxIgFJXXkRekadM/khdbcZ2L+ZNsuSf3o23D9PLZBeGjOPRwAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com (52.132.98.38) by
+ CY4PR0201MB3409.namprd02.prod.outlook.com (52.132.98.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Tue, 3 Sep 2019 11:14:08 +0000
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737]) by CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737%6]) with mapi id 15.20.2199.021; Tue, 3 Sep 2019
+ 11:14:08 +0000
+From:   Florian Schmidt <florian.schmidt@nutanix.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florian Schmidt <florian.schmidt@nutanix.com>
+Subject: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Topic: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Index: AQHVYki0ihj6YyCnoUGe1njuFVT2kQ==
+Date:   Tue, 3 Sep 2019 11:14:07 +0000
+Message-ID: <20190903111342.17731-1-florian.schmidt@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM4PR07CA0033.eurprd07.prod.outlook.com
+ (2603:10a6:205:1::46) To CY4PR0201MB3588.namprd02.prod.outlook.com
+ (2603:10b6:910:8b::38)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.23.0
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 00582005-d723-4f62-d0ee-08d7305fd69e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR0201MB3409;
+x-ms-traffictypediagnostic: CY4PR0201MB3409:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR0201MB3409A2BE1C27790905BB8BFCF7B90@CY4PR0201MB3409.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01494FA7F7
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(136003)(366004)(376002)(396003)(189003)(199004)(54094003)(1076003)(36756003)(305945005)(476003)(6512007)(186003)(71190400001)(71200400001)(50226002)(107886003)(81166006)(66066001)(14454004)(52116002)(81156014)(8676002)(86362001)(7736002)(6486002)(54906003)(5660300002)(102836004)(66946007)(3846002)(6116002)(4326008)(66476007)(66556008)(316002)(8936002)(478600001)(6916009)(26005)(2906002)(486006)(53936002)(44832011)(25786009)(6506007)(386003)(64756008)(99286004)(2616005)(256004)(6436002)(66446008)(64030200001);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR0201MB3409;H:CY4PR0201MB3588.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 2VsrbN0hehSzFlFRIZS14Gg+AXYi1bZtm7nzouL/f0VrJIvjN86KEhhG5Vl1ycgmE0Ic5gu/AoxItOc32QfMnTr6uT7HF9k7yc4+R3bH7tjrOzrJ3JmB5FyyunFCQS18mKqCkmMmVVTgE+2hKshXexAKecQkz59/FncUvBPMU4Wh2O0ZCpEXXYYb8PYt8T9ZatDudF+igHWSKcezCLK9ipvV/sei5o3Kyuel5Dcf2D4pOWmAt3KDZwbCri0ZEr5lzVvA09ujM7zyHC8NtKr+8EBIDJeG2zpvWHixCKWlL7EibNa64rkhzF8yhKZHmi5wHtUYWJy3CrmddQRjLNV0jpxCFOLxQ+tOtuMl9XDx/wQyLqGuSdrvFM1HfyH5dIPL4K6xDDxXkkK5kj2sbUmWSHxsN4O1b6EXpgnPLC8KIGU=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190903101248.12879-3-kraxel@redhat.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00582005-d723-4f62-d0ee-08d7305fd69e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 11:14:08.0271
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DfUGPwZ4U5oZ4FKS9mg9+jOB7psJMIsOnJyZv9ZvV1C04E6+/re/qyCZWWh5xQyS++eT3fFHtNQ2ZBsCUwf+xVJjf1V6/jUnIsKGnx8pHtw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3409
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-03_01:2019-09-03,2019-09-03 signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 03, 2019 at 12:12:44PM +0200, Gerd Hoffmann wrote:
-> Now with ttm_buffer_object being a subclass of drm_gem_object we can
-> easily lookup ttm_buffer_object for a given drm_gem_object, which in
-> turn allows to create common helper functions.
-> 
-> This patch starts off with a drm_gem_ttm_print_info() helper function
-> which prints adds some ttm specific lines to the debug output.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  include/drm/drm_gem_ttm_helper.h     | 19 ++++++++++
->  drivers/gpu/drm/drm_gem_ttm_helper.c | 53 ++++++++++++++++++++++++++++
->  Documentation/gpu/drm-mm.rst         | 12 +++++++
->  drivers/gpu/drm/Kconfig              |  7 ++++
->  drivers/gpu/drm/Makefile             |  3 ++
->  5 files changed, 94 insertions(+)
->  create mode 100644 include/drm/drm_gem_ttm_helper.h
->  create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
-> 
-> diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
-> new file mode 100644
-> index 000000000000..6268f89c5a48
-> --- /dev/null
-> +++ b/include/drm/drm_gem_ttm_helper.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +
-> +#ifndef DRM_GEM_TTM_HELPER_H
-> +#define DRM_GEM_TTM_HELPER_H
-> +
-> +#include <linux/kernel.h>
-> +
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/ttm/ttm_bo_api.h>
-> +#include <drm/ttm/ttm_bo_driver.h>
-> +
-> +#define drm_gem_ttm_of_gem(gem_obj) \
-> +	container_of(gem_obj, struct ttm_buffer_object, base)
-> +
-> +void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-> +			    const struct drm_gem_object *gem);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-> new file mode 100644
-> index 000000000000..5a19a7e130c4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-> @@ -0,0 +1,53 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/module.h>
-> +
-> +#include <drm/drm_gem_ttm_helper.h>
-> +
-> +/**
-> + * DOC: overview
-> + *
-> + * This library provides helper functions for gem objects backed by
-> + * ttm.
-> + */
-> +
-> +/**
-> + * drm_gem_ttm_print_info() - Print &ttm_buffer_object info for debugfs
-> + * @p: DRM printer
-> + * @indent: Tab indentation level
-> + * @gem: GEM object
-> + *
-> + * This function can be used as the &drm_driver->gem_print_info callback.
-
-&drm_gem_object_funcs.print_info is the new thing. Also I think you need
-the . for kerneldoc to parse this correctly and make it a link.
-
-> + */
-> +void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-> +			    const struct drm_gem_object *gem)
-> +{
-> +	static const char const *plname[] = {
-> +		[ TTM_PL_SYSTEM ] = "system",
-> +		[ TTM_PL_TT     ] = "tt",
-> +		[ TTM_PL_VRAM   ] = "vram",
-> +		[ TTM_PL_PRIV   ] = "priv",
-> +
-> +		[ 16 ]            = "cached",
-> +		[ 17 ]            = "uncached",
-> +		[ 18 ]            = "wc",
-> +		[ 19 ]            = "contig",
-> +
-> +		[ 21 ]            = "pinned", /* NO_EVICT */
-> +		[ 22 ]            = "topdown",
-> +	};
-> +	const struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
-> +
-> +	drm_print_bits(p, indent, "placement", bo->mem.placement,
-> +		       plname, ARRAY_SIZE(plname));
-> +	if (bo->mem.bus.is_iomem) {
-> +		drm_printf_indent(p, indent, "bus.base=%lx\n",
-> +				  (unsigned long)bo->mem.bus.base);
-> +		drm_printf_indent(p, indent, "bus.offset=%lx\n",
-> +				  (unsigned long)bo->mem.bus.offset);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_gem_ttm_print_info);
-> +
-> +MODULE_DESCRIPTION("DRM gem ttm helpers");
-> +MODULE_LICENSE("GPL");
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index b664f054c259..a70a1d9f30ec 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
->  .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
->     :export:
->  
-> +GEM TTM Helper Functions Reference
-> +-----------------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-> +   :doc: overview
-> +
-> +.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
-> +   :internal:
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-> +   :export:
-> +
->  VMA Offset Manager
->  ==================
->  
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index e6f40fb54c9a..f7b25519f95c 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
->  	help
->  	  Helpers for VRAM memory management
->  
-> +config DRM_TTM_HELPER
-> +	tristate
-> +	depends on DRM
-> +	select DRM_TTM
-> +	help
-> +	  Helpers for ttm-based gem objects
-> +
->  config DRM_GEM_CMA_HELPER
->  	bool
->  	depends on DRM
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 10f8329a8b71..545c61d6528b 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
->  		     drm_vram_mm_helper.o
->  obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
->  
-> +drm_ttm_helper-y := drm_gem_ttm_helper.o
-> +obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
-> +
->  drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
->  		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
->  		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
-
-Nice! With the kerneldoc bikeshed fixed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> -- 
-> 2.18.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+VGhpcyBwYXRjaCBzZXJpZXMgdXBkYXRlcyB0cmFjZS12bXNjYW4tcG9zdHByb2Nlc3MucGwgdG8g
+d29yayB3aXRob3V0DQp0aHJvd2luZyB3YXJuaW5ncyBhbmQgZXJyb3JzIHdoaWNoIHN0ZW0gZnJv
+bSB1cGRhdGVzIHRvIHNldmVyYWwgdHJhY2UNCnBvaW50cy4NCg0KMzQ4MWMzN2ZmYTFkICgibW0v
+dm1zY2FuOiBkcm9wIG1heV93cml0ZXBhZ2UgYW5kIGNsYXNzem9uZV9pZHggZnJvbQ0KZGlyZWN0
+IHJlY2xhaW0gYmVnaW4gdGVtcGxhdGUiKSByZW1vdmVkICJtYXlfd3JpdGVwYWdlIiBmcm9tDQpt
+bV92bXNjYW5fZGlyZWN0X3JlY2xhaW1fYmVnaW4sIGFuZCAzYjc3NTk5OGVjYTcNCigiaW5jbHVk
+ZS90cmFjZS9ldmVudHMvdm1zY2FuLmg6IGRyb3Agem9uZSBpZCBmcm9tIGtzd2FwZCB0cmFjZXBv
+aW50cyIpDQpyZW1vdmVkICJ6aWQiIGZyb20gbW1fdm1zY2FuX3dha2V1cF9rc3dhcGQuIFRoZSBv
+dXRwdXQgb2YNCm1tX3Ztc2Nhbl9scnVfaXNvbGF0ZSBhbmQgbW1fdm1zY2FuX2xydV9zaHJpbmtf
+YWN0aXZlIHNlZW1zIHRvIG5ldmVyDQpoYXZlIG1hdGNoZWQgdGhlIGZvcm1hdCBvZiB0aGUgdHJh
+Y2UgcG9pbnQgb3V0cHV0IHNpbmNlIHRoZXkgd2VyZQ0KY3JlYXRlZCwgb3IgYXQgbGVhc3QgZm9y
+IGFzIGxvbmcgYXMgSSBjYW4gdGVsbC4gUGF0Y2ggMSBhbGlnbnMgdGhlDQpmb3JtYXQgcGFyc2lu
+ZyBvZiB0aGUgcGVybCBzY3JpcHQgd2l0aCB0aGUgY3VycmVudCBvdXRwdXQgb2YgdGhlIHRyYWNl
+DQpwb2ludHMuDQoNCkluIGFkZGl0aW9uLCB0aGUgdGFibGVzIHRoYXQgYXJlIHByaW50ZWQgYnkg
+dGhlIHNjcmlwdCB3ZXJlIG5vdCBwcm9wZXJseQ0KYWxpZ25lZCBhbnkgbW9yZSwgc28gcGF0Y2gg
+MiBmaXhlcyB0aGUgc3BhY2luZy4NCg0KQSBzaWRlIHJlbWFyazogcGFyc2luZyB0aGUgdHJhY2Ug
+b3V0cHV0IGZvciBtbV92bXNjYW5fbHJ1X3Nocmlua19hY3RpdmUNCmhhcyBiZWVuIGluIHRoZSBz
+Y3JpcHQgZXZlciBzaW5jZSBpdCB3YXMgY3JlYXRlZCBpbiAyMDEwLCBidXQgYXQgbm8NCnBvaW50
+IHRoZSBwYXJzZWQgb3V0cHV0IHdhcyBldmVyIHVzZWQgZm9yIGFueXRoaW5nLiBJIHVwZGF0ZWQg
+dGhlDQpwYXJzaW5nIGNvZGUgbm93LCBidXQgSSB3b25kZXIgaWYgd2UgY291bGQganVzdCBnZXQg
+cmlkIG9mIHRoYXQgcGFydC4uLg0KDQpGbG9yaWFuIFNjaG1pZHQgKDIpOg0KICB0cmFjZS12bXNj
+YW4tcG9zdHByb2Nlc3M6IHN5bmMgd2l0aCB0cmFjZXBvaW50cyB1cGRhdGVzDQogIHRyYWNlLXZt
+c2Nhbi1wb3N0cHJvY2VzczogZml4IG91dHB1dCB0YWJsZSBzcGFjaW5nDQoNCiAuLi4vcG9zdHBy
+b2Nlc3MvdHJhY2Utdm1zY2FuLXBvc3Rwcm9jZXNzLnBsICAgfCAyOSArKysrKysrKystLS0tLS0t
+LS0tDQogMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQ0K
+DQotLSANCjIuMjMuMC5yYzENCg0K
