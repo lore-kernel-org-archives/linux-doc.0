@@ -5,74 +5,204 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 906077D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 09:19:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ABFD57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 10:13:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728129AbfICJTC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Sep 2019 05:19:02 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:38466 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727077AbfICJTB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Sep 2019 05:19:01 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 33C4E53355E7BE0D137C;
-        Tue,  3 Sep 2019 17:18:58 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Tue, 3 Sep 2019
- 17:18:50 +0800
-Subject: Re: [PATCH v4 05/10] KVM: arm64: Support stolen time reporting via
- shared structure
-To:     Steven Price <steven.price@arm.com>, Marc Zyngier <maz@kernel.org>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>
-CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        Paolo Bonzini <pbonzini@redhat.com>
-References: <20190830084255.55113-1-steven.price@arm.com>
- <20190830084255.55113-6-steven.price@arm.com>
-From:   Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <d55d091f-1c0f-9c47-b7b2-95c87285335d@huawei.com>
-Date:   Tue, 3 Sep 2019 17:14:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
-MIME-Version: 1.0
-In-Reply-To: <20190830084255.55113-6-steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
+        id S1726946AbfICKMy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Sep 2019 06:12:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41060 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727077AbfICKMx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Sep 2019 06:12:53 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E19CE368DA;
+        Tue,  3 Sep 2019 10:12:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-72.ams2.redhat.com [10.36.117.72])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4891160610;
+        Tue,  3 Sep 2019 10:12:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 590F231F39; Tue,  3 Sep 2019 12:12:49 +0200 (CEST)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 2/6] drm/ttm: add drm gem ttm helpers, starting with drm_gem_ttm_print_info()
+Date:   Tue,  3 Sep 2019 12:12:44 +0200
+Message-Id: <20190903101248.12879-3-kraxel@redhat.com>
+In-Reply-To: <20190903101248.12879-1-kraxel@redhat.com>
+References: <20190903101248.12879-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 03 Sep 2019 10:12:53 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/8/30 16:42, Steven Price wrote:
-> Implement the service call for configuring a shared structure between a
-> VCPU and the hypervisor in which the hypervisor can write the time
-> stolen from the VCPU's execution time by other tasks on the host.
-> 
-> The hypervisor allocates memory which is placed at an IPA chosen by user
-> space.
+Now with ttm_buffer_object being a subclass of drm_gem_object we can
+easily lookup ttm_buffer_object for a given drm_gem_object, which in
+turn allows to create common helper functions.
 
-It seems that no allocation happens in the hypervisor code.  User space
-will do it instead?
+This patch starts off with a drm_gem_ttm_print_info() helper function
+which prints adds some ttm specific lines to the debug output.
 
-> The hypervisor then updates the shared structure using
-> kvm_put_guest() to ensure single copy atomicity of the 64-bit value
-> reporting the stolen time in nanoseconds.
-> 
-> Whenever stolen time is enabled by the guest, the stolen time counter is
-> reset.
-> 
-> The stolen time itself is retrieved from the sched_info structure
-> maintained by the Linux scheduler code. We enable SCHEDSTATS when
-> selecting KVM Kconfig to ensure this value is meaningful.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ include/drm/drm_gem_ttm_helper.h     | 19 ++++++++++
+ drivers/gpu/drm/drm_gem_ttm_helper.c | 53 ++++++++++++++++++++++++++++
+ Documentation/gpu/drm-mm.rst         | 12 +++++++
+ drivers/gpu/drm/Kconfig              |  7 ++++
+ drivers/gpu/drm/Makefile             |  3 ++
+ 5 files changed, 94 insertions(+)
+ create mode 100644 include/drm/drm_gem_ttm_helper.h
+ create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
 
-Thanks,
-zenghui
+diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
+new file mode 100644
+index 000000000000..6268f89c5a48
+--- /dev/null
++++ b/include/drm/drm_gem_ttm_helper.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++
++#ifndef DRM_GEM_TTM_HELPER_H
++#define DRM_GEM_TTM_HELPER_H
++
++#include <linux/kernel.h>
++
++#include <drm/drm_gem.h>
++#include <drm/drm_device.h>
++#include <drm/ttm/ttm_bo_api.h>
++#include <drm/ttm/ttm_bo_driver.h>
++
++#define drm_gem_ttm_of_gem(gem_obj) \
++	container_of(gem_obj, struct ttm_buffer_object, base)
++
++void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
++			    const struct drm_gem_object *gem);
++
++#endif
+diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
+new file mode 100644
+index 000000000000..5a19a7e130c4
+--- /dev/null
++++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++
++#include <linux/module.h>
++
++#include <drm/drm_gem_ttm_helper.h>
++
++/**
++ * DOC: overview
++ *
++ * This library provides helper functions for gem objects backed by
++ * ttm.
++ */
++
++/**
++ * drm_gem_ttm_print_info() - Print &ttm_buffer_object info for debugfs
++ * @p: DRM printer
++ * @indent: Tab indentation level
++ * @gem: GEM object
++ *
++ * This function can be used as the &drm_driver->gem_print_info callback.
++ */
++void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
++			    const struct drm_gem_object *gem)
++{
++	static const char const *plname[] = {
++		[ TTM_PL_SYSTEM ] = "system",
++		[ TTM_PL_TT     ] = "tt",
++		[ TTM_PL_VRAM   ] = "vram",
++		[ TTM_PL_PRIV   ] = "priv",
++
++		[ 16 ]            = "cached",
++		[ 17 ]            = "uncached",
++		[ 18 ]            = "wc",
++		[ 19 ]            = "contig",
++
++		[ 21 ]            = "pinned", /* NO_EVICT */
++		[ 22 ]            = "topdown",
++	};
++	const struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
++
++	drm_print_bits(p, indent, "placement", bo->mem.placement,
++		       plname, ARRAY_SIZE(plname));
++	if (bo->mem.bus.is_iomem) {
++		drm_printf_indent(p, indent, "bus.base=%lx\n",
++				  (unsigned long)bo->mem.bus.base);
++		drm_printf_indent(p, indent, "bus.offset=%lx\n",
++				  (unsigned long)bo->mem.bus.offset);
++	}
++}
++EXPORT_SYMBOL(drm_gem_ttm_print_info);
++
++MODULE_DESCRIPTION("DRM gem ttm helpers");
++MODULE_LICENSE("GPL");
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index b664f054c259..a70a1d9f30ec 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
+    :export:
+ 
++GEM TTM Helper Functions Reference
++-----------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
++   :doc: overview
++
++.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
++   :internal:
++
++.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
++   :export:
++
+ VMA Offset Manager
+ ==================
+ 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index e6f40fb54c9a..f7b25519f95c 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
+ 	help
+ 	  Helpers for VRAM memory management
+ 
++config DRM_TTM_HELPER
++	tristate
++	depends on DRM
++	select DRM_TTM
++	help
++	  Helpers for ttm-based gem objects
++
+ config DRM_GEM_CMA_HELPER
+ 	bool
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 10f8329a8b71..545c61d6528b 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
+ 		     drm_vram_mm_helper.o
+ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+ 
++drm_ttm_helper-y := drm_gem_ttm_helper.o
++obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
++
+ drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
+ 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
+ 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
+-- 
+2.18.1
 
