@@ -5,91 +5,77 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D6AA67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 16:08:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5461B7D981
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Sep 2019 16:34:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729169AbfICQIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Sep 2019 12:08:50 -0400
-Received: from tartarus.angband.pl ([54.37.238.230]:46552 "EHLO
-        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728679AbfICQIu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Sep 2019 12:08:50 -0400
-Received: from [2a02:a31c:853f:a300::4] (helo=valinor.angband.pl)
-        by tartarus.angband.pl with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1i5BML-0005on-BJ; Tue, 03 Sep 2019 18:08:47 +0200
-Received: from kilobyte by valinor.angband.pl with local (Exim 4.92.1)
-        (envelope-from <kilobyte@valinor.angband.pl>)
-        id 1i5BMK-000EhM-Ch; Tue, 03 Sep 2019 18:08:44 +0200
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Adam Borowski <kilobyte@angband.pl>
-Date:   Tue,  3 Sep 2019 18:08:40 +0200
-Message-Id: <20190903160840.56652-1-kilobyte@angband.pl>
-X-Mailer: git-send-email 2.23.0
+        id S1731199AbfICQdj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Sep 2019 12:33:39 -0400
+Received: from mga12.intel.com ([192.55.52.136]:59971 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730658AbfICQdi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Sep 2019 12:33:38 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Sep 2019 09:33:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,463,1559545200"; 
+   d="scan'208";a="173263755"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
+  by orsmga007.jf.intel.com with ESMTP; 03 Sep 2019 09:33:32 -0700
+Date:   Tue, 3 Sep 2019 09:33:32 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Xiaoyao Li <xiaoyao.li@intel.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: kvm: fix return description of KVM_SET_MSRS
+Message-ID: <20190903163332.GF10768@linux.intel.com>
+References: <20190902101214.77833-1-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a02:a31c:853f:a300::4
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-Subject: [PATCH] Documentation: sysrq: don't recommend 'S' 'U' before 'B'
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on tartarus.angband.pl)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190902101214.77833-1-xiaoyao.li@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This advice is obsolete and slightly harmful for filesystems from this
-millenium: any modern filesystem can handle unexpected crashes without
-requiring fsck -- and on the other hand, trying to write to the disk when
-the kernel is in a bad state risks introducing corruption.
+On Mon, Sep 02, 2019 at 06:12:14PM +0800, Xiaoyao Li wrote:
 
-For ext2, any unsafe shutdown meant widespread breakage, but it's no longer
-a reasonable filesystem for any non-special use.
+It may seem silly, but a proper changelog would be helpful even here,
+e.g. to explain how and when a positive return value can diverge from the
+number of MSRs specific in struct kvm_msrs.
 
-Signed-off-by: Adam Borowski <kilobyte@angband.pl>
----
- Documentation/admin-guide/sysrq.rst | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>  Documentation/virt/kvm/api.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
+> index 2d067767b617..a2efc19e0f4e 100644
+> --- a/Documentation/virt/kvm/api.txt
+> +++ b/Documentation/virt/kvm/api.txt
+> @@ -586,7 +586,7 @@ Capability: basic
+>  Architectures: x86
+>  Type: vcpu ioctl
+>  Parameters: struct kvm_msrs (in)
+> -Returns: 0 on success, -1 on error
+> +Returns: number of msrs successfully set, -1 on error
 
-diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-index 7b9035c01a2e..72b2cfb066f4 100644
---- a/Documentation/admin-guide/sysrq.rst
-+++ b/Documentation/admin-guide/sysrq.rst
-@@ -171,22 +171,20 @@ It seems others find it useful as (System Attention Key) which is
- useful when you want to exit a program that will not let you switch consoles.
- (For example, X or a svgalib program.)
- 
--``reboot(b)`` is good when you're unable to shut down. But you should also
--``sync(s)`` and ``umount(u)`` first.
-+``reboot(b)`` is good when you're unable to shut down, it is an equivalent
-+of pressing the "reset" button.
- 
- ``crash(c)`` can be used to manually trigger a crashdump when the system is hung.
- Note that this just triggers a crash if there is no dump mechanism available.
- 
--``sync(s)`` is great when your system is locked up, it allows you to sync your
--disks and will certainly lessen the chance of data loss and fscking. Note
--that the sync hasn't taken place until you see the "OK" and "Done" appear
--on the screen. (If the kernel is really in strife, you may not ever get the
--OK or Done message...)
-+``sync(s)`` is handy before yanking removable medium or after using a rescue
-+shell that provides no graceful shutdown -- it will ensure your data is
-+safely written to the disk. Note that the sync hasn't taken place until you see
-+the "OK" and "Done" appear on the screen.
- 
--``umount(u)`` is basically useful in the same ways as ``sync(s)``. I generally
--``sync(s)``, ``umount(u)``, then ``reboot(b)`` when my system locks. It's saved
--me many a fsck. Again, the unmount (remount read-only) hasn't taken place until
--you see the "OK" and "Done" message appear on the screen.
-+``umount(u)`` can be used to mark filesystems as properly unmounted. From the
-+running system's point of view, they will be remounted read-only. The remount
-+isn't complete until you see the "OK" and "Done" message appear on the screen.
- 
- The loglevels ``0``-``9`` are useful when your console is being flooded with
- kernel messages you do not want to see. Selecting ``0`` will prevent all but
--- 
-2.23.0
+Similar to the changelong comment, it'd be helpful to elaborate on the
+positive return value, e.g.:
 
+  Returns: number of msrs successfully set (see below), -1 on error
+
+and then something in the free form text explaining how the ioctl stops
+processing MSRs if setting an MSR fails.
+
+>  Writes model-specific registers to the vcpu.  See KVM_GET_MSRS for the
+>  data structures.
+> -- 
+> 2.19.1
+> 
