@@ -1,117 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A8FE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 09:58:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 692617D922
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 13:58:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729390AbfIDJ6T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 05:58:19 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35113 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfIDJ6T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 05:58:19 -0400
-Received: by mail-wm1-f66.google.com with SMTP id n10so2929713wmj.0;
-        Wed, 04 Sep 2019 02:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=lkR2Ca+FaxVlWbFtmtut4HN81Y4TL/IiykdxaBdNlG0=;
-        b=QuwnzrzeBewqrpNyHGaKvRTyDkGOzIXzcyfOiCvBiJCs1ugvHmgM1uckgJJDM12US3
-         GjnAt/uKck5kjK0ndm5gk59EO1raWdStt2ghmrHmfNl8KGxshQfQrZuSyW7Z9wgEyes1
-         8zB7zMg7KHLwnBQhL/cQmZycl5Y69vQMAfy74wxdfKwBivxYWu0pWnAiHfuuOPbL2PFu
-         6oVDao+lxcmYwdQ157sx4b/QcjIGOoPvBqAfulfzIi4Akzs+WfxuUzAkunk6dXv8cOeZ
-         KQ0qwPnZF4B0Gsr7NYrcpZpyZjTqDRBk8SR3FZZdO+WyCVzmrv9Nr91hSg5ngSPkkyrF
-         EzPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=lkR2Ca+FaxVlWbFtmtut4HN81Y4TL/IiykdxaBdNlG0=;
-        b=le6hVlxqF+UVh9v1zDtPTCNfAZu1puSV3OsoVUlXAcnrLEuQC5eu8TOFezhzHosYU6
-         X//xRggVslhxdJpxjDnirXr1BJ1IRIg0bBpRUN+uozzLNG3ByzxxleZvYGyuGu1iFaVq
-         qQWZlx5335gY/PFEDlGnHiqdKKr/SDaAslgCOVSFb/aeXqEfRxpdGhgoADdFmVdavh+J
-         RDwNAr/6jJP9ZEN6iQOWOhnz8K/RZHjHTd8VQV2gf1sIBPyy/zXIP7uf1X4liDUA57dh
-         VglBhy+9CPLlaz+CTFE7XnGI9NZShrHycUj1isS+VoLrJ2fckNUHTaywOJxtD3UbJVL9
-         +FFA==
-X-Gm-Message-State: APjAAAW8jxoRND5oj9yzqB34YXjQljjJ8hX+cOriL2ZAbeVLpjahzdav
-        EHDoHAB9Nam0E1oGdue1Xqjn23UP2LKXZNecAVk=
-X-Google-Smtp-Source: APXvYqyfITegUY7/GGfU2Yb5L7f+Fc4UoA9mAMRhHsgK0IA3qxBFEzEtTJLYW1QDy1dULlmkGUCBwejmA83IPr3fQ2I=
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr3477750wml.36.1567591097217;
- Wed, 04 Sep 2019 02:58:17 -0700 (PDT)
+        id S1729848AbfIDNzU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 09:55:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:55286 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729798AbfIDNzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Sep 2019 09:55:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5E6D1570;
+        Wed,  4 Sep 2019 06:55:18 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA1DB3F59C;
+        Wed,  4 Sep 2019 06:55:16 -0700 (PDT)
+Subject: Re: [PATCH v4 01/10] KVM: arm64: Document PV-time interface
+To:     Andrew Jones <drjones@redhat.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
+References: <20190830084255.55113-1-steven.price@arm.com>
+ <20190830084255.55113-2-steven.price@arm.com>
+ <20190830144734.kvj4dvt32qzmhw32@kamzik.brq.redhat.com>
+ <7f459290-9c39-cfba-c514-a07469ff120f@arm.com>
+ <20190902125254.3w6lnvcbs7sfhjz7@kamzik.brq.redhat.com>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <118ceeea-5501-05b6-7232-e66a175d5fae@arm.com>
+Date:   Wed, 4 Sep 2019 14:55:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
- <20190831162555.31887-2-yamada.masahiro@socionext.com> <CAKwvOdm0zcyaBLdSVc7PmjUa-wyVuCaN=6qZoPLvnoJC1ammog@mail.gmail.com>
- <CA+icZUWzSsFXLmrO2G7ochE62e=kByEV6UKregcJqZrJN1WJxQ@mail.gmail.com> <CA+icZUXboR-0TzpSHf7a8MSjxPWxdC13Oudu8D+b+umtvWCCkg@mail.gmail.com>
-In-Reply-To: <CA+icZUXboR-0TzpSHf7a8MSjxPWxdC13Oudu8D+b+umtvWCCkg@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 4 Sep 2019 11:58:05 +0200
-Message-ID: <CA+icZUVN1zRi5P8PPWMjXoXwtSCkbzTFNreYXi+0HtTjPnfkTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] kbuild: rename KBUILD_ENABLE_EXTRA_GCC_CHECKS to KBUILD_EXTRA_WARN
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190902125254.3w6lnvcbs7sfhjz7@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 4, 2019 at 10:07 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Wed, Sep 4, 2019 at 8:58 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Tue, Sep 3, 2019 at 11:50 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Sat, Aug 31, 2019 at 9:26 AM Masahiro Yamada
-> > > <yamada.masahiro@socionext.com> wrote:
-> > > >
-> > > > KBUILD_ENABLE_EXTRA_GCC_CHECKS started as a switch to add extra warning
-> > > > options for GCC, but now it is a historical misnomer since we use it
-> > > > also for Clang, DTC, and even kernel-doc.
-> > >
-> > > Thanks for the patch!
-> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > >
-> >
-> > Thanks for the patch.
-> > I like the backward compatibility and am OK with pointing to 'make
-> > --help' for the documentation part (KISS - Keep It Simple and
-> > Short/Stupid).
-> >
-> > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
->
-> If you will do a next version...
->
-> - @echo  '  make W=n   [targets] Enable extra gcc checks, n=1,2,3 where'
-> + @echo  '  make W=n   [targets] Enable extra checks, n=1,2,3 where'
->
-> ...clarify on extra checks for compiler...
->
-> + @echo  '  make W=n   [targets] Enable extra *compiler* checks, n=1,2,3 where'
->
+On 02/09/2019 13:52, Andrew Jones wrote:
+> On Fri, Aug 30, 2019 at 04:25:08PM +0100, Steven Price wrote:
+>> On 30/08/2019 15:47, Andrew Jones wrote:
+>>> On Fri, Aug 30, 2019 at 09:42:46AM +0100, Steven Price wrote:
+[...]
+>>>> +    Return value: (int32)   : NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+>>>> +                              PV-time feature is supported by the hypervisor.
+>>>> +
+>>>> +PV_TIME_ST
+>>>> +    Function ID:  (uint32)  : 0xC5000022
+>>>> +    Return value: (int64)   : IPA of the stolen time data structure for this
+>>>> +                              VCPU. On failure:
+>>>> +                              NOT_SUPPORTED (-1)
+>>>> +
+>>>> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+>>>> +with inner and outer write back caching attributes, in the inner shareable
+>>>> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+>>>> +meaningfully filled by the hypervisor (see structure below).
+>>>> +
+>>>> +PV_TIME_ST returns the structure for the calling VCPU.
+>>>> +
+>>>> +Stolen Time
+>>>> +-----------
+>>>> +
+>>>> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+>>>> +
+>>>> +  Field       | Byte Length | Byte Offset | Description
+>>>> +  ----------- | ----------- | ----------- | --------------------------
+>>>> +  Revision    |      4      |      0      | Must be 0 for version 0.1
+>>>> +  Attributes  |      4      |      4      | Must be 0
+>>>
+>>> The above fields don't appear to be exposed to userspace in anyway. How
+>>> will we handle migration from one KVM with one version of the structure
+>>> to another?
+>>
+>> Interesting question. User space does have access to them now it is
+>> providing the memory, but it's not exactly an easy method. In particular
+>> user space has no (simple) way of probing the kernel's supported version.
+>>
+>> I guess one solution would be to add an extra attribute on the VCPU
+>> which would provide the revision information. The current kernel would
+>> then reject any revision other than 0, but this could then be extended
+>> to support other revision numbers in the future.
+>>
+>> Although there's some logic in saying we could add the extra attribute
+>> when(/if) there is a new version. Future kernels would then be expected
+>> to use the current version unless user space explicitly set the new
+>> attribute.
+>>
+>> Do you feel this is something that needs to be addressed now, or can it
+>> be deferred until another version is proposed?
+> 
+> Assuming we'll want userspace to have the option of choosing version=0,
+> and that we're fine with version=0 being the implicit choice, when nothing
+> is selected, then I guess it can be left as is for now. If, OTOH, we just
+> want migration to fail when attempting to migrate to another host with
+> an incompatible stolen-time structure (i.e. version=0 is not selectable
+> on hosts that implement later versions), then we should expose the version
+> in some way now. Perhaps a VCPU's "PV config" should be described in a
+> set of pseudo registers?
 
-+KBUILD_EXTRA_WARN
-+-----------------
-+Specify the extra build checks. The same value can be assigned by passing
-+W=... from the command line.
+I wouldn't have thought making migration fail if/when the host upgrades
+to a new version would be particularly helpful - we'd want to provide
+backwards compatibility. In particular for the suspend/resume case (I
+want to be able to save my VM to disk, upgrade the host kernel and then
+resume the VM).
 
-For consistency reasons might be better:
+The only potential issue I see is the implicit "version=0 if not
+specified". That seems solvable by rejecting setting the stolen time
+base address if no version has been specified and the host kernel
+doesn't support version=0.
 
-- @echo  '  make W=n   [targets] Enable extra gcc checks, n=1,2,3 where'
-+ @echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3 where'
+>>
+>>>> +  Stolen time |      8      |      8      | Stolen time in unsigned
+>>>> +              |             |             | nanoseconds indicating how
+>>>> +              |             |             | much time this VCPU thread
+>>>> +              |             |             | was involuntarily not
+>>>> +              |             |             | running on a physical CPU.
+>>>> +
+>>>> +The structure will be updated by the hypervisor prior to scheduling a VCPU. It
+>>>> +will be present within a reserved region of the normal memory given to the
+>>>> +guest. The guest should not attempt to write into this memory. There is a
+>>>> +structure per VCPU of the guest.
+>>>
+>>> Should we provide a recommendation as to how that reserved memory is
+>>> provided? One memslot divided into NR_VCPUS subregions? Should the
+>>> reserved region be described to the guest kernel with DT/ACPI? Or
+>>> should userspace ensure the region is not within any DT/ACPI described
+>>> regions?
+>>
+>> I'm open to providing a recommendation, but I'm not entirely sure I know
+>> enough here to provide one.
+>>
+>> There is an obvious efficiency argument for minimizing memslots with the
+>> current code. But if someone has a reason for using multiple memslots
+>> then that's probably a good argument for implementing a memslot-caching
+>> kvm_put_user() rather than to be dis-recommended.
+> 
+> Actually even if a single memslot is used for all the PV structures for
+> all VCPUs, but it's separate from the slot(s) used for main memory, then
+> we'll likely see performance issues with memslot searches (even though
+> it's a binary search). This is because memslots already have caching. The
+> last used slot is stored in the memslots' lru_slot member (the "lru" name
+> is confusing, but it means "last used" somehow). This means we could get
+> thrashing on that slot cache if we're searching for the PV structure
+> memslot on each vcpu load after searching for the main memory slot on each
+> page fault.
 
-- Sedat -
+True - a dedicated memslot for stolen time wouldn't be great if a VM is
+needing to fault pages (which would obviously be in a different
+memslot). I don't have a good idea of the overhead of missing in the
+lru_slot cache. The main reason I stopped using a dedicated cache was
+because I discovered that my initial implementation using
+kvm_write_guest_offset_cached() (which wasn't single-copy atomic safe)
+was actually failing to use the cache because the buffer crossed a page
+boundary (see __kvm_gfn_to_hva_cache_init()). So switching away from the
+"_cached" variant was actually avoiding the extra walks of the memslots.
+
+I can look at reintroducing the caching for kvm_put_guest().
+
+>>
+>> My assumption (and testing) has been with a single memslot divided into
+>> NR_VCPUS (or more accurately the number of VCPUs in the VM) subregions.
+>>
+>> For testing DT I've tested both methods: an explicit reserved region or
+>> just ensuring it's not in any DT described region. Both seem reasonable,
+>> but it might be easier to integrate into existing migration mechanisms
+>> if it's simply a reserved region (then the memory block of the guest is
+>> just as it always was).
+>>
+>> For ACPI the situation should be similar, but my testing has been with DT.
+> 
+> I also can't think of any reason why we'd have to describe it in DT/ACPI,
+> but I get this feeling that if we don't, then we'll hit some issue that
+> will make us wish we had...
+
+Without knowing why we need it it's hard to justify what should go in
+the bindings. But the idea of having the hypercalls is that the
+description is returned via hypercalls rather than explicitly in
+DT/ACPI. In theory we wouldn't need the hypercalls if it was fully
+described in DT/ACPI.
+
+Steve
