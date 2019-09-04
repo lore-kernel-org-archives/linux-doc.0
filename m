@@ -1,74 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6FE57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 07:53:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBF527D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 08:08:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729068AbfIDHxC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 03:53:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47424 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727787AbfIDHxC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Sep 2019 03:53:02 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27200206BB;
-        Wed,  4 Sep 2019 07:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567583581;
-        bh=tmMIKkRHa6g2/BLlTkNjkjnAHIGhAGpY/C/sVcBFQJc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ywyxb1m63X/hIBsYMEgeSYZNR3U/vzO1YwXTorX6LJyKRdYGw5x0lLxby0UDevtE9
-         SuA3eihix0P54Tu+s7uKLyhFHkjVxEZIt+PYQ3dTHxMMn4oviPvEe+do/dfqdqNzFJ
-         FyJNNYIS5i6pTQhosKEdSKj6Zp+gpaIxerpBFXps=
-Date:   Wed, 4 Sep 2019 09:52:59 +0200
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v3 4/7] serial: fsl_linflexuart: Be consistent with the
- name
-Message-ID: <20190904075259.GA10983@kroah.com>
-References: <20190823191115.18490-1-stefan-gabriel.mirea@nxp.com>
- <20190823191115.18490-5-stefan-gabriel.mirea@nxp.com>
+        id S1729246AbfIDIII (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 04:08:08 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44439 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727787AbfIDIIH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 04:08:07 -0400
+Received: by mail-wr1-f66.google.com with SMTP id 30so9194890wrk.11;
+        Wed, 04 Sep 2019 01:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=nRtC49Dm/rhUCn03iQZHARrHypohCTGXnVaebgfWCr0=;
+        b=W1CN2OWfVk8dwEdpRBlWRuh/WBOMuqkk/Su+crqHtBonBdJEzJs2sIM8TMuf3DadE2
+         5OuWyQXztSt7vctlnrfT0V/oVs1VSUPGlWRcslay3Br5ITISQYPWVcciX4d+PFhUNMbu
+         Yuebsjc3W+/5e24deAiZ534hX8Ro1FGE5czxZNolQWNOBeNYD9KWgSb1plJp4ymqmoQB
+         JWHS3jX4K/VYRAXPvuahMfrka8x4MmnxdinPMXbSzfXwrpv7rYTGQwrt6bjqq+Ob/14Q
+         QK4XQcZ7btbHvSEM2PWEvJ26Av4rDa8PO5asNTB4QTz4vmTr4Dq1MQvhtZU2tRaWypWq
+         TQxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=nRtC49Dm/rhUCn03iQZHARrHypohCTGXnVaebgfWCr0=;
+        b=siAIEElFzYybaC7g/pLu2ZU6x4O3JBhuGgOzEPuudJEHEw/MeyMvP+SPkUJm+MDTU+
+         uK4URN96s5u4Y3hrr6YsUtf20fu/gts6hDHdmMgRll+RVyx6LeajcXFb8u1+xtvOTS7V
+         4ytoD8k1+waxrlkmhxa5CFTbctKhz5arOVbG1xr8lYrrJ5q6MIbxR3Z7C7Di+abZns5R
+         a9nt1EOsiEDhhkfTWjcE80wwWDGTddFTRgdePz3934ttNMucSjcrFnFceEfm0hfEceRp
+         PX08pA8FAp7k15n0Gn9XVGuLQ6G7tBx614zwJvjLuyKV8jVHbaHzCa+i9V41Ziz3JLes
+         OYKQ==
+X-Gm-Message-State: APjAAAUZxMI8kEdaDV+YW9nI+uhxs90naaJ6QqXBT0tr+UOEoegDYuIB
+        msg3PXAhlHCOGBli1OK1iK02BeGiVP2uuB/TbBc=
+X-Google-Smtp-Source: APXvYqxznwQy1JumjNN35qcyJdAdBOQOClaRolrP6cNdeYdf5NjHOpZAkJi0AzkDh9g5KfL3qkfeJbOUCZdSw5fJRM4=
+X-Received: by 2002:a5d:69c8:: with SMTP id s8mr12470313wrw.353.1567584485275;
+ Wed, 04 Sep 2019 01:08:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190823191115.18490-5-stefan-gabriel.mirea@nxp.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
+ <20190831162555.31887-2-yamada.masahiro@socionext.com> <CAKwvOdm0zcyaBLdSVc7PmjUa-wyVuCaN=6qZoPLvnoJC1ammog@mail.gmail.com>
+ <CA+icZUWzSsFXLmrO2G7ochE62e=kByEV6UKregcJqZrJN1WJxQ@mail.gmail.com>
+In-Reply-To: <CA+icZUWzSsFXLmrO2G7ochE62e=kByEV6UKregcJqZrJN1WJxQ@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 4 Sep 2019 10:07:51 +0200
+Message-ID: <CA+icZUXboR-0TzpSHf7a8MSjxPWxdC13Oudu8D+b+umtvWCCkg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] kbuild: rename KBUILD_ENABLE_EXTRA_GCC_CHECKS to KBUILD_EXTRA_WARN
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 07:11:37PM +0000, Stefan-gabriel Mirea wrote:
-> For consistency reasons, spell the controller name as "LINFlexD" in
-> comments and documentation.
-> 
-> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  drivers/tty/serial/Kconfig                      | 8 ++++----
->  drivers/tty/serial/fsl_linflexuart.c            | 4 ++--
->  include/uapi/linux/serial_core.h                | 4 ++--
->  4 files changed, 9 insertions(+), 9 deletions(-)
+On Wed, Sep 4, 2019 at 8:58 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> On Tue, Sep 3, 2019 at 11:50 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Sat, Aug 31, 2019 at 9:26 AM Masahiro Yamada
+> > <yamada.masahiro@socionext.com> wrote:
+> > >
+> > > KBUILD_ENABLE_EXTRA_GCC_CHECKS started as a switch to add extra warning
+> > > options for GCC, but now it is a historical misnomer since we use it
+> > > also for Clang, DTC, and even kernel-doc.
+> >
+> > Thanks for the patch!
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+>
+> Thanks for the patch.
+> I like the backward compatibility and am OK with pointing to 'make
+> --help' for the documentation part (KISS - Keep It Simple and
+> Short/Stupid).
+>
+> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-Doesn't apply to my tty-next tree :(
+If you will do a next version...
+
+- @echo  '  make W=n   [targets] Enable extra gcc checks, n=1,2,3 where'
++ @echo  '  make W=n   [targets] Enable extra checks, n=1,2,3 where'
+
+...clarify on extra checks for compiler...
+
++ @echo  '  make W=n   [targets] Enable extra *compiler* checks, n=1,2,3 where'
+
+Thanks in advance.
+
+- Sedat -
