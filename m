@@ -1,212 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE0887D917
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 05:48:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB4647D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 05:48:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727899AbfIDFsC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 01:48:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59654 "EHLO mx1.redhat.com"
+        id S1728698AbfIDFsN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 01:48:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49132 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbfIDFrp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Sep 2019 01:47:45 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726010AbfIDFsM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Sep 2019 01:48:12 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 413513C917;
-        Wed,  4 Sep 2019 05:47:45 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-72.ams2.redhat.com [10.36.117.72])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E978019C4F;
-        Wed,  4 Sep 2019 05:47:41 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 1D9D131EAD; Wed,  4 Sep 2019 07:47:41 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 2/7] drm/ttm: add drm gem ttm helpers, starting with drm_gem_ttm_print_info()
-Date:   Wed,  4 Sep 2019 07:47:35 +0200
-Message-Id: <20190904054740.20817-3-kraxel@redhat.com>
-In-Reply-To: <20190904054740.20817-1-kraxel@redhat.com>
-References: <20190904054740.20817-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 04 Sep 2019 05:47:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id ED9EF2341D;
+        Wed,  4 Sep 2019 05:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567576091;
+        bh=62m/BaM2YlXpmhbO43sigHiSBNsLNfopQ+9alrBU8Ww=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=caFw/CP6kgw8MfCH1kbcN+WHvs6pfPT9ZtQw39wOSGIorocqZRYE0OcBZNa0sN4JU
+         d9JZMRlOge964dSm1wDiVndNArHIykNg5LkYfGsodxb1HJmge+XF2RmrpRWtr8BTYJ
+         qhIVtxwWj1WapFbegav98S/iOkBXB2ZW2XF8ADZ0=
+Date:   Wed, 4 Sep 2019 07:48:09 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Jon Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 09/11] coresight: etm4x: docs: Update ABI doc for
+ sysfs features added.
+Message-ID: <20190904054809.GB4511@kroah.com>
+References: <20190829213321.4092-1-mike.leach@linaro.org>
+ <20190829213321.4092-10-mike.leach@linaro.org>
+ <20190903195951.GA25008@kroah.com>
+ <CANLsYkwvasYKaepXuWdkTKDj7RquATaum-dmTZZQL237wesryQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANLsYkwvasYKaepXuWdkTKDj7RquATaum-dmTZZQL237wesryQ@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now with ttm_buffer_object being a subclass of drm_gem_object we can
-easily lookup ttm_buffer_object for a given drm_gem_object, which in
-turn allows to create common helper functions.
+On Tue, Sep 03, 2019 at 04:51:40PM -0600, Mathieu Poirier wrote:
+> On Tue, 3 Sep 2019 at 13:59, Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Aug 29, 2019 at 10:33:19PM +0100, Mike Leach wrote:
+> > > Update document to include the new sysfs features added during this
+> > > patchset.
+> > >
+> > > Updated to reflect the new sysfs component nameing schema.
+> > >
+> > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > > ---
+> > >  .../testing/sysfs-bus-coresight-devices-etm4x | 183 +++++++++++-------
+> > >  1 file changed, 115 insertions(+), 68 deletions(-)
+> > >
+> > > diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > index 36258bc1b473..112c50ae9986 100644
+> > > --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > @@ -1,4 +1,4 @@
+> > > -What:                /sys/bus/coresight/devices/<memory_map>.etm/enable_source
+> > > +What:                /sys/bus/coresight/devices/etm<N>/enable_source
+> >
+> > You are renaming sysfs directories that have been around since:
+> >
+> > >  Date:                April 2015
+> >
+> > ???
+> >
+> > Really?
+> >
+> > That's brave.
+> 
+> 
+> When I worked on the coresight sysfs ABI a while back I specifically
+> added it at the "testing" level as I was well aware that things could
+> change in the future.  According to the guidelines in the
+> documentation userspace can rely on it which was accurate since the
+> interface didn't change for 4 years.  But the guidelines also mention
+> that changes can occur before the interfaces are move to stables, and
+> that programs are encouraged to manifest their interest by adding
+> their name to the "users" field.
+> 
+> The interface was changed in 5.2 to support coresight from ACPI and
+> make things easier to understand for users.  It is a lot more
+> intuitive to associate an ETM tracer with the CPU it belongs to by
+> referring to the CPU number than the memory mapped address.  Given the
+> "testing" status of the interface and the absence of registered users
+> I decided to move forward with the change.  If "testing" is too strict
+> for that I suggest to add an "experimental" category where it would be
+> more acceptable to change things as subsystems mature.
 
-This patch starts off with a drm_gem_ttm_print_info() helper function
-which adds some ttm specific lines to the debug output.
+"testing" is not really "testing" if you have userspace tools/programs
+assuming the location and contents of specific files in sysfs.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- include/drm/drm_gem_ttm_helper.h     | 19 ++++++++++
- drivers/gpu/drm/drm_gem_ttm_helper.c | 56 ++++++++++++++++++++++++++++
- Documentation/gpu/drm-mm.rst         | 12 ++++++
- drivers/gpu/drm/Kconfig              |  7 ++++
- drivers/gpu/drm/Makefile             |  3 ++
- 5 files changed, 97 insertions(+)
- create mode 100644 include/drm/drm_gem_ttm_helper.h
- create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
+You can change things in sysfs by creating new files, but to do
+wholesale renaming like you did here can be very dangerous as you might
+be breaking things.  Usually new files are created, not existing ones
+moved.
 
-diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
-new file mode 100644
-index 000000000000..6268f89c5a48
---- /dev/null
-+++ b/include/drm/drm_gem_ttm_helper.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef DRM_GEM_TTM_HELPER_H
-+#define DRM_GEM_TTM_HELPER_H
-+
-+#include <linux/kernel.h>
-+
-+#include <drm/drm_gem.h>
-+#include <drm/drm_device.h>
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+
-+#define drm_gem_ttm_of_gem(gem_obj) \
-+	container_of(gem_obj, struct ttm_buffer_object, base)
-+
-+void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-+			    const struct drm_gem_object *gem);
-+
-+#endif
-diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-new file mode 100644
-index 000000000000..9a4bafcf20df
---- /dev/null
-+++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/module.h>
-+
-+#include <drm/drm_gem_ttm_helper.h>
-+
-+/**
-+ * DOC: overview
-+ *
-+ * This library provides helper functions for gem objects backed by
-+ * ttm.
-+ */
-+
-+/**
-+ * drm_gem_ttm_print_info() - Print &ttm_buffer_object info for debugfs
-+ * @p: DRM printer
-+ * @indent: Tab indentation level
-+ * @gem: GEM object
-+ *
-+ * This function can be used as &drm_gem_object_funcs.print_info
-+ * callback.
-+ */
-+void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent,
-+			    const struct drm_gem_object *gem)
-+{
-+	static const char const *plname[] = {
-+		[ TTM_PL_SYSTEM ] = "system",
-+		[ TTM_PL_TT     ] = "tt",
-+		[ TTM_PL_VRAM   ] = "vram",
-+		[ TTM_PL_PRIV   ] = "priv",
-+
-+		[ 16 ]            = "cached",
-+		[ 17 ]            = "uncached",
-+		[ 18 ]            = "wc",
-+		[ 19 ]            = "contig",
-+
-+		[ 21 ]            = "pinned", /* NO_EVICT */
-+		[ 22 ]            = "topdown",
-+	};
-+	const struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
-+
-+	drm_printf_indent(p, indent, "placement=");
-+	drm_print_bits(p, bo->mem.placement, plname, 0, ARRAY_SIZE(plname));
-+	drm_printf(p, "\n");
-+
-+	if (bo->mem.bus.is_iomem) {
-+		drm_printf_indent(p, indent, "bus.base=%lx\n",
-+				  (unsigned long)bo->mem.bus.base);
-+		drm_printf_indent(p, indent, "bus.offset=%lx\n",
-+				  (unsigned long)bo->mem.bus.offset);
-+	}
-+}
-+EXPORT_SYMBOL(drm_gem_ttm_print_info);
-+
-+MODULE_DESCRIPTION("DRM gem ttm helpers");
-+MODULE_LICENSE("GPL");
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index b664f054c259..a70a1d9f30ec 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -412,6 +412,18 @@ VRAM MM Helper Functions Reference
- .. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
-    :export:
- 
-+GEM TTM Helper Functions Reference
-+-----------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :doc: overview
-+
-+.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-+   :export:
-+
- VMA Offset Manager
- ==================
- 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e6f40fb54c9a..f7b25519f95c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -172,6 +172,13 @@ config DRM_VRAM_HELPER
- 	help
- 	  Helpers for VRAM memory management
- 
-+config DRM_TTM_HELPER
-+	tristate
-+	depends on DRM
-+	select DRM_TTM
-+	help
-+	  Helpers for ttm-based gem objects
-+
- config DRM_GEM_CMA_HELPER
- 	bool
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 10f8329a8b71..545c61d6528b 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -37,6 +37,9 @@ drm_vram_helper-y := drm_gem_vram_helper.o \
- 		     drm_vram_mm_helper.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
-+drm_ttm_helper-y := drm_gem_ttm_helper.o
-+obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
-+
- drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
- 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
- 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
--- 
-2.18.1
+What tools use these today?  What is going to break?
 
+thanks,
+greg k-h
