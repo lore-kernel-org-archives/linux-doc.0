@@ -1,116 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C97357FC51
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 19:07:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A04117DE7D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 20:01:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390138AbfIDSRI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 14:17:08 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:52809 "EHLO
-        esa4.hc3370-68.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390016AbfIDSRI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 14:17:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=citrix.com; s=securemail; t=1567621027;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=6sKFQsgK3hmnQqRn7QbS0Q0onQxt/wsvfBLo+ew2VPs=;
-  b=MVk9Ap6OuSERi/77uUYiStbwQojfGqlS2O6PFD0U5T9kUmgUwmbsCbvQ
-   8kIc94cE66/1DRZMtBIly9JyVQ2KX4Ro6P/wb8nA+Ybir7c/cskSmDA/l
-   iz+98Y5XrD0M+aI9tISvXQuSJZ+0u1HCwZc4jG+RXw0++CCxmANyXOSEQ
-   o=;
-Authentication-Results: esa4.hc3370-68.iphmx.com; dkim=none (message not signed) header.i=none; spf=None smtp.pra=andrew.cooper3@citrix.com; spf=Pass smtp.mailfrom=Andrew.Cooper3@citrix.com; spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
-  authenticity information available from domain of
-  andrew.cooper3@citrix.com) identity=pra;
-  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
-  envelope-from="Andrew.Cooper3@citrix.com";
-  x-sender="andrew.cooper3@citrix.com";
-  x-conformance=sidf_compatible
-Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
-  Andrew.Cooper3@citrix.com designates 162.221.158.21 as
-  permitted sender) identity=mailfrom;
-  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
-  envelope-from="Andrew.Cooper3@citrix.com";
-  x-sender="Andrew.Cooper3@citrix.com";
-  x-conformance=sidf_compatible; x-record-type="v=spf1";
-  x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
-  ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
-  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
-  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@mail.citrix.com) identity=helo;
-  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
-  envelope-from="Andrew.Cooper3@citrix.com";
-  x-sender="postmaster@mail.citrix.com";
-  x-conformance=sidf_compatible
-IronPort-SDR: asFe9edQEmHVY/aROrCRTcmcYIq+1J/+sWfY+RCj0l/CO4uUHkEG1jxAebSGWUZ/18SxWqwcxF
- Xn25wGDLhpWgGVJKKjA4fimC/hT+5bWo0Ny9I9b2Smp4dkzWRyyqmEsE9zx/CYPGFdiv2hltxT
- W8slK2rY7rXJqVC5ZPDbwDTa2nVkWpuqhCiHL9GtaOu4lUSMUkXzjPPNIpSadaZEYB+gxNYpct
- 6yzhkAQqhd60FTTCgzI9eqSD2TEKqcCSQM5Ka/+88HHDGxf1db25eaLi2EtXAZ7Y1K26BYVtdb
- +YE=
-X-SBRS: 2.7
-X-MesageID: 5411413
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,467,1559534400"; 
-   d="scan'208";a="5411413"
-From:   Andrew Cooper <andrew.cooper3@citrix.com>
-To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Andrew Cooper <andrew.cooper3@citrix.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        "Ben Hutchings" <ben@decadent.org.uk>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH] Documentation/process: Volunteer as the ambassador for Xen
-Date:   Wed, 4 Sep 2019 19:17:02 +0100
-Message-ID: <20190904181702.19788-1-andrew.cooper3@citrix.com>
-X-Mailer: git-send-email 2.11.0
+        id S1727544AbfIDTsC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 15:48:02 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:35637 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727156AbfIDTsB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 15:48:01 -0400
+Received: by mail-io1-f67.google.com with SMTP id b10so47074450ioj.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2019 12:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wvuud4zA0aelxuvnRUobLyqJekSvD1KYW4Jzg0u/ZQc=;
+        b=Y0NOuo8bEuOroTj6m+/5EzJE3VAcUssNmVi+ZRKTlXHcWNd5foeOvxWu35e9TX3J5r
+         7zBbLds+FE/dAiQnhG5iY1jU6Vj2t6r2dorZLcTHbaPO1lPHNY6qkr+bR4UDDMhd0Zh3
+         8s+pLldygOTQ2MKr6a83xa6m0hCfyBAATJd09oKV0MdZ/6ENxaeIKgLJwng3FJsh/5S5
+         jHV1ewitJX72Rcu0SUgy1NK31qZA69TVfjskyyxC38775GWGvq/ojyUwO5/c433eF+7I
+         UYagQKo+VXxhVYfT78JAutHRyftID48DlYHE6ogvWI6Kz1TEN8LuLoXEPCrcqE7yR4/y
+         wmUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wvuud4zA0aelxuvnRUobLyqJekSvD1KYW4Jzg0u/ZQc=;
+        b=Y6TQ4oG3girakKe2k+WW2tcnILKXSwTFlanddONVF2o0UFVR70FK9I0ZSsBNcoRERS
+         DbWx6wTmR6F0DqbftcsItsFdbHK0BoCLM9QsLFomvc0Hd1PkUQVvjEi9y9GVWEufmhSX
+         Z3rKuvZ52JM9465mIp7VFM7qHsMgBk9Bi1FHZU19gkX2Ck1agTA7II+QCdPXzRQGWGpw
+         3b3U+Z6GGs3u8hsj24WmWkkJacWukQF2rjlDCSDPNwVeWNslfjcLLFlu+a32uhumcROy
+         g88kz3kt1gUV+eMcJsg0KMrTnaAFKu0L098PHvlTgC5TBwZ7scpFfTo/CQP3pgR5HjbV
+         8I5g==
+X-Gm-Message-State: APjAAAVBWpxdzW6lLkZgLySk+YT9fJnaUGZq6AKf2qhRI34ETaMHjV7n
+        mrU0wytqdEQWj/qcgj+Q80SEQ7xid1atUgvWk+nuug==
+X-Google-Smtp-Source: APXvYqzztImVgWfrY2RxM4IHFkQgBnx8FXE9py5dRz7xEOiF8hgk4S+nwn54/rqC1bitfrf3hoU2+K8SFwEHu7NpO5M=
+X-Received: by 2002:a5d:8908:: with SMTP id b8mr2085148ion.237.1567626480311;
+ Wed, 04 Sep 2019 12:48:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20190829213321.4092-1-mike.leach@linaro.org> <20190829213321.4092-10-mike.leach@linaro.org>
+ <20190903195951.GA25008@kroah.com> <CANLsYkwvasYKaepXuWdkTKDj7RquATaum-dmTZZQL237wesryQ@mail.gmail.com>
+ <20190904054809.GB4511@kroah.com> <CANLsYkySX_3fGi4WLKHr7bv2=_j2UMyaTXCrwHSnzR-oH1V_ZQ@mail.gmail.com>
+ <20190904161737.GA20662@kroah.com>
+In-Reply-To: <20190904161737.GA20662@kroah.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Wed, 4 Sep 2019 13:47:49 -0600
+Message-ID: <CANLsYkwGJKu3Ub55oP6br0yVaP5wy7F2Au4p1kCh0d7Ljzuxnw@mail.gmail.com>
+Subject: Re: [PATCH v2 09/11] coresight: etm4x: docs: Update ABI doc for sysfs
+ features added.
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Jon Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Andrew Cooper <andrew.cooper3@citrix.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tyler Hicks <tyhicks@canonical.com>
-Cc: Ben Hutchings <ben@decadent.org.uk>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Jiri Kosina <jkosina@suse.cz>
----
-Volunteer as tribute, perhaps.  Lets hope this isn't needed as frequenly as
-the past two years have gone.
----
- Documentation/process/embargoed-hardware-issues.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 4 Sep 2019 at 10:17, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Sep 04, 2019 at 10:05:51AM -0600, Mathieu Poirier wrote:
+> > On Tue, 3 Sep 2019 at 23:48, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, Sep 03, 2019 at 04:51:40PM -0600, Mathieu Poirier wrote:
+> > > > On Tue, 3 Sep 2019 at 13:59, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Thu, Aug 29, 2019 at 10:33:19PM +0100, Mike Leach wrote:
+> > > > > > Update document to include the new sysfs features added during this
+> > > > > > patchset.
+> > > > > >
+> > > > > > Updated to reflect the new sysfs component nameing schema.
+> > > > > >
+> > > > > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > > > > > ---
+> > > > > >  .../testing/sysfs-bus-coresight-devices-etm4x | 183 +++++++++++-------
+> > > > > >  1 file changed, 115 insertions(+), 68 deletions(-)
+> > > > > >
+> > > > > > diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > > > > index 36258bc1b473..112c50ae9986 100644
+> > > > > > --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > > > > +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> > > > > > @@ -1,4 +1,4 @@
+> > > > > > -What:                /sys/bus/coresight/devices/<memory_map>.etm/enable_source
+> > > > > > +What:                /sys/bus/coresight/devices/etm<N>/enable_source
+> > > > >
+> > > > > You are renaming sysfs directories that have been around since:
+> > > > >
+> > > > > >  Date:                April 2015
+> > > > >
+> > > > > ???
+> > > > >
+> > > > > Really?
+> > > > >
+> > > > > That's brave.
+> > > >
+> > > >
+> > > > When I worked on the coresight sysfs ABI a while back I specifically
+> > > > added it at the "testing" level as I was well aware that things could
+> > > > change in the future.  According to the guidelines in the
+> > > > documentation userspace can rely on it which was accurate since the
+> > > > interface didn't change for 4 years.  But the guidelines also mention
+> > > > that changes can occur before the interfaces are move to stables, and
+> > > > that programs are encouraged to manifest their interest by adding
+> > > > their name to the "users" field.
+> > > >
+> > > > The interface was changed in 5.2 to support coresight from ACPI and
+> > > > make things easier to understand for users.  It is a lot more
+> > > > intuitive to associate an ETM tracer with the CPU it belongs to by
+> > > > referring to the CPU number than the memory mapped address.  Given the
+> > > > "testing" status of the interface and the absence of registered users
+> > > > I decided to move forward with the change.  If "testing" is too strict
+> > > > for that I suggest to add an "experimental" category where it would be
+> > > > more acceptable to change things as subsystems mature.
+> > >
+> > > "testing" is not really "testing" if you have userspace tools/programs
+> > > assuming the location and contents of specific files in sysfs.
+> > >
+> > > You can change things in sysfs by creating new files, but to do
+> > > wholesale renaming like you did here can be very dangerous as you might
+> > > be breaking things.
+> >
+> > Yes, something I have definitely considered.
+> >
+> > > Usually new files are created, not existing ones
+> > > moved.
+> >
+> > In this case it would have meant a new symbolic link for every
+> > coresight device, so twice a many entries under
+> > $(SYS)/bus/coresight/device/.  That would have been a lot of clutter
+> > and an increasing source of problems as the number of CPU and sinks
+> > increases.  To me, and given the permissive definition of "testing"
+> > found in the documentation, a clean break was a better option.
+>
+> Well, "testing" doesn't really matter in the end, if a tool/user relies
+> on it, we have to keep it working properly.
+>
+> > > What tools use these today?  What is going to break?
+> >
+> > Other than local shell scripts I am not aware of any tools using these
+> > today.  I am certainly open to discuss a better alternative but right
+> > now, I just don't see one.
+>
+> Be aware that you might have to change this back if there is any
+> objections.
+>
 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index d37cbc502936..f9e8c0b23c52 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -221,7 +221,7 @@ an involved disclosed party. The current ambassadors list:
- 
-   Microsoft
-   VMware
--  XEN
-+  Xen		Andrew Cooper <andrew.cooper3@citrix.com>
- 
-   Canonical	Tyler Hicks <tyhicks@canonical.com>
-   Debian	Ben Hutchings <ben@decadent.org.uk>
--- 
-2.11.0
+We have an agreement.
 
+Regards,
+Mathieu
