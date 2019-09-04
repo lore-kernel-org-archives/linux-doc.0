@@ -1,118 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB4647D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 05:48:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E312C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 06:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728698AbfIDFsN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 01:48:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49132 "EHLO mail.kernel.org"
+        id S1728551AbfIDGET (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 02:04:19 -0400
+Received: from mga06.intel.com ([134.134.136.31]:58605 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbfIDFsM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Sep 2019 01:48:12 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED9EF2341D;
-        Wed,  4 Sep 2019 05:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567576091;
-        bh=62m/BaM2YlXpmhbO43sigHiSBNsLNfopQ+9alrBU8Ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=caFw/CP6kgw8MfCH1kbcN+WHvs6pfPT9ZtQw39wOSGIorocqZRYE0OcBZNa0sN4JU
-         d9JZMRlOge964dSm1wDiVndNArHIykNg5LkYfGsodxb1HJmge+XF2RmrpRWtr8BTYJ
-         qhIVtxwWj1WapFbegav98S/iOkBXB2ZW2XF8ADZ0=
-Date:   Wed, 4 Sep 2019 07:48:09 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
-        Jon Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 09/11] coresight: etm4x: docs: Update ABI doc for
- sysfs features added.
-Message-ID: <20190904054809.GB4511@kroah.com>
-References: <20190829213321.4092-1-mike.leach@linaro.org>
- <20190829213321.4092-10-mike.leach@linaro.org>
- <20190903195951.GA25008@kroah.com>
- <CANLsYkwvasYKaepXuWdkTKDj7RquATaum-dmTZZQL237wesryQ@mail.gmail.com>
+        id S1726004AbfIDGES (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Sep 2019 02:04:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Sep 2019 23:04:17 -0700
+X-IronPort-AV: E=Sophos;i="5.64,465,1559545200"; 
+   d="scan'208";a="334095759"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.239.13.123]) ([10.239.13.123])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/AES256-SHA; 03 Sep 2019 23:04:16 -0700
+Subject: Re: [PATCH] doc: kvm: fix return description of KVM_SET_MSRS
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190902101214.77833-1-xiaoyao.li@intel.com>
+ <20190903163332.GF10768@linux.intel.com>
+From:   Xiaoyao Li <xiaoyao.li@intel.com>
+Message-ID: <2354b729-eed6-df82-64bb-4643beccdc80@intel.com>
+Date:   Wed, 4 Sep 2019 14:04:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANLsYkwvasYKaepXuWdkTKDj7RquATaum-dmTZZQL237wesryQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190903163332.GF10768@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 03, 2019 at 04:51:40PM -0600, Mathieu Poirier wrote:
-> On Tue, 3 Sep 2019 at 13:59, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Aug 29, 2019 at 10:33:19PM +0100, Mike Leach wrote:
-> > > Update document to include the new sysfs features added during this
-> > > patchset.
-> > >
-> > > Updated to reflect the new sysfs component nameing schema.
-> > >
-> > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > > ---
-> > >  .../testing/sysfs-bus-coresight-devices-etm4x | 183 +++++++++++-------
-> > >  1 file changed, 115 insertions(+), 68 deletions(-)
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-> > > index 36258bc1b473..112c50ae9986 100644
-> > > --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-> > > +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-> > > @@ -1,4 +1,4 @@
-> > > -What:                /sys/bus/coresight/devices/<memory_map>.etm/enable_source
-> > > +What:                /sys/bus/coresight/devices/etm<N>/enable_source
-> >
-> > You are renaming sysfs directories that have been around since:
-> >
-> > >  Date:                April 2015
-> >
-> > ???
-> >
-> > Really?
-> >
-> > That's brave.
+On 9/4/2019 12:33 AM, Sean Christopherson wrote:
+> On Mon, Sep 02, 2019 at 06:12:14PM +0800, Xiaoyao Li wrote:
 > 
+> It may seem silly, but a proper changelog would be helpful even here,
+> e.g. to explain how and when a positive return value can diverge from the
+> number of MSRs specific in struct kvm_msrs.
 > 
-> When I worked on the coresight sysfs ABI a while back I specifically
-> added it at the "testing" level as I was well aware that things could
-> change in the future.  According to the guidelines in the
-> documentation userspace can rely on it which was accurate since the
-> interface didn't change for 4 years.  But the guidelines also mention
-> that changes can occur before the interfaces are move to stables, and
-> that programs are encouraged to manifest their interest by adding
-> their name to the "users" field.
+>> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+>> ---
+>>   Documentation/virt/kvm/api.txt | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
+>> index 2d067767b617..a2efc19e0f4e 100644
+>> --- a/Documentation/virt/kvm/api.txt
+>> +++ b/Documentation/virt/kvm/api.txt
+>> @@ -586,7 +586,7 @@ Capability: basic
+>>   Architectures: x86
+>>   Type: vcpu ioctl
+>>   Parameters: struct kvm_msrs (in)
+>> -Returns: 0 on success, -1 on error
+>> +Returns: number of msrs successfully set, -1 on error
 > 
-> The interface was changed in 5.2 to support coresight from ACPI and
-> make things easier to understand for users.  It is a lot more
-> intuitive to associate an ETM tracer with the CPU it belongs to by
-> referring to the CPU number than the memory mapped address.  Given the
-> "testing" status of the interface and the absence of registered users
-> I decided to move forward with the change.  If "testing" is too strict
-> for that I suggest to add an "experimental" category where it would be
-> more acceptable to change things as subsystems mature.
+> Similar to the changelong comment, it'd be helpful to elaborate on the
+> positive return value, e.g.:
+> 
+>    Returns: number of msrs successfully set (see below), -1 on error
+> 
+> and then something in the free form text explaining how the ioctl stops
+> processing MSRs if setting an MSR fails.
+>
 
-"testing" is not really "testing" if you have userspace tools/programs
-assuming the location and contents of specific files in sysfs.
+Do it in v2, thanks!
 
-You can change things in sysfs by creating new files, but to do
-wholesale renaming like you did here can be very dangerous as you might
-be breaking things.  Usually new files are created, not existing ones
-moved.
-
-What tools use these today?  What is going to break?
-
-thanks,
-greg k-h
+>>   Writes model-specific registers to the vcpu.  See KVM_GET_MSRS for the
+>>   data structures.
+>> -- 
+>> 2.19.1
+>>
