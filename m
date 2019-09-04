@@ -1,90 +1,217 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E89747D919
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 20:45:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 92C077D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Sep 2019 21:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728526AbfIDUo7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 16:44:59 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:38642 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729316AbfIDUo7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 16:44:59 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x84Kh54m153884;
-        Wed, 4 Sep 2019 20:44:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=CMHKj2GIWVRIBx+G51xYXdDUsZp6Rgv4DQI91QouWAc=;
- b=bxpw6B/gKwT4HLmwUQRwgNAnz0YXhHaNBgTGlpfq+Sf/Naor0cn6oY5D65g75x0gaJ/T
- YGTOllBk9NzMfaWtNn4xsCXYSSbjZtmcCI9K2HGrKd6pInqSykEN+zlH8MIyc1GEo1k3
- uOAYFJ+6Xh/rBfwb6QmrbH5fMEYRs9aIgvASpA03s6DrNXYEXDi0kG1BWBfDdIlPyeDq
- pIlRqDMKZnfDh2vxl9idRmUHOnhhM6Ivg0pRJEhCfnto4Z/mb0Fqe5XvccOslZhaoC4c
- 0z/hTlkrfDM+1Ceb4h1wR6z1NpaXAPiVsI+0C5ISGdB4JITFvro5CfHrBzGbzM51MNH1 SA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2utmj100ee-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 04 Sep 2019 20:44:52 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x84KX9xS047583;
-        Wed, 4 Sep 2019 20:44:52 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 2usu529w7p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 04 Sep 2019 20:44:51 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x84KimGx001287;
-        Wed, 4 Sep 2019 20:44:48 GMT
-Received: from ca-dmjordan1.us.oracle.com (/10.211.9.48)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 04 Sep 2019 13:44:47 -0700
-Date:   Wed, 4 Sep 2019 16:44:46 -0400
-From:   Daniel Jordan <daniel.m.jordan@oracle.com>
-To:     Florian Schmidt <florian.schmidt@nutanix.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH 1/2] trace-vmscan-postprocess: sync with tracepoints
- updates
-Message-ID: <20190904204446.kceqzrg4zmnw3mm6@ca-dmjordan1.us.oracle.com>
-References: <20190903111342.17731-1-florian.schmidt@nutanix.com>
- <20190903111342.17731-2-florian.schmidt@nutanix.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190903111342.17731-2-florian.schmidt@nutanix.com>
-User-Agent: NeoMutt/20180716
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9370 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=998
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1909040204
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9370 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1909040204
+        id S1730776AbfIDVLc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Sep 2019 17:11:32 -0400
+Received: from mail-pl1-f202.google.com ([209.85.214.202]:35093 "EHLO
+        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730753AbfIDVLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Sep 2019 17:11:32 -0400
+Received: by mail-pl1-f202.google.com with SMTP id s21so101640plr.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2019 14:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=u6P0vTia2RxCdsskGV2Xe3w3VBUYzUpmbJKpNal4IZw=;
+        b=hsXuOq4U7Hvf3+Aw42QvXQCMdUYeVEyK0fec5z9mwWg/bs6Scs6nwXwZNMourwGQVm
+         7MJGzsG1OLHJIXA9pmHevdTrdOK9qq6Hak0h/NnCo3E5lvSi6Ki8Zb/1Wi8K1Sh7qUDF
+         regS6AmwPMqqTDxHYDUX1U34olvb0UwCH88he5VII6X6Ckvietiyas6yicLPJMT06/Nj
+         AVE0f7vV+nd4dQZCuJeKYOB/+wP3ZtdVZWHEqQY80OpZOQigFszsAG1vFOd0ryc02YNF
+         rZvIl2NjmTqIZzJPGHGnaoYZls49JMMfpo37V7SSp8mZemetqwr3DSjnN6PYlOJIlQ6Q
+         PHFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=u6P0vTia2RxCdsskGV2Xe3w3VBUYzUpmbJKpNal4IZw=;
+        b=abK3qoJfbypeg9BduHnE9DtXP2fFXChdGEFHcj8ZjdAg6PJvC0VuPV81Y4HWh+ov/m
+         ONv/Cx9e2a0DOb4JKBdsEE845NZ7I5KqJ5VxmZepFvyrm7c7Te/zepw5ZZmoh7J8V4Hh
+         fPsEEXzSE4yllXnjIjE7TmrzOsCpnneSZ1PNtEQHitfNjkFeYcgbkEIxh2AtQZ8xNsT+
+         FuNbduIMqOMFhlTICCvlKPCz8fKjtGUOfVfENVQAD1Eh+07j4jAtqG5x+rcDaIJqJR1g
+         uaqhrN1DZy5dCmZH4owH+TMt4AyI2T5QWHmHT3cz7sUeG+VytToFDrL8wdYIkqzHJnkK
+         WWOA==
+X-Gm-Message-State: APjAAAW0FffuHJG13TXH17Ahve9z3Cw5WmnG9cSOdH0LjVftjMUDxZ4a
+        W1nGH/Qc+bR5+LIJL3sa0xHb5RW8Rl5DLms=
+X-Google-Smtp-Source: APXvYqzFJhNEj47Q9YRnGctnszvBFE5bLucB5Efpxvkp2c4kvXSYRccx8tAfNHCR2YaO0Z/cUY/FYqT5HsWndZo=
+X-Received: by 2002:a63:ec03:: with SMTP id j3mr111690pgh.325.1567631490651;
+ Wed, 04 Sep 2019 14:11:30 -0700 (PDT)
+Date:   Wed,  4 Sep 2019 14:11:19 -0700
+Message-Id: <20190904211126.47518-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Subject: [PATCH v11 0/6] Solve postboot supplier cleanup and optimize probe ordering
+From:   Saravana Kannan <saravanak@google.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>
+Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, clang-built-linux@googlegroups.com,
+        David Collins <collinsd@codeaurora.org>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 03, 2019 at 11:14:12AM +0000, Florian Schmidt wrote:
-> mm_vmscan_{direct_reclaim_begin,wakeup_kswapd,lru_isolate,lru_shrink_active}
-> changed their output to the point where the script throws warnings and
-> errors. Update it to be properly in line with those changes.
+Add device-links to track functional dependencies between devices
+after they are created (but before they are probed) by looking at
+their common DT bindings like clocks, interconnects, etc.
 
-Could use the appropriate Fixes tags here.
+Having functional dependencies automatically added before the devices
+are probed, provides the following benefits:
 
-> Signed-off-by: Florian Schmidt <florian.schmidt@nutanix.com>
+- Optimizes device probe order and avoids the useless work of
+  attempting probes of devices that will not probe successfully
+  (because their suppliers aren't present or haven't probed yet).
+
+  For example, in a commonly available mobile SoC, registering just
+  one consumer device's driver at an initcall level earlier than the
+  supplier device's driver causes 11 failed probe attempts before the
+  consumer device probes successfully. This was with a kernel with all
+  the drivers statically compiled in. This problem gets a lot worse if
+  all the drivers are loaded as modules without direct symbol
+  dependencies.
+
+- Supplier devices like clock providers, interconnect providers, etc
+  need to keep the resources they provide active and at a particular
+  state(s) during boot up even if their current set of consumers don't
+  request the resource to be active. This is because the rest of the
+  consumers might not have probed yet and turning off the resource
+  before all the consumers have probed could lead to a hang or
+  undesired user experience.
+
+  Some frameworks (Eg: regulator) handle this today by turning off
+  "unused" resources at late_initcall_sync and hoping all the devices
+  have probed by then. This is not a valid assumption for systems with
+  loadable modules. Other frameworks (Eg: clock) just don't handle
+  this due to the lack of a clear signal for when they can turn off
+  resources. This leads to downstream hacks to handle cases like this
+  that can easily be solved in the upstream kernel.
+
+  By linking devices before they are probed, we give suppliers a clear
+  count of the number of dependent consumers. Once all of the
+  consumers are active, the suppliers can turn off the unused
+  resources without making assumptions about the number of consumers.
+
+By default we just add device-links to track "driver presence" (probe
+succeeded) of the supplier device. If any other functionality provided
+by device-links are needed, it is left to the consumer/supplier
+devices to change the link when they probe.
+
+v1 -> v2:
+- Drop patch to speed up of_find_device_by_node()
+- Drop depends-on property and use existing bindings
+
+v2 -> v3:
+- Refactor the code to have driver core initiate the linking of devs
+- Have driver core link consumers to supplier before it's probed
+- Add support for drivers to edit the device links before probing
+
+v3 -> v4:
+- Tested edit_links() on system with cyclic dependency. Works.
+- Added some checks to make sure device link isn't attempted from
+  parent device node to child device node.
+- Added way to pause/resume sync_state callbacks across
+  of_platform_populate().
+- Recursively parse DT node to create device links from parent to
+  suppliers of parent and all child nodes.
+
+v4 -> v5:
+- Fixed copy-pasta bugs with linked list handling
+- Walk up the phandle reference till I find an actual device (needed
+  for regulators to work)
+- Added support for linking devices from regulator DT bindings
+- Tested the whole series again to make sure cyclic dependencies are
+  broken with edit_links() and regulator links are created properly.
+
+v5 -> v6:
+- Split, squashed and reordered some of the patches.
+- Refactored the device linking code to follow the same code pattern for
+  any property.
+
+v6 -> v7:
+- No functional changes.
+- Renamed i to index
+- Added comment to clarify not having to check property name for every
+  index
+- Added "matched" variable to clarify code. No functional change.
+- Added comments to include/linux/device.h for add_links()
+
+v7 -> v8:
+- Rebased on top of linux-next to handle device link changes in [1]
+
+v8 -> v9:
+- Fixed kbuild test bot reported errors (docs and const)
+
+v9->v10:
+- Changes made based on reviews on LKML [2] and discussions at ELC [3]
+- Dropped the edit_links() patch
+- Dropped the patch that skips linking for default bus nodes
+- 1/7: Changed from bus.add_links() to fwnode.ops.add_links() 
+- 1/7: Update device link doc
+- 1/7: Lots of comments/fn doc updates
+- 1/7: Renamed device_link_check_waiting_consumers() to
+  device_link_add_missing_supplier_links()
+- 2/7: Moved DT parsing/linking code from of/platform.c to of/property.c
+- 2/7: Lots of comments/fn doc updates
+- 2/7: Returned errors for all error cases in of_link_to_phandle()
+- 2/7: Some minor code refactor to remove "bool done"
+- 2/7: Added debug messages when links not created due permanent errors
+- 3/7: Minor comments update
+- Added 2 new patches 6/7 and 7/7 to handle cyclic dependencies using
+  depends-on
+
+v10->v11:
+- Dropped 6/7 and 7/7 from previous series that tried to handle cycles in DT
+  dependencies. We can solve it later when we actually hit a real world issue
+  in DT.
+- Added a new 1/7 that shifts the numbering for the rest of the patches
+- 1/7 adds a way to look up a device from a fwnode so that this series can work
+  across bus and firmware types
+- 3/7 removed references to platform_device from of/property.c
+- 4/7 Minor variable rename
+- 4/7 Defer sync_state() be default at driver core level and resume at
+  late_initcall_sync(). That way, we don't depend on any specific bus types
+  having to pause/resume sync_state() till late_initcall_sync()
+
+[1] - https://lore.kernel.org/lkml/2305283.AStDPdUUnE@kreacher/
+[2] - https://lore.kernel.org/lkml/20190724001100.133423-2-saravanak@google.com/
+[3] - https://lore.kernel.org/lkml/CAGETcx_pSnC_2D7ufLRyfE3b8uRc814XEf8zu+SpNtT7_Z8NLg@mail.gmail.com/
+
+-Saravana
+
+
+Saravana Kannan (6):
+  driver core: Add fwnode_to_dev() to look up device from fwnode
+  driver core: Add support for linking devices during device addition
+  of: property: Add functional dependency link from DT bindings
+  driver core: Add sync_state driver/bus callback
+  of/platform: Pause/resume sync state during init and
+    of_platform_populate()
+  of: property: Create device links for all child-supplier depencencies
+
+ .../admin-guide/kernel-parameters.rst         |   1 +
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/driver-api/device_link.rst      |   3 +-
+ drivers/base/core.c                           | 167 ++++++++++++
+ drivers/of/platform.c                         |  12 +
+ drivers/of/property.c                         | 245 ++++++++++++++++++
+ include/linux/device.h                        |  26 ++
+ include/linux/fwnode.h                        |  19 ++
+ 8 files changed, 478 insertions(+), 1 deletion(-)
+
+-- 
+2.23.0.187.g17f5b7556c-goog
+
