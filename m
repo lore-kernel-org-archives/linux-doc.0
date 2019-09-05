@@ -1,90 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CA4F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 11:01:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9BD77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 11:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732462AbfIELBe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 5 Sep 2019 07:01:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48310 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726137AbfIELBd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Sep 2019 07:01:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Gd5Si23CQTkjXHrd1kfDMwHId0XN7lelZ5t8iFh3FtY=; b=siCmQcbRBU1+a6LPDnLeI+LN/p
-        uF+ApHOVakeqBxbCBMBZwDoLmgufJ81HdrUihZtcPe5S6KEWqVNV3oc5UOileqPOfagquF2TlEiMN
-        +pQz2Ixl5/yy4+HIc/SDNs0XofIZM1HwJsmoliA35trjpswlq17SCovLc10tjyzz+5gkEqZKbp5Hp
-        huh0bEpWI7NQOe2hg6Mv9EPS1DyYZbLvnng53LZfbS3z6X2pMxvjM+COAgUw6UVhUtLxh8i4S2Kyz
-        yvOZo+4U51vnVQRLBmwX2D0rjXGblveF8ARgij8vSj5QIPwcabhjLVZtG9leHpulrZFNucttxnAS6
-        9+TclA9A==;
-Received: from 177.17.137.173.dynamic.adsl.gvt.net.br ([177.17.137.173] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5pW8-0003ac-Uc; Thu, 05 Sep 2019 11:01:32 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.1)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i5pW6-00030x-Jb; Thu, 05 Sep 2019 08:01:30 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] docs: sphinx: add SPDX header for some sphinx extensions
-Date:   Thu,  5 Sep 2019 08:01:27 -0300
-Message-Id: <d1331081c206afb4ba71e07d5b11a67896cbd99f.1567681249.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190905075028.643f4b9d@coco.lan>
-References: <20190905075028.643f4b9d@coco.lan>
+        id S2388504AbfIELcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 5 Sep 2019 07:32:12 -0400
+Received: from mail-eopbgr10076.outbound.protection.outlook.com ([40.107.1.76]:3631
+        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388500AbfIELcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Sep 2019 07:32:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FkGXp3y3Q/2OwyTxRmfjJxI6T0S0wkIKiBujUfZOJdbM1WjJaT21vLU/xpExsGqakI8MXjIJ9oWiZk/rjzu8r1+FReokXGjoaK2tvVb6Bty5iwXOQm+5RPne/Z9q7H8NhaPuhTS+F74MyERO73lKLo6w1XxdsujxwWRyD7JBT8A1oOW7W1Ft6FdBY5WwvGo0fWO9QKPQTMO5cZoMbT/X5ErlshNEirZgN1mdBsSY6Z6KHOAVyhORyMvdtqnZTxPYYBlhmQSIIagfMTJSWpH62iFoJYGUTYWvm0A4UMV7U0q7VdnuJiALPXyHYO+W7HcCLTWy10ox2ppg9Pjqc1Cq3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZBI+FYX1KFSBz1ie9G32vFr88YGL2wi8tUzmwVkl/Ts=;
+ b=nioxZGrDqGAsHbpXXixBMVtqrH0PTNUdrRk1JH3IOItMhdwCBZJxJMFJuMHnpk5K02kw4ORcxvMqjRc1gNEZIN5gGCwMbkx1UMcKhaxzx1B+YIpIZLycSy/ZLF2CJbLmU4pT3nAvgiZ4X8ReohpfXc7c0bYRtTyv2uUz8Bl+sEKxHS+8nwM80uXb4ez15LLe6A+hbOiojD5FaLC4HQi+MNECu7owYui9lSs4fQBnZkr/ZrOrB4MkKy7Lyw6HYWKJOkN2Gp0Gn6rT5A3YxldtwiGxcWJKNZJmAL9OZKxNz0KZEHb4iTiYBpn1jk4KYqKqO9M800TEEiSEMcl2Cofcmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZBI+FYX1KFSBz1ie9G32vFr88YGL2wi8tUzmwVkl/Ts=;
+ b=CVXIwvFz/vhR4PeSfuIT9NX/9uv5rzNL+2WAZG2Evu3yXXZWzqyjIgdMFyzzYfSlUbjCmjxgm2CxN0B+8CiRxJSSmGclpuJqyhM0wKVAH+AAUF3qWQioFneLIKVAOwhu1ivxqEKm0qFjOdUzHZNFqur9UoSpZCfruIy95vqeqno=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3549.eurprd04.prod.outlook.com (52.134.4.30) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.14; Thu, 5 Sep 2019 11:32:06 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::19cd:9f82:31ce:fbbb]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::19cd:9f82:31ce:fbbb%8]) with mapi id 15.20.2220.022; Thu, 5 Sep 2019
+ 11:32:06 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3 4/7] serial: fsl_linflexuart: Be consistent with the
+ name
+Thread-Topic: [PATCH v3 4/7] serial: fsl_linflexuart: Be consistent with the
+ name
+Thread-Index: AQHVY92MysyPIFyCEEuEgtvcGJKDEQ==
+Date:   Thu, 5 Sep 2019 11:32:06 +0000
+Message-ID: <VI1PR0402MB2863B0A0D1D12FA9CC2515E2DFBB0@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+References: <20190823191115.18490-1-stefan-gabriel.mirea@nxp.com>
+ <20190823191115.18490-5-stefan-gabriel.mirea@nxp.com>
+ <20190904075259.GA10983@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 47e1512b-c3a7-4c74-72b6-08d731f4ae9d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR0402MB3549;
+x-ms-traffictypediagnostic: VI1PR0402MB3549:|VI1PR0402MB3549:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB35498FA3B82BAE402303654CDFBB0@VI1PR0402MB3549.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-forefront-prvs: 015114592F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(366004)(39860400002)(376002)(396003)(346002)(199004)(189003)(2351001)(53936002)(99286004)(76176011)(52536014)(81156014)(102836004)(74316002)(6506007)(53546011)(54906003)(7416002)(4744005)(81166006)(316002)(66066001)(305945005)(71200400001)(6436002)(26005)(71190400001)(7736002)(1730700003)(8936002)(256004)(6916009)(8676002)(5640700003)(186003)(478600001)(7696005)(229853002)(2501003)(66446008)(2906002)(486006)(64756008)(66476007)(66556008)(91956017)(33656002)(6246003)(5660300002)(76116006)(9686003)(86362001)(14454004)(476003)(3846002)(25786009)(446003)(55016002)(4326008)(66946007)(6116002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3549;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: YScnS9d/ZqGpteTPFTnJ+IzbzrwEDgKzXgySvYv4RMTxgv9MtIym1wole8sfgfEAOarYF79Gl59+FY+HUuXzN0XaHUZacm3DrrOJEBiGKyXZVNapLHCBOI33W4p7xpLIm7f6dmWJbgfM5Ezg9e2xMG8a4AqIkLFwdCU1jrHqbzLIC3PLW5/T7LQSN2TWjmmk3uh62AsrdoXf+cclF/n30nyy6UpzkB5jR7jZYnb78CrH75SwwgMMK04ccT/qtNWrC6TrvC0f51+KxJiX0+Zcx1Kvlh4S9LliC85GI9aOqKPa8Vs7nJi2IutqPVeJYaKtKNLf872vdpG2As9XV+/lirlwhdtVomFSbqL9ZSmY4XAy5jdB/0/OiT1B6D/Ggt6ccpFWxZpRU/TP+t2g4jF/VltV8kmTyAH5XRtzBeW49eE=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47e1512b-c3a7-4c74-72b6-08d731f4ae9d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 11:32:06.5650
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OVesSTo2T03B86FCNLPE1Z7ckD0QO5MOIpe0AMvV8z3bvoAi6RWegT3nUl0xPtXkutwBqOKMF+K7xKxyj/D5jo0yh6py+zRFKWUKCSXvDRs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3549
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those extensions are released under GPLv2, as stated at the
-:license: markup tag.
-
-Add the corresponding SPDX tags for such license.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/sphinx/kernel_include.py | 1 +
- Documentation/sphinx/rstFlatTable.py   | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index f523aa68a36b..7aaea4e31f78 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -1,5 +1,6 @@
- #!/usr/bin/env python3
- # -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
- # pylint: disable=R0903, C0330, R0914, R0912, E0401
- 
- u"""
-diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
-index 2019a55f6b18..15769d01831b 100755
---- a/Documentation/sphinx/rstFlatTable.py
-+++ b/Documentation/sphinx/rstFlatTable.py
-@@ -1,5 +1,6 @@
- #!/usr/bin/env python3
- # -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
- # pylint: disable=C0330, R0903, R0912
- 
- u"""
--- 
-2.21.0
-
+Hello Greg,=0A=
+=0A=
+On 9/4/2019 10:53 AM, gregkh@linuxfoundation.org wrote:=0A=
+> On Fri, Aug 23, 2019 at 07:11:37PM +0000, Stefan-gabriel Mirea wrote:=0A=
+>> For consistency reasons, spell the controller name as "LINFlexD" in=0A=
+>> comments and documentation.=0A=
+>>=0A=
+>> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>=0A=
+>> ---=0A=
+>>  Documentation/admin-guide/kernel-parameters.txt | 2 +-=0A=
+>>  drivers/tty/serial/Kconfig                      | 8 ++++----=0A=
+>>  drivers/tty/serial/fsl_linflexuart.c            | 4 ++--=0A=
+>>  include/uapi/linux/serial_core.h                | 4 ++--=0A=
+>>  4 files changed, 9 insertions(+), 9 deletions(-)=0A=
+> =0A=
+> Doesn't apply to my tty-next tree :(=0A=
+=0A=
+Thanks for letting me know; I will fix this in v4.=0A=
+=0A=
+Regards,=0A=
+Stefan=0A=
