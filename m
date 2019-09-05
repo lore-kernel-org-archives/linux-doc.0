@@ -1,90 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15F437D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 01:12:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81FB87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 04:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbfIEBML (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Sep 2019 21:12:11 -0400
-Received: from mga18.intel.com ([134.134.136.126]:7752 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727125AbfIEBML (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Sep 2019 21:12:11 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Sep 2019 18:12:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,468,1559545200"; 
-   d="scan'208";a="184081805"
-Received: from lxy-clx-4s.sh.intel.com ([10.239.43.44])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Sep 2019 18:12:08 -0700
-From:   Xiaoyao Li <xiaoyao.li@intel.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>
-Cc:     Xiaoyao Li <xiaoyao.li@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3] doc: kvm: Fix return description of KVM_SET_MSRS
-Date:   Thu,  5 Sep 2019 08:57:37 +0800
-Message-Id: <20190905005737.131067-1-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.19.1
+        id S1726107AbfIEEd1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 5 Sep 2019 00:33:27 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:45442 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbfIEEd0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Sep 2019 00:33:26 -0400
+Received: by mail-io1-f65.google.com with SMTP id f12so1612570iog.12;
+        Wed, 04 Sep 2019 21:33:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A9lp9rhuOjuiUtpTZbai2HQ4h+Vi7sUNNaRy+CQ2YQk=;
+        b=vgYtsyg2WXd34VyqbkP05aghwRT4lvZ1s7eC0B2UvEemyrW2CCG4XVY+Oirqhhxklh
+         RVjpqeQX/D8sjnATnNTYS8aJTAVTwybboUE1RgXr5FSwr651eQ5eq2rxqibcalc/oY9f
+         D1dlubk0qbTK0JWtb9n8jkjX272/T1nWav8wnwzTbMLIzT/p+uobe5rtL8RyMhoZBov7
+         MoUmLz4sbKd1ADh8IvEKRqGOOU/mQndzLlz3qdSgWjD8L9dYcm+3q6TWLhjIEVNcRDva
+         dPxBX7ShbQIPz3dXW02LX+YHBys4IikU8eJ/U74y9msfzMdrp2NC1750E3E/ph1BWf2F
+         rPLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A9lp9rhuOjuiUtpTZbai2HQ4h+Vi7sUNNaRy+CQ2YQk=;
+        b=TkoD7UOHueXxPe8VTMPn2Yhj2iJZHq6w7LtgQDjdiFf9TyLv/STkA/ZGWQvtEvYwW1
+         B9k5ws7G8aelVAMNGcKydEImUGqNMGsjoQ0tnzYcyXBEC7gJkyvDHeFJKrbda4CVzX6F
+         GaMLiHEiiYhGvNpCilz+OsOkW1lFQot7VHV8F2KmXz4QiCSSbjyGegvCoggVsVTuL82R
+         TvwRLMGPrDRa9aUxTmBZlkN0mA8UiRdyZjLAJhGDDheFP8bWObgNLVWtXb/qBGZlyYV6
+         wfQu9m5Ssc3Nkj4WaM7W9VSerjpdlkzNV7/J3a10Vywx/fCp025Pumm/dyh9uMqhYurf
+         vTtg==
+X-Gm-Message-State: APjAAAVhBQobNPBEofh0ndA2CMn7ZOCEbhE3Z4QXIkOpHqk+uxZqMSLp
+        Id4yTDbh0YvIWxZuQpvZ28CJNA+vwOmi6Ulv768=
+X-Google-Smtp-Source: APXvYqwI06AxNfsCKmqOxx7MSL+aEzYNxe4/ymVxIAaBMvoQMCqgLN2EWGT4E8EOVJ7ZbABYbNhB62igxw+9X9uHtSI=
+X-Received: by 2002:a6b:7503:: with SMTP id l3mr1689873ioh.244.1567658006037;
+ Wed, 04 Sep 2019 21:33:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190903111342.17731-1-florian.schmidt@nutanix.com> <20190904204241.y6c335djr3bwm6xo@ca-dmjordan1.us.oracle.com>
+In-Reply-To: <20190904204241.y6c335djr3bwm6xo@ca-dmjordan1.us.oracle.com>
+From:   Yafang Shao <laoar.shao@gmail.com>
+Date:   Thu, 5 Sep 2019 12:32:49 +0800
+Message-ID: <CALOAHbA+82kfEDvzotJu50QtskqrWv6RzHyMBiHz2gXw1ySL=Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
+To:     Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc:     Florian Schmidt <florian.schmidt@nutanix.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Userspace can use ioctl KVM_SET_MSRS to update a set of MSRs of guest.
-This ioctl set specified MSRs one by one. If it fails to set an MSR,
-e.g., due to setting reserved bits, the MSR is not supported/emulated by
-KVM, etc..., it stops processing the MSR list and returns the number of
-MSRs have been set successfully.
+On Thu, Sep 5, 2019 at 4:42 AM Daniel Jordan <daniel.m.jordan@oracle.com> wrote:
+>
+> On Tue, Sep 03, 2019 at 11:14:07AM +0000, Florian Schmidt wrote:
+> > This patch series updates trace-vmscan-postprocess.pl to work without
+> > throwing warnings and errors which stem from updates to several trace
+> > points.
+>
+> Cc Yafang, who made (most of?) these updates.
+>
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
-v3:
-  refine the description based on Sean's comment.  
+Yes, I made 3481c37ffa1d and 3b775998eca7 but didn't remeber to update
+the scripts in the Document directory.
+Thanks for improving it.
 
-v2:
-  elaborate the changelog and description of ioctl KVM_SET_MSRS based on
-  Sean's comments.
----
- Documentation/virt/kvm/api.txt | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> > 3481c37ffa1d ("mm/vmscan: drop may_writepage and classzone_idx from
+> > direct reclaim begin template") removed "may_writepage" from
+> > mm_vmscan_direct_reclaim_begin, and 3b775998eca7
+> > ("include/trace/events/vmscan.h: drop zone id from kswapd tracepoints")
+> > removed "zid" from mm_vmscan_wakeup_kswapd. The output of
+> > mm_vmscan_lru_isolate and mm_vmscan_lru_shrink_active seems to never
+> > have matched the format of the trace point output since they were
+> > created, or at least for as long as I can tell. Patch 1 aligns the
+> > format parsing of the perl script with the current output of the trace
+> > points.
+>
+> Thanks, patch 1 fixes the script for me for all tracepoints you touched.
+>
+> > In addition, the tables that are printed by the script were not properly
+> > aligned any more, so patch 2 fixes the spacing.
+>
+> Nit, not for Pages Scanned.  With your series I get
+>
+> Kswapd          Kswapd      Order      Pages     Pages    Pages    Pages
+> Instance       Wakeups  Re-wakeup    Scanned    Rclmed  Sync-IO ASync-IO
+> kswapd0-175          1          0    253694     253691        3   129896               wake-0=1
+>
+> > A side remark: parsing the trace output for mm_vmscan_lru_shrink_active
+> > has been in the script ever since it was created in 2010, but at no
+> > point the parsed output was ever used for anything. I updated the
+> > parsing code now, but I wonder if we could just get rid of that part...
+>
+> I wonder if we shouldn't just get rid of the whole script, it's hard to
+> remember to keep in sync with vmscan changes and I can't think of a way to
+> remedy that short of having mm regression tests that run this.
 
-diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
-index 2d067767b617..24541e52e96e 100644
---- a/Documentation/virt/kvm/api.txt
-+++ b/Documentation/virt/kvm/api.txt
-@@ -586,7 +586,7 @@ Capability: basic
- Architectures: x86
- Type: vcpu ioctl
- Parameters: struct kvm_msrs (in)
--Returns: 0 on success, -1 on error
-+Returns: number of msrs successfully set (see below), -1 on error
- 
- Writes model-specific registers to the vcpu.  See KVM_GET_MSRS for the
- data structures.
-@@ -595,6 +595,11 @@ Application code should set the 'nmsrs' member (which indicates the
- size of the entries array), and the 'index' and 'data' members of each
- array entry.
- 
-+It tries to set the MSRs in array entries[] one by one. If setting an MSR
-+fails, e.g., due to setting reserved bits, the MSR isn't supported/emulated
-+by KVM, etc..., it stops processing the MSR list and returns the number of
-+MSRs that have been set successfully.
-+
- 
- 4.20 KVM_SET_CPUID
- 
--- 
-2.19.1
+There are some similar scripts under tools/perf/scripts/, i.e.
+compaction-times.py.
+What about intergrating these vmscan scripts into perf/scripts as well ?
+Something like vmscan-times.py...
 
+> But your
+> patches are an improvement for now.
+
+Agreed.
+
+Thanks
+Yafang
