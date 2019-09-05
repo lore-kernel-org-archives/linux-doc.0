@@ -1,96 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B76FF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 15:27:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ACF5F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Sep 2019 17:10:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390431AbfIEP1Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 5 Sep 2019 11:27:24 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:47084 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390422AbfIEP1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Sep 2019 11:27:21 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x85FNOQv073636;
-        Thu, 5 Sep 2019 15:27:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=sgNDv8ws4VWpzaMwQ1tDsDkAPKMAleLKL1RufSC32vA=;
- b=aDRahiCbYhfGK4NSkRXrKpz6BK83fGPLcVY4TqL/U9pju1fPBn5L/OlCULYUdBfm6OVT
- IaXHZK/tMi9NQ8AxoeKkS1p0kpdGPL9oxyby/YiN6nc4OjDab1fkm6jUX3tJMcSRbpdD
- gRslRflIak8nsYORa6yzhubv1czQ76z8MXsVugXO2f9PNrU/vtJhdRg6Q7YygQzIKOVS
- fFSO7f18q1L++U/FzW8iBqpurXiQ04Dp3GEfzlaGparfu5r2OosSPL3oBuzBrvgASDek
- cY1gEwGw3jJpzxykwo0TogCIKx68zWkPEkaXxz60PV42BSeqvStRhdEFmCzvZuWLqgI4 6A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 2uu4sb83nc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 05 Sep 2019 15:27:16 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x85FCDRK127837;
-        Thu, 5 Sep 2019 15:27:15 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3030.oracle.com with ESMTP id 2uu1b8rfs5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 05 Sep 2019 15:27:15 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x85FRCKb014039;
-        Thu, 5 Sep 2019 15:27:12 GMT
-Received: from ca-dmjordan1.us.oracle.com (/10.211.9.48)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 05 Sep 2019 08:27:11 -0700
-Date:   Thu, 5 Sep 2019 11:27:10 -0400
-From:   Daniel Jordan <daniel.m.jordan@oracle.com>
-To:     Yafang Shao <laoar.shao@gmail.com>
-Cc:     Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Florian Schmidt <florian.schmidt@nutanix.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
-Message-ID: <20190905152710.4gndiwcqcgkp4zcq@ca-dmjordan1.us.oracle.com>
-References: <20190903111342.17731-1-florian.schmidt@nutanix.com>
- <20190904204241.y6c335djr3bwm6xo@ca-dmjordan1.us.oracle.com>
- <CALOAHbA+82kfEDvzotJu50QtskqrWv6RzHyMBiHz2gXw1ySL=Q@mail.gmail.com>
+        id S2390950AbfIERKw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 5 Sep 2019 13:10:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38202 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389559AbfIERKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Sep 2019 13:10:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=MjKdVNiFjOdZvdwokVehwJ0c/QLPeMEzqUmQ6koohg0=; b=TP+HPDqbKM126/TJ1UiGl4y8r
+        GpMofqJxAwlaV7rYqLqTqswSp0aCoyLge2iul1chQJTRNXmGlJfx/FV+9cNyV//XEELyYh/fZxki4
+        BLR0FKBg8SAZkcbR6Sp/wBCHCLEWzUQXX+IBGlaEGm9QYPAu5oZgW+AkmZD16wyeYsnOyN2nvud0Q
+        F7X3jrdIEsqNwvK/aTeBvWNJ7DyNjsgNJ1XpkD9+Z3hvwobjk2igzTXMvtHJ1kx+cDDI1V6kvW4h2
+        bnmCVuO2YVn6ST/HzlSnGmOFhUMyWwTFzLXUmbJyQOW+PW/sunv2QxzN0ilG5yx2kxeLGg+htCZ4Z
+        4b73YB87w==;
+Received: from [177.159.253.249] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i5vHW-0008Gt-I4; Thu, 05 Sep 2019 17:10:51 +0000
+Date:   Thu, 5 Sep 2019 14:10:44 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Jessica Yu <jeyu@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
+ scripts
+Message-ID: <20190905141044.4eb3a622@coco.lan>
+In-Reply-To: <20190905141723.GB25790@kroah.com>
+References: <20190905055614.7958918b@coco.lan>
+        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
+        <20190905065701.4744e66a@lwn.net>
+        <20190905141723.GB25790@kroah.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALOAHbA+82kfEDvzotJu50QtskqrWv6RzHyMBiHz2gXw1ySL=Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9371 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1909050144
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9371 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1909050144
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 05, 2019 at 12:32:49PM +0800, Yafang Shao wrote:
-> On Thu, Sep 5, 2019 at 4:42 AM Daniel Jordan <daniel.m.jordan@oracle.com> wrote:
-> > I wonder if we shouldn't just get rid of the whole script, it's hard to
-> > remember to keep in sync with vmscan changes and I can't think of a way to
-> > remedy that short of having mm regression tests that run this.
-> 
-> There are some similar scripts under tools/perf/scripts/, i.e.
-> compaction-times.py.
-> What about intergrating these vmscan scripts into perf/scripts as well ?
-> Something like vmscan-times.py...
+Em Thu, 5 Sep 2019 16:17:23 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-Could be done, but I don't see how that makes it easier to keep in
-sync...unless perf's tests are run regularly.
+> On Thu, Sep 05, 2019 at 06:57:01AM -0600, Jonathan Corbet wrote:
+> > On Thu,  5 Sep 2019 06:23:13 -0300
+> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> >   
+> > > Python's PEP-263 [1] dictates that an script that needs to default to
+> > > UTF-8 encoding has to follow this rule:
+> > > 
+> > > 	'Python will default to ASCII as standard encoding if no other
+> > > 	 encoding hints are given.
+> > > 
+> > > 	 To define a source code encoding, a magic comment must be placed
+> > > 	 into the source files either as first or second line in the file'  
+> > 
+> > So this is only Python 2, right? 
+
+Well, Debian 10 (buster) was launched this year, and still comes with python2
+(with is the default):
+
+	$ ls -la /usr/bin/python
+	lrwxrwxrwx 1 root root 7 Mar  4  2019 /usr/bin/python -> python2
+
+I think Debian devs will keep it maintained for a while, as this is a LTS
+distro.
+
+> > Python 3 is UTF8 by default.  Given that
+> > Python 2 is EOL in January, is this something we should be concerned
+> > about?  Or should we instead be making sure that all the Python we have
+> > in-tree works properly with Python 3 and be done with it?  
+> 
+> I recommend just using python 3 everywhere and be done with it as there
+> are already many distros that default to that already.
+
+Then we need to change the scripts, as they're currently pointing to
+/usr/bin/python instead of /usr/bin/python3. At least on the distros I
+use myself, this doesn't point to /etc/alternates. Instead, it is just
+an alias to python2.
+
+Thanks,
+Mauro
