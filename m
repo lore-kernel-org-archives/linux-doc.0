@@ -1,85 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D87C7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 18:31:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0190C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 19:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395342AbfIFSap (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Sep 2019 14:30:45 -0400
-Received: from smtprelay0196.hostedemail.com ([216.40.44.196]:50330 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730881AbfIFSao (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 14:30:44 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 415B3180A68C2;
-        Fri,  6 Sep 2019 18:30:43 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: range19_5d5ebd3838638
-X-Filterd-Recvd-Size: 2460
-Received: from XPS-9350.home (unknown [47.151.152.152])
-        (Authenticated sender: joe@perches.com)
-        by omf20.hostedemail.com (Postfix) with ESMTPA;
-        Fri,  6 Sep 2019 18:30:41 +0000 (UTC)
-Message-ID: <de9f0991025f3f527beff494682df9fc1a47be98.camel@perches.com>
-Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
- scripts
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jessica Yu <jeyu@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
-Date:   Fri, 06 Sep 2019 11:30:40 -0700
-In-Reply-To: <20190906151702.3e67ccf7@coco.lan>
-References: <20190905055614.7958918b@coco.lan>
-         <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
-         <20190905092703.GA30899@kroah.com> <20190905090701.37dcf75e@coco.lan>
-         <b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com>
-         <20190906083457.7e7934ec@coco.lan>
-         <9d30210a2d024aae4c36c8995019cdeab29e1e19.camel@perches.com>
-         <20190906151702.3e67ccf7@coco.lan>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S2405273AbfIFTCH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Sep 2019 15:02:07 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:57782 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731568AbfIFTCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 15:02:07 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 711C36115D; Fri,  6 Sep 2019 19:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1567796526;
+        bh=fHlSdGoTTdUuPm+ZMeSUpg6AMfOrhFJdRH0w4GFu9Gc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=L3OOwEaZgKQRgFZCzGd74o4Yub9X9Oy+XviqQOq+p4nQRbc5fFpx7fEXAy+6C+z1V
+         E3VVV6gS+q8y3EM6ZvOiaAprr4+hEk4RkD/4w6x72mGr3Lvu65MT3PlqD4JnodIQVZ
+         kYmlEdSC0tTonETyuQuGINM6dmnyqQFQOMeMHK1U=
+Received: from tsoni-linux1.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tsoni@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1A7D8602DC;
+        Fri,  6 Sep 2019 19:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1567796525;
+        bh=fHlSdGoTTdUuPm+ZMeSUpg6AMfOrhFJdRH0w4GFu9Gc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KtfJ+x+ZRwWOIbRQpROvYVrVDWjYHV43rHrna8mA54tOkAthogDyPba8/Bw9PrH0z
+         rS8r32ovlsV14JCAX9YJLJp4AozEJzccyNaJhwPWJKZbxo6Fe1Cf2A02JqGTnS8hHd
+         6eZH3/jdheyCJyA54vktSlOOwl+4p7bMMwhJhjiI=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1A7D8602DC
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=tsoni@codeaurora.org
+From:   Trilok Soni <tsoni@codeaurora.org>
+To:     gregkh@linuxfoundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, tyhicks@canonical.com, jkosina@suse.cz,
+        konrad.wilk@oracle.com, labbott@redhat.com, tglx@linutronix.de,
+        tsoni@quicinc.com, Trilok Soni <tsoni@codeaurora.org>
+Subject: [PATCH] Documentation/process: Add Qualcomm process ambassador for hardware security issues
+Date:   Fri,  6 Sep 2019 12:01:57 -0700
+Message-Id: <1567796517-8964-1-git-send-email-tsoni@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-09-06 at 15:17 -0300, Mauro Carvalho Chehab wrote:
-> Em Fri, 06 Sep 2019 10:33:42 -0700
-> Joe Perches <joe@perches.com> escreveu:
-> 
-> > On Fri, 2019-09-06 at 08:34 -0300, Mauro Carvalho Chehab wrote:
-> > > I did some changes on it, plus one change at the pedantic mode of
-> > > scripts/spdxcheck.py, and placed the corresponding patches at:
-> > > 
-> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=spdx_pedantic  
-> > 
-> > Your script needs a modification of this line:
-> 
-> It is yours script, I just made a few improvements for it to also catch
-> scripts.
+Add Trilok Soni as process ambassador for hardware security issues
+from Qualcomm.
 
-Not really, my script worked only on .[ch] files to
-avoid making the script more complicated and more
-prone to the inevitable unintended defect which I
-manage to introduce more often than I should.
+Signed-off-by: Trilok Soni <tsoni@codeaurora.org>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-btw:
-
-I already submitted a separate patch for the arm/arm64
-.dts and .dtsi files.
-
-https://lore.kernel.org/linux-arm-kernel/f85fe45879469ba53d3ae91475b4502546de501e.camel@perches.com/
-
-cheers, Joe
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index d37cbc5..0416751 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -217,7 +217,7 @@ an involved disclosed party. The current ambassadors list:
+   AMD
+   IBM
+   Intel
+-  Qualcomm
++  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+ 
+   Microsoft
+   VMware
+-- 
+1.9.1
 
