@@ -3,52 +3,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D87AC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 11:37:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 780E17D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 12:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390028AbfIFLhU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Sep 2019 07:37:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35432 "EHLO
+        id S2389535AbfIFMCm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Sep 2019 08:02:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43820 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389971AbfIFLhU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 07:37:20 -0400
+        with ESMTP id S2388384AbfIFMCl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 08:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BaJkMB0z7Fy2B1fYpEwhEuwf2lT0IavJbz0NGtBNe7A=; b=Yi4+2SyNocYccqH5MaR05tEwk
-        UhWa7a8ZwoiMYGKa7iNi6YtrkC7IQm2mYtRRmN+DxRdmBy2ecV4WVuB9yc7r/UNYLHtYnAzP5yG6+
-        pvotiKG+LSMrLD04qx5Cy0drkF7LLJlwoa9r4PdTVL2j+lAwCiBPK+PN+OQY/ZlPPUiw0mi8Xu/3C
-        bVTyfZ7DX+LAr5nqg4zh+6PiyTCsY8SEsZT3rTOsCotDT0jv3L6HUGtsQdkpAjJJgsUTjtNXj5t9g
-        cGIyZYV+/6BFXcKN9ry/UVb0S8kLANNXsgUaT0E+C9DCd6DTBbuQZSE6Dq9x9BBlbE8yxyyF7mTae
-        lvrOZvzBQ==;
+         bh=nM0u5Zwq/3ANoKVqYW1XKfXAdbkiEeIYyJ22EK0M/e4=; b=bV6/1kh/QpXrOH7u71wDiTaNu
+        pT/ORqN8EtynTeqdqeyQHlooZkY6g/alSG0BTEA+kysQ+ScXgQLc4ItDM80QG+dtmDf13oYK2PxQL
+        XfVROo0Z/v6AxdIi9Gc6yndrUK2UeA5SjllC/kTutMJtoFnnsUBu7Cdx2LV/8Vc4HEFRHmyc6zebe
+        nhLkrO2hcNsUXuKuTAFf0Sh/78BTc0UpzwWY9pdrjZMTCfMalUL1lwntBwXKiVb+vIbTIOpjU/0Z8
+        dW2SkAK83ynfTWkXFxyG4PSELjtDmpt9bbLRbao6N6ihr5VqgOS2B83LnxBdzTIaptHL5fHsWU9w3
+        g+m2Dk+LA==;
 Received: from [177.159.253.249] (helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i6CYJ-0005fo-2Y; Fri, 06 Sep 2019 11:37:19 +0000
-Date:   Fri, 6 Sep 2019 08:37:14 -0300
+        id 1i6Cwm-00067t-PV; Fri, 06 Sep 2019 12:02:37 +0000
+Date:   Fri, 6 Sep 2019 09:02:28 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Joe Perches <joe@perches.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jessica Yu <jeyu@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Sven Eckelmann <sven@narfation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Doug Smythies <doug.smythies@gmail.com>,
+        =?UTF-8?B?QXVyw6lsaWVu?= Cedeyn <aurelien.cedeyn@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
-        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
- scripts
-Message-ID: <20190906083714.0cf7eb20@coco.lan>
-In-Reply-To: <20190906083457.7e7934ec@coco.lan>
-References: <20190905055614.7958918b@coco.lan>
-        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
-        <20190905092703.GA30899@kroah.com>
-        <20190905090701.37dcf75e@coco.lan>
-        <b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com>
-        <20190906083457.7e7934ec@coco.lan>
+        Allison Randal <allison@lohutok.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+Message-ID: <20190906090228.1971ede9@coco.lan>
+In-Reply-To: <20daa66d58e01f33a248b8703aa8e37933ef4154.camel@perches.com>
+References: <cover.1567712829.git.mchehab+samsung@kernel.org>
+        <20daa66d58e01f33a248b8703aa8e37933ef4154.camel@perches.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -58,132 +69,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 6 Sep 2019 08:34:57 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+Em Thu, 05 Sep 2019 13:05:08 -0700
+Joe Perches <joe@perches.com> escreveu:
 
-> Em Thu, 05 Sep 2019 10:45:36 -0700
-> Joe Perches <joe@perches.com> escreveu:
+> On Thu, 2019-09-05 at 16:57 -0300, Mauro Carvalho Chehab wrote:
+> > The  description at Documentation/process/license-rules.rst is very strict
+> > with regards to the position where the SPDX tags should be.  
+> []
+> > PS.: I sent already a RFC version for those patches along with this
+> > thread:
+> > 
+> >     https://lore.kernel.org/lkml/b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com/  
 > 
-> > On Thu, 2019-09-05 at 09:07 -0300, Mauro Carvalho Chehab wrote:  
-> > > There are currently 227 files that don't complain with the "up to line 3"
-> > > rule, including COPYING (with should probably be excluded from the check).
-> > > 
-> > > Patches are at:
-> > > 
-> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=spdx_pedantic
-> > > 
-> > > Btw, most violations are due to:
-> > > 
-> > > /*
-> > >  * SPDX...    
-> > 
-> > Hey Mauro.
-> > 
-> > Here's a little script to move all of the improperly located
-> > SPDX-License-Identifier lines in [.ch] files.
-> > 
-> > Using this command line:
-> > 
-> > $ git grep -n 'SPDX-License-Identifier: ' -- '*.[ch]' | \
-> >   grep -v ':1:' | perl move_spdx.pl
-> > 
-> > and
-> > 
-> > $ cat move_spdx.pl
-> > while (<>) {
-> >     /^([^:]+):([^:]+):(.*)/;
-> >     my ($file, $line, $spdx) = ($1, $2, $3);
-> >     $spdx =~ s/^\s*\/?\*\s*//;
-> >     $spdx =~ s/\s*\*\/\s*$//;
-> >     if ($file =~ /\.h$/) {
-> > 	$spdx = "/* $spdx */";
-> >     } else {
-> > 	$spdx = "// $spdx";
-> >     }
-> >     open(FH, '<', $file) or die $!;
-> >     my @lines = <FH>;
-> >     close FH;
-> >     open(FH, '>', $file) or die $!;
-> >     print FH "$spdx\n";
-> >     my $count = 0;
-> >     foreach (@lines) {
-> > 	$count++;
-> > 	next if ($count == $line);
-> > 	next if ($count == $line - 1 && $_ =~ /^\s*\*\s*$/);
-> > 	next if ($count == $line + 1 && $_ =~ /^\s*\*\s*$/);
-> > 	print FH "$_";
-> >     }
-> >     close FH;
-> > }
-> > 
-> > which gives this diff for today's -next  
+> Nice, thanks.
 > 
-> Nice script!
-> 
-> I did some changes on it
+> Now I guess I have to update checkpatch too.
+> (unless you want to... ;)
 
-In time: I'm enclosing the modified script. just run it directly with:
-
-	perl ./move_spdx.pl
-
-and it will move the SPDX headers where pertinent.
+Yeah, it makes sense to update checkpatch too. Perhaps it could be
+changed to use the "-s" flag on the check, instead of implementing
+its own logic to handle the position.
 
 Thanks,
 Mauro
-
----
-
-#!/usr/bin/perl 
-
-@file_arr = qx(git grep -n 'SPDX-License-Identifier: ' | grep -v ':1:');
-foreach (@file_arr) {
-    /^([^:]+):([^:]+):(.*)/;
-    my ($file, $line, $spdx) = ($1, $2, $3);
-
-    next if ($file =~ m,(COPYING|LICENSES/|sha1-armv4-large.S),);
-    next if ($line > 10);
-
-    $spdx =~ s/^\s*\/?\*\s*//;
-    $spdx =~ s/\s*\*\/\s*$//;
-    $spdx = $1 if m/(SPDX-License-Identifier:.*)/;
-    $is_script = 0;
-    if ($file =~ /\.(h|dts|dtsi|S)$/) {
-	$spdx = "/* $spdx */";
-    } elsif ($file =~ /\.(c)$/) {
-	$spdx = "// $spdx";
-    } elsif ($file =~ /\.(rst)$/) {
-	$spdx = ".. $spdx";
-    } elsif ($file =~ /\.(py|pl|sh)$/ || !$file =~ /\./) {
-        $is_script = 1;
-	$spdx = "# $spdx";
-    } else {
-        next;
-    }
-    open(FH, '<', $file) or die $!;
-    my @lines = <FH>;
-    close FH;
-    open(FH, '>', $file) or die $!;
-    my $count = 0;
-    my $print_spdx = 1;
-    foreach (@lines) {
-	$count++;
-        if ($print_spdx) {
-            if ($count == 1 && (/:orphan:/ || /^#\!/)) {
-                print FH "$_";
-                next;
-            }
-            if ($count <= 2 && /^[ \t\f]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)/) {
-                print FH "$_";
-                next;
-            }
-            print FH "$spdx\n";
-	    $print_spdx = 0;
-        }
-	next if ($count == $line);
-	next if ($count == $line - 1 && $_ =~ /^\s*\*\s*$/);
-	next if ($count == $line + 1 && $_ =~ /^\s*\*\s*$/);
-	next if ($count == $line - 1 && $_ =~ /^$/);
-	print FH "$_";
-    }
-    close FH;
-}
