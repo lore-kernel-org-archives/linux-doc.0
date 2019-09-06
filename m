@@ -1,88 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2224F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 16:14:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70A2A7D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 16:20:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726163AbfIFQOV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Sep 2019 12:14:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40536 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbfIFQOV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Sep 2019 12:14:21 -0400
-Received: from localhost (unknown [89.248.140.12])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3A2E22070C;
-        Fri,  6 Sep 2019 16:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567786460;
-        bh=y9GtgGOwH4vNznSBvTW2uCxaFQvMH+B7QogTOs4ApYs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YgK5JZzN0AcN+e3U9Mhn4Mz8GrRDto16mnkATSBxONcuQuo+4bNEbxTtjZPOQIY1D
-         OGKmOxwofC5NqU4nxi2ETXx8uIARC0cu5oEqQWMdI7JXlzKaVTxFnaB6MztepULli+
-         fQ7O/+fojkd3lyeR/uwWbsszmCDqPVgOJnXP9wMk=
-Date:   Fri, 6 Sep 2019 18:13:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Sasha Levin <sashal@kernel.org>, tglx@linutronix.de,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konrad.wilk@oracle.com, jkosina@suse.cz, tyhicks@canonical.com,
-        linux-kernel@microsoft.com,
-        Sasha Levin <alexander.levin@microsoft.com>
-Subject: Re: [PATCH] Documentation/process/embargoed-hardware-issues:
- Microsoft ambassador
-Message-ID: <20190906161333.GB10547@kroah.com>
-References: <20190906095852.23568-1-sashal@kernel.org>
- <20190906085728.15af96c3@lwn.net>
+        id S1731717AbfIFQUj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Sep 2019 12:20:39 -0400
+Received: from smtprelay0113.hostedemail.com ([216.40.44.113]:47720 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727391AbfIFQUj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 12:20:39 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 10FFD18026B11;
+        Fri,  6 Sep 2019 16:20:38 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: jump19_79b02ed939a5d
+X-Filterd-Recvd-Size: 2482
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf17.hostedemail.com (Postfix) with ESMTPA;
+        Fri,  6 Sep 2019 16:20:36 +0000 (UTC)
+Message-ID: <38bf64245d173d0de4452cac1c6cf028ad0490d8.camel@perches.com>
+Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
+ scripts
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jessica Yu <jeyu@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
+Date:   Fri, 06 Sep 2019 09:20:35 -0700
+In-Reply-To: <20190906114552.524d0d50@coco.lan>
+References: <20190905055614.7958918b@coco.lan>
+         <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
+         <20190905092703.GA30899@kroah.com> <20190905090701.37dcf75e@coco.lan>
+         <b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com>
+         <20190906083457.7e7934ec@coco.lan>
+         <a610efdd3bf488d407dc1130fa8ed090019ccffd.camel@perches.com>
+         <20190906114552.524d0d50@coco.lan>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190906085728.15af96c3@lwn.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 08:57:28AM -0600, Jonathan Corbet wrote:
-> On Fri,  6 Sep 2019 05:58:52 -0400
-> Sasha Levin <sashal@kernel.org> wrote:
+On Fri, 2019-09-06 at 11:45 -0300, Mauro Carvalho Chehab wrote:
+> Em Fri, 06 Sep 2019 05:20:30 -0700
+> Joe Perches <joe@perches.com> escreveu:
 > 
-> > Add Sasha Levin as Microsoft's process ambassador.
+> > On Fri, 2019-09-06 at 08:34 -0300, Mauro Carvalho Chehab wrote:
+> > > I did some changes on it, plus one change at the pedantic mode of
+> > > scripts/spdxcheck.py, and placed the corresponding patches at:
+> > > 
+> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=spdx_pedantic  
 > > 
-> > Signed-off-by: Sasha Levin <alexander.levin@microsoft.com>
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  Documentation/process/embargoed-hardware-issues.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Overall seems very nice, thanks.
 > > 
-> > diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> > index d37cbc502936d..9a92ccdbce74e 100644
-> > --- a/Documentation/process/embargoed-hardware-issues.rst
-> > +++ b/Documentation/process/embargoed-hardware-issues.rst
-> > @@ -219,7 +219,7 @@ an involved disclosed party. The current ambassadors list:
-> >    Intel
-> >    Qualcomm
-> >  
-> > -  Microsoft
-> > +  Microsoft	Sasha Levin <sashal@kernel.org>
-> >    VMware
-> >    XEN
+> > Couple nits.
+> > 
+> > Some of the scripts and py files move the author
+> > block into a description or add unnecessary blank
+> > comments.  These may use some manual fixups.
 > 
-> This document went upstream via Greg's tree, so updates are awkward for
-> me to apply without having to explain a late backmerge to Linus.  I can
-> hold them until after the merge window, unless you (Greg) would like to
-> take them sooner?
+> True. I noticed that too. I suspect that fixing this automatically would 
+> make the script too complex.
+> 
+> Anyway, the point is: who will apply it? Linus? Each maintainer?
 
-I already have 3 of these queued up in my tree to go to Linus in the
-next few days, so no need to worry about them.
+I have been advocating for a treewide scripted mechanism for awhile.
+https://lore.kernel.org/lkml/4398924f28a58fca296d101dae11e7accce80656.camel@perches.com/
 
-thanks,
 
-greg k-h
+
