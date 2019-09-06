@@ -1,152 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3561F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 19:54:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 617A37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Sep 2019 21:11:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393619AbfIFTxv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Sep 2019 15:53:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39280 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727004AbfIFTxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 15:53:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Ew6/0qVAdmZqdoKuB0ftq6YKxojcd2lW86roVTM6SN0=; b=HaDIZREUU4sYgn/JzFNf6E0OZ
-        wUV/Zha1HrvFqpRxD1keIy+llfbiYbyO54VUM5f14UIi3JBAs86JzzzA99a3oqAbsCfWCa3j9D5Il
-        Ul9csN2rC3lOfxHUkE3Nur3f17cxxoyo+NJZbmQO4IV/gC95JSVPhjhYrajx+qvRluFGsRuG3eKC+
-        pMchkuAKJ3LpEIkBkmTDw/+ai08Rk50M18mwfnNfCYsLlXEEJ2sGNmfiC8w2cnmml6WGjhnENKE2b
-        9y1CdcuQbB8qsi9RgytnVvp8W/fRwJ7e+YwUOwQi5K+8dKgAeN99bYl3lucqlkPTQ/g1iRzoJLnGQ
-        MBaqbwQkA==;
-Received: from [177.159.253.249] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i6KIn-0006S3-1u; Fri, 06 Sep 2019 19:53:49 +0000
-Date:   Fri, 6 Sep 2019 16:53:41 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jessica Yu <jeyu@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, Robert Moore <robert.moore@intel.com>,
-        Erik Schmauss <erik.schmauss@intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Len Brown <lenb@kernel.org>, Thomas Renninger <trenn@suse.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        linux-pm@vger.kernel.org, linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: [RFC PATCH] tools: Add SPDX license to man pages
-Message-ID: <20190906164959.288ab3d5@coco.lan>
-In-Reply-To: <1b1cfc9c8c13b58c47d1d123763c8bc412abf9d4.camel@perches.com>
-References: <20190905055614.7958918b@coco.lan>
-        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
-        <20190905092703.GA30899@kroah.com>
-        <20190905090701.37dcf75e@coco.lan>
-        <b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com>
-        <20190906083457.7e7934ec@coco.lan>
-        <1b1cfc9c8c13b58c47d1d123763c8bc412abf9d4.camel@perches.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728741AbfIFVLz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Sep 2019 17:11:55 -0400
+Received: from smtprelay0001.hostedemail.com ([216.40.44.1]:36182 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728338AbfIFVLy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Sep 2019 17:11:54 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 678358368F02;
+        Fri,  6 Sep 2019 21:11:53 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: team46_2d769cac3b337
+X-Filterd-Recvd-Size: 2775
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf12.hostedemail.com (Postfix) with ESMTPA;
+        Fri,  6 Sep 2019 21:11:52 +0000 (UTC)
+Message-ID: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
+Subject: [PATCH] docs: printk-formats: Stop encouraging use of unnecessary
+ %h[xudi] and %hh[xudi]
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Louis Taylor <louis@kragniz.eu>
+Date:   Fri, 06 Sep 2019 14:11:51 -0700
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 06 Sep 2019 11:12:58 -0700
-Joe Perches <joe@perches.com> escreveu:
+Standard integer promotion is already done and %hx and %hhx is useless
+so do not encourage the use of %hh[xudi] or %h[xudi].
 
-> On Fri, 2019-09-06 at 08:34 -0300, Mauro Carvalho Chehab wrote:
-> > Warning: SPDX header for file tools/thermal/tmon/tmon.8 is at line 2  
-> []
-> > The last one is interesting... what's the "very first line" where a
-> > SPDX header tag should be on a man page?  
-> 
-> just fyi:
-> 
-> It looks like .man pages could use a comment form
-> using '.\"' like this example on the first line:
-> 
-> $ head -5 tools/power/x86/x86_energy_perf_policy/x86_energy_perf_policy.8
-> .\"  This page Copyright (C) 2010 - 2015 Len Brown <len.brown@intel.com>
-> .\"  Distributed under the GPL, Copyleft 1994.
-> .TH X86_ENERGY_PERF_POLICY 8
-> .SH NAME
-> x86_energy_perf_policy \- Manage Energy vs. Performance Policy via x86 Model Specific Registers
-> 
-> So maybe:
-> ---
->  tools/power/acpi/man/acpidump.8                                 | 1 +
->  tools/power/cpupower/man/cpupower-frequency-info.1              | 1 +
->  tools/power/cpupower/man/cpupower-frequency-set.1               | 1 +
->  tools/power/cpupower/man/cpupower-idle-info.1                   | 1 +
->  tools/power/cpupower/man/cpupower-idle-set.1                    | 1 +
->  tools/power/cpupower/man/cpupower-info.1                        | 1 +
->  tools/power/cpupower/man/cpupower-monitor.1                     | 1 +
->  tools/power/cpupower/man/cpupower-set.1                         | 1 +
->  tools/power/cpupower/man/cpupower.1                             | 1 +
->  tools/power/pm-graph/bootgraph.8                                | 1 +
->  tools/power/pm-graph/sleepgraph.8                               | 1 +
->  tools/power/x86/turbostat/turbostat.8                           | 1 +
->  tools/power/x86/x86_energy_perf_policy/x86_energy_perf_policy.8 | 1 +
->  tools/thermal/tmon/tmon.8                                       | 1 +
->  tools/usb/usbip/doc/usbip.8                                     | 1 +
->  tools/usb/usbip/doc/usbipd.8                                    | 1 +
->  16 files changed, 16 insertions(+)
+As Linus said in:
+Link: https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
 
-Makes sense. I would also patch license-rules.txt with something like:
+It's a pointless warning, making for more complex code, and
+making people remember esoteric printf format details that have no
+reason for existing.
 
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 5d23e3498b1c..6224421ee120 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -76,12 +76,13 @@ License identifier syntax
-    The SPDX license identifier is added in form of a comment.  The comment
-    style depends on the file type::
+The "h" and "hh" things should never be used. The only reason for them
+being used if if you have an "int", but you want to print it out as a
+"char" (and honestly, that is a really bad reason, you'd be better off
+just using a proper cast to make the code more obvious).
+
+So if what you have a "char" (or unsigned char) you should always just
+print it out as an "int", knowing that the compiler already did the
+proper type conversion.
+
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ Documentation/core-api/printk-formats.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index c6224d039bcb..ecbebf4ca8e7 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -13,10 +13,10 @@ Integer types
  
--      C source:	// SPDX-License-Identifier: <SPDX License Expression>
--      C header:	/* SPDX-License-Identifier: <SPDX License Expression> */
--      ASM:	/* SPDX-License-Identifier: <SPDX License Expression> */
--      scripts:	# SPDX-License-Identifier: <SPDX License Expression>
--      .rst:	.. SPDX-License-Identifier: <SPDX License Expression>
--      .dts{i}:	// SPDX-License-Identifier: <SPDX License Expression>
-+      C source:  // SPDX-License-Identifier: <SPDX License Expression>
-+      C header:  /* SPDX-License-Identifier: <SPDX License Expression> */
-+      ASM:       /* SPDX-License-Identifier: <SPDX License Expression> */
-+      scripts:   # SPDX-License-Identifier: <SPDX License Expression>
-+      .rst:      .. SPDX-License-Identifier: <SPDX License Expression>
-+      .dts{i}:	  // SPDX-License-Identifier: <SPDX License Expression>
-+      man pages: .\" SPDX-License-Identifier: <SPDX License Expression>
- 
-    If a specific tool cannot handle the standard comment style, then the
-    appropriate comment mechanism which the tool accepts shall be used. This
+ 	If variable is of Type,		use printk format specifier:
+ 	------------------------------------------------------------
+-		char			%hhd or %hhx
+-		unsigned char		%hhu or %hhx
+-		short int		%hd or %hx
+-		unsigned short int	%hu or %hx
++		char			%d or %x
++		unsigned char		%u or %x
++		short int		%d or %x
++		unsigned short int	%u or %x
+ 		int			%d or %x
+ 		unsigned int		%u or %x
+ 		long			%ld or %lx
+@@ -25,10 +25,10 @@ Integer types
+ 		unsigned long long	%llu or %llx
+ 		size_t			%zu or %zx
+ 		ssize_t			%zd or %zx
+-		s8			%hhd or %hhx
+-		u8			%hhu or %hhx
+-		s16			%hd or %hx
+-		u16			%hu or %hx
++		s8			%d or %x
++		u8			%u or %x
++		s16			%d or %x
++		u16			%u or %x
+ 		s32			%d or %x
+ 		u32			%u or %x
+ 		s64			%lld or %llx
 
-> diff --git a/tools/thermal/tmon/tmon.8 b/tools/thermal/tmon/tmon.8
-> index 2f122de5841b..cffaa0d65478 100644
-> --- a/tools/thermal/tmon/tmon.8
-> +++ b/tools/thermal/tmon/tmon.8
-> @@ -1,3 +1,4 @@
-> +.\" SPDX-License-Identifier: GPL-2.0-only
->  .TH TMON 8
->  # SPDX-License-Identifier: GPL-2.0
->  .SH NAME
 
-Hmm... here, you should probably keep the same license as defined at
-the existing tag (GPL-2.0) and remove the comment one.
-
-
-Thanks,
-Mauro
