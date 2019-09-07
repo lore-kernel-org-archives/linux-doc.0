@@ -1,90 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 060CE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 21:01:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 37D9E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 21:17:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406333AbfIGVBq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 7 Sep 2019 17:01:46 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46910 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406293AbfIGVBq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Sep 2019 17:01:46 -0400
-Received: by mail-wr1-f68.google.com with SMTP id h7so9896386wrt.13;
-        Sat, 07 Sep 2019 14:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=o8x3eRUjtNotyN3qNdYHAjBoBUngXxsekVKAd0J9yLE=;
-        b=p3Qk4L6fEecGBNrb7lt5UX2TQkmot6B14LY6IhIa3ktPrJww9tDanzxf1ZzcqyKsZH
-         IGNI+VpVbybrsbrjzg2nn13qQtu985QhhZy9cp5LhXLkPgz2M9aAhNdZOZEhjKhR2cLj
-         S0piHrcV7LySLClgz2ckvePHz+UM1lO8/fbH6rl0GWdntsQrgqNJeSPEtQmchcSfbQL3
-         zmjJKoa2YlbymgqqKQyXmGADStZ7IZZEHg6kNOUAwMyZOtkzjTulaGsXSaFuShy/4nKy
-         MQN8f/WfZ+koRjU2ak1RntAvNzwTjw0YmXVtMa3s5g0ebldh3hyI/1REArRWLrjIeYwC
-         IOyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=o8x3eRUjtNotyN3qNdYHAjBoBUngXxsekVKAd0J9yLE=;
-        b=fbC1dmRW+Tp5wd0FlJY1NGWKnx9W76HY2KzbXu4AlqNed8WuJeVNOAdWBKCGaRm2IU
-         RbOeZ0O/9QHWZgYwnF1Ju8FPpyVirf7bLNpiBnJOyUOIRy52aDRdSm8OZjEI+1yuWmhb
-         VVyKEDIS5NeHDP93adr+pZWec6caFnKBbrLmnkELga63PLlqDxLigB3CcjotNHaMUAcZ
-         ddQpp/mZesIDQ6FvPw59Rr0XvJyBtWi/p7sI+GkNZtTXso6SpWeTfp70vLhTTcsegn4n
-         1UZCtFA3rKxxg90Mot/zCUzbfRrENcSf0QnSqPZ0lgVa4UacFmVAxu20/48kvjdNK7s8
-         vdoQ==
-X-Gm-Message-State: APjAAAVlmkkjwFmEakoBq/wmCbCIg7bl2xCrz7c/cSZS9d8SAYYx+M5u
-        m3wUrEax1aqS6Q5lH/Dbe54=
-X-Google-Smtp-Source: APXvYqxh/dVwpaq1pBGw4MZlIZx4+jxZZQhKhelsKN7+7qPQi74B01Ebn287A7lQQEVTMuT2w0oYTQ==
-X-Received: by 2002:a05:6000:188:: with SMTP id p8mr12491638wrx.220.1567890103734;
-        Sat, 07 Sep 2019 14:01:43 -0700 (PDT)
-Received: from localhost.localdomain (bl9-156-38.dsl.telepac.pt. [85.242.156.38])
-        by smtp.gmail.com with ESMTPSA id b3sm7381144wrw.4.2019.09.07.14.01.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 07 Sep 2019 14:01:42 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     shuah@kernel.org, brendanhiggins@google.com, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] Documentation: kunit: Fix verification command
-Date:   Sun,  8 Sep 2019 06:01:31 +0900
-Message-Id: <1567890091-9712-1-git-send-email-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727251AbfIGVRj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 7 Sep 2019 17:17:39 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49680 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727008AbfIGVRj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Sep 2019 17:17:39 -0400
+Received: from p5de0b6c5.dip0.t-ipconnect.de ([93.224.182.197] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1i6i5E-0001ul-5L; Sat, 07 Sep 2019 23:17:24 +0200
+Date:   Sat, 7 Sep 2019 23:17:22 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Sven Eckelmann <sven@narfation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Doug Smythies <doug.smythies@gmail.com>,
+        =?ISO-8859-15?Q?Aur=E9lien_Cedeyn?= <aurelien.cedeyn@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
+        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Allison Randal <allison@lohutok.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+In-Reply-To: <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
+Message-ID: <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
+References: <cover.1567712829.git.mchehab+samsung@kernel.org> <20190907073419.6a88e318@lwn.net> <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de> <20190907132259.3199c8a2@coco.lan> <a08c5807-38e7-dfb3-ff3c-f78a498455e6@darmarit.de> <20190907150442.583b44c2@coco.lan>
+ <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kunit wrapper script ('kunit.py') receives a sub-command (only 'run' for
-now) as its argument.  If no sub-command is given, it prints help
-message and just quit.  However, an example command in the kunit
-documentation for a verification of kunit is missing the sub-command.
-This commit fixes the example.
+On Sat, 7 Sep 2019, Markus Heiser wrote:
+> Am 07.09.19 um 20:04 schrieb Mauro Carvalho Chehab:
+> > No idea. I would actually prefer to just remove the restriction, and let
+> > the SPDX header to be anywhere inside the first comment block inside a
+> > file [2].
+> 
+> > That's basically how this thread started: other developers think
+> > that it is a good idea to be pedantic. So, be it, but let's then fix
+> > the documentation, as the way it is, it is implicitly forbidding the
+> > addition of encoding lines for Python scripts.
+> > 
+> > [2] I *suspect* that the restriction was added in order to make
+> >      ./scripts/spdxcheck.py to run faster and to avoid false positives.
+> >      Right now, if the maximum limit is removed (or set to a very high
+> >      value), there will be one false positive:
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- Documentation/dev-tools/kunit/start.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Nope. The intention was to have a well define place and format instead of
+everyone and his dog deciding to put it somewhere. SPDX is not intended to
+replace the existing licensing mess with some other randomly placed and
+formatted licensing mess.
 
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index 6dc229e..aeeddfa 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -43,7 +43,7 @@ wrapper from your kernel repo:
- 
- .. code-block:: bash
- 
--	./tools/testing/kunit/kunit.py
-+	./tools/testing/kunit/kunit.py run
- 
- .. note::
-    You may want to run ``make mrproper`` first.
--- 
-2.7.4
+> > > - write a shebang line if this file is called directly from the
+> > >     command line .. but we do not need shebangs on py modules which
+> > >     are imported from other modules or scripts
+> > > 
+> > > - write a encoding line if it is need or helpful / mostly it is helpful
+> > >     to know the encoding of a text/code file.
+> > > 
+> > > - add a SPDX tag
+> > 
+> > Yes, but this violates the current documentation, as it doesn't allow the
+> > SPDX tag after line #2.
+> 
+> Thats what I mean: The documentation was written with only a small use-cases
+> in mind .. there is no real need for SPDX to be in line one or two ... lets
+> fix the documentation as I described before.
 
+If there is a requirement from the language to have 2 lines right at the
+top for conveying information then there is of course no reason to insist
+on the SPDX identifier being on line 2.
+
+So the documentation should say:
+
+   The SPDX identifier must be at the first possible line at the top of the
+   file which is not occupied by information which is required to be
+   immediately at the top of the file by system constraints, e.g. shebang,
+   or by the language, e.g. the encoding information for python.
+
+or something to that effect.
+
+Thanks,
+
+	tglx
