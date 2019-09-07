@@ -1,96 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-4.9 required=5.0 tests=DATE_IN_PAST_12_24,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C12DC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  8 Sep 2019 06:29:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2D3A7D92A
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  8 Sep 2019 08:52:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbfIHG3H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 8 Sep 2019 02:29:07 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:3938 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725844AbfIHG3H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 8 Sep 2019 02:29:07 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 4A0C54053A;
-        Sun,  8 Sep 2019 08:29:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:mime-version:message-id:date:date
-        :subject:subject:from:from:received:received:received; s=
-        dkim20160331; t=1567924144; x=1569738545; bh=IDdnHi1R5fjcjWMd+Ah
-        iszr3G9hOkBsHRfzixT980PY=; b=DTQLkRYyZuu1uiDVlN034v1fmegX+oc8uyO
-        N1wuZLWSLzDKdVBJKLCmjrYdFYNFytMJigaIGvO2LVfVpq08jnlqKmRrJX1vt92E
-        ilA+O2a6zBNXD3Nbnr7LWeXJ8xfAGKljnsxSjF7H12UKYTyJtf5+CVkDwI2LUdbV
-        nBi48lHTVFztL8OEC7Y83cD/nLlP2I1S94czcNIJNO70SMF5VLZCyKW21vVJ62Vm
-        XrH4PrnPKcrkqUiTxkcRJulYtas/Y8K30XdLra+NNdJuGiLmuJT0s069DXS5P/+v
-        9n7dkMW/hgQIBdGbDyIOj+B9Py23iwBtDYT0NZnj/unmV/mXM4lNIvALF69sFusE
-        drNofU2Yh4EnptdS3AFU4PaiLJgfQHhitEGLAGO/tobHmnT648BeJSYeSZRDUF4/
-        Fm531GJKns0Lx7EGMAWw6rzg12f3ZHxmklznXa0jtqvLGQtBJrYHLUuR5e8Ej7HS
-        UTFPlbgDgiC2ygldeBArXTVsQFHRsB/XTkfI99UkBRaUHV67suqgOu42oNGCiilu
-        LkltLx/N7Zw3Va/2hT6xpF57fhy6uqsw/Sfk3NoNuEKr+13LDK/L9s5DVv046cP4
-        gOMkSNTTXtYTgWooNvueiSnwT13F45CIFuWtFEplnDf1eLbx/pqR3izpAb+Wcl55
-        DkbSPLpQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VQGp1COnr6Ls; Sun,  8 Sep 2019 08:29:04 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id B0B46404DA;
-        Sun,  8 Sep 2019 08:29:04 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 434983EAE;
-        Sun,  8 Sep 2019 08:29:04 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH v3] doc:lock: remove reference to clever use of read-write lock
-Date:   Sun,  8 Sep 2019 08:29:01 +0200
-Message-Id: <20190908062901.4218-1-federico.vaga@vaga.pv.it>
+        id S1727541AbfIHIw1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 8 Sep 2019 04:52:27 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36718 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727497AbfIHIw1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Sep 2019 04:52:27 -0400
+Received: from callcc.thunk.org (110.8.30.213.rev.vodafone.pt [213.30.8.110])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x888qH5V025743
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 8 Sep 2019 04:52:19 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 31D9042049E; Sat,  7 Sep 2019 11:57:47 -0400 (EDT)
+Date:   Sat, 7 Sep 2019 11:57:47 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Ayush Ranjan <ayush.ranjan98@gmail.com>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ext4@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Ext4 Docs: Add missing bigalloc documentation.
+Message-ID: <20190907155747.GA23683@mit.edu>
+References: <20190831154419.GA30357@fa19-cs241-404.cs.illinois.edu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190831154419.GA30357@fa19-cs241-404.cs.illinois.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the clever example about read-write lock because this type of
-lock is not reccomended anymore (according to the very same document).
-So there is no reason to teach cleaver things that people should not do.
+On Sat, Aug 31, 2019 at 10:44:19AM -0500, Ayush Ranjan wrote:
+> There was a broken link for bigalloc. The page
+> https://ext4.wiki.kernel.org/index.php/Bigalloc was not migrated into
+> the current documentation sources. This patch adds the contents of that
+> missing page into the section for Bigalloc itself.
+> 
+> Signed-off-by: Ayush Ranjan <ayushr2@illinois.edu>
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/locking/spinlocks.rst | 12 ------------
- 1 file changed, 12 deletions(-)
+Thanks, applied.
 
-diff --git a/Documentation/locking/spinlocks.rst b/Documentation/locking/spinlocks.rst
-index e93ec6645238..66e3792f8a36 100644
---- a/Documentation/locking/spinlocks.rst
-+++ b/Documentation/locking/spinlocks.rst
-@@ -139,18 +139,6 @@ on other CPU's, because an interrupt on another CPU doesn't interrupt the
- CPU that holds the lock, so the lock-holder can continue and eventually
- releases the lock).
- 
--Note that you can be clever with read-write locks and interrupts. For
--example, if you know that the interrupt only ever gets a read-lock, then
--you can use a non-irq version of read locks everywhere - because they
--don't block on each other (and thus there is no dead-lock wrt interrupts.
--But when you do the write-lock, you have to use the irq-safe version.
--
--For an example of being clever with rw-locks, see the "waitqueue_lock"
--handling in kernel/sched/core.c - nothing ever _changes_ a wait-queue from
--within an interrupt, they only read the queue in order to know whom to
--wake up. So read-locks are safe (which is good: they are very common
--indeed), while write-locks need to protect themselves against interrupts.
--
- 		Linus
- 
- ----
--- 
-2.21.0
-
+					- Ted
