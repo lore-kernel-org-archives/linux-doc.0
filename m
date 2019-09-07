@@ -1,248 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 063C97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 18:37:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C70227D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 20:24:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390235AbfIGShV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 7 Sep 2019 14:37:21 -0400
-Received: from smtp3.goneo.de ([85.220.129.37]:44928 "EHLO smtp3.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388619AbfIGShV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Sep 2019 14:37:21 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id EFD7323F837;
-        Sat,  7 Sep 2019 20:37:16 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id g16ixfkAA9E9; Sat,  7 Sep 2019 20:37:15 +0200 (CEST)
-Received: from [192.168.1.107] (dyndsl-178-142-129-167.ewe-ip-backbone.de [178.142.129.167])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id 7DB0D23F08E;
-        Sat,  7 Sep 2019 20:37:13 +0200 (CEST)
-Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Sven Eckelmann <sven@narfation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Doug Smythies <doug.smythies@gmail.com>,
-        =?UTF-8?Q?Aur=c3=a9lien_Cedeyn?= <aurelien.cedeyn@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-doc@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Allison Randal <allison@lohutok.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1567712829.git.mchehab+samsung@kernel.org>
- <20190907073419.6a88e318@lwn.net>
- <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
- <20190907132259.3199c8a2@coco.lan>
- <a08c5807-38e7-dfb3-ff3c-f78a498455e6@darmarit.de>
- <20190907150442.583b44c2@coco.lan>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
-Date:   Sat, 7 Sep 2019 20:37:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727331AbfIGUYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 7 Sep 2019 16:24:07 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33058 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727012AbfIGUYG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Sep 2019 16:24:06 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q10so6725178pfl.0;
+        Sat, 07 Sep 2019 13:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kSwXjXzZYKJiCqywH51dxpo2qwU9GV6iT5gLa0TXjcw=;
+        b=RLvcUd52lld4E+8udQ1d806EtK4KC7v/TKuhinRSgzE3aRETZCt2Gq4C35mRt0DHhI
+         3a38H9fkszjh52jqcN7Sf9eNmLFIV5gIgGHa28FjiPrM0EX1Y8fttthqtUrLC59XTuCh
+         WKk+ZzHgzL0d05FkMU8Ha0r8lFt5BjYy7FXJ72HfZ23mI4AHlw5WKVfIG2iouipgiUAY
+         mNCoRsilN7ixpWv+DrOENtYFR8Z3Jmw2ujry6Z7C89SkBXr2M2TUI5ClToGRC5LROBnG
+         1iEItEAmCc5fl9pYRy2Kp4TrelFSEE2mZ6QN/6WLoUbhk5Of41erqjuDxvHpDr4xcvtN
+         kOFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kSwXjXzZYKJiCqywH51dxpo2qwU9GV6iT5gLa0TXjcw=;
+        b=BQ+IHwjDA7nYMtPcwA/X6v/oyuI/3UOP4d/CgkxVKkrripZ+ojin0yn2nqu0ndx/ul
+         dY5zhuR1c/06boHsgpqGbBuqDlrNLrDIUxvCnlzm/cu8nhsaLy7HJi+umHvW35VDSAoa
+         ADcqQ6csWtSE2xEebqToDF4QtQtpsa3TBASDJRUgX1Gprw2ck3CcAv8KrOYlJ0CwMG+j
+         LF3KW+7IyTeDzXfcNf76Ma0RT3LUINFOffCK3ZYKK+juQgdmLVhY7ib+w0Pf++vfjffX
+         MA2UoU1AozsBCom8Qeo8t7geYNxScJUfexDT3dPLrZblDyXYgUOvF97cFzBilOrkXQcA
+         YkTQ==
+X-Gm-Message-State: APjAAAV1wOa4VE+XAV3agSQU28k4Lr+hjJ9JVl/yDpIF1yEui1lts2XS
+        FhxX0jklbEZPXz+inU2OSwkqkpX05RKrEJdBXy5zBNRh
+X-Google-Smtp-Source: APXvYqy7iVRX8NOM2h1P14zFXDH9B6tkp/Hu+ZIT9lRPjZPyaNK0MS3qTgc/lr78H/XX/OQCAU785UiqT1I6AInkvmM=
+X-Received: by 2002:a62:c141:: with SMTP id i62mr18689338pfg.64.1567887845980;
+ Sat, 07 Sep 2019 13:24:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190907150442.583b44c2@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+References: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
+In-Reply-To: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 7 Sep 2019 23:23:53 +0300
+Message-ID: <CAHp75Vc=hSTWzSDToijXJGWxiHA1JOA2e8R0YYmETQ+tTfVhYw@mail.gmail.com>
+Subject: Re: [PATCH] docs: printk-formats: Stop encouraging use of unnecessary
+ %h[xudi] and %hh[xudi]
+To:     Joe Perches <joe@perches.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Louis Taylor <louis@kragniz.eu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 07.09.19 um 20:04 schrieb Mauro Carvalho Chehab:
-> Em Sat, 7 Sep 2019 19:33:06 +0200
-> Markus Heiser <markus.heiser@darmarit.de> escreveu:
->> An (uncatched) exception is thrown, when writing UTF-8 to a stream which
->> do not support UTF-8 .. this is not a crash, it mostly indicates that the
->> developper makes some wrong assumption about the use-case.
-> 
-> A not-handled exception is a crash in Python. I've seen python scripts
-> crash countless times with non-English names.
+On Sat, Sep 7, 2019 at 9:15 PM Joe Perches <joe@perches.com> wrote:
+>
+> Standard integer promotion is already done and %hx and %hhx is useless
+> so do not encourage the use of %hh[xudi] or %h[xudi].
+>
+> As Linus said in:
+> Link: https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
+>
+> It's a pointless warning, making for more complex code, and
+> making people remember esoteric printf format details that have no
+> reason for existing.
+>
+> The "h" and "hh" things should never be used. The only reason for them
+> being used if if you have an "int", but you want to print it out as a
+> "char" (and honestly, that is a really bad reason, you'd be better off
+> just using a proper cast to make the code more obvious).
+>
+> So if what you have a "char" (or unsigned char) you should always just
+> print it out as an "int", knowing that the compiler already did the
+> proper type conversion.
 
-This has nothing to do with the language, ask the developer of those scripts.
+> -               char                    %hhd or %hhx
+> -               short int               %hd or %hx
+> +               char                    %d or %x
+> +               short int               %d or %x
 
->> There exists
->> also the possibility to encode the UTF-8 to ASCII and replace unknown
->> code points in the out-stream, or to catch the exception.
-> 
-> Yeah, but getting this right is very painful. I use patchwork since 2013.
-> It took *years* for it to not crash with non-ASCII chars[1]. That's, btw,
-> the primary reason why I don't usually use python: with other languages,
-> an alien char doesn't cause a crash.
+> +               s8                      %d or %x
+> +               s16                     %d or %x
 
-Python cares encoded (text) string-types while other languages and
-application are just piping bytes to streams .. if you care about the
-enconding you need exceptions when one whants write UTF-8 to ASCII out.
+This is incorrect. Integral promotions promotes also sign, which will
+produce too many f:s.
 
-Anyway this is a bit of nitpicking / not helping here ..
-
-> 
-> [1] I might be wrong, but the last patch I saw addressing an issue
->      there was applied this year.
-
-I alrady postet an example [1]
-
-<snip>
-This means your application has to know the encoding of a stream/file.
-E.g. we handle the output from of the external Perl script
-scripts/kernel-docs by encoding the byte stream from proc-call's
-stdout into utf-8:
-
-    out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
-
-see patch 
-https://github.com/torvalds/linux/commit/86c0f046a8b0c23fca65f77333c233a06c25ef9a
-
-Again, this is talking about application development and has
-nothing to do with the encoding of the source files.
-<snap>
-
-[1] https://www.mail-archive.com/linux-doc@vger.kernel.org/msg33240.html
-
->>
->> But this was only academical, where do we have such problems in practice?
->>
->>> At least on media, we define that some Kernel strings can be UTF-8.
->>> See, for example the model field at the media_entity struct:
->>>
->>> 	https://linuxtv.org/downloads/v4l-dvb-apis/kapi/mc-core.html
->>>
->>> As stated there:
->>>
->>> 	"media_entity.model must be filled with the device model name as
->>> 	 a NUL-terminated UTF-8 string. The device/model revision must
->>> 	 not be stored in this field."
->>>
->>> I've no idea if the two perf scripts that contain the encoding data are
->>> meant to print some strings that may be UTF-8 encoding (like those that
->>> we have at the media subsystem), or if it is just that whomever added
->>> were using e-macs and wanted to make his life simpler. As it is better
->>> to be safe then sorry, on patches 2 and 3, I'm assuming the first case.
->>
->> Hm, I'am unsure if I understand you correct: Using UTF-8 in the .rst
->> files are fine .. where do we have scripts generating UTF-8 outputs?
->> (except the HTML output).
-> 
-> In thesis, perf scripts may be reading strings from the Kernel, with
-> might be using UTF-8 encoding.
-> 
->>
->>>
->>> In any case, we do need the encoding line at Sphinx extensions,
->>> although there, the shebang line is optional.
->>>
->>> In other words, we have those alternatives:
->>>
->>> 1) Neither shebang nor coding -> SPDX will be at first line;
->>> 2) shebang + SPDX -> SPDX will be at the second line;
->>> 3) shebang + coding + SPDX -> SPDX will be at the third line;
->>> 4) coding + SPDX
->>>
->>>      This is something that only makes sense for Sphinx extensions.
->>>
->>>      IMHO, I would place SPDX at the second line too, but I *guess* Python
->>>      may accept it at the first line and would still properly evaluate
->>>      coding (as this technically satisfies the text at PEP-263).
->>
->> Why you are so restrictive ..
-> 
-> No idea. I would actually prefer to just remove the restriction, and let
-> the SPDX header to be anywhere inside the first comment block inside a
-> file [2].
-> 
-> That's basically how this thread started: other developers think
-> that it is a good idea to be pedantic. So, be it, but let's then fix
-> the documentation, as the way it is, it is implicitly forbidding the
-> addition of encoding lines for Python scripts.
-> 
-> [2] I *suspect* that the restriction was added in order to make
->      ./scripts/spdxcheck.py to run faster and to avoid false positives.
->      Right now, if the maximum limit is removed (or set to a very high
->      value), there will be one false positive:
-> 
-> 	Documentation/dev-tools/kselftest.rst
-> 
->      This doc has a SPDX-like tag at line 230, asking people to add SPDX
->      headers on files, but the file itself doesn't have its own SPDX tag.
-> 	
->> what we normal do:
->>
->> - write a shebang line if this file is called directly from the
->>     command line .. but we do not need shebangs on py modules which
->>     are imported from other modules or scripts
->>
->> - write a encoding line if it is need or helpful / mostly it is helpful
->>     to know the encoding of a text/code file.
->>
->> - add a SPDX tag
-> 
-> Yes, but this violates the current documentation, as it doesn't allow the
-> SPDX tag after line #2.
-
-Thats what I mean: The documentation was written with only a small use-cases
-in mind .. there is no real need for SPDX to be in line one or two ... lets
-fix the documentation as I described before.
-
-Side note: if I can help you with perf or your build systems, don't hesitate
-to contact me directly.
-
--- Markus --
-
->> At the end we will have files with one, two or all three of this lines.
->> And the oder of this lines is, what I wrote:
->>
->>>>
->>>> Thats what I mean [1] .. lets patch the description in the license-rules.rst::
->>>>
->>>> - first line for the OS (shebang)
->>>> - second line for environment (python-encoding, editor-mode, ...)
->>>> - third and more lines for application (SPDX use) ..
->>>>
->>>> [1] https://www.mail-archive.com/linux-doc@vger.kernel.org/msg33240.html
->>>>
->>>> -- Markus --
->>>>   
->>>>> This suggests to me that we're adding a bunch of complications that we
->>>>> don't necessarily need.  What am I missing here?
->>>>>
->>>>> Educate me properly and I'll not try to stand in the way of all this...
->>>>>   
->>
->>
->> It seems like it is not only me who is mising something .. what are
->> the use-cases we have py-Exceptions, what are the use-cases to be so
->> restrictive as you described above.
->>
->> .. or did alice get lost in the cave?
->>
->> Thanks for your patience with me
->>
->> -- Markus --
-> 
-> 
-> 
-> Thanks,
-> Mauro
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
