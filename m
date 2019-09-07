@@ -5,23 +5,28 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C73DB7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 13:34:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0CE607D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 14:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389535AbfIGNeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 7 Sep 2019 09:34:22 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42594 "EHLO ms.lwn.net"
+        id S2393184AbfIGOgp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 7 Sep 2019 10:36:45 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:42288 "EHLO smtp1.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731344AbfIGNeW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Sep 2019 09:34:22 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6B6A82BD;
-        Sat,  7 Sep 2019 13:34:20 +0000 (UTC)
-Date:   Sat, 7 Sep 2019 07:34:19 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S2388202AbfIGOgp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 7 Sep 2019 10:36:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 1845123F3DE;
+        Sat,  7 Sep 2019 16:36:41 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id b-iajWqFRVuP; Sat,  7 Sep 2019 16:36:39 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-178-142-129-167.ewe-ip-backbone.de [178.142.129.167])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 3B3ED23F6E3;
+        Sat,  7 Sep 2019 16:36:37 +0200 (CEST)
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,69 +36,86 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Doug Smythies <doug.smythies@gmail.com>,
-        =?UTF-8?B?QXVyw6lsaWVu?= Cedeyn <aurelien.cedeyn@gmail.com>,
+        =?UTF-8?Q?Aur=c3=a9lien_Cedeyn?= <aurelien.cedeyn@gmail.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         linux-doc@vger.kernel.org,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thierry Reding <treding@nvidia.com>,
         Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
-        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
         Namhyung Kim <namhyung@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Allison Randal <allison@lohutok.net>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
-Message-ID: <20190907073419.6a88e318@lwn.net>
-In-Reply-To: <cover.1567712829.git.mchehab+samsung@kernel.org>
 References: <cover.1567712829.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+ <20190907073419.6a88e318@lwn.net>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
+Date:   Sat, 7 Sep 2019 16:36:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190907073419.6a88e318@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  5 Sep 2019 16:57:47 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> The  description at Documentation/process/license-rules.rst is very strict
-> with regards to the position where the SPDX tags should be.
+Am 07.09.19 um 15:34 schrieb Jonathan Corbet:
+> On Thu,  5 Sep 2019 16:57:47 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> In the past several developers and maintainers interpreted it on a
-> more permissive way, placing the SPDX header between lines 1 to 15, 
-> with are the ones which the  scripts/spdxcheck.py script verifies.
+>> The  description at Documentation/process/license-rules.rst is very strict
+>> with regards to the position where the SPDX tags should be.
+>>
+>> In the past several developers and maintainers interpreted it on a
+>> more permissive way, placing the SPDX header between lines 1 to 15,
+>> with are the ones which the  scripts/spdxcheck.py script verifies.
+>>
+>> However, recently, devs are becoming more strict about such
+>> requirement and want it to strictly follow the rule, with states that
+>> the SPDX rule should be at the first line ever on most files, and
+>> at the second line for scripts.
+>>
+>> Well, for Python script, such requirement causes violation to PEP-263,
+>> making regressions on scripts that contain encoding lines, as PEP-263
+>> also states about the same.
+>>
+>> This series addresses it.
 > 
-> However, recently, devs are becoming more strict about such
-> requirement and want it to strictly follow the rule, with states that
-> the SPDX rule should be at the first line ever on most files, and
-> at the second line for scripts.
+> So I really don't want to be overly difficult here, but I would like to
+> approach this from yet another angle...
 > 
-> Well, for Python script, such requirement causes violation to PEP-263, 
-> making regressions on scripts that contain encoding lines, as PEP-263
-> also states about the same.
+>> Patches 1 to 3 fix some Python scripts that violates PEP-263;
 > 
-> This series addresses it.
+> I just checked all of those scripts, and they are all just plain ASCII.
+> So it really doesn't matter whether the environment defaults to UTF-8 or
+> ASCII here.  So, in other words, we really shouldn't need to define the
+> encoding at all.
+> 
 
-So I really don't want to be overly difficult here, but I would like to
-approach this from yet another angle...
+Thats what I mean [1] .. lets patch the description in the license-rules.rst::
 
-> Patches 1 to 3 fix some Python scripts that violates PEP-263;
+- first line for the OS (shebang)
+- second line for environment (python-encoding, editor-mode, ...)
+- third and more lines for application (SPDX use) ..
 
-I just checked all of those scripts, and they are all just plain ASCII.
-So it really doesn't matter whether the environment defaults to UTF-8 or
-ASCII here.  So, in other words, we really shouldn't need to define the
-encoding at all.
+[1] https://www.mail-archive.com/linux-doc@vger.kernel.org/msg33240.html
 
-This suggests to me that we're adding a bunch of complications that we
-don't necessarily need.  What am I missing here?
+-- Markus --
 
-Educate me properly and I'll not try to stand in the way of all this...
-
-Thanks,
-
-jon
+> This suggests to me that we're adding a bunch of complications that we
+> don't necessarily need.  What am I missing here?
+> 
+> Educate me properly and I'll not try to stand in the way of all this...
+> 
+> Thanks,
+> 
+> jon
+> 
