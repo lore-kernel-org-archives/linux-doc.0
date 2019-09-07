@@ -4,97 +4,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C70227D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 20:24:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 060CE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Sep 2019 21:01:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727331AbfIGUYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 7 Sep 2019 16:24:07 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33058 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727012AbfIGUYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Sep 2019 16:24:06 -0400
-Received: by mail-pf1-f196.google.com with SMTP id q10so6725178pfl.0;
-        Sat, 07 Sep 2019 13:24:06 -0700 (PDT)
+        id S2406333AbfIGVBq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 7 Sep 2019 17:01:46 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46910 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406293AbfIGVBq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Sep 2019 17:01:46 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h7so9896386wrt.13;
+        Sat, 07 Sep 2019 14:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kSwXjXzZYKJiCqywH51dxpo2qwU9GV6iT5gLa0TXjcw=;
-        b=RLvcUd52lld4E+8udQ1d806EtK4KC7v/TKuhinRSgzE3aRETZCt2Gq4C35mRt0DHhI
-         3a38H9fkszjh52jqcN7Sf9eNmLFIV5gIgGHa28FjiPrM0EX1Y8fttthqtUrLC59XTuCh
-         WKk+ZzHgzL0d05FkMU8Ha0r8lFt5BjYy7FXJ72HfZ23mI4AHlw5WKVfIG2iouipgiUAY
-         mNCoRsilN7ixpWv+DrOENtYFR8Z3Jmw2ujry6Z7C89SkBXr2M2TUI5ClToGRC5LROBnG
-         1iEItEAmCc5fl9pYRy2Kp4TrelFSEE2mZ6QN/6WLoUbhk5Of41erqjuDxvHpDr4xcvtN
-         kOFQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=o8x3eRUjtNotyN3qNdYHAjBoBUngXxsekVKAd0J9yLE=;
+        b=p3Qk4L6fEecGBNrb7lt5UX2TQkmot6B14LY6IhIa3ktPrJww9tDanzxf1ZzcqyKsZH
+         IGNI+VpVbybrsbrjzg2nn13qQtu985QhhZy9cp5LhXLkPgz2M9aAhNdZOZEhjKhR2cLj
+         S0piHrcV7LySLClgz2ckvePHz+UM1lO8/fbH6rl0GWdntsQrgqNJeSPEtQmchcSfbQL3
+         zmjJKoa2YlbymgqqKQyXmGADStZ7IZZEHg6kNOUAwMyZOtkzjTulaGsXSaFuShy/4nKy
+         MQN8f/WfZ+koRjU2ak1RntAvNzwTjw0YmXVtMa3s5g0ebldh3hyI/1REArRWLrjIeYwC
+         IOyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kSwXjXzZYKJiCqywH51dxpo2qwU9GV6iT5gLa0TXjcw=;
-        b=BQ+IHwjDA7nYMtPcwA/X6v/oyuI/3UOP4d/CgkxVKkrripZ+ojin0yn2nqu0ndx/ul
-         dY5zhuR1c/06boHsgpqGbBuqDlrNLrDIUxvCnlzm/cu8nhsaLy7HJi+umHvW35VDSAoa
-         ADcqQ6csWtSE2xEebqToDF4QtQtpsa3TBASDJRUgX1Gprw2ck3CcAv8KrOYlJ0CwMG+j
-         LF3KW+7IyTeDzXfcNf76Ma0RT3LUINFOffCK3ZYKK+juQgdmLVhY7ib+w0Pf++vfjffX
-         MA2UoU1AozsBCom8Qeo8t7geYNxScJUfexDT3dPLrZblDyXYgUOvF97cFzBilOrkXQcA
-         YkTQ==
-X-Gm-Message-State: APjAAAV1wOa4VE+XAV3agSQU28k4Lr+hjJ9JVl/yDpIF1yEui1lts2XS
-        FhxX0jklbEZPXz+inU2OSwkqkpX05RKrEJdBXy5zBNRh
-X-Google-Smtp-Source: APXvYqy7iVRX8NOM2h1P14zFXDH9B6tkp/Hu+ZIT9lRPjZPyaNK0MS3qTgc/lr78H/XX/OQCAU785UiqT1I6AInkvmM=
-X-Received: by 2002:a62:c141:: with SMTP id i62mr18689338pfg.64.1567887845980;
- Sat, 07 Sep 2019 13:24:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
-In-Reply-To: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 7 Sep 2019 23:23:53 +0300
-Message-ID: <CAHp75Vc=hSTWzSDToijXJGWxiHA1JOA2e8R0YYmETQ+tTfVhYw@mail.gmail.com>
-Subject: Re: [PATCH] docs: printk-formats: Stop encouraging use of unnecessary
- %h[xudi] and %hh[xudi]
-To:     Joe Perches <joe@perches.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Louis Taylor <louis@kragniz.eu>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=o8x3eRUjtNotyN3qNdYHAjBoBUngXxsekVKAd0J9yLE=;
+        b=fbC1dmRW+Tp5wd0FlJY1NGWKnx9W76HY2KzbXu4AlqNed8WuJeVNOAdWBKCGaRm2IU
+         RbOeZ0O/9QHWZgYwnF1Ju8FPpyVirf7bLNpiBnJOyUOIRy52aDRdSm8OZjEI+1yuWmhb
+         VVyKEDIS5NeHDP93adr+pZWec6caFnKBbrLmnkELga63PLlqDxLigB3CcjotNHaMUAcZ
+         ddQpp/mZesIDQ6FvPw59Rr0XvJyBtWi/p7sI+GkNZtTXso6SpWeTfp70vLhTTcsegn4n
+         1UZCtFA3rKxxg90Mot/zCUzbfRrENcSf0QnSqPZ0lgVa4UacFmVAxu20/48kvjdNK7s8
+         vdoQ==
+X-Gm-Message-State: APjAAAVlmkkjwFmEakoBq/wmCbCIg7bl2xCrz7c/cSZS9d8SAYYx+M5u
+        m3wUrEax1aqS6Q5lH/Dbe54=
+X-Google-Smtp-Source: APXvYqxh/dVwpaq1pBGw4MZlIZx4+jxZZQhKhelsKN7+7qPQi74B01Ebn287A7lQQEVTMuT2w0oYTQ==
+X-Received: by 2002:a05:6000:188:: with SMTP id p8mr12491638wrx.220.1567890103734;
+        Sat, 07 Sep 2019 14:01:43 -0700 (PDT)
+Received: from localhost.localdomain (bl9-156-38.dsl.telepac.pt. [85.242.156.38])
+        by smtp.gmail.com with ESMTPSA id b3sm7381144wrw.4.2019.09.07.14.01.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sat, 07 Sep 2019 14:01:42 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     shuah@kernel.org, brendanhiggins@google.com, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH] Documentation: kunit: Fix verification command
+Date:   Sun,  8 Sep 2019 06:01:31 +0900
+Message-Id: <1567890091-9712-1-git-send-email-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 7, 2019 at 9:15 PM Joe Perches <joe@perches.com> wrote:
->
-> Standard integer promotion is already done and %hx and %hhx is useless
-> so do not encourage the use of %hh[xudi] or %h[xudi].
->
-> As Linus said in:
-> Link: https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
->
-> It's a pointless warning, making for more complex code, and
-> making people remember esoteric printf format details that have no
-> reason for existing.
->
-> The "h" and "hh" things should never be used. The only reason for them
-> being used if if you have an "int", but you want to print it out as a
-> "char" (and honestly, that is a really bad reason, you'd be better off
-> just using a proper cast to make the code more obvious).
->
-> So if what you have a "char" (or unsigned char) you should always just
-> print it out as an "int", knowing that the compiler already did the
-> proper type conversion.
+kunit wrapper script ('kunit.py') receives a sub-command (only 'run' for
+now) as its argument.  If no sub-command is given, it prints help
+message and just quit.  However, an example command in the kunit
+documentation for a verification of kunit is missing the sub-command.
+This commit fixes the example.
 
-> -               char                    %hhd or %hhx
-> -               short int               %hd or %hx
-> +               char                    %d or %x
-> +               short int               %d or %x
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ Documentation/dev-tools/kunit/start.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +               s8                      %d or %x
-> +               s16                     %d or %x
-
-This is incorrect. Integral promotions promotes also sign, which will
-produce too many f:s.
-
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index 6dc229e..aeeddfa 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -43,7 +43,7 @@ wrapper from your kernel repo:
+ 
+ .. code-block:: bash
+ 
+-	./tools/testing/kunit/kunit.py
++	./tools/testing/kunit/kunit.py run
+ 
+ .. note::
+    You may want to run ``make mrproper`` first.
 -- 
-With Best Regards,
-Andy Shevchenko
+2.7.4
+
