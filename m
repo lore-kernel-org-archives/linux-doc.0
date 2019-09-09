@@ -5,137 +5,49 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 204CE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Sep 2019 08:33:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C47657D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Sep 2019 09:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbfIIIdf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Sep 2019 04:33:35 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:43954 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbfIIIdf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Sep 2019 04:33:35 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 6F7C680868; Mon,  9 Sep 2019 10:33:18 +0200 (CEST)
-Date:   Mon, 9 Sep 2019 10:33:31 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Adam Borowski <kilobyte@angband.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: sysrq: don't recommend 'S' 'U' before 'B'
-Message-ID: <20190909083331.GA27626@amd>
-References: <20190903160840.56652-1-kilobyte@angband.pl>
+        id S1728616AbfIIJgl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Sep 2019 05:36:41 -0400
+Received: from mga07.intel.com ([134.134.136.100]:12883 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728293AbfIIJgl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Sep 2019 05:36:41 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 02:36:39 -0700
+X-IronPort-AV: E=Sophos;i="5.64,484,1559545200"; 
+   d="scan'208";a="383923999"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 02:36:38 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Louis Taylor <louis@kragniz.eu>
+Subject: Re: [PATCH] docs: printk-formats: Stop encouraging use of unnecessary %h[xudi] and %hh[xudi]
+In-Reply-To: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
+Date:   Mon, 09 Sep 2019 12:36:35 +0300
+Message-ID: <87k1ah3j6k.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
-Content-Disposition: inline
-In-Reply-To: <20190903160840.56652-1-kilobyte@angband.pl>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 06 Sep 2019, Joe Perches <joe@perches.com> wrote:
+> Link: https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
 
---9jxsPFA5p3P2qPhR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I thought Link: was for referencing the patch on the mailing list that
+became the commit in git.
 
-On Tue 2019-09-03 18:08:40, Adam Borowski wrote:
-> This advice is obsolete and slightly harmful for filesystems from this
-> millenium: any modern filesystem can handle unexpected crashes without
-> requiring fsck -- and on the other hand, trying to write to the disk when
-> the kernel is in a bad state risks introducing corruption.
+BR,
+Jani.
 
-Actually no, I don't think it is good idea.
-
-sync is still useful these days -- you want the current data to be
-written to disk; true, you'll not have to do fsck, but you may lose
-your current data.
-
-Best regards,
-									Pavel
-
-> For ext2, any unsafe shutdown meant widespread breakage, but it's no long=
-er
-> a reasonable filesystem for any non-special use.
->=20
-> Signed-off-by: Adam Borowski <kilobyte@angband.pl>
-> ---
->  Documentation/admin-guide/sysrq.rst | 20 +++++++++-----------
->  1 file changed, 9 insertions(+), 11 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-gu=
-ide/sysrq.rst
-> index 7b9035c01a2e..72b2cfb066f4 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -171,22 +171,20 @@ It seems others find it useful as (System Attention=
- Key) which is
->  useful when you want to exit a program that will not let you switch cons=
-oles.
->  (For example, X or a svgalib program.)
-> =20
-> -``reboot(b)`` is good when you're unable to shut down. But you should al=
-so
-> -``sync(s)`` and ``umount(u)`` first.
-> +``reboot(b)`` is good when you're unable to shut down, it is an equivale=
-nt
-> +of pressing the "reset" button.
-> =20
->  ``crash(c)`` can be used to manually trigger a crashdump when the system=
- is hung.
->  Note that this just triggers a crash if there is no dump mechanism avail=
-able.
-> =20
-> -``sync(s)`` is great when your system is locked up, it allows you to syn=
-c your
-> -disks and will certainly lessen the chance of data loss and fscking. Note
-> -that the sync hasn't taken place until you see the "OK" and "Done" appear
-> -on the screen. (If the kernel is really in strife, you may not ever get =
-the
-> -OK or Done message...)
-> +``sync(s)`` is handy before yanking removable medium or after using a re=
-scue
-> +shell that provides no graceful shutdown -- it will ensure your data is
-> +safely written to the disk. Note that the sync hasn't taken place until =
-you see
-> +the "OK" and "Done" appear on the screen.
-> =20
-> -``umount(u)`` is basically useful in the same ways as ``sync(s)``. I gen=
-erally
-> -``sync(s)``, ``umount(u)``, then ``reboot(b)`` when my system locks. It'=
-s saved
-> -me many a fsck. Again, the unmount (remount read-only) hasn't taken plac=
-e until
-> -you see the "OK" and "Done" message appear on the screen.
-> +``umount(u)`` can be used to mark filesystems as properly unmounted. Fro=
-m the
-> +running system's point of view, they will be remounted read-only. The re=
-mount
-> +isn't complete until you see the "OK" and "Done" message appear on the s=
-creen.
-> =20
->  The loglevels ``0``-``9`` are useful when your console is being flooded =
-with
->  kernel messages you do not want to see. Selecting ``0`` will prevent all=
- but
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---9jxsPFA5p3P2qPhR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl12DlsACgkQMOfwapXb+vKfWQCfSk//T5/EfUVNB7DboM8KBRSe
-gTYAnArx0zEgZSiQZ3Tu+m8ljpitMu0p
-=bG3h
------END PGP SIGNATURE-----
-
---9jxsPFA5p3P2qPhR--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
