@@ -1,151 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB27D7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 06:31:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7F307D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 06:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731011AbfIJGbS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 02:31:18 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33291 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbfIJGbR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Sep 2019 02:31:17 -0400
-Received: by mail-wr1-f68.google.com with SMTP id u16so17637496wrr.0;
-        Mon, 09 Sep 2019 23:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Upbbc+X30JdJgcki87/KoNEEtO+jDuLsK2AFc+5C7zU=;
-        b=JYj7bSbtEoMC+tqbHGpvs9IuEqqMeYNOVK84yHvhqPph6feZbUjjf1KJVaPxiu4r7D
-         vhKag1Eg/WxvetV7toc1pRoAHg9KODJ8IX0GYebDEJB5oQoSgMxSikdCmmHRJLVztXTW
-         uElErWkaSOf4kMhtAd0hnn/LcKVh/abdkE6fBZgOGXVI3tlAhprDjJBIKNU5Hgk2On0Q
-         U5EAzBPg61PHico4RyTEd+mwRh+uTeEknrovNsZ0+qGm49fL3KCGpLDVke4Z5ZJcozcG
-         qXN/M26Vw2AYlY7ms+Wwdnu/TUsjjbi5ht6IUn3LntBEXM0OfcNtdr3Em19+fSGZz78x
-         G9iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Upbbc+X30JdJgcki87/KoNEEtO+jDuLsK2AFc+5C7zU=;
-        b=P6jn1TkWnxX/lPYWN5bgK9v80XnSUqYwVHA5dqxvXaR+Ho09Okswis4BR8MRNymv6e
-         jJDEd0tBO20b1K5KlvbLCJ139ZyjI4l6pX+2v1zlGXOzQ6dZwsHgHO2AMLYKuyUyE5yp
-         65fbgAYyKGlRLJgwIKpRSuq/V+pu7Pg32YbnjFr5hGpcp9k+GMWriYZRabajmIacC/O/
-         tD2NNfz7p7fSbK6AmgCVbpe85TNT+CprXgONaf9Cx8KsiUMDbI/e1/QK9kVR8ojuufPv
-         WJqOnMCE0I3AP9u31prSaUJqY2FCsDjWjzVOjtRv6G/ayYsuwXtSf1fnofq7dqZ2KlBJ
-         edJg==
-X-Gm-Message-State: APjAAAXNLaXVuai6yODhpFDNnywv4aJRsbuCT1w0R2eBlu6BnFv5Y3ig
-        8TQw2d7Y4qVyJTg1+yt9EbY=
-X-Google-Smtp-Source: APXvYqydsceenTXPx8TXy/IA+DTcka5HAXpBEGN26MHL/Rp7Zn1KaCSGbRqUikWHX70QJE2ZXKnO+A==
-X-Received: by 2002:adf:a4c8:: with SMTP id h8mr24045817wrb.293.1568097075467;
-        Mon, 09 Sep 2019 23:31:15 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id s3sm1481044wmj.48.2019.09.09.23.31.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 23:31:14 -0700 (PDT)
-Date:   Tue, 10 Sep 2019 08:31:12 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Sven Eckelmann <sven@narfation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Doug Smythies <doug.smythies@gmail.com>,
-        =?iso-8859-1?Q?Aur=E9lien?= Cedeyn <aurelien.cedeyn@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-doc@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Allison Randal <allison@lohutok.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
-Message-ID: <20190910063112.GA1579@gmail.com>
-References: <cover.1567712829.git.mchehab+samsung@kernel.org>
- <20190907073419.6a88e318@lwn.net>
- <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
- <20190907132259.3199c8a2@coco.lan>
- <a08c5807-38e7-dfb3-ff3c-f78a498455e6@darmarit.de>
- <20190907150442.583b44c2@coco.lan>
- <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
- <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
- <20190908100328.GB29434@bombadil.infradead.org>
- <alpine.DEB.2.21.1909081541520.2134@nanos.tec.linutronix.de>
+        id S2393470AbfIJGfM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 02:35:12 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53038 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729627AbfIJGfM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Sep 2019 02:35:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EfnT9VJR0SzXrUiBMWp/FXHqRLpUfRlW0ohjNvj2Vb8=; b=b1gm8I5xilk/JhHQW9MqgCP2G
+        z2VJw4VRyInonLf6onQ5j0cmX4L6CXk0HFSBHyJQ3BSiTDU288kmel00mX7AgmiajAGfUpxRoTa/M
+        U57jR5+acOxHJWzA5WvGX+t2083sSeCJI1kh/3E/G0IfqE/JSnEubow+5KQZAODwWxxEBbq9lIpWn
+        jA3aY/7ZRf29cUM4mYDHyAyPJ3SEE+pbJy1LBPGbfLVHEkuAcANFp9d/8kvenpdi2yvRDtPP8kU9m
+        2XDamMgXIGh4sND10NMvRitV58Wx6p1jvcp0okM7/RmX9jmfjkLuFnvfqxzC9RElAh8P0HX8pCVLw
+        mcLSvMRoQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1i7Zk6-0005SP-DO; Tue, 10 Sep 2019 06:35:10 +0000
+Date:   Mon, 9 Sep 2019 23:35:10 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: replace IFF abbreviation  with 'if and only if'
+Message-ID: <20190910063510.GA4267@infradead.org>
+References: <20190907105116.19183-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.1909081541520.2134@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190907105116.19183-1-federico.vaga@vaga.pv.it>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-* Thomas Gleixner <tglx@linutronix.de> wrote:
-
-> On Sun, 8 Sep 2019, Matthew Wilcox wrote:
-> > On Sat, Sep 07, 2019 at 11:17:22PM +0200, Thomas Gleixner wrote:
-> > > On Sat, 7 Sep 2019, Markus Heiser wrote:
-> > > > Am 07.09.19 um 20:04 schrieb Mauro Carvalho Chehab:
-> > > > > No idea. I would actually prefer to just remove the restriction, and let
-> > > > > the SPDX header to be anywhere inside the first comment block inside a
-> > > > > file [2].
-> > > > > [2] I *suspect* that the restriction was added in order to make
-> > > > >      ./scripts/spdxcheck.py to run faster and to avoid false positives.
-> > > > >      Right now, if the maximum limit is removed (or set to a very high
-> > > > >      value), there will be one false positive:
-> > > 
-> > > Nope. The intention was to have a well define place and format instead of
-> > > everyone and his dog deciding to put it somewhere. SPDX is not intended to
-> > > replace the existing licensing mess with some other randomly placed and
-> > > formatted licensing mess.
-> > 
-> > I find the current style quite unaesthetic:
-> > 
-> > // SPDX-License-Identifier: GPL-2.0-only
-> > /*
-> >  *  linux/mm/memory.c
-> >  *
-> >  *  Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
-> >  */
-> > 
-> > I'd much rather see
-> > 
-> > /*
-> >  * SPDX-License-Identifier: GPL-2.0-only
-> >  * Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
-> >  */
-> > 
-> > but I appreciate the desire to force it to be on the first line if at all
-> > possible.
+On Sat, Sep 07, 2019 at 12:51:16PM +0200, Federico Vaga wrote:
+> In a normal piece of text the use of 'iff' does not guarantee a correct
+> interpretation because it is easy to confuse it for a typo (if or iff?).
 > 
-> That style is inflicted upon you by Penguin Emperor Decree. :)
+> I believe that IFF should not be used outside a logical/mathematical
+> expression. For this reason with this patch I am replacing 'iff' with
+> 'if an only if' in text, and I am leaving it as it is in logical formulae.
 
-I'd also say that it's a rather tooling-friendly format which mandates a 
-single-line representation, which will be less likely to be morphed into 
-a zillion variants like the original boilerplates.
-
-So the Penguin Emperor Decree also makes sense, which helps. ;-)
-
-Thanks,
-
-	Ingo
+Hell no.  If you want to avoid the usage in your own docs please go for
+it, but as seen in your patch we commonly use and that is a good thing
+as it brings the information across in a very compact way.
