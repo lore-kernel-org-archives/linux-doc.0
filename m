@@ -3,27 +3,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A42097D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:26:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C33747D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437120AbfIJR0u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 13:26:50 -0400
-Received: from mga05.intel.com ([192.55.52.43]:15950 "EHLO mga05.intel.com"
+        id S2437108AbfIJR0s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 13:26:48 -0400
+Received: from mga18.intel.com ([134.134.136.126]:26785 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394139AbfIJR0u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 13:26:50 -0400
+        id S2394139AbfIJR0s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Sep 2019 13:26:48 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:49 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,490,1559545200"; 
-   d="scan'208";a="268478926"
+   d="scan'208";a="185574912"
 Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
-  by orsmga001.jf.intel.com with ESMTP; 10 Sep 2019 10:26:49 -0700
-Subject: [PATCH 2/4] Documentation/process: describe relaxing disclosing party NDAs
+  by fmsmga007.fm.intel.com with ESMTP; 10 Sep 2019 10:26:46 -0700
+Subject: [PATCH 1/4] Documentation/process: Volunteer as the ambassador for Intel
 To:     linux-kernel@vger.kernel.org
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
         gregkh@linuxfoundation.org, sashal@kernel.org, ben@decadent.org.uk,
@@ -31,31 +31,17 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
         tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
         linux-doc@vger.kernel.org, dan.j.williams@intel.com
 From:   Dave Hansen <dave.hansen@linux.intel.com>
-Date:   Tue, 10 Sep 2019 10:26:49 -0700
+Date:   Tue, 10 Sep 2019 10:26:46 -0700
 References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
 In-Reply-To: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
-Message-Id: <20190910172649.74639177@viggo.jf.intel.com>
+Message-Id: <20190910172646.25BFCE7B@viggo.jf.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-From: Dave Hansen <dave.hansen@linux.intel.com>
-
-Hardware companies like Intel have lots of information which they
-want to disclose to some folks but not others.  Non-disclosure
-agreements are a tool of choice for helping to ensure that the
-flow of information is controlled.
-
-But, they have caused problems in mitigation development.  It
-can be hard for individual developers employed by companies to
-figure out how they can participate, especially if their
-employer is under an NDA.
-
-To make this easier for developers, make it clear to disclosing
-parties that they are expected to give permission for individuals
-to participate in mitigation efforts.
+From: Tony Luck <tony.luck@intel.com>
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -69,28 +55,24 @@ Cc: Kees Cook <keescook@chromium.org>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
 ---
 
- b/Documentation/process/embargoed-hardware-issues.rst |    7 +++++++
- 1 file changed, 7 insertions(+)
+ b/Documentation/process/embargoed-hardware-issues.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-0 Documentation/process/embargoed-hardware-issues.rst
---- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-0	2019-09-10 08:39:02.835488131 -0700
-+++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:02.838488131 -0700
-@@ -74,6 +74,13 @@ unable to enter into any non-disclosure
- is aware of the sensitive nature of such issues and offers a Memorandum of
- Understanding instead.
+diff -puN Documentation/process/embargoed-hardware-issues.rst~Documentation-process-Volunteer-as-the-ambassador-for-Intel Documentation/process/embargoed-hardware-issues.rst
+--- a/Documentation/process/embargoed-hardware-issues.rst~Documentation-process-Volunteer-as-the-ambassador-for-Intel	2019-09-10 08:39:05.971488123 -0700
++++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:05.974488123 -0700
+@@ -222,7 +222,7 @@ an involved disclosed party. The current
+   ARM
+   AMD
+   IBM
+-  Intel
++  Intel		Tony Luck <tony.luck@intel.com>
+   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
  
-+Disclosing parties may have shared information about an issue under a
-+non-disclosure agreement with third parties.  In order to ensure that
-+these agreements do not interfere with the mitigation development
-+process, the disclosing party must provide explicit permission to
-+participate to any response team members affected by a non-disclosure
-+agreement.  Disclosing parties must resolve requests to do so in a
-+timely manner.
- 
- Memorandum of Understanding
- ---------------------------
+   Microsoft	Sasha Levin <sashal@kernel.org>
 _
