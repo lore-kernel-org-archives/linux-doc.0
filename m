@@ -1,60 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B7F307D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 06:35:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7A117D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 10:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393470AbfIJGfM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 02:35:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53038 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729627AbfIJGfM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Sep 2019 02:35:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EfnT9VJR0SzXrUiBMWp/FXHqRLpUfRlW0ohjNvj2Vb8=; b=b1gm8I5xilk/JhHQW9MqgCP2G
-        z2VJw4VRyInonLf6onQ5j0cmX4L6CXk0HFSBHyJQ3BSiTDU288kmel00mX7AgmiajAGfUpxRoTa/M
-        U57jR5+acOxHJWzA5WvGX+t2083sSeCJI1kh/3E/G0IfqE/JSnEubow+5KQZAODwWxxEBbq9lIpWn
-        jA3aY/7ZRf29cUM4mYDHyAyPJ3SEE+pbJy1LBPGbfLVHEkuAcANFp9d/8kvenpdi2yvRDtPP8kU9m
-        2XDamMgXIGh4sND10NMvRitV58Wx6p1jvcp0okM7/RmX9jmfjkLuFnvfqxzC9RElAh8P0HX8pCVLw
-        mcLSvMRoQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i7Zk6-0005SP-DO; Tue, 10 Sep 2019 06:35:10 +0000
-Date:   Mon, 9 Sep 2019 23:35:10 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: replace IFF abbreviation  with 'if and only if'
-Message-ID: <20190910063510.GA4267@infradead.org>
-References: <20190907105116.19183-1-federico.vaga@vaga.pv.it>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190907105116.19183-1-federico.vaga@vaga.pv.it>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        id S2405611AbfIJKEZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 06:04:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:60308 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405459AbfIJKEZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Sep 2019 06:04:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F288F28;
+        Tue, 10 Sep 2019 03:04:24 -0700 (PDT)
+Received: from e121566-lin.cambridge.arm.com (e121566-lin.cambridge.arm.com [10.1.196.217])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9D8F3F71F;
+        Tue, 10 Sep 2019 03:04:23 -0700 (PDT)
+From:   Alexandru Elisei <alexandru.elisei@arm.com>
+To:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     corbet@lwn.net, linux@armlinux.org.uk, ian.campbell@citrix.com,
+        will@kernel.org, mchehab@kernel.org, catalin.marinas@arm.com
+Subject: [PATCH] docs: arm: Fix RAM offset requirement for loading a raw image
+Date:   Tue, 10 Sep 2019 11:03:53 +0100
+Message-Id: <1568109833-11780-1-git-send-email-alexandru.elisei@arm.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 07, 2019 at 12:51:16PM +0200, Federico Vaga wrote:
-> In a normal piece of text the use of 'iff' does not guarantee a correct
-> interpretation because it is easy to confuse it for a typo (if or iff?).
-> 
-> I believe that IFF should not be used outside a logical/mathematical
-> expression. For this reason with this patch I am replacing 'iff' with
-> 'if an only if' in text, and I am leaving it as it is in logical formulae.
+Commit 83d26d1113d8 ("ARM: 7824/1: update advice on kernel, initramfs and
+FDT load address.") changed the offset requirement for loading a raw kernel
+image into RAM from 32KiB (0x8000) to TEXT_OFFSET - PAGE_OFFSET, which
+results in a negative value. Change the offset to be TEXT_OFFSET, which has
+an arch dependent value between 0x8000 and 0x308000.
 
-Hell no.  If you want to avoid the usage in your own docs please go for
-it, but as seen in your patch we commonly use and that is a good thing
-as it brings the information across in a very compact way.
+Signed-off-by: Alexandru Elisei <alexandru.elisei@arm.com>
+---
+ Documentation/arm/booting.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/arm/booting.rst b/Documentation/arm/booting.rst
+index 4babb6c6ae1e..0507e7e3357e 100644
+--- a/Documentation/arm/booting.rst
++++ b/Documentation/arm/booting.rst
+@@ -178,8 +178,8 @@ prior to decompression, which will make the boot process slightly
+ faster.
+ 
+ When booting a raw (non-zImage) kernel the constraints are tighter.
+-In this case the kernel must be loaded at an offset into system equal
+-to TEXT_OFFSET - PAGE_OFFSET.
++In this case the kernel must be loaded at an offset into system RAM
++equal to TEXT_OFFSET.
+ 
+ In any case, the following conditions must be met:
+ 
+-- 
+2.7.4
+
