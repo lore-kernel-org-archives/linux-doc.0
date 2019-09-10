@@ -1,86 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FA597D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 13:17:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03D577D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 15:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbfIJNRe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 09:17:34 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:62004 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725942AbfIJNRe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 09:17:34 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id E54CA40434;
-        Tue, 10 Sep 2019 15:17:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1568121451; x=1569935852; bh=a5pnmPm8nIxY3zzJSRLdaWsreRl6h7wiA3V
-        rT0lIx44=; b=o+8f00MBmpBBxslrWIFlLHd/L7TyhEz6fLH3x+Ycf7F0hmyzpuC
-        ZkLuE192s7eahT1OVeav3IBNpT8wfvXM0nYR3FF9ilCd5FqBIvbMAQyruLaGaAsD
-        QCPNdZNmDorqeZaJtn7SZUN4nvy/wRDRrD3QVKW9mh9L/yQVP5Mr/yUtNeKjn87h
-        uBea4ubwinzXI7yLW8erF5/9E1Uyxd8blmOerQD8kogIXxpti6ub+DDAe9sAY/bu
-        0zEz4T300MdxeInU3povnM3qE96Rp5zVPHRM5HhGKKumCewrgXcpCDCXcR58WpBf
-        PfRf9TqsIJWKNOXtVlxxqZL4E165Hm7bTxbAQ3ohrx7o4tfGn4T3kgOyBGQQLDMe
-        5kLXuoJ0yqR36uwHiD1ClxNqtIa0sJzF3T1RcXyHs9M9EE1ABt6yeOQYcTGcJQW+
-        8IXIjQnjSUF3XUGZ9SEr4t502bX0fHRCia/32w/FGJkkzYI7PCIr3/lSuSf1CDQW
-        skZ51+uPClhupdoaSiefXdD28WikX2hPX4rCOR3hYA7jzQWdGrQSoUjjj/P9rDub
-        KCoV2fCfnyCGBcFzVdfx0jWRda8AyGbvOvtkeL8QSh8qnDKiIdwQG6H3E9BPnDNx
-        qtS/n3xfklkxE/Maa/PlO/EzBjNqw/wBDOr+OzW3nLpUrdFEfiqhrTxg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id mG2EcvuXIwJl; Tue, 10 Sep 2019 15:17:31 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 5CCF8403A2;
-        Tue, 10 Sep 2019 15:17:31 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 008561B2B;
-        Tue, 10 Sep 2019 15:17:30 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: replace IFF abbreviation  with 'if and only if'
-Date:   Tue, 10 Sep 2019 15:17:29 +0200
-Message-ID: <4450664.oKrbQx5eeJ@harkonnen>
-In-Reply-To: <20190910063510.GA4267@infradead.org>
-References: <20190907105116.19183-1-federico.vaga@vaga.pv.it> <20190910063510.GA4267@infradead.org>
+        id S1730990AbfIJP0o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 11:26:44 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42056 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730821AbfIJP0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Sep 2019 11:26:44 -0400
+Received: by mail-pf1-f194.google.com with SMTP id w22so11719572pfi.9;
+        Tue, 10 Sep 2019 08:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=szCNIUW6BgbokX0FPeRCVgqZ5ZdcFTN5rqoeuNdt524=;
+        b=caR2EHx2Qt5HEr4rR7I7x4dW2X6VHrZZOd5QrFiwQrJcRuuNMXoYgnzTkWyFAo2FLI
+         hIuVDkZMSQqupEAwSEVivqHBmD+UeeHLzBycMfwnzYXxLpNvOQnQjmpVF0AeIhJiGaEX
+         C9BiYSXNaiFNjeXt5ERdvlkklW0kUyxOdN1pPlxEKI2FxI0WyoAzMVcmgMehTclWwZUS
+         k4iPIKC58a+zGDjb0brPpC9UNBfDxITrvoCS6El+GKqRPLIkgHjzbTpEe14u9Le+86l/
+         nd+6LahlcilZwQyO+zDB6DQKre3yKJB4kqglYJK5ji3DbC72wx35fRtE2asafjN68Et/
+         Tymg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=szCNIUW6BgbokX0FPeRCVgqZ5ZdcFTN5rqoeuNdt524=;
+        b=ucU0zRb9cbCBe9CFHh6DW4s16NhNmHFdnPRuNoZoLxJty+ET/KHdLlFAV3HQxAs1pD
+         SP02zumpsvW+Rsp7p3D0xeM/Nc1Q7Fkbsps0RMNDZEZN4n6Kdq9Ua0/E248r0OyEbUj1
+         2jkzdHTQ6NqgUpFhglYZlRBow5OkGv1CVcT0v1F9rzmAyklEo1HcCjVpJCtbp7u2ejQl
+         aHMtTuMXbFesBreca+GXqrix/hREVZ5POQjpYRjVrd1G0fMNSUZiZS3Tti14pTUW7V8K
+         kd5a4pUFe99+oJoKqRG+Q/rkNLd9kpa+v/Ao50FguyGfWTtRO+MV2cOyaQ2a8op69sJB
+         Xcjg==
+X-Gm-Message-State: APjAAAVFppRVYqzJ5AuLiT2vRRd1Ici6sZnhXCLggsL2ML2FKWm3Smhn
+        qH8IIGBrq/sFtyEvrJZLL3nZNEd9HnE6polHPkI=
+X-Google-Smtp-Source: APXvYqzOINBFtfLvF0b9qbl9PEWwDqdKgy6gSXJJzwn3QWuI+u/Xg4GqfM8xomnm9stnWRBe4FRdbpMx7VLIvJ9L0cU=
+X-Received: by 2002:a17:90a:b313:: with SMTP id d19mr56369pjr.132.1568129203532;
+ Tue, 10 Sep 2019 08:26:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20190830214655.6625-1-linux@rasmusvillemoes.dk> <20190909203826.22263-1-linux@rasmusvillemoes.dk>
+In-Reply-To: <20190909203826.22263-1-linux@rasmusvillemoes.dk>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 10 Sep 2019 18:26:32 +0300
+Message-ID: <CAHp75Vdpd5uMCM-n+4vAZLwUpN=-cHnHs1uxoV2MDd5fk+CQig@mail.gmail.com>
+Subject: Re: [PATCH v2] printf: add support for printing symbolic error codes
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joe Perches <joe@perches.com>, Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, September 10, 2019 8:35:10 AM CEST Christoph Hellwig wrote:
-> On Sat, Sep 07, 2019 at 12:51:16PM +0200, Federico Vaga wrote:
-> > In a normal piece of text the use of 'iff' does not guarantee a correct
-> > interpretation because it is easy to confuse it for a typo (if or iff?).
-> > 
-> > I believe that IFF should not be used outside a logical/mathematical
-> > expression. For this reason with this patch I am replacing 'iff' with
-> > 'if an only if' in text, and I am leaving it as it is in logical formulae.
-> 
-> Hell no.  If you want to avoid the usage in your own docs please go for
-> it, but as seen in your patch we commonly use 
+On Mon, Sep 9, 2019 at 11:39 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+>
+> It has been suggested several times to extend vsnprintf() to be able
+> to convert the numeric value of ENOSPC to print "ENOSPC". This is yet
+> another attempt. Rather than adding another %p extension, simply teach
+> plain %p to convert ERR_PTRs. While the primary use case is
+>
+>   if (IS_ERR(foo)) {
+>     pr_err("Sorry, can't do that: %p\n", foo);
+>     return PTR_ERR(foo);
+>   }
+>
+> it is also more helpful to get a symbolic error code (or, worst case,
+> a decimal number) in case an ERR_PTR is accidentally passed to some
+> %p<something>, rather than the (efault) that check_pointer() would
+> result in.
+>
+> With my embedded hat on, I've made it possible to remove this.
+>
+> I've tested that the #ifdeffery in errcode.c is sufficient to make
+> this compile on arm, arm64, mips, powerpc, s390, x86 - I'm sure the
+> 0day bot will tell me which ones I've missed.
+>
+> The symbols to include have been found by massaging the output of
+>
+>   find arch include -iname 'errno*.h' | xargs grep -E 'define\s*E'
+>
+> In the cases where some common aliasing exists
+> (e.g. EAGAIN=EWOULDBLOCK on all platforms, EDEADLOCK=EDEADLK on most),
+> I've moved the more popular one (in terms of 'git grep -w Efoo | wc)
+> to the bottom so that one takes precedence.
 
-The usage of 'iff' is as common as the usage of  'if and only if'
+> +#define E(err) [err + BUILD_BUG_ON_ZERO(err <= 0 || err > 300)] = #err
+> +#define E(err) [err - 512 + BUILD_BUG_ON_ZERO(err < 512 || err > 550)] = #err
 
-> and that is a good thing
-> as it brings the information across  in a very compact way.
+From long term prospective 300 and 550 hard coded here may be forgotten.
 
-It is not a piece of code that has to run on an embedded system and it needs 
-to be compact. It is a piece of text that people must understand.
+> +const char *errcode(int err)
+We got long, why not to use long type for it?
 
-Generally speaking compactness does not bring any value if then the text is 
-unclear or open to interpretation.
+> +{
+> +       /* Might as well accept both -EIO and EIO. */
+> +       if (err < 0)
+> +               err = -err;
 
+> +       if (err <= 0) /* INT_MIN or 0 */
+> +               return NULL;
+> +       if (err < ARRAY_SIZE(codes_0))
 
+> +               return codes_0[err];
+
+It won't work if one of the #ifdef:s in the array fails.
+Would it?
+
+> +       if (err >= 512 && err - 512 < ARRAY_SIZE(codes_512))
+> +               return codes_512[err - 512];
+> +       /* But why? */
+> +       if (IS_ENABLED(CONFIG_MIPS) && err == EDQUOT) /* 1133 */
+> +               return "EDQUOT";
+> +       return NULL;
+> +}
+
+> +               long err = PTR_ERR(ptr);
+> +               const char *sym = errcode(-err);
+
+Do we need additional sign change if we already have such check inside
+errcode()?
+
+-- 
+With Best Regards,
+Andy Shevchenko
