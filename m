@@ -5,48 +5,57 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E1CA47D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:26:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A42097D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:26:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436916AbfIJR0p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 13:26:45 -0400
-Received: from mga02.intel.com ([134.134.136.20]:64528 "EHLO mga02.intel.com"
+        id S2437120AbfIJR0u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 13:26:50 -0400
+Received: from mga05.intel.com ([192.55.52.43]:15950 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394139AbfIJR0p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 13:26:45 -0400
+        id S2394139AbfIJR0u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Sep 2019 13:26:50 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:44 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,490,1559545200"; 
-   d="scan'208";a="196626008"
+   d="scan'208";a="268478926"
 Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
-  by orsmga002.jf.intel.com with ESMTP; 10 Sep 2019 10:26:44 -0700
-Subject: [PATCH 0/4] Documentation/process: embargoed hardware issues additions
+  by orsmga001.jf.intel.com with ESMTP; 10 Sep 2019 10:26:49 -0700
+Subject: [PATCH 2/4] Documentation/process: describe relaxing disclosing party NDAs
 To:     linux-kernel@vger.kernel.org
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
         gregkh@linuxfoundation.org, sashal@kernel.org, ben@decadent.org.uk,
         tglx@linutronix.de, labbott@redhat.com, andrew.cooper3@citrix.com,
         tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
-        dan.j.williams@intel.com, linux-doc@vger.kernel.org
+        linux-doc@vger.kernel.org, dan.j.williams@intel.com
 From:   Dave Hansen <dave.hansen@linux.intel.com>
-Date:   Tue, 10 Sep 2019 10:26:44 -0700
-Message-Id: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
+Date:   Tue, 10 Sep 2019 10:26:49 -0700
+References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
+In-Reply-To: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
+Message-Id: <20190910172649.74639177@viggo.jf.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intel will adhere to this process for future hardware embargoed
-issues.  This series contains a patch from Tony Luck with him
-volunteering to be Intel's ambassador for this process.
 
-These are some minor improvements here to the process document.  I've
-had the pleasure of seeing some of the problems with the various
-"processes" that led to the need for this document and I think these
-tweaks will help.  This part of the series is much more of an RFC than
-the first patch, obviously.
+From: Dave Hansen <dave.hansen@linux.intel.com>
+
+Hardware companies like Intel have lots of information which they
+want to disclose to some folks but not others.  Non-disclosure
+agreements are a tool of choice for helping to ensure that the
+flow of information is controlled.
+
+But, they have caused problems in mitigation development.  It
+can be hard for individual developers employed by companies to
+figure out how they can participate, especially if their
+employer is under an NDA.
+
+To make this easier for developers, make it clear to disclosing
+parties that they are expected to give permission for individuals
+to participate in mitigation efforts.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -58,6 +67,30 @@ Cc: Andrew Cooper <andrew.cooper3@citrix.com>
 Cc: Trilok Soni <tsoni@codeaurora.org>
 Cc: Kees Cook <keescook@chromium.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+---
+
+ b/Documentation/process/embargoed-hardware-issues.rst |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-0 Documentation/process/embargoed-hardware-issues.rst
+--- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-0	2019-09-10 08:39:02.835488131 -0700
++++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:02.838488131 -0700
+@@ -74,6 +74,13 @@ unable to enter into any non-disclosure
+ is aware of the sensitive nature of such issues and offers a Memorandum of
+ Understanding instead.
+ 
++Disclosing parties may have shared information about an issue under a
++non-disclosure agreement with third parties.  In order to ensure that
++these agreements do not interfere with the mitigation development
++process, the disclosing party must provide explicit permission to
++participate to any response team members affected by a non-disclosure
++agreement.  Disclosing parties must resolve requests to do so in a
++timely manner.
+ 
+ Memorandum of Understanding
+ ---------------------------
+_
