@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	WEIRD_QUOTING autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C33747D2F0
+	by archive.lwn.net (Postfix) with ESMTP id CFDDB7D90D
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437108AbfIJR0s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 13:26:48 -0400
-Received: from mga18.intel.com ([134.134.136.126]:26785 "EHLO mga18.intel.com"
+        id S2437133AbfIJR0w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 13:26:52 -0400
+Received: from mga12.intel.com ([192.55.52.136]:41079 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394139AbfIJR0s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 13:26:48 -0400
+        id S2437132AbfIJR0w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Sep 2019 13:26:52 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:47 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,490,1559545200"; 
-   d="scan'208";a="185574912"
+X-IronPort-AV: E=Sophos;i="5.64,489,1559545200"; 
+   d="scan'208";a="335986073"
 Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Sep 2019 10:26:46 -0700
-Subject: [PATCH 1/4] Documentation/process: Volunteer as the ambassador for Intel
+  by orsmga004.jf.intel.com with ESMTP; 10 Sep 2019 10:26:51 -0700
+Subject: [PATCH 3/4] Documentation/process: soften language around conference talk dates
 To:     linux-kernel@vger.kernel.org
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
         gregkh@linuxfoundation.org, sashal@kernel.org, ben@decadent.org.uk,
@@ -31,17 +31,32 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
         tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
         linux-doc@vger.kernel.org, dan.j.williams@intel.com
 From:   Dave Hansen <dave.hansen@linux.intel.com>
-Date:   Tue, 10 Sep 2019 10:26:46 -0700
+Date:   Tue, 10 Sep 2019 10:26:51 -0700
 References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
 In-Reply-To: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
-Message-Id: <20190910172646.25BFCE7B@viggo.jf.intel.com>
+Message-Id: <20190910172651.D9F5C062@viggo.jf.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-From: Tony Luck <tony.luck@intel.com>
+From: Dave Hansen <dave.hansen@linux.intel.com>
+
+Both hardware companies and the kernel community prefer coordinated
+disclosure to the alternatives.  It is also obvious that sitting on
+ready-to-go mitigations for months is not so nice for kernel
+maintainers.
+
+I want to ensure that the patched text can not be read as "the kernel
+does not wait for conference dates".  I'm also fairly sure that, so
+far, we *have* waited for a number of conference dates.
+
+Change the text to make it clear that waiting for conference dates
+is possible, but keep the grumbling about it being a burden.
+
+While I think this is good for everyone, this patch represents my
+personal opinion and not that of my employer.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -55,24 +70,28 @@ Cc: Kees Cook <keescook@chromium.org>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Cc: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+Acked-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
 ---
 
- b/Documentation/process/embargoed-hardware-issues.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ b/Documentation/process/embargoed-hardware-issues.rst |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff -puN Documentation/process/embargoed-hardware-issues.rst~Documentation-process-Volunteer-as-the-ambassador-for-Intel Documentation/process/embargoed-hardware-issues.rst
---- a/Documentation/process/embargoed-hardware-issues.rst~Documentation-process-Volunteer-as-the-ambassador-for-Intel	2019-09-10 08:39:05.971488123 -0700
-+++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:05.974488123 -0700
-@@ -222,7 +222,7 @@ an involved disclosed party. The current
-   ARM
-   AMD
-   IBM
--  Intel
-+  Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-1 Documentation/process/embargoed-hardware-issues.rst
+--- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-1	2019-09-10 08:39:03.879488129 -0700
++++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:03.883488129 -0700
+@@ -197,10 +197,9 @@ While we understand that hardware securi
+ time, the embargo time should be constrained to the minimum time which is
+ required for all involved parties to develop, test and prepare the
+ mitigations. Extending embargo time artificially to meet conference talk
+-dates or other non-technical reasons is creating more work and burden for
+-the involved developers and response teams as the patches need to be kept
+-up to date in order to follow the ongoing upstream kernel development,
+-which might create conflicting changes.
++dates or other non-technical reasons is possible, but not preferred. These
++artificial extensions burden the response team with constant maintenance
++updating mitigations to follow upstream kernel development.
  
-   Microsoft	Sasha Levin <sashal@kernel.org>
+ CVE assignment
+ """"""""""""""
 _
