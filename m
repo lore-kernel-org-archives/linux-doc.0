@@ -5,60 +5,64 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7A117D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 10:04:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D8F47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 11:06:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405611AbfIJKEZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 06:04:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:60308 "EHLO foss.arm.com"
+        id S1729516AbfIJLGF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 07:06:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40454 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405459AbfIJKEZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 06:04:25 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F288F28;
-        Tue, 10 Sep 2019 03:04:24 -0700 (PDT)
-Received: from e121566-lin.cambridge.arm.com (e121566-lin.cambridge.arm.com [10.1.196.217])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9D8F3F71F;
-        Tue, 10 Sep 2019 03:04:23 -0700 (PDT)
-From:   Alexandru Elisei <alexandru.elisei@arm.com>
-To:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     corbet@lwn.net, linux@armlinux.org.uk, ian.campbell@citrix.com,
-        will@kernel.org, mchehab@kernel.org, catalin.marinas@arm.com
-Subject: [PATCH] docs: arm: Fix RAM offset requirement for loading a raw image
-Date:   Tue, 10 Sep 2019 11:03:53 +0100
-Message-Id: <1568109833-11780-1-git-send-email-alexandru.elisei@arm.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726406AbfIJLGF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Sep 2019 07:06:05 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 702113082B40;
+        Tue, 10 Sep 2019 11:06:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com [10.36.116.47])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4C6081001938;
+        Tue, 10 Sep 2019 11:06:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 56A9E31F14; Tue, 10 Sep 2019 13:06:03 +0200 (CEST)
+Date:   Tue, 10 Sep 2019 13:06:03 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     daniel@ffwll.ch, airlied@linux.ie, corbet@lwn.net,
+        z.liuxinliang@hisilicon.com, zourongrong@gmail.com,
+        kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+        hdegoede@redhat.com, sam@ravnborg.org, yc_chen@aspeedtech.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/4] Merge VRAM MM and GEM VRAM source files
+Message-ID: <20190910110603.upjt34ycylscjpnf@sirius.home.kraxel.org>
+References: <20190909130453.6718-1-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190909130453.6718-1-tzimmermann@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Tue, 10 Sep 2019 11:06:05 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 83d26d1113d8 ("ARM: 7824/1: update advice on kernel, initramfs and
-FDT load address.") changed the offset requirement for loading a raw kernel
-image into RAM from 32KiB (0x8000) to TEXT_OFFSET - PAGE_OFFSET, which
-results in a negative value. Change the offset to be TEXT_OFFSET, which has
-an arch dependent value between 0x8000 and 0x308000.
+On Mon, Sep 09, 2019 at 03:04:49PM +0200, Thomas Zimmermann wrote:
+> VRAM MM and GEM VRAM are only used with each other. This patch set
+> moves VRAM MM into GEM VRAM source files and cleans up the helper's
+> public interface.
+> 
+> Thomas Zimmermann (4):
+>   drm/vram: Move VRAM memory manager to GEM VRAM implementation
+>   drm/vram: Have VRAM MM call GEM VRAM functions directly
+>   drm/vram: Unexport internal functions of VRAM MM
+>   drm/vram: Unconditonally set BO call-back functions
 
-Signed-off-by: Alexandru Elisei <alexandru.elisei@arm.com>
----
- Documentation/arm/booting.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Looks all sane.
 
-diff --git a/Documentation/arm/booting.rst b/Documentation/arm/booting.rst
-index 4babb6c6ae1e..0507e7e3357e 100644
---- a/Documentation/arm/booting.rst
-+++ b/Documentation/arm/booting.rst
-@@ -178,8 +178,8 @@ prior to decompression, which will make the boot process slightly
- faster.
- 
- When booting a raw (non-zImage) kernel the constraints are tighter.
--In this case the kernel must be loaded at an offset into system equal
--to TEXT_OFFSET - PAGE_OFFSET.
-+In this case the kernel must be loaded at an offset into system RAM
-+equal to TEXT_OFFSET.
- 
- In any case, the following conditions must be met:
- 
--- 
-2.7.4
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+cheers,
+  Gerd
 
