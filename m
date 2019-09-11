@@ -2,55 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2C647D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 22:27:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 578D77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 23:24:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfIKW1S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 18:27:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33554 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbfIKW1S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 18:27:18 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id A479628D55C
-Subject: Re: [PATCH 1/3] docs: block: null_blk: enhance document style
-To:     Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+        id S1728358AbfIKXYq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 19:24:46 -0400
+Received: from smtprelay0096.hostedemail.com ([216.40.44.96]:50945 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728351AbfIKXYp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 19:24:45 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 6E498181D3402;
+        Wed, 11 Sep 2019 23:24:44 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: pain99_293c1cbda4f24
+X-Filterd-Recvd-Size: 1155
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf14.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 11 Sep 2019 23:24:43 +0000 (UTC)
+Message-ID: <e81cba27b614966139e7324b96da5e90e67c1d6a.camel@perches.com>
+Subject: Re: [PATCH] doc: replace IFF abbreviation  with 'if and only if'
+From:   Joe Perches <joe@perches.com>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, m@bjorling.me, kernel@collabora.com,
-        krisman@collabora.com
-References: <20190911144636.226945-1-andrealmeid@collabora.com>
- <2252d8d6-17e6-402b-9136-dc85e3cccbdd@kernel.dk>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <a18e5911-77f4-4721-0c6e-ed410e411eb5@collabora.com>
-Date:   Wed, 11 Sep 2019 19:26:09 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.0
+Date:   Wed, 11 Sep 2019 16:24:42 -0700
+In-Reply-To: <4450664.oKrbQx5eeJ@harkonnen>
+References: <20190907105116.19183-1-federico.vaga@vaga.pv.it>
+         <20190910063510.GA4267@infradead.org> <4450664.oKrbQx5eeJ@harkonnen>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <2252d8d6-17e6-402b-9136-dc85e3cccbdd@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/11/19 7:05 PM, Jens Axboe wrote:
-> On 9/11/19 8:46 AM, André Almeida wrote:
->> Use proper ReST syntax for chapters. Add more information to enhance
->> standardization in the file and to make the rendering more homogeneous.
->> Add a SPDX identifier. Mark single-queue mode as deprecated.
-> 
-> Please use a cover letter for sending block patches if there's more
-> than one in the series.
->
+On Tue, 2019-09-10 at 15:17 +0200, Federico Vaga wrote:
+> Generally speaking compactness does not bring any value if then the text is 
+> unclear or open to interpretation.
 
-Thanks for the feedback, I'll do it for next series.
+It's somewhat difficult to choose between +1 and I agree.
 
-> I applied these, though rewrote the commit message for patch #3.
-> 
+
