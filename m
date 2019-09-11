@@ -1,112 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 300DC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:00:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DDF57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:09:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727731AbfIKLAh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 07:00:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33804 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726724AbfIKLAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Sep 2019 07:00:37 -0400
-Received: from localhost (unknown [148.69.85.38])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11BE820CC7;
-        Wed, 11 Sep 2019 11:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568199636;
-        bh=6CkPkTexnyeUrJ/816Xs3QnneqgRrUamwtCeRc3RdDw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GsyuQay4M3D0T6k12JN9vA6vAC8zi/uNCkurc567Yfsj5mi0QNuV4KF18EBKu0XLb
-         /K76WGe50DO8+dtS04M61v++esDJbSgw5DaP3GtQqnFE7G5KQzhWZnt3GSzKdMBYdK
-         GF2qwcjLTfnYc8QYeHUWCUQaTKLgD9KR6p7FqwVY=
-Date:   Wed, 11 Sep 2019 06:11:55 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
-        gregkh@linuxfoundation.org, ben@decadent.org.uk,
-        tglx@linutronix.de, labbott@redhat.com, andrew.cooper3@citrix.com,
-        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
-        linux-doc@vger.kernel.org, dan.j.williams@intel.com
-Subject: Re: [PATCH 2/4] Documentation/process: describe relaxing disclosing
- party NDAs
-Message-ID: <20190911101155.GN2012@sasha-vm>
-References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
- <20190910172649.74639177@viggo.jf.intel.com>
+        id S1727731AbfIKLJU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 07:09:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33718 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727408AbfIKLJU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Sep 2019 07:09:20 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id BB7E4AF23;
+        Wed, 11 Sep 2019 11:09:18 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, kraxel@redhat.com, airlied@linux.ie,
+        corbet@lwn.net, z.liuxinliang@hisilicon.com, zourongrong@gmail.com,
+        kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+        hdegoede@redhat.com, sam@ravnborg.org, yc_chen@aspeedtech.com
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/4] Merge VRAM MM and GEM VRAM source files
+Date:   Wed, 11 Sep 2019 13:09:06 +0200
+Message-Id: <20190911110910.30698-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190910172649.74639177@viggo.jf.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 10, 2019 at 10:26:49AM -0700, Dave Hansen wrote:
->
->From: Dave Hansen <dave.hansen@linux.intel.com>
->
->Hardware companies like Intel have lots of information which they
->want to disclose to some folks but not others.  Non-disclosure
->agreements are a tool of choice for helping to ensure that the
->flow of information is controlled.
->
->But, they have caused problems in mitigation development.  It
->can be hard for individual developers employed by companies to
->figure out how they can participate, especially if their
->employer is under an NDA.
->
->To make this easier for developers, make it clear to disclosing
->parties that they are expected to give permission for individuals
->to participate in mitigation efforts.
->
->Cc: Jonathan Corbet <corbet@lwn.net>
->Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->Cc: Sasha Levin <sashal@kernel.org>
->Cc: Ben Hutchings <ben@decadent.org.uk>
->Cc: Thomas Gleixner <tglx@linutronix.de>
->Cc: Laura Abbott <labbott@redhat.com>
->Cc: Andrew Cooper <andrew.cooper3@citrix.com>
->Cc: Trilok Soni <tsoni@codeaurora.org>
->Cc: Kees Cook <keescook@chromium.org>
->Cc: Tony Luck <tony.luck@intel.com>
->Cc: linux-doc@vger.kernel.org
->Cc: linux-kernel@vger.kernel.org
->Acked-by: Dan Williams <dan.j.williams@intel.com>
->Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
->---
->
-> b/Documentation/process/embargoed-hardware-issues.rst |    7 +++++++
-> 1 file changed, 7 insertions(+)
->
->diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-0 Documentation/process/embargoed-hardware-issues.rst
->--- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-0	2019-09-10 08:39:02.835488131 -0700
->+++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:02.838488131 -0700
->@@ -74,6 +74,13 @@ unable to enter into any non-disclosure
-> is aware of the sensitive nature of such issues and offers a Memorandum of
-> Understanding instead.
->
->+Disclosing parties may have shared information about an issue under a
->+non-disclosure agreement with third parties.  In order to ensure that
->+these agreements do not interfere with the mitigation development
->+process, the disclosing party must provide explicit permission to
->+participate to any response team members affected by a non-disclosure
->+agreement.  Disclosing parties must resolve requests to do so in a
->+timely manner.
+VRAM MM and GEM VRAM are only used with each other. This patch set
+moves VRAM MM into GEM VRAM source files and cleans up the helper's
+public interface.
 
-Can giving the permission be made explicitly along with the disclosure?
-If it's disclosed with Microsoft under NDA, it makes it tricky for me to
-participate in the "response team" context here unless premission is
-given to do so.
+Version 2 of the patch set doesn't contain functional changes. I'm
+reposting due to the rebasing onto the debugfs patches.
+
+v2:
+	* updated for debugfs support
+	* fixed typos in comments
+
+Thomas Zimmermann (4):
+  drm/vram: Move VRAM memory manager to GEM VRAM implementation
+  drm/vram: Have VRAM MM call GEM VRAM functions directly
+  drm/vram: Unexport internal functions of VRAM MM
+  drm/vram: Unconditonally set BO call-back functions
+
+ Documentation/gpu/drm-mm.rst                  |  12 -
+ drivers/gpu/drm/Makefile                      |   3 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |   1 -
+ drivers/gpu/drm/ast/ast_main.c                |   1 -
+ drivers/gpu/drm/ast/ast_ttm.c                 |   3 +-
+ drivers/gpu/drm/bochs/bochs.h                 |   1 -
+ drivers/gpu/drm/bochs/bochs_mm.c              |   3 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c         | 406 +++++++++++++++---
+ drivers/gpu/drm/drm_vram_helper_common.c      |   8 +-
+ drivers/gpu/drm/drm_vram_mm_helper.c          | 353 ---------------
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   1 -
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c   |   3 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |   1 -
+ drivers/gpu/drm/mgag200/mgag200_ttm.c         |   3 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.h          |   2 -
+ drivers/gpu/drm/vboxvideo/vbox_ttm.c          |   3 +-
+ include/drm/drm_gem_vram_helper.h             |  92 +++-
+ include/drm/drm_vram_mm_helper.h              | 109 -----
+ 18 files changed, 421 insertions(+), 584 deletions(-)
+ delete mode 100644 drivers/gpu/drm/drm_vram_mm_helper.c
+ delete mode 100644 include/drm/drm_vram_mm_helper.h
 
 --
-Thanks,
-Sasha
+2.23.0
+
