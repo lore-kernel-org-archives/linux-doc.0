@@ -1,146 +1,220 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46DE67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:12:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A191B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727696AbfIKLMZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 07:12:25 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:60104 "EHLO
-        mx0b-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726696AbfIKLMZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 07:12:25 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
-        by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8BB9xqG016921;
-        Wed, 11 Sep 2019 04:12:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=Sdp5YIcmyxIIoBAbO5HC0bGdKaDTIvgDHrBhvqj7J9k=;
- b=QzhmK3rArPQaeZlLQ8DZGQhskfsHwvFJ6t6XUvpPv5tKE2hTd16dxP68TOI8B6xQSrVX
- yweBuS0I65qmnvyfAnJbFjzLwoOYex2VjIwe3UPXnscgLICg7ew8rLEgemI0lW+8AHF7
- n9QhFIstOU+Mev3lgPtPOr+POw/6ZcHSaLm14H54Jefz9o/X6TXNTLFj6pBXbPd5heNj
- ABiM90QO7gp1fZdSlVji/sUqT5vK6dMA5aKDnErEmUJH0vGI9xmRcjcVDq0bjuLgzAv8
- 9Sre13n1TWWW4CG+Rn37605j8lZUzEhQMnn0bzRh4HiSwp8PVBJtwV7V777Q1pvWarRK BQ== 
-Received: from nam01-bn3-obe.outbound.protection.outlook.com (mail-bn3nam01lp2052.outbound.protection.outlook.com [104.47.33.52])
-        by mx0b-002c1b01.pphosted.com with ESMTP id 2uvanh82yn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 11 Sep 2019 04:12:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iFYdGNL3BpN8xCneaK6tdJ5AThjMiWgjxr6GPrKp1GW1xGW/zcsMi2B1aI1QpMYcsnnXim33FQMLGPtNPEkdbnbVNrrOEAPAiLckXoeP68LErfqsPaX6nGHGdf6Z17RFz87G0Y3PLttp0JHUe8drOBsVCfpWvXRY3s0IP0uxuZAePgY3azoc4vNVcbtlZ39ZzTcH9+qOFxIP9/PyKJMPpXP6JQkG6SU2eLlre+xY010B/czVOAcxkLHUL4b6G6qyJPY78n/UN36mKMB1/KZqFFQrYZcuk7xjfcw/hxPkUinHznBT8Uvj3EEHKwbJC8fqWdQtanvY+oenBr+JwDmPmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sdp5YIcmyxIIoBAbO5HC0bGdKaDTIvgDHrBhvqj7J9k=;
- b=VMRrfoSpErnoPzeUjmsy6HnGpcaQVFCfkU29Au9X6llYO2XM9vmS4CrU+HRqxjR4woWELQRb+UR9YJsf0QbEmcu3OXX7dPFNlkUzJa9TMZPsI/lyKz7a7MYpdWcTBnPJ6SX5z07oWauQaRuHm48kHFtBX7JeSQoy4k/BrlrNHWwLjtllmUiX9WB+ga00ZF1t5p2bM49hJF06Ot/HzLGDIBAomIbiyfw6uLXHJ/70qnoNUwXXBcV1UbqKWm/vhYM1kI6pFaq3UXjheERzFAcKo0ffASi6eYTRrWTWygAOr0hGqjVrJJWLoyxvESub8zRmAIfENZuenF5Ayz9ZQ4Y4QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from CY4PR0201MB3588.namprd02.prod.outlook.com (52.132.98.38) by
- CY4PR0201MB3475.namprd02.prod.outlook.com (52.132.99.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.13; Wed, 11 Sep 2019 11:12:16 +0000
-Received: from CY4PR0201MB3588.namprd02.prod.outlook.com
- ([fe80::5598:9f2e:9d39:c737]) by CY4PR0201MB3588.namprd02.prod.outlook.com
- ([fe80::5598:9f2e:9d39:c737%6]) with mapi id 15.20.2199.027; Wed, 11 Sep 2019
- 11:12:16 +0000
-From:   Florian Schmidt <florian.schmidt@nutanix.com>
+        id S1726702AbfIKLyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 07:54:00 -0400
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:57034 "EHLO
+        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726198AbfIKLyA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 07:54:00 -0400
+Received: from ben by shadbolt.decadent.org.uk with local (Exim 4.89)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1i81C5-0001Zl-C6; Wed, 11 Sep 2019 12:53:53 +0100
+Date:   Wed, 11 Sep 2019 12:53:53 +0100
+From:   Ben Hutchings <ben@decadent.org.uk>
 To:     Jonathan Corbet <corbet@lwn.net>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Florian Schmidt <florian.schmidt@nutanix.com>
-Subject: [PATCH v2 2/2] trace-vmscan-postprocess: fix output table spacing
-Thread-Topic: [PATCH v2 2/2] trace-vmscan-postprocess: fix output table
- spacing
-Thread-Index: AQHVaJHFMUwz7/YcjE+8L5yKTCQWHw==
-Date:   Wed, 11 Sep 2019 11:12:16 +0000
-Message-ID: <20190911111146.14799-3-florian.schmidt@nutanix.com>
-References: <20190911111146.14799-1-florian.schmidt@nutanix.com>
-In-Reply-To: <20190911111146.14799-1-florian.schmidt@nutanix.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM3PR05CA0093.eurprd05.prod.outlook.com
- (2603:10a6:207:1::19) To CY4PR0201MB3588.namprd02.prod.outlook.com
- (2603:10b6:910:8b::38)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.23.0
-x-originating-ip: [62.254.189.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6c218a09-7a2e-469d-4bbc-08d736a8e793
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR0201MB3475;
-x-ms-traffictypediagnostic: CY4PR0201MB3475:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR0201MB34759DF88F63E408F6779ED0F7B10@CY4PR0201MB3475.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:635;
-x-forefront-prvs: 0157DEB61B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(136003)(376002)(39860400002)(396003)(189003)(199004)(6512007)(6506007)(386003)(256004)(446003)(44832011)(2616005)(66476007)(81156014)(81166006)(66946007)(64756008)(66446008)(66556008)(14444005)(11346002)(66066001)(476003)(8936002)(50226002)(102836004)(486006)(8676002)(186003)(71200400001)(54906003)(26005)(4326008)(71190400001)(478600001)(107886003)(6436002)(1076003)(316002)(52116002)(36756003)(6486002)(99286004)(5660300002)(305945005)(2906002)(14454004)(76176011)(53936002)(6916009)(25786009)(7736002)(3846002)(6116002)(86362001)(64030200001);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR0201MB3475;H:CY4PR0201MB3588.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 0MlMtqFAqhwgCdKr1U4odbv2UwzyeYzp5W7qMBtTz2qLrwcSGO+s0sbiQkx2puK4U9Go1XCVpuitjSAdh1nyV8tjZlm0D2+r9g7fms1qqBpB7K5jthTTZJU/SeYGMtg1muCSYaCtYzlVY/Llz7uVVyCk+b2P4UxhW9oKxCn4+1IqhVsJgE0qUhWlU8naGDHXvLDDEJZViDbyD1aujcstnAhlj/EhvuNRUMmFVW1rzbOIeCWNLvffxQaWSwQGKviQXA/mhAzZlvXD0JqfNIY9TvNbJaKUztn3IF7spXQ6E1uKYBtFeVKpYBi6qwu9tqdKNmhQc965cxcLjvbR0BhD2uy1EkzmK+1mGOvZzhCtr7zQHWCs8rzsX7RwVoNVQZQJ6RVD6DXVweFU6rNcXdrZo0+5Grk9EbmmuK36CuibQ8k=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, ab@php.net
+Message-ID: <20190911115353.yngbk6hf6gwctock@decadent.org.uk>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c218a09-7a2e-469d-4bbc-08d736a8e793
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 11:12:16.6178
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +uGGSR7m/pNg4uqtVAVD1Csl7yxX6k1ZJ6NH00N6RCqOUzCzF6cXNjuCVKfiTPqEJoTnSGkzIv8YXKl3UNgydVT+0VxY6Z5YxWTAzhxMJzU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3475
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-11_07:2019-09-11,2019-09-11 signatures=0
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jrfbxnaojb54d47b"
+Content-Disposition: inline
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+Subject: [PATCH] Documentation: kbuild: Add document about reproducible builds
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on shadbolt.decadent.org.uk)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rml4IHNwYWNpbmcgc28gdGhhdCBib3RoIHRoZSBoZWFkZXJzIGluIHRoZW1zZWx2ZXMsIGFzIHdl
-bGwgYXMgdGhlDQpvdXRwdXQgb2YgdGhlIHR3byB0YWJsZXMgcmVsYXRlZCB0byBlYWNoIG90aGVy
-LCBhcmUgcHJvcGVybHkgYWxpZ25lZC4NCg0KU2lnbmVkLW9mZi1ieTogRmxvcmlhbiBTY2htaWR0
-IDxmbG9yaWFuLnNjaG1pZHRAbnV0YW5peC5jb20+DQotLS0NCiBEb2N1bWVudGF0aW9uL3RyYWNl
-L3Bvc3Rwcm9jZXNzL3RyYWNlLXZtc2Nhbi1wb3N0cHJvY2Vzcy5wbCB8IDYgKysrLS0tDQogMSBm
-aWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vdHJhY2UvcG9zdHByb2Nlc3MvdHJhY2Utdm1zY2FuLXBvc3Rwcm9j
-ZXNzLnBsIGIvRG9jdW1lbnRhdGlvbi90cmFjZS9wb3N0cHJvY2Vzcy90cmFjZS12bXNjYW4tcG9z
-dHByb2Nlc3MucGwNCmluZGV4IDZjNGUzZmRlOTQ0Ny4uZmE5ZGU1MWQ1ZjlmIDEwMDY0NA0KLS0t
-IGEvRG9jdW1lbnRhdGlvbi90cmFjZS9wb3N0cHJvY2Vzcy90cmFjZS12bXNjYW4tcG9zdHByb2Nl
-c3MucGwNCisrKyBiL0RvY3VtZW50YXRpb24vdHJhY2UvcG9zdHByb2Nlc3MvdHJhY2Utdm1zY2Fu
-LXBvc3Rwcm9jZXNzLnBsDQpAQCAtNTc1LDggKzU3NSw4IEBAIHN1YiBkdW1wX3N0YXRzIHsNCiAN
-CiAJIyBQcmludCBvdXQga3N3YXBkIGFjdGl2aXR5DQogCXByaW50ZigiXG4iKTsNCi0JcHJpbnRm
-KCIlLSIgLiAkbWF4X3N0cmxlbiAuICJzICU4cyAlMTBzICAgJThzICAgJThzICU4cyAlOHNcbiIs
-ICJLc3dhcGQiLCAgICJLc3dhcGQiLCAgIk9yZGVyIiwgICAgICJQYWdlcyIsICAgIlBhZ2VzIiwg
-ICAiUGFnZXMiLCAgIlBhZ2VzIik7DQotCXByaW50ZigiJS0iIC4gJG1heF9zdHJsZW4gLiAicyAl
-OHMgJTEwcyAgICU4cyAgICU4cyAlOHMgJThzXG4iLCAiSW5zdGFuY2UiLCAiV2FrZXVwcyIsICJS
-ZS13YWtldXAiLCAiU2Nhbm5lZCIsICJSY2xtZWQiLCAgIlN5bmMtSU8iLCAiQVN5bmMtSU8iKTsN
-CisJcHJpbnRmKCIlLSIgLiAkbWF4X3N0cmxlbiAuICJzICU4cyAlMTBzICAgJThzICU4cyAgJThz
-ICU4c1xuIiwgIktzd2FwZCIsICAgIktzd2FwZCIsICAiT3JkZXIiLCAgICAgIlBhZ2VzIiwgICAi
-UGFnZXMiLCAgICJQYWdlcyIsICAiUGFnZXMiKTsNCisJcHJpbnRmKCIlLSIgLiAkbWF4X3N0cmxl
-biAuICJzICU4cyAlMTBzICAgJThzICU4cyAgJThzICU4c1xuIiwgIkluc3RhbmNlIiwgIldha2V1
-cHMiLCAiUmUtd2FrZXVwIiwgIlNjYW5uZWQiLCAiUmNsbWVkIiwgICJTeW5jLUlPIiwgIkFTeW5j
-LUlPIik7DQogCWZvcmVhY2ggJHByb2Nlc3NfcGlkIChrZXlzICVzdGF0cykgew0KIA0KIAkJaWYg
-KCEkc3RhdHN7JHByb2Nlc3NfcGlkfS0+e01NX1ZNU0NBTl9LU1dBUERfV0FLRX0pIHsNCkBAIC01
-OTUsNyArNTk1LDcgQEAgc3ViIGR1bXBfc3RhdHMgew0KIAkJJHRvdGFsX2tzd2FwZF93cml0ZXBh
-Z2VfZmlsZV9hc3luYyArPSAkc3RhdHN7JHByb2Nlc3NfcGlkfS0+e01NX1ZNU0NBTl9XUklURVBB
-R0VfRklMRV9BU1lOQ307DQogCQkkdG90YWxfa3N3YXBkX3dyaXRlcGFnZV9hbm9uX2FzeW5jICs9
-ICRzdGF0c3skcHJvY2Vzc19waWR9LT57TU1fVk1TQ0FOX1dSSVRFUEFHRV9BTk9OX0FTWU5DfTsN
-CiANCi0JCXByaW50ZigiJS0iIC4gJG1heF9zdHJsZW4gLiAicyAlOGQgJTEwZCAgICU4dSAlOHUg
-ICU4aSAlOHUiLA0KKwkJcHJpbnRmKCIlLSIgLiAkbWF4X3N0cmxlbiAuICJzICU4ZCAlMTBkICAg
-JTh1ICU4dSAgJThpICU4dSAgICAgICAgICIsDQogCQkJJHByb2Nlc3NfcGlkLA0KIAkJCSRzdGF0
-c3skcHJvY2Vzc19waWR9LT57TU1fVk1TQ0FOX0tTV0FQRF9XQUtFfSwNCiAJCQkkc3RhdHN7JHBy
-b2Nlc3NfcGlkfS0+e0hJR0hfS1NXQVBEX1JFV0FLRVVQfSwNCi0tIA0KMi4yMy4wDQoNCg==
+
+--jrfbxnaojb54d47b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+In the Distribution Kernels track at Linux Plumbers Conference there
+was some discussion around the difficulty of making kernel builds
+reproducible.
+
+This is a solved problem, but the solutions don't appear to be
+documented in one place.  This document lists the issues I know about
+and the settings needed to ensure reproducibility.
+
+Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+---
+ Documentation/kbuild/index.rst               |   1 +
+ Documentation/kbuild/reproducible-builds.rst | 115 +++++++++++++++++++
+ 2 files changed, 116 insertions(+)
+ create mode 100644 Documentation/kbuild/reproducible-builds.rst
+
+diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
+index e323a3f2cc81..0f144fad99a6 100644
+--- a/Documentation/kbuild/index.rst
++++ b/Documentation/kbuild/index.rst
+@@ -18,6 +18,7 @@ Kernel Build System
+     headers_install
+=20
+     issues
++    reproducible-builds
+=20
+ .. only::  subproject and html
+=20
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/k=
+build/reproducible-builds.rst
+new file mode 100644
+index 000000000000..4d988faf93b8
+--- /dev/null
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -0,0 +1,115 @@
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Reproducible builds
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++It is generally desirable that the building the same source code with
++the same set of tools is reproducible, i.e. the output is always
++exactly the same.  This makes it possible to verify that the build
++infrastructure for a binary distribution or embedded system has not
++been subverted.  This can also make it easier to verify that a source
++or tool change does not make any difference to the resulting binaries.
++
++The `Reproducible Builds project`_ has more information about this
++general topic.  This document covers the various reasons why building
++the kernel may be unreproducible, and how to avoid them.
++
++Timestamps
++----------
++
++The kernel embeds a timestamp in two places:
++
++* The version string exposed by ``uname()`` and included in
++  ``/proc/version``
++
++* File timestamps in the embedded initramfs
++
++By default the timestamp is the current time.  This must be overridden
++using the `KBUILD_BUILD_TIMESTAMP`_ variable.  If you are building
++from a git commit, you could use its commit date.
++
++The kernel does *not* use the ``__DATE__`` and ``__TIME__`` macros,
++and enables warnings if they are used.  If you incorporate external
++code that does use these, you must override the timestamp they
++correspond to by setting the `SOURCE_DATE_EPOCH`_ environment
++variable.
++
++User, host
++----------
++
++The kernel embeds the building user and host names in
++``/proc/version``.  These must be overridden using the
++`KBUILD_BUILD_USER and KBUILD_BUILD_HOST`_ variables.  If you are
++building from a git commit, you could use its committer address.
++
++Absolute filenames
++------------------
++
++When the kernel is built out-of-tree, debug information may include
++absolute filenames for the source files.  The ``__FILE__`` macro may
++also expand to an absolute filename.  This must be overridden by
++including `prefix-map options`_ in the `KCFLAGS`_ variable.
++
++Generated files in source packages
++----------------------------------
++
++The build processes for some programs under the ``tools/``
++subdirectory do not completely support out-of-tree builds.  This may
++cause source packages built using e.g. ``make rpm-pkg`` to include
++generated files and so be unreproducible.  It may be necessary to
++clean the source tree completely (``make mrproper`` or
++``git clean -d -f -x``) before building a source package.
++
++Module signing
++--------------
++
++If you enable ``CONFIG_MODULE_SIG_ALL``, the default behaviour is to
++generate a different temporary key for each build, resulting in the
++modules being unreproducible.  However, including a signing key with
++your source would presumably defeat the purpose of signing modules.
++
++One approach to this is to divide up the build process so that the
++unreproducible parts can be treated as sources:
++
++1. Generate a persistent signing key.  Add the certificate for the key
++   to the kernel source.
++
++2. Set the ``CONFIG_SYSTEM_TRUSTED_KEYS`` symbol to include the
++   signing key's certificate, set ``CONFIG_MODULE_SIG_KEY`` to an
++   empty string, and disable ``CONFIG_MODULE_SIG_ALL``.
++   Build the kernel and modules.
++
++3. Create detached signatures for the modules, and publish them as
++   sources.
++
++4. Perform a second build that attaches the module signatures.  It
++   can either rebuild the modules or use the output of step 2.
++
++Structure randomisation
++-----------------------
++
++If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
++pre-generate the random seed in
++``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
++is used in rebuilds.
++
++Debug info conflicts
++--------------------
++
++This is not a problem of unreproducibility, but of generated files
++being *too* reproducible.
++
++Once you set all the necessary variables for a reproducible build, a
++vDSO's debug information may be identical even for different kernel
++versions.  This can result in file conflicts between debug information
++packages for the different kernel versions.
++
++To avoid this, you can make the vDSO different for different
++kernel versions by including an arbitrary string of "salt" in it.
++This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
++
++.. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
++.. _KBUILD_BUILD_USER and KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user=
+-kbuild-build-host
++.. _KCFLAGS: kbuild.html#kcflags
++.. _prefix-map options: https://reproducible-builds.org/docs/build-path/
++.. _Reproducible Builds project: https://reproducible-builds.org/
++.. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-ep=
+och/
+
+--jrfbxnaojb54d47b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl144EwACgkQ57/I7JWG
+EQmwKw//Ym+tojduxq9Ie0jzHFNkKgj6kSzYEo+XxOg5gwl6RTP7MxBmVn2yvJHa
+eV+mpt6lafiWCiDa8AXV9HwavgNJUrp99Mb5YL/uHn3bFsaObKDLG4c6fPUSDMM2
+kO+lu7gZ2Hez7SHrNCqNYNUSIJvyMh+Kqf/eJQhLLGxZvXZ0CgG98nr8j5W9knZG
+mvUYj+2IK1Wp/kf0Sra0HSkw9vf21XOcTyErXWJyv8Za8qA1J54TiOhJP1kCLR+4
+6pRVPnrMZzJL0WffdrrhfAUp5MHSNKrOWXqvzGU69A0Jq3iVTNWs0fAIvpteZpv+
+Gg48iS/4863BUr/oU3Xwzp4pneO6ACd16NmQugcgr8P4N60M243V9YXSkL1GzYJY
+vGUbNZhCeiMkgJkxH1aE1YtKrgYwoAVMhoxBHwRp10+vMM8o5PZUVHLveOogq89p
+7BjZAoo61cxhIFmC830YFss+GszxPbAe1nrwHNn8hc9bdznJaQJ9n4IE3nmIhuLc
+6kLrPXn72GSGt80uJS/EQzyxpaz1QRVY1qIdAaGswlZQOVbKWyrAehkT+uBOFLNx
+hIgSd+JW4ZxzceQRBNtOYJU8FPwt3NiBn7bZBLxWxxoU1w5rWkhczIi5rTQbw0sy
+168gzt61l8EFX0juoFsqJ5wWrXwFj9Oro4fOb7UVegIz3eOY4Mc=
+=Ne42
+-----END PGP SIGNATURE-----
+
+--jrfbxnaojb54d47b--
