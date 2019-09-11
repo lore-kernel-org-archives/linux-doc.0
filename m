@@ -1,374 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 692B07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 13:57:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4619C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 14:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726058AbfIKN5q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 09:57:46 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:35354 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725981AbfIKN5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 09:57:45 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8BDtwkw031522;
-        Wed, 11 Sep 2019 15:57:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=LIPK+mmht7E3Mdg8xZ7l7TYgMgc8zT91Yzpj/CithUk=;
- b=sk4pwqlrLpyl+38JV1bjZthuj4I8wuM+xdwesG37RTHsBTbyLWDsnSnltU9E/3DzZlBs
- 47HF0avQv8Xb/cBqAF85UtRiQrMZ6z8OckwOpROanbu0J8FOIzeUvH4OK0MANtj/x6Eo
- DqqcFUWwW5piPtu+W3USZ1jAGawTIkD2O2lIAs+8znqcCbLwnlyjggytGO2bz4uRqFN3
- ZnzidwhM4LBDy62UdB5Mpuq8djCvzaouQB05vTwoTobuMCpVExWf7mwlNSH4pztHeWeC
- 9+ebsV8Rv2PhYEqAgeEBljEu4hIPNrlla+0KOMtyJfmE8idHWxOWNvd+FOxm/pT+8fvJ IA== 
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2uv212ud60-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 11 Sep 2019 15:57:34 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 622B624;
-        Wed, 11 Sep 2019 13:57:30 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B7C7A2C7F50;
-        Wed, 11 Sep 2019 15:57:29 +0200 (CEST)
-Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by SAFEX1HUBCAS21.st.com
- (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 11 Sep
- 2019 15:57:29 +0200
-Received: from localhost (10.201.23.25) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 11 Sep 2019 15:57:26
- +0200
-From:   Fabien Dessenne <fabien.dessenne@st.com>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Suman Anna <s-anna@ti.com>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-remoteproc@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Fabien Dessenne <fabien.dessenne@st.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: [PATCH v3] hwspinlock: allow sharing of hwspinlocks
-Date:   Wed, 11 Sep 2019 15:57:07 +0200
-Message-ID: <1568210227-32135-1-git-send-email-fabien.dessenne@st.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726012AbfIKOLt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 10:11:49 -0400
+Received: from mga14.intel.com ([192.55.52.115]:17016 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725981AbfIKOLs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Sep 2019 10:11:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Sep 2019 07:11:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,493,1559545200"; 
+   d="scan'208";a="209680498"
+Received: from ywu1-mobl.amr.corp.intel.com (HELO [10.251.4.169]) ([10.251.4.169])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Sep 2019 07:11:47 -0700
+Subject: Re: [PATCH 2/4] Documentation/process: describe relaxing disclosing
+ party NDAs
+To:     Sasha Levin <sashal@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, ben@decadent.org.uk,
+        tglx@linutronix.de, labbott@redhat.com, andrew.cooper3@citrix.com,
+        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
+        linux-doc@vger.kernel.org, dan.j.williams@intel.com
+References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
+ <20190910172649.74639177@viggo.jf.intel.com> <20190911101155.GN2012@sasha-vm>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <eab6a751-3f2c-0b10-c00b-4926197720fd@intel.com>
+Date:   Wed, 11 Sep 2019 07:11:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.23.25]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-11_08:2019-09-11,2019-09-11 signatures=0
+In-Reply-To: <20190911101155.GN2012@sasha-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow several clients to request (hwspin_lock_request_specific()) the
-same lock.
-In addition to that, protect a given lock from being locked
-(hwspin_trylock{_...}()) by more that one client at a time.
+On 9/11/19 3:11 AM, Sasha Levin wrote:
+>> +Disclosing parties may have shared information about an issue under a
+>> +non-disclosure agreement with third parties.  In order to ensure that
+>> +these agreements do not interfere with the mitigation development
+>> +process, the disclosing party must provide explicit permission to
+>> +participate to any response team members affected by a non-disclosure
+>> +agreement.  Disclosing parties must resolve requests to do so in a
+>> +timely manner.
+> 
+> Can giving the permission be made explicitly along with the disclosure?
+> If it's disclosed with Microsoft under NDA, it makes it tricky for me to
+> participate in the "response team" context here unless premission is
+> given to do so.
 
-Since the RAW and IN_ATOMIC modes do not implement that protection
-(unlike the default, IRQ and IRQSTATE modes that make use of
-spin_lock{_irq, _irqsave}), protect __hwspin_trylock with the atomic
-bitop test_and_set_bit().
-This bitop is atomic (SMP-safe), does not disable neither preemption
-nor interrupts, hence it preserves the RAW and IN_ATOMIC modes
-constraints.
+Hi Sasha,
 
-Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
----
-Changes since v2:
-- Drop the DeviceTree-based implementation.
-- Do not let the choice between exclusive and shared usage : locks are
-  always shared.
-- Add a protection (atomic bitop) working in any modes to allow safe
-  sharing between clients.
+It is probably possible to do in advance.  But, probably only if we list
+the folks for which it needs to be done in advance in the process file.
+ It makes a lot of sense to have the stable maintainers as permanent
+members of any response team.
 
-Changes since v1:
-- Removed useless 'status = "okay"' from stm32mp157c.dtsi
----
- Documentation/hwspinlock.txt             |  9 ++-
- drivers/hwspinlock/hwspinlock_core.c     | 98 +++++++++++++++++++++++---------
- drivers/hwspinlock/hwspinlock_internal.h |  4 ++
- 3 files changed, 81 insertions(+), 30 deletions(-)
-
-diff --git a/Documentation/hwspinlock.txt b/Documentation/hwspinlock.txt
-index 6f03713..5f6f660 100644
---- a/Documentation/hwspinlock.txt
-+++ b/Documentation/hwspinlock.txt
-@@ -53,9 +53,8 @@ Should be called from a process context (might sleep).
- 
-   struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
- 
--Assign a specific hwspinlock id and return its address, or NULL
--if that hwspinlock is already in use. Usually board code will
--be calling this function in order to reserve specific hwspinlock
-+Assign a specific hwspinlock id and return its address. Usually board
-+code will be calling this function in order to reserve specific hwspinlock
- ids for predefined purposes.
- 
- Should be called from a process context (might sleep).
-@@ -449,11 +448,15 @@ of which represents a single hardware lock::
- 	* struct hwspinlock - this struct represents a single hwspinlock instance
- 	* @bank: the hwspinlock_device structure which owns this lock
- 	* @lock: initialized and used by hwspinlock core
-+	* @is_locked: whether this lock is currently locked
-+	* @reqcount: number of users having requested this lock
- 	* @priv: private data, owned by the underlying platform-specific hwspinlock drv
- 	*/
- 	struct hwspinlock {
- 		struct hwspinlock_device *bank;
- 		spinlock_t lock;
-+		unsigned long is_locked;
-+		unsigned int reqcount;
- 		void *priv;
- 	};
- 
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 8862445..e9d3de10 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -29,6 +29,7 @@
- 
- /* radix tree tags */
- #define HWSPINLOCK_UNUSED	(0) /* tags an hwspinlock as unused */
-+#define HWSPINLOCK_DYN_ASSIGN	(1) /* dynamically assigned hwspinlock */
- 
- /*
-  * A radix tree is used to maintain the available hwspinlock instances.
-@@ -96,14 +97,25 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 	BUG_ON(!flags && mode == HWLOCK_IRQSTATE);
- 
- 	/*
-+	 * Check if the lock is already taken by another context on the local
-+	 * cpu.
-+	 * Calling atomic test_and_set_bit_lock() ensures that hwspinlock is
-+	 * SMP-safe (so we can take it from additional contexts on the local
-+	 * host) in any mode, even those where we do not make use of the local
-+	 * spinlock.
-+	 */
-+
-+	if (test_and_set_bit_lock(0, &hwlock->is_locked))
-+		return -EBUSY;
-+
-+	/*
- 	 * This spin_lock{_irq, _irqsave} serves three purposes:
- 	 *
- 	 * 1. Disable preemption, in order to minimize the period of time
- 	 *    in which the hwspinlock is taken. This is important in order
- 	 *    to minimize the possible polling on the hardware interconnect
- 	 *    by a remote user of this lock.
--	 * 2. Make the hwspinlock SMP-safe (so we can take it from
--	 *    additional contexts on the local host).
-+	 * 2. Make the hwspinlock SMP-safe.
- 	 * 3. Ensure that in_atomic/might_sleep checks catch potential
- 	 *    problems with hwspinlock usage (e.g. scheduler checks like
- 	 *    'scheduling while atomic' etc.)
-@@ -124,9 +136,9 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 		break;
- 	}
- 
--	/* is lock already taken by another context on the local cpu ? */
-+	/* sanity check (this shouldn't happen) */
- 	if (!ret)
--		return -EBUSY;
-+		goto clear;
- 
- 	/* try to take the hwspinlock device */
- 	ret = hwlock->bank->ops->trylock(hwlock);
-@@ -149,7 +161,7 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 			break;
- 		}
- 
--		return -EBUSY;
-+		goto clear;
- 	}
- 
- 	/*
-@@ -165,6 +177,11 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 	mb();
- 
- 	return 0;
-+
-+clear:
-+	/* Clear is_locked */
-+	clear_bit_unlock(0, &hwlock->is_locked);
-+	return -EBUSY;
- }
- EXPORT_SYMBOL_GPL(__hwspin_trylock);
- 
-@@ -299,6 +316,9 @@ void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 		spin_unlock(&hwlock->lock);
- 		break;
- 	}
-+
-+	/* Clear is_locked set while locking */
-+	clear_bit_unlock(0, &hwlock->is_locked);
- }
- EXPORT_SYMBOL_GPL(__hwspin_unlock);
- 
-@@ -504,7 +524,9 @@ int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
- 		hwlock = &bank->lock[i];
- 
- 		spin_lock_init(&hwlock->lock);
-+		clear_bit(0, &hwlock->is_locked);
- 		hwlock->bank = bank;
-+		hwlock->reqcount = 0;
- 
- 		ret = hwspin_lock_register_single(hwlock, base_id + i);
- 		if (ret)
-@@ -664,12 +686,16 @@ static int __hwspin_lock_request(struct hwspinlock *hwlock)
- 		return ret;
- 	}
- 
--	/* mark hwspinlock as used, should not fail */
--	tmp = radix_tree_tag_clear(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	/* update reqcount */
-+	if (!hwlock->reqcount++) {
-+		/* first request, mark hwspinlock as used, should not fail */
-+		tmp = radix_tree_tag_clear(&hwspinlock_tree,
-+					   hwlock_to_id(hwlock),
-+					   HWSPINLOCK_UNUSED);
- 
--	/* self-sanity check that should never fail */
--	WARN_ON(tmp != hwlock);
-+		/* self-sanity check that should never fail */
-+		WARN_ON(tmp != hwlock);
-+	}
- 
- 	return ret;
- }
-@@ -706,7 +732,7 @@ EXPORT_SYMBOL_GPL(hwspin_lock_get_id);
-  */
- struct hwspinlock *hwspin_lock_request(void)
- {
--	struct hwspinlock *hwlock;
-+	struct hwspinlock *hwlock, *tmp;
- 	int ret;
- 
- 	mutex_lock(&hwspinlock_tree_lock);
-@@ -728,6 +754,13 @@ struct hwspinlock *hwspin_lock_request(void)
- 	if (ret < 0)
- 		hwlock = NULL;
- 
-+	/* mark this hwspinlock as dynamically assigned */
-+	tmp = radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
-+				 HWSPINLOCK_DYN_ASSIGN);
-+
-+	/* self-sanity check which should never fail */
-+	WARN_ON(tmp != hwlock);
-+
- out:
- 	mutex_unlock(&hwspinlock_tree_lock);
- 	return hwlock;
-@@ -764,18 +797,19 @@ struct hwspinlock *hwspin_lock_request_specific(unsigned int id)
- 	/* sanity check (this shouldn't happen) */
- 	WARN_ON(hwlock_to_id(hwlock) != id);
- 
--	/* make sure this hwspinlock is unused */
--	ret = radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
--	if (ret == 0) {
--		pr_warn("hwspinlock %u is already in use\n", id);
-+	/* mark as used and power up */
-+	ret = __hwspin_lock_request(hwlock);
-+	if (ret < 0) {
- 		hwlock = NULL;
- 		goto out;
- 	}
- 
--	/* mark as used and power up */
--	ret = __hwspin_lock_request(hwlock);
--	if (ret < 0)
--		hwlock = NULL;
-+	/*
-+	 * warn if this lock is also used by another client which got this lock
-+	 * with dynamic assignment using the hwspin_lock_request() API
-+	 */
-+	if (radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_DYN_ASSIGN))
-+		pr_warn("hwspinlock %u is shared with a 'dynamic' user\n", id);
- 
- out:
- 	mutex_unlock(&hwspinlock_tree_lock);
-@@ -799,7 +833,7 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
- {
- 	struct device *dev;
- 	struct hwspinlock *tmp;
--	int ret;
-+	int ret, id;
- 
- 	if (!hwlock) {
- 		pr_err("invalid hwlock\n");
-@@ -810,30 +844,40 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
- 	mutex_lock(&hwspinlock_tree_lock);
- 
- 	/* make sure the hwspinlock is used */
--	ret = radix_tree_tag_get(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	id = hwlock_to_id(hwlock);
-+	ret = radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
- 	if (ret == 1) {
- 		dev_err(dev, "%s: hwlock is already free\n", __func__);
- 		dump_stack();
- 		ret = -EINVAL;
--		goto out;
-+		goto out_unlock;
- 	}
- 
- 	/* notify the underlying device that power is not needed */
- 	ret = pm_runtime_put(dev);
- 	if (ret < 0)
--		goto out;
-+		goto out_unlock;
-+
-+	/* update reqcount */
-+	if (--hwlock->reqcount)
-+		goto out_put;
- 
- 	/* mark this hwspinlock as available */
--	tmp = radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	tmp = radix_tree_tag_set(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
- 
- 	/* sanity check (this shouldn't happen) */
- 	WARN_ON(tmp != hwlock);
- 
-+	/* clear the dynamically assigned tag */
-+	tmp = radix_tree_tag_clear(&hwspinlock_tree, id, HWSPINLOCK_DYN_ASSIGN);
-+
-+	/* self-sanity check which should never fail */
-+	WARN_ON(tmp != hwlock);
-+
-+out_put:
- 	module_put(dev->driver->owner);
- 
--out:
-+out_unlock:
- 	mutex_unlock(&hwspinlock_tree_lock);
- 	return ret;
- }
-diff --git a/drivers/hwspinlock/hwspinlock_internal.h b/drivers/hwspinlock/hwspinlock_internal.h
-index 9eb6bd0..a3aae55 100644
---- a/drivers/hwspinlock/hwspinlock_internal.h
-+++ b/drivers/hwspinlock/hwspinlock_internal.h
-@@ -35,11 +35,15 @@ struct hwspinlock_ops {
-  * struct hwspinlock - this struct represents a single hwspinlock instance
-  * @bank: the hwspinlock_device structure which owns this lock
-  * @lock: initialized and used by hwspinlock core
-+ * @is_locked: whether this lock is currently locked
-+ * @reqcount: number of users having requested this lock
-  * @priv: private data, owned by the underlying platform-specific hwspinlock drv
-  */
- struct hwspinlock {
- 	struct hwspinlock_device *bank;
- 	spinlock_t lock;
-+	unsigned long is_locked;
-+	unsigned int reqcount;
- 	void *priv;
- };
- 
--- 
-2.7.4
-
+But, I was hoping what I described above would be a bit more flexible
+than needing to have a list.  The downside is that the response team
+needs to explicitly ask every time for folks like you to be included.
