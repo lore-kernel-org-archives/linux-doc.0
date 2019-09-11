@@ -1,467 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FCE47D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 10:29:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5198D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 10:30:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbfIKK32 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 06:29:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44964 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726702AbfIKK32 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Sep 2019 06:29:28 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A9F8D2082C;
-        Wed, 11 Sep 2019 10:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568197766;
-        bh=2QH9tO++sD0K1VC26C41JauePumM5ZNCTIM+ZgvwDfI=;
-        h=In-Reply-To:References:Cc:To:From:Subject:Date:From;
-        b=lCE390KFYmAWmZPIxkVfJEsfInsTl4uvMYnQRhhv63zcaEXPWj1T6DfKycsZtxi58
-         rykHZYgwLMzQUe2pvUUwXRAcxVh9y9Fx1UhLC/iu1F8XG7FDlJI5uvJAW5i1P77DXT
-         ltfYAV4Yr7iV9j3260uIJ8UTBziw+4YR2rFwKl+I=
+        id S1727497AbfIKKaj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 06:30:39 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:25872 "EHLO
+        mx0b-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726762AbfIKKai (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 06:30:38 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+        by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8BAADk3001591;
+        Wed, 11 Sep 2019 03:30:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=TXHvhFiL3qeRqE5TEuGnqsQS7wyZFtDeE2AU+Jzsycw=;
+ b=J4UiKBbeDrx2lAXZVLig4gXWKaUWOkTo1K+CVVdogw6Ay5UbwKp9P/3Np6K1GjlKRM9J
+ X0gCDh5V4WzCOskS4y2lXrY4JQHByi9fBmcYrJiuEiZGrHouVTcPl64/+frOWv2shFRH
+ NeYYFJUcRZysoG9pv+IDp9ttv+SJqdnUi6yGAjR/z9axbbyQoZmdmnkZPy6oVSiPqklW
+ ZvwNulXO8DoNOkvP+bO0TbxbfMm8eWLpntsR9sD3NAAGE4QjvgEJKex/rGYzhAG3ZnoS
+ yxpRNJZ3y9kl637NC4AT3mF8bst15UA7HMyUazAD14wBQ3ShHSpTRo/Pdhrq6JO+chdk Cw== 
+Received: from nam03-by2-obe.outbound.protection.outlook.com (mail-by2nam03lp2054.outbound.protection.outlook.com [104.47.42.54])
+        by mx0b-002c1b01.pphosted.com with ESMTP id 2uva3883a2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 11 Sep 2019 03:30:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=INMIgihpua3n3WDq9RbKLmMCNV4pDVXLjMp5FvvQkuI6Cdm5s54s1xotap7y5ktiBlL1LvAkd91mim0RVg6B75q8M7kYBdGzC0OnzVGl4ofIOxyKY3Ek3a/ANkdafQncVqnRUXjBgzMVyTn6Cxl3Dw14K/KhWlAUGL8xerjnAlX7zYT6vMnF+Vowv6N3G5ZGd/AZ+oHSEYIunGSfaXjnY7sslZHRB8cy/zb+zCfMhougz5bXTvyeRpsnnUCwkala5vbjaC+DiNX5JQ0PrUenY1x3UiNYET2N4U1x3/DZsqVTBwPjj/iBjH8Ya1YQl3F5kTQajoaVLaKd8n/fujWFuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TXHvhFiL3qeRqE5TEuGnqsQS7wyZFtDeE2AU+Jzsycw=;
+ b=N3ERpGvEXO5CpY824vd8ofUWjQWVS74LFU4HDdbaIx/EPVcJ6SSp8ZDq+6A9cpMSpNWe02DuEYz7QaGKH2yzra+jotpU69+9wNOLWpWlACNZyCkEhMzAjKDeiih4d3CQ/EihtOyVbw1+/GNYrG55lecsiNpn639xz49KHGdCJP0As3+w2Ur5FRr0byNg82VTOHJpRGo1Qn+93ScFM5ZOUxBoMYst+B7aybkn+lkPKAvDoxZvDF4xKsgs0+4ZJThag8nCbSuFpVJOD4gr2ABl+mNHdiE/JVoEmDK6k6848u/Iyt8SWX39ppFjFr2SQx1y+hg5MbjmFDv3VINZD8xN6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com (52.132.98.38) by
+ CY4PR0201MB3524.namprd02.prod.outlook.com (52.132.103.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.20; Wed, 11 Sep 2019 10:30:28 +0000
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737]) by CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737%6]) with mapi id 15.20.2199.027; Wed, 11 Sep 2019
+ 10:30:28 +0000
+From:   Florian Schmidt <florian.schmidt@nutanix.com>
+To:     Daniel Jordan <daniel.m.jordan@oracle.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Topic: [PATCH 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Index: AQHVYki0ihj6YyCnoUGe1njuFVT2kacb/gWAgApVPYA=
+Date:   Wed, 11 Sep 2019 10:30:28 +0000
+Message-ID: <e1ada037-da07-9513-23fc-9a1f90881b80@nutanix.com>
+References: <20190903111342.17731-1-florian.schmidt@nutanix.com>
+ <20190904204241.y6c335djr3bwm6xo@ca-dmjordan1.us.oracle.com>
+In-Reply-To: <20190904204241.y6c335djr3bwm6xo@ca-dmjordan1.us.oracle.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM3PR04CA0143.eurprd04.prod.outlook.com (2603:10a6:207::27)
+ To CY4PR0201MB3588.namprd02.prod.outlook.com (2603:10b6:910:8b::38)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6376f1cb-19e8-4557-2c1b-08d736a3109e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR0201MB3524;
+x-ms-traffictypediagnostic: CY4PR0201MB3524:
+x-microsoft-antispam-prvs: <CY4PR0201MB3524A28D53D5153285BD4B17F7B10@CY4PR0201MB3524.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0157DEB61B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(396003)(376002)(346002)(366004)(39860400002)(54094003)(199004)(189003)(51914003)(5660300002)(2906002)(6916009)(26005)(81166006)(81156014)(8676002)(54906003)(66946007)(2616005)(36756003)(11346002)(53936002)(478600001)(476003)(6436002)(256004)(14444005)(71190400001)(71200400001)(31696002)(53546011)(316002)(52116002)(6512007)(102836004)(305945005)(76176011)(99286004)(6116002)(3846002)(66556008)(66446008)(66476007)(446003)(64756008)(86362001)(7736002)(386003)(6506007)(6246003)(186003)(31686004)(6486002)(8936002)(229853002)(14454004)(44832011)(486006)(25786009)(4326008)(66066001)(64030200001);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR0201MB3524;H:CY4PR0201MB3588.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: H4F3ZKrlAhUxjceflbfbvwN1jrRUJA03J5xaX1KcO5OSUKEBTQV9/UxeoSjdtbc/nl6TLjarsz22a64qb2upOgiKj1DPN6ZZO8hvMG9833U9t5RoGu2hLBFH/cSODEtl4DDrOkJ/0nKcs5DHbx0r8jwJZohHS86iq5WmnIHkuW8IBeOoaghJi1GslBkQLv/Prxom4r+nfS2gnWrsH0qrsrqLkSJLilnhcAHahn6gooHw6P3yvd2TNFzgfVdyS3hJSg1ggu6ihZWRkgySrPF/5HIb0PRxe/maCPj62Xe2I+dM8ljqK9gA4uXQq1+D5LgZXCUA5iORv/+1TnygT769VvZGUqzr7zjFz+tYTiybeEw7fc7jiFO85oTVYCrzmMKYXnfgOKbqZsnyAWeCBg+xxIbCopXSrK+/k0cIP15hWy8=
+x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="utf-8"
+Content-ID: <4B8A290A70A97441888B716DC9EA53AF@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190904211126.47518-4-saravanak@google.com>
-References: <20190904211126.47518-1-saravanak@google.com> <20190904211126.47518-4-saravanak@google.com>
-Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org, clang-built-linux@googlegroups.com,
-        David Collins <collinsd@codeaurora.org>,
-        kernel-team@android.com, kbuild test robot <lkp@intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link from DT bindings
-User-Agent: alot/0.8.1
-Date:   Wed, 11 Sep 2019 03:29:25 -0700
-Message-Id: <20190911102926.A9F8D2082C@mail.kernel.org>
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6376f1cb-19e8-4557-2c1b-08d736a3109e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 10:30:28.4214
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: H40C1HlhzTppnfAT3Reda7OpKKRDf93SeFK31eWlU9yCYRA5NSDIHZq3OsTBfd61O42XDxGPKwpUvF2k85ypshbs8gvZeDigTIuGr/NGgsQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3524
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-11_07:2019-09-11,2019-09-11 signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Saravana Kannan (2019-09-04 14:11:22)
-> Add device links after the devices are created (but before they are
-> probed) by looking at common DT bindings like clocks and
-> interconnects.
->=20
-> Automatically adding device links for functional dependencies at the
-> framework level provides the following benefits:
->=20
-> - Optimizes device probe order and avoids the useless work of
->   attempting probes of devices that will not probe successfully
->   (because their suppliers aren't present or haven't probed yet).
->=20
->   For example, in a commonly available mobile SoC, registering just
->   one consumer device's driver at an initcall level earlier than the
->   supplier device's driver causes 11 failed probe attempts before the
->   consumer device probes successfully. This was with a kernel with all
->   the drivers statically compiled in. This problem gets a lot worse if
->   all the drivers are loaded as modules without direct symbol
->   dependencies.
->=20
-> - Supplier devices like clock providers, interconnect providers, etc
->   need to keep the resources they provide active and at a particular
->   state(s) during boot up even if their current set of consumers don't
->   request the resource to be active. This is because the rest of the
->   consumers might not have probed yet and turning off the resource
->   before all the consumers have probed could lead to a hang or
->   undesired user experience.
->=20
->   Some frameworks (Eg: regulator) handle this today by turning off
->   "unused" resources at late_initcall_sync and hoping all the devices
->   have probed by then. This is not a valid assumption for systems with
->   loadable modules. Other frameworks (Eg: clock) just don't handle
->   this due to the lack of a clear signal for when they can turn off
->   resources.
-
-The clk framework disables unused clks at late_initcall_sync. What do
-you mean clk framework doesn't turn them off because of a clear signal?
-
-> This leads to downstream hacks to handle cases like this
->   that can easily be solved in the upstream kernel.
->=20
->   By linking devices before they are probed, we give suppliers a clear
->   count of the number of dependent consumers. Once all of the
->   consumers are active, the suppliers can turn off the unused
->   resources without making assumptions about the number of consumers.
->=20
-> By default we just add device-links to track "driver presence" (probe
-> succeeded) of the supplier device. If any other functionality provided
-> by device-links are needed, it is left to the consumer/supplier
-> devices to change the link when they probe.
->=20
-
-Are there tabs above? Indentation looks off.
-
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentat=
-ion/admin-guide/kernel-parameters.rst
-> index d05d531b4ec9..6d421694d98e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -127,6 +127,7 @@ parameter is applicable::
->         NET     Appropriate network support is enabled.
->         NUMA    NUMA support is enabled.
->         NFS     Appropriate NFS support is enabled.
-> +       OF      Devicetree is enabled.
->         OSS     OSS sound support is enabled.
->         PV_OPS  A paravirtualized kernel is enabled.
->         PARIDE  The ParIDE (parallel port IDE) subsystem is enabled.
-
-This could be split off and applied for dt_cpu_ftrs=3D in
-Documentation/admin-guide/kernel-parameters.txt
-
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index d7fa75e31f22..23b5ee5b0570 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -25,6 +25,7 @@
->  #include <linux/of_device.h>
->  #include <linux/of_graph.h>
->  #include <linux/string.h>
-> +#include <linux/moduleparam.h>
-> =20
->  #include "of_private.h"
-> =20
-> @@ -985,6 +986,245 @@ of_fwnode_device_get_match_data(const struct fwnode=
-_handle *fwnode,
->         return of_device_get_match_data(dev);
->  }
-> =20
-> +static bool of_is_ancestor_of(struct device_node *test_ancestor,
-
-Maybe add kernel-doc indicating that this function returns with the
-of_node requiring an of_node_put() call on it, unless it returns false
-in which case it doesn't?
-
-> +                             struct device_node *child)
-> +{
-> +       of_node_get(child);
-> +       while (child) {
-> +               if (child =3D=3D test_ancestor) {
-> +                       of_node_put(child);
-> +                       return false;
-> +               }
-> +               child =3D of_get_next_parent(child);
-> +       }
-> +       return true;
-> +}
-> +
-> +/**
-> + * of_link_to_phandle - Add device link to supplier from supplier phandle
-> + * @dev: consumer device
-> + * @sup_np: phandle to supplier device tree node
-> + *
-> + * Given a phandle to a supplier device tree node (@sup_np), this functi=
-on
-> + * finds the device that owns the supplier device tree node and creates a
-> + * device link from @dev consumer device to the supplier device. This fu=
-nction
-> + * doesn't create device links for invalid scenarios such as trying to c=
-reate a
-> + * link with a parent device as the consumer of its child device. In such
-> + * cases, it returns an error.
-
-Doesn't device links have problems with making cycles between providers
-and consumers? We have some scenarios where two clk providers are
-consumers of each other but it isn't a parent child relationship.
-They're peers on the SoC bus and there isn't a cycle in the clk tree but
-there is a cycle between the two device nodes and providers. I don't see
-the avoidance here but maybe I missed something?
-
-> + *
-> + * Returns:
-> + * - 0 if link successfully created to supplier
-> + * - -EAGAIN if linking to the supplier should be reattempted
-> + * - -EINVAL if the supplier link is invalid and should not be created
-> + * - -ENODEV if there is no device that corresponds to the supplier phan=
-dle
-> + */
-> +static int of_link_to_phandle(struct device *dev, struct device_node *su=
-p_np)
-> +{
-> +       struct device *sup_dev;
-> +       u32 dl_flags =3D DL_FLAG_AUTOPROBE_CONSUMER;
-
-Is it really a u32 instead of an unsigned int or unsigned long?
-
-> +       int ret =3D 0;
-> +       struct device_node *tmp_np =3D sup_np;
-> +
-> +       of_node_get(sup_np);
-> +       /*
-> +        * Find the device node that contains the supplier phandle.  It m=
-ay be
-> +        * @sup_np or it may be an ancestor of @sup_np.
-> +        */
-> +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-> +               sup_np =3D of_get_next_parent(sup_np);
-
-I don't get this. This is assuming that drivers are only probed for
-device nodes that have a compatible string? What about drivers that make
-sub-devices for clk support that have drivers in drivers/clk/ that then
-attach at runtime later? This happens sometimes for MFDs that want to
-split the functionality across the driver tree to the respective
-subsystems.
-
-> +       if (!sup_np) {
-> +               dev_dbg(dev, "Not linking to %pOFP - No device\n", tmp_np=
-);
-> +               return -ENODEV;
-> +       }
-> +
-> +       /*
-> +        * Don't allow linking a device node as a consumer of one of its
-> +        * descendant nodes. By definition, a child node can't be a funct=
-ional
-> +        * dependency for the parent node.
-> +        */
-> +       if (!of_is_ancestor_of(dev->of_node, sup_np)) {
-> +               dev_dbg(dev, "Not linking to %pOFP - is descendant\n", su=
-p_np);
-> +               of_node_put(sup_np);
-> +               return -EINVAL;
-> +       }
-> +       sup_dev =3D get_dev_from_fwnode(&sup_np->fwnode);
-> +       of_node_put(sup_np);
-> +       if (!sup_dev)
-> +               return -EAGAIN;
-> +       if (!device_link_add(dev, sup_dev, dl_flags))
-> +               ret =3D -EAGAIN;
-> +       put_device(sup_dev);
-> +       return ret;
-> +}
-> +
-> +/**
-> + * parse_prop_cells - Property parsing function for suppliers
-> + *
-> + * @np:                Pointer to device tree node containing a list
-> + * @prop_name: Name of property to be parsed. Expected to hold phandle v=
-alues
-> + * @index:     For properties holding a list of phandles, this is the in=
-dex
-> + *             into the list.
-> + * @list_name: Property name that is known to contain list of phandle(s)=
- to
-> + *             supplier(s)
-> + * @cells_name:        property name that specifies phandles' arguments =
-count
-> + *
-> + * This is a helper function to parse properties that have a known fixed=
- name
-> + * and are a list of phandles and phandle arguments.
-> + *
-> + * Returns:
-> + * - phandle node pointer with refcount incremented. Caller must of_node=
-_put()
-> + *   on it when done.
-> + * - NULL if no phandle found at index
-> + */
-> +static struct device_node *parse_prop_cells(struct device_node *np,
-> +                                           const char *prop_name, int in=
-dex,
-> +                                           const char *list_name,
-> +                                           const char *cells_name)
-> +{
-> +       struct of_phandle_args sup_args;
-> +
-> +       if (strcmp(prop_name, list_name))
-> +               return NULL;
-> +
-> +       if (of_parse_phandle_with_args(np, list_name, cells_name, index,
-> +                                      &sup_args))
-> +               return NULL;
-> +
-> +       return sup_args.np;
-> +}
-> +
-> +static struct device_node *parse_clocks(struct device_node *np,
-> +                                       const char *prop_name, int index)
-> +{
-> +       return parse_prop_cells(np, prop_name, index, "clocks", "#clock-c=
-ells");
-> +}
-
-Can this use of_parse_clkspec() instead? If it is exported out of the
-clk framework (which is weird to me for other reasons) then it should
-work to call that with the index passed in to this function. Ideally we
-don't have more than one place where we parse clock specifiers for a
-node.
-
-Another question is what happens for devices that are in DT but are
-using "clock-ranges"? As far as I know there are some DTS files that use
-that property to only send the clocks to some bus node that then lets
-devices find the "clocks" and "clock-names" properties from the bus node
-instead of from the node that corresponds to their device.
-
-> +
-> +static struct device_node *parse_interconnects(struct device_node *np,
-> +                                              const char *prop_name, int=
- index)
-> +{
-> +       return parse_prop_cells(np, prop_name, index, "interconnects",
-> +                               "#interconnect-cells");
-> +}
-> +
-> +static int strcmp_suffix(const char *str, const char *suffix)
-
-And this doesn't go to lib/string.c why?
-
-> +{
-> +       unsigned int len, suffix_len;
-> +
-> +       len =3D strlen(str);
-> +       suffix_len =3D strlen(suffix);
-> +       if (len <=3D suffix_len)
-> +               return -1;
-> +       return strcmp(str + len - suffix_len, suffix);
-> +}
-> +
-> +static struct device_node *parse_regulators(struct device_node *np,
-> +                                           const char *prop_name, int in=
-dex)
-> +{
-> +       if (index || strcmp_suffix(prop_name, "-supply"))
-> +               return NULL;
-> +
-> +       return of_parse_phandle(np, prop_name, 0);
-> +}
-> +
-> +/**
-> + * struct supplier_bindings - Property parsing functions for suppliers
-> + *
-> + * @parse_prop: function name
-> + *     parse_prop() finds the node corresponding to a supplier phandle
-> + * @parse_prop.np: Pointer to device node holding supplier phandle prope=
-rty
-> + * @parse_prop.prop_name: Name of property holding a phandle value
-> + * @parse_prop.index: For properties holding a list of phandles, this is=
- the
-> + *                   index into the list
-
-This is interesting kernel-doc. I've never seen it before. Does it work?
-
-> + *
-> + * Returns:
-> + * parse_prop() return values are
-> + * - phandle node pointer with refcount incremented. Caller must of_node=
-_put()
-> + *   on it when done.
-> + * - NULL if no phandle found at index
-> + */
-> +struct supplier_bindings {
-> +       struct device_node *(*parse_prop)(struct device_node *np,
-> +                                         const char *prop_name, int inde=
-x);
-
-Maybe this should be a typedef instead of a struct unless you plan to
-put more members in this struct? Or are arrays of function pointers
-impossible?
-
-> +};
-> +
-> +static const struct supplier_bindings bindings[] =3D {
-
-This variable name is really bad. Please make it much more specific to
-this file instead of being called 'bindings' so that grepping for it and
-looking for it in kallsyms isn't difficult.
-
-> +       { .parse_prop =3D parse_clocks, },
-> +       { .parse_prop =3D parse_interconnects, },
-> +       { .parse_prop =3D parse_regulators, },
-> +       {},
-
-Nitpick: Don't put a comma after the sentinel so that it causes a
-compile error to follow it with another "valid" entry.
-
-> +};
-> +
-> +/**
-> + * of_link_property - Create device links to suppliers listed in a prope=
-rty
-> + * @dev: Consumer device
-> + * @con_np: The consumer device tree node which contains the property
-> + * @prop_name: Name of property to be parsed
-> + *
-> + * This function checks if the property @prop_name that is present in the
-> + * @con_np device tree node is one of the known common device tree bindi=
-ngs
-> + * that list phandles to suppliers. If @prop_name isn't one, this functi=
-on
-> + * doesn't do anything.
-> + *
-> + * If @prop_name is one, this function attempts to create device links f=
-rom the
-> + * consumer device @dev to all the devices of the suppliers listed in
-> + * @prop_name.
-> + *
-> + * Any failed attempt to create a device link will NOT result in an imme=
-diate
-> + * return.  of_link_property() must create links to all the available su=
-pplier
-> + * devices even when attempts to create a link to one or more suppliers =
-fail.
-> + */
-> +static int of_link_property(struct device *dev, struct device_node *con_=
-np,
-> +                            const char *prop_name)
-> +{
-> +       struct device_node *phandle;
-> +       const struct supplier_bindings *s =3D bindings;
-> +       unsigned int i =3D 0;
-> +       bool matched =3D false;
-> +       int ret =3D 0;
-> +
-> +       /* Do not stop at first failed link, link all available suppliers=
-. */
-> +       while (!matched && s->parse_prop) {
-> +               while ((phandle =3D s->parse_prop(con_np, prop_name, i)))=
- {
-> +                       matched =3D true;
-> +                       i++;
-> +                       if (of_link_to_phandle(dev, phandle) =3D=3D -EAGA=
-IN)
-> +                               ret =3D -EAGAIN;
-
-And don't break?
-
-> +                       of_node_put(phandle);
-> +               }
-> +               s++;
-> +       }
-> +       return ret;
-> +}
-> +
-> +static int __of_link_to_suppliers(struct device *dev,
-
-Why the double underscore?
-
-> +                                 struct device_node *con_np)
-> +{
-> +       struct device_node *child;
-> +       struct property *p;
-> +       int ret =3D 0;
-> +
-> +       for_each_property_of_node(con_np, p)
-> +               if (of_link_property(dev, con_np, p->name))
-> +                       ret =3D -EAGAIN;
-
-Same comment.
-
-> +
-> +       return ret;
-> +}
+SGkgRGFuaWVsLA0KDQpPbiAwNC8wOS8yMDE5IDIxOjQyLCBEYW5pZWwgSm9yZGFuIHdyb3RlOg0K
+Pj4gSW4gYWRkaXRpb24sIHRoZSB0YWJsZXMgdGhhdCBhcmUgcHJpbnRlZCBieSB0aGUgc2NyaXB0
+IHdlcmUgbm90IHByb3Blcmx5DQo+PiBhbGlnbmVkIGFueSBtb3JlLCBzbyBwYXRjaCAyIGZpeGVz
+IHRoZSBzcGFjaW5nLg0KPiANCj4gTml0LCBub3QgZm9yIFBhZ2VzIFNjYW5uZWQuICBXaXRoIHlv
+dXIgc2VyaWVzIEkgZ2V0DQo+IA0KPiBLc3dhcGQgICAgICAgICAgS3N3YXBkICAgICAgT3JkZXIg
+ICAgICBQYWdlcyAgICAgUGFnZXMgICAgUGFnZXMgICAgUGFnZXMNCj4gSW5zdGFuY2UgICAgICAg
+V2FrZXVwcyAgUmUtd2FrZXVwICAgIFNjYW5uZWQgICAgUmNsbWVkICBTeW5jLUlPIEFTeW5jLUlP
+DQo+IGtzd2FwZDAtMTc1ICAgICAgICAgIDEgICAgICAgICAgMCAgICAyNTM2OTQgICAgIDI1MzY5
+MSAgICAgICAgMyAgIDEyOTg5NiAgICAgICAgICAgICAgIHdha2UtMD0xDQoNCldob29wcywgeW91
+J3JlIHJpZ2h0LCBJJ2xsIGZpeCB0aGF0IGluIHYyLg0KDQoNCj4gSSB3b25kZXIgaWYgd2Ugc2hv
+dWxkbid0IGp1c3QgZ2V0IHJpZCBvZiB0aGUgd2hvbGUgc2NyaXB0LCBpdCdzIGhhcmQgdG8NCj4g
+cmVtZW1iZXIgdG8ga2VlcCBpbiBzeW5jIHdpdGggdm1zY2FuIGNoYW5nZXMgYW5kIEkgY2FuJ3Qg
+dGhpbmsgb2YgYSB3YXkgdG8NCj4gcmVtZWR5IHRoYXQgc2hvcnQgb2YgaGF2aW5nIG1tIHJlZ3Jl
+c3Npb24gdGVzdHMgdGhhdCBydW4gdGhpcy4gIEJ1dCB5b3VyDQo+IHBhdGNoZXMgYXJlIGFuIGlt
+cHJvdmVtZW50IGZvciBub3cuDQoNClRoYXQncyBkZWZpbml0ZWx5IG9uZSBwb3NzaWJpbGl0eS4g
+SWYgaGlzdG9yeSBoYXMgc2hvd24gdGhhdCB0aGVzZSBicmVhayANCmFuZCBhcmVuJ3QgcHJvcGVy
+bHkga2VwdCBpbiBsaW5lLCB0aGV5IGNvdWxkIGdvLiBBbHRlcm5hdGl2ZWx5LCBhcyANCllhZmFu
+ZyBzdWdnZXN0ZWQsIGludGVncmF0aW5nIHRoZW0gaW50byB0aGUgcGVyZiB0ZXN0IHN1aXRlIG1p
+Z2h0IGhlbHAgDQp3aXRoIHRoZSBpc3N1ZXMuDQoNCkknbGwgaWdub3JlIHRoYXQgcG9pbnQgZm9y
+IG5vdyB0aG91Z2ggYW5kIGp1c3Qgc2VuZCBhIHYyIGZvciB0aGlzIHBhdGNoIA0Kc2VyaWVzLg0K
+DQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjaywNCkZsb3JpYW4NCg==
