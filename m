@@ -3,95 +3,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF8997D922
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Sep 2019 17:27:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4DA437D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 00:15:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437132AbfIJR0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Sep 2019 13:26:54 -0400
-Received: from mga03.intel.com ([134.134.136.65]:10672 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437143AbfIJR0x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Sep 2019 13:26:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:26:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,490,1559545200"; 
-   d="scan'208";a="189413869"
-Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
-  by orsmga006.jf.intel.com with ESMTP; 10 Sep 2019 10:26:53 -0700
-Subject: [PATCH 4/4] Documentation/process: add transparency promise to list subscription
-To:     linux-kernel@vger.kernel.org
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, sashal@kernel.org, ben@decadent.org.uk,
-        tglx@linutronix.de, labbott@redhat.com, andrew.cooper3@citrix.com,
-        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
-        linux-doc@vger.kernel.org, dan.j.williams@intel.com
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Date:   Tue, 10 Sep 2019 10:26:52 -0700
-References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
-In-Reply-To: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
-Message-Id: <20190910172652.4FFF6CA3@viggo.jf.intel.com>
+        id S1726192AbfIKAPU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Sep 2019 20:15:20 -0400
+Received: from smtprelay0126.hostedemail.com ([216.40.44.126]:46332 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725916AbfIKAPU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Sep 2019 20:15:20 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 0058818224519;
+        Wed, 11 Sep 2019 00:15:18 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: cream93_8578525e7b644
+X-Filterd-Recvd-Size: 4049
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 11 Sep 2019 00:15:17 +0000 (UTC)
+Message-ID: <95a9f6fbc8fc2cf81e9eadc6f7fef8dd3592e60b.camel@perches.com>
+Subject: Re: [PATCH v2] printf: add support for printing symbolic error codes
+From:   Joe Perches <joe@perches.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Date:   Tue, 10 Sep 2019 17:15:15 -0700
+In-Reply-To: <CAHp75Vdpd5uMCM-n+4vAZLwUpN=-cHnHs1uxoV2MDd5fk+CQig@mail.gmail.com>
+References: <20190830214655.6625-1-linux@rasmusvillemoes.dk>
+         <20190909203826.22263-1-linux@rasmusvillemoes.dk>
+         <CAHp75Vdpd5uMCM-n+4vAZLwUpN=-cHnHs1uxoV2MDd5fk+CQig@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 2019-09-10 at 18:26 +0300, Andy Shevchenko wrote:
+> On Mon, Sep 9, 2019 at 11:39 PM Rasmus Villemoes
+> <linux@rasmusvillemoes.dk> wrote:
+> > It has been suggested several times to extend vsnprintf() to be able
+> > to convert the numeric value of ENOSPC to print "ENOSPC". This is yet
+> > another attempt. Rather than adding another %p extension, simply teach
+> > plain %p to convert ERR_PTRs. While the primary use case is
+> > 
+> >   if (IS_ERR(foo)) {
+> >     pr_err("Sorry, can't do that: %p\n", foo);
+> >     return PTR_ERR(foo);
+> >   }
+> > 
+> > it is also more helpful to get a symbolic error code (or, worst case,
+> > a decimal number) in case an ERR_PTR is accidentally passed to some
+> > %p<something>, rather than the (efault) that check_pointer() would
+> > result in.
+> > 
+> > With my embedded hat on, I've made it possible to remove this.
+> > 
+> > I've tested that the #ifdeffery in errcode.c is sufficient to make
+> > this compile on arm, arm64, mips, powerpc, s390, x86 - I'm sure the
+> > 0day bot will tell me which ones I've missed.
+> > 
+> > The symbols to include have been found by massaging the output of
+> > 
+> >   find arch include -iname 'errno*.h' | xargs grep -E 'define\s*E'
+> > 
+> > In the cases where some common aliasing exists
+> > (e.g. EAGAIN=EWOULDBLOCK on all platforms, EDEADLOCK=EDEADLK on most),
+> > I've moved the more popular one (in terms of 'git grep -w Efoo | wc)
+> > to the bottom so that one takes precedence.
+> > +#define E(err) [err + BUILD_BUG_ON_ZERO(err <= 0 || err > 300)] = #err
+> > +#define E(err) [err - 512 + BUILD_BUG_ON_ZERO(err < 512 || err > 550)] = #err
+> 
+> From long term prospective 300 and 550 hard coded here may be forgotten.
+> 
+> > +const char *errcode(int err)
+> We got long, why not to use long type for it?
+> 
+> > +{
+> > +       /* Might as well accept both -EIO and EIO. */
+> > +       if (err < 0)
+> > +               err = -err;
+> > +       if (err <= 0) /* INT_MIN or 0 */
+> > +               return NULL;
+> > +       if (err < ARRAY_SIZE(codes_0))
+> > +               return codes_0[err];
+> 
+> It won't work if one of the #ifdef:s in the array fails.
+> Would it?
+> 
+> > +       if (err >= 512 && err - 512 < ARRAY_SIZE(codes_512))
+> > +               return codes_512[err - 512];
+> > +       /* But why? */
+> > +       if (IS_ENABLED(CONFIG_MIPS) && err == EDQUOT) /* 1133 */
+> > +               return "EDQUOT";
+> > +       return NULL;
+> > +}
+> > +               long err = PTR_ERR(ptr);
+> > +               const char *sym = errcode(-err);
+> 
+> Do we need additional sign change if we already have such check inside
+> errcode()?
 
-From: Dave Hansen <dave.hansen@linux.intel.com>
+How is EBUSY differentiated from ZERO_SIZE_PTR ?
 
-Transparency is good.  It it essential for everyone working under an
-embargo to know who is involved and who else is a "knower".  Being
-transparent allows everyone to always make informed decisions about
-ongoing participating in a mitigation effort.
 
-Add a step to the subscription process which will notify existing
-subscribers when a new one is added.
-
-While I think this is good for everyone, this patch represents my
-personal opinion and not that of my employer.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sasha Levin <sashal@kernel.org>
-Cc: Ben Hutchings <ben@decadent.org.uk>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Laura Abbott <labbott@redhat.com>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>
-Cc: Trilok Soni <tsoni@codeaurora.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
----
-
- b/Documentation/process/embargoed-hardware-issues.rst |   13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-2 Documentation/process/embargoed-hardware-issues.rst
---- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-2	2019-09-10 09:58:47.989476197 -0700
-+++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 09:58:47.992476197 -0700
-@@ -276,10 +276,11 @@ certificate. If a PGP key is used, it mu
- server and is ideally connected to the Linux kernel's PGP web of trust. See
- also: https://www.kernel.org/signature.html.
- 
--The response team verifies that the subscriber request is valid and adds
--the subscriber to the list. After subscription the subscriber will receive
--email from the mailing-list which is signed either with the list's PGP key
--or the list's S/MIME certificate. The subscriber's email client can extract
--the PGP key or the S/MIME certificate from the signature so the subscriber
--can send encrypted email to the list.
-+The response team verifies that the subscriber request is valid, adds the
-+subscriber to the list, and notifies the existing list subscribers
-+including the disclosing party. After subscription the subscriber will
-+receive email from the mailing-list which is signed either with the list's
-+PGP key or the list's S/MIME certificate. The subscriber's email client can
-+extract the PGP key or the S/MIME certificate from the signature so the
-+subscriber can send encrypted email to the list.
- 
-_
