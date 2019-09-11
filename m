@@ -6,78 +6,107 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D30707D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 10:34:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 300DC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbfIKKeK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 06:34:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47762 "EHLO mail.kernel.org"
+        id S1727731AbfIKLAh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 07:00:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33804 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726579AbfIKKeK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Sep 2019 06:34:10 -0400
-Received: from kernel.org (unknown [104.132.0.74])
+        id S1726724AbfIKLAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Sep 2019 07:00:37 -0400
+Received: from localhost (unknown [148.69.85.38])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 458512087E;
-        Wed, 11 Sep 2019 10:34:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 11BE820CC7;
+        Wed, 11 Sep 2019 11:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568198049;
-        bh=d8af/NoTc5C2mwDiZ3UX/0hSVyDtHPhIx/OUpWcj78s=;
-        h=In-Reply-To:References:Cc:To:From:Subject:Date:From;
-        b=jS57VgcOSOgDaqmIBHE5tj4OcI2/p7VRBAlxMnNYlokNjAg3mQkSrFU2bWmOczTx8
-         JNkP1ounBNqVukMU3Z1CUaLmCMTPvhQFzI6FSDutOjxW3O6v3a2rlvqLpzWIyzR0zl
-         xj2FLWM4ySWrrXC9rE537Wvz19p/okHtcCAsMwWY=
-Content-Type: text/plain; charset="utf-8"
+        s=default; t=1568199636;
+        bh=6CkPkTexnyeUrJ/816Xs3QnneqgRrUamwtCeRc3RdDw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GsyuQay4M3D0T6k12JN9vA6vAC8zi/uNCkurc567Yfsj5mi0QNuV4KF18EBKu0XLb
+         /K76WGe50DO8+dtS04M61v++esDJbSgw5DaP3GtQqnFE7G5KQzhWZnt3GSzKdMBYdK
+         GF2qwcjLTfnYc8QYeHUWCUQaTKLgD9KR6p7FqwVY=
+Date:   Wed, 11 Sep 2019 06:11:55 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, ben@decadent.org.uk,
+        tglx@linutronix.de, labbott@redhat.com, andrew.cooper3@citrix.com,
+        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
+        linux-doc@vger.kernel.org, dan.j.williams@intel.com
+Subject: Re: [PATCH 2/4] Documentation/process: describe relaxing disclosing
+ party NDAs
+Message-ID: <20190911101155.GN2012@sasha-vm>
+References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
+ <20190910172649.74639177@viggo.jf.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190904211126.47518-1-saravanak@google.com>
-References: <20190904211126.47518-1-saravanak@google.com>
-Cc:     Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org, clang-built-linux@googlegroups.com,
-        David Collins <collinsd@codeaurora.org>,
-        kernel-team@android.com
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v11 0/6] Solve postboot supplier cleanup and optimize probe ordering
-User-Agent: alot/0.8.1
-Date:   Wed, 11 Sep 2019 03:34:08 -0700
-Message-Id: <20190911103409.458512087E@mail.kernel.org>
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20190910172649.74639177@viggo.jf.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Saravana Kannan (2019-09-04 14:11:19)
-> v10->v11:
-> - Dropped 6/7 and 7/7 from previous series that tried to handle cycles in=
- DT
->   dependencies. We can solve it later when we actually hit a real world i=
-ssue
->   in DT.
-> - Added a new 1/7 that shifts the numbering for the rest of the patches
-> - 1/7 adds a way to look up a device from a fwnode so that this series ca=
-n work
->   across bus and firmware types
-> - 3/7 removed references to platform_device from of/property.c
-> - 4/7 Minor variable rename
-> - 4/7 Defer sync_state() be default at driver core level and resume at
->   late_initcall_sync(). That way, we don't depend on any specific bus typ=
-es
->   having to pause/resume sync_state() till late_initcall_sync()
+On Tue, Sep 10, 2019 at 10:26:49AM -0700, Dave Hansen wrote:
+>
+>From: Dave Hansen <dave.hansen@linux.intel.com>
+>
+>Hardware companies like Intel have lots of information which they
+>want to disclose to some folks but not others.  Non-disclosure
+>agreements are a tool of choice for helping to ensure that the
+>flow of information is controlled.
+>
+>But, they have caused problems in mitigation development.  It
+>can be hard for individual developers employed by companies to
+>figure out how they can participate, especially if their
+>employer is under an NDA.
+>
+>To make this easier for developers, make it clear to disclosing
+>parties that they are expected to give permission for individuals
+>to participate in mitigation efforts.
+>
+>Cc: Jonathan Corbet <corbet@lwn.net>
+>Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>Cc: Sasha Levin <sashal@kernel.org>
+>Cc: Ben Hutchings <ben@decadent.org.uk>
+>Cc: Thomas Gleixner <tglx@linutronix.de>
+>Cc: Laura Abbott <labbott@redhat.com>
+>Cc: Andrew Cooper <andrew.cooper3@citrix.com>
+>Cc: Trilok Soni <tsoni@codeaurora.org>
+>Cc: Kees Cook <keescook@chromium.org>
+>Cc: Tony Luck <tony.luck@intel.com>
+>Cc: linux-doc@vger.kernel.org
+>Cc: linux-kernel@vger.kernel.org
+>Acked-by: Dan Williams <dan.j.williams@intel.com>
+>Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+>---
+>
+> b/Documentation/process/embargoed-hardware-issues.rst |    7 +++++++
+> 1 file changed, 7 insertions(+)
+>
+>diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-0 Documentation/process/embargoed-hardware-issues.rst
+>--- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-0	2019-09-10 08:39:02.835488131 -0700
+>+++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:02.838488131 -0700
+>@@ -74,6 +74,13 @@ unable to enter into any non-disclosure
+> is aware of the sensitive nature of such issues and offers a Memorandum of
+> Understanding instead.
+>
+>+Disclosing parties may have shared information about an issue under a
+>+non-disclosure agreement with third parties.  In order to ensure that
+>+these agreements do not interfere with the mitigation development
+>+process, the disclosing party must provide explicit permission to
+>+participate to any response team members affected by a non-disclosure
+>+agreement.  Disclosing parties must resolve requests to do so in a
+>+timely manner.
 
-Please reverse this list so that most recent series changes come first
-and we don't have to scroll through all the history to get to what has
-changed recently.
+Can giving the permission be made explicitly along with the disclosure?
+If it's disclosed with Microsoft under NDA, it makes it tricky for me to
+participate in the "response team" context here unless premission is
+given to do so.
 
-Also, please Cc me on future changes and I would suggest involving any
-subsystem maintainers that this code is optimizing for. Looks like Mark
-Brown and Georgi Djakov should be included in this series for awareness
-(but it's at v11 already!)
-
+--
+Thanks,
+Sasha
