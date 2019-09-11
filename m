@@ -1,1130 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D3647D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:09:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67EE07D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 11:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbfIKLJY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 07:09:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33686 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726735AbfIKLJY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Sep 2019 07:09:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BB573AE72;
-        Wed, 11 Sep 2019 11:09:18 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, kraxel@redhat.com, airlied@linux.ie,
-        corbet@lwn.net, z.liuxinliang@hisilicon.com, zourongrong@gmail.com,
-        kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
-        hdegoede@redhat.com, sam@ravnborg.org, yc_chen@aspeedtech.com
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 1/4] drm/vram: Move VRAM memory manager to GEM VRAM implementation
-Date:   Wed, 11 Sep 2019 13:09:07 +0200
-Message-Id: <20190911110910.30698-2-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190911110910.30698-1-tzimmermann@suse.de>
-References: <20190911110910.30698-1-tzimmermann@suse.de>
+        id S1726930AbfIKLMM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 07:12:12 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:35738 "EHLO
+        mx0b-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726696AbfIKLML (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 07:12:11 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+        by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8BBA1OH004862;
+        Wed, 11 Sep 2019 04:12:06 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=5T2nCFusGa8Bi4L4AHPAz4kfbJNC036CLLTb/oTJlak=;
+ b=WtWdD80/KDWYoLjWWYovAZe6T4I2LjHivn5EON32NikmEIOVJ7cEWD8v/bXMgs/dqauN
+ z+QUXgBW1IKDS4RhFZvv6wduKyeIu/7RiVyVB+O9bjOXqvhFD9lQ3mxNOsuXWDGnMZ0E
+ bGvZbiNw5ZPjjATrudlF3+gpNeT+3MXL/Qvl1EgeEkbBl4lFvHfvCBFSifEA+fZjnDNh
+ fWbQNgAMUAi6lXgZL3sgxjR7hXpoNXWxgR3NWU4QcpInuNOl7slrqs4Yd6wkbb6cLMxA
+ PVGvKf/RKEo20f1WDZf7UVyZAygXiN9LQJ7sxo2L96dVNFsVxxX6FleuDj7CizrhjsrA uA== 
+Received: from nam01-bn3-obe.outbound.protection.outlook.com (mail-bn3nam01lp2056.outbound.protection.outlook.com [104.47.33.56])
+        by mx0b-002c1b01.pphosted.com with ESMTP id 2uvc2yyxvs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 11 Sep 2019 04:12:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZnvIxBzOkxq3JT0qsS5BfR1iUuu5GtSTRYkFlxiHmWDW3iKKzREgf/O8eJWDczLgiZN16zNKElfXhegchNbpKl42splvHl42F9eXtSW2Nt2g0+j8nSWnS0lXvEiI9xYgh5mZjTkfsF19x2YuXqBasOeQwojhxAgYIllt4LhfXWdqqcodxTzXWNN77R8/ETjRy/Mkyfgpeouip6/fBb/YS+wPuno1zAaj6/HnfVcxr6a/D0EPEyOXQaxdNM8gF48PidTvOe6nA1z/rkRCERbkmvsDXhqbSfmteJmPMju7lafa8gIrd08uol7oajOg9YB/28WCfHXczOiqsH63DNrvig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5T2nCFusGa8Bi4L4AHPAz4kfbJNC036CLLTb/oTJlak=;
+ b=TS3iXRFhWN+8Bv9t19MXgMmNWt3FvydUr1Kx3Vk6nml2yRdztp9P49JW7fTp8iCshBOMid2sRteQvo2xh35oAOfjJVK3IPzbKdh/44IRV92Sf2MCUZOJfZoFf9OI9I5V3fGEdu6z2By3AOGSBxmpA6I0SW5WYkuJmVW3bcjY8ClJZN6Mj4YkAeeXAPyvSX8WTzjh3BM10+uGNmwRLonsxiiC7mz8CrzOSLReqfZ4Ck4kgFE5BSy+at9xxrLHvQ4n7VKwRIoPo9Gzu2fDLfouiNF/WPOOjfr4nq/uXOkEH2u1Hw1bRHyVPe0qT3kkfBzkfqP1vADbYqemWWn6ZZxkNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com (52.132.98.38) by
+ CY4PR0201MB3475.namprd02.prod.outlook.com (52.132.99.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.13; Wed, 11 Sep 2019 11:12:05 +0000
+Received: from CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737]) by CY4PR0201MB3588.namprd02.prod.outlook.com
+ ([fe80::5598:9f2e:9d39:c737%6]) with mapi id 15.20.2199.027; Wed, 11 Sep 2019
+ 11:12:05 +0000
+From:   Florian Schmidt <florian.schmidt@nutanix.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florian Schmidt <florian.schmidt@nutanix.com>
+Subject: [PATCH v2 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Topic: [PATCH v2 0/2] trace-vmscan-postprocess: fix parsing and output
+Thread-Index: AQHVaJG+W/ZepYHKIEGKJ+a3WisJoA==
+Date:   Wed, 11 Sep 2019 11:12:05 +0000
+Message-ID: <20190911111146.14799-1-florian.schmidt@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM3PR05CA0093.eurprd05.prod.outlook.com
+ (2603:10a6:207:1::19) To CY4PR0201MB3588.namprd02.prod.outlook.com
+ (2603:10b6:910:8b::38)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.23.0
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 005d16b8-901c-48da-8028-08d736a8e0d8
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR0201MB3475;
+x-ms-traffictypediagnostic: CY4PR0201MB3475:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR0201MB34750237F2237B9EE5DED75FF7B10@CY4PR0201MB3475.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:2733;
+x-forefront-prvs: 0157DEB61B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(136003)(376002)(39860400002)(396003)(189003)(199004)(6512007)(6506007)(386003)(256004)(44832011)(2616005)(66476007)(81156014)(81166006)(66946007)(64756008)(66446008)(66556008)(66066001)(476003)(8936002)(50226002)(102836004)(486006)(8676002)(186003)(71200400001)(54906003)(26005)(4326008)(71190400001)(478600001)(107886003)(6436002)(1076003)(316002)(52116002)(36756003)(6486002)(99286004)(5660300002)(305945005)(2906002)(14454004)(53936002)(6916009)(25786009)(7736002)(3846002)(6116002)(86362001)(64030200001);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR0201MB3475;H:CY4PR0201MB3588.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: PlfhKnwzGUY2VTwiyQGc8TM5xAN3RxpPDDPxuPqT/LYHMSO6GtOilyGN+hCYUnPLgiL0gXTr7r1pH27EKE3gb7lIuR5X7BuE1JuCH9HjGe2nDB2kR3rlvHgGbHJY5cgiFieW2aUhRSNnurWGvfWZrau+6BqJi862A8Ufh6m287s6JNyCBEfuXEKV28spYgII1HWyGK1QQEz+dyseHhcjsNodIUSVFTws/Zw3gGoLCTIOvJFwh2oZy/J8T6IbvbBm+z1khHLS6LUrrIA8dpd/mLAqUOy+hwdUsMyrUzt7ZU0EVx81A/1etDkadNzLDlrjYhmh+5LfRJqe75jTQOp8yslghuAZvoKgRRAaKfAXmCK5xmn98yiIDteoniexhKhZSJwxCbe1YDg+FlHp6AldIgiRNtTHNWyHWnzbXFKV3kw=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 005d16b8-901c-48da-8028-08d736a8e0d8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 11:12:05.3333
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xq77gf7YTUGZuRMeBmGg26lQvM0dnznh7Tk84L3L+HCH7EyxI+LUMCHZhAhgYKVaMRFICkwSvZj+E6wvTlozANNijJBqRfy6pTPb8+2giNU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3475
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-11_07:2019-09-11,2019-09-11 signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The separation between GEM VRAM objects and the memory manager is
-artificial, as they are only used with each other. Copying both
-implementations into the same file is a first step to simplifying
-the code.
-
-This patch only moves code without functional changes.
-
-v2:
-	* update for debugfs support
-	* typos in commit message
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
----
- Documentation/gpu/drm-mm.rst                  |  12 -
- drivers/gpu/drm/Makefile                      |   3 +-
- drivers/gpu/drm/ast/ast_drv.c                 |   1 -
- drivers/gpu/drm/ast/ast_main.c                |   1 -
- drivers/gpu/drm/ast/ast_ttm.c                 |   1 -
- drivers/gpu/drm/bochs/bochs.h                 |   1 -
- drivers/gpu/drm/drm_gem_vram_helper.c         | 348 ++++++++++++++++-
- drivers/gpu/drm/drm_vram_mm_helper.c          | 353 ------------------
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   1 -
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c   |   1 -
- drivers/gpu/drm/mgag200/mgag200_drv.h         |   1 -
- drivers/gpu/drm/vboxvideo/vbox_drv.h          |   2 -
- include/drm/drm_gem_vram_helper.h             |  86 +++++
- include/drm/drm_vram_mm_helper.h              |  77 ----
- 14 files changed, 434 insertions(+), 454 deletions(-)
- delete mode 100644 drivers/gpu/drm/drm_vram_mm_helper.c
-
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index a70a1d9f30ec..99d56015e077 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -400,18 +400,6 @@ GEM VRAM Helper Functions Reference
- .. kernel-doc:: drivers/gpu/drm/drm_gem_vram_helper.c
-    :export:
- 
--VRAM MM Helper Functions Reference
------------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
--   :doc: overview
--
--.. kernel-doc:: include/drm/drm_vram_mm_helper.h
--   :internal:
--
--.. kernel-doc:: drivers/gpu/drm/drm_vram_mm_helper.c
--   :export:
--
- GEM TTM Helper Functions Reference
- -----------------------------------
- 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index b906bab29740..9f1c7c486f88 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -33,8 +33,7 @@ drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
- 
- drm_vram_helper-y := drm_gem_vram_helper.o \
--		     drm_vram_helper_common.o \
--		     drm_vram_mm_helper.o
-+		     drm_vram_helper_common.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
- drm_ttm_helper-y := drm_gem_ttm_helper.o
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 6ed6ff49efc0..e0e8770462bc 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -35,7 +35,6 @@
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_pci.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "ast_drv.h"
- 
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 50de8e47659c..21715d6a9b56 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -33,7 +33,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "ast_drv.h"
- 
-diff --git a/drivers/gpu/drm/ast/ast_ttm.c b/drivers/gpu/drm/ast/ast_ttm.c
-index c52d92294171..08ba0a917593 100644
---- a/drivers/gpu/drm/ast/ast_ttm.c
-+++ b/drivers/gpu/drm/ast/ast_ttm.c
-@@ -30,7 +30,6 @@
- 
- #include <drm/drm_print.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "ast_drv.h"
- 
-diff --git a/drivers/gpu/drm/bochs/bochs.h b/drivers/gpu/drm/bochs/bochs.h
-index 68483a2fc12c..917767173ee6 100644
---- a/drivers/gpu/drm/bochs/bochs.h
-+++ b/drivers/gpu/drm/bochs/bochs.h
-@@ -10,7 +10,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_simple_kms_helper.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- /* ---------------------------------------------------------------------- */
- 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index becf1013e02b..353f98075579 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -1,8 +1,10 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- 
-+#include <drm/drm_debugfs.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_file.h>
- #include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_device.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_vram_mm_helper.h>
-@@ -15,6 +17,11 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
-  *
-  * This library provides a GEM buffer object that is backed by video RAM
-  * (VRAM). It can be used for framebuffer devices with dedicated memory.
-+ *
-+ * The data structure &struct drm_vram_mm and its helpers implement a memory
-+ * manager for simple framebuffer devices with dedicated video memory. Buffer
-+ * objects are either placed in video RAM or evicted to system memory. The rsp.
-+ * buffer object is provided by &struct drm_gem_vram_object.
-  */
- 
- /*
-@@ -736,3 +743,342 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs = {
- 	.vunmap	= drm_gem_vram_object_vunmap,
- 	.print_info = drm_gem_ttm_print_info,
- };
-+
-+/*
-+ * VRAM memory manager
-+ */
-+
-+/*
-+ * TTM TT
-+ */
-+
-+static void backend_func_destroy(struct ttm_tt *tt)
-+{
-+	ttm_tt_fini(tt);
-+	kfree(tt);
-+}
-+
-+static struct ttm_backend_func backend_func = {
-+	.destroy = backend_func_destroy
-+};
-+
-+/*
-+ * TTM BO device
-+ */
-+
-+static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
-+					      uint32_t page_flags)
-+{
-+	struct ttm_tt *tt;
-+	int ret;
-+
-+	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
-+	if (!tt)
-+		return NULL;
-+
-+	tt->func = &backend_func;
-+
-+	ret = ttm_tt_init(tt, bo, page_flags);
-+	if (ret < 0)
-+		goto err_ttm_tt_init;
-+
-+	return tt;
-+
-+err_ttm_tt_init:
-+	kfree(tt);
-+	return NULL;
-+}
-+
-+static int bo_driver_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
-+				   struct ttm_mem_type_manager *man)
-+{
-+	switch (type) {
-+	case TTM_PL_SYSTEM:
-+		man->flags = TTM_MEMTYPE_FLAG_MAPPABLE;
-+		man->available_caching = TTM_PL_MASK_CACHING;
-+		man->default_caching = TTM_PL_FLAG_CACHED;
-+		break;
-+	case TTM_PL_VRAM:
-+		man->func = &ttm_bo_manager_func;
-+		man->flags = TTM_MEMTYPE_FLAG_FIXED |
-+			     TTM_MEMTYPE_FLAG_MAPPABLE;
-+		man->available_caching = TTM_PL_FLAG_UNCACHED |
-+					 TTM_PL_FLAG_WC;
-+		man->default_caching = TTM_PL_FLAG_WC;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
-+
-+static void bo_driver_evict_flags(struct ttm_buffer_object *bo,
-+				  struct ttm_placement *placement)
-+{
-+	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
-+
-+	if (vmm->funcs && vmm->funcs->evict_flags)
-+		vmm->funcs->evict_flags(bo, placement);
-+}
-+
-+static int bo_driver_verify_access(struct ttm_buffer_object *bo,
-+				   struct file *filp)
-+{
-+	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
-+
-+	if (!vmm->funcs || !vmm->funcs->verify_access)
-+		return 0;
-+	return vmm->funcs->verify_access(bo, filp);
-+}
-+
-+static void bo_driver_move_notify(struct ttm_buffer_object *bo,
-+				  bool evict,
-+				  struct ttm_mem_reg *new_mem)
-+{
-+	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
-+
-+	if (!vmm->funcs || !vmm->funcs->move_notify)
-+		return;
-+	vmm->funcs->move_notify(bo, evict, new_mem);
-+}
-+
-+static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
-+				    struct ttm_mem_reg *mem)
-+{
-+	struct ttm_mem_type_manager *man = bdev->man + mem->mem_type;
-+	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
-+
-+	if (!(man->flags & TTM_MEMTYPE_FLAG_MAPPABLE))
-+		return -EINVAL;
-+
-+	mem->bus.addr = NULL;
-+	mem->bus.size = mem->num_pages << PAGE_SHIFT;
-+
-+	switch (mem->mem_type) {
-+	case TTM_PL_SYSTEM:	/* nothing to do */
-+		mem->bus.offset = 0;
-+		mem->bus.base = 0;
-+		mem->bus.is_iomem = false;
-+		break;
-+	case TTM_PL_VRAM:
-+		mem->bus.offset = mem->start << PAGE_SHIFT;
-+		mem->bus.base = vmm->vram_base;
-+		mem->bus.is_iomem = true;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void bo_driver_io_mem_free(struct ttm_bo_device *bdev,
-+				  struct ttm_mem_reg *mem)
-+{ }
-+
-+static struct ttm_bo_driver bo_driver = {
-+	.ttm_tt_create = bo_driver_ttm_tt_create,
-+	.ttm_tt_populate = ttm_pool_populate,
-+	.ttm_tt_unpopulate = ttm_pool_unpopulate,
-+	.init_mem_type = bo_driver_init_mem_type,
-+	.eviction_valuable = ttm_bo_eviction_valuable,
-+	.evict_flags = bo_driver_evict_flags,
-+	.verify_access = bo_driver_verify_access,
-+	.move_notify = bo_driver_move_notify,
-+	.io_mem_reserve = bo_driver_io_mem_reserve,
-+	.io_mem_free = bo_driver_io_mem_free,
-+};
-+
-+/*
-+ * struct drm_vram_mm
-+ */
-+
-+#if defined(CONFIG_DEBUG_FS)
-+static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *) m->private;
-+	struct drm_vram_mm *vmm = node->minor->dev->vram_mm;
-+	struct drm_mm *mm = vmm->bdev.man[TTM_PL_VRAM].priv;
-+	struct ttm_bo_global *glob = vmm->bdev.glob;
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	spin_lock(&glob->lru_lock);
-+	drm_mm_print(mm, &p);
-+	spin_unlock(&glob->lru_lock);
-+	return 0;
-+}
-+
-+static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-+	{ "vram-mm", drm_vram_mm_debugfs, 0, NULL },
-+};
-+#endif
-+
-+/**
-+ * drm_vram_mm_debugfs_init() - Register VRAM MM debugfs file.
-+ *
-+ * @minor: drm minor device.
-+ *
-+ * Returns:
-+ * 0 on success, or
-+ * a negative error code otherwise.
-+ */
-+int drm_vram_mm_debugfs_init(struct drm_minor *minor)
-+{
-+	int ret = 0;
-+
-+#if defined(CONFIG_DEBUG_FS)
-+	ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-+				       ARRAY_SIZE(drm_vram_mm_debugfs_list),
-+				       minor->debugfs_root, minor);
-+#endif
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
-+
-+/**
-+ * drm_vram_mm_init() - Initialize an instance of VRAM MM.
-+ * @vmm:	the VRAM MM instance to initialize
-+ * @dev:	the DRM device
-+ * @vram_base:	the base address of the video memory
-+ * @vram_size:	the size of the video memory in bytes
-+ * @funcs:	callback functions for buffer objects
-+ *
-+ * Returns:
-+ * 0 on success, or
-+ * a negative error code otherwise.
-+ */
-+int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
-+		     uint64_t vram_base, size_t vram_size,
-+		     const struct drm_vram_mm_funcs *funcs)
-+{
-+	int ret;
-+
-+	vmm->vram_base = vram_base;
-+	vmm->vram_size = vram_size;
-+	vmm->funcs = funcs;
-+
-+	ret = ttm_bo_device_init(&vmm->bdev, &bo_driver,
-+				 dev->anon_inode->i_mapping,
-+				 true);
-+	if (ret)
-+		return ret;
-+
-+	ret = ttm_bo_init_mm(&vmm->bdev, TTM_PL_VRAM, vram_size >> PAGE_SHIFT);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_vram_mm_init);
-+
-+/**
-+ * drm_vram_mm_cleanup() - Cleans up an initialized instance of VRAM MM.
-+ * @vmm:	the VRAM MM instance to clean up
-+ */
-+void drm_vram_mm_cleanup(struct drm_vram_mm *vmm)
-+{
-+	ttm_bo_device_release(&vmm->bdev);
-+}
-+EXPORT_SYMBOL(drm_vram_mm_cleanup);
-+
-+/**
-+ * drm_vram_mm_mmap() - Helper for implementing &struct file_operations.mmap()
-+ * @filp:	the mapping's file structure
-+ * @vma:	the mapping's memory area
-+ * @vmm:	the VRAM MM instance
-+ *
-+ * Returns:
-+ * 0 on success, or
-+ * a negative error code otherwise.
-+ */
-+int drm_vram_mm_mmap(struct file *filp, struct vm_area_struct *vma,
-+		     struct drm_vram_mm *vmm)
-+{
-+	return ttm_bo_mmap(filp, vma, &vmm->bdev);
-+}
-+EXPORT_SYMBOL(drm_vram_mm_mmap);
-+
-+/*
-+ * Helpers for integration with struct drm_device
-+ */
-+
-+/**
-+ * drm_vram_helper_alloc_mm - Allocates a device's instance of \
-+	&struct drm_vram_mm
-+ * @dev:	the DRM device
-+ * @vram_base:	the base address of the video memory
-+ * @vram_size:	the size of the video memory in bytes
-+ * @funcs:	callback functions for buffer objects
-+ *
-+ * Returns:
-+ * The new instance of &struct drm_vram_mm on success, or
-+ * an ERR_PTR()-encoded errno code otherwise.
-+ */
-+struct drm_vram_mm *drm_vram_helper_alloc_mm(
-+	struct drm_device *dev, uint64_t vram_base, size_t vram_size,
-+	const struct drm_vram_mm_funcs *funcs)
-+{
-+	int ret;
-+
-+	if (WARN_ON(dev->vram_mm))
-+		return dev->vram_mm;
-+
-+	dev->vram_mm = kzalloc(sizeof(*dev->vram_mm), GFP_KERNEL);
-+	if (!dev->vram_mm)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = drm_vram_mm_init(dev->vram_mm, dev, vram_base, vram_size, funcs);
-+	if (ret)
-+		goto err_kfree;
-+
-+	return dev->vram_mm;
-+
-+err_kfree:
-+	kfree(dev->vram_mm);
-+	dev->vram_mm = NULL;
-+	return ERR_PTR(ret);
-+}
-+EXPORT_SYMBOL(drm_vram_helper_alloc_mm);
-+
-+/**
-+ * drm_vram_helper_release_mm - Releases a device's instance of \
-+	&struct drm_vram_mm
-+ * @dev:	the DRM device
-+ */
-+void drm_vram_helper_release_mm(struct drm_device *dev)
-+{
-+	if (!dev->vram_mm)
-+		return;
-+
-+	drm_vram_mm_cleanup(dev->vram_mm);
-+	kfree(dev->vram_mm);
-+	dev->vram_mm = NULL;
-+}
-+EXPORT_SYMBOL(drm_vram_helper_release_mm);
-+
-+/*
-+ * Helpers for &struct file_operations
-+ */
-+
-+/**
-+ * drm_vram_mm_file_operations_mmap() - \
-+	Implements &struct file_operations.mmap()
-+ * @filp:	the mapping's file structure
-+ * @vma:	the mapping's memory area
-+ *
-+ * Returns:
-+ * 0 on success, or
-+ * a negative error code otherwise.
-+ */
-+int drm_vram_mm_file_operations_mmap(
-+	struct file *filp, struct vm_area_struct *vma)
-+{
-+	struct drm_file *file_priv = filp->private_data;
-+	struct drm_device *dev = file_priv->minor->dev;
-+
-+	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
-+		return -EINVAL;
-+
-+	return drm_vram_mm_mmap(filp, vma, dev->vram_mm);
-+}
-+EXPORT_SYMBOL(drm_vram_mm_file_operations_mmap);
-diff --git a/drivers/gpu/drm/drm_vram_mm_helper.c b/drivers/gpu/drm/drm_vram_mm_helper.c
-deleted file mode 100644
-index 00fd8a691fa9..000000000000
---- a/drivers/gpu/drm/drm_vram_mm_helper.c
-+++ /dev/null
-@@ -1,353 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--
--#include <drm/drm_debugfs.h>
--#include <drm/drm_device.h>
--#include <drm/drm_file.h>
--#include <drm/drm_gem_ttm_helper.h>
--#include <drm/drm_vram_mm_helper.h>
--
--#include <drm/ttm/ttm_page_alloc.h>
--
--/**
-- * DOC: overview
-- *
-- * The data structure &struct drm_vram_mm and its helpers implement a memory
-- * manager for simple framebuffer devices with dedicated video memory. Buffer
-- * objects are either placed in video RAM or evicted to system memory. These
-- * helper functions work well with &struct drm_gem_vram_object.
-- */
--
--/*
-- * TTM TT
-- */
--
--static void backend_func_destroy(struct ttm_tt *tt)
--{
--	ttm_tt_fini(tt);
--	kfree(tt);
--}
--
--static struct ttm_backend_func backend_func = {
--	.destroy = backend_func_destroy
--};
--
--/*
-- * TTM BO device
-- */
--
--static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
--					      uint32_t page_flags)
--{
--	struct ttm_tt *tt;
--	int ret;
--
--	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
--	if (!tt)
--		return NULL;
--
--	tt->func = &backend_func;
--
--	ret = ttm_tt_init(tt, bo, page_flags);
--	if (ret < 0)
--		goto err_ttm_tt_init;
--
--	return tt;
--
--err_ttm_tt_init:
--	kfree(tt);
--	return NULL;
--}
--
--static int bo_driver_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
--				   struct ttm_mem_type_manager *man)
--{
--	switch (type) {
--	case TTM_PL_SYSTEM:
--		man->flags = TTM_MEMTYPE_FLAG_MAPPABLE;
--		man->available_caching = TTM_PL_MASK_CACHING;
--		man->default_caching = TTM_PL_FLAG_CACHED;
--		break;
--	case TTM_PL_VRAM:
--		man->func = &ttm_bo_manager_func;
--		man->flags = TTM_MEMTYPE_FLAG_FIXED |
--			     TTM_MEMTYPE_FLAG_MAPPABLE;
--		man->available_caching = TTM_PL_FLAG_UNCACHED |
--					 TTM_PL_FLAG_WC;
--		man->default_caching = TTM_PL_FLAG_WC;
--		break;
--	default:
--		return -EINVAL;
--	}
--	return 0;
--}
--
--static void bo_driver_evict_flags(struct ttm_buffer_object *bo,
--				  struct ttm_placement *placement)
--{
--	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
--
--	if (vmm->funcs && vmm->funcs->evict_flags)
--		vmm->funcs->evict_flags(bo, placement);
--}
--
--static int bo_driver_verify_access(struct ttm_buffer_object *bo,
--				   struct file *filp)
--{
--	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
--
--	if (!vmm->funcs || !vmm->funcs->verify_access)
--		return 0;
--	return vmm->funcs->verify_access(bo, filp);
--}
--
--static void bo_driver_move_notify(struct ttm_buffer_object *bo,
--				  bool evict,
--				  struct ttm_mem_reg *new_mem)
--{
--	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bo->bdev);
--
--	if (!vmm->funcs || !vmm->funcs->move_notify)
--		return;
--	vmm->funcs->move_notify(bo, evict, new_mem);
--}
--
--static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
--				    struct ttm_mem_reg *mem)
--{
--	struct ttm_mem_type_manager *man = bdev->man + mem->mem_type;
--	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
--
--	if (!(man->flags & TTM_MEMTYPE_FLAG_MAPPABLE))
--		return -EINVAL;
--
--	mem->bus.addr = NULL;
--	mem->bus.size = mem->num_pages << PAGE_SHIFT;
--
--	switch (mem->mem_type) {
--	case TTM_PL_SYSTEM:	/* nothing to do */
--		mem->bus.offset = 0;
--		mem->bus.base = 0;
--		mem->bus.is_iomem = false;
--		break;
--	case TTM_PL_VRAM:
--		mem->bus.offset = mem->start << PAGE_SHIFT;
--		mem->bus.base = vmm->vram_base;
--		mem->bus.is_iomem = true;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static void bo_driver_io_mem_free(struct ttm_bo_device *bdev,
--				  struct ttm_mem_reg *mem)
--{ }
--
--static struct ttm_bo_driver bo_driver = {
--	.ttm_tt_create = bo_driver_ttm_tt_create,
--	.ttm_tt_populate = ttm_pool_populate,
--	.ttm_tt_unpopulate = ttm_pool_unpopulate,
--	.init_mem_type = bo_driver_init_mem_type,
--	.eviction_valuable = ttm_bo_eviction_valuable,
--	.evict_flags = bo_driver_evict_flags,
--	.verify_access = bo_driver_verify_access,
--	.move_notify = bo_driver_move_notify,
--	.io_mem_reserve = bo_driver_io_mem_reserve,
--	.io_mem_free = bo_driver_io_mem_free,
--};
--
--/*
-- * struct drm_vram_mm
-- */
--
--#if defined(CONFIG_DEBUG_FS)
--static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
--{
--	struct drm_info_node *node = (struct drm_info_node *) m->private;
--	struct drm_vram_mm *vmm = node->minor->dev->vram_mm;
--	struct drm_mm *mm = vmm->bdev.man[TTM_PL_VRAM].priv;
--	struct ttm_bo_global *glob = vmm->bdev.glob;
--	struct drm_printer p = drm_seq_file_printer(m);
--
--	spin_lock(&glob->lru_lock);
--	drm_mm_print(mm, &p);
--	spin_unlock(&glob->lru_lock);
--	return 0;
--}
--
--static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
--	{ "vram-mm", drm_vram_mm_debugfs, 0, NULL },
--};
--#endif
--
--/**
-- * drm_vram_mm_debugfs_init() - Register VRAM MM debugfs file.
-- *
-- * @minor: drm minor device.
-- *
-- * Returns:
-- * 0 on success, or
-- * a negative error code otherwise.
-- */
--int drm_vram_mm_debugfs_init(struct drm_minor *minor)
--{
--	int ret = 0;
--
--#if defined(CONFIG_DEBUG_FS)
--	ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
--				       ARRAY_SIZE(drm_vram_mm_debugfs_list),
--				       minor->debugfs_root, minor);
--#endif
--	return ret;
--}
--EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
--
--/**
-- * drm_vram_mm_init() - Initialize an instance of VRAM MM.
-- * @vmm:	the VRAM MM instance to initialize
-- * @dev:	the DRM device
-- * @vram_base:	the base address of the video memory
-- * @vram_size:	the size of the video memory in bytes
-- * @funcs:	callback functions for buffer objects
-- *
-- * Returns:
-- * 0 on success, or
-- * a negative error code otherwise.
-- */
--int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
--		     uint64_t vram_base, size_t vram_size,
--		     const struct drm_vram_mm_funcs *funcs)
--{
--	int ret;
--
--	vmm->vram_base = vram_base;
--	vmm->vram_size = vram_size;
--	vmm->funcs = funcs;
--
--	ret = ttm_bo_device_init(&vmm->bdev, &bo_driver,
--				 dev->anon_inode->i_mapping,
--				 true);
--	if (ret)
--		return ret;
--
--	ret = ttm_bo_init_mm(&vmm->bdev, TTM_PL_VRAM, vram_size >> PAGE_SHIFT);
--	if (ret)
--		return ret;
--
--	return 0;
--}
--EXPORT_SYMBOL(drm_vram_mm_init);
--
--/**
-- * drm_vram_mm_cleanup() - Cleans up an initialized instance of VRAM MM.
-- * @vmm:	the VRAM MM instance to clean up
-- */
--void drm_vram_mm_cleanup(struct drm_vram_mm *vmm)
--{
--	ttm_bo_device_release(&vmm->bdev);
--}
--EXPORT_SYMBOL(drm_vram_mm_cleanup);
--
--/**
-- * drm_vram_mm_mmap() - Helper for implementing &struct file_operations.mmap()
-- * @filp:	the mapping's file structure
-- * @vma:	the mapping's memory area
-- * @vmm:	the VRAM MM instance
-- *
-- * Returns:
-- * 0 on success, or
-- * a negative error code otherwise.
-- */
--int drm_vram_mm_mmap(struct file *filp, struct vm_area_struct *vma,
--		     struct drm_vram_mm *vmm)
--{
--	return ttm_bo_mmap(filp, vma, &vmm->bdev);
--}
--EXPORT_SYMBOL(drm_vram_mm_mmap);
--
--/*
-- * Helpers for integration with struct drm_device
-- */
--
--/**
-- * drm_vram_helper_alloc_mm - Allocates a device's instance of \
--	&struct drm_vram_mm
-- * @dev:	the DRM device
-- * @vram_base:	the base address of the video memory
-- * @vram_size:	the size of the video memory in bytes
-- * @funcs:	callback functions for buffer objects
-- *
-- * Returns:
-- * The new instance of &struct drm_vram_mm on success, or
-- * an ERR_PTR()-encoded errno code otherwise.
-- */
--struct drm_vram_mm *drm_vram_helper_alloc_mm(
--	struct drm_device *dev, uint64_t vram_base, size_t vram_size,
--	const struct drm_vram_mm_funcs *funcs)
--{
--	int ret;
--
--	if (WARN_ON(dev->vram_mm))
--		return dev->vram_mm;
--
--	dev->vram_mm = kzalloc(sizeof(*dev->vram_mm), GFP_KERNEL);
--	if (!dev->vram_mm)
--		return ERR_PTR(-ENOMEM);
--
--	ret = drm_vram_mm_init(dev->vram_mm, dev, vram_base, vram_size, funcs);
--	if (ret)
--		goto err_kfree;
--
--	return dev->vram_mm;
--
--err_kfree:
--	kfree(dev->vram_mm);
--	dev->vram_mm = NULL;
--	return ERR_PTR(ret);
--}
--EXPORT_SYMBOL(drm_vram_helper_alloc_mm);
--
--/**
-- * drm_vram_helper_release_mm - Releases a device's instance of \
--	&struct drm_vram_mm
-- * @dev:	the DRM device
-- */
--void drm_vram_helper_release_mm(struct drm_device *dev)
--{
--	if (!dev->vram_mm)
--		return;
--
--	drm_vram_mm_cleanup(dev->vram_mm);
--	kfree(dev->vram_mm);
--	dev->vram_mm = NULL;
--}
--EXPORT_SYMBOL(drm_vram_helper_release_mm);
--
--/*
-- * Helpers for &struct file_operations
-- */
--
--/**
-- * drm_vram_mm_file_operations_mmap() - \
--	Implements &struct file_operations.mmap()
-- * @filp:	the mapping's file structure
-- * @vma:	the mapping's memory area
-- *
-- * Returns:
-- * 0 on success, or
-- * a negative error code otherwise.
-- */
--int drm_vram_mm_file_operations_mmap(
--	struct file *filp, struct vm_area_struct *vma)
--{
--	struct drm_file *file_priv = filp->private_data;
--	struct drm_device *dev = file_priv->minor->dev;
--
--	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
--		return -EINVAL;
--
--	return drm_vram_mm_mmap(filp, vma, dev->vram_mm);
--}
--EXPORT_SYMBOL(drm_vram_mm_file_operations_mmap);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index c103005b0a33..4f52c83b9b4c 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -22,7 +22,6 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "hibmc_drm_drv.h"
- #include "hibmc_drm_regs.h"
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-index 9f6e473e6295..5d52cd748603 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-@@ -17,7 +17,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_print.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "hibmc_drm_drv.h"
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 1c93f8dc08c7..37c003ed57c0 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -19,7 +19,6 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_vram_mm_helper.h>
- 
- #include "mgag200_reg.h"
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.h b/drivers/gpu/drm/vboxvideo/vbox_drv.h
-index e8cb9efc6088..fb436ec760ea 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_drv.h
-+++ b/drivers/gpu/drm/vboxvideo/vbox_drv.h
-@@ -20,8 +20,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_vram_helper.h>
- 
--#include <drm/drm_vram_mm_helper.h>
--
- #include "vboxvideo_guest.h"
- #include "vboxvideo_vbe.h"
- #include "hgsmi_ch_setup.h"
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index 9d8b138b3881..1513349a27b1 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -3,9 +3,13 @@
- #ifndef DRM_GEM_VRAM_HELPER_H
- #define DRM_GEM_VRAM_HELPER_H
- 
-+#include <drm/drm_file.h>
- #include <drm/drm_gem.h>
-+#include <drm/drm_ioctl.h>
- #include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
- #include <drm/ttm/ttm_placement.h>
-+
- #include <linux/kernel.h> /* for container_of() */
- 
- struct drm_mode_create_dumb;
-@@ -145,4 +149,86 @@ int drm_gem_vram_driver_dumb_mmap_offset(struct drm_file *file,
- 	.dumb_map_offset	  = drm_gem_vram_driver_dumb_mmap_offset, \
- 	.gem_prime_mmap		  = drm_gem_prime_mmap
- 
-+/*
-+ *  VRAM memory manager
-+ */
-+
-+/**
-+ * struct drm_vram_mm - An instance of VRAM MM
-+ * @vram_base:	Base address of the managed video memory
-+ * @vram_size:	Size of the managed video memory in bytes
-+ * @bdev:	The TTM BO device.
-+ * @funcs:	TTM BO functions
-+ *
-+ * The fields &struct drm_vram_mm.vram_base and
-+ * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
-+ * available for public read access. Use the field
-+ * &struct drm_vram_mm.bdev to access the TTM BO device.
-+ */
-+struct drm_vram_mm {
-+	uint64_t vram_base;
-+	size_t vram_size;
-+
-+	struct ttm_bo_device bdev;
-+
-+	const struct drm_vram_mm_funcs *funcs;
-+};
-+
-+/**
-+ * drm_vram_mm_of_bdev() - \
-+	Returns the container of type &struct ttm_bo_device for field bdev.
-+ * @bdev:	the TTM BO device
-+ *
-+ * Returns:
-+ * The containing instance of &struct drm_vram_mm
-+ */
-+static inline struct drm_vram_mm *drm_vram_mm_of_bdev(
-+	struct ttm_bo_device *bdev)
-+{
-+	return container_of(bdev, struct drm_vram_mm, bdev);
-+}
-+
-+int drm_vram_mm_debugfs_init(struct drm_minor *minor);
-+int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
-+		     uint64_t vram_base, size_t vram_size,
-+		     const struct drm_vram_mm_funcs *funcs);
-+void drm_vram_mm_cleanup(struct drm_vram_mm *vmm);
-+
-+int drm_vram_mm_mmap(struct file *filp, struct vm_area_struct *vma,
-+		     struct drm_vram_mm *vmm);
-+
-+/*
-+ * Helpers for integration with struct drm_device
-+ */
-+
-+struct drm_vram_mm *drm_vram_helper_alloc_mm(
-+	struct drm_device *dev, uint64_t vram_base, size_t vram_size,
-+	const struct drm_vram_mm_funcs *funcs);
-+void drm_vram_helper_release_mm(struct drm_device *dev);
-+
-+/*
-+ * Helpers for &struct file_operations
-+ */
-+
-+int drm_vram_mm_file_operations_mmap(
-+	struct file *filp, struct vm_area_struct *vma);
-+
-+/**
-+ * define DRM_VRAM_MM_FILE_OPERATIONS - default callback functions for \
-+	&struct file_operations
-+ *
-+ * Drivers that use VRAM MM can use this macro to initialize
-+ * &struct file_operations with default functions.
-+ */
-+#define DRM_VRAM_MM_FILE_OPERATIONS \
-+	.llseek		= no_llseek, \
-+	.read		= drm_read, \
-+	.poll		= drm_poll, \
-+	.unlocked_ioctl = drm_ioctl, \
-+	.compat_ioctl	= drm_compat_ioctl, \
-+	.mmap		= drm_vram_mm_file_operations_mmap, \
-+	.open		= drm_open, \
-+	.release	= drm_release \
-+
-+
- #endif
-diff --git a/include/drm/drm_vram_mm_helper.h b/include/drm/drm_vram_mm_helper.h
-index b3e96d304f93..e3b79e13e106 100644
---- a/include/drm/drm_vram_mm_helper.h
-+++ b/include/drm/drm_vram_mm_helper.h
-@@ -29,81 +29,4 @@ struct drm_vram_mm_funcs {
- 			    struct ttm_mem_reg *new_mem);
- };
- 
--/**
-- * struct drm_vram_mm - An instance of VRAM MM
-- * @vram_base:	Base address of the managed video memory
-- * @vram_size:	Size of the managed video memory in bytes
-- * @bdev:	The TTM BO device.
-- * @funcs:	TTM BO functions
-- *
-- * The fields &struct drm_vram_mm.vram_base and
-- * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
-- * available for public read access. Use the field
-- * &struct drm_vram_mm.bdev to access the TTM BO device.
-- */
--struct drm_vram_mm {
--	uint64_t vram_base;
--	size_t vram_size;
--
--	struct ttm_bo_device bdev;
--
--	const struct drm_vram_mm_funcs *funcs;
--};
--
--/**
-- * drm_vram_mm_of_bdev() - \
--	Returns the container of type &struct ttm_bo_device for field bdev.
-- * @bdev:	the TTM BO device
-- *
-- * Returns:
-- * The containing instance of &struct drm_vram_mm
-- */
--static inline struct drm_vram_mm *drm_vram_mm_of_bdev(
--	struct ttm_bo_device *bdev)
--{
--	return container_of(bdev, struct drm_vram_mm, bdev);
--}
--
--int drm_vram_mm_debugfs_init(struct drm_minor *minor);
--int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
--		     uint64_t vram_base, size_t vram_size,
--		     const struct drm_vram_mm_funcs *funcs);
--void drm_vram_mm_cleanup(struct drm_vram_mm *vmm);
--
--int drm_vram_mm_mmap(struct file *filp, struct vm_area_struct *vma,
--		     struct drm_vram_mm *vmm);
--
--/*
-- * Helpers for integration with struct drm_device
-- */
--
--struct drm_vram_mm *drm_vram_helper_alloc_mm(
--	struct drm_device *dev, uint64_t vram_base, size_t vram_size,
--	const struct drm_vram_mm_funcs *funcs);
--void drm_vram_helper_release_mm(struct drm_device *dev);
--
--/*
-- * Helpers for &struct file_operations
-- */
--
--int drm_vram_mm_file_operations_mmap(
--	struct file *filp, struct vm_area_struct *vma);
--
--/**
-- * define DRM_VRAM_MM_FILE_OPERATIONS - default callback functions for \
--	&struct file_operations
-- *
-- * Drivers that use VRAM MM can use this macro to initialize
-- * &struct file_operations with default functions.
-- */
--#define DRM_VRAM_MM_FILE_OPERATIONS \
--	.llseek		= no_llseek, \
--	.read		= drm_read, \
--	.poll		= drm_poll, \
--	.unlocked_ioctl = drm_ioctl, \
--	.compat_ioctl	= drm_compat_ioctl, \
--	.mmap		= drm_vram_mm_file_operations_mmap, \
--	.open		= drm_open, \
--	.release	= drm_release \
--
- #endif
--- 
-2.23.0
-
+VGhpcyBwYXRjaCBzZXJpZXMgdXBkYXRlcyB0cmFjZS12bXNjYW4tcG9zdHByb2Nlc3MucGwgdG8g
+d29yayB3aXRob3V0DQp0aHJvd2luZyB3YXJuaW5ncyBhbmQgZXJyb3JzIHdoaWNoIHN0ZW0gZnJv
+bSB1cGRhdGVzIHRvIHNldmVyYWwgdHJhY2UNCnBvaW50cy4NCg0KMzQ4MWMzN2ZmYTFkICgibW0v
+dm1zY2FuOiBkcm9wIG1heV93cml0ZXBhZ2UgYW5kIGNsYXNzem9uZV9pZHggZnJvbQ0KZGlyZWN0
+IHJlY2xhaW0gYmVnaW4gdGVtcGxhdGUiKSByZW1vdmVkICJtYXlfd3JpdGVwYWdlIiBmcm9tDQpt
+bV92bXNjYW5fZGlyZWN0X3JlY2xhaW1fYmVnaW4sIGFuZCAzYjc3NTk5OGVjYTcNCigiaW5jbHVk
+ZS90cmFjZS9ldmVudHMvdm1zY2FuLmg6IGRyb3Agem9uZSBpZCBmcm9tIGtzd2FwZCB0cmFjZXBv
+aW50cyIpDQpyZW1vdmVkICJ6aWQiIGZyb20gbW1fdm1zY2FuX3dha2V1cF9rc3dhcGQuIFRoZSBv
+dXRwdXQgb2YNCm1tX3Ztc2Nhbl9scnVfaXNvbGF0ZSBhbmQgbW1fdm1zY2FuX2xydV9zaHJpbmtf
+YWN0aXZlIHNlZW1zIHRvIG5ldmVyDQpoYXZlIG1hdGNoZWQgdGhlIGZvcm1hdCBvZiB0aGUgdHJh
+Y2UgcG9pbnQgb3V0cHV0IHNpbmNlIHRoZXkgd2VyZQ0KY3JlYXRlZCwgb3IgYXQgbGVhc3QgZm9y
+IGFzIGxvbmcgYXMgSSBjYW4gdGVsbC4gUGF0Y2ggMSBhbGlnbnMgdGhlDQpmb3JtYXQgcGFyc2lu
+ZyBvZiB0aGUgcGVybCBzY3JpcHQgd2l0aCB0aGUgY3VycmVudCBvdXRwdXQgb2YgdGhlIHRyYWNl
+DQpwb2ludHMuDQoNCkluIGFkZGl0aW9uLCB0aGUgdGFibGVzIHRoYXQgYXJlIHByaW50ZWQgYnkg
+dGhlIHNjcmlwdCB3ZXJlIG5vdCBwcm9wZXJseQ0KYWxpZ25lZCBhbnkgbW9yZSwgc28gcGF0Y2gg
+MiBmaXhlcyB0aGUgc3BhY2luZy4NCg0KQ2hhbmdlcyBzaW5jZSB2MToNCiogQWRkZWQgIkZpeGVz
+OiIgbGluZXMgdG8gY29tbWl0IG1lZXNzYWdlIGluIHBhdGNoIDENCiogRml4ZWQgYSBzcGFjaW5n
+IGlzc3VlIGluIHBhdGNoIDINCg0KDQpGbG9yaWFuIFNjaG1pZHQgKDIpOg0KICB0cmFjZS12bXNj
+YW4tcG9zdHByb2Nlc3M6IHN5bmMgd2l0aCB0cmFjZXBvaW50cyB1cGRhdGVzDQogIHRyYWNlLXZt
+c2Nhbi1wb3N0cHJvY2VzczogZml4IG91dHB1dCB0YWJsZSBzcGFjaW5nDQoNCiAuLi4vcG9zdHBy
+b2Nlc3MvdHJhY2Utdm1zY2FuLXBvc3Rwcm9jZXNzLnBsICAgfCAyOSArKysrKysrKystLS0tLS0t
+LS0tDQogMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQ0K
+DQotLSANCjIuMjMuMA0KDQo=
