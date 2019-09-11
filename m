@@ -1,86 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38D2A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 16:46:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D229F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 20:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728794AbfIKQqm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 12:46:42 -0400
-Received: from smtp112.ord1c.emailsrvr.com ([108.166.43.112]:47889 "EHLO
-        smtp112.ord1c.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729003AbfIKQqm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 12:46:42 -0400
-X-Greylist: delayed 408 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Sep 2019 12:46:42 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-        s=20190130-41we5z8j; t=1568219994;
-        bh=ShXCPuRTmrlcXQzNVyVjvWiPOGKA9ghbqXSw5ScsjpY=;
-        h=From:To:Subject:Date:From;
-        b=ighaW8uwiJSs2+yv0J1Fj6FHIvEo+xB+FivBVZujCIPewmG5OsbTMmrWIvohtlegp
-         gJEyD0z+VVKM/b6UJXE6BtIAg0kVA1FqgwBhe6fvwL59GytokCuLVczuxzAtRMKMHP
-         //bDXfwK6xaZoQqVmsGnPxKCDa7ZDWM6MEg2/wPU=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp15.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 9F8E620138;
-        Wed, 11 Sep 2019 12:39:53 -0400 (EDT)
-X-Sender-Id: abbotti@mev.co.uk
-Received: from ian-deb.inside.mev.co.uk (remote.quintadena.com [81.133.34.160])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-GCM-SHA256)
-        by 0.0.0.0:465 (trex/5.7.12);
-        Wed, 11 Sep 2019 12:39:54 -0400
-From:   Ian Abbott <abbotti@mev.co.uk>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ian Abbott <abbotti@mev.co.uk>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] devices.txt: improve entry for comedi (char major 98)
-Date:   Wed, 11 Sep 2019 17:39:41 +0100
-Message-Id: <20190911163941.16664-1-abbotti@mev.co.uk>
+        id S1729117AbfIKUis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 16:38:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60500 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728998AbfIKUis (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Sep 2019 16:38:48 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id DD8FB28D82F
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, kernel@collabora.com, krisman@collabora.com,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+Subject: [PATCH 1/3] docs: scsi: fix typo
+Date:   Wed, 11 Sep 2019 17:37:33 -0300
+Message-Id: <20190911203735.1332398-1-andrealmeid@collabora.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe how the comedi minor device numbers are split across comedi
-devices and comedi subdevices.
+"Busses" is the third person conjugation of verb "to buss" in the
+present tense. "Buses" is the plural of bus, as in "serial bus".
 
-Replace the current, long dead URL with an official URL for the Comedi
-project.
-
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
+Signed-off-by: André Almeida <andrealmeid@collabora.com>
 ---
- Documentation/admin-guide/devices.txt | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ Documentation/driver-api/scsi.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index e56e00655153..1c5d2281efc9 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -1647,8 +1647,17 @@
- 		  0 = /dev/comedi0	First comedi device
- 		  1 = /dev/comedi1	Second comedi device
- 		    ...
-+		 47 = /dev/comedi47	48th comedi device
+diff --git a/Documentation/driver-api/scsi.rst b/Documentation/driver-api/scsi.rst
+index 64b231d125e0..349ac8a55214 100644
+--- a/Documentation/driver-api/scsi.rst
++++ b/Documentation/driver-api/scsi.rst
+@@ -18,7 +18,7 @@ optical drives, test equipment, and medical devices) to a host computer.
  
--		See http://stm.lbl.gov/comedi.
-+		Minors 48 to 255 are reserved for comedi subdevices with
-+		pathnames of the form "/dev/comediX_subdY", where "X" is the
-+		minor number of the associated comedi device and "Y" is the
-+		subdevice number.  These subdevice minors are assigned
-+		dynamically, so there is no fixed mapping from subdevice
-+		pathnames to minor numbers.
-+
-+		See http://www.comedi.org/ for information about the Comedi
-+		project.
+ Although the old parallel (fast/wide/ultra) SCSI bus has largely fallen
+ out of use, the SCSI command set is more widely used than ever to
+-communicate with devices over a number of different busses.
++communicate with devices over a number of different buses.
  
-   98 block	User-mode virtual block device
- 		  0 = /dev/ubda		First user-mode block device
+ The `SCSI protocol <http://www.t10.org/scsi-3.htm>`__ is a big-endian
+ peer-to-peer packet based protocol. SCSI commands are 6, 10, 12, or 16
 -- 
 2.23.0
 
