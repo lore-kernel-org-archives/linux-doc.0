@@ -4,30 +4,30 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D6A657D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 15:45:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2870C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Sep 2019 15:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbfIKPo6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Sep 2019 11:44:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47180 "EHLO mail.kernel.org"
+        id S1728724AbfIKPuC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Sep 2019 11:50:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50036 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728266AbfIKPo5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Sep 2019 11:44:57 -0400
+        id S1728722AbfIKPuC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Sep 2019 11:50:02 -0400
 Received: from localhost (unknown [62.28.240.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4AB0E2087E;
-        Wed, 11 Sep 2019 15:44:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 143252089F;
+        Wed, 11 Sep 2019 15:50:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568216696;
-        bh=W4sq4g8vHz/1RaxHr/60DG1a5MmEGKJJ2sUuzxXyeYQ=;
+        s=default; t=1568217001;
+        bh=kXtkziQGWXBOfL538EtmdmNIZTcvB4FwDAz/sAqRLiY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hOTRMBbis1WBB6PGeKfz9LCOfEiuFKIC8PH+F7brFo4uDcQQbVg58lIi+WChMzzOb
-         EeZThZmdKdvg15pu1OjQmxWpcUzceuqfiTLOZ9uV5Po7f+TFKduekYKR5bVXIVzjsy
-         l4+vbdNgaMBarvV9b+9x5atzXmgOFOnEOuVth5BY=
-Date:   Wed, 11 Sep 2019 16:44:53 +0100
+        b=lrKcxFNqtHhOmQ3jDbNmnZufE+8VqY6xFiROzEjnQrkk3u0By8egoiAeLUyYtmhIO
+         rSd6YGBOsMbAcZi4r+XlEKP8OcWhotLOc4DBs8THEUA/uea5Wnmg9Q2oubWodnI63L
+         mn3S4TZyVg0txz4wIU71FfAlf9+pA58G5DitvWaE=
+Date:   Wed, 11 Sep 2019 16:49:58 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Dave Hansen <dave.hansen@linux.intel.com>
 Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
@@ -35,92 +35,59 @@ Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
         andrew.cooper3@citrix.com, tsoni@codeaurora.org,
         keescook@chromium.org, tony.luck@intel.com,
         linux-doc@vger.kernel.org, dan.j.williams@intel.com
-Subject: Re: [PATCH 2/4] Documentation/process: describe relaxing disclosing
- party NDAs
-Message-ID: <20190911154453.GA14152@kroah.com>
+Subject: Re: [PATCH 3/4] Documentation/process: soften language around
+ conference talk dates
+Message-ID: <20190911154958.GB14152@kroah.com>
 References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
- <20190910172649.74639177@viggo.jf.intel.com>
+ <20190910172651.D9F5C062@viggo.jf.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190910172649.74639177@viggo.jf.intel.com>
+In-Reply-To: <20190910172651.D9F5C062@viggo.jf.intel.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 10, 2019 at 10:26:49AM -0700, Dave Hansen wrote:
+On Tue, Sep 10, 2019 at 10:26:51AM -0700, Dave Hansen wrote:
 > 
 > From: Dave Hansen <dave.hansen@linux.intel.com>
 > 
-> Hardware companies like Intel have lots of information which they
-> want to disclose to some folks but not others.  Non-disclosure
-> agreements are a tool of choice for helping to ensure that the
-> flow of information is controlled.
+> Both hardware companies and the kernel community prefer coordinated
+> disclosure to the alternatives.  It is also obvious that sitting on
+> ready-to-go mitigations for months is not so nice for kernel
+> maintainers.
 > 
-> But, they have caused problems in mitigation development.  It
-> can be hard for individual developers employed by companies to
-> figure out how they can participate, especially if their
-> employer is under an NDA.
-> 
-> To make this easier for developers, make it clear to disclosing
-> parties that they are expected to give permission for individuals
-> to participate in mitigation efforts.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Sasha Levin <sashal@kernel.org>
-> Cc: Ben Hutchings <ben@decadent.org.uk>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Laura Abbott <labbott@redhat.com>
-> Cc: Andrew Cooper <andrew.cooper3@citrix.com>
-> Cc: Trilok Soni <tsoni@codeaurora.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> ---
-> 
->  b/Documentation/process/embargoed-hardware-issues.rst |    7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff -puN Documentation/process/embargoed-hardware-issues.rst~hw-sec-0 Documentation/process/embargoed-hardware-issues.rst
-> --- a/Documentation/process/embargoed-hardware-issues.rst~hw-sec-0	2019-09-10 08:39:02.835488131 -0700
-> +++ b/Documentation/process/embargoed-hardware-issues.rst	2019-09-10 08:39:02.838488131 -0700
-> @@ -74,6 +74,13 @@ unable to enter into any non-disclosure
->  is aware of the sensitive nature of such issues and offers a Memorandum of
->  Understanding instead.
->  
-> +Disclosing parties may have shared information about an issue under a
-> +non-disclosure agreement with third parties.  In order to ensure that
-> +these agreements do not interfere with the mitigation development
-> +process, the disclosing party must provide explicit permission to
-> +participate to any response team members affected by a non-disclosure
-> +agreement.  Disclosing parties must resolve requests to do so in a
-> +timely manner.
+> I want to ensure that the patched text can not be read as "the kernel
+> does not wait for conference dates".  I'm also fairly sure that, so
+> far, we *have* waited for a number of conference dates.
 
-I wrote a fun long rant of a response here, but deleted it so now I feel
-better.  But that doesn't help anyone but myself, so here's my censored
-response instead...
+We have been "forced" to wait for conference dates.  That is much
+different from what we are saying here (i.e. we do NOT want to have to
+wait for that type of thing as that causes us all real work that is a
+total waste of engineering effort.)
 
-Intel had months of review time for this document before this was
-published.  Your lawyers had it and never objected to this lack of
-inclusion at all, and explictitly said that the document as written was
-fine with them.  So I'm sorry, but it is much too late to add something
-like this to the document at this point in time.
+> Change the text to make it clear that waiting for conference dates
+> is possible, but keep the grumbling about it being a burden.
 
-If your legal department has any remaining objections like this, please
-bring it up in the proper legal forum where all of the other companies
-that already discussed this in can review and discuss it.  As it is,
-including something like this would require their buy-in anyway, and
-obviously that did not happen with this proposal.
+I don't think we want that, waiting for long periods of time like we
+have been (and are currently) is a royal pain.  We are glad to take
+these on a case-by-case basis, but doing delays for no other reason than
+a specific conference date 6 months in the future when we have fixes now
+benifits no one at all, and in fact HURTS everyone involved, including
+our users the most.
 
-So no, I'm not going to apply this change, sorry.
+> While I think this is good for everyone, this patch represents my
+> personal opinion and not that of my employer.
 
-Oh, and cute use of the term, "timely manner", as if we are going to
-fall for that one again... :)
+I appreciate the disclaimer :)
+
+I know Thomas and others are totally busy with Plumbers right now (as am
+I), so I'll hold on to this and your next patch in my "to-review" queue
+to give others a chance to weigh in on the tweaks to see if anyone
+disagrees with my comments above.
+
+thanks,
 
 greg k-h
