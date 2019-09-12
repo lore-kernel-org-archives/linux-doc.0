@@ -1,91 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06C4D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Sep 2019 13:32:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 351287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Sep 2019 13:52:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731840AbfILNcc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Sep 2019 09:32:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58500 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732126AbfILNcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Sep 2019 09:32:32 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BE57F20830;
-        Thu, 12 Sep 2019 13:32:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568295151;
-        bh=9mM3BMLFghazKVa4ITPL27kP5L6MutGjThJyUAY6ORY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1W1/PCRaDcJ1pkRDt7vN5r0zzX07LEmhfgtlAK+JpEYqQ5sln8IwQyE4klxtz55AT
-         DrvzAmrcsv9SpDUpHoRhKeTbkoO8iFEJSx4+6WtPgVBJeqc3ZkvBB8xkInGTH+09X6
-         XU52e9zgwWoe5ACFM8ecD/bgFWbkXOPKzY5sFaSg=
-Date:   Thu, 12 Sep 2019 14:32:27 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        id S1731683AbfILNwq convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Sep 2019 09:52:46 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:34967 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731420AbfILNwq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Sep 2019 09:52:46 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 205so16068169pfw.2;
+        Thu, 12 Sep 2019 06:52:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=duGfZG76GW6+KyqgUK68DFMJqe+srMBKgYfskbaLMSk=;
+        b=fobVWF+UbL2GV/QE82amdWR8pOwyR+FJK68xCmbtoWDpMnFHELnJvbdrl/lU6nmpRZ
+         GAzqYt89OIf2YyYcscJEmudDWyZciQsoDx+Ifrm6U6I7CZwKS8Y/MRByo6XzUzCknSbP
+         13jLexNAyB5lCz9cZHt6OI2j11KKhW03B1FeYiT6tIJhTgJhwkNBWFE/tSgr9CBtc1Vc
+         Wxkl/bb46Z54F/+H1Npp2kcGKFqhloB/WT6NUshSXETvYXbzTINee6e1/W9qGr/axDMU
+         MjFkODf0PEWHKOUkzUVqKAb7QaYQuyOqOMvhbz9hPyRNZOt/6oU78p7lIcgHeediaMPz
+         gTyg==
+X-Gm-Message-State: APjAAAVbAsrqTstkEbOHIVwwvO0mDN30FNjBWsEKKmI4RjNzpnZTgLBO
+        33V1rkVAG/05/OqlZjT7DhE=
+X-Google-Smtp-Source: APXvYqyAz4iXmc0KvDconOaNZ7WMjyTC5xLYEg1OEpkzle43whrmCH+wQWrs4BtIYVb900zUpFCY2A==
+X-Received: by 2002:a65:67d4:: with SMTP id b20mr5059056pgs.445.1568296365846;
+        Thu, 12 Sep 2019 06:52:45 -0700 (PDT)
+Received: from [172.19.249.100] ([38.98.37.138])
+        by smtp.gmail.com with ESMTPSA id x20sm49077346pfp.120.2019.09.12.06.52.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2019 06:52:45 -0700 (PDT)
+Subject: Re: [PATCH 2/3] scsi: core: remove trailing whitespaces
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] doc:lock: remove reference to clever use of
- read-write lock
-Message-ID: <20190912133226.oeo3eecvzfr52yv3@willie-the-truck>
-References: <20190908062901.4218-1-federico.vaga@vaga.pv.it>
+Cc:     corbet@lwn.net, kernel@collabora.com, krisman@collabora.com,
+        jejb@linux.ibm.com, martin.petersen@oracle.com
+References: <20190911203735.1332398-1-andrealmeid@collabora.com>
+ <20190911203735.1332398-2-andrealmeid@collabora.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <dd7e8b15-97fc-26bb-7121-bf39e410d8a3@acm.org>
+Date:   Thu, 12 Sep 2019 14:52:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190908062901.4218-1-federico.vaga@vaga.pv.it>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190911203735.1332398-2-andrealmeid@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 08, 2019 at 08:29:01AM +0200, Federico Vaga wrote:
-> Remove the clever example about read-write lock because this type of
-> lock is not reccomended anymore (according to the very same document).
+On 9/11/19 9:37 PM, André Almeida wrote:
+> Remove all trailing whitespaces from scsi_lib.c
 
-reccomended => recommended
+I don't like patches that only change whitespace if no significant
+functional changes are included in the same patch series. Such patches
+namely pollute the change history, make the output of git log -p and git
+blame harder to follow and also cause big trouble for anyone who wants
+to rebase his or her own tree with outstanding patches.
 
-> So there is no reason to teach cleaver things that people should not do.
+Bart.
 
-cleaver => clever
-
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  Documentation/locking/spinlocks.rst | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
-> diff --git a/Documentation/locking/spinlocks.rst b/Documentation/locking/spinlocks.rst
-> index e93ec6645238..66e3792f8a36 100644
-> --- a/Documentation/locking/spinlocks.rst
-> +++ b/Documentation/locking/spinlocks.rst
-> @@ -139,18 +139,6 @@ on other CPU's, because an interrupt on another CPU doesn't interrupt the
->  CPU that holds the lock, so the lock-holder can continue and eventually
->  releases the lock).
->  
-> -Note that you can be clever with read-write locks and interrupts. For
-> -example, if you know that the interrupt only ever gets a read-lock, then
-> -you can use a non-irq version of read locks everywhere - because they
-> -don't block on each other (and thus there is no dead-lock wrt interrupts.
-> -But when you do the write-lock, you have to use the irq-safe version.
-> -
-> -For an example of being clever with rw-locks, see the "waitqueue_lock"
-> -handling in kernel/sched/core.c - nothing ever _changes_ a wait-queue from
-> -within an interrupt, they only read the queue in order to know whom to
-> -wake up. So read-locks are safe (which is good: they are very common
-> -indeed), while write-locks need to protect themselves against interrupts.
-> -
-
-With the typos fixed in the commit message:
-
-Acked-by: Will Deacon <will@kernel.org>
-
-Will
