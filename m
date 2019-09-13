@@ -1,137 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C30287D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Sep 2019 06:28:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 39E157D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Sep 2019 14:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbfIMG2j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Sep 2019 02:28:39 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:36167 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbfIMG2i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Sep 2019 02:28:38 -0400
-Received: from leknes.fjasle.eu ([92.116.125.99]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MVeDq-1hjOP42w2G-00RdMV; Fri, 13 Sep 2019 08:28:14 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 8BB1E3CCF0; Fri, 13 Sep 2019 08:28:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1568356091; bh=xyo6lM4jCmLufSco/FyKCrj//g7FNEdceqSRe6r75JY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IYQaL8fErhrTe1SWrhuYGOAy5CXlk3iSazzf4la60ONP6F0EhxCV+jmOkpKP/NaD7
-         6ZAcJw0Jv7LFeTpVK5GI799dHnycyP8mY0seLEHRelKh5//sgJgd+O0yUz+VsMKaqM
-         wSv0FbSM2iVVQLgQo1fBZ2gfDY57dqXqLE+UxiVc=
-Date:   Fri, 13 Sep 2019 08:28:11 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Ben Hutchings <ben@decadent.org.uk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, ab@php.net
-Subject: Re: [PATCH] Documentation: kbuild: Add document about reproducible
- builds
-Message-ID: <20190913062811.GG8267@fjasle.eu>
-Mail-Followup-To: Ben Hutchings <ben@decadent.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, ab@php.net
-References: <20190911115353.yngbk6hf6gwctock@decadent.org.uk>
+        id S2388506AbfIMO6Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Sep 2019 10:58:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57130 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388211AbfIMO6Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Sep 2019 10:58:25 -0400
+Received: from [IPv6:2804:431:c7f4:5bfc:5711:794d:1c68:5ed3] (unknown [IPv6:2804:431:c7f4:5bfc:5711:794d:1c68:5ed3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tonyk)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C715C28F078;
+        Fri, 13 Sep 2019 15:58:21 +0100 (BST)
+Subject: Re: [PATCH 3/3] null_blk: validated the number of devices
+To:     Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "m@bjorling.me" <m@bjorling.me>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "krisman@collabora.com" <krisman@collabora.com>
+References: <20190911144636.226945-1-andrealmeid@collabora.com>
+ <20190911144636.226945-3-andrealmeid@collabora.com>
+ <20190912161937.GK29434@bombadil.infradead.org>
+ <dbdb0415-8762-f9c1-a65a-3531d9cca109@collabora.com>
+ <DM6PR04MB5754177B405819C802549AE686B00@DM6PR04MB5754.namprd04.prod.outlook.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <d55554f5-7212-c5fc-dbb0-4269be913aaa@collabora.com>
+Date:   Fri, 13 Sep 2019 11:57:17 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
-Content-Disposition: inline
-In-Reply-To: <20190911115353.yngbk6hf6gwctock@decadent.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:b14/kANsEXbOMH7UK1OUf2mg8ui2gdcrMJeystapdZL0NG/+hpX
- jOW+UhotSwo9BXal+yxHI0Ak2gmi7t7pHfWoff9/jpjSxmjy3QRLyFD4MV0vCGoh+vzwkHs
- aScZ9zDUiiFYU1WJj83i29zj7ZZlDBvbJ5s4oMvPA0Xkw8/QhC6awXSebAKGs6x8aVqygdA
- cxAtTv/dN3y3deLptlw/A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WKZ397ORvac=:eYOIPEYQbhdd+nYq0qSyM1
- O/r8HbQfK8B/t7r4s4v5UrGaZS1uOTLNrILxNijvJCh2C+Ey4XV6rPpqCcGf9Wd2mdoE6OT25
- n/3zf854C1RE14CBdbF1hZI3wZVzvch8ZvNpqznrj5KeJgGEjyDnhtf4FkwFaXu81m2O75wbf
- q5XOGiV2HOqajN+3jbUTp7IAbbiFtNKSu5EiY5CCSLpFVKCLENGJZfKGiXnGiqvPujLwzYEo7
- zo2MVSToWorPILVL8Pv8VkM5MhrSEH39e8DIRGNnrrroOBd1j2zalISuxAH2h7TKw4vPhDgqh
- nQdcQOQgjy3A2LrJP/vUfGlpyS8PBzUIH+y+//25aKmNVsw+Xu6vnvUeaW4Ct5hD39r37xTee
- ew3YcVBOqTdFImGBjbap9mUSwwsPeV+HZ2wNkmkJ3JFkm7HJDNuW88/9SMmAOtCHSWPcbuw4h
- fRls8Frd5V71s+R3G0SICbJl+1OCuhSnB0RCzpVaRgdQIslWXPFCD3DDUhYFPg688DuTkegJm
- 9Cl8T73U1cYmMqG+duEj1lBixy5wc6Fhz44wqRbi2zb4kmXRcfxXd7xyScf+NdBnIHO8IlszZ
- g/hh4t+BZ76/VdgSepadlPZ2gBtwMjl9GAULo1Ifi8W6yMEPrz1bK9SOxI0fHwiDcggSghBRT
- 2x2oeBPiY7XItyEWcproHeiCMP2ddlqO/1BkNqXSZVH7wEyeRNfXCeJFSn+p1VGYAPyhuQzpX
- sR3WuSrrFNc5RANLMxDs9B010S4hKkjdoujUcqZnrausKRVbmkuisG9R2ifQTHIm1FhZMtH/h
- tQQkoEGBgLT9XrkXGkUKR8SifADZTikH/rirhNgf7iVvmYw0BaeYMW7leWmfNAkRJQW9yicM9
- xnFOwgT5AzUk6gjC/9Cw==
+In-Reply-To: <DM6PR04MB5754177B405819C802549AE686B00@DM6PR04MB5754.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/12/19 7:20 PM, Chaitanya Kulkarni wrote:
+> On 09/12/2019 03:09 PM, André Almeida wrote:
+>> Hello Matthew,
+>>
+>> On 9/12/19 1:19 PM, Matthew Wilcox wrote:
+>>> On Wed, Sep 11, 2019 at 11:46:36AM -0300, André Almeida wrote:
+>>>>
+>>>> -static int nr_devices = 1;
+>>>> +static unsigned int nr_devices = 1;
+>>>>   module_param(nr_devices, int, 0444);
+>>>
+>>> ^^^ you forgot to change the module_param to match
+>>>
+>>>> +	if (!nr_devices) {
+>>>> +		pr_err("null_blk: invalid number of devices\n");
+>>>> +		return -EINVAL;
+>>>> +	}
+>>>
+>>> I don't think this is necessary.
+>>>
+>>
+>> Could you explain why you don't think is necessary? As I see, the module
+>> can't be used without any /dev/nullb* device, so why we should load it?
+>>
+>> Thanks,
+>> 	André
+>>
+> 
+> I think Matthew is right here. I think module can be loaded with 
+> nr_devices=0.
+> 
+> Did you get a chance to test nr_device=0 condition ?
+> 
 
---ReaqsoxgOBHFXBhH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes. It says "module loaded" and lsmod shows that it is loaded indeed.
+But you don't have any /dev/nullb*, so you can't do much with the module.
 
-Hi Ben,
+With this patch, it refuses to load the module.
 
-thanks for that document, I really enjoyed reading it!
+> Also, did you get a chance to test this patch with all the
+> possible conditions ?
+>
 
-On Wed, Sep 11, 2019 at 12:53:53PM +0100, Ben Hutchings wrote:
-[...]
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation=
-/kbuild/reproducible-builds.rst
-> new file mode 100644
-> index 000000000000..4d988faf93b8
-> --- /dev/null
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -0,0 +1,115 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Reproducible builds
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +It is generally desirable that the building the same source code with
+I did not tested with all possible conditions, but I tested with the
+following ones:
 
-In this sentence, I think there is either one word to much (the first
-'the') or some word is missing (e.h. 'of').
+* Using a negative number of devices:
+	- Previously, it would alloc and add a huge number of devices until the
+system gets out of memory
+	- With module_param as uint, it will throw a "invalid for parameter
+`nr_devices'" and refuse to load
 
-Kind regards,
-Nicolas
-
-> +the same set of tools is reproducible, i.e. the output is always
-> +exactly the same.  This makes it possible to verify that the build
-> +infrastructure for a binary distribution or embedded system has not
-> +been subverted.  This can also make it easier to verify that a source
-> +or tool change does not make any difference to the resulting binaries.
-
-
---=20
-epost: nicolas@fjasle.eu               irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---ReaqsoxgOBHFXBhH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAl17NvcACgkQB1IKcBYm
-EmmVmQ//QH35Xc9OqVJkaK8WXJdIlEsfxgm4letcgAC8jDRDnKe3YoLKOvtvkarA
-lvSNUdeIpPEljqv3RBHbzehqPJo2ci6XG8/n94u7VzTvTkcKFrP8qHxJSR1BGJPB
-Dc+DVjQHVwzqJnPXLN4/Fxudi+XZAQELzJgmppOaeYFMQqLzfmAI4jxAvUYtIuJZ
-HwMKqUcuohswDPL0yF4GPLN0cJizDf4CHXwNFrgfMU0GLHjnQlOxxQc6gl+hT0A7
-aWIkB4x5zA4a05C/0/YJ5h3Dnfqsd62g2ku51Pd50XAMq9p+7JTsP825MDPhb5B9
-mHXPvmIGD44rJmfLiiIEWyn//bgOh+RjzTsPIs2NS0xQS4UHjOcHI52RpFQpKGoV
-iveYZBAs9x+DeI38sbtVdYU0FHgc4za034Bq3rlIK+0zcUTZgY0m4ANaZQDrLutL
-Nj7reGp+RzHF6/FxU6h157M99x2jyxJ1689jgObdMSbFudYzZv1hbQ9qKTTCb4nA
-uIKNBtF1Ex4jKlvQdxF46JSFwuBHEf8iow3F1X2K9J+dJiyV5mO49GtKUJuPgxtu
-dUAM6VpoInEnUtl8ywfllVBHf+eZd4jo02+hL0tw2ZhwOhxzwbOKRDimPx2gbEzk
-AzvK+THZM2sYdqLSz0n0VuEtZJ1mvTATuAblAG7MxU1cEbZDqYs=
-=udyO
------END PGP SIGNATURE-----
-
---ReaqsoxgOBHFXBhH--
+* Using a range of values (1, 10, 100, 1000):
+	- It will works as expect, creating some /dev/nullbX accordingly with
+your parameter. Works fine with and without this patch.
