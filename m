@@ -3,64 +3,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A4DF17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Sep 2019 22:18:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB03B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Sep 2019 22:37:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390452AbfIMWSG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Sep 2019 18:18:06 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:51310 "EHLO
-        esa3.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390255AbfIMWSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Sep 2019 18:18:06 -0400
+        id S2404149AbfIMWh3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Sep 2019 18:37:29 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:48943 "EHLO
+        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404123AbfIMWh3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Sep 2019 18:37:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1568413085; x=1599949085;
+  t=1568414247; x=1599950247;
   h=from:to:cc:subject:date:message-id:references:
    content-transfer-encoding:mime-version;
-  bh=a4B+A4VfvrqqGbhUPGURBdLSI1hJDfSnict5JUfNaU4=;
-  b=BeZ3bZyCfSmKLmxe16clt7BTvG6r0IMk9bLIAZh/qKhWDP96+wIh1jf9
-   yW0uM4VxtookpG7G0TDE6FEkhdVvRdkyQH7zOHMgq0bB34hsNUmuSCUC7
-   WuzwAYQdPTNS3YLOhWurD6qHjFFQIn6YFT6iaJ8dWiuLpIggALV9M9msy
-   r+QdEMXR2fvdc6OG/XTAWMtiJiKRGxe7sxZlo16xPK7WijRQTcxsnuYZQ
-   8YV/aNs9Tyf0RmlQdDsTCPnzW73FoivAsp5lOu/zg+KGIEm6/4kUOBbDh
-   VzOqQfNH07Q+n8DniIzRSAjXv/9ymV5jfntxdbvDHwqiJsROEgwT5Pzbz
-   A==;
-IronPort-SDR: K2yn7qmc+I/UBBAJyqNyhFfT3DigKChS/E44RaroSKBEYk8AYKzinThN0l9nBaNAu85eMtxYZO
- M56jwJsMNrsY0I1gZWhnfHPvqdamI4NtSlGQqwLJiJ47aXEUd/lXAHPcNR21eAJYGdUPt3GPvq
- WOy081WrLnQOVMhNB6eDEras1wPSE26xNoTq7jYNzA20ahf6G/jHY+0kKPceAloB0tFbMsJ6Np
- SC0RvQW33nOoqhUYhAZ40SOShaIBzm8ZdoGW+F1yJt2KniVuTIJ6IJP88NzuMUdgXcMOnf8uGI
- ZtQ=
+  bh=Fym3AEh3SFKGgXyTk9/qVAD19siuANlY5H9t5ukh1Zk=;
+  b=aoOnEeTNbEx6gloHKLnD5jQAztLoRtfMN3on8zpK25xLqN9goFoItoDJ
+   ukKZwzTeT2T0QKGmPPCEZRHYFwKp64tH7dNiWZLuCWsSGNcjRuF/TNFgr
+   /mG9Rq9c3edQd+DZRQOKujmByoJcXTFb370W/6YXvduTf/bhW8jeSQ5DZ
+   gY9eluzFBJidwzYuWy6CrtAA9Xo5MCzP/Vfj1xVmm6v28VRXa1To7lIlc
+   qLUp8Uq4uNPKhzgesfbTEX9XNN1FmhIt503sRwPhwVvs6pr0aTn/w3opE
+   afdgJRcS5SwSXRdTGI/dcJb8rlMUwa7MFDxb+VcxhMFMwa43ta3fk3Hjs
+   g==;
+IronPort-SDR: ZabXXmtCy1ppYN/rEtUOF6tkavCdAe8GLqAdWKqLVqZ52AIZpUrQ9O7+TrQiU4r1F2qm3/65qt
+ RTSXAL94Uvlw78Ve4QmrQ416waVCKPkFtHl7AbzRh+7cTNs23qGhdLcbg6E7dFGhNbVGu0bAc6
+ 3zSRYPCYzq+2P9jOeOT0mOiT3pn4AlcTnXOERuFIKY/Pkz3tgwpc2HrDvusTD6Vozs2+slJvJG
+ dpeoEF/YuA8cCX9wZXqDenWV90Z0VaX0pOc8ZKCv+gwwXA+wgGwff91BtWipD9yU4Sc9K0i2WT
+ KuQ=
 X-IronPort-AV: E=Sophos;i="5.64,501,1559491200"; 
-   d="scan'208";a="122734352"
-Received: from mail-by2nam03lp2053.outbound.protection.outlook.com (HELO NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.53])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Sep 2019 06:18:05 +0800
+   d="scan'208";a="225004220"
+Received: from mail-sn1nam01lp2053.outbound.protection.outlook.com (HELO NAM01-SN1-obe.outbound.protection.outlook.com) ([104.47.32.53])
+  by ob1.hgst.iphmx.com with ESMTP; 14 Sep 2019 06:37:26 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LNC04FHqaxAEOxBnXSoF19Hjfjys5U6wKAoAdU29Facd0E4CHIXIE3V3rsiLKzceHIs2PexJ+J3l1FA1xcC6KXBL8zMsQFZZNvpFWRi9m1ZYnD5vguXYGp9v803BfhGUylZamiXBV9hs7koThYJbKlbUFlWikYJma77kehpGNR00J3aChbTHaXtSz6BCqGJDpGAfUX1V6iVsyJHwAQgnGkEib9n3JmapAynqTpk7894j6OyUDnjPoazbZvj58/CQzvQwdkfvLtO/LjB25XsDnL1qc/oqu/lotfhTekMXLUEpd0e8dei0/M99vNN98VynP2bdz4b0Va4Q3peyhDxGDA==
+ b=lM+UgqIgZ/qTBsxVrBJICAayyRzKa5cqjwGBYaL9A6QjM/IY9R5eATfdsAI8lQqWp9z6pe/2iBL3ijyAECRASn0bKLqQuWOlCfbYyNXiROnBQTO/OYreeKOAePcIB39xF9vufie36Fe2SXzqac0tm+t84WeWYWMQ3DyjGVleEPj8GqIDNDCJREnoVZ/R67+vQ0/ctVZvFiXepQhZAcM4eMMYq3PTTlv3ghENMk+UFZTCWGGdSNgKSGKUy+SlA/YCwiTGzHYgWiA13HERGgIK4Uu4UW7YQzkLwK5tceNisU1wxVEMuDbaitW3idKYjdJ7kvoDJDFUYjR8UDPFTUxOBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a4B+A4VfvrqqGbhUPGURBdLSI1hJDfSnict5JUfNaU4=;
- b=Mmcu2zdumao7n5TLaYaUtzTyZxexkB6Ph9AMyYaXmFJKpHROba23Aqhw3oHMOoV2FiYSa6FvODlJFZKKx2MSh8YcGsBvhrXF/hy4cOKZNgKf6RjV5ORKYyMC6r9X9SLoVnQCcjJooKJfkCAyh1fAispnreQJsZIUKMcpz2JAXD2x2T/LZ1ysvW9dOnZTVU/QxKXq40jMYcN27IUCa7k4q+Dx9enruu95Ai8+FEWPWhiG5YdNrY2CfQH1IuoixR3KWo5JrCEWWMYW1CajuSq7+Slw2gWHmKoNcSe12fpGvhQuutdIU3RsCPBq6xDAYaIxYMaL8/7rk15XJn+ml1DLzA==
+ bh=/cLXyz6O9wo2sX1CWYn94706vFX9/b9xJl8ohWPULUw=;
+ b=WubZYufWfxLnAUx+xo7xkKnYH9wwc1x9ofELF28/IHqutBIU+YUIdtf1SN6aogH4baQe/7SXybZqolWKiS+2OSY6gZzqm1o1ohkde/+7BNmRqD++QSB0wj4Pu+/ztAdAE7XKVJr50kbIyZ3bWfHMO1T39pZdJ/XdMH8AgyD055y5Y5hsXNWpXOCOvWDBpxFqFOeX3AAEoZN5cFs1cRh5IacT6eIwH3jRYVbgxrOONwq20t+YuFuDDTAeLqiT53YExabTwC9R1khxqDWNlM8NPtAFNeRBU4v1vfuD5pA98dnqobX3GzdnkWORYnH+2dmTe2g7NOKTRlMIR1z2bS033A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a4B+A4VfvrqqGbhUPGURBdLSI1hJDfSnict5JUfNaU4=;
- b=JD8I0IyhffcytF2vuY/+LHmHvZmLUAtNO0LMCYp8RPLy0HjPVr+jU0UWSVLzQRsrPl06IPAS0AmVM5B4CYnFYam4MS+36kO6X/0ewGqNEygwzlBgp7uDbJTmF0KoPG/lZpZoHqyX7RWKdjF2hNUvk7nRTsk8gKpSttX7pPkvgDA=
+ bh=/cLXyz6O9wo2sX1CWYn94706vFX9/b9xJl8ohWPULUw=;
+ b=Hg7/Zg67kEcOMF0pF9F4zMuJlofy0taQIef/F/0xy/RL0lXtyTShVxEBT4+I5QGAlNkl1xaIg2KKtJ1CgX3dGlzp3A+pY6bHzKjHLuSfLWgIz1V0P0LhTXlmSr0Sr8Uso3HFWIcMoHy84FOiTlWjU+VtSym6hF+EbS8/JGg+c5Y=
 Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.58.26) by
- BYAPR04MB4294.namprd04.prod.outlook.com (52.135.204.156) with Microsoft SMTP
+ BYAPR04MB4550.namprd04.prod.outlook.com (52.135.240.220) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.20; Fri, 13 Sep 2019 22:18:04 +0000
+ 15.20.2263.21; Fri, 13 Sep 2019 22:37:24 +0000
 Received: from BYAPR04MB5749.namprd04.prod.outlook.com
  ([fe80::6169:680:44fc:965d]) by BYAPR04MB5749.namprd04.prod.outlook.com
  ([fe80::6169:680:44fc:965d%6]) with mapi id 15.20.2263.018; Fri, 13 Sep 2019
- 22:18:04 +0000
+ 22:37:24 +0000
 From:   Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To:     =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@collabora.com>,
+To:     Bart Van Assche <bvanassche@acm.org>,
+        =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@collabora.com>,
         "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
@@ -68,13 +70,16 @@ CC:     "corbet@lwn.net" <corbet@lwn.net>,
         "axboe@kernel.dk" <axboe@kernel.dk>,
         "kernel@collabora.com" <kernel@collabora.com>,
         "krisman@collabora.com" <krisman@collabora.com>
-Subject: Re: [PATCH v2 4/4] coding-style: add explanation about pr_fmt macro
-Thread-Topic: [PATCH v2 4/4] coding-style: add explanation about pr_fmt macro
-Thread-Index: AQHVan8+AFfTTAYPG0GaQndc6wd6Zg==
-Date:   Fri, 13 Sep 2019 22:18:04 +0000
-Message-ID: <BYAPR04MB57491969A325583BDDBC7DA486B30@BYAPR04MB5749.namprd04.prod.outlook.com>
+Subject: Re: [PATCH v2 1/4] null_blk: do not fail the module load with zero
+ devices
+Thread-Topic: [PATCH v2 1/4] null_blk: do not fail the module load with zero
+ devices
+Thread-Index: AQHVan85AifiRz+yRUqzbl6jvX3qQA==
+Date:   Fri, 13 Sep 2019 22:37:23 +0000
+Message-ID: <BYAPR04MB57494AD6FADC0654403613CE86B30@BYAPR04MB5749.namprd04.prod.outlook.com>
 References: <20190913220300.422869-1-andrealmeid@collabora.com>
- <20190913220300.422869-5-andrealmeid@collabora.com>
+ <20190913220300.422869-2-andrealmeid@collabora.com>
+ <7c0f4547-4193-bd3e-85c6-d950a004ac46@acm.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -83,54 +88,50 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 89db8e6f-c604-4443-53a1-08d738983f49
+x-ms-office365-filtering-correlation-id: 82b69170-f7d1-4d55-3902-08d7389af2a4
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BYAPR04MB4294;
-x-ms-traffictypediagnostic: BYAPR04MB4294:
-x-microsoft-antispam-prvs: <BYAPR04MB4294779995655438F164BF9486B30@BYAPR04MB4294.namprd04.prod.outlook.com>
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:BYAPR04MB4550;
+x-ms-traffictypediagnostic: BYAPR04MB4550:
+x-microsoft-antispam-prvs: <BYAPR04MB45506AFBBA75CBCABD6D449986B30@BYAPR04MB4550.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-forefront-prvs: 0159AC2B97
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(136003)(346002)(366004)(396003)(376002)(199004)(189003)(99286004)(478600001)(54906003)(110136005)(3846002)(229853002)(316002)(52536014)(9686003)(4744005)(55016002)(7696005)(76176011)(86362001)(14454004)(6116002)(81166006)(81156014)(8936002)(5660300002)(4326008)(8676002)(33656002)(25786009)(71200400001)(71190400001)(53936002)(76116006)(476003)(6246003)(64756008)(2201001)(6436002)(66446008)(66066001)(2906002)(53546011)(256004)(2501003)(102836004)(446003)(486006)(7736002)(66556008)(66946007)(66476007)(305945005)(6506007)(26005)(186003)(74316002);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR04MB4294;H:BYAPR04MB5749.namprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(396003)(136003)(376002)(366004)(346002)(199004)(189003)(51444003)(256004)(26005)(2501003)(186003)(316002)(3846002)(6116002)(14454004)(53546011)(25786009)(4326008)(478600001)(6506007)(7696005)(99286004)(102836004)(76176011)(8676002)(8936002)(81156014)(2906002)(110136005)(54906003)(66066001)(81166006)(53936002)(71200400001)(71190400001)(74316002)(7736002)(6436002)(9686003)(55016002)(229853002)(305945005)(76116006)(66446008)(64756008)(66556008)(66476007)(2201001)(86362001)(66946007)(476003)(446003)(52536014)(33656002)(5660300002)(486006)(4744005)(6246003);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR04MB4550;H:BYAPR04MB5749.namprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7Ibr3eipibCOXuGgPof07daHqMQG+4F1B8mUeyU+TotnnZMKy/yxl/y5DBPkht3nf+5Pm6pCgL2omSYjfwXmMl4Oa+lmJf2Rx8zXseTk4EiXUUZ6qYFMtyOYJTS73xaPRWnnoLe3X22SeJwv1oubv7b588ZBLw2YEZ0oYg/TlY5QAvop3E3fzxDZ2WjN7pijxBFKBKCypoBf8ummmUZMlgYjbSnPobrwS/Ex8Eu6TxzxKB/4+t9FHXnL8J2rJ3Dtyx0EKYzOduRD/UGW91+jkC9W26SBt7DED5039VlGBM35pWX2RreU9QvGg/7D/t1S20QC7ay5OAe2PskddSU8tiYBxSqRonaC1zHcqbPL807s9+R1sa4lWaI8AEBgaPIRQKP3uuXvr3MYeFVi67rQBB59T0nTNmKl/plPhdEXbX8=
+x-microsoft-antispam-message-info: eSOYLC0LyxFMDB/4a740q83PCMtgXqykuzIpoNrq9Ioz2qDclJ6/RVot5debf0KeUCCCIP0ZJd8s87mOOugc0HriyxvVGDwXn2eFxqd1SQAeTkwd7LDnEr3udPgvt9gwgm+2XyNdzSrq8qaWjdkXpr/BfCtRmVfueOHnlioZ+cAmU1lqEztjpDh7KCmFPo71046N8llbXwEkuW99nGzMpqNNCRfwTw1m7tc/pqbPZB16gBV4HvtvB/g7O3itqlD9lcpV9EsWyE0gRQQ6irF5hCS3oinUeo73cZQ1ClE5e9+tV9uw/O2P8PGlX3bkRKs6ya6sKc0ySlEu0wxTVRDB5BGI8M5Rc5hJMXqDNVgXOzKKNpa4GaEoRRYvM4SMDha9TDVUccfia1s/He7S+1GC33jL5DMOBXmSA1U3PELbNVo=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89db8e6f-c604-4443-53a1-08d738983f49
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2019 22:18:04.2929
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82b69170-f7d1-4d55-3902-08d7389af2a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2019 22:37:23.8215
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fJZ/vu0uKT3hTvaeC+Ouim6s2HT9uRuxMVUG2kBgDYGKEX0Tc/yaCmDJZHIRaCUP9RrNehO1MAluI/uoljLNAFYlUPXzACgLlMBr8iUOKLY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4294
+X-MS-Exchange-CrossTenant-userprincipalname: o60mFgev9ke0qyDkHv7UZeKI3rtnW9OpFYLatALGZ0TCL2Zw99HGyFTq/bINX8dfUxiPdJ+KQa9fe26j1GLf4horkeA69RUs5lyw5BIBLXw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4550
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I'm not super familier with the format, will let someone do the=0A=
-final review.=0A=
+On 09/13/2019 03:18 PM, Bart Van Assche wrote:=0A=
+> I just noticed that this patch is necessary to unbreak blktests. The srp=
 =0A=
-In general looks good.=0A=
-=0A=
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>=0A=
-=0A=
-On 09/13/2019 03:04 PM, Andr=E9 Almeida wrote:=0A=
-> The pr_fmt macro is useful to format log messages printed by pr_XXXX()=0A=
-> functions. Add text to explain the purpose of it, how to use and an=0A=
-> example.=0A=
+> tests fail as follows with Jens' for-next branch:=0A=
 >=0A=
-> Signed-off-by: Andr=E9 Almeida<andrealmeid@collabora.com>=0A=
-> Cc: Jonathan Corbet<corbet@lwn.net>=0A=
-> ---=0A=
-> Changes from v1:=0A=
-> - Add Jonathan as explict Cc=0A=
-> - Replace "include/printk.h" by "#include <linux/kernel.h>=0A=
-> - Add note about #undef=0A=
-> - Replace hardcore string by KBUILD_MODNAME at the example=0A=
-> ---=0A=
+> modprobe: ERROR: could not insert 'null_blk': Invalid argument=0A=
+>=0A=
+> I think that error is triggered by the following statement in=0A=
+> common/multipath-over-rdma:=0A=
+>=0A=
+>       modprobe null_blk nr_devices=3D0 || return $?=0A=
+>=0A=
+> Bart.=0A=
+>=0A=
+=0A=
+Not only that I'm sure my membacked null_blk testcases will also start=0A=
+failing without this patch, which I've not posted on mailing list yet.=0A=
 =0A=
