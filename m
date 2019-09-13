@@ -1,157 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D2657D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Sep 2019 22:20:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C30287D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Sep 2019 06:28:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbfILWU6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Sep 2019 18:20:58 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:7481 "EHLO
-        esa3.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbfILWU6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Sep 2019 18:20:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1568326857; x=1599862857;
-  h=from:to:cc:subject:date:message-id:references:
-   content-transfer-encoding:mime-version;
-  bh=rpo67BWJURBiGFuhguDg+F6l+IqO54VZT2DLK4MQXKQ=;
-  b=N5qDW4UEF5sl1DDlD1ll1pyYfCy7njrPTdKcKtCgNP1GKLB7KJMyUnQy
-   xwc1wC/HXx6oz9BI+ebTZwv+2Eetg1o6W0oNQkJQQIKEWlpOpH5K6dNEH
-   EZFkAulRM7/AxZLSnLcu7/JgfXKXiaf6bWn/J+nM+7flUBTCwfMNIFnlq
-   hvP342KrCV6wAXSb7LufDwRfbR4REE3fSYz8W7iBB8IiDBWQb8bEHwVpP
-   uQGmInPds2Tww2YD9WsHuOGYHazD1nYEcZ3QhD6u1IFb0LYc5H5KDSpjo
-   AoDtvWiboyHMjOvQYWuLt3xuNGDr15miq9jlsRBNObqRn4fbC86FJAeov
-   A==;
-IronPort-SDR: kx+dzzXKrIuM5WY0nEqXTFR7+dJmrWQSJQOyKnpxpOKlvYdX4twDl4/zgGI1TnCoIOa5UeS2R2
- HgdSyjQzxSXZm9rKXFSiOzMHxDMEz7svCCT5ldzJCsQZwkisUJ4ztQ9SKVdK1B7tULcfUzjcq0
- F7lPZI9U0p0Eas+0W51FsEIKme0tpLrVuU823x7LXLH2vSnHwUEBj5Ne9aD7WOY5CaBFaEfcAa
- 4vYD4pNN+b8GBThJ0sha4fvJ0xRqGX6ZACO/n4bjJ9hHXhdtforLBVaB9wf3PpewKMN55rJXW9
- bO4=
-X-IronPort-AV: E=Sophos;i="5.64,498,1559491200"; 
-   d="scan'208";a="122659531"
-Received: from mail-cys01nam02lp2057.outbound.protection.outlook.com (HELO NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.57])
-  by ob1.hgst.iphmx.com with ESMTP; 13 Sep 2019 06:20:56 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QBB2qpzPz5KfI+5CHI0B7gUpgApyGKVqOf7DThf2RE3PcH7tL8cWQl73ZPJrEV3zNYe0iDDdhzaH8jYXvKAHnHvhr6oYTy22LtlyBw/QDIAGE3we5W+NTZN7YwmtAzlafiGWcDvrgE99vDoshL9pYFwkMxJUxUGatrDjNvc/EywPMcn4nObgH+4E3Xz9wTlDazPPyqJrinvwDqGVM4HFNfmsu+T9eWvIXMW0gVpLKEBGd9LWLrlsR06yiZkrGH8v2REi3bnYvPOsxJ6zqo9uZlOikOj3Zbdri6T7ojO/3d7EeqEWZLHYvXGDp/1BLLbzpXUl8zkh74sRp7rvos6byQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bu+t3ZhL4VSNdr0emaYSFRU9Nnc24XEh7NWxhxmxukc=;
- b=hcDha+7oQia1SQ6yFdCYJR0L8GnfSo1/tBha2O0xdzMRwCa9DQZuu7tONYoVEyb1mH9wtBhK2LmR9t/tDHqKhR5Ctf0gW0kd6d22nmorKj6VLdhoyzTA/IHiKNsRuFMPScOL6ksnGmMg5hS0WNOUTZXLxQ4S8dmLol74fha1F5TEqwz5OYy1D7b+gbkQiaeXO0gQAFI/BuNiJL+QHrTDgcSZrbSVfFqPftg9CTO6PgEUArjxkDoE+ertEptulX0xRn/M5rjoO9Ct/a1vzrr5t4f2pH5cQeRdLk4iSggCCU2s80LHMjxmybEOOjnPi5kfvLbOQxqTguh1Fo8RJJKLcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bu+t3ZhL4VSNdr0emaYSFRU9Nnc24XEh7NWxhxmxukc=;
- b=RxVOSHC2zxyetBrSVbkMnoWfP2djBdDkQniLiLJjWgR0KPpZ+xUolPASZCwQnM5k05FZz6W1qwm6wiqYYn1hCEL4GpbVxTiEMvj9Y8//s161X2DgXulHzWSaPb5JwFAQF6vq3bRFW4aIO4pA7nDwJVmdcrnh8qiQ8kikNhfzKw8=
-Received: from DM6PR04MB5754.namprd04.prod.outlook.com (20.179.52.22) by
- DM6PR04MB4907.namprd04.prod.outlook.com (20.176.109.80) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.15; Thu, 12 Sep 2019 22:20:55 +0000
-Received: from DM6PR04MB5754.namprd04.prod.outlook.com
- ([fe80::81ec:c517:7b2f:c5d4]) by DM6PR04MB5754.namprd04.prod.outlook.com
- ([fe80::81ec:c517:7b2f:c5d4%7]) with mapi id 15.20.2241.022; Thu, 12 Sep 2019
- 22:20:55 +0000
-From:   Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To:     =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@collabora.com>,
-        Matthew Wilcox <willy@infradead.org>
-CC:     "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "m@bjorling.me" <m@bjorling.me>,
-        "kernel@collabora.com" <kernel@collabora.com>,
-        "krisman@collabora.com" <krisman@collabora.com>
-Subject: Re: [PATCH 3/3] null_blk: validated the number of devices
-Thread-Topic: [PATCH 3/3] null_blk: validated the number of devices
-Thread-Index: AQHVaK/tthLu0hDHKk6eugQSeTinSQ==
-Date:   Thu, 12 Sep 2019 22:20:54 +0000
-Message-ID: <DM6PR04MB5754177B405819C802549AE686B00@DM6PR04MB5754.namprd04.prod.outlook.com>
-References: <20190911144636.226945-1-andrealmeid@collabora.com>
- <20190911144636.226945-3-andrealmeid@collabora.com>
- <20190912161937.GK29434@bombadil.infradead.org>
- <dbdb0415-8762-f9c1-a65a-3531d9cca109@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f7103ae0-3ed3-4bc2-d9b7-08d737cf7a8c
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM6PR04MB4907;
-x-ms-traffictypediagnostic: DM6PR04MB4907:
-x-microsoft-antispam-prvs: <DM6PR04MB4907719A422D1E0C1304963D86B00@DM6PR04MB4907.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01583E185C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(346002)(376002)(39850400004)(396003)(366004)(189003)(199004)(76116006)(52536014)(229853002)(26005)(2906002)(256004)(186003)(110136005)(478600001)(53546011)(6116002)(14454004)(316002)(5660300002)(6436002)(6506007)(102836004)(71200400001)(7696005)(76176011)(64756008)(66446008)(66556008)(476003)(25786009)(486006)(91956017)(66946007)(54906003)(66066001)(4744005)(3846002)(446003)(86362001)(9686003)(66476007)(4326008)(81166006)(99286004)(71190400001)(53936002)(74316002)(33656002)(7736002)(305945005)(55016002)(8676002)(81156014)(8936002)(6246003);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR04MB4907;H:DM6PR04MB5754.namprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LJ64QhQO0cQkZoJGnu2aq0QxfXVqbxqGC/mt22/BYDJ+dZRub/j/hgoad7PwfIM4rGuSuJlJsmLAIdJaoe18OvW9SJmgVC1RpinGaP6GRA1coKXwSevUv+B2KC8IvEPnpqT0kNTgWK0v+C1dRdeirRi94Ta/B6qnpZG4iG7Go7SMLMqHWrvttP9mEuUbF6MPp/jJd3nBhJkkExSnbhnQt9FxOG0M3cjctl4S2R7K7RWA5P2KGCD3VG3eH8yHxPkaOaC6h5mVl1vCr1Gjb7tKEVGlMWSi5S8sqIRaicjfcxQPFocpl0/nnfxdHjKSX6BX980lglEBt2YV2QkhQLsWUQkFIZF4wah0c17P13S3swFiyIG1h7qME03HeXTDnNlb0CfN6R1CWmPtktj2s3Gwpue6+kKbE9csePFocHVjk3w=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S1726891AbfIMG2j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Sep 2019 02:28:39 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:36167 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726388AbfIMG2i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Sep 2019 02:28:38 -0400
+Received: from leknes.fjasle.eu ([92.116.125.99]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MVeDq-1hjOP42w2G-00RdMV; Fri, 13 Sep 2019 08:28:14 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 8BB1E3CCF0; Fri, 13 Sep 2019 08:28:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1568356091; bh=xyo6lM4jCmLufSco/FyKCrj//g7FNEdceqSRe6r75JY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IYQaL8fErhrTe1SWrhuYGOAy5CXlk3iSazzf4la60ONP6F0EhxCV+jmOkpKP/NaD7
+         6ZAcJw0Jv7LFeTpVK5GI799dHnycyP8mY0seLEHRelKh5//sgJgd+O0yUz+VsMKaqM
+         wSv0FbSM2iVVQLgQo1fBZ2gfDY57dqXqLE+UxiVc=
+Date:   Fri, 13 Sep 2019 08:28:11 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, ab@php.net
+Subject: Re: [PATCH] Documentation: kbuild: Add document about reproducible
+ builds
+Message-ID: <20190913062811.GG8267@fjasle.eu>
+Mail-Followup-To: Ben Hutchings <ben@decadent.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, ab@php.net
+References: <20190911115353.yngbk6hf6gwctock@decadent.org.uk>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7103ae0-3ed3-4bc2-d9b7-08d737cf7a8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2019 22:20:54.8734
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fDcx8ff84EhfPNnsMOsxSzU0niw2KQLmpWhzVMk8SXANBYtdBBaSHw90o/eUkU16pNIy2T89utWn2xySF96pYbiwIH8qg4S9NSIHnV0io6U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4907
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
+Content-Disposition: inline
+In-Reply-To: <20190911115353.yngbk6hf6gwctock@decadent.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:b14/kANsEXbOMH7UK1OUf2mg8ui2gdcrMJeystapdZL0NG/+hpX
+ jOW+UhotSwo9BXal+yxHI0Ak2gmi7t7pHfWoff9/jpjSxmjy3QRLyFD4MV0vCGoh+vzwkHs
+ aScZ9zDUiiFYU1WJj83i29zj7ZZlDBvbJ5s4oMvPA0Xkw8/QhC6awXSebAKGs6x8aVqygdA
+ cxAtTv/dN3y3deLptlw/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WKZ397ORvac=:eYOIPEYQbhdd+nYq0qSyM1
+ O/r8HbQfK8B/t7r4s4v5UrGaZS1uOTLNrILxNijvJCh2C+Ey4XV6rPpqCcGf9Wd2mdoE6OT25
+ n/3zf854C1RE14CBdbF1hZI3wZVzvch8ZvNpqznrj5KeJgGEjyDnhtf4FkwFaXu81m2O75wbf
+ q5XOGiV2HOqajN+3jbUTp7IAbbiFtNKSu5EiY5CCSLpFVKCLENGJZfKGiXnGiqvPujLwzYEo7
+ zo2MVSToWorPILVL8Pv8VkM5MhrSEH39e8DIRGNnrrroOBd1j2zalISuxAH2h7TKw4vPhDgqh
+ nQdcQOQgjy3A2LrJP/vUfGlpyS8PBzUIH+y+//25aKmNVsw+Xu6vnvUeaW4Ct5hD39r37xTee
+ ew3YcVBOqTdFImGBjbap9mUSwwsPeV+HZ2wNkmkJ3JFkm7HJDNuW88/9SMmAOtCHSWPcbuw4h
+ fRls8Frd5V71s+R3G0SICbJl+1OCuhSnB0RCzpVaRgdQIslWXPFCD3DDUhYFPg688DuTkegJm
+ 9Cl8T73U1cYmMqG+duEj1lBixy5wc6Fhz44wqRbi2zb4kmXRcfxXd7xyScf+NdBnIHO8IlszZ
+ g/hh4t+BZ76/VdgSepadlPZ2gBtwMjl9GAULo1Ifi8W6yMEPrz1bK9SOxI0fHwiDcggSghBRT
+ 2x2oeBPiY7XItyEWcproHeiCMP2ddlqO/1BkNqXSZVH7wEyeRNfXCeJFSn+p1VGYAPyhuQzpX
+ sR3WuSrrFNc5RANLMxDs9B010S4hKkjdoujUcqZnrausKRVbmkuisG9R2ifQTHIm1FhZMtH/h
+ tQQkoEGBgLT9XrkXGkUKR8SifADZTikH/rirhNgf7iVvmYw0BaeYMW7leWmfNAkRJQW9yicM9
+ xnFOwgT5AzUk6gjC/9Cw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/12/2019 03:09 PM, Andr=E9 Almeida wrote:=0A=
-> Hello Matthew,=0A=
->=0A=
-> On 9/12/19 1:19 PM, Matthew Wilcox wrote:=0A=
->> On Wed, Sep 11, 2019 at 11:46:36AM -0300, Andr=E9 Almeida wrote:=0A=
->>>=0A=
->>> -static int nr_devices =3D 1;=0A=
->>> +static unsigned int nr_devices =3D 1;=0A=
->>>   module_param(nr_devices, int, 0444);=0A=
->>=0A=
->> ^^^ you forgot to change the module_param to match=0A=
->>=0A=
->>> +	if (!nr_devices) {=0A=
->>> +		pr_err("null_blk: invalid number of devices\n");=0A=
->>> +		return -EINVAL;=0A=
->>> +	}=0A=
->>=0A=
->> I don't think this is necessary.=0A=
->>=0A=
->=0A=
-> Could you explain why you don't think is necessary? As I see, the module=
-=0A=
-> can't be used without any /dev/nullb* device, so why we should load it?=
-=0A=
->=0A=
-> Thanks,=0A=
-> 	Andr=E9=0A=
->=0A=
-=0A=
-I think Matthew is right here. I think module can be loaded with =0A=
-nr_devices=3D0.=0A=
-=0A=
-Did you get a chance to test nr_device=3D0 condition ?=0A=
-=0A=
-Also, did you get a chance to test this patch with all the=0A=
-possible conditions ?=0A=
-=0A=
-=0A=
-=0A=
-=0A=
+
+--ReaqsoxgOBHFXBhH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Ben,
+
+thanks for that document, I really enjoyed reading it!
+
+On Wed, Sep 11, 2019 at 12:53:53PM +0100, Ben Hutchings wrote:
+[...]
+> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation=
+/kbuild/reproducible-builds.rst
+> new file mode 100644
+> index 000000000000..4d988faf93b8
+> --- /dev/null
+> +++ b/Documentation/kbuild/reproducible-builds.rst
+> @@ -0,0 +1,115 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Reproducible builds
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +It is generally desirable that the building the same source code with
+
+In this sentence, I think there is either one word to much (the first
+'the') or some word is missing (e.h. 'of').
+
+Kind regards,
+Nicolas
+
+> +the same set of tools is reproducible, i.e. the output is always
+> +exactly the same.  This makes it possible to verify that the build
+> +infrastructure for a binary distribution or embedded system has not
+> +been subverted.  This can also make it easier to verify that a source
+> +or tool change does not make any difference to the resulting binaries.
+
+
+--=20
+epost: nicolas@fjasle.eu               irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--ReaqsoxgOBHFXBhH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAl17NvcACgkQB1IKcBYm
+EmmVmQ//QH35Xc9OqVJkaK8WXJdIlEsfxgm4letcgAC8jDRDnKe3YoLKOvtvkarA
+lvSNUdeIpPEljqv3RBHbzehqPJo2ci6XG8/n94u7VzTvTkcKFrP8qHxJSR1BGJPB
+Dc+DVjQHVwzqJnPXLN4/Fxudi+XZAQELzJgmppOaeYFMQqLzfmAI4jxAvUYtIuJZ
+HwMKqUcuohswDPL0yF4GPLN0cJizDf4CHXwNFrgfMU0GLHjnQlOxxQc6gl+hT0A7
+aWIkB4x5zA4a05C/0/YJ5h3Dnfqsd62g2ku51Pd50XAMq9p+7JTsP825MDPhb5B9
+mHXPvmIGD44rJmfLiiIEWyn//bgOh+RjzTsPIs2NS0xQS4UHjOcHI52RpFQpKGoV
+iveYZBAs9x+DeI38sbtVdYU0FHgc4za034Bq3rlIK+0zcUTZgY0m4ANaZQDrLutL
+Nj7reGp+RzHF6/FxU6h157M99x2jyxJ1689jgObdMSbFudYzZv1hbQ9qKTTCb4nA
+uIKNBtF1Ex4jKlvQdxF46JSFwuBHEf8iow3F1X2K9J+dJiyV5mO49GtKUJuPgxtu
+dUAM6VpoInEnUtl8ywfllVBHf+eZd4jo02+hL0tw2ZhwOhxzwbOKRDimPx2gbEzk
+AzvK+THZM2sYdqLSz0n0VuEtZJ1mvTATuAblAG7MxU1cEbZDqYs=
+=udyO
+-----END PGP SIGNATURE-----
+
+--ReaqsoxgOBHFXBhH--
