@@ -1,73 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 78DB97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Sep 2019 07:59:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A5D647D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Sep 2019 09:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727226AbfINH7E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Sep 2019 03:59:04 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35694 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727184AbfINH7E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 14 Sep 2019 03:59:04 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 87F242CC;
-        Sat, 14 Sep 2019 07:59:02 +0000 (UTC)
-Date:   Sat, 14 Sep 2019 01:58:58 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
-Cc:     linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Louis Taylor <louis@kragniz.eu>
-Subject: Re: [PATCH] docs: printk-formats: Stop encouraging use of
- unnecessary %h[xudi] and %hh[xudi]
-Message-ID: <20190914015858.7c76e036@lwn.net>
-In-Reply-To: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
-References: <a68114afb134b8633905f5a25ae7c4e6799ce8f1.camel@perches.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726622AbfINJoN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Sep 2019 05:44:13 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:48198 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727481AbfINJoN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Sep 2019 05:44:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=+RCsecl4XFSAh5od79eQzjyI2W4TVZD7Ov41MQaPwHg=; b=B2O1ieu/xv3HtIIyGDzZTvSIqz
+        X1xIwHukl+c0WPyZeT2AojpGit4OTpQksk0kg5HK4EzJFL6iJ4xscjrVqNZhmHbMl1WqHG/TWUOHf
+        lrvzGWkqXKqyYHcxJgU9wK8HPPHsGJGXkX7u0DpalRT3h/00Se0TEm6QjmYqsbCylVu2bklWmOu5P
+        XDLNmIUMkIREoWS0ZTEpUKb2ttKQuGc1s58ak18oi4xWvQwO9dXyr5h1nHXaIxKRxDe8xFQ3kw2O1
+        9VE0vRtUxEvKjf1h61R4z2938X67aqQPKbnwAOZgSHH8APGiggrfk6M4qy+W+lr9iYKBs08pqqfZk
+        wqIfNN4A==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:53340 helo=rmk-PC.armlinux.org.uk)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1i94b7-00083R-KK; Sat, 14 Sep 2019 10:44:05 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.82_1-5b7a7c0-XX)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1i94b6-0008TL-IR; Sat, 14 Sep 2019 10:44:04 +0100
+From:   Russell King <rmk+kernel@armlinux.org.uk>
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next] net: phylink: clarify where phylink should be used
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1i94b6-0008TL-IR@rmk-PC.armlinux.org.uk>
+Date:   Sat, 14 Sep 2019 10:44:04 +0100
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 06 Sep 2019 14:11:51 -0700
-Joe Perches <joe@perches.com> wrote:
+Update the phylink documentation to make it clear that phylink is
+designed to be used on the MAC facing side of the link, rather than
+between a SFP and PHY.
 
-> Standard integer promotion is already done and %hx and %hhx is useless
-> so do not encourage the use of %hh[xudi] or %h[xudi].
-> 
-> As Linus said in:
-> Link: https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
-> 
-> It's a pointless warning, making for more complex code, and
-> making people remember esoteric printf format details that have no
-> reason for existing.
-> 
-> The "h" and "hh" things should never be used. The only reason for them
-> being used if if you have an "int", but you want to print it out as a
-> "char" (and honestly, that is a really bad reason, you'd be better off
-> just using a proper cast to make the code more obvious).
-> 
-> So if what you have a "char" (or unsigned char) you should always just
-> print it out as an "int", knowing that the compiler already did the
-> proper type conversion.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
+Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+---
+ Documentation/networking/sfp-phylink.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
+index 91446b431b70..a5e00a159d21 100644
+--- a/Documentation/networking/sfp-phylink.rst
++++ b/Documentation/networking/sfp-phylink.rst
+@@ -8,7 +8,8 @@ Overview
+ ========
+ 
+ phylink is a mechanism to support hot-pluggable networking modules
+-without needing to re-initialise the adapter on hot-plug events.
++directly connected to a MAC without needing to re-initialise the
++adapter on hot-plug events.
+ 
+ phylink supports conventional phylib-based setups, fixed link setups
+ and SFP (Small Formfactor Pluggable) modules at present.
+-- 
+2.7.4
 
-I took the liberty of removing "Link:" (but not the URL) from the commit
-message.  That wasn't a patch tag, there is no real reason to make it
-look like one...
-
-jon
