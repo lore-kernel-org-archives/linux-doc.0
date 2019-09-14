@@ -5,33 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 945D67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Sep 2019 07:55:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B42C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Sep 2019 07:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727319AbfINHzH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Sep 2019 03:55:07 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35666 "EHLO ms.lwn.net"
+        id S1727349AbfINHzw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Sep 2019 03:55:52 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35676 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727184AbfINHzH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 14 Sep 2019 03:55:07 -0400
+        id S1727306AbfINHzw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 14 Sep 2019 03:55:52 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 29F57378;
-        Sat, 14 Sep 2019 07:55:04 +0000 (UTC)
-Date:   Sat, 14 Sep 2019 01:55:00 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 347342CC;
+        Sat, 14 Sep 2019 07:55:51 +0000 (UTC)
+Date:   Sat, 14 Sep 2019 01:55:47 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Will Deacon <will@kernel.org>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] doc:lock: remove reference to clever use of
- read-write lock
-Message-ID: <20190914015500.771466c8@lwn.net>
-In-Reply-To: <20190912133226.oeo3eecvzfr52yv3@willie-the-truck>
-References: <20190908062901.4218-1-federico.vaga@vaga.pv.it>
-        <20190912133226.oeo3eecvzfr52yv3@willie-the-truck>
+To:     Palmer Dabbelt <palmer@sifive.com>
+Cc:     linux-doc@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+        schwab@suse.de, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH] Documentation: Add "earlycon=sbi" to the admin guide
+Message-ID: <20190914015547.7f151d2b@lwn.net>
+In-Reply-To: <20190913203843.27149-1-palmer@sifive.com>
+References: <20190913203843.27149-1-palmer@sifive.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -42,17 +38,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 12 Sep 2019 14:32:27 +0100
-Will Deacon <will@kernel.org> wrote:
+On Fri, 13 Sep 2019 13:38:43 -0700
+Palmer Dabbelt <palmer@sifive.com> wrote:
 
-> > So there is no reason to teach cleaver things that people should not do.  
+> This argument is supported on RISC-V systems and widely used, but was
+> not documented here.
 > 
-> cleaver => clever
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 
-I dunno...personally I'm also opposed to teaching people tricks with
-cleavers too, at least in the kernel-development context.  Our flame wars
-are bad enough as it is...:)
-
-Applied with the typo tweaks, thanks.
+Applied, thanks.
 
 jon
