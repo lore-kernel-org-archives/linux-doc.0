@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B03F97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Sep 2019 13:23:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFF217D91B
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Sep 2019 13:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730163AbfIONXZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 15 Sep 2019 09:23:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53486 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726268AbfIONXZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Sep 2019 09:23:25 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x8FDMcFh011094
-        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 09:23:24 -0400
+        id S1728596AbfIONX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 15 Sep 2019 09:23:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58308 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731092AbfIONX2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Sep 2019 09:23:28 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x8FDMf2V004759
+        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 09:23:27 -0400
 Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2v1dtn9f2f-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2v1dht1r50-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 09:23:23 -0400
+        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 09:23:27 -0400
 Received: from localhost
         by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Sun, 15 Sep 2019 14:23:22 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        Sun, 15 Sep 2019 14:23:25 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
         by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sun, 15 Sep 2019 14:23:18 +0100
+        Sun, 15 Sep 2019 14:23:23 +0100
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x8FDNHaF33226884
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x8FDNMet53674072
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 15 Sep 2019 13:23:17 GMT
+        Sun, 15 Sep 2019 13:23:22 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 61E7BA405F;
-        Sun, 15 Sep 2019 13:23:17 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 7EC83A405F;
+        Sun, 15 Sep 2019 13:23:22 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 866C4A405B;
-        Sun, 15 Sep 2019 13:23:15 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id D5578A405B;
+        Sun, 15 Sep 2019 13:23:20 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.199.54.91])
         by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Sun, 15 Sep 2019 13:23:15 +0000 (GMT)
+        Sun, 15 Sep 2019 13:23:20 +0000 (GMT)
 From:   Sourabh Jain <sourabhjain@linux.ibm.com>
 To:     linuxppc-dev@ozlabs.org
 Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
         linux-kernel@vger.kernel.org, mpe@ellerman.id.au, corbet@lwn.net,
         linux-doc@vger.kernel.org
-Subject: [PATCH 1/4] powerpc/fadump: replicate /sys/kernel/fadump_* sysfs into /sys/kernel/fadump/
-Date:   Sun, 15 Sep 2019 18:53:07 +0530
+Subject: [PATCH 3/4] Documentation/ABI: mark /sys/kernel/fadump_* sysfs files deprecated
+Date:   Sun, 15 Sep 2019 18:53:09 +0530
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20190915132310.13542-1-sourabhjain@linux.ibm.com>
 References: <20190915132310.13542-1-sourabhjain@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19091513-0020-0000-0000-0000036CEEC9
+x-cbid: 19091513-0020-0000-0000-0000036CEECE
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19091513-0021-0000-0000-000021C2897F
-Message-Id: <20190915132310.13542-2-sourabhjain@linux.ibm.com>
+x-cbparentid: 19091513-0021-0000-0000-000021C28983
+Message-Id: <20190915132310.13542-4-sourabhjain@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-09-15_07:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -69,143 +69,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As the number of FADump sysfs files increases it is hard to manage all of
-them inside /sys/kernel directory. It's better to have all the FADump
-related sysfs files in a dedicated directory /sys/kernel/fadump. But to
-maintain the backward compatibility all the /sys/kernel/fadump_* sysfs
-files are replicated inside /sys/kernel/fadump/ and eventually get removed
-in future.
+The /sys/kernel/fadump_* sysfs files are replicated under
+/sys/kernel/fadump/ directory. But we need to keep the old
+sysfs files to maintain the backward compatibility.
 
-Added ABI documentation for all the replicated FADump sysfs file in
-Documentation/ABI/testing/sysfs-kernel-fadump.
+The sysfs files are scheduled to remove by 2021.
 
 Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 ---
- Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
- arch/powerpc/kernel/fadump.c                  | 29 +++++++++++++
- arch/powerpc/platforms/powernv/opal-core.c    |  7 ++++
- 3 files changed, 77 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
+ .../{testing => obsolete}/sysfs-kernel-fadump_enabled    | 3 +++
+ .../{testing => obsolete}/sysfs-kernel-fadump_registered | 3 +++
+ .../sysfs-kernel-fadump_release_mem                      | 3 +++
+ .../sysfs-kernel-fadump_release_opalcore                 | 3 +++
+ Documentation/powerpc/firmware-assisted-dump.rst         | 9 +++++++++
+ 5 files changed, 21 insertions(+)
+ rename Documentation/ABI/{testing => obsolete}/sysfs-kernel-fadump_enabled (66%)
+ rename Documentation/ABI/{testing => obsolete}/sysfs-kernel-fadump_registered (71%)
+ rename Documentation/ABI/{testing => obsolete}/sysfs-kernel-fadump_release_mem (73%)
+ rename Documentation/ABI/{testing => obsolete}/sysfs-kernel-fadump_release_opalcore (70%)
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
-new file mode 100644
-index 000000000000..ed8eec3d759c
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-kernel-fadump
-@@ -0,0 +1,41 @@
-+What:		/sys/kernel/fadump/fadump_*
-+Date:		Sep 2019
-+Contact:	linuxppc-dev@lists.ozlabs.org
-+Description:
-+		The /sys/kernel/fadump/fadump_* is a collection of FADump
-+		sysfs file provide information about the configuration status
-+		of Firmware Assisted Dump (FADump).
+diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump_enabled b/Documentation/ABI/obsolete/sysfs-kernel-fadump_enabled
+similarity index 66%
+rename from Documentation/ABI/testing/sysfs-kernel-fadump_enabled
+rename to Documentation/ABI/obsolete/sysfs-kernel-fadump_enabled
+index f73632b1c006..ca35a285905b 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-fadump_enabled
++++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_enabled
+@@ -1,3 +1,6 @@
++This ABI is deprecated and will be removed after 2021. It is replaced
++with /sys/kernel/fadump/fadump_enabled.
 +
-+What:		/sys/kernel/fadump/enabled
-+Date:		Sep 2019
-+Contact:	linuxppc-dev@lists.ozlabs.org
-+Description:	read only
-+		Primarily used to identify whether the FADump is enabled in
-+		the kernel or not.
-+User:		Kdump service
+ What:		/sys/kernel/fadump_enabled
+ Date:		Feb 2012
+ Contact:	linuxppc-dev@lists.ozlabs.org
+diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump_registered b/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
+similarity index 71%
+rename from Documentation/ABI/testing/sysfs-kernel-fadump_registered
+rename to Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
+index 972e8c427ad4..2c1bc4adafb4 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-fadump_registered
++++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
+@@ -1,3 +1,6 @@
++This ABI is deprecated and will be removed after 2021. It is replaced
++with /sys/kernel/fadump/fadump_registered.
 +
-+What:		/sys/kernel/fadump/registered
-+Date:		Sep 2019
-+Contact:	linuxppc-dev@lists.ozlabs.org
-+Description:	read/write
-+		Helps to control the dump collect feature from userspace.
-+		Setting 1 to this file enables the system to collect the
-+		dump and 0 to disable it.
-+User:		Kdump service
+ What:		/sys/kernel/fadump/fadump_registered
+ Date:		Feb 2012
+ Contact:	linuxppc-dev@lists.ozlabs.org
+diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump_release_mem b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
+similarity index 73%
+rename from Documentation/ABI/testing/sysfs-kernel-fadump_release_mem
+rename to Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
+index 9c20d64ab48d..8fef37d9b5ba 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-fadump_release_mem
++++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
+@@ -1,3 +1,6 @@
++This ABI is deprecated and will be removed after 2021. It is replaced
++with /sys/kernel/fadump/fadump_release_mem.
 +
-+What:		/sys/kernel/fadump/release_mem
-+Date:		Sep 2019
-+Contact:	linuxppc-dev@lists.ozlabs.org
-+Description:	write only
-+		This is a special sysfs file and only available when
-+		the system is booted to capture the vmcore using FADump.
-+		It is used to release the memory reserved by FADump to
-+		save the crash dump.
+ What:		/sys/kernel/fadump_release_mem
+ Date:		Feb 2012
+ Contact:	linuxppc-dev@lists.ozlabs.org
+diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump_release_opalcore b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_opalcore
+similarity index 70%
+rename from Documentation/ABI/testing/sysfs-kernel-fadump_release_opalcore
+rename to Documentation/ABI/obsolete/sysfs-kernel-fadump_release_opalcore
+index 53313c1d4e7a..c02be8f4471e 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-fadump_release_opalcore
++++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_opalcore
+@@ -1,3 +1,6 @@
++This ABI is deprecated and will be removed after 2021. It is replaced
++with /sys/kernel/fadump/fadump_release_opalcore.
 +
-+What:		/sys/kernel/fadump/release_opalcore
-+Date:		Sep 2019
-+Contact:	linuxppc-dev@lists.ozlabs.org
-+Description:	write only
-+		The sysfs file is available when the system is booted to
-+		collect the dump on OPAL based machine. It used to release
-+		the memory used to collect the opalcore.
-diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
-index ed59855430b9..bb70fa208a86 100644
---- a/arch/powerpc/kernel/fadump.c
-+++ b/arch/powerpc/kernel/fadump.c
-@@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
- 	return 0;
- }
+ What:		/sys/kernel/fadump_release_opalcore
+ Date:		Sep 2019
+ Contact:	linuxppc-dev@lists.ozlabs.org
+diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
+index 0455a78486d5..4fd7f5eab97d 100644
+--- a/Documentation/powerpc/firmware-assisted-dump.rst
++++ b/Documentation/powerpc/firmware-assisted-dump.rst
+@@ -292,6 +292,15 @@ Here is the list of files under kernel sysfs:
  
-+struct kobject *fadump_kobj;
-+EXPORT_SYMBOL_GPL(fadump_kobj);
+     echo 1  > /sys/kernel/fadump_release_opalcore
+ 
++Note: The following FADump sysfs files are deprecated.
 +
- static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
- 						0200, NULL,
- 						fadump_release_memory_store);
-@@ -1435,6 +1438,11 @@ static void fadump_init_files(void)
- 	struct dentry *debugfs_file;
- 	int rc = 0;
- 
-+	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
-+	if (!fadump_kobj) {
-+		pr_err("failed to create fadump kobject\n");
-+		return;
-+	}
- 	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
- 	if (rc)
- 		printk(KERN_ERR "fadump: unable to create sysfs file"
-@@ -1458,6 +1466,27 @@ static void fadump_init_files(void)
- 			printk(KERN_ERR "fadump: unable to create sysfs file"
- 				" fadump_release_mem (%d)\n", rc);
- 	}
-+	/* Replicating the following sysfs attributes in a new directory
-+	 * named fadump.
-+	 *
-+	 *	- fadump_enabled
-+	 *	- fadump_registered
-+	 *	- fadump_release_mem
-+	 */
-+	rc = sysfs_create_file(fadump_kobj, &fadump_attr.attr);
-+	if (rc)
-+		pr_err("unable to create fadump/fadump_enabled sysfs file (%d)\n",
-+		       rc);
-+	rc = sysfs_create_file(fadump_kobj, &fadump_register_attr.attr);
-+	if (rc)
-+		pr_err("unable to create fadump/fadump_registered sysfs file (%d)\n",
-+		       rc);
-+	if (fw_dump.dump_active) {
-+		rc = sysfs_create_file(fadump_kobj, &fadump_release_attr.attr);
-+		if (rc)
-+			pr_err("unable to create fadump/fadump_release_mem sysfs file (%d)\n",
-+			       rc);
-+	}
- 	return;
- }
- 
-diff --git a/arch/powerpc/platforms/powernv/opal-core.c b/arch/powerpc/platforms/powernv/opal-core.c
-index ed895d82c048..8c31aefe8814 100644
---- a/arch/powerpc/platforms/powernv/opal-core.c
-+++ b/arch/powerpc/platforms/powernv/opal-core.c
-@@ -631,6 +631,13 @@ static int __init opalcore_init(void)
- 			rc);
- 	}
- 
-+	/* Replicating the fadump_release_opalcore sysfs file */
-+	rc = sysfs_create_file(fadump_kobj, &opalcore_rel_attr.attr);
-+	if (rc) {
-+		pr_warn("unable to create fadump/fadump_release_opalcore sysfs file (%d)\n",
-+			rc)
-+	}
++    Deprecated                       Alternative
++    -------------------------------------------------------------------------------
++    /sys/kernel/fadump_enabled           /sys/kernel/fadump/fadump_enabled
++    /sys/kernel/fadump_registered        /sys/kernel/fadump/fadump_registered
++    /sys/kernel/fadump_release_mem       /sys/kernel/fadump/fadump_release_mem
++    /sys/kernel/fadump_release_opalcore  /sys/kernel/fadump/fadump_release_opalcore
 +
- 	return 0;
- }
- fs_initcall(opalcore_init);
+ Here is the list of files under powerpc debugfs:
+ (Assuming debugfs is mounted on /sys/kernel/debug directory.)
+ 
 -- 
 2.17.2
 
