@@ -7,59 +7,56 @@ X-Spam-Status: No, score=-3.8 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_NONE,SPOOFED_FREEMAIL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB45E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Sep 2019 08:21:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BA047D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Sep 2019 08:28:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbfIOIVK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 15 Sep 2019 04:21:10 -0400
-Received: from mail-pf1-f169.google.com ([209.85.210.169]:44932 "EHLO
-        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725497AbfIOIVK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Sep 2019 04:21:10 -0400
-Received: by mail-pf1-f169.google.com with SMTP id q21so20568800pfn.11
-        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 01:21:09 -0700 (PDT)
+        id S1725951AbfIOI2B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 15 Sep 2019 04:28:01 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:33284 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbfIOI2B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Sep 2019 04:28:01 -0400
+Received: by mail-pg1-f193.google.com with SMTP id n190so17578157pgn.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2019 01:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=COwhCFSZuyD206So5Np9cxQHBPHyW4DpdMEtN/CcJlA=;
-        b=OyqK8tv9sY73hI+IdIC7hq6nA0yNShpDM+Tzh0yz8GnXt/zwU2aaREUAxF3/ylKNIp
-         UF+Y7Hw/i9LxNUGXaSzkmimGwWQdFdGlQnaMy+2D4lrYbiLy94MWnwlybzwUKUFxCmkm
-         hPuQoE5KpzjL60jU8eZfPsPfFuwzCzjHWaxPgP7HxlYj7Eotgo7oUVTxC+kXzFbteUv5
-         Gf08Zaumlj/KckPdG+0mYd/Q1Pil0SK7/F4Kk++hvaO3tgLJnV3rh/W56OQRXJ0tvDK8
-         f0eJOlZWPY0kN5VRja3dqHl5AMQGSE5fPM4MPFqp1WPV7loSw2RFQF6e30CTzgOuGFgr
-         t6Cg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JpNS31nsmsqFBqnf+qh3e5Ku6+2UQD4hUdN6Gd34CgU=;
+        b=MZ8bCKDJWqG+mVVG+moRMLqUdGxiRKizy/2yVPSpS4ZmItmIsm2Zy3ZvqqKGKbAgpK
+         2zMkCFO7OcsFLqjo1ZQTcOMi+qtzFdAktZLsTLEt1Gmt/urlZeQlhaWWthEIeRONhe3J
+         gulWgyoUuqdu4kudqaFVcdkmR4y84uYPuYYFs5c84+fwia8h4h1DdcipBZl0molt1Z6Y
+         vTBnfumO/OqycAmdw00sQHE52C5XPQTVCbsjKclFqLpw0/1hijZLGOxgzslRY527iveb
+         VFgSIgrMDgGjK/DnRt4K+w+6zq9Cmxzk2eEYCv8mFwTEmSOP7UBoJ+GOvQTuVa84Wykd
+         Wlsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=COwhCFSZuyD206So5Np9cxQHBPHyW4DpdMEtN/CcJlA=;
-        b=J7EU5wTij7Crq2BSsHRYNNkeAcl05//qyezibULg/4sZBtJP46UO1GDoB+AUXAUQOt
-         eVUt/tz31PEBts4hTU91BXGeKpLJMdSJeuGe+RiYdyLdSgF6x85UcSM5TdkxqB4Yi4Cs
-         Cu39pLa7ms7Jstjr4M7u548DFwqUBzqtM4SDI6L71HTbpZbHO0n+g1eT2ZzYGnBRBiBS
-         Y/zqLq4XvENS9Ws7WkGRz/7GuTZaS+unGbaWxvVQdN+tCX1XrOCVB4BHa5XfM02GdjVq
-         +TpacEFlehI8b3QaRyffw2AWOBejKgwUC0F/1Wl4OwHmGaVwW4mHWOaxLPbpgzy9dVIl
-         wAYQ==
-X-Gm-Message-State: APjAAAU3oQTr4I7tNUZKdlBFDVjwa5qGJR/0ngWepjpAYxzI2hNCBC+/
-        +2VO8r7vu44FRwhDSLzF14g=
-X-Google-Smtp-Source: APXvYqz6EdZVrVKQ5tw7IIpIV/guqhtLo9SFQN8BNNlxqmAIDGi1teGfQ0goJ9HZ3VX7PDRdTWiMhw==
-X-Received: by 2002:a17:90a:9201:: with SMTP id m1mr15047735pjo.58.1568535669041;
-        Sun, 15 Sep 2019 01:21:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JpNS31nsmsqFBqnf+qh3e5Ku6+2UQD4hUdN6Gd34CgU=;
+        b=RtDC7ipmlHZ/nj9W1K91XrA8pYshqUiovaKcMfYMSskriNZEp1Eu9qIG/x8AjcumpB
+         c2h4b1w/7gZ5e3WVZny64RLtRj1F8Xw6fML8Ow5Iw2CRIu8TkGdeTQ0zOKO3WIVlf/6P
+         +/M4ORz2GuY6q6AksoG21Pj6/WI1Rmiix5plt3jWNZjdwaJfurl8ApRUS6fhzHxVpil5
+         BY7PlxFMTEr+EMlcVYlkHh+yKl9ETduH73I4VXgnYdv1gb1A7laIPaHcxC7ABifmo9aY
+         beMqbm2vxQEufNi1JnhR53DYuwhYHFqZU4jWjxy7GFh5i3Lkcgim+4f4VvWryiJVeOzd
+         x4bA==
+X-Gm-Message-State: APjAAAVKZJG8I+tAV4gBGCAX1Os6CMAULxTQwNFfMhtCOq7g7sXhO/tY
+        KKdWVMmu9CJP+B25BfZqMTA=
+X-Google-Smtp-Source: APXvYqzCNzMEa8Oc1WnB7sabiqMURsZqIwN4TBOe5pj6HgunAezueYGIzoe68XHuggUcIYqh8r5y9w==
+X-Received: by 2002:a62:7d54:: with SMTP id y81mr5524639pfc.86.1568536079888;
+        Sun, 15 Sep 2019 01:27:59 -0700 (PDT)
 Received: from localhost.localdomain (ip-103-85-37-119.syd.xi.com.au. [103.85.37.119])
-        by smtp.gmail.com with ESMTPSA id ep10sm7631799pjb.2.2019.09.15.01.21.06
+        by smtp.gmail.com with ESMTPSA id k31sm7816547pjb.14.2019.09.15.01.27.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2019 01:21:08 -0700 (PDT)
+        Sun, 15 Sep 2019 01:27:59 -0700 (PDT)
 From:   Adam Zerella <adam.zerella@gmail.com>
-Cc:     corbet@lwn.net, Frank.li@nxp.com, linux-doc@vger.kernel.org,
+Cc:     corbet@lwn.net, jdelvare@suse.com, linux-doc@vger.kernel.org,
         Adam Zerella <adam.zerella@gmail.com>
-Subject: [PATCH v2] docs: perf: Add imx-ddr to documentation index
-Date:   Sun, 15 Sep 2019 18:20:10 +1000
-Message-Id: <20190915082009.698-1-adam.zerella@gmail.com>
+Subject: [PATCH] docs: hwmon: Suppress Sphinx warning
+Date:   Sun, 15 Sep 2019 18:27:18 +1000
+Message-Id: <20190915082718.3590-1-adam.zerella@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190915054533.22008-1-adam.zerella@gmail.com>
-References: <20190915054533.22008-1-adam.zerella@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
@@ -67,90 +64,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx is currently outputting a warning where
-the file 'imx-ddr.rst' is not included in the
-documentation index. Additionally, the code
-highlighting and doc formatting can be slightly
-improved.
+When generating documentation output Sphinx
+outputs a warning for not including
+the page 'inspur-ipsps1.rst' in 'index.rst'.
+Assuming this documentation is useful it
+should be included in the index
 
 Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
 ---
+ Documentation/hwmon/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-v2: Supress additional indentation warning
----
- Documentation/admin-guide/perf/imx-ddr.rst | 35 ++++++++++++++--------
- Documentation/admin-guide/perf/index.rst   |  1 +
- 2 files changed, 23 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
-index 517a205abad6..92900b851f5d 100644
---- a/Documentation/admin-guide/perf/imx-ddr.rst
-+++ b/Documentation/admin-guide/perf/imx-ddr.rst
-@@ -18,7 +18,9 @@ The "format" directory describes format of the config (event ID) and config1
- devices/imx8_ddr0/format/. The "events" directory describes the events types
- hardware supported that can be used with perf tool, see /sys/bus/event_source/
- devices/imx8_ddr0/events/.
--  e.g.::
-+
-+    .. code-block:: bash
-+
-         perf stat -a -e imx8_ddr0/cycles/ cmd
-         perf stat -a -e imx8_ddr0/read/,imx8_ddr0/write/ cmd
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 8147c3f218bf..230ad59b462b 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -7,6 +7,7 @@ Linux Hardware Monitoring
  
-@@ -31,22 +33,29 @@ in the driver.
-   Filter is defined with two configuration parts:
-   --AXI_ID defines AxID matching value.
-   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
--        0：corresponding bit is masked.
--        1: corresponding bit is not masked, i.e. used to do the matching.
-+
-+      - 0: corresponding bit is masked.
-+      - 1: corresponding bit is not masked, i.e. used to do the matching.
- 
-   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
-   When non-masked bits are matching corresponding AXI_ID bits then counter is
-   incremented. Perf counter is incremented if
--          AxID && AXI_MASKING == AXI_ID && AXI_MASKING
-+        AxID && AXI_MASKING == AXI_ID && AXI_MASKING
- 
-   This filter doesn't support filter different AXI ID for axid-read and axid-write
-   event at the same time as this filter is shared between counters.
--  e.g.::
--        perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
--        perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
--
--  NOTE: axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
--  it will be reverted in driver automatically. so that the user can just specify
--  axi_id to monitor a specific id, rather than having to specify axi_mask.
--  e.g.::
--        perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
-+
-+  .. code-block:: bash
-+
-+      perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
-+      perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
-+
-+  .. note::
-+
-+      axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
-+      it will be reverted in driver automatically. so that the user can just specify
-+      axi_id to monitor a specific id, rather than having to specify axi_mask.
-+
-+  .. code-block:: bash
-+
-+      perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-index ee4bfd2a740f..47c99f40cc16 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -8,6 +8,7 @@ Performance monitor support
-    :maxdepth: 1
- 
-    hisi-pmu
-+   imx-ddr
-    qcom_l2_pmu
-    qcom_l3_pmu
-    arm-ccn
+    hwmon-kernel-api
+    pmbus-core
++   inspur-ipsps1
+    submitting-patches
+    sysfs-interface
+    userspace-tools
 -- 
 2.21.0
 
