@@ -1,97 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Level: *
+X-Spam-Status: No, score=1.1 required=5.0 tests=DEAR_FRIEND,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FILL_THIS_FORM_LOAN,
+	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,MONEY_FORM,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	SUBJ_ALL_CAPS,T_MONEY_PERCENT autolearn=no autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E05B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Sep 2019 15:25:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47CE17D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Sep 2019 17:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727573AbfIPPZF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Sep 2019 11:25:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38550 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726389AbfIPPZF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Sep 2019 11:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4h2929n6bTm5LRvrUkbqXYO9I98jIbausOJWK862niU=; b=nOTb+U36nvlQm3aN0oY+nTqC5
-        ZwQf/QTs1cwSW6ginqTlPGor0hT8MjC2CmcdoIoj8/eHtAQGb6VAVHAnZRidJiTr7FUKhcFQ5s5zW
-        bFS6vj7ognIDbXgJor+iuxLROhogHJDnR/Iq3nnL9ozXfbd+SOavehGMOZZEigzZz/CxwXsa/Ipk8
-        U6imM2iOPeruvkmeAZvKdzU8aV+Fv5n9sMXdr8hYDRgj2A5zx8KdeYgk/AyOJ1Wse6rK2C7ER0KpW
-        e/4T4jVu3nR3kxyuk4JSj5Kj5vECN+onXohMsIFiXaQIzWkVPczkH+/OubZ5vABhj6WOeAGyLwsxR
-        WJYmlL1cQ==;
-Received: from [2601:1c0:6280:3f0::9a1f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1i9ssB-0006kx-FI; Mon, 16 Sep 2019 15:25:03 +0000
-Subject: Re: [PATCH] Documentation: document earlycon without options for more
- platforms
-To:     Christoph Hellwig <hch@lst.de>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        schwab@suse.de
-References: <20190916070316.7371-1-hch@lst.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <3e24518a-9e01-c244-3d58-ffd21dab6701@infradead.org>
-Date:   Mon, 16 Sep 2019 08:25:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388148AbfIPRrl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Sep 2019 13:47:41 -0400
+Received: from sonic306-2.consmr.mail.bf2.yahoo.com ([74.6.132.41]:40184 "EHLO
+        sonic306-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388043AbfIPRrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Sep 2019 13:47:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1568656058; bh=FCjWGTqDRXQUUN8ivg02MDhbiDKrvltOcpc7W52q/3U=; h=Date:From:Reply-To:Subject:From:Subject; b=bT9o7e3of0HTEcDba68Zt7pkW1sa06+XMEvJGYmcdRuCuKZtI+miLIgeevi6gtlFt2xMCTLmOu4OE7hu7dKtyHnQzWLpKK9zhiILkGD7ir6jOl67tGvMZHx8i8LXENwlyyTbhif6cra6iU50km/ejD0RE9V0a+QVsZSmj4Gh/pRWXd4d29Taanwh6FTTZHjtrwhhrQR7t7NyX6Rojbh3UhSleghjdBmx9tDrAq1uUAGFS2sI8+yAAjKHmErbvIoLmOMVQGl2HfIdkSGbsWMPxiXIZqJGcPAEdLT73rEw2BcG/nvXRQMS673DNDS8Md7vX3Iw2cJrTBdi91oor0WBOA==
+X-YMail-OSG: H6dRXmUVM1kbHpPZMesHqg5RvCfoz2_sJ9cISOoHSo8OZkVS10W0z27WEAhc6c6
+ uMdRFEFCzmBJqkYzt_OZH3fElWSEA_JjSwiviPrTH317mVly5Ymhy677OzoINlWeWtMBRgm0HLOM
+ IhwIWEK2Gxk8hT0whMn7.CG8N.pFVRXeS0ptSgRzqXWk.1T031LTPVA_WAKBYHUm4dyoHRsedS74
+ I2iDs3SLsvW9EOXkZMN5OkJFYFH4zbQ3UWiD6xivreUFVp7x6hD4ojdxCtmUNl2oyS3BxTjTnQ_C
+ TuTuU9emwjE0CfQz9y8LuQ5lkz391dNDTOx73Kqx6wGH.uDgAph4hcM6lhxocXuQM5biVPZKMuAv
+ GkV769AKKGu3nhymiFnRFQGLIMXRFpSw8Zx3nYTVZS.X3xgYD86KOOKggz6cpRdBO5x8qML7PjPt
+ FfaIhoP481eC0NZDLNDThPptB47ifh1Hb58o8NR9srpFvvESCY6mt9B3oPZrBHi1D0Tv__aK7Lb_
+ lzMGySztHquwZLkC57PAZdzVW0opa9pLxxfPLfh5J51_pOBgw6QE_StTelz5FWc2vbFYbBPSkQoj
+ .IpzudPVwIy84O.qWdWsGU27MGM0iFJuYpC4iTWqu9EeNdBrm_Y_MofnEGbabHbLSnew0OVzUoZy
+ zDNRzoXdvHKt84WLsui2q1ZjWuLz3cZS9_K.2qKgPePLcIj9vyIk_wmB.wXftIBXMgSYnKqW3ZQr
+ ssfXS4GeMlmWo5S7MxfSN2XpU0EJKY9qXdl39XDPTB4l_D_No6zMIV2oXdho2q3rLIhMcIziq3ua
+ 3EKcc_fZxS3r0sC3MFOj35..Fz3u2nR31JQb9ph92ucSOvglUdvrlMYYSAuueRMHiqD.otMdBeNT
+ 5y5X3N6Cfb6GvGH03hZMjvGm1seQSiqi9CTmLVCezzuRCtYiov9a2OLpW5JX2XqRYlSjR_NkGxI4
+ jSvN7e522CqCE.0Nx5evUub1TUc8aSXASVEyXJaoFv_KIXNO_G_nRyI07cceADXzV1Yd3WknvGEw
+ TI0Y5XSivArlaeb65ywhxIUgdHbFAuhDfZqRojp4UXUY.3D3aeEDAkENL1CggneJ0sPn8KowiNC.
+ KoJ632.IODCOL8o04TCgXT5NzkLz7jY6l_3fgED0FJEBuN35YLU85QL84CTMnGbg5ypWKZzOIuDl
+ q4FrLk4.kn2jQ0AoJOpZjW_xhDtEhnVhghqHIx.5_r.CbOYxDQkQGWuLKH.0RQ4_XN7oeFaIVWdO
+ Bzo6NHKqpXxEMdCmyQr.vbWtqXnP9DcXMCA--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Mon, 16 Sep 2019 17:47:38 +0000
+Date:   Mon, 16 Sep 2019 17:47:37 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh101@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <1888366226.5438287.1568656057401@mail.yahoo.com>
+Subject: CONFIDENTIAL FROM MS LISA HUGH(BUSINESS)
 MIME-Version: 1.0
-In-Reply-To: <20190916070316.7371-1-hch@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/16/19 12:03 AM, Christoph Hellwig wrote:
-> The earlycon options without arguments is supposed on all device
 
-                                         is supposed to work on all device
 
-> tree platforms, not just arm64.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Dear Friend,
 
-I would add a comma, but that can be up to Jon.
+I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
+
+There is this fund that was keep in my custody years ago,please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment and the amount is (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other .
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
 
 Thanks.
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 4c1971960afa..fe81d8922edd 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -977,12 +977,10 @@
->  
->  	earlycon=	[KNL] Output early console device and options.
->  
-> -			[ARM64] The early console is determined by the
-> -			stdout-path property in device tree's chosen node,
-> -			or determined by the ACPI SPCR table.
-> -
-> -			[X86] When used with no options the early console is
-> -			determined by the ACPI SPCR table.
-> +			When used with no options the early console is
-			                  options,
 
-> +			determined by stdout-path property in device tree's
-> +			chosen node or the ACPI SPCR table if supported by
-> +			the platform.
->  
->  		cdns,<addr>[,options]
->  			Start an early, polled-mode console on a Cadence
-> 
-
-
--- 
-~Randy
+Ms Lisa Hugh
