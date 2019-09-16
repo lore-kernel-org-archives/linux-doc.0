@@ -5,65 +5,69 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6077F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Sep 2019 08:25:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 230437D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Sep 2019 08:30:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729029AbfIPIZm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Sep 2019 04:25:42 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48522 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727068AbfIPIZl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Sep 2019 04:25:41 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5A0C0AD3C;
-        Mon, 16 Sep 2019 08:25:40 +0000 (UTC)
-Date:   Mon, 16 Sep 2019 10:25:50 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     "Adam Zerella" <adam.zerella@gmail.com>
-Cc:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: hwmon: Suppress Sphinx warning
-Message-ID: <20190916102550.0102a547@endymion>
-In-Reply-To: <20190915082718.3590-1-adam.zerella@gmail.com>
-References: <20190915082718.3590-1-adam.zerella@gmail.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S1729446AbfIPIaU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Sep 2019 04:30:20 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38453 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729373AbfIPIaU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Sep 2019 04:30:20 -0400
+Received: from pd9ef19d4.dip0.t-ipconnect.de ([217.239.25.212] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1i9mOa-00036L-2I; Mon, 16 Sep 2019 10:30:04 +0200
+Date:   Mon, 16 Sep 2019 10:30:02 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Greg KH <gregkh@linuxfoundation.org>
+cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
+        ben@decadent.org.uk, labbott@redhat.com, andrew.cooper3@citrix.com,
+        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
+        linux-doc@vger.kernel.org, dan.j.williams@intel.com
+Subject: Re: [PATCH 4/4] Documentation/process: add transparency promise to
+ list subscription
+In-Reply-To: <20190911155137.GC14152@kroah.com>
+Message-ID: <alpine.DEB.2.21.1909161028340.10731@nanos.tec.linutronix.de>
+References: <20190910172644.4D2CDF0A@viggo.jf.intel.com> <20190910172652.4FFF6CA3@viggo.jf.intel.com> <20190911155137.GC14152@kroah.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 15 Sep 2019 18:27:18 +1000, Adam Zerella wrote:
-> When generating documentation output Sphinx
-> outputs a warning for not including
-> the page 'inspur-ipsps1.rst' in 'index.rst'.
-> Assuming this documentation is useful it
-> should be included in the index
+On Wed, 11 Sep 2019, Greg KH wrote:
+> On Tue, Sep 10, 2019 at 10:26:52AM -0700, Dave Hansen wrote:
+> > 
+> > From: Dave Hansen <dave.hansen@linux.intel.com>
+> > 
+> > Transparency is good.  It it essential for everyone working under an
+> > embargo to know who is involved and who else is a "knower".  Being
+> > transparent allows everyone to always make informed decisions about
+> > ongoing participating in a mitigation effort.
+> > 
+> > Add a step to the subscription process which will notify existing
+> > subscribers when a new one is added.
 > 
-> Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
-> ---
->  Documentation/hwmon/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+> As I don't run the mailing list software here, I don't know how much of
+> a burden adding this support to it would be, so I'll defer to Thomas.
 > 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 8147c3f218bf..230ad59b462b 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -7,6 +7,7 @@ Linux Hardware Monitoring
->  
->     hwmon-kernel-api
->     pmbus-core
-> +   inspur-ipsps1
->     submitting-patches
->     sysfs-interface
->     userspace-tools
+> We could just have something like "All new people need to announce
+> themselves" rule like many other private mailing lists have at times.
+> That would put the burden on the new person once, instead of the list
+> manager for every time a new person is added.
 
-I suggest Cc'ing the linux-hwmon mailing list for any documentation
-patch touching files under Documentation/hwmon.
+That's trivial and can be fully automated into the list scripts. I'll put
+that on to the todo list as I'm in the process of cleaning stuff up and
+fixing the documentation before pushing the whole pile out.
 
--- 
-Jean Delvare
-SUSE L3 Support
+Thanks,
+
+	tglx
