@@ -3,223 +3,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0714C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 13:43:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7026F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 15:28:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728889AbfIQNnr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Sep 2019 09:43:47 -0400
-Received: from foss.arm.com ([217.140.110.172]:56224 "EHLO foss.arm.com"
+        id S1729542AbfIQP21 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Sep 2019 11:28:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39534 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725902AbfIQNnr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Sep 2019 09:43:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F97928;
-        Tue, 17 Sep 2019 06:43:46 -0700 (PDT)
-Received: from e108754-lin.cambridge.arm.com (e108754-lin.cambridge.arm.com [10.1.199.68])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 713B33F575;
-        Tue, 17 Sep 2019 06:43:45 -0700 (PDT)
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     catalin.marinas@arm.com, will@kernel.org, maz@kernel.org,
-        corbet@lwn.net
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ionela Voinescu <ionela.voinescu@arm.com>
-Subject: [PATCH 4/4] Documentation: arm64: document support for the AMU extension
-Date:   Tue, 17 Sep 2019 14:42:28 +0100
-Message-Id: <20190917134228.5369-5-ionela.voinescu@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190917134228.5369-1-ionela.voinescu@arm.com>
-References: <20190917134228.5369-1-ionela.voinescu@arm.com>
+        id S1726305AbfIQP2Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Sep 2019 11:28:24 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8F3CB37E88
+        for <linux-doc@vger.kernel.org>; Tue, 17 Sep 2019 15:28:23 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id z1so1433633wrw.21
+        for <linux-doc@vger.kernel.org>; Tue, 17 Sep 2019 08:28:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=7mnmRgUCgAlAXrxHwhjTLW45iyiMz5FPUKvdpngF3+I=;
+        b=L8+A1IFjblhdXOGQuhBumFClf8Xmk5hcqCKeTK8E96B/rsemD7S+ZIXQ69LXGwXXgK
+         Xwu9nEm/7yk17ps3Jq5jHarTtU+TET+7KoMlaJKyrZJkQULN+4nyyaJ8eQLhgXTLthkf
+         gF34gZGeZGDlHtwHZfa5grafCr4mWXEjIbw8bAYD3k2uZnXVpeWv7fHNWhJ/1Jb+NxfY
+         mjBPqAl6ganDGKf9QCpHtWQyBgzZb7GcxjfjjNgVOtPUcVsD3c1jZGlpavRoLj0R0deb
+         E3d5mz7rhs3y79Z9BVEyk6sJIYUZ3zEJFsRG79+6M8ekQsJtcwKMZ1PqMf9KJ4BETCzd
+         licg==
+X-Gm-Message-State: APjAAAVja74NBB2E0bQuYNCoQTakxljb3S27LUuKZ/N/MjShz+bwgx3i
+        92XC3/y4/JjC6oX/WVrw2Lz/c1Ekf+8t5NQn0S1rRdoQb7+pK7mHLTp4QNOeBfwxq5D22WBOX7Z
+        f65QmxmOujk8lJtNnh8l9
+X-Received: by 2002:a5d:6a09:: with SMTP id m9mr3378971wru.12.1568734102267;
+        Tue, 17 Sep 2019 08:28:22 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy4pW4zgxABH6kbq9g/jw+pZm3IOziyF8pDsnqSMITDPGieP+H8bXoz+/FldIxghopVjWcUqg==
+X-Received: by 2002:a5d:6a09:: with SMTP id m9mr3378931wru.12.1568734101878;
+        Tue, 17 Sep 2019 08:28:21 -0700 (PDT)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id u68sm3597043wmu.12.2019.09.17.08.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 08:28:21 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lantianyu1986@gmail.com,
+        rkrcmar@redhat.com, corbet@lwn.net, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com, sashal@kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, michael.h.kelley@microsoft.com
+Subject: Re: [PATCH V4 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
+In-Reply-To: <7ea7fa06-f100-1507-8507-1c701877c8ab@redhat.com>
+References: <20190822143021.7518-1-Tianyu.Lan@microsoft.com> <7ea7fa06-f100-1507-8507-1c701877c8ab@redhat.com>
+Date:   Tue, 17 Sep 2019 17:28:20 +0200
+Message-ID: <874l1baqnf.fsf@vitty.brq.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The activity monitors extension is an optional extension introduced
-by the ARMv8.4 CPU architecture.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Add initial documentation for the AMUv1 extension:
- - arm64/amu.txt: AMUv1 documentation
- - arm64/booting.txt: system registers initialisation
- - arm64/cpu-feature-registers.txt: visibility to userspace
+> On 22/08/19 16:30, lantianyu1986@gmail.com wrote:
+>> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+>> 
+>> This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
+>> in L0 can delegate L1 hypervisor to handle tlb flush request from
+>> L2 guest when direct tlb flush is enabled in L1.
+>> 
+>> Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
+>> feature from user space. User space should enable this feature only
+>> when Hyper-V hypervisor capability is exposed to guest and KVM profile
+>> is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
+>> We hope L2 guest doesn't use KVM hypercall when the feature is
+>> enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
+>> 
+>> Change since v3:
+>>        - Update changelog in each patches. 
+>> 
+>> Change since v2:
+>>        - Move hv assist page(hv_pa_pg) from struct kvm  to struct kvm_hv.
+>> 
+>> Change since v1:
+>>        - Fix offset issue in the patch 1.
+>>        - Update description of KVM KVM_CAP_HYPERV_DIRECT_TLBFLUSH.
+>> 
+>> Tianyu Lan (2):
+>>   x86/Hyper-V: Fix definition of struct hv_vp_assist_page
+>>   KVM/Hyper-V: Add new KVM capability KVM_CAP_HYPERV_DIRECT_TLBFLUSH
+>> 
+>> Vitaly Kuznetsov (1):
+>>   KVM/Hyper-V/VMX: Add direct tlb flush support
+>> 
+>>  Documentation/virtual/kvm/api.txt  | 13 +++++++++++++
+>>  arch/x86/include/asm/hyperv-tlfs.h | 24 ++++++++++++++++++-----
+>>  arch/x86/include/asm/kvm_host.h    |  4 ++++
+>>  arch/x86/kvm/vmx/evmcs.h           |  2 ++
+>>  arch/x86/kvm/vmx/vmx.c             | 39 ++++++++++++++++++++++++++++++++++++++
+>>  arch/x86/kvm/x86.c                 |  8 ++++++++
+>>  include/uapi/linux/kvm.h           |  1 +
+>>  7 files changed, 86 insertions(+), 5 deletions(-)
+>> 
+>
+> Queued, thanks.
+>
 
-Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/arm64/amu.rst                   | 107 ++++++++++++++++++
- Documentation/arm64/booting.rst               |  14 +++
- Documentation/arm64/cpu-feature-registers.rst |   2 +
- Documentation/arm64/index.rst                 |   1 +
- 4 files changed, 124 insertions(+)
- create mode 100644 Documentation/arm64/amu.rst
+I had a suggestion how we can get away without the new capability (like
+direct tlb flush gets automatically enabled when Hyper-V hypercall page
+is activated and we know we can't handle KVM hypercalls any more)
+but this can probably be done as a follow-up.
 
-diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
-new file mode 100644
-index 000000000000..62a6635522e1
---- /dev/null
-+++ b/Documentation/arm64/amu.rst
-@@ -0,0 +1,107 @@
-+=======================================================
-+Activity Monitors Unit (AMU) extension in AArch64 Linux
-+=======================================================
-+
-+Author: Ionela Voinescu <ionela.voinescu@arm.com>
-+
-+Date: 2019-09-10
-+
-+This document briefly describes the provision of Activity Monitors Unit
-+support in AArch64 Linux.
-+
-+
-+Architecture overview
-+---------------------
-+
-+The activity monitors extension is an optional extension introduced by the
-+ARMv8.4 CPU architecture.
-+
-+The activity monitors unit, implemented in each CPU, provides performance
-+counters intended for system management use. The AMU extension provides a
-+system register interface to the counter registers and also supports an
-+optional external memory-mapped interface.
-+
-+Version 1 of the Activity Monitors architecture implements a counter group
-+of four fixed and architecturally defined 64-bit event counters.
-+  - CPU cycle counter: increments at the frequency of the CPU.
-+  - Constant counter: increments at the fixed frequency of the system
-+    clock.
-+  - Instructions retired: increments with every architecturally executed
-+    instruction.
-+  - Memory stall cycles: counts instruction dispatch stall cycles caused by
-+    misses in the last level cache within the clock domain.
-+
-+When in WFI or WFE these counters do not increment.
-+
-+The Activity Monitors architecture provides space for up to 16 architected
-+event counters. Future versions of the architecture may use this space to
-+implement additional architected event counters.
-+
-+Additionally, version 1 implements a counter group of up to 16 auxiliary
-+64-bit event counters.
-+
-+On cold reset all counters reset to 0.
-+
-+
-+Basic support
-+-------------
-+
-+The kernel can safely run a mix of CPUs with and without support for the
-+activity monitors extension. Therefore, when CONFIG_ARM64_AMU_EXTN is
-+selected we unconditionally enable the capability to allow any late CPU
-+(secondary or hotplugged) to detect and use the feature.
-+
-+When the feature is detected on a CPU, a per-CPU variable (amu_feat) is
-+set, but this does not guarantee the correct functionality of the
-+counters, only the presence of the extension.
-+
-+Firmware (code running at higher exception levels, e.g. arm-tf) support is
-+needed to:
-+ - Enable access for lower exception levels (EL2 and EL1) to the AMU
-+   registers.
-+ - Enable the counters. If not enabled these will read as 0.
-+ - Save/restore the counters before/after the CPU is being put/brought up
-+   from the 'off' power state.
-+
-+When using kernels that have this configuration enabled but boot with
-+broken firmware the user may experience panics or lockups when accessing
-+the counter registers. Even if these symptoms are not observed, the
-+values returned by the register reads might not correctly reflect reality.
-+Most commonly, the counters will read as 0, indicating that they are not
-+enabled. If proper support is not provided in firmware it's best to disable
-+CONFIG_ARM64_AMU_EXTN.
-+
-+The fixed counters of AMUv1 are accessible though the following system
-+register definitions:
-+ - SYS_AMEVCNTR0_CORE_EL0
-+ - SYS_AMEVCNTR0_CONST_EL0
-+ - SYS_AMEVCNTR0_INST_RET_EL0
-+ - SYS_AMEVCNTR0_MEM_STALL_EL0
-+
-+Auxiliary platform specific counters can be accessed using
-+SYS_AMEVCNTR1_EL0(n), where n is a value between 0 and 15.
-+
-+Details can be found in: arch/arm64/include/asm/sysreg.h.
-+
-+
-+Userspace access
-+----------------
-+
-+Currently, access from userspace to the AMU registers is disabled due to:
-+ - Security reasons: they might expose information about code executed in
-+   secure mode.
-+ - Purpose: AMU counters are intended for system management use.
-+
-+Also, the presence of the feature is not visible to userspace.
-+
-+
-+Virtualization
-+--------------
-+
-+Currently, access from userspace (EL0) and kernelspace (EL1) on the KVM
-+guest side is disabled due to:
-+ - Security reasons: they might expose information about code executed
-+   by other guests or the host.
-+
-+Any attempt to access the AMU registers will result in an UNDEFINED
-+exception being injected into the guest.
-diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
-index d3f3a60fbf25..a17f427990d6 100644
---- a/Documentation/arm64/booting.rst
-+++ b/Documentation/arm64/booting.rst
-@@ -245,6 +245,20 @@ Before jumping into the kernel, the following conditions must be met:
-     - HCR_EL2.APK (bit 40) must be initialised to 0b1
-     - HCR_EL2.API (bit 41) must be initialised to 0b1
- 
-+  For CPUs with Activity Monitors Unit v1 (AMUv1) extension present:
-+  - If EL3 is present:
-+    CPTR_EL3.TAM (bit 30) must be initialised to 0b0
-+    CPTR_EL2.TAM (bit 30) must be initialised to 0b0
-+    AMCNTENSET0_EL0 must be initialised to 0b1111
-+    AMCNTENSET1_EL0 must be initialised to a platform specific value
-+    having 0b1 set for the corresponding bit for each of the auxiliary
-+    counters present.
-+  - If the kernel is entered at EL1:
-+    AMCNTENSET0_EL0 must be initialised to 0b1111
-+    AMCNTENSET1_EL0 must be initialised to a platform specific value
-+    having 0b1 set for the corresponding bit for each of the auxiliary
-+    counters present.
-+
- The requirements described above for CPU mode, caches, MMUs, architected
- timers, coherency and system registers apply to all CPUs.  All CPUs must
- enter the kernel in the same exception level.
-diff --git a/Documentation/arm64/cpu-feature-registers.rst b/Documentation/arm64/cpu-feature-registers.rst
-index 2955287e9acc..c0effe36e54c 100644
---- a/Documentation/arm64/cpu-feature-registers.rst
-+++ b/Documentation/arm64/cpu-feature-registers.rst
-@@ -150,6 +150,8 @@ infrastructure:
-      +------------------------------+---------+---------+
-      | DIT                          | [51-48] |    y    |
-      +------------------------------+---------+---------+
-+     | AMU                          | [47-44] |    n    |
-+     +------------------------------+---------+---------+
-      | SVE                          | [35-32] |    y    |
-      +------------------------------+---------+---------+
-      | GIC                          | [27-24] |    n    |
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index 5c0c69dc58aa..09cbb4ed2237 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -6,6 +6,7 @@ ARM64 Architecture
-     :maxdepth: 1
- 
-     acpi_object_usage
-+    amu
-     arm-acpi
-     booting
-     cpu-feature-registers
 -- 
-2.17.1
-
+Vitaly
