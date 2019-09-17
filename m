@@ -1,79 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
-X-Spam-Level: *
-X-Spam-Status: No, score=1.1 required=5.0 tests=DEAR_FRIEND,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FILL_THIS_FORM_LOAN,
-	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,MONEY_FORM,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	SUBJ_ALL_CAPS,T_MONEY_PERCENT autolearn=no autolearn_force=no
-	version=3.4.2
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 47CE17D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Sep 2019 17:47:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2CB27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 04:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388148AbfIPRrl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Sep 2019 13:47:41 -0400
-Received: from sonic306-2.consmr.mail.bf2.yahoo.com ([74.6.132.41]:40184 "EHLO
-        sonic306-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388043AbfIPRrk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Sep 2019 13:47:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1568656058; bh=FCjWGTqDRXQUUN8ivg02MDhbiDKrvltOcpc7W52q/3U=; h=Date:From:Reply-To:Subject:From:Subject; b=bT9o7e3of0HTEcDba68Zt7pkW1sa06+XMEvJGYmcdRuCuKZtI+miLIgeevi6gtlFt2xMCTLmOu4OE7hu7dKtyHnQzWLpKK9zhiILkGD7ir6jOl67tGvMZHx8i8LXENwlyyTbhif6cra6iU50km/ejD0RE9V0a+QVsZSmj4Gh/pRWXd4d29Taanwh6FTTZHjtrwhhrQR7t7NyX6Rojbh3UhSleghjdBmx9tDrAq1uUAGFS2sI8+yAAjKHmErbvIoLmOMVQGl2HfIdkSGbsWMPxiXIZqJGcPAEdLT73rEw2BcG/nvXRQMS673DNDS8Md7vX3Iw2cJrTBdi91oor0WBOA==
-X-YMail-OSG: H6dRXmUVM1kbHpPZMesHqg5RvCfoz2_sJ9cISOoHSo8OZkVS10W0z27WEAhc6c6
- uMdRFEFCzmBJqkYzt_OZH3fElWSEA_JjSwiviPrTH317mVly5Ymhy677OzoINlWeWtMBRgm0HLOM
- IhwIWEK2Gxk8hT0whMn7.CG8N.pFVRXeS0ptSgRzqXWk.1T031LTPVA_WAKBYHUm4dyoHRsedS74
- I2iDs3SLsvW9EOXkZMN5OkJFYFH4zbQ3UWiD6xivreUFVp7x6hD4ojdxCtmUNl2oyS3BxTjTnQ_C
- TuTuU9emwjE0CfQz9y8LuQ5lkz391dNDTOx73Kqx6wGH.uDgAph4hcM6lhxocXuQM5biVPZKMuAv
- GkV769AKKGu3nhymiFnRFQGLIMXRFpSw8Zx3nYTVZS.X3xgYD86KOOKggz6cpRdBO5x8qML7PjPt
- FfaIhoP481eC0NZDLNDThPptB47ifh1Hb58o8NR9srpFvvESCY6mt9B3oPZrBHi1D0Tv__aK7Lb_
- lzMGySztHquwZLkC57PAZdzVW0opa9pLxxfPLfh5J51_pOBgw6QE_StTelz5FWc2vbFYbBPSkQoj
- .IpzudPVwIy84O.qWdWsGU27MGM0iFJuYpC4iTWqu9EeNdBrm_Y_MofnEGbabHbLSnew0OVzUoZy
- zDNRzoXdvHKt84WLsui2q1ZjWuLz3cZS9_K.2qKgPePLcIj9vyIk_wmB.wXftIBXMgSYnKqW3ZQr
- ssfXS4GeMlmWo5S7MxfSN2XpU0EJKY9qXdl39XDPTB4l_D_No6zMIV2oXdho2q3rLIhMcIziq3ua
- 3EKcc_fZxS3r0sC3MFOj35..Fz3u2nR31JQb9ph92ucSOvglUdvrlMYYSAuueRMHiqD.otMdBeNT
- 5y5X3N6Cfb6GvGH03hZMjvGm1seQSiqi9CTmLVCezzuRCtYiov9a2OLpW5JX2XqRYlSjR_NkGxI4
- jSvN7e522CqCE.0Nx5evUub1TUc8aSXASVEyXJaoFv_KIXNO_G_nRyI07cceADXzV1Yd3WknvGEw
- TI0Y5XSivArlaeb65ywhxIUgdHbFAuhDfZqRojp4UXUY.3D3aeEDAkENL1CggneJ0sPn8KowiNC.
- KoJ632.IODCOL8o04TCgXT5NzkLz7jY6l_3fgED0FJEBuN35YLU85QL84CTMnGbg5ypWKZzOIuDl
- q4FrLk4.kn2jQ0AoJOpZjW_xhDtEhnVhghqHIx.5_r.CbOYxDQkQGWuLKH.0RQ4_XN7oeFaIVWdO
- Bzo6NHKqpXxEMdCmyQr.vbWtqXnP9DcXMCA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Mon, 16 Sep 2019 17:47:38 +0000
-Date:   Mon, 16 Sep 2019 17:47:37 +0000 (UTC)
-From:   Ms Lisa Hugh <lisa.hugh101@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <1888366226.5438287.1568656057401@mail.yahoo.com>
-Subject: CONFIDENTIAL FROM MS LISA HUGH(BUSINESS)
+        id S1727991AbfIQESJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Sep 2019 00:18:09 -0400
+Received: from mail.11d03.mspz7.gob.ec ([190.214.23.250]:48090 "EHLO
+        mail.11d03.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726902AbfIQESJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Sep 2019 00:18:09 -0400
+X-Greylist: delayed 1141 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Sep 2019 00:18:08 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTP id EC9C8404B76A3;
+        Mon, 16 Sep 2019 22:59:05 -0500 (-05)
+Received: from mail.11d03.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d03.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 3U75_nSf9X4y; Mon, 16 Sep 2019 22:59:05 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTP id 90C39404B76C5;
+        Mon, 16 Sep 2019 22:59:04 -0500 (-05)
+X-Virus-Scanned: amavisd-new at 11d03.mspz7.gob.ec
+Received: from mail.11d03.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d03.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id cb2tbl-Wf1L7; Mon, 16 Sep 2019 22:59:04 -0500 (-05)
+Received: from [10.33.79.142] (unknown [105.4.0.133])
+        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTPSA id 880A2404A8BB4;
+        Mon, 16 Sep 2019 22:58:54 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
+To:     Recipients <vicenta.sinche@11d03.mspz7.gob.ec>
+From:   ''Tayeb souami'' <vicenta.sinche@11d03.mspz7.gob.ec>
+Date:   Tue, 17 Sep 2019 05:58:43 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20190917035854.880A2404A8BB4@mail.11d03.mspz7.gob.ec>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Lieber Freund,
 
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
 
-Dear Friend,
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
-I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
+Das ist dein Spendencode: [TS530342018]
 
-There is this fund that was keep in my custody years ago,please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment and the amount is (US$4.5M DOLLARS).
+Antworten Sie mit dem SPENDE-CODE an diese 
 
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
+E-Mail:Tayebsouam.spende@gmail.com
 
-Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
-Below information is what i need from you so will can be reaching each other .
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-
-Ms Lisa Hugh
+Grüße
+Herr Tayeb Souami
