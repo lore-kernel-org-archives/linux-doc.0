@@ -1,76 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E962E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 19:43:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 20C557D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 23:40:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728126AbfIQTnE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Sep 2019 15:43:04 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44004 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbfIQTnE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Sep 2019 15:43:04 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id F1AC328DE02
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, kernel@collabora.com,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH 1/2] kernel-doc: fix processing nested structs with attributes
-Date:   Tue, 17 Sep 2019 16:41:45 -0300
-Message-Id: <20190917194146.35642-2-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190917194146.35642-1-andrealmeid@collabora.com>
-References: <20190917194146.35642-1-andrealmeid@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1727468AbfIQXkT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Sep 2019 19:40:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725902AbfIQXkT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Sep 2019 19:40:19 -0400
+Subject: Re: [GIT PULL] Documentation for 5.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568763618;
+        bh=Ne0yRbdT8PpLUK/TPK3mDvpPWz3ogAq3s+79svNELtw=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=EIXEkLp3nWp3SiqWA/lWfqmIrd4Cqu+No4b+UnwNL7VlfXMRZJ8HyR9DIV6EbNTfw
+         2rFzxQLGu2H92adjC1mUvcO7E7RFAGQ3SAZyYnybQ3g/xfMKpPK20pnUuCo/YfPrzt
+         k+0YAglrMXEEIS3Pju36k8h9Xs/CImbX8v+/yrew=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190916001918.7c9b69f7@lwn.net>
+References: <20190916001918.7c9b69f7@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190916001918.7c9b69f7@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.4
+X-PR-Tracked-Commit-Id: fe013f8bc160d79c6e33bb66d9bb0cd24949274c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 7c672abc120a55f678e5571ae2ee93f06ca4d7f9
+Message-Id: <156876361890.26432.9962895084250559819.pr-tracker-bot@kernel.org>
+Date:   Tue, 17 Sep 2019 23:40:18 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current regular expression for strip attributes of structs (and
-for nested ones as well) also removes all whitespaces that may
-surround the attribute. After that, the code will split structs and
-iterate for each symbol separated by comma at the end of struct
-definition (e.g. "} alias1, alias2;"). However, if the nested struct
-does not have any alias and has an attribute, it will result in a
-empty string at the closing bracket (e.g "};"). This will make the
-split return nothing and $newmember will keep uninitialized. Fix
-that, by ensuring that the attribute substitution will leave at least
-one whitespace.
+The pull request you sent on Mon, 16 Sep 2019 00:19:18 -0600:
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
- scripts/kernel-doc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> git://git.lwn.net/linux.git tags/docs-5.4
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 6b03012750da..f1faa036ee59 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1073,10 +1073,10 @@ sub dump_struct($$) {
- 	# strip comments:
- 	$members =~ s/\/\*.*?\*\///gos;
- 	# strip attributes
--	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)//gi;
--	$members =~ s/\s*__aligned\s*\([^;]*\)//gos;
--	$members =~ s/\s*__packed\s*//gos;
--	$members =~ s/\s*CRYPTO_MINALIGN_ATTR//gos;
-+	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
-+	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
-+	$members =~ s/\s*__packed\s*/ /gos;
-+	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
- 	# replace DECLARE_BITMAP
- 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/7c672abc120a55f678e5571ae2ee93f06ca4d7f9
+
+Thank you!
+
 -- 
-2.23.0
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
