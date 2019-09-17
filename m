@@ -5,113 +5,98 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0904E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 13:27:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BEC87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Sep 2019 13:43:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728048AbfIQN1s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Sep 2019 09:27:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57884 "EHLO mx1.redhat.com"
+        id S1726308AbfIQNnI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Sep 2019 09:43:08 -0400
+Received: from foss.arm.com ([217.140.110.172]:56152 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727519AbfIQN1s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Sep 2019 09:27:48 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E01044E938
-        for <linux-doc@vger.kernel.org>; Tue, 17 Sep 2019 13:27:47 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id 4so872783wmj.6
-        for <linux-doc@vger.kernel.org>; Tue, 17 Sep 2019 06:27:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1P0dSGUS+WWJgIEsGv0bzVV8obUlEtzj+cS48y+KeEY=;
-        b=KPzj9YZTGCNEvGSTYCrIm4i+YRMWhRNAHNuBXlPIJz3uEwajk9ZPYbsHfeSucjz8cm
-         TrzH9GiKLzS+ylkKOd8pWUKLVtZVY6T/HiCWjkDMpbvR5gBXnXukN4RLYnTw2r+C4N5t
-         xL/SjLGQ93LVqIwMMffsKNO0B7hxjaLAc02i9IHq9z9d6+mkzBbaKtMqToYxYmd2z4lN
-         PSxtWBGhZbgTrjNn1HGFXVGJHYqDbANOOYYpqO4LWC5FNsux+jEO1tourIhzjm2yCcaT
-         Ouc1MqBxivcb2jukIC0StMfkt345UouQXSS4v9T47+16MmKzWXXhWeHqF48gbtSWNMHj
-         aPFw==
-X-Gm-Message-State: APjAAAWtxIov9z8bQO6wX/KvokWHyrKLUxEoLVsJny/jX7HJkwPr3/Dq
-        kMF56r7RVW3MJ3e0jBNCq17zNv+mknVpQwUTPF1BaZZu8eSs7I2THr8BsU28XB9arqFCWhBqxRd
-        +girGRQICL+yKWgs7JyfW
-X-Received: by 2002:adf:f303:: with SMTP id i3mr3196364wro.242.1568726866536;
-        Tue, 17 Sep 2019 06:27:46 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxFU9EERU1lbrrSdMwmejNG+OkwH4Dchh8n9cZ1MOq5r+sDWbio0dFe9hnBTYw15bHDvn+q+Q==
-X-Received: by 2002:adf:f303:: with SMTP id i3mr3196322wro.242.1568726866217;
-        Tue, 17 Sep 2019 06:27:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c46c:2acb:d8d2:21d8? ([2001:b07:6468:f312:c46c:2acb:d8d2:21d8])
-        by smtp.gmail.com with ESMTPSA id 33sm4277057wra.41.2019.09.17.06.27.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Sep 2019 06:27:45 -0700 (PDT)
-Subject: Re: [PATCH V4 0/3] KVM/Hyper-V: Add Hyper-V direct tlb flush support
-To:     lantianyu1986@gmail.com, rkrcmar@redhat.com, corbet@lwn.net,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        michael.h.kelley@microsoft.com
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, vkuznets@redhat.com
-References: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <7ea7fa06-f100-1507-8507-1c701877c8ab@redhat.com>
-Date:   Tue, 17 Sep 2019 15:27:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1725902AbfIQNnI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Sep 2019 09:43:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA8C828;
+        Tue, 17 Sep 2019 06:43:07 -0700 (PDT)
+Received: from e108754-lin.cambridge.arm.com (e108754-lin.cambridge.arm.com [10.1.199.68])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9B9913F575;
+        Tue, 17 Sep 2019 06:43:06 -0700 (PDT)
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     catalin.marinas@arm.com, will@kernel.org, maz@kernel.org,
+        corbet@lwn.net
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ionela Voinescu <ionela.voinescu@arm.com>
+Subject: [PATCH 0/4] arm64: ARMv8.4 Activity Monitors support
+Date:   Tue, 17 Sep 2019 14:42:24 +0100
+Message-Id: <20190917134228.5369-1-ionela.voinescu@arm.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/08/19 16:30, lantianyu1986@gmail.com wrote:
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> 
-> This patchset is to add Hyper-V direct tlb support in KVM. Hyper-V
-> in L0 can delegate L1 hypervisor to handle tlb flush request from
-> L2 guest when direct tlb flush is enabled in L1.
-> 
-> Patch 2 introduces new cap KVM_CAP_HYPERV_DIRECT_TLBFLUSH to enable
-> feature from user space. User space should enable this feature only
-> when Hyper-V hypervisor capability is exposed to guest and KVM profile
-> is hided. There is a parameter conflict between KVM and Hyper-V hypercall.
-> We hope L2 guest doesn't use KVM hypercall when the feature is
-> enabled. Detail please see comment of new API "KVM_CAP_HYPERV_DIRECT_TLBFLUSH"
-> 
-> Change since v3:
->        - Update changelog in each patches. 
-> 
-> Change since v2:
->        - Move hv assist page(hv_pa_pg) from struct kvm  to struct kvm_hv.
-> 
-> Change since v1:
->        - Fix offset issue in the patch 1.
->        - Update description of KVM KVM_CAP_HYPERV_DIRECT_TLBFLUSH.
-> 
-> Tianyu Lan (2):
->   x86/Hyper-V: Fix definition of struct hv_vp_assist_page
->   KVM/Hyper-V: Add new KVM capability KVM_CAP_HYPERV_DIRECT_TLBFLUSH
-> 
-> Vitaly Kuznetsov (1):
->   KVM/Hyper-V/VMX: Add direct tlb flush support
-> 
->  Documentation/virtual/kvm/api.txt  | 13 +++++++++++++
->  arch/x86/include/asm/hyperv-tlfs.h | 24 ++++++++++++++++++-----
->  arch/x86/include/asm/kvm_host.h    |  4 ++++
->  arch/x86/kvm/vmx/evmcs.h           |  2 ++
->  arch/x86/kvm/vmx/vmx.c             | 39 ++++++++++++++++++++++++++++++++++++++
->  arch/x86/kvm/x86.c                 |  8 ++++++++
->  include/uapi/linux/kvm.h           |  1 +
->  7 files changed, 86 insertions(+), 5 deletions(-)
-> 
+These patches introduce support for the Activity Monitors Unit (AMU)
+CPU extension, an optional extension in ARMv8.4 CPUs. This provides
+performance counters intended for system management use.
 
-Queued, thanks.
+With the CONFIG_ARM64_AMU_EXTN enabled the kernel is able to safely
+run a mix of CPUs with and without support for the AMU extension.
+The AMU capability is unconditionally enabled in the kernel as to
+allow any late CPU to use the feature: the cpu_enable function will
+be called for all CPUs that match the criteria, including secondary
+and hotplugged CPUs, marking this feature as present on that
+respective CPU (through a per-cpu variable).
 
-Paolo
+To be noted that firmware must implement AMU support when running on
+CPUs that present the activity monitors extension: allow access to
+the registers from lower exception levels, enable the counters,
+implement save and restore functionality. More details can be found
+in the documentation.
+
+Given that the activity counters inform on activity on the CPUs, and 
+that not all CPUs might implement the extension, for functional and 
+security reasons, it's best to disable access to the AMU registers
+from userspace (EL0) and KVM guests.
+
+The current series is based on linux-next 20190916.
+
+Testing:
+ - Build tested for multiple architectures and defconfigs.
+ - AMU feature detection, EL0 and KVM guest access to AMU registers,
+   feature support in firmware (version 1.5 and later of the ARM 
+   Trusted Firmware) was tested on an Armv8-A Base Platform FVP:
+   Architecture Envelope Model [1] (supports version 8.0 to 8.5),
+   with the following configurations:
+
+   cluster0.has_arm_v8-4=1
+   cluster1.has_arm_v8-4=1
+   cluster0.has_amu=1
+   cluster1.has_amu=1
+
+[1] https://developer.arm.com/tools-and-software/simulation-models/fixed-virtual-platforms
+
+Ionela Voinescu (4):
+  arm64: add support for the AMU extension v1
+  arm64: trap to EL1 accesses to AMU counters from EL0
+  arm64/kvm: disable access to AMU registers from kvm guests
+  Documentation: arm64: document support for the AMU extension
+
+ Documentation/arm64/amu.rst                   | 107 ++++++++++++++++++
+ Documentation/arm64/booting.rst               |  14 +++
+ Documentation/arm64/cpu-feature-registers.rst |   2 +
+ Documentation/arm64/index.rst                 |   1 +
+ arch/arm64/Kconfig                            |  27 +++++
+ arch/arm64/include/asm/assembler.h            |  10 ++
+ arch/arm64/include/asm/cpucaps.h              |   3 +-
+ arch/arm64/include/asm/kvm_arm.h              |   7 +-
+ arch/arm64/include/asm/sysreg.h               |  44 +++++++
+ arch/arm64/kernel/cpufeature.c                |  71 +++++++++++-
+ arch/arm64/kvm/hyp/switch.c                   |  13 ++-
+ arch/arm64/kvm/sys_regs.c                     |  95 +++++++++++++++-
+ arch/arm64/mm/proc.S                          |   3 +
+ 13 files changed, 386 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/arm64/amu.rst
+
+-- 
+2.17.1
+
