@@ -1,304 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.3 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,MONEY_FROM_41,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 013017DC63
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 14:23:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B89497D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 18:20:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730235AbfIROXT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Sep 2019 10:23:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33358 "EHLO mx1.suse.de"
+        id S2387414AbfIRSUH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Sep 2019 14:20:07 -0400
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:10148 "EHLO mtaw.cdmx.gob.mx"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730723AbfIROXS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Sep 2019 10:23:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 1670CB689;
-        Wed, 18 Sep 2019 14:23:15 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
-        sam@ravnborg.org, yc_chen@aspeedtech.com, corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 11/11] drm/mgag200: Implement cursor buffer with struct drm_vram_buffer
-Date:   Wed, 18 Sep 2019 16:23:07 +0200
-Message-Id: <20190918142307.27127-12-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190918142307.27127-1-tzimmermann@suse.de>
-References: <20190918142307.27127-1-tzimmermann@suse.de>
+        id S2387956AbfIRSUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Sep 2019 14:20:07 -0400
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1568830232; h=X-Virus-Scanned:Content-Type:
+         MIME-Version:Content-Transfer-Encoding:Content-Description:
+         Subject:To:From:Date:Reply-To:Message-Id:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-SAAS-TrackingID:X-NAIMIME-Disclaimer:X-NAIMIME-Modified:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=K
+        jij0GhOpdKSaBiEpb4h9F2ukULK7Zgku7ZRRhmMNN
+        U=; b=TAgeV3t3SEKXu7Z/ueT+AyVeidmTRstLfcLMxfo/bXqD
+        n5On/a4QiL4xau1ymxTrWIgQRVHmNmOvPasvVRMRx8kgP+Zili
+        RPSUvnK7d5+Rc2WrkM0utHeFMz33+ZINP4Fkha6S2Q0oml6xfP
+        O0Va4q7W1QsoSFmRtxyJ9ChUaUA=
+Received: from correo.seciti.cdmx.gob.mx (gdf-correo.cdmx.gob.mx [10.250.102.17]) by mtaw.cdmx.gob.mx with smtp
+         id 7281_28f7_c78dba57_e50c_4c21_a541_fd157e495855;
+        Wed, 18 Sep 2019 13:10:31 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTP id 073093532;
+        Wed, 18 Sep 2019 13:10:28 -0500 (CDT)
+Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
+        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Oi7Mm98cUTpM; Wed, 18 Sep 2019 13:10:27 -0500 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTP id C2B473811;
+        Wed, 18 Sep 2019 12:56:03 -0500 (CDT)
+X-Virus-Scanned: amavisd-new at gdf-correo.df.gob.mx
+Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
+        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id td-OLahieMlz; Wed, 18 Sep 2019 12:56:03 -0500 (CDT)
+Received: from [41.148.42.229] (8ta-148-42-229.telkomadsl.co.za [41.148.42.229])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTPSA id CFA5F4093;
+        Wed, 18 Sep 2019 12:44:27 -0500 (CDT)
+Content-Type: text/plain;
+  charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+Content-Description: Mail message body
+Subject: Spende von 5 Millionen Euro
+To:     Recipients <mramirezg@mexicocity.gob.mx>
+From:   "Shane Missler" <mramirezg@mexicocity.gob.mx>
+Date:   Wed, 18 Sep 2019 19:44:16 +0200
+Reply-To: shanemissler3@gmail.com
+Message-Id: <20190918174428.CFA5F4093@gdf-correo.df.gob.mx>
+X-AnalysisOut: [v=2.2 cv=WMsPZjkR c=1 sm=1 tr=0 p=ELT1L0JgSr8A:10 p=09-KjH]
+X-AnalysisOut: [S_CW8A:10 p=bEr4i4eggGkA:10 p=emDABjehN2fqPHqc8RbT:22 p=Ly]
+X-AnalysisOut: [qu6MUUigPyaOuRX7ce:22 a=KsSCQl7LcZej77FuluUcQw==:117 a=oLf]
+X-AnalysisOut: [NtqljNgXPa7RrmTwnGA==:17 a=IkcTkHD0fZMA:10 a=x7bEGLp0ZPQA:]
+X-AnalysisOut: [10 a=J70Eh1EUuV4A:10 a=pGLkceISAAAA:8 a=wN7rT8hNlMSaUXRpxS]
+X-AnalysisOut: [gA:9 a=K7tsimcRO30Sg2YH:21 a=QOCYt1FwmxBrUrRv:21 a=QEXdDO2]
+X-AnalysisOut: [ut3YA:10]
+X-SAAS-TrackingID: 813728d5.0.82827635.00-2327.139140160.s12p02m005.mxlogic.net
+X-NAIMIME-Disclaimer: 1
+X-NAIMIME-Modified: 1
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6637> : inlines <7143> : streams
+ <1833135> : uri <2906119>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The new VRAM buffer replaces all GEM buffer objects that contained cursor
-images. The buffer maintains the previously reserved memory at the high
-end of video RAM. The update() and set_base() now serve as callbacks for
-the VRAM buffer.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/mgag200/mgag200_cursor.c | 124 +++++++----------------
- drivers/gpu/drm/mgag200/mgag200_drv.h    |  16 +--
- 2 files changed, 38 insertions(+), 102 deletions(-)
-
-diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-index ab3dfe6bdd92..650013e488c2 100644
---- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-@@ -12,9 +12,12 @@
- static bool warn_transparent = true;
- static bool warn_palette = true;
- 
--static int mgag200_cursor_update(struct mga_device *mdev, void *dst, void *src,
--				 unsigned int width, unsigned int height)
-+static int mgag200_cursor_vram_buffer_update(struct drm_vram_buffer *vbuf,
-+					     void *dst, void *src,
-+					     unsigned int width,
-+					     unsigned int height)
- {
-+	struct mga_device *mdev = container_of(vbuf, struct mga_device, cursor);
- 	struct drm_device *dev = mdev->dev;
- 	unsigned int i, row, col;
- 	uint32_t colour_set[16];
-@@ -107,8 +110,10 @@ static int mgag200_cursor_update(struct mga_device *mdev, void *dst, void *src,
- 	return 0;
- }
- 
--static void mgag200_cursor_set_base(struct mga_device *mdev, u64 address)
-+static void mgag200_cursor_vram_buffer_set_base(struct drm_vram_buffer *vbuf,
-+						u64 address)
- {
-+	struct mga_device *mdev = container_of(vbuf, struct mga_device, cursor);
- 	u8 addrl = (address >> 10) & 0xff;
- 	u8 addrh = (address >> 18) & 0x3f;
- 
-@@ -117,16 +122,20 @@ static void mgag200_cursor_set_base(struct mga_device *mdev, u64 address)
- 	WREG_DAC(MGA1064_CURSOR_BASE_ADR_HI, addrh);
- }
- 
--static int mgag200_show_cursor(struct mga_device *mdev, void *dst, void *src,
--			       unsigned int width, unsigned int height,
--			       u64 dst_gpu)
-+static const struct drm_vram_buffer_funcs mgag200_cursor_vram_buffer_funcs = {
-+	.update = mgag200_cursor_vram_buffer_update,
-+	.set_base = mgag200_cursor_vram_buffer_set_base
-+};
-+
-+static int mgag200_show_cursor(struct mga_device *mdev, void *src,
-+			       unsigned int width, unsigned int height)
- {
- 	int ret;
- 
--	ret = mgag200_cursor_update(mdev, dst, src, width, height);
-+	ret = drm_vram_buffer_update(&mdev->cursor, src, width, height);
- 	if (ret)
- 		return ret;
--	mgag200_cursor_set_base(mdev, dst_gpu);
-+	drm_vram_buffer_swap(&mdev->cursor);
- 
- 	/* Adjust cursor control register to turn on the cursor */
- 	WREG_DAC(MGA1064_CURSOR_CTL, 4); /* 16-colour palletized cursor mode */
-@@ -141,9 +150,6 @@ static void mgag200_hide_cursor(struct mga_device *mdev)
- {
- 	WREG8(MGA_CURPOSXL, 0);
- 	WREG8(MGA_CURPOSXH, 0);
--	if (mdev->cursor.pixels_current)
--		drm_gem_vram_unpin(mdev->cursor.pixels_current);
--	mdev->cursor.pixels_current = NULL;
- }
- 
- static void mgag200_move_cursor(struct mga_device *mdev, int x, int y)
-@@ -167,58 +173,39 @@ static void mgag200_move_cursor(struct mga_device *mdev, int x, int y)
- int mgag200_cursor_init(struct mga_device *mdev)
- {
- 	struct drm_device *dev = mdev->dev;
-+	unsigned long base, frame_size, nframes, size;
-+	int ret;
- 
--	/*
--	 * Make small buffers to store a hardware cursor (double
--	 * buffered icon updates)
--	 */
--	mdev->cursor.pixels_1 = drm_gem_vram_create(dev, &dev->vram_mm->bdev,
--						    roundup(48*64, PAGE_SIZE),
--						    0, 0);
--	mdev->cursor.pixels_2 = drm_gem_vram_create(dev, &dev->vram_mm->bdev,
--						    roundup(48*64, PAGE_SIZE),
--						    0, 0);
--	if (IS_ERR(mdev->cursor.pixels_2) || IS_ERR(mdev->cursor.pixels_1)) {
--		mdev->cursor.pixels_1 = NULL;
--		mdev->cursor.pixels_2 = NULL;
--		dev_warn(&dev->pdev->dev,
--			"Could not allocate space for cursors. Not doing hardware cursors.\n");
--	}
--	mdev->cursor.pixels_current = NULL;
-+	base = mdev->mc.vram_base + dev->vram_mm->vram_size;
-+	frame_size = roundup(64 * 48, 1024);
-+	nframes = 2;
-+	size = roundup(frame_size * nframes, PAGE_SIZE);
-+
-+	ret = drm_vram_buffer_init(&mdev->cursor, base, size, frame_size,
-+				   nframes, &mgag200_cursor_vram_buffer_funcs);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
- }
- 
- void mgag200_cursor_fini(struct mga_device *mdev)
--{ }
-+{
-+	drm_vram_buffer_cleanup(&mdev->cursor);
-+}
- 
- int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
- 			    uint32_t handle, uint32_t width, uint32_t height)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct mga_device *mdev = (struct mga_device *)dev->dev_private;
--	struct drm_gem_vram_object *pixels_1 = mdev->cursor.pixels_1;
--	struct drm_gem_vram_object *pixels_2 = mdev->cursor.pixels_2;
--	struct drm_gem_vram_object *pixels_current = mdev->cursor.pixels_current;
--	struct drm_gem_vram_object *pixels_next;
- 	struct drm_gem_object *obj;
- 	struct drm_gem_vram_object *gbo = NULL;
- 	int ret;
--	u8 *src, *dst;
--	s64 gpu_addr;
--	u64 dst_gpu;
-+	u8 *src;
- 
--	if (!pixels_1 || !pixels_2) {
--		WREG8(MGA_CURPOSXL, 0);
--		WREG8(MGA_CURPOSXH, 0);
-+	if (!mdev->cursor.mem)
- 		return -ENOTSUPP; /* Didn't allocate space for cursors */
--	}
--
--	if (WARN_ON(pixels_current &&
--		    pixels_1 != pixels_current &&
--		    pixels_2 != pixels_current)) {
--		return -ENOTSUPP; /* inconsistent state */
--	}
- 
- 	if (!handle || !file_priv) {
- 		mgag200_hide_cursor(mdev);
-@@ -226,16 +213,10 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
- 	}
- 
- 	if (width != 64 || height != 64) {
--		WREG8(MGA_CURPOSXL, 0);
--		WREG8(MGA_CURPOSXH, 0);
-+		mgag200_hide_cursor(mdev);
- 		return -EINVAL;
- 	}
- 
--	if (pixels_current == pixels_1)
--		pixels_next = pixels_2;
--	else
--		pixels_next = pixels_1;
--
- 	obj = drm_gem_object_lookup(file_priv, handle);
- 	if (!obj)
- 		return -ENOENT;
-@@ -248,48 +229,15 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
- 		goto err_drm_gem_object_put_unlocked;
- 	}
- 
--	/* Pin and map up-coming buffer to write colour indices */
--	ret = drm_gem_vram_pin(pixels_next, DRM_GEM_VRAM_PL_FLAG_VRAM);
--	if (ret) {
--		dev_err(&dev->pdev->dev,
--			"failed to pin cursor buffer: %d\n", ret);
--		goto err_drm_gem_vram_vunmap;
--	}
--	dst = drm_gem_vram_kmap(pixels_next, true, NULL);
--	if (IS_ERR(dst)) {
--		ret = PTR_ERR(dst);
--		dev_err(&dev->pdev->dev,
--			"failed to kmap cursor updates: %d\n", ret);
--		goto err_drm_gem_vram_unpin_dst;
--	}
--	gpu_addr = drm_gem_vram_offset(pixels_next);
--	if (gpu_addr < 0) {
--		ret = (int)gpu_addr;
--		dev_err(&dev->pdev->dev,
--			"failed to get cursor scanout address: %d\n", ret);
--		goto err_drm_gem_vram_kunmap_dst;
--	}
--	dst_gpu = (u64)gpu_addr;
--
--	ret = mgag200_show_cursor(mdev, dst, src, width, height, dst_gpu);
-+	ret = mgag200_show_cursor(mdev, src, width, height);
- 	if (ret)
--		goto err_drm_gem_vram_kunmap_dst;
--
--	/* Now update internal buffer pointers */
--	if (pixels_current)
--		drm_gem_vram_unpin(pixels_current);
--	mdev->cursor.pixels_current = pixels_next;
-+		goto err_drm_gem_vram_vunmap;
- 
--	drm_gem_vram_kunmap(pixels_next);
- 	drm_gem_vram_vunmap(gbo, src);
- 	drm_gem_object_put_unlocked(obj);
- 
- 	return 0;
- 
--err_drm_gem_vram_kunmap_dst:
--	drm_gem_vram_kunmap(pixels_next);
--err_drm_gem_vram_unpin_dst:
--	drm_gem_vram_unpin(pixels_next);
- err_drm_gem_vram_vunmap:
- 	drm_gem_vram_vunmap(gbo, src);
- err_drm_gem_object_put_unlocked:
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 01243fa6397c..7ced98d61c22 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -19,6 +19,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_vram_helper.h>
-+#include <drm/drm_vram_helper.h>
- 
- #include "mgag200_reg.h"
- 
-@@ -128,19 +129,6 @@ struct mga_connector {
- 	struct mga_i2c_chan *i2c;
- };
- 
--struct mga_cursor {
--	/*
--	   We have to have 2 buffers for the cursor to avoid occasional
--	   corruption while switching cursor icons.
--	   If either of these is NULL, then don't do hardware cursors, and
--	   fall back to software.
--	*/
--	struct drm_gem_vram_object *pixels_1;
--	struct drm_gem_vram_object *pixels_2;
--	/* The currently displayed icon, this points to one of pixels_1, or pixels_2 */
--	struct drm_gem_vram_object *pixels_current;
--};
--
- struct mga_mc {
- 	resource_size_t			vram_size;
- 	resource_size_t			vram_base;
-@@ -171,7 +159,7 @@ struct mga_device {
- 	struct mga_mc			mc;
- 	struct mga_mode_info		mode_info;
- 
--	struct mga_cursor cursor;
-+	struct drm_vram_buffer cursor;
- 
- 	bool				suspended;
- 	int				num_crtc;
--- 
-2.23.0
-
+RGllcyBpc3QgZWluZSBwZXJzw7ZubGljaGUgTWFpbCwgZGllIGljaCBhbiBTaWUgYWRyZXNzaWVy
+ZS4gSWNoIGJpbiBTSEFORSBNSVNTTEVSIGF1cyBGbG9yaWRhLCBVU0EuIFdpZSBTaWUgYmVyZWl0
+cyB3aXNzZW4sIGhhYmUgaWNoIGVpbmVuIExvdHRvLUphY2twb3QgaW4gSMO2aGUgdm9uIDQ1MSBN
+aW8uIFVTRCAoMzMwIE1pby4gR0JQKSBnZXdvbm5lbiB1bmQgZGFzIEdlbGQgaGF0IG1laW4gTGVi
+ZW4gdW5kIG1laW4gRmFtaWxpZW5sZWJlbiB2ZXLDpG5kZXJ0LCBhYmVyIGVzIHdpcmQgbWVpbiBI
+ZXJ6IG5pY2h0IHZlcsOkbmRlcm4sIHdpZSBpY2ggYW4gZGVtIFRhZyBzYWd0ZSwgYW4gZGVtIGlj
+aCBtZWluIEdlbGQgaGFiZSwgZGFzIGljaCB2ZXJ3ZW5kZW4gd2VyZGUgRGllc2VzIEdlbGQgZsO8
+ciBkaWUgSGlsZmUgZGVyIE1lbnNjaGhlaXQuIEljaCBoYWJlIGJlc2NobG9zc2VuLCBJaG5lbiB1
+bmQgSWhyZXIgR2VtZWluZGUgZWluZW4gQmV0cmFnIHZvbiA1IE1pbGxpb25lbiBFdXJvIHp1IHNw
+ZW5kZW4sIHVtIGRpZXNlIFNwZW5kZSBhbnp1Zm9yZGVybi4gRS1NYWlsOiAoc2hhbmVtaXNzbGVy
+MEBnbWFpbC5jb20pCgoKQ2VjaSBlc3QgdW4gY291cnJpZXIgcGVyc29ubmVsIHF1ZSBqZSB2b3Vz
+IGFkcmVzc2UuIEplIHN1aXMgU0hBTkUgTUlTU0xFUiwgZGUgRmxvcmlkZSwgw4l0YXRzLVVuaXMu
+IENvbW1lIHZvdXMgbGUgc2F2ZXogZMOpasOgLCBqJ2FpIGdhZ27DqSA0NTEgbWlsbGlvbnMgZGUg
+ZG9sbGFycyAoTG90dG8gSmFja3BvdCkgZXQgbCdhcmdlbnQgYSBjaGFuZ8OpIG1hIHZpZSBldCBj
+ZWxsZSBkZSBtYSBmYW1pbGxlLCBtYWlzIGNlbGEgbmUgY2hhbmdlcmEgcGFzIG1vbiBjxZN1ciwg
+Y29tbWUgamUgbCdhaSBkaXQgbGUgam91ciBvw7kgaidhaSBtb24gYXJnZW50LCBqJ3V0aWxpc2Vy
+YWkgY2V0IGFyZ2VudCBwb3VyIGwnYWlkZSBkZSBsJ2h1bWFuaXTDqS5KJ2FpIGTDqWNpZMOpIGRl
+IHZvdXMgZG9ubmVyIGxhIHNvbW1lIGRlIDUgbWlsbGlvbnMgZCdldXJvcyDDoCB2b3VzIGV0IMOg
+IHZvdHJlIGNvbW11bmF1dMOpLCBwb3VyIHLDqWNsYW1lciBjZSBkb24sIGVtYWlsLSAoc2hhbmVt
+aXNzbGVyMEBnbWFpbC5jb20pCgoKCgouLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4KCgpMYSBpbmZvcm1hY2lvbiBjb250ZW5pZGEgZW4gZXN0ZSBjb3JyZW8sIGFzaSBj
+b21vIGxhIGNvbnRlbmlkYSBlbiBsb3MgZG9jdW1lbnRvcyBhbmV4b3MsIHB1ZWRlIGNvbnRlbmVy
+IGRhdG9zIHBlcnNvbmFsZXMsIHBvciBsbyBxdWUgc3UgZGlmdXNpb24gZXMgcmVzcG9uc2FiaWxp
+ZGFkIGRlIHF1aWVuIGxvcyB0cmFuc21pdGUgeSBxdWllbiBsb3MgcmVjaWJlLCBlbiB0w6lybWlu
+b3MgZGUgbG8gZGlzcHVlc3RvIHBvciBsYXMgZnJhY2Npb25lcyBJSSB5IFZJSSBkZWwgYXJ0aWN1
+bG8gNCwgdWx0aW1vIHBhcnJhZm8gZGVsIGFydGljdWxvIDgsIGFydGljdWxvIDM2IHBhcnJhZm8g
+SUksIDM4IGZyYWNjaW9uIEkgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxhIExleSBkZSBUcmFuc3Bh
+cmVuY2lhIHkgQWNjZXNvIGEgbGEgSW5mb3JtYWNpb24gUHVibGljYSBkZWwgRGlzdHJpdG8gRmVk
+ZXJhbC4NCkxvcyBEYXRvcyBQZXJzb25hbGVzIHNlIGVuY3VlbnRyYW4gcHJvdGVnaWRvcyBwb3Ig
+bGEgTGV5IGRlIFByb3RlY2Npb24gZGUgRGF0b3MgUGVyc29uYWxlcyBkZWwgRGlzdHJpdG8gRmVk
+ZXJhbCwgcG9yIGxvIHF1ZSBzdSBkaWZ1c2lvbiBzZSBlbmN1ZW50cmEgdHV0ZWxhZGEgZW4gc3Vz
+IGFydGljdWxvcyAyLCA1LCAxNiwgMjEsIDQxIHkgZGVtYXMgcmVsYXRpdm9zIHkgYXBsaWNhYmxl
+cywgZGViaWVuZG8gc3VqZXRhcnNlIGVuIHN1IGNhc28sIGEgbGFzIGRpc3Bvc2ljaW9uZXMgcmVs
+YXRpdmFzIGEgbGEgY3JlYWNpb24sIG1vZGlmaWNhY2lvbiBvIHN1cHJlc2lvbiBkZSBkYXRvcyBw
+ZXJzb25hbGVzIHByZXZpc3Rvcy4gQXNpbWlzbW8sIGRlYmVyYSBlc3RhcnNlIGEgbG8gc2XDsWFs
+YWRvIGVuIGxvcyBudW1lcmFsZXMgMSAsIDMsIDEyLCAxOCwgMTksIDIwLCAyMSwgMjMsIDI0LCAy
+OSwgMzUgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxvcyBMaW5lYW1pZW50b3MgcGFyYSBsYSBQcm90
+ZWNjaW9uIGRlIERhdG9zIFBlcnNvbmFsZXMgZW4gZWwgRGlzdHJpdG8gRmVkZXJhbC4NCkVuIGVs
+IHVzbyBkZSBsYXMgdGVjbm9sb2dpYXMgZGUgbGEgaW5mb3JtYWNpb24geSBjb211bmljYWNpb25l
+cyBkZWwgR29iaWVybm8gZGVsIERpc3RyaXRvIEZlZGVyYWwsIGRlYmVyYSBvYnNlcnZhcnNlIHB1
+bnR1YWxtZW50ZSBsbyBkaXNwdWVzdG8gcG9yIGxhIExleSBHb2JpZXJubyBFbGVjdHJvbmljbyBk
+ZWwgRGlzdHJpdG8gRmVkZXJhbCwgbGEgbGV5IHBhcmEgaGFjZXIgZGUgbGEgQ2l1ZGFkIGRlIE1l
+eGljbyB1bmEgQ2l1ZGFkIE1hcyBBYmllcnRhLCBlbCBhcGFydGFkbyAxMCBkZSBsYSBDaXJjdWxh
+ciBVbm8gdmlnZW50ZSB5IGxhcyBOb3JtYXMgR2VuZXJhbGVzIHF1ZSBkZWJlcmFuIG9ic2VydmFy
+c2UgZW4gbWF0ZXJpYSBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpb24gZW4gbGEgQWRtaW5p
+c3RyYWNpb24gUHVibGljYSBkZWwgRGlzdHJpdG8gRmVkZXJhbC4K
