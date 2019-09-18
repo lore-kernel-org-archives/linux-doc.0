@@ -5,27 +5,27 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0671F7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 14:23:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3A8B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 14:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729153AbfIROXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1729422AbfIROXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 18 Sep 2019 10:23:14 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33190 "EHLO mx1.suse.de"
+Received: from mx2.suse.de ([195.135.220.15]:33202 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728548AbfIROXO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729153AbfIROXO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 18 Sep 2019 10:23:14 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 052FEB676;
+        by mx1.suse.de (Postfix) with ESMTP id 05A3DB679;
         Wed, 18 Sep 2019 14:23:11 +0000 (UTC)
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
         sam@ravnborg.org, yc_chen@aspeedtech.com, corbet@lwn.net
 Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/11] drm/ast: Reserve space for double-buffered cursor image
-Date:   Wed, 18 Sep 2019 16:23:00 +0200
-Message-Id: <20190918142307.27127-5-tzimmermann@suse.de>
+Subject: [PATCH 02/11] drm/ast: Don't call ast_show_cursor() from ast_cursor_move()
+Date:   Wed, 18 Sep 2019 16:22:58 +0200
+Message-Id: <20190918142307.27127-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190918142307.27127-1-tzimmermann@suse.de>
 References: <20190918142307.27127-1-tzimmermann@suse.de>
@@ -36,43 +36,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With the patch, we reserve 2x 16 KiB at the high end of video memory,
-with each frame aligned to an 8-byte boundary. The remaining memory is
-available for GEM VRAM buffer objects.
+Separating the cursor's move() function from the show() function in
+preparation of further rework of the cursor update code.
+
+'Showing' the cursor from within the move() function is required to
+updates the cursor position.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_ttm.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_ttm.c b/drivers/gpu/drm/ast/ast_ttm.c
-index fad34106083a..8e6a1d8917d0 100644
---- a/drivers/gpu/drm/ast/ast_ttm.c
-+++ b/drivers/gpu/drm/ast/ast_ttm.c
-@@ -35,13 +35,20 @@
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 6caa6ebfeaa8..a4cbf2d5ee0a 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1236,6 +1236,7 @@ static int ast_cursor_move(struct drm_crtc *crtc,
+ 	struct ast_private *ast = crtc->dev->dev_private;
+ 	int x_offset, y_offset;
+ 	u8 *sig;
++	u8 jreg;
  
- int ast_mm_init(struct ast_private *ast)
- {
-+	unsigned long cursor_size;
- 	struct drm_vram_mm *vmm;
- 	int ret;
- 	struct drm_device *dev = ast->dev;
+ 	sig = drm_gem_vram_kmap(drm_gem_vram_of_gem(ast->cursor_cache),
+ 				false, NULL);
+@@ -1262,7 +1263,9 @@ static int ast_cursor_move(struct drm_crtc *crtc,
+ 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, ((y >> 8) & 0x07));
  
--	vmm = drm_vram_helper_alloc_mm(
--		dev, pci_resource_start(dev->pdev, 0),
--		ast->vram_size);
-+	/* At the high end of video memory, we reserve space for
-+	 * two cursor images. The cursor plane uses this memory to
-+	 * store a double-buffered image of the current cursor.
-+	 */
-+	cursor_size = roundup((AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE),
-+			      PAGE_SIZE) * AST_DEFAULT_HWC_NUM;
-+
-+	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
-+				       ast->vram_size - cursor_size);
- 	if (IS_ERR(vmm)) {
- 		ret = PTR_ERR(vmm);
- 		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
+ 	/* dummy write to fire HWC */
+-	ast_show_cursor(crtc);
++	jreg = 0x02 |
++	       0x01; /* enable ARGB4444 cursor */
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
+ 
+ 	return 0;
+ }
 -- 
 2.23.0
 
