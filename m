@@ -5,28 +5,30 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E3017D922
+	by archive.lwn.net (Postfix) with ESMTP id 2594B7D91B
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 14:23:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbfIROXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728548AbfIROXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 18 Sep 2019 10:23:14 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33184 "EHLO mx1.suse.de"
+Received: from mx2.suse.de ([195.135.220.15]:33178 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728507AbfIROXO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727558AbfIROXO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 18 Sep 2019 10:23:14 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 05B47B67C;
+        by mx1.suse.de (Postfix) with ESMTP id 05273B675;
         Wed, 18 Sep 2019 14:23:11 +0000 (UTC)
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
         sam@ravnborg.org, yc_chen@aspeedtech.com, corbet@lwn.net
 Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 00/11] drm/vram: Add VRAM buffers for HW cursors
-Date:   Wed, 18 Sep 2019 16:22:56 +0200
-Message-Id: <20190918142307.27127-1-tzimmermann@suse.de>
+Subject: [PATCH 03/11] drm/ast: Move cursor update code to ast_show_cursor()
+Date:   Wed, 18 Sep 2019 16:22:59 +0200
+Message-Id: <20190918142307.27127-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190918142307.27127-1-tzimmermann@suse.de>
+References: <20190918142307.27127-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -34,58 +36,171 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset adds dedicated VRAM buffers and cleans up the memory
-management of HW cursors in ast and mgag200.
+A call to ast's show-cursor function now receives the cursor image
+and updates the buffer. The change splits off image update and
+base-address update into separate functions. The will help with
+the upcoming change to VRAM buffers.
 
-The ast and mgag200 drivers support HW cursors of uncommon pixel formats.
-Both drivers manage cursor memory in dedicated GEM VRAM buffer objects
-with a double buffering scheme; either by alternating between two GEM BOs,
-or by alternating between offsets within the same GEM BO. The code is
-convoluted and can lead to memory fragmentation if the BO is stored the
-middle of VRAM. This is especially a problem on devices with only a small
-amount of video memory.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 120 +++++++++++++++++++--------------
+ 1 file changed, 69 insertions(+), 51 deletions(-)
 
-This patchset introduces VRAM buffers, a simple data structure that
-manages dedicated areas of VRAM. The VRAM buffer supports double-
-buffering (or more) to allow for flicker-free updates. A typical use
-case is in managing small, static buffers, such as cursors or sprites.
-
-The patchset then cleans up cursor memory management in ast and mgag200.
-To avoid the fragmentation issue, at the high end of each device's VRAM,
-a few KiB are reserved for the HW cursor. This memory is maintained by a
-double-buffered VRAM buffer. For updating the cursor image, each driver's
-cursor_set() functions fills the current back buffer and then makes it the
-front buffer.
-
-The patchset has been tested on ast and mgag200 hardware.
-
-Thomas Zimmermann (11):
-  drm/vram: Add struct drm_vram_buffer to VRAM helpers
-  drm/ast: Don't call ast_show_cursor() from ast_cursor_move()
-  drm/ast: Move cursor update code to ast_show_cursor()
-  drm/ast: Reserve space for double-buffered cursor image
-  drm/ast: Store cursor in reserved memory area
-  drm/mgag200: Rename cursor functions to use mgag200_ prefix
-  drm/mgag200: Add init and fini functions for cursor handling
-  drm/mgag200: Add separate move-cursor function
-  drm/mgag200: Move cursor-image update to mgag200_show_cursor()
-  drm/mgag200: Reserve video memory for cursor plane
-  drm/mgag200: Implement cursor buffer with struct drm_vram_buffer
-
- Documentation/gpu/drm-mm.rst             |  19 +-
- drivers/gpu/drm/ast/ast_drv.h            |   5 +-
- drivers/gpu/drm/ast/ast_mode.c           | 198 +++++++++--------
- drivers/gpu/drm/ast/ast_ttm.c            |  13 +-
- drivers/gpu/drm/drm_vram_helper_common.c | 259 ++++++++++++++++++++++-
- drivers/gpu/drm/mgag200/mgag200_cursor.c | 252 +++++++++++-----------
- drivers/gpu/drm/mgag200/mgag200_drv.h    |  24 +--
- drivers/gpu/drm/mgag200/mgag200_main.c   |  20 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c   |   6 +-
- drivers/gpu/drm/mgag200/mgag200_ttm.c    |  15 +-
- include/drm/drm_vram_helper.h            |  64 ++++++
- 11 files changed, 607 insertions(+), 268 deletions(-)
- create mode 100644 include/drm/drm_vram_helper.h
-
---
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index a4cbf2d5ee0a..1294f0612fd5 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1064,23 +1064,6 @@ static void ast_i2c_destroy(struct ast_i2c_chan *i2c)
+ 	kfree(i2c);
+ }
+ 
+-static void ast_show_cursor(struct drm_crtc *crtc)
+-{
+-	struct ast_private *ast = crtc->dev->dev_private;
+-	u8 jreg;
+-
+-	jreg = 0x2;
+-	/* enable ARGB cursor */
+-	jreg |= 1;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
+-}
+-
+-static void ast_hide_cursor(struct drm_crtc *crtc)
+-{
+-	struct ast_private *ast = crtc->dev->dev_private;
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
+-}
+-
+ static u32 copy_cursor_image(u8 *src, u8 *dst, int width, int height)
+ {
+ 	union {
+@@ -1137,6 +1120,72 @@ static u32 copy_cursor_image(u8 *src, u8 *dst, int width, int height)
+ 	return csum;
+ }
+ 
++static int ast_cursor_update(void *dst, void *src, unsigned int width,
++			     unsigned int height)
++{
++	u32 csum;
++
++	/* do data transfer to cursor cache */
++	csum = copy_cursor_image(src, dst, width, height);
++
++	/* write checksum + signature */
++	dst += AST_HWC_SIZE;
++	writel(csum, dst);
++	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
++	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
++	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
++	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
++
++	return 0;
++}
++
++static void ast_cursor_set_base(struct ast_private *ast, u64 address)
++{
++	u8 addr0 = (address >> 3) & 0xff;
++	u8 addr1 = (address >> 11) & 0xff;
++	u8 addr2 = (address >> 19) & 0xff;
++
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc8, addr0);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc9, addr1);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xca, addr2);
++}
++
++static int ast_show_cursor(struct drm_crtc *crtc, void *dst, void *src,
++			   unsigned int width, unsigned int height,
++			   u64 dst_gpu)
++{
++	struct ast_private *ast = crtc->dev->dev_private;
++	struct ast_crtc *ast_crtc = to_ast_crtc(crtc);
++	int ret;
++	u8 jreg;
++
++	dst += (AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE)*ast->next_cursor;
++
++	ret = ast_cursor_update(dst, src, width, height);
++	if (ret)
++		return ret;
++	ast_cursor_set_base(ast, dst_gpu);
++
++	ast->next_cursor = (ast->next_cursor + 1) % AST_DEFAULT_HWC_NUM;
++
++	ast_crtc->offset_x = AST_MAX_HWC_WIDTH - width;
++	ast_crtc->offset_y = AST_MAX_HWC_WIDTH - height;
++
++	jreg = 0x2;
++	/* enable ARGB cursor */
++	jreg |= 1;
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
++
++	return 0;
++}
++
++static void ast_hide_cursor(struct drm_crtc *crtc)
++{
++	struct ast_private *ast = crtc->dev->dev_private;
++
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
++}
++
+ static int ast_cursor_set(struct drm_crtc *crtc,
+ 			  struct drm_file *file_priv,
+ 			  uint32_t handle,
+@@ -1144,12 +1193,9 @@ static int ast_cursor_set(struct drm_crtc *crtc,
+ 			  uint32_t height)
+ {
+ 	struct ast_private *ast = crtc->dev->dev_private;
+-	struct ast_crtc *ast_crtc = to_ast_crtc(crtc);
+ 	struct drm_gem_object *obj;
+ 	struct drm_gem_vram_object *gbo;
+ 	s64 dst_gpu;
+-	u64 gpu_addr;
+-	u32 csum;
+ 	int ret;
+ 	u8 *src, *dst;
+ 
+@@ -1185,37 +1231,9 @@ static int ast_cursor_set(struct drm_crtc *crtc,
+ 		goto err_drm_gem_vram_vunmap;
+ 	}
+ 
+-	dst += (AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE)*ast->next_cursor;
+-
+-	/* do data transfer to cursor cache */
+-	csum = copy_cursor_image(src, dst, width, height);
+-
+-	/* write checksum + signature */
+-	{
+-		struct drm_gem_vram_object *dst_gbo =
+-			drm_gem_vram_of_gem(ast->cursor_cache);
+-		u8 *dst = drm_gem_vram_kmap(dst_gbo, false, NULL);
+-		dst += (AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE)*ast->next_cursor + AST_HWC_SIZE;
+-		writel(csum, dst);
+-		writel(width, dst + AST_HWC_SIGNATURE_SizeX);
+-		writel(height, dst + AST_HWC_SIGNATURE_SizeY);
+-		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
+-		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
+-
+-		/* set pattern offset */
+-		gpu_addr = (u64)dst_gpu;
+-		gpu_addr += (AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE)*ast->next_cursor;
+-		gpu_addr >>= 3;
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc8, gpu_addr & 0xff);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc9, (gpu_addr >> 8) & 0xff);
+-		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xca, (gpu_addr >> 16) & 0xff);
+-	}
+-	ast_crtc->offset_x = AST_MAX_HWC_WIDTH - width;
+-	ast_crtc->offset_y = AST_MAX_HWC_WIDTH - height;
+-
+-	ast->next_cursor = (ast->next_cursor + 1) % AST_DEFAULT_HWC_NUM;
+-
+-	ast_show_cursor(crtc);
++	ret = ast_show_cursor(crtc, dst, src, width, height, dst_gpu);
++	if (ret)
++		goto err_drm_gem_vram_kunmap;
+ 
+ 	drm_gem_vram_vunmap(gbo, src);
+ 	drm_gem_object_put_unlocked(obj);
+-- 
 2.23.0
 
