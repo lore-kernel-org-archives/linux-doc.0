@@ -5,27 +5,27 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 778DE7D981
+	by archive.lwn.net (Postfix) with ESMTP id 8C92C7D982
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Sep 2019 14:23:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfIROXR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730317AbfIROXR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 18 Sep 2019 10:23:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33302 "EHLO mx1.suse.de"
+Received: from mx2.suse.de ([195.135.220.15]:33312 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730317AbfIROXQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730452AbfIROXQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 18 Sep 2019 10:23:16 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D5D6CB67E;
-        Wed, 18 Sep 2019 14:23:12 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id 6B8CBB687;
+        Wed, 18 Sep 2019 14:23:14 +0000 (UTC)
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
         sam@ravnborg.org, yc_chen@aspeedtech.com, corbet@lwn.net
 Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 06/11] drm/mgag200: Rename cursor functions to use mgag200_ prefix
-Date:   Wed, 18 Sep 2019 16:23:02 +0200
-Message-Id: <20190918142307.27127-7-tzimmermann@suse.de>
+Subject: [PATCH 10/11] drm/mgag200: Reserve video memory for cursor plane
+Date:   Wed, 18 Sep 2019 16:23:06 +0200
+Message-Id: <20190918142307.27127-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190918142307.27127-1-tzimmermann@suse.de>
 References: <20190918142307.27127-1-tzimmermann@suse.de>
@@ -36,99 +36,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Although the driver source code is fairly inconsistent wrt naming, the
-prefix should be mgag200. Rename cursor functions accordingly.
+The double-buffered cursor image is currently stored in video memory
+by creating two BOs and pinning them to VRAM. The exact location is
+chosen by VRAM helpers.
+
+Since the driver has no control over BO placement, pinned cursor BOs
+can conflict with framebuffer BOs and prevent the primary plane from
+displaying its framebuffer.
+
+As a first step to solving this problem, we reserve dedicated space at
+the high end of the video memory for the cursor images. As the amount
+of video memory now differs from the amount of available framebuffer
+memory, size tests are performed against the VRAM helper's framebuffer
+limits.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_cursor.c | 20 ++++++++------------
- drivers/gpu/drm/mgag200/mgag200_drv.h    |  6 +++---
- drivers/gpu/drm/mgag200/mgag200_mode.c   |  4 ++--
- 3 files changed, 13 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_main.c |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_ttm.c  | 15 ++++++++++++++-
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-index 89f61573a497..648357ad9a4b 100644
---- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-@@ -12,11 +12,10 @@
- static bool warn_transparent = true;
- static bool warn_palette = true;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
+index 2b59280777a5..4b8686e9a276 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_main.c
++++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+@@ -159,7 +159,7 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
  
--/*
--  Hide the cursor off screen. We can't disable the cursor hardware because it
--  takes too long to re-activate and causes momentary corruption
--*/
--static void mga_hide_cursor(struct mga_device *mdev)
-+/* Hide the cursor off screen. We can't disable the cursor hardware because it
-+ * takes too long to re-activate and causes momentary corruption
-+ */
-+static void mgag200_hide_cursor(struct mga_device *mdev)
- {
- 	WREG8(MGA_CURPOSXL, 0);
- 	WREG8(MGA_CURPOSXH, 0);
-@@ -25,11 +24,8 @@ static void mga_hide_cursor(struct mga_device *mdev)
- 	mdev->cursor.pixels_current = NULL;
- }
- 
--int mga_crtc_cursor_set(struct drm_crtc *crtc,
--			struct drm_file *file_priv,
--			uint32_t handle,
--			uint32_t width,
--			uint32_t height)
-+int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
-+			    uint32_t handle, uint32_t width, uint32_t height)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct mga_device *mdev = (struct mga_device *)dev->dev_private;
-@@ -66,7 +62,7 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
- 	}
- 
- 	if (!handle || !file_priv) {
--		mga_hide_cursor(mdev);
-+		mgag200_hide_cursor(mdev);
- 		return 0;
- 	}
- 
-@@ -224,7 +220,7 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
- 	return ret;
- }
- 
--int mga_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
-+int mgag200_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
- {
- 	struct mga_device *mdev = (struct mga_device *)crtc->dev->dev_private;
- 	/* Our origin is at (64,64) */
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 37c003ed57c0..5244e3fa4203 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -203,8 +203,8 @@ int mgag200_mm_init(struct mga_device *mdev);
- void mgag200_mm_fini(struct mga_device *mdev);
- int mgag200_mmap(struct file *filp, struct vm_area_struct *vma);
- 
--int mga_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
--						uint32_t handle, uint32_t width, uint32_t height);
--int mga_crtc_cursor_move(struct drm_crtc *crtc, int x, int y);
-+int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
-+			    uint32_t handle, uint32_t width, uint32_t height);
-+int mgag200_crtc_cursor_move(struct drm_crtc *crtc, int x, int y);
- 
- #endif				/* __MGAG200_DRV_H__ */
+ 	drm_mode_config_init(dev);
+ 	dev->mode_config.funcs = (void *)&mga_mode_funcs;
+-	if (IS_G200_SE(mdev) && mdev->mc.vram_size < (2048*1024))
++	if (IS_G200_SE(mdev) && dev->vram_mm->vram_size < (2048*1024))
+ 		dev->mode_config.preferred_depth = 16;
+ 	else
+ 		dev->mode_config.preferred_depth = 32;
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 68226556044b..0cf5608c3644 100644
+index 0cf5608c3644..2ac66a2270bb 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -1413,8 +1413,8 @@ static void mga_crtc_disable(struct drm_crtc *crtc)
+@@ -1629,7 +1629,7 @@ static enum drm_mode_status mga_vga_mode_valid(struct drm_connector *connector,
+ 			bpp = connector->cmdline_mode.bpp;
+ 	}
  
- /* These provide the minimum set of functions required to handle a CRTC */
- static const struct drm_crtc_funcs mga_crtc_funcs = {
--	.cursor_set = mga_crtc_cursor_set,
--	.cursor_move = mga_crtc_cursor_move,
-+	.cursor_set = mgag200_crtc_cursor_set,
-+	.cursor_move = mgag200_crtc_cursor_move,
- 	.gamma_set = mga_crtc_gamma_set,
- 	.set_config = drm_crtc_helper_set_config,
- 	.destroy = mga_crtc_destroy,
+-	if ((mode->hdisplay * mode->vdisplay * (bpp/8)) > mdev->mc.vram_size) {
++	if ((mode->hdisplay * mode->vdisplay * (bpp/8)) > dev->vram_mm->vram_size) {
+ 		if (connector->cmdline_mode.specified)
+ 			connector->cmdline_mode.specified = false;
+ 		return MODE_BAD;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_ttm.c b/drivers/gpu/drm/mgag200/mgag200_ttm.c
+index 69c81ebf3745..1df8504c6cab 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_ttm.c
++++ b/drivers/gpu/drm/mgag200/mgag200_ttm.c
+@@ -32,12 +32,25 @@
+ 
+ int mgag200_mm_init(struct mga_device *mdev)
+ {
++	unsigned long cursor_framesize, cursor_nframes, cursor_size;
++	unsigned long framebuffer_size;
+ 	struct drm_vram_mm *vmm;
+ 	int ret;
+ 	struct drm_device *dev = mdev->dev;
+ 
++	/* At the high end of video memory, we reserve space for
++	 * two cursor images. The cursor plane uses this memory to
++	 * store a double-buffered image of the current cursor.
++	 */
++
++	cursor_framesize = roundup(64 * 48, 1024);
++	cursor_nframes = 2;
++	cursor_size = roundup(cursor_framesize * cursor_nframes, PAGE_SIZE);
++
++	framebuffer_size = (mdev->mc.vram_size - cursor_size) & PAGE_MASK;
++
+ 	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
+-				       mdev->mc.vram_size);
++				       framebuffer_size);
+ 	if (IS_ERR(vmm)) {
+ 		ret = PTR_ERR(vmm);
+ 		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
 -- 
 2.23.0
 
