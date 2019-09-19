@@ -4,87 +4,164 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA7417D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Sep 2019 21:19:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0CC87D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Sep 2019 21:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389696AbfISVTJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Sep 2019 17:19:09 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:36446 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389222AbfISVTJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Sep 2019 17:19:09 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y22so3117986pfr.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Sep 2019 14:19:06 -0700 (PDT)
+        id S2393063AbfISVok (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Sep 2019 17:44:40 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:45027 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393049AbfISVok (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Sep 2019 17:44:40 -0400
+Received: by mail-pl1-f196.google.com with SMTP id q15so2194377pll.11
+        for <linux-doc@vger.kernel.org>; Thu, 19 Sep 2019 14:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UC6QOlPtFT4L7gAheGuvmlsU7X18QM5xfLgyP/nfovU=;
-        b=TenY/nIF7r7AdT+DbY/MGs07XLbBYbYB48QaTr8BR5xkPDPdFERhf51rjGe3hCmhsS
-         b8Lj5e/Uq+1231XB+btSn0lJ8ydUKyHp5gXzFJ167/FMVN2NcDdzlvLpekeY1+73P9R+
-         ZdwDUdLaVeSZ+JxQTu1Ano0gST3u/0h/mEasM=
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=lwqOPnc+Hjspz39B1KdPwekwTjVU9dAcHcFGUbS/esU=;
+        b=HlZ1OQE3iymgQ80SUY3b+Fuk//VK9KTazuInlcYoRmR20coGXrKV9oRmqxpUkyja9S
+         uC87fqyMVhaBi37taW9UIp5BTh/OgTP/dfs3vTzL7NbY6rF2IZdUXiRGrjNHNSCwQ2n8
+         GTJkvUfDHt2fpxT02DnGs4LARmG4fhNSwsnPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UC6QOlPtFT4L7gAheGuvmlsU7X18QM5xfLgyP/nfovU=;
-        b=NoAKOGF4L/mRDZLyz9wo7mNpl7+Mn4YWe6sw4KTXPb90eXj1jS2JaIt4w7yXyO0dpr
-         bAo/fM9vZtBRjhV6yZzXhFs3f8M0D7RNYcKKg5qnUymGZMls7QcACB5Sv3qhwoKx8XBK
-         0TEj28SfcIdoRCkpKfVdbMCY3ly3leiyoEzuTguFgV+p+ch/Q0DrRSGsO26z8YUkJkJU
-         BknVDivV9TR3lJlDMJyBBnJGmHHPpf7eD5Qr+FtxhqayevMznMFxGeWQQzfXc3htjOq7
-         GlCGzSgSCeLGCGhJmteIH/MbjVTDl2WImRLfW3/XA+CTnVHVDNpdpvJl2kA3D/cypAvA
-         f/5g==
-X-Gm-Message-State: APjAAAWn195oVKvhgB2NWbM+yHHijpXdPxlb+O2oADifuoRAzkamq4vA
-        pzaC9TaIi1mJPwUq8/SB9bwZ/lfdAgs=
-X-Google-Smtp-Source: APXvYqyivzuDow60MKYUgF2hsOkA5SUuSL3Vyv4HlcnvRX2I63cnPL2BPFkFJNZYyVKJygjTqr2CCQ==
-X-Received: by 2002:a17:90a:310:: with SMTP id 16mr125647pje.100.1568927946393;
-        Thu, 19 Sep 2019 14:19:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=lwqOPnc+Hjspz39B1KdPwekwTjVU9dAcHcFGUbS/esU=;
+        b=raydSxbMZZnBiRJ6aZbjP8rmUAy4ApvJqLGDzDFgClnGfrN2j65F9WF2wn1ygZn472
+         Q78gwiUPcmu0CXNRSFrhvLUG24xXXB+/niJVoAJLcU90LggIOcvUR+gYk2XAIYbXN3b4
+         yrtXCQBA5/zPGIN7GNwzQNC4zN1K5jj+NRDlgzR6lnO3TrEz+qa/WXgGUjzIw7RIV1wb
+         XkbJHlp6kR0ulFYmNUu+qYLfyefoacj9AhPvb6SeknP6h5AIBGDcGINVBJS6+QHamsuS
+         jNPmkkTmDCAwM8nG9uQlPNxn7q+kqUfDKHFKc41drvspj4eyXxaR9s9xnZ5YRBRJBqJz
+         WDEQ==
+X-Gm-Message-State: APjAAAXqHx3keyBVaxYmvQSEl1b4h0bVOZ/khSLNozfHZcVAKssgPQga
+        mrfVbbw0PrAG8FJt9IvXziwq1g==
+X-Google-Smtp-Source: APXvYqx/8ttJRdpg/QX+6cfq1KNAhA8woc3uN5dOVzoy8J/e0FrMLpj502vN+iv2c2lfaubQHgbvqg==
+X-Received: by 2002:a17:902:7895:: with SMTP id q21mr11565977pll.94.1568929479404;
+        Thu, 19 Sep 2019 14:44:39 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y4sm5933542pjn.19.2019.09.19.14.19.05
+        by smtp.gmail.com with ESMTPSA id b185sm11082438pfg.14.2019.09.19.14.44.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2019 14:19:05 -0700 (PDT)
-Date:   Thu, 19 Sep 2019 14:19:04 -0700
+        Thu, 19 Sep 2019 14:44:38 -0700 (PDT)
+Date:   Thu, 19 Sep 2019 14:44:37 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Use make invocation's -j argument for parallelism
-Message-ID: <201909191417.6E59C942@keescook>
-References: <201909191116.192A096C68@keescook>
- <20190919162549.5ccdab62@coco.lan>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: Use make invocation's -j argument for parallelism
+Message-ID: <201909191438.C00E6DB@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190919162549.5ccdab62@coco.lan>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 19, 2019 at 04:25:49PM -0300, Mauro Carvalho Chehab wrote:
-> Em Thu, 19 Sep 2019 11:18:52 -0700
-> Kees Cook <keescook@chromium.org> escreveu:
-> > [...]
-> > +# Fetch the make environment options.
-> > +flags = os.environ.get('MAKEFLAGS', None)
-> > +if flags == None:
-> > +	print("1")
-> > +	sys.exit(0)
-> > +
-> > +# Look for "--jobserver=R,W"
-> > +opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-> > +if len(opts) != 1:
-> > +	print("1")
-> > +	sys.exit(0)
-> 
-> Using "1" as default if -j is not specified doesn't sound a good idea. I
-> mean, Sphinx is very slow without any parallelism. I would keep "auto" as
-> default here, if version >= 1.7 (and if there's no explicit SPHINXOPTS).
+While sphinx 1.7 and later supports "-jauto" for parallelism, this
+effectively ignores the "-j" flag used in the "make" invocation, which
+may cause confusion for build systems. Instead, extract the available
+parallelism from "make"'s job server (since it is not exposed in any
+special variables) and use that for the "sphinx-build" run. Now things
+work correctly for builds where -j is specified at the top-level:
 
-Okay, that's fair. This does introduce a behavioral regression from that
-perspective. Let me spin a v2 that'll DTRT.
+	make -j16 htmldocs
+
+If -j is not specified, continue to fallback to "-jauto" if available.
+
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+v2: retain "-jauto" default behavior with top-level -j is missing.
+---
+ Documentation/Makefile  |  3 ++-
+ scripts/jobserver-count | 53 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100755 scripts/jobserver-count
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508b..8bfd38a865ff 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -33,7 +33,7 @@ ifeq ($(HAVE_SPHINX),0)
+ 
+ else # HAVE_SPHINX
+ 
+-export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
++export SPHINX_PARALLEL = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "auto" if ($$1 >= "1.7") } ;} close IN')
+ 
+ # User-friendly check for pdflatex and latexmk
+ HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+@@ -68,6 +68,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+ 	PYTHONDONTWRITEBYTECODE=1 \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+ 	$(SPHINXBUILD) \
++	-j $(shell python3 $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \
+ 	-b $2 \
+ 	-c $(abspath $(srctree)/$(src)) \
+ 	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
+diff --git a/scripts/jobserver-count b/scripts/jobserver-count
+new file mode 100755
+index 000000000000..ff6ebe6b0194
+--- /dev/null
++++ b/scripts/jobserver-count
+@@ -0,0 +1,53 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# This determines how many parallel tasks "make" is expecting, as it is
++# not exposed via an special variables.
++# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
++import os, sys, fcntl
++
++# Default parallelism is "1" unless overridden on the command-line.
++default="1"
++if len(sys.argv) > 1:
++	default=sys.argv[1]
++
++# Set non-blocking for a given file descriptor.
++def nonblock(fd):
++	flags = fcntl.fcntl(fd, fcntl.F_GETFL)
++	fcntl.fcntl(fd, fcntl.F_SETFL, flags | os.O_NONBLOCK)
++	return fd
++
++# Extract and prepare jobserver file descriptors from envirnoment.
++try:
++	# Fetch the make environment options.
++	flags = os.environ['MAKEFLAGS']
++
++	# Look for "--jobserver=R,W"
++	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
++
++	# Parse out R,W file descriptor numbers and set them nonblocking.
++	fds = opts[0].split("=", 1)[1]
++	reader, writer = [nonblock(int(x)) for x in fds.split(",", 1)]
++except:
++	# Any failures here should result in just using the default
++	# specified parallelism.
++	print(default)
++	sys.exit(0)
++
++# Read out as many jobserver slots as possible.
++jobs = b""
++while True:
++	try:
++		slot = os.read(reader, 1)
++		jobs += slot
++	except:
++		break
++# Return all the reserved slots.
++os.write(writer, jobs)
++
++# If the jobserver was (impossibly) full or communication failed, use default.
++if len(jobs) < 1:
++	print(default)
++
++# Report available slots (with a bump for our caller's reserveration).
++print(len(jobs) + 1)
+-- 
+2.17.1
+
 
 -- 
 Kees Cook
