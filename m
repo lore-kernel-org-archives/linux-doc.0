@@ -1,63 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A488F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Sep 2019 14:36:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B8E407D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Sep 2019 18:18:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732591AbfISOgb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Sep 2019 10:36:31 -0400
-Received: from mga06.intel.com ([134.134.136.31]:47851 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732590AbfISOgb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Sep 2019 10:36:31 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Sep 2019 07:36:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; 
-   d="scan'208";a="189622888"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 19 Sep 2019 07:36:28 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iAxXn-0001s0-2J; Thu, 19 Sep 2019 17:36:27 +0300
-Date:   Thu, 19 Sep 2019 17:36:27 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1732716AbfISSS4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Sep 2019 14:18:56 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44045 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732659AbfISSS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Sep 2019 14:18:56 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q21so2814662pfn.11
+        for <linux-doc@vger.kernel.org>; Thu, 19 Sep 2019 11:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=LK/ntI5e8UZBioVWF4cAdPWBEu0iGHGSIa7+VcXi35o=;
+        b=nQqsDv4htqMeTr29+sArilMSGc4WdWh8clDbsS+ZhaBH8MnOghUWrj7q7bo55eU4zE
+         I+mXGqd+A3IXVvRg1mRHX8jhbtB4Q9/WWo2tQqfq3B/6/bmTsiA86mB9fIXjIarfyfUz
+         T9M59UB/RUpZXAvS9UMEvet3Chkn1EjLPhN9c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=LK/ntI5e8UZBioVWF4cAdPWBEu0iGHGSIa7+VcXi35o=;
+        b=LTUNiWkUpwYRuXJQMf2OGKaAK5hf46YaDk+X6ZKcL4XErmUQgcmNeVA62yR22GXocF
+         m9M+fjqe6j4DMzF5Ui3hZw13C3d1bHWmIMVTfz/YS/S6XuT3WJQgImwv5y2uzGGvXprt
+         lUGRGy2LU9FT1VCw52okR9wPMuVVzjC7cFtdKs16h+M4v6gxkhr6szsakxKbr5Ho0Wtl
+         qMmCzzNFEBVSOxvxbSJOCU4xi9QSJE9dn37ekSXCDzGAiUK9pyJtEUL5StoVmSXYyz8g
+         lFSzSQlXhUBxICZaYkjPAra89qdsfCfDT+nmgPk5cR9jbtSpcSXaM6OmSkYdPRf3byNp
+         IDIQ==
+X-Gm-Message-State: APjAAAUJ6zVi1c7GlN3AKJYla6AsmhakO/cKL70kLybM8mprEft/QH17
+        hD4mrcGVP7HJ4yAGX5jSZ6DCTw==
+X-Google-Smtp-Source: APXvYqy2AC9epTUjkt4q5SHYgCwow/H1wFtZDkXZGQpB8RDBJY/GgHldQNGy/Er8PHpj0kcHasCe9g==
+X-Received: by 2002:aa7:998d:: with SMTP id k13mr11961195pfh.134.1568917134616;
+        Thu, 19 Sep 2019 11:18:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 37sm13724113pgv.32.2019.09.19.11.18.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2019 11:18:53 -0700 (PDT)
+Date:   Thu, 19 Sep 2019 11:18:52 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] lib/math: remove int_pow()
-Message-ID: <20190919143627.GY2680@smile.fi.intel.com>
-References: <20190919140620.32407-1-linux@rasmusvillemoes.dk>
- <20190919140620.32407-5-linux@rasmusvillemoes.dk>
+Subject: [PATCH] docs: Use make invocation's -j argument for parallelism
+Message-ID: <201909191116.192A096C68@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190919140620.32407-5-linux@rasmusvillemoes.dk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 19, 2019 at 04:06:20PM +0200, Rasmus Villemoes wrote:
-> No users left.
+While sphinx 1.7 and later supports "-jauto" for parallelism, this
+effectively ignores the "-j" flag used in the "make" invocation, which
+may cause confusion for build systems. Instead, extract the available
+parallelism from "make"'s job server (since it is not exposed in any
+special variables) and use that for the "sphinx-build" run. Now things
+work correctly for builds where -j is specified at the top-level:
 
-There are in linux-next.
+	make -j16 htmldocs
 
-NAK.
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/Makefile  |  3 +--
+ scripts/jobserver-count | 46 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 2 deletions(-)
+ create mode 100755 scripts/jobserver-count
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508b..4408eeaf2891 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -33,8 +33,6 @@ ifeq ($(HAVE_SPHINX),0)
+ 
+ else # HAVE_SPHINX
+ 
+-export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
+-
+ # User-friendly check for pdflatex and latexmk
+ HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+ HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
+@@ -68,6 +66,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+ 	PYTHONDONTWRITEBYTECODE=1 \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+ 	$(SPHINXBUILD) \
++	-j $(shell $(srctree)/scripts/jobserver-count) \
+ 	-b $2 \
+ 	-c $(abspath $(srctree)/$(src)) \
+ 	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
+diff --git a/scripts/jobserver-count b/scripts/jobserver-count
+new file mode 100755
+index 000000000000..5fc9d2fd5254
+--- /dev/null
++++ b/scripts/jobserver-count
+@@ -0,0 +1,46 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# This determines how many parallel tasks "make" is expecting, as it is
++# not exposed via an special variables.
++# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
++import os, sys, fcntl
++
++# Set non-blocking for a given file descriptor.
++def nonblock(fd):
++	flags = fcntl.fcntl(fd, fcntl.F_GETFL)
++	fcntl.fcntl(fd, fcntl.F_SETFL, flags | os.O_NONBLOCK)
++	return fd
++
++# Fetch the make environment options.
++flags = os.environ.get('MAKEFLAGS', None)
++if flags == None:
++	print("1")
++	sys.exit(0)
++
++# Look for "--jobserver=R,W"
++opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
++if len(opts) != 1:
++	print("1")
++	sys.exit(0)
++
++# Parse out R,W file descriptor numbers and set them nonblocking.
++fds = opts[0].split("=", 1)[1]
++reader, writer = [nonblock(int(x)) for x in fds.split(",", 1)]
++
++# Read out as many jobserver slots as possible.
++jobs = b""
++while True:
++	try:
++		slot = os.read(reader, 1)
++		jobs += slot
++	except:
++		break
++# Return all the reserved slots.
++os.write(writer, jobs)
++
++# Report available slots (with a bump for our caller's reserveration).
++if len(jobs) < 1:
++	print("1")
++else:
++	print(len(jobs) + 1)
+-- 
+2.17.1
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Kees Cook
