@@ -7,51 +7,52 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF3387D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Sep 2019 23:21:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 271567D92A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Sep 2019 23:21:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406986AbfITXTv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Sep 2019 19:19:51 -0400
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:39506 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406249AbfITXTv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Sep 2019 19:19:51 -0400
-Received: by mail-pg1-f202.google.com with SMTP id t19so5369316pgh.6
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2019 16:19:50 -0700 (PDT)
+        id S2436968AbfITXVo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Sep 2019 19:21:44 -0400
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:34390 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436970AbfITXTs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Sep 2019 19:19:48 -0400
+Received: by mail-pf1-f202.google.com with SMTP id v6so5777995pfm.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2019 16:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=3L1JoIUH3Yp+Gfseapn5B656SrJdhjuXnbbrrnMLohA=;
-        b=V4SscDEBlCmcUO5M7afq34KDZYeyB+S8K5qNEp1wyyRoojyAzC8FpsjZhMaAaO/Nhv
-         zT3vHtoOLALej48doFAtMgrI4OSy59/qFc96QZOSljW4j7aBmhX1nkmg6KKCyQOaWFUj
-         jeO1pkB28xQqz/c5BSyCAXV/wCl0wkNDXL7FDVdeZf3lHm7SEa7nRJSLJTz+EIVxXmjK
-         Aux841cN/8k1e4RyAuprpOj+lQ6u58JR70xr3HPk4MUZagsZdFUAh9TDvApbZgulm8mc
-         v5iTnjEq1mDmJBiD1U0xi3MDNPR9l0L1Adkzpzdw0y9N40ystVNnmQjJorGsOFZtryue
-         sVvg==
+        bh=ElRDx1qJcaCd9VphSUpnYDbASsESTUgM/w0RFDoqEmU=;
+        b=GsWGBhOHFwqzmYbnIwAYtO57z8py3WOmCJPdLFYuw6RFrKLNNB9f+XUdSZKJPEfvfD
+         +NPUejzdLRFYtwKn24zsQIDdlhUH4qeWO7CUg3F5Oh6T8iCFpluNFZJfsTVxA48xUjI7
+         0cRQMZT+GVzHvmIQHfg0vMnqkRF6nw3Z+dYyNWlIrFCThTwglM+W0GIoNNAeRxE1KVXg
+         bJYFBMD1KgiimcmXehIcJauhLSg0Qaa7OBoFzVXFWXGm2ACk92z4rmMdBpmyo2tkZso4
+         vGNbfyLO6jfHLBPB64QxZYZEhxxuOi2rvoSWYu2nV1Krj/0uC0+xeyeUj9svgmSWetAY
+         DrPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=3L1JoIUH3Yp+Gfseapn5B656SrJdhjuXnbbrrnMLohA=;
-        b=jeJlXN0h7ecMmwqkkFZ6oBC7LImGj5SD91TYqwJgDMMq36D2weqlJi/LGsxWRH5nn3
-         ajb48V3e3FYOcrAPQPfFkeBZrN5fGsR3qoJgbummwzM5mUPv/ENTGhPjezMdmb9xCXJ8
-         zRLndfApwsmNUELzG/Uz8S6GXTx6r94DvQlwmom93XeoK+P/BPIzscrvFAJxxqtqgA2g
-         fggr6qEw3ShtDCppb1UBZaozMcUPEC3CV7XvJuilogtMWtNNwZey3Qu3rehXvwo3gVJh
-         bDhk/9FQyDcDx2rTJ1IAB+OhH9u6gQqqfoO8qTJskUuVt/AybNOnalNrX2jurpghemkn
-         E+YQ==
-X-Gm-Message-State: APjAAAXPHhH0blOvq4oLdPC4BR0XyvRXWn7/msBbdUXKkeYkxzrE6yjw
-        w+ovQaM5gz1MghavkI6oetlg6Cr4XrPWUcnvIMoFoA==
-X-Google-Smtp-Source: APXvYqzpMW5hB1itLnyqDR6kTupbnGBrJEv2DiTd7M3ot0iM3pnf9z/vSd7WYNzhaz60DAoOuEVEZd0L6okYhwv+JD93NQ==
-X-Received: by 2002:a65:5888:: with SMTP id d8mr17251943pgu.394.1569021589743;
- Fri, 20 Sep 2019 16:19:49 -0700 (PDT)
-Date:   Fri, 20 Sep 2019 16:19:08 -0700
+        bh=ElRDx1qJcaCd9VphSUpnYDbASsESTUgM/w0RFDoqEmU=;
+        b=L8Z0hE3ooB7niOUSKwiKJPNkfeXGgaIWc11xJySBFPanPXZSj4GZv5JDSyv8dOarVn
+         Y5CNuW6NfoyWiaNiCCa4nwayg0npXa6SqLUPkq9DwtIdKsmMP4oiAGmS91aGFXghPIcU
+         mjYMzvUH8PYBI6hgV0NvtI6FxVI5Asn33wh5iAjWqEGV5Fn5+ur8AI6QSZc4dabvhiCh
+         vHM96SdT1Vpa2TIEboxMn/2aOPTpqmBcvhtmCmgWnGas6M0df6BI9t/CkId/N+8yTuR2
+         rg4Sqy9MwZZNd0D+qqNZr3erBgO7tTTJOcjIJFe+483/esvPGNmG1OIVvd1nSxFQUG4W
+         6EZA==
+X-Gm-Message-State: APjAAAVZl92hWyu6G9nb80Gk5QBr7cKY/yQHhUZQnstrf60ZE/EEKjBE
+        sn4N05PPI1sNsfW0sdlN1XfxOq9jGPa9pl4n2Ynn6w==
+X-Google-Smtp-Source: APXvYqwzprpUv3Sy57r3sQtteXWHKXfGpdgcIHLQjNVIB2eFN+Njs56UhVpiXHuIqV01MQkxK/5GcVapBZZ9KRKCqd8mXw==
+X-Received: by 2002:a63:5807:: with SMTP id m7mr17564787pgb.371.1569021587112;
+ Fri, 20 Sep 2019 16:19:47 -0700 (PDT)
+Date:   Fri, 20 Sep 2019 16:19:07 -0700
 In-Reply-To: <20190920231923.141900-1-brendanhiggins@google.com>
-Message-Id: <20190920231923.141900-5-brendanhiggins@google.com>
+Message-Id: <20190920231923.141900-4-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190920231923.141900-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v16 04/19] kunit: test: add assertion printing library
+Subject: [PATCH v16 03/19] kunit: test: add string_stream a std::stream like
+ string builder
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -70,544 +71,321 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
         wfg@linux.intel.com, torvalds@linux-foundation.org,
-        Brendan Higgins <brendanhiggins@google.com>
+        Brendan Higgins <brendanhiggins@google.com>,
+        Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add `struct kunit_assert` and friends which provide a structured way to
-capture data from an expectation or an assertion (introduced later in
-the series) so that it may be printed out in the event of a failure.
+A number of test features need to do pretty complicated string printing
+where it may not be possible to rely on a single preallocated string
+with parameters.
+
+So provide a library for constructing the string as you go similar to
+C++'s std::string. string_stream is really just a string builder,
+nothing more.
 
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- include/kunit/assert.h | 356 +++++++++++++++++++++++++++++++++++++++++
- lib/kunit/Makefile     |   3 +-
- lib/kunit/assert.c     | 141 ++++++++++++++++
- 3 files changed, 499 insertions(+), 1 deletion(-)
- create mode 100644 include/kunit/assert.h
- create mode 100644 lib/kunit/assert.c
+ include/kunit/string-stream.h |  51 ++++++++
+ lib/kunit/Makefile            |   3 +-
+ lib/kunit/string-stream.c     | 217 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 270 insertions(+), 1 deletion(-)
+ create mode 100644 include/kunit/string-stream.h
+ create mode 100644 lib/kunit/string-stream.c
 
-diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+diff --git a/include/kunit/string-stream.h b/include/kunit/string-stream.h
 new file mode 100644
-index 000000000000..db6a0fca09b4
+index 000000000000..fe98a00b75a9
 --- /dev/null
-+++ b/include/kunit/assert.h
-@@ -0,0 +1,356 @@
++++ b/include/kunit/string-stream.h
+@@ -0,0 +1,51 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Assertion and expectation serialization API.
++ * C++ stream style string builder used in KUnit for building messages.
 + *
 + * Copyright (C) 2019, Google LLC.
 + * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
 +
-+#ifndef _KUNIT_ASSERT_H
-+#define _KUNIT_ASSERT_H
++#ifndef _KUNIT_STRING_STREAM_H
++#define _KUNIT_STRING_STREAM_H
 +
-+#include <kunit/string-stream.h>
-+#include <linux/err.h>
++#include <linux/spinlock.h>
++#include <linux/types.h>
++#include <stdarg.h>
++
++struct string_stream_fragment {
++	struct kunit *test;
++	struct list_head node;
++	char *fragment;
++};
++
++struct string_stream {
++	size_t length;
++	struct list_head fragments;
++	/* length and fragments are protected by this lock */
++	spinlock_t lock;
++	struct kunit *test;
++	gfp_t gfp;
++};
 +
 +struct kunit;
 +
-+/**
-+ * enum kunit_assert_type - Type of expectation/assertion.
-+ * @KUNIT_ASSERTION: Used to denote that a kunit_assert represents an assertion.
-+ * @KUNIT_EXPECTATION: Denotes that a kunit_assert represents an expectation.
-+ *
-+ * Used in conjunction with a &struct kunit_assert to denote whether it
-+ * represents an expectation or an assertion.
-+ */
-+enum kunit_assert_type {
-+	KUNIT_ASSERTION,
-+	KUNIT_EXPECTATION,
-+};
++struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp);
 +
-+/**
-+ * struct kunit_assert - Data for printing a failed assertion or expectation.
-+ * @test: the test case this expectation/assertion is associated with.
-+ * @type: the type (either an expectation or an assertion) of this kunit_assert.
-+ * @line: the source code line number that the expectation/assertion is at.
-+ * @file: the file path of the source file that the expectation/assertion is in.
-+ * @message: an optional message to provide additional context.
-+ * @format: a function which formats the data in this kunit_assert to a string.
-+ *
-+ * Represents a failed expectation/assertion. Contains all the data necessary to
-+ * format a string to a user reporting the failure.
-+ */
-+struct kunit_assert {
-+	struct kunit *test;
-+	enum kunit_assert_type type;
-+	int line;
-+	const char *file;
-+	struct va_format message;
-+	void (*format)(const struct kunit_assert *assert,
-+		       struct string_stream *stream);
-+};
++int __printf(2, 3) string_stream_add(struct string_stream *stream,
++				     const char *fmt, ...);
 +
-+/**
-+ * KUNIT_INIT_VA_FMT_NULL - Default initializer for struct va_format.
-+ *
-+ * Used inside a struct initialization block to initialize struct va_format to
-+ * default values where fmt and va are null.
-+ */
-+#define KUNIT_INIT_VA_FMT_NULL { .fmt = NULL, .va = NULL }
++int string_stream_vadd(struct string_stream *stream,
++		       const char *fmt,
++		       va_list args);
 +
-+/**
-+ * KUNIT_INIT_ASSERT_STRUCT() - Initializer for a &struct kunit_assert.
-+ * @kunit: The test case that this expectation/assertion is associated with.
-+ * @assert_type: The type (assertion or expectation) of this kunit_assert.
-+ * @fmt: The formatting function which builds a string out of this kunit_assert.
-+ *
-+ * The base initializer for a &struct kunit_assert.
-+ */
-+#define KUNIT_INIT_ASSERT_STRUCT(kunit, assert_type, fmt) {		       \
-+	.test = kunit,							       \
-+	.type = assert_type,						       \
-+	.file = __FILE__,						       \
-+	.line = __LINE__,						       \
-+	.message = KUNIT_INIT_VA_FMT_NULL,				       \
-+	.format = fmt							       \
-+}
++char *string_stream_get_string(struct string_stream *stream);
 +
-+void kunit_base_assert_format(const struct kunit_assert *assert,
-+			      struct string_stream *stream);
++int string_stream_append(struct string_stream *stream,
++			 struct string_stream *other);
 +
-+void kunit_assert_print_msg(const struct kunit_assert *assert,
-+			    struct string_stream *stream);
++bool string_stream_is_empty(struct string_stream *stream);
 +
-+/**
-+ * struct kunit_fail_assert - Represents a plain fail expectation/assertion.
-+ * @assert: The parent of this type.
-+ *
-+ * Represents a simple KUNIT_FAIL/KUNIT_ASSERT_FAILURE that always fails.
-+ */
-+struct kunit_fail_assert {
-+	struct kunit_assert assert;
-+};
++int string_stream_destroy(struct string_stream *stream);
 +
-+void kunit_fail_assert_format(const struct kunit_assert *assert,
-+			      struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_FAIL_ASSERT_STRUCT() - Initializer for &struct kunit_fail_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ *
-+ * Initializes a &struct kunit_fail_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_FAIL_ASSERT_STRUCT(test, type) {			       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_fail_assert_format)	       \
-+}
-+
-+/**
-+ * struct kunit_unary_assert - Represents a KUNIT_{EXPECT|ASSERT}_{TRUE|FALSE}
-+ * @assert: The parent of this type.
-+ * @condition: A string representation of a conditional expression.
-+ * @expected_true: True if of type KUNIT_{EXPECT|ASSERT}_TRUE, false otherwise.
-+ *
-+ * Represents a simple expectation or assertion that simply asserts something is
-+ * true or false. In other words, represents the expectations:
-+ * KUNIT_{EXPECT|ASSERT}_{TRUE|FALSE}
-+ */
-+struct kunit_unary_assert {
-+	struct kunit_assert assert;
-+	const char *condition;
-+	bool expected_true;
-+};
-+
-+void kunit_unary_assert_format(const struct kunit_assert *assert,
-+			       struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_UNARY_ASSERT_STRUCT() - Initializes &struct kunit_unary_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ * @cond: A string representation of the expression asserted true or false.
-+ * @expect_true: True if of type KUNIT_{EXPECT|ASSERT}_TRUE, false otherwise.
-+ *
-+ * Initializes a &struct kunit_unary_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_UNARY_ASSERT_STRUCT(test, type, cond, expect_true) {	       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_unary_assert_format),	       \
-+	.condition = cond,						       \
-+	.expected_true = expect_true					       \
-+}
-+
-+/**
-+ * struct kunit_ptr_not_err_assert - An expectation/assertion that a pointer is
-+ *	not NULL and not a -errno.
-+ * @assert: The parent of this type.
-+ * @text: A string representation of the expression passed to the expectation.
-+ * @value: The actual evaluated pointer value of the expression.
-+ *
-+ * Represents an expectation/assertion that a pointer is not null and is does
-+ * not contain a -errno. (See IS_ERR_OR_NULL().)
-+ */
-+struct kunit_ptr_not_err_assert {
-+	struct kunit_assert assert;
-+	const char *text;
-+	const void *value;
-+};
-+
-+void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
-+				     struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_PTR_NOT_ERR_ASSERT_STRUCT() - Initializes a
-+ *	&struct kunit_ptr_not_err_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ * @txt: A string representation of the expression passed to the expectation.
-+ * @val: The actual evaluated pointer value of the expression.
-+ *
-+ * Initializes a &struct kunit_ptr_not_err_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_PTR_NOT_ERR_STRUCT(test, type, txt, val) {		       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_ptr_not_err_assert_format),   \
-+	.text = txt,							       \
-+	.value = val							       \
-+}
-+
-+/**
-+ * struct kunit_binary_assert - An expectation/assertion that compares two
-+ *	non-pointer values (for example, KUNIT_EXPECT_EQ(test, 1 + 1, 2)).
-+ * @assert: The parent of this type.
-+ * @operation: A string representation of the comparison operator (e.g. "==").
-+ * @left_text: A string representation of the expression in the left slot.
-+ * @left_value: The actual evaluated value of the expression in the left slot.
-+ * @right_text: A string representation of the expression in the right slot.
-+ * @right_value: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Represents an expectation/assertion that compares two non-pointer values. For
-+ * example, to expect that 1 + 1 == 2, you can use the expectation
-+ * KUNIT_EXPECT_EQ(test, 1 + 1, 2);
-+ */
-+struct kunit_binary_assert {
-+	struct kunit_assert assert;
-+	const char *operation;
-+	const char *left_text;
-+	long long left_value;
-+	const char *right_text;
-+	long long right_value;
-+};
-+
-+void kunit_binary_assert_format(const struct kunit_assert *assert,
-+				struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_BINARY_ASSERT_STRUCT() - Initializes a
-+ *	&struct kunit_binary_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ * @op_str: A string representation of the comparison operator (e.g. "==").
-+ * @left_str: A string representation of the expression in the left slot.
-+ * @left_val: The actual evaluated value of the expression in the left slot.
-+ * @right_str: A string representation of the expression in the right slot.
-+ * @right_val: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Initializes a &struct kunit_binary_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_BINARY_ASSERT_STRUCT(test,				       \
-+					type,				       \
-+					op_str,				       \
-+					left_str,			       \
-+					left_val,			       \
-+					right_str,			       \
-+					right_val) {			       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_binary_assert_format),	       \
-+	.operation = op_str,						       \
-+	.left_text = left_str,						       \
-+	.left_value = left_val,						       \
-+	.right_text = right_str,					       \
-+	.right_value = right_val					       \
-+}
-+
-+/**
-+ * struct kunit_binary_ptr_assert - An expectation/assertion that compares two
-+ *	pointer values (for example, KUNIT_EXPECT_PTR_EQ(test, foo, bar)).
-+ * @assert: The parent of this type.
-+ * @operation: A string representation of the comparison operator (e.g. "==").
-+ * @left_text: A string representation of the expression in the left slot.
-+ * @left_value: The actual evaluated value of the expression in the left slot.
-+ * @right_text: A string representation of the expression in the right slot.
-+ * @right_value: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Represents an expectation/assertion that compares two pointer values. For
-+ * example, to expect that foo and bar point to the same thing, you can use the
-+ * expectation KUNIT_EXPECT_PTR_EQ(test, foo, bar);
-+ */
-+struct kunit_binary_ptr_assert {
-+	struct kunit_assert assert;
-+	const char *operation;
-+	const char *left_text;
-+	const void *left_value;
-+	const char *right_text;
-+	const void *right_value;
-+};
-+
-+void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
-+				    struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_BINARY_PTR_ASSERT_STRUCT() - Initializes a
-+ *	&struct kunit_binary_ptr_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ * @op_str: A string representation of the comparison operator (e.g. "==").
-+ * @left_str: A string representation of the expression in the left slot.
-+ * @left_val: The actual evaluated value of the expression in the left slot.
-+ * @right_str: A string representation of the expression in the right slot.
-+ * @right_val: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Initializes a &struct kunit_binary_ptr_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_BINARY_PTR_ASSERT_STRUCT(test,			       \
-+					    type,			       \
-+					    op_str,			       \
-+					    left_str,			       \
-+					    left_val,			       \
-+					    right_str,			       \
-+					    right_val) {		       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_binary_ptr_assert_format),    \
-+	.operation = op_str,						       \
-+	.left_text = left_str,						       \
-+	.left_value = left_val,						       \
-+	.right_text = right_str,					       \
-+	.right_value = right_val					       \
-+}
-+
-+/**
-+ * struct kunit_binary_str_assert - An expectation/assertion that compares two
-+ *	string values (for example, KUNIT_EXPECT_STREQ(test, foo, "bar")).
-+ * @assert: The parent of this type.
-+ * @operation: A string representation of the comparison operator (e.g. "==").
-+ * @left_text: A string representation of the expression in the left slot.
-+ * @left_value: The actual evaluated value of the expression in the left slot.
-+ * @right_text: A string representation of the expression in the right slot.
-+ * @right_value: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Represents an expectation/assertion that compares two string values. For
-+ * example, to expect that the string in foo is equal to "bar", you can use the
-+ * expectation KUNIT_EXPECT_STREQ(test, foo, "bar");
-+ */
-+struct kunit_binary_str_assert {
-+	struct kunit_assert assert;
-+	const char *operation;
-+	const char *left_text;
-+	const char *left_value;
-+	const char *right_text;
-+	const char *right_value;
-+};
-+
-+void kunit_binary_str_assert_format(const struct kunit_assert *assert,
-+				    struct string_stream *stream);
-+
-+/**
-+ * KUNIT_INIT_BINARY_STR_ASSERT_STRUCT() - Initializes a
-+ *	&struct kunit_binary_str_assert.
-+ * @test: The test case that this expectation/assertion is associated with.
-+ * @type: The type (assertion or expectation) of this kunit_assert.
-+ * @op_str: A string representation of the comparison operator (e.g. "==").
-+ * @left_str: A string representation of the expression in the left slot.
-+ * @left_val: The actual evaluated value of the expression in the left slot.
-+ * @right_str: A string representation of the expression in the right slot.
-+ * @right_val: The actual evaluated value of the expression in the right slot.
-+ *
-+ * Initializes a &struct kunit_binary_str_assert. Intended to be used in
-+ * KUNIT_EXPECT_* and KUNIT_ASSERT_* macros.
-+ */
-+#define KUNIT_INIT_BINARY_STR_ASSERT_STRUCT(test,			       \
-+					    type,			       \
-+					    op_str,			       \
-+					    left_str,			       \
-+					    left_val,			       \
-+					    right_str,			       \
-+					    right_val) {		       \
-+	.assert = KUNIT_INIT_ASSERT_STRUCT(test,			       \
-+					   type,			       \
-+					   kunit_binary_str_assert_format),    \
-+	.operation = op_str,						       \
-+	.left_text = left_str,						       \
-+	.left_value = left_val,						       \
-+	.right_text = right_str,					       \
-+	.right_value = right_val					       \
-+}
-+
-+#endif /*  _KUNIT_ASSERT_H */
++#endif /* _KUNIT_STRING_STREAM_H */
 diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index 275b565a0e81..6dcbe309036b 100644
+index 5efdc4dea2c0..275b565a0e81 100644
 --- a/lib/kunit/Makefile
 +++ b/lib/kunit/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_KUNIT) +=			test.o \
--					string-stream.o
-+					string-stream.o \
-+					assert.o
-diff --git a/lib/kunit/assert.c b/lib/kunit/assert.c
+@@ -1 +1,2 @@
+-obj-$(CONFIG_KUNIT) +=			test.o
++obj-$(CONFIG_KUNIT) +=			test.o \
++					string-stream.o
+diff --git a/lib/kunit/string-stream.c b/lib/kunit/string-stream.c
 new file mode 100644
-index 000000000000..86013d4cf891
+index 000000000000..e6d17aacca30
 --- /dev/null
-+++ b/lib/kunit/assert.c
-@@ -0,0 +1,141 @@
++++ b/lib/kunit/string-stream.c
+@@ -0,0 +1,217 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Assertion and expectation serialization API.
++ * C++ stream style string builder used in KUnit for building messages.
 + *
 + * Copyright (C) 2019, Google LLC.
 + * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
-+#include <kunit/assert.h>
 +
-+void kunit_base_assert_format(const struct kunit_assert *assert,
-+			      struct string_stream *stream)
++#include <kunit/string-stream.h>
++#include <kunit/test.h>
++#include <linux/list.h>
++#include <linux/slab.h>
++
++struct string_stream_fragment_alloc_context {
++	struct kunit *test;
++	int len;
++	gfp_t gfp;
++};
++
++static int string_stream_fragment_init(struct kunit_resource *res,
++				       void *context)
 +{
-+	const char *expect_or_assert = NULL;
++	struct string_stream_fragment_alloc_context *ctx = context;
++	struct string_stream_fragment *frag;
 +
-+	switch (assert->type) {
-+	case KUNIT_EXPECTATION:
-+		expect_or_assert = "EXPECTATION";
-+		break;
-+	case KUNIT_ASSERTION:
-+		expect_or_assert = "ASSERTION";
-+		break;
++	frag = kunit_kzalloc(ctx->test, sizeof(*frag), ctx->gfp);
++	if (!frag)
++		return -ENOMEM;
++
++	frag->test = ctx->test;
++	frag->fragment = kunit_kmalloc(ctx->test, ctx->len, ctx->gfp);
++	if (!frag->fragment)
++		return -ENOMEM;
++
++	res->allocation = frag;
++
++	return 0;
++}
++
++static void string_stream_fragment_free(struct kunit_resource *res)
++{
++	struct string_stream_fragment *frag = res->allocation;
++
++	list_del(&frag->node);
++	kunit_kfree(frag->test, frag->fragment);
++	kunit_kfree(frag->test, frag);
++}
++
++static struct string_stream_fragment *alloc_string_stream_fragment(
++		struct kunit *test, int len, gfp_t gfp)
++{
++	struct string_stream_fragment_alloc_context context = {
++		.test = test,
++		.len = len,
++		.gfp = gfp
++	};
++
++	return kunit_alloc_resource(test,
++				    string_stream_fragment_init,
++				    string_stream_fragment_free,
++				    gfp,
++				    &context);
++}
++
++static int string_stream_fragment_destroy(struct string_stream_fragment *frag)
++{
++	return kunit_resource_destroy(frag->test,
++				      kunit_resource_instance_match,
++				      string_stream_fragment_free,
++				      frag);
++}
++
++int string_stream_vadd(struct string_stream *stream,
++		       const char *fmt,
++		       va_list args)
++{
++	struct string_stream_fragment *frag_container;
++	int len;
++	va_list args_for_counting;
++
++	/* Make a copy because `vsnprintf` could change it */
++	va_copy(args_for_counting, args);
++
++	/* Need space for null byte. */
++	len = vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
++
++	va_end(args_for_counting);
++
++	frag_container = alloc_string_stream_fragment(stream->test,
++						      len,
++						      stream->gfp);
++	if (!frag_container)
++		return -ENOMEM;
++
++	len = vsnprintf(frag_container->fragment, len, fmt, args);
++	spin_lock(&stream->lock);
++	stream->length += len;
++	list_add_tail(&frag_container->node, &stream->fragments);
++	spin_unlock(&stream->lock);
++
++	return 0;
++}
++
++int string_stream_add(struct string_stream *stream, const char *fmt, ...)
++{
++	va_list args;
++	int result;
++
++	va_start(args, fmt);
++	result = string_stream_vadd(stream, fmt, args);
++	va_end(args);
++
++	return result;
++}
++
++static void string_stream_clear(struct string_stream *stream)
++{
++	struct string_stream_fragment *frag_container, *frag_container_safe;
++
++	spin_lock(&stream->lock);
++	list_for_each_entry_safe(frag_container,
++				 frag_container_safe,
++				 &stream->fragments,
++				 node) {
++		string_stream_fragment_destroy(frag_container);
 +	}
-+
-+	string_stream_add(stream, "%s FAILED at %s:%d\n",
-+			 expect_or_assert, assert->file, assert->line);
++	stream->length = 0;
++	spin_unlock(&stream->lock);
 +}
 +
-+void kunit_assert_print_msg(const struct kunit_assert *assert,
-+			    struct string_stream *stream)
++char *string_stream_get_string(struct string_stream *stream)
 +{
-+	if (assert->message.fmt)
-+		string_stream_add(stream, "\n%pV", &assert->message);
++	struct string_stream_fragment *frag_container;
++	size_t buf_len = stream->length + 1; /* +1 for null byte. */
++	char *buf;
++
++	buf = kunit_kzalloc(stream->test, buf_len, stream->gfp);
++	if (!buf)
++		return NULL;
++
++	spin_lock(&stream->lock);
++	list_for_each_entry(frag_container, &stream->fragments, node)
++		strlcat(buf, frag_container->fragment, buf_len);
++	spin_unlock(&stream->lock);
++
++	return buf;
 +}
 +
-+void kunit_fail_assert_format(const struct kunit_assert *assert,
-+			      struct string_stream *stream)
++int string_stream_append(struct string_stream *stream,
++			 struct string_stream *other)
 +{
-+	kunit_base_assert_format(assert, stream);
-+	string_stream_add(stream, "%pV", &assert->message);
++	const char *other_content;
++
++	other_content = string_stream_get_string(other);
++
++	if (!other_content)
++		return -ENOMEM;
++
++	return string_stream_add(stream, other_content);
 +}
 +
-+void kunit_unary_assert_format(const struct kunit_assert *assert,
-+			       struct string_stream *stream)
++bool string_stream_is_empty(struct string_stream *stream)
 +{
-+	struct kunit_unary_assert *unary_assert = container_of(
-+			assert, struct kunit_unary_assert, assert);
-+
-+	kunit_base_assert_format(assert, stream);
-+	if (unary_assert->expected_true)
-+		string_stream_add(stream,
-+				 "\tExpected %s to be true, but is false\n",
-+				 unary_assert->condition);
-+	else
-+		string_stream_add(stream,
-+				 "\tExpected %s to be false, but is true\n",
-+				 unary_assert->condition);
-+	kunit_assert_print_msg(assert, stream);
++	return list_empty(&stream->fragments);
 +}
 +
-+void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
-+				     struct string_stream *stream)
-+{
-+	struct kunit_ptr_not_err_assert *ptr_assert = container_of(
-+			assert, struct kunit_ptr_not_err_assert, assert);
++struct string_stream_alloc_context {
++	struct kunit *test;
++	gfp_t gfp;
++};
 +
-+	kunit_base_assert_format(assert, stream);
-+	if (!ptr_assert->value) {
-+		string_stream_add(stream,
-+				 "\tExpected %s is not null, but is\n",
-+				 ptr_assert->text);
-+	} else if (IS_ERR(ptr_assert->value)) {
-+		string_stream_add(stream,
-+				 "\tExpected %s is not error, but is: %ld\n",
-+				 ptr_assert->text,
-+				 PTR_ERR(ptr_assert->value));
-+	}
-+	kunit_assert_print_msg(assert, stream);
++static int string_stream_init(struct kunit_resource *res, void *context)
++{
++	struct string_stream *stream;
++	struct string_stream_alloc_context *ctx = context;
++
++	stream = kunit_kzalloc(ctx->test, sizeof(*stream), ctx->gfp);
++	if (!stream)
++		return -ENOMEM;
++
++	res->allocation = stream;
++	stream->gfp = ctx->gfp;
++	stream->test = ctx->test;
++	INIT_LIST_HEAD(&stream->fragments);
++	spin_lock_init(&stream->lock);
++
++	return 0;
 +}
 +
-+void kunit_binary_assert_format(const struct kunit_assert *assert,
-+				struct string_stream *stream)
++static void string_stream_free(struct kunit_resource *res)
 +{
-+	struct kunit_binary_assert *binary_assert = container_of(
-+			assert, struct kunit_binary_assert, assert);
++	struct string_stream *stream = res->allocation;
 +
-+	kunit_base_assert_format(assert, stream);
-+	string_stream_add(stream,
-+			 "\tExpected %s %s %s, but\n",
-+			 binary_assert->left_text,
-+			 binary_assert->operation,
-+			 binary_assert->right_text);
-+	string_stream_add(stream, "\t\t%s == %lld\n",
-+			 binary_assert->left_text,
-+			 binary_assert->left_value);
-+	string_stream_add(stream, "\t\t%s == %lld",
-+			 binary_assert->right_text,
-+			 binary_assert->right_value);
-+	kunit_assert_print_msg(assert, stream);
++	string_stream_clear(stream);
 +}
 +
-+void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
-+				    struct string_stream *stream)
++struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp)
 +{
-+	struct kunit_binary_ptr_assert *binary_assert = container_of(
-+			assert, struct kunit_binary_ptr_assert, assert);
++	struct string_stream_alloc_context context = {
++		.test = test,
++		.gfp = gfp
++	};
 +
-+	kunit_base_assert_format(assert, stream);
-+	string_stream_add(stream,
-+			 "\tExpected %s %s %s, but\n",
-+			 binary_assert->left_text,
-+			 binary_assert->operation,
-+			 binary_assert->right_text);
-+	string_stream_add(stream, "\t\t%s == %pK\n",
-+			 binary_assert->left_text,
-+			 binary_assert->left_value);
-+	string_stream_add(stream, "\t\t%s == %pK",
-+			 binary_assert->right_text,
-+			 binary_assert->right_value);
-+	kunit_assert_print_msg(assert, stream);
++	return kunit_alloc_resource(test,
++				    string_stream_init,
++				    string_stream_free,
++				    gfp,
++				    &context);
 +}
 +
-+void kunit_binary_str_assert_format(const struct kunit_assert *assert,
-+				    struct string_stream *stream)
++int string_stream_destroy(struct string_stream *stream)
 +{
-+	struct kunit_binary_str_assert *binary_assert = container_of(
-+			assert, struct kunit_binary_str_assert, assert);
-+
-+	kunit_base_assert_format(assert, stream);
-+	string_stream_add(stream,
-+			 "\tExpected %s %s %s, but\n",
-+			 binary_assert->left_text,
-+			 binary_assert->operation,
-+			 binary_assert->right_text);
-+	string_stream_add(stream, "\t\t%s == %s\n",
-+			 binary_assert->left_text,
-+			 binary_assert->left_value);
-+	string_stream_add(stream, "\t\t%s == %s",
-+			 binary_assert->right_text,
-+			 binary_assert->right_value);
-+	kunit_assert_print_msg(assert, stream);
++	return kunit_resource_destroy(stream->test,
++				      kunit_resource_instance_match,
++				      string_stream_free,
++				      stream);
 +}
 -- 
 2.23.0.351.gc4317032e6-goog
