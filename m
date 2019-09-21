@@ -1,266 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0834A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Sep 2019 00:21:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8855B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Sep 2019 06:51:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389462AbfIUATF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Sep 2019 20:19:05 -0400
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:36220 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726750AbfIUATF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Sep 2019 20:19:05 -0400
-Received: by mail-pg1-f201.google.com with SMTP id d19so5448683pgh.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2019 17:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=b333+3kU3sNm1guAvj5VAE2cIf3fv45+vyYGNDAuAeE=;
-        b=mziq7dsMElwEKnE1Z7ti79XMqDY7c/2K4hTPRgTcmt/uJm/FDpfsCztwZ+w7qdA7QX
-         cWIcYpMvZF7XU/Rai8qNzBCPmLM2rxwmmvuSrQuQMwc4RCMB7u1BKdHPTgV7SOyIkILM
-         /+9JuZoYISDytzawuH6Le9KixbEBfpczjFPyVSf3MN2EM7va18p+Olf0W59MQ2epAu17
-         odPXBt1H/hj3PfMx0DjDYB5fZFKAYtIWifJ9zBeXZFJHtaqddA5d38/t9wwEVKr1WXUJ
-         ODGP0GLzVruYjTn89kr0c6Ut7CUY4DjD5fA+eVGK4t1QxMX6OoN0Y65y4ZTEKZqdKkMB
-         5i3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=b333+3kU3sNm1guAvj5VAE2cIf3fv45+vyYGNDAuAeE=;
-        b=pSHaXIP5I0TPEJRpduMCXRYTubn+9RKIhdUMdX8BLQFCG5ciBmFUr/xnHqcVHQ0ej5
-         HdNibRNAQ14D0qUzMn+XsS4hfwoVNFmVn2AbT17MePDE/ivR6lYHEl3bx7E4tV6zisAj
-         SPRLg3erNaV8up3qrK9sLKmSZtx0/PCmNwa9epFMUrUY7Spnbrt1rYsZcEAnlZJ4oyuK
-         Lv79Ko9LB+D8qdA1KtUzKyJMT9ISHnEE1FPx5u+GVboiVH8tVUD40xTPryeP5eaLEV8+
-         3cC13LLaYU5VC+H/2tRbkQ/VQY7NPiMBQukEjDspKlcTrKMCbYZpK0F6EpjRkLhTKTjn
-         llfQ==
-X-Gm-Message-State: APjAAAUOXUjGUndkN+ap1aot3zyan6VkAgBQ05yQ25j851JCu+AmZqTh
-        LYhFzrkPsINSpjtgJy8oUgZ80aJO0UoEd36W4hQ/GA==
-X-Google-Smtp-Source: APXvYqw8GLoMb6Kss29cJO37f73z8953oOCu04U9qJiShjXq1nWZykvaYDEc/VJlamPMqIFZnL5bLBONGJcNWXQKydKvZw==
-X-Received: by 2002:a65:4002:: with SMTP id f2mr18079221pgp.447.1569025143686;
- Fri, 20 Sep 2019 17:19:03 -0700 (PDT)
-Date:   Fri, 20 Sep 2019 17:18:36 -0700
-Message-Id: <20190921001855.200947-1-brendanhiggins@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v17 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, torvalds@linux-foundation.org,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S2437328AbfIUGvp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Sep 2019 02:51:45 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:44852 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437309AbfIUGvo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Sep 2019 02:51:44 -0400
+Received: from grover.flets-west.jp (softbank126021098169.bbtec.net [126.21.98.169]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x8L6ntFu016571;
+        Sat, 21 Sep 2019 15:49:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x8L6ntFu016571
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1569048596;
+        bh=tas5o108IC96vrbiA6E2q4q/CHS7VyOE8X05kkRhjv4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M2KoWggIDxhTWdR3manNk4BIAW/gVcpoBEur+qmkgpTXa/tjxMVRqeozpFHJyp6Te
+         J8DzbqMjb01sXCBY82J8SBNr1LD7x0TR3454MT8I1v6mYnxeTcaTz5dU2vcmeJHbY4
+         qwz2TjETGlDjVXj+RilqsT7SEkCvznnDgJQY96qx98HDCWHNrNs55K9tlNncuzRQC2
+         Ee+IXj0fCOlSQBN5NyiQ532f32Y9V6U+r66GtU9NL8TQlzhWZxofyfWIyOCSpiYmcf
+         THXaC7U9m+af4Zs/d+BNpm2cIc8v8dE9FTCg+InBUVvpeyChZcwBetWZnZSISwaALC
+         1HvO9uNtSVXhQ==
+X-Nifty-SrcIP: [126.21.98.169]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Paul Mackerras <paulus@samba.org>,
+        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] kbuild: remove ar-option and KBUILD_ARFLAGS
+Date:   Sat, 21 Sep 2019 15:49:54 +0900
+Message-Id: <20190921064954.11196-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-## TL;DR
+Commit 40df759e2b9e ("kbuild: Fix build with binutils <= 2.19")
+introduced ar-option and KBUILD_ARFLAGS to cope with old binutils.
 
-This revision addresses comments from Linus[1] and Randy[2], by moving
-top level `kunit/` directory to `lib/kunit/` and likewise moves top
-level Kconfig entry under lib/Kconfig.debug, so the KUnit submenu now
-shows up under the "Kernel Hacking" menu.
+According to Documentation/process/changes.rst, the current minimal
+supported version of binutils is 2.21 so you can assume the 'D' option
+is always supported. Not only GNU ar but also llvm-ar supports it.
 
-As a consequence of this, I rewrote patch 06/18 (kbuild: enable building
-KUnit), and now needs to be re-acked/reviewed.
+With the 'D' option hard-coded, there is no more user of ar-option
+or KBUILD_ARFLAGS.
 
-## Background
-
-This patch set proposes KUnit, a lightweight unit testing and mocking
-framework for the Linux kernel.
-
-Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-it does not require installing the kernel on a test machine or in a VM
-(however, KUnit still allows you to run tests on test machines or in VMs
-if you want[3]) and does not require tests to be written in userspace
-running on a host kernel. Additionally, KUnit is fast: From invocation
-to completion KUnit can run several dozen tests in about a second.
-Currently, the entire KUnit test suite for KUnit runs in under a second
-from the initial invocation (build time excluded).
-
-KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-Googletest/Googlemock for C++. KUnit provides facilities for defining
-unit test cases, grouping related test cases into test suites, providing
-common infrastructure for running tests, mocking, spying, and much more.
-
-### What's so special about unit testing?
-
-A unit test is supposed to test a single unit of code in isolation,
-hence the name. There should be no dependencies outside the control of
-the test; this means no external dependencies, which makes tests orders
-of magnitudes faster. Likewise, since there are no external dependencies,
-there are no hoops to jump through to run the tests. Additionally, this
-makes unit tests deterministic: a failing unit test always indicates a
-problem. Finally, because unit tests necessarily have finer granularity,
-they are able to test all code paths easily solving the classic problem
-of difficulty in exercising error handling code.
-
-### Is KUnit trying to replace other testing frameworks for the kernel?
-
-No. Most existing tests for the Linux kernel are end-to-end tests, which
-have their place. A well tested system has lots of unit tests, a
-reasonable number of integration tests, and some end-to-end tests. KUnit
-is just trying to address the unit test space which is currently not
-being addressed.
-
-### More information on KUnit
-
-There is a bunch of documentation near the end of this patch set that
-describes how to use KUnit and best practices for writing unit tests.
-For convenience I am hosting the compiled docs here[4].
-
-Additionally for convenience, I have applied these patches to a
-branch[5]. The repo may be cloned with:
-git clone https://kunit.googlesource.com/linux
-This patchset is on the kunit/initial/v5.3/v17 branch.
-
-## History since v15
-
-### v17
-
- - Addressed comments on 06/19 (lib: enable building KUnit in lib/) from
-   Stephen Boyd by moving KUnit submenu ahead of Runtime Testing
-   submenu.
-
-### v16
-
- - Addressed comments from Linus Torvalds by moving all kunit/ paths to
-   lib/kunit/.
- - Addressed comments by Randy Dunlap by moving KUnit Kconfig under
-   lib/Kconfig.debug so the KUnit submenu shows up under the "Kernel
-   Hacking" menu.
-
-[1] https://www.lkml.org/lkml/2019/9/20/696
-[2] https://www.lkml.org/lkml/2019/9/20/738
-[3] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
-[4] https://google.github.io/kunit-docs/third_party/kernel/docs/
-[5] https://kunit.googlesource.com/linux/+/kunit/initial/v5.3/v17
-
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
-Avinash Kondareddy (1):
-  kunit: test: add tests for KUnit managed resources
+ Documentation/kbuild/makefiles.rst | 5 -----
+ Makefile                           | 4 ----
+ arch/powerpc/boot/Makefile         | 2 +-
+ scripts/Kbuild.include             | 5 -----
+ scripts/Makefile.build             | 2 +-
+ scripts/Makefile.lib               | 2 +-
+ 6 files changed, 3 insertions(+), 17 deletions(-)
 
-Brendan Higgins (16):
-  kunit: test: add KUnit test runner core
-  kunit: test: add test resource management API
-  kunit: test: add string_stream a std::stream like string builder
-  kunit: test: add assertion printing library
-  kunit: test: add the concept of expectations
-  lib: enable building KUnit in lib/
-  kunit: test: add initial tests
-  objtool: add kunit_try_catch_throw to the noreturn list
-  kunit: test: add support for test abort
-  kunit: test: add tests for kunit test abort
-  kunit: test: add the concept of assertions
-  kunit: defconfig: add defconfigs for building KUnit tests
-  Documentation: kunit: add documentation for KUnit
-  MAINTAINERS: add entry for KUnit the unit testing framework
-  MAINTAINERS: add proc sysctl KUnit test to PROC SYSCTL section
-  kunit: fix failure to build without printk
-
-Felix Guo (1):
-  kunit: tool: add Python wrappers for running KUnit tests
-
-Iurii Zaikin (1):
-  kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-
- Documentation/dev-tools/index.rst             |    1 +
- Documentation/dev-tools/kunit/api/index.rst   |   16 +
- Documentation/dev-tools/kunit/api/test.rst    |   11 +
- Documentation/dev-tools/kunit/faq.rst         |   62 +
- Documentation/dev-tools/kunit/index.rst       |   79 +
- Documentation/dev-tools/kunit/start.rst       |  180 ++
- Documentation/dev-tools/kunit/usage.rst       |  576 +++++++
- MAINTAINERS                                   |   13 +
- arch/um/configs/kunit_defconfig               |    3 +
- include/kunit/assert.h                        |  356 ++++
- include/kunit/string-stream.h                 |   51 +
- include/kunit/test.h                          | 1490 +++++++++++++++++
- include/kunit/try-catch.h                     |   75 +
- kernel/Makefile                               |    2 +
- kernel/sysctl-test.c                          |  392 +++++
- lib/Kconfig.debug                             |   13 +
- lib/Makefile                                  |    2 +
- lib/kunit/Kconfig                             |   38 +
- lib/kunit/Makefile                            |    9 +
- lib/kunit/assert.c                            |  141 ++
- lib/kunit/example-test.c                      |   88 +
- lib/kunit/string-stream-test.c                |   52 +
- lib/kunit/string-stream.c                     |  217 +++
- lib/kunit/test-test.c                         |  331 ++++
- lib/kunit/test.c                              |  478 ++++++
- lib/kunit/try-catch.c                         |  118 ++
- tools/objtool/check.c                         |    1 +
- tools/testing/kunit/.gitignore                |    3 +
- tools/testing/kunit/configs/all_tests.config  |    3 +
- tools/testing/kunit/kunit.py                  |  136 ++
- tools/testing/kunit/kunit_config.py           |   66 +
- tools/testing/kunit/kunit_kernel.py           |  149 ++
- tools/testing/kunit/kunit_parser.py           |  310 ++++
- tools/testing/kunit/kunit_tool_test.py        |  206 +++
- .../test_is_test_passed-all_passed.log        |   32 +
- .../test_data/test_is_test_passed-crash.log   |   69 +
- .../test_data/test_is_test_passed-failure.log |   36 +
- .../test_is_test_passed-no_tests_run.log      |   75 +
- .../test_output_isolated_correctly.log        |  106 ++
- .../test_data/test_read_from_file.kconfig     |   17 +
- 40 files changed, 6003 insertions(+)
- create mode 100644 Documentation/dev-tools/kunit/api/index.rst
- create mode 100644 Documentation/dev-tools/kunit/api/test.rst
- create mode 100644 Documentation/dev-tools/kunit/faq.rst
- create mode 100644 Documentation/dev-tools/kunit/index.rst
- create mode 100644 Documentation/dev-tools/kunit/start.rst
- create mode 100644 Documentation/dev-tools/kunit/usage.rst
- create mode 100644 arch/um/configs/kunit_defconfig
- create mode 100644 include/kunit/assert.h
- create mode 100644 include/kunit/string-stream.h
- create mode 100644 include/kunit/test.h
- create mode 100644 include/kunit/try-catch.h
- create mode 100644 kernel/sysctl-test.c
- create mode 100644 lib/kunit/Kconfig
- create mode 100644 lib/kunit/Makefile
- create mode 100644 lib/kunit/assert.c
- create mode 100644 lib/kunit/example-test.c
- create mode 100644 lib/kunit/string-stream-test.c
- create mode 100644 lib/kunit/string-stream.c
- create mode 100644 lib/kunit/test-test.c
- create mode 100644 lib/kunit/test.c
- create mode 100644 lib/kunit/try-catch.c
- create mode 100644 tools/testing/kunit/.gitignore
- create mode 100644 tools/testing/kunit/configs/all_tests.config
- create mode 100755 tools/testing/kunit/kunit.py
- create mode 100644 tools/testing/kunit/kunit_config.py
- create mode 100644 tools/testing/kunit/kunit_kernel.py
- create mode 100644 tools/testing/kunit/kunit_parser.py
- create mode 100755 tools/testing/kunit/kunit_tool_test.py
- create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-all_passed.log
- create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-crash.log
- create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-failure.log
- create mode 100644 tools/testing/kunit/test_data/test_is_test_passed-no_tests_run.log
- create mode 100644 tools/testing/kunit/test_data/test_output_isolated_correctly.log
- create mode 100644 tools/testing/kunit/test_data/test_read_from_file.kconfig
-
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 6ba9d5365ff3..b89c88168d6a 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -954,11 +954,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 	From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
+ 
+-    KBUILD_ARFLAGS   Options for $(AR) when creating archives
+-
+-	$(KBUILD_ARFLAGS) set by the top level Makefile to "D" (deterministic
+-	mode) if this option is supported by $(AR).
+-
+     KBUILD_LDS
+ 
+ 	The linker script with full path. Assigned by the top-level Makefile.
+diff --git a/Makefile b/Makefile
+index 656a8c95789d..88b180b2cb64 100644
+--- a/Makefile
++++ b/Makefile
+@@ -498,7 +498,6 @@ export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN
+ export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
+ export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
+ export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+-export KBUILD_ARFLAGS
+ 
+ # Files to ignore in find ... statements
+ 
+@@ -914,9 +913,6 @@ ifdef CONFIG_RETPOLINE
+ KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
+ endif
+ 
+-# use the deterministic mode of AR if available
+-KBUILD_ARFLAGS := $(call ar-option,D)
+-
+ include scripts/Makefile.kasan
+ include scripts/Makefile.extrawarn
+ include scripts/Makefile.ubsan
+diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+index 6841bd52738b..dfbd7f22eef5 100644
+--- a/arch/powerpc/boot/Makefile
++++ b/arch/powerpc/boot/Makefile
+@@ -50,7 +50,7 @@ endif
+ 
+ BOOTAFLAGS	:= -D__ASSEMBLY__ $(BOOTCFLAGS) -nostdinc
+ 
+-BOOTARFLAGS	:= -cr$(KBUILD_ARFLAGS)
++BOOTARFLAGS	:= -crD
+ 
+ ifdef CONFIG_CC_IS_CLANG
+ BOOTCFLAGS += $(CLANG_FLAGS)
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index e31fd6a8b2a3..956668239ef5 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -143,11 +143,6 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
+ # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+ 
+-# ar-option
+-# Usage: KBUILD_ARFLAGS := $(call ar-option,D)
+-# Important: no spaces around options
+-ar-option = $(call try-run, $(AR) rc$(1) "$$TMP",$(1),$(2))
+-
+ # ld-version
+ # Note this is mainly for HJ Lu's 3 number binutil versions
+ ld-version = $(shell $(LD) --version | $(srctree)/scripts/ld-version.sh)
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 611bda95ac5e..f199341f04eb 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -395,7 +395,7 @@ $(sort $(subdir-obj-y)): $(subdir-ym) ;
+ ifdef builtin-target
+ 
+ quiet_cmd_ar_builtin = AR      $@
+-      cmd_ar_builtin = rm -f $@; $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
++      cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+ 
+ $(builtin-target): $(real-obj-y) FORCE
+ 	$(call if_changed,ar_builtin)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 23e524027740..15895fd4ef9f 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -238,7 +238,7 @@ quiet_cmd_ld = LD      $@
+ # ---------------------------------------------------------------------------
+ 
+ quiet_cmd_ar = AR      $@
+-      cmd_ar = rm -f $@; $(AR) rcsTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
++      cmd_ar = rm -f $@; $(AR) cDPrsT $@ $(real-prereqs)
+ 
+ # Objcopy
+ # ---------------------------------------------------------------------------
 -- 
-2.23.0.351.gc4317032e6-goog
+2.17.1
 
