@@ -1,167 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8855B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Sep 2019 06:51:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 192927D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Sep 2019 11:57:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437328AbfIUGvp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Sep 2019 02:51:45 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:44852 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437309AbfIUGvo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Sep 2019 02:51:44 -0400
-Received: from grover.flets-west.jp (softbank126021098169.bbtec.net [126.21.98.169]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x8L6ntFu016571;
-        Sat, 21 Sep 2019 15:49:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x8L6ntFu016571
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569048596;
-        bh=tas5o108IC96vrbiA6E2q4q/CHS7VyOE8X05kkRhjv4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=M2KoWggIDxhTWdR3manNk4BIAW/gVcpoBEur+qmkgpTXa/tjxMVRqeozpFHJyp6Te
-         J8DzbqMjb01sXCBY82J8SBNr1LD7x0TR3454MT8I1v6mYnxeTcaTz5dU2vcmeJHbY4
-         qwz2TjETGlDjVXj+RilqsT7SEkCvznnDgJQY96qx98HDCWHNrNs55K9tlNncuzRQC2
-         Ee+IXj0fCOlSQBN5NyiQ532f32Y9V6U+r66GtU9NL8TQlzhWZxofyfWIyOCSpiYmcf
-         THXaC7U9m+af4Zs/d+BNpm2cIc8v8dE9FTCg+InBUVvpeyChZcwBetWZnZSISwaALC
-         1HvO9uNtSVXhQ==
-X-Nifty-SrcIP: [126.21.98.169]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        id S2407560AbfIUL5z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Sep 2019 07:57:55 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39462 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405770AbfIUL5z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Sep 2019 07:57:55 -0400
+Received: by mail-pf1-f196.google.com with SMTP id v4so1664345pff.6;
+        Sat, 21 Sep 2019 04:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PKxsHDFmHPsQxmc4wfV//rWUve8tGbS0odSr9dmfP5c=;
+        b=kSfK52rw8/suJVsRKOQZy1DHh+NxMk0TKwGnclJ0AYiGTX4rbMAHUL8Wjalb5Gznh2
+         8iw1j4ZMP2KIeds/PazetJOzrK3I/aA5KjCwn1FWHxvogyYTyfTOuSZcZ4yGqNmyxUf1
+         I2il2nNA7d5QDksk9JKk528thNOFj0UB6FkiUpqMT4dAz1loLlYVYWHr9vvOdTqibddg
+         pYjW89srxfeLTI5l6SHzDs6iJ1Mv23HVDRKXsIVt4fxGFolBeHlQCPsMY2SZ8BVRhKEP
+         5/YeaKOpKg2PVh7NGyMS4GmUY3VG87JHJu+CSpvC7xnCK8W/tpPKdRKTVb8pLIGF0LJO
+         qnpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PKxsHDFmHPsQxmc4wfV//rWUve8tGbS0odSr9dmfP5c=;
+        b=FcPRCvSHzm4nhqN6wO/xkCbVTex1xQNIuTDRSV8r0VT/7jMYK19p1dRZ+5xBYcKL4h
+         nJqw0Ue1RnDHXmWhSk4ye3u+ff3zzUcV7hucdBiY4U3eIUTNzelUV482gf81h4oLUioI
+         lVPyU3t0NQZnHF9OXTcov7UHx407uo5A07u0S67uqy+d4imxEpe8lNryP7ELpqdgZSGn
+         4vHcuQg5EEU3EcPn1sjv5UU6tHQ1b+zn03tBNn4Fczfe+IJAcU95sj1B+n+8Ob8NKOYn
+         5VxcQd6XLC5RiPFVWiqYsvb7sTKFB0HDzGQskfA6VsjqQXKZWqDPqNo5rEebHqWHR7fZ
+         4FgA==
+X-Gm-Message-State: APjAAAU3N/FGdNsCg1+a3TRPnasmNREkHLj46KxgMeBhUDkDfCoVwpyu
+        oXVeNZMqjVBGfRtsuqJb3lc=
+X-Google-Smtp-Source: APXvYqwkE737dDrUJVxTyTpx8nDPqxdBZIurIxHSyY6FScmj9KYFwetcQl4Td8KoKdWcVdhLrUAXyA==
+X-Received: by 2002:a62:3147:: with SMTP id x68mr22576597pfx.129.1569067074822;
+        Sat, 21 Sep 2019 04:57:54 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v43sm26863328pjb.1.2019.09.21.04.57.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 21 Sep 2019 04:57:53 -0700 (PDT)
+Date:   Sat, 21 Sep 2019 04:57:52 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Lukas Zapletal <lzap@redhat.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        Clemens Ladisch <clemens@ladisch.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Paul Mackerras <paulus@samba.org>,
-        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH] kbuild: remove ar-option and KBUILD_ARFLAGS
-Date:   Sat, 21 Sep 2019 15:49:54 +0900
-Message-Id: <20190921064954.11196-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] k10temp: update documentation
+Message-ID: <20190921115752.GA22647@roeck-us.net>
+References: <CAP80Qm2ORJ4cXukhH8oXeGv-C9LrADa1XyDuyq5LKeV_YaYxqA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP80Qm2ORJ4cXukhH8oXeGv-C9LrADa1XyDuyq5LKeV_YaYxqA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 40df759e2b9e ("kbuild: Fix build with binutils <= 2.19")
-introduced ar-option and KBUILD_ARFLAGS to cope with old binutils.
+On Thu, Sep 19, 2019 at 11:25:03AM +0200, Lukas Zapletal wrote:
+> It's been a while since the k10temp documentation has been updated.
+> There are new CPU families supported as well as Tdie temp was added.
+> This patch adds all missing families which I was able to find from git
+> history and provides more info about Tctl vs Tdie exported temps.
+> 
+> Signed-off-by: Lukas Zapletal <lzap+git@redhat.com>
 
-According to Documentation/process/changes.rst, the current minimal
-supported version of binutils is 2.21 so you can assume the 'D' option
-is always supported. Not only GNU ar but also llvm-ar supports it.
+Your patch does not apply to the curent mainline kernel.
+What is the parent branch ?
 
-With the 'D' option hard-coded, there is no more user of ar-option
-or KBUILD_ARFLAGS.
+> ---
+>  Documentation/hwmon/k10temp.rst | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> 
+>    Addresses scanned: PCI space
+> @@ -110,3 +116,12 @@ The maximum value for Tctl is available in the
+> file temp1_max.
+>  If the BIOS has enabled hardware temperature control, the threshold at
+>  which the processor will throttle itself to avoid damage is available in
+>  temp1_crit and temp1_crit_hyst.
+> +
+> +On some AMD CPUs, there is a difference between the die temperature (Tdie) and
+> +the reported temperature (Tctl). Tdie is the real measured temperature, and
+> +Tctl is used for fan control. While Tctl is always available as temp1_input,
+> +the driver exports Tdie temperature as temp2_input for those CPUs which support
+> +it.
+> +
+> +Models from 17h family report relative temperature, the driver aims to
+> +compensate and report the real temperature.
+> 
+> diff --git a/Documentation/hwmon/k10temp.rst b/Documentation/hwmon/k10temp.rst
+> index 12a86ba17de9..bb2d0a02dc45 100644
+> --- a/Documentation/hwmon/k10temp.rst
+> +++ b/Documentation/hwmon/k10temp.rst
+> @@ -1,7 +1,7 @@
+>  Kernel driver k10temp
+>  =====================
+> 
+> -Supported chips:
+> +Although the driver is named k10temp, it supports wide range of AMD CPUs:
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+The above does not add any value. Many drivers support more than one chip,
+but are named after the first supported chip. Please drop this change.
 
- Documentation/kbuild/makefiles.rst | 5 -----
- Makefile                           | 4 ----
- arch/powerpc/boot/Makefile         | 2 +-
- scripts/Kbuild.include             | 5 -----
- scripts/Makefile.build             | 2 +-
- scripts/Makefile.lib               | 2 +-
- 6 files changed, 3 insertions(+), 17 deletions(-)
+Guenter
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 6ba9d5365ff3..b89c88168d6a 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -954,11 +954,6 @@ When kbuild executes, the following steps are followed (roughly):
- 
- 	From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
- 
--    KBUILD_ARFLAGS   Options for $(AR) when creating archives
--
--	$(KBUILD_ARFLAGS) set by the top level Makefile to "D" (deterministic
--	mode) if this option is supported by $(AR).
--
-     KBUILD_LDS
- 
- 	The linker script with full path. Assigned by the top-level Makefile.
-diff --git a/Makefile b/Makefile
-index 656a8c95789d..88b180b2cb64 100644
---- a/Makefile
-+++ b/Makefile
-@@ -498,7 +498,6 @@ export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN
- export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
- export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
- export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
--export KBUILD_ARFLAGS
- 
- # Files to ignore in find ... statements
- 
-@@ -914,9 +913,6 @@ ifdef CONFIG_RETPOLINE
- KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
- endif
- 
--# use the deterministic mode of AR if available
--KBUILD_ARFLAGS := $(call ar-option,D)
--
- include scripts/Makefile.kasan
- include scripts/Makefile.extrawarn
- include scripts/Makefile.ubsan
-diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
-index 6841bd52738b..dfbd7f22eef5 100644
---- a/arch/powerpc/boot/Makefile
-+++ b/arch/powerpc/boot/Makefile
-@@ -50,7 +50,7 @@ endif
- 
- BOOTAFLAGS	:= -D__ASSEMBLY__ $(BOOTCFLAGS) -nostdinc
- 
--BOOTARFLAGS	:= -cr$(KBUILD_ARFLAGS)
-+BOOTARFLAGS	:= -crD
- 
- ifdef CONFIG_CC_IS_CLANG
- BOOTCFLAGS += $(CLANG_FLAGS)
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index e31fd6a8b2a3..956668239ef5 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -143,11 +143,6 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
- ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
- 
--# ar-option
--# Usage: KBUILD_ARFLAGS := $(call ar-option,D)
--# Important: no spaces around options
--ar-option = $(call try-run, $(AR) rc$(1) "$$TMP",$(1),$(2))
--
- # ld-version
- # Note this is mainly for HJ Lu's 3 number binutil versions
- ld-version = $(shell $(LD) --version | $(srctree)/scripts/ld-version.sh)
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 611bda95ac5e..f199341f04eb 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -395,7 +395,7 @@ $(sort $(subdir-obj-y)): $(subdir-ym) ;
- ifdef builtin-target
- 
- quiet_cmd_ar_builtin = AR      $@
--      cmd_ar_builtin = rm -f $@; $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
-+      cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
- 
- $(builtin-target): $(real-obj-y) FORCE
- 	$(call if_changed,ar_builtin)
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 23e524027740..15895fd4ef9f 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -238,7 +238,7 @@ quiet_cmd_ld = LD      $@
- # ---------------------------------------------------------------------------
- 
- quiet_cmd_ar = AR      $@
--      cmd_ar = rm -f $@; $(AR) rcsTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
-+      cmd_ar = rm -f $@; $(AR) cDPrsT $@ $(real-prereqs)
- 
- # Objcopy
- # ---------------------------------------------------------------------------
--- 
-2.17.1
-
+> 
+>  * AMD Family 10h processors:
+> 
+> @@ -21,10 +21,16 @@ Supported chips:
+> 
+>  * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
+> 
+> -* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity",
+> "Kaveri", "Carrizo"
+> +* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity",
+> "Kaveri", "Carrizo", "Stoney Ridge", "Bristol Ridge"
+> 
+>  * AMD Family 16h processors: "Kabini", "Mullins"
+> 
+> +* AMD Family 17h processors: "Zen", "Zen 2"
+> +
+> +* AMD Family 18h processors: "Hygon Dhyana"
+> +
+> +* AMD Family 19h processors: "Zen 3"
+> +
+>    Prefix: 'k10temp'
