@@ -1,125 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE4027D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 22 Sep 2019 16:29:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBCF47D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 22 Sep 2019 18:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387622AbfIVQ3U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 22 Sep 2019 12:29:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42724 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387604AbfIVQ3U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Sep 2019 12:29:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=rGqXLDwoxSJ+wMClTeqCK7DBN64mFNHAm3f7xeAfO/Y=; b=Jqrmyr//FV9HMLM96+iNkQrG9
-        U4Uoy/pOrdbQVcKQBj9xPvAkV/nzrJpOJ1bdtxIXDSdsG2VLMEJv6TViNNLTSyi4UdBQYPKzaxcrJ
-        2T4t8mrKe78jij/lNHM3wjTob7KcsjUa815F7f3Aihj/SleVztJIvrssWkutND3UYT6Rv/iySkIdf
-        NfuXnPzxcoef19ZF0a6xFA3k17U3TqdtEDvk5uN2TMgl2RW2OQ0GTb2A3YN0AuqPW+csabIMBu0CZ
-        MEZI3cTzBe5bCL5Kj08Onh8n/iaXULqCTmLm39f238LK0to8z19ySnG8XjQR5JizEmVVeaKJZ1gFo
-        +Z/Ym2Tyg==;
-Received: from [2601:1c0:6280:3f0::9a1f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iC4iv-00076b-DS; Sun, 22 Sep 2019 16:28:33 +0000
-Subject: Re: [PATCH v17 07/19] kunit: test: add initial tests
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
-        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        torvalds@linux-foundation.org
-References: <20190921001855.200947-1-brendanhiggins@google.com>
- <20190921001855.200947-8-brendanhiggins@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <944ac47d-1411-9ebd-d0d4-a616c88c9c20@infradead.org>
-Date:   Sun, 22 Sep 2019 09:28:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388555AbfIVS0C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 22 Sep 2019 14:26:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28891 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2388240AbfIVS0C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Sep 2019 14:26:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1569176760;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=F7kaKvkkLoDGqojZh8FsoY3PtV4q7Cw7Q5mbP0IHtbM=;
+        b=Ql3zmh0hVjG4sl+SoIOhHpREOC8Zw668jfDHpe6yV6OMSLFRQabZuiX5P2Xobr0NnCrUmg
+        tJFTSdjHY9pJbeRwQPoHIj4zAcA5ElE62++ycfGhL8s3lb2S3+cjOPtvTKFf445xO12+Oz
+        9HxW7xslp2/f/QD7qMeL8gjvmNQyXj4=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-8t0EILXuMJ2SFb0_gVHAUQ-1; Sun, 22 Sep 2019 14:25:58 -0400
+Received: by mail-pf1-f197.google.com with SMTP id i187so8723341pfc.10
+        for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2019 11:25:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sFJizlrWfeVBwXj5blgprJysA7UJlQlW8rT+A7FF6Jc=;
+        b=EvepSa90mtcB6SKKdUgGc8LcPMwQ6+GuKdtw5ubIQe1r/MCJQpR/u+pJf11m0xkfdJ
+         zMLgcicdfPqspZUOCusSY5wPwwDAVWYlIDdVL+kZPPR7nei9FHPigHACl0aTKbXrEK0w
+         3xGFheGxptAqBhdvaJc6MW2l7Hbhz/Fue7rmRLrWGEoBU0jHz4odZlFA6nu4EzVKh3gw
+         CIYl7lE1eLfVg+6hn03nl5awIREOcMuxj4o2PxEAygqii9zVEv1nphngNuhk1F8xsh0x
+         uSTnvH4kgWSrIO7UvQLwzqdm7WcwJGZLA6r3vqcqKDYx9dtL/087fGdFafrY8wQgecXg
+         +xYA==
+X-Gm-Message-State: APjAAAWxvgKkfuidrsFhT7y2YZYYN6uVZKJ7jUfq+keflgxPmyhQAyAS
+        EGFkoUirdDDhyDbyTItwRkFDDGEq7g5KTxIRxV0h5VfOJU3XNfYBF3x9HRA5EtBsasCIZYzZua2
+        k1fSb5zcKl5oxeVOVXVQm7JiBc1uKvlYxmkL1
+X-Received: by 2002:a65:6798:: with SMTP id e24mr14342410pgr.39.1569176757033;
+        Sun, 22 Sep 2019 11:25:57 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzPRqrjZ1EbEZ8ALjXoyBniYDng7AFbO5xlKU/wwa+kfAODeQcxt+LeZcYGCR8JCHgOVCkc8LDZVt50wT64Lj0=
+X-Received: by 2002:a65:6798:: with SMTP id e24mr14342395pgr.39.1569176756796;
+ Sun, 22 Sep 2019 11:25:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190921001855.200947-8-brendanhiggins@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAP80Qm2ORJ4cXukhH8oXeGv-C9LrADa1XyDuyq5LKeV_YaYxqA@mail.gmail.com>
+ <20190921115752.GA22647@roeck-us.net>
+In-Reply-To: <20190921115752.GA22647@roeck-us.net>
+From:   Lukas Zapletal <lzap@redhat.com>
+Date:   Sun, 22 Sep 2019 20:25:40 +0200
+Message-ID: <CAP80Qm3ayVfh-pE2M5euTSf0Z0EJ3AvwTiK+YjM5xynEKH-g3w@mail.gmail.com>
+Subject: Re: [PATCH] k10temp: update documentation
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-MC-Unique: 8t0EILXuMJ2SFb0_gVHAUQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/20/19 5:18 PM, Brendan Higgins wrote:
-> Add a test for string stream along with a simpler example.
-> 
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> ---
->  lib/kunit/Kconfig              | 25 ++++++++++
->  lib/kunit/Makefile             |  4 ++
->  lib/kunit/example-test.c       | 88 ++++++++++++++++++++++++++++++++++
->  lib/kunit/string-stream-test.c | 52 ++++++++++++++++++++
->  4 files changed, 169 insertions(+)
->  create mode 100644 lib/kunit/example-test.c
->  create mode 100644 lib/kunit/string-stream-test.c
-> 
-> diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-> index 666b9cb67a74..3868c226cf31 100644
-> --- a/lib/kunit/Kconfig
-> +++ b/lib/kunit/Kconfig
-> @@ -11,3 +11,28 @@ menuconfig KUNIT
->  	  special hardware when using UML. Can also be used on most other
->  	  architectures. For more information, please see
->  	  Documentation/dev-tools/kunit/.
-> +
-> +if KUNIT
+> Your patch does not apply to the curent mainline kernel.
+> What is the parent branch ?
 
-The 'if' above provides the dependency clause, so the 2 'depends on KUNIT'
-below are not needed.  They are redundant.
+Oh well, this is my first contribution. I used Greg's staging tree
+which I found in a first contributor tutorial on web. I will rebase,
+let me know which branch do I need to pick. Thanks.
 
-> +
-> +config KUNIT_TEST
-> +	bool "KUnit test for KUnit"
-> +	depends on KUNIT
-> +	help
-> +	  Enables the unit tests for the KUnit test framework. These tests test
-> +	  the KUnit test framework itself; the tests are both written using
-> +	  KUnit and test KUnit. This option should only be enabled for testing
-> +	  purposes by developers interested in testing that KUnit works as
-> +	  expected.
-> +
-> +config KUNIT_EXAMPLE_TEST
-> +	bool "Example test for KUnit"
-> +	depends on KUNIT
-> +	help
-> +	  Enables an example unit test that illustrates some of the basic
-> +	  features of KUnit. This test only exists to help new users understand
-> +	  what KUnit is and how it is used. Please refer to the example test
-> +	  itself, lib/kunit/example-test.c, for more information. This option
-> +	  is intended for curious hackers who would like to understand how to
-> +	  use KUnit for kernel development.
-> +
-> +endif # KUNIT
+--=20
+Later,
+  Lukas @lzap Zapletal
 
-
-
--- 
-~Randy
