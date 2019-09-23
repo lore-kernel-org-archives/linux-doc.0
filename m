@@ -1,158 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A2707D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 09:05:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 921997D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 10:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405484AbfIWJFO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Sep 2019 05:05:14 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39633 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729501AbfIWJFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Sep 2019 05:05:14 -0400
-Received: by mail-pf1-f194.google.com with SMTP id v4so4130989pff.6
-        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2019 02:05:14 -0700 (PDT)
+        id S1728225AbfIWKvI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Sep 2019 06:51:08 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40284 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728097AbfIWKvI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Sep 2019 06:51:08 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w10so7808383pgj.7;
+        Mon, 23 Sep 2019 03:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v8pa0Tk6FlMlkzD8bXA6NA6bMdvmrzwl4PAFIDbVMYM=;
-        b=NvXQgh6IW3soN2kC6YtQSTm4nJDtjH7T1g1wwUk4J2MMTXgFeWqE4zDVwCvgvthfAE
-         WGgMCY+3F8tX2ulk7a71LHHwNjjj6szslWqQDPwjwKZALkV5YkTouU1UbPdDScjYS1A3
-         tU4aEIFZK99BR3XOVeaN/cSOFn3rfi7yObVLV3PWs+NfL5qPlxMyeRQLXGH1oSX1DcR+
-         Y00Kq9GxGhG7rrAxC5FyQBB+KSDkFMah1k7qmSzRXBnClfBw0q/Abrxnd2xhD8r5qEtT
-         Tri2HbzI2Jc1bPenj4gaZNMu/v3ap/CxdJdQ2lrX7Qpp+yqg86whqYHZk9TgPcLogoid
-         i1DA==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FxDAL7Rq31R9jEICMa9ToiI00XCeai6ZZxJhPA1qUK8=;
+        b=HliQ9W+p3Cv/hAKmqjAl9k8/YF2cUeqvGYjtjsdDwwBU+mg2LHbF0w2k3xkHzabEbj
+         anP55fSii6Vtp8YCO5QgFVJ8GOwVWQpBXbc2k/kI5AeeBM62B26TEazZowl+yxCjXE+o
+         FJcO5WMfktSCA1aUoq7iZfcT/wzEezim2CO3vF5xJISomXX4Nps36cHS4ucDmx71tDP3
+         mRzxz0/FDhA+2majNr+QQKd1bitD2xVXakVVF/LHC5qKHXzMVyKJwh1BkH+u73O3KGGW
+         EwRK5UXe1ZizRl+4fGWI3T2SlCu8zOt1krw85kSb+dZy2CpKtKsqIaRUxqdfDAMICdlB
+         jtnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v8pa0Tk6FlMlkzD8bXA6NA6bMdvmrzwl4PAFIDbVMYM=;
-        b=oyf/jiv0ixfvjXd7zIFaueeN526SrKnwyNvG7lQfS5hY+idTaw6LXsKs2XsQlxTe5V
-         Df70m7MOAxQSLVx2uMRBFx8XGsuezhrIfr3d02x0uJOY0I6IGl0sGmJhoxYwOpd1M1rS
-         yF68fdgYxa8jfbxYAKYyYd2FmDd0KOHcsGrSt+Pw2inl9P8s/m9j7E0kMNHsJWpxClFC
-         G6QNYiiTmXT9OZrGYC8ki8hP9tp0NxUVcISMikEMFqNAbiiQ6HFrjIoYGGui/cSNSkhK
-         fgarjSB17k+Ewh5oQtd49s94R2BGDsTXgd6Uu7oWSmscl6F1bv26/UdBP0d+8ANnpYiQ
-         BtTA==
-X-Gm-Message-State: APjAAAWb/dhzRpp+cbd8zy4ms9Kf04+Vgz9EDKfHGH3kdXH7h8bdW3cx
-        5s6hl8GsroM1WeS+DrjLCWxBsHujFMpF7TcyGprYxQ==
-X-Google-Smtp-Source: APXvYqwcsKtiLcxSzZRbvj/9c2PAwvr8gZTaDk07lPhILKUwjb/s/yL4yzfAO84TT2ZemaVLn8TDzTeRlveY2nu9F6o=
-X-Received: by 2002:a17:90a:1746:: with SMTP id 6mr5388129pjm.117.1569229513429;
- Mon, 23 Sep 2019 02:05:13 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FxDAL7Rq31R9jEICMa9ToiI00XCeai6ZZxJhPA1qUK8=;
+        b=KwI35vQWKbkSYJU1GaL4jxaC8iY2yTE5W7rfU6IrgiNGGrodM/2XIWIJzFPOUthl7R
+         rCenfzeX1pglTMOoWwjDtLa9UDVwX8vu/AXzM2NBZOz6+Yt/mBtC+NIhTCOhSf1M5xyD
+         e6LcZyeA/HqmSC7EYpqa9JGpEtoSdDlcSco7ffFNZDEt/15rGHnk2hFMIRoiYdEToksC
+         t1+A59+d6C0ZeOu0nv3m4AEu5ByrcMU3u8831PFcZx7ltxJohw0fLtfbsWfylBOx1nNX
+         pq1MlC940V8DiRUoctxgwH6bVeZhRJIbbzkTD97eMSY8djbZ/frEn/4MoabFff3pbQHu
+         aKXQ==
+X-Gm-Message-State: APjAAAWXtTn+oiVJsI1MXBWO6y2M91Tkn5/D+Cp/2ACndL1v7Ltu9nrr
+        2OTUUOTygFM5BALrAXkjYaU=
+X-Google-Smtp-Source: APXvYqzULINnxYRixCLGXM0obFDDq756+5Bhu2gkbj2nYOwuIOXrKo6oSL36DsyKSFiiPp6s5z3unw==
+X-Received: by 2002:a63:1222:: with SMTP id h34mr29818479pgl.344.1569235867281;
+        Mon, 23 Sep 2019 03:51:07 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w65sm11946486pfb.106.2019.09.23.03.51.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 23 Sep 2019 03:51:06 -0700 (PDT)
+Date:   Mon, 23 Sep 2019 03:51:05 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Lukas Zapletal <lzap+git@redhat.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] k10temp: update documentation
+Message-ID: <20190923105105.GB22740@roeck-us.net>
+References: <20190923071052.25320-1-lzap+git@redhat.com>
 MIME-Version: 1.0
-References: <20190921001855.200947-1-brendanhiggins@google.com>
- <20190921001855.200947-8-brendanhiggins@google.com> <944ac47d-1411-9ebd-d0d4-a616c88c9c20@infradead.org>
-In-Reply-To: <944ac47d-1411-9ebd-d0d4-a616c88c9c20@infradead.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 23 Sep 2019 02:05:02 -0700
-Message-ID: <CAFd5g44e9bdK8h5+U1MkqPNuf2k9vnu-iPFLTzGajEHPEcRpHQ@mail.gmail.com>
-Subject: Re: [PATCH v17 07/19] kunit: test: add initial tests
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190923071052.25320-1-lzap+git@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 22, 2019 at 9:28 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 9/20/19 5:18 PM, Brendan Higgins wrote:
-> > Add a test for string stream along with a simpler example.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> > ---
-> >  lib/kunit/Kconfig              | 25 ++++++++++
-> >  lib/kunit/Makefile             |  4 ++
-> >  lib/kunit/example-test.c       | 88 ++++++++++++++++++++++++++++++++++
-> >  lib/kunit/string-stream-test.c | 52 ++++++++++++++++++++
-> >  4 files changed, 169 insertions(+)
-> >  create mode 100644 lib/kunit/example-test.c
-> >  create mode 100644 lib/kunit/string-stream-test.c
-> >
-> > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-> > index 666b9cb67a74..3868c226cf31 100644
-> > --- a/lib/kunit/Kconfig
-> > +++ b/lib/kunit/Kconfig
-> > @@ -11,3 +11,28 @@ menuconfig KUNIT
-> >         special hardware when using UML. Can also be used on most other
-> >         architectures. For more information, please see
-> >         Documentation/dev-tools/kunit/.
-> > +
-> > +if KUNIT
->
-> The 'if' above provides the dependency clause, so the 2 'depends on KUNIT'
-> below are not needed.  They are redundant.
+On Mon, Sep 23, 2019 at 09:10:52AM +0200, Lukas Zapletal wrote:
+> It's been a while since the k10temp documentation has been updated.
+> There are new CPU families supported as well as Tdie temp was added.
+> This patch adds all missing families which I was able to find from git
+> history and provides more info about Tctl vs Tdie exported temps.
+> 
+> Signed-off-by: Lukas Zapletal <lzap+git@redhat.com>
+> ---
+>  Documentation/hwmon/k10temp.rst | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/k10temp.rst b/Documentation/hwmon/k10temp.rst
+> index 12a86ba17de9..bb2d0a02dc45 100644
+> --- a/Documentation/hwmon/k10temp.rst
+> +++ b/Documentation/hwmon/k10temp.rst
+> @@ -1,7 +1,7 @@
+>  Kernel driver k10temp
+>  =====================
+>  
+> -Supported chips:
+> +Although the driver is named k10temp, it supports wide range of AMD CPUs:
+>  
+I did ask to drop the above, and I won't accept the patch as-is.
+Many hwmon (and other) drivers are named after one chip but support
+many, it would be quite pointless to state that in each driver's
+documentation, and I won't get it started.
 
-Thanks for catching that. I fixed it in the new revision I just sent out.
-
-> > +
-> > +config KUNIT_TEST
-> > +     bool "KUnit test for KUnit"
-> > +     depends on KUNIT
-> > +     help
-> > +       Enables the unit tests for the KUnit test framework. These tests test
-> > +       the KUnit test framework itself; the tests are both written using
-> > +       KUnit and test KUnit. This option should only be enabled for testing
-> > +       purposes by developers interested in testing that KUnit works as
-> > +       expected.
-> > +
-> > +config KUNIT_EXAMPLE_TEST
-> > +     bool "Example test for KUnit"
-> > +     depends on KUNIT
-> > +     help
-> > +       Enables an example unit test that illustrates some of the basic
-> > +       features of KUnit. This test only exists to help new users understand
-> > +       what KUnit is and how it is used. Please refer to the example test
-> > +       itself, lib/kunit/example-test.c, for more information. This option
-> > +       is intended for curious hackers who would like to understand how to
-> > +       use KUnit for kernel development.
-> > +
-> > +endif # KUNIT
-
-Cheers
+Guenter
