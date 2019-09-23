@@ -4,53 +4,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 631CA7E286
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 09:03:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 228887DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 09:03:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439169AbfIWJDl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Sep 2019 05:03:41 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:34491 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439171AbfIWJDk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Sep 2019 05:03:40 -0400
-Received: by mail-pl1-f202.google.com with SMTP id 70so8242249ple.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2019 02:03:39 -0700 (PDT)
+        id S2439280AbfIWJDs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Sep 2019 05:03:48 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:48161 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439272AbfIWJDs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Sep 2019 05:03:48 -0400
+Received: by mail-pg1-f202.google.com with SMTP id w13so8900561pge.15
+        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2019 02:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=MYcfIKSKU50yEk2GBsBM2m5RiXljhL+2ZE7FFRNNMnA=;
-        b=rgX9grwiH8698p8amnuLifl7FZpq0+HsIW+0F3DXrlfkC7hvnW46Ds1dX88Fg9hSwV
-         1CpJGOYUJBrjisEw5rqXpm3twNK1EZkuUgTfzB4KelLLXmr2JYYAHDOzuLGGWfHk7Z8B
-         JukbRj9cEH1VNXUV2BH75LBiPrL88f2OIldCwVVv9PXYQB8Mh1H2PYQsGyEqrGW6yt3l
-         o1ZPJiLdbfP0Q1oObZ7+sD006GeglE2yLpEK1RuiUofJqAUpCu4mmj4kPJgozXX3SNra
-         Y4OiNS/W8YHGVSNkDaF/i1OwHqdAhgUjePXoLxq4xZ9ltcdwITJG+eaLjBbhoU7NgIoX
-         mhzw==
+        bh=kn+0r7CDFmPHQws2Z+HRgp03O+EE7Nh4RU07v5olnXQ=;
+        b=UK2H4JmD8+WOv9z4GP6oT90ytRiYGqA9wmrSBgp1lmkE4yPq9fuWTFQdmCDgaSLE4l
+         wDivaV1U6LtFrkmdGn6ORQYQ5HVpoxo5hPmoR+FeL+5Basjmi+x0YzDwxA2xcgAUmhaI
+         UD5i7tVqHFJpGFHzAs1Dd6EIZuvrDir7LW3lqR/PDwodVPJ5xqDrieqBkoFDUJ4BTnYP
+         uaA66laKrNgQQaFQM4NUTL88ry/C3A1uVhjLdCx3D/46BxJWwIVaJiO+tUiHFX32BOo3
+         7VLcLLMzz4I+8g83fPbp5FlEHzqzwNskQwe0epD31reK5c2ZJNy4NfNWvZwmBlOIU66r
+         9oFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=MYcfIKSKU50yEk2GBsBM2m5RiXljhL+2ZE7FFRNNMnA=;
-        b=Yl0k5XldMKKnAiNBcdigC2/yTT/8Etq9du2n/h22vPJ90+bRjLpqb3P1cFaKhjoTyP
-         jOn32gvR49iDfBFf/pLsEXtEGYJHbxcvUa+6f1oSyTayHUfytXVBIF019BumJq+pOt1Z
-         BSeJxNY1wCySSNsmWs0LMaqT+ohThZOLBMenAw23eL8ICYiRsLFBIvfmU6vgFg7QUQdu
-         z5wRlpq77GGwbifdhVUsHyY6fYGJgdhYfympK9X+nG/zXRvl8FIsRAMGcsOW/thrvR7Y
-         TgQMJxqi/L7jGK2MUaF5Ya57sU7e588VFGejJLM7gtQ0v9dzwDue7nkckbFB6Nv5ozVZ
-         rsqg==
-X-Gm-Message-State: APjAAAUOM6p72uVipi6ODKm+64UjNLdEosnz1TlN0Zmdyk6dURsY5N/C
-        EeCON4ckCVxahCaTL7EiNDmnVCxjC+Cdkd8zI4WCYg==
-X-Google-Smtp-Source: APXvYqxqbxTM5zGysUsGLrdt947Z5uprDPBuh1gcM9vTCBbii7SkiL91ZoHhXT0gUyKmK6pYMUz1UttJuY4q8vNzQE5tfw==
-X-Received: by 2002:a63:221f:: with SMTP id i31mr28978881pgi.251.1569229418788;
- Mon, 23 Sep 2019 02:03:38 -0700 (PDT)
-Date:   Mon, 23 Sep 2019 02:02:46 -0700
+        bh=kn+0r7CDFmPHQws2Z+HRgp03O+EE7Nh4RU07v5olnXQ=;
+        b=kYxs8ovkH28GejlZn+DHpGgTiMVOmjJZpvTtu6XupJfMlRt+r8l8qfYiGPWCaHfhyC
+         udHU7ap5tRToRVLKIrv/XFNAfvykrCNmaMMqDyXdgB94ergqLqQbZ5oHguw6szgFgF8R
+         TqHMEwlt4rMuVcq0lzVdeZxhWKUHIvniWMWbGU6a6BZC592R3x18HQsGZvTeLZFbj9dU
+         pRaYKjQSr6ngrEkgkbeo9BXVCU3o3C1dIpWTMoq+h5MR6MJYMx5oUKJdfHj+eFlYXKlH
+         coUNsFOTCT2MOr9o+kwOLdoj7yG6UU9uJF510mHxsMjMRf3SsHrvChzmj/kkvdhoAnBO
+         u8kw==
+X-Gm-Message-State: APjAAAU+5qjEWdOzZ9VtpL13xJYdIsP7FZIMbVPTcRY9WKD7V6/r24mU
+        9T9Iz3Gx80QyOPSHA//09n36oJvou65QJvubtE5+bg==
+X-Google-Smtp-Source: APXvYqw5hkGZ6d7ns2sOz8UJ01PHxqogvA1kzw2ON/JL9yOn7dOS+xz1Wch3S41MY3LBCY2PXLG83fwtsfvUctx2eoT1Lw==
+X-Received: by 2002:a65:620a:: with SMTP id d10mr27851195pgv.8.1569229427015;
+ Mon, 23 Sep 2019 02:03:47 -0700 (PDT)
+Date:   Mon, 23 Sep 2019 02:02:49 -0700
 In-Reply-To: <20190923090249.127984-1-brendanhiggins@google.com>
-Message-Id: <20190923090249.127984-17-brendanhiggins@google.com>
+Message-Id: <20190923090249.127984-20-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190923090249.127984-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v18 16/19] MAINTAINERS: add entry for KUnit the unit testing framework
+Subject: [PATCH v18 19/19] kunit: fix failure to build without printk
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -69,46 +70,175 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
         wfg@linux.intel.com, torvalds@linux-foundation.org,
-        Brendan Higgins <brendanhiggins@google.com>
+        Brendan Higgins <brendanhiggins@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Joe Perches <joe@perches.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as maintainer of KUnit, the Linux kernel's unit testing
-framework.
+Previously KUnit assumed that printk would always be present, which is
+not a valid assumption to make. Fix that by removing call to
+vprintk_emit, and calling printk directly.
 
+This fixes a build error[1] reported by Randy.
+
+For context this change comes after much discussion. My first stab[2] at
+this was just to make the KUnit logging code compile out; however, it
+was agreed that if we were going to use vprintk_emit, then vprintk_emit
+should provide a no-op stub, which lead to my second attempt[3]. In
+response to me trying to stub out vprintk_emit, Sergey Senozhatsky
+suggested a way for me to remove our usage of vprintk_emit, which led to
+my third attempt at solving this[4].
+
+In my third version of this patch[4], I completely removed vprintk_emit,
+as suggested by Sergey; however, there was a bit of debate over whether
+Sergey's solution was the best. The debate arose due to Sergey's version
+resulting in a checkpatch warning, which resulted in a debate over
+correct printk usage. Joe Perches offered an alternative fix which was
+somewhat less far reaching than what Sergey had suggested and
+importantly relied on continuing to use %pV. Much of the debated
+centered around whether %pV should be widely used, and whether Sergey's
+version would result in object size bloat. Ultimately, we decided to go
+with Sergey's version.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Link[1]: https://lore.kernel.org/linux-kselftest/c7229254-0d90-d90e-f3df-5b6d6fc0b51f@infradead.org/
+Link[2]: https://lore.kernel.org/linux-kselftest/20190827174932.44177-1-brendanhiggins@google.com/
+Link[3]: https://lore.kernel.org/linux-kselftest/20190827234835.234473-1-brendanhiggins@google.com/
+Link[4]: https://lore.kernel.org/linux-kselftest/20190828093143.163302-1-brendanhiggins@google.com/
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Cc: Joe Perches <joe@perches.com>
+Cc: Tim.Bird@sony.com
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 ---
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/kunit/test.h |  5 ++--
+ lib/kunit/test.c     | 57 +++++---------------------------------------
+ 2 files changed, 8 insertions(+), 54 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a50e97a63bc8..e3d0d184ae4e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8802,6 +8802,17 @@ S:	Maintained
- F:	tools/testing/selftests/
- F:	Documentation/dev-tools/kselftest*
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 8b7eb03d4971..dba48304b3bd 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -339,9 +339,8 @@ static inline void *kunit_kzalloc(struct kunit *test, size_t size, gfp_t gfp)
  
-+KERNEL UNIT TESTING FRAMEWORK (KUnit)
-+M:	Brendan Higgins <brendanhiggins@google.com>
-+L:	linux-kselftest@vger.kernel.org
-+L:	kunit-dev@googlegroups.com
-+W:	https://google.github.io/kunit-docs/third_party/kernel/docs/
-+S:	Maintained
-+F:	Documentation/dev-tools/kunit/
-+F:	include/kunit/
-+F:	lib/kunit/
-+F:	tools/testing/kunit/
-+
- KERNEL USERMODE HELPER
- M:	Luis Chamberlain <mcgrof@kernel.org>
- L:	linux-kernel@vger.kernel.org
+ void kunit_cleanup(struct kunit *test);
+ 
+-void __printf(3, 4) kunit_printk(const char *level,
+-				 const struct kunit *test,
+-				 const char *fmt, ...);
++#define kunit_printk(lvl, test, fmt, ...) \
++	printk(lvl "\t# %s: " fmt, (test)->name, ##__VA_ARGS__)
+ 
+ /**
+  * kunit_info() - Prints an INFO level message associated with @test.
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index b2ca9b94c353..c83c0fa59cbd 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -16,36 +16,12 @@ static void kunit_set_failure(struct kunit *test)
+ 	WRITE_ONCE(test->success, false);
+ }
+ 
+-static int kunit_vprintk_emit(int level, const char *fmt, va_list args)
+-{
+-	return vprintk_emit(0, level, NULL, 0, fmt, args);
+-}
+-
+-static int kunit_printk_emit(int level, const char *fmt, ...)
+-{
+-	va_list args;
+-	int ret;
+-
+-	va_start(args, fmt);
+-	ret = kunit_vprintk_emit(level, fmt, args);
+-	va_end(args);
+-
+-	return ret;
+-}
+-
+-static void kunit_vprintk(const struct kunit *test,
+-			  const char *level,
+-			  struct va_format *vaf)
+-{
+-	kunit_printk_emit(level[1] - '0', "\t# %s: %pV", test->name, vaf);
+-}
+-
+ static void kunit_print_tap_version(void)
+ {
+ 	static bool kunit_has_printed_tap_version;
+ 
+ 	if (!kunit_has_printed_tap_version) {
+-		kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
++		pr_info("TAP version 14\n");
+ 		kunit_has_printed_tap_version = true;
+ 	}
+ }
+@@ -64,10 +40,8 @@ static size_t kunit_test_cases_len(struct kunit_case *test_cases)
+ static void kunit_print_subtest_start(struct kunit_suite *suite)
+ {
+ 	kunit_print_tap_version();
+-	kunit_printk_emit(LOGLEVEL_INFO, "\t# Subtest: %s\n", suite->name);
+-	kunit_printk_emit(LOGLEVEL_INFO,
+-			  "\t1..%zd\n",
+-			  kunit_test_cases_len(suite->test_cases));
++	pr_info("\t# Subtest: %s\n", suite->name);
++	pr_info("\t1..%zd\n", kunit_test_cases_len(suite->test_cases));
+ }
+ 
+ static void kunit_print_ok_not_ok(bool should_indent,
+@@ -87,9 +61,7 @@ static void kunit_print_ok_not_ok(bool should_indent,
+ 	else
+ 		ok_not_ok = "not ok";
+ 
+-	kunit_printk_emit(LOGLEVEL_INFO,
+-			  "%s%s %zd - %s\n",
+-			  indent, ok_not_ok, test_number, description);
++	pr_info("%s%s %zd - %s\n", indent, ok_not_ok, test_number, description);
+ }
+ 
+ static bool kunit_suite_has_succeeded(struct kunit_suite *suite)
+@@ -133,11 +105,11 @@ static void kunit_print_string_stream(struct kunit *test,
+ 		kunit_err(test,
+ 			  "Could not allocate buffer, dumping stream:\n");
+ 		list_for_each_entry(fragment, &stream->fragments, node) {
+-			kunit_err(test, fragment->fragment);
++			kunit_err(test, "%s", fragment->fragment);
+ 		}
+ 		kunit_err(test, "\n");
+ 	} else {
+-		kunit_err(test, buf);
++		kunit_err(test, "%s", buf);
+ 		kunit_kfree(test, buf);
+ 	}
+ }
+@@ -504,20 +476,3 @@ void kunit_cleanup(struct kunit *test)
+ 		kunit_resource_free(test, resource);
+ 	}
+ }
+-
+-void kunit_printk(const char *level,
+-		  const struct kunit *test,
+-		  const char *fmt, ...)
+-{
+-	struct va_format vaf;
+-	va_list args;
+-
+-	va_start(args, fmt);
+-
+-	vaf.fmt = fmt;
+-	vaf.va = &args;
+-
+-	kunit_vprintk(test, level, &vaf);
+-
+-	va_end(args);
+-}
 -- 
 2.23.0.351.gc4317032e6-goog
 
