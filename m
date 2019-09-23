@@ -1,97 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 951277D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 07:11:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9698C7D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 07:18:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730899AbfIWHLm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Sep 2019 03:11:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37736 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726001AbfIWHLm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Sep 2019 03:11:42 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D52BD8A1C91;
-        Mon, 23 Sep 2019 07:11:41 +0000 (UTC)
-Received: from box.home.lan.home.lan (ovpn-204-70.brq.redhat.com [10.40.204.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C04B5D704;
-        Mon, 23 Sep 2019 07:11:35 +0000 (UTC)
-From:   Lukas Zapletal <lzap+git@redhat.com>
-To:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Lukas Zapletal <lzap+git@redhat.com>
-Subject: [PATCH] k10temp: update documentation
-Date:   Mon, 23 Sep 2019 09:10:52 +0200
-Message-Id: <20190923071052.25320-1-lzap+git@redhat.com>
+        id S2390690AbfIWHSn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Sep 2019 03:18:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52222 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729404AbfIWHSn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Sep 2019 03:18:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1569223121;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aAEJDobrWIJJ9uqTw0X5GWpuHh0W2FM4r5UxCm9Imj0=;
+        b=LevzafiJNBEyFJU6WHdrfgN/juuS4VZzoBkWiXZWLP+8dr6TFQ3LvTet96K32Z1LyxQNqC
+        ZsrOcpRQp/+Ec8mOPtd2LEhD97W28J0Yx0BJYvA1DX+yxHRYaJlOQARvljynZS4rcgSBZe
+        nCvzsy+5XtvPLZKvmBdO2EV43APtFO4=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-AW-ym3MIM0ewENagRC0EDg-1; Mon, 23 Sep 2019 03:18:39 -0400
+Received: by mail-pf1-f198.google.com with SMTP id i28so9561911pfq.16
+        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2019 00:18:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=qzuGESIcL8FWU8FXolqW/VJeEvjK0/h7k8MnZWk33Pw=;
+        b=iWfAjcwS0W6vNB/tqXPBFdcZwwK1B+4K+F8Rxco3FYNlt77lT571D/7h97kdu63KKf
+         Lg5zjuIKc1VBVYasIBGxK81iaSRh1FV7HnWLM670Ta70Vsa/urEbcxdttuxgv0VzMgOI
+         TtEg8nYY22f6zqlzFXReE1hsCzvBy9FBMeBidzNBeXvo+hHk+/dIfKB5IIZkZkmyF1EB
+         Jk9ne56rr7C2m7TJTiKc9iK3plQl176p286uLa281AYmaMKDBNW11H4dtda+c6q9cC4I
+         uhzKNuwMc783bCq7soRHVVGmIwZQWTq0GAVoT/dhtweb/dxNMru8AnMEgI3+1iH0NTIY
+         ChFA==
+X-Gm-Message-State: APjAAAWX1m3xSqIkonu+dTnE5W0N6i1ccVJa4QC9ORsYH50cM6uDbEEU
+        NCjtAxecnH+t3V39Uu/oETbdlk7dJ0Mg6E5spc9yxe02CwYPl9GRkL9Im4cMEDMFzrF9aMUD6c/
+        RmpxBuggUvdFoIEZfR9BlZ7poMXrgNr8+mTd3
+X-Received: by 2002:a65:6798:: with SMTP id e24mr16429243pgr.39.1569223118817;
+        Mon, 23 Sep 2019 00:18:38 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyO3zSKIjQwjrSEwcUsWbW/d+Ap8+NfiV6tJjzdvTai1hxvoCp2d5biGyvw9lV5kCYPYQhvzBhbncJxWzW/PYU=
+X-Received: by 2002:a65:6798:: with SMTP id e24mr16429229pgr.39.1569223118635;
+ Mon, 23 Sep 2019 00:18:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.69]); Mon, 23 Sep 2019 07:11:41 +0000 (UTC)
+References: <CAP80Qm2ORJ4cXukhH8oXeGv-C9LrADa1XyDuyq5LKeV_YaYxqA@mail.gmail.com>
+In-Reply-To: <CAP80Qm2ORJ4cXukhH8oXeGv-C9LrADa1XyDuyq5LKeV_YaYxqA@mail.gmail.com>
+From:   Lukas Zapletal <lzap@redhat.com>
+Date:   Mon, 23 Sep 2019 09:18:22 +0200
+Message-ID: <CAP80Qm2ouxPMsYjrp1b8cQ6DG7ZYej3ZJ4CwT5TW2mfDV5VhMg@mail.gmail.com>
+Subject: Re: [PATCH] k10temp: update documentation
+To:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-MC-Unique: AW-ym3MIM0ewENagRC0EDg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's been a while since the k10temp documentation has been updated.
-There are new CPU families supported as well as Tdie temp was added.
-This patch adds all missing families which I was able to find from git
-history and provides more info about Tctl vs Tdie exported temps.
+I just reposted the patch to hwmon and doc lists. My MUA have put some
+trash characters in it, apologies for that.
 
-Signed-off-by: Lukas Zapletal <lzap+git@redhat.com>
----
- Documentation/hwmon/k10temp.rst | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/hwmon/k10temp.rst b/Documentation/hwmon/k10temp.rst
-index 12a86ba17de9..bb2d0a02dc45 100644
---- a/Documentation/hwmon/k10temp.rst
-+++ b/Documentation/hwmon/k10temp.rst
-@@ -1,7 +1,7 @@
- Kernel driver k10temp
- =====================
- 
--Supported chips:
-+Although the driver is named k10temp, it supports wide range of AMD CPUs:
- 
- * AMD Family 10h processors:
- 
-@@ -21,10 +21,16 @@ Supported chips:
- 
- * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
- 
--* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
-+* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo", "Stoney Ridge", "Bristol Ridge"
- 
- * AMD Family 16h processors: "Kabini", "Mullins"
- 
-+* AMD Family 17h processors: "Zen", "Zen 2"
-+
-+* AMD Family 18h processors: "Hygon Dhyana"
-+
-+* AMD Family 19h processors: "Zen 3"
-+
-   Prefix: 'k10temp'
- 
-   Addresses scanned: PCI space
-@@ -110,3 +116,12 @@ The maximum value for Tctl is available in the file temp1_max.
- If the BIOS has enabled hardware temperature control, the threshold at
- which the processor will throttle itself to avoid damage is available in
- temp1_crit and temp1_crit_hyst.
-+
-+On some AMD CPUs, there is a difference between the die temperature (Tdie) and
-+the reported temperature (Tctl). Tdie is the real measured temperature, and
-+Tctl is used for fan control. While Tctl is always available as temp1_input,
-+the driver exports Tdie temperature as temp2_input for those CPUs which support
-+it.
-+
-+Models from 17h family report relative temperature, the driver aims to
-+compensate and report the real temperature.
--- 
-2.21.0
+--=20
+Later,
+  Lukas @lzap Zapletal
 
