@@ -5,84 +5,119 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD3827D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 10:59:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D19737D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Sep 2019 11:46:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729779AbfIWK7r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Sep 2019 06:59:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45472 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727569AbfIWK7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Sep 2019 06:59:47 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0F7F210C092E;
-        Mon, 23 Sep 2019 10:59:47 +0000 (UTC)
-Received: from box.home.lan.home.lan (ovpn-204-70.brq.redhat.com [10.40.204.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2798E5D713;
-        Mon, 23 Sep 2019 10:59:40 +0000 (UTC)
-From:   Lukas Zapletal <lzap+git@redhat.com>
-To:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Lukas Zapletal <lzap+git@redhat.com>
-Subject: [PATCH RESEND] k10temp: update docs and add temp2_input info
-Date:   Mon, 23 Sep 2019 12:59:31 +0200
-Message-Id: <20190923105931.27881-1-lzap+git@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.66]); Mon, 23 Sep 2019 10:59:47 +0000 (UTC)
+        id S1730148AbfIWLqw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Sep 2019 07:46:52 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54678 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726146AbfIWLqw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Sep 2019 07:46:52 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0BB35AFCC;
+        Mon, 23 Sep 2019 11:46:49 +0000 (UTC)
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: [PATCH v6 0/4] Use MFD framework for SGI IOC3 drivers
+Date:   Mon, 23 Sep 2019 13:46:30 +0200
+Message-Id: <20190923114636.6748-1-tbogendoerfer@suse.de>
+X-Mailer: git-send-email 2.13.7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's been a while since the k10temp documentation has been updated.
-There are new CPU families supported as well as Tdie temp was added.
-This patch adds all missing families which I was able to find from git
-history and provides more info about Tctl vs Tdie exported temps.
+SGI IOC3 ASIC includes support for ethernet, PS2 keyboard/mouse,
+NIC (number in a can), GPIO and a byte  bus. By attaching a
+SuperIO chip to it, it also supports serial lines and a parallel
+port. The chip is used on a variety of SGI systems with different
+configurations. This patchset moves code out of the network driver,
+which doesn't belong there, into its new place a MFD driver and
+specific platform drivers for the different subfunctions.
 
-Signed-off-by: Lukas Zapletal <lzap+git@redhat.com>
----
- Documentation/hwmon/k10temp.rst | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Changes in v6:
+ - dropped patches accepted for v5.4-rc1
+ - moved serio patch to ip30 patch series
+ - adapted nvmem patch
 
-diff --git a/Documentation/hwmon/k10temp.rst b/Documentation/hwmon/k10temp.rst
-index 12a86ba17de9..fc9d2a5ad57d 100644
---- a/Documentation/hwmon/k10temp.rst
-+++ b/Documentation/hwmon/k10temp.rst
-@@ -21,10 +21,16 @@ Supported chips:
- 
- * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
- 
--* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
-+* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo", "Stoney Ridge", "Bristol Ridge"
- 
- * AMD Family 16h processors: "Kabini", "Mullins"
- 
-+* AMD Family 17h processors: "Zen", "Zen 2"
-+
-+* AMD Family 18h processors: "Hygon Dhyana"
-+
-+* AMD Family 19h processors: "Zen 3"
-+
-   Prefix: 'k10temp'
- 
-   Addresses scanned: PCI space
-@@ -110,3 +116,12 @@ The maximum value for Tctl is available in the file temp1_max.
- If the BIOS has enabled hardware temperature control, the threshold at
- which the processor will throttle itself to avoid damage is available in
- temp1_crit and temp1_crit_hyst.
-+
-+On some AMD CPUs, there is a difference between the die temperature (Tdie) and
-+the reported temperature (Tctl). Tdie is the real measured temperature, and
-+Tctl is used for fan control. While Tctl is always available as temp1_input,
-+the driver exports Tdie temperature as temp2_input for those CPUs which support
-+it.
-+
-+Models from 17h family report relative temperature, the driver aims to
-+compensate and report the real temperature.
+Changes in v5:
+ - requested by Jakub I've splited ioc3 ethernet driver changes into
+   more steps to make the transition more visible; on the way there 
+   I've "checkpatched" the driver and reduced code reorderings
+ - dropped all uint16_t and uint32_t
+ - added nvmem API extension to the documenation file
+ - changed to use request_irq/free_irq in serio driver
+ - removed wrong kfree() in serio error path
+
+Changes in v4:
+ - added w1 drivers to the series after merge in 5.3 failed because
+   of no response from maintainer and other parts of this series
+   won't work without that drivers
+ - moved ip30 systemboard support to the ip30 series, which will
+   deal with rtc oddity Lee found
+ - converted to use devm_platform_ioremap_resource
+ - use PLATFORM_DEVID_AUTO for serial, ethernet and serio in mfd driver
+ - fixed reverse christmas order in ioc3-eth.c
+ - formating issue found by Lee
+ - re-worked irq request/free in serio driver to avoid crashes during
+   probe/remove
+
+Changes in v3:
+ - use 1-wire subsystem for handling proms
+ - pci-xtalk driver uses prom information to create PCI subsystem
+   ids for use in MFD driver
+ - changed MFD driver to only use static declared mfd_cells
+ - added IP30 system board setup to MFD driver
+ - mac address is now read from ioc3-eth driver with nvmem framework
+
+Changes in v2:
+ - fixed issue in ioc3kbd.c reported by Dmitry Torokhov
+ - merged IP27 RTC removal and 8250 serial driver addition into
+   main MFD patch to keep patches bisectable
+
+Thomas Bogendoerfer (4):
+  nvmem: core: add nvmem_device_find
+  MIPS: PCI: use information from 1-wire PROM for IOC3 detection
+  mfd: ioc3: Add driver for SGI IOC3 chip
+  MIPS: SGI-IP27: fix readb/writeb addressing
+
+ Documentation/driver-api/nvmem.rst            |   2 +
+ arch/mips/include/asm/mach-ip27/mangle-port.h |   4 +-
+ arch/mips/include/asm/pci/bridge.h            |   1 +
+ arch/mips/include/asm/sn/ioc3.h               |  47 ++-
+ arch/mips/pci/pci-xtalk-bridge.c              | 135 +++++-
+ arch/mips/sgi-ip27/ip27-timer.c               |  20 -
+ arch/mips/sgi-ip27/ip27-xtalk.c               |  38 +-
+ drivers/mfd/Kconfig                           |  13 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/ioc3.c                            | 585 ++++++++++++++++++++++++++
+ drivers/net/ethernet/sgi/Kconfig              |   4 +-
+ drivers/net/ethernet/sgi/ioc3-eth.c           | 561 +++++-------------------
+ drivers/nvmem/core.c                          |  61 ++-
+ drivers/rtc/rtc-m48t35.c                      |  11 +
+ drivers/tty/serial/8250/8250_ioc3.c           |  98 +++++
+ drivers/tty/serial/8250/Kconfig               |  11 +
+ drivers/tty/serial/8250/Makefile              |   1 +
+ include/linux/nvmem-consumer.h                |   9 +
+ 18 files changed, 1054 insertions(+), 548 deletions(-)
+ create mode 100644 drivers/mfd/ioc3.c
+ create mode 100644 drivers/tty/serial/8250/8250_ioc3.c
+
 -- 
-2.21.0
+2.13.7
 
