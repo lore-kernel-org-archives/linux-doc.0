@@ -1,202 +1,204 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5F227D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Sep 2019 16:11:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B6E2B7D981
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Sep 2019 16:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404082AbfIXQLW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Sep 2019 12:11:22 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38386 "EHLO
+        id S1729775AbfIXQ6n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Sep 2019 12:58:43 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42162 "EHLO
         mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389692AbfIXQLW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Sep 2019 12:11:22 -0400
-Received: by mail-pf1-f195.google.com with SMTP id h195so1652364pfe.5
-        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2019 09:11:21 -0700 (PDT)
+        with ESMTP id S2410415AbfIXQrs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Sep 2019 12:47:48 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q12so1697959pff.9
+        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2019 09:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qyTnNnxb8TJ7gNF/VD8MxVSVpiu+tvEw7TRp8mh/P70=;
-        b=Sbw/n9Bl63pQKBOQbIUgIrw80Hqa0wGekdewr2/bo4VXF0gLYmWvZAHTcPxCGu9NSB
-         0tR0WMz8rNqXHizIQimiUYEJ9Z5ftVquXRvlbhkZ++qXZLaWQNALCnax9AIVeHQ4sInm
-         U+VIQ9193IuEz06aaEn+vo6kwJz7rS/uRNQv8=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eg3k9f7VurRwzf46jcAwPnzOmV7EyviW3zf+/O2RKTw=;
+        b=vOP5zBgVX1pzcnG4/sH4K1pjbBqpnVYfSbP4/qi5UweyHcgj2vklkeP2uyHN8OsDnx
+         01xi0g12DQXBFoHEG6N04ShMB8Tb3g6zWU0DCT1aDpOKn8ckPw5jKCulw2FqTnD+K45T
+         1bhEzo2/lVTkbGTE85pEV7JL1+UyRODSsjjnIRIKk3n0Rj+r2WK+VA+R80PeZCHpwIAr
+         ++JYKYeUXHQCJa/scCSxC9La632MXbzdbvxhXToajlbTHsoV+A6dmh6e9JlCsFS9vHAV
+         rYuLmWMJFNvEWCB1M5KeFNJGOIr7YwWVvG8/Kog4ROjXe/TvPiMBayjV1/m4fTjLc/D5
+         xk6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qyTnNnxb8TJ7gNF/VD8MxVSVpiu+tvEw7TRp8mh/P70=;
-        b=GB5Wi4x8WCB9N9jVV6V5os9hGQviQLklNgn/BhJ6UFYQZGU9SpMx1HT4U4O1xS8ry5
-         zHURvxQ7tvtKRr6iHkfo9nZUxFaJKUomkrW1upaytiiu+/XQ43LptsQXe5Vtr2B6tpSG
-         nNUSu7iDLAzl3k5yMMtFzDYz+GYDqa1Azvg4L4NcP48XyFYidIl/cDzQfeXtlCVJQx8R
-         xCDCHmvECHbOXJ0dokrKC5J45S68mQ3yl0hc1JgkVbCInzRTq069m5NWeKYD4M+k4DuN
-         UqvHfYEP8NrnV3TOsKwGAq9TgU2sS3YUqtb3AeXLsv1nrxqRjGWPULWBulsGCv2JYjVQ
-         CBdw==
-X-Gm-Message-State: APjAAAV1jHc7lhYaRNlyI9yRxkXcEbSRUazuP+WwPUoB2J9KmDoJrFLB
-        FuG4LkOQ11e50L3yBkohyn4lRg==
-X-Google-Smtp-Source: APXvYqx1aOIENeCSah08MVTYFrD/NuAxr0V017MpiWVqy3TIvXWY1n8ZumQkO1CM5um9w8XxVf0x/g==
-X-Received: by 2002:a63:5f47:: with SMTP id t68mr3945078pgb.363.1569341480924;
-        Tue, 24 Sep 2019 09:11:20 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 64sm2096771pfx.31.2019.09.24.09.11.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2019 09:11:20 -0700 (PDT)
-Date:   Tue, 24 Sep 2019 09:11:18 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Use make invocation's -j argument for
- parallelism
-Message-ID: <201909240910.D6E5C767D1@keescook>
-References: <201909191438.C00E6DB@keescook>
- <20190922140331.3ffe8604@lwn.net>
- <201909231537.0FC0474C@keescook>
- <87pnjqtbft.fsf@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eg3k9f7VurRwzf46jcAwPnzOmV7EyviW3zf+/O2RKTw=;
+        b=KTPmdthFpcuO67LwAp4WF2bANObeaEfGCBoBaD81ggCtCyWiok6a64Vft+sLhdkvOF
+         48BMt6q3jA5dvfw3ib1J8Min9TWB1ReuZi3gv2/As8bDd60KSdznZpsQa1XkoQlm+vvx
+         F4qjwpcVKdsFoqdq+w5caUq+k/vHSX/Mikh4RPHFrj+OgkUgRAs/SY9ogRAzLqLBPK3r
+         SNNmraI1dls7cHzO2FOe61LDeIW0miIGOmcjTbHVODupefbMMTZbmuWMEDUBuVxL44C+
+         5oPXaD7YY8roYJKgFS33YZZK6EwydUkMdRJnhLx8/X5GtYiV8ZOuAkRIOl8Hyo6tEFUE
+         0n1w==
+X-Gm-Message-State: APjAAAUTDFNtQCxUpqxsVSLoRYGYgmgYuhMgNkrWQhZ3O9HbzRabo1br
+        vpdmHD+h+2aVQrwRjAsLRzS88yX7mnhSUliAa/X31Q==
+X-Google-Smtp-Source: APXvYqzHQL7f14LNZsEHgTkF79WPuoGKOhn296bYISGkx7n4picFyC3Il0HPjOJxT0GsWDx9sLojnGag0Yvg6RxPVZs=
+X-Received: by 2002:a63:d908:: with SMTP id r8mr4073008pgg.263.1569343667548;
+ Tue, 24 Sep 2019 09:47:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pnjqtbft.fsf@intel.com>
+References: <20190921064954.11196-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190921064954.11196-1-yamada.masahiro@socionext.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 24 Sep 2019 09:47:36 -0700
+Message-ID: <CAKwvOdnmYCbZiFKrvzwjJWmhzn5X+rKSs2GQZC4Dy-7VmKyntw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove ar-option and KBUILD_ARFLAGS
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Paul Mackerras <paulus@samba.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 10:12:22AM +0300, Jani Nikula wrote:
-> On Mon, 23 Sep 2019, Kees Cook <keescook@chromium.org> wrote:
-> > On Sun, Sep 22, 2019 at 02:03:31PM -0600, Jonathan Corbet wrote:
-> >> On Thu, 19 Sep 2019 14:44:37 -0700
-> >> Kees Cook <keescook@chromium.org> wrote:
-> >> 
-> >> > While sphinx 1.7 and later supports "-jauto" for parallelism, this
-> >> > effectively ignores the "-j" flag used in the "make" invocation, which
-> >> > may cause confusion for build systems. Instead, extract the available
-> >> 
-> >> What sort of confusion might we expect?  Or, to channel akpm, "what are the
-> >> user-visible effects of this bug"?
-> >
-> > When I run "make htmldocs -j16" with a pre-1.7 sphinx, it is not
-> > parallelized. When I run "make htmldocs -j8" with 1.7+ sphinx, it uses
-> > all my CPUs instead of 8. :)
-> 
-> To be honest, part of the solution should be to require Sphinx 1.8 or
-> later. Even Debian stable has it. If your distro doesn't have it
-> (really?), using the latest Sphinx in a virtual environment should be a
-> matter of:
-> 
-> $ python3 -m venv .venv
-> $ . .venv/bin/activate
-> (.venv) $ pip install sphinx sphinx_rtd_theme
-> (.venv) $ make htmldocs
+On Tue, Sep 24, 2019 at 9:38 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> Commit 40df759e2b9e ("kbuild: Fix build with binutils <= 2.19")
+> introduced ar-option and KBUILD_ARFLAGS to cope with old binutils.
+>
+> According to Documentation/process/changes.rst, the current minimal
+> supported version of binutils is 2.21 so you can assume the 'D' option
+> is always supported. Not only GNU ar but also llvm-ar supports it.
 
-I don't mind having sphinx 1.8 (I did, in fact, already update it), but
-that still doesn't solve the whole problem: my -j argument is being
-ignored...
+Yep, a nice cleanup. Thanks for the patch and I appreciate checking llvm-ar.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 
--Kees
+>
+> With the 'D' option hard-coded, there is no more user of ar-option
+> or KBUILD_ARFLAGS.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+>
+>  Documentation/kbuild/makefiles.rst | 5 -----
+>  Makefile                           | 4 ----
+>  arch/powerpc/boot/Makefile         | 2 +-
+>  scripts/Kbuild.include             | 5 -----
+>  scripts/Makefile.build             | 2 +-
+>  scripts/Makefile.lib               | 2 +-
+>  6 files changed, 3 insertions(+), 17 deletions(-)
+>
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 6ba9d5365ff3..b89c88168d6a 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -954,11 +954,6 @@ When kbuild executes, the following steps are followed (roughly):
+>
+>         From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
+>
+> -    KBUILD_ARFLAGS   Options for $(AR) when creating archives
+> -
+> -       $(KBUILD_ARFLAGS) set by the top level Makefile to "D" (deterministic
+> -       mode) if this option is supported by $(AR).
+> -
+>      KBUILD_LDS
+>
+>         The linker script with full path. Assigned by the top-level Makefile.
+> diff --git a/Makefile b/Makefile
+> index 656a8c95789d..88b180b2cb64 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -498,7 +498,6 @@ export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN
+>  export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
+>  export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
+>  export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+> -export KBUILD_ARFLAGS
+>
+>  # Files to ignore in find ... statements
+>
+> @@ -914,9 +913,6 @@ ifdef CONFIG_RETPOLINE
+>  KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
+>  endif
+>
+> -# use the deterministic mode of AR if available
+> -KBUILD_ARFLAGS := $(call ar-option,D)
+> -
+>  include scripts/Makefile.kasan
+>  include scripts/Makefile.extrawarn
+>  include scripts/Makefile.ubsan
+> diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+> index 6841bd52738b..dfbd7f22eef5 100644
+> --- a/arch/powerpc/boot/Makefile
+> +++ b/arch/powerpc/boot/Makefile
+> @@ -50,7 +50,7 @@ endif
+>
+>  BOOTAFLAGS     := -D__ASSEMBLY__ $(BOOTCFLAGS) -nostdinc
+>
+> -BOOTARFLAGS    := -cr$(KBUILD_ARFLAGS)
+> +BOOTARFLAGS    := -crD
+>
+>  ifdef CONFIG_CC_IS_CLANG
+>  BOOTCFLAGS += $(CLANG_FLAGS)
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index e31fd6a8b2a3..956668239ef5 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -143,11 +143,6 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+>  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+>
+> -# ar-option
+> -# Usage: KBUILD_ARFLAGS := $(call ar-option,D)
+> -# Important: no spaces around options
+> -ar-option = $(call try-run, $(AR) rc$(1) "$$TMP",$(1),$(2))
+> -
+>  # ld-version
+>  # Note this is mainly for HJ Lu's 3 number binutil versions
+>  ld-version = $(shell $(LD) --version | $(srctree)/scripts/ld-version.sh)
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 611bda95ac5e..f199341f04eb 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -395,7 +395,7 @@ $(sort $(subdir-obj-y)): $(subdir-ym) ;
+>  ifdef builtin-target
+>
+>  quiet_cmd_ar_builtin = AR      $@
+> -      cmd_ar_builtin = rm -f $@; $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
+> +      cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+>
+>  $(builtin-target): $(real-obj-y) FORCE
+>         $(call if_changed,ar_builtin)
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 23e524027740..15895fd4ef9f 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -238,7 +238,7 @@ quiet_cmd_ld = LD      $@
+>  # ---------------------------------------------------------------------------
+>
+>  quiet_cmd_ar = AR      $@
+> -      cmd_ar = rm -f $@; $(AR) rcsTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
+> +      cmd_ar = rm -f $@; $(AR) cDPrsT $@ $(real-prereqs)
+>
+>  # Objcopy
+>  # ---------------------------------------------------------------------------
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20190921064954.11196-1-yamada.masahiro%40socionext.com.
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> >> > +	-j $(shell python3 $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \
-> >> 
-> >> This (and the shebang line in the script itself) will cause the docs build
-> >> to fail on systems lacking Python 3.  While we have talked about requiring
-> >> Python 3 for the docs build, we have not actually taken that step yet.  We
-> >> probably shouldn't sneak it in here.  I don't see anything in the script
-> >> that should require a specific Python version, so I think it should be
-> >> tweaked to be version-independent and just invoke "python".
-> >
-> > Ah, no problem. I can fix this. In a quick scan it looked like sphinx
-> > was python3, but I see now that's just my install. :)
-> >
-> >> >  	-b $2 \
-> >> >  	-c $(abspath $(srctree)/$(src)) \
-> >> >  	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
-> >> > diff --git a/scripts/jobserver-count b/scripts/jobserver-count
-> >> > new file mode 100755
-> >> > index 000000000000..ff6ebe6b0194
-> >> > --- /dev/null
-> >> > +++ b/scripts/jobserver-count
-> >> > @@ -0,0 +1,53 @@
-> >> > +#!/usr/bin/env python3
-> >> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> >> 
-> >> By license-rules.rst, this should be GPL-2.0+
-> >
-> > Whoops, thanks.
-> >
-> >> > +# Extract and prepare jobserver file descriptors from envirnoment.
-> >> > +try:
-> >> > +	# Fetch the make environment options.
-> >> > +	flags = os.environ['MAKEFLAGS']
-> >> > +
-> >> > +	# Look for "--jobserver=R,W"
-> >> > +	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-> >> > +
-> >> > +	# Parse out R,W file descriptor numbers and set them nonblocking.
-> >> > +	fds = opts[0].split("=", 1)[1]
-> >> > +	reader, writer = [nonblock(int(x)) for x in fds.split(",", 1)]
-> >> > +except:
-> >> 
-> >> So I have come to really dislike bare "except" clauses; I've seen them hide
-> >> too many bugs.  In this case, perhaps it's justified, but still ... it bugs
-> >> me ...
-> >
-> > Fair enough. I will adjust this (and the later instance).
-> >
-> >> 
-> >> > +	# Any failures here should result in just using the default
-> >> > +	# specified parallelism.
-> >> > +	print(default)
-> >> > +	sys.exit(0)
-> >> > +
-> >> > +# Read out as many jobserver slots as possible.
-> >> > +jobs = b""
-> >> > +while True:
-> >> > +	try:
-> >> > +		slot = os.read(reader, 1)
-> >> > +		jobs += slot
-> >> > +	except:
-> >> 
-> >> This one, I think, should be explicit; anything other than EWOULDBLOCK
-> >> indicates a real problem, right?
-> >> 
-> >> > +		break
-> >> > +# Return all the reserved slots.
-> >> > +os.write(writer, jobs)
-> >> 
-> >> You made writer nonblocking, so it seems plausible that we could leak some
-> >> slots here, no?  Does writer really need to be nonblocking?
-> >
-> > Good point. I will fix this too.
-> >
-> >> 
-> >> > +# If the jobserver was (impossibly) full or communication failed, use default.
-> >> > +if len(jobs) < 1:
-> >> > +	print(default)
-> >> > +
-> >> > +# Report available slots (with a bump for our caller's reserveration).
-> >> > +print(len(jobs) + 1)
-> >> 
-> >> The last question I have is...why is it that we have to do this complex
-> >> dance rather than just passing the "-j" option through directly to sphinx?
-> >> That comes down to the "confusion" mentioned at the top, I assume.  It
-> >> would be good to understand that?
-> >
-> > There is no method I have found to discover the -j option's contents
-> > (intentionally so, it seems) from within make. :(
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+
 
 -- 
-Kees Cook
+Thanks,
+~Nick Desaulniers
