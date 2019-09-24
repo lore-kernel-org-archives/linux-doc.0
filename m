@@ -1,125 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4049A7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Sep 2019 17:02:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 142FE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Sep 2019 21:50:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2632981AbfIXQnb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Sep 2019 12:43:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42318 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2633002AbfIXQnb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Sep 2019 12:43:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=pg+isT0abxRK8PsThFH4dFGWxytvoXKthoZB4FWIcCY=; b=pSSFz/TidsIPuUf4BwKRrs2QZ
-        LXloOqHMGQqnDGcNyEaGbfzDPUl09vSRc2K6UpTyUxW0ZDkBAcsqByWEWQphORjwtjvqyki6mUUHa
-        P/q+UwuyF470ELG8FkSSg8A4pBsKeaMxN5fY0+cRMFVucEwAf8H4OUBWuiAALthkV9yktC7BzDmbq
-        p+8QkW4SXBcHudVMOXg6K8chfeho/zWf++weyvl/Xbl3hV5PDwA5vZa0AqWHTHr4E7JjU8947fQsM
-        +IECp1HMQ/ksN4+s11S4124sp0H58LNN+2J270VtXorKzdN5qLldDhjlGUBwNw0byU11Rw4sixoME
-        tIuWmqfZw==;
-Received: from 177.96.206.173.dynamic.adsl.gvt.net.br ([177.96.206.173] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iCnuT-0004nu-RX; Tue, 24 Sep 2019 16:43:30 +0000
-Date:   Tue, 24 Sep 2019 13:43:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
+        id S2393053AbfIXVuW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Sep 2019 17:50:22 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46867 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392159AbfIXVuW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Sep 2019 17:50:22 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q5so2094191pfg.13
+        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2019 14:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9dYRzKO1g1R4/IX0G1CbX+gjWofgYMvYTRiyo8NBhnk=;
+        b=Nyog3bUmtz7c05l4kKSdtxqM9CIRqGmFQA/+AASIxNDFCjsYjiqoJV6eA/M+6MaTMh
+         Z+jR23roZ/3DU7nA7X6yUxgUjJtOmw5n19LN6ACS8+oSnZvUdcR02tvXlPFV5P327hyA
+         FEM40rreewkNPXqqD2loRpTkZ/sN/efpk6Ji4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9dYRzKO1g1R4/IX0G1CbX+gjWofgYMvYTRiyo8NBhnk=;
+        b=Cl8RoTN6hEf22YHi6DITyI+2a8TwPuKK35rwLOzaYrn2odGRuuLCJxwlaMr8ll6Jl7
+         cWHY8QOnY9nX9YChSN1dlC6WnQjk7bw1avAaIr6E/BW+hOfU94Mj5CXLLmw4L61CWgZN
+         3I4UIopV9nkA8APjEiqbSt9ooLgUnlTkdbjgCtYo1IDKcmTCurP0L3DxO/H9JEe2nnKW
+         0QrB+aJYrU0G3hohjqpzmgTlO2exAWAk1hR0SmGIWatA9/wuq1OvYYOnUqvUYliHopNT
+         KtSy0fwuUsGltyoC+MIkP9C0+yfq9vnaG6AN3G90u7TMTJvCixq/Vztv1xYr4FTiXuA6
+         HHcw==
+X-Gm-Message-State: APjAAAVOH1p+KCwWABfZidBhG5zlE26WSxXk3BTpEEAVP+Za99F7/oEF
+        tCXhbMxHnKduITsklJbGU8/KYw==
+X-Google-Smtp-Source: APXvYqy6AEYKCeT0iEFEsUB13HusI2JDuDfNQE3YlXYE2ZS7xp/2jmaVJuCoKL7ooatAmXFYJfZW9w==
+X-Received: by 2002:a65:66c4:: with SMTP id c4mr5230420pgw.246.1569361821761;
+        Tue, 24 Sep 2019 14:50:21 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t14sm2600111pgv.84.2019.09.24.14.50.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2019 14:50:20 -0700 (PDT)
+Date:   Tue, 24 Sep 2019 14:50:19 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Use make invocation's -j argument for
- parallelism
-Message-ID: <20190924134325.4788fc30@coco.lan>
-In-Reply-To: <201909231537.0FC0474C@keescook>
-References: <201909191438.C00E6DB@keescook>
-        <20190922140331.3ffe8604@lwn.net>
-        <201909231537.0FC0474C@keescook>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Subject: Re: [RFC][PATCH] docs: Programmatically render MAINTAINERS into ReST
+Message-ID: <201909241446.3284D27@keescook>
+References: <201909231534.E8BE691@keescook>
+ <20190924070819.0a7b6658@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190924070819.0a7b6658@coco.lan>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 23 Sep 2019 15:40:41 -0700
-Kees Cook <keescook@chromium.org> escreveu:
-
-> On Sun, Sep 22, 2019 at 02:03:31PM -0600, Jonathan Corbet wrote:
-> > On Thu, 19 Sep 2019 14:44:37 -0700
-> > Kees Cook <keescook@chromium.org> wrote:
-> >   
-> > > While sphinx 1.7 and later supports "-jauto" for parallelism, this
-> > > effectively ignores the "-j" flag used in the "make" invocation, which
-> > > may cause confusion for build systems. Instead, extract the available  
-> > 
-> > What sort of confusion might we expect?  Or, to channel akpm, "what are the
-> > user-visible effects of this bug"?  
+On Tue, Sep 24, 2019 at 07:08:19AM -0300, Mauro Carvalho Chehab wrote:
+> It probably makes sense to change some things there, as, right now, it 
+> is considering multiple lines as continuation. So, for example, if
+> it has multiple M: entries, it will produce this at MAINTAINERS.rst
+> output:
 > 
-> When I run "make htmldocs -j16" with a pre-1.7 sphinx, it is not
-> parallelized.
-
-Sphinx supports parallel builds for a while. With pre-1.7, you could do
-something like:
-
-	make SPHINXOPTS="-j16" htmldocs
-
-Yet, on my experiences on big machines (tested here with Xeon with 40 and 64
-CPU threads), parallel build doesn't actually benefit with values higher than
--j5 to -j8, with pre-1.7.
-
-Sphinx 1.7 and higher seem to have improved a lot with "-jauto"
-(although I didn't time it comparing with -j5 or -j8 on a big server).
-
-> When I run "make htmldocs -j8" with 1.7+ sphinx, it uses
-> all my CPUs instead of 8. :)
-
-This should do the trick:
-
-	make SPHINXOPTS="-j8" htmldocs
-
-But yeah, IMHO, the best is if it could honor the Makefile flag:
-
-	make -j8 htmldocs
-
-If SPHINXOPTS doesn't contain "-j".
-
-> > > +	-j $(shell python3 $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \  
-> > 
-> > This (and the shebang line in the script itself) will cause the docs build
-> > to fail on systems lacking Python 3.  While we have talked about requiring
-> > Python 3 for the docs build, we have not actually taken that step yet.  We
-> > probably shouldn't sneak it in here.  I don't see anything in the script
-> > that should require a specific Python version, so I think it should be
-> > tweaked to be version-independent and just invoke "python".  
 > 
-> Ah, no problem. I can fix this. In a quick scan it looked like sphinx
-> was python3, but I see now that's just my install. :)
+> 	:Mail:
+> 		Juergen Gross <jgross@suse.com>
+> 		Thomas Hellstrom <thellstrom@vmware.com>
+> 		"VMware, Inc." <pv-drivers@vmware.com>
+> 
+> With would be displayed as:
+> 
+> 	Mail
+> 	    Juergen Gross <jgross@suse.com> Thomas Hellstrom <thellstrom@vmware.com> “VMware, Inc.” <pv-drivers@vmware.com>
+> 
+> It would probably be better to output it as:
+> 
+> 	:Mail:
+> 		- Juergen Gross <jgross@suse.com>
+> 		- Thomas Hellstrom <thellstrom@vmware.com>
+> 		- "VMware, Inc." <pv-drivers@vmware.com>
+> 
+> or:
+> 	:Mail:
+> 		Juergen Gross <jgross@suse.com>
+> 
+> 		Thomas Hellstrom <thellstrom@vmware.com>
+> 
+> 		"VMware, Inc." <pv-drivers@vmware.com>
+> 
+> or, eventually:
+> 
+> 	:Mail:
+> 		Juergen Gross <jgross@suse.com>,
+> 		Thomas Hellstrom <thellstrom@vmware.com>,
+> 		"VMware, Inc." <pv-drivers@vmware.com>
+> 
+> (Using commas is probably a bad idea, as DT file names may have a
+> comma in the middle)
 
-On Fedora 30, both python2 and python3 versions are available:
+Doing explicit lists here made the output, I think, way too long and
+hard to read. Adding commas for email fields seems like the right
+solution here.
 
-	python2-sphinx.noarch : Python documentation generator
-	python3-sphinx.noarch : Python documentation generator
+> No need to use "python3" here, as the script has a shebang markup. Just
+> ensure that it has 755 permission, and call it directly.
 
-However, if one tries to install it without specifying "2" or "3", it
-defaults to python2 version:
+BTW, I found where I thought python3 was required:
+sphinx/kernel_include.py's shebang is "#!/usr/bin/env python3"
 
-	$ sudo dnf install python-sphinx
-	...
-	Installing:
-	 python2-sphinx                  noarch 1:1.8.4-1.fc30            fedora  1.8 M
+> > +/* Keep fields from being strangely far apart due to inheirited table CSS. */
+> > +.rst-content table.field-list th.field-name {
+> > +    padding-top: 1px;
+> > +    padding-bottom: 1px;
+> > +}
+> > +.rst-content table.field-list td.field-body {
+> > +    padding-top: 1px;
+> > +    padding-bottom: 1px;
+> > +}
+> > +
+> >  @media screen {
+> >  
+> >      /* content column
+> 
+> I would place this on a separate patch, as this is a layout change that
+> may affect other files.
 
-AFAIKT, this also applies when distro upgrades takes place: upgrading
-a python2 sphinx from Fedora 30 to Rawhide will very likely keep
-the python2 version.
+Noted, yes.
 
-Thanks,
-Mauro
+> Btw, what does this change?
+
+This gets rid of what looks like an extra blank line after every field
+line. I checked other places where fields are used and they suffer from
+a similar problem. I'll split this out and call attention to the
+existing users.
+
+-- 
+Kees Cook
