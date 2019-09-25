@@ -1,173 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B5D77D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Sep 2019 23:30:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D90CE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 08:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442089AbfIXXaC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Sep 2019 19:30:02 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:42198 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388737AbfIXXaB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Sep 2019 19:30:01 -0400
-Received: by mail-pg1-f193.google.com with SMTP id z12so2105937pgp.9
-        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2019 16:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=hDUCRnovERuna7WKgcUyWC1089K6x+TQ4NYVGW2tMJg=;
-        b=ndKjN9PXPKpgZypiGtw5+V39czKqyhWbpuDdL9ymcglLiyFbxaHBpQmR5AlCm14CYN
-         Cy3k0fDcyuKcGFIewZrYKYse76pfxRahWzJQPFIxPdk8COBULfRhP0NE3EV/obeROM5C
-         lkMP+4piwFtk7ymP5XfrJwLqfsg+E2/lc//qc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=hDUCRnovERuna7WKgcUyWC1089K6x+TQ4NYVGW2tMJg=;
-        b=miv9fL6QKfNXRD/ziUD8yM53dR1moSqPKKRqCoQ9ZuFOLJftzIlFdLZCG8TU/Yknr6
-         vliv6cM6McxyGH2SoP7v6bLOydLroqwf0FHE1/oRNsAVd3fLYLWBF3QMPktvapmeUmAU
-         knH5YFEfNry0wVO7VrAZbKaZ1dfcKsNMxbCEGWiPSUB81aym2FAHJs2KiPURsv55OQgs
-         N10r0J3+/LF8Mo/TOaXXDjecaetA+Zq7vSemySw8kaTJAxE2cWNTzhcFR+XaRCxiPiF9
-         WeVRWq4HdrCg4p5RHqESqniMWOWKNuuEJCfIiKZ/zMtG11JgI0hBvqFCtcm++yhY1rrG
-         HCWQ==
-X-Gm-Message-State: APjAAAXhZDSlNr69n5nqw1akiwoQT1TlNw51J/UXmlRAKfVsY6B7eLog
-        L6jvyFAq0IBXBtStShtrfqgpmQ==
-X-Google-Smtp-Source: APXvYqyZQ1DH75N1hfUmgYvspKfUCy8wk/94lyd0xXxzSq//YzXGyQDttZlx6jOwBTik27aAnB9hXA==
-X-Received: by 2002:a63:4824:: with SMTP id v36mr5730519pga.385.1569367800943;
-        Tue, 24 Sep 2019 16:30:00 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f74sm5759500pfa.34.2019.09.24.16.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2019 16:29:59 -0700 (PDT)
-Date:   Tue, 24 Sep 2019 16:29:58 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs: Use make invocation's -j argument for parallelism
-Message-ID: <201909241627.CEA19509@keescook>
+        id S2634116AbfIYIaZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Sep 2019 04:30:25 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:36354 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2634101AbfIYIaZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Sep 2019 04:30:25 -0400
+Received: from [65.39.69.237] (helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iD2gY-0007mG-I2; Wed, 25 Sep 2019 10:30:06 +0200
+Date:   Wed, 25 Sep 2019 10:29:49 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Dave Hansen <dave.hansen@intel.com>
+cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
+        ben@decadent.org.uk, labbott@redhat.com, andrew.cooper3@citrix.com,
+        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
+        linux-doc@vger.kernel.org, dan.j.williams@intel.com
+Subject: [PATCH] Documentation/process: Clarify disclosure rules
+In-Reply-To: <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
+Message-ID: <alpine.DEB.2.21.1909251028390.10825@nanos.tec.linutronix.de>
+References: <20190910172644.4D2CDF0A@viggo.jf.intel.com> <20190910172649.74639177@viggo.jf.intel.com> <20190911154453.GA14152@kroah.com> <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While sphinx 1.7 and later supports "-jauto" for parallelism, this
-effectively ignores the "-j" flag used in the "make" invocation, which
-may cause confusion for build systems. Instead, extract the available
-parallelism from "make"'s job server (since it is not exposed in any
-special variables) and use that for the "sphinx-build" run. Now things
-work correctly for builds where -j is specified at the top-level:
+The role of the contact list provided by the disclosing party and how it
+affects the disclosure process and the ability to include experts into
+the development process is not really well explained.
 
-	make -j16 htmldocs
+Neither is it entirely clear when the disclosing party will be informed
+about the fact that a developer who is not covered by an employer NDA needs
+to be brought in and disclosed.
 
-If -j is not specified, continue to fallback to "-jauto" if available.
+Explain the role of the contact list and the information policy along with
+an eventual conflict resolution better.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
+Reported-by: Dave Hansen <dave.hansen@linux.intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
-v3: python2, specific exceptions, correct SPDX, blocking writer
-v2: retain "-jauto" default behavior with top-level -j is missing.              
----
- Documentation/Makefile  |  3 ++-
- scripts/jobserver-count | 58 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100755 scripts/jobserver-count
+ Documentation/process/embargoed-hardware-issues.rst |   40 ++++++++++++++++----
+ 1 file changed, 33 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index e145e4db508b..c6e564656a5b 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -33,7 +33,7 @@ ifeq ($(HAVE_SPHINX),0)
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -143,6 +143,20 @@ via their employer, they cannot enter in
+ in their role as Linux kernel developers. They will, however, agree to
+ adhere to this documented process and the Memorandum of Understanding.
  
- else # HAVE_SPHINX
++The disclosing party should provide a list of contacts for all other
++entities who have already been, or should be, informed about the issue.
++This serves several purposes:
++
++ - The list of disclosed entities allows communication accross the
++   industry, e.g. other OS vendors, HW vendors, etc.
++
++ - The disclosed entities can be contacted to name experts who should
++   participate in the mitigation development.
++
++ - If an expert which is required to handle an issue is employed by an
++   listed entity or member of an listed entity, then the response teams can
++   request the disclosure of that expert from that entity. This ensures
++   that the expert is also part of the entity's response team.
  
--export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
-+export SPHINX_PARALLEL = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "auto" if ($$1 >= "1.7") } ;} close IN')
+ Disclosure
+ """"""""""
+@@ -158,10 +172,7 @@ Mitigation development
+ """"""""""""""""""""""
  
- # User-friendly check for pdflatex and latexmk
- HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
-@@ -68,6 +68,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	PYTHONDONTWRITEBYTECODE=1 \
- 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
- 	$(SPHINXBUILD) \
-+	-j $(shell python $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \
- 	-b $2 \
- 	-c $(abspath $(srctree)/$(src)) \
- 	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
-diff --git a/scripts/jobserver-count b/scripts/jobserver-count
-new file mode 100755
-index 000000000000..0b482d6884d2
---- /dev/null
-+++ b/scripts/jobserver-count
-@@ -0,0 +1,58 @@
-+#!/usr/bin/env python
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# This determines how many parallel tasks "make" is expecting, as it is
-+# not exposed via an special variables.
-+# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-+from __future__ import print_function
-+import os, sys, fcntl, errno
+ The initial response team sets up an encrypted mailing-list or repurposes
+-an existing one if appropriate. The disclosing party should provide a list
+-of contacts for all other parties who have already been, or should be,
+-informed about the issue. The response team contacts these parties so they
+-can name experts who should be subscribed to the mailing-list.
++an existing one if appropriate.
+ 
+ Using a mailing-list is close to the normal Linux development process and
+ has been successfully used in developing mitigations for various hardware
+@@ -175,9 +186,24 @@ development branch against the mainline
+ stable kernel versions as necessary.
+ 
+ The initial response team will identify further experts from the Linux
+-kernel developer community as needed and inform the disclosing party about
+-their participation. Bringing in experts can happen at any time of the
+-development process and often needs to be handled in a timely manner.
++kernel developer community as needed. Bringing in experts can happen at any
++time of the development process and needs to be handled in a timely manner.
 +
-+# Default parallelism is "1" unless overridden on the command-line.
-+default="1"
-+if len(sys.argv) > 1:
-+	default=sys.argv[1]
++If an expert is employed by or member of an entity on the disclosure list
++provided by the disclosing party, then participation will be requested from
++the relevant entity.
 +
-+# Set non-blocking for a given file descriptor.
-+def nonblock(fd):
-+	flags = fcntl.fcntl(fd, fcntl.F_GETFL)
-+	fcntl.fcntl(fd, fcntl.F_SETFL, flags | os.O_NONBLOCK)
-+	return fd
++If not, then the disclosing party will be informed about the experts
++participation. The experts are covered by the Memorandum of Understanding
++and the disclosing party is requested to acknowledge the participation. In
++case that the disclosing party has a compelling reason to object, then this
++objection has to be raised within five work days and resolved with the
++incident team immediately. If the disclosing party does not react within
++five work days this is taken as silent acknowledgement.
 +
-+# Extract and prepare jobserver file descriptors from envirnoment.
-+try:
-+	# Fetch the make environment options.
-+	flags = os.environ['MAKEFLAGS']
++After acknowledgement or resolution of an objection the expert is disclosed
++by the incident team and brought into the development process.
 +
-+	# Look for "--jobserver=R,W"
-+	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-+
-+	# Parse out R,W file descriptor numbers and set them nonblocking.
-+	fds = opts[0].split("=", 1)[1]
-+	reader, writer = [int(x) for x in fds.split(",", 1)]
-+	reader = nonblock(reader)
-+except (KeyError, IndexError, ValueError, IOError):
-+	# Any missing environment strings or bad fds should result in just
-+	# using the default specified parallelism.
-+	print(default)
-+	sys.exit(0)
-+
-+# Read out as many jobserver slots as possible.
-+jobs = b""
-+while True:
-+	try:
-+		slot = os.read(reader, 1)
-+		jobs += slot
-+	except (OSError, IOError) as e:
-+		if e.errno == errno.EWOULDBLOCK:
-+			# Stop when reach the end of the jobserver queue.
-+			break
-+		raise e
-+# Return all the reserved slots.
-+os.write(writer, jobs)
-+
-+# If the jobserver was (impossibly) full or communication failed, use default.
-+if len(jobs) < 1:
-+	print(default)
-+
-+# Report available slots (with a bump for our caller's reserveration).
-+print(len(jobs) + 1)
--- 
-2.17.1
-
-
--- 
-Kees Cook
+ 
+ Coordinated release
+ """""""""""""""""""
