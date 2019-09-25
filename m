@@ -2,124 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D90CE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 08:30:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD4EE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 08:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634116AbfIYIaZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Sep 2019 04:30:25 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:36354 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2634101AbfIYIaZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Sep 2019 04:30:25 -0400
-Received: from [65.39.69.237] (helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iD2gY-0007mG-I2; Wed, 25 Sep 2019 10:30:06 +0200
-Date:   Wed, 25 Sep 2019 10:29:49 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Dave Hansen <dave.hansen@intel.com>
-cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
-        ben@decadent.org.uk, labbott@redhat.com, andrew.cooper3@citrix.com,
-        tsoni@codeaurora.org, keescook@chromium.org, tony.luck@intel.com,
-        linux-doc@vger.kernel.org, dan.j.williams@intel.com
-Subject: [PATCH] Documentation/process: Clarify disclosure rules
-In-Reply-To: <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
-Message-ID: <alpine.DEB.2.21.1909251028390.10825@nanos.tec.linutronix.de>
-References: <20190910172644.4D2CDF0A@viggo.jf.intel.com> <20190910172649.74639177@viggo.jf.intel.com> <20190911154453.GA14152@kroah.com> <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S2408281AbfIYIfY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Sep 2019 04:35:24 -0400
+Received: from mga17.intel.com ([192.55.52.151]:57339 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405299AbfIYIfY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Sep 2019 04:35:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Sep 2019 01:35:23 -0700
+X-IronPort-AV: E=Sophos;i="5.64,547,1559545200"; 
+   d="scan'208";a="183186690"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Sep 2019 01:35:20 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: Use make invocation's -j argument for parallelism
+In-Reply-To: <201909240910.D6E5C767D1@keescook>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <201909191438.C00E6DB@keescook> <20190922140331.3ffe8604@lwn.net> <201909231537.0FC0474C@keescook> <87pnjqtbft.fsf@intel.com> <201909240910.D6E5C767D1@keescook>
+Date:   Wed, 25 Sep 2019 11:35:17 +0300
+Message-ID: <87blv8u62i.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The role of the contact list provided by the disclosing party and how it
-affects the disclosure process and the ability to include experts into
-the development process is not really well explained.
+On Tue, 24 Sep 2019, Kees Cook <keescook@chromium.org> wrote:
+> On Tue, Sep 24, 2019 at 10:12:22AM +0300, Jani Nikula wrote:
+>> On Mon, 23 Sep 2019, Kees Cook <keescook@chromium.org> wrote:
+>> > On Sun, Sep 22, 2019 at 02:03:31PM -0600, Jonathan Corbet wrote:
+>> >> On Thu, 19 Sep 2019 14:44:37 -0700
+>> >> Kees Cook <keescook@chromium.org> wrote:
+>> >> 
+>> >> > While sphinx 1.7 and later supports "-jauto" for parallelism, this
+>> >> > effectively ignores the "-j" flag used in the "make" invocation, which
+>> >> > may cause confusion for build systems. Instead, extract the available
+>> >> 
+>> >> What sort of confusion might we expect?  Or, to channel akpm, "what are the
+>> >> user-visible effects of this bug"?
+>> >
+>> > When I run "make htmldocs -j16" with a pre-1.7 sphinx, it is not
+>> > parallelized. When I run "make htmldocs -j8" with 1.7+ sphinx, it uses
+>> > all my CPUs instead of 8. :)
+>> 
+>> To be honest, part of the solution should be to require Sphinx 1.8 or
+>> later. Even Debian stable has it. If your distro doesn't have it
+>> (really?), using the latest Sphinx in a virtual environment should be a
+>> matter of:
+>> 
+>> $ python3 -m venv .venv
+>> $ . .venv/bin/activate
+>> (.venv) $ pip install sphinx sphinx_rtd_theme
+>> (.venv) $ make htmldocs
+>
+> I don't mind having sphinx 1.8 (I did, in fact, already update it), but
+> that still doesn't solve the whole problem: my -j argument is being
+> ignored...
 
-Neither is it entirely clear when the disclosing party will be informed
-about the fact that a developer who is not covered by an employer NDA needs
-to be brought in and disclosed.
+I meant, *part* of the solution should be to not have to deal with
+ancient Sphinx.
 
-Explain the role of the contact list and the information policy along with
-an eventual conflict resolution better.
+BR,
+Jani.
 
-Reported-by: Dave Hansen <dave.hansen@linux.intel.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- Documentation/process/embargoed-hardware-issues.rst |   40 ++++++++++++++++----
- 1 file changed, 33 insertions(+), 7 deletions(-)
 
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -143,6 +143,20 @@ via their employer, they cannot enter in
- in their role as Linux kernel developers. They will, however, agree to
- adhere to this documented process and the Memorandum of Understanding.
- 
-+The disclosing party should provide a list of contacts for all other
-+entities who have already been, or should be, informed about the issue.
-+This serves several purposes:
-+
-+ - The list of disclosed entities allows communication accross the
-+   industry, e.g. other OS vendors, HW vendors, etc.
-+
-+ - The disclosed entities can be contacted to name experts who should
-+   participate in the mitigation development.
-+
-+ - If an expert which is required to handle an issue is employed by an
-+   listed entity or member of an listed entity, then the response teams can
-+   request the disclosure of that expert from that entity. This ensures
-+   that the expert is also part of the entity's response team.
- 
- Disclosure
- """"""""""
-@@ -158,10 +172,7 @@ Mitigation development
- """"""""""""""""""""""
- 
- The initial response team sets up an encrypted mailing-list or repurposes
--an existing one if appropriate. The disclosing party should provide a list
--of contacts for all other parties who have already been, or should be,
--informed about the issue. The response team contacts these parties so they
--can name experts who should be subscribed to the mailing-list.
-+an existing one if appropriate.
- 
- Using a mailing-list is close to the normal Linux development process and
- has been successfully used in developing mitigations for various hardware
-@@ -175,9 +186,24 @@ development branch against the mainline
- stable kernel versions as necessary.
- 
- The initial response team will identify further experts from the Linux
--kernel developer community as needed and inform the disclosing party about
--their participation. Bringing in experts can happen at any time of the
--development process and often needs to be handled in a timely manner.
-+kernel developer community as needed. Bringing in experts can happen at any
-+time of the development process and needs to be handled in a timely manner.
-+
-+If an expert is employed by or member of an entity on the disclosure list
-+provided by the disclosing party, then participation will be requested from
-+the relevant entity.
-+
-+If not, then the disclosing party will be informed about the experts
-+participation. The experts are covered by the Memorandum of Understanding
-+and the disclosing party is requested to acknowledge the participation. In
-+case that the disclosing party has a compelling reason to object, then this
-+objection has to be raised within five work days and resolved with the
-+incident team immediately. If the disclosing party does not react within
-+five work days this is taken as silent acknowledgement.
-+
-+After acknowledgement or resolution of an objection the expert is disclosed
-+by the incident team and brought into the development process.
-+
- 
- Coordinated release
- """""""""""""""""""
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
