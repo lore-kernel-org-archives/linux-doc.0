@@ -1,84 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD4EE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 08:35:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BE207D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 10:18:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408281AbfIYIfY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Sep 2019 04:35:24 -0400
-Received: from mga17.intel.com ([192.55.52.151]:57339 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405299AbfIYIfY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Sep 2019 04:35:24 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Sep 2019 01:35:23 -0700
-X-IronPort-AV: E=Sophos;i="5.64,547,1559545200"; 
-   d="scan'208";a="183186690"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Sep 2019 01:35:20 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Use make invocation's -j argument for parallelism
-In-Reply-To: <201909240910.D6E5C767D1@keescook>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <201909191438.C00E6DB@keescook> <20190922140331.3ffe8604@lwn.net> <201909231537.0FC0474C@keescook> <87pnjqtbft.fsf@intel.com> <201909240910.D6E5C767D1@keescook>
-Date:   Wed, 25 Sep 2019 11:35:17 +0300
-Message-ID: <87blv8u62i.fsf@intel.com>
+        id S1732449AbfIYKSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Sep 2019 06:18:04 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:41721 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727141AbfIYKSD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Sep 2019 06:18:03 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q7so3113747pfh.8;
+        Wed, 25 Sep 2019 03:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o4d0o53cCEWw8MDiILt2e59EfvuGBA1CGeiN1Rs0ygQ=;
+        b=IMTpS00FPdkfiTjFlhRXSWjBLS4MUtD5J5dAEmDJp7N8wSUGtThFUoIS5MiNScPMH0
+         julLRWAkpCi2b9zDDJC3g8pdX4f2IPm5O8hZ24o/a6BMHF13k2NkjvMB+ibCPJLYP2hm
+         IQN9t7NAW5rmCkh1n+pqPPlNEw3EDSqF17ZS3O4Cx+Fh7ZH4Op40umqATrbs78412ROR
+         HahoAEWFzLlawU9oqurxgO9V+yw0HxTO5NYheLhv2xxE5ABRy2jbAHAIr8e9g6Ll5WCU
+         XB6w4TT8Oa7QMCY/l3IuGJyCl1jTDDyWPG3ydmEtuEcduUVnqvUsRQmnpq5qKd0mydxH
+         H1pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o4d0o53cCEWw8MDiILt2e59EfvuGBA1CGeiN1Rs0ygQ=;
+        b=XkniOFHtGvk3KB68lmvkXa5BoNL/GzaPGFgSls6e1WmaRkaMHXHNanWyPJArAq61uS
+         d95DUhSHNmNTVdoa+iVFcdTguJK0mI/eyDPW63xrIZt8ySnnGN4pM3lYoIeOLe8f3Q2P
+         2j/JidZH15pVl6g6OlvhHO/OI3ZRJxMxQLIXHas23e/hFSLzH+NnSQBGfUIYYmkHUE5r
+         aBmR0hdvMCvhuhnloUCRH3ThdnQw9ZzlC9hcPa9761bJGElsgupmwm2MBXS9IiaZYxyR
+         4F0GG0Wpp7byck4Af6BgafqXHPI/eQS/K07WaH5d0rio4CWXwoHyUcg7tBUZ7F8ap0Ut
+         tlgQ==
+X-Gm-Message-State: APjAAAXF6NXslnsx44vlwYaw8MB7/3gT+UkQuH9zea34fIaSjId8zL9n
+        mOgNNAQk8zfswrf0/uR6ikJJq3O9WV8=
+X-Google-Smtp-Source: APXvYqw5jltGT0twAYKrRDzP/Y7sHtzkPNKv/fBzb5l2nTm8ljpUEwlUQtPiQvDgrge5hrwSVJguoQ==
+X-Received: by 2002:a63:4102:: with SMTP id o2mr8192538pga.382.1569406681716;
+        Wed, 25 Sep 2019 03:18:01 -0700 (PDT)
+Received: from localhost.localdomain ([118.70.72.223])
+        by smtp.gmail.com with ESMTPSA id i7sm2493107pjs.1.2019.09.25.03.17.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2019 03:18:00 -0700 (PDT)
+From:   bhenryj0117@gmail.com
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Brendan Jackman <bhenryj0117@gmail.com>
+Subject: [PATCH 1/2] docs: security: fix section hyperlink
+Date:   Wed, 25 Sep 2019 17:17:44 +0700
+Message-Id: <20190925101745.3645-1-bhenryj0117@gmail.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Sep 2019, Kees Cook <keescook@chromium.org> wrote:
-> On Tue, Sep 24, 2019 at 10:12:22AM +0300, Jani Nikula wrote:
->> On Mon, 23 Sep 2019, Kees Cook <keescook@chromium.org> wrote:
->> > On Sun, Sep 22, 2019 at 02:03:31PM -0600, Jonathan Corbet wrote:
->> >> On Thu, 19 Sep 2019 14:44:37 -0700
->> >> Kees Cook <keescook@chromium.org> wrote:
->> >> 
->> >> > While sphinx 1.7 and later supports "-jauto" for parallelism, this
->> >> > effectively ignores the "-j" flag used in the "make" invocation, which
->> >> > may cause confusion for build systems. Instead, extract the available
->> >> 
->> >> What sort of confusion might we expect?  Or, to channel akpm, "what are the
->> >> user-visible effects of this bug"?
->> >
->> > When I run "make htmldocs -j16" with a pre-1.7 sphinx, it is not
->> > parallelized. When I run "make htmldocs -j8" with 1.7+ sphinx, it uses
->> > all my CPUs instead of 8. :)
->> 
->> To be honest, part of the solution should be to require Sphinx 1.8 or
->> later. Even Debian stable has it. If your distro doesn't have it
->> (really?), using the latest Sphinx in a virtual environment should be a
->> matter of:
->> 
->> $ python3 -m venv .venv
->> $ . .venv/bin/activate
->> (.venv) $ pip install sphinx sphinx_rtd_theme
->> (.venv) $ make htmldocs
->
-> I don't mind having sphinx 1.8 (I did, in fact, already update it), but
-> that still doesn't solve the whole problem: my -j argument is being
-> ignored...
+From: Brendan Jackman <bhenryj0117@gmail.com>
 
-I meant, *part* of the solution should be to not have to deal with
-ancient Sphinx.
+The reStructuredText syntax is wrong here; not sure how it was
+intended but we can just use the section header as an implicit
+hyperlink target, with a single "outward" underscore.
 
-BR,
-Jani.
+Signed-off-by: Brendan Jackman <bhenryj0117@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/security/lsm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-
+diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
+index ad4dfd020e0d..aadf47c808c0 100644
+--- a/Documentation/security/lsm.rst
++++ b/Documentation/security/lsm.rst
+@@ -56,7 +56,7 @@ the infrastructure to support security modules. The LSM kernel patch
+ also moves most of the capabilities logic into an optional security
+ module, with the system defaulting to the traditional superuser logic.
+ This capabilities module is discussed further in
+-`LSM Capabilities Module <#cap>`__.
++`LSM Capabilities Module`_.
+ 
+ The LSM kernel patch adds security fields to kernel data structures and
+ inserts calls to hook functions at critical points in the kernel code to
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.22.1
+
