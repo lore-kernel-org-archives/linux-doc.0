@@ -1,93 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 065437D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 13:17:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B16277D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Sep 2019 14:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406099AbfIYNRW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Sep 2019 09:17:22 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45256 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406080AbfIYNRW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Sep 2019 09:17:22 -0400
-Received: by mail-pg1-f195.google.com with SMTP id 4so3196884pgm.12;
-        Wed, 25 Sep 2019 06:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=xAVB6ja1X8JqD5ZaEueQZH1jErZvtWZdS0+BsZ6pfGU=;
-        b=pOxJq79HmmxVQVgte4gifBE4yukt2hYlpd14dtCJFSTYV6eMdfEHWUAmz3EeQsvp/o
-         2HGF4X2CGLZW6V/rVA9CBNL/0FQzRh7fzSA0ravm9RbZU/jytHONtjSuTGmK+vlhOROx
-         wTbQCaWxOZUp/kG3KJiMFBDphAhkgPn4Y/0zDi8+6tU7EqtD/Ilj6UmwnZg7wj5j4IoU
-         KywqyQ1o6fEF0LVgEWDDuuPZn7+26i3SAP370BYOb5sReYKQOkyih3Ho2799X0YgA7Tz
-         hpFY5k5Q5Q4AQ/eKkdA5ex1lc4vvA7qJg/I267kJnKazTY8Rv8iWnGY7pUUxYfOkh2AW
-         C+Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=xAVB6ja1X8JqD5ZaEueQZH1jErZvtWZdS0+BsZ6pfGU=;
-        b=JTFmw3WY3sFe4aCl+MeBkq8YPeDqinjbCbwBSLc0RuaVH4q7CMR66myXCMR2urXyz0
-         I2qR4W/6auUW78dU4JVhRJdRPp22QlIrjqICaV5buB0Nykooi66WafeGYUfCcOWukWy2
-         lbL3zmvmt0V4cIzC7JnIguxBBwNJ4WqcdCXB/3PcS/k7AG1iBs9230kgofPDyTOssoZg
-         tAuN/wKoT4wAnWEUzpGXe8PqTX9g5M0bMfjqL8U1q8vRB4Hpq7/ScDNtpMoIHV3Vacy5
-         IslGF3IEV/HgAfvnmcJQD7Qb6XKoFgB6uOzxoWMitHpT38fRHUTZ+KEI7mQxxj/knecb
-         yXHQ==
-X-Gm-Message-State: APjAAAUvC4Dbr+7tZC4KTxQbxYT+pVtA7VgQBh4rlRbBD07ZTMPkuwE7
-        HKD8W1udpqsfjXprUlNBSf58s86BfHM=
-X-Google-Smtp-Source: APXvYqx7QGB9CTMVPpaRAvN+Hm9hhKU+BlUWtrEwt9hHQs0YFDXDTwzoaBNwrhSCa9UWN9y4XRs6fw==
-X-Received: by 2002:a17:90a:fe04:: with SMTP id ck4mr6599493pjb.74.1569417441428;
-        Wed, 25 Sep 2019 06:17:21 -0700 (PDT)
-Received: from gmail.com (ip-103-85-37-119.syd.xi.com.au. [103.85.37.119])
-        by smtp.gmail.com with ESMTPSA id h6sm6580991pfg.123.2019.09.25.06.17.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2019 06:17:20 -0700 (PDT)
-Date:   Wed, 25 Sep 2019 23:17:15 +1000
-From:   Adam Zerella <adam.zerella@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        adam.zerella@gmail.com
-Subject: [PATCH] docs: hwmon: Include 'inspur-ipsps1.rst' into docs
-Message-ID: <20190925131715.GB19073@gmail.com>
+        id S2437148AbfIYObV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Sep 2019 10:31:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38402 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437147AbfIYObU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Sep 2019 10:31:20 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6D35B3C928;
+        Wed, 25 Sep 2019 14:31:20 +0000 (UTC)
+Received: from builder (ovpn-121-117.rdu2.redhat.com [10.10.121.117])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 46D035C21F;
+        Wed, 25 Sep 2019 14:31:20 +0000 (UTC)
+Received: from builder.jcline.org.com (localhost [IPv6:::1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by builder (Postfix) with ESMTPS id 50B2EEA72E7;
+        Wed, 25 Sep 2019 14:31:19 +0000 (UTC)
+From:   Jeremy Cline <jcline@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jeremy Cline <jcline@redhat.com>
+Subject: [PATCH] docs: kmemleak: DEBUG_KMEMLEAK_EARLY_LOG_SIZE changed names
+Date:   Wed, 25 Sep 2019 14:31:14 +0000
+Message-Id: <20190925143114.19698-1-jcline@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 25 Sep 2019 14:31:20 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When generating documentation output Sphinx
-outputs a warning for not including
-the page 'inspur-ipsps1.rst' in 'index.rst'.
+Commit c5665868183f ("mm: kmemleak: use the memory pool for early
+allocations") renamed CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE to
+CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE. Update the documentation reference
+to reflect that.
 
-Assuming this documentation is useful it
-should be included in the index.
-
-Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+Signed-off-by: Jeremy Cline <jcline@redhat.com>
 ---
- Documentation/hwmon/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/dev-tools/kmemleak.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
+index 3621cd5e1eef..3a289e8a1d12 100644
+--- a/Documentation/dev-tools/kmemleak.rst
++++ b/Documentation/dev-tools/kmemleak.rst
+@@ -69,7 +69,7 @@ the kernel command line.
  
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8147c3f218bf..230ad59b462b 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -7,6 +7,7 @@ Linux Hardware Monitoring
+ Memory may be allocated or freed before kmemleak is initialised and
+ these actions are stored in an early log buffer. The size of this buffer
+-is configured via the CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE option.
++is configured via the CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE option.
  
-    hwmon-kernel-api
-    pmbus-core
-+   inspur-ipsps1
-    submitting-patches
-    sysfs-interface
-    userspace-tools
+ If CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF are enabled, the kmemleak is
+ disabled by default. Passing ``kmemleak=on`` on the kernel command
 -- 
 2.21.0
 
