@@ -1,137 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9E787D912
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 10:17:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B5607D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 11:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbfIZKRz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Sep 2019 06:17:55 -0400
-Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:22410 "EHLO
-        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726520AbfIZKRz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 06:17:55 -0400
-Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
-        by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8QAD77A013210;
-        Thu, 26 Sep 2019 06:17:18 -0400
-Received: from nam05-co1-obe.outbound.protection.outlook.com (mail-co1nam05lp2053.outbound.protection.outlook.com [104.47.48.53])
-        by mx0b-00128a01.pphosted.com with ESMTP id 2v6hkcq1nr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Sep 2019 06:17:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMgL6LZTy753z2vtUMUvUZZuNwsx4qvIQRmjXtVYkJHUqSAxFPd4eXkBp4s8s3DUpaJvYkSuBDxX7sTvmc4IRK5cleenLOGJX1NBELdPws1KD6ig4gZ7Cncc6F1+iHVF7VCsOVE53jatzsHWu0GR84bx6Uj68uy2rZ9OeKe32c4/37QOJgHERdfJ3MK3cY9+V6mmphkZ3hF19l4/XSgEYF13jVO2Phnv7PZMDE/duVMO5/nlHV+bEFMq0K4YVykXiLp9UWK0CJQ+4b16PR4AGJJDLLUaqwaUOD7D5NVoeeGAl66UTu8lXFHq0ehQ/DNPjHKyWiMYLZLB9KvJJyaLDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FIcIT2r8DIW2C3qXtZFveXdYWvbQL4Aq9ugLNLXT1QM=;
- b=QwKk3l7di2c27AGTplOttAsaBd+JmHP626KykbRBZ6YEpyTdztqT9a5VZVArAKmhnQt9+GTU/Qu2+25iUnMPq7fNbvH9AEKColwk+lR481V2JOECciNXnMha2OBL5UpWQlakqINEvnaiB5GeU5sGNJZFk3VF9vJxO7bgWEiYeiu/iN0DOa1JKFK5uG4R1dv8Dq/LmQvZQwT0fW/xZfcFgGVT61CkPh+12KSODdsxM3kBc2Vop1/SCAYOB4U9bQ0EQXIBWgVR8oAK37r4rHdC4zz9xJ05Tbb7nyfiu03WyTcg8LIUmOJyscg5zSfvLvzIT9nNtgCMbNGoFJwWzIfYsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FIcIT2r8DIW2C3qXtZFveXdYWvbQL4Aq9ugLNLXT1QM=;
- b=g6EW2o/hFV9gR4+uTMg7EL3Ci+Zo67yFDYqBMsvI35T1F+wDEs475wRx3Wq5xhBikX/mA5nN9C5fFw9jtQUG6DoBEteIU7z3cqqsloEX+HbWEy5VuT3rkssTTpW3Zep9+Kj3zHpJVCQCmKJC7NGyDh4ga+gnElQGspncmfVywWU=
-Received: from MN2PR03MB5117.namprd03.prod.outlook.com (52.132.171.137) by
- MN2PR03MB5087.namprd03.prod.outlook.com (52.132.169.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Thu, 26 Sep 2019 10:17:14 +0000
-Received: from MN2PR03MB5117.namprd03.prod.outlook.com
- ([fe80::9db6:a133:7d27:643]) by MN2PR03MB5117.namprd03.prod.outlook.com
- ([fe80::9db6:a133:7d27:643%4]) with mapi id 15.20.2284.028; Thu, 26 Sep 2019
- 10:17:14 +0000
-From:   "Sa, Nuno" <Nuno.Sa@analog.com>
-To:     "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC:     "linux@roeck-us.net" <linux@roeck-us.net>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>
-Subject: Re: [PATCH 0/3] LTC2947 support
-Thread-Topic: [PATCH 0/3] LTC2947 support
-Thread-Index: AQHVctaYm6ZaYzcfm0mzoiGNZr08w6c9wZKA
-Date:   Thu, 26 Sep 2019 10:17:14 +0000
-Message-ID: <67d13d31e7ed90c08a181422c9b72e6a68ad7c39.camel@analog.com>
-References: <20190924124945.491326-1-nuno.sa@analog.com>
-In-Reply-To: <20190924124945.491326-1-nuno.sa@analog.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.71.226.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 273c8fc3-4b63-4a44-f215-08d7426ab3df
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:MN2PR03MB5087;
-x-ms-traffictypediagnostic: MN2PR03MB5087:
-x-microsoft-antispam-prvs: <MN2PR03MB5087FA9D63DA8777435B3E7499860@MN2PR03MB5087.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0172F0EF77
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(396003)(346002)(136003)(39860400002)(366004)(199004)(189003)(2501003)(6486002)(81166006)(14444005)(81156014)(6436002)(14454004)(6512007)(86362001)(256004)(305945005)(3846002)(478600001)(186003)(6246003)(71200400001)(2906002)(71190400001)(99286004)(36756003)(26005)(2201001)(446003)(66946007)(316002)(110136005)(7736002)(5660300002)(66476007)(11346002)(4326008)(8676002)(102836004)(6116002)(66446008)(66556008)(66066001)(91956017)(64756008)(76176011)(6506007)(54906003)(118296001)(76116006)(476003)(2616005)(8936002)(486006)(25786009)(229853002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR03MB5087;H:MN2PR03MB5117.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: analog.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: AD1sfgrkBPdbN6qn3OngG4nc+kZpL7ZlD519hdDqdV167X8fYgWlX+ywnrLVC4WtSWdgXopqqjMb+6GSssn54CKeqvuPUlixVIJ9y4Y2I5jBnZ9N1PTa+MPycB0W29Y1K7TG0JvZJ8knI0JS0oxukammH9fw2PieCiX1IB2EDgiv0fZdZXx0QF01V2diVMi5TNU4L/hoKaC44WsLMe/A/LuBWYNYAxSB8n6zNFpev7/c7fuQ2A9nCXS+xa88vVpYsXYyPRanccSO5YXFOgThpfF0D8E4lldLOt7xHkzsG9BF2W8RbO8HBaMDOjqvGCLhZS/O04aukvccbqKliZNCC4OO5YOs9CalTTMSfnWLxvSQNLElDztMC0T+skoOksKfPyuJLHp314sUF4RJQ/JYsVdX6990LJ3BSpiZafGr/AU=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <ABCF6EB5A47B6246B78700CB695B564C@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1725784AbfIZLap (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Sep 2019 07:30:45 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:50874 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbfIZLap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 07:30:45 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8QBUYVf042269;
+        Thu, 26 Sep 2019 06:30:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1569497434;
+        bh=AODQipcO23pd9f37IOWlgE5poXTiPRDoNcx+qXkr20M=;
+        h=From:To:CC:Subject:Date;
+        b=uUSatvgquM3Ai5CHXKoumsLDveqvuPj1C7ArpZR2Q3kdPTzEie3537LXa1wHq1qi0
+         kQdyO4cX0C3haZRWgmfkvig1/lqh7jUE1Hc+hJiCxzI7IRc0enF9/8TbJ1CQj5VMMW
+         mg64SA1ngYHALIxwwzkTt8hLRisj3MN4ApcoO/xA=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8QBUYPd090803
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 26 Sep 2019 06:30:34 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 26
+ Sep 2019 06:30:34 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 26 Sep 2019 06:30:26 -0500
+Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8QBUTjr069017;
+        Thu, 26 Sep 2019 06:30:30 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     Mark Rutland <mark.rutland@arm.com>, <kishon@ti.com>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-ntb@googlegroups.com>
+Subject: [RFC PATCH 00/21] Implement NTB Controller using multiple PCI
+Date:   Thu, 26 Sep 2019 16:59:12 +0530
+Message-ID: <20190926112933.8922-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 273c8fc3-4b63-4a44-f215-08d7426ab3df
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 10:17:14.7258
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x0V+SbP2i/KDon5Arr/1BEGR02lUNduhkU9a1CgXs1rPjgnHiuyc7jMVK+l7Km2zYZ19VKhm9bMlyDPZN5GH4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5087
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-09-26_04:2019-09-25,2019-09-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=999 clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1909260096
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVHVlLCAyMDE5LTA5LTI0IGF0IDE0OjQ5ICswMjAwLCBOdW5vIFPDoSB3cm90ZToNCj4gDQo+
-IFRoaXMgc2VyaWVzIGFkZHMgc3VwcG9ydCBmb3IgdGhlIExUQzI5NDcgaHdtb24gZGV2aWNlLiBU
-aGUgZGV2aWNlDQo+IHN1cHBvcnRzIHBvd2VyWzEtKl1fbWluX2FsYXJtLCBzbyB0aGF0IGl0IG1h
-a2VzIHVzZSBvZg0KPiB0aGUgSFdNT05fUF9NSU5fQUxBUk0gbWFzay4gVGhpcyBicmluZ3MgbWUg
-dG8gdGhlIGZpcnN0IHBhdGNoLCB3aGljaA0KPiBpcyBhDQo+IGZpeCBvbiB0aGUgaHdtb24gc3Vi
-c3lzdGVtIGZvciB0aGUgSFdNT05fUF9NSU5fQUxBUk0gbWFzay4gSXQgd2FzDQo+IGRlZmluaW5n
-DQo+IHRoZSBzYW1lIG1hc2sgYXMgSFdNT05fUF9NQVhfQUxBUk0uDQo+IFRoZSByZXN0IG9mIHRo
-ZSBzZXJpZXMgaXMgdGhlIHVzdWFsIGZvciBhIG5ldyBkZXZpY2UuDQo+IA0KPiBOdW5vIFPDoSAo
-Myk6DQo+ICAgaHdtb246IEZpeCBIV01PTl9QX01JTl9BTEFSTSBtYXNrDQo+ICAgaHdtb246IEFk
-ZCBzdXBwb3J0IGZvciAgbHRjMjk0Nw0KPiAgIGR0LWJpbmRpbmdzOiBpaW86IEFkZCBsdGMyOTQ3
-IGRvY3VtZW50YXRpb24NCg0KT2ssIEkgd2lsbCB3YWl0IGZvciBmdXJ0aGVyIHJldmlld3MsIGJ1
-dCB0aGUgZHQtYmluZGluZ3MgcGF0Y2gNCmRlZmluaXRlbHkgbmVlZCB0byBiZSByZW5hbWVkIHRv
-ICpkdC1iaW5kaW5nczogaHdtb24qIDooLg0KIA0KPiANCj4gIC4uLi9iaW5kaW5ncy9od21vbi9h
-ZGksbHRjMjk0Ny55YW1sICAgICAgICAgICB8ICAxMDEgKysNCj4gIERvY3VtZW50YXRpb24vaHdt
-b24vbHRjMjk0Ny5yc3QgICAgICAgICAgICAgICB8ICAxMTAgKysNCj4gIE1BSU5UQUlORVJTICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMTEgKw0KPiAgZHJpdmVycy9od21v
-bi9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAyNyArDQo+ICBkcml2ZXJzL2h3
-bW9uL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAzICsNCj4gIGRyaXZlcnMv
-aHdtb24vbHRjMjk0Ny1jb3JlLmMgICAgICAgICAgICAgICAgICB8IDE0MjENCj4gKysrKysrKysr
-KysrKysrKysNCj4gIGRyaXZlcnMvaHdtb24vbHRjMjk0Ny1pMmMuYyAgICAgICAgICAgICAgICAg
-ICB8ICAgNDkgKw0KPiAgZHJpdmVycy9od21vbi9sdGMyOTQ3LXNwaS5jICAgICAgICAgICAgICAg
-ICAgIHwgICA1MCArDQo+ICBkcml2ZXJzL2h3bW9uL2x0YzI5NDcuaCAgICAgICAgICAgICAgICAg
-ICAgICAgfCAgIDEyICsNCj4gIGluY2x1ZGUvbGludXgvaHdtb24uaCAgICAgICAgICAgICAgICAg
-ICAgICAgICB8ICAgIDIgKy0NCj4gIDEwIGZpbGVzIGNoYW5nZWQsIDE3ODUgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+IERvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9od21vbi9hZGksbHRjMjk0Ny55YW1sDQo+ICBjcmVhdGUgbW9k
-ZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9od21vbi9sdGMyOTQ3LnJzdA0KPiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IGRyaXZlcnMvaHdtb24vbHRjMjk0Ny1jb3JlLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL2h3bW9uL2x0YzI5NDctaTJjLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
-ZXJzL2h3bW9uL2x0YzI5NDctc3BpLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2h3
-bW9uL2x0YzI5NDcuaA0KPiANCg0K
+This series is sent as RFC since this series is dependent on
+[1] (cannot be merged before that series) and to get early review
+comments.
+
+I'll also split this series into smaller chunk when I post the
+next revision.
+
+This series is about implementing SW defined NTB using
+multiple endpoint instances. This series has been tested using
+2 endpoint instances in J7 connected to two DRA7 boards.
+
+This was presented in Linux Plumbers Conference. The presentation
+can be found @ [2]
+
+This series:
+  *) Add support to define endpoint function using device tree
+  *) Add a specification for implementing NTB controller using
+     multiple endpoint instances.
+  *) Add a NTB endpoint function driver and a NTB host side PCI
+     driver that follows the specification.
+  *) Add support in PCIe endpoint core to support secondary
+     interface.
+  *) Add a device tree overlay file to configure J7 as NTB
+
+The test setup is something like below
+   +-------------+                                   +-------------+
+   |             |                                   |             |
+   |    DRA72    |                                   |    DRA76    |
+   |             |                                   |             |
+   +------^------+                                   +------^------+
+          |                                                 |
+          |                                                 |
++---------|-------------------------------------------------|---------+
+|  +------v------+                                   +------v------+  |
+|  |             |                                   |             |  |
+|  |     EP      |                                   |     EP      |  |
+|  | CONTROLLER1 |                                   | CONTROLLER2 |  |
+|  |             <----------------------------------->             |  |
+|  |             |                                   |             |  |
+|  |             |                                   |             |  |
+|  |             |                 J7                |             |  |
+|  |             |  (Configured using NTB Function)  |             |  |
+|  +-------------+                                   +-------------+  |
++---------------------------------------------------------------------+
+
+Here DRA72 and DRA76 could be replaced with *any* PCI host.
+
+EP side (J7):
+=============
+
+In the kernel:
+        cd /sys/kernel/config/pci_ep/
+        echo 1 > controllers/d800000.pcie-ep/start
+        echo 1 > controllers/d000000.pcie-ep/start
+
+RC side (DRA7):
+===============
+        echo 0000:01:00.0 > /sys/bus/pci/devices/0000\:01\:00.0/driver/unbind
+        echo 0000:01:00.0 > /sys/bus/pci/drivers/ntb_hw_epf/bind
+        modprobe ntb_transport
+        modprobe ntb_netdev
+
+On each of the hosts Ethernet Interface will be created.
+
+Provide an IP address to each of the hosts:
+HOST1 (dra72):
+ifconfig eth2 192.168.1.2 up
+
+HOST2 (dra76):
+ifconfig eth2 192.168.1.1 up
+
+Once this is done standard network utilities like ping or iperf can be
+used.
+
+root@dra7xx-evm:~# iperf -c 192.168.1.2
+------------------------------------------------------------
+Client connecting to 192.168.1.2, TCP port 5001
+TCP window size: 2.50 MByte (default)
+------------------------------------------------------------
+[  3] local 192.168.1.1 port 60814 connected with 192.168.1.2 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec   705 MBytes   591 Mbits/sec
+
+[1] -> http://lore.kernel.org/r/20190604131516.13596-1-kishon@ti.com
+[2] -> https://www.linuxplumbersconf.org/event/4/contributions/395/attachments/284/481/Implementing_NTB_Controller_Using_PCIe_Endpoint_-_final.pdf
+
+Kishon Vijay Abraham I (21):
+  dt-bindings: PCI: Endpoint: Add DT bindings for PCI EPF Bus
+  dt-bindings: PCI: Endpoint: Add DT bindings for PCI EPF Device
+  dt-bindings: PCI: Endpoint: Add DT bindings for PCI EPF NTB Device
+  Documentation: PCI: Add specification for the *PCI NTB* function
+    device
+  PCI: endpoint: Add API to get reference to EPC from device-tree
+  PCI: endpoint: Add API to create EPF device from device tree
+  PCI: endpoint: Add "pci-epf-bus" driver
+  PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+    BAR
+  PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+  PCI: endpoint: Make pci_epf_driver ops optional
+  PCI: endpoint: Add helper API to populate header with values from DT
+  PCI: endpoint: Add support to associate secondary EPC with EPF
+  PCI: endpoint: Add pci_epc_ops to map MSI irq
+  PCI: cadence: Implement ->msi_map_irq() ops
+  PCI: endpoint: Remove unused pci_epf_match_device()
+  PCI: endpoint: Fix missing mutex_unlock in error case
+  PCI: endpoint: *_free_bar() to return error codes on failure
+  PCI: endpoint: Add EP function driver to provide NTB functionality
+  PCI: Add TI J721E device to pci ids
+  NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+  NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+    bridge
+
+ Documentation/PCI/endpoint/pci-test-ntb.txt   |  315 +++++
+ .../bindings/pci/endpoint/pci-epf-bus.txt     |   27 +
+ .../bindings/pci/endpoint/pci-epf-ntb.txt     |   31 +
+ .../bindings/pci/endpoint/pci-epf.txt         |   28 +
+ drivers/ntb/hw/Kconfig                        |    1 +
+ drivers/ntb/hw/Makefile                       |    1 +
+ drivers/ntb/hw/epf/Kconfig                    |    5 +
+ drivers/ntb/hw/epf/Makefile                   |    1 +
+ drivers/ntb/hw/epf/ntb_hw_epf.c               |  648 ++++++++++
+ drivers/ntb/test/ntb_tool.c                   |    1 +
+ drivers/pci/controller/pcie-cadence-ep.c      |   59 +
+ drivers/pci/endpoint/Makefile                 |    3 +-
+ drivers/pci/endpoint/functions/Kconfig        |   12 +
+ drivers/pci/endpoint/functions/Makefile       |    1 +
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  | 1143 +++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-test.c |   12 +-
+ drivers/pci/endpoint/pci-ep-cfs.c             |    6 +-
+ drivers/pci/endpoint/pci-epc-core.c           |  221 +++-
+ drivers/pci/endpoint/pci-epf-bus.c            |   54 +
+ drivers/pci/endpoint/pci-epf-core.c           |  133 +-
+ include/linux/pci-epc.h                       |   42 +-
+ include/linux/pci-epf.h                       |   35 +-
+ include/linux/pci_ids.h                       |    1 +
+ 23 files changed, 2715 insertions(+), 65 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/pci-test-ntb.txt
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf-bus.txt
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf-ntb.txt
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
+ create mode 100644 drivers/ntb/hw/epf/Kconfig
+ create mode 100644 drivers/ntb/hw/epf/Makefile
+ create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+ create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+ create mode 100644 drivers/pci/endpoint/pci-epf-bus.c
+
+-- 
+2.17.1
+
