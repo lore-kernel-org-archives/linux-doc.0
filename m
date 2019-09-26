@@ -6,40 +6,40 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A2627DC63
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 11:31:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 50A297D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 11:31:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbfIZLbT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Sep 2019 07:31:19 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51010 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726505AbfIZLbT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 07:31:19 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8QBVC81042477;
-        Thu, 26 Sep 2019 06:31:12 -0500
+        id S1726584AbfIZLb2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Sep 2019 07:31:28 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:52970 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726573AbfIZLb1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 07:31:27 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8QBVKGg016189;
+        Thu, 26 Sep 2019 06:31:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569497472;
-        bh=WN6zQz22SKDDpOt20zGyRCD7tAdq3OZmA5JGj+CItiA=;
+        s=ti-com-17Q1; t=1569497480;
+        bh=5g6TwgnGUlfofXhn+QvD8y+MT6lDfC7QwOU9sIuCmvU=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=RQUZDPwN4ZiuygapbnHMM6deZpVpQm99D4Pe71h5eiPTyPWTKyOj6dBefH4bIrmA7
-         paBCgP16GiCPx8F+/1FYb0OoGYT9dRgYPdvF3L3Gs/j+1PPKsMGyOK7pmvt2nrWKzE
-         p7SLqKsbrvoCAFhaj86YyiwJc7FhUgxoUpSR0t+g=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8QBVC84050400
+        b=EKRJWt69th/MO9ynM8MWbD0RpM+vv+pbGpzNW/t2BbTlgvntevwY28WOnN0R7ex8a
+         a5wDsuZXuiwtzpMZ8CC5I8iCPB82iH7dxOEqoZ3LIceK1RCgiYfJZInqAwJz1AYA96
+         q9/IMij7CgtySeLwZK/EbKAHKsd3xn40AnOesDYU=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8QBVK37031817
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 26 Sep 2019 06:31:12 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 26 Sep 2019 06:31:20 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 26
- Sep 2019 06:31:11 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 06:31:12 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 26 Sep 2019 06:31:04 -0500
+ Frontend Transport; Thu, 26 Sep 2019 06:31:12 -0500
 Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8QBUTk2069017;
-        Thu, 26 Sep 2019 06:31:07 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8QBUTk4069017;
+        Thu, 26 Sep 2019 06:31:16 -0500
 From:   Kishon Vijay Abraham I <kishon@ti.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -51,9 +51,9 @@ CC:     Mark Rutland <mark.rutland@arm.com>, <kishon@ti.com>,
         <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-ntb@googlegroups.com>
-Subject: [RFC PATCH 09/21] PCI: endpoint: Add helper API to get the 'next' unreserved BAR
-Date:   Thu, 26 Sep 2019 16:59:21 +0530
-Message-ID: <20190926112933.8922-10-kishon@ti.com>
+Subject: [RFC PATCH 11/21] PCI: endpoint: Add helper API to populate header with values from DT
+Date:   Thu, 26 Sep 2019 16:59:23 +0530
+Message-ID: <20190926112933.8922-12-kishon@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190926112933.8922-1-kishon@ti.com>
 References: <20190926112933.8922-1-kishon@ti.com>
@@ -65,87 +65,63 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an API to get the next unreserved BAR starting from a given BAR
-number that can be used by the endpoint function.
+Add helper API pci_epc_of_parse_header() to populate header with
+values from device tree. These values will be written to the
+configuration space header in the endpoint controller.
 
 Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
- drivers/pci/endpoint/pci-epc-core.c | 26 ++++++++++++++++++++++----
+ drivers/pci/endpoint/pci-epc-core.c | 23 +++++++++++++++++++++++
  include/linux/pci-epc.h             |  2 ++
- 2 files changed, 24 insertions(+), 4 deletions(-)
+ 2 files changed, 25 insertions(+)
 
 diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 7eae7dcaebf9..49bdff217777 100644
+index 49bdff217777..98acadbfc934 100644
 --- a/drivers/pci/endpoint/pci-epc-core.c
 +++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -147,17 +147,36 @@ EXPORT_SYMBOL_GPL(of_pci_epc_get_by_name);
-  * pci_epc_get_first_free_bar() - helper to get first unreserved BAR
-  * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
-  *
-- * Invoke to get the first unreserved BAR that can be used for endpoint
-+ * Invoke to get the first unreserved BAR that can be used by the endpoint
-  * function. For any incorrect value in reserved_bar return '0'.
-  */
- unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 					*epc_features)
-+{
-+	return pci_epc_get_next_free_bar(epc_features, BAR_0);
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
-+
-+/**
-+ * pci_epc_get_next_free_bar() - helper to get unreserved BAR starting from @bar
-+ * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
-+ * @bar: the starting BAR number from where unreserved BAR should be searched
-+ *
-+ * Invoke to get the next unreserved BAR starting from @bar that can be used
-+ * for endpoint function. For any incorrect value in reserved_bar return '0'.
-+ */
-+unsigned int pci_epc_get_next_free_bar(const struct pci_epc_features
-+				       *epc_features, enum pci_barno bar)
- {
- 	unsigned long free_bar;
- 
- 	if (!epc_features)
- 		return 0;
- 
-+	/* If 'bar - 1' is a 64-bit BAR, move to the next BAR */
-+	if ((epc_features->bar_fixed_64bit << 1) & 1 << bar)
-+		bar++;
-+
- 	/* Find if the reserved BAR is also a 64-bit BAR */
- 	free_bar = epc_features->reserved_bar & epc_features->bar_fixed_64bit;
- 
-@@ -165,14 +184,13 @@ unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 	free_bar <<= 1;
- 	free_bar |= epc_features->reserved_bar;
- 
--	/* Now find the free BAR */
--	free_bar = ffz(free_bar);
-+	free_bar = find_next_zero_bit(&free_bar, 6, bar);
- 	if (free_bar > 5)
- 		return 0;
- 
- 	return free_bar;
+@@ -31,6 +31,29 @@ static int devm_pci_epc_match(struct device *dev, void *res, void *match_data)
+ 	return *epc == match_data;
  }
--EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
-+EXPORT_SYMBOL_GPL(pci_epc_get_next_free_bar);
  
++/**
++ * pci_epc_of_parse_header() - parse the device tree to get PCI config space
++ *                             header
++ * @node: The device tree node (of endpoint function) which has the PCI config
++ *        space header values
++ * @header: standard configuration space header fields that has to be populated
++ *
++ * Invoke to populate *header* with the PCI configuration space values populated
++ * in device tree.
++ */
++void pci_epc_of_parse_header(struct device_node *node,
++			     struct pci_epf_header *header)
++{
++	of_property_read_u16(node, "vendor-id", &header->vendorid);
++	of_property_read_u16(node, "device-id", &header->deviceid);
++	of_property_read_u8(node, "baseclass-code", &header->baseclass_code);
++	of_property_read_u8(node, "subclass-code", &header->subclass_code);
++	of_property_read_u16(node, "subsys-vendor-id",
++			     &header->subsys_vendor_id);
++	of_property_read_u16(node, "subsys-id", &header->subsys_id);
++}
++EXPORT_SYMBOL_GPL(pci_epc_of_parse_header);
++
  /**
-  * pci_epc_get_features() - get the features supported by EPC
+  * pci_epc_put() - release the PCI endpoint controller
+  * @epc: epc returned by pci_epc_get()
 diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index ef6531af6ed2..993b1a55a239 100644
+index 993b1a55a239..18fff589a881 100644
 --- a/include/linux/pci-epc.h
 +++ b/include/linux/pci-epc.h
-@@ -200,6 +200,8 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
+@@ -196,6 +196,8 @@ int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 		      enum pci_epc_irq_type type, u16 interrupt_num);
+ int pci_epc_start(struct pci_epc *epc);
+ void pci_epc_stop(struct pci_epc *epc);
++void pci_epc_of_parse_header(struct device_node *node,
++			     struct pci_epf_header *header);
+ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
  						    u8 func_no, u8 vfunc_no);
  unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 					*epc_features);
-+unsigned int pci_epc_get_next_free_bar(const struct pci_epc_features
-+				       *epc_features, enum pci_barno bar);
- struct pci_epc *pci_epc_get(const char *epc_name);
- void pci_epc_put(struct pci_epc *epc);
- struct pci_epc *of_pci_epc_get(struct device_node *node, int index);
 -- 
 2.17.1
 
