@@ -1,118 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 247497D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 06:01:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0EFBD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 06:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391970AbfIZGBo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Sep 2019 02:01:44 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37577 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730826AbfIZGBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 02:01:43 -0400
-Received: by mail-wr1-f65.google.com with SMTP id i1so1187722wro.4;
-        Wed, 25 Sep 2019 23:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5oH/HLfRBCqxgKWi3tjBpSapnk9Frw2tXRaiX1Zmw4E=;
-        b=gBgw7Amuzy/NoKqBCW+5HwcfjCh3kwDKHQJiGg3wmYOaxpSiDh6rNLjKm8mq5kQsIn
-         Ex/6Q0G01oXlWb/Gne5IqaS9fMWocf6D8NSpUy1o3l3O8vXhzIIDIDYngNUAmT7t+o51
-         P49wtfWTPtqNDZhimj44BxotkakxWcz4pieHzli2QqmowUVt6lrQ+rxfsrkatN5kKn9R
-         XbVFauCzKWcw7Xh9H3IcjPRnwBV+4+6jhrqGe5M/AaZyazaZvAi2jh9Tzxrd6884Oc0S
-         gSGO9xYMSEJ+NW1o8AW9aOiFb2kMF7dOD9cFvs1bwz6lgT1+MLI6/l0ieaKTIFmsHLB/
-         mKvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5oH/HLfRBCqxgKWi3tjBpSapnk9Frw2tXRaiX1Zmw4E=;
-        b=S6UHW0alk2CZACfHSpp6H22C+5qf+lrYST+lmiON7tZmvjDdFMIAlPk0V0yDBDqhAe
-         zDFSO5VK+sIPneGuotxEG17zXE645ZsxdyPjOfhgmfDVn3LNrQ+7M0X895kiKG4arqML
-         b55MzJVkwcfAB7oNajry7eu4y+ITJ6683pmXgx+cCTvNrao92e3Z7nX7v60hS3jw8Ms4
-         lHxo6dp6c9gXGiq/kHPwyKZvYnl9o4IQIcnQCr+kz3c4a+tJbGdIP5FP2jSwL4N2hakd
-         Ug3bBTLl5Ctq7Rtrt2ThXDQtlK5g40CCMztj1AcB9GGsg58CeiAZOwBmWO65jgyYklRg
-         dZZQ==
-X-Gm-Message-State: APjAAAWpWm6QV0DWXf4U2jEFpo7Khn9rTuMk0iGU9U5kkXIjS18iPPz5
-        5e6PLdE/5sykv/xFc0z3wRc=
-X-Google-Smtp-Source: APXvYqy+xB6MkLVlCESch9AVLchqZp/q9OI7Q80xwYXqSGfvhr/QbsfJ4GAii03VeWmRWubIHE9TfQ==
-X-Received: by 2002:a5d:560a:: with SMTP id l10mr1401864wrv.387.1569477702427;
-        Wed, 25 Sep 2019 23:01:42 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id s1sm2393696wrg.80.2019.09.25.23.01.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2019 23:01:41 -0700 (PDT)
-Date:   Thu, 26 Sep 2019 08:01:39 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Cao jin <caoj.fnst@cn.fujitsu.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, corbet@lwn.net
-Subject: Re: [RFC PATCH] x86/doc/boot_protocol: Correct the description of
- "reloc"
-Message-ID: <20190926060139.GA100481@gmail.com>
-References: <20190926042116.17929-1-caoj.fnst@cn.fujitsu.com>
+        id S2392650AbfIZGER (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Sep 2019 02:04:17 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:54393 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387550AbfIZGEM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Sep 2019 02:04:12 -0400
+Received: from [IPv6:2601:646:8600:3281:4da0:b184:256:e0c2] ([IPv6:2601:646:8600:3281:4da0:b184:256:e0c2])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x8Q63n1Z3585601
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Wed, 25 Sep 2019 23:03:51 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x8Q63n1Z3585601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019091901; t=1569477831;
+        bh=WmyJwmANGw5Ag0RkHdGwa7GGgV/A2jhJ22eHat+o3wA=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=aL7r3QzPml5eV/hTWvLbqKrRUGLElsBDuMP03qv9IG2kmS3s2BnSanr7SwUa03L3A
+         PKBfLu9GQVu9pAoZtLp7w4Nvyqoe2yd3RVgOP5nj9gmPfUIstUDA1uZovz5of/OXhS
+         ROEwIjJB4iY5rO/fNgABpwN7Leg1h2ecRFQub7D39HjQpzu5S5oeJtuucokGq4HHOJ
+         Ee+rVvPbtST1sl4KCZOpIDqk8+WQzVLt62Qcatuil3lc4AnlwHk05A7bOc4PzLjP3P
+         afLGihU8PlcHdT01JN4rC6ODh+BnVc2uiKaRDlyd/cUH4+ki2CnXxM6S8Ik4q6nsHl
+         giumcmASmy+tg==
+Date:   Wed, 25 Sep 2019 23:03:41 -0700
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190926060139.GA100481@gmail.com>
+References: <20190926042116.17929-1-caoj.fnst@cn.fujitsu.com> <20190926060139.GA100481@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190926042116.17929-1-caoj.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH] x86/doc/boot_protocol: Correct the description of "reloc"
+To:     Ingo Molnar <mingo@kernel.org>, Cao jin <caoj.fnst@cn.fujitsu.com>
+CC:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, corbet@lwn.net
+From:   hpa@zytor.com
+Message-ID: <2964C8CC-D6BD-4601-AA3D-5BE7AE8FB769@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Cao jin <caoj.fnst@cn.fujitsu.com> wrote:
+On September 25, 2019 11:01:39 PM PDT, Ingo Molnar <mingo@kernel=2Eorg> wro=
+te:
+>* Cao jin <caoj=2Efnst@cn=2Efujitsu=2Ecom> wrote:
+>
+>> The fields marked with (reloc) actually are not dedicated for
+>writing,
+>> but communicating info for relocatable kernel with boot loaders=2E For
+>> example:
+>>=20
+>>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>>     Field name:     pref_address
+>>     Type:           read (reloc)
+>>     Offset/size:    0x258/8
+>>     Protocol:       2=2E10+
+>>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>>=20
+>>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>     Field name:     code32_start
+>>     Type:           modify (optional, reloc)
+>>     Offset/size:    0x214/4
+>>     Protocol:       2=2E00+
+>>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>=20
+>> Signed-off-by: Cao jin <caoj=2Efnst@cn=2Efujitsu=2Ecom>
+>> ---
+>> Unless I have incorrect non-native understanding for "fill in", I
+>think
+>> this is inaccurate=2E
+>>=20
+>>  Documentation/x86/boot=2Erst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/Documentation/x86/boot=2Erst b/Documentation/x86/boot=2Ers=
+t
+>> index 08a2f100c0e6=2E=2Ea611bf04492d 100644
+>> --- a/Documentation/x86/boot=2Erst
+>> +++ b/Documentation/x86/boot=2Erst
+>> @@ -243,7 +243,7 @@ bootloader ("modify")=2E
+>> =20
+>>  All general purpose boot loaders should write the fields marked
+>>  (obligatory)=2E  Boot loaders who want to load the kernel at a
+>> -nonstandard address should fill in the fields marked (reloc); other
+>> +nonstandard address should consult with the fields marked (reloc);
+>other
+>>  boot loaders can ignore those fields=2E
+>> =20
+>>  The byte order of all fields is littleendian (this is x86, after
+>all=2E)
+>
+>Well, this documentation is written from the point of view of a=20
+>*bootloader*, not the kernel=2E So the 'fill in' says that the bootloader
+>
+>should write those fields - which is correct, right?
+>
+>Thanks,
+>
+>	Ingo
 
-> The fields marked with (reloc) actually are not dedicated for writing,
-> but communicating info for relocatable kernel with boot loaders. For
-> example:
-> 
->     ============    ============
->     Field name:     pref_address
->     Type:           read (reloc)
->     Offset/size:    0x258/8
->     Protocol:       2.10+
->     ============    ============
-> 
->     ============    ========================
->     Field name:     code32_start
->     Type:           modify (optional, reloc)
->     Offset/size:    0x214/4
->     Protocol:       2.00+
->     ============    ========================
-> 
-> Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
-> ---
-> Unless I have incorrect non-native understanding for "fill in", I think
-> this is inaccurate.
-> 
->  Documentation/x86/boot.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-> index 08a2f100c0e6..a611bf04492d 100644
-> --- a/Documentation/x86/boot.rst
-> +++ b/Documentation/x86/boot.rst
-> @@ -243,7 +243,7 @@ bootloader ("modify").
->  
->  All general purpose boot loaders should write the fields marked
->  (obligatory).  Boot loaders who want to load the kernel at a
-> -nonstandard address should fill in the fields marked (reloc); other
-> +nonstandard address should consult with the fields marked (reloc); other
->  boot loaders can ignore those fields.
->  
->  The byte order of all fields is littleendian (this is x86, after all.)
-
-Well, this documentation is written from the point of view of a 
-*bootloader*, not the kernel. So the 'fill in' says that the bootloader 
-should write those fields - which is correct, right?
-
-Thanks,
-
-	Ingo
+This is correct=2E
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
