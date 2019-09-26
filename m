@@ -1,124 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A2A6A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 15:20:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A9697D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Sep 2019 16:30:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726030AbfIZPUh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Sep 2019 11:20:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54296 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfIZPUh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 11:20:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=yLzCCbA1xxgfSSaN55ak3+kri+HafX9octEvTxgZHQ4=; b=QPr6feejBrc5AYDFCfltGGA9g
-        MOBKVaJNT8g359mo5ovvj7SADpWggwaleaynmHTmIYrP0Dvoza9azT1TCvicyZuy9cv5sANCwT5W3
-        FF2mFDgv3fPhc3hN6hocoT+L4rJuD25u1PZbE61MAfmTXHNk8R0mjCVermC1hgulxsQNBhNEldsMD
-        gh4TwP/rzW80LblNU6jyYPgNR+2MnxFo+EM6EDSKKJdOEXsKzFiYZ3MsDbGNPX2nYvsefFcRJhyB3
-        ZBi7dDMANOsy7GNmE1geqRK3jmUBJTtd4fcii6HYFMX87s2QXBhODXtm8z67ADOVa6PpQGLnU6pDf
-        OrGBGwJzA==;
-Received: from [2601:1c0:6280:3f0::9a1f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iDVZF-00039v-NT; Thu, 26 Sep 2019 15:20:29 +0000
-Subject: Re: [RFC PATCH] x86/doc/boot_protocol: Correct the description of
- "reloc"
-To:     hpa@zytor.com, Cao jin <caoj.fnst@cn.fujitsu.com>,
-        Ingo Molnar <mingo@kernel.org>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, corbet@lwn.net
-References: <20190926042116.17929-1-caoj.fnst@cn.fujitsu.com>
- <20190926060139.GA100481@gmail.com>
- <faabfe47-ba3e-5a92-af65-dc26e8e2ecb9@cn.fujitsu.com>
- <3073CD01-65C5-4BEC-B2FC-F76DD0E70D73@zytor.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f7a1d739-94ae-f6d3-efdb-9748e5e03f82@infradead.org>
-Date:   Thu, 26 Sep 2019 08:20:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727495AbfIZQaB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Sep 2019 12:30:01 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35139 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727453AbfIZQaB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Sep 2019 12:30:01 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y10so1544073plp.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2019 09:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pensando.io; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=iUBOjyHfuR7bXfhhUiHsxfKRvIQzrO86xTAr8Ifre0Q=;
+        b=y3h5OT0UmQqXJi0n0rBvqkcTo+13EdxQBhESuHKUhhUdt4HIIcVQewbszw7316Jbj3
+         B26hOzlkXv8XsgeN5pGs7wsfUu35kRVDjdfbd80Cz2QkLIg0M3MsvsJVJdd9QD5RXeiy
+         6UEhQ9sxyZ6zQojKZM8g8YSAiU0HmfS6EeGLmm2G3M5zDUXby8glVotg/+s3ve95UAlT
+         DAQ0U/ntgxEnEPfGxe+68Qz99D7tUdj8cjDtGb+44i81+8OKBcckxrd+3wvZeL0MsCVS
+         GUydrXVlNXeNeT9yD3EB7dKB2lMU1zF3uY6+lKZ9hv2ld2NLoMT31L6wdQwnvoc03z5L
+         JHDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=iUBOjyHfuR7bXfhhUiHsxfKRvIQzrO86xTAr8Ifre0Q=;
+        b=LsgcZ7nD5PnXVIevs/e1nVDyLnwy/pu9ZBUPwdKHQNY6qVfwytQ+6U1hT+rrbGbEGq
+         sD5N4Qs+XD7BqOnXH8RAuHHbjJfZc8beBEzawgZEijUswP2stts+WcbA/7/w/F9oUnkI
+         XbxzuBuYO4p0SL+6btDrRe4qjm9pzlh+qB7hstb3my7TlKQXjk2RJbqW4Vn4HBRL1ehh
+         +FLxxL0ldtC4vRT5tuofFhWGsEFm0Fnm+Vg2t9b/XztReVqNCTw4DuptDvSmsGJkUEqc
+         1kztvss5jrwvchuJGtfb+r3Zf6TptgIeJ1j4FO5hpGKtts13YcZ+/bjg4MlifaYww05v
+         G81g==
+X-Gm-Message-State: APjAAAWKXIaYwWk2GbujFzbQztkcxx09V3vTFStago6efG7tZbwraRaB
+        XPvq3/pX/uYkCsd1b2QIn8OR1Q==
+X-Google-Smtp-Source: APXvYqzWSovEndvhpUlPPG2KWsLiHc/5J0wB0jU8KW7kk3lkOzlRWdHFYbFHIpUg2H8EkpfjsR5P5g==
+X-Received: by 2002:a17:902:8a88:: with SMTP id p8mr4822043plo.152.1569515400373;
+        Thu, 26 Sep 2019 09:30:00 -0700 (PDT)
+Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
+        by smtp.gmail.com with ESMTPSA id e127sm3547209pfe.37.2019.09.26.09.29.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Sep 2019 09:29:59 -0700 (PDT)
+Subject: Re: [PATCH 1/3] docs: fix some broken references
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        corbet@lwn.net
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Pensando Drivers <drivers@pensando.io>,
+        Steve French <sfrench@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-mips@vger.kernel.org, netdev@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-riscv@lists.infradead.org
+References: <b87385b2ac6ce6c75df82062fce2976149bbaa6b.1569330078.git.mchehab+samsung@kernel.org>
+From:   Shannon Nelson <snelson@pensando.io>
+Message-ID: <81dc41d5-606a-7638-1d11-4fe53e9c2a7f@pensando.io>
+Date:   Thu, 26 Sep 2019 09:29:56 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <3073CD01-65C5-4BEC-B2FC-F76DD0E70D73@zytor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <b87385b2ac6ce6c75df82062fce2976149bbaa6b.1569330078.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/26/19 12:58 AM, hpa@zytor.com wrote:
-> On September 26, 2019 12:55:51 AM PDT, Cao jin <caoj.fnst@cn.fujitsu.com> wrote:
->> On 9/26/19 2:01 PM, Ingo Molnar wrote:
->>> * Cao jin <caoj.fnst@cn.fujitsu.com> wrote:
->>>
->>>> The fields marked with (reloc) actually are not dedicated for
->> writing,
->>>> but communicating info for relocatable kernel with boot loaders. For
->>>> example:
->>>>
->>>>     ============    ============
->>>>     Field name:     pref_address
->>>>     Type:           read (reloc)
->>>>     Offset/size:    0x258/8
->>>>     Protocol:       2.10+
->>>>     ============    ============
->>>>
->>>>     ============    ========================
->>>>     Field name:     code32_start
->>>>     Type:           modify (optional, reloc)
->>>>     Offset/size:    0x214/4
->>>>     Protocol:       2.00+
->>>>     ============    ========================
->>>>
->>>> Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
->>>> ---
->>>> Unless I have incorrect non-native understanding for "fill in", I
->> think
->>>> this is inaccurate.
->>>>
->>>>  Documentation/x86/boot.rst | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
->>>> index 08a2f100c0e6..a611bf04492d 100644
->>>> --- a/Documentation/x86/boot.rst
->>>> +++ b/Documentation/x86/boot.rst
->>>> @@ -243,7 +243,7 @@ bootloader ("modify").
->>>>  
->>>>  All general purpose boot loaders should write the fields marked
->>>>  (obligatory).  Boot loaders who want to load the kernel at a
->>>> -nonstandard address should fill in the fields marked (reloc); other
->>>> +nonstandard address should consult with the fields marked (reloc);
->> other
->>>>  boot loaders can ignore those fields.
->>>>  
->>>>  The byte order of all fields is littleendian (this is x86, after
->> all.)
->>>
->>> Well, this documentation is written from the point of view of a 
->>> *bootloader*, not the kernel. So the 'fill in' says that the
->> bootloader 
->>> should write those fields - which is correct, right?
->>>
->>
->> Take pref_address or relocatable_kernel for example, they have type:
->> read (reloc), does boot loader need to write them? I don't see grub
->> does
->> this at least.
-> 
-> Read means the boot later reads them.
+On 9/24/19 6:01 AM, Mauro Carvalho Chehab wrote:
+> There are a number of documentation files that got moved or
+> renamed. update their references.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-is that          boot loader ??
+>   drivers/net/ethernet/pensando/ionic/ionic_if.h            | 4 ++--
 
+Acked-by: Shannon Nelson <snelson@pensando.io>
 
--- 
-~Randy
