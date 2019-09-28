@@ -1,108 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FROM_LOCAL_NOVOWEL,HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
+	URIBL_SBL_A autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A2157D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 00:43:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DA9D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 07:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725815AbfI1AnC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Sep 2019 20:43:02 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38144 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbfI1AnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Sep 2019 20:43:02 -0400
-Received: by mail-lj1-f196.google.com with SMTP id b20so4139451ljj.5;
-        Fri, 27 Sep 2019 17:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=drAdC+jh//y0Il1JQmnrfyXmS5xiniQET11ZhYLtsNQ=;
-        b=EbVLvO5c9u1cmYy67A/CSPoAFV6W3bSxrWka08Ocvh9SykBFtA2cXbMXu6CuippO4y
-         +ZN1Qx/akAZbA6wtiiqaq/gcYBt4MG8IuA2SMIs2hLViIn/79mV3aroqezSM4scl02/b
-         SMOKRZ2vJZk2bs15X4JiM+JID29mWHDD4TwwjckBcrWUOSwkyD4VfnZ/GtS9NCRsfJCJ
-         lzqtZZpBDn/9Lh0Eq5z0+Ls1K6kEio8vzxbG2upFXpxAmW9N3sHfbJVenr7gBHW6LW+x
-         oN1FDOlYCGIQus8RtMrKN0POLJkI/8VY9hlySue49q7QAPvVx7I9WgzBI+TNnQGOeMLI
-         3wrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=drAdC+jh//y0Il1JQmnrfyXmS5xiniQET11ZhYLtsNQ=;
-        b=nyBF/1r3V2nFfCd6gM1xqxTkzGeBJ5NC2NBCM5PG+VTdgRdpWSjBKjX6T6ikMD2jPr
-         DleSVfXPJeL0YWxKGMbkX00SfPVx8uZxZpxa9XXiFvfFYRlOz+EKQM8eL0WcW3/rxwY8
-         o1FT7sqJ7DJnR026zu5LC8GisvFMQNZb1fU5PTHLtaZNx81DNt16X14hWEqxIaUuuptj
-         B/Pf8COyUtPsZbqmm8p4QHa8VWjxQCdnycDE6ZJxWJb9udinXfOTmwK+DOhAY37rnt5p
-         0iytJ2F9sJ5g9AyemoQuTQcdaEYwj1L1d6Tzmq/vihtj1CWM/V/K4gG0k2dY758zpdvU
-         4maQ==
-X-Gm-Message-State: APjAAAXniMwsesZEvjZDfRm4mTNzye12NTiWjVXIadcgeXOGNpdU3ovk
-        i+ILf/4Cg/ZRa57db0n6F5g=
-X-Google-Smtp-Source: APXvYqy7t+MaiMhmrU03sqIManQL59XjP5tmRCzlTRYlrMH2XuCkNNM47MNDx2trNS8z8SRAkQnGzA==
-X-Received: by 2002:a2e:7f07:: with SMTP id a7mr4791334ljd.173.1569631380551;
-        Fri, 27 Sep 2019 17:43:00 -0700 (PDT)
-Received: from octofox.cadence.com (jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
-        by smtp.gmail.com with ESMTPSA id f22sm842744lfk.56.2019.09.27.17.42.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 27 Sep 2019 17:42:59 -0700 (PDT)
-From:   Max Filippov <jcmvbkbc@gmail.com>
-To:     linux-xtensa@linux-xtensa.org
-Cc:     Chris Zankel <chris@zankel.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH] xtensa: update arch features
-Date:   Fri, 27 Sep 2019 17:42:44 -0700
-Message-Id: <20190928004244.22199-1-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.11.0
+        id S1725872AbfI1HQr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 28 Sep 2019 03:16:47 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35680 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725856AbfI1HQq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 28 Sep 2019 03:16:46 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 30D802B4;
+        Sat, 28 Sep 2019 07:16:43 +0000 (UTC)
+Date:   Sat, 28 Sep 2019 01:16:39 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-afs@lists.infradead.org,
+        kvm@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH] docs: use flexible array members, not zero-length
+Message-ID: <20190928011639.7c983e77@lwn.net>
+In-Reply-To: <20190927142927.27968-1-steve@sk2.org>
+References: <20190927142927.27968-1-steve@sk2.org>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-xtensa now supports tracehook, queued spinlocks and rwlocks. Update
-corresponding Documentation/features entries.
+On Fri, 27 Sep 2019 16:29:27 +0200
+Stephen Kitt <steve@sk2.org> wrote:
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- Documentation/features/core/tracehook/arch-support.txt           | 2 +-
- Documentation/features/locking/queued-rwlocks/arch-support.txt   | 2 +-
- Documentation/features/locking/queued-spinlocks/arch-support.txt | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> Update the docs throughout to remove zero-length arrays, replacing
+> them with C99 flexible array members. GCC will then ensure that the
+> arrays are always the last element in the struct.
 
-diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
-index d344b99aae1e..964667052eda 100644
---- a/Documentation/features/core/tracehook/arch-support.txt
-+++ b/Documentation/features/core/tracehook/arch-support.txt
-@@ -30,5 +30,5 @@
-     |          um: | TODO |
-     |   unicore32: | TODO |
-     |         x86: |  ok  |
--    |      xtensa: | TODO |
-+    |      xtensa: |  ok  |
-     -----------------------
-diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-index c683da198f31..ee922746a64c 100644
---- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
-+++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-@@ -30,5 +30,5 @@
-     |          um: | TODO |
-     |   unicore32: | TODO |
-     |         x86: |  ok  |
--    |      xtensa: | TODO |
-+    |      xtensa: |  ok  |
-     -----------------------
-diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-index e3080b82aefd..eb0e6047a2ce 100644
---- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-+++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-@@ -30,5 +30,5 @@
-     |          um: | TODO |
-     |   unicore32: | TODO |
-     |         x86: |  ok  |
--    |      xtensa: | TODO |
-+    |      xtensa: |  ok  |
-     -----------------------
--- 
-2.11.0
+I appreciate the thought but...
 
+> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+> index 4d565d202ce3..24ce50fc1fc1 100644
+> --- a/Documentation/bpf/btf.rst
+> +++ b/Documentation/bpf/btf.rst
+> @@ -670,7 +670,7 @@ func_info for each specific ELF section.::
+>          __u32   sec_name_off; /* offset to section name */
+>          __u32   num_info;
+>          /* Followed by num_info * record_size number of bytes */
+> -        __u8    data[0];
+> +        __u8    data[];
+>       };
+
+I only checked this one, but found what I had expected: the actual
+definition of this structure (found in tools/lib/bpf/libbpf_internal.h)
+says "data[0]".  We can't really make the documentation read the way we
+*wish* the source would be, we need to document reality.
+
+I'm pretty sure that most of the other examples will be the same.
+
+If you really want to fix these, the right solution is to fix the offending
+structures — one patch per structure — in the source, then update the
+documentation to match the new reality.
+
+Thanks,
+
+jon
