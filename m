@@ -3,76 +3,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=unavailable autolearn_force=no version=3.4.2
+	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3DA9D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 07:17:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 26F477D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 09:14:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbfI1HQr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 28 Sep 2019 03:16:47 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35680 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725856AbfI1HQq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 28 Sep 2019 03:16:46 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 30D802B4;
-        Sat, 28 Sep 2019 07:16:43 +0000 (UTC)
-Date:   Sat, 28 Sep 2019 01:16:39 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>
+        id S1726026AbfI1JOd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 28 Sep 2019 05:14:33 -0400
+Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:47784 "EHLO
+        8.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725856AbfI1JOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Sep 2019 05:14:33 -0400
+X-Greylist: delayed 1135 seconds by postgrey-1.27 at vger.kernel.org; Sat, 28 Sep 2019 05:14:31 EDT
+Received: from player731.ha.ovh.net (unknown [10.108.35.103])
+        by mo2.mail-out.ovh.net (Postfix) with ESMTP id E07221ADCBD
+        for <linux-doc@vger.kernel.org>; Sat, 28 Sep 2019 10:55:34 +0200 (CEST)
+Received: from sk2.org (gw.sk2.org [88.186.243.14])
+        (Authenticated sender: steve@sk2.org)
+        by player731.ha.ovh.net (Postfix) with ESMTPSA id 6DB3AA260E0B;
+        Sat, 28 Sep 2019 08:55:23 +0000 (UTC)
+Date:   Sat, 28 Sep 2019 10:55:57 +0200
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, bpf@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
         linux-can@vger.kernel.org, linux-afs@lists.infradead.org,
         kvm@vger.kernel.org,
         "Gustavo A . R . Silva" <gustavo@embeddedor.com>
 Subject: Re: [PATCH] docs: use flexible array members, not zero-length
-Message-ID: <20190928011639.7c983e77@lwn.net>
-In-Reply-To: <20190927142927.27968-1-steve@sk2.org>
+Message-ID: <20190928105557.221fb119@heffalump.sk2.org>
+In-Reply-To: <20190928011639.7c983e77@lwn.net>
 References: <20190927142927.27968-1-steve@sk2.org>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        <20190928011639.7c983e77@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/6lwZ.M0KIAOHFlu0tCvHt6N"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 2307531860306840965
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeekgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Sep 2019 16:29:27 +0200
-Stephen Kitt <steve@sk2.org> wrote:
+--Sig_/6lwZ.M0KIAOHFlu0tCvHt6N
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Update the docs throughout to remove zero-length arrays, replacing
-> them with C99 flexible array members. GCC will then ensure that the
-> arrays are always the last element in the struct.
+On Sat, 28 Sep 2019 01:16:39 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Fri, 27 Sep 2019 16:29:27 +0200
+> Stephen Kitt <steve@sk2.org> wrote:
+> > diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+> > index 4d565d202ce3..24ce50fc1fc1 100644
+> > --- a/Documentation/bpf/btf.rst
+> > +++ b/Documentation/bpf/btf.rst
+> > @@ -670,7 +670,7 @@ func_info for each specific ELF section.::
+> >          __u32   sec_name_off; /* offset to section name */
+> >          __u32   num_info;
+> >          /* Followed by num_info * record_size number of bytes */
+> > -        __u8    data[0];
+> > +        __u8    data[];
+> >       }; =20
+>=20
+> I only checked this one, but found what I had expected: the actual
+> definition of this structure (found in tools/lib/bpf/libbpf_internal.h)
+> says "data[0]".  We can't really make the documentation read the way we
+> *wish* the source would be, we need to document reality.
+>=20
+> I'm pretty sure that most of the other examples will be the same.
 
-I appreciate the thought but...
+Aargh, yes, of course, thanks for checking! I was locked in a =E2=80=9Cpres=
+criptive=E2=80=9D
+documentation mode, but this type of documentation has to be descriptive
+since it=E2=80=99s documenting shared structures, not structures which deve=
+lopers
+have to write.
 
-> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-> index 4d565d202ce3..24ce50fc1fc1 100644
-> --- a/Documentation/bpf/btf.rst
-> +++ b/Documentation/bpf/btf.rst
-> @@ -670,7 +670,7 @@ func_info for each specific ELF section.::
->          __u32   sec_name_off; /* offset to section name */
->          __u32   num_info;
->          /* Followed by num_info * record_size number of bytes */
-> -        __u8    data[0];
-> +        __u8    data[];
->       };
+> If you really want to fix these, the right solution is to fix the offendi=
+ng
+> structures =E2=80=94 one patch per structure =E2=80=94 in the source, the=
+n update the
+> documentation to match the new reality.
 
-I only checked this one, but found what I had expected: the actual
-definition of this structure (found in tools/lib/bpf/libbpf_internal.h)
-says "data[0]".  We can't really make the documentation read the way we
-*wish* the source would be, we need to document reality.
+Yes. I have a Coccinelle script which takes care of the code, but it doesn=
+=E2=80=99t
+work for docs ;-).
 
-I'm pretty sure that most of the other examples will be the same.
+Wouldn=E2=80=99t it be better to update the docs simultaneously in each pat=
+ch which
+fixes a structure? Or is that unworkable with current development practices?
 
-If you really want to fix these, the right solution is to fix the offending
-structures — one patch per structure — in the source, then update the
-documentation to match the new reality.
+Regards,
 
-Thanks,
+Stephen
 
-jon
+--Sig_/6lwZ.M0KIAOHFlu0tCvHt6N
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl2PIB4ACgkQgNMC9Yht
+g5zsMRAAlq0QqSRyK8SmkZrHHi9ZrsTUhy9uZ0IHYFiFaDl5/P9JHqCOMgWCqjLI
+vjR/pTj6+Gc1h/87XgrOoWt72eqGmkP5TfqRFfrMmgTKyabiqnXjrhEEy/JpEegp
+wI1qjOrs/y2gWacnVssUmbrprK7dZWQ9DxSA5glafzxWyZgLgT5dEGCQKdHQX+1v
+QdYG7wZChDSuVUFxVryqIJM0zKGrOhbSlj3xHSGLDZa6+k6pvM+Sv+i7de0EJHkZ
+qssPQCsxIXBvS0Md1f1NqHS5K+7y4inCoh3U88A/YfEw2zPH7CwGXo+NrD8ihKkp
+aSAPICVP+ei48uuj8zGZcoCrCql7BiKSNgiTgguu3VZQ9+lIkzGuuidw84RcI4BU
+OHo3sKz1HE9+QeMowg0QcEpE5RJflJDMb/9PFciMkpSjFTOAZHQvvA8zZkLjVm2Y
+kSVmIoYAtGKb7PxqwBmZYyWGaHS090pie8PrdGAfo/KJPSHzPlK8ZnEwZJqGb2Ko
+GUyw/xNFefziyA35xSptguK4K4sSsIeD+Z5+Vt6xvyATEf5PS+9pQsKL3uxczUEV
+2WDYg6SXW2CU2nEpkGndHIQPcQSKZE2hASRwL7dtl89nM5tgviYAfOWdo1eBje0Q
+HkXRsGAUe6tlnlUDBjYa4VYLJMZS5vYTjY551oHzlfMmGQErvQM=
+=rxn4
+-----END PGP SIGNATURE-----
+
+--Sig_/6lwZ.M0KIAOHFlu0tCvHt6N--
