@@ -6,54 +6,54 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF8977D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 12:39:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 89F287D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 12:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728430AbfI1MjY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 28 Sep 2019 08:39:24 -0400
-Received: from mail-pg1-f174.google.com ([209.85.215.174]:42654 "EHLO
-        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728417AbfI1MjY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Sep 2019 08:39:24 -0400
-Received: by mail-pg1-f174.google.com with SMTP id z12so4856367pgp.9;
-        Sat, 28 Sep 2019 05:39:24 -0700 (PDT)
+        id S1725937AbfI1M61 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 28 Sep 2019 08:58:27 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42390 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfI1M61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Sep 2019 08:58:27 -0400
+Received: by mail-pl1-f195.google.com with SMTP id e5so2114711pls.9
+        for <linux-doc@vger.kernel.org>; Sat, 28 Sep 2019 05:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=reduc2MFsFST4q+TYMabSHg6+TfWaSCdRlTRdna3ew0=;
-        b=HQkDWBQaRT11Jfgkp4sNUPrHOlL5Zv+WYOkvvVjkGv1CRoEvur4Bf/k5d5JTFPRv20
-         5HHZGNrJhqki9rj3b3EelPGg1AskvlrZZNUNPe4tQOw1DfGQH0MwuSL+4eYh2NNJq70E
-         vFiQJc5m3Jrnu8cd6L+AKLpdCAqCGEEM5uecmhHfL3YQeK9V/ZGRpsXdQDUY1Gjv0WIh
-         V3Dbo9NJ0OArfbE+LCnXczWubas9Di/m9BVfeHwMC3Xs9JsWO6FKyrW7U3mMScuGL+bf
-         9LWzFOdLyJZSiUG1VPV0RGO5/1qX7bkiRtfXw8+CRDB2pU1ekGxJ7iwjEcrx3WMbCjuf
-         tbRg==
+        bh=kdCRVcFDbwva24KN3eH7zqeTu4HfpPd+A+XmfX8B1x0=;
+        b=fVQBgpVEONa2X4k8pjlZN6UA+Cd9U8+VYxnACwVLmD/GOpTKuyrMpLYlHJ3MBglgcf
+         3QvcaJHGrpMs/tCPT9Bm9AlGqThn1P6Dw2L+PVZmlIFOHeXysuJqFY6BNejGFa5C2iSV
+         riX1+7CxxBmZy0f4UPE4mWoUGLWHrmyr8HtjE/CrnO4yOipef1xJy1aSod6qLIyCZ21B
+         PJYlw0dQsRNicyWYimRAcs5YW9jb7VVyELk3Sk8iE2ejrr17vP3ekpPY7oXoX8oiTGCV
+         Vn+0i18CnN0A9g0BnRLV/XvbovZSZPvS/wi0JonZ5BbNh01qWBA6zomIz4CVkuaA3hKa
+         5v+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=reduc2MFsFST4q+TYMabSHg6+TfWaSCdRlTRdna3ew0=;
-        b=pUbbqSjtjousMt1a8lrDTz7EY84b52WG9KL8N1vSERkq9gGkIKRImDXlTD//cqQizi
-         /EX59h105Kwm2zAbN1Kc12LTnqB2yalvU6XeO+zETaMZmqR1AHIANLeNDf6o7vevSjfM
-         W4WtQyzCD3PgP6l3lrx28Dx1j63f9X0IL5Xqp5tDZGbcQ8v2pgVv9wTAB+CEdJdQ4N4C
-         Mp2RmUI4mecsQDStGNaflm0R+JNrZ8i6uHpGIkBl4xa3gAmOisNf5KqLbQFXu9tq5uGh
-         zsx5ZMEYoV/7F5PtwgSKdEHRzDw7vSs9YC/taRD+iRZt0Uj2zTj9TxMDwzG7oBFdy37Y
-         cBwg==
-X-Gm-Message-State: APjAAAVvPkPeL0lCwekxy0N4hdWOAshO2kbNfaZnLifC4s9d4Wd83xMh
-        uVe20LBBcJ3IhxNnzinDrAJx72aXHNk=
-X-Google-Smtp-Source: APXvYqyJIfC5dJVQyR7FqT4/rrjfp+/M2BjGIeKWV4ImeEb7ndetEYcTfbQFO+1uqHjpcNXOwn0tOw==
-X-Received: by 2002:a65:6901:: with SMTP id s1mr14363378pgq.338.1569674363509;
-        Sat, 28 Sep 2019 05:39:23 -0700 (PDT)
+        bh=kdCRVcFDbwva24KN3eH7zqeTu4HfpPd+A+XmfX8B1x0=;
+        b=ZXGJpz1OFr3Eb+28Ybc/ZCcf5qa+Mdj7OiT2F7uFH95eeshkQC1gAYBu03Yt9wc0lr
+         FXNoLioGPPpO1Obpf+BALa68u9w7gLYYHYB91adE9Q+MRF4k5O8ZJP6zNpxYirKd0LB4
+         maounOKUdn/eHKL+vUTDg+q2EUR/S39f8aDj8qrBsWXjreMP+Y0haQHzatJYWU0+cllb
+         BSgV8VYBtsP9xoDItpIfvkgaY/CFqxvy1SzfhssiYBGcovuf6UyOAhOSKQP54PjNcHeI
+         LPXiQjAcyLE5vCa3zZ6SqoYi3NOtEVIm5m9XV4Lb5/VWqrJ1d8lmQkNsf9w7dfqM6tHH
+         z8OQ==
+X-Gm-Message-State: APjAAAVCPP8MFry2Hgq0ouOS4ht9+k54FyjUTBWxx9cuwuW7ZaS3Zrpf
+        fKY5b+Z7ifgKCZNx36ZvPO1hxHJUn+U=
+X-Google-Smtp-Source: APXvYqy3gkEw4Vs4wT8s8HjjMWu66eBlLD+w1M2wcBpO0Aaxkk5cFh9XTtGc/X6mbE43Coc4StRjlg==
+X-Received: by 2002:a17:902:8501:: with SMTP id bj1mr9669331plb.342.1569675505898;
+        Sat, 28 Sep 2019 05:58:25 -0700 (PDT)
 Received: from gmail.com ([45.118.67.175])
-        by smtp.gmail.com with ESMTPSA id k184sm11674923pge.57.2019.09.28.05.39.20
+        by smtp.gmail.com with ESMTPSA id q30sm9270271pja.18.2019.09.28.05.58.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Sep 2019 05:39:22 -0700 (PDT)
-Date:   Sat, 28 Sep 2019 22:39:17 +1000
+        Sat, 28 Sep 2019 05:58:25 -0700 (PDT)
+Date:   Sat, 28 Sep 2019 22:58:19 +1000
 From:   Adam Zerella <adam.zerella@gmail.com>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, adam.zerella@gmail.com
-Subject: [PATCH] docs: networking: Add title caret and missing doc
-Message-ID: <20190928123917.GA6876@gmail.com>
+Cc:     linux-doc@vger.kernel.org, will@kernel.org,
+        catalin.marinas@arm.com, adam.zerella@gmail.com
+Subject: [PATCH] docs: arm64: Fix indentation and doc formatting
+Message-ID: <20190928125819.GA9604@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -64,43 +64,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Resolving a couple of Sphinx documentation warnings
-that are generated in the networking section.
+Sphinx generates the following warnings for the arm64 doc
+pages:
 
-- WARNING: document isn't included in any toctree
-- WARNING: Title underline too short.
+Documentation/arm64/memory.rst:158: WARNING: Unexpected indentation.
+Documentation/arm64/memory.rst:162: WARNING: Unexpected indentation.
+
+These indentations warnings can be resolved by utilising code
+hightlighting instead.
 
 Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
 ---
- Documentation/networking/device_drivers/index.rst | 1 +
- Documentation/networking/j1939.rst                | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ Documentation/arm64/memory.rst | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index f51f92571e39..1f4a629e7caa 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -24,6 +24,7 @@ Contents:
-    google/gve
-    mellanox/mlx5
-    pensando/ionic
-+   netronome/nfp
+diff --git a/Documentation/arm64/memory.rst b/Documentation/arm64/memory.rst
+index b040909e45f8..f7db6a3898c5 100644
+--- a/Documentation/arm64/memory.rst
++++ b/Documentation/arm64/memory.rst
+@@ -154,11 +154,16 @@ return virtual addresses to userspace from a 48-bit range.
  
- .. only::  subproject and html
+ Software can "opt-in" to receiving VAs from a 52-bit space by
+ specifying an mmap hint parameter that is larger than 48-bit.
+-For example:
+-    maybe_high_address = mmap(~0UL, size, prot, flags,...);
++
++.. code-block:: c
++
++   maybe_high_address = mmap(~0UL, size, prot, flags,...);
  
-diff --git a/Documentation/networking/j1939.rst b/Documentation/networking/j1939.rst
-index ce7e7a044e08..dc60b13fcd09 100644
---- a/Documentation/networking/j1939.rst
-+++ b/Documentation/networking/j1939.rst
-@@ -272,7 +272,7 @@ supported flags are:
- * MSG_DONTWAIT, i.e. non-blocking operation.
+ It is also possible to build a debug kernel that returns addresses
+ from a 52-bit space by enabling the following kernel config options:
++
++.. code-block:: sh
++
+    CONFIG_EXPERT=y && CONFIG_ARM64_FORCE_52BIT=y
  
- recvmsg(2)
--^^^^^^^^^
-+^^^^^^^^^^
- 
- In most cases recvmsg(2) is needed if you want to extract more information than
- recvfrom(2) can provide. For example package priority and timestamp. The
+ Note that this option is only intended for debugging applications
 -- 
 2.20.1
 
