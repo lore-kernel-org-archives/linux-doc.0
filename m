@@ -1,123 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 26F477D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 09:14:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF8977D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 28 Sep 2019 12:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbfI1JOd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 28 Sep 2019 05:14:33 -0400
-Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:47784 "EHLO
-        8.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725856AbfI1JOd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Sep 2019 05:14:33 -0400
-X-Greylist: delayed 1135 seconds by postgrey-1.27 at vger.kernel.org; Sat, 28 Sep 2019 05:14:31 EDT
-Received: from player731.ha.ovh.net (unknown [10.108.35.103])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id E07221ADCBD
-        for <linux-doc@vger.kernel.org>; Sat, 28 Sep 2019 10:55:34 +0200 (CEST)
-Received: from sk2.org (gw.sk2.org [88.186.243.14])
-        (Authenticated sender: steve@sk2.org)
-        by player731.ha.ovh.net (Postfix) with ESMTPSA id 6DB3AA260E0B;
-        Sat, 28 Sep 2019 08:55:23 +0000 (UTC)
-Date:   Sat, 28 Sep 2019 10:55:57 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-afs@lists.infradead.org,
-        kvm@vger.kernel.org,
-        "Gustavo A . R . Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH] docs: use flexible array members, not zero-length
-Message-ID: <20190928105557.221fb119@heffalump.sk2.org>
-In-Reply-To: <20190928011639.7c983e77@lwn.net>
-References: <20190927142927.27968-1-steve@sk2.org>
-        <20190928011639.7c983e77@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728430AbfI1MjY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 28 Sep 2019 08:39:24 -0400
+Received: from mail-pg1-f174.google.com ([209.85.215.174]:42654 "EHLO
+        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728417AbfI1MjY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Sep 2019 08:39:24 -0400
+Received: by mail-pg1-f174.google.com with SMTP id z12so4856367pgp.9;
+        Sat, 28 Sep 2019 05:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=reduc2MFsFST4q+TYMabSHg6+TfWaSCdRlTRdna3ew0=;
+        b=HQkDWBQaRT11Jfgkp4sNUPrHOlL5Zv+WYOkvvVjkGv1CRoEvur4Bf/k5d5JTFPRv20
+         5HHZGNrJhqki9rj3b3EelPGg1AskvlrZZNUNPe4tQOw1DfGQH0MwuSL+4eYh2NNJq70E
+         vFiQJc5m3Jrnu8cd6L+AKLpdCAqCGEEM5uecmhHfL3YQeK9V/ZGRpsXdQDUY1Gjv0WIh
+         V3Dbo9NJ0OArfbE+LCnXczWubas9Di/m9BVfeHwMC3Xs9JsWO6FKyrW7U3mMScuGL+bf
+         9LWzFOdLyJZSiUG1VPV0RGO5/1qX7bkiRtfXw8+CRDB2pU1ekGxJ7iwjEcrx3WMbCjuf
+         tbRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=reduc2MFsFST4q+TYMabSHg6+TfWaSCdRlTRdna3ew0=;
+        b=pUbbqSjtjousMt1a8lrDTz7EY84b52WG9KL8N1vSERkq9gGkIKRImDXlTD//cqQizi
+         /EX59h105Kwm2zAbN1Kc12LTnqB2yalvU6XeO+zETaMZmqR1AHIANLeNDf6o7vevSjfM
+         W4WtQyzCD3PgP6l3lrx28Dx1j63f9X0IL5Xqp5tDZGbcQ8v2pgVv9wTAB+CEdJdQ4N4C
+         Mp2RmUI4mecsQDStGNaflm0R+JNrZ8i6uHpGIkBl4xa3gAmOisNf5KqLbQFXu9tq5uGh
+         zsx5ZMEYoV/7F5PtwgSKdEHRzDw7vSs9YC/taRD+iRZt0Uj2zTj9TxMDwzG7oBFdy37Y
+         cBwg==
+X-Gm-Message-State: APjAAAVvPkPeL0lCwekxy0N4hdWOAshO2kbNfaZnLifC4s9d4Wd83xMh
+        uVe20LBBcJ3IhxNnzinDrAJx72aXHNk=
+X-Google-Smtp-Source: APXvYqyJIfC5dJVQyR7FqT4/rrjfp+/M2BjGIeKWV4ImeEb7ndetEYcTfbQFO+1uqHjpcNXOwn0tOw==
+X-Received: by 2002:a65:6901:: with SMTP id s1mr14363378pgq.338.1569674363509;
+        Sat, 28 Sep 2019 05:39:23 -0700 (PDT)
+Received: from gmail.com ([45.118.67.175])
+        by smtp.gmail.com with ESMTPSA id k184sm11674923pge.57.2019.09.28.05.39.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Sep 2019 05:39:22 -0700 (PDT)
+Date:   Sat, 28 Sep 2019 22:39:17 +1000
+From:   Adam Zerella <adam.zerella@gmail.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, adam.zerella@gmail.com
+Subject: [PATCH] docs: networking: Add title caret and missing doc
+Message-ID: <20190928123917.GA6876@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/6lwZ.M0KIAOHFlu0tCvHt6N"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 2307531860306840965
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeekgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/6lwZ.M0KIAOHFlu0tCvHt6N
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Resolving a couple of Sphinx documentation warnings
+that are generated in the networking section.
 
-On Sat, 28 Sep 2019 01:16:39 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
-> On Fri, 27 Sep 2019 16:29:27 +0200
-> Stephen Kitt <steve@sk2.org> wrote:
-> > diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-> > index 4d565d202ce3..24ce50fc1fc1 100644
-> > --- a/Documentation/bpf/btf.rst
-> > +++ b/Documentation/bpf/btf.rst
-> > @@ -670,7 +670,7 @@ func_info for each specific ELF section.::
-> >          __u32   sec_name_off; /* offset to section name */
-> >          __u32   num_info;
-> >          /* Followed by num_info * record_size number of bytes */
-> > -        __u8    data[0];
-> > +        __u8    data[];
-> >       }; =20
->=20
-> I only checked this one, but found what I had expected: the actual
-> definition of this structure (found in tools/lib/bpf/libbpf_internal.h)
-> says "data[0]".  We can't really make the documentation read the way we
-> *wish* the source would be, we need to document reality.
->=20
-> I'm pretty sure that most of the other examples will be the same.
+- WARNING: document isn't included in any toctree
+- WARNING: Title underline too short.
 
-Aargh, yes, of course, thanks for checking! I was locked in a =E2=80=9Cpres=
-criptive=E2=80=9D
-documentation mode, but this type of documentation has to be descriptive
-since it=E2=80=99s documenting shared structures, not structures which deve=
-lopers
-have to write.
+Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+---
+ Documentation/networking/device_drivers/index.rst | 1 +
+ Documentation/networking/j1939.rst                | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> If you really want to fix these, the right solution is to fix the offendi=
-ng
-> structures =E2=80=94 one patch per structure =E2=80=94 in the source, the=
-n update the
-> documentation to match the new reality.
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index f51f92571e39..1f4a629e7caa 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -24,6 +24,7 @@ Contents:
+    google/gve
+    mellanox/mlx5
+    pensando/ionic
++   netronome/nfp
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/networking/j1939.rst b/Documentation/networking/j1939.rst
+index ce7e7a044e08..dc60b13fcd09 100644
+--- a/Documentation/networking/j1939.rst
++++ b/Documentation/networking/j1939.rst
+@@ -272,7 +272,7 @@ supported flags are:
+ * MSG_DONTWAIT, i.e. non-blocking operation.
+ 
+ recvmsg(2)
+-^^^^^^^^^
++^^^^^^^^^^
+ 
+ In most cases recvmsg(2) is needed if you want to extract more information than
+ recvfrom(2) can provide. For example package priority and timestamp. The
+-- 
+2.20.1
 
-Yes. I have a Coccinelle script which takes care of the code, but it doesn=
-=E2=80=99t
-work for docs ;-).
-
-Wouldn=E2=80=99t it be better to update the docs simultaneously in each pat=
-ch which
-fixes a structure? Or is that unworkable with current development practices?
-
-Regards,
-
-Stephen
-
---Sig_/6lwZ.M0KIAOHFlu0tCvHt6N
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl2PIB4ACgkQgNMC9Yht
-g5zsMRAAlq0QqSRyK8SmkZrHHi9ZrsTUhy9uZ0IHYFiFaDl5/P9JHqCOMgWCqjLI
-vjR/pTj6+Gc1h/87XgrOoWt72eqGmkP5TfqRFfrMmgTKyabiqnXjrhEEy/JpEegp
-wI1qjOrs/y2gWacnVssUmbrprK7dZWQ9DxSA5glafzxWyZgLgT5dEGCQKdHQX+1v
-QdYG7wZChDSuVUFxVryqIJM0zKGrOhbSlj3xHSGLDZa6+k6pvM+Sv+i7de0EJHkZ
-qssPQCsxIXBvS0Md1f1NqHS5K+7y4inCoh3U88A/YfEw2zPH7CwGXo+NrD8ihKkp
-aSAPICVP+ei48uuj8zGZcoCrCql7BiKSNgiTgguu3VZQ9+lIkzGuuidw84RcI4BU
-OHo3sKz1HE9+QeMowg0QcEpE5RJflJDMb/9PFciMkpSjFTOAZHQvvA8zZkLjVm2Y
-kSVmIoYAtGKb7PxqwBmZYyWGaHS090pie8PrdGAfo/KJPSHzPlK8ZnEwZJqGb2Ko
-GUyw/xNFefziyA35xSptguK4K4sSsIeD+Z5+Vt6xvyATEf5PS+9pQsKL3uxczUEV
-2WDYg6SXW2CU2nEpkGndHIQPcQSKZE2hASRwL7dtl89nM5tgviYAfOWdo1eBje0Q
-HkXRsGAUe6tlnlUDBjYa4VYLJMZS5vYTjY551oHzlfMmGQErvQM=
-=rxn4
------END PGP SIGNATURE-----
-
---Sig_/6lwZ.M0KIAOHFlu0tCvHt6N--
