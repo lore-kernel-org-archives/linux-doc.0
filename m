@@ -3,30 +3,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FE1E7D92A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 17:33:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C3037D912
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 17:37:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729861AbfI2Rcx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Sep 2019 13:32:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43926 "EHLO mail.kernel.org"
+        id S1730170AbfI2RhB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Sep 2019 13:37:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49878 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729662AbfI2Rcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:32:52 -0400
+        id S1729652AbfI2RhA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:37:00 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8636E21835;
-        Sun, 29 Sep 2019 17:32:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E862C21925;
+        Sun, 29 Sep 2019 17:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778371;
-        bh=xvVqDMFjdBptM7z6d9ixu32inYvXiLXyb4cO1Ql2K70=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T9O8MQ6+9tt1s3cYCaNpyzOIuq2RRqVUGMyQV3iZO1+xpjd10Z3M0gnTFtWDCfXmd
-         YeMOjEdavff27+/eAmhesKpCS/gsnBDDfgxQqxXCMGUC3vTiCMpispacAQd3hJFHjF
-         tMam+VrDJppVgp70a76euo5UO1bn1g6GKnj0ymQI=
+        s=default; t=1569778619;
+        bh=PYnztwhNqQMmqSmLLY+GbEr8E79+RaN7u/dLYiZhWPM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fef6pEQlxhyQ11NB1IOneALhZv1pYdzN/WW6SQP1asCLGFXlXUhGZVEEocViRhePV
+         GXhw/0/I9SWbDJc23jdpDbP424O/niwDU6VBMGbV3+GTtwy5GoO8/fxUkZbTL+LaT/
+         S+OUUF7ZyUpAEd+4KTPThOO6yHQBGDs8FUxRaHNM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Paul Cercueil <paul@crapouillou.net>,
@@ -49,12 +49,10 @@ Cc:     Paul Cercueil <paul@crapouillou.net>,
         devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.2 02/42] clk: jz4740: Add TCU clock
-Date:   Sun, 29 Sep 2019 13:32:01 -0400
-Message-Id: <20190929173244.8918-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 1/9] clk: jz4740: Add TCU clock
+Date:   Sun, 29 Sep 2019 13:36:46 -0400
+Message-Id: <20190929173655.10178-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173244.8918-1-sashal@kernel.org>
-References: <20190929173244.8918-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -102,10 +100,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 7 insertions(+)
 
 diff --git a/drivers/clk/ingenic/jz4740-cgu.c b/drivers/clk/ingenic/jz4740-cgu.c
-index c77f4e1506dc0..176d911b58397 100644
+index 305a26c2a800e..01b5b8b103888 100644
 --- a/drivers/clk/ingenic/jz4740-cgu.c
 +++ b/drivers/clk/ingenic/jz4740-cgu.c
-@@ -203,6 +203,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
+@@ -211,6 +211,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
  		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
  		.gate = { CGU_REG_CLKGR, 5 },
  	},
@@ -119,10 +117,10 @@ index c77f4e1506dc0..176d911b58397 100644
  
  static void __init jz4740_cgu_init(struct device_node *np)
 diff --git a/include/dt-bindings/clock/jz4740-cgu.h b/include/dt-bindings/clock/jz4740-cgu.h
-index 6ed83f926ae71..e82d77028581a 100644
+index 43153d3e9bd26..ff7c27bc98e37 100644
 --- a/include/dt-bindings/clock/jz4740-cgu.h
 +++ b/include/dt-bindings/clock/jz4740-cgu.h
-@@ -34,5 +34,6 @@
+@@ -33,5 +33,6 @@
  #define JZ4740_CLK_ADC		19
  #define JZ4740_CLK_I2C		20
  #define JZ4740_CLK_AIC		21
