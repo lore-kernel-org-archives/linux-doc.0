@@ -1,85 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1CDB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 10:42:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ECD2B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 17:31:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbfI2Kmv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Sep 2019 06:42:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55288 "EHLO mail.kernel.org"
+        id S1729044AbfI2RbD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Sep 2019 13:31:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41322 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725924AbfI2Kmv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Sep 2019 06:42:51 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726149AbfI2RbC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:31:02 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0946020863;
-        Sun, 29 Sep 2019 10:42:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9D22721835;
+        Sun, 29 Sep 2019 17:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569753770;
-        bh=ouR6V9q3KJPqpqZJmVp8djwQWpu1aWzL4JO+zDi+DHU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vJhp5ixQu0JaUOtDCRFnssf4D8OOtIWMKQahWAef6kNlX/JoxUFS1RommlxVGXVYP
-         3Ep7MuVSOND2aC64z71aw1G5x1gtCIrprGNKF9eF7sG+KKUpsGVZJOM92doxjUEcdP
-         UetlwIR/DQKuEPNH3eVnGxKl3aACu2F0A+dmaFMw=
-Date:   Sun, 29 Sep 2019 12:42:47 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, sashal@kernel.org,
-        ben@decadent.org.uk, tglx@linutronix.de, labbott@redhat.com,
-        andrew.cooper3@citrix.com, tsoni@codeaurora.org,
-        keescook@chromium.org, tony.luck@intel.com,
-        linux-doc@vger.kernel.org, dan.j.williams@intel.com
-Subject: Re: [PATCH 2/4] Documentation/process: describe relaxing disclosing
- party NDAs
-Message-ID: <20190929104247.GA1944229@kroah.com>
-References: <20190910172644.4D2CDF0A@viggo.jf.intel.com>
- <20190910172649.74639177@viggo.jf.intel.com>
- <20190911154453.GA14152@kroah.com>
- <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
+        s=default; t=1569778261;
+        bh=+MMQDdfDZRYfEA9WTqoj7O66pjR+UGqGUMel+eWVUrA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qyVAwCFbEuA4keIUrNRS2lBRhbJyvm9KB5EG04uzkBAvDMTmikPR6UF2P/Y3zsfMs
+         o9q41nxRS/3k+J1zpW7ntmGpeXyfdTDSABggHogLd3NmkWMciQQC8BQNqH8qlSq2jk
+         i/K9cFYJG3whYGo9mNxw//d6Nk/Wtfa4MQq944W4=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Paul Burton <paul.burton@mips.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 02/49] clk: jz4740: Add TCU clock
+Date:   Sun, 29 Sep 2019 13:30:02 -0400
+Message-Id: <20190929173053.8400-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190929173053.8400-1-sashal@kernel.org>
+References: <20190929173053.8400-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e9f2343-1a76-125a-9555-ab26f15b4487@intel.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 11, 2019 at 09:09:18AM -0700, Dave Hansen wrote:
-> On 9/11/19 8:44 AM, Greg KH wrote:
-> > Intel had months of review time for this document before this was
-> > published.  Your lawyers had it and never objected to this lack of
-> > inclusion at all, and explictitly said that the document as written was
-> > fine with them.  So I'm sorry, but it is much too late to add something
-> > like this to the document at this point in time.
-> 
-> Hi Greg,
-> 
-> I'll personally take 100% of the blame for this patch.  I intended for
-> it to show our commitment to work *with* our colleagues in the
-> community, not to dictate demands.  Please consider this as you would
-> any other patch: a humble suggestion to address what I see as a gap.
-> 
-> Just to be clear: this addition came from me and only me.  It did not
-> come from any Intel lawyers and does not represent any kind of objection
-> to the process.  Intel's support for this process is unconditional and
-> not dependent on any of these patches.
+From: Paul Cercueil <paul@crapouillou.net>
 
-Ok, thanks for the clarification.  It looked like this came from Intel
-based on the comments you made on the other patches in this series.  My
-confusion, sorry.
+[ Upstream commit 73dd11dc1a883d4c994d729dc9984f4890001157 ]
 
-I think that Thomas's rewording here makes more sense, and you seem to
-agree, so I'll go queue that up now.
+Add the missing TCU clock to the list of clocks supplied by the CGU for
+the JZ4740 SoC.
 
-thanks,
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Tested-by: Mathieu Malaterre <malat@debian.org>
+Tested-by: Artur Rojek <contact@artur-rojek.eu>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Paul Burton <paul.burton@mips.com>
+Cc: Ralf Baechle <ralf@linux-mips.org>
+Cc: James Hogan <jhogan@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Jason Cooper <jason@lakedaemon.net>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: od@zcrc.me
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/ingenic/jz4740-cgu.c       | 6 ++++++
+ include/dt-bindings/clock/jz4740-cgu.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-greg k-h
+diff --git a/drivers/clk/ingenic/jz4740-cgu.c b/drivers/clk/ingenic/jz4740-cgu.c
+index 4c0a20949c2c2..67f8a0e142845 100644
+--- a/drivers/clk/ingenic/jz4740-cgu.c
++++ b/drivers/clk/ingenic/jz4740-cgu.c
+@@ -222,6 +222,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
+ 		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
+ 		.gate = { CGU_REG_CLKGR, 5 },
+ 	},
++
++	[JZ4740_CLK_TCU] = {
++		"tcu", CGU_CLK_GATE,
++		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
++		.gate = { CGU_REG_CLKGR, 1 },
++	},
+ };
+ 
+ static void __init jz4740_cgu_init(struct device_node *np)
+diff --git a/include/dt-bindings/clock/jz4740-cgu.h b/include/dt-bindings/clock/jz4740-cgu.h
+index 6ed83f926ae71..e82d77028581a 100644
+--- a/include/dt-bindings/clock/jz4740-cgu.h
++++ b/include/dt-bindings/clock/jz4740-cgu.h
+@@ -34,5 +34,6 @@
+ #define JZ4740_CLK_ADC		19
+ #define JZ4740_CLK_I2C		20
+ #define JZ4740_CLK_AIC		21
++#define JZ4740_CLK_TCU		22
+ 
+ #endif /* __DT_BINDINGS_CLOCK_JZ4740_CGU_H__ */
+-- 
+2.20.1
+
