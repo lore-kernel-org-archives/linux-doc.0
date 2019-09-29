@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C3037D912
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 17:37:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E73717D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Sep 2019 17:38:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730170AbfI2RhB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Sep 2019 13:37:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49878 "EHLO mail.kernel.org"
+        id S1730833AbfI2Rga (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Sep 2019 13:36:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729652AbfI2RhA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:37:00 -0400
+        id S1730790AbfI2Rga (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:36:30 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E862C21925;
-        Sun, 29 Sep 2019 17:36:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 327E021925;
+        Sun, 29 Sep 2019 17:36:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778619;
-        bh=PYnztwhNqQMmqSmLLY+GbEr8E79+RaN7u/dLYiZhWPM=;
+        s=default; t=1569778588;
+        bh=0Aqdg5Rcg5WWheNYUhJwI5jz/7qigaqtY/pqcbi9bjo=;
         h=From:To:Cc:Subject:Date:From;
-        b=fef6pEQlxhyQ11NB1IOneALhZv1pYdzN/WW6SQP1asCLGFXlXUhGZVEEocViRhePV
-         GXhw/0/I9SWbDJc23jdpDbP424O/niwDU6VBMGbV3+GTtwy5GoO8/fxUkZbTL+LaT/
-         S+OUUF7ZyUpAEd+4KTPThOO6yHQBGDs8FUxRaHNM=
+        b=EPWD/iq48kh16/BMCco9kXhCar4e2XtVHb5bhwkGtHdOPTx8Bs7PmJyT9K7TnDv7a
+         fx0t49xj2vrRXoeSAImo+7eCnsRY+O1LmmRC3vfggLOxAuSrOiQhRRqMRjOaNExMlI
+         q4Ey5Jf6ul3oW877b+BGzJVm3e9Q7gL7Yk0Ly9dQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Paul Cercueil <paul@crapouillou.net>,
@@ -49,9 +49,9 @@ Cc:     Paul Cercueil <paul@crapouillou.net>,
         devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.4 1/9] clk: jz4740: Add TCU clock
-Date:   Sun, 29 Sep 2019 13:36:46 -0400
-Message-Id: <20190929173655.10178-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 01/13] clk: jz4740: Add TCU clock
+Date:   Sun, 29 Sep 2019 13:36:11 -0400
+Message-Id: <20190929173625.10003-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-stable: review
@@ -100,7 +100,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 7 insertions(+)
 
 diff --git a/drivers/clk/ingenic/jz4740-cgu.c b/drivers/clk/ingenic/jz4740-cgu.c
-index 305a26c2a800e..01b5b8b103888 100644
+index 510fe7e0c8f1c..79f0d48ec875b 100644
 --- a/drivers/clk/ingenic/jz4740-cgu.c
 +++ b/drivers/clk/ingenic/jz4740-cgu.c
 @@ -211,6 +211,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
