@@ -6,65 +6,60 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FC847D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 15:43:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC8CC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 15:58:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730780AbfI3Pno (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Sep 2019 11:43:44 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34175 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbfI3Pno (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Sep 2019 11:43:44 -0400
-Received: by mail-pl1-f195.google.com with SMTP id k7so4066973pll.1;
-        Mon, 30 Sep 2019 08:43:42 -0700 (PDT)
+        id S1731459AbfI3P6i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Sep 2019 11:58:38 -0400
+Received: from mail-pg1-f172.google.com ([209.85.215.172]:33296 "EHLO
+        mail-pg1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727767AbfI3P6i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Sep 2019 11:58:38 -0400
+Received: by mail-pg1-f172.google.com with SMTP id i30so7659339pgl.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2019 08:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mnaL4pZPqg67oVs9s+KMZ+ww7k0gZJ9omOde+Yyhp8M=;
-        b=OZvn7bR46WMQBpMjrx+bSGwpOlhj3TRDe75TmMb8m/KG9JiRrd8FHslg86zyszF8d5
-         vYj5YlSsDViNTPWsEDXW1VkQAdDQ1uWzEKEMtJ298qlmWIZ01aFkcF/HkjiZW053uIyh
-         VAMZO6jcQIiKZgE7wGrQYYeBV00qyibYGQKuu33b+kGo4VQe1T7ONwZ+Lf6K3W9SOxPv
-         icclyMA5PfYHmX5ewTawTI3nP0gxRxMtdQhzP6ryE/HKHKsRjHnHa0C0STBMEC9Y0Q73
-         n8MGNNPhDBSG3kB6VKxVXiCKBQsF/E2IbIxl/vMHxLNS7pL0dRmSGlbZplKxelQmp2+I
-         PGZw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=3RL4o8bRPImudw7CQvzcT+YBXMyJ+AlSz5qfi3PPCys=;
+        b=ivnpetFB+oHMwDuH+cVtA7L0bMQ+eRBWGiVUEddWoXkaoellSDumRcok80srZdH9NZ
+         EqI67Ixxhq7ScRNphq0svN6Ec7SQ7vyg9WC3vaIX8m1w7F5XK2vy82zC8xIXYnP+YTTv
+         gNttseLWwSKInpr2Rn9KMWMga+NBJIiGneAFstX11DmezjmfI5Q3vk1IOlO+i4wiPeJF
+         83dnmMJNG5FB5s0aohupM1kI/fKpCCbn5G3RzrctSlKs+YAOXxB6hCjtYCMwrzrGTpaC
+         BAr9LamveWw1ARpzvnEYXnibezIaug7Mk6jVPu2751G0Ob5DjxHnr2m6ZFuJtk38ISlk
+         7x+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mnaL4pZPqg67oVs9s+KMZ+ww7k0gZJ9omOde+Yyhp8M=;
-        b=bat/uahpB2MmUXFCYoDZpdq2jXJLz4xglCl5MYztohjXJKdXtLadUlvLm9wh33pqjR
-         Cc45R79JotsWFWBCPkCLFgUmfbsysjsXy45ZglP1d2qa3vNVYOMFF1FtUKnoPRGyfoSB
-         2DKN/oe8Mu6Mys8CDkwU+tvZxykI86jJ4+Mbll3LW9x/pctNw5qF2zFXJSuFtn7yFDwb
-         XgI847k15y6jIIJVq34ug+1oq184VVT+kNfx1DpsActQTw9CvDaJ5qwTw51IhsC0XyZM
-         T8g302RwerJGdrieHCEdUA7YEDiMUWFDS/Vbzkfxzpf6o+51UT64F7PAyMaUaqyb9rQN
-         6lOQ==
-X-Gm-Message-State: APjAAAXaukrluO5xyQ2SLfF+zDNXKytJauAD1dn3N8+txmtsQxBBUFj3
-        MlOqjV8DCuWgBP4snJOvERcAhxyeJVY=
-X-Google-Smtp-Source: APXvYqwnOjMI4Imt9AN0muuluOhYWgKqu+WGknn7E4SioVZRznBw1TXz7SBzYydzBhnIQv+SPkMjqA==
-X-Received: by 2002:a17:902:bd93:: with SMTP id q19mr20352580pls.249.1569858222453;
-        Mon, 30 Sep 2019 08:43:42 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=3RL4o8bRPImudw7CQvzcT+YBXMyJ+AlSz5qfi3PPCys=;
+        b=gB5lcKYoh5lc4ftX0HL1On0czW5fSZYzbPf9BX8XUHshnJyHBOee/zzfX8DK3VJess
+         6ex8Lqp1T5K5zas8bvr404jJb0OSmIcu+bAiox8EZuG3Q6byoq4Yels9H4dUGW+fZKKd
+         +u4BjUg90S4bVqN22P+SqLB+7GZOh4KAYXrdwwF2bPdLbVXotSUe1v+faWjcITFdMN2L
+         A5sgwnbuHNM/Gzs6yv+QbFwS3hK3dNgsWY+00cWNHNIY1rDZ1RleizruVe87VFYAydBK
+         q/MQHzsT/HCVzN+aQv4SQwL0mgZds+8yOpjqsKEorpVOBhf9B1ZJCv5hDPBTLAq36Bq7
+         arFA==
+X-Gm-Message-State: APjAAAW2//MhLHohJ3981J5apaLAe2ZnvCn3FSOAuoDFq8r04M65tx6l
+        jjn/C4KR4+pI1cNQ05JaNn85ZTTJ/mE=
+X-Google-Smtp-Source: APXvYqyJkaHGc1Ln5lK86D6UNjkvnamYQ7pLTH56ITa9th6reV9+bt4sx+7+p8h3MrR9yTB/3WGh3w==
+X-Received: by 2002:a17:90a:3748:: with SMTP id u66mr27511998pjb.4.1569859117434;
+        Mon, 30 Sep 2019 08:58:37 -0700 (PDT)
 Received: from Slackware ([103.231.91.38])
-        by smtp.gmail.com with ESMTPSA id y7sm13581711pgj.35.2019.09.30.08.43.32
+        by smtp.gmail.com with ESMTPSA id l22sm2758387pgj.4.2019.09.30.08.58.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 08:43:41 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 21:13:24 +0530
+        Mon, 30 Sep 2019 08:58:36 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 21:28:26 +0530
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        LinuxKernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [GIT PULL] remove dead mutt url and add active mutt url
-Message-ID: <20190930154324.GB27688@Slackware>
-References: <20190928151300.GA18122@debian>
- <20190930081310.7e3b9c52@lwn.net>
- <20190930152607.GA27688@Slackware>
- <a1d80b29-4cd8-2ffc-1b55-3a806fca1a06@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org
+Subject: Why no section for "Kernel/Linux Documentation" here :
+ https://patchwork.kernel.org/
+Message-ID: <20190930155826.GC27688@Slackware>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="neYutvxvOLaeuPCA"
+        protocol="application/pgp-signature"; boundary="/e2eDi0V/xtL+Mc8"
 Content-Disposition: inline
-In-Reply-To: <a1d80b29-4cd8-2ffc-1b55-3a806fca1a06@infradead.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -72,99 +67,31 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---neYutvxvOLaeuPCA
-Content-Type: text/plain; charset=utf-8; format=flowed
+--/e2eDi0V/xtL+Mc8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On 08:28 Mon 30 Sep 2019, Randy Dunlap wrote:
->On 9/30/19 8:26 AM, Bhaskar Chowdhury wrote:
->> On 08:13 Mon 30 Sep 2019, Jonathan Corbet wrote:
->>> On Sat, 28 Sep 2019 20:43:03 +0530
->>> Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
->>>
->>>> The following changes since commit 4e4327891fe2a2a4db342985bff4d4c4870=
-3c707:
->>>>
->>>> =C2=A0 replace dead mutt url with active one. (2019-09-28 20:11:00 +05=
-30)
->>>>
->>>> =C2=A0 are available in the Git repository at:
->>>
->>> Bhaskar, I'm not going to take a pull request for a change like this.=
-=C2=A0 If
->>> you would like to make this change (and it seems like a useful change to
->>> make), please send me a patch that is:
->>>
->>> - based on docs-next
->> I have no clue where do I found out "docs-next" Jon. But I have
->> stumbled over these places..
->>
->> https://github.com/torvalds/linux/commit/81a84ad3cb5711cec79f4dd53a4ce02=
-6b092c432
->>
->> and this:
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/rdunlap/linux-docs.git/
->>
->> Now, do you want me to make changes there and sent a patch?? I am
->> absolutely not sure .
->>
->> Kindly shed some light.
->>> - properly changelogged
->>> - demonstrated to build properly with sphinx
->>>
->>> Thanks,
->>>
->>> jon
->>
->> Thanks,
->> Bhaskar
->
->Hi,
->The kernel MAINTAINERS file says:
->
->DOCUMENTATION
->M:	Jonathan Corbet <corbet@lwn.net>
->L:	linux-doc@vger.kernel.org
->S:	Maintained
->F:	Documentation/
->F:	scripts/documentation-file-ref-check
->F:	scripts/kernel-doc
->F:	scripts/sphinx-pre-install
->X:	Documentation/ABI/
->X:	Documentation/firmware-guide/acpi/
->X:	Documentation/devicetree/
->X:	Documentation/i2c/
->X:	Documentation/media/
->X:	Documentation/power/
->X:	Documentation/spi/
->T:	git git://git.lwn.net/linux.git docs-next
->
->that ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->
->
->--=20
->~Randy
+ Hi Randy/Jon,
 
-Thanks, a bunch Randy...my bad...was lazy and pathetic to not look into
-that file.
+ Why that page missing a section "Kernel Documentation" ?? OR am I
+ missing the title there....not sure...there must be some reason.
 
-~Bhaskar
+ Thanks,
+ Bhaskar
 
---neYutvxvOLaeuPCA
+--/e2eDi0V/xtL+Mc8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2SIpYACgkQsjqdtxFL
-KRV1TAgAviipKejZClTvQVfKAHPzof9RkXIrJ6CFWUnV+dpQ0K3Eab38b4o8hCZq
-fMS1e2ETibQ3pYs4CbqDC1ecmFks3N+JgTsxRywxNem8VbpxijzRuXdPwCw7viP0
-BQ5XybxtulTPifMDG9A+lUhRD5/qWmnfHCi109T55nEVEexI2EfHemeLC0btuh5c
-qkIiVQ1BhdrAYWPLvE58PaHNWQ8M8ZAdvQzJmL04uKK0mJuIGLPjnrplJSbW49ax
-BZCq9Brh5x8EV2+XlW8DkWURGpR/QIZOtgKqL8Y/N1qj7UlrO5qFbUSTOyn8ZAZa
-tYv4ESDu2v3IuEfAz4GjEFtE4d3PeQ==
-=8F6E
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2SJhwACgkQsjqdtxFL
+KRUHNQf/agYCVg+d4b/PZ44K2nJxJP+Br9nWZTkpS0Ap1NB6Jfq4oZ6sqJvwuHes
+Cis09V0QE+3xvCcOWQPgZMonswbKFBF5r2d/M6MuowySzNMQIkcAi7p9w2XOaXDM
+Cr0SkvOZaPlPyRTmnohc3MMbrXXOPD1bQDrKWwqG1D/HGI3BRzi4KH0nE2dEy++Z
+p/2o4828FLILFkaVR46NMWq4LtzBKKtJZz9GcDwz8MjLDPZbSLr+dMQ6xt0VTtQ4
+Kmu68n1eKfSKw+IFQFoIQoSDUCBaHkx6VN+yurROoByp8Cf5MrIb8elxvWY4Kcjh
+ksbxnzmU+QGrVLFBsryNFMLjlukR2A==
+=YNBV
 -----END PGP SIGNATURE-----
 
---neYutvxvOLaeuPCA--
+--/e2eDi0V/xtL+Mc8--
