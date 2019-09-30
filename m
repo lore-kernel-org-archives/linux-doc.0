@@ -1,434 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9ACE77D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 15:03:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FC847D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 15:43:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730809AbfI3PDy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Sep 2019 11:03:54 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46496 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbfI3PDy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Sep 2019 11:03:54 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8UEx3l6150699;
-        Mon, 30 Sep 2019 15:03:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=xUuFXmqvfleEJJEdP5FBqV4BfhJYOFzKCFhPdSETcIU=;
- b=VOiN/9h5NGU2G6ijg6n/NjH/n9Y1UPUBOG3V7hXN1eoaqoiUm28GznSb/b5fQfQHMhL3
- 7DHa9R4OZziesJMX+nKebDmhPnZ5sihGkGN0nJOSdHglyGdHyQeoICCelQAlEqGRe+CW
- u8at4YduydG/hmANRC1VRO9HLqN2+8WurAtkVSwQ0ah5KJJL3gBCcrMrbE4s7ivIX/HN
- BJnZuJunYJm0hOSYCI1aLfodw4tqilT5t9aD20SDHaA+XbB69JRWQiIfEGKKwJCf14MX
- wUUzEGVwhFF6S0/v9q+tS/SNQt/WCynwI9vmr0By3UloaMwrqOewKyy5mWDLHlgN2ND4 rg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 2v9xxufvv3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Sep 2019 15:03:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8UEwv40048832;
-        Mon, 30 Sep 2019 15:01:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 2vahngvtwn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Sep 2019 15:01:18 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x8UF1Ghh008206;
-        Mon, 30 Sep 2019 15:01:16 GMT
-Received: from tomti.i.net-space.pl (/10.175.194.51)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 30 Sep 2019 08:01:15 -0700
-Date:   Mon, 30 Sep 2019 17:01:10 +0200
-From:   Daniel Kiper <daniel.kiper@oracle.com>
-To:     hpa@zytor.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, bp@alien8.de, corbet@lwn.net,
-        dpsmith@apertussolutions.com, eric.snowberg@oracle.com,
-        kanth.ghatraju@oracle.com, konrad.wilk@oracle.com,
-        mingo@redhat.com, ross.philipson@oracle.com, tglx@linutronix.de
-Subject: Re: [PATCH v2 1/3] x86/boot: Introduce the kernel_info
-Message-ID: <20190930150110.ekir52wu3w67v2fk@tomti.i.net-space.pl>
-References: <20190704163612.14311-1-daniel.kiper@oracle.com>
- <20190704163612.14311-2-daniel.kiper@oracle.com>
- <5633066F-01BE-437D-A564-150FD48B6D92@zytor.com>
+        id S1730780AbfI3Pno (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Sep 2019 11:43:44 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34175 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728424AbfI3Pno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Sep 2019 11:43:44 -0400
+Received: by mail-pl1-f195.google.com with SMTP id k7so4066973pll.1;
+        Mon, 30 Sep 2019 08:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mnaL4pZPqg67oVs9s+KMZ+ww7k0gZJ9omOde+Yyhp8M=;
+        b=OZvn7bR46WMQBpMjrx+bSGwpOlhj3TRDe75TmMb8m/KG9JiRrd8FHslg86zyszF8d5
+         vYj5YlSsDViNTPWsEDXW1VkQAdDQ1uWzEKEMtJ298qlmWIZ01aFkcF/HkjiZW053uIyh
+         VAMZO6jcQIiKZgE7wGrQYYeBV00qyibYGQKuu33b+kGo4VQe1T7ONwZ+Lf6K3W9SOxPv
+         icclyMA5PfYHmX5ewTawTI3nP0gxRxMtdQhzP6ryE/HKHKsRjHnHa0C0STBMEC9Y0Q73
+         n8MGNNPhDBSG3kB6VKxVXiCKBQsF/E2IbIxl/vMHxLNS7pL0dRmSGlbZplKxelQmp2+I
+         PGZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mnaL4pZPqg67oVs9s+KMZ+ww7k0gZJ9omOde+Yyhp8M=;
+        b=bat/uahpB2MmUXFCYoDZpdq2jXJLz4xglCl5MYztohjXJKdXtLadUlvLm9wh33pqjR
+         Cc45R79JotsWFWBCPkCLFgUmfbsysjsXy45ZglP1d2qa3vNVYOMFF1FtUKnoPRGyfoSB
+         2DKN/oe8Mu6Mys8CDkwU+tvZxykI86jJ4+Mbll3LW9x/pctNw5qF2zFXJSuFtn7yFDwb
+         XgI847k15y6jIIJVq34ug+1oq184VVT+kNfx1DpsActQTw9CvDaJ5qwTw51IhsC0XyZM
+         T8g302RwerJGdrieHCEdUA7YEDiMUWFDS/Vbzkfxzpf6o+51UT64F7PAyMaUaqyb9rQN
+         6lOQ==
+X-Gm-Message-State: APjAAAXaukrluO5xyQ2SLfF+zDNXKytJauAD1dn3N8+txmtsQxBBUFj3
+        MlOqjV8DCuWgBP4snJOvERcAhxyeJVY=
+X-Google-Smtp-Source: APXvYqwnOjMI4Imt9AN0muuluOhYWgKqu+WGknn7E4SioVZRznBw1TXz7SBzYydzBhnIQv+SPkMjqA==
+X-Received: by 2002:a17:902:bd93:: with SMTP id q19mr20352580pls.249.1569858222453;
+        Mon, 30 Sep 2019 08:43:42 -0700 (PDT)
+Received: from Slackware ([103.231.91.38])
+        by smtp.gmail.com with ESMTPSA id y7sm13581711pgj.35.2019.09.30.08.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2019 08:43:41 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 21:13:24 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        LinuxKernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [GIT PULL] remove dead mutt url and add active mutt url
+Message-ID: <20190930154324.GB27688@Slackware>
+References: <20190928151300.GA18122@debian>
+ <20190930081310.7e3b9c52@lwn.net>
+ <20190930152607.GA27688@Slackware>
+ <a1d80b29-4cd8-2ffc-1b55-3a806fca1a06@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="neYutvxvOLaeuPCA"
 Content-Disposition: inline
-In-Reply-To: <5633066F-01BE-437D-A564-150FD48B6D92@zytor.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9396 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1909300154
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9396 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1909300154
+In-Reply-To: <a1d80b29-4cd8-2ffc-1b55-3a806fca1a06@infradead.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 09:04:23AM -0700, hpa@zytor.com wrote:
-> On July 4, 2019 9:36:10 AM PDT, Daniel Kiper <daniel.kiper@oracle.com> wrote:
-> >The relationships between the headers are analogous to the various data
-> >sections:
-> >
-> >  setup_header = .data
-> >  boot_params/setup_data = .bss
-> >
-> >What is missing from the above list? That's right:
-> >
-> >  kernel_info = .rodata
-> >
-> >We have been (ab)using .data for things that could go into .rodata or
-> >.bss for
-> >a long time, for lack of alternatives and -- especially early on --
-> >inertia.
-> >Also, the BIOS stub is responsible for creating boot_params, so it
-> >isn't
-> >available to a BIOS-based loader (setup_data is, though).
-> >
-> >setup_header is permanently limited to 144 bytes due to the reach of
-> >the
-> >2-byte jump field, which doubles as a length field for the structure,
-> >combined
-> >with the size of the "hole" in struct boot_params that a protected-mode
-> >loader
-> >or the BIOS stub has to copy it into. It is currently 119 bytes long,
-> >which
-> >leaves us with 25 very precious bytes. This isn't something that can be
-> >fixed
-> >without revising the boot protocol entirely, breaking backwards
-> >compatibility.
-> >
-> >boot_params proper is limited to 4096 bytes, but can be arbitrarily
-> >extended
-> >by adding setup_data entries. It cannot be used to communicate
-> >properties of
-> >the kernel image, because it is .bss and has no image-provided content.
-> >
-> >kernel_info solves this by providing an extensible place for
-> >information about
-> >the kernel image. It is readonly, because the kernel cannot rely on a
-> >bootloader copying its contents anywhere, but that is OK; if it becomes
-> >necessary it can still contain data items that an enabled bootloader
-> >would be
-> >expected to copy into a setup_data chunk.
-> >
-> >This patch does not bump setup_header version in arch/x86/boot/header.S
-> >because it will be followed by additional changes coming into the
-> >Linux/x86 boot protocol.
-> >
-> >Suggested-by: H. Peter Anvin <hpa@zytor.com>
-> >Signed-off-by: Daniel Kiper <daniel.kiper@oracle.com>
-> >Reviewed-by: Eric Snowberg <eric.snowberg@oracle.com>
-> >Reviewed-by: Ross Philipson <ross.philipson@oracle.com>
-> >---
-> >v2 - suggestions/fixes:
-> >   - rename setup_header2 to kernel_info,
-> >     (suggested by H. Peter Anvin),
-> >   - change kernel_info.header value to "InfO" (0x4f666e49),
-> >   - new kernel_info description in Documentation/x86/boot.rst,
-> >     (suggested by H. Peter Anvin),
-> >   - drop kernel_info_offset_update() as an overkill and
-> >     update kernel_info offset directly from main(),
-> >     (suggested by Eric Snowberg),
-> >   - new commit message
-> >     (suggested by H. Peter Anvin),
-> >   - fix some commit message misspellings
-> >     (suggested by Eric Snowberg).
-> >---
-> >Documentation/x86/boot.rst             | 89
-> >++++++++++++++++++++++++++++++++++
-> > arch/x86/boot/Makefile                 |  2 +-
-> > arch/x86/boot/compressed/Makefile      |  4 +-
-> > arch/x86/boot/compressed/kernel_info.S | 12 +++++
-> > arch/x86/boot/header.S                 |  1 +
-> > arch/x86/boot/tools/build.c            |  5 ++
-> > arch/x86/include/uapi/asm/bootparam.h  |  1 +
-> > 7 files changed, 111 insertions(+), 3 deletions(-)
-> > create mode 100644 arch/x86/boot/compressed/kernel_info.S
-> >
-> >diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-> >index 08a2f100c0e6..a934a56f0516 100644
-> >--- a/Documentation/x86/boot.rst
-> >+++ b/Documentation/x86/boot.rst
-> >@@ -68,8 +68,25 @@ Protocol 2.12	(Kernel 3.8) Added the xloadflags
-> >field and extension fields
-> > Protocol 2.13	(Kernel 3.14) Support 32- and 64-bit flags being set in
-> > 		xloadflags to support booting a 64-bit kernel from 32-bit
-> > 		EFI
-> >+
-> >+Protocol 2.14:	BURNT BY INCORRECT COMMIT
-> >ae7e1238e68f2a472a125673ab506d49158c1889
-> >+		(x86/boot: Add ACPI RSDP address to setup_header)
-> >+		DO NOT USE!!! ASSUME SAME AS 2.13.
-> >+
-> >+Protocol 2.15:	(Kernel 5.3) Added the kernel_info.
-> >=============	============================================================
-> >
-> >+.. note::
-> >+     The protocol version number should be changed only if the setup
-> >header
-> >+     is changed. There is no need to update the version number if
-> >boot_params
-> >+     or kernel_info are changed. Additionally, it is recommended to
-> >use
-> >+     xloadflags (in this case the protocol version number should not
-> >be
-> >+     updated either) or kernel_info to communicate supported Linux
-> >kernel
-> >+     features to the boot loader. Due to very limited space available
-> >in
-> >+     the original setup header every update to it should be considered
-> >+     with great care. Starting from the protocol 2.15 the primary way
-> >to
-> >+     communicate things to the boot loader is the kernel_info.
-> >+
-> >
-> > Memory Layout
-> > =============
-> >@@ -207,6 +224,7 @@ Offset/Size	Proto		Name			Meaning
-> > 0258/8		2.10+		pref_address		Preferred loading address
-> > 0260/4		2.10+		init_size		Linear memory required during initialization
-> > 0264/4		2.11+		handover_offset		Offset of handover entry point
-> >+0268/4		2.15+		kernel_info_offset	Offset of the kernel_info
-> >===========	========	=====================	============================================
-> >
-> > .. note::
-> >@@ -855,6 +873,77 @@ Offset/size:	0x264/4
-> >
-> >   See EFI HANDOVER PROTOCOL below for more details.
-> >
-> >+============	==================
-> >+Field name:	kernel_info_offset
-> >+Type:		read
-> >+Offset/size:	0x268/4
-> >+Protocol:	2.15+
-> >+============	==================
-> >+
-> >+  This field is the offset from the beginning of the kernel image to
-> >the
-> >+  kernel_info. It is embedded in the Linux image in the uncompressed
-> >+  protected mode region.
-> >+
-> >+
-> >+The kernel_info
-> >+===============
-> >+
-> >+The relationships between the headers are analogous to the various
-> >data
-> >+sections:
-> >+
-> >+  setup_header = .data
-> >+  boot_params/setup_data = .bss
-> >+
-> >+What is missing from the above list? That's right:
-> >+
-> >+  kernel_info = .rodata
-> >+
-> >+We have been (ab)using .data for things that could go into .rodata or
-> >.bss for
-> >+a long time, for lack of alternatives and -- especially early on --
-> >inertia.
-> >+Also, the BIOS stub is responsible for creating boot_params, so it
-> >isn't
-> >+available to a BIOS-based loader (setup_data is, though).
-> >+
-> >+setup_header is permanently limited to 144 bytes due to the reach of
-> >the
-> >+2-byte jump field, which doubles as a length field for the structure,
-> >combined
-> >+with the size of the "hole" in struct boot_params that a
-> >protected-mode loader
-> >+or the BIOS stub has to copy it into. It is currently 119 bytes long,
-> >which
-> >+leaves us with 25 very precious bytes. This isn't something that can
-> >be fixed
-> >+without revising the boot protocol entirely, breaking backwards
-> >compatibility.
-> >+
-> >+boot_params proper is limited to 4096 bytes, but can be arbitrarily
-> >extended
-> >+by adding setup_data entries. It cannot be used to communicate
-> >properties of
-> >+the kernel image, because it is .bss and has no image-provided
-> >content.
-> >+
-> >+kernel_info solves this by providing an extensible place for
-> >information about
-> >+the kernel image. It is readonly, because the kernel cannot rely on a
-> >+bootloader copying its contents anywhere, but that is OK; if it
-> >becomes
-> >+necessary it can still contain data items that an enabled bootloader
-> >would be
-> >+expected to copy into a setup_data chunk.
-> >+
-> >+It is recommended to not store large data chunks, e.g. strings,
-> >directly in the
-> >+kernel_info struct. Such data should be placed outside of it and
-> >pointed from
-> >+the kernel_info structure using offsets from the beginning of the
-> >structure,
-> >+the kernel_info.header field.
-> >+
-> >+
-> >+Details of the kernel_info Fields
-> >+=================================
-> >+
-> >+============	========
-> >+Field name:	header
-> >+Offset/size:	0x0000/4
-> >+============	========
-> >+
-> >+  Contains the magic number "InfO" (0x4f666e49).
-> >+
-> >+============	========
-> >+Field name:	size
-> >+Offset/size:	0x0004/4
-> >+============	========
-> >+
-> >+  This field contains the size of the kernel_info including
-> >kernel_info.header.
-> >+  It should be used by the boot loader to detect supported fields in
-> >the kernel_info.
-> >+
-> >
-> > The Image Checksum
-> > ==================
-> >diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-> >index e2839b5c246c..c30a9b642a86 100644
-> >--- a/arch/x86/boot/Makefile
-> >+++ b/arch/x86/boot/Makefile
-> >@@ -87,7 +87,7 @@ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
-> >
-> > SETUP_OBJS = $(addprefix $(obj)/,$(setup-y))
-> >
-> >-sed-zoffset := -e 's/^\([0-9a-fA-F]*\) [ABCDGRSTVW]
-> >\(startup_32\|startup_64\|efi32_stub_entry\|efi64_stub_entry\|efi_pe_entry\|input_data\|_end\|_ehead\|_text\|z_.*\)$$/\#define
-> >ZO_\2 0x\1/p'
-> >+sed-zoffset := -e 's/^\([0-9a-fA-F]*\) [ABCDGRSTVW]
-> >\(startup_32\|startup_64\|efi32_stub_entry\|efi64_stub_entry\|efi_pe_entry\|input_data\|kernel_info\|_end\|_ehead\|_text\|z_.*\)$$/\#define
-> >ZO_\2 0x\1/p'
-> >
-> > quiet_cmd_zoffset = ZOFFSET $@
-> >       cmd_zoffset = $(NM) $< | sed -n $(sed-zoffset) > $@
-> >diff --git a/arch/x86/boot/compressed/Makefile
-> >b/arch/x86/boot/compressed/Makefile
-> >index 6b84afdd7538..fad3b18e2cc3 100644
-> >--- a/arch/x86/boot/compressed/Makefile
-> >+++ b/arch/x86/boot/compressed/Makefile
-> >@@ -72,8 +72,8 @@ $(obj)/../voffset.h: vmlinux FORCE
-> >
-> > $(obj)/misc.o: $(obj)/../voffset.h
-> >
-> >-vmlinux-objs-y := $(obj)/vmlinux.lds $(obj)/head_$(BITS).o
-> >$(obj)/misc.o \
-> >-	$(obj)/string.o $(obj)/cmdline.o $(obj)/error.o \
-> >+vmlinux-objs-y := $(obj)/vmlinux.lds $(obj)/kernel_info.o
-> >$(obj)/head_$(BITS).o \
-> >+	$(obj)/misc.o $(obj)/string.o $(obj)/cmdline.o $(obj)/error.o \
-> > 	$(obj)/piggy.o $(obj)/cpuflags.o
-> >
-> > vmlinux-objs-$(CONFIG_EARLY_PRINTK) += $(obj)/early_serial_console.o
-> >diff --git a/arch/x86/boot/compressed/kernel_info.S
-> >b/arch/x86/boot/compressed/kernel_info.S
-> >new file mode 100644
-> >index 000000000000..3f1cb301b9ff
-> >--- /dev/null
-> >+++ b/arch/x86/boot/compressed/kernel_info.S
-> >@@ -0,0 +1,12 @@
-> >+/* SPDX-License-Identifier: GPL-2.0 */
-> >+
-> >+	.section ".rodata.kernel_info", "a"
-> >+
-> >+	.global kernel_info
-> >+
-> >+kernel_info:
-> >+        /* Header. */
-> >+	.ascii	"InfO"
-> >+        /* Size. */
-> >+	.long	kernel_info_end - kernel_info
-> >+kernel_info_end:
-> >diff --git a/arch/x86/boot/header.S b/arch/x86/boot/header.S
-> >index 850b8762e889..ec6a25a43148 100644
-> >--- a/arch/x86/boot/header.S
-> >+++ b/arch/x86/boot/header.S
-> >@@ -557,6 +557,7 @@ pref_address:		.quad LOAD_PHYSICAL_ADDR	# preferred
-> >load addr
-> >
-> > init_size:		.long INIT_SIZE		# kernel initialization size
-> > handover_offset:	.long 0			# Filled in by build.c
-> >+kernel_info_offset:	.long 0			# Filled in by build.c
-> >
-> ># End of setup header
-> >#####################################################
-> >
-> >diff --git a/arch/x86/boot/tools/build.c b/arch/x86/boot/tools/build.c
-> >index a93d44e58f9c..55e669d29e54 100644
-> >--- a/arch/x86/boot/tools/build.c
-> >+++ b/arch/x86/boot/tools/build.c
-> >@@ -56,6 +56,7 @@ u8 buf[SETUP_SECT_MAX*512];
-> > unsigned long efi32_stub_entry;
-> > unsigned long efi64_stub_entry;
-> > unsigned long efi_pe_entry;
-> >+unsigned long kernel_info;
-> > unsigned long startup_64;
-> >
-> >/*----------------------------------------------------------------------*/
-> >@@ -321,6 +322,7 @@ static void parse_zoffset(char *fname)
-> > 		PARSE_ZOFS(p, efi32_stub_entry);
-> > 		PARSE_ZOFS(p, efi64_stub_entry);
-> > 		PARSE_ZOFS(p, efi_pe_entry);
-> >+		PARSE_ZOFS(p, kernel_info);
-> > 		PARSE_ZOFS(p, startup_64);
-> >
-> > 		p = strchr(p, '\n');
-> >@@ -410,6 +412,9 @@ int main(int argc, char ** argv)
-> >
-> > 	efi_stub_entry_update();
-> >
-> >+	/* Update kernel_info offset. */
-> >+	put_unaligned_le32(kernel_info, &buf[0x268]);
-> >+
-> > 	crc = partial_crc32(buf, i, crc);
-> > 	if (fwrite(buf, 1, i, dest) != i)
-> > 		die("Writing setup failed");
-> >diff --git a/arch/x86/include/uapi/asm/bootparam.h
-> >b/arch/x86/include/uapi/asm/bootparam.h
-> >index 60733f137e9a..b05318112452 100644
-> >--- a/arch/x86/include/uapi/asm/bootparam.h
-> >+++ b/arch/x86/include/uapi/asm/bootparam.h
-> >@@ -86,6 +86,7 @@ struct setup_header {
-> > 	__u64	pref_address;
-> > 	__u32	init_size;
-> > 	__u32	handover_offset;
-> >+	__u32	kernel_info_offset;
-> > } __attribute__((packed));
-> >
-> > struct sys_desc_table {
+
+--neYutvxvOLaeuPCA
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 08:28 Mon 30 Sep 2019, Randy Dunlap wrote:
+>On 9/30/19 8:26 AM, Bhaskar Chowdhury wrote:
+>> On 08:13 Mon 30 Sep 2019, Jonathan Corbet wrote:
+>>> On Sat, 28 Sep 2019 20:43:03 +0530
+>>> Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+>>>
+>>>> The following changes since commit 4e4327891fe2a2a4db342985bff4d4c4870=
+3c707:
+>>>>
+>>>> =C2=A0 replace dead mutt url with active one. (2019-09-28 20:11:00 +05=
+30)
+>>>>
+>>>> =C2=A0 are available in the Git repository at:
+>>>
+>>> Bhaskar, I'm not going to take a pull request for a change like this.=
+=C2=A0 If
+>>> you would like to make this change (and it seems like a useful change to
+>>> make), please send me a patch that is:
+>>>
+>>> - based on docs-next
+>> I have no clue where do I found out "docs-next" Jon. But I have
+>> stumbled over these places..
+>>
+>> https://github.com/torvalds/linux/commit/81a84ad3cb5711cec79f4dd53a4ce02=
+6b092c432
+>>
+>> and this:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/rdunlap/linux-docs.git/
+>>
+>> Now, do you want me to make changes there and sent a patch?? I am
+>> absolutely not sure .
+>>
+>> Kindly shed some light.
+>>> - properly changelogged
+>>> - demonstrated to build properly with sphinx
+>>>
+>>> Thanks,
+>>>
+>>> jon
+>>
+>> Thanks,
+>> Bhaskar
 >
-> I should like to make make things a bit more stringent: additional
-> data should be made offsets from the kernel_info structure *and they
-> should live in the .rodata.kernel_info section*. We should add a size
+>Hi,
+>The kernel MAINTAINERS file says:
+>
+>DOCUMENTATION
+>M:	Jonathan Corbet <corbet@lwn.net>
+>L:	linux-doc@vger.kernel.org
+>S:	Maintained
+>F:	Documentation/
+>F:	scripts/documentation-file-ref-check
+>F:	scripts/kernel-doc
+>F:	scripts/sphinx-pre-install
+>X:	Documentation/ABI/
+>X:	Documentation/firmware-guide/acpi/
+>X:	Documentation/devicetree/
+>X:	Documentation/i2c/
+>X:	Documentation/media/
+>X:	Documentation/power/
+>X:	Documentation/spi/
+>T:	git git://git.lwn.net/linux.git docs-next
+>
+>that ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+>
+>--=20
+>~Randy
 
-OK.
+Thanks, a bunch Randy...my bad...was lazy and pathetic to not look into
+that file.
 
-> field for the entire .kernel_info section, thus ensuring it is a
-> single self-contained blob.
+~Bhaskar
 
-.rodata.kernel_info contains its total size immediately behind the
-"InfO" header. Do you suggest that we should add the size of
-.rodata.kernel_info into setup_header too?
+--neYutvxvOLaeuPCA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Daniel
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2SIpYACgkQsjqdtxFL
+KRV1TAgAviipKejZClTvQVfKAHPzof9RkXIrJ6CFWUnV+dpQ0K3Eab38b4o8hCZq
+fMS1e2ETibQ3pYs4CbqDC1ecmFks3N+JgTsxRywxNem8VbpxijzRuXdPwCw7viP0
+BQ5XybxtulTPifMDG9A+lUhRD5/qWmnfHCi109T55nEVEexI2EfHemeLC0btuh5c
+qkIiVQ1BhdrAYWPLvE58PaHNWQ8M8ZAdvQzJmL04uKK0mJuIGLPjnrplJSbW49ax
+BZCq9Brh5x8EV2+XlW8DkWURGpR/QIZOtgKqL8Y/N1qj7UlrO5qFbUSTOyn8ZAZa
+tYv4ESDu2v3IuEfAz4GjEFtE4d3PeQ==
+=8F6E
+-----END PGP SIGNATURE-----
+
+--neYutvxvOLaeuPCA--
