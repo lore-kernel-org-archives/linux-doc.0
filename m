@@ -3,109 +3,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.3 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+	URIBL_SBL_A autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 990687D91A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 07:41:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 50A5C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Sep 2019 08:50:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727702AbfI3Hlx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Sep 2019 03:41:53 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:21216 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726425AbfI3Hlx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Sep 2019 03:41:53 -0400
-Received: from heffalump.sk2.org (unknown [88.186.243.14])
-        by smtp5-g21.free.fr (Postfix) with ESMTPS id 53E2D5FF88;
-        Mon, 30 Sep 2019 09:41:50 +0200 (CEST)
-Received: from steve by heffalump.sk2.org with local (Exim 4.92)
-        (envelope-from <steve@sk2.org>)
-        id 1iEqKE-0003vP-FK; Mon, 30 Sep 2019 09:42:30 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
+        id S1729995AbfI3IuH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Sep 2019 04:50:07 -0400
+Received: from www62.your-server.de ([213.133.104.62]:57504 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbfI3IuH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Sep 2019 04:50:07 -0400
+Received: from [2a02:120b:2c12:c120:71a0:62dd:894c:fd0e] (helo=localhost)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1iErNc-00007s-TU; Mon, 30 Sep 2019 10:50:05 +0200
+Date:   Mon, 30 Sep 2019 10:50:04 +0200
+From:   Daniel Borkmann <daniel@iogearbox.net>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
         Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>
-Cc:     linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         bpf@vger.kernel.org,
-        "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
-        Stephen Kitt <steve@sk2.org>
-Subject: [PATCH v2] bpf: use flexible array members, not zero-length
-Date:   Mon, 30 Sep 2019 09:38:59 +0200
-Message-Id: <20190930073858.7639-1-steve@sk2.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <F15E974F-4B7F-4819-B640-682A0A3A47C5@fb.com>
-References: <F15E974F-4B7F-4819-B640-682A0A3A47C5@fb.com>
+        "Gustavo A . R . Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH] bpf: use flexible array members, not zero-length
+Message-ID: <20190930085004.GA1698@pc-66.home>
+References: <20190928144814.27002-1-steve@sk2.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190928144814.27002-1-steve@sk2.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.101.4/25587/Sun Sep 29 10:25:24 2019)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This switches zero-length arrays in variable-length structs to C99
-flexible array members. GCC will then ensure that the arrays are
-always the last element in the struct.
+On Sat, Sep 28, 2019 at 04:48:14PM +0200, Stephen Kitt wrote:
+> This switches zero-length arrays in variable-length structs to C99
+> flexible array members. GCC will then ensure that the arrays are
+> always the last element in the struct.
+> 
+> Coccinelle:
+> @@
+> identifier S, fld;
+> type T;
+> @@
+> 
+> struct S {
+>   ...
+> - T fld[0];
+> + T fld[];
+>   ...
+> };
 
-Coccinelle:
-@@
-identifier S, fld;
-type T;
-@@
+You did not explain the "why is it needed" part, only what your
+change is doing. What [compilation?] issue are you seeing that
+you're trying to fix? This sort of information must be present
+in a changelog.
 
-struct S {
-  ...
-  T fld[
-- 0
-  ];
-  ...
-};
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/bpf/btf.rst       | 2 +-
- tools/lib/bpf/libbpf.c          | 2 +-
- tools/lib/bpf/libbpf_internal.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index 4d565d202ce3..24ce50fc1fc1 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -670,7 +670,7 @@ func_info for each specific ELF section.::
-         __u32   sec_name_off; /* offset to section name */
-         __u32   num_info;
-         /* Followed by num_info * record_size number of bytes */
--        __u8    data[0];
-+        __u8    data[];
-      };
- 
- Here, num_info must be greater than 0.
-diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
-index e0276520171b..c02ea0e1a588 100644
---- a/tools/lib/bpf/libbpf.c
-+++ b/tools/lib/bpf/libbpf.c
-@@ -5577,7 +5577,7 @@ static struct perf_buffer *__perf_buffer__new(int map_fd, size_t page_cnt,
- struct perf_sample_raw {
- 	struct perf_event_header header;
- 	uint32_t size;
--	char data[0];
-+	char data[];
- };
- 
- struct perf_sample_lost {
-diff --git a/tools/lib/bpf/libbpf_internal.h b/tools/lib/bpf/libbpf_internal.h
-index 2e83a34f8c79..930ada2276bf 100644
---- a/tools/lib/bpf/libbpf_internal.h
-+++ b/tools/lib/bpf/libbpf_internal.h
-@@ -86,7 +86,7 @@ struct btf_ext_info_sec {
- 	__u32	sec_name_off;
- 	__u32	num_info;
- 	/* Followed by num_info * record_size number of bytes */
--	__u8	data[0];
-+	__u8	data[];
- };
- 
- /* The minimum bpf_func_info checked by the loader */
--- 
-2.20.1
-
+Thanks,
+Daniel
