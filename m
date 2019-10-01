@@ -1,267 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F12A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 10:12:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 427747D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 11:17:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730334AbfJAKMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 06:12:02 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:33642 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730305AbfJAKMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 06:12:02 -0400
-Received: by mail-wm1-f66.google.com with SMTP id r17so2129339wme.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2019 03:12:00 -0700 (PDT)
+        id S1731397AbfJALRH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 07:17:07 -0400
+Received: from mail-pf1-f180.google.com ([209.85.210.180]:42843 "EHLO
+        mail-pf1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731290AbfJALRH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 07:17:07 -0400
+Received: by mail-pf1-f180.google.com with SMTP id q12so7697721pff.9;
+        Tue, 01 Oct 2019 04:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=8hy45pyP7kv6EXfVxQmzNrFK2VbFBW1Lka/Gmb0X5J0=;
-        b=J7AYTjPqD5jXOPq7aic9RA8CQUOWh4TzXM79Ki6WY5pV+NU0lcnsopzWRK734enmtS
-         aIN8K2zIIsNuDNokBRn5ANOCSDxrJASgmDumtnQiAFlKDHCYPR9QLokvRL1+7pI+r5eG
-         EgGd8Zbkw0NIMKrY90aFXTCqcOLlhj0wWeSYELbaGGKRRS1HeVoTBbyueR2JdfkEsQ8r
-         6x2jjpafrgoFux01vRuGQqxDlqebtdUR0AK8nda/osYxrW+JA9rma3mZbCbek0UG6lT1
-         jg0Gi4EF4iTC25c+QTBfhRILf7Zc2pdnFte2FmXGPfpyRrxO8+pWrfYewQD8hrKfCeH9
-         f29w==
+        d=gmail.com; s=20161025;
+        h=date:from:cc:subject:message-id:reply-to:mime-version
+         :content-disposition:user-agent;
+        bh=PHBPieEoIEiHbvbeeHJjltGH3wFRSgkergj3wcnFLm4=;
+        b=sTsqsndb21GR8aB81yIio35zSa+c9ao6uAOjuhyJCrvEg1cm1TE3Rg+TrTF88trpRy
+         Jp0GQQh5BOUrorDIhUTIhRlFf6A+/SkIx/3uE2J5qTYLV6vfTXjb/L8WcZC2mXR4HiTG
+         piG9rpekDDJe/31t7cRi8KKWopw2EQW6C1VPsJVDuNL2LN7nh3NhLSq5XnWtNysDZAhv
+         26IpcWXV/U8fMk97GdpDw8YoFjoB6UHZ97qlflksChFi6MGYYnIoSSY4dm+pnfUBcUG2
+         CiLTdv1sSU/V3k4IlxgueZ2pLimV3X13o/s/melWl5ufOHPNsi298HimjpHmIKEdAMdo
+         6k8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8hy45pyP7kv6EXfVxQmzNrFK2VbFBW1Lka/Gmb0X5J0=;
-        b=I5oK+8tZh+41qBzPXyZfYQbm4vo1uTu9B/e4INvfjlZ1hXpazlrJLWRuzfeYCnkpRq
-         xy509rlQ/pLH6+fEiO1pqTAjg5zdDT+9tWeGdynC7dlc/t6cLyfST1za/wbYNjWf5em/
-         wsvWTX763HfMr0mu+sNLzpkFi2JJ9uIdUBnX2d8A0nuJWk+fBMH/gDsKrgtz0YyIMARW
-         +/sB3Il1YxrESf67Fxzmj/C9BR3LGb+cmF3ToszC1e3QGlainLAhaZOQm1/+pUbVaRp1
-         pMuE1babG2vDgIjBnPKjH96SP8CW8H4IDHObA47Iv6amdXcxJQnT7+Qg40GdNhzLMDdk
-         Mm3g==
-X-Gm-Message-State: APjAAAUEFJHK59tU1CdMhV2ebJ2mOD6cgMa7vcd4kp5aLbSpnuIZ2w6m
-        AcMDYfEf4UDwg/mpIDi4ekolyA==
-X-Google-Smtp-Source: APXvYqyce6kLiNa02VTrU6yr/ckelEv9Vwx7Pd1FX7YNYnZ2gxLu2G+aiD+MbyaODltXlPmlKz4Vqg==
-X-Received: by 2002:a7b:cf12:: with SMTP id l18mr3198121wmg.25.1569924720081;
-        Tue, 01 Oct 2019 03:12:00 -0700 (PDT)
-Received: from [192.168.86.34] (cpc89974-aztw32-2-0-cust43.18-1.cable.virginm.net. [86.30.250.44])
-        by smtp.googlemail.com with ESMTPSA id r2sm4155309wma.1.2019.10.01.03.11.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 03:11:59 -0700 (PDT)
-Subject: Re: [PATCH v6 1/4] nvmem: core: add nvmem_device_find
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-References: <20190923114636.6748-1-tbogendoerfer@suse.de>
- <20190923114636.6748-2-tbogendoerfer@suse.de>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <ce44c762-f9a6-b4ef-fa8a-19ee4a6d391f@linaro.org>
-Date:   Tue, 1 Oct 2019 11:11:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:cc:subject:message-id:reply-to
+         :mime-version:content-disposition:user-agent;
+        bh=PHBPieEoIEiHbvbeeHJjltGH3wFRSgkergj3wcnFLm4=;
+        b=MjMlBZLisxdjH7v/sPidgqPlx9Yzt9cScA5zRyHn6olyE2AjBHKmp48kYT96RUDEWl
+         H/2HXMk4ozaR8r93q1D4wz0qMIaeJhi3Fg+qrN4wfP0rpJJ9M9djBFwzoKZdo/DLs27e
+         BEO2fwIeQ6XLaiRelrl3Ri+WfqbGn4ZdlxM+5ibx1Qxksll+t+IsuU3LY2reDtOY+VFo
+         onDuaUd5zIlUoeRZ4hBblt8DIfOJmddjg3rBqO5uDWqZKkBbuaHgNoBi1p8pDDk0YGd0
+         c8Q1k+9+vuizLqxU0ec70NtnqMiSS/febcpBpmSzH0/868heder8lEqz+4WW5SIhhLSR
+         fCOQ==
+X-Gm-Message-State: APjAAAV4KAYljfscLZmKefCPqq2Ucbbp+xZARk6X/p193XnhTsBEhsZp
+        ChQLplldQob4y8pQlM02Ado=
+X-Google-Smtp-Source: APXvYqzzT28dhBVJfRRaYBc/gUpXA0OfOFDvLV5YLDiedbEgCmlLs62xDNsRB959hfxbEBuQLPRSIA==
+X-Received: by 2002:a17:90a:617:: with SMTP id j23mr5067390pjj.130.1569928626641;
+        Tue, 01 Oct 2019 04:17:06 -0700 (PDT)
+Received: from gmail.com (ip-103-85-37-165.syd.xi.com.au. [103.85.37.165])
+        by smtp.gmail.com with ESMTPSA id l27sm18022696pgc.53.2019.10.01.04.17.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 04:17:04 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 21:16:58 +1000
+From:   Adam Zerella <adam.zerella@gmail.com>
+Cc:     jakub.kicinski@netronome.com, davem@davemloft.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        adam.zerella@gmail.com
+Subject: [PATCH v2] docs: networking: Add title caret and missing doc
+Message-ID: <20191001111658.GA10429@gmail.com>
+Reply-To: <20190930113754.5902855e@cakuba.netronome.com>
 MIME-Version: 1.0
-In-Reply-To: <20190923114636.6748-2-tbogendoerfer@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Resolving a couple of Sphinx documentation warnings
+that are generated in the networking section.
 
+- WARNING: document isn't included in any toctree
+- WARNING: Title underline too short.
 
-On 23/09/2019 12:46, Thomas Bogendoerfer wrote:
-> nvmem_device_find provides a way to search for nvmem devices with
-> the help of a match function simlair to bus_find_device.
-> 
-> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> ---
+Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+---
 
+v2: Moved 'netronome/nfp' into alphabetical order
+---
+ Documentation/networking/device_drivers/index.rst | 1 +
+ Documentation/networking/j1939.rst                | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Thanks for the patch,
-This patch looks good for me.
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index f51f92571e39..c1f7f75e5fd9 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -23,6 +23,7 @@ Contents:
+    intel/ice
+    google/gve
+    mellanox/mlx5
++   netronome/nfp
+    pensando/ionic
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/networking/j1939.rst b/Documentation/networking/j1939.rst
+index ce7e7a044e08..dc60b13fcd09 100644
+--- a/Documentation/networking/j1939.rst
++++ b/Documentation/networking/j1939.rst
+@@ -272,7 +272,7 @@ supported flags are:
+ * MSG_DONTWAIT, i.e. non-blocking operation.
+ 
+ recvmsg(2)
+-^^^^^^^^^
++^^^^^^^^^^
+ 
+ In most cases recvmsg(2) is needed if you want to extract more information than
+ recvfrom(2) can provide. For example package priority and timestamp. The
+-- 
+2.21.0
 
-Do you know which tree is going to pick this series up?
-
-I can either apply this patch to nvmem tree
-
-or here is my Ack for this patch to take it via other trees.
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
-
---srini
->   Documentation/driver-api/nvmem.rst |  2 ++
->   drivers/nvmem/core.c               | 61 +++++++++++++++++---------------------
->   include/linux/nvmem-consumer.h     |  9 ++++++
->   3 files changed, 38 insertions(+), 34 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-> index d9d958d5c824..287e86819640 100644
-> --- a/Documentation/driver-api/nvmem.rst
-> +++ b/Documentation/driver-api/nvmem.rst
-> @@ -129,6 +129,8 @@ To facilitate such consumers NVMEM framework provides below apis::
->     struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
->     struct nvmem_device *devm_nvmem_device_get(struct device *dev,
->   					   const char *name);
-> +  struct nvmem_device *nvmem_device_find(void *data,
-> +			int (*match)(struct device *dev, const void *data));
->     void nvmem_device_put(struct nvmem_device *nvmem);
->     int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
->   		      size_t bytes, void *buf);
-> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index 057d1ff87d5d..9f1ee9c766ec 100644
-> --- a/drivers/nvmem/core.c
-> +++ b/drivers/nvmem/core.c
-> @@ -76,33 +76,6 @@ static struct bus_type nvmem_bus_type = {
->   	.name		= "nvmem",
->   };
->   
-> -static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
-> -{
-> -	struct device *d;
-> -
-> -	if (!nvmem_np)
-> -		return NULL;
-> -
-> -	d = bus_find_device_by_of_node(&nvmem_bus_type, nvmem_np);
-> -
-> -	if (!d)
-> -		return NULL;
-> -
-> -	return to_nvmem_device(d);
-> -}
-> -
-> -static struct nvmem_device *nvmem_find(const char *name)
-> -{
-> -	struct device *d;
-> -
-> -	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
-> -
-> -	if (!d)
-> -		return NULL;
-> -
-> -	return to_nvmem_device(d);
-> -}
-> -
->   static void nvmem_cell_drop(struct nvmem_cell *cell)
->   {
->   	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
-> @@ -532,13 +505,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
->   }
->   EXPORT_SYMBOL(devm_nvmem_unregister);
->   
-> -static struct nvmem_device *__nvmem_device_get(struct device_node *np,
-> -					       const char *nvmem_name)
-> +static struct nvmem_device *__nvmem_device_get(void *data,
-> +			int (*match)(struct device *dev, const void *data))
->   {
->   	struct nvmem_device *nvmem = NULL;
-> +	struct device *dev;
->   
->   	mutex_lock(&nvmem_mutex);
-> -	nvmem = np ? of_nvmem_find(np) : nvmem_find(nvmem_name);
-> +	dev = bus_find_device(&nvmem_bus_type, NULL, data, match);
-> +	if (dev)
-> +		nvmem = to_nvmem_device(dev);
->   	mutex_unlock(&nvmem_mutex);
->   	if (!nvmem)
->   		return ERR_PTR(-EPROBE_DEFER);
-> @@ -587,7 +563,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
->   	if (!nvmem_np)
->   		return ERR_PTR(-ENOENT);
->   
-> -	return __nvmem_device_get(nvmem_np, NULL);
-> +	return __nvmem_device_get(nvmem_np, device_match_of_node);
->   }
->   EXPORT_SYMBOL_GPL(of_nvmem_device_get);
->   #endif
-> @@ -613,10 +589,26 @@ struct nvmem_device *nvmem_device_get(struct device *dev, const char *dev_name)
->   
->   	}
->   
-> -	return __nvmem_device_get(NULL, dev_name);
-> +	return __nvmem_device_get((void *)dev_name, device_match_name);
->   }
->   EXPORT_SYMBOL_GPL(nvmem_device_get);
->   
-> +/**
-> + * nvmem_device_find() - Find nvmem device with matching function
-> + *
-> + * @data: Data to pass to match function
-> + * @match: Callback function to check device
-> + *
-> + * Return: ERR_PTR() on error or a valid pointer to a struct nvmem_device
-> + * on success.
-> + */
-> +struct nvmem_device *nvmem_device_find(void *data,
-> +			int (*match)(struct device *dev, const void *data))
-> +{
-> +	return __nvmem_device_get(data, match);
-> +}
-> +EXPORT_SYMBOL_GPL(nvmem_device_find);
-> +
->   static int devm_nvmem_device_match(struct device *dev, void *res, void *data)
->   {
->   	struct nvmem_device **nvmem = res;
-> @@ -710,7 +702,8 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
->   		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
->   		    (strcmp(lookup->con_id, con_id) == 0)) {
->   			/* This is the right entry. */
-> -			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
-> +			nvmem = __nvmem_device_get((void *)lookup->nvmem_name,
-> +						   device_match_name);
->   			if (IS_ERR(nvmem)) {
->   				/* Provider may not be registered yet. */
->   				cell = ERR_CAST(nvmem);
-> @@ -780,7 +773,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
->   	if (!nvmem_np)
->   		return ERR_PTR(-EINVAL);
->   
-> -	nvmem = __nvmem_device_get(nvmem_np, NULL);
-> +	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
->   	of_node_put(nvmem_np);
->   	if (IS_ERR(nvmem))
->   		return ERR_CAST(nvmem);
-> diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-> index 8f8be5b00060..02dc4aa992b2 100644
-> --- a/include/linux/nvmem-consumer.h
-> +++ b/include/linux/nvmem-consumer.h
-> @@ -89,6 +89,9 @@ void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
->   int nvmem_register_notifier(struct notifier_block *nb);
->   int nvmem_unregister_notifier(struct notifier_block *nb);
->   
-> +struct nvmem_device *nvmem_device_find(void *data,
-> +			int (*match)(struct device *dev, const void *data));
-> +
->   #else
->   
->   static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-> @@ -204,6 +207,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
->   	return -EOPNOTSUPP;
->   }
->   
-> +static inline struct nvmem_device *nvmem_device_find(void *data,
-> +			int (*match)(struct device *dev, const void *data))
-> +{
-> +	return NULL;
-> +}
-> +
->   #endif /* CONFIG_NVMEM */
->   
->   #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
-> 
