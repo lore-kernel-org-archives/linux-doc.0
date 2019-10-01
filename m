@@ -6,114 +6,72 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3ACC17D91A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 18:25:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90F4E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 18:26:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732312AbfJASZl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 14:25:41 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43924 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732274AbfJASZj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 14:25:39 -0400
-Received: by mail-pl1-f195.google.com with SMTP id f21so5897019plj.10
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2019 11:25:37 -0700 (PDT)
+        id S1732480AbfJAS0I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 14:26:08 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46158 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731034AbfJAS0H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 14:26:07 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q5so8626187pfg.13
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2019 11:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=m8eYBBkYRVbOtZzQQIEHp8iS4j4fHlbVl2GeuXY9abc=;
-        b=GCImDONAmbUHbQLrQB1XgH5tNRznUrOQk5MeIV9pELjG1VRjWfQ42k1ZyWikYSU8Wc
-         Pjq3OvQ5baNwN33CS4tp1TQP5RACnCeFwaaamkAzAEuoAKTXDv9/l+d8uSIPw6oj6OTA
-         qSy5q/jPfZzw+0cfYrH4F38I8Hg4p/EaDJ8m0=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zqsAipJBT/+l6hHcipqnKpFpMM4A80W4tvsIakuG5CE=;
+        b=g5QA2RQoe+ZqGhmmwzTRV8KB6BVTAuTsSyf3gaXExsBraZ1sXNs+w6QTQFAeTULPBP
+         PaoUbh+njFeHRfH8CiwTrxIdbQPqR7Sm1kxQgXUltqo/Oa61SemzAOELrxcRBHfJ6cvi
+         fWpNairMz6FZah2H/4t2m/96PvOOjygR4rPyI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=m8eYBBkYRVbOtZzQQIEHp8iS4j4fHlbVl2GeuXY9abc=;
-        b=tut4ww24CSgvxWHXNUJOPoTc6o9rpdi1OeTwQqvL8kqmFKGBK1IUyxJE0AHRdJdJuq
-         bXdeW2xM1IIHHy1o6xpWkDORhU/1sUFDK4KW0Ghe+HP1S7wqpy808+STSrIeyx3ekh+o
-         mAnr+IHvcLslUMzsy2PsmckqtSw+nY6D/jdGDyPCW0xqAChnCHMK8mYCQhslVluQUh0R
-         ayUAmjPMhP21FftxQWrdUkE+Gw00Ak1MH9Vx3MgF3c3zALgFMEQOijWv1Ak/mEwaad7/
-         4cN9bu0QGrlVKEDPUMR+jL/PMlTW6BflV/z0CPRn4sqCvONKvoqnmQ/0qxySrByLj0SC
-         zufg==
-X-Gm-Message-State: APjAAAVasSdJNjOlXnZSHqd5Gd0MlTyHj1cvC1H+F8hIg3LJ6K++ZkDU
-        +fXz7onvIxNbnsl7CBrjMgvb3g==
-X-Google-Smtp-Source: APXvYqxZou0NR60fIrMXL0icbnWrdfQ0MFD0ezaaocwIAUDTRdBtukN7GzFfirNw9FhjrJVC3NcSJQ==
-X-Received: by 2002:a17:902:ab82:: with SMTP id f2mr27937294plr.220.1569954337120;
-        Tue, 01 Oct 2019 11:25:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zqsAipJBT/+l6hHcipqnKpFpMM4A80W4tvsIakuG5CE=;
+        b=orUVYycjlBkqY1xkcVuSV4Cor0eMqoxvdzORZRFm876InQe3ooSbDSvIiw7jJ2YCjx
+         A8oiPnSkDyfg8q++jxNRTKEiRQvAjSksGBRuMcZP6D6Z9c9hBgLygjva5C+G3m557mAQ
+         ZQ48QF6QxjwEgEUz/BaVSQCbA8qa130A5dPHeQp+TBDBcHVP/DImShmZUhdmyEi3lgmH
+         f6mpq5N66F629OVV3MqFKHhyCF40b91NP9HBvo4A/eE9qZ1hf8QdkQ7pSNyA18WYPJyL
+         z/PHg8UJPlisdl7ZjmOTJVXe2Q1FLlVGDwGWsJYRrxhfVL0bdA28ihqa0bmMrh2C/n+u
+         gZ7w==
+X-Gm-Message-State: APjAAAV1696+E4Co+xjV3VE35Ms+Lri9xsbfAx5b5qtbmJ9njt6Oci3l
+        eSLhIyCp9f8KoesGlzbwk0Fjn1zsaGs=
+X-Google-Smtp-Source: APXvYqyIpgN6OMZZun5BSeRfWkyvMJAYXr0Kg9rgz1eEcJUaLgX3ig+qYOn4DUrT3tL82rBWIejrOg==
+X-Received: by 2002:a17:90a:28c5:: with SMTP id f63mr7051535pjd.67.1569954366452;
+        Tue, 01 Oct 2019 11:26:06 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k15sm18909204pgt.66.2019.10.01.11.25.35
+        by smtp.gmail.com with ESMTPSA id c8sm16082912pfi.117.2019.10.01.11.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:25:36 -0700 (PDT)
+        Tue, 01 Oct 2019 11:26:05 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 11:26:04 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] docs: Programmatically render MAINTAINERS into ReST
-Date:   Tue,  1 Oct 2019 11:25:30 -0700
-Message-Id: <20191001182532.21538-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.17.1
+Subject: Re: [PATCH 0/2] docs: Programmatically render MAINTAINERS into ReST
+Message-ID: <201910011125.AF5245230@keescook>
+References: <20190924230208.12414-1-keescook@chromium.org>
+ <20191001083147.3a1b513f@lwn.net>
+ <20191001120930.5d388839@coco.lan>
+ <20191001113506.12720205@lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191001113506.12720205@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v1: https://lore.kernel.org/lkml/20190924230208.12414-1-keescook@chromium.org
+On Tue, Oct 01, 2019 at 11:35:06AM -0600, Jonathan Corbet wrote:
+>          for line in open(path):
+> +            if sys.version_info.major == 2:
+> +                line = unicode(line, 'utf-8')
 
-v2: fix python2 utf-8 issue thanks to Jonathan Corbet
+Ah-ha! Thanks. I've sent v2 now. :)
 
-
-Commit log from Patch 2 repeated here for cover letter:
-
-In order to have the MAINTAINERS file visible in the rendered ReST
-output, this makes some small changes to the existing MAINTAINERS file
-to allow for better machine processing, and adds a new Sphinx directive
-"maintainers-include" to perform the rendering.
-
-Features include:
-- Per-subsystem reference links: subsystem maintainer entries can be
-  trivially linked to both internally and external. For example:
-  https://www.kernel.org/doc/html/latest/process/maintainers.html#secure-computi
-ng
-
-- Internally referenced .rst files are linked so they can be followed
-  when browsing the resulting rendering. This allows, for example, the
-  future addition of maintainer profiles to be automatically linked.
-
-- Field name expansion: instead of the short fields (e.g. "M", "F",
-  "K"), use the indicated inline "full names" for the fields (which are
-  marked with "*"s in MAINTAINERS) so that a rendered subsystem entry
-  is more human readable. Email lists are additionally comma-separated.
-  For example:
-
-    SECURE COMPUTING
-        Mail:     Kees Cook <keescook@chromium.org>
-        Reviewer: Andy Lutomirski <luto@amacapital.net>,
-                  Will Drewry <wad@chromium.org>
-        SCM:      git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.g
-it seccomp
-        Status:   Supported
-        Files:    kernel/seccomp.c include/uapi/linux/seccomp.h
-                  include/linux/seccomp.h tools/testing/selftests/seccomp/*
-                  tools/testing/selftests/kselftest_harness.h
-                  userspace-api/seccomp_filter
-        Content regex:  \bsecure_computing \bTIF_SECCOMP\b
-
----
-Kees Cook (2):
-  doc-rst: Reduce CSS padding around Field
-  doc-rst: Programmatically render MAINTAINERS into ReST
-
- Documentation/conf.py                         |   3 +-
- Documentation/process/index.rst               |   1 +
- Documentation/process/maintainers.rst         |   1 +
- .../sphinx-static/theme_overrides.css         |  10 +
- Documentation/sphinx/maintainers_include.py   | 197 ++++++++++++++++++
- MAINTAINERS                                   |  62 +++---
- 6 files changed, 243 insertions(+), 31 deletions(-)
- create mode 100644 Documentation/process/maintainers.rst
- create mode 100755 Documentation/sphinx/maintainers_include.py
-
---
-2.17.1
-
+-- 
+Kees Cook
