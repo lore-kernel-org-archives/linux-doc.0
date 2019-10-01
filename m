@@ -6,110 +6,88 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C5947D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 18:35:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BAA37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 22:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbfJASfP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 14:35:15 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:34945 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfJASfP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 14:35:15 -0400
-Received: by mail-io1-f65.google.com with SMTP id q10so50701834iop.2
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2019 11:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=5Fb9YzTga/9+WMrU/2SgNO0ujHSLL6+IpDmwPVkwFnc=;
-        b=MgWKg3MG9CFFTbex7gURjFzj/yGw9uuzkuu5j+o0ih7zhVtPEW9RiKP0YWZW0S7TMS
-         2EjaJMUEbOyWOI8aChBxYQnkekrgosM844KOs9vUMrE0ZjW/MjKNHGreR1SdbMf/jeop
-         SqbRhsDxtNrg14UaJZxR937/bCEuM4ullb94tJPl+dLTzY8ZjY/aJiOBUws0OKzCZ9gY
-         iLobxmvd2YU/ItYaJTrQpH2ChTwNVyB9NTqztommrzAAmjLWkUaSKMUwlrHGNKQtC6az
-         MxX/nvvKCuEnkstBJ01oIE0ezjmN8Wiz80OEHvCv6z+28Z/yddutvIzX+hkcqkOCi7kC
-         cV0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=5Fb9YzTga/9+WMrU/2SgNO0ujHSLL6+IpDmwPVkwFnc=;
-        b=M0rXdNBOQEhG2jqAlB5fMoRnYaI/lJxR1RgX9VZ0XWx/SWMdSwD/d4rFwXQYOJ1yBg
-         ITH6hA8ft61BbKoGAaRJ+RemtAYUcMTaTVXKUZZHJx6GisxgBE5VrVyXq+tjUX36dM0x
-         k6UIJfjRd+4RNCTVVEueYwb6miceuU0WGqr8oVs5i8rPSL5UIHz/nSUJr64SCgE5S49w
-         auYhNaGs1JCMiQAfwYALO3Gf0dt9DA3MLZxEp1RoNmoEGYQ4rvWKFT0wL16m6Mvtt924
-         S9gDE2jEeKHzA2Mo6qkPCJvK79a+DL6UNxwBc2LxCU3fVdxTVuOdUFVbk3Opqyla2nWB
-         sXiw==
-X-Gm-Message-State: APjAAAViv0257bL58BdPkhuxgREcCBIDrNUFwYsMTR0cz7YkXBDdAobZ
-        CziSB6mRZyoAb6FPqKrejVaSiw==
-X-Google-Smtp-Source: APXvYqxBrZp6foWvPhswC6rB/mDoUsUd3wHiswUzJVpu1vT5vd9zpn3vwJDmd4c8Gt6pF9rTIZS2sg==
-X-Received: by 2002:a6b:8e92:: with SMTP id q140mr7413827iod.205.1569954912731;
-        Tue, 01 Oct 2019 11:35:12 -0700 (PDT)
-Received: from localhost (67-0-10-3.albq.qwest.net. [67.0.10.3])
-        by smtp.gmail.com with ESMTPSA id m9sm7691487ion.65.2019.10.01.11.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:35:12 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 11:35:11 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Chester Lin <clin@suse.com>,
-        "palmer@sifive.com" <palmer@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "atish.patra@wdc.com" <atish.patra@wdc.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH] riscv-docs: correct the sequence of the magic number 2
- since it's little endian
-In-Reply-To: <20191001072212.21d55899@lwn.net>
-Message-ID: <alpine.DEB.2.21.9999.1910011132280.3732@viisi.sifive.com>
-References: <20190916130108.31404-1-clin@suse.com> <20191001072212.21d55899@lwn.net>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        id S1726672AbfJAW2d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 18:28:33 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:34273 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725843AbfJAW2d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Oct 2019 18:28:33 -0400
+Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3281:e7ea:4585:74bd:2ff0])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x91MS6XO1104263
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Tue, 1 Oct 2019 15:28:07 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x91MS6XO1104263
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019091901; t=1569968888;
+        bh=CVmGy/DI0hNYE3HWVWXwpZgLbbxVbvXXwcCGt+QPGBQ=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=fMp/yGTiGygKC6+gmuSH52zZzbetdudCo2N9mAJbvn2+gRPMaMz9ceW2PchS/GwaL
+         AEN/AWuv4IOf8rN4DFdg5kDMg34A8eEssbtu8XBVqaOC2a0+upR+Dakam53xErg3us
+         QRsRUqnQpspoT+pYt1524iewwNh6vwA8qR0kWl1ek4/UvY03vsRKVUNGFKh7S8v5/L
+         Mw1/D/Vy11zP9C9eS8rQiFeu+PPcboqEWeiRHf+D7dNy1+CtyvyzQ6edfznbqFpO4j
+         XwDb8LtgTeEiipL7zQoixZ+4MQ/RnkRdPGSnjpdiT3HisogFUYQ+ilvVnjjvx7hVr7
+         26q/UZgCO9wzw==
+Subject: Re: [PATCH v2 1/3] x86/boot: Introduce the kernel_info
+To:     Daniel Kiper <daniel.kiper@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        x86@kernel.org, bp@alien8.de, corbet@lwn.net,
+        dpsmith@apertussolutions.com, eric.snowberg@oracle.com,
+        kanth.ghatraju@oracle.com, konrad.wilk@oracle.com,
+        mingo@redhat.com, ross.philipson@oracle.com, tglx@linutronix.de
+References: <20190704163612.14311-1-daniel.kiper@oracle.com>
+ <20190704163612.14311-2-daniel.kiper@oracle.com>
+ <5633066F-01BE-437D-A564-150FD48B6D92@zytor.com>
+ <20190930150110.ekir52wu3w67v2fk@tomti.i.net-space.pl>
+ <c9eb5a39-ced5-b35d-616d-6ffbe15c1396@zytor.com>
+ <20191001114133.xy5nuhepzzixhuh4@tomti.i.net-space.pl>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <dda802de-2efe-3d22-7816-6da36bf9ebf8@zytor.com>
+Date:   Tue, 1 Oct 2019 15:28:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191001114133.xy5nuhepzzixhuh4@tomti.i.net-space.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
-
-On Tue, 1 Oct 2019, Jonathan Corbet wrote:
-
-> On Mon, 16 Sep 2019 13:01:40 +0000
-> Chester Lin <clin@suse.com> wrote:
+On 2019-10-01 04:41, Daniel Kiper wrote:
 > 
-> > Correct the sequence of the magic number 2 since it's little endian.
-> > 
-> > Signed-off-by: Chester Lin <clin@suse.com>
-> > ---
-> >  Documentation/riscv/boot-image-header.txt | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> OK, so, this is more or less what I had in my v3 patch before sending
+> this email. So, it looks that I am on good track. Great! Though I am not
+> sure that we should have magic for chunked objects. If yes could you
+> explain why? I would just leave len for chunked objects.
 > 
-> So I'm slowly digging my way through my docs folder, sorry for the delay.
+
+It makes it easier to validate the contents (bugs happen...), and would allow
+for multiple chunks that could come from different object files if it ever
+becomes necessary for some reason.
+
+We could also just say that dynamic chunks don't even have pointers, and let
+the boot loader just walk the list.
+
+>> Also "InfO" is a pretty hideous magic. In general, all-ASCII magics have much
+>> higher risk of collision than *RANDOM* binary numbers. However, for a chunked
+>> architecture they do have the advantage that they can be used also as a human
+>> name or file name for the chunk, e.,g. in sysfs, so maybe something like
+>> "LnuX" or even "LToP" for the top-level chunk might make sense.
+>>
+>> How does that sound?
 > 
-> > diff --git a/Documentation/riscv/boot-image-header.txt b/Documentation/riscv/boot-image-header.txt
-> > index 14b1492f689b..f388805aa5c3 100644
-> > --- a/Documentation/riscv/boot-image-header.txt
-> > +++ b/Documentation/riscv/boot-image-header.txt
-> > @@ -18,7 +18,7 @@ The following 64-byte header is present in decompressed Linux kernel image.
-> >  	u32 res1  = 0;		  /* Reserved */
-> >  	u64 res2  = 0;    	  /* Reserved */
-> >  	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
-> > -	u32 magic2 = 0x56534905;  /* Magic number 2, little endian, "RSC\x05" */
-> > +	u32 magic2 = 0x05435352;  /* Magic number 2, little endian, "RSC\x05" */
+> Well, your proposals are more cryptic, especially the second one, than
+> mine but I tend to agree that more *RANDOM* magics are better. So,
+> I would choose "LToP" if you decipher it for me. Linux Top?
 > 
-> That's doing more than just reordering the bytes.  Was the original
-> completely wrong?  If so, the changelog should probably reflect that.  Or
-> else what am I missing?
 
-This was simply due to idiocy on my part, due to a very last-minute patch 
-submission, where I missed that the original documented magic number was 
-already in little-endian format.  The updated number from Chester is 
-correct.
+Yes, Linux top [structure].
 
-So,
+	-hpa
 
-Reviewed-by: Paul Walmsley <paul.walmsley@sifive.com>
-
-
-- Paul
