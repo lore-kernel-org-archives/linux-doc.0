@@ -5,32 +5,27 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94EBA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 17:36:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 805317D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 17:47:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730958AbfJARgb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 13:36:31 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38418 "EHLO ms.lwn.net"
+        id S1726219AbfJARrD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 13:47:03 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38456 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730809AbfJARgb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Oct 2019 13:36:31 -0400
+        id S1726096AbfJARrD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Oct 2019 13:47:03 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 44341316;
-        Tue,  1 Oct 2019 17:36:30 +0000 (UTC)
-Date:   Tue, 1 Oct 2019 11:36:29 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 73359316;
+        Tue,  1 Oct 2019 17:47:02 +0000 (UTC)
+Date:   Tue, 1 Oct 2019 11:47:01 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] docs: Programmatically render MAINTAINERS into ReST
-Message-ID: <20191001113629.6cdb1abb@lwn.net>
-In-Reply-To: <201910010916.8B8248222@keescook>
-References: <20190924230208.12414-1-keescook@chromium.org>
-        <20191001083147.3a1b513f@lwn.net>
-        <201910010916.8B8248222@keescook>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     linux-doc@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: [PATCH] docs/driver-api: Catch up with dma_buf file-name changes
+Message-ID: <20191001114701.7349d9ec@lwn.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,32 +35,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Oct 2019 09:27:29 -0700
-Kees Cook <keescook@chromium.org> wrote:
+drivers/dma_buf/reservation.c was renamed to dma-resv.c (and
+include/linux/reservation.h to dma-resv.h), but the documentation was not
+updated to match, leading to these build errors:
 
-> On Tue, Oct 01, 2019 at 08:31:47AM -0600, Jonathan Corbet wrote:
-> > On a separate note...it occurred to me, rather belatedly as usual, that
-> > last time we discussed doing this that there was some opposition to adding
-> > a second MAINTAINERS parser to the kernel; future changes to the format of
-> > that file may force both to be adjusted, and somebody will invariably
-> > forget one.  Addressing that, if we feel a need to do so, probably requires
-> > tweaking get_maintainer.pl to output the information in a useful format.  
-> 
-> That's a reasonable point, but I would make two observations:
-> 
-> - get_maintainers.pl is written in Perl and I really don't want to write
->   more Perl. ;)
+  Error: Cannot open file ./drivers/dma-buf/reservation.c
+  Error: Cannot open file ./drivers/dma-buf/reservation.c
+  Error: Cannot open file ./drivers/dma-buf/reservation.c
+  Error: Cannot open file ./include/linux/reservation.h
+  Error: Cannot open file ./include/linux/reservation.h
 
-Trust me, I get it!
+Update the documentation and make the world happy again.
 
-> - the parsing methods in get_maintainers is much more focused on the
->   file/pattern matching and is blind to the structure of the rest
->   of the document (it only examines '^[A-Z]:' and blank lines), and
->   does so "on demand", in that it hunts through the entire MAINTAINERS
->   file contents for each path match.
-> 
-> So I don't think it's suitable to merge functionality here...
+Fixes: 52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv')
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+[I'll carry this in docs-next unless somebody objects.]
 
-Makes sense to me.  If anybody out there objects, speak now ...
+ Documentation/driver-api/dma-buf.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-jon
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index b541e97c7ab1..c78db28519f7 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -118,13 +118,13 @@ Kernel Functions and Structures Reference
+ Reservation Objects
+ -------------------
+ 
+-.. kernel-doc:: drivers/dma-buf/reservation.c
++.. kernel-doc:: drivers/dma-buf/dma-resv.c
+    :doc: Reservation Object Overview
+ 
+-.. kernel-doc:: drivers/dma-buf/reservation.c
++.. kernel-doc:: drivers/dma-buf/dma-resv.c
+    :export:
+ 
+-.. kernel-doc:: include/linux/reservation.h
++.. kernel-doc:: include/linux/dma-resv.h
+    :internal:
+ 
+ DMA Fences
+-- 
+2.21.0
+
