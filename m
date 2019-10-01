@@ -1,107 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 797E17D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 15:09:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 872617D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 16:16:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388702AbfJAPJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 11:09:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36536 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732232AbfJAPJh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 11:09:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5jDO6BJ2XZ3lCXlD4qqkd9/bqgxLyoxwyp9GKWDHrvI=; b=eFg+C2Li9Lbix6bmqH7hvtyDk
-        QT5kBQpSlNZKQ7vjjA3KXp658Y6Ku8ja5dqtr2zaGbLoTpBkLNauhpYw40IHKCLKXgKpNmEN5wf5d
-        7LdqWKwhF+ZJM06vaFsOqKh7LRxnvvXrgpnPGWd8Ep46LoGVLqeLo0EzlCFogGnxXTudD+4l1Wwke
-        NYZOOZvEzSVY54fd6j5YWUhWCj7Q+aCcEUCj471uqNg7JGdnJbkKcQ0hefbaemak9W9LRglgEaS8c
-        k8HPNJY7+iQmWnVsEE7h07diTzgpC5GAgEiI1kjSx5zNadyhm45xHxTasEHSOb2lIP3Tm8XFoSHt2
-        hOYouQTpA==;
-Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFJmR-0000AQ-La; Tue, 01 Oct 2019 15:09:35 +0000
-Date:   Tue, 1 Oct 2019 12:09:30 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
+        id S2389596AbfJAQQo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 12:16:44 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33051 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389488AbfJAQQn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 12:16:43 -0400
+Received: by mail-pg1-f195.google.com with SMTP id q1so1958187pgb.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2019 09:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UhjXWLcrDBB4q1kRn5CmPKgAtAED5RXVbe7dFH6WH6M=;
+        b=iqfxY8re2/JcoP9Rrux4Kwx3ipOsfachdXe+PQpwqxOdY9n+iJVAPX1GYRMPn23Cs3
+         CLpPqQi6529bZUK+21JLeYjcOSnQDHo9ocHxmpYw7ok/ZS7dsqs9Bei6kfvbRhRHm2P3
+         O2e44nV46w+eG/TQ6NQXHypWJ2Ohljg/TXf2o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UhjXWLcrDBB4q1kRn5CmPKgAtAED5RXVbe7dFH6WH6M=;
+        b=n7KtZVZVj6hBR9okqnL4E2pkjHnvGDxldz982awyP45PvwGCI/P4LReEUzaDh3HlsK
+         4Zwd5pM+TMhWoIjZiist3M6mfX/dH7O29eAnqv0EXO3hs0zSiwKuy7lvk9aSK6LZEEUd
+         yIu6dmEoJ3MOnvfpNvkTsB4Q8moXJfP+r9oEOwy0yUDg4vwGw9SzS2Ptxp0+k+qevXvf
+         7rdMyAsu3awVDvKA7vo/DY+0hOIPuNaTmXZvIhST5Q62L6nk9KCjbmidhJ+4VVJEQ8vx
+         n1cR9IVGQcsBSdDQCVorYZ9quBVUwCEn1HKmcuURlHwsMAmn303VsqpCh8tKGVGcB/FZ
+         UCVg==
+X-Gm-Message-State: APjAAAUnqHxbFGW7yOSLkeMPc+EyUxvn4CfULdzFwYLNEvGU47Wr9aoE
+        Z4uo6bBfEXLPVRhCHVtwWgezWA==
+X-Google-Smtp-Source: APXvYqzS/kRySDG61Dg6N8vbAGXwkgW5aM6BwLwX9OnIgD6RXQWjnSwru7bU9RUwiA+1/v4+1DT+Xw==
+X-Received: by 2002:a63:1c65:: with SMTP id c37mr30721017pgm.31.1569946603223;
+        Tue, 01 Oct 2019 09:16:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z5sm2740527pgi.19.2019.10.01.09.16.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 09:16:42 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 09:16:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 0/2] docs: Programmatically render MAINTAINERS into ReST
-Message-ID: <20191001120930.5d388839@coco.lan>
-In-Reply-To: <20191001083147.3a1b513f@lwn.net>
+Message-ID: <201910010913.2BAAC8A@keescook>
 References: <20190924230208.12414-1-keescook@chromium.org>
-        <20191001083147.3a1b513f@lwn.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20191001083147.3a1b513f@lwn.net>
+ <20191001120930.5d388839@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191001120930.5d388839@coco.lan>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 1 Oct 2019 08:31:47 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> On Tue, 24 Sep 2019 16:02:06 -0700
-> Kees Cook <keescook@chromium.org> wrote:
+On Tue, Oct 01, 2019 at 12:09:30PM -0300, Mauro Carvalho Chehab wrote:
+> Em Tue, 1 Oct 2019 08:31:47 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 > 
-> > Commit log from Patch 2 repeated here for cover letter:
+> > On Tue, 24 Sep 2019 16:02:06 -0700
+> > Kees Cook <keescook@chromium.org> wrote:
 > > 
-> > In order to have the MAINTAINERS file visible in the rendered ReST
-> > output, this makes some small changes to the existing MAINTAINERS file
-> > to allow for better machine processing, and adds a new Sphinx directive
-> > "maintainers-include" to perform the rendering.  
+> > > Commit log from Patch 2 repeated here for cover letter:
+> > > 
+> > > In order to have the MAINTAINERS file visible in the rendered ReST
+> > > output, this makes some small changes to the existing MAINTAINERS file
+> > > to allow for better machine processing, and adds a new Sphinx directive
+> > > "maintainers-include" to perform the rendering.  
+> > 
+> > I finally got around to trying this out.  After the usual warnings, the
+> > build comes to a screeching halt with this:
+> > 
+> >   Sphinx parallel build error:
+> >   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 8: ordinal not in range(128)
+> > 
+> > For extra fun, the build process simply hangs, requiring a ^C to blow it
+> > away.  You've managed to get new behavior out of Sphinx that I've not seen
+> > before, congratulations :)
+> > 
+> > This almost certainly has to do with the fact that I'm (intentionally)
+> > running the Python2 Sphinx build here.  Something's not doing unicode that
+> > should be.
+
+Given this would be for v5.5, and python2 is EOL in 2 months[1], I don't
+think it's unreasonable to deprecate it. Especially considering there
+are already explicit "python3" shebangs in existing code in the sphinx/
+directory.
+
+[1] https://pythonclock.org/
+
+> > I would suggest that we might just want to repair this before merging this
+> > feature.  Either that, or we bite the bullet and deprecate the use of
+> > Python 2 entirely - something that's probably not too far into our future
+> > regardless.  Anybody have thoughts on that matter?
 > 
-> I finally got around to trying this out.  After the usual warnings, the
-> build comes to a screeching halt with this:
+> I'm almost sure we got this already. If I'm not mistaken, the solution
+> is to add the encoding line after shebang. Looking at 
+> Documentation/sphinx/maintainers_include.py (patch 2/2), the script
+> starts with:
 > 
->   Sphinx parallel build error:
->   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 8: ordinal not in range(128)
+> 	#!/usr/bin/env python
+> 	# SPDX-License-Identifier: GPL-2.0
+> 	# -*- coding: utf-8; mode: python -*-
+> 	# pylint: disable=R0903, C0330, R0914, R0912, E0401
 > 
-> For extra fun, the build process simply hangs, requiring a ^C to blow it
-> away.  You've managed to get new behavior out of Sphinx that I've not seen
-> before, congratulations :)
+> But, as I pointed before, the SPDX header at the wrong place is causing the 
+> crash, as the encoding line should be the second line, not the third one,
+> e. g.:
 > 
-> This almost certainly has to do with the fact that I'm (intentionally)
-> running the Python2 Sphinx build here.  Something's not doing unicode that
-> should be.
+> 	#!/usr/bin/env python
+> 	# -*- coding: utf-8; mode: python -*-
+> 	# SPDX-License-Identifier: GPL-2.0
+> 	# pylint: disable=R0903, C0330, R0914, R0912, E0401
 > 
-> I would suggest that we might just want to repair this before merging this
-> feature.  Either that, or we bite the bullet and deprecate the use of
-> Python 2 entirely - something that's probably not too far into our future
-> regardless.  Anybody have thoughts on that matter?
+> I also suspect that this would happen even with python3, depending on
+> how LC_ALL, LANG, ... are set on the distro you use.
 
-I'm almost sure we got this already. If I'm not mistaken, the solution
-is to add the encoding line after shebang. Looking at 
-Documentation/sphinx/maintainers_include.py (patch 2/2), the script
-starts with:
+Oh that's a delightful bug. :P I haven't been able to reproduce this
+failure (maybe all my LANG junk is accidentally correct)?
 
-	#!/usr/bin/env python
-	# SPDX-License-Identifier: GPL-2.0
-	# -*- coding: utf-8; mode: python -*-
-	# pylint: disable=R0903, C0330, R0914, R0912, E0401
+Jon, if this fixes it for you, should I respin the patches?
 
-But, as I pointed before, the SPDX header at the wrong place is causing the 
-crash, as the encoding line should be the second line, not the third one,
-e. g.:
-
-	#!/usr/bin/env python
-	# -*- coding: utf-8; mode: python -*-
-	# SPDX-License-Identifier: GPL-2.0
-	# pylint: disable=R0903, C0330, R0914, R0912, E0401
-
-I also suspect that this would happen even with python3, depending on
-how LC_ALL, LANG, ... are set on the distro you use.
-
-Thanks,
-Mauro
+-- 
+Kees Cook
