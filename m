@@ -5,90 +5,112 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 752217D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 17:05:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 919F47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 17:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbfJARFv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 13:05:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38270 "EHLO ms.lwn.net"
+        id S1726744AbfJARfJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 13:35:09 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38408 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725792AbfJARFv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Oct 2019 13:05:51 -0400
+        id S1726342AbfJARfJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Oct 2019 13:35:09 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7E393491;
-        Tue,  1 Oct 2019 17:05:50 +0000 (UTC)
-Date:   Tue, 1 Oct 2019 11:05:49 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id CDC3B491;
+        Tue,  1 Oct 2019 17:35:07 +0000 (UTC)
+Date:   Tue, 1 Oct 2019 11:35:06 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 0/2] docs: Programmatically render MAINTAINERS into ReST
-Message-ID: <20191001110549.4b497f32@lwn.net>
-In-Reply-To: <201910010913.2BAAC8A@keescook>
+Message-ID: <20191001113506.12720205@lwn.net>
+In-Reply-To: <20191001120930.5d388839@coco.lan>
 References: <20190924230208.12414-1-keescook@chromium.org>
         <20191001083147.3a1b513f@lwn.net>
         <20191001120930.5d388839@coco.lan>
-        <201910010913.2BAAC8A@keescook>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Oct 2019 09:16:41 -0700
-Kees Cook <keescook@chromium.org> wrote:
+On Tue, 1 Oct 2019 12:09:30 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> > > This almost certainly has to do with the fact that I'm (intentionally)
-> > > running the Python2 Sphinx build here.  Something's not doing unicode that
-> > > should be.  
+> >   Sphinx parallel build error:
+> >   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 8: ordinal not in range(128)
+> > 
+> > For extra fun, the build process simply hangs, requiring a ^C to blow it
+> > away.  You've managed to get new behavior out of Sphinx that I've not seen
+> > before, congratulations :)
+> > 
+> > This almost certainly has to do with the fact that I'm (intentionally)
+> > running the Python2 Sphinx build here.  Something's not doing unicode that
+> > should be.
+> > 
+> > I would suggest that we might just want to repair this before merging this
+> > feature.  Either that, or we bite the bullet and deprecate the use of
+> > Python 2 entirely - something that's probably not too far into our future
+> > regardless.  Anybody have thoughts on that matter?  
 > 
-> Given this would be for v5.5, and python2 is EOL in 2 months[1], I don't
-> think it's unreasonable to deprecate it. Especially considering there
-> are already explicit "python3" shebangs in existing code in the sphinx/
-> directory.
+> I'm almost sure we got this already. If I'm not mistaken, the solution
+> is to add the encoding line after shebang.
 
-Two months and 30 days, don't exaggerate, man! :)
+As mentioned before, that's not it.  The problem is that we're feeding
+UTF8 into Sphinx as an ordinary str, then sphinx is trying to decode it
+as ASCII. The attached hack makes things work.
 
-FWIW, the "shebangs" in that directory are no-ops.  Those are extensions
-read into sphinx, not standalone programs; they go into a Python 2 sphinx
-instance just fine.
+Kees, I can either just keep this fix (breaking bisectability of the docs
+build :) or you can send a new version - up to you.
 
-Which isn't an argument against dropping Python 2, of course.  That's
-really just a matter of when.
-
-> > I'm almost sure we got this already. If I'm not mistaken, the solution
-> > is to add the encoding line after shebang. Looking at 
-> > Documentation/sphinx/maintainers_include.py (patch 2/2), the script
-> > starts with:
-> > 
-> > 	#!/usr/bin/env python
-> > 	# SPDX-License-Identifier: GPL-2.0
-> > 	# -*- coding: utf-8; mode: python -*-
-> > 	# pylint: disable=R0903, C0330, R0914, R0912, E0401
-> > 
-> > But, as I pointed before, the SPDX header at the wrong place is causing the 
-> > crash, as the encoding line should be the second line, not the third one,
-> > e. g.:
-> > 
-> > 	#!/usr/bin/env python
-> > 	# -*- coding: utf-8; mode: python -*-
-> > 	# SPDX-License-Identifier: GPL-2.0
-> > 	# pylint: disable=R0903, C0330, R0914, R0912, E0401
-> > 
-> > I also suspect that this would happen even with python3, depending on
-> > how LC_ALL, LANG, ... are set on the distro you use.  
-> 
-> Oh that's a delightful bug. :P I haven't been able to reproduce this
-> failure (maybe all my LANG junk is accidentally correct)?
-
-Delightful - and wrong; moving that line around doesn't change anything.
-The crash comes from deep within sphinx; the more I look at it the more
-confused I get.  Stay tuned...
+Thanks,
 
 jon
+
+From c32bfbb07a7840662ba3b367c61b7f2946028b27 Mon Sep 17 00:00:00 2001
+From: Jonathan Corbet <corbet@lwn.net>
+Date: Tue, 1 Oct 2019 11:26:20 -0600
+Subject: [PATCH] docs: make maintainers_include work with Python 2
+
+The MAINTAINERS file contains UTF-8 data, so Python 2 code has to be
+explicit about moving it into the Unicode realm.  Explicitly decode all
+data from the file as soon as we read it.
+
+This hack can go away once we deprecate Python 2 support.
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/sphinx/maintainers_include.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index de62dd3dabd5..705ba9fd5336 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -19,6 +19,7 @@ u"""
+ 
+ import re
+ import os.path
++import sys
+ 
+ from docutils import statemachine
+ from docutils.utils.error_reporting import ErrorString
+@@ -60,6 +61,8 @@ class MaintainersInclude(Include):
+         field_content = ""
+ 
+         for line in open(path):
++            if sys.version_info.major == 2:
++                line = unicode(line, 'utf-8')
+             # Have we reached the end of the preformatted Descriptions text?
+             if descriptions and line.startswith('Maintainers'):
+                 descriptions = False
+-- 
+2.21.0
+
