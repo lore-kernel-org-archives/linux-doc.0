@@ -1,165 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50CAE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 14:48:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 797E17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Oct 2019 15:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbfJAOs2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Oct 2019 10:48:28 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:58536 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727137AbfJAOs1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 10:48:27 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x91Ed9bu126893;
-        Tue, 1 Oct 2019 14:47:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=r2bx07k8cvHeEWslLBzDQgSseP2xv04aUuEkxPKPjyk=;
- b=AnfMU9g3kCbiJpkkZYvTwpOdV03FPZEgf3wcfDMSSN38kMFF/9qDB740zQar2AouhlXR
- ZNpcM77eXu5fgLK3N68lrGn86CAf1M2L7j9mOgpQ7mNajN5HiwNmW8PQ7KCAg8gBzHXB
- 12bF9gdAIoqdhs7F77NOKcZulDdZDQk4rzc/46XOT1TVxi/kz2e7NfUBldx7ER/3bI88
- Nb4tyvNXEjdTQzTYFnde++vyTk/9a5SsuAfhQ9YOqXbokN2BG+zVuIfmnO+CfjEUvpXu
- dRWLFQIpbPPcV668gsB7badUsGGBxHf9qsd9dCjMUTiE9YHDDaFHa8TMhqgyX9Jh3QM/ Dw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 2va05rpfau-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 01 Oct 2019 14:47:55 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x91Ecalj039546;
-        Tue, 1 Oct 2019 14:47:54 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2vbqd106ar-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 01 Oct 2019 14:47:54 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x91ElntT010326;
-        Tue, 1 Oct 2019 14:47:49 GMT
-Received: from tomti.i.net-space.pl (/10.175.183.114)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 01 Oct 2019 07:47:49 -0700
-Date:   Tue, 1 Oct 2019 16:47:43 +0200
-From:   Daniel Kiper <daniel.kiper@oracle.com>
-To:     hpa@zytor.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, bp@alien8.de, corbet@lwn.net,
-        dpsmith@apertussolutions.com, eric.snowberg@oracle.com,
-        kanth.ghatraju@oracle.com, konrad.wilk@oracle.com,
-        mingo@redhat.com, ross.philipson@oracle.com, tglx@linutronix.de
-Subject: Re: [PATCH v2 2/3] x86/boot: Introduce the setup_indirect
-Message-ID: <20191001144743.qrazs4fi7iuf25k5@tomti.i.net-space.pl>
-References: <20190704163612.14311-1-daniel.kiper@oracle.com>
- <20190704163612.14311-3-daniel.kiper@oracle.com>
- <143DFBDE-E604-48E0-8072-6DB68E3E83C1@zytor.com>
+        id S2388702AbfJAPJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Oct 2019 11:09:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36536 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732232AbfJAPJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Oct 2019 11:09:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=5jDO6BJ2XZ3lCXlD4qqkd9/bqgxLyoxwyp9GKWDHrvI=; b=eFg+C2Li9Lbix6bmqH7hvtyDk
+        QT5kBQpSlNZKQ7vjjA3KXp658Y6Ku8ja5dqtr2zaGbLoTpBkLNauhpYw40IHKCLKXgKpNmEN5wf5d
+        7LdqWKwhF+ZJM06vaFsOqKh7LRxnvvXrgpnPGWd8Ep46LoGVLqeLo0EzlCFogGnxXTudD+4l1Wwke
+        NYZOOZvEzSVY54fd6j5YWUhWCj7Q+aCcEUCj471uqNg7JGdnJbkKcQ0hefbaemak9W9LRglgEaS8c
+        k8HPNJY7+iQmWnVsEE7h07diTzgpC5GAgEiI1kjSx5zNadyhm45xHxTasEHSOb2lIP3Tm8XFoSHt2
+        hOYouQTpA==;
+Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFJmR-0000AQ-La; Tue, 01 Oct 2019 15:09:35 +0000
+Date:   Tue, 1 Oct 2019 12:09:30 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] docs: Programmatically render MAINTAINERS into ReST
+Message-ID: <20191001120930.5d388839@coco.lan>
+In-Reply-To: <20191001083147.3a1b513f@lwn.net>
+References: <20190924230208.12414-1-keescook@chromium.org>
+        <20191001083147.3a1b513f@lwn.net>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <143DFBDE-E604-48E0-8072-6DB68E3E83C1@zytor.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9396 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910010132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9396 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910010132
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 08:56:44AM -0700, hpa@zytor.com wrote:
-> On July 4, 2019 9:36:11 AM PDT, Daniel Kiper <daniel.kiper@oracle.com> wrote:
+Em Tue, 1 Oct 2019 08:31:47 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-[...]
+> On Tue, 24 Sep 2019 16:02:06 -0700
+> Kees Cook <keescook@chromium.org> wrote:
+> 
+> > Commit log from Patch 2 repeated here for cover letter:
+> > 
+> > In order to have the MAINTAINERS file visible in the rendered ReST
+> > output, this makes some small changes to the existing MAINTAINERS file
+> > to allow for better machine processing, and adds a new Sphinx directive
+> > "maintainers-include" to perform the rendering.  
+> 
+> I finally got around to trying this out.  After the usual warnings, the
+> build comes to a screeching halt with this:
+> 
+>   Sphinx parallel build error:
+>   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 8: ordinal not in range(128)
+> 
+> For extra fun, the build process simply hangs, requiring a ^C to blow it
+> away.  You've managed to get new behavior out of Sphinx that I've not seen
+> before, congratulations :)
+> 
+> This almost certainly has to do with the fact that I'm (intentionally)
+> running the Python2 Sphinx build here.  Something's not doing unicode that
+> should be.
+> 
+> I would suggest that we might just want to repair this before merging this
+> feature.  Either that, or we bite the bullet and deprecate the use of
+> Python 2 entirely - something that's probably not too far into our future
+> regardless.  Anybody have thoughts on that matter?
 
-> >diff --git a/arch/x86/include/uapi/asm/bootparam.h
-> >b/arch/x86/include/uapi/asm/bootparam.h
-> >index b05318112452..aaaa17fa6ad6 100644
-> >--- a/arch/x86/include/uapi/asm/bootparam.h
-> >+++ b/arch/x86/include/uapi/asm/bootparam.h
-> >@@ -2,7 +2,7 @@
-> > #ifndef _ASM_X86_BOOTPARAM_H
-> > #define _ASM_X86_BOOTPARAM_H
-> >
-> >-/* setup_data types */
-> >+/* setup_data/setup_indirect types */
-> > #define SETUP_NONE			0
-> > #define SETUP_E820_EXT			1
-> > #define SETUP_DTB			2
-> >@@ -10,6 +10,7 @@
-> > #define SETUP_EFI			4
-> > #define SETUP_APPLE_PROPERTIES		5
-> > #define SETUP_JAILHOUSE			6
-> >+#define SETUP_INDIRECT			7
-> >
-> > /* ram_size flags */
-> > #define RAMDISK_IMAGE_START_MASK	0x07FF
-> >@@ -47,6 +48,14 @@ struct setup_data {
-> > 	__u8 data[0];
-> > };
-> >
-> >+/* extensible setup indirect data node */
-> >+struct setup_indirect {
-> >+	__u32 type;
-> >+	__u32 reserved;  /* Reserved, must be set to zero. */
-> >+	__u64 len;
-> >+	__u64 addr;
-> >+};
-> >+
-> > struct setup_header {
-> > 	__u8	setup_sects;
-> > 	__u16	root_flags;
->
+I'm almost sure we got this already. If I'm not mistaken, the solution
+is to add the encoding line after shebang. Looking at 
+Documentation/sphinx/maintainers_include.py (patch 2/2), the script
+starts with:
 
-> This needs actual implementation; we can't advertise it until the
-> kernel knows how to consume the data! It probably should be moved to
-> after the 3/3 patch.
->
-> Implementing this has two parts:
->
-> 1. The kernel needs to be augmented so it can find current objects via
-> indirection.
->
-> 2. And this is the main reason for this in the first place: the early
-> code needs to walk the list and map out the memory areas which are
-> occupied so it doesn't clobber anything; this allows this code to be
-> generic as opposed to having to know what is a pointer and what size
-> it might point to.
->
-> (The decompressor didn't need this until kaslr entered the picture,
-> but now it does, sadly.)
+	#!/usr/bin/env python
+	# SPDX-License-Identifier: GPL-2.0
+	# -*- coding: utf-8; mode: python -*-
+	# pylint: disable=R0903, C0330, R0914, R0912, E0401
 
-Do you think about arch/x86/boot/compressed/kaslr.c:mem_avoid[]?
-But it is static. OK, we can assume that we do not accept more than
-something indirect entries. However, this is not nice...
+But, as I pointed before, the SPDX header at the wrong place is causing the 
+crash, as the encoding line should be the second line, not the third one,
+e. g.:
 
-> Optional/future enhancements that might be nice:
->
-> 3. Add some kind of description (e.g. foo=u64 ; bar=str ; baz=blob) to
-> make it possible to write a bootloader that can load these kinds of
-> objects without specific enabling.
+	#!/usr/bin/env python
+	# -*- coding: utf-8; mode: python -*-
+	# SPDX-License-Identifier: GPL-2.0
+	# pylint: disable=R0903, C0330, R0914, R0912, E0401
 
-This means an extension to command line parser. Am I right?
+I also suspect that this would happen even with python3, depending on
+how LC_ALL, LANG, ... are set on the distro you use.
 
-> 4. Add support for mapping initramfs fragments  this way.
->
-> 5. Add support for passingload-on-boot kernel modules.
-
-I am not sure what you mean exactly by those two.
-
-Anyway, I would focus only on things which are potentially useful now or
-in the near future and not require much code changes. So, IMO #1 and #2
-at this point.
-
-Daniel
+Thanks,
+Mauro
