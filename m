@@ -1,123 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 97D697DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 12:03:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4390A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 12:34:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbfJBMDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 08:03:01 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:50644 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfJBMDB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 08:03:01 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x92BwidV115138;
-        Wed, 2 Oct 2019 12:02:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=5f9WP1t5ZUCUnAU3TFbU22auufKBsGd2ReO5WAV1EVQ=;
- b=gsoanE9ypOdaIJvz2Lmkws6zLs50sjloWhfxTGFIniRY5XGdYQxqfshsvI7qZ7QVVoaH
- YtY0w9g6HoZWV8rDGohb4keAR73zQY2nhrKRUYtwJ8FXZhoC3nUU7wi5fXKVvhf2IdxC
- bEufY9WBp3AkTmNLA2/vkFkUqoDzL8KGVYgE1hY/dd7JTL3+AwK+Hgwbt2TsjkI4G73O
- CNlx9HpqUTjesEmSJUTAyolzL8wPV9u4GRDqgQoym0z1ro3D/0py18majTtuN2oneM8O
- qiZL+FisqUOl4WUi+mwM+qs3h+3VAU/ZhKhK+DTtBzTT1xifbJzmzI7Yr2GtH8vvEdp3 wQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2v9yfqcen5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 02 Oct 2019 12:02:30 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x92Bw3kx076918;
-        Wed, 2 Oct 2019 12:00:29 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 2vckyntqya-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 02 Oct 2019 12:00:29 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x92C0OHP020718;
-        Wed, 2 Oct 2019 12:00:24 GMT
-Received: from tomti.i.net-space.pl (/10.175.221.225)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 02 Oct 2019 05:00:23 -0700
-Date:   Wed, 2 Oct 2019 14:00:18 +0200
-From:   Daniel Kiper <daniel.kiper@oracle.com>
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, bp@alien8.de, corbet@lwn.net,
-        dpsmith@apertussolutions.com, eric.snowberg@oracle.com,
-        kanth.ghatraju@oracle.com, konrad.wilk@oracle.com,
-        mingo@redhat.com, ross.philipson@oracle.com, tglx@linutronix.de
-Subject: Re: [PATCH v2 1/3] x86/boot: Introduce the kernel_info
-Message-ID: <20191002120018.d7wbpf3zusl4dcsc@tomti.i.net-space.pl>
-References: <20190704163612.14311-1-daniel.kiper@oracle.com>
- <20190704163612.14311-2-daniel.kiper@oracle.com>
- <5633066F-01BE-437D-A564-150FD48B6D92@zytor.com>
- <20190930150110.ekir52wu3w67v2fk@tomti.i.net-space.pl>
- <c9eb5a39-ced5-b35d-616d-6ffbe15c1396@zytor.com>
- <20191001114133.xy5nuhepzzixhuh4@tomti.i.net-space.pl>
- <dda802de-2efe-3d22-7816-6da36bf9ebf8@zytor.com>
+        id S1725848AbfJBMdK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 08:33:10 -0400
+Received: from mga03.intel.com ([134.134.136.65]:27022 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725766AbfJBMdJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 08:33:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 05:33:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,574,1559545200"; 
+   d="scan'208";a="205330025"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Oct 2019 05:33:05 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/2] software node: API documentation
+Date:   Wed,  2 Oct 2019 15:33:03 +0300
+Message-Id: <20191002123305.80012-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dda802de-2efe-3d22-7816-6da36bf9ebf8@zytor.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9397 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910020115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9397 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910020115
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 03:28:01PM -0700, H. Peter Anvin wrote:
-> On 2019-10-01 04:41, Daniel Kiper wrote:
-> >
-> > OK, so, this is more or less what I had in my v3 patch before sending
-> > this email. So, it looks that I am on good track. Great! Though I am not
-> > sure that we should have magic for chunked objects. If yes could you
-> > explain why? I would just leave len for chunked objects.
-> >
->
-> It makes it easier to validate the contents (bugs happen...), and would allow
-> for multiple chunks that could come from different object files if it ever
-> becomes necessary for some reason.
+Hi,
 
-OK.
+I'm sending this as an RFC first. I would like to wait for the API
+change Dmitry proposed [1] before we add the final API documentation
+for the software nodes.
 
-> We could also just say that dynamic chunks don't even have pointers, and let
-> the boot loader just walk the list.
+At this point I would like to know if the generic use is explained
+clearly enough and if there is anything missing that should be added.
 
-Yeah... That seams simpler. I will do that.
+[1] https://lkml.org/lkml/2019/9/11/8
 
-> >> Also "InfO" is a pretty hideous magic. In general, all-ASCII magics have much
-> >> higher risk of collision than *RANDOM* binary numbers. However, for a chunked
-> >> architecture they do have the advantage that they can be used also as a human
-> >> name or file name for the chunk, e.,g. in sysfs, so maybe something like
-> >> "LnuX" or even "LToP" for the top-level chunk might make sense.
-> >>
-> >> How does that sound?
-> >
-> > Well, your proposals are more cryptic, especially the second one, than
-> > mine but I tend to agree that more *RANDOM* magics are better. So,
-> > I would choose "LToP" if you decipher it for me. Linux Top?
-> >
->
-> Yes, Linux top [structure].
+thanks,
 
-Thx!
+Heikki Krogerus (2):
+  software node: Add missing kernel-doc function descriptions
+  software node: Add documentation
 
-Daniel
+ Documentation/driver-api/software_node.rst | 197 +++++++++++++++++++++
+ drivers/base/swnode.c                      |  23 +++
+ 2 files changed, 220 insertions(+)
+ create mode 100644 Documentation/driver-api/software_node.rst
+
+-- 
+2.23.0
+
