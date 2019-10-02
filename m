@@ -1,89 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE3947D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 13:45:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BD467DE70
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 14:19:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727055AbfJBNpJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 09:45:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48476 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726565AbfJBNpJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 09:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=nIye/+66snLtHmUYM3YmcJEBkBWMtqxkl+uqaI4t2ys=; b=AVCfkaJyqXZkIhqPOgL5rwltd
-        B/ul2LTAfoelXfmdTG5odKiWDhc0qrl9KxSNRlchZdpPU0TsOyd3KkYQIOV7x+5HhKj9oJYcIQTuw
-        5ir/x7ZdGOGK8ZFMup4LTb6Pgyry2FLNT3ncHx0YbBlGfOAJXrOPwXciLWwA2A4l4Y4jWWx+ttblK
-        pcnHKrz9efXruzcWljiarQ9ITiHqqvVELUBsmD1ZStOzZ8DAbEjv2hMNA/i5yhkbqB/fXFDmHqjMs
-        gx5RCZn8S3joy8dRWfwrlrWGqBGjLALB8G52RYX9rfkFivqM8cyIxu1bZxvpssjWxLsq6u8FnFjA1
-        SJZhGOg9A==;
-Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFewF-0005et-V2; Wed, 02 Oct 2019 13:45:08 +0000
-Date:   Wed, 2 Oct 2019 10:45:04 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jeremy MAURO <jeremy.mauro@gmail.com>
-Cc:     j.mauro@criteo.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION SCRIPTS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v2 2/2] scripts/sphinx-pre-install: Add a new path for
- the debian package "fonts-noto-cjk"
-Message-ID: <20191002104504.515c6b7d@coco.lan>
-In-Reply-To: <20191002133543.10909-1-j.mauro@criteo.com>
-References: <20191002073636.68ad85de@coco.lan>
-        <20191002133543.10909-1-j.mauro@criteo.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728220AbfJBOTd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 10:19:33 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:42905 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728230AbfJBOTc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 10:19:32 -0400
+Received: by mail-qk1-f196.google.com with SMTP id f16so15120463qkl.9;
+        Wed, 02 Oct 2019 07:19:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=VeC18fTiDpCiD1aerTctLQt8HXgMuu1i7GcCOOIhItk=;
+        b=fxqxp3JP+8z1bqxsQrNjBgdPYMmdYCjy+lUY7YncNKsxb0gCwRkQI0hOHz5hl/B32T
+         TgPJ3u4ugmnjhTvEgt7f2HPXnP1HLAJ/h8yQ6TR+91U8eSissxysW5Xcdx9E0ue1jrXC
+         YQv5n+ZIrHDzgRSvMWJrgmjZHyNB9nsojUrnBYfRRTnhfJIuKbzgANrRko+sLgoQGvtw
+         BGxpHIt3SGVeiYf8rlS00F8fO3qDkqOXGYI8AC0bIB99HEYLYuJwITsyMa0eyZkAcL/S
+         9DTpJmlakTtvOA5XUhQj9ohDztaJMxoxOxXIDOTJLCpondsgrSMolaBnW4kSqeCYUQh4
+         whqg==
+X-Gm-Message-State: APjAAAWCJMXZbUibhdCsqy9OjmbchAdh3QLKWkl/3dVnWF7c4afnWnC/
+        CUVyH0+ELIUoNcbXA1cuqqnepBs+SA==
+X-Google-Smtp-Source: APXvYqxqx5bD5dNV83sTgSiMC7/tuoceP3pYCZ3E9rSZEdOBCkruX4sGwCdWY01UR+WhZB8WoI7dCA==
+X-Received: by 2002:a37:84c3:: with SMTP id g186mr3791944qkd.71.1570025971328;
+        Wed, 02 Oct 2019 07:19:31 -0700 (PDT)
+Received: from localhost ([132.205.230.8])
+        by smtp.gmail.com with ESMTPSA id 29sm9359711qkp.86.2019.10.02.07.19.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2019 07:19:30 -0700 (PDT)
+Date:   Wed, 02 Oct 2019 09:19:27 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 3/3] dt-bindings: iio: Add ltc2947 documentation
+Message-ID: <20191002002331.GA17502@bogus>
+References: <20190924124945.491326-1-nuno.sa@analog.com>
+ <20190924124945.491326-4-nuno.sa@analog.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190924124945.491326-4-nuno.sa@analog.com>
+X-Mutt-References: <20190924124945.491326-4-nuno.sa@analog.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed,  2 Oct 2019 15:35:42 +0200
-Jeremy MAURO <jeremy.mauro@gmail.com> escreveu:
-
-> The latest debian version "bullseye/sid" has changed the path of the file
-> "notoserifcjk-regular.ttc", with the previous change and this change we
-> keep the backward compatibility and add the latest debian version
+On Tue, Sep 24, 2019 at 02:49:45PM +0200, Nuno Sá wrote:
+> Document the LTC2947 device devicetree bindings.
 > 
-> Signed-off-by: Jeremy MAURO <j.mauro@criteo.com>
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
+> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 > ---
-> Changes in V2:
-> - Align all lines
+>  .../bindings/hwmon/adi,ltc2947.yaml           | 101 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 102 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
 > 
->  scripts/sphinx-pre-install | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+> new file mode 100644
+> index 000000000000..2ea0187421d4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+> @@ -0,0 +1,101 @@
+
+Missing license. Please make new bindings (GPL-2.0-only OR BSD-2-Clause)
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/bindings/hwmon/adi,ltc2947.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices LTC2947 high precision power and energy monitor
+> +
+> +maintainers:
+> +  - Nuno Sá <nuno.sa@analog.com>
+> +
+> +description: |
+> +  Analog Devices LTC2947 high precision power and energy monitor over SPI or I2C.
+> +
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/LTC2947.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ltc2947
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      The LTC2947 uses either a trimmed internal oscillator or an external clock
+> +      as the time base for determining the integration period to represent time,
+> +      charge and energy. When an external clock is used, this property must be
+> +      set accordingly.
+> +    maxItems: 1
+> +
+> +  adi,accumulator-ctl-pol:
+> +    description:
+> +      This property controls the polarity of current that is accumulated to
+> +      calculate charge and energy so that, they can be only accumulated for
+> +      positive current for example. Since there are two sets of registers for
+> +      the accumulated values, this entry can also have two items which sets
+> +      energy1/charge1 and energy2/charger2 respectively. Check table 12 of the
+> +      datasheet for more information on the supported options.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32-array
+> +      - enum: [0, 1, 2, 3]
+> +      - minItems: 2
+> +      - maxItems: 2
+> +    default: [0, 0]
+
+This should be:
+
+allOf:
+  - $ref: ...
+items:
+  enum: [0, 1, 2, 3]
+  default: 0
+minItems: 2
+maxItems: 2
+
+> +
+> +  adi,accumulation-deadband-microamp:
+> +    description:
+> +      This property controls the Accumulation Dead band which allows to set the
+> +      level of current below which no accumulation takes place.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - maximum: 255
+
+maximum should be at same indent as allOf. Or default should be at the 
+same level as maximum (under a single '-' list entry).
+
+> +    default: 0
+> +
+> +  adi,gpio-out-pol:
+> +    description:
+> +      This property controls the GPIO polarity. Setting it to one makes the GPIO
+> +      active high, setting it to zero makets it active low. When this property
+> +      is present, the GPIO is automatically configured as output and set to
+> +      control a fan as a function of measured temperature.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - enum: [0, 1]
+> +    default: 0
+
+Same here.
+
+> +
+> +  adi,gpio-in-accum:
+> +    description:
+> +      When set, this property sets the GPIO as input. It is then used to control
+> +      the accumulation of charge, energy and time. This function can be
+> +      enabled/configured separately for each of the two sets of accumulation
+> +      registers. Check table 13 of the datasheet for more information on the
+> +      supported options. This property cannot be used together with
+> +      adi,gpio-out-pol.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32-array
+> +      - enum: [0, 1, 2]
+> +      - minItems: 2
+> +      - maxItems: 2
+> +    default: [0, 0]
+
+Similar here.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +
+> +examples:
+> +  - |
+> +    spi0 {
+
+Just 'spi'
+
+> +           #address-cells = <1>;
+> +           #size-cells = <0>;
+> +
+> +           ltc2947_spi: ltc2947@0 {
+> +                   compatible = "adi,ltc2947";
+> +                   reg = <0>;
+> +                   /* accumulation takes place always for energ1/charge1. */
+> +                   /* accumulation only on positive current for energy2/charge2. */
+> +                   adi,accumulator-ctl-pol = <0 1>;
+> +           };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 889f38c1c930..820bdde2044b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9505,6 +9505,7 @@ F:	drivers/hwmon/ltc2947-core.c
+>  F:	drivers/hwmon/ltc2947-spi.c
+>  F:	drivers/hwmon/ltc2947-i2c.c
+>  F:	drivers/hwmon/ltc2947.h
+> +F:	Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+>  
+>  LTC4306 I2C MULTIPLEXER DRIVER
+>  M:	Michael Hennerich <michael.hennerich@analog.com>
+> -- 
+> 2.23.0
 > 
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index b5077ae63a4b..1f9285274587 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -348,7 +348,8 @@ sub give_debian_hints()
->  		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
->  				   "fonts-dejavu", 2);
->  
-> -		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc"],
-> +		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc",
-> +				   "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"],
->  				   "fonts-noto-cjk", 2);
->  	}
->  
 
-
-
-Thanks,
-Mauro
