@@ -1,201 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 029687D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 19:07:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3D6D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 19:24:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728985AbfJBTGP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 15:06:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728979AbfJBTGP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Oct 2019 15:06:15 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B83B9222C0;
-        Wed,  2 Oct 2019 19:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570043173;
-        bh=8sMo4FJfboakcK868/Hiy+nKIlOxxVLfCFn8JuRQTxA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=liDCze7O2YwLXEO94UIjRrUz826pXyDkWV3SVv4RO9EsY+bu3qzZ0LRWRQE8D1egP
-         f5VhggSpntyDP1ySr1PoDxz2Mq+tFpKK78y6FcctvY7B1FVkE2EsvxQtZbCWjI9zLa
-         Uz7NkLmY5Mj2MvFzE0yYLL0dAPGt1a9x/UGo14Kw=
-Received: by mail-qt1-f181.google.com with SMTP id c3so59222qtv.10;
-        Wed, 02 Oct 2019 12:06:13 -0700 (PDT)
-X-Gm-Message-State: APjAAAWLntryWmPGGnCpTWsKb+JsKiGEUzKfY1CJtmGPoji+7LGUa1VT
-        gmEmQl1SI1hXR22zTx6723UBehApL2ZMcVEqKg==
-X-Google-Smtp-Source: APXvYqyP/AkJgtrsX9gl2TGkwS1JLKrJIncGvW+nvBz1GMCbZV4b9uH9RP7xJaCQd5dNgn31KtV92hGdTzUoKoefvnA=
-X-Received: by 2002:a05:6214:30c:: with SMTP id i12mr4557087qvu.135.1570043172759;
- Wed, 02 Oct 2019 12:06:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190924124945.491326-1-nuno.sa@analog.com> <20190924124945.491326-4-nuno.sa@analog.com>
- <20191002002331.GA17502@bogus> <a85b33d3cd24b4225e4be3a25221f9c56cdcca5c.camel@analog.com>
-In-Reply-To: <a85b33d3cd24b4225e4be3a25221f9c56cdcca5c.camel@analog.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 2 Oct 2019 14:06:01 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJPFfUmOOQ-f_ibbTXdzgYxYMf2+7HCq2eBn_MkfRsdbQ@mail.gmail.com>
-Message-ID: <CAL_JsqJPFfUmOOQ-f_ibbTXdzgYxYMf2+7HCq2eBn_MkfRsdbQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: iio: Add ltc2947 documentation
-To:     "Sa, Nuno" <Nuno.Sa@analog.com>
-Cc:     "linux@roeck-us.net" <linux@roeck-us.net>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        id S1729007AbfJBTYy convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 15:24:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60996 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726076AbfJBTYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 15:24:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 6EB2FAD09;
+        Wed,  2 Oct 2019 19:24:51 +0000 (UTC)
+Date:   Wed, 2 Oct 2019 21:08:31 +0200
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Paul Burton <paul.burton@mips.com>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "jdelvare@suse.com" <jdelvare@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v6 1/4] nvmem: core: add nvmem_device_find
+Message-Id: <20191002210831.f7fa10ad7f055801df26669d@suse.de>
+In-Reply-To: <20191002183327.grhkxlbyu65vvhr4@pburton-laptop>
+References: <20190923114636.6748-1-tbogendoerfer@suse.de>
+        <20190923114636.6748-2-tbogendoerfer@suse.de>
+        <ce44c762-f9a6-b4ef-fa8a-19ee4a6d391f@linaro.org>
+        <20191002183327.grhkxlbyu65vvhr4@pburton-laptop>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 2, 2019 at 10:09 AM Sa, Nuno <Nuno.Sa@analog.com> wrote:
->
-> On Wed, 2019-10-02 at 09:19 -0500, Rob Herring wrote:
-> >
-> > On Tue, Sep 24, 2019 at 02:49:45PM +0200, Nuno S=C3=A1 wrote:
-> > > Document the LTC2947 device devicetree bindings.
-> > >
-> > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+On Wed, 2 Oct 2019 18:33:28 +0000
+Paul Burton <paul.burton@mips.com> wrote:
+
+> Hello,
+> 
+> On Tue, Oct 01, 2019 at 11:11:58AM +0100, Srinivas Kandagatla wrote:
+> > On 23/09/2019 12:46, Thomas Bogendoerfer wrote:
+> > > nvmem_device_find provides a way to search for nvmem devices with
+> > > the help of a match function simlair to bus_find_device.
+> > > 
+> > > Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
 > > > ---
-> > >  .../bindings/hwmon/adi,ltc2947.yaml           | 101
-> > > ++++++++++++++++++
-> > >  MAINTAINERS                                   |   1 +
-> > >  2 files changed, 102 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > new file mode 100644
-> > > index 000000000000..2ea0187421d4
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > @@ -0,0 +1,101 @@
-> >
-> > Missing license. Please make new bindings (GPL-2.0-only OR BSD-2-
-> > Clause)
->
-> ack.
->
-> > > +%YAML 1.2
-> > > +---
-> > > +$id:
-> > > http://devicetree.org/schemas/bindings/hwmon/adi,ltc2947.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Analog Devices LTC2947 high precision power and energy
-> > > monitor
-> > > +
-> > > +maintainers:
-> > > +  - Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > +
-> > > +description: |
-> > > +  Analog Devices LTC2947 high precision power and energy monitor
-> > > over SPI or I2C.
-> > > +
-> > > +
-> > > https://www.analog.com/media/en/technical-documentation/data-sheets/L=
-TC2947.pdf
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - adi,ltc2947
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    description:
-> > > +      The LTC2947 uses either a trimmed internal oscillator or an
-> > > external clock
-> > > +      as the time base for determining the integration period to
-> > > represent time,
-> > > +      charge and energy. When an external clock is used, this
-> > > property must be
-> > > +      set accordingly.
-> > > +    maxItems: 1
-> > > +
-> > > +  adi,accumulator-ctl-pol:
-> > > +    description:
-> > > +      This property controls the polarity of current that is
-> > > accumulated to
-> > > +      calculate charge and energy so that, they can be only
-> > > accumulated for
-> > > +      positive current for example. Since there are two sets of
-> > > registers for
-> > > +      the accumulated values, this entry can also have two items
-> > > which sets
-> > > +      energy1/charge1 and energy2/charger2 respectively. Check
-> > > table 12 of the
-> > > +      datasheet for more information on the supported options.
-> > > +    allOf:
-> > > +      - $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +      - enum: [0, 1, 2, 3]
-> > > +      - minItems: 2
-> > > +      - maxItems: 2
-> > > +    default: [0, 0]
-> >
-> > This should be:
-> >
-> > allOf:
-> >   - $ref: ...
-> > items:
-> >   enum: [0, 1, 2, 3]
-> >   default: 0
-> > minItems: 2
-> > maxItems: 2
->
-> I was expecting this already. When upstreaming another device, I
-> realized some errors with `make dt_binding_check` when evaluating the
-> example. Just for my understanding, is this also incorrect?
+> > 
+> > Thanks for the patch,
+> > This patch looks good for me.
+> > 
+> > Do you know which tree is going to pick this series up?
+> > 
+> > I can either apply this patch to nvmem tree
+> > 
+> > or here is my Ack for this patch to take it via other trees.
+> > 
+> > Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> 
+> Thanks - if you don't mind I'll take this through mips-next along with
+> the following patch that depends on it.
+> 
+> Thomas: I see patch 3 has an issue reported by the kbuild test robot,
 
-The allOf structure like this also works. You'll get better error
-messages if schemas are not under an allOf.
+yes, that's because kbuild robot tries to build it 32bit. I'm going to make
+it depend on 64bit all possible ioc3 platforms only support 64bit kernels.
 
-> allOf:
->   - $ref: /schemas/types.yaml#/definitions/uint32-array
->   - minItems: 2
->     maxItems: 2
->     items:
->       enum: [0, 1, 2, 3]
->     default: 0
+>         and still needs acks from the MFD & network maintainers. Can I
+> 	presume it's safe to apply patches 1 & 2 without 3 & 4 in the
+> 	meantime?
 
-However, 'default' needs to be indented under 'items'.
+yes, thank you.
 
->
-> I used a similar pattern in another device that is also waiting for
-> review :).
-> > > +
-> > > +  adi,accumulation-deadband-microamp:
-> > > +    description:
-> > > +      This property controls the Accumulation Dead band which
-> > > allows to set the
-> > > +      level of current below which no accumulation takes place.
-> > > +    allOf:
-> > > +      - $ref: /schemas/types.yaml#/definitions/uint32
-> > > +      - maximum: 255
-> >
-> > maximum should be at same indent as allOf. Or default should be at
-> > the
-> > same level as maximum (under a single '-' list entry).
->
-> So it should be?
->
-> allOf:
->   - $ref: /schemas/types.yaml#/definitions/uint32
->   - maximum: 255
->     default: 0
+Thomas.
 
-Yes.
+-- 
+SUSE Software Solutions Germany GmbH
+HRB 247165 (AG München)
+Geschäftsführer: Felix Imendörffer
