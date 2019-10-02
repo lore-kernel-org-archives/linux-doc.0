@@ -1,259 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAE8A7D981
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 12:34:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 579567D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 13:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726684AbfJBMdQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 08:33:16 -0400
-Received: from mga03.intel.com ([134.134.136.65]:27022 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725765AbfJBMdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Oct 2019 08:33:15 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 05:33:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,574,1559545200"; 
-   d="scan'208";a="205330033"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Oct 2019 05:33:12 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/2] software node: Add documentation
-Date:   Wed,  2 Oct 2019 15:33:05 +0300
-Message-Id: <20191002123305.80012-3-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191002123305.80012-1-heikki.krogerus@linux.intel.com>
-References: <20191002123305.80012-1-heikki.krogerus@linux.intel.com>
+        id S1727103AbfJBNEq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 09:04:46 -0400
+Received: from mail-eopbgr80051.outbound.protection.outlook.com ([40.107.8.51]:20989
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726775AbfJBNEp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 09:04:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HIUmy7ERW+ZZKJufXMUPPD/lQkUlcH9iT8AR/yafpz1iLpCrQNM2NV8azQvIDkpUiUqxtqaCUx8SV6NfNqchIj0zJHWP/M2UGdBwfp+k4SGUl6NiSd82UWtwLfIKrEs/lo7E8sRUmRu77K4gFEPI93mb8rIMr8wpFC3nvrqgJkJrT3lTTxiRRWt5j97CQvDPcL6jyntTJgtbI6DiynuJ37acQwUEbXPSygvj2Fa462SugHKUzLLQMJrzzRKOmmv9t8unwlPbuVI5rNheEA69WHtRaj/9s9FIlVCHuv49NLP/Z88ENkdCwDBIgcnYex9tCyQ1N9DPBC5eH+9MWLGqoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jPrfZE2ZzlgXwxvs9WgUYsD0eHrzsLPa8Nba2DpTt4o=;
+ b=L+MMrpI3Z513NksZlIYED6VR7Nqg0JNvm77eFQEPMA8vdvEgpNuwytcoDhoLmj3y4Y9wm3O5BCQzX7iP0uiWWCniDTd3tlx7ROOKb8fICi+NhBbH/X/1ZigRlo0VOlztzpRnT2e0aIhlcl06WWBqI+TXCqRD6m8r1cU+kiF1Y2UfJW2aGv+a72Cp4jJGJwKph6bmWc8cfX3ueAdMcjAxGTimaBTiF7kz2GOtwKr+IYiNOsn9pef9L/CZsBSOl66lM/Gh9J1u0LA4tLe4uXuJxivmRCT7Fp9iEpUwqwc/leyPwBX6ubo559FEQd4ztL9aEsQjy3yEiv6nP5pNSKJ1Rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jPrfZE2ZzlgXwxvs9WgUYsD0eHrzsLPa8Nba2DpTt4o=;
+ b=R31Y5mLaFkn0bDIUhz/ak+oezkkqV5xYyrBFVEAEYXrPy1VymzIjiZyfDMor+Q35S/45NzxzUG5wW9Pdoh0vS6TDkXTWKQgJkWigxCEyO6tUBPk0NbQD/JOmoQcjfu4+dnrtCo7SCOHPwXHWC+gteRs7KApEHuGiQZN4Op/YK9Q=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3918.eurprd04.prod.outlook.com (52.134.17.31) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.15; Wed, 2 Oct 2019 13:04:40 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::fd33:c447:3cab:c36]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::fd33:c447:3cab:c36%7]) with mapi id 15.20.2305.023; Wed, 2 Oct 2019
+ 13:04:40 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>
+CC:     "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Eddy Petrisor <eddy.petrisor@nxp.com>
+Subject: [PATCH v5 1/5] dt-bindings: arm: fsl: Add the S32V234-EVB board
+Thread-Topic: [PATCH v5 1/5] dt-bindings: arm: fsl: Add the S32V234-EVB board
+Thread-Index: AQHVeSHzRt15gcIyzkiIQ4Txg/5+kA==
+Date:   Wed, 2 Oct 2019 13:04:39 +0000
+Message-ID: <20191002130425.28905-2-stefan-gabriel.mirea@nxp.com>
+References: <20191002130425.28905-1-stefan-gabriel.mirea@nxp.com>
+In-Reply-To: <20191002130425.28905-1-stefan-gabriel.mirea@nxp.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.22.0
+x-clientproxiedby: PR0P264CA0194.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1f::14) To VI1PR0402MB2863.eurprd04.prod.outlook.com
+ (2603:10a6:800:af::18)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [86.120.240.156]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f627acc0-ee0d-4b92-eab0-08d74739157e
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: VI1PR0402MB3918:|VI1PR0402MB3918:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB3918BB5E0A2AB0801ECC41C6DF9C0@VI1PR0402MB3918.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-forefront-prvs: 0178184651
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(189003)(199004)(102836004)(2201001)(5660300002)(26005)(478600001)(76176011)(486006)(386003)(14454004)(50226002)(8676002)(8936002)(81156014)(305945005)(81166006)(6506007)(7736002)(7416002)(64756008)(6436002)(66556008)(66446008)(476003)(66066001)(2906002)(11346002)(2616005)(66476007)(6486002)(66946007)(25786009)(52116002)(2501003)(186003)(256004)(446003)(6512007)(6116002)(3846002)(36756003)(71190400001)(71200400001)(4744005)(4326008)(1076003)(86362001)(54906003)(99286004)(110136005)(316002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3918;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ffrcKV9octv4hUr04GUPxqd9ul8qDrUoWIosZTto5xX72hSM7LDFHN5audHzjvcYIq+9oEc0q8OV4LgVu2//G8B2/ZV8hpkG5d69LwKaQfIxUV7ZdW1FwQD8kaHAZUmTQ0nhB88Yn6ktB9eN34vOyA9TgwITyeaJMA5DfEPGuagiA/We4CRzXJ7AXo8JLK31mCkZ/BQNlywKcClVEwg+uETIgg3uOD9T3rLkkbnVj7cHJchSuttvT+ZZbwAC3eHi/CbNMhCMaezVjlzeRyQZafSug7F3h3fE08ikS1ezLqnqdEQK93ME1tcRBR8MUSPJnl3oUIzoB7zWZ7NueowGjFL7I8IxdkMoZg4ISetsCPu/WyKZKNDuDsAzsaPCyLgslSoKA0KBcd2r1aaw4pR+c1zqFMCbQtyIc4rL3HPKnPE=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <645189E856AA654A9F01C6C622055648@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f627acc0-ee0d-4b92-eab0-08d74739157e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 13:04:39.8940
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EcehjH3yVlK2x7Jza/0NxewzMEUAT07HW3LqwD+koHH6XzCQ/p3n2UPllTX2rh7roXzunSIzkuQfUzxg9f+KqA1xNazm2YlQN7u1r1uijWg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3918
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-API documentation for the software nodes.
-
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- Documentation/driver-api/software_node.rst | 197 +++++++++++++++++++++
- 1 file changed, 197 insertions(+)
- create mode 100644 Documentation/driver-api/software_node.rst
-
-diff --git a/Documentation/driver-api/software_node.rst b/Documentation/driver-api/software_node.rst
-new file mode 100644
-index 000000000000..cf8a05c34e9e
---- /dev/null
-+++ b/Documentation/driver-api/software_node.rst
-@@ -0,0 +1,197 @@
-+
-+.. _software_node:
-+
-+==============
-+Software nodes
-+==============
-+
-+Introduction
-+============
-+
-+Software node is a :c:type:`struct fwnode_handle <fwnode_handle>` type,
-+analogous to the ACPI and DT firmware nodes except that the software nodes are
-+created in kernel code (hence the name "software" node). The software nodes can
-+be used to complement fwnodes representing real firmware nodes when they are
-+incomplete, for example missing device properties, and to supply the primary
-+fwnode when the firmware lacks hardware description for a device completely.
-+
-+NOTE! The primary hardware description should always come from either ACPI
-+tables or DT. Describing an entire system with software nodes, though possible,
-+is not acceptable! The software nodes should only complement the primary
-+hardware description.
-+
-+Hierarchy
-+=========
-+
-+The software nodes support hierarchy (i.e. the software nodes can have child
-+software nodes and a parent software node) just like ACPI and DT firmware nodes,
-+but there is no dedicated root software node object. It means that a software
-+node at the root level does not have a parent.
-+
-+Note! Only other software nodes can be children and the parent for a software
-+node.
-+
-+Device properties
-+=================
-+
-+The software node device properties are described with :c:type:`struct
-+property_entry <property_entry>`. When a software node is created that has
-+device properties, it is supplied with a zero terminated array of property
-+entries. Normally the properties are described with helper macros::
-+
-+	static const u8 u8_array[] = { 0, 1, 2, 3 };
-+	static const u16 u16_array[] = { 0, 1, 2, 3 };
-+	static const u32 u32_array[] = { 0, 1, 2, 3 };
-+	static const u64 u64_array[] = { 0, 1, 2, 3 };
-+
-+	static const struct property_entry my_props[] = {
-+		PROPERTY_ENTRY_U8_ARRAY("u8_array_example", u8_array),
-+		PROPERTY_ENTRY_U16_ARRAY("u16_array_example", u16_array),
-+		PROPERTY_ENTRY_U32_ARRAY("u32_array_example", u32_array),
-+		PROPERTY_ENTRY_U64_ARRAY("u64_array_example", u64_array),
-+		PROPERTY_ENTRY_U8("u8_example", 0xff),
-+		PROPERTY_ENTRY_U16("u16_example", 0xffff),
-+		PROPERTY_ENTRY_U32("u32_example", 0xffffffff),
-+		PROPERTY_ENTRY_U64("u64_example", 0xffffffffffffffff),
-+		PROPERTY_ENTRY_STRING("string_example", "string"),
-+		{ }
-+	};
-+
-+Note! If "build-in" device properties are supplied to already existing device
-+entries by using :c:func:`device_add_properties`, a software node is actually
-+created for that device. That software node is just assigned to the device
-+automatically in the function.
-+
-+Usage
-+=====
-+
-+Node creation
-+-------------
-+
-+Static nodes
-+~~~~~~~~~~~~
-+
-+In a normal case the software nodes are described statically with
-+:c:type:`struct software_node <software_node>`, and then registered with
-+:c:func:`software_node_register`. Usually there is more then one software node
-+that needs to be registered. A helper :c:func:`software_node_register_nodes`
-+registers a zero terminated array of software nodes::
-+
-+	static const struct property_entry props[] = {
-+		PROPERTY_ENTRY_STRING("foo", "bar"),
-+		{ }
-+	};
-+
-+	static const struct software_node my_nodes[] = {
-+		{ "grandparent" },		/* no parent nor properties */
-+		{ "parent", &my_nodes[0] },	/* parent, but no propreties */
-+		{ "child", &my_nodes[1], props }, /* parent and properties */
-+		{ }
-+	};
-+
-+	static int my_init(void)
-+	{
-+		return software_node_register_nodes(my_nodes);
-+	}
-+
-+Note! The above example names the nodes "grandparent", "parent" and "child", but
-+the software nodes don't actually have to be named. If no name is supplied for a
-+software node when it's being registered, the API names the node "node<n>" where
-+<n> is index number.
-+
-+Dynamic nodes
-+~~~~~~~~~~~~~
-+
-+The Quick (and dirty) method. A software node can be created on the fly with
-+:c:func:`fwnode_create_software_node`. The nodes create "on-the-fly" don't
-+differ from statically described software nodes in any way, but for now the API
-+does not support naming of these nodes::
-+
-+	static const struct property_entry my_props[] = {
-+		PROPERTY_ENTRY_STRING("foo", "bar"),
-+		{ }
-+	};
-+
-+	static int my_init(void)
-+	{
-+		struct fwnode_handle *fwnode;
-+
-+		/* Software node without a parent. */
-+		fwnode = fwnode_create_software_node(my_props, NULL);
-+		if (IS_ERR(fwnode))
-+			return PTR_ERR(fwnode);
-+
-+		return -1;
-+	}
-+
-+Linking software nodes with the device (struct device) entries
-+--------------------------------------------------------------
-+
-+Ideally the software node should be assigned to the device entry before the
-+device is registered (just like any other fwnode).
-+
-+When the software node is the primary fwnode for the device, the fwnode of the
-+device needs to simply point to the software node fwnode. Using a helper
-+:c:func:`software_node_fwnode` in the following example::
-+
-+	static const struct software_node my_node = {
-+		.name = "thenode",
-+	};
-+
-+	static int my_init(void)
-+	{
-+		struct device my_device = { };
-+		int ret;
-+
-+		ret = software_node_register(my_node);
-+		if (ret)
-+			return ret;
-+
-+		device_initialize(&my_device);
-+		dev_set_name(&my_device, "thedevice")
-+
-+		my_device.fwnode = software_node_fwnode(swnode);
-+
-+		return device_add(&my_device);
-+	}
-+
-+When the software node is the secondary fwnode for a device, i.e. the device has
-+either ACPI or DT (or something else) firmware node as the primary fwnode, the
-+node should be assigned with :c:func:`set_secondary_fwnode`. If the
-+``secondary`` member of the primary fwnode needs to be manually made to point
-+to the software node, the code needs to make sure that the ``secondary`` member
-+of the software node fwnode points to a specific value of ``ERR_PTR(-ENODEV)``::
-+
-+	struct fwnode_handle *fwnode = software_node_fwnode(swnode);
-+
-+	fwnode->secondary = ERR_PTR(-ENODEV);
-+	dev->fwnode->secondary = fwnode;
-+
-+Note! There is no requirement to bind a software node with a device entry, i.e.
-+having "sub-nodes" that represent for example certain resources the parent
-+software node has is not a problem.
-+
-+Node References
-+---------------
-+
-+TODO
-+
-+Device graph
-+------------
-+
-+TODO
-+
-+API
-+===
-+
-+.. kernel-doc:: include/linux/property.h
-+   :internal: software_node
-+
-+.. kernel-doc:: include/linux/fwnode.h
-+   :internal: fwnode_handle
-+
-+.. kernel-doc:: drivers/base/core.c
-+   :functions: set_secondary_fwnode
-+
-+.. kernel-doc:: drivers/base/swnode.c
-+   :functions: is_software_node is_software_node software_node_fwnode software_node_find_by_name software_node_register_nodes software_node_unregister_nodes software_node_register software_node_register fwnode_create_software_node fwnode_remove_software_node
--- 
-2.23.0
-
+RnJvbTogRWRkeSBQZXRyaciZb3IgPGVkZHkucGV0cmlzb3JAbnhwLmNvbT4NCg0KQWRkIGVudHJ5
+IGZvciB0aGUgTlhQIFMzMlYyMzQgQ3VzdG9tZXIgRXZhbHVhdGlvbiBCb2FyZCB0byB0aGUgYm9h
+cmQvU29DDQpiaW5kaW5ncy4NCg0KU2lnbmVkLW9mZi1ieTogRWRkeSBQZXRyaciZb3IgPGVkZHku
+cGV0cmlzb3JAbnhwLmNvbT4NClNpZ25lZC1vZmYtYnk6IFN0ZWZhbi1HYWJyaWVsIE1pcmVhIDxz
+dGVmYW4tZ2FicmllbC5taXJlYUBueHAuY29tPg0KUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxy
+b2JoQGtlcm5lbC5vcmc+DQotLS0NCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+YXJtL2ZzbC55YW1sIHwgNiArKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCsp
+DQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2Zz
+bC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mc2wueWFtbA0K
+aW5kZXggMWI0YjRlNjU3M2I1Li5jMjExZjRmODJlMjUgMTAwNjQ0DQotLS0gYS9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZzbC55YW1sDQorKysgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZzbC55YW1sDQpAQCAtMzM1LDQgKzMzNSwxMCBAQCBw
+cm9wZXJ0aWVzOg0KICAgICAgICAgICAgICAgLSBmc2wsbHMyMDg4YS1yZGINCiAgICAgICAgICAg
+LSBjb25zdDogZnNsLGxzMjA4OGENCiANCisgICAgICAtIGRlc2NyaXB0aW9uOiBTMzJWMjM0IGJh
+c2VkIEJvYXJkcw0KKyAgICAgICAgaXRlbXM6DQorICAgICAgICAgIC0gZW51bToNCisgICAgICAg
+ICAgICAgIC0gZnNsLHMzMnYyMzQtZXZiICAgICAgICAgICAjIFMzMlYyMzQtRVZCMiBDdXN0b21l
+ciBFdmFsdWF0aW9uIEJvYXJkDQorICAgICAgICAgIC0gY29uc3Q6IGZzbCxzMzJ2MjM0DQorDQog
+Li4uDQotLSANCjIuMjIuMA0KDQo=
