@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 268F97DC63
+	by archive.lwn.net (Postfix) with ESMTP id 63FAF7DD29
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 16:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727416AbfJBQZo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 12:25:44 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39758 "EHLO
+        id S1727477AbfJBQZq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 12:25:46 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33789 "EHLO
         mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727315AbfJBQZn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 12:25:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r3so20424318wrj.6
-        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2019 09:25:42 -0700 (PDT)
+        with ESMTP id S1727426AbfJBQZp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 12:25:45 -0400
+Received: by mail-wr1-f68.google.com with SMTP id b9so20413071wrs.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2019 09:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Td3fuKxaZXUNRUL4lHP0H/YwhwCuhVUYKfFBUtY39ao=;
-        b=Ay0ZPUGU4ZMuvmp9AyeuEwZTd3EVG77yxr4isL6WCseFvl5N8rSYOs9PbBjgrpAn/O
-         DaiC1gg/PpSLu3QGHHvMRWorvxWLg+ZDdZpN3/u6+5c23deK3BOqWmMXNl8TgOs9Njct
-         bNubYsbtdLra8byI1N9hZzwz9NrJQZnoU46GANhZZYBf5FyfFSkJEYIiSxVh6qjm+nW9
-         g0bInSX21U/YnQxiXzrvJgBf9B4B6p1O/0J6QdjA5wDRGFSVTDhzG2L9BZPg3Hm0PuMl
-         nXjou1VnEvFGjQmK8xOyAGYl3NejzLv7WuLXRNg8jUZn4QQezxI9HDQOtDGV+Ld28Izo
-         Fe7w==
+        bh=J/QUXmHdm9DT+DpI2JHLYwXEFgCyNsBxIYS9RvtuK78=;
+        b=wl8pAqxoH7Xx5OAnjVcLMMcVwibOM/IvkSC94fzjorJ4B3vseoSQGYu0parhimLa55
+         A0PuKmh0XvzYiW/PH3oXM56spuDbvofLhLuS4dbmVhx4AdDJ4/lyEaf6BzlToz/ETKhf
+         pCtAs5EiI4JTWBFSdB33cWFYonT68WH5vS3a0ejiqMt+pVFJsY7t5ays/N7A96t+XAwP
+         zv8fledYpTEXlADBEMueKWcjoFTc57/oh8aIVfdMMvqoZkUkH/UGVFu1LXf2dR7Qhj1M
+         vxeqIjyzEYRUqYGGrNHtbSoeZeIvv3LTx+eS32KQJXDkgyjuMertdYBJC6Mg38InEEAe
+         KGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Td3fuKxaZXUNRUL4lHP0H/YwhwCuhVUYKfFBUtY39ao=;
-        b=OpGVuNCubduaAUnNItjn9NvTe46oGIHbrZNmEsQcLlEBvtkVCF+gKAcfv9060gKrrO
-         PCjgO88uLdPGb+Nu/Ut6XBVcfCeMSHmBAOjWrlNSLVHbPXRW4XV8JSEwE8WUHdmwJ3pc
-         zds5Xba2HGIZTLJdom6jTD0qFEdTfu+97OKIhFiKT948W9I4/hclRYiR4NBFwG45QEQY
-         9xa5ojk8iLD4hLGm/o+KtjIDd3RZ7QRJfeUviyk18pSasLjZn3Rew4KAlhkDpiRtgw9P
-         MPczuZCB46fIrJT7alIkNf4ifc3mxoySrdYSbJ8PIiMM/dayxcATNXolcgXwk7tBi5SR
-         rVsQ==
-X-Gm-Message-State: APjAAAWJfMfct1nrrJDa4hFTq45WyKEZFo4gHKLAjC7WFABsSRrSjgqq
-        CscF2fOlHC4rjbGtgkJDjAaWMa2IUdo=
-X-Google-Smtp-Source: APXvYqx6Nn0iW9tzH/XcC+9LObbv1X3qcSHbAAR/1v/u4exu00qknLkpqXwAY+tpNzIaNSaDS+1+Vg==
-X-Received: by 2002:a5d:4985:: with SMTP id r5mr3093803wrq.139.1570033541315;
-        Wed, 02 Oct 2019 09:25:41 -0700 (PDT)
+        bh=J/QUXmHdm9DT+DpI2JHLYwXEFgCyNsBxIYS9RvtuK78=;
+        b=uXVqVHV9ga5ejRyFuVr4urRpzQUFbuUr0fhD2KgZME6PrH22KjzlMI+rSDpocV/qs5
+         ZFYwKxZn4lO6qbGqIRLQW8mJia6fQ6f03z7dkuW38pIFpoMWypSZioIfuCqMO+dGzrij
+         aU6irF1QXWjHMWCE0VyBMJ7yN/yaNPkTg5pMs6rkVv0PUm0lbmk0lZzGcMJ2oTkaxmwI
+         UjIZpT5OVwlCizxftft0BHmpblsTy70/sZybjJ70ImwIIEaxRycMADmUtmMTJKYku6pA
+         SBptc84DQuK7LlTptUoeYspMuhkW5CptGyuDJA1oZ9RzCeGMl9GNEQaulmJuyfHcNgFk
+         AWDw==
+X-Gm-Message-State: APjAAAWbLSb+QGKOWLcZLDMn/JEuM/dPQN4Rew/LQlTo9UzueHLT+2xD
+        JHUtcvlv9kh1V1bb3QAqNXRzAg==
+X-Google-Smtp-Source: APXvYqxGsPDOioHBzCv+eGZAAjmSO1/M4o23eUqwwd1tIWQbnQHRWKn4DqnnzmfWMrjx42tyjxOC9g==
+X-Received: by 2002:a5d:52cd:: with SMTP id r13mr3301523wrv.376.1570033544143;
+        Wed, 02 Oct 2019 09:25:44 -0700 (PDT)
 Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id w9sm3482067wrt.62.2019.10.02.09.25.40
+        by smtp.gmail.com with ESMTPSA id w9sm3482067wrt.62.2019.10.02.09.25.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 09:25:40 -0700 (PDT)
+        Wed, 02 Oct 2019 09:25:43 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,9 +54,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Arnd Bergmann <arnd@arndb.de>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 2/5] lib: devres: prepare devm_ioremap_resource() for more variants
-Date:   Wed,  2 Oct 2019 18:25:31 +0200
-Message-Id: <20191002162534.3967-3-brgl@bgdev.pl>
+Subject: [PATCH v2 4/5] drivers: platform: provide devm_platform_ioremap_resource_wc()
+Date:   Wed,  2 Oct 2019 18:25:33 +0200
+Message-Id: <20191002162534.3967-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191002162534.3967-1-brgl@bgdev.pl>
 References: <20191002162534.3967-1-brgl@bgdev.pl>
@@ -69,89 +69,95 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-We want to add the write-combined variant of devm_ioremap_resource().
-Let's first implement __devm_ioremap_resource() which takes
-an additional argument type. The types are the same as for
-__devm_ioremap(). The existing devm_ioremap_resource() now simply
-calls __devm_ioremap_resource() with regular DEVM_IOREMAP type.
+Provide a write-combined variant of devm_platform_ioremap_resource().
+
+While at it: in order not to duplicate code - pass the resource
+retrieved by platform_get_resource() directly to the appropriate
+devm_ioremap_resource() variant.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- lib/devres.c | 47 +++++++++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 20 deletions(-)
+ .../driver-api/driver-model/devres.rst        |  1 +
+ drivers/base/platform.c                       | 27 +++++++++++++++----
+ include/linux/platform_device.h               |  3 +++
+ 3 files changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/lib/devres.c b/lib/devres.c
-index 6a0e9bd6524a..a14c727128c1 100644
---- a/lib/devres.c
-+++ b/lib/devres.c
-@@ -114,25 +114,9 @@ void devm_iounmap(struct device *dev, void __iomem *addr)
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index e605bb9df6e1..480b78ca3871 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -318,6 +318,7 @@ IOMAP
+   devm_ioremap_resource() : checks resource, requests memory region, ioremaps
+   devm_ioremap_resource_wc()
+   devm_platform_ioremap_resource() : calls devm_ioremap_resource() for platform device
++  devm_platform_ioremap_resource_wc()
+   devm_iounmap()
+   pcim_iomap()
+   pcim_iomap_regions()	: do request_region() and iomap() on multiple BARs
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index b6c6c7d97d5b..8fdf3eb23bda 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -60,6 +60,7 @@ struct resource *platform_get_resource(struct platform_device *dev,
  }
- EXPORT_SYMBOL(devm_iounmap);
+ EXPORT_SYMBOL_GPL(platform_get_resource);
  
--/**
-- * devm_ioremap_resource() - check, request region, and ioremap resource
-- * @dev: generic device to handle the resource for
-- * @res: resource to be handled
-- *
-- * Checks that a resource is a valid memory region, requests the memory
-- * region and ioremaps it. All operations are managed and will be undone
-- * on driver detach.
-- *
-- * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
-- * on failure. Usage example:
-- *
-- *	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-- *	base = devm_ioremap_resource(&pdev->dev, res);
-- *	if (IS_ERR(base))
-- *		return PTR_ERR(base);
-- */
--void __iomem *devm_ioremap_resource(struct device *dev,
--				    const struct resource *res)
-+static void __iomem *
-+__devm_ioremap_resource(struct device *dev, const struct resource *res,
-+			enum devm_ioremap_type type)
++#ifdef CONFIG_HAS_IOMEM
+ /**
+  * devm_platform_ioremap_resource - call devm_ioremap_resource() for a platform
+  *				    device
+@@ -68,16 +69,32 @@ EXPORT_SYMBOL_GPL(platform_get_resource);
+  *        resource management
+  * @index: resource index
+  */
+-#ifdef CONFIG_HAS_IOMEM
+ void __iomem *devm_platform_ioremap_resource(struct platform_device *pdev,
+ 					     unsigned int index)
  {
- 	resource_size_t size;
- 	void __iomem *dest_ptr;
-@@ -151,7 +135,7 @@ void __iomem *devm_ioremap_resource(struct device *dev,
- 		return IOMEM_ERR_PTR(-EBUSY);
- 	}
- 
--	dest_ptr = devm_ioremap(dev, res->start, size);
-+	dest_ptr = __devm_ioremap(dev, res->start, size, type);
- 	if (!dest_ptr) {
- 		dev_err(dev, "ioremap failed for resource %pR\n", res);
- 		devm_release_mem_region(dev, res->start, size);
-@@ -160,6 +144,29 @@ void __iomem *devm_ioremap_resource(struct device *dev,
- 
- 	return dest_ptr;
+-	struct resource *res;
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, index);
+-	return devm_ioremap_resource(&pdev->dev, res);
++	return devm_ioremap_resource(&pdev->dev,
++				     platform_get_resource(pdev,
++							   IORESOURCE_MEM,
++							   index));
  }
+ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource);
 +
 +/**
-+ * devm_ioremap_resource() - check, request region, and ioremap resource
-+ * @dev: generic device to handle the resource for
-+ * @res: resource to be handled
++ * devm_platform_ioremap_resource_wc - write-combined variant of
++ *                                     devm_platform_ioremap_resource()
 + *
-+ * Checks that a resource is a valid memory region, requests the memory
-+ * region and ioremaps it. All operations are managed and will be undone
-+ * on driver detach.
-+ *
-+ * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure. Usage example:
-+ *
-+ *	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+ *	base = devm_ioremap_resource(&pdev->dev, res);
-+ *	if (IS_ERR(base))
-+ *		return PTR_ERR(base);
++ * @pdev: platform device to use both for memory resource lookup as well as
++ *        resource management
++ * @index: resource index
 + */
-+void __iomem *devm_ioremap_resource(struct device *dev,
-+				    const struct resource *res)
++void __iomem *devm_platform_ioremap_resource_wc(struct platform_device *pdev,
++						unsigned int index)
 +{
-+	return __devm_ioremap_resource(dev, res, DEVM_IOREMAP);
++	return devm_ioremap_resource_wc(&pdev->dev,
++					platform_get_resource(pdev,
++							      IORESOURCE_MEM,
++							      index));
 +}
- EXPORT_SYMBOL(devm_ioremap_resource);
+ #endif /* CONFIG_HAS_IOMEM */
  
- /*
+ static int __platform_get_irq(struct platform_device *dev, unsigned int num)
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index 1b5cec067533..83930790c701 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -57,6 +57,9 @@ platform_find_device_by_driver(struct device *start,
+ extern void __iomem *
+ devm_platform_ioremap_resource(struct platform_device *pdev,
+ 			       unsigned int index);
++extern void __iomem *
++devm_platform_ioremap_resource_wc(struct platform_device *pdev,
++				  unsigned int index);
+ extern int platform_get_irq(struct platform_device *, unsigned int);
+ extern int platform_get_irq_optional(struct platform_device *, unsigned int);
+ extern int platform_irq_count(struct platform_device *);
 -- 
 2.23.0
 
