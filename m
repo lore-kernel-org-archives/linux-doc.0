@@ -1,88 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 64A017DE7C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 16:14:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 865EA7D92A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 16:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727287AbfJBQOe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 12:14:34 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46719 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726215AbfJBQOd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 12:14:33 -0400
-Received: by mail-pf1-f196.google.com with SMTP id q5so10594455pfg.13
-        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2019 09:14:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pensando.io; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=eeyTOg17q9KxMpdnKIdB7cChcxt684Nc0Z/pTXOp8y8=;
-        b=EP1pH7wpiE0TYKvhUm2wWyzT1PRmnrtJW2S9yGvLz+UQS5H6/InXwE+x7vcQn0YkA8
-         FvYrIpIaayfSv4Ts2FZYpj3clWi/NGLG/G3R7XP1QXkQqsFA+p03EIgoGlgNePuVOKte
-         EV2xbhJPg+0sbcZIjH2QWZyQcxkXcsqBDBFBGsAG+au4XuTyaRh7n3OKaPHzKopsBy0D
-         UKEmC1UUp5TnLJB/BzgH+VR7a60BkAmOYCpo8QG8Zz0WcDX/gt+ScP5hZv0bfiIbfid5
-         VtIAGaDfjpZDJsmbs5y6TakZJvKeAeAbclrWPjG2I6CjzEY6C4bLgws3vjG9QhFFf/wO
-         LjJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=eeyTOg17q9KxMpdnKIdB7cChcxt684Nc0Z/pTXOp8y8=;
-        b=rlIg9w+Cu5ZmGfYrllj9BZfHxKT2M/2tHeKhJhTNGrd9OraGTH4/+s90pKBsZK1OG8
-         J29mDj1Otcglrxr7S3gDG1x9bvhX3fKu9mi6WUZmsetz/mJQ9EiM4Re8jFtZx2sMnidU
-         wUjVpVQjCGwuCBsHOQvFT5N8mNNvPv9xZz7Xow1dnXHOT3SR4dQqHseDMT3rkNNkO93e
-         RpGjOp/+fRJlItfwqOlxFizC2hv2OpXak3OgMzlwEpTcsLK3tGfDRvqtB8QDlSoeNmCS
-         eJaEsTlv4qzPBBCX87znxvTw78d1DuGy0YXHMkuvttOB7AWGKkiEX9VggSm0JbL/B4sj
-         VJbQ==
-X-Gm-Message-State: APjAAAUb53ncOsEWhWGryloHpBvNTRbwQlXimAOmYId6M6VkVCqTuifz
-        FPlTQ33jZHs6ixsRhdBa8xr4aQ==
-X-Google-Smtp-Source: APXvYqxrTJaVirNXUIMjjQQYz+vd4XBrvrCFGiFDXmev6sjlsTLcobvsJWUnNNcWVcQJlboCNdrkOA==
-X-Received: by 2002:a62:e817:: with SMTP id c23mr5436656pfi.230.1570032873121;
-        Wed, 02 Oct 2019 09:14:33 -0700 (PDT)
-Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id z25sm18095592pfn.7.2019.10.02.09.14.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 09:14:32 -0700 (PDT)
-Subject: Re: [PATCH] Documentation: networking: device drivers: Remove stray
- asterisks
-To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        linux-doc@vger.kernel.org
-Cc:     Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pensando Drivers <drivers@pensando.io>,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191002150956.16234-1-j.neuschaefer@gmx.net>
-From:   Shannon Nelson <snelson@pensando.io>
-Message-ID: <1fd5d5df-30ea-2545-daf6-575473879cd6@pensando.io>
-Date:   Wed, 2 Oct 2019 09:14:31 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1726708AbfJBQZh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 12:25:37 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45746 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725916AbfJBQZh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 12:25:37 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 00A4A491;
+        Wed,  2 Oct 2019 16:25:36 +0000 (UTC)
+Date:   Wed, 2 Oct 2019 10:25:35 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] docs: Programmatically render MAINTAINERS into
+ ReST
+Message-ID: <20191002102535.1e518877@lwn.net>
+In-Reply-To: <20191001182532.21538-1-keescook@chromium.org>
+References: <20191001182532.21538-1-keescook@chromium.org>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20191002150956.16234-1-j.neuschaefer@gmx.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/2/19 8:09 AM, Jonathan Neuschäfer wrote:
-> These asterisks were once references to a line that said:
->    "* Other names and brands may be claimed as the property of others."
-> But now, they serve no purpose; they can only irritate the reader.
->
-[...]
-> Fixes: df69ba43217d ("ionic: Add basic framework for IONIC Network device driver")
+On Tue,  1 Oct 2019 11:25:30 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
-Acked-by: Shannon Nelson <snelson@pensando.io>
+> v1: https://lore.kernel.org/lkml/20190924230208.12414-1-keescook@chromium.org
+> 
+> v2: fix python2 utf-8 issue thanks to Jonathan Corbet
+> 
+> 
+> Commit log from Patch 2 repeated here for cover letter:
+> 
+> In order to have the MAINTAINERS file visible in the rendered ReST
+> output, this makes some small changes to the existing MAINTAINERS file
+> to allow for better machine processing, and adds a new Sphinx directive
+> "maintainers-include" to perform the rendering.
 
+OK, I've applied this.  Some notes, none of which really require any
+action...
 
+It adds a new warning:
+
+  /stuff/k/git/kernel/MAINTAINERS:40416: WARNING: unknown document: ../misc-devices/xilinx_sdfec           
+
+I wonder if it's worth checking to be sure that documents referenced in
+MAINTAINERS actually exist.  OTOH, things as they are generate a warning,
+which is what we want anyway.
+
+I did various experiments corrupting the MAINTAINERS file and got some
+fairly unphotogenic results.  Again, though, I'm not sure that adding a
+bunch of code to generate warnings is really worth the trouble.
+
+The resulting HTML file is 3.4MB and definitely makes my browser sweat when
+loading it :)
+
+It adds about 20 seconds to a full "make htmldocs" build, which takes just
+over 3 minutes on the system in question.  So a 10% overhead, essentially.
+
+All told, it does what it's expected to do.  Thanks for doing this.
+
+jon
