@@ -6,98 +6,90 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02E017D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 15:18:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B0C87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 15:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbfJBPSx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 11:18:53 -0400
-Received: from mout.gmx.net ([212.227.15.15]:59769 "EHLO mout.gmx.net"
+        id S1726697AbfJBPjF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 11:39:05 -0400
+Received: from mout.gmx.net ([212.227.17.20]:48975 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726708AbfJBPSx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Oct 2019 11:18:53 -0400
+        id S1726233AbfJBPjF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 11:39:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1570029527;
-        bh=Q+Tqcdu9N7Z5yZZRF6Mnkj+8SefS7EApumhjQV8PNRw=;
+        s=badeba3b8450; t=1570030728;
+        bh=uJ94hoeDYVlEUYDK9HmHZapgsgfzPQRJy+izURTskdE=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=E+ZgbF9dXkPh/j4RAiClbMGx/Av9WdTohUh1D8zhrBb7Qw+IdU6Ctwa3pYOblZ2Qv
-         fZiLwcojsfU0l+DjD3byxaPoQgqjxxnbOnuJBPdoIjU1QXhKrtfS6Uf5savYVotHyx
-         JNclS0B1+ndciPSoRi0UxreiuhzCh9QS78tuTFms=
+        b=WMUwOlX1Lb+j1C/oVgGjmbT2uNZ8Szam2fkpKo78AKGmKzBXzAHYANDh2eDKXx3L4
+         wDojROI8kNSvHNtmUonTmzCkOCa3ndhwdVJPJdjX/j1l436Id1m9J11tdGoHeGnkJ/
+         V65KyvV+61xIAbki28wFcMSBrP35Y5Gw6qVlXdYQ=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQMyZ-1iTCuE2N05-00MHxZ; Wed, 02
- Oct 2019 17:18:47 +0200
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4hvb-1i6RN120Od-011loW; Wed, 02
+ Oct 2019 17:38:48 +0200
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: it_IT: maintainer-pgp-guide: Fix reference to "Nitrokey Pro 2"
-Date:   Wed,  2 Oct 2019 17:18:39 +0200
-Message-Id: <20191002151841.18476-1-j.neuschaefer@gmx.net>
+To:     dri-devel@lists.freedesktop.org
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Subject: [PATCH 1/2] drm/mcde: Fix reference to DOC comment
+Date:   Wed,  2 Oct 2019 17:38:26 +0200
+Message-Id: <20191002153827.23026-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pbx6rcg2uyE/35W47UjXQlTJQ9kup/DIfSihVa/r9xT3mDqCq06
- nrkUAuKASfuNbNTlokm+wxRdmHqvYBIgKMTNm9+IfI1aq5Kv/ljfoXtp+cl8aFXYgWjcd7b
- l0tqmf03n5Sm3371wF7IBTYTD+qBLf0eYL7cJWXOD5fcQf8KFvRU0fc6QXv5OAod+AroQDx
- 62+P8X+hZpokXUgntJGhQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x5oklVP5wDs=:soA6vj6h+XpElIqb1DHz2Z
- 06gG+DgzTBA74Q35ysz1IkB3U6KogSY1gzlY1xAnA4y8QsSGmiSwNXBw5hwvPmeXYDOkWmeeP
- 7RQ0X/fZ8euFBXEVCozfv/gWlFjDCmChtbN5WueUw5yIPxvbHxb0pWXhHeP6ZEryD35Li3q/l
- Tlc9qwNWcVeOeZvDh0zTvw6hSi4a5lIuTOS7i4XiAPYXv7iqvukTcikg5a8Yb5n1cSYXMQ20H
- e9pGaDXFoXVRQKzTY5MErrcvgWEBckSfD3MklB++23Bq/xGP9MLG7EMCPNZfnbUY91UpOA+jU
- tWYn5rqzcr7l5ypHCHieTvsS7GmmojgY6L3LeZCIE/ORAtSlpyuziW0hY/sbMwTdThm7XuilA
- r7zTGp0EmjpFbFEgGpaTwAvppR2omjsy1O5mXj8lYtV3jWHPA47kVMWqKpD1E5n4o2GWPt+Fk
- OhIbBEU24Z6rWx96a29+Htp8oZdPiLmRUm1HqdVflKg5Ry7SLtOBpEgg5p4BQ5aRPxmAUydf6
- 9jW7OGmaGHngh4sA+k6QaR9KgCOTx82TNIvaNFNPc3KuNdR/aog7OG+PqOEqPACTm5AZRrW1E
- JVx/4eModvqaY1dQLS7zCsf0xtQMJ0QywRduU2M/6/9SUCMoMC3AvCMq9PpF0v34wcnOkPcVt
- muONlPRm22vlXYsbAuxKYAp8wau5UfkYq1RcsIFGnfeO8IvEmpbFT0Pd2G0eKIaDBMyQNRhBA
- +rkmzoQcUUR5uDUNZIg+aMi1lo0SkYhtY1acH1gc3JNd/UCjEIWysfzH6IAQ+9iwQqsqoaUOy
- 7hg04Nmt7EjXPrXKyOybEFdz7w+TLgZUs86N9y25N4ggFKWohsYAQBadJqDT7GTIU7+a2Wiv0
- 5waPkkcBuXoVP98flDHbXCAvbf6XjJl0vIr4/GhbdDOBgdCxHZtY5wgdMI+Ygqo7vQrfEPGkQ
- FWqMS3Ei5eKStFfIFfu+NlIm62ELhMD0Wg7RO6+sbDwEvfG9OQysBpYh8Y11aBAnTc2cq0ao/
- gODJBkCzIPDskQbLB/INyTpgNZPYZRfQMaT0IUQDwKdAYHkwES79okiQDkvugVfXeZtWOTPaz
- PVcA7ZKnhrowU02j7QWStkqq8RxKc0vACHKmrNneHzKUhgiqPc5Dl5HJpYm+ooIXjsRPZ4HON
- lfSjNDpanuW0mziLyABM4WHYYWqARLMfX/agm/+PN1XH6kb1yO7p79M275qu3/KhvaZDpRp+p
- tTxijkkjPdW96+NaojBiICOdWUV0AUtQqmCOejgJHjB3XxZUxBZa/xYOkr5s=
+X-Provags-ID: V03:K1:SVSunW34OIe4oEVA5808fwuyxjOn+4LwN+7F3SKvA2tXwrxZ4Hf
+ sXxKuyLBXu20zT684c5xM3xYP6buM+1XcJdQARxKi0O+Qytp/nI6EAd4ZgYmj81/3TLPC0R
+ k3NZYHtLRqlmKP13YfBJ8I4gGX0IlC4elWUNLjUMAOHIxuv+0B0aAbri/+0lGfTK0OQ51fu
+ B0AjU17XJkcVMotb4r2Pg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3el9ghxLDL4=:UcbCjmWj4WraLgSfYL5TUF
+ Pk7ndKlh01nUM8aE3vYwVsz+uszqjobrKK8qe4UcF3J9v9T6yHxc9nhwDf5XPWGHO6NDyUZPH
+ aa+53iLudgA5eee8pZ5MaVFO9ss/70BRV5dHHmUCHyCLhb0d6xfavSfkb/Ctut6GaEmYvEtSz
+ VwDRL0leZlci/p0Z1F2S8xio1QERlnWedllMLvNMY1lE7S2lsey/Lb6jmAHKvDFhkXp2Gdfqp
+ toEIgZMxmxVD4IUXVYV5H2kViDQcRCrUxwnkhPRBF2LCI2PSiq9dI2Fd/YerBIy0Bm0Vmd4dY
+ 75brhPkyITGoqUTjwxPftnitlWWyeYuS7nH3QPWchDIgQI88lEzG+2h4Xno/fIel8cb4IYvi3
+ pWNa47tePmuYPXT5uFL7xyMVEDriAC7CvukZnYS3q6MmY7gWS6PTf2zUcN3A9SnF71gqwcPVB
+ kz6qTgZgV2ZT2bGsu4hvgfCSFUYZU1hoEjAgziseu5iInIqCUs/CBvMyyLnShVftcG846gD7l
+ Y2hjzcojN/VHj9isHHhXfZoPibDqMukghJqzv9H0Fx1HesEpk9uu3gIyVwyFE0Nt/h/zouKNi
+ npRIr2cZ03MLSBphfNyFp3R9OiboRovfpc3gHJHGjtcFpgtag2o5A2lo2qpF1d2SAqasEichf
+ KL/lD8vwqJybY7spv/VsYCnGdRjGkVZTgmxeF/X0RAAuZKMA1TpkphI0veE1sE87AitiicqN9
+ 237UZ/7Qt6/LGqdJPspaoH7hs8/4XF42yk0FoxuD5d5mpS10//UsFv43Zk2OAR0FmUp58pqFf
+ kQBpjeE6QlBVS3RaN5/Oy4XojOvwcg2mPIeR04CiwfAZEOSYk7kL8iQ0skit6N7yhgwpOvSJa
+ rWXCTvxDdcLd4JBcYWOKR/5pU+Wlzh5QUaRTOqGC8CTh2tlV7Pr7gua9b9oa4K94d3fzzdvGL
+ MgrzhUVneX/BOnP486dsKC7S5Joa46apHh8+d5G4bTLvxNB941WeDFLuz75CfZbAZ7s/jnFGX
+ q1Zb6kzbTnChvXKA4s9UNojCfw1W+rhSn5aeYVqdXLv+eelP2Rh/l4W41dauVf0nu/HoJdtbh
+ +PymWVbJsR0Hdn63k7Aeoan+v0MTc57r5X35uIg/KhtmcaE6DcpxImMd9xETtjVuHiBTvPLLm
+ vhfk9g22PDZne8ISXgEG+hs9RO/bJfO5iC/uhf/f3DDzNwggxEnJijM/SLCc/i8iIlLbqPs1Z
+ vVH2v9j6cT1m3xfUDBlEYVvOPbvxEtlBwOWubr6r8nBLGYCOvU82DkNw7sJQ=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes the following Sphinx warning:
+The :doc: reference did not match the DOC comment's name.
 
-Documentation/translations/it_IT/process/maintainer-pgp-guide.rst:458:
-  WARNING: Unknown target name: "nitrokey pro".
-
+Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- .../translations/it_IT/process/maintainer-pgp-guide.rst         | 2 +-
+ Documentation/gpu/mcde.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/it_IT/process/maintainer-pgp-guide=
-.rst b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
-index 118fb4153e8f..f3c8e8d377ee 100644
-=2D-- a/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
-+++ b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
-@@ -455,7 +455,7 @@ soluzioni disponibili:
-   `GnuK`_ della FSIJ. Questo =C3=A8 uno dei pochi dispositivi a supportar=
-e le chiavi
-   ECC ED25519, ma offre meno funzionalit=C3=A0 di sicurezza (come la resi=
-stenza
-   alla manomissione o alcuni attacchi ad un canale laterale).
-=2D- `Nitrokey Pro`_: =C3=A8 simile alla Nitrokey Start, ma =C3=A8 pi=C3=
-=B9 resistente alla
-+- `Nitrokey Pro 2`_: =C3=A8 simile alla Nitrokey Start, ma =C3=A8 pi=C3=
-=B9 resistente alla
-   manomissione e offre pi=C3=B9 funzionalit=C3=A0 di sicurezza. La Pro 2 =
-supporta la
-   crittografia ECC (NISTP).
- - `Yubikey 5`_: l'hardware e il software sono proprietari, ma =C3=A8 pi=
-=C3=B9 economica
+diff --git a/Documentation/gpu/mcde.rst b/Documentation/gpu/mcde.rst
+index c69e977defda..dd43dde379e0 100644
+=2D-- a/Documentation/gpu/mcde.rst
++++ b/Documentation/gpu/mcde.rst
+@@ -5,4 +5,4 @@
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+
+ .. kernel-doc:: drivers/gpu/drm/mcde/mcde_drv.c
+-   :doc: ST-Ericsson MCDE DRM Driver
++   :doc: ST-Ericsson MCDE Driver
 =2D-
 2.20.1
 
