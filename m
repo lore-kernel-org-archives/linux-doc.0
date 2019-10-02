@@ -1,99 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB8AC7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 13:37:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 454EC7DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 13:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbfJBNfx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 09:35:53 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:32796 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726852AbfJBNfw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 09:35:52 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b9so19724575wrs.0;
-        Wed, 02 Oct 2019 06:35:51 -0700 (PDT)
+        id S1727160AbfJBNgZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 09:36:25 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34010 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726942AbfJBNgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 09:36:25 -0400
+Received: by mail-pf1-f193.google.com with SMTP id b128so10356718pfa.1;
+        Wed, 02 Oct 2019 06:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yDFkyFKnVVaJETawxGl6c7iecqMKmXo2RrVQG6D/yyI=;
-        b=dHeoiCZEEsJwLZnPG7X/nHAejwZNzrWNsP7lSKya/PBsnq8H2/6ycrAvNiQfvLJ8yt
-         1duTd6VxbUkgLC7X1nhxGIrS5yWDeO1ipyHlqIBf5YK6NpNq6OP+dn0JE/HycJJ1z8PR
-         heXXMFEWo3kJEGZGxef+B+iMAKF1ECaVc2UAxA6KkJwgdm5HJ/+M/cFE+bQn1J5Ki9Nk
-         N2b3LZWMegQPBUak65Dv7IFsRuGOLJW+sbaqCPHMMKsSwBv6dKp+eHx645odfVbuikWb
-         BVxNpuuIPYr63AYPotoThhoM4hb/Frx3p6nDjv1guqWeXEv96dpDxknnhcTx5o6O1XkK
-         c9Aw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NvlA4der8VEmnNF8hhRvmlInmrmtcpBlJIhVCUHL7Ik=;
+        b=uF0bPRzhgeXmeZYhI0Zw/miC+j/Gt/TjczdeCmAPuUlas8OKRYwA7st2HmEf70aQ/s
+         gnOPfBY/eTQDmk+bz7J8W6NsAROdlu0aCiT2stYS2UhgCK1DI0GVtDsYxinWK1//isu1
+         S2eyxNRFeeXP4xHbdMV+GqZ1WuWzKqk3Bvs2wev1g/uTWGnan3FTe77IXfpGsqOAoIBD
+         gWXXKdjaeCjywwjkovGd34s+CjuhVYL/QwgCBtxADURWL3VpCwlkvhQQ7WnmFuws/9BD
+         IPxDAdRQeujfiwgAoFptEbBChBX+JtYP5vb4Y6Um6AmtoKcYyWDjRWvhG7B8jyutOe7n
+         hf9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yDFkyFKnVVaJETawxGl6c7iecqMKmXo2RrVQG6D/yyI=;
-        b=A8lt+t6dG53OOve3VfIk6Kr2L/RuVqgN6P/6VXiSkeoTVPESEKZI2CSE0eaudbPKv8
-         Zgsi/VhWmRoRW/cTF/R4HtgFy0wRIxThxmuZtH89bVDQ2KLl9amZzBNHCOIs0uL/goEQ
-         ENueDMtkPIhVWCbrLQSlJi60Xu3spXLcDDCczzomxGiYxy9+A2N7BykY9vmHzEReFUM7
-         UEZRhsZSLw/bCw+Jdtv/FmePZnwY4wXPc0mg96gFfX2SbB7PW770x3mgoVBMfBU90lRC
-         Y0lcyk1hJJIxNCtpCck15INDpkEKil1kpp3KjgaII3huUtkitEGuY4tNPFDfQIeZDRMQ
-         vFLw==
-X-Gm-Message-State: APjAAAU7ekh2fBCxqmpBgi8qtBoLWiAMC15nU/956rK1ylcvT4wDcTQy
-        ijH/IuzeeF2TIulXy9sl+/m6AiXWkzWkqg==
-X-Google-Smtp-Source: APXvYqz8O+xytzH/baIb52dgiSm4SWi2QiBbV80z3zT8PbZpCYll6apIuFtJwlPyKbZDxJJw7YojTw==
-X-Received: by 2002:a5d:6108:: with SMTP id v8mr2690374wrt.28.1570023350712;
-        Wed, 02 Oct 2019 06:35:50 -0700 (PDT)
-Received: from LHFYY6Y2.criteois.lan ([91.199.242.236])
-        by smtp.gmail.com with ESMTPSA id z142sm11597952wmc.24.2019.10.02.06.35.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 06:35:50 -0700 (PDT)
-From:   Jeremy MAURO <jeremy.mauro@gmail.com>
-X-Google-Original-From: Jeremy MAURO <j.mauro@criteo.com>
-Cc:     j.mauro@criteo.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION SCRIPTS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 2/2] scripts/sphinx-pre-install: Add a new path for the debian package "fonts-noto-cjk"
-Date:   Wed,  2 Oct 2019 15:35:42 +0200
-Message-Id: <20191002133543.10909-1-j.mauro@criteo.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191002073636.68ad85de@coco.lan>
-References: <20191002073636.68ad85de@coco.lan>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NvlA4der8VEmnNF8hhRvmlInmrmtcpBlJIhVCUHL7Ik=;
+        b=Y9REg63IXy9ap3HDLO9raRnPxrSv4LoqCP6fsWij3O382Aed2Abtm0Ug+FftXjwH48
+         ksVQNAYYdzzO1XAPeZiFBmJFYis0J/q0FaSBY5fjytj93YXEkIb5dOXeMYUcFJrFtjsi
+         yjBLhtO1ycgBPi0iuW6Z1BfCpqgjZHH6QIBq0Dph4Q87IwMrvN9y73Br6KK6QhLPxKbj
+         KVTs0hlt/PbTenUENkQZZcCkayBmAh/oaPIIUs73gXs/ilNSKv60uwQ9b7pqPTYr7/X9
+         20r9GqksiOLvjONCeICg9Od48yD/tkykToBtkNaFXtMligW+YhR6FMvS6fVmhprHQHsv
+         +R7Q==
+X-Gm-Message-State: APjAAAW8Es7FLyZWaD3Atj5lG+oveUbIuskh7SnzjTfcZ2p+sI10Gwmj
+        uRFkxbZBEvvx4SVgDlV4q95Rgbd/
+X-Google-Smtp-Source: APXvYqyTMG6ZbdhOkTxLEGWf+LUbuMx5pbcNlbhLTlvICs4Vs1OxoYHCoV55mF5kkiLYsSo/c5VSpA==
+X-Received: by 2002:a17:90a:9d86:: with SMTP id k6mr4275325pjp.105.1570023384314;
+        Wed, 02 Oct 2019 06:36:24 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r28sm22580865pfg.62.2019.10.02.06.36.22
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 02 Oct 2019 06:36:23 -0700 (PDT)
+Date:   Wed, 2 Oct 2019 06:36:22 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Lukas Zapletal <lzap+git@redhat.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RESEND] k10temp: update docs and add temp2_input info
+Message-ID: <20191002133621.GA18799@roeck-us.net>
+References: <20190923105931.27881-1-lzap+git@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190923105931.27881-1-lzap+git@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The latest debian version "bullseye/sid" has changed the path of the file
-"notoserifcjk-regular.ttc", with the previous change and this change we
-keep the backward compatibility and add the latest debian version
+On Mon, Sep 23, 2019 at 12:59:31PM +0200, Lukas Zapletal wrote:
+> It's been a while since the k10temp documentation has been updated.
+> There are new CPU families supported as well as Tdie temp was added.
+> This patch adds all missing families which I was able to find from git
+> history and provides more info about Tctl vs Tdie exported temps.
+> 
+> Signed-off-by: Lukas Zapletal <lzap+git@redhat.com>
 
-Signed-off-by: Jeremy MAURO <j.mauro@criteo.com>
----
-Changes in V2:
-- Align all lines
+Applied.
 
- scripts/sphinx-pre-install | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks,
+Guenter
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b5077ae63a4b..1f9285274587 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -348,7 +348,8 @@ sub give_debian_hints()
- 		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
- 				   "fonts-dejavu", 2);
- 
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc"],
-+		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc",
-+				   "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"],
- 				   "fonts-noto-cjk", 2);
- 	}
- 
--- 
-2.23.0
-
+> ---
+>  Documentation/hwmon/k10temp.rst | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/k10temp.rst b/Documentation/hwmon/k10temp.rst
+> index 12a86ba17de9..fc9d2a5ad57d 100644
+> --- a/Documentation/hwmon/k10temp.rst
+> +++ b/Documentation/hwmon/k10temp.rst
+> @@ -21,10 +21,16 @@ Supported chips:
+>  
+>  * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
+>  
+> -* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
+> +* AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo", "Stoney Ridge", "Bristol Ridge"
+>  
+>  * AMD Family 16h processors: "Kabini", "Mullins"
+>  
+> +* AMD Family 17h processors: "Zen", "Zen 2"
+> +
+> +* AMD Family 18h processors: "Hygon Dhyana"
+> +
+> +* AMD Family 19h processors: "Zen 3"
+> +
+>    Prefix: 'k10temp'
+>  
+>    Addresses scanned: PCI space
+> @@ -110,3 +116,12 @@ The maximum value for Tctl is available in the file temp1_max.
+>  If the BIOS has enabled hardware temperature control, the threshold at
+>  which the processor will throttle itself to avoid damage is available in
+>  temp1_crit and temp1_crit_hyst.
+> +
+> +On some AMD CPUs, there is a difference between the die temperature (Tdie) and
+> +the reported temperature (Tctl). Tdie is the real measured temperature, and
+> +Tctl is used for fan control. While Tctl is always available as temp1_input,
+> +the driver exports Tdie temperature as temp2_input for those CPUs which support
+> +it.
+> +
+> +Models from 17h family report relative temperature, the driver aims to
+> +compensate and report the real temperature.
