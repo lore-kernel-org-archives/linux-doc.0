@@ -1,165 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8ADC57D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 15:15:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02E017D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Oct 2019 15:18:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726195AbfJBPOr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 11:14:47 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49931 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfJBPOr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 11:14:47 -0400
-Received: from [213.220.153.21] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iFgKy-00035s-2J; Wed, 02 Oct 2019 15:14:44 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     libc-alpha@sourceware.org, Jonathan Corbet <corbet@lwn.net>,
-        Christian Brauner <christian@brauner.io>,
+        id S1726976AbfJBPSx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 11:18:53 -0400
+Received: from mout.gmx.net ([212.227.15.15]:59769 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726708AbfJBPSx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Oct 2019 11:18:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1570029527;
+        bh=Q+Tqcdu9N7Z5yZZRF6Mnkj+8SefS7EApumhjQV8PNRw=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=E+ZgbF9dXkPh/j4RAiClbMGx/Av9WdTohUh1D8zhrBb7Qw+IdU6Ctwa3pYOblZ2Qv
+         fZiLwcojsfU0l+DjD3byxaPoQgqjxxnbOnuJBPdoIjU1QXhKrtfS6Uf5savYVotHyx
+         JNclS0B1+ndciPSoRi0UxreiuhzCh9QS78tuTFms=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQMyZ-1iTCuE2N05-00MHxZ; Wed, 02
+ Oct 2019 17:18:47 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan Corbet <corbet@lwn.net>,
         Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        Guillaume Dore <corwin@poussif.eu>, linux-doc@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: [PATCH] Documentation: update about adding syscalls
-Date:   Wed,  2 Oct 2019 17:14:37 +0200
-Message-Id: <20191002151437.5367-1-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.23.0
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: it_IT: maintainer-pgp-guide: Fix reference to "Nitrokey Pro 2"
+Date:   Wed,  2 Oct 2019 17:18:39 +0200
+Message-Id: <20191002151841.18476-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pbx6rcg2uyE/35W47UjXQlTJQ9kup/DIfSihVa/r9xT3mDqCq06
+ nrkUAuKASfuNbNTlokm+wxRdmHqvYBIgKMTNm9+IfI1aq5Kv/ljfoXtp+cl8aFXYgWjcd7b
+ l0tqmf03n5Sm3371wF7IBTYTD+qBLf0eYL7cJWXOD5fcQf8KFvRU0fc6QXv5OAod+AroQDx
+ 62+P8X+hZpokXUgntJGhQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:x5oklVP5wDs=:soA6vj6h+XpElIqb1DHz2Z
+ 06gG+DgzTBA74Q35ysz1IkB3U6KogSY1gzlY1xAnA4y8QsSGmiSwNXBw5hwvPmeXYDOkWmeeP
+ 7RQ0X/fZ8euFBXEVCozfv/gWlFjDCmChtbN5WueUw5yIPxvbHxb0pWXhHeP6ZEryD35Li3q/l
+ Tlc9qwNWcVeOeZvDh0zTvw6hSi4a5lIuTOS7i4XiAPYXv7iqvukTcikg5a8Yb5n1cSYXMQ20H
+ e9pGaDXFoXVRQKzTY5MErrcvgWEBckSfD3MklB++23Bq/xGP9MLG7EMCPNZfnbUY91UpOA+jU
+ tWYn5rqzcr7l5ypHCHieTvsS7GmmojgY6L3LeZCIE/ORAtSlpyuziW0hY/sbMwTdThm7XuilA
+ r7zTGp0EmjpFbFEgGpaTwAvppR2omjsy1O5mXj8lYtV3jWHPA47kVMWqKpD1E5n4o2GWPt+Fk
+ OhIbBEU24Z6rWx96a29+Htp8oZdPiLmRUm1HqdVflKg5Ry7SLtOBpEgg5p4BQ5aRPxmAUydf6
+ 9jW7OGmaGHngh4sA+k6QaR9KgCOTx82TNIvaNFNPc3KuNdR/aog7OG+PqOEqPACTm5AZRrW1E
+ JVx/4eModvqaY1dQLS7zCsf0xtQMJ0QywRduU2M/6/9SUCMoMC3AvCMq9PpF0v34wcnOkPcVt
+ muONlPRm22vlXYsbAuxKYAp8wau5UfkYq1RcsIFGnfeO8IvEmpbFT0Pd2G0eKIaDBMyQNRhBA
+ +rkmzoQcUUR5uDUNZIg+aMi1lo0SkYhtY1acH1gc3JNd/UCjEIWysfzH6IAQ+9iwQqsqoaUOy
+ 7hg04Nmt7EjXPrXKyOybEFdz7w+TLgZUs86N9y25N4ggFKWohsYAQBadJqDT7GTIU7+a2Wiv0
+ 5waPkkcBuXoVP98flDHbXCAvbf6XjJl0vIr4/GhbdDOBgdCxHZtY5wgdMI+Ygqo7vQrfEPGkQ
+ FWqMS3Ei5eKStFfIFfu+NlIm62ELhMD0Wg7RO6+sbDwEvfG9OQysBpYh8Y11aBAnTc2cq0ao/
+ gODJBkCzIPDskQbLB/INyTpgNZPYZRfQMaT0IUQDwKdAYHkwES79okiQDkvugVfXeZtWOTPaz
+ PVcA7ZKnhrowU02j7QWStkqq8RxKc0vACHKmrNneHzKUhgiqPc5Dl5HJpYm+ooIXjsRPZ4HON
+ lfSjNDpanuW0mziLyABM4WHYYWqARLMfX/agm/+PN1XH6kb1yO7p79M275qu3/KhvaZDpRp+p
+ tTxijkkjPdW96+NaojBiICOdWUV0AUtQqmCOejgJHjB3XxZUxBZa/xYOkr5s=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add additional information on how to ensure that syscalls with structure
-arguments are extensible and add a section about naming conventions to
-follow when adding revised versions of already existing syscalls.
+This fixes the following Sphinx warning:
 
-Co-Developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 82 +++++++++++++++++++----
- 1 file changed, 70 insertions(+), 12 deletions(-)
+Documentation/translations/it_IT/process/maintainer-pgp-guide.rst:458:
+  WARNING: Unknown target name: "nitrokey pro".
 
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 1c3a840d06b9..93e0221fbb9a 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -79,7 +79,7 @@ flags, and reject the system call (with ``EINVAL``) if it does::
- For more sophisticated system calls that involve a larger number of arguments,
- it's preferred to encapsulate the majority of the arguments into a structure
- that is passed in by pointer.  Such a structure can cope with future extension
--by including a size argument in the structure::
-+by either including a size argument in the structure::
- 
-     struct xyzzy_params {
-         u32 size; /* userspace sets p->size = sizeof(struct xyzzy_params) */
-@@ -87,20 +87,56 @@ by including a size argument in the structure::
-         u64 param_2;
-         u64 param_3;
-     };
-+    int sys_xyzzy(struct xyzzy_params __user *uarg);
-+    /* in case of -E2BIG, p->size is set to the in-kernel size and thus all
-+       extensions after that offset are unsupported. */
- 
--As long as any subsequently added field, say ``param_4``, is designed so that a
--zero value gives the previous behaviour, then this allows both directions of
--version mismatch:
-+or by including a separate argument that specifies the size::
- 
-- - To cope with a later userspace program calling an older kernel, the kernel
--   code should check that any memory beyond the size of the structure that it
--   expects is zero (effectively checking that ``param_4 == 0``).
-- - To cope with an older userspace program calling a newer kernel, the kernel
--   code can zero-extend a smaller instance of the structure (effectively
--   setting ``param_4 = 0``).
-+    struct xyzzy_params {
-+        u32 param_1;
-+        u64 param_2;
-+        u64 param_3;
-+    };
-+    /* userspace sets @usize = sizeof(struct xyzzy_params) */
-+    int sys_xyzzy(struct xyzzy_params __user *uarg, size_t usize);
-+    /* in case of -E2BIG, userspace has to attempt smaller @usize values
-+       to figure out which extensions are unsupported. */
-+
-+Which model you choose to use is down to personal taste. However, please only
-+pick one (for a counter-example, see :manpage:`sched_getattr(2)`).
-+
-+Then, any extensions can be implemented by appending fields to the structure.
-+However, all new fields must be designed such that their zero value results in
-+identical behaviour to the pre-extension syscall. This allows for compatibility
-+between different-vintage kernels and userspace, no matter which is newer:
-+
-+ - If the userspace is newer, then the older kernel can check whether the
-+   fields it doesn't understand are zero-valued. If they are, then it can
-+   safely ignore them (since any future extensions will be backwards-compatible
-+   as described above). If they aren't, then the kernel doesn't support the
-+   feature and can give an error (``-E2BIG`` is traditional).
-+
-+ - If the userspace is older, then the kernel can treat all extensions that
-+   userspace is unaware of as having their zero-value (and effectively
-+   zero-extend the userspace structure when copying it for in-kernel usage).
- 
--See :manpage:`perf_event_open(2)` and the ``perf_copy_attr()`` function (in
--``kernel/events/core.c``) for an example of this approach.
-+ - If they're the same version, just use the structure as-is.
-+
-+As with the simpler flag-only syscalls, you must always check that any unknown
-+values for flag-like parameters in the passed structure are zeroed.
-+
-+It is also critical to ensure your syscall handles larger-sized arguments from
-+the outset, otherwise userspace will have to do additional (fairly pointless)
-+fallbacks for some old kernels. An example where this mistake was made is
-+:manpage:`rt_sigprocmask(2)` (where any unknown-sized arguments are
-+unconditionally rejected).
-+
-+To help implement this correctly, there is a helper function
-+``copy_struct_from_user()`` which handles the compatibility requirements for
-+you. For examples using this helper, see :manpage:`perf_event_open(2)` (which
-+uses the embedded-size model) and :manpage:`clone3(2)` (which uses the
-+separate-argument model).
- 
- 
- Designing the API: Other Considerations
-@@ -173,6 +209,28 @@ registers.  (This concern does not apply if the arguments are part of a
- structure that's passed in by pointer.)
- 
- 
-+Designing the API: Revisions of syscalls
-+-----------------------------------------------
-+
-+Syscalls that were not designed to be extensible or syscalls that use a flag
-+argument for extensions running out of bits (e.g. :manpage:`clone(2)`)
-+sometimes need to be replaced.
-+
-+If the revised syscall provides a superset (or a reasonably large subset, such
-+as when a feature that turned out to be a design mistake is dropped) of the
-+features of the old syscall it is common practice to give it the same name with
-+a number appended. Examples for this include ``dup2``/``dup3``,
-+``epoll_create``/``epoll_create1`` and others.
-+
-+For some syscalls the appended number indicates the number of arguments
-+(``accept``/``accept4``) for others the number of the revision
-+(``clone``/``clone3``, ``epoll_create``/``epoll_create1``). Recent discussions
-+around new syscalls (such as ``clone3``) have pointed to a consensus around
-+naming syscalls revisions by appending the number of the revision to the
-+syscall name. That means, if you were to post a revised version of the
-+``openat`` syscall it should be named ``openat2``.
-+
-+
- Proposing the API
- -----------------
- 
--- 
-2.23.0
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ .../translations/it_IT/process/maintainer-pgp-guide.rst         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/it_IT/process/maintainer-pgp-guide=
+.rst b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
+index 118fb4153e8f..f3c8e8d377ee 100644
+=2D-- a/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
++++ b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
+@@ -455,7 +455,7 @@ soluzioni disponibili:
+   `GnuK`_ della FSIJ. Questo =C3=A8 uno dei pochi dispositivi a supportar=
+e le chiavi
+   ECC ED25519, ma offre meno funzionalit=C3=A0 di sicurezza (come la resi=
+stenza
+   alla manomissione o alcuni attacchi ad un canale laterale).
+=2D- `Nitrokey Pro`_: =C3=A8 simile alla Nitrokey Start, ma =C3=A8 pi=C3=
+=B9 resistente alla
++- `Nitrokey Pro 2`_: =C3=A8 simile alla Nitrokey Start, ma =C3=A8 pi=C3=
+=B9 resistente alla
+   manomissione e offre pi=C3=B9 funzionalit=C3=A0 di sicurezza. La Pro 2 =
+supporta la
+   crittografia ECC (NISTP).
+ - `Yubikey 5`_: l'hardware e il software sono proprietari, ma =C3=A8 pi=
+=C3=B9 economica
+=2D-
+2.20.1
 
