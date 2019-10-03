@@ -1,79 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 627C97D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 00:09:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3AEC87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 00:25:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbfJCAIT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Oct 2019 20:08:19 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55198 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfJCAIT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 20:08:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=LX3dKDMWbmfdXy+k1nvUJV+7PrVhFHyukz+qUS83wpQ=; b=PI/aMGexMso1KjocPJKaNhNdu
-        4kUfwLq8UJLQn4nt+Y2SiyqL4CVAuymhlW0g7tGnbdgDfLyvDUeaCJQl78mZoD6SwfCsCjqeSTeRd
-        tbTIdnBECyfKnbCX4pSN2+2S4gNKzXci1Ux38EoAl6xNapt06rcKyBJXC/2mJBt0O9IM9O9vZLix1
-        pfO+HJWEwIzsUuIeSshT8jfbUbmIkuwZG9Dq6aUFXFYrMUzBLnj1MVQ80wOipvXhBZjEy6h0Pr8Je
-        oxt+nHVOCLCuB2yO8QV5dnDxYKa/hjirf+0Qz2J2UOj9j6Q3+WS914UMBsQq8tIUtHvjOKjfgDk9z
-        1Y0FLukiQ==;
-Received: from [2601:1c0:6280:3f0::9a1f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFofK-00082B-Ig; Thu, 03 Oct 2019 00:08:18 +0000
-To:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        David Miller <davem@davemloft.net>
-Cc:     Al Viro <viro@ZenIV.linux.org.uk>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] lib: textsearch: fix escapes in example code
-Message-ID: <86cf431b-9dbc-d608-205d-1f161bb14533@infradead.org>
-Date:   Wed, 2 Oct 2019 17:08:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1728763AbfJCAZ1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Oct 2019 20:25:27 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:38748 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbfJCAZ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Oct 2019 20:25:27 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f00:1e2::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id E3C1B155283C1;
+        Wed,  2 Oct 2019 17:25:26 -0700 (PDT)
+Date:   Wed, 02 Oct 2019 17:25:26 -0700 (PDT)
+Message-Id: <20191002.172526.1832563406015085740.davem@davemloft.net>
+To:     j.neuschaefer@gmx.net
+Cc:     linux-doc@vger.kernel.org, jeffrey.t.kirsher@intel.com,
+        corbet@lwn.net, snelson@pensando.io, drivers@pensando.io,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: networking: device drivers: Remove
+ stray asterisks
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20191002150956.16234-1-j.neuschaefer@gmx.net>
+References: <20191002150956.16234-1-j.neuschaefer@gmx.net>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 02 Oct 2019 17:25:27 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+From: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Date: Wed,  2 Oct 2019 17:09:55 +0200
 
-This textsearch code example does not need the '\' escapes and they can
-be misleading to someone reading the example. Also, gcc and sparse warn
-that the "\%d" is an unknown escape sequence.
+> These asterisks were once references to a line that said:
+>   "* Other names and brands may be claimed as the property of others."
+> But now, they serve no purpose; they can only irritate the reader.
+> 
+> Fixes: de3edab4276c ("e1000: update README for e1000")
+> Fixes: a3fb65680f65 ("e100.txt: Cleanup license info in kernel doc")
+> Fixes: da8c01c4502a ("e1000e.txt: Add e1000e documentation")
+> Fixes: f12a84a9f650 ("Documentation: fm10k: Add kernel documentation")
+> Fixes: b55c52b1938c ("igb.txt: Add igb documentation")
+> Fixes: c4e9b56e2442 ("igbvf.txt: Add igbvf Documentation")
+> Fixes: d7064f4c192c ("Documentation/networking/: Update Intel wired LAN driver documentation")
+> Fixes: c4b8c01112a1 ("ixgbevf.txt: Update ixgbevf documentation")
+> Fixes: 1e06edcc2f22 ("Documentation: i40e: Prepare documentation for RST conversion")
+> Fixes: 105bf2fe6b32 ("i40evf: add driver to kernel build system")
+> Fixes: 1fae869bcf3d ("Documentation: ice: Prepare documentation for RST conversion")
+> Fixes: df69ba43217d ("ionic: Add basic framework for IONIC Network device driver")
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-Fixes: 5968a70d7af5 ("textsearch: fix kernel-doc warnings and add kernel-api section")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: netdev@vger.kernel.org
----
- lib/textsearch.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Jon, how do you want to handle changes like this?
 
---- lnx-54-rc1.orig/lib/textsearch.c
-+++ lnx-54-rc1/lib/textsearch.c
-@@ -89,9 +89,9 @@
-  *       goto errout;
-  *   }
-  *
-- *   pos = textsearch_find_continuous(conf, \&state, example, strlen(example));
-+ *   pos = textsearch_find_continuous(conf, &state, example, strlen(example));
-  *   if (pos != UINT_MAX)
-- *       panic("Oh my god, dancing chickens at \%d\n", pos);
-+ *       panic("Oh my god, dancing chickens at %d\n", pos);
-  *
-  *   textsearch_destroy(conf);
-  */
+I mean, there are unlikely to be conflicts from something like this so it
+could simply go via the documentation tree.
 
+Acked-by: David S. Miller <davem@davemloft.net>
+
+I could also take it via net-next, either way is fine with me.
+
+Just let me know.
