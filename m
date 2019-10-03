@@ -3,56 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5881C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 11:12:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C85527D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 11:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729806AbfJCLMR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Oct 2019 07:12:17 -0400
-Received: from foss.arm.com ([217.140.110.172]:41758 "EHLO foss.arm.com"
+        id S1729913AbfJCLMV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Oct 2019 07:12:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:41790 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728140AbfJCLMQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Oct 2019 07:12:16 -0400
+        id S1729896AbfJCLMU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Oct 2019 07:12:20 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 667F61000;
-        Thu,  3 Oct 2019 04:12:16 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52C471000;
+        Thu,  3 Oct 2019 04:12:20 -0700 (PDT)
 Received: from e108454-lin.cambridge.arm.com (e108454-lin.cambridge.arm.com [10.1.196.50])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D223F706;
-        Thu,  3 Oct 2019 04:12:15 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 34C173F706;
+        Thu,  3 Oct 2019 04:12:19 -0700 (PDT)
 From:   Julien Grall <julien.grall@arm.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc:     will@kernel.org, catalin.marinas@arm.com, suzuki.poulose@arm.com,
         Julien Grall <julien.grall@arm.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 0/4] arm64/cpufeature: Fix + doc update
-Date:   Thu,  3 Oct 2019 12:12:07 +0100
-Message-Id: <20191003111211.483-1-julien.grall@arm.com>
+Subject: [PATCH 3/4] docs/arm64: elf_hwcaps: Document HWCAP_SB
+Date:   Thu,  3 Oct 2019 12:12:10 +0100
+Message-Id: <20191003111211.483-4-julien.grall@arm.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20191003111211.483-1-julien.grall@arm.com>
+References: <20191003111211.483-1-julien.grall@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+All the hardware capabilities but HWCAP_SB is not documented in
+elf_hwcaps.rst. So document it.
 
-This patch fix an issue related to exposing the FRINT capability to
-userspace (see patch #1). The rest is documentation update.
+Signed-off-by: Julien Grall <julien.grall@arm.com>
+---
+ Documentation/arm64/elf_hwcaps.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
-
-Julien Grall (4):
-  arm64: cpufeature: Effectively expose FRINT capability to userspace
-  docs/arm64: elf_hwcaps: sort the HWCAP{,2} documentation by ascending
-    value
-  docs/arm64: elf_hwcaps: Document HWCAP_SB
-  docs/arm64: cpu-feature-registers: Documents missing visible fields
-
- Documentation/arm64/cpu-feature-registers.rst |  4 ++
- Documentation/arm64/elf_hwcaps.rst            | 67 ++++++++++++++-------------
- arch/arm64/kernel/cpufeature.c                |  1 +
- 3 files changed, 40 insertions(+), 32 deletions(-)
-
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index 9ee7f8ff1fae..7fa3d215ae6a 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -155,6 +155,9 @@ HWCAP_FLAGM
+ HWCAP_SSBS
+     Functionality implied by ID_AA64PFR1_EL1.SSBS == 0b0010.
+ 
++HWCAP_SB
++    Functionality implied by ID_AA64ISAR1_EL1.SB == 0b0001.
++
+ HWCAP_PACA
+     Functionality implied by ID_AA64ISAR1_EL1.APA == 0b0001 or
+     ID_AA64ISAR1_EL1.API == 0b0001, as described by
 -- 
 2.11.0
 
