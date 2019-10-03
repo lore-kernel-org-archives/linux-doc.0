@@ -1,139 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C48A07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 10:08:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5CD17D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 10:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbfJCKIe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Oct 2019 06:08:34 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46642 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727410AbfJCKIe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Oct 2019 06:08:34 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x93A2vsa020834;
-        Thu, 3 Oct 2019 12:08:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : subject :
- date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=aOluPCF6ESczZ7lBj75ysirYywqU6TpjFJ3pKXx14HA=;
- b=tWLZ2rCpdbtQMBUgXGvr/BC7PDLIdTDZcXKZvrsSlLQ+QdRLZewXN7uj6MTgO+2VeCeh
- GX4lh9VcZmScLP2p2lmbpdVH4Gxtb1yWC5IVj/0JYA0BgcKqXxnL9PRXoYHf2E3rUqzX
- /6Le48HXrwFWbeOIsMy8NUU+TCLl/Zl8CBLtK1iQ+UoU+Fi+QjPp1cvYAe4I5UP1xzLj
- 39bQW4u6cYieeCSTSDvHk0T7Hklv2O5jROxhLy+QZZowsAzf1zJ07Gp0BqkW6EmDUBW9
- gs3nQ9Dfat/5SFN3quriPKhjEZHsmLL8JKmV+UAqbeVJINAh/9dn6s2GYPmJNdIl39EQ lA== 
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2v9xdh3kq6-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 03 Oct 2019 12:08:10 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 27E3822;
-        Thu,  3 Oct 2019 10:08:07 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CC98B2B00F7;
-        Thu,  3 Oct 2019 12:08:06 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct
- 2019 12:08:06 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Thu, 3 Oct 2019 12:08:06 +0200
-From:   Gerald BAEZA <gerald.baeza@st.com>
-To:     "will@kernel.org" <will@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v3 0/5] stm32-ddr-pmu driver creation
-Thread-Topic: [PATCH v3 0/5] stm32-ddr-pmu driver creation
-Thread-Index: AQHVXOk+As8mb1s6+UKuO5XjiYJqiadI6qNQ
-Date:   Thu, 3 Oct 2019 10:08:06 +0000
-Message-ID: <013321ff60ae44da892d806fbd3024d4@SFHDAG5NODE1.st.com>
-References: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
-In-Reply-To: <1566918464-23927-1-git-send-email-gerald.baeza@st.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.44]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-03_04:2019-10-01,2019-10-03 signatures=0
+        id S1728999AbfJCKaM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Oct 2019 06:30:12 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:49390 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbfJCKaM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Oct 2019 06:30:12 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x93ATIYu014338;
+        Thu, 3 Oct 2019 19:29:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x93ATIYu014338
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570098559;
+        bh=pMnHQORs2NGZ3n4d6znGdbIAOnjr2/F3UzN5iG+hjIQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=if8kKidKQ1gQ+bVFAZ1Cvyf9TwWp30f3uYtC1RTDZvuEIwwPX5/y6B/4iuLUpOb7+
+         7IyZj1Y/2IjnSvPy/9e6IRK6tj8m2Ji30mJaFxB/mbSpNma5TvuE5yhELJdRxOp2G0
+         H2OtCblY2Sr+d6hGJJkXQAd4zPrlLOiHKnC9qoDpZv+kNYETy5scLlF8PHoSiW0XK6
+         /GZ7kjbOq/135juWsjnfDZo3byz850TlKdjPMdyd3JMcNz91um1a97y0vLk1HU5FGE
+         W7/TN/u9i5+TekSKMhKEWOgUQyX58WoO2pGJiXS0YGCiTOTwK0ndBazZqdL1/w88eh
+         bqLc6UYlLHYlQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] kbuild: two minor updates for Documentation/kbuild/modules.rst
+Date:   Thu,  3 Oct 2019 19:29:12 +0900
+Message-Id: <20191003102915.28301-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear all
+Capitalize the first word in the sentence.
 
-Gentle reminder for this review.
+Use obj-m instead of obj-y. obj-y still works, but we have no built-in
+objects in external module builds. So, obj-m is better IMHO.
 
-Thanks in advance !
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-G=E9rald
+ Documentation/kbuild/modules.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> From: Gerald BAEZA <gerald.baeza@st.com>
->=20
-> The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1
-> SOC.
->=20
-> This series adds support for the DDRPERFM via a new stm32-ddr-pmu driver,
-> registered into the perf framework.
->=20
-> This driver is inspired from arch/arm/mm/cache-l2x0-pmu.c
->=20
-> ---
-> Changes from v1:
-> - add 'resets' description (bindings) and using (driver). Thanks Rob.
-> - rebase on 5.2-rc1 (that includes the ddrperfm clock control patch).
->=20
-> Changes from v2:
-> - rebase on 5.3-rc6 that has to be completed with
->   'perf tools: fix alignment trap in perf stat': mandatory.
->   'Documentation: add link to stm32mp157 docs': referenced from this seri=
-es.
-> - take into account all remarks from Mark Rutland: thanks for your time!
->   https://lkml.org/lkml/2019/6/26/388
-> - fix for event type filtering in stm32_ddr_pmu_event_init()
->=20
-> Gerald Baeza (5):
->   Documentation: perf: stm32: ddrperfm support
->   dt-bindings: perf: stm32: ddrperfm support
->   perf: stm32: ddrperfm driver creation
->   ARM: configs: enable STM32_DDR_PMU
->   ARM: dts: stm32: add ddrperfm on stm32mp157c
->=20
->  .../devicetree/bindings/perf/stm32-ddr-pmu.txt     |  16 +
->  Documentation/perf/stm32-ddr-pmu.txt               |  37 ++
->  arch/arm/boot/dts/stm32mp157c.dtsi                 |   8 +
->  arch/arm/configs/multi_v7_defconfig                |   1 +
->  drivers/perf/Kconfig                               |   6 +
->  drivers/perf/Makefile                              |   1 +
->  drivers/perf/stm32_ddr_pmu.c                       | 426 +++++++++++++++=
-++++++
->  7 files changed, 495 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/perf/stm32-ddr-
-> pmu.txt
->  create mode 100644 Documentation/perf/stm32-ddr-pmu.txt
->  create mode 100644 drivers/perf/stm32_ddr_pmu.c
->=20
-> --
-> 2.7.4
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index d2ae799237fd..dd1d2a0688e8 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -501,7 +501,7 @@ build.
+ --- 6.3 Symbols From Another External Module
+ 
+ 	Sometimes, an external module uses exported symbols from
+-	another external module. kbuild needs to have full knowledge of
++	another external module. Kbuild needs to have full knowledge of
+ 	all symbols to avoid spitting out warnings about undefined
+ 	symbols. Three solutions exist for this situation.
+ 
+@@ -521,7 +521,7 @@ build.
+ 		The top-level kbuild file would then look like::
+ 
+ 			#./Kbuild (or ./Makefile):
+-				obj-y := foo/ bar/
++				obj-m := foo/ bar/
+ 
+ 		And executing::
+ 
+-- 
+2.17.1
+
