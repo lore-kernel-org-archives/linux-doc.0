@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57CC07D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 12:24:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98CC57D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 13:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbfJCMXM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Oct 2019 08:23:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59222 "EHLO mx1.redhat.com"
+        id S1729159AbfJCNWn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Oct 2019 09:22:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46064 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725827AbfJCMXM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Oct 2019 08:23:12 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        id S1726039AbfJCNWn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Oct 2019 09:22:43 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8A5DE10DCC8F;
-        Thu,  3 Oct 2019 12:23:11 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 2D0153061213;
+        Thu,  3 Oct 2019 13:22:43 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E5C65C3F8;
-        Thu,  3 Oct 2019 12:23:05 +0000 (UTC)
-Date:   Thu, 3 Oct 2019 14:23:02 +0200
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D7094600CD;
+        Thu,  3 Oct 2019 13:22:37 +0000 (UTC)
+Date:   Thu, 3 Oct 2019 15:22:35 +0200
 From:   Andrew Jones <drjones@redhat.com>
 To:     Steven Price <steven.price@arm.com>
 Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
@@ -35,51 +35,50 @@ Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
         Julien Thierry <julien.thierry.kdev@gmail.com>,
         Suzuki K Pouloze <suzuki.poulose@arm.com>,
         Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christoffer Dall <christoffer.dall@arm.com>
-Subject: Re: [PATCH v5 02/10] KVM: arm/arm64: Factor out hypercall handling
- from PSCI code
-Message-ID: <20191003122302.emrmpzntkgzqlc3m@kamzik.brq.redhat.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 05/10] KVM: arm64: Support stolen time reporting via
+ shared structure
+Message-ID: <20191003132235.ruanyfmdim5s6npj@kamzik.brq.redhat.com>
 References: <20191002145037.51630-1-steven.price@arm.com>
- <20191002145037.51630-3-steven.price@arm.com>
+ <20191002145037.51630-6-steven.price@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191002145037.51630-3-steven.price@arm.com>
+In-Reply-To: <20191002145037.51630-6-steven.price@arm.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.64]); Thu, 03 Oct 2019 12:23:11 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 03 Oct 2019 13:22:43 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 02, 2019 at 03:50:29PM +0100, Steven Price wrote:
-> From: Christoffer Dall <christoffer.dall@arm.com>
-> 
-> We currently intertwine the KVM PSCI implementation with the general
-> dispatch of hypercall handling, which makes perfect sense because PSCI
-> is the only category of hypercalls we support.
-> 
-> However, as we are about to support additional hypercalls, factor out
-> this functionality into a separate hypercall handler file.
-> 
-> Signed-off-by: Christoffer Dall <christoffer.dall@arm.com>
-> [steven.price@arm.com: rebased]
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  arch/arm/kvm/Makefile        |  2 +-
->  arch/arm/kvm/handle_exit.c   |  2 +-
->  arch/arm64/kvm/Makefile      |  1 +
->  arch/arm64/kvm/handle_exit.c |  4 +-
->  include/Kbuild               |  2 +
->  include/kvm/arm_hypercalls.h | 43 ++++++++++++++++++
->  include/kvm/arm_psci.h       |  2 +-
->  virt/kvm/arm/hypercalls.c    | 59 +++++++++++++++++++++++++
->  virt/kvm/arm/psci.c          | 84 +-----------------------------------
->  9 files changed, 112 insertions(+), 87 deletions(-)
->  create mode 100644 include/kvm/arm_hypercalls.h
->  create mode 100644 virt/kvm/arm/hypercalls.c
->
+On Wed, Oct 02, 2019 at 03:50:32PM +0100, Steven Price wrote:
+> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +	u64 steal;
+> +	u64 steal_le;
+> +	u64 offset;
+> +	int idx;
+> +	u64 base = vcpu->arch.steal.base;
+> +
+> +	if (base == GPA_INVALID)
+> +		return -ENOTSUPP;
+> +
+> +	/* Let's do the local bookkeeping */
+> +	steal = vcpu->arch.steal.steal;
+> +	steal += current->sched_info.run_delay - vcpu->arch.steal.last_steal;
+> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+> +	vcpu->arch.steal.steal = steal;
+> +
+> +	steal_le = cpu_to_le64(steal);
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Agreeing on a byte order for this interface makes sense, but I don't see
+it documented anywhere. Is this an SMCCC thing? Because I skimmed some
+of those specs and other users too but didn't see anything obvious. Anyway
+even if everybody but me knows that all data returned from SMCCC calls
+should be LE, it might be nice to document that in the pvtime doc.
+
+Thanks,
+drew
