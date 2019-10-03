@@ -1,110 +1,215 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 466AA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 08:28:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C737C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 09:53:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725827AbfJCI2A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Oct 2019 04:28:00 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43191 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726039AbfJCI2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Oct 2019 04:28:00 -0400
-Received: by mail-oi1-f194.google.com with SMTP id t84so1791903oih.10
-        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2019 01:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qQG1qX2Fo7mymsvFZqN/2deIwbx2xFuKZ1SF2ngILIs=;
-        b=GrOKcd2lYYN9CId0OKndMf+Pm4an+PKLS8N+dIjWg22jo7dp12Sq3GDmcMVZ7CU7oT
-         k/xmDPM77AuHTjdYMTn5HGvLwKOOnYrOqhjSMm2tQjraSFmNCnkEvpncEJqzL+QjHuoQ
-         qHCdQl+h5OZS4DhOC3HkF5mjC1osJTHAhlSGnVxzfhUqUc0HIzPLHSTskkKRKkJLPnw/
-         43QoNAurPNvwzJ2HB8PKJRuG4/JaLDqPS/JFoz2tJ4NyVpgQzpuPBH3SvmP53HYq1aye
-         YV4irhChx8QvgGTv+HpkNQnP2Lk+UA2ud/2azy5JUDiwMCIsji4m8hB6s5EfcXJrMRW9
-         kWbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qQG1qX2Fo7mymsvFZqN/2deIwbx2xFuKZ1SF2ngILIs=;
-        b=KNC7TXpOIJFZmxYoWZ7mZFVE+v+LP32Gg9bQHy7/MfvEzGskYHN/pc0xitlGKtY7R6
-         zoD7jPcA16vv4mYQJSmBGe56trW/445T8MDO22IE2z805ixFQpdXf7hQoSfJDeFa0cJ6
-         zvFyUbn/ElHiir2UUuab+EkPNWUenVvTreQ6loZ5qqrjiUXwte0urZy2675NFl7PH38u
-         TO6UmX2dREU2kfI/GdaXyFcwBW/CNm+kKEQ0Pq5MCTcggliBIhegfrDF7oJQUtFboduJ
-         wTYmTM4ZPQjlNTsJXfseZ02Bk76ukhbtIaphzh4eiqiDb1vHqfLQDJOUy0UqoDQo7cBx
-         UXGQ==
-X-Gm-Message-State: APjAAAWjDntEdkNCNH81sp8cvZ3Up/WaCcrEpthexktb+We5F60B5ccg
-        dtjfMtsfUHJihupKt+eYGFmWiaWOMBJ0+99tNPYcuA==
-X-Google-Smtp-Source: APXvYqy9YqGTY4OOqbOUV9JhiWoUFw1BE2suz8xvM8zmVI8i/k5zOkaVkzTqsFu8W9c8Cz26Nwlccda3l09vDI6lSbY=
-X-Received: by 2002:aca:f54d:: with SMTP id t74mr1949671oih.170.1570091279691;
- Thu, 03 Oct 2019 01:27:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191002144141.9732-1-j.neuschaefer@gmx.net>
-In-Reply-To: <20191002144141.9732-1-j.neuschaefer@gmx.net>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 3 Oct 2019 10:27:49 +0200
-Message-ID: <CAMpxmJU7DZyQ9nJo3wc8T3+J838-MGsOOwE1wLe8SbCfR_xzHQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: driver: Format code blocks properly
-To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     linux-gpio <linux-gpio@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1729478AbfJCJwx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Oct 2019 05:52:53 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37288 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729458AbfJCJwx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Oct 2019 05:52:53 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 681C0B159;
+        Thu,  3 Oct 2019 09:52:49 +0000 (UTC)
+From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: [PATCH v7 1/5] nvmem: core: add nvmem_device_find
+Date:   Thu,  3 Oct 2019 11:52:29 +0200
+Message-Id: <20191003095235.5158-2-tbogendoerfer@suse.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20191003095235.5158-1-tbogendoerfer@suse.de>
+References: <20191003095235.5158-1-tbogendoerfer@suse.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=C5=9Br., 2 pa=C5=BA 2019 o 16:41 Jonathan Neusch=C3=A4fer <j.neuschaefer@g=
-mx.net> napisa=C5=82(a):
->
-> This fixes a lot of Sphinx warnings, and makes the code blocks look nice
-> in HTML.
->
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/driver-api/gpio/driver.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/dri=
-ver-api/gpio/driver.rst
-> index 3fdb32422f8a..18dca55eddfd 100644
-> --- a/Documentation/driver-api/gpio/driver.rst
-> +++ b/Documentation/driver-api/gpio/driver.rst
-> @@ -415,6 +415,8 @@ If you do this, the additional irq_chip will be set u=
-p by gpiolib at the
->  same time as setting up the rest of the GPIO functionality. The followin=
-g
->  is a typical example of a cascaded interrupt handler using gpio_irq_chip=
-:
->
-> +.. code-block:: c
-> +
->    /* Typical state container with dynamic irqchip */
->    struct my_gpio {
->        struct gpio_chip gc;
-> @@ -450,6 +452,8 @@ is a typical example of a cascaded interrupt handler =
-using gpio_irq_chip:
->  The helper support using hierarchical interrupt controllers as well.
->  In this case the typical set-up will look like this:
->
-> +.. code-block:: c
-> +
->    /* Typical state container with dynamic irqchip */
->    struct my_gpio {
->        struct gpio_chip gc;
-> --
-> 2.20.1
->
+nvmem_device_find provides a way to search for nvmem devices with
+the help of a match function simlair to bus_find_device.
 
-Applied, thanks!
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+---
+ Documentation/driver-api/nvmem.rst |  2 ++
+ drivers/nvmem/core.c               | 61 +++++++++++++++++---------------------
+ include/linux/nvmem-consumer.h     |  9 ++++++
+ 3 files changed, 38 insertions(+), 34 deletions(-)
 
-Bart
+diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
+index d9d958d5c824..287e86819640 100644
+--- a/Documentation/driver-api/nvmem.rst
++++ b/Documentation/driver-api/nvmem.rst
+@@ -129,6 +129,8 @@ To facilitate such consumers NVMEM framework provides below apis::
+   struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
+   struct nvmem_device *devm_nvmem_device_get(struct device *dev,
+ 					   const char *name);
++  struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data));
+   void nvmem_device_put(struct nvmem_device *nvmem);
+   int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
+ 		      size_t bytes, void *buf);
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 057d1ff87d5d..9f1ee9c766ec 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -76,33 +76,6 @@ static struct bus_type nvmem_bus_type = {
+ 	.name		= "nvmem",
+ };
+ 
+-static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
+-{
+-	struct device *d;
+-
+-	if (!nvmem_np)
+-		return NULL;
+-
+-	d = bus_find_device_by_of_node(&nvmem_bus_type, nvmem_np);
+-
+-	if (!d)
+-		return NULL;
+-
+-	return to_nvmem_device(d);
+-}
+-
+-static struct nvmem_device *nvmem_find(const char *name)
+-{
+-	struct device *d;
+-
+-	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
+-
+-	if (!d)
+-		return NULL;
+-
+-	return to_nvmem_device(d);
+-}
+-
+ static void nvmem_cell_drop(struct nvmem_cell *cell)
+ {
+ 	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
+@@ -532,13 +505,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ }
+ EXPORT_SYMBOL(devm_nvmem_unregister);
+ 
+-static struct nvmem_device *__nvmem_device_get(struct device_node *np,
+-					       const char *nvmem_name)
++static struct nvmem_device *__nvmem_device_get(void *data,
++			int (*match)(struct device *dev, const void *data))
+ {
+ 	struct nvmem_device *nvmem = NULL;
++	struct device *dev;
+ 
+ 	mutex_lock(&nvmem_mutex);
+-	nvmem = np ? of_nvmem_find(np) : nvmem_find(nvmem_name);
++	dev = bus_find_device(&nvmem_bus_type, NULL, data, match);
++	if (dev)
++		nvmem = to_nvmem_device(dev);
+ 	mutex_unlock(&nvmem_mutex);
+ 	if (!nvmem)
+ 		return ERR_PTR(-EPROBE_DEFER);
+@@ -587,7 +563,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-ENOENT);
+ 
+-	return __nvmem_device_get(nvmem_np, NULL);
++	return __nvmem_device_get(nvmem_np, device_match_of_node);
+ }
+ EXPORT_SYMBOL_GPL(of_nvmem_device_get);
+ #endif
+@@ -613,10 +589,26 @@ struct nvmem_device *nvmem_device_get(struct device *dev, const char *dev_name)
+ 
+ 	}
+ 
+-	return __nvmem_device_get(NULL, dev_name);
++	return __nvmem_device_get((void *)dev_name, device_match_name);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_device_get);
+ 
++/**
++ * nvmem_device_find() - Find nvmem device with matching function
++ *
++ * @data: Data to pass to match function
++ * @match: Callback function to check device
++ *
++ * Return: ERR_PTR() on error or a valid pointer to a struct nvmem_device
++ * on success.
++ */
++struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data))
++{
++	return __nvmem_device_get(data, match);
++}
++EXPORT_SYMBOL_GPL(nvmem_device_find);
++
+ static int devm_nvmem_device_match(struct device *dev, void *res, void *data)
+ {
+ 	struct nvmem_device **nvmem = res;
+@@ -710,7 +702,8 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
+ 		    (strcmp(lookup->con_id, con_id) == 0)) {
+ 			/* This is the right entry. */
+-			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
++			nvmem = __nvmem_device_get((void *)lookup->nvmem_name,
++						   device_match_name);
+ 			if (IS_ERR(nvmem)) {
+ 				/* Provider may not be registered yet. */
+ 				cell = ERR_CAST(nvmem);
+@@ -780,7 +773,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	nvmem = __nvmem_device_get(nvmem_np, NULL);
++	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
+ 	of_node_put(nvmem_np);
+ 	if (IS_ERR(nvmem))
+ 		return ERR_CAST(nvmem);
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 8f8be5b00060..02dc4aa992b2 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -89,6 +89,9 @@ void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
+ int nvmem_register_notifier(struct notifier_block *nb);
+ int nvmem_unregister_notifier(struct notifier_block *nb);
+ 
++struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data));
++
+ #else
+ 
+ static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
+@@ -204,6 +207,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline struct nvmem_device *nvmem_device_find(void *data,
++			int (*match)(struct device *dev, const void *data))
++{
++	return NULL;
++}
++
+ #endif /* CONFIG_NVMEM */
+ 
+ #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+-- 
+2.16.4
+
