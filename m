@@ -1,97 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C8C97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 09:13:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 680827D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 09:15:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729919AbfJDJNo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 05:13:44 -0400
-Received: from foss.arm.com ([217.140.110.172]:39618 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725958AbfJDJNo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 05:13:44 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7066C1597;
-        Fri,  4 Oct 2019 02:13:43 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5FCE83F739;
-        Fri,  4 Oct 2019 02:13:41 -0700 (PDT)
-Subject: Re: [PATCH v5 05/10] KVM: arm64: Support stolen time reporting via
- shared structure
-To:     Andrew Jones <drjones@redhat.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        id S1730260AbfJDJPw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 05:15:52 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36949 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729874AbfJDJPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 05:15:51 -0400
+Received: by mail-lf1-f67.google.com with SMTP id w67so3962557lff.4
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 02:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0Us1lDU91ARlIyktnavIDRL8lb/sm12kQiQVA+0Ejvg=;
+        b=CKx2nl8mv09gh5ixysIItMN9ZN4Qj/4UWeO1V0Qbj2U6oKrDgc2Too9NWRvTWOP00Q
+         UwNvPh29o52J6B4Rhu8iJn5Esmj/2k//OXgsLn/j7ur/t1N3uqWtco6/CKJrEOthzl+b
+         cLkj2pGGKqcRuf8ftqe7RGtKZ4NsFRTkLsuV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0Us1lDU91ARlIyktnavIDRL8lb/sm12kQiQVA+0Ejvg=;
+        b=I6E8+hA1KO+sNJM59OuE/lk5dQAhLuhzbQ51DhEYRPQUW1XV+MerImpleQKkG+PBV2
+         1cS+LeDccr6W19Ws8O7+uXNvxutuP3311mROi0d4pX/lJLcpVBPXQtWMsGty0JvFkKBS
+         xwRMbuJMqXvrneQng4ZExh5zv9VanDre9Uy12TE+rCG3ZliF7qx4gz3PWIprEEs7+KAg
+         OKLnJmonm/XH41dkRRdh4ndQCQeQ+IwvN6ZAAuMZLQ1IgFBhEW2BTDCdqVH0AoxtwO1x
+         wXRX7IoKRGGMks4CvhSKatTDvmo/LyU78fT9nfHeozlpZP0VgBe7wmA1RbtTXnPdPTBm
+         eghw==
+X-Gm-Message-State: APjAAAXKIUkrnlvBLOF6bmMhjsTsk1Lgjo2RtmZ7ZMYLLAbn7MGHrsP5
+        wbWPtHGEHxjrLslwGHybv44o/QN5yxMEpyIt
+X-Google-Smtp-Source: APXvYqx1YjgDQmgOaABKRDpDy+Ve/6T1gPykFB8TapFBVDjVxcp2BwKGTdjsjLXCFgy4RpZ1SGKRGw==
+X-Received: by 2002:a19:644c:: with SMTP id b12mr8292937lfj.104.1570180548539;
+        Fri, 04 Oct 2019 02:15:48 -0700 (PDT)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id p27sm1066187lfo.95.2019.10.04.02.15.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 Oct 2019 02:15:48 -0700 (PDT)
+Subject: Re: [PATCH v3] docs: Use make invocation's -j argument for
+ parallelism
+To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191002145037.51630-1-steven.price@arm.com>
- <20191002145037.51630-6-steven.price@arm.com>
- <20191003132235.ruanyfmdim5s6npj@kamzik.brq.redhat.com>
- <20191004070301.d7ari5rjlu3uuara@kamzik.brq.redhat.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <b107c1ca-6804-dc47-af25-fcd0b201472f@arm.com>
-Date:   Fri, 4 Oct 2019 10:13:40 +0100
+References: <201909241627.CEA19509@keescook>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk>
+Date:   Fri, 4 Oct 2019 11:15:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191004070301.d7ari5rjlu3uuara@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+In-Reply-To: <201909241627.CEA19509@keescook>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/2019 08:03, Andrew Jones wrote:
-> On Thu, Oct 03, 2019 at 03:22:35PM +0200, Andrew Jones wrote:
->> On Wed, Oct 02, 2019 at 03:50:32PM +0100, Steven Price wrote:
->>> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
->>> +{
->>> +	struct kvm *kvm = vcpu->kvm;
->>> +	u64 steal;
->>> +	u64 steal_le;
->>> +	u64 offset;
->>> +	int idx;
->>> +	u64 base = vcpu->arch.steal.base;
->>> +
->>> +	if (base == GPA_INVALID)
->>> +		return -ENOTSUPP;
->>> +
->>> +	/* Let's do the local bookkeeping */
->>> +	steal = vcpu->arch.steal.steal;
->>> +	steal += current->sched_info.run_delay - vcpu->arch.steal.last_steal;
->>> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
->>> +	vcpu->arch.steal.steal = steal;
->>> +
->>> +	steal_le = cpu_to_le64(steal);
->>
->> Agreeing on a byte order for this interface makes sense, but I don't see
->> it documented anywhere. Is this an SMCCC thing? Because I skimmed some
->> of those specs and other users too but didn't see anything obvious. Anyway
->> even if everybody but me knows that all data returned from SMCCC calls
->> should be LE, it might be nice to document that in the pvtime doc.
+On 25/09/2019 01.29, Kees Cook wrote:
+>  
+>  # User-friendly check for pdflatex and latexmk
+>  HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+> @@ -68,6 +68,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>  	PYTHONDONTWRITEBYTECODE=1 \
+>  	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+>  	$(SPHINXBUILD) \
+> +	-j $(shell python $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \
+>  	-b $2 \
+>  	-c $(abspath $(srctree)/$(src)) \
+>  	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
+> diff --git a/scripts/jobserver-count b/scripts/jobserver-count
+> new file mode 100755
+> index 000000000000..0b482d6884d2
+> --- /dev/null
+> +++ b/scripts/jobserver-count
+> @@ -0,0 +1,58 @@
+> +#!/usr/bin/env python
+> +# SPDX-License-Identifier: GPL-2.0+
+> +#
+> +# This determines how many parallel tasks "make" is expecting, as it is
+> +# not exposed via an special variables.
+> +# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
+> +from __future__ import print_function
+> +import os, sys, fcntl, errno
+> +
+> +# Default parallelism is "1" unless overridden on the command-line.
+> +default="1"
+> +if len(sys.argv) > 1:
+> +	default=sys.argv[1]
+> +
+> +# Set non-blocking for a given file descriptor.
+> +def nonblock(fd):
+> +	flags = fcntl.fcntl(fd, fcntl.F_GETFL)
+> +	fcntl.fcntl(fd, fcntl.F_SETFL, flags | os.O_NONBLOCK)
+> +	return fd
+> +
+> +# Extract and prepare jobserver file descriptors from envirnoment.
+> +try:
+> +	# Fetch the make environment options.
+> +	flags = os.environ['MAKEFLAGS']
+> +
+> +	# Look for "--jobserver=R,W"
+> +	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
 
-A very good point - I'll document this in the Linux document and feed
-that back for DEN0057A.
+OK, this handles the fact that Make changed from --jobserver-fds to
+--jobserver-auth at some point. Probably the comment could be more accurate.
 
-> 
-> I have another [potentially dumb] SMCCC byte order question. If we need
-> to worry about using LE for the members of this structure, then why don't
-> we need to worry about the actual return values of the SMCCC calls? Like
-> the IPA of the structure?
+> +	# Parse out R,W file descriptor numbers and set them nonblocking.
+> +	fds = opts[0].split("=", 1)[1]
+> +	reader, writer = [int(x) for x in fds.split(",", 1)]
+> +	reader = nonblock(reader)
+> +except (KeyError, IndexError, ValueError, IOError):
+> +	# Any missing environment strings or bad fds should result in just
+> +	# using the default specified parallelism.
+> +	print(default)
+> +	sys.exit(0)
+> +
+> +# Read out as many jobserver slots as possible.
+> +jobs = b""
+> +while True:
+> +	try:
+> +		slot = os.read(reader, 1)
+> +		jobs += slot
+> +	except (OSError, IOError) as e:
+> +		if e.errno == errno.EWOULDBLOCK:
+> +			# Stop when reach the end of the jobserver queue.
+> +			break
+> +		raise e
 
-The SMCCC calls pass values in registers. It's only when reading/writing
-these values from/to memory that the endianness actually has any meaning.
+<strikethrough>Only very new Make (e.g. not make 4.1 shipped with Ubuntu
+18.04) sets the rfd as O_NONBLOCK (and only when it detected
+HAVE_PSELECT at configure time, but that can probably be assumed). So
+won't the above just hang forever if run under such a make?</strikethrough>
 
-Steve
+Ah, reading more carefully you set O_NONBLOCK explicitly. Well, older
+Makes are going to be very unhappy about that (remember that it's a
+property of the file description and not file descriptor). They don't
+expect EAGAIN when fetching a token, so fail hard. Probably not when
+htmldocs is the only target, because in that case the toplevel Make just
+reads back the exact number of tokens it put in as a sanity check, but
+if it builds other targets/spawns other submakes, I think this breaks.
+
+Yeah, it's a mess, and the Make documentation should be much more
+explicit about how one is supposed to interact with the job server and
+the file descriptors. Some of the pain would vanish if it just used a
+named pipe and had each client open its own fds to that so they could
+each choose O_NONBLOCK or not.
+
+> +# Return all the reserved slots.
+> +os.write(writer, jobs)
+
+Well, that probably works ok for the isolated case of a toplevel "make
+-j12 htmldocs", but if you're building other targets ("make -j12
+htmldocs vmlinux") this will effectively inject however many tokens the
+above loop grabbed (which might not be all if the top-level make has
+started things related to the vmlinux target), so for the duration of
+the docs build, there will be more processes running than asked for.
+
+> +# If the jobserver was (impossibly) full or communication failed, use default.
+> +if len(jobs) < 1:
+> +	print(default)
+> +
+> +# Report available slots (with a bump for our caller's reserveration).
+> +print(len(jobs) + 1)
+
+There's a missing exit() or else: here; if len(jobs) < 1 you print both
+default (probably "1") and 0+1 aka "1".
+
+Rasmus
