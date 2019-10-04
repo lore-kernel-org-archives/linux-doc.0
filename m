@@ -1,106 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C0FB7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 16:42:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E72747D912
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 16:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728336AbfJDQmC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 12:42:02 -0400
-Received: from mout.gmx.net ([212.227.15.18]:40273 "EHLO mout.gmx.net"
+        id S1727587AbfJDQ6Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 12:58:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40310 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725775AbfJDQmB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 12:42:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1570207301;
-        bh=4HspV+6W3NFfVmne4PrY7CTozrj72fiaMF7UaAeII1w=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=aIp4N3A5sb4H5/cejWs+0rE76KAoU0kt2gU1Eo/MOoJIOqYiPNqh/10xAY1vMZRsp
-         5e4yTIhyOk4qHU4EGlAYBheqE3UbX5CaHA04nhtSeYXIZmnaySkCVRnmkeTTDhzRaL
-         9YnWvbEAzJn1wra98Th1gQt+1AQuEa9z8eIveGEU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([89.0.25.131]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKuA-1iivro3jJo-00SeT1; Fri, 04
- Oct 2019 18:41:40 +0200
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-gpio@vger.kernel.org
-Cc:     Michael Buesch <m@bues.ch>, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs: driver-api: bt8xxgpio: Revive dead link
-Date:   Fri,  4 Oct 2019 18:40:56 +0200
-Message-Id: <20191004164059.10397-2-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191004164059.10397-1-j.neuschaefer@gmx.net>
-References: <20191004164059.10397-1-j.neuschaefer@gmx.net>
+        id S1725907AbfJDQ6Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Oct 2019 12:58:25 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D70A12C1;
+        Fri,  4 Oct 2019 16:58:23 +0000 (UTC)
+Date:   Fri, 4 Oct 2019 10:58:22 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "Alan Stern" <stern@rowland.harvard.edu>,
+        "Andrea Parri" <parri.andrea@gmail.com>,
+        "Will Deacon" <will@kernel.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Boqun Feng" <boqun.feng@gmail.com>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "David Howells" <dhowells@redhat.com>,
+        "Jade Alglave" <j.alglave@ucl.ac.uk>,
+        "Luc Maranget" <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Akira Yokosawa" <akiyks@gmail.com>,
+        "Daniel Lustig" <dlustig@nvidia.com>
+Subject: [PATCH] docs: remove :c:func: from refcount-vs-atomic.rst
+Message-ID: <20191004105449.3671ff78@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3JFFSC4Zuno7sL5Pk2Yo5U3ohyyM+uvYk9DboeDsNf8LHCqzw9u
- e9z0lzcshiGk1HcHfPSGgrP7b8ssbGPrqN+ViUb0z+fflralRDCD0LX4WFUHGZ9nkO66f0m
- WwAuU/470MFXu5cETsDdtqWa6jyA1v56W+eEcK8i11/z1QUmnqkk6RVJyA+OO4w1uFOlmbS
- OobqD9ZCKIKgo0kOeZawg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R+t44nuZ3xA=:poygZZRM2FWFOypik0GESg
- wYH6jQvLcYTI7ot+7P96b7Wqc4Ko0s47PzYhsP5uwc8IghZvN/+HSi/GKhpfus7hdPFYoH/hw
- 2SUI6rPrepF8Z6XC7oDrPXirxc0SkuXaTqAebWmzEN8bgoMkl/OX/WUEebHlHGU9x4q/bZNN/
- tvmj87W4v1ejqHqbG0jb44Kmll2wYv5WPHqJBbtwhjvMB1xlnbVY4pignk2/dpO4jllCMRcj0
- 97S+/KlHBAsrniY2WupqYJXL5Vgt4aiIJMrmTIm/e1lFFBdo3jjwE3fNlhO8qfTp5BQ2i+yCs
- ergipiphQAtUkWg2SSAiXgPd6BW/pIr4vENvSv3pFPpTgdnH5EI/sWGUEwRvhnMo1X7yI8U5l
- kbVFHNgV+gsFcVAfHnaFBPngKzUXRnLh81yJOG1MiitPGPSW9pRgbA5WCrpAdW5NAqppTDfWn
- i6MxpkOYjRmtxi697CS4k+ya7qBa/4Ngjg1suI2iOD8MIHiM8AAyKwsg1+s7XUcp3XsUNbIXl
- BSQGK0GpQevKmqf+7z18PDIAgHLn9cavmKRREpdHUUR/regu+0ecwgIsBjUfYcanDMXUo00rq
- 0sL+tt6v3q286ueCN74SH+OFZWXksWfn1naSyOkgU7t8JPEQ0SrcnwX968u9y6UcErFBNyoG9
- WCI9bGQvrN77i7d87qMPy3KQqzXgGpmpZPg7TJmLHNZIcSy30x+hdNAic6tJIDNqRlAI8sHTF
- iDF150CDhE63Cw52Ma/KoHHgtxiEPPXp9nbshNqjucZWnEi0P6zKSGQxvgQO9EJXF0FfP1z5M
- paQDQaA59oaFAkioJXJsc7Rvp5PiI9B+AMGeDmf4DhyWfvfgaNIpR5hTmZolvGDWjedBpKywl
- +vB0k8pxjV0DtI0sAfELUgpJn2uydms8kQBg6APjLcMceYe0U2GJsCZs2Xp1IpeAZAvVUmdvK
- xUG+fK5DvVTnXnjkD1Th+z78W1p0v9riU2l5w2DNTuq68RBVe2h3EcviCVo+11JsT0IwVWtDC
- GvAj3E+ro4g8+3HPKPooxpquz6HtQs3yBIG/92GP/lzP6NyzQ7V1QW5LhQcJurO+s8T68NYMa
- CC1oob8QnfMDUuSpg+EpvD8JBc/DxOTD5ThlhZ70Dqquw4mFowPvXpfrU7wtjVuG+6AH9/Ota
- 7rjntJFddeUaUgZ02VCk2gGwF4XuFDA4mqX46bogIxYUQPj9p30GdgNvwWXea/ruY3XAlF/3x
- y0UbzzSIF1uRPQjFO2D3K0nbu8K/8O0upGgRf2d3t6T6J8cpc1AIm4f8hGzc=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-www.bu3sch.de has been unusable for several years, but the same
-information is available on bues.ch.
+As of 5.3, the automarkup extension will do the right thing with function()
+notation, so we don't need to clutter the text with :c:func: invocations.
+So remove them.
 
-Cc: Michael Buesch <m@bues.ch>
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/driver-api/gpio/bt8xxgpio.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looking at the generated output reveals that we lack kerneldoc coverage for
+much of this API, but that's a separate problem.
 
-diff --git a/Documentation/driver-api/gpio/bt8xxgpio.rst b/Documentation/d=
-river-api/gpio/bt8xxgpio.rst
-index a845feb074de..d7e75f1234e7 100644
-=2D-- a/Documentation/driver-api/gpio/bt8xxgpio.rst
-+++ b/Documentation/driver-api/gpio/bt8xxgpio.rst
-@@ -2,7 +2,7 @@
- A driver for a selfmade cheap BT8xx based PCI GPIO-card (bt8xxgpio)
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+I'll feed this through docs-next unless somebody tells me otherwise...
 
--For advanced documentation, see http://www.bu3sch.de/btgpio.php
-+For advanced documentation, see https://bues.ch/cms/unmaintained/btgpio.h=
-tml
+ Documentation/core-api/refcount-vs-atomic.rst | 36 +++++++++----------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
- A generic digital 24-port PCI GPIO card can be built out of an ordinary
- Brooktree bt848, bt849, bt878 or bt879 based analog TV tuner card. The
-=2D-
-2.20.1
+diff --git a/Documentation/core-api/refcount-vs-atomic.rst b/Documentation/core-api/refcount-vs-atomic.rst
+index 976e85adffe8..79a009ce11df 100644
+--- a/Documentation/core-api/refcount-vs-atomic.rst
++++ b/Documentation/core-api/refcount-vs-atomic.rst
+@@ -35,7 +35,7 @@ atomics & refcounters only provide atomicity and
+ program order (po) relation (on the same CPU). It guarantees that
+ each ``atomic_*()`` and ``refcount_*()`` operation is atomic and instructions
+ are executed in program order on a single CPU.
+-This is implemented using :c:func:`READ_ONCE`/:c:func:`WRITE_ONCE` and
++This is implemented using READ_ONCE()/WRITE_ONCE() and
+ compare-and-swap primitives.
+ 
+ A strong (full) memory ordering guarantees that all prior loads and
+@@ -44,7 +44,7 @@ before any po-later instruction is executed on the same CPU.
+ It also guarantees that all po-earlier stores on the same CPU
+ and all propagated stores from other CPUs must propagate to all
+ other CPUs before any po-later instruction is executed on the original
+-CPU (A-cumulative property). This is implemented using :c:func:`smp_mb`.
++CPU (A-cumulative property). This is implemented using smp_mb().
+ 
+ A RELEASE memory ordering guarantees that all prior loads and
+ stores (all po-earlier instructions) on the same CPU are completed
+@@ -52,14 +52,14 @@ before the operation. It also guarantees that all po-earlier
+ stores on the same CPU and all propagated stores from other CPUs
+ must propagate to all other CPUs before the release operation
+ (A-cumulative property). This is implemented using
+-:c:func:`smp_store_release`.
++smp_store_release().
+ 
+ An ACQUIRE memory ordering guarantees that all post loads and
+ stores (all po-later instructions) on the same CPU are
+ completed after the acquire operation. It also guarantees that all
+ po-later stores on the same CPU must propagate to all other CPUs
+ after the acquire operation executes. This is implemented using
+-:c:func:`smp_acquire__after_ctrl_dep`.
++smp_acquire__after_ctrl_dep().
+ 
+ A control dependency (on success) for refcounters guarantees that
+ if a reference for an object was successfully obtained (reference
+@@ -78,8 +78,8 @@ case 1) - non-"Read/Modify/Write" (RMW) ops
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_set` --> :c:func:`refcount_set`
+- * :c:func:`atomic_read` --> :c:func:`refcount_read`
++ * atomic_set() --> refcount_set()
++ * atomic_read() --> refcount_read()
+ 
+ Memory ordering guarantee changes:
+ 
+@@ -91,8 +91,8 @@ case 2) - increment-based ops that return no value
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_inc` --> :c:func:`refcount_inc`
+- * :c:func:`atomic_add` --> :c:func:`refcount_add`
++ * atomic_inc() --> refcount_inc()
++ * atomic_add() --> refcount_add()
+ 
+ Memory ordering guarantee changes:
+ 
+@@ -103,7 +103,7 @@ case 3) - decrement-based RMW ops that return no value
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_dec` --> :c:func:`refcount_dec`
++ * atomic_dec() --> refcount_dec()
+ 
+ Memory ordering guarantee changes:
+ 
+@@ -115,8 +115,8 @@ case 4) - increment-based RMW ops that return a value
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_inc_not_zero` --> :c:func:`refcount_inc_not_zero`
+- * no atomic counterpart --> :c:func:`refcount_add_not_zero`
++ * atomic_inc_not_zero() --> refcount_inc_not_zero()
++ * no atomic counterpart --> refcount_add_not_zero()
+ 
+ Memory ordering guarantees changes:
+ 
+@@ -131,8 +131,8 @@ case 5) - generic dec/sub decrement-based RMW ops that return a value
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_dec_and_test` --> :c:func:`refcount_dec_and_test`
+- * :c:func:`atomic_sub_and_test` --> :c:func:`refcount_sub_and_test`
++ * atomic_dec_and_test() --> refcount_dec_and_test()
++ * atomic_sub_and_test() --> refcount_sub_and_test()
+ 
+ Memory ordering guarantees changes:
+ 
+@@ -144,14 +144,14 @@ case 6) other decrement-based RMW ops that return a value
+ 
+ Function changes:
+ 
+- * no atomic counterpart --> :c:func:`refcount_dec_if_one`
++ * no atomic counterpart --> refcount_dec_if_one()
+  * ``atomic_add_unless(&var, -1, 1)`` --> ``refcount_dec_not_one(&var)``
+ 
+ Memory ordering guarantees changes:
+ 
+  * fully ordered --> RELEASE ordering + control dependency
+ 
+-.. note:: :c:func:`atomic_add_unless` only provides full order on success.
++.. note:: atomic_add_unless() only provides full order on success.
+ 
+ 
+ case 7) - lock-based RMW
+@@ -159,10 +159,10 @@ case 7) - lock-based RMW
+ 
+ Function changes:
+ 
+- * :c:func:`atomic_dec_and_lock` --> :c:func:`refcount_dec_and_lock`
+- * :c:func:`atomic_dec_and_mutex_lock` --> :c:func:`refcount_dec_and_mutex_lock`
++ * atomic_dec_and_lock() --> refcount_dec_and_lock()
++ * atomic_dec_and_mutex_lock() --> refcount_dec_and_mutex_lock()
+ 
+ Memory ordering guarantees changes:
+ 
+  * fully ordered --> RELEASE ordering + control dependency + hold
+-   :c:func:`spin_lock` on success
++   spin_lock() on success
+-- 
+2.21.0
 
