@@ -1,101 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22E667D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 23:31:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ECBC47D912
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 23:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731345AbfJDXbj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 19:31:39 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:57293 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725730AbfJDXbj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 19:31:39 -0400
-Received: from callcc.thunk.org (guestnat-104-133-0-98.corp.google.com [104.133.0.98] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x94NTuAQ024308
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 4 Oct 2019 19:29:57 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id CCF8D42088C; Fri,  4 Oct 2019 19:29:55 -0400 (EDT)
-Date:   Fri, 4 Oct 2019 19:29:55 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     shuah <shuah@kernel.org>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        kieran.bingham@ideasonboard.com,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, robh@kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>, Tim.Bird@sony.com,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, jdike@addtoit.com,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-Message-ID: <20191004232955.GC12012@mit.edu>
-References: <20190923090249.127984-1-brendanhiggins@google.com>
- <20191004213812.GA24644@mit.edu>
- <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
- <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
- <20191004222714.GA107737@google.com>
- <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
+        id S1731570AbfJDXr2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 19:47:28 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:35491 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731606AbfJDXrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 19:47:25 -0400
+Received: by mail-oi1-f195.google.com with SMTP id x3so7224648oig.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 16:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3hvzIJAwdUIDj60PRswdy4jtQ7pq65dmvuMEDrZAxmY=;
+        b=sByyKd4dF7wI4oDmjRslrGtLmmRydXZiFQq1Jujk/HqPa81MECMvjff4PRTpIrLM1T
+         FtLi6/h2ZbRbvBRXdT6WETrB/ZO8N5CI4HzDQn5YxSPO8hu0y1aCRWAmC7qi8Qm8rLvn
+         iQS80cCwjcGnf1mF69Ga/IeY8Ca+re5cJH+xiP5vf//YhD1uxWudUffkfsP2NWIKRS1T
+         k9IBszQIRfGPzU18tOeIXFNyApc6D4VwLg0pKtZdq2KYHIrG66Re9wIqbWrEjoNOrCX2
+         fJ8CXcYv+khgS7KxwG1LhMPBM7UFAJA83B+9mP+9I+lTIWgRrGjRG/Kbbpv0P/QT72fT
+         eNlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3hvzIJAwdUIDj60PRswdy4jtQ7pq65dmvuMEDrZAxmY=;
+        b=X1hTHKbixQCFRCBFIyWCDD0ittawChIm/SJ6NE3l92lv6/cc3k7tY32BHJnmxBivyT
+         nKmyP8+Ww9wdLpa7jTDKLP8yhPvLfRGIBb2K18p47V7l9Yh1GJfgAdFDa4xRB3WLG3Q7
+         cm9rmSvKSWtjPpyMblJIY6KQRTUjvfimfnWQOe4CGkAaXYDeD73GjD9K22JcNPeQ7AUs
+         FlV4zlIqbJPjYkaq88MYEJG08NXCKgwiZCAGAE6cGenLjUQDTTyhJRAz+O8XILrvlF92
+         vbg4ToJlrs1bqBuSr8fbsG42A8e99+4D7SAjh+V+f4j6JrgD670C9nEpKUSaoZZi02pd
+         3jFg==
+X-Gm-Message-State: APjAAAWldSgku3/nMODl/5Sytggl20t/Hh5Enuc6rNWpr9oPlWeDzOH9
+        m5sWdl6cIY0hlZBBegAPnSbYZgIJYGeBd7kggQ3LWg==
+X-Google-Smtp-Source: APXvYqyQuIwtgG5lkzf5p8L7oWSkX7l/6aAhPD0T8bNKplxUKfl+D7zNAdO+WZSNpxhAwm2aZQ2M3v/hP61zb0kEqCg=
+X-Received: by 2002:aca:a88e:: with SMTP id r136mr9366466oie.30.1570232843672;
+ Fri, 04 Oct 2019 16:47:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190904211126.47518-1-saravanak@google.com> <20190904211126.47518-4-saravanak@google.com>
+ <20190911102926.A9F8D2082C@mail.kernel.org> <20191004153750.GB823823@kroah.com>
+In-Reply-To: <20191004153750.GB823823@kroah.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 4 Oct 2019 16:46:47 -0700
+Message-ID: <CAGETcx-TFL3OAtPvU9_Sjovz4zk+YU+S7yAC7T0Vo7aRuQdWAA@mail.gmail.com>
+Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link from
+ DT bindings
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 04:47:09PM -0600, shuah wrote:
-> > However, if I encourage arbitrary tests/improvements into my KUnit
-> > branch, it further diverges away from torvalds/master, and is more
-> > likely that there will be a merge conflict or issue that is not related
-> > to the core KUnit changes that will cause the whole thing to be
-> > rejected again in v5.5.
-> 
-> The idea is that the new development will happen based on kunit in
-> linux-kselftest next. It will work just fine. As we accepts patches,
-> they will go on top of kunit that is in linux-next now.
+On Fri, Oct 4, 2019 at 8:37 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Sep 11, 2019 at 03:29:25AM -0700, Stephen Boyd wrote:
+> > Quoting Saravana Kannan (2019-09-04 14:11:22)
+> > > Add device links after the devices are created (but before they are
+> > > probed) by looking at common DT bindings like clocks and
+> > > interconnects.
+> > >
+> > > Automatically adding device links for functional dependencies at the
+> > > framework level provides the following benefits:
+> > >
+> > > - Optimizes device probe order and avoids the useless work of
+> > >   attempting probes of devices that will not probe successfully
+> > >   (because their suppliers aren't present or haven't probed yet).
+> > >
+> > >   For example, in a commonly available mobile SoC, registering just
+> > >   one consumer device's driver at an initcall level earlier than the
+> > >   supplier device's driver causes 11 failed probe attempts before the
+> > >   consumer device probes successfully. This was with a kernel with all
+> > >   the drivers statically compiled in. This problem gets a lot worse if
+> > >   all the drivers are loaded as modules without direct symbol
+> > >   dependencies.
+> > >
+> > > - Supplier devices like clock providers, interconnect providers, etc
+> > >   need to keep the resources they provide active and at a particular
+> > >   state(s) during boot up even if their current set of consumers don't
+> > >   request the resource to be active. This is because the rest of the
+> > >   consumers might not have probed yet and turning off the resource
+> > >   before all the consumers have probed could lead to a hang or
+> > >   undesired user experience.
+> > >
+> > >   Some frameworks (Eg: regulator) handle this today by turning off
+> > >   "unused" resources at late_initcall_sync and hoping all the devices
+> > >   have probed by then. This is not a valid assumption for systems with
+> > >   loadable modules. Other frameworks (Eg: clock) just don't handle
+> > >   this due to the lack of a clear signal for when they can turn off
+> > >   resources.
+> >
+> > The clk framework disables unused clks at late_initcall_sync. What do
+> > you mean clk framework doesn't turn them off because of a clear signal?
+>
+> There's a number of minor things you pointed out in this review.
+>
+> Saravana, can you send a follow-on patch for the minor code cleanups
+> like formatting and the like that was found here?
 
-I don't see how this would work.  If I add unit tests to ext4, they
-would be in fs/ext4.  And to the extent that I need to add test mocks
-to allow the unit tests to work, they will involve changes to existing
-files in fs/ext4.  I can't put them in the ext4.git tree without
-pulling in the kunit changes into the ext4 git tree.  And if they ext4
-unit tests land in the kunit tree, it would be a receipe for large
-numbers of merge conflicts.
+Will do next week.
 
-						- Ted
+Thanks,
+Saravana
+
+>
+> > > +static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
+> > > +{
+> > > +       struct device *sup_dev;
+> > > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
+> >
+> > Is it really a u32 instead of an unsigned int or unsigned long?
+> >
+> > > +       int ret = 0;
+> > > +       struct device_node *tmp_np = sup_np;
+> > > +
+> > > +       of_node_get(sup_np);
+> > > +       /*
+> > > +        * Find the device node that contains the supplier phandle.  It may be
+> > > +        * @sup_np or it may be an ancestor of @sup_np.
+> > > +        */
+> > > +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
+> > > +               sup_np = of_get_next_parent(sup_np);
+> >
+> > I don't get this. This is assuming that drivers are only probed for
+> > device nodes that have a compatible string? What about drivers that make
+> > sub-devices for clk support that have drivers in drivers/clk/ that then
+> > attach at runtime later? This happens sometimes for MFDs that want to
+> > split the functionality across the driver tree to the respective
+> > subsystems.
+>
+> For that, the link would not be there, correct?
+>
+> > > +static int of_link_property(struct device *dev, struct device_node *con_np,
+> > > +                            const char *prop_name)
+> > > +{
+> > > +       struct device_node *phandle;
+> > > +       const struct supplier_bindings *s = bindings;
+> > > +       unsigned int i = 0;
+> > > +       bool matched = false;
+> > > +       int ret = 0;
+> > > +
+> > > +       /* Do not stop at first failed link, link all available suppliers. */
+> > > +       while (!matched && s->parse_prop) {
+> > > +               while ((phandle = s->parse_prop(con_np, prop_name, i))) {
+> > > +                       matched = true;
+> > > +                       i++;
+> > > +                       if (of_link_to_phandle(dev, phandle) == -EAGAIN)
+> > > +                               ret = -EAGAIN;
+> >
+> > And don't break?
+>
+> There was comments before about how this is not needed.  Frank asked
+> that the comment be removed.  And now you point it out again :)
+>
+> Look at the comment a few lines up, we have to go through all of the
+> suppliers.
+>
+> > > +static int __of_link_to_suppliers(struct device *dev,
+> >
+> > Why the double underscore?
+> >
+> > > +                                 struct device_node *con_np)
+> > > +{
+> > > +       struct device_node *child;
+> > > +       struct property *p;
+> > > +       int ret = 0;
+> > > +
+> > > +       for_each_property_of_node(con_np, p)
+> > > +               if (of_link_property(dev, con_np, p->name))
+> > > +                       ret = -EAGAIN;
+> >
+> > Same comment.
+>
+> Same response as above :)
+>
+> thanks,
+>
+> greg k-h
