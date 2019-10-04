@@ -1,303 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F3777D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 14:45:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 765007D912
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 14:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389240AbfJDOo7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 10:44:59 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46880 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388724AbfJDOo6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 10:44:58 -0400
-Received: by mail-wr1-f67.google.com with SMTP id o18so7508308wrv.13
-        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 07:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=YL1+xzu/cZ1djhCIgv97dfpN2GQ4y52hUuut5JPL6dU=;
-        b=U08PLMbyxiCY6k4xCWlu4rPa2dJk7qmmsOBF7dcvjBNjy9dgwtO7fBcvQzbaiLO7Bt
-         XT1Fdzc83BUC9OOiR5lk7wVOVhzy2VXrNRc1Tr6gRlMv9FHkrZwj2LFGwnoTDiCsCaZ9
-         3SWqwC3CexqunRgvoOLbXH7jM3cyflrrXMCVeA6HdlyRQrDRy+WQkjfZ2lHX3sG2G5Ou
-         NWc5E0EcVZ2WYiNEs4WKYuNr7FcGNQwbpGEuSgwtxtnA4MggdjueAXoYRT7coc1vA0d6
-         PKkru9cscsiHWz1hYt0AohMMKvEi0+66/jmqGC4BCzvDEwUD3ntxcJMvoUJYmfAKcnHG
-         lKFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=YL1+xzu/cZ1djhCIgv97dfpN2GQ4y52hUuut5JPL6dU=;
-        b=Y/3O73pUm4WiREn1TUr0kzHWFI5x1LEKCVrYobjybFtSy6xSVAIZh2C9Rd5UZpCn2I
-         yue0hcUv2AXV02wYTHBNS20N8KTsUyJjaDZzIb01ezeFlGb7oHyqANwPoO84eOiPG5uD
-         H5e9piOoBriltqxSKr/iqf9tK08YEOm4xktXvLCAf8eJs0OVFEnaTLGw04P7132gYeu0
-         EJuUvCDDn5BUFB8juovPxfeZYbCNgr/NzJew5P03W/mM8iSvFnYj2POV18b0oYkuLpoB
-         ZFKd30fAvGCvlKf0ha2KO8mXAoSR2aJH5ArhJODbqRrGEX9TGG1LMOHtC5VIfZhbvxuP
-         6W7Q==
-X-Gm-Message-State: APjAAAUqH+FFcEaNUd+GJMe/zO7zD98nVn+QJAE2bYI2Fs/IEIbV5xgD
-        g2kqvkIiq0XE/lsONKf+jnSkQA==
-X-Google-Smtp-Source: APXvYqwxPfS8/0yhOel4L1wkC6OKjnOA6TnL2eNx9+tn+rISSASvJUX7XrFJ4jtY+5c7LIBWVJTEXA==
-X-Received: by 2002:a5d:6943:: with SMTP id r3mr11708214wrw.21.1570200295354;
-        Fri, 04 Oct 2019 07:44:55 -0700 (PDT)
-Received: from dell ([2.27.167.122])
-        by smtp.gmail.com with ESMTPSA id f18sm7103765wrv.38.2019.10.04.07.44.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 04 Oct 2019 07:44:54 -0700 (PDT)
-Date:   Fri, 4 Oct 2019 15:44:53 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        id S2389176AbfJDOvJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 10:51:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36844 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388870AbfJDOvJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Oct 2019 10:51:09 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 942E2C028323;
+        Fri,  4 Oct 2019 14:51:08 +0000 (UTC)
+Received: from dhcp-44-196.space.revspace.nl (ovpn-112-43.ams2.redhat.com [10.36.112.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CD01C5C22F;
+        Fri,  4 Oct 2019 14:51:01 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] mfd: ioc3: Add driver for SGI IOC3 chip
-Message-ID: <20191004144453.GQ18429@dell>
-References: <20191003095235.5158-1-tbogendoerfer@suse.de>
- <20191003095235.5158-4-tbogendoerfer@suse.de>
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw support
+Date:   Fri,  4 Oct 2019 16:50:48 +0200
+Message-Id: <20191004145056.43267-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191003095235.5158-4-tbogendoerfer@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Fri, 04 Oct 2019 14:51:09 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 03 Oct 2019, Thomas Bogendoerfer wrote:
+Hi All,
 
-> SGI IOC3 chip has integrated ethernet, keyboard and mouse interface.
-> It also supports connecting a SuperIO chip for serial and parallel
-> interfaces. IOC3 is used inside various SGI systemboards and add-on
-> cards with different equipped external interfaces.
-> 
-> Support for ethernet and serial interfaces were implemented inside
-> the network driver. This patchset moves out the not network related
-> parts to a new MFD driver, which takes care of card detection,
-> setup of platform devices and interrupt distribution for the subdevices.
-> 
-> Serial portion: Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> ---
->  arch/mips/sgi-ip27/ip27-timer.c     |  20 --
->  drivers/mfd/Kconfig                 |  13 +
->  drivers/mfd/Makefile                |   1 +
->  drivers/mfd/ioc3.c                  | 585 ++++++++++++++++++++++++++++++++++++
->  drivers/net/ethernet/sgi/Kconfig    |   4 +-
->  drivers/net/ethernet/sgi/ioc3-eth.c | 561 ++++++----------------------------
->  drivers/tty/serial/8250/8250_ioc3.c |  98 ++++++
->  drivers/tty/serial/8250/Kconfig     |  11 +
->  drivers/tty/serial/8250/Makefile    |   1 +
->  9 files changed, 809 insertions(+), 485 deletions(-)
->  create mode 100644 drivers/mfd/ioc3.c
->  create mode 100644 drivers/tty/serial/8250/8250_ioc3.c
-> 
-> diff --git a/arch/mips/sgi-ip27/ip27-timer.c b/arch/mips/sgi-ip27/ip27-timer.c
-> index 9b4b9ac621a3..5631e93ea350 100644
-> --- a/arch/mips/sgi-ip27/ip27-timer.c
-> +++ b/arch/mips/sgi-ip27/ip27-timer.c
-> @@ -188,23 +188,3 @@ void hub_rtc_init(cnodeid_t cnode)
->  		LOCAL_HUB_S(PI_RT_PEND_B, 0);
->  	}
->  }
-> -
-> -static int __init sgi_ip27_rtc_devinit(void)
-> -{
-> -	struct resource res;
-> -
-> -	memset(&res, 0, sizeof(res));
-> -	res.start = XPHYSADDR(KL_CONFIG_CH_CONS_INFO(master_nasid)->memory_base +
-> -			      IOC3_BYTEBUS_DEV0);
-> -	res.end = res.start + 32767;
-> -	res.flags = IORESOURCE_MEM;
-> -
-> -	return IS_ERR(platform_device_register_simple("rtc-m48t35", -1,
-> -						      &res, 1));
-> -}
-> -
-> -/*
-> - * kludge make this a device_initcall after ioc3 resource conflicts
-> - * are resolved
-> - */
-> -late_initcall(sgi_ip27_rtc_devinit);
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index ae24d3ea68ea..a762342065a2 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -2011,5 +2011,18 @@ config RAVE_SP_CORE
->  	  Select this to get support for the Supervisory Processor
->  	  device found on several devices in RAVE line of hardware.
->  
-> +config SGI_MFD_IOC3
-> +	tristate "SGI IOC3 core driver"
-> +	depends on PCI && MIPS && 64BIT
-> +	select MFD_CORE
-> +	help
-> +	  This option enables basic support for the SGI IOC3-based
-> +	  controller cards.  This option does not enable any specific
-> +	  functions on such a card, but provides necessary infrastructure
-> +	  for other drivers to utilize.
-> +
-> +	  If you have an SGI Origin, Octane, or a PCI IOC3 card,
-> +	  then say Y. Otherwise say N.
-> +
->  endmenu
->  endif
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index c1067ea46204..0d89b9e1055f 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -256,3 +256,4 @@ obj-$(CONFIG_MFD_ROHM_BD70528)	+= rohm-bd70528.o
->  obj-$(CONFIG_MFD_ROHM_BD718XX)	+= rohm-bd718x7.o
->  obj-$(CONFIG_MFD_STMFX) 	+= stmfx.o
->  
-> +obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
-> diff --git a/drivers/mfd/ioc3.c b/drivers/mfd/ioc3.c
-> new file mode 100644
-> index 000000000000..889b7e7ff485
-> --- /dev/null
-> +++ b/drivers/mfd/ioc3.c
-> @@ -0,0 +1,585 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * SGI IOC3 multifunction device driver
-> + *
-> + * Copyright (C) 2018, 2019 Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> + *
-> + * Based on work by:
-> + *   Stanislaw Skowronek <skylark@unaligned.org>
-> + *   Joshua Kinard <kumba@gentoo.org>
-> + *   Brent Casavant <bcasavan@sgi.com> - IOC4 master driver
-> + *   Pat Gefre <pfg@sgi.com> - IOC3 serial port IRQ demuxer
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/platform_data/sgi-w1.h>
-> +
-> +#include <asm/pci/bridge.h>
-> +#include <asm/sn/ioc3.h>
-> +
-> +#define IOC3_IRQ_SERIAL_A	6
-> +#define IOC3_IRQ_SERIAL_B	15
-> +#define IOC3_IRQ_KBD		22
-> +#define IOC3_IRQ_ETH_DOMAIN	23
-> +
-> +/* Bitmask for selecting which IRQs are level triggered */
-> +#define IOC3_LVL_MASK	(BIT(IOC3_IRQ_SERIAL_A) | BIT(IOC3_IRQ_SERIAL_B))
-> +
-> +#define M48T35_REG_SIZE	32768	/* size of m48t35 registers */
-> +
-> +/* 1.2 us latency timer (40 cycles at 33 MHz) */
-> +#define IOC3_LATENCY	40
-> +
-> +struct ioc3_priv_data {
-> +	struct irq_domain *domain;
-> +	struct ioc3 __iomem *regs;
-> +	struct pci_dev *pdev;
-> +	int domain_irq;
-> +};
-> +
-> +static void ioc3_irq_ack(struct irq_data *d)
-> +{
-> +	struct ioc3_priv_data *ipd = irq_data_get_irq_chip_data(d);
-> +	unsigned int hwirq = irqd_to_hwirq(d);
-> +
-> +	writel(BIT(hwirq), &ipd->regs->sio_ir);
-> +}
-> +
-> +static void ioc3_irq_mask(struct irq_data *d)
-> +{
-> +	struct ioc3_priv_data *ipd = irq_data_get_irq_chip_data(d);
-> +	unsigned int hwirq = irqd_to_hwirq(d);
-> +
-> +	writel(BIT(hwirq), &ipd->regs->sio_iec);
-> +}
-> +
-> +static void ioc3_irq_unmask(struct irq_data *d)
-> +{
-> +	struct ioc3_priv_data *ipd = irq_data_get_irq_chip_data(d);
-> +	unsigned int hwirq = irqd_to_hwirq(d);
-> +
-> +	writel(BIT(hwirq), &ipd->regs->sio_ies);
-> +}
-> +
-> +static struct irq_chip ioc3_irq_chip = {
-> +	.name		= "IOC3",
-> +	.irq_ack	= ioc3_irq_ack,
-> +	.irq_mask	= ioc3_irq_mask,
-> +	.irq_unmask	= ioc3_irq_unmask,
-> +};
-> +
-> +static int ioc3_irq_domain_map(struct irq_domain *d, unsigned int irq,
-> +			      irq_hw_number_t hwirq)
-> +{
-> +	/* Set level IRQs for every interrupt contained in IOC3_LVL_MASK */
-> +	if (BIT(hwirq) & IOC3_LVL_MASK)
-> +		irq_set_chip_and_handler(irq, &ioc3_irq_chip, handle_level_irq);
-> +	else
-> +		irq_set_chip_and_handler(irq, &ioc3_irq_chip, handle_edge_irq);
-> +
-> +	irq_set_chip_data(irq, d->host_data);
-> +	return 0;
-> +}
-> +
-> +static const struct irq_domain_ops ioc3_irq_domain_ops = {
-> +	.map = ioc3_irq_domain_map,
-> +};
-> +
-> +static void ioc3_irq_handler(struct irq_desc *desc)
-> +{
-> +	struct irq_domain *domain = irq_desc_get_handler_data(desc);
-> +	struct ioc3_priv_data *ipd = domain->host_data;
-> +	struct ioc3 __iomem *regs = ipd->regs;
-> +	u32 pending, mask;
-> +	unsigned int irq;
-> +
-> +	pending = readl(&regs->sio_ir);
-> +	mask = readl(&regs->sio_ies);
-> +	pending &= mask; /* mask off not enabled but pending irqs */
-> +
-> +	if (mask & BIT(IOC3_IRQ_ETH_DOMAIN))
-> +		/* if eth irq is enabled we need to check in eth irq regs */
+Here is v7 of my patch-set to add support for EFI embedded fw to the kernel.
 
-Nit: Comments should be expressive.  Please expand all of the
-short-hand in this sentence.  It would also be nicer if you started
-with an uppercase character.
+v6 was posted a long time ago, around the 4.18 days. The long wait was for
+a suitable secure-hash for checking the firmware we find embedded in the EFI
+is the one we expect.
 
-Same with all of the other comments in this file.
+With 5.4-rc1 we finally have a standalone sha256 lib, so that hurdle for
+this patch-set is now gone.
 
-Other than that, it looks like it's really coming together.  Once the
-above is fixed, please re-sumbit with my:
+I've tried to address all review-remarks against v6 in this new version:
 
-For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+Changes in v7:
+- Split drivers/firmware/efi and drivers/base/firmware_loader changes into
+  2 patches
+- Use new, standalone, lib/crypto/sha256.c code
+- Address kdoc comments from Randy Dunlap
+- Add new FW_OPT_FALLBACK_PLATFORM flag and firmware_request_platform()
+  _request_firmware() wrapper, as requested by Luis R. Rodriguez
+- Stop using "efi-embedded-firmware" device-property, now that drivers need to
+  use the new firmware_request_platform() to enable fallback to a device fw
+  copy embedded in the platform's main firmware, we no longer need a property
+  on the device to trigger this behavior
+- Use security_kernel_load_data instead of calling
+  security_kernel_read_file with a NULL file pointer argument
+- Move the docs to Documentation/driver-api/firmware/fallback-mechanisms.rst
+- Document the new firmware_request_platform() function in
+  Documentation/driver-api/firmware/request_firmware.rst
+- Add 2 new patches for the silead and chipone-icn8505 touchscreen drivers
+  to use the new firmware_request_platform() method
+- Rebased on top of 5.4-rc1
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+I guess this will probably need another round (ot two) of review + fixing,
+but eventually this can hopefully be merged. Since this touches a bunch
+of different subsystems the question is how to merge this? Most of the
+touched files outside of the firmware-loader code do not see a lot of
+churn, so my proposal would be to merge patches 1-6 through the tree
+which carries firmware-loader changes; and then provide an immutable
+branch for the platform/x86 maintainers to merge and then they can merge
+the last 2 patches (as the touchscreen_dmi.c file does see quite a bit
+of changes every release).
+
+Regards,
+
+Hans
+
