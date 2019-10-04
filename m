@@ -2,175 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1FC2A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 15:38:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 859007D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 16:09:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389893AbfJDPh5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 11:37:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33186 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389586AbfJDPh5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 11:37:57 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AFB3420830;
-        Fri,  4 Oct 2019 15:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570203474;
-        bh=YcIlppU4Lt9lhX27/S/eEJPaKSNRVLdTeNKE4mdQLkI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XloKBE/pX20WzoK42eZ5i4VSzF0G8YyFlBDBEYnoiPhjatOgMsUkxeq5tQGpbtQqq
-         wJLE2W6ukOgQtoxm7QXyZmrft6OnOGyoBItq0MISLpf5f7FaUetBaGjtDVpubnMDeW
-         rhJSHJT9NH5V35mKhf14YUw/DGFHOem+uRP+t7hA=
-Date:   Fri, 4 Oct 2019 17:37:50 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        David Collins <collinsd@codeaurora.org>,
-        kernel-team@android.com, kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link
- from DT bindings
-Message-ID: <20191004153750.GB823823@kroah.com>
-References: <20190904211126.47518-1-saravanak@google.com>
- <20190904211126.47518-4-saravanak@google.com>
- <20190911102926.A9F8D2082C@mail.kernel.org>
+        id S2390128AbfJDQIf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 12:08:35 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37950 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389794AbfJDQIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 12:08:34 -0400
+Received: by mail-pg1-f195.google.com with SMTP id x10so4014277pgi.5
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 09:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qrCnb7i9JDwc6blmAIDbox87WNow8e8t5hEwB+pWVBs=;
+        b=hZFdMVFV7j843awiFhtiwvubJHpPI7ra02+62OBzo9GoxRoBuqEmV6toR7JIz8BCFr
+         6UnvZctpbn4vMcN0Ayo9VIWXQBX+TpFrrYl8BQQg+j6WAJDUD6EWhYrDH99gYyzCcUo6
+         vy10MIyb6Q93JecjIljYmaKCdx2Vs/MZtVUYE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qrCnb7i9JDwc6blmAIDbox87WNow8e8t5hEwB+pWVBs=;
+        b=YRvEriTdLE0NMa2cfq86qf/6qMoEWcj2Iy15QjXgcRAWeZkL1rJEXWzIjZxRNiophK
+         OGSCDH9TxLtnWRN7SrUD86liEaaFa8un/54UTRYBwAnxiF1LSZxWLd4X2/9gS2yUcPQt
+         iPYfyP35SZ3wvL9gbruUzkzx4AjUWcTIYUFKKZy0H2q6ot1u9uPw+c1Yo6uIHYTPljMP
+         F3QNJQyKFs3jf1KRPmf6O5UIMFQByOZM+oIfWJKf0rNcWSyj90stMbo8JbwYjuqL4gYu
+         fqqtWubv8YQxN7Pf4qsgtz6bg35kl46fGDB+eRo3MS8ayBclYTxyVcBGYECJy5ik3g3U
+         5Pww==
+X-Gm-Message-State: APjAAAVc6h2LznMukDtJSVuVS1cAGjvFeyLedZit769eMAz0EqZf5/N0
+        27aryOEZE9ANYd6vUPUQmtnm/g==
+X-Google-Smtp-Source: APXvYqz5w9xK4kX8GbSZOFca7EyZFYY9c4Vb2LaIIQ6NnRL73yrrHDXHJz7b/SiMjslmBxwS1nBTKA==
+X-Received: by 2002:aa7:9ab4:: with SMTP id x20mr18521389pfi.59.1570205314226;
+        Fri, 04 Oct 2019 09:08:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n8sm7333945pgt.40.2019.10.04.09.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2019 09:08:33 -0700 (PDT)
+Date:   Fri, 4 Oct 2019 09:08:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: Use make invocation's -j argument for
+ parallelism
+Message-ID: <201910040904.43B61E4@keescook>
+References: <201909241627.CEA19509@keescook>
+ <eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190911102926.A9F8D2082C@mail.kernel.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 11, 2019 at 03:29:25AM -0700, Stephen Boyd wrote:
-> Quoting Saravana Kannan (2019-09-04 14:11:22)
-> > Add device links after the devices are created (but before they are
-> > probed) by looking at common DT bindings like clocks and
-> > interconnects.
-> > 
-> > Automatically adding device links for functional dependencies at the
-> > framework level provides the following benefits:
-> > 
-> > - Optimizes device probe order and avoids the useless work of
-> >   attempting probes of devices that will not probe successfully
-> >   (because their suppliers aren't present or haven't probed yet).
-> > 
-> >   For example, in a commonly available mobile SoC, registering just
-> >   one consumer device's driver at an initcall level earlier than the
-> >   supplier device's driver causes 11 failed probe attempts before the
-> >   consumer device probes successfully. This was with a kernel with all
-> >   the drivers statically compiled in. This problem gets a lot worse if
-> >   all the drivers are loaded as modules without direct symbol
-> >   dependencies.
-> > 
-> > - Supplier devices like clock providers, interconnect providers, etc
-> >   need to keep the resources they provide active and at a particular
-> >   state(s) during boot up even if their current set of consumers don't
-> >   request the resource to be active. This is because the rest of the
-> >   consumers might not have probed yet and turning off the resource
-> >   before all the consumers have probed could lead to a hang or
-> >   undesired user experience.
-> > 
-> >   Some frameworks (Eg: regulator) handle this today by turning off
-> >   "unused" resources at late_initcall_sync and hoping all the devices
-> >   have probed by then. This is not a valid assumption for systems with
-> >   loadable modules. Other frameworks (Eg: clock) just don't handle
-> >   this due to the lack of a clear signal for when they can turn off
-> >   resources.
-> 
-> The clk framework disables unused clks at late_initcall_sync. What do
-> you mean clk framework doesn't turn them off because of a clear signal?
-
-There's a number of minor things you pointed out in this review.
-
-Saravana, can you send a follow-on patch for the minor code cleanups
-like formatting and the like that was found here?
-
-> > +static int of_link_to_phandle(struct device *dev, struct device_node *sup_np)
-> > +{
-> > +       struct device *sup_dev;
-> > +       u32 dl_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> 
-> Is it really a u32 instead of an unsigned int or unsigned long?
-> 
-> > +       int ret = 0;
-> > +       struct device_node *tmp_np = sup_np;
+On Fri, Oct 04, 2019 at 11:15:46AM +0200, Rasmus Villemoes wrote:
+> On 25/09/2019 01.29, Kees Cook wrote:
+> > +# Extract and prepare jobserver file descriptors from envirnoment.
+> > +try:
+> > +	# Fetch the make environment options.
+> > +	flags = os.environ['MAKEFLAGS']
 > > +
-> > +       of_node_get(sup_np);
-> > +       /*
-> > +        * Find the device node that contains the supplier phandle.  It may be
-> > +        * @sup_np or it may be an ancestor of @sup_np.
-> > +        */
-> > +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-> > +               sup_np = of_get_next_parent(sup_np);
+> > +	# Look for "--jobserver=R,W"
+> > +	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
 > 
-> I don't get this. This is assuming that drivers are only probed for
-> device nodes that have a compatible string? What about drivers that make
-> sub-devices for clk support that have drivers in drivers/clk/ that then
-> attach at runtime later? This happens sometimes for MFDs that want to
-> split the functionality across the driver tree to the respective
-> subsystems.
+> OK, this handles the fact that Make changed from --jobserver-fds to
+> --jobserver-auth at some point. Probably the comment could be more accurate.
 
-For that, the link would not be there, correct?
+I can update that, sure.
 
-> > +static int of_link_property(struct device *dev, struct device_node *con_np,
-> > +                            const char *prop_name)
-> > +{
-> > +       struct device_node *phandle;
-> > +       const struct supplier_bindings *s = bindings;
-> > +       unsigned int i = 0;
-> > +       bool matched = false;
-> > +       int ret = 0;
+> > +# Read out as many jobserver slots as possible.
+> > +jobs = b""
+> > +while True:
+> > +	try:
+> > +		slot = os.read(reader, 1)
+> > +		jobs += slot
+> > +	except (OSError, IOError) as e:
+> > +		if e.errno == errno.EWOULDBLOCK:
+> > +			# Stop when reach the end of the jobserver queue.
+> > +			break
+> > +		raise e
+> 
+> Ah, reading more carefully you set O_NONBLOCK explicitly. Well, older
+> Makes are going to be very unhappy about that (remember that it's a
+> property of the file description and not file descriptor). They don't
+> expect EAGAIN when fetching a token, so fail hard. Probably not when
+> htmldocs is the only target, because in that case the toplevel Make just
+> reads back the exact number of tokens it put in as a sanity check, but
+> if it builds other targets/spawns other submakes, I think this breaks.
+
+Do you mean the processes sharing the file will suddenly gain
+O_NONBLOCK? I didn't think that was true, but I can test. If it is true,
+we could easily just restore the state before exit.
+
+> > +# Return all the reserved slots.
+> > +os.write(writer, jobs)
+> 
+> Well, that probably works ok for the isolated case of a toplevel "make
+> -j12 htmldocs", but if you're building other targets ("make -j12
+> htmldocs vmlinux") this will effectively inject however many tokens the
+> above loop grabbed (which might not be all if the top-level make has
+> started things related to the vmlinux target), so for the duration of
+> the docs build, there will be more processes running than asked for.
+
+That is true, yes, though I still think it's an improvement over the
+existing case of sphinx-build getting run with -jauto which lands us in
+the same (or worse) position.
+
+The best solution would be to teach sphinx-build about the Make
+jobserver, though I expect that would be weird. Another idea would be to
+hold the reservation until sphinx-build finishes and THEN return the
+slots? That would likely need to change from a utility to a sphinx-build
+wrapper...
+
+> > +# If the jobserver was (impossibly) full or communication failed, use default.
+> > +if len(jobs) < 1:
+> > +	print(default)
 > > +
-> > +       /* Do not stop at first failed link, link all available suppliers. */
-> > +       while (!matched && s->parse_prop) {
-> > +               while ((phandle = s->parse_prop(con_np, prop_name, i))) {
-> > +                       matched = true;
-> > +                       i++;
-> > +                       if (of_link_to_phandle(dev, phandle) == -EAGAIN)
-> > +                               ret = -EAGAIN;
+> > +# Report available slots (with a bump for our caller's reserveration).
+> > +print(len(jobs) + 1)
 > 
-> And don't break?
+> There's a missing exit() or else: here; if len(jobs) < 1 you print both
+> default (probably "1") and 0+1 aka "1".
 
-There was comments before about how this is not needed.  Frank asked
-that the comment be removed.  And now you point it out again :)
+Whoops! Yes, that needs fixing too. I'll send a patch...
 
-Look at the comment a few lines up, we have to go through all of the
-suppliers.
-
-> > +static int __of_link_to_suppliers(struct device *dev,
-> 
-> Why the double underscore?
-> 
-> > +                                 struct device_node *con_np)
-> > +{
-> > +       struct device_node *child;
-> > +       struct property *p;
-> > +       int ret = 0;
-> > +
-> > +       for_each_property_of_node(con_np, p)
-> > +               if (of_link_property(dev, con_np, p->name))
-> > +                       ret = -EAGAIN;
-> 
-> Same comment.
-
-Same response as above :)
-
-thanks,
-
-greg k-h
+-- 
+Kees Cook
