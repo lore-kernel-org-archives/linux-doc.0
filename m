@@ -6,121 +6,121 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83D5F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 13:40:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6B7907D982
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 14:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388289AbfJDNkw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 09:40:52 -0400
-Received: from mail-eopbgr00071.outbound.protection.outlook.com ([40.107.0.71]:35812
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388270AbfJDNkw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 09:40:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oEd4B/gU1Z5k76q2obnkYnRiKhut2+E/X+dBNc6XJbXrxLViqlUPFUi1Y5SJPES+rZy05RaSunOJp3LL/GHXPBkdSZu9qc5PA3e65VcPvmF/yBfFiDsZWaolZFphbYOrAND+jVVrNhN3xNaLaU5iemFLzm8OAJm4DJ/Xruicxf+6PvoNkbhO6oDdyxDcmIcmeZk1TyqL1/2A59VLISSpw0woD/l9ImL9XIyWnXjN93xtDaJzEwYo7bcDzl1BQwfI9NElYyK/YdQMufW+84aWauLaKVwXRGpM8pPGiyqDt/M+tHLowRmBn6uEbPU0WQ1tT6Y9fh4au1ZklfW6dc9WjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GAqQhnB9OCw+1cyAwit8CjnmkGxZUd5/qxjBxXYoZmU=;
- b=KH60EO6gda78uBXR+AQCPseEUKHmHpK7ekGQn9U0Pnfl2LPCH66MOurD6UFX6kRBI9ngu8V15lB9UvHSh55C7knla5HJx2vvbGLbv2VpyLGq8Iee0Onc26up8BWiG7hYLf8KnwvKF20tELX7aTHtR8DzivLV8LxScW+p6NBIo0dRnUFA4+LiVuSb4Mj/B+psW4p2L4ObItUkZYYwIMkJL1WmANYWjYT6FUGkLLi2d9gk6iHUVrDJAtL5F61sPtkXJNwJdtQ0EoDfisOZn0+enJv2/iKblEbgLwz+jNszE1Ah1bCqe37d84G+Elym1jtCI051qpe4rJYH+trePssmnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GAqQhnB9OCw+1cyAwit8CjnmkGxZUd5/qxjBxXYoZmU=;
- b=hYK89MswdX0Jbzuz3PNCoMt/XpZzjpH11+EVG0GSqPOKq2Pjl2QqkQzOPi43VB28+n4tdvGACxqubkTCKdsdfuo7aL34Pct4HJ/GMosSt5H9kFtxeyGdjmpb8pa/ItV0raNmIQCrnBSDqQnOkjQVa1l+i/KzJf1bgfZ3vgMNmkU=
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
- VI1PR0402MB3838.eurprd04.prod.outlook.com (52.134.16.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Fri, 4 Oct 2019 13:40:48 +0000
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::fd33:c447:3cab:c36]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::fd33:c447:3cab:c36%7]) with mapi id 15.20.2305.023; Fri, 4 Oct 2019
- 13:40:48 +0000
-From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 3/5] serial: fsl_linflexuart: Be consistent with the
- name
-Thread-Topic: [PATCH v5 3/5] serial: fsl_linflexuart: Be consistent with the
- name
-Thread-Index: AQHVerlUg6aq6mZeEE2PCdc5NmXbcA==
-Date:   Fri, 4 Oct 2019 13:40:48 +0000
-Message-ID: <VI1PR0402MB2863C5C76A9F709B98C7BDE7DF9E0@VI1PR0402MB2863.eurprd04.prod.outlook.com>
-References: <20191002130425.28905-1-stefan-gabriel.mirea@nxp.com>
- <20191002130425.28905-4-stefan-gabriel.mirea@nxp.com>
- <20191004130712.GA622272@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ffc368f5-ff23-4639-bdb6-08d748d07722
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: VI1PR0402MB3838:
-x-microsoft-antispam-prvs: <VI1PR0402MB38385C8E83847431008C90B9DF9E0@VI1PR0402MB3838.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 018093A9B5
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(189003)(199004)(66066001)(8936002)(7416002)(52536014)(4744005)(99286004)(6916009)(66556008)(4326008)(66476007)(64756008)(66446008)(7696005)(76176011)(305945005)(186003)(6506007)(7736002)(26005)(102836004)(53546011)(8676002)(1730700003)(81156014)(446003)(5660300002)(81166006)(86362001)(74316002)(2351001)(256004)(25786009)(229853002)(3846002)(2501003)(6116002)(33656002)(6246003)(476003)(14454004)(316002)(76116006)(66946007)(91956017)(6436002)(71190400001)(2906002)(54906003)(71200400001)(5640700003)(478600001)(55016002)(9686003)(486006);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3838;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QrAuTePPkOPBlNQQrMGP8w3ZsaCtxJcmtggHpE0mPvCaNgHQS+K678/MDPid6KYDFCarx/f077OWnYUau1Hw2er8NBZojmLd00mtx+SzigYx5PvU5vbfVo0t1VA/qPHOA+kf0atAUgg+oPd4t8QrSEovXBgju+enu/3ncfNelfrV3j7ahquvO766FbItanmC8A1wTw0oW01RzweGYcfUz8gIXOhSHazXb++8ohBck/6WaptOAhDQjY7zTIrw0yk2WRbwpcQPyQkG5JVUIvM8V0DyNdPFzXUnZO3k1z0CqzrNT0r/07m5UX6zMM1OTFT6sYxrPU3JzWThXqvTkfUE8Tk3T/QC3ov31iyYEvYJbXKZWi9O6YafZ7SZxF5jRfk5GYMWdw99ZuPO4T3OoKLh/4/MycI0eXuptEB2txDeIWo=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S2389062AbfJDOhX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 10:37:23 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55198 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389114AbfJDOhX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 10:37:23 -0400
+Received: by mail-wm1-f67.google.com with SMTP id p7so6099387wmp.4
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 07:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=M/bUMMwqhNt3Ns3PLD9fJksR9IwlrBLW7LrP5HWQF+c=;
+        b=FsAZndhBRWOshUk2HtpFWBNhf8XA3iFaT+XxTApJiTi4sWWDA8mEi4lEWRyTonYxLE
+         ZydU83dqlBb8DOGRZ22Vay1pRKjZ4Q54J3PwVxVrEm5b22dhcyv+niYmuPHtnpPA+gtF
+         Ne3c/iFvOSgGU4NrDjQM2qM4RqbJWDijBpfuM6Irnohrlp5mf+h6XHoAkq7RB/bH06jG
+         YVkfy/4F+0esR4D1tsBSWe3OI+GV/pvuOQf8JYjyDLCkrZqjuSQOqUCrqtbqS6hl29kf
+         IL35Xa2IkpfLN6XzneIEOQCivUmEthM3mZQ4KH2A9fJ7srdvawl557EFAr/n1HJRYmsD
+         NbRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=M/bUMMwqhNt3Ns3PLD9fJksR9IwlrBLW7LrP5HWQF+c=;
+        b=SSkJtoI7vCRdUKF/e6A5UDlEMtnmBjhFdmVweA9oIj58Q5I+QFR6H/+YHFXit5Vbmq
+         EQZv/3xCT1dpwaTeJOUOidyLy/q888tZb4NbEtkS6R7mWaU8LnxKeXxcx7gPuo3XS5Rm
+         T1iNhYCHrnWfkNBQAsQXrY7dLqXEKfBS4qLQfW+P+h02Z0Kl1dhdnpm+iP+3VvNfxEOI
+         yWWzNU/VC2EoMMhfh3g4iv92syoaOvOgZ+X8LV0+2vPZ00d9YWHXtoOgy7ZoIqpHThgD
+         rS4sgLm+75n16bviNeT1q/EJseoOr27cmWOehxAUlojf07rAX4BzJ7tSwZ6sedohM+UU
+         bHDw==
+X-Gm-Message-State: APjAAAXL8BYzBGHWeox/3ww9Mav7yYXJ60d47u95h7ptqc9nVthpIKFu
+        eCBztacyK0mjfCYchkorsBrpyA==
+X-Google-Smtp-Source: APXvYqxHRyx7yuiTH9IFzXeP2ivnk2BBRSV88nnMFiXyc7Dc5BayI1lrnlB/z2mqvBmn5UbH1qOKKw==
+X-Received: by 2002:a1c:5942:: with SMTP id n63mr11413363wmb.65.1570199841070;
+        Fri, 04 Oct 2019 07:37:21 -0700 (PDT)
+Received: from dell ([2.27.167.122])
+        by smtp.gmail.com with ESMTPSA id u25sm5195823wml.4.2019.10.04.07.37.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 04 Oct 2019 07:37:20 -0700 (PDT)
+Date:   Fri, 4 Oct 2019 15:37:18 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     kbuild test robot <lkp@intel.com>
+Cc:     Thomas Bogendoerfer <tbogendoerfer@suse.de>, kbuild-all@01.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] mfd: ioc3: Add driver for SGI IOC3 chip
+Message-ID: <20191004143718.GM18429@dell>
+References: <20190923114636.6748-4-tbogendoerfer@suse.de>
+ <201909232145.eyOJqt2k%lkp@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffc368f5-ff23-4639-bdb6-08d748d07722
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2019 13:40:48.3908
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gSLWXAjH9eSH5rkmCl197xtAMsiXR4XoDSUT4b8ZutalNRANy9ITFfglCgDwwi/LkAY5+Gkye5nLLu6fIQFH3JzMDyIy90YjKWufCPyWg6U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3838
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <201909232145.eyOJqt2k%lkp@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Greg,=0A=
-=0A=
-On 10/4/2019 4:07 PM, gregkh@linuxfoundation.org wrote:=0A=
-> On Wed, Oct 02, 2019 at 01:04:42PM +0000, Stefan-gabriel Mirea wrote:=0A=
->> --- a/include/uapi/linux/serial_core.h=0A=
->> +++ b/include/uapi/linux/serial_core.h=0A=
->> @@ -290,7 +290,7 @@=0A=
->>  /* Sunix UART */=0A=
->>  #define PORT_SUNIX   121=0A=
->>=0A=
->> -/* Freescale Linflex UART */=0A=
->> -#define PORT_LINFLEXUART     121=0A=
->> +/* Freescale LINFlexD UART */=0A=
->> +#define PORT_LINFLEXUART     122=0A=
-> =0A=
-> This is a different change, and one that should be split out and=0A=
-> submitted now, for 5.4.  Please do that as the id number is incorrect,=0A=
-> don't bury a valid change in the middle of a "marketing renamed the=0A=
-> device" patch :)=0A=
-=0A=
-I will do that, thanks!=0A=
-=0A=
-Regards,=0A=
-Stefan=0A=
+On Mon, 23 Sep 2019, kbuild test robot wrote:
+
+> Hi Thomas,
+> 
+> I love your patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on linus/master]
+> [cannot apply to v5.3 next-20190920]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Thomas-Bogendoerfer/Use-MFD-framework-for-SGI-IOC3-drivers/20190923-194903
+> config: mips-allmodconfig (attached as .config)
+> compiler: mips-linux-gcc (GCC) 7.4.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.4.0 make.cross ARCH=mips 
+> 
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers//mfd/ioc3.c: In function 'ioc3_eth_setup':
+> >> drivers//mfd/ioc3.c:281:54: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t {aka unsigned int}' [-Wformat=]
+>        sizeof(ioc3_w1_platform_data.dev_id), "ioc3-%012llx",
+>                                                    ~~~~~~^
+>                                                    %012x
+>        ipd->pdev->resource->start);
+>        ~~~~~~~~~~~~~~~~~~~~~~~~~~                         
+
+I assume you plan on fixing this Thomas?
+
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
