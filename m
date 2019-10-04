@@ -1,84 +1,292 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 905D27D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Oct 2019 21:11:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAABE7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 02:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731359AbfJCVKk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Oct 2019 17:10:40 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33510 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731348AbfJCVKk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Oct 2019 17:10:40 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q10so2554985pfl.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2019 14:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=message-id:mime-version:content-transfer-encoding:in-reply-to
-         :references:from:to:cc:subject:user-agent:date;
-        bh=TZu2ZOfBt4zOQYcx7ts+ww1a8wZ3i5klQLAM70cz5EM=;
-        b=ZpeSxI7m/QWltN4KyEEzLW1mbR3sjyIll0DL6bBVA9iBnHBwBECbV4n7v/1zZXw1tq
-         zM4xBiDcxDDwTgVD5vECVOL8EhXs7sAMqJdY1jzUf3wDZ926Mxt9mV2hZcK1AXkxbODE
-         /bXkbGxRjqj5+s785Fagw4SbqIOefWgenyLqM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:in-reply-to:references:from:to:cc:subject
-         :user-agent:date;
-        bh=TZu2ZOfBt4zOQYcx7ts+ww1a8wZ3i5klQLAM70cz5EM=;
-        b=F1c/n0me3i9Q84l1vbdyaHga0udm3OmTF8oScoONSS8U1parQlcdyrgOkTYOEpxpj8
-         0spAatkD+AQqC/mpkU8Y6c+EXsBYPg+jNMwXH+Ia15rqZRHkSeZZIvwBJWW0kUxL1IPl
-         SVGIkGSGKOvJDetE8Ix1xPop/N3kNhq7d/HGgYtT3Y674exx8xqIiQ/4tJ42e703DTGU
-         cFGv+yF0cvcFqDToNE7c96qGdQ7Slm6hjMmNbsMMlBmGNCV9BG89R++Ts9xx61jfT1m/
-         Zhmb89yjcc9lhtsx8TZoDCyjhtrymQ+u0ukKrBZxcGQ65bl/lBJfPs2a21sVEj+9xbw/
-         /G2Q==
-X-Gm-Message-State: APjAAAU+HQ8YkuCK0noYXm7vnjbomIXLryRo0IQkXAb2DJUm6B/8PYs4
-        YiSlhSvrk4yubMf5pmhmVLTREULObvY=
-X-Google-Smtp-Source: APXvYqxRNBvkg2TMNLnFboSrLgS+N0S0t6bmJh6XqO3SPIjYAzw3ZpxIyPcyB1kqZ4AiwJpxPFtwPQ==
-X-Received: by 2002:a63:1521:: with SMTP id v33mr11802366pgl.9.1570137039483;
-        Thu, 03 Oct 2019 14:10:39 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id g24sm4399113pfi.81.2019.10.03.14.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2019 14:10:38 -0700 (PDT)
-Message-ID: <5d9663ce.1c69fb81.e941e.dccc@mx.google.com>
-Content-Type: text/plain; charset="utf-8"
+        id S1730940AbfJDC5E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Oct 2019 22:57:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52934 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730309AbfJDC5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Oct 2019 22:57:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=iP8AD7OdNqS8eGAFdyLOUGy1xV4uS6CCHC335uf7mhk=; b=ivQk5tpAJ88grFGEnPXQWneIx
+        mokpmc4qcST7AEAKQjpiJrpmNOwfN+j6hS5KVs0OPC02vjtaNvi4XP6Om9qavScb3Mohr64ZnOM2g
+        qSsCeaso9txAxghsTqz3q5uKgP7MxZ3++92Ki+/xTyUt21dx44R1w7vL92tgUvP59qF6KXwkPzBJZ
+        MJCVWyvoyNnpidjOhBSMRs75DYk0oCVAWxy2LNoHkI172PoTUm5hToE8pMkc8ulqJ/wWzI9Qr8k+q
+        qSNCY5fPFcS9Vpyf4M4hKnAPCFYe3ILyPkZ4DqAI36ObpDggtbHFqgldsRVppZjggZaGS1q/cx5gZ
+        C7Rjke3Tg==;
+Received: from [2601:1c0:6280:3f0::9a1f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iGDmA-00064P-Ni; Fri, 04 Oct 2019 02:57:02 +0000
+Subject: Re: [RFC PATCH 2/2] software node: Add documentation
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191002123305.80012-1-heikki.krogerus@linux.intel.com>
+ <20191002123305.80012-3-heikki.krogerus@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <910192ce-7a0e-8a26-39eb-3e6c0e3eb1bc@infradead.org>
+Date:   Thu, 3 Oct 2019 19:56:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190730212048.164657-1-swboyd@chromium.org>
-References: <20190730212048.164657-1-swboyd@chromium.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Tri Vo <trong@android.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] idr: Document calling context for IDA APIs mustn't use locks
-User-Agent: alot/0.8.1
-Date:   Thu, 03 Oct 2019 14:10:37 -0700
+In-Reply-To: <20191002123305.80012-3-heikki.krogerus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Stephen Boyd (2019-07-30 14:20:47)
-> The documentation for these functions indicates that callers don't need
-> to hold a lock while calling them, but that documentation is only in one
-> place under "IDA Usage". Let's state the same information on each IDA
-> function so that it's clear what the calling context requires.
-> Furthermore, let's document ida_simple_get() with the same information
-> so that callers know how this API works.
->=20
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Cc: Tri Vo <trong@android.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Hi,
+Below are a few doc edits for you.
+
+
+On 10/2/19 5:33 AM, Heikki Krogerus wrote:
+> API documentation for the software nodes.
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > ---
+>  Documentation/driver-api/software_node.rst | 197 +++++++++++++++++++++
+>  1 file changed, 197 insertions(+)
+>  create mode 100644 Documentation/driver-api/software_node.rst
+> 
+> diff --git a/Documentation/driver-api/software_node.rst b/Documentation/driver-api/software_node.rst
+> new file mode 100644
+> index 000000000000..cf8a05c34e9e
+> --- /dev/null
+> +++ b/Documentation/driver-api/software_node.rst
+> @@ -0,0 +1,197 @@
+> +
+> +.. _software_node:
+> +
+> +==============
+> +Software nodes
+> +==============
+> +
+> +Introduction
+> +============
+> +
+> +Software node is a :c:type:`struct fwnode_handle <fwnode_handle>` type,
+> +analogous to the ACPI and DT firmware nodes except that the software nodes are
+> +created in kernel code (hence the name "software" node). The software nodes can
+> +be used to complement fwnodes representing real firmware nodes when they are
+> +incomplete, for example missing device properties, and to supply the primary
+> +fwnode when the firmware lacks hardware description for a device completely.
+> +
+> +NOTE! The primary hardware description should always come from either ACPI
+> +tables or DT. Describing an entire system with software nodes, though possible,
+> +is not acceptable! The software nodes should only complement the primary
+> +hardware description.
+> +
+> +Hierarchy
+> +=========
+> +
+> +The software nodes support hierarchy (i.e. the software nodes can have child
 
-Ping? Can this be picked up, maybe into the doc tree?
+I would s/child/children/
 
+> +software nodes and a parent software node) just like ACPI and DT firmware nodes,
+> +but there is no dedicated root software node object. It means that a software
+> +node at the root level does not have a parent.
+> +
+> +Note! Only other software nodes can be children and the parent for a software
+> +node.
+> +
+> +Device properties
+> +=================
+> +
+> +The software node device properties are described with :c:type:`struct
+> +property_entry <property_entry>`. When a software node is created that has
+> +device properties, it is supplied with a zero terminated array of property
+> +entries. Normally the properties are described with helper macros::
+> +
+> +	static const u8 u8_array[] = { 0, 1, 2, 3 };
+> +	static const u16 u16_array[] = { 0, 1, 2, 3 };
+> +	static const u32 u32_array[] = { 0, 1, 2, 3 };
+> +	static const u64 u64_array[] = { 0, 1, 2, 3 };
+> +
+> +	static const struct property_entry my_props[] = {
+> +		PROPERTY_ENTRY_U8_ARRAY("u8_array_example", u8_array),
+> +		PROPERTY_ENTRY_U16_ARRAY("u16_array_example", u16_array),
+> +		PROPERTY_ENTRY_U32_ARRAY("u32_array_example", u32_array),
+> +		PROPERTY_ENTRY_U64_ARRAY("u64_array_example", u64_array),
+> +		PROPERTY_ENTRY_U8("u8_example", 0xff),
+> +		PROPERTY_ENTRY_U16("u16_example", 0xffff),
+> +		PROPERTY_ENTRY_U32("u32_example", 0xffffffff),
+> +		PROPERTY_ENTRY_U64("u64_example", 0xffffffffffffffff),
+> +		PROPERTY_ENTRY_STRING("string_example", "string"),
+> +		{ }
+> +	};
+> +
+> +Note! If "build-in" device properties are supplied to already existing device
+
+            "built-in"
+
+> +entries by using :c:func:`device_add_properties`, a software node is actually
+> +created for that device. That software node is just assigned to the device
+> +automatically in the function.
+> +
+> +Usage
+> +=====
+> +
+> +Node creation
+> +-------------
+> +
+> +Static nodes
+> +~~~~~~~~~~~~
+> +
+> +In a normal case the software nodes are described statically with
+> +:c:type:`struct software_node <software_node>`, and then registered with
+> +:c:func:`software_node_register`. Usually there is more then one software node
+
+                                                           than
+
+> +that needs to be registered. A helper :c:func:`software_node_register_nodes`
+> +registers a zero terminated array of software nodes::
+> +
+> +	static const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_STRING("foo", "bar"),
+> +		{ }
+> +	};
+> +
+> +	static const struct software_node my_nodes[] = {
+> +		{ "grandparent" },		/* no parent nor properties */
+> +		{ "parent", &my_nodes[0] },	/* parent, but no propreties */
+
+		                                                  properties
+
+> +		{ "child", &my_nodes[1], props }, /* parent and properties */
+> +		{ }
+> +	};
+> +
+> +	static int my_init(void)
+> +	{
+> +		return software_node_register_nodes(my_nodes);
+> +	}
+> +
+> +Note! The above example names the nodes "grandparent", "parent" and "child", but
+> +the software nodes don't actually have to be named. If no name is supplied for a
+> +software node when it's being registered, the API names the node "node<n>" where
+> +<n> is index number.
+> +
+> +Dynamic nodes
+> +~~~~~~~~~~~~~
+> +
+> +The Quick (and dirty) method. A software node can be created on the fly with
+> +:c:func:`fwnode_create_software_node`. The nodes create "on-the-fly" don't
+
+                                                    created
+
+> +differ from statically described software nodes in any way, but for now the API
+> +does not support naming of these nodes::
+> +
+> +	static const struct property_entry my_props[] = {
+> +		PROPERTY_ENTRY_STRING("foo", "bar"),
+> +		{ }
+> +	};
+> +
+> +	static int my_init(void)
+> +	{
+> +		struct fwnode_handle *fwnode;
+> +
+> +		/* Software node without a parent. */
+> +		fwnode = fwnode_create_software_node(my_props, NULL);
+> +		if (IS_ERR(fwnode))
+> +			return PTR_ERR(fwnode);
+> +
+> +		return -1;
+> +	}
+> +
+> +Linking software nodes with the device (struct device) entries
+> +--------------------------------------------------------------
+> +
+> +Ideally the software node should be assigned to the device entry before the
+> +device is registered (just like any other fwnode).
+> +
+> +When the software node is the primary fwnode for the device, the fwnode of the
+> +device needs to simply point to the software node fwnode. Using a helper
+> +:c:func:`software_node_fwnode` in the following example::
+> +
+> +	static const struct software_node my_node = {
+> +		.name = "thenode",
+> +	};
+> +
+> +	static int my_init(void)
+> +	{
+> +		struct device my_device = { };
+> +		int ret;
+> +
+> +		ret = software_node_register(my_node);
+> +		if (ret)
+> +			return ret;
+> +
+> +		device_initialize(&my_device);
+> +		dev_set_name(&my_device, "thedevice")
+> +
+> +		my_device.fwnode = software_node_fwnode(swnode);
+> +
+> +		return device_add(&my_device);
+> +	}
+> +
+> +When the software node is the secondary fwnode for a device, i.e. the device has
+> +either ACPI or DT (or something else) firmware node as the primary fwnode, the
+> +node should be assigned with :c:func:`set_secondary_fwnode`. If the
+> +``secondary`` member of the primary fwnode needs to be manually made to point
+> +to the software node, the code needs to make sure that the ``secondary`` member
+> +of the software node fwnode points to a specific value of ``ERR_PTR(-ENODEV)``::
+> +
+> +	struct fwnode_handle *fwnode = software_node_fwnode(swnode);
+> +
+> +	fwnode->secondary = ERR_PTR(-ENODEV);
+> +	dev->fwnode->secondary = fwnode;
+> +
+> +Note! There is no requirement to bind a software node with a device entry, i.e.
+> +having "sub-nodes" that represent for example certain resources the parent
+> +software node has is not a problem.
+> +
+> +Node References
+> +---------------
+> +
+> +TODO
+> +
+> +Device graph
+> +------------
+> +
+> +TODO
+> +
+> +API
+> +===
+> +
+> +.. kernel-doc:: include/linux/property.h
+> +   :internal: software_node
+> +
+> +.. kernel-doc:: include/linux/fwnode.h
+> +   :internal: fwnode_handle
+> +
+> +.. kernel-doc:: drivers/base/core.c
+> +   :functions: set_secondary_fwnode
+> +
+> +.. kernel-doc:: drivers/base/swnode.c
+> +   :functions: is_software_node is_software_node software_node_fwnode software_node_find_by_name software_node_register_nodes software_node_unregister_nodes software_node_register software_node_register fwnode_create_software_node fwnode_remove_software_node
+> 
+
+Thanks for the doc.
+-- 
+~Randy
