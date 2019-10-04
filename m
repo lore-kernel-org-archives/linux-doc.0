@@ -1,115 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 277F97D912
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 19:06:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6399B7D981
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 19:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbfJDTF6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 15:05:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59670 "EHLO
+        id S1730246AbfJDTHY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 15:07:24 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59748 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727308AbfJDTF6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 15:05:58 -0400
+        with ESMTP id S1727308AbfJDTHY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 15:07:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QGZliJPdlDlOK0+RDUjxm98who5ohoRGUY2ZZORyQ20=; b=qNkouME7U+pyHYhrMM3I2Nag1
-        93AClDEkSBtJlN/W502nuojhXI4S7ERF7b65ZLm8kBIVDNH3GMfRHjqB50JDGPy7Z3ey2ddW5hkUk
-        aiRXq5gfNxXAc7DzZgAioYE4gwCQkkM2leNt6wWsTk0l6h9/+iXsoUI+++OpCUnmLeTxP/6aJG4vr
-        R2DI77bcMEJpb2g0iK49FwrIwL6rBZUUZPvun/8QEv1jT6MADJq+snKCty7O1kjnre1pIidqnjGMt
-        EU8NJbiGZG6K/SjKymQCy0gGLdS5hT+goIR8uWz+5jvSpm0+fqVniBmVUjEeC45Cz2QsCRaj7Xu8k
-        CSFWmHHSw==;
-Received: from 179.187.109.114.dynamic.adsl.gvt.net.br ([179.187.109.114] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iGStm-0004nf-Cf; Fri, 04 Oct 2019 19:05:54 +0000
-Date:   Fri, 4 Oct 2019 16:05:48 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     Michael =?UTF-8?B?QsO8c2No?= <m@bues.ch>,
-        linux-gpio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: driver-api: bt8xxgpio: Revive dead link
-Message-ID: <20191004160548.2250de01@coco.lan>
-In-Reply-To: <20191004191417.09088c38@wiggum>
-References: <20191004164059.10397-1-j.neuschaefer@gmx.net>
-        <20191004164059.10397-2-j.neuschaefer@gmx.net>
-        <20191004191417.09088c38@wiggum>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+         bh=7gattgm+JvBkKytQq1U5t6bSLwzlmt3/1F4dY6lkecs=; b=KQAWFSXenFYeworaI57NHtkR8
+        HF8/ZTI2KYgmwCwj6wTesPxAb56ku2VXonNWWuFtuPWklADPs5fYVPxcw3IrLQWSxFlEtc9+7LFFE
+        dmpjCwm66SxM46bTzg6Be9eN481ynzQLVmWKDfq/UnC+JXIVYi3GxB56gGoTaqF/vPitr5DHSVklR
+        q3HnJhbT8UvP7gKeF6PmxceI+yKY1hTWusaHcLtDlE0GpAqN5K8JhZniEqryJKC0T5AhsXI+hq5Ql
+        5I5tExSqI7ok2POseN8ZlviSxTcfzAtqFd2+XkbEoyxn6Qkmn+6/sDjKeMI/wlantNw90K6ZGpFs9
+        6VVQ+v8eg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iGSvD-0004t7-V0; Fri, 04 Oct 2019 19:07:23 +0000
+Date:   Fri, 4 Oct 2019 12:07:23 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: remove :c:func: from genericirq.rst
+Message-ID: <20191004190723.GJ32665@bombadil.infradead.org>
+References: <20191004163955.14419-1-corbet@lwn.net>
+ <20191004163955.14419-2-corbet@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004163955.14419-2-corbet@lwn.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 4 Oct 2019 19:14:17 +0200
-Michael B=C3=BCsch <m@bues.ch> escreveu:
+On Fri, Oct 04, 2019 at 10:39:54AM -0600, Jonathan Corbet wrote:
+>  To make the transition to the new model easier and prevent the breakage
+> -of existing implementations, the :c:func:`__do_IRQ` super-handler is still
+> +of existing implementations, the __do_IRQ() super-handler is still
+>  available. This leads to a kind of duality for the time being. Over time
+>  the new model should be used in more and more architectures, as it
+>  enables smaller and cleaner IRQ subsystems. It's deprecated for three
 
-> On Fri,  4 Oct 2019 18:40:56 +0200
-> Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
->=20
-> > www.bu3sch.de has been unusable for several years, but the same
-> > information is available on bues.ch.
-> >=20
-> > Cc: Michael Buesch <m@bues.ch>
-> > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> > ---
-> >  Documentation/driver-api/gpio/bt8xxgpio.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/driver-api/gpio/bt8xxgpio.rst b/Documentatio=
-n/driver-api/gpio/bt8xxgpio.rst
-> > index a845feb074de..d7e75f1234e7 100644
-> > --- a/Documentation/driver-api/gpio/bt8xxgpio.rst
-> > +++ b/Documentation/driver-api/gpio/bt8xxgpio.rst
-> > @@ -2,7 +2,7 @@
-> >  A driver for a selfmade cheap BT8xx based PCI GPIO-card (bt8xxgpio)
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > -For advanced documentation, see http://www.bu3sch.de/btgpio.php
-> > +For advanced documentation, see https://bues.ch/cms/unmaintained/btgpi=
-o.html
-> >=20
-> >  A generic digital 24-port PCI GPIO card can be built out of an ordinary
-> >  Brooktree bt848, bt849, bt878 or bt879 based analog TV tuner card. The
-> > --
-> > 2.20.1
-> >=20
-> >  =20
->=20
-> For both patches:
-> Acked-by: Michael B=C3=BCsch <m@bues.ch>
+...
 
-Hi Jonathan,
+> @@ -369,7 +369,7 @@ handler(s) to use these basic units of low-level functionality.
+>  __do_IRQ entry point
+>  ====================
+>  
+> -The original implementation :c:func:`__do_IRQ` was an alternative entry point
+> +The original implementation __do_IRQ() was an alternative entry point
+>  for all types of interrupts. It no longer exists.
 
-Those drivers don't really belong to the media subsystem (although they are
-for a media device), so you don't need my ack. Yet, both patches look
-good to me, so, for both:
+I think someone needs to rationalise these two paragraphs ;-)
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
->=20
-> If you want, you can use the short-URL:
-> https://bues.ch/u/btgpio
->=20
-
-
-
-Thanks,
-Mauro
+__do_IRQ indeed no longer exists (since 2011).  It should probably be
+removed from the documentation too.
