@@ -1,113 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E06437D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 21:59:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 054A77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 22:21:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731002AbfJDV71 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 17:59:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39944 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730131AbfJDV71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 17:59:27 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2D2021D81;
-        Fri,  4 Oct 2019 21:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570226366;
-        bh=W73YLXhXs87A3g1korb/FdZux/uM+XbdVy58joNqtAw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=c7fOk7RUHivPSo4Br+sR7Ulb8toFXC/ZDyjo7M4McI2vK/fU2u5yUL6sgZqCG9/0N
-         ojFH2VfZcCuNDqHBacwdU9j3hm2X7p3FAwv0T6qBCIoIakX+ukDWwwzuMnkOhquBaJ
-         BRLuBCpyg/Pa+cLfW2XKs0phXp09dZr4S7bAKusM=
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        kieran.bingham@ideasonboard.com,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, robh@kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>, Tim.Bird@sony.com,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, jdike@addtoit.com,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        shuah <shuah@kernel.org>
-References: <20190923090249.127984-1-brendanhiggins@google.com>
- <20191004213812.GA24644@mit.edu>
- <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
-Date:   Fri, 4 Oct 2019 15:59:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728773AbfJDWVE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 18:21:04 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42946 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728356AbfJDWVE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 18:21:04 -0400
+Received: by mail-lf1-f66.google.com with SMTP id c195so5500202lfg.9
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 15:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9NX5JuTWafrd7iXTgyMS4RoKwJ5yHBPv8xmUFX4nrZA=;
+        b=MQiziV51a+gwItEpIvETwGGmI9QP0PC5GgUZXP/g56eByqgN3NZLQopBV1GRv2Bf3O
+         U8sZhi4oYdp9BmSQN3toekTctMA9R3y6hXVohUHuYjstpKA3eqv2ulSEbAjwGoBXbtR5
+         4XwdUzQsr1XOvxUr51XcmtfeSl1GGHz2QPOWcPL/A+lgIx8EgRx83tJqeUc319yBJiFr
+         tiOH+0i9jZMuoIFCNAKKcgrhpB52LNBLj/x9F/yYhwEasRC0f94CKAWg/yS/0qOYsW+B
+         UzCRpmdTQ1XF5zhwp6wMByySoDX1m3Jz2OI7Zz+uP8mDLmKkQklsdlVlvHM6UIhDP7Ah
+         waKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9NX5JuTWafrd7iXTgyMS4RoKwJ5yHBPv8xmUFX4nrZA=;
+        b=MBkoJRxNATLPpd/qYMSga1ME1Qe0iAgWLr5uwebVEl9yLNeAwJLEv7Oa7/5qxb+OdB
+         YOPfnIm8qcMQByJfco2vLTZ7gHc2HWRMVHTfl5IDx08OiJZFdp0y8tFkZ7iPYN/aLsUu
+         f6YgZ5DI4ptj8Y1IOxAtiudlHpfIJ8c2M8dFI9Eq1WqSAelYi1exaI0gZ5U4LHMunKgK
+         +rjqBxCDIDNtm+3SC5yQvwU5mc2I64sQsO4E7QeTciQiqLJAjHUkvHmVM1caVi9WOqBZ
+         peHInN6kesso5fHOvxSiHX6hT0aE6bOKuzpR1yaylqtcYFcxEuQeqeaTe7I65r49prwB
+         UrNA==
+X-Gm-Message-State: APjAAAVPyVQjVrp/oDW8knVE+zlE6T6Mmw8mb994IJ02cVHDIYfK8YkC
+        V6C2LGiRLPsA0ClkYxfq/kgmWXTIZWuZzKx3A4A8sg==
+X-Google-Smtp-Source: APXvYqxO/Wj6yEjUFPz44eOAVE0OIWbXwEw1qgTNOC8kPeD8B+ai3ePplrGXWyqLgU0QgY9MZ/8+S34Igmsja/QXRvg=
+X-Received: by 2002:a19:48c3:: with SMTP id v186mr10232582lfa.141.1570227662211;
+ Fri, 04 Oct 2019 15:21:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191002153827.23026-1-j.neuschaefer@gmx.net> <CACRpkdZ0ekYtZ4bZ-A4NZN6HO6XJzwpdZ_HjUL=FoWfG08UBtg@mail.gmail.com>
+ <CACRpkdYDuAx6OhFYiXT+79a1NphtfPQfyY=o7jKi0Bas5vr7+g@mail.gmail.com> <20191003151555.64qabct3jmd74ypi@gilmour>
+In-Reply-To: <20191003151555.64qabct3jmd74ypi@gilmour>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 5 Oct 2019 00:20:50 +0200
+Message-ID: <CACRpkdaOxKPd2CrB4F7QQasov85C83f3NEqS8TvrzKXiC8-+uQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/mcde: Fix reference to DOC comment
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/4/19 3:42 PM, Linus Torvalds wrote:
-> On Fri, Oct 4, 2019 at 2:39 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
->>
->> This question is primarily directed at Shuah and Linus....
->>
->> What's the current status of the kunit series now that Brendan has
->> moved it out of the top-level kunit directory as Linus has requested?
-> 
+On Thu, Oct 3, 2019 at 5:15 PM Maxime Ripard <mripard@kernel.org> wrote:
 
-The move happened smack in the middle of merge window and landed in
-linux-next towards the end of the merge window.
+> > > > Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE=
+")
+> > > > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+> > >
+> > > Both patches applied!
+> >
+> > ...but I can't push the changes:
+> >
+> > $ dim push-branch drm-misc-next
+> > dim: 9fa1f9734e40 ("Revert "drm/sun4i: dsi: Change the start delay
+> > calculation""): committer Signed-off-by missing.
+> > dim: ERROR: issues in commits detected, aborting
+> >
+> > Not even my commit, apart from that it looks like it does have
+> > the committer Signed-off-by. I'm confused and don't know what
+> > to do... anyone has some hints?
+>
+> Yeah, it's pretty weird, I just pushed without any trouble.
+>
+> Did you rebase or something?
 
-> We seemed to decide to just wait for 5.5, but there is nothing that
-> looks to block that. And I encouraged Shuah to find more kunit cases
-> for when it _does_ get merged.
-> 
+Nope... even tried to reset hard to origin :/
 
-Right. I communicated that to Brendan that we could work on adding more
-kunit based tests which would help get more mileage on the kunit.
+I guess just try again...
 
-> So if the kunit branch is stable, and people want to start using it
-> for their unit tests, then I think that would be a good idea, and then
-> during the 5.5 merge window we'll not just get the infrastructure,
-> we'll get a few more users too and not just examples.
-> 
-thanks,
--- Shuah
+Yours,
+Linus Walleij
