@@ -1,182 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 18B957D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 15:23:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 981787D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 15:34:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389808AbfJDPXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 11:23:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57722 "EHLO mail.kernel.org"
+        id S2389445AbfJDPeS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 11:34:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60292 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389591AbfJDPXR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Oct 2019 11:23:17 -0400
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S2389318AbfJDPeS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Oct 2019 11:34:18 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1227B2133F;
-        Fri,  4 Oct 2019 15:23:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 396A720873;
+        Fri,  4 Oct 2019 15:34:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570202596;
-        bh=fpWPXT8ggD/e+pn1BYIuXjDg5w4o0wtetCOExwO2jKI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1HC8jaPP2G0MWAWxaAFL2+tq5ciAJ4x5mOg5CSEB8t19cEmbXeVfBzU87NzEzJYzU
-         /Z91Kt7mxYJejs3+VaDuSOptlGlIevhRK1zWaCkW9zPUgRvyhZzxjiGmh7mKcoePT9
-         drAO1mvoLrPQRMzwDU31x5pbXSxRgdfEwW1SGYRw=
-Received: by mail-qt1-f176.google.com with SMTP id 3so9098238qta.1;
-        Fri, 04 Oct 2019 08:23:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAXSUdn19LnA+gvVYyJGm+dif/8LIaeRGUIF1pyZCbB5VdZYaHdB
-        S+/lz17ghZtQt6pvBApR4swTmCuGFozzIjf8gg==
-X-Google-Smtp-Source: APXvYqyMEEXcNS7O6u6Diqt8pCgl45a2tKKmM4tc+3EtuFfs+n4HBWeELngFdSwx5uOrLCiy+N5MR6jFrVyyPKoQlLc=
-X-Received: by 2002:ac8:6982:: with SMTP id o2mr16440439qtq.143.1570202595162;
- Fri, 04 Oct 2019 08:23:15 -0700 (PDT)
+        s=default; t=1570203256;
+        bh=0xz0v9CS90Mf5SnJsRIjoR0Jp0BEQdT9kMWX10qH82k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=y3oy5JYQ+cihYLJ2Bu+FaM7G8smtISpSqtlSC7M060J+ceVEI4eeNN19m4Jjwvb/y
+         4JQ9N4DnypAMta9u2EefrUo+KPJ3J9ipiZBJ8YwRvPJ+JSMkD4U1bvV/DnuLEEtepF
+         vX0JbYsgPj98yzWCzr8zbRKS79Kv+63IugMHKlBU=
+Date:   Fri, 4 Oct 2019 17:34:14 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        David Collins <collinsd@codeaurora.org>,
+        kernel-team@android.com
+Subject: Re: [PATCH v11 0/6] Solve postboot supplier cleanup and optimize
+ probe ordering
+Message-ID: <20191004153414.GA823823@kroah.com>
+References: <20190904211126.47518-1-saravanak@google.com>
 MIME-Version: 1.0
-References: <20190924124945.491326-1-nuno.sa@analog.com> <20190924124945.491326-4-nuno.sa@analog.com>
- <20191002002331.GA17502@bogus> <a85b33d3cd24b4225e4be3a25221f9c56cdcca5c.camel@analog.com>
- <CAL_JsqJPFfUmOOQ-f_ibbTXdzgYxYMf2+7HCq2eBn_MkfRsdbQ@mail.gmail.com> <eec33c7156674770ca2f3033baed76c0e05a8587.camel@analog.com>
-In-Reply-To: <eec33c7156674770ca2f3033baed76c0e05a8587.camel@analog.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 4 Oct 2019 10:23:03 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK6oC1VFb4ni9pn9a=sfxWK9pAmBBgajpZwad5udFkPoA@mail.gmail.com>
-Message-ID: <CAL_JsqK6oC1VFb4ni9pn9a=sfxWK9pAmBBgajpZwad5udFkPoA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: iio: Add ltc2947 documentation
-To:     "Sa, Nuno" <Nuno.Sa@analog.com>
-Cc:     "linux@roeck-us.net" <linux@roeck-us.net>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190904211126.47518-1-saravanak@google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 4, 2019 at 9:59 AM Sa, Nuno <Nuno.Sa@analog.com> wrote:
->
-> Hi Rob,
->
-> Just wanted to clarify something which I don't know if is something I'm
-> doing wrong or if it is some issue.
->
-> On Wed, 2019-10-02 at 14:06 -0500, Rob Herring wrote:
-> >
-> > On Wed, Oct 2, 2019 at 10:09 AM Sa, Nuno <Nuno.Sa@analog.com> wrote:
-> > > On Wed, 2019-10-02 at 09:19 -0500, Rob Herring wrote:
-> > > > On Tue, Sep 24, 2019 at 02:49:45PM +0200, Nuno S=C3=A1 wrote:
-> > > > > Document the LTC2947 device devicetree bindings.
-> > > > >
-> > > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > > > ---
-> > > > >  .../bindings/hwmon/adi,ltc2947.yaml           | 101
-> > > > > ++++++++++++++++++
-> > > > >  MAINTAINERS                                   |   1 +
-> > > > >  2 files changed, 102 insertions(+)
-> > > > >  create mode 100644
-> > > > > Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > > >
-> > > > > diff --git
-> > > > > a/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > > > b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..2ea0187421d4
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-> > > > > @@ -0,0 +1,101 @@
-> > > >
-> > > > Missing license. Please make new bindings (GPL-2.0-only OR BSD-2-
-> > > > Clause)
-> > >
-> > > ack.
-> > >
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id:
-> > > > > http://devicetree.org/schemas/bindings/hwmon/adi,ltc2947.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Analog Devices LTC2947 high precision power and energy
-> > > > > monitor
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > > > +
-> > > > > +description: |
-> > > > > +  Analog Devices LTC2947 high precision power and energy
-> > > > > monitor
-> > > > > over SPI or I2C.
-> > > > > +
-> > > > > +
-> > > > > https://www.analog.com/media/en/technical-documentation/data-shee=
-ts/LTC2947.pdf
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - adi,ltc2947
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    description:
-> > > > > +      The LTC2947 uses either a trimmed internal oscillator or
-> > > > > an
-> > > > > external clock
-> > > > > +      as the time base for determining the integration period
-> > > > > to
-> > > > > represent time,
-> > > > > +      charge and energy. When an external clock is used, this
-> > > > > property must be
-> > > > > +      set accordingly.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  adi,accumulator-ctl-pol:
-> > > > > +    description:
-> > > > > +      This property controls the polarity of current that is
-> > > > > accumulated to
-> > > > > +      calculate charge and energy so that, they can be only
-> > > > > accumulated for
-> > > > > +      positive current for example. Since there are two sets
-> > > > > of
-> > > > > registers for
-> > > > > +      the accumulated values, this entry can also have two
-> > > > > items
-> > > > > which sets
-> > > > > +      energy1/charge1 and energy2/charger2 respectively. Check
-> > > > > table 12 of the
-> > > > > +      datasheet for more information on the supported options.
-> > > > > +    allOf:
-> > > > > +      - $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > > > +      - enum: [0, 1, 2, 3]
-> > > > > +      - minItems: 2
-> > > > > +      - maxItems: 2
-> > > > > +    default: [0, 0]
-> > > >
-> > > > This should be:
-> > > >
-> > > > allOf:
-> > > >   - $ref: ...
-> > > > items:
-> > > >   enum: [0, 1, 2, 3]
-> > > >   default: 0
-> > > > minItems: 2
-> > > > maxItems: 2
->
-> When trying the above I get:
->
-> "ltc2947@0: adi,accumulator-ctl-pol:0: [0, 1] is not valid under any of
-> the given schemas"
+On Wed, Sep 04, 2019 at 02:11:19PM -0700, Saravana Kannan wrote:
+> Add device-links to track functional dependencies between devices
+> after they are created (but before they are probed) by looking at
+> their common DT bindings like clocks, interconnects, etc.
+> 
+> Having functional dependencies automatically added before the devices
+> are probed, provides the following benefits:
+> 
+> - Optimizes device probe order and avoids the useless work of
+>   attempting probes of devices that will not probe successfully
+>   (because their suppliers aren't present or haven't probed yet).
+> 
+>   For example, in a commonly available mobile SoC, registering just
+>   one consumer device's driver at an initcall level earlier than the
+>   supplier device's driver causes 11 failed probe attempts before the
+>   consumer device probes successfully. This was with a kernel with all
+>   the drivers statically compiled in. This problem gets a lot worse if
+>   all the drivers are loaded as modules without direct symbol
+>   dependencies.
+> 
+> - Supplier devices like clock providers, interconnect providers, etc
+>   need to keep the resources they provide active and at a particular
+>   state(s) during boot up even if their current set of consumers don't
+>   request the resource to be active. This is because the rest of the
+>   consumers might not have probed yet and turning off the resource
+>   before all the consumers have probed could lead to a hang or
+>   undesired user experience.
+> 
+>   Some frameworks (Eg: regulator) handle this today by turning off
+>   "unused" resources at late_initcall_sync and hoping all the devices
+>   have probed by then. This is not a valid assumption for systems with
+>   loadable modules. Other frameworks (Eg: clock) just don't handle
+>   this due to the lack of a clear signal for when they can turn off
+>   resources. This leads to downstream hacks to handle cases like this
+>   that can easily be solved in the upstream kernel.
+> 
+>   By linking devices before they are probed, we give suppliers a clear
+>   count of the number of dependent consumers. Once all of the
+>   consumers are active, the suppliers can turn off the unused
+>   resources without making assumptions about the number of consumers.
+> 
+> By default we just add device-links to track "driver presence" (probe
+> succeeded) of the supplier device. If any other functionality provided
+> by device-links are needed, it is left to the consumer/supplier
+> devices to change the link when they probe.
 
-Is dtschema up to date with the latest. I think I fixed this case
-recently, though with the wonderful json-schema errors it is hard to
-tell.
+Hearing no real complaints again, I've now queued these up in my tree.
 
-Rob
+thanks,
+
+greg k-h
