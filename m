@@ -1,185 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E62037D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 10:59:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08F3C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Oct 2019 12:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730745AbfJDK65 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Oct 2019 06:58:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12840 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730678AbfJDK65 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 06:58:57 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x94AvL10128824
-        for <linux-doc@vger.kernel.org>; Fri, 4 Oct 2019 06:58:56 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ve3uejg93-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 06:58:56 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <borntraeger@de.ibm.com>;
-        Fri, 4 Oct 2019 11:58:54 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 4 Oct 2019 11:58:50 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x94AwnqI14549082
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 4 Oct 2019 10:58:49 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9C4464C063;
-        Fri,  4 Oct 2019 10:58:49 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4ABE84C05C;
-        Fri,  4 Oct 2019 10:58:49 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  4 Oct 2019 10:58:49 +0000 (GMT)
-Subject: Re: [PATCH v3] docs: Use make invocation's -j argument for
- parallelism
-From:   Christian Borntraeger <borntraeger@de.ibm.com>
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <201909241627.CEA19509@keescook>
- <0d2433cc-8f97-174f-4835-1fead9e7fe16@de.ibm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- syiRa+UVlsKmx1hsEg==
-Date:   Fri, 4 Oct 2019 12:58:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728962AbfJDMEv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Oct 2019 08:04:51 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33081 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbfJDMEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Oct 2019 08:04:51 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b9so6899398wrs.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2019 05:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=suth/yl7C9uDuKnFfHGvtaLYw1nAU2JE6foMZrBU1qQ=;
+        b=u7JSTFaB3+6rww5bw+3zAh8GYbUYNGvNJBk1J9hUrtPLM7vZElrKeGjaaUd1XJ8PDd
+         euAnU9ckEGTlg7UuDgpIborMmJESaMf9DasD+8yHhFRglwvviGUjeXTpNSZaoXjIAXUU
+         Im3yyNR3PSVhsLhSW3KBut6GiRLjRlEx8HBXG7tTyUYdj6+glb3/aShDgyR8hscPSZ7t
+         s1lEPWbGZ0Vclg5qDq14T1u/BJbqXNN2WwxgVILo1ebNKtqAUauCdBqEKXRONWDpIFq/
+         TcNXNspgq3oSHlbs/GcR1NeqUhZsD6YLQvRCz16zvaVNMHCPleM68EET/mVU8eGscQ50
+         Q+XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=suth/yl7C9uDuKnFfHGvtaLYw1nAU2JE6foMZrBU1qQ=;
+        b=S20JqKQWM77mGM45pxTdJySKAe/crWHeriQy1ePoHFD7QpJP5ZSgo6EFfk4Ydkb41/
+         Rbowo3o+YTFAPAuzXeE8+hJ4KeG58i4oHFt2wZLZ4C/aUREFE3PBoh2vVRCKc3v8rvJO
+         o4ZMg3wqmJ72fsTCakKcVR7fqkqX3uLq5+ztAQwkgH0z0PHJXUDjHmKXb23eUzxM6ySY
+         GoZHGxYotaQSVm40m6ifPstZ2zQ7gOPctWY/kpGLrjIVxdcVvc2bz4cUP8bTGqVcWQE2
+         SqPj7S0BjQ34djOhHgfr/xRAKv9i2CA8MwqGxcepZlPHx+ImMqPexCfjaMZnUzuTvupc
+         SMow==
+X-Gm-Message-State: APjAAAWfQuv3hNoHJ9uAdY45wwd+vOVToTTg4tR+bTk+lTpPgGVUtl2E
+        5REVBEbjugCY+1yffXnXTgzSfg==
+X-Google-Smtp-Source: APXvYqyY9s67nKyPhoAmHbDhr4NeD9R/VMYYs5ICoX9odFWy6lJ8OkI9K04wXpCG7oQAaWEbrkuGtw==
+X-Received: by 2002:adf:f58c:: with SMTP id f12mr8665663wro.38.1570190687975;
+        Fri, 04 Oct 2019 05:04:47 -0700 (PDT)
+Received: from sudo.home ([2a01:cb1d:112:6f00:b51e:3d9d:ec16:def5])
+        by smtp.gmail.com with ESMTPSA id f8sm5019628wmb.37.2019.10.04.05.04.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 Oct 2019 05:04:47 -0700 (PDT)
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Will Deacon <will.deacon@arm.com>
+Subject: [RFC/RFT PATCH 09/16] arm64: Provide a command line to disable spectre_v2 mitigation
+Date:   Fri,  4 Oct 2019 14:04:23 +0200
+Message-Id: <20191004120430.11929-10-ard.biesheuvel@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191004120430.11929-1-ard.biesheuvel@linaro.org>
+References: <20191004120430.11929-1-ard.biesheuvel@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <0d2433cc-8f97-174f-4835-1fead9e7fe16@de.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19100410-0020-0000-0000-00000374F88F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100410-0021-0000-0000-000021CB076B
-Message-Id: <db3becb5-805f-b215-6c37-7b4db1fbd72f@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-04_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=829 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910040103
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Jeremy Linton <jeremy.linton@arm.com>
 
+There are various reasons, such as benchmarking, to disable spectrev2
+mitigation on a machine. Provide a command-line option to do so.
 
-On 04.10.19 10:04, Christian Borntraeger wrote:
-> 
-> On 25.09.19 01:29, Kees Cook wrote:
->> While sphinx 1.7 and later supports "-jauto" for parallelism, this
->> effectively ignores the "-j" flag used in the "make" invocation, which
->> may cause confusion for build systems. Instead, extract the available
->> parallelism from "make"'s job server (since it is not exposed in any
->> special variables) and use that for the "sphinx-build" run. Now things
->> work correctly for builds where -j is specified at the top-level:
->>
->> 	make -j16 htmldocs
->>
->> If -j is not specified, continue to fallback to "-jauto" if available.
->>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> ---
->> v3: python2, specific exceptions, correct SPDX, blocking writer
->> v2: retain "-jauto" default behavior with top-level -j is missing.              
-> [...]
->> diff --git a/scripts/jobserver-count b/scripts/jobserver-count
->> new file mode 100755
->> index 000000000000..0b482d6884d2
->> --- /dev/null
->> +++ b/scripts/jobserver-count
->> @@ -0,0 +1,58 @@
->> +#!/usr/bin/env python
-> 
-> 
-> This breaks our daily linux-next build for an fedora 30 rpm on s390x:
-> 
-> + /usr/lib/rpm/redhat/brp-mangle-shebangs
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/profile2linkerlist.pl from /usr/bin/env perl to #!/usr/bin/perl
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/headerdep.pl from /usr/bin/env perl to #!/usr/bin/perl
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/package/buildtar from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/package/builddeb from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/package/mkspec from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/package/mkdebian from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/checksyscalls.sh from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/gen_ksymdeps.sh from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/makelst from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/checkversion.pl from /usr/bin/env perl to #!/usr/bin/perl
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/gcc-plugin.sh from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/gfp-translate from /bin/bash to #!/usr/bin/bash
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/tags.sh from /bin/bash to #!/usr/bin/bash
-> *** ERROR: ambiguous python shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/jobserver-count: #!/usr/bin/env python. Change it to python3 (or python2) explicitly.
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/adjust_autoksyms.sh from /bin/sh to #!/usr/bin/sh
-> mangling shebang in /usr/src/kernels/5.4.0-20191004.rc1.git155.311ef88adfa3.301.fc30.s390x+next/scripts/kernel-doc from /usr/bin/env perl to #!/usr/bin/perl
-> [...]
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+(cherry picked from commit e5ce5e7267ddcbe13ab9ead2542524e1b7993e5a)
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+ arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-
-Ok, adding something like 
-
-+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" scripts/jobserver-count
-
-to the spec file fixed the problem. 
-
-Question is, if we want to make the python version more specific or not.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e8ddf0ef232e..cc2f5c9a8161 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2866,10 +2866,10 @@
+ 			(bounds check bypass). With this option data leaks
+ 			are possible in the system.
+ 
+-	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
+-			(indirect branch prediction) vulnerability. System may
+-			allow data leaks with this option, which is equivalent
+-			to spectre_v2=off.
++	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
++			the Spectre variant 2 (indirect branch prediction)
++			vulnerability. System may allow data leaks with this
++			option.
+ 
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 3758ba538a43..5a7fa90c668f 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -189,6 +189,14 @@ static void qcom_link_stack_sanitization(void)
+ 		     : "=&r" (tmp));
+ }
+ 
++static bool __nospectre_v2;
++static int __init parse_nospectre_v2(char *str)
++{
++	__nospectre_v2 = true;
++	return 0;
++}
++early_param("nospectre_v2", parse_nospectre_v2);
++
+ static void
+ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ {
+@@ -200,6 +208,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+ 		return;
+ 
++	if (__nospectre_v2) {
++		pr_info_once("spectrev2 mitigation disabled by command line option\n");
++		return;
++	}
++
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return;
+ 
+-- 
+2.20.1
 
