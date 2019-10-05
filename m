@@ -1,96 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AF0B7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 20:02:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4742E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 21:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729794AbfJEUB5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Oct 2019 16:01:57 -0400
-Received: from mout.gmx.net ([212.227.17.21]:40579 "EHLO mout.gmx.net"
+        id S1725839AbfJEVsc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Oct 2019 17:48:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40674 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727980AbfJEUB4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Oct 2019 16:01:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1570305703;
-        bh=Sd6wnYA5peSeUXZgrCIT4VavGWnDDP0WSYqtpfAm27I=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=CPIKC/3tttXa7O+9qL2uEu0knAoH/GnmjSg+Lbl+Z0W4wmjW+v33/ndqIGmaS/0f2
-         Bq3OCTvd+qoeHsJI733FaGD2VJPOe6TutR9BqY2RkeXxMcLeqQ7rqtCH0FWnGwvFqT
-         /lHj43UYFYxHW2I3SGmW4JLm9I9S4FLNipNhtUgI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1fii-1i5bsl2IB6-011ziw; Sat, 05
- Oct 2019 22:01:43 +0200
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs: w1: Fix SPDX-License-Identifier syntax
-Date:   Sat,  5 Oct 2019 22:01:23 +0200
-Message-Id: <20191005200126.25809-2-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191005200126.25809-1-j.neuschaefer@gmx.net>
-References: <20191005200126.25809-1-j.neuschaefer@gmx.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vEBOidDYkGWn2b+oD9USOnqO+ERK5jkgjnUkCxTovQgwzcIc+t7
- DE31k2Sw3ChwPqaNTGVv+gVQ+xThXl5FRaC/YV0oAOL1cz/9rtzH8KeHoASul5oodZF+GWE
- fEosmgniJxkpq3Sitha1ffmOs3INl+yN3uaTomPw6OtyZOrKA+kbC0dE5nv5gZGlXjeBqN3
- cNQQxQiH03HpvrBccVm0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rM+MbWlQiRw=:6lE+gzGOxQe4A9jSmb2OE+
- nBLLt4QLCfjQTFQMOcgZh0MAJ1wau5sqsfygogY4cFfdlxUyaioeWjqURB1rt6R+V4HCzpm+3
- gdTS1Rrfzi3e85WmbCY1Tqhhk9n7TArXHsBMizxJAblnzmFL9UGOcJ1/OJCGq9wHc24uSLLMg
- 4pMplfYvcs6Xy1GIyrk4RUEwTarOIvU7H+9/tQF5P6tj2/XnFA/GPBk8q55zDNIU8/xsgc91k
- FfGCyjk6v/c1QMKl226uwBxIEVzf4VLxWXhoe53Bgx0vqJWsNL0OjpAFLJw3AIhh9CjlhR7dN
- Ynf52N+HdU7GRrM5Pd/7JajcYKb+dLZJkUfpn//kAsGOLJZ2N+zf41/ClIq6Bsvy6Ljw9dgVk
- SYTPNWhjf9NwrckqTRbiXGs/yKj86tyGZEGgmUPHcJ8N4hXSxoqluPctloqxVUMwl6eswZcU1
- EYoBB63FD9TDTR0SeayJBrD2OVBdKOH4D84COFlv0Ny7xDZELOoJwvrUbKDq2xD9w4RlXW+6S
- takwy2u27M0L8TpLIqomcazeVgwEl+e4rxX5zQ4Igq+NvQkC2PBcC2IyIk+719SFI57mPuuJo
- TNc8OlQhAMW80a6Z2smO+JfMX4EuI55ZR1p3+Tb4jdF8S55sKdunGU3BoECKAoC9Cc9Z+iBKj
- wFzBDVjo2XSpuo7XGYckNc3tex5lDfkKDkRr/PiDrAMXlAdhp+j1LLSgtFhiMVoeGKC4WtN4B
- dJdDeNEAaAbNuK5JrfXXaiiE59DJgD+ci8ynfKg0hjjS3HVTAtgc5sMY4C5K/XPO5dxRGZyXb
- cUQDHLc0FRScg5c2hzNG61XFQvdQ17QaX66CeUu9NGOwUuMC1UMu/u4FQkIFdpxFwKHQBcy3z
- lK+q3E+Kx+6Gp+HVL4Mfv7CYIqQI4V+MwVom09yARTuN8zup9uaIdZy422XWTlL9HRvJl4WXW
- XtG/MrPMk3RJq5JRBwiZmybDu2hr8YF3vdgUXI6nfPvvXi7jO7csnPJNppVo2v6zWlQ3NdBpR
- v0geNRehq5jUI3lg00dLjaYXF0/AjvliMJKrzOYrIun34aVifqdRP6N5QJIKPNOSMN6mMDUpB
- U9hr/ZrOV7P4zWOJ+futIZ1GaJluHrfinwBHOiER+aa26eB1v49Ogj4LbeyyeHc8sEixk/VaF
- LOriwILfHeFCGcXhuXzRMoEI6TCU3pJyh5Ijw//f2LFL6u5+HYL2LV0tzFLUkyRxLCQ8t+IRv
- 3Y17z6PKOhJT9UFLkqLxOL8eYlCKTqaxYx1RbsqbrTCsNa83MUHvjcKzt7Oc=
+        id S1725801AbfJEVsc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Oct 2019 17:48:32 -0400
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 494D0222C0;
+        Sat,  5 Oct 2019 21:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570312111;
+        bh=HNhRg9C+uT8munplm6gItEmqRk2fzoMeetuPUipn458=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=09sGzm+TkX4yptOvFcUZkbVIfYJVinR8FNqinr3BNuPCm9QnXgBl25ss/I51or6+n
+         dRjZCJYRrB9O7ZgSvm/k/Yca6R4Vzq6Hfk2pmpWSeYNfMan5hE+i4HKKh8zpVGNvY2
+         djLeN5GjdXIwt/0F+3LNDkESxOLCJdgIJLWz4fS8=
+Date:   Sat, 5 Oct 2019 14:48:30 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Joe Perches <joe@perches.com>, Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        linux-doc@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v3] printf: add support for printing symbolic error
+ codes
+Message-Id: <20191005144830.f94bc9d63001981c5eefe875@linux-foundation.org>
+In-Reply-To: <20190917065959.5560-1-linux@rasmusvillemoes.dk>
+References: <20190909203826.22263-1-linux@rasmusvillemoes.dk>
+        <20190917065959.5560-1-linux@rasmusvillemoes.dk>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ReST directives are introduced with two dots.
+On Tue, 17 Sep 2019 08:59:59 +0200 Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/w1/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> It has been suggested several times to extend vsnprintf() to be able
+> to convert the numeric value of ENOSPC to print "ENOSPC". This is yet
+> another attempt. Rather than adding another %p extension, simply teach
+> plain %p to convert ERR_PTRs. While the primary use case is
+> 
+>   if (IS_ERR(foo)) {
+>     pr_err("Sorry, can't do that: %p\n", foo);
+>     return PTR_ERR(foo);
+>   }
+> 
+> it is also more helpful to get a symbolic error code (or, worst case,
+> a decimal number) in case an ERR_PTR is accidentally passed to some
+> %p<something>, rather than the (efault) that check_pointer() would
+> result in.
+> 
+> With my embedded hat on, I've made it possible to remove this.
+> 
+> I've tested that the #ifdeffery in errcode.c is sufficient to make
+> this compile on arm, arm64, mips, powerpc, s390, x86 - I'm sure the
+> 0day bot will tell me which ones I've missed.
+> 
+> The symbols to include have been found by massaging the output of
+> 
+>   find arch include -iname 'errno*.h' | xargs grep -E 'define\s*E'
+> 
+> In the cases where some common aliasing exists
+> (e.g. EAGAIN=EWOULDBLOCK on all platforms, EDEADLOCK=EDEADLK on most),
+> I've moved the more popular one (in terms of 'git grep -w Efoo | wc)
+> to the bottom so that one takes precedence.
 
-diff --git a/Documentation/w1/index.rst b/Documentation/w1/index.rst
-index 57cba81865e2..156279f17553 100644
-=2D-- a/Documentation/w1/index.rst
-+++ b/Documentation/w1/index.rst
-@@ -1,4 +1,4 @@
--. SPDX-License-Identifier: GPL-2.0
-+.. SPDX-License-Identifier: GPL-2.0
+Looks reasonable to me.
 
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- 1-Wire Subsystem
-=2D-
-2.20.1
+Is there any existing kernel code which presently uses this?  Can we
+get some conversions done to demonstrate and hopefully test the
+feature?
 
