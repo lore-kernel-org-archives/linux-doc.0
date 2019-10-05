@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F164D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 16:46:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E6C387D917
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 16:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726114AbfJEQqw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Oct 2019 12:46:52 -0400
-Received: from smtprelay0230.hostedemail.com ([216.40.44.230]:42293 "EHLO
+        id S1729545AbfJEQrE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Oct 2019 12:47:04 -0400
+Received: from smtprelay0192.hostedemail.com ([216.40.44.192]:45604 "EHLO
         smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725826AbfJEQqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Oct 2019 12:46:52 -0400
+        by vger.kernel.org with ESMTP id S1725826AbfJEQrE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Oct 2019 12:47:04 -0400
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 51AC0181D33FB;
-        Sat,  5 Oct 2019 16:46:50 +0000 (UTC)
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 8EF2118224D7B;
+        Sat,  5 Oct 2019 16:47:02 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: swim99_ee203254c55
-X-Filterd-Recvd-Size: 3433
+X-HE-Tag: scent99_2ccc9c5de409
+X-Filterd-Recvd-Size: 4354
 Received: from joe-laptop.perches.com (unknown [47.151.152.152])
         (Authenticated sender: joe@perches.com)
         by omf15.hostedemail.com (Postfix) with ESMTPA;
-        Sat,  5 Oct 2019 16:46:46 +0000 (UTC)
+        Sat,  5 Oct 2019 16:46:59 +0000 (UTC)
 From:   Joe Perches <joe@perches.com>
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-sctp@vger.kernel.org
+        linux-kernel@vger.kernel.org
 Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Kees Cook <keescook@chromium.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -40,83 +40,89 @@ Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Jiri Olsa <jolsa@redhat.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Shawn Landden <shawn@git.icu>, x86@kernel.org,
-        linux-kernel@vger.kernel.org,
         Nathan Chancellor <natechancellor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         David Miller <davem@davemloft.net>,
         clang-built-linux@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 0/4] treewide: Add 'fallthrough' pseudo-keyword
-Date:   Sat,  5 Oct 2019 09:46:40 -0700
-Message-Id: <cover.1570292505.git.joe@perches.com>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 3/4] Documentation/process: Add fallthrough pseudo-keyword
+Date:   Sat,  5 Oct 2019 09:46:43 -0700
+Message-Id: <09a42c7275afa7e6e9e3fc57a15122201fccd6f7.1570292505.git.joe@perches.com>
 X-Mailer: git-send-email 2.15.0
+In-Reply-To: <cover.1570292505.git.joe@perches.com>
+References: <cover.1570292505.git.joe@perches.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add 'fallthrough' pseudo-keyword to enable the removal of comments
-like '/* fallthrough */'.
+Describe the fallthrough pseudo-keyword.
 
-Add a script to convert the fallthrough comments.
+Convert the coding-style.rst example to the keyword style.
+Add description and links to deprecated.rst.
 
-The script can be run over any single file or treewide.
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ Documentation/process/coding-style.rst |  2 +-
+ Documentation/process/deprecated.rst   | 33 +++++++++++++++++++++++----------
+ 2 files changed, 24 insertions(+), 11 deletions(-)
 
-For instance, a treewide conversion can be done using:
-
-$ git ls-files -- '*.[ch]' | \
-  xargs scripts/cvt_style.pl -o --convert=fallthrough
-
-This currently produces:
-
-$ git diff --shortstat
- 1839 files changed, 4377 insertions(+), 4698 deletions(-)
-
-Example fallthrough conversion produced by the script:
-
-$ scripts/cvt_style.pl -o --convert=fallthrough arch/arm/mm/alignment.c
-
-a/arch/arm/mm/alignment.c
-b/arch/arm/mm/alignment.c
-@@ -695,8 +695,7 @@ thumb2arm(u16 tinstr)
- 			return subset[(L<<1) | ((tinstr & (1<<8)) >> 8)] |
- 			    (tinstr & 255);		/* register_list */
- 		}
--		/* Else, fall through - for illegal instruction case */
--
-+		fallthrough;	/* for illegal instruction case */
- 	default:
- 		return BAD_INSTR;
- 	}
-@@ -751,8 +750,7 @@ do_alignment_t32_to_handler(unsigned long *pinstr, struct pt_regs *regs,
- 	case 0xe8e0:
- 	case 0xe9e0:
- 		poffset->un = (tinst2 & 0xff) << 2;
--		/* Fall through */
--
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index f4a2198187f9..ada573b7d703 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -56,7 +56,7 @@ instead of ``double-indenting`` the ``case`` labels.  E.g.:
+ 	case 'K':
+ 	case 'k':
+ 		mem <<= 10;
+-		/* fall through */
 +		fallthrough;
- 	case 0xe940:
- 	case 0xe9c0:
- 		return do_alignment_ldrdstrd;
-
-Joe Perches (4):
-  net: sctp: Rename fallthrough label to unhandled
-  compiler_attributes.h: Add 'fallthrough' pseudo keyword for switch/case use
-  Documentation/process: Add fallthrough pseudo-keyword
-  scripts/cvt_style.pl: Tool to reformat sources in various ways
-
- Documentation/process/coding-style.rst |   2 +-
- Documentation/process/deprecated.rst   |  33 +-
- include/linux/compiler_attributes.h    |  17 +
- net/sctp/sm_make_chunk.c               |  12 +-
- scripts/cvt_style.pl                   | 808 +++++++++++++++++++++++++++++++++
- 5 files changed, 855 insertions(+), 17 deletions(-)
- create mode 100755 scripts/cvt_style.pl
-
+ 	default:
+ 		break;
+ 	}
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 56280e108d5a..a0ffdc8daef3 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -122,14 +122,27 @@ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
+ 
+ Implicit switch case fall-through
+ ---------------------------------
+-The C language allows switch cases to "fall through" when
+-a "break" statement is missing at the end of a case. This,
+-however, introduces ambiguity in the code, as it's not always
+-clear if the missing break is intentional or a bug. As there
+-have been a long list of flaws `due to missing "break" statements
++The C language allows switch cases to "fall-through" when a "break" statement
++is missing at the end of a case. This, however, introduces ambiguity in the
++code, as it's not always clear if the missing break is intentional or a bug.
++
++As there have been a long list of flaws `due to missing "break" statements
+ <https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
+-"implicit fall-through". In order to identify an intentional fall-through
+-case, we have adopted the marking used by static analyzers: a comment
+-saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
+-is more widely handled by C compilers, static analyzers, and IDEs, we can
+-switch to using that instead.
++"implicit fall-through".
++
++In order to identify intentional fall-through cases, we have adopted a
++pseudo-keyword macro 'fallthrough' which expands to gcc's extension
++__attribute__((__fallthrough__)).  `Statement Attributes
++<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_
++
++When the C17/C18  [[fallthrough]] syntax is more commonly supported by
++C compilers, static analyzers, and IDEs, we can switch to using that syntax
++for the macro pseudo-keyword.
++
++All switch/case blocks must end in one of:
++
++	break;
++	fallthrough;
++	continue;
++	goto <label>;
++	return [expression];
 -- 
 2.15.0
+
