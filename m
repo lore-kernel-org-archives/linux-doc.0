@@ -6,129 +6,100 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 586357D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 17:48:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C25B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 20:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729253AbfJERsL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Oct 2019 13:48:11 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33621 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728245AbfJERsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Oct 2019 13:48:10 -0400
-Received: by mail-lj1-f195.google.com with SMTP id a22so9650381ljd.0;
-        Sat, 05 Oct 2019 10:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zZNhhY18FkUYxvdXBrS9itssQiFFzeLtJaoj2JXXqAk=;
-        b=jtTkvCMsQgr40/rZr3sfAWiXsVC5Mb0CPSkge70CEpdEOidUIudxC8niXaDGhWVpCN
-         xthvy1+fHAOCxDSmVgY6LemehDRQ191Jc6gPTbQ/+LCEE+5IssCv8wzhoHqxMvnihb82
-         IPDHZe1brvCfW7E4f6Nh14Opcssh9IFaqDO8Yb1YEABU5jGKBAAROYLBiD/0XyQ/IgFE
-         f2sdW9N/aptywiNQW60MwzRzz650BBkJYjDF24GiPvH+PGd7cpHhPCg0bZHq9KuMps9m
-         itvSa2tPml/I779B99fvIn4mdck7hsAbX9YBteUf4nWkGWzSEKWpP47fWjKxxCc88SOO
-         5LmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zZNhhY18FkUYxvdXBrS9itssQiFFzeLtJaoj2JXXqAk=;
-        b=gcfIHHZ8g65dbco3b09qv1dHPRguiwfw0pNu2Xex349FSKUrfod/3Z0SUPxpTc4DpW
-         +0bWgHXTDAj1/t5aN+ygwWfeZkmNYHsCmlk3PouAqMKzZFXcqIxtwmrX3qs3okaxmP7n
-         x4dJ+jmrtXZ+ZRn8yUezlTWgJEuxRQxeAGlGbTL8wVnBUpQVmi20Q8YlYJfhUWEp356s
-         EJ7NdwlSEe3/0O7kQa3M7Z6VbzZYOgHCNa7yzq+DPSH+HHi99q7xFXdPwPpmBoWy+H/D
-         i1NWoG/U7ENjD7nwRRxqtoTeNs7oSzuJU0ZoKXMXaFeKI+PAlFmR5vU5NYFFUfLIcg/U
-         urWw==
-X-Gm-Message-State: APjAAAXZlwqnXr2g+Ca6zcf+Su6fF/+s7Y5Oa7AQgM1yPJV9oJVb/OcU
-        8vM+5P5JYdK27r050B57uqMsWj+EMvawgDUp5Jc=
-X-Google-Smtp-Source: APXvYqyDTVdWUGO5xjrtoW4jt+ynij/gt/LXHlMt9W9ChbP/s/3mf4bHlmQek4xkzkDbqQEPxBWAZwptk/D2PJ51pbk=
-X-Received: by 2002:a2e:2d5:: with SMTP id y82mr13655515lje.230.1570297688612;
- Sat, 05 Oct 2019 10:48:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1570292505.git.joe@perches.com> <09a42c7275afa7e6e9e3fc57a15122201fccd6f7.1570292505.git.joe@perches.com>
-In-Reply-To: <09a42c7275afa7e6e9e3fc57a15122201fccd6f7.1570292505.git.joe@perches.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 5 Oct 2019 19:47:57 +0200
-Message-ID: <CANiq72=KMcYmcHL442OKwDBJj3czey-XtjtOBTLqh_HAsoJAzA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] Documentation/process: Add fallthrough pseudo-keyword
-To:     Joe Perches <joe@perches.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Shawn Landden <shawn@git.icu>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Miller <davem@davemloft.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        id S1729348AbfJEUBx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Oct 2019 16:01:53 -0400
+Received: from mout.gmx.net ([212.227.17.22]:60179 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727980AbfJEUBx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Oct 2019 16:01:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1570305695;
+        bh=qySV3tlxF55Vn/7Dh9FTVARSYZ+YXZdXkb4UesYQYM4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=BeIKYf+Rmt42RrNTCWaDviRy+ohnDWmmwtQvBURXjRsr2jSBIR1+L+2qplAsJLDTX
+         j1QwiTcRdPJJiX0VdWTEETn54MPWxTnykLV6xEIcksLtDRSZuQRi7VRrx9SNEudkol
+         cqbSl5ELylxm2zwnF1lGFjkwMLcsszF4ft98YGiY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTzfG-1ihgXF1jiE-00R41C; Sat, 05
+ Oct 2019 22:01:35 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] docs: i2c: Fix SPDX-License-Identifier syntax
+Date:   Sat,  5 Oct 2019 22:01:22 +0200
+Message-Id: <20191005200126.25809-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LMni/TfrfxOuDts2qQNrNG0VhnaXFqUh0VdHKqWXcHWkUxD9WdJ
+ aydOUR7RKdhdSuUNuyJKaLVd3VDkRDRriT57B3ES+TP8te+ViVTdNEIinxeyvOshsp/Ves0
+ diYtv9sOgEzKwXnRfNJ+TTID9RsBV4laTAA3wnthUtO3/rJRp/txF0tmAPnOfJsZN/o0td6
+ EHWAYdcz9MuHG1peO7Y2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+s/KPiena6U=:C8xDlyRYB+fOBmIf0rMIST
+ p+D472UZ9kalsKpLibPkhl/Ta5qkfibzHgDZA/ulZvnH2hZOvD4G3vR7qdPCxlE18L3eLGqGl
+ 4+dBCVEqt/kR+/JdCdILTA05Q1k7mgRbflfpOJRovtxKUO1dSzPmXmXV+chPCkLhnDKlCoO4p
+ OEtsVH9201GgFe+gdRm+1/+RPpC9XhHEXxLecrxyeFkglwTm+uw5jyapkn4ojhmUKzzMkN/vm
+ 2eGjCF7bbE63bdrZRXNw95EXm/VnEYp5Uqa5NlpfXtzOkhgrq5+XaGhpqgumMBpqcMQO73vrF
+ ++WNdtTTBdhRkoeevePY5eIjAsgODcnbL8vgnbPKhGrX+8lbggN8GApVRdcKa+vrig4T6MDAc
+ fh8jotdqlJQBm5bY1KLnz21lXg1mWM24Lf4NE8mMiz1hgabhdnsu8QHTRkeBOUDtIBzI6TcsB
+ xEF6BPY1PT8LcW6spQCZJJ65klzajkwOOWCweZx3uxw/EkNPydjDVdabilCB75bG/sn8wHpzo
+ sRW+xat21OpTRPuliF/LVuY26K2rPSpvFtjjZLjw04besVhU8P66GgBQRxGALQOFXrGdELcSb
+ XZQBEy2aU6k7RKav2z28pcY91fRF87MbX3d1Qu1+ecdGQCEA+YBxldM0eX+Z6yLO0mdAYX20j
+ WCbWsY0Mo9qdqdMz5vvLONhEQz6uWiNc52SnD/dCNJDMG8DcXpMfHVnJDTENHZfbkoDZW+7NG
+ ahdP+sraNm8oeALOOGX6+qzjHATndEf5XxjAX92/3Cej76eKmOuwwNbttwOcx1IaY1bBRE7wU
+ PQV9cJ/cnEILkTinU3RTQTiqrnG0RS8Vu3bGEiNyqy3U4PRZw03NW8YDYlYdjsWr6L335Ya6i
+ XKJYNFKGgZ4V4xW3o1OY+yrRZumG0zcQ73oRXEaTvmSHqTcYHvvO3XWCX39ZSyAqkl90byfkN
+ zCniWWRto3iGtTAsAL3zKSBfgNwjolWQ+otqceo5mGAK3amWiqc6vZM1N0oOOFYyn24jxo9ya
+ Y0AbQ8JevR+FX5SMqjPhjX4mnC1L0VLxJbmGmU+nCOSSqNND08lfoN8WeC4WU3+2clyNQXKgT
+ IRkC98zwixwLobFzdi3zvhYg6o0Nu3nQ/zsY4y02IAk9WY/hDEmNU62vJRkQQY/x/NXciQDJb
+ dvXvHSQJUj38Hyytw1VcJLTAMt+YQ0utJAjI61RB1P0Sg83k+D2+HiJ/1gATWzPg9q51OFP02
+ +VwpMpwSpY9MtisDf8AyZ29osmVq9fIdkowWnoHb9/vVlVa5UvJtSvefW+rk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 5, 2019 at 6:47 PM Joe Perches <joe@perches.com> wrote:
->
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 56280e108d5a..a0ffdc8daef3 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -122,14 +122,27 @@ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
->
->  Implicit switch case fall-through
->  ---------------------------------
-> -The C language allows switch cases to "fall through" when
-> -a "break" statement is missing at the end of a case. This,
-> -however, introduces ambiguity in the code, as it's not always
-> -clear if the missing break is intentional or a bug. As there
-> -have been a long list of flaws `due to missing "break" statements
-> +The C language allows switch cases to "fall-through" when a "break" statement
-> +is missing at the end of a case. This, however, introduces ambiguity in the
-> +code, as it's not always clear if the missing break is intentional or a bug.
-> +
-> +As there have been a long list of flaws `due to missing "break" statements
->  <https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
-> -"implicit fall-through". In order to identify an intentional fall-through
-> -case, we have adopted the marking used by static analyzers: a comment
-> -saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
-> -is more widely handled by C compilers, static analyzers, and IDEs, we can
-> -switch to using that instead.
-> +"implicit fall-through".
-> +
-> +In order to identify intentional fall-through cases, we have adopted a
-> +pseudo-keyword macro 'fallthrough' which expands to gcc's extension
-> +__attribute__((__fallthrough__)).  `Statement Attributes
-> +<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_
-> +
-> +When the C17/C18  [[fallthrough]] syntax is more commonly supported by
+ReST directives are introduced with two dots.
 
-Note that C17/C18 does not have [[fallthrough]]. C++17 introduced it,
-as it is mentioned above. I would keep the
-__attribute__((fallthrough)) -> [[fallthrough]] change you did,
-though, since that is indeed the standard syntax (given the paragraph
-references C++17).
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/i2c/busses/index.rst | 2 +-
+ Documentation/i2c/index.rst        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-I was told by Aaron Ballman (who is proposing them for C) that it is
-more or less likely that it becomes standardized in C2x. However, it
-is still not added to the draft (other attributes are already,
-though). See N2268 and N2269:
+diff --git a/Documentation/i2c/busses/index.rst b/Documentation/i2c/busses=
+/index.rst
+index 97ca4d510816..2a26e251a335 100644
+=2D-- a/Documentation/i2c/busses/index.rst
++++ b/Documentation/i2c/busses/index.rst
+@@ -1,4 +1,4 @@
+-. SPDX-License-Identifier: GPL-2.0
++.. SPDX-License-Identifier: GPL-2.0
 
-    http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2268.pdf (fallthrough)
-    http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2269.pdf
-(attributes in general)
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ I2C Bus Drivers
+diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
+index cd8d020f7ac5..a0fbaf6d0675 100644
+=2D-- a/Documentation/i2c/index.rst
++++ b/Documentation/i2c/index.rst
+@@ -1,4 +1,4 @@
+-. SPDX-License-Identifier: GPL-2.0
++.. SPDX-License-Identifier: GPL-2.0
 
-Cheers,
-Miguel
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ I2C/SMBus Subsystem
+=2D-
+2.20.1
+
