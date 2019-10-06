@@ -1,93 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4742E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Oct 2019 21:48:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A1D57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Oct 2019 01:57:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725839AbfJEVsc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Oct 2019 17:48:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40674 "EHLO mail.kernel.org"
+        id S1725966AbfJFB5O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Oct 2019 21:57:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33392 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725801AbfJEVsc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Oct 2019 17:48:32 -0400
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725801AbfJFB5O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Oct 2019 21:57:14 -0400
+Received: from dragon (li937-157.members.linode.com [45.56.119.157])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 494D0222C0;
-        Sat,  5 Oct 2019 21:48:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3D8E4218AC;
+        Sun,  6 Oct 2019 01:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570312111;
-        bh=HNhRg9C+uT8munplm6gItEmqRk2fzoMeetuPUipn458=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=09sGzm+TkX4yptOvFcUZkbVIfYJVinR8FNqinr3BNuPCm9QnXgBl25ss/I51or6+n
-         dRjZCJYRrB9O7ZgSvm/k/Yca6R4Vzq6Hfk2pmpWSeYNfMan5hE+i4HKKh8zpVGNvY2
-         djLeN5GjdXIwt/0F+3LNDkESxOLCJdgIJLWz4fS8=
-Date:   Sat, 5 Oct 2019 14:48:30 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Joe Perches <joe@perches.com>, Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        linux-doc@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v3] printf: add support for printing symbolic error
- codes
-Message-Id: <20191005144830.f94bc9d63001981c5eefe875@linux-foundation.org>
-In-Reply-To: <20190917065959.5560-1-linux@rasmusvillemoes.dk>
-References: <20190909203826.22263-1-linux@rasmusvillemoes.dk>
-        <20190917065959.5560-1-linux@rasmusvillemoes.dk>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        s=default; t=1570327032;
+        bh=wN7wNz4gA27GLibRdH8VOT/fbLaH+ygQiJp4aTxdamU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wFWayoCjgHN6i8EgC/gYVeYlgKPkP1MhCpEm3OLiZw2soOKUC8FfevBa1BWzqkOu6
+         6Dcvjd526nAbZalpOmJYMkdaUtTo5+SGyIdQSvsCzIh23zUVm7m0TKyt6xtotsnKLO
+         n8SkuHU8ZovZUJQOA/uQ4++5YNJUTAaQaQlrR8Sc=
+Date:   Sun, 6 Oct 2019 09:56:50 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>, Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 3/6] serial: fsl_linflexuart: Be consistent with the
+ name
+Message-ID: <20191006015647.GJ7150@dragon>
+References: <20190905115803.19565-1-stefan-gabriel.mirea@nxp.com>
+ <20190905115803.19565-4-stefan-gabriel.mirea@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190905115803.19565-4-stefan-gabriel.mirea@nxp.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 17 Sep 2019 08:59:59 +0200 Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
+On Thu, Sep 05, 2019 at 11:58:36AM +0000, Stefan-gabriel Mirea wrote:
+> For consistency reasons, spell the controller name as "LINFlexD" in
+> comments and documentation.
+> 
+> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
 
-> It has been suggested several times to extend vsnprintf() to be able
-> to convert the numeric value of ENOSPC to print "ENOSPC". This is yet
-> another attempt. Rather than adding another %p extension, simply teach
-> plain %p to convert ERR_PTRs. While the primary use case is
-> 
->   if (IS_ERR(foo)) {
->     pr_err("Sorry, can't do that: %p\n", foo);
->     return PTR_ERR(foo);
->   }
-> 
-> it is also more helpful to get a symbolic error code (or, worst case,
-> a decimal number) in case an ERR_PTR is accidentally passed to some
-> %p<something>, rather than the (efault) that check_pointer() would
-> result in.
-> 
-> With my embedded hat on, I've made it possible to remove this.
-> 
-> I've tested that the #ifdeffery in errcode.c is sufficient to make
-> this compile on arm, arm64, mips, powerpc, s390, x86 - I'm sure the
-> 0day bot will tell me which ones I've missed.
-> 
-> The symbols to include have been found by massaging the output of
-> 
->   find arch include -iname 'errno*.h' | xargs grep -E 'define\s*E'
-> 
-> In the cases where some common aliasing exists
-> (e.g. EAGAIN=EWOULDBLOCK on all platforms, EDEADLOCK=EDEADLK on most),
-> I've moved the more popular one (in terms of 'git grep -w Efoo | wc)
-> to the bottom so that one takes precedence.
+Hi Greg,
 
-Looks reasonable to me.
+The series looks good to me.  I assume that you will take this patch
+and #5.
 
-Is there any existing kernel code which presently uses this?  Can we
-get some conversions done to demonstrate and hopefully test the
-feature?
+Shawn
 
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  drivers/tty/serial/Kconfig                      | 8 ++++----
+>  drivers/tty/serial/fsl_linflexuart.c            | 4 ++--
+>  include/uapi/linux/serial_core.h                | 4 ++--
+>  4 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 614012a61754..23162492ea2f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1091,7 +1091,7 @@
+>  			mapped with the correct attributes.
+>  
+>  		linflex,<addr>
+> -			Use early console provided by Freescale LinFlex UART
+> +			Use early console provided by Freescale LINFlexD UART
+>  			serial driver for NXP S32V234 SoCs. A valid base
+>  			address must be provided, and the serial port must
+>  			already be setup and configured.
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index b658589208bf..2d5115375345 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -1434,19 +1434,19 @@ config SERIAL_FSL_LPUART_CONSOLE
+>  	  you can make it the console by answering Y to this option.
+>  
+>  config SERIAL_FSL_LINFLEXUART
+> -	tristate "Freescale linflexuart serial port support"
+> +	tristate "Freescale LINFlexD UART serial port support"
+>  	depends on PRINTK
+>  	select SERIAL_CORE
+>  	help
+> -	  Support for the on-chip linflexuart on some Freescale SOCs.
+> +	  Support for the on-chip LINFlexD UART on some Freescale SOCs.
+>  
+>  config SERIAL_FSL_LINFLEXUART_CONSOLE
+> -	bool "Console on Freescale linflexuart serial port"
+> +	bool "Console on Freescale LINFlexD UART serial port"
+>  	depends on SERIAL_FSL_LINFLEXUART=y
+>  	select SERIAL_CORE_CONSOLE
+>  	select SERIAL_EARLYCON
+>  	help
+> -	  If you have enabled the linflexuart serial port on the Freescale
+> +	  If you have enabled the LINFlexD UART serial port on the Freescale
+>  	  SoCs, you can make it the console by answering Y to this option.
+>  
+>  config SERIAL_CONEXANT_DIGICOLOR
+> diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
+> index 26b9601a0952..ca90551384ca 100644
+> --- a/drivers/tty/serial/fsl_linflexuart.c
+> +++ b/drivers/tty/serial/fsl_linflexuart.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * Freescale linflexuart serial port driver
+> + * Freescale LINFlexD UART serial port driver
+>   *
+>   * Copyright 2012-2016 Freescale Semiconductor, Inc.
+>   * Copyright 2017-2018 NXP
+> @@ -938,5 +938,5 @@ static void __exit linflex_serial_exit(void)
+>  module_init(linflex_serial_init);
+>  module_exit(linflex_serial_exit);
+>  
+> -MODULE_DESCRIPTION("Freescale linflex serial port driver");
+> +MODULE_DESCRIPTION("Freescale LINFlexD serial port driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
+> index 63fa56b899e8..26967c2f4a4f 100644
+> --- a/include/uapi/linux/serial_core.h
+> +++ b/include/uapi/linux/serial_core.h
+> @@ -293,7 +293,7 @@
+>  /* Sunix UART */
+>  #define PORT_SUNIX	121
+>  
+> -/* Freescale Linflex UART */
+> -#define PORT_LINFLEXUART	121
+> +/* Freescale LINFlexD UART */
+> +#define PORT_LINFLEXUART	122
+>  
+>  #endif /* _UAPILINUX_SERIAL_CORE_H */
+> -- 
+> 2.22.0
+> 
