@@ -1,106 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F2A7A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Oct 2019 05:40:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B373F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Oct 2019 16:56:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbfJFFks (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Oct 2019 01:40:48 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39089 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726078AbfJFFks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Oct 2019 01:40:48 -0400
-Received: by mail-io1-f68.google.com with SMTP id a1so21966718ioc.6
-        for <linux-doc@vger.kernel.org>; Sat, 05 Oct 2019 22:40:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xI2Qocms6qNiV2iMXZu4/cQtgB5QztaNG2lDp34DqfU=;
-        b=EGpBGCDteikNjZQNE/D2fgB2B2Z5RVlThy/2WcnO0jF5pxMgwOTL2EmK/44wDn/XKQ
-         INJot3NMPr54eKTg8amLWAU7zXHfrmeYxNigDsUmjrL0tKiOmSGN88YzxwJmgR3UIzdC
-         FYkyR0ZYMkV4sutJ5t+tdb3EXpXFHVFCxvKntSpCk9797I37anqXrhOO8jY37WHQrDvP
-         Zp3VjJ+4eabYt8YBlCLsO/IQ6gcDHyjy9tlr43yic8FfZ4lsp4yczel6Gyfaji4RgkUV
-         gkhqxxfgEsl49vFVcvYxJt3qZNGCfhWFVK0wBDpAdqtzC0HmSMaRTx1fz+E9bkgFxz/P
-         cakA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xI2Qocms6qNiV2iMXZu4/cQtgB5QztaNG2lDp34DqfU=;
-        b=OgnEmYERTX5KPp+bYZZ7V9jY3fueDrDT7OcAtZbG70P1kiJrxx/g86OVo3m6w6+I8A
-         GDv7zXvUfduhDzJIpoOpfKObnoX/8m8OCBFx5eVEKvjAY8nK55j61awDQTwM/vDLgHAx
-         UEgFLCDTN0VP7NpgDSr84/3FvYI0gTfNspwpabhgZucGJoWh8Dk4+dNC1vnsQLtwprhs
-         D4Fsr8uHR68pmIM6Xg6SOxVj8dJhV3BFVJueUt3enTWit9t7yJzt+5HSq7BC7HmIDKG5
-         UZjvkp29miExxvgStKGgMDASj08QasfajyuYUNElk6Fjawuue41P4kAC31/RA8OsKT6O
-         dk8A==
-X-Gm-Message-State: APjAAAXa8R4MeG+YGW6H+kPkzIO7D6Qj7Z7Y1oJ10foAv3arVcKBPtOO
-        +ojf1WR8lLcHQm87XOlwUyyy3UyD1y067QE7zU5H5A==
-X-Google-Smtp-Source: APXvYqz4088A6dPyccPjCU4wsr/q3N0DxLDhD1/3tMWhqtSwIStW2H9CSh33Kegu/W7Io815JqtEfVP7uE2c1XIYQIY=
-X-Received: by 2002:a6b:fc04:: with SMTP id r4mr8557796ioh.189.1570340447106;
- Sat, 05 Oct 2019 22:40:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191002162534.3967-1-brgl@bgdev.pl>
-In-Reply-To: <20191002162534.3967-1-brgl@bgdev.pl>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Sun, 6 Oct 2019 07:40:36 +0200
-Message-ID: <CAMRc=Mdk+9KTHAp_kuF4uy5uSACO6Qkdnn_=bqkYwqbrsUXbxA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drivers: add a new variant of devm_platform_ioremap_resource()
-To:     Jonathan Corbet <corbet@lwn.net>,
+        id S1726514AbfJFQ4t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Oct 2019 12:56:49 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:48794 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726443AbfJFQ4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Oct 2019 12:56:49 -0400
+Received: from callcc.thunk.org (pool-72-93-95-157.bstnma.fios.verizon.net [72.93.95.157])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x96GsaNE023214
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 6 Oct 2019 12:54:38 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id A922942088C; Sun,  6 Oct 2019 12:54:36 -0400 (EDT)
+Date:   Sun, 6 Oct 2019 12:54:36 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     shuah <shuah@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-doc <linux-doc@vger.kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20191006165436.GA29585@mit.edu>
+References: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
+ <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
+ <20191004222714.GA107737@google.com>
+ <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
+ <20191004232955.GC12012@mit.edu>
+ <CAFd5g456rBSp177EkYAwsF+KZ0rxJa90mzUpW2M3R7tWbMAh9Q@mail.gmail.com>
+ <63e59b0b-b51e-01f4-6359-a134a1f903fd@kernel.org>
+ <CAFd5g47wji3T9RFmqBwt+jPY0tb83y46oj_ttOq=rTX_N1Ggyg@mail.gmail.com>
+ <544bdfcb-fb35-5008-ec94-8d404a08fd14@kernel.org>
+ <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=C5=9Br., 2 pa=C5=BA 2019 o 18:25 Bartosz Golaszewski <brgl@bgdev.pl> napis=
-a=C5=82(a):
->
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> The new devm_platform_ioremap_resource() helper has now been widely
-> adopted and used in many drivers. Users of the write-combined ioremap()
-> variants could benefit from the same code shrinkage. This series provides
-> a write-combined version of devm_platform_ioremap_resource() and uses it =
-in a
-> relevant driver with the assumption that - just like was the case
-> previously - a coccinelle script will be developed to ease the transition
-> for others.
->
-> v1 -> v2:
-> - dropped everything related to nocache ioremap as this is going away
->
-> Bartosz Golaszewski (5):
->   Documentation: devres: add missing entry for
->     devm_platform_ioremap_resource()
->   lib: devres: prepare devm_ioremap_resource() for more variants
->   lib: devres: provide devm_ioremap_resource_wc()
->   drivers: platform: provide devm_platform_ioremap_resource_wc()
->   misc: sram: use devm_platform_ioremap_resource_wc()
->
->  .../driver-api/driver-model/devres.rst        |  3 +
->  drivers/base/platform.c                       | 27 ++++++--
->  drivers/misc/sram.c                           | 28 +++------
->  include/linux/device.h                        |  2 +
->  include/linux/platform_device.h               |  3 +
->  lib/devres.c                                  | 62 +++++++++++++------
->  6 files changed, 80 insertions(+), 45 deletions(-)
->
-> --
-> 2.23.0
->
+On Fri, Oct 04, 2019 at 06:18:04PM -0700, Brendan Higgins wrote:
+> > Let's talk about current state. Right now kunit is in linux-next and
+> > we want to add a few more tests. We will have to coordinate the effort.
+> > Once kunit get into mainline, then the need for this coordination goes
+> > down.
+> 
+> Sure, I was just thinking that getting other people to write the tests
+> would be better. Since not only is it then useful to someone else, it
+> provides the best possible exercise of KUnit.
 
-Superseded by v3 which adds another variant that might be useful.
+Well, one thing we *can* do is if (a) if we can create a kselftest
+branch which we know is stable and won't change, and (b) we can get
+assurances that Linus *will* accept that branch during the next merge
+window, those subsystems which want to use kself test can simply pull
+it into their tree.
 
-Bart
+We've done this before in the file system world, when there has been
+some common set of changes needed to improve, say, Direct I/O, where
+the changes are put into a standalone branch, say, in the xfs tree,
+and those file systems which need it as a building block can pull it
+into their tree, and then add the changes needed to use those changes
+into their file system git tree.  These changes are generally not
+terribly controversial, and we've not had to worry about people want
+to bikeshed the changes.
+
+There is a risk with doing this of course, which is that if the branch
+*is* controversial, or gets bike-shedded for some reason, then Linus
+gets upset and any branches which depended on said branch will get
+rejected at the next merge window.  Which is the requirement for (a)
+and (b) above.  Presumably, the fact that people were unwilling to let
+Kunit land during this merge window might will *because* we think more
+changes might be pending?
+
+The other thing I suppose I can do is to let the ext4 kunit tests land
+in ext4 tree, but with the necessary #ifdef's around things like
+"#include <kunit/test.h>" so that the build won't blow up w/o kunit
+changes being in the tree that I'm building.  It means I won't be able
+to run the tests without creating a test integration branch and
+merging in kunit by hand, which will super-annoying, of course.  And
+if some of the bike-shedding is in Kunit's interfaces, then that
+becomes problematic as well, since any tests that are in ext4.git tree
+might change if people want to rename Kunit's publically exported
+functions (for example).
+
+> Hey Ted, do you know if that ext4 timestamp test can go in through
+> linux-kselftest? It seemed fairly self-contained. Or is that what you
+> were saying wouldn't work for you?
+
+Well, I was hoping that we might start creating more tests beyond just
+the ext4 timestamp tests....
+
+						- Ted
