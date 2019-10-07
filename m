@@ -1,66 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 21F547D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 07:12:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7EBE67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 08:12:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726960AbfJGHMb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 03:12:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50132 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726889AbfJGHMb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Oct 2019 03:12:31 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id F2E4BAE12;
-        Mon,  7 Oct 2019 07:12:29 +0000 (UTC)
-Message-ID: <1570432347.6057.4.camel@suse.de>
-Subject: Re: [PATCH] hwmon: docs: Extend inspur-ipsps1 title underline
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Adam Zerella <adam.zerella@gmail.com>
-Cc:     corbet@lwn.net, linux@roeck-us.net, linux-doc@vger.kernel.org
-Date:   Mon, 07 Oct 2019 09:12:27 +0200
-In-Reply-To: <20191007023657.GA24341@gmail.com>
-References: <20191007023657.GA24341@gmail.com>
-Organization: Suse Linux
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727201AbfJGIMt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 04:12:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38470 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726889AbfJGIMs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Oct 2019 04:12:48 -0400
+Received: from linux-8ccs (unknown [92.117.158.29])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B07820679;
+        Mon,  7 Oct 2019 08:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570435968;
+        bh=lDHYlNBMrFTJ7feRS2e/rWmF8aTUiIwX0TrGjMUBAaQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jbTfHbAmTehDheUjqI9O4e8N74P4tcp6iepV4UTF2QAUw6k0M37bBtby2Zn0ZK7vF
+         0k/+gB8yDIWB2P3ZTSux0sdEIh2vjXpGCl0y6wLkCpBVGumh9u26ziE5S9QwlbdYh8
+         axlTBx9kx/nzYstZgb0OipNCOXrutzsuXA9cPC9E=
+Date:   Mon, 7 Oct 2019 10:12:42 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Matthias Maennich <maennich@google.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adam Zerella <adam.zerella@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: move namespaces.rst out of kbuild directory
+Message-ID: <20191007081241.GA8279@linux-8ccs>
+References: <20191007043611.31036-1-yamada.masahiro@socionext.com>
+ <20191007060614.GA142813@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20191007060614.GA142813@google.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-10-07 at 13:36 +1100, Adam Zerella wrote:
-> Sphinx is generating a build warning as the title underline
-> of this file is too short.
-> 
-> Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
-> ---
->  Documentation/hwmon/inspur-ipsps1.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
-> index 2b871ae3448f..292c0c26bdd1 100644
-> --- a/Documentation/hwmon/inspur-ipsps1.rst
-> +++ b/Documentation/hwmon/inspur-ipsps1.rst
-> @@ -1,5 +1,5 @@
->  Kernel driver inspur-ipsps1
-> -=======================
-> +===========================
->  
->  Supported chips:
->  
++++ Matthias Maennich [07/10/19 07:06 +0100]:
+>Hi!
+>
+>On Mon, Oct 07, 2019 at 01:36:11PM +0900, Masahiro Yamada wrote:
+>>I did not notice this document was added to Documentation/kbuild/,
+>>and I do not understand how it is related to the build system.
+>>
+>>Kick it out of the kbuild directory.
+>>
+>>I am not sure if this is the perfect place, but I added its index
+>>close to the module-signing.
+>
+>When searching for a place for this documentation, kbuild/ was the
+>closest I could find. admin-guide/ seems to target system administrators
+>while the symbol namespace feature documentation is relevant for kernel
+>developers. I am ok to take maintainership for the file, but the new
+>location suggested seems not to be a good fit either.
 
-Good catch.
+This was my line of thought as well, since the audience of
+admin-guide/ is sysadmins and users. Namespaces are mostly relevant to
+module authors and kernel developers. Currently, I don't think there
+is an existing good place in Documentation/ for this topic :-/
+I suppose kernel-hacking/ might be the closest fit, as Adam suggested.
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Thanks,
 
--- 
-Jean Delvare
-SUSE L3 Support
+Jessica
