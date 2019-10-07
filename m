@@ -1,146 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22C687D919
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 14:57:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E94797D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 15:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727835AbfJGO5l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 10:57:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59560 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727490AbfJGO5l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Oct 2019 10:57:41 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E805206C2;
-        Mon,  7 Oct 2019 14:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570460259;
-        bh=M/mh7ZDKuNzaoClSYB7rLWBjChHoOPyPKzoupCtmj/s=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=OknCZl7G7XB2x/+wPMOTWsiPriTJeKEbR+zS47+ClfRbCU63jUlK1d+xBxWuJuzCB
-         c521NSoNfrmZ7l21+c+4hgme2giarn46R0KzyXhix6klLtQym1/TJUpxv1eArw06l2
-         ryeCnoXId3pvz7NjvXBDnl/VEqPPEm1JHVs1Iizw=
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>, wfg@linux.intel.com,
-        shuah <shuah@kernel.org>
-References: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
- <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
- <20191004222714.GA107737@google.com>
- <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
- <20191004232955.GC12012@mit.edu>
- <CAFd5g456rBSp177EkYAwsF+KZ0rxJa90mzUpW2M3R7tWbMAh9Q@mail.gmail.com>
- <63e59b0b-b51e-01f4-6359-a134a1f903fd@kernel.org>
- <CAFd5g47wji3T9RFmqBwt+jPY0tb83y46oj_ttOq=rTX_N1Ggyg@mail.gmail.com>
- <544bdfcb-fb35-5008-ec94-8d404a08fd14@kernel.org>
- <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
- <20191006165436.GA29585@mit.edu>
- <CAHk-=wjcJxypxUOSF-jc=SQKT1CrOoTMyT7soYzbvK3965JmCA@mail.gmail.com>
- <20191007104048.66ae7e59@gandalf.local.home>
-From:   shuah <shuah@kernel.org>
-Message-ID: <176fa69d-1767-ea9b-476d-c685c2a68d46@kernel.org>
-Date:   Mon, 7 Oct 2019 08:57:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728689AbfJGPTY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 11:19:24 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:41009 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727745AbfJGPTX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Oct 2019 11:19:23 -0400
+Received: by mail-yw1-f67.google.com with SMTP id 129so5241703ywb.8
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2019 08:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=poorly.run; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=va7DzYTLDisgPb0Q7LAfg9j6xV96g03+xcPDp+1en2Y=;
+        b=S3ELl6Nv91EyPBYsO7BiEf2AnAYj1MigM2PswaRsih+xB+6PpLe+SE1a26aduZZ0WJ
+         prD8sFCQ8qbB5KfmLwL1Q+6CCGVhJCU34APnIg7qsFtUtEbZXBA/8TRb9GpE+czQVfNS
+         Uz8SU3JEZJN8m8sYapKNX0cX1xhoMchgA+BBwsS49YYro5VJSBCTQbjxjCycBOOhpDPP
+         nfKq0+Lk78vYxR9JHkwN4zz2mcaA52qjUOjcTLO3pFYtWKHM12NaBqIn9s+CydD5expx
+         cvYeOghjmBkjhY3u2VMwW2uFrwxKaSjcGp57I0qzYYK/ZyIhI+LeOCarS+oOnS3HcZm3
+         i+xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=va7DzYTLDisgPb0Q7LAfg9j6xV96g03+xcPDp+1en2Y=;
+        b=D3CVGLFjYELkob5oso5ldm1lS2i6IbAhQEJ3TS1JihkLBsZF6m0Bqj23ZEa8uqs/+7
+         xvyxHAkm1GY8CVDttLpDkaRY5LzFAEaD50b/4BCiX0ljUNsxg2NfaUWvyoaJiDEZi6vT
+         JU4wRpuvIcatx40zxCTZtwjZHhvSppUvHNpEodf7cwH9VbygUGTUgtehhS8m66jq8LgJ
+         u90JxDdb4nZzqj1wluMKUjDlWG7n+v+szaLgalbylvr3eCleTq7Xfc5TDnHMAswBB6oT
+         L6X90MczIsp9OQSmurXiExsuvPItDTIxeWqZA9CF4W2bQXif3kJJyxpEtRyuH3GPlF2a
+         cNug==
+X-Gm-Message-State: APjAAAVwL8+QhOaL+c60nniL6tUYplghLT5sHohq4l9ynA/TTD662l1Q
+        TBUi7wIml1K4vJED/D0OsGMvLe8v2g8=
+X-Google-Smtp-Source: APXvYqx7eMSr7rGGtkEwZIh/7tK9sJ+V6gRs5t479H+c1U5/HJocHXFLLwn+HbVA3kvrCZ8cgItLpg==
+X-Received: by 2002:a0d:e693:: with SMTP id p141mr21354576ywe.425.1570461562832;
+        Mon, 07 Oct 2019 08:19:22 -0700 (PDT)
+Received: from rosewood.cam.corp.google.com ([2620:0:1013:11:89c6:2139:5435:371d])
+        by smtp.gmail.com with ESMTPSA id y67sm4102306ywd.63.2019.10.07.08.19.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2019 08:19:22 -0700 (PDT)
+From:   Sean Paul <sean@poorly.run>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Sean Paul <seanpaul@chromium.org>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: Fix warning in drm-kmsc-helpers.rst
+Date:   Mon,  7 Oct 2019 11:19:01 -0400
+Message-Id: <20191007151921.27099-1-sean@poorly.run>
+X-Mailer: git-send-email 2.23.0.581.g78d2f28ef7-goog
 MIME-Version: 1.0
-In-Reply-To: <20191007104048.66ae7e59@gandalf.local.home>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/7/19 8:40 AM, Steven Rostedt wrote:
-> On Sun, 6 Oct 2019 10:18:11 -0700
-> Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> 
->> On Sun, Oct 6, 2019 at 9:55 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
->>>
->>> Well, one thing we *can* do is if (a) if we can create a kselftest
->>> branch which we know is stable and won't change, and (b) we can get
->>> assurances that Linus *will* accept that branch during the next merge
->>> window, those subsystems which want to use kself test can simply pull
->>> it into their tree.
->>
->> Yes.
->>
->> At the same time, I don't think it needs to be even that fancy. Even
->> if it's not a stable branch that gets shared between different
->> developers, it would be good to just have people do a "let's try this"
->> throw-away branch to use the kunit functionality and verify that
->> "yeah, this is fairly convenient for ext4".
->>
->> It doesn't have to be merged in that form, but just confirmation that
->> the infrastructure is helpful before it gets merged would be good.
-> 
-> Can't you just create an ext4 branch that has the kselftest-next branch
-> in it, that you build upon. And push that after the kunit test is
-> merged?
-> 
-> In the past I've had to rely on other branches in next, and would just
-> hold two branches myself. One with everything not dependent on the other
-> developer's branch, and one with the work that was. At the merge
-> window, I would either merge the two or just send two pull requests
-> with the two branches.
-> 
+From: Sean Paul <seanpaul@chromium.org>
 
-I do something similar when I am working on top of a branch that isn't
-already in the mainline. In any case, repeating myself
+Fixes the following warning:
+../include/drm/drm_atomic_state_helper.h:1: warning: no structured comments found
 
-Let's work on top of - it is rebased to 5.4-rc1 and ready for use.
+Fixes: 9ef8a9dc4b21 ("drm: Extract drm_atomic_state_helper.[hc]")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+---
+ Documentation/gpu/drm-kms-helpers.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=test
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index 3868008db8a9..9668a7fe2408 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -77,9 +77,6 @@ Atomic State Reset and Initialization
+ Atomic State Helper Reference
+ -----------------------------
+ 
+-.. kernel-doc:: include/drm/drm_atomic_state_helper.h
+-   :internal:
+-
+ .. kernel-doc:: drivers/gpu/drm/drm_atomic_state_helper.c
+    :export:
+ 
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
 
-Let's use that for kunit work for 5.5. I won't add any kselftest patches
-to it and keep it dedicated for kunit work. When tests are ready for
-upstream, I can keep adding them to this branch.
-
-thanks,
--- Shuah
