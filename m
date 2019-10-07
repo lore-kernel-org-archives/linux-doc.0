@@ -1,147 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEA2D7D912
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 08:41:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1DE6B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 12:25:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbfJGIlH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 04:41:07 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:38540 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727336AbfJGIlG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Oct 2019 04:41:06 -0400
-Received: by mail-pg1-f195.google.com with SMTP id x10so7771519pgi.5
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2019 01:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d00h7IdnG9Bs/4S91y4kH9nayVR/gCRtlft74BTzy6I=;
-        b=AUmIkwxCvC2VEhvpzdAyuNovVm2KMJDpgDWO5MBAsHUd4584+mQuTJYZeAiA+9d8qf
-         Cb8CstcWhfdXgmKTT8Jlla+OWOrkQkY1Q6jQNfjMg0AaTBOEx4pAXKvHC9GWvBLdZn5f
-         azsN30/RzedzrQSkqzovoBINho5ERfih75S8sqKoNuhZtu7ZJ6mBbxw52wj46VIAfs+0
-         /MI6tTyO9gi1ONrL9pd+19m5cKkMzvosoY+gvlO9IBXyVRyQi1ybU6t67GV8aiwd0d0e
-         6C9JtrHHYWmRkyPJoTmdFUFF6AQSVURI2bOhzr9RF9ZKtLjjyBGodHKo0R5D8MzKfjXZ
-         yRSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d00h7IdnG9Bs/4S91y4kH9nayVR/gCRtlft74BTzy6I=;
-        b=rITRbMC+Pk0+moHI5pcoJwgO1EnW2ZAaIJ7VFTqbfrav/IldBFwML8vovmT/MEwL4C
-         djsvwuuFJlcpvzlaFEViiLquBDjRpS9Dif+sA8nIo7+5bxR3/CftafLr8BcPUs6fFSMi
-         Sgnfh56QoDLO9Ar4s0/qDCKVvMk1FI5ogHUWZ285a5IIqpe86K+r/qW/A86kJfmv+fa2
-         iK3W/rs9vjnI04cjTM5VuxKGv6gBO++C9YQJAXzPGd+REyawm39kGV0uPXZrDMLmTMYc
-         vaS0VgU+gU7JFXFYrE4CeqLKZG8NHT72VxwwarPds8I23ZWlz+fvNGEDRRen4Aehcq1w
-         H7wA==
-X-Gm-Message-State: APjAAAX/TPrwRbt2jsPmLwmX8OSsyJvX0BucyPCI/i4Y2JchZoVnr8Hp
-        Lg2E1tXzKes2YoZkNlSIfXo/ue6cUeO0TC1e+2cwbg==
-X-Google-Smtp-Source: APXvYqwxXGxNWrOtyc6pCGXMSd6S1trXysWwf0BjsGf8IFVQEjIqe/b6qXijaBYnb2AJQF5sarq/ZPYHb1uY+bE9OzQ=
-X-Received: by 2002:a17:90a:5d09:: with SMTP id s9mr32723780pji.131.1570437665358;
- Mon, 07 Oct 2019 01:41:05 -0700 (PDT)
+        id S1727561AbfJGMZc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 08:25:32 -0400
+Received: from mail-eopbgr80043.outbound.protection.outlook.com ([40.107.8.43]:10311
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727467AbfJGMZc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Oct 2019 08:25:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eNCXI+5LmhSLZdLZU/gMzv4O03mhYXsf4f5q0E3EICqT2BkaBLKRplmupeEP5DKmuaYxGx3+W0XjSZnO9gYV50l2HF/E1q/zb0bzPeakkXHuQNMia2YZRt9VBMret1B2m4w36OAvHYIA1HMvUGVsugPEiQHIr78CB5s5a3TWbgjMHEZwuX2Q9bGltyjNUdlEYxbpP7H5Sk41IFLGGTZva0aHkslOvNR5e06thXwyy9ZSBMjyc+Mit4zNLlGWEriBdEWySmuRYmuqSAswuP8uvbh4QcLTT0SxJ21y8FCzzQG2TjZ5RVmsDeTWqQs3oO6X/ThRoXPtYV7Sm5TITY5Znw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DQsX/dZQT8Em8A8UcWnLzJOkY+RwJKV/Xv0hpV5JaME=;
+ b=j2LjqogcK9I79N0n8bHKXJVupydI9epd17U5rFBJIfBlR06KRG4hrC/uIoSzVPr2YcNx07pMXgsQkeAC3W5ArbbHRTpKM0evtOLOkXR4kVG7n3ZGWV9WX2B+D0dyj8ODnWsU223JmBTB0R7Ih8fIC+R0oAHGknPRsy7mhialFGoV9ZYrmJMS2gpOt/hV99Yrf2juSpGGO4fMDFuTxZWFa84gyt7dZMynbi3qcwBiBWc1HX5mGju+XfWl5ornPWgjANnqSYktfcKB1lnIVtzsjfXitlq0hfCURbMJ27uZZ+7b4LaOo0hmEvr6KFvmhraiNE6YEeGqFHmTbbEexMICEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DQsX/dZQT8Em8A8UcWnLzJOkY+RwJKV/Xv0hpV5JaME=;
+ b=s6Hym7Y5mJQzYqBrWp3r2p56XE3DR7Lnob3mV7hpyoz7b35uJ4Lw7v0GQY7rlZilwkWRJO2KbFNpAfIX/TGZsce+/pCR9Lgri+qJFPKy5cyKH1t8WanaJAHKOt2YwfJ/MPLPZENj3RKhTx7P/yEVWeFkM1dG+yT3dCcJHdPIMpY=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3485.eurprd04.prod.outlook.com (52.134.3.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Mon, 7 Oct 2019 12:24:48 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::fd33:c447:3cab:c36]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::fd33:c447:3cab:c36%7]) with mapi id 15.20.2305.023; Mon, 7 Oct 2019
+ 12:24:48 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>, Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Eddy Petrisor <eddy.petrisor@nxp.com>
+Subject: Re: [PATCH v4 1/6] dt-bindings: arm: fsl: Add the S32V234-EVB board
+Thread-Topic: [PATCH v4 1/6] dt-bindings: arm: fsl: Add the S32V234-EVB board
+Thread-Index: AQHVfQo1Eh0SeVFXnUWJbDaudlmLUA==
+Date:   Mon, 7 Oct 2019 12:24:48 +0000
+Message-ID: <VI1PR0402MB28639D7B0AB94EBC8DE6464FDF9B0@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+References: <20190905115803.19565-1-stefan-gabriel.mirea@nxp.com>
+ <20190905115803.19565-2-stefan-gabriel.mirea@nxp.com>
+ <20191006015942.GK7150@dragon>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: baf654e8-5ece-47a4-7aff-08d74b215875
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: VI1PR0402MB3485:|VI1PR0402MB3485:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB34850E1AF93E7174167CBB38DF9B0@VI1PR0402MB3485.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 01834E39B7
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(136003)(366004)(39860400002)(396003)(346002)(199004)(189003)(26005)(6116002)(25786009)(76116006)(66946007)(66574012)(33656002)(91956017)(71190400001)(71200400001)(66446008)(66066001)(66476007)(66556008)(64756008)(6506007)(99286004)(7416002)(6916009)(3846002)(53546011)(7696005)(76176011)(86362001)(102836004)(81166006)(81156014)(8676002)(8936002)(486006)(446003)(476003)(7736002)(966005)(2906002)(186003)(14454004)(305945005)(74316002)(316002)(52536014)(54906003)(14444005)(478600001)(5660300002)(9686003)(6306002)(6436002)(256004)(55016002)(4326008)(6246003)(229853002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3485;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tfugnJ/QOrupEec0QRq+RlNZWjW72p7O8OjwsJ2kz8QxqUqQRO45e6d9O84G92hzCVipMCZWaXSGVkCwVY5w6BPIdK5Vf3fCFCKXqrHcm8OV307bfKyxp3kMn6CNqDuwgmONd19a9efcPEu2yJV5xFPjxWGxAS4nuqohLsMlcMP2YKBD4SPkwHl5Liq+SqKJynBb5jYPbcA0kDyVcf2OJ2MWP3399EIafR1qD8O+QXawh9bMVv1lZDeoQHXx59ZYqKpwEWRVmez026m1PD7e1BasG/fLzzI2pVXEAkJ3NNb3nR+aFUqs1v/9NajmWz7NzrnobCicFtwn7nhCn+dx94MGwTtOukfrorR8+3En9VhIgeDwiIxctg3WMTo1vx9a7eqrBnOmqvOofDRsiQH7LUanA/YzzXG+pOBcJg7Ym/ZCRiKuH7SWeFDgdKjK6KHeLNrWOZizYGRTclIRgceGYQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
- <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org> <20191004222714.GA107737@google.com>
- <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org> <20191004232955.GC12012@mit.edu>
- <CAFd5g456rBSp177EkYAwsF+KZ0rxJa90mzUpW2M3R7tWbMAh9Q@mail.gmail.com>
- <63e59b0b-b51e-01f4-6359-a134a1f903fd@kernel.org> <CAFd5g47wji3T9RFmqBwt+jPY0tb83y46oj_ttOq=rTX_N1Ggyg@mail.gmail.com>
- <544bdfcb-fb35-5008-ec94-8d404a08fd14@kernel.org> <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
- <20191006165436.GA29585@mit.edu> <CAHk-=wjcJxypxUOSF-jc=SQKT1CrOoTMyT7soYzbvK3965JmCA@mail.gmail.com>
-In-Reply-To: <CAHk-=wjcJxypxUOSF-jc=SQKT1CrOoTMyT7soYzbvK3965JmCA@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 7 Oct 2019 01:40:53 -0700
-Message-ID: <CAFd5g45djTX+FaXwn2abve1+6GbtNrv+8EJgDe_TXn1d+pzukA@mail.gmail.com>
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>, shuah <shuah@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: baf654e8-5ece-47a4-7aff-08d74b215875
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2019 12:24:48.5393
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: l6rSmB185eW6nFWfIyDgx9mIq/Eb8XKd2xHH1CpAp2QkIVZMiB8I6Squs/23v13MXIMlln813qISb1oszrexhygqkcT1ts1CuWbOji1KtgI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3485
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 6, 2019 at 10:18 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Sun, Oct 6, 2019 at 9:55 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> >
-> > Well, one thing we *can* do is if (a) if we can create a kselftest
-> > branch which we know is stable and won't change, and (b) we can get
-> > assurances that Linus *will* accept that branch during the next merge
-> > window, those subsystems which want to use kself test can simply pull
-> > it into their tree.
->
-> Yes.
->
-> At the same time, I don't think it needs to be even that fancy. Even
-> if it's not a stable branch that gets shared between different
-> developers, it would be good to just have people do a "let's try this"
-> throw-away branch to use the kunit functionality and verify that
-> "yeah, this is fairly convenient for ext4".
->
-> It doesn't have to be merged in that form, but just confirmation that
-> the infrastructure is helpful before it gets merged would be good.
-
-I thought we already had done this satisfactorily.
-
-We have one proof-of-concept test in the branch in the kselftest repo
-(proc sysctl test) that went out in the pull request, and we also had
-some other tests that were not in the pull request (there is the ext4
-timestamp stuff mentioned above, and we also had one against the list
-data structure), which we were planning on sending out for review once
-Shuah's pull request was accepted. I know the apparmor people also
-wrote some tests that they said were useful; however, I have not
-coordinated with them on upstreaming their tests. I know of some other
-people who are using it, but I don't think the tests are as far along
-for upstreaming.
-
-The point is: I thought we had plenty of signal that KUnit would be
-useful to have merged into the mainline kernel. I thought the only
-reason it was rejected for 5.4 was due to the directory name issue
-combined with bad timing.
-
-Please correct me if I missed anything.
-
-Thanks!
+T24gMTAvNi8yMDE5IDU6MDAgQU0sIFNoYXduIEd1byB3cm90ZToKPiBPbiBUaHUsIFNlcCAwNSwg
+MjAxOSBhdCAxMTo1ODozMkFNICswMDAwLCBTdGVmYW4tZ2FicmllbCBNaXJlYSB3cm90ZToKPj4g
+RnJvbTogRWRkeSBQZXRyaciZb3IgPGVkZHkucGV0cmlzb3JAbnhwLmNvbT4KPj4KPj4gQWRkIGVu
+dHJ5IGZvciB0aGUgTlhQIFMzMlYyMzQgQ3VzdG9tZXIgRXZhbHVhdGlvbiBCb2FyZCB0byB0aGUg
+Ym9hcmQvU29DCj4+IGJpbmRpbmdzLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBFZGR5IFBldHJpyJlv
+ciA8ZWRkeS5wZXRyaXNvckBueHAuY29tPgo+PiBTaWduZWQtb2ZmLWJ5OiBTdGVmYW4tR2Ficmll
+bCBNaXJlYSA8c3RlZmFuLWdhYnJpZWwubWlyZWFAbnhwLmNvbT4KPj4gUmV2aWV3ZWQtYnk6IFJv
+YiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gCj4gSSdtIGFib3V0IHRvIGFwcGx5IHRoZSBw
+YXRjaGVzLCBidXQgZm91bmQgdGhlIG1lc3NhZ2VzIGFyZSB1c2luZyBiYXNlNjQKPiBDb250ZW50
+LVRyYW5zZmVyLUVuY29kaW5nLCB3aGljaCBpcyBkaWZmaWN1bHQgZm9yIG1lIHRvIGFwcGx5IHBh
+dGNoCj4gZnJvbS4gIFBsZWFzZSBmaXggaXQgYW5kIHJlc2VuZC4KPiAKPiBTaGF3bgoKSGVsbG8g
+U2hhd24sCgpJIHdpbGwgZml4IHRoaXMgaXMgdGhlIG5leHQgdmVyc2lvbi4gUGxlYXNlIG5vdGUg
+dGhhdCB0aGlzIG1pZ2h0IHRha2UgYQp3aGlsZSwgYXMgdGhlIHByb2JsZW0gaXMgY2F1c2VkIGJ5
+IG91ciBFeGNoYW5nZSBzZXJ2ZXIgYW5kIEkgbmVlZCB0bwpyZWNlaXZlIGFjY2VzcyB0byBhbm90
+aGVyIFNNVFAgc2VydmVyLiBVbmZvcnR1bmF0ZWx5LCB0aGlzIGNhbm5vdCBiZQp3b3JrZWQgYXJv
+dW5kIHdpdGggdGhlICctLXRyYW5zZmVyLWVuY29kaW5nJyBvcHRpb24gb2YgJ2dpdCBzZW5kLWVt
+YWlsJwpmb3IgdGhpcyBwYXJ0aWN1bGFyIHBhdGNoLgoKQWxzbywgcGxlYXNlIG5vdGUgdGhhdCB0
+aGVyZSBpcyBhbHNvIGEgNXRoIHZlcnNpb24gb2YgdGhpcyBzZXJpZXNbMV0sCnN1Ym1pdHRlZCBv
+biAyIE9jdG9iZXIgKHRoZXJlIGFyZSBubyBzaWduaWZpY2FudCBjaGFuZ2VzIHRob3VnaDsgdGhl
+CnBhdGNoZXMgd2VyZSBqdXN0IHJlYmFzZWQpLiBZb3Ugd2VyZSBub3QgaW5jbHVkZWQgaW4gdGhl
+IHJlY2lwaWVudHMgbGlzdApiZWNhdXNlIHRoZSAnYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2Nh
+bGUvZnNsLSonIHBhdHRlcm4gaW4gdGhlIHNlY3Rpb24KJ0FSTS9GUkVFU0NBTEUgTEFZRVJTQ0FQ
+RSBBUk0gQVJDSElURUNUVVJFJyBvZiB0aGUgTUFJTlRBSU5FUlMgZmlsZSBubwpsb25nZXIgbWF0
+Y2hlcyB0aGUgZHRzL2R0c2kgZmlsZSBuYW1lcywgZm9sbG93aW5nIHRoZSBwcmVmaXggcmVtb3Zh
+bCB5b3UKc3VnZ2VzdGVkLiBUaGVyZWZvcmUsIGdldF9tYWludGFpbmVyLnBsIGRpZCBub3Qgc2hv
+dyB5b3UgYXMgYSBtYWludGFpbmVyCmFueW1vcmUuIEkgd2lsbCBhZGQgeW91IHRvIHRoZSBuZXh0
+IHZlcnNpb24uCgpSZWdhcmRzLApTdGVmYW4KClsxXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAx
+OS8xMC8yLzMyMAo=
