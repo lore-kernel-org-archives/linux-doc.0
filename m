@@ -1,79 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 373357D913
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 04:26:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F35CF7D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 04:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727104AbfJGE02 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 00:26:28 -0400
-Received: from mx.socionext.com ([202.248.49.38]:42902 "EHLO mx.socionext.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726889AbfJGE02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Oct 2019 00:26:28 -0400
-Received: from unknown (HELO iyokan-ex.css.socionext.com) ([172.31.9.54])
-  by mx.socionext.com with ESMTP; 07 Oct 2019 13:26:26 +0900
-Received: from mail.mfilter.local (m-filter-1 [10.213.24.61])
-        by iyokan-ex.css.socionext.com (Postfix) with ESMTP id 450E0605F8;
-        Mon,  7 Oct 2019 13:26:26 +0900 (JST)
-Received: from 10.213.24.1 (10.213.24.1) by m-FILTER with ESMTP; Mon, 7 Oct 2019 13:26:26 +0900
-Received: from SOC-EX01V.e01.socionext.com (10.213.24.21) by
- SOC-EX01V.e01.socionext.com (10.213.24.21) with Microsoft SMTP Server (TLS)
- id 15.0.995.29; Mon, 7 Oct 2019 13:26:25 +0900
-Received: from SOC-EX01V.e01.socionext.com ([10.213.24.21]) by
- SOC-EX01V.e01.socionext.com ([10.213.24.21]) with mapi id 15.00.0995.028;
- Mon, 7 Oct 2019 13:26:25 +0900
-From:   <yamada.masahiro@socionext.com>
-To:     <adam.zerella@gmail.com>
-CC:     <michal.lkml@markovi.net>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] Documentation: kbuild: Add document about namespaces
-Thread-Topic: [PATCH] Documentation: kbuild: Add document about namespaces
-Thread-Index: AQHVfLvKaUcRuTir00qxbF0t6ep77adOlJGQ
-Date:   Mon, 7 Oct 2019 04:26:24 +0000
-Message-ID: <a5dfd064b9c14065a5be171cb68876c7@SOC-EX01V.e01.socionext.com>
-References: <20191007030319.GA32575@gmail.com>
-In-Reply-To: <20191007030319.GA32575@gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-securitypolicycheck: OK by SHieldMailChecker v2.5.2
-x-shieldmailcheckerpolicyversion: POLICY190801
-x-originating-ip: [10.213.24.1]
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+        id S1726960AbfJGEhC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 00:37:02 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:27824 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726889AbfJGEhC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Oct 2019 00:37:02 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id x974aGu4005037;
+        Mon, 7 Oct 2019 13:36:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x974aGu4005037
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570422977;
+        bh=9zS2kiZ0aonbgklY7VJR/3auMJ79kULynEoV6u5gXu8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=X9DSPAMmfrMfjqLY943MtrqsF2TF56THsox9uJuCMzHjI0C6ouVr/Ml13c3Co55Ag
+         lpga6L7mh+Avb+4G6IrSqBQL+ueIDSgIXjWthvV3JLWIHmQj+YOCvPhPxgdvo4ZaXt
+         6hIXXThkb3M7q5x2O8cV4c0YsAAh3La9+Tt1Db+Re9QnHr7utMiE4ySD8QfPjGHJMp
+         fwkfFSdelbwNFIry2V09mzYhrpRYofsqCAR5N/RU4YjNVWe2A37jclIpMbuJoHPH1a
+         0iHhyBVUZlyTgiCyoL79+qGjLYLE3MDqYUl5eqyTTtulHxnuMe18g0DCtZgA0H/g0a
+         VtxTCL3QVbUPg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adam Zerella <adam.zerella@gmail.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: move namespaces.rst out of kbuild directory
+Date:   Mon,  7 Oct 2019 13:36:11 +0900
+Message-Id: <20191007043611.31036-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgQWRhbSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBZGFtIFpl
-cmVsbGEgPGFkYW0uemVyZWxsYUBnbWFpbC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgT2N0b2JlciAw
-NywgMjAxOSAxMjowMyBQTQ0KPiBDYzogWWFtYWRhLCBNYXNhaGlyby8bJEI7M0VEGyhCIBskQj8/
-OTAbKEIgPHlhbWFkYS5tYXNhaGlyb0Bzb2Npb25leHQuY29tPjsNCj4gTWljaGFsIE1hcmVrIDxt
-aWNoYWwubGttbEBtYXJrb3ZpLm5ldD47IEpvbmF0aGFuIENvcmJldA0KPiA8Y29yYmV0QGx3bi5u
-ZXQ+OyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBBZGFtIFplcmVsbGENCj4gPGFkYW0uemVy
-ZWxsYUBnbWFpbC5jb20+DQo+IFN1YmplY3Q6IFtQQVRDSF0gRG9jdW1lbnRhdGlvbjoga2J1aWxk
-OiBBZGQgZG9jdW1lbnQgYWJvdXQgbmFtZXNwYWNlcw0KPiANCj4gU3BoaW54IG91dHB1dHMgdGhl
-IGZvbGxvd2luZyBidWlsZCB3YXJuaW5nOg0KPiANCj4gRG9jdW1lbnRhdGlvbi9rYnVpbGQvbmFt
-ZXNwYWNlcy5yc3Q6DQo+IFdBUk5JTkc6IGRvY3VtZW50IGlzbid0IGluY2x1ZGVkIGluIGFueSB0
-b2N0cmVlDQoNCg0KT2gsIEkgZGlkIG5vdCBub3RpY2UgdGhpcyBmaWxlIHdhcyBhZGRlZCB0byB0
-aGUga2J1aWxkIGRpcmVjdG9yeS4NCg0KSSBkbyBub3QgdW5kZXJzdGFuZCB3aHkgaXQgaXMgcmVs
-YXRlZCB0byB0aGUgYnVpbGQgc3lzdGVtLg0KU28sIEknZCByYXRoZXIgaGF2ZSB0aGlzIGZpbGUg
-c29tZXdoZXJlIGVsc2UuDQoNCg0KVGhhbmtzLg0KDQoNCj4gQXNzdW1pbmcgdGhpcyBkb2N1bWVu
-dCBpcyBpbnRlbmRlZCB0byBiZSByZWZlcmVuY2VkIHdpdGhpbiB0aGUNCj4gZG9jdW1lbnRhdGlv
-biBpdCBzaG91bGQgYmUgaW5zaWRlIHRoZSB0b2N0cmVlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-QWRhbSBaZXJlbGxhIDxhZGFtLnplcmVsbGFAZ21haWwuY29tPg0KPiAtLS0NCj4gIERvY3VtZW50
-YXRpb24va2J1aWxkL2luZGV4LnJzdCB8IDEgKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9rYnVpbGQvaW5kZXgucnN0
-DQo+IGIvRG9jdW1lbnRhdGlvbi9rYnVpbGQvaW5kZXgucnN0DQo+IGluZGV4IDBmMTQ0ZmFkOTlh
-Ni4uNWRkMDE5OTdjOGVkIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2tidWlsZC9pbmRl
-eC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9rYnVpbGQvaW5kZXgucnN0DQo+IEBAIC0xNCw2
-ICsxNCw3IEBAIEtlcm5lbCBCdWlsZCBTeXN0ZW0NCj4gICAgICBrY29uZmlnDQo+ICAgICAgbWFr
-ZWZpbGVzDQo+ICAgICAgbW9kdWxlcw0KPiArICAgIG5hbWVzcGFjZXMNCj4gDQo+ICAgICAgaGVh
-ZGVyc19pbnN0YWxsDQo+IA0KPiAtLQ0KPiAyLjIxLjANCg0K
+I did not notice this document was added to Documentation/kbuild/,
+and I do not understand how it is related to the build system.
+
+Kick it out of the kbuild directory.
+
+I am not sure if this is the perfect place, but I added its index
+close to the module-signing.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ Documentation/admin-guide/index.rst                  | 1 +
+ Documentation/{kbuild => admin-guide}/namespaces.rst | 0
+ MAINTAINERS                                          | 1 +
+ 3 files changed, 2 insertions(+)
+ rename Documentation/{kbuild => admin-guide}/namespaces.rst (100%)
+
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 34cc20ee7f3a..ca632fda700f 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -65,6 +65,7 @@ configure specific aspects of kernel behavior to your liking.
+    parport
+    md
+    module-signing
++   namespaces
+    rapidio
+    sysrq
+    unicode
+diff --git a/Documentation/kbuild/namespaces.rst b/Documentation/admin-guide/namespaces.rst
+similarity index 100%
+rename from Documentation/kbuild/namespaces.rst
+rename to Documentation/admin-guide/namespaces.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55199ef7fa74..91815dcc5914 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11547,6 +11547,7 @@ NSDEPS
+ M:	Matthias Maennich <maennich@google.com>
+ S:	Maintained
+ F:	scripts/nsdeps
++F:	Documentation/admin-guide/namespaces.rst
+ 
+ NTB AMD DRIVER
+ M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+-- 
+2.17.1
+
