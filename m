@@ -1,145 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A86867D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Oct 2019 19:33:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE24C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 02:37:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfJFTdL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Oct 2019 15:33:11 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:45073 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbfJFTdK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Oct 2019 15:33:10 -0400
-Received: by mail-ed1-f65.google.com with SMTP id h33so10451450edh.12
-        for <linux-doc@vger.kernel.org>; Sun, 06 Oct 2019 12:33:07 -0700 (PDT)
+        id S1726852AbfJGChF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Oct 2019 22:37:05 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:45165 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726839AbfJGChF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Oct 2019 22:37:05 -0400
+Received: by mail-pf1-f193.google.com with SMTP id y72so7630288pfb.12
+        for <linux-doc@vger.kernel.org>; Sun, 06 Oct 2019 19:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r2veK1juFpJOpq2B+7dAWorW0CIcDxfoPULVB2Vc96M=;
-        b=HdT5usuhBapvf/2MvAGHQ0ZhOBP2RARClB8AMYZ+8IcaCtPcsvswtrhD7ZEy/gmCiq
-         QsbqgDr1EYHYKaQt46kBXGbpB2J0Qbdhf6FqJNFZSwcota2DHPAO0WlerDqSKdIbRd5E
-         vfY/BCxZ8wlH1m5y3N5i4DGXUUhfAkUae2ljI=
+        d=gmail.com; s=20161025;
+        h=date:from:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=lwqzc5T0Op0g75fzdU3jI+whEvZq+YJJoahBgQLxWIQ=;
+        b=P9dONoYKHFkl9QDP9YiMOgv4swaTXm/4yBjHWW9xQrqXmociSitmBeztvA794kasJO
+         QUDVuQtZf8kCu3Zu/QIwqyx47TqKXJMIHWH2sj8Y6wWDgyL22j0oBaQiA763tHbd95S0
+         40hUBoAHAlzC8L+34a1MD/oCwVsBO/7lEFm+X9BccOAoBrrs3nZdxB/M4+lYGGMCCmwP
+         Ed+Ut5Jzph3tcFO8ILql5//CExJMOK/Nv/by1FFU++eVR6mpc/uApibNWQ1SVmLwLd4w
+         Ttf+R1vjttDtRlibH8bQuvpVhryxc3ZuXnPcnnIONAl9hz4uH5taL2U8lL+CnFfJAYgb
+         RTtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r2veK1juFpJOpq2B+7dAWorW0CIcDxfoPULVB2Vc96M=;
-        b=ck2xOd12ZkjnzKxNwOFtqRSX4CreNTaj/boUW4+FyqPwINVx69Wzv0ezh6aNazLK9/
-         HW/4lx68WoVBWHNJfjJ53oRfuQHeoQmcb/wmtzyF+b+L8JdwcaqbyI0emIv3xykttG02
-         jfciIjoA13xsuIv5fmnmTNDqMfPgFB6ZmBWva/cw/iScPIxse/bKnbVBiNvnTpuiB+Tk
-         vwEhg4W7ssPdJyTmLaWF3PCyFO45rvBHNuvHnsd+1x7EgDmigUB6fDQjCa8vuF26voDy
-         vLVzYdW5Mz9c8YLTxf7hoiq7VEwHbmRyj5uHyyo6DTOo5NwBw5iSmwrrVVhDg6OplUx6
-         gyHg==
-X-Gm-Message-State: APjAAAWMABgABK2q4DFth+ofkaxt1F4oBXnR/pC4Asj0t8k4S96lno9e
-        4VmJswVxJCeYB/aL/mmb2rF7iA==
-X-Google-Smtp-Source: APXvYqx1D4zGnHclIa27LBdJchSds9o9/dnTwTwg3jvXOqRC2EzTiJuOOBEiKmpdj1TtUKvLcKfcww==
-X-Received: by 2002:a05:6402:1a45:: with SMTP id bf5mr25206034edb.275.1570390386956;
-        Sun, 06 Oct 2019 12:33:06 -0700 (PDT)
-Received: from [192.168.1.149] (ip-5-186-115-35.cgn.fibianet.dk. [5.186.115.35])
-        by smtp.gmail.com with ESMTPSA id jo12sm1560802ejb.7.2019.10.06.12.33.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Oct 2019 12:33:06 -0700 (PDT)
-Subject: Re: [PATCH v3] docs: Use make invocation's -j argument for
- parallelism
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <201909241627.CEA19509@keescook>
- <eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk>
- <201910040904.43B61E4@keescook>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <b95ded2e-474a-5f7b-af07-30732e8cdb41@rasmusvillemoes.dk>
-Date:   Sun, 6 Oct 2019 21:33:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=lwqzc5T0Op0g75fzdU3jI+whEvZq+YJJoahBgQLxWIQ=;
+        b=HYNRGZYsSbayqetsH4Ev70wIKaJAk1ueOV1vs+VJwt43oX5xTBEgci9AFsAD/ivryS
+         iBXxetgAvrzQseAp9E1bagijKD9IeB/Qqb1Bvwdyggy112nRHfywoctDbqVMP7/BPWf8
+         mI/j1esyS0BmSp4wHKseDoHk9X0a1S9egfB56V6op/lyZHQOgsH4EIgbQg5S6xCYImB4
+         Zzba2MhvHvjRwmyilnmy2IlJ9eJFLEzmSB/1UQjjflI5oECoI3tVoirHZFvKsBX4Gv4L
+         sX3xsE4QStdxqqnL23GOxDMgMPpxBnfb5ESijALEC2xv36ZB0pEQ/kUk7DP6CayZqW3o
+         F2jw==
+X-Gm-Message-State: APjAAAWwMzE3PGVMbzSuTOquN80fKYUslNDy9QVlWNKhlnK+aAARPPm9
+        sXYYkxqz4kjFaKTUGXdAD3oEHojU2Ka0kA==
+X-Google-Smtp-Source: APXvYqyVf9X2xKEGegS5B0Le8Q8EaxngcZ+etrkTd1lIfnNmxiN8cybS+uS9+VuhOkZrntQck0pMdA==
+X-Received: by 2002:a63:fc5f:: with SMTP id r31mr27741299pgk.55.1570415824419;
+        Sun, 06 Oct 2019 19:37:04 -0700 (PDT)
+Received: from gmail.com (ip-103-85-37-165.syd.xi.com.au. [103.85.37.165])
+        by smtp.gmail.com with ESMTPSA id l192sm19577079pga.92.2019.10.06.19.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2019 19:37:03 -0700 (PDT)
+Date:   Mon, 7 Oct 2019 13:36:57 +1100
+From:   Adam Zerella <adam.zerella@gmail.com>
+Cc:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] hwmon: docs: Extend inspur-ipsps1 title underline
+Message-ID: <20191007023657.GA24341@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <201910040904.43B61E4@keescook>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/2019 18.08, Kees Cook wrote:
-> On Fri, Oct 04, 2019 at 11:15:46AM +0200, Rasmus Villemoes wrote:
->> On 25/09/2019 01.29, Kees Cook wrote:
->>> +# Extract and prepare jobserver file descriptors from envirnoment.
->>
->> Ah, reading more carefully you set O_NONBLOCK explicitly. Well, older
->> Makes are going to be very unhappy about that (remember that it's a
->> property of the file description and not file descriptor). They don't
->> expect EAGAIN when fetching a token, so fail hard. Probably not when
->> htmldocs is the only target, because in that case the toplevel Make just
->> reads back the exact number of tokens it put in as a sanity check, but
->> if it builds other targets/spawns other submakes, I think this breaks.
-> 
-> Do you mean the processes sharing the file will suddenly gain
-> O_NONBLOCK? I didn't think that was true, 
+Sphinx is generating a build warning as the title underline
+of this file is too short.
 
-It is. Quoting man fcntl
+Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+---
+ Documentation/hwmon/inspur-ipsps1.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   File status flags
-       Each  open  file  description has certain associated status
-flags, initialized by open(2) and possibly modified by
-       fcntl().  Duplicated file descriptors (made with dup(2),
-fcntl(F_DUPFD), fork(2), etc.) refer  to  the  same  open
-       file description, and thus share the same file status flags.
+diff --git a/Documentation/hwmon/inspur-ipsps1.rst b/Documentation/hwmon/inspur-ipsps1.rst
+index 2b871ae3448f..292c0c26bdd1 100644
+--- a/Documentation/hwmon/inspur-ipsps1.rst
++++ b/Documentation/hwmon/inspur-ipsps1.rst
+@@ -1,5 +1,5 @@
+ Kernel driver inspur-ipsps1
+-=======================
++===========================
+ 
+ Supported chips:
+ 
+-- 
+2.21.0
 
-...  On Linux, this  command
-              can  change  only  the O_APPEND, O_ASYNC, O_DIRECT,
-O_NOATIME, and O_NONBLOCK flags.
-
-> we could easily just restore the state before exit.
-
-That doesn't really help - and I'm a bit surprised you'd even suggest
-that. I don't know if open(/proc/self/fd/...) would give you a new
-struct file.
-
->>> +# Return all the reserved slots.
->>> +os.write(writer, jobs)
->>
->> Well, that probably works ok for the isolated case of a toplevel "make
->> -j12 htmldocs", but if you're building other targets ("make -j12
->> htmldocs vmlinux") this will effectively inject however many tokens the
->> above loop grabbed (which might not be all if the top-level make has
->> started things related to the vmlinux target), so for the duration of
->> the docs build, there will be more processes running than asked for.
-> 
-> That is true, yes, though I still think it's an improvement over the
-> existing case of sphinx-build getting run with -jauto which lands us in
-> the same (or worse) position.
-
-Yes, I agree that that's not ideal either. And probably it's not a big
-problem in practice (I don't think a lot of people build the docs, let
-alone do it while also building the kernel), but it might be rather
-surprising and somewhat hard to "debug" to suddenly have a load twice
-what one expected.
-
-> The best solution would be to teach sphinx-build about the Make
-> jobserver, though I expect that would be weird. Another idea would be to
-> hold the reservation until sphinx-build finishes and THEN return the
-> slots? That would likely need to change from a utility to a sphinx-build
-> wrapper...
-
-Yes, a more general solution would be some kind of generic wrapper that
-would hog however many tokens it could get hold of and run a given
-command with a commandline slightly modified to hand over those tokens -
-then wait for that process to exit and give back the tokens. That would
-work for any command that knows about parallelism but doesn't support
-the make jobserver model. (I'd probably implement that by creating a
-pipe, fork(), then exec into the real command, while the child simply
-blocks in a read on the pipe waiting for EOF and then writes back the
-tokens, to simplify the "we have to report exit/killed-by-signal status
-to the parent).
-
-Rasmus
