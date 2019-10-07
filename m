@@ -1,124 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1789D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 22:10:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E06E37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 23:06:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728980AbfJGWKZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 18:10:25 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:37999 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728654AbfJGWKZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Oct 2019 18:10:25 -0400
-Received: by mail-qt1-f196.google.com with SMTP id j31so21666875qta.5;
-        Mon, 07 Oct 2019 15:10:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ejfq0Mc5y2dQchNRlWvp8Diy33ha1r0LaAd27i+X0Y8=;
-        b=Qqgn7ETyz0nAJYUssdCPGKpvlDATHDL5/hpbmalgdVrmHZ3uJDU//jO41xoiKsGeq8
-         G+Hx1TRhsI+ucGGRDc/JFfnrwRU65D/t7rAgREP6pgLM4Xq1HdXm2VpQlASwstv6ylp/
-         QG1EpFtr3fF1a3M2SzS/dXLl63KEW4yuc0qklcyzqgJLraVvYdbcOHotLUipOfFMyfF9
-         7MpuK/WCfUdn9DHDQc955qUjJxfRvSOJfnQVKIKrEsgA6qSNfor/MmJvSrAg5WeTP3lS
-         aK11RDh7B4VsE2aH0A9CLr8yqDJ3eoUb3bN8FZkcaYkWaB0/J+D2owqQSHUZHKDs+rbi
-         4R5g==
-X-Gm-Message-State: APjAAAVz2zNwp5+gC98vtH2BY0hpwbX2FDkqcUx8eg/ZUOsBLD0gQ3MX
-        Cll9EmuBf2WvApNtrhILu/WT5adu4rv8d8WBFT4=
-X-Google-Smtp-Source: APXvYqzPRJFxFYuWxT4+ZfBG+w2vGH6NTchROSOQUcdmM5fCIL2BX1QvKN3iJG9HKm+wYCbZZdFHqvljXGP+vRDWt10=
-X-Received: by 2002:ac8:342a:: with SMTP id u39mr32462138qtb.7.1570486224339;
- Mon, 07 Oct 2019 15:10:24 -0700 (PDT)
+        id S1729596AbfJGXGS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 19:06:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728980AbfJGXGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Oct 2019 19:06:18 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28D8220835;
+        Mon,  7 Oct 2019 23:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570489577;
+        bh=7bMEka5pHwJt2nAcv9S9/A9NpGqy+zgg2XVYjqPnToM=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=E5PEHebLlzo5gMfozaes03gIrd+tcH0T/VEQizR+m75/dUxJ7DEJDcV6TVgoXGMh+
+         rKANVAxj0225BLpuDcA6PgH1lb/1w78R9389UMgefFnFQ92U+PbL/SZTbOpZa5RY12
+         RoWWp4JJqe0TWyGfpqDxfqmR4rv1+1yTYdRe6yCY=
+Subject: Re: [PATCH] Documentation: kunit: Fix verification command
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        SeongJae Park <sj38.park@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, kunit-dev@googlegroups.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        shuah <shuah@kernel.org>
+References: <1567890091-9712-1-git-send-email-sj38.park@gmail.com>
+ <CAFd5g46MNYcY-o8Z-1tSi0Kva02CjhcWC-xwkeNc6kfiDzLpLQ@mail.gmail.com>
+ <CAFd5g47sUx6ZRxcH4KdKjftv=wo9HmWn+bZukd8gU-YcJv24zQ@mail.gmail.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <6e4527d8-613a-9972-ee04-139a54915b67@kernel.org>
+Date:   Mon, 7 Oct 2019 17:06:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
- <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com> <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
- <fbdc3788-3a24-2885-b61b-8480e8464a51@gmail.com>
-In-Reply-To: <fbdc3788-3a24-2885-b61b-8480e8464a51@gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 8 Oct 2019 00:10:08 +0200
-Message-ID: <CAK8P3a1E_1=_+eJXvcFMLd=a=YW_WGwjm3nzRZV7SzzZqovzRw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Julien Thierry <julien.thierry@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Jinbum Park <jinb.park7@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rob Landley <rob@landley.net>, philip@cog.systems,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Garnier <thgarnie@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAFd5g47sUx6ZRxcH4KdKjftv=wo9HmWn+bZukd8gU-YcJv24zQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 7, 2019 at 11:35 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->
-> On 7/18/19 12:51 AM, Arnd Bergmann wrote:
-> > On Thu, Jul 11, 2019 at 7:00 PM Florian Fainelli
-> > <florian.fainelli@broadcom.com> wrote:
-> >> On 7/2/19 2:06 PM, Linus Walleij wrote:
-> >
-> >>
-> >> Great, thanks a lot for taking a look. FYI, I will be on holiday from
-> >> July 19th till August 12th, if you think you have more feedback between
-> >> now and then, I can try to pick it up and submit a v7 with that feedback
-> >> addressed, or it will happen when I return, or you can pick it up if you
-> >> refer, all options are possible!
-> >>
-> >> @Arnd, should we squash your patches in as well?
-> >
-> > Yes, please do. I don't remember if I sent you all of them already,
-> > here is the list of patches that I have applied locally on top of your
-> > series to get a clean randconfig build:
-> >
-> > 123c3262f872 KASAN: push back KASAN_STACK to clang-10
->
-> This one seems to have received some feedback, not sure if it was
-> addressed or not in a subsequent patch?
+On 10/7/19 4:04 PM, Brendan Higgins wrote:
+> On Sun, Sep 8, 2019 at 4:40 PM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+>>
+>> On Sat, Sep 7, 2019 at 2:01 PM SeongJae Park <sj38.park@gmail.com> wrote:
+>>>
+>>> kunit wrapper script ('kunit.py') receives a sub-command (only 'run' for
+>>> now) as its argument.  If no sub-command is given, it prints help
+>>> message and just quit.  However, an example command in the kunit
+>>> documentation for a verification of kunit is missing the sub-command.
+>>> This commit fixes the example.
+>>>
+>>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+>>
+>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> 
+> Shuah, can you apply this to the kselftest KUnit branch? This should
+> not require a resend.
+> 
 
-ebb6d35a74ce ("kasan: remove clang version check for KASAN_STACK")
 
-got applied, it seems clang will remain broken with KASAN_STACK
-for a while.
+Done. Applied to
 
-> > 053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
->
-> This one I did not take based on Linus' feedback that is breaks booting
-> on his RealView board.
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git 
+test
 
-That likely means that there is still a bigger problem somewhere.
-
-      Arnd
+thanks,
+-- Shuah
