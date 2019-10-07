@@ -1,435 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE3B87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 17:24:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00B247D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 17:54:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfJGRY7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 13:24:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57400 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727801AbfJGRY7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Oct 2019 13:24:59 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8893C300BC7F;
-        Mon,  7 Oct 2019 17:24:58 +0000 (UTC)
-Received: from bgurney.remote.csb (unknown [10.18.25.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D0325C223;
-        Mon,  7 Oct 2019 17:24:52 +0000 (UTC)
-From:   Bryan Gurney <bgurney@redhat.com>
-To:     dm-devel@redhat.com, snitzer@redhat.com, agk@redhat.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Bryan Gurney <bgurney@redhat.com>
-Subject: [PATCH v2] dm dust: convert documentation to ReST
-Date:   Mon,  7 Oct 2019 13:24:49 -0400
-Message-Id: <1570469089-31554-1-git-send-email-bgurney@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 07 Oct 2019 17:24:58 +0000 (UTC)
+        id S1729345AbfJGRyF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 13:54:05 -0400
+Received: from mail-eopbgr770107.outbound.protection.outlook.com ([40.107.77.107]:64679
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728031AbfJGRyF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Oct 2019 13:54:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QI2KEt0EO8sk2jvqTlvmCVke1+XTvaTXTO5qze6IYqXMdiMEVZQJoEEaRbgUmjQ6PJ3WtK9ZERsdhguIay4+xIoac5dQsfrf26rL8JncBZ0o3FMIX6FxxCGgkZ/0g3COejmGw4yAtU9M/LxoRNbwGyQgACQxoDh9kJN/j85zCnNgmucv2HdjQIl2+v10P8/wNDRQgo8YmNLQM3CQlIwWB6ea1FFv0uV68CTwCxPIVp+3Ko9CBDMDTJfAzfbqpUD8BRhYoqn5c9CzH1daGNtbHGZI0cqlwqu0l3Jkz4YjGrmJqOKMUxez3ATs9kShY/g2nu2wA8WcqtOjtfq9qXKxbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k67Yd9ComTsp/9U+8HFQTyGyRwGDjPa6W5Fcf8YIxck=;
+ b=TKnfxGbJ5tHaIwaSlntGen85gaFe5tRiVuJfNIlY2sU2+fESKf/Yu09w4GtPwVnCDtX5Ax4k4Z+WFnalMV9dwcWumc2wlMtF2M4x3Wd9ed0ws3Jl5idAQs9rxhMRULmY4mIkUs/19bQm5cvMvEQEWSzR640YGAcVNW5fuX2m4Kolw2cBxMeWwWFNk/2INzkByMFmWhnamQRjIjGj6GhEtRG26sr2gAH6gJTcgx5qWSehzKeOXkxO20RLoVtbxO5PSUytmd3787a3OWepGsUdbsh6UWVyB5PW8vcQLg67EOYduNFLAQdVrtgLcfXCrJk/CpgBZav3AavunZfYqVzznw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wavecomp.com; dmarc=pass action=none header.from=mips.com;
+ dkim=pass header.d=mips.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k67Yd9ComTsp/9U+8HFQTyGyRwGDjPa6W5Fcf8YIxck=;
+ b=Fw1BaNOyLMSYiKTWWSuMWQhnXUtJ5YC3jgyy8fYSTbYG9pZcKwIKIDDWf5xhLMeWjz+MC0beaDjgk7rAOacwBOfTGW/rqyCp3cJ9EEZLrwBUpDTKHYo8Gj39trkQX+/LDqgSxENS9rKDwYeEW+O0/aDTfWqgmyUWu6nZ7t+gIZE=
+Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.172.60.12) by
+ MWHPR2201MB1549.namprd22.prod.outlook.com (10.174.170.162) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Mon, 7 Oct 2019 17:54:02 +0000
+Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
+ ([fe80::3050:9a38:9d8e:8033]) by MWHPR2201MB1277.namprd22.prod.outlook.com
+ ([fe80::3050:9a38:9d8e:8033%5]) with mapi id 15.20.2327.025; Mon, 7 Oct 2019
+ 17:54:02 +0000
+From:   Paul Burton <paul.burton@mips.com>
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <pburton@wavecomp.com>,
+        James Hogan <jhogan@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
+Subject: Re: [PATCH v7 1/5] nvmem: core: add nvmem_device_find
+Thread-Topic: [PATCH v7 1/5] nvmem: core: add nvmem_device_find
+Thread-Index: AQHVfTg0kX/N0hhhMUmGtPbQOCMv9w==
+Date:   Mon, 7 Oct 2019 17:54:02 +0000
+Message-ID: <MWHPR2201MB12773F2193BDE76C4A5E1A74C19B0@MWHPR2201MB1277.namprd22.prod.outlook.com>
+References: <20191003095235.5158-2-tbogendoerfer@suse.de>
+In-Reply-To: <20191003095235.5158-2-tbogendoerfer@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BY5PR04CA0013.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0::23) To MWHPR2201MB1277.namprd22.prod.outlook.com
+ (2603:10b6:301:18::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=pburton@wavecomp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [12.94.197.246]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c995cd37-6b11-4d2d-c9fd-08d74b4f567b
+x-ms-traffictypediagnostic: MWHPR2201MB1549:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR2201MB154984C25D295B1CE1B464E6C19B0@MWHPR2201MB1549.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 01834E39B7
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(346002)(396003)(366004)(39840400004)(189003)(199004)(52116002)(99286004)(476003)(7736002)(305945005)(54906003)(76176011)(25786009)(486006)(33656002)(42882007)(478600001)(2906002)(11346002)(446003)(52536014)(5660300002)(6246003)(7696005)(4744005)(71200400001)(71190400001)(66066001)(316002)(14454004)(229853002)(7416002)(102836004)(9686003)(81156014)(6436002)(81166006)(6116002)(55016002)(74316002)(3846002)(44832011)(4326008)(8676002)(186003)(6916009)(26005)(966005)(386003)(8936002)(6506007)(6306002)(66946007)(66556008)(64756008)(66446008)(66476007)(256004);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR2201MB1549;H:MWHPR2201MB1277.namprd22.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: CZ7UIjHVFdHwAshDA9YdnVkvufhhc58mNYEhYlHxkGRAY80iwmpDl55Ep3hH46wi5qjE/4C+N2a1hjpHXCFrxcV0NvMIiIW1mXeshqy7fG9l590Juo979W6oTBKU04hVboqJmfbieGA4CcCkAXYotyhl5TSG2JqZOrVnCpLoFCsRFCJRfh0YrZeStX0L9tufM82ILx50Xx1QBQ6KxWMAwWyRbI3cknFNN698ZbNwrpufbV6mxbB1tfADjD9ycloDVjqe8YFr7Vz8FJEcKYp6ceuhgrrpiPYfP1p7wF3m0Zi0f6Dm02oShuV8g40JwOOH2jQVqmxBEIg61ip9gqbPib+TNkIoXYsRnF+Y1C+U4Jnr4jiR7SqKqlhpuIb00rQeHXU8ibJGG3MzdNUfK33M+cQS2o7aolrAN521XET8qh4Q7ruxBY6zbatMBLARwrxNSWg33OClobtPDbd229hkMw==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: mips.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c995cd37-6b11-4d2d-c9fd-08d74b4f567b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2019 17:54:02.5855
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rw3ZTW//Wxh6L1PlbNc2H5Xzh3WG/O++AFpzeiUw6Ct3UWuI2/f9/+QSi7A5CwUA08VQ/PoH4f2rn6PqqtmXUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1549
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the dm-dust documentation to ReST formatting, using literal
-blocks for all of the shell command, shell output, and log output
-examples.
+Hello,
 
-Add dm-dust to index.rst.
+Thomas Bogendoerfer wrote:
+> nvmem_device_find provides a way to search for nvmem devices with
+> the help of a match function simlair to bus_find_device.
 
-Additionally, fix an annotation in the "querying for specific bad
-blocks" section, on the "queryblock ... not found in badblocklist"
-example, to properly state that the message appears when a given
-block is not found.
+Applied to mips-next.
 
-Signed-off-by: Bryan Gurney <bgurney@redhat.com>
+> commit 8c2a2b8c2ff6
+> https://git.kernel.org/mips/c/8c2a2b8c2ff6
+>=20
+> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+> Signed-off-by: Paul Burton <paul.burton@mips.com>
 
----
+Thanks,
+    Paul
 
-Changes since v1:
-
-- Clean up the table parameters section of the dm-dust
-  documentation to a description-list format.
-- Condense literal block trailing colons where possible.
-- Remove trailing colons from titles.
----
- .../{dm-dust.txt => dm-dust.rst}              | 243 ++++++++++--------
- .../admin-guide/device-mapper/index.rst       |   1 +
- 2 files changed, 130 insertions(+), 114 deletions(-)
- rename Documentation/admin-guide/device-mapper/{dm-dust.txt => dm-dust.rst} (51%)
-
-diff --git a/Documentation/admin-guide/device-mapper/dm-dust.txt b/Documentation/admin-guide/device-mapper/dm-dust.rst
-similarity index 51%
-rename from Documentation/admin-guide/device-mapper/dm-dust.txt
-rename to Documentation/admin-guide/device-mapper/dm-dust.rst
-index 954d402a1f6a..b6e7e7ead831 100644
---- a/Documentation/admin-guide/device-mapper/dm-dust.txt
-+++ b/Documentation/admin-guide/device-mapper/dm-dust.rst
-@@ -31,218 +31,233 @@ configured "bad blocks" will be treated as bad, or bypassed.
- This allows the pre-writing of test data and metadata prior to
- simulating a "failure" event where bad sectors start to appear.
- 
--Table parameters:
-------------------
-+Table parameters
-+----------------
- <device_path> <offset> <blksz>
- 
- Mandatory parameters:
--    <device_path>: path to the block device.
--    <offset>: offset to data area from start of device_path
--    <blksz>: block size in bytes
-+    <device_path>:
-+        Path to the block device.
-+
-+    <offset>:
-+        Offset to data area from start of device_path
-+
-+    <blksz>:
-+        Block size in bytes
-+
- 	     (minimum 512, maximum 1073741824, must be a power of 2)
- 
--Usage instructions:
---------------------
-+Usage instructions
-+------------------
- 
--First, find the size (in 512-byte sectors) of the device to be used:
-+First, find the size (in 512-byte sectors) of the device to be used::
- 
--$ sudo blockdev --getsz /dev/vdb1
--33552384
-+        $ sudo blockdev --getsz /dev/vdb1
-+        33552384
- 
- Create the dm-dust device:
- (For a device with a block size of 512 bytes)
--$ sudo dmsetup create dust1 --table '0 33552384 dust /dev/vdb1 0 512'
-+
-+::
-+
-+        $ sudo dmsetup create dust1 --table '0 33552384 dust /dev/vdb1 0 512'
- 
- (For a device with a block size of 4096 bytes)
--$ sudo dmsetup create dust1 --table '0 33552384 dust /dev/vdb1 0 4096'
-+
-+::
-+
-+        $ sudo dmsetup create dust1 --table '0 33552384 dust /dev/vdb1 0 4096'
- 
- Check the status of the read behavior ("bypass" indicates that all I/O
--will be passed through to the underlying device):
--$ sudo dmsetup status dust1
--0 33552384 dust 252:17 bypass
-+will be passed through to the underlying device)::
-+
-+        $ sudo dmsetup status dust1
-+        0 33552384 dust 252:17 bypass
- 
--$ sudo dd if=/dev/mapper/dust1 of=/dev/null bs=512 count=128 iflag=direct
--128+0 records in
--128+0 records out
-+        $ sudo dd if=/dev/mapper/dust1 of=/dev/null bs=512 count=128 iflag=direct
-+        128+0 records in
-+        128+0 records out
- 
--$ sudo dd if=/dev/zero of=/dev/mapper/dust1 bs=512 count=128 oflag=direct
--128+0 records in
--128+0 records out
-+        $ sudo dd if=/dev/zero of=/dev/mapper/dust1 bs=512 count=128 oflag=direct
-+        128+0 records in
-+        128+0 records out
- 
--Adding and removing bad blocks:
---------------------------------
-+Adding and removing bad blocks
-+------------------------------
- 
- At any time (i.e.: whether the device has the "bad block" emulation
- enabled or disabled), bad blocks may be added or removed from the
--device via the "addbadblock" and "removebadblock" messages:
-+device via the "addbadblock" and "removebadblock" messages::
- 
--$ sudo dmsetup message dust1 0 addbadblock 60
--kernel: device-mapper: dust: badblock added at block 60
-+        $ sudo dmsetup message dust1 0 addbadblock 60
-+        kernel: device-mapper: dust: badblock added at block 60
- 
--$ sudo dmsetup message dust1 0 addbadblock 67
--kernel: device-mapper: dust: badblock added at block 67
-+        $ sudo dmsetup message dust1 0 addbadblock 67
-+        kernel: device-mapper: dust: badblock added at block 67
- 
--$ sudo dmsetup message dust1 0 addbadblock 72
--kernel: device-mapper: dust: badblock added at block 72
-+        $ sudo dmsetup message dust1 0 addbadblock 72
-+        kernel: device-mapper: dust: badblock added at block 72
- 
- These bad blocks will be stored in the "bad block list".
--While the device is in "bypass" mode, reads and writes will succeed:
-+While the device is in "bypass" mode, reads and writes will succeed::
- 
--$ sudo dmsetup status dust1
--0 33552384 dust 252:17 bypass
-+        $ sudo dmsetup status dust1
-+        0 33552384 dust 252:17 bypass
- 
--Enabling block read failures:
-------------------------------
-+Enabling block read failures
-+----------------------------
- 
--To enable the "fail read on bad block" behavior, send the "enable" message:
-+To enable the "fail read on bad block" behavior, send the "enable" message::
- 
--$ sudo dmsetup message dust1 0 enable
--kernel: device-mapper: dust: enabling read failures on bad sectors
-+        $ sudo dmsetup message dust1 0 enable
-+        kernel: device-mapper: dust: enabling read failures on bad sectors
- 
--$ sudo dmsetup status dust1
--0 33552384 dust 252:17 fail_read_on_bad_block
-+        $ sudo dmsetup status dust1
-+        0 33552384 dust 252:17 fail_read_on_bad_block
- 
- With the device in "fail read on bad block" mode, attempting to read a
--block will encounter an "Input/output error":
-+block will encounter an "Input/output error"::
- 
--$ sudo dd if=/dev/mapper/dust1 of=/dev/null bs=512 count=1 skip=67 iflag=direct
--dd: error reading '/dev/mapper/dust1': Input/output error
--0+0 records in
--0+0 records out
--0 bytes copied, 0.00040651 s, 0.0 kB/s
-+        $ sudo dd if=/dev/mapper/dust1 of=/dev/null bs=512 count=1 skip=67 iflag=direct
-+        dd: error reading '/dev/mapper/dust1': Input/output error
-+        0+0 records in
-+        0+0 records out
-+        0 bytes copied, 0.00040651 s, 0.0 kB/s
- 
- ...and writing to the bad blocks will remove the blocks from the list,
--therefore emulating the "remap" behavior of hard disk drives:
-+therefore emulating the "remap" behavior of hard disk drives::
- 
--$ sudo dd if=/dev/zero of=/dev/mapper/dust1 bs=512 count=128 oflag=direct
--128+0 records in
--128+0 records out
-+        $ sudo dd if=/dev/zero of=/dev/mapper/dust1 bs=512 count=128 oflag=direct
-+        128+0 records in
-+        128+0 records out
- 
--kernel: device-mapper: dust: block 60 removed from badblocklist by write
--kernel: device-mapper: dust: block 67 removed from badblocklist by write
--kernel: device-mapper: dust: block 72 removed from badblocklist by write
--kernel: device-mapper: dust: block 87 removed from badblocklist by write
-+        kernel: device-mapper: dust: block 60 removed from badblocklist by write
-+        kernel: device-mapper: dust: block 67 removed from badblocklist by write
-+        kernel: device-mapper: dust: block 72 removed from badblocklist by write
-+        kernel: device-mapper: dust: block 87 removed from badblocklist by write
- 
--Bad block add/remove error handling:
--------------------------------------
-+Bad block add/remove error handling
-+-----------------------------------
- 
- Attempting to add a bad block that already exists in the list will
--result in an "Invalid argument" error, as well as a helpful message:
-+result in an "Invalid argument" error, as well as a helpful message::
- 
--$ sudo dmsetup message dust1 0 addbadblock 88
--device-mapper: message ioctl on dust1  failed: Invalid argument
--kernel: device-mapper: dust: block 88 already in badblocklist
-+        $ sudo dmsetup message dust1 0 addbadblock 88
-+        device-mapper: message ioctl on dust1  failed: Invalid argument
-+        kernel: device-mapper: dust: block 88 already in badblocklist
- 
- Attempting to remove a bad block that doesn't exist in the list will
--result in an "Invalid argument" error, as well as a helpful message:
-+result in an "Invalid argument" error, as well as a helpful message::
- 
--$ sudo dmsetup message dust1 0 removebadblock 87
--device-mapper: message ioctl on dust1  failed: Invalid argument
--kernel: device-mapper: dust: block 87 not found in badblocklist
-+        $ sudo dmsetup message dust1 0 removebadblock 87
-+        device-mapper: message ioctl on dust1  failed: Invalid argument
-+        kernel: device-mapper: dust: block 87 not found in badblocklist
- 
--Counting the number of bad blocks in the bad block list:
----------------------------------------------------------
-+Counting the number of bad blocks in the bad block list
-+-------------------------------------------------------
- 
- To count the number of bad blocks configured in the device, run the
--following message command:
-+following message command::
- 
--$ sudo dmsetup message dust1 0 countbadblocks
-+        $ sudo dmsetup message dust1 0 countbadblocks
- 
- A message will print with the number of bad blocks currently
--configured on the device:
-+configured on the device::
- 
--kernel: device-mapper: dust: countbadblocks: 895 badblock(s) found
-+        kernel: device-mapper: dust: countbadblocks: 895 badblock(s) found
- 
--Querying for specific bad blocks:
-----------------------------------
-+Querying for specific bad blocks
-+--------------------------------
- 
- To find out if a specific block is in the bad block list, run the
--following message command:
-+following message command::
- 
--$ sudo dmsetup message dust1 0 queryblock 72
-+        $ sudo dmsetup message dust1 0 queryblock 72
- 
--The following message will print if the block is in the list:
--device-mapper: dust: queryblock: block 72 found in badblocklist
-+The following message will print if the block is in the list::
- 
--The following message will print if the block is in the list:
--device-mapper: dust: queryblock: block 72 not found in badblocklist
-+        device-mapper: dust: queryblock: block 72 found in badblocklist
-+
-+The following message will print if the block is not in the list::
-+
-+        device-mapper: dust: queryblock: block 72 not found in badblocklist
- 
- The "queryblock" message command will work in both the "enabled"
- and "disabled" modes, allowing the verification of whether a block
- will be treated as "bad" without having to issue I/O to the device,
- or having to "enable" the bad block emulation.
- 
--Clearing the bad block list:
------------------------------
-+Clearing the bad block list
-+---------------------------
- 
- To clear the bad block list (without needing to individually run
- a "removebadblock" message command for every block), run the
--following message command:
-+following message command::
- 
--$ sudo dmsetup message dust1 0 clearbadblocks
-+        $ sudo dmsetup message dust1 0 clearbadblocks
- 
--After clearing the bad block list, the following message will appear:
-+After clearing the bad block list, the following message will appear::
- 
--kernel: device-mapper: dust: clearbadblocks: badblocks cleared
-+        kernel: device-mapper: dust: clearbadblocks: badblocks cleared
- 
- If there were no bad blocks to clear, the following message will
--appear:
-+appear::
- 
--kernel: device-mapper: dust: clearbadblocks: no badblocks found
-+        kernel: device-mapper: dust: clearbadblocks: no badblocks found
- 
--Message commands list:
------------------------
-+Message commands list
-+---------------------
- 
- Below is a list of the messages that can be sent to a dust device:
- 
--Operations on blocks (requires a <blknum> argument):
-+Operations on blocks (requires a <blknum> argument)::
- 
--addbadblock <blknum>
--queryblock <blknum>
--removebadblock <blknum>
-+        addbadblock <blknum>
-+        queryblock <blknum>
-+        removebadblock <blknum>
- 
- ...where <blknum> is a block number within range of the device
--  (corresponding to the block size of the device.)
-+(corresponding to the block size of the device.)
- 
--Single argument message commands:
-+Single argument message commands::
- 
--countbadblocks
--clearbadblocks
--disable
--enable
--quiet
-+        countbadblocks
-+        clearbadblocks
-+        disable
-+        enable
-+        quiet
- 
--Device removal:
-----------------
-+Device removal
-+--------------
- 
--When finished, remove the device via the "dmsetup remove" command:
-+When finished, remove the device via the "dmsetup remove" command::
- 
--$ sudo dmsetup remove dust1
-+        $ sudo dmsetup remove dust1
- 
--Quiet mode:
-------------
-+Quiet mode
-+----------
- 
- On test runs with many bad blocks, it may be desirable to avoid
- excessive logging (from bad blocks added, removed, or "remapped").
--This can be done by enabling "quiet mode" via the following message:
-+This can be done by enabling "quiet mode" via the following message::
- 
--$ sudo dmsetup message dust1 0 quiet
-+        $ sudo dmsetup message dust1 0 quiet
- 
- This will suppress log messages from add / remove / removed by write
- operations.  Log messages from "countbadblocks" or "queryblock"
- message commands will still print in quiet mode.
- 
--The status of quiet mode can be seen by running "dmsetup status":
-+The status of quiet mode can be seen by running "dmsetup status"::
- 
--$ sudo dmsetup status dust1
--0 33552384 dust 252:17 fail_read_on_bad_block quiet
-+        $ sudo dmsetup status dust1
-+        0 33552384 dust 252:17 fail_read_on_bad_block quiet
- 
--To disable quiet mode, send the "quiet" message again:
-+To disable quiet mode, send the "quiet" message again::
- 
--$ sudo dmsetup message dust1 0 quiet
-+        $ sudo dmsetup message dust1 0 quiet
- 
--$ sudo dmsetup status dust1
--0 33552384 dust 252:17 fail_read_on_bad_block verbose
-+        $ sudo dmsetup status dust1
-+        0 33552384 dust 252:17 fail_read_on_bad_block verbose
- 
- (The presence of "verbose" indicates normal logging.)
- 
-diff --git a/Documentation/admin-guide/device-mapper/index.rst b/Documentation/admin-guide/device-mapper/index.rst
-index c77c58b8f67b..4872fb6d2952 100644
---- a/Documentation/admin-guide/device-mapper/index.rst
-+++ b/Documentation/admin-guide/device-mapper/index.rst
-@@ -9,6 +9,7 @@ Device Mapper
-     cache
-     delay
-     dm-crypt
-+    dm-dust
-     dm-flakey
-     dm-init
-     dm-integrity
--- 
-2.21.0
-
+[ This message was auto-generated; if you believe anything is incorrect
+  then please email paul.burton@mips.com to report it. ]
