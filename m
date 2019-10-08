@@ -1,80 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=0.9 required=5.0 tests=DEAR_FRIEND,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FILL_THIS_FORM_LOAN,
-	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,MONEY_FORM,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	SUBJ_ALL_CAPS,T_MONEY_PERCENT autolearn=no autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-4.0 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D51297D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 10:53:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BF627D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 11:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730622AbfJHKxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 06:53:46 -0400
-Received: from sonic311-13.consmr.mail.bf2.yahoo.com ([74.6.131.123]:38623
-        "EHLO sonic311-13.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730008AbfJHKxn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 06:53:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1570532022; bh=zPC9p8T5S06DA73PD5F75wViZ/EpBpeYylTS7OqjCU4=; h=Date:From:Reply-To:Subject:From:Subject; b=Xx862rLBFXSU57lKDjLNxjuVBwuGVMhoMsAz5FaYNmVy6by3FKn8mTLpvQC1/SKpkGqd+BqC2wko21zrC7E5K140RHvR5Td6iMoE+EY2W+zpSvBx9RpmTVb056cWlpVM0oKbeqq9avY6irVhued42QKcnm154t5kZVGz8hnIzIT8ZkpDR6pDeziO7pdQbP8lfQpTh3ZAprkzRMD57Mtwa+QGesxkkMw717XgI6APeps0FBxTZP/RtaCJ3RpkXoHMXSbPgh22HGyddqYRwlf08Oj6Q0RFCKs3L7yOwSPVM46YTP4o3LKmkxuC4QNtkiSB3Ysrd4rjBMrcasvAAYBtBg==
-X-YMail-OSG: wld7PHsVM1nxwOas3qgStdeyvVXNZnOUigfZQCsq.vJSzRLn.piynw3o7E2RSKw
- EqyudJQbiNOo6r8lQLDgZm4i3M8ZtayHt9o9VTeuyOUZAOiDMxOML8m3O172VnKH19hZr2uK256h
- _yLoXzQhq3zF0gDuJtWHXugUqG8Os4kkeiicT2LiJH8OMYoVKoKIaqFeDclIEWT8_zHCT10ZYybN
- MSl4D4lwZM_nZLKGVBwMPYP3a4.spxWtX2k26PN_gukleAGFF5TaYINtQY_Au8x7CtGbB77tPW8Z
- ftRPEQuYuC5UtomwqZIYP6.ZMFoT3Bge2u4L2PMjbwrsMPYC..QO1s9g_7CNCq6wKJAqp5K.PfL3
- 7TanqdiU6IJLk42BMYkWpBTz3A1uCptwnNuIXg6gTEChr_QfE1BPC8H.N2GhzbIpVA1.j8F6hcLH
- wULjKR.3oKNNv2AE4Np6_1ukTKwcFTz2cHAzIBZ26Oif1MAMwn5PF95LSpbvb4C6pNlbXBLf1mcE
- Uqr48ULNQJnubZlx7YyVWviKeyTVsH8xZZxxOPKMGqjUJ9Xl0fynEpnqnhMfALpjKV0j80KPoA._
- K9uJNDFyrt3Nyoa9LWaBaV81ljViS9.un6lbbOP6anKMUVZjunSXgUQE0ZW3UwXYBJ1mq8xEUSNZ
- DHGq9tRj9lb1t557ocWZtvJuABtCuwz0g0gQDvtheyaDTBz8ajwMqUqG1hZ0HVRV4EuJ5NU9qnHl
- HXZ_NK3vc9miRb2ECWWA6Tdeb.fGsi2.Vf3573z19d_lqj_EHffsybSdOPZ26_Z6Vh9BKAXR.Cqh
- I_SMKIbXq4yhVIyBAf6FXlD2RVzdTe9O_gKpmEjt9qvHUML1wR9EasMjpzFy1fqThjAWQk5OMi4c
- mN5M6YSuyENIUIKpDKTW4gmBf9XsuzVgpLKW6_7XwI_bE5vwTKWnExF75.VUuPNWfOuj0f7KxlXl
- J0JWadKhpZ.HBCkib6dvxSZW9NYLdfpNwTQNld7.kwP2Usey9at3t3CP4JZWsCz4QMHflo1o63Sg
- xmk.D0ONA84m1kWt_DKttDhKGCSOzk4k4o57zmSAEnAC1Lb.7z04HAFlseMH47B41ZlHYKsOGQzr
- ae2b4Z.OsuWLNkBjNjNZwmXD.fPWA8TrvtA.kfmVqM3m62KgT3uorAUuAi9v922AF1sgrqRHV5O.
- 7fdzjx.VA4X_xYdwrBMPUz.Rxy1K7gZt.SlRdb.2zpW1XohOgYlYEi5BjDjf2GfR9SH4.YPGGD6s
- PCjfsANbpb3FPQwi8XERILrdmZ9sVRvrEFbQ7VW.LkmguDwmwEA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.bf2.yahoo.com with HTTP; Tue, 8 Oct 2019 10:53:42 +0000
-Date:   Tue, 8 Oct 2019 10:53:37 +0000 (UTC)
-From:   Ms Lisa Hugh <lisa.hugh101@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <246021388.3343132.1570532017567@mail.yahoo.com>
-Subject: FROM MS LISA HUGH (BUSINESS).
+        id S1730156AbfJHLFU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 07:05:20 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35491 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730118AbfJHLFU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 07:05:20 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v8so18902678wrt.2;
+        Tue, 08 Oct 2019 04:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=J92IWr2VJrY20cgBoCqlCjKaHqq8B9mSOS3pdXzLByg=;
+        b=GKdJOsXaS7oy+vYxeRfBem2DpcZoE6xluLj7B3VZTd++gIRdIJHAcBwflVR9iSzhQz
+         4agGD+SXLAQpDauw+zsmyJmc6rRgnr9DExjP2T7luIcMToCWeoU58bsgQvtMzaxWkRY4
+         Yh7pen97p38z77CKnPJnh2YPRXmecSZDn5dNy5gVegEQUeHiEj3ILmYDYCH6lP0lPMQV
+         Uxxiy9i6L7xJ5CBeziZ8AkQTnSX7D72++VNm0FsKLTLNQggABvslqBOxcNTTzly3Mcwm
+         tQjQvDNBWsHZxyvcN5Git1HIfvbXLuuPnSinhKmCgnUGTiymalAPRNBzrtya3eV4Ko/d
+         Z0JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=J92IWr2VJrY20cgBoCqlCjKaHqq8B9mSOS3pdXzLByg=;
+        b=eRoiECqRaY3kYbXNEVkLVYA04ewDU7GuVsekHS0xalFyvae5nfNIws1ybPtN34IDSA
+         mAayZ81e//su919o5JjDuurfOfaCRz+aBKddvJGpnr97QLo6aLsFuJRkP8ExOHWSeOWq
+         kCyu44u1CbFpL5REJ7hOgS9+Zd4r9CKQQtvqNRwSIPc0mHLD3bnbsgMCa6wUGr8ZJ3Uz
+         fIUYgjWZ/fKm33gwBR56iqmm/DPvQgv3EnOdgkDuQ1cCzc7qeCRbzFO27ScP8JNoITCS
+         P+KPVlc8jICTGwe/kRFomRLu1ERS8cURWKOY26mAw0jNV0zQwgm9sSh/yrmp0lSUda7+
+         DqNw==
+X-Gm-Message-State: APjAAAWm5M3/MTiph7ZBQH9FYYwKsHxoNbsrgBrYMypyWn4lthLYrDxt
+        r7tnZEV4Ipcp6xQ1VW9/puQ=
+X-Google-Smtp-Source: APXvYqw0NawJTWZiuMShXAIsYRAaf5X0VI1pfia9S89FIVn+31OYEpLhXWLX+LczhmPApHBFq4cRVw==
+X-Received: by 2002:a5d:4102:: with SMTP id l2mr27721246wrp.348.1570532715866;
+        Tue, 08 Oct 2019 04:05:15 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id e15sm21826909wrt.94.2019.10.08.04.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 04:05:15 -0700 (PDT)
+Date:   Tue, 8 Oct 2019 13:05:12 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
+ support
+Message-ID: <20191008110512.GA116541@gmail.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191007141956.GA25347@gmail.com>
+ <c7f1678f-ff03-1c3a-02e3-a68025b87969@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c7f1678f-ff03-1c3a-02e3-a68025b87969@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+* Hans de Goede <hdegoede@redhat.com> wrote:
 
-Dear Friend,
+> > So I was looking for a high level 0/ boilerplate description of this
+> > series, to explain what "EFI embedded fw" is, what problems it solves and
+> > how it helps the kernel in general - and found this in 2/8:
+> 
+> Sorry you had to dig into the individual patch changelogs for that
+> I sorta assumed that everyone involved would still vaguely remember
+> what this series is about.
 
-I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank(B.O.A).
+Wasn't *that* hard to do and I intended to read the patches anyway. ;-)
 
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+Thanks for the explanation and the answers, this all looks good to me in 
+principle and in implementation as well.
 
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me forsuccess.
+Thanks,
 
-Note/ 50% for you why 50% for me after success of the transfer to your bank
-account.
-
-Below information is what i need from you so will can be reaching each
-other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa Hugh
+	Ingo
