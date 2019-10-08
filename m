@@ -1,116 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF6D07D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 21:20:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B07997D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 23:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731038AbfJHVUq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 17:20:46 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:55910 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730720AbfJHVUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 17:20:45 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 31D218030B; Tue,  8 Oct 2019 23:20:28 +0200 (CEST)
-Date:   Tue, 8 Oct 2019 23:20:41 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tip-commits@vger.kernel.org,
-        "x86@kernel.org" <x86@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Juergen Gross <jgross@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Chen Yu <yu.c.chen@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Borislav Petkov <bp@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [tip: x86/urgent] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
- family 15h/16h
-Message-ID: <20191008212041.GA7222@amd>
-References: <7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com>
- <156652264945.9541.4969272027980914591.tip-bot2@tip-bot2>
- <20190824181929.GA18551@amd>
- <409703ae-6d70-3f6a-d6fc-b7dada3c2797@zytor.com>
+        id S1729187AbfJHXIb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 19:08:31 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:41252 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728792AbfJHXIb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 19:08:31 -0400
+Received: by mail-io1-f68.google.com with SMTP id n26so704564ioj.8
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 16:08:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=date:from:to:cc:subject:message-id:user-agent:mime-version;
+        bh=t3QL86pnLLp7H0YYwH/FdnAoL7Vq3h3qOuyHpBMWRk0=;
+        b=b7/9uQ66uupBgYsVJw0ZQPL+EeFq27QaSUNsKPah4m0OvuJROtA65r5jxaJDF6YnlX
+         iab1ki5mx3Sz+PRjV2NBtM3e0agwYbL0MUmyzBc+FrmvdBPAMPnrn7DQl2TsOa4ilXBB
+         TPlk8zNqG+fZTqi2FBhsRM5PJ+QDfRKHaC7s3/fft/hXNXzQDOuuFjutP5SgSKQErlFi
+         lXfOIHBDmRgk54rWLXvHgOQ4ihDsxsCN7V6ytatzlbO6/BbM75VTkSAwd2qMSEv8mEyo
+         u8Rs20zqVaO+JNiGR3XyoVsxl3YHYkxOOTD7H7SgKxtQrdfsLWAIntkXUsKP4qOvUtEZ
+         L+lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:user-agent
+         :mime-version;
+        bh=t3QL86pnLLp7H0YYwH/FdnAoL7Vq3h3qOuyHpBMWRk0=;
+        b=ID6YmmVH+UlTkbyXShO7RTgOLFMtA6+GplqsJ0VAqTucMXNbEY3dgrWj1Z5Pmqgs8P
+         JGUThe5YsyE3hOZHzS6j2RFufvVMfBglyttwkkVqM3n1S+ieVv7tFsxFcD76hrpogsKQ
+         BGzqs0EvdR+VTgzXND0yi0MnHzKWt9an2JllINXuCYBFCEFo5jMraQNIzGSHoov4k+5e
+         tpuu0jeFk4d+puSAetb2dWIs/T0enWn1u5wWE5vNfmE96T8pz5+UTXrJc/fiMQAEg+sr
+         Hgp4CBcz2uAIawZonMP9iJpWGdAAg8LLLRWbYwqnt3CqStnxaIrTM0S378i9YKn8um8R
+         29gg==
+X-Gm-Message-State: APjAAAX6wwDHmTgQ5NhORxPcGInPmmCYbIOZXFy528u+AMCZvKvKphAm
+        WTTyjdJEDc3xzkzJ48/T2pzBVA==
+X-Google-Smtp-Source: APXvYqw9T/3Qa+z2vFNUc/+LzFnPBHh8p1vHwRgtUolzXIAAClxQUyxSFD7Sse4Dm7TGhqZE04GXvA==
+X-Received: by 2002:a92:8fc6:: with SMTP id r67mr121939ilk.25.1570576110234;
+        Tue, 08 Oct 2019 16:08:30 -0700 (PDT)
+Received: from localhost ([64.62.168.194])
+        by smtp.gmail.com with ESMTPSA id d26sm195329ioc.16.2019.10.08.16.08.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 16:08:29 -0700 (PDT)
+Date:   Tue, 8 Oct 2019 16:08:27 -0700 (PDT)
+From:   Paul Walmsley <paul.walmsley@sifive.com>
+X-X-Sender: paulw@viisi.sifive.com
+To:     corbet@lwn.net
+cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, schwab@suse.de, hch@lst.de
+Subject: [PATCH] Documentation: admin-guide: add earlycon documentation for
+ the sifive serial driver
+Message-ID: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com>
+User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-In-Reply-To: <409703ae-6d70-3f6a-d6fc-b7dada3c2797@zytor.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Document earlycon usage for the SiFive serial port driver in the same
+fashion as for the other serial port IP blocks, since the SiFive
+serial port driver supports it.
 
-Hi!
+Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+Reported-by: Andreas Schwab <schwab@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> >> x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
-> >>
-> >> There have been reports of RDRAND issues after resuming from suspend on
-> >> some AMD family 15h and family 16h systems. This issue stems from a BI=
-OS
-> >> not performing the proper steps during resume to ensure RDRAND continu=
-es
-> >> to function properly.
-> >=20
-> > There are quite a few unanswered questions here.
-> >=20
-> > a) Is there/should there be CVE for this?
-> >=20
-> > b) Can we perform proper steps in kernel, thus making RDRAND usable
-> > even when BIOS is buggy?
-> >=20
->=20
-> The kernel should at least be able to set its internal "CPUID" bit, visib=
-le
-> through /proc/cpuinfo.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c7ac2f3ac99f..90becb00221b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1106,6 +1106,12 @@
+ 			address must be provided, and the serial port must
+ 			already be setup and configured.
+ 
++		sifive,<addr>
++			Start an early, polled-mode console on a SiFive
++			serial port at the specified address.  The port must
++			already be setup and configured.  Options are not
++			yet supported.
++
+ 	earlyprintk=	[X86,SH,ARM,M68k,S390]
+ 			earlyprintk=vga
+ 			earlyprintk=sclp
+-- 
+2.23.0
 
-Actually, with hindsight I see two possible improvements here:
-
-1) Not having enabled s2ram in config does not mean machine was not
-suspended/resumed, then new kernel executed via kexec.
-
-2) We really can continue using the RDRAND: we know how it fails
-(constant pattern) so we can check for the failure in kernel, and can
-continue to use it... It will certainly work until first suspend, and
-there's good chance it will work after that, too. (We still need to
-prevent userspace from using it).
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl2c/akACgkQMOfwapXb+vIAIgCfTtdPEk+einOr1l0u8g3JJUIR
-Hw8An3EIBITYsbuZfkKzqYAG/mjHPUe/
-=XIae
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
