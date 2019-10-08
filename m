@@ -1,84 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E06E37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Oct 2019 23:06:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2ADAE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 03:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729596AbfJGXGS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Oct 2019 19:06:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728980AbfJGXGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Oct 2019 19:06:18 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28D8220835;
-        Mon,  7 Oct 2019 23:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570489577;
-        bh=7bMEka5pHwJt2nAcv9S9/A9NpGqy+zgg2XVYjqPnToM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=E5PEHebLlzo5gMfozaes03gIrd+tcH0T/VEQizR+m75/dUxJ7DEJDcV6TVgoXGMh+
-         rKANVAxj0225BLpuDcA6PgH1lb/1w78R9389UMgefFnFQ92U+PbL/SZTbOpZa5RY12
-         RoWWp4JJqe0TWyGfpqDxfqmR4rv1+1yTYdRe6yCY=
-Subject: Re: [PATCH] Documentation: kunit: Fix verification command
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        SeongJae Park <sj38.park@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, kunit-dev@googlegroups.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        shuah <shuah@kernel.org>
-References: <1567890091-9712-1-git-send-email-sj38.park@gmail.com>
- <CAFd5g46MNYcY-o8Z-1tSi0Kva02CjhcWC-xwkeNc6kfiDzLpLQ@mail.gmail.com>
- <CAFd5g47sUx6ZRxcH4KdKjftv=wo9HmWn+bZukd8gU-YcJv24zQ@mail.gmail.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <6e4527d8-613a-9972-ee04-139a54915b67@kernel.org>
-Date:   Mon, 7 Oct 2019 17:06:16 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAFd5g47sUx6ZRxcH4KdKjftv=wo9HmWn+bZukd8gU-YcJv24zQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1729823AbfJHDLs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Oct 2019 23:11:48 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:31574 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729536AbfJHDLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Oct 2019 23:11:48 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x983AYQL004728;
+        Tue, 8 Oct 2019 12:10:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x983AYQL004728
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570504235;
+        bh=AG4ExTv6VHlw3h/+9FrYXRCm3WD49M9U2lAW3xkyHFs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZIJVWUrYAiYYyMAUSb67GEjn/1xztX0tiv5+TQFBoVwCHMGDA0iS/Gq4+bnElaUEQ
+         zEteCz4yBsjIWnOExpIy3EtL5bMyqaCw9tj2NqZvX7smvXV1odfzwKS3WP99q8pIpw
+         HIzdDi0IZAQQCLfGyOcrnUhcuIDT4q7Lkfzk5w6XarMCgI3e8kquUR95STGqpCS6BB
+         19CpEtg2wFMbwRPdGL91upESuq5XO087LlpZeviKzuGbWb+erua75GMt7TTnyFaS78
+         1uRzRMWMjG55YBNQfknVOXCy2r1UrXL5KSyql+SsDDXiaj7yRgvWvnrwsoRiCPIpS5
+         c2AV68Up9rX3Q==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Jessica Yu <jeyu@kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Adam Zerella <adam.zerella@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: move namespaces.rst from kbuild/ to core-api/
+Date:   Tue,  8 Oct 2019 12:10:09 +0900
+Message-Id: <20191008031009.17364-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/7/19 4:04 PM, Brendan Higgins wrote:
-> On Sun, Sep 8, 2019 at 4:40 PM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
->>
->> On Sat, Sep 7, 2019 at 2:01 PM SeongJae Park <sj38.park@gmail.com> wrote:
->>>
->>> kunit wrapper script ('kunit.py') receives a sub-command (only 'run' for
->>> now) as its argument.  If no sub-command is given, it prints help
->>> message and just quit.  However, an example command in the kunit
->>> documentation for a verification of kunit is missing the sub-command.
->>> This commit fixes the example.
->>>
->>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
->>
->> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> 
-> Shuah, can you apply this to the kselftest KUnit branch? This should
-> not require a resend.
-> 
+We discussed a better location for this file, and agreed that
+core-api/ is a good fit. Rename it to symbol-namespaces.rst
+for disambiguation, and also add it to index.rst and MAINTAINERS.
 
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Done. Applied to
+ Documentation/core-api/index.rst                                 | 1 +
+ .../{kbuild/namespaces.rst => core-api/symbol-namespaces.rst}    | 0
+ MAINTAINERS                                                      | 1 +
+ 3 files changed, 2 insertions(+)
+ rename Documentation/{kbuild/namespaces.rst => core-api/symbol-namespaces.rst} (100%)
 
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git 
-test
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index fa16a0538dcb..ab0eae1c153a 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -38,6 +38,7 @@ Core utilities
+    protection-keys
+    ../RCU/index
+    gcc-plugins
++   symbol-namespaces
+ 
+ 
+ Interfaces for kernel debugging
+diff --git a/Documentation/kbuild/namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+similarity index 100%
+rename from Documentation/kbuild/namespaces.rst
+rename to Documentation/core-api/symbol-namespaces.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55199ef7fa74..a0ca64057b0d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11547,6 +11547,7 @@ NSDEPS
+ M:	Matthias Maennich <maennich@google.com>
+ S:	Maintained
+ F:	scripts/nsdeps
++F:	Documentation/core-api/symbol-namespaces.rst
+ 
+ NTB AMD DRIVER
+ M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+-- 
+2.17.1
 
-thanks,
--- Shuah
