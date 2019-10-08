@@ -1,181 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+	DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,
+	GAPPY_SUBJECT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SUBJ_ALL_CAPS autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 254037D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 18:58:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54F197D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 19:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbfJHS61 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 14:58:27 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:46488 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbfJHS61 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 14:58:27 -0400
-Received: by mail-oi1-f194.google.com with SMTP id k25so15718715oiw.13
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 11:58:26 -0700 (PDT)
+        id S1730549AbfJHTzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 15:55:19 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:37873 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730622AbfJHTzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 15:55:19 -0400
+Received: by mail-ed1-f47.google.com with SMTP id r4so16836182edy.4
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 12:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Sdd8UeD7EiCxoJwTM/QPh2OA+sefTqXvnnv/jjwK0zw=;
-        b=TNle+G1KuN9oDQGu0BmjNjXGR3vYWVs8gfP06Jlm0BNgSbzKEiTm+ScwOg3eb5N05g
-         d0FtnU7jftmt2eaPZKNtyujH6j5+xrAG5Ld5bMxmYUDg1a9G80SJW3inMQ6nRlY7PGm/
-         B1eska/0Qjo0X247Phr/Xc5UR12hoA5fKfApxJNc7uuZxtqI8fkZqFL8SWAH2OgD2lrC
-         g6PwrscsW9wragzZtyeRaG8VgB89XvpLwR8iFAdL5WwR+o4GemyF244B3nj9vNJkzTgO
-         GPz2aUUsYK4uF6ouD+wyE6gK1Nedu8JXpK2CMLGcZYEahhZdhASkxQBLG9V9FzNbZ9up
-         uibg==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=aMQQgi7dIXVBnmVMSSMCLgb3oXTzeafbZdgWl2Y7dgh9d3yilS1+9yTnvWoS7+GzUk
+         LWbTYKnbDzuBJ3/U6U4a0Txwis4unkVKDohWYyBjnKYrTLghN7laSYeGp1/FcmznDyEO
+         GS9pgiMN+uT0qCjbihaa5wuvtHOM98vqOW8UVjJ7Cv+EprgLSNS8LJdhrjnJyNqQEN56
+         5sfOyU15h4kpoOXNgzNljIz5N8IZnpl4XHLYJYLCwvTOpHMRDfM3ywlgrk+4Qs+isMtv
+         bwWMXB9P8rpPXCaQx70qpw2S2sG0Q07XznOIe3PPQ9uFVdh7+iWMtRM+rtyrWFblwrYM
+         wXZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Sdd8UeD7EiCxoJwTM/QPh2OA+sefTqXvnnv/jjwK0zw=;
-        b=chUyhh1C0eLhu9RZIB3YMKDdteuCVyC5oRuuwjIIPk+2HGgrJmEAVNlw4j865IddSQ
-         AqRwWp+YmtSTqdWLzACWO4xFfq8UnO6v65QcDXnX+5QxyYn4NWn5gAchQAcWia5oGAIJ
-         Q09xqx9iuNcFkr7aZOvLEcXMVsk4AFkdbPgWF7TO+dCDIy6uBJHx/Td+MuC50AR8c4i0
-         0MQpdQzO4O9TPmO494thsFDeb3wsqr1Ix0UdH3C5rBvJSrzuYSTr3PBQbREkUZhUA9bu
-         OP6lbEnLCToJmKCqdyuhGiGKpFvDzZmqheSXb7XWqqiOzkdw/Y/5kork536wGWCrra66
-         QRPw==
-X-Gm-Message-State: APjAAAXAaUFr4tddby6W7kVCOCTiTebZfc/r9nKYQAuSpRwERMWi4MSe
-        RsGDYVs2xjr099yTfJsQ/gclKgaL6mxeLJpOzitwSA==
-X-Google-Smtp-Source: APXvYqyN+bveVuoKdS9k3wA83EzzIQByd8qFhP+O/Mr9ZtquQ9jL3+B0Vu9Hl6o8alfzt39akAUhisSQnxeiKV2UD/E=
-X-Received: by 2002:aca:51c7:: with SMTP id f190mr5258340oib.69.1570561105608;
- Tue, 08 Oct 2019 11:58:25 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=r1q+0AUCVNdvfXrbSd/W261ZfPZ9sHETL78FFBNfjcvBbFKrFhbE3lDSB5O2PGYbqX
+         SWXxDzf+0glkcCkWTy105zF12mmkgHv2HJGIKvWY79KGZ3zwpQ5Wx/tmlB8JRuXYmtz+
+         cAc7Uprh6ZmfVCGTQ6oPp45zPm0vc1ERS/u/WL7EWaNXhxzzFy3kmUJ6m37hodOZO47b
+         yDX+pRXywEQG1HCkvJ/3/xBejPCWjYeB9EvxtkCRYYJ4gUSXBn+BVIi3cCfBLm8pR5qy
+         eZ2WiJwzax9PRsP/eIhJ0nxsfJY9O0zIDO/jSuSBSAv9Lz4/EsXjm8bg1/0eb/DngeeI
+         H3Sw==
+X-Gm-Message-State: APjAAAUQltffxbJ230RMWfranXd2IEcXEHNXBFINni3pK3SUq1ugC1k+
+        04OvYr+N2/rFmOQDMV4DLD2gHSr61I5Mnn/KFnk=
+X-Google-Smtp-Source: APXvYqxaZfvXk0/G1PfPN40JEbEfue6b7v2Lk/SQWmnUxoxmnZyxXwpPNC4UPIh9mJw4kQ9atMHeHG1Orcb22TWXOSk=
+X-Received: by 2002:a50:c306:: with SMTP id a6mr36339639edb.108.1570564517490;
+ Tue, 08 Oct 2019 12:55:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190904211126.47518-1-saravanak@google.com> <20190904211126.47518-4-saravanak@google.com>
- <20190911102926.A9F8D2082C@mail.kernel.org> <20191004153750.GB823823@kroah.com>
- <20191008145304.2BD54205F4@mail.kernel.org>
-In-Reply-To: <20191008145304.2BD54205F4@mail.kernel.org>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 8 Oct 2019 11:57:49 -0700
-Message-ID: <CAGETcx-FjF+bktBgL6h0ORH3MU4vMM9JNC2oB8Myn8KqvnmhDg@mail.gmail.com>
-Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link from
- DT bindings
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-acpi@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        David Collins <collinsd@codeaurora.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        kbuild test robot <lkp@intel.com>
+Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:16
+ -0700 (PDT)
+Reply-To: moneygram.1820@outlook.fr
+From:   MONEY GRAM <currency1000000@gmail.com>
+Date:   Tue, 8 Oct 2019 20:55:16 +0100
+Message-ID: <CAPqfnSEO==O6BEtBbcMMZfh3qcY4Bz0qndhCqbcLqZx4DCs44A@mail.gmail.com>
+Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 7:53 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Greg Kroah-Hartman (2019-10-04 08:37:50)
-> > On Wed, Sep 11, 2019 at 03:29:25AM -0700, Stephen Boyd wrote:
-> > > Quoting Saravana Kannan (2019-09-04 14:11:22)
-> > > > +       int ret = 0;
-> > > > +       struct device_node *tmp_np = sup_np;
-> > > > +
-> > > > +       of_node_get(sup_np);
-> > > > +       /*
-> > > > +        * Find the device node that contains the supplier phandle.  It may be
-> > > > +        * @sup_np or it may be an ancestor of @sup_np.
-> > > > +        */
-> > > > +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
-> > > > +               sup_np = of_get_next_parent(sup_np);
-> > >
-> > > I don't get this. This is assuming that drivers are only probed for
-> > > device nodes that have a compatible string? What about drivers that make
-> > > sub-devices for clk support that have drivers in drivers/clk/ that then
-> > > attach at runtime later? This happens sometimes for MFDs that want to
-> > > split the functionality across the driver tree to the respective
-> > > subsystems.
-> >
-> > For that, the link would not be there, correct?
->
-> The parent device (MFD) would have the links because that is the device
-> node with the provider property like '#clock-cells'. The child clk
-> device that's populated by the MFD would be the one actually providing
-> the clk via a driver that may probe any time later, or never, depending
-> on if the clk driver is configured as a module or not. I fail to see how
-> this will work for these cases.
->
-> Is this logic there to find the parent of a regulator phandle and match
-> that to some driver? It looks like it.
+HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
+M.T.C.N:78393135
 
-In the case of an MFD creating "fake" children devices, the parent MFD
-device's driver is responsible for handling the sync state callback.
-It'll get the sync_state callback after all the child devices'
-consumers have probed. The MFD driver will need to do the sync state
-clean up for the children devices or pass it on to the child devices'
-drivers (whatever makes sense for that specific MFD) by whatever means
-those specific drivers talk to each other (direct calls, registering
-callbacks, etc).
+Attn: Beneficiary,
 
-If they are real sub-devices, then they should really be captured in
-DT as child devices and then the child device's drivers will get the
-sync state callback directly.
+This is to inform you that the America Embassy office was instructed
+to transfer your fund $980,000.00 U.S Dollars compensating all the
+SCAM VICTIMS and your email was found as one of the VICTIMS. by
+America security leading team and America representative officers so
+between today the 8th of October till 1ST Of December 2019 you will
+be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
+that we have already sent the $6,000 dollars this morning to avoid
+cancellation of your payment, remain the total sum of $980,000.00.
 
-> >
-> > > > +static int of_link_property(struct device *dev, struct device_node *con_np,
-> > > > +                            const char *prop_name)
-> > > > +{
-> > > > +       struct device_node *phandle;
-> > > > +       const struct supplier_bindings *s = bindings;
-> > > > +       unsigned int i = 0;
-> > > > +       bool matched = false;
-> > > > +       int ret = 0;
-> > > > +
-> > > > +       /* Do not stop at first failed link, link all available suppliers. */
-> > > > +       while (!matched && s->parse_prop) {
-> > > > +               while ((phandle = s->parse_prop(con_np, prop_name, i))) {
-> > > > +                       matched = true;
-> > > > +                       i++;
-> > > > +                       if (of_link_to_phandle(dev, phandle) == -EAGAIN)
-> > > > +                               ret = -EAGAIN;
-> > >
-> > > And don't break?
-> >
-> > There was comments before about how this is not needed.  Frank asked
-> > that the comment be removed.  And now you point it out again :)
-> >
-> > Look at the comment a few lines up, we have to go through all of the
-> > suppliers.
-> >
->
-> Ok. The comment tells me what is happening but it misses the essential
-> part which is _why_ we must make links to each supplier and return
-> -EAGAIN.
+You have only six hours to call this office upon the receipt of this
+email the maximum amount you will be receiving per a day starting from
+today's $6,000 and the Money Transfer Control Number of today is
+below.
 
-To be clear the -EAGAIN is only if any of the linking fails.
+NOTE; The sent $6,000 is on hold because of the instruction from IMF
+office, they asked us to place it on hold by requesting the (Clean
+Bill Record Certificate) which will cost you $25 in order to fulfill
+all the necessary obligation to avoid any hitches while sending you
+the payment through MONEY GRAM money transfer, the necessary
+obligation I mean here is to obtain the (Clean Bill Record
+Certificate)
 
-The reason was already discussion in the email thread [1] but I agree
-it needs to be documented.
+Below is the information of today track it in our
 
-I thought I had documented the _why_ in the documentation for
-fwnode.add_links(), but it's not there. I'll check to make sure I
-didn't capture it elsewhere and if not, I'll update fwnode.add_links
-documentation.
+websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
+to see is available to pick up by the receiver, but if we didn't here
+from you soon we'll pickup it up from line for security reason to
+avoid hackers stealing the money online.
 
-To copy-paste the discussion from the earlier thread:
+Money Transfer Control Number M.T.C.N)::78393135
+SENDERS FIRST NAME: John
+SENDERS LAST NAME: Chun
+SENDERS COUNTRY...BENIN REPUBLIC
+TEXT QUESTION: A
+ANSWER: B
+AMOUNT: $6,000
 
-"Actually, there is a point for this. Say Device-C depends on suppliers
-Device-S1 and Device-S2 and they are listed in DT in that order.
+We need the below details from you, to enable us place the payment to
+your name and transfer the fund to you.
 
-Say, S1 gets populated after late_initcall_sync but S2 is probes way
-before that. If I don't continue past a "failed linking" to S1 and
-also link up to S2, then S2 will get a sync_state() callback before C
-is probed. So I have to go through all possible suppliers and [link] as many
-as possible."
+(Full Receivers name)...................
+(You're Country)................................
+(Address)......................................
+(Phone NuMBER-...............................
+(You're Age)............................
+(OCCUPATION)..REAL ESTATE..................
+(A Copy of Your ID CARD).SEE ATTACHMENTS.............
 
--Saravana
+HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
+AND THAT IS ALL YOU HAVE TO DO ASAP.
 
-[1] - https://lore.kernel.org/lkml/CAGETcx-hCrUvY5whZBihueqqCxmF3oDjFybjmoo3JUu87iiiEw@mail.gmail.com/
+The payment will be sending to below information, such as:
+
+Receiver.............. ALAN UDE
+Country................Benin Republic
+Amount: ....................$25
+Question: .....................A
+Answer:................... B
+Sender...............Name:
+MTCN :..............
+
+According to the instruction and order we received from IMF the their
+requested $25 must be made directly to the above info's.
+
+Furthermore you are advised to call us as the instruction was passed
+that within 6hours without hearing from you, Count your payment
+canceled. Number to call is below listed manager director office of
+release order:
+DR.ALAN UDE
+Director MONEY GRAM-Benin
