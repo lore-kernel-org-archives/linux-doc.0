@@ -1,149 +1,181 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 416847D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 16:36:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 254037D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 18:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfJHQgm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 12:36:42 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:37709 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727691AbfJHQgm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 12:36:42 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r4so16232911edy.4
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 09:36:41 -0700 (PDT)
+        id S1728054AbfJHS61 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 14:58:27 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46488 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbfJHS61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 14:58:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k25so15718715oiw.13
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 11:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=s6yXwSMgj/HSDluu0jjb1fIynHkpdwJEi83t8MXH8nE=;
-        b=BdqYlBj/te+Av4OapSD2UH9hoWKJCqoQlUXNj27WAi70dy3Ig82VO+sdYQ3EmCwm61
-         TRug5RVmA3TY4amthFSaBOdCRU0ynXC6GtCNkDk2L2Z4pnGYzc6+51DQr5q769atGoIx
-         FQMIhztoLNfFmYTuM58kDqE7+4wHvJmS/qty8=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Sdd8UeD7EiCxoJwTM/QPh2OA+sefTqXvnnv/jjwK0zw=;
+        b=TNle+G1KuN9oDQGu0BmjNjXGR3vYWVs8gfP06Jlm0BNgSbzKEiTm+ScwOg3eb5N05g
+         d0FtnU7jftmt2eaPZKNtyujH6j5+xrAG5Ld5bMxmYUDg1a9G80SJW3inMQ6nRlY7PGm/
+         B1eska/0Qjo0X247Phr/Xc5UR12hoA5fKfApxJNc7uuZxtqI8fkZqFL8SWAH2OgD2lrC
+         g6PwrscsW9wragzZtyeRaG8VgB89XvpLwR8iFAdL5WwR+o4GemyF244B3nj9vNJkzTgO
+         GPz2aUUsYK4uF6ouD+wyE6gK1Nedu8JXpK2CMLGcZYEahhZdhASkxQBLG9V9FzNbZ9up
+         uibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=s6yXwSMgj/HSDluu0jjb1fIynHkpdwJEi83t8MXH8nE=;
-        b=hCh0H3RXy4mBM/JmqMNmJ9+ja9LU7ldGKBVe9S5an/X6FPntmbDpeDfMTFOgkZl1F1
-         RJQcy4Ohvb73j9BZOpm00t/40zbims3EJXXXIeEpuFXgXWWQzG99YdxnflGgppx82LUB
-         GNe8IRpB47ciTOJF6xX77MT/spaut60I8r0TIHY0z163DwwIMCZ53Tw7xe1a62IN0G6b
-         Njz3LWE+ax23bwaU3Z1HQk2lBpKb7SqAhwDghLxFN6fpW8uA4zQsx/xkwZEtLIv5Oh7Z
-         /orTK+546tW+yeOex/efI4N6i7eItD14P6TF2c/Ka18cFBcMqhcKE7L89ksHrQGxAvAt
-         vRLw==
-X-Gm-Message-State: APjAAAXyD0DwhQLxkPV9Zawto2+OXJ87oFzMzE5d6/JMsfcJfzbYCUER
-        D9oFM1/b5z95rV/NOocDHTViWw==
-X-Google-Smtp-Source: APXvYqw4CmruMdho1djBzsuB0cxptSjoeGCxeI7AQjG8SwwZmnZhDTbjl2CcNzkP4WKWyomH4JCMaw==
-X-Received: by 2002:a17:906:18a1:: with SMTP id c1mr29899819ejf.4.1570552601049;
-        Tue, 08 Oct 2019 09:36:41 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id z65sm4048809ede.86.2019.10.08.09.36.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 09:36:40 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 18:36:38 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        Sean Paul <seanpaul@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation/gpu: Fix no structured comments
- warning for drm_gem_ttm_helper.h
-Message-ID: <20191008163638.GS16989@phenom.ffwll.local>
-References: <20190920193558.89815-1-sean@poorly.run>
- <20190920193558.89815-2-sean@poorly.run>
- <229f1017-cb74-18e3-bff0-f2a3ce7520b7@suse.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Sdd8UeD7EiCxoJwTM/QPh2OA+sefTqXvnnv/jjwK0zw=;
+        b=chUyhh1C0eLhu9RZIB3YMKDdteuCVyC5oRuuwjIIPk+2HGgrJmEAVNlw4j865IddSQ
+         AqRwWp+YmtSTqdWLzACWO4xFfq8UnO6v65QcDXnX+5QxyYn4NWn5gAchQAcWia5oGAIJ
+         Q09xqx9iuNcFkr7aZOvLEcXMVsk4AFkdbPgWF7TO+dCDIy6uBJHx/Td+MuC50AR8c4i0
+         0MQpdQzO4O9TPmO494thsFDeb3wsqr1Ix0UdH3C5rBvJSrzuYSTr3PBQbREkUZhUA9bu
+         OP6lbEnLCToJmKCqdyuhGiGKpFvDzZmqheSXb7XWqqiOzkdw/Y/5kork536wGWCrra66
+         QRPw==
+X-Gm-Message-State: APjAAAXAaUFr4tddby6W7kVCOCTiTebZfc/r9nKYQAuSpRwERMWi4MSe
+        RsGDYVs2xjr099yTfJsQ/gclKgaL6mxeLJpOzitwSA==
+X-Google-Smtp-Source: APXvYqyN+bveVuoKdS9k3wA83EzzIQByd8qFhP+O/Mr9ZtquQ9jL3+B0Vu9Hl6o8alfzt39akAUhisSQnxeiKV2UD/E=
+X-Received: by 2002:aca:51c7:: with SMTP id f190mr5258340oib.69.1570561105608;
+ Tue, 08 Oct 2019 11:58:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <229f1017-cb74-18e3-bff0-f2a3ce7520b7@suse.de>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190904211126.47518-1-saravanak@google.com> <20190904211126.47518-4-saravanak@google.com>
+ <20190911102926.A9F8D2082C@mail.kernel.org> <20191004153750.GB823823@kroah.com>
+ <20191008145304.2BD54205F4@mail.kernel.org>
+In-Reply-To: <20191008145304.2BD54205F4@mail.kernel.org>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 8 Oct 2019 11:57:49 -0700
+Message-ID: <CAGETcx-FjF+bktBgL6h0ORH3MU4vMM9JNC2oB8Myn8KqvnmhDg@mail.gmail.com>
+Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link from
+ DT bindings
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 09:03:01AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 20.09.19 um 21:35 schrieb Sean Paul:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > Fixes
-> > include/drm/drm_gem_ttm_helper.h:1: warning: no structured comments found
-> 
-> That missing documentation looks like an oversight to me.
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> under the premise that there's not currently some patch with the missing
-> documentation floating around.
+On Tue, Oct 8, 2019 at 7:53 AM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Greg Kroah-Hartman (2019-10-04 08:37:50)
+> > On Wed, Sep 11, 2019 at 03:29:25AM -0700, Stephen Boyd wrote:
+> > > Quoting Saravana Kannan (2019-09-04 14:11:22)
+> > > > +       int ret = 0;
+> > > > +       struct device_node *tmp_np = sup_np;
+> > > > +
+> > > > +       of_node_get(sup_np);
+> > > > +       /*
+> > > > +        * Find the device node that contains the supplier phandle.  It may be
+> > > > +        * @sup_np or it may be an ancestor of @sup_np.
+> > > > +        */
+> > > > +       while (sup_np && !of_find_property(sup_np, "compatible", NULL))
+> > > > +               sup_np = of_get_next_parent(sup_np);
+> > >
+> > > I don't get this. This is assuming that drivers are only probed for
+> > > device nodes that have a compatible string? What about drivers that make
+> > > sub-devices for clk support that have drivers in drivers/clk/ that then
+> > > attach at runtime later? This happens sometimes for MFDs that want to
+> > > split the functionality across the driver tree to the respective
+> > > subsystems.
+> >
+> > For that, the link would not be there, correct?
+>
+> The parent device (MFD) would have the links because that is the device
+> node with the provider property like '#clock-cells'. The child clk
+> device that's populated by the MFD would be the one actually providing
+> the clk via a driver that may probe any time later, or never, depending
+> on if the clk driver is configured as a module or not. I fail to see how
+> this will work for these cases.
+>
+> Is this logic there to find the parent of a regulator phandle and match
+> that to some driver? It looks like it.
 
-There's no struct or inline functions in that header file, so really
-nothing to document. Just need to make sure that if we add anything, we
-re-add the include directive.
--Daniel
+In the case of an MFD creating "fake" children devices, the parent MFD
+device's driver is responsible for handling the sync state callback.
+It'll get the sync_state callback after all the child devices'
+consumers have probed. The MFD driver will need to do the sync state
+clean up for the children devices or pass it on to the child devices'
+drivers (whatever makes sense for that specific MFD) by whatever means
+those specific drivers talk to each other (direct calls, registering
+callbacks, etc).
 
-> 
-> Best regards
-> Thomas
-> 
-> > Fixes: ff540b76f14a ("drm/ttm: add drm gem ttm helpers, starting with drm_gem_ttm_print_info()")
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > ---
-> >  Documentation/gpu/drm-mm.rst | 3 ---
-> >  1 file changed, 3 deletions(-)
-> > 
-> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > index 99d56015e077..59619296c84b 100644
-> > --- a/Documentation/gpu/drm-mm.rst
-> > +++ b/Documentation/gpu/drm-mm.rst
-> > @@ -406,9 +406,6 @@ GEM TTM Helper Functions Reference
-> >  .. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-> >     :doc: overview
-> >  
-> > -.. kernel-doc:: include/drm/drm_gem_ttm_helper.h
-> > -   :internal:
-> > -
-> >  .. kernel-doc:: drivers/gpu/drm/drm_gem_ttm_helper.c
-> >     :export:
-> >  
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-> GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-> HRB 21284 (AG Nürnberg)
-> 
+If they are real sub-devices, then they should really be captured in
+DT as child devices and then the child device's drivers will get the
+sync state callback directly.
 
+> >
+> > > > +static int of_link_property(struct device *dev, struct device_node *con_np,
+> > > > +                            const char *prop_name)
+> > > > +{
+> > > > +       struct device_node *phandle;
+> > > > +       const struct supplier_bindings *s = bindings;
+> > > > +       unsigned int i = 0;
+> > > > +       bool matched = false;
+> > > > +       int ret = 0;
+> > > > +
+> > > > +       /* Do not stop at first failed link, link all available suppliers. */
+> > > > +       while (!matched && s->parse_prop) {
+> > > > +               while ((phandle = s->parse_prop(con_np, prop_name, i))) {
+> > > > +                       matched = true;
+> > > > +                       i++;
+> > > > +                       if (of_link_to_phandle(dev, phandle) == -EAGAIN)
+> > > > +                               ret = -EAGAIN;
+> > >
+> > > And don't break?
+> >
+> > There was comments before about how this is not needed.  Frank asked
+> > that the comment be removed.  And now you point it out again :)
+> >
+> > Look at the comment a few lines up, we have to go through all of the
+> > suppliers.
+> >
+>
+> Ok. The comment tells me what is happening but it misses the essential
+> part which is _why_ we must make links to each supplier and return
+> -EAGAIN.
 
+To be clear the -EAGAIN is only if any of the linking fails.
 
+The reason was already discussion in the email thread [1] but I agree
+it needs to be documented.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I thought I had documented the _why_ in the documentation for
+fwnode.add_links(), but it's not there. I'll check to make sure I
+didn't capture it elsewhere and if not, I'll update fwnode.add_links
+documentation.
+
+To copy-paste the discussion from the earlier thread:
+
+"Actually, there is a point for this. Say Device-C depends on suppliers
+Device-S1 and Device-S2 and they are listed in DT in that order.
+
+Say, S1 gets populated after late_initcall_sync but S2 is probes way
+before that. If I don't continue past a "failed linking" to S1 and
+also link up to S2, then S2 will get a sync_state() callback before C
+is probed. So I have to go through all possible suppliers and [link] as many
+as possible."
+
+-Saravana
+
+[1] - https://lore.kernel.org/lkml/CAGETcx-hCrUvY5whZBihueqqCxmF3oDjFybjmoo3JUu87iiiEw@mail.gmail.com/
