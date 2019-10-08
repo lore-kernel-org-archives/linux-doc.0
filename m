@@ -3,114 +3,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8182E7D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 08:47:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02EA97D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 09:19:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728866AbfJHIrV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 04:47:21 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45198 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730137AbfJHIrU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 04:47:20 -0400
-Received: by mail-lj1-f195.google.com with SMTP id q64so16609745ljb.12
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 01:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l8gpydJYA0YDgp2JmqFlI7k3M5woSWANVYThPnzBSyg=;
-        b=BkRMuuut74Tg4ql3czpGBiGETKQ47t0yfFGj9qUtoNECtFLrPq7patqxRQTIKUPosJ
-         e5ij5XG6gLCR9aH2tMBlyg4nicWRgSUUeguPdBLCGj5e+fmO4WBOWHqbIrjN23GcV9X+
-         9UiM5zuZ8kUOjmbmakyLfk3DNm7gDqehMEcBVhaBie4GaVJqRz5rpcUAluJLllJOF3Mf
-         +y7BzcB/eQ1ZrGH8gN2u8Rxxi+fzSaghOC5xViRMArZNRSxn2csNz/W1bUfwb6lH8tnt
-         yTgKoyASrJ8JwI3YQxZpWYMIBXyHXAIoXg2BD9qf9M9BjKJeDzu0rw7W+YgoKaSJzGqP
-         eNYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l8gpydJYA0YDgp2JmqFlI7k3M5woSWANVYThPnzBSyg=;
-        b=oJFjsDQoDOXHGiYCKZ1vFoZhJ3YeJ0OoJ0k9RsShj0ihUy0z6WRvemRhHE22jV+Yay
-         Yzu5tglG3Q2fTmU6hLiBvHm2Aig69ATqsDHG47FKmgeM607VYuS5zmQLA+Ovsq/NwmrF
-         nuzhuIJKqRp2outPvgWTrk6jhS/cFp0+rGfZexKUoDgaWXFVFj69gbIxwKaZ2Z+jbXJ1
-         7ucZ27EdpzZ4ihWfvEPlkS9t2Iy2KZhdC2VyKdb6wJb2erQ7BlXtOraCTqDs5v43jWWS
-         PUAHr4bgF4gh713KkdPr0H6/fVb68D/eHoDa1WYIKvnRk5IAsytvVeZoRCo4A3ESUS5U
-         3odg==
-X-Gm-Message-State: APjAAAXQTmx/59r0okn6WHVc7WzF+APFjBSXATYFtBVUKZakvdheRCIP
-        XxPp2d+tx4buADPO3Nzq3MgLSZteIdBGqcdC1/MOAw==
-X-Google-Smtp-Source: APXvYqxbNM71HM7CPR6QRsIgEbU3UU9U/CSiMXaA2SIbIfrQl+rWLBRuuYXoBIaSEvilchXKRH21ww7tus0XXj0qkXw=
-X-Received: by 2002:a2e:63da:: with SMTP id s87mr20899729lje.79.1570524436968;
- Tue, 08 Oct 2019 01:47:16 -0700 (PDT)
+        id S1729944AbfJHJTn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 05:19:43 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:52642 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728866AbfJHJTn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 05:19:43 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9896vYO029256;
+        Tue, 8 Oct 2019 11:19:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=+dIaoBBTtn4uHC1StIa2tJsqayvUf706bDI0ytKEsoQ=;
+ b=wyAuzEqHkJDYghX8QiCFEQ3qmQ4nTDmJgaRsWqJlTl3KHd3+t8044muCxJpj+JJ3aWaa
+ +ZSOQbRypNhpmPawY7gUjvalZ+XtbVrZC9QpkQWn27pL3QTr9KGKuxNeSd1MOeI8XV6V
+ 24zi3E9StYi8g1KXwYsmMvfil8htnR2J66mZrP9S0QUcw/z3LgwBP1w1wyUQkkg5N8QL
+ gYzn1T+bw/etbqs929qWjVORSLFfjPPSFluu9cNs+k1FkZoNVkcEXHP/jpHJc5cYeokN
+ ucWhESkKmHzUTSbuiH1IhtuPZzfVj+xF85jqvMnwWsvkTpfJf9nhwtyhR+MnXFWnmm0/ qQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2vej2p7csb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Oct 2019 11:19:26 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE24010002A;
+        Tue,  8 Oct 2019 11:19:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A147A2B1E48;
+        Tue,  8 Oct 2019 11:19:24 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE3.st.com
+ (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 8 Oct
+ 2019 11:19:24 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Tue, 8 Oct 2019 11:19:24 +0200
+From:   Gerald BAEZA <gerald.baeza@st.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Alexandre TORGUE <alexandre.torgue@st.com>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] Documentation: add link to stm32mp157 docs
+Thread-Topic: [PATCH] Documentation: add link to stm32mp157 docs
+Thread-Index: AQHVXNGu+WgWi0gJwE+sfJwWkTflzacPHSFxgDnL12CABoSfAIABS0jA
+Date:   Tue, 8 Oct 2019 09:19:24 +0000
+Message-ID: <70e865409cab4d589323692e863dbc49@SFHDAG5NODE1.st.com>
+References: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
+        <20190827074825.64a28e88@lwn.net>
+        <5257eff7-418b-8e94-1ced-30718dd3f5dc@st.com>
+        <8d097a0486e94257952600bf6d20975d@SFHDAG5NODE1.st.com>
+ <20191007093208.757554b0@lwn.net>
+In-Reply-To: <20191007093208.757554b0@lwn.net>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
- <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com> <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
- <fbdc3788-3a24-2885-b61b-8480e8464a51@gmail.com> <CAK8P3a1E_1=_+eJXvcFMLd=a=YW_WGwjm3nzRZV7SzzZqovzRw@mail.gmail.com>
-In-Reply-To: <CAK8P3a1E_1=_+eJXvcFMLd=a=YW_WGwjm3nzRZV7SzzZqovzRw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Oct 2019 10:47:05 +0200
-Message-ID: <CACRpkdbuwn-YBYd324OsfC4efBU_1pfnyS+N=+3DmrYOEKKFJw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Julien Thierry <julien.thierry@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Jinbum Park <jinb.park7@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rob Landley <rob@landley.net>, philip@cog.systems,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Garnier <thgarnie@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-08_03:2019-10-07,2019-10-08 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 12:10 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Mon, Oct 7, 2019 at 11:35 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+Hi Jonathan
 
-> > > 053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
+> From: Jonathan Corbet <corbet@lwn.net>
+>=20
+> On Thu, 3 Oct 2019 10:05:46 +0000
+> Gerald BAEZA <gerald.baeza@st.com> wrote:
+>=20
+> > > > Adding the URL is a fine idea.  But you don't need the extra
+> > > > syntax to create a link if you're not going to actually make a link=
+ out of it.
+> > > > So I'd take the ".. _STM32MP157:" part out and life will be good.
+> > > >
+> > >
+> > > We also did it for older stm32 product. Idea was to not have the "ful=
+l"
+> > > address but just a shortcut of the link when html file is read. It
+> > > maybe makes no sens ? (if yes we will have to update older stm32
+> > > overview :))
 > >
-> > This one I did not take based on Linus' feedback that is breaks booting
-> > on his RealView board.
->
-> That likely means that there is still a bigger problem somewhere.
+> > Example in
+> > https://www.kernel.org/doc/html/latest/arm/stm32/stm32h743-
+> overview.ht
+> > ml
+> >
+> > Do you agree to continue like this ?
+>=20
+> If you actually use the reference then it's OK, I guess; in the posted
+> document that wasn't happening.  I still think it might be a bit more
+> straightforward to just put the URL; that will make the plain-text file a=
+ little
+> more readable.  In the end, though, it's up to you, go with whichever you
+> prefer.
 
-I will try to look into it. I got pretty puzzled by this, it makes no sense.
+So I prefer to keep the patch as it, for better consistency with the others=
+ stm32 overviews.
+Thank you.
 
-One possible problem is that some of the test chips on the RealViews
-are not that stable, especially with caches. The plan is to test in QEMU
-and hardware in parallel.
-
-Yours,
-Linus Walleij
+>=20
+> Thanks,
+>=20
+> jon
