@@ -1,137 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-	DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,
-	GAPPY_SUBJECT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	SUBJ_ALL_CAPS autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 54F197D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 19:55:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF6D07D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 21:20:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730549AbfJHTzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 15:55:19 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:37873 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730622AbfJHTzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 15:55:19 -0400
-Received: by mail-ed1-f47.google.com with SMTP id r4so16836182edy.4
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 12:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=aMQQgi7dIXVBnmVMSSMCLgb3oXTzeafbZdgWl2Y7dgh9d3yilS1+9yTnvWoS7+GzUk
-         LWbTYKnbDzuBJ3/U6U4a0Txwis4unkVKDohWYyBjnKYrTLghN7laSYeGp1/FcmznDyEO
-         GS9pgiMN+uT0qCjbihaa5wuvtHOM98vqOW8UVjJ7Cv+EprgLSNS8LJdhrjnJyNqQEN56
-         5sfOyU15h4kpoOXNgzNljIz5N8IZnpl4XHLYJYLCwvTOpHMRDfM3ywlgrk+4Qs+isMtv
-         bwWMXB9P8rpPXCaQx70qpw2S2sG0Q07XznOIe3PPQ9uFVdh7+iWMtRM+rtyrWFblwrYM
-         wXZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=r1q+0AUCVNdvfXrbSd/W261ZfPZ9sHETL78FFBNfjcvBbFKrFhbE3lDSB5O2PGYbqX
-         SWXxDzf+0glkcCkWTy105zF12mmkgHv2HJGIKvWY79KGZ3zwpQ5Wx/tmlB8JRuXYmtz+
-         cAc7Uprh6ZmfVCGTQ6oPp45zPm0vc1ERS/u/WL7EWaNXhxzzFy3kmUJ6m37hodOZO47b
-         yDX+pRXywEQG1HCkvJ/3/xBejPCWjYeB9EvxtkCRYYJ4gUSXBn+BVIi3cCfBLm8pR5qy
-         eZ2WiJwzax9PRsP/eIhJ0nxsfJY9O0zIDO/jSuSBSAv9Lz4/EsXjm8bg1/0eb/DngeeI
-         H3Sw==
-X-Gm-Message-State: APjAAAUQltffxbJ230RMWfranXd2IEcXEHNXBFINni3pK3SUq1ugC1k+
-        04OvYr+N2/rFmOQDMV4DLD2gHSr61I5Mnn/KFnk=
-X-Google-Smtp-Source: APXvYqxaZfvXk0/G1PfPN40JEbEfue6b7v2Lk/SQWmnUxoxmnZyxXwpPNC4UPIh9mJw4kQ9atMHeHG1Orcb22TWXOSk=
-X-Received: by 2002:a50:c306:: with SMTP id a6mr36339639edb.108.1570564517490;
- Tue, 08 Oct 2019 12:55:17 -0700 (PDT)
+        id S1731038AbfJHVUq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 17:20:46 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:55910 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730720AbfJHVUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 17:20:45 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 31D218030B; Tue,  8 Oct 2019 23:20:28 +0200 (CEST)
+Date:   Tue, 8 Oct 2019 23:20:41 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     linux-kernel@vger.kernel.org, linux-tip-commits@vger.kernel.org,
+        "x86@kernel.org" <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Juergen Gross <jgross@suse.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Chen Yu <yu.c.chen@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Borislav Petkov <bp@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>
+Subject: Re: [tip: x86/urgent] x86/CPU/AMD: Clear RDRAND CPUID bit on AMD
+ family 15h/16h
+Message-ID: <20191008212041.GA7222@amd>
+References: <7543af91666f491547bd86cebb1e17c66824ab9f.1566229943.git.thomas.lendacky@amd.com>
+ <156652264945.9541.4969272027980914591.tip-bot2@tip-bot2>
+ <20190824181929.GA18551@amd>
+ <409703ae-6d70-3f6a-d6fc-b7dada3c2797@zytor.com>
 MIME-Version: 1.0
-Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:16
- -0700 (PDT)
-Reply-To: moneygram.1820@outlook.fr
-From:   MONEY GRAM <currency1000000@gmail.com>
-Date:   Tue, 8 Oct 2019 20:55:16 +0100
-Message-ID: <CAPqfnSEO==O6BEtBbcMMZfh3qcY4Bz0qndhCqbcLqZx4DCs44A@mail.gmail.com>
-Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
+In-Reply-To: <409703ae-6d70-3f6a-d6fc-b7dada3c2797@zytor.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
-M.T.C.N:78393135
 
-Attn: Beneficiary,
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is to inform you that the America Embassy office was instructed
-to transfer your fund $980,000.00 U.S Dollars compensating all the
-SCAM VICTIMS and your email was found as one of the VICTIMS. by
-America security leading team and America representative officers so
-between today the 8th of October till 1ST Of December 2019 you will
-be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
-that we have already sent the $6,000 dollars this morning to avoid
-cancellation of your payment, remain the total sum of $980,000.00.
+Hi!
 
-You have only six hours to call this office upon the receipt of this
-email the maximum amount you will be receiving per a day starting from
-today's $6,000 and the Money Transfer Control Number of today is
-below.
+> >> x86/CPU/AMD: Clear RDRAND CPUID bit on AMD family 15h/16h
+> >>
+> >> There have been reports of RDRAND issues after resuming from suspend on
+> >> some AMD family 15h and family 16h systems. This issue stems from a BI=
+OS
+> >> not performing the proper steps during resume to ensure RDRAND continu=
+es
+> >> to function properly.
+> >=20
+> > There are quite a few unanswered questions here.
+> >=20
+> > a) Is there/should there be CVE for this?
+> >=20
+> > b) Can we perform proper steps in kernel, thus making RDRAND usable
+> > even when BIOS is buggy?
+> >=20
+>=20
+> The kernel should at least be able to set its internal "CPUID" bit, visib=
+le
+> through /proc/cpuinfo.
 
-NOTE; The sent $6,000 is on hold because of the instruction from IMF
-office, they asked us to place it on hold by requesting the (Clean
-Bill Record Certificate) which will cost you $25 in order to fulfill
-all the necessary obligation to avoid any hitches while sending you
-the payment through MONEY GRAM money transfer, the necessary
-obligation I mean here is to obtain the (Clean Bill Record
-Certificate)
+Actually, with hindsight I see two possible improvements here:
 
-Below is the information of today track it in our
+1) Not having enabled s2ram in config does not mean machine was not
+suspended/resumed, then new kernel executed via kexec.
 
-websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
-to see is available to pick up by the receiver, but if we didn't here
-from you soon we'll pickup it up from line for security reason to
-avoid hackers stealing the money online.
+2) We really can continue using the RDRAND: we know how it fails
+(constant pattern) so we can check for the failure in kernel, and can
+continue to use it... It will certainly work until first suspend, and
+there's good chance it will work after that, too. (We still need to
+prevent userspace from using it).
 
-Money Transfer Control Number M.T.C.N)::78393135
-SENDERS FIRST NAME: John
-SENDERS LAST NAME: Chun
-SENDERS COUNTRY...BENIN REPUBLIC
-TEXT QUESTION: A
-ANSWER: B
-AMOUNT: $6,000
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-We need the below details from you, to enable us place the payment to
-your name and transfer the fund to you.
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-(Full Receivers name)...................
-(You're Country)................................
-(Address)......................................
-(Phone NuMBER-...............................
-(You're Age)............................
-(OCCUPATION)..REAL ESTATE..................
-(A Copy of Your ID CARD).SEE ATTACHMENTS.............
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
-AND THAT IS ALL YOU HAVE TO DO ASAP.
+iEYEARECAAYFAl2c/akACgkQMOfwapXb+vIAIgCfTtdPEk+einOr1l0u8g3JJUIR
+Hw8An3EIBITYsbuZfkKzqYAG/mjHPUe/
+=XIae
+-----END PGP SIGNATURE-----
 
-The payment will be sending to below information, such as:
-
-Receiver.............. ALAN UDE
-Country................Benin Republic
-Amount: ....................$25
-Question: .....................A
-Answer:................... B
-Sender...............Name:
-MTCN :..............
-
-According to the instruction and order we received from IMF the their
-requested $25 must be made directly to the above info's.
-
-Furthermore you are advised to call us as the instruction was passed
-that within 6hours without hearing from you, Count your payment
-canceled. Number to call is below listed manager director office of
-release order:
-DR.ALAN UDE
-Director MONEY GRAM-Benin
+--Nq2Wo0NMKNjxTN9z--
