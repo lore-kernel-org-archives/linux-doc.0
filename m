@@ -1,84 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBF047D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 09:15:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 676147D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 10:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbfJIJPB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Oct 2019 05:15:01 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:32985 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726579AbfJIJPB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 05:15:01 -0400
-Received: by mail-lj1-f193.google.com with SMTP id a22so1738564ljd.0
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 02:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xQdw4R3yd8uY4S0AtwkeNETH9sjE+3/5zjSKDJPgdeE=;
-        b=TIgenNV5yjiuaPo8U4iDSsdkJpOwEyS2e7UUrQX2nTTWYVsQB4Htt02bvBiEe6BbQp
-         i86i29qVWjmb/JPgBrJ6OER5+lvhqH6FgTCOs/IOqooN/OKMWpkug8tHGF+pyL5Lp7Cl
-         UT5Rw/hlVPjaoO7C5CofjZQqsK4fkQP2kSrhekmXnPUOJMLpM9zI7Y7jFr3FEB6fYR6V
-         ovsoIfeMEN8xPf5LltPze2Y4SuVcLJXYy/O2m39ul3t648SV1rsqMZ0Sz/cyBRniF5x7
-         SJ/1Uk1aJNdvG42tH55iwL27WB+Fwtvr63zcOzLI/yereccG3BD8t0w3v97rZ7ntnAm5
-         8/vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xQdw4R3yd8uY4S0AtwkeNETH9sjE+3/5zjSKDJPgdeE=;
-        b=OljpEcEaKRf3O9TJvC/1bBhoXmvy4/I4jJ0JV01lZltgNPg31wQbGtag6fSm9jCdKo
-         xiJ/jLy9VnHH/fOcM/OckVPSyND8OcdFMkZbL3Ge//y33rllX/yxWeUgwvMRUeuShMN8
-         6mZIeHfpbcJ/oyl+POmVmzWo92zbPvcaspSoDzsnp72LfSRpxIhFwpSGgfkNDdQ+Fb3X
-         ArhFFbiPyfUa46Xu6DqFHdnEmEcIugBgrnELsW0uMrKzivrJ30YfNdkWELEnLEG5fH3t
-         rNA/zSbrTuGOtuej3Z/cVBPg1+cQIZBVlsYBnNKPWbEWvWqYsCRtThNDDR2LnnLOeXI5
-         a+wg==
-X-Gm-Message-State: APjAAAU83vWmWDbTmp+ipE9/5C0Td/NCZLugZaCnXOqdBLMLPFMeM43T
-        /240BAfrChF+QVhkNnOUplE9fDu4W63bG4fo8Vijxg==
-X-Google-Smtp-Source: APXvYqycTPdHDVThk2pK4GG2ep2AmGYzjIumLcOCNe4xXDx0G71eKy3H+MRX39MjAYgpKolX5namsNiR8Yb4NF+D/Q8=
-X-Received: by 2002:a2e:481a:: with SMTP id v26mr1567972lja.41.1570612499161;
- Wed, 09 Oct 2019 02:14:59 -0700 (PDT)
+        id S1730641AbfJIKGY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 06:06:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56990 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726211AbfJIKGY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Oct 2019 06:06:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 9E888AE48;
+        Wed,  9 Oct 2019 10:06:22 +0000 (UTC)
+From:   Andreas Schwab <schwab@suse.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list\:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation for the sifive serial driver
+References: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com>
+        <CAMuHMdVdPFSU_3VEtO=P73kqLezV5Dmki=N3nxsKibzy-U5pBg@mail.gmail.com>
+X-Yow:  My pants just went to high school in the Carlsbad Caverns!!!
+Date:   Wed, 09 Oct 2019 12:06:22 +0200
+In-Reply-To: <CAMuHMdVdPFSU_3VEtO=P73kqLezV5Dmki=N3nxsKibzy-U5pBg@mail.gmail.com>
+        (Geert Uytterhoeven's message of "Wed, 9 Oct 2019 08:56:29 +0200")
+Message-ID: <mvmv9syz10h.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20191004164059.10397-1-j.neuschaefer@gmx.net> <20191004164059.10397-2-j.neuschaefer@gmx.net>
-In-Reply-To: <20191004164059.10397-2-j.neuschaefer@gmx.net>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 9 Oct 2019 11:14:47 +0200
-Message-ID: <CACRpkdbxgqpQwLFGh1woq3cyY_Y=rBkkBafXJGW4_jtZae-42A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: driver-api: bt8xxgpio: Revive dead link
-To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Michael Buesch <m@bues.ch>, Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 4, 2019 at 6:42 PM Jonathan Neusch=C3=A4fer
-<j.neuschaefer@gmx.net> wrote:
+On Okt 09 2019, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> www.bu3sch.de has been unusable for several years, but the same
-> information is available on bues.ch.
->
-> Cc: Michael Buesch <m@bues.ch>
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+> I believe risc-v is DT-only, so if chosen/stdout-path is set up
 
-Patch applied.
+If.  Currently, it isn't.
 
-Yours,
-Linus Walleij
+Andreas.
+
+-- 
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
