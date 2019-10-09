@@ -1,131 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AEBF97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 01:07:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAFD47D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 06:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729839AbfJIBHA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 21:07:00 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50200 "EHLO
-        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729601AbfJIBHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 21:07:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1570583265; x=1602119265;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Drzoga2/qb62rG5gRYCswouIqBr/dzKl/+yVPPdGcgM=;
-  b=gqX4rq+byIyj1ksBIeDBh08ZebXT+zg1G4E4L76I+9xaS9k8v4oRLhy6
-   y6YHoIfllPO6Aw1+1jHSemvoWWFk83QpwO2ZE1UYnW8qEJXfK8bR0PL91
-   O97a56JTEl0kzkC82f7MkKHv+PeAxlGOJ+mZKTEeWRNjlw91pP5Mt2PN5
-   6tC3YkVXhdm9WP7iagbIlk/BDsXLvmgIawta78nZ4SXYwqYQxrl7AQB0U
-   n6shSusgiMxPG+gb/wG6fBmB2TFhVlejbxta59BISt/qNd9XfKll0KLTS
-   EUAj2LlqKdLq556bQizbgIKjPWDLy1cibk5TCHTN6DJbSZzXryZWsbtT8
-   A==;
-IronPort-SDR: 3+RpQDAq64bceBLSfJd5B9q24cS+ftolY/chFzcWPY7vSB+KRg6fedks6BmXFqM+/0xsipKLUH
- IbDFdJAFSjGtZeH7W7PVqC/vfjWjZmRR1NXfndrwwHCXSWU22U+/6IVI+qOuwAfsyiX5wUZf44
- N0WjHu744XQD45KvYxoyr0KiK4uCQ21h0ncEl5vR8aLeXuST6SZfChGYn1IMFQf2I02DtQgXg+
- 5qPe1j5NjCktV9hEINujEFRNNGS86PTcTcWUXKFh7ETFpvyHoSPpkd+bsilr2h9H+hfDI6fP5N
- hcA=
-X-IronPort-AV: E=Sophos;i="5.67,273,1566835200"; 
-   d="scan'208";a="221061441"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 09 Oct 2019 09:07:44 +0800
-IronPort-SDR: cLCQNGPHyGUGzBm9V1LBory8UsD0X1wmK818LvJjnm78kl0vV9sBomzclstRrwHsuBI9YUPC+i
- I6pRyN2Y4Tq1xA+n1y5Bk5jT7VFvOWKtdZPMgEqbzswCiUqL0490CRR/DyHLKknLuT2ObpK+f1
- qbh8qha6tdFCzuRntg487lnWHuXSG0e6hS18SRRHcDHXfMBCk9ZBA2VJlwt8h91a7GshmUf6zS
- rZ7Honi4yCz40tHUIXFuhPFrmNIMU+l6T7lVqN0e5M18lHJsJZbSDGJxIq4QgG6tLBGnOA+rGD
- KQW3xLBOyQz/A+/Z/us5mLqs
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2019 18:02:59 -0700
-IronPort-SDR: WGv8QSqeoPrRU4wj9q+DsbCGhW6kDwro69+hpsH/32hMiPv+tpqPC9K76rfmXhXKkaW8uM3d08
- xkO7tt7ppZ8Sff79lVGqkdKX/if+MxfB0grUGXIYHkyd7Rlm5NeZuTy8JMnbpCS27qsFJS5/te
- 5Ku7OL1c/skrw1+qmMsoUgNM/y6vrPwriBmMOhvSb1UMlW1N6JHZiEn5bUAc8f60A2F0gmYJ0I
- 2VsOI9JxPfFUKgk4trI5/VjmpC7/bwXhlGF5oLc6IJyWzBekiTDR5jrC6Bfa8b09NdAt8DZlGO
- xKg=
-WDCIronportException: Internal
-Received: from jedi-01.sdcorp.global.sandisk.com (HELO jedi-01.int.fusionio.com) ([10.11.143.218])
-  by uls-op-cesaip02.wdc.com with ESMTP; 08 Oct 2019 18:06:59 -0700
-From:   Atish Patra <atish.patra@wdc.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Atish Patra <atish.patra@wdc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karsten Merker <merker@debian.org>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>
-Subject: [PATCH] RISC-V: Typo fixes in image header and documentation.
-Date:   Tue,  8 Oct 2019 18:06:37 -0700
-Message-Id: <20191009010637.9955-1-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.21.0
+        id S1725848AbfJIG4n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 02:56:43 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43442 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbfJIG4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 02:56:43 -0400
+Received: by mail-oi1-f193.google.com with SMTP id t84so842680oih.10;
+        Tue, 08 Oct 2019 23:56:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PU6pSC4rpDZQ3hpvHq0TdAZIyHq1I2BJFZ45k90UauQ=;
+        b=aXGk+zTTZtNhTOqe5hG6l45X8ZAGAMnHpjwy2jCFfY7F+cOuD+spDH591CGuMRun35
+         1o+hnr0KF7OM1BJTLX9TMyqJ7Rqr2/mBVqPhv9sTPMbtTA+rIZCrL+O9ZFxAbtU1O6Bc
+         uL87Tf9HAwuq+k0eKbnhHX2hGCPJndBSKt/wdqEmJCssFFaWtvN4OVuBaqHQwCfWAhb0
+         9zQtin41/iNwxhHM8ttgrSQ4ePKciHhWPQXwO1vzSSJXJMgQfkQfo0HnLEEcGZKEIAbv
+         weUNEnafcauv1WcgirUTy6HtMC74BUo8C7KREbaCreo2gm70qfQy+v7S8G0v+G3sB+R6
+         7Niw==
+X-Gm-Message-State: APjAAAUJNeQ9B8/5QGzZgF6BM5jj6nQ8YV866qNsx5JCNgQOKkKZbWny
+        T6dy8eFLv1FsJAW2QxP8IbY4nXDpSFDnoW3z/NM=
+X-Google-Smtp-Source: APXvYqzk0JepZ+39323h3KeMWAoARy2zy0zvOEiZjj4NXFq1sVESz2FopGsJeLg/sq9NCFM5eUSSDs+5Dmi4PItkesg=
+X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr1049904oie.131.1570604200276;
+ Tue, 08 Oct 2019 23:56:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com>
+In-Reply-To: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 9 Oct 2019 08:56:29 +0200
+Message-ID: <CAMuHMdVdPFSU_3VEtO=P73kqLezV5Dmki=N3nxsKibzy-U5pBg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation
+ for the sifive serial driver
+To:     Paul Walmsley <paul.walmsley@sifive.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Andreas Schwab <schwab@suse.de>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some typos in boot image header and riscv boot documentation.
+Hi Paul,
 
-Fix the typos.
+On Wed, Oct 9, 2019 at 1:09 AM Paul Walmsley <paul.walmsley@sifive.com> wrote:
+> Document earlycon usage for the SiFive serial port driver in the same
+> fashion as for the other serial port IP blocks, since the SiFive
+> serial port driver supports it.
+>
+> Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+> Reported-by: Andreas Schwab <schwab@suse.de>
+> Cc: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
----
- Documentation/riscv/boot-image-header.rst | 4 ++--
- arch/riscv/include/asm/image.h            | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Thanks for your patch!
 
-diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
-index 7b4d1d747585..8efb0596a33f 100644
---- a/Documentation/riscv/boot-image-header.rst
-+++ b/Documentation/riscv/boot-image-header.rst
-@@ -22,7 +22,7 @@ The following 64-byte header is present in decompressed Linux kernel image::
- 	u64 res2 = 0;		  /* Reserved */
- 	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
- 	u32 magic2 = 0x56534905;  /* Magic number 2, little endian, "RSC\x05" */
--	u32 res4;		  /* Reserved for PE COFF offset */
-+	u32 res3;		  /* Reserved for PE COFF offset */
- 
- This header format is compliant with PE/COFF header and largely inspired from
- ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
-@@ -34,7 +34,7 @@ Notes
- - This header can also be reused to support EFI stub for RISC-V in future. EFI
-   specification needs PE/COFF image header in the beginning of the kernel image
-   in order to load it as an EFI application. In order to support EFI stub,
--  code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
-+  code0 should be replaced with "MZ" magic string and res3(at offset 0x3c) should
-   point to the rest of the PE/COFF header.
- 
- - version field indicate header version number
-diff --git a/arch/riscv/include/asm/image.h b/arch/riscv/include/asm/image.h
-index 344db5244547..4f8061a5ac4a 100644
---- a/arch/riscv/include/asm/image.h
-+++ b/arch/riscv/include/asm/image.h
-@@ -42,7 +42,7 @@
-  * @res2:		reserved
-  * @magic:		Magic number (RISC-V specific; deprecated)
-  * @magic2:		Magic number 2 (to match the ARM64 'magic' field pos)
-- * @res4:		reserved (will be used for PE COFF offset)
-+ * @res3:		reserved (will be used for PE COFF offset)
-  *
-  * The intention is for this header format to be shared between multiple
-  * architectures to avoid a proliferation of image header formats.
-@@ -59,7 +59,7 @@ struct riscv_image_header {
- 	u64 res2;
- 	u64 magic;
- 	u32 magic2;
--	u32 res4;
-+	u32 res3;
- };
- #endif /* __ASSEMBLY__ */
- #endif /* __ASM_IMAGE_H */
+Why do you need this?
+I believe risc-v is DT-only, so if chosen/stdout-path is set up, just
+passing "earlycon" (without any options) should work.
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index c7ac2f3ac99f..90becb00221b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1106,6 +1106,12 @@
+>                         address must be provided, and the serial port must
+>                         already be setup and configured.
+>
+> +               sifive,<addr>
+> +                       Start an early, polled-mode console on a SiFive
+> +                       serial port at the specified address.  The port must
+> +                       already be setup and configured.  Options are not
+> +                       yet supported.
+> +
+>         earlyprintk=    [X86,SH,ARM,M68k,S390]
+>                         earlyprintk=vga
+>                         earlyprintk=sclp
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.21.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
