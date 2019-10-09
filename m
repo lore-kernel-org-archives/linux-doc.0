@@ -1,101 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F4317D9ED
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 19:55:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B26017D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 21:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731805AbfJITxy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Oct 2019 15:53:54 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39319 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730708AbfJITxx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 15:53:53 -0400
-Received: by mail-io1-f68.google.com with SMTP id a1so7904967ioc.6
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 12:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:message-id:user-agent:mime-version;
-        bh=H5oadYdtYiWqz6jIut7b8l+pt98Mf79JimwAWbyu918=;
-        b=PX03dNUvlcc82iOKTuYOxdwvY1PLDPZlXvQFmpxrQgKDUU3BGA0Kg5rrOhBTmMngUS
-         pFqxRqwL/ilOz9yU7Nzh67SdJN/YilXyBla7VcV8V2yDrCv8ELgB472QZZNYNheRzClr
-         xANo+VYD2gt1c4vFA6OW0deW6I19Y58pwtNtaq2ndj1wgKIuVcufGnu4PZmVt0c/9cDW
-         04SDCA1BouCoaIhzkRlVydP7BljqEoqbzaSjgMokAiO/1h8bQTK5kPb5xAWIstgDs3am
-         zVRa8Yc9S1KrXT0bovrY/vtTz0WS1jFsoOxBPj0u08TzEsUKSgEMrT0HEyW/SPRbsyym
-         TBSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:user-agent
-         :mime-version;
-        bh=H5oadYdtYiWqz6jIut7b8l+pt98Mf79JimwAWbyu918=;
-        b=T+f3pMvsJZNaPdrzPzTZ78vBTgBSNSmICOkrMOXd659y6CBW0VfYire6l40ZcbTna3
-         gzfxNhLwUB3lIOZgMNXV7LoPLiAgEa0aGxHEUP/Q0x+07CqFUEVnitVtOJ+3hwKX8+bF
-         fGRJAHfmYj08cjJXCxeWiB4A4nx/EVvTlRp3sIEWbmiF4B7PY3NZ07f28TWawAizteaq
-         8OTXGAu53OoyiLK3tKqB9KRTX3PmPhR4Xc8wh2m9nn3bjjWWj1QipXjNtQqntqTGyL/L
-         O8uZjXYbpKHgLUbFcbioACUVG6HUp/qAK+UpqmtKMHUUXl6CRVUX1LHtW1ycgraORLpk
-         TDKg==
-X-Gm-Message-State: APjAAAXKBfP1DZhhuwKEmLD9Y5c+O9CohEAdv9DXzmV2tkXFWWf19CIA
-        XDj4gyZfl+cbx/VStYtfxxtQAQ==
-X-Google-Smtp-Source: APXvYqxBWF80a/mKx1FkTcVxpurf65iP5tY1NfcOpVEx9+bKX9bhqeJX8QTsiaRG4IK0jOVBLqiNGg==
-X-Received: by 2002:a02:497:: with SMTP id 145mr5332312jab.10.1570650831466;
-        Wed, 09 Oct 2019 12:53:51 -0700 (PDT)
-Received: from localhost (c-73-95-159-87.hsd1.co.comcast.net. [73.95.159.87])
-        by smtp.gmail.com with ESMTPSA id u124sm2253532ioe.63.2019.10.09.12.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 12:53:51 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 12:53:50 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@lst.de>, Andreas Schwab <schwab@suse.de>
-Subject: [PATCH] Documentation: admin-guide: add earlycon documentation for
- RISC-V
-Message-ID: <alpine.DEB.2.21.9999.1910091252160.11044@viisi.sifive.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        id S1730955AbfJIVhx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 17:37:53 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49744 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728804AbfJIVhx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 17:37:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=MhyxE9zBIIhY8OiSfA4AvqqI7W7cYlVr3qfwPxHgOW8=; b=F9EWuJeTiYZA2rHH9YbjclEUF
+        Q3IyphguSrQA1f31AZkJj1UXRVjclkntzyu3wbpr7CKL202hrtZiaF6uriusuK4iuymYvLTrE+quE
+        UxgIb1Y/dpGH4UJMGdF8ki+33g6yF48kdODwvnIdIitrl9VjBCI0zFbkd+yzLalZ+j/PJ7YlIh2EG
+        XytEOPwe0JdgIcLGJkNJunSqOA9i+0E29kFeAZYLf/mQGfanIG9/QMX0n2raourfDm4UjiuWEtULM
+        JMCE4wo+E/H01lZ+Tixbu3J+k6wT07YtC7ezRzInuyLXbTcUFIxYN9wuQcNQ5Af21AqvIU9Mp4KD6
+        VdlmGyT1A==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iIJeZ-0000RD-Sw; Wed, 09 Oct 2019 21:37:51 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: Sphinx parallel build errors
+Message-ID: <dc19a670-7e8e-04e5-667d-578c2dd3754e@infradead.org>
+Date:   Wed, 9 Oct 2019 14:37:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Kernels booting on RISC-V can specify "earlycon" with no options on
-the Linux command line, and the generic DT earlycon support will query
-the "chosen/stdout-path" property (if present) to determine which
-early console device to use.  Document this appropriately in the
-admin-guide.
+Sphinx parallel build error:
+OSError: [Errno 12] Cannot allocate memory
 
-Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Andreas Schwab <schwab@suse.de>
----
- Documentation/admin-guide/kernel-parameters.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+I have had this error 4 times in the last 3 days.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c7ac2f3ac99f..011fee969ece 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -990,6 +990,10 @@
- 			[X86] When used with no options the early console is
- 			determined by the ACPI SPCR table.
- 
-+			[RISCV] When used with no options, the early
-+			console is determined by the stdout-path
-+			property in the device tree's chosen node.
-+
- 		cdns,<addr>[,options]
- 			Start an early, polled-mode console on a Cadence
- 			(xuartps) serial port at the specified address. Only
+The first time it oom-killed Thunderbird.  No big deal.
+The second time it oom-killed gimp, which had 24 photos open.
+Still no big deal.  Just a nuisance.
+
+My little laptop has only 8 GB of RAM.
+
+Is there a way that I can limit the amount of parallelism?
+
+thanks.
 -- 
-2.23.0
-
+~Randy
