@@ -1,93 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C6F0A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 14:31:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 123287D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 16:13:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731436AbfJIObU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Oct 2019 10:31:20 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:38635 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729865AbfJIObU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 10:31:20 -0400
-Received: by mail-io1-f65.google.com with SMTP id u8so5445992iom.5
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 07:31:19 -0700 (PDT)
+        id S1731385AbfJIQNS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 12:13:18 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:36860 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731375AbfJIQNS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 12:13:18 -0400
+Received: by mail-ed1-f66.google.com with SMTP id h2so2565027edn.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 09:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=pKB7Ijnwk47zF1Sui8uqCszhqTFAlw2ztEvx8myXms8=;
-        b=htQS71038oSKVcTiOiVBOPZdKlFBEupsi5wTlAWKgcmpPZsoGM+chhV5THF95PQDNU
-         0/0Z2dbhHOSz6tOXL1Yl5rrkVlFrJksyHWU0SyopxFJpF7f8SbQ/Kb9WqvJm3njgsWIT
-         HInMDSyhVGUD1TmbdaXL84YyIKOcLKkDHiyNE8Zz3pZ/85bOpTHJJYC1Ll+vUsmqF1T7
-         TGPR2iFI4IKoj8vtpa6x2DQGg/8a/Fr9v2oMHrHeFRpK7X40bVdS8zmotwCkGZnzyRE8
-         OFgih4WKih5Cx9AUvmozvkzfQqPbJj2uKDV2r1JpciuQiC0E4JVJWyh1Y9OW5/hqWiik
-         sOMA==
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=DiUbSMaz7dBGcIpo+8CRtRNIID7EZSNfgb7AB8YL5bk=;
+        b=kmUXTzvwGe/oawqWRqNB7cXpXLc82LQRR/FwAHHJfjddSchi9TRwrE+TK83kMlN21S
+         ZFQ3jLRPSTVJxTfI/RwpgFUGNYa1tIy/Y1YaBaH2wWhJDp2f0gmy3wBIW9tjakP+Q+l1
+         RQ3lcHZxa3w9GvKEpmaFQcee8+Batmm8nKElI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=pKB7Ijnwk47zF1Sui8uqCszhqTFAlw2ztEvx8myXms8=;
-        b=GsN4I0ww/B+RoEDLmOOHnc02E1w5goNQAN3xRNc9VqgOFHY5LWBcr3SC9oAxuw3Ou3
-         z+5WLeQpbpiFkYAVD2koShWOFMUzHDBTJx4T62fowx/kkz2oVgbmCCI7rg9gzg2k5xwO
-         YLM/Z7Om1CgOV92nive2/KK8MP22puk3aRS17qfjDd7OjsuPbv2TUQwLwNjkTF7AfN8A
-         rUKjdO+AqFiqqblt5TE6/wlrz97cv+eObGkIwVg2xCM/HZEgm82uZopzmcgYHmf2Gboa
-         nLGZxBfaeapiEva2mmHkfhVv8NM/jsYx4513/U1kB4Zv4K0S5E4MldvTo4OBrudODxx1
-         7ANw==
-X-Gm-Message-State: APjAAAUPWj9IL090KFgZuFC/zMv7f8qSwgfspe5sYh8DX++U+qyDokos
-        cUi7R4LHFfpj8CCCI/c8ZA2arg==
-X-Google-Smtp-Source: APXvYqxbDM6b4U2rzv0BGL/QF62gtvZXMwLwAcbvx/3w5WEHhaoahcynYrpIG1KyHIdJKvv4G99y9Q==
-X-Received: by 2002:a02:a156:: with SMTP id m22mr3333754jah.62.1570631479110;
-        Wed, 09 Oct 2019 07:31:19 -0700 (PDT)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id x12sm1044888ioh.76.2019.10.09.07.31.17
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=DiUbSMaz7dBGcIpo+8CRtRNIID7EZSNfgb7AB8YL5bk=;
+        b=G3PU8hOF1lx3xdvTCySAzCCBIA7ARiCTyITdFL2fbf2ebhL6z4mRcu7WMo8levxYpE
+         HSdMwPnlQ1wj8wgjloi2totwgY2mbFAJDSX44oh6hqGfGtFdkenhqJ7y3rudHUlUrRd+
+         geHdkWHS4AHtCCtiiSk9+lc9nT1OBHe5HySWxGXwNqNKfD25laLQGPRzCbv8XKVmv9g2
+         Suj6KxOAfe/PGBm1qYAnfPv/6DbTQ3kElx6hVL12gZgj4S2+0I99Z3WCNrzZjvEP4cla
+         epRTUDoLsGxwg4cgLbJkQzdTAw18FWIyauZorEbWM9AdQjDLZ6orgi65pDJ437V9dxy/
+         9Q9Q==
+X-Gm-Message-State: APjAAAVr0TNvnJp91M05QlLsNcwdQWYygVImgPiDMHXTe+GWVp6g3twc
+        UYTEXt57RYmvvN+LGzgzGsxnuw==
+X-Google-Smtp-Source: APXvYqyh8dG7lzd8IU8gclWF1HVviYmLIe0zSzArsSh+pHGEFGyPy/+aOxp1mdGmCbzHEAXPHEnbtw==
+X-Received: by 2002:a17:907:2118:: with SMTP id qn24mr3571742ejb.141.1570637596741;
+        Wed, 09 Oct 2019 09:13:16 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id gs24sm303277ejb.5.2019.10.09.09.13.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 07:31:18 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 07:31:16 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-cc:     Andreas Schwab <schwab@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation
- for the sifive serial driver
-In-Reply-To: <CAMuHMdVh=CUXKwnXee067cRccVBDVuwWpo1wP7crAaCFA=y2Tw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.9999.1910090720290.11044@viisi.sifive.com>
-References: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com> <CAMuHMdVdPFSU_3VEtO=P73kqLezV5Dmki=N3nxsKibzy-U5pBg@mail.gmail.com> <mvmv9syz10h.fsf@suse.de> <CAMuHMdVh=CUXKwnXee067cRccVBDVuwWpo1wP7crAaCFA=y2Tw@mail.gmail.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        Wed, 09 Oct 2019 09:13:15 -0700 (PDT)
+Date:   Wed, 9 Oct 2019 18:13:13 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Fix warning in drm-kmsc-helpers.rst
+Message-ID: <20191009161313.GQ16989@phenom.ffwll.local>
+References: <20191007151921.27099-1-sean@poorly.run>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191007151921.27099-1-sean@poorly.run>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
-
-On Wed, 9 Oct 2019, Geert Uytterhoeven wrote:
-
-> On Wed, Oct 9, 2019 at 12:06 PM Andreas Schwab <schwab@suse.de> wrote:
-> > On Okt 09 2019, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > I believe risc-v is DT-only, so if chosen/stdout-path is set up
-> >
-> > If.  Currently, it isn't.
+On Mon, Oct 07, 2019 at 11:19:01AM -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> IC. So isn't it better to fix that, instead of pointing people to more obscure
-> legacy solutions?
+> Fixes the following warning:
+> ../include/drm/drm_atomic_state_helper.h:1: warning: no structured comments found
+> 
+> Fixes: 9ef8a9dc4b21 ("drm: Extract drm_atomic_state_helper.[hc]")
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
 
-There's nothing that's RISC-V specific about the SiFive serial IP or 
-its driver.  So the issue of whether RISC-V is DT-only or not probably 
-shouldn't impact whether we document that the SiFive serial driver 
-supports earlycon.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-best regards,
+> ---
+>  Documentation/gpu/drm-kms-helpers.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 3868008db8a9..9668a7fe2408 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -77,9 +77,6 @@ Atomic State Reset and Initialization
+>  Atomic State Helper Reference
+>  -----------------------------
+>  
+> -.. kernel-doc:: include/drm/drm_atomic_state_helper.h
+> -   :internal:
+> -
+>  .. kernel-doc:: drivers/gpu/drm/drm_atomic_state_helper.c
+>     :export:
+>  
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 
-- Paul
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
