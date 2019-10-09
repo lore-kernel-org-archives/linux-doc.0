@@ -6,51 +6,53 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A23C57D913
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 13:35:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7CA037D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 14:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731175AbfJINfk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Oct 2019 09:35:40 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44313 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731234AbfJINfk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 09:35:40 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z9so3011890wrl.11
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 06:35:37 -0700 (PDT)
+        id S1731335AbfJIOCI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 10:02:08 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36435 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725879AbfJIOCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 10:02:07 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y19so3175073wrd.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 07:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aekLAqw/SyFzluuZiv2f7cjxSmW6M4TksSOK9MFHyds=;
-        b=GNKbqmw/Ez/9tL9tN5+uFGJyaucl9FtnIu+vsfpWGJLyFz6iK0DF0Y6MtHVaTloJpd
-         Mo339XSUn/o7Axz/n+N9e+IkkI78vszz5BD9V0DN4rmIsGxwO+UZJ2MaJDLoVXp+ApUv
-         P4WbnHWKt+PuXtX12OFZok5yCbMKnwM4KzTMifygJDG7P7qvJ/2/zhfOx+2DNxbDBnEd
-         RFtQC7AiqDrw8yakcBSXvwmXdKHHPnYTdybqPXFh49DEgzcyO6+Z6msiiFYs/KJ6Zdwe
-         PW9JDu/v4ck142AiqMDCUYZ2mgXO178ShgqbJO1xbUgwbknXTDKcOjs/BoE26yalNZOZ
-         gVLA==
+        bh=ZGDUmf8vQElxXW6jlDEJJ26hKrxEvdzngHjwzVdydCI=;
+        b=MV7CRBzotQ1VCRustpsQe1/OamCkR6/QHzmRMP9C1rqyIGQQBMUsKMaH6R4yksGlFC
+         wTuer6mkSjer8uPDRDhDyq0gopJLuz8qQhBBtJTz+HEUFf8/G8g9qrYQbE45vyTg0Egv
+         FY1DRqmw53YVZvszSbwqeZOBRMNdw637nZNQelAOB/Sc5iW8NHI7/s2YqKT3PJS5vf10
+         ow1YVlxUleDtCxbb4tR/16B6MlRqkLZ8GjW3G+9u+bBRm6GyWGRuoWWBW2id2cCD9Pxs
+         eTt9WU9BrU+lcsHxEyOk0prD9pvx506E/DGYNaI2JRUpIHXSgYR0F2FPTainkwtfOisC
+         vtkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aekLAqw/SyFzluuZiv2f7cjxSmW6M4TksSOK9MFHyds=;
-        b=lAmUfoCjrRpY4K/NwSss3bG78VPPvsauFVHwhSZV7/9iVzojuzcZd3h/7uCQdpNH9l
-         qCoCcArz8I0+wsxR5VAJKC0G+sTCgFjrQW7umUOoGS9zfoNknxzqw46DAv9LZ3R5CYDy
-         s2MgcKe08OyQDE21z2TuePZR4TD6cjtjlBysukIY8KafWK4XMG2jFNc+DCYxFgkgDxSM
-         SZKMUw/JLxa6YJwONFoxa4pFenpGiteLQmo1cMC2Gg87Pzt28YGoU8pFZsX9KkcN1xPc
-         HbA9xStbwlknFmO/SqTxVDeKX0KdJFFN0NQth8vyI8hW93XBFHzMABS/joNaY5JcDY/s
-         6/Ew==
-X-Gm-Message-State: APjAAAUIya8ZDxbNhKjBqLYdpjnewaXNIq4TC6Df1cZAHjnhuMinmNOL
-        uD+u+yHQQGmB82f5gJBQx1yHoJ3dXf3DMjpfbMnv4A==
-X-Google-Smtp-Source: APXvYqxxCoAS7hYRFHPfYs76Tb409aHh+6XfZ+16gKSnc9u/XR3xEJcwmzQrsK4r3505PJyIjEp9Hw1AiyMl9V14elc=
-X-Received: by 2002:a5d:6449:: with SMTP id d9mr3149794wrw.246.1570628136354;
- Wed, 09 Oct 2019 06:35:36 -0700 (PDT)
+        bh=ZGDUmf8vQElxXW6jlDEJJ26hKrxEvdzngHjwzVdydCI=;
+        b=ryJ8M0z+3b/sqVxXdYRjDH6OekeYIGJrIT1c+Tm8cix6nCyopJq9ejRaCn4nYd3Z6n
+         2/AyWhiFOv31/jF0mEExXWHafOitpJmKlYwjGqtD9RjjiFASeJF12HOUJFEJgkl9rNfK
+         ftno+KTl+eQqbrwb8QQe2rIjUgVeCqBRD10vLaxBgVl59vuRhTqG+lmpLKmyD4UKtE3H
+         b59YvgrbPz7V/zAksPAVyEJdtHNoncy5jiKDhl2sRQB6U06cRPIKZN3H39aFkfmn7H78
+         rq2zSbULVgAvbAyN0dv4M4bA0oclDOfk6sTeHqVTehFT/MRVmWxu8JnNI4hk+RlthcS8
+         FGMg==
+X-Gm-Message-State: APjAAAVVDFXyDXydGPp9pUoygjYA/YDFX5oa70qQaj4chGe+3zHu1Mqr
+        IfgZr2DlzQKI3V21MhfAwD174wq/OF9JFQxOJ9R1Ag==
+X-Google-Smtp-Source: APXvYqxXsXcxHW2JT3gu+25BnBOo2zJYevT1fUUUiXoZf/pfeoaZAGuBbvOTwiv9z1XVkFvK7IgN305kAzNL96RO0Dg=
+X-Received: by 2002:adf:f5c2:: with SMTP id k2mr3313430wrp.0.1570629724936;
+ Wed, 09 Oct 2019 07:02:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191004145056.43267-1-hdegoede@redhat.com> <20191004145056.43267-2-hdegoede@redhat.com>
- <CAKv+Gu9OU3rS-j+L+pxpK7HZi41XtQZTq9BDs6VpUC8RCq5X6g@mail.gmail.com> <c0256726-0aa3-b005-0a18-7b6a41533a0b@redhat.com>
-In-Reply-To: <c0256726-0aa3-b005-0a18-7b6a41533a0b@redhat.com>
+ <CAKv+Gu9OU3rS-j+L+pxpK7HZi41XtQZTq9BDs6VpUC8RCq5X6g@mail.gmail.com>
+ <c0256726-0aa3-b005-0a18-7b6a41533a0b@redhat.com> <CAKv+Gu9YLesC1abXAcUMe+0BE8Vv52Y_BhN-1Ps+h161Q00KKQ@mail.gmail.com>
+ <81c648d6-428e-d978-246b-9a87d43c5d21@redhat.com>
+In-Reply-To: <81c648d6-428e-d978-246b-9a87d43c5d21@redhat.com>
 From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Wed, 9 Oct 2019 15:35:24 +0200
-Message-ID: <CAKv+Gu9YLesC1abXAcUMe+0BE8Vv52Y_BhN-1Ps+h161Q00KKQ@mail.gmail.com>
+Date:   Wed, 9 Oct 2019 16:01:53 +0200
+Message-ID: <CAKv+Gu-Mj4+nqmAeKGSAzLPpnqOO=yDug_S4MVUQ7B+Sw6WBYQ@mail.gmail.com>
 Subject: Re: [PATCH v7 1/8] efi: Export boot-services code and data as debugfs-blobs
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -77,137 +79,116 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 9 Oct 2019 at 15:18, Hans de Goede <hdegoede@redhat.com> wrote:
+On Wed, 9 Oct 2019 at 15:59, Hans de Goede <hdegoede@redhat.com> wrote:
 >
 > Hi,
 >
-> On 09-10-2019 15:07, Ard Biesheuvel wrote:
-> > On Fri, 4 Oct 2019 at 16:51, Hans de Goede <hdegoede@redhat.com> wrote:
+> On 09-10-2019 15:35, Ard Biesheuvel wrote:
+> > On Wed, 9 Oct 2019 at 15:18, Hans de Goede <hdegoede@redhat.com> wrote:
 > >>
-> >> Sometimes it is useful to be able to dump the efi boot-services code and
-> >> data. This commit adds these as debugfs-blobs to /sys/kernel/debug/efi,
-> >> but only if efi=debug is passed on the kernel-commandline as this requires
-> >> not freeing those memory-regions, which costs 20+ MB of RAM.
+> >> Hi,
 > >>
-> >> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >> Changes in v5:
-> >> -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
+> >> On 09-10-2019 15:07, Ard Biesheuvel wrote:
+> >>> On Fri, 4 Oct 2019 at 16:51, Hans de Goede <hdegoede@redhat.com> wrote:
+> >>>>
+> >>>> Sometimes it is useful to be able to dump the efi boot-services code and
+> >>>> data. This commit adds these as debugfs-blobs to /sys/kernel/debug/efi,
+> >>>> but only if efi=debug is passed on the kernel-commandline as this requires
+> >>>> not freeing those memory-regions, which costs 20+ MB of RAM.
+> >>>>
+> >>>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >>>> Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>> ---
+> >>>> Changes in v5:
+> >>>> -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
+> >>>>
+> >>>> Changes in v4:
+> >>>> -Add new EFI_BOOT_SERVICES flag and use it to determine if the boot-services
+> >>>>    memory segments are available (and thus if it makes sense to register the
+> >>>>    debugfs bits for them)
+> >>>>
+> >>>> Changes in v2:
+> >>>> -Do not call pr_err on debugfs call failures
+> >>>> ---
+> >>>>    arch/x86/platform/efi/efi.c    |  1 +
+> >>>>    arch/x86/platform/efi/quirks.c |  4 +++
+> >>>>    drivers/firmware/efi/efi.c     | 53 ++++++++++++++++++++++++++++++++++
+> >>>>    include/linux/efi.h            |  1 +
+> >>>>    4 files changed, 59 insertions(+)
+> >>>>
+> >>>> diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
+> >>>> index c202e1b07e29..847730f7e74b 100644
+> >>>> --- a/arch/x86/platform/efi/efi.c
+> >>>> +++ b/arch/x86/platform/efi/efi.c
+> >>>> @@ -232,6 +232,7 @@ int __init efi_memblock_x86_reserve_range(void)
+> >>>>                efi.memmap.desc_version);
+> >>>>
+> >>>>           memblock_reserve(pmap, efi.memmap.nr_map * efi.memmap.desc_size);
+> >>>> +       set_bit(EFI_PRESERVE_BS_REGIONS, &efi.flags);
+> >>>
+> >>> Should we add a Kconfig symbol to opt into this behavior [set by the
+> >>> driver in question], instead of always preserving all boot services
+> >>> regions on all x86 systems?
 > >>
-> >> Changes in v4:
-> >> -Add new EFI_BOOT_SERVICES flag and use it to determine if the boot-services
-> >>   memory segments are available (and thus if it makes sense to register the
-> >>   debugfs bits for them)
+> >> This bit does not control anything, it merely signals that the arch early
+> >> boot EFI code keeps the boot-services code around, which is something
+> >> which the x86 code already does. Where as e.g. on arm / aarch64 this is
+> >> freed early on, this ties in with the other bits:
 > >>
-> >> Changes in v2:
-> >> -Do not call pr_err on debugfs call failures
-> >> ---
-> >>   arch/x86/platform/efi/efi.c    |  1 +
-> >>   arch/x86/platform/efi/quirks.c |  4 +++
-> >>   drivers/firmware/efi/efi.c     | 53 ++++++++++++++++++++++++++++++++++
-> >>   include/linux/efi.h            |  1 +
-> >>   4 files changed, 59 insertions(+)
+> >>>
+> >>>>
+> >>>>           return 0;
+> >>>>    }
+> >>>> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+> >>>> index 3b9fd679cea9..fab12ebf0ada 100644
+> >>>> --- a/arch/x86/platform/efi/quirks.c
+> >>>> +++ b/arch/x86/platform/efi/quirks.c
+> >>>> @@ -411,6 +411,10 @@ void __init efi_free_boot_services(void)
+> >>>>           int num_entries = 0;
+> >>>>           void *new, *new_md;
+> >>>>
+> >>>> +       /* Keep all regions for /sys/kernel/debug/efi */
+> >>>> +       if (efi_enabled(EFI_DBG))
+> >>>> +               return;
+> >>>> +
 > >>
-> >> diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
-> >> index c202e1b07e29..847730f7e74b 100644
-> >> --- a/arch/x86/platform/efi/efi.c
-> >> +++ b/arch/x86/platform/efi/efi.c
-> >> @@ -232,6 +232,7 @@ int __init efi_memblock_x86_reserve_range(void)
-> >>               efi.memmap.desc_version);
+> >> This is the point where normally on x86 we do actually free the boot-services
+> >> code which is a lot later then on other arches. And this new code actually
+> >> does change things to keep the boot-services code *forever* but only
+> >> if EFI debugging is enabled on the kernel commandline.
 > >>
-> >>          memblock_reserve(pmap, efi.memmap.nr_map * efi.memmap.desc_size);
-> >> +       set_bit(EFI_PRESERVE_BS_REGIONS, &efi.flags);
 > >
-> > Should we add a Kconfig symbol to opt into this behavior [set by the
-> > driver in question], instead of always preserving all boot services
-> > regions on all x86 systems?
+> > I get this part. But at some point, your driver is going to expect
+> > this memory to be preserved even if EFI_DBG is not set, right? My
+> > question was whether we should only opt into that if such a driver is
+> > enabled in the first place.
 >
-> This bit does not control anything, it merely signals that the arch early
-> boot EFI code keeps the boot-services code around, which is something
-> which the x86 code already does. Where as e.g. on arm / aarch64 this is
-> freed early on, this ties in with the other bits:
+> Ah, I see. No even with CONFIG_EFI_EMBEDDED_FIRMWARE selected, the
+> boot-services code still gets free-ed. The efi_get_embedded_fw()
+> function from drivers/firmware/efi/embedded-firmware.c runs before
+> efi_free_boot_services() and it memdup-s any found firmwares, so it
+> does not cause the EFI boot-services code to stick around longer
+> then usual.
 >
-> >
-> >>
-> >>          return 0;
-> >>   }
-> >> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-> >> index 3b9fd679cea9..fab12ebf0ada 100644
-> >> --- a/arch/x86/platform/efi/quirks.c
-> >> +++ b/arch/x86/platform/efi/quirks.c
-> >> @@ -411,6 +411,10 @@ void __init efi_free_boot_services(void)
-> >>          int num_entries = 0;
-> >>          void *new, *new_md;
-> >>
-> >> +       /* Keep all regions for /sys/kernel/debug/efi */
-> >> +       if (efi_enabled(EFI_DBG))
-> >> +               return;
-> >> +
+> The only thing which does cause it to stick around is enabling
+> EFI debugging with efi=debug, so that the various efi segments
+> (not only the code-services ones) can be inspected as debugfs
+> blobs.
 >
-> This is the point where normally on x86 we do actually free the boot-services
-> code which is a lot later then on other arches. And this new code actually
-> does change things to keep the boot-services code *forever* but only
-> if EFI debugging is enabled on the kernel commandline.
+> Basically this first patch of the series is independent of the
+> rest. It is part of the series, because adding new
+> efi_embedded_fw_desc structs to the table of firmwares to check
+> for becomes a lot easier when we can easily inspect the efi
+> segments and see if they contain the firmware we want.
+>
+>
+> As for Kconfig options, the compiling of
+> drivers/firmware/efi/embedded-firmware.c is controlled by
+> CONFIG_EFI_EMBEDDED_FIRMWARE which is a hidden option, which
+> can be selected by code which needs this. currently this is
+> only selected by CONFIG_TOUCHSCREEN_DMI which is defined
+> in drivers/platform/x86/Kconfig.
 >
 
-I get this part. But at some point, your driver is going to expect
-this memory to be preserved even if EFI_DBG is not set, right? My
-question was whether we should only opt into that if such a driver is
-enabled in the first place.
-
-> This ties in with the next bit:
->
-> >>          for_each_efi_memory_desc(md) {
-> >>                  unsigned long long start = md->phys_addr;
-> >>                  unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
-> >> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-> >> index 8d3e778e988b..abba49c4c46d 100644
-> >> --- a/drivers/firmware/efi/efi.c
-> >> +++ b/drivers/firmware/efi/efi.c
->
-> <snip>
->
-> >> @@ -370,6 +420,9 @@ static int __init efisubsys_init(void)
-> >>                  goto err_remove_group;
-> >>          }
-> >>
-> >> +       if (efi_enabled(EFI_DBG) && efi_enabled(EFI_PRESERVE_BS_REGIONS))
-> >> +               efi_debugfs_init();
-> >> +
-> >>          return 0;
-> >>
-> >>   err_remove_group:
->
-> Here we register the debugfs dir + files, but only when the
-> boot services code has been kept around, so only if the
-> EFI_PRESERVE_BS_REGIONS arch feature flag has been set and
-> EFI debugging has been requested on the kernel commandline.
->
-> IOW this patch already offers to configurability you ask for, but instead
-> of through a Kconfig option (which IMHO would be cumbersome) the decision
-> is made runtime based on the presence of efi=debug on the kernel commandline.
->
-> Regards,
->
-> Hans
->
->
->
->
-> >> diff --git a/include/linux/efi.h b/include/linux/efi.h
-> >> index bd3837022307..2a30a1bd8bdf 100644
-> >> --- a/include/linux/efi.h
-> >> +++ b/include/linux/efi.h
-> >> @@ -1202,6 +1202,7 @@ extern int __init efi_setup_pcdp_console(char *);
-> >>   #define EFI_DBG                        8       /* Print additional debug info at runtime */
-> >>   #define EFI_NX_PE_DATA         9       /* Can runtime data regions be mapped non-executable? */
-> >>   #define EFI_MEM_ATTR           10      /* Did firmware publish an EFI_MEMORY_ATTRIBUTES table? */
-> >> +#define EFI_PRESERVE_BS_REGIONS        11      /* Are EFI boot-services memory segments available? */
-> >>
-> >>   #ifdef CONFIG_EFI
-> >>   /*
-> >> --
-> >> 2.23.0
-> >>
+OK, thanks for clearing that up.
