@@ -1,98 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B07997D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Oct 2019 23:08:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AEBF97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Oct 2019 01:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729187AbfJHXIb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Oct 2019 19:08:31 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:41252 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728792AbfJHXIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 19:08:31 -0400
-Received: by mail-io1-f68.google.com with SMTP id n26so704564ioj.8
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2019 16:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:message-id:user-agent:mime-version;
-        bh=t3QL86pnLLp7H0YYwH/FdnAoL7Vq3h3qOuyHpBMWRk0=;
-        b=b7/9uQ66uupBgYsVJw0ZQPL+EeFq27QaSUNsKPah4m0OvuJROtA65r5jxaJDF6YnlX
-         iab1ki5mx3Sz+PRjV2NBtM3e0agwYbL0MUmyzBc+FrmvdBPAMPnrn7DQl2TsOa4ilXBB
-         TPlk8zNqG+fZTqi2FBhsRM5PJ+QDfRKHaC7s3/fft/hXNXzQDOuuFjutP5SgSKQErlFi
-         lXfOIHBDmRgk54rWLXvHgOQ4ihDsxsCN7V6ytatzlbO6/BbM75VTkSAwd2qMSEv8mEyo
-         u8Rs20zqVaO+JNiGR3XyoVsxl3YHYkxOOTD7H7SgKxtQrdfsLWAIntkXUsKP4qOvUtEZ
-         L+lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:user-agent
-         :mime-version;
-        bh=t3QL86pnLLp7H0YYwH/FdnAoL7Vq3h3qOuyHpBMWRk0=;
-        b=ID6YmmVH+UlTkbyXShO7RTgOLFMtA6+GplqsJ0VAqTucMXNbEY3dgrWj1Z5Pmqgs8P
-         JGUThe5YsyE3hOZHzS6j2RFufvVMfBglyttwkkVqM3n1S+ieVv7tFsxFcD76hrpogsKQ
-         BGzqs0EvdR+VTgzXND0yi0MnHzKWt9an2JllINXuCYBFCEFo5jMraQNIzGSHoov4k+5e
-         tpuu0jeFk4d+puSAetb2dWIs/T0enWn1u5wWE5vNfmE96T8pz5+UTXrJc/fiMQAEg+sr
-         Hgp4CBcz2uAIawZonMP9iJpWGdAAg8LLLRWbYwqnt3CqStnxaIrTM0S378i9YKn8um8R
-         29gg==
-X-Gm-Message-State: APjAAAX6wwDHmTgQ5NhORxPcGInPmmCYbIOZXFy528u+AMCZvKvKphAm
-        WTTyjdJEDc3xzkzJ48/T2pzBVA==
-X-Google-Smtp-Source: APXvYqw9T/3Qa+z2vFNUc/+LzFnPBHh8p1vHwRgtUolzXIAAClxQUyxSFD7Sse4Dm7TGhqZE04GXvA==
-X-Received: by 2002:a92:8fc6:: with SMTP id r67mr121939ilk.25.1570576110234;
-        Tue, 08 Oct 2019 16:08:30 -0700 (PDT)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id d26sm195329ioc.16.2019.10.08.16.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 16:08:29 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 16:08:27 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     corbet@lwn.net
-cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, schwab@suse.de, hch@lst.de
-Subject: [PATCH] Documentation: admin-guide: add earlycon documentation for
- the sifive serial driver
-Message-ID: <alpine.DEB.2.21.9999.1910081606370.11044@viisi.sifive.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        id S1729839AbfJIBHA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Oct 2019 21:07:00 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50200 "EHLO
+        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729601AbfJIBHA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Oct 2019 21:07:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1570583265; x=1602119265;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Drzoga2/qb62rG5gRYCswouIqBr/dzKl/+yVPPdGcgM=;
+  b=gqX4rq+byIyj1ksBIeDBh08ZebXT+zg1G4E4L76I+9xaS9k8v4oRLhy6
+   y6YHoIfllPO6Aw1+1jHSemvoWWFk83QpwO2ZE1UYnW8qEJXfK8bR0PL91
+   O97a56JTEl0kzkC82f7MkKHv+PeAxlGOJ+mZKTEeWRNjlw91pP5Mt2PN5
+   6tC3YkVXhdm9WP7iagbIlk/BDsXLvmgIawta78nZ4SXYwqYQxrl7AQB0U
+   n6shSusgiMxPG+gb/wG6fBmB2TFhVlejbxta59BISt/qNd9XfKll0KLTS
+   EUAj2LlqKdLq556bQizbgIKjPWDLy1cibk5TCHTN6DJbSZzXryZWsbtT8
+   A==;
+IronPort-SDR: 3+RpQDAq64bceBLSfJd5B9q24cS+ftolY/chFzcWPY7vSB+KRg6fedks6BmXFqM+/0xsipKLUH
+ IbDFdJAFSjGtZeH7W7PVqC/vfjWjZmRR1NXfndrwwHCXSWU22U+/6IVI+qOuwAfsyiX5wUZf44
+ N0WjHu744XQD45KvYxoyr0KiK4uCQ21h0ncEl5vR8aLeXuST6SZfChGYn1IMFQf2I02DtQgXg+
+ 5qPe1j5NjCktV9hEINujEFRNNGS86PTcTcWUXKFh7ETFpvyHoSPpkd+bsilr2h9H+hfDI6fP5N
+ hcA=
+X-IronPort-AV: E=Sophos;i="5.67,273,1566835200"; 
+   d="scan'208";a="221061441"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 09 Oct 2019 09:07:44 +0800
+IronPort-SDR: cLCQNGPHyGUGzBm9V1LBory8UsD0X1wmK818LvJjnm78kl0vV9sBomzclstRrwHsuBI9YUPC+i
+ I6pRyN2Y4Tq1xA+n1y5Bk5jT7VFvOWKtdZPMgEqbzswCiUqL0490CRR/DyHLKknLuT2ObpK+f1
+ qbh8qha6tdFCzuRntg487lnWHuXSG0e6hS18SRRHcDHXfMBCk9ZBA2VJlwt8h91a7GshmUf6zS
+ rZ7Honi4yCz40tHUIXFuhPFrmNIMU+l6T7lVqN0e5M18lHJsJZbSDGJxIq4QgG6tLBGnOA+rGD
+ KQW3xLBOyQz/A+/Z/us5mLqs
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2019 18:02:59 -0700
+IronPort-SDR: WGv8QSqeoPrRU4wj9q+DsbCGhW6kDwro69+hpsH/32hMiPv+tpqPC9K76rfmXhXKkaW8uM3d08
+ xkO7tt7ppZ8Sff79lVGqkdKX/if+MxfB0grUGXIYHkyd7Rlm5NeZuTy8JMnbpCS27qsFJS5/te
+ 5Ku7OL1c/skrw1+qmMsoUgNM/y6vrPwriBmMOhvSb1UMlW1N6JHZiEn5bUAc8f60A2F0gmYJ0I
+ 2VsOI9JxPfFUKgk4trI5/VjmpC7/bwXhlGF5oLc6IJyWzBekiTDR5jrC6Bfa8b09NdAt8DZlGO
+ xKg=
+WDCIronportException: Internal
+Received: from jedi-01.sdcorp.global.sandisk.com (HELO jedi-01.int.fusionio.com) ([10.11.143.218])
+  by uls-op-cesaip02.wdc.com with ESMTP; 08 Oct 2019 18:06:59 -0700
+From:   Atish Patra <atish.patra@wdc.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Atish Patra <atish.patra@wdc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karsten Merker <merker@debian.org>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>
+Subject: [PATCH] RISC-V: Typo fixes in image header and documentation.
+Date:   Tue,  8 Oct 2019 18:06:37 -0700
+Message-Id: <20191009010637.9955-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There are some typos in boot image header and riscv boot documentation.
 
-Document earlycon usage for the SiFive serial port driver in the same
-fashion as for the other serial port IP blocks, since the SiFive
-serial port driver supports it.
+Fix the typos.
 
-Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-Reported-by: Andreas Schwab <schwab@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/riscv/boot-image-header.rst | 4 ++--
+ arch/riscv/include/asm/image.h            | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c7ac2f3ac99f..90becb00221b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1106,6 +1106,12 @@
- 			address must be provided, and the serial port must
- 			already be setup and configured.
+diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
+index 7b4d1d747585..8efb0596a33f 100644
+--- a/Documentation/riscv/boot-image-header.rst
++++ b/Documentation/riscv/boot-image-header.rst
+@@ -22,7 +22,7 @@ The following 64-byte header is present in decompressed Linux kernel image::
+ 	u64 res2 = 0;		  /* Reserved */
+ 	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
+ 	u32 magic2 = 0x56534905;  /* Magic number 2, little endian, "RSC\x05" */
+-	u32 res4;		  /* Reserved for PE COFF offset */
++	u32 res3;		  /* Reserved for PE COFF offset */
  
-+		sifive,<addr>
-+			Start an early, polled-mode console on a SiFive
-+			serial port at the specified address.  The port must
-+			already be setup and configured.  Options are not
-+			yet supported.
-+
- 	earlyprintk=	[X86,SH,ARM,M68k,S390]
- 			earlyprintk=vga
- 			earlyprintk=sclp
+ This header format is compliant with PE/COFF header and largely inspired from
+ ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
+@@ -34,7 +34,7 @@ Notes
+ - This header can also be reused to support EFI stub for RISC-V in future. EFI
+   specification needs PE/COFF image header in the beginning of the kernel image
+   in order to load it as an EFI application. In order to support EFI stub,
+-  code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
++  code0 should be replaced with "MZ" magic string and res3(at offset 0x3c) should
+   point to the rest of the PE/COFF header.
+ 
+ - version field indicate header version number
+diff --git a/arch/riscv/include/asm/image.h b/arch/riscv/include/asm/image.h
+index 344db5244547..4f8061a5ac4a 100644
+--- a/arch/riscv/include/asm/image.h
++++ b/arch/riscv/include/asm/image.h
+@@ -42,7 +42,7 @@
+  * @res2:		reserved
+  * @magic:		Magic number (RISC-V specific; deprecated)
+  * @magic2:		Magic number 2 (to match the ARM64 'magic' field pos)
+- * @res4:		reserved (will be used for PE COFF offset)
++ * @res3:		reserved (will be used for PE COFF offset)
+  *
+  * The intention is for this header format to be shared between multiple
+  * architectures to avoid a proliferation of image header formats.
+@@ -59,7 +59,7 @@ struct riscv_image_header {
+ 	u64 res2;
+ 	u64 magic;
+ 	u32 magic2;
+-	u32 res4;
++	u32 res3;
+ };
+ #endif /* __ASSEMBLY__ */
+ #endif /* __ASM_IMAGE_H */
 -- 
-2.23.0
+2.21.0
 
