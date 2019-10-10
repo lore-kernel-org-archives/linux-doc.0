@@ -5,35 +5,34 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 439827D92A
+	by archive.lwn.net (Postfix) with ESMTP id A12047DBD4
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 16:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbfJJQwf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 12:52:35 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:55136 "EHLO inva020.nxp.com"
+        id S1726706AbfJJQwg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 12:52:36 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:46580 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726687AbfJJQwe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726276AbfJJQwe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 10 Oct 2019 12:52:34 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id EFFA11A008F;
-        Thu, 10 Oct 2019 18:52:32 +0200 (CEST)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5980D2001FA;
+        Thu, 10 Oct 2019 18:52:31 +0200 (CEST)
 Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id E2FA01A04B0;
-        Thu, 10 Oct 2019 18:52:32 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 4A089200076;
+        Thu, 10 Oct 2019 18:52:31 +0200 (CEST)
 Received: from fsr-ub1664-026.ea.freescale.net (fsr-ub1664-026.ea.freescale.net [10.171.81.59])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 34644205FA;
-        Thu, 10 Oct 2019 18:52:32 +0200 (CEST)
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id A18A6205FA;
+        Thu, 10 Oct 2019 18:52:30 +0200 (CEST)
 From:   Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
 To:     corbet@lwn.net, robh+dt@kernel.org, mark.rutland@arm.com,
         gregkh@linuxfoundation.org, catalin.marinas@arm.com,
         will@kernel.org, shawnguo@kernel.org, leoyang.li@nxp.com
 Cc:     jslaby@suse.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        "Stoica Cosmin-Stefan" <cosmin.stoica@nxp.com>
-Subject: [PATCH v6 5/5] arm64: defconfig: Enable configs for S32V234
-Date:   Thu, 10 Oct 2019 19:52:28 +0300
-Message-Id: <1570726348-6420-6-git-send-email-stefan-gabriel.mirea@nxp.com>
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v6 3/5] serial: fsl_linflexuart: Be consistent with the name
+Date:   Thu, 10 Oct 2019 19:52:26 +0300
+Message-Id: <1570726348-6420-4-git-send-email-stefan-gabriel.mirea@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1570726348-6420-1-git-send-email-stefan-gabriel.mirea@nxp.com>
 References: <1570726348-6420-1-git-send-email-stefan-gabriel.mirea@nxp.com>
@@ -43,40 +42,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mihaela Martinas <Mihaela.Martinas@freescale.com>
+For consistency reasons, spell the controller name as "LINFlexD" in
+comments and documentation.
 
-Enable support for the S32V234 SoC, including the previously added UART
-driver.
-
-Signed-off-by: Mihaela Martinas <Mihaela.Martinas@freescale.com>
-Signed-off-by: Adrian.Nitu <adrian.nitu@freescale.com>
-Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
 Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
 ---
- arch/arm64/configs/defconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ drivers/tty/serial/Kconfig                      | 8 ++++----
+ drivers/tty/serial/fsl_linflexuart.c            | 4 ++--
+ include/uapi/linux/serial_core.h                | 2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 8e05c39eab08..aa59450557b8 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -48,6 +48,7 @@ CONFIG_ARCH_MXC=y
- CONFIG_ARCH_QCOM=y
- CONFIG_ARCH_RENESAS=y
- CONFIG_ARCH_ROCKCHIP=y
-+CONFIG_ARCH_S32=y
- CONFIG_ARCH_SEATTLE=y
- CONFIG_ARCH_STRATIX10=y
- CONFIG_ARCH_SYNQUACER=y
-@@ -352,6 +353,8 @@ CONFIG_SERIAL_XILINX_PS_UART=y
- CONFIG_SERIAL_XILINX_PS_UART_CONSOLE=y
- CONFIG_SERIAL_FSL_LPUART=y
- CONFIG_SERIAL_FSL_LPUART_CONSOLE=y
-+CONFIG_SERIAL_FSL_LINFLEXUART=y
-+CONFIG_SERIAL_FSL_LINFLEXUART_CONSOLE=y
- CONFIG_SERIAL_MVEBU_UART=y
- CONFIG_SERIAL_DEV_BUS=y
- CONFIG_VIRTIO_CONSOLE=y
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c7ac2f3ac99f..666326d74415 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1101,7 +1101,7 @@
+ 			mapped with the correct attributes.
+ 
+ 		linflex,<addr>
+-			Use early console provided by Freescale LinFlex UART
++			Use early console provided by Freescale LINFlexD UART
+ 			serial driver for NXP S32V234 SoCs. A valid base
+ 			address must be provided, and the serial port must
+ 			already be setup and configured.
+diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+index 4789b5d62f63..c8e11f62ea19 100644
+--- a/drivers/tty/serial/Kconfig
++++ b/drivers/tty/serial/Kconfig
+@@ -1391,19 +1391,19 @@ config SERIAL_FSL_LPUART_CONSOLE
+ 	  you can make it the console by answering Y to this option.
+ 
+ config SERIAL_FSL_LINFLEXUART
+-	tristate "Freescale linflexuart serial port support"
++	tristate "Freescale LINFlexD UART serial port support"
+ 	depends on PRINTK
+ 	select SERIAL_CORE
+ 	help
+-	  Support for the on-chip linflexuart on some Freescale SOCs.
++	  Support for the on-chip LINFlexD UART on some Freescale SOCs.
+ 
+ config SERIAL_FSL_LINFLEXUART_CONSOLE
+-	bool "Console on Freescale linflexuart serial port"
++	bool "Console on Freescale LINFlexD UART serial port"
+ 	depends on SERIAL_FSL_LINFLEXUART=y
+ 	select SERIAL_CORE_CONSOLE
+ 	select SERIAL_EARLYCON
+ 	help
+-	  If you have enabled the linflexuart serial port on the Freescale
++	  If you have enabled the LINFlexD UART serial port on the Freescale
+ 	  SoCs, you can make it the console by answering Y to this option.
+ 
+ config SERIAL_CONEXANT_DIGICOLOR
+diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
+index 68d74f2b5106..2d39e13176e1 100644
+--- a/drivers/tty/serial/fsl_linflexuart.c
++++ b/drivers/tty/serial/fsl_linflexuart.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+- * Freescale linflexuart serial port driver
++ * Freescale LINFlexD UART serial port driver
+  *
+  * Copyright 2012-2016 Freescale Semiconductor, Inc.
+  * Copyright 2017-2018 NXP
+@@ -933,5 +933,5 @@ static void __exit linflex_serial_exit(void)
+ module_init(linflex_serial_init);
+ module_exit(linflex_serial_exit);
+ 
+-MODULE_DESCRIPTION("Freescale linflex serial port driver");
++MODULE_DESCRIPTION("Freescale LINFlexD serial port driver");
+ MODULE_LICENSE("GPL v2");
+diff --git a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
+index 0f4f87a6fd54..49e61963e754 100644
+--- a/include/uapi/linux/serial_core.h
++++ b/include/uapi/linux/serial_core.h
+@@ -290,7 +290,7 @@
+ /* Sunix UART */
+ #define PORT_SUNIX	121
+ 
+-/* Freescale Linflex UART */
++/* Freescale LINFlexD UART */
+ #define PORT_LINFLEXUART	121
+ 
+ #endif /* _UAPILINUX_SERIAL_CORE_H */
 -- 
 2.22.0
 
