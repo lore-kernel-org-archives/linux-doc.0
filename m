@@ -1,62 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_REPLYTO,LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,US_DOLLARS_3 autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D0DAC7DC63
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 12:56:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 346277D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 13:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728274AbfJJMzk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 08:55:40 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59548 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387959AbfJJMzk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Oct 2019 08:55:40 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 77A71998;
-        Thu, 10 Oct 2019 12:55:39 +0000 (UTC)
-Date:   Thu, 10 Oct 2019 06:55:38 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>
-Cc:     David Miller <davem@davemloft.net>, j.neuschaefer@gmx.net,
-        linux-doc@vger.kernel.org, jeffrey.t.kirsher@intel.com,
-        snelson@pensando.io, drivers@pensando.io,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: networking: device drivers: Remove stray
- asterisks
-Message-ID: <20191010065538.62c14aed@lwn.net>
-In-Reply-To: <20191009154803.34e21bae@cakuba.netronome.com>
-References: <20191002150956.16234-1-j.neuschaefer@gmx.net>
-        <20191002.172526.1832563406015085740.davem@davemloft.net>
-        <20191003082953.396ebc1a@lwn.net>
-        <20191009154803.34e21bae@cakuba.netronome.com>
-Organization: LWN.net
+        id S2387972AbfJJNKZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 09:10:25 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54261 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387832AbfJJNKZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 09:10:25 -0400
+Received: by mail-wm1-f67.google.com with SMTP id i16so6881178wmd.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2019 06:10:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=GO77O9NugfDMF3sM0pFxjAVwqVXEKORDEOteZl6SPpM=;
+        b=CGCreGJpdYxCMpEc/r9slhW8rmU4TymtGsZBbMvDrYU9kNDYb/svfNqW4a9C3bf+BM
+         kbbK67I1e9UwX3fKfloVVqGUficTgv9o2fidC9QOglrpEVTLPie7uGXXXMLngCYMp9E6
+         e1G7SoSNqGaXSVVCXpOpdpvb0A8fMNBKZxZ0BtpQtjukZwxsZRCmNZI4BAshhKy/TpMX
+         cw6GUcF4zQkxYbiYk8Zc9Q5BgmsPWwDaAcit4uR9TdxpIZhjqfdPdhnWI4FmlB59CCrQ
+         jL4JcdQ1JsmKakx8RnWJPmM+NlHwOF4if6xijGII/IpnJBxXJ+ZMDdPqVJen2xHSCBhr
+         7XbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=GO77O9NugfDMF3sM0pFxjAVwqVXEKORDEOteZl6SPpM=;
+        b=cSgFs2+/Jtp2WiJDKrNNBDqNIZYcP2Xlql9r2+YcTUDQ7aiAEvfZDtInphZZRSuEcD
+         HknYEKrvMK/uduA1mf/uDhEbbiEgif/uDkivCGAbfp8L1l7x2NIFPUpezQcKC9sq4WSU
+         rr9UoynSKAgMQEFoQm3B409r5CU6wPY9KpaGFdyPijN6qawTPQqwqSQ47+BwBiFgxFIK
+         lnt1YJN5RVa8mC5DuBNOua9bsuXcxOjZxilNrIMVgKg6P+T5RPDMmmkpHIpkF4ubPyxU
+         Zjn+OUuZkvoWyUtCsWazZgH2vMxbGmjLzV9GTnn8wg4ijMEC6x/yiwsekLrzvrZHDa2y
+         BnSQ==
+X-Gm-Message-State: APjAAAWlE0MQsyztfB6JIdPNxvBm6kSGZxDJ6AG1dZhJsDgdD+/bpP7G
+        NWSFgdqB+QLt5Luq7EAWIfkhfdJVpNqTdJCTFzLZ+A==
+X-Google-Smtp-Source: APXvYqz37xeAxTc9n4Vw6+baO3ezaqmb44jTN53afpnazNh08T2YGGy0G+RdMm3GW6VpJFx3Vu2hAyZqrm4Tj/MIr/c=
+X-Received: by 2002:a7b:c3cf:: with SMTP id t15mr7388687wmj.85.1570713023114;
+ Thu, 10 Oct 2019 06:10:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Received: by 2002:adf:efc4:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:10:22
+ -0700 (PDT)
+Reply-To: sunrisefundingltd50@gmail.com
+From:   "Coryna Rizky Amelia, SST" <coryna_fk@ub.ac.id>
+Date:   Thu, 10 Oct 2019 14:10:22 +0100
+Message-ID: <CADotR_p9GxtkfVe36w7PBHwuwOdZcV4TCMOT+O50+azDL8EhmA@mail.gmail.com>
+Subject: Apply For Financial investment at a lower rate 2%
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 9 Oct 2019 15:48:03 -0700
-Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+-- 
+Hello,
 
-> Hi Jon, I think Dave intended a few more patches to go via the doc
-> tree, in particular:
-> 
->  docs: networking: devlink-trap: Fix reference to other document
->  docs: networking: phy: Improve phrasing
-> 
-> Looks like those went missing. Would you mind taking those, or
-> would you prefer for them to land in the networking trees?
+We are private lenders based in UK.
+Do you need a loan (credit) as soon as possible. Are you in search of
+money to solve your personal needs or finance your business venture,
+then get Your desired loan today! Consult us at Sunrise Funding Ltd.
 
-Not missing, just sitting in a folder waiting for me to get back to
-dealing with the queue.  I'll get caught up soon.
+* We offer personal loan & huge capital loan at 2% interest rate to
+the general public both locally and internationally.
+* Credit amount range from $5,000.00 -- $500,000.00 and above.
+* Special $10,000,000.00 Loan offer for huge project also available.
+* Loan period of 6 months -- 10 years.
+* Loan is granted 24 hours after approval and accredited, directly in
+hand or bank account.
 
-jon
+Please note that you are advised to contact us for more details via
+the following e-mail address below;
+
+EMAIL : sunrisefundingltd50@gmail.com
+FIRM : Sunrise Funding Ltd UK.
