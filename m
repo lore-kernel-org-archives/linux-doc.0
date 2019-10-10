@@ -1,240 +1,442 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF1C37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 07:15:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DED207DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 08:12:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732944AbfJJHPo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 03:15:44 -0400
-Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:10048 "EHLO
-        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727130AbfJJHNo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 03:13:44 -0400
-Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
-        by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9A7D9Js028144;
-        Thu, 10 Oct 2019 03:13:09 -0400
-Received: from nam02-cy1-obe.outbound.protection.outlook.com (mail-cys01nam02lp2055.outbound.protection.outlook.com [104.47.37.55])
-        by mx0b-00128a01.pphosted.com with ESMTP id 2veqt5ge5c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Oct 2019 03:13:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YYaiQH6ZLc236L/CdS9L9cU1vpwRxXZGZolODJRapVtxs9HCsCibRUxtAcrhMNVKoM2X6VqZdx+6gNIVDqlbqrBMIl3MP91XBZXLn+/ULDqKyaCpeg/awfemqg26IEkol9ug1n6Pz9/YxZ9hh6fpHWVy/GlpJfBQS+PlyCEoTlkk2DfONcRIYhsj1ZxbO8ixdT6Y5VugGRaR8GhMaV468sRhp5uE+usRvI5i4uSvguYkp5cQ8SJ1Ic8a4ceWmwK5HzegqA+OiWuKjMiuMcdaprmJgsvEn3KX9wOW/cZr3+aszaCQJ/FntVBURn7016VpCgAo0Z45TesL8jTNF38cHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IR2OG3SKjU8cRvqugdgSJGvSB4cTrBxf4krM6ET9mfI=;
- b=iac1n1KTnETJUcIo3An8qkaou3KYrrblW+Pjwr+dKJVQeTi5qvHUxUF2tLnm96nzP848F38t5x1YavOw/f74cGachDrBE3mz8kdyVBZ/KSjdmSy/6GgvzunPQOEsRBENqt8OK7DLpdVSvEf+QsH7cgIgFjDEof0cdDJeo5VaEtr9XHBQVkYZdPTq43aCbvnGSOO41EX9+GI7Hk+9h15BXEaAfEjYPjDfuFn7g4BOJZlqsYjw6rnwWllIGm405l6U3IccBuNRmRGTTl3eX1+VE4bZ6ft4SvWRl69D6bhJXK7RHXhvT+9bxju0XFvNMMnxc6hqaOtsmOXN/Tl3Zo+LzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IR2OG3SKjU8cRvqugdgSJGvSB4cTrBxf4krM6ET9mfI=;
- b=3bdIKhzAitAlZpHZx7lxhisupc34M9dNpVYiSrkKWSDCmlW+0ezAa1/RWfu1YHbg0DriQh0sINoKFRfgxenjqMo/PZnrSWt3/rggFif4W6fLhPpevqqxKNeTI7BJW0Ut0OSw48fZlZajrMZB0PsViRnW9DVKcDurwMUsRm8EVlo=
-Received: from MN2PR03MB5117.namprd03.prod.outlook.com (52.132.171.137) by
- MN2PR03MB5278.namprd03.prod.outlook.com (10.186.147.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.17; Thu, 10 Oct 2019 07:13:06 +0000
-Received: from MN2PR03MB5117.namprd03.prod.outlook.com
- ([fe80::8c20:8f3b:b536:dca5]) by MN2PR03MB5117.namprd03.prod.outlook.com
- ([fe80::8c20:8f3b:b536:dca5%7]) with mapi id 15.20.2327.026; Thu, 10 Oct 2019
- 07:13:06 +0000
-From:   "Sa, Nuno" <Nuno.Sa@analog.com>
-To:     "linux@roeck-us.net" <linux@roeck-us.net>
-CC:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: Re: [PATCH 2/3] hwmon: Add support for ltc2947
-Thread-Topic: [PATCH 2/3] hwmon: Add support for ltc2947
-Thread-Index: AQHVfQ0JfzZtaDJjC0uzTOP32sZwk6dPQ3sAgAQ23oA=
-Date:   Thu, 10 Oct 2019 07:13:06 +0000
-Message-ID: <ea52f348c9fab8c9a3c3417909053f4abb12cbcb.camel@analog.com>
-References: <20190924124945.491326-1-nuno.sa@analog.com>
-         <20190924124945.491326-3-nuno.sa@analog.com>
-         <20191003041446.GA2332@roeck-us.net>
-         <d0a992bebbc3c388b6be100d1821fa5813fcc1b4.camel@analog.com>
-         <20191004150623.GA28287@roeck-us.net>
-         <7d4ca133201f8c75855de6777f6018567701e16a.camel@analog.com>
-         <94cf417f-90fa-50b8-9d4a-d7e4c9dd3d8d@roeck-us.net>
-         <5f280daff806cb73a160d10f5ec97be18d42aebb.camel@analog.com>
-In-Reply-To: <5f280daff806cb73a160d10f5ec97be18d42aebb.camel@analog.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.71.226.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a9f87b5a-7334-4fc9-b350-08d74d514c96
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: MN2PR03MB5278:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <MN2PR03MB52781CB7C6002F5D803DEA5F99940@MN2PR03MB5278.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 018632C080
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(376002)(396003)(39860400002)(346002)(199004)(189003)(91956017)(256004)(86362001)(36756003)(64756008)(14444005)(1730700003)(6916009)(66476007)(316002)(99286004)(76116006)(66946007)(2501003)(76176011)(81156014)(81166006)(66556008)(66446008)(118296001)(14454004)(26005)(186003)(305945005)(8936002)(6116002)(8676002)(102836004)(6506007)(53546011)(5660300002)(3846002)(25786009)(7736002)(66066001)(2616005)(11346002)(476003)(446003)(71200400001)(486006)(4326008)(6246003)(71190400001)(2906002)(5640700003)(6436002)(54906003)(229853002)(6306002)(6512007)(2351001)(6486002)(478600001)(966005)(6606295002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR03MB5278;H:MN2PR03MB5117.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: analog.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xMmx7JrQJ/b59npWyrs5bLOANTCT8nJVCjaesXODvhY6WQniNMqUsCumBdqnUS0saNdHDYn+FiWH6BBeFFBX6g7gWhVi108B1LIoMGpzt57EP/QfmFOF/nQF4lphKSdtuAO8FVEvgcx2cev3HOHToGLcLkrhup88u9jb3bc92cAl070goB06XFlTl6c8xfVmmki/1N+JsOdogTIGglj3nABkP/jKs5YvujvHH/Yr7p0XdWRhnIm0w1t3h/Akyl/mlMSluVqHGIeE8w+d4RPYbwARS10q/hsRbvkNOwRgVo60c+iIQztEVoTyRdCMkj8q5mNcMppPQNlVp5OxyPSmpRvHgK2GMxsX4X24MQ2wwXEU2zcbZua1qd1QXyorTCFlMAhdDs4BR2mYYlEmRrJGrfLMVy9CDZxo/1qgxTxyrTMuR8SKwhad4/GFBHtVa4aIREVpil98p0Zkq1xdta3ZkQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <54670002C35DDF40AA6E1907C86CBEF3@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9f87b5a-7334-4fc9-b350-08d74d514c96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2019 07:13:06.8490
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KTDTL+W3I8qQjdXJcGsnHidTD9bo9u5lIVRhxKj+qlsLAEeZZa+TGeTkKuxT3Btvph3eSDX9/ROEfoEApqXz0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5278
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-10_03:2019-10-08,2019-10-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1910100067
+        id S1732993AbfJJIMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 04:12:19 -0400
+Received: from mga14.intel.com ([192.55.52.115]:45882 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727196AbfJJIMT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Oct 2019 04:12:19 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2019 01:12:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,279,1566889200"; 
+   d="scan'208";a="345626296"
+Received: from mkarlsso-mobl.ger.corp.intel.com (HELO VM.isw.intel.com) ([10.103.211.41])
+  by orsmga004.jf.intel.com with ESMTP; 10 Oct 2019 01:12:16 -0700
+From:   Magnus Karlsson <magnus.karlsson@intel.com>
+To:     magnus.karlsson@intel.com, bjorn.topel@intel.com, ast@kernel.org,
+        daniel@iogearbox.net, netdev@vger.kernel.org,
+        jonathan.lemon@gmail.com, linux-doc@vger.kernel.org
+Cc:     bpf@vger.kernel.org
+Subject: [PATCH bpf] xsk: improve documentation for AF_XDP
+Date:   Thu, 10 Oct 2019 10:12:13 +0200
+Message-Id: <1570695134-660-1-git-send-email-magnus.karlsson@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgR3VlbnRlciwNCg0KSSBnb3Qgc29tZSBmZWVkYmFjayBhYm91dCBlbmVyZ3kgbWF4L21pbi4u
-Lg0KDQpPbiBNb24sIDIwMTktMTAtMDcgYXQgMTQ6NTEgKzAwMDAsIFNhLCBOdW5vIHdyb3RlOg0K
-PiBPbiBNb24sIDIwMTktMTAtMDcgYXQgMDU6NDQgLTA3MDAsIEd1ZW50ZXIgUm9lY2sgd3JvdGU6
-DQo+ID4gT24gMTAvNy8xOSA1OjI1IEFNLCBTYSwgTnVubyB3cm90ZToNCj4gPiA+IE9uIEZyaSwg
-MjAxOS0xMC0wNCBhdCAwODowNiAtMDcwMCwgR3VlbnRlciBSb2VjayB3cm90ZToNCj4gPiA+ID4g
-T24gRnJpLCBPY3QgMDQsIDIwMTkgYXQgMDc6NDU6MDdBTSArMDAwMCwgU2EsIE51bm8gd3JvdGU6
-DQo+ID4gPiA+IFsgLi4uIF0NCj4gPiA+ID4gPiA+ID4gK3N0YXRpYyBpbnQgbHRjMjk0N192YWxf
-cmVhZChzdHJ1Y3QgbHRjMjk0N19kYXRhICpzdCwNCj4gPiA+ID4gPiA+ID4gY29uc3QNCj4gPiA+
-ID4gPiA+ID4gdTgNCj4gPiA+ID4gPiA+ID4gcmVnLA0KPiA+ID4gPiA+ID4gPiArCQkJICAgIGNv
-bnN0IHU4IHBhZ2UsIGNvbnN0IHNpemVfdCBzaXplLA0KPiA+ID4gPiA+ID4gPiBzNjQgKnZhbCkN
-Cj4gPiA+ID4gPiA+ID4gK3sNCj4gPiA+ID4gPiA+ID4gKwlpbnQgcmV0Ow0KPiA+ID4gPiA+ID4g
-PiArCXU2NCBfX3ZhbCA9IDA7DQo+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gKwltdXRl
-eF9sb2NrKCZzdC0+bG9jayk7DQo+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gDQo+ID4gPiA+IE9u
-IGEgc2lkZSBub3RlLCBzdXNwZW5kIGNvZGUgaXMgc3VwcG9zZWQgdG8gYmUgYXRvbWljLA0KPiA+
-ID4gPiBJZiB0aGlzIGxvY2sgaXMgaGVsZCwgdGhlIHByb2Nlc3Mgb3IgdGhyZWFkIGhvbGRpbmcg
-aXQNCj4gPiA+ID4gd2lsbCBsaWtlbHkgc3RhbGwgc3VzcGVuZCBzaW5jZSBpdCB3b24ndCBydW4u
-DQo+ID4gPiA+IEF0IHRoZSB2ZXJ5IGxlYXN0LCB0aGlzIHdvdWxkIGhhdmUgdG8gYmUgYSB0cnls
-b2NrLA0KPiA+ID4gPiB3aXRoIHN1c3BlbmQgZmFpbGluZyBpZiB0aGUgbG9jayBjYW4gbm90IGJl
-IGFjcXVpcmVkLg0KPiA+ID4gDQo+ID4gPiBHb3QgaXQuIEV2ZW4gbW9yZSwgTm93IEkgZG9uJ3Qg
-c2VlIHRoZSBwb2ludCBvZiBoYXZpbmcgdGhlIG11dGV4DQo+ID4gPiBpbg0KPiA+ID4gdGhlDQo+
-ID4gPiBQTSBjYWxsYmFja3MgKHRob3VnaCBJIHNhdyBvdGhlciBkcml2ZXJzIGRvaW5nIHRoaXMp
-LiBBcyB5b3UNCj4gPiA+IHNhaWQsDQo+ID4gPiBhdA0KPiA+ID4gdGhlIHZlcnkgbGVhc3QgdGhl
-IHRyeWxvY2sgc2hvdWxkIGJlIHVzZWQgc2luY2UgYSBmcm96ZW4gdGFzaw0KPiA+ID4gbWlnaHQN
-Cj4gPiA+IGhhdmUgdGhlIG11dGV4IGxvY2tlZC4gRWl0aGVyIHdheSwgSSB3aWxsIGRyb3AgYm90
-aCB0aGUgZmxhZyBhbmQNCj4gPiA+IHRoZQ0KPiA+ID4gY2FsbCB0byBtdXRleF8qIGZ1bmN0aW9u
-cyBpcyBzdXNwZW5kKCkvcmVzdW1lKCkuDQo+ID4gPiANCj4gPiA+ID4gPiA+ID4gKwlpZiAoc3Qt
-PnJlc2V0KSB7DQo+ID4gPiA+ID4gPiA+ICsJCW11dGV4X3VubG9jaygmc3QtPmxvY2spOw0KPiA+
-ID4gPiA+ID4gPiArCQlyZXR1cm4gLUVQRVJNOw0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBO
-b3Qgc3VyZSB3aGF0IHRoZSBlcnJvciBoZXJlIHNob3VsZCBiZSwgYnV0IEVQRVJNIGlzIG5vdA0K
-PiA+ID4gPiA+ID4gY29ycmVjdC4NCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gVW5kZXIgd2hp
-Y2ggY29uZGl0aW9ucyB3b3VsZCB0aGlzIGZ1bmN0aW9uIGJlIGNhbGxlZCB3aGlsZQ0KPiA+ID4g
-PiA+ID4gaW4NCj4gPiA+ID4gPiA+IHN1c3BlbmQgPw0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IEhv
-bmVzdGx5LCB0aGlzIGlzIG1vcmUgbGlrZSBhIHNhbml0eSBjaGVjay4gSSdtIG5vdCBzdXJlIGlm
-DQo+ID4gPiA+ID4gd2UNCj4gPiA+ID4gPiBjYW4NCj4gPiA+ID4gPiBnZXQNCj4gPiA+ID4gPiBo
-ZXJlIGluIHN1c3BlbmQgbW9kZS4gRG9uJ3QgdXNlcmxhbmQgYXBwcyBjYW4gc3RpbGwgcnVuIGlu
-DQo+ID4gPiA+ID4gc3VzcGVuZD8NCj4gPiA+ID4gPiBJDQo+ID4gPiA+ID4gZ3Vlc3Mgc28gYnV0
-IEknbSBub3QgMTAwJSBzdXJlIG9uIHRoaXMuIERvIHlvdSBoYXZlIGFueQ0KPiA+ID4gPiA+IHJl
-Y29tbWVuZGF0aW9uDQo+ID4gPiA+ID4gZm9yIHRoZSBlcnJvciBoZXJlPw0KPiA+ID4gPiA+IA0K
-PiA+ID4gPiBTb3JyeSwgSSB3b24ndCBhY2NlcHQgImp1c3QgaW4gY2FzZSIgY29kZS4NCj4gPiA+
-ID4gDQo+ID4gPiA+IEhhdmluZyBzYWlkIHRoYXQsIHBsZWFzZSBpbmZvcm0geW91cnNlbGYgaG93
-IHN1c3BlbmQgd29ya3MuDQo+ID4gPiA+IFVzZXJsYW5kDQo+ID4gPiA+IGNvZGUNCj4gPiA+ID4g
-aGFzIHRvIGJlIHN0b3BwZWQgYmVmb3JlIGFueSBoYXJkd2FyZSBjYW4gYmUgZGlzYWJsZWQuIFNp
-bWlsYXIsDQo+ID4gPiA+IGhhcmR3YXJlDQo+ID4gPiA+IGhhcyB0byBiZSByZS1lbmFibGVkIGJl
-Zm9yZSB1c2VybGFuZCBjb2RlIGNhbiByZXN1bWUuDQo+ID4gPiA+IE90aGVyd2lzZSB0aGUga2Vy
-bmVsIHdvdWxkIGNyYXNoIGFsbCBvdmVyIHRoZSBwbGFjZS4gSW4gbWFueQ0KPiA+ID4gPiBjYXNl
-cywNCj4gPiA+ID4gZGlzYWJsaW5nIHRoZSBoYXJkd2FyZSBtZWFucyB0aGF0IHRyeWluZyB0byBh
-Y2Nlc3MgaGFyZHdhcmUNCj4gPiA+ID4gcmVnaXN0ZXJzDQo+ID4gPiA+IHdpbGwgY2F1c2UgYW4g
-YWNlc3MgZmF1bHQuDQo+ID4gPiANCj4gPiA+IFllcywgeW91IGFyZSByaWdodC4gSSBkaWQgY2hl
-Y2tlZCB0aGUgc3VzcGVuZCBjb2RlIGFuZCBhbGwNCj4gPiA+IHVzZXJsYW5kDQo+ID4gPiB0YXNr
-cyBhbmQga3RocmVhZHMgYXJlIHN0b3BwZWQgYmVmb3JlIHRoZSBzdXNwZW5kKCkgY2FsbGJhY2sg
-aXMNCj4gPiA+IGNhbGxlZA0KPiA+ID4gZm9yIHRoZSBIVyBkZXZpY2VzLg0KPiA+ID4gDQo+ID4g
-PiA+IFsuLi5dDQo+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ICtzdGF0
-aWMgc3RydWN0IGF0dHJpYnV0ZSAqbHRjMjk0N19hdHRyc1tdID0gew0KPiA+ID4gPiA+ID4gPiAr
-CSZzZW5zb3JfZGV2X2F0dHJfaW4wX2ZhdWx0LmRldl9hdHRyLmF0dHIsDQo+ID4gPiA+ID4gPiA+
-ICsJJnNlbnNvcl9kZXZfYXR0cl9pbjFfZmF1bHQuZGV2X2F0dHIuYXR0ciwNCj4gPiA+ID4gPiA+
-ID4gKwkmc2Vuc29yX2Rldl9hdHRyX2N1cnIxX2ZhdWx0LmRldl9hdHRyLmF0dHIsDQo+ID4gPiA+
-ID4gPiA+ICsJJnNlbnNvcl9kZXZfYXR0cl90ZW1wMV9mYXVsdC5kZXZfYXR0ci5hdHRyLA0KPiA+
-ID4gPiA+ID4gPiArCSZzZW5zb3JfZGV2X2F0dHJfcG93ZXIxX2lucHV0LmRldl9hdHRyLmF0dHIs
-DQo+ID4gPiA+ID4gPiA+ICsJJnNlbnNvcl9kZXZfYXR0cl9wb3dlcjFfbWF4LmRldl9hdHRyLmF0
-dHIsDQo+ID4gPiA+ID4gPiA+ICsJJnNlbnNvcl9kZXZfYXR0cl9wb3dlcjFfbWluLmRldl9hdHRy
-LmF0dHIsDQo+ID4gPiA+ID4gPiA+ICsJJnNlbnNvcl9kZXZfYXR0cl9wb3dlcjFfaW5wdXRfaGln
-aGVzdC5kZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+ID4gPiArCSZzZW5zb3JfZGV2X2F0dHJfcG93
-ZXIxX2lucHV0X2xvd2VzdC5kZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+ID4gPiArCSZzZW5zb3Jf
-ZGV2X2F0dHJfcG93ZXIxX2ZhdWx0LmRldl9hdHRyLmF0dHIsDQo+ID4gPiA+ID4gPiA+ICsJJnNl
-bnNvcl9kZXZfYXR0cl9lbmVyZ3kxX2lucHV0LmRldl9hdHRyLmF0dHIsDQo+ID4gPiA+ID4gPiA+
-ICsJJnNlbnNvcl9kZXZfYXR0cl9lbmVyZ3kxX21heC5kZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+
-ID4gPiArCSZzZW5zb3JfZGV2X2F0dHJfZW5lcmd5MV9taW4uZGV2X2F0dHIuYXR0ciwNCj4gPiA+
-ID4gPiA+ID4gKwkmc2Vuc29yX2Rldl9hdHRyX2VuZXJneTFfbWF4X2FsYXJtLmRldl9hdHRyLmF0
-dHIsDQo+ID4gPiA+ID4gPiA+ICsJJnNlbnNvcl9kZXZfYXR0cl9lbmVyZ3kxX21pbl9hbGFybS5k
-ZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+ID4gPiArCSZzZW5zb3JfZGV2X2F0dHJfZW5lcmd5Ml9p
-bnB1dC5kZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+ID4gPiArCSZzZW5zb3JfZGV2X2F0dHJfZW5l
-cmd5Ml9tYXguZGV2X2F0dHIuYXR0ciwNCj4gPiA+ID4gPiA+ID4gKwkmc2Vuc29yX2Rldl9hdHRy
-X2VuZXJneTJfbWluLmRldl9hdHRyLmF0dHIsDQo+ID4gPiA+ID4gPiA+ICsJJnNlbnNvcl9kZXZf
-YXR0cl9lbmVyZ3kyX21heF9hbGFybS5kZXZfYXR0ci5hdHRyLA0KPiA+ID4gPiA+ID4gPiArCSZz
-ZW5zb3JfZGV2X2F0dHJfZW5lcmd5Ml9taW5fYWxhcm0uZGV2X2F0dHIuYXR0ciwNCj4gPiA+ID4g
-PiA+ID4gKwkmc2Vuc29yX2Rldl9hdHRyX2VuZXJneTFfb3ZlcmZsb3dfYWxhcm0uZGV2X2F0dHIu
-YXR0ciwNCj4gPiA+ID4gPiA+ID4gKwkmc2Vuc29yX2Rldl9hdHRyX2VuZXJneTJfb3ZlcmZsb3df
-YWxhcm0uZGV2X2F0dHIuYXR0ciwNCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBUaGVzZSBvdmVyZmxv
-dyBhdHRyaWJ1dGVzIGFyZSBraW5kIG9mIGFuIGFsYXJtIGZvciB0aGUgZW5lcmd5DQo+ID4gPiA+
-ID4gb25lcy4NCj4gPiA+ID4gPiBJdA0KPiA+ID4gPiA+IHRlbGxzIHRoYXQgdGhlIGVuZXJneSBy
-ZWdpc3RlcnMgYXJlIGFib3V0IHRvIG92ZXJmbG93LiBJDQo+ID4gPiA+ID4gZ3Vlc3MNCj4gPiA+
-ID4gPiB0aGF0DQo+ID4gPiA+ID4gc29tZSBhcHBsaWNhdGlvbiBjYW4gZWFzaWx5IGZpbmQgb3V0
-IHRoZSBtYXhpbXVtIHZhbHVlcw0KPiA+ID4gPiA+IHN1cHBvcnRlZA0KPiA+ID4gPiA+IG9uDQo+
-ID4gPiA+ID4gdGhlc2UgcmVnaXN0ZXJzIGFuZCBpbXBsZW1lbnQgd2hhdGV2ZXIgbG9naWMgdGhl
-eSB3YW50IGluIHRoZQ0KPiA+ID4gPiA+IGFwcA0KPiA+ID4gPiA+IGl0c2VsZi4gU28sIGlmIHlv
-dSBwcmVmZXIgSSBjYW4ganVzdCBkcm9wIHRoaXMgb25lcz8NCj4gPiA+ID4gPiANCj4gPiA+ID4g
-SSB1bmRlcnN0YW5kIHRoZSBvdmVyZmxvdyB1c2UgY2FzZS4gSG93ZXZlciwgdGhlIG1lcmUgcHJl
-c2VuY2UNCj4gPiA+ID4gb2YgbWluL21heCBhdHRyaWJ1dGVzIGZvciBlbmVyZ3kgYXR0cmlidXRl
-cyBzdWdnZXN0cyB0aGF0IHRoaXMNCj4gPiA+ID4gaXMgbm90IHRoZSBtaW4vbWF4IHVzZSBjYXNl
-IGZvciBod21vbiBhdHRyaWJ1dGVzLiBUaGVyZSBpcyBubw0KPiA+ID4gPiAibWluaW11bSINCj4g
-PiA+ID4gb3IgIm1heGltdW0iIGVuZXJneSBmb3IgYW4gYWNjdW11bGF0aW5nIHZhbHVlLiBTdWNo
-IGF0dHJpYnV0ZXMNCj4gPiA+ID4gb25seSBtYWtlIHNlbnNlIGluIGFuIGFwcGxpY2F0aW9uIGFi
-bGVyIHRvIG1lYXN1cmUgYXZhaWxhYmxlDQo+ID4gPiA+IGVuZXJneSAoZWcgYSBiYXR0ZXJ5IGNv
-bnRyb2xsZXIpLiBJJ2xsIGhhdmUgdG8gcmVhZCB0aGUgY2hpcA0KPiA+ID4gPiBzcGVjaWZpY2F0
-aW9uIHRvIHVuZGVyc3RhbmQgdGhlIGludGVuZGVkIHVzZSBjYXNlLg0KPiA+ID4gDQo+ID4gPiBT
-aG91bGQgSSBqdXN0IGRyb3AgdGhlIG92ZXJmbG93IGF0dHJpYnV0ZXM/IEkgdGhpbmsgdGhlIHBh
-cnQgY2FuDQo+ID4gPiBiZQ0KPiA+ID4gdXNlZCB0byBjaGVjayBiYXR0ZXJ5IGNoYXJnaW5nIGVm
-ZmljaWVuY3kgZm9yIGV4YW1wbGUgKHRob3VnaCBJDQo+ID4gPiBndWVzcw0KPiA+ID4gd2Ugd291
-bGQgbmVlZCB0byBhbHNvIHN1cHBvcnQgdGhlIENoYXJnZSByZWdpc3RlcidzKS4NCj4gPiA+IA0K
-PiA+IA0KPiA+IElmIGNoaXAgaXMgKG9yIGNhbiBiZSkgdXNlZCBhcyBjaGFyZ2VyLCBpdCBzaG91
-bGQgcmVnaXN0ZXIgYXMgc3VjaC4NCj4gPiBOb3RlIG15IHF1ZXN0aW9uIHdhcyB0aGUgZW5lcmd5
-IGxpbWl0IGF0dHJpYnV0ZXMsIG5vdCB0aGUgb3ZlcmZsb3cNCj4gPiBhdHRyaWJ1dGVzLg0KPiAN
-Cj4gSSBkb24ndCB0aGluayBpdCBjYW4gYmUgdXNlZCBhcyBhIGNoYXJnZXIgYnV0IGl0IGNhbiBh
-bHNvIG1lYXN1cmUNCj4gY2hhcmdlIChpbnRlZ3JhdGluZyB0aGUgbWVhc3VyZWQgY3VycmVudCBv
-dmVyIHRpbWUpLiBBcyB0aGV5IGFyZSBub3QNCj4gc3RhbmRhcmQgYXR0cmlidXRlcyBJIGRpZCBu
-b3QgaW5jbHVkZWQgdGhpcyBvbiB0aGUgZHJpdmVyIChJIHNlbnQgYQ0KPiBxdWVyeSBvbiB0aGlz
-IGJlZm9yZSBzdGFydGluZyB0aGUgZHJpdmVyIC0gDQo+IGh0dHBzOi8vbWFyYy5pbmZvLz9sPWxp
-bnV4LWh3bW9uJm09MTU2NTA3NzExNjEyODc3Jnc9MikuDQo+IA0KPiBJIHNlZSB5b3VyIHBvaW50
-IGFib3V0IGVuZXJneSBhbmQgaGF2aW5nIG1heGltdW0gYW5kIG1pbmltdW0gZm9yIGFuDQo+IGFj
-Y3VtdWxhdGVkIHZhbHVlLiBIb25lc3RseSwgbG9va2luZyBhdCB0aGUgY2hpcCBzcGVjaWZpY2F0
-aW9uIEkNCj4gY2Fubm90DQo+IHNlZSB0aGUgaW50ZW5kZWQgdXNlIGNhc2UgZm9yIHRoaXMuIE1h
-eWJlIGZvcg0KPiBtb25pdG9yaW5nL2NoYXJhY3Rlcml6aW5nDQo+IGJhdHRlcmllcyBzaW5jZSB0
-aGVyZSBhcmUgc29tZSBjb250cm9scyBvbiB0aGVzZSBhY2N1bXVsYXRlZCB2YWx1ZXMNCj4gKHdl
-DQo+IGNhbiBzZXQgdGhlIHBhcnQgdG8gYWNjdW11bGF0ZSBvbmx5IHdoZW4gY3VycmVudCBpcyBw
-b3NpdGl2ZSBmb3INCj4gZXhhbXBsZSkuDQo+IEkgd2lsbCBkbyBzb21lIGludGVybmFsIHF1ZXJ5
-aW5nIHRvIHNlZSBpZiBJIGNhbiBmaW5kIG91dCBtb3JlIG9uDQo+IHRoaXMuDQo+IA0KDQpRdW90
-aW5nIHRoZSByZXBseSBJIGhhZDoNCg0KIkFzIHRoZSBMVEMyOTQ3IGlzIGJpLWRpcmVjdGlvbmFs
-LCB0aGUgbW9zdCBsaWtlbHkgdXNlIGZvciB0aGUgTWluL01heA0KRW5lcmd5IHRocmVzaG9sZHMg
-YXJlIGZvciBtb25pdG9yaW5nIGEgYmF0dGVyeSBiZWluZyBjaGFyZ2VkIG9yDQpkaXNjaGFyZ2Vk
-LiANCkEgbGltaXQgY291bGQgYmUgc2V0IGJhc2VkIGFyb3VuZCB0aGUgYmF0dGVyeSdzIHN0b3Jh
-Z2UgY2FwYWNpdHkgc28NCnRoYXQgdGhlIGJhdHRlcnkgaXMgcHJvdGVjdGVkIGZyb20gYmVpbmcg
-b3ZlcmNoYXJnaW5nIG9yIGZ1bGx5DQpkcmFpbmVkLiINCg0KU28sIEknbSBub3Qgc3VyZSBpZiB0
-aGlzIGlzIGEgdmFsaWQgdXNlIGNhc2UgZm9yIGh3bW9uIHN1YnN5c3RlbS4gSSdtDQphd2FyZSB0
-aGVyZSdzIGFsc28gdGhlIHBvd2VyIHN1YnN5c3RlbS4gU28gbGV0IG1lIGtub3cgd2hhdCBkbyB5
-b3UNCnByZWZlciBoZXJlLiBTaG91bGQgSSBqdXN0IHJlcG9ydCBlbmVyZ3lYX2lucHV0IGF0dHJp
-YnV0ZXM/IE9yIGNhbiB3ZQ0Ka2VlcCB0aGUgbWluL21heD8NCg0KDQpOdW5vIFPDoQ0KDQo=
+Added sections on all the bind flags, libbpf, all the setsockopts and
+all the getsockopts. Also updated the document to reflect the latest
+features and to correct some spelling errors.
+
+Signed-off-by: Magnus Karlsson <magnus.karlsson@intel.com>
+---
+ Documentation/networking/af_xdp.rst | 262 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 234 insertions(+), 28 deletions(-)
+
+diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+index 83f7ae5..52e40d72 100644
+--- a/Documentation/networking/af_xdp.rst
++++ b/Documentation/networking/af_xdp.rst
+@@ -40,13 +40,13 @@ allocates memory for this UMEM using whatever means it feels is most
+ appropriate (malloc, mmap, huge pages, etc). This memory area is then
+ registered with the kernel using the new setsockopt XDP_UMEM_REG. The
+ UMEM also has two rings: the FILL ring and the COMPLETION ring. The
+-fill ring is used by the application to send down addr for the kernel
++FILL ring is used by the application to send down addr for the kernel
+ to fill in with RX packet data. References to these frames will then
+ appear in the RX ring once each packet has been received. The
+-completion ring, on the other hand, contains frame addr that the
++COMPLETION ring, on the other hand, contains frame addr that the
+ kernel has transmitted completely and can now be used again by user
+ space, for either TX or RX. Thus, the frame addrs appearing in the
+-completion ring are addrs that were previously transmitted using the
++COMPLETION ring are addrs that were previously transmitted using the
+ TX ring. In summary, the RX and FILL rings are used for the RX path
+ and the TX and COMPLETION rings are used for the TX path.
+ 
+@@ -91,11 +91,16 @@ Concepts
+ ========
+ 
+ In order to use an AF_XDP socket, a number of associated objects need
+-to be setup.
++to be setup. These objects and their options are explained in the
++following sections.
+ 
+-Jonathan Corbet has also written an excellent article on LWN,
+-"Accelerating networking with AF_XDP". It can be found at
+-https://lwn.net/Articles/750845/.
++For an overview on how AF_XDP works, you can also take a look at the
++Linux Plumbers paper from 2018 on the subject:
++http://vger.kernel.org/lpc_net2018_talks/lpc18_paper_af_xdp_perf-v2.pdf. Do
++NOT consult the paper from 2017 on "AF_PACKET v4", the first attempt
++at AF_XDP. Nearly everything changed since then. Jonathan Corbet has
++also written an excellent article on LWN, "Accelerating networking
++with AF_XDP". It can be found at https://lwn.net/Articles/750845/.
+ 
+ UMEM
+ ----
+@@ -113,22 +118,22 @@ the next socket B can do this by setting the XDP_SHARED_UMEM flag in
+ struct sockaddr_xdp member sxdp_flags, and passing the file descriptor
+ of A to struct sockaddr_xdp member sxdp_shared_umem_fd.
+ 
+-The UMEM has two single-producer/single-consumer rings, that are used
++The UMEM has two single-producer/single-consumer rings that are used
+ to transfer ownership of UMEM frames between the kernel and the
+ user-space application.
+ 
+ Rings
+ -----
+ 
+-There are a four different kind of rings: Fill, Completion, RX and
++There are a four different kind of rings: FILL, COMPLETION, RX and
+ TX. All rings are single-producer/single-consumer, so the user-space
+ application need explicit synchronization of multiple
+ processes/threads are reading/writing to them.
+ 
+-The UMEM uses two rings: Fill and Completion. Each socket associated
++The UMEM uses two rings: FILL and COMPLETION. Each socket associated
+ with the UMEM must have an RX queue, TX queue or both. Say, that there
+ is a setup with four sockets (all doing TX and RX). Then there will be
+-one Fill ring, one Completion ring, four TX rings and four RX rings.
++one FILL ring, one COMPLETION ring, four TX rings and four RX rings.
+ 
+ The rings are head(producer)/tail(consumer) based rings. A producer
+ writes the data ring at the index pointed out by struct xdp_ring
+@@ -146,7 +151,7 @@ The size of the rings need to be of size power of two.
+ UMEM Fill Ring
+ ~~~~~~~~~~~~~~
+ 
+-The Fill ring is used to transfer ownership of UMEM frames from
++The FILL ring is used to transfer ownership of UMEM frames from
+ user-space to kernel-space. The UMEM addrs are passed in the ring. As
+ an example, if the UMEM is 64k and each chunk is 4k, then the UMEM has
+ 16 chunks and can pass addrs between 0 and 64k.
+@@ -164,8 +169,8 @@ chunks mode, then the incoming addr will be left untouched.
+ UMEM Completion Ring
+ ~~~~~~~~~~~~~~~~~~~~
+ 
+-The Completion Ring is used transfer ownership of UMEM frames from
+-kernel-space to user-space. Just like the Fill ring, UMEM indicies are
++The COMPLETION Ring is used transfer ownership of UMEM frames from
++kernel-space to user-space. Just like the FILL ring, UMEM indices are
+ used.
+ 
+ Frames passed from the kernel to user-space are frames that has been
+@@ -181,7 +186,7 @@ The RX ring is the receiving side of a socket. Each entry in the ring
+ is a struct xdp_desc descriptor. The descriptor contains UMEM offset
+ (addr) and the length of the data (len).
+ 
+-If no frames have been passed to kernel via the Fill ring, no
++If no frames have been passed to kernel via the FILL ring, no
+ descriptors will (or can) appear on the RX ring.
+ 
+ The user application consumes struct xdp_desc descriptors from this
+@@ -199,8 +204,24 @@ be relaxed in the future.
+ The user application produces struct xdp_desc descriptors to this
+ ring.
+ 
++Libbpf
++======
++
++Libbpf is a helper library for eBPF and XDP that makes using these
++technologies a lot simpler. It also contains specific helper functions
++in tools/lib/bpf/xsk.h for facilitating the use of AF_XDP. It
++contains two types of functions: those that can be used to make the
++setup of AF_XDP socket easier and ones that can be used in the data
++plane to access the rings safely and quickly. To see an example on how
++to use this API, please take a look at the sample application in
++samples/bpf/xdpsock_usr.c which uses libbpf for both setup and data
++plane operations.
++
++We recommend that you use this library unless you have become a power
++user. It will make your program a lot simpler.
++
+ XSKMAP / BPF_MAP_TYPE_XSKMAP
+-----------------------------
++============================
+ 
+ On XDP side there is a BPF map type BPF_MAP_TYPE_XSKMAP (XSKMAP) that
+ is used in conjunction with bpf_redirect_map() to pass the ingress
+@@ -216,21 +237,200 @@ queue 17. Only the XDP program executing for eth0 and queue 17 will
+ successfully pass data to the socket. Please refer to the sample
+ application (samples/bpf/) in for an example.
+ 
++Configuration Flags and Socket Options
++======================================
++
++These are the various configuration flags that can be used to control
++and monitor the behavior of AF_XDP sockets.
++
++XDP_COPY and XDP_ZERO_COPY bind flags
++-------------------------------------
++
++When you bind to a socket, the kernel will first try to use zero-copy
++copy. If zero-copy is not supported, it will fall back on using copy
++mode, i.e. copying all packets out to user space. But if you would
++like to force a certain mode, you can use the following flags. If you
++pass the XDP_COPY flag to the bind call, the kernel will force the
++socket into copy mode. If it cannot use copy mode, the bind call will
++fail with an error. Conversely, the XDP_ZERO_COPY flag will force the
++socket into zero-copy mode or fail.
++
++XDP_SHARED_UMEM bind flag
++-------------------------
++
++This flag enables you to bind multiple sockets to the same UMEM, but
++only if they share the same queue id. In this mode, each socket has
++their own RX and TX rings, but the UMEM (tied to the fist socket
++created) only has a single FILL ring and a single COMPLETION
++ring. To use this mode, create the first socket and bind it in the normal
++way. Create a second socket and create an RX and a TX ring, or at
++least one of them, but no FILL or COMPLETION rings as the ones from
++the first socket will be used. In the bind call, set he
++XDP_SHARED_UMEM option and provide the initial socket's fd in the
++sxdp_shared_umem_fd field. You can attach an arbitrary number of extra
++sockets this way.
++
++What socket will then a packet arrive on? This is decided by the XDP
++program. Put all the sockets in the XSK_MAP and just indicate which
++index in the array you would like to send each packet to. A simple
++round-robin example of distributing packets is shown below:
++
++.. code-block:: c
++
++   #define KBUILD_MODNAME "af_xdp_example"
++   #include <uapi/linux/bpf.h>
++   #include "bpf_helpers.h"
++
++   #define MAX_SOCKS 16
++
++   struct bpf_map_def SEC("maps") xsks_map = {
++   	  .type = BPF_MAP_TYPE_XSKMAP,
++	  .key_size = sizeof(int),
++	  .value_size = sizeof(int),
++	  .max_entries = MAX_SOCKS,
++   };
++
++   struct bpf_map_def SEC("maps") rr_map = {
++   	  .type = BPF_MAP_TYPE_PERCPU_ARRAY,
++	  .key_size = sizeof(int),
++	  .value_size = sizeof(unsigned int),
++	  .max_entries = 1,
++   };
++
++   SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
++   {
++	int key = 0, idx;
++	unsigned int *rr;
++
++	rr = bpf_map_lookup_elem(&rr_map, &key);
++	if (!rr)
++	   return XDP_ABORTED;
++
++	*rr = (*rr + 1) & (MAX_SOCKS - 1);
++	idx = *rr;
++
++	return bpf_redirect_map(&xsks_map, idx, 0);
++   }
++
++   char _license[] SEC("license") = "GPL";
++
++Note, that since there is only a single set of FILL and COMPLETION
++rings, and they are single producer, single consumer rings, you need
++to make sure that multiple processes or threads do not use these rings
++concurrently. There are no synchronization primitives in the
++libbpf code that protects multiple users at this point in time.
++
++XDP_USE_NEED_WAKEUP bind flag
++-----------------------------
++
++This option adds support for a new flag called need_wakeup that is
++present in the FILL ring and the TX ring, the rings for which user
++space is a producer. When this option is set in the bind call, the
++need_wakeup flag will be set if the kernel needs to be explicitly
++woken up by a syscall to continue processing packets. If the flag is
++zero, no syscall is needed.
++
++If the flag is set on the FILL ring, the application needs to call
++poll() to be able to continue to receive packets on the RX ring. This
++can happen, for example, when the kernel has detected that there are no
++more buffers on the FILL ring and no buffers left on the RX HW ring of
++the NIC. In this case, interrupts are turned off as the NIC cannot
++receive any packets (as there are no buffers to put them in), and the
++need_wakeup flag is set so that user space can put buffers on the
++FILL ring and then call poll() so that the kernel driver can put these
++buffers on the HW ring and start to receive packets.
++
++If the flag is set for the TX ring, it means that the application
++needs to explicitly notify the kernel to send any packets put on the
++TX ring. This can be accomplished either by a poll() call, as in the
++RX path, or by calling sendto().
++
++An example of how to use this flag can be found in
++samples/bpf/xdpsock_user.c. An example with the use of libbpf helpers
++would look like this for the TX path:
++
++.. code-block:: c
++
++   if (xsk_ring_prod__needs_wakeup(&my_tx_ring))
++      sendto(xsk_socket__fd(xsk_handle), NULL, 0, MSG_DONTWAIT, NULL, 0);
++
++I.e., only use the syscall if the flag is set.
++
++We recommend that you always enable this mode as it can lead to
++magnitudes better performance if you run the application and the
++driver on the same core and somewhat better performance even if you
++use different cores for the application and the kernel driver, as it
++reduces the number of syscalls needed for the TX path.
++
++XDP_{RX|TX|UMEM_FILL|UMEM_COMPLETION}_RING setsockopts
++------------------------------------------------------
++
++These setsockopts sets the number of descriptors that the RX, TX,
++FILL, and COMPLETION rings respectively should have. It is mandatory
++to set the size of at least one of the RX and TX rings. If you set
++both, you will be able to both receive and send traffic from your
++application, but if you only want to do one of them, you can save
++resources by only setting up one of them. Both the FILL ring and the
++COMPLETION ring are mandatory if you have a UMEM tied to your socket,
++which is the normal case. But if the XDP_SHARED_UMEM flag is used, any
++socket after the first one does not have a UMEM and should in that
++case not have any FILL or COMPLETION rings created.
++
++XDP_UMEM_REG setsockopt
++-----------------------
++
++This setsockopt registers a UMEM to a socket. This is the area that
++contain all the buffers that packet can recide in. The call takes a
++pointer to the beginning of this area and the size of it. Moreover, it
++also has parameter called chunk_size that is the size that the UMEM is
++divided into. It can only be 2K or 4K at the moment. If you have an
++UMEM area that is 128K and a chunk size of 2K, this means that you
++will be able to hold a maximum of 128K / 2K = 64 packets in your UMEM
++area and that your largest packet size can be 2K.
++
++There is also an option to set the headroom of each single buffer in
++the UMEM. If you set this to N bytes, it means that the packet will
++start N bytes into the buffer leaving the first N bytes for the
++application to use. The final option is the flags field, but it will
++be dealt with in separate sections for each UMEM flag.
++
++XDP_STATISTICS getsockopt
++-------------------------
++
++Gets drop statistics of a socket that can be useful for debug
++purposes. The supported statistics are shown below:
++
++.. code-block:: c
++
++   struct xdp_statistics {
++   	  __u64 rx_dropped; /* Dropped for reasons other than invalid desc */
++	  __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
++	  __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
++   };
++
++XDP_OPTIONS getsockopt
++----------------------
++
++Gets options from an XDP socket. The only one supported so far is
++XDP_OPTIONS_ZEROCOPY which tells you if zero-copy is on or not.
++
+ Usage
+ =====
+ 
+-In order to use AF_XDP sockets there are two parts needed. The
++In order to use AF_XDP sockets two parts are needed. The
+ user-space application and the XDP program. For a complete setup and
+ usage example, please refer to the sample application. The user-space
+ side is xdpsock_user.c and the XDP side is part of libbpf.
+ 
+-The XDP code sample included in tools/lib/bpf/xsk.c is the following::
++The XDP code sample included in tools/lib/bpf/xsk.c is the following:
++
++.. code-block:: c
+ 
+    SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
+    {
+        int index = ctx->rx_queue_index;
+ 
+-       // A set entry here means that the correspnding queue_id
++       // A set entry here means that the corresponding queue_id
+        // has an active AF_XDP socket bound to it.
+        if (bpf_map_lookup_elem(&xsks_map, &index))
+            return bpf_redirect_map(&xsks_map, index, 0);
+@@ -238,7 +438,9 @@ The XDP code sample included in tools/lib/bpf/xsk.c is the following::
+        return XDP_PASS;
+    }
+ 
+-Naive ring dequeue and enqueue could look like this::
++Naive ring dequeue and enqueue could look like this:
++
++.. code-block:: c
+ 
+     // struct xdp_rxtx_ring {
+     // 	__u32 *producer;
+@@ -287,17 +489,16 @@ Naive ring dequeue and enqueue could look like this::
+         return 0;
+     }
+ 
+-
+-For a more optimized version, please refer to the sample application.
++But please use the libbpf functions as they are optimized and ready to
++use. Will make your life easier.
+ 
+ Sample application
+ ==================
+ 
+ There is a xdpsock benchmarking/test application included that
+-demonstrates how to use AF_XDP sockets with both private and shared
+-UMEMs. Say that you would like your UDP traffic from port 4242 to end
+-up in queue 16, that we will enable AF_XDP on. Here, we use ethtool
+-for this::
++demonstrates how to use AF_XDP sockets with private UMEMs. Say that
++you would like your UDP traffic from port 4242 to end up in queue 16,
++that we will enable AF_XDP on. Here, we use ethtool for this::
+ 
+       ethtool -N p3p2 rx-flow-hash udp4 fn
+       ethtool -N p3p2 flow-type udp4 src-port 4242 dst-port 4242 \
+@@ -311,13 +512,18 @@ using::
+ For XDP_SKB mode, use the switch "-S" instead of "-N" and all options
+ can be displayed with "-h", as usual.
+ 
++This sample application uses libbpf to make the setup and usage of
++AF_XDP simpler. If you want to know how the raw uapi of AF_XDP is
++really used to make something more advanced, take a look at the libbpf
++code in tools/lib/bpf/xsk.[ch].
++
+ FAQ
+ =======
+ 
+ Q: I am not seeing any traffic on the socket. What am I doing wrong?
+ 
+ A: When a netdev of a physical NIC is initialized, Linux usually
+-   allocates one Rx and Tx queue pair per core. So on a 8 core system,
++   allocates one RX and TX queue pair per core. So on a 8 core system,
+    queue ids 0 to 7 will be allocated, one per core. In the AF_XDP
+    bind call or the xsk_socket__create libbpf function call, you
+    specify a specific queue id to bind to and it is only the traffic
+@@ -343,7 +549,7 @@ A: When a netdev of a physical NIC is initialized, Linux usually
+      sudo ethtool -N <interface> flow-type udp4 src-port 4242 dst-port \
+      4242 action 2
+ 
+-   A number of other ways are possible all up to the capabilitites of
++   A number of other ways are possible all up to the capabilities of
+    the NIC you have.
+ 
+ Credits
+-- 
+2.7.4
+
