@@ -1,129 +1,352 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1D4D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 03:00:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BB6B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 03:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbfJJDAv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Oct 2019 23:00:51 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40603 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726478AbfJJDAv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 23:00:51 -0400
-Received: by mail-pl1-f193.google.com with SMTP id d22so2037032pll.7
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 20:00:51 -0700 (PDT)
+        id S1732671AbfJJDRa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Oct 2019 23:17:30 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44790 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732447AbfJJDR3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Oct 2019 23:17:29 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q21so2927977pfn.11
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2019 20:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=L6ILjTk0jMMMftmvOM9CzHygCFbStOs1a6k6VEE1ouM=;
-        b=eSnlHfEUf02FrePpR5J1jTsko84CMK0y1jMta6B3aa1ZfKyJ2FOP7BzeNQ3HKLIMTO
-         SzKkWhhC1GdQnZdg4//Dogck6+47nSI0vLTv9Gc4edJ3hyue1yuir3Wr/3BZEn6Idwod
-         vWp8112rn/txvDFZj4El8y2IVT3YxkJMRQCSO3XWD730Z+DvaK6KtSktTVcJIhcUyD1n
-         AJ/T4sapM5sazwJTy1RNxsq0SyekbTq/qlqcqk/7YqVrLn+mHCB74Q7Ou1julifmI+97
-         HjpAWBbgGd7L72OWpZhdQ9jznQJtA56oeymb9ifW7OOcamS6mB0gDOUux5WDz390WleQ
-         0vjw==
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=kY/bVM8NPPhWM5n5R/JBXuhfZP0mLRdPFxKvulfxjhE=;
+        b=b/kwKX2g8z5tQN7+hqOe5cv2MC4W999X9JBTtnsuv3jUrBD2IgpLD44BkXwS89jJI2
+         FLqDniJeEUDDc/zQfcWZFOmWgPu2g0VBMBrHzrQtMC/hm9g1fTaVq+3XqiMnj0fhaX2n
+         Bz6uTXTvKzAnEU263FeXzVs68O3EDz85BnQCnXVLpdX7SaKjOQz6NOXArlqUivDzVkys
+         4FsPNsGQRIb0i8W2oBiRKOXmiM89w72HUpALWggVVsQljAwfTm7h4sNXL6hQp7jEv/K5
+         5zEfMleJLkwvM2vzTeChPQXF2fgTDmU8yaeNW5hS7Hxb9OphWsIQsmsxypmvgGbecXnj
+         lInw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=L6ILjTk0jMMMftmvOM9CzHygCFbStOs1a6k6VEE1ouM=;
-        b=cv7SAaUVWlIXsNiDuzJUfsLdWvwAficcW/hsLd4+JrOkn2VdBSAFf4btzB1Zrw35pk
-         N6UQaFsxZC00suQ2QeM6x2i8LAmDREQr2ruhSBhPSnb+0SY5xlliYXhSgIdspp81DQiO
-         zEf9u11CoXWF2bP4nQ9h0KCfCZDyc2+lzBdR2eZbnjKwnDGhUqAixPOWr7UvPAr6mQ5B
-         oHeKRIoj1CjNIJZ3JKSiu7wuSmXycI51JQYvfzlHt4cJSHjKUJ1d/N7SukJfIjpmQzD3
-         XwBL7tT79FESriSRPa32G6W4unUNckcqW6QgLahqwROzH7mBfl0v5YhlHvG6gpGs8tSe
-         R9iw==
-X-Gm-Message-State: APjAAAWLl7oprmDKX1D8SxsioCxGi9bWwJm9Dhnwf5wiNTmPsLTwp45z
-        7+rZoRP2pTADHxf+kOMBTGGQSULs0XI=
-X-Google-Smtp-Source: APXvYqxkAwBrHyoiNX5V10E7ob4IF2vwmuGTnxSkiLKFR+5hNG9JZB/1UucHTs4zLOvlQwEWkQz5Bg==
-X-Received: by 2002:a17:902:aa43:: with SMTP id c3mr6582731plr.26.1570676450696;
-        Wed, 09 Oct 2019 20:00:50 -0700 (PDT)
-Received: from Gentoo ([103.231.91.35])
-        by smtp.gmail.com with ESMTPSA id d10sm3796515pfh.8.2019.10.09.20.00.45
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Oct 2019 20:00:50 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 08:30:38 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: Sphinx parallel build errors
-Message-ID: <20191010030035.GA17659@Gentoo>
-References: <dc19a670-7e8e-04e5-667d-578c2dd3754e@infradead.org>
- <201910091929.0C058BB@keescook>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=kY/bVM8NPPhWM5n5R/JBXuhfZP0mLRdPFxKvulfxjhE=;
+        b=JrZKdUUdpg2GoI0CcK35EmuZL1XKdtwWlbRFpkvEXjwapCi0UhGhcJEX2sPaTaTp3l
+         UBXIf7TwrqLNVT/EL9JiJmu/jphA3arISCkDLeWoPtwlNK9Y2tA3y2MspZBQYs3tJIiT
+         jHu41PFbOcP8msSyENbf6RahgtukB2HRz6GyMa70zeSPO7Gmivi8RnbEpMRC0AI4Fx0Q
+         dtffMvCWOr/S31wpVMewO2aKAHrNX3202MIBpDlHC5ezp8ibsPHlmdmY4LbpkhFF8eXA
+         1HIh67im4QvVqr3Hhg/+i8aF6DazapgrSutFB/uD1qAWORiDat7ZH3ANLGYuGoshoE+1
+         mflw==
+X-Gm-Message-State: APjAAAVWC7biTJXweNELY7iHkaQUlIPpaIQk0mO37fhjrwd7l66CHmha
+        ANfxzrLNp+sogqdXXvOK/dvRSw==
+X-Google-Smtp-Source: APXvYqxt0g28r+WeOzUj3UUiSa6duhn4yPHsl+IVBqo3qzlng2jdfRfrxmVchTG8XnNUuQvQ4Xh9nQ==
+X-Received: by 2002:a17:90a:195d:: with SMTP id 29mr8564999pjh.130.1570677448982;
+        Wed, 09 Oct 2019 20:17:28 -0700 (PDT)
+Received: from cakuba.netronome.com (c-73-202-202-92.hsd1.ca.comcast.net. [73.202.202.92])
+        by smtp.gmail.com with ESMTPSA id s21sm3861589pgv.37.2019.10.09.20.17.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2019 20:17:28 -0700 (PDT)
+Date:   Wed, 9 Oct 2019 20:17:14 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v8 3/5] mfd: ioc3: Add driver for SGI IOC3 chip
+Message-ID: <20191009201714.19296e3f@cakuba.netronome.com>
+In-Reply-To: <20191009101713.12238-4-tbogendoerfer@suse.de>
+References: <20191009101713.12238-1-tbogendoerfer@suse.de>
+        <20191009101713.12238-4-tbogendoerfer@suse.de>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
-Content-Disposition: inline
-In-Reply-To: <201910091929.0C058BB@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed,  9 Oct 2019 12:17:10 +0200, Thomas Bogendoerfer wrote:
+> SGI IOC3 chip has integrated ethernet, keyboard and mouse interface.
+> It also supports connecting a SuperIO chip for serial and parallel
+> interfaces. IOC3 is used inside various SGI systemboards and add-on
+> cards with different equipped external interfaces.
+> 
+> Support for ethernet and serial interfaces were implemented inside
+> the network driver. This patchset moves out the not network related
+> parts to a new MFD driver, which takes care of card detection,
+> setup of platform devices and interrupt distribution for the subdevices.
+> 
+> Serial portion: Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> 
+> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
 
---6TrnltStXW4iwmi0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +static int ip27_baseio6g_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	int ret, io_irq;
+> +
+> +	io_irq = ioc3_map_irq(ipd->pdev, PCI_SLOT(ipd->pdev->devfn) + 2);
+> +	ret = ioc3_irq_domain_setup(ipd, io_irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_eth_setup(ipd, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_serial_setup(ipd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_m48t35_setup(ipd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ioc3_kbd_setup(ipd);
+> +}
+> +
+> +static int ip27_mio_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	int ret;
+> +
+> +	ret = ioc3_irq_domain_setup(ipd, ipd->pdev->irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_serial_setup(ipd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ioc3_kbd_setup(ipd);
+> +}
+> +
+> +static int ip29_sysboard_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	int ret, io_irq;
+> +
+> +	io_irq = ioc3_map_irq(ipd->pdev, PCI_SLOT(ipd->pdev->devfn) + 1);
+> +	ret = ioc3_irq_domain_setup(ipd, io_irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_eth_setup(ipd, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_serial_setup(ipd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_m48t35_setup(ipd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ioc3_kbd_setup(ipd);
+> +}
+> +
+> +static int ioc3_menet_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	int ret, io_irq;
+> +
+> +	io_irq = ioc3_map_irq(ipd->pdev, PCI_SLOT(ipd->pdev->devfn) + 4);
+> +	ret = ioc3_irq_domain_setup(ipd, io_irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_eth_setup(ipd, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ioc3_serial_setup(ipd);
+> +}
+> +
+> +static int ioc3_menet4_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	return ioc3_eth_setup(ipd, false);
+> +}
+> +
+> +static int ioc3_cad_duo_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	int ret;
+> +
+> +	ret = ioc3_irq_domain_setup(ipd, ipd->pdev->irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ioc3_eth_setup(ipd, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ioc3_kbd_setup(ipd);
+> +}
 
-On 19:30 Wed 09 Oct 2019, Kees Cook wrote:
->On Wed, Oct 09, 2019 at 02:37:51PM -0700, Randy Dunlap wrote:
->>
->> Sphinx parallel build error:
->> OSError: [Errno 12] Cannot allocate memory
->>
->> I have had this error 4 times in the last 3 days.
->>
->> The first time it oom-killed Thunderbird.  No big deal.
->> The second time it oom-killed gimp, which had 24 photos open.
->> Still no big deal.  Just a nuisance.
->
->Eek, sorry! OOM-killer once again chooses ... not the culprit. ;)
->
->> My little laptop has only 8 GB of RAM.
->>
->> Is there a way that I can limit the amount of parallelism?
->
->As mentioned, "make -jN htmldocs" should be respected now (before it was
->as many CPUs as it had). I'm wondering if it's actually the addition of
->the MAINTAINERS file parsing -- that's a really big parse and maybe that
->pushed things over the edge?
->
->--=20
->Kees Cook
+None of these setup calls have a "cleanup" or un-setup call. Is this
+really okay? I know nothing about MFD, but does mfd_add_devices() not
+require a remove for example?  Doesn't the IRQ handling need cleanup?
 
-Seriously, looking/parsing MAINTAINERS file becomes serious pain in the
-arse. It big and very easy to get lost in the way.
-=20
- Okay, complaining for the sake of complaining doesn't make things go
- far ...but until we find something more efficient ,alas! We have deal
- with it...that kinda sucks.
+> +/* Helper macro for filling ioc3_info array */
+> +#define IOC3_SID(_name, _sid, _setup) \
+> +	{								   \
+> +		.name = _name,						   \
+> +		.sid = (PCI_VENDOR_ID_SGI << 16) | IOC3_SUBSYS_ ## _sid,   \
+> +		.setup = _setup,					   \
+> +	}
+> +
+> +static struct {
+> +	const char *name;
+> +	u32 sid;
+> +	int (*setup)(struct ioc3_priv_data *ipd);
+> +} ioc3_infos[] = {
+> +	IOC3_SID("IP27 BaseIO6G", IP27_BASEIO6G, &ip27_baseio6g_setup),
+> +	IOC3_SID("IP27 MIO", IP27_MIO, &ip27_mio_setup),
+> +	IOC3_SID("IP27 BaseIO", IP27_BASEIO, &ip27_baseio_setup),
+> +	IOC3_SID("IP29 System Board", IP29_SYSBOARD, &ip29_sysboard_setup),
+> +	IOC3_SID("MENET", MENET, &ioc3_menet_setup),
+> +	IOC3_SID("MENET4", MENET4, &ioc3_menet4_setup)
+> +};
+> +#undef IOC3_SID
+> +
+> +static int ioc3_setup(struct ioc3_priv_data *ipd)
+> +{
+> +	u32 sid;
+> +	int i;
+> +
+> +	/* Clear IRQs */
+> +	writel(~0, &ipd->regs->sio_iec);
+> +	writel(~0, &ipd->regs->sio_ir);
+> +	writel(0, &ipd->regs->eth.eier);
+> +	writel(~0, &ipd->regs->eth.eisr);
+> +
+> +	/* Read subsystem vendor id and subsystem id */
+> +	pci_read_config_dword(ipd->pdev, PCI_SUBSYSTEM_VENDOR_ID, &sid);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ioc3_infos); i++)
+> +		if (sid == ioc3_infos[i].sid) {
+> +			pr_info("ioc3: %s\n", ioc3_infos[i].name);
+> +			return ioc3_infos[i].setup(ipd);
+> +		}
+> +
+> +	/* Treat everything not identified by PCI subid as CAD DUO */
+> +	pr_info("ioc3: CAD DUO\n");
+> +	return ioc3_cad_duo_setup(ipd);
+> +}
+> +
+> +static int ioc3_mfd_probe(struct pci_dev *pdev,
+> +			  const struct pci_device_id *pci_id)
+> +{
+> +	struct ioc3_priv_data *ipd;
+> +	struct ioc3 __iomem *regs;
+> +	int ret;
+> +
+> +	ret = pci_enable_device(pdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pci_write_config_byte(pdev, PCI_LATENCY_TIMER, IOC3_LATENCY);
+> +	pci_set_master(pdev);
+> +
+> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> +	if (ret) {
+> +		dev_warn(&pdev->dev,
+> +			 "Failed to set 64-bit DMA mask, trying 32-bit\n");
+> +		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "Can't set DMA mask, aborting\n");
+> +			return ret;
 
--Bhaskar
+So failing here we don't care about disabling the pci deivce..
 
---6TrnltStXW4iwmi0
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		}
+> +	}
+> +
+> +	/* Set up per-IOC3 data */
+> +	ipd = devm_kzalloc(&pdev->dev, sizeof(struct ioc3_priv_data),
+> +			   GFP_KERNEL);
+> +	if (!ipd) {
+> +		ret = -ENOMEM;
+> +		goto out_disable_device;
 
------BEGIN PGP SIGNATURE-----
+..but here we do?
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2entAACgkQsjqdtxFL
-KRXKuggAgBSyoTfk5EM3FIRFDOA0xmOludBKEtZNigzml6RAvRejjx39EzNpyHJP
-SM3u+aqWbeyh0dNgatU/yRqIfpjekvyvaKJL39BHKQlMxSqJp/l4bOE/XoggNqMS
-WRtunmQa2nHa8AHbkVM2OP6gCz8y9vMMSQQ4pVHgyxSIK6pHK01iZh2Ki/GE6C62
-KZ13n53K/ndAFikhHUo73JFF7KrMVScynR2+Vvkx7s/74iODT8jGli6F9pWuPT3I
-qtCqSySlKDELDtj+SlOagpS2ePyhGzcEoiyEWFmAPLPvegISDLpT7Oc1tM44wrNb
-4UiluSbdL4DwX1ZFc85S1iu0oLBMCg==
-=oBgw
------END PGP SIGNATURE-----
+> +	}
+> +	ipd->pdev = pdev;
+> +
+> +	/*
+> +	 * Map all IOC3 registers.  These are shared between subdevices
+> +	 * so the main IOC3 module manages them.
+> +	 */
+> +	regs = pci_ioremap_bar(pdev, 0);
 
---6TrnltStXW4iwmi0--
+This doesn't seem unmapped on error paths, nor remove?
+
+> +	if (!regs) {
+> +		dev_warn(&pdev->dev, "ioc3: Unable to remap PCI BAR for %s.\n",
+> +			 pci_name(pdev));
+> +		ret = -ENOMEM;
+> +		goto out_disable_device;
+> +	}
+> +	ipd->regs = regs;
+> +
+> +	/* Track PCI-device specific data */
+> +	pci_set_drvdata(pdev, ipd);
+> +
+> +	ret = ioc3_setup(ipd);
+> +	if (ret)
+> +		goto out_disable_device;
+> +
+> +	return 0;
+> +
+> +out_disable_device:
+> +	pci_disable_device(pdev);
+> +	return ret;
+> +}
+> +
+> +static void ioc3_mfd_remove(struct pci_dev *pdev)
+> +{
+> +	struct ioc3_priv_data *ipd;
+> +
+> +	ipd = pci_get_drvdata(pdev);
+> +
+> +	/* Clear and disable all IRQs */
+> +	writel(~0, &ipd->regs->sio_iec);
+> +	writel(~0, &ipd->regs->sio_ir);
+> +
+> +	/* Release resources */
+> +	if (ipd->domain) {
+> +		irq_domain_remove(ipd->domain);
+> +		free_irq(ipd->domain_irq, (void *)ipd);
+> +	}
+> +	pci_disable_device(pdev);
+> +}
+> +
+> +static struct pci_device_id ioc3_mfd_id_table[] = {
+> +	{ PCI_VENDOR_ID_SGI, PCI_DEVICE_ID_SGI_IOC3, PCI_ANY_ID, PCI_ANY_ID },
+> +	{ 0, },
+> +};
+> +MODULE_DEVICE_TABLE(pci, ioc3_mfd_id_table);
+> +
+> +static struct pci_driver ioc3_mfd_driver = {
+> +	.name = "IOC3",
+> +	.id_table = ioc3_mfd_id_table,
+> +	.probe = ioc3_mfd_probe,
+> +	.remove = ioc3_mfd_remove,
+> +};
+> +
+> +module_pci_driver(ioc3_mfd_driver);
+> +
+> +MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfer@suse.de>");
+> +MODULE_DESCRIPTION("SGI IOC3 MFD driver");
+> +MODULE_LICENSE("GPL v2");
