@@ -1,195 +1,396 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 24BF17D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 20:26:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FC2D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 22:35:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbfJJU0D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 16:26:03 -0400
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:18372 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727177AbfJJUZy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 16:25:54 -0400
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9AKK6Uw030102;
-        Thu, 10 Oct 2019 13:25:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pfpt0818;
- bh=Y7mtzjNaWo4Is1zCUh8RMkqF1hO1/qe6MlFV+MwsIHI=;
- b=hAhMvvOSf4D6Df51lydaNsynDGITvYD75lJe0H+A59qDK5MPAvYsIjIQHRf84VE6/Jg+
- GZzrrSUj3Q6I9OhlhcI+bPWyyLx+YzXRd6nAVu8RYJCWU4cYEL8pvyClEgJu58L9lE45
- dPF2wv6MigkSVO6am6vRziXiwlBT6sTg83uog3X2UBnLY4Ff66+eHmvlZV55qRudmG5Z
- JdkHdN6X/CfK6kUgmHP+ayKOZyjO1pSIB9+ebNCPprkAhUa8zmI73tb0OGURyM2rQ9ZR
- XIM3jE9RJIktCXgvdVu3/z+PfZFDHS5oDzSeN//WxwLhMD4AeVUAgLyHlO91c+dEUR8M Ag== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0a-0016f401.pphosted.com with ESMTP id 2vj66h1gdv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 10 Oct 2019 13:25:45 -0700
-Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Thu, 10 Oct
- 2019 13:25:44 -0700
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (104.47.49.57) by
- SC-EXCH03.marvell.com (10.93.176.83) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Thu, 10 Oct 2019 13:25:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MgPl2TR0AZyev9OX8eVThuPbeTmBD3EsygWFTHcwuqSZg4YQXLNnMKqvMPmkWvwDS6jIGoK1Ogp81le8j4tZWy/Y3AtWA6J42xPNNbE40vhJ+JKX/PzJjOe5lzvl1KsIXP4TG4sTIxvb1kTvoTBczr0om1caI2JDVZqIEcYMHxVgCfvkNx8kzrP0IxPEN4QbD0DxLBQObxxwqX9re120AIdfFmdaYzGGS27TRag5/fzvS3gtHcaoh86TSEtNgcI17Ej+hVAC4w/CgAzD5fAMbrxSGpkAFhTKhWuQkG2HWZ2oxN3SH6t/jibYje+B4aMHq9rbKjpYuAcH0QKBgIXViA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y7mtzjNaWo4Is1zCUh8RMkqF1hO1/qe6MlFV+MwsIHI=;
- b=fH7/09e73dw7r3HMXglgJZpIX1q7HsqT6zu2BhP20jIVp0JOzdZS3oiaTWh9gfU9FFEj5efETubaXi0dtf/BsTsMN5YNjPjXBNRIDQO9soQPTdAdMhRwnveBetVUuHqPfyOLrmBQh9uRf2c9m/ELWtemvI3GSYDY6F6aSBtMy7FGzxMJF+ZqxVgPOOpr7PpIimcvhicW1I8UuvwNApi5ooYgIXk7bbaJmbJZR6WRo1iY4D4CaQe7Ny64+1jZGgedXCgH6NwmAiyI9n6zRPzXeor8MiL0PNc7k8GJs+7QDIC2JBPvaJnIg9YxgIP2rPJGKZVqwHR2M2GEns0MqH6+Og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
+        id S1726559AbfJJWfq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 18:35:46 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41264 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfJJWfq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 18:35:46 -0400
+Received: by mail-pg1-f193.google.com with SMTP id t3so4564236pga.8
+        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2019 15:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y7mtzjNaWo4Is1zCUh8RMkqF1hO1/qe6MlFV+MwsIHI=;
- b=gmnXhicD/6MWq2ngnxSqotuBDVaKyc8sMQMWXwtpxU+Aa8G9/z8pLgEiUb5J/mvpW43D9HzT+VTQWAu+hdVyDo4AHL9zeuU2hKY3c+FzSWpbUzvu7jS/kTfZW5i2MZimNO3gArYQQ+kUxBnc2GDVr9jBDYMcJyyHrSKjdy4Ab9E=
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
- MN2PR18MB2447.namprd18.prod.outlook.com (20.179.82.30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Thu, 10 Oct 2019 20:25:43 +0000
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d16d:8855:c030:2763]) by MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d16d:8855:c030:2763%3]) with mapi id 15.20.2327.026; Thu, 10 Oct 2019
- 20:25:43 +0000
-From:   Robert Richter <rrichter@marvell.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH 19/19] EDAC, Documentation: Describe CPER module definition
- and DIMM ranks
-Thread-Topic: [PATCH 19/19] EDAC, Documentation: Describe CPER module
- definition and DIMM ranks
-Thread-Index: AQHVf6jjo1IdYWQkYEOnV71CnJn51g==
-Date:   Thu, 10 Oct 2019 20:25:42 +0000
-Message-ID: <20191010202418.25098-20-rrichter@marvell.com>
-References: <20191010202418.25098-1-rrichter@marvell.com>
-In-Reply-To: <20191010202418.25098-1-rrichter@marvell.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0336.eurprd05.prod.outlook.com
- (2603:10a6:7:92::31) To MN2PR18MB3408.namprd18.prod.outlook.com
- (2603:10b6:208:165::10)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [31.208.96.227]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7bc98929-74e4-4fe5-bd96-08d74dc00628
-x-ms-traffictypediagnostic: MN2PR18MB2447:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB24478B3FD9FBDD81744A7A53D9940@MN2PR18MB2447.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 018632C080
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(199004)(189003)(6512007)(476003)(8936002)(25786009)(50226002)(8676002)(81156014)(81166006)(14444005)(7736002)(305945005)(256004)(486006)(14454004)(2616005)(6436002)(86362001)(66066001)(36756003)(66946007)(66476007)(66556008)(64756008)(66446008)(11346002)(446003)(71190400001)(71200400001)(6486002)(186003)(478600001)(5660300002)(386003)(316002)(3846002)(26005)(4326008)(6116002)(2906002)(52116002)(76176011)(99286004)(54906003)(110136005)(6506007)(102836004)(1076003);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2447;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Fj+lszWgNBEigYfW0CwEVdLsniDFMfXFeLY4BWqwq9iqZ6kF414W2z3MgUiAjmPSupBP5pblgJ4PsHv0b+oPIbW1FrazXo0EhZqwp5EszXPyy/axHWj34IjzqT/Mxa61LbSXL/JJQR04OGpNKqSLpKWaooYprKkfaj32p3HBUPgVurjTyvMwKPFuCqD3v534StpQMHAiox0/ae/eidGRgskULnfdDMJDwJIlH9dqzTlmRFLW4DoweDebprFMa2TVSKuAcbVGVvVGuV85WQ7owgB0byjjKM+Iym1hn8jjZoh+6cXmP9oJ9KcbA2YXzzIiPwQ3mXMYtBKRUDiJz6W5G28J9ae2TdxVZN6RAr4sx0uis/1emcdWvESAC+pOvTQ2yz2c5mMnMxAuZ1A9z97n94DwNIyI8T+aHlx82Gd5CKw=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kKkjBwmRgdKaP+QdUpDRKfmefYo+As9im43CVKLg+Ag=;
+        b=Lz5P/abn3ebpkWGpjmx6GI1kly9Gg+3I/PqnAV4euZWhGAMoHS066X//Hn789MGSh6
+         YAtrloY6r5eulKqWQmWuVPii/DkGMfXDmyMxXQYe6mS9+crXJT/DrdozS5Cgpcqw9O8g
+         ViIXQ75qVGtRFOtwYRwcafu3h3BTMwO1TFe7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kKkjBwmRgdKaP+QdUpDRKfmefYo+As9im43CVKLg+Ag=;
+        b=JS4xqpl17HP/fVnqiz2bYr/r4RTjCSu21vTiJgfQ4Ot39A30rGCP1sBr+YIaMOidiu
+         avvBgJaRI6BfDIhFbxfZWscbxhaQ9ioZlX2EkjdqWquh/Q+teBHBsmuWu+XyffzLwmh8
+         Ny88qmkyNXNcJghQpalbQZmEu3hC3Mwi88c1KPF2xBbnn9estXEj8ME9kJ5ArUXRzsVY
+         aIYaFs07U5J5k65dgkTmFP9/hpRpDCOR2CJc0tngz2xhVMAKEIsKap3zWCxnoUKGNKiN
+         eJxDl9GLPDqBXUFANnEgcHV6gZb+ghezj4nnRX/VbHVplN5RUU1CjnJl2N5DhVLg7wMR
+         UA4g==
+X-Gm-Message-State: APjAAAW+VwVTsirMO91YPl9nfDeQIhxTaFLbmXAA6kXInzTV1OGgm3Z2
+        ujV7qWmmZRXWQtb4dFiD78FxMQ76Huw=
+X-Google-Smtp-Source: APXvYqwjzlMQTZTw53K4l1RqNlvc080BBhjA9ODkg3ZclJaQGnvk2BdKPlX3msFnFcC2wPNBu7iNAQ==
+X-Received: by 2002:a62:d408:: with SMTP id a8mr102474pfh.250.1570746943399;
+        Thu, 10 Oct 2019 15:35:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 206sm6294942pge.80.2019.10.10.15.35.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2019 15:35:42 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 15:35:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: misc: xilinx_sdfec: Actually add documentation
+Message-ID: <201910101535.1804FC6@keescook>
+References: <201910021000.5E421A6F8F@keescook>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bc98929-74e4-4fe5-bd96-08d74dc00628
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2019 20:25:43.0106
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: A6RtPo5GXEjU5PJsLk5C8dYiOKloRttDIimBdGhUmcUiBu36+sLPMLyYOTbM1i9XodiJyDcmFVinYNB5tMm/yg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2447
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-10_07:2019-10-10,2019-10-10 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <201910021000.5E421A6F8F@keescook>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update on CPER DIMM naming convention and DIMM ranks.
+On Wed, Oct 02, 2019 at 10:03:55AM -0700, Kees Cook wrote:
+> From: Derek Kiernan <derek.kiernan@xilinx.com>
+> 
+> Add SD-FEC driver documentation.
+> 
+> Signed-off-by: Derek Kiernan <derek.kiernan@xilinx.com>
+> Signed-off-by: Dragan Cvetic <dragan.cvetic@xilinx.com>
+> Link: https://lore.kernel.org/r/1560274185-264438-11-git-send-email-dragan.cvetic@xilinx.com
+> [kees: extracted from v7 as it was missing in the commit for v8]
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> As mentioned[1], this file went missing and causes a warning in ReST
+> parsing, so I've extracted the patch and am sending it directly to Jon.
+> [1] https://lore.kernel.org/lkml/201909231450.4C6CF32@keescook/
+> ---
 
-Signed-off-by: Robert Richter <rrichter@marvell.com>
----
- Documentation/admin-guide/ras.rst | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+friendly ping! :)
 
-diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/=
-ras.rst
-index 2b20f5f7380d..26e02a59f0f4 100644
---- a/Documentation/admin-guide/ras.rst
-+++ b/Documentation/admin-guide/ras.rst
-@@ -330,9 +330,12 @@ There can be multiple csrows and multiple channels.
-=20
- .. [#f4] Nowadays, the term DIMM (Dual In-line Memory Module) is widely
-   used to refer to a memory module, although there are other memory
--  packaging alternatives, like SO-DIMM, SIMM, etc. Along this document,
--  and inside the EDAC system, the term "dimm" is used for all memory
--  modules, even when they use a different kind of packaging.
-+  packaging alternatives, like SO-DIMM, SIMM, etc. The UEFI
-+  specification (Version 2.7) defines a memory module in the Common
-+  Platform Error Record (CPER) section to be an SMBIOS Memory Device
-+  (Type 17). Along this document, and inside the EDAC system, the term
-+  "dimm" is used for all memory modules, even when they use a
-+  different kind of packaging.
-=20
- Memory controllers allow for several csrows, with 8 csrows being a
- typical value. Yet, the actual number of csrows depends on the layout of
-@@ -349,12 +352,14 @@ controllers. The following example will assume 2 chan=
-nels:
- 	|            |  ``ch0``  |  ``ch1``  |
- 	+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
- 	| ``csrow0`` |  DIMM_A0  |  DIMM_B0  |
--	+------------+           |           |
--	| ``csrow1`` |           |           |
-+	|            |   rank0   |   rank0   |
-+	+------------+     -     |     -     |
-+	| ``csrow1`` |   rank1   |   rank1   |
- 	+------------+-----------+-----------+
- 	| ``csrow2`` |  DIMM_A1  | DIMM_B1   |
--	+------------+           |           |
--	| ``csrow3`` |           |           |
-+	|            |   rank0   |   rank0   |
-+	+------------+     -     |     -     |
-+	| ``csrow3`` |   rank1   |   rank1   |
- 	+------------+-----------+-----------+
-=20
- In the above example, there are 4 physical slots on the motherboard
-@@ -374,11 +379,13 @@ which the memory DIMM is placed. Thus, when 1 DIMM is=
- placed in each
- Channel, the csrows cross both DIMMs.
-=20
- Memory DIMMs come single or dual "ranked". A rank is a populated csrow.
--Thus, 2 single ranked DIMMs, placed in slots DIMM_A0 and DIMM_B0 above
--will have just one csrow (csrow0). csrow1 will be empty. On the other
--hand, when 2 dual ranked DIMMs are similarly placed, then both csrow0
--and csrow1 will be populated. The pattern repeats itself for csrow2 and
--csrow3.
-+In the example above 2 dual ranked DIMMs are similarly placed. Thus,
-+both csrow0 and csrow1 are populated. On the other hand, when 2 single
-+ranked DIMMs are placed in slots DIMM_A0 and DIMM_B0, then they will
-+have just one csrow (csrow0) and csrow1 will be empty. The pattern
-+repeats itself for csrow2 and csrow3. Also note that some memory
-+controller doesn't have any logic to identify the memory module, see
-+``rankX`` directories below.
-=20
- The representation of the above is reflected in the directory
- tree in EDAC's sysfs interface. Starting in directory
---=20
-2.20.1
+-Kees
 
+>  Documentation/misc-devices/xilinx_sdfec.rst | 291 ++++++++++++++++++++
+>  1 file changed, 291 insertions(+)
+>  create mode 100644 Documentation/misc-devices/xilinx_sdfec.rst
+> 
+> diff --git a/Documentation/misc-devices/xilinx_sdfec.rst b/Documentation/misc-devices/xilinx_sdfec.rst
+> new file mode 100644
+> index 000000000000..87966e3aa5fe
+> --- /dev/null
+> +++ b/Documentation/misc-devices/xilinx_sdfec.rst
+> @@ -0,0 +1,291 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +====================
+> +Xilinx SD-FEC Driver
+> +====================
+> +
+> +Overview
+> +========
+> +
+> +This driver supports SD-FEC Integrated Block for Zynq |Ultrascale+ (TM)| RFSoCs.
+> +
+> +.. |Ultrascale+ (TM)| unicode:: Ultrascale+ U+2122
+> +   .. with trademark sign
+> +
+> +For a full description of SD-FEC core features, see the `SD-FEC Product Guide (PG256) <https://www.xilinx.com/cgi-bin/docs/ipdoc?c=sd_fec;v=latest;d=pg256-sdfec-integrated-block.pdf>`_
+> +
+> +This driver supports the following features:
+> +
+> +  - Retrieval of the Integrated Block configuration and status information
+> +  - Configuration of LDPC codes
+> +  - Configuration of Turbo decoding
+> +  - Monitoring errors
+> +
+> +Missing features, known issues, and limitations of the SD-FEC driver are as
+> +follows:
+> +
+> +  - Only allows a single open file handler to any instance of the driver at any time
+> +  - Reset of the SD-FEC Integrated Block is not controlled by this driver
+> +  - Does not support shared LDPC code table wraparound
+> +
+> +The device tree entry is described in:
+> +`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.txt>`_
+> +
+> +
+> +Modes of Operation
+> +------------------
+> +
+> +The driver works with the SD-FEC core in two modes of operation:
+> +
+> +  - Run-time configuration
+> +  - Programmable Logic (PL) initialization
+> +
+> +
+> +Run-time Configuration
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +For Run-time configuration the role of driver is to allow the software application to do the following:
+> +
+> +	- Load the configuration parameters for either Turbo decode or LDPC encode or decode
+> +	- Activate the SD-FEC core
+> +	- Monitor the SD-FEC core for errors
+> +	- Retrieve the status and configuration of the SD-FEC core
+> +
+> +Programmable Logic (PL) Initialization
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +For PL initialization, supporting logic loads configuration parameters for either
+> +the Turbo decode or LDPC encode or decode.  The role of the driver is to allow
+> +the software application to do the following:
+> +
+> +	- Activate the SD-FEC core
+> +	- Monitor the SD-FEC core for errors
+> +	- Retrieve the status and configuration of the SD-FEC core
+> +
+> +
+> +Driver Structure
+> +================
+> +
+> +The driver provides a platform device where the ``probe`` and ``remove``
+> +operations are provided.
+> +
+> +  - probe: Updates configuration register with device-tree entries plus determines the current activate state of the core, for example, is the core bypassed or has the core been started.
+> +
+> +
+> +The driver defines the following driver file operations to provide user
+> +application interfaces:
+> +
+> +  - open: Implements restriction that only a single file descriptor can be open per SD-FEC instance at any time
+> +  - release: Allows another file descriptor to be open, that is after current file descriptor is closed
+> +  - poll: Provides a method to monitor for SD-FEC Error events
+> +  - unlocked_ioctl: Provides the the following ioctl commands that allows the application configure the SD-FEC core:
+> +
+> +		- :c:macro:`XSDFEC_START_DEV`
+> +		- :c:macro:`XSDFEC_STOP_DEV`
+> +		- :c:macro:`XSDFEC_GET_STATUS`
+> +		- :c:macro:`XSDFEC_SET_IRQ`
+> +		- :c:macro:`XSDFEC_SET_TURBO`
+> +		- :c:macro:`XSDFEC_ADD_LDPC_CODE_PARAMS`
+> +		- :c:macro:`XSDFEC_GET_CONFIG`
+> +		- :c:macro:`XSDFEC_SET_ORDER`
+> +		- :c:macro:`XSDFEC_SET_BYPASS`
+> +		- :c:macro:`XSDFEC_IS_ACTIVE`
+> +		- :c:macro:`XSDFEC_CLEAR_STATS`
+> +		- :c:macro:`XSDFEC_SET_DEFAULT_CONFIG`
+> +
+> +
+> +Driver Usage
+> +============
+> +
+> +
+> +Overview
+> +--------
+> +
+> +After opening the driver, the user should find out what operations need to be
+> +performed to configure and activate the SD-FEC core and determine the
+> +configuration of the driver.
+> +The following outlines the flow the user should perform:
+> +
+> +  - Determine Configuration
+> +  - Set the order, if not already configured as desired
+> +  - Set Turbo decode, LPDC encode or decode parameters, depending on how the
+> +    SD-FEC core is configured plus if the SD-FEC has not been configured for PL
+> +    initialization
+> +  - Enable interrupts, if not already enabled
+> +  - Bypass the SD-FEC core, if required
+> +  - Start the SD-FEC core if not already started
+> +  - Get the SD-FEC core status
+> +  - Monitor for interrupts
+> +  - Stop the SD-FEC core
+> +
+> +
+> +Note: When monitoring for interrupts if a critical error is detected where a reset is required, the driver will be required to load the default configuration.
+> +
+> +
+> +Determine Configuration
+> +-----------------------
+> +
+> +Determine the configuration of the SD-FEC core by using the ioctl
+> +:c:macro:`XSDFEC_GET_CONFIG`.
+> +
+> +Set the Order
+> +-------------
+> +
+> +Setting the order determines how the order of Blocks can change from input to output.
+> +
+> +Setting the order is done by using the ioctl :c:macro:`XSDFEC_SET_ORDER`
+> +
+> +Setting the order can only be done if the following restrictions are met:
+> +
+> +	- The ``state`` member of struct :c:type:`xsdfec_status <xsdfec_status>` filled by the ioctl :c:macro:`XSDFEC_GET_STATUS` indicates the SD-FEC core has not STARTED
+> +
+> +
+> +Add LDPC Codes
+> +--------------
+> +
+> +The following steps indicate how to add LDPC codes to the SD-FEC core:
+> +
+> +	- Use the auto-generated parameters to fill the :c:type:`struct xsdfec_ldpc_params <xsdfec_ldpc_params>` for the desired LDPC code.
+> +	- Set the SC, QA, and LA table offsets for the LPDC parameters and the parameters in the structure :c:type:`struct xsdfec_ldpc_params <xsdfec_ldpc_params>`
+> +	- Set the desired Code Id value in the structure :c:type:`struct xsdfec_ldpc_params <xsdfec_ldpc_params>`
+> +	- Add the LPDC Code Parameters using the ioctl :c:macro:`XSDFEC_ADD_LDPC_CODE_PARAMS`
+> +	- For the applied LPDC Code Parameter use the function :c:func:`xsdfec_calculate_shared_ldpc_table_entry_size` to calculate the size of shared LPDC code tables. This allows the user to determine the shared table usage so when selecting the table offsets for the next LDPC code parameters unused table areas can be selected.
+> +	- Repeat for each LDPC code parameter.
+> +
+> +Adding LDPC codes can only be done if the following restrictions are met:
+> +
+> +	- The ``code`` member of :c:type:`struct xsdfec_config <xsdfec_config>` filled by the ioctl :c:macro:`XSDFEC_GET_CONFIG` indicates the SD-FEC core is configured as LDPC
+> +	- The ``code_wr_protect`` of :c:type:`struct xsdfec_config <xsdfec_config>` filled by the ioctl :c:macro:`XSDFEC_GET_CONFIG` indicates that write protection is not enabled
+> +	- The ``state`` member of struct :c:type:`xsdfec_status <xsdfec_status>` filled by the ioctl :c:macro:`XSDFEC_GET_STATUS` indicates the SD-FEC core has not started
+> +
+> +Set Turbo Decode
+> +----------------
+> +
+> +Configuring the Turbo decode parameters is done by using the ioctl :c:macro:`XSDFEC_SET_TURBO` using auto-generated parameters to fill the :c:type:`struct xsdfec_turbo <xsdfec_turbo>` for the desired Turbo code.
+> +
+> +Adding Turbo decode can only be done if the following restrictions are met:
+> +
+> +	- The ``code`` member of :c:type:`struct xsdfec_config <xsdfec_config>` filled by the ioctl :c:macro:`XSDFEC_GET_CONFIG` indicates the SD-FEC core is configured as TURBO
+> +	- The ``state`` member of struct :c:type:`xsdfec_status <xsdfec_status>` filled by the ioctl :c:macro:`XSDFEC_GET_STATUS` indicates the SD-FEC core has not STARTED
+> +
+> +Enable Interrupts
+> +-----------------
+> +
+> +Enabling or disabling interrupts is done by using the ioctl :c:macro:`XSDFEC_SET_IRQ`. The members of the parameter passed, :c:type:`struct xsdfec_irq <xsdfec_irq>`, to the ioctl are used to set and clear different categories of interrupts. The category of interrupt is controlled as following:
+> +
+> +  - ``enable_isr`` controls the ``tlast`` interrupts
+> +  - ``enable_ecc_isr`` controls the ECC interrupts
+> +
+> +If the ``code`` member of :c:type:`struct xsdfec_config <xsdfec_config>` filled by the ioctl :c:macro:`XSDFEC_GET_CONFIG` indicates the SD-FEC core is configured as TURBO then the enabling ECC errors is not required.
+> +
+> +Bypass the SD-FEC
+> +-----------------
+> +
+> +Bypassing the SD-FEC is done by using the ioctl :c:macro:`XSDFEC_SET_BYPASS`
+> +
+> +Bypassing the SD-FEC can only be done if the following restrictions are met:
+> +
+> +	- The ``state`` member of :c:type:`struct xsdfec_status <xsdfec_status>` filled by the ioctl :c:macro:`XSDFEC_GET_STATUS` indicates the SD-FEC core has not STARTED
+> +
+> +Start the SD-FEC core
+> +---------------------
+> +
+> +Start the SD-FEC core by using the ioctl :c:macro:`XSDFEC_START_DEV`
+> +
+> +Get SD-FEC Status
+> +-----------------
+> +
+> +Get the SD-FEC status of the device by using the ioctl :c:macro:`XSDFEC_GET_STATUS`, which will fill the :c:type:`struct xsdfec_status <xsdfec_status>`
+> +
+> +Monitor for Interrupts
+> +----------------------
+> +
+> +	- Use the poll system call to monitor for an interrupt. The poll system call waits for an interrupt to wake it up or times out if no interrupt occurs.
+> +	- On return Poll ``revents`` will indicate whether stats and/or state have been updated
+> +		- ``POLLPRI`` indicates a critical error and the user should use :c:macro:`XSDFEC_GET_STATUS` and :c:macro:`XSDFEC_GET_STATS` to confirm
+> +		- ``POLLRDNORM`` indicates a non-critical error has occurred and the user should use  :c:macro:`XSDFEC_GET_STATS` to confirm
+> +	- Get stats by using the ioctl :c:macro:`XSDFEC_GET_STATS`
+> +		- For critical error the ``isr_err_count`` or ``uecc_count`` member  of :c:type:`struct xsdfec_stats <xsdfec_stats>` is non-zero
+> +		- For non-critical errors the ``cecc_count`` member of :c:type:`struct xsdfec_stats <xsdfec_stats>` is non-zero
+> +	- Get state by using the ioctl :c:macro:`XSDFEC_GET_STATUS`
+> +		- For a critical error the ``state`` of :c:type:`xsdfec_status <xsdfec_status>` will indicate a Reset Is Required
+> +	- Clear stats by using the ioctl :c:macro:`XSDFEC_CLEAR_STATS`
+> +
+> +If a critical error is detected where a reset is required. The application is required to call the ioctl :c:macro:`XSDFEC_SET_DEFAULT_CONFIG`, after the reset and it is not required to call the ioctl :c:macro:`XSDFEC_STOP_DEV`
+> +
+> +Note: Using poll system call prevents busy looping using :c:macro:`XSDFEC_GET_STATS` and :c:macro:`XSDFEC_GET_STATUS`
+> +
+> +Stop the SD-FEC Core
+> +---------------------
+> +
+> +Stop the device by using the ioctl :c:macro:`XSDFEC_STOP_DEV`
+> +
+> +Set the Default Configuration
+> +-----------------------------
+> +
+> +Load default configuration by using the ioctl :c:macro:`XSDFEC_SET_DEFAULT_CONFIG` to restore the driver.
+> +
+> +Limitations
+> +-----------
+> +
+> +Users should not duplicate SD-FEC device file handlers, for example fork() or dup() a process that has a created an SD-FEC file handler.
+> +
+> +Driver IOCTLs
+> +==============
+> +
+> +.. c:macro:: XSDFEC_START_DEV
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_START_DEV
+> +
+> +.. c:macro:: XSDFEC_STOP_DEV
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_STOP_DEV
+> +
+> +.. c:macro:: XSDFEC_GET_STATUS
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_GET_STATUS
+> +
+> +.. c:macro:: XSDFEC_SET_IRQ
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_SET_IRQ
+> +
+> +.. c:macro:: XSDFEC_SET_TURBO
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_SET_TURBO
+> +
+> +.. c:macro:: XSDFEC_ADD_LDPC_CODE_PARAMS
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_ADD_LDPC_CODE_PARAMS
+> +
+> +.. c:macro:: XSDFEC_GET_CONFIG
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_GET_CONFIG
+> +
+> +.. c:macro:: XSDFEC_SET_ORDER
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_SET_ORDER
+> +
+> +.. c:macro:: XSDFEC_SET_BYPASS
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_SET_BYPASS
+> +
+> +.. c:macro:: XSDFEC_IS_ACTIVE
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_IS_ACTIVE
+> +
+> +.. c:macro:: XSDFEC_CLEAR_STATS
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_CLEAR_STATS
+> +
+> +.. c:macro:: XSDFEC_GET_STATS
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_GET_STATS
+> +
+> +.. c:macro:: XSDFEC_SET_DEFAULT_CONFIG
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :doc: XSDFEC_SET_DEFAULT_CONFIG
+> +
+> +Driver Type Definitions
+> +=======================
+> +
+> +.. kernel-doc:: include/uapi/misc/xilinx_sdfec.h
+> +   :internal:
+> \ No newline at end of file
+> -- 
+> 2.17.1
+> 
+> 
+> -- 
+> Kees Cook
+
+-- 
+Kees Cook
