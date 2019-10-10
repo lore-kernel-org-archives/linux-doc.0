@@ -1,216 +1,426 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C8027DE7C
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 15:01:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B62F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 15:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbfJJPA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 11:00:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46752 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726084AbfJJPAD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Oct 2019 11:00:03 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5565EAEED;
-        Thu, 10 Oct 2019 15:00:00 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v9 1/5] nvmem: core: add nvmem_device_find
-Date:   Thu, 10 Oct 2019 16:59:47 +0200
-Message-Id: <20191010145953.21327-2-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20191010145953.21327-1-tbogendoerfer@suse.de>
-References: <20191010145953.21327-1-tbogendoerfer@suse.de>
+        id S1726017AbfJJPT5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 11:19:57 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:18366 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725909AbfJJPT5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 11:19:57 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9AFBl84003663;
+        Thu, 10 Oct 2019 17:19:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=AOLOsiRuQLPzZHvIlxS4fgBJyoq+OjJ5HzMhnkKKIIg=;
+ b=Y6OQ3mwStMshpzMM4h8APftE4hodoAdXjie/5tglR0c5ZFLFzwK71bSzkG4vhI7ZNGOh
+ gk/k+jsKhTB/SJhv1cQmBJQQ6K2YTECTy5Y12BrEhVXwlbAyKjqjxubmcI6S/56wAeNO
+ YK/kJLAHSF1seT4sq9BrldTtK/1KdHJ6mxOfy0lOwcfa/mVGWesttuP1w9cOr2/Eezkr
+ 9JqRyOnLhJdRn1kuk7smzhJer4S6EbpeQYUj6JbEVfqHnFXXlVRSrQOZ8VcpVBdWb5ar
+ JWmrZk27fI3ZsnMPolhJ2fECLfLDP/Fp4C0TQfPASJnSrWrE+TsjylprByjk3NeyAK34 5w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2vegahd73y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Oct 2019 17:19:48 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0F2EB10002A;
+        Thu, 10 Oct 2019 17:19:43 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6D64D2B434E;
+        Thu, 10 Oct 2019 17:19:43 +0200 (CEST)
+Received: from SFHDAG5NODE3.st.com (10.75.127.15) by SFHDAG5NODE3.st.com
+ (10.75.127.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 10 Oct
+ 2019 17:19:43 +0200
+Received: from SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47]) by
+ SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47%20]) with mapi id
+ 15.00.1473.003; Thu, 10 Oct 2019 17:19:43 +0200
+From:   Fabien DESSENNE <fabien.dessenne@st.com>
+To:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Suman Anna <s-anna@ti.com>, Jonathan Corbet <corbet@lwn.net>,
+        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: RE: [PATCH v3] hwspinlock: allow sharing of hwspinlocks
+Thread-Topic: [PATCH v3] hwspinlock: allow sharing of hwspinlocks
+Thread-Index: AQHVaKjapbMgkxsKZUeyg+vcLkCPcqdUKkIg
+Date:   Thu, 10 Oct 2019 15:19:43 +0000
+Message-ID: <cacef63490014605b5eb8015c4002df2@SFHDAG5NODE3.st.com>
+References: <1568210227-32135-1-git-send-email-fabien.dessenne@st.com>
+In-Reply-To: <1568210227-32135-1-git-send-email-fabien.dessenne@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.51]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-10_05:2019-10-10,2019-10-10 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-nvmem_device_find provides a way to search for nvmem devices with
-the help of a match function simlair to bus_find_device.
+Hi Bjorn, Suman, and others
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+Do you have any comments regarding this patch?
+
+BR
+Fabien
+
+
+> -----Original Message-----
+> From: Fabien DESSENNE <fabien.dessenne@st.com>
+> Sent: mercredi 11 septembre 2019 15:57
+> To: Ohad Ben-Cohen <ohad@wizery.com>; Bjorn Andersson
+> <bjorn.andersson@linaro.org>; Suman Anna <s-anna@ti.com>; Jonathan Corbet
+> <corbet@lwn.net>; linux-remoteproc@vger.kernel.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: Fabien DESSENNE <fabien.dessenne@st.com>; linux-stm32@st-md-
+> mailman.stormreply.com
+> Subject: [PATCH v3] hwspinlock: allow sharing of hwspinlocks
+>=20
+> Allow several clients to request (hwspin_lock_request_specific()) the sam=
+e lock.
+> In addition to that, protect a given lock from being locked
+> (hwspin_trylock{_...}()) by more that one client at a time.
+>=20
+> Since the RAW and IN_ATOMIC modes do not implement that protection (unlik=
+e
+> the default, IRQ and IRQSTATE modes that make use of spin_lock{_irq,
+> _irqsave}), protect __hwspin_trylock with the atomic bitop test_and_set_b=
+it().
+> This bitop is atomic (SMP-safe), does not disable neither preemption nor
+> interrupts, hence it preserves the RAW and IN_ATOMIC modes constraints.
+>=20
+> Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
+> ---
+> Changes since v2:
+> - Drop the DeviceTree-based implementation.
+> - Do not let the choice between exclusive and shared usage : locks are
+>   always shared.
+> - Add a protection (atomic bitop) working in any modes to allow safe
+>   sharing between clients.
+>=20
+> Changes since v1:
+> - Removed useless 'status =3D "okay"' from stm32mp157c.dtsi
+> ---
+>  Documentation/hwspinlock.txt             |  9 ++-
+>  drivers/hwspinlock/hwspinlock_core.c     | 98 +++++++++++++++++++++++---=
 ---
- Documentation/driver-api/nvmem.rst |  2 ++
- drivers/nvmem/core.c               | 61 +++++++++++++++++---------------------
- include/linux/nvmem-consumer.h     |  9 ++++++
- 3 files changed, 38 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-index d9d958d5c824..287e86819640 100644
---- a/Documentation/driver-api/nvmem.rst
-+++ b/Documentation/driver-api/nvmem.rst
-@@ -129,6 +129,8 @@ To facilitate such consumers NVMEM framework provides below apis::
-   struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
-   struct nvmem_device *devm_nvmem_device_get(struct device *dev,
- 					   const char *name);
-+  struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data));
-   void nvmem_device_put(struct nvmem_device *nvmem);
-   int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
- 		      size_t bytes, void *buf);
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 057d1ff87d5d..9f1ee9c766ec 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -76,33 +76,6 @@ static struct bus_type nvmem_bus_type = {
- 	.name		= "nvmem",
- };
- 
--static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
--{
--	struct device *d;
--
--	if (!nvmem_np)
--		return NULL;
--
--	d = bus_find_device_by_of_node(&nvmem_bus_type, nvmem_np);
--
--	if (!d)
--		return NULL;
--
--	return to_nvmem_device(d);
--}
--
--static struct nvmem_device *nvmem_find(const char *name)
--{
--	struct device *d;
--
--	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
--
--	if (!d)
--		return NULL;
--
--	return to_nvmem_device(d);
--}
--
- static void nvmem_cell_drop(struct nvmem_cell *cell)
- {
- 	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
-@@ -532,13 +505,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
- }
- EXPORT_SYMBOL(devm_nvmem_unregister);
- 
--static struct nvmem_device *__nvmem_device_get(struct device_node *np,
--					       const char *nvmem_name)
-+static struct nvmem_device *__nvmem_device_get(void *data,
-+			int (*match)(struct device *dev, const void *data))
- {
- 	struct nvmem_device *nvmem = NULL;
-+	struct device *dev;
- 
- 	mutex_lock(&nvmem_mutex);
--	nvmem = np ? of_nvmem_find(np) : nvmem_find(nvmem_name);
-+	dev = bus_find_device(&nvmem_bus_type, NULL, data, match);
-+	if (dev)
-+		nvmem = to_nvmem_device(dev);
- 	mutex_unlock(&nvmem_mutex);
- 	if (!nvmem)
- 		return ERR_PTR(-EPROBE_DEFER);
-@@ -587,7 +563,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
- 	if (!nvmem_np)
- 		return ERR_PTR(-ENOENT);
- 
--	return __nvmem_device_get(nvmem_np, NULL);
-+	return __nvmem_device_get(nvmem_np, device_match_of_node);
- }
- EXPORT_SYMBOL_GPL(of_nvmem_device_get);
- #endif
-@@ -613,10 +589,26 @@ struct nvmem_device *nvmem_device_get(struct device *dev, const char *dev_name)
- 
- 	}
- 
--	return __nvmem_device_get(NULL, dev_name);
-+	return __nvmem_device_get((void *)dev_name, device_match_name);
- }
- EXPORT_SYMBOL_GPL(nvmem_device_get);
- 
-+/**
-+ * nvmem_device_find() - Find nvmem device with matching function
-+ *
-+ * @data: Data to pass to match function
-+ * @match: Callback function to check device
-+ *
-+ * Return: ERR_PTR() on error or a valid pointer to a struct nvmem_device
-+ * on success.
-+ */
-+struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data))
-+{
-+	return __nvmem_device_get(data, match);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_device_find);
-+
- static int devm_nvmem_device_match(struct device *dev, void *res, void *data)
- {
- 	struct nvmem_device **nvmem = res;
-@@ -710,7 +702,8 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
- 		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
- 		    (strcmp(lookup->con_id, con_id) == 0)) {
- 			/* This is the right entry. */
--			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
-+			nvmem = __nvmem_device_get((void *)lookup->nvmem_name,
-+						   device_match_name);
- 			if (IS_ERR(nvmem)) {
- 				/* Provider may not be registered yet. */
- 				cell = ERR_CAST(nvmem);
-@@ -780,7 +773,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 	if (!nvmem_np)
- 		return ERR_PTR(-EINVAL);
- 
--	nvmem = __nvmem_device_get(nvmem_np, NULL);
-+	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
- 	of_node_put(nvmem_np);
- 	if (IS_ERR(nvmem))
- 		return ERR_CAST(nvmem);
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 8f8be5b00060..02dc4aa992b2 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -89,6 +89,9 @@ void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
- int nvmem_register_notifier(struct notifier_block *nb);
- int nvmem_unregister_notifier(struct notifier_block *nb);
- 
-+struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data));
-+
- #else
- 
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -204,6 +207,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline struct nvmem_device *nvmem_device_find(void *data,
-+			int (*match)(struct device *dev, const void *data))
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_NVMEM */
- 
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
--- 
-2.16.4
+> ---
+>  drivers/hwspinlock/hwspinlock_internal.h |  4 ++
+>  3 files changed, 81 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/Documentation/hwspinlock.txt b/Documentation/hwspinlock.txt =
+index
+> 6f03713..5f6f660 100644
+> --- a/Documentation/hwspinlock.txt
+> +++ b/Documentation/hwspinlock.txt
+> @@ -53,9 +53,8 @@ Should be called from a process context (might sleep).
+>=20
+>    struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
+>=20
+> -Assign a specific hwspinlock id and return its address, or NULL -if that
+> hwspinlock is already in use. Usually board code will -be calling this fu=
+nction in
+> order to reserve specific hwspinlock
+> +Assign a specific hwspinlock id and return its address. Usually board
+> +code will be calling this function in order to reserve specific
+> +hwspinlock
+>  ids for predefined purposes.
+>=20
+>  Should be called from a process context (might sleep).
+> @@ -449,11 +448,15 @@ of which represents a single hardware lock::
+>  	* struct hwspinlock - this struct represents a single hwspinlock instan=
+ce
+>  	* @bank: the hwspinlock_device structure which owns this lock
+>  	* @lock: initialized and used by hwspinlock core
+> +	* @is_locked: whether this lock is currently locked
+> +	* @reqcount: number of users having requested this lock
+>  	* @priv: private data, owned by the underlying platform-specific
+> hwspinlock drv
+>  	*/
+>  	struct hwspinlock {
+>  		struct hwspinlock_device *bank;
+>  		spinlock_t lock;
+> +		unsigned long is_locked;
+> +		unsigned int reqcount;
+>  		void *priv;
+>  	};
+>=20
+> diff --git a/drivers/hwspinlock/hwspinlock_core.c
+> b/drivers/hwspinlock/hwspinlock_core.c
+> index 8862445..e9d3de10 100644
+> --- a/drivers/hwspinlock/hwspinlock_core.c
+> +++ b/drivers/hwspinlock/hwspinlock_core.c
+> @@ -29,6 +29,7 @@
+>=20
+>  /* radix tree tags */
+>  #define HWSPINLOCK_UNUSED	(0) /* tags an hwspinlock as unused */
+> +#define HWSPINLOCK_DYN_ASSIGN	(1) /* dynamically assigned
+> hwspinlock */
+>=20
+>  /*
+>   * A radix tree is used to maintain the available hwspinlock instances.
+> @@ -96,14 +97,25 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int
+> mode, unsigned long *flags)
+>  	BUG_ON(!flags && mode =3D=3D HWLOCK_IRQSTATE);
+>=20
+>  	/*
+> +	 * Check if the lock is already taken by another context on the local
+> +	 * cpu.
+> +	 * Calling atomic test_and_set_bit_lock() ensures that hwspinlock is
+> +	 * SMP-safe (so we can take it from additional contexts on the local
+> +	 * host) in any mode, even those where we do not make use of the local
+> +	 * spinlock.
+> +	 */
+> +
+> +	if (test_and_set_bit_lock(0, &hwlock->is_locked))
+> +		return -EBUSY;
+> +
+> +	/*
+>  	 * This spin_lock{_irq, _irqsave} serves three purposes:
+>  	 *
+>  	 * 1. Disable preemption, in order to minimize the period of time
+>  	 *    in which the hwspinlock is taken. This is important in order
+>  	 *    to minimize the possible polling on the hardware interconnect
+>  	 *    by a remote user of this lock.
+> -	 * 2. Make the hwspinlock SMP-safe (so we can take it from
+> -	 *    additional contexts on the local host).
+> +	 * 2. Make the hwspinlock SMP-safe.
+>  	 * 3. Ensure that in_atomic/might_sleep checks catch potential
+>  	 *    problems with hwspinlock usage (e.g. scheduler checks like
+>  	 *    'scheduling while atomic' etc.)
+> @@ -124,9 +136,9 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int
+> mode, unsigned long *flags)
+>  		break;
+>  	}
+>=20
+> -	/* is lock already taken by another context on the local cpu ? */
+> +	/* sanity check (this shouldn't happen) */
+>  	if (!ret)
+> -		return -EBUSY;
+> +		goto clear;
+>=20
+>  	/* try to take the hwspinlock device */
+>  	ret =3D hwlock->bank->ops->trylock(hwlock);
+> @@ -149,7 +161,7 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int
+> mode, unsigned long *flags)
+>  			break;
+>  		}
+>=20
+> -		return -EBUSY;
+> +		goto clear;
+>  	}
+>=20
+>  	/*
+> @@ -165,6 +177,11 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int
+> mode, unsigned long *flags)
+>  	mb();
+>=20
+>  	return 0;
+> +
+> +clear:
+> +	/* Clear is_locked */
+> +	clear_bit_unlock(0, &hwlock->is_locked);
+> +	return -EBUSY;
+>  }
+>  EXPORT_SYMBOL_GPL(__hwspin_trylock);
+>=20
+> @@ -299,6 +316,9 @@ void __hwspin_unlock(struct hwspinlock *hwlock, int
+> mode, unsigned long *flags)
+>  		spin_unlock(&hwlock->lock);
+>  		break;
+>  	}
+> +
+> +	/* Clear is_locked set while locking */
+> +	clear_bit_unlock(0, &hwlock->is_locked);
+>  }
+>  EXPORT_SYMBOL_GPL(__hwspin_unlock);
+>=20
+> @@ -504,7 +524,9 @@ int hwspin_lock_register(struct hwspinlock_device *ba=
+nk,
+> struct device *dev,
+>  		hwlock =3D &bank->lock[i];
+>=20
+>  		spin_lock_init(&hwlock->lock);
+> +		clear_bit(0, &hwlock->is_locked);
+>  		hwlock->bank =3D bank;
+> +		hwlock->reqcount =3D 0;
+>=20
+>  		ret =3D hwspin_lock_register_single(hwlock, base_id + i);
+>  		if (ret)
+> @@ -664,12 +686,16 @@ static int __hwspin_lock_request(struct hwspinlock
+> *hwlock)
+>  		return ret;
+>  	}
+>=20
+> -	/* mark hwspinlock as used, should not fail */
+> -	tmp =3D radix_tree_tag_clear(&hwspinlock_tree, hwlock_to_id(hwlock),
+> -							HWSPINLOCK_UNUSED);
+> +	/* update reqcount */
+> +	if (!hwlock->reqcount++) {
+> +		/* first request, mark hwspinlock as used, should not fail */
+> +		tmp =3D radix_tree_tag_clear(&hwspinlock_tree,
+> +					   hwlock_to_id(hwlock),
+> +					   HWSPINLOCK_UNUSED);
+>=20
+> -	/* self-sanity check that should never fail */
+> -	WARN_ON(tmp !=3D hwlock);
+> +		/* self-sanity check that should never fail */
+> +		WARN_ON(tmp !=3D hwlock);
+> +	}
+>=20
+>  	return ret;
+>  }
+> @@ -706,7 +732,7 @@ EXPORT_SYMBOL_GPL(hwspin_lock_get_id);
+>   */
+>  struct hwspinlock *hwspin_lock_request(void)  {
+> -	struct hwspinlock *hwlock;
+> +	struct hwspinlock *hwlock, *tmp;
+>  	int ret;
+>=20
+>  	mutex_lock(&hwspinlock_tree_lock);
+> @@ -728,6 +754,13 @@ struct hwspinlock *hwspin_lock_request(void)
+>  	if (ret < 0)
+>  		hwlock =3D NULL;
+>=20
+> +	/* mark this hwspinlock as dynamically assigned */
+> +	tmp =3D radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
+> +				 HWSPINLOCK_DYN_ASSIGN);
+> +
+> +	/* self-sanity check which should never fail */
+> +	WARN_ON(tmp !=3D hwlock);
+> +
+>  out:
+>  	mutex_unlock(&hwspinlock_tree_lock);
+>  	return hwlock;
+> @@ -764,18 +797,19 @@ struct hwspinlock
+> *hwspin_lock_request_specific(unsigned int id)
+>  	/* sanity check (this shouldn't happen) */
+>  	WARN_ON(hwlock_to_id(hwlock) !=3D id);
+>=20
+> -	/* make sure this hwspinlock is unused */
+> -	ret =3D radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
+> -	if (ret =3D=3D 0) {
+> -		pr_warn("hwspinlock %u is already in use\n", id);
+> +	/* mark as used and power up */
+> +	ret =3D __hwspin_lock_request(hwlock);
+> +	if (ret < 0) {
+>  		hwlock =3D NULL;
+>  		goto out;
+>  	}
+>=20
+> -	/* mark as used and power up */
+> -	ret =3D __hwspin_lock_request(hwlock);
+> -	if (ret < 0)
+> -		hwlock =3D NULL;
+> +	/*
+> +	 * warn if this lock is also used by another client which got this lock
+> +	 * with dynamic assignment using the hwspin_lock_request() API
+> +	 */
+> +	if (radix_tree_tag_get(&hwspinlock_tree, id,
+> HWSPINLOCK_DYN_ASSIGN))
+> +		pr_warn("hwspinlock %u is shared with a 'dynamic' user\n", id);
+>=20
+>  out:
+>  	mutex_unlock(&hwspinlock_tree_lock);
+> @@ -799,7 +833,7 @@ int hwspin_lock_free(struct hwspinlock *hwlock)  {
+>  	struct device *dev;
+>  	struct hwspinlock *tmp;
+> -	int ret;
+> +	int ret, id;
+>=20
+>  	if (!hwlock) {
+>  		pr_err("invalid hwlock\n");
+> @@ -810,30 +844,40 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
+>  	mutex_lock(&hwspinlock_tree_lock);
+>=20
+>  	/* make sure the hwspinlock is used */
+> -	ret =3D radix_tree_tag_get(&hwspinlock_tree, hwlock_to_id(hwlock),
+> -							HWSPINLOCK_UNUSED);
+> +	id =3D hwlock_to_id(hwlock);
+> +	ret =3D radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
+>  	if (ret =3D=3D 1) {
+>  		dev_err(dev, "%s: hwlock is already free\n", __func__);
+>  		dump_stack();
+>  		ret =3D -EINVAL;
+> -		goto out;
+> +		goto out_unlock;
+>  	}
+>=20
+>  	/* notify the underlying device that power is not needed */
+>  	ret =3D pm_runtime_put(dev);
+>  	if (ret < 0)
+> -		goto out;
+> +		goto out_unlock;
+> +
+> +	/* update reqcount */
+> +	if (--hwlock->reqcount)
+> +		goto out_put;
+>=20
+>  	/* mark this hwspinlock as available */
+> -	tmp =3D radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
+> -							HWSPINLOCK_UNUSED);
+> +	tmp =3D radix_tree_tag_set(&hwspinlock_tree, id,
+> HWSPINLOCK_UNUSED);
+>=20
+>  	/* sanity check (this shouldn't happen) */
+>  	WARN_ON(tmp !=3D hwlock);
+>=20
+> +	/* clear the dynamically assigned tag */
+> +	tmp =3D radix_tree_tag_clear(&hwspinlock_tree, id,
+> +HWSPINLOCK_DYN_ASSIGN);
+> +
+> +	/* self-sanity check which should never fail */
+> +	WARN_ON(tmp !=3D hwlock);
+> +
+> +out_put:
+>  	module_put(dev->driver->owner);
+>=20
+> -out:
+> +out_unlock:
+>  	mutex_unlock(&hwspinlock_tree_lock);
+>  	return ret;
+>  }
+> diff --git a/drivers/hwspinlock/hwspinlock_internal.h
+> b/drivers/hwspinlock/hwspinlock_internal.h
+> index 9eb6bd0..a3aae55 100644
+> --- a/drivers/hwspinlock/hwspinlock_internal.h
+> +++ b/drivers/hwspinlock/hwspinlock_internal.h
+> @@ -35,11 +35,15 @@ struct hwspinlock_ops {
+>   * struct hwspinlock - this struct represents a single hwspinlock instan=
+ce
+>   * @bank: the hwspinlock_device structure which owns this lock
+>   * @lock: initialized and used by hwspinlock core
+> + * @is_locked: whether this lock is currently locked
+> + * @reqcount: number of users having requested this lock
+>   * @priv: private data, owned by the underlying platform-specific hwspin=
+lock drv
+>   */
+>  struct hwspinlock {
+>  	struct hwspinlock_device *bank;
+>  	spinlock_t lock;
+> +	unsigned long is_locked;
+> +	unsigned int reqcount;
+>  	void *priv;
+>  };
+>=20
+> --
+> 2.7.4
 
