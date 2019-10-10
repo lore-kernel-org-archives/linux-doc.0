@@ -5,49 +5,58 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3C407DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 17:31:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 440F07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Oct 2019 17:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbfJJRay (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 13:30:54 -0400
-Received: from ms.lwn.net ([45.79.88.28]:60790 "EHLO ms.lwn.net"
+        id S1726157AbfJJRfN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 13:35:13 -0400
+Received: from ms.lwn.net ([45.79.88.28]:60806 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbfJJRay (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Oct 2019 13:30:54 -0400
+        id S1725862AbfJJRfN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Oct 2019 13:35:13 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C49AB2BD;
-        Thu, 10 Oct 2019 17:30:53 +0000 (UTC)
-Date:   Thu, 10 Oct 2019 11:30:52 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id EB00C5A0;
+        Thu, 10 Oct 2019 17:35:12 +0000 (UTC)
+Date:   Thu, 10 Oct 2019 11:35:11 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: networking: phy: Improve phrasing
-Message-ID: <20191010113052.6e073449@lwn.net>
-In-Reply-To: <20191003204322.32349-1-j.neuschaefer@gmx.net>
-References: <20191003204322.32349-1-j.neuschaefer@gmx.net>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Quentin Perret <qperret@qperret.net>
+Subject: Re: [PATCH] docs: admin-guide: fix printk_ratelimit explanation
+Message-ID: <20191010113511.141902cc@lwn.net>
+In-Reply-To: <20191002114610.5773-1-oleksandr@redhat.com>
+References: <20191002114610.5773-1-oleksandr@redhat.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  3 Oct 2019 22:43:22 +0200
-Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
+On Wed,  2 Oct 2019 13:46:10 +0200
+Oleksandr Natalenko <oleksandr@redhat.com> wrote:
 
-> It's not about times (multiple occurences of an event) but about the
-> duration of a time interval.
+> The printk_ratelimit value accepts seconds, not jiffies (though it is
+> converted into jiffies internally). Update documentation to reflect
+> this.
 > 
-> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> Also, remove the statement about allowing 1 message in 5 seconds since
+> bursts up to 10 messages are allowed by default.
+> 
+> Finally, while we are here, mention default value for
+> printk_ratelimit_burst too.
+> 
+> Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
 
-Applied, thanks.
+This seems good.  Applied, thanks.
 
 jon
