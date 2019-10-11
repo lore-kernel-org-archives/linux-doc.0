@@ -1,82 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A56B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 00:34:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE0B97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 00:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbfJKAeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 20:34:06 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:47018 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbfJKAeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 20:34:06 -0400
-Received: by mail-qt1-f196.google.com with SMTP id u22so11396380qtq.13
-        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2019 17:34:05 -0700 (PDT)
+        id S1727483AbfJKArb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 20:47:31 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45808 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727100AbfJKAra (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 20:47:30 -0400
+Received: by mail-pg1-f193.google.com with SMTP id r1so3548886pgj.12;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=Ir1jRSeCWH2x6xvXc8uL8ybXkWpvILfmaQVgM2wRfvA=;
-        b=N/NiHW61NL9pl0vSynqNPKg+47CTftTAZJrCeaKJfjBsZQsGZbA8sq8jZPvlPRspj3
-         +y9R41RMgNMVvFxYKy26KTQCe+od85PboWA8bWr0RfnsIQlkyjqx/wGvHDhEMCqamHsU
-         9G7vXzxRBYHTZmgJTnxOXLA+plvbFYf/p9ieYG2s/k9OecB/ezF4A96KHhDM8hQxvtbp
-         kKWhlMutOrHtnnOgwcfyPDt4hTz8osq0GKXPY+qrRPVY8Cc0t5lRHnNm0T9Axq6qYljB
-         RfHHcJvZC1XMehq73B8DwGn8FKLMblhE99UM5nhqImqrx+5YVYUVEUc8Wcw8mRLGPWN7
-         a1JA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=XYUsDF5LK7A0bep4RfUjjO6eu7m00xiDrfzh+6ctTRAPT9U9rGrm1f18yhoiC0yNuv
+         Nh6Q/vQBZAQi46sXFInFLsQG0rJ1TvPS5C1Tzn9S2554Cx/vjGYs8EZZxhQbjpFJJD6E
+         mq8y5nzxGtZqZ1HZVJIwUBzjLVcdQnK48XQKSiZxCb5muTP28sGxfiW6xttjRfoJz1zx
+         NeVb7DJA0yv4PR4ePzAAkYf/zV1zufAalbNWeepOGoaGE35/H2qLJoSmoA/Zwa9D29j3
+         KdTdgOaUArg8q/IgOcapzDuoHM5mLyE0yT9A/fXjWCpAe9PjwgLrM34bKVinTnpaDnwf
+         ODjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=Ir1jRSeCWH2x6xvXc8uL8ybXkWpvILfmaQVgM2wRfvA=;
-        b=kjAeAnnBCG85q19ZGzWZvIwAg6LSPgvc2TbZhOmoa5zB344utqm1knSz3mcihrQpSZ
-         wtrwSjInmtmHJ4NYC/gEEiiSiygwrwIyDs02wit0R6xfTekye5FTcy352PYJ/pg6NfB3
-         /6gS/2n4rToJeQ2/uLh6N802IUNzBM8J+JyuD1C9dGliAFPYLYEOVrjTS+AWFz/lU+hP
-         MXWCr17z9n6B9/45OJNsr28AEWCb6nkjnZiKTM97Ki5RIJZlj8S9iBMSDv4wVOlEWw1+
-         JxGf9nuZFnx113q//o4Bs+boSn3qtJoxx1VHrq+z8/kjUDZzWCw+WbTRnsoWRwmuQYAg
-         9CaA==
-X-Gm-Message-State: APjAAAVd5x2WASLj+EbE9hiPRx4kR6dubKvpSHqmf1Jjvg8vvJvG0nRO
-        4edTldNPGN+MEhYDTEhJA1zFhw==
-X-Google-Smtp-Source: APXvYqxLt8bpwBFRHaQ/ptEWq7ZJhKNvIocjzEh92WCjqtn0q+SHst81ezrPpSRnVrvXXCwdTmZgLg==
-X-Received: by 2002:ac8:71d7:: with SMTP id i23mr13728484qtp.195.1570754045532;
-        Thu, 10 Oct 2019 17:34:05 -0700 (PDT)
-Received: from cakuba.netronome.com ([66.60.152.14])
-        by smtp.gmail.com with ESMTPSA id m186sm3151805qkd.119.2019.10.10.17.34.04
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=HpU5WoO+kB1v8CJVMiWALXKWGQ4HAjWji8I9PqE4xNRImHSWREkqflqJYgLFtGMv/q
+         hEGnt4K2wFRtt5tIv8VzcCT6TPjK9vrU3CfVX92DxGwjETIRKQZp4uIAan8F+xEvLHa1
+         TKTcnbNRFDb6+/WFC1SSfgc+JOjJsqe/ppyfxJ9vHQVGtIAiNRSuTe1Xs5Nxl97E2rx+
+         S2YmYgIFd2mV2OnhPC68i9AeOOnskX7PogCqS7l+wvsKYk2fEDzPGC3s/GFtJFn1NmH+
+         wPp24bc2rS/d6I5Wqai8TN8Uuy5f6loavNmz6XdTJdK2h8Svkcw5/lvn58/83woF7E2E
+         9oAQ==
+X-Gm-Message-State: APjAAAX+Vn15IDVtXusV+n3pC0M8VclZxB8OTvsdzoYMyBynVcfLnPSk
+        3Lb3shHs+x12rYkCO2Lmi32qV+Dx
+X-Google-Smtp-Source: APXvYqzLzsgjSK5rwCHu1G+VT4kiDmY0wF5F/U3chf6VGS4WhHCVPn+dKofGWhykmg9t9+gtci7OYg==
+X-Received: by 2002:a65:66d1:: with SMTP id c17mr13897375pgw.169.1570754848017;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d76sm7692503pfd.185.2019.10.10.17.47.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 17:34:05 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 17:33:48 -0700
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        Tal Gilboa <talgi@mellanox.com>,
-        David Miller <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH] Documentation: networking: add a chapter for the DIM
- library
-Message-ID: <20191010173348.1836f23f@cakuba.netronome.com>
-In-Reply-To: <c3eab338-f3a9-bff3-4c24-edeb3f80b7cd@infradead.org>
-References: <e9345b39-352e-cfc6-7359-9b681cb760e8@infradead.org>
-        <20191010162003.4f36a820@cakuba.netronome.com>
-        <4c7f5563-2ca1-d37b-7639-f3df99a0219b@infradead.org>
-        <20191010165828.0540d18d@cakuba.netronome.com>
-        <c3eab338-f3a9-bff3-4c24-edeb3f80b7cd@infradead.org>
-Organization: Netronome Systems, Ltd.
+        Thu, 10 Oct 2019 17:47:27 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 17:47:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 5/8] Input: silead - Switch to
+ firmware_request_platform for retreiving the fw
+Message-ID: <20191011004724.GC229325@dtor-ws>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004145056.43267-6-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Oct 2019 17:01:02 -0700, Randy Dunlap wrote:
-> > Will you try to convert and integrate the existing file instead, or do
-> > you think the kdoc file should be separate?  
+On Fri, Oct 04, 2019 at 04:50:53PM +0200, Hans de Goede wrote:
+> Unfortunately sofar we have been unable to get permission to redistribute
+> Silead touchscreen firmwares in linux-firmware. This means that people
+> need to find and install the firmware themselves before the touchscreen
+> will work
 > 
-> I'll take a look at doing that.
+> Some UEFI/x86 tablets with a Silead touchscreen have a copy of the fw
+> embedded in their UEFI boot-services code.
+> 
+> This commit makes the silead driver use the new firmware_request_platform
+> function, which will fallback to looking for such an embedded copy when
+> direct filesystem lookup fails. This will make the touchscreen work OOTB
+> on devices where there is a fw copy embedded in the UEFI code.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Thanks!
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+> ---
+>  drivers/input/touchscreen/silead.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+> index ad8b6a2bfd36..8fa2f3b7cfd8 100644
+> --- a/drivers/input/touchscreen/silead.c
+> +++ b/drivers/input/touchscreen/silead.c
+> @@ -288,7 +288,7 @@ static int silead_ts_load_fw(struct i2c_client *client)
+>  
+>  	dev_dbg(dev, "Firmware file name: %s", data->fw_name);
+>  
+> -	error = request_firmware(&fw, data->fw_name, dev);
+> +	error = firmware_request_platform(&fw, data->fw_name, dev);
+>  	if (error) {
+>  		dev_err(dev, "Firmware request error %d\n", error);
+>  		return error;
+> -- 
+> 2.23.0
+> 
+
+-- 
+Dmitry
