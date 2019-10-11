@@ -1,70 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0C5D47D912
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 03:42:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FDDC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 06:43:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726028AbfJKDme (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 23:42:34 -0400
-Received: from trent.utfs.org ([94.185.90.103]:51652 "EHLO trent.utfs.org"
+        id S1726546AbfJKGnp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 02:43:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726009AbfJKDme (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Oct 2019 23:42:34 -0400
-X-Greylist: delayed 372 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Oct 2019 23:42:33 EDT
-Received: from localhost (localhost [IPv6:::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1726481AbfJKGnp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Oct 2019 02:43:45 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by trent.utfs.org (Postfix) with ESMTPS id C7D7B5FD09;
-        Fri, 11 Oct 2019 05:36:16 +0200 (CEST)
-Date:   Thu, 10 Oct 2019 20:36:16 -0700 (PDT)
-From:   Christian Kujau <lists@nerdbynature.de>
-To:     Micah Morton <mortonm@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [TYPO] SafeSetID.rst: Remove spurious '???' characters
-Message-ID: <alpine.DEB.2.21.99999.352.1910102033050.30236@trent.utfs.org>
-User-Agent: Alpine 2.21.99999 (DEB 352 2019-06-22)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9E2B520650;
+        Fri, 11 Oct 2019 06:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570776225;
+        bh=tXOhKyYRMzD2hzw/SdifIbUDRJwUHCrYEYaiWmP8vQI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Uu1VhaorDPkEa8GWwA8biMt3VrQKNIcTxWJBxfHAKVG8Udq9FiGTgjcKxF3QJ1JCO
+         zE9JEIiVguOsqlqTdk9fyxSuGcv8J7Pi5FYYTdiy1o64KvNMb+IxIMqqlEKnONIsSX
+         ojphvoPefE+dtSEhfedKWLwJ7yjhanHmx0GJXWHg=
+Date:   Fri, 11 Oct 2019 08:43:42 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heiko Schocher <hs@denx.de>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] misc: add support for the cc1101 RF transceiver chip
+ from TI
+Message-ID: <20191011064342.GA1045420@kroah.com>
+References: <20190922060356.58763-1-hs@denx.de>
+ <20190922060356.58763-3-hs@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190922060356.58763-3-hs@denx.de>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While reading SafeSetID.rst I stumbled across those things. This patch 
-removes these spurious '???' characters.
-    
-Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+On Sun, Sep 22, 2019 at 08:03:56AM +0200, Heiko Schocher wrote:
+> +struct __attribute__ ((packed)) msg_queue_user {
+> +	int	type; /* CC1101_MSG_SET_ */
+> +};
+> +
+> +/* CC1101_MSG_DEFINE_CONFIG */
+> +struct __attribute__ ((packed)) config_param {
+> +	char addr;
+> +	char val;
+> +};
 
-diff --git a/Documentation/admin-guide/LSM/SafeSetID.rst b/Documentation/admin-guide/LSM/SafeSetID.rst
-index 212434ef65ad..7bff07ce4fdd 100644
---- a/Documentation/admin-guide/LSM/SafeSetID.rst
-+++ b/Documentation/admin-guide/LSM/SafeSetID.rst
-@@ -56,7 +56,7 @@ setid capabilities from the application completely and refactor the process
- spawning semantics in the application (e.g. by using a privileged helper program
- to do process spawning and UID/GID transitions). Unfortunately, there are a
- number of semantics around process spawning that would be affected by this, such
--as fork() calls where the program doesn???t immediately call exec() after the
-+as fork() calls where the program doesn't immediately call exec() after the
- fork(), parent processes specifying custom environment variables or command line
- args for spawned child processes, or inheritance of file handles across a
- fork()/exec(). Because of this, as solution that uses a privileged helper in
-@@ -72,7 +72,7 @@ own user namespace, and only approved UIDs/GIDs could be mapped back to the
- initial system user namespace, affectively preventing privilege escalation.
- Unfortunately, it is not generally feasible to use user namespaces in isolation,
- without pairing them with other namespace types, which is not always an option.
--Linux checks for capabilities based off of the user namespace that ???owns??? some
-+Linux checks for capabilities based off of the user namespace that "owns" some
- entity. For example, Linux has the notion that network namespaces are owned by
- the user namespace in which they were created. A consequence of this is that
- capability checks for access to a given network namespace are done by checking
+{sigh}
 
--- 
-BOFH excuse #451:
+None of these structures are valid ones to be passing to/from
+userspace/kernel at all.  Please fix them up to work properly (i.e. use
+the correct types and such).  I think there's a "how to write a correct
+ioctl" document in the documentation directory somewhere, you might want
+to search for that.
 
-astropneumatic oscillations in the water-cooling
+thanks,
+
+greg k-h
