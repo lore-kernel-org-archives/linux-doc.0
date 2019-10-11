@@ -1,114 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF41C7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 18:02:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A950D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 19:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728635AbfJKSB4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 14:01:56 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:43449 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728470AbfJKSB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 14:01:56 -0400
-Received: by mail-lj1-f194.google.com with SMTP id n14so10660766ljj.10;
-        Fri, 11 Oct 2019 11:01:54 -0700 (PDT)
+        id S1728843AbfJKTP1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 15:15:27 -0400
+Received: from mail-yw1-f73.google.com ([209.85.161.73]:40724 "EHLO
+        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728894AbfJKTP1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 15:15:27 -0400
+Received: by mail-yw1-f73.google.com with SMTP id w22so8284628ywa.7
+        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2019 12:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XdwB9h96v+QYkQDX1YxlxUnsWei52osLfl6yOYfRoHI=;
-        b=JJwL/lGc98fPjNXsuW37YtyQjKr2sKYZbyZQItyXwRkcSDHCY0bEjaJUb4XAw7+LON
-         qFFPDarzJYA7aRj8S6Djg/uZTdTXdMY3gfsOCo/GcKE8PW0x+nv+jQ4r+CPO0Ke/pLgy
-         nmq3toEYyZahWAs1fJiHI4KEuu0q2AY121irp7lN2HLtM8mMZ+i+D3GcXZwMjpyVJ8rM
-         Fl1Jw1fbcOx263yXpePcJpyelaLm8L566qTnPFvR3hckhejYUY056kZEU4XRMODPTfT7
-         OpGwELASV8jP2Iw9XeI2rX2HYHJ+5DhvRHAf4/0q6Q/mEIgKdePdesCb341qDj+3AgQz
-         Y87w==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=2LK7MZ/I1CyNASlk+qr5lnr5R+gCtp5cqesKvyijqAI=;
+        b=dCcyfvcv3IsRhEQUEUjJI6r7Io7Gj9enAHtAz4TMJxBZoqWS6kUQsJuOJv+mvRxcaR
+         W/57JYw5pOOFCADaMAdznF5d7agokzIqiCwbL7PK/MuuAl4FtJKuvMcMEFPF/n1QUtwG
+         +AfFp3fOUi/+/DQSjvBx8vbs+hxrNro+H/GUUBf2upcEP7Gd5vBUKpEVUeYGYM5SYDyF
+         Az91FrVj4G7UyKvJOjNaxljdgQckRvrNmn8+iVEQdn8kf5Be/nzGpdyT97dI7i1Py6TW
+         nRZYVkNAKu7VlAW/GlY5+px+7mJiMMjK3cw2xMRNXGNvyEyQQkxUxxzOBckMyIoGcVu9
+         rRrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XdwB9h96v+QYkQDX1YxlxUnsWei52osLfl6yOYfRoHI=;
-        b=CovoiUvqVzcI0epHgHlnC5k0YM02Yn9gyM66lyzcr4/9odK3v13gWlIA14UisloCxW
-         81tZrHoaXN3lPnNTiGAnUX2g5ER3XnDxys1wXHG91D9htA7cLR3OE7RgGQgQGWqriFgK
-         08o0adHz9KpveJkWIenLxcjWOyPM3WDRB93J8dJ9xD0dnAFMPlpcSZ6+yWUNBjFnpB6r
-         RChdAaO7pZGvy/jSYMmt9mX3tmsi8HjhQ5ieMoySYniIHZ+bb69IeuEDoK9P2lR8Hkl5
-         8+yu8vCkcuPI6tZ9JGjc6V6jvHywzUJ7GnC7fkDnk5BDE2fV7ou5pAiZt4aOwC/8uAdQ
-         cdlg==
-X-Gm-Message-State: APjAAAVHdUYxXDXuct+lY60fsRqyu3BAzUWLdkNs/X22071NtuUAVSls
-        Zlx7Z+EhWNndag+/KF4KqHF2U5oIS6uCOY1F/AM=
-X-Google-Smtp-Source: APXvYqwVaUA7oCBc5xvpj+PQwfoY/MvmAjkR7fClTPBR5s5J1pMVup7ak5TL4SFSjd2aW7dmhjgX6bC/i/jADMqPYd4=
-X-Received: by 2002:a2e:3a19:: with SMTP id h25mr10164297lja.129.1570816913446;
- Fri, 11 Oct 2019 11:01:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1570292505.git.joe@perches.com> <CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com>
-In-Reply-To: <CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 11 Oct 2019 20:01:42 +0200
-Message-ID: <CANiq72kDNT6iPxYYNzY_eb3ddWNUEzgg48pOenEBrJXynxsvoA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] treewide: Add 'fallthrough' pseudo-keyword
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Joe Perches <joe@perches.com>, linux-sctp@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Shawn Landden <shawn@git.icu>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Miller <davem@davemloft.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=2LK7MZ/I1CyNASlk+qr5lnr5R+gCtp5cqesKvyijqAI=;
+        b=Nb85KvMd3t4An5VrETb0H+LUvuZyyVR6UhlK2LV367tJbrwcVL7K54W0yqKKjaLmce
+         CheNA6lTCsOGWOY519k2qKMtWx/PxdD9cfX+R66kRrFyN3dZo9lPfNT9dcmuxZpRDp0f
+         oE/HCefcaFANO/mDFSeJbYW4L4OORiLr6uzIds5+q6pyrjpMA2QaAwx5wWZ89L3UYTw9
+         dH42nhjmhojh+d1/9y5DBtZdu3bnS/XA/vStsfUT+2SUaxc4FBMo/CEHS4PcLdxgU0Nk
+         e9gkMAWVvCRzBNJ8i8g+8yaT8QjfF++RFXGB/sXpIBR4OeaQUJviQojlP/54uSNC1sel
+         nOqQ==
+X-Gm-Message-State: APjAAAUJWqJ44Ig0ong5ovjQdYMeogQMPHuIOqg9VyuRrlMniRGahOtF
+        GpOmmWSyPJnb7VMojLHTrCR12AVGRnsHoDw=
+X-Google-Smtp-Source: APXvYqxCwAr5/9joD+wnV488pzFB2G7pMoHdRW5ziKI7SO4MYaakbb/DVO337qNGCNybdnSYAfFybGH90A4h6Kc=
+X-Received: by 2002:a81:441b:: with SMTP id r27mr3771738ywa.381.1570821325935;
+ Fri, 11 Oct 2019 12:15:25 -0700 (PDT)
+Date:   Fri, 11 Oct 2019 12:15:18 -0700
+Message-Id: <20191011191521.179614-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
+Subject: [PATCH v1 0/3] Documentation/minor coding style fix ups
+From:   Saravana Kannan <saravanak@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        Stephen Boyd <sboyd@kernel.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+Addressing a few coding style comments and adding a bunch of
+documentation.
 
-On Fri, Oct 11, 2019 at 6:30 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Sat, Oct 5, 2019 at 9:46 AM Joe Perches <joe@perches.com> wrote:
-> >
-> > Add 'fallthrough' pseudo-keyword to enable the removal of comments
-> > like '/* fallthrough */'.
->
-> I applied patches 1-3 to my tree just to make it easier for people to
-> start doing this. Maybe some people want to do the conversion on their
-> own subsystem rather than with a global script, but even if not, this
-> looks better as a "prepare for the future" series and I feel that if
-> we're doing the "fallthrough" thing eventually, the sooner we do the
-> prepwork the better.
->
-> I'm a tiny bit worried that the actual conversion is just going to
-> cause lots of pain for the stable people, but I'll not worry about it
-> _too_ much. If the stable people decide that it's too painful for them
-> to deal with the comment vs keyword model, they may want to backport
-> these three patches too.
+Saravana Kannan (3):
+  of: property: Minor code formatting/style clean ups
+  driver: core: Improve documentation for fwnode_operations.add_links()
+  docs: driver-model: Add documentation for sync_state
 
-I was waiting for a v2 series to pick it up given we had some pending changes...
+ .../driver-api/driver-model/driver.rst        | 43 +++++++++++++++++++
+ drivers/of/property.c                         | 12 +++---
+ include/linux/fwnode.h                        | 21 ++++++++-
+ 3 files changed, 68 insertions(+), 8 deletions(-)
 
-Cheers,
-Miguel
+-- 
+2.23.0.700.g56cf767bdb-goog
+
