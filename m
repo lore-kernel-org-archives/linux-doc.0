@@ -1,107 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6B887D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 19:37:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 506867D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 22:08:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728851AbfJKThg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 15:37:36 -0400
-Received: from smtp1.lauterbach.com ([62.154.241.196]:34163 "EHLO
-        smtp1.lauterbach.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728799AbfJKThg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 15:37:36 -0400
-Received: (qmail 24279 invoked by uid 484); 11 Oct 2019 19:37:34 -0000
-X-Qmail-Scanner-Diagnostics: from 10.2.10.40 by smtp1.lauterbach.com (envelope-from <ingo.rohloff@lauterbach.com>, uid 484) with qmail-scanner-2.11 
- (mhr: 1.0. clamdscan: 0.99/21437. spamassassin: 3.4.0.  
- Clear:RC:1(10.2.10.40):. 
- Processed in 0.08584 secs); 11 Oct 2019 19:37:34 -0000
-Received: from unknown (HELO ingpc3.intern.lauterbach.com) (Authenticated_SSL:irohloff@[10.2.10.40])
-          (envelope-sender <ingo.rohloff@lauterbach.com>)
-          by smtp1.lauterbach.com (qmail-ldap-1.03) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
-          for <corbet@lwn.net>; 11 Oct 2019 19:37:33 -0000
-Date:   Fri, 11 Oct 2019 21:37:33 +0200
-From:   Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [RFC][PATCH] docs: process: Submitting a patch for a single git
- commit.
-Message-ID: <20191011213724.63510d15@ingpc3.intern.lauterbach.com>
-In-Reply-To: <20191011112357.7c3863cd@lwn.net>
-References: <20191011163358.17667-1-ingo.rohloff@lauterbach.com>
-        <20191011112357.7c3863cd@lwn.net>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1729329AbfJKWIB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 18:08:01 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33632 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727919AbfJKWIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 18:08:01 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so6871737pfl.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2019 15:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=u657WMybRKGf4iTEdbvgPKUQHMvQCoMqXMiRc7mnyNw=;
+        b=AUmbSlE2jrKfmGq51Nnu0DTKILtSqFr/lgvJE3gHd/UhnFDMR4LvhUquwiYY4yI1UG
+         GQjwC95tlThgfHSDmX5isdgd8rfRVIVuXg8LM5+EKX3RU75Tm86erjWm8b7IPX1aL+fQ
+         PhW9UWXV+kPuuyJxGmEnU4tHZfDaLYbNp5Gws=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=u657WMybRKGf4iTEdbvgPKUQHMvQCoMqXMiRc7mnyNw=;
+        b=XCXiUbG2YZjtPtedoAtAjePDxrMIPUWhRJ1Xkj+7DG48y81LD2U9MgkuxlNk/0nVF8
+         FXMpPenvMKYBkfkcFXvQ/aAd5Y/nESlm9M2o1lpJjlgBs+t8EArDAw3HFy7v4KpshQlP
+         55p0LRiXIe2vA0BAuer585E5aLdW/ZZxFlVzwozFfRccGFPdiJr0G4yc7DrRZM49S7FV
+         4WHmPVBMdJyk8qbzDzueEJIcFEOejlj7cTVbIIPSJPY3eTYQC/NQ0qPyP67qgzRywHz7
+         LPixFCqOs7LZQveeKLu5BRzEloQ/xz1dtyp243XLwTAzNp05CSkMvxZ7f4CPjk0CBpim
+         S/lg==
+X-Gm-Message-State: APjAAAWjXn7Pf9CZy/ror5ow7Hkl9QbAHNziCg6u0XL/WUSdnEGV450G
+        zgE/HZ76N2oBhvEhdmTTsvnS+Q==
+X-Google-Smtp-Source: APXvYqwXd6PES+m6U0qYX3W5eqwpAP4ETGleW9x3CN4Ko02h7XpIW9CP+aqFM6d6plqqgwrB+0MgxQ==
+X-Received: by 2002:aa7:956a:: with SMTP id x10mr18500783pfq.220.1570831680868;
+        Fri, 11 Oct 2019 15:08:00 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p66sm10301368pfg.127.2019.10.11.15.07.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2019 15:07:59 -0700 (PDT)
+Date:   Fri, 11 Oct 2019 15:07:58 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Joe Perches <joe@perches.com>, linux-sctp@vger.kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Shawn Landden <shawn@git.icu>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Miller <davem@davemloft.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH 0/4] treewide: Add 'fallthrough' pseudo-keyword
+Message-ID: <201910111506.45AE850D5@keescook>
+References: <cover.1570292505.git.joe@perches.com>
+ <CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com>
+ <CANiq72kDNT6iPxYYNzY_eb3ddWNUEzgg48pOenEBrJXynxsvoA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72kDNT6iPxYYNzY_eb3ddWNUEzgg48pOenEBrJXynxsvoA@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Oct 2019 11:23:57 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> On Fri, 11 Oct 2019 18:33:58 +0200
-> Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
+On Fri, Oct 11, 2019 at 08:01:42PM +0200, Miguel Ojeda wrote:
+> Hi Linus,
 > 
-> ...
+> On Fri, Oct 11, 2019 at 6:30 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Sat, Oct 5, 2019 at 9:46 AM Joe Perches <joe@perches.com> wrote:
+> > >
+> > > Add 'fallthrough' pseudo-keyword to enable the removal of comments
+> > > like '/* fallthrough */'.
+> >
+> > I applied patches 1-3 to my tree just to make it easier for people to
+> > start doing this. Maybe some people want to do the conversion on their
+> > own subsystem rather than with a global script, but even if not, this
+> > looks better as a "prepare for the future" series and I feel that if
+> > we're doing the "fallthrough" thing eventually, the sooner we do the
+> > prepwork the better.
+> >
+> > I'm a tiny bit worried that the actual conversion is just going to
+> > cause lots of pain for the stable people, but I'll not worry about it
+> > _too_ much. If the stable people decide that it's too painful for them
+> > to deal with the comment vs keyword model, they may want to backport
+> > these three patches too.
 > 
-> I think we should find a place for this kind of information, but I don't
-> think submitting-patches.rst is it.  That's meant to be a comprehensive set
-> of rules and guidelines; it's already far too long as it is.  A separate
-> document with introductory tutorials might be a good idea.
-> 
+> I was waiting for a v2 series to pick it up given we had some pending changes...
 
-Could you make a suggestion where to put it ?
+Hmpf, looks like it's in torvalds/master now. Miguel, most of the changes
+were related to the commit log, IIRC, so that ship has sailed. :( Can the
+stuff in Documentation/ be improved with a follow-up patch, perhaps?
 
-I did not really explain my intention:
-This was not intended as an introductory tutorial.
-
-The intention is to provide a "Quick Start" for people
-who know what they are doing in general, but simply do not
-have any knowledge about the particular process involved
-in submitting a Linux kernel patch.
-
-I fully expect that someone who reads this at least knows:
-
-- How to use git
-- How to modify/configure/compile/test a kernel
-- Has an idea what an SMTP server is
-- ...
-
-My personal problem was that I wanted to submit a patch.
-I have no trouble compiling Linux kernels and working with git etc.
-But I for sure did not have any idea at all how to convert a 
-git commit into a patch for submission into the Linux kernel.
-
-So the problem was only about what exactly should be send in
-which format where.
-
-I did not know about "git send-email"; I read about it somewhere.
-I tried it and got "unknown command", because it seems most 
-Linux distributions have that in a separate package.
-I was wondering if I needed an extra special version of git.
-After I found that I need to install an extra package,
-I was wondering next if I need other software too
-(like "exim" or "postfix" or "sendmail" or ...)
-
-The intended audience of this primer are people who are
-proficient with computers (they know about SMTP/MTAs/git ...)
-but simply never submitted a Linux patch before.
-
-I myself ended up sending the same patch at least three times
-and I am still slightly embarrassed.
-
-I think I actually did some small stuff on the  Linux kernel 
-20 years ago maybe ?
-Boy have things changed ;-) 
-git did not exist back then, and I do not think "Signed-off-by",
-was mentioned anywhere.
-
-with best regards
-  Ingo Rohloff
+-- 
+Kees Cook
