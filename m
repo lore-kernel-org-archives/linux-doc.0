@@ -4,80 +4,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 671207D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 16:17:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C74B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 16:23:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbfJKQRE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 12:17:04 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39552 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfJKQRC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 12:17:02 -0400
-Received: by mail-pf1-f196.google.com with SMTP id v4so6377115pff.6
-        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2019 09:17:00 -0700 (PDT)
+        id S1727149AbfJKQXx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 12:23:53 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:35015 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbfJKQXw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 12:23:52 -0400
+Received: by mail-io1-f66.google.com with SMTP id q10so22828650iop.2
+        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2019 09:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=M6/IFpPoU257BJiL2mb6swVia+fv7D9KqIWwxXtVps8=;
-        b=n7ZMdJu9GcirVZwa482sMtWvpemyN7XlK3d3GfnhUUihVHQkZLlGoapJ2WRSXMEKtJ
-         vx4U2l+l1aMAQo/GLwsObOag7IHFOKMq0WmswdUSNJn0eAQNijfDZffSGoTguf8NSQKq
-         u0I+l1RlR6OTVNOngPaqoSlLN89Lkl9N8vWh4=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AYuysNNB34vzaF6MUbQvV/mVL9SXPUEqaT1Ho11Jg/o=;
+        b=bXLzmGiSuLTMLfidfkYS1vUnwNdxVd+km70RJnz+dqfAgjauBU0zjA5JdvIEMyewI7
+         wqlyR1rTaqbMzOsgbo6n0JE7XkxMcewbuecc6rc508ooaF55A1YWHILeasK8Kaa20ifS
+         sT0Hu+s1h7+SCghDzdc7Kob+ust+/WzCJ8Ylk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=M6/IFpPoU257BJiL2mb6swVia+fv7D9KqIWwxXtVps8=;
-        b=ZwXmXKRmagjzuPjkWsNYzFQJyUITIWPIgfhC/bDXFOC8N/1KsLad72bkVU9oaYd63H
-         S4Six0XV0iY6cv5oP8t21XVC1pxu68UDG+t58ke0EiaCrF7wc5AssXwmtuD0ljaHzSzk
-         YNQUDaAZ0z+Vf51pLRmkdQS+3AbfQQLHf7WFBVet3c4F8GvFhi6huIgTt8O0Je4xH/Qj
-         kmxwnmpuwIeWNoXN/6IgRJWWgDHGUPFrDjooPgNENitFSjdrY/MQcZ1m/WdUk1/A4kpG
-         3stqkAMxQzC71/TGrOw+Tk7huJ5g7ziyEjFgT2M37x45eg1X8BmYea0osRKZgS8elTvu
-         eN0Q==
-X-Gm-Message-State: APjAAAWlXZDIW37kP6VHo3RllJuWQCClmZTv1gwTC3lXEjJiGkZoOpIz
-        FZIRDbVnkLhm8GkQ1+WoroRWJA==
-X-Google-Smtp-Source: APXvYqwVlV7zsenA02qPfOZWKOdpF4/HgEN/UQewF65E65s6FbxjOvYETd3Rk7fMHH7/TUZnGZedKA==
-X-Received: by 2002:a17:90a:1b45:: with SMTP id q63mr18385927pjq.106.1570810620254;
-        Fri, 11 Oct 2019 09:17:00 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r21sm11559722pfc.27.2019.10.11.09.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 09:16:59 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 09:16:58 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Dragan Cvetic <draganc@xilinx.com>,
-        Derek Kiernan <dkiernan@xilinx.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: misc: xilinx_sdfec: Actually add documentation
-Message-ID: <201910110916.2DC522EA@keescook>
-References: <201910021000.5E421A6F8F@keescook>
- <201910101535.1804FC6@keescook>
- <20191010163905.70a4d6e1@lwn.net>
- <CH2PR02MB6359973E7718EC50FE36E9C6CB970@CH2PR02MB6359.namprd02.prod.outlook.com>
- <20191011100223.6f3eff7e@lwn.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AYuysNNB34vzaF6MUbQvV/mVL9SXPUEqaT1Ho11Jg/o=;
+        b=fp3Jhgxb2yPK85GXpOQsNzs73mNms3lod9v6AfZLX4spmaBUTlQSSPhBb4QLgSkuLw
+         /Txobmq+Px6SP7MvlebpgEa6rbZRDVMloR+dZenW/CWsWd1ysbtr8uny+kEStEwKUKzQ
+         axhrIONi024PgwB8+3f1ZL21GrAlUYsx0HNxrC3P6OsOzTFMGXVjQUWCMb2f3zhst+ca
+         FnaywpMwRNCooh2T2J0PqVyc1jUF4BwCoZJOcGa2+hg855HB6MtPUoT9gzg7jF86iTJM
+         MhLBOF0HDWLzVGRPFI6EuhNCkb3mChBZoOejEkJAPJj4dUU0hFlOJvffeQUNfthnfKi1
+         yz/g==
+X-Gm-Message-State: APjAAAUP+Nrip7pW5FmhjPfTO+Ify2eqQS9Q8OY0y4OR4WIIFusG6mQS
+        O2lTeqUcj8ViwFAGal5NelrHuWhNFNrdBllZLQ75ow==
+X-Google-Smtp-Source: APXvYqwfcGD54cIT9+Q2+eIt3no1gPcfadM8IUYxCwOoMfEbn2W16jOyYXGVfRaoYHemabxkQdGpwocdLQxC6tsx0l8=
+X-Received: by 2002:a6b:8f8d:: with SMTP id r135mr18457775iod.263.1570811031794;
+ Fri, 11 Oct 2019 09:23:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011100223.6f3eff7e@lwn.net>
+References: <alpine.DEB.2.21.99999.352.1910102033050.30236@trent.utfs.org> <20191011100018.0e9fff37@lwn.net>
+In-Reply-To: <20191011100018.0e9fff37@lwn.net>
+From:   Micah Morton <mortonm@chromium.org>
+Date:   Fri, 11 Oct 2019 09:23:40 -0700
+Message-ID: <CAJ-EccOz+DeC=y1ToBhq2F-sos0g+_6iWK8vjXgxuENGsn7Few@mail.gmail.com>
+Subject: Re: [TYPO] SafeSetID.rst: Remove spurious '???' characters
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Christian Kujau <lists@nerdbynature.de>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 10:02:23AM -0600, Jonathan Corbet wrote:
-> On Fri, 11 Oct 2019 08:59:22 +0000
-> Dragan Cvetic <draganc@xilinx.com> wrote:
-> 
-> > Yes, please add the file.
-> 
-> OK, I've applied the patch, thanks.  I took the liberty of sticking on a
-> final newline while I was at it.
+Ah, thanks for this. We had this fixed in
+http://kernsec.org/pipermail/linux-security-module-archive/2019-May/013525.html,
+but looks like it got forgotten somehow.
 
-Yay! Thank you! :)
-
--- 
-Kees Cook
+On Fri, Oct 11, 2019 at 9:00 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Thu, 10 Oct 2019 20:36:16 -0700 (PDT)
+> Christian Kujau <lists@nerdbynature.de> wrote:
+>
+> > While reading SafeSetID.rst I stumbled across those things. This patch
+> > removes these spurious '???' characters.
+> >
+> > Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+>
+> I've applied this, thanks.  I did take the liberty of rewriting the
+> changelog to adhere to normal standards:
+>
+> Author: Christian Kujau <lists@nerdbynature.de>
+> Date:   Thu Oct 10 20:36:16 2019 -0700
+>
+>     docs: SafeSetID.rst: Remove spurious '???' characters
+>
+>     It appears that some smart quotes were changed to "???" by even smarter
+>     software; change them to the dumb but legible variety.
+>
+>     Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+>     Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+>
+> Thanks,
+>
+> jon
