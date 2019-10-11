@@ -1,127 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C60F37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 00:48:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5F417D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 01:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727692AbfJKAsF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Oct 2019 20:48:05 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:41559 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727100AbfJKAsE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Oct 2019 20:48:04 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t10so3629793plr.8;
-        Thu, 10 Oct 2019 17:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ETkbKQ05O2dMgkNycPpQVBwLCdAj/RDEFMvpT31Ux5Y=;
-        b=Zj/GSkEAIsW6/Hj5LpHp+UIaiS6HA2moMvIqo7XXXd4jtJ5ltiBYBMWqZhgVpvZkTg
-         ItD6yLbI/7v5mDqRvJqDoHc9LQB5JUHYJiLcJvMFrdJDqxGW8fWkq72MnWenAarlKGvS
-         bMbbllWxwhpfAWChsT6819vcv6rR5GHao+hDdBFw5B+qS2Fn/MEsvjU/qbiKR64F7SWs
-         n2o0yICmO+TlAHQG5owjwGCDWM9dVi9/ZxOzx3jxyabP/wzzvDeyhVCdbV8aY4gIhRfS
-         TKvtNM3kAA9lVPViPUmTstxCThqoRoSrscEC/7+IYOPj1NFcfqDVupo+g3IEx53iBGAI
-         nmcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ETkbKQ05O2dMgkNycPpQVBwLCdAj/RDEFMvpT31Ux5Y=;
-        b=YPdHbywcqUKtw/600kIBAXQ4/2jWjq/M8f+biEj1JRn3PdMHYRs+syjbExXW56GNWR
-         3zijBFipescvM/u4fP9ciJH/QGL455AMsfhv0kM+VXuuJ6mg1nv0QM97Mw/2KiwAENlt
-         4bny/hGPaugtdhYbTRN7T3pVn0t7JFktMNXR40w9PDOAWJsezG8GUKRiyHzVmnlLJiJM
-         poXzyda3MgFodsYvjFmIczJNn/XiN6A+xMeSfQPzWTgoXSvmSbklavqEokh90H3o444q
-         Z+ar1o0Cw8eSHqAac6pJf31LBYbpxedycbyOEwToW1CyYRK/Hehdqo/QhHu1jRghbGsP
-         o5MA==
-X-Gm-Message-State: APjAAAWikUDKZqyAcekhErzwCQD1mKtKHgUqtQ8RKnr14sHzZtrQmu1p
-        MzNHvWOj2wBateIRGWxQaEk=
-X-Google-Smtp-Source: APXvYqw78u960V+A6kZKXgqbzv4NJaOehd9R02KWBPRr/QBxVXaeO/mbfXmlS+E62ZuZ/m/gwPzdlA==
-X-Received: by 2002:a17:902:6bc9:: with SMTP id m9mr11980058plt.227.1570754882044;
-        Thu, 10 Oct 2019 17:48:02 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e127sm7453781pfe.37.2019.10.10.17.48.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 17:48:01 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 17:47:59 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        id S1727369AbfJKBX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Oct 2019 21:23:28 -0400
+Received: from mga06.intel.com ([134.134.136.31]:29463 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726096AbfJKBX2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Oct 2019 21:23:28 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2019 18:23:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,282,1566889200"; 
+   d="scan'208";a="219232766"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Oct 2019 18:23:26 -0700
+Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
+ ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 10 Oct 2019 18:23:26 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.5.9]) by
+ ORSMSX114.amr.corp.intel.com ([169.254.8.55]) with mapi id 14.03.0439.000;
+ Thu, 10 Oct 2019 18:23:25 -0700
+From:   "Brown, Aaron F" <aaron.f.brown@intel.com>
+To:     =?utf-8?B?Sm9uYXRoYW4gTmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC:     "Kirsher, Jeffrey T" <jeffrey.t.kirsher@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 6/8] Input: icn8505 - Switch to
- firmware_request_platform for retreiving the fw
-Message-ID: <20191011004759.GD229325@dtor-ws>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-7-hdegoede@redhat.com>
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] Documentation: networking: device drivers: Remove stray
+ asterisks
+Thread-Topic: [PATCH] Documentation: networking: device drivers: Remove
+ stray asterisks
+Thread-Index: AQHVeTOVj6HxC0KSAUmxu0Nx3AY1c6dUsk4A
+Date:   Fri, 11 Oct 2019 01:23:25 +0000
+Message-ID: <309B89C4C689E141A5FF6A0C5FB2118B9714C898@ORSMSX103.amr.corp.intel.com>
+References: <20191002150956.16234-1-j.neuschaefer@gmx.net>
+In-Reply-To: <20191002150956.16234-1-j.neuschaefer@gmx.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGM4OTUyYzQtODQzOC00NGZiLWE2ZjQtN2RkNDc2Y2VjMmZiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieXVBU1gzaUlDRGFnWHZHQnE2RDA1SkdmYkxFdW96MGVqYUdoMGY2dFhoQlE1V3RPT2hPbFZkd0FLYjN1Y3F0NyJ9
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191004145056.43267-7-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 04:50:54PM +0200, Hans de Goede wrote:
-> Unfortunately sofar we have been unable to get permission to redistribute
-> icn8505 touchscreen firmwares in linux-firmware. This means that people
-> need to find and install the firmware themselves before the touchscreen
-> will work
-> 
-> Some UEFI/x86 tablets with an icn8505 touchscreen have a copy of the fw
-> embedded in their UEFI boot-services code.
-> 
-> This commit makes the icn8505 driver use the new firmware_request_platform
-> function, which will fallback to looking for such an embedded copy when
-> direct filesystem lookup fails. This will make the touchscreen work OOTB
-> on devices where there is a fw copy embedded in the UEFI code.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Feel free to merge with the rest of the series.
-
-> ---
->  drivers/input/touchscreen/chipone_icn8505.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/chipone_icn8505.c b/drivers/input/touchscreen/chipone_icn8505.c
-> index c768186ce856..f9ca5502ac8c 100644
-> --- a/drivers/input/touchscreen/chipone_icn8505.c
-> +++ b/drivers/input/touchscreen/chipone_icn8505.c
-> @@ -288,7 +288,7 @@ static int icn8505_upload_fw(struct icn8505_data *icn8505)
->  	 * we may need it at resume. Having loaded it once will make the
->  	 * firmware class code cache it at suspend/resume.
->  	 */
-> -	error = request_firmware(&fw, icn8505->firmware_name, dev);
-> +	error = firmware_request_platform(&fw, icn8505->firmware_name, dev);
->  	if (error) {
->  		dev_err(dev, "Firmware request error %d\n", error);
->  		return error;
-> -- 
-> 2.23.0
-> 
-
--- 
-Dmitry
+PiBGcm9tOiBuZXRkZXYtb3duZXJAdmdlci5rZXJuZWwub3JnIFttYWlsdG86bmV0ZGV2LW93bmVy
+QHZnZXIua2VybmVsLm9yZ10NCj4gT24gQmVoYWxmIE9mIEpvbmF0aGFuIE5ldXNjaMOkZmVyDQo+
+IFNlbnQ6IFdlZG5lc2RheSwgT2N0b2JlciAyLCAyMDE5IDg6MTAgQU0NCj4gVG86IGxpbnV4LWRv
+Y0B2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IEpvbmF0aGFuIE5ldXNjaMOkZmVyIDxqLm5ldXNjaGFl
+ZmVyQGdteC5uZXQ+OyBLaXJzaGVyLCBKZWZmcmV5IFQNCj4gPGplZmZyZXkudC5raXJzaGVyQGlu
+dGVsLmNvbT47IERhdmlkIFMuIE1pbGxlciA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD47DQo+IEpvbmF0
+aGFuIENvcmJldCA8Y29yYmV0QGx3bi5uZXQ+OyBTaGFubm9uIE5lbHNvbiA8c25lbHNvbkBwZW5z
+YW5kby5pbz47DQo+IFBlbnNhbmRvIERyaXZlcnMgPGRyaXZlcnNAcGVuc2FuZG8uaW8+OyBpbnRl
+bC13aXJlZC1sYW5AbGlzdHMub3N1b3NsLm9yZzsNCj4gbmV0ZGV2QHZnZXIua2VybmVsLm9yZzsg
+bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBbUEFUQ0hdIERvY3VtZW50
+YXRpb246IG5ldHdvcmtpbmc6IGRldmljZSBkcml2ZXJzOiBSZW1vdmUgc3RyYXkNCj4gYXN0ZXJp
+c2tzDQo+IA0KPiBUaGVzZSBhc3Rlcmlza3Mgd2VyZSBvbmNlIHJlZmVyZW5jZXMgdG8gYSBsaW5l
+IHRoYXQgc2FpZDoNCj4gICAiKiBPdGhlciBuYW1lcyBhbmQgYnJhbmRzIG1heSBiZSBjbGFpbWVk
+IGFzIHRoZSBwcm9wZXJ0eSBvZiBvdGhlcnMuIg0KPiBCdXQgbm93LCB0aGV5IHNlcnZlIG5vIHB1
+cnBvc2U7IHRoZXkgY2FuIG9ubHkgaXJyaXRhdGUgdGhlIHJlYWRlci4NCj4gDQo+IEZpeGVzOiBk
+ZTNlZGFiNDI3NmMgKCJlMTAwMDogdXBkYXRlIFJFQURNRSBmb3IgZTEwMDAiKQ0KPiBGaXhlczog
+YTNmYjY1NjgwZjY1ICgiZTEwMC50eHQ6IENsZWFudXAgbGljZW5zZSBpbmZvIGluIGtlcm5lbCBk
+b2MiKQ0KPiBGaXhlczogZGE4YzAxYzQ1MDJhICgiZTEwMDBlLnR4dDogQWRkIGUxMDAwZSBkb2N1
+bWVudGF0aW9uIikNCj4gRml4ZXM6IGYxMmE4NGE5ZjY1MCAoIkRvY3VtZW50YXRpb246IGZtMTBr
+OiBBZGQga2VybmVsIGRvY3VtZW50YXRpb24iKQ0KPiBGaXhlczogYjU1YzUyYjE5MzhjICgiaWdi
+LnR4dDogQWRkIGlnYiBkb2N1bWVudGF0aW9uIikNCj4gRml4ZXM6IGM0ZTliNTZlMjQ0MiAoImln
+YnZmLnR4dDogQWRkIGlnYnZmIERvY3VtZW50YXRpb24iKQ0KPiBGaXhlczogZDcwNjRmNGMxOTJj
+ICgiRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nLzogVXBkYXRlIEludGVsIHdpcmVkIExBTg0KPiBk
+cml2ZXIgZG9jdW1lbnRhdGlvbiIpDQo+IEZpeGVzOiBjNGI4YzAxMTEyYTEgKCJpeGdiZXZmLnR4
+dDogVXBkYXRlIGl4Z2JldmYgZG9jdW1lbnRhdGlvbiIpDQo+IEZpeGVzOiAxZTA2ZWRjYzJmMjIg
+KCJEb2N1bWVudGF0aW9uOiBpNDBlOiBQcmVwYXJlIGRvY3VtZW50YXRpb24gZm9yIFJTVA0KPiBj
+b252ZXJzaW9uIikNCj4gRml4ZXM6IDEwNWJmMmZlNmIzMiAoImk0MGV2ZjogYWRkIGRyaXZlciB0
+byBrZXJuZWwgYnVpbGQgc3lzdGVtIikNCj4gRml4ZXM6IDFmYWU4NjliY2YzZCAoIkRvY3VtZW50
+YXRpb246IGljZTogUHJlcGFyZSBkb2N1bWVudGF0aW9uIGZvciBSU1QNCj4gY29udmVyc2lvbiIp
+DQo+IEZpeGVzOiBkZjY5YmE0MzIxN2QgKCJpb25pYzogQWRkIGJhc2ljIGZyYW1ld29yayBmb3Ig
+SU9OSUMgTmV0d29yayBkZXZpY2UNCj4gZHJpdmVyIikNCj4gU2lnbmVkLW9mZi1ieTogSm9uYXRo
+YW4gTmV1c2Now6RmZXIgPGoubmV1c2NoYWVmZXJAZ214Lm5ldD4NCj4gLS0tDQo+ICAuLi4vbmV0
+d29ya2luZy9kZXZpY2VfZHJpdmVycy9pbnRlbC9lMTAwLnJzdCAgICAgICB8IDE0ICsrKysrKyst
+LS0tLS0tDQo+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9pbnRlbC9lMTAwMC5yc3Qg
+ICAgICB8IDEyICsrKysrKy0tLS0tLQ0KPiAgLi4uL25ldHdvcmtpbmcvZGV2aWNlX2RyaXZlcnMv
+aW50ZWwvZTEwMDBlLnJzdCAgICAgfCAxNCArKysrKysrLS0tLS0tLQ0KPiAgLi4uL25ldHdvcmtp
+bmcvZGV2aWNlX2RyaXZlcnMvaW50ZWwvZm0xMGsucnN0ICAgICAgfCAxMCArKysrKy0tLS0tDQo+
+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9pbnRlbC9pNDBlLnJzdCAgICAgICB8ICA4
+ICsrKystLS0tDQo+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9pbnRlbC9pYXZmLnJz
+dCAgICAgICB8ICA4ICsrKystLS0tDQo+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9p
+bnRlbC9pY2UucnN0ICAgICAgICB8ICA2ICsrKy0tLQ0KPiAgLi4uL25ldHdvcmtpbmcvZGV2aWNl
+X2RyaXZlcnMvaW50ZWwvaWdiLnJzdCAgICAgICAgfCAxMiArKysrKystLS0tLS0NCj4gIC4uLi9u
+ZXR3b3JraW5nL2RldmljZV9kcml2ZXJzL2ludGVsL2lnYnZmLnJzdCAgICAgIHwgIDYgKysrLS0t
+DQo+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9pbnRlbC9peGdiZS5yc3QgICAgICB8
+IDEwICsrKysrLS0tLS0NCj4gIC4uLi9uZXR3b3JraW5nL2RldmljZV9kcml2ZXJzL2ludGVsL2l4
+Z2JldmYucnN0ICAgIHwgIDYgKysrLS0tDQo+ICAuLi4vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVy
+cy9wZW5zYW5kby9pb25pYy5yc3QgICB8ICA2ICsrKy0tLQ0KPiAgMTIgZmlsZXMgY2hhbmdlZCwg
+NTYgaW5zZXJ0aW9ucygrKSwgNTYgZGVsZXRpb25zKC0pDQo+IA0KDQpUZXN0ZWQtYnk6IEFhcm9u
+IEJyb3duIDxhYXJvbi5mLmJyb3duQGludGVsLmNvbT4NCg0K
