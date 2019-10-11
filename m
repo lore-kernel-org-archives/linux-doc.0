@@ -1,256 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E1B47D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 11:49:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 869AA7DC63
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 13:00:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbfJKLtZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 07:49:25 -0400
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:10896 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727226AbfJKLtZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 07:49:25 -0400
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9BBiN85028521;
-        Fri, 11 Oct 2019 07:48:35 -0400
-Received: from nam03-dm3-obe.outbound.protection.outlook.com (mail-dm3nam03lp2057.outbound.protection.outlook.com [104.47.41.57])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2ver39tu05-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Fri, 11 Oct 2019 07:48:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OaFi85JfL2MOsWSGLp3w8MxNtiI9/nDjy64mgPZtLp7AnMtXftoG6I8F8ciM6ogpNuxGYEnxQ7Ch0m5gBgdpI2t37r6Y9L//B2MkgHK2IqgRAKMqh6VJ5Xig5/diiIIch278Smu2ir46Iu10a+WQAH7OifLUEX8O2PrwVsiSKGYqDCveBKnm5hEYapSKLU3+4uJXVcSxYfLVXVgDNSgBxhrKxUrAvrZhF+8Q9yHk3wnXU2nugHzV/5mOJ4Yf4svq3on9qDOZjG9lrh91rBNZ7q1qCKzdWqlY82JELyfE7TmkjWni8abaSBrV91s+5pTmKjxygn1eyXLygf2Mu4RUAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ptwhh1fdB9ltjmKoF0JwEnEGrKsQPEmzFRwtQghpgIk=;
- b=Ls5XJr7Vt0zW6Mure88vM/9NBED+jzxe9u4Xdph8YfUYPIsC76FkU4uXwX0Cvgf2oBXEESnGZC/n76gI/50wmmclhBpM71ZUk4MqVrirIgXtPsddmTZKZ8+vWFU/GZlzrFWaL7FwS/ZyLP/KVJtxVCxzd8zsvc20U11TRJy9zNAinm29V97udgVxDJp2ZUD9ixx8HUc9uCF/X06I9KyA3Bvt09bTs8EBWGPmKnn/OYrhesoIinRA60hMq7rjZbW+GM8M/R+qlqPkrJzM5DaJsuOfcgLnPBqIpBn9wFXXV0fCCHsAnwVmamtrluogo84cuaHgu5m9RoQITPVVLEbTTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 137.71.25.55) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=analog.com;
- dmarc=bestguesspass action=none header.from=analog.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ptwhh1fdB9ltjmKoF0JwEnEGrKsQPEmzFRwtQghpgIk=;
- b=LUmic2IkeR0njldM2ljwg/zoIp1G47Ql4e2CKRbxf0nT20GMRx1k1P/ORr1dz5ijgNuhVaDjjOrMF8Gz3sbJLG9Y1zIm2cKFdT0ii+RQvajO7CALVuTEXg3XDSQF2KsHabuXr2NH9wTYQ0L53j2+cj51GNDT2Qx3x8Py9MQMQMc=
-Received: from BN8PR03CA0036.namprd03.prod.outlook.com (2603:10b6:408:94::49)
- by DM6PR03MB3417.namprd03.prod.outlook.com (2603:10b6:5:b0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2347.16; Fri, 11 Oct
- 2019 11:48:32 +0000
-Received: from SN1NAM02FT057.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e44::203) by BN8PR03CA0036.outlook.office365.com
- (2603:10b6:408:94::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2220.19 via Frontend
- Transport; Fri, 11 Oct 2019 11:48:32 +0000
-Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
- 137.71.25.55 as permitted sender) receiver=protection.outlook.com;
- client-ip=137.71.25.55; helo=nwd2mta1.analog.com;
-Received: from nwd2mta1.analog.com (137.71.25.55) by
- SN1NAM02FT057.mail.protection.outlook.com (10.152.73.105) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2347.16
- via Frontend Transport; Fri, 11 Oct 2019 11:48:31 +0000
-Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta1.analog.com (8.13.8/8.13.8) with ESMTP id x9BBmPMN011930
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Fri, 11 Oct 2019 04:48:25 -0700
-Received: from nsa.sphairon.box (10.44.3.90) by NWD2HUBCAS7.ad.analog.com
- (10.64.69.107) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 11 Oct
- 2019 07:48:30 -0400
-From:   =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-To:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 2/2] dt-bindings: hwmon: Add ltc2947 documentation
-Date:   Fri, 11 Oct 2019 13:48:53 +0200
-Message-ID: <20191011114853.159327-2-nuno.sa@analog.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191011114853.159327-1-nuno.sa@analog.com>
-References: <20191011114853.159327-1-nuno.sa@analog.com>
+        id S1728281AbfJKM74 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 08:59:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:59448 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728342AbfJKM7y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Oct 2019 08:59:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2DD1628;
+        Fri, 11 Oct 2019 05:59:54 -0700 (PDT)
+Received: from e112269-lin.cambridge.arm.com (e112269-lin.cambridge.arm.com [10.1.194.43])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A3B13F6C4;
+        Fri, 11 Oct 2019 05:59:52 -0700 (PDT)
+From:   Steven Price <steven.price@arm.com>
+To:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
+Cc:     Steven Price <steven.price@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 07/10] KVM: arm64: Provide VCPU attributes for stolen time
+Date:   Fri, 11 Oct 2019 13:59:27 +0100
+Message-Id: <20191011125930.40834-8-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191011125930.40834-1-steven.price@arm.com>
+References: <20191011125930.40834-1-steven.price@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.44.3.90]
-X-ADIRoutedOnPrem: True
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.55;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(39860400002)(136003)(346002)(396003)(376002)(189003)(199004)(476003)(47776003)(8936002)(426003)(246002)(50226002)(7636002)(7736002)(305945005)(126002)(8676002)(2616005)(486006)(86362001)(36756003)(966005)(2201001)(6306002)(50466002)(11346002)(446003)(70206006)(70586007)(45776006)(5660300002)(53416004)(186003)(316002)(478600001)(16526019)(26005)(2870700001)(3846002)(6116002)(1076003)(336012)(5820100001)(4326008)(23676004)(76176011)(356004)(106002)(110136005)(6666004)(54906003)(2906002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR03MB3417;H:nwd2mta1.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail10.analog.com;MX:1;A:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 473d8a6c-636c-4a4a-5110-08d74e40f0cb
-X-MS-TrafficTypeDiagnostic: DM6PR03MB3417:
-X-MS-Exchange-PUrlCount: 3
-X-Microsoft-Antispam-PRVS: <DM6PR03MB34174B1B5BF42BA65A18346599970@DM6PR03MB3417.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0187F3EA14
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WzF+9AVi1sUGTeUyhYrmQ01Qv1PTuaLrJmNP36ILb/9D+iUJYeYf+sIMLWTK/arKlAQt+0HiAOwfhhT2f8Z5zX+3PoHhTYfmPWJHdkKMtHLpGGauFfp4uDyNAWVCAgja1h0XjzPB2vSy2VVZssG+ufCeizdkZ9lFQblHdjc/towNeGUEC9s+sqaX+FKtGOYTG3cvCEmpxcnDMknSOvATI9JHyqMJxijO3g/AmDsJ9VLTFrIwg0mgotc/lE+jJVXR8xcr7BMklXOPwF1FS7OIwIQSY3TuBjhSFU4XNyK7uhU3Ec5YfVD8xbaiUSh55xbLrkJjmWC7VfMJV5eCZHAk8qHJ+5ou3LuaI/aUE01NSLewfQVr4TkwXs2XzZyqS2UKzpvqDbRyF0IlBemMdYi2FzKUEYKlcqJ1FY9UojZhnyUXJyHsmWvG39CajukjpDiypUJ1Ae4Nn0hq8ta4uc/90Q==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2019 11:48:31.9783
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 473d8a6c-636c-4a4a-5110-08d74e40f0cb
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.55];Helo=[nwd2mta1.analog.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB3417
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-11_08:2019-10-10,2019-10-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1910110112
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the LTC2947 device devicetree bindings.
+Allow user space to inform the KVM host where in the physical memory
+map the paravirtualized time structures should be located.
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+User space can set an attribute on the VCPU providing the IPA base
+address of the stolen time structure for that VCPU. This must be
+repeated for every VCPU in the VM.
+
+The address is given in terms of the physical address visible to
+the guest and must be 64 byte aligned. The guest will discover the
+address via a hypercall.
+
+Signed-off-by: Steven Price <steven.price@arm.com>
 ---
-Changes in v2:
- * Add license identifier;
- * Fix the uint32-array properties;
- * Set maximum at the same indent as allOf in adi,accumulation-deadband-microamp;
- * Set enum at the same indent as allOf in adi,gpio-out-pol;
- * Use spi instead of spi0 on the example;
+ arch/arm64/include/asm/kvm_host.h |  7 +++++
+ arch/arm64/include/uapi/asm/kvm.h |  2 ++
+ arch/arm64/kvm/guest.c            |  9 ++++++
+ include/uapi/linux/kvm.h          |  2 ++
+ virt/kvm/arm/pvtime.c             | 47 +++++++++++++++++++++++++++++++
+ 5 files changed, 67 insertions(+)
 
- .../bindings/hwmon/adi,ltc2947.yaml           | 104 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-
-diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-new file mode 100644
-index 000000000000..ae04903f34bf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
-@@ -0,0 +1,104 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bindings/hwmon/adi,ltc2947.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices LTC2947 high precision power and energy monitor
-+
-+maintainers:
-+  - Nuno Sá <nuno.sa@analog.com>
-+
-+description: |
-+  Analog Devices LTC2947 high precision power and energy monitor over SPI or I2C.
-+
-+  https://www.analog.com/media/en/technical-documentation/data-sheets/LTC2947.pdf
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,ltc2947
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description:
-+      The LTC2947 uses either a trimmed internal oscillator or an external clock
-+      as the time base for determining the integration period to represent time,
-+      charge and energy. When an external clock is used, this property must be
-+      set accordingly.
-+    maxItems: 1
-+
-+  adi,accumulator-ctl-pol:
-+    description:
-+      This property controls the polarity of current that is accumulated to
-+      calculate charge and energy so that, they can be only accumulated for
-+      positive current for example. Since there are two sets of registers for
-+      the accumulated values, this entry can also have two items which sets
-+      energy1/charge1 and energy2/charger2 respectively. Check table 12 of the
-+      datasheet for more information on the supported options.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32-array
-+      - minItems: 2
-+        maxItems: 2
-+        items:
-+          enum: [0, 1, 2, 3]
-+          default: 0
-+
-+  adi,accumulation-deadband-microamp:
-+    description:
-+      This property controls the Accumulation Dead band which allows to set the
-+      level of current below which no accumulation takes place.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    maximum: 255
-+    default: 0
-+
-+  adi,gpio-out-pol:
-+    description:
-+      This property controls the GPIO polarity. Setting it to one makes the GPIO
-+      active high, setting it to zero makets it active low. When this property
-+      is present, the GPIO is automatically configured as output and set to
-+      control a fan as a function of measured temperature.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1]
-+    default: 0
-+
-+  adi,gpio-in-accum:
-+    description:
-+      When set, this property sets the GPIO as input. It is then used to control
-+      the accumulation of charge, energy and time. This function can be
-+      enabled/configured separately for each of the two sets of accumulation
-+      registers. Check table 13 of the datasheet for more information on the
-+      supported options. This property cannot be used together with
-+      adi,gpio-out-pol.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32-array
-+      - minItems: 2
-+        maxItems: 2
-+        items:
-+          enum: [0, 1, 2]
-+          default: 0
-+
-+required:
-+  - compatible
-+  - reg
-+
-+
-+examples:
-+  - |
-+    spi {
-+           #address-cells = <1>;
-+           #size-cells = <0>;
-+
-+           ltc2947_spi: ltc2947@0 {
-+                   compatible = "adi,ltc2947";
-+                   reg = <0>;
-+                   /* accumulation takes place always for energ1/charge1. */
-+                   /* accumulation only on positive current for energy2/charge2. */
-+                   adi,accumulator-ctl-pol = <0 1>;
-+           };
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aed3d0de26cf..d6030fd9f887 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9637,6 +9637,7 @@ F:	drivers/hwmon/ltc2947-core.c
- F:	drivers/hwmon/ltc2947-spi.c
- F:	drivers/hwmon/ltc2947-i2c.c
- F:	drivers/hwmon/ltc2947.h
-+F:	Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 1697e63f6dd8..6af16b29a41f 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -489,6 +489,13 @@ long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
+ long kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu);
+ int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init);
  
- LTC4306 I2C MULTIPLEXER DRIVER
- M:	Michael Hennerich <michael.hennerich@analog.com>
++int kvm_arm_pvtime_set_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr);
++int kvm_arm_pvtime_get_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr);
++int kvm_arm_pvtime_has_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr);
++
+ static inline void kvm_arm_pvtime_vcpu_init(struct kvm_vcpu_arch *vcpu_arch)
+ {
+ 	vcpu_arch->steal.base = GPA_INVALID;
+diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+index 67c21f9bdbad..cff1ba12c768 100644
+--- a/arch/arm64/include/uapi/asm/kvm.h
++++ b/arch/arm64/include/uapi/asm/kvm.h
+@@ -323,6 +323,8 @@ struct kvm_vcpu_events {
+ #define KVM_ARM_VCPU_TIMER_CTRL		1
+ #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
+ #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
++#define KVM_ARM_VCPU_PVTIME_CTRL	2
++#define   KVM_ARM_VCPU_PVTIME_IPA	0
+ 
+ /* KVM_IRQ_LINE irq field index values */
+ #define KVM_ARM_IRQ_VCPU2_SHIFT		28
+diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+index dfd626447482..d3ac9d2fd405 100644
+--- a/arch/arm64/kvm/guest.c
++++ b/arch/arm64/kvm/guest.c
+@@ -858,6 +858,9 @@ int kvm_arm_vcpu_arch_set_attr(struct kvm_vcpu *vcpu,
+ 	case KVM_ARM_VCPU_TIMER_CTRL:
+ 		ret = kvm_arm_timer_set_attr(vcpu, attr);
+ 		break;
++	case KVM_ARM_VCPU_PVTIME_CTRL:
++		ret = kvm_arm_pvtime_set_attr(vcpu, attr);
++		break;
+ 	default:
+ 		ret = -ENXIO;
+ 		break;
+@@ -878,6 +881,9 @@ int kvm_arm_vcpu_arch_get_attr(struct kvm_vcpu *vcpu,
+ 	case KVM_ARM_VCPU_TIMER_CTRL:
+ 		ret = kvm_arm_timer_get_attr(vcpu, attr);
+ 		break;
++	case KVM_ARM_VCPU_PVTIME_CTRL:
++		ret = kvm_arm_pvtime_get_attr(vcpu, attr);
++		break;
+ 	default:
+ 		ret = -ENXIO;
+ 		break;
+@@ -898,6 +904,9 @@ int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
+ 	case KVM_ARM_VCPU_TIMER_CTRL:
+ 		ret = kvm_arm_timer_has_attr(vcpu, attr);
+ 		break;
++	case KVM_ARM_VCPU_PVTIME_CTRL:
++		ret = kvm_arm_pvtime_has_attr(vcpu, attr);
++		break;
+ 	default:
+ 		ret = -ENXIO;
+ 		break;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 52641d8ca9e8..a540c8357049 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1227,6 +1227,8 @@ enum kvm_device_type {
+ #define KVM_DEV_TYPE_ARM_VGIC_ITS	KVM_DEV_TYPE_ARM_VGIC_ITS
+ 	KVM_DEV_TYPE_XIVE,
+ #define KVM_DEV_TYPE_XIVE		KVM_DEV_TYPE_XIVE
++	KVM_DEV_TYPE_ARM_PV_TIME,
++#define KVM_DEV_TYPE_ARM_PV_TIME	KVM_DEV_TYPE_ARM_PV_TIME
+ 	KVM_DEV_TYPE_MAX,
+ };
+ 
+diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+index a90f1b4ebd13..9dc466861e1e 100644
+--- a/virt/kvm/arm/pvtime.c
++++ b/virt/kvm/arm/pvtime.c
+@@ -2,7 +2,9 @@
+ // Copyright (C) 2019 Arm Ltd.
+ 
+ #include <linux/arm-smccc.h>
++#include <linux/kvm_host.h>
+ 
++#include <asm/kvm_mmu.h>
+ #include <asm/pvclock-abi.h>
+ 
+ #include <kvm/arm_hypercalls.h>
+@@ -75,3 +77,48 @@ long kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+ 
+ 	return vcpu->arch.steal.base;
+ }
++
++int kvm_arm_pvtime_set_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr)
++{
++	u64 __user *user = (u64 __user *)attr->addr;
++	u64 ipa;
++
++	if (attr->attr != KVM_ARM_VCPU_PVTIME_IPA)
++		return -ENXIO;
++
++	if (get_user(ipa, user))
++		return -EFAULT;
++	if (!IS_ALIGNED(ipa, 64))
++		return -EINVAL;
++	if (vcpu->arch.steal.base != GPA_INVALID)
++		return -EEXIST;
++	vcpu->arch.steal.base = ipa;
++	return 0;
++}
++
++int kvm_arm_pvtime_get_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr)
++{
++	u64 __user *user = (u64 __user *)attr->addr;
++	u64 ipa;
++
++	if (attr->attr != KVM_ARM_VCPU_PVTIME_IPA)
++		return -ENXIO;
++
++	ipa = vcpu->arch.steal.base;
++
++	if (put_user(ipa, user))
++		return -EFAULT;
++	return 0;
++}
++
++int kvm_arm_pvtime_has_attr(struct kvm_vcpu *vcpu,
++			    struct kvm_device_attr *attr)
++{
++	switch (attr->attr) {
++	case KVM_ARM_VCPU_PVTIME_IPA:
++		return 0;
++	}
++	return -ENXIO;
++}
 -- 
-2.23.0
+2.20.1
 
