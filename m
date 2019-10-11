@@ -5,29 +5,34 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2601D7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 16:00:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ADF0C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 16:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbfJKQAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 12:00:19 -0400
-Received: from ms.lwn.net ([45.79.88.28]:39258 "EHLO ms.lwn.net"
+        id S1727984AbfJKQCZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 12:02:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:39270 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726521AbfJKQAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Oct 2019 12:00:19 -0400
+        id S1726521AbfJKQCZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Oct 2019 12:02:25 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 194AC2E6;
-        Fri, 11 Oct 2019 16:00:19 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 10:00:18 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id AA7062E6;
+        Fri, 11 Oct 2019 16:02:24 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 10:02:23 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christian Kujau <lists@nerdbynature.de>
-Cc:     Micah Morton <mortonm@chromium.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [TYPO] SafeSetID.rst: Remove spurious '???' characters
-Message-ID: <20191011100018.0e9fff37@lwn.net>
-In-Reply-To: <alpine.DEB.2.21.99999.352.1910102033050.30236@trent.utfs.org>
-References: <alpine.DEB.2.21.99999.352.1910102033050.30236@trent.utfs.org>
+To:     Dragan Cvetic <draganc@xilinx.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Derek Kiernan <dkiernan@xilinx.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs: misc: xilinx_sdfec: Actually add documentation
+Message-ID: <20191011100223.6f3eff7e@lwn.net>
+In-Reply-To: <CH2PR02MB6359973E7718EC50FE36E9C6CB970@CH2PR02MB6359.namprd02.prod.outlook.com>
+References: <201910021000.5E421A6F8F@keescook>
+        <201910101535.1804FC6@keescook>
+        <20191010163905.70a4d6e1@lwn.net>
+        <CH2PR02MB6359973E7718EC50FE36E9C6CB970@CH2PR02MB6359.namprd02.prod.outlook.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -37,28 +42,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Oct 2019 20:36:16 -0700 (PDT)
-Christian Kujau <lists@nerdbynature.de> wrote:
+On Fri, 11 Oct 2019 08:59:22 +0000
+Dragan Cvetic <draganc@xilinx.com> wrote:
 
-> While reading SafeSetID.rst I stumbled across those things. This patch 
-> removes these spurious '???' characters.
->     
-> Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+> Yes, please add the file.
 
-I've applied this, thanks.  I did take the liberty of rewriting the
-changelog to adhere to normal standards:
-
-Author: Christian Kujau <lists@nerdbynature.de>
-Date:   Thu Oct 10 20:36:16 2019 -0700
-
-    docs: SafeSetID.rst: Remove spurious '???' characters
-    
-    It appears that some smart quotes were changed to "???" by even smarter
-    software; change them to the dumb but legible variety.
-    
-    Signed-off-by: Christian Kujau <lists@nerdbynature.de>
-    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Thanks,
+OK, I've applied the patch, thanks.  I took the liberty of sticking on a
+final newline while I was at it.
 
 jon
