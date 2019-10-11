@@ -1,134 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 768957D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 19:15:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E6B887D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 19:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728977AbfJKTPh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 15:15:37 -0400
-Received: from mail-vk1-f201.google.com ([209.85.221.201]:36496 "EHLO
-        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728895AbfJKTPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 15:15:36 -0400
-Received: by mail-vk1-f201.google.com with SMTP id p63so3809982vkf.3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2019 12:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=fuET3qNc4z015mh4xj4NLz17joYOgUCh9UCVZC00VJQ=;
-        b=KtQ7RuQAgEe2d9wcSmFDcLBsRoaaxGnpESOpf/q6dteBQqfkJ6FlI7FsfVyrTIxA5z
-         xwZTZVQZlDQ7S/gzwJjZus5nZx3GJjO6hkhrkgUqORg8jTVxIt+s0y88CkAOFOTUIpRI
-         0Pzt39RFgrUq2XIP4cHJaFu8U0+NpHeQM7pfJw6eTNiKtASKlEgUMTfTY9F2RVJtnEFn
-         QFT/ef3CgPcb9DsR5oYYhAAL8hYt4W/XFs81+D/zCGDiiNyfGHoL54m7RQCMwlIb7DXR
-         P/W0KYOmCkgg16488maeLjzDGxalw2QDxZWb880tI/rMhZWrR+NypPxIgCWcm2dDL2uj
-         qDPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=fuET3qNc4z015mh4xj4NLz17joYOgUCh9UCVZC00VJQ=;
-        b=ENTKEWFfRV2/P88IOx/HFulKobxK4o8ibpdEjRCk4VHSfD+qdKzibvv1gV6g97r3Lm
-         sJ6Y22A45yAM/NIKHaEbkR+oJy6YRysxVm7gL3dMOs6lTju1Hrmdrq5wZsZvbKG75vOs
-         KPzTIsrZaTiuk+rJTor7YMyqqu+2tHltCEGelcUwZpQkWErnJpr/aR1Xv8DBbPL8lldY
-         z4+d+yM0MgdSA2ueq4JXJEWRKKXaVRBmR++oJAiyp3J2BzVgKVshSMACRE9ewBwxv5sB
-         sCk0cSywhd0HmDQ2NJSXZc2cVHwaKBtM3n8iO7+ggH08i+x4x/vE1jkGAISJ+h1IInZb
-         c20Q==
-X-Gm-Message-State: APjAAAXTAaDodcvcMGAahhuZgb0+GGo0B/rvNQ5b3wJ0GbCbyrHE5iOD
-        dRrHdOfV/RTZ31Q+lZLpwL7V95dn1FCLArM=
-X-Google-Smtp-Source: APXvYqyKbyMInaL/TiLznxFZpaDnmd4A+1ivZ+irQgGm2Xkw+CFqTG49xHbf8Z1vqOMgRdvb2xnG1jQBb3eetEU=
-X-Received: by 2002:a1f:f445:: with SMTP id s66mr9324346vkh.62.1570821335385;
- Fri, 11 Oct 2019 12:15:35 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 12:15:21 -0700
-In-Reply-To: <20191011191521.179614-1-saravanak@google.com>
-Message-Id: <20191011191521.179614-4-saravanak@google.com>
-Mime-Version: 1.0
-References: <20191011191521.179614-1-saravanak@google.com>
-X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
-Subject: [PATCH v1 3/3] docs: driver-model: Add documentation for sync_state
-From:   Saravana Kannan <saravanak@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Stephen Boyd <sboyd@kernel.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1728851AbfJKThg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 15:37:36 -0400
+Received: from smtp1.lauterbach.com ([62.154.241.196]:34163 "EHLO
+        smtp1.lauterbach.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728799AbfJKThg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 15:37:36 -0400
+Received: (qmail 24279 invoked by uid 484); 11 Oct 2019 19:37:34 -0000
+X-Qmail-Scanner-Diagnostics: from 10.2.10.40 by smtp1.lauterbach.com (envelope-from <ingo.rohloff@lauterbach.com>, uid 484) with qmail-scanner-2.11 
+ (mhr: 1.0. clamdscan: 0.99/21437. spamassassin: 3.4.0.  
+ Clear:RC:1(10.2.10.40):. 
+ Processed in 0.08584 secs); 11 Oct 2019 19:37:34 -0000
+Received: from unknown (HELO ingpc3.intern.lauterbach.com) (Authenticated_SSL:irohloff@[10.2.10.40])
+          (envelope-sender <ingo.rohloff@lauterbach.com>)
+          by smtp1.lauterbach.com (qmail-ldap-1.03) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
+          for <corbet@lwn.net>; 11 Oct 2019 19:37:33 -0000
+Date:   Fri, 11 Oct 2019 21:37:33 +0200
+From:   Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [RFC][PATCH] docs: process: Submitting a patch for a single git
+ commit.
+Message-ID: <20191011213724.63510d15@ingpc3.intern.lauterbach.com>
+In-Reply-To: <20191011112357.7c3863cd@lwn.net>
+References: <20191011163358.17667-1-ingo.rohloff@lauterbach.com>
+        <20191011112357.7c3863cd@lwn.net>
+Organization: Lauterbach GmbH
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The sync_state() driver callback was added recently, but the
-documentation was missing.  Adding it now.
+On Fri, 11 Oct 2019 11:23:57 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- .../driver-api/driver-model/driver.rst        | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+> On Fri, 11 Oct 2019 18:33:58 +0200
+> Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
+> 
+> ...
+> 
+> I think we should find a place for this kind of information, but I don't
+> think submitting-patches.rst is it.  That's meant to be a comprehensive set
+> of rules and guidelines; it's already far too long as it is.  A separate
+> document with introductory tutorials might be a good idea.
+> 
 
-diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
-index 11d281506a04..baa6a85c8287 100644
---- a/Documentation/driver-api/driver-model/driver.rst
-+++ b/Documentation/driver-api/driver-model/driver.rst
-@@ -169,6 +169,49 @@ A driver's probe() may return a negative errno value to indicate that
- the driver did not bind to this device, in which case it should have
- released all resources it allocated::
- 
-+	void (*sync_state)(struct device *dev);
-+
-+sync_state is called only once for a device. It's called when all the consumer
-+devices of the device have successfully probed. The list of consumers of the
-+device is obtained by looking at the device links connecting that device to its
-+consumer devices.
-+
-+The first attempt to call sync_state() is made during late_initcall_sync() to
-+give firmware and drivers time to link devices to each other. During the first
-+attempt at calling sync_state(), if all the consumers of the device at that
-+point in time have already probed successfully, sync_state() is called right
-+away. If there are no consumers of the device during the first attempt, that
-+too is considered as "all consumers of the device have probed" and sync_state()
-+is called right away.
-+
-+If during the first attempt at calling sync_state() for a device, there are
-+still consumers that haven't probed successfully, the sync_state() call is
-+postponed and reattempted in the future only when one or more consumers of the
-+device probe successfully. If during the reattempt, the driver core finds that
-+there are one or more consumers of the device that haven't probed yet, then
-+sync_state() call is postponed again.
-+
-+A typical use case for sync_state() is to have the kernel cleanly take over
-+management of devices from the bootloader. For example, if a device is left on
-+and at a particular hardware configuration by the bootloader, the device's
-+driver might need to keep the device in the boot configuration until all the
-+consumers of the device have probed. Once all the consumers of the device have
-+probed, the device's driver can synchronize the hardware state of the device to
-+match the aggregated software state requested by all the consumers. Hence the
-+name sync_state().
-+
-+While obvious examples of resources that can benefit from sync_state() include
-+resources such as regulator, sync_state() can also be useful for complex
-+resources like IOMMUs. For example, IOMMUs with multiple consumers (devices
-+whose addresses are remapped by the IOMMU) might need to keep their mappings
-+fixed at (or additive to) the boot configuration until all its consumers have
-+probed.
-+
-+While the typical use case for sync_state() is to have the kernel cleanly take
-+over management of devices from the bootloader, the usage of sync_state() is
-+not restricted to that. Use it whenever it makes sense to take an action after
-+all the consumers of a device have probed.
-+
- 	int 	(*remove)	(struct device *dev);
- 
- remove is called to unbind a driver from a device. This may be
--- 
-2.23.0.700.g56cf767bdb-goog
+Could you make a suggestion where to put it ?
 
+I did not really explain my intention:
+This was not intended as an introductory tutorial.
+
+The intention is to provide a "Quick Start" for people
+who know what they are doing in general, but simply do not
+have any knowledge about the particular process involved
+in submitting a Linux kernel patch.
+
+I fully expect that someone who reads this at least knows:
+
+- How to use git
+- How to modify/configure/compile/test a kernel
+- Has an idea what an SMTP server is
+- ...
+
+My personal problem was that I wanted to submit a patch.
+I have no trouble compiling Linux kernels and working with git etc.
+But I for sure did not have any idea at all how to convert a 
+git commit into a patch for submission into the Linux kernel.
+
+So the problem was only about what exactly should be send in
+which format where.
+
+I did not know about "git send-email"; I read about it somewhere.
+I tried it and got "unknown command", because it seems most 
+Linux distributions have that in a separate package.
+I was wondering if I needed an extra special version of git.
+After I found that I need to install an extra package,
+I was wondering next if I need other software too
+(like "exim" or "postfix" or "sendmail" or ...)
+
+The intended audience of this primer are people who are
+proficient with computers (they know about SMTP/MTAs/git ...)
+but simply never submitted a Linux patch before.
+
+I myself ended up sending the same patch at least three times
+and I am still slightly embarrassed.
+
+I think I actually did some small stuff on the  Linux kernel 
+20 years ago maybe ?
+Boy have things changed ;-) 
+git did not exist back then, and I do not think "Signed-off-by",
+was mentioned anywhere.
+
+with best regards
+  Ingo Rohloff
