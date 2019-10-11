@@ -3,192 +3,325 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D41947D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 17:24:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EEDFB7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 17:43:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbfJKRYA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 13:24:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:39646 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728086AbfJKRYA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Oct 2019 13:24:00 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0E6422E6;
-        Fri, 11 Oct 2019 17:23:59 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 11:23:57 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [RFC][PATCH] docs: process: Submitting a patch for a single git
- commit.
-Message-ID: <20191011112357.7c3863cd@lwn.net>
-In-Reply-To: <20191011163358.17667-1-ingo.rohloff@lauterbach.com>
-References: <20191011163358.17667-1-ingo.rohloff@lauterbach.com>
-Organization: LWN.net
+        id S1728461AbfJKRnK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 13:43:10 -0400
+Received: from smtprelay0192.hostedemail.com ([216.40.44.192]:47098 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728416AbfJKRnK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Oct 2019 13:43:10 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id A41B7181D341A;
+        Fri, 11 Oct 2019 17:43:08 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: cause95_7231ee8247c49
+X-Filterd-Recvd-Size: 9632
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf10.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 11 Oct 2019 17:43:04 +0000 (UTC)
+Message-ID: <9fe980f7e28242c2835ffae34914c5f68e8268a7.camel@perches.com>
+Subject: Re: [PATCH 0/4] treewide: Add 'fallthrough' pseudo-keyword
+From:   Joe Perches <joe@perches.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-sctp@vger.kernel.org,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Shawn Landden <shawn@git.icu>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Miller <davem@davemloft.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>
+Date:   Fri, 11 Oct 2019 10:43:03 -0700
+In-Reply-To: <CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com>
+References: <cover.1570292505.git.joe@perches.com>
+         <CAHk-=whOF8heTGz5tfzYUBp_UQQzSWNJ_50M7-ECXkfFRDQWFA@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Oct 2019 18:33:58 +0200
-Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
-
-> A short primer how to submit a single git commit as a patch via
-> e-mail using git send-email.
+On Fri, 2019-10-11 at 09:29 -0700, Linus Torvalds wrote:
+> On Sat, Oct 5, 2019 at 9:46 AM Joe Perches <joe@perches.com> wrote:
+> > Add 'fallthrough' pseudo-keyword to enable the removal of comments
+> > like '/* fallthrough */'.
 > 
-> Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-> ---
+> I applied patches 1-3 to my tree just to make it easier for people to
+> start doing this. Maybe some people want to do the conversion on their
+> own subsystem rather than with a global script, but even if not, this
+> looks better as a "prepare for the future" series and I feel that if
+> we're doing the "fallthrough" thing eventually, the sooner we do the
+> prepwork the better.
 > 
-> Notes:
->     I just went through this process and did a lot of mistakes,
->     because I was confused how git commits translate to patches via e-mail.
->     
->     So I thought maybe writing down a very small primer how to submit
->     a single git commit via e-mail employing "git send-email" might
->     be a good idea.
->     
->     I probably still have no clue how to do that correctly; so the primer
->     might have wrong information. Additionally I am not an English native
->     speaker so the language might be less than optimal.
->     
->     What do you think ?
-> 
->  Documentation/process/submitting-patches.rst | 63 ++++++++++++++++++++
->  1 file changed, 63 insertions(+)
+> I'm a tiny bit worried that the actual conversion is just going to
+> cause lots of pain for the stable people, but I'll not worry about it
+> _too_ much. If the stable people decide that it's too painful for them
+> to deal with the comment vs keyword model, they may want to backport
+> these three patches too.
 
-I think we should find a place for this kind of information, but I don't
-think submitting-patches.rst is it.  That's meant to be a comprehensive set
-of rules and guidelines; it's already far too long as it is.  A separate
-document with introductory tutorials might be a good idea.
+Shouldn't a conversion script be public somewhere?
+The old cvt_style script could be reduced to something like the below.
 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index fb56297f70dc..b00518584810 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -24,6 +24,8 @@ of the mechanical work done for you, though you'll still need to prepare
->  and document a sensible set of patches.  In general, use of ``git`` will make
->  your life as a kernel developer easier.
->  
-> +.. _get_source_tree:
-> +
->  0) Obtain a current source tree
->  -------------------------------
->  
-> @@ -836,6 +838,67 @@ command like this will do the trick::
->  
->    git request-pull master git://my.public.tree/linux.git my-signed-tag
->  
-> +17) A simple use case: Submitting a single git commit with ``git send-email``
-> +-----------------------------------------------------------------------------
-> +
-> +The scenario:
-> +You have a small code modification which sensibly fits into
-> +a single commit. You want to get this modification into the kernel.
-> +
-> +Assumptions:
-> + - You are running a not too old Linux installation.
+From: Joe Perches <joe@perches.com>
+Date: Fri, 11 Oct 2019 10:34:04 -0700
+Subject: [PATCH] scripts:cvt_fallthrough.pl: Add script to convert /* fallthrough */ comments
 
-What's "not too old"?  A reader who needs documentation at this level will
-not have an answer to that question.
+Convert /* fallthrough */ style comments to the pseudo-keyword fallthrough;
+to allow clang 10 and higher to work at finding missing fallthroughs too.
 
-> + - You have ``git`` installed.
-> + - You have the tools for ``git send-email`` installed.
-> +   It seems many Linux distributions deliver this set of tools in a
-> +   separate package. So make sure you have the appropriate package installed.
-> +   ``git send-email`` is able to directly talk to an SMTP server; so you
-> +   do not need a local mail transport agent or similar.
-> + - You have configured ``git send-email``.
+Requires a git repository and this overwrites the input sources.
 
-This, too, will not be helpful to somebody needing this kind of
-documentation.  We should actually tell them how to do this configuration. 
+Run with a path like:
 
-> +   You might set the properties describing how you would like to send e-mail
-> +   via SMTP with the appropriate ``git config`` commands.
-> +   In particular you might need to set the properties:
-> +   ``sendemail.smtpserver``, ``sendemail.smtpserverport``, ``sendemail.smtpuser``,
-> +   ``sendemail.smtpencryption``, ``sendemail.smtppass``
+    ./scripts/cvt_fallthrough.pl block
 
-This is a start, but many readers at this level won't really know what this
-means.  
+and all files in the path will be converted or a specific file like:
 
-> +Process:
-> + - Clone the kernel source tree; see :ref:`get_source_tree`
-> + - Use ``git config`` to configure the user name and e-mail address for yourself.
+   ./scripts/cvt_fallthrough.pl drivers/net/wireless/zydas/zd1201.c
 
-Examples are good for this kind of thing.
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ scripts/cvt_fallthrough.pl | 201 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 201 insertions(+)
+ create mode 100755 scripts/cvt_fallthrough.pl
 
-Also, watch your line lengths; there's no reason to go over 80 columns for
-this kind of text.  You tell people to run checkpatch but didn't do it :)
+diff --git a/scripts/cvt_fallthrough.pl b/scripts/cvt_fallthrough.pl
+new file mode 100755
+index 000000000000..013379464f86
+--- /dev/null
++++ b/scripts/cvt_fallthrough.pl
+@@ -0,0 +1,201 @@
++#!/usr/bin/perl -w
++
++# script to modify /* fallthrough */ style comments to fallthrough;
++# use: perl cvt_fallthrough.pl <paths|files>
++# e.g.: perl cvtfallthrough.pl drivers/net/ethernet/intel
++
++use strict;
++
++my $P = $0;
++my $modified = 0;
++my $quiet = 0;
++
++sub expand_tabs {
++    my ($str) = @_;
++
++    my $res = '';
++    my $n = 0;
++    for my $c (split(//, $str)) {
++	if ($c eq "\t") {
++	    $res .= ' ';
++	    $n++;
++	    for (; ($n % 8) != 0; $n++) {
++		$res .= ' ';
++	    }
++	    next;
++	}
++	$res .= $c;
++	$n++;
++    }
++
++    return $res;
++}
++
++my $args = join(" ", @ARGV);
++my $output = `git ls-files -- $args`;
++my @files = split("\n", $output);
++
++foreach my $file (@files) {
++    my $f;
++    my $cvt = 0;
++    my $text;
++
++# read the file
++
++    next if ((-d $file));
++
++    open($f, '<', $file)
++	or die "$P: Can't open $file for read\n";
++    $text = do { local($/) ; <$f> };
++    close($f);
++
++    next if ($text eq "");
++
++    # for style:
++
++    # /* <fallthrough comment> */
++    # case FOO:
++
++    # while (comment has fallthrough and next non-blank, non-continuation line is (case or default:)) {
++    #   remove newline, whitespace before, fallthrough comment and whitespace after
++    #   insert newline, adjusted spacing and fallthrough; newline
++    # }
++
++    my $count = 0;
++    my @fallthroughs = (
++	'fallthrough',
++	'@fallthrough@',
++	'lint -fallthrough[ \t]*',
++	'[ \t.!]*(?:ELSE,? |INTENTIONAL(?:LY)? )?',
++	'intentional(?:ly)?[ \t]*fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)',
++	'(?:else,?\s*)?FALL(?:S | |-)?THR(?:OUGH|U|EW)[ \t.!]*(?:-[^\n\r]*)?',
++	'[ \t.!]*(?:Else,? |Intentional(?:ly)? )?',
++	'Fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
++	'[ \t.!]*(?:[Ee]lse,? |[Ii]ntentional(?:ly)? )?',
++	'fall(?:s | |-)?thr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
++    );
++    do {
++	$count = 0;
++	pos($text) = 0;
++	foreach my $ft (@fallthroughs) {
++	    my $regex = '(((?:[ \t]*\n)*[ \t]*)(/\*\s*(?!\*/)?\b' . "$ft" . '\s*(?!\*/)?\*/(?:[ \t]*\n)*)([ \t]*))(?:case\s+|default\s*:)';
++
++	    while ($text =~ m{${regex}}i) {
++		my $all_but_case = $1;
++		my $space_before = $2;
++		my $fallthrough = $3;
++		my $space_after = $4;
++		my $pos_before = $-[1];
++		my $pos_after = $+[3];
++
++		# try to maintain any additional comment on the same line
++		my $comment = "";
++		if ($regex =~ /\\r/) {
++		    $comment = $fallthrough;
++		    $comment =~ s@^/\*\s*@@;
++		    $comment =~ s@\s*\*/\s*$@@;
++		    $comment =~ s@^\s*(?:intentional(?:ly)?\s+|else,?\s*)?fall[s\-]*\s*thr(?:ough|u|ew)[\s\.\-]*@@i;
++		    $comment =~ s@\s+$@@;
++		    $comment =~ s@\.*$@@;
++		    $comment = "\t/* $comment */" if ($comment ne "");
++		}
++		substr($text, $pos_before, $pos_after - $pos_before, "");
++		substr($text, $pos_before, 0, "\n${space_after}\tfallthrough;${comment}\n");
++		pos($text) = $pos_before;
++		$count++;
++	    }
++	}
++	$cvt += $count;
++        } while ($count > 0);
++
++    # Reset the fallthroughs types to a single regex
++
++    @fallthroughs = (
++	'fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)'
++    );
++
++    # Convert the // <fallthrough> style comments followed by case/default:
++
++    do {
++	$count = 0;
++	pos($text) = 0;
++	foreach my $ft (@fallthroughs) {
++	    my $regex = '(((?:[ \t]*\n)*[ \t]*)(//[ \t]*(?!\n)?\b' . "$ft" . '[ \t]*(?!\n)?\n(?:[ \t]*\n)*)([ \t]*))(?:case\s+|default\s*:)';
++	    while ($text =~ m{${regex}}i) {
++		my $all_but_case = $1;
++		my $space_before = $2;
++		my $fallthrough = $3;
++		my $space_after = $4;
++		my $pos_before = $-[1];
++		my $pos_after = $+[3];
++
++		substr($text, $pos_before, $pos_after - $pos_before, "");
++		substr($text, $pos_before, 0, "\n${space_after}\tfallthrough;\n");
++		pos($text) = $pos_before;
++		$count++;
++	    }
++	}
++	$cvt += $count;
++    } while ($count > 0);
++
++    # Convert /* fallthrough */ comment macro lines with trailing \
++
++    do {
++	$count = 0;
++	pos($text) = 0;
++	foreach my $ft (@fallthroughs) {
++	    my $regex = '((?:[ \t]*\\\\\n)*([ \t]*)(/\*[ \t]*\b' . "$ft" . '[ \t]*\*/)([ \t]*))\\\\\n*([ \t]*(?:case\s+|default\s*:))';
++
++	    while ($text =~ m{${regex}}i) {
++		my $all_but_case = $1;
++		my $space_before = $2;
++		my $fallthrough = $3;
++		my $space_after = $4;
++		my $pos_before = $-[2];
++		my $pos_after = $+[4];
++
++		my $oldline = "${space_before}${fallthrough}${space_after}";
++		my $len = length(expand_tabs($oldline));
++
++		my $newline = "${space_before}fallthrough;${space_after}";
++		$newline .= "\t" while (length(expand_tabs($newline)) < $len);
++
++		substr($text, $pos_before, $pos_after - $pos_before, "");
++		substr($text, $pos_before, 0, "$newline");
++		pos($text) = $pos_before;
++		$count++;
++	    }
++	}
++	$cvt += $count;
++    } while ($count > 0);
++
++# write the file if something was changed
++
++    if ($cvt > 0) {
++	$modified = 1;
++
++	open($f, '>', $file)
++	    or die "$P: Can't open $file for write\n";
++	print $f $text;
++	close($f);
++
++	print "fallthroughs: $cvt	$file\n" if (!$quiet);
++    }
++}
++
++if ($modified && !$quiet) {
++    print <<EOT;
++
++Warning: these changes may not be correct.
++
++These changes should be carefully reviewed manually and not combined with
++any functional changes.
++
++Compile, build and test your changes.
++
++You should understand and be responsible for all object changes.
++
++Make sure you read Documentation/SubmittingPatches before sending
++any changes to reviewers, maintainers or mailing lists.
++EOT
++}
+-- 
+2.15.0
 
-> + - Create and checkout a git branch to work on your code modification. Use: ``git checkout -b <branch name>``
-> + - Modify the code.
-> + - Commit your code to your local git repository into your local branch with a single commit.
-> +   Your commit message should start with a single line: ``<subsystem>: <summary phrase>``.
-> +   The rest of the commit message should follow :ref:`describe_changes`
 
-So much of this would work better with an example.
 
-> + - Test your changes; they must compile and hopefully fix a problem.
 
-"hopefully"?
-
-Honestly, you probably want to test your changes before you start
-committing things and writing changelogs.
-
-> +   If there are problems, modify your commit.
-> +   Use ``git commit --amend`` to modify your commit.
-
-...again...  why would you commit untested changes?
-
-> + - You are now ready to generate a patch file suitable for sending via e-mail. Use::
-> +
-> +	git format-patch -1 -s
-> +
-> +   This command should create a patch file, which is close to what you need
-> +   to send via e-mail.
-> +   This command also adds a "Signed-off-by:" line; see :ref:`the_canonical_patch_format`
-
-Normally one adds the signoff when committing.
-
-> + - Verify that your patch matches the required style::
-> +
-> +	./scripts/checkpatch.pl <patch file>
-> +
-> +   If there are problems, modify your commit and subsequently your e-mail patch.
-> + - Test if you are able to send the patch to yourself::
-> +
-> +	git send-email --to=<your email address> <patch file>
-> +
-> + - If sending the e-mail to yourself worked, inspect the e-mail you have received
-> +   and check if it adheres to :ref:`the_canonical_patch_format`.
-
-This is late to be sure you have your changelog formatted correctly.
-
-It can be good advice to tell people to ensure that the patch can be
-applied.  git send-email shouldn't corrupt patches, though.
-
-> + - Find out to which people the e-mail should be send::
-> +
-> +	./scripts/get_maintainer.pl <patch file>
-> +
-> +   In general send the e-mail to the appropriate maintainer and put relevant
-> +   mailing lists on CC.
-> + - Finally send the patch e-mail with::
-> +
-> +	git send-email --to=<maintainer> --cc=<mailing list 1> --cc=<mailing list 2> ...
-> +
->  
->  References
->  ----------
-
-Thanks for working to improve our documentation!  I think there can be
-value in something like this, once it gets into shape.
-
-jon
