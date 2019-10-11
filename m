@@ -5,66 +5,102 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEA2F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 14:30:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 940747D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Oct 2019 14:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728303AbfJKOau (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Oct 2019 10:30:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38840 "EHLO ms.lwn.net"
+        id S1728232AbfJKObR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Oct 2019 10:31:17 -0400
+Received: from foss.arm.com ([217.140.110.172]:34216 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728232AbfJKOau (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Oct 2019 10:30:50 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 426DA740;
-        Fri, 11 Oct 2019 14:30:49 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 08:30:48 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>
-Cc:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Subject: Re: [PATCH v2 1/2] hwmon: Add support for ltc2947
-Message-ID: <20191011083048.4fa39734@lwn.net>
-In-Reply-To: <20191011114853.159327-1-nuno.sa@analog.com>
-References: <20191011114853.159327-1-nuno.sa@analog.com>
-Organization: LWN.net
+        id S1728123AbfJKObR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Oct 2019 10:31:17 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32979142F;
+        Fri, 11 Oct 2019 07:31:16 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.49])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDA823F68E;
+        Fri, 11 Oct 2019 07:31:14 -0700 (PDT)
+Date:   Fri, 11 Oct 2019 15:31:12 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Ionela Voinescu <ionela.voinescu@arm.com>
+Cc:     will@kernel.org, maz@kernel.org, corbet@lwn.net,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH 1/4] arm64: add support for the AMU extension v1
+Message-ID: <20191011143112.GB3607@arrakis.emea.arm.com>
+References: <20190917134228.5369-1-ionela.voinescu@arm.com>
+ <20190917134228.5369-2-ionela.voinescu@arm.com>
+ <20191010172058.GD40923@arrakis.emea.arm.com>
+ <4e82e891-1d47-7a4f-abc9-e6bf2cce7f91@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4e82e891-1d47-7a4f-abc9-e6bf2cce7f91@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Oct 2019 13:48:52 +0200
-Nuno Sá <nuno.sa@analog.com> wrote:
-
-> The ltc2947 is a high precision power and energy monitor with an
-> internal sense resistor supporting up to +/- 30A. Three internal no
-> Latency ADCs ensure accurate measurement of voltage and current, while
-> high-bandwidth analog multiplication of voltage and current provides
-> accurate power measurement in a wide range of applications. Internal or
-> external clocking options enable precise charge and energy measurements.
+On Fri, Oct 11, 2019 at 11:31:40AM +0100, Ionela Voinescu wrote:
+> On 10/10/2019 18:20, Catalin Marinas wrote:
+> > On Tue, Sep 17, 2019 at 02:42:25PM +0100, Ionela Voinescu wrote:
+> >> +#ifdef CONFIG_ARM64_AMU_EXTN
+> >> +
+> >> +/*
+> >> + * This per cpu variable only signals that the CPU implementation supports the
+> >> + * AMU but does not provide information regarding all the events that it
+> >> + * supports.
+> >> + * When this amu_feat per CPU variable is true, the user of this feature can
+> >> + * only rely on the presence of the 4 fixed counters. But this does not
+> >> + * guarantee that the counters are enabled or access to these counters is
+> >> + * provided by code executed at higher exception levels.
+> >> + */
+> >> +DEFINE_PER_CPU(bool, amu_feat) = false;
+> >> +
+> >> +static void cpu_amu_enable(struct arm64_cpu_capabilities const *cap)
+> >> +{
+> >> +	if (has_cpuid_feature(cap, SCOPE_LOCAL_CPU)) {
+> >> +		pr_info("detected CPU%d: Activity Monitors extension\n",
+> >> +			smp_processor_id());
+> >> +		this_cpu_write(amu_feat, true);
+> >> +	}
+> >> +}
+> > 
+> > Sorry if I missed anything as I just skimmed through this series. I
+> > can't see the amu_feat used anywhere in these patches, so on its own it
+> > doesn't make much sense.
 > 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> No worries, you are correct, at the moment the per-cpu amu_feat is not
+> yet used anywhere. But the intention is to use it to discover the
+> feature at CPU level as some CPUs might implement AMU and some might
+> not.
+> 
+> I'll soon submit some patches using the counters for the scheduler's
+> frequency invariance - to discover the frequency the CPUs are actually
+> running at in case there is power or thermal mitigation happening
+> outside of the OS.
 
-[...]
+Thanks for the explanation. I guess I'll wait for the other patches to
+see how all fits together. In general I'm not keen on per-CPU variables
+exposed to the rest of the kernel. For example, is it always read in a
+non-preemptible context? I'd rather have an accessor function with the
+corresponding WARN_ON_ONCE(preemptible()). This may come with the rest
+of the patches.
 
-> diff --git a/Documentation/hwmon/ltc2947.rst b/Documentation/hwmon/ltc2947.rst
-> new file mode 100644
-> index 000000000000..05df19775fb3
-> --- /dev/null
-> +++ b/Documentation/hwmon/ltc2947.rst
+> More practically, it's possible that we'll see big.LITTLE platforms
+> where the big CPUs only will implement activity monitors and for those
+> CPUs it will be useful to get more accurate information on the current
+> frequency, for example, as power and thermal mitigation is more
+> probable to happen in the power domain of the big CPUs.
 
-So this file has a .rst extension, but it's not actually a restructured
-text file.  It will add a bunch of warnings during the docs build.  The
-good news is that fixing it up will not be hard; see Documention/doc-guide
-if need be.
+As long as that's a realistic possibility (not just a theoretical one)
+and the in-kernel code can handle such asymmetry, it's fine by me. This
+could be another reason to never expose the AMU counters to user-space
+or guests. You can control preemption in the kernel but can't run
+user-space in a non-preemptible context.
 
-Thanks,
-
-jon
+-- 
+Catalin
