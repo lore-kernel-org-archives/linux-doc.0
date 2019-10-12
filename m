@@ -4,154 +4,191 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D7007D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 12 Oct 2019 16:49:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 48E937D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 12 Oct 2019 17:11:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbfJLQt1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 12 Oct 2019 12:49:27 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37850 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727939AbfJLQr1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Oct 2019 12:47:27 -0400
-Received: by mail-lj1-f194.google.com with SMTP id l21so12721503lje.4;
-        Sat, 12 Oct 2019 09:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kTdwaQRFbVDfnq6Vp7P5rNxyn+Gdc8czzlvvQmZ0VSI=;
-        b=DJXe9U+AGX38FLHtt6vYKdx7ASWCzQtyiU6n+qy+eeO6ja8n9vNSRfVXDzvJHI+URJ
-         I1mvYPkx3nqQ1SwJ6v7JvK5fHg+sLGyPsU+EaZrH5Wf6PeSuy0XKMTis+7jno5azoyzx
-         dQ8R8LOMxZ1BOWdgLCknISPJ+peJ8Z1pliG+o4AfE0DUUa3I2LZE8nWVJLsp/Rnfw6zY
-         BqD5JIqV1q1fRPPT4yoaIiXiHF5tD7b5pucZf7ZsrE6naBDPJ4qsHlIHsTXoFLSlgYJ5
-         Pg1SAUDz3pIObEkY9bZ+vA9fPxk4WM3jZCkI3k+izF5GtpTkqUQNb5iQiKHXMonUy7cT
-         llyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kTdwaQRFbVDfnq6Vp7P5rNxyn+Gdc8czzlvvQmZ0VSI=;
-        b=dl+yj2kRjqmXK7OhD9TL63vVE4HY8pwuyQhWIkA2PhYd4b6+rPBbM+2YMN3IMpNunE
-         luI6MgRU1TpgT/mD5XUnwG0ZomndEWUcR+2cWf0tmXfqZQwZqAHgj70NpC1E+/OYEShJ
-         klaqPqdeUevHzqboTKDgL1NmzyREO61UIVaZC3m2sKTPLIlz4F284d3qsGuTE57qUaip
-         LU55RQyvjC+NhMkSwdZ/c1XRO7SDQ56zIhvQaTCSUevOQNF8ZLb99OgB2dU4G0E889dS
-         dgpJ+kznhfoOdqnwJ4QKakUO6B1x9ngCiCayZQXNvl7NDTT9abDmbfajlJJnDfQ3li6u
-         GTEQ==
-X-Gm-Message-State: APjAAAWuXdTbaagipIRLcdefwi8cSu1vjzQDvgbiDGvbXxRBuq24V7R3
-        c2oaHestCwaCV64D5lLFsK/z3w04t4e69PTrG0o=
-X-Google-Smtp-Source: APXvYqytWqgymdiivUJ/+B+1mAYTxE7q3PWRAwhgIxF95zAF6rIFK+7ARiU54oWtrOMIA/CM4BpCPDsftWyf+ZabdXY=
-X-Received: by 2002:a2e:b17b:: with SMTP id a27mr12563632ljm.243.1570898844575;
- Sat, 12 Oct 2019 09:47:24 -0700 (PDT)
+        id S1729437AbfJLRLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 12 Oct 2019 13:11:43 -0400
+Received: from mout.gmx.net ([212.227.15.15]:54471 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729069AbfJLRLn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 12 Oct 2019 13:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1570900286;
+        bh=Uz2pP5hTF599V0iyIbkgS2qh4IzWWNUk/fRR8WwX2H4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=R/fz1DxnVZV0/WJDRE1tCfl2+PKDAFB48F4EAN/imrZ0EU6gAhPu3egDQ9Pf3Evm1
+         B9H1y0euYzFTkQFdtuEFOIKk5OTdXeOUGX2WjYHETw+Gwhb+gzRswx/B6vPhxYjKil
+         rikj3ef99sRnnZvJw0zMqv3h2DefVF29+LYYGtVU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([213.196.244.109]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mplc7-1hjUvI3Tkz-00qDFZ; Sat, 12
+ Oct 2019 19:11:25 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Shobhit Kukreti <shobhitkukreti@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH RFC 1/4] docs: admin-guide: Sort the "unordered guides" to avoid merge conflicts
+Date:   Sat, 12 Oct 2019 19:11:09 +0200
+Message-Id: <20191012171114.6589-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1570695134-660-1-git-send-email-magnus.karlsson@intel.com>
-In-Reply-To: <1570695134-660-1-git-send-email-magnus.karlsson@intel.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Sat, 12 Oct 2019 09:47:12 -0700
-Message-ID: <CAADnVQ+R3S1OpRahy78hR2hDfxaWX=peSwturK9hCeP_+9yBbQ@mail.gmail.com>
-Subject: Re: [PATCH bpf] xsk: improve documentation for AF_XDP
-To:     Magnus Karlsson <magnus.karlsson@intel.com>
-Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Network Development <netdev@vger.kernel.org>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5B34xg+6308ya7WPHDCaXqtJ8xGXo98JxaTSCcGd78rRDNlfA2S
+ b3B2/5ic+4m87a83vVcTwUedCy33Y4I6iQPXbrhNigLS3IWxQyxGvHN6XUtPGfq7cr8xwDo
+ 0sFDDLYZv8cJ5EqvHChiY3bFpiM33AGpRHqnSbgH67+lLHojaE4XQLMH6BnDx1/RTv8n2Ek
+ RDBNYIIWTMJj99n46ru8g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5HByb3ZDp1E=:k08/BnDMmpK0zJYQ62e57h
+ VEBseg4VmzEUiwvnrAYX08k9zI64wn8UhkKmt1nza7lsAvhghCLxV7QiP7RtP6HvzwfRkyvru
+ NqhUEvVk+MJbGIfJJtFTubecx0AtG8QN+SiwRdBD7T+fZ1TAHbnnTEZTA0aQL86Oc6BxqlAy0
+ 3Ti3smwOYtmh12yLTolutBuFyMdbJZ7SGD5aayRLbVprxSgng3UIZcBDvZF2KIK9OhVrz5Uix
+ MZNP8Nd7hRhwcimIjh+ri5Qt6+gC5mUjQJmgeynj4zQ1oh1o/WvJA019gaUdmmRVDHAzlQhtX
+ 5QdQ3XtbsqCJVhmpPLiShCLXxCOcgM6yWrT9LRuenGqQoGd2FTrKhG0o0A8GHo+BAEF+TO0vO
+ 30Z9F4Dy6w3O8MCvSi6tEFXg1pdeK53HcKC4/UtUJlaj/0QIVWu9rc7lO6h4IVE0WrLIO+NoF
+ ZrkwVDPOos0NAmSOeQ3z44PtbYcTm5W/cZXCx8kC5vKmw1gK9FLPqNkKK8F+KHvpNAJIPCXAW
+ Jgm1c3rHSWfuY9FSy3lxFYXbD8iS4CzvzQs/q8ZYGnNNU0RuhbHZnI3LHDiFP6Dah3QvT58PY
+ /mpf8rAA/xvq677a9Q1M3CfaEYX/U8i48h7CtnTgoz7VW04chbAtYxcNwMrkxpyhzZAoH6nWJ
+ vbeQNArTn6FQWB1PuMy0nJk8DEyHOwE7oL7ty+1ju4HyHyJU9dDHIjyKWmevR12PIRRpw5CGe
+ 1rG9+0BSsSwlHii6e13gyDlSr94abjz8O9t2OJEIvy7TFdtwpSa7siJgwXfBb7+dZq0LAlMeU
+ lZVqFUWTJmkwS+YPx6q7p0tFgjiR64Y0yNqe0W3IlHovKYCWkIuhNxmpW892sA8r9dHLEm7xO
+ vFpnS/zDweEiVv4gul67VZKAqssouTsaHj8NV8NiMCLYnxVnYLJhAPsD+zhYj5m56P4WpgNEp
+ gdSmbWI+HMxASjc5D7SOpBrBI9BccJbUnUw/tTcjLpu+J6qUBeDzIZNBAQHYX7LMw8Ey2sAml
+ VuBZApRtNcZDQq18TD3yTwk+6xHoTD3KNamfvKmcnzhL0OuVVpSP4clyPmMGGuSGzJ2pAuzGu
+ Bm6y12E6XSoNYhzAQ2ijcrxWAVrhUM4GaFUwu+vJ3kFYWQocx1dKnXdDgC2hEsW7PqlOlMBc0
+ jDe32vlcfHjwuyRmq58FZZ9cnRQZW13876sOIz8zg1m9h4OefRW/gAPBq2baiarsycoqbdL1o
+ EkOiz19+NDOJNJkLUoukd1iNNhwr5bKRhaGbhNM1LRyhiHSrRFlb0Fx3AvWI=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 1:12 AM Magnus Karlsson
-<magnus.karlsson@intel.com> wrote:
->
-> Added sections on all the bind flags, libbpf, all the setsockopts and
-> all the getsockopts. Also updated the document to reflect the latest
-> features and to correct some spelling errors.
->
-> Signed-off-by: Magnus Karlsson <magnus.karlsson@intel.com>
+Since the "unordered guides" linked in admin-guide/index.rst are not
+supposed to be in any particular order, let's sort them alphabetically
+to avoid the risk of merge conflicts by spreading newly added lines more
+evenly.
 
-thanks for the update. Overall looks good.
-Few nits below:
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
 
-> +What socket will then a packet arrive on? This is decided by the XDP
-> +program. Put all the sockets in the XSK_MAP and just indicate which
-> +index in the array you would like to send each packet to. A simple
-> +round-robin example of distributing packets is shown below:
-> +
-> +.. code-block:: c
-> +
-> +   #define KBUILD_MODNAME "af_xdp_example"
+Upon a second look, I noticed that the list wasn't completely unordered:
+binfmt-misc is grouped with java and mono, the filesystems are grouped
+together.
 
-what is this for?
-It's not a kernel module.
+For the filesystems, I think they should be moved to the filesystems/
+directory, and the binfmt documents could perhaps be explicitly grouped
+too. But perhaps the loss of this grouping-by-position is reason enough
+to drop this patch for now.
+=2D--
+ Documentation/admin-guide/index.rst | 64 ++++++++++++++---------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-> +   #include <uapi/linux/bpf.h>
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gui=
+de/index.rst
+index 34cc20ee7f3a..545ea26364b7 100644
+=2D-- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -57,60 +57,60 @@ configure specific aspects of kernel behavior to your =
+liking.
+ .. toctree::
+    :maxdepth: 1
 
-why 'uapi' ? It should use only user space headers.
+-   initrd
+-   cgroup-v2
+-   cgroup-v1/index
+-   serial-console
+-   braille-console
+-   parport
+-   md
+-   module-signing
+-   rapidio
+-   sysrq
+-   unicode
+-   vga-softcursor
+-   binfmt-misc
+-   mono
+-   java
+-   ras
+-   bcache
+-   blockdev/index
+-   ext4
+-   binderfs
+-   cifs/index
+-   xfs
+-   jfs
+-   ufs
+-   pm/index
+-   thunderbolt
+-   LSM/index
+-   mm/index
+-   namespaces/index
+-   perf-security
+    acpi/index
+    aoe/index
++   auxdisplay/index
++   bcache
++   binderfs
++   binfmt-misc
++   blockdev/index
++   braille-console
+    btmrvl
++   cgroup-v1/index
++   cgroup-v2
++   cifs/index
+    clearing-warn-once
+    cpu-load
+    cputopology
+    device-mapper/index
+    efi-stub
++   ext4
+    gpio/index
+    highuid
+    hw_random
++   initrd
+    iostats
++   java
++   jfs
+    kernel-per-CPU-kthreads
+    laptops/index
+-   auxdisplay/index
+    lcd-panel-cgram
+    ldm
+    lockup-watchdogs
++   LSM/index
++   md
++   mm/index
++   module-signing
++   mono
++   namespaces/index
+    numastat
++   parport
++   perf-security
++   pm/index
+    pnp
++   rapidio
++   ras
+    rtc
++   serial-console
+    svga
+-   wimax/index
++   sysrq
++   thunderbolt
++   ufs
++   unicode
++   vga-softcursor
+    video-output
++   wimax/index
++   xfs
 
-> +   #include "bpf_helpers.h"
-> +
-> +   #define MAX_SOCKS 16
-> +
-> +   struct bpf_map_def SEC("maps") xsks_map = {
-> +         .type = BPF_MAP_TYPE_XSKMAP,
-> +         .key_size = sizeof(int),
-> +         .value_size = sizeof(int),
-> +         .max_entries = MAX_SOCKS,
-> +   };
+ .. only::  subproject and html
 
-Could you switch to BTF defined maps?
-libbpf will forever support old style as well,
-but documentation should point to the latest.
+=2D-
+2.20.1
 
-> +
-> +   struct bpf_map_def SEC("maps") rr_map = {
-> +         .type = BPF_MAP_TYPE_PERCPU_ARRAY,
-> +         .key_size = sizeof(int),
-> +         .value_size = sizeof(unsigned int),
-> +         .max_entries = 1,
-> +   };
-> +
-> +   SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
-> +   {
-> +       int key = 0, idx;
-> +       unsigned int *rr;
-> +
-> +       rr = bpf_map_lookup_elem(&rr_map, &key);
-> +       if (!rr)
-> +          return XDP_ABORTED;
-> +
-> +       *rr = (*rr + 1) & (MAX_SOCKS - 1);
-> +       idx = *rr;
-> +
-> +       return bpf_redirect_map(&xsks_map, idx, 0);
-> +   }
-> +
-> +   char _license[] SEC("license") = "GPL";
-
-Above sample doesn't use gpl-only helpers. Why add above line?
-
-> +.. code-block:: c
-> +
-> +   if (xsk_ring_prod__needs_wakeup(&my_tx_ring))
-> +      sendto(xsk_socket__fd(xsk_handle), NULL, 0, MSG_DONTWAIT, NULL, 0);
-> +
-> +I.e., only use the syscall if the flag is set.
-> +
-> +We recommend that you always enable this mode as it can lead to
-> +magnitudes better performance if you run the application and the
-> +driver on the same core and somewhat better performance even if you
-> +use different cores for the application and the kernel driver, as it
-> +reduces the number of syscalls needed for the TX path.
-
-"magnitudes better performance"? Is it really at least 20 times better?
-
-> -Naive ring dequeue and enqueue could look like this::
-> +Naive ring dequeue and enqueue could look like this:
-
-lol. That's a good typo.
