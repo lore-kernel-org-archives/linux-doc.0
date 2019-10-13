@@ -1,172 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D97747D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Oct 2019 06:23:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ADCB87D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Oct 2019 17:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727492AbfJMGXz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 Oct 2019 02:23:55 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38273 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfJMGXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Oct 2019 02:23:55 -0400
-Received: by mail-pf1-f195.google.com with SMTP id h195so8533606pfe.5;
-        Sat, 12 Oct 2019 23:23:54 -0700 (PDT)
+        id S1728902AbfJMRP2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 13 Oct 2019 13:15:28 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:43628 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728839AbfJMRP2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Oct 2019 13:15:28 -0400
+Received: by mail-yb1-f193.google.com with SMTP id y204so4718843yby.10;
+        Sun, 13 Oct 2019 10:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5eAeBtymwWzWnzR8l2A7/RM2ROOsOpGfG8hUMk0mlW4=;
-        b=jda3HR+16RcTF8c7KGYZ0KkV/GcM59GIC22PWLPJ41jQCCMx42ZTbC4Go+SHG8uOsN
-         zD9Y6ltddf5wAXAAqaXYBIzuwb0254PeqmwRU1ryVYncbuN1YiWeSv/0cRvM5Y7QPtQX
-         Kq0uqHCYZNcjoL/vO3Xq+sH43Kwa7vyHBlFpQ1ro9JmciFdzKqpcAhK+UTS9ELKxTX4I
-         7RMgQeosY7P4DblvMYeNUqGPzdGwjrpKc7VtqpJDxjZUHLYLY/qNW7DjSKg56qSO+qDL
-         FSU/CUlxp9ndOU4uXrfCMpPk0/yMiR2IyIDVvrBEBfLt7wTLucCsh3IcMFvfpQMp+R8I
-         wxGQ==
+         :cc;
+        bh=gflEvZAdlyCc3lXLfYTtPLGbYV/+oYzt0UfZcGg1SRc=;
+        b=DFsPt8BzI4LOt34+GKO4D1RtpzCwr4ftOt/zQlrzs8hfl4A+eFtHEudqIZHR8G+/n7
+         oqWP/LWM0CjJoCgNoVK0X+Rqw6kKfntZ9D67fGM54XkdTt9SgvjPc/5z2tGi+i9udlMc
+         rqgygl73MTquALDXMS5H634MdCg2Pua6T5L7EHRVCpqcV7HMlHD4dt1atCpAlUkunX67
+         HcQIwwzjqEealsCKIYDr90Gt2wt1fSQvNJvXRY0qXFKf+MeWkPmO+hnRR55hdcePJlLq
+         rNQeBFFU7HkJiUEaLDYFja4yrU9a4nMJPNzMpLzbkC5Y5igN9G2ko54KjBQVF5XEEiV6
+         Ee0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5eAeBtymwWzWnzR8l2A7/RM2ROOsOpGfG8hUMk0mlW4=;
-        b=mp2QKsmj+bIaJTQcR17zhPIZEutpo88/bXaE5kNuvVZi7EopB0DtANidT9STCZBXRT
-         3N7tcCY834ZU3q6lSyLhuMtiuIKM4T181869TWYFO5vbavv7MjaQA2nxA+KJ19xGsIBs
-         n/9iYJVySTfma4R+DZS5Qg2Ttq/VEUfx/DnbDWKLmNUf08hgcm2VpJt4beWnuH4tWAob
-         LZVpHOfkaQZpZLbFMpiKpSDXg18Mt6qNpugb+Cv89U6IlpgMi3CvWzQoSihQPF7dyNHU
-         PCVRk/2avwqCeQYH5mIqB/QMp0POl0Aj8hikS9P0NjiZz6Hhmb/VlU7AjLFaG9euCmN6
-         5Zkw==
-X-Gm-Message-State: APjAAAWHKV/rfOV91j6Lie60e27ezrjK3h0i0NgzMMXKadhtH1mvzI9D
-        aUeuM1p/03K+8ZbkDAD+2riIYJk2nWWN7B8n6Rc=
-X-Google-Smtp-Source: APXvYqz+Ib92xlYbc0zQ+h/EYI9nkOxpO/3BtsUfc5FLQoeJMoxYAVC+P7oRwWch8D5uw/KNqkXhnbHTrzxfZKf4Qxk=
-X-Received: by 2002:a17:90a:b391:: with SMTP id e17mr29194193pjr.132.1570947834316;
- Sat, 12 Oct 2019 23:23:54 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=gflEvZAdlyCc3lXLfYTtPLGbYV/+oYzt0UfZcGg1SRc=;
+        b=smhHuwQ9YKV3+VTmoM76euCHBYfI+vh6DGkws5v1uhegl3x6MBn9yyKxMKSKsNvSWB
+         I9YIX1EG+P5fH467jZUAs8/F8z/KmthNUuoquot5+BZfEy4QtJOX/LH6TVBUVk97EbyD
+         dIqzAzdkMvZdaX27XdgFnF5hUzLDDTTFH0Zem0gXacajd+19O2CTgyYKY+NdJefAQrnk
+         rR0k1Rt1/rHaJckHvgRNLq3hMd36gW0e+zrWLfEhXURExiQyAAvh3q5StzxkRxDDz4b0
+         twqMnDqYBTMjbFEfl79WOMT0DSh/vV4GummwJ5qjES/a4jXxmDqZBqdPpTTCVSRLi4iE
+         xsww==
+X-Gm-Message-State: APjAAAW86y9rw/ry0pmXHK0VgiXaJLs9AfthH8E9mxWr+dBfV0XYRChP
+        eSVAV2/5d8UE4QKrVsvt5yA3PnXhbtbdpfi7A9WLrg==
+X-Google-Smtp-Source: APXvYqyoqY6djIDs11lNlZUqHE2uaqTuE1ISh1U5NTd/2aKUiibYIuXB+JkUurqHKYtLENb3M6EjLhTYEPoyTC736lc=
+X-Received: by 2002:a25:7909:: with SMTP id u9mr18735821ybc.33.1570986926762;
+ Sun, 13 Oct 2019 10:15:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191012171114.6589-1-j.neuschaefer@gmx.net> <20191012171114.6589-2-j.neuschaefer@gmx.net>
-In-Reply-To: <20191012171114.6589-2-j.neuschaefer@gmx.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 13 Oct 2019 09:23:42 +0300
-Message-ID: <CAHp75VfJLDd315SUx+s6WN6-mp-gUSZmhDbydU91_oe0pLbYwg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] docs: admin-guide: Move Dell RBU document from driver-api
-To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
+References: <20190830125436.16959-1-ganapat@localhost.localdomain>
+In-Reply-To: <20190830125436.16959-1-ganapat@localhost.localdomain>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Sun, 13 Oct 2019 22:45:15 +0530
+Message-ID: <CAKTKpr43RyG0fTp3nOQP--F80JYD1aCHEU5TJNZCK8LPCLfswQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] Add CCPI2 PMU support
+To:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Shobhit Kukreti <shobhitkukreti@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Peng Hao <peng.hao2@zte.com.cn>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Jan Glauber <jglauber@marvell.com>,
+        Ganapatrao Kulkarni <gkulkarni@marvell.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 8:17 PM Jonathan Neusch=C3=A4fer
-<j.neuschaefer@gmx.net> wrote:
->
-> This document describes how an admin can use the dell_rbu driver, rather
-> than any in-kernel API details.
+Hi Will, Mark,
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/{driver-api =3D> admin-guide}/dell_rbu.rst | 0
->  Documentation/admin-guide/index.rst                    | 1 +
->  Documentation/driver-api/index.rst                     | 1 -
->  drivers/platform/x86/Kconfig                           | 2 +-
->  drivers/platform/x86/dell_rbu.c                        | 2 +-
->  5 files changed, 3 insertions(+), 3 deletions(-)
->  rename Documentation/{driver-api =3D> admin-guide}/dell_rbu.rst (100%)
+On Fri, Aug 30, 2019 at 6:24 PM ganapat <gklkml16@gmail.com> wrote:
 >
-> diff --git a/Documentation/driver-api/dell_rbu.rst b/Documentation/admin-=
-guide/dell_rbu.rst
-> similarity index 100%
-> rename from Documentation/driver-api/dell_rbu.rst
-> rename to Documentation/admin-guide/dell_rbu.rst
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gu=
-ide/index.rst
-> index 545ea26364b7..4405b7485312 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -72,6 +72,7 @@ configure specific aspects of kernel behavior to your l=
-iking.
->     clearing-warn-once
->     cpu-load
->     cputopology
-> +   dell_rbu
->     device-mapper/index
->     efi-stub
->     ext4
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-ap=
-i/index.rst
-> index 2b3b6949381e..6a3ac50f51f0 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -72,7 +72,6 @@ available subsections can be seen below.
->     connector
->     console
->     dcdbas
-> -   dell_rbu
->     edid
->     eisa
->     ipmb
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index ae21d08c65e8..a890f47fbeec 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -259,7 +259,7 @@ config DELL_RBU
->          DELL system. Note you need a Dell OpenManage or Dell Update pack=
-age (DUP)
->          supporting application to communicate with the BIOS regarding th=
-e new
->          image for the image update to take effect.
-> -        See <file:Documentation/driver-api/dell_rbu.rst> for more detail=
-s on the driver.
-> +        See <file:Documentation/admin-guide/dell_rbu.rst> for more detai=
-ls on the driver.
+> From: Ganapatrao Kulkarni <gkulkarni@marvell.com>
+>
+> Add Cavium Coherent Processor Interconnect (CCPI2) PMU
+> support in ThunderX2 Uncore driver.
+>
+> v5:
+>         Fixed minor bug of v4 (timer callback fuction
+>         was getting initialized to NULL for all PMUs).
+>
+> v4:
+>         Update with review comments [2].
+>         Changed Counter read to 2 word read since single dword read is misbhehaving(hw issue).
+>
+> [2] https://lkml.org/lkml/2019/7/23/231
+>
+> v3: Rebased to 5.3-rc1
+>
+> v2: Updated with review comments [1]
+>
+> [1] https://lkml.org/lkml/2019/6/14/965
+>
+> v1: initial patch
 >
 >
->  config FUJITSU_LAPTOP
-> diff --git a/drivers/platform/x86/dell_rbu.c b/drivers/platform/x86/dell_=
-rbu.c
-> index 3691391fea6b..7d5453326b43 100644
-> --- a/drivers/platform/x86/dell_rbu.c
-> +++ b/drivers/platform/x86/dell_rbu.c
-> @@ -24,7 +24,7 @@
->   * on every time the packet data is written. This driver requires an
->   * application to break the BIOS image in to fixed sized packet chunks.
->   *
-> - * See Documentation/driver-api/dell_rbu.rst for more info.
-> + * See Documentation/admin-guide/dell_rbu.rst for more info.
->   */
->  #include <linux/init.h>
->  #include <linux/module.h>
+> Ganapatrao Kulkarni (2):
+>   Documentation: perf: Update documentation for ThunderX2 PMU uncore
+>     driver
+>   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
+>
+>  .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
+>  drivers/perf/thunderx2_pmu.c                  | 267 +++++++++++++++---
+>  2 files changed, 245 insertions(+), 42 deletions(-)
+>
 > --
-> 2.20.1
+> 2.17.1
 >
 
+Any comments on this patchset?
 
---=20
-With Best Regards,
-Andy Shevchenko
+Thanks,
+Ganapat
