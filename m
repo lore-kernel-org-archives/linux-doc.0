@@ -1,96 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 704127D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 11:00:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A4797D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 13:52:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731676AbfJNLAR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 07:00:17 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:43631 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731503AbfJNLAR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 07:00:17 -0400
-Received: by mail-pf1-f193.google.com with SMTP id a2so10188761pfo.10
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 04:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=roe1CpFLkTcfs32fZAZpd1QcNOQgIY0DvYHb9nRUS68=;
-        b=nA1AgfnHwbmrIJRx8cUGaiegFnrTQeGfnQ3V6g2WGJwbHNacCXMruS7Eh01Jf2keVv
-         48N72od5O5+UO7DianRK5LYKNxDUMxkxlwkNBArPwqGjeqE5tTAH736GCurQT3CEq23t
-         BrM9zsLzepBkXWedFcai68YIt6A35thmMSdIgI7xQlLuJLsI0Tpl7/Sv1CW/zv+i6B41
-         8Z02998mEaKdkf2kgXcFmDDlYfkYqm9j2fXnuTjMy+dVgh/S3rFWRYl/pTUfcBgpWT+U
-         GrD8b17U7HlXjXPU0mnT/X4DsnBjX9TdSS7vntKB/8RAW192l8isJ8GW5uxlOHyz9kcI
-         dOew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=roe1CpFLkTcfs32fZAZpd1QcNOQgIY0DvYHb9nRUS68=;
-        b=cx2YOunJnONYt84k0oTUUqmB3zsI7s5xgxbpu+sEvjgg8mj511u1OFxPhrOkYGvF98
-         VOFI1PfV6ephj9Bcn59ibUK0WgSutwJGWDvLK0+6nTvjBYiYo7nhQf59JVWn6pSvwp3I
-         vbbM30VWBYO+zvMMpD3q/sGDvXPkxcIJP5Efg7XdHNhPjP8vZJLs1FSJHjlNEH9gbTGJ
-         NiHXZtz2eknMq4RucQhvyBU3DXUH9+AC18KQc928MqsSM9yxdcmXDRsfvbkaC5moWjux
-         un2wvxFMQIdYpITtHs4u0TSPBS0UjrIhEyybt4TZ5naLwC4JHM+vYnjbEfn6qxLLMxod
-         PpfQ==
-X-Gm-Message-State: APjAAAXfn/Ihtfzjrl0/6/yreZzNVW7wowmeVJknn02Xev2cmhN9zkbx
-        wsq2GrZ39KeLP8Lj68/edA0V0yLyt9lt9Q==
-X-Google-Smtp-Source: APXvYqyH5I+Y2IVKZoVwKIlJBKJCMm5YE419GKAD5fbEsLT7gtEqZQOmAkOB1ChKASlJKB7mNcmXng==
-X-Received: by 2002:a62:1454:: with SMTP id 81mr33013086pfu.214.1571050816786;
-        Mon, 14 Oct 2019 04:00:16 -0700 (PDT)
-Received: from gmail.com (ip-103-85-37-165.syd.xi.com.au. [103.85.37.165])
-        by smtp.gmail.com with ESMTPSA id z3sm19199398pjd.25.2019.10.14.04.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 04:00:16 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 22:00:08 +1100
-From:   Adam Zerella <adam.zerella@gmail.com>
-Cc:     corbet@lwn.net, gor@linux.ibm.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, adam.zerella@gmail.com
-Subject: [PATCH] docs: admin-guide: Extend short title underline in sysctl
-Message-ID: <20191014110008.GA3814@gmail.com>
+        id S1731831AbfJNNwy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 09:52:54 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3711 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731092AbfJNNwx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Oct 2019 09:52:53 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id F3990FE4F67A274B6D56;
+        Mon, 14 Oct 2019 21:52:50 +0800 (CST)
+Received: from localhost.localdomain (10.67.212.132) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 14 Oct 2019 21:52:44 +0800
+From:   Shaokun Zhang <zhangshaokun@hisilicon.com>
+To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH] docs: block: Remove blk_init_queue related description
+Date:   Mon, 14 Oct 2019 21:50:02 +0800
+Message-ID: <1571061002-25998-1-git-send-email-zhangshaokun@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
+X-Originating-IP: [10.67.212.132]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Title underlines should extend the full length of a title,
-Sphinx is currently displaying the following warning when
-building the htmldocs:
+blk_init_queue has been removed since commit <a1ce35fa4985>
+("block: remove dead elevator code"), Let's cleanup the description
+in the biodoc.rst document.
 
-sysctl/kernel.rst:397: WARNING: Title underline too short.
-
-hung_task_interval_warnings:
-===================
-
-Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/block/biodoc.rst | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 614179dc79a9..383eda89f411 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
+diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+index b964796ec9c7..a19081d88349 100644
+--- a/Documentation/block/biodoc.rst
++++ b/Documentation/block/biodoc.rst
+@@ -1013,11 +1013,6 @@ request_fn execution which it means that lots of older drivers
+ should still be SMP safe. Drivers are free to drop the queue
+ lock themselves, if required. Drivers that explicitly used the
+ io_request_lock for serialization need to be modified accordingly.
+-Usually it's as easy as adding a global lock::
+-
+-	static DEFINE_SPINLOCK(my_driver_lock);
+-
+-and passing the address to that lock to blk_init_queue().
  
+ 5.2 64 bit sector numbers (sector_t prepares for 64 bit support)
+ ----------------------------------------------------------------
+@@ -1071,11 +1066,6 @@ right thing to use is bio_endio(bio) instead.
+ If the driver is dropping the io_request_lock from its request_fn strategy,
+ then it just needs to replace that with q->queue_lock instead.
  
- hung_task_interval_warnings:
--===================
-+============================
- 
- The same as hung_task_warnings, but set the number of interval
- warnings to be issued about detected hung tasks during check
+-As described in Sec 1.1, drivers can set max sector size, max segment size
+-etc per queue now. Drivers that used to define their own merge functions i
+-to handle things like this can now just use the blk_queue_* functions at
+-blk_init_queue time.
+-
+ Drivers no longer have to map a {partition, sector offset} into the
+ correct absolute location anymore, this is done by the block layer, so
+ where a driver received a request ala this before::
 -- 
-2.21.0
+2.7.4
 
