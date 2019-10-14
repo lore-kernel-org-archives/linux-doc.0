@@ -1,77 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 945D77D912
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 23:28:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9E567D981
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 23:35:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfJNX23 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 19:28:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56636 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbfJNX23 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Oct 2019 19:28:29 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA62E217F9;
-        Mon, 14 Oct 2019 23:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571095709;
-        bh=/T9FxcxpIR4sdkUijVa3Y0FNoBc6Tptc8qvATswzwJ0=;
-        h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
-        b=w9AsmgxOwKFvr2df+N4+IZcU/xMRmyRtJYEGMokBf0bZDs47+2rCRZ9IoG1IRnjS6
-         glrFxA+AwdKLg2qwPdKBxrl1ApITMqTyZsKoL5sEqSWamWVIwL4IE1BRfOwSTVmY3B
-         WeD0fYgZ1mgdAoJqa4YBA+QhNvtbJ2RI7cNBlsKg=
-Content-Type: text/plain; charset="utf-8"
+        id S1726574AbfJNXfu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 19:35:50 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37971 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726180AbfJNXfu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 19:35:50 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e11so15272600otl.5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 16:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NwUiRmL5zHRuSpoZacB+KbqGLwUbPV8zfP2jjwTQZ40=;
+        b=TKlYMgY6BIO0a2BCP9NIZ0RDFSDCMHEJtY2x9DKJYW3dkv4cc3dMdfoEXPfq7nao1A
+         FB8isuIUIz37YiDdrnt6tj2rZPqxphRoRXt7DnRZ9IRAcs5kglsAJ0mmTwG9hxcsL0bX
+         eb0MFM9vaJmNbvXkyarJwKDErv8tEnSOvMvyg4JE7a8MGMig61jXeS76iRZsnKC2L146
+         kFdCa9XX3huj52KblSP/OsgJS7fEJJD+2W4wxnDz9el2/wmnB6wInAj4eZtqdJW4Cno0
+         lEyXvrUNPoUnOLU3oA01VMyMsvwUSEJW4ECh+yngbOn7WGb14cG6u4SCGTI79ftXco6x
+         5ZaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NwUiRmL5zHRuSpoZacB+KbqGLwUbPV8zfP2jjwTQZ40=;
+        b=ltAlZR5ys6ZMxR9VXHblvDdWifKGZJwcygqNiBz8QK8W/9DKgrz6vhosqTPTbx2BLR
+         kZ2kb15VGUXQYQOiLW3f3BMkQuHbnS9D9ftNoa2DDFN8AMwhg00DiNyl10RH6lN6RVOb
+         ESTw143A12MGrN81Gf+7lhrFaGLI8Uk7jTwk/z6opjRbKHI7zzYKnFpW+adNN/E1wmT+
+         yAWKGPkauDnlbG5NuLuAGPy+ssQ3VquiygJjtja2CdxP48zh9oSLWVHIVPanHSlJVcpp
+         8rC3ckPP10gVL1qYZ1Ungvg3pNDlGASoLd2K7Hc3E9wae/oa3qvPcpT9QpMLtOqaRXu7
+         2+Qw==
+X-Gm-Message-State: APjAAAVoWVj+UVk4KhLkeV03ioXxNuV6J1wfL1Uqp3/ReCtj5nd4lrbs
+        Gwpu3ROkh79KOwPzELE3A9GeaHV0WG1Yd/k4ji6/qg==
+X-Google-Smtp-Source: APXvYqzEMn4iiEvRoFnPWid2cqOI3VZG7sGt2CV0SkehdxGAGwKggzD4OaekfLnZ7//zX1O/DAxwc3wOaYMFld0l4Fk=
+X-Received: by 2002:a9d:66c5:: with SMTP id t5mr26275692otm.225.1571096148769;
+ Mon, 14 Oct 2019 16:35:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20191011191521.179614-4-saravanak@google.com>
 References: <20191011191521.179614-1-saravanak@google.com> <20191011191521.179614-4-saravanak@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ <20191014232828.DA62E217F9@mail.kernel.org>
+In-Reply-To: <20191014232828.DA62E217F9@mail.kernel.org>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 14 Oct 2019 16:35:12 -0700
+Message-ID: <CAGETcx9ke3+nGS+dBDOE9EhFhd=w6o5N+P5F7R-xNSi5fRLz_w@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] docs: driver-model: Add documentation for sync_state
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Frank Rowand <frowand.list@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] docs: driver-model: Add documentation for sync_state
-User-Agent: alot/0.8.1
-Date:   Mon, 14 Oct 2019 16:28:28 -0700
-Message-Id: <20191014232828.DA62E217F9@mail.kernel.org>
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Saravana Kannan (2019-10-11 12:15:21)
-> The sync_state() driver callback was added recently, but the
-> documentation was missing.  Adding it now.
->=20
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
->  .../driver-api/driver-model/driver.rst        | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->=20
-> diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documenta=
-tion/driver-api/driver-model/driver.rst
-> index 11d281506a04..baa6a85c8287 100644
-> --- a/Documentation/driver-api/driver-model/driver.rst
-> +++ b/Documentation/driver-api/driver-model/driver.rst
-> @@ -169,6 +169,49 @@ A driver's probe() may return a negative errno value=
- to indicate that
->  the driver did not bind to this device, in which case it should have
->  released all resources it allocated::
-> =20
-> +       void (*sync_state)(struct device *dev);
+On Mon, Oct 14, 2019 at 4:28 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Saravana Kannan (2019-10-11 12:15:21)
+> > The sync_state() driver callback was added recently, but the
+> > documentation was missing.  Adding it now.
+> >
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > ---
+> >  .../driver-api/driver-model/driver.rst        | 43 +++++++++++++++++++
+> >  1 file changed, 43 insertions(+)
+> >
+> > diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
+> > index 11d281506a04..baa6a85c8287 100644
+> > --- a/Documentation/driver-api/driver-model/driver.rst
+> > +++ b/Documentation/driver-api/driver-model/driver.rst
+> > @@ -169,6 +169,49 @@ A driver's probe() may return a negative errno value to indicate that
+> >  the driver did not bind to this device, in which case it should have
+> >  released all resources it allocated::
+> >
+> > +       void (*sync_state)(struct device *dev);
+>
+> This is only in -next as far as I can tell. Will this be combined with a
+> resend of the patch series that introduces this hook?
 
-This is only in -next as far as I can tell. Will this be combined with a
-resend of the patch series that introduces this hook?
+Based on what Greg said in the other email, I think he's going to pick
+this up for driver-core-next.
 
+-Saravana
