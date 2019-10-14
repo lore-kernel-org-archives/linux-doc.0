@@ -1,101 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B40787D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 10:58:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 704127D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 11:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731714AbfJNK57 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 06:57:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59996 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731305AbfJNK57 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Oct 2019 06:57:59 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CAE3D207FF;
-        Mon, 14 Oct 2019 10:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571050677;
-        bh=M/q4WcNPrO/M2s3hdWU+TCGsA3virwS9Z2V34PZ8m3s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oINYM8IPV1QLRqgf7V4NEt9mVkstEH6S0YH7BlbqZyblv0XXcz3fi9xDINcKxuUfZ
-         u6+FJf2ySAEMueB7ULrjbKMhvuhgzw2t1LQhmn1Qomt0Qqg6T3FS/9BHUT4kAP3xhS
-         2YBsZHn5KTc8k9jxaoxYfH6CaJHlplnBNiRkn4ls=
-Date:   Mon, 14 Oct 2019 12:57:54 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20191014105754.GA34057@kroah.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191011141036.GK16384@42.do-not-panic.com>
- <7fed4882-efa7-18d0-1ef6-9138fbdddfc4@redhat.com>
- <20191011153823.GS16384@42.do-not-panic.com>
- <20191011163819.GA1295750@kroah.com>
- <20191014092216.GA16384@42.do-not-panic.com>
- <20191014092929.GA3050866@kroah.com>
- <20191014103150.GB16384@42.do-not-panic.com>
+        id S1731676AbfJNLAR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 07:00:17 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43631 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731503AbfJNLAR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 07:00:17 -0400
+Received: by mail-pf1-f193.google.com with SMTP id a2so10188761pfo.10
+        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 04:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=roe1CpFLkTcfs32fZAZpd1QcNOQgIY0DvYHb9nRUS68=;
+        b=nA1AgfnHwbmrIJRx8cUGaiegFnrTQeGfnQ3V6g2WGJwbHNacCXMruS7Eh01Jf2keVv
+         48N72od5O5+UO7DianRK5LYKNxDUMxkxlwkNBArPwqGjeqE5tTAH736GCurQT3CEq23t
+         BrM9zsLzepBkXWedFcai68YIt6A35thmMSdIgI7xQlLuJLsI0Tpl7/Sv1CW/zv+i6B41
+         8Z02998mEaKdkf2kgXcFmDDlYfkYqm9j2fXnuTjMy+dVgh/S3rFWRYl/pTUfcBgpWT+U
+         GrD8b17U7HlXjXPU0mnT/X4DsnBjX9TdSS7vntKB/8RAW192l8isJ8GW5uxlOHyz9kcI
+         dOew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=roe1CpFLkTcfs32fZAZpd1QcNOQgIY0DvYHb9nRUS68=;
+        b=cx2YOunJnONYt84k0oTUUqmB3zsI7s5xgxbpu+sEvjgg8mj511u1OFxPhrOkYGvF98
+         VOFI1PfV6ephj9Bcn59ibUK0WgSutwJGWDvLK0+6nTvjBYiYo7nhQf59JVWn6pSvwp3I
+         vbbM30VWBYO+zvMMpD3q/sGDvXPkxcIJP5Efg7XdHNhPjP8vZJLs1FSJHjlNEH9gbTGJ
+         NiHXZtz2eknMq4RucQhvyBU3DXUH9+AC18KQc928MqsSM9yxdcmXDRsfvbkaC5moWjux
+         un2wvxFMQIdYpITtHs4u0TSPBS0UjrIhEyybt4TZ5naLwC4JHM+vYnjbEfn6qxLLMxod
+         PpfQ==
+X-Gm-Message-State: APjAAAXfn/Ihtfzjrl0/6/yreZzNVW7wowmeVJknn02Xev2cmhN9zkbx
+        wsq2GrZ39KeLP8Lj68/edA0V0yLyt9lt9Q==
+X-Google-Smtp-Source: APXvYqyH5I+Y2IVKZoVwKIlJBKJCMm5YE419GKAD5fbEsLT7gtEqZQOmAkOB1ChKASlJKB7mNcmXng==
+X-Received: by 2002:a62:1454:: with SMTP id 81mr33013086pfu.214.1571050816786;
+        Mon, 14 Oct 2019 04:00:16 -0700 (PDT)
+Received: from gmail.com (ip-103-85-37-165.syd.xi.com.au. [103.85.37.165])
+        by smtp.gmail.com with ESMTPSA id z3sm19199398pjd.25.2019.10.14.04.00.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 04:00:16 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 22:00:08 +1100
+From:   Adam Zerella <adam.zerella@gmail.com>
+Cc:     corbet@lwn.net, gor@linux.ibm.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, adam.zerella@gmail.com
+Subject: [PATCH] docs: admin-guide: Extend short title underline in sysctl
+Message-ID: <20191014110008.GA3814@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191014103150.GB16384@42.do-not-panic.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+User-Agent: Mutt/1.12.1 (2019-06-15)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 10:31:50AM +0000, Luis Chamberlain wrote:
-> On Mon, Oct 14, 2019 at 11:29:29AM +0200, Greg Kroah-Hartman wrote:
-> > On Mon, Oct 14, 2019 at 09:22:16AM +0000, Luis Chamberlain wrote:
-> > > On Fri, Oct 11, 2019 at 06:38:19PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Fri, Oct 11, 2019 at 03:38:23PM +0000, Luis Chamberlain wrote:
-> > > > > On Fri, Oct 11, 2019 at 04:31:26PM +0200, Hans de Goede wrote:
-> > > > > > Hi,
-> > > > > > 
-> > > > > > On 10/11/19 4:10 PM, Luis Chamberlain wrote:
-> > > > > > > Hey Hans, thanks for staying on top of this and follow up! For some
-> > > > > > > reason the universe conspired against your first and last patch ([1/8],
-> > > > > > > [8/8]), and I never got them. Could you bounce these or resend in case
-> > > > > > > others confirm they also didn't get it?
-> > > > > > 
-> > > > > > I have received feedback from others on the first patch, so at least
-> > > > > > that one has reached others. I've bounced patches 1 and 8 to you.
-> > > > > 
-> > > > > Thanks, can you also bounce the feedback received?
-> > > > 
-> > > > That is what lore.kernel.org is for...
-> > > 
-> > > If I have feedback on an email which I did not get I cannot easily reply to it.
-> > 
-> > I meant, use lore.kernel.org to download the mbox of the thread and then
-> > use your email client to respond to whatever you need there.  This all
-> > is public, no need to ask anyone else to bounce emails to you.
-> 
-> Last I looked it didn't allow you to downlaod an mbox of a thread...
+Title underlines should extend the full length of a title,
+Sphinx is currently displaying the following warning when
+building the htmldocs:
 
-It can, from the front page of "all" threads, or on the thread itself,
-at the bottom of the page.  Search for "download" on the page.
+sysctl/kernel.rst:397: WARNING: Title underline too short.
 
-greg k-h
+hung_task_interval_warnings:
+===================
+
+Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 614179dc79a9..383eda89f411 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
+ 
+ 
+ hung_task_interval_warnings:
+-===================
++============================
+ 
+ The same as hung_task_warnings, but set the number of interval
+ warnings to be issued about detected hung tasks during check
+-- 
+2.21.0
+
