@@ -1,81 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E51427D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 18:14:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD4367D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 20:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733135AbfJNSON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 14:14:13 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44731 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732330AbfJNSON (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 14:14:13 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 21so14575591otj.11;
-        Mon, 14 Oct 2019 11:14:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=N/oP1f1HUsAcWz240lSJUR0uNH2aOpDS9BJ9NO93YYs=;
-        b=WH4alCtbSXdwqupx3OAF3b7QHkEbCYgUpczj6CV6uukWlDlvO9kSvwAVRWGclGMiXU
-         SIFTLVmDIN+nGfh79Kkv197TayLqtB7LCeF9t9TEvZ6NUd/3KOE4WOn5R9pCSM/AIHui
-         GY3ICH0W3Sm5DADTcSjo3Wjcd8lRcIPL/JVGp84emblb4yngxXNLCNdOhLy49eyqkb7C
-         3wmZ80du3KvX5SQ3EvLLq0EuO2dqNwkeUmZdDARgAaSnRmpXwdzHgeydRCCun4h1giUH
-         WDFPG0igFGUE4g3kyIqxuRHb7zL5IMpFq6pcqjR+knVb8yWopZrn6IWT2+zKCQASQYGb
-         K59Q==
-X-Gm-Message-State: APjAAAU9lNb5C3ljokDSVwp7nQPqXKGU+gLiU2jIT7S2zFHSoyAfOsiI
-        ccafE+OfUAfkbww6Rzm/vw==
-X-Google-Smtp-Source: APXvYqzzl16ke1YkGnRrU5ok5zwZXAS87U+RbEYstUfUhMyQVoHEJPA74WCoLvI7GZ7F7ocOuynEpw==
-X-Received: by 2002:a9d:7f8d:: with SMTP id t13mr26232221otp.369.1571076852390;
-        Mon, 14 Oct 2019 11:14:12 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r26sm5304386oij.46.2019.10.14.11.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 11:14:11 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 13:14:11 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add ltc2947 documentation
-Message-ID: <20191014181411.GA9019@bogus>
-References: <20191011114853.159327-1-nuno.sa@analog.com>
- <20191011114853.159327-2-nuno.sa@analog.com>
+        id S1731316AbfJNUDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 16:03:16 -0400
+Received: from mga11.intel.com ([192.55.52.93]:40082 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730668AbfJNUDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Oct 2019 16:03:16 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 13:03:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,296,1566889200"; 
+   d="scan'208";a="395302463"
+Received: from kridax-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.7.178])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Oct 2019 13:03:10 -0700
+Date:   Mon, 14 Oct 2019 23:03:09 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     jmorris@namei.org, sashal@kernel.org, peterhuewe@gmx.de,
+        jgg@ziepe.ca, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
+        rdunlap@infradead.org
+Subject: Re: [PATCH] ftpm: add shutdown call back
+Message-ID: <20191014200309.GM15552@linux.intel.com>
+References: <20191011145721.59257-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191011114853.159327-2-nuno.sa@analog.com>
+In-Reply-To: <20191011145721.59257-1-pasha.tatashin@soleen.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Oct 2019 13:48:53 +0200, =?UTF-8?q?Nuno=20S=C3=A1?= wrote:
-> Document the LTC2947 device devicetree bindings.
+On Fri, Oct 11, 2019 at 10:57:21AM -0400, Pavel Tatashin wrote:
+> From: thiruan <thiruan@microsoft.com>
 > 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> add shutdown call back to close existing session with fTPM TA
+> to support kexec scenario.
+> 
+> Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
+> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+
+Use the correct tag in the short summary (tpm/tpm_ftpm_tee).
+
 > ---
-> Changes in v2:
->  * Add license identifier;
->  * Fix the uint32-array properties;
->  * Set maximum at the same indent as allOf in adi,accumulation-deadband-microamp;
->  * Set enum at the same indent as allOf in adi,gpio-out-pol;
->  * Use spi instead of spi0 on the example;
+>  drivers/char/tpm/tpm_ftpm_tee.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
->  .../bindings/hwmon/adi,ltc2947.yaml           | 104 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 105 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+> diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_tee.c
+> index 6640a14dbe48..c245be6f4015 100644
+> --- a/drivers/char/tpm/tpm_ftpm_tee.c
+> +++ b/drivers/char/tpm/tpm_ftpm_tee.c
+> @@ -328,6 +328,27 @@ static int ftpm_tee_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * ftpm_tee_shutdown - shutdown the TPM device
+> + * @pdev: the platform_device description.
+> + *
+> + * Return:
+> + * 	none.
+
+Do not document return values for a void function. The last three lines
+do not serve any purpose.
+
+> + */
+> +static void ftpm_tee_shutdown(struct platform_device *pdev)
+> +{
+> +	struct ftpm_tee_private *pvt_data = dev_get_drvdata(&pdev->dev);
+> +
+> +	/* Free the shared memory pool */
+> +	tee_shm_free(pvt_data->shm);
+
+Is it unexpected that calling tee_shm_free() free's a shared memory
+pool? A comment here implies exactly that.
+
+> +	/* close the existing session with fTPM TA*/
+> +	tee_client_close_session(pvt_data->ctx, pvt_data->session);
+
+Ditto.
+
+> +
+> +	/* close the context with TEE driver */
+> +	tee_client_close_context(pvt_data->ctx);
+
+Ditto.
+
+> +}
+> +
+>  static const struct of_device_id of_ftpm_tee_ids[] = {
+>  	{ .compatible = "microsoft,ftpm" },
+>  	{ }
+> @@ -341,6 +362,7 @@ static struct platform_driver ftpm_tee_driver = {
+>  	},
+>  	.probe = ftpm_tee_probe,
+>  	.remove = ftpm_tee_remove,
+> +	.shutdown = ftpm_tee_shutdown,
+>  };
+>  
+>  module_platform_driver(ftpm_tee_driver);
+> -- 
+> 2.23.0
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+/Jarkko
