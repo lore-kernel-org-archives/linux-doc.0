@@ -1,75 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 918447D919
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 08:59:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3A8D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 09:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730501AbfJNI6s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 04:58:48 -0400
-Received: from mga06.intel.com ([134.134.136.31]:43474 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730354AbfJNI6s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Oct 2019 04:58:48 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 01:58:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; 
-   d="scan'208";a="207929957"
-Received: from vkuppusa-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.39.77])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2019 01:58:41 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        Changbin Du <changbin.du@gmail.com>
-Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions' to 'specific'
-In-Reply-To: <20191013055359.23312-1-changbin.du@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191013055359.23312-1-changbin.du@gmail.com>
-Date:   Mon, 14 Oct 2019 11:59:37 +0300
-Message-ID: <875zkrd7nq.fsf@intel.com>
+        id S1730585AbfJNJLh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 05:11:37 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:39843 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730438AbfJNJLh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 05:11:37 -0400
+Received: by mail-pl1-f196.google.com with SMTP id s17so7734879plp.6;
+        Mon, 14 Oct 2019 02:11:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+IFRxy6xr/cn5i5eJ5LyoCFcrnq8otJ7MI3Vnt7AQmQ=;
+        b=U826a941vtbfZP0+j8BWQZoMRB+iHWVT8hr9rJiFYjQnuJktsDEGBeYNQsnSgXxtfG
+         T/UsJswL1tAo17YDzOX2nVbdvuQpMomIO/TpVsS3WJESRehEkXCfX+oADAJ1DNaX2/4v
+         hhJToE9Sa41G7QWuwjE5pnQW0CEOkUhKU9/VilOYdDcErh6LvA0XesmQrtubXFrc6IUQ
+         oqL1y5WgErKBFrUbif9ysuXANdQb6idsl/3jXMJHbh0t6C5dQzU9OZACeSVwh5xjxd+B
+         yNhmLqyJHTYGUQNFHa+J03ZvPzE1mcnREdOvibece0xM24telG5kjQiEbaG+H3Nc18Ya
+         CRAg==
+X-Gm-Message-State: APjAAAUEg7Jk/UKtfHtv8w8MZYXg4x0hJXagP8QPo/e7YaohxiiVMo7z
+        b7RPpWvbPxuD+Boa1e+r8cQ=
+X-Google-Smtp-Source: APXvYqzqz+mYzu6Rr6fKvuJ7evMkxLlZvgFgPvKfodKwNGTJg2ZtQUysAWGF3WWCCK+xvwrnrs5+ZA==
+X-Received: by 2002:a17:902:a717:: with SMTP id w23mr28734080plq.177.1571044296067;
+        Mon, 14 Oct 2019 02:11:36 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id s1sm16973494pjs.31.2019.10.14.02.11.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 02:11:34 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 0A8564021A; Mon, 14 Oct 2019 09:11:33 +0000 (UTC)
+Date:   Mon, 14 Oct 2019 09:11:33 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 1/8] efi: Export boot-services code and data as
+ debugfs-blobs
+Message-ID: <20191014091133.GY16384@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004145056.43267-2-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 13 Oct 2019, Changbin Du <changbin.du@gmail.com> wrote:
-> The 'functions' directive is not only for functions, but also works for
-> structs/unions. So the name is misleading. This patch renames it to
-> 'specific', so now we have export/internal/specific directives to limit
-> the functions/types to be included in documentation. Meanwhile we improved
-> the warning message.
+On Fri, Oct 04, 2019 at 04:50:49PM +0200, Hans de Goede wrote:
+> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+> index 8d3e778e988b..abba49c4c46d 100644
+> --- a/drivers/firmware/efi/efi.c
+> +++ b/drivers/firmware/efi/efi.c
+> @@ -314,6 +315,55 @@ static __init int efivar_ssdt_load(void)
+>  static inline int efivar_ssdt_load(void) { return 0; }
+>  #endif
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +
+> +#define EFI_DEBUGFS_MAX_BLOBS 32
+> +
+> +static struct debugfs_blob_wrapper debugfs_blob[EFI_DEBUGFS_MAX_BLOBS];
+> +
+> +static void __init efi_debugfs_init(void)
+> +{
+> +	struct dentry *efi_debugfs;
+> +	efi_memory_desc_t *md;
+> +	char name[32];
+> +	int type_count[EFI_BOOT_SERVICES_DATA + 1] = {};
+> +	int i = 0;
+> +
+> +	efi_debugfs = debugfs_create_dir("efi", NULL);
+> +	if (IS_ERR_OR_NULL(efi_debugfs))
+> +		return;
+> +
+> +	for_each_efi_memory_desc(md) {
+> +		switch (md->type) {
+> +		case EFI_BOOT_SERVICES_CODE:
+> +			snprintf(name, sizeof(name), "boot_services_code%d",
+> +				 type_count[md->type]++);
+> +			break;
+> +		case EFI_BOOT_SERVICES_DATA:
+> +			snprintf(name, sizeof(name), "boot_services_data%d",
+> +				 type_count[md->type]++);
+> +			break;
+> +		default:
+> +			continue;
+> +		}
+> +
+> +		debugfs_blob[i].size = md->num_pages << EFI_PAGE_SHIFT;
+> +		debugfs_blob[i].data = memremap(md->phys_addr,
+> +						debugfs_blob[i].size,
+> +						MEMREMAP_WB);
+> +		if (!debugfs_blob[i].data)
+> +			continue;
+> +
+> +		debugfs_create_blob(name, 0400, efi_debugfs, &debugfs_blob[i]);
+> +		i++;
+> +		if (i == EFI_DEBUGFS_MAX_BLOBS)
+> +			break;
 
-Agreed on "functions" being less than perfect. It directly exposes the
-idiosyncrasies of scripts/kernel-doc. I'm not sure "specific" is any
-better, though.
+Why do we silently ignore more entries ? And could documentation be
+added for ways in which this could be used in practice?
 
-Perhaps "symbols" would be more self-explanatory. Or, actually make
-"functions" only work on functions, and add a separate keyword for other
-stuff. *shrug*
-
-Seems like the patch is way too big. I'd probably add "symbols" (or
-whatever) as a synonym for "functions" for starters, and convert
-documents piecemeal, and finally drop the old one.
-
-The scripts/kernel-doc change should be a patch of its own.
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+  Luis
