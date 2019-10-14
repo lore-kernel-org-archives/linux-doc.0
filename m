@@ -1,64 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B38937D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 15:59:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E51427D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 18:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732015AbfJNP7t convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 11:59:49 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:46583 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731960AbfJNP7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 11:59:49 -0400
-Received: from gau.home (lfbn-1-1117-73.w86-252.abo.wanadoo.fr [86.252.183.73])
-        (Authenticated sender: romuald@chivil.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 4E2C3200006;
-        Mon, 14 Oct 2019 15:59:47 +0000 (UTC)
-From:   Romuald Brunet <romuald@chivil.com>
-Content-Type: text/plain;
-        charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Subject: [PATCH] docs: Add reference in binfmt-misc.rst
-Message-Id: <16A12D5F-582C-447E-8071-0867610C8F22@chivil.com>
-Date:   Mon, 14 Oct 2019 17:59:46 +0200
-Cc:     trivial@kernel.org
-To:     linux-doc@vger.kernel.org
-X-Mailer: Apple Mail (2.3445.9.1)
+        id S1733135AbfJNSON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 14:14:13 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44731 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732330AbfJNSON (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 14:14:13 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 21so14575591otj.11;
+        Mon, 14 Oct 2019 11:14:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=N/oP1f1HUsAcWz240lSJUR0uNH2aOpDS9BJ9NO93YYs=;
+        b=WH4alCtbSXdwqupx3OAF3b7QHkEbCYgUpczj6CV6uukWlDlvO9kSvwAVRWGclGMiXU
+         SIFTLVmDIN+nGfh79Kkv197TayLqtB7LCeF9t9TEvZ6NUd/3KOE4WOn5R9pCSM/AIHui
+         GY3ICH0W3Sm5DADTcSjo3Wjcd8lRcIPL/JVGp84emblb4yngxXNLCNdOhLy49eyqkb7C
+         3wmZ80du3KvX5SQ3EvLLq0EuO2dqNwkeUmZdDARgAaSnRmpXwdzHgeydRCCun4h1giUH
+         WDFPG0igFGUE4g3kyIqxuRHb7zL5IMpFq6pcqjR+knVb8yWopZrn6IWT2+zKCQASQYGb
+         K59Q==
+X-Gm-Message-State: APjAAAU9lNb5C3ljokDSVwp7nQPqXKGU+gLiU2jIT7S2zFHSoyAfOsiI
+        ccafE+OfUAfkbww6Rzm/vw==
+X-Google-Smtp-Source: APXvYqzzl16ke1YkGnRrU5ok5zwZXAS87U+RbEYstUfUhMyQVoHEJPA74WCoLvI7GZ7F7ocOuynEpw==
+X-Received: by 2002:a9d:7f8d:: with SMTP id t13mr26232221otp.369.1571076852390;
+        Mon, 14 Oct 2019 11:14:12 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id r26sm5304386oij.46.2019.10.14.11.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 11:14:11 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 13:14:11 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add ltc2947 documentation
+Message-ID: <20191014181411.GA9019@bogus>
+References: <20191011114853.159327-1-nuno.sa@analog.com>
+ <20191011114853.159327-2-nuno.sa@analog.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191011114853.159327-2-nuno.sa@analog.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While looking at the binfmt-misc documentation I noticed that there is a
-reference to the “java” example that could be a direct link.
+On Fri, 11 Oct 2019 13:48:53 +0200, =?UTF-8?q?Nuno=20S=C3=A1?= wrote:
+> Document the LTC2947 device devicetree bindings.
+> 
+> Signed-off-by: Nuno S� <nuno.sa@analog.com>
+> ---
+> Changes in v2:
+>  * Add license identifier;
+>  * Fix the uint32-array properties;
+>  * Set maximum at the same indent as allOf in adi,accumulation-deadband-microamp;
+>  * Set enum at the same indent as allOf in adi,gpio-out-pol;
+>  * Use spi instead of spi0 on the example;
+> 
+>  .../bindings/hwmon/adi,ltc2947.yaml           | 104 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 105 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml
+> 
 
-This patch simply adds the link without changing the HTML output.
-
-Signed-off-by: Romuald Brunet <romuald@chivil.com>
-
-diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-index 97b0d792707..4fb665e7d8a 100644
---- a/Documentation/admin-guide/binfmt-misc.rst
-+++ b/Documentation/admin-guide/binfmt-misc.rst
-@@ -140,8 +140,8 @@ Hints
- -----
- 
- If you want to pass special arguments to your interpreter, you can
--write a wrapper script for it. See Documentation/admin-guide/java.rst for an
--example.
-+write a wrapper script for it.
-+See :doc:`Documentation/admin-guide/java.rst <./java>` for an example.
- 
- Your interpreter should NOT look in the PATH for the filename; the kernel
- passes it the full filename (or the file descriptor) to use.  Using ``$PATH`` can
-
-
--- 
-Romuald Brunet
-
+Reviewed-by: Rob Herring <robh@kernel.org>
