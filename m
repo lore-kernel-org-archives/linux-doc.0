@@ -1,113 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07BF87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 20:21:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C51D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 20:47:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732616AbfJNUVi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 16:21:38 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:45931 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732599AbfJNUVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 16:21:38 -0400
-Received: by mail-qt1-f196.google.com with SMTP id c21so27174730qtj.12
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 13:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=adO3s5rQ80FSe9QoQi3APfXKvpPGONNAIqngjG3oV3o=;
-        b=OM2ocL11y852dXCVsBTTpuenXy1lATvJseKhiuvI5VqKrW3eLE0ylQgP0sVpJYLMqj
-         V+5p0nSCH5rtm5LMxJzk63qUpR9mCtXx/XbgvaoScxUOnwO1xOeUhezLjlq9KtPDfKhp
-         vZt862J+CI1qdnKRiqLlUUFrbhGYwtFxs9oqYKQNKoI2lXWl7HSZKymNsU/OF/Bfc7+x
-         BsWoW55x/FwsLR7uau3VLSwUPAbwkHiJS4+jHjDuNNCHRSOwePUqK9KYfadOZ6LEp7xE
-         tuL3rbh5/VA/0sWCOxYlL7n3oaUiY26/ltdD2omqJQqg0Y3NHy1m5E1Fnd29cPO8IvcU
-         tuoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=adO3s5rQ80FSe9QoQi3APfXKvpPGONNAIqngjG3oV3o=;
-        b=NZGuHCeDWJtH81RGqITLCQLnEjzQbGJ34nLopIfMsKLScqkacG5xCzO+agEujWCyEW
-         XXLJoWAvPVq5uA1cgL3uyIBNbGG50bUyV4udKWj2ofamNvSvJYhWc4rChemROyj36mmK
-         Mo46LRBIOEJ9ll0DLcvkPWlTP+m7Dl0fsnit7vtJ0KabR16OtdY+tXxO/AWEAYqnBhIK
-         KcPjYEBbNTR4dIBFelfGeDVQj+YISTIKi4R0v0tmIOg1f01S5QC7GH/+CoipSTYytyFZ
-         fvy7ZkTUIEHGdqoYjLr9v/DZoNiDolsQalTs0cn2aUzBvjth8vwmNMzMP7PQgkYsIY1y
-         aawg==
-X-Gm-Message-State: APjAAAVopByMGbLNht0ASHFkxrs6ZKLyMzFcblNAhHTSwdhO0zIyW7Gw
-        ObyTdQREVeY2BFT4fupuKELfNw==
-X-Google-Smtp-Source: APXvYqyIGxVirj24b/z7N8sIuYFghEnsbiFVPx5jPEWYM5oEfLgLlBoX9K22BMNQM88asTUBLjrE6A==
-X-Received: by 2002:aed:3e45:: with SMTP id m5mr3983673qtf.268.1571084497370;
-        Mon, 14 Oct 2019 13:21:37 -0700 (PDT)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id y58sm11111472qta.1.2019.10.14.13.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 13:21:36 -0700 (PDT)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, jmorris@namei.org, sashal@kernel.org,
-        peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
-        thiruan@microsoft.com, bryankel@microsoft.com,
-        tee-dev@lists.linaro.org, ilias.apalodimas@linaro.org,
-        sumit.garg@linaro.org, rdunlap@infradead.org
-Subject: [PATCH v2] tpm/tpm_ftpm_tee: add shutdown call back
-Date:   Mon, 14 Oct 2019 16:21:35 -0400
-Message-Id: <20191014202135.429009-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.23.0
+        id S2387730AbfJNUrp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 16:47:45 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1654 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727879AbfJNUro (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 16:47:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da4def20000>; Mon, 14 Oct 2019 13:47:46 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 14 Oct 2019 13:47:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 14 Oct 2019 13:47:43 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 14 Oct
+ 2019 20:47:43 +0000
+Received: from [10.110.48.28] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 14 Oct
+ 2019 20:47:43 +0000
+To:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+CC:     LKML <linux-kernel@vger.kernel.org>
+Subject: Documentation/, SPDX tags, and checkpatch.pl
+Message-ID: <124ecffe-25a0-ace6-f106-d9d173c17035@nvidia.com>
+Date:   Mon, 14 Oct 2019 13:47:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1571086066; bh=AksvTu/nJ3QRVl8wH0YcaXHhIptrMdGSO337JGt/AoM=;
+        h=X-PGP-Universal:To:From:X-Nvconfidentiality:CC:Subject:Message-ID:
+         Date:User-Agent:MIME-Version:X-Originating-IP:X-ClientProxiedBy:
+         Content-Type:Content-Language:Content-Transfer-Encoding;
+        b=hzzj0QScEaNi55SHpLW7ewfe3Z6zAQGFIjAhtxs7DBO1CeDGD4mXdeZ5XtbJmJP0S
+         s0A46eB/mYoAMta7/8jbT9vJf00UserNvGrR7rkg4wRAo2wGNdhVzuKjnxwoYpiPRk
+         Yd9T5rHHJwwYdhvHMx7ejBTDHswWF9O5BxHm2Ba/QC13LcDeHRg5m1o0q4iJoh2vGJ
+         OLfp7jYNu3jVauiytfdU+XoR29HngTOMnGOA+7KkX1d6M+vK0x3eJdVBlAsd8ViJS7
+         mnZJ40q0Pknk+lJR7rTCoKFjf3Zz7jqZBICRT2WzsCzRAfGVpBCdD26wkIdwgRmKng
+         KVasYttJwZfYA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-add shutdown call back to close existing session with fTPM TA
-to support kexec scenario.
+Hi,
 
-Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
-Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
----
- drivers/char/tpm/tpm_ftpm_tee.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+When adding a new Documentation/ file, checkpatch.pl is warning me
+that the SPDX tag is missing. Should checkpatch.pl skip those kinds
+of warnings, seeing as how we probably don't intend on putting the
+SPDX tags at the top of the Documentation/*.rst files?
 
-diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_tee.c
-index 6640a14dbe48..ad16ea555e97 100644
---- a/drivers/char/tpm/tpm_ftpm_tee.c
-+++ b/drivers/char/tpm/tpm_ftpm_tee.c
-@@ -328,6 +328,19 @@ static int ftpm_tee_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+/**
-+ * ftpm_tee_shutdown - shutdown the TPM device
-+ * @pdev: the platform_device description.
-+ */
-+static void ftpm_tee_shutdown(struct platform_device *pdev)
-+{
-+	struct ftpm_tee_private *pvt_data = dev_get_drvdata(&pdev->dev);
-+
-+	tee_shm_free(pvt_data->shm);
-+	tee_client_close_session(pvt_data->ctx, pvt_data->session);
-+	tee_client_close_context(pvt_data->ctx);
-+}
-+
- static const struct of_device_id of_ftpm_tee_ids[] = {
- 	{ .compatible = "microsoft,ftpm" },
- 	{ }
-@@ -341,6 +354,7 @@ static struct platform_driver ftpm_tee_driver = {
- 	},
- 	.probe = ftpm_tee_probe,
- 	.remove = ftpm_tee_remove,
-+	.shutdown = ftpm_tee_shutdown,
- };
- 
- module_platform_driver(ftpm_tee_driver);
+Or are we, after all? I'm just looking to get to a warnings-free situation 
+here, one way or the other. :)
+
+The exact warning I'm seeing is:
+
+WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+#25: FILE: Documentation/vm/get_user_pages.rst:1:
++.. _get_user_pages:
+
+
 -- 
-2.23.0
+thanks,
 
+John Hubbard
+NVIDIA
