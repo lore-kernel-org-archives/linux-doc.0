@@ -6,82 +6,108 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C48B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 20:17:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07BF87D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 20:21:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732434AbfJNUR7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 16:17:59 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:33937 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729864AbfJNUR7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 16:17:59 -0400
-Received: by mail-ed1-f65.google.com with SMTP id j8so4233091eds.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 13:17:58 -0700 (PDT)
+        id S1732616AbfJNUVi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 16:21:38 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:45931 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732599AbfJNUVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 16:21:38 -0400
+Received: by mail-qt1-f196.google.com with SMTP id c21so27174730qtj.12
+        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 13:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TmTTVnr6ZM5whoKrUx/7AN+GKz0T5h8z5E2EWOl+iVg=;
-        b=O3lfujFHY1PPhG36UaRRX0oF/gqIf4OJ7/Z7pncf/y1kQw+1Yf4DaEkSOtilUuphko
-         QiXu0p6CRky10fDxScNgTGhmP/VoFUCWu+K8BLIDBiBCSLSlni54d7sTdNA4u3bjITmb
-         HXf4iHHY913FxNdPUjO6B+7sc3g/01oWt6nOLJqc5k1Qww+Aup9TDtnzlzhogbwCpfol
-         Tq/jjI/mxoqvnGhJ77/qr6geWk7CBfvDvp4qs3HLvS0Xc80ZfoJfEBLnF24hWbcMncp5
-         FuP6cTxRRJwDuYG0CWnmkPIm+XUJLGEWEOLxTpxfMH9CbtCt9Nt5AuYyefm9nQuJQKte
-         5v5Q==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=adO3s5rQ80FSe9QoQi3APfXKvpPGONNAIqngjG3oV3o=;
+        b=OM2ocL11y852dXCVsBTTpuenXy1lATvJseKhiuvI5VqKrW3eLE0ylQgP0sVpJYLMqj
+         V+5p0nSCH5rtm5LMxJzk63qUpR9mCtXx/XbgvaoScxUOnwO1xOeUhezLjlq9KtPDfKhp
+         vZt862J+CI1qdnKRiqLlUUFrbhGYwtFxs9oqYKQNKoI2lXWl7HSZKymNsU/OF/Bfc7+x
+         BsWoW55x/FwsLR7uau3VLSwUPAbwkHiJS4+jHjDuNNCHRSOwePUqK9KYfadOZ6LEp7xE
+         tuL3rbh5/VA/0sWCOxYlL7n3oaUiY26/ltdD2omqJQqg0Y3NHy1m5E1Fnd29cPO8IvcU
+         tuoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TmTTVnr6ZM5whoKrUx/7AN+GKz0T5h8z5E2EWOl+iVg=;
-        b=shf1ADQUyu7eGMvK8+59tsMXVc+mey5hDocEUI2U4HDL4cgBlUTzrlb2wzmrASptaT
-         VBPasG0VtgJndHwsNAdVRcq/L6EHc2VkPfPgtrYLQPMUgzWKqDwCmAW6w8xb31RRP1y+
-         v4CrPX4oMINuyQ3Ke+nlelK3n79CbH+ecl7o1v29w3NFSxWHvkmmdzhqofXOAHUggyzQ
-         o25Zx02IioP8TpkbY5DBY4xhhpQALQCSgjlmFIORlRLXywG8cjKi3glziOX9Q6Yz6mxm
-         KCHkF0lpcmC8t+w/GkJxSFVaD27WDlZIgPsS8Cv5yCLNCqx4rxohZSRsOY+Q1AOd/2sS
-         eCsA==
-X-Gm-Message-State: APjAAAVenIDXS7usxeHzMdoNKwLVvwRyisNuv5MvMvW2KeQvJWqIaQHL
-        ROV6ETpb4KGCmXGd3mrKjyrRayIN+njsQGOVt+pRaw==
-X-Google-Smtp-Source: APXvYqxl9VbaNXdm1ZF2nw1U0O1w4RLqxmng5mXqFU2kIdhflAZ5y6fd8Qij4k7/mkA271HB67h7UEOiXMdnN9Ig5Ts=
-X-Received: by 2002:a05:6402:68f:: with SMTP id f15mr29322899edy.170.1571084277286;
- Mon, 14 Oct 2019 13:17:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191011145721.59257-1-pasha.tatashin@soleen.com> <20191014200309.GM15552@linux.intel.com>
-In-Reply-To: <20191014200309.GM15552@linux.intel.com>
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=adO3s5rQ80FSe9QoQi3APfXKvpPGONNAIqngjG3oV3o=;
+        b=NZGuHCeDWJtH81RGqITLCQLnEjzQbGJ34nLopIfMsKLScqkacG5xCzO+agEujWCyEW
+         XXLJoWAvPVq5uA1cgL3uyIBNbGG50bUyV4udKWj2ofamNvSvJYhWc4rChemROyj36mmK
+         Mo46LRBIOEJ9ll0DLcvkPWlTP+m7Dl0fsnit7vtJ0KabR16OtdY+tXxO/AWEAYqnBhIK
+         KcPjYEBbNTR4dIBFelfGeDVQj+YISTIKi4R0v0tmIOg1f01S5QC7GH/+CoipSTYytyFZ
+         fvy7ZkTUIEHGdqoYjLr9v/DZoNiDolsQalTs0cn2aUzBvjth8vwmNMzMP7PQgkYsIY1y
+         aawg==
+X-Gm-Message-State: APjAAAVopByMGbLNht0ASHFkxrs6ZKLyMzFcblNAhHTSwdhO0zIyW7Gw
+        ObyTdQREVeY2BFT4fupuKELfNw==
+X-Google-Smtp-Source: APXvYqyIGxVirj24b/z7N8sIuYFghEnsbiFVPx5jPEWYM5oEfLgLlBoX9K22BMNQM88asTUBLjrE6A==
+X-Received: by 2002:aed:3e45:: with SMTP id m5mr3983673qtf.268.1571084497370;
+        Mon, 14 Oct 2019 13:21:37 -0700 (PDT)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id y58sm11111472qta.1.2019.10.14.13.21.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 13:21:36 -0700 (PDT)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Mon, 14 Oct 2019 16:17:46 -0400
-Message-ID: <CA+CK2bCeO_2XkVLAbe5857F3wv-zJQdc9HLyedi3u2+xO9dDFA@mail.gmail.com>
-Subject: Re: [PATCH] ftpm: add shutdown call back
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     James Morris <jmorris@namei.org>, Sasha Levin <sashal@kernel.org>,
-        peterhuewe@gmx.de, jgg@ziepe.ca,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     pasha.tatashin@soleen.com, jmorris@namei.org, sashal@kernel.org,
+        peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
         thiruan@microsoft.com, bryankel@microsoft.com,
         tee-dev@lists.linaro.org, ilias.apalodimas@linaro.org,
         sumit.garg@linaro.org, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v2] tpm/tpm_ftpm_tee: add shutdown call back
+Date:   Mon, 14 Oct 2019 16:21:35 -0400
+Message-Id: <20191014202135.429009-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 4:03 PM Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
->
-> On Fri, Oct 11, 2019 at 10:57:21AM -0400, Pavel Tatashin wrote:
-> > From: thiruan <thiruan@microsoft.com>
-> >
-> > add shutdown call back to close existing session with fTPM TA
-> > to support kexec scenario.
-> >
-> > Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
->
-> Use the correct tag in the short summary (tpm/tpm_ftpm_tee).
+add shutdown call back to close existing session with fTPM TA
+to support kexec scenario.
 
-Hi Jarkko,
+Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+---
+ drivers/char/tpm/tpm_ftpm_tee.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Thanks, I will address your comments and send out a new patch soon.
+diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_tee.c
+index 6640a14dbe48..ad16ea555e97 100644
+--- a/drivers/char/tpm/tpm_ftpm_tee.c
++++ b/drivers/char/tpm/tpm_ftpm_tee.c
+@@ -328,6 +328,19 @@ static int ftpm_tee_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++/**
++ * ftpm_tee_shutdown - shutdown the TPM device
++ * @pdev: the platform_device description.
++ */
++static void ftpm_tee_shutdown(struct platform_device *pdev)
++{
++	struct ftpm_tee_private *pvt_data = dev_get_drvdata(&pdev->dev);
++
++	tee_shm_free(pvt_data->shm);
++	tee_client_close_session(pvt_data->ctx, pvt_data->session);
++	tee_client_close_context(pvt_data->ctx);
++}
++
+ static const struct of_device_id of_ftpm_tee_ids[] = {
+ 	{ .compatible = "microsoft,ftpm" },
+ 	{ }
+@@ -341,6 +354,7 @@ static struct platform_driver ftpm_tee_driver = {
+ 	},
+ 	.probe = ftpm_tee_probe,
+ 	.remove = ftpm_tee_remove,
++	.shutdown = ftpm_tee_shutdown,
+ };
+ 
+ module_platform_driver(ftpm_tee_driver);
+-- 
+2.23.0
 
-Pasha
