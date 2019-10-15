@@ -5,73 +5,59 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F32C7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 18:32:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 29A407D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 18:38:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729156AbfJOScY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 14:32:24 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36184 "EHLO ms.lwn.net"
+        id S1731430AbfJOSiD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 14:38:03 -0400
+Received: from ms.lwn.net ([45.79.88.28]:36224 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727200AbfJOScY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Oct 2019 14:32:24 -0400
+        id S1726144AbfJOSiD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Oct 2019 14:38:03 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 76FB1382;
-        Tue, 15 Oct 2019 18:32:23 +0000 (UTC)
-Date:   Tue, 15 Oct 2019 12:32:22 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id EE8AC316;
+        Tue, 15 Oct 2019 18:38:02 +0000 (UTC)
+Date:   Tue, 15 Oct 2019 12:38:01 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Adam Zerella <adam.zerella@gmail.com>
-Cc:     gor@linux.ibm.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: admin-guide: Extend short title underline in
- sysctl
-Message-ID: <20191015123222.46527701@lwn.net>
-In-Reply-To: <20191014110008.GA3814@gmail.com>
-References: <20191014110008.GA3814@gmail.com>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Shobhit Kukreti <shobhitkukreti@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] docs: admin-guide: Sort the "unordered guides"
+ to avoid merge conflicts
+Message-ID: <20191015123801.0ba2d123@lwn.net>
+In-Reply-To: <20191012171114.6589-1-j.neuschaefer@gmx.net>
+References: <20191012171114.6589-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 14 Oct 2019 22:00:08 +1100
-Adam Zerella <adam.zerella@gmail.com> wrote:
+On Sat, 12 Oct 2019 19:11:09 +0200
+Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> Title underlines should extend the full length of a title,
-> Sphinx is currently displaying the following warning when
-> building the htmldocs:
+> Since the "unordered guides" linked in admin-guide/index.rst are not
+> supposed to be in any particular order, let's sort them alphabetically
+> to avoid the risk of merge conflicts by spreading newly added lines more
+> evenly.
 > 
-> sysctl/kernel.rst:397: WARNING: Title underline too short.
-> 
-> hung_task_interval_warnings:
-> ===================
-> 
-> Signed-off-by: Adam Zerella <adam.zerella@gmail.com>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 614179dc79a9..383eda89f411 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -394,7 +394,7 @@ This file shows up if CONFIG_DETECT_HUNG_TASK is enabled.
->  
->  
->  hung_task_interval_warnings:
-> -===================
-> +============================
->  
->  The same as hung_task_warnings, but set the number of interval
->  warnings to be issued about detected hung tasks during check
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-So this is a good fix, but it's not an actual patch that I can apply.
-Randy meanwhile says he fixed it, but the patch wasn't sent to me.  I
-guess this warning will live a little longer...:(
+I've applied this as being better than nothing, but I would *really* be
+pleased if somebody could spend some time imposing a more interesting
+order on those unordered guides.  Making readers pick through a long list
+of random documents isn't all that friendly.
+
+(The rest of the set is applied as well).
 
 Thanks,
 
