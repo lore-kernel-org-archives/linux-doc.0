@@ -1,100 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A9E567D981
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Oct 2019 23:35:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D6517D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 03:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbfJNXfu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Oct 2019 19:35:50 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37971 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726180AbfJNXfu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 19:35:50 -0400
-Received: by mail-ot1-f65.google.com with SMTP id e11so15272600otl.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2019 16:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NwUiRmL5zHRuSpoZacB+KbqGLwUbPV8zfP2jjwTQZ40=;
-        b=TKlYMgY6BIO0a2BCP9NIZ0RDFSDCMHEJtY2x9DKJYW3dkv4cc3dMdfoEXPfq7nao1A
-         FB8isuIUIz37YiDdrnt6tj2rZPqxphRoRXt7DnRZ9IRAcs5kglsAJ0mmTwG9hxcsL0bX
-         eb0MFM9vaJmNbvXkyarJwKDErv8tEnSOvMvyg4JE7a8MGMig61jXeS76iRZsnKC2L146
-         kFdCa9XX3huj52KblSP/OsgJS7fEJJD+2W4wxnDz9el2/wmnB6wInAj4eZtqdJW4Cno0
-         lEyXvrUNPoUnOLU3oA01VMyMsvwUSEJW4ECh+yngbOn7WGb14cG6u4SCGTI79ftXco6x
-         5ZaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NwUiRmL5zHRuSpoZacB+KbqGLwUbPV8zfP2jjwTQZ40=;
-        b=ltAlZR5ys6ZMxR9VXHblvDdWifKGZJwcygqNiBz8QK8W/9DKgrz6vhosqTPTbx2BLR
-         kZ2kb15VGUXQYQOiLW3f3BMkQuHbnS9D9ftNoa2DDFN8AMwhg00DiNyl10RH6lN6RVOb
-         ESTw143A12MGrN81Gf+7lhrFaGLI8Uk7jTwk/z6opjRbKHI7zzYKnFpW+adNN/E1wmT+
-         yAWKGPkauDnlbG5NuLuAGPy+ssQ3VquiygJjtja2CdxP48zh9oSLWVHIVPanHSlJVcpp
-         8rC3ckPP10gVL1qYZ1Ungvg3pNDlGASoLd2K7Hc3E9wae/oa3qvPcpT9QpMLtOqaRXu7
-         2+Qw==
-X-Gm-Message-State: APjAAAVoWVj+UVk4KhLkeV03ioXxNuV6J1wfL1Uqp3/ReCtj5nd4lrbs
-        Gwpu3ROkh79KOwPzELE3A9GeaHV0WG1Yd/k4ji6/qg==
-X-Google-Smtp-Source: APXvYqzEMn4iiEvRoFnPWid2cqOI3VZG7sGt2CV0SkehdxGAGwKggzD4OaekfLnZ7//zX1O/DAxwc3wOaYMFld0l4Fk=
-X-Received: by 2002:a9d:66c5:: with SMTP id t5mr26275692otm.225.1571096148769;
- Mon, 14 Oct 2019 16:35:48 -0700 (PDT)
+        id S1727677AbfJODPI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Oct 2019 23:15:08 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38110 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726946AbfJODPI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Oct 2019 23:15:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=rGXKOzZI2i2ULcbgzDpG/mG1eu5gxk2EGw7KyGeZWwE=; b=Ck4GEFQCqtrUxKelUCq8Q93OE
+        TgZCkXwGyd9+XQ40HYW8ayvgLfti0hqTDa/CvRTsliaSADnE0HCCMC+vmvq9WGGbdffVTCNYxlnCD
+        4Mrl5Zi4BKTGxL9fnpjlQMVLdNBXgDcfNCMIw8MKAMk+oWO3/qbzDB4KFlPcaCrDkE59assZz3cd5
+        +rjncO71ZMRE4j0IH3/9bteALR9aB3djRUl1V+UH+aLGCY+gcZPHu4bgNrak6aZQGDhqeDmnfIQlA
+        lvsZmqvgnm+aKjD3Hejv3+pRbfLWXv1Sydao3hwwLdrvJuNkXSJRQ3Tb12fWsiMj1dY974Z1KiKkp
+        WEffcX/fw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iKDIe-0000xB-K6; Tue, 15 Oct 2019 03:15:04 +0000
+Date:   Mon, 14 Oct 2019 20:15:04 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Tim.Bird@sony.com
+Cc:     jani.nikula@linux.intel.com, changbin.du@gmail.com, corbet@lwn.net,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+Message-ID: <20191015031504.GB32665@bombadil.infradead.org>
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
 MIME-Version: 1.0
-References: <20191011191521.179614-1-saravanak@google.com> <20191011191521.179614-4-saravanak@google.com>
- <20191014232828.DA62E217F9@mail.kernel.org>
-In-Reply-To: <20191014232828.DA62E217F9@mail.kernel.org>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Mon, 14 Oct 2019 16:35:12 -0700
-Message-ID: <CAGETcx9ke3+nGS+dBDOE9EhFhd=w6o5N+P5F7R-xNSi5fRLz_w@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] docs: driver-model: Add documentation for sync_state
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 4:28 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Saravana Kannan (2019-10-11 12:15:21)
-> > The sync_state() driver callback was added recently, but the
-> > documentation was missing.  Adding it now.
-> >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > ---
-> >  .../driver-api/driver-model/driver.rst        | 43 +++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
-> > index 11d281506a04..baa6a85c8287 100644
-> > --- a/Documentation/driver-api/driver-model/driver.rst
-> > +++ b/Documentation/driver-api/driver-model/driver.rst
-> > @@ -169,6 +169,49 @@ A driver's probe() may return a negative errno value to indicate that
-> >  the driver did not bind to this device, in which case it should have
-> >  released all resources it allocated::
-> >
-> > +       void (*sync_state)(struct device *dev);
->
-> This is only in -next as far as I can tell. Will this be combined with a
-> resend of the patch series that introduces this hook?
+On Mon, Oct 14, 2019 at 08:48:48PM +0000, Tim.Bird@sony.com wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Jani Nikula on October 13, 2019 11:00 PM
+> > On Sun, 13 Oct 2019, Changbin Du <changbin.du@gmail.com> wrote:
+> > > The 'functions' directive is not only for functions, but also works for
+> > > structs/unions. So the name is misleading. This patch renames it to
+> > > 'specific', so now we have export/internal/specific directives to limit
+> > > the functions/types to be included in documentation. Meanwhile we
+> > improved
+> > > the warning message.
+> > 
+> > Agreed on "functions" being less than perfect. It directly exposes the
+> > idiosyncrasies of scripts/kernel-doc. I'm not sure "specific" is any
+> > better, though.
+> 
+> I strongly agree with this.  'specific' IMHO, has no semantic value and
+> I'd rather just leave the only-sometimes-wrong 'functions' than convert
+> to something that obscures the meaning always.
+> 
+> > 
+> > Perhaps "symbols" would be more self-explanatory. Or, actually make
+> > "functions" only work on functions, and add a separate keyword for other
+> > stuff. *shrug*
+> My preference would be to use 'symbols'.  I tried to come up with something
+> but 'symbols' is better than anything I came up with.
 
-Based on what Greg said in the other email, I think he's going to pick
-this up for driver-core-next.
-
--Saravana
+structures aren't symbols though ... How about 'identifier'?
