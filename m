@@ -3,93 +3,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FEFE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 20:55:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 055FD7DC63
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 21:21:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727988AbfJOUzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 16:55:17 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41004 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728276AbfJOUzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 16:55:16 -0400
-Received: by mail-ed1-f66.google.com with SMTP id f20so19391256edv.8
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2019 13:55:13 -0700 (PDT)
+        id S1726515AbfJOVUw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 17:20:52 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38035 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726686AbfJOVUw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 17:20:52 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y18so16088521wrn.5
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2019 14:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oDe3m4rQhSeY+085wHNREg/SXUE2bSEKEEx664Jg5w8=;
-        b=QlVkZKTUMDSSzBGZhSI9NF6G0+3XMbJ6J2iynj+OS6O4zXcFlL3S4E5MaYJDcauxZk
-         FgTdM3r8hZSgOz96TSowUnqL/VC7mMRck7BQaJC5Ima8iDx+OJfwSo2bdkwUeIMUK9Mh
-         XedO9xP0CggVE6s6ltyVqWYIq4ePbRiXxCmhY=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=gQc1r1ib/WAI/h8loP6CN8X5jrpz3S38qvA1z7LgOPY=;
+        b=bbmlUFcW3Hlhbp/CMbhjjOr4SasG3lOEMH8bDrHAR9UUlKDgHAvfGJSv8+mRGUKMBk
+         1lIcgmdXlK4U5TjVYJEuT9HjsOC7L0qgXMtuI0d4B5U1HvVKvhIHk5WuxdonpurZQUXW
+         vS5fGv+VFj6hHpqShaW5Is33c7bthlwr6rVYZdhvB0emV5TySylAD5Wywog46vMxf2gd
+         FEjF28f6P7EW/RtLPB7hYYwkSzyYdPAz+w45thbCQLCQ8RGXqvh6HhwcpJ0sdBt9b+cK
+         IbzM609UKMyNjo6ZFc5u8ztqv/Pb1A/7IzWdtX2YFPMcwYz2lJZIo3kbDCLNdokDQUse
+         5IaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oDe3m4rQhSeY+085wHNREg/SXUE2bSEKEEx664Jg5w8=;
-        b=bC/gvhQvwO9M7f129C9XIAk5EPszfbtThfDyXxMwNk0JA2KTTU7i5oRfc5UhYotwWb
-         kfqNp7pG/lWSG2LhGSRTmCncKsQz4sWGekSvMd6JnX9zpF2ApYHDFiXS2SryRwViWrjY
-         GTzqLj0Po+DD/F6zs6cgO9BOc7Yb3n9Mcg6WqoDxZOIjK8eDSm+Ap7NCl+1d0Dv+VzKU
-         tH2lyAc5vQMiYSk54RnxI6zJrb7IkCtoXdh5kKNMxkKNk+xjU6BH6Iwb/ErxTiEmF/7x
-         hA+KPnJA7WUGKlzUpw162T7hfYgKg5dLcU+hjspjdYdpGOG/lhxcqt+fF/MK5etApX7H
-         GnxQ==
-X-Gm-Message-State: APjAAAUZItvE0/2dP2AVjWSkAlPPZI8+N0j4BDu7iWTJxaAwpfdJ2Qk1
-        hC8Hd+94C2LZr93T1vF9DkgnLQ==
-X-Google-Smtp-Source: APXvYqwDITrOe6St9TL9o8lLSzMebzIU+Q8KhhpwCgh+rCtbPFOdRBURIT5dtKJRht+X8Hb+Rm5Wxw==
-X-Received: by 2002:a17:906:6094:: with SMTP id t20mr36753160ejj.316.1571172913188;
-        Tue, 15 Oct 2019 13:55:13 -0700 (PDT)
-Received: from [192.168.1.149] (ip-5-186-115-54.cgn.fibianet.dk. [5.186.115.54])
-        by smtp.gmail.com with ESMTPSA id gl4sm2871268ejb.6.2019.10.15.13.55.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Oct 2019 13:55:12 -0700 (PDT)
-Subject: Re: [PATCH v3] docs: Use make invocation's -j argument for
- parallelism
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <201909241627.CEA19509@keescook>
- <eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk>
- <201910040904.43B61E4@keescook>
- <b95ded2e-474a-5f7b-af07-30732e8cdb41@rasmusvillemoes.dk>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <44c01043-ab24-b4de-6544-e8efd153e27a@rasmusvillemoes.dk>
-Date:   Tue, 15 Oct 2019 22:55:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <b95ded2e-474a-5f7b-af07-30732e8cdb41@rasmusvillemoes.dk>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=gQc1r1ib/WAI/h8loP6CN8X5jrpz3S38qvA1z7LgOPY=;
+        b=ZIGVtfaOZuEog0uvOU5Rj/IkswPQYBEZZxOq+1WFST2MwwR8a7lKUtS0owm2koudZe
+         iL9q+z6RnraUiNnu6uA4feI3VL1UE9LPj+oAJ5h2o0sftRiKLbIMUKemWv/Z+2jEKR3c
+         weYkHTFMAOYg+ueOqWTwTmVSh5SQBkik0OSctBtnpfKg6cvaKvIViMmK+E+/anNPgng8
+         3orT/jJtDIguRD7qNELViMYGQEArrb57nHi/4jopTGemV+aHpHw6m7GrodHw/XaIgkV6
+         8fQ747RXZnJDNCAFYBU6Zz32I7aINGuYg9yupSfLmrCkIzBUPjL+FzFCDbx9a8ySDBPu
+         SK/g==
+X-Gm-Message-State: APjAAAUzewECwCev/4hrCM004JYicS5BrwrH771LtODH14TFRUB3Pfih
+        JpOf7jzQgfVVZgdKu607dWoUew==
+X-Google-Smtp-Source: APXvYqweUupN2R/PZTaLYqLXTlbWF/L6LtoymPyIcmk/AGFkqrkRyH8nw4C3r0u1Mi+6Gg/deRZYHw==
+X-Received: by 2002:adf:fa86:: with SMTP id h6mr32118497wrr.186.1571174450393;
+        Tue, 15 Oct 2019 14:20:50 -0700 (PDT)
+Received: from linaro.org ([2a00:23c5:6815:3901:39d2:21a2:678a:9501])
+        by smtp.gmail.com with ESMTPSA id g185sm517649wme.10.2019.10.15.14.20.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 14:20:49 -0700 (PDT)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     mike.leach@linaro.org, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Cc:     mathieu.poirier@linaro.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, suzuki.poulose@arm.com
+Subject: [PATCH v3 00/11] coresight: etm4x: Fixes and updates for sysfs API
+Date:   Tue, 15 Oct 2019 22:19:53 +0100
+Message-Id: <20191015212004.24748-1-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/10/2019 21.33, Rasmus Villemoes wrote:
-> On 04/10/2019 18.08, Kees Cook wrote:
+Review of ETMV4 sysfs code resulted in a number of minor issues being
+discovered.
 
->> The best solution would be to teach sphinx-build about the Make
->> jobserver, though I expect that would be weird. Another idea would be to
->> hold the reservation until sphinx-build finishes and THEN return the
->> slots? That would likely need to change from a utility to a sphinx-build
->> wrapper...
-> 
-> Yes, a more general solution would be some kind of generic wrapper that
-> would hog however many tokens it could get hold of and run a given
-> command with a commandline slightly modified to hand over those tokens -
-> then wait for that process to exit and give back the tokens. That would
-> work for any command that knows about parallelism but doesn't support
-> the make jobserver model.
+Patch set fixes these issues:-
+1) Update for ETM v4.4 archtecture.
+2) Add missing single shot comparator API.
+3) Misc fixes and improvements to sysfs API
+4) Updated programmers documentation and reference.
 
-On the off-chance that anybody cares I tried implementing that, because
-I've wanted something like that to make "ninja" play nice when invoked
-from Make for a long time. Rough sketch at
-https://github.com/Villemoes/jobhog .
+Changes since v2 (reviews from Mathieu and Leo):-
+  Patch 0002 now adds stable tag. Tested on 4.9, 4.14, 4.19
+  Applies to coresight/next (5.4-rc1)
+  Documentation changed to .rst format to match recent updates that
+  converted other CoreSight .txt files.
+  Misc typo / comment changes.
 
-Rasmus
+Changes since v1 (from reviews by Mathieu and Leo):-
+  Usability patch split into 2 separate functional patches.
+  Docs patch split into 3 patches.
+  Misc style and comment typo fixes.
+
+Mike Leach (11):
+  coresight: etm4x: Fixes for ETM v4.4 architecture updates.
+  coresight: etm4x: Fix input validation for sysfs.
+  coresight: etm4x: Add missing API to set EL match on address filters
+  coresight: etm4x: Fix issues with start-stop logic.
+  coresight: etm4x: Improve usability of sysfs - include/exclude addr.
+  coresight: etm4x: Improve usability of sysfs - CID and VMID masks.
+  coresight: etm4x: Add view comparator settings API to sysfs.
+  coresight: etm4x: Add missing single-shot control API to sysfs
+  coresight: etm4x: docs: Update ABI doc for sysfs features added.
+  coresight: docs: Create common sub-directory for coresight trace.
+  coresight: etm4x: docs: Adds detailed document for programming etm4x.
+
+ .../testing/sysfs-bus-coresight-devices-etm4x | 183 ++--
+ .../{ => coresight}/coresight-cpu-debug.rst   |   0
+ .../coresight/coresight-etm4x-reference.rst   | 798 ++++++++++++++++++
+ .../trace/{ => coresight}/coresight.rst       |   2 +-
+ Documentation/trace/{ => coresight}/stm.rst   |   0
+ MAINTAINERS                                   |   3 +-
+ .../coresight/coresight-etm4x-sysfs.c         | 312 ++++++-
+ drivers/hwtracing/coresight/coresight-etm4x.c |  32 +-
+ drivers/hwtracing/coresight/coresight-etm4x.h |  17 +-
+ 9 files changed, 1245 insertions(+), 102 deletions(-)
+ rename Documentation/trace/{ => coresight}/coresight-cpu-debug.rst (100%)
+ create mode 100644 Documentation/trace/coresight/coresight-etm4x-reference.rst
+ rename Documentation/trace/{ => coresight}/coresight.rst (99%)
+ rename Documentation/trace/{ => coresight}/stm.rst (100%)
+
+-- 
+2.17.1
+
