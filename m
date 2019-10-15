@@ -1,123 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8B65B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 09:36:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 893767D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 11:54:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbfJOJg1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 05:36:27 -0400
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:34894 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbfJOJg1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 05:36:27 -0400
-Received: by mail-yb1-f195.google.com with SMTP id i6so1948624ybe.2;
-        Tue, 15 Oct 2019 02:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iMrIAnZ82+rBIfraJTHtx7CjmsFJKaDtLSbFOzwjTXE=;
-        b=BAFaP7aiq5gaPqOXng6TMHCql16AL4AFgl/Ejp3CUchGQwSKQfszAhzzzSYft1g+Au
-         wXKXNKpIVW4gbP/z/8XCCYi0piqNvBZ5K87ZITK8rHCNUPgV71PzYzf/lzI04N3v04R0
-         AFO739QhqbEbQldEQBXF5xF0eOgFgAvg/O8ZNzkWCczS2gfDS0DiheutwA59ZjDJh5DF
-         Wax26kW6RPj7B/JCgYzZxl/Zyv4ga/kmXr++znOZLPWHwNnSmLhQPJl0M7/yXqfwkqGL
-         xz/9M0V+2jCusklQLCnkwfSHFA2S18BsdfUwAQ34M6LX5XLdSaKy6dKQROBIRUQ0lued
-         NoZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iMrIAnZ82+rBIfraJTHtx7CjmsFJKaDtLSbFOzwjTXE=;
-        b=dmBooSGQsk4AQ/SkiNuA5hNUchT8WoUlQKpACx547mqKjjsP2ob4u99JCwb2tKSBlu
-         9LunFHEPH9nfOFl6fjc2PvfLnfQKSxTvrVQePHBVlmr6YTjrv64XwFPBn5pGcZbFv+je
-         vD1+EaqlyWGjZDNhm5XCLF/D9ppYaNTrWXbJvcX0GQReHqITu88UmoVrXXx7pdGNaV4D
-         3DYBmvZYL78VlYN2EH3SsxrzNNvekGsu1XDl4lQ4fAYSzx/bZgnlTumyD6i13GeEu7of
-         bNQjAHLM33TY97b7GVNJcYeAdmiHWSaRz14KLBzwImkWkbSMsq83u5vBmWbhjTlH9cuZ
-         A+gg==
-X-Gm-Message-State: APjAAAXdlt5ZRPWrklC+pNTMYnRZmunUuMm9+DqanmzLfxP/x4qCZofR
-        Zj0ZHvZlNRLmdfFTWsurqvaDiRoFYewgbsN0fS0blA==
-X-Google-Smtp-Source: APXvYqzfBkWPsmhmg21XCDLG9UYkB1oSENrt2pQtpaUbfuRqWjAfwiBnCv2x3+R8EmW7I7Sm1/xRSnskoDfK7ldkr3M=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr24585102ybc.33.1571132185981;
- Tue, 15 Oct 2019 02:36:25 -0700 (PDT)
+        id S1729267AbfJOLyq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 07:54:46 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49312 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725790AbfJOLyp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 07:54:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0yszEpJzojsv0U117iSsMG8HSxDkuZTGjoLlQ1g6Cro=; b=H2QiGrYjU+ubokt8xpeZfhmc4
+        KeJqoyW8uxg7q1ISBlPkeTP2VdHeNdFTEjfM200kGher4lLa4FDZstL8YRJD8ekvVwvsmb0Xh9MA/
+        lfFABlsn9oxUQAauCLzlpFOdRUSbEbEftAcVJJaMGJY9NIPHKq6QjSrP6QslqqBxQ3eLaFQdzC3DX
+        TIla8pTIh8VTxkbhj7ewvknq0SzA4BjENLyfZTNdx3ia+LGoTRLtZYCdz0cbkHhiqHgzceQQAS/CK
+        Ds/hLOlmUytSUF8O1f0IFiZGzOvwnZuONgSdBd4omuLOkIVrqAZm05F0lAxgbTylf8FsZGeFd7LZF
+        KVLvVEaeQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iKLPT-0005JE-TQ; Tue, 15 Oct 2019 11:54:39 +0000
+Date:   Tue, 15 Oct 2019 04:54:39 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Tim.Bird@sony.com, jani.nikula@linux.intel.com,
+        changbin.du@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-mm@kvack.org, linux-crypto@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+Message-ID: <20191015115439.GE32665@bombadil.infradead.org>
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+ <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
 MIME-Version: 1.0
-References: <20190830125436.16959-1-ganapat@localhost.localdomain> <CAKTKpr43RyG0fTp3nOQP--F80JYD1aCHEU5TJNZCK8LPCLfswQ@mail.gmail.com>
-In-Reply-To: <CAKTKpr43RyG0fTp3nOQP--F80JYD1aCHEU5TJNZCK8LPCLfswQ@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 15 Oct 2019 15:06:14 +0530
-Message-ID: <CAKTKpr7r2v8K6WLThvO8jBXjv7FiFbgFOG5McsW3FnqgVoRXqA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] Add CCPI2 PMU support
-To:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Jan Glauber <jglauber@marvell.com>,
-        Ganapatrao Kulkarni <gkulkarni@marvell.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Will,
+On Tue, Oct 15, 2019 at 11:25:53AM +0200, Thomas Zimmermann wrote:
+> > My preference would be to use 'symbols'.  I tried to come up with something
+> > but 'symbols' is better than anything I came up with.
+> 
+> Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
+> imprecise as 'functions'.
 
-On Sun, Oct 13, 2019 at 10:45 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
->
-> Hi Will, Mark,
->
-> On Fri, Aug 30, 2019 at 6:24 PM ganapat <gklkml16@gmail.com> wrote:
-> >
-> > From: Ganapatrao Kulkarni <gkulkarni@marvell.com>
-> >
-> > Add Cavium Coherent Processor Interconnect (CCPI2) PMU
-> > support in ThunderX2 Uncore driver.
-> >
-> > v5:
-> >         Fixed minor bug of v4 (timer callback fuction
-> >         was getting initialized to NULL for all PMUs).
-> >
-> > v4:
-> >         Update with review comments [2].
-> >         Changed Counter read to 2 word read since single dword read is misbhehaving(hw issue).
-> >
-> > [2] https://lkml.org/lkml/2019/7/23/231
-> >
-> > v3: Rebased to 5.3-rc1
-> >
-> > v2: Updated with review comments [1]
-> >
-> > [1] https://lkml.org/lkml/2019/6/14/965
-> >
-> > v1: initial patch
-> >
-> >
-> > Ganapatrao Kulkarni (2):
-> >   Documentation: perf: Update documentation for ThunderX2 PMU uncore
-> >     driver
-> >   drivers/perf: Add CCPI2 PMU support in ThunderX2 UNCORE driver.
-> >
-> >  .../admin-guide/perf/thunderx2-pmu.rst        |  20 +-
-> >  drivers/perf/thunderx2_pmu.c                  | 267 +++++++++++++++---
-> >  2 files changed, 245 insertions(+), 42 deletions(-)
-> >
-> > --
-> > 2.17.1
-> >
->
-> Any comments on this patchset?
+I suggested 'identifier' because that's the term used in the C spec (6.2.1):
 
-If no further comments, can you please queue it to next?
+: An identifier can denote an object; a function; a tag or a member
+: of a structure, union, or enumeration; a typedef name; a label name;
+: a macro name; or a macro parameter.
 
-Thanks,
-Ganapat
-
->
-> Thanks,
-> Ganapat
+We don't allow documenting all those things separately, but it does cover
+all the things we do allow to be individually documented.
