@@ -3,68 +3,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB5D17DC63
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 12:10:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 407D97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 13:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730712AbfJOMKF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 08:10:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58068 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730681AbfJOMKF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Oct 2019 08:10:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id EEE54B395;
-        Tue, 15 Oct 2019 12:10:00 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v10 3/6] MIPS: PCI: Fix fake subdevice ID for IOC3
-Date:   Tue, 15 Oct 2019 14:09:48 +0200
-Message-Id: <20191015120953.2597-4-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20191015120953.2597-1-tbogendoerfer@suse.de>
-References: <20191015120953.2597-1-tbogendoerfer@suse.de>
+        id S1730640AbfJONSp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 09:18:45 -0400
+Received: from mga18.intel.com ([134.134.136.126]:16623 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729551AbfJONSp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Oct 2019 09:18:45 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Oct 2019 06:18:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; 
+   d="scan'208";a="208181089"
+Received: from mcretu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.56.150])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2019 06:18:38 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Tim.Bird@sony.com, changbin.du@gmail.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions' to 'specific'
+In-Reply-To: <20191015115439.GE32665@bombadil.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191013055359.23312-1-changbin.du@gmail.com> <875zkrd7nq.fsf@intel.com> <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com> <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de> <20191015115439.GE32665@bombadil.infradead.org>
+Date:   Tue, 15 Oct 2019 16:19:36 +0300
+Message-ID: <8736fub0yf.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Generation of fake subdevice ID had vendor and device ID swapped.
+On Tue, 15 Oct 2019, Matthew Wilcox <willy@infradead.org> wrote:
+> On Tue, Oct 15, 2019 at 11:25:53AM +0200, Thomas Zimmermann wrote:
+>> > My preference would be to use 'symbols'.  I tried to come up with something
+>> > but 'symbols' is better than anything I came up with.
+>> 
+>> Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
+>> imprecise as 'functions'.
+>
+> I suggested 'identifier' because that's the term used in the C spec (6.2.1):
+>
+> : An identifier can denote an object; a function; a tag or a member
+> : of a structure, union, or enumeration; a typedef name; a label name;
+> : a macro name; or a macro parameter.
+>
+> We don't allow documenting all those things separately, but it does cover
+> all the things we do allow to be individually documented.
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
- arch/mips/pci/pci-xtalk-bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Agreed.
 
-diff --git a/arch/mips/pci/pci-xtalk-bridge.c b/arch/mips/pci/pci-xtalk-bridge.c
-index dcf6117a17c3..d1d5f54c2632 100644
---- a/arch/mips/pci/pci-xtalk-bridge.c
-+++ b/arch/mips/pci/pci-xtalk-bridge.c
-@@ -437,7 +437,7 @@ static int bridge_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
- 	return irq;
- }
- 
--#define IOC3_SID(sid)	(PCI_VENDOR_ID_SGI << 16 | (sid))
-+#define IOC3_SID(sid)	(PCI_VENDOR_ID_SGI | ((sid) << 16))
- 
- static void bridge_setup_ip27_baseio6g(struct bridge_controller *bc)
- {
+BR,
+Jani.
+
+
 -- 
-2.16.4
-
+Jani Nikula, Intel Open Source Graphics Center
