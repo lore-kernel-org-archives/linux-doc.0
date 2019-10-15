@@ -1,145 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEBBF7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 18:42:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 151DE7D913
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 19:05:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731606AbfJOSmr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 14:42:47 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33399 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbfJOSmr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 14:42:47 -0400
-Received: by mail-oi1-f194.google.com with SMTP id a15so17765334oic.0;
-        Tue, 15 Oct 2019 11:42:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GAHrLiAFlazwlF31Anvci8d6QY+LhAJg86S630nwFns=;
-        b=hL/tauRjah5rVImtp8vS/9VeejEN8woHZBR1hPjhrKQ7TwzXztTrmmEVVKlknoNf/i
-         kvPVPD3gaHqG1flXSvriGWutrhu/ERuOVLohVtHNgrev3J3/kc34Tr6t2/c+sotV6ere
-         bEVpCowUoHcNZxd6mtgaVRMb1D/c3kpNt7P4CbtoG2qsF8XvJMR6Z77W45oQ/C8rO4ex
-         DeIUnrb7WxbiPSvUVOlHWn/QI0wmUka4S6i6ueKFzxRPD5RDWqinZ18ecct/NuWeWoUD
-         LxUKqMK6c6410By2aO4zQm4t2BGahgf6xgEPc90jWqlrSUcVXR66LxHiG158FV/3S6VP
-         eM4w==
-X-Gm-Message-State: APjAAAXcIsazgYCnw4QNhQ/Nfy6uYfvpCX746PmGfDnzFN2LJ2bvbitR
-        Hwi9bSQQgEhVzPpSBt4k4Q==
-X-Google-Smtp-Source: APXvYqwfHoEV7ttuKqHdAbUE09Jpc6mRk4X+QQqULjfnpK4q+69BAnmHmrAl97D3fg6fznbpbVrX0Q==
-X-Received: by 2002:aca:d19:: with SMTP id 25mr15150oin.64.1571164964933;
-        Tue, 15 Oct 2019 11:42:44 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l19sm6293550oie.22.2019.10.15.11.42.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 11:42:44 -0700 (PDT)
-Date:   Tue, 15 Oct 2019 13:42:43 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-ntb@googlegroups.com
-Subject: Re: [RFC PATCH 02/21] dt-bindings: PCI: Endpoint: Add DT bindings
- for PCI EPF Device
-Message-ID: <20191015184243.GA10228@bogus>
-References: <20190926112933.8922-1-kishon@ti.com>
- <20190926112933.8922-3-kishon@ti.com>
+        id S1730364AbfJOTFB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 15:05:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729457AbfJOTFB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Oct 2019 15:05:01 -0400
+Received: from localhost (unknown [38.98.37.135])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81CDC20663;
+        Tue, 15 Oct 2019 19:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571166298;
+        bh=ZIaAvZnbtHuEZ4yVB6QTkkDmhzPaea3XJQXci8c1v1Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ysEUE+w2/SUgcm+INApP0pKGfkn+eJIxJi0wsXYoMDuLs+6Ztvx6GN0NKN8SFGtqf
+         4b8liCT/Ywy9rBuFRUtBwHV8L4DFP1e6xlDxdltbzrGGrg5vlR9JPadIZVZgiyzjLr
+         q4S3RCcNutRbS11kdKfgZo/W1BHLrQXFP92HiGIU=
+Date:   Tue, 15 Oct 2019 21:01:55 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+Cc:     corbet@lwn.net, robh+dt@kernel.org, mark.rutland@arm.com,
+        catalin.marinas@arm.com, will@kernel.org, shawnguo@kernel.org,
+        leoyang.li@nxp.com, jslaby@suse.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 3/5] serial: fsl_linflexuart: Be consistent with the
+ name
+Message-ID: <20191015190155.GA1140159@kroah.com>
+References: <1570726348-6420-1-git-send-email-stefan-gabriel.mirea@nxp.com>
+ <1570726348-6420-4-git-send-email-stefan-gabriel.mirea@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190926112933.8922-3-kishon@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1570726348-6420-4-git-send-email-stefan-gabriel.mirea@nxp.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 04:59:14PM +0530, Kishon Vijay Abraham I wrote:
-> Add device tree bindings for PCI endpoint function device. The
-> nodes for PCI endpoint function device should be attached to
-> PCI endpoint function bus.
+On Thu, Oct 10, 2019 at 07:52:26PM +0300, Stefan-Gabriel Mirea wrote:
+> For consistency reasons, spell the controller name as "LINFlexD" in
+> comments and documentation.
 > 
-> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+> Signed-off-by: Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
 > ---
->  .../bindings/pci/endpoint/pci-epf.txt         | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
-
-This and the previous patch for the bus should be combined and please 
-convert to a schema.
-
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  drivers/tty/serial/Kconfig                      | 8 ++++----
+>  drivers/tty/serial/fsl_linflexuart.c            | 4 ++--
+>  include/uapi/linux/serial_core.h                | 2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt b/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
-> new file mode 100644
-> index 000000000000..f006395fd526
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
-> @@ -0,0 +1,28 @@
-> +PCI Endpoint Function Device
-> +
-> +This describes the generic bindings to be used when a device has to be
-> +exposed to the remote host over PCIe. The device could be an actual
-> +peripheral in the platform or a virtual device created by the software.
-> +
-> +epcs : phandle to the endpoint controller device
-> +epc-names : the names of the endpoint controller device corresponding
-> +	    to the EPCs present in the *epcs* phandle
-
-Other than the NTB case, I'd expect the parent device to be the 
-controller. Let's make NTB the exception...
-
-
-> +vendor-id: used to identify device manufacturer
-> +device-id: used to identify a particular device
-> +baseclass-code: used to classify the type of function the device performs
-> +subclass-code: used to identify more specifically the function of the device
-
-Are these codes standard?
-
-Powerpc has "class-code" already...
-
-> +subsys-vendor-id: used to identify vendor of the add-in card or subsystem
-
-Powerpc has "subsystem-vendor-id" already...
-
-> +subsys-id: used to specify an id that is specific to a vendor
-> +
-> +Example:
-> +Following is an example of NTB device exposed to the remote host.
-> +
-> +ntb {
-
-This is going to need some sort of addressing (which implies 'reg')? If 
-not, I don't understand why you have 2 levels.
-
-> +	compatible = "pci-epf-ntb";
-> +	epcs = <&pcie0_ep>, <&pcie1_ep>;
-> +	epc-names = "primary", "secondary";
-> +	vendor-id = /bits/ 16 <0x104c>;
-> +	device-id = /bits/ 16 <0xb00d>;
-
-These have a long history in OF and should be 32-bits (yes, we've let 
-some cases of 16-bit creep in).
-
-> +	num-mws = <4>;
-
-Doesn't this apply to more than NTB?
-
-Can't you just get the length of 'mws-size'?
-
-> +	mws-size = <0x100000>, <0x100000>, <0x100000>, <0x100000>;
-
-Need to support 64-bit sizes?
-
-> +};
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index c7ac2f3ac99f..666326d74415 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1101,7 +1101,7 @@
+>  			mapped with the correct attributes.
+>  
+>  		linflex,<addr>
+> -			Use early console provided by Freescale LinFlex UART
+> +			Use early console provided by Freescale LINFlexD UART
+>  			serial driver for NXP S32V234 SoCs. A valid base
+>  			address must be provided, and the serial port must
+>  			already be setup and configured.
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index 4789b5d62f63..c8e11f62ea19 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -1391,19 +1391,19 @@ config SERIAL_FSL_LPUART_CONSOLE
+>  	  you can make it the console by answering Y to this option.
+>  
+>  config SERIAL_FSL_LINFLEXUART
+> -	tristate "Freescale linflexuart serial port support"
+> +	tristate "Freescale LINFlexD UART serial port support"
+>  	depends on PRINTK
+>  	select SERIAL_CORE
+>  	help
+> -	  Support for the on-chip linflexuart on some Freescale SOCs.
+> +	  Support for the on-chip LINFlexD UART on some Freescale SOCs.
+>  
+>  config SERIAL_FSL_LINFLEXUART_CONSOLE
+> -	bool "Console on Freescale linflexuart serial port"
+> +	bool "Console on Freescale LINFlexD UART serial port"
+>  	depends on SERIAL_FSL_LINFLEXUART=y
+>  	select SERIAL_CORE_CONSOLE
+>  	select SERIAL_EARLYCON
+>  	help
+> -	  If you have enabled the linflexuart serial port on the Freescale
+> +	  If you have enabled the LINFlexD UART serial port on the Freescale
+>  	  SoCs, you can make it the console by answering Y to this option.
+>  
+>  config SERIAL_CONEXANT_DIGICOLOR
+> diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
+> index 68d74f2b5106..2d39e13176e1 100644
+> --- a/drivers/tty/serial/fsl_linflexuart.c
+> +++ b/drivers/tty/serial/fsl_linflexuart.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * Freescale linflexuart serial port driver
+> + * Freescale LINFlexD UART serial port driver
+>   *
+>   * Copyright 2012-2016 Freescale Semiconductor, Inc.
+>   * Copyright 2017-2018 NXP
+> @@ -933,5 +933,5 @@ static void __exit linflex_serial_exit(void)
+>  module_init(linflex_serial_init);
+>  module_exit(linflex_serial_exit);
+>  
+> -MODULE_DESCRIPTION("Freescale linflex serial port driver");
+> +MODULE_DESCRIPTION("Freescale LINFlexD serial port driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
+> index 0f4f87a6fd54..49e61963e754 100644
+> --- a/include/uapi/linux/serial_core.h
+> +++ b/include/uapi/linux/serial_core.h
+> @@ -290,7 +290,7 @@
+>  /* Sunix UART */
+>  #define PORT_SUNIX	121
+>  
+> -/* Freescale Linflex UART */
+> +/* Freescale LINFlexD UART */
+>  #define PORT_LINFLEXUART	121
+>  
+>  #endif /* _UAPILINUX_SERIAL_CORE_H */
 > -- 
-> 2.17.1
+> 2.22.0
 > 
+
+This patch does not apply to my tree :(
+
