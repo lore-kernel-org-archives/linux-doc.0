@@ -1,72 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 893767D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 11:54:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0B477D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 12:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729267AbfJOLyq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 07:54:46 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49312 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725790AbfJOLyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Oct 2019 07:54:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=0yszEpJzojsv0U117iSsMG8HSxDkuZTGjoLlQ1g6Cro=; b=H2QiGrYjU+ubokt8xpeZfhmc4
-        KeJqoyW8uxg7q1ISBlPkeTP2VdHeNdFTEjfM200kGher4lLa4FDZstL8YRJD8ekvVwvsmb0Xh9MA/
-        lfFABlsn9oxUQAauCLzlpFOdRUSbEbEftAcVJJaMGJY9NIPHKq6QjSrP6QslqqBxQ3eLaFQdzC3DX
-        TIla8pTIh8VTxkbhj7ewvknq0SzA4BjENLyfZTNdx3ia+LGoTRLtZYCdz0cbkHhiqHgzceQQAS/CK
-        Ds/hLOlmUytSUF8O1f0IFiZGzOvwnZuONgSdBd4omuLOkIVrqAZm05F0lAxgbTylf8FsZGeFd7LZF
-        KVLvVEaeQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iKLPT-0005JE-TQ; Tue, 15 Oct 2019 11:54:39 +0000
-Date:   Tue, 15 Oct 2019 04:54:39 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Tim.Bird@sony.com, jani.nikula@linux.intel.com,
-        changbin.du@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mm@kvack.org, linux-crypto@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
- to 'specific'
-Message-ID: <20191015115439.GE32665@bombadil.infradead.org>
-References: <20191013055359.23312-1-changbin.du@gmail.com>
- <875zkrd7nq.fsf@intel.com>
- <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
- <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+        id S1730004AbfJOMEw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 08:04:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39936 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbfJOMEw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Oct 2019 08:04:52 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8771921D7E;
+        Tue, 15 Oct 2019 12:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571141091;
+        bh=Af6D4mZ/pAOp+0vxSjhgtzL8DdJ7w/JcKlLEB64bg40=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vbUfGVlHWGmDXNlB+xK0XO0bQJ0Zil7F2AT3RwASF6CrCmzbfpxKjVH7hkv7zqWrt
+         TsaJKjJAc3h+oKPBPdJooYP9SyRBdX3GlamtjLvEOndPEi+Xyy0OzKzi4dy84sgT97
+         rU25VTT1baoFL9eMGBo4xJ7uzH1oULgaa+icytkc=
+Received: by mail-qk1-f170.google.com with SMTP id 201so18853182qkd.13;
+        Tue, 15 Oct 2019 05:04:51 -0700 (PDT)
+X-Gm-Message-State: APjAAAU4hWzb+KumagBOW0IJizP5g3e1erjXYhola8pRlbs+BSkrIqod
+        fr1/UDBXc2/UFp90hZgMxpqSCM0VL2MZXTEWoQ==
+X-Google-Smtp-Source: APXvYqz9VdxmwoAHoBVcG9POQFt15AQvDXliJoTvoymJwUK2yJYHzGHFF68s8mYbG89XcQYTMs3JdOvwQioW54ma03E=
+X-Received: by 2002:a05:620a:12f1:: with SMTP id f17mr3721782qkl.152.1571141090652;
+ Tue, 15 Oct 2019 05:04:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191011191521.179614-1-saravanak@google.com> <20191011191521.179614-2-saravanak@google.com>
+In-Reply-To: <20191011191521.179614-2-saravanak@google.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 15 Oct 2019 07:04:39 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKCLnmLDCC3UKqpKDTysiM=w78wTCwbrsmQ39oQUg=+ww@mail.gmail.com>
+Message-ID: <CAL_JsqKCLnmLDCC3UKqpKDTysiM=w78wTCwbrsmQ39oQUg=+ww@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] of: property: Minor code formatting/style clean ups
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 11:25:53AM +0200, Thomas Zimmermann wrote:
-> > My preference would be to use 'symbols'.  I tried to come up with something
-> > but 'symbols' is better than anything I came up with.
-> 
-> Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
-> imprecise as 'functions'.
+On Fri, Oct 11, 2019 at 2:15 PM Saravana Kannan <saravanak@google.com> wrote:
+>
+> Better variable and function names. Remove "," after the sentinel in an
+> array initialization list.
+>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+>  drivers/of/property.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-I suggested 'identifier' because that's the term used in the C spec (6.2.1):
-
-: An identifier can denote an object; a function; a tag or a member
-: of a structure, union, or enumeration; a typedef name; a label name;
-: a macro name; or a macro parameter.
-
-We don't allow documenting all those things separately, but it does cover
-all the things we do allow to be individually documented.
+Acked-by: Rob Herring <robh@kernel.org>
