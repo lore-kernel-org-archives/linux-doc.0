@@ -5,69 +5,179 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 407D97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 13:18:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 924487D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Oct 2019 17:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730640AbfJONSp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Oct 2019 09:18:45 -0400
-Received: from mga18.intel.com ([134.134.136.126]:16623 "EHLO mga18.intel.com"
+        id S1728150AbfJOR44 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Oct 2019 13:56:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:44770 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729551AbfJONSp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Oct 2019 09:18:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Oct 2019 06:18:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; 
-   d="scan'208";a="208181089"
-Received: from mcretu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.56.150])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2019 06:18:38 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Matthew Wilcox <willy@infradead.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Tim.Bird@sony.com, changbin.du@gmail.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions' to 'specific'
-In-Reply-To: <20191015115439.GE32665@bombadil.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191013055359.23312-1-changbin.du@gmail.com> <875zkrd7nq.fsf@intel.com> <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com> <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de> <20191015115439.GE32665@bombadil.infradead.org>
-Date:   Tue, 15 Oct 2019 16:19:36 +0300
-Message-ID: <8736fub0yf.fsf@intel.com>
+        id S1726973AbfJOR44 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Oct 2019 13:56:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15214337;
+        Tue, 15 Oct 2019 10:56:55 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E5813F6C4;
+        Tue, 15 Oct 2019 10:56:53 -0700 (PDT)
+Date:   Tue, 15 Oct 2019 18:56:51 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Steven Price <steven.price@arm.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 01/10] KVM: arm64: Document PV-time interface
+Message-ID: <20191015175651.GF24604@lakrids.cambridge.arm.com>
+References: <20191011125930.40834-1-steven.price@arm.com>
+ <20191011125930.40834-2-steven.price@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191011125930.40834-2-steven.price@arm.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Oct 2019, Matthew Wilcox <willy@infradead.org> wrote:
-> On Tue, Oct 15, 2019 at 11:25:53AM +0200, Thomas Zimmermann wrote:
->> > My preference would be to use 'symbols'.  I tried to come up with something
->> > but 'symbols' is better than anything I came up with.
->> 
->> Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
->> imprecise as 'functions'.
->
-> I suggested 'identifier' because that's the term used in the C spec (6.2.1):
->
-> : An identifier can denote an object; a function; a tag or a member
-> : of a structure, union, or enumeration; a typedef name; a label name;
-> : a macro name; or a macro parameter.
->
-> We don't allow documenting all those things separately, but it does cover
-> all the things we do allow to be individually documented.
+Hi Steven,
 
-Agreed.
+On Fri, Oct 11, 2019 at 01:59:21PM +0100, Steven Price wrote:
+> Introduce a paravirtualization interface for KVM/arm64 based on the
+> "Arm Paravirtualized Time for Arm-Base Systems" specification DEN 0057A.
 
-BR,
-Jani.
+I notice that as published, this is a BETA Draft, with the explicit
+note:
 
+| This document is for review purposes only and should not be used
+| for any implementation as changes are likely.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+... what's the plan for getting a finalised version published?
+
+> This only adds the details about "Stolen Time" as the details of "Live
+> Physical Time" have not been fully agreed.
+
+... and what do we expect to happen on this front?
+
+AFAICT, the spec hasn't changed since I called out issues in that area:
+
+  https://lore.kernel.org/r/20181210114047.tifwh6ilwzphsbqy@lakrids.cambridge.arm.com
+
+... and I'd feel much happier about supporting this if that were dropped
+from the finalised spec.
+
+> User space can specify a reserved area of memory for the guest and
+> inform KVM to populate the memory with information on time that the host
+> kernel has stolen from the guest.
+> 
+> A hypercall interface is provided for the guest to interrogate the
+> hypervisor's support for this interface and the location of the shared
+> memory structures.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  Documentation/virt/kvm/arm/pvtime.rst   | 77 +++++++++++++++++++++++++
+>  Documentation/virt/kvm/devices/vcpu.txt | 14 +++++
+>  2 files changed, 91 insertions(+)
+>  create mode 100644 Documentation/virt/kvm/arm/pvtime.rst
+> 
+> diff --git a/Documentation/virt/kvm/arm/pvtime.rst b/Documentation/virt/kvm/arm/pvtime.rst
+> new file mode 100644
+> index 000000000000..de949933ec78
+> --- /dev/null
+> +++ b/Documentation/virt/kvm/arm/pvtime.rst
+> @@ -0,0 +1,77 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Paravirtualized time support for arm64
+> +======================================
+> +
+> +Arm specification DEN0057/A defines a standard for paravirtualised time
+> +support for AArch64 guests:
+> +
+> +https://developer.arm.com/docs/den0057/a
+> +
+> +KVM/arm64 implements the stolen time part of this specification by providing
+> +some hypervisor service calls to support a paravirtualized guest obtaining a
+> +view of the amount of time stolen from its execution.
+> +
+> +Two new SMCCC compatible hypercalls are defined:
+> +
+> +* PV_TIME_FEATURES: 0xC5000020
+> +* PV_TIME_ST:       0xC5000021
+> +
+> +These are only available in the SMC64/HVC64 calling convention as
+> +paravirtualized time is not available to 32 bit Arm guests. The existence of
+> +the PV_FEATURES hypercall should be probed using the SMCCC 1.1 ARCH_FEATURES
+> +mechanism before calling it.
+> +
+> +PV_TIME_FEATURES
+> +    ============= ========    ==========
+> +    Function ID:  (uint32)    0xC5000020
+> +    PV_call_id:   (uint32)    The function to query for support.
+> +                              Currently only PV_TIME_ST is supported.
+> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
+> +                              PV-time feature is supported by the hypervisor.
+> +    ============= ========    ==========
+> +
+> +PV_TIME_ST
+> +    ============= ========    ==========
+> +    Function ID:  (uint32)    0xC5000021
+> +    Return value: (int64)     IPA of the stolen time data structure for this
+> +                              VCPU. On failure:
+> +                              NOT_SUPPORTED (-1)
+> +    ============= ========    ==========
+> +
+> +The IPA returned by PV_TIME_ST should be mapped by the guest as normal memory
+> +with inner and outer write back caching attributes, in the inner shareable
+> +domain. A total of 16 bytes from the IPA returned are guaranteed to be
+> +meaningfully filled by the hypervisor (see structure below).
+
+At what granularity is this allowed to share IPA space with other
+mappings? The spec doesn't provide any guidance here, and I strongly
+suspect that it should.
+
+To support a 64K guest, we must ensure that this doesn't share a 64K IPA
+granule with any MMIO, and it probably only makes sense for an instance
+of this structure to share that granule with another vCPU's structure.
+
+We probably _also_ want to ensure that this doesn't share a 64K granule
+with memory the guest sees as regular system RAM. Otherwise we're liable
+to force it into having mismatched attributes for any of that RAM it
+happens to map as part of mapping the PV_TIME_ST structure.
+
+> +
+> +PV_TIME_ST returns the structure for the calling VCPU.
+> +
+> +Stolen Time
+> +-----------
+> +
+> +The structure pointed to by the PV_TIME_ST hypercall is as follows:
+> +
+> ++-------------+-------------+-------------+----------------------------+
+> +| Field       | Byte Length | Byte Offset | Description                |
+> ++=============+=============+=============+============================+
+> +| Revision    |      4      |      0      | Must be 0 for version 1.0  |
+> ++-------------+-------------+-------------+----------------------------+
+> +| Attributes  |      4      |      4      | Must be 0                  |
+> ++-------------+-------------+-------------+----------------------------+
+> +| Stolen time |      8      |      8      | Stolen time in unsigned    |
+> +|             |             |             | nanoseconds indicating how |
+> +|             |             |             | much time this VCPU thread |
+> +|             |             |             | was involuntarily not      |
+> +|             |             |             | running on a physical CPU. |
+> ++-------------+-------------+-------------+----------------------------+
+> +
+> +All values in the structure are stored little-endian.
+
+Looking at the published DEN 0057A, endianness is never stated. Is this
+going to be corrected in the next release?
+
+Thanks,
+Mark.
