@@ -1,82 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71A647DD29
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 13:18:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9CF0E7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 13:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbfJPNRa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 09:17:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38408 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726530AbfJPNRa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:17:30 -0400
-Received: from localhost (unknown [209.136.236.94])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 638072064A;
-        Wed, 16 Oct 2019 13:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571231848;
-        bh=7ICZu5U89hohYmbn6gUIgQxhJVCaU/53F1xp5OJCAdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eunc4yEZFEINPkgHN8b4Tbj6+hH1biz99q2FXxR7IDh5zAgJi8zK2UH+lYxO3ePXc
-         1L4L9fjwTz9sbtvSVgHYS7ATAQyL4PTv+mHRir5ttKx8fj4Cc+ene2SaYhlFb5jjzo
-         pcUTb19YqjH+ArFzlqcanlrooE3Xi81U/oYfy+ck=
-Date:   Wed, 16 Oct 2019 06:17:28 -0700
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-Cc:     corbet@lwn.net, robh+dt@kernel.org, mark.rutland@arm.com,
-        catalin.marinas@arm.com, will@kernel.org, shawnguo@kernel.org,
-        leoyang.li@nxp.com, jslaby@suse.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 0/5] Add initial support for S32V234-EVB
-Message-ID: <20191016131728.GA56859@kroah.com>
-References: <1571230107-8493-1-git-send-email-stefan-gabriel.mirea@nxp.com>
+        id S2390069AbfJPNav (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 09:30:51 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4219 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388342AbfJPNau (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Oct 2019 09:30:50 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 1ED8C5D4AE5A087F7F66;
+        Wed, 16 Oct 2019 21:30:47 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.179) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Wed, 16 Oct 2019
+ 21:30:37 +0800
+Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+To:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
+ <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
+CC:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jan Glauber <jglauber@marvell.com>,
+        "Jayachandran Chandrasekharan Nair" <jnair@marvell.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>,
+        Robert Richter <rrichter@marvell.com>,
+        "will@kernel.org" <will@kernel.org>,
+        Zhangshaokun <zhangshaokun@hisilicon.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
+Date:   Wed, 16 Oct 2019 14:30:30 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571230107-8493-1-git-send-email-stefan-gabriel.mirea@nxp.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.179]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 03:48:22PM +0300, Stefan-Gabriel Mirea wrote:
-> Hello,
-> 
-> NXP's S32V234[1] ("Treerunner") vision microprocessors are targeted for
-> high-performance, computationally intensive vision and sensor fusion
-> applications that require automotive safety levels. They include leading
-> edge Camera Vision modules like APEX-2, ISP and GPU. The S32V234-EVB and
-> S32V234-SBC boards are available for customer evaluation.
-> 
-> The following patch series introduces minimal enablement support for the
-> NXP S32V234-EVB2[2] board, which leverages most of the SoC capabilities.
-> Up to v2, this series also included the fsl_linflexuart driver, which has
-> been included in Linux 5.4-rc1[3].
-> 
-> In the future, we aim to submit multiple drivers upstream, which can be
-> found in the kernel of our Auto Linux BSP[4] ("ALB"), starting with basic
-> pinmuxing, clock and uSDHC drivers.
-> 
-> For validation, you can use the U-Boot bootloader in the ALB[5], which we
-> build and test with our patched version of the Linaro GCC 6.3.1 2017.05
-> toolchain for ARM 64-bit, with sources available on [6].
-> 
-> Changes in v7:
-> * Rebase the patch 'serial: fsl_linflexuart: Be consistent with the name'
->   on the tty-next branch in Greg's tty git tree.
 
-I've taken patch 3 in my tty-next tree.  The others should probably go
-through an arm-specific tree, right?
+> +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
+> +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
+> +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
+> +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+> +
+> +static struct attribute *ccpi2_pmu_events_attrs[] = {
+> +	&tx2_pmu_event_attr_req_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_snoop_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_data_pktsent.attr.attr,
+> +	&tx2_pmu_event_attr_gic_pktsent.attr.attr,
+> +	NULL,
+> +};
 
-thanks,
+Hi Ganapatrao,
 
-greg k-h
+Have you considered adding these as uncore pmu-events in the perf tool?
+
+Some advantages I see:
+- perf list is not swamped with all these uncore events per PMU
+For the Hisi uncore events, we get 100s of events (>600 on the board I 
+just tested, which is crazy)
+- can add more description in the JSON files
+- less stuff in the kernel
+
+> +
+>  static const struct attribute_group l3c_pmu_events_attr_group = {
+>  	.name = "events",
+>  	.attrs = l3c_pmu_events_attrs,
+> @@ -174,6 +240,11 @@ static const struct attribute_group dmc_pmu_events_attr_group = {
+>  	.attrs = dmc_pmu_events_attrs,
+>  };
+
+[...]
+
+>  		tx2_pmu->attr_groups = l3c_pmu_attr_groups;
+>  		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
+>  				"uncore_l3c_%d", tx2_pmu->node);
+> @@ -665,10 +846,13 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
+>  		tx2_pmu->stop_event = uncore_stop_event_l3c;
+>  		break;
+>  	case PMU_TYPE_DMC:
+> -		tx2_pmu->max_counters = TX2_PMU_MAX_COUNTERS;
+> +		tx2_pmu->max_counters = TX2_PMU_DMC_L3C_MAX_COUNTERS;
+> +		tx2_pmu->counters_mask = 0x3;
+>  		tx2_pmu->prorate_factor = TX2_PMU_DMC_CHANNELS;
+>  		tx2_pmu->max_events = DMC_EVENT_MAX;
+> +		tx2_pmu->events_mask = 0x1f;
+>  		tx2_pmu->hrtimer_interval = TX2_PMU_HRTIMER_INTERVAL;
+> +		tx2_pmu->hrtimer_callback = tx2_hrtimer_callback;
+>  		tx2_pmu->attr_groups = dmc_pmu_attr_groups;
+>  		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
+>  				"uncore_dmc_%d", tx2_pmu->node);
+> @@ -676,6 +860,21 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
+>  		tx2_pmu->start_event = uncore_start_event_dmc;
+>  		tx2_pmu->stop_event = uncore_stop_event_dmc;
+>  		break;
+> +	case PMU_TYPE_CCPI2:
+> +		/* CCPI2 has 8 counters */
+> +		tx2_pmu->max_counters = TX2_PMU_CCPI2_MAX_COUNTERS;
+> +		tx2_pmu->counters_mask = 0x7;
+> +		tx2_pmu->prorate_factor = 1;
+> +		tx2_pmu->max_events = CCPI2_EVENT_MAX;
+> +		tx2_pmu->events_mask = 0x1ff;
+> +		tx2_pmu->attr_groups = ccpi2_pmu_attr_groups;
+> +		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
+> +				"uncore_ccpi2_%d", tx2_pmu->node);
+
+Do you need to check this for name == NULL?
+
+> +		tx2_pmu->init_cntr_base = init_cntr_base_ccpi2;
+> +		tx2_pmu->start_event = uncore_start_event_ccpi2;
+> +		tx2_pmu->stop_event = uncore_stop_event_ccpi2;
+> +		tx2_pmu->hrtimer_callback = NULL;
+> +		break;
+>  	case PMU_TYPE_INVALID:
+>  		devm_kfree(dev, tx2_pmu);
+>  		return NULL;
+> @@ -744,7 +943,9 @@ static int tx2_uncore_pmu_offline_cpu(unsigned int cpu,
+>  	if (cpu != tx2_pmu->cpu)
+>  		return 0;
+>
+> -	hrtimer_cancel(&tx2_pmu->hrtimer);
+> +	if (tx2_pmu->hrtimer_callback)
+> +		hrtimer_cancel(&tx2_pmu->hrtimer);
+> +
+>  	cpumask_copy(&cpu_online_mask_temp, cpu_online_mask);
+>  	cpumask_clear_cpu(cpu, &cpu_online_mask_temp);
+>  	new_cpu = cpumask_any_and(
+>
+
+Thanks,
+John
+
+
