@@ -1,193 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35DBA7D919
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 19:34:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5339C7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 20:16:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389462AbfJPTeT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 15:34:19 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37359 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728699AbfJPTeT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 15:34:19 -0400
-Received: by mail-ot1-f65.google.com with SMTP id k32so21207280otc.4
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2019 12:34:18 -0700 (PDT)
+        id S1732721AbfJPUNy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 16:13:54 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39211 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727796AbfJPUNx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 16:13:53 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r3so29518267wrj.6;
+        Wed, 16 Oct 2019 13:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RXr4UV4kEHsq0yeWfqjzxiqcNiJQEejUfsbyhCIH4rQ=;
-        b=U7NFsQMFohcPs28AZ7A+6GhhiEGUKgu+5pnJk2F9HrfSIYZCF5qXVKvKhW5L+RoOHB
-         jqP0typxYPq6W5WuAp2s6t9gy8ue0IU9qaNy4j1gM5uq+Qeq1W1+L+X+MHRTfN2uCOcV
-         uYAeJEYyAMziJ0JNWN0sw/aeCFN1uSv0dzQ7r0bIHjXvNLjLLlaipqpEUWVxI908shfo
-         s0snQyTNsaYOQ06/yoSQNXPmDX4JhRWOBTdrA4MJAs0i/4AGDjE7OzTnwubKSQUdOlty
-         scrRf9IM2XIfHvmJqZAaKmV46KAR/82a8OhMDL3dHf6x5PKKodh18mYX/2rhl3tYtP+s
-         cfCQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5vpbsFRknebeQQJhtQXsaOo/WPV9F6xu2vA5grgfriE=;
+        b=mLdo6Y5fRuE+hfNBJETHyPCQqcJOkZFUJA0VqIo/MMyLW3uWA9maRYwnm4YWSLNJbH
+         gMnrOkN2+DtDmzzLWMS/0qPJeZZE8Y1XrSAQgefe+ABYTVLK64H5ml4i6kg+VK9aOocI
+         u7oWHPQQQtGdBh3COfH5nt5CgJktOc06Gw3Qk3G5s0VGlxm0ZIoqO1e6pbfRWqfsmIyf
+         5VVXgotYm7IikzJDCELJkrXJMm+0/gl4PZar1avNIgWt6KrarUjeFG8+txtS9uSykI2C
+         pLgOplXrrvHcQ3V1mEO2XAzWtn2Du8Xb3a0SpGLNV+wN1ZH0iV9N0vo9z/o7B09zktph
+         TpVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RXr4UV4kEHsq0yeWfqjzxiqcNiJQEejUfsbyhCIH4rQ=;
-        b=Jek+Y0tgERXDr4xDEBjK7AMV8h5v2qQ9QNW18ErvGQR43/eC/LH/c9VZJAjlsCqzg4
-         5e7FoR2mTlfNZ1fqy/3yjTJ7zjHNkfq7vDsEhfIMPccu0TucWtlqeBTLEJyyE2fB0IGJ
-         9Xm4svz4h9HVVAFcoKEkNPvG997F3ME13xV5Ubi6PjAPIVxsDgrdNooJp9dmS8ogMh63
-         vWFTKEx3XS1oQ0Sn1jj6rVqGz/u6C7eV3TmbzFGmAhUQstzf6E7FUXu/jBK4UB6s4/xw
-         w1EQqcetHLMd0yHvG3+kNUXM1SqaoId+nteEfo1y8xjb+09uAcSiKmEq0fCGMOc6HcCd
-         5sfw==
-X-Gm-Message-State: APjAAAUVyIK76SYIY0KNpVg8pIX8NIbR5yfAKrA2IyoizLdYphp4ZMF9
-        kYfUomxtyrqjq20CKkDzGi6vnEgdXVLzgfKEQ2eYmw==
-X-Google-Smtp-Source: APXvYqyqs6Tx0r7D3LhzsgcxEVO4XgI1nK8AQjvDBJBM9adnKIKx1Vz8ue7z1QVFQNbxwHJobnt3PfeMbB8stLkt8vM=
-X-Received: by 2002:a9d:6d89:: with SMTP id x9mr31120620otp.17.1571254457140;
- Wed, 16 Oct 2019 12:34:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5vpbsFRknebeQQJhtQXsaOo/WPV9F6xu2vA5grgfriE=;
+        b=SkZwJO7JJVAOKz1knv232t5RUO2cSKxYm1RteqnMGbuQqRQUcX2u/oxt73iCFviG+/
+         lgQ5BroVAdyq5HERhvaCe738bL9XSX9Fw5jPZPpkF8MeeAqKdkmIMr4J6v/R2v3Zk7FS
+         V0hGt2kibEwVwUd5pTBUal5ZRNQ48mkzE4s4yGN3pqB0rpVWXBYZSZ8jkhgOXmYavd+H
+         hLZ8sAXh1w4wqbXujxnuAyozVK0RyCAGXT+Vvgrr88akUcXUNiJqZLagsvw5ksNBwGGt
+         l5LrFIXm0u73nS/tj9zCoAZOYC1mJf2N0SIpO7YDQGv+zn8pWE3/X0MxisNsfIPUbpdL
+         1NjA==
+X-Gm-Message-State: APjAAAVyCGcGr+EhOBxVIzIKj4Xl5YzV26vF07IZ+YRrYh0dpBcq+6mv
+        5fiOPL3XWxW5D93/KpwAuc730gCJD6Q=
+X-Google-Smtp-Source: APXvYqyKVVYeQaw58do9LQEj55YH9eWaBNJqYSK7+26pSe5dBkpw4ywu4pnAcpmwUdZ5N5kR87TWxw==
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr248252wrr.171.1571256830788;
+        Wed, 16 Oct 2019 13:13:50 -0700 (PDT)
+Received: from localhost.localdomain (151.red-88-2-41.staticip.rima-tde.net. [88.2.41.151])
+        by smtp.gmail.com with ESMTPSA id 13sm1107wmj.29.2019.10.16.13.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 13:13:49 -0700 (PDT)
+From:   Albert Vaca Cintora <albertvaka@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+Cc:     Albert Vaca Cintora <albertvaka@gmail.com>
+Subject: [PATCH] Updated iostats docs
+Date:   Wed, 16 Oct 2019 22:13:37 +0200
+Message-Id: <20191016201337.88554-1-albertvaka@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016184346.GT2328@hirez.programming.kicks-ass.net>
-In-Reply-To: <20191016184346.GT2328@hirez.programming.kicks-ass.net>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 16 Oct 2019 21:34:05 +0200
-Message-ID: <CANpmjNP4b9Eo3ZKE6maBs4ANS7K7sLiVB2CbebQnCH09TB+hZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Oct 2019 at 20:44, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
->
-> > +bool __kcsan_check_watchpoint(const volatile void *ptr, size_t size,
-> > +                           bool is_write)
-> > +{
-> > +     atomic_long_t *watchpoint;
-> > +     long encoded_watchpoint;
-> > +     unsigned long flags;
-> > +     enum kcsan_report_type report_type;
-> > +
-> > +     if (unlikely(!is_enabled()))
-> > +             return false;
-> > +
-> > +     watchpoint = find_watchpoint((unsigned long)ptr, size, !is_write,
-> > +                                  &encoded_watchpoint);
-> > +     if (watchpoint == NULL)
-> > +             return true;
-> > +
-> > +     flags = user_access_save();
->
-> Could use a comment on why find_watchpoint() is save to call without
-> user_access_save() on.
+Previous docs mentioned 11 unsigned long fields, when the reality is that
+we have 15 fields with a mix of unsigned long and unsigned int.
 
-Thanks, will add a comment for v2.
+Signed-off-by: Albert Vaca Cintora <albertvaka@gmail.com>
+---
+ Documentation/admin-guide/iostats.rst | 47 ++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 23 deletions(-)
 
-> > +     if (!try_consume_watchpoint(watchpoint, encoded_watchpoint)) {
-> > +             /*
-> > +              * The other thread may not print any diagnostics, as it has
-> > +              * already removed the watchpoint, or another thread consumed
-> > +              * the watchpoint before this thread.
-> > +              */
-> > +             kcsan_counter_inc(kcsan_counter_report_races);
-> > +             report_type = kcsan_report_race_check_race;
-> > +     } else {
-> > +             report_type = kcsan_report_race_check;
-> > +     }
-> > +
-> > +     /* Encountered a data-race. */
-> > +     kcsan_counter_inc(kcsan_counter_data_races);
-> > +     kcsan_report(ptr, size, is_write, raw_smp_processor_id(), report_type);
-> > +
-> > +     user_access_restore(flags);
-> > +     return false;
-> > +}
-> > +EXPORT_SYMBOL(__kcsan_check_watchpoint);
-> > +
-> > +void __kcsan_setup_watchpoint(const volatile void *ptr, size_t size,
-> > +                           bool is_write)
-> > +{
-> > +     atomic_long_t *watchpoint;
-> > +     union {
-> > +             u8 _1;
-> > +             u16 _2;
-> > +             u32 _4;
-> > +             u64 _8;
-> > +     } expect_value;
-> > +     bool is_expected = true;
-> > +     unsigned long ua_flags = user_access_save();
-> > +     unsigned long irq_flags;
-> > +
-> > +     if (!should_watch(ptr))
-> > +             goto out;
-> > +
-> > +     if (!check_encodable((unsigned long)ptr, size)) {
-> > +             kcsan_counter_inc(kcsan_counter_unencodable_accesses);
-> > +             goto out;
-> > +     }
-> > +
-> > +     /*
-> > +      * Disable interrupts & preemptions, to ignore races due to accesses in
-> > +      * threads running on the same CPU.
-> > +      */
-> > +     local_irq_save(irq_flags);
-> > +     preempt_disable();
->
-> Is there a point to that preempt_disable() here?
+diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
+index 5d63b18bd6d1..321aae8d7e10 100644
+--- a/Documentation/admin-guide/iostats.rst
++++ b/Documentation/admin-guide/iostats.rst
+@@ -46,78 +46,79 @@ each snapshot of your disk statistics.
+ In 2.4, the statistics fields are those after the device name. In
+ the above example, the first field of statistics would be 446216.
+ By contrast, in 2.6+ if you look at ``/sys/block/hda/stat``, you'll
+-find just the eleven fields, beginning with 446216.  If you look at
+-``/proc/diskstats``, the eleven fields will be preceded by the major and
++find just the 15 fields, beginning with 446216.  If you look at
++``/proc/diskstats``, the 15 fields will be preceded by the major and
+ minor device numbers, and device name.  Each of these formats provides
+-eleven fields of statistics, each meaning exactly the same things.
++15 fields of statistics, each meaning exactly the same things.
+ All fields except field 9 are cumulative since boot.  Field 9 should
+ go to zero as I/Os complete; all others only increase (unless they
+-overflow and wrap).  Yes, these are (32-bit or 64-bit) unsigned long
+-(native word size) numbers, and on a very busy or long-lived system they
+-may wrap. Applications should be prepared to deal with that; unless
+-your observations are measured in large numbers of minutes or hours,
+-they should not wrap twice before you notice them.
++overflow and wrap). Wrapping might eventually occur on a very busy
++or long-lived system; so applications should be prepared to deal with
++it. Regarding wrapping, the types of the fields are either unsigned
++int (32 bit) or unsigned long (32-bit or 64-bit, depending on your
++machine) as noted per-field below. Unless your observations are very
++spread in time, these fields should not wrap twice before you notice it.
+ 
+ Each set of stats only applies to the indicated device; if you want
+ system-wide stats you'll have to find all the devices and sum them all up.
+ 
+-Field  1 -- # of reads completed
++Field  1 -- # of reads completed (unsigned long)
+     This is the total number of reads completed successfully.
+ 
+-Field  2 -- # of reads merged, field 6 -- # of writes merged
++Field  2 -- # of reads merged, field 6 -- # of writes merged (unsigned long)
+     Reads and writes which are adjacent to each other may be merged for
+     efficiency.  Thus two 4K reads may become one 8K read before it is
+     ultimately handed to the disk, and so it will be counted (and queued)
+     as only one I/O.  This field lets you know how often this was done.
+ 
+-Field  3 -- # of sectors read
++Field  3 -- # of sectors read (unsigned long)
+     This is the total number of sectors read successfully.
+ 
+-Field  4 -- # of milliseconds spent reading
++Field  4 -- # of milliseconds spent reading (unsigned int)
+     This is the total number of milliseconds spent by all reads (as
+     measured from __make_request() to end_that_request_last()).
+ 
+-Field  5 -- # of writes completed
++Field  5 -- # of writes completed (unsigned long)
+     This is the total number of writes completed successfully.
+ 
+-Field  6 -- # of writes merged
++Field  6 -- # of writes merged  (unsigned long)
+     See the description of field 2.
+ 
+-Field  7 -- # of sectors written
++Field  7 -- # of sectors written (unsigned long)
+     This is the total number of sectors written successfully.
+ 
+-Field  8 -- # of milliseconds spent writing
++Field  8 -- # of milliseconds spent writing (unsigned int)
+     This is the total number of milliseconds spent by all writes (as
+     measured from __make_request() to end_that_request_last()).
+ 
+-Field  9 -- # of I/Os currently in progress
++Field  9 -- # of I/Os currently in progress (unsigned int)
+     The only field that should go to zero. Incremented as requests are
+     given to appropriate struct request_queue and decremented as they finish.
+ 
+-Field 10 -- # of milliseconds spent doing I/Os
++Field 10 -- # of milliseconds spent doing I/Os (unsigned int)
+     This field increases so long as field 9 is nonzero.
+ 
+     Since 5.0 this field counts jiffies when at least one request was
+     started or completed. If request runs more than 2 jiffies then some
+     I/O time will not be accounted unless there are other requests.
+ 
+-Field 11 -- weighted # of milliseconds spent doing I/Os
++Field 11 -- weighted # of milliseconds spent doing I/Os (unsigned int)
+     This field is incremented at each I/O start, I/O completion, I/O
+     merge, or read of these stats by the number of I/Os in progress
+     (field 9) times the number of milliseconds spent doing I/O since the
+     last update of this field.  This can provide an easy measure of both
+     I/O completion time and the backlog that may be accumulating.
+ 
+-Field 12 -- # of discards completed
++Field 12 -- # of discards completed (unsigned long)
+     This is the total number of discards completed successfully.
+ 
+-Field 13 -- # of discards merged
++Field 13 -- # of discards merged (unsigned long)
+     See the description of field 2
+ 
+-Field 14 -- # of sectors discarded
++Field 14 -- # of sectors discarded (unsigned long)
+     This is the total number of sectors discarded successfully.
+ 
+-Field 15 -- # of milliseconds spent discarding
++Field 15 -- # of milliseconds spent discarding (unsigned int)
+     This is the total number of milliseconds spent by all discards (as
+     measured from __make_request() to end_that_request_last()).
+ 
+-- 
+2.23.0
 
-We want to avoid being preempted while the watchpoint is set up;
-otherwise, we would report data-races for CPU-local data, which is
-incorrect. An alternative would be adding the source CPU to the
-watchpoint, and checking that the CPU != this_cpu. There are several
-problems with that alternative:
-1. We do not want to steal more bits from the watchpoint encoding for
-things other than read/write, size, and address, as not only does it
-affect accuracy, it would also increase performance overhead in the
-fast-path.
-2. As a consequence, if we get a preemption and run a task on the same
-CPU, and there *is* a genuine data-race, we would *not* report it; and
-since this is the common case (and not accesses to CPU-local data), it
-makes more sense (from a data-race detection PoV) to simply disable
-preemptions and ensure that all tasks are run on other CPUs as well as
-avoid the problem of point (1).
-
-I can add a comment to that effect here for v2.
-
-Thanks,
--- Marco
