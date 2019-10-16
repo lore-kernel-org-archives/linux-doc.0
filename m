@@ -1,150 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9CF0E7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 13:31:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9F207DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 13:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390069AbfJPNav (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 09:30:51 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4219 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388342AbfJPNau (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:30:50 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 1ED8C5D4AE5A087F7F66;
-        Wed, 16 Oct 2019 21:30:47 +0800 (CST)
-Received: from [127.0.0.1] (10.202.227.179) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Wed, 16 Oct 2019
- 21:30:37 +0800
-Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-To:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
- <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
-CC:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jan Glauber <jglauber@marvell.com>,
-        "Jayachandran Chandrasekharan Nair" <jnair@marvell.com>,
-        "gklkml16@gmail.com" <gklkml16@gmail.com>,
-        Robert Richter <rrichter@marvell.com>,
-        "will@kernel.org" <will@kernel.org>,
-        Zhangshaokun <zhangshaokun@hisilicon.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
-Date:   Wed, 16 Oct 2019 14:30:30 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.3.0
+        id S2405520AbfJPNtx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 09:49:53 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44868 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726689AbfJPNtx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 09:49:53 -0400
+Received: by mail-pg1-f196.google.com with SMTP id e10so10349440pgd.11;
+        Wed, 16 Oct 2019 06:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3Tj/U4wMEMDKOxq40ZfhlaqeOV1Hxg6pbeW0d7LJj8I=;
+        b=S52fEBY2p0KM5qmwTZ0AScYN6EaeIP5Qn5vdDy0tyiOKOqhKpAKQAZRaGWqpAWtY/R
+         q3fL0C5M+VdogzM3v3JFR/UWlOiGUN2FHQGqfw9xfAZoknJKsAQW69gPXvrxKXryvpGx
+         cdEkl8E7vdFS1+49f8MhQXfmjCj44nN12ZYydQLC7QWeCHfy7HxI8PGHvaKNPXnoGAZc
+         +vlfkg33YYXkUs0fXQiXgncqSUyCUKb2k1uoOIgS6W1h4eRxlFaj+xhuZdVZDkpQ+15j
+         wtDqjU2/AGiPb5G2vXDbzRl0optZ1ra7TXmkqHAtXA91eN2ajFQ5PwmSP7eFuFvjlRQy
+         sa0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Tj/U4wMEMDKOxq40ZfhlaqeOV1Hxg6pbeW0d7LJj8I=;
+        b=EEiajmq4x+dFGwVWDdsVgPNJifm8GzLaiizyERZ+HLm4yQVyaF7ukcJSB1QCeyjwvT
+         bK7xdlVnw5u/khPQqQh7KmFDgW3u3CEMFoofFm342Z+aW4FeMqi7Q/wdMJ2QU4heRcwq
+         KOUCQD95HMGBY+0Ql5tWqSMhxnT3jcfQCZ1OWuVlrjpetTninussgkl0HTmKA+dxBrQt
+         xtAyzNxdCxvth+QuSxtGdNQfsF6GmjA+lWIY8uGT0isN5UzorFWwl4+xCCXkCUCItDmg
+         rVBVwfbhxRg4d9TmWSeBfxarW/TG96ZS2HeP2sfK/Gy18eb/Pap9ZmyPcMcNeNhGyaGA
+         jJpA==
+X-Gm-Message-State: APjAAAUqedaTlT9wD5W096bbV03vetcMHmQcP4L34f7HotJFiXUbaPPy
+        7fkN1Cvyd5xFNCxHS+xPXtEDE7orJNyJj/mclUw=
+X-Google-Smtp-Source: APXvYqwgdqmN0FGQ8M6Y+oyfSjAtFEwFUtkZ4U8n3JrALrgT5Aa2VPXVpzue2V2c9yX41EEYCeF2dE15UfZTflOELMk=
+X-Received: by 2002:a62:e80b:: with SMTP id c11mr43785802pfi.241.1571233792369;
+ Wed, 16 Oct 2019 06:49:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.179]
-X-CFilter-Loop: Reflected
+References: <20191011133617.9963-1-linux@rasmusvillemoes.dk> <20191015190706.15989-1-linux@rasmusvillemoes.dk>
+In-Reply-To: <20191015190706.15989-1-linux@rasmusvillemoes.dk>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 16 Oct 2019 16:49:41 +0300
+Message-ID: <CAHp75Vcw9Wn6a2VEhQ00o1FZq=egtiQGjC1=uX1J71wQ9pf-pw@mail.gmail.com>
+Subject: Re: [PATCH v5] printf: add support for printing symbolic error names
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joe Perches <joe@perches.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Oct 15, 2019 at 10:07 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
 
-> +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
-> +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
-> +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
-> +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+> +const char *errname(int err)
+> +{
+> +       const char *name = __errname(err > 0 ? err : -err);
+
+Looks like mine comment left unseen.
+What about to simple use abs(err) here?
+
+> +       if (!name)
+> +               return NULL;
 > +
-> +static struct attribute *ccpi2_pmu_events_attrs[] = {
-> +	&tx2_pmu_event_attr_req_pktsent.attr.attr,
-> +	&tx2_pmu_event_attr_snoop_pktsent.attr.attr,
-> +	&tx2_pmu_event_attr_data_pktsent.attr.attr,
-> +	&tx2_pmu_event_attr_gic_pktsent.attr.attr,
-> +	NULL,
-> +};
+> +       return err > 0 ? name + 1 : name;
+> +}
 
-Hi Ganapatrao,
-
-Have you considered adding these as uncore pmu-events in the perf tool?
-
-Some advantages I see:
-- perf list is not swamped with all these uncore events per PMU
-For the Hisi uncore events, we get 100s of events (>600 on the board I 
-just tested, which is crazy)
-- can add more description in the JSON files
-- less stuff in the kernel
-
-> +
->  static const struct attribute_group l3c_pmu_events_attr_group = {
->  	.name = "events",
->  	.attrs = l3c_pmu_events_attrs,
-> @@ -174,6 +240,11 @@ static const struct attribute_group dmc_pmu_events_attr_group = {
->  	.attrs = dmc_pmu_events_attrs,
->  };
-
-[...]
-
->  		tx2_pmu->attr_groups = l3c_pmu_attr_groups;
->  		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
->  				"uncore_l3c_%d", tx2_pmu->node);
-> @@ -665,10 +846,13 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
->  		tx2_pmu->stop_event = uncore_stop_event_l3c;
->  		break;
->  	case PMU_TYPE_DMC:
-> -		tx2_pmu->max_counters = TX2_PMU_MAX_COUNTERS;
-> +		tx2_pmu->max_counters = TX2_PMU_DMC_L3C_MAX_COUNTERS;
-> +		tx2_pmu->counters_mask = 0x3;
->  		tx2_pmu->prorate_factor = TX2_PMU_DMC_CHANNELS;
->  		tx2_pmu->max_events = DMC_EVENT_MAX;
-> +		tx2_pmu->events_mask = 0x1f;
->  		tx2_pmu->hrtimer_interval = TX2_PMU_HRTIMER_INTERVAL;
-> +		tx2_pmu->hrtimer_callback = tx2_hrtimer_callback;
->  		tx2_pmu->attr_groups = dmc_pmu_attr_groups;
->  		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
->  				"uncore_dmc_%d", tx2_pmu->node);
-> @@ -676,6 +860,21 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
->  		tx2_pmu->start_event = uncore_start_event_dmc;
->  		tx2_pmu->stop_event = uncore_stop_event_dmc;
->  		break;
-> +	case PMU_TYPE_CCPI2:
-> +		/* CCPI2 has 8 counters */
-> +		tx2_pmu->max_counters = TX2_PMU_CCPI2_MAX_COUNTERS;
-> +		tx2_pmu->counters_mask = 0x7;
-> +		tx2_pmu->prorate_factor = 1;
-> +		tx2_pmu->max_events = CCPI2_EVENT_MAX;
-> +		tx2_pmu->events_mask = 0x1ff;
-> +		tx2_pmu->attr_groups = ccpi2_pmu_attr_groups;
-> +		tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
-> +				"uncore_ccpi2_%d", tx2_pmu->node);
-
-Do you need to check this for name == NULL?
-
-> +		tx2_pmu->init_cntr_base = init_cntr_base_ccpi2;
-> +		tx2_pmu->start_event = uncore_start_event_ccpi2;
-> +		tx2_pmu->stop_event = uncore_stop_event_ccpi2;
-> +		tx2_pmu->hrtimer_callback = NULL;
-> +		break;
->  	case PMU_TYPE_INVALID:
->  		devm_kfree(dev, tx2_pmu);
->  		return NULL;
-> @@ -744,7 +943,9 @@ static int tx2_uncore_pmu_offline_cpu(unsigned int cpu,
->  	if (cpu != tx2_pmu->cpu)
->  		return 0;
->
-> -	hrtimer_cancel(&tx2_pmu->hrtimer);
-> +	if (tx2_pmu->hrtimer_callback)
-> +		hrtimer_cancel(&tx2_pmu->hrtimer);
-> +
->  	cpumask_copy(&cpu_online_mask_temp, cpu_online_mask);
->  	cpumask_clear_cpu(cpu, &cpu_online_mask_temp);
->  	new_cpu = cpumask_any_and(
->
-
-Thanks,
-John
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
