@@ -1,204 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 780877DE57
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 10:07:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 957CA7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 11:03:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390325AbfJPKHE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 06:07:04 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:36857 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388156AbfJPKHD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 06:07:03 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k20so19526842oih.3
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2019 03:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qMLDRlP6KAQbJ6EBR+tTwOR/BZha8QBB781yjh9f+vI=;
-        b=IzhRqtVYSIrQOWk8qCQYn4/rTOnHC2BhU7+kR7WbjbeLrfwEgkriTH0i/iiLXUxE6w
-         9TY1zEHAxm9LWqj9U9FKFNFpJPksG+o5jpTnwf0AH9L9qx4EjTfEmYZspBAwyoYTq58y
-         2XoJim6PnzA8V5rkbEZ+1gHJd/d8E1TT3mVou1qLNPGV59Oh4Lp8AGHQC6TqedqA1I80
-         mFPnDoRcUI6zhCDUTpoHxhcuDdKJAMAQgwv1O9N/6gP1uqvOtZZc24tKklN7heCOtCLw
-         AGLWDPjGICR0HouGNZzMf7ZxOX6YjI/TIY2ddPvOeO7bcqUGL2vcWzGzn9/wEQ98UyfN
-         oZxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qMLDRlP6KAQbJ6EBR+tTwOR/BZha8QBB781yjh9f+vI=;
-        b=XeioDGEdbNdbmZpm2tZXl3CVafePYYEw1f1UoHYCav7ifK3qkjei1jCobwmAUlhyr4
-         J4bKYJwXP6PQ6lo+JO1A1wKLLB4XBW5vPQMlWviwV01txkdFj1e0a75SMlKwqa2xQo+x
-         8Va+EkZdGahNTpFUAszKIKVcV0LFsUqWkDM42m4L2KDoyafrRJxr0QuwT4+V/O0zGUC3
-         oVFgtFkEURR95M8gx534GKCeh4RskvhLnXugb7SPuiKxm3mkmslPvAUps23PtdjX3UjT
-         U1SLRAjE48PEe5aciYF6FcEzbTgHIwRjYQI6a4D7lgVVxgjhY+40U8xSva4wFGARyvuM
-         aWow==
-X-Gm-Message-State: APjAAAW1tGlS1FvIeYtHTNe65LHsP2Ekc4VUd4ga94lwl46w4ndU92Bq
-        x96ionG8diUt5i2GxG/keRh64xD2r9uVPjH1XYSUfg==
-X-Google-Smtp-Source: APXvYqxWEIV0fVIrxNzDqgv+Do5nMi6aRtYEMsJW2Y12BL+F4CpGAX7l1gYylp2IQRBYF8VTmXy4feTlqfHWT/7/2sQ=
-X-Received: by 2002:aca:f492:: with SMTP id s140mr2789533oih.83.1571220422532;
- Wed, 16 Oct 2019 03:07:02 -0700 (PDT)
+        id S1731960AbfJPLCB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 07:02:01 -0400
+Received: from mail-eopbgr10066.outbound.protection.outlook.com ([40.107.1.66]:48286
+        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726083AbfJPLCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Oct 2019 07:02:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kz7torD2zd4MvCR6wU7lK2u9zdqG3isApDfog6wHBjJuHnoW7m8THfXJ92vImUwcFxL1bb+Iw5f9zg7bKvn6Occ8v6KJ7SvR6mIPQ269en2fnVLXs+SM2jzg/eZKhT7y6mgFadyitkp1IxZ6LBp1lJqYhTTo59ao9z7d3nctXJecFWNloQ/MmwP9mdigwxtZRCPW367yrH9N9ihTxQtUhIDue9ZhLjwjvV/m+PdIjk/c+AkoKrWJGWQByNTMWGiXbrLalelAN9gAQssMkjAfbltIhDzdFamZiTtEtZyV6m+fOSx/Mo3t0Nd3OQ+JBDk+kcesX7LUktKyUNrtCGauxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZC0s8H2jNEl7qNSIrVIkOcb7mNC+168VZoIPI+EBrkk=;
+ b=EHhLUbpKlg5DXobSTQ5ZVN5/KF8TdOcHi7LMfaifY3W+h4JLBQGdq+0GyP8UXrwnvncERuow7D1gewEwuNxetidd0FNUusDcB/wa0duIY04/ewKgp57JYH6p7liYNY8f6VB3jGmH6QyqCurfipiKbFAu2mV/na0oYbKcN1kwVuWj07jv0K80aQhgPoWsrJ3gTq0xmMWY0MONOYQPNc7QAH0Wk3R47ZRVc4Ie/VibT+xEHmgNAlQX7jdo/gIE2GFztSR4Lz8JW0kRt3gdHEENzGOMhrU2pFP7K3I2BRSBdaTkNKnOlEToi8d6IGqS75Esw6+unwURF+Ro4Ctbe2A51A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZC0s8H2jNEl7qNSIrVIkOcb7mNC+168VZoIPI+EBrkk=;
+ b=eavAjY99AxUSXE6kan8codSvCp/JoG73hOZntQU2q7fMn6AyhyhvIBtNVFeWsWxFMfHDfBUjxPTe+XfDtsJdk+0RYE80VMGy1N3buVK8OrrUTsik2VKtDD0L0H5XhUdteJbX/xMBjn1tUSOOK13cGAow1U3XT9OYmtklD9SqXpk=
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
+ VI1PR0402MB3679.eurprd04.prod.outlook.com (52.134.13.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.17; Wed, 16 Oct 2019 11:01:57 +0000
+Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::d0fc:54d4:86f4:b1d2]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
+ ([fe80::d0fc:54d4:86f4:b1d2%7]) with mapi id 15.20.2347.023; Wed, 16 Oct 2019
+ 11:01:57 +0000
+From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v6 3/5] serial: fsl_linflexuart: Be consistent with the
+ name
+Thread-Topic: [PATCH v6 3/5] serial: fsl_linflexuart: Be consistent with the
+ name
+Thread-Index: AQHVhBEget+54Njm0Um0wC+XV9FxYQ==
+Date:   Wed, 16 Oct 2019 11:01:57 +0000
+Message-ID: <VI1PR0402MB2863EC2DF6464234DE4E0A16DF920@VI1PR0402MB2863.eurprd04.prod.outlook.com>
+References: <1570726348-6420-1-git-send-email-stefan-gabriel.mirea@nxp.com>
+ <1570726348-6420-4-git-send-email-stefan-gabriel.mirea@nxp.com>
+ <20191015190155.GA1140159@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
+x-originating-ip: [64.157.242.222]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 40bad12d-7fad-47df-9b09-08d752284326
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: VI1PR0402MB3679:|VI1PR0402MB3679:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB3679BD349F27ADED558DBF84DF920@VI1PR0402MB3679.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0192E812EC
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(199004)(189003)(53546011)(316002)(102836004)(74316002)(486006)(305945005)(81156014)(7736002)(446003)(86362001)(54906003)(476003)(8676002)(55016002)(6436002)(52536014)(2906002)(9686003)(229853002)(81166006)(186003)(5660300002)(26005)(8936002)(6506007)(4326008)(64756008)(558084003)(33656002)(71200400001)(71190400001)(66946007)(76116006)(91956017)(66476007)(256004)(66446008)(66556008)(7416002)(7696005)(25786009)(76176011)(6916009)(14454004)(66066001)(478600001)(99286004)(6246003)(6116002)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3679;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UuN6y66MLXQQjBy69LXejFCBemQkk7g0WqIioDyg4k9YaqNYQDh2wDKzUF3Itph1AeFZDcNR/Ofmk56IUyAllHxIRR+C8ojvoqjfb9FnmUcbGQdMthYxmgm+zxYYHZWUCHC3qhq7LpgoQoC3h25y42UqsZD4HuOlZjOG3I0yepo2qhcuL5ER8WXRPkosQ18jK8PWZNHMuY9cLIvtmgB3vs3WBPZfIcYlDzVVQanaKMwIHDI0FCRBwwPXIowqRKCOlGsZWNAcgW2dbPmHY2tkjgWduI9HBJ9+eKmfsV2adIFrPDgizxI6NaWkPimckuKpNWcrMCvZicnZINu7MymMt8hwsG+/+qn3znFcUCkkfTN+UXuD+/3GqE059ulFhm6IA5QQDNL777afv7XIstZk3TlCYanhsolhy+E0X9XbgT4=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016094234.GB2701514@tardis>
-In-Reply-To: <20191016094234.GB2701514@tardis>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 16 Oct 2019 12:06:51 +0200
-Message-ID: <CANpmjNOxmQDKin=9Cyi+ERVQ-ehH79AaPjRvJNfFfmgOjJAogA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>, ard.biesheuvel@linaro.org,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40bad12d-7fad-47df-9b09-08d752284326
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2019 11:01:57.3348
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1s8TCWGOPefbN/x1X+R1jkW/j+qHJYPZob1EPJ5ZuTzmPYMWKpkvsvN094+NQ0qd9Ok/W5wCOGGWxMXHRMzrlXOpUxLVduXf64YPbyLKbFk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3679
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Oct 2019 at 11:42, Boqun Feng <boqun.feng@gmail.com> wrote:
->
-> Hi Marco,
->
-> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
-> [...]
-> > --- /dev/null
-> > +++ b/kernel/kcsan/kcsan.c
-> > @@ -0,0 +1,81 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +/*
-> > + * The Kernel Concurrency Sanitizer (KCSAN) infrastructure. For more info please
-> > + * see Documentation/dev-tools/kcsan.rst.
-> > + */
-> > +
-> > +#include <linux/export.h>
-> > +
-> > +#include "kcsan.h"
-> > +
-> > +/*
-> > + * Concurrency Sanitizer uses the same instrumentation as Thread Sanitizer.
->
-> Is there any documentation on the instrumentation? Like a complete list
-> for all instrumentation functions plus a description of where the
-> compiler will use those functions. Yes, the names of the below functions
-> are straightforward, but an accurate doc on the instrumentation will
-> cerntainly help people review KCSAN.
-
-As far as I'm aware neither GCC nor Clang have documentation on the
-emitted instrumentation that we could reference (other than look into
-the compiler passes).
-
-However it is as straightforward as it seems: the compiler emits
-instrumentation calls for all loads and stores that the compiler
-generates; inline asm is not instrumented. I will add a comment to
-that effect for v2.
-
-Thanks,
--- Marco
-
-> Regards,
-> Boqun
->
-> > + */
-> > +
-> > +#define DEFINE_TSAN_READ_WRITE(size)                                           \
-> > +     void __tsan_read##size(void *ptr)                                      \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, false);                        \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_read##size);                                      \
-> > +     void __tsan_write##size(void *ptr)                                     \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, true);                         \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_write##size)
-> > +
-> > +DEFINE_TSAN_READ_WRITE(1);
-> > +DEFINE_TSAN_READ_WRITE(2);
-> > +DEFINE_TSAN_READ_WRITE(4);
-> > +DEFINE_TSAN_READ_WRITE(8);
-> > +DEFINE_TSAN_READ_WRITE(16);
-> > +
-> > +/*
-> > + * Not all supported compiler versions distinguish aligned/unaligned accesses,
-> > + * but e.g. recent versions of Clang do.
-> > + */
-> > +#define DEFINE_TSAN_UNALIGNED_READ_WRITE(size)                                 \
-> > +     void __tsan_unaligned_read##size(void *ptr)                            \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, false);                        \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_unaligned_read##size);                            \
-> > +     void __tsan_unaligned_write##size(void *ptr)                           \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, true);                         \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_unaligned_write##size)
-> > +
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(2);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(4);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(8);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(16);
-> > +
-> > +void __tsan_read_range(void *ptr, size_t size)
-> > +{
-> > +     __kcsan_check_access(ptr, size, false);
-> > +}
-> > +EXPORT_SYMBOL(__tsan_read_range);
-> > +
-> > +void __tsan_write_range(void *ptr, size_t size)
-> > +{
-> > +     __kcsan_check_access(ptr, size, true);
-> > +}
-> > +EXPORT_SYMBOL(__tsan_write_range);
-> > +
-> > +/*
-> > + * The below are not required KCSAN, but can still be emitted by the compiler.
-> > + */
-> > +void __tsan_func_entry(void *call_pc)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_func_entry);
-> > +void __tsan_func_exit(void)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_func_exit);
-> > +void __tsan_init(void)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_init);
-> [...]
+Hello Greg,=0A=
+=0A=
+On 10/15/2019 10:05 PM, Greg KH wrote:=0A=
+> =0A=
+> This patch does not apply to my tree :(=0A=
+> =0A=
+=0A=
+Thanks for letting me know; I will rebase it in v7.=0A=
+=0A=
+Regards,=0A=
+Stefan=0A=
