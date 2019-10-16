@@ -5,77 +5,260 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 54C5D7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 15:13:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B83D7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 15:17:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388825AbfJPPM4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 11:12:56 -0400
-Received: from mga12.intel.com ([192.55.52.136]:36205 "EHLO mga12.intel.com"
+        id S2390648AbfJPPQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 11:16:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:43070 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388822AbfJPPMz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:12:55 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Oct 2019 08:12:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,304,1566889200"; 
-   d="scan'208";a="370827051"
-Received: from hagarwal-mobl1.gar.corp.intel.com (HELO localhost) ([10.252.5.165])
-  by orsmga005.jf.intel.com with ESMTP; 16 Oct 2019 08:12:47 -0700
-Date:   Wed, 16 Oct 2019 18:12:46 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     jmorris@namei.org, sashal@kernel.org, peterhuewe@gmx.de,
-        jgg@ziepe.ca, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v2] tpm/tpm_ftpm_tee: add shutdown call back
-Message-ID: <20191016151246.GA4261@linux.intel.com>
-References: <20191014202135.429009-1-pasha.tatashin@soleen.com>
+        id S1730806AbfJPPQv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Oct 2019 11:16:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B25BA142F;
+        Wed, 16 Oct 2019 08:16:50 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F416A3F68E;
+        Wed, 16 Oct 2019 08:16:45 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 16:16:43 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191016151643.GC46264@lakrids.cambridge.arm.com>
+References: <20191016083959.186860-1-elver@google.com>
+ <20191016083959.186860-2-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191014202135.429009-1-pasha.tatashin@soleen.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191016083959.186860-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 04:21:35PM -0400, Pavel Tatashin wrote:
-> add shutdown call back to close existing session with fTPM TA
-> to support kexec scenario.
+On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 2c2e56bd8913..34a1d9310304 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1171,6 +1171,13 @@ struct task_struct {
+>  #ifdef CONFIG_KASAN
+>  	unsigned int			kasan_depth;
+>  #endif
+> +#ifdef CONFIG_KCSAN
+> +	/* See comments at kernel/kcsan/core.c: struct cpu_state. */
+> +	int				kcsan_disable;
+> +	int				kcsan_atomic_next;
+> +	int				kcsan_atomic_region;
+> +	bool				kcsan_atomic_region_flat;
+> +#endif
 
-Sentences start in English with a capital letter :-)
+Should these be unsigned?
 
-> 
-> Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> ---
->  drivers/char/tpm/tpm_ftpm_tee.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_tee.c
-> index 6640a14dbe48..ad16ea555e97 100644
-> --- a/drivers/char/tpm/tpm_ftpm_tee.c
-> +++ b/drivers/char/tpm/tpm_ftpm_tee.c
-> @@ -328,6 +328,19 @@ static int ftpm_tee_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +/**
-> + * ftpm_tee_shutdown - shutdown the TPM device
+> +/*
+> + * Per-CPU state that should be used instead of 'current' if we are not in a
+> + * task.
+> + */
+> +struct cpu_state {
+> +	int disable; /* disable counter */
+> +	int atomic_next; /* number of following atomic ops */
+> +
+> +	/*
+> +	 * We use separate variables to store if we are in a nestable or flat
+> +	 * atomic region. This helps make sure that an atomic region with
+> +	 * nesting support is not suddenly aborted when a flat region is
+> +	 * contained within. Effectively this allows supporting nesting flat
+> +	 * atomic regions within an outer nestable atomic region. Support for
+> +	 * this is required as there are cases where a seqlock reader critical
+> +	 * section (flat atomic region) is contained within a seqlock writer
+> +	 * critical section (nestable atomic region), and the "mismatching
+> +	 * kcsan_end_atomic()" warning would trigger otherwise.
+> +	 */
+> +	int atomic_region;
+> +	bool atomic_region_flat;
+> +};
+> +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
+> +	.disable = 0,
+> +	.atomic_next = 0,
+> +	.atomic_region = 0,
+> +	.atomic_region_flat = 0,
+> +};
 
-A function name has to have parentheses in kdoc. I know this not
-consistently done in the subsystem ATM but this is what is documented
-here:
+These are the same as in task_struct, so I think it probably makes sense
+to have a common structure for these, e.g.
 
-https://www.kernel.org/doc/Documentation/kernel-doc-nano-HOWTO.txt
+| struct kcsan_ctx {
+| 	int	disable;
+| 	int	atomic_next;
+| 	int	atomic_region;
+| 	bool	atomic_region_flat;
+| };
 
-/Jarkko
+... which you then place within task_struct, e.g.
+
+| #ifdef CONFIG_KCSAN
+| 	struct kcsan_ctx	kcsan_ctx;
+| #endif
+
+... and here, e.g.
+
+| static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
+
+That would simplify a number of cases below where you have to choose one
+or the other, as you can choose the pointer, then handle the rest in a
+common way.
+
+e.g. for:
+
+> +static inline bool is_atomic(const volatile void *ptr)
+> +{
+> +	if (in_task()) {
+> +		if (unlikely(current->kcsan_atomic_next > 0)) {
+> +			--current->kcsan_atomic_next;
+> +			return true;
+> +		}
+> +		if (unlikely(current->kcsan_atomic_region > 0 ||
+> +			     current->kcsan_atomic_region_flat))
+> +			return true;
+> +	} else { /* interrupt */
+> +		if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
+> +			this_cpu_dec(this_state.atomic_next);
+> +			return true;
+> +		}
+> +		if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
+> +			     this_cpu_read(this_state.atomic_region_flat)))
+> +			return true;
+> +	}
+> +
+> +	return kcsan_is_atomic(ptr);
+> +}
+
+... you could have something like:
+
+| struct kcsan_ctx *kcsan_get_ctx(void)
+| {
+| 	return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
+| }
+|
+| static inline bool is_atomic(const volatile void *ptr)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+|	if (unlikely(ctx->atomic_next > 0) {
+|		--ctx->atomic_next;
+| 		return true;
+| 	}
+| 	if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
+| 		return true;
+|
+| 	return kcsan_is_atomic(ptr);
+| }
+
+... avoiding duplicating the checks for task/irq contexts.
+
+It's not clear to me how either that or the original code works if a
+softirq is interrupted by a hardirq. IIUC most of the fields should
+remain stable over that window, since the hardirq should balance most
+changes it makes before returning, but I don't think that's true for
+atomic_next. Can't that be corrupted from the PoV of the softirq
+handler?
+
+[...]
+
+> +void kcsan_begin_atomic(bool nest)
+> +{
+> +	if (nest) {
+> +		if (in_task())
+> +			++current->kcsan_atomic_region;
+> +		else
+> +			this_cpu_inc(this_state.atomic_region);
+> +	} else {
+> +		if (in_task())
+> +			current->kcsan_atomic_region_flat = true;
+> +		else
+> +			this_cpu_write(this_state.atomic_region_flat, true);
+> +	}
+> +}
+
+Assuming my suggestion above wasn't bogus, this can be:
+
+| void kcsan_begin_atomic(boot nest)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+| 	if (nest)
+| 		ctx->atomic_region++;
+| 	else
+| 		ctx->atomic_region_flat = true;
+| }
+
+> +void kcsan_end_atomic(bool nest)
+> +{
+> +	if (nest) {
+> +		int prev =
+> +			in_task() ?
+> +				current->kcsan_atomic_region-- :
+> +				(this_cpu_dec_return(this_state.atomic_region) +
+> +				 1);
+> +		if (prev == 0) {
+> +			kcsan_begin_atomic(true); /* restore to 0 */
+> +			kcsan_disable_current();
+> +			WARN(1, "mismatching %s", __func__);
+> +			kcsan_enable_current();
+> +		}
+> +	} else {
+> +		if (in_task())
+> +			current->kcsan_atomic_region_flat = false;
+> +		else
+> +			this_cpu_write(this_state.atomic_region_flat, false);
+> +	}
+> +}
+
+... similarly:
+
+| void kcsan_end_atomic(bool nest)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+| 
+| 	if (nest)
+| 		if (ctx->kcsan_atomic_region--) {
+| 			kcsan_begin_atomic(true); /* restore to 0 */
+| 			kcsan_disable_current();
+| 			WARN(1, "mismatching %s"\ __func__);
+| 			kcsan_enable_current();
+| 		}
+| 	} else {
+| 		ctx->atomic_region_flat = true;
+| 	}
+| }
+
+> +void kcsan_atomic_next(int n)
+> +{
+> +	if (in_task())
+> +		current->kcsan_atomic_next = n;
+> +	else
+> +		this_cpu_write(this_state.atomic_next, n);
+> +}
+
+... and:
+
+| void kcsan_atomic_nextint n)
+| {
+| 	kcsan_get_ctx()->atomic_next = n;
+| }
+
+Thanks,
+Mark.
