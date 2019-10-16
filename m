@@ -1,264 +1,317 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8B83D7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 15:17:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FADA7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 15:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390648AbfJPPQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 11:16:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:43070 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730806AbfJPPQv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:16:51 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B25BA142F;
-        Wed, 16 Oct 2019 08:16:50 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F416A3F68E;
-        Wed, 16 Oct 2019 08:16:45 -0700 (PDT)
-Date:   Wed, 16 Oct 2019 16:16:43 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Marco Elver <elver@google.com>
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
-        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
-        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
-        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
-        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
-        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
-        will@kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20191016151643.GC46264@lakrids.cambridge.arm.com>
-References: <20191016083959.186860-1-elver@google.com>
- <20191016083959.186860-2-elver@google.com>
+        id S2405893AbfJPPx7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 11:53:59 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:46210 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405892AbfJPPx7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 11:53:59 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 89so20563020oth.13
+        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2019 08:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ES8PPxqISv6le2aU+Na1jJhECeSWLsXBsBUpCljFmNc=;
+        b=oO69GKlEUEmZWfog28/tduGmrNxTECrWedf44ep3BiJWADibe3BtF/qSPOt+lHQnrd
+         HMZ/O6vy/oZ1Mn29CFgrBvva1cxYf0fsP2Iv2I85mFP+PSSHxMWS5bWwvJtAkW4KeQ4X
+         zHsZ4zn4Ud3sy3FtVlyWWHfups+bSfs5dcKPEQoYxyP86YUHE43Ssz5B42ovDjgprbuJ
+         QoImASQ3r2C39DI1HTT9w7MtYoLRwjzHESnKd/q21EZ4qeAz9arZ/6uRGqW264QE2D9u
+         M4kZpDAKBF3fk3pugbmFA+dNIL07VCSKkOnXhdXNc50ltBiqs8ufauu0rzHnctKYwyTf
+         J+zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ES8PPxqISv6le2aU+Na1jJhECeSWLsXBsBUpCljFmNc=;
+        b=s5/8kVJ9TSqZiD5g1k+mafrxfCZfXVMwgJGepsWu/Kn1f2N+kVpD5kXsC3e/FWfSYI
+         byIojN78igG6waRxtQz3XxGf8lC/Q7eSinJpomTu2foYZe3ywcfYPxgVIx7liMS3AXNB
+         kwnXGz6rZP07oLgQ1Dr1tQElA58t9mj6Hkg1CSs/+J/+ZxikY7HtDzXDsaBfUv0ge9mG
+         VtWxAYp+gU9Rv9NDM9COrzRCAlbXj4o6DqfVaKGhKm4M6sCByBakGTBtEimExxi2V+U5
+         g0rVx3yzxTwmG5eS/Dmqb1/hYWf6GIq9odMLpvkp+Q+z23gmGDxmIJjwdUnh0LjsqwJk
+         to/w==
+X-Gm-Message-State: APjAAAWcE4WgwdI+Vtqc8Yz3qwTBzqH6zBZxCMESoIvc0i84FN3fQYrZ
+        AGqM85qfiAYU7CkZT0NVarG1YgFFPU1hZtofCPR+2w==
+X-Google-Smtp-Source: APXvYqy/bEpTtLLHRnuZTAKQyMKjVxdlLHEt24tIzExwmKRAvwqnmZoQehyCbZB5w1Ds0iSmKpp3CZhKegjg3ge7PUQ=
+X-Received: by 2002:a9d:7590:: with SMTP id s16mr8514934otk.2.1571241237486;
+ Wed, 16 Oct 2019 08:53:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191016083959.186860-2-elver@google.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
+ <20191016151643.GC46264@lakrids.cambridge.arm.com>
+In-Reply-To: <20191016151643.GC46264@lakrids.cambridge.arm.com>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 16 Oct 2019 17:53:45 +0200
+Message-ID: <CANpmjNNctoVsUc+VbJ_RAMgLxcbvjq55gK1NdE0G0muMdv1+Ng@mail.gmail.com>
+Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>, ard.biesheuvel@linaro.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 2c2e56bd8913..34a1d9310304 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1171,6 +1171,13 @@ struct task_struct {
->  #ifdef CONFIG_KASAN
->  	unsigned int			kasan_depth;
->  #endif
-> +#ifdef CONFIG_KCSAN
-> +	/* See comments at kernel/kcsan/core.c: struct cpu_state. */
-> +	int				kcsan_disable;
-> +	int				kcsan_atomic_next;
-> +	int				kcsan_atomic_region;
-> +	bool				kcsan_atomic_region_flat;
-> +#endif
+On Wed, 16 Oct 2019 at 17:16, Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index 2c2e56bd8913..34a1d9310304 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -1171,6 +1171,13 @@ struct task_struct {
+> >  #ifdef CONFIG_KASAN
+> >       unsigned int                    kasan_depth;
+> >  #endif
+> > +#ifdef CONFIG_KCSAN
+> > +     /* See comments at kernel/kcsan/core.c: struct cpu_state. */
+> > +     int                             kcsan_disable;
+> > +     int                             kcsan_atomic_next;
+> > +     int                             kcsan_atomic_region;
+> > +     bool                            kcsan_atomic_region_flat;
+> > +#endif
+>
+> Should these be unsigned?
 
-Should these be unsigned?
+I prefer to keep them int, as they can become negative (rather than
+underflow with unsigned), if we e.g. have unbalanced
+kcsan_enable_current etc. Since we do not need the full unsigned range
+(these values should stay relatively small), int is more than enough.
 
-> +/*
-> + * Per-CPU state that should be used instead of 'current' if we are not in a
-> + * task.
-> + */
-> +struct cpu_state {
-> +	int disable; /* disable counter */
-> +	int atomic_next; /* number of following atomic ops */
-> +
-> +	/*
-> +	 * We use separate variables to store if we are in a nestable or flat
-> +	 * atomic region. This helps make sure that an atomic region with
-> +	 * nesting support is not suddenly aborted when a flat region is
-> +	 * contained within. Effectively this allows supporting nesting flat
-> +	 * atomic regions within an outer nestable atomic region. Support for
-> +	 * this is required as there are cases where a seqlock reader critical
-> +	 * section (flat atomic region) is contained within a seqlock writer
-> +	 * critical section (nestable atomic region), and the "mismatching
-> +	 * kcsan_end_atomic()" warning would trigger otherwise.
-> +	 */
-> +	int atomic_region;
-> +	bool atomic_region_flat;
-> +};
-> +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
-> +	.disable = 0,
-> +	.atomic_next = 0,
-> +	.atomic_region = 0,
-> +	.atomic_region_flat = 0,
-> +};
+> > +/*
+> > + * Per-CPU state that should be used instead of 'current' if we are not in a
+> > + * task.
+> > + */
+> > +struct cpu_state {
+> > +     int disable; /* disable counter */
+> > +     int atomic_next; /* number of following atomic ops */
+> > +
+> > +     /*
+> > +      * We use separate variables to store if we are in a nestable or flat
+> > +      * atomic region. This helps make sure that an atomic region with
+> > +      * nesting support is not suddenly aborted when a flat region is
+> > +      * contained within. Effectively this allows supporting nesting flat
+> > +      * atomic regions within an outer nestable atomic region. Support for
+> > +      * this is required as there are cases where a seqlock reader critical
+> > +      * section (flat atomic region) is contained within a seqlock writer
+> > +      * critical section (nestable atomic region), and the "mismatching
+> > +      * kcsan_end_atomic()" warning would trigger otherwise.
+> > +      */
+> > +     int atomic_region;
+> > +     bool atomic_region_flat;
+> > +};
+> > +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
+> > +     .disable = 0,
+> > +     .atomic_next = 0,
+> > +     .atomic_region = 0,
+> > +     .atomic_region_flat = 0,
+> > +};
+>
+> These are the same as in task_struct, so I think it probably makes sense
+> to have a common structure for these, e.g.
+>
+> | struct kcsan_ctx {
+> |       int     disable;
+> |       int     atomic_next;
+> |       int     atomic_region;
+> |       bool    atomic_region_flat;
+> | };
+>
+> ... which you then place within task_struct, e.g.
+>
+> | #ifdef CONFIG_KCSAN
+> |       struct kcsan_ctx        kcsan_ctx;
+> | #endif
+>
+> ... and here, e.g.
+>
+> | static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
+>
+> That would simplify a number of cases below where you have to choose one
+> or the other, as you can choose the pointer, then handle the rest in a
+> common way.
+>
+> e.g. for:
+>
+> > +static inline bool is_atomic(const volatile void *ptr)
+> > +{
+> > +     if (in_task()) {
+> > +             if (unlikely(current->kcsan_atomic_next > 0)) {
+> > +                     --current->kcsan_atomic_next;
+> > +                     return true;
+> > +             }
+> > +             if (unlikely(current->kcsan_atomic_region > 0 ||
+> > +                          current->kcsan_atomic_region_flat))
+> > +                     return true;
+> > +     } else { /* interrupt */
+> > +             if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
+> > +                     this_cpu_dec(this_state.atomic_next);
+> > +                     return true;
+> > +             }
+> > +             if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
+> > +                          this_cpu_read(this_state.atomic_region_flat)))
+> > +                     return true;
+> > +     }
+> > +
+> > +     return kcsan_is_atomic(ptr);
+> > +}
+>
+> ... you could have something like:
+>
+> | struct kcsan_ctx *kcsan_get_ctx(void)
+> | {
+> |       return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
+> | }
+> |
+> | static inline bool is_atomic(const volatile void *ptr)
+> | {
+> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
+> |       if (unlikely(ctx->atomic_next > 0) {
+> |               --ctx->atomic_next;
+> |               return true;
+> |       }
+> |       if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
+> |               return true;
+> |
+> |       return kcsan_is_atomic(ptr);
+> | }
+>
+> ... avoiding duplicating the checks for task/irq contexts.
+>
+> It's not clear to me how either that or the original code works if a
+> softirq is interrupted by a hardirq. IIUC most of the fields should
+> remain stable over that window, since the hardirq should balance most
+> changes it makes before returning, but I don't think that's true for
+> atomic_next. Can't that be corrupted from the PoV of the softirq
+> handler?
 
-These are the same as in task_struct, so I think it probably makes sense
-to have a common structure for these, e.g.
+As you say, these fields should balance. So far I have not observed
+any issues. For atomic_next I'm not concerned as it is an
+approximation either way (see seqlock patch), and it's fine if there
+is a small error.
 
-| struct kcsan_ctx {
-| 	int	disable;
-| 	int	atomic_next;
-| 	int	atomic_region;
-| 	bool	atomic_region_flat;
-| };
+> [...]
+>
+> > +void kcsan_begin_atomic(bool nest)
+> > +{
+> > +     if (nest) {
+> > +             if (in_task())
+> > +                     ++current->kcsan_atomic_region;
+> > +             else
+> > +                     this_cpu_inc(this_state.atomic_region);
+> > +     } else {
+> > +             if (in_task())
+> > +                     current->kcsan_atomic_region_flat = true;
+> > +             else
+> > +                     this_cpu_write(this_state.atomic_region_flat, true);
+> > +     }
+> > +}
+>
+> Assuming my suggestion above wasn't bogus, this can be:
+>
+> | void kcsan_begin_atomic(boot nest)
+> | {
+> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
+> |       if (nest)
+> |               ctx->atomic_region++;
+> |       else
+> |               ctx->atomic_region_flat = true;
+> | }
+>
+> > +void kcsan_end_atomic(bool nest)
+> > +{
+> > +     if (nest) {
+> > +             int prev =
+> > +                     in_task() ?
+> > +                             current->kcsan_atomic_region-- :
+> > +                             (this_cpu_dec_return(this_state.atomic_region) +
+> > +                              1);
+> > +             if (prev == 0) {
+> > +                     kcsan_begin_atomic(true); /* restore to 0 */
+> > +                     kcsan_disable_current();
+> > +                     WARN(1, "mismatching %s", __func__);
+> > +                     kcsan_enable_current();
+> > +             }
+> > +     } else {
+> > +             if (in_task())
+> > +                     current->kcsan_atomic_region_flat = false;
+> > +             else
+> > +                     this_cpu_write(this_state.atomic_region_flat, false);
+> > +     }
+> > +}
+>
+> ... similarly:
+>
+> | void kcsan_end_atomic(bool nest)
+> | {
+> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
+> |
+> |       if (nest)
+> |               if (ctx->kcsan_atomic_region--) {
+> |                       kcsan_begin_atomic(true); /* restore to 0 */
+> |                       kcsan_disable_current();
+> |                       WARN(1, "mismatching %s"\ __func__);
+> |                       kcsan_enable_current();
+> |               }
+> |       } else {
+> |               ctx->atomic_region_flat = true;
+> |       }
+> | }
+>
+> > +void kcsan_atomic_next(int n)
+> > +{
+> > +     if (in_task())
+> > +             current->kcsan_atomic_next = n;
+> > +     else
+> > +             this_cpu_write(this_state.atomic_next, n);
+> > +}
+>
+> ... and:
+>
+> | void kcsan_atomic_nextint n)
+> | {
+> |       kcsan_get_ctx()->atomic_next = n;
+> | }
 
-... which you then place within task_struct, e.g.
+Otherwise, yes, this makes much more sense and I will just introduce
+the struct and integrate the above suggestions for v2.
 
-| #ifdef CONFIG_KCSAN
-| 	struct kcsan_ctx	kcsan_ctx;
-| #endif
-
-... and here, e.g.
-
-| static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
-
-That would simplify a number of cases below where you have to choose one
-or the other, as you can choose the pointer, then handle the rest in a
-common way.
-
-e.g. for:
-
-> +static inline bool is_atomic(const volatile void *ptr)
-> +{
-> +	if (in_task()) {
-> +		if (unlikely(current->kcsan_atomic_next > 0)) {
-> +			--current->kcsan_atomic_next;
-> +			return true;
-> +		}
-> +		if (unlikely(current->kcsan_atomic_region > 0 ||
-> +			     current->kcsan_atomic_region_flat))
-> +			return true;
-> +	} else { /* interrupt */
-> +		if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
-> +			this_cpu_dec(this_state.atomic_next);
-> +			return true;
-> +		}
-> +		if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
-> +			     this_cpu_read(this_state.atomic_region_flat)))
-> +			return true;
-> +	}
-> +
-> +	return kcsan_is_atomic(ptr);
-> +}
-
-... you could have something like:
-
-| struct kcsan_ctx *kcsan_get_ctx(void)
-| {
-| 	return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
-| }
-|
-| static inline bool is_atomic(const volatile void *ptr)
-| {
-| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
-|	if (unlikely(ctx->atomic_next > 0) {
-|		--ctx->atomic_next;
-| 		return true;
-| 	}
-| 	if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
-| 		return true;
-|
-| 	return kcsan_is_atomic(ptr);
-| }
-
-... avoiding duplicating the checks for task/irq contexts.
-
-It's not clear to me how either that or the original code works if a
-softirq is interrupted by a hardirq. IIUC most of the fields should
-remain stable over that window, since the hardirq should balance most
-changes it makes before returning, but I don't think that's true for
-atomic_next. Can't that be corrupted from the PoV of the softirq
-handler?
-
-[...]
-
-> +void kcsan_begin_atomic(bool nest)
-> +{
-> +	if (nest) {
-> +		if (in_task())
-> +			++current->kcsan_atomic_region;
-> +		else
-> +			this_cpu_inc(this_state.atomic_region);
-> +	} else {
-> +		if (in_task())
-> +			current->kcsan_atomic_region_flat = true;
-> +		else
-> +			this_cpu_write(this_state.atomic_region_flat, true);
-> +	}
-> +}
-
-Assuming my suggestion above wasn't bogus, this can be:
-
-| void kcsan_begin_atomic(boot nest)
-| {
-| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
-| 	if (nest)
-| 		ctx->atomic_region++;
-| 	else
-| 		ctx->atomic_region_flat = true;
-| }
-
-> +void kcsan_end_atomic(bool nest)
-> +{
-> +	if (nest) {
-> +		int prev =
-> +			in_task() ?
-> +				current->kcsan_atomic_region-- :
-> +				(this_cpu_dec_return(this_state.atomic_region) +
-> +				 1);
-> +		if (prev == 0) {
-> +			kcsan_begin_atomic(true); /* restore to 0 */
-> +			kcsan_disable_current();
-> +			WARN(1, "mismatching %s", __func__);
-> +			kcsan_enable_current();
-> +		}
-> +	} else {
-> +		if (in_task())
-> +			current->kcsan_atomic_region_flat = false;
-> +		else
-> +			this_cpu_write(this_state.atomic_region_flat, false);
-> +	}
-> +}
-
-... similarly:
-
-| void kcsan_end_atomic(bool nest)
-| {
-| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
-| 
-| 	if (nest)
-| 		if (ctx->kcsan_atomic_region--) {
-| 			kcsan_begin_atomic(true); /* restore to 0 */
-| 			kcsan_disable_current();
-| 			WARN(1, "mismatching %s"\ __func__);
-| 			kcsan_enable_current();
-| 		}
-| 	} else {
-| 		ctx->atomic_region_flat = true;
-| 	}
-| }
-
-> +void kcsan_atomic_next(int n)
-> +{
-> +	if (in_task())
-> +		current->kcsan_atomic_next = n;
-> +	else
-> +		this_cpu_write(this_state.atomic_next, n);
-> +}
-
-... and:
-
-| void kcsan_atomic_nextint n)
-| {
-| 	kcsan_get_ctx()->atomic_next = n;
-| }
-
-Thanks,
-Mark.
+Many thanks,
+-- Marco
