@@ -3,63 +3,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC26B7D9ED
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 14:52:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54C5D7D91B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 15:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390722AbfJPOwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 10:52:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34590 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731578AbfJPOwL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Oct 2019 10:52:11 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 63599B448;
-        Wed, 16 Oct 2019 14:52:09 +0000 (UTC)
-Date:   Wed, 16 Oct 2019 16:52:08 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joe Perches <joe@perches.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5] printf: add support for printing symbolic error names
-Message-ID: <20191016145208.dqvquyw2m4o5skbz@pathway.suse.cz>
-References: <20191011133617.9963-1-linux@rasmusvillemoes.dk>
- <20191015190706.15989-1-linux@rasmusvillemoes.dk>
- <CAHp75Vcw9Wn6a2VEhQ00o1FZq=egtiQGjC1=uX1J71wQ9pf-pw@mail.gmail.com>
+        id S2388825AbfJPPM4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 11:12:56 -0400
+Received: from mga12.intel.com ([192.55.52.136]:36205 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388822AbfJPPMz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Oct 2019 11:12:55 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Oct 2019 08:12:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,304,1566889200"; 
+   d="scan'208";a="370827051"
+Received: from hagarwal-mobl1.gar.corp.intel.com (HELO localhost) ([10.252.5.165])
+  by orsmga005.jf.intel.com with ESMTP; 16 Oct 2019 08:12:47 -0700
+Date:   Wed, 16 Oct 2019 18:12:46 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     jmorris@namei.org, sashal@kernel.org, peterhuewe@gmx.de,
+        jgg@ziepe.ca, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v2] tpm/tpm_ftpm_tee: add shutdown call back
+Message-ID: <20191016151246.GA4261@linux.intel.com>
+References: <20191014202135.429009-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vcw9Wn6a2VEhQ00o1FZq=egtiQGjC1=uX1J71wQ9pf-pw@mail.gmail.com>
-User-Agent: NeoMutt/20170912 (1.9.0)
+In-Reply-To: <20191014202135.429009-1-pasha.tatashin@soleen.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 2019-10-16 16:49:41, Andy Shevchenko wrote:
-> On Tue, Oct 15, 2019 at 10:07 PM Rasmus Villemoes
-> <linux@rasmusvillemoes.dk> wrote:
+On Mon, Oct 14, 2019 at 04:21:35PM -0400, Pavel Tatashin wrote:
+> add shutdown call back to close existing session with fTPM TA
+> to support kexec scenario.
+
+Sentences start in English with a capital letter :-)
+
 > 
-> > +const char *errname(int err)
-> > +{
-> > +       const char *name = __errname(err > 0 ? err : -err);
+> Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
+> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  drivers/char/tpm/tpm_ftpm_tee.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> Looks like mine comment left unseen.
-> What about to simple use abs(err) here?
+> diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_tee.c
+> index 6640a14dbe48..ad16ea555e97 100644
+> --- a/drivers/char/tpm/tpm_ftpm_tee.c
+> +++ b/drivers/char/tpm/tpm_ftpm_tee.c
+> @@ -328,6 +328,19 @@ static int ftpm_tee_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * ftpm_tee_shutdown - shutdown the TPM device
 
-Andy, would you want to ack the patch with this change?
-I could do it when pushing the patch.
+A function name has to have parentheses in kdoc. I know this not
+consistently done in the subsystem ATM but this is what is documented
+here:
 
-Otherwise, it looks ready to go.
+https://www.kernel.org/doc/Documentation/kernel-doc-nano-HOWTO.txt
 
-Thanks everybody involved for the patience.
-
-Best Regards,
-Petr
+/Jarkko
