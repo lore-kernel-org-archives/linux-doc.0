@@ -1,160 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE5997D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 04:46:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF2587D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 06:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391131AbfJPEqM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 00:46:12 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:50834 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391117AbfJPEqM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 00:46:12 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9G4k1Q9130349;
-        Tue, 15 Oct 2019 23:46:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571201161;
-        bh=2e1ep+jz9ThULjwuPHURE/WBfxKsgQ0iJmPcL/PVeZo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=SfJcnijlf1XwiD6nqRxlO3e9zzuqWTguFxaNWOVio66d/ssT0/dJd4IzEZMiEqzea
-         KRFef42cOE1obpQC6z4BX4mf0X6fh08o33i9nOX+whSfsc1OK5JIeVQqRZuvJSc7ph
-         cP+UWXKr3skoqMbAefp3lWgOo0a1IVNdamID15UA=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9G4k1NQ001573
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 15 Oct 2019 23:46:01 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 15
- Oct 2019 23:45:54 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 15 Oct 2019 23:46:00 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9G4jqTh107770;
-        Tue, 15 Oct 2019 23:45:54 -0500
-Subject: Re: [RFC PATCH 02/21] dt-bindings: PCI: Endpoint: Add DT bindings for
- PCI EPF Device
-To:     Rob Herring <robh@kernel.org>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-ntb@googlegroups.com>
-References: <20190926112933.8922-1-kishon@ti.com>
- <20190926112933.8922-3-kishon@ti.com> <20191015184243.GA10228@bogus>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <af3483e0-0533-4b13-64d1-b2cd6fedf514@ti.com>
-Date:   Wed, 16 Oct 2019 10:15:23 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1729762AbfJPGTB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 02:19:01 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40029 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728515AbfJPGTB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 02:19:01 -0400
+Received: by mail-wr1-f68.google.com with SMTP id o28so3872298wro.7
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2019 23:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=YRhrTB62D4V/UFoC3f7Dy9VxNzwea0kYw4JJIDyNnSU=;
+        b=gffNxPX59uLp8d/gUW5M7E6+ht3fLmLfSJgrgYUe1tI7Afeyq6CzJQ+74I6+AmU/z/
+         LCxua/tgSJOllX2PjdMVZeJvnP0ag9dr/fxDqwqp/VddGOOGCVTOTcUt0EU2EnzWOTqU
+         RxXnz4wgoSk81+fFaU14kCZSCs3zePHw0unCHMU0JPUBY5lIPVNvqiZnZ04YBtvQKgDQ
+         HpdVT8WRcKE9oDhNiAVcKWTT0LS3Yqc1Ultg55vUfNYknQMR/m9KWI0GKJlDKkLdc9rj
+         OdjIf4UnX2hBqQMJACFydhYY7OgZIs841Bu3TJXMwsNzfUGHuD6/H97Ls+FNG+P7MyTQ
+         zYKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=YRhrTB62D4V/UFoC3f7Dy9VxNzwea0kYw4JJIDyNnSU=;
+        b=f3XCt6NcVse0B8WG1JWskHn75UfzvrMawkhXok+TlvqorN/0/Mjqxwsi7jPHuUat32
+         GcyFmAVFWpodxPAYQplAUqdo/zbsoKcAq4X8CJjf8UXfEf/1z/pNcVotqb23+jxcrmI4
+         EkAVUUJ+yFDaVUVccnPqWKV0Rmcv5D+Ux9xdBmVeCgLOThV+TDGx6iW28cA9vSLSjghK
+         6paFCRBR4a9v+YoJb/A9EMOyBdMxnKNWLGxkDkh5dd4siabWd1YC6NwA+6B3nqzoWT9q
+         7FLQuIKddhuRYTBCIelGD3qp5B5f2rcUiF5BMd57f1916cuZC+h9kXEmzp6scm0poARx
+         bDVQ==
+X-Gm-Message-State: APjAAAUDIFPQ67oZIerRle8j8vPlgmSDU1yiGdLsEs1KabaOz3KRAsCf
+        A3CasLqxnIjLfwv60S0BekEiTg==
+X-Google-Smtp-Source: APXvYqyKm24zfNyAXdbf8pS+DsTWKRvLuNz2vGQv6C7u2rAu4IGWRBvmbdVbgFvVvDmpGDOwl7yD5w==
+X-Received: by 2002:adf:c98b:: with SMTP id f11mr1155362wrh.274.1571206738605;
+        Tue, 15 Oct 2019 23:18:58 -0700 (PDT)
+Received: from dell ([95.149.164.86])
+        by smtp.gmail.com with ESMTPSA id a3sm3004392wmc.3.2019.10.15.23.18.57
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Oct 2019 23:18:57 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 07:18:56 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>
+Cc:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v10 4/6] mfd: ioc3: Add driver for SGI IOC3 chip
+Message-ID: <20191016061856.GA4365@dell>
+References: <20191015120953.2597-1-tbogendoerfer@suse.de>
+ <20191015120953.2597-5-tbogendoerfer@suse.de>
+ <20191015122349.612a230b@cakuba.netronome.com>
 MIME-Version: 1.0
-In-Reply-To: <20191015184243.GA10228@bogus>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191015122349.612a230b@cakuba.netronome.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 15 Oct 2019, Jakub Kicinski wrote:
 
+> On Tue, 15 Oct 2019 14:09:49 +0200, Thomas Bogendoerfer wrote:
+> > SGI IOC3 chip has integrated ethernet, keyboard and mouse interface.
+> > It also supports connecting a SuperIO chip for serial and parallel
+> > interfaces. IOC3 is used inside various SGI systemboards and add-on
+> > cards with different equipped external interfaces.
+> > 
+> > Support for ethernet and serial interfaces were implemented inside
+> > the network driver. This patchset moves out the not network related
+> > parts to a new MFD driver, which takes care of card detection,
+> > setup of platform devices and interrupt distribution for the subdevices.
+> > 
+> > Serial portion: Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> > 
+> > Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+> 
+> Looks good, I think.
 
-On 16/10/19 12:12 AM, Rob Herring wrote:
-> On Thu, Sep 26, 2019 at 04:59:14PM +0530, Kishon Vijay Abraham I wrote:
->> Add device tree bindings for PCI endpoint function device. The
->> nodes for PCI endpoint function device should be attached to
->> PCI endpoint function bus.
->>
->> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
->> ---
->>  .../bindings/pci/endpoint/pci-epf.txt         | 28 +++++++++++++++++++
->>  1 file changed, 28 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
-> 
-> This and the previous patch for the bus should be combined and please 
-> convert to a schema.
+Is that a Reviewed-by?
 
-Sure Rob. Thanks for the review.
+If so, it doesn't sound like a very convincing one?
 
--Kishon
-> 
->>
->> diff --git a/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt b/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
->> new file mode 100644
->> index 000000000000..f006395fd526
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/pci/endpoint/pci-epf.txt
->> @@ -0,0 +1,28 @@
->> +PCI Endpoint Function Device
->> +
->> +This describes the generic bindings to be used when a device has to be
->> +exposed to the remote host over PCIe. The device could be an actual
->> +peripheral in the platform or a virtual device created by the software.
->> +
->> +epcs : phandle to the endpoint controller device
->> +epc-names : the names of the endpoint controller device corresponding
->> +	    to the EPCs present in the *epcs* phandle
-> 
-> Other than the NTB case, I'd expect the parent device to be the 
-> controller. Let's make NTB the exception...
-> 
-> 
->> +vendor-id: used to identify device manufacturer
->> +device-id: used to identify a particular device
->> +baseclass-code: used to classify the type of function the device performs
->> +subclass-code: used to identify more specifically the function of the device
-> 
-> Are these codes standard?
-> 
-> Powerpc has "class-code" already...
-> 
->> +subsys-vendor-id: used to identify vendor of the add-in card or subsystem
-> 
-> Powerpc has "subsystem-vendor-id" already...
-> 
->> +subsys-id: used to specify an id that is specific to a vendor
->> +
->> +Example:
->> +Following is an example of NTB device exposed to the remote host.
->> +
->> +ntb {
-> 
-> This is going to need some sort of addressing (which implies 'reg')? If 
-> not, I don't understand why you have 2 levels.
-> 
->> +	compatible = "pci-epf-ntb";
->> +	epcs = <&pcie0_ep>, <&pcie1_ep>;
->> +	epc-names = "primary", "secondary";
->> +	vendor-id = /bits/ 16 <0x104c>;
->> +	device-id = /bits/ 16 <0xb00d>;
-> 
-> These have a long history in OF and should be 32-bits (yes, we've let 
-> some cases of 16-bit creep in).
-> 
->> +	num-mws = <4>;
-> 
-> Doesn't this apply to more than NTB?
-> 
-> Can't you just get the length of 'mws-size'?
-> 
->> +	mws-size = <0x100000>, <0x100000>, <0x100000>, <0x100000>;
-> 
-> Need to support 64-bit sizes?
-> 
->> +};
->> -- 
->> 2.17.1
->>
+If not, it's probably not worth replying at all.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
