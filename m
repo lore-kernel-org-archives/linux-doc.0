@@ -1,183 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5339C7D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 20:16:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2325A7DE5B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Oct 2019 20:16:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732721AbfJPUNy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Oct 2019 16:13:54 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39211 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727796AbfJPUNx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Oct 2019 16:13:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r3so29518267wrj.6;
-        Wed, 16 Oct 2019 13:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5vpbsFRknebeQQJhtQXsaOo/WPV9F6xu2vA5grgfriE=;
-        b=mLdo6Y5fRuE+hfNBJETHyPCQqcJOkZFUJA0VqIo/MMyLW3uWA9maRYwnm4YWSLNJbH
-         gMnrOkN2+DtDmzzLWMS/0qPJeZZE8Y1XrSAQgefe+ABYTVLK64H5ml4i6kg+VK9aOocI
-         u7oWHPQQQtGdBh3COfH5nt5CgJktOc06Gw3Qk3G5s0VGlxm0ZIoqO1e6pbfRWqfsmIyf
-         5VVXgotYm7IikzJDCELJkrXJMm+0/gl4PZar1avNIgWt6KrarUjeFG8+txtS9uSykI2C
-         pLgOplXrrvHcQ3V1mEO2XAzWtn2Du8Xb3a0SpGLNV+wN1ZH0iV9N0vo9z/o7B09zktph
-         TpVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5vpbsFRknebeQQJhtQXsaOo/WPV9F6xu2vA5grgfriE=;
-        b=SkZwJO7JJVAOKz1knv232t5RUO2cSKxYm1RteqnMGbuQqRQUcX2u/oxt73iCFviG+/
-         lgQ5BroVAdyq5HERhvaCe738bL9XSX9Fw5jPZPpkF8MeeAqKdkmIMr4J6v/R2v3Zk7FS
-         V0hGt2kibEwVwUd5pTBUal5ZRNQ48mkzE4s4yGN3pqB0rpVWXBYZSZ8jkhgOXmYavd+H
-         hLZ8sAXh1w4wqbXujxnuAyozVK0RyCAGXT+Vvgrr88akUcXUNiJqZLagsvw5ksNBwGGt
-         l5LrFIXm0u73nS/tj9zCoAZOYC1mJf2N0SIpO7YDQGv+zn8pWE3/X0MxisNsfIPUbpdL
-         1NjA==
-X-Gm-Message-State: APjAAAVyCGcGr+EhOBxVIzIKj4Xl5YzV26vF07IZ+YRrYh0dpBcq+6mv
-        5fiOPL3XWxW5D93/KpwAuc730gCJD6Q=
-X-Google-Smtp-Source: APXvYqyKVVYeQaw58do9LQEj55YH9eWaBNJqYSK7+26pSe5dBkpw4ywu4pnAcpmwUdZ5N5kR87TWxw==
-X-Received: by 2002:adf:fa50:: with SMTP id y16mr248252wrr.171.1571256830788;
-        Wed, 16 Oct 2019 13:13:50 -0700 (PDT)
-Received: from localhost.localdomain (151.red-88-2-41.staticip.rima-tde.net. [88.2.41.151])
-        by smtp.gmail.com with ESMTPSA id 13sm1107wmj.29.2019.10.16.13.13.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 13:13:49 -0700 (PDT)
-From:   Albert Vaca Cintora <albertvaka@gmail.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net
-Cc:     Albert Vaca Cintora <albertvaka@gmail.com>
-Subject: [PATCH] Updated iostats docs
-Date:   Wed, 16 Oct 2019 22:13:37 +0200
-Message-Id: <20191016201337.88554-1-albertvaka@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        id S2389803AbfJPUPG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Oct 2019 16:15:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55476 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732607AbfJPUPG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Oct 2019 16:15:06 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8810120659;
+        Wed, 16 Oct 2019 20:15:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571256904;
+        bh=RKuiPtNCZS/1l7g/H5esKdXCQ13IvDoiKYefxqGO+rE=;
+        h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
+        b=dsobUYKKZjaVAYCLzAVo2RAlCOYiB9KRVsKDDq+u9RbLCkjf1T8X37qZ+akdIwmHi
+         2TPsyunRS5GLZ/4PXt4qg5ezfuiuCJ/kaRV3GraZIR+hUlz/+pevd0C0MGPIevzwrw
+         gqa2hQ8446Y1FNGtq+LfbQUQc+y/8bql+JxmqIhw=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAGETcx-FjF+bktBgL6h0ORH3MU4vMM9JNC2oB8Myn8KqvnmhDg@mail.gmail.com>
+References: <20190904211126.47518-1-saravanak@google.com> <20190904211126.47518-4-saravanak@google.com> <20190911102926.A9F8D2082C@mail.kernel.org> <20191004153750.GB823823@kroah.com> <20191008145304.2BD54205F4@mail.kernel.org> <CAGETcx-FjF+bktBgL6h0ORH3MU4vMM9JNC2oB8Myn8KqvnmhDg@mail.gmail.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        David Collins <collinsd@codeaurora.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        kbuild test robot <lkp@intel.com>
+Subject: Re: [PATCH v11 3/6] of: property: Add functional dependency link from DT bindings
+User-Agent: alot/0.8.1
+Date:   Wed, 16 Oct 2019 13:15:03 -0700
+Message-Id: <20191016201504.8810120659@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Previous docs mentioned 11 unsigned long fields, when the reality is that
-we have 15 fields with a mix of unsigned long and unsigned int.
+Quoting Saravana Kannan (2019-10-08 11:57:49)
+> On Tue, Oct 8, 2019 at 7:53 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> >
+> > Quoting Greg Kroah-Hartman (2019-10-04 08:37:50)
+> > > On Wed, Sep 11, 2019 at 03:29:25AM -0700, Stephen Boyd wrote:
+> > > > Quoting Saravana Kannan (2019-09-04 14:11:22)
+> > > > > +       int ret =3D 0;
+> > > > > +       struct device_node *tmp_np =3D sup_np;
+> > > > > +
+> > > > > +       of_node_get(sup_np);
+> > > > > +       /*
+> > > > > +        * Find the device node that contains the supplier phandl=
+e.  It may be
+> > > > > +        * @sup_np or it may be an ancestor of @sup_np.
+> > > > > +        */
+> > > > > +       while (sup_np && !of_find_property(sup_np, "compatible", =
+NULL))
+> > > > > +               sup_np =3D of_get_next_parent(sup_np);
+> > > >
+> > > > I don't get this. This is assuming that drivers are only probed for
+> > > > device nodes that have a compatible string? What about drivers that=
+ make
+> > > > sub-devices for clk support that have drivers in drivers/clk/ that =
+then
+> > > > attach at runtime later? This happens sometimes for MFDs that want =
+to
+> > > > split the functionality across the driver tree to the respective
+> > > > subsystems.
+> > >
+> > > For that, the link would not be there, correct?
+> >
+> > The parent device (MFD) would have the links because that is the device
+> > node with the provider property like '#clock-cells'. The child clk
+> > device that's populated by the MFD would be the one actually providing
+> > the clk via a driver that may probe any time later, or never, depending
+> > on if the clk driver is configured as a module or not. I fail to see how
+> > this will work for these cases.
+> >
+> > Is this logic there to find the parent of a regulator phandle and match
+> > that to some driver? It looks like it.
+>=20
+> In the case of an MFD creating "fake" children devices, the parent MFD
+> device's driver is responsible for handling the sync state callback.
+> It'll get the sync_state callback after all the child devices'
+> consumers have probed. The MFD driver will need to do the sync state
+> clean up for the children devices or pass it on to the child devices'
+> drivers (whatever makes sense for that specific MFD) by whatever means
+> those specific drivers talk to each other (direct calls, registering
+> callbacks, etc).
+>=20
+> If they are real sub-devices, then they should really be captured in
+> DT as child devices and then the child device's drivers will get the
+> sync state callback directly.
 
-Signed-off-by: Albert Vaca Cintora <albertvaka@gmail.com>
----
- Documentation/admin-guide/iostats.rst | 47 ++++++++++++++-------------
- 1 file changed, 24 insertions(+), 23 deletions(-)
+It seems sort of hand-wavy at the moment. Is the plan to actually
+implement this for MFDs that are doing these things? It's really hard to
+understand this patch series without any actual users.
 
-diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
-index 5d63b18bd6d1..321aae8d7e10 100644
---- a/Documentation/admin-guide/iostats.rst
-+++ b/Documentation/admin-guide/iostats.rst
-@@ -46,78 +46,79 @@ each snapshot of your disk statistics.
- In 2.4, the statistics fields are those after the device name. In
- the above example, the first field of statistics would be 446216.
- By contrast, in 2.6+ if you look at ``/sys/block/hda/stat``, you'll
--find just the eleven fields, beginning with 446216.  If you look at
--``/proc/diskstats``, the eleven fields will be preceded by the major and
-+find just the 15 fields, beginning with 446216.  If you look at
-+``/proc/diskstats``, the 15 fields will be preceded by the major and
- minor device numbers, and device name.  Each of these formats provides
--eleven fields of statistics, each meaning exactly the same things.
-+15 fields of statistics, each meaning exactly the same things.
- All fields except field 9 are cumulative since boot.  Field 9 should
- go to zero as I/Os complete; all others only increase (unless they
--overflow and wrap).  Yes, these are (32-bit or 64-bit) unsigned long
--(native word size) numbers, and on a very busy or long-lived system they
--may wrap. Applications should be prepared to deal with that; unless
--your observations are measured in large numbers of minutes or hours,
--they should not wrap twice before you notice them.
-+overflow and wrap). Wrapping might eventually occur on a very busy
-+or long-lived system; so applications should be prepared to deal with
-+it. Regarding wrapping, the types of the fields are either unsigned
-+int (32 bit) or unsigned long (32-bit or 64-bit, depending on your
-+machine) as noted per-field below. Unless your observations are very
-+spread in time, these fields should not wrap twice before you notice it.
- 
- Each set of stats only applies to the indicated device; if you want
- system-wide stats you'll have to find all the devices and sum them all up.
- 
--Field  1 -- # of reads completed
-+Field  1 -- # of reads completed (unsigned long)
-     This is the total number of reads completed successfully.
- 
--Field  2 -- # of reads merged, field 6 -- # of writes merged
-+Field  2 -- # of reads merged, field 6 -- # of writes merged (unsigned long)
-     Reads and writes which are adjacent to each other may be merged for
-     efficiency.  Thus two 4K reads may become one 8K read before it is
-     ultimately handed to the disk, and so it will be counted (and queued)
-     as only one I/O.  This field lets you know how often this was done.
- 
--Field  3 -- # of sectors read
-+Field  3 -- # of sectors read (unsigned long)
-     This is the total number of sectors read successfully.
- 
--Field  4 -- # of milliseconds spent reading
-+Field  4 -- # of milliseconds spent reading (unsigned int)
-     This is the total number of milliseconds spent by all reads (as
-     measured from __make_request() to end_that_request_last()).
- 
--Field  5 -- # of writes completed
-+Field  5 -- # of writes completed (unsigned long)
-     This is the total number of writes completed successfully.
- 
--Field  6 -- # of writes merged
-+Field  6 -- # of writes merged  (unsigned long)
-     See the description of field 2.
- 
--Field  7 -- # of sectors written
-+Field  7 -- # of sectors written (unsigned long)
-     This is the total number of sectors written successfully.
- 
--Field  8 -- # of milliseconds spent writing
-+Field  8 -- # of milliseconds spent writing (unsigned int)
-     This is the total number of milliseconds spent by all writes (as
-     measured from __make_request() to end_that_request_last()).
- 
--Field  9 -- # of I/Os currently in progress
-+Field  9 -- # of I/Os currently in progress (unsigned int)
-     The only field that should go to zero. Incremented as requests are
-     given to appropriate struct request_queue and decremented as they finish.
- 
--Field 10 -- # of milliseconds spent doing I/Os
-+Field 10 -- # of milliseconds spent doing I/Os (unsigned int)
-     This field increases so long as field 9 is nonzero.
- 
-     Since 5.0 this field counts jiffies when at least one request was
-     started or completed. If request runs more than 2 jiffies then some
-     I/O time will not be accounted unless there are other requests.
- 
--Field 11 -- weighted # of milliseconds spent doing I/Os
-+Field 11 -- weighted # of milliseconds spent doing I/Os (unsigned int)
-     This field is incremented at each I/O start, I/O completion, I/O
-     merge, or read of these stats by the number of I/Os in progress
-     (field 9) times the number of milliseconds spent doing I/O since the
-     last update of this field.  This can provide an easy measure of both
-     I/O completion time and the backlog that may be accumulating.
- 
--Field 12 -- # of discards completed
-+Field 12 -- # of discards completed (unsigned long)
-     This is the total number of discards completed successfully.
- 
--Field 13 -- # of discards merged
-+Field 13 -- # of discards merged (unsigned long)
-     See the description of field 2
- 
--Field 14 -- # of sectors discarded
-+Field 14 -- # of sectors discarded (unsigned long)
-     This is the total number of sectors discarded successfully.
- 
--Field 15 -- # of milliseconds spent discarding
-+Field 15 -- # of milliseconds spent discarding (unsigned int)
-     This is the total number of milliseconds spent by all discards (as
-     measured from __make_request() to end_that_request_last()).
- 
--- 
-2.23.0
+From my perspective using driver probe as the signal that some resource
+like clks or regulators has been consumed and configured into the proper
+state is completely wrong. It makes a large assumption that driver probe
+is actually putting the device into some state that has taken over
+ownership of the device state by the time probe returns. That isn't
+always the case when you consider things like the display or GPU don't
+do much until their device is opened by userspace.
+
+It would be better to involve the various kernel frameworks in this
+decision by having those frameworks intercept the acquisition of the
+resources they provide and track consumers to the point where we can be
+certain all consumers have requested and configured the resources they
+need to operate properly without something go wrong. Maybe we need
+drivers to indicate this to frameworks somehow so that we don't turn the
+regulator off for the screen when the screen driver probes but the GPU
+driver hasn't started drawing anything there because userspace isn't
+running yet?
+
+I'm trying to take a step back and understand the bigger picture here.
+From what I can tell we're trying to answer the question "When have all
+the consumers of this resource put their constraints in place?" This is
+because we want to actively cleanup resources that have been left on or
+misconfigured by bootloader/firmware code but we can't be certain when
+to do that and if we should do that at all. Is that right?
 
