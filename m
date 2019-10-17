@@ -1,91 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C65077D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 15:47:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA5367D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 16:10:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393695AbfJQPr5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 11:47:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42860 "EHLO mail.kernel.org"
+        id S2403776AbfJQQKn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Oct 2019 12:10:43 -0400
+Received: from verein.lst.de ([213.95.11.211]:42517 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732271AbfJQPr5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Oct 2019 11:47:57 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7210420869;
-        Thu, 17 Oct 2019 15:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571327276;
-        bh=Na2Nvhl68xsqY/U1vzcF8y2RoUFJ7tB0brqS8GUuIDQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nTBMsaYsj30+pvrvhsp5QMa9LHG/KT/wnaeWiosKOwEZwGC+bmFOedbNB8Dqc9NQY
-         c9VZYT5ZEy3xT/lud+/9DZyEDKsXI9OMgr8RXJ8CgHpPyddwRVe/Znv/cOnqT8kH8l
-         +vUOjRyx2SzPb3fuHh8F4WPfYg9JOqsSH6/4mqCM=
-Date:   Thu, 17 Oct 2019 16:47:51 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
-Cc:     John Garry <john.garry@huawei.com>,
-        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jan Glauber <jglauber@marvell.com>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Zhangshaokun <zhangshaokun@hisilicon.com>
-Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-Message-ID: <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
-References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
- <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
- <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
- <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
+        id S1728557AbfJQQKn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Oct 2019 12:10:43 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 23D1C68BE1; Thu, 17 Oct 2019 18:10:39 +0200 (CEST)
+Date:   Thu, 17 Oct 2019 18:10:38 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Paul Walmsley <paul.walmsley@sifive.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christoph Hellwig <hch@lst.de>, Andreas Schwab <schwab@suse.de>
+Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation
+ for RISC-V
+Message-ID: <20191017161038.GA9953@lst.de>
+References: <alpine.DEB.2.21.9999.1910091252160.11044@viisi.sifive.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <alpine.DEB.2.21.9999.1910091252160.11044@viisi.sifive.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 12:38:51PM +0530, Ganapatrao Kulkarni wrote:
-> On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
-> > > +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
-> > > +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
-> > > +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
-> > > +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
-> > > +
-> > > +static struct attribute *ccpi2_pmu_events_attrs[] = {
-> > > +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
-> > > +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
-> > > +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
-> > > +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
-> > > +     NULL,
-> > > +};
-> >
-> > Hi Ganapatrao,
-> >
-> > Have you considered adding these as uncore pmu-events in the perf tool?
-> >
-> At the moment no, since the number of events exposed/listed are very few.
+On Wed, Oct 09, 2019 at 12:53:50PM -0700, Paul Walmsley wrote:
+> 
+> Kernels booting on RISC-V can specify "earlycon" with no options on
+> the Linux command line, and the generic DT earlycon support will query
+> the "chosen/stdout-path" property (if present) to determine which
+> early console device to use.  Document this appropriately in the
+> admin-guide.
 
-Then sounds like a perfect time to nip it in the bud before the list grows
-;)
-
-If you can manage with these things in userspace, then I agree with John
-that it would be preferential to do it that way. It also offers more
-flexibility if we get the metricgroup stuff working properly (I think it's
-buggered for big/little atm).
-
-Will
+Jon already applied a patch from me removing the bogus arch restrictions
+on the earlycon without arguments documentation, so this should not
+be required.
