@@ -1,71 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFDDD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 15:02:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C65077D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 15:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409425AbfJQPC1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 11:02:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54702 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731768AbfJQPC1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Oct 2019 11:02:27 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 7B3B6B62F;
-        Thu, 17 Oct 2019 15:02:24 +0000 (UTC)
-Date:   Thu, 17 Oct 2019 17:02:23 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joe Perches <joe@perches.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5] printf: add support for printing symbolic error names
-Message-ID: <20191017150223.aqvz3skqribze7e4@pathway.suse.cz>
-References: <20191011133617.9963-1-linux@rasmusvillemoes.dk>
- <20191015190706.15989-1-linux@rasmusvillemoes.dk>
- <CAHp75Vcw9Wn6a2VEhQ00o1FZq=egtiQGjC1=uX1J71wQ9pf-pw@mail.gmail.com>
- <20191016145208.dqvquyw2m4o5skbz@pathway.suse.cz>
- <CAHp75Vdov2m5hb9ot3A8paPvUCympmktYtW9A5QEZ2TdBX_1Xw@mail.gmail.com>
+        id S2393695AbfJQPr5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Oct 2019 11:47:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42860 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732271AbfJQPr5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Oct 2019 11:47:57 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7210420869;
+        Thu, 17 Oct 2019 15:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571327276;
+        bh=Na2Nvhl68xsqY/U1vzcF8y2RoUFJ7tB0brqS8GUuIDQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nTBMsaYsj30+pvrvhsp5QMa9LHG/KT/wnaeWiosKOwEZwGC+bmFOedbNB8Dqc9NQY
+         c9VZYT5ZEy3xT/lud+/9DZyEDKsXI9OMgr8RXJ8CgHpPyddwRVe/Znv/cOnqT8kH8l
+         +vUOjRyx2SzPb3fuHh8F4WPfYg9JOqsSH6/4mqCM=
+Date:   Thu, 17 Oct 2019 16:47:51 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
+Cc:     John Garry <john.garry@huawei.com>,
+        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jan Glauber <jglauber@marvell.com>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Zhangshaokun <zhangshaokun@hisilicon.com>
+Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+Message-ID: <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
+References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
+ <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
+ <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
+ <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vdov2m5hb9ot3A8paPvUCympmktYtW9A5QEZ2TdBX_1Xw@mail.gmail.com>
-User-Agent: NeoMutt/20170912 (1.9.0)
+In-Reply-To: <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 2019-10-16 19:31:33, Andy Shevchenko wrote:
-> On Wed, Oct 16, 2019 at 5:52 PM Petr Mladek <pmladek@suse.com> wrote:
+On Thu, Oct 17, 2019 at 12:38:51PM +0530, Ganapatrao Kulkarni wrote:
+> On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
+> > > +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
+> > > +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
+> > > +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
+> > > +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+> > > +
+> > > +static struct attribute *ccpi2_pmu_events_attrs[] = {
+> > > +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
+> > > +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
+> > > +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
+> > > +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
+> > > +     NULL,
+> > > +};
 > >
-> > On Wed 2019-10-16 16:49:41, Andy Shevchenko wrote:
-> > > On Tue, Oct 15, 2019 at 10:07 PM Rasmus Villemoes
-> > > <linux@rasmusvillemoes.dk> wrote:
-> > >
-> > > > +const char *errname(int err)
-> > > > +{
-> > > > +       const char *name = __errname(err > 0 ? err : -err);
-> > >
-> > > Looks like mine comment left unseen.
-> > > What about to simple use abs(err) here?
+> > Hi Ganapatrao,
 > >
-> > Andy, would you want to ack the patch with this change?
-> > I could do it when pushing the patch.
-> 
-> Looks good to me.
-> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > Have you considered adding these as uncore pmu-events in the perf tool?
+> >
+> At the moment no, since the number of events exposed/listed are very few.
 
-The patch has been committed into printk.git, branch for-5.5.
+Then sounds like a perfect time to nip it in the bud before the list grows
+;)
 
-Best Regards,
-Petr
+If you can manage with these things in userspace, then I agree with John
+that it would be preferential to do it that way. It also offers more
+flexibility if we get the metricgroup stuff working properly (I think it's
+buggered for big/little atm).
+
+Will
