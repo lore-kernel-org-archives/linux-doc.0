@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DA817DC63
+	by archive.lwn.net (Postfix) with ESMTP id C27817DE5B
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 14:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439975AbfJQOOF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 10:14:05 -0400
-Received: from mail-vs1-f73.google.com ([209.85.217.73]:34393 "EHLO
-        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439946AbfJQONq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 10:13:46 -0400
-Received: by mail-vs1-f73.google.com with SMTP id p10so489986vsn.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 07:13:45 -0700 (PDT)
+        id S2439876AbfJQOOM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Oct 2019 10:14:12 -0400
+Received: from mail-wr1-f74.google.com ([209.85.221.74]:42916 "EHLO
+        mail-wr1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439912AbfJQONj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 10:13:39 -0400
+Received: by mail-wr1-f74.google.com with SMTP id e25so440698wra.9
+        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 07:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=WK0XW0pj3angQDA5Q/f2RR4InnLdQcXEOv/B1XGqGcA=;
-        b=q2AICOUXfZaGMFSuns+PWDFv7IviEfOJbKopMZtW33QU+VemQtbnLj4qpxHAn5TXP2
-         nzER+TG3nGC/4BnHcTJZtqhT+ftdIDAxWqODmlYmcCyXiCbqVrjWQBjoDghwO4JYBVtZ
-         TyDiMUNobY0cwPOJOBL6+gK8l+10whP9H8NgHsQACC0UZksdSB+unHQrq7KWLfsb6Htl
-         UhaBI8tbBbOVj/p+mV54y6z6FRRqMBaTZKt5+pJJNUFZtpNVLYAamhnmxLhVB0B6Kdzm
-         ehKQd2N9TZJmncuM+e17E05VElF0VQrVLgOt/JhaNy2obM/ZBAaeQNn+R2HBaFJxy2K/
-         +yGw==
+        bh=Or9Dc22i/7f/YW0tvEwykVYSyBSv8lYxv1cGbeL+tYY=;
+        b=voVDOFtDURoWe70EuQZCthSF4tD+2HviE8KiUDoZJebZXoc3UgAdXxg7qaGc9AGVaZ
+         GtJZxsVBVW46GSQkOk4GAQ89qRShVQrpWynH6YdD2kSsbKwKycryapmSVHoxbTfPs04t
+         sw0sx+0IxkNcRxmAy4XmrMeLEHE7OTeiYHBUh3u2Cf3QQF/Zl/z//Y1aIbMULyUO30oB
+         wGY45VHtdoATYap0TVPEnCcqQY+fkmhnUP8ami7DPFm3ItBDKeV4RzcppiY4pjfNcuAD
+         f1pqBKONeL8Ae58OXvOuGnM5Jkbv/wbQTk47JtWSHJR9Aor94CrWNg3/kW1KHoEaiKfA
+         zE6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=WK0XW0pj3angQDA5Q/f2RR4InnLdQcXEOv/B1XGqGcA=;
-        b=HCZK8H+YcmcG55WUUc4AiyqOe80WQBse1QK4Av64Ilf+4lqF/sqSvUFxas2tnmHcOl
-         8kXAIcl4lFj/S9z19sLbNnrFK5ID5Nk6v+cqfuSrhJYtfVgS1OqToRL+b09s0fk7iTPf
-         hgbIprGphEpGZW9ARgVyjMs/CORf8WbHGqE5D5I61CI6U5lWJ98Ylet17DC5LkGahREY
-         nx6lMi2RKXp2OZqyIgfQtdlykPjN8Xbr6JFsp1tSpnz8ynshnJNJuCGK6ngWozsQUVUt
-         Vx9F9gSXG17In8LDC1bJLdwwyly8C8t5pXIyuujlxRRrRLg/n8n+LWfwUYE05OI4Yso9
-         GHUw==
-X-Gm-Message-State: APjAAAVyurL+uyh9MYF6wSqqCPXWOVJzUlfL0MZQS9vlodsHqWSLTiPs
-        4SlUHrFAzKhxxHLFTX/q3y4JtrzMNg==
-X-Google-Smtp-Source: APXvYqzc1xz+/8MP7Z8NguqZ/3K5mUNbYma5HtKap1F1LGuqAoshK2iVor1wVZteZ3LMcdUMczzv5cYnww==
-X-Received: by 2002:a1f:9e8e:: with SMTP id h136mr2074941vke.8.1571321624934;
- Thu, 17 Oct 2019 07:13:44 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 16:13:03 +0200
+        bh=Or9Dc22i/7f/YW0tvEwykVYSyBSv8lYxv1cGbeL+tYY=;
+        b=U4a+ocvWCEf4MT9A8gDYYhDbJv1l0LsHZ4Fu24tT00lt6Mr9tmM2J+SQcVZzp0J/Pg
+         Z9GBPh+xPejzPoOBgLDv78bfvjqYcqGvGKeCi+Nszz4q1Fz8ogiGMuBtqDqM7qqh/zvs
+         sqze0ulTBaR6eCG5nE8XhfpUee9TEFSp/VaNmec+YHJnmzU4FzvLXvqvXBS7JBbChrtV
+         vjvG+ikvX6Qgp+27Gyq/JsqGhT5IRX6xpErhXQtW2ssV8D5AobDBDS/o28zvNi/7pzwe
+         2sd7Zkvp34CehF1mKsT2ettDzDiqliChU+QXb8U97WqFu1i2XNrnwTKO2UztsIF1N41/
+         Sq/Q==
+X-Gm-Message-State: APjAAAVJYf7MFmZnz26DLaj9AT4R3BhT1BCI7b1AX01VMI13VwJs+Uc+
+        i7S+rpxY0pjUpcfxruj9Ix6jf5bsRQ==
+X-Google-Smtp-Source: APXvYqySWeHIYT3gM4LE6tLQKxjcIwMACvHv82ozZkl1Q2uA5IxL/HJvvNLVJ3NfQtyBkgQSVxyoRD6HNA==
+X-Received: by 2002:adf:db4c:: with SMTP id f12mr2777929wrj.379.1571321615653;
+ Thu, 17 Oct 2019 07:13:35 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 16:13:00 +0200
 In-Reply-To: <20191017141305.146193-1-elver@google.com>
-Message-Id: <20191017141305.146193-7-elver@google.com>
+Message-Id: <20191017141305.146193-4-elver@google.com>
 Mime-Version: 1.0
 References: <20191017141305.146193-1-elver@google.com>
 X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
-Subject: [PATCH v2 6/8] asm-generic, kcsan: Add KCSAN instrumentation for bitops
+Subject: [PATCH v2 3/8] build, kcsan: Add KCSAN build exceptions
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com
 Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
@@ -73,165 +73,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add explicit KCSAN checks for bitops.
+This blacklists several compilation units from KCSAN. See the respective
+inline comments for the reasoning.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Use kcsan_check{,_atomic}_{read,write} instead of
-  kcsan_check_{access,atomic}.
----
- include/asm-generic/bitops-instrumented.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ kernel/Makefile       | 5 +++++
+ kernel/sched/Makefile | 6 ++++++
+ mm/Makefile           | 8 ++++++++
+ 3 files changed, 19 insertions(+)
 
-diff --git a/include/asm-generic/bitops-instrumented.h b/include/asm-generic/bitops-instrumented.h
-index ddd1c6d9d8db..864d707cdb87 100644
---- a/include/asm-generic/bitops-instrumented.h
-+++ b/include/asm-generic/bitops-instrumented.h
-@@ -12,6 +12,7 @@
- #define _ASM_GENERIC_BITOPS_INSTRUMENTED_H
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 74ab46e2ebd1..4a597a68b8bc 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -23,6 +23,9 @@ endif
+ # Prevents flicker of uninteresting __do_softirq()/__local_bh_disable_ip()
+ # in coverage traces.
+ KCOV_INSTRUMENT_softirq.o := n
++# Avoid KCSAN instrumentation in softirq ("No shared variables, all the data
++# are CPU local" => assume no data-races), to reduce overhead in interrupts.
++KCSAN_SANITIZE_softirq.o = n
+ # These are called from save_stack_trace() on slub debug path,
+ # and produce insane amounts of uninteresting coverage.
+ KCOV_INSTRUMENT_module.o := n
+@@ -30,6 +33,7 @@ KCOV_INSTRUMENT_extable.o := n
+ # Don't self-instrument.
+ KCOV_INSTRUMENT_kcov.o := n
+ KASAN_SANITIZE_kcov.o := n
++KCSAN_SANITIZE_kcov.o := n
+ CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
  
- #include <linux/kasan-checks.h>
-+#include <linux/kcsan-checks.h>
+ # cond_syscall is currently not LTO compatible
+@@ -118,6 +122,7 @@ obj-$(CONFIG_RSEQ) += rseq.o
  
- /**
-  * set_bit - Atomically set a bit in memory
-@@ -26,6 +27,7 @@
- static inline void set_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_set_bit(nr, addr);
- }
+ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
++KCSAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
  
-@@ -41,6 +43,7 @@ static inline void set_bit(long nr, volatile unsigned long *addr)
- static inline void __set_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___set_bit(nr, addr);
- }
+ $(obj)/configs.o: $(obj)/config_data.gz
+diff --git a/kernel/sched/Makefile b/kernel/sched/Makefile
+index 21fb5a5662b5..e9307a9c54e7 100644
+--- a/kernel/sched/Makefile
++++ b/kernel/sched/Makefile
+@@ -7,6 +7,12 @@ endif
+ # that is not a function of syscall inputs. E.g. involuntary context switches.
+ KCOV_INSTRUMENT := n
  
-@@ -54,6 +57,7 @@ static inline void __set_bit(long nr, volatile unsigned long *addr)
- static inline void clear_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_clear_bit(nr, addr);
- }
++# There are numerous races here, however, most of them due to plain accesses.
++# This would make it even harder for syzbot to find reproducers, because these
++# bugs trigger without specific input. Disable by default, but should re-enable
++# eventually.
++KCSAN_SANITIZE := n
++
+ ifneq ($(CONFIG_SCHED_OMIT_FRAME_POINTER),y)
+ # According to Alan Modra <alan@linuxcare.com.au>, the -fno-omit-frame-pointer is
+ # needed for x86 only.  Why this used to be enabled for all architectures is beyond
+diff --git a/mm/Makefile b/mm/Makefile
+index d996846697ef..33ea0154dd2d 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -7,6 +7,14 @@ KASAN_SANITIZE_slab_common.o := n
+ KASAN_SANITIZE_slab.o := n
+ KASAN_SANITIZE_slub.o := n
  
-@@ -69,6 +73,7 @@ static inline void clear_bit(long nr, volatile unsigned long *addr)
- static inline void __clear_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___clear_bit(nr, addr);
- }
- 
-@@ -82,6 +87,7 @@ static inline void __clear_bit(long nr, volatile unsigned long *addr)
- static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_clear_bit_unlock(nr, addr);
- }
- 
-@@ -97,6 +103,7 @@ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
- static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___clear_bit_unlock(nr, addr);
- }
- 
-@@ -113,6 +120,7 @@ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
- static inline void change_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_change_bit(nr, addr);
- }
- 
-@@ -128,6 +136,7 @@ static inline void change_bit(long nr, volatile unsigned long *addr)
- static inline void __change_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___change_bit(nr, addr);
- }
- 
-@@ -141,6 +150,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
- static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_set_bit(nr, addr);
- }
- 
-@@ -155,6 +165,7 @@ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
- static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_set_bit(nr, addr);
- }
- 
-@@ -170,6 +181,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
- static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_set_bit_lock(nr, addr);
- }
- 
-@@ -183,6 +195,7 @@ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
- static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_clear_bit(nr, addr);
- }
- 
-@@ -197,6 +210,7 @@ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
- static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_clear_bit(nr, addr);
- }
- 
-@@ -210,6 +224,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
- static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_change_bit(nr, addr);
- }
- 
-@@ -224,6 +239,7 @@ static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
- static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_change_bit(nr, addr);
- }
- 
-@@ -235,6 +251,7 @@ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
- static inline bool test_bit(long nr, const volatile unsigned long *addr)
- {
- 	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_read(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_bit(nr, addr);
- }
- 
-@@ -254,6 +271,7 @@ static inline bool
- clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
- {
- 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
- }
- /* Let everybody know we have it. */
++# These produce frequent data-race reports: most of them are due to races on
++# the same word but accesses to different bits of that word. Re-enable KCSAN
++# for these when we have more consensus on what to do about them.
++KCSAN_SANITIZE_slab_common.o := n
++KCSAN_SANITIZE_slab.o := n
++KCSAN_SANITIZE_slub.o := n
++KCSAN_SANITIZE_page_alloc.o := n
++
+ # These files are disabled because they produce non-interesting and/or
+ # flaky coverage that is not a function of syscall inputs. E.g. slab is out of
+ # free pages, or a task is migrated between nodes.
 -- 
 2.23.0.866.gb869b98d4c-goog
 
