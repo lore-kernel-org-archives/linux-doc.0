@@ -1,123 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89C447D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 07:49:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8813B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 08:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438693AbfJQHtl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 03:49:41 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:39158 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726875AbfJQHtk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 03:49:40 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w144so1348703oia.6
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 00:49:40 -0700 (PDT)
+        id S2405181AbfJQIVM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Oct 2019 04:21:12 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41017 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389530AbfJQIVL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 04:21:11 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p4so1241214wrm.8
+        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 01:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cUHCv9N4xmS+l1KgWpk7F+i9WTYTBzhVIUBy6Hulrwk=;
-        b=dt61IqtloaZiwqdtmjmdhi8e3I0pzOWxPhzFhs+0FutgvUJ++FJOjdWO4BjIZxdya4
-         caOrhbydK56exS2QuA7Fd/bGjBtmOLqdRwkisDlBpmKuprQVBzPi+VbRWrE1Qg6x33eB
-         L75C7W/XAakRnGcEUuRBZ2z0un1gUplzXJroKi8gc4pISSeGK+cslFlF67xNbSnSkcrH
-         LFchrXP3xHyls9CwuwZQyeVw5GAWJqlGniCs+QihxmqhsqJFUxxUdUPgx8sH/6i8mrEB
-         sJzIy+1BqIQwiJztBJmzppL/ZLh/4Dco+FslmOq/Cu10P2FffFtoC2Vy5Qpl06EYeyt4
-         9GPQ==
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wcAQT4r1spvW6KMkycQX6PNdbUeN63RYbDG8CIMfXUI=;
+        b=LBl/1t03eJ7kcFxX0YSgWVg8tALYIDTAgzxEkC4wk+U3hk6ahaRuzSBBqQIgkPfjRi
+         aVB2a5GsapzyQWUqU4cxbmkT/1uwIWqHB6gUbD8O3PF8fZGj4bz8L1b79C296ZgDP2bb
+         qr6CR6oTjEL/PYFflnH1uI2mo88i73IIlt8F4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cUHCv9N4xmS+l1KgWpk7F+i9WTYTBzhVIUBy6Hulrwk=;
-        b=fVm+xjmojIRuNgQEOZIuMkalkGvDUDIMvt8V37fimb/XRg2sxrl+EuUTvlSO9flEi+
-         ffYuu3ZYW4ZTfcJncQsjy3bDCM5XoKEZ26JQ+MinxHwt4djyLQlea4kKegkRozL+PFS/
-         zN3T+QCkmP7wWT7qlrRXcdN0coIu2XSyEDNzpXmYZ6IfZ58R9kZfIWiojiM3rflo3CC+
-         Zyb5ZBLi2qqQCx0qoDE33iHH0UO+r93kjTbfFttyntL7xtihnQP5uT1joNpMZgSTveHk
-         WUwj7ZXX6kT2dF249uUysQobcu8j8feqofPzwB00aJUQ480ds6McsaxLHMw/lrzooxi8
-         cCSg==
-X-Gm-Message-State: APjAAAWhy96hJHp2mY5EnGJe8sJJhOQ9iljzXyfuGyTdwStfXdwf4wy7
-        2zwmbvrfst7bg0NCNrDDwYEAW0/YheppDGgEhRllEg==
-X-Google-Smtp-Source: APXvYqw1eEq8EzjwYbx0MRbK18Xsa8AnqD+7ouVLKZUwR1kvjQzxQA3cqofqYXLP73Ei/x91O0n2XeJ8s6UCZGf1FOg=
-X-Received: by 2002:aca:55cb:: with SMTP id j194mr1913152oib.155.1571298579393;
- Thu, 17 Oct 2019 00:49:39 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wcAQT4r1spvW6KMkycQX6PNdbUeN63RYbDG8CIMfXUI=;
+        b=KQBl2SunN0bl0gWBpL1z1yZBEfl19Ed3ZUT9mA/PIuohvVR6wC/QJshBIRKn8aMpj+
+         iEYwkUy7fEWWICpWsroEYIPfYJT5yPILYBbY321cLsUykyQONNEP2r10eEdfXRqphfEm
+         F6sTfiwitGiLqelBEtl5cy6bKvUDy0D9xBV5ltOE66zQ2IHHTYUcQgtV4dw13Rq8xNCR
+         XewVq8N8yq9aoBEA1MBG55mAoNXum+bWH2XVc5CdDVtFes6fo2SwpBktM8q1WETHOXrc
+         OEJY0I56oCx5T6/0tC/He4n2nSzadsAdfSSM5wIcYE8ZxoRbGTIOzEihWCQR4eSFmgpm
+         JbBQ==
+X-Gm-Message-State: APjAAAVoxgt/sYm0CPkKv5RLOwUKDf0jI95m+voG7R+FM99GTzAHjMNw
+        dx8qHv13+EiFXkZn8gtwV9O20A==
+X-Google-Smtp-Source: APXvYqyJ5hkiAS7WczuMKs8Vh/CNwjw9j1tt2Av9MErFWExKnmS01fSGPcPV/CBGGy1wJl5SXR8hqA==
+X-Received: by 2002:a5d:68c7:: with SMTP id p7mr1838631wrw.156.1571300469312;
+        Thu, 17 Oct 2019 01:21:09 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id n18sm1507056wmi.20.2019.10.17.01.21.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2019 01:21:08 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 10:21:06 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     daniel@ffwll.ch, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] drm: Add TODO item for fbdev driver conversion
+Message-ID: <20191017082106.GU11828@phenom.ffwll.local>
+References: <20191017074705.9140-1-tzimmermann@suse.de>
+ <20191017074705.9140-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016184346.GT2328@hirez.programming.kicks-ass.net> <CANpmjNP4b9Eo3ZKE6maBs4ANS7K7sLiVB2CbebQnCH09TB+hZQ@mail.gmail.com>
- <20191017074730.GW2328@hirez.programming.kicks-ass.net>
-In-Reply-To: <20191017074730.GW2328@hirez.programming.kicks-ass.net>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 17 Oct 2019 09:49:27 +0200
-Message-ID: <CANpmjNPKbCrL+XzmMrnjqw+EYOa2H94cgE5sPJeuVONbCSqBHg@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191017074705.9140-2-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Oct 2019 at 09:47, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Wed, Oct 16, 2019 at 09:34:05PM +0200, Marco Elver wrote:
-> > On Wed, 16 Oct 2019 at 20:44, Peter Zijlstra <peterz@infradead.org> wrote:
-> > > > +     /*
-> > > > +      * Disable interrupts & preemptions, to ignore races due to accesses in
-> > > > +      * threads running on the same CPU.
-> > > > +      */
-> > > > +     local_irq_save(irq_flags);
-> > > > +     preempt_disable();
-> > >
-> > > Is there a point to that preempt_disable() here?
-> >
-> > We want to avoid being preempted while the watchpoint is set up;
-> > otherwise, we would report data-races for CPU-local data, which is
-> > incorrect.
->
-> Disabling IRQs already very much disables preemption. There is
-> absolutely no point in doing preempt_disable() when the whole section
-> already runs with IRQs disabled.
+On Thu, Oct 17, 2019 at 09:47:05AM +0200, Thomas Zimmermann wrote:
+> The DRM TODO list now contains an entry for converting fbdev
+> drivers over to DRM.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Ah thanks for the clarification, in that case I assume it's safe to
-remove preempt_disable() for v2.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191017074730.GW2328%40hirez.programming.kicks-ass.net.
+> ---
+>  Documentation/gpu/todo.rst | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 79785559d711..23b3a67794ba 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -462,3 +462,30 @@ Contact: Sam Ravnborg
+>  
+>  Outside DRM
+>  ===========
+> +
+> +Convert fbdev drivers to DRM
+> +----------------------------
+> +
+> +There are plenty of fbdev drivers for older hardware. Some hwardware has
+> +become obsolete, but some still provides good(-enough) framebuffers. The
+> +drivers that are still useful should be converted to DRM and afterwards
+> +removed from fbdev.
+> +
+> +Very simple fbdev drivers can best be converted by starting with a new
+> +DRM driver. Simple KMS helpers and SHMEM should be able to handle any
+> +existing hardware. The new driver's call-back functions are filled from
+> +existing fbdev code.
+> +
+> +More complex fbdev drivers can be refactored step-by-step into a DRM
+> +driver with the help of the DRM fbconv helpers. [1] These helpers provide
+> +the transition layer between the DRM core infrastructure and the fbdev
+> +driver interface. Create a new DRM driver on top of the fbconv helpers,
+> +copy over the fbdev driver, and hook it up to the DRM code. Examples for
+> +several fbdev drivers are available at [1] and a tutorial of this process
+> +available at [2]. The result is a primitive DRM driver that can run X11
+> +and Weston.
+> +
+> + - [1] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
+> + - [2] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
+
+btw if you want to push a patch to get this built and published:
+
+https://gitlab.freedesktop.org/drm/igt-gpu-tools/blob/master/.gitlab-ci.yml
+
+The "pages" job is the one which gets published to
+
+https://drm.pages.freedesktop.org/igt-gpu-tools/
+
+With that you could point at the pretty hmtl even.
+-Daniel
+
+> +
+> +Contact: Thomas Zimmermann <tzimmermann@suse.de>
+> -- 
+> 2.23.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
