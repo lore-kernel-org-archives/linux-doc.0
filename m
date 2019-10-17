@@ -1,179 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 578C87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 07:09:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 116B27D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 07:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407906AbfJQHJE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 03:09:04 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:40819 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390955AbfJQHJD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 03:09:03 -0400
-Received: by mail-yb1-f194.google.com with SMTP id s7so378710ybq.7;
-        Thu, 17 Oct 2019 00:09:02 -0700 (PDT)
+        id S2388269AbfJQHOk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Oct 2019 03:14:40 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50892 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728764AbfJQHOk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 03:14:40 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 5so1348377wmg.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 00:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DSbs0/QEEgmADy+uvB3J9WS3y0uYupAbV9G4/iwiKTo=;
-        b=LKlUZivU99zESLkGMI4JigSZDHVXf8KBTGUnS+U1uFPat0D3OT1MwJOwYZUWLm0I8P
-         41kYKpLKDPZLs3S3PtA7ic/FpWRtuK31GovU6OdTLakp/FFghd4f0QeNAcC335X1DwIF
-         opMr6lRO/YvMQJZAm7++BU5wj6k7YBXmgCRuQoGLm7rwVYgE/NKs/JPX6NEC4gzgyEVY
-         +0Q2B2sGjs0DCNxNnSsbKT/wQZVPtw1uPD4oHYQm+ozDCHyqodf1D/WrA9k+JoWIje6A
-         fO33TBNz4pLp+qIkBEWsKZw+RMEhpmh8ryTi2Of5HYyaAeP60Tq7is+U/jobPYV8tnZV
-         yBuw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=sjOmiSYuzMMV+1LmVtdqxL0iBZzQdBkGD8msyg4TZzA=;
+        b=U5NXOxzipe6Sm4dvuNHy1bbAlxNR6i3G6AXcJoFHuK4x4DpjbWmpjG9wAf/kk57VwP
+         vFzVY+0Sy6QRta4jrmLI4jzJeZxSI7TH5xYEv0XpUepoNUVp4158PE7S+mIWIfL78UOn
+         x4XsYQBM32c9GjdXoxPODAEWGI0a6ClaPgoTbjmxe+qzQZ3FeVqChVumjEpHLoUVTlev
+         vCktkOPmypsbZP4cWk4CIKPbSbRGSq8YLmW0+AS+a7Kj01mIVlf5AOiju0GG9Dm/lQQ9
+         Wr12Zxj+rSCyySdTy+zabujeKBurcO0OGi5HFPYOWW/8ZoiU4TE25ACS+bXhLDMMAsa+
+         LMwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DSbs0/QEEgmADy+uvB3J9WS3y0uYupAbV9G4/iwiKTo=;
-        b=sZxTZ+2KJCId99jNnlXaxqG3jcEnQExOy2B41hX17ap+kLB1H/h5HgkoTIOVqdbFZ8
-         zlyBtgtn5CKmLvo9yokdCQ+q/A4ekc6reLegth3TJ6XvN+REN397XjJEZOGMzGkjDAGn
-         kkygl2e8lSbE/IPKTSzvg1wY2sI1d6EITkLl2QbSoRlhKkyB4edh0bRxJ196fWat+iZQ
-         PkAOIb+4+mPS0vTt54/78VXnL/+j3b4m0qhiWVO/OR+MDD8519C+NUGkCBMzx4hwI3yf
-         dj3Q4tNnc64hQVQVQ7oe2K2ael/36orelFe5v860JPMZSAtmiYo2qabgpRpVqk8tCJm+
-         DSXw==
-X-Gm-Message-State: APjAAAWDXTugkJR539b9UQ21KZzs8XKTx5Wp1a+8RC3F5utCvuW0lxTA
-        GMTyYmrj02o6blQM4NEw22RfPxEZ76Jh6M2LN1s=
-X-Google-Smtp-Source: APXvYqwjLzRLqMjo02al4Z+VnHPSrn7zqUYHshfSiH2OnhimoSV01IJH6/02ZYbLhTr3tj67kX/r3rImnNB2kLiwcg8=
-X-Received: by 2002:a5b:788:: with SMTP id b8mr1075528ybq.509.1571296142395;
- Thu, 17 Oct 2019 00:09:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=sjOmiSYuzMMV+1LmVtdqxL0iBZzQdBkGD8msyg4TZzA=;
+        b=eUEKJDhu2nJMv9ESM+m3T4iwVrDOyxpRhKs5fiE+dAyNrbSbd6F7wLUb48cWjMCuBX
+         Vrtf/MkKClPa+pcJnD+YM1r/NwzblQ5imweiiiYl9BRFlh+bwXNE29/fNnmAPXKRdHAv
+         RHepARH52Y8VF0aZTOOO9YTwtXhLNjz9y5OY7ivl3othqI4L4g13JhDuONXJnG7GXivX
+         FwgjgYR4r82wxua3hcJBLbqhvjczCG75mWLkv1q2rxqlk1jh2DSB3dEvTMl6MKb1yzYo
+         qyfcG4PC3S0bsHcAK0yz421Xm1JnhxI3kEyrpkmINWCeFSaN+KU+jwyhpm+/le0CRSIQ
+         6Ldw==
+X-Gm-Message-State: APjAAAVFdsb2ReNXCcU0fOUPspBpifoo9qen19jTQzQ1XClcOrR3wiA/
+        9dVMKujVFZjXMvNqWtWs7ro/Vw==
+X-Google-Smtp-Source: APXvYqyeNcmRYHZngtQtTdD0cPc/y8lTB9C1CXb6p9FdfbROYTVO8tNHzQNOw9g7MSgyyqDuMbeyXQ==
+X-Received: by 2002:a05:600c:2054:: with SMTP id p20mr1612482wmg.76.1571296477846;
+        Thu, 17 Oct 2019 00:14:37 -0700 (PDT)
+Received: from dell ([95.149.164.47])
+        by smtp.gmail.com with ESMTPSA id c17sm1375764wrc.60.2019.10.17.00.14.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 17 Oct 2019 00:14:37 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 08:14:35 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>
+Cc:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v10 4/6] mfd: ioc3: Add driver for SGI IOC3 chip
+Message-ID: <20191017071435.GI4365@dell>
+References: <20191015120953.2597-1-tbogendoerfer@suse.de>
+ <20191015120953.2597-5-tbogendoerfer@suse.de>
+ <20191015122349.612a230b@cakuba.netronome.com>
+ <20191016192321.c1ef8ea7c2533d6c8e1b98a2@suse.de>
+ <20191016103813.24447c64@cakuba.netronome.com>
 MIME-Version: 1.0
-References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
- <1571218608-15933-3-git-send-email-gkulkarni@marvell.com> <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
-In-Reply-To: <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Thu, 17 Oct 2019 12:38:51 +0530
-Message-ID: <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-To:     John Garry <john.garry@huawei.com>
-Cc:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jan Glauber <jglauber@marvell.com>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        "will@kernel.org" <will@kernel.org>,
-        Zhangshaokun <zhangshaokun@hisilicon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191016103813.24447c64@cakuba.netronome.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi John,
+On Wed, 16 Oct 2019, Jakub Kicinski wrote:
 
-On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
->
->
-> > +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
-> > +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
-> > +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
-> > +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
-> > +
-> > +static struct attribute *ccpi2_pmu_events_attrs[] = {
-> > +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
-> > +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
-> > +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
-> > +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
-> > +     NULL,
-> > +};
->
-> Hi Ganapatrao,
->
-> Have you considered adding these as uncore pmu-events in the perf tool?
->
-At the moment no, since the number of events exposed/listed are very few.
+> On Wed, 16 Oct 2019 19:23:21 +0200, Thomas Bogendoerfer wrote:
+> > On Tue, 15 Oct 2019 12:23:49 -0700
+> > Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+> > 
+> > > On Tue, 15 Oct 2019 14:09:49 +0200, Thomas Bogendoerfer wrote:  
+> > > > SGI IOC3 chip has integrated ethernet, keyboard and mouse interface.
+> > > > It also supports connecting a SuperIO chip for serial and parallel
+> > > > interfaces. IOC3 is used inside various SGI systemboards and add-on
+> > > > cards with different equipped external interfaces.
+> > > > 
+> > > > Support for ethernet and serial interfaces were implemented inside
+> > > > the network driver. This patchset moves out the not network related
+> > > > parts to a new MFD driver, which takes care of card detection,
+> > > > setup of platform devices and interrupt distribution for the subdevices.
+> > > > 
+> > > > Serial portion: Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> > > > 
+> > > > Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>  
+> > > 
+> > > Looks good, I think.  
+> > 
+> > thank you. 
+> > 
+> > Now how do I get an Acked-by for the network part to merge it via
+> > the MIPS tree ?
+> 
+> Oh, via the MIPS tree? It was quite unclear which these would land it,
+> at least to an untrained mind like mine :) It could be useful to
+> provide some info on how you want this merged and what you expect from
+> whom in the cover letter in the future.
+> 
+> Hopefully Dave will be able to give you an official ack.
 
-> Some advantages I see:
-> - perf list is not swamped with all these uncore events per PMU
-> For the Hisi uncore events, we get 100s of events (>600 on the board I
-> just tested, which is crazy)
-> - can add more description in the JSON files
-> - less stuff in the kernel
->
-> > +
-> >  static const struct attribute_group l3c_pmu_events_attr_group = {
-> >       .name = "events",
-> >       .attrs = l3c_pmu_events_attrs,
-> > @@ -174,6 +240,11 @@ static const struct attribute_group dmc_pmu_events_attr_group = {
-> >       .attrs = dmc_pmu_events_attrs,
-> >  };
->
-> [...]
->
-> >               tx2_pmu->attr_groups = l3c_pmu_attr_groups;
-> >               tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
-> >                               "uncore_l3c_%d", tx2_pmu->node);
-> > @@ -665,10 +846,13 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
-> >               tx2_pmu->stop_event = uncore_stop_event_l3c;
-> >               break;
-> >       case PMU_TYPE_DMC:
-> > -             tx2_pmu->max_counters = TX2_PMU_MAX_COUNTERS;
-> > +             tx2_pmu->max_counters = TX2_PMU_DMC_L3C_MAX_COUNTERS;
-> > +             tx2_pmu->counters_mask = 0x3;
-> >               tx2_pmu->prorate_factor = TX2_PMU_DMC_CHANNELS;
-> >               tx2_pmu->max_events = DMC_EVENT_MAX;
-> > +             tx2_pmu->events_mask = 0x1f;
-> >               tx2_pmu->hrtimer_interval = TX2_PMU_HRTIMER_INTERVAL;
-> > +             tx2_pmu->hrtimer_callback = tx2_hrtimer_callback;
-> >               tx2_pmu->attr_groups = dmc_pmu_attr_groups;
-> >               tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
-> >                               "uncore_dmc_%d", tx2_pmu->node);
-> > @@ -676,6 +860,21 @@ static struct tx2_uncore_pmu *tx2_uncore_pmu_init_dev(struct device *dev,
-> >               tx2_pmu->start_event = uncore_start_event_dmc;
-> >               tx2_pmu->stop_event = uncore_stop_event_dmc;
-> >               break;
-> > +     case PMU_TYPE_CCPI2:
-> > +             /* CCPI2 has 8 counters */
-> > +             tx2_pmu->max_counters = TX2_PMU_CCPI2_MAX_COUNTERS;
-> > +             tx2_pmu->counters_mask = 0x7;
-> > +             tx2_pmu->prorate_factor = 1;
-> > +             tx2_pmu->max_events = CCPI2_EVENT_MAX;
-> > +             tx2_pmu->events_mask = 0x1ff;
-> > +             tx2_pmu->attr_groups = ccpi2_pmu_attr_groups;
-> > +             tx2_pmu->name = devm_kasprintf(dev, GFP_KERNEL,
-> > +                             "uncore_ccpi2_%d", tx2_pmu->node);
->
-> Do you need to check this for name == NULL?
->
-> > +             tx2_pmu->init_cntr_base = init_cntr_base_ccpi2;
-> > +             tx2_pmu->start_event = uncore_start_event_ccpi2;
-> > +             tx2_pmu->stop_event = uncore_stop_event_ccpi2;
-> > +             tx2_pmu->hrtimer_callback = NULL;
-> > +             break;
-> >       case PMU_TYPE_INVALID:
-> >               devm_kfree(dev, tx2_pmu);
-> >               return NULL;
-> > @@ -744,7 +943,9 @@ static int tx2_uncore_pmu_offline_cpu(unsigned int cpu,
-> >       if (cpu != tx2_pmu->cpu)
-> >               return 0;
-> >
-> > -     hrtimer_cancel(&tx2_pmu->hrtimer);
-> > +     if (tx2_pmu->hrtimer_callback)
-> > +             hrtimer_cancel(&tx2_pmu->hrtimer);
-> > +
-> >       cpumask_copy(&cpu_online_mask_temp, cpu_online_mask);
-> >       cpumask_clear_cpu(cpu, &cpu_online_mask_temp);
-> >       new_cpu = cpumask_any_and(
-> >
->
-> Thanks,
-> John
->
->
+If this does go through the MIPS tree, I shall require a pull-request
+to an immutable branch.  However, I'm happy to do that if everyone's
+happen with it going in via MFD.
 
-Thanks,
-Ganapat
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
