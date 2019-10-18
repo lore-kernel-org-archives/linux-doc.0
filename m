@@ -6,39 +6,39 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B20637D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 22:18:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E41B7D918
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 22:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403832AbfJRWSP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 18:18:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39556 "EHLO mail.kernel.org"
+        id S1726804AbfJRWZb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 18:25:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732783AbfJRWHW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:07:22 -0400
+        id S1728407AbfJRWEh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:04:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C6FE22468;
-        Fri, 18 Oct 2019 22:07:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1E58B222CC;
+        Fri, 18 Oct 2019 22:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436442;
-        bh=LcmmwqOfby9yq1vOo2ElJ9bV8e0u3vySwHKazDJYZaE=;
+        s=default; t=1571436276;
+        bh=QhHN1i/apWtfsJxZ56V2XWINw49Kv7/OXH9TlRgBoH8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=03OWUfts0jtgENXlBSm8HjT9W+DFjj26wfLt/U8qJ61K4XGpUYxBMzpnN+Fz5nNy5
-         FHRrenS/W50bIrWlHbZCbxmrTQ56oUHhWJ/19/R7J9XZ9jFNuNxy89DmaXCHNKwu+S
-         wct1erkcy9QSv95fQmGoxC5vgN2xEvxyKl+aWR60=
+        b=i4YClWMPFGWDJ9dzKaO+hc85WM3CHUA2gtLIbsPbJ85D2WDfXPhrPW3pyPKqh6yZD
+         ySHBIHCxiXW9syoF9jQGTy60A+EGV4UJtVVrd5QRLjtwH4f3QjXwxheshkMi+WhHud
+         /6YcvRUM2MA1sunZmuXfTBtHUK4Wjq9WlYJM2k0w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         James Dingwall <james@dingwall.me.uk>,
         Juergen Gross <jgross@suse.com>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 079/100] x86/xen: Return from panic notifier
-Date:   Fri, 18 Oct 2019 18:05:04 -0400
-Message-Id: <20191018220525.9042-79-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 55/89] x86/xen: Return from panic notifier
+Date:   Fri, 18 Oct 2019 18:02:50 -0400
+Message-Id: <20191018220324.8165-55-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
-References: <20191018220525.9042-1-sashal@kernel.org>
+In-Reply-To: <20191018220324.8165-1-sashal@kernel.org>
+References: <20191018220324.8165-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 16607b178b474..a855f83defa6c 100644
+index 4c1971960afa3..5ea005c9e2d60 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5117,6 +5117,10 @@
+@@ -5267,6 +5267,10 @@
  				the unplug protocol
  			never -- do not unplug even if version check succeeds
  
@@ -94,10 +94,10 @@ index 16607b178b474..a855f83defa6c 100644
  			Disables the ticketlock slowpath using Xen PV
  			optimizations.
 diff --git a/arch/x86/xen/enlighten.c b/arch/x86/xen/enlighten.c
-index c6c7c9b7b5c19..2483ff345bbcd 100644
+index 750f46ad018a0..205b1176084f5 100644
 --- a/arch/x86/xen/enlighten.c
 +++ b/arch/x86/xen/enlighten.c
-@@ -266,19 +266,41 @@ void xen_reboot(int reason)
+@@ -269,19 +269,41 @@ void xen_reboot(int reason)
  		BUG();
  }
  
