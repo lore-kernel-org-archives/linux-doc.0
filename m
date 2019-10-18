@@ -1,147 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E41B7D918
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 22:25:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB9367D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 23:28:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726804AbfJRWZb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 18:25:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728407AbfJRWEh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:04:37 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E58B222CC;
-        Fri, 18 Oct 2019 22:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436276;
-        bh=QhHN1i/apWtfsJxZ56V2XWINw49Kv7/OXH9TlRgBoH8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i4YClWMPFGWDJ9dzKaO+hc85WM3CHUA2gtLIbsPbJ85D2WDfXPhrPW3pyPKqh6yZD
-         ySHBIHCxiXW9syoF9jQGTy60A+EGV4UJtVVrd5QRLjtwH4f3QjXwxheshkMi+WhHud
-         /6YcvRUM2MA1sunZmuXfTBtHUK4Wjq9WlYJM2k0w=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        James Dingwall <james@dingwall.me.uk>,
-        Juergen Gross <jgross@suse.com>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 55/89] x86/xen: Return from panic notifier
-Date:   Fri, 18 Oct 2019 18:02:50 -0400
-Message-Id: <20191018220324.8165-55-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220324.8165-1-sashal@kernel.org>
-References: <20191018220324.8165-1-sashal@kernel.org>
+        id S1732804AbfJRX2C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 19:28:02 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:40893 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726374AbfJRX2C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 19:28:02 -0400
+Received: by mail-pg1-f195.google.com with SMTP id e13so4156225pga.7;
+        Fri, 18 Oct 2019 16:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=o0R3SyRraCYFgVgsB5u2m67oRVRURyDN4oM3OQMhLd8=;
+        b=bGMPOosORfDuftN5n0wtfJCp5crEfKFpnJYZ82SyZuvJqJ2g+x4NHfp6DkIhJQOnkc
+         +hwj6myIZ6VOq27otny1g3tseHmRgkASYlk/bND7N8tVEaIaak6adGWC728OlmNcmpak
+         2HVilYdRLCEzD4GDT+TugdUWxld1vt9qB8z0bZ9XsTsxi+Dgn4AsOkQA+YYjU1bczafx
+         RMF3TK8nLUM/e01Rs1cMjHerWREsPMU/TVFVrGbxvQ2aweQ7yO41tiJErR24O/xu+og5
+         D5lVT2S7NyHwz2eIJgp1eHvZwS9G4iwMZBbwJ9uG4cd/bEDrflfrSArs9aMcTEpC2Dkr
+         FCAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=o0R3SyRraCYFgVgsB5u2m67oRVRURyDN4oM3OQMhLd8=;
+        b=Eu1xGY/nrvaPRlIl0Kw5T0nGVQhiRUItPYNnfLjMgq2LxdbMPIaR/gYox1LovUdwVY
+         ZQeSeLSK4JMmWMTXeMVkeOnVNiZT+0Xca35AWkwbWkQ+kon4w/GFRh9YNbOFGVbRiBqF
+         +J/6xTYE9lsnVHG4nmIKAChNbEaLcz9lhnL633V5tK8sJLZpm2Mdv+DXwZ4h+xePkJMF
+         ge8qt0CjgJbFEVJcZSLkiCX72StBbhsptM8f/M8BFZtK8PevGkXQr6EZBb5OkDLfGQ5P
+         nzcVcLQboq2EXcbhDIv047Ey36j0QAf8Tn5u0cxU0ucLMyt3avk9fbKJfrRvZlF1UOIY
+         RuJw==
+X-Gm-Message-State: APjAAAVlVFD95gwK5+q15WxG2T1fNJlHxayD+13PkftkEm2xNhsVBlZr
+        QVTP+iDjwI++LjluJcEeANQ=
+X-Google-Smtp-Source: APXvYqxW38q5b5LG4zDiowueOjD4jrk+ucC9DSBK1BYWfFUNsvDPbUsQfBa7/hNxK/thEb0mxws1gw==
+X-Received: by 2002:a62:2643:: with SMTP id m64mr9228282pfm.232.1571441281466;
+        Fri, 18 Oct 2019 16:28:01 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:180::6038])
+        by smtp.gmail.com with ESMTPSA id w12sm9211275pfq.138.2019.10.18.16.27.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 18 Oct 2019 16:28:00 -0700 (PDT)
+Date:   Fri, 18 Oct 2019 16:27:58 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Magnus Karlsson <magnus.karlsson@intel.com>
+Cc:     bjorn.topel@intel.com, ast@kernel.org, daniel@iogearbox.net,
+        netdev@vger.kernel.org, jonathan.lemon@gmail.com,
+        linux-doc@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf v2] xsk: improve documentation for AF_XDP
+Message-ID: <20191018232756.akn4yvyxmi63dl5b@ast-mbp>
+References: <1571391220-22835-1-git-send-email-magnus.karlsson@intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1571391220-22835-1-git-send-email-magnus.karlsson@intel.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+On Fri, Oct 18, 2019 at 11:33:40AM +0200, Magnus Karlsson wrote:
+> +
+> +   #include <linux/bpf.h>
+> +   #include "bpf_helpers.h"
+> +
+> +   #define MAX_SOCKS 16
+> +
+> +   struct {
+> +        __uint(type, BPF_MAP_TYPE_XSKMAP);
+> +        __uint(max_entries, MAX_SOCKS);
+> +        __uint(key_size, sizeof(int));
+> +        __uint(value_size, sizeof(int));
+> +   } xsks_map SEC(".maps");
+> +
+> +   struct {
+> +        __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+> +        __uint(max_entries, 1);
+> +        __type(key, int);
+> +        __type(value, unsigned int);
+> +   } rr_map SEC(".maps");
 
-[ Upstream commit c6875f3aacf2a5a913205accddabf0bfb75cac76 ]
+hmm. does xsks_map compile?
 
-Currently execution of panic() continues until Xen's panic notifier
-(xen_panic_event()) is called at which point we make a hypercall that
-never returns.
+> +
+> +   SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
+> +   {
+> +	int key = 0, idx;
+> +	unsigned int *rr;
+> +
+> +	rr = bpf_map_lookup_elem(&rr_map, &key);
+> +	if (!rr)
+> +	   return XDP_ABORTED;
 
-This means that any notifier that is supposed to be called later as
-well as significant part of panic() code (such as pstore writes from
-kmsg_dump()) is never executed.
-
-There is no reason for xen_panic_event() to be this last point in
-execution since panic()'s emergency_restart() will call into
-xen_emergency_restart() from where we can perform our hypercall.
-
-Nevertheless, we will provide xen_legacy_crash boot option that will
-preserve original behavior during crash. This option could be used,
-for example, if running kernel dumper (which happens after panic
-notifiers) is undesirable.
-
-Reported-by: James Dingwall <james@dingwall.me.uk>
-Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Reviewed-by: Juergen Gross <jgross@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  4 +++
- arch/x86/xen/enlighten.c                      | 28 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4c1971960afa3..5ea005c9e2d60 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5267,6 +5267,10 @@
- 				the unplug protocol
- 			never -- do not unplug even if version check succeeds
- 
-+	xen_legacy_crash	[X86,XEN]
-+			Crash from Xen panic notifier, without executing late
-+			panic() code such as dumping handler.
-+
- 	xen_nopvspin	[X86,XEN]
- 			Disables the ticketlock slowpath using Xen PV
- 			optimizations.
-diff --git a/arch/x86/xen/enlighten.c b/arch/x86/xen/enlighten.c
-index 750f46ad018a0..205b1176084f5 100644
---- a/arch/x86/xen/enlighten.c
-+++ b/arch/x86/xen/enlighten.c
-@@ -269,19 +269,41 @@ void xen_reboot(int reason)
- 		BUG();
- }
- 
-+static int reboot_reason = SHUTDOWN_reboot;
-+static bool xen_legacy_crash;
- void xen_emergency_restart(void)
- {
--	xen_reboot(SHUTDOWN_reboot);
-+	xen_reboot(reboot_reason);
- }
- 
- static int
- xen_panic_event(struct notifier_block *this, unsigned long event, void *ptr)
- {
--	if (!kexec_crash_loaded())
--		xen_reboot(SHUTDOWN_crash);
-+	if (!kexec_crash_loaded()) {
-+		if (xen_legacy_crash)
-+			xen_reboot(SHUTDOWN_crash);
-+
-+		reboot_reason = SHUTDOWN_crash;
-+
-+		/*
-+		 * If panic_timeout==0 then we are supposed to wait forever.
-+		 * However, to preserve original dom0 behavior we have to drop
-+		 * into hypervisor. (domU behavior is controlled by its
-+		 * config file)
-+		 */
-+		if (panic_timeout == 0)
-+			panic_timeout = -1;
-+	}
- 	return NOTIFY_DONE;
- }
- 
-+static int __init parse_xen_legacy_crash(char *arg)
-+{
-+	xen_legacy_crash = true;
-+	return 0;
-+}
-+early_param("xen_legacy_crash", parse_xen_legacy_crash);
-+
- static struct notifier_block xen_panic_block = {
- 	.notifier_call = xen_panic_event,
- 	.priority = INT_MIN
--- 
-2.20.1
+could you please use global data and avoid lookup?
+The run-time will be much faster.
 
