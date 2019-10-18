@@ -1,90 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 399117D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 04:55:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 950157D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 05:20:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729166AbfJREzp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 00:55:45 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:40299 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727547AbfJREzp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 00:55:45 -0400
-Received: by mail-io1-f65.google.com with SMTP id h144so5887633iof.7
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 21:55:45 -0700 (PDT)
+        id S2407583AbfJRFUo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 01:20:44 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:34905 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726533AbfJRFUo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 01:20:44 -0400
+Received: by mail-yw1-f66.google.com with SMTP id r134so1754021ywg.2;
+        Thu, 17 Oct 2019 22:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=6vl776tt39Djj97+yEKzgcDA8S7SdrfVeVZOrfDrtPA=;
-        b=dU09HL7YiUwk/maqwxoin70k8Ds5wcr8FCr03pp80PJHAKOp3OReif4boc/KD+b2DM
-         J85QCudqpCs1TCoMc9wVPTRMRU0STpgD/1QlgpUBNod7Cl0dHQT0+cS+GqwwKn1pTQoh
-         qDbr/RW6USHBn1Lwi3PUSRcsIdwJasq0mwWOSN/6upWfMh7UN21nQLP+JZJjujE1EJbf
-         sUB+YacJewIY1v4hglgcqfHidAp7zxIlzY5AWW/L7aOkuYBKghGCKY1Qjy7HoZc4IpvO
-         ig+ikN0mJIZGCo3VIdRDOweYsfcUzSaai36eoZbFKR8i5RlAmAWDLaVCq5E1yt0FO8qa
-         Fflg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xsX/qftxhkazt9hFT8dF57W5m8I435Z6GlII9cy+ECY=;
+        b=LB2/6gRPtiwyOpmLwPi7yLfXzO/o74TSfvJfCt2GXYIAZXk8+Pf8VSZlmSRym9BhXU
+         U5be31A1gQfNPmpGHHuUtf9B7X3L9QIQN6VdP1M/ufmL7MCuXFikuhLTDWjzGAhBq3V8
+         mXga5/iHEYkl2fY5yH5MoccwlTwfjuJP2JeTKpSPLCsJWiY1E0UuEl7vL8htolCtAIVi
+         yXEq15oEn0F6yyhSH+A8h2la3ySKUlKrFxDil1lNU2ahbL8u0jqtpXCEh0tEDer8H7nd
+         6Y+CxLkBrQxqbAUGA7BoVFLcXfWMW90K61E+pYHK+otV2dkI5Yr3+lyuIc5InASL/zeV
+         eXNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=6vl776tt39Djj97+yEKzgcDA8S7SdrfVeVZOrfDrtPA=;
-        b=TkmghFVlmT4a2jIG5UFTx2i934o3xnBwYHvNzOzsi7uf8LNT0XAjvtIN4C7iElqdza
-         n7EA08fiEjjdK0m2dkFLBYh9adb/t+65wkAilWRkhpcv8p57gHcPoct3JeLOxhFNUT7F
-         pQDJx+EUuWekFtHIoXU4Jb3Zwug4ES0AZcAz9ENsFFN8gJfHLZUPZn7imhKhvUGbeeag
-         mD4N8jRuvjdTz5vCUP2KcprDlXeQLUJUUCi/7ZOGIMG87WGEdZ8+6ozFgFPF6P5Z4rvb
-         caglcUUXiL16jJPY2+3lUDHRgroTEmYFojuydL+17FmYpskCQmuvq1w3NGeqdREKi3tC
-         VxRQ==
-X-Gm-Message-State: APjAAAUH8u9QoVeDui7HxlN37DTz8pwNgqAZmOMopY+NQvwPesxS92t6
-        oCVjVfWTA5aOV7JwR/x6NkCTtB9gDEE=
-X-Google-Smtp-Source: APXvYqzmzVECICRUhTk0jHEyAsknDFm8SCMbAaOwaHumsoit6u726yoCOL3R0yOSUQ676wBRE6GLoQ==
-X-Received: by 2002:a05:6602:1c4:: with SMTP id w4mr6000255iot.153.1571367487601;
-        Thu, 17 Oct 2019 19:58:07 -0700 (PDT)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id o66sm2100434ili.45.2019.10.17.19.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 19:58:06 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 19:58:04 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Nick Hu <nickhu@andestech.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>
-cc:     alankao@andestech.com, palmer@sifive.com, aou@eecs.berkeley.edu,
-        glider@google.com, dvyukov@google.com, corbet@lwn.net,
-        alexios.zavras@intel.com, allison@lohutok.net, Anup.Patel@wdc.com,
-        tglx@linutronix.de, gregkh@linuxfoundation.org,
-        atish.patra@wdc.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3 1/3] kasan: Archs don't check memmove if not support
- it.
-In-Reply-To: <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
-Message-ID: <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
-References: <cover.1570514544.git.nickhu@andestech.com> <c9fa9eb25a5c0b1f733494dfd439f056c6e938fd.1570514544.git.nickhu@andestech.com> <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xsX/qftxhkazt9hFT8dF57W5m8I435Z6GlII9cy+ECY=;
+        b=Pc7sZ+eKVMeKVtKXPQ6MLqpWQ7ObGArYB2GM3WGC6+HDkiHFxj7fUrATgEMC7xK9am
+         xNPiPfApJQIzgAcW/jyVW5qI3mRvJtHeoOaROMvmYrMSpVjsJXf5wi0gaW8rNpSLxNY5
+         eNYty7GzceupC+zNUwFZOIhrH6i8V+RZ7Mn16/8msnoYC4fQQ+dA202tArCq1mswoWW0
+         YuE5KTJC69rWi9Dc7k5eHtO50MQeakH223gUGomUxxPShgWyVtxwgDaHiHe5ujbVyZ64
+         M/8SuYUv1VkYVd13RAwEf0MdGlgPpMTRmCpfVPpGdBZ17nrGwsI9l87QnmAh3T1TZe+7
+         VwUQ==
+X-Gm-Message-State: APjAAAUwavxPiGzLeI1FOMGgWuxgZW/I7wM0lzcwemiwyEqGM69OJdZ+
+        YOrNxB38F6JICXoABI5Ab+9G8fvA+Ajn8M7bAco=
+X-Google-Smtp-Source: APXvYqxwvxHZjKJg/YnuStSLc4n0H5LSqtfMOTfh+SFjPsB+sGtqQKsOlHWmrzk0Hkx+oX8i4/YwLHRT6gmxcwX16E8=
+X-Received: by 2002:a0d:d605:: with SMTP id y5mr5180535ywd.13.1571372506022;
+ Thu, 17 Oct 2019 21:21:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
+ <1571218608-15933-3-git-send-email-gkulkarni@marvell.com> <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
+ <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com> <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
+In-Reply-To: <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Fri, 18 Oct 2019 09:51:34 +0530
+Message-ID: <CAKTKpr5ntp5X6Lvp=rKT_F1E1ftdqtjSWTgpEOqEwaDMH2kc1w@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+To:     Will Deacon <will@kernel.org>
+Cc:     John Garry <john.garry@huawei.com>,
+        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jan Glauber <jglauber@marvell.com>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Zhangshaokun <zhangshaokun@hisilicon.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Oct 2019, Andrey Ryabinin wrote:
+Hi Will,
 
-> On 10/8/19 9:11 AM, Nick Hu wrote:
-> > Skip the memmove checking for those archs who don't support it.
->  
-> The patch is fine but the changelog sounds misleading. We don't skip memmove checking.
-> If arch don't have memmove than the C implementation from lib/string.c used.
-> It's instrumented by compiler so it's checked and we simply don't need that KASAN's memmove with
-> manual checks.
+On Thu, Oct 17, 2019 at 9:17 PM Will Deacon <will@kernel.org> wrote:
+>
+> On Thu, Oct 17, 2019 at 12:38:51PM +0530, Ganapatrao Kulkarni wrote:
+> > On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
+> > > > +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
+> > > > +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
+> > > > +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
+> > > > +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+> > > > +
+> > > > +static struct attribute *ccpi2_pmu_events_attrs[] = {
+> > > > +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
+> > > > +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
+> > > > +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
+> > > > +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
+> > > > +     NULL,
+> > > > +};
+> > >
+> > > Hi Ganapatrao,
+> > >
+> > > Have you considered adding these as uncore pmu-events in the perf tool?
+> > >
+> > At the moment no, since the number of events exposed/listed are very few.
+>
+> Then sounds like a perfect time to nip it in the bud before the list grows
+> ;)
 
-Thanks Andrey.  Nick, could you please update the patch description?
+I had internal discussion with architecture team, they have confirmed
+that, these are the only published events and no plan to add new.
+However, If any such request comes from HW team in future, i will add
+them to JSON files.
 
-- Paul
+I have incorporate all your previous comments, Can you please Ack and
+queue it to 5.5?
 
+>
+> If you can manage with these things in userspace, then I agree with John
+> that it would be preferential to do it that way. It also offers more
+> flexibility if we get the metricgroup stuff working properly (I think it's
+> buggered for big/little atm).
+>
+> Will
+
+Thanks,
+Ganapat
