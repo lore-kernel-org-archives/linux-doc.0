@@ -1,90 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B52A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 06:05:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B6637D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 08:38:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504234AbfJRGFd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 02:05:33 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:45760 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393765AbfJRGFc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 02:05:32 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y72so3162714pfb.12
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 23:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kV1HX3xh/tQvI6WiE4yR07HXyvimZNgOnLXkscZ88j0=;
-        b=rNoBCmIeaRcA1mrVqUxdH4pw/8j8IkEbk/qw1GX4lANW4AX0Dk5+RJOhz36wh9oq7+
-         MlNa34bkncIwzByQSEY7SGN6S3l2b9voQ25gO6CTHGdrMkHziCSO/G+rYztKGsdG+Kc0
-         W5bEBveWq6xSfTorbPOyy9Ghsr5c4df/muiu2SZXdq2tuJ+nvMVyxpeesVh8RmTUaEfw
-         bnRS3c32sRD4Kg8FxY2QpzCI8WLLlE4wIK6CAYgwCxK/wu5ta0K2LT5vx4Q0ZPDcMQZy
-         sxBHPnVcsw5RnJ0L8kMJhv6CdtY8Gbd8uGinnz70GAlqYaHuPSYxpei2xNm1aFCVaOdo
-         7a8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kV1HX3xh/tQvI6WiE4yR07HXyvimZNgOnLXkscZ88j0=;
-        b=dlhDsGeS283NrLQwJtrh7cNKeI07kYW12e1TsmVKl4yP1wPIX+RjjV07p2UJ4N4eFg
-         8SJeuRfJ415w/YVIstOjsxTLmR0ubRM43G5xIbhYKTr9x6DVmiZC5EB4yR6jn1fUq6iF
-         4fd3ijX9SsMaaGoerBLM7HPJ/39x3oUskYIVS+FS7s54o/PanjU6goQ+BwCpNIxELkrX
-         SUyDXPy/ZVw2Y6J84WkgS1xgTYZuO1KA1U0JMZa6S9P/jDnzD3FEYbsKR2lkx7gBN4Us
-         swfCW5mKIPSUh+H0k03z0hAaGUpQRFVpeh0ObQlsXGSOMebTWKyZ3YklYj5zVRVfexb9
-         T3rg==
-X-Gm-Message-State: APjAAAWI9rvrN1BCnikpEBbEdQc5Qey6hYzj+towFregdnR0djJoBsgf
-        ILKR2UpSKex+lX6pjET9TfDdQQ==
-X-Google-Smtp-Source: APXvYqyAFLFmNyiYOrRfv+ueuvIzGLlZ4cM1uXHv4BljYJWlUgaHvWI4mlFH93ITuT0Ecs9zIOHg+A==
-X-Received: by 2002:a63:4525:: with SMTP id s37mr8470239pga.148.1571378731948;
-        Thu, 17 Oct 2019 23:05:31 -0700 (PDT)
-Received: from localhost ([122.172.151.112])
-        by smtp.gmail.com with ESMTPSA id s10sm7537837pgn.9.2019.10.17.23.05.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Oct 2019 23:05:31 -0700 (PDT)
-Date:   Fri, 18 Oct 2019 11:35:29 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Amit Kucheria <amit.kucheria@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        daniel.lezcano@linaro.org, sudeep.holla@arm.com,
-        bjorn.andersson@linaro.org, edubezval@gmail.com, agross@kernel.org,
-        tdas@codeaurora.org, swboyd@chromium.org, ilina@codeaurora.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Zhang Rui <rui.zhang@intel.com>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] thermal: Remove netlink support
-Message-ID: <20191018060529.a5dmredz3baotaaa@vireshk-i7>
-References: <cover.1571314830.git.amit.kucheria@linaro.org>
- <cc1b26eb9efa974bc4d36a2944d4064df0c37983.1571314830.git.amit.kucheria@linaro.org>
+        id S2405150AbfJRIi0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 04:38:26 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4730 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727903AbfJRIiZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 04:38:25 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 8334FBB43E802C608D56;
+        Fri, 18 Oct 2019 16:38:22 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.179) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Fri, 18 Oct 2019
+ 16:38:13 +0800
+Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
+ UNCORE driver.
+To:     Ganapatrao Kulkarni <gklkml16@gmail.com>,
+        Will Deacon <will@kernel.org>
+References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
+ <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
+ <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
+ <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
+ <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
+ <CAKTKpr5ntp5X6Lvp=rKT_F1E1ftdqtjSWTgpEOqEwaDMH2kc1w@mail.gmail.com>
+CC:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Jan Glauber <jglauber@marvell.com>,
+        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Zhangshaokun <zhangshaokun@hisilicon.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <f7c91a7d-1f0e-24be-1491-fd0dae7f1daf@huawei.com>
+Date:   Fri, 18 Oct 2019 09:38:06 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc1b26eb9efa974bc4d36a2944d4064df0c37983.1571314830.git.amit.kucheria@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <CAKTKpr5ntp5X6Lvp=rKT_F1E1ftdqtjSWTgpEOqEwaDMH2kc1w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.179]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17-10-19, 17:57, Amit Kucheria wrote:
-> There are no users of netlink messages for thermal inside the kernel.
-> Remove the code and adjust the documentation.
-> 
-> Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
-> ---
->  .../driver-api/thermal/sysfs-api.rst          |  26 +----
->  drivers/thermal/thermal_core.c                | 107 +-----------------
->  include/linux/thermal.h                       |  11 --
->  3 files changed, 10 insertions(+), 134 deletions(-)
+On 18/10/2019 05:21, Ganapatrao Kulkarni wrote:
+> Hi Will,
+>
+> On Thu, Oct 17, 2019 at 9:17 PM Will Deacon <will@kernel.org> wrote:
+>>
+>> On Thu, Oct 17, 2019 at 12:38:51PM +0530, Ganapatrao Kulkarni wrote:
+>>> On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
+>>>>> +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
+>>>>> +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
+>>>>> +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
+>>>>> +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
+>>>>> +
+>>>>> +static struct attribute *ccpi2_pmu_events_attrs[] = {
+>>>>> +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
+>>>>> +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
+>>>>> +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
+>>>>> +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
+>>>>> +     NULL,
+>>>>> +};
+>>>>
+>>>> Hi Ganapatrao,
+>>>>
+>>>> Have you considered adding these as uncore pmu-events in the perf tool?
+>>>>
+>>> At the moment no, since the number of events exposed/listed are very few.
+>>
+>> Then sounds like a perfect time to nip it in the bud before the list grows
+>> ;)
+>
+> I had internal discussion with architecture team, they have confirmed
+> that, these are the only published events and no plan to add new.
+> However, If any such request comes from HW team in future, i will add
+> them to JSON files.
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Don't you find perf list is swamped with all the uncore events?
 
--- 
-viresh
+For Huawei platform, I find this:
+./perf list pmu | grep "Kernel PMU event" | grep hisi | wc -l
+648
+
+That's because we have so many instances of the same PMUs, not because 
+there are many events per PMU.
+
+TBH, I would like to delete all the events from the hisi uncore kernel 
+drivers, now that they're supported in the perf tool, but I think that 
+would constitute an ABI breakage.
+
+Maybe there is a way to hide them, but I couldn't find it.
+
+John
+
+>
+> I have incorporate all your previous comments, Can you please Ack and
+> queue it to 5.5?
+>
+>>
+>> If you can manage with these things in userspace, then I agree with John
+>> that it would be preferential to do it that way. It also offers more
+>> flexibility if we get the metricgroup stuff working properly (I think it's
+>> buggered for big/little atm).
+>>
+>> Will
+>
+> Thanks,
+> Ganapat
+>
+> .
+>
+
+
