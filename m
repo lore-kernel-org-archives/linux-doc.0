@@ -5,97 +5,75 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 522F67D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 15:39:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E43C97D981
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 15:45:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392991AbfJRPjW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 11:39:22 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36676 "EHLO ms.lwn.net"
+        id S2393413AbfJRPpH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 11:45:07 -0400
+Received: from ms.lwn.net ([45.79.88.28]:36694 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728464AbfJRPjV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:39:21 -0400
+        id S2409029AbfJRPpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 11:45:07 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 35AC9378;
-        Fri, 18 Oct 2019 15:39:21 +0000 (UTC)
-Date:   Fri, 18 Oct 2019 09:39:20 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 850AE378;
+        Fri, 18 Oct 2019 15:45:06 +0000 (UTC)
+Date:   Fri, 18 Oct 2019 09:45:05 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Shaokun Zhang <zhangshaokun@hisilicon.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] docs: block: Remove blk_init_queue related description
-Message-ID: <20191018093920.6fbc8141@lwn.net>
-In-Reply-To: <1571061002-25998-1-git-send-email-zhangshaokun@hisilicon.com>
-References: <1571061002-25998-1-git-send-email-zhangshaokun@hisilicon.com>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: driver-api: pti_intel_mid: Enable syntax
+ highlighting for C code block
+Message-ID: <20191018094505.58a5efd4@lwn.net>
+In-Reply-To: <20191004170124.13543-1-j.neuschaefer@gmx.net>
+References: <20191004170124.13543-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 14 Oct 2019 21:50:02 +0800
-Shaokun Zhang <zhangshaokun@hisilicon.com> wrote:
+On Fri,  4 Oct 2019 19:01:19 +0200
+Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> blk_init_queue has been removed since commit <a1ce35fa4985>
-> ("block: remove dead elevator code"), Let's cleanup the description
-> in the biodoc.rst document.
+> This makes the code snippet more readable.
 > 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
-
-So I applied this, then changed my mind and unapplied it; I think it's the
-wrong fix.
-
->  Documentation/block/biodoc.rst | 10 ----------
->  1 file changed, 10 deletions(-)
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/driver-api/pti_intel_mid.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
-> index b964796ec9c7..a19081d88349 100644
-> --- a/Documentation/block/biodoc.rst
-> +++ b/Documentation/block/biodoc.rst
-> @@ -1013,11 +1013,6 @@ request_fn execution which it means that lots of older drivers
->  should still be SMP safe. Drivers are free to drop the queue
->  lock themselves, if required. Drivers that explicitly used the
->  io_request_lock for serialization need to be modified accordingly.
-> -Usually it's as easy as adding a global lock::
-> -
-> -	static DEFINE_SPINLOCK(my_driver_lock);
-> -
-> -and passing the address to that lock to blk_init_queue().
+> diff --git a/Documentation/driver-api/pti_intel_mid.rst b/Documentation/driver-api/pti_intel_mid.rst
+> index 20f1cff42d5f..bacc2a4ee89f 100644
+> --- a/Documentation/driver-api/pti_intel_mid.rst
+> +++ b/Documentation/driver-api/pti_intel_mid.rst
+> @@ -49,7 +49,9 @@ but is not just blindly executing as 'root'. Keep in mind
+>  the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
+>  and n_tracesink line discpline drivers but is a generic
+>  operation for a program to use a line discpline driver
+> -on a tty port other than the default n_tty::
+> +on a tty port other than the default n_tty:
+> +
+> +.. code-block:: c
+> 
+>    /////////// To hook up n_tracerouter and n_tracesink /////////
+> 
+> --
+> 2.20.1
 
-This is a section about coping with the removal of the io_request_lock,
-which happened in 2.5, prior to the git era.  I think it is probably safe
-to say that there are no relevant drivers that still need to be updated
-for this particular change.
-
->  5.2 64 bit sector numbers (sector_t prepares for 64 bit support)
->  ----------------------------------------------------------------
-> @@ -1071,11 +1066,6 @@ right thing to use is bio_endio(bio) instead.
->  If the driver is dropping the io_request_lock from its request_fn strategy,
->  then it just needs to replace that with q->queue_lock instead.
->  
-> -As described in Sec 1.1, drivers can set max sector size, max segment size
-> -etc per queue now. Drivers that used to define their own merge functions i
-> -to handle things like this can now just use the blk_queue_* functions at
-> -blk_init_queue time.
-> -
->  Drivers no longer have to map a {partition, sector offset} into the
->  correct absolute location anymore, this is done by the block layer, so
->  where a driver received a request ala this before::
-
-Here, too.  We're talking about teaching drivers how to use bios.
-
-My suggested fix is to just remove both sections from the document
-entirely; neither is relevant in 2019.
-
-Even better, of course, would be to pass through this document and bring
-it up to current practice in general; there is certain to be a lot more in
-need of fixing here.
+I had to ponder on this a bit...the addition of that sort of markup tends
+to clutter the plain-text reading experience, and I'm personally not
+hugely attached to syntax highlighting.  But others feel differently, I
+guess, so I applied it.  I'm not sure I want to see a flood of this kind
+of change coming in, though.
 
 Thanks,
 
