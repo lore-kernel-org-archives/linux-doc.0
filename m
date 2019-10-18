@@ -3,61 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B449A7D90D
+	by archive.lwn.net (Postfix) with ESMTP id CF99F7D90F
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 13:06:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634085AbfJRNG2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2634087AbfJRNG2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 18 Oct 2019 09:06:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58640 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2634083AbfJRNG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 09:06:27 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9ID3EWH021136
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 09:06:26 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2vqcatv03p-1
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64036 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2442815AbfJRNGV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 09:06:21 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9ID38p9125636
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 09:06:17 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2vqcwr2uw6-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 09:06:26 -0400
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 09:06:17 -0400
 Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Fri, 18 Oct 2019 14:06:24 +0100
+        Fri, 18 Oct 2019 14:06:15 +0100
 Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 18 Oct 2019 14:06:21 +0100
+        Fri, 18 Oct 2019 14:06:13 +0100
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9ID6J8C46858516
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9ID6CBr44368202
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Oct 2019 13:06:19 GMT
+        Fri, 18 Oct 2019 13:06:12 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 71E92A405D;
-        Fri, 18 Oct 2019 13:06:19 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 30556A4051;
+        Fri, 18 Oct 2019 13:06:12 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6F54BA405B;
-        Fri, 18 Oct 2019 13:06:17 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 45C23A404D;
+        Fri, 18 Oct 2019 13:06:10 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.73.145])
         by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 18 Oct 2019 13:06:17 +0000 (GMT)
+        Fri, 18 Oct 2019 13:06:10 +0000 (GMT)
 From:   Sourabh Jain <sourabhjain@linux.ibm.com>
 To:     mpe@ellerman.id.au
 Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
         linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
         corbet@lwn.net, linux-doc@vger.kernel.org,
         Sourabh Jain <sourabhjain@linux.ibm.com>
-Subject: [PATCH v2 4/4] powerpc/fadump: sysfs for fadump memory reservation
-Date:   Fri, 18 Oct 2019 18:35:57 +0530
+Subject: [PATCH v2 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_* sysfs files
+Date:   Fri, 18 Oct 2019 18:35:55 +0530
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20191018130557.2217-1-sourabhjain@linux.ibm.com>
 References: <20191018130557.2217-1-sourabhjain@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19101813-0008-0000-0000-00000323493B
+x-cbid: 19101813-4275-0000-0000-0000037352CC
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19101813-0009-0000-0000-00004A426B01
-Message-Id: <20191018130557.2217-5-sourabhjain@linux.ibm.com>
+x-cbparentid: 19101813-4276-0000-0000-000038866F0F
+Message-Id: <20191018130557.2217-3-sourabhjain@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-18_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -70,88 +70,141 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a sys interface to allow querying the memory reserved by FADump for
-saving the crash dump.
+As the number of FADump sysfs files increases it is hard to manage all of
+them inside /sys/kernel directory. It's better to have all the FADump
+related sysfs files in a dedicated directory /sys/kernel/fadump. But in
+order to maintain the backward compatibility the /sys/kernel/fadump_*
+sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
+removed in future.
 
-Also added Documentation/ABI for the new sysfs file.
+Consolidate ABI documentation for all the FADump sysfs file in a single
+file Documentation/ABI/testing/sysfs-kernel-fadump.
 
 Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 ---
- Documentation/ABI/testing/sysfs-kernel-fadump    |  7 +++++++
- Documentation/powerpc/firmware-assisted-dump.rst |  5 +++++
- arch/powerpc/kernel/fadump.c                     | 14 ++++++++++++++
- 3 files changed, 26 insertions(+)
+ Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
+ arch/powerpc/kernel/fadump.c                  | 28 +++++++++++++
+ arch/powerpc/platforms/powernv/opal-core.c    |  6 ++-
+ 3 files changed, 74 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
 
 diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
-index dbf0606ba917..2b23af7e1c2f 100644
---- a/Documentation/ABI/testing/sysfs-kernel-fadump
+new file mode 100644
+index 000000000000..dbf0606ba917
+--- /dev/null
 +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
-@@ -39,3 +39,10 @@ Description:	write only
- 		The sysfs file is available when the system is booted to
- 		collect the dump on OPAL based machine. It used to release
- 		the memory used to collect the opalcore.
+@@ -0,0 +1,41 @@
++What:		/sys/kernel/fadump/*
++Date:		Oct 2019
++Contact:	linuxppc-dev@lists.ozlabs.org
++Description:
++		The /sys/kernel/fadump/* is a collection of FADump sysfs
++		file provide information about the configuration status
++		of Firmware Assisted Dump (FADump).
 +
-+What:		/sys/kernel/fadump/fadump_mem_reserved
++What:		/sys/kernel/fadump/fadump_enabled
 +Date:		Oct 2019
 +Contact:	linuxppc-dev@lists.ozlabs.org
 +Description:	read only
-+		Provide information about the amount of memory reserved by
-+		FADump to save the crash dump in bytes.
-diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
-index 6e2d329efda9..80c750847324 100644
---- a/Documentation/powerpc/firmware-assisted-dump.rst
-+++ b/Documentation/powerpc/firmware-assisted-dump.rst
-@@ -268,6 +268,11 @@ Here is the list of files under kernel sysfs:
-     be handled and vmcore will not be captured. This interface can be
-     easily integrated with kdump service start/stop.
- 
-+ /sys/kernel/fadump/fadump_mem_reserved
++		Primarily used to identify whether the FADump is enabled in
++		the kernel or not.
++User:		Kdump service
 +
-+   This is used to display the memory reserved by FADump for saving the
-+   crash dump.
++What:		/sys/kernel/fadump/fadump_registered
++Date:		Oct 2019
++Contact:	linuxppc-dev@lists.ozlabs.org
++Description:	read/write
++		Helps to control the dump collect feature from userspace.
++		Setting 1 to this file enables the system to collect the
++		dump and 0 to disable it.
++User:		Kdump service
 +
-  /sys/kernel/fadump_release_mem
-     This file is available only when FADump is active during
-     second kernel. This is used to release the reserved memory
++What:		/sys/kernel/fadump/fadump_release_mem
++Date:		Oct 2019
++Contact:	linuxppc-dev@lists.ozlabs.org
++Description:	write only
++		This is a special sysfs file and only available when
++		the system is booted to capture the vmcore using FADump.
++		It is used to release the memory reserved by FADump to
++		save the crash dump.
++
++What:		/sys/kernel/fadump/fadump_release_opalcore
++Date:		Oct 2019
++Contact:	linuxppc-dev@lists.ozlabs.org
++Description:	write only
++		The sysfs file is available when the system is booted to
++		collect the dump on OPAL based machine. It used to release
++		the memory used to collect the opalcore.
 diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
-index 866eddc279d8..82cc92f135b2 100644
+index ed59855430b9..866eddc279d8 100644
 --- a/arch/powerpc/kernel/fadump.c
 +++ b/arch/powerpc/kernel/fadump.c
-@@ -1357,6 +1357,13 @@ static ssize_t fadump_enabled_show(struct kobject *kobj,
- 	return sprintf(buf, "%d\n", fw_dump.fadump_enabled);
+@@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
+ 	return 0;
  }
  
-+static ssize_t fadump_mem_reserved_show(struct kobject *kobj,
-+					struct kobj_attribute *attr,
-+					char *buf)
-+{
-+	return sprintf(buf, "%ld\n", fw_dump.reserve_dump_area_size);
-+}
++struct kobject *fadump_kobj;
++EXPORT_SYMBOL_GPL(fadump_kobj);
 +
- static ssize_t fadump_register_show(struct kobject *kobj,
- 					struct kobj_attribute *attr,
- 					char *buf)
-@@ -1430,6 +1437,9 @@ static struct kobj_attribute fadump_attr = __ATTR(fadump_enabled,
- static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
- 						0644, fadump_register_show,
- 						fadump_register_store);
-+static struct kobj_attribute fadump_mem_reserved_attr =
-+			__ATTR(fadump_mem_reserved, 0444,
-+			       fadump_mem_reserved_show, NULL);
+ static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
+ 						0200, NULL,
+ 						fadump_release_memory_store);
+@@ -1435,6 +1438,11 @@ static void fadump_init_files(void)
+ 	struct dentry *debugfs_file;
+ 	int rc = 0;
  
- DEFINE_SHOW_ATTRIBUTE(fadump_region);
- 
-@@ -1486,6 +1496,10 @@ static void fadump_init_files(void)
- 			pr_err("unable to create fadump/fadump_release_mem sysfs file (%d)\n",
- 			       rc);
++	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
++	if (!fadump_kobj) {
++		pr_err("failed to create fadump kobject\n");
++		return;
++	}
+ 	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
+ 	if (rc)
+ 		printk(KERN_ERR "fadump: unable to create sysfs file"
+@@ -1458,6 +1466,26 @@ static void fadump_init_files(void)
+ 			printk(KERN_ERR "fadump: unable to create sysfs file"
+ 				" fadump_release_mem (%d)\n", rc);
  	}
-+	rc = sysfs_create_file(fadump_kobj, &fadump_mem_reserved_attr.attr);
++	/* Replicating the following sysfs attributes under FADump kobject.
++	 *
++	 *	- fadump_enabled
++	 *	- fadump_registered
++	 *	- fadump_release_mem
++	 */
++	rc = sysfs_create_file(fadump_kobj, &fadump_attr.attr);
 +	if (rc)
-+		pr_err("unable to create fadump_mem_reserved sysfs file (%d)\n",
++		pr_err("unable to create fadump/fadump_enabled sysfs file (%d)\n",
 +		       rc);
++	rc = sysfs_create_file(fadump_kobj, &fadump_register_attr.attr);
++	if (rc)
++		pr_err("unable to create fadump/fadump_registered sysfs file (%d)\n",
++		       rc);
++	if (fw_dump.dump_active) {
++		rc = sysfs_create_file(fadump_kobj, &fadump_release_attr.attr);
++		if (rc)
++			pr_err("unable to create fadump/fadump_release_mem sysfs file (%d)\n",
++			       rc);
++	}
  	return;
  }
  
+diff --git a/arch/powerpc/platforms/powernv/opal-core.c b/arch/powerpc/platforms/powernv/opal-core.c
+index ed895d82c048..2c7355768d3f 100644
+--- a/arch/powerpc/platforms/powernv/opal-core.c
++++ b/arch/powerpc/platforms/powernv/opal-core.c
+@@ -625,7 +625,11 @@ static int __init opalcore_init(void)
+ 		return rc;
+ 	}
+ 
+-	rc = sysfs_create_file(kernel_kobj, &opalcore_rel_attr.attr);
++	/*
++	 * Originally fadump_release_opalcore sysfs was part of kernel_kobj
++	 * later moved to fadump_kobj.
++	 */
++	rc = sysfs_create_file(fadump_kobj, &opalcore_rel_attr.attr);
+ 	if (rc) {
+ 		pr_warn("unable to create sysfs file fadump_release_opalcore (%d)\n",
+ 			rc);
 -- 
 2.17.2
 
