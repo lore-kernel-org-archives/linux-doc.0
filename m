@@ -5,28 +5,26 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11D677D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 15:49:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC26E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 16:02:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393480AbfJRPtd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 11:49:33 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36726 "EHLO ms.lwn.net"
+        id S2408981AbfJRQC6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 12:02:58 -0400
+Received: from ms.lwn.net ([45.79.88.28]:36802 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394157AbfJRPtd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:49:33 -0400
+        id S2408951AbfJRQC6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 12:02:58 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E3A256D9;
-        Fri, 18 Oct 2019 15:49:32 +0000 (UTC)
-Date:   Fri, 18 Oct 2019 09:49:31 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id AC26C2CA;
+        Fri, 18 Oct 2019 16:02:57 +0000 (UTC)
+Date:   Fri, 18 Oct 2019 10:02:56 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Albert Vaca Cintora <albertvaka@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Updated iostats docs
-Message-ID: <20191018094931.60df486f@lwn.net>
-In-Reply-To: <20191016201337.88554-1-albertvaka@gmail.com>
-References: <20191016201337.88554-1-albertvaka@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH RFC] Docs: mark admin-guide/iostats.rst as needing updates
+Message-ID: <20191018100256.75bb5c60@lwn.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,37 +34,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Oct 2019 22:13:37 +0200
-Albert Vaca Cintora <albertvaka@gmail.com> wrote:
+This file tells us all about how 2.4 reported I/O statistics, which is less
+than fully useful.  Put a note at the top advising of this fact and
+requesting some kind soul to bring things up to date.
 
-> revious docs mentioned 11 unsigned long fields, when the reality is that
-> we have 15 fields with a mix of unsigned long and unsigned int.
-> 
-> Signed-off-by: Albert Vaca Cintora <albertvaka@gmail.com>
-> ---
->  Documentation/admin-guide/iostats.rst | 47 ++++++++++++++-------------
->  1 file changed, 24 insertions(+), 23 deletions(-)
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
 
-I've applied this as an improvement over what's there now, but...
+I'm thinking about beginning to sprinkle these around Documentation/ in
+the hope that they inspire helpful people to improve the situation.  It
+works (I think?) for wikipedia, maybe we should give it a try...
 
-> diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
-> index 5d63b18bd6d1..321aae8d7e10 100644
-> --- a/Documentation/admin-guide/iostats.rst
-> +++ b/Documentation/admin-guide/iostats.rst
-> @@ -46,78 +46,79 @@ each snapshot of your disk statistics.
->  In 2.4, the statistics fields are those after the device name. In
->  the above example, the first field of statistics would be 446216.
->  By contrast, in 2.6+ if you look at ``/sys/block/hda/stat``, you'll
-> -find just the eleven fields, beginning with 446216.  If you look at
-> -``/proc/diskstats``, the eleven fields will be preceded by the major and
-> +find just the 15 fields, beginning with 446216.  If you look at
-> +``/proc/diskstats``, the 15 fields will be preceded by the major and
+ Documentation/admin-guide/iostats.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-This document is full of information about the behavior of the 2.4 kernel,
-which seems less than fully interesting in 2019.  It would be Really Nice
-if somebody could go through and simply update this document to current
-reality and discard all of the cruft.
+diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
+index 5d63b18bd6d1..2d1b1c15fd91 100644
+--- a/Documentation/admin-guide/iostats.rst
++++ b/Documentation/admin-guide/iostats.rst
+@@ -2,6 +2,11 @@
+ I/O statistics fields
+ =====================
+ 
++.. note::
++
++   This document contains a great deal of outdated information; please
++   consider helping out by updating it to match current reality.
++
+ Since 2.4.20 (and some versions before, with patches), and 2.5.45,
+ more extensive disk statistics have been introduced to help measure disk
+ activity. Tools such as ``sar`` and ``iostat`` typically interpret these and do
+-- 
+2.21.0
 
-Thanks,
-
-jon
