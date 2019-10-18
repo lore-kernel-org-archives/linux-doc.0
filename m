@@ -1,141 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 628AF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 17:31:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EEBD17D923
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 22:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731530AbfJRRbr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 13:31:47 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:35013 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728833AbfJRRbq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 13:31:46 -0400
-Received: by mail-il1-f195.google.com with SMTP id j9so6269860ilr.2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 10:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4qFr7tmvxRMVc+FCpIKlwmUQdJxMZt6SVR1EnyZDw74=;
-        b=PzMMC9cKAiyn6bioJIfC917EgH+5Q+lzj9JvvPPWfPETQhZKhZxhHeX4Rx7Dak39EY
-         SKNwhKWjDeCnr0AGBZWMPQPe8zNVlJeRXxeAk2hJWyBA4FL0lYW25P9X4iRuQpZF8Y/W
-         z4LmeUxMVctKXzincxllR8g3vWds+F3DUF9bTngvVuZBI9Bms+hzvuOhwmAH2M4rYTP9
-         2WHd8UrO6nIx4H6QDgFPtYWgTIRzyoMCGXJqkfvk52XqGV8CPczQJ7EZsU9lNi7Q5A3G
-         iSRTzhJIQHY5ucvFlurOO503a2/URosqxMiLqTFy8TduluG8nJspP5kE40uZK/aZl6F3
-         t7Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4qFr7tmvxRMVc+FCpIKlwmUQdJxMZt6SVR1EnyZDw74=;
-        b=mz3O6npL+hp4i6Oab/nxPz38IfsYaNJY1HwTzFtj7UuqNiDGx9h3Ei6hi5R6SZOCE1
-         mTYjbLMd5T0CDClHr1bTWRI2kxGbaInipDJcjx5YZ81TK09ipvQ1DJWhqGOAzNAGmWE2
-         VzE1YHgeem6ioX9DDffQEG7BaL7E2HxVf2OA7kc0wqVwH55YeHFhoFJf/fEhLjHULsEO
-         gLNbs0qXYh3c+8Gb1VNyHwyPtHbMUCvzoBNtWa5HssHW/R/znKcQFA02oUhPgPs6qBE3
-         lJdPdE59cL+uQygCKEaXhZyn9qGLm6Q5EC2qv90K6/e1f+D18LN7q3QkQiDSLtLgTK53
-         G4Ew==
-X-Gm-Message-State: APjAAAVPEF/4p2hLP9Po4ubHQtxZiKWjpQhZgP91TtieJrH6OPUFobmK
-        ZS+VOQpQ7Dm52VxzgrOM0chIBBrbkAc/B04J4PsmQ8PK
-X-Google-Smtp-Source: APXvYqzQg2H4y9jctt1IvHCTaEbMKx3FQ/dOUqJ1O3p6JKEv9W1TkRHxfHw6Y3/H1JlTwwOruu18CR3RAz7N4Q1L83g=
-X-Received: by 2002:a92:86ce:: with SMTP id l75mr11696428ilh.140.1571419904421;
- Fri, 18 Oct 2019 10:31:44 -0700 (PDT)
+        id S2388414AbfJRWI7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 18:08:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41624 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388387AbfJRWI7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:08:59 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AFC402246E;
+        Fri, 18 Oct 2019 22:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571436538;
+        bh=K7ijbg6IVjhRC7/PIpkToO6jKzcs6lrtL1NQcqpfzSc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ji/YNXCyHxb/dAsv02RY5q2SvJAMftZojbChAjMtivPQUj+sGWSD8ys9w5NuVrIYn
+         yBoBzQvG/262nvNUEUTkGlPqHUTyRpHPWJVF/2s+6FMqj9So2w+V5wjtaHOs0+Xh2P
+         XpkcAxAPWM5hdigPJ0QAOYNVVz5eWEiwMjY0ES8w=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        James Dingwall <james@dingwall.me.uk>,
+        Juergen Gross <jgross@suse.com>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 41/56] x86/xen: Return from panic notifier
+Date:   Fri, 18 Oct 2019 18:07:38 -0400
+Message-Id: <20191018220753.10002-41-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
+References: <20191018220753.10002-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20191015212004.24748-1-mike.leach@linaro.org> <20191015212004.24748-11-mike.leach@linaro.org>
- <20191018162009.GB12883@xps15>
-In-Reply-To: <20191018162009.GB12883@xps15>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Fri, 18 Oct 2019 11:31:33 -0600
-Message-ID: <CANLsYkyYwNv0dApJws+e=M3h6MKqX7triVgY6qy74oOYJe7FMw@mail.gmail.com>
-Subject: Re: [PATCH v3 10/11] coresight: docs: Create common sub-directory for
- coresight trace.
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jon Corbet <corbet@lwn.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Oct 2019 at 10:20, Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
->
-> On Tue, Oct 15, 2019 at 10:20:03PM +0100, Mike Leach wrote:
-> > There are two files in the Documentation/trace directory relating to
-> > coresight, with more to follow, so create a Documentation/trace/coresight
-> > directory and move existing files there. Update MAINTAINERS to reference
-> > this sub-directory rather than the individual files.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >  Documentation/trace/{ => coresight}/coresight-cpu-debug.rst | 0
-> >  Documentation/trace/{ => coresight}/coresight.rst           | 2 +-
-> >  Documentation/trace/{ => coresight}/stm.rst                 | 0
-> >  MAINTAINERS                                                 | 3 +--
-> >  4 files changed, 2 insertions(+), 3 deletions(-)
-> >  rename Documentation/trace/{ => coresight}/coresight-cpu-debug.rst (100%)
-> >  rename Documentation/trace/{ => coresight}/coresight.rst (99%)
-> >  rename Documentation/trace/{ => coresight}/stm.rst (100%)
-> >
-> > diff --git a/Documentation/trace/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
-> > similarity index 100%
-> > rename from Documentation/trace/coresight-cpu-debug.rst
-> > rename to Documentation/trace/coresight/coresight-cpu-debug.rst
-> > diff --git a/Documentation/trace/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> > similarity index 99%
-> > rename from Documentation/trace/coresight.rst
-> > rename to Documentation/trace/coresight/coresight.rst
-> > index 72f4b7ef1bad..835e8aa0bf8c 100644
-> > --- a/Documentation/trace/coresight.rst
-> > +++ b/Documentation/trace/coresight/coresight.rst
-> > @@ -493,6 +493,6 @@ Details on how to use the generic STM API can be found here [#second]_.
-> >
-> >  .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
-> >
-> > -.. [#second] Documentation/trace/stm.rst
-> > +.. [#second] Documentation/trace/coresight/stm.rst
-> >
-> >  .. [#third] https://github.com/Linaro/perf-opencsd
-> > diff --git a/Documentation/trace/stm.rst b/Documentation/trace/coresight/stm.rst
-> > similarity index 100%
-> > rename from Documentation/trace/stm.rst
-> > rename to Documentation/trace/coresight/stm.rst
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 296de2b51c83..f903160b507c 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1608,8 +1608,7 @@ R:      Suzuki K Poulose <suzuki.poulose@arm.com>
-> >  L:   linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> >  S:   Maintained
-> >  F:   drivers/hwtracing/coresight/*
-> > -F:   Documentation/trace/coresight.rst
-> > -F:   Documentation/trace/coresight-cpu-debug.rst
-> > +F:   Documentation/trace/coresight/*
-> >  F:   Documentation/devicetree/bindings/arm/coresight.txt
-> >  F:   Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt
-> >  F:   Documentation/ABI/testing/sysfs-bus-coresight-devices-*
->
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 
-I'm taking that back - please remove mentions of coresight files in
-Documentation/trace/index.rst.
+[ Upstream commit c6875f3aacf2a5a913205accddabf0bfb75cac76 ]
 
-Since you do have to respin, please split patch 09.  And now that I
-have applied all the other patches, your next revision should be a
-documentation set.
+Currently execution of panic() continues until Xen's panic notifier
+(xen_panic_event()) is called at which point we make a hypercall that
+never returns.
 
-Thanks,
-Mathieu
->
-> > --
-> > 2.17.1
-> >
+This means that any notifier that is supposed to be called later as
+well as significant part of panic() code (such as pstore writes from
+kmsg_dump()) is never executed.
+
+There is no reason for xen_panic_event() to be this last point in
+execution since panic()'s emergency_restart() will call into
+xen_emergency_restart() from where we can perform our hypercall.
+
+Nevertheless, we will provide xen_legacy_crash boot option that will
+preserve original behavior during crash. This option could be used,
+for example, if running kernel dumper (which happens after panic
+notifiers) is undesirable.
+
+Reported-by: James Dingwall <james@dingwall.me.uk>
+Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Reviewed-by: Juergen Gross <jgross@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  4 +++
+ arch/x86/xen/enlighten.c                      | 28 +++++++++++++++++--
+ 2 files changed, 29 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 188a7db8501bd..9d8b42afbe4f9 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4873,6 +4873,10 @@
+ 				the unplug protocol
+ 			never -- do not unplug even if version check succeeds
+ 
++	xen_legacy_crash	[X86,XEN]
++			Crash from Xen panic notifier, without executing late
++			panic() code such as dumping handler.
++
+ 	xen_nopvspin	[X86,XEN]
+ 			Disables the ticketlock slowpath using Xen PV
+ 			optimizations.
+diff --git a/arch/x86/xen/enlighten.c b/arch/x86/xen/enlighten.c
+index 515d5e4414c29..00fc683a20110 100644
+--- a/arch/x86/xen/enlighten.c
++++ b/arch/x86/xen/enlighten.c
+@@ -259,19 +259,41 @@ void xen_reboot(int reason)
+ 		BUG();
+ }
+ 
++static int reboot_reason = SHUTDOWN_reboot;
++static bool xen_legacy_crash;
+ void xen_emergency_restart(void)
+ {
+-	xen_reboot(SHUTDOWN_reboot);
++	xen_reboot(reboot_reason);
+ }
+ 
+ static int
+ xen_panic_event(struct notifier_block *this, unsigned long event, void *ptr)
+ {
+-	if (!kexec_crash_loaded())
+-		xen_reboot(SHUTDOWN_crash);
++	if (!kexec_crash_loaded()) {
++		if (xen_legacy_crash)
++			xen_reboot(SHUTDOWN_crash);
++
++		reboot_reason = SHUTDOWN_crash;
++
++		/*
++		 * If panic_timeout==0 then we are supposed to wait forever.
++		 * However, to preserve original dom0 behavior we have to drop
++		 * into hypervisor. (domU behavior is controlled by its
++		 * config file)
++		 */
++		if (panic_timeout == 0)
++			panic_timeout = -1;
++	}
+ 	return NOTIFY_DONE;
+ }
+ 
++static int __init parse_xen_legacy_crash(char *arg)
++{
++	xen_legacy_crash = true;
++	return 0;
++}
++early_param("xen_legacy_crash", parse_xen_legacy_crash);
++
+ static struct notifier_block xen_panic_block = {
+ 	.notifier_call = xen_panic_event,
+ 	.priority = INT_MIN
+-- 
+2.20.1
+
