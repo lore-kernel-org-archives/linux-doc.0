@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E43C97D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 15:45:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B2877D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 15:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393413AbfJRPpH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 11:45:07 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36694 "EHLO ms.lwn.net"
+        id S2389885AbfJRPqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 11:46:16 -0400
+Received: from ms.lwn.net ([45.79.88.28]:36714 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409029AbfJRPpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:45:07 -0400
+        id S2389749AbfJRPqP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Oct 2019 11:46:15 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 850AE378;
-        Fri, 18 Oct 2019 15:45:06 +0000 (UTC)
-Date:   Fri, 18 Oct 2019 09:45:05 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 365822CA;
+        Fri, 18 Oct 2019 15:46:15 +0000 (UTC)
+Date:   Fri, 18 Oct 2019 09:46:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org,
+Cc:     linux-doc@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-api: pti_intel_mid: Enable syntax
- highlighting for C code block
-Message-ID: <20191018094505.58a5efd4@lwn.net>
-In-Reply-To: <20191004170124.13543-1-j.neuschaefer@gmx.net>
-References: <20191004170124.13543-1-j.neuschaefer@gmx.net>
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: i2c: Fix SPDX-License-Identifier syntax
+Message-ID: <20191018094614.5b70ab10@lwn.net>
+In-Reply-To: <20191005200126.25809-1-j.neuschaefer@gmx.net>
+References: <20191005200126.25809-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -41,40 +41,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  4 Oct 2019 19:01:19 +0200
+On Sat,  5 Oct 2019 22:01:22 +0200
 Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> This makes the code snippet more readable.
+> ReST directives are introduced with two dots.
 > 
 > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/driver-api/pti_intel_mid.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/pti_intel_mid.rst b/Documentation/driver-api/pti_intel_mid.rst
-> index 20f1cff42d5f..bacc2a4ee89f 100644
-> --- a/Documentation/driver-api/pti_intel_mid.rst
-> +++ b/Documentation/driver-api/pti_intel_mid.rst
-> @@ -49,7 +49,9 @@ but is not just blindly executing as 'root'. Keep in mind
->  the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
->  and n_tracesink line discpline drivers but is a generic
->  operation for a program to use a line discpline driver
-> -on a tty port other than the default n_tty::
-> +on a tty port other than the default n_tty:
-> +
-> +.. code-block:: c
-> 
->    /////////// To hook up n_tracerouter and n_tracesink /////////
-> 
-> --
-> 2.20.1
 
-I had to ponder on this a bit...the addition of that sort of markup tends
-to clutter the plain-text reading experience, and I'm personally not
-hugely attached to syntax highlighting.  But others feel differently, I
-guess, so I applied it.  I'm not sure I want to see a flood of this kind
-of change coming in, though.
-
-Thanks,
+I've applied both of these, thanks.
 
 jon
