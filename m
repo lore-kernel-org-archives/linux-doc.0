@@ -1,129 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B6637D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 08:38:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49E917D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 08:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405150AbfJRIi0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Oct 2019 04:38:26 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4730 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727903AbfJRIiZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Oct 2019 04:38:25 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 8334FBB43E802C608D56;
-        Fri, 18 Oct 2019 16:38:22 +0800 (CST)
-Received: from [127.0.0.1] (10.202.227.179) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Fri, 18 Oct 2019
- 16:38:13 +0800
-Subject: Re: [PATCH v6 2/2] drivers/perf: Add CCPI2 PMU support in ThunderX2
- UNCORE driver.
-To:     Ganapatrao Kulkarni <gklkml16@gmail.com>,
-        Will Deacon <will@kernel.org>
-References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
- <1571218608-15933-3-git-send-email-gkulkarni@marvell.com>
- <b8e1a637-faf4-4567-7d3e-a4f13dfa1cf0@huawei.com>
- <CAKTKpr4QoTDjbSxO4CvSH2sNvmrTJKjxi+RZH4mYfyDaaN96Sw@mail.gmail.com>
- <20191017154750.jgn6e3465qrsu53e@willie-the-truck>
- <CAKTKpr5ntp5X6Lvp=rKT_F1E1ftdqtjSWTgpEOqEwaDMH2kc1w@mail.gmail.com>
-CC:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jan Glauber <jglauber@marvell.com>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Zhangshaokun <zhangshaokun@hisilicon.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <f7c91a7d-1f0e-24be-1491-fd0dae7f1daf@huawei.com>
-Date:   Fri, 18 Oct 2019 09:38:06 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAKTKpr5ntp5X6Lvp=rKT_F1E1ftdqtjSWTgpEOqEwaDMH2kc1w@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.179]
-X-CFilter-Loop: Reflected
+        id S2442221AbfJRIwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 04:52:11 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38966 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2442219AbfJRIwL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 04:52:11 -0400
+Received: by mail-pf1-f194.google.com with SMTP id v4so3450764pff.6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2019 01:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=8Twp36GSbpZi8uCaMU+5CBUJfogrOLDIK7KeRjSvPeo=;
+        b=i0VuWL93/QAsy39njpz8hRgcLisEdpr+3KDPnSKzQ/awFW4pHcUg0UjlGu+xlAklGX
+         //w7RDxTTEbHiCZlDWhV8fb2xW0/nKfpvZFQEz4XoqB3WFvF2FB6oUjasGQAbwH6uuC7
+         wfiPJkAgPr3nTCPj0QhLnvy1e5YyA5e5r8alBv0c8CFRU3tb4JYL9W1sSMGL3gKa5tto
+         M+9LCFG2NwFaMw4SZt7mfiJZbqHXDmvybREgVDtVUsQMo1py7X4RVn9D4AgVNnfCuo42
+         KCPQ7glVcGEcJRD3uZfsOtnkXZR+Z8o3tP9Y2D6jmwnX9QJMpc28t0Pi8FdyhfamqMzl
+         zNFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8Twp36GSbpZi8uCaMU+5CBUJfogrOLDIK7KeRjSvPeo=;
+        b=fZyEfw2EidYl21at5gUMoao1qdlelVh8XGKOXZvY1BLa1BjP7R4D5qKl/5qtb3vtpp
+         iaKmrzx5T7RFNd6Nbb61XSunn4DbECs73hziWSVBA9u7bdTsL7+NScizNTt2jx+2UDuE
+         gc+fd4C/idER3pMmgdYDWeO4AG10kC3HwzkL4Uz3yVFe+JzK2KJvAubTZubBpwEf6R1R
+         ++GGGnYw0kwyy3Kp3GHN1hzBd7sh1bNfyikwcrN+Wiu+FIceEwPmbYvh9oSKcIAme4kw
+         tihtCO995FOX1FT7vbY6nfb+Kwe+3EFMGKUSRUgYMPZ/yhE1DO+XdMo7JSVLu8w9XDx+
+         cphA==
+X-Gm-Message-State: APjAAAVyabMCD/11G8FyIItUTH0OMqAYdbGIG6vicyH9eWJHVmFVQnwV
+        fi1wPbXENwWDoXxud6r8E/0J6R1DL0T4tg==
+X-Google-Smtp-Source: APXvYqwdiN3EAKBoUU6BThGO5LVz4hi1jwIiB7pRL30zoDY6vs7gW8L2LmbVKtj6UUm9OUN0OCFjsg==
+X-Received: by 2002:aa7:86c2:: with SMTP id h2mr5445157pfo.0.1571388730332;
+        Fri, 18 Oct 2019 01:52:10 -0700 (PDT)
+Received: from localhost ([49.248.178.134])
+        by smtp.gmail.com with ESMTPSA id y7sm5886971pfn.142.2019.10.18.01.52.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 18 Oct 2019 01:52:09 -0700 (PDT)
+From:   Amit Kucheria <amit.kucheria@linaro.org>
+To:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        daniel.lezcano@linaro.org, viresh.kumar@linaro.org,
+        sudeep.holla@arm.com, bjorn.andersson@linaro.org,
+        edubezval@gmail.com, agross@kernel.org, tdas@codeaurora.org,
+        swboyd@chromium.org, ilina@codeaurora.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Ben Segall <bsegall@google.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>
+Cc:     linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v4 0/6] Initialise thermal framework and cpufreq earlier during boot
+Date:   Fri, 18 Oct 2019 14:21:57 +0530
+Message-Id: <cover.1571387352.git.amit.kucheria@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/10/2019 05:21, Ganapatrao Kulkarni wrote:
-> Hi Will,
->
-> On Thu, Oct 17, 2019 at 9:17 PM Will Deacon <will@kernel.org> wrote:
->>
->> On Thu, Oct 17, 2019 at 12:38:51PM +0530, Ganapatrao Kulkarni wrote:
->>> On Wed, Oct 16, 2019 at 7:01 PM John Garry <john.garry@huawei.com> wrote:
->>>>> +TX2_EVENT_ATTR(req_pktsent, CCPI2_EVENT_REQ_PKT_SENT);
->>>>> +TX2_EVENT_ATTR(snoop_pktsent, CCPI2_EVENT_SNOOP_PKT_SENT);
->>>>> +TX2_EVENT_ATTR(data_pktsent, CCPI2_EVENT_DATA_PKT_SENT);
->>>>> +TX2_EVENT_ATTR(gic_pktsent, CCPI2_EVENT_GIC_PKT_SENT);
->>>>> +
->>>>> +static struct attribute *ccpi2_pmu_events_attrs[] = {
->>>>> +     &tx2_pmu_event_attr_req_pktsent.attr.attr,
->>>>> +     &tx2_pmu_event_attr_snoop_pktsent.attr.attr,
->>>>> +     &tx2_pmu_event_attr_data_pktsent.attr.attr,
->>>>> +     &tx2_pmu_event_attr_gic_pktsent.attr.attr,
->>>>> +     NULL,
->>>>> +};
->>>>
->>>> Hi Ganapatrao,
->>>>
->>>> Have you considered adding these as uncore pmu-events in the perf tool?
->>>>
->>> At the moment no, since the number of events exposed/listed are very few.
->>
->> Then sounds like a perfect time to nip it in the bud before the list grows
->> ;)
->
-> I had internal discussion with architecture team, they have confirmed
-> that, these are the only published events and no plan to add new.
-> However, If any such request comes from HW team in future, i will add
-> them to JSON files.
+Changes since v3:
+- Init schedutil governor earlier too
+- Simplified changes to thermal_init() error path
+- Collects Acks
 
-Don't you find perf list is swamped with all the uncore events?
+Changes since v2:
+- Missed one patch when posting v2. Respinning.
 
-For Huawei platform, I find this:
-./perf list pmu | grep "Kernel PMU event" | grep hisi | wc -l
-648
+Changes since v1:
+- Completely get rid of netlink support in the thermal framework.
+- This changes the early init patch to a single line - change to
+  core_initcall. Changed authorship of patch since it is nothing like the
+  original. Lina, let me know if you feel otherwise.
+- I've tested to make sure that the qcom-cpufreq-hw driver continues to
+  work correctly as a module so this won't impact Android's GKI plans.
+- Collected Acks
 
-That's because we have so many instances of the same PMUs, not because 
-there are many events per PMU.
+Device boot needs to be as fast as possible while keeping under the thermal
+envelope. Now that thermal framework is built-in to the kernel, we can
+initialize it earlier to enable thermal mitigation during boot.
 
-TBH, I would like to delete all the events from the hisi uncore kernel 
-drivers, now that they're supported in the perf tool, but I think that 
-would constitute an ABI breakage.
+We also need the cpufreq HW drivers to be initialised earlier to act as the
+cooling devices. This series only converts over the qcom-hw driver to
+initialize earlier but can be extended to other platforms as well.
 
-Maybe there is a way to hide them, but I couldn't find it.
+Amit Kucheria (6):
+  thermal: Remove netlink support
+  thermal: Initialize thermal subsystem earlier
+  cpufreq: Initialise the governors in core_initcall
+  cpufreq: Initialize cpufreq-dt driver earlier
+  clk: qcom: Initialise clock drivers earlier
+  cpufreq: qcom-hw: Move driver initialisation earlier
 
-John
+ .../driver-api/thermal/sysfs-api.rst          |  26 +----
+ drivers/clk/qcom/clk-rpmh.c                   |   2 +-
+ drivers/clk/qcom/gcc-qcs404.c                 |   2 +-
+ drivers/clk/qcom/gcc-sdm845.c                 |   2 +-
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   2 +-
+ drivers/cpufreq/cpufreq_conservative.c        |   2 +-
+ drivers/cpufreq/cpufreq_ondemand.c            |   2 +-
+ drivers/cpufreq/cpufreq_performance.c         |   2 +-
+ drivers/cpufreq/cpufreq_powersave.c           |   2 +-
+ drivers/cpufreq/cpufreq_userspace.c           |   2 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c             |   2 +-
+ drivers/thermal/thermal_core.c                | 103 +-----------------
+ include/linux/thermal.h                       |  11 --
+ kernel/sched/cpufreq_schedutil.c              |   2 +-
+ 14 files changed, 19 insertions(+), 143 deletions(-)
 
->
-> I have incorporate all your previous comments, Can you please Ack and
-> queue it to 5.5?
->
->>
->> If you can manage with these things in userspace, then I agree with John
->> that it would be preferential to do it that way. It also offers more
->> flexibility if we get the metricgroup stuff working properly (I think it's
->> buggered for big/little atm).
->>
->> Will
->
-> Thanks,
-> Ganapat
->
-> .
->
-
+-- 
+2.17.1
 
