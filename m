@@ -6,321 +6,85 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1860E7D917
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Oct 2019 20:17:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 399117D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Oct 2019 04:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436894AbfJQURL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Oct 2019 16:17:11 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33826 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731007AbfJQURL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Oct 2019 16:17:11 -0400
-Received: by mail-pf1-f194.google.com with SMTP id b128so2356587pfa.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 13:17:09 -0700 (PDT)
+        id S1729166AbfJREzp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Oct 2019 00:55:45 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40299 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727547AbfJREzp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Oct 2019 00:55:45 -0400
+Received: by mail-io1-f65.google.com with SMTP id h144so5887633iof.7
+        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2019 21:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ofGJFITzq7+8vbxQSUKGGCUjUrfmHQGStzvLOkyKiXs=;
-        b=AAS8hlkY+I6l43Mw/J/dsPGo1XhABdgHfowFi5scReMpiFSY/9Q5OsdOe8kxlvtRU9
-         +PlspU1LVUSM2QTjj8YTgdln5gKrv5iJXZhDjQvb5JKmzh5PVR9fX5LL9ApuYcrCGmjl
-         oWQnNv8BJnSHKwfSbjRYqpVb2lF6BbnWKLjR3dbLCgIXgjfYaNpWAB2atFD0JMIsWZ26
-         HJ6AvdfifoNpw3lAjlKbuHrrMe+6c73SxPXcQlI0rm8RH6AujFuVrWteioiLu0SxNaXm
-         uHXwAPP7YFJ2z7HSCqXmEQ7uD/DenqugMpF0FQEUvh9AZsDHYVJ2JqTvR1+CQEsPuyzu
-         akfw==
+        d=sifive.com; s=google;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=6vl776tt39Djj97+yEKzgcDA8S7SdrfVeVZOrfDrtPA=;
+        b=dU09HL7YiUwk/maqwxoin70k8Ds5wcr8FCr03pp80PJHAKOp3OReif4boc/KD+b2DM
+         J85QCudqpCs1TCoMc9wVPTRMRU0STpgD/1QlgpUBNod7Cl0dHQT0+cS+GqwwKn1pTQoh
+         qDbr/RW6USHBn1Lwi3PUSRcsIdwJasq0mwWOSN/6upWfMh7UN21nQLP+JZJjujE1EJbf
+         sUB+YacJewIY1v4hglgcqfHidAp7zxIlzY5AWW/L7aOkuYBKghGCKY1Qjy7HoZc4IpvO
+         ig+ikN0mJIZGCo3VIdRDOweYsfcUzSaai36eoZbFKR8i5RlAmAWDLaVCq5E1yt0FO8qa
+         Fflg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ofGJFITzq7+8vbxQSUKGGCUjUrfmHQGStzvLOkyKiXs=;
-        b=JFZAsqPYbHYIKq54zCMKS2M/7pkaHWi0E+qwHJMoclMPSwmH+wMNn25HxUnRSmT5cf
-         3Z/e6MhzdsEfdikhNDonsAnLSi17LQBZ7NLyNBEZdPc5ujb5YQZrSQYqIzmC6pnsiHiv
-         kjmcxG8WzpZhe0ZL/58z2eKyBWAmX6qTRdPZa0l/2fKrtlYOcPi6DkylszxExpnSatpX
-         tAYW3Egxb1oSvQtdKDDoyZgO5CvrxWqVVKUiPTOCPVrJJqrc7Vew+kmyMfUY2DA1B9dx
-         ZjycMxBDir6k6dohAlXAgA0eyfhmc0DxEPM4YFJDgdTdJYYxirScgDWq3XC2EPVKbHl+
-         p9tA==
-X-Gm-Message-State: APjAAAVSLG4abIqXynoh0Jq2K6ysPWURrfYshgexVzUTfUT/MV5ZQ8g0
-        /mAVVpCc+wyHYkEcWiHoQkc+Vg==
-X-Google-Smtp-Source: APXvYqx5pBJzpC1RW5OFSewc0MGoctOoaocgKQualnPldFL8Ka92ajSC7yt8FyqESkZsZb/5wmFZlA==
-X-Received: by 2002:a17:90a:9dc5:: with SMTP id x5mr6666738pjv.85.1571343428709;
-        Thu, 17 Oct 2019 13:17:08 -0700 (PDT)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id f6sm3927504pfq.169.2019.10.17.13.17.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 17 Oct 2019 13:17:08 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 14:17:06 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        gregkh@linuxfoundation.org, suzuki.poulose@arm.com
-Subject: Re: [PATCH v3 08/11] coresight: etm4x: Add missing single-shot
- control API to sysfs
-Message-ID: <20191017201705.GA16483@xps15>
-References: <20191015212004.24748-1-mike.leach@linaro.org>
- <20191015212004.24748-9-mike.leach@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=6vl776tt39Djj97+yEKzgcDA8S7SdrfVeVZOrfDrtPA=;
+        b=TkmghFVlmT4a2jIG5UFTx2i934o3xnBwYHvNzOzsi7uf8LNT0XAjvtIN4C7iElqdza
+         n7EA08fiEjjdK0m2dkFLBYh9adb/t+65wkAilWRkhpcv8p57gHcPoct3JeLOxhFNUT7F
+         pQDJx+EUuWekFtHIoXU4Jb3Zwug4ES0AZcAz9ENsFFN8gJfHLZUPZn7imhKhvUGbeeag
+         mD4N8jRuvjdTz5vCUP2KcprDlXeQLUJUUCi/7ZOGIMG87WGEdZ8+6ozFgFPF6P5Z4rvb
+         caglcUUXiL16jJPY2+3lUDHRgroTEmYFojuydL+17FmYpskCQmuvq1w3NGeqdREKi3tC
+         VxRQ==
+X-Gm-Message-State: APjAAAUH8u9QoVeDui7HxlN37DTz8pwNgqAZmOMopY+NQvwPesxS92t6
+        oCVjVfWTA5aOV7JwR/x6NkCTtB9gDEE=
+X-Google-Smtp-Source: APXvYqzmzVECICRUhTk0jHEyAsknDFm8SCMbAaOwaHumsoit6u726yoCOL3R0yOSUQ676wBRE6GLoQ==
+X-Received: by 2002:a05:6602:1c4:: with SMTP id w4mr6000255iot.153.1571367487601;
+        Thu, 17 Oct 2019 19:58:07 -0700 (PDT)
+Received: from localhost ([64.62.168.194])
+        by smtp.gmail.com with ESMTPSA id o66sm2100434ili.45.2019.10.17.19.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2019 19:58:06 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 19:58:04 -0700 (PDT)
+From:   Paul Walmsley <paul.walmsley@sifive.com>
+X-X-Sender: paulw@viisi.sifive.com
+To:     Nick Hu <nickhu@andestech.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>
+cc:     alankao@andestech.com, palmer@sifive.com, aou@eecs.berkeley.edu,
+        glider@google.com, dvyukov@google.com, corbet@lwn.net,
+        alexios.zavras@intel.com, allison@lohutok.net, Anup.Patel@wdc.com,
+        tglx@linutronix.de, gregkh@linuxfoundation.org,
+        atish.patra@wdc.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3 1/3] kasan: Archs don't check memmove if not support
+ it.
+In-Reply-To: <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
+Message-ID: <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
+References: <cover.1570514544.git.nickhu@andestech.com> <c9fa9eb25a5c0b1f733494dfd439f056c6e938fd.1570514544.git.nickhu@andestech.com> <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
+User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191015212004.24748-9-mike.leach@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 10:20:01PM +0100, Mike Leach wrote:
-> An API to control single-shot comparator operation was missing from sysfs.
-> This adds the parameters to sysfs to allow programming of this feature.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->  .../coresight/coresight-etm4x-sysfs.c         | 122 ++++++++++++++++++
->  drivers/hwtracing/coresight/coresight-etm4x.c |  26 +++-
->  drivers/hwtracing/coresight/coresight-etm4x.h |   2 +
->  3 files changed, 149 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index ca1a54411225..43b3f0976034 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -239,6 +239,7 @@ static ssize_t reset_store(struct device *dev,
->  	for (i = 0; i < drvdata->nr_resource; i++)
->  		config->res_ctrl[i] = 0x0;
->  
-> +	config->ss_idx = 0x0;
->  	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
->  		config->ss_ctrl[i] = 0x0;
->  		config->ss_pe_cmp[i] = 0x0;
-> @@ -1717,6 +1718,123 @@ static ssize_t res_ctrl_store(struct device *dev,
->  }
->  static DEVICE_ATTR_RW(res_ctrl);
->  
-> +static ssize_t sshot_idx_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	val = config->ss_idx;
-> +	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
-> +}
-> +
-> +static ssize_t sshot_idx_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf, size_t size)
-> +{
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	if (kstrtoul(buf, 16, &val))
-> +		return -EINVAL;
-> +	if (val >= drvdata->nr_ss_cmp)
-> +		return -EINVAL;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	config->ss_idx = val;
-> +	spin_unlock(&drvdata->spinlock);
-> +	return size;
-> +}
-> +static DEVICE_ATTR_RW(sshot_idx);
-> +
-> +static ssize_t sshot_ctrl_show(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       char *buf)
-> +{
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	val = config->ss_ctrl[config->ss_idx];
-> +	spin_unlock(&drvdata->spinlock);
-> +	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
-> +}
-> +
-> +static ssize_t sshot_ctrl_store(struct device *dev,
-> +				struct device_attribute *attr,
-> +				const char *buf, size_t size)
-> +{
-> +	u8 idx;
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	if (kstrtoul(buf, 16, &val))
-> +		return -EINVAL;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	idx = config->ss_idx;
-> +	config->ss_ctrl[idx] = val & GENMASK(24, 0);
-> +	/* must clear bit 31 in related status register on programming */
-> +	config->ss_status[idx] &= ~BIT(31);
-> +	spin_unlock(&drvdata->spinlock);
-> +	return size;
-> +}
-> +static DEVICE_ATTR_RW(sshot_ctrl);
-> +
-> +static ssize_t sshot_status_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	val = config->ss_status[config->ss_idx];
-> +	spin_unlock(&drvdata->spinlock);
-> +	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
-> +}
-> +static DEVICE_ATTR_RO(sshot_status);
-> +
-> +static ssize_t sshot_pe_ctrl_show(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  char *buf)
-> +{
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	val = config->ss_pe_cmp[config->ss_idx];
-> +	spin_unlock(&drvdata->spinlock);
-> +	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
-> +}
-> +
-> +static ssize_t sshot_pe_ctrl_store(struct device *dev,
-> +				   struct device_attribute *attr,
-> +				   const char *buf, size_t size)
-> +{
-> +	u8 idx;
-> +	unsigned long val;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct etmv4_config *config = &drvdata->config;
-> +
-> +	if (kstrtoul(buf, 16, &val))
-> +		return -EINVAL;
-> +
-> +	spin_lock(&drvdata->spinlock);
-> +	idx = config->ss_idx;
-> +	config->ss_pe_cmp[idx] = val & GENMASK(7, 0);
-> +	/* must clear bit 31 in related status register on programming */
-> +	config->ss_status[idx] &= ~BIT(31);
-> +	spin_unlock(&drvdata->spinlock);
-> +	return size;
-> +}
-> +static DEVICE_ATTR_RW(sshot_pe_ctrl);
-> +
->  static ssize_t ctxid_idx_show(struct device *dev,
->  			      struct device_attribute *attr,
->  			      char *buf)
-> @@ -2173,6 +2291,10 @@ static struct attribute *coresight_etmv4_attrs[] = {
->  	&dev_attr_addr_exlevel_s_ns.attr,
->  	&dev_attr_addr_cmp_view.attr,
->  	&dev_attr_vinst_pe_cmp_start_stop.attr,
-> +	&dev_attr_sshot_idx.attr,
-> +	&dev_attr_sshot_ctrl.attr,
-> +	&dev_attr_sshot_pe_ctrl.attr,
-> +	&dev_attr_sshot_status.attr,
->  	&dev_attr_seq_idx.attr,
->  	&dev_attr_seq_state.attr,
->  	&dev_attr_seq_event.attr,
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.c b/drivers/hwtracing/coresight/coresight-etm4x.c
-> index d5148afdbe80..dc3f507e7562 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x.c
-> @@ -168,6 +168,9 @@ static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
->  			       drvdata->base + TRCRSCTLRn(i));
->  
->  	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
-> +		/* always clear status bit on restart if using single-shot */
-> +		if (config->ss_ctrl[i] || config->ss_pe_cmp[i])
-> +			config->ss_status[i] &= ~BIT(31);
->  		writel_relaxed(config->ss_ctrl[i],
->  			       drvdata->base + TRCSSCCRn(i));
->  		writel_relaxed(config->ss_status[i],
-> @@ -467,6 +470,9 @@ static void etm4_disable_hw(void *info)
->  {
->  	u32 control;
->  	struct etmv4_drvdata *drvdata = info;
-> +	struct etmv4_config *config = &drvdata->config;
-> +	struct device *etm_dev = &drvdata->csdev->dev;
-> +	int i;
->  
->  	CS_UNLOCK(drvdata->base);
->  
-> @@ -489,6 +495,18 @@ static void etm4_disable_hw(void *info)
->  	isb();
->  	writel_relaxed(control, drvdata->base + TRCPRGCTLR);
->  
-> +	/* wait for TRCSTATR.PMSTABLE to go to '1' */
-> +	if (coresight_timeout(drvdata->base, TRCSTATR,
-> +			      TRCSTATR_PMSTABLE_BIT, 1))
-> +		dev_err(etm_dev,
-> +			"timeout while waiting for PM stable Trace Status\n");
-> +
-> +	/* read the status of the single shot comparators */
-> +	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
-> +		config->ss_status[i] =
-> +			readl_relaxed(drvdata->base + TRCSSCSRn(i));
-> +	}
-> +
->  	coresight_disclaim_device_unlocked(drvdata->base);
->  
->  	CS_LOCK(drvdata->base);
-> @@ -595,6 +613,7 @@ static void etm4_init_arch_data(void *info)
->  	u32 etmidr4;
->  	u32 etmidr5;
->  	struct etmv4_drvdata *drvdata = info;
-> +	int i;
->  
->  	/* Make sure all registers are accessible */
->  	etm4_os_unlock(drvdata);
-> @@ -718,9 +737,14 @@ static void etm4_init_arch_data(void *info)
->  	drvdata->nr_resource = BMVAL(etmidr4, 16, 19) + 1;
->  	/*
->  	 * NUMSSCC, bits[23:20] the number of single-shot
-> -	 * comparator control for tracing
-> +	 * comparator control for tracing. Read any status regs as these
-> +	 * also contain RO capability data.
->  	 */
->  	drvdata->nr_ss_cmp = BMVAL(etmidr4, 20, 23);
-> +	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
-> +		drvdata->config.ss_status[i] =
-> +			readl_relaxed(drvdata->base + TRCSSCSRn(i));
-> +	}
->  	/* NUMCIDC, bits[27:24] number of Context ID comparators for tracing */
->  	drvdata->numcidc = BMVAL(etmidr4, 24, 27);
->  	/* NUMVMIDC, bits[31:28] number of VMID comparators for tracing */
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-> index b873df38e7d8..4a695bf90582 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-> @@ -227,6 +227,7 @@
->   * @cntr_val:	Sets or returns the value for a counter.
->   * @res_idx:	Resource index selector.
->   * @res_ctrl:	Controls the selection of the resources in the trace unit.
-> + * @ss_idx:	Single-shot index selector.
->   * @ss_ctrl:	Controls the corresponding single-shot comparator resource.
->   * @ss_status:	The status of the corresponding single-shot comparator.
->   * @ss_pe_cmp:	Selects the PE comparator inputs for Single-shot control.
-> @@ -270,6 +271,7 @@ struct etmv4_config {
->  	u32				cntr_val[ETMv4_MAX_CNTR];
->  	u8				res_idx;
->  	u32				res_ctrl[ETM_MAX_RES_SEL];
-> +	u8				ss_idx;
->  	u32				ss_ctrl[ETM_MAX_SS_CMP];
->  	u32				ss_status[ETM_MAX_SS_CMP];
->  	u32				ss_pe_cmp[ETM_MAX_SS_CMP];
+On Thu, 17 Oct 2019, Andrey Ryabinin wrote:
 
-I have applied patches 4 to 8.  I will do the remaining patches tomorrow or
-early next week.
+> On 10/8/19 9:11 AM, Nick Hu wrote:
+> > Skip the memmove checking for those archs who don't support it.
+>  
+> The patch is fine but the changelog sounds misleading. We don't skip memmove checking.
+> If arch don't have memmove than the C implementation from lib/string.c used.
+> It's instrumented by compiler so it's checked and we simply don't need that KASAN's memmove with
+> manual checks.
 
-Thanks,
-Mathieu
+Thanks Andrey.  Nick, could you please update the patch description?
 
-> -- 
-> 2.17.1
-> 
+- Paul
+
