@@ -1,82 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E0F3E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 01:43:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6E727D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 02:21:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726726AbfJUBnr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Oct 2019 21:43:47 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:53073 "EHLO
-        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbfJUBnr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 21:43:47 -0400
-Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 442FD806A8;
-        Mon, 21 Oct 2019 14:43:45 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1571622225;
-        bh=b3bnFzbf3TgftQnfn5vIsLWzOb143SfhFz8wgRbgD1E=;
-        h=From:To:Cc:Subject:Date;
-        b=kQ2XDAO1JL+wMLGPDEXPOQq2TAG5+7xyxnA9ir2L4XJQ5cEKQxI5U176rTm6Zf3x7
-         s9Te9/IdQll6lblS5AYM0EicBLH7EG3CWqXBmsFGry9feWNCb2EolaAMxYLMgOd9vc
-         yMgNqbuZKMspl4qukzgP2cYVPn0HWVLTjXOmE+VUWoO008rA5cNAIYaoX3UpVy/1lF
-         DGbhfbU7HfVOlDSaR9h2Bf7Pfn7dsTBwvr3PnlElNB2mHjteDD5OzXuLkFoU6fhWvZ
-         xHPLjWvP1bZd7GrlhRnVY/e43VdGRUghuBV00KSVhy7/ltbOYaBne7taXmTvt9J1Ht
-         J7G72lhsm3u9g==
-Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5dad0d4b0000>; Mon, 21 Oct 2019 14:43:44 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
-        by smtp (Postfix) with ESMTP id 3388613EED4;
-        Mon, 21 Oct 2019 14:43:44 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-        id 0E931280059; Mon, 21 Oct 2019 14:43:40 +1300 (NZDT)
-From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH] docs: ioctl: fix typo
-Date:   Mon, 21 Oct 2019 14:43:36 +1300
-Message-Id: <20191021014336.14030-1-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.23.0
+        id S1726778AbfJUCV7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Oct 2019 22:21:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60860 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726715AbfJUCV7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 22:21:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7t9iy0ZeTZGloF+pLdKmONwsyKHhXmaNL8ryD9WsF08=; b=oxEYB9AcT+EcX6lyt2W7DmE4G
+        7rerwgzkcC8BHRNXaS65B4fHxZg3BM1alVoihWZPbS5sqm0JJ5gBhQoVM5Sq2Npn1IxCG8D7P6LQ/
+        6HhfFQXMW0QDDTbNx9TGUAcAdwLY3pZn+V1BkPXB+9HT8v7AGivJCochTUQk9I3xIx+Osfb1tPgOK
+        9xgFuo5i81CrCauZKcv/zM1bsTtjz/j+lH+eAboqb+nfZtUGPqaE+FQw/PqJal6Nw5NXIrCURSwAw
+        FndF0sV7pRJxjCnaZah1zxDJyKdkw7rjZ0anX3ew5UHFKfgTCQhK794++qyZURBOL7sWN3dfbyEkf
+        erQlHj1aA==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iMNKV-0003fY-Gx; Mon, 21 Oct 2019 02:21:55 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc:     Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] docs: admin-guide/perf: fix imx-ddr.rst warnings
+Message-ID: <68650583-bd4b-2b25-b842-a91a9643ce00@infradead.org>
+Date:   Sun, 20 Oct 2019 19:21:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-x-atlnz-ls: pat
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"pointres" should be "pointers".
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Fix Sphinx warnings in imx-ddr.rst:
+
+Documentation/admin-guide/perf/imx-ddr.rst:21: WARNING: Unexpected indentation.
+Documentation/admin-guide/perf/imx-ddr.rst:34: WARNING: Unexpected indentation.
+Documentation/admin-guide/perf/imx-ddr.rst:40: WARNING: Unexpected indentation.
+Documentation/admin-guide/perf/imx-ddr.rst:45: WARNING: Unexpected indentation.
+Documentation/admin-guide/perf/imx-ddr.rst:52: WARNING: Unexpected indentation.
+
+Fixes: 3724e186fead ("docs/perf: Add documentation for the i.MX8 DDR PMU")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc: Will Deacon <will@kernel.org>
 ---
- Documentation/ioctl/botching-up-ioctls.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/perf/imx-ddr.rst |   13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ioctl/botching-up-ioctls.rst b/Documentation/i=
-octl/botching-up-ioctls.rst
-index ac697fef3545..2d4829b2fb09 100644
---- a/Documentation/ioctl/botching-up-ioctls.rst
-+++ b/Documentation/ioctl/botching-up-ioctls.rst
-@@ -46,7 +46,7 @@ will need to add a 32-bit compat layer:
-    conversion or worse, fiddle the raw __u64 through your code since tha=
-t
-    diminishes the checking tools like sparse can provide. The macro
-    u64_to_user_ptr can be used in the kernel to avoid warnings about int=
-egers
--   and pointres of different sizes.
-+   and pointers of different sizes.
-=20
-=20
- Basics
---=20
-2.23.0
+--- lnx-54-rc4.orig/Documentation/admin-guide/perf/imx-ddr.rst
++++ lnx-54-rc4/Documentation/admin-guide/perf/imx-ddr.rst
+@@ -17,8 +17,8 @@ The "format" directory describes format
+ (AXI filtering) fields of the perf_event_attr structure, see /sys/bus/event_source/
+ devices/imx8_ddr0/format/. The "events" directory describes the events types
+ hardware supported that can be used with perf tool, see /sys/bus/event_source/
+-devices/imx8_ddr0/events/.
+-  e.g.::
++devices/imx8_ddr0/events/.  E.g.::
++
+         perf stat -a -e imx8_ddr0/cycles/ cmd
+         perf stat -a -e imx8_ddr0/read/,imx8_ddr0/write/ cmd
+ 
+@@ -31,22 +31,25 @@ in the driver.
+   Filter is defined with two configuration parts:
+   --AXI_ID defines AxID matching value.
+   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
++
+         0：corresponding bit is masked.
+         1: corresponding bit is not masked, i.e. used to do the matching.
+ 
+   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
+   When non-masked bits are matching corresponding AXI_ID bits then counter is
+   incremented. Perf counter is incremented if
++
+           AxID && AXI_MASKING == AXI_ID && AXI_MASKING
+ 
+   This filter doesn't support filter different AXI ID for axid-read and axid-write
+-  event at the same time as this filter is shared between counters.
+-  e.g.::
++  event at the same time as this filter is shared between counters.  E.g.::
++
+         perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+         perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+ 
+   NOTE: axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
+   it will be reverted in driver automatically. so that the user can just specify
+   axi_id to monitor a specific id, rather than having to specify axi_mask.
+-  e.g.::
++  E.g.::
++
+         perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
 
