@@ -2,120 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E90F27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Oct 2019 19:12:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 79A707D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 00:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfJTTMN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Oct 2019 15:12:13 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35459 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfJTTMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 15:12:13 -0400
-Received: by mail-ot1-f67.google.com with SMTP id z6so9200196otb.2;
-        Sun, 20 Oct 2019 12:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qf/sVe4OaaSu5coc+u2XBYohKmJFVapNYY/Vba9pEeg=;
-        b=e/KmxsLe64muElk1bHBqvk5BB6G4+df8Hx6+RkiEOT+mYKGx/nzW7DGQz3DVwZ+Xo2
-         cR0+tneiIJV8M4fWTOpjqfUMpJh3/QdT42kHox7auZERy1bTOmHv/nqBrH2EKNzSE1iq
-         VUM7R2liP4dwuTnCrPtvWlSGomr1A57WGANS8ls+hCB245620RAvWw16fMi2ssgUH13o
-         t7wewyGCZ+1RYOikA6nGZcQ1zR4UuAmts7SeJ4Npf3SXoxK9C8ZAwP9VSlcRf3iQLOn4
-         qAm3R21a3qz0bmWdgp/wb6nZwPBYLK79HFF0mMbE4jOqOYIc9QI/uFAstsNZche95+D+
-         duHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qf/sVe4OaaSu5coc+u2XBYohKmJFVapNYY/Vba9pEeg=;
-        b=Bodw7nF6K3emXiCyu6ynkeNmIwW3SwzxL3l2WHyNypHiKiYHUAFGk9oQRM2UWlnkOz
-         vifEN6BoQKKNR+GPV6pbyKe6Iaa0LtmedH1ztsNr6A2wFNzSwTa7qU770+SATh//Bapp
-         IDC0IoI/RIwGGv8gk0s/+kc9r29LlPhdCxlQtpyqFhax6j4kh0bK8hM9lXsfWl3RH9lL
-         8qa/LOomz9kc3NcenX0RyBnCIRqNjrownj3nMSFyp7uQJ+ihFvT4Rw9AD2MXJfx8U3Tv
-         hMLTSNXntkoT12C6gC8CvrAtBlItCzebNQy73yJy7XHJh69Co2bwesGPJubxKslKBNWf
-         aGoA==
-X-Gm-Message-State: APjAAAW8HSYGaDgP0k2JPmpAgzJJ7xene4wYttzJSwjuOhiSQbXeN+lH
-        lgFHSvCLsX6m8OsNT2u94GYknApKE89pbYdw86c=
-X-Google-Smtp-Source: APXvYqzhVFAdFslCNWIJXXjZu/NkaMPU3XVTcluJ7My62pWakGb26uJDD5Y5tarArW0KRgR/rg7bEzq2Kg3pPWBM6Fs=
-X-Received: by 2002:a9d:6247:: with SMTP id i7mr15903045otk.139.1571598732021;
- Sun, 20 Oct 2019 12:12:12 -0700 (PDT)
+        id S1726672AbfJUAim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Oct 2019 20:38:42 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:52933 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfJUAil (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 20:38:41 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 51A95886BF;
+        Mon, 21 Oct 2019 13:38:37 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1571618317;
+        bh=PahlvPU4REMhlX5lmJjml5c4g5+Iwgma6zY8XQrsVxo=;
+        h=From:To:Cc:Subject:Date;
+        b=0CwFBqQqmpEQ9b5RLiP3nZW95E+SxNmK9fpDEeTpZekUP+Gcejrmt5PlRSkNpUCPH
+         fTwcGqRRO6W3iUWVMpjnZ8ri5ZkN4PWRzUkeTkYN/EW92ErE7isBue008XYs23xNnN
+         bCdyXbAzFzA/Vx4QALcYYD+ITeJQ+B+wjFc6AubYyxOXaBXYZ/b5kVnPcUX/FBEzou
+         3jb4tfvOeFt/HS3g0817XplXNPlv3IzYyIwTVSrS4depDhAp82K1Mkf1ONEIL2h+fB
+         8BzBk23kTCYLvVbJrg14fuySdKcJ68sDvRiSEBw5dNcv2D7FiKqX35eB8jntTzB/G0
+         563ke6zIQgeYg==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5dacfe0c0000>; Mon, 21 Oct 2019 13:38:36 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
+        by smtp (Postfix) with ESMTP id 3760713EED4;
+        Mon, 21 Oct 2019 13:38:41 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id 1554C280059; Mon, 21 Oct 2019 13:38:37 +1300 (NZDT)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH] docs/core-api: memory-allocation: fix typo
+Date:   Mon, 21 Oct 2019 13:38:32 +1300
+Message-Id: <20191021003833.15704-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <1571391220-22835-1-git-send-email-magnus.karlsson@intel.com>
- <20191018232756.akn4yvyxmi63dl5b@ast-mbp> <CAJ8uoz292vhqb=L0khWeUs89HF42d+UAgzb1z1tf8my1PaU5Fg@mail.gmail.com>
- <20191020172503.qeee2olqxxnynm6v@ast-mbp.dhcp.thefacebook.com>
-In-Reply-To: <20191020172503.qeee2olqxxnynm6v@ast-mbp.dhcp.thefacebook.com>
-From:   Magnus Karlsson <magnus.karlsson@gmail.com>
-Date:   Sun, 20 Oct 2019 21:12:01 +0200
-Message-ID: <CAJ8uoz18+4fFP_JMu0kzFehZceATs5aAD8VUMQY2ax-S2=7Pvg@mail.gmail.com>
-Subject: Re: [PATCH bpf v2] xsk: improve documentation for AF_XDP
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Magnus Karlsson <magnus.karlsson@intel.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Network Development <netdev@vger.kernel.org>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 20, 2019 at 7:25 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Sun, Oct 20, 2019 at 10:13:49AM +0200, Magnus Karlsson wrote:
-> > On Sat, Oct 19, 2019 at 11:48 AM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> > >
-> > > On Fri, Oct 18, 2019 at 11:33:40AM +0200, Magnus Karlsson wrote:
-> > > > +
-> > > > +   #include <linux/bpf.h>
-> > > > +   #include "bpf_helpers.h"
-> > > > +
-> > > > +   #define MAX_SOCKS 16
-> > > > +
-> > > > +   struct {
-> > > > +        __uint(type, BPF_MAP_TYPE_XSKMAP);
-> > > > +        __uint(max_entries, MAX_SOCKS);
-> > > > +        __uint(key_size, sizeof(int));
-> > > > +        __uint(value_size, sizeof(int));
-> > > > +   } xsks_map SEC(".maps");
-> > > > +
-> > > > +   struct {
-> > > > +        __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
-> > > > +        __uint(max_entries, 1);
-> > > > +        __type(key, int);
-> > > > +        __type(value, unsigned int);
-> > > > +   } rr_map SEC(".maps");
-> > >
-> > > hmm. does xsks_map compile?
-> >
-> > Yes. Actually, I wrote a new sample to demonstrate this feature and to
-> > test the code above. I will send that patch set (contains some small
-> > additions to libbpf also to be able to support this) to bpf-next.
-> > Though, if I used the __type declarations of the rr_map PERCPU_ARRAY I
-> > got this warning: "pr_warning("Error in
-> > bpf_create_map_xattr(%s):%s(%d). Retrying without BTF.\n")", so I had
-> > to change it to the type above that is also used for SOCKMAP. Some
-> > enablement that is missing for XSKMAP? Have not dug into it.
->
-> Ahh. Right. xskmap explicitly prohibits BTF for key/value.
-> const struct bpf_map_ops xsk_map_ops = {
->         ...
->         .map_check_btf = map_check_no_btf,
-> };
-> I guess it's time to add support for it.
+"on the safe size" should be "on the safe side".
 
-Agreed. I will implement that in a separate patch set for bpf-next and
-include a patch to update the documentation too in that patch set.
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
+ Documentation/core-api/memory-allocation.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation=
+/core-api/memory-allocation.rst
+index 7744aa3bf2e0..e59779aa7615 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -88,7 +88,7 @@ Selecting memory allocator
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+=20
+ The most straightforward way to allocate memory is to use a function
+-from the :c:func:`kmalloc` family. And, to be on the safe size it's
++from the :c:func:`kmalloc` family. And, to be on the safe side it's
+ best to use routines that set memory to zero, like
+ :c:func:`kzalloc`. If you need to allocate memory for an array, there
+ are :c:func:`kmalloc_array` and :c:func:`kcalloc` helpers.
+--=20
+2.23.0
+
