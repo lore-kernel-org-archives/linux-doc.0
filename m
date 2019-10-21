@@ -1,150 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B2AA7DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 15:44:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2ED2B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 15:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728793AbfJUPni (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 11:43:38 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34406 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728263AbfJUPng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 11:43:36 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 83so11465838oii.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2019 08:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cnXjVYkeWXq+gubvSOjcYVnZzqsBIZ+DNJdYhPS5/D8=;
-        b=kSbOVSxROO2ODHZOo0AzN65grokopehSUbmYsECSJU6VZS+Nr1cw7LV6r4iAcc7N6Q
-         wzllLP+X0DveM8FqCCuVinvCaP3XnL9YCqdDKRLIgt+rSBWXCJrhGRJSCwEj6KftUioO
-         0G2RZFY6J41AyIPK9sMmrPMRorNfiZZJTp5ufyuGPVmC6KiDrg62GQx+BfeYcb0Dnk00
-         e/caau408WrMpaj5r51qcXRJcyfgpkFW4QXzy07SHQAOJOIGjTVSNPCX9FqYnJLFZw+a
-         lxjcEwL/AFpSmr/jX73HRWC155IV+n6XsiPCIITIqBSlVnEH5R1A+3H+uOSRpVi6DTHo
-         g2Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cnXjVYkeWXq+gubvSOjcYVnZzqsBIZ+DNJdYhPS5/D8=;
-        b=VlvOs50etPIbr/kfD+FSUtYHiTkJnKIX5ySjKD3jPS/gQLgLQBKkRCSlT0++dlWF2y
-         QIWpeIrFm+L6LLO550ilUadPb3YcomO6KmaFbzi3QNwvinnC3sCooWHgHCRRo+hnzDvs
-         I79nLKG7cg66VcI1B+Y5IGdKmo9QmWMKCvXEdCee26Z6k1vKvjkQNLBp0fN96QkpoZAa
-         DsP3zIGwL3iXp1xo1EwevyJuyR91XwzGRN28bcj/U7eo9bXOCPT6L3Ve178nEDnM4SDb
-         n8j97MayI0iGCywS2zyhQTTRubR9OhMWpL15dnGpxOscO3/Q85vDXfj8QCWFJqNO/Pxk
-         gDnw==
-X-Gm-Message-State: APjAAAV2vK3eOYcHWApoXk21JXAiY5sF/XtXoaW4eJQrEXcdOE8mUpXV
-        v5WSERu29Iyw9sJJb1i46WsQNiOtgu3G/chFaQjcfQ==
-X-Google-Smtp-Source: APXvYqxc1yCRq3k+cvMu1sAucXV2pLfdg+Ismk5+9IUGxVHljKC2H3cX5Rq52uV7mrAoht13w5nwv0u1z0tu95TtZcU=
-X-Received: by 2002:aca:f492:: with SMTP id s140mr20094795oih.83.1571672614698;
- Mon, 21 Oct 2019 08:43:34 -0700 (PDT)
+        id S1727403AbfJUPxR convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 11:53:17 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:50813 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727355AbfJUPxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 11:53:17 -0400
+Received: from mail-qt1-f180.google.com ([209.85.160.180]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MVNJ3-1iUWBo31xn-00SOsf; Mon, 21 Oct 2019 17:53:15 +0200
+Received: by mail-qt1-f180.google.com with SMTP id t8so4184343qtc.6;
+        Mon, 21 Oct 2019 08:53:15 -0700 (PDT)
+X-Gm-Message-State: APjAAAVP2VoDFzlJAZhxdAqTL4ra99XvNpLc+t3B5+LJmb26yDba0sPc
+        oEUGePLe4/xO6AYHDQh8bX3PxNIr2iRrR3vShrA=
+X-Google-Smtp-Source: APXvYqxW/Wo5Bc84asv5c2V8xml6VFZ/dYpuW0qFfpij3rPpITkcG/R1Y8CZKUX4MG/FmCrTnqrwGTcR/1dluA38Qi0=
+X-Received: by 2002:ac8:33d4:: with SMTP id d20mr24825177qtb.204.1571673194349;
+ Mon, 21 Oct 2019 08:53:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-3-elver@google.com>
- <CACT4Y+b9VYz0wji085hvg3ZMMv6FR_WGc_NcEZETSOvME6hYOQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+b9VYz0wji085hvg3ZMMv6FR_WGc_NcEZETSOvME6hYOQ@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 21 Oct 2019 17:43:22 +0200
-Message-ID: <CANpmjNPyxjjkRigstizGLh4rQKhY8JVUzD-6sJLYf62KB77F5w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] objtool, kcsan: Add KCSAN runtime functions to whitelist
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
+References: <20191006053916.8849-1-brgl@bgdev.pl> <CAMRc=Me3Q=67fCDrFM38LAGXCd+apJybLYVfyrfwmwYa5L1CmQ@mail.gmail.com>
+In-Reply-To: <CAMRc=Me3Q=67fCDrFM38LAGXCd+apJybLYVfyrfwmwYa5L1CmQ@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 21 Oct 2019 17:52:57 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3tUg4SBtO0xb2GAHfegp23WF4TLymzqFfra2-fGLRO7w@mail.gmail.com>
+Message-ID: <CAK8P3a3tUg4SBtO0xb2GAHfegp23WF4TLymzqFfra2-fGLRO7w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] drivers: add new variants of devm_platform_ioremap_resource()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Christoph Hellwig <hch@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:O+1xiKkIhVGA3v4iWA9n7wtHr31rWwdwVnZlKGiOY3ggLieb24n
+ B4RAssGZjx2dLjQpgkfixrW1EbC/pnFrihfBbPqQEstVBe/PfylXH1SdfW8lxyme/vLM+ev
+ BThHzJN6FvGA92k5gAsWRQSFbFQNYvNPslgD+B+M/aHoPnKy9aPEhguXqgFn1109WJat16z
+ UHk83qwdHoFbvxfDsz/nA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p3V1hzsLbe4=:fKCoXHiSOWiQa4O4byfOem
+ Py7Vzwx/DB/7l3kFqtBbBMjGHOHg6OKikfCx6Delt9aA6oIpSqwqLAbN91dffBEJoUojYcxNy
+ +KdTrcWxAh4W33TGZiieWN8ZgPxLPnsf+M5kkXAaqhH/YlFyRtQMRcaCYMwNO6a7NQWm0o34H
+ PZ8Y52450vDDUfNl76d/7nxNxpT+mvWpNoMJYTKSKIduhVwv2RcnfheGoy8aAk3ibbYl/+s6X
+ JA6VSbjXqPX7sOrm3+s4gPk0hlYUSxEaoxlWPb/ZIFcZjJ0p+YV5e1n40wlK8YXLAztkyFAw+
+ c/nZLjUYj5BIxeJ4gqZkywx7cjJwqwFCJFbQ/VdIj5zIav+4hZcF7tHmnx1r2d3z/pVNx6Ufv
+ L0P/GrrfIZjieaKeECgcVyJ9o4k6TTCZYtzTAYMxr+xIoFzfpAgENONCnD2Ym8mtH0FQLe5MB
+ Roqr8CSPTB9GsnulD8y2jXuZYkkfnB5N9FTLs/T5V5kfSQeWeLgqfP/RLS6i0FrmerniqO8Gn
+ aLFgk3J7/RrmoqHuJoT/KgulyCV38qV/rKeS/h4DsvASIit1NkP+t5CB9ZIZ+OeeDAJVaaiJH
+ eR97e2WmMHaXe/0tTgf9ZFm9oKbwB4eYW0y+o7SNL/GHC0HYO18aUBFxUqVWWqXu4ytru3Zk9
+ iwUzIFaU1tWwsSpGejNme30U4u4DKEQj5u3ilQrUXeniNtSD9JTIP4ah4X2VFfKkb00w9uODj
+ MGnKKG5bnb7Ior7q6o8KGDUn+FPYzOny7T2lcrtOEXI0L4QZOnk4kKsXhNhziDCaFCnuXxpgk
+ oqAgVYaIhQ0T9wwrzgnKnEkf+uoHCPldGoj+bt2eKdDIvp5uy1Ko0V3mYmawcYySi3SD4d2lY
+ P0gcnqoEk3TWq9HWeSDA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Oct 2019 at 17:15, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Mon, Oct 21, 2019 at 5:04 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> niedz., 6 paź 2019 o 07:39 Bartosz Golaszewski <brgl@bgdev.pl> napisał(a):
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > Bartosz Golaszewski (8):
+> >   Documentation: devres: add missing entry for
+> >     devm_platform_ioremap_resource()
+> >   lib: devres: prepare devm_ioremap_resource() for more variants
+> >   lib: devres: provide devm_ioremap_resource_wc()
+> >   drivers: platform: provide devm_platform_ioremap_resource_wc()
+> >   misc: sram: use devm_platform_ioremap_resource_wc()
+> >   drivers: provide devm_platform_ioremap_resource_byname()
+> >   gpio: mvebu: use devm_platform_ioremap_resource_byname()
+> >   gpio: tegra186: use devm_platform_ioremap_resource_byname()
+> >
+> >  .../driver-api/driver-model/devres.rst        |  4 ++
+> >  drivers/base/platform.c                       | 39 +++++++++++-
+> >  drivers/gpio/gpio-mvebu.c                     | 19 +++---
+> >  drivers/gpio/gpio-tegra186.c                  |  4 +-
+> >  drivers/misc/sram.c                           | 28 +++------
+> >  include/linux/device.h                        |  2 +
+> >  include/linux/platform_device.h               |  6 ++
+> >  lib/devres.c                                  | 62 +++++++++++++------
+> >  8 files changed, 108 insertions(+), 56 deletions(-)
 >
-> On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
-> >
-> > This patch adds KCSAN runtime functions to the objtool whitelist.
-> >
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  tools/objtool/check.c | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> >
-> > diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-> > index 044c9a3cb247..d1acc867b43c 100644
-> > --- a/tools/objtool/check.c
-> > +++ b/tools/objtool/check.c
-> > @@ -466,6 +466,23 @@ static const char *uaccess_safe_builtin[] = {
-> >         "__asan_report_store4_noabort",
-> >         "__asan_report_store8_noabort",
-> >         "__asan_report_store16_noabort",
-> > +       /* KCSAN */
-> > +       "__kcsan_check_watchpoint",
-> > +       "__kcsan_setup_watchpoint",
-> > +       /* KCSAN/TSAN out-of-line */
+> Greg, Arnd,
 >
-> There is no TSAN in-line instrumentation.
+> gentle ping for this. I noticed that some maintainers are complaining
+> about being spammed with patches converting old drivers to using
+> devm_platform_ioremap_resource() and there's even a patch removing the
+> relevant coccinelle script on the list, but I think for new drivers
+> these are still useful. Do you want to pick them up for v5.5 (or at
+> all)?
 
-Done @ v3.
+I think this series is useful and we should merge it. Are there any
+remaining dependencies or conflicts with Christoph Hellwig's recent
+__ioremap rework? If there are, I would prioritize his work and maybe
+delay this one by another merge window, otherwise please add
+my Reviewed-by to all patches and resend them for Greg to pick
+up (provided he has no objections).
 
-> > +       "__tsan_func_entry",
-> > +       "__tsan_func_exit",
-> > +       "__tsan_read_range",
->
-> There is also __tsan_write_range(), right? Isn't it safer to add it right away?
-
-Added all missing functions for v3.
-
-Many thanks for the comments!
-
-
-> > +       "__tsan_read1",
-> > +       "__tsan_read2",
-> > +       "__tsan_read4",
-> > +       "__tsan_read8",
-> > +       "__tsan_read16",
-> > +       "__tsan_write1",
-> > +       "__tsan_write2",
-> > +       "__tsan_write4",
-> > +       "__tsan_write8",
-> > +       "__tsan_write16",
-> >         /* KCOV */
-> >         "write_comp_data",
-> >         "__sanitizer_cov_trace_pc",
-> > --
-> > 2.23.0.866.gb869b98d4c-goog
-> >
+        Arnd
