@@ -1,417 +1,394 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FBED7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 09:34:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E33E77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 10:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbfJUJeL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 05:34:11 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:37001 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726847AbfJUJeK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 05:34:10 -0400
-Received: by mail-qt1-f193.google.com with SMTP id g50so5822476qtb.4;
-        Mon, 21 Oct 2019 02:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8CxkzgTmPkrymJWAPgp0fFXJhTloQdA6b1Ea9fnYKuY=;
-        b=L+kNgEV8QbF5ZsQfyH8RpPoSaKJD31XAaPMxUBqwz7vm3U4fZThVvllEBss6dO+71B
-         7eDZAPqEdGoI5MK40AfCoKSwLW58Xr0+chN1wfo7/e/hhzYsdzDCiE7aTpH/20Npa4Jb
-         z48I2Pc5CcA0JYLW0lDplJfRZjlRhBbXpuom1d4/qE/OSC+Bgw4uA8O2wQBzfoYgw1XV
-         49UrrhsWzuUb98hyfyaWybiJIuWJnWlZaCD/ssyJyXV2fIjLNV6ntC3+RmCNvLPPEKYy
-         /AytOfri4t3KoyV0OZp9Tr6cFCFb3KHo5/gpmqdkUTWdmsjvJbZBVOW74NmbNtvsSEA9
-         0xrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8CxkzgTmPkrymJWAPgp0fFXJhTloQdA6b1Ea9fnYKuY=;
-        b=Ys0tokxXWk+QftpDp+xFuUZ5hc1rs9OZqIMeDVvWvrTQjdnhP0ZBUh1rQriKfrlpxb
-         PwhfvoEJ6UvKK3j+8syjBPl1UI0QzzXF+/mY0Wx17TGYs2cw0N732gJw6KL9jHYVu1QK
-         8PlVrKSLoPnzcbo5v2ARmLMna2XHvmxQNBUUuqDXiMQkWfV5pL+tqCkaPySleYTHMaQf
-         BgXlQzi5usE2z6GxgL3hiusxHKciIzgRd080vc0ilbxpPKe+P/Mc15qR+B83/vcm+XIu
-         Xu9fpxTMrAUPDxakxMZhKhLXCisJ08p/nIXvGScm+b5zZo5SNYoXJEfP4o4eBG/H2PNF
-         KAlA==
-X-Gm-Message-State: APjAAAX++nwiuojWYk/L4yWQt61uXdWI8ODK8jHevq7T1zvG++d6cLcM
-        Xb/g0zfrXizxJ1Lcj6uWjKYf+/GLcS1d+A9ig/c=
-X-Google-Smtp-Source: APXvYqy5XWNX/s45M0McpPWie+MRsqfaR3wgkLI5TwKSG32xUTpsZgc2DzZEd1w7Wm1rgnHd5oZvjh0UI229VE/NC+8=
-X-Received: by 2002:ac8:24d4:: with SMTP id t20mr23895504qtt.114.1571650448518;
- Mon, 21 Oct 2019 02:34:08 -0700 (PDT)
+        id S1728010AbfJUKWc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 06:22:32 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:48162 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1727990AbfJUKWc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Oct 2019 06:22:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 480B7CA3;
+        Mon, 21 Oct 2019 03:22:03 -0700 (PDT)
+Received: from [10.1.194.43] (e112269-lin.cambridge.arm.com [10.1.194.43])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CDC833F718;
+        Mon, 21 Oct 2019 03:22:00 -0700 (PDT)
+Subject: Re: [PATCH v6 05/10] KVM: arm64: Support stolen time reporting via
+ shared structure
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Suzuki K Pouloze <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org
+References: <20191011125930.40834-1-steven.price@arm.com>
+ <20191011125930.40834-6-steven.price@arm.com> <86eez9yoog.wl-maz@kernel.org>
+From:   Steven Price <steven.price@arm.com>
+Message-ID: <1bb10eb5-0fe8-57c9-3b67-9b3661a73d29@arm.com>
+Date:   Mon, 21 Oct 2019 11:21:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <cover.1570514544.git.nickhu@andestech.com> <8d86d53e904bece0623cb8969cdc70f782fa2bae.1570514544.git.nickhu@andestech.com>
-In-Reply-To: <8d86d53e904bece0623cb8969cdc70f782fa2bae.1570514544.git.nickhu@andestech.com>
-From:   Greentime Hu <green.hu@gmail.com>
-Date:   Mon, 21 Oct 2019 17:33:31 +0800
-Message-ID: <CAEbi=3fTKqt545tEz6c-RCdKniq2ZxOqvamFpJsbe=D+gpGBcQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] riscv: Add KASAN support
-To:     Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <greentime.hu@sifive.com>
-Cc:     alankao@andestech.com, Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, aryabinin@virtuozzo.com,
-        glider@google.com, dvyukov@google.com, corbet@lwn.net,
-        alexios.zavras@intel.com, allison@lohutok.net, Anup.Patel@wdc.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        gregkh@linuxfoundation.org, atish.patra@wdc.com,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <86eez9yoog.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Nick Hu <nickhu@andestech.com> =E6=96=BC 2019=E5=B9=B410=E6=9C=888=E6=97=A5=
- =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=882:17=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> This patch ports the feature Kernel Address SANitizer (KASAN).
->
-> Note: The start address of shadow memory is at the beginning of kernel
-> space, which is 2^64 - (2^39 / 2) in SV39. The size of the kernel space i=
-s
-> 2^38 bytes so the size of shadow memory should be 2^38 / 8. Thus, the
-> shadow memory would not overlap with the fixmap area.
->
-> There are currently two limitations in this port,
->
-> 1. RV64 only: KASAN need large address space for extra shadow memory
-> region.
->
-> 2. KASAN can't debug the modules since the modules are allocated in VMALL=
-OC
-> area. We mapped the shadow memory, which corresponding to VMALLOC area, t=
-o
-> the kasan_early_shadow_page because we don't have enough physical space f=
-or
-> all the shadow memory corresponding to VMALLOC area.
->
-> Signed-off-by: Nick Hu <nickhu@andestech.com>
-> ---
->  arch/riscv/Kconfig                  |   1 +
->  arch/riscv/include/asm/kasan.h      |  27 ++++++++
->  arch/riscv/include/asm/pgtable-64.h |   5 ++
->  arch/riscv/include/asm/string.h     |   9 +++
->  arch/riscv/kernel/head.S            |   3 +
->  arch/riscv/kernel/riscv_ksyms.c     |   2 +
->  arch/riscv/kernel/setup.c           |   5 ++
->  arch/riscv/kernel/vmlinux.lds.S     |   1 +
->  arch/riscv/lib/memcpy.S             |   5 +-
->  arch/riscv/lib/memset.S             |   5 +-
->  arch/riscv/mm/Makefile              |   6 ++
->  arch/riscv/mm/kasan_init.c          | 104 ++++++++++++++++++++++++++++
->  12 files changed, 169 insertions(+), 4 deletions(-)
->  create mode 100644 arch/riscv/include/asm/kasan.h
->  create mode 100644 arch/riscv/mm/kasan_init.c
->
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 8eebbc8860bb..ca2fc8ba8550 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -61,6 +61,7 @@ config RISCV
->         select SPARSEMEM_STATIC if 32BIT
->         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
->         select HAVE_ARCH_MMAP_RND_BITS
-> +       select HAVE_ARCH_KASAN if MMU && 64BIT
->
->  config ARCH_MMAP_RND_BITS_MIN
->         default 18 if 64BIT
-> diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasa=
-n.h
-> new file mode 100644
-> index 000000000000..eb9b1a2f641c
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/kasan.h
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/* Copyright (C) 2019 Andes Technology Corporation */
-> +
-> +#ifndef __ASM_KASAN_H
-> +#define __ASM_KASAN_H
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +#ifdef CONFIG_KASAN
-> +
-> +#include <asm/pgtable.h>
-> +
-> +#define KASAN_SHADOW_SCALE_SHIFT       3
-> +
-> +#define KASAN_SHADOW_SIZE      (UL(1) << (38 - KASAN_SHADOW_SCALE_SHIFT)=
-)
-> +#define KASAN_SHADOW_START     0xffffffc000000000 // 2^64 - 2^38
-> +#define KASAN_SHADOW_END       (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
-> +
-> +#define KASAN_SHADOW_OFFSET    (KASAN_SHADOW_END - (1ULL << \
-> +                                       (64 - KASAN_SHADOW_SCALE_SHIFT)))
-> +
-> +void kasan_init(void);
-> +asmlinkage void kasan_early_init(void);
-> +
-> +#endif
-> +#endif
-> +#endif /* __ASM_KASAN_H */
-> diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm=
-/pgtable-64.h
-> index 7df8daa66cc8..777a1dddb3df 100644
-> --- a/arch/riscv/include/asm/pgtable-64.h
-> +++ b/arch/riscv/include/asm/pgtable-64.h
-> @@ -59,6 +59,11 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
->         return (unsigned long)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT=
-);
->  }
->
-> +static inline struct page *pud_page(pud_t pud)
-> +{
-> +       return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
-> +}
-> +
->  #define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
->
->  static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
-> diff --git a/arch/riscv/include/asm/string.h b/arch/riscv/include/asm/str=
-ing.h
-> index 1b5d44585962..a4451f768826 100644
-> --- a/arch/riscv/include/asm/string.h
-> +++ b/arch/riscv/include/asm/string.h
-> @@ -11,8 +11,17 @@
->
->  #define __HAVE_ARCH_MEMSET
->  extern asmlinkage void *memset(void *, int, size_t);
-> +extern asmlinkage void *__memset(void *, int, size_t);
->
->  #define __HAVE_ARCH_MEMCPY
->  extern asmlinkage void *memcpy(void *, const void *, size_t);
-> +extern asmlinkage void *__memcpy(void *, const void *, size_t);
->
-> +// For those files which don't want to check by kasan.
-> +#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
-> +
-> +#define memcpy(dst, src, len) __memcpy(dst, src, len)
-> +#define memset(s, c, n) __memset(s, c, n)
-> +
-> +#endif
->  #endif /* _ASM_RISCV_STRING_H */
-> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-> index 72f89b7590dd..95eca23cd811 100644
-> --- a/arch/riscv/kernel/head.S
-> +++ b/arch/riscv/kernel/head.S
-> @@ -102,6 +102,9 @@ clear_bss_done:
->         sw zero, TASK_TI_CPU(tp)
->         la sp, init_thread_union + THREAD_SIZE
->
-> +#ifdef CONFIG_KASAN
-> +       call kasan_early_init
-> +#endif
->         /* Start the kernel */
->         call parse_dtb
->         tail start_kernel
-> diff --git a/arch/riscv/kernel/riscv_ksyms.c b/arch/riscv/kernel/riscv_ks=
-yms.c
-> index 4800cf703186..376bba7f65ce 100644
-> --- a/arch/riscv/kernel/riscv_ksyms.c
-> +++ b/arch/riscv/kernel/riscv_ksyms.c
-> @@ -14,3 +14,5 @@ EXPORT_SYMBOL(__asm_copy_to_user);
->  EXPORT_SYMBOL(__asm_copy_from_user);
->  EXPORT_SYMBOL(memset);
->  EXPORT_SYMBOL(memcpy);
-> +EXPORT_SYMBOL(__memset);
-> +EXPORT_SYMBOL(__memcpy);
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index a990a6cb184f..41f7eae9bc4d 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -23,6 +23,7 @@
->  #include <asm/smp.h>
->  #include <asm/tlbflush.h>
->  #include <asm/thread_info.h>
-> +#include <asm/kasan.h>
->
->  #ifdef CONFIG_DUMMY_CONSOLE
->  struct screen_info screen_info =3D {
-> @@ -70,6 +71,10 @@ void __init setup_arch(char **cmdline_p)
->         swiotlb_init(1);
->  #endif
->
-> +#ifdef CONFIG_KASAN
-> +       kasan_init();
-> +#endif
-> +
->  #ifdef CONFIG_SMP
->         setup_smp();
->  #endif
-> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.=
-lds.S
-> index 23cd1a9e52a1..97009803ba9f 100644
-> --- a/arch/riscv/kernel/vmlinux.lds.S
-> +++ b/arch/riscv/kernel/vmlinux.lds.S
-> @@ -46,6 +46,7 @@ SECTIONS
->                 KPROBES_TEXT
->                 ENTRY_TEXT
->                 IRQENTRY_TEXT
-> +               SOFTIRQENTRY_TEXT
->                 *(.fixup)
->                 _etext =3D .;
->         }
-> diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
-> index b4c477846e91..51ab716253fa 100644
-> --- a/arch/riscv/lib/memcpy.S
-> +++ b/arch/riscv/lib/memcpy.S
-> @@ -7,7 +7,8 @@
->  #include <asm/asm.h>
->
->  /* void *memcpy(void *, const void *, size_t) */
-> -ENTRY(memcpy)
-> +ENTRY(__memcpy)
-> +WEAK(memcpy)
->         move t6, a0  /* Preserve return value */
->
->         /* Defer to byte-oriented copy for small sizes */
-> @@ -104,4 +105,4 @@ ENTRY(memcpy)
->         bltu a1, a3, 5b
->  6:
->         ret
-> -END(memcpy)
-> +END(__memcpy)
-> diff --git a/arch/riscv/lib/memset.S b/arch/riscv/lib/memset.S
-> index 5a7386b47175..34c5360c6705 100644
-> --- a/arch/riscv/lib/memset.S
-> +++ b/arch/riscv/lib/memset.S
-> @@ -8,7 +8,8 @@
->  #include <asm/asm.h>
->
->  /* void *memset(void *, int, size_t) */
-> -ENTRY(memset)
-> +ENTRY(__memset)
-> +WEAK(memset)
->         move t0, a0  /* Preserve return value */
->
->         /* Defer to byte-oriented fill for small sizes */
-> @@ -109,4 +110,4 @@ ENTRY(memset)
->         bltu t0, a3, 5b
->  6:
->         ret
-> -END(memset)
-> +END(__memset)
-> diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
-> index 9d9a17335686..b8a8ca71f86e 100644
-> --- a/arch/riscv/mm/Makefile
-> +++ b/arch/riscv/mm/Makefile
-> @@ -17,3 +17,9 @@ ifeq ($(CONFIG_MMU),y)
->  obj-$(CONFIG_SMP) +=3D tlbflush.o
->  endif
->  obj-$(CONFIG_HUGETLB_PAGE) +=3D hugetlbpage.o
-> +obj-$(CONFIG_KASAN)   +=3D kasan_init.o
-> +
-> +ifdef CONFIG_KASAN
-> +KASAN_SANITIZE_kasan_init.o :=3D n
-> +KASAN_SANITIZE_init.o :=3D n
-> +endif
-> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-> new file mode 100644
-> index 000000000000..c3152768cdbe
-> --- /dev/null
-> +++ b/arch/riscv/mm/kasan_init.c
-> @@ -0,0 +1,104 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (C) 2019 Andes Technology Corporation
-> +
-> +#include <linux/pfn.h>
-> +#include <linux/init_task.h>
-> +#include <linux/kasan.h>
-> +#include <linux/kernel.h>
-> +#include <linux/memblock.h>
-> +#include <asm/tlbflush.h>
-> +#include <asm/pgtable.h>
-> +#include <asm/fixmap.h>
-> +
-> +extern pgd_t early_pg_dir[PTRS_PER_PGD];
-> +asmlinkage void __init kasan_early_init(void)
-> +{
-> +       uintptr_t i;
-> +       pgd_t *pgd =3D early_pg_dir + pgd_index(KASAN_SHADOW_START);
-> +
-> +       for (i =3D 0; i < PTRS_PER_PTE; ++i)
-> +               set_pte(kasan_early_shadow_pte + i,
-> +                       mk_pte(virt_to_page(kasan_early_shadow_page),
-> +                       PAGE_KERNEL));
-> +
-> +       for (i =3D 0; i < PTRS_PER_PMD; ++i)
-> +               set_pmd(kasan_early_shadow_pmd + i,
-> +                pfn_pmd(PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pte)=
-),
-> +                       __pgprot(_PAGE_TABLE)));
-> +
-> +       for (i =3D KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-> +            i +=3D PGDIR_SIZE, ++pgd)
-> +               set_pgd(pgd,
-> +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd=
-))),
-> +                       __pgprot(_PAGE_TABLE)));
-> +
-> +       // init for swapper_pg_dir
-> +       pgd =3D pgd_offset_k(KASAN_SHADOW_START);
-> +
-> +       for (i =3D KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-> +            i +=3D PGDIR_SIZE, ++pgd)
-> +               set_pgd(pgd,
-> +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd=
-))),
-> +                       __pgprot(_PAGE_TABLE)));
-> +
-> +       flush_tlb_all();
-> +}
-> +
-> +static void __init populate(void *start, void *end)
-> +{
-> +       unsigned long i;
-> +       unsigned long vaddr =3D (unsigned long)start & PAGE_MASK;
-> +       unsigned long vend =3D PAGE_ALIGN((unsigned long)end);
-> +       unsigned long n_pages =3D (vend - vaddr) / PAGE_SIZE;
-> +       unsigned long n_pmds =3D
-> +               (n_pages % PTRS_PER_PTE) ? n_pages / PTRS_PER_PTE + 1 :
-> +                                               n_pages / PTRS_PER_PTE;
-> +       pgd_t *pgd =3D pgd_offset_k(vaddr);
-> +       pmd_t *pmd =3D memblock_alloc(n_pmds * sizeof(pmd_t), PAGE_SIZE);
-> +       pte_t *pte =3D memblock_alloc(n_pages * sizeof(pte_t), PAGE_SIZE)=
-;
-> +
-> +       for (i =3D 0; i < n_pages; i++) {
-> +               phys_addr_t phys =3D memblock_phys_alloc(PAGE_SIZE, PAGE_=
-SIZE);
-> +
-> +               set_pte(pte + i, pfn_pte(PHYS_PFN(phys), PAGE_KERNEL));
-> +       }
-> +
-> +       for (i =3D 0; i < n_pages; ++pmd, i +=3D PTRS_PER_PTE)
-> +               set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa((uintptr_t)(pte + i)))=
-,
-> +                               __pgprot(_PAGE_TABLE)));
-> +
-> +       for (i =3D vaddr; i < vend; i +=3D PGDIR_SIZE, ++pgd)
-> +               set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(((uintptr_t)pmd))),
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +                               __pgprot(_PAGE_TABLE)));
-> +
+On 19/10/2019 12:12, Marc Zyngier wrote:
+> On Fri, 11 Oct 2019 13:59:25 +0100,
+> Steven Price <steven.price@arm.com> wrote:
+>>
+>> Implement the service call for configuring a shared structure between a
+>> VCPU and the hypervisor in which the hypervisor can write the time
+>> stolen from the VCPU's execution time by other tasks on the host.
+>>
+>> User space allocates memory which is placed at an IPA also chosen by user
+>> space. The hypervisor then updates the shared structure using
+>> kvm_put_guest() to ensure single copy atomicity of the 64-bit value
+>> reporting the stolen time in nanoseconds.
+>>
+>> Whenever stolen time is enabled by the guest, the stolen time counter is
+>> reset.
+>>
+>> The stolen time itself is retrieved from the sched_info structure
+>> maintained by the Linux scheduler code. We enable SCHEDSTATS when
+>> selecting KVM Kconfig to ensure this value is meaningful.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm/include/asm/kvm_host.h   | 20 +++++++++++
+>>  arch/arm64/include/asm/kvm_host.h | 21 +++++++++++-
+>>  arch/arm64/kvm/Kconfig            |  1 +
+>>  include/linux/kvm_types.h         |  2 ++
+>>  virt/kvm/arm/arm.c                | 11 ++++++
+>>  virt/kvm/arm/hypercalls.c         |  3 ++
+>>  virt/kvm/arm/pvtime.c             | 56 +++++++++++++++++++++++++++++++
+>>  7 files changed, 113 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+>> index 5a0c3569ebde..5c401482d62d 100644
+>> --- a/arch/arm/include/asm/kvm_host.h
+>> +++ b/arch/arm/include/asm/kvm_host.h
+>> @@ -39,6 +39,7 @@
+>>  	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>>  #define KVM_REQ_IRQ_PENDING	KVM_ARCH_REQ(1)
+>>  #define KVM_REQ_VCPU_RESET	KVM_ARCH_REQ(2)
+>> +#define KVM_REQ_RECORD_STEAL	KVM_ARCH_REQ(3)
+>>  
+>>  DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>>  
+>> @@ -329,6 +330,25 @@ static inline long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>  	return SMCCC_RET_NOT_SUPPORTED;
+>>  }
+>>  
+>> +static inline long kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return SMCCC_RET_NOT_SUPPORTED;
+>> +}
+>> +
+>> +static inline int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+>> +{
+>> +	return -ENOTSUPP;
+>> +}
+>> +
+>> +static inline void kvm_arm_pvtime_vcpu_init(struct kvm_vcpu_arch *vcpu_arch)
+>> +{
+>> +}
+>> +
+>> +static inline bool kvm_arm_is_pvtime_enabled(struct kvm_vcpu_arch *vcpu_arch)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>>  void kvm_mmu_wp_memory_region(struct kvm *kvm, int slot);
+>>  
+>>  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
+>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>> index 93b46d9526d0..1697e63f6dd8 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -44,6 +44,7 @@
+>>  	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>>  #define KVM_REQ_IRQ_PENDING	KVM_ARCH_REQ(1)
+>>  #define KVM_REQ_VCPU_RESET	KVM_ARCH_REQ(2)
+>> +#define KVM_REQ_RECORD_STEAL	KVM_ARCH_REQ(3)
+>>  
+>>  DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
+>>  
+>> @@ -338,8 +339,14 @@ struct kvm_vcpu_arch {
+>>  	/* True when deferrable sysregs are loaded on the physical CPU,
+>>  	 * see kvm_vcpu_load_sysregs and kvm_vcpu_put_sysregs. */
+>>  	bool sysregs_loaded_on_cpu;
+>> -};
+>>  
+>> +	/* Guest PV state */
+>> +	struct {
+>> +		u64 steal;
+>> +		u64 last_steal;
+>> +		gpa_t base;
+>> +	} steal;
+>> +};
+> 
+> nit: Please keep an empty line at the end of the structure.
+> 
+>>  /* Pointer to the vcpu's SVE FFR for sve_{save,load}_state() */
+>>  #define vcpu_sve_pffr(vcpu) ((void *)((char *)((vcpu)->arch.sve_state) + \
+>>  				      sve_ffr_offset((vcpu)->arch.sve_max_vl)))
+>> @@ -479,6 +486,18 @@ int kvm_perf_init(void);
+>>  int kvm_perf_teardown(void);
+>>  
+>>  long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu);
+>> +long kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu);
+>> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init);
+>> +
+>> +static inline void kvm_arm_pvtime_vcpu_init(struct kvm_vcpu_arch *vcpu_arch)
+>> +{
+>> +	vcpu_arch->steal.base = GPA_INVALID;
+>> +}
+>> +
+>> +static inline bool kvm_arm_is_pvtime_enabled(struct kvm_vcpu_arch *vcpu_arch)
+>> +{
+>> +	return (vcpu_arch->steal.base != GPA_INVALID);
+>> +}
+>>  
+>>  void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+>>  
+>> diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+>> index a67121d419a2..d8b88e40d223 100644
+>> --- a/arch/arm64/kvm/Kconfig
+>> +++ b/arch/arm64/kvm/Kconfig
+>> @@ -39,6 +39,7 @@ config KVM
+>>  	select IRQ_BYPASS_MANAGER
+>>  	select HAVE_KVM_IRQ_BYPASS
+>>  	select HAVE_KVM_VCPU_RUN_PID_CHANGE
+>> +	select SCHEDSTATS
+>>  	---help---
+>>  	  Support hosting virtualized guest machines.
+>>  	  We don't support KVM with 16K page tables yet, due to the multiple
+>> diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
+>> index bde5374ae021..1c88e69db3d9 100644
+>> --- a/include/linux/kvm_types.h
+>> +++ b/include/linux/kvm_types.h
+>> @@ -35,6 +35,8 @@ typedef unsigned long  gva_t;
+>>  typedef u64            gpa_t;
+>>  typedef u64            gfn_t;
+>>  
+>> +#define GPA_INVALID	(~(gpa_t)0)
+>> +
+>>  typedef unsigned long  hva_t;
+>>  typedef u64            hpa_t;
+>>  typedef u64            hfn_t;
+>> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+>> index 86c6aa1cb58e..5d3059aeadb1 100644
+>> --- a/virt/kvm/arm/arm.c
+>> +++ b/virt/kvm/arm/arm.c
+>> @@ -40,6 +40,10 @@
+>>  #include <asm/kvm_coproc.h>
+>>  #include <asm/sections.h>
+>>  
+>> +#include <kvm/arm_hypercalls.h>
+>> +#include <kvm/arm_pmu.h>
+>> +#include <kvm/arm_psci.h>
+>> +
+>>  #ifdef REQUIRES_VIRT
+>>  __asm__(".arch_extension	virt");
+>>  #endif
+>> @@ -351,6 +355,8 @@ int kvm_arch_vcpu_init(struct kvm_vcpu *vcpu)
+>>  
+>>  	kvm_arm_reset_debug_ptr(vcpu);
+>>  
+>> +	kvm_arm_pvtime_vcpu_init(&vcpu->arch);
+>> +
+>>  	return kvm_vgic_vcpu_init(vcpu);
+>>  }
+>>  
+>> @@ -380,6 +386,8 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+>>  	kvm_vcpu_load_sysregs(vcpu);
+>>  	kvm_arch_vcpu_load_fp(vcpu);
+>>  	kvm_vcpu_pmu_restore_guest(vcpu);
+>> +	if (kvm_arm_is_pvtime_enabled(&vcpu->arch))
+>> +		kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
+>>  
+>>  	if (single_task_running())
+>>  		vcpu_clear_wfe_traps(vcpu);
+>> @@ -645,6 +653,9 @@ static void check_vcpu_requests(struct kvm_vcpu *vcpu)
+>>  		 * that a VCPU sees new virtual interrupts.
+>>  		 */
+>>  		kvm_check_request(KVM_REQ_IRQ_PENDING, vcpu);
+>> +
+>> +		if (kvm_check_request(KVM_REQ_RECORD_STEAL, vcpu))
+>> +			kvm_update_stolen_time(vcpu, false);
+>>  	}
+>>  }
+>>  
+>> diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+>> index 97ea8b133e77..5c333a64390e 100644
+>> --- a/virt/kvm/arm/hypercalls.c
+>> +++ b/virt/kvm/arm/hypercalls.c
+>> @@ -56,6 +56,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+>>  	case ARM_SMCCC_HV_PV_TIME_FEATURES:
+>>  		val = kvm_hypercall_pv_features(vcpu);
+>>  		break;
+>> +	case ARM_SMCCC_HV_PV_TIME_ST:
+>> +		val = kvm_hypercall_stolen_time(vcpu);
+>> +		break;
+>>  	default:
+>>  		return kvm_psci_call(vcpu);
+>>  	}
+>> diff --git a/virt/kvm/arm/pvtime.c b/virt/kvm/arm/pvtime.c
+>> index 8d0fad671dcf..a90f1b4ebd13 100644
+>> --- a/virt/kvm/arm/pvtime.c
+>> +++ b/virt/kvm/arm/pvtime.c
+>> @@ -3,8 +3,45 @@
+>>  
+>>  #include <linux/arm-smccc.h>
+>>  
+>> +#include <asm/pvclock-abi.h>
+>> +
+>>  #include <kvm/arm_hypercalls.h>
+>>  
+>> +int kvm_update_stolen_time(struct kvm_vcpu *vcpu, bool init)
+>> +{
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +	u64 steal;
+>> +	u64 steal_le;
+> 
+> This should be __le64.
+> 
+>> +	u64 offset;
+>> +	int idx;
+>> +	u64 base = vcpu->arch.steal.base;
+>> +
+>> +	if (base == GPA_INVALID)
+>> +		return -ENOTSUPP;
+>> +
+>> +	/* Let's do the local bookkeeping */
+>> +	steal = vcpu->arch.steal.steal;
+>> +	steal += current->sched_info.run_delay - vcpu->arch.steal.last_steal;
+>> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+>> +	vcpu->arch.steal.steal = steal;
+>> +
+>> +	steal_le = cpu_to_le64(steal);
+>> +	idx = srcu_read_lock(&kvm->srcu);
+>> +	if (init) {
+>> +		struct pvclock_vcpu_stolen_time init_values = {
+>> +			.revision = 0,
+>> +			.attributes = 0
+> 
+> nit: 0 is the default initialiser.
+> 
+>> +		};
+>> +		kvm_write_guest(kvm, base, &init_values,
+>> +				sizeof(init_values));
+>> +	}
+> 
+> I'm not convinced by this init phase right in the middle of the normal
+> path. It looks ugly, and it'd be better if moved out of line. I'd
+> suggest:
+> 
+> static void kvm_init_stolen_time(struct kvm_vcpu *vcpu)
+> {
+> 	struct pvclock_vcpu_stolen_time init_values = { };
+> 
+> 	vcpu->arch.steal.steal = 0;
+> 	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+> 
+> 	idx = srcu_read_lock(&kvm->srcu);
+> 	kvm_write_guest(kvm, base, &init_values, sizeof(init_values));
+> 	srcu_read_unlock(&kvm->srcu, idx);
+> }
+> 
+> and change the two callers accordingly. Or even better, move this code
+> to the hypercall handling function, because that's where it actually
+> belongs.
 
-Hi Nick,
+Ok, it does add a little bit of duplicated code. But it also gets rid of
+the boolean argument that I never liked. As you suggest I might as well
+move this into kvm_hypercall_stolen_time().
 
-I verify this patch in Qemu and Unleashed board.
-I found it works well if DRAM size is less than 4GB.
-It will get an access fault if the DRAM size is larger than 4GB.
+>> +	offset = offsetof(struct pvclock_vcpu_stolen_time, stolen_time);
+>> +	kvm_put_guest(kvm, base + offset, steal_le, u64);
+>> +	srcu_read_unlock(&kvm->srcu, idx);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>  {
+>>  	u32 feature = smccc_get_arg1(vcpu);
+>> @@ -12,6 +49,7 @@ long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>  
+>>  	switch (feature) {
+>>  	case ARM_SMCCC_HV_PV_TIME_FEATURES:
+>> +	case ARM_SMCCC_HV_PV_TIME_ST:
+>>  		val = SMCCC_RET_SUCCESS;
+>>  		break;
+>>  	}
+>> @@ -19,3 +57,21 @@ long kvm_hypercall_pv_features(struct kvm_vcpu *vcpu)
+>>  	return val;
+>>  }
+>>  
+>> +long kvm_hypercall_stolen_time(struct kvm_vcpu *vcpu)
+> 
+> Why long? If that's a base address, then it is either a phys_addr_t or
+> a gpa_t. I'd suggest you move the error check to the caller.
 
-I spend some time to debug this case and I found it hang in the
-following memset().
-It is because the mapping is not created correctly. I check the page
-table creating logic again and I found it always sets the last pmd
-here.
+This is a bit more tricky. It's a long because that's the declared type
+of the SMCCC return in kvm_hvc_call_handler(). I can't (easily) move the
+code into kvm_hvc_call_handler() because that is compiled for arm (as
+well as arm64) and we don't have the definitions for stolen time there.
+The best option I could come up with is to have a dummy stub for arm and
+use generic types for this function.
+
+This means we need a type which can contain both a gpa_t and the
+SMCCC_RET_NOT_SUPPORTED error code.
+
+I'm open to alternative suggestions on how to make this work.
+
+Thanks,
+
+Steve
+
+>> +{
+>> +	int err;
+>> +
+>> +	/*
+>> +	 * Start counting stolen time from the time the guest requests
+>> +	 * the feature enabled.
+>> +	 */
+>> +	vcpu->arch.steal.steal = 0;
+>> +	vcpu->arch.steal.last_steal = current->sched_info.run_delay;
+>> +
+>> +	err = kvm_update_stolen_time(vcpu, true);
+>> +
+>> +	if (err)
+>> +		return SMCCC_RET_NOT_SUPPORTED;
+>> +
+>> +	return vcpu->arch.steal.base;
+>> +}
+>> -- 
+>> 2.20.1
+>>
+>>
+> 
+> Thanks,
+> 
+> 	M.
+> 
+
